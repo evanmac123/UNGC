@@ -1,0 +1,36 @@
+development:
+  adapter: sqlite3
+  database: db/development.sqlite3
+  pool: 5
+  timeout: 5000
+  # adapter: mysql
+  # database: PROJECT_NAME_dev
+  # username: joshua
+  # password:
+  # host: 127.0.0.1
+  # port: 3306
+  # #socket: /tmp/mysql.sock
+  
+test:
+  adapter: sqlite3
+  database: ":memory:"
+  verbosity: silent
+  # database: db/test.sqlite3
+  # pool: 5
+  # timeout: 5000
+  # adapter: mysql
+  # database: PROJECT_NAME_test
+  # username: joshua
+  # password:
+  # # socket: /tmp/mysql.sock
+  # host: 127.0.0.1
+  # port: 3306
+
+production:
+  adapter: mysql
+  database: blog20_p
+  username: PROJECT_NAME
+  password: wordpass123
+  # socket: /tmp/mysql.sock
+  host: 127.0.0.1
+  port: 3306
