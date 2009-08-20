@@ -1,0 +1,35 @@
+SexyTempPasswords
+=================
+
+Installation:
+  
+  ruby script/plugin install http://sexy-temp-passwords.googlecode.com/svn/sexy_temp_passwords/
+
+For updates and/or any troubleshooting help:
+  http://shanti.railsblog.com -- shantibraford {at} gmail
+
+Example
+=======
+
+class User < ActiveRecord::Base
+  include SexyTempPasswords
+  
+  def reset_password
+    # Not that you'd ever store the plaintext password, but for demonstration purposes:
+    self.password = User.sexy_temp_password
+    save!
+  end
+  
+end
+
+u = User.find(:first)
+u.reset_password
+u.reload.password # 'allison1437' or whatever random password was generated
+
+Credits
+=======
+
+This page for the dictionary file:
+http://www.outpost9.com/files/WordLists.html
+
+Copyright (c) 2007 Shanti A. Braford, released under the MIT license

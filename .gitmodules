@@ -1,0 +1,18 @@
+[submodule "vendor/plugins/gh_resource_fu"]
+	path = vendor/plugins/gh_resource_fu
+	url = git://github.com/infused/resource_fu.git
+[submodule "vendor/plugins/haml"]
+	path = vendor/plugins/haml
+	url = git://github.com/nex3/haml.git
+[submodule "vendor/plugins/state_machine"]
+	path = vendor/plugins/state_machine
+	url = git://github.com/pluginaweek/state_machine.git
+[submodule "vendor/plugins/custom-err-msg"]
+	path = vendor/plugins/custom-err-msg
+	url = git://github.com/gumayunov/custom-err-msg.git
+[submodule "vendor/plugins/hoptoad_notifier"]
+	path = vendor/plugins/hoptoad_notifier
+	url = git://github.com/thoughtbot/hoptoad_notifier.git
+[submodule "vendor/plugins/nested_layouts"]
+	path = vendor/plugins/nested_layouts
+	url = git://github.com/jwigal/nested_layouts.git
