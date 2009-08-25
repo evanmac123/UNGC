@@ -1,0 +1,18 @@
+PRINCIPLE_ID	PRINCIPLE_NAME
+1	Principle 1 - Businesses should support and respect the protection of internationally proclaimed human rights
+2	Principle 2 - Make sure they are not complicit in human rights abuses
+3	Principle 3 - Businesses should uphold freedom of association & effective recognition of the right to collective bargaining
+4	Principle 4 - The elimination of all forms of forced and compulsory labour
+5	Principle 5 - The effective abolition of child labour
+6	Principle 6 - Eliminate discrimination in respect of employment and occupation
+7	Principle 7 - Businesses should support a precautionary approach to environmental challenges
+8	Principle 8 - Undertake initiatives to promote greater environmental responsibility
+9	Principle 9 - Encourage the development and diffusion of environmentally friendly technologies
+10	"Principle 10 - Businesses should work against all forms of corruption, including extortion and bribery."
+11	"Annual/Sustainability Report, GRI"
+12	HIV/AIDS
+13	Conflict prevention
+14	Water management
+15	Supply Chain Management
+16	Sustainable Investments in LDCs
+17	Unknown

@@ -1,0 +1,16 @@
+INTEREST_ID	INTEREST_NAME
+1	General CSR
+2	HIV/AIDS in the workplace
+4	Supply Chain Management
+5	Partnerships
+6	Sustainable Development
+7	Business in Zones of Conflict
+8	Sustainable Consumption
+9	CSR Communication
+10	Responsible Lobbying
+11	Human Rights
+12	Labour
+13	Environment
+14	Anti-Corruption
+15	Communication on Progress
+16	All Issues

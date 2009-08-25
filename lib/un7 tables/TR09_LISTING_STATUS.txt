@@ -1,0 +1,7 @@
+Listing_ID	Listing_Name
+0	Unknown
+1	Private Company
+2	Public Company
+3	Subsidiary
+4	State-owned
+5	Inactive
