@@ -7,7 +7,8 @@ class Importer
   
   FILES = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
-    :country   =>  {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]}#,
+    :country   =>  {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
+
     # fields: ID	TYPE	TYPE_PROPERTY
     #:organization_type => 'TR02_ORGANIZATION_TYPE.TXT',
     # fields: PRINCIPLE_ID	PRINCIPLE_NAME
@@ -16,6 +17,10 @@ class Importer
     #:interest  => 'TR06_INTEREST.TXT',
     # fields: ROLE_ID ROLE_NAME
     #:role      => 'TR07_ROLE.TXT',
+
+    #fields LIST_EXCHANGE_CODE	LIST_EXCHANGE_NAME	LIST_SECONDARY_CODE	LIST_TERTIARY_CODE	TR01_COUNTRY_ID
+    :exchange => {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]}
+
     # fields: ROLE_ID ROLE_NAME
     # 0, Unknown - invalid id for mysql
     #:language  => 'TR10_LANGUAGE.TXT'
@@ -36,10 +41,15 @@ class Importer
                             :headers => :first_row) do |row|
       # create an object of the correct type and save
       o = model.new
-      options[:fields].each_with_index {|field,i| o.send("#{field}=", row[i])}
+      options[:fields].each_with_index do |field,i|
+        # fields that end with _id require a lookup
+        if field == :country_id
+          o.country_id = Country.find_by_code(row[i]).id
+        else
+          o.send("#{field}=", row[i])
+        end
+      end
       o.save
-
-      puts "#{name}: #{row}"
     end
   end
 end
