@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  code: MyString
+  name: MyString
+  region: MyString
+  network_type: 
+  manager: MyString
+
+two:
+  code: MyString
+  name: MyString
+  region: MyString
+  network_type: 
+  manager: MyString
