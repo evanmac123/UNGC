@@ -9,8 +9,7 @@ class Importer
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     [:country, {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]}],
     # fields: ID	TYPE	TYPE_PROPERTY
-    #:organization_type => 'TR02_ORGANIZATION_TYPE.TXT',
-
+    [:organization_type, {:file => 'TR02_ORGANIZATION_TYPE.TXT', :fields => [nil, :name, :type_property]}],
     #fields: SECTOR_NAME	SECTOR_ID	ICB_NUMBER	SUPER_SECTOR
     [:sector, {:file => 'TR03_SECTOR.TXT', :fields => [:name, :old_id, :icb_number, :parent_id]}],
 
@@ -38,13 +37,14 @@ class Importer
   def import(name, options)
     puts "Importing #{name}.."
     file = File.join(@data_folder, options[:file])
-    model = eval(name.to_s.modulize)
+    model = name.to_s.classify.constantize
     # read the file
     FasterCSV.foreach(file, :col_sep => "\t",
                             :headers => :first_row) do |row|
       # create an object of the correct type and save
       o = model.new
       options[:fields].each_with_index do |field,i|
+        next if field.nil?
         # fields that end with _id require a lookup
         if field == :country_id
           o.country_id = Country.find_by_code(row[i]).id
@@ -60,7 +60,7 @@ class Importer
   end
   
   def delete_all
-    [Exchange, Country, Sector].each &:destroy_all
+    Importer::FILES.collect{|entry| entry.first.to_s.classify.constantize}.each &:destroy_all
   end
   
   def delete_all_and_run
