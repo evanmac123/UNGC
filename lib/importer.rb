@@ -5,35 +5,38 @@ require 'fastercsv'
 # not follow the sequence it may be expecting from the imported file
 class Importer
   
-  FILES = {
+  FILES = [
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
-    :country   =>  {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
-
+    [:country, {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]}],
     # fields: ID	TYPE	TYPE_PROPERTY
     #:organization_type => 'TR02_ORGANIZATION_TYPE.TXT',
+
+    #fields: SECTOR_NAME	SECTOR_ID	ICB_NUMBER	SUPER_SECTOR
+    [:sector, {:file => 'TR03_SECTOR.TXT', :fields => [:name, :old_id, :icb_number, :parent_id]}],
+
     # fields: PRINCIPLE_ID	PRINCIPLE_NAME
     #:principle => 'TR05_PRINCIPLE.TXT',
     # fields: INTEREST_ID	INTEREST_NAME
     #:interest  => 'TR06_INTEREST.TXT',
     # fields: ROLE_ID ROLE_NAME
     #:role      => 'TR07_ROLE.TXT',
-
     #fields LIST_EXCHANGE_CODE	LIST_EXCHANGE_NAME	LIST_SECONDARY_CODE	LIST_TERTIARY_CODE	TR01_COUNTRY_ID
-    :exchange => {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]}
+    [:exchange, {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]}]
 
     # fields: ROLE_ID ROLE_NAME
     # 0, Unknown - invalid id for mysql
     #:language  => 'TR10_LANGUAGE.TXT'
-  }
+  ]
   
   # Imports all the data in files located in options[:folder]
   def run(options={:folder => File.join(RAILS_ROOT, 'lib/un7 tables')})
     @data_folder = options[:folder]
-    FILES.each{|key, options| import key, options}
+    FILES.each{|entry| import entry.first, entry.last}
   end
 
-  # Imports the data for a single file
+  # Imports the data from a single file
   def import(name, options)
+    puts "Importing #{name}.."
     file = File.join(@data_folder, options[:file])
     model = eval(name.to_s.modulize)
     # read the file
@@ -45,11 +48,23 @@ class Importer
         # fields that end with _id require a lookup
         if field == :country_id
           o.country_id = Country.find_by_code(row[i]).id
+        elsif field == :parent_id
+          # this only works for sector for now
+          o.parent_id = Sector.find_by_icb_number(row[i]).id if row[i]
         else
           o.send("#{field}=", row[i])
         end
       end
       o.save
     end
+  end
+  
+  def delete_all
+    [Exchange, Country, Sector].each &:destroy_all
+  end
+  
+  def delete_all_and_run
+    delete_all
+    run
   end
 end
