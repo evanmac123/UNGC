@@ -20,11 +20,17 @@ class Importer
     # fields: ROLE_ID ROLE_NAME
     #:role      => 'TR07_ROLE.TXT',
     #fields LIST_EXCHANGE_CODE	LIST_EXCHANGE_NAME	LIST_SECONDARY_CODE	LIST_TERTIARY_CODE	TR01_COUNTRY_ID
-    [:exchange, {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]}]
+    [:exchange, {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]}],
 
     # fields: ROLE_ID ROLE_NAME
     # 0, Unknown - invalid id for mysql
     #:language  => 'TR10_LANGUAGE.TXT'
+
+    # trying a real table, trying just a few fields
+    #fields: ID	TR02_TYPE	ORG_NAME	SECTOR_ID ORG_NETWORK_BIT	ORG_PARTICIPANT_BIT	ORG_NB_EMPLOY	ORG_URL
+    [:organization, {:file   => 'R01_ORGANIZATION.TXT',
+                     :fields => [:old_id, :organization_type_id, :name, :sector_id, :local_network, :participant,
+                                  :employees, :url]}]
   ]
   
   # Imports all the data in files located in options[:folder]
@@ -49,18 +55,23 @@ class Importer
         if field == :country_id
           o.country_id = Country.find_by_code(row[i]).id
         elsif field == :parent_id
-          # this only works for sector for now
+          # this only works for sector - for now
           o.parent_id = Sector.find_by_icb_number(row[i]).id if row[i]
+        elsif field == :sector_id
+          o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
+        elsif field == :organization_type_id
+          o.organization_type_id = OrganizationType.find_by_name(row[i]).id if row[i]
         else
           o.send("#{field}=", row[i])
         end
       end
-      o.save
+      saved = o.save
+      puts "** Could not save #{name}: #{row}"unless saved
     end
   end
   
   def delete_all
-    Importer::FILES.collect{|entry| entry.first.to_s.classify.constantize}.each &:destroy_all
+    Importer::FILES.collect{|entry| entry.first.to_s.classify.constantize}.each &:delete_all
   end
   
   def delete_all_and_run
