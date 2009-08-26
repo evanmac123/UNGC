@@ -238,7 +238,6 @@ CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_
 291	Steven F.		Claggett	Mr.	President & Chief Operations Officer	unknown	410-821-0435	410-821-5062		Ajilon Consulting US	"210 W. Pennsylvania Ave, Suite 650"	Towson	MD	21204	US	TRUE	FALSE	FALSE	FALSE			
 292	Tina		Lewandowski	Ms.	Marketing Director	tina.lewandowski@ajilon.com	410-821-0435	410-821-5062		Ajilon Consulting US	"210 W. Pennsylvania Ave, Suite 650"	Towson	MD	 21204	US	FALSE	TRUE	TRUE	FALSE	ungc292	06172948	
 293	Apen T.		Katigbak	Mr.	Fabrication Engineer	unknown	043 778 0731	043 778 0731		AK Engineering and Fabrication	"Pres. Laurel Highway, Brgy. San Roque, Sto Tomas, Batangas"				PH	TRUE	TRUE	TRUE	FALSE	ungc293	1B82B8C8	
-294	Piotr		Rogala	Mr.		p.rogala@interia.pl				Akademia Ekonomiczna WGRiT	"ul. Nowowijska 3, 58-500 Jelenia Góra"				PL	FALSE	FALSE	TRUE	FALSE			
 295	Tufan		Tufur	Mr.	General Manager	akay@akayguvenlik.com.tr	90 212 2457988	90 212 2457992		Akay Guvenlik Ltd.	Omer Avni Mah. Inebolu Sk. 71/2	Istanbul		34427	TR	TRUE	TRUE	TRUE	FALSE	ungc295	D43A58C8	
 296	Ozgur		Ozudogru	Mr.	Company Manager	unknown				Akdag Isil Islem	30 Street No: 51-53 06730 Ostim	Ankara			TR	TRUE	FALSE	FALSE	FALSE			
 297	Firat		Sapci		General Coordinator	akdag@akdagisil.com.tr	90-312-3853708-3544559	90-312-3543820		Akdag Isil Islem	30 Street No: 51-53 06730 Ostim	Ankara			TR	FALSE	TRUE	TRUE	FALSE	ungc297	BE9DA6C8	
@@ -2562,8 +2561,6 @@ Center for Economic Self-Reliance Marriott School"	712-A TNRB	Provo	Utah	84602-3
 3175	Jose Mª		Larramendi		Director Secretaría General	s1090@eroski.es				Grupo Eroski	Bº San Agustín s/n	Elorrio (Vizcaya)		48230	ES	FALSE	TRUE	TRUE	FALSE	ungc3175	2A991D4B	
 3176	Marta		Áreizaga	Ms	Directora Responsabilidad Social	s7450@eroski.es	94-621 12 50	94-621 12 51		Grupo Eroski	Bº San Agustín s/n	Elorrio (Vizcaya)		48230	ES	FALSE	TRUE	TRUE	FALSE	ungc3176	58201F4B	
 3177	Juan		Cardona	Mr.	Head of CSR & Reputation	jcardona@ferrovial.es	+34 91 586 12 75			"Grupo Ferrovial, S.A."	"Príncipe de Vergara, 135"	Madrid		28002	ES	FALSE	TRUE	TRUE	FALSE	ungc3177	3F71454B	
-3179	  Carmen		Cruz	Ms.	Assistant to Deputy Chairman	carmencl@inditex.com	+ 34 981 18 61 16	 + 34  981 18 61 65		"Inditex, Industrias de Diseño Textil, S.A."	"Edificio Inditex, Avenida de la Diputacion"	"Arteixo  A Coruña,"		15142	ES	FALSE	TRUE	TRUE	FALSE			
-3182	Javier		Chercoles	Mr.	"Director, Corporate Social Responsibility"	javiercb@inditex.com	34 981 18 5372/18 5400	34 981 185365		"Inditex, Industrias de Diseño Textil, S.A."	"Edificio Inditex, Avenida de la Diputacion"	"Arteixo  A Coruña,"		15142	ES	FALSE	TRUE	TRUE	FALSE			
 3183	Pablo Isla Álvarez de		Tejera	Mr.	Deputy Chairman & Chief Executive Officer	 unknown	34 981 185400	34 981 185496		"Inditex, Industrias de Diseño Textil, S.A."	"Edificio Inditex, Avenida de la Diputacion"	Arteixo  A Coruña		 15142	ES	TRUE	FALSE	FALSE	FALSE			
 3184	Paula		Rodriguez Pangallo	Ms	Centro para la Responsabilidad Social	paula.rodriguez@interrupcion.net	(54 11) 4854-7070			Grupo Interrupción	Martínez Rosas 941	Bs. Aires	Bs. As.	C1414ADA	AR	FALSE	FALSE	TRUE	FALSE	ungc3184	DfjKsco8	
 3185	Sergio		Tosunian	Mr.	Director Ejecutivo (CRS)	sergio.tosunian@interrupcion.net	54-11-4815-4635			Grupo Interrupción	Martínez Rosas 941	Bs. Aires	Bs. As.	C1414ADA	AR	FALSE	TRUE	TRUE	FALSE			
@@ -3664,7 +3661,6 @@ Center for Economic Self-Reliance Marriott School"	712-A TNRB	Provo	Utah	84602-3
 4468	Gilles		Terzakou	Mr.	President Directeur General	unknown	01 47 16 64 68	01 47 16 64 70		Multi Restauration Services	99 Avenue de la Chataigneraie	Rueil-Malmaison Cedex		92 504	FR	TRUE	FALSE	FALSE	FALSE		
 4469	Ines Pruvot de		Neufville	Mrs.	Direction du Developpement Immoblier de Bureaux	ipruvot@mrs.fr	01 47 16 64 57	01 47 16 64 70		Multi Restauration Services	99 Avenue de la Chataigneraie	Rueil-Malmaison Cedex		92 504	FR	FALSE	TRUE	TRUE	FALSE	ungc4469	3AF3284C
 4470	Edward		Smith	Mr.	Managing Director	esmith@malawi.multichoice.co.za				MultiChoice Malawi	P.O. Box 801	Blantyre			MW	TRUE	TRUE	TRUE	FALSE	ungc4470	687A2A4C
-4471	Monica		Muschette	Ms	HR Manager	mmuschett@grupomulticredit.com	507 269 0188	507 264 4014		Multibank	"PO Box 8210, Zone 7, Via España"	Panama City			PA	FALSE	TRUE	TRUE	FALSE	ungc4471	EE3A04C7	
 4472	Rafael		Sanchez Garros	Mr.	CEO	unknown	507 269 0188			Multibank	"PO Box 8210, Zone 7,"	Panama City			PA	TRUE	FALSE	FALSE	FALSE			Via Espana
 4473	Susanne		Korfmacher	Ms		susanne.korfmacher@sozialforschung.org	089/ 39 83 65			Munich Institute for Social Science	Hohenzollernstr. 112	München			DE	FALSE	FALSE	TRUE	FALSE			
 4474	Ana		Cecillia  Del Castillo	Ms	International and National Cooperation Chief	unknown	511 247 0086	511 247 0086		Municipalidad Distrital de Santiago de Surco	"Jr. Bolognesi 275. Santiago de Surco Major Square,"	Lima			PE	FALSE	TRUE	TRUE	FALSE	ungc4474	324639CC	
@@ -4850,8 +4846,6 @@ Center for Economic Self-Reliance Marriott School"	712-A TNRB	Provo	Utah	84602-3
 5875	Guy		Maybon	Mr.	PDG	unknown	unknown		unknown	Technogenia	Zone Artisanale: les marail 74410	Saint Jorioz			FR	TRUE	FALSE	FALSE	FALSE			
 5876	Herve		Maybon	Mr.	Directeur General	unknown	33 04 50 68 55 660	33 04 50 68 62 79	33 0 450 68 62 77	Technogenia	Zone Artisanale: les marail 74410	Saint Jorioz			FR	FALSE	TRUE	TRUE	FALSE	ungc5876	B1D4E04D
 5877	Ognian		Traianov	Mr.	President	office@technologica.com	3592 974 3450	3592 974 3450		TechnoLogica Ltd.	3 Sofiisko pole str.	Sofia		1756	BG	TRUE	TRUE	TRUE	FALSE	ungc5877	C26944E4
-5879	Ladislao		de Arriba Azcona	Mr.	Presidente	ramon.gutierrez@tecnocom.es	913 52 99 08	913 52 97 88		"TECNOCOM, Telecomunicaciones y Energía, S.A."	"Vía delas dos Castillas, 33 - Ática Edif. 7, Pozuelo de Alarcón"	Madrid		28224	ES	TRUE	FALSE	FALSE	FALSE		
-5880	Ramón		Gutiérrez	Mr.	Gerente de PRL Dirección General de RR.HH	ramon.gutierrez@tecnocom.es	913 52 99 08			"TECNOCOM, Telecomunicaciones y Energía, S.A."	"Vía delas dos Castillas, 33 - Ática Edif. 7, Pozuelo de Alarcón"	Madrid		28224	ES	FALSE	TRUE	TRUE	FALSE	ungc5880	66043DCD
 5881	Eberle	Hector	Humberto	Cdor.	Director - Gerente General	tecnovo@tecnovo.com.ar	0343 4952601/504	same		Tecnovo S.A.	Parque industrial	Crespo	Entre Rios	3116	AR	FALSE	TRUE	TRUE	FALSE	ungc5881	CE932CD4
 5882	Motta Hector Jose		Bernardo	Mr.	Presidente	unknown				Tecnovo S.A.	Parque industrial	Crespo	Entre Rios	3116	AR	TRUE	FALSE	FALSE	FALSE		
 5883	Aysel		Cavusoglu		General Manager	tega@tega.com.tr	90 312 267 1876	90 312 267 1877		TEGA Engineering Industry and Trade Inc. Co.	1 OSB Babursah Cad. No. 16	Sincan-ANKARA		06960	TR	FALSE	TRUE	TRUE	FALSE	ungc5883	2D96FA4D
@@ -6409,7 +6403,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 8476823	Angel Tito		Rodriguez Saldivar	Sr.	Secretario General	unknown	899 924 9207		899 924 6120	Sindicato Industrial Autonomo de Operarios en General de Maquiladoras de Reynosa C.T.M.	Saltillo No. 140 Col. Rodriquez	Reynosa	Tamaulipas	88630	MX						
 8486823	Juan Ricardo		Escobedo Zúñiga	TSU.	Representante de la Dirección	e.juanricardo@yahoo.com.mx	899 924 9207	 0448991849535	899 924 6120	Sindicato Industrial Autonomo de Operarios en General de Maquiladoras de Reynosa C.T.M.	Saltillo No. 140 Col. Rodriquez	Reynosa	Tamaulipas	88630	MX					ungc8486823	ZR4OkBLq
 8496823	Gilberto	 Rincon	Gallardo	Sr.	Presidente	presidencia@conapred.org.mx	5262490 ext. 1494		5203 6699	Consejo Nacional Para Prevenir La Discriminacion	Dante No. 14  Colonia Anzures	Mexico	Distrito Federal	11590	MX						
-8506823	José Luis	 Gutiérrez	Espíndola	Sr.	"Director General Adjunto de Vinculación, Programas Educativos y Divulgación"	jgutierreze@conapred.org.mx	52621490 ext. 1587	0445554324930	5203 6699	Consejo Nacional Para Prevenir La Discriminacion	Dante No. 14  Colonia Anzures	Mexico	Distrito Federal	11590	MX					ungc8506823	rWOecfS3
 8516823	Miguel		Rincon Arredondo	Ing.	Presidente (Chief Executive Officer)	unknown	55 5729 7014		55 5729 7327	Corporacion Durango	"Potasio 150 CD, Industrial Durango"	Durango	Durango	34208	MX						
 8526823	Rosa		Armida Rincon Barraza	Sra.	Relaciones Publicas	pxrincon@corpdgo.com.mx	55 5729 7014		55 5729 7327	Corporacion Durango	"Potasio 150 CD, Industrial Durango"	Durango	Durango	34208	MX					ungc8526823	EkfS1mTO
 8536823	Javier		Campos Ycardo	Sr.	Rector	unknown	55 5519 9702		55 54402488	Universidad Insurgentes	Coruna No. 166 Col. Alamos	Mexico D.F.		03400	MX						
@@ -7633,7 +7626,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 22256823	Pelayo		del Riego	Mr	Director General	deyna@idecnet.com	917451395			Fundación Desarrollo y Naturaleza	"Príncipe de Vergara, 136 Portal 3"	Madrid		28002	ES					ungc22256823	dv5ZLICu	
 22276823	Carlos		Albo Portero	Mr.	Director General	info@acoratex.com	34 96 331 87 49	647993906	34 963 318 748	ACORATEX S.L.	"Soriano, nº 8 bajo izquierdo 28043 Madrid"	San Sebastian de los Reyes		28700	ES					ungc22276823	EKWBV6RS	
 22286823	Javier		Viaño	Mr.	Managing Director	jv@addworksystems.com	0034 93 317 2975			ADD Work Systems	"C/ Roger de Llúria  5, 3º 1ª"	Barcelona		08010	ES					ungc22286823	SgFsP3k8	
-22296823	Jaime		Pérez Martín-Gaitero	Mr.	"Responsable de Calidad, Medio Ambiente y Formación"	calidad@adober.es	 unknown			"Adober Electricidad, S.L."	"Polígono Industrial Mora Garay, C/Marie Curie, 41"	Gijón		33211	ES					ungc22296823	zTYQ6uI5	
 22306823	Oriol		Renart	Mr.	CEO	renart@altercompany.com	933635990			Alter Company	C/Ecuador 2 3º planta	Barcelona		08029	ES							
 22316823	Juan Manuel		Vieites Baptista de Sousa	Mr.	Secretario General	jvieites@anfaco.es	986 46 93 01			ANFACO - Asociación Nacional de Fabricantes de Conservas de Pescados y Mariscos	"Ctra. Colegio Universitario, 16"	Vigo		36310	ES					ungc22316823	J3OBS4eo	
 22326823	Carlos		Albo Portero	Mr.	Director General	info@exponent.es	34 963 318 766	647993906	34 963 318 748	"AP&M Asesores Privados, S.L. (Exponent Consultores)"	"Pº Alameda, 1 Pta. 19"	Valencia		46010	ES					ungc22326823	oVyASO1I	
@@ -7706,7 +7698,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 23226823	Eduardo		Jimenez	Mr.		ejimenez@kis.com.do	809-985-8592			Foto Kiss Dominicana	"Plaza Acropolis, Av. Winston Churchill"	Santo Domingo			DO					ungc23226823	VpXqkT89	
 23236823	Frank		Castillo	Mr.		gintercaribe@gmail.com	809-563-0960			Inmobiliaria Intercaribe	"Ave. Lope de Vega N. 33, Plaza Intercaribe, Suite 500"	Santo Domingo			DO					ungc23236823	cjXlvpJK	
 23246823	Manuel		Castillo Pimentel	Mr.		gn@verizon.net.do	809-566-0166			Procesadora de Semilla del Caribe	Arturo  Logroño No. 117 Ens. La Fe	Santo Domingo			DO					ungc23246823	bRoMqsI9	
-23256823	Manuel		Castillo Pimentel	Mr.		macapi4@verizon.net.do	809-566-0166			"Granos Nacionales, S. A."	"C/ Arturo Logroño No. 117, Ens. La Fé."	Santo Domingo			DO					ungc23256823	7j1qoJdM	
 23266823	Miguel Angel		Peguero	Mr.		unknown	809-957-4053			Transporte Map S. A.	"Zona Industrial de Haina, San Cristobal"	Santo Domingo			DO					ungc23266823	gnUOvrWK	
 23276823	Jose Ml.		Armenteros R.	Ing.		mendar@verizon.net.do	809-565SI360			"Mendoza, Armenteros y Asociados S. A. (MENDAR)"	Av. San Martin No. 122 Altos	Santo Domingo			DO					ungc23276823	Pfq6eXyw	
 23286823	Elenia		Romero	Ms.		ventas@arpiel.com	809-72SI160			Artepiel C. por A.	"Cub Scout Esq. Manuel Henriquez, Ens. Naco"	Santo Domingo			DO					ungc23286823	V1vbogWH	
@@ -8868,7 +8859,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 39576823	Eka		Urushadze	Ms.		unknown	99532 250711		99532 250711	Centre for Strategic Research and Development of Georgia	5a Delisi I st. Lane	Tbilisi		0177	GE							
 39586823	Lela		Khoperia	Ms.		unknown	99532 250711		99532 250711	Centre for Strategic Research and Development of Georgia	5a Delisi I st. Lane	Tbilisi		0177	GE					ungc39586823	eZTJQRBq	
 39596823	Katsuto		Umezaki	Mr.		kumezaki@mail.kikkoman.co.jp	+81-3-5521-5895			Kikkoman Corporation	.	.			JP					ungc39596823	uOy8s9Xj	
-39606823	Laurent		Brugeilles	Ms.		contact@vigeo.com	+33 1 49 72 46 00 / 04			Vigeo	"Les Mercuriales, 40 rue Jean Jaurès"	 Bagnolet			FR					ungc39606823	YQg25oeE	
 39616823	Fernando		Elias	Mr.		fernando.elias@institutotelemigcelular.org.br	55 31 3259 4456			Telemig Celular S/A	"Rua Levindo Lopes, 258 - 8 andar"	Belo Horizonte			BR					ungc39616823	HxMN8d9Q	
 39626823	Flemming		Bligaard Pedersen	Mr.	Group CEO	FBP@ramboll.com	+45 4598 6100		45 4598 6990	Ramboll Group	"Teknikerbyen 1, 2"	Virum		2830	DK							
 39636823	Kim		Bergholt	Mr.	Legal Director	kbe@ramboll.com	45 4598 6076		45 4598 6990	Ramboll Group	"Teknikerbyen 1, 2nd floor"	Virum		2830	DK					ungc39636823	GJ9LjhI0	
@@ -12639,7 +12629,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 80326823	Xiaoliang		Zhang	Mr	Chief Scientist	 wang_jianfeng@hotmail.com	 13901379363			"Chanelsoft (Beijing) Technology Co.,Ltd."	"The 7 Floor,the Changan Club, the 10th East Chang'an Street,"	Beijing		 100006	CN					ungc80326823	CWXaY3pL	Dongcheng District
 80336823	Xavier		Hernandez	Mr.	El Salvador government/Vice-presidency	xhernandez@emprecultura.com.sv	"503 264 1656, 503 264 1657, 503 264 1658"	503 887 3174	503 264 5951	GC Network - El Salvador	"Final Calle La Loma, Torres Las Americas, Apt. 55"	San Salvador			SV							Col. Escalon
 80346823	Alejandro		Pacheco	Mr.		alejandro.pacheco@undp.org	503) 2263-0066			GC Network - El Salvador	"3a. Calle Pte. # 4048, Col. Escalon,"	San Salvador			SV							Entre 77 y 79 Av. Nte.
-80366823	Maria-Nieves		Alvarez	Ms.		Nieves.Alvarez@gtz.de	504 235 5251			GC Network - Honduras	GTZ Honduras	Tegucigalpa			HN							"Col. Tepeyac, Calle Yoro, Edificio Plaza Visión"
 80376823	Roberto		Leiva	Mr.	"Director Ejecutivo, Fundahrse - Fundacion Hondurena de Responsibilidad Social Empresarial"	jrleiva@cehdes.org	(504) 556-9559			GC Network - Honduras	"6 Piso, Edificio HSBC, Ave. circunvalación, col. Trejo"	San Pedro Sula			HN							"P.O. Box  2871,"
 80386823	Marc		Beckmann	Mr.		marc.beckmann@undp.org	xxx			GC Network - Indonesia	"Menara Thamrin Building, 8-9th Floor, Kav. 3, Jl. M.H. Thamrin, PO Box 2338"	Jakarta		10250	ID							
 80396823	Y.W.		Junardy	Mr.	"President of Indonesia Marketing Association, Indonesian Global Compact Network Coordinator"	junardy@rajawali.com	62 21 5761369		62 21 5761369	GC Network - Indonesia	"27th Floor Menara Rajawali, Jl. Mega Kuningan Lot#5.1"	Jakarta		12950	ID							Kawasan Mega Kuningan
@@ -13939,7 +13928,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 93826823	Aiko	U.D.	Bode	Mr.	Global Head CSR and Sustainability	aiko.bode@de.tuv.com	+49.40.3787904.83	+49.172.3209973	+49.40.3787904.12	TUV Rheinland Holding AG	Julius-Vosseler-Str. 42	Hamburg	Hamburg	22527	DE					ungc93826823	spzNV6Se	
 93846823	Glen		Fisher	Mr.	 Director	fisher.glen@nbi.org.za	tel: +27 11 544 6000			GC Network - South Africa	PO Box 294	Auckland Park		 2006	ZA							
 93856823	Barbara	R.	Snyder	Ms.	President	barbara.snyder@case.edu	216 368 5094		216 368 4325	Case Western Reserve University	10900 Euclid Avenue	Cleveland	Ohio	44106-7001	US					ungc93856823	QB53MitT	
-93866823	Giovanna		Faria	Mrs.		gfaria@coimex.com.br	27 3335-6233			Grupo Coimex	"Av. N S dos Navegantes, 675, 6º andar, Enseada do Suá"	Vitória	Espírito Santo	29050912	BR					ungc93866823	U3g17NIt	
 93876823	Sunok		Lee	Ms.		lee21@un.org	1-917-367-9501			UNGC					US					lee21	blue0315	
 93886823	Vicente		Aguilar	Lic.	Relaciones Internacionales	vaguilar@seprelad.gov.py	595 21 452411 - 452846		595 21 452412	UAF – SEPRELAD – Secretariat of Money Laundering and Goods Prevention	Chile Nº 753 c/E.V. Haedo	Asuncion			PY							
 93896823	Patrick		Gruau	Mr.	Chairman	unknown	33 2 4366 3888		33 2 4302 8784	Groupe Gruau	"9, boulevard Marius et Rene Gruau"	Saint-Berthevin		53942	FR							
@@ -18628,7 +18616,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 142306823	Trine		Nielson	Ms		tn@kontrapunkt.com	+45 33 93 18 83			Kontrapunkt	Refshalevej 153	Copenhagen			DK					ungc14230682	usNDEgJv	1432 Cph K
 142316823	Martine		CAZIER	Mme	Directrice adjointe	martine.cazier@ecp.fr	+ 33 1 41 13 19 08	+33 6 86 37 51 22		Ecole Centrale de Paris	ECP Grande voie des vignes	CHATENAY-MALABRY		92295-Cedex	FR					ungc14231682	0sQlLHpk	
 142326823	Edson	Chiari	Grottoli	Mr.	Presidente	edson.grottoli@bshg.com	55 11 35727401		55 11 35727400	BSH Continental Eletrodomesticos Ltda.	"Parque Industrial BSH Continental, s/n"	Hortolandia	Sao Paulo	13187940	BR							
-142336823	Silvia		Pessoa	Ms.	"Gerente de RH, Meio Ambiente, Saúde & Segurança"	patricia.marques@mabebr.com	55 19 21198173		55 19 21198202	BSH Continental Eletrodomesticos Ltda.	"Parque Industrial BSH Continental, s/n"	Hortolandia	Sao Paulo	13187940	BR					ungc14233682	7JBeDund	
 142346823	Gladys	Aurora	Bermudez Salgado	Ms.	Manager	gladys.bermudezs@hotmail.com	2696812		2448693	Transportes Bermudez S.A.	AV. RACE 40 No 24A - 71	Bogota			CO							
 142356823	Gloria	Del Pilar	Bermudez Salgado	Ms.	DIRECTOR OF OCCUPATIONAL HEALTH AND WELFARE	gloriadelpilarbermudez@gmail.com	2696812		2448693	Transportes Bermudez S.A.	AV. RACE 40 No 24A - 71	BOGOTA			CO					ungc14235682	kGipn8Al	
 142366823	Jan		Lepoutre	Mr.	Doctor Assistant	unglobalcompact@vlerick.be	+32 9 210 97 11			Vlerick Leuven Gent Management School	Reep 1	Ghent		B-9000	BE					ungc14236682	IHf4gTuy	
@@ -19373,7 +19360,6 @@ Smurfit Business School"	Blackrock	Dublin			IE	FALSE	FALSE	TRUE	FALSE
 149876823	Sonia		Villa Mantilla	Ms	Secretary	svilla@fleischmanniberica.es	+34 942503196		+34 942503200	Fleischmann Iberica productos y montajes refractarios	"Bº La Raba, s/n"	Elechas	Cantabria	39130	ES							
 149886823	Sabrina		Colautti	Ms	Financial Supervisor	sabrina.colautti@fhc.com.br	554133022005	554199435222	554133022001	FH Consultoria Empresarial LTDA	"Rua João Negrão,731 sl 303"	Curitiba	Paraná	80010200	BR					ungc14988682	L1w6Si40	Centro
 149896823	Delphine		Duquesne	Me	Communication corporate	delphine.duquesne@arc-intl.com	+33321127991			ARC International	41 avenue du général de Gaulle	Arques		62510	FR					ungc14989682	krRse7an	
-149906823	Jean		Olivares	Mr.	Audit	Jean.Olivares@adecco.com	51 1 611 44 44			Adecco Peru S.A	"Amador Merino Reyna (Ex – Los Rosales), 285 - Piso 8"	Lima			PE					ungc14990682	Wg0lyvFG	"San Isidro, Lima – Perú"
 149916823	Taulant		Hoxha	Mr	Program Coordinator	taulant.hoxha@kcsfoundation.org	38138248636		38138248643	Kosovar Civil Society Foundation	Josip Rela 29	Prishtina		10000	XZ					ungc14991682	9Tn31eSo	
 149926823	Alayna		Hoffman	Ms.	Marketing Director	ahoffman@fwg.com	410-751-5714			Progressive Asset Management	N/A	N/A			US					ungc14992682	OF5bSHAn	
 149936823	Aows	Rushdy	Mukhtar	Mr.	Managing Director	projects@pro-technique.com	+962 6 5656696		+962 6 5656696	Protechnique	"P.O.Box Amman 2704, Jordan 11941"	Amman		"P.O.Box Amman 2704, Jordan 119"	JO					ungc14993682	VOxSwz5l	"Gardens Street, Behind Jabri, Building no. 4"
