@@ -2,7 +2,8 @@ require 'fastercsv'
 
 class Importer
   
-  FILES = [:country, :organization_type, :sector, :exchange, :language, :organization, :contact]
+  FILES = [:country, :organization_type, :sector, :exchange, :language, :organization, :contact,
+            :cop_score]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -10,6 +11,8 @@ class Importer
     :organization_type => {:file => 'TR02_ORGANIZATION_TYPE.TXT', :fields => [nil, :name, :type_property]},
     #fields: SECTOR_NAME	SECTOR_ID	ICB_NUMBER	SUPER_SECTOR
     :sector => {:file => 'TR03_SECTOR.TXT', :fields => [:name, :old_id, :icb_number, :parent_id]},
+    #fields: COP_SCORE	COP_SCORE_DESCRIPTION
+    :cop_score => {:file => 'TR04_COP_SCORE.TXT', :fields => [:old_id, :description]},
 
     # fields: PRINCIPLE_ID	PRINCIPLE_NAME
     #:principle => 'TR05_PRINCIPLE.TXT',
@@ -92,7 +95,7 @@ class Importer
       if options[:files]
         @files = options[:array].is_a?(Array) ? options[:files] : [options[:files]]
       else
-        @files = options[:files]
+        @files = FILES
       end
     end
 end
