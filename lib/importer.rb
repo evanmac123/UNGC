@@ -3,8 +3,8 @@ require 'fastercsv'
 class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
-            :cop_score, :principle, :interest, :role, :organization, :contact, :logo_publication,
-            :logo_request, :logo_file, :logo_comment, :logo_approval]
+            :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
+            :logo_publication, :logo_request, :logo_file, :logo_comment, :logo_approval]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -55,15 +55,26 @@ class Importer
                                    nil, nil, nil, nil, nil,
                                    nil, nil, nil, :stock_symbol, nil,
                                    nil, nil, :removal_reason_id, :last_modified_by_id, nil]},
-    # fields CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_TITLE	CONTACT_EMAIL
-    #        CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
-    #        CONTACT_CODE_POSTAL	TR01_COUNTRY_ID	CONTACT_IS_CEO	CONTACT_IS_CONTACT_POINT	CONTACT_IS_NEWSLETTER
-    #        CONTACT_IS_ADVISORY_COUNCIL	CONTACT_LOGIN	CONTACT_PWD	CONTACT_ADDRESS2
+    # fields: CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_TITLE	CONTACT_EMAIL
+    #         CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
+    #         CONTACT_CODE_POSTAL	TR01_COUNTRY_ID	CONTACT_IS_CEO	CONTACT_IS_CONTACT_POINT	CONTACT_IS_NEWSLETTER
+    #         CONTACT_IS_ADVISORY_COUNCIL	CONTACT_LOGIN	CONTACT_PWD	CONTACT_ADDRESS2
     :contact => {:file   => 'R10_CONTACTS.TXT',
                  :fields => [:old_id, :first_name, :middle_name, :last_name, :prefix, :job_title, :email,
                               :phone, :mobile, :fax, :organization_id, :address, :city, :state,
                               :postal_code, :country_id, :ceo, :contact_point, :newsletter, 
-                              :advisory_council, :login, :password, :address_more]}
+                              :advisory_council, :login, :password, :address_more]},
+    # fields: COP_ID	R01_ORG_NAME	COP_TITLE	COP_DOCUMENT_RELATED	COP_CONTACT_EMAIL	COP_PERIOD_START_YEAR	
+    #         COP_FACILITATOR	COP_CONTACT_TITLE	COP_PERIOD_START_MONTH	COP_PERIOD_END_MONTH	COP_PERIOD_LINK1
+    #         COP_PERIOD_LINK2	COP_PERIOD_LINK3	COP_DATE_CREATE	COP_DATE_MODIFICATION	COP_CONTACT_PERSON
+    #         COP_PERIOD_END_YEAR	COP_DOCUMENT_STATUS	COP_CEO_COMMIT_LETTER	COP_DESCRIPTION_ACTIONS	COP_USE_INDICATORS
+    #         TR04_SCORE	COP_USE_GRI	COP_HAS_CERTIFICATION	COP_NOTABLE_PROGRAM
+    :communication_on_progress => {:file   => 'R02_COM_ON_PROCESS.TXT',
+                                   :fields => [:identifier, :organization_id, :title, :related_document, :email, :start_year,
+                                               :facilitator, :job_title, :start_month, :end_month, :url1,
+                                               :url2, :url3, :added_on, :modified_on, :contact_name,
+                                               :end_year, :status, :include_ceo_letter, :include_actions, :include_measurement, :use_indicators,
+                                               :cop_score_id, :use_gri, :has_certification, :notable_program]}
   }
   
   # Imports all the data in files located in options[:folder]
@@ -98,6 +109,8 @@ class Importer
           o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
         elsif field == :publication_id
           o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
+        elsif field == :cop_score_id
+          o.cop_score_id = CopScore.find_by_old_id(row[i]).id if row[i]
         elsif field == :logo_request_id
           o.logo_request_id = LogoRequest.find_by_old_id(row[i]).id if row[i]
         elsif field == :logo_file_id
@@ -105,7 +118,7 @@ class Importer
         elsif field == :removal_reason_id
           o.removal_reason_id = RemovalReason.find_by_old_id(row[i]).id if row[i]
         elsif field == :organization_id
-          if name == :contact
+          if name == :contact || name == :communication_on_progress
             # contact table is linked to organization by name
             o.organization_id = Organization.find_by_name(row[i]).try(:id) if row[i]
           else
