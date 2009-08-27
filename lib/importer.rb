@@ -2,9 +2,9 @@ require 'fastercsv'
 
 class Importer
   
-  FILES = [:country, :organization_type, :sector, :exchange, :language, :cop_score, :principle,
-            :interest, :role, :organization, :contact, :logo_publication, :logo_request,
-            :logo_file, :logo_comment, :logo_approval]
+  FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language,
+            :cop_score, :principle, :interest, :role, :organization, :contact, :logo_publication,
+            :logo_request, :logo_file, :logo_comment, :logo_approval]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -22,6 +22,8 @@ class Importer
     :role      => {:file => 'TR07_ROLE.TXT', :fields => [:old_id, :name]},
     #fields LIST_EXCHANGE_CODE	LIST_EXCHANGE_NAME	LIST_SECONDARY_CODE	LIST_TERTIARY_CODE	TR01_COUNTRY_ID
     :exchange => {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]},
+    # fields: Listing_ID	Listing_Name
+    :listing_status => {:file => 'TR09_LISTING_STATUS.TXT', :fields => [:old_id, :name]},
     # fields: LANGUAGE_ID	LANGUAGE_NAME
     :language => {:file => 'TR10_LANGUAGE.TXT', :fields => [:old_id, :name]},
     # fields: ID	NAME	PARENT_ID	DISPLAY_ORDER
@@ -64,7 +66,7 @@ class Importer
   def import(name, options)
     puts "Importing #{name}.."
     file = File.join(@data_folder, options[:file])
-    model = name.to_s.classify.constantize
+    model = name.to_s.camelize.constantize
     # read the file
     FasterCSV.foreach(file, :col_sep => "\t",
                             :headers => :first_row) do |row|
@@ -112,7 +114,7 @@ class Importer
   
   def delete_all(options={})
     setup(options)
-    @files.each{|entry| entry.to_s.classify.constantize.delete_all}
+    @files.each{|entry| entry.to_s.camelize.constantize.delete_all}
   end
 
   def delete_all_and_run(options={})
