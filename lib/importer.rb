@@ -43,12 +43,21 @@ class Importer
     :logo_approval => {:file => 'TR19_LOGO_APPROVALS.TXT', :fields => [:old_id, :logo_request_id, :logo_file_id]},
 
     #fields: ID	TR02_TYPE	ORG_NAME	SECTOR_ID ORG_NETWORK_BIT	ORG_PARTICIPANT_BIT	ORG_NB_EMPLOY	ORG_URL
+    #        ORG_BHR_URL	ORG_DATE_CREATE	ORG_DATE_MODIFICATION	ORG_DATE_JOINING	ORG_DATE_DELISTED	ORG_ACTIVE
+    #        ORG_ISGLOBAL500	TR01_COUNTRY_ID	ORG_STATUS_COP	ORG_COP_ALERT	ORG_UN_SPEC	ORG_PART_MAIL
+    #        ORG_30DAYS_TO_COP	ORG_90DAYS_TO_COP	ORG_TODAY_COPDUE	ORG_TODAY_INACT	ORG_30DAYS_TO_INACT
+    #        ORG_90DAYS_TO_INACT	ORG_MEMBER_ONEYEAR	ORG_LISTED_STATUS	ORG_LIST_CODE	ORG_LIST_EXCHANGE_CODE
+    #        ORG_PARENT_NAME	ORG_PARENT_LIST_CODE	TR11_REASON	ORG_LAST_MODIFIED_BY	ORG_JOIN_LETTER
     :organization => {:file   => 'R01_ORGANIZATION.TXT',
                       :fields => [:old_id, :organization_type_id, :name, :sector_id, :local_network, :participant,
-                                   :employees, :url]},
-    # fields CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_TITLE	CONTACT_EMAIL	
-    #        CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE	
-    #        CONTACT_CODE_POSTAL	TR01_COUNTRY_ID	CONTACT_IS_CEO	CONTACT_IS_CONTACT_POINT	CONTACT_IS_NEWSLETTER	
+                                   :employees, :url, nil, :added_on, :modified_on, :joined_on, :delisted_on,:active,
+                                   nil, :country_id, nil, nil, nil, nil,
+                                   nil, nil, nil, nil, nil,
+                                   nil, nil, nil, :stock_symbol, nil,
+                                   nil, nil, :removal_reason_id, :last_modified_by_id, nil]},
+    # fields CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_TITLE	CONTACT_EMAIL
+    #        CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
+    #        CONTACT_CODE_POSTAL	TR01_COUNTRY_ID	CONTACT_IS_CEO	CONTACT_IS_CONTACT_POINT	CONTACT_IS_NEWSLETTER
     #        CONTACT_IS_ADVISORY_COUNCIL	CONTACT_LOGIN	CONTACT_PWD	CONTACT_ADDRESS2
     :contact => {:file   => 'R10_CONTACTS.TXT',
                  :fields => [:old_id, :first_name, :middle_name, :last_name, :prefix, :job_title, :email,
@@ -93,6 +102,8 @@ class Importer
           o.logo_request_id = LogoRequest.find_by_old_id(row[i]).id if row[i]
         elsif field == :logo_file_id
           o.logo_file_id = LogoFile.find_by_old_id(row[i]).id if row[i]
+        elsif field == :removal_reason_id
+          o.removal_reason_id = RemovalReason.find_by_old_id(row[i]).id if row[i]
         elsif field == :organization_id
           if name == :contact
             # contact table is linked to organization by name
@@ -100,7 +111,7 @@ class Importer
           else
             o.organization_id = Organization.find_by_old_id(row[i]).id if row[i]
           end
-        elsif field == :contact_id || field == :reviewer_id
+        elsif [:contact_id, :reviewer_id, :last_modified_by_id].include? field
           o.send("#{field}=", Contact.find_by_old_id(row[i]).try(:id)) if row[i]
         elsif field == :organization_type_id
           o.organization_type_id = OrganizationType.find_by_name(row[i]).id if row[i]
