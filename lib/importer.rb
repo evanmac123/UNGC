@@ -3,7 +3,8 @@ require 'fastercsv'
 class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :language, :cop_score, :principle,
-            :interest, :role, :logo_publication, :logo_file, :organization, :contact]
+            :interest, :role, :organization, :contact, :logo_publication, :logo_request,
+            :logo_file]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -24,7 +25,13 @@ class Importer
     # fields: LANGUAGE_ID	LANGUAGE_NAME
     :language => {:file => 'TR10_LANGUAGE.TXT', :fields => [:old_id, :name]},
     # fields: ID	NAME	PARENT_ID	DISPLAY_ORDER
+
     :logo_publication => {:file => 'TR14_LOGO_PUBLICATIONS.txt', :fields => [:old_id, :name, :parent_id, :display_order]},
+    # fields: ID	DATE_REQUESTED	DATE_STATUS	PUBLICATION_ID	ORG_ID	CONTACT_ID	REVIEWER_ID	REPLIED_TO
+    #             PURPOSE	REQUEST_STATUS	POLICY_ACCEPTED	POLICY_ACCEPTED_DATE
+    :logo_request => {:file   => 'TR15_LOGO_REQUESTS.TXT',
+                      :fields => [:old_id, :requested_on, :status_changed_on, :publication_id, :organization_id,
+                                    :contact_id, :reviewer_id, :replied_to, :purpose, :status, :accepted, :accepted_on]},
     # fields: ID	LOGO_NAME	DESCRIPTION	THUMBNAIL	LOGOFILE
     :logo_file => {:file => 'TR18_LOGO_FILES.TXT', :fields => [:old_id, :name, :description, :thumbnail, :file]},
 
@@ -74,6 +81,17 @@ class Importer
           end
         elsif field == :sector_id
           o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
+        elsif field == :publication_id
+          o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
+        elsif field == :organization_id
+          if name == :contact
+            # contact table is linked to organization by name
+            o.organization_id = Organization.find_by_name(row[i]).try(:id) if row[i]
+          else
+            o.organization_id = Organization.find_by_old_id(row[i]).id if row[i]
+          end
+        elsif field == :contact_id || field == :reviewer_id
+          o.send("#{field}=", Contact.find_by_old_id(row[i]).try(:id)) if row[i]
         elsif field == :organization_type_id
           o.organization_type_id = OrganizationType.find_by_name(row[i]).id if row[i]
         else
