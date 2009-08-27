@@ -3,7 +3,7 @@ require 'fastercsv'
 class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :language, :organization, :contact,
-            :cop_score, :principle]
+            :cop_score, :principle, :interest, :role]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -15,15 +15,13 @@ class Importer
     :cop_score => {:file => 'TR04_COP_SCORE.TXT', :fields => [:old_id, :description]},
     # fields: PRINCIPLE_ID	PRINCIPLE_NAME
     :principle => {:file => 'TR05_PRINCIPLE.TXT', :fields => [:old_id, :name]},
-
     # fields: INTEREST_ID	INTEREST_NAME
-    #:interest  => 'TR06_INTEREST.TXT',
+    :interest  => {:file => 'TR06_INTEREST.TXT', :fields => [:old_id, :name]},
     # fields: ROLE_ID ROLE_NAME
-    #:role      => 'TR07_ROLE.TXT',
+    :role      => {:file => 'TR07_ROLE.TXT', :fields => [:old_id, :name]},
     #fields LIST_EXCHANGE_CODE	LIST_EXCHANGE_NAME	LIST_SECONDARY_CODE	LIST_TERTIARY_CODE	TR01_COUNTRY_ID
     :exchange => {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]},
     # fields: LANGUAGE_ID	LANGUAGE_NAME
-    # 0, Unknown - invalid id for mysql
     :language => {:file => 'TR10_LANGUAGE.TXT', :fields => [:old_id, :name]},
 
     # trying a real table, trying just a few fields
@@ -93,7 +91,7 @@ class Importer
     def setup(options)
       @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7 tables')
       if options[:files]
-        @files = options[:array].is_a?(Array) ? options[:files] : [options[:files]]
+        @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
       else
         @files = FILES
       end
