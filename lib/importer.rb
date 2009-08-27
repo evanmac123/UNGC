@@ -2,7 +2,7 @@ require 'fastercsv'
 
 class Importer
   
-  FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language,
+  FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
             :cop_score, :principle, :interest, :role, :organization, :contact, :logo_publication,
             :logo_request, :logo_file, :logo_comment, :logo_approval]
   CONFIG = {
@@ -26,8 +26,9 @@ class Importer
     :listing_status => {:file => 'TR09_LISTING_STATUS.TXT', :fields => [:old_id, :name]},
     # fields: LANGUAGE_ID	LANGUAGE_NAME
     :language => {:file => 'TR10_LANGUAGE.TXT', :fields => [:old_id, :name]},
+    # fields: REASON_ID	REASON_DESCRIPTION
+    :removal_reason => {:file => 'TR11_REASON_FOR_REMOVAL.TXT', :fields => [:old_id, :description]},
     # fields: ID	NAME	PARENT_ID	DISPLAY_ORDER
-
     :logo_publication => {:file => 'TR14_LOGO_PUBLICATIONS.txt', :fields => [:old_id, :name, :parent_id, :display_order]},
     # fields: ID	DATE_REQUESTED	DATE_STATUS	PUBLICATION_ID	ORG_ID	CONTACT_ID	REVIEWER_ID	REPLIED_TO
     #             PURPOSE	REQUEST_STATUS	POLICY_ACCEPTED	POLICY_ACCEPTED_DATE
