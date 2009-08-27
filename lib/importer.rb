@@ -2,8 +2,8 @@ require 'fastercsv'
 
 class Importer
   
-  FILES = [:country, :organization_type, :sector, :exchange, :language, :organization, :contact,
-            :cop_score, :principle, :interest, :role]
+  FILES = [:country, :organization_type, :sector, :exchange, :language, :cop_score, :principle,
+            :interest, :role, :logo_publication, :logo_file, :organization, :contact]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -23,8 +23,12 @@ class Importer
     :exchange => {:file => 'TR08_EXCHANGE.TXT', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]},
     # fields: LANGUAGE_ID	LANGUAGE_NAME
     :language => {:file => 'TR10_LANGUAGE.TXT', :fields => [:old_id, :name]},
+    # fields: ID	NAME	PARENT_ID	DISPLAY_ORDER
+    :logo_publication => {:file => 'TR14_LOGO_PUBLICATIONS.txt', :fields => [:old_id, :name, :parent_id, :display_order]},
+    # fields: ID	LOGO_NAME	DESCRIPTION	THUMBNAIL	LOGOFILE
+    :logo_file => {:file => 'TR18_LOGO_FILES.TXT', :fields => [:old_id, :name, :description, :thumbnail, :file]},
 
-    # trying a real table, trying just a few fields
+    # trying a real table, just a few fields
     #fields: ID	TR02_TYPE	ORG_NAME	SECTOR_ID ORG_NETWORK_BIT	ORG_PARTICIPANT_BIT	ORG_NB_EMPLOY	ORG_URL
     :organization => {:file   => 'R01_ORGANIZATION.TXT',
                       :fields => [:old_id, :organization_type_id, :name, :sector_id, :local_network, :participant,
@@ -62,8 +66,12 @@ class Importer
         if field == :country_id
           o.country_id = Country.find_by_code(row[i]).id
         elsif field == :parent_id
-          # this only works for sector - for now
-          o.parent_id = Sector.find_by_icb_number(row[i]).id if row[i]
+          if name == :sector
+            # sector tree depends on the icb_number field
+            o.parent_id = Sector.find_by_icb_number(row[i]).id if row[i]
+          else
+            o.parent_id = model.find_by_old_id(row[i]).id if row[i]
+          end
         elsif field == :sector_id
           o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
         elsif field == :organization_type_id
