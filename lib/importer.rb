@@ -34,6 +34,8 @@ class Importer
                                     :contact_id, :reviewer_id, :replied_to, :purpose, :status, :accepted, :accepted_on]},
     # fields: ID	LOGO_NAME	DESCRIPTION	THUMBNAIL	LOGOFILE
     :logo_file => {:file => 'TR18_LOGO_FILES.TXT', :fields => [:old_id, :name, :description, :thumbnail, :file]},
+    # fields: ID	COMMENT_DATE	LOGO_REQUEST_ID	CONTACT_ID	TEXT
+    :logo_comment => {:file => 'TR17_LOGO_COMMENTS.TXT', :fields => [:old_id, :added_on, :logo_request_id, :contact_id, :body]},
 
     # trying a real table, just a few fields
     #fields: ID	TR02_TYPE	ORG_NAME	SECTOR_ID ORG_NETWORK_BIT	ORG_PARTICIPANT_BIT	ORG_NB_EMPLOY	ORG_URL
@@ -83,6 +85,8 @@ class Importer
           o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
         elsif field == :publication_id
           o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
+        elsif field == :logo_request_id
+          o.logo_request_id = LogoRequest.find_by_old_id(row[i]).id if row[i]
         elsif field == :organization_id
           if name == :contact
             # contact table is linked to organization by name
