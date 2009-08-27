@@ -4,7 +4,7 @@ class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :language, :cop_score, :principle,
             :interest, :role, :organization, :contact, :logo_publication, :logo_request,
-            :logo_file]
+            :logo_file, :logo_comment, :logo_approval]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -36,8 +36,9 @@ class Importer
     :logo_file => {:file => 'TR18_LOGO_FILES.TXT', :fields => [:old_id, :name, :description, :thumbnail, :file]},
     # fields: ID	COMMENT_DATE	LOGO_REQUEST_ID	CONTACT_ID	TEXT
     :logo_comment => {:file => 'TR17_LOGO_COMMENTS.TXT', :fields => [:old_id, :added_on, :logo_request_id, :contact_id, :body]},
+    # fields: ID	REQUEST_ID	LOGO_ID
+    :logo_approval => {:file => 'TR19_LOGO_APPROVALS.TXT', :fields => [:old_id, :logo_request_id, :logo_file_id]},
 
-    # trying a real table, just a few fields
     #fields: ID	TR02_TYPE	ORG_NAME	SECTOR_ID ORG_NETWORK_BIT	ORG_PARTICIPANT_BIT	ORG_NB_EMPLOY	ORG_URL
     :organization => {:file   => 'R01_ORGANIZATION.TXT',
                       :fields => [:old_id, :organization_type_id, :name, :sector_id, :local_network, :participant,
@@ -87,6 +88,8 @@ class Importer
           o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
         elsif field == :logo_request_id
           o.logo_request_id = LogoRequest.find_by_old_id(row[i]).id if row[i]
+        elsif field == :logo_file_id
+          o.logo_file_id = LogoFile.find_by_old_id(row[i]).id if row[i]
         elsif field == :organization_id
           if name == :contact
             # contact table is linked to organization by name
