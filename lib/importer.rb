@@ -3,7 +3,7 @@ require 'fastercsv'
 class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :language, :organization, :contact,
-            :cop_score]
+            :cop_score, :principle]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -13,9 +13,9 @@ class Importer
     :sector => {:file => 'TR03_SECTOR.TXT', :fields => [:name, :old_id, :icb_number, :parent_id]},
     #fields: COP_SCORE	COP_SCORE_DESCRIPTION
     :cop_score => {:file => 'TR04_COP_SCORE.TXT', :fields => [:old_id, :description]},
-
     # fields: PRINCIPLE_ID	PRINCIPLE_NAME
-    #:principle => 'TR05_PRINCIPLE.TXT',
+    :principle => {:file => 'TR05_PRINCIPLE.TXT', :fields => [:old_id, :name]},
+
     # fields: INTEREST_ID	INTEREST_NAME
     #:interest  => 'TR06_INTEREST.TXT',
     # fields: ROLE_ID ROLE_NAME
