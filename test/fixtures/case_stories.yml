@@ -1,0 +1,63 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  identifier: MyString
+  organization_id: 1
+  title: MyString
+  case_type: 1
+  category: 1
+  case_date: 2009-08-27
+  description: MyString
+  url1: MyString
+  url2: MyString
+  url3: MyString
+  author1: MyString
+  author1_institution: MyString
+  author1_email: MyString
+  author2: MyString
+  author2_institution: MyString
+  author2_email: MyString
+  reviewer1: MyString
+  reviewer1_institution: MyString
+  reviewer1_email: MyString
+  reviewer2: MyString
+  reviewer2_institution: MyString
+  reviewer2_email: MyString
+  uploaded: false
+  contact1: MyString
+  contact1_email: MyString
+  contact2: MyString
+  contact2_email: MyString
+  status: 1
+  extension: MyString
+
+two:
+  identifier: MyString
+  organization_id: 1
+  title: MyString
+  case_type: 1
+  category: 1
+  case_date: 2009-08-27
+  description: MyString
+  url1: MyString
+  url2: MyString
+  url3: MyString
+  author1: MyString
+  author1_institution: MyString
+  author1_email: MyString
+  author2: MyString
+  author2_institution: MyString
+  author2_email: MyString
+  reviewer1: MyString
+  reviewer1_institution: MyString
+  reviewer1_email: MyString
+  reviewer2: MyString
+  reviewer2_institution: MyString
+  reviewer2_email: MyString
+  uploaded: false
+  contact1: MyString
+  contact1_email: MyString
+  contact2: MyString
+  contact2_email: MyString
+  status: 1
+  extension: MyString

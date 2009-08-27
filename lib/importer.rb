@@ -4,7 +4,7 @@ class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
             :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
-            :logo_publication, :logo_request, :logo_file, :logo_comment, :logo_approval]
+            :logo_publication, :logo_request, :logo_file, :logo_comment, :logo_approval, :case_story]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.TXT', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -74,7 +74,20 @@ class Importer
                                                :facilitator, :job_title, :start_month, :end_month, :url1,
                                                :url2, :url3, :added_on, :modified_on, :contact_name,
                                                :end_year, :status, :include_ceo_letter, :include_actions, :include_measurement, :use_indicators,
-                                               :cop_score_id, :use_gri, :has_certification, :notable_program]}
+                                               :cop_score_id, :use_gri, :has_certification, :notable_program]},
+    # fields: CASE_ID	R01_ORG_NAME	CASE_TITLE	CASE_STORY_TYPE	CASE_CATEGORY	CASE_DATE	CASE_DESCRIPTION
+    #         CASE_URL_LINK1	CASE_URL_LINK2	CASE_URL_LINK3	CASE_AUTHOR	CASE_AUTHOR_INSTITUTION
+    #         CASE_AUTHOR_EMAIL	CASE_AUTHOR2	CASE_AUTHOR2_INSTITUTION	CASE_AUTHOR2_EMAIL	CASE_REVIEWER
+    #         CASE_REVIEWER_INSTITUTION	CASE_REVIEWER_EMAIL	CASE_REVIEWER2	CASE_REVIEWER2_INSTITUTION
+    #         CASE_REVIEWER2_EMAIL	CASE_FILE	CASE_CONTACT1_NAME	CASE_CONTACT1_EMAIL	CASE_CONTACT2_NAME
+    #         CASE_CONTACT2_EMAIL	CASE_STATUS	CASE_DOC_EXT
+    :case_story => {:file   => 'R07_CASE_STORY.TXT',
+                    :fields => [:identifier, :organization_id, :title, :case_type, :category, :case_date, :description,
+                                :url1, :url2, :url3, :author1, :author1_institution,
+                                :author1_email, :author2, :author2_institution, :author2_email, :reviewer1,
+                                :reviewer1_institution, :reviewer1_email, :reviewer2, :reviewer2_institution,
+                                :reviewer2_email, :uploaded, :contact1, :contact1_email, :contact2,
+                                :contact2_email, :status, :extension]}
   }
   
   # Imports all the data in files located in options[:folder]
@@ -118,8 +131,8 @@ class Importer
         elsif field == :removal_reason_id
           o.removal_reason_id = RemovalReason.find_by_old_id(row[i]).id if row[i]
         elsif field == :organization_id
-          if name == :contact || name == :communication_on_progress
-            # contact table is linked to organization by name
+          if [:contact, :communication_on_progress, :case_story].include? name
+            # some tables are linked to organization by name
             o.organization_id = Organization.find_by_name(row[i]).try(:id) if row[i]
           else
             o.organization_id = Organization.find_by_old_id(row[i]).id if row[i]
