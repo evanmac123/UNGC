@@ -2,12 +2,16 @@ require 'fastercsv'
 
 class HabtmImporter
   
-  FILES = [:case_stories_countries]
+  FILES = [:case_stories_countries, :communication_on_progresses_languages, :communication_on_progresses_countries]
   
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :case_stories_countries => {:file   => 'R10_XREF_R07_TR01.txt',
-                                :models => [Country, CaseStory]}
+                                :models => [Country, CaseStory]},
+    :communication_on_progresses_languages => {:file   => 'R13_XREF_R02_TR10.txt',
+                                               :models => [Language, CommunicationOnProgress]},
+    :communication_on_progresses_countries => {:file   => 'R14_XREF_R02_TR01.txt',
+                                               :models => [Country, CommunicationOnProgress]}
   }
   
   # Imports all the data in files located in options[:folder]
@@ -60,10 +64,12 @@ class HabtmImporter
     end
     
     def find_model_object(model, id)
-      if model == CaseStory
-        CaseStory.find_by_identifier(id)
+      if [CaseStory, CommunicationOnProgress].include? model
+        model.find_by_identifier(id)
       elsif model == Country
         Country.find_by_code(id)
+      elsif model == Language
+        Language.find_by_old_id(id)
       end
     end
 end
