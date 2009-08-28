@@ -1,6 +1,9 @@
 United Nations Global Compact
 =============================
 
+Accounts
+========
+
 OpenCms
 -------
 OpenCms login
@@ -25,3 +28,12 @@ URL: https://rpm.newrelic.com
 user: ungc@unspace.ca
 password: newrelic
 
+Data Migration
+==============
+
+We created two classes in the lib/ folder that read create a database in our format from UNGC data
+To run those files, go to a console and:
+>> Importer.new.run
+>> HabtmImporter.new.run
+
+Be patient, each run will take around 10 minutes :)
