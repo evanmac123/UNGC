@@ -1,0 +1,166 @@
+@import url(undohtml.css);
+/* OpenCms Direct Edit button fix */
+div.ocms_de_bt { visibility: hidden; position: absolute; margin-left: -400px; margin-top: -298px; z-index: 100; }
+body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
+#header { background: url(/images/header_image.jpg) top center no-repeat; width: 1000px; height: 160px; margin: 0 auto; }
+#header_content { margin: 0 auto; width: 1000px; position: relative; }
+#logo { position: absolute; top: 30px; left: 45px; }
+#languages { position: absolute; top: 20px; left: 700px; }
+#languages ul { position: relative; width: 263px; height: 11px; list-style: none;}
+#languages ul li { display: inline; margin-right: 5px;}
+#search { position: absolute; top: 60px; left: 700px; }
+#search .search_box { width: 200px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; }
+#search p { padding-top: 5px; font-size: 11px; color: #fff;  }
+#nav_bg {  width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
+#nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
+#nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
+#nav ul { list-style: none; position: absolute; top: 3px; left: 30px; height: 22px; z-index: 10;}
+#nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; }
+#nav ul li.aboutus { width: 55px; }
+#nav ul li.participate { width: 105px; }
+#nav ul li.communicating { width: 146px; }
+#nav ul li.participants { width: 160px; }
+#nav ul li.networks { width: 90px; }
+#nav ul li.issues { width: 38px; }
+#nav ul li.newsevents { width: 90px; }
+#nav ul li.login { width: 30px; border-right: 0; }
+#nav ul li a { font-size: 12px; font-weight: bold; color: #000; height: 28px; display: block; height: 100%; padding-top: 5px;}
+#nav ul li a:hover { color: #3a7a8e; }
+#nav ul li ul {list-style: none; position: relative; top: -2px; left: -13px; visibility: hidden; opacity: 0.95; }
+#nav ul li ul li { display: block; float: none; background: #fff; width: 150px; height: auto; border-bottom: 1px solid #c8c8c8; padding: 2px 13px 2px 13px; position: relative; }
+#nav ul li ul li a { font-size: 11px; color: #222; }
+#nav ul li ul.login li { width: 70px; }
+
+#content_bg { background: #f2f2f2 url(/images/gradient.jpg) left top repeat-x; border-bottom: 1px solid #ebebeb; display: block; height: inherit; width: 1000px; margin: 0 auto; }
+
+h1 { font-size: 18px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: normal; }
+h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: normal; color: #00546E; }
+
+#content_home { height: auto; width: 1000px; margin: 0 auto; position: relative; height: auto; min-height: 710px; }
+#box1 { position: absolute; top: 15px; left: 40px; width: 611px; height: 165px; background: url(/images/box1_bg.jpg) top left no-repeat; }
+#box1_content { position: relative; }
+#box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
+#box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
+#box1 div.readmore { position: absolute; top: 125px; right: 0px; width: 90px; height: 30px; background-color: #48788A; font-size: 12px; font-weight: bold; text-align: right; }
+#box1 div.readmore div { padding: 7px 6px 0 0; }
+#box1 div.readmore div a { color: #fff; }
+#box1 div.readmore div a:hover { text-decoration: underline; }
+#box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; } 
+#box2_content { position: relative; }
+#box2 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
+#box2 p { position: absolute; top: 35px; left: 25px; font-size: 23px; font-weight: 900; line-height: 23px;}
+#box2 span.value1 a { color: #f79418; }
+#box2 span.value2 a { color: #4cc5d8; }
+#box2 span.value3 a { color: #6f843d; }
+#box2 span.value4 a { color: #ed141d; }
+#box2 span a:hover { color: #00546E; }
+#box2 div.more { position: absolute; top: 125px; right: 0px; width: 30px; height: 30px; background-color: #e5e5e5; }
+#box2 div.more a { width: 100%; height: 100%; display: block; color: #000; }
+#box2 div.more a:hover { text-decoration: underline; }
+#box2 div.more div { padding: 4px 0 0 10px;}
+#news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
+#news_content { position: relative; }
+#news h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }	
+#news .news_list { width: 590px; padding: 55px 0 50px 10px; position: relative; }
+#news .blue { background-color: #e5eef0; }
+#news .news_item { position: relative; color: #666; font-size: 11px; display: block; width: 590px; padding: 4px 10px 6px 0; }
+#news .date { position: absolute; left: 6px; top: 7px; }
+#news .title { position: relative; left: 80px; top: 2px; }
+#news .news_list .title a { color: #666; }
+#news .news_list .title a:hover { border-bottom: 1px solid #666; }
+#news .morenews { position: absolute; bottom: 10px; right: 0px; width: 90px; height: 30px; background-color: #e5eef0; text-align: right; }
+#news .morenews a { font-size: 12px; color: #00546E; font-weight: bold; }
+#news .morenews a:hover { text-decoration: underline; }
+#news .morenews div { padding: 7px 6px 0 0; }
+
+#box4 { position: absolute; top: 192px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; width: 295px; max-height: 498px; min-height: 498px; }
+#box4 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }	
+#box4 div { font-size: 14px; font-weight: bold; padding: 13px; margin: 0 10px 0 10px; border-bottom: 1px solid #dfdfdf; background-color: #fff; }
+#box4 div a { display: block; width: 100%; height: 100%; }
+#box4 div.ungc a { color: #00546E; }
+#box4 div.human_rights a { color: #F7931E; }
+#box4 div.labour a { color: #52C6D8; }
+#box4 div.environment a { color: #688442; }
+#box4 div.anticorruption a { color: #ED1C24; }
+#box4 div.partnerships a { color: #CADB2A; }
+#box4 div.networks a { color: #710000; }
+#box4 div.business_peace a { color: #F5386#; }
+#box4 div.financial a { color: #404850; }
+#box4 div.cop a { color: #FFD900; }
+#box4 div.first { margin-top: 56px; }
+#box4 div.last { border-bottom: 0; }
+
+#box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; background: top left no-repeat; border: 4px solid #d9e2e5; }
+#box5 { left: 40px; background: url(/images/box5_bg.jpg); }
+#box5 h2 { padding: 25px 0 0 15px; }
+#box5 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px;}
+#box5 p a { color: #555; }
+#box6 { left: 357px; background: url(/images/box6_bg.jpg); }
+#box6 h2 { padding: 25px 0 0 15px; }
+#box6 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px; }
+#box6 p a { color: #555; }
+#box5 p a:hover, #box6 p a:hover { text-decoration: underline; }
+
+#footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
+#footer_content { width: 1000px; margin: 0 auto; position: relative; }
+#logos { position: absolute; top: 30px; left: 50px; }
+#logos ul { background: url(/images/footer_logos.jpg) top left no-repeat; width: 553px; height: 42px; list-style: none; position: relative;}
+#logos ul li { display: inline; position: absolute; top: -5px; height: 40px; }
+#logos ul li a { width: 100%; height: 100%; display: block; opacity: 1; background: none; }
+#logos ul li a:hover { opacity: 0.25; background: #fff; }
+#logos ul li.logo1 { left: 0px; width: 40px; }
+#logos ul li.logo2 { left: 45px; width: 40px; }
+#logos ul li.logo3 { left: 93px; width: 40px; }
+#logos ul li.logo4 { left: 140px; width: 40px; }
+#logos ul li.logo5 { left: 193px; width: 20px; }
+#logos ul li.logo6 { left: 222px; width: 40px; }
+#logos ul li.logo7 { left: 270px; width: 40px; }
+#logos ul li.logo8 { left: 318px; width: 40px; }
+#logos ul li.logo9 { left: 367px; width: 40px; }
+#footer_nav { position: absolute; left: 50px; top: 80px; }
+#footer_nav li { display: inline; border-right: 1px solid #666; padding: 0 5px 0 1px; margin: 0; }
+#footer_nav li.last { border: 0; }
+#footer_nav li a { font-size: 12px; color: #666;  }
+#bulletin_signup { position: absolute; top: 25px; right: 120px; width: 200px; border: 0px solid #e5e5e5; }
+/**** inner ****/
+#content_inner { display: block; width: 1000px; margin: 0 auto; position: relative; }
+#content_inner h1.title { font-size: 20px; font-weight: bold; color: #FFF; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; }
+#inner_head { width: 920px; height: 62px; margin: 0px 30px 15px 30px; position: relative; top: 15px; }
+#inner_head h1 { position: absolute; top: 20px; left: 20px; }
+#inner_head p a { color: #FFF; font-size: 11px; margin-left: 17px; }
+#inner_head p a:hover { text-decoration: underline; }
+#inner_head p.print { position: absolute; top: 25px; left: 790px; background: url(print_icon.png) top left no-repeat; }
+#inner_head p.send { position: absolute; top: 25px; left: 855px; background: url(email_icon.png) top left no-repeat; }
+#inner_body { display: block; height: 100%; width: 920px; position: relative; left: 30px;  }
+#leftnav { width: 270px; position: absolute; top: 15px; left: 0px; background-color: #fff; border: 1px solid #dadada; }
+#leftnav ul { list-style: none; }
+#leftnav ul li { width: 264px; height: 30px; background-color: #f2f2f2; margin: 2px 3px 2px 3px; }
+#leftnav ul li a { font-size: 12px; color: #666; display: block; padding: 9px 0 0 16px; }
+#leftnav ul li a:hover { text-decoration: underline; }
+#leftnav ul li.selected { background-color: #00546E; }
+#leftnav ul li.selected a { font-weight: bold; color: #fff; }
+#leftnav ul li.sub { height: auto; background-color: #e5eef0; }
+#leftnav ul li.sub a { font-size: 11px; font-weight: normal; color: #00546E; padding: 6px 10px 6px 30px; text-indent: -9px; }
+#leftnav ul li.sub a.sub_selected { font-weight: bold; }
+#rightcontent { min-height: 500px; height: auto !important; height: 500px; position: relative; top: 15px; left: 285px; width: 635px; background-color: #fff; border: 1px solid #dadada; margin-bottom: 35px; }
+#rightcontent .path { height: auto; width: 635px; padding-bottom: 5px; border-bottom: 1px solid #d9d9d9; }
+#rightcontent .path p { font-size: 11px; color: #a6a6a6; padding: 14px 0 0 30px; }
+#rightcontent .path a { color: #a6a6a6; }
+#rightcontent .path a:hover { text-decoration: underline; }
+#rightcontent .bookmarks { float: right; position: relative; margin: 10px 10px 20px 10px;}
+#rightcontent .bookmarks ol li { list-style: none; display: inline; margin: 0px 5px; }
+#rightcontent .copy { width: 576px; padding: 15px 0 0 30px; }
+#rightcontent .copy { color: #222; font-size: 12px; margin-bottom: 10px; line-height: 19px; }
+#rightcontent .copy p { margin-bottom: 10px; }
+#rightcontent .copy a { color: #2993A5; text-decoration: none; }
+#rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
+#rightcontent .copy a:visited { color: #00546E; }
+#rightcontent .copy h1 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 19px; font-weight: bold; margin-bottom: 15px; color: #00546E; line-height: 1.2; }
+#rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
+#rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 16px 0; color: #00546E; }
+#rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; }
+#rightcontent .copy .highlight_box { padding: 10px 15px; margin: 5px 0px; width: 100%; height: auto; background-color: #e5eef0; color: #222; }
+#rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
+#rightcontent .copy ul { list-style: disc; margin: 0 0 10px 40px; }
+#rightcontent .copy ol li, #rightcontent .copy ul li { font-size: 12px; line-height: 19px; }
+#rightcontent .blue { background-color: #e5eef0 };

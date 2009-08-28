@@ -1,0 +1,16 @@
+- inside_layout 'outer' do
+  #content_bg
+    #content_inner
+      = render :partial => 'layouts/inner_head'
+      #inner_body
+        #leftnav= render :partial => 'layouts/leftnav'
+        #rightcontent
+          .path
+            %p
+              %a{ :href => "../index.html" }
+                Home
+              \/
+              %a{ :href => "index.html" }
+              Overview
+          .copy
+            = yield

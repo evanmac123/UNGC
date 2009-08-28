@@ -1,1 +1,1 @@
-= @page.content
+= Liquid::Template.parse(@page.content).render 'country' => Country.find(:first) # @page.content
