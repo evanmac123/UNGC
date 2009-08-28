@@ -2,7 +2,8 @@ require 'fastercsv'
 
 class HabtmImporter
   
-  FILES = [:case_stories_countries, :communication_on_progresses_languages, :communication_on_progresses_countries]
+  FILES = [:case_stories_countries, :communication_on_progresses_languages, :communication_on_progresses_countries,
+            :communication_on_progresses_principles]
   
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
@@ -11,7 +12,9 @@ class HabtmImporter
     :communication_on_progresses_languages => {:file   => 'R13_XREF_R02_TR10.txt',
                                                :models => [Language, CommunicationOnProgress]},
     :communication_on_progresses_countries => {:file   => 'R14_XREF_R02_TR01.txt',
-                                               :models => [Country, CommunicationOnProgress]}
+                                               :models => [Country, CommunicationOnProgress]},
+    :communication_on_progresses_principles => {:file   => 'R15_XREF_R02_TR05.txt',
+                                                :models => [CommunicationOnProgress, Principle]}
   }
   
   # Imports all the data in files located in options[:folder]
@@ -68,8 +71,8 @@ class HabtmImporter
         model.find_by_identifier(id)
       elsif model == Country
         Country.find_by_code(id)
-      elsif model == Language
-        Language.find_by_old_id(id)
+      else
+        model.find_by_old_id(id)
       end
     end
 end
