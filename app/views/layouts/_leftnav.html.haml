@@ -1,22 +1,5 @@
 %ul
-  %li.selected
-    %a{ :href => "/pages/index.html" }
-      Overview
-  %li
-    %a{ :href => "/pages/cop_search.html" }
-      COP Search
-  %li
-    %a{ :href => "/pages/notable_cops.html" }
-      Notable COPs
-  %li
-    %a{ :href => "/pages/Guidance_Material/index.html" }
-      Guidance Material
-  %li
-    %a{ :href => "/pages/non_communicating.html" }
-      Non-communicating participants
-  %li
-    %a{ :href => "/pages/inactives.html" }
-      Inactive participants
-  %li
-    %a{ :href => "/pages/case_search.html" }
-      Case Search
+  - current_section.children.each do |child|
+    %li{:class => selected?(child) ? 'selected' : ''}
+      = link_to child.label, child.href
+      - # TODO: sub-sub-sections
