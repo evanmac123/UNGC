@@ -59,8 +59,8 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :organization do |a|
-    
+  attributes_for :organization do |o|
+    o.name = 'Unspace'
 	end
 
   attributes_for :principle do |a|
