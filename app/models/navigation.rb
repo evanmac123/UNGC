@@ -13,9 +13,16 @@
 #
 
 class Navigation < ActiveRecord::Base
-  acts_as_tree :order => "position"
+  # acts_as_tree :order => "position"
+  has_many :children, :order => "position ASC", :class_name => 'Navigation', :foreign_key => :parent_id
   
   def self.sections
-    find :all, :conditions => "parent_id is null"
+    find :all, :conditions => "parent_id is null", :include => :children
   end
+  
+  def parent
+    return nil unless parent_id
+    self.class.find :first, :conditions => ["id = ?", parent_id]
+  end
+  
 end
