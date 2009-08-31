@@ -4,7 +4,8 @@ require 'hpricot'
 require 'facets'
 require 'pp'
 
-root = '/Users/joshua/Sites/unspace/demo.unglobalcompact.org/'
+# root = '/Users/joshua/Sites/unspace/demo.unglobalcompact.org/'
+root = '/Users/joshua/Sites/unspace/opencms_export/unglobalcompact/'
 def Dir.stuff(path)
   not_stuff = ['.', '..', '.DS_Store']
   entries(path) - not_stuff
@@ -23,6 +24,124 @@ end
 
 files = get_files_from(root)
 
+Navigation.delete_all
+aboutus = [{:href=>"/pages/AboutTheGC/index.html", :label=>"Overview"},
+ {:href=>"/pages/AboutTheGC/TheTenPrinciples/index.html",
+  :label=>"The Ten Principles"},
+ {:href=>"/pages/AboutTheGC/stages_of_development.html",
+  :label=>"Global Compact Governance"},
+ {:href=>"/pages/AboutTheGC/The_Global_Compact_Board.html",
+  :label=>"The Global Compact Board"},
+ {:href=>"/pages/AboutTheGC/Government_Support.html",
+  :label=>"Government Support"},
+ {:href=>"/pages/AboutTheGC/integrity.html", :label=>"Integrity Measures"},
+ {:href=>"/pages/AboutTheGC/Global_Compact_Logo/index.html",
+  :label=>"Global Compact Logo"},
+ {:href=>"/pages/AboutTheGC/faq.html", :label=>"FAQ"},
+ {:href=>"/pages/AboutTheGC/publications.html", :label=>"Tools and Resources"},
+ {:href=>"/pages/AboutTheGC/Internship_at_the_Global_Compact.html",
+  :label=>"Internships in the Global Compact Office"},
+ {:href=>"/pages/AboutTheGC/The_GC_Foundation.html",
+  :label=>"Foundation for the Global Compact"},
+ {:href=>"/pages/AboutTheGC/contact_us.html", :label=>"Contact Us"}]
+ 
+participate =  [{:href=>"/pages/HowToParticipate/index.html", :label=>"Overview"},
+  {:href=>"/pages/HowToParticipate/Business_Participation/index.html",
+   :label=>"Business Participation"},
+  {:href=>"/pages/HowToParticipate/civil_society/index.html",
+   :label=>"Civil Society"},
+  {:href=>"/pages/HowToParticipate/academic_network/index.html",
+   :label=>"Academic Participation"},
+  {:href=>"/pages/HowToParticipate/business_associations.html",
+   :label=>"Business Associations"},
+  {:href=>"/pages/HowToParticipate/labour.html", :label=>"Labour"},
+  {:href=>"/pages/HowToParticipate/cities.html", :label=>"Cities"},
+  {:href=>"/pages/HowToParticipate/Engagement_Opportunities/index.html",
+   :label=>"Engagement Opportunities"}]
+   
+cop =    [{:href=>"/pages/COP/index.html", :label=>"Overview"},
+    {:href=>"/pages/COP/cop_search.html", :label=>"COP Search"},
+    {:href=>"/pages/COP/notable_cops.html", :label=>"Notable COPs"},
+    {:href=>"/pages/COP/Guidance_Material/index.html",
+     :label=>"Guidance Material"},
+    {:href=>"/pages/COP/non_communicating.html",
+     :label=>"Non-Communicating Participants"},
+    {:href=>"/pages/COP/inactives.html", :label=>"Inactive Participants"},
+    {:href=>"/pages/COP/case_search.html", :label=>"Case Search"}]
+
+participants =     [{:href=>"/pages/ParticipantsAndStakeholders/index.html", :label=>"Overview"},
+     {:href=>"/pages/ParticipantsAndStakeholders/search_participant.html",
+      :label=>"Participant Search"},
+     {:href=>"/pages/ParticipantsAndStakeholders/un_agencies/index.html",
+      :label=>"UN Agencies"},
+     {:href=>"/pages/ParticipantsAndStakeholders/business_associations.html",
+      :label=>"Business Associations"},
+     {:href=>"/pages/ParticipantsAndStakeholders/labour.html", :label=>"Labour"},
+     {:href=>"/pages/ParticipantsAndStakeholders/civil_society.html",
+      :label=>"Civil Society"},
+     {:href=>"/pages/ParticipantsAndStakeholders/academic_participation.html",
+      :label=>"Academic Participants"},
+     {:href=>"/pages/ParticipantsAndStakeholders/public_sector.html",
+      :label=>"Public Sector"},
+     {:href=>"/pages/ParticipantsAndStakeholders/cities.html", :label=>"Cities"}]
+     
+networks =      [{:href=>"/pages/NetworksAroundTheWorld/index.html", :label=>"Overview"},
+      {:href=>"/pages/NetworksAroundTheWorld/Meetings_and_Events.html",
+       :label=>"Meetings and Events"},
+      {:href=>"/pages/NetworksAroundTheWorld/Guidelines_and_Recommendations.html",
+       :label=>"Guidelines and Recommendations"},
+      {:href=>"/pages/NetworksAroundTheWorld/networks_news.html",
+       :label=>"Network News Archive"},
+      {:href=>"/pages/NetworksAroundTheWorld/gc_networks_report_on_activities.html",
+       :label=>"Local Networks Report on Activities"}]
+
+issues =        [{:href=>"/pages/Issues/index.html", :label=>"Overview"},
+        {:href=>"/pages/Issues/human_rights/index.html", :label=>"Human Rights"},
+        {:href=>"/pages/Issues/Labour/index.html", :label=>"Labour"},
+        {:href=>"/pages/Issues/Environment/index.html", :label=>"Environment"},
+        {:href=>"/pages/Issues/transparency_anticorruption/index.html",
+         :label=>"Anti-Corruption"},
+        {:href=>"/pages/Issues/conflict_prevention/index.html",
+         :label=>"Business and Peace"},
+        {:href=>"/pages/Issues/financial_markets/index.html",
+         :label=>"Financial Markets"},
+        {:href=>"/pages/Issues/partnerships/index.html",
+         :label=>"Partnerships for Development"},
+        {:href=>"/pages/Issues/Business_Partnerships/index.html",
+         :label=>"UN/Business Partnerships"}]
+
+news =          [{:href=>"/pages/NewsAndEvents/index.html", :label=>"Recent Headlines"},
+          {:href=>"/pages/NewsAndEvents/upcoming_events_2009.html",
+           :label=>"Event Calendar"},
+          {:href=>"/pages/NewsAndEvents/UNGC_bulletin/index.html",
+           :label=>"Monthly Bulletin"},
+          {:href=>"/pages/NewsAndEvents/Speeches.html", :label=>"Speeches"},
+          {:href=>"/pages/NewsAndEvents/Academic_Literature.html",
+           :label=>"Academic Literature"},
+          {:href=>"/pages/NewsAndEvents/news_archives/index.html", :label=>"Archive"},
+          {:href=>"/pages/NewsAndEvents/media_contacts.html", :label=>"Media Contacts"}]
+
+[
+  { :label => 'About Us', :short => 'aboutus', :href => "/pages/AboutTheGC/index.html", :children => aboutus },
+  { :label => 'How to Participate', :short => 'participate', :href => "/pages/HowToParticipate/index.html", :children => participate },
+  { :label => 'Communicating Progress', :short => 'communicating', :href => "/pages/COP/index.html", :children => cop },
+  { :label => 'Participants & Stakeholders', :short => 'participants', :href => "/pages/ParticipantsAndStakeholders/index.html", :children => participants },
+  { :label => 'Local Networks', :short => 'networks', :href => "/pages/NetworksAroundTheWorld/index.html", :children => networks },
+  { :label => 'Issues', :short => 'issues', :href => "/pages/Issues/index.html", :children => issues },
+  { :label => 'News & Events', :short => 'newsevents', :href => "/pages/NewsAndEvents/index.html", :children => news },
+  { :label => 'Login', :short => 'login', :href => '/login', :children => [] }
+].inject(0) do |position, section|
+  parent = Navigation.create :label => section[:label], :short => section[:short], :href => section[:href], :position => position
+  if section[:children].any?
+    section[:children].inject(0) do |c_position, child|
+      Navigation.create :label => child[:label], :href => child[:href], :position => c_position, :parent => parent
+      c_position + 1
+    end
+  end
+  position + 1
+end
+
+Content.delete_all
 files.each do |filename|
   # filename = files.rand
   # filename = '/Users/joshua/Sites/unspace/demo.unglobalcompact.org/NewsAndEvents/speeches_and_statements/dsg_statement_russian_business_community.html'

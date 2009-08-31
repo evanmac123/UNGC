@@ -1,0 +1,50 @@
+require 'pp'
+
+string =<<-EOF
+%li
+  %a{ :href => "/pages/NewsAndEvents/index.html" }
+    Recent Headlines
+%li
+  %a{ :href => "/pages/NewsAndEvents/upcoming_events_2009.html" }
+    Event Calendar
+%li
+  %a{ :href => "/pages/NewsAndEvents/UNGC_bulletin/index.html" }
+    Monthly Bulletin
+%li
+  %a{ :href => "/pages/NewsAndEvents/Speeches.html" }
+    Speeches
+%li
+  %a{ :href => "/pages/NewsAndEvents/Academic_Literature.html" }
+    Academic Literature
+%li
+  %a{ :href => "/pages/NewsAndEvents/news_archives/index.html" }
+    Archive
+%li
+  %a{ :href => "/pages/NewsAndEvents/media_contacts.html" }
+    Media Contacts
+EOF
+
+array = string.split(/%li/)
+array = array.map { |s| s.strip }.reject { |s| s == '' }
+array = array.map { |s| 
+  split = s.split(/\n\s+/)
+  match = split.first =~ /:href => "([^"]+)"/
+  { :href => $1, :label => split.last } 
+}
+
+pp array
+
+# array = [
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/index.html\" }", :label=>"Overview},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/TheTenPrinciples/index.html\" }", :label=>"The Ten Principles},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/stages_of_development.html\" }", :label=>"Global Compact Governance},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/The_Global_Compact_Board.html\" }", :label=>"The Global Compact Board},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/Government_Support.html\" }", :label=>"Government Support},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/integrity.html\" }", :label=>"Integrity Measures},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/Global_Compact_Logo/index.html\" }", :label=>"Global Compact Logo},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/faq.html\" }", :label=>"FAQ},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/publications.html\" }", :label=>"Tools and Resources},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/Internship_at_the_Global_Compact.html\" }", :label=>"In    ships in the Global Compact Office},
+#   {:first=>"%a{ :href => \"/pages/AboutTheGC/The_GC_Foundation.html\" }", :label=>"Foundation for the Global Compact},
+#   {:first=>"%a{ :href => \"/p        utTheGC/contact_us.html\" }", :label=>"Contact Us"}
+# ]
