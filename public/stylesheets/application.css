@@ -3,6 +3,32 @@
 div.ocms_de_bt { visibility: hidden; position: absolute; margin-left: -400px; margin-top: -298px; z-index: 100; }
 body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
 #header { background: url(/images/header_image.jpg) top center no-repeat; width: 1000px; height: 160px; margin: 0 auto; }
+
+
+/* TODO Banners:
+banner_websiteinfo.png
+banner_anti_corruption.png
+banner_business_peace.png
+banner_environment_c4c.png
+banner_environment_ceo.png
+banner_environment.png
+banner_financial.png
+banner_human_rights.png
+banner_labour.png
+banner_partnerships.png
+banner_search_website.png
+banner_un_business.png */
+
+body               #inner_head { background: url(/images/banner_default.png); }
+body.aboutus       #inner_head { background: url(/images/banner_aboutus.png); } 
+body.communicating #inner_head { background: url(/images/banner_cop.png); } 
+body.issues        #inner_head { background: url(/images/banner_issues.png); }
+body.newsevents    #inner_head { background: url(/images/banner_newsandevents.png); }
+body.networks      #inner_head { background: url(/images/banner_local_networks.png); }
+body.participants  #inner_head { background: url(/images/banner_participantsandstakeholders.png); }
+body.participate #inner_head { background: url(/images/banner_howtoparticipate.png); }
+
+
 #header_content { margin: 0 auto; width: 1000px; position: relative; }
 #logo { position: absolute; top: 30px; left: 45px; }
 #languages { position: absolute; top: 20px; left: 700px; }

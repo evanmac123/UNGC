@@ -7,7 +7,7 @@
     - (@css || []).each do |file|
       = stylesheet_link_tag file
     = stylesheet_link_tag 'print', :media => 'print'
-  %body{:class => ENV["RAILS_ENV"]}
+  %body{:class => "#{ENV["RAILS_ENV"]} #{current_section ? current_section.short : 'home'}"}
     = render :partial => 'layouts/header'
     = yield
     = render :partial => 'layouts/footer'
