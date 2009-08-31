@@ -2,7 +2,9 @@ module NavigationHelper
   def current_section
     unless @current_section
       current_or_parent = Navigation.find_by_href(url_for)
-      @current_section = current_or_parent.parent ? current_or_parent.parent : current_or_parent
+      if current_or_parent
+        @current_section = current_or_parent.parent ? current_or_parent.parent : current_or_parent
+      end
     end
     @current_section
   end

@@ -1,5 +1,6 @@
 %ul
-  - current_section.children.each do |child|
-    %li{:class => selected?(child) ? 'selected' : ''}
-      = link_to child.label, child.href
-      - # TODO: sub-sub-sections
+  - if current_section
+    - current_section.children.each do |child|
+      %li{:class => selected?(child) ? 'selected' : ''}
+        = link_to child.label, child.href
+        - # TODO: sub-sub-sections
