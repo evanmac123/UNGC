@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^system/modules/org.un.globalcompact.templates/resources/mwdesign/(.*)	/images/$1	[F,L]
