@@ -1,0 +1,29 @@
+%h1 New organization
+
+- form_for(@organization) do |f|
+  = f.error_messages
+  %p
+    = f.label :name
+    %br/
+    = f.text_field :name
+  %p
+    = f.label :employees
+    %br
+    = f.text_field :employees
+  
+  %h2 Contact
+  
+  - f.fields_for :contacts do |contact_form|
+    %p
+      = contact_form.label :first_name
+      %br
+      = contact_form.text_field :first_name
+    %p
+      = contact_form.label :last_name
+      %br
+      = contact_form.text_field :last_name
+  
+  %p
+    = f.submit 'Create'
+
+= link_to 'Back', organizations_path

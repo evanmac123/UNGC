@@ -1,0 +1,19 @@
+%h1 Editing organization
+
+- form_for(@organization) do |f|
+  = f.error_messages
+
+  %p
+    = f.label :name
+    %br/
+    = f.text_field :name
+  %p
+    = f.label :employees
+    %br
+    = f.text_field :employees
+  %p
+    = f.submit 'Update'
+
+= link_to 'Show', @organization
+|
+= link_to 'Back', organizations_path
