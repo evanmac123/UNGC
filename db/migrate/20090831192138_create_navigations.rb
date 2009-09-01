@@ -9,6 +9,9 @@ class CreateNavigations < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :navigations, :parent_id
+    add_index :navigations, :href
   end
 
   def self.down

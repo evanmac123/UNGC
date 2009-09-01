@@ -1,9 +1,8 @@
 class CreateContents < ActiveRecord::Migration
   def self.up
     create_table :contents do |t|
-      t.string :path
-      t.text :crumbs
       t.text :content
+      t.string :path
 
       t.timestamps
     end

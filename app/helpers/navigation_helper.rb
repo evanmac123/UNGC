@@ -1,7 +1,7 @@
 module NavigationHelper
   def current_section
     unless @current_section
-      current_or_parent = Navigation.find_by_href(url_for)
+      current_or_parent = Navigation.find_by_href(look_for_path)
       if current_or_parent
         @current_section = current_or_parent.parent ? current_or_parent.parent : current_or_parent
       end
@@ -10,7 +10,7 @@ module NavigationHelper
   end
   
   def selected?(navigation)
-    navigation.href == url_for
+    navigation.href == look_for_path
   end
   
   def top_nav_bar(section_children_content='')
