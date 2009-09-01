@@ -9,10 +9,15 @@ class PagesController < ApplicationController
   private
   
   def determine_layout
-    home_page? ? 'home' : 'application'
+    if home_page? 
+      'home'
+    else
+      'application'
+    end
   end
   
   def home_page?
     current_url == root_path
   end
+  helper_method :home_page?
 end

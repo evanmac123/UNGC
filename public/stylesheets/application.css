@@ -6,27 +6,28 @@ body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
 
 
 /* TODO Banners:
-banner_websiteinfo.png
-banner_anti_corruption.png
-banner_business_peace.png
-banner_environment_c4c.png
-banner_environment_ceo.png
-banner_environment.png
-banner_financial.png
-banner_human_rights.png
-banner_labour.png
-banner_partnerships.png
 banner_search_website.png
-banner_un_business.png */
+*/
 
-body               #inner_head { background: url(/images/banner_default.png); }
-body.aboutus       #inner_head { background: url(/images/banner_aboutus.png); } 
-body.communicating #inner_head { background: url(/images/banner_cop.png); } 
-body.issues        #inner_head { background: url(/images/banner_issues.png); }
-body.newsevents    #inner_head { background: url(/images/banner_newsandevents.png); }
-body.networks      #inner_head { background: url(/images/banner_local_networks.png); }
-body.participants  #inner_head { background: url(/images/banner_participantsandstakeholders.png); }
-body.participate #inner_head { background: url(/images/banner_howtoparticipate.png); }
+body                 #inner_head { background: url(/images/banner_default.png); }
+body.aboutus         #inner_head { background: url(/images/banner_aboutus.png); } 
+body.communicating   #inner_head { background: url(/images/banner_cop.png); } 
+body.issues          #inner_head { background: url(/images/banner_issues.png); }
+body.newsevents      #inner_head { background: url(/images/banner_newsandevents.png); }
+body.networks        #inner_head { background: url(/images/banner_local_networks.png); }
+body.participants    #inner_head { background: url(/images/banner_participantsandstakeholders.png); }
+body.participate     #inner_head { background: url(/images/banner_howtoparticipate.png); }
+body.anti_corruption #inner_head { background: url(/images/banner_anti_corruption.png); }
+body.business_peace  #inner_head { background: url(/images/banner_business_peace.png); }
+body.environment     #inner_head { background: url(/images/banner_environment.png); }
+body.financial       #inner_head { background: url(/images/banner_financial.png); }
+body.human_rights    #inner_head { background: url(/images/banner_human_rights.png); }
+body.labour          #inner_head { background: url(/images/banner_labour.png); }
+body.partnerships    #inner_head { background: url(/images/banner_partnerships.png); }
+body.un_business     #inner_head { background: url(/images/banner_un_business.png); }
+body.websiteinfo     #inner_head { background: url(/images/banner_websiteinfo.png); }
+body.environment_c4c #inner_head { background: url(/images/banner_environment_c4c.png); }
+body.environment_ceo #inner_head { background: url(/images/banner_environment_ceo.png); }
 
 
 #header_content { margin: 0 auto; width: 1000px; position: relative; }

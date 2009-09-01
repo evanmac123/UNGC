@@ -55,6 +55,11 @@ module FixtureReplacement
     
 	end
 
+  attributes_for :navigation do |n|
+    n.label = String.random
+    n.href  = String.random
+  end
+
   attributes_for :organization_type do |a|
     
 	end

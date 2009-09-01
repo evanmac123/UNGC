@@ -6,6 +6,7 @@ class CreateNavigations < ActiveRecord::Migration
       t.string :short
       t.integer :parent_id
       t.integer :position
+      t.boolean :top_nav, :default => true
 
       t.timestamps
     end

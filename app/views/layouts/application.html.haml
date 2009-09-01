@@ -6,11 +6,6 @@
         #leftnav= render :partial => 'layouts/leftnav'
         #rightcontent
           .path
-            %p
-              %a{ :href => "../index.html" }
-                Home
-              \/
-              %a{ :href => "index.html" }
-              Overview
+            %p= breadcrumbs
           .copy
             = yield
