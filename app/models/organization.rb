@@ -8,7 +8,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :contacts
   
   state_machine :state, :initial => :incomplete do
-    event :sign do
+    event :submit do
       transition :from => :incomplete, :to => :pending
     end
     event :approve do
@@ -18,4 +18,9 @@ class Organization < ActiveRecord::Base
       transition :from => :pending, :to => :rejected
     end
   end
+
+  named_scope :incomplete, :conditions => {:state => "incomplete"}
+  named_scope :pending, :conditions => {:state => "pending"}
+  named_scope :approved, :conditions => {:state => "approved"}
+  named_scope :rejected, :conditions => {:state => "rejected"}
 end
