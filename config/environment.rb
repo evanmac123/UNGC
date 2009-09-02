@@ -16,3 +16,5 @@ Rails::Initializer.run do |config|
 
   config.time_zone = 'UTC'
 end
+
+ActionView::Base.default_form_builder = LabelFormBuilder
