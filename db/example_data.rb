@@ -7,8 +7,9 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :contact do |a|
-    
+  attributes_for :contact do |c|
+    c.first_name = String.random
+    c.last_name = String.random
 	end
 
   attributes_for :cop_score do |a|
