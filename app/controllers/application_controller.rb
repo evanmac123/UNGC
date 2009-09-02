@@ -12,11 +12,16 @@ class ApplicationController < ActionController::Base
     url_for :only_path => true
   end
   helper_method :current_url
+  
+  def home_page?
+    current_url == root_path
+  end
+  helper_method :home_page?
 
   def look_for_path
     unless @look_for_path
-      @look_for_path = "/#{params[:path].join('/')}"
-      @look_for_path << '/index.html' unless @look_for_path =~ /\.html$/
+      @look_for_path = "/#{params[:path].join('/')}" if params[:path]
+      @look_for_path << '/index.html' if @look_for_path unless @look_for_path =~ /\.html$/
     end
     @look_for_path
   end

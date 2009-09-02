@@ -10,6 +10,10 @@ module FixtureReplacement
     c.last_name = String.random
 	end
 
+  attributes_for :content do |c|
+    
+  end
+
   attributes_for :cop_score do |a|
 	end
 

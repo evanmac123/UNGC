@@ -4,6 +4,22 @@ div.ocms_de_bt { visibility: hidden; position: absolute; margin-left: -400px; ma
 body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
 #header { background: url(/images/header_image.jpg) top center no-repeat; width: 1000px; height: 160px; margin: 0 auto; }
 
+div.click_to_edit {
+	float: right;
+	width: 8em;
+	font-size: 10pt;
+	text-align: center;
+}
+
+div.click_to_edit a {
+	display: block;
+	border: 1px solid #E0E0E0;
+	padding: 0.5em 1em;
+}
+
+div.click_to_edit a:hover {
+	background: #FFC;
+}
 
 /* TODO Banners:
 banner_search_website.png

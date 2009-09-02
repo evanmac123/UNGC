@@ -1,9 +1,19 @@
 class PagesController < ApplicationController
+  before_filter :find_content
   layout :determine_layout
   
   def view
-    @page = Content.for_path(look_for_path)
-    render :text => 'Not Found', :status => 404 unless @page
+  end
+
+  def decorate
+    if request.xhr? && true # TODO: can_edit?
+      render :update do |page|
+        page << "include('/javascripts/admin.js'); include('/ckeditor/ckeditor.js');"
+        page['#rightcontent'].prepend render(:partial => 'editor')
+      end
+    else
+      render :text => 'Not here', :status => 403 and return false
+    end
   end
 
   private
@@ -16,8 +26,8 @@ class PagesController < ApplicationController
     end
   end
   
-  def home_page?
-    current_url == root_path
+  def find_content
+    @page = Content.for_path(look_for_path)
+    render :text => 'Not Found', :status => 404 and return false unless @page
   end
-  helper_method :home_page?
 end

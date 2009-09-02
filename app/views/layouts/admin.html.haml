@@ -1,9 +1,18 @@
 !!!
-%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+%html
   %head
-    %meta{:"http-equiv" => "content-type", :content => "text/html;charset=UTF-8"}
-    %title== #{controller.controller_name.titleize}: #{controller.action_name}
-    = stylesheet_link_tag 'scaffold'
-  %body
+    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
+    %title= @title || "United Nations Global Compact | #{controller.controller_name.titleize}: #{controller.action_name}"
+    = stylesheet_link_tag 'scaffold', 'jquery-ui', 'application', 'admin'
+    - (@css || []).each do |file|
+      = stylesheet_link_tag file
+    = stylesheet_link_tag 'print', :media => 'print'
+  %body{:class => "#{ENV["RAILS_ENV"]} admin"}
+    =# render :partial => 'layouts/header'
     %p{style="color: green"}= flash[:notice]
     = yield
+    =# render :partial => 'layouts/footer'
+    = javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery?
+    = javascript_include_tag 'jquery', 'jquery-ui', 'application'
+    - (@javascript || []).each do |file|
+      = javascript_include_tag file
