@@ -12,9 +12,17 @@
   
   - f.fields_for :contacts do |contact_form|
     = contact_form.text_field :first_name
+    = contact_form.text_field :middle_name
     = contact_form.text_field :last_name
     = contact_form.text_field :job_title
     = contact_form.text_field :email
+    = contact_form.text_field :phone
+    = contact_form.text_field :fax
+    = contact_form.text_field :address
+    = contact_form.text_field :city
+    = contact_form.text_field :state
+    = contact_form.text_field :postal_code
+    = contact_form.select :country_id, options_for_select(Country.all.collect{|country| [country.name, country.id]})
   
   %p
     = f.submit 'Create'
