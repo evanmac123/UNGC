@@ -1,19 +1,13 @@
 class OrganizationsController < ApplicationController
+  before_filter :load_organization, :only => [:show, :edit, :update, :destroy]
+  
   def index
     @organizations = Organization.paginate :per_page => 10, :page => params[:page]
-  end
-
-  def show
-    @organization = Organization.find(params[:id])
   end
 
   def new
     @organization = Organization.new
     @organization.contacts << @organization.contacts.new
-  end
-
-  def edit
-    @organization = Organization.find(params[:id])
   end
 
   def create
@@ -28,8 +22,6 @@ class OrganizationsController < ApplicationController
   end
 
   def update
-    @organization = Organization.find(params[:id])
-
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to(@organization)
@@ -39,8 +31,12 @@ class OrganizationsController < ApplicationController
   end
 
   def destroy
-    @organization = Organization.find(params[:id])
     @organization.destroy
     redirect_to(organizations_url)
   end
+
+  private
+    def load_organization
+      @organization = Organization.find(params[:id])
+    end
 end
