@@ -7,10 +7,22 @@
     %br/
     = f.text_field :name
   %p
+    = f.label :url
+    %br
+    = f.text_field :url
+  %p
+    = f.label :sector_id
+    %br
+    = f.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
+  %p
     = f.label :employees
     %br
     = f.text_field :employees
-  
+  %p
+    = f.label :country_id
+    %br
+    = f.select :country_id, options_for_select(Country.all.collect{|country| [country.name, country.id]})
+
   %h2 Contact
   
   - f.fields_for :contacts do |contact_form|
