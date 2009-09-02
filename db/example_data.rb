@@ -15,6 +15,10 @@ module FixtureReplacement
   end
 
   attributes_for :cop_score do |a|
+    
+  end
+
+  attributes_for :cop_score do |a|
 	end
 
   attributes_for :country do |a|
