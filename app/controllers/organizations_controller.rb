@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_filter :load_organization, :only => [:show, :edit, :update, :destroy]
+  before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject]
   
   def index
     @organizations = Organization.paginate :per_page => 10, :page => params[:page]
@@ -33,6 +33,16 @@ class OrganizationsController < ApplicationController
   def destroy
     @organization.destroy
     redirect_to(organizations_url)
+  end
+
+  def approve
+    @organization.approve
+    redirect_to(@organization)
+  end
+
+  def reject
+    @organization.reject
+    redirect_to(@organization)
   end
 
   private

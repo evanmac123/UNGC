@@ -46,4 +46,18 @@ class OrganizationsControllerTest < ActionController::TestCase
 
     assert_redirected_to organizations_path
   end
+
+  test "should approve pending organization" do
+    organization = create_organization(:state => 'pending')
+    post :approve, :id => organization.to_param
+    assert_redirected_to organization
+    assert organization.reload.approved?
+  end
+
+  test "should reject pending organization" do
+    organization = create_organization(:state => 'pending')
+    post :reject, :id => organization.to_param
+    assert_redirected_to organization
+    assert organization.reload.rejected?
+  end
 end

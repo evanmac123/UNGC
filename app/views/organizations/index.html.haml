@@ -3,12 +3,12 @@
 %table
   %tr
     %th Name
-    %th Employees
+    %th State
 
   - @organizations.each do |organization|
     %tr
       %td=h organization.name
-      %td=h organization.employees
+      %td=h organization.state
       %td= link_to 'Show', organization
       %td= link_to 'Edit', edit_organization_path(organization)
       %td= link_to 'Destroy', organization, :confirm => 'Are you sure?', :method => :delete
