@@ -15,6 +15,11 @@ Rails::Initializer.run do |config|
   config.gem 'haml'
 
   config.time_zone = 'UTC'
+
+  config.active_record.observers = :organization_observer
 end
 
 ActionView::Base.default_form_builder = LabelFormBuilder
+
+# Application constants
+EMAIL_SENDER = "no-reply@unglobalcompact.org"

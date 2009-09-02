@@ -3,6 +3,8 @@ require 'test_helper'
 class OrganizationsControllerTest < ActionController::TestCase
   def setup
     @organization = create_organization
+    @contact = create_contact(:organization_id => @organization.id,
+                              :email           => "dude@example.com")
   end
   
   test "should get index" do

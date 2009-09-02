@@ -32,7 +32,7 @@ class Organization < ActiveRecord::Base
         # we want the organization to be in the submitted state when some
         # minimum amount of data is entered
         # TODO when do we move an organization to submitted state?
-        self.submit if valid?
+        self.submit if contacts.any?
       end
     end
 end
