@@ -5,6 +5,8 @@ class Organization < ActiveRecord::Base
   belongs_to :organization_type
   belongs_to :country
 
+  before_save :automatic_submit
+
   accepts_nested_attributes_for :contacts
   
   state_machine :state, :initial => :incomplete do
@@ -23,4 +25,14 @@ class Organization < ActiveRecord::Base
   named_scope :pending, :conditions => {:state => "pending"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
+
+  private
+    def automatic_submit
+      if state == "incomplete"
+        # we want the organization to be in the submitted state when some
+        # minimum amount of data is entered
+        # TODO when do we move an organization to submitted state?
+        self.submit if valid?
+      end
+    end
 end

@@ -60,4 +60,19 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_redirected_to organization
     assert organization.reload.rejected?
   end
+
+  test "should list approved organizations" do
+    get :approved
+    assert_response :success
+  end
+
+  test "should list pending organizations" do
+    get :pending
+    assert_response :success
+  end
+
+  test "should list rejected organizations" do
+    get :rejected
+    assert_response :success
+  end
 end

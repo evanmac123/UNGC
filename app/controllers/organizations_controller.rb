@@ -45,6 +45,13 @@ class OrganizationsController < ApplicationController
     redirect_to(@organization)
   end
 
+  %w{approved rejected pending}.each do |method|
+    define_method method do
+      @organizations = Organization.send method
+      render 'index'
+    end
+  end
+
   private
     def load_organization
       @organization = Organization.find(params[:id])
