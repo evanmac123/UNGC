@@ -8,10 +8,12 @@ ActionController::Routing::Routes.draw do |map|
   
   map.with_options :controller => 'admin/content' do |m|
     m.edit_content 'admin/content/:id/edit', :action => 'edit', :conditions => { :method => :get }
+    m.update_content 'admin/content/:id.:format', :action => 'update', :conditions => { :method => :put }
+    m.connect 'admin/content/:id/edit', :action => 'update', :conditions => { :method => :post }
   end
 
-  map.decorate_page '/decorate/*path', :controller => 'pages', :action => 'decorate'
-  map.view_page '/*path', :controller => 'pages', :action => 'view'
+  map.decorate_page 'decorate/*path', :controller => 'pages', :action => 'decorate'
+  map.view_page '*path', :controller => 'pages', :action => 'view'
   # map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'
 end

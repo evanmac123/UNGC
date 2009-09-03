@@ -15,4 +15,10 @@ class Content < ActiveRecord::Base
   def self.for_path(look_for)
     find_by_path look_for
   end
+  
+  def to_path
+    array = path.split('/')
+    array.shift
+    array
+  end
 end

@@ -4,8 +4,16 @@ class Admin::ContentController < AdminController
   def edit
     if request.xhr?
       render(:update) { |page| 
-        page << %Q{ Editor.create("#{escape_javascript @content.content}"); }
+        page << %Q{ Editor.create('#{update_content_url(:format => 'js')}', "#{escape_javascript @content.content}"); }
       } and return
+    end
+  end
+  
+  def update
+    @content.update_attribute(:content, params[:content][:content]) # TODO: Save a new version, wait for approval, etc...
+    respond_to do |wants|
+      wants.html { redirect_to view_page_url(:path => @content.to_path) }
+      wants.js { head :ok }
     end
   end
   
