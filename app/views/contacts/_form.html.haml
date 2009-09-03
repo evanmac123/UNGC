@@ -1,0 +1,13 @@
+= form.error_messages
+= form.text_field :first_name
+= form.text_field :middle_name
+= form.text_field :last_name
+= form.text_field :job_title
+= form.text_field :email
+= form.text_field :phone
+= form.text_field :fax
+= form.text_field :address
+= form.text_field :city
+= form.text_field :state
+= form.text_field :postal_code
+= form.select :country_id, options_for_select(Country.all.collect{|country| [country.name, country.id]})

@@ -6,3 +6,10 @@
   = @organization.state
 
 = organization_actions(@organization)
+
+%h2 Contacts
+= link_to 'New contact', new_organization_contact_path(@organization)
+
+%ul
+  = render :partial => @organization.contacts
+

@@ -19,7 +19,7 @@ Rails::Initializer.run do |config|
   config.active_record.observers = :organization_observer
 end
 
-ActionView::Base.default_form_builder = LabelFormBuilder
+ActionView::Base.default_form_builder = FormBuilder
 
 # Application constants
 EMAIL_SENDER = "no-reply@unglobalcompact.org"
