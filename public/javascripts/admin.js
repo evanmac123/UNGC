@@ -18,8 +18,6 @@ var Editor = {
 		editorForm.append('<input type="hidden" name="authenticity_token" value="'+AUTH_TOKEN+'" />');
 		editorForm.append('<textarea id="replaceMe" name="content[content]"></textarea>');
 		
-		editorForm.ajaxForm( Editor.postSave );
-		
 		Editor.editor = CKEDITOR.replace('replaceMe', {
 			toolbar: EditorToolbar,
 			width: 600,
@@ -28,22 +26,33 @@ var Editor = {
 			resize_minWidth: 300,
 			resize_maxWidth: 600
 		});
-		// Editor.editor.on('pluginsLoaded', function(ev) {
-		// 	Editor.editor.addCommand('fancyCustomSave', Editor.save );
-		// 	Editor.editor.ui.addButton('AjaxSave',
-		// 	{
-		// 		label: 'Save',
-		// 		command: 'fancyCustomSave'
-		// 	});
-		// });
 		Editor.editor.setData(contents);
 	},
-	postSave: function() {
+	save: function() {
+		$('#replaceMe').val(Editor.editor.getData());
+		var form = $('#fancyEditor');
+		var formData = form.serialize();
+		var specialMethod = form.children('input[name=_method]').val();
+		var method = specialMethod ? specialMethod : form.attr('method');
+		var ajaxOptions = {
+    	type: method,
+    	url: form.attr('action'),
+    	dataType: 'json',
+    	data: formData,
+    	success: function(data) { Editor.postSave(data); }
+    };
+    jQuery.ajax(ajaxOptions);
+		return false;
+	},
+	postSave: function(response) {
+		Editor.restoreButtons();
+		Editor.originalContents = response.content;
 		Editor.restoreContent();
 	},
 	cancelEditing: function() {
 		Editor.restoreButtons();
 		Editor.restoreContent();
+		return false;
 	},
 	restoreButtons: function() {
 		$('div.click_to_edit').html(Editor.originalButtons);
@@ -51,11 +60,16 @@ var Editor = {
 	restoreContent: function() {
 		Editor.editor.destroy();
 		Editor.editor = null;
+		$('#fancyEditor').remove();
 		$('#rightcontent div.copy').html(Editor.originalContents);
 	},
 	swapButtons: function() {
 		Editor.originalButtons = $('div.click_to_edit').children();
-		$('div.click_to_edit').html('<a href="#" class="cancelEditor">Cancel</a>');
+		var buttonArea = $('div.click_to_edit');
+		buttonArea.empty();
+		buttonArea.append('<a href="#" class="saveEditor">Save</a>');
+		$('div.click_to_edit .saveEditor').click( Editor.save )
+		buttonArea.append('<a href="#" class="cancelEditor">Cancel</a>');
 		$('div.click_to_edit .cancelEditor').click( Editor.cancelEditing );
 	}
 }

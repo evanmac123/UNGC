@@ -17,7 +17,7 @@
 // ]
 
 var EditorToolbar = [
-    ['Source','-','Save','-'],
+    ['Source','-','-'],
     ['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker', 'Scayt'],
     ['Undo','Redo','-','Find','Replace','SelectAll'],
     ['Image','Table','HorizontalRule','SpecialChar'],

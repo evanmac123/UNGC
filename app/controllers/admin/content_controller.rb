@@ -13,7 +13,7 @@ class Admin::ContentController < AdminController
     @content.update_attribute(:content, params[:content][:content]) # TODO: Save a new version, wait for approval, etc...
     respond_to do |wants|
       wants.html { redirect_to view_page_url(:path => @content.to_path) }
-      wants.js { head :ok }
+      wants.js { render :json => { :content => @content.content } }
     end
   end
   
