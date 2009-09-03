@@ -1,4 +1,5 @@
 class OrganizationsController < ApplicationController
+  layout 'admin'
   before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject]
   
   def index
