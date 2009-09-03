@@ -4,7 +4,7 @@ class Admin::ContentController < AdminController
   def edit
     if request.xhr?
       render(:update) { |page| 
-        page << %Q{ Editor.create('#{update_content_url(:format => 'js')}', "#{escape_javascript @content.content}"); }
+        page << %Q{ Editor.doneLoading(); Editor.create('#{update_content_url(:format => 'js')}', "#{escape_javascript @content.content}"); }
       } and return
     end
   end

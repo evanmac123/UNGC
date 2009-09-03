@@ -30,6 +30,7 @@ var Editor = {
 	},
 	save: function() {
 		$('#replaceMe').val(Editor.editor.getData());
+		Editor.loading();
 		var form = $('#fancyEditor');
 		var formData = form.serialize();
 		var specialMethod = form.children('input[name=_method]').val();
@@ -45,6 +46,7 @@ var Editor = {
 		return false;
 	},
 	postSave: function(response) {
+		Editor.doneLoading();
 		Editor.restoreButtons();
 		Editor.originalContents = response.content;
 		Editor.restoreContent();
@@ -65,11 +67,21 @@ var Editor = {
 	},
 	swapButtons: function() {
 		Editor.originalButtons = $('div.click_to_edit').children();
+		var loadImage = $('div.click_to_edit #editorLoading');
 		var buttonArea = $('div.click_to_edit');
 		buttonArea.empty();
+		buttonArea.append(loadImage);
 		buttonArea.append('<a href="#" class="saveEditor">Save</a>');
 		$('div.click_to_edit .saveEditor').click( Editor.save )
 		buttonArea.append('<a href="#" class="cancelEditor">Cancel</a>');
 		$('div.click_to_edit .cancelEditor').click( Editor.cancelEditing );
+	},
+	loading: function() {
+		console.log('loading!');
+		$('#editorLoading').show();
+	},
+	doneLoading: function() {
+		console.log('done loaded');
+		$('#editorLoading').hide();
 	}
 }

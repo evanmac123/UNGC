@@ -62,7 +62,13 @@ $(function() {
 		jQuery.get("/decorate"+window.location.pathname, [], null, 'script');
 
 	$('a.edit_content').live('click', function(event) {
-		jQuery.get(event.target.href, [], null, 'script');
+		// jQuery.get(event.target.href, [], null, 'script');
+		Editor.loading();
+		jQuery.ajax({
+    	type: 'get',
+    	url: event.target.href,
+    	dataType: 'script'
+		});
 		return false;
 	});
 
