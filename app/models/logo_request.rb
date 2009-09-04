@@ -21,7 +21,7 @@
 #
 
 class LogoRequest < ActiveRecord::Base
-  validates_presence_of :organization_id, :requested_on, :publication_id
+  validates_presence_of :organization_id, :publication_id
   belongs_to :organization
   belongs_to :contact
   belongs_to :publication, :class_name => "LogoPublication"
@@ -43,4 +43,9 @@ class LogoRequest < ActiveRecord::Base
   named_scope :pending, :conditions => {:state => "pending"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
+  
+  private
+    def set_requested_on
+      requested_on = Date.today
+    end
 end

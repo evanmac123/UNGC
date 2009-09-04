@@ -35,6 +35,8 @@ class Contact < ActiveRecord::Base
   belongs_to :organization
   belongs_to :country
 
+  default_scope :order => 'contacts.first_name'
+
   def name
     [first_name, last_name].join(' ')
   end

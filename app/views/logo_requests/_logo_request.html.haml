@@ -1,0 +1,5 @@
+%li
+  = logo_request.purpose
+  
+  = link_to 'show', [logo_request.organization, logo_request]
+  = link_to 'delete', [logo_request.organization, logo_request], :confirm => 'Are you sure?', :method => :delete
