@@ -1,3 +1,30 @@
+# == Schema Information
+#
+# Table name: organizations
+#
+#  id                   :integer(4)      not null, primary key
+#  old_id               :integer(4)
+#  name                 :string(255)
+#  organization_type_id :integer(4)
+#  sector_id            :integer(4)
+#  local_network        :boolean(1)
+#  participant          :boolean(1)
+#  employees            :integer(4)
+#  url                  :string(255)
+#  created_at           :datetime
+#  updated_at           :datetime
+#  added_on             :date
+#  modified_on          :date
+#  joined_on            :date
+#  delisted_on          :date
+#  active               :boolean(1)
+#  country_id           :integer(4)
+#  stock_symbol         :string(255)
+#  removal_reason_id    :integer(4)
+#  last_modified_by_id  :integer(4)
+#  state                :string(255)
+#
+
 class Organization < ActiveRecord::Base
   validates_presence_of :name
   has_many :contacts

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: sectors
+#
+#  id         :integer(4)      not null, primary key
+#  name       :string(255)
+#  old_id     :integer(4)
+#  icb_number :string(255)
+#  parent_id  :integer(4)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Sector < ActiveRecord::Base
   validates_presence_of :name
   acts_as_tree
