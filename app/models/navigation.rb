@@ -1,13 +1,14 @@
 # == Schema Information
-# Schema version: 20090831192138
 #
 # Table name: navigations
 #
 #  id         :integer(4)      not null, primary key
 #  label      :string(255)
 #  href       :string(255)
+#  short      :string(255)
 #  parent_id  :integer(4)
 #  position   :integer(4)
+#  top_nav    :boolean(1)      default(TRUE)
 #  created_at :datetime
 #  updated_at :datetime
 #
