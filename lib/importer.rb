@@ -145,6 +145,7 @@ class Importer
           o.send("#{field}=", row[i])
         end
       end
+      update_state(name, o)
       saved = o.save
       puts "** Could not save #{name}: #{row}"unless saved
     end
@@ -167,6 +168,14 @@ class Importer
         @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
       else
         @files = FILES
+      end
+    end
+
+    # translates the old database status into our state fields
+    def update_state(name, model)
+      if name == :logo_request
+        # (0: “Pending Review” 1: “In Review”, 2”:“Declined” or 3:“Accepted)
+        model.state = ['pending', 'pending', 'rejected', 'approved'][model.status.to_i]
       end
     end
 end
