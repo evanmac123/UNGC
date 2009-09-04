@@ -1,3 +1,12 @@
 --- 
+- :source: http://gems.github.com
+  :name: thoughtbot-shoulda
+- :source: http://gems.github.com
+  :name: thoughtbot-paperclip
+- :source: http://gems.github.com
+  :name: mislav-will_paginate
+- :name: liquid
+- :name: money
+- :name: haml
 - :version: 2.3.4
   :name: rails
