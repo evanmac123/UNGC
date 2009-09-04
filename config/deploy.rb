@@ -1,0 +1,1 @@
+server "staging.unglobalcompact.railsmachina.com", :app, :web, :db, :primary => true
