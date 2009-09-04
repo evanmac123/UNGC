@@ -9,13 +9,11 @@
 
 %h2 Contacts
 = link_to 'New contact', new_organization_contact_path(@organization)
-
 %ul
   = render :partial => @organization.contacts
 
 %h2 Logo Requests
 = link_to 'New logo request', new_organization_logo_request_path(@organization)
-
 %ul
   = render :partial => @organization.logo_requests
 

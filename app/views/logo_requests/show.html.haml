@@ -7,5 +7,13 @@
 %p
   %b Publication:
   = @logo_request.publication.name
+%p
+  %b State:
+  = @logo_request.state_name
 
 = logo_request_actions(@logo_request)
+
+%h2 Comments
+= link_to 'New comment', new_logo_request_logo_comment_path(@logo_request)
+%ul
+  = render :partial => @logo_request.logo_comments
