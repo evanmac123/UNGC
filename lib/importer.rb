@@ -163,7 +163,7 @@ class Importer
 
   private
     def setup(options)
-      @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7 tables')
+      @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
       if options[:files]
         @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
       else
