@@ -7,12 +7,9 @@ class PagesController < ApplicationController
 
   def decorate
     if request.xhr? && true # TODO: can_edit?
-      render :update do |page|
-        page << "include('/javascripts/admin.js'); include('/ckeditor/ckeditor.js');"
-        page['#rightcontent'].prepend render(:partial => 'editor')
-      end
+      render :partial => 'editor' and return
     else
-      render :text => 'Not here', :status => 403 and return false
+      render :text => 'Not here', :status => 403 
     end
   end
 
@@ -27,7 +24,6 @@ class PagesController < ApplicationController
   end
   
   def find_content
-    @page = Content.for_path(look_for_path)
-    render :text => 'Not Found', :status => 404 and return false unless @page
+    render :text => 'Not Found', :status => 404 unless @page = Content.for_path(look_for_path)
   end
 end

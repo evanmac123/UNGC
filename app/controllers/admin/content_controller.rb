@@ -3,9 +3,13 @@ class Admin::ContentController < AdminController
   
   def edit
     if request.xhr?
-      render(:update) { |page| 
-        page << %Q{ Editor.doneLoading(); Editor.create('#{update_content_url(:format => 'js')}', "#{escape_javascript @content.content}"); }
-      } and return
+      render :json => {
+        :url => update_content_url(:format => 'js'),
+        :content => @content.content
+      }
+    else
+      # NOTE: This may change... maybe? I don't know - jaw
+      render :text => 'Not here', :status => 403
     end
   end
   
@@ -19,8 +23,7 @@ class Admin::ContentController < AdminController
   
   private
   def find_content
-    @content = Content.find_by_id(params[:id])
-    render :text => 'Not Found', :status => 404 and return false unless @content
+    render :text => 'Not Found', :status => 404 unless @content = Content.find_by_id(params[:id])
   end
   
 end

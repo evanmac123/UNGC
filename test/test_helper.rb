@@ -8,7 +8,12 @@ class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false  
 
+  def assert_layout(layout)
+    assert_equal "layouts/#{layout}", @response.layout
+  end
+
   def create_simple_tree
+    @root = create_navigation :position => 0, :href => '/index.html'
     @parent1 = create_navigation :position => 0, :href => '/parent1/index.html'
     @parent2 = create_navigation :position => 1, :href => '/parent2/index.html'
     @child1 = create_navigation :parent => @parent1, :position => 0, :href => '/parent1/child1/index.html'

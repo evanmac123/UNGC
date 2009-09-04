@@ -17,20 +17,20 @@
 // ]
 
 var EditorToolbar = [
-    ['Source','-','-'],
-    ['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker', 'Scayt'],
-    ['Undo','Redo','-','Find','Replace','SelectAll'],
-    ['Image','Table','HorizontalRule','SpecialChar'],
-    // ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
-    '/',
-    ['Bold','Italic','Underline','Strike','Subscript','Superscript','RemoveFormat'],
-    ['Link','Unlink'],
-    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-    ['Outdent','Indent','NumberedList','BulletedList','Blockquote'],
-    // '/',
-    // ['Styles','Format','Font','FontSize'],
-    // ['TextColor','BGColor'],
-    // ['Maximize', 'ShowBlocks','-','About']
+	['Source','-','-'],
+	['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker', 'Scayt'],
+	['Undo','Redo','-','Find','Replace','SelectAll'],
+	['Image','Table','HorizontalRule','SpecialChar'],
+	// ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+	'/',
+	['Bold','Italic','Underline','Strike','Subscript','Superscript','RemoveFormat'],
+	['Link','Unlink'],
+	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+	['Outdent','Indent','NumberedList','BulletedList','Blockquote'],
+	// '/',
+	// ['Styles','Format','Font','FontSize'],
+	// ['TextColor','BGColor'],
+	// ['Maximize', 'ShowBlocks','-','About']
 ];
 
 
@@ -57,9 +57,20 @@ function makeChildrenInvisible (id) {
 		children[0].style.visibility = 'hidden';
 }
 
+function decoratePageWith (response) {
+	// render :update do |page|
+	//     page << "include('/javascripts/admin.js'); include('/ckeditor/ckeditor.js');"
+	//     page['#rightcontent'].prepend render(:partial => 'editor')
+	//   end
+	include('/javascripts/admin.js');
+	include('/ckeditor/ckeditor.js');
+	$('#rightcontent').prepend(response);
+  // console.log(response);
+}
+
 $(function() {
 	if ($('body.editable_page').length > 0)
-		jQuery.get("/decorate"+window.location.pathname, [], null, 'script');
+		jQuery.get("/decorate"+window.location.pathname, [], decoratePageWith);
 
 	$('a.edit_content').live('click', function(event) {
 		// jQuery.get(event.target.href, [], null, 'script');
@@ -67,7 +78,11 @@ $(function() {
 		jQuery.ajax({
     	type: 'get',
     	url: event.target.href,
-    	dataType: 'script'
+    	dataType: 'json',
+			success: function(json) {
+				Editor.doneLoading();
+				Editor.create(json.url, json.content);
+			}
 		});
 		return false;
 	});

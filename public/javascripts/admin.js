@@ -77,11 +77,9 @@ var Editor = {
 		$('div.click_to_edit .cancelEditor').click( Editor.cancelEditing );
 	},
 	loading: function() {
-		console.log('loading!');
 		$('#editorLoading').show();
 	},
 	doneLoading: function() {
-		console.log('done loaded');
 		$('#editorLoading').hide();
 	}
 }
