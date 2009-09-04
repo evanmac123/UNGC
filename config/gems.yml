@@ -8,5 +8,6 @@
 - :name: liquid
 - :name: money
 - :name: haml
+- :name: fastercsv
 - :version: 2.3.4
   :name: rails
