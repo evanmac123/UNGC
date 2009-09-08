@@ -17,6 +17,8 @@ class LogoComment < ActiveRecord::Base
   belongs_to :logo_request
   belongs_to :contact
   has_attached_file :attachment
+  
+  named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
 
   default_scope :order => 'added_on DESC'
 end
