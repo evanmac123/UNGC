@@ -17,3 +17,9 @@
 = link_to 'New comment', new_logo_request_logo_comment_path(@logo_request)
 %ul
   = render :partial => @logo_request.logo_comments
+
+%h2 Approved logos
+- form_for([@logo_request.organization, @logo_request]) do |f|
+  %ul
+    = render :partial => 'logo_files'
+  = f.submit 'Save logos'
