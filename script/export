@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
 require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
 
 [Content, Navigation].each do |thing|
