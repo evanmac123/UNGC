@@ -1,12 +1,7 @@
 %h1 New organization
 
 - form_for(@organization) do |f|
-  = f.error_messages
-  = f.text_field :name
-  = f.text_field :url
-  = f.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
-  = f.text_field :employees
-  = f.select :country_id, options_for_select(Country.all.collect{|country| [country.name, country.id]})
+  = render :partial => f
 
   %h2 Contact
   

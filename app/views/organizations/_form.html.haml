@@ -1,0 +1,6 @@
+= form.error_messages
+= form.text_field :name
+= form.text_field :url
+= form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
+= form.text_field :employees
+= form.select :country_id, options_for_select(Country.all.collect{|country| [country.name, country.id]})
