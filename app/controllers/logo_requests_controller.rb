@@ -17,6 +17,11 @@ class LogoRequestsController < ApplicationController
     end
   end
 
+  def update
+    @logo_request.update_attributes(params[:logo_request])
+    redirect_to [@organization, @logo_request]
+  end
+
   def destroy
     @logo_request.destroy
     redirect_to @organization
