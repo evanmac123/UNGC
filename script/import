@@ -22,11 +22,11 @@ root = '/Users/joshua/Sites/unspace/opencms_export/unglobalcompact/'
 
 Navigation.delete_all
 filename = root + 'index.html'
-$doc = Hpricot(open(filename))
+doc = Hpricot(open(filename))
 parse_language_nav(root)
 parse_sitenav_nav(root)
-($doc/'div#nav > ul > li').inject(0) do |i, elem|
-  attrs = attributes_for_element elem
+(doc/'div#nav > ul > li').inject(0) do |i, elem|
+  attrs = attributes_for_element doc, elem
   children = attrs.delete(:children)
   attrs[:position] = i
   parent = Navigation.create attrs
@@ -38,6 +38,7 @@ parse_sitenav_nav(root)
   i += 1
 end
 
+ContentVersion.delete_all
 Content.delete_all
 files = get_files_from(root)
 files.each do |filename|
@@ -51,11 +52,13 @@ files.each do |filename|
   end
   # pp content
   path = "/#{filename - root}"
-  content = Content.create :content => content, :path => path
+  content = Content.create :path => path, :content => content
   # Navigation.find_all_by_href(path).each do |nav|
   #   nav.update_attribute(:content_id, content.id)
   # end
 end
+
+Content.all.each { |c| c.versions.first.approve! }
 
 # fix some weird banner issues
 Navigation.find_by_label('The CEO Water Mandate').update_attribute(:short, 'environment_ceo')

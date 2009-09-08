@@ -28,8 +28,8 @@ def subnav_from_left(doc)
     raise currently_selected.inspect unless mid_nav
     subnav.map! do |sub|
       h = href_and_label(sub.at('a'))
-      new_label = h[:label].gsub('» ', '')
-      h[:label] = new_label
+      # new_label = h[:label].gsub('» ', '')
+      h[:label] = h[:label][2,h[:label].size] # new_label
       array = mid_nav.href.split('/')
       array.pop
       h[:href] = "#{array.join('/')}#{h[:href]}"
@@ -82,7 +82,7 @@ def login_is_special
   { :label => 'Login', :short => 'login', :href => '/login', :children => [] }
 end
 
-def attributes_for_element elem
+def attributes_for_element doc, elem
   link = elem.at('a')
   short = elem.get_attribute(:class)
   if short == 'login'
@@ -90,7 +90,7 @@ def attributes_for_element elem
   else
     hash = href_and_label(link)
     hash[:short] = short
-    hash[:children] = ($doc/"div#nav > ul > li.#{short} > ul li a").map { |a| href_and_label(a) }
+    hash[:children] = (doc/"div#nav > ul > li.#{short} > ul li a").map { |a| href_and_label(a) }
     hash
   end
 end

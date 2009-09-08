@@ -3,7 +3,7 @@ require 'test_helper'
 class Admin::ContentControllerTest < ActionController::TestCase
   context "given some content" do
     setup do
-      @content = create_content :path => 'path/to/content.html', :content => "<p>This is my content.</p>"
+      @content = create_approved_content :path => 'path/to/content.html', :content => "<p>This is my content.</p>"
     end
 
     context "successful edit action" do

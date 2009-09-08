@@ -8,6 +8,7 @@ class CreateContentVersions < ActiveRecord::Migration
       t.string :path
       t.text :content
       t.integer :created_by_id
+      t.integer :content_id
 
       t.timestamps
     end

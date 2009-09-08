@@ -11,6 +11,12 @@ class ActiveSupport::TestCase
   def assert_layout(layout)
     assert_equal "layouts/#{layout}", @response.layout
   end
+  
+  def create_approved_content(options)
+    content = create_content(options)
+    content.versions.first.approve!
+    content
+  end
 
   def create_simple_tree
     @root = create_navigation :position => 0, :href => '/index.html'

@@ -4,8 +4,8 @@ class PagesControllerTest < ActionController::TestCase
   context "given a simple tree and some content" do
     setup do
       create_simple_tree
-      @content = create_content :path => @child2.href, :content => String.random
-      @home_page = create_content :path => @root.href, :content => String.random
+      @content = create_approved_content(:path => @child2.href, :content => String.random)
+      @home_page = create_approved_content(:path => @root.href, :content => String.random)
     end
 
     context "view action" do
