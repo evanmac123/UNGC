@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+
+[Content, Navigation].each do |thing|
+  puts "Exporting #{thing.to_s}..."
+  yaml = thing.all.map { |t| t.attributes }.to_yaml
+  puts " saving..."
+  File.open("#{RAILS_ROOT}/db/yaml/#{thing.to_s}.#{Time.now.to_i}.yml", 'w+') do |file|
+    file.puts yaml
+  end
+  puts " done."
+  puts ""
+end
