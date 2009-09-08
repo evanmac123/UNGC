@@ -6,7 +6,7 @@ class PagesController < ApplicationController
   end
 
   def decorate
-    if request.xhr? && true # TODO: can_edit?
+    if request.xhr? && false # TODO: can_edit?
       render :partial => 'editor' and return
     else
       render :text => 'Not here', :status => 403 
