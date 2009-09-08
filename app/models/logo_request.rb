@@ -26,6 +26,7 @@ class LogoRequest < ActiveRecord::Base
   belongs_to :contact
   belongs_to :publication, :class_name => "LogoPublication"
   has_many :logo_comments
+  has_and_belongs_to_many :logo_files
 
   state_machine :state, :initial => :incomplete do
     event :submit do
