@@ -28,9 +28,7 @@ test:
 
 production:
   adapter: mysql
-  database: blog20_p
-  username: PROJECT_NAME
-  password: wordpass123
-  # socket: /tmp/mysql.sock
-  host: 127.0.0.1
-  port: 3306
+  database: unglobalcompact
+  username: root
+  password:
+  host: localhost
