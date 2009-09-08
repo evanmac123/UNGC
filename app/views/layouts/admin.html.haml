@@ -9,7 +9,7 @@
     = stylesheet_link_tag 'print', :media => 'print'
   %body{:class => "#{ENV["RAILS_ENV"]} admin"}
     =# render :partial => 'layouts/header'
-    %p{style="color: green"}= flash[:notice]
+    = flash_messages_for :notice
     = yield
     =# render :partial => 'layouts/footer'
     = javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery?

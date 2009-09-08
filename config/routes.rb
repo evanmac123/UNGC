@@ -4,7 +4,6 @@ ActionController::Routing::Routes.draw do |map|
                                 :collection => { :approved => :get, :rejected => :get, :pending => :get },
                                 :has_many   => [:contacts, :logo_requests]
   map.resources :logo_requests, :has_many => :logo_comments
-                                :has_many   => :contacts
   
   map.with_options :controller => 'admin/content' do |m|
     m.edit_content 'admin/content/:id/edit', :action => 'edit', :conditions => { :method => :get }

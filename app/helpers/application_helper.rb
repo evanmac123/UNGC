@@ -9,4 +9,8 @@ module ApplicationHelper
       classes
     }.join(' ')
   end
+
+  def flash_messages_for(*keys)
+    keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join
+  end
 end
