@@ -28,7 +28,8 @@ def subnav_from_left(doc)
     raise currently_selected.inspect unless mid_nav
     subnav.map! do |sub|
       h = href_and_label(sub.at('a'))
-      h[:label] = h[:label][2,h[:label].size]
+      new_label = h[:label].gsub('» ', '')
+      h[:label] = new_label
       array = mid_nav.href.split('/')
       array.pop
       h[:href] = "#{array.join('/')}#{h[:href]}"

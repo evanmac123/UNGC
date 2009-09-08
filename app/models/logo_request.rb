@@ -13,11 +13,11 @@
 #  replied_to        :boolean(1)
 #  purpose           :string(255)
 #  status            :string(255)
-#  state             :string(255)
 #  accepted          :boolean(1)
 #  accepted_on       :date
 #  created_at        :datetime
 #  updated_at        :datetime
+#  state             :string(255)
 #
 
 class LogoRequest < ActiveRecord::Base
