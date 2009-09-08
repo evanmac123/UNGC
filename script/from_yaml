@@ -9,6 +9,7 @@ require 'pp'
   puts "Loading #{thing.to_s}"
   stuff = YAML.load_file(Dir["#{RAILS_ROOT}/db/yaml/#{thing.to_s}.*.yml"].last)
   stuff.each do |item|
+    puts " creating #{thing} ##{item['id']}"
     thing.create item
   end
 end
