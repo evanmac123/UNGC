@@ -14,7 +14,10 @@ class HabtmImporter
     :communication_on_progresses_countries => {:file   => 'R14_XREF_R02_TR01.txt',
                                                :models => [Country, CommunicationOnProgress]},
     :communication_on_progresses_principles => {:file   => 'R15_XREF_R02_TR05.txt',
-                                                :models => [CommunicationOnProgress, Principle]}
+                                                :models => [CommunicationOnProgress, Principle]},
+    :logo_files_logo_requests => {:file   => 'TR19_LOGO_APPROVALS.txt',
+                                  :models => [LogoRequest, LogoFile],
+                                  :index  => [1,2]}
   }
   
   # Imports all the data in files located in options[:folder]
@@ -27,14 +30,16 @@ class HabtmImporter
   def import(name, options)
     puts "Importing #{name}.."
     file = File.join(@data_folder, options[:file])
+    # by default we use the first two fields from the feed
+    index = options[:index] || [0, 1]
     # read the file
     FasterCSV.foreach(file, :col_sep => "\t",
                             :headers => :first_row) do |row|
       # create an object of the correct type and save
-      o = find_model_object(options[:models].first, row[0])
+      o = find_model_object(options[:models].first, row[index.first])
       if o
         # found the first object, let's add the second
-        m = find_model_object(options[:models].second, row[1])
+        m = find_model_object(options[:models].second, row[index.last])
         if m
           o.send(options[:models].last.class_name.tableize) << m
         else

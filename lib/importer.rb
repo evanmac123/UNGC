@@ -4,7 +4,7 @@ class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
             :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
-            :logo_publication, :logo_request, :logo_file, :logo_comment, :logo_approval, :case_story]
+            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story]
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.txt', :fields => [:code, :name, :region, :network_type, :manager]},
@@ -39,8 +39,6 @@ class Importer
     :logo_file => {:file => 'TR18_LOGO_FILES.txt', :fields => [:old_id, :name, :description, :thumbnail, :file]},
     # fields: ID	COMMENT_DATE	LOGO_REQUEST_ID	CONTACT_ID	TEXT
     :logo_comment => {:file => 'TR17_LOGO_COMMENTS.txt', :fields => [:old_id, :added_on, :logo_request_id, :contact_id, :body]},
-    # fields: ID	REQUEST_ID	LOGO_ID
-    :logo_approval => {:file => 'TR19_LOGO_APPROVALS.txt', :fields => [:old_id, :logo_request_id, :logo_file_id]},
 
     #fields: ID	TR02_TYPE	ORG_NAME	SECTOR_ID ORG_NETWORK_BIT	ORG_PARTICIPANT_BIT	ORG_NB_EMPLOY	ORG_URL
     #        ORG_BHR_URL	ORG_DATE_CREATE	ORG_DATE_MODIFICATION	ORG_DATE_JOINING	ORG_DATE_DELISTED	ORG_ACTIVE
