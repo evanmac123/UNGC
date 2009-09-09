@@ -73,6 +73,7 @@ function versionNumberAnchor() {
 var Watcher = {
 	watcher: null,
 	fetched: null,
+	included: null,
 	init: function() {
 		this.watcher = setInterval( Watcher.watchForVersion, 500 );
 	},
@@ -110,8 +111,11 @@ var Watcher = {
 		}
 	},
 	decoratePage: function(response) {
-		include('/javascripts/admin.js');
-		include('/ckeditor/ckeditor.js');
+		if (!Watcher.included) {
+			Watcher.included = true;
+			include('/javascripts/admin.js');
+			include('/ckeditor/ckeditor.js');
+		}
 		if (response.content) {
 			var possible_editor = $('#rightcontent .click_to_edit');
 			if (possible_editor.size() > 0)

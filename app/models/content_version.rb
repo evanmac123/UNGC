@@ -40,13 +40,13 @@ class ContentVersion < ActiveRecord::Base
 
   def next_version
     self.class.find :first,
-      :conditions => ["content_versions.number > ?", number],
+      :conditions => ["content_versions.content_id = ? AND content_versions.number > ?", content_id, number],
       :order => "content_versions.number ASC"
   end
 
   def previous_version
     self.class.find :first,
-      :conditions => ["content_versions.number < ?", number],
+      :conditions => ["content_versions.content_id = ? AND content_versions.number < ?", content_id, number],
       :order => "content_versions.number DESC"
   end
 

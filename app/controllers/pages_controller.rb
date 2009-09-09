@@ -28,7 +28,8 @@ class PagesController < ApplicationController
   
   def find_content
     if @page = Content.for_path(look_for_path)
-      @current_version = params[:version].blank? ? @page.active_version : @page.version_number(params[:version])
+      @current_version = @page.version_number(params[:version]) if params[:version]
+      @current_version ||= @page.active_version
     else
       render :text => 'Not Found', :status => 404
     end

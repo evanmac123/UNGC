@@ -49,8 +49,8 @@ var Editor = {
 		Editor.doneLoading();
 		Editor.restoreButtons();
 		if (response.version)
-			window.location += '#version_' + response.version;
-		Editor.originalContents = response.content;
+			window.location.hash = '#version_' + response.version;
+		Editor.originalContents = response.content; // happens either way, prevents weirdness
 		Editor.restoreContent();
 	},
 	cancelEditing: function() {

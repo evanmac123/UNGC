@@ -38,8 +38,7 @@ class Admin::ContentControllerTest < ActionController::TestCase
         content = json['content']
         assert_equal "<p>I am new.</p>", content
       end
-    end
-    
+    end    
     
     context "bad edit action" do
       should "issue a 404 when content not found" do
