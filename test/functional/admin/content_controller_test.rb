@@ -27,6 +27,20 @@ class Admin::ContentControllerTest < ActionController::TestCase
       end
     end
     
+    context "edit a specific version" do
+      setup do
+        @version = @content.versions.create :content => "<p>I am new.</p>"
+        xhr :get, :edit, :id => @content.id, :version => @version.number
+      end
+
+      should "respond with that version's contents" do
+        json = ActiveSupport::JSON.decode @response.body
+        content = json['content']
+        assert_equal "<p>I am new.</p>", content
+      end
+    end
+    
+    
     context "bad edit action" do
       should "issue a 404 when content not found" do
         xhr :get, :edit, :id => 123456
@@ -48,14 +62,15 @@ class Admin::ContentControllerTest < ActionController::TestCase
         assert_equal @content, assigns(:content)
       end
 
-      # FIXME: Does this still apply, now that we have versions?
-      # should "save changes" do
-      #   assert_equal "<p>I am new.</p>", @content.reload.content
-      # end
+      should "save changes as new version" do
+        assert_equal 2, @content.versions.count
+        assert_equal "<p>I am new.</p>", @content.versions(:reload).last.content
+        assert @content.next_version
+      end
       
       should "respond with JSON" do
         json = ActiveSupport::JSON.decode @response.body
-        expected = {'content' => "<p>I am new.</p>"}
+        expected = {'content' => "<p>I am new.</p>", 'version' => 2}
         assert_equal expected, json
       end
     end

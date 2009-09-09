@@ -6,15 +6,23 @@ body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
 
 div.click_to_edit {
 	float: right;
-	width: 8em;
 	font-size: 10pt;
 	text-align: center;
 }
 
-div.click_to_edit a {
-	display: block;
-	border: 1px solid #E0E0E0;
+div.click_to_edit a,
+#editorLoading {
+	float: right;
 	padding: 0.5em 1em;
+}
+
+div.click_to_edit a {
+	width: 5.5em;
+	border: 1px solid #E0E0E0;
+}
+
+#editorLoading {
+	padding-top: 1em;
 }
 
 div.click_to_edit a:hover {

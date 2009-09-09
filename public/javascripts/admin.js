@@ -48,6 +48,8 @@ var Editor = {
 	postSave: function(response) {
 		Editor.doneLoading();
 		Editor.restoreButtons();
+		if (response.version)
+			window.location += '#version_' + response.version;
 		Editor.originalContents = response.content;
 		Editor.restoreContent();
 	},
@@ -70,10 +72,10 @@ var Editor = {
 		var loadImage = $('div.click_to_edit #editorLoading');
 		var buttonArea = $('div.click_to_edit');
 		buttonArea.empty();
-		buttonArea.append(loadImage);
 		buttonArea.append('<a href="#" class="saveEditor">Save</a>');
-		$('div.click_to_edit .saveEditor').click( Editor.save )
 		buttonArea.append('<a href="#" class="cancelEditor">Cancel</a>');
+		buttonArea.append(loadImage);
+		$('div.click_to_edit .saveEditor').click( Editor.save )
 		$('div.click_to_edit .cancelEditor').click( Editor.cancelEditing );
 	},
 	loading: function() {
