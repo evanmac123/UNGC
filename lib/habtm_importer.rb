@@ -3,7 +3,7 @@ require 'fastercsv'
 class HabtmImporter
   
   FILES = [:case_stories_countries, :communication_on_progresses_languages, :communication_on_progresses_countries,
-            :communication_on_progresses_principles]
+            :communication_on_progresses_principles, :logo_files_logo_requests]
   
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
