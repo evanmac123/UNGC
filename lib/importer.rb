@@ -173,7 +173,7 @@ class Importer
     def update_state(name, model)
       if name == :logo_request
         # (0: “Pending Review” 1: “In Review”, 2”:“Declined” or 3:“Accepted)
-        model.state = ['pending', 'pending', 'rejected', 'approved'][model.status.to_i]
+        model.state = ['pending_review', 'pending', 'rejected', 'approved'][model.status.to_i]
       end
     end
 end
