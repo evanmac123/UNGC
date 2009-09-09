@@ -2,6 +2,10 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  USERNAME = 'ungc'
+  PASSWORD = 'unspace123'
+  
+  before_filter :simple_http_auth
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
@@ -26,4 +30,13 @@ class ApplicationController < ActionController::Base
     @look_for_path
   end
   helper_method :look_for_path
+
+  protected
+  def simple_http_auth
+    if RAILS_ENV == 'production'
+      authenticate_or_request_with_http_basic do |username, password|
+        username == USERNAME && password == PASSWORD
+      end
+    end
+  end
 end
