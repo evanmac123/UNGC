@@ -18,6 +18,13 @@
 %ul
   = render :partial => @logo_request.logo_comments
 
+%h3 Files
+%ul
+  - for comment in @logo_request.logo_comments.with_attachment
+    %li
+      = attachment_link(comment)
+      = number_to_human_size(comment.attachment_file_size)
+
 %h2 Approved logos
 - form_for([@logo_request.organization, @logo_request]) do |f|
   %ul

@@ -2,13 +2,15 @@ require 'fastercsv'
 
 class HabtmImporter
   
-  FILES = [:case_stories_countries, :communication_on_progresses_languages, :communication_on_progresses_countries,
-            :communication_on_progresses_principles, :logo_files_logo_requests]
+  FILES = [:case_stories_countries, :case_stories_principles, :communication_on_progresses_languages,
+            :communication_on_progresses_countries, :communication_on_progresses_principles, :logo_files_logo_requests]
   
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :case_stories_countries => {:file   => 'R10_XREF_R07_TR01.txt',
                                 :models => [Country, CaseStory]},
+    :case_stories_principles => {:file   => 'R09_XREF_R07_TR05.txt',
+                                 :models => [CaseStory, Principle]},
     :communication_on_progresses_languages => {:file   => 'R13_XREF_R02_TR10.txt',
                                                :models => [Language, CommunicationOnProgress]},
     :communication_on_progresses_countries => {:file   => 'R14_XREF_R02_TR01.txt',
