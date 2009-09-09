@@ -1,0 +1,17 @@
+== Dear #{@logo_request.contact.name_with_title},
+
+Request Status: Declined
+
+== Your logo request to use the logo in your publication #{@logo_request.purpose} has been declined. The UN Global Compact welcomes your organization's intention to promote the Global Compact Logo. Unfortunately, #{@logo_request.organization.name} will not be permitted to use the logo as explained below:
+
+= h @logo_request.logo_comments.last.body
+
+Sincerely,
+
+The Global Compact Office
+
+United Nations Global Compact
+Two United Nations Plaza
+New York, NY 10017
+Email: globalcompact@un.org
+Website: www.unglobalcompact.org

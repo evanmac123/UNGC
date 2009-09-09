@@ -53,6 +53,7 @@ module FixtureReplacement
   attributes_for :logo_request do |r|
     r.purpose = String.random
     r.organization_id = Organization.first.id
+    r.contact_id = Contact.first.id
     r.publication_id = LogoPublication.first.id
 	end
 

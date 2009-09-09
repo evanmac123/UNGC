@@ -41,6 +41,10 @@ class Contact < ActiveRecord::Base
     [first_name, last_name].join(' ')
   end
   
+  def name_with_title
+    [prefix, first_name, last_name].join(' ')
+  end
+  
   def from_ungc?
     # TODO check if this comment was added by UNGC staff
     true
