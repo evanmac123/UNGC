@@ -3,7 +3,7 @@
   %head
     %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
     %title= @title || "United Nations Global Compact | #{controller.controller_name.titleize}: #{controller.action_name}"
-    = stylesheet_link_tag 'scaffold', 'jquery-ui', 'application', 'admin'
+    = stylesheet_link_tag 'scaffold', 'jquery-ui', 'admin'
     - (@css || []).each do |file|
       = stylesheet_link_tag file
     = stylesheet_link_tag 'print', :media => 'print'
