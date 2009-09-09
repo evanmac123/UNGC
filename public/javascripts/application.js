@@ -57,20 +57,83 @@ function makeChildrenInvisible (id) {
 		children[0].style.visibility = 'hidden';
 }
 
-function decoratePageWith (response) {
-	// render :update do |page|
-	//     page << "include('/javascripts/admin.js'); include('/ckeditor/ckeditor.js');"
-	//     page['#rightcontent'].prepend render(:partial => 'editor')
-	//   end
-	include('/javascripts/admin.js');
-	include('/ckeditor/ckeditor.js');
-	$('#rightcontent').prepend(response);
-  // console.log(response);
+function versionNumberAnchor() {
+	if (window.location.href.match(/\#/)) {
+		var anchor = window.location.href.split('#')[1]
+		if (anchor) {
+			var version_match = anchor.match(/version_([0-9]+)/)
+			if (version_match) {
+				return version_match[1];
+			}
+		}
+	}
+	return false;
+}
+
+var Watcher = {
+	watcher: null,
+	fetched: null,
+	included: null,
+	init: function() {
+		this.watcher = setInterval( Watcher.watchForVersion, 500 );
+	},
+	stop: function() {
+		clearInterval(Watcher.watcher);
+	},
+	watchForVersion: function() {
+		var versionNumber = versionNumberAnchor();
+		if (versionNumber)
+			Watcher.goDecorate(versionNumber);
+		else
+			Watcher.goDecorate();
+	},
+	alreadyFetched: function(url) {
+		if (Watcher.fetched == url) {
+			return true;
+		} else {
+			Watcher.fetched = url;
+			return false;
+		}
+	},
+	goDecorate: function(number) {
+		var url = "/decorate"+window.location.pathname;
+		if (number != null) url += '?version=' + number;
+
+		if (Watcher.alreadyFetched(url)) {
+			return false;
+		} else {
+			jQuery.ajax({
+	    	type: 'get',
+	    	url: url,
+	    	dataType: 'json',
+				success: Watcher.decoratePage
+			});
+		}
+	},
+	decoratePage: function(response) {
+		if (!Watcher.included) {
+			Watcher.included = true;
+			include('/javascripts/admin.js');
+			include('/ckeditor/ckeditor.js');
+		}
+		if (response.content) {
+			var possible_editor = $('#rightcontent .click_to_edit');
+			if (possible_editor.size() > 0)
+				possible_editor.remove();
+				// $('#rightcontent .click_to_edit').replaceWith(response.editor);
+			// else
+			$('#rightcontent').prepend(response.editor);
+			$('#rightcontent .copy').html(response.content);
+		} else {
+			$('#rightcontent').prepend(response.editor);
+		}
+	}
 }
 
 $(function() {
-	if ($('body.editable_page').length > 0)
-		jQuery.get("/decorate"+window.location.pathname, [], decoratePageWith);
+	if ($('body.editable_page').length > 0) {
+		Watcher.init();
+	}
 
 	$('a.edit_content').live('click', function(event) {
 		// jQuery.get(event.target.href, [], null, 'script');
