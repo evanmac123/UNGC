@@ -8,6 +8,7 @@ module FixtureReplacement
   attributes_for :contact do |c|
     c.first_name = String.random
     c.last_name = String.random
+    c.organization_id = Organization.first.id
 	end
 
   attributes_for :content do |c|
@@ -51,6 +52,8 @@ module FixtureReplacement
 
   attributes_for :logo_request do |r|
     r.purpose = String.random
+    r.organization_id = Organization.first.id
+    r.publication_id = LogoPublication.first.id
 	end
 
   attributes_for :navigation do |n|
@@ -62,7 +65,7 @@ module FixtureReplacement
 	end
 
   attributes_for :organization do |o|
-    o.name = 'Unspace'
+    o.name = String.random
 	end
 
   attributes_for :principle do |a|

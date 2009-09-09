@@ -28,20 +28,23 @@ class LogoRequest < ActiveRecord::Base
   has_many :logo_comments
   has_and_belongs_to_many :logo_files
 
-  state_machine :state, :initial => :incomplete do
-    event :submit do
-      transition :from => :incomplete, :to => :pending
+  state_machine :state, :initial => :pending_review do
+    event :revise do
+      transition :from => :pending_review, :to => :in_review
+    end
+    event :reply do
+      transition :from => [:in_review, :pending_review], :to => :pending_review
     end
     event :approve do
-      transition :from => :pending, :to => :approved
+      transition :from => :pending_review, :to => :approved
     end
     event :reject do
-      transition :from => :pending, :to => :rejected
+      transition :from => :pending_review, :to => :rejected
     end
   end
 
-  named_scope :incomplete, :conditions => {:state => "incomplete"}
-  named_scope :pending, :conditions => {:state => "pending"}
+  named_scope :pending_review, :conditions => {:state => "pending_review"}
+  named_scope :in_review, :conditions => {:state => "in_review"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
   

@@ -23,6 +23,17 @@ class LogoComment < ActiveRecord::Base
   has_attached_file :attachment
   
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
-
   default_scope :order => 'added_on DESC'
+
+  attr_accessor :state_event
+  after_save :update_request_state
+  
+  private
+    def update_request_state
+      if contact.from_ungc?
+        self.logo_request.send(state_event) if logo_request.state_events.include?(state_event)
+      else
+        self.logo_request.reply if self.logo_request.can_reply?
+      end
+    end
 end

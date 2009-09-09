@@ -40,4 +40,9 @@ class Contact < ActiveRecord::Base
   def name
     [first_name, last_name].join(' ')
   end
+  
+  def from_ungc?
+    # TODO check if this comment was added by UNGC staff
+    true
+  end
 end
