@@ -26,6 +26,7 @@
 #
 
 class Organization < ActiveRecord::Base
+  liquid_methods :name
   validates_presence_of :name
   has_many :contacts
   has_many :logo_requests
@@ -57,6 +58,13 @@ class Organization < ActiveRecord::Base
   named_scope :pending, :conditions => {:state => "pending"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
+
+  named_scope :filter, lambda { |filter_type|
+    {
+      :include => :organization_type,
+      :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)]
+    }
+  }
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION

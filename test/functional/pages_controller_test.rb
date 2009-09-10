@@ -33,6 +33,11 @@ class PagesControllerTest < ActionController::TestCase
         get :view, :path => 'invalid/path/here.html'.split('/')
         assert_response 404
       end
+
+      should "render using standard, static template" do
+        get :view, :path => @content.to_path
+        assert_template 'pages/static/default.html.haml'
+      end
     end
     
     context "decorate action" do

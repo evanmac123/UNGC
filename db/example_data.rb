@@ -1,4 +1,8 @@
 module FixtureReplacement
+  def random_url
+    "/#{[String.random, String.random, String.random].join('/')}.html"
+  end
+  
   attributes_for :case_story do |a|
 	end
 
@@ -12,7 +16,17 @@ module FixtureReplacement
 	end
 
   attributes_for :content do |c|
-    
+  end
+  
+  attributes_for :content_template do |ct|
+    ct.filename = random_url
+    ct.label = String.random
+  end
+  
+  attributes_for :content_versions do |cv|
+    cv.path = random_url
+    cv.content = "<h1>#{String.random}</h1><p>#{String.random}</p><p>#{String.random}</p>"
+    cv.template = ContentTemplate.first
   end
 
   attributes_for :cop_score do |a|

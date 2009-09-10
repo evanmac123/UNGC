@@ -17,4 +17,13 @@ class OrganizationType < ActiveRecord::Base
   
   named_scope :non_business, :conditions => ['type_property=?', NON_BUSINESS]
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
+  
+  FILTERS = {
+    :civil => ['NGO Global', 'NGO Local']
+  }
+  
+  def self.for_filter(filter_type)
+    find :all, :conditions => ["name IN (?)", FILTERS[filter_type]]
+  end
+  
 end

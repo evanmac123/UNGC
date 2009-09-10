@@ -1,14 +1,15 @@
 class PagesController < ApplicationController
   before_filter :soft_require_staff_user, :only => :decorate
   before_filter :find_content
-  layout :determine_layout
+  # layout :determine_layout
   
   def view
+    render :template => template.filename, :layout => determine_layout
   end
 
   def decorate
     json_to_render = {'editor' => render_to_string(:partial => 'editor')}
-    json_to_render['content'] = render_to_string(:action => 'view', :layout => false) if params[:version]
+    json_to_render['content'] = render_to_string(:template => template.filename, :layout => false) if params[:version]
     render :json => json_to_render
   end
 
@@ -33,5 +34,9 @@ class PagesController < ApplicationController
   
   def soft_require_staff_user
     render :text => '  ', :status => 200 unless request.xhr? && staff_user?
+  end
+  
+  def template
+    @current_version.template || ContentTemplate.default
   end
 end

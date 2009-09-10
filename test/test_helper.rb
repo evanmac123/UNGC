@@ -14,9 +14,14 @@ class ActiveSupport::TestCase
   end
   
   def create_approved_content(options)
+    create_default_template
     content = create_content(options)
     content.versions.first.approve!
     content
+  end
+
+  def create_default_template
+    ContentTemplate.create(:filename => 'pages/static/default.html.haml', :label => 'Standard', :default => true)
   end
 
   def create_simple_tree
