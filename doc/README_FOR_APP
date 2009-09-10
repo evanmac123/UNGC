@@ -37,3 +37,17 @@ To run those files, go to a console and:
 >> HabtmImporter.new.run
 
 Be patient, each run will take around 10 minutes :)
+
+Application setup
+=================
+
+If you are setting up this application for the first time in you machine, follow the steps below:
+
+cp config/database.yml.sample config/database.yml
+sudo rake gems:install
+rake db:create
+rake db:migrate
+rake db:seed
+./script/server
+
+Done :)
