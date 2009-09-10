@@ -1,4 +1,4 @@
-require 'fastercsv'
+#require 'fastercsv'
 
 class Importer
   
@@ -171,9 +171,12 @@ class Importer
 
     # translates the old database status into our state fields
     def update_state(name, model)
-      if name == :logo_request
-        # (0: “Pending Review” 1: “In Review”, 2”:“Declined” or 3:“Accepted)
-        model.state = ['pending_review', 'pending', 'rejected', 'approved'][model.status.to_i]
+      case name
+        when :logo_request then
+          # (0: “Pending Review” 1: “In Review”, 2”:“Declined” or 3:“Accepted)
+          model.state = ['pending_review', 'pending', 'rejected', 'approved'][model.status.to_i]
+        when :organization then
+          
       end
     end
 end
