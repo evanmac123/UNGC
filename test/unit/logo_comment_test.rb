@@ -11,7 +11,7 @@ class LogoCommentTest < ActiveSupport::TestCase
       # we need a comment before approving
       @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                          :contact_id  => Contact.first.id,
-                                         :state_event => :revise)
+                                         :state_event => LogoRequest::EVENT_REVISE)
       @logo_request.approve
     end
     
@@ -19,7 +19,7 @@ class LogoCommentTest < ActiveSupport::TestCase
       assert_no_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                            :contact_id  => Contact.first.id,
-                                           :state_event => :reply)
+                                           :state_event => LogoRequest::EVENT_REPLY)
       end
     end
   end
