@@ -9,6 +9,7 @@
     = stylesheet_link_tag 'print', :media => 'print'
   %body{:class => "#{ENV["RAILS_ENV"]} admin"}
     =# render :partial => 'layouts/header'
+    = render :partial => 'layouts/user_bar'
     = flash_messages_for :notice
     = yield
     =# render :partial => 'layouts/footer'

@@ -31,6 +31,9 @@
 #
 
 class Contact < ActiveRecord::Base
+  include Authentication
+  include Authentication::ByCookieToken
+
   validates_presence_of :first_name, :last_name
   belongs_to :organization
   belongs_to :country
@@ -43,6 +46,13 @@ class Contact < ActiveRecord::Base
   
   def name_with_title
     [prefix, first_name, last_name].join(' ')
+  end
+
+  def self.authenticate(login, password)
+    return nil if login.blank? || password.blank?
+    u = find_by_login(login.downcase)
+    # TODO hash the password
+    (u && u.password == password) ? u : nil
   end
   
   def from_ungc?
