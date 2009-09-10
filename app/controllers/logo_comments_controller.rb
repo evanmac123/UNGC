@@ -18,7 +18,8 @@ class LogoCommentsController < ApplicationController
     else
       render :action => "new"
     end
-  end  
+  end
+  
   private
     def load_logo_request
       # TODO: should logo comment be a nested resource of logo request?

@@ -28,6 +28,7 @@ class LogoComment < ActiveRecord::Base
   after_create :update_request_state
   
   validate :no_comment_on_approved_or_rejected_request
+  validate :approved_logos_selected_before_approving_request
   
   private
     def update_request_state
@@ -41,7 +42,12 @@ class LogoComment < ActiveRecord::Base
     def no_comment_on_approved_or_rejected_request
       if logo_request && (logo_request.approved? || logo_request.rejected?)
         errors.add_to_base "Cannot add comments to a #{logo_request.state} logo request"
-        return false
+      end
+    end
+    
+    def approved_logos_selected_before_approving_request
+      if state_event == LogoRequest::EVENT_APPROVE && logo_request.logo_files.empty?
+        errors.add_to_base "Cannot add comment, unless approved logos have been selected"
       end
     end
 end

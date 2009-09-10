@@ -5,6 +5,20 @@ class LogoCommentTest < ActiveSupport::TestCase
   should_belong_to :logo_request
   should_belong_to :contact
   
+  context "give a new logo request" do
+    setup do
+      create_new_logo_request
+    end
+    
+    should "only approve with comment if approved logo have been selected" do
+      assert_no_difference '@logo_request.logo_comments.count' do
+        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                           :contact_id  => Contact.first.id,
+                                           :state_event => LogoRequest::EVENT_APPROVE)
+      end
+    end
+  end
+  
   context "given an approved/rejected logo request" do
     setup do
       create_new_logo_request
