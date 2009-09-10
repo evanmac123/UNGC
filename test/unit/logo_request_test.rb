@@ -9,10 +9,7 @@ class LogoRequestTest < ActiveSupport::TestCase
 
   context "given a new logo request" do
     setup do
-      create_organization
-      create_contact
-      create_logo_publication
-      @logo_request = create_logo_request
+      create_new_logo_request
     end
 
     should "have default state of pending review" do

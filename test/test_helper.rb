@@ -26,4 +26,11 @@ class ActiveSupport::TestCase
     @child2 = create_navigation :parent => @parent1, :position => 1, :href => '/parent1/child2.html'
     @sub1 = create_navigation :parent => @child1, :position => 0, :href => '/parent1/child1/sub1.html'
   end
+  
+  def create_new_logo_request
+    create_organization
+    create_contact
+    create_logo_publication
+    @logo_request = create_logo_request
+  end
 end

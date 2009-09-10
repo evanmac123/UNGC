@@ -8,6 +8,7 @@ class LogoCommentsController < ApplicationController
   
   def create
     @logo_comment = @logo_request.logo_comments.new(params[:logo_comment])
+    @logo_comment.state_event = params[:commit].downcase
     # TODO get the user from the session
     @logo_comment.contact_id = @logo_request.contact_id
 

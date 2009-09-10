@@ -36,10 +36,10 @@ class LogoRequest < ActiveRecord::Base
       transition :from => [:in_review, :pending_review], :to => :pending_review
     end
     event :approve do
-      transition :from => :pending_review, :to => :approved
+      transition :from => [:in_review, :pending_review], :to => :approved
     end
     event :reject do
-      transition :from => :pending_review, :to => :rejected
+      transition :from => [:in_review, :pending_review], :to => :rejected
     end
   end
 
@@ -47,6 +47,11 @@ class LogoRequest < ActiveRecord::Base
   named_scope :in_review, :conditions => {:state => "in_review"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
+  
+  EVENT_REVISE = 'revise'
+  EVENT_REPLY = 'reply'
+  EVENT_REJECT = 'reject'
+  EVENT_APPROVE = 'approve'
   
   private
     def set_requested_on

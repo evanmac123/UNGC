@@ -2,10 +2,13 @@
 
 - form_for([@logo_request, @logo_comment],  :html => { :multipart => true }) do |form|
   = form.error_messages
-  = form.text_area :body
+  = form.text_area :body, :rows => 4
   = form.file_field :attachment
   
   %p
-    = form.submit 'Create'
+    = form.submit 'Save'
+    = form.submit LogoRequest::EVENT_REVISE.titleize
+    = form.submit LogoRequest::EVENT_APPROVE.titleize
+    = form.submit LogoRequest::EVENT_REJECT.titleize
 
 = link_to 'Back', [@logo_request.organization, @logo_request]

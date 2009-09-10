@@ -19,7 +19,8 @@ class LogoCommentsControllerTest < ActionController::TestCase
   test "should create logo comment" do
     assert_difference('LogoComment.count') do
       post :create, :logo_request_id => @logo_request.id,
-                    :logo_comment    => { :body => "approve me, man" }
+                    :logo_comment    => { :body => "approve me, man" },
+                    :commit          => LogoRequest::EVENT_REPLY
     end
 
     assert_redirected_to organization_logo_request_path(assigns(:logo_request).organization, assigns(:logo_request))
