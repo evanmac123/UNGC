@@ -43,7 +43,10 @@ module FixtureReplacement
   attributes_for :logo_comment do |a|
 	end
 
-  attributes_for :logo_file do |a|
+  attributes_for :logo_file do |f|
+    f.name = String.random
+    f.thumbnail = String.random
+    f.file = String.random
 	end
 
   attributes_for :logo_publication do |p|

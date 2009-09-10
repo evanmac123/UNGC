@@ -28,6 +28,7 @@ class LogoComment < ActiveRecord::Base
   after_create :update_request_state
   
   validate :no_comment_on_approved_or_rejected_request
+  validate :organization_user_cannot_approve_or_reject
   validate :approved_logos_selected_before_approving_request
   
   private
@@ -46,8 +47,14 @@ class LogoComment < ActiveRecord::Base
     end
     
     def approved_logos_selected_before_approving_request
-      if state_event == LogoRequest::EVENT_APPROVE && logo_request.logo_files.empty?
+      if state_event.to_s == LogoRequest::EVENT_APPROVE && logo_request.logo_files.empty?
         errors.add_to_base "Cannot add comment, unless approved logos have been selected"
+      end
+    end
+    
+    def organization_user_cannot_approve_or_reject
+      if state_event.to_s == LogoRequest::EVENT_APPROVE || state_event.to_s == LogoRequest::EVENT_REJECT
+        errors.add_to_base "Cannot approve/reject comment, unless UNGC staff" unless contact.from_ungc?
       end
     end
 end

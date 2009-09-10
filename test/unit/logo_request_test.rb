@@ -10,6 +10,7 @@ class LogoRequestTest < ActiveSupport::TestCase
   context "given a new logo request" do
     setup do
       create_new_logo_request
+      create_ungc_organization
     end
 
     should "have default state of pending review" do
@@ -17,14 +18,31 @@ class LogoRequestTest < ActiveSupport::TestCase
     end
 
     should "change state to approved if a positive comment is added" do
-      @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                         :contact_id  => Contact.first.id,
-                                         :state_event => :approve)
+      # no approved logo, can't approve now
+      assert_no_difference '@logo_request.logo_comments.count' do
+        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                           :contact_id  => @staff_user.id,
+                                           :state_event => :approve)
+      end
+      assert !@logo_request.approved?
+      # add approved logo, then approve
+      create_logo_file
+      @logo_request.logo_files << LogoFile.first
+      assert_difference '@logo_request.logo_comments.count' do
+        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                           :contact_id  => @staff_user.id,
+                                           :state_event => :approve)
+      end
       assert @logo_request.reload.approved?
     end
 
     should "make sure only ungc staff can approve or reject" do
-      # TODO implement after authorization
+      assert_no_difference '@logo_request.logo_comments.count' do
+        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                           :contact_id  => @organization_user.id,
+                                           :state_event => :approve)
+      end
+      assert !@logo_request.reload.approved?
     end
 
     should "allow multiple comments by organization user without changing state" do

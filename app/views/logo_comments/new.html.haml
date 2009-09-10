@@ -7,8 +7,9 @@
   
   %p
     = form.submit 'Save'
-    = form.submit LogoRequest::EVENT_REVISE.titleize
-    = form.submit LogoRequest::EVENT_APPROVE.titleize
-    = form.submit LogoRequest::EVENT_REJECT.titleize
+    - staff_only do
+      = form.submit LogoRequest::EVENT_REVISE.titleize
+      = form.submit LogoRequest::EVENT_APPROVE.titleize
+      = form.submit LogoRequest::EVENT_REJECT.titleize
 
 = link_to 'Back', [@logo_request.organization, @logo_request]

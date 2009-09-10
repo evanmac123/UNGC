@@ -13,4 +13,10 @@ module ApplicationHelper
   def flash_messages_for(*keys)
     keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join
   end
+  
+  def staff_only(&block)
+    if logged_in? && current_user.from_ungc?
+      yield
+    end
+  end
 end

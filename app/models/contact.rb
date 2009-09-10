@@ -56,7 +56,7 @@ class Contact < ActiveRecord::Base
   end
   
   def from_ungc?
-    # TODO check if this comment was added by UNGC staff
-    true
+    # TODO add a robust condition
+    organization.name == 'UNGC'
   end
 end
