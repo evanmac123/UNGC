@@ -1,4 +1,4 @@
-require 'fastercsv'
+require 'csv'
 
 class HabtmImporter
   
@@ -35,7 +35,7 @@ class HabtmImporter
     # by default we use the first two fields from the feed
     index = options[:index] || [0, 1]
     # read the file
-    FasterCSV.foreach(file, :col_sep => "\t",
+    CSV.foreach(file, :col_sep => "\t",
                             :headers => :first_row) do |row|
       # create an object of the correct type and save
       o = find_model_object(options[:models].first, row[index.first])
