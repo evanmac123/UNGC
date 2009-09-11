@@ -4,4 +4,24 @@ class ContactTest < ActiveSupport::TestCase
   should_validate_presence_of :first_name, :last_name
   should_belong_to :organization
   should_belong_to :country
+  
+  context "given a ungc user" do
+    setup do
+      create_ungc_organization
+    end
+    
+    should "return proper type" do
+      assert_equal Contact::TYPE_UNGC, @staff_user.user_type
+    end
+  end
+  
+  context "given a ungc user" do
+    setup do
+      create_organization_user
+    end
+    
+    should "return proper type" do
+      assert_equal Contact::TYPE_ORGANIZATION, @organization_user.user_type
+    end
+  end
 end

@@ -34,6 +34,10 @@ class Contact < ActiveRecord::Base
   include Authentication
   include Authentication::ByCookieToken
 
+  TYPE_UNGC = :ungc
+  TYPE_ORGANIZATION = :organization
+  TYPE_NETWORK = :network
+
   validates_presence_of :first_name, :last_name
   belongs_to :organization
   belongs_to :country
@@ -58,5 +62,19 @@ class Contact < ActiveRecord::Base
   def from_ungc?
     # TODO add a robust condition
     organization.name == 'UNGC'
+  end
+  
+  def from_organization?
+    !from_ungc?
+  end
+  
+  def from_network
+    false
+  end
+  
+  def user_type
+    return TYPE_UNGC if from_ungc?
+    return TYPE_ORGANIZATION if from_organization?
+    return TYPE_NETWORK if from_network?
   end
 end

@@ -29,10 +29,14 @@ class ActiveSupport::TestCase
   end
   
   def create_new_logo_request
-    @organization = create_organization
-    @organization_user = create_contact(:organization_id => @organization.id)
+    create_organization_user
     create_logo_publication
     @logo_request = create_logo_request
+  end
+
+  def create_organization_user
+    @organization = create_organization
+    @organization_user = create_contact(:organization_id => @organization.id)
   end
   
   def create_ungc_organization
