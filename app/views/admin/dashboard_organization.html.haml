@@ -3,4 +3,6 @@
 
 %ul
   %li= link_to 'Organizations', organizations_path
-  %li= link_to 'Logo Requests', organization_logo_requests_path(current_user.organization)
+  %li
+    = link_to 'Logo Requests', organization_logo_requests_path(current_user.organization)
+    = link_to 'new', new_organization_logo_request_path(current_user.organization)
