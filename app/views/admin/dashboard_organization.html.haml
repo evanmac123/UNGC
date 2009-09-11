@@ -1,0 +1,6 @@
+%h1 Dashboard
+%small== for #{current_user.organization.name} staff
+
+%ul
+  %li= link_to 'Organizations', organizations_path
+  %li= link_to 'Logo Requests', organization_logo_requests_path(current_user.organization)

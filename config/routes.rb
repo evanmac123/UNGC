@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
+  map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   
   map.with_options :controller => 'admin/content' do |m|
     m.edit_content 'admin/content/:id/edit', :action => 'edit', :conditions => { :method => :get }
