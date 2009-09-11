@@ -9,6 +9,7 @@ class LogoRequestsControllerTest < ActionController::TestCase
     @logo_request = create_logo_request(:organization_id => @organization.id,
                                         :contact_id      => @contact.id,
                                         :publication_id  => @publication.id)
+    login_as @contact
   end
   
   test "should get new" do

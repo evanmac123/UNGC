@@ -29,7 +29,7 @@ class LogoRequestsController < ApplicationController
   
   private
     def load_organization
+      @logo_request = LogoRequest.visible_to(current_user).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
-      @logo_request = @organization.logo_requests.find params[:id] if params[:id]
     end
 end

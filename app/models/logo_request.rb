@@ -47,6 +47,15 @@ class LogoRequest < ActiveRecord::Base
   named_scope :in_review, :conditions => {:state => "in_review"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
+
+  named_scope :visible_to, lambda { |user|
+    if user.user_type == Contact::TYPE_ORGANIZATION
+      { :conditions => ['organization_id=?', user.organization_id] }
+    else
+      # TODO implement for network
+      {}
+    end
+  }
   
   EVENT_REVISE = 'revise'
   EVENT_REPLY = 'reply'
