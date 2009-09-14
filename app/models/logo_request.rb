@@ -28,6 +28,8 @@ class LogoRequest < ActiveRecord::Base
   has_many :logo_comments
   has_and_belongs_to_many :logo_files
 
+  accepts_nested_attributes_for :logo_comments
+
   state_machine :state, :initial => :pending_review do
     event :revise do
       transition :from => :pending_review, :to => :in_review

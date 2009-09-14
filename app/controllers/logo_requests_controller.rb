@@ -4,10 +4,12 @@ class LogoRequestsController < ApplicationController
 
   def new
     @logo_request = @organization.logo_requests.new
+    @logo_request.logo_comments << @logo_request.logo_comments.new
   end
 
   def create
     @logo_request = @organization.logo_requests.new(params[:logo_request])
+    @logo_request.logo_comments.first.contact_id = current_user.id
 
     if @logo_request.save
       flash[:notice] = 'Logo request was successfully created.'

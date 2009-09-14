@@ -22,7 +22,8 @@ class LogoRequestsControllerTest < ActionController::TestCase
       post :create, :organization_id => @organization.id,
                     :logo_request => { :contact_id     => @contact.id,
                                        :purpose        => 'Report',
-                                       :publication_id => @publication.id }
+                                       :publication_id => @publication.id,
+                                       :logo_comments_attributes=>{"0"=>{"body"=>"comment"}} }
     end
 
     assert_redirected_to organization_path(assigns(:organization))

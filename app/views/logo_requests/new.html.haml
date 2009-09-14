@@ -1,9 +1,13 @@
 %h1 New logo request
 
-- form_for([@organization, @logo_request]) do |form|
+- form_for([@organization, @logo_request], :html => { :multipart => true }) do |form|
   = render :partial => form
   
+  - form.fields_for :logo_comments do |comment_form|
+    = comment_form.text_area :body
+    = comment_form.file_field :attachment
+  
   %p
-    = form.submit 'Create'
+    = form.submit 'Save'
 
 = link_to 'Back', @organization
