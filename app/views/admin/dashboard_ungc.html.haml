@@ -1,6 +1,8 @@
 %h1 Dashboard
 %small for UNGC staff
 
+%h3= link_to 'Organizations', organizations_path
+
+%h3 Pending Logo Requests
 %ul
-  %li= link_to 'Organizations', organizations_path
-  %li= link_to 'Logo Requests', organizations_path
+  %li= render :partial => @pending_logo_requests

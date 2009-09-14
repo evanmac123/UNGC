@@ -9,8 +9,7 @@ class LogoCommentsController < ApplicationController
   def create
     @logo_comment = @logo_request.logo_comments.new(params[:logo_comment])
     @logo_comment.state_event = params[:commit].downcase
-    # TODO get the user from the session
-    @logo_comment.contact_id = @logo_request.contact_id
+    @logo_comment.contact_id = current_user.id
 
     if @logo_comment.save
       flash[:notice] = 'Logo comment was successfully created.'

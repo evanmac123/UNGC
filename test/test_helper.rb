@@ -30,6 +30,7 @@ class ActiveSupport::TestCase
   
   def create_new_logo_request
     create_organization_user
+    create_ungc_organization
     create_logo_publication
     @logo_request = create_logo_request
   end

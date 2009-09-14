@@ -6,7 +6,8 @@
   = form.file_field :attachment
   
   %p
-    = form.submit 'Save'
+    - organization_only do
+      = form.submit 'Save'
     - staff_only do
       = form.submit LogoRequest::EVENT_REVISE.titleize
       = form.submit LogoRequest::EVENT_APPROVE.titleize

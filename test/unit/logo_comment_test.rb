@@ -10,12 +10,21 @@ class LogoCommentTest < ActiveSupport::TestCase
       create_new_logo_request
     end
     
-    should "only approve with comment if approved logo have been selected" do
+    should "only approve with comment if approved logos have been selected" do
       assert_no_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                           :contact_id  => Contact.first.id,
+                                           :contact_id  => @staff_user.id,
                                            :state_event => LogoRequest::EVENT_APPROVE)
       end
+    end
+    
+    should "go to 'in review' state with a comment" do
+      assert_difference '@logo_request.logo_comments.count' do
+        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                           :contact_id  => @staff_user.id,
+                                           :state_event => LogoRequest::EVENT_REVISE)
+      end
+      assert @logo_request.reload.in_review?
     end
   end
   
@@ -32,7 +41,7 @@ class LogoCommentTest < ActiveSupport::TestCase
     should "not accept new comments" do
       assert_no_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                           :contact_id  => Contact.first.id,
+                                           :contact_id  => @organization_user.id,
                                            :state_event => LogoRequest::EVENT_REPLY)
       end
     end

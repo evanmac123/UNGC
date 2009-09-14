@@ -15,8 +15,10 @@ module ApplicationHelper
   end
   
   def staff_only(&block)
-    if logged_in? && current_user.from_ungc?
-      yield
-    end
+    yield if logged_in? && current_user.from_ungc?
+  end
+  
+  def organization_only(&block)
+    yield if logged_in? && current_user.from_organization?
   end
 end

@@ -17,6 +17,7 @@ class LogoCommentsControllerTest < ActionController::TestCase
   end
 
   test "should create logo comment" do
+    login_as @contact
     assert_difference('LogoComment.count') do
       post :create, :logo_request_id => @logo_request.id,
                     :logo_comment    => { :body => "approve me, man" },

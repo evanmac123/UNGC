@@ -31,11 +31,11 @@ class LogoRequest < ActiveRecord::Base
   accepts_nested_attributes_for :logo_comments
 
   state_machine :state, :initial => :pending_review do
-    event :revise do
-      transition :from => :pending_review, :to => :in_review
-    end
     event :reply do
       transition :from => [:in_review, :pending_review], :to => :pending_review
+    end
+    event :revise do
+      transition :from => :pending_review, :to => :in_review
     end
     event :approve do
       transition :from => [:in_review, :pending_review], :to => :approved

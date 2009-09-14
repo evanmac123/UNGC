@@ -14,7 +14,7 @@
 = logo_request_actions(@logo_request)
 
 %h2 Comments
-= link_to 'New comment', new_logo_request_logo_comment_path(@logo_request)
+= link_to 'New comment', new_logo_request_logo_comment_path(@logo_request) unless @logo_request.state_events.empty?
 %ul
   = render :partial => @logo_request.logo_comments
 
@@ -26,7 +26,13 @@
       = number_to_human_size(comment.attachment_file_size)
 
 %h2 Approved logos
-- form_for([@logo_request.organization, @logo_request]) do |f|
-  %ul
-    = render :partial => 'logo_files'
-  = f.submit 'Save logos'
+- staff_only do
+  - form_for([@logo_request.organization, @logo_request]) do |f|
+    %ul
+      = render :partial => 'logo_files'
+    = f.submit 'Save logos'
+- organization_only do
+  - if @logo_request.logo_files.any?
+    approved logos here
+  - else
+    no approved logos

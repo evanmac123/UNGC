@@ -1,8 +1,12 @@
 %h1 Dashboard
-%small== for #{current_user.organization.name} staff
+== for #{link_to current_user.organization.name, edit_organization_path(current_user.organization)} staff
 
+%h3 Contacts
+= link_to 'new', new_organization_contact_path(current_user.organization)
 %ul
-  %li= link_to 'Organizations', organizations_path
-  %li
-    = link_to 'Logo Requests', organization_logo_requests_path(current_user.organization)
-    = link_to 'new', new_organization_logo_request_path(current_user.organization)
+  = render :partial => current_user.organization.contacts
+
+%h3 Logo requests
+= link_to 'new', new_organization_logo_request_path(current_user.organization)
+%ul
+  = render :partial => current_user.organization.logo_requests
