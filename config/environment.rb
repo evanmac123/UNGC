@@ -12,7 +12,6 @@ Rails::Initializer.run do |config|
   config.gem 'liquid'
   config.gem 'money'
   config.gem 'haml'
-#  config.gem 'fastercsv'
 
   config.time_zone = 'UTC'
 
