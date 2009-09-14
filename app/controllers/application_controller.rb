@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
   PASSWORD = 'unspace123'
   
   before_filter :simple_http_auth
+  before_filter :mailer_set_url_options
+
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
@@ -34,11 +36,15 @@ class ApplicationController < ActionController::Base
   helper_method :look_for_path
 
   protected
-  def simple_http_auth
-    if RAILS_ENV == 'production'
-      authenticate_or_request_with_http_basic do |username, password|
-        username == USERNAME && password == PASSWORD
+    def simple_http_auth
+      if RAILS_ENV == 'production'
+        authenticate_or_request_with_http_basic do |username, password|
+          username == USERNAME && password == PASSWORD
+        end
       end
     end
-  end
+    
+    def mailer_set_url_options
+      ActionMailer::Base.default_url_options[:host] = request.host_with_port
+    end
 end

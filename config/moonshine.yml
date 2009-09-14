@@ -1,4 +1,4 @@
-:ruby: ree
+:ruby: 1.9.1
 :application: unglobalcompact
 :user: rails
 #:time_zone: UTC

@@ -7,7 +7,7 @@ Logo Request Status: Accepted
 = h @logo_request.logo_comments.last.body
 
 == To download the logo files for #{@logo_request.organization.name}, please login at the Global Compact website and visit the original logo submission:
-http://demo.unglobalcompact.org/admin/org/submissions/logo/review/detail.php?id=567
+= organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)
 
 Sincerely,
 
