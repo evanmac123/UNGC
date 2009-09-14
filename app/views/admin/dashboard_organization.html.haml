@@ -8,5 +8,6 @@
 
 %h3 Logo requests
 = link_to 'new', new_organization_logo_request_path(current_user.organization)
-%ul
-  = render :partial => current_user.organization.logo_requests
+- if current_user.organization.logo_requests.any?
+  %ul
+    = render :partial => current_user.organization.logo_requests

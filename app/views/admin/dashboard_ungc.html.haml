@@ -4,5 +4,8 @@
 %h3= link_to 'Organizations', organizations_path
 
 %h3 Pending Logo Requests
-%ul
-  %li= render :partial => @pending_logo_requests
+- if @pending_logo_requests.any?
+  %ul
+    = render :partial => @pending_logo_requests
+- else
+  no work for you
