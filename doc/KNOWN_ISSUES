@@ -1,3 +1,6 @@
 List of known issues
 
-- Small (<=110kb) file uploads do not work due to bug in rack. Patch in https://rails.lighthouseapp.com/projects/8994/tickets/2497-rack-in-rails-232-throws-fatal-error-with-small-uploads fixes the issue.
+- File uploads do not work due to bug in the released rack gem. To fix the issue:
+git clone git://github.com/rack/rack.git
+rake gem VERSION=1.0.0
+gem install rack-1.0.0.gem
