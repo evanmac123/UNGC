@@ -54,6 +54,15 @@ class Organization < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
 
+  named_scope :visible_to, lambda { |user|
+    if user.user_type == Contact::TYPE_ORGANIZATION
+      { :conditions => ['id=?', user.organization_id] }
+    else
+      # TODO implement for network
+      {}
+    end
+  }
+
   private
     def automatic_submit
       if state == "incomplete"
