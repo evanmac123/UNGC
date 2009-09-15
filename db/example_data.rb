@@ -65,11 +65,14 @@ module FixtureReplacement
     n.href  = String.random
   end
 
-  attributes_for :organization_type do |a|
+  attributes_for :organization_type do |o|
+    o.name = String.random
+    o.type_property = OrganizationType::BUSINESS
 	end
 
   attributes_for :organization do |o|
     o.name = String.random
+    o.organization_type_id = OrganizationType.first.try(:id)
 	end
 
   attributes_for :principle do |a|

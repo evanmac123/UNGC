@@ -11,4 +11,10 @@
 
 class OrganizationType < ActiveRecord::Base
   validates_presence_of :name
+  
+  NON_BUSINESS = 1
+  BUSINESS = 2
+  
+  named_scope :non_business, :conditions => ['type_property=?', NON_BUSINESS]
+  named_scope :business, :conditions => ['type_property=?', BUSINESS]
 end

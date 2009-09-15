@@ -36,6 +36,7 @@ class ActiveSupport::TestCase
   end
 
   def create_organization_user
+    create_organization_type
     @organization = create_organization
     @organization_user = create_contact(:organization_id => @organization.id)
   end

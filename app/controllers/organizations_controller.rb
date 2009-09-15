@@ -9,6 +9,8 @@ class OrganizationsController < ApplicationController
   def new
     @organization = Organization.new
     @organization.contacts << @organization.contacts.new
+    # TODO get either Business or Non-Business types
+    @organization_types = OrganizationType.business
   end
 
   def create
@@ -20,6 +22,10 @@ class OrganizationsController < ApplicationController
     else
       render :action => "new"
     end
+  end
+  
+  def edit
+    @organization_types = OrganizationType.all(:conditions => ["type_property=?",@organization.organization_type.type_property])
   end
 
   def update
