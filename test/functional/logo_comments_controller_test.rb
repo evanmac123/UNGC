@@ -21,7 +21,8 @@ class LogoCommentsControllerTest < ActionController::TestCase
     login_as @contact
     assert_difference('LogoComment.count') do
       post :create, :logo_request_id => @logo_request.id,
-                    :logo_comment    => { :body => "approve me, man" },
+                    :logo_comment    => { :body       => "approve me, man",
+                                          :attachment => fixture_file_upload('files/untitled.pdf', 'application/pdf') },
                     :commit          => LogoRequest::EVENT_REPLY
     end
 

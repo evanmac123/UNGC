@@ -19,11 +19,14 @@ class LogoRequestsControllerTest < ActionController::TestCase
 
   test "should create logo request" do
     assert_difference('LogoRequest.count') do
+      comment_attributes = {:body       =>"comment",
+                            :attachment => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+      
       post :create, :organization_id => @organization.id,
                     :logo_request => { :contact_id     => @contact.id,
                                        :purpose        => 'Report',
                                        :publication_id => @publication.id,
-                                       :logo_comments_attributes=>{"0"=>{"body"=>"comment"}} }
+                                       :logo_comments_attributes=>{"0"=>comment_attributes} }
     end
 
     assert_redirected_to organization_path(assigns(:organization))

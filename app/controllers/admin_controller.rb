@@ -1,6 +1,9 @@
 class AdminController < ApplicationController
   layout 'admin'
+  # TODO use a single before_filter
   before_filter :require_staff
+  
+  before_filter :login_required, :only => :dashboard
   
   def dashboard
     if current_user.from_ungc?

@@ -14,6 +14,7 @@ class LogoCommentTest < ActiveSupport::TestCase
       assert_no_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                            :contact_id  => @staff_user.id,
+                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                            :state_event => LogoRequest::EVENT_APPROVE)
       end
     end
@@ -22,6 +23,7 @@ class LogoCommentTest < ActiveSupport::TestCase
       assert_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                            :contact_id  => @staff_user.id,
+                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                            :state_event => LogoRequest::EVENT_REVISE)
       end
       assert @logo_request.reload.in_review?
@@ -34,6 +36,7 @@ class LogoCommentTest < ActiveSupport::TestCase
       # we need a comment before approving
       @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                          :contact_id  => Contact.first.id,
+                                         :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                          :state_event => LogoRequest::EVENT_REVISE)
       @logo_request.approve
     end
@@ -42,6 +45,7 @@ class LogoCommentTest < ActiveSupport::TestCase
       assert_no_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                            :contact_id  => @organization_user.id,
+                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                            :state_event => LogoRequest::EVENT_REPLY)
       end
     end

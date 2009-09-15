@@ -22,6 +22,7 @@ class LogoRequestTest < ActiveSupport::TestCase
       assert_no_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                            :contact_id  => @staff_user.id,
+                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                            :state_event => :approve)
       end
       assert !@logo_request.approved?
@@ -31,6 +32,7 @@ class LogoRequestTest < ActiveSupport::TestCase
       assert_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                            :contact_id  => @staff_user.id,
+                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                            :state_event => :approve)
       end
       assert @logo_request.reload.approved?
