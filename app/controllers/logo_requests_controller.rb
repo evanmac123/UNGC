@@ -1,6 +1,6 @@
 class LogoRequestsController < ApplicationController
   layout 'admin'
-  before_filter :load_organization
+  before_filter :login_required, :load_organization
 
   def new
     @logo_request = @organization.logo_requests.new

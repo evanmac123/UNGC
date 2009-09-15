@@ -12,6 +12,7 @@ class LogoCommentsControllerTest < ActionController::TestCase
   end
   
   test "should get new" do
+    login_as @contact
     get :new, :logo_request_id => @logo_request.id
     assert_response :success
   end

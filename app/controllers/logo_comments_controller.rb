@@ -1,6 +1,6 @@
 class LogoCommentsController < ApplicationController
   layout 'admin'
-  before_filter :load_logo_request
+  before_filter :login_required, :load_logo_request
   
   def new
     @logo_comment = @logo_request.logo_comments.new
