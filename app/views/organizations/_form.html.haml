@@ -3,10 +3,12 @@
 = form.text_field :url
 = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
 
-= form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
-= form.check_box :is_ft_500, :label => 'Financial Times 500'
-= form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
-= form.text_field :stock_symbol
+- if @organization_types.first.type_property == OrganizationType::BUSINESS
+  = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
+  #public_company_only
+    = form.check_box :is_ft_500, :label => 'Financial Times 500'
+    = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
+    = form.text_field :stock_symbol
 
 = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
 = form.text_field :employees

@@ -6,6 +6,9 @@ ActionController::Routing::Routes.draw do |map|
                                 :has_many   => [:contacts, :logo_requests]
   map.resources :logo_requests, :has_many => :logo_comments
   map.resource :session
+  
+  # shorcut for new organization
+  map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
