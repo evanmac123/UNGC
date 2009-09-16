@@ -1,6 +1,7 @@
 class OrganizationsController < ApplicationController
   layout 'admin'
   before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject]
+  before_filter :load_organization_types, :only => :new
   
   def index
     @organizations = Organization.paginate :per_page => 10, :page => params[:page]
@@ -8,9 +9,8 @@ class OrganizationsController < ApplicationController
 
   def new
     @organization = Organization.new
+    @organization.organization_type_id = @organization_types.first.id
     @organization.contacts << @organization.contacts.new
-    # TODO get either Business or Non-Business types
-    @organization_types = OrganizationType.business
   end
 
   def create
@@ -62,5 +62,10 @@ class OrganizationsController < ApplicationController
   private
     def load_organization
       @organization = Organization.find(params[:id])
+    end
+    
+    def load_organization_types
+      method = ['business', 'non_business'].include?(params[:org_type]) ? params[:org_type] : 'business'
+      @organization_types = OrganizationType.send method
     end
 end

@@ -26,6 +26,7 @@ class LogoComment < ActiveRecord::Base
 
   attr_accessor :state_event
   after_create :update_request_state
+  after_create :update_request_replied_to_and_reviewer_id
   
   validate :no_comment_on_approved_or_rejected_request
   validate :organization_user_cannot_approve_or_reject
@@ -34,10 +35,15 @@ class LogoComment < ActiveRecord::Base
   
   private
     def update_request_state
-      if contact.from_ungc?
-        logo_request.send(state_event) if logo_request.state_events.include?(state_event.to_sym)
-      else
-        logo_request.reply if logo_request.can_reply?
+      if contact && contact.from_ungc?
+        logo_request.send(state_event) if state_event && logo_request.state_events.include?(state_event.to_sym)
+      end
+    end
+    
+    def update_request_replied_to_and_reviewer_id
+      logo_request.update_attribute(:replied_to, contact && contact.from_ungc?)
+      if contact && contact.from_ungc?
+        logo_request.update_attribute(:reviewer_id, contact_id)
       end
     end
     

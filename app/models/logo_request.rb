@@ -24,6 +24,7 @@ class LogoRequest < ActiveRecord::Base
   validates_presence_of :organization_id, :publication_id
   belongs_to :organization
   belongs_to :contact
+  belongs_to :reviewer, :class_name => "Contact"
   belongs_to :publication, :class_name => "LogoPublication"
   has_many :logo_comments
   has_and_belongs_to_many :logo_files
@@ -31,9 +32,6 @@ class LogoRequest < ActiveRecord::Base
   accepts_nested_attributes_for :logo_comments
 
   state_machine :state, :initial => :pending_review do
-    event :reply do
-      transition :from => [:in_review, :pending_review], :to => :pending_review
-    end
     event :revise do
       transition :from => :pending_review, :to => :in_review
     end
@@ -49,6 +47,8 @@ class LogoRequest < ActiveRecord::Base
   named_scope :in_review, :conditions => {:state => "in_review"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
+
+  named_scope :unreplied, :conditions => {:replied_to => false}
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION

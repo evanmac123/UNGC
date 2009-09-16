@@ -127,7 +127,7 @@ class Importer
         elsif field == :cop_score_id
           o.cop_score_id = CopScore.find_by_old_id(row[i]).id if row[i]
         elsif field == :logo_request_id
-          o.logo_request_id = LogoRequest.find_by_old_id(row[i]).id if row[i]
+          o.logo_request_id = LogoRequest.find_by_old_id(row[i]).try(:id) if row[i]
         elsif field == :logo_file_id
           o.logo_file_id = LogoFile.find_by_old_id(row[i]).id if row[i]
         elsif field == :removal_reason_id
@@ -148,9 +148,15 @@ class Importer
         end
       end
       update_state(name, o)
-      saved = o.save
-      puts "** Could not save #{name}: #{row}"unless saved
+      
+      if perform_validation?(name)
+        saved = o.save
+        puts "** Could not save #{name}: #{row}" unless saved
+      else
+        o.save(false)
+      end
     end
+    puts "-- Imported #{model.count} records."
   end
   
   def delete_all(options={})
@@ -182,5 +188,9 @@ class Importer
         when :organization then
           
       end
+    end
+    
+    def perform_validation?(name)
+      name != :logo_comment
     end
 end

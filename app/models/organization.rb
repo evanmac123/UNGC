@@ -67,6 +67,14 @@ class Organization < ActiveRecord::Base
     end
   }
 
+  def company?
+    organization_type.try(:name) == 'Company'
+  end
+
+  def public_company?
+    listing_status.try(:name) == 'Public Company'
+  end
+  
   private
     def automatic_submit
       if state == "incomplete"
