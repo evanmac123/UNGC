@@ -9,3 +9,10 @@
     = render :partial => @pending_logo_requests
 - else
   no work for you
+
+%h3 Logo Requests that need attention
+- if @unreplied_logo_requests.any?
+  %ul
+    = render :partial => @unreplied_logo_requests
+- else
+  no work for you
