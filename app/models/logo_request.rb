@@ -41,12 +41,16 @@ class LogoRequest < ActiveRecord::Base
     event :reject do
       transition :from => [:in_review, :pending_review], :to => :rejected
     end
+    event :accept do
+      transition :from => :approved, :to => :accepted
+    end
   end
 
   named_scope :pending_review, :conditions => {:state => "pending_review"}
   named_scope :in_review, :conditions => {:state => "in_review"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
+  named_scope :accepted, :conditions => {:state => "accepted"}
 
   named_scope :unreplied, :conditions => {:replied_to => false}
 
