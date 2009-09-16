@@ -49,7 +49,7 @@ class Contact < ActiveRecord::Base
   end
   
   def name_with_title
-    [prefix, first_name, last_name].join(' ')
+    [prefix, last_name].join(' ')
   end
 
   def self.authenticate(login, password)
