@@ -49,9 +49,9 @@ class Importer
     :organization => {:file   => 'R01_ORGANIZATION.txt',
                       :fields => [:old_id, :organization_type_id, :name, :sector_id, :local_network, :participant,
                                    :employees, :url, nil, :added_on, :modified_on, :joined_on, :delisted_on,:active,
-                                   nil, :country_id, nil, nil, nil, nil,
+                                   :is_ft_500, :country_id, nil, nil, nil, nil,
                                    nil, nil, nil, nil, nil,
-                                   nil, nil, nil, :stock_symbol, nil,
+                                   nil, nil, :listing_status_id, :stock_symbol, :exchange_id,
                                    nil, nil, :removal_reason_id, :last_modified_by_id, nil]},
     # fields: CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_TITLE	CONTACT_EMAIL
     #         CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
@@ -118,6 +118,10 @@ class Importer
           end
         elsif field == :sector_id
           o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
+        elsif field == :exchange_id
+          o.sector_id = Exchange.find_by_code(row[i]).try(:id) if row[i]
+        elsif field == :listing_status_id
+          o.sector_id = ListingStatus.find_by_old_id(row[i]).id if row[i]
         elsif field == :publication_id
           o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
         elsif field == :cop_score_id

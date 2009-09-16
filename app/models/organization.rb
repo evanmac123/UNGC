@@ -33,6 +33,8 @@ class Organization < ActiveRecord::Base
   has_many :communication_on_progresses
   belongs_to :sector
   belongs_to :organization_type
+  belongs_to :listing_status
+  belongs_to :exchange
   belongs_to :country
 
   before_save :automatic_submit
@@ -64,7 +66,7 @@ class Organization < ActiveRecord::Base
       {}
     end
   }
-  
+
   private
     def automatic_submit
       if state == "incomplete"

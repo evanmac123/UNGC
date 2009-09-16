@@ -8,5 +8,7 @@ class OrganizationTest < ActiveSupport::TestCase
   should_have_many :communication_on_progresses
   should_belong_to :sector
   should_belong_to :organization_type
+  should_belong_to :listing_status
+  should_belong_to :exchange
   should_belong_to :country
 end
