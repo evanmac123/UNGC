@@ -65,8 +65,6 @@ class Organization < ActiveRecord::Base
     end
   }
   
-  OWNERSHIP = ['Private Company', 'Public Company', 'Subsidiary', 'State-owned']
-
   private
     def automatic_submit
       if state == "incomplete"
