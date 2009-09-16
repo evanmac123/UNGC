@@ -34,10 +34,10 @@ class LogoComment < ActiveRecord::Base
   
   private
     def update_request_state
-      if contact.from_ungc?
-        logo_request.send(state_event) if logo_request.state_events.include?(state_event.to_sym)
+      if contact && contact.from_ungc?
+        logo_request.send(state_event) if state_event && logo_request.state_events.include?(state_event.to_sym)
       else
-        logo_request.reply if logo_request.can_reply?
+        logo_request.reply if state_event && logo_request.can_reply?
       end
     end
     
