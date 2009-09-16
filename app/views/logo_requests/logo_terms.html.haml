@@ -1,0 +1,9 @@
+%h1 Request approved
+
+%p You request has been approved; however, you have to agree to the Logo terms and conditions below:
+
+#terms_and_conditions{:style => 'border: dotted'}
+  "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+%p
+  = link_to 'I agree', agree_organization_logo_request_path(@logo_request.organization, @logo_request), :method => :post
