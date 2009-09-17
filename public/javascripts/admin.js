@@ -26,7 +26,8 @@ var Editor = {
 			resize_minWidth: 300,
 			resize_maxWidth: 600,
 		});
-		Editor.editor.config.protectedSource.push( /<\!\-\- dynamic \-\->[\s\w=/{}%."<>]+<\!\-\- \/dynamic \-\->/gm);
+		Editor.editor.config.protectedSource.push( /<\%=?.*\%>/gm);
+		// Editor.editor.config.startupMode = 'source';
 		Editor.editor.setData(contents);
 	},
 	save: function() {
