@@ -15,4 +15,6 @@
 class LogoFile < ActiveRecord::Base
   validates_presence_of :name, :file, :thumbnail
   has_and_belongs_to_many :logo_requests
+  
+  has_attached_file :zip
 end
