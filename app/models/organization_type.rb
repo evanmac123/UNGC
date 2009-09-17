@@ -19,11 +19,14 @@ class OrganizationType < ActiveRecord::Base
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
   
   FILTERS = {
-    :civil => ['NGO Global', 'NGO Local']
+    :academia => 'Academic',
+    :civil_global => 'NGO Global',
+    :civil_local => 'NGO Local'
   }
   
   def self.for_filter(filter_type)
-    find :all, :conditions => ["name IN (?)", FILTERS[filter_type]]
+    filter_array = [FILTERS[filter_type]].flatten
+    find :all, :conditions => ["name IN (?)", filter_array]
   end
   
 end

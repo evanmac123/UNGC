@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
+require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+
+replacements = File.dirname(__FILE__) + '/../lib/content_replacements.yml'
+
+results = nil
+File.open( replacements ) { |yf| results = YAML::load( yf ) }
+dynamic = ContentTemplate.find_by_label('Dynamic')
+results.each_pair do |path,page|
+  puts "Looking for '#{path}'"
+  content = Content.find_by_path path
+  puts " replacing contents"
+  new_version = content.versions.build :content => page['content'], :template => dynamic
+  new_version.save!
+  new_version.approve!
+  puts "  done!"
+end

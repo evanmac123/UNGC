@@ -59,6 +59,9 @@ class Organization < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
 
+  named_scope :participants,
+    { :conditions => ["organizations.participant = ?", true] }
+
   named_scope :filter, lambda { |filter_type|
     {
       :include => :organization_type,

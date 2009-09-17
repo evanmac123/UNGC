@@ -19,6 +19,7 @@ class ContentVersion < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Content', :foreign_key => :content_id
   belongs_to :template, :class_name => 'ContentTemplate', :foreign_key => :template_id
   before_create :increment_number
+  delegate :dynamic?, :to => :template
 
   def self.clear_approval(version_to_be_approved)
     others = find_all_by_content_id(version_to_be_approved.content_id) - [version_to_be_approved]

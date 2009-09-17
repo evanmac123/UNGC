@@ -133,6 +133,9 @@ var Watcher = {
 }
 
 $(function() {
+	if ($('table.sortable').size() > 0) 
+		$('table.sortable').tablesorter({widgets: ['zebra']});
+	
 	if ($('body.editable_page').length > 0) {
 		Watcher.init();
 	}

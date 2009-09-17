@@ -10,6 +10,17 @@ module PagesHelper
     @paged_participants
   end
 
+  def stakeholders(filter_type=nil)
+    unless @stakeholders
+      @stakeholders = if filter_type
+        Organization.participants.filter(filter_type).all
+      else
+        Organization.find(:all)
+      end
+    end
+    @stakeholders
+  end
+
   def versioned_edit_path
     if @current_version.approved?
       edit_content_path(:id => @page)
