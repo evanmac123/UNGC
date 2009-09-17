@@ -4,7 +4,9 @@ class PagesController < ApplicationController
   # layout :determine_layout
   
   def view
-    render :template => template.filename, :layout => determine_layout
+    render :inline => "<%= 'hello, ' * 3 + 'again %>"
+    # render :inline => @current_version.content
+    # render :template => template.filename, :layout => determine_layout
   end
 
   def decorate

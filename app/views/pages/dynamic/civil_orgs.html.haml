@@ -1,1 +1,2 @@
-= Liquid::Template.parse(@current_version.content).render! 'participants' => paged_participants(:civil)
+- participants = paged_participants(:civil)
+= ERB.new(@current_version.content).result
