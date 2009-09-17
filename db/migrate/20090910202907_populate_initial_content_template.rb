@@ -1,6 +1,8 @@
 class PopulateInitialContentTemplate < ActiveRecord::Migration
   def self.up
-    ContentTemplate.find(:first) || ContentTemplate.create(:filename => 'pages/static/default.html.haml', :label => 'Standard', :default => true)
+    static  = {:filename => 'pages/static.html.haml', :label => 'Static', :default => true}
+    dynamic = {:filename => 'pages/dynamic.html.haml', :label => 'Dynamic', :default => true}
+    [static, dynamic].each { |t| ContentTemplate.create(t) }
   end
 
   def self.down

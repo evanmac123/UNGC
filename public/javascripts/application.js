@@ -146,7 +146,7 @@ $(function() {
     	dataType: 'json',
 			success: function(json) {
 				Editor.doneLoading();
-				Editor.create(json.url, json.content);
+				Editor.create(json);
 			}
 		});
 		return false;

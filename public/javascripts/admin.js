@@ -3,7 +3,7 @@ var CKEDITOR_BASEPATH = '/ckeditor/'
 var Editor = {
 	editor: null,
 	originalContents: null,
-	create: function(actionUrl, contents) {
+	create: function(json) {
 		if (Editor.editor)
 			return;
 		
@@ -12,7 +12,7 @@ var Editor = {
 		var contentDiv = '#rightcontent div.copy';
 		Editor.originalContents = $(contentDiv).html();
 		$(contentDiv).empty();
-		$(contentDiv).after('<form id="fancyEditor" action="'+actionUrl+'" method="post"></form>');
+		$(contentDiv).after('<form id="fancyEditor" action="'+json.url+'" method="post"></form>');
 		editorForm = $('#fancyEditor')
 		editorForm.append('<input type="hidden" name="_method" value="put" />');
 		editorForm.append('<input type="hidden" name="authenticity_token" value="'+AUTH_TOKEN+'" />');
@@ -27,8 +27,8 @@ var Editor = {
 			resize_maxWidth: 600,
 		});
 		Editor.editor.config.protectedSource.push( /<\%=?.*\%>/gm);
-		// Editor.editor.config.startupMode = 'source';
-		Editor.editor.setData(contents);
+		Editor.editor.config.startupMode = json.startupMode;
+		Editor.editor.setData(json.content);
 	},
 	save: function() {
 		$('#replaceMe').val(Editor.editor.getData());

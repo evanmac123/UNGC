@@ -5,6 +5,7 @@ class Admin::ContentController < AdminController
     if request.xhr?
       render :json => {
         :url => update_content_url(:format => 'js'),
+        :startupMode => @current_version.dynamic? ? 'source' : 'wysiwyg',
         :content => @current_version.content
       }
     else
