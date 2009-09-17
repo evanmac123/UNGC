@@ -26,7 +26,7 @@
 #
 
 class Organization < ActiveRecord::Base
-  liquid_methods :name
+  liquid_methods :name, :country_name
   validates_presence_of :name
   has_many :contacts
   has_many :logo_requests
@@ -74,6 +74,10 @@ class Organization < ActiveRecord::Base
       {}
     end
   }
+
+  def country_name
+    country.name
+  end
 
   def company?
     organization_type.try(:name) == 'Company'

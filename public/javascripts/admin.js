@@ -24,8 +24,9 @@ var Editor = {
 			height: 500,
 			dialog_magnetDistance: 5,
 			resize_minWidth: 300,
-			resize_maxWidth: 600
+			resize_maxWidth: 600,
 		});
+		Editor.editor.config.protectedSource.push( /<\!\-\- dynamic \-\->[\s\w=/{}%."<>]+<\!\-\- \/dynamic \-\->/gm);
 		Editor.editor.setData(contents);
 	},
 	save: function() {
