@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :organizations, :member     => { :approve => :post, :reject => :post },
                                 :collection => { :approved => :get, :rejected => :get, :pending => :get },
                                 :has_many   => [:contacts] do |organization|
-    organization.resources :logo_requests, :member => {:agree => :post}
+    organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
   end
   map.resources :logo_requests, :has_many => :logo_comments
 

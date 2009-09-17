@@ -42,6 +42,17 @@ class LogoRequestsController < ApplicationController
     redirect_to [@organization, @logo_request]
   end
   
+  def download
+    if @logo_request.can_download_files?
+      logo_file = @logo_request.logo_files.first(:conditions => ['logo_file_id=?', params[:logo_file_id]])
+      # TODO allow upload of zip file
+      send_file :file => logo_file.zip.path, :type => 'application/x-zip-compressed'
+    else
+      flash[:error] = "You only had 7 days to download the file."
+      redirect_to [@organization, @logo_request]
+    end
+  end
+  
   private
     def load_organization
       @logo_request = LogoRequest.visible_to(current_user).find(params[:id]) if params[:id]

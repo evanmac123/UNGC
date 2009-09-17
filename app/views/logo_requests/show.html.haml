@@ -33,6 +33,7 @@
     = f.submit 'Save logos'
 - organization_only do
   - if @logo_request.logo_files.any?
-    approved logos here
+    %ul
+      = render :partial => @logo_request.logo_files
   - else
     no approved logos
