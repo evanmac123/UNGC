@@ -11,14 +11,15 @@ module PagesHelper
   end
 
   def stakeholders(filter_type=nil)
-    unless @stakeholders
-      @stakeholders = if filter_type
+    @stakeholders ||= {}
+    unless @stakeholders[filter_type]
+      @stakeholders[filter_type] = if filter_type
         Organization.participants.filter(filter_type).all
       else
         Organization.find(:all)
       end
     end
-    @stakeholders
+    @stakeholders[filter_type]
   end
 
   def versioned_edit_path
