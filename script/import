@@ -6,6 +6,7 @@ require 'hpricot'
 require 'pp'
 require 'facets'
 require 'import_helper'
+require 'ruby-debug' if Rails.env == 'development'
 
 class Object
   def no_nil(&block)
