@@ -56,9 +56,18 @@ def escape_php(content)
 end
 
 def regular_page_content(doc)
-  content = (doc/'#content_inner .copy p')
-  content = escape_php((content.first || content).inner_html.strip)
-  # (doc/'#content_inner .copy p').inner_html = replace
+  copy = (doc/'#content_inner .copy')
+  if copy.first
+    children = copy.first.children
+  else
+    puts " ** possible problems?"
+    return ''
+  end
+  children.reject! { |c| c.class.to_s == 'Hpricot::BogusETag' }
+  children.reject! { |c| c.inner_text =~ /^\s*$/ }
+  content = children.map { |c| c.to_html }.join("\n")
+  content = escape_php(content.strip)
+  # pp content
   create_subnav(doc)
   if false
     path = []
@@ -67,6 +76,10 @@ def regular_page_content(doc)
     end
   end
   content
+end
+
+def local_network_sheet(doc)
+  escape_php doc.to_html.strip
 end
 
 def href_and_label(link)

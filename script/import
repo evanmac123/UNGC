@@ -1,10 +1,29 @@
 #!/usr/bin/env ruby
+# encoding: utf-8
 ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
 require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
 require 'hpricot'
 require 'pp'
 require 'facets'
 require 'import_helper'
+
+class Object
+  def no_nil(&block)
+    yield(self)
+  rescue NoMethodError
+    nil
+  end
+end
+
+module Hpricot
+  # XML unescape
+  def self.uxs(str)
+    str.force_encoding("UTF-8")
+    str.to_s.
+        gsub(/\&(\w+);/) { [NamedCharacters[$1] || ??].pack("U*") }.
+        gsub(/\&\#(\d+);/) { [$1.to_i].pack("U*") }
+  end
+end
 
 SHORTS = {
   'Human Rights' => 'human_rights',
@@ -38,28 +57,31 @@ parse_sitenav_nav(root)
   i += 1
 end
 
+puts "#{__ENCODING__.name}"
 ContentVersion.delete_all
 Content.delete_all
 files = get_files_from(root)
-files.each do |filename|
+
+just_one = [root + '/WebsiteInfo/site_map.html']
+all = files
+(all).each do |filename|
   puts "Reading from '#{filename - root}'"
-  # filename = root + 'index.html'
   doc = Hpricot(open(filename))
   if filename == (root + 'index.html')
     content = home_page_content(doc)
+  elsif filename =~ /NetworksAroundTheWorld\/local_network_sheet/
+    content = local_network_sheet(doc)
+  elsif filename =~ /NewsAndEvents\/UNGC_bulletin\/contact_response\.html/
+    content = local_network_sheet(doc)
   else
     content = regular_page_content(doc) # will also create sub-level leftnav
   end
-  # pp content
   path = "/#{filename - root}"
   content = Content.create :path => path, :content => content
-  # Navigation.find_all_by_href(path).each do |nav|
-  #   nav.update_attribute(:content_id, content.id)
-  # end
 end
 
 Content.all.each { |c| c.versions.first.approve! }
 
 # fix some weird banner issues
-Navigation.find_by_label('The CEO Water Mandate').update_attribute(:short, 'environment_ceo')
-Navigation.find_by_label('Caring for Climate').update_attribute(:short, 'environment_c4c')
+Navigation.find_by_label('The CEO Water Mandate').no_nil { |o| o.update_attribute(:short, 'environment_ceo')} or puts "Problem with 'CEO Water Mandate'"
+Navigation.find_by_label('Caring for Climate').no_nil { |o| o.update_attribute(:short, 'environment_c4c') } or puts "Problem with 'Caring for Climate'"
