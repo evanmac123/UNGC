@@ -76,4 +76,39 @@
         <% end %>
       </tbody>
     </table>
-    
+'/ParticipantsAndStakeholders/labour.html':
+  content: |
+    <h3>International Labour Organizations</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for participant in stakeholders(:labour_global) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <h3>National Labour Organizations</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for participant in stakeholders(:labour_local) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
