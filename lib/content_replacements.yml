@@ -1,8 +1,5 @@
 '/ParticipantsAndStakeholders/civil_society.html':
   content: |
-    <h1>Civil Society Organizations 1.3</h1>
-    <p>Civil Society Organizations - also known as non-governmental organizations - are critical actors in the advancement of universal values around human rights, the environment, labour standards and anti-corruption. As global market integration has advanced, their role has gained particular importance in aligning economic activities with social and environmental priorities.</p>
-    <p>Civil society organizations have been an integral part of the Global Compact since its creation. Their perspectives, expertise and partnership-building capabilities are indispensable in the evolution and impact of the Global Compact.</p>
     <h3>NGO Global</h3>
     <table class="striped sortable" cellspacing="0" cellpadding="0">
       <thead>
@@ -43,8 +40,6 @@
 
 '/ParticipantsAndStakeholders/academic_participation.html':
   content: |
-    <h1>Academia</h1>
-    <p>Academia adds critical dimensions to the Compact&rsquo;s operations. Through research and educational resources, this sector can increase knowledge and understanding of corporate citizenship. In addition, academia plays an important role in shaping future business leaders and educating them on the importance of responsible citizenship.</p>
     <table class="striped sortable" cellspacing="0" cellpadding="0">
       <thead>
         <tr>
@@ -55,6 +50,25 @@
 
       <tbody>
         <% for participant in stakeholders(:academia) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+'/ParticipantsAndStakeholders/public_sector.html':
+  content: |
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for participant in stakeholders(:public) %>
           <tr>
             <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
             <td><%= participant.country.name %></td>

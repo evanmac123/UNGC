@@ -21,7 +21,8 @@ class OrganizationType < ActiveRecord::Base
   FILTERS = {
     :academia => 'Academic',
     :civil_global => 'NGO Global',
-    :civil_local => 'NGO Local'
+    :civil_local => 'NGO Local',
+    :public => 'Public Sector Organization'
   }
   
   def self.for_filter(filter_type)
