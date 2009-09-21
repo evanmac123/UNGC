@@ -36,7 +36,7 @@ class PagesControllerTest < ActionController::TestCase
 
       should "render using standard, static template" do
         get :view, :path => @content.to_path
-        assert_template 'pages/static/default.html.haml'
+        assert_template 'pages/static.html.haml'
       end
     end
     

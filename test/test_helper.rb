@@ -21,7 +21,7 @@ class ActiveSupport::TestCase
   end
 
   def create_default_template
-    ContentTemplate.create(:filename => 'pages/static/default.html.haml', :label => 'Standard', :default => true)
+    ContentTemplate.create(:filename => 'pages/static.html.haml', :label => 'Standard', :default => true)
   end
 
   def create_simple_tree

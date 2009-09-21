@@ -14,6 +14,7 @@ class Content < ActiveRecord::Base
   has_one :active_version, :class_name => 'ContentVersion', :conditions => ["content_versions.approved = ?", true]
   attr_writer :content, :template
   before_create :initialize_version
+  delegate :dynamic?, :to => :active_version
   
   def self.for_path(look_for)
     find_by_path look_for, :include => :active_version
