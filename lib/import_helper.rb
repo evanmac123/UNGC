@@ -64,10 +64,9 @@ def regular_page_content(doc)
     return ''
   end
   children.reject! { |c| c.class.to_s == 'Hpricot::BogusETag' }
-  children.reject! { |c| c.inner_text =~ /^\s*$/ }
+  children.reject! { |c| c.to_html =~ /\A\s*\Z/ }
   content = children.map { |c| c.to_html }.join("\n")
   content = escape_php(content.strip)
-  # pp content
   create_subnav(doc)
   if false
     path = []
