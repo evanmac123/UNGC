@@ -1,10 +1,17 @@
 module NavigationHelper
   def breadcrumbs
-    breadcrumbs = [ ['Home', '/'] ]
-    breadcrumbs << [current_section.label, current_section.href] if current_section
-    breadcrumbs << [@leftnav_selected.label, @leftnav_selected.href] if @leftnav_selected && current_section != @leftnav_selected
-    breadcrumbs << [@subnav_selected.label, nil] if @subnav_selected
-    breadcrumbs.map { |b| link_to_unless b == breadcrumbs.last, b.first, b.last }.join(' / ')
+    unless @breadcrumbs
+      @breadcrumbs = [ ['Home', '/'] ]
+      @breadcrumbs << [current_section.label, current_section.href] if current_section
+      @breadcrumbs << [@leftnav_selected.label, @leftnav_selected.href] if @leftnav_selected && current_section != @leftnav_selected
+      @breadcrumbs << [@subnav_selected.label, nil] if @subnav_selected
+      @breadcrumbs.map { |b| link_to_unless suppress_link(b), b.first, b.last }.join(' / ')
+    end
+  end
+  
+  def suppress_link(b)
+    # Don't link to last item in breadcrumbs, but always link to 'Home'
+    b == @breadcrumbs.last unless b.first == 'Home'
   end
   
   def child_selected?(navigation)
@@ -14,7 +21,7 @@ module NavigationHelper
   def current_section
     unless @current_section
       return nil if home_page?
-      current_or_parent = Navigation.for_path(look_for_path)
+      return nil unless current_or_parent = Navigation.for_path(look_for_path)
       # if we're at the top, then it's us
       #   if we're in the middle, then it's our parent
       #     if we're on the bottom, then it's our parent's parent
