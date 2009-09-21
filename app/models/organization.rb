@@ -26,7 +26,6 @@
 #
 
 class Organization < ActiveRecord::Base
-  liquid_methods :name, :country_name
   validates_presence_of :name
   has_many :contacts
   has_many :logo_requests
