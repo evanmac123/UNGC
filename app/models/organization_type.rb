@@ -19,12 +19,14 @@ class OrganizationType < ActiveRecord::Base
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
   
   FILTERS = {
-    :academia      => 'Academic',
-    :civil_global  => 'NGO Global',
-    :civil_local   => 'NGO Local',
-    :labour_global => 'Labour Global',
-    :labour_local  => 'Labour Local',
-    :public        => 'Public Sector Organization'
+    :academia        => 'Academic',
+    :business_global => 'Business Association Global',
+    :business_local  => 'Business Association Local',
+    :civil_global    => 'NGO Global',
+    :civil_local     => 'NGO Local',
+    :labour_global   => 'Labour Global',
+    :labour_local    => 'Labour Local',
+    :public          => 'Public Sector Organization'
   }
   
   def self.for_filter(filter_type)
