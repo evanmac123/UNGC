@@ -27,6 +27,8 @@
 
 class Organization < ActiveRecord::Base
   validates_presence_of :name
+  has_many :signings
+  has_many :initiatives, :through => :signings
   has_many :contacts
   has_many :logo_requests
   has_many :case_stories
@@ -61,10 +63,18 @@ class Organization < ActiveRecord::Base
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
 
-  named_scope :filter, lambda { |filter_type|
+  named_scope :by_type, lambda { |filter_type|
     {
       :include => :organization_type,
       :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)]
+    }
+  }
+  
+  named_scope :for_initiative, lambda { |symbol|
+    {
+      :include => :initiatives,
+      :conditions => ["initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id) ],
+      :order => "organizations.name ASC"
     }
   }
 

@@ -26,7 +26,9 @@ class OrganizationType < ActiveRecord::Base
     :civil_local     => 'NGO Local',
     :labour_global   => 'Labour Global',
     :labour_local    => 'Labour Local',
-    :public          => 'Public Sector Organization'
+    :public          => 'Public Sector Organization',
+    :companies       => 'Company',
+    :sme             => 'SME'
   }
   
   def self.for_filter(filter_type)

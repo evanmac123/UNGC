@@ -148,3 +148,30 @@
         <% end %>
       </tbody>
     </table>
+'/Issues/Environment/Climate_Change/list_of_signatories.html':
+  content: |
+    <p>Caring for Climate is endorsed by <%= count_all_signatories(:climate) %> Global Compact business participants.</p>
+    <p>
+      <%= link_to_unless signatories_showing?(:companies), 'Companies', :company => true %>
+      <%= link_to_unless signatories_showing?(:sme), 'SME', :sme => true %>
+    </p>
+    <h3><%= describe_signatories(:climate) %></h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Sector</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for organization in signatories(:climate) %>
+          <tr>
+            <td><%= link_to organization.name, '#FIXME' %></td>
+            <td><%= organization.sector.name %></td>
+            <td><%= organization.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  
