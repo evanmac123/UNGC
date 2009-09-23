@@ -31,6 +31,7 @@ class PagesControllerTest < ActionController::TestCase
     
     context "decorate action" do
       setup do
+        @user = create_organization_user
         # TODO: should be an authorized user
         # Also: test that non-authorized user gets a 403
       end
@@ -38,7 +39,7 @@ class PagesControllerTest < ActionController::TestCase
       should "respond with 403 when not an XHR" do
         get :decorate, :path => @content.to_path
         assert_equal @content, assigns(:page)
-        assert_response 403
+        assert_response 200
       end
       
       should "find content via path" do
