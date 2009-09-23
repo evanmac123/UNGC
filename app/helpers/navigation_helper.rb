@@ -46,6 +46,11 @@ module NavigationHelper
     path_matches?(navigation) || leftnav_selected?(navigation) || child_selected?(navigation)
   end
   
+  def include_logout?(section)
+    return false unless logged_in?
+    section.label == 'Login'
+  end
+  
   def top_nav_bar(section_children_content='')
     Navigation.sections.each do |section|
       section_link = content_tag :a, section.label, :href => section.href
@@ -53,6 +58,7 @@ module NavigationHelper
         child_link = content_tag :a, child.label, :href => child.href
         content_tag :li, child_link
       end
+      children << content_tag(:li, link_to('Logout', logout_path)) if include_logout?(section)
       insides = section_link + "\n" + content_tag(:ul, children.join("\n  ") + "\n", :class => 'children') + "\n"
       section_children_content << content_tag(:li, insides, :id => section.short, :class => section.short) + "\n"
     end
