@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  before_filter :soft_require_staff_user, :only => :decorate
   before_filter :find_content
   layout :determine_layout
   
@@ -6,14 +7,9 @@ class PagesController < ApplicationController
   end
 
   def decorate
-    if request.xhr? && staff_user? # TODO: can_edit?
-      json_to_render = {'editor' => render_to_string(:partial => 'editor')}
-      json_to_render['content'] = render_to_string(:action => 'view', :layout => false) if params[:version]
-      render :json => json_to_render
-      # render :partial => 'editor' and return
-    else
-      render :text => '  ', :status => 200 
-    end
+    json_to_render = {'editor' => render_to_string(:partial => 'editor')}
+    json_to_render['content'] = render_to_string(:action => 'view', :layout => false) if params[:version]
+    render :json => json_to_render
   end
 
   private
@@ -33,5 +29,9 @@ class PagesController < ApplicationController
     else
       render :text => 'Not Found', :status => 404
     end
+  end
+  
+  def soft_require_staff_user
+    render :text => '  ', :status => 200 unless request.xhr? && staff_user?
   end
 end
