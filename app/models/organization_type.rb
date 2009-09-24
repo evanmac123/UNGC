@@ -32,8 +32,7 @@ class OrganizationType < ActiveRecord::Base
   }
   
   def self.for_filter(filter_type)
-    filter_array = [FILTERS[filter_type]].flatten
-    find :all, :conditions => ["name IN (?)", filter_array]
+    find :all, :conditions => ["name = ?", FILTERS[filter_type]]
   end
   
 end
