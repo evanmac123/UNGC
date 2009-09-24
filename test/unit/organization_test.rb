@@ -11,4 +11,50 @@ class OrganizationTest < ActiveSupport::TestCase
   should_belong_to :listing_status
   should_belong_to :exchange
   should_belong_to :country
+  
+  context "given a climate change initiative, some organization types and an org" do
+    setup do
+      @academia  = create_organization_type(:name => 'Academic')
+      @public    = create_organization_type(:name => 'Public Sector Organization')
+      @companies = create_organization_type(:name => 'Company')
+      @sme       = create_organization_type(:name => 'SME')
+      @climate   = create_initiative(:id => 2, :name => 'Climate Change')
+
+      @an_org    = create_organization
+    end
+    
+    should "find no orgs when filtering by initiative for climate" do
+      assert_equal [], Organization.for_initiative(:climate)
+    end
+    
+    context "and an_org joins the climate initiative" do
+      setup do
+        @climate.signings.create :signatory => @an_org
+      end
+
+      should "find cc_org when filtering by initiative for climate" do
+        assert_same_elements [@an_org], Organization.for_initiative(:climate)
+      end
+    end
+    
+    context "and an_org is an SME" do
+      setup do
+        @an_org.update_attribute :organization_type, @sme
+      end
+
+      should "find an_org when filtering by type" do
+        assert_same_elements [@an_org], Organization.by_type(:sme)
+      end
+      
+      context "and THEN signs the climate change initiative" do
+        setup do
+          @climate.signings.create :signatory => @an_org
+        end
+
+        should "find an_org when filtering by_type for_initiative" do
+          assert_same_elements [@an_org], Organization.by_type(:sme).for_initiative(:climate)
+        end
+      end
+    end
+  end
 end
