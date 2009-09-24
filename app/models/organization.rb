@@ -23,6 +23,9 @@
 #  removal_reason_id    :integer(4)
 #  last_modified_by_id  :integer(4)
 #  state                :string(255)
+#  exchange_id          :integer(4)
+#  listing_status_id    :integer(4)
+#  is_ft_500            :boolean(1)
 #
 
 class Organization < ActiveRecord::Base

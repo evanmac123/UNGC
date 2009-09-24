@@ -13,6 +13,7 @@
 #  content_id    :integer(4)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  template_id   :integer(4)
 #
 
 class ContentVersion < ActiveRecord::Base
