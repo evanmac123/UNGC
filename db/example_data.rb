@@ -42,6 +42,10 @@ module FixtureReplacement
   attributes_for :exchange do |a|
 	end
 
+  attributes_for :initiative do |a|
+    a.name = String.random
+  end
+
   attributes_for :interest do |a|
 	end
 
