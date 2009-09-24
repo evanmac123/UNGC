@@ -11,4 +11,8 @@
 
 class CopScore < ActiveRecord::Base
   validates_presence_of :description
+
+  def self.notable
+    find_by_description('Notable')
+  end
 end

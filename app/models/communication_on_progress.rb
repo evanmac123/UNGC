@@ -36,9 +36,11 @@
 class CommunicationOnProgress < ActiveRecord::Base
   validates_presence_of :organization_id, :title
   belongs_to :organization
+  belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
   has_and_belongs_to_many :languages
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
+  delegate :name, :to => :organization, :prefix => true
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
@@ -48,4 +50,24 @@ class CommunicationOnProgress < ActiveRecord::Base
       {}
     end
   }
+
+  named_scope :for_filter, lambda { |filter_type|
+    score_to_find = CopScore.notable if filter_type == :notable
+    {
+      :include => :score,
+      :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ]
+    }
+  }
+  
+  def country_name
+    countries.map {|c| c.name }.join(', ')
+  end
+  
+  def sector_name
+    organization.sector.try(:name) || ''
+  end
+  
+  def year
+    end_year
+  end
 end
