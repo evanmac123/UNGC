@@ -14,7 +14,8 @@ class Initiative < ActiveRecord::Base
   has_many :signatories, :through => :signings
   
   FILTER_TYPES = {
-    :climate => 2
+    :climate      => 2,
+    :human_rights => 4
   }
   
   named_scope :for_filter, lambda { |filter|

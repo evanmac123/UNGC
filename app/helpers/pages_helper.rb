@@ -40,13 +40,24 @@ module PagesHelper
   def showing_signatory_type(filter_type)
     if filter_type == :climate
       signatories_showing?(:sme) ? :sme : :companies
+    else
+      :all
     end
   end
   
   def signatories(filter_type=nil)
     @signatories ||= {}
     unless @signatories[filter_type]
-      @signatories[filter_type] = Organization.for_initiative(filter_type).by_type(showing_signatory_type(filter_type)).find(:all, :include => [:country, :sector])
+      if filter_type
+        if showing_signatory_type(filter_type) == :all
+          scoped = Organization.for_initiative(filter_type)
+        else
+          scoped = Organization.for_initiative(filter_type).by_type(showing_signatory_type(filter_type))
+        end
+      else
+        scoped = Organization
+      end
+      @signatories[filter_type] = scoped.find(:all, :include => [:country, :sector])
     end
     @signatories[filter_type]
   end

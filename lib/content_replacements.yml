@@ -174,4 +174,25 @@
         <% end %>
       </tbody>
     </table>
-  
+'/Issues/human_rights/CEO_Statement_List.html':
+  content: |
+    <p>The chief executives of the following <%= count_all_signatories(:human_rights) %> companies have expressed interest in signing the statement:</p>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Sector</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for organization in signatories(:human_rights) %>
+          <tr>
+            <td><%= link_to organization.name, '#FIXME' %></td>
+            <td><%= organization.sector.name %></td>
+            <td><%= organization.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
