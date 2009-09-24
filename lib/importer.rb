@@ -81,8 +81,8 @@ class Importer
                                    :fields => [:identifier, :organization_id, :title, :related_document, :email, :start_year,
                                                :facilitator, :job_title, :start_month, :end_month, :url1,
                                                :url2, :url3, :added_on, :modified_on, :contact_name,
-                                               :end_year, :status, :include_ceo_letter, :include_actions, :include_measurement, :use_indicators,
-                                               :cop_score_id, :use_gri, :has_certification, :notable_program]},
+                                               :end_year, :status, :include_ceo_letter, :include_actions, :use_indicators,
+                                               :cop_score_id, :use_gri, :has_certification]},
     # fields: CASE_ID	R01_ORG_NAME	CASE_TITLE	CASE_STORY_TYPE	CASE_CATEGORY	CASE_DATE	CASE_DESCRIPTION
     #         CASE_URL_LINK1	CASE_URL_LINK2	CASE_URL_LINK3	CASE_AUTHOR	CASE_AUTHOR_INSTITUTION
     #         CASE_AUTHOR_EMAIL	CASE_AUTHOR2	CASE_AUTHOR2_INSTITUTION	CASE_AUTHOR2_EMAIL	CASE_REVIEWER
