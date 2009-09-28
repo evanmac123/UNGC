@@ -13,10 +13,12 @@
 #  content_id    :integer(4)
 #  created_at    :datetime
 #  updated_at    :datetime
+#  template_id   :integer(4)
 #
 
 class ContentVersion < ActiveRecord::Base
   belongs_to :parent, :class_name => 'Content', :foreign_key => :content_id
+  belongs_to :template, :class_name => 'ContentTemplate', :foreign_key => :template_id
   before_create :increment_number
 
   def self.clear_approval(version_to_be_approved)
@@ -31,6 +33,10 @@ class ContentVersion < ActiveRecord::Base
   def approve!
     ContentVersion.clear_approval(self)
     update_attribute :approved, true
+  end
+
+  def dynamic?
+    template.try(:dynamic?)
   end
 
   def increment_number

@@ -1,8 +1,18 @@
 require 'test_helper'
 
 class InitiativeTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  should_have_many :signings
+  should_have_many :signatories, :through => :signings
+  
+  # :climate => id(2)
+  context "filtering initiatives for a type" do
+    setup do
+      @climate = create_initiative :id => 2, :name => 'Climate Change'
+    end
+
+    should "find the climate change initiative" do
+      assert_same_elements [@climate], Initiative.for_filter(:climate)
+    end
   end
+  
 end

@@ -27,10 +27,14 @@ class Navigation < ActiveRecord::Base
   def self.for_path(string)
     possible = Navigation.find_by_href(string, :include => :children)
     unless possible # it couldn't be found, but maybe it's inside a "directory"
+      # split gives us an empty first element - /second/thing/index.html becomes ["", "second", "thing", "index.html"]
       array = string.split('/')
-      array.pop
-      parent = array.join('/') + '/index.html'
-      possible = for_path(parent) # recursion - can climb up until it finds a Nav element
+      times_to_try = array.size - 1 # not the first empty element
+      times_to_try.times do
+        array.pop
+        possible = Navigation.find_by_href(array.join('/') + '/index.html', :include => :children)
+        return possible if possible
+      end
     end
     possible
   end

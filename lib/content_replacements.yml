@@ -1,0 +1,198 @@
+'/ParticipantsAndStakeholders/civil_society.html':
+  content: |
+    <h3>NGO Global</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for participant in stakeholders(:civil_global) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h3>Foundations</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for participant in stakeholders(:civil_local) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+'/ParticipantsAndStakeholders/academic_participation.html':
+  content: |
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for participant in stakeholders(:academia) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+'/ParticipantsAndStakeholders/public_sector.html':
+  content: |
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% for participant in stakeholders(:public) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+'/ParticipantsAndStakeholders/labour.html':
+  content: |
+    <h3>International Labour Organizations</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for participant in stakeholders(:labour_global) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <h3>National Labour Organizations</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for participant in stakeholders(:labour_local) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+'/ParticipantsAndStakeholders/business_associations.html':
+  content: |
+    <h3>Global Business Associations</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for participant in stakeholders(:business_global) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <h3>Local Business Associations</h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for participant in stakeholders(:business_local) %>
+          <tr>
+            <td><%= link_to_unless participant.url.blank?, participant.name, participant.url %></td>
+            <td><%= participant.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+'/Issues/Environment/Climate_Change/list_of_signatories.html':
+  content: |
+    <p>Caring for Climate is endorsed by <%= count_all_signatories(:climate) %> Global Compact business participants.</p>
+    <p>
+      <%= link_to_unless signatories_showing?(:companies), 'Companies', :company => true %>
+      <%= link_to_unless signatories_showing?(:sme), 'SME', :sme => true %>
+    </p>
+    <h3><%= describe_signatories(:climate) %></h3>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Sector</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for organization in signatories(:climate) %>
+          <tr>
+            <td><%= link_to organization.name, '#FIXME' %></td>
+            <td><%= organization.sector.name %></td>
+            <td><%= organization.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+'/Issues/human_rights/CEO_Statement_List.html':
+  content: |
+    <p>The chief executives of the following <%= count_all_signatories(:human_rights) %> companies have expressed interest in signing the statement:</p>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Name</th>
+          <th class='sort'>Sector</th>
+          <th class='sort'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for organization in signatories(:human_rights) %>
+          <tr>
+            <td><%= link_to organization.name, '#FIXME' %></td>
+            <td><%= organization.sector.name %></td>
+            <td><%= organization.country.name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    

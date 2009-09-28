@@ -14,9 +14,14 @@ class ActiveSupport::TestCase
   end
   
   def create_approved_content(options)
+    create_default_template
     content = create_content(options)
     content.versions.first.approve!
     content
+  end
+
+  def create_default_template
+    ContentTemplate.create(:filename => 'pages/static.html.haml', :label => 'Standard', :default => true)
   end
 
   def create_simple_tree
@@ -41,6 +46,12 @@ class ActiveSupport::TestCase
     @organization_user = create_contact(:organization_id => @organization.id)
   end
   
+  def create_staff_user
+    create_organization_type
+    un = create_ungc_organization
+    create_contact(:organization_id => un.id)
+  end
+
   def create_ungc_organization
     @ungc = create_organization(:name => 'UNGC')
     @staff_user = create_contact(:login           => 'staff',

@@ -119,7 +119,8 @@ class Importer
         next if field.nil?
         # fields that end with _id require a lookup
         if field == :country_id
-          o.country_id = Country.find_by_code(row[i]).id
+          found = Country.find_by_code(row[i])
+          o.country_id = found.id if found
         elsif field == :parent_id
           if name == :sector
             # sector tree depends on the icb_number field

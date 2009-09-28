@@ -5,6 +5,12 @@ class NavigationTest < ActiveSupport::TestCase
   context "given a tree" do
     setup do
       create_simple_tree
+      # '/index.html'
+      # '/parent1/index.html'
+      # '/parent2/index.html'
+      # '/parent1/child1/index.html'
+      # '/parent1/child2.html'
+      # '/parent1/child1/sub1.html'
     end
 
     should "see that child1 is a child of parent1" do
@@ -37,11 +43,11 @@ class NavigationTest < ActiveSupport::TestCase
     end
     
     should "find parent1 given a close path match" do
-      assert_equal @parent1.id, Navigation.for_path('/parent1/misc_other_thing.html').id
+      assert_equal @parent1, Navigation.for_path('/parent1/misc_other_thing.html')
     end
 
     should "find child1 given a close path match" do
-      assert_equal @child1.id, Navigation.for_path('/parent1/child1/misc_other_thing.html').id
+      assert_equal @child1, Navigation.for_path('/parent1/child1/misc_other_thing.html')
     end
   end
   

@@ -19,9 +19,10 @@ class Admin::ContentControllerTest < ActionController::TestCase
       
       should "respond with JSON" do
         json = ActiveSupport::JSON.decode @response.body
-        assert_same_elements %w{url content}, json.keys
+        assert_same_elements %w{url content startupMode}, json.keys
         assert_same_elements [ 
           update_content_url(:id => @content.id, :format => 'js'),
+          'wysiwyg',
           @content.content
         ], json.values
       end

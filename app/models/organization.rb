@@ -23,10 +23,15 @@
 #  removal_reason_id    :integer(4)
 #  last_modified_by_id  :integer(4)
 #  state                :string(255)
+#  exchange_id          :integer(4)
+#  listing_status_id    :integer(4)
+#  is_ft_500            :boolean(1)
 #
 
 class Organization < ActiveRecord::Base
   validates_presence_of :name
+  has_many :signings
+  has_many :initiatives, :through => :signings
   has_many :contacts
   has_many :logo_requests
   has_many :case_stories
@@ -58,6 +63,24 @@ class Organization < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
 
+  named_scope :participants,
+    { :conditions => ["organizations.participant = ?", true] }
+
+  named_scope :by_type, lambda { |filter_type|
+    {
+      :include => :organization_type,
+      :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)]
+    }
+  }
+  
+  named_scope :for_initiative, lambda { |symbol|
+    {
+      :include => :initiatives,
+      :conditions => ["initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id) ],
+      :order => "organizations.name ASC"
+    }
+  }
+
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
       { :conditions => ['id=?', user.organization_id] }
@@ -66,6 +89,10 @@ class Organization < ActiveRecord::Base
       {}
     end
   }
+
+  def country_name
+    country.name
+  end
 
   def company?
     organization_type.try(:name) == 'Company'
