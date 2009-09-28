@@ -46,6 +46,8 @@ class Organization < ActiveRecord::Base
 
   accepts_nested_attributes_for :contacts
   
+  acts_as_commentable
+  
   state_machine :state, :initial => :incomplete do
     event :submit do
       transition :from => :incomplete, :to => :pending
