@@ -1,0 +1,16 @@
+= form.error_messages
+= form.text_field :title
+%p
+  = label :case_story, :priciple_ids, 'Principles'
+  %br/
+  = collection_select :case_story, :principle_ids, Principle.all, :id, :name, {}, :multiple => true, :name => 'case_story[principle_ids][]'
+%p
+  = check_box :case_story, :is_internalization_project
+  = label :case_story, :is_internalization_project, 'Internalization project'
+%p
+  = check_box :case_story, :is_partnership_project
+  = label :case_story, :is_partnership_project, 'Partnership project'
+%p
+  = label :case_story, :country_ids, 'Countries'
+  %br/
+  = collection_select :case_story, :country_ids, Country.all, :id, :name, {}, :multiple => true, :name => 'case_story[country_ids][]'

@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
                                 :collection => { :approved => :get, :rejected => :get, :pending => :get },
                                 :has_many   => [:contacts] do |organization|
     organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
+    organization.resources :case_stories
   end
   map.resources :logo_requests, :has_many => :logo_comments
 

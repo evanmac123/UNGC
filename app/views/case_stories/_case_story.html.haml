@@ -1,0 +1,7 @@
+%li
+  = case_story.title
+  /==[#{case_story.state.humanize}]
+  
+  = link_to 'show', [case_story.organization, case_story]
+  - staff_only do
+    = link_to 'delete', [case_story.organization, case_story], :confirm => 'Are you sure?', :method => :delete

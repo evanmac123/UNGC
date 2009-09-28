@@ -11,3 +11,9 @@
 - if current_user.organization.logo_requests.any?
   %ul
     = render :partial => current_user.organization.logo_requests
+
+%h3 Case Stories
+= link_to 'new', new_organization_case_story_path(current_user.organization)
+- if current_user.organization.case_stories.any?
+  %ul
+    = render :partial => current_user.organization.case_stories
