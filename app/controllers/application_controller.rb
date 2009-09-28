@@ -30,10 +30,16 @@ class ApplicationController < ActionController::Base
     unless @look_for_path
       @look_for_path = "/#{params[:path].join('/')}" if params[:path]
       @look_for_path << '/index.html' if @look_for_path unless @look_for_path =~ /\.html$/
+      @look_for_path = @look_for_path.gsub('//', '/') if @look_for_path.respond_to?(:gsub)
     end
     @look_for_path
   end
   helper_method :look_for_path
+  
+  def staff_user?
+    logged_in? && current_user.from_ungc?
+  end
+  helper_method :staff_user?
 
   protected
     def simple_http_auth

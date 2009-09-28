@@ -6,6 +6,16 @@ class Importer
             :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
             :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story]
   CONFIG = {
+    #fields: ID	NAME
+    :initiative => {
+      :file => 'TR13_INITIATIVES.txt',
+      :fields => [ :old_id, :name ]
+    },
+    #fields: ID	INITIATIVE_ID	ORG_ID	DATE_ADDED
+    :signing => {
+      :file => 'R16_XREF_R01_TR13.txt',
+      :fields => [:old_id, :initiative_id, :organization_id, :added_on]
+    },
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :country => {:file => 'TR01_COUNTRY.txt', :fields => [:code, :name, :region, :network_type, :manager]},
     # fields: ID	TYPE	TYPE_PROPERTY
@@ -97,6 +107,7 @@ class Importer
   # Imports the data from a single file
   def import(name, options)
     puts "Importing #{name}.."
+    raise "Unable to find '#{name}' in importer options." unless options
     file = File.join(@data_folder, options[:file])
     model = name.to_s.camelize.constantize
     # read the file
@@ -137,12 +148,17 @@ class Importer
             # some tables are linked to organization by name
             o.organization_id = Organization.find_by_name(row[i]).try(:id) if row[i]
           else
-            o.organization_id = Organization.find_by_old_id(row[i]).id if row[i]
+            o.organization_id = Organization.find_by_old_id(row[i]).try(:id) if row[i]
           end
+        elsif field == :initiative_id and lookup = row[i]
+          o.initiative = Initiative.find_by_old_id(lookup)
         elsif [:contact_id, :reviewer_id, :last_modified_by_id].include? field
           o.send("#{field}=", Contact.find_by_old_id(row[i]).try(:id)) if row[i]
         elsif field == :organization_type_id
           o.organization_type_id = OrganizationType.find_by_name(row[i]).id if row[i]
+        elsif [:added_on].include?(field) and lookup = row[i]
+          month, day, year = lookup.split('/')
+          o.send("#{field}=", Time.mktime(year, month, day).to_date)
         else
           o.send("#{field}=", row[i])
         end

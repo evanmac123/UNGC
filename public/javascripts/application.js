@@ -96,18 +96,20 @@ var Watcher = {
 		}
 	},
 	goDecorate: function(number) {
-		var url = "/decorate"+window.location.pathname;
-		if (number != null) url += '?version=' + number;
+		if ((window.location.pathname != '/') && (window.location.pathname != '')) {
+			var url = "/decorate"+window.location.pathname;
+			if (number != null) url += '?version=' + number;
 
-		if (Watcher.alreadyFetched(url)) {
-			return false;
-		} else {
-			jQuery.ajax({
-	    	type: 'get',
-	    	url: url,
-	    	dataType: 'json',
-				success: Watcher.decoratePage
-			});
+			if (Watcher.alreadyFetched(url)) {
+				return false;
+			} else {
+				jQuery.ajax({
+		    	type: 'get',
+		    	url: url,
+		    	dataType: 'json',
+					success: Watcher.decoratePage
+				});
+			}
 		}
 	},
 	decoratePage: function(response) {
