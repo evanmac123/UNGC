@@ -225,3 +225,41 @@
       </tbody>
     </table>
     <%= paginate_cops(:notable, :anchor => 'paged_results') %>
+'/COP/non_communicating.html':
+  content: |
+    <h1>Non-Communicating Participants</h1>
+    <a name='paged_results'></a>
+    <div>
+      <div class='left'><strong>Number of documents listed: <%= count_all_orgs(:noncommunicating) %></strong></div>
+      <div class='right'><%= per_page_select %></div>
+    </div>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Participant</th>
+          <th class='sort'>Type</th>
+          <th class='sort'>Sector</th>
+          <th class='sort'>Country</th>
+          <th class='sort'>Joined</th>
+          <th class='sort'>Non-Comm</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for org in paged_organizations(:noncommunicating) %>
+          <tr>
+            <td class='alert_icon'><%= link_to org.name, '#FIXME' %></td>
+            <td><%= org.organization_type.name %></td>
+            <td><%= org.sector_name %></td>
+            <td><%= org.country_name %></td>
+            <td><%= yyyy_mm_dd org.joined_on %></td>
+            <td><%= yyyy_mm_dd org.noncommed_on %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate_orgs(:noncommunicating, :anchor => 'paged_results') %>
+    <p><img src="/images/icon_alert.gif" /> indicates that:</p>
+    <ol>
+      <li> a participant failed to develop a Communication on Progress by the relevant deadline or has not yet provided a link to/description of their Communication on Progress; or </li>
+      <li> a participant refuses to engage in dialogue on a matter raised under the Global Compact integrity measures within three months of first being contacted by the Global Compact Office about the matter. </li>
+    </ol>

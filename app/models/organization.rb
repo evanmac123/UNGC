@@ -59,6 +59,13 @@ class Organization < ActiveRecord::Base
       transition :from => :pending, :to => :rejected
     end
   end
+  
+  COP_STATUSES = {
+    :inactive         => 0,
+    :noncommunicating => 1,
+    :active           => 2,
+    :delisted         => 3
+  }
 
   named_scope :incomplete, :conditions => {:state => "incomplete"}
   named_scope :pending, :conditions => {:state => "pending"}
@@ -82,6 +89,12 @@ class Organization < ActiveRecord::Base
       :order => "organizations.name ASC"
     }
   }
+  
+  named_scope :with_cop_status, lambda { |filter_type|
+    {
+      :conditions => ["cop_status = ?", COP_STATUSES[filter_type]]
+    }
+  }
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
@@ -103,6 +116,17 @@ class Organization < ActiveRecord::Base
   def public_company?
     listing_status.try(:name) == 'Public Company'
   end
+  
+  def country_name
+    country.try(:name)
+  end
+  
+  def sector_name
+    sector.try(:name)
+  end
+  
+  # NOTE: Convenient alias
+  def noncommed_on; cop_due_on; end
   
   private
     def automatic_submit

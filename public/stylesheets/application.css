@@ -57,6 +57,7 @@ div.click_to_edit a:hover {
 	text-align: right;
 }
 
+
 /* TODO Banners:
 banner_search_website.png
 */
@@ -295,4 +296,9 @@ table.sortable thead tr th.headerSortUp {
 
 table.sortable thead tr th.headerSortDown {
   background-image:url(/images/sortable_down.gif);
+}
+
+.alert_icon {
+	padding-left: 16px !important;
+	background: url(/images/icon_alert.gif) 3px 8px no-repeat;
 }
