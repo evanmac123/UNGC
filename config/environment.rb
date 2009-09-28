@@ -17,7 +17,7 @@ Rails::Initializer.run do |config|
 
   config.time_zone = 'UTC'
 
-  config.active_record.observers = :organization_observer, :logo_request_observer
+  config.active_record.observers = :organization_observer, :logo_comment_observer
 end
 
 ActionView::Base.default_form_builder = FormBuilder
