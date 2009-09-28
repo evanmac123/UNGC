@@ -25,15 +25,17 @@ class LogoRequestTest < ActiveSupport::TestCase
                                            :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                            :state_event => :approve)
       end
-      assert !@logo_request.approved?
+      assert !@logo_request.reload.approved?
       # add approved logo, then approve
       create_logo_file
       @logo_request.logo_files << LogoFile.first
       assert_difference '@logo_request.logo_comments.count' do
-        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                           :contact_id  => @staff_user.id,
-                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-                                           :state_event => :approve)
+        assert_emails(1) do
+          @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                             :contact_id  => @staff_user.id,
+                                             :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                             :state_event => :approve)
+        end
       end
       assert @logo_request.reload.approved?
     end
