@@ -263,3 +263,42 @@
       <li> a participant failed to develop a Communication on Progress by the relevant deadline or has not yet provided a link to/description of their Communication on Progress; or </li>
       <li> a participant refuses to engage in dialogue on a matter raised under the Global Compact integrity measures within three months of first being contacted by the Global Compact Office about the matter. </li>
     </ol>
+'/COP/inactives.html':
+  content: |
+    <h1>Inactive Participants</h1>
+    <a name='paged_results'></a>
+    <div>
+      <div class='left'><strong>Number of documents listed: <%= count_all_orgs(:inactive) %></strong></div>
+      <div class='right'><%= per_page_select %></div>
+    </div>
+    <table class="striped sortable" cellspacing="0" cellpadding="0">
+      <thead>
+        <tr>
+          <th class='sort'>Participant</th>
+          <th class='sort'>Type</th>
+          <th class='sort'>Sector</th>
+          <th class='sort'>Country</th>
+          <th class='sort'>Joined</th>
+          <th class='sort'>Inactive</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for org in paged_organizations(:inactive) %>
+          <tr>
+            <td class='inactive_icon'><%= link_to org.name, '#FIXME' %></td>
+            <td><%= org.organization_type.name %></td>
+            <td><%= org.sector_name %></td>
+            <td><%= org.country_name %></td>
+            <td><%= yyyy_mm_dd org.joined_on %></td>
+            <td><%= yyyy_mm_dd org.noncommed_on %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate_orgs(:inactive, :anchor => 'paged_results') %>
+    <p>Companies on this list have been marked as "inactive" (<img src="/images/icon_inactive.gif" />) in accordance with the Global Compact integrity measures. More specifically, these companies have either: </p>
+    <ol>
+      <li> failed to submit a Communication on Progress (COP) within three years of joining the Global Compact; or </li>
+      <li> failed to submit a Communication on Progress within two years of submitting their last Communication on Progress. </li>
+    </ol>
+    

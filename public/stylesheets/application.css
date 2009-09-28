@@ -302,3 +302,8 @@ table.sortable thead tr th.headerSortDown {
 	padding-left: 16px !important;
 	background: url(/images/icon_alert.gif) 3px 8px no-repeat;
 }
+
+.inactive_icon {
+	padding-left: 16px !important;
+	background: url(/images/icon_inactive.gif) 3px 8px no-repeat;
+}
