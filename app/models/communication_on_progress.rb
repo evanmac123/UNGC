@@ -54,13 +54,15 @@ class CommunicationOnProgress < ActiveRecord::Base
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
     {
-      :include => :score,
+      :include => [:score, {:organization => [:sector, :country]}],
       :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ]
     }
   }
   
+  named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
+  
   def country_name
-    countries.map {|c| c.name }.join(', ')
+    organization.country.name
   end
   
   def sector_name
