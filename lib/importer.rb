@@ -80,11 +80,11 @@ class Importer
                           "ORG_PART_MAIL"          => nil,
                           "ORG_30DAYS_TO_COP"      => nil,
                           "ORG_90DAYS_TO_COP"      => nil,
-                          "ORG_TODAY_COPDUE"       => nil,
-                          "ORG_TODAY_INACT"        => nil,
+                          "ORG_TODAY_COPDUE"       => :cop_due_on,
+                          "ORG_TODAY_INACT"        => :inactive_on,
                           "ORG_30DAYS_TO_INACT"    => nil,
                           "ORG_90DAYS_TO_INACT"    => nil,
-                          "ORG_MEMBER_ONEYEAR"     => nil,
+                          "ORG_MEMBER_ONEYEAR"     => :one_year_member_on,
                           "ORG_LISTED_STATUS"      => :listing_status_id,
                           "ORG_LIST_CODE"          => :stock_symbol,
                           "ORG_LIST_EXCHANGE_CODE" => :exchange_id,
@@ -194,7 +194,7 @@ class Importer
           # CaseStory.CATEGORY becomes two fields - is_partnership_project and is_internalization_project
           o.is_partnership_project = [1, 3].include?(row[i].to_i)
           o.is_internalization_project = [2, 3].include?(row[i].to_i)
-        elsif [:added_on].include?(field) and lookup = row[i]
+        elsif [:added_on, :modified_on, :joined_on, :delisted_on, :one_year_member_on, :inactive_on, :cop_due_on].include?(field) and lookup = row[i]
           month, day, year = lookup.split('/')
           o.send("#{field}=", Time.mktime(year, month, day).to_date)
         else
