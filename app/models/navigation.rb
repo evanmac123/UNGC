@@ -26,6 +26,8 @@ class Navigation < ActiveRecord::Base
   
   def self.for_path(string)
     possible = Navigation.find_by_href(string, :include => :children)
+    return nil if string.blank?
+
     unless possible # it couldn't be found, but maybe it's inside a "directory"
       # split gives us an empty first element - /second/thing/index.html becomes ["", "second", "thing", "index.html"]
       array = string.split('/')
@@ -36,6 +38,7 @@ class Navigation < ActiveRecord::Base
         return possible if possible
       end
     end
+
     possible
   end
   

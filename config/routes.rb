@@ -10,6 +10,16 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :logo_requests, :has_many => :logo_comments
   map.resources :case_stories, :has_many => :comments
 
+  # map.resources :participants, :path_prefix => ':navigation', :requirements => { :id => /.*/ }
+  map.participant_with_nav 'participants/:navigation/:id', 
+    :controller => 'participants', 
+    :action => 'show', 
+    :requirements => { :id => /.*/ }
+  map.participant 'participants/:id', 
+    :controller => 'participants', 
+    :action => 'show', 
+    :requirements => { :id => /.*/ }
+
   map.resource :session
   
   # shorcut for new organization

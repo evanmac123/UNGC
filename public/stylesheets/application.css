@@ -307,3 +307,35 @@ table.sortable thead tr th.headerSortDown {
 	padding-left: 16px !important;
 	background: url(/images/icon_inactive.gif) 3px 8px no-repeat;
 }
+
+.nolist {
+	list-style: none; 
+	margin: 0 0 1em 0 !important;
+	padding: 0 !important;	
+}
+
+.nolist li { 
+	list-style: none; 
+	margin: 0 !important;
+	padding: 0 !important;
+}
+
+.participant_data li {
+	clear: both;
+}
+
+.participant_data .left {
+	width: 12em;
+	padding: 0.2em 1em;
+}
+
+.participant_data .right {
+	text-align: left;
+	float: left;
+	padding: 0.2em 1em;
+}
+
+/* Clear for IE 6/7 */
+.clearfix { zoom: 1; clear: left; }
+/* Clear for NS/FF/Moz */
+.clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }

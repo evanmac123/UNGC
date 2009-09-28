@@ -113,6 +113,17 @@ class Organization < ActiveRecord::Base
     end
   }
 
+  def self.find_by_param(param)
+    return nil if param.blank?
+    if param =~ /\A(\d\d+).*/
+      find_by_id param.to_i
+    else 
+      # param.gsub!(/\-/, '_')
+      param.gsub!(/\+/, ' ')
+      find :first, :conditions => ["name = ?", param]
+    end
+  end
+
   def country_name
     country.name
   end

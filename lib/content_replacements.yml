@@ -247,7 +247,7 @@ noncommunicating: &noncommunicating
       <tbody>
         <% for org in paged_organizations(:noncommunicating) %>
           <tr>
-            <td class='alert_icon'><%= link_to org.name, '#FIXME' %></td>
+            <td class='alert_icon'><%= link_to org.name, show_participant(org, :noncommunicating) %></td>
             <td><%= org.organization_type.name %></td>
             <td><%= org.sector_name %></td>
             <td><%= org.country_name %></td>
@@ -289,7 +289,7 @@ noncommunicating: &noncommunicating
       <tbody>
         <% for org in paged_organizations(:inactive) %>
           <tr>
-            <td class='inactive_icon'><%= link_to org.name, '#FIXME' %></td>
+            <td class='inactive_icon'><%= link_to org.name, show_participant(org, :inactive) %></td>
             <td><%= org.organization_type.name %></td>
             <td><%= org.sector_name %></td>
             <td><%= org.country_name %></td>

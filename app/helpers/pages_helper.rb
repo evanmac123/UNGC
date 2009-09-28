@@ -12,6 +12,14 @@ module PagesHelper
     select_tag :per_page, options_for_select(options), :class => 'autolink'
   end
 
+  def show_participant(organization, filter_type=nil)
+    if filter_type
+      participant_with_nav_path(filter_type, CGI.escape(organization.name))
+    else
+      participant_path(CGI.escape(organization.name))
+    end
+  end
+
   def yyyy_mm_dd(date)
     date ? date.strftime('%Y/%m/%d') : '&nbsp;'
   end

@@ -1,0 +1,17 @@
+%h1 Participant Information
+%h2= @participant.name
+
+%ul.nolist.participant_data.striped
+  - [ ['Country', @participant.country_name], ['Joining Date', yyyy_mm_dd(@participant.joined_on)], ['Organization Type', @participant.organization_type.name], ['Sector', @participant.sector_name], ['Website', @participant.url] ].each do |label, data|
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+      .left
+        %strong= "#{label}:"
+      .right
+        = data
+      
+.related_documents
+
+.cop_links
+
+.note
+  %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
