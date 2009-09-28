@@ -72,8 +72,16 @@ class Organization < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
 
+  named_scope :active,
+    { :conditions => ["organizations.active = ?", true] }
+
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
+
+  named_scope :companies_and_smes, { 
+    :include => :organization_type,
+    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ] 
+  }
 
   named_scope :by_type, lambda { |filter_type|
     {

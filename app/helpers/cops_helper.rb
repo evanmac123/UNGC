@@ -1,11 +1,11 @@
 module CopsHelper
   def count_all_cops(filter_type=nil)
-    CommunicationOnProgress.for_filter(filter_type).count
+    scoped_cops(filter_type).count
   end
   
   def paged_cops(filter_type=nil)
     @paged_cops ||= {}
-    @paged_cops[filter_type] ||= CommunicationOnProgress.for_filter(filter_type).by_year.paginate(:per_page => params[:per_page] || 10, :page => params[:page] || 1)
+    @paged_cops[filter_type] ||= scoped_cops(filter_type).by_year.paginate(:per_page => params[:per_page] || 10, :page => params[:page] || 1)
     @paged_cops[filter_type]
   end
   
@@ -18,5 +18,9 @@ module CopsHelper
       :next_label => 'Next',
       :page_links => false, 
       :params => params
+  end
+  
+  def scoped_cops(filter_type)
+    CommunicationOnProgress.for_filter(filter_type)
   end
 end

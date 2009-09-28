@@ -31,8 +31,13 @@ class OrganizationType < ActiveRecord::Base
     :sme             => 'SME'
   }
   
-  def self.for_filter(filter_type)
-    find :all, :conditions => ["name = ?", FILTERS[filter_type]]
+  def self.for_filter(*filter_types)
+    if filter_types.is_a?(Array)
+      filter_types.map! { |f| FILTERS[f] }
+      find :all, :conditions => ["name IN (?)", filter_types]
+    else
+      find :all, :conditions => ["name = ?", FILTERS[filter_types]]
+    end
   end
   
 end

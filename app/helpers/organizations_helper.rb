@@ -9,12 +9,12 @@ module OrganizationsHelper
   end
 
   def count_all_orgs(filter_type)
-    Organization.with_cop_status(filter_type).count
+    scoped_orgs(filter_type).count
   end
   
   def paged_organizations(filter_type)
     @paged_cops ||= {}
-    @paged_cops[filter_type] ||= Organization.with_cop_status(filter_type).paginate(:per_page => params[:per_page] || 10, :page => params[:page] || 1)
+    @paged_cops[filter_type] ||= scoped_orgs(filter_type).paginate(:per_page => params[:per_page] || 10, :page => params[:page] || 1)
     @paged_cops[filter_type]
   end
   
@@ -27,6 +27,10 @@ module OrganizationsHelper
       :next_label => 'Next',
       :page_links => false, 
       :params => params
+  end
+  
+  def scoped_orgs(filter_type)
+    Organization.participants.companies_and_smes.active.with_cop_status(filter_type)
   end
   
 end

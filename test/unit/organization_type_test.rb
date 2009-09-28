@@ -26,6 +26,10 @@ class OrganizationTypeTest < ActiveSupport::TestCase
     should "find SME when filtering for :sme" do
       assert_same_elements [@sme], OrganizationType.for_filter(:sme)
     end
+    
+    should "find SME and Companies when filtering for :companies and :sme" do
+      assert_same_elements [@companies, @sme], OrganizationType.for_filter(:companies, :sme)
+    end
   end
   
 end
