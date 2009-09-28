@@ -26,7 +26,7 @@ class LogoRequest < ActiveRecord::Base
   belongs_to :contact
   belongs_to :reviewer, :class_name => "Contact"
   belongs_to :publication, :class_name => "LogoPublication"
-  has_many :logo_comments
+  has_many :logo_comments, :dependent => :delete_all
   has_and_belongs_to_many :logo_files
 
   accepts_nested_attributes_for :logo_comments
