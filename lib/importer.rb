@@ -123,7 +123,7 @@ class Importer
     #         CASE_REVIEWER2_EMAIL	CASE_FILE	CASE_CONTACT1_NAME	CASE_CONTACT1_EMAIL	CASE_CONTACT2_NAME
     #         CASE_CONTACT2_EMAIL	CASE_STATUS	CASE_DOC_EXT
     :case_story => {:file   => 'R07_CASE_STORY.txt',
-                    :fields => [:identifier, :organization_id, :title, :case_type, :category, :case_date, :description,
+                    :fields => [:identifier, :organization_id, :title, nil, :category, :case_date, :description,
                                 :url1, :url2, :url3, :author1, :author1_institution,
                                 :author1_email, :author2, :author2_institution, :author2_email, :reviewer1,
                                 :reviewer1_institution, :reviewer1_email, :reviewer2, :reviewer2_institution,
@@ -190,6 +190,10 @@ class Importer
           o.send("#{field}=", Contact.find_by_old_id(row[i]).try(:id)) if row[i]
         elsif field == :organization_type_id
           o.organization_type_id = OrganizationType.find_by_name(row[i]).id if row[i]
+        elsif field == :category
+          # CaseStory.CATEGORY becomes two fields - is_partnership_project and is_internalization_project
+          o.is_partnership_project = [1, 3].include?(row[i].to_i)
+          o.is_internalization_project = [2, 3].include?(row[i].to_i)
         elsif [:added_on].include?(field) and lookup = row[i]
           month, day, year = lookup.split('/')
           o.send("#{field}=", Time.mktime(year, month, day).to_date)
