@@ -63,6 +63,12 @@ class LogoRequest < ActiveRecord::Base
     end
   }
   
+  STATE_PENDING_REVIEW = 'pending_review'
+  STATE_IN_REVIEW = 'in_review'
+  STATE_APPROVED = 'approved'
+  STATE_REJECTED = 'rejected'
+  STATE_ACCEPTED = 'accepted'
+  
   EVENT_REVISE = 'revise'
   EVENT_REPLY = 'reply'
   EVENT_REJECT = 'reject'
