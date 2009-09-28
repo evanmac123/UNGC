@@ -225,7 +225,7 @@
       </tbody>
     </table>
     <%= paginate_cops(:notable, :anchor => 'paged_results') %>
-'/COP/non_communicating.html':
+noncommunicating: &noncommunicating
   content: |
     <h1>Non-Communicating Participants</h1>
     <a name='paged_results'></a>
@@ -263,6 +263,10 @@
       <li> a participant failed to develop a Communication on Progress by the relevant deadline or has not yet provided a link to/description of their Communication on Progress; or </li>
       <li> a participant refuses to engage in dialogue on a matter raised under the Global Compact integrity measures within three months of first being contacted by the Global Compact Office about the matter. </li>
     </ol>
+'/COP/non_communicating.html':
+  <<: *noncommunicating
+'/ParticipantsAndStakeholders/non_communicating.html':
+  <<: *noncommunicating
 '/COP/inactives.html':
   content: |
     <h1>Inactive Participants</h1>
