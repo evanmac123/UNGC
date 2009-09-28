@@ -57,12 +57,45 @@ class Importer
     #        ORG_90DAYS_TO_INACT	ORG_MEMBER_ONEYEAR	ORG_LISTED_STATUS	ORG_LIST_CODE	ORG_LIST_EXCHANGE_CODE
     #        ORG_PARENT_NAME	ORG_PARENT_LIST_CODE	TR11_REASON	ORG_LAST_MODIFIED_BY	ORG_JOIN_LETTER
     :organization => {:file   => 'R01_ORGANIZATION.txt',
-                      :fields => [:old_id, :organization_type_id, :name, :sector_id, :local_network, :participant,
-                                   :employees, :url, nil, :added_on, :modified_on, :joined_on, :delisted_on,:active,
-                                   :is_ft_500, :country_id, nil, nil, nil, nil,
-                                   nil, nil, nil, nil, nil,
-                                   nil, nil, :listing_status_id, :stock_symbol, :exchange_id,
-                                   nil, nil, :removal_reason_id, :last_modified_by_id, nil]},
+                      :fields => {
+                          "ID"                     => :old_id,
+                          "TR02_TYPE"              => :organization_type_id,
+                          "ORG_NAME"               => :name,
+                          "SECTOR_ID"              => :sector_id,
+                          "ORG_NETWORK_BIT"        => :local_network,
+                          "ORG_PARTICIPANT_BIT"    => :participant,
+                          "ORG_NB_EMPLOY"          => :employees,
+                          "ORG_URL"                => :url,
+                          "ORG_BHR_URL"            => nil,
+                          "ORG_DATE_CREATE"        => :added_on,
+                          "ORG_DATE_MODIFICATION"  => :modified_on,
+                          "ORG_DATE_JOINING"       => :joined_on,
+                          "ORG_DATE_DELISTED"      => :delisted_on,
+                          "ORG_ACTIVE"             => :active,
+                          "ORG_ISGLOBAL500"        => :is_ft_500,
+                          "TR01_COUNTRY_ID"        => :country_id,
+                          "ORG_STATUS_COP"         => :cop_status,
+                          "ORG_COP_ALERT"          => nil,
+                          "ORG_UN_SPEC"            => nil,
+                          "ORG_PART_MAIL"          => nil,
+                          "ORG_30DAYS_TO_COP"      => nil,
+                          "ORG_90DAYS_TO_COP"      => nil,
+                          "ORG_TODAY_COPDUE"       => nil,
+                          "ORG_TODAY_INACT"        => nil,
+                          "ORG_30DAYS_TO_INACT"    => nil,
+                          "ORG_90DAYS_TO_INACT"    => nil,
+                          "ORG_MEMBER_ONEYEAR"     => nil,
+                          "ORG_LISTED_STATUS"      => :listing_status_id,
+                          "ORG_LIST_CODE"          => :stock_symbol,
+                          "ORG_LIST_EXCHANGE_CODE" => :exchange_id,
+                          "ORG_PARENT_NAME"        => nil,
+                          "ORG_PARENT_LIST_CODE"   => nil,
+                          "TR11_REASON"            => :removal_reason_id,
+                          "ORG_LAST_MODIFIED_BY"   => :last_modified_by_id,
+                          "ORG_JOIN_LETTER"        => nil
+                        }.values
+                      
+                      },
     # fields: CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_TITLE	CONTACT_EMAIL
     #         CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
     #         CONTACT_CODE_POSTAL	TR01_COUNTRY_ID	CONTACT_IS_CEO	CONTACT_IS_CONTACT_POINT	CONTACT_IS_NEWSLETTER
