@@ -21,4 +21,5 @@ class Comment < ActiveRecord::Base
   belongs_to :contact
   
   has_attached_file :attachment
+  named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
 end

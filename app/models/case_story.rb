@@ -41,6 +41,7 @@ class CaseStory < ActiveRecord::Base
   belongs_to :organization
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
+  acts_as_commentable
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION

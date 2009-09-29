@@ -8,6 +8,7 @@ ActionController::Routing::Routes.draw do |map|
     organization.resources :case_stories
   end
   map.resources :logo_requests, :has_many => :logo_comments
+  map.resources :case_stories, :has_many => :comments
 
   map.resource :session
   

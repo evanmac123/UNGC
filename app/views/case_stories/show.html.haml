@@ -1,0 +1,22 @@
+%p
+  %b Title:
+  =h @case_story.title
+%p
+  %b Principles:
+  %br/
+  = @case_story.principles.collect(&:name).join('<br/>')
+%p
+  %b Countries:
+  = @case_story.countries.collect(&:name).join(', ')
+
+%h2 Comments
+= link_to 'New comment', new_case_story_comment_path(@case_story) #unless @logo_request.state_events.empty?
+%ul
+  = render :partial => @case_story.comments
+
+%h3 Files
+%ul
+  - for comment in @case_story.comments.with_attachment
+    %li
+      = attachment_link(comment)
+      = number_to_human_size(comment.attachment_file_size)
