@@ -41,6 +41,12 @@ class ActiveSupport::TestCase
                                         :organization_id => @organization.id)
   end
   
+  def create_new_case_story
+    create_organization_user
+    create_ungc_organization
+    @case_story = create_case_story(:organization_id => @organization.id)
+  end
+  
   def create_approved_logo_request
     create_new_logo_request
     # we need a comment before approving

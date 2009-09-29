@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class SigningTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
+  should_belong_to :initiative
+  should_belong_to :signatory
+  should_belong_to :organization
 end

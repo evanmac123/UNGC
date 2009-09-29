@@ -6,6 +6,7 @@ class OrganizationTest < ActiveSupport::TestCase
   should_have_many :logo_requests
   should_have_many :case_stories
   should_have_many :communication_on_progresses
+  should_have_many :comments
   should_belong_to :sector
   should_belong_to :organization_type
   should_belong_to :listing_status

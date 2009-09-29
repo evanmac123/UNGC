@@ -3,7 +3,8 @@ module FixtureReplacement
     "/#{[String.random, String.random, String.random].join('/')}.html"
   end
   
-  attributes_for :case_story do |a|
+  attributes_for :case_story do |c|
+    c.title = String.random
 	end
 
   attributes_for :communication_on_progress do |a|
