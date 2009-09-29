@@ -45,6 +45,9 @@ class Contact < ActiveRecord::Base
   belongs_to :country
 
   default_scope :order => 'contacts.first_name'
+  
+  named_scope :contact_points, :conditions => {:contact_point => true}
+  named_scope :ceos, :conditions => {:ceo => true}
 
   def name
     [first_name, last_name].join(' ')

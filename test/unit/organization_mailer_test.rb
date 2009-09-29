@@ -3,9 +3,10 @@ require 'test_helper'
 class OrganizationMailerTest < ActionMailer::TestCase
   def setup
     @organization = create_organization
-    @organization.contacts.create(:email      => 'dude@example.com',
-                                  :first_name => 'a',
-                                  :last_name  => 'b')
+    @organization.contacts.create(:email         => 'dude@example.com',
+                                  :first_name    => 'a',
+                                  :last_name     => 'b',
+                                  :contact_point => true)
   end
   
   test "submission mailer is sent" do

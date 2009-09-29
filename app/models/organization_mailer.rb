@@ -3,8 +3,7 @@ class OrganizationMailer < ActionMailer::Base
     subject "We received your application"
     from EMAIL_SENDER
     content_type "text/html"
-    # TODO send to the first point of contact, not first contact
-    recipients organization.contacts.first.email
+    recipients organization.contacts.contact_points.collect(&:email)
     body :organization => organization
   end
 end
