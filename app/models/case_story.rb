@@ -43,6 +43,26 @@ class CaseStory < ActiveRecord::Base
   has_and_belongs_to_many :principles
   acts_as_commentable
 
+  state_machine :state, :initial => :pending_review do
+    event :revise do
+      transition :from => :pending_review, :to => :in_review
+    end
+    event :approve do
+      transition :from => [:in_review, :pending_review], :to => :approved
+    end
+    event :reject do
+      transition :from => [:in_review, :pending_review], :to => :rejected
+    end
+  end
+  
+  named_scope :pending_review, :conditions => {:state => "pending_review"}
+  named_scope :in_review, :conditions => {:state => "in_review"}
+  named_scope :approved, :conditions => {:state => "approved"}
+  named_scope :rejected, :conditions => {:state => "rejected"}
+  named_scope :accepted, :conditions => {:state => "accepted"}
+
+  named_scope :unreplied, :conditions => {:replied_to => false}
+  
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
       { :conditions => ['organization_id=?', user.organization_id] }

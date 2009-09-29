@@ -16,3 +16,10 @@
     = render :partial => @unreplied_logo_requests
 - else
   no work for you
+
+%h3 Pending Case Stories
+- if @pending_case_stories.any?
+  %ul
+    = render :partial => @pending_case_stories
+- else
+  no work for you

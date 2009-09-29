@@ -9,6 +9,7 @@ class AdminController < ApplicationController
     if current_user.from_ungc?
       @pending_logo_requests = LogoRequest.pending_review
       @unreplied_logo_requests = LogoRequest.unreplied
+      @pending_case_stories = CaseStory.pending_review
     end
     render :template => "admin/dashboard_#{current_user.user_type}.html.haml"
   end
