@@ -32,6 +32,7 @@ class LogoRequest < ActiveRecord::Base
   accepts_nested_attributes_for :logo_comments
 
   state_machine :state, :initial => :pending_review do
+    after_transition :on => :accept, :do => :set_accepted_on
     event :revise do
       transition :from => :pending_review, :to => :in_review
     end
@@ -81,5 +82,9 @@ class LogoRequest < ActiveRecord::Base
   private
     def set_requested_on
       requested_on = Date.today
+    end
+    
+    def set_accepted_on
+      update_attribute :accepted_on, Date.today
     end
 end

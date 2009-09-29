@@ -37,7 +37,6 @@ class LogoRequestsController < ApplicationController
 
   def agree
     @logo_request.accept
-    @logo_request.update_attribute(:accepted_on, Time.now)
     flash[:notice] = 'You accepted the terms and conditions, and can download the logo for the next 7 days'
     redirect_to [@organization, @logo_request]
   end

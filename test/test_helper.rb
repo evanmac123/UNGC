@@ -39,6 +39,17 @@ class ActiveSupport::TestCase
     create_logo_publication
     @logo_request = create_logo_request
   end
+  
+  def create_approved_logo_request
+    create_new_logo_request
+    # we need a comment before approving
+    @logo_request.logo_files << create_logo_file(:zip  => fixture_file_upload('files/untitled.pdf', 'application/pdf'))
+    @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                       :contact_id  => @staff_user.id,
+                                       :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                       :state_event => LogoRequest::EVENT_REVISE)
+    @logo_request.approve
+  end  
 
   def create_organization_user
     create_organization_type

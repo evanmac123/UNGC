@@ -30,15 +30,38 @@ class LogoCommentTest < ActiveSupport::TestCase
     end
   end
   
-  context "given an approved/rejected logo request" do
+  context "given a 'in review' logo request" do
     setup do
       create_new_logo_request
-      # we need a comment before approving
       @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                         :contact_id  => Contact.first.id,
+                                         :contact_id  => @staff_user.id,
                                          :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                          :state_event => LogoRequest::EVENT_REVISE)
-      @logo_request.approve
+      @logo_request.logo_files << create_logo_file
+    end
+    
+    should "go to approved state after positive comment" do
+      assert_difference '@logo_request.logo_comments.count' do
+        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                           :contact_id  => @staff_user.id,
+                                           :state_event => LogoRequest::EVENT_APPROVE)
+        assert @logo_request.reload.approved?
+      end
+    end
+    
+    should "go to rejected state after negative comment" do
+      assert_difference '@logo_request.logo_comments.count' do
+        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                           :contact_id  => @staff_user.id,
+                                           :state_event => LogoRequest::EVENT_REJECT)
+        assert @logo_request.reload.rejected?
+      end
+    end
+  end
+  
+  context "given an approved/rejected logo request" do
+    setup do
+      create_approved_logo_request
     end
     
     should "not accept new comments" do

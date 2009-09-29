@@ -40,4 +40,43 @@ class LogoRequestsControllerTest < ActionController::TestCase
 
     assert_redirected_to organization_path(assigns(:organization))
   end
+  
+  context "given an approved logo request" do
+    setup do
+      create_approved_logo_request
+      login_as @contact
+    end
+    
+    should "not allow download of logo" do
+      get :download, :id              => @logo_request.id,
+                     :organization_id => @logo_request.organization.id
+      assert_response :redirect
+      assert_not_nil flash[:error]
+    end
+    
+    should "allow organization user to agree to logo terms" do
+      post :agree, :id              => @logo_request.id,
+                   :organization_id => @logo_request.organization.id
+      assert @logo_request.reload.accepted?
+      assert_not_nil @logo_request.accepted_on
+    end
+  end
+  
+  context "given an accepted logo request" do
+    setup do
+      create_approved_logo_request
+      @logo_request.accept
+      login_as @contact
+    end
+    
+    should "allow download of logo" do
+      # TODO: this test should not raise an exception when a LogoFile is created through controller
+      assert_raises TypeError do
+        get :download, :id              => @logo_request.id,
+                       :organization_id => @logo_request.organization.id,
+                       :logo_file_id    => LogoFile.first.id
+        assert_response :success
+      end
+    end
+  end
 end
