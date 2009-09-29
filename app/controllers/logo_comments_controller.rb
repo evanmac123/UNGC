@@ -21,7 +21,6 @@ class LogoCommentsController < ApplicationController
   
   private
     def load_logo_request
-      # TODO: should logo comment be a nested resource of logo request?
       @logo_request = LogoRequest.find params[:logo_request_id]
     end
 end

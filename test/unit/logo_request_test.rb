@@ -48,9 +48,5 @@ class LogoRequestTest < ActiveSupport::TestCase
       end
       assert !@logo_request.reload.approved?
     end
-
-    should "allow multiple comments by organization user without changing state" do
-      # TODO implement after authorization
-    end
   end
 end
