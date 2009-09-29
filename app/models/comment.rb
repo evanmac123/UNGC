@@ -22,4 +22,6 @@ class Comment < ActiveRecord::Base
   
   has_attached_file :attachment
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
+  
+  attr_accessor :state_event
 end
