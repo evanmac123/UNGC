@@ -12,6 +12,7 @@ class ContactTest < ActiveSupport::TestCase
     
     should "return proper type" do
       assert_equal Contact::TYPE_UNGC, @staff_user.user_type
+      assert @organization_user.from_ungc?
     end
   end
   
@@ -22,6 +23,7 @@ class ContactTest < ActiveSupport::TestCase
     
     should "return proper type" do
       assert_equal Contact::TYPE_ORGANIZATION, @organization_user.user_type
+      assert @organization_user.from_organization?
     end
   end
 end
