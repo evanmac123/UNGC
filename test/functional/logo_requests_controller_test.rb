@@ -44,7 +44,7 @@ class LogoRequestsControllerTest < ActionController::TestCase
   context "given an approved logo request" do
     setup do
       create_approved_logo_request
-      login_as @contact
+      login_as @organization_user
     end
     
     should "not allow download of logo" do
@@ -66,7 +66,7 @@ class LogoRequestsControllerTest < ActionController::TestCase
     setup do
       create_approved_logo_request
       @logo_request.accept
-      login_as @contact
+      login_as @organization_user
     end
     
     should "allow download of logo" do

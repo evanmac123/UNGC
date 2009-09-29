@@ -37,7 +37,8 @@ class ActiveSupport::TestCase
     create_organization_user
     create_ungc_organization
     create_logo_publication
-    @logo_request = create_logo_request
+    @logo_request = create_logo_request(:contact_id      => @organization_user.id,
+                                        :organization_id => @organization.id)
   end
   
   def create_approved_logo_request
@@ -54,7 +55,8 @@ class ActiveSupport::TestCase
   def create_organization_user
     create_organization_type
     @organization = create_organization
-    @organization_user = create_contact(:organization_id => @organization.id)
+    @organization_user = create_contact(:organization_id => @organization.id,
+                                        :email           => 'email@example.com')
   end
   
   def create_staff_user
