@@ -21,10 +21,12 @@ class LogoCommentTest < ActiveSupport::TestCase
     
     should "go to 'in review' state with a comment" do
       assert_difference '@logo_request.logo_comments.count' do
-        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                           :contact_id  => @staff_user.id,
-                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-                                           :state_event => LogoRequest::EVENT_REVISE)
+        assert_emails(1) do
+          @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                             :contact_id  => @staff_user.id,
+                                             :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                             :state_event => LogoRequest::EVENT_REVISE)
+        end
       end
       assert @logo_request.reload.in_review?
     end
@@ -42,19 +44,34 @@ class LogoCommentTest < ActiveSupport::TestCase
     
     should "go to approved state after positive comment" do
       assert_difference '@logo_request.logo_comments.count' do
-        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                           :contact_id  => @staff_user.id,
-                                           :state_event => LogoRequest::EVENT_APPROVE)
-        assert @logo_request.reload.approved?
+        assert_emails(1) do
+          @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                             :contact_id  => @staff_user.id,
+                                             :state_event => LogoRequest::EVENT_APPROVE)
+          assert @logo_request.reload.approved?
+        end
       end
     end
     
     should "go to rejected state after negative comment" do
       assert_difference '@logo_request.logo_comments.count' do
-        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                           :contact_id  => @staff_user.id,
-                                           :state_event => LogoRequest::EVENT_REJECT)
-        assert @logo_request.reload.rejected?
+        assert_emails(1) do
+          @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                             :contact_id  => @staff_user.id,
+                                             :state_event => LogoRequest::EVENT_REJECT)
+          assert @logo_request.reload.rejected?
+        end
+      end
+    end
+    
+    should "not go to approved/rejected state after comment from organization" do
+      assert_no_difference '@logo_request.logo_comments.count' do
+        assert_emails(0) do
+          @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                             :contact_id  => @organization_user.id,
+                                             :state_event => LogoRequest::EVENT_APPROVE)
+          assert !@logo_request.reload.approved?
+        end
       end
     end
   end
@@ -66,10 +83,12 @@ class LogoCommentTest < ActiveSupport::TestCase
     
     should "not accept new comments" do
       assert_no_difference '@logo_request.logo_comments.count' do
-        @logo_request.logo_comments.create(:body        => 'lorem ipsum',
-                                           :contact_id  => @organization_user.id,
-                                           :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-                                           :state_event => LogoRequest::EVENT_REPLY)
+        assert_emails(0) do
+          @logo_request.logo_comments.create(:body        => 'lorem ipsum',
+                                             :contact_id  => @organization_user.id,
+                                             :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                             :state_event => LogoRequest::EVENT_REPLY)
+        end
       end
     end
   end
