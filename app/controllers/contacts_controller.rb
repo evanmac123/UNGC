@@ -3,7 +3,7 @@ class ContactsController < ApplicationController
   before_filter :load_organization
 
   def new
-    @contact = @organization.contacts.new
+    @contact = @organization.contacts.new(:country_id => @organization.country_id)
   end
 
   def create
