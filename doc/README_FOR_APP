@@ -36,7 +36,12 @@ To run those files, go to a console and:
 >> Importer.new.run
 >> HabtmImporter.new.run
 
+(You can also use runner: ./script/runner "Importer.new.run; HabtmImporter.new.run")
+
 Be patient, each run will take around 10 minutes :)
+
+
+
 
 Application setup
 =================
