@@ -119,7 +119,7 @@ class Organization < ActiveRecord::Base
       find_by_id param.to_i
     else 
       # param.gsub!(/\-/, '_')
-      param.gsub!(/\+/, ' ')
+      param = CGI.unescape param
       find :first, :conditions => ["name = ?", param]
     end
   end
