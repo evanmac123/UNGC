@@ -18,10 +18,12 @@ class ParticipantsController < ApplicationController
   def determine_navigation
     logger.info " ** #{params[:navigation]}"
     @look_for_path = case params[:navigation]
-    when 'noncommunicating'
-      '/COP/non_communicating.html'
     when 'inactive'
       '/COP/inactives.html'
+    when 'noncommunicating'
+      '/COP/non_communicating.html'
+    when 'notable'
+      '/COP/notable_cops.html'
     else
       '/COP/cop_search.html'
     end
