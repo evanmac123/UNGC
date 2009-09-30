@@ -20,6 +20,7 @@ class OrganizationsController < ApplicationController
       flash[:notice] = 'Organization was successfully created.'
       redirect_to(@organization)
     else
+      @organization_types = OrganizationType.all(:conditions => ["type_property=?",@organization.organization_type.type_property])
       render :action => "new"
     end
   end
