@@ -61,12 +61,36 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
   
+  def self.find_by_param(param)
+    return nil if param.blank?
+    if param =~ /\A(\d\d+).*/
+      find_by_id param.to_i
+    else 
+      param = CGI.unescape param
+      find :first, :conditions => ["title = ?", param]
+    end
+  end
+  
   def country_name
     organization.country.name
   end
   
+  def ended_on
+    time = Time.mktime end_year, end_month, 1
+    time.to_date
+  end
+  
   def sector_name
     organization.sector.try(:name) || ''
+  end
+  
+  def started_on
+    time = Time.mktime start_year, start_month, 1
+    time.to_date
+  end
+  
+  def urls
+    [url1, url2, url3].compact
   end
   
   def year

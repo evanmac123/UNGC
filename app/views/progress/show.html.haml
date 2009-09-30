@@ -1,0 +1,42 @@
+%h1 COP Details
+%p= link_to 'Back to Search Results', :back
+
+%h2 Participant Name
+%p= @cop.organization_name
+
+%h2 Country
+%p= @cop.country_name
+
+%h2 Sector
+%p= @cop.sector_name
+
+%h2 Title of Communication on Progress
+%p= @cop.title
+
+%h2 Annual time period covered
+%p
+  = m_yyyy(@cop.started_on)
+  \-
+  = m_yyyy(@cop.ended_on)
+
+%h2 Links to Communication in Progress
+%ul.nolist
+  %li= link_to @cop.title, '#FIXME-COP-DOC'
+  - for url in @cop.urls do
+    %li= link_to truncate(url, 80), url
+
+%h2 Methods COP is shared with stakeholders:
+%p
+
+%h2 Contact Person
+%p= @cop.contact_name
+
+%h2 Contact Email
+%p= link_to @cop.email
+
+%h2 Date
+%p= yyyy_mm_dd @cop.added_on
+
+
+.note
+  %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.

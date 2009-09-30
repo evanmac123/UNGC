@@ -215,8 +215,8 @@
       <tbody>
         <% for cop in paged_cops(:notable) %>
           <tr>
-            <td><%= link_to cop.organization_name, show_participant(cop.organization, :notable) %></td>
-            <td><%= link_to cop.title, '#FIXME-COP' %></td>
+            <td><%= link_to cop.organization_name, participant_link(cop.organization, :notable) %></td>
+            <td><%= link_to cop.title, cop_link(cop, :notable) %></td>
             <td><%= cop.country_name %></td>
             <td><%= cop.sector_name %></td>
             <td><%= cop.year %></td>
@@ -247,7 +247,7 @@ noncommunicating: &noncommunicating
       <tbody>
         <% for org in paged_organizations(:noncommunicating) %>
           <tr>
-            <td class='alert_icon'><%= link_to org.name, show_participant(org, :noncommunicating) %></td>
+            <td class='alert_icon'><%= link_to org.name, participant_link(org, :noncommunicating) %></td>
             <td><%= org.organization_type.name %></td>
             <td><%= org.sector_name %></td>
             <td><%= org.country_name %></td>
@@ -289,7 +289,7 @@ noncommunicating: &noncommunicating
       <tbody>
         <% for org in paged_organizations(:inactive) %>
           <tr>
-            <td class='inactive_icon'><%= link_to org.name, show_participant(org, :inactive) %></td>
+            <td class='inactive_icon'><%= link_to org.name, participant_link(org, :inactive) %></td>
             <td><%= org.organization_type.name %></td>
             <td><%= org.sector_name %></td>
             <td><%= org.country_name %></td>
