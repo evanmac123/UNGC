@@ -215,7 +215,7 @@
       <tbody>
         <% for cop in paged_cops(:notable) %>
           <tr>
-            <td><%= link_to cop.organization_name, '#FIXME' %></td>
+            <td><%= link_to cop.organization_name, show_participant(cop.organization, :notable) %></td>
             <td><%= link_to cop.title, '#FIXME-COP' %></td>
             <td><%= cop.country_name %></td>
             <td><%= cop.sector_name %></td>
