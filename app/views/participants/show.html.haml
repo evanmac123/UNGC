@@ -2,16 +2,55 @@
 %h2= @participant.name
 
 %ul.nolist.participant_data.striped
-  - [ ['Country', @participant.country_name], ['Joining Date', yyyy_mm_dd(@participant.joined_on)], ['Organization Type', @participant.organization_type.name], ['Sector', @participant.sector_name], ['Website', @participant.url] ].each do |label, data|
+  - [ ['Country', @participant.country_name], ['Joining Date', yyyy_mm_dd(@participant.joined_on)], ['Organization Type', @participant.organization_type.name], ['Sector', @participant.sector_name] ].each do |label, data|
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
         %strong= "#{label}:"
       .right
         = data
+  %li.clearfix.even
+    .left
+      %strong Website:
+    .right= @participant.url.blank? ? 'No address provided' : link_to(@participant.url, @participant.url)
+
+  - unless @participant.stock_symbol.blank?
+    %li.clearfix.odd
+      .left
+        %strong Financial Information:
+      .right= link_to 'Google Finance', "http://finance.google.com/finance?q=ATH:%s" % @participant.stock_symbol
       
 .related_documents
+  %h2 Related Documents
 
 .cop_links
+  %table.cop_links{:cellspacing=>0, :cellpadding=>0}
+    %thead
+      %tr
+        %th{:rowspan=>2} Submission Date
+        %th{:rowspan=>2} Time Period Covered
+        %th{:rowspan=>2} Communication Title
+        %th{:colspan=>3} COP Elements
+      %tr
+        %th.check 1
+        %th.check 2
+        %th.check 3
+    %tbody
+      - for cop in @participant.communication_on_progresses do
+        %tr
+          %td.center= yyyy_mm_dd cop.added_on
+          %td.center= date_range cop
+          %td= link_to cop.title, cop_link(cop, params[:navigation])
+          %td.center= check_if cop.include_ceo_letter?
+          %td.center= check_if cop.include_actions?
+          %td.center= check_if cop.include_measurement?
 
+  %p COP Elements:
+  %ol
+    %li Statement of continued support for the Global Compact by the CEO or other senior executive
+    %li Description of practical actions taken to implement the global compact principles
+    %li Measurement of outcomes or expected outcomes
 .note
   %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
+  
+.case_stories
+  %h2 Case Stories

@@ -320,6 +320,10 @@ table.sortable thead tr th.headerSortDown {
 	padding: 0 !important;
 }
 
+.related_documents {
+	clear: both;
+}
+
 .participant_data li {
 	clear: both;
 }
@@ -334,6 +338,33 @@ table.sortable thead tr th.headerSortDown {
 	float: left;
 	padding: 0.2em 1em;
 }
+
+table.cop_links {
+	padding: 0;
+	margin: 0 0 1em 0;
+	width: 100%;
+}
+
+.cop_links td,
+.cop_links th {
+	margin: 0;
+	padding: 0.1em 0.33em;
+	border-bottom: 1px solid black;
+}
+
+.cop_links th {
+	vertical-align: bottom;
+	border-bottom: 2px solid black;
+}
+
+.cop_links .check {
+	width: 18px;
+}
+
+td.center {
+	text-align: center;
+}
+
 
 /* Clear for IE 6/7 */
 .clearfix { zoom: 1; clear: left; }

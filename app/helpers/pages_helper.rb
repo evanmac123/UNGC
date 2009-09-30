@@ -21,6 +21,10 @@ module PagesHelper
     end
   end
 
+  def date_range(cop)
+    "#{m_yyyy(cop.started_on)} - #{m_yyyy(cop.ended_on)}"    
+  end
+
   def participant_link(organization, navigation=nil)
     link_to = CGI.escape(organization.name)
     if navigation

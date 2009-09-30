@@ -1,4 +1,12 @@
 module CopsHelper
+  def check_if(condition)
+    if condition
+      image_tag 'checked.jpg'
+    else
+      '&nbsp;'
+    end
+  end
+  
   def count_all_cops(filter_type=nil)
     scoped_cops(filter_type).count
   end
