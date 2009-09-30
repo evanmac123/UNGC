@@ -3,18 +3,28 @@
   %head
     %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
     %title= @title || "United Nations Global Compact | #{controller.controller_name.titleize}: #{controller.action_name}"
-    = stylesheet_link_tag 'scaffold', 'jquery-ui', 'admin'
+    = stylesheet_link_tag 'jquery-ui', 'admin', 'grid', 'typography', 'forms'
     - (@css || []).each do |file|
       = stylesheet_link_tag file
     = stylesheet_link_tag 'print', :media => 'print'
   %body{:class => "#{ENV["RAILS_ENV"]} admin"}
-    =# render :partial => 'layouts/header'
-    = link_to 'Dashboard', dashboard_path
-    = render :partial => 'layouts/user_bar'
-    = flash_messages_for :notice, :error
-    = yield
-    =# render :partial => 'layouts/footer'
-    = javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery?
-    = javascript_include_tag 'jquery', 'jquery-ui', 'application', 'dashboard'
-    - (@javascript || []).each do |file|
-      = javascript_include_tag file
+    .container
+      %h1= link_to "UNGC Dashboard", dashboard_path
+      - if logged_in?
+        %p== for #{link_to current_user.organization.name, edit_organization_path(current_user.organization)} staff
+      %hr/
+
+      %div{:class => "span-15 prepend-1 colborder"}
+        = flash_messages_for :notice, :error
+        = yield
+
+      - if logged_in?
+        %div{:class => "span-7 last"}
+          %h3 Your info
+          = render :partial => 'layouts/user_bar'
+
+      %hr/
+      = javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery?
+      = javascript_include_tag 'jquery', 'jquery-ui', 'application', 'dashboard'
+      - (@javascript || []).each do |file|
+        = javascript_include_tag file
