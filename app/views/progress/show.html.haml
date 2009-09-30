@@ -2,7 +2,7 @@
 %p= link_to 'Back to Search Results', :back
 
 %h2 Participant Name
-%p= @cop.organization_name
+%p= link_to @cop.organization_name, participant_link(@cop.organization, params[:navigation])
 
 %h2 Country
 %p= @cop.country_name
@@ -15,9 +15,7 @@
 
 %h2 Annual time period covered
 %p
-  = m_yyyy(@cop.started_on)
-  \-
-  = m_yyyy(@cop.ended_on)
+  = date_range(@cop)
 
 %h2 Links to Communication in Progress
 %ul.nolist
