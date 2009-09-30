@@ -168,8 +168,8 @@
         <% for organization in signatories(:climate) %>
           <tr>
             <td><%= link_to organization.name, '#FIXME' %></td>
-            <td><%= organization.sector.name %></td>
-            <td><%= organization.country.name %></td>
+            <td><%= organization.sector_name %></td>
+            <td><%= organization.country_name %></td>
           </tr>
         <% end %>
       </tbody>
@@ -189,8 +189,8 @@
         <% for organization in signatories(:human_rights) %>
           <tr>
             <td><%= link_to organization.name, '#FIXME' %></td>
-            <td><%= organization.sector.name %></td>
-            <td><%= organization.country.name %></td>
+            <td><%= organization.sector_name %></td>
+            <td><%= organization.country_name %></td>
           </tr>
         <% end %>
       </tbody>
