@@ -1,3 +1,23 @@
+# Little helper method -- like try, but can use a block
+class Object
+  def no_nil(&block)
+    yield(self)
+  rescue NoMethodError
+    nil
+  end
+end
+
+# Monkey-patch Hpricot to force file encoding to utf-8
+module Hpricot
+  # XML unescape
+  def self.uxs(str)
+    str.force_encoding("UTF-8")
+    str.to_s.
+        gsub(/\&(\w+);/) { [NamedCharacters[$1] || ??].pack("U*") }.
+        gsub(/\&\#(\d+);/) { [$1.to_i].pack("U*") }
+  end
+end
+
 def Dir.stuff(path)
   not_stuff = ['.', '..', '.DS_Store']
   entries(path) - not_stuff
@@ -107,6 +127,21 @@ def attributes_for_element doc, elem
   end
 end
 
+def manually_adjust_shorts
+  # these pages have specialized banners, but don't get picked up by the normal 'short' processor
+  {
+    'The CEO Water Mandate' => 'environment_ceo',
+    'Caring for Climate'    => 'environment_c4c'
+  }.each_pair do |label, short|
+    nav = Navigation.find_by_label(label)
+    if nav
+      nav.update_attribute(:short, short)
+    else
+      puts "Problem with '#{label}'"
+    end
+  end
+end
+
 def parse_language_nav(root)
   filename = root + 'Languages/index.html'
   doc = Hpricot(open(filename))
@@ -118,6 +153,24 @@ def parse_language_nav(root)
     Navigation.create h.merge(:parent_id => top_lang.id, :position => counter)
     counter += 1
   end  
+end
+
+# Top nav elements read from home page
+def parse_regular_nav(root)
+  filename = root + 'index.html'
+  doc = Hpricot(open(filename))
+  (doc/'div#nav > ul > li').inject(0) do |i, elem|
+    attrs = attributes_for_element doc, elem
+    children = attrs.delete(:children)
+    attrs[:position] = i
+    parent = Navigation.create attrs
+    children.inject(0) do |j, child|
+      short = attrs[:label] == 'Issues' ? SHORTS[child[:label]] : ''
+      Navigation.create child.merge(:parent_id => parent.id, :position => j, :short => short)
+      j += 1
+    end
+    i += 1
+  end
 end
 
 def parse_sitenav_nav(root)
@@ -134,4 +187,33 @@ def parse_sitenav_nav(root)
     Navigation.create h.merge(:parent_id => top_site.id, :position => counter)
     counter += 1
   end  
+end
+
+def read_and_write_content(root, filename)
+  path = "/#{filename - root}".gsub('//', '/')
+  content = Content.create :path => path, :content => read_content(root, filename)
+  approve_first_version(content)
+end
+
+def approve_first_version(content)
+  # Must have an approved version to be visible
+  versions = content.versions(:reload)
+  if versions.any?
+    versions.first.approve!
+  else
+    raise "Oooops... no version for Content #{content.inspect}"
+  end
+end
+
+def read_content(root, filename)
+  doc = Hpricot(open(filename))
+  if filename == (root + 'index.html')
+    home_page_content(doc)
+  elsif filename =~ /NetworksAroundTheWorld\/local_network_sheet/
+    local_network_sheet(doc)
+  elsif filename =~ /NewsAndEvents\/UNGC_bulletin\/contact_response\.html/
+    local_network_sheet(doc)
+  else
+    regular_page_content(doc) # will also create sub-level leftnav
+  end
 end
