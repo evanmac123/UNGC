@@ -4,7 +4,7 @@ class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
             :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
-            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story]
+            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story, :initiative, :signing]
   CONFIG = {
     #fields: ID	NAME
     :initiative => {
@@ -164,9 +164,9 @@ class Importer
         elsif field == :sector_id
           o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
         elsif field == :exchange_id
-          o.sector_id = Exchange.find_by_code(row[i]).try(:id) if row[i]
+          o.exchange_id = Exchange.find_by_code(row[i]).try(:id) if row[i]
         elsif field == :listing_status_id
-          o.sector_id = ListingStatus.find_by_old_id(row[i]).id if row[i]
+          o.listing_status_id = ListingStatus.find_by_old_id(row[i]).id if row[i]
         elsif field == :publication_id
           o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
         elsif field == :cop_score_id

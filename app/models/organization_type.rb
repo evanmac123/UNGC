@@ -30,14 +30,13 @@ class OrganizationType < ActiveRecord::Base
     :companies       => 'Company',
     :sme             => 'SME'
   }
-  
-  def self.for_filter(*filter_types)
+
+  named_scope :for_filter, lambda { |*filter_types|
     if filter_types.is_a?(Array)
       filter_types.map! { |f| FILTERS[f] }
-      find :all, :conditions => ["name IN (?)", filter_types]
+      {:conditions => ["name IN (?)", filter_types]}
     else
-      find :all, :conditions => ["name = ?", FILTERS[filter_types]]
+      {:conditions => ["name = ?", FILTERS[filter_types]]}
     end
-  end
-  
+  }
 end
