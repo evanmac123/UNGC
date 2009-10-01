@@ -4,7 +4,7 @@ class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
             :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
-            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story]
+            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story, :initiative, :signing]
   CONFIG = {
     #fields: ID	NAME
     :initiative => {
