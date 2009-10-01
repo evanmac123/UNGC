@@ -1,6 +1,6 @@
 %li
   = case_story.title
-  /==[#{case_story.state.humanize}]
+  ==[#{case_story.state.humanize}]
   
   = link_to 'show', [case_story.organization, case_story]
   - staff_only do
