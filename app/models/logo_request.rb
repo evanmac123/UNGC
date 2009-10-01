@@ -74,6 +74,7 @@ class LogoRequest < ActiveRecord::Base
   EVENT_REPLY = 'reply'
   EVENT_REJECT = 'reject'
   EVENT_APPROVE = 'approve'
+  EVENT_ACCEPT = 'accept'
   
   def can_download_files?
     accepted? && Time.now <= accepted_on + 7.days
