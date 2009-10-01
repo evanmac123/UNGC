@@ -8,6 +8,7 @@ class CaseStoriesController < ApplicationController
   
   def create
     @case_story = @organization.case_stories.new(params[:case_story])
+    @case_story.contact_id = current_user.id
 
     if @case_story.save
       flash[:notice] = 'Case Story was successfully created.'

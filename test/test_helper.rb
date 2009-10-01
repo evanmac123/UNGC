@@ -44,7 +44,16 @@ class ActiveSupport::TestCase
   def create_new_case_story
     create_organization_user
     create_ungc_organization
-    @case_story = create_case_story(:organization_id => @organization.id)
+    @case_story = create_case_story(:contact_id      => @organization_user.id,
+                                    :organization_id => @organization.id)
+  end
+  
+  def create_approved_case_story
+    create_new_case_story
+    @case_story.comments.create(:body        => 'lorem ipsum',
+                                :contact_id  => @staff_user.id,
+                                :state_event => LogoRequest::EVENT_REVISE)
+    @case_story.approve
   end
   
   def create_approved_logo_request

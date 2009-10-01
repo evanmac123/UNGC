@@ -24,4 +24,27 @@ class Comment < ActiveRecord::Base
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
   
   attr_accessor :state_event
+  after_create :update_request_state
+  
+  validate :no_comment_on_approved_or_rejected_commentable
+  validate :organization_user_cannot_approve_or_reject
+
+  private
+    def update_request_state
+      if contact && contact.from_ungc?
+        commentable.send(state_event) if state_event && commentable.state_events.include?(state_event.to_sym)
+      end
+    end
+    
+    def no_comment_on_approved_or_rejected_commentable
+      if commentable && (commentable.approved? || commentable.rejected?)
+        errors.add_to_base "cannot add comments to a #{logo_request.state} model"
+      end
+    end
+    
+    def organization_user_cannot_approve_or_reject
+      if state_event.to_s == LogoRequest::EVENT_APPROVE || state_event.to_s == LogoRequest::EVENT_REJECT
+        errors.add_to_base "cannot approve/reject comment, unless UNGC staff" unless contact.from_ungc?
+      end
+    end
 end

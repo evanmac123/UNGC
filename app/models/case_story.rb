@@ -39,6 +39,7 @@
 class CaseStory < ActiveRecord::Base
   validates_presence_of :organization_id, :title
   belongs_to :organization
+  belongs_to :contact
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
   acts_as_commentable
@@ -72,4 +73,13 @@ class CaseStory < ActiveRecord::Base
       {}
     end
   }
+  
+  STATE_PENDING_REVIEW = 'pending_review'
+  STATE_IN_REVIEW = 'in_review'
+  STATE_APPROVED = 'approved'
+  STATE_REJECTED = 'rejected'
+  
+  EVENT_REVISE = 'revise'
+  EVENT_REJECT = 'reject'
+  EVENT_APPROVE = 'approve'  
 end
