@@ -42,6 +42,7 @@ class CaseStory < ActiveRecord::Base
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
   acts_as_commentable
+  has_attached_file :attachment
 
   state_machine :state, :initial => :pending_review do
     event :revise do

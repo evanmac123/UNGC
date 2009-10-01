@@ -8,6 +8,36 @@
 %p
   %b Countries:
   = @case_story.countries.collect(&:name).join(', ')
+%p
+  %b Type:
+  %br/
+  = "Internalization project<br/>" if @case_story.is_internalization_project?
+  = "Partnership project" if @case_story.is_partnership_project?
+%p
+  %b URL(s):
+  = [@case_story.url1, @case_story.url2, @case_story.url3].compact.join(' ')
+%p
+  %b Submission:
+  = attachment_link(@case_story)
+- if @case_story.author1
+  %p
+    %b Author 1:
+    = [@case_story.author1, @case_story.author1_email, @case_story.author1_institution].compact.join(' ')
+- if @case_story.author2
+  %p
+    %b Author 2:
+    = [@case_story.author2, @case_story.author2_email, @case_story.author2_institution].compact.join(' ')
+- if @case_story.contact1
+  %p
+    %b Contact:
+    = [@case_story.contact1, @case_story.contact1_email].compact.join(' ')
+- if @case_story.contact2
+  %p
+    %b Contact:
+    = [@case_story.contact2, @case_story.contact2_email].compact.join(' ')
+%p
+  %b Description:
+  %blockquote= @case_story.description
 
 %h3 Comments
 = link_to 'New comment', new_case_story_comment_path(@case_story) #unless @logo_request.state_events.empty?

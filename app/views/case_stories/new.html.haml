@@ -1,8 +1,8 @@
-%h1 New case story
+%h2 New case story
 
 - form_for([@organization, @case_story], :html => { :multipart => true }) do |form|
   = render :partial => form  
   %p
     = form.submit 'Save'
 
-= link_to 'Back', @organization
+= link_to 'Back', dashboard_path
