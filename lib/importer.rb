@@ -164,9 +164,9 @@ class Importer
         elsif field == :sector_id
           o.sector_id = Sector.find_by_old_id(row[i]).id if row[i]
         elsif field == :exchange_id
-          o.sector_id = Exchange.find_by_code(row[i]).try(:id) if row[i]
+          o.exchange_id = Exchange.find_by_code(row[i]).try(:id) if row[i]
         elsif field == :listing_status_id
-          o.sector_id = ListingStatus.find_by_old_id(row[i]).id if row[i]
+          o.listing_status_id = ListingStatus.find_by_old_id(row[i]).id if row[i]
         elsif field == :publication_id
           o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
         elsif field == :cop_score_id
