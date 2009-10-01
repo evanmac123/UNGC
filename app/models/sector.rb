@@ -17,4 +17,8 @@ class Sector < ActiveRecord::Base
   
   default_scope :order => 'name'
   named_scope :top_level, :conditions => 'parent_id IS NULL'
+  
+  def self.not_applicable
+    find_by_name("Not Applicable")
+  end
 end
