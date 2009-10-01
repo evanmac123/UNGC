@@ -40,7 +40,9 @@ To run those files, go to a console and:
 
 Be patient, each run will take around 10 minutes :)
 
-
+To import CMS content, run these two scripts from a command prompt:
+> ./script/import
+> ./script/replace
 
 
 Application setup

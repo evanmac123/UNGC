@@ -8,24 +8,7 @@ require 'facets'
 require 'import_helper'
 require 'ruby-debug' if Rails.env == 'development'
 
-class Object
-  def no_nil(&block)
-    yield(self)
-  rescue NoMethodError
-    nil
-  end
-end
-
-module Hpricot
-  # XML unescape
-  def self.uxs(str)
-    str.force_encoding("UTF-8")
-    str.to_s.
-        gsub(/\&(\w+);/) { [NamedCharacters[$1] || ??].pack("U*") }.
-        gsub(/\&\#(\d+);/) { [$1.to_i].pack("U*") }
-  end
-end
-
+# Abbreviate long section names, so we can use them as CSS selectors
 SHORTS = {
   'Human Rights' => 'human_rights',
   'Labour' => 'labour',
@@ -37,52 +20,21 @@ SHORTS = {
   'UN/Business Partnerships' => 'un_business'
 }
 
-# root = '/Users/joshua/Sites/unspace/demo.unglobalcompact.org/'
-root = '/Users/joshua/Sites/unspace/opencms_export/unglobalcompact/'
+# Points to the unglobalcompact directory of the CMS export
+root = "#{RAILS_ROOT}/vendor/open_cms_export/unglobalcompact/"
 
-Navigation.delete_all
-filename = root + 'index.html'
-doc = Hpricot(open(filename))
-parse_language_nav(root)
-parse_sitenav_nav(root)
-(doc/'div#nav > ul > li').inject(0) do |i, elem|
-  attrs = attributes_for_element doc, elem
-  children = attrs.delete(:children)
-  attrs[:position] = i
-  parent = Navigation.create attrs
-  children.inject(0) do |j, child|
-    short = attrs[:label] == 'Issues' ? SHORTS[child[:label]] : ''
-    Navigation.create child.merge(:parent_id => parent.id, :position => j, :short => short)
-    j += 1
-  end
-  i += 1
-end
+Navigation.delete_all          # Reset to 0
+parse_language_nav(root)       # Language pages have their own navigation that isn't well integrated
+parse_sitenav_nav(root)        # Likewise, the 'WebsiteInfo' section - contact us, etc.
+parse_regular_nav(root)        # For everything else
 
-puts "#{__ENCODING__.name}"
-ContentVersion.delete_all
+ContentVersion.delete_all # reset to 0
 Content.delete_all
 files = get_files_from(root)
 
-just_one = [root + '/WebsiteInfo/site_map.html']
-all = files
-(all).each do |filename|
+files.each do |filename|
   puts "Reading from '#{filename - root}'"
-  doc = Hpricot(open(filename))
-  if filename == (root + 'index.html')
-    content = home_page_content(doc)
-  elsif filename =~ /NetworksAroundTheWorld\/local_network_sheet/
-    content = local_network_sheet(doc)
-  elsif filename =~ /NewsAndEvents\/UNGC_bulletin\/contact_response\.html/
-    content = local_network_sheet(doc)
-  else
-    content = regular_page_content(doc) # will also create sub-level leftnav
-  end
-  path = "/#{filename - root}".gsub('//', '/')
-  content = Content.create :path => path, :content => content
+  read_and_write_content(root, filename)
 end
 
-Content.all.each { |c| c.versions.first.approve! }
-
-# fix some weird banner issues
-Navigation.find_by_label('The CEO Water Mandate').no_nil { |o| o.update_attribute(:short, 'environment_ceo')} or puts "Problem with 'CEO Water Mandate'"
-Navigation.find_by_label('Caring for Climate').no_nil { |o| o.update_attribute(:short, 'environment_c4c') } or puts "Problem with 'Caring for Climate'"
+manually_adjust_shorts 

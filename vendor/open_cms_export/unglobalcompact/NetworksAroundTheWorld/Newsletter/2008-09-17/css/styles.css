@@ -1,0 +1,329 @@
+/*---- Layout ----*/
+div
+{
+	/* this is for netscape 4's sake */
+	padding: 0;
+	margin: 0;
+}
+body
+{
+	padding: 0px;
+	margin: 0;
+}
+
+#masthead h1
+{
+	display: inline;
+}
+.leftcolumn
+{
+	margin-right: -200px;	/* IE 4 fix */
+}
+
+.leftcolumn2
+{
+	margin-right: -200px;	/* IE 4 fix */
+}
+
+.leftColumn, .leftColumn2
+{
+	float: left;
+	width: 200px;
+	/*/*/ /*/margin: 0 0 0 2px; /* Silly Netscape hack to get the borders to line up */
+}
+
+.contentColumn, #contentColumn-human 
+{
+	width: auto;
+	margin-left: 199px;
+}
+
+.contentColumnRegions	
+{
+	width: auto;
+	margin-left: 200px;
+}
+
+#masthead 
+{
+	padding: 0px;
+}
+
+.innerLeftColumn, .innerContentColumn, .contentColumnRegions 
+{
+	padding: 10px;
+}
+
+.leftColumn2
+{
+	clear: left;
+}
+
+.innerContentColumn, .contentColumnRegions 
+{
+	overflow: visible;
+	height: 100%;	/* fix the Win32 IE float bug */
+}
+.contentColumn>.innerContentColumn, .contentColumnRegions, #contentColumn-human>.innerContentColumn
+{
+	height: auto;	/* fix Opera 5 which breaks with the above IE fix */
+}
+
+
+#masthead
+{
+	z-index: 10;
+}
+
+/*---- Visual Elements ----*/
+body
+{
+	background-color: #fff;
+	color: #000;
+	padding: 0px;
+	margin: 0;
+}
+#pageFrame
+{
+	min-width: 760;
+}
+.hide
+{
+	display: none;
+}
+
+
+/*---- Borders ----*/
+
+#pageFrame9
+{
+	background-color: #fff;
+	color: #000;
+	min-width: 760;
+}
+
+#contentColumn-human
+{
+	border-top: solid 4px #F7941D;
+}
+
+#masthead
+{
+	height: 97px;
+}
+
+.innerLeftColumn p 
+{
+	font-weight: bold;
+	}
+
+.innerContentColumn, .innerContentColumn p, .contentColumnRegions p 
+{
+	font-size: 12px;
+	}
+
+
+
+/* Formerly part of a separate complex.css file */
+
+a img
+{
+	border-width: 0;	/* remove the border around linked images. <img border="0" ..../> is invalid in XHTML 1.1 */
+}
+.innerLeftColumn img
+{
+	display: block;
+	margin: 0 auto;
+	text-align: center;	/* IE 5 centering hack */
+}
+
+.innerLeftColumn, .innerContentColumn, .contentColumnRegions
+{
+	overflow: visible;	/* fix the Win32 IE italics bug */
+	height: 100%;		/* ditto */
+}
+
+
+* html #masthead
+{
+	position: relative;
+}
+
+/*---- Hide the j1-j20 DIVs through CSS ----*/
+
+#gccontent1, #gccontent2, #gccontent3, #gccontent4, #gccontent5, #gccontent6, #gccontent7, #gccontent8, #gccontent9, #gccontent10, #gccontent11, #gccontent12, #gccontent13, #gccontent14, #gccontent15, #gccontent16, #gccontent17, #gccontent18, #gccontent19, #gccontent20 
+{
+	display: none;
+}
+
+	#netlet-right {
+		float:right;
+		width:494px;
+		height: 97px;
+		margin: 0px 10px 0px 0px;
+	}
+
+	#netlet-left {
+		float:left;
+		width:400px;
+		height: 97px;
+				margin: 0px 0px 0px 10px;
+
+	}
+	
+	#netlet-right p {
+	    font-family: "Flama", "Myriad", "Myriad Pro", verdana, helvetica, sans-serif;
+		font-weight: bold;
+		font-size: 12px;
+		padding:4px 0px 0px 0px;
+
+    }
+
+.innerContentColumn h3 {
+font-size: 14px;
+}
+
+/*  THEME */
+
+/*
+	NS4 doesn't do well with added colors because of the extra padding added inside each
+	block element. So colors are imported. This theme file will, thus, contain mostly
+	font stuff.
+ */
+
+/*** Left Column ***/
+.innerLeftColumn p 
+{
+	font-family: "Myriad", "Myriad Pro", verdana, helvetica, sans-serif;
+	/* was font-family: Georgia, "Times New Roman", serif; */
+	font-size: 1em;
+	line-height: 140%;
+	/*/*/ /*/line-height: normal;/* NS4 Adds too much space, so reset the line-height */
+}
+.innerLeftColumn h3
+{
+	color: #006;
+	margin: 1em 0 0 0;
+}
+
+/*** Content ***/
+.innerContentColumn, #innerContentColumnRegions 
+{
+	font-family: "Myriad", "Myriad Pro", verdana, helvetica, sans-serif;
+	/* was font-family: Georgia, "Times New Roman", serif; */
+}
+
+
+/*** Masthead ***/
+#masthead h1
+{
+	font-family: "Myriad", "Myriad Pro", verdana, helvetica, sans-serif;
+	/* was font-family: Georgia, "Times New Roman", serif; */
+}
+
+/*** Horizontal Navigation Area ***/
+
+#footer
+{
+	background-color: #00546E;
+	color: #fff;
+	text-align: right;
+	margin: 0 0px 0 0;
+	padding: 0 10px 0 0;
+	clear: left;
+	z-index: 10;
+	font-family: "Myriad", "Myriad Pro", verdana, helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	border-bottom: solid 1px #00546E; /* IE 6 has the footer flow over the pageFrame's 
+									  bottom border. if this border is added, IE draws
+									  the pageFrame border as exptected */
+}
+
+#footer a {
+	color: #fff;
+	text-decoration: none;
+}
+
+/* COLORS */
+body
+{
+	background-color: #fff;	/* border/edge of the layout color */
+}
+#pageFrame, #masthead
+{	
+	background-color: #fff;	/* major background color */
+}
+#pageFrame
+{
+	background-color: #E1E4E9;
+	min-height: 80px;
+}
+
+
+#pageFrame2 
+{
+	/* Human Rights orange */
+	background: #FFF1E0 url('../images/F7941D.gif') repeat-y 0 0;
+	min-height: 80px;
+}
+
+
+#pageFrame3
+{
+	/* Labour blue */
+	background: #F0FAFB url('../images/52C6D8.gif') repeat-y 0 0;
+	min-height: 80px;
+}
+
+#pageFrame4
+{
+/* Environment green */
+	background: #EDEEE1 url('../images/678442.gif') repeat-y 0 0;
+	min-height: 80px;
+}
+
+#pageFrame5
+{ /* Anti-corruption red */
+background: #FEE4DB url('../images/ED1C24.gif') repeat-y 0 0;
+min-height: 80px;
+}
+
+#pageFrame6
+/* Partnership green */
+{ 
+background: #F9FCE5 url('../images/CBDB2A.gif') repeat-y 0 0;
+min-height: 80px;
+}
+
+#pageFrame7
+{ 
+background: #E6E8CC url('../images/ADB62E.gif') repeat-y 0 0;
+min-height: 80px;
+}
+
+#pageFrame8, #pageFrame8b, #pageFrame8c, #pageFrame8d, #pageFrame8e
+{
+background: #F1DCD4 url('../images/00546E.gif') repeat-y 0 0;
+min-height: 80px;
+}
+
+.contentColumnRegions {
+background: #F1DCD4 url('../images/whitestripe.gif') repeat-x 0 0;
+}
+
+#pageFrame
+{
+	/* image used as background color for left column ( #00546E) */
+	background: #E1E4E9;
+}
+
+#masthead 
+{
+	background-color: #00546E;
+	color: #fff;
+}
+
+.innerLeftColumn {
+color: #fff;
+}
