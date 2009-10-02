@@ -166,7 +166,7 @@ class Importer
         elsif field == :exchange_id
           o.exchange_id = Exchange.find_by_code(row[i]).try(:id) if row[i]
         elsif field == :listing_status_id
-          o.listing_status_id = ListingStatus.find_by_old_id(row[i]).id if row[i]
+          o.listing_status_id = ListingStatus.find_by_old_id(row[i]).try(:id) if row[i]
         elsif field == :publication_id
           o.publication_id = LogoPublication.find_by_old_id(row[i]).id if row[i]
         elsif field == :cop_score_id
@@ -176,7 +176,7 @@ class Importer
         elsif field == :logo_file_id
           o.logo_file_id = LogoFile.find_by_old_id(row[i]).id if row[i]
         elsif field == :removal_reason_id
-          o.removal_reason_id = RemovalReason.find_by_old_id(row[i]).id if row[i]
+          o.removal_reason_id = RemovalReason.find_by_old_id(row[i]).try(:id) if row[i]
         elsif field == :organization_id
           if [:contact, :communication_on_progress, :case_story].include? name
             # some tables are linked to organization by name
@@ -189,7 +189,7 @@ class Importer
         elsif [:contact_id, :reviewer_id, :last_modified_by_id].include? field
           o.send("#{field}=", Contact.find_by_old_id(row[i]).try(:id)) if row[i]
         elsif field == :organization_type_id
-          o.organization_type_id = OrganizationType.find_by_name(row[i]).id if row[i]
+          o.organization_type_id = OrganizationType.find_by_name(row[i]).try(:id) if row[i]
         elsif field == :category
           # CaseStory.CATEGORY becomes two fields - is_partnership_project and is_internalization_project
           o.is_partnership_project = [1, 3].include?(row[i].to_i)

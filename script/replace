@@ -6,16 +6,15 @@ replacements = File.dirname(__FILE__) + '/../lib/content_replacements.yml'
 
 results = nil
 File.open( replacements ) { |yf| results = YAML::load( yf ) }
-dynamic = ContentTemplate.find_by_label('Dynamic')
 results.each_pair do |path,page|
   if /\// =~ path
     puts "Looking for '#{path}'"
-    content = Content.find_by_path path
+    content = Page.find_by_path path
     puts " replacing contents"
     begin
       old_content = content.versions.first.content
       new_content = old_content.gsub(/\&lt;\?php[\s\w\W]+\?\&gt;/, page['content'])
-      new_version = content.versions.build :content => new_content, :template => dynamic
+      new_version = content.new_version :content => new_content, :dynamic_content => true
       new_version.save!
       new_version.approve!
       puts "  done!"

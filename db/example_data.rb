@@ -16,20 +16,6 @@ module FixtureReplacement
     c.organization_id = Organization.first.id
 	end
 
-  attributes_for :content do |c|
-  end
-  
-  attributes_for :content_template do |ct|
-    ct.filename = random_url
-    ct.label = String.random
-  end
-  
-  attributes_for :content_versions do |cv|
-    cv.path = random_url
-    cv.content = "<h1>#{String.random}</h1><p>#{String.random}</p><p>#{String.random}</p>"
-    cv.template = ContentTemplate.first
-  end
-
   attributes_for :cop_score do |a|
     
   end
@@ -79,11 +65,6 @@ module FixtureReplacement
     r.publication_id = LogoPublication.first.id
 	end
 
-  attributes_for :navigation do |n|
-    n.label = String.random
-    n.href  = String.random
-  end
-
   attributes_for :organization_type do |o|
     o.name = String.random
     o.type_property = OrganizationType::BUSINESS
@@ -93,6 +74,21 @@ module FixtureReplacement
     o.name = String.random
     o.organization_type_id = OrganizationType.first.try(:id)
 	end
+
+  attributes_for :page do |a|
+    a.path     = random_url
+    a.title    = String.random
+    a.slug     = String.random
+
+    a.approved = true
+  end
+  
+  attributes_for :page_group do |a|
+    a.name = String.random
+    a.slug = String.random
+
+    a.display_in_navigation = true
+  end
 
   attributes_for :principle do |a|
 	end

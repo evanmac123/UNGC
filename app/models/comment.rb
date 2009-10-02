@@ -2,16 +2,16 @@
 #
 # Table name: comments
 #
-#  id                      :integer         not null, primary key
-#  body                    :text            default("")
-#  commentable_id          :integer
+#  id                      :integer(4)      not null, primary key
+#  body                    :text
+#  commentable_id          :integer(4)
 #  commentable_type        :string(255)
-#  contact_id              :integer
+#  contact_id              :integer(4)
 #  created_at              :datetime
 #  updated_at              :datetime
 #  attachment_file_name    :string(255)
 #  attachment_content_type :string(255)
-#  attachment_file_size    :integer
+#  attachment_file_size    :integer(4)
 #  attachment_updated_at   :datetime
 #
 

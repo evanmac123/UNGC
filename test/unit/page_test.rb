@@ -1,48 +1,54 @@
 require 'test_helper'
 
-class ContentVersionTest < ActiveSupport::TestCase
-  context "given some content" do
+class PageTest < ActiveSupport::TestCase
+  def latest_version(page=nil)
+    page ||= @page
+    page.versions(:reload).last
+  end
+  
+  context "given a page" do
     setup do
-      @content = create_content :content => "<p>This is my content.</p>"
+      @page = create_page :content => "<p>This is my content.</p>", :approved => false
     end
 
     should "auto-create first version" do
-      assert_equal 1, @content.versions.count
-      assert_equal "<p>This is my content.</p>", @content.versions.first.content
+      assert_equal 1, @page.versions.count
+      assert_equal "<p>This is my content.</p>", @page.versions.first.content
     end
     
     context "with another version" do
       setup do
-        @version2 = @content.versions.create :content => "<p>Middle version.</p>", :approved => true
+        @version2 = @page.new_version :content => "<p>Middle version.</p>", :approved => true
       end
 
       should "auto-increment version number" do
-        assert_equal 2, @version2.number
+        assert_equal 2, @version2.version_number
       end
 
       should "find one active version, version2" do
-        assert_equal @version2, @content.active_version
+        assert_equal @version2, @page.active_version
       end
 
       context "with three versions" do
         setup do
-          @version1 = @content.versions.first
-          @version3 = @content.versions.create :content => "<p>Latest version.</p>"
+          @version1 = @page.versions.first
+          @version3 = @version2.new_version :content => "<p>Latest version.</p>"
+          @active   = Page.approved_for_path(@page.path)
         end
 
         should "find version1 for previous_version" do
-          assert_equal @version1, @content.previous_version
+          assert_equal @version1, @active.previous_version
         end
         
         should "find version3 for next_version" do
-          assert_equal @version3, @content.next_version
+          assert_equal @version3, @active.next_version
         end
         
         should "find version2 for version1.next_version" do
           assert_equal @version2, @version1.next_version
         end
         
-        should "find version2 for previous_version" do
+        should "find version2 for version3.previous_version" do
           assert_equal @version2, @version3.previous_version
         end
         
@@ -56,4 +62,5 @@ class ContentVersionTest < ActiveSupport::TestCase
       end
     end
   end
+  
 end

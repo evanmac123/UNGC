@@ -26,6 +26,10 @@
 #  exchange_id          :integer(4)
 #  listing_status_id    :integer(4)
 #  is_ft_500            :boolean(1)
+#  cop_status           :integer(4)
+#  cop_due_on           :date
+#  inactive_on          :date
+#  one_year_member_on   :string(255)
 #
 
 class Organization < ActiveRecord::Base

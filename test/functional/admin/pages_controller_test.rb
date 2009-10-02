@@ -1,19 +1,19 @@
 require 'test_helper'
 
-class Admin::ContentControllerTest < ActionController::TestCase
-  context "given some content" do
+class Admin::PagesControllerTest < ActionController::TestCase
+  context "given a page" do
     setup do
-      @content = create_approved_content :path => 'path/to/content.html', :content => "<p>This is my content.</p>"
+      @page = create_approved_page :path => 'path/to/page.html', :content => "<p>This is my page.</p>"
     end
 
     context "successful edit action" do
       setup do
         # TODO: should be a staff user
-        xhr :get, :edit, :id => @content.id
+        xhr :get, :edit, :id => @page.id
       end
 
-      should "find content by id" do
-        assert_equal @content, assigns(:content)
+      should "find page by id" do
+        assert_equal @page, assigns(:page)
         assert_response :success
       end
       
@@ -21,17 +21,17 @@ class Admin::ContentControllerTest < ActionController::TestCase
         json = ActiveSupport::JSON.decode @response.body
         assert_same_elements %w{url content startupMode}, json.keys
         assert_same_elements [ 
-          update_content_url(:id => @content.id, :format => 'js'),
+          update_page_url(:id => @page.id, :format => 'js'),
           'wysiwyg',
-          @content.content
+          @page.content
         ], json.values
       end
     end
     
     context "edit a specific version" do
       setup do
-        @version = @content.versions.create :content => "<p>I am new.</p>"
-        xhr :get, :edit, :id => @content.id, :version => @version.number
+        @version = @page.new_version :content => "<p>I am new.</p>"
+        xhr :get, :edit, :id => @page.id, :version => @version.version_number
       end
 
       should "respond with that version's contents" do
@@ -42,30 +42,30 @@ class Admin::ContentControllerTest < ActionController::TestCase
     end    
     
     context "bad edit action" do
-      should "issue a 404 when content not found" do
+      should "issue a 404 when page not found" do
         xhr :get, :edit, :id => 123456
         assert_response 404
       end
       
       should "issue a 403 when not an XHR" do
-        get :edit, :id => @content.id
+        get :edit, :id => @page.id
         assert_response 403
       end
     end
     
     context "successful update via XHR" do
       setup do
-        xhr :put, :update, { :id => @content.id, :content => { :content => "<p>I am new.</p>" } }
+        xhr :put, :update, { :id => @page.id, :page => { :content => "<p>I am new.</p>" } }
       end
 
       should "find content by id" do
-        assert_equal @content, assigns(:content)
+        assert_equal @page, assigns(:page)
       end
 
       should "save changes as new version" do
-        assert_equal 2, @content.versions.count
-        assert_equal "<p>I am new.</p>", @content.versions(:reload).last.content
-        assert @content.next_version
+        assert_equal 2, @page.versions.count
+        assert_equal "<p>I am new.</p>", @page.versions(:reload).last.content
+        assert @page.next_version
       end
       
       should "respond with JSON" do
@@ -76,5 +76,4 @@ class Admin::ContentControllerTest < ActionController::TestCase
     end
     
   end
-  
 end

@@ -10,8 +10,10 @@ class PagesControllerTest < ActionController::TestCase
   context "given a simple tree and some content" do
     setup do
       create_simple_tree
-      @content = create_approved_content(:path => @child2.href, :content => String.random)
-      @home_page = create_approved_content(:path => @root.href, :content => String.random)
+      @home_page = @root
+      @page      = @child2
+      # @page = create_page(:path => @child2.path, :content => String.random)
+      # @home_page = @root #create_page(:path => @root.path, :content => String.random)
     end
 
     context "view action" do
@@ -23,8 +25,8 @@ class PagesControllerTest < ActionController::TestCase
       end
       
       should "find content via path" do
-        get :view, :path => @content.to_path
-        assert_equal @content, assigns(:page)
+        get :view, :path => @page.to_path
+        assert_equal @page, assigns(:page)
         assert_layout 'application'
         assert_response :success
       end
@@ -35,7 +37,7 @@ class PagesControllerTest < ActionController::TestCase
       end
 
       should "render using standard, static template" do
-        get :view, :path => @content.to_path
+        get :view, :path => @page.to_path
         assert_template 'pages/static.html.haml'
       end
     end
@@ -47,13 +49,13 @@ class PagesControllerTest < ActionController::TestCase
         end
 
         should "blank response when not an XHR" do
-          get :decorate, :path => @content.to_path
+          get :decorate, :path => @page.to_path
           assert_blank_response
         end
 
         should "find content via path" do
-          xhr :get, :decorate, {:path => @content.to_path}, {:user_id => @user.id}
-          assert_equal @content, assigns(:page)
+          xhr :get, :decorate, {:path => @page.to_path}, {:user_id => @user.id}
+          assert_equal @page, assigns(:page)
           assert_response :success
 
           assert json = ActiveSupport::JSON.decode(@response.body)
@@ -68,8 +70,8 @@ class PagesControllerTest < ActionController::TestCase
 
         context "when requesting with specific version" do
           setup do
-            @version2 = @content.versions.create :content => "<p>I am new here.</p>"
-            xhr :get, :decorate, {:path => @content.to_path, :version => @version2.number}, {:user_id => @user.id}
+            @version2 = @page.new_version :content => "<p>I am new here.</p>"
+            xhr :get, :decorate, {:path => @page.to_path, :version => @version2.version_number}, {:user_id => @user.id}
           end
 
           should "find content via path" do
@@ -84,7 +86,7 @@ class PagesControllerTest < ActionController::TestCase
       context "when logged-in but not staff" do
         setup do
           @user = create_organization_user
-          get :decorate, {:path => @content.to_path}, {:user_id => @user.id}
+          get :decorate, {:path => @page.to_path}, {:user_id => @user.id}
         end
 
         should "get blank response" do
@@ -94,7 +96,7 @@ class PagesControllerTest < ActionController::TestCase
       
       context "when not logged-in" do
         should "get blank response" do
-          get :decorate, {:path => @content.to_path}
+          get :decorate, {:path => @page.to_path}
           assert_blank_response
         end
       end

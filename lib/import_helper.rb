@@ -44,15 +44,14 @@ def subnav_from_left(doc)
   subnav = doc/"#leftnav ul > li.sub"
   if subnav.any?
     currently_selected = doc/'#leftnav ul > li.selected'
-    mid_nav = Navigation.find_by_label(currently_selected.inner_text.strip)
-    raise currently_selected.inspect unless mid_nav
-    subnav.map! do |sub|
+    mid_nav = Page.find_by_title(currently_selected.inner_text.strip)
+    subnav = subnav.map do |sub|
       h = href_and_label(sub.at('a'))
-      # new_label = h[:label].gsub('» ', '')
-      h[:label] = h[:label][2,h[:label].size] # new_label
-      array = mid_nav.href.split('/')
+      # new_label = h[:title].gsub('» ', '')
+      h[:title] = h[:title][2,h[:title].size] # new_label
+      array = mid_nav.path.split('/')
       array.pop
-      h[:href] = "#{array.join('/')}#{h[:href]}"
+      h[:path] = "#{array.join('/')}#{h[:path]}"
       h[:parent_id] = mid_nav.id
       h
     end
@@ -62,11 +61,9 @@ end
 
 def create_subnav(doc)
   subnav_from_left(doc).inject(0) do |counter, sub|
-    existing = Navigation.find_by_href(sub[:href])
-    unless existing
-      Navigation.create sub.merge(:position => counter) 
-      counter += 1
-    end
+    page = Page.find_by_path(sub[:path]) || Page.create(sub)
+    page.update_attribute :position, counter
+    counter += 1
   end
 end
 
@@ -105,23 +102,19 @@ def href_and_label(link)
   href = "/" + link.get_attribute(:href)
   href << 'index.html' unless href =~ /\.html$/
   {
-    :label => link.inner_text.strip,
-    :href => href,
+    :title => link.inner_text.strip,
+    :path => href,
   }
-end
-
-def login_is_special 
-  { :label => 'Login', :short => 'login', :href => '/login', :children => [] }
 end
 
 def attributes_for_element doc, elem
   link = elem.at('a')
   short = elem.get_attribute(:class)
-  if short == 'login'
-    login_is_special 
+  if short == 'login' # login is special
+    {}
   else
     hash = href_and_label(link)
-    hash[:short] = short
+    hash[:slug] = short
     hash[:children] = (doc/"div#nav > ul > li.#{short} > ul li a").map { |a| href_and_label(a) }
     hash
   end
@@ -129,13 +122,14 @@ end
 
 def manually_adjust_shorts
   # these pages have specialized banners, but don't get picked up by the normal 'short' processor
-  {
+  special = {
     'The CEO Water Mandate' => 'environment_ceo',
     'Caring for Climate'    => 'environment_c4c'
-  }.each_pair do |label, short|
-    nav = Navigation.find_by_label(label)
+  }
+  special.each_pair do |label, short|
+    nav = Page.find_by_title(label)
     if nav
-      nav.update_attribute(:short, short)
+      nav.update_attribute(:slug, short)
     else
       puts "Problem with '#{label}'"
     end
@@ -146,11 +140,12 @@ def parse_language_nav(root)
   filename = root + 'Languages/index.html'
   doc = Hpricot(open(filename))
   langs = doc/'#leftnav ul li a'
-  top_lang = Navigation.create :href => "/#{filename - root}", :label => 'Languages', :top_nav => false
+  group = PageGroup.create :name => 'Non-English Resources', :display_in_navigation => false
+  top_lang = Page.create :path => "/#{filename - root}", :title => 'Languages', :display_in_navigation => false, :group_id => group.id
   langs.inject(0) do |counter, lang|
     h = href_and_label(lang)
-    h[:href] = "/Languages#{h[:href]}"
-    Navigation.create h.merge(:parent_id => top_lang.id, :position => counter)
+    h[:path] = "/Languages#{h[:path]}"
+    Page.create h.merge(:parent_id => top_lang.id, :position => counter)
     counter += 1
   end  
 end
@@ -161,12 +156,14 @@ def parse_regular_nav(root)
   doc = Hpricot(open(filename))
   (doc/'div#nav > ul > li').inject(0) do |i, elem|
     attrs = attributes_for_element doc, elem
+    next unless attrs.any?
+
     children = attrs.delete(:children)
     attrs[:position] = i
-    parent = Navigation.create attrs
+    group = PageGroup.create :name => attrs[:title], :slug => attrs[:slug], :display_in_navigation => true
     children.inject(0) do |j, child|
-      short = attrs[:label] == 'Issues' ? SHORTS[child[:label]] : ''
-      Navigation.create child.merge(:parent_id => parent.id, :position => j, :short => short)
+      short = attrs[:title] == 'Issues' ? SLUGS[child[:title]] : nil # Special slugs all comes from issues
+      Page.create child.merge(:parent_id => nil, :position => j, :slug => short, :group_id => group.id)
       j += 1
     end
     i += 1
@@ -177,31 +174,35 @@ def parse_sitenav_nav(root)
   filename = root + 'WebsiteInfo/index.html'
   doc = Hpricot(open(filename))
   navs = doc/'#leftnav ul li a'
-  top_site = Navigation.create :href => "/#{filename - root}", 
-    :label => 'Website Information', 
-    :short => 'websiteinfo',
-    :top_nav => false
+  info = Page.find_by_path("/#{filename - root}") || Page.create(:path => "/#{filename - root}")
+  info.update_attributes :title => 'Website Information', 
+    :slug => 'websiteinfo',
+    :display_in_navigation => false
   navs.inject(0) do |counter, nav|
     h = href_and_label(nav)
-    h[:href] = "/WebsiteInfo#{h[:href]}"
-    Navigation.create h.merge(:parent_id => top_site.id, :position => counter)
+    h[:path] = "/WebsiteInfo#{h[:path]}"
+    Page.create h.merge(:parent_id => info.id, :position => counter)
     counter += 1
   end  
 end
 
 def read_and_write_content(root, filename)
   path = "/#{filename - root}".gsub('//', '/')
-  content = Content.create :path => path, :content => read_content(root, filename)
-  approve_first_version(content)
+  # puts " looking for #{path.inspect}"
+  content = read_content(root, filename)
+  page = Page.find_by_path(path) || Page.new(:path => path)
+  # puts " found #{page.new_record?.inspect}: #{page.inspect}"
+  result = page.update_attribute(:content, content)
+  approve_first_version(page)
 end
 
 def approve_first_version(content)
   # Must have an approved version to be visible
-  versions = content.versions(:reload)
+  versions = content.versions
   if versions.any?
     versions.first.approve!
   else
-    raise "Oooops... no version for Content #{content.inspect}"
+    raise "Oooops... no version for Page #{content.inspect}"
   end
 end
 

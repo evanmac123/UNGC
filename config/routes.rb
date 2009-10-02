@@ -37,10 +37,10 @@ ActionController::Routing::Routes.draw do |map|
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   
-  map.with_options :controller => 'admin/content' do |m|
-    m.edit_content 'admin/content/:id/edit', :action => 'edit', :conditions => { :method => :get }
-    m.update_content 'admin/content/:id.:format', :action => 'update', :conditions => { :method => :put }
-    m.connect 'admin/content/:id/edit', :action => 'update', :conditions => { :method => :post }
+  map.with_options :controller => 'admin/pages' do |m|
+    m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }
+    m.update_page 'admin/page/:id.:format', :action => 'update', :conditions => { :method => :put }
+    m.connect 'admin/page/:id/edit', :action => 'update', :conditions => { :method => :post }
   end
 
   map.decorate_page 'decorate/*path', :controller => 'pages', :action => 'decorate'

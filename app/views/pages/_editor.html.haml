@@ -1,8 +1,8 @@
 .click_to_edit 
   -# NOTE: Will float right, so place here in reverse order
   = link_to 'Click to edit', versioned_edit_path, :class => 'edit_content'
-  = link_to 'Next &gt;', "#version_#{@current_version.next_version.number}" if @current_version.next_version
-  = link_to '&lt; Previous', "#version_#{@current_version.previous_version.number}" if @current_version.previous_version
+  = link_to 'Next &gt;', "#version_#{@current_version.next_version.version_number}" if @current_version.next_version
+  = link_to '&lt; Previous', "#version_#{@current_version.previous_version.version_number}" if @current_version.previous_version
   = link_to '&laquo; Current', view_page_path(:path => @page.to_path) unless @current_version.approved?
   #editorLoading{:style => 'display:none'}= image_tag 'scanner.gif'
   

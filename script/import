@@ -9,7 +9,7 @@ require 'import_helper'
 require 'ruby-debug' if Rails.env == 'development'
 
 # Abbreviate long section names, so we can use them as CSS selectors
-SHORTS = {
+SLUGS = {
   'Human Rights' => 'human_rights',
   'Labour' => 'labour',
   'Environment' => 'environment',
@@ -23,14 +23,13 @@ SHORTS = {
 # Points to the unglobalcompact directory of the CMS export
 root = "#{RAILS_ROOT}/vendor/open_cms_export/unglobalcompact/"
 
-Navigation.delete_all          # Reset to 0
-parse_language_nav(root)       # Language pages have their own navigation that isn't well integrated
-parse_sitenav_nav(root)        # Likewise, the 'WebsiteInfo' section - contact us, etc.
-parse_regular_nav(root)        # For everything else
+Page.delete_all; PageGroup.delete_all # reset to 0
+parse_language_nav(root)              # Language pages have their own navigation that isn't well integrated
+parse_sitenav_nav(root)               # Likewise, the 'WebsiteInfo' section - contact us, etc.
+parse_regular_nav(root)               # For everything else
 
-ContentVersion.delete_all # reset to 0
-Content.delete_all
 files = get_files_from(root)
+# files = [root + 'Issues/Environment/Environment_Guidance_Material.html']
 
 files.each do |filename|
   puts "Reading from '#{filename - root}'"

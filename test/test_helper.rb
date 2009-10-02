@@ -14,23 +14,20 @@ class ActiveSupport::TestCase
   end
   
   def create_approved_content(options)
-    create_default_template
-    content = create_content(options)
-    content.versions.first.approve!
-    content
+    create_page(options)
   end
-
-  def create_default_template
-    ContentTemplate.create(:filename => 'pages/static.html.haml', :label => 'Standard', :default => true)
+  
+  def create_approved_page(options)
+    create_page(options)
   end
 
   def create_simple_tree
-    @root = create_navigation :position => 0, :href => '/index.html'
-    @parent1 = create_navigation :position => 0, :href => '/parent1/index.html'
-    @parent2 = create_navigation :position => 1, :href => '/parent2/index.html'
-    @child1 = create_navigation :parent => @parent1, :position => 0, :href => '/parent1/child1/index.html'
-    @child2 = create_navigation :parent => @parent1, :position => 1, :href => '/parent1/child2.html'
-    @sub1 = create_navigation :parent => @child1, :position => 0, :href => '/parent1/child1/sub1.html'
+    @root = create_page :position => 0, :path => '/index.html'
+    @parent1 = create_page :position => 0, :path => '/parent1/index.html'
+    @parent2 = create_page :position => 1, :path => '/parent2/index.html'
+    @child1 = create_page :parent => @parent1, :position => 0, :path => '/parent1/child1/index.html'
+    @child2 = create_page :parent => @parent1, :position => 1, :path => '/parent1/child2.html'
+    @sub1 = create_page :parent => @child1, :position => 0, :path => '/parent1/child1/sub1.html'
   end
   
   def create_new_logo_request

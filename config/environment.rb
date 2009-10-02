@@ -1,4 +1,4 @@
-raise "Requires Ruby >= 1.9" unless RUBY_VERSION =~ /^1\.9/
+# raise "Requires Ruby >= 1.9" unless RUBY_VERSION =~ /^1\.9/
 
 # Be sure to restart your server when you modify this file
 
@@ -21,6 +21,7 @@ Rails::Initializer.run do |config|
 end
 
 ActionView::Base.default_form_builder = FormBuilder
+ActiveRecord::Base.colorize_logging = false
 
 # Application constants
 EMAIL_SENDER = "no-reply@unglobalcompact.org"

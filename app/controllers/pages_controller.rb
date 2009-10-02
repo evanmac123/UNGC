@@ -4,12 +4,12 @@ class PagesController < ApplicationController
   # layout :determine_layout
   
   def view
-    render :template => template.filename, :layout => determine_layout
+    render :template => template, :layout => determine_layout
   end
 
   def decorate
     json_to_render = {'editor' => render_to_string(:partial => 'editor')}
-    json_to_render['content'] = render_to_string(:template => template.filename, :layout => false) if params[:version]
+    json_to_render['content'] = render_to_string(:template => template, :layout => false) if params[:version]
     render :json => json_to_render
   end
 
@@ -24,12 +24,11 @@ class PagesController < ApplicationController
   end
   
   def find_content
-    if @page = Content.for_path(look_for_path)
-      @current_version = @page.version_number(params[:version]) if params[:version]
+    if @page = Page.for_path(look_for_path)
+      @current_version = @page.find_version_number(params[:version]) if params[:version]
       @current_version ||= @page.active_version
-    else
-      render :text => 'Not Found', :status => 404
     end
+    render :text => 'Not Found', :status => 404 unless @page and @current_version
   end
   
   def soft_require_staff_user
@@ -37,6 +36,6 @@ class PagesController < ApplicationController
   end
   
   def template
-    @current_version.template || ContentTemplate.default
+    "/pages/#{@current_version.try(:dynamic_content?) ? 'dynamic' : 'static'}.html.haml"
   end
 end

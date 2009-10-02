@@ -2,8 +2,8 @@
   - if current_section
     - current_section.children.each do |child|
       %li{:class => selected?(child) ? 'selected' : ''}
-        = link_to child.label, child.href
+        = link_to child.title, child.path
         - if selected?(child)
           - child.children.each do |sub|
             %li{:class => 'sub'}
-              = link_to "&raquo;&nbsp;#{sub.label}", sub.href, :class => path_matches?(sub) ? 'sub_selected' : ''
+              = link_to "&raquo;&nbsp;#{sub.title}", sub.path, :class => path_matches?(sub) ? 'sub_selected' : ''
