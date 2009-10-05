@@ -1,5 +1,9 @@
 class SignupController < ApplicationController
   before_filter :load_objects
+
+  def step1
+    @organization.organization_type_id = @organization_types.first.id unless @organization.organization_type_id
+  end
   
   def step2
     if params[:organization]
