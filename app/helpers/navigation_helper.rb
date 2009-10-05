@@ -21,8 +21,7 @@ module NavigationHelper
   def current_section
     unless @current_section
       return nil if home_page?
-      return nil unless current_or_parent = Page.find_by_path(look_for_path)
-      logger.info " ** #{current_or_parent.inspect}"
+      return nil unless current_or_parent = Page.find_navigation_for(look_for_path)
       # if we're at the top, then it's our group
       # if we're a sub-page, then it's our parent's group
       if current_or_parent.parent_id
