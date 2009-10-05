@@ -32,6 +32,10 @@ ActionController::Routing::Routes.draw do |map|
   
   # shorcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
+  map.organization_step1 'signup/step1/:org_type', :controller => 'signup', :action => 'step1'
+  (2..5).each {|i| eval("map.organization_step#{i} 'signup/step#{i}', :controller => 'signup', :action => 'step#{i}'")}
+  
+  map.no_session 'no_session', :controller => 'signup', :action => 'no_session'
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'

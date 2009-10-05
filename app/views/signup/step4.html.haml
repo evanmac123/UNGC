@@ -1,0 +1,20 @@
+%h2 Sign up
+
+= flash_messages_for :error
+
+%h3 Letter of commitment
+
+%blockquote Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form.
+
+- form_for(@organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
+  = form.error_messages
+  = form.file_field :commitment_letter
+
+  - if @organization.business_entity?
+    %h4 Financial Contribution
+    %p Companies are asked, upon endorsement, to make an annual voluntary financial contribution to help support the work of the UN Global Compact. Please indicate your pledge amount according to the suggested contribution levels listed below. Once you are confirmed as a participant, additional information will be sent to you regarding this contribution. (Financial contributions are made to the Foundation for the Global Compact.) Thank you for your support.
+  
+    = form.text_field :pledge_amount
+  
+  %p
+    = form.submit 'Save'

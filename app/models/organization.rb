@@ -145,6 +145,10 @@ class Organization < ActiveRecord::Base
     sector.try(:name)
   end
   
+  def business_entity?
+    organization_type.business?
+  end
+  
   # NOTE: Convenient alias
   def noncommed_on; cop_due_on; end
   
