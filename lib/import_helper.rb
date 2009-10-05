@@ -52,6 +52,7 @@ def subnav_from_left(doc)
       array = mid_nav.path.split('/')
       array.pop
       h[:path] = "#{array.join('/')}#{h[:path]}"
+      h[:display_in_navigation] = true
       h[:parent_id] = mid_nav.id
       h
     end
@@ -61,8 +62,11 @@ end
 
 def create_subnav(doc)
   subnav_from_left(doc).inject(0) do |counter, sub|
-    page = Page.find_by_path(sub[:path]) || Page.create(sub)
-    page.update_attribute :position, counter
+    page = Page.find_by_path(sub[:path]) || Page.new(:path => sub[:path])
+    page.title = sub[:title] if page.title.blank?
+    page.parent_id = sub[:parent_id] if page.parent_id.blank?
+    page.position = counter
+    page.save
     counter += 1
   end
 end
@@ -163,7 +167,7 @@ def parse_regular_nav(root)
     group = PageGroup.create :name => attrs[:title], :slug => attrs[:slug], :display_in_navigation => true
     children.inject(0) do |j, child|
       short = attrs[:title] == 'Issues' ? SLUGS[child[:title]] : nil # Special slugs all comes from issues
-      Page.create child.merge(:parent_id => nil, :position => j, :slug => short, :group_id => group.id)
+      Page.create child.merge(:parent_id => nil, :position => j, :slug => short, :group_id => group.id, :display_in_navigation => true)
       j += 1
     end
     i += 1
@@ -181,7 +185,7 @@ def parse_sitenav_nav(root)
   navs.inject(0) do |counter, nav|
     h = href_and_label(nav)
     h[:path] = "/WebsiteInfo#{h[:path]}"
-    Page.create h.merge(:parent_id => info.id, :position => counter)
+    Page.create h.merge(:parent_id => info.id, :position => counter, :display_in_navigation => true)
     counter += 1
   end  
 end

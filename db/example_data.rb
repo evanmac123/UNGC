@@ -79,7 +79,7 @@ module FixtureReplacement
     a.path     = random_url
     a.title    = String.random
     a.slug     = String.random
-
+    a.display_in_navigation = true
     a.approved = true
   end
   

@@ -34,6 +34,7 @@ class Page < ActiveRecord::Base
       # :order      => "pages.version_number DESC"
     }
   }
+  named_scope :for_navigation, :conditions => {"display_in_navigation" => true}
 
   named_scope :earlier_versions_than, lambda { |version_version_number|
     {
@@ -51,8 +52,27 @@ class Page < ActiveRecord::Base
     
   named_scope :approved, :conditions => {:approved => true}
   
-  def self.for_path(look_for)
-    find_by_path look_for
+  def self.for_path(path)
+    find_by_path path, :include => :children
+  end
+  
+  def self.find_navigation_for(path)
+    return nil if path.blank?
+    possible = for_navigation.find_by_path(path, :include => :children) #, :include => :children
+    possible = find_parent_directory(path) unless possible # it couldn't be found, but maybe it's inside a "directory"
+    possible
+  end
+  
+  def self.find_parent_directory(path)
+    # split gives us an empty first element - /second/thing/index.html becomes ["", "second", "thing", "index.html"]
+    array = path.split('/')
+    times_to_try = array.size - 1 # not the first empty element
+    times_to_try.times do
+      array.pop
+      possible = for_navigation.find_by_path(array.join('/') + '/index.html', :include => :children) # 
+      return possible if possible
+    end
+    nil
   end
   
   def self.approved_for_path(look_for)
