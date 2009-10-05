@@ -199,7 +199,7 @@ class Importer
           begin
             o.send("#{field}=", Time.mktime(year, month, day).to_date)
           rescue
-            puts "** [minor error] could not set #{row[i]} as #{field}"
+            puts "** [minor error] Could not set #{row[i]} as #{field}"
           end
         else
           o.send("#{field}=", row[i])
@@ -209,12 +209,16 @@ class Importer
       
       if perform_validation?(name)
         saved = o.save
-        puts "** Could not save #{name}: #{row}" unless saved
+        puts "** [error] Could not save #{name}: #{row} - #{o.errors.full_messages.to_sentence}" unless saved
       else
-        o.save(false)
+        begin
+          o.save(false)
+        rescue
+          puts "** [error] Could not save #{name}: #{row}"
+        end
       end
     end
-    puts "-- Imported #{model.count} records."
+    puts "-- [info] Imported #{model.count} records."
   end
   
   def delete_all(options={})
@@ -235,6 +239,7 @@ class Importer
       else
         @files = FILES
       end
+      no_observers
     end
 
     # translates the old database status into our state fields
@@ -250,5 +255,11 @@ class Importer
     
     def perform_validation?(name)
       name != :logo_comment
+    end
+    
+    def no_observers
+      # We don't want observers to be called on import
+      Organization.delete_observers
+      LogoComment.delete_observers
     end
 end
