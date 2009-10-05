@@ -11,3 +11,4 @@ doc/app
 config/database.yml
 public/system/attachments/**/*
 public/system/zips/**/*
+public/system/commitment_letters/**/*

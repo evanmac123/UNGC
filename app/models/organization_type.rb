@@ -39,4 +39,8 @@ class OrganizationType < ActiveRecord::Base
       {:conditions => ["name = ?", FILTERS[filter_types]]}
     end
   }
+  
+  def business?
+    type_property == BUSINESS
+  end
 end

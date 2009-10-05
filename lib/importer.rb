@@ -196,7 +196,11 @@ class Importer
           o.is_internalization_project = [2, 3].include?(row[i].to_i)
         elsif [:added_on, :modified_on, :joined_on, :delisted_on, :one_year_member_on, :inactive_on, :cop_due_on].include?(field) and lookup = row[i]
           month, day, year = lookup.split('/')
-          o.send("#{field}=", Time.mktime(year, month, day).to_date)
+          begin
+            o.send("#{field}=", Time.mktime(year, month, day).to_date)
+          rescue
+            puts "** [minor error] could not set #{row[i]} as #{field}"
+          end
         else
           o.send("#{field}=", row[i])
         end
