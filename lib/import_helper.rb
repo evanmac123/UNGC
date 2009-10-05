@@ -61,8 +61,11 @@ end
 
 def create_subnav(doc)
   subnav_from_left(doc).inject(0) do |counter, sub|
-    page = Page.find_by_path(sub[:path]) || Page.create(sub)
-    page.update_attribute :position, counter
+    page = Page.find_by_path(sub[:path]) || Page.new(:path => sub[:path])
+    page.title = sub[:title] if page.title.blank?
+    page.parent_id = sub[:parent_id] if page.parent_id.blank?
+    page.position = counter
+    page.save
     counter += 1
   end
 end
