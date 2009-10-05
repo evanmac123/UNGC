@@ -72,7 +72,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def country_name
-    organization.country.name
+    organization.try(:country).try(:name)
   end
   
   def ended_on
