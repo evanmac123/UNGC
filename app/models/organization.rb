@@ -52,6 +52,8 @@ class Organization < ActiveRecord::Base
   
   acts_as_commentable
   
+  has_attached_file :commitment_letter
+  
   state_machine :state, :initial => :incomplete do
     event :submit do
       transition :from => :incomplete, :to => :pending
