@@ -100,7 +100,7 @@ class Importer
     #         CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
     #         CONTACT_CODE_POSTAL	TR01_COUNTRY_ID	CONTACT_IS_CEO	CONTACT_IS_CONTACT_POINT	CONTACT_IS_NEWSLETTER
     #         CONTACT_IS_ADVISORY_COUNCIL	CONTACT_LOGIN	CONTACT_PWD	CONTACT_ADDRESS2
-    :contact => {:file   => 'R10_CONTACTS.txt',
+    :contact => {:file   => 'R10_CONTACTS_UNICODE.txt',
                  :fields => [:old_id, :first_name, :middle_name, :last_name, :prefix, :job_title, :email,
                               :phone, :mobile, :fax, :organization_id, :address, :city, :state,
                               :postal_code, :country_id, :ceo, :contact_point, :newsletter, 
@@ -202,7 +202,7 @@ class Importer
             puts "** [minor error] Could not set #{row[i]} as #{field}"
           end
         else
-          o.send("#{field}=", row[i])
+          o.send("#{field}=", row[i]) unless row[i].blank?
         end
       end
       update_state(name, o)
