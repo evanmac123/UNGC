@@ -219,6 +219,8 @@ class Importer
       end
     end
     puts "-- [info] Imported #{model.count} records."
+    # call a post_* method for work required after importing a file
+    send("post_#{name}") if self.respond_to?("post_#{name}")
   end
   
   def delete_all(options={})
@@ -230,7 +232,7 @@ class Importer
     delete_all(options)
     run(options)
   end
-
+  
   private
     def setup(options)
       @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
@@ -261,5 +263,19 @@ class Importer
       # We don't want observers to be called on import
       Organization.delete_observers
       LogoComment.delete_observers
+    end
+    
+    # runs after the organization import, pledge amount only exists
+    # in the TEMP table/file
+    def post_organization
+      file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.txt")
+      CSV.foreach(file, :col_sep => "\t",
+                        :headers => :first_row) do |row|
+        pledge = row[21]
+        if pledge.to_i > 0
+          o = Organization.find_by_old_id(row[22].to_i)
+          o.try(:update_attribute, :pledge_amount, pledge.to_i)
+        end
+      end
     end
 end
