@@ -41,7 +41,7 @@ class Contact < ActiveRecord::Base
   TYPE_NETWORK = :network
 
   validates_presence_of :first_name, :last_name
-  validates_uniqueness_of :login, :allows_blank => true
+  validates_uniqueness_of :login, :allow_nil => true
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
   belongs_to :organization
   belongs_to :country
