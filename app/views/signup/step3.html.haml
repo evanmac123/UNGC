@@ -3,7 +3,7 @@
 %h3 CEO details
 
 - form_for(@ceo, :url => organization_step4_path) do |form|
-  = render :partial => 'contact_form', :locals => {:form => form}
+  = render :partial => 'contact_form', :locals => {:form => form, :account_info => false}
 
   %p
     = form.submit 'Next'

@@ -10,7 +10,6 @@ class LogoRequestTest < ActiveSupport::TestCase
   context "given a new logo request" do
     setup do
       create_new_logo_request
-      create_ungc_organization
     end
 
     should "have default state of pending review" do

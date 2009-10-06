@@ -14,6 +14,8 @@ module FixtureReplacement
     c.first_name = String.random
     c.last_name = String.random
     c.organization_id = Organization.first.id
+    c.login = String.random
+    c.password = String.random
 	end
 
   attributes_for :cop_score do |a|
