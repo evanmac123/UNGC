@@ -11,7 +11,7 @@ class OrganizationObserverTest < ActiveSupport::TestCase
 
   test "email is sent after organization is submitted" do
     assert_emails 1 do
-      @observer.after_submit(@organization, nil)
+      @observer.after_create(@organization)
     end
   end
 end
