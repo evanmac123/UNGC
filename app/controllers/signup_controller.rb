@@ -11,7 +11,11 @@ class SignupController < ApplicationController
       session[:signup_organization] = @organization
     end
     
-    redirect_to organization_step1_path(:org_type => 'business') unless @organization.valid?
+    unless @organization.valid?
+      redirect_to organization_step1_path(:org_type => 'business') 
+    else
+      render :template => 'signup/sorry.html.haml' if @organization.employees < 10
+    end
   end
   
   def step3
