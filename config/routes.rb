@@ -19,14 +19,14 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'show', 
     :requirements => { :id => /.*/ }
 
-  map.progress_with_nav 'progress/:navigation/:id', 
-    :controller => 'progress', 
+  map.cop_detail_with_nav 'COPs/:navigation/:organization/:cop', 
+    :controller => 'cops', 
     :action => 'show', 
-    :requirements => { :id => /.*/ }
-  map.progress 'progress/:id', 
-    :controller => 'progress', 
+    :requirements => { :organization => /.*/, :cop => /.*/ }
+  map.cop_detail 'COPs/:organization/:cop', 
+    :controller => 'cops', 
     :action => 'show', 
-    :requirements => { :id => /.*/ }
+    :requirements => { :organization => /.*/, :cop => /.*/ }
 
   map.resource :session
   
