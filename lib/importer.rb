@@ -205,7 +205,12 @@ class Importer
             puts "** [minor error] Could not set #{row[i]} as #{field}"
           end
         else
-          o.send("#{field}=", row[i]) unless row[i].blank?
+          value = row[i]
+          unless value.blank?
+            value = true if value.is_a?(String) && value.downcase == 'true'
+            value = false if value.is_a?(String) && value.downcase == 'false'
+            o.send("#{field}=", value)
+          end
         end
       end
       update_state(name, o)
