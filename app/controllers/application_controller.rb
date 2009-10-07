@@ -53,4 +53,22 @@ class ApplicationController < ActionController::Base
     def mailer_set_url_options
       ActionMailer::Base.default_url_options[:host] = request.host_with_port
     end
+
+    def default_navigation # override in other controllers
+      '/COP/cop_search.html'
+    end
+
+    def determine_navigation
+      logger.info " ** #{params[:navigation]}"
+      @look_for_path = case params[:navigation]
+      when 'inactive'
+        '/COP/inactives.html'
+      when 'noncommunicating'
+        '/COP/non_communicating.html'
+      when 'notable'
+        '/COP/notable_cops.html'
+      else
+        default_navigation
+      end
+    end
 end

@@ -15,17 +15,7 @@ class ParticipantsController < ApplicationController
     redirect_to root_path unless @participant # FIXME: Should redirect to search?
   end
   
-  def determine_navigation
-    logger.info " ** #{params[:navigation]}"
-    @look_for_path = case params[:navigation]
-    when 'inactive'
-      '/COP/inactives.html'
-    when 'noncommunicating'
-      '/COP/non_communicating.html'
-    when 'notable'
-      '/COP/notable_cops.html'
-    else
-      '/COP/cop_search.html'
-    end
+  def default_navigation
+    '/ParticipantsAndStakeholders/search_participant.html'
   end
 end
