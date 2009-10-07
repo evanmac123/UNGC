@@ -46,23 +46,21 @@ class Organization < ActiveRecord::Base
   belongs_to :exchange
   belongs_to :country
 
-  before_save :automatic_submit
-
   accepts_nested_attributes_for :contacts
   
   acts_as_commentable
   
   has_attached_file :commitment_letter
   
-  state_machine :state, :initial => :incomplete do
-    event :submit do
-      transition :from => :incomplete, :to => :pending
+  state_machine :state, :initial => :pending_review do
+    event :revise do
+      transition :from => :pending_review, :to => :in_review
     end
     event :approve do
-      transition :from => :pending, :to => :approved
+      transition :from => [:in_review, :pending_review], :to => :approved
     end
     event :reject do
-      transition :from => :pending, :to => :rejected
+      transition :from => [:in_review, :pending_review], :to => :rejected
     end
   end
   
@@ -73,8 +71,8 @@ class Organization < ActiveRecord::Base
     :delisted         => 3
   }
 
-  named_scope :incomplete, :conditions => {:state => "incomplete"}
-  named_scope :pending, :conditions => {:state => "pending"}
+  named_scope :pending_review, :conditions => {:state => "pending_review"}
+  named_scope :in_review, :conditions => {:state => "in_review"}
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
 
@@ -151,14 +149,4 @@ class Organization < ActiveRecord::Base
   
   # NOTE: Convenient alias
   def noncommed_on; cop_due_on; end
-  
-  private
-    def automatic_submit
-      if state == "incomplete"
-        # we want the organization to be in the submitted state when some
-        # minimum amount of data is entered
-        # TODO when do we move an organization to submitted state?
-        self.submit if contacts.any?
-      end
-    end
 end

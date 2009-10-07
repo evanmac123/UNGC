@@ -7,6 +7,7 @@ class AdminController < ApplicationController
   
   def dashboard
     if current_user.from_ungc?
+      @pending_organizations = Organization.pending_review
       @pending_logo_requests = LogoRequest.pending_review
       @unreplied_logo_requests = LogoRequest.unreplied
       @pending_case_stories = CaseStory.pending_review
