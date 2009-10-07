@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+require 'iconv'
+require 'facets'
+
+ic = Iconv.new("UTF-8", "UTF-16LE") # replace 'ASCII' with 'UTF-8' if you prefer
+BOM = "\xFF\xFE".force_encoding('UTF-16LE')
+
+ARGV.each do |file|
+  in_file = File.new(file, 'rb', :encoding => 'UTF-16LE').readlines
+  puts "Working on file #{file}"
+  out_file = File.new("#{file - '.txt'}.csv", "w")
+  in_file.each do |line|
+    line = (line - BOM).strip
+    begin
+      out_file.write(ic.iconv(line) + "\n")
+    rescue Iconv::InvalidCharacter => e
+      puts "OOops!"
+    end    
+  end
+  out_file.close
+end
