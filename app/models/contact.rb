@@ -75,7 +75,7 @@ class Contact < ActiveRecord::Base
     !from_ungc?
   end
   
-  def from_network
+  def from_network?
     false
   end
   
