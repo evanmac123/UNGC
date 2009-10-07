@@ -144,8 +144,7 @@ class Importer
     file = File.join(@data_folder, options[:file])
     model = name.to_s.camelize.constantize
     # read the file
-    CSV.foreach(file, :col_sep => "\t",
-                      :headers => :first_row) do |row|
+    CSV.foreach(file, :headers => :first_row) do |row|
       # create an object of the correct type and save
       o = model.new
       options[:fields].each_with_index do |field,i|
