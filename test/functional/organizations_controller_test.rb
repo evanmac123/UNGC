@@ -48,14 +48,14 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "should approve pending organization" do
-    organization = create_organization(:state => 'pending')
+    organization = create_organization(:state => 'pending_review')
     post :approve, :id => organization.to_param
     assert_redirected_to organization
     assert organization.reload.approved?
   end
 
   test "should reject pending organization" do
-    organization = create_organization(:state => 'pending')
+    organization = create_organization(:state => 'pending_review')
     post :reject, :id => organization.to_param
     assert_redirected_to organization
     assert organization.reload.rejected?
@@ -67,7 +67,7 @@ class OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "should list pending organizations" do
-    get :pending
+    get :pending_review
     assert_response :success
   end
 
