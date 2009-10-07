@@ -1,7 +1,7 @@
-class ProgressController < ApplicationController
+class CopsController < ApplicationController
   before_filter :determine_navigation
   before_filter :find_cop
-  
+
   def show
   end
 
@@ -14,7 +14,7 @@ class ProgressController < ApplicationController
     end
     redirect_to root_path unless @cop # FIXME: Should redirect to search?
   end
-  
+
   def determine_navigation
     logger.info " ** #{params[:navigation]}"
     @look_for_path = case params[:navigation]
