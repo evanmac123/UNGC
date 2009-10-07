@@ -156,7 +156,7 @@ class Importer
         elsif field == :parent_id
           if name == :sector
             # sector tree depends on the icb_number field
-            o.parent_id = Sector.find_by_icb_number(row[i]).id if row[i]
+            o.parent_id = Sector.find_by_icb_number(row[i]).try(:id) if row[i]
           else
             o.parent_id = model.find_by_old_id(row[i]).id if row[i]
           end
@@ -194,7 +194,11 @@ class Importer
           o.is_partnership_project = [1, 3].include?(row[i].to_i)
           o.is_internalization_project = [2, 3].include?(row[i].to_i)
         elsif [:added_on, :modified_on, :joined_on, :delisted_on, :one_year_member_on, :inactive_on, :cop_due_on].include?(field) and lookup = row[i]
-          month, day, year = lookup.split('/')
+          if lookup =~ /\d{4}-\d{2}-\d{2} .*/
+            year, month, day = lookup.split(' ').first.split('-')
+          else
+            month, day, year = lookup.split('/')
+          end
           begin
             o.send("#{field}=", Time.mktime(year, month, day).to_date)
           rescue
