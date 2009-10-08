@@ -8,47 +8,47 @@ class Importer
   CONFIG = {
     #fields: ID	NAME
     :initiative => {
-      :file => 'TR13_INITIATIVES.txt',
+      :file => 'TR13_INITIATIVES.csv',
       :fields => [ :old_id, :name ]
     },
     #fields: ID	INITIATIVE_ID	ORG_ID	DATE_ADDED
     :signing => {
-      :file => 'R16_XREF_R01_TR13.txt',
+      :file => 'R16_XREF_R01_TR13.csv',
       :fields => [:old_id, :initiative_id, :organization_id, :added_on]
     },
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
-    :country => {:file => 'TR01_COUNTRY.txt', :fields => [:code, :name, :region, :network_type, :manager]},
+    :country => {:file => 'TR01_COUNTRY.csv', :fields => [:code, :name, :region, :network_type, :manager]},
     # fields: ID	TYPE	TYPE_PROPERTY
-    :organization_type => {:file => 'TR02_ORGANIZATION_TYPE.txt', :fields => [nil, :name, :type_property]},
+    :organization_type => {:file => 'TR02_ORGANIZATION_TYPE.csv', :fields => [nil, :name, :type_property]},
     #fields: SECTOR_NAME	SECTOR_ID	ICB_NUMBER	SUPER_SECTOR
-    :sector => {:file => 'TR03_SECTOR.txt', :fields => [:name, :old_id, :icb_number, :parent_id]},
+    :sector => {:file => 'TR03_SECTOR.csv', :fields => [:name, :old_id, :icb_number, :parent_id]},
     #fields: COP_SCORE	COP_SCORE_DESCRIPTION
-    :cop_score => {:file => 'TR04_COP_SCORE.txt', :fields => [:old_id, :description]},
+    :cop_score => {:file => 'TR04_COP_SCORE.csv', :fields => [:old_id, :description]},
     # fields: PRINCIPLE_ID	PRINCIPLE_NAME
-    :principle => {:file => 'TR05_PRINCIPLE.txt', :fields => [:old_id, :name]},
+    :principle => {:file => 'TR05_PRINCIPLE.csv', :fields => [:old_id, :name]},
     # fields: INTEREST_ID	INTEREST_NAME
-    :interest  => {:file => 'TR06_INTEREST.txt', :fields => [:old_id, :name]},
+    :interest  => {:file => 'TR06_INTEREST.csv', :fields => [:old_id, :name]},
     # fields: ROLE_ID ROLE_NAME
-    :role      => {:file => 'TR07_ROLE.txt', :fields => [:old_id, :name]},
+    :role      => {:file => 'TR07_ROLE.csv', :fields => [:old_id, :name]},
     #fields LIST_EXCHANGE_CODE	LIST_EXCHANGE_NAME	LIST_SECONDARY_CODE	LIST_TERTIARY_CODE	TR01_COUNTRY_ID
-    :exchange => {:file => 'TR08_EXCHANGE.txt', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]},
+    :exchange => {:file => 'TR08_EXCHANGE.csv', :fields => [:code, :name, :secondary_code, :terciary_code, :country_id]},
     # fields: Listing_ID	Listing_Name
-    :listing_status => {:file => 'TR09_LISTING_STATUS.txt', :fields => [:old_id, :name]},
+    :listing_status => {:file => 'TR09_LISTING_STATUS.csv', :fields => [:old_id, :name]},
     # fields: LANGUAGE_ID	LANGUAGE_NAME
-    :language => {:file => 'TR10_LANGUAGE.txt', :fields => [:old_id, :name]},
+    :language => {:file => 'TR10_LANGUAGE.csv', :fields => [:old_id, :name]},
     # fields: REASON_ID	REASON_DESCRIPTION
-    :removal_reason => {:file => 'TR11_REASON_FOR_REMOVAL.txt', :fields => [:old_id, :description]},
+    :removal_reason => {:file => 'TR11_REASON_FOR_REMOVAL.csv', :fields => [:old_id, :description]},
     # fields: ID	NAME	PARENT_ID	DISPLAY_ORDER
-    :logo_publication => {:file => 'TR14_LOGO_PUBLICATIONS.txt', :fields => [:old_id, :name, :parent_id, :display_order]},
+    :logo_publication => {:file => 'TR14_LOGO_PUBLICATIONS.csv', :fields => [:old_id, :name, :parent_id, :display_order]},
     # fields: ID	DATE_REQUESTED	DATE_STATUS	PUBLICATION_ID	ORG_ID	CONTACT_ID	REVIEWER_ID	REPLIED_TO
     #             PURPOSE	REQUEST_STATUS	POLICY_ACCEPTED	POLICY_ACCEPTED_DATE
-    :logo_request => {:file   => 'TR15_LOGO_REQUESTS.txt',
+    :logo_request => {:file   => 'TR15_LOGO_REQUESTS.csv',
                       :fields => [:old_id, :requested_on, :status_changed_on, :publication_id, :organization_id,
                                     :contact_id, :reviewer_id, :replied_to, :purpose, :status, :accepted, :accepted_on]},
     # fields: ID	LOGO_NAME	DESCRIPTION	THUMBNAIL	LOGOFILE
-    :logo_file => {:file => 'TR18_LOGO_FILES.txt', :fields => [:old_id, :name, :description, :thumbnail, :file]},
+    :logo_file => {:file => 'TR18_LOGO_FILES.csv', :fields => [:old_id, :name, :description, :thumbnail, :file]},
     # fields: ID	COMMENT_DATE	LOGO_REQUEST_ID	CONTACT_ID	TEXT
-    :logo_comment => {:file => 'TR17_LOGO_COMMENTS.txt', :fields => [:old_id, :added_on, :logo_request_id, :contact_id, :body]},
+    :logo_comment => {:file => 'TR17_LOGO_COMMENTS.csv', :fields => [:old_id, :added_on, :logo_request_id, :contact_id, :body]},
 
     #fields: ID	TR02_TYPE	ORG_NAME	SECTOR_ID ORG_NETWORK_BIT	ORG_PARTICIPANT_BIT	ORG_NB_EMPLOY	ORG_URL
     #        ORG_BHR_URL	ORG_DATE_CREATE	ORG_DATE_MODIFICATION	ORG_DATE_JOINING	ORG_DATE_DELISTED	ORG_ACTIVE
@@ -56,7 +56,7 @@ class Importer
     #        ORG_30DAYS_TO_COP	ORG_90DAYS_TO_COP	ORG_TODAY_COPDUE	ORG_TODAY_INACT	ORG_30DAYS_TO_INACT
     #        ORG_90DAYS_TO_INACT	ORG_MEMBER_ONEYEAR	ORG_LISTED_STATUS	ORG_LIST_CODE	ORG_LIST_EXCHANGE_CODE
     #        ORG_PARENT_NAME	ORG_PARENT_LIST_CODE	TR11_REASON	ORG_LAST_MODIFIED_BY	ORG_JOIN_LETTER
-    :organization => {:file   => 'R01_ORGANIZATION.txt',
+    :organization => {:file   => 'R01_ORGANIZATION.csv',
                       :fields => {
                           "ID"                     => :old_id,
                           "TR02_TYPE"              => :organization_type_id,
@@ -100,7 +100,7 @@ class Importer
     #         CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
     #         CONTACT_CODE_POSTAL	TR01_COUNTRY_ID	CONTACT_IS_CEO	CONTACT_IS_CONTACT_POINT	CONTACT_IS_NEWSLETTER
     #         CONTACT_IS_ADVISORY_COUNCIL	CONTACT_LOGIN	CONTACT_PWD	CONTACT_ADDRESS2
-    :contact => {:file   => 'R10_CONTACTS_UNICODE.txt',
+    :contact => {:file   => 'R10_CONTACT.csv',
                  :fields => [:old_id, :first_name, :middle_name, :last_name, :prefix, :job_title, :email,
                               :phone, :mobile, :fax, :organization_id, :address, :city, :state,
                               :postal_code, :country_id, :ceo, :contact_point, :newsletter, 
@@ -110,7 +110,7 @@ class Importer
     #         COP_PERIOD_LINK2	COP_PERIOD_LINK3	COP_DATE_CREATE	COP_DATE_MODIFICATION	COP_CONTACT_PERSON
     #         COP_PERIOD_END_YEAR	COP_DOCUMENT_STATUS	COP_CEO_COMMIT_LETTER	COP_DESCRIPTION_ACTIONS	COP_USE_INDICATORS
     #         TR04_SCORE	COP_USE_GRI	COP_HAS_CERTIFICATION	COP_NOTABLE_PROGRAM
-    :communication_on_progress => {:file   => 'R02_COM_ON_PROCESS.txt',
+    :communication_on_progress => {:file   => 'R02_COM_ON_PROCESS.csv',
                                    :fields => [:identifier, :organization_id, :title, :related_document, :email, :start_year,
                                                :facilitator, :job_title, :start_month, :end_month, :url1,
                                                :url2, :url3, :added_on, :modified_on, :contact_name,
@@ -122,7 +122,7 @@ class Importer
     #         CASE_REVIEWER_INSTITUTION	CASE_REVIEWER_EMAIL	CASE_REVIEWER2	CASE_REVIEWER2_INSTITUTION
     #         CASE_REVIEWER2_EMAIL	CASE_FILE	CASE_CONTACT1_NAME	CASE_CONTACT1_EMAIL	CASE_CONTACT2_NAME
     #         CASE_CONTACT2_EMAIL	CASE_STATUS	CASE_DOC_EXT
-    :case_story => {:file   => 'R07_CASE_STORY.txt',
+    :case_story => {:file   => 'R07_CASE_STORY.csv',
                     :fields => [:identifier, :organization_id, :title, nil, :category, :case_date, :description,
                                 :url1, :url2, :url3, :author1, :author1_institution,
                                 :author1_email, :author2, :author2_institution, :author2_email, :reviewer1,
@@ -144,8 +144,7 @@ class Importer
     file = File.join(@data_folder, options[:file])
     model = name.to_s.camelize.constantize
     # read the file
-    CSV.foreach(file, :col_sep => "\t",
-                      :headers => :first_row) do |row|
+    CSV.foreach(file, :headers => :first_row) do |row|
       # create an object of the correct type and save
       o = model.new
       options[:fields].each_with_index do |field,i|
@@ -157,7 +156,7 @@ class Importer
         elsif field == :parent_id
           if name == :sector
             # sector tree depends on the icb_number field
-            o.parent_id = Sector.find_by_icb_number(row[i]).id if row[i]
+            o.parent_id = Sector.find_by_icb_number(row[i]).try(:id) if row[i]
           else
             o.parent_id = model.find_by_old_id(row[i]).id if row[i]
           end
@@ -195,14 +194,23 @@ class Importer
           o.is_partnership_project = [1, 3].include?(row[i].to_i)
           o.is_internalization_project = [2, 3].include?(row[i].to_i)
         elsif [:added_on, :modified_on, :joined_on, :delisted_on, :one_year_member_on, :inactive_on, :cop_due_on].include?(field) and lookup = row[i]
-          month, day, year = lookup.split('/')
+          if lookup =~ /\d{4}-\d{2}-\d{2} .*/
+            year, month, day = lookup.split(' ').first.split('-')
+          else
+            month, day, year = lookup.split('/')
+          end
           begin
             o.send("#{field}=", Time.mktime(year, month, day).to_date)
           rescue
             puts "** [minor error] Could not set #{row[i]} as #{field}"
           end
         else
-          o.send("#{field}=", row[i]) unless row[i].blank?
+          value = row[i]
+          unless value.blank?
+            value = true if value.is_a?(String) && value.downcase == 'true'
+            value = false if value.is_a?(String) && value.downcase == 'false'
+            o.send("#{field}=", value)
+          end
         end
       end
       update_state(name, o)
@@ -268,7 +276,7 @@ class Importer
     # runs after the organization import, pledge amount only exists
     # in the TEMP table/file
     def post_organization
-      file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.txt")
+      file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
       CSV.foreach(file, :col_sep => "\t",
                         :headers => :first_row) do |row|
         pledge = row[21]
