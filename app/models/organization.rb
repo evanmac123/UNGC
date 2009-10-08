@@ -64,6 +64,15 @@ class Organization < ActiveRecord::Base
     end
   end
   
+  STATE_PENDING_REVIEW = 'pending_review'
+  STATE_IN_REVIEW = 'in_review'
+  STATE_APPROVED = 'approved'
+  STATE_REJECTED = 'rejected'
+  
+  EVENT_REVISE = 'revise'
+  EVENT_REJECT = 'reject'
+  EVENT_APPROVE = 'approve'
+  
   COP_STATUSES = {
     :inactive         => 0,
     :noncommunicating => 1,
