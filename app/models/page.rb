@@ -6,6 +6,7 @@
 #  path                  :string(255)
 #  title                 :string(255)
 #  slug                  :string(255)
+#  content               :text
 #  parent_id             :integer(4)
 #  position              :integer(4)
 #  display_in_navigation :boolean(1)
@@ -15,6 +16,7 @@
 #  created_by_id         :integer(4)
 #  updated_by_id         :integer(4)
 #  dynamic_content       :boolean(1)
+#  version_number        :integer(4)
 #  created_at            :datetime
 #  updated_at            :datetime
 #  group_id              :integer(4)

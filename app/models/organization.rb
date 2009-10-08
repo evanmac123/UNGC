@@ -2,34 +2,39 @@
 #
 # Table name: organizations
 #
-#  id                   :integer(4)      not null, primary key
-#  old_id               :integer(4)
-#  name                 :string(255)
-#  organization_type_id :integer(4)
-#  sector_id            :integer(4)
-#  local_network        :boolean(1)
-#  participant          :boolean(1)
-#  employees            :integer(4)
-#  url                  :string(255)
-#  created_at           :datetime
-#  updated_at           :datetime
-#  added_on             :date
-#  modified_on          :date
-#  joined_on            :date
-#  delisted_on          :date
-#  active               :boolean(1)
-#  country_id           :integer(4)
-#  stock_symbol         :string(255)
-#  removal_reason_id    :integer(4)
-#  last_modified_by_id  :integer(4)
-#  state                :string(255)
-#  exchange_id          :integer(4)
-#  listing_status_id    :integer(4)
-#  is_ft_500            :boolean(1)
-#  cop_status           :integer(4)
-#  cop_due_on           :date
-#  inactive_on          :date
-#  one_year_member_on   :string(255)
+#  id                             :integer(4)      not null, primary key
+#  old_id                         :integer(4)
+#  name                           :string(255)
+#  organization_type_id           :integer(4)
+#  sector_id                      :integer(4)
+#  local_network                  :boolean(1)
+#  participant                    :boolean(1)
+#  employees                      :integer(4)
+#  url                            :string(255)
+#  created_at                     :datetime
+#  updated_at                     :datetime
+#  added_on                       :date
+#  modified_on                    :date
+#  joined_on                      :date
+#  delisted_on                    :date
+#  active                         :boolean(1)
+#  country_id                     :integer(4)
+#  stock_symbol                   :string(255)
+#  removal_reason_id              :integer(4)
+#  last_modified_by_id            :integer(4)
+#  state                          :string(255)
+#  exchange_id                    :integer(4)
+#  listing_status_id              :integer(4)
+#  is_ft_500                      :boolean(1)
+#  cop_status                     :integer(4)
+#  cop_due_on                     :date
+#  inactive_on                    :date
+#  one_year_member_on             :string(255)
+#  commitment_letter_file_name    :string(255)
+#  commitment_letter_content_type :string(255)
+#  commitment_letter_file_size    :integer(4)
+#  commitment_letter_updated_at   :datetime
+#  pledge_amount                  :integer(4)
 #
 
 class Organization < ActiveRecord::Base
