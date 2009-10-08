@@ -3,14 +3,21 @@
 %ul
   = render :partial => current_user.organization.contacts
 
-%h3 Logo requests
-= link_to 'new', new_organization_logo_request_path(current_user.organization)
-- if current_user.organization.logo_requests.any?
+- if @organization.pending_review? or @organization.in_review?
+  %h3 Comments
+  = link_to 'New comment', new_organization_comment_path(@organization)
   %ul
-    = render :partial => current_user.organization.logo_requests
+    = render :partial => @organization.comments
 
-%h3 Case Stories
-= link_to 'new', new_organization_case_story_path(current_user.organization)
-- if current_user.organization.case_stories.any?
-  %ul
-    = render :partial => current_user.organization.case_stories
+- else
+  %h3 Logo requests
+  = link_to 'new', new_organization_logo_request_path(current_user.organization)
+  - if current_user.organization.logo_requests.any?
+    %ul
+      = render :partial => current_user.organization.logo_requests
+
+  %h3 Case Stories
+  = link_to 'new', new_organization_case_story_path(current_user.organization)
+  - if current_user.organization.case_stories.any?
+    %ul
+      = render :partial => current_user.organization.case_stories

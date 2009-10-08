@@ -1,0 +1,22 @@
+== Dear #{@organization.name},
+
+A new comment has been posted for your participation request. Please do not reply to this email. You may submit a comment or question by accessing your case story at the following link:
+= dashboard_url
+
+== Organization: #{@organization.name}
+Participation Status: In Review
+
+Latest Comment:
+___________________________________________________________________________
+= h @organization.comments.last.body
+___________________________________________________________________________
+
+Sincerely,
+
+The Global Compact Office
+
+United Nations Global Compact
+Two United Nations Plaza
+New York, NY 10017
+Email: globalcompact@un.org
+Website: www.unglobalcompact.org

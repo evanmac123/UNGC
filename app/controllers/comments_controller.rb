@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
   layout 'admin'
   before_filter :login_required, :load_commentable
+  helper_method :commentable_path
   
   def new
     @comment = @commentable.comments.new
@@ -13,7 +14,7 @@ class CommentsController < ApplicationController
 
     if @comment.save
       flash[:notice] = 'Comment was successfully created.'
-      redirect_to [@commentable.organization, @commentable]
+      redirect_to commentable_path(@commentable) 
     else
       render :action => "new"
     end
@@ -22,10 +23,13 @@ class CommentsController < ApplicationController
   private
     def load_commentable
       if params[:case_story_id]
-        commentable_class = CaseStory 
-        commentable_id = params[:case_story_id]
+        @commentable = CaseStory.find params[:case_story_id]
+      elsif params[:organization_id]
+        @commentable = Organization.find params[:organization_id]
       end
-      @commentable = commentable_class.find commentable_id
-      @organization = @commentable.organization
+    end
+    
+    def commentable_path(commentable)
+      commentable.is_a?(Organization) ? commentable : [commentable.organization, commentable]
     end
 end

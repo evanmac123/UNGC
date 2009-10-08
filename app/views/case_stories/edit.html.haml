@@ -1,0 +1,6 @@
+%h2 Edit case story
+
+- form_for([@organization, @case_story], :html => { :multipart => true }) do |form|
+  = render :partial => form  
+  %p
+    = form.submit 'Save'

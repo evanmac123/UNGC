@@ -53,7 +53,7 @@ class OrganizationsController < ApplicationController
     redirect_to(@organization)
   end
 
-  %w{approved rejected pending}.each do |method|
+  %w{approved rejected pending_review}.each do |method|
     define_method method do
       @organizations = Organization.send method
       render 'index'

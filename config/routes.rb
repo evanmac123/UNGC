@@ -2,8 +2,8 @@ ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'pages', :action => 'view', :path => ['index.html']
 
   map.resources :organizations, :member     => { :approve => :post, :reject => :post },
-                                :collection => { :approved => :get, :rejected => :get, :pending => :get },
-                                :has_many   => [:contacts] do |organization|
+                                :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
+                                :has_many   => [:contacts, :comments] do |organization|
     organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
     organization.resources :case_stories
   end

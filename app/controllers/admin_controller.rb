@@ -7,9 +7,13 @@ class AdminController < ApplicationController
   
   def dashboard
     if current_user.from_ungc?
-      @pending_logo_requests = LogoRequest.pending_review
-      @unreplied_logo_requests = LogoRequest.unreplied
-      @pending_case_stories = CaseStory.pending_review
+      @pending_organizations = Organization.pending_review.all(:limit => 10)
+      @in_review_organizations = Organization.in_review.all(:limit => 10)
+      @pending_logo_requests = LogoRequest.pending_review.all(:limit => 10)
+      @unreplied_logo_requests = LogoRequest.unreplied.all(:limit => 10)
+      @pending_case_stories = CaseStory.pending_review.all(:limit => 10)
+    elsif current_user.from_organization?
+      @organization = current_user.organization
     end
     render :template => "admin/dashboard_#{current_user.user_type}.html.haml"
   end

@@ -16,6 +16,7 @@ module FixtureReplacement
     c.organization_id = Organization.first.id
     c.login = String.random
     c.password = String.random
+    c.contact_point = true
 	end
 
   attributes_for :cop_score do |a|

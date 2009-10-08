@@ -1,5 +1,19 @@
 %h3= link_to 'Organizations', organizations_path
 
+%h3 Pending Organizations
+- if @pending_organizations.any?
+  %ul
+    = render :partial => @pending_organizations
+- else
+  no work for you
+
+%h3 Organizations under review
+- if @in_review_organizations.any?
+  %ul
+    = render :partial => @in_review_organizations
+- else
+  no work for you
+
 %h3 Pending Logo Requests
 - if @pending_logo_requests.any?
   %ul

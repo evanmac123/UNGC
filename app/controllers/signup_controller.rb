@@ -61,6 +61,9 @@ class SignupController < ApplicationController
       load_organization_types
       @contact = session[:signup_contact] || Contact.new
       @ceo = session[:signup_ceo] || Contact.new
+      # organization country is default for contacts
+      @contact.country_id = @contact.country_id unless @contact.country
+      @ceo.country_id = @organization.country_id unless @ceo.country
     end
 
     def load_organization_types

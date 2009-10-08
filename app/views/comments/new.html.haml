@@ -1,4 +1,4 @@
-%h2 New comment
+%h3 New comment
 
 - form_for([@commentable, @comment], :html => { :multipart => true }) do |form|
   = form.error_messages
@@ -13,4 +13,4 @@
       = form.submit LogoRequest::EVENT_APPROVE.titleize
       = form.submit LogoRequest::EVENT_REJECT.titleize
 
-= link_to 'Back', [@commentable.organization, @commentable]
+= link_to_commentable(@commentable)

@@ -1,0 +1,7 @@
+%li
+  = organization.name
+  ==[#{organization.state.humanize}]
+  
+  = link_to 'show', organization
+  - staff_only do
+    = link_to 'delete', organization, :confirm => 'Are you sure?', :method => :delete
