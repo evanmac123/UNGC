@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_filter :simple_http_auth
   before_filter :mailer_set_url_options
 
-  helper :all # include all helpers, all the time
+  helper 'datetime'
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log

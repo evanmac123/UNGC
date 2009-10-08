@@ -40,6 +40,14 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
+
+  # map.resources :events
+  map.with_options :controller => 'events' do |m|
+    m.event '/events/:permalink', :action => :show, :conditions => { :method => :get }
+  end
+  map.namespace :admin do |admin|
+    admin.resources :events
+  end
   
   map.with_options :controller => 'admin/pages' do |m|
     m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }

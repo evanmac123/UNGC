@@ -29,6 +29,10 @@ module FixtureReplacement
   attributes_for :country do |a|
 	end
 
+  attributes_for :event do |a|
+    a.title = String.random
+  end
+
   attributes_for :exchange do |a|
 	end
 

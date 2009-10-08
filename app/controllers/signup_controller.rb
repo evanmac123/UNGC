@@ -1,4 +1,5 @@
 class SignupController < ApplicationController
+  helper 'Navigation'
   before_filter :load_objects
 
   def step1

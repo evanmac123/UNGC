@@ -1,0 +1,9 @@
+%h2 Edit event
+
+- form_for @event, :url => admin_event_path(@event) do |form|
+  = render :partial => 'form'
+
+  %p
+    = form.submit 'Save changes'
+
+= link_to 'Back', admin_events_path

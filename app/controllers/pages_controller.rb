@@ -1,4 +1,5 @@
 class PagesController < ApplicationController
+  helper :all # include all helpers, all the time
   before_filter :soft_require_staff_user, :only => :decorate
   before_filter :find_content
   # layout :determine_layout

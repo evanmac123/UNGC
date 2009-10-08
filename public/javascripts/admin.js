@@ -87,3 +87,30 @@ var Editor = {
 		$('#editorLoading').hide();
 	}
 }
+
+
+function makeDestroyLink (event) {
+	event.preventDefault();
+	var target = event.target;
+	var message = $(target).attr('confirmation');
+	if (message == '')
+		message = "Are you sure you want to delete this?";
+  if ( confirm(message) ) {
+		$('<form method="post" action="' + this.href.replace('/delete', '') + '" />')
+        .append('<input type="hidden" name="_method" value="delete" />')
+        .append('<input type="hidden" name="authenticity_token" value="' + AUTH_TOKEN + '" />')
+        .appendTo('body')
+        .submit();
+	}
+
+	return false;	
+}
+
+// Uses the new live method in jQuery 1.3+
+$('a.delete').live('click', function(event) {
+
+});
+
+$(function() {
+	$('a.link_to_destroy').live( 'click', makeDestroyLink );
+});
