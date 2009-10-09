@@ -19,6 +19,11 @@
 = form.text_field :url2
 = form.text_field :url3
 = form.text_area :description
+
+- if @case_story.attachment_file_name
+  %p
+    current file:
+    = link_to_attachment @case_story
 = form.file_field :attachment
 
 %fieldset
