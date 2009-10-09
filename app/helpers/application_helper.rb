@@ -21,4 +21,10 @@ module ApplicationHelper
   def organization_only(&block)
     yield if logged_in? && current_user.from_organization?
   end
+  
+  def link_to_attachment(object)
+    if object.attachment_file_name
+      link_to object.attachment_file_name, object.attachment.url
+    end
+  end
 end

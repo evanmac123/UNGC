@@ -22,7 +22,7 @@
 %ul
   - for comment in @logo_request.logo_comments.with_attachment
     %li
-      = attachment_link(comment)
+      = link_to_attachment(comment)
       = number_to_human_size(comment.attachment_file_size)
 
 %h3 Approved logos

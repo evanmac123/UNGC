@@ -18,7 +18,7 @@
   = [@case_story.url1, @case_story.url2, @case_story.url3].compact.join(' ')
 %p
   %b Submission:
-  = attachment_link(@case_story)
+  = link_to_attachment(@case_story)
 - if @case_story.author1
   %p
     %b Author 1:
@@ -48,5 +48,5 @@
 %ul
   - for comment in @case_story.comments.with_attachment
     %li
-      = attachment_link(comment)
+      = link_to_attachment(comment)
       = number_to_human_size(comment.attachment_file_size)
