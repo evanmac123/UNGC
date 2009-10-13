@@ -258,8 +258,9 @@ class Importer
         when :logo_request then
           # (0: “Pending Review” 1: “In Review”, 2”:“Declined” or 3:“Accepted)
           model.state = ['pending_review', 'pending', 'rejected', 'approved'][model.status.to_i]
-        when :organization then
-          
+        when :case_story then
+          # Case Story Status. Values( -1: “Rejected”, 0:”In Review”, 1:”Accepted”
+          model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]
       end
     end
     
