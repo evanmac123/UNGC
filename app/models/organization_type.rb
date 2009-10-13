@@ -43,4 +43,8 @@ class OrganizationType < ActiveRecord::Base
   def business?
     type_property == BUSINESS
   end
+  
+  def self.micro_enterprise
+    first :conditions => {:name => 'Micro Entreprise'}
+  end
 end

@@ -39,7 +39,8 @@ class SignupControllerTest < ActionController::TestCase
     
     should "get the fifth step page after submitting letter of commitment" do
       session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
-                                                       :organization_type_id => OrganizationType.first.id)
+                                                       :organization_type_id => OrganizationType.first.id,
+                                                       :employees            => 50)
       assert_difference 'Organization.count' do
         post :step5, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
       end

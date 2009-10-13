@@ -52,8 +52,9 @@ class Organization < ActiveRecord::Base
   belongs_to :country
 
   accepts_nested_attributes_for :contacts
-  
   acts_as_commentable
+  
+  before_save :check_micro_enterprise
   
   has_attached_file :commitment_letter
   
@@ -163,4 +164,11 @@ class Organization < ActiveRecord::Base
   
   # NOTE: Convenient alias
   def noncommed_on; cop_due_on; end
+  
+  private
+    def check_micro_enterprise
+      if self.business_entity? && self.employees < 10
+        self.organization_type_id = OrganizationType.micro_enterprise.id
+      end
+    end
 end

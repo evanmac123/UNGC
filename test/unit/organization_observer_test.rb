@@ -3,6 +3,7 @@ require 'test_helper'
 class OrganizationObserverTest < ActiveSupport::TestCase
   def setup
     @observer = OrganizationObserver.instance
+    create_organization_type
     @organization = create_organization
     @organization.contacts.create(:email      => 'dude@example.com',
                                   :first_name => 'a',

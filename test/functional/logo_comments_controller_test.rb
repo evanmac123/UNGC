@@ -2,6 +2,7 @@ require 'test_helper'
 
 class LogoCommentsControllerTest < ActionController::TestCase
   def setup
+    create_organization_type
     @organization = create_organization
     @contact = create_contact(:organization_id => @organization.id,
                               :email           => "dude@example.com")

@@ -66,6 +66,7 @@ class SessionsControllerTest < ActionController::TestCase
 
   protected
     def create_test_users
+      create_organization_type
       create_organization
       @contact = create_contact(:login => 'quentin',
                                 :password => 'monkey',

@@ -13,6 +13,20 @@ class OrganizationTest < ActiveSupport::TestCase
   should_belong_to :exchange
   should_belong_to :country
   
+  context "given a new organization" do
+    setup do
+      @companies = create_organization_type(:name => 'Company')
+      @micro_enterprise = create_organization_type(:name => 'Micro Entreprise')
+    end
+    
+    should "set the organization type to micro enterprise when it has less than 10 employees" do
+      @organization = Organization.create(:name                 => 'Small Company',
+                                          :employees            => 2,
+                                          :organization_type_id => @companies.id)
+      assert_equal @micro_enterprise.id, @organization.organization_type_id
+    end
+  end
+  
   context "given a climate change initiative, some organization types and an org" do
     setup do
       @academia  = create_organization_type(:name => 'Academic')
