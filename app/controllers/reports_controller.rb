@@ -2,7 +2,10 @@ class ReportsController < ApplicationController
   layout 'admin'
 
   def approved_logo_requests
-    @records = LogoRequest.approved.all(:limit => 20)
+    @month = params[:month] || Date.today.month
+    @year = params[:year] || Date.today.year
+    
+    @records = LogoRequest.approved.all(:limit => 20, :conditions => '')
     @formatter = LogoRequestFormatter.new
     render_formatter(filename: "approved_logo_requests_#{date_as_filename}.csv")
   end
