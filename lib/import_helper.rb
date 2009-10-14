@@ -52,7 +52,6 @@ def subnav_from_left(doc)
       array = mid_nav.path.split('/')
       array.pop
       h[:path] = "#{array.join('/')}#{h[:path]}"
-      h[:display_in_navigation] = true
       h[:parent_id] = mid_nav.id
       h
     end
@@ -65,6 +64,7 @@ def create_subnav(doc)
     page = Page.find_by_path(sub[:path]) || Page.new(:path => sub[:path])
     page.title = sub[:title] if page.title.blank?
     page.parent_id = sub[:parent_id] if page.parent_id.blank?
+    page.display_in_navigation = true
     page.position = counter
     page.save
     counter += 1

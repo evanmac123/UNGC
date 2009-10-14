@@ -6,4 +6,4 @@
         - if selected?(child)
           - child.children.each do |sub|
             %li{:class => 'sub'}
-              = link_to "&raquo;&nbsp;#{sub.title}", sub.path, :class => path_matches?(sub) ? 'sub_selected' : ''
+              = link_to "&raquo;&nbsp;#{sub.title}", sub.path, :class => sub_selected?(sub) ? 'sub_selected' : ''

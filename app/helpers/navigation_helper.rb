@@ -18,10 +18,17 @@ module NavigationHelper
     @leftnav_selected && navigation.is_child_of?(@leftnav_selected)
   end
 
+  def current_page_or_find_navigation
+    if @page
+      return @page if @page.approved? && @page.display_in_navigation?
+    end
+    Page.find_navigation_for(look_for_path)
+  end
+  
   def current_section
     unless @current_section
       return nil if home_page?
-      return nil unless current_or_parent = Page.find_navigation_for(look_for_path)
+      return nil unless current_or_parent = current_page_or_find_navigation
       # if we're at the top, then it's our group
       # if we're a sub-page, then it's our parent's group
       if current_or_parent.parent_id
@@ -46,6 +53,10 @@ module NavigationHelper
   
   def selected?(navigation)
     path_matches?(navigation) || leftnav_selected?(navigation) || child_selected?(navigation)
+  end
+  
+  def sub_selected?(navigation)
+    (@subnav_selected && @subnav_selected == navigation) || path_matches?(navigation)
   end
   
   def login_and_logout

@@ -13,7 +13,9 @@
 class PageGroup < ActiveRecord::Base
   has_many :children, :class_name => 'Page', :foreign_key => :group_id
   
-  named_scope :for_navigation, :conditions => ["page_groups.display_in_navigation = ?", true]
+  named_scope :for_navigation, 
+    :include => :children,
+    :conditions => ["page_groups.display_in_navigation = ?", true]
   
   def link_to_first_child
     children.first.path

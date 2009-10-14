@@ -27,9 +27,17 @@ class PagesController < ApplicationController
   def find_content
     if @page = Page.approved_for_path(look_for_path)
       @current_version = @page.find_version_number(params[:version]) if params[:version]
-      @current_version ||= @page.active_version
+      @current_version ||= active_version_of(@page)
     end
     render :text => 'Not Found', :status => 404 unless @page and @current_version
+  end
+  
+  def active_version_of(page)
+    if page.approved?
+      page
+    else
+      page.active_version 
+    end
   end
   
   def soft_require_staff_user
