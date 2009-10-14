@@ -1,9 +1,9 @@
 %h2 Approved logo requests
-- form_for report_path(:action => 'approved_logo_requests') do |f|
+- form_for report_path(:action => 'approved_logo_requests'), :html => {:method => :get} do |f|
   = select_tag :month, options_for_select((1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}, @month.to_s)
   = select_tag :year, options_for_select((Date.today.year-5..Date.today.year).collect {|y| y.to_s}, @year.to_s)
-  = f.submit 'Submit'
+  = f.submit 'View'
   
-= link_to 'download', :format => 'csv'
+= link_to 'download', url_for(params.merge(:format => 'csv'))
 
 %div= @formatter.render_html @records
