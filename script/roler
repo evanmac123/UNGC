@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
+require 'csv'
+require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+
+file = 'R12_XREF_R10_TR07'
+path = File.join(RAILS_ROOT, 'lib', 'un7_tables', file + '.csv')
+# "ROLE_ID","CONTACT_ID","R01_ORG_NAME"
+CSV.foreach(path, :headers => :first_row) do |row|
+  role_id = row['ROLE_ID']
+  contact_id = row['CONTACT_ID']
+  contact = Contact.find_by_old_id contact_id
+  role = Role.find_by_old_id role_id
+  if role && contact
+    contact.update_attribute :role_id, role.id
+    puts "Contact #{contact.id} given role #{role.inspect}"
+  else
+    puts "  error on #{row.inspect}"
+  end
+end
