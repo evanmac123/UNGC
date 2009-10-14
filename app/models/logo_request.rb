@@ -63,6 +63,10 @@ class LogoRequest < ActiveRecord::Base
       {}
     end
   }
+
+  named_scope :submitted_in, lambda { |month, year|
+    { :conditions => ['requested_on >= ? AND requested_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
+  }
   
   STATE_PENDING_REVIEW = 'pending_review'
   STATE_IN_REVIEW = 'in_review'
