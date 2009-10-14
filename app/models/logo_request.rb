@@ -80,6 +80,15 @@ class LogoRequest < ActiveRecord::Base
     accepted? && Time.now <= accepted_on + 7.days
   end
   
+  def days_to_process
+    # TODO user r.approved_on instead of r.accepted_on
+    begin
+      (self.accepted_on - self.requested_on).to_i
+    rescue
+      0
+    end
+  end
+  
   private
     def set_requested_on
       requested_on = Date.today
