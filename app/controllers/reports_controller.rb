@@ -26,9 +26,8 @@ class ReportsController < ApplicationController
     def render_formatter(options={})
       respond_to do |format|
         format.html
-        format.csv  { send_data @formatter.render_csv(@records), :type        => 'application/ms-excel',
-                                                                 :filename    => options[:filename],
-                                                                 :disposition => 'inline' }
+        format.csv  { send_data @formatter.render_csv(@records), :type     => 'application/ms-excel',
+                                                                 :filename => options[:filename] }
       end
     end
 
