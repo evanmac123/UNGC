@@ -261,6 +261,9 @@ class Importer
         when :case_story then
           # Case Story Status. Values( -1: “Rejected”, 0:”In Review”, 1:”Accepted”
           model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]
+        when :organization then
+          # all organizations in R01_ORGANIZATION were approved
+          model.state = 'approved'
       end
     end
     
