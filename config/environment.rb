@@ -14,11 +14,14 @@ Rails::Initializer.run do |config|
   config.gem 'jackdempsey-acts_as_commentable', :lib => 'acts_as_commentable', :source => "http://gems.github.com"
   config.gem 'money'
   config.gem 'haml'
+  config.gem 'ruport'
 
   config.time_zone = 'UTC'
 
   config.active_record.observers = :organization_observer, :logo_comment_observer, :comment_observer
   config.action_controller.session_store = :active_record_store
+  
+  config.load_paths += %W( #{RAILS_ROOT}/app/reports )
 end
 
 ActionView::Base.default_form_builder = FormBuilder

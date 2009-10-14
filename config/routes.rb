@@ -49,6 +49,9 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :events
   end
   
+  # reports
+  map.connect 'admin/reports/:action.:format', :controller => 'reports'
+  
   map.with_options :controller => 'admin/pages' do |m|
     m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }
     m.update_page 'admin/page/:id.:format', :action => 'update', :conditions => { :method => :put }
