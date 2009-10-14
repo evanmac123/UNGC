@@ -50,7 +50,8 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   # reports
-  map.connect 'admin/reports/:action.:format', :controller => 'reports'
+  map.reports 'admin/reports', :controller => 'reports', :action => 'index'
+  map.report 'admin/reports/:action.:format', :controller => 'reports'
   
   map.with_options :controller => 'admin/pages' do |m|
     m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }

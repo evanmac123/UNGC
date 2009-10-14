@@ -131,6 +131,9 @@ class Organization < ActiveRecord::Base
       {}
     end
   }
+  
+  named_scope :listed,
+    { :conditions => "organizations.stock_symbol IS NOT NULL" }
 
   def self.find_by_param(param)
     return nil if param.blank?

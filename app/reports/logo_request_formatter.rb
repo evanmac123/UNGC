@@ -6,15 +6,17 @@ class LogoRequestFormatter
   end
 
   def render_csv(records)
-    buffer = ""
-    buffer << CSV.generate_line(['Company', 'Sector', 'Country', 'Publication Type',
+    buffer = CSV.generate_line(['Company', 'Sector', 'Country', 'Publication Type',
                                   'Reviewer', 'Approval Date', 'Days to process'])
-    records.each do |r|
-      # TODO user r.approved_on instead of r.accepted_on
-      row = [r.organization.name, r.organization.sector.name, r.organization.country.name, r.publication.name,
-              r.reviewer.name, r.accepted_on, r.days_to_process]
-      buffer << CSV.generate_line(row)
+    
+    CSV.generate(buffer) do |csv|
+      records.each do |r|
+        # TODO user r.approved_on instead of r.accepted_on
+        csv << [r.organization.name, r.organization.sector.name, r.organization.country.name,
+                r.publication.name, r.reviewer.name, r.accepted_on, r.days_to_process]
+      end
     end
+    
     return buffer
   end
 end
