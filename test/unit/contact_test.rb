@@ -26,4 +26,16 @@ class ContactTest < ActiveSupport::TestCase
       assert @organization_user.from_organization?
     end
   end
+
+  context "given a contact point" do
+    setup do
+      create_organization_user
+    end
+    
+    should "not be the last to be deleted" do
+      @organization_user.destroy
+      assert_equal 1, @organization_user.organization.contacts.length
+    end
+  end
+  
 end
