@@ -51,6 +51,8 @@ class Contact < ActiveRecord::Base
   named_scope :contact_points, :conditions => {:contact_point => true}
   named_scope :ceos, :conditions => {:ceo => true}
 
+  before_destroy :keep_at_least_one_contact
+
   def name
     [first_name, last_name].join(' ')
   end
@@ -84,4 +86,12 @@ class Contact < ActiveRecord::Base
     return TYPE_ORGANIZATION if from_organization?
     return TYPE_NETWORK if from_network?
   end
+  
+  private
+    def keep_at_least_one_contact
+      if self.organization.contacts.count <= 1
+        errors.add_to_base "cannot delete contact, at least 1 contact should be kept at all times"
+        return false
+      end
+    end
 end

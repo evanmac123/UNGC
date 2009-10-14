@@ -72,12 +72,12 @@ class ActiveSupport::TestCase
   end
   
   def create_staff_user
-    create_organization_type
     un = create_ungc_organization
     create_contact(:organization_id => un.id)
   end
 
   def create_ungc_organization
+    create_organization_type
     @ungc = create_organization(:name => 'UNGC')
     @staff_user = create_contact(:login           => 'staff',
                                  :organization_id => @ungc.id)

@@ -38,9 +38,11 @@ class ContactsControllerTest < ActionController::TestCase
   end
 
   test "should destroy contact" do
+    @contact_to_be_deleted = create_contact(:organization_id => @organization.id,
+                                            :email           => "dude2@example.com")
     assert_difference('Contact.count', -1) do
       delete :destroy, :organization_id => @organization.id,
-                       :id => @contact.to_param
+                       :id => @contact_to_be_deleted.to_param
     end
 
     assert_redirected_to organization_path(assigns(:organization))
