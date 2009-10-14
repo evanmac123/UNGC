@@ -225,6 +225,26 @@
       </tbody>
     </table>
     <%= paginate_cops(:notable, :anchor => 'paged_results') %>
+local_network: &local_network
+  content: |
+    <%= p_with_link_to_local_network %>
+    <div class='clearfix'>
+      <div class='left'>
+        <h2>Contact Information</h2>
+        <% for contact in local_network_contacts do %>
+        <p><%= formatted_local_network_contact_info(contact) %></p>
+        <% end %>
+      </div>
+    
+      <div class='right' style='text-align: left'>
+        <h2>Participant Information</h2>
+        <p class='small_print'>Participation in the Global Compact does not necessarily reflect participation in the Global Compact Local Network.</p>
+        <%= p_with_link_to_participant_search %>
+        <%= display_latest_participant_for_local_network %>
+      </div>
+    </div>
+'/NetworksAroundTheWorld/local_network_sheet/IN.html':
+  <<: *local_network
 noncommunicating: &noncommunicating
   content: |
     <h1>Non-Communicating Participants</h1>

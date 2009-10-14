@@ -98,8 +98,13 @@ def regular_page_content(doc)
   content
 end
 
-def local_network_sheet(doc)
+def unfiltered_content(doc)
   escape_php doc.to_html.strip
+end
+
+def local_network_sheet(doc)
+  content = escape_php doc.to_html.strip
+  content << "\n\n&lt;?php put/local/network/info/here.php ?&gt;"
 end
 
 def href_and_label(link)
@@ -217,7 +222,7 @@ def read_content(root, filename)
   elsif filename =~ /NetworksAroundTheWorld\/local_network_sheet/
     local_network_sheet(doc)
   elsif filename =~ /NewsAndEvents\/UNGC_bulletin\/contact_response\.html/
-    local_network_sheet(doc)
+    unfiltered_content(doc)
   else
     regular_page_content(doc) # will also create sub-level leftnav
   end
