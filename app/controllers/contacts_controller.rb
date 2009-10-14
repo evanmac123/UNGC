@@ -27,7 +27,11 @@ class ContactsController < ApplicationController
   end
 
   def destroy
-    @contact.destroy
+    if @contact.destroy
+      flash[:notice] = 'Contact was successfully deleted.'
+    else
+      flash[:error] =  @contact.errors.full_messages.to_sentence
+    end
     redirect_to @organization
   end
   
