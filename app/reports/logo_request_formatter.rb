@@ -1,8 +1,14 @@
 require 'csv'
 
 class LogoRequestFormatter
+  include ActionView::Helpers::TagHelper
+  
   def render_html(records)
-    "html report"
+    buffer = records.collect do |r|
+      content_tag(:li, [r.organization.name, r.organization.sector.name, r.organization.country.name,
+                          r.publication.name, r.reviewer.name, r.accepted_on, r.days_to_process].join(","))
+    end
+    content_tag :ul, buffer.join
   end
 
   def render_csv(records)
