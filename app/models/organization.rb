@@ -138,6 +138,10 @@ class Organization < ActiveRecord::Base
     find :first, :conditions => ["name = ?", param]
   end
 
+  def self.for_country_code(code)
+    Country.find_by_code(code).organizations
+  end
+
   def country_name
     country.name
   end

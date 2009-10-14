@@ -11,4 +11,8 @@
 
 class Role < ActiveRecord::Base
   validates_presence_of :name
+  
+  def self.network_contact
+    find :all, :conditions => ["old_id IN (?)", [5,12]] # FIXME: Update this to newer ids, text, constant??
+  end
 end

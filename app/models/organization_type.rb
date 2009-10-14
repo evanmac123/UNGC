@@ -24,6 +24,7 @@ class OrganizationType < ActiveRecord::Base
     :business_local  => 'Business Association Local',
     :civil_global    => 'NGO Global',
     :civil_local     => 'NGO Local',
+    :gc_networks     => 'GC Networks',
     :labour_global   => 'Labour Global',
     :labour_local    => 'Labour Local',
     :public          => 'Public Sector Organization',
