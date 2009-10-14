@@ -79,7 +79,7 @@ module FixtureReplacement
 
   attributes_for :organization do |o|
     o.name = String.random
-    o.organization_type_id = OrganizationType.first.try(:id)
+    o.organization_type_id = OrganizationType.first.id
     o.employees = 50
 	end
 
