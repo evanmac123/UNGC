@@ -13,6 +13,12 @@ class ReportsController < ApplicationController
     render_formatter
   end
   
+  def companies_without_contacts
+    @records = Organization.without_contacts.all(:limit => 10)
+    @formatter = SimpleOrganizationFormatter.new
+    render_formatter
+  end
+  
   private
     def render_formatter
       respond_to do |format|

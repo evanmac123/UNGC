@@ -134,6 +134,10 @@ class Organization < ActiveRecord::Base
   
   named_scope :listed,
     { :conditions => "organizations.stock_symbol IS NOT NULL" }
+  
+  named_scope :without_contacts,
+    { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
+  
 
   def self.find_by_param(param)
     return nil if param.blank?
