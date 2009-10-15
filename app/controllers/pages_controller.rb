@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   helper :all # include all helpers, all the time
   before_filter :soft_require_staff_user, :only => :decorate
-  before_filter :find_content
+  before_filter :find_content, :except => [:redirect_local_network]
   # layout :determine_layout
   
   def view
@@ -12,6 +12,14 @@ class PagesController < ApplicationController
     json_to_render = {'editor' => render_to_string(:partial => 'editor')}
     json_to_render['content'] = render_to_string(:template => template, :layout => false) if params[:version]
     render :json => json_to_render
+  end
+
+  def redirect_local_network
+    if params[:id]
+      redirect_to "/NetworksAroundTheWorld/local_network_sheet/#{params[:id]}.html"
+    else
+      redirect_to root_path
+    end
   end
 
   private

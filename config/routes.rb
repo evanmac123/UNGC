@@ -1,6 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'pages', :action => 'view', :path => ['index.html']
 
+  map.redirect_local_network '/NetworksAroundTheWorld/display.html',
+    :controller => 'pages',
+    :action => 'redirect_local_network'
+
   map.resources :organizations, :member     => { :approve => :post, :reject => :post },
                                 :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
                                 :has_many   => [:contacts, :comments] do |organization|
