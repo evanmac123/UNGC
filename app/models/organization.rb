@@ -41,7 +41,7 @@ class Organization < ActiveRecord::Base
   validates_presence_of :name
   has_many :signings
   has_many :initiatives, :through => :signings
-  has_many :contacts
+  has_many :contacts 
   has_many :logo_requests
   has_many :case_stories
   has_many :communication_on_progresses

@@ -58,11 +58,19 @@ class Contact < ActiveRecord::Base
       :conditions => ["contacts_roles.role_id IN (?)", roles]
     }
   }
+#      :conditions => [
+#        "country_id = :country AND role_id IN (:roles)", 
+#        {:country => country, :roles => Role.network_contact}
+#      ] 
 
   before_destroy :keep_at_least_one_contact
 
   def name
     [first_name, last_name].join(' ')
+  end
+  
+  def full_name_with_title
+    [prefix, name].join(' ')
   end
   
   def name_with_title

@@ -1,18 +1,26 @@
 class LocalNetwork
-  attr_accessor :country_code
+  attr_accessor :country_code, :country
   
   def self.find(country_code)
     network = self.new
     network.country_code = country_code
+    network.country = Country.find_by_code(country_code)
     network
+  end
+  
+  def contacts
+    @contacts ||= Contact.network_contacts_for(country).find(:all, :include => :role)
+  end
+ # def contacts
+ #   organizer.contacts.network_contacts
+ # end
+   
+  def name
+    country.try :name
   end
   
   def organizer
     @organizer ||= participants.by_type(:gc_networks).first
-  end
-  
-  def contacts
-    organizer.contacts.network_contacts
   end
   
   def participants
@@ -42,11 +50,13 @@ module LocalNetworkHelper
   end
   
   def formatted_local_network_contact_info(contact)
-    contact.name
+    "#{contact.role_name}<br />
+    #{contact.full_name_with_title}<br />
+    #{link_to contact.email, "mailto:#{contact.email}"}"
   end
 
   def p_with_link_to_participant_search
-    
+    content_tag :p, link_to("Participants in #{local_network.name}: #{local_network.participants.count}", '#FIXME') if local_network.participants.any?
   end
   
   def display_latest_participant_for_local_network

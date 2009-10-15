@@ -242,6 +242,7 @@ local_network: &local_network
         <%= p_with_link_to_participant_search %>
         <%= display_latest_participant_for_local_network %>
       </div>
+      <div class='clearme'>&nbsp;</div>
     </div>
 '/NetworksAroundTheWorld/local_network_sheet/IN.html':
   <<: *local_network

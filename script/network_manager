@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
+require 'csv'
+require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+
+file = 'TR01_COUNTRY'
+path = File.join(RAILS_ROOT, 'lib', 'un7_tables', file + '.csv')
+# COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
+
+MANAGERS = {
+  'Nessa Whelan'  => Contact.find_by_email('whelan@un.org'),
+  'Jonas Haertle' => Contact.find_by_email('haertle@un.org'),
+  'Meng Liu'      => Contact.find_by_email('lium@un.org')
+}
+
+def import_manager(string)
+  manager = MANAGERS[string]
+  if manager
+    manager.id
+  else
+    nil
+  end
+end
+
+CSV.foreach(path, :headers => :first_row) do |row|
+  country = Country.find_by_code row['COUNTRY_ID']
+  if manager_id = import_manager(row['GC_COUNTRY_MANAGER'])
+    country.update_attribute :manager_id, manager_id
+    puts "Found manager for #{country.name}"
+  end
+end
