@@ -14,6 +14,7 @@
 
 class Country < ActiveRecord::Base
   validates_presence_of :name, :code
+  belongs_to :manager, :class_name => 'Contact'
   has_many :organizations
   has_and_belongs_to_many :case_stories
   has_and_belongs_to_many :communication_on_progresses

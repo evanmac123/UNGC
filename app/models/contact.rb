@@ -55,13 +55,13 @@ class Contact < ActiveRecord::Base
     roles = Role.network_contact
     {
       :joins => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles]
+      :conditions => ["contacts_roles.role_id IN (?)", roles],
+      :order => "roles.name DESC"
     }
   }
-#      :conditions => [
-#        "country_id = :country AND role_id IN (:roles)", 
-#        {:country => country, :roles => Role.network_contact}
-#      ] 
+  named_scope :for_country, lambda { |country|
+    {:conditions => {:country_id => country.id} }
+  }
 
   before_destroy :keep_at_least_one_contact
 
