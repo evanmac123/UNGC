@@ -91,11 +91,17 @@ class Organization < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
 
+  named_scope :local_network, :conditions => {:local_network => 'true'}
+
   named_scope :active,
     { :conditions => ["organizations.active = ?", true] }
 
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
+
+  named_scope :network_participants_for, lambda { |country|
+    country.organizations.local_network
+  }
 
   named_scope :companies_and_smes, { 
     :include => :organization_type,
@@ -136,10 +142,6 @@ class Organization < ActiveRecord::Base
     return nil if param.blank?
     param = CGI.unescape param
     find :first, :conditions => ["name = ?", param]
-  end
-
-  def self.for_country_code(code)
-    Country.find_by_code(code).organizations
   end
 
   def country_name

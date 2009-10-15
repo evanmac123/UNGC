@@ -12,11 +12,11 @@ class LocalNetwork
   end
   
   def contacts
-    organizer.contacts.find_network_contacts
+    organizer.contacts.network_contacts
   end
   
   def participants
-    @participants ||= Organization.for_country_code(country_code)
+    @participants ||= Organization.network_participants_for(country)
   end
 end
 
