@@ -116,7 +116,15 @@ class Page < ActiveRecord::Base
   end
   
   def new_version(options)
-    default_options = {:path => path, :title => title, :slug => slug, :parent_id => parent_id, :display_in_navigation => display_in_navigation} 
+    default_options = {
+      :path                  => path, 
+      :title                 => title, 
+      :slug                  => slug, 
+      :group_id              => group_id, 
+      :parent_id             => parent_id, 
+      :position              => position, 
+      :display_in_navigation => display_in_navigation
+    } 
     self.class.create default_options.merge(options) # TODO: Make this work: .merge({:version_number => (version_number || 1) + 1})
   end
   
