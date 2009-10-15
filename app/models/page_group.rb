@@ -12,6 +12,11 @@
 
 class PageGroup < ActiveRecord::Base
   has_many :children, :class_name => 'Page', :foreign_key => :group_id
+  has_many :approved_children, 
+    :class_name  => 'Page', 
+    :foreign_key => :group_id, 
+    :conditions  => {:approved => true},
+    :order       => "position ASC"
   
   named_scope :for_navigation, 
     :include => :children,

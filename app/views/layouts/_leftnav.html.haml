@@ -1,6 +1,6 @@
 %ul
   - if current_section
-    - current_section.children.each do |child|
+    - current_section.approved_children.each do |child|
       %li{:class => selected?(child) ? 'selected' : ''}
         = link_to child.title, child.path
         - if selected?(child)
