@@ -13,7 +13,7 @@ CSV.foreach(path, :headers => :first_row) do |row|
   contact = Contact.find_by_old_id contact_id
   role = Role.find_by_old_id role_id
   if role && contact
-    contact.update_attribute :role_id, role.id
+    contact.roles << role
     puts "Contact #{contact.id} given role #{role.inspect}"
   else
     puts "  error on #{row.inspect}"

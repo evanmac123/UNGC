@@ -45,12 +45,19 @@ class Contact < ActiveRecord::Base
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
   belongs_to :country
   belongs_to :organization
-  belongs_to :role
+  has_and_belongs_to_many :roles, :join_table => "contacts_roles"
 
   default_scope :order => 'contacts.first_name'
   
   named_scope :contact_points, :conditions => {:contact_point => true}
   named_scope :ceos, :conditions => {:ceo => true}
+  named_scope :network_contacts, lambda {
+    roles = Role.network_contact
+    {
+      :joins => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", roles]
+    }
+  }
 
   before_destroy :keep_at_least_one_contact
 
@@ -67,10 +74,6 @@ class Contact < ActiveRecord::Base
     u = find_by_login(login.downcase)
     # TODO hash the password
     (u && u.password == password) ? u : nil
-  end
-  
-  def self.find_network_contacts
-    find :all, :conditions => ["role_id IN (?)", Role.network_contact.map(&:id)]
   end
   
   def from_ungc?
