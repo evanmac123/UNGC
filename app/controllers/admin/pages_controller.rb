@@ -15,10 +15,10 @@ class Admin::PagesController < AdminController
   end
   
   def update
-    version = @page.new_version(params[:page])
+    @version = @page.new_version(params[:content])
     respond_to do |wants|
       wants.html { redirect_to view_page_url(:path => @page.to_path) }
-      wants.js { render :json => { :content => version.content, :version => version.version_number } }
+      wants.js { render :json => { :content => @version.content, :version => @version.version_number } }
     end
   end
   

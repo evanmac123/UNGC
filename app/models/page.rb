@@ -115,15 +115,17 @@ class Page < ActiveRecord::Base
     self.class.all_versions_of(path).later_versions_than(version_number).first
   end
   
-  def new_version(options)
+  def new_version(options={})
+    active = active_version
     default_options = {
-      :path                  => path, 
-      :title                 => title, 
-      :slug                  => slug, 
-      :group_id              => group_id, 
-      :parent_id             => parent_id, 
-      :position              => position, 
-      :display_in_navigation => display_in_navigation
+      :path                  => active.path, 
+      :title                 => active.title, 
+      :slug                  => active.slug, 
+      :group_id              => active.group_id, 
+      :parent_id             => active.parent_id, 
+      :position              => active.position, 
+      :dynamic_content       => active.dynamic_content,
+      :display_in_navigation => active.display_in_navigation
     } 
     self.class.create default_options.merge(options) # TODO: Make this work: .merge({:version_number => (version_number || 1) + 1})
   end
