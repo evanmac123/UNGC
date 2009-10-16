@@ -1,17 +1,9 @@
-require 'csv'
-
-class SimpleOrganizationFormatter
-  def render_html(records)
-    "html report"
+class SimpleOrganizationFormatter < SimpleFormatter
+  def headers
+    ['participant_name', 'type']
   end
 
-  def render_csv(records)
-    buffer = CSV.generate_line(['participant_name', 'type'])
-    
-    CSV.generate(buffer) do |csv|
-      records.each {|r| csv << [r.name, r.organization_type.name]}
-    end
-    
-    return buffer
+  def row(record)
+    [record.name, record.organization_type.name]
   end
 end

@@ -1,21 +1,11 @@
-require 'csv'
-
-class ListedCompaniesFormatter
-  def render_html(records)
-    "html report"
+class ListedCompaniesFormatter < SimpleFormatter
+  def headers
+    ['Participant ID','Company Name','Country','Ticker Symbol',
+      'Exchange Code','Reuters Code','ISO 10383 Code']
   end
 
-  def render_csv(records)
-    buffer = CSV.generate_line(['Participant ID','Company Name','Country','Ticker Symbol',
-                                  'Exchange Code','Reuters Code','ISO 10383 Code'])
-    
-    CSV.generate(buffer) do |csv|
-      records.each do |r|
-        csv << [r.id, r.name, r.country.name, r.stock_symbol, r.exchange.code, 
-                  r.exchange.secondary_code, r.exchange.terciary_code]
-      end
-    end
-    
-    return buffer
+  def row(record)
+    [record.id, record.name, record.country.name, record.stock_symbol, record.exchange.code,
+      record.exchange.secondary_code, record.exchange.terciary_code]
   end
 end
