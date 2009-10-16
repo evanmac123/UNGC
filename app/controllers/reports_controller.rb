@@ -11,7 +11,7 @@ class ReportsController < ApplicationController
   end
   
   def listed_companies
-    @records = Organization.listed.all(:limit => 20, :include => [:country, :exchange])
+    @records = Organization.listed.all(:include => [:country, :exchange])
     @formatter = ListedCompaniesFormatter.new
     render_formatter(filename: "listed_companies_#{date_as_filename}.csv")
   end
