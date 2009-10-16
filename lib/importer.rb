@@ -17,7 +17,7 @@ class Importer
       :fields => [:old_id, :initiative_id, :organization_id, :added_on]
     },
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
-    :country => {:file => 'TR01_COUNTRY.csv', :fields => [:code, :name, :region, :network_type, :manager]},
+    :country => {:file => 'TR01_COUNTRY.csv', :fields => [:code, :name, :region, :network_type, nil]},
     # fields: ID	TYPE	TYPE_PROPERTY
     :organization_type => {:file => 'TR02_ORGANIZATION_TYPE.csv', :fields => [nil, :name, :type_property]},
     #fields: SECTOR_NAME	SECTOR_ID	ICB_NUMBER	SUPER_SECTOR
