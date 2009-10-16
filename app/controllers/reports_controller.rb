@@ -5,7 +5,7 @@ class ReportsController < ApplicationController
     @month = params[:month] || Date.today.month
     @year = params[:year] || Date.today.year
     
-    @records = LogoRequest.approved.submitted_in(@month.to_i, @year.to_i).all(:limit => 20)
+    @records = LogoRequest.approved.submitted_in(@month.to_i, @year.to_i)
     @formatter = LogoRequestFormatter.new
     render_formatter(filename: "approved_logo_requests_#{date_as_filename}.csv")
   end
@@ -17,7 +17,7 @@ class ReportsController < ApplicationController
   end
   
   def companies_without_contacts
-    @records = Organization.without_contacts.all(:limit => 10)
+    @records = Organization.without_contacts
     @formatter = SimpleOrganizationFormatter.new
     render_formatter(filename: "companies_without_contract_#{date_as_filename}.csv")
   end
