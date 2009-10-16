@@ -31,16 +31,16 @@ class ActiveSupport::TestCase
   end
   
   def create_new_logo_request
-    create_organization_user
-    create_ungc_organization
+    create_organization_and_user
+    create_ungc_organization_and_user
     create_logo_publication
     @logo_request = create_logo_request(:contact_id      => @organization_user.id,
                                         :organization_id => @organization.id)
   end
   
   def create_new_case_story
-    create_organization_user
-    create_ungc_organization
+    create_organization_and_user
+    create_ungc_organization_and_user
     @case_story = create_case_story(:contact_id      => @organization_user.id,
                                     :organization_id => @organization.id)
   end
@@ -64,7 +64,7 @@ class ActiveSupport::TestCase
     @logo_request.approve
   end  
 
-  def create_organization_user
+  def create_organization_and_user
     create_organization_type
     @organization = create_organization
     @organization_user = create_contact(:organization_id => @organization.id,
@@ -72,11 +72,11 @@ class ActiveSupport::TestCase
   end
   
   def create_staff_user
-    un = create_ungc_organization
-    create_contact(:organization_id => un.id)
+    create_ungc_organization_and_user
+    return @staff_user
   end
 
-  def create_ungc_organization
+  def create_ungc_organization_and_user
     create_organization_type
     @ungc = create_organization(:name => 'UNGC')
     @staff_user = create_contact(:login           => 'staff',

@@ -17,7 +17,7 @@ class Importer
       :fields => [:old_id, :initiative_id, :organization_id, :added_on]
     },
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
-    :country => {:file => 'TR01_COUNTRY.csv', :fields => [:code, :name, :region, :network_type, :manager]},
+    :country => {:file => 'TR01_COUNTRY.csv', :fields => [:code, :name, :region, :network_type, nil]},
     # fields: ID	TYPE	TYPE_PROPERTY
     :organization_type => {:file => 'TR02_ORGANIZATION_TYPE.csv', :fields => [nil, :name, :type_property]},
     #fields: SECTOR_NAME	SECTOR_ID	ICB_NUMBER	SUPER_SECTOR
@@ -139,7 +139,7 @@ class Importer
 
   # Imports the data from a single file
   def import(name, options)
-    puts "Importing #{name}.."
+    log "Importing #{name}.."
     raise "Unable to find '#{name}' in importer options." unless options
     file = File.join(@data_folder, options[:file])
     model = name.to_s.camelize.constantize
@@ -202,7 +202,7 @@ class Importer
           begin
             o.send("#{field}=", Time.mktime(year, month, day).to_date)
           rescue
-            puts "** [minor error] Could not set #{row[i]} as #{field}"
+            log "** [minor error] Could not set #{row[i]} as #{field}"
           end
         else
           value = row[i]
@@ -217,16 +217,16 @@ class Importer
       
       if perform_validation?(name)
         saved = o.save
-        puts "** [error] Could not save #{name}: #{row} - #{o.errors.full_messages.to_sentence}" unless saved
+        log "** [error] Could not save #{name}: #{row} - #{o.errors.full_messages.to_sentence}" unless saved
       else
         begin
           o.save(false)
         rescue
-          puts "** [error] Could not save #{name}: #{row}"
+          log "** [error] Could not save #{name}: #{row}"
         end
       end
     end
-    puts "-- [info] Imported #{model.count} records."
+    log "-- [info] Imported #{model.count} records."
     # call a post_* method for work required after importing a file
     send("post_#{name}") if self.respond_to?("post_#{name}")
   end
@@ -244,6 +244,7 @@ class Importer
   private
     def setup(options)
       @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
+      @silent = options[:silent] || false
       if options[:files]
         @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
       else
@@ -273,8 +274,11 @@ class Importer
     
     def no_observers
       # We don't want observers to be called on import
-      Organization.delete_observers
-      LogoComment.delete_observers
+      unless RAILS_ENV == 'test'
+        # if we delete observers when running test, other tests fail
+        Organization.delete_observers
+        LogoComment.delete_observers
+      end
     end
     
     # runs after the organization import, pledge amount only exists
@@ -289,5 +293,9 @@ class Importer
           o.try(:update_attribute, :pledge_amount, pledge.to_i)
         end
       end
+    end
+    
+    def log(string)
+      puts(string) unless @silent
     end
 end

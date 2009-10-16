@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OrganizationsControllerTest < ActionController::TestCase
   def setup
-    create_organization_user
+    create_organization_and_user
   end
   
   test "should get index" do

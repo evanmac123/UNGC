@@ -3,7 +3,7 @@ require 'test_helper'
 class CaseStoriesControllerTest < ActionController::TestCase
   context "given an organization" do
     setup do
-      create_organization_user
+      create_organization_and_user
       login_as @organization_user
     end
     

@@ -2,8 +2,8 @@ require 'test_helper'
 
 class OrganizationMailerTest < ActionMailer::TestCase
   def setup
-    create_organization_user
-    create_ungc_organization
+    create_organization_and_user
+    create_ungc_organization_and_user
     @organization.comments.create(:contact_id => @staff_user.id,
                                   :body       => 'Lorem ipsum',
                                   )

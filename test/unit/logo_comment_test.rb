@@ -26,9 +26,9 @@ class LogoCommentTest < ActiveSupport::TestCase
                                              :contact_id  => @staff_user.id,
                                              :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                              :state_event => LogoRequest::EVENT_REVISE)
+          assert @logo_request.reload.in_review?
         end
       end
-      assert @logo_request.reload.in_review?
     end
   end
   
