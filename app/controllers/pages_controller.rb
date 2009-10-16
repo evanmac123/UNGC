@@ -2,6 +2,7 @@ class PagesController < ApplicationController
   helper :all # include all helpers, all the time
   before_filter :soft_require_staff_user, :only => :decorate
   before_filter :find_content, :except => [:redirect_local_network]
+  before_filter :page_is_editable, :only => :view
   # layout :determine_layout
   
   def view

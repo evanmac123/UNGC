@@ -41,6 +41,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :staff_user?
 
+  def editable_content?
+    @is_editable_content
+  end
+  helper_method :editable_content?
+
   protected
     def simple_http_auth
       if RAILS_ENV == 'production'
@@ -70,5 +75,9 @@ class ApplicationController < ActionController::Base
       else
         default_navigation
       end
+    end
+
+    def page_is_editable
+      @is_editable_content = true
     end
 end
