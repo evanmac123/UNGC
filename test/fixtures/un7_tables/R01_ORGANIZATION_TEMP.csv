@@ -1,0 +1,9 @@
+"ID","ORG_NAME","TR02_TYPE","TR02_TYPE_OTHER","SECTOR_ID","SECTOR_OTHER","ORG_NB_EMPLOY","ORG_STATUS","ORG_URL","ORG_DATE_CREATE","ORG_DATE_APPROVE","ORG_DATE_ACCEPT","ORG_DATE_REJECT","R10_CONTACT_ID","ORG_ISGLOBAL500","ORG_ISMULTINATIONAL","TR01_COUNTRY_ID","ORG_LISTED_STATUS","ORG_LIST_CODE","ORG_LIST_EXCHANGE_CODE","UPLOAD","PLEDGE_AMOUNT","R01_ORG_ID"
+1,"Test Company","Company","",6,"",123,0,"http://testcorp.com",2008-06-03 10:40:01,2008-06-03 10:41:40,,2008-06-16 11:42:42,87796823,True,True,"BE",2,"TEST","AMEX","pdf",,
+2,"Example Enterprise","Company","",34,"",123,0,"http://example.com",2008-06-03 14:17:04,,,2008-06-10 17:32:56,87796823,True,False,"NO",2,"EXAM","LUX","pdf",,
+3,"World Matters Group Ltd.","SME"," ",21," ",18,3,"",2008-06-03 15:51:00,2008-06-03 15:56:27,2008-06-03 15:58:15,1900-01-01 00:00:00,55866823,False,False,"CN",0," ","","pdf",,
+4,"Tiny Transnational","Micro Entreprise","",50,"",9,0,"http://tiny.com",2008-06-04 10:33:08,,,2008-06-12 17:46:05,87796823,False,False,"AU",1,"","","pdf",,
+5,"Mini Mart","Micro Entreprise","",7,"",9,0,"http://minimart",2008-06-04 14:11:53,,,2008-06-09 14:47:17,87796823,False,False,"AT",1,"","","pdf",,
+9,"Nireus Aquaculture S.A.","Company","",14,"",911,3,"http://www.nireous.gr",2008-06-06 18:07:39,,2008-06-09 11:45:52,,55866823,False,False,"GR",1,"","","pdf",,
+10,"Translogistic S.R.L.","SME","",31,"",35,3,"http://www.tlogistic.com",2008-06-09 11:14:15,,2008-06-09 11:46:09,,55866823,False,False,"MD",1,"","","pdf",,
+11,"Piscines Ideales S.A.","SME","",9,"",180,3,"http://www.piscinesideales.gr",2008-06-09 11:22:52,,2008-06-09 11:46:26,,55866823,False,False,"GR",1,"","","pdf",,
