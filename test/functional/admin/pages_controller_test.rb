@@ -55,7 +55,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
     
     context "successful update via XHR" do
       setup do
-        xhr :put, :update, { :id => @page.id, :page => { :content => "<p>I am new.</p>" } }
+        xhr :put, :update, { :id => @page.id, :content => { :content => "<p>I am new.</p>" } }
       end
 
       should "find content by id" do
@@ -74,6 +74,22 @@ class Admin::PagesControllerTest < ActionController::TestCase
         assert_equal expected, json
       end
     end
+
+    context "when updating and the version being edited is dynamic" do
+      setup do
+        @dynamic = create_approved_page :dynamic_content => true, :path => 'path/to/dynamic_page.html', :content => "<p>This is my page.</p>"
+        xhr :put, :update, { :id => @dynamic.id, :content => { :content => "<p>I am new.</p>" } }
+      end
+
+      should "create a new dynamic version" do
+        new_version = assigns(:version)
+        assert_equal @dynamic.path, new_version.path, "still same path"
+        assert new_version.dynamic_content, "new version is also dynamic"
+        assert_equal '<p>I am new.</p>', new_version.content, "new version has new content"
+        assert !new_version.approved?, "but it isn't approved yet"
+      end
+    end
+    
     
   end
 end
