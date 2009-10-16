@@ -85,7 +85,7 @@ class PagesControllerTest < ActionController::TestCase
 
       context "when logged-in but not staff" do
         setup do
-          @user = create_organization_user
+          @user = create_organization_and_user
           get :decorate, {:path => @page.to_path}, {:user_id => @user.id}
         end
 

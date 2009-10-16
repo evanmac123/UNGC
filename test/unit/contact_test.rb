@@ -7,7 +7,7 @@ class ContactTest < ActiveSupport::TestCase
   
   context "given a ungc user" do
     setup do
-      create_ungc_organization
+      create_ungc_organization_and_user
     end
     
     should "return proper type" do
@@ -18,7 +18,7 @@ class ContactTest < ActiveSupport::TestCase
   
   context "given an organization user" do
     setup do
-      create_organization_user
+      create_organization_and_user
     end
     
     should "return proper type" do
