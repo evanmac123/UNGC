@@ -370,3 +370,5 @@ td.center {
 .clearfix { zoom: 1; clear: left; }
 /* Clear for NS/FF/Moz */
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
+.clearme { clear: both; }
+

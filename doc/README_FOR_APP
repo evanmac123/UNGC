@@ -44,6 +44,14 @@ To import CMS content, run these two scripts from a command prompt:
 > ./script/import
 > ./script/replace
 
+Additional scripts -- these can only be run after Contacts have been successfully imported:
+> ./script/roler 
+# builds many-to-many relationship between Contacts and Roles
+> ./script/network_manager
+# Replaces Country#manager (string, "Nessa Whelan") with an integer manager_id
+
+All-in-one command:
+> rake db:drop db:create && rake db:migrate && ./script/runner "Importer.new.run" && ./script/import && ./script/roler && ./script/network_manager && ./script/replace
 
 Application setup
 =================

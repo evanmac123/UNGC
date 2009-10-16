@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   helper :all # include all helpers, all the time
   before_filter :soft_require_staff_user, :only => :decorate
-  before_filter :find_content
+  before_filter :find_content, :except => [:redirect_local_network]
   # layout :determine_layout
   
   def view
@@ -12,6 +12,14 @@ class PagesController < ApplicationController
     json_to_render = {'editor' => render_to_string(:partial => 'editor')}
     json_to_render['content'] = render_to_string(:template => template, :layout => false) if params[:version]
     render :json => json_to_render
+  end
+
+  def redirect_local_network
+    if params[:id]
+      redirect_to "/NetworksAroundTheWorld/local_network_sheet/#{params[:id]}.html"
+    else
+      redirect_to root_path
+    end
   end
 
   private
@@ -27,9 +35,17 @@ class PagesController < ApplicationController
   def find_content
     if @page = Page.approved_for_path(look_for_path)
       @current_version = @page.find_version_number(params[:version]) if params[:version]
-      @current_version ||= @page.active_version
+      @current_version ||= active_version_of(@page)
     end
     render :text => 'Not Found', :status => 404 unless @page and @current_version
+  end
+  
+  def active_version_of(page)
+    if page.approved?
+      page
+    else
+      page.active_version 
+    end
   end
   
   def soft_require_staff_user

@@ -1,6 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
   map.root :controller => 'pages', :action => 'view', :path => ['index.html']
 
+  map.redirect_local_network '/NetworksAroundTheWorld/display.html',
+    :controller => 'pages',
+    :action => 'redirect_local_network'
+
   map.resources :organizations, :member     => { :approve => :post, :reject => :post },
                                 :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
                                 :has_many   => [:contacts, :comments] do |organization|
@@ -14,7 +18,7 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'participants', 
     :action => 'show', 
     :requirements => { :id => /.*/ }
-  map.participant 'participants/:id', 
+  map.participant 'participant/:id', 
     :controller => 'participants', 
     :action => 'show', 
     :requirements => { :id => /.*/ }
@@ -23,7 +27,7 @@ ActionController::Routing::Routes.draw do |map|
     :controller => 'cops', 
     :action => 'show', 
     :requirements => { :organization => /.*/, :cop => /.*/ }
-  map.cop_detail 'COPs/:organization/:cop', 
+  map.cop_detail 'COPs/detail/:organization/:cop', 
     :controller => 'cops', 
     :action => 'show', 
     :requirements => { :organization => /.*/, :cop => /.*/ }

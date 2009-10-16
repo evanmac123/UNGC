@@ -60,7 +60,7 @@ class Page < ActiveRecord::Base
   
   def self.find_navigation_for(path)
     return nil if path.blank?
-    possible = for_navigation.find_by_path(path, :include => :children) #, :include => :children
+    possible = approved.for_navigation.find_by_path(path, :include => :children) #, :include => :children
     possible = find_parent_directory(path) unless possible # it couldn't be found, but maybe it's inside a "directory"
     possible
   end
@@ -71,7 +71,7 @@ class Page < ActiveRecord::Base
     times_to_try = array.size - 1 # not the first empty element
     times_to_try.times do
       array.pop
-      possible = for_navigation.find_by_path(array.join('/') + '/index.html', :include => :children) # 
+      possible = approved.for_navigation.find_by_path(array.join('/') + '/index.html', :include => :children) # 
       return possible if possible
     end
     nil
@@ -116,7 +116,15 @@ class Page < ActiveRecord::Base
   end
   
   def new_version(options)
-    default_options = {:path => path, :title => title, :slug => slug, :parent_id => parent_id, :display_in_navigation => display_in_navigation} 
+    default_options = {
+      :path                  => path, 
+      :title                 => title, 
+      :slug                  => slug, 
+      :group_id              => group_id, 
+      :parent_id             => parent_id, 
+      :position              => position, 
+      :display_in_navigation => display_in_navigation
+    } 
     self.class.create default_options.merge(options) # TODO: Make this work: .merge({:version_number => (version_number || 1) + 1})
   end
   

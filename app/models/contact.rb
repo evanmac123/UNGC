@@ -43,18 +43,34 @@ class Contact < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
   validates_uniqueness_of :login, :allow_nil => true
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
-  belongs_to :organization
   belongs_to :country
+  belongs_to :organization
+  has_and_belongs_to_many :roles, :join_table => "contacts_roles"
 
   default_scope :order => 'contacts.first_name'
   
   named_scope :contact_points, :conditions => {:contact_point => true}
   named_scope :ceos, :conditions => {:ceo => true}
+  named_scope :network_contacts, lambda {
+    roles = Role.network_contact
+    {
+      :joins => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", roles],
+      :order => "roles.name DESC"
+    }
+  }
+  named_scope :for_country, lambda { |country|
+    {:conditions => {:country_id => country.id} }
+  }
 
   before_destroy :keep_at_least_one_contact
 
   def name
     [first_name, last_name].join(' ')
+  end
+  
+  def full_name_with_title
+    [prefix, name].join(' ')
   end
   
   def name_with_title

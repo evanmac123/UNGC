@@ -41,7 +41,7 @@ class Organization < ActiveRecord::Base
   validates_presence_of :name
   has_many :signings
   has_many :initiatives, :through => :signings
-  has_many :contacts
+  has_many :contacts 
   has_many :logo_requests
   has_many :case_stories
   has_many :communication_on_progresses
@@ -91,6 +91,8 @@ class Organization < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
 
+  named_scope :local_network, :conditions => ["local_network = ?", true]
+
   named_scope :active,
     { :conditions => ["organizations.active = ?", true] }
 
@@ -117,10 +119,17 @@ class Organization < ActiveRecord::Base
     }
   }
   
+  named_scope :last_joined, {
+    :order => "joined_on DESC, name DESC"
+  }
+  
   named_scope :with_cop_status, lambda { |filter_type|
-    {
-      :conditions => ["cop_status = ?", COP_STATUSES[filter_type]]
-    }
+    if filter_type.is_a?(Array)
+      statuses = filter_type.map { |t| COP_STATUSES[t] }
+      {:conditions => ["cop_status IN (?)", statuses]}
+    else
+      {:conditions => ["cop_status = ?", COP_STATUSES[filter_type]]}
+    end
   }
 
   named_scope :visible_to, lambda { |user|
@@ -143,6 +152,11 @@ class Organization < ActiveRecord::Base
     return nil if param.blank?
     param = CGI.unescape param
     find :first, :conditions => ["name = ?", param]
+  end
+  
+  def self.visible_in_local_network
+    statuses = [:noncommunicating, :active]
+    participants.active.with_cop_status(statuses)
   end
 
   def country_name
