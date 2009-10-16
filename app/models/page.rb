@@ -116,7 +116,7 @@ class Page < ActiveRecord::Base
   end
   
   def new_version(options={})
-    active = active_version
+    active = active_version || self
     default_options = {
       :path                  => active.path, 
       :title                 => active.title, 
