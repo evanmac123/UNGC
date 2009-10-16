@@ -1,5 +1,5 @@
 class ParticipantsController < ApplicationController
-  helper :navigation, :pages
+  helper :cops, :navigation, :pages
   before_filter :determine_navigation
   before_filter :find_participant
   
