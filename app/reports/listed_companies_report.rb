@@ -1,4 +1,8 @@
-class ListedCompaniesFormatter < SimpleFormatter
+class ListedCompaniesReport < SimpleReport
+  def records
+    Organization.listed.all(:include => [:country, :exchange])
+  end
+  
   def headers
     ['Participant ID','Company Name','Country','Ticker Symbol',
       'Exchange Code','Reuters Code','ISO 10383 Code']

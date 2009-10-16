@@ -22,10 +22,22 @@ class ReportsControllerTest < ActionController::TestCase
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
 
+    should "get the listed companies report" do
+      get :listed_companies
+      assert_response :success
+      assert_template 'listed_companies.html.haml'
+    end
+
     should "get the listed companies report as csv" do
       get :listed_companies, :format => 'csv'
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    end
+
+    should "get the companies without contacts report" do
+      get :companies_without_contacts
+      assert_response :success
+      assert_template 'companies_without_contacts.html.haml'
     end
 
     should "get the companies without contacts report as csv" do

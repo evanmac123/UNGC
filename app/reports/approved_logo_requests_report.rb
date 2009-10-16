@@ -1,4 +1,8 @@
-class LogoRequestFormatter < SimpleFormatter
+class ApprovedLogoRequestsReport < SimpleReport
+  def records
+    LogoRequest.approved.submitted_in(@options[:month].to_i, @options[:year].to_i)
+  end
+  
   def headers
     ['Company', 'Sector', 'Country', 'Publication Type', 'Reviewer',
       'Approval Date', 'Days to process']

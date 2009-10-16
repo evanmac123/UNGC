@@ -5,20 +5,18 @@ class ReportsController < ApplicationController
     @month = params[:month] || Date.today.month
     @year = params[:year] || Date.today.year
     
-    @records = LogoRequest.approved.submitted_in(@month.to_i, @year.to_i)
-    @formatter = LogoRequestFormatter.new
+    @report = ApprovedLogoRequestsReport.new(:month => @month,
+                                             :year  => @year)
     render_formatter(filename: "approved_logo_requests_#{date_as_filename}.csv")
   end
   
   def listed_companies
-    @records = Organization.listed.all(:include => [:country, :exchange])
-    @formatter = ListedCompaniesFormatter.new
+    @report = ListedCompaniesReport.new
     render_formatter(filename: "listed_companies_#{date_as_filename}.csv")
   end
   
   def companies_without_contacts
-    @records = Organization.without_contacts
-    @formatter = SimpleOrganizationFormatter.new
+    @report = SimpleOrganizationReport.new
     render_formatter(filename: "companies_without_contract_#{date_as_filename}.csv")
   end
   
@@ -26,8 +24,8 @@ class ReportsController < ApplicationController
     def render_formatter(options={})
       respond_to do |format|
         format.html
-        format.csv  { send_data @formatter.render_csv(@records), :type     => 'application/ms-excel',
-                                                                 :filename => options[:filename] }
+        format.csv  { send_data @report.render_csv, :type     => 'application/ms-excel',
+                                                    :filename => options[:filename] }
       end
     end
 

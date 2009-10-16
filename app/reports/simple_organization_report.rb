@@ -1,4 +1,8 @@
-class SimpleOrganizationFormatter < SimpleFormatter
+class SimpleOrganizationReport < SimpleReport
+  def records
+    Organization.without_contacts
+  end
+  
   def headers
     ['participant_name', 'type']
   end
