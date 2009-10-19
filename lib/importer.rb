@@ -4,7 +4,8 @@ class Importer
   
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
             :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
-            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story, :initiative, :signing]
+            :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story, :initiative, :signing,
+            :bulletin_subscriber]
   CONFIG = {
     #fields: ID	NAME
     :initiative => {
@@ -129,6 +130,10 @@ class Importer
                                 :reviewer1_institution, :reviewer1_email, :reviewer2, :reviewer2_institution,
                                 :reviewer2_email, :uploaded, :contact1, :contact1_email, :contact2,
                                 :contact2_email, :status, :extension]}
+                                
+    #fields: "ID","FIRST_NAME","LAST_NAME","ORG_NAME","EMAIL"
+    :bulletin_subscriber => {:file  => 'TR20_GCB_SUBSCRIBERS.csv',
+                             :fields => [nil, :first_name, :last_name, :organization_name, :email]}
   }
   
   # Imports all the data in files located in options[:folder]
