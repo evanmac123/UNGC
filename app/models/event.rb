@@ -2,18 +2,21 @@
 #
 # Table name: events
 #
-#  id            :integer(4)      not null, primary key
-#  title         :string(255)
-#  description   :text
-#  starts_on     :date
-#  ends_on       :date
-#  location      :text
-#  country_id    :integer(4)
-#  urls          :text
-#  created_by_id :integer(4)
-#  updated_by_id :integer(4)
-#  created_at    :datetime
-#  updated_at    :datetime
+#  id             :integer(4)      not null, primary key
+#  title          :string(255)
+#  description    :text
+#  starts_on      :date
+#  ends_on        :date
+#  location       :text
+#  country_id     :integer(4)
+#  urls           :text
+#  created_by_id  :integer(4)
+#  updated_by_id  :integer(4)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  approved       :boolean(1)
+#  approved_at    :datetime
+#  approved_by_id :integer(4)
 #
 
 class Event < ActiveRecord::Base
@@ -27,6 +30,21 @@ class Event < ActiveRecord::Base
   
   def self.find_by_permalink(permalink)
     find_by_id permalink.to_i
+  end
+  
+  def self.events_for(month=nil, year=nil)
+    today = Date.today
+    logger.info " ** Looking for #{year || today.year}, #{month || today.month}"
+    start = Time.mktime( year || today.year, month || today.month, 1)
+    finish = (start.to_date >> 1).to_time
+    find :all, 
+      :conditions => [
+        "starts_on BETWEEN :start AND :finish",
+        {
+          :start  => start,
+          :finish => finish
+        }
+      ]
   end
   
   def to_param

@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   before_filter :mailer_set_url_options
 
-  helper 'datetime'
+  helper 'datetime', 'navigation'
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log

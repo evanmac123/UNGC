@@ -7,9 +7,9 @@
 #  name         :string(255)
 #  region       :string(255)
 #  network_type :integer(4)
-#  manager      :string(255)
 #  created_at   :datetime
 #  updated_at   :datetime
+#  manager_id   :integer(4)
 #
 
 class Country < ActiveRecord::Base

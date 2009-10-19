@@ -27,9 +27,20 @@ results.each_pair do |path,page|
   end
 end
 
+
+content_for_archive = <<-EOF
+<h1><%= current_month %></h1>
+
+<% for event in this_months_events do %>
+  <h3><%= link_to event.title, event_url(event) %></h3>
+  <div><%= event.starts_on %> - <%= event.ends_on %></div>
+  <%= event.description %>
+<% end %>
+EOF
+
 puts "Installing new dynamic event calendar"
 old = Page.find_by_path '/NewsAndEvents/2009_events.html'
-clone = old.new_version :path => '/NewsAndEvents/Upcoming_Events.html', :content => "<p>Replace me</p>"
+clone = old.new_version :path => '/NewsAndEvents/Upcoming_Events.html', :content => content_for_archive, :dynamic_content => true
 clone.approve!
 old.update_attributes :display_in_navigation => false
 puts "  done!\n"
