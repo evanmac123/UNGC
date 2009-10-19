@@ -32,6 +32,21 @@ class Event < ActiveRecord::Base
     find_by_id permalink.to_i
   end
   
+  def self.events_for(month=nil, year=nil)
+    today = Date.today
+    logger.info " ** Looking for #{year || today.year}, #{month || today.month}"
+    start = Time.mktime( year || today.year, month || today.month, 1)
+    finish = (start.to_date >> 1).to_time
+    find :all, 
+      :conditions => [
+        "starts_on BETWEEN :start AND :finish",
+        {
+          :start  => start,
+          :finish => finish
+        }
+      ]
+  end
+  
   def to_param
     if !title.blank?
       escaped = CGI.escape(title.downcase)
