@@ -20,6 +20,11 @@ SLUGS = {
   'UN/Business Partnerships' => 'un_business'
 }
 
+MOVED_PAGES = {
+  '/NewsAndEvents/upcoming_events.html' => '/NewsAndEvents/2008_events.html',
+  '/NewsAndEvents/upcoming_events_2009.html' => '/NewsAndEvents/2009_events.html'
+}
+
 # Points to the unglobalcompact directory of the CMS export
 root = "#{RAILS_ROOT}/vendor/open_cms_export/unglobalcompact/"
 
