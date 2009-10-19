@@ -1,0 +1,2 @@
+module BulletinSubscribersHelper
+end
