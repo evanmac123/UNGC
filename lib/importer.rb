@@ -129,7 +129,7 @@ class Importer
                                 :author1_email, :author2, :author2_institution, :author2_email, :reviewer1,
                                 :reviewer1_institution, :reviewer1_email, :reviewer2, :reviewer2_institution,
                                 :reviewer2_email, :uploaded, :contact1, :contact1_email, :contact2,
-                                :contact2_email, :status, :extension]}
+                                :contact2_email, :status, :extension]},
                                 
     #fields: "ID","FIRST_NAME","LAST_NAME","ORG_NAME","EMAIL"
     :bulletin_subscriber => {:file  => 'TR20_GCB_SUBSCRIBERS.csv',
