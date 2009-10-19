@@ -135,6 +135,7 @@ class Importer
   def run(options={})
     setup(options)
     @files.each{|entry| import(entry, CONFIG[entry])}
+    HabtmImporter.new.run(options) if @run_habtm
   end
 
   # Imports the data from a single file
@@ -250,6 +251,8 @@ class Importer
       else
         @files = FILES
       end
+      # run_habtm default is true if user wants to run the importer for all files
+      @run_habtm = options[:run_habtm] || (@files == FILES)
       no_observers
     end
 
