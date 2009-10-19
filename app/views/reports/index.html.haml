@@ -1,6 +1,7 @@
 %h3 Report
 
 %ul
-  %li= link_to 'Approved Logo Requests', report_path(:action => 'approved_logo_requests')
-  %li= link_to 'Listed Companies', report_path(:action => 'listed_companies')
-  %li= link_to 'Companies without contacts', report_path(:action => 'companies_without_contacts')
+  %li= link_to_report 'Approved Logo Requests', :approved_logo_requests
+  %li= link_to_report 'Listed Companies', :listed_companies
+  %li= link_to_report 'Companies without contacts', :companies_without_contacts
+  %li= link_to_report 'Bulletin Subscribers', :bulletin_subscribers

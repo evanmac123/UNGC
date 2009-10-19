@@ -14,6 +14,11 @@ class ReportsController < ApplicationController
     @report = ListedCompaniesReport.new
     render_formatter(filename: "listed_companies_#{date_as_filename}.csv")
   end
+
+  def bulletin_subscribers
+    @report = BulletinSubscribersReport.new
+    render_formatter(filename: "bulletin_subscribers_#{date_as_filename}.csv")
+  end
   
   def companies_without_contacts
     @report = SimpleOrganizationReport.new
