@@ -2,18 +2,21 @@
 #
 # Table name: events
 #
-#  id            :integer(4)      not null, primary key
-#  title         :string(255)
-#  description   :text
-#  starts_on     :date
-#  ends_on       :date
-#  location      :text
-#  country_id    :integer(4)
-#  urls          :text
-#  created_by_id :integer(4)
-#  updated_by_id :integer(4)
-#  created_at    :datetime
-#  updated_at    :datetime
+#  id             :integer(4)      not null, primary key
+#  title          :string(255)
+#  description    :text
+#  starts_on      :date
+#  ends_on        :date
+#  location       :text
+#  country_id     :integer(4)
+#  urls           :text
+#  created_by_id  :integer(4)
+#  updated_by_id  :integer(4)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  approved       :boolean(1)
+#  approved_at    :datetime
+#  approved_by_id :integer(4)
 #
 
 class Event < ActiveRecord::Base
