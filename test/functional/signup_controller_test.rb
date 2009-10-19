@@ -18,7 +18,7 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "get the second step page after posting organization details" do
-      post :step2, :organization => {:name => 'ACME inc', :employees => 100}
+      post :step2, :organization => {:name => 'ACME inc', :employees => 500}
       assert_response :success
       assert_template 'step2'
     end
@@ -40,7 +40,7 @@ class SignupControllerTest < ActionController::TestCase
     should "get the fifth step page after submitting letter of commitment" do
       session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
                                                        :organization_type_id => OrganizationType.first.id,
-                                                       :employees            => 50)
+                                                       :employees            => 500)
       assert_difference 'Organization.count' do
         post :step5, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
       end

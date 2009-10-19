@@ -48,4 +48,8 @@ class OrganizationType < ActiveRecord::Base
   def self.micro_enterprise
     first :conditions => {:name => 'Micro Entreprise'}
   end
+  
+  def self.sme
+    first :conditions => {:name => 'SME'}
+  end
 end

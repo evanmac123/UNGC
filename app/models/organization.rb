@@ -54,7 +54,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
-  before_save :check_micro_enterprise
+  before_save :check_micro_enterprise_or_sme
   
   has_attached_file :commitment_letter
   
@@ -187,9 +187,13 @@ class Organization < ActiveRecord::Base
   def noncommed_on; cop_due_on; end
   
   private
-    def check_micro_enterprise
-      if self.business_entity? && self.employees < 10
-        self.organization_type_id = OrganizationType.micro_enterprise.id
+    def check_micro_enterprise_or_sme
+      if self.business_entity?
+        if self.employees < 10
+          self.organization_type_id = OrganizationType.micro_enterprise.id
+        elsif self.employees < 250
+          self.organization_type_id = OrganizationType.sme.id
+        end
       end
     end
 end

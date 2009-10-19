@@ -20,7 +20,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     assert_difference('Organization.count') do
       post :create, :organization => { :name                 => 'Unspace Interactive',
                                        :organization_type_id => OrganizationType.first.id,
-                                       :employees            => 50}
+                                       :employees            => 500}
     end
 
     assert_redirected_to organization_path(assigns(:organization))
