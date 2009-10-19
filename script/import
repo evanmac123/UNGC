@@ -6,7 +6,12 @@ require 'hpricot'
 require 'pp'
 require 'facets'
 require 'import_helper'
-require 'ruby-debug' if Rails.env == 'development'
+begin
+  require 'ruby-debug' if Rails.env == 'development'
+rescue LoadError => e
+  puts "*** ERROR: Please run 'gem install ruby-debug19'"
+  raise "unable to load"
+end
 
 # Abbreviate long section names, so we can use them as CSS selectors
 SLUGS = {
@@ -18,6 +23,11 @@ SLUGS = {
   'Financial Markets' => 'financial',
   'Partnerships for Development' => 'partnerships',
   'UN/Business Partnerships' => 'un_business'
+}
+
+MOVED_PAGES = {
+  '/NewsAndEvents/upcoming_events.html' => '/NewsAndEvents/2008_events.html',
+  '/NewsAndEvents/upcoming_events_2009.html' => '/NewsAndEvents/2009_events.html'
 }
 
 # Points to the unglobalcompact directory of the CMS export

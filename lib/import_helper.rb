@@ -59,9 +59,15 @@ def subnav_from_left(doc)
   subnav
 end
 
+def possibly_move(path)
+  return path unless MOVED_PAGES[path]
+  puts " *** I got a match for '#{path}'"
+  MOVED_PAGES[path]
+end
+
 def create_subnav(doc)
   subnav_from_left(doc).inject(0) do |counter, sub|
-    page = Page.find_by_path(sub[:path]) || Page.new(:path => sub[:path])
+    page = Page.find_by_path(possibly_move(sub[:path])) || Page.new(possibly_move(:path => sub[:path]))
     page.title = sub[:title] if page.title.blank?
     page.parent_id = sub[:parent_id] if page.parent_id.blank?
     page.display_in_navigation = true
@@ -112,7 +118,7 @@ def href_and_label(link)
   href << 'index.html' unless href =~ /\.html$/
   {
     :title => link.inner_text.strip,
-    :path => href,
+    :path => possibly_move(href),
   }
 end
 
@@ -199,7 +205,7 @@ def read_and_write_content(root, filename)
   path = "/#{filename - root}".gsub('//', '/')
   # puts " looking for #{path.inspect}"
   content = read_content(root, filename)
-  page = Page.find_by_path(path) || Page.new(:path => path)
+  page = Page.find_by_path(possibly_move(path)) || Page.new(:path => possibly_move(path))
   # puts " found #{page.new_record?.inspect}: #{page.inspect}"
   result = page.update_attribute(:content, content)
   approve_first_version(page)
