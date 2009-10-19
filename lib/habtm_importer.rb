@@ -7,17 +7,17 @@ class HabtmImporter
   
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
-    :case_stories_countries => {:file   => 'R10_XREF_R07_TR01.txt',
+    :case_stories_countries => {:file   => 'R10_XREF_R07_TR01.csv',
                                 :models => [Country, CaseStory]},
-    :case_stories_principles => {:file   => 'R09_XREF_R07_TR05.txt',
+    :case_stories_principles => {:file   => 'R09_XREF_R07_TR05.csv',
                                  :models => [CaseStory, Principle]},
-    :communication_on_progresses_languages => {:file   => 'R13_XREF_R02_TR10.txt',
+    :communication_on_progresses_languages => {:file   => 'R13_XREF_R02_TR10.csv',
                                                :models => [Language, CommunicationOnProgress]},
-    :communication_on_progresses_countries => {:file   => 'R14_XREF_R02_TR01.txt',
+    :communication_on_progresses_countries => {:file   => 'R14_XREF_R02_TR01.csv',
                                                :models => [Country, CommunicationOnProgress]},
-    :communication_on_progresses_principles => {:file   => 'R15_XREF_R02_TR05.txt',
+    :communication_on_progresses_principles => {:file   => 'R15_XREF_R02_TR05.csv',
                                                 :models => [CommunicationOnProgress, Principle]},
-    :logo_files_logo_requests => {:file   => 'TR19_LOGO_APPROVALS.txt',
+    :logo_files_logo_requests => {:file   => 'TR19_LOGO_APPROVALS.csv',
                                   :models => [LogoRequest, LogoFile],
                                   :index  => [1,2]}
   }
@@ -30,13 +30,12 @@ class HabtmImporter
 
   # Imports the data from a single file
   def import(name, options)
-    puts "Importing #{name}.."
+    log "Importing #{name}.."
     file = File.join(@data_folder, options[:file])
     # by default we use the first two fields from the feed
     index = options[:index] || [0, 1]
     # read the file
-    CSV.foreach(file, :col_sep => "\t",
-                            :headers => :first_row) do |row|
+    CSV.foreach(file, :headers => :first_row) do |row|
       # create an object of the correct type and save
       o = find_model_object(options[:models].first, row[index.first])
       if o
@@ -45,10 +44,10 @@ class HabtmImporter
         if m
           o.send(options[:models].last.class_name.tableize) << m
         else
-          puts "** Could not find #{options[:models].second}: #{row[1]}"
+          log "** [error] Could not find #{options[:models].second}: #{row[1]}"
         end
       else
-        puts "** Could not find #{options[:models].first}: #{row[0]}"
+        log "** [error] Could not find #{options[:models].first}: #{row[0]}"
       end
     end
   end
@@ -66,6 +65,7 @@ class HabtmImporter
   private
     def setup(options)
       @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
+      @silent = options[:silent] || false
       if options[:files]
         @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
       else
@@ -81,5 +81,9 @@ class HabtmImporter
       else
         model.find_by_old_id(id)
       end
+    end
+    
+    def log(string)
+      puts(string) unless @silent
     end
 end
