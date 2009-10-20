@@ -25,6 +25,7 @@ class OrganizationTest < ActiveSupport::TestCase
                                           :employees            => 2,
                                           :organization_type_id => @companies.id)
       assert_equal @micro_enterprise.id, @organization.organization_type_id
+      assert @organization.micro_enterprise?
     end
     
     should "set the organization type to SME when it has between 10 and 250 employees" do
@@ -41,6 +42,7 @@ class OrganizationTest < ActiveSupport::TestCase
       @public    = create_organization_type(:name => 'Public Sector Organization')
       @companies = create_organization_type(:name => 'Company')
       @sme       = create_organization_type(:name => 'SME')
+      @micro     = create_organization_type(:name => 'Micro Entreprise')
       @climate   = create_initiative(:id => 2, :name => 'Climate Change')
 
       @an_org    = create_organization

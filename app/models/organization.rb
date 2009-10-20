@@ -170,6 +170,10 @@ class Organization < ActiveRecord::Base
   def public_company?
     listing_status.try(:name) == 'Public Company'
   end
+
+  def micro_enterprise?
+    organization_type_id == OrganizationType.micro_enterprise.try(:id)
+  end
   
   def country_name
     country.try(:name)
