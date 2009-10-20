@@ -11,12 +11,6 @@ class SignupControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    should "get the sorry template if has less than 10 employees" do
-      post :step2, :organization => {:name => 'ACME inc', :employees => 2}
-      assert_response :success
-      assert_template 'sorry'
-    end
-
     should "get the second step page after posting organization details" do
       post :step2, :organization => {:name => 'ACME inc', :employees => 500}
       assert_response :success
