@@ -1,5 +1,10 @@
 %h2 Network Reports
-  
+
+- form_for report_path(:action => :networks), :html => {:method => :get} do |f|
+  = select_tag :region, options_for_select(@regions.collect{|r| [r.region, r.region]}, @region)
+  = select_tag :country, options_for_select(@countries.collect{|c| [c.name, c.name]}, @country)
+  = f.submit 'View'
+
 = link_to 'download', url_for(params.merge(:format => 'csv'))
 
 %div= @report.render_html

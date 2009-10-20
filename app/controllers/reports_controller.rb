@@ -26,7 +26,13 @@ class ReportsController < ApplicationController
   end
   
   def networks
-    @report = NetworksReport.new
+    @regions = Country.regions
+    @region = params[:region] || @regions.first.region
+    @countries = Country.where_region @region
+    @country = params[:country]
+    
+    @report = NetworksReport.new(:region  => @region,
+                                 :country => @country)
     render_formatter(filename: "networks_report_#{date_as_filename}.csv")
   end
   

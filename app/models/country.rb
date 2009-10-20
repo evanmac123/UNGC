@@ -21,6 +21,8 @@ class Country < ActiveRecord::Base
   
   default_scope :order => 'name'
   
+  named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
+  
   def self.regions
     Country.find(:all, :select     => 'DISTINCT region',
                        :conditions => 'region IS NOT NULL',
