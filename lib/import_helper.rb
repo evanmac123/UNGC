@@ -214,8 +214,8 @@ end
 def approve_first_version(content)
   # Must have an approved version to be visible
   versions = content.versions
-  if versions.any?
-    versions.first.approve!
+  if versions.any? && approve_me = versions.first
+    approve_me.approve! if approve_me.can_approve?
   else
     raise "Oooops... no version for Page #{content.inspect}"
   end

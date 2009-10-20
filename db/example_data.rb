@@ -88,7 +88,7 @@ module FixtureReplacement
     a.title    = String.random
     a.slug     = String.random
     a.display_in_navigation = true
-    a.approved = true
+    a.approval = 'approved'
   end
   
   attributes_for :page_group do |a|
