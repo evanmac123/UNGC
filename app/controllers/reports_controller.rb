@@ -25,6 +25,11 @@ class ReportsController < ApplicationController
     render_formatter(filename: "companies_without_contract_#{date_as_filename}.csv")
   end
   
+  def networks
+    @report = NetworksReport.new
+    render_formatter(filename: "networks_report_#{date_as_filename}.csv")
+  end
+  
   private
     def render_formatter(options={})
       respond_to do |format|

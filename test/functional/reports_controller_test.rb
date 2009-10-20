@@ -45,5 +45,17 @@ class ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
+    
+    should "get the networks report" do
+      get :networks
+      assert_response :success
+      assert_template 'networks.html.haml'
+    end
+
+    should "get the networks report as csv" do
+      get :networks, :format => 'csv'
+      assert_response :success
+      assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    end
   end
 end
