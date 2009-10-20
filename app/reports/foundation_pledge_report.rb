@@ -10,6 +10,6 @@ class FoundationPledgeReport < SimpleReport
 
   def row(record)
     ["Contact", 'email@example.com', record.name, record.country.name, record.invoice_id,
-      record.pledge_amount, record, created_at, record.days_since_invoiced]
+      record.pledge_amount, record.created_at, record.days_since_invoiced]
   end
 end
