@@ -52,7 +52,14 @@ class Page < ActiveRecord::Base
     }
   }
     
-  named_scope :approved, :conditions => {:approved => true}
+  named_scope :approved, :conditions => {:approval => 'approved'}
+  
+  state_machine :approval, :initial => 'pending' do
+    event(:approve) { transition :from => 'pending',  :to => 'approved'   }
+    event(:reject)  { transition :from => 'pending',  :to => 'rejected'   }
+    event(:revoke)  { transition :from => 'approved', :to => 'previously' }
+    before_transition(:to => 'approved') { |obj| obj.class.clear_approval(obj) }
+  end
   
   def self.for_path(path)
     find_by_path path, :include => :children
@@ -77,24 +84,21 @@ class Page < ActiveRecord::Base
     nil
   end
   
-  def self.approved_for_path(look_for)
-    approved.find_by_path look_for
+  def self.approved_for_path(path)
+    approved.find_by_path path
+  end
+  
+  def self.pending_version_for(path)
+    with_approval('pending').find_by_path path
   end
   
   def self.clear_approval(page_to_be_approved)
-    others = all_versions_of(page_to_be_approved.path)
-    if others.any?
-      others.each { |v| v.update_attribute(:approved, false) }
-    end
+    previously = approved_for_path page_to_be_approved.path
+    previously.revoke! if previously
   end
   
   def active_version
     versions.approved.first
-  end
-
-  def approve!
-    self.class.clear_approval(self)
-    update_attribute :approved, true    
   end
   
   def find_version_number(number)
@@ -137,6 +141,10 @@ class Page < ActiveRecord::Base
   
   def parent=(nav)
     self.parent_id = nav.id
+  end
+  
+  def pending_version
+    self.class.pending_version_for(path).first
   end
   
   def previous_version

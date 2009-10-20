@@ -8,7 +8,7 @@ class PageTest < ActiveSupport::TestCase
   
   context "given a page" do
     setup do
-      @page = create_page :content => "<p>This is my content.</p>", :approved => false
+      @page = create_page :content => "<p>This is my content.</p>", :approval => 'pending'
     end
 
     should "auto-create first version" do
@@ -18,7 +18,7 @@ class PageTest < ActiveSupport::TestCase
     
     context "with another version" do
       setup do
-        @version2 = @page.new_version :content => "<p>Middle version.</p>", :approved => true
+        @version2 = @page.new_version :content => "<p>Middle version.</p>", :approval => 'approved'
       end
 
       should "auto-increment version number" do
