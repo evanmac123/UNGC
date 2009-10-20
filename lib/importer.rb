@@ -247,6 +247,19 @@ class Importer
     run(options)
   end
   
+  # runs after the organization import, pledge amount only exists
+  # in the TEMP table/file
+  def post_organization
+    file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
+    CSV.foreach(file, :headers => :first_row) do |row|
+      pledge = row[21]
+      if pledge.to_i > 0
+        o = Organization.find_by_old_id(row[22].to_i)
+        o.try(:update_attribute, :pledge_amount, pledge.to_i)
+      end
+    end
+  end
+  
   private
     def setup(options)
       @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
@@ -286,20 +299,6 @@ class Importer
         # if we delete observers when running test, other tests fail
         Organization.delete_observers
         LogoComment.delete_observers
-      end
-    end
-    
-    # runs after the organization import, pledge amount only exists
-    # in the TEMP table/file
-    def post_organization
-      file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
-      CSV.foreach(file, :col_sep => "\t",
-                        :headers => :first_row) do |row|
-        pledge = row[21]
-        if pledge.to_i > 0
-          o = Organization.find_by_old_id(row[22].to_i)
-          o.try(:update_attribute, :pledge_amount, pledge.to_i)
-        end
       end
     end
     
