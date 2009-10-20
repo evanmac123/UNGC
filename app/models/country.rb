@@ -20,4 +20,10 @@ class Country < ActiveRecord::Base
   has_and_belongs_to_many :communication_on_progresses
   
   default_scope :order => 'name'
+  
+  def self.regions
+    Country.find(:all, :select     => 'DISTINCT region',
+                       :conditions => 'region IS NOT NULL',
+                       :order      => 'region')
+  end
 end
