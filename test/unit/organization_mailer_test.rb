@@ -31,7 +31,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
   end
   
   test "rejected mailer is sent" do
-    response = OrganizationMailer.deliver_rejected(@organization)
+    response = OrganizationMailer.deliver_reject_microenterprise(@organization)
     assert_equal "text/html", response.content_type
     assert_equal "Global Compact Participation Request Status", response.subject
     assert_equal "email@example.com", response.to.first

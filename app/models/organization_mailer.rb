@@ -23,7 +23,7 @@ class OrganizationMailer < ActionMailer::Base
     body :organization => organization
   end
 
-  def rejected(organization)
+  def reject_microenterprise(organization)
     from EMAIL_SENDER
     subject "Global Compact Participation Request Status"
     content_type "text/html"

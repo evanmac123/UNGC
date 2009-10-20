@@ -11,7 +11,6 @@ class CommentObserver < ActiveRecord::Observer
         case comment.commentable.state
           when Organization::STATE_IN_REVIEW then OrganizationMailer.deliver_in_review(comment.commentable)
           when Organization::STATE_APPROVED then OrganizationMailer.deliver_approved(comment.commentable)
-          when Organization::STATE_REJECTED then OrganizationMailer.deliver_rejected(comment.commentable)
         end
       end
     end
