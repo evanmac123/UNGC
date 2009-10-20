@@ -148,6 +148,12 @@ class Organization < ActiveRecord::Base
     { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
   
   named_scope :where_country_id, lambda {|id| { :conditions => {:country_id => id} }}
+  
+  named_scope :created_in, lambda { |month, year|
+    { :conditions => ['created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
+  }
+  
+  named_scope :with_pledge, :conditions => 'pledge_amount > 0'
 
   def self.find_by_param(param)
     return nil if param.blank?
@@ -190,6 +196,15 @@ class Organization < ActiveRecord::Base
   
   # NOTE: Convenient alias
   def noncommed_on; cop_due_on; end
+  
+  def invoice_id
+    "FGCD#{id}"
+  end
+  
+  # TODO: save date when invoice is sent
+  def days_since_invoiced
+    22
+  end
   
   private
     def check_micro_enterprise_or_sme

@@ -36,6 +36,15 @@ class ReportsController < ApplicationController
     render_formatter(filename: "networks_report_#{date_as_filename}.csv")
   end
   
+  def foundation_pledges
+    @month = params[:month] || Date.today.month
+    @year = params[:year] || Date.today.year
+    
+    @report = FoundationPledgeReport.new(:month => @month,
+                                         :year  => @year)
+    render_formatter(filename: "foundation_pledges_#{date_as_filename}.csv")
+  end
+  
   private
     def render_formatter(options={})
       respond_to do |format|

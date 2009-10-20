@@ -7,7 +7,7 @@ module FixtureReplacement
     c.title = String.random
 	end
 
-  attributes_for :communication_on_progress do |a|
+  attributes_for :communication_on_progress do |cop|
 	end
 
   attributes_for :contact do |c|
@@ -20,13 +20,12 @@ module FixtureReplacement
 	end
 
   attributes_for :cop_score do |a|
-    
-  end
-
-  attributes_for :cop_score do |a|
 	end
 
-  attributes_for :country do |a|
+  attributes_for :country do |c|
+    c.name = String.random
+    c.region = 'Americas'
+    c.code = String.random
 	end
 
   attributes_for :event do |a|

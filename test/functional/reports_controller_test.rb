@@ -47,13 +47,27 @@ class ReportsControllerTest < ActionController::TestCase
     end
     
     should "get the networks report" do
+      create_country
       get :networks
       assert_response :success
       assert_template 'networks.html.haml'
     end
 
     should "get the networks report as csv" do
+      create_country
       get :networks, :format => 'csv'
+      assert_response :success
+      assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    end
+
+    should "get the foundation pledges report" do
+      get :foundation_pledges
+      assert_response :success
+      assert_template 'foundation_pledges.html.haml'
+    end
+
+    should "get the foundation pledges report as csv" do
+      get :foundation_pledges, :format => 'csv'
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
