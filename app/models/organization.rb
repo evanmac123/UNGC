@@ -147,6 +147,7 @@ class Organization < ActiveRecord::Base
   named_scope :without_contacts,
     { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
   
+  named_scope :where_country_id, lambda {|id| { :conditions => {:country_id => id} }}
 
   def self.find_by_param(param)
     return nil if param.blank?
