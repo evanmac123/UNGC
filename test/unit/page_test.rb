@@ -59,6 +59,16 @@ class PageTest < ActiveSupport::TestCase
         should "find nil for version1.previous_version" do
           assert_equal nil, @version1.previous_version
         end
+
+        context "and the latest one is approved" do
+          setup do
+            assert @version3.approve!
+          end
+
+          should "revoke previous approval" do
+            assert @version2.reload.previously?
+          end
+        end
       end
     end
   end
@@ -112,6 +122,30 @@ class PageTest < ActiveSupport::TestCase
     end
   end
   
-  
-  
+  context "given a new page" do
+    setup do
+      # default_page starts as approved, but we want to test approval
+      @page = Page.new(:title => String.random)
+      assert @page.save
+    end
+
+    should "start out as pending" do
+      assert @page.pending?
+    end
+    
+    context "and it's approved" do
+      setup do
+        assert @page.approve!
+      end
+
+      should "save time data on page" do
+        now = Time.now
+        assert (now - @page.approved_at) <= 5
+      end
+      
+      should "be approved" do
+        assert @page.approved?
+      end
+    end
+  end
 end
