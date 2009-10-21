@@ -1,5 +1,5 @@
 class CopsController < ApplicationController
-  helper :cops, :navigation, :pages
+  helper :cops, :pages
   before_filter :determine_navigation
   before_filter :find_cop
 
