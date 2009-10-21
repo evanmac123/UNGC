@@ -11,6 +11,7 @@
 
 class OrganizationType < ActiveRecord::Base
   validates_presence_of :name
+  has_many :organizations
   
   NON_BUSINESS = 1
   BUSINESS = 2
@@ -19,17 +20,18 @@ class OrganizationType < ActiveRecord::Base
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
   
   FILTERS = {
-    :academia        => 'Academic',
-    :business_global => 'Business Association Global',
-    :business_local  => 'Business Association Local',
-    :civil_global    => 'NGO Global',
-    :civil_local     => 'NGO Local',
-    :gc_networks     => 'GC Networks',
-    :labour_global   => 'Labour Global',
-    :labour_local    => 'Labour Local',
-    :public          => 'Public Sector Organization',
-    :companies       => 'Company',
-    :sme             => 'SME'
+    :academia         => 'Academic',
+    :business_global  => 'Business Association Global',
+    :business_local   => 'Business Association Local',
+    :civil_global     => 'NGO Global',
+    :civil_local      => 'NGO Local',
+    :gc_networks      => 'GC Networks',
+    :labour_global    => 'Labour Global',
+    :labour_local     => 'Labour Local',
+    :public           => 'Public Sector Organization',
+    :companies        => 'Company',
+    :micro_enterprise => 'Micro Entreprise',
+    :sme              => 'SME'
   }
 
   named_scope :for_filter, lambda { |*filter_types|
@@ -46,10 +48,10 @@ class OrganizationType < ActiveRecord::Base
   end
   
   def self.micro_enterprise
-    first :conditions => {:name => 'Micro Entreprise'}
+    first :conditions => {:name => FILTERS[:micro_enterprise]}
   end
   
   def self.sme
-    first :conditions => {:name => 'SME'}
+    first :conditions => {:name => FILTERS[:sme]}
   end
 end

@@ -250,6 +250,16 @@ class Importer
   # runs after the organization import, pledge amount only exists
   # in the TEMP table/file
   def post_organization
+    import_pledge_amount
+    extract_local_networks
+  end
+  
+  def post_contact
+    assign_roles
+    assign_network_managers
+  end
+  
+  def import_pledge_amount
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
     CSV.foreach(file, :headers => :first_row) do |row|
       pledge = row[21]
@@ -260,20 +270,80 @@ class Importer
     end
   end
   
-  private
-    def setup(options)
-      @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
-      @silent = options[:silent] || false
-      if options[:files]
-        @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
-      else
-        @files = FILES
+  def extract_local_networks
+    local_networks = OrganizationType.for_filter(:gc_networks).first.organizations
+    local_networks.each do |organization|
+      n = LocalNetwork.new(:name       => organization.name,
+                           :url        => organization.url)
+      # 0-No network, 1-Network in Development, 2-Established
+      if organization.country.network_type
+        n.state = ['none', 'emerging', 'established'][organization.country.network_type]
       end
-      # run_habtm default is true if user wants to run the importer for all files
-      @run_habtm = options[:run_habtm] || (@files == FILES)
-      no_observers
+      # we now save the local network and assign the country
+      n.save
+      n.countries << organization.country
+      # we no longer need the organization, we could "organization.delete" now
     end
+  end
+  
+  def assign_roles
+    file = File.join(@data_folder, "R12_XREF_R10_TR07.csv")
+    # "ROLE_ID","CONTACT_ID","R01_ORG_NAME"
+    CSV.foreach(file, :headers => :first_row) do |row|
+      role_id = row['ROLE_ID']
+      contact_id = row['CONTACT_ID']
+      contact = Contact.find_by_old_id contact_id
+      role = Role.find_by_old_id role_id
+      if role && contact
+        contact.roles << role
+      else
+        log "** [error] Could not assign role: #{row.inspect}"
+      end
+    end
+  end
+  
+  def assign_network_managers
+    #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
+    file = File.join(@data_folder, CONFIG[:country][:file])
+    CSV.foreach(file, :headers => :first_row) do |row|
+      manager = row['GC_COUNTRY_MANAGER']
+      unless manager.blank?
+        # get country, contact and network
+        country = Country.find_by_code(row['COUNTRY_ID'])
+        contact = Contact.first(:conditions => {:first_name => manager.split.first,
+                                                :last_name  => manager.split.last})
+        begin
+          network = country.local_networks.first
+        rescue
+          network = nil
+        end
+        if country && contact && network
+          # get network and assign manager
+          network.manager_id = contact.id
+          network.save
+        else
+          log "** [minor error] Could not find contact: #{manager}" unless contact
+          log "** [minor error] Could not find country: #{row['COUNTRY_ID']}" unless country
+          log "** [minor error] Could not find network for: #{row['COUNTRY_ID']}" unless network
+        end
+      end
+    end
+  end
 
+  def setup(options={})
+    @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
+    @silent = options[:silent] || false
+    if options[:files]
+      @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
+    else
+      @files = FILES
+    end
+    # run_habtm default is true if user wants to run the importer for all files
+    @run_habtm = options[:run_habtm] || (@files == FILES)
+    no_observers
+  end
+
+  private
     # translates the old database status into our state fields
     def update_state(name, model)
       case name

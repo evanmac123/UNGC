@@ -18,6 +18,7 @@ class Country < ActiveRecord::Base
   has_many :organizations
   has_and_belongs_to_many :case_stories
   has_and_belongs_to_many :communication_on_progresses
+  has_and_belongs_to_many :local_networks
   
   default_scope :order => 'name'
   

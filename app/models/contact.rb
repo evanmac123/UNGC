@@ -45,6 +45,7 @@ class Contact < ActiveRecord::Base
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
   belongs_to :country
   belongs_to :organization
+  belongs_to :local_network
   has_and_belongs_to_many :roles, :join_table => "contacts_roles"
 
   default_scope :order => 'contacts.first_name'
@@ -90,11 +91,11 @@ class Contact < ActiveRecord::Base
   end
   
   def from_organization?
-    !from_ungc?
+    !organization_id.nil? && !from_ungc?
   end
   
   def from_network?
-    false
+    !local_network_id.nil?
   end
   
   def user_type

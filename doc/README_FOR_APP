@@ -76,3 +76,15 @@ rake db:seed
 ./script/server
 
 Done :)
+
+Fields to delete
+================
+
+Here's a list of fields that should be safe to delete after the application has been launched:
+
+*.old_id
+organizations.local_network
+contacts.ceo
+contacts.contact_point
+
+
