@@ -7,6 +7,7 @@
 #  old_id     :integer(4)
 #  created_at :datetime
 #  updated_at :datetime
+#  type       :string(255)
 #
 
 class Principle < ActiveRecord::Base
