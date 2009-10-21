@@ -250,6 +250,11 @@ class Importer
   # runs after the organization import, pledge amount only exists
   # in the TEMP table/file
   def post_organization
+    import_pledge_amount
+    extract_local_networks
+  end
+  
+  def import_pledge_amount
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
     CSV.foreach(file, :headers => :first_row) do |row|
       pledge = row[21]
@@ -260,6 +265,22 @@ class Importer
     end
   end
   
+  def extract_local_networks
+    local_networks = OrganizationType.for_filter(:gc_networks).first.organizations
+    local_networks.each do |organization|
+      n = LocalNetwork.new(:name       => organization.name,
+                           :url        => organization.url)
+      # 0-No network, 1-Network in Development, 2-Established
+      if organization.country.network_type
+        n.state = ['none', 'emerging', 'established'][organization.country.network_type]
+      end
+      # we now save the local network and assign the country
+      n.save
+      n.countries << organization.country
+      # we no longer need the organization, we could "organization.delete" now
+    end
+  end
+
   private
     def setup(options)
       @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
