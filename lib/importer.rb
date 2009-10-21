@@ -254,6 +254,10 @@ class Importer
     extract_local_networks
   end
   
+  def post_contact
+    assign_roles
+  end
+  
   def import_pledge_amount
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
     CSV.foreach(file, :headers => :first_row) do |row|
@@ -280,21 +284,37 @@ class Importer
       # we no longer need the organization, we could "organization.delete" now
     end
   end
+  
+  def assign_roles
+    file = File.join(@data_folder, "R12_XREF_R10_TR07.csv")
+    # "ROLE_ID","CONTACT_ID","R01_ORG_NAME"
+    CSV.foreach(file, :headers => :first_row) do |row|
+      role_id = row['ROLE_ID']
+      contact_id = row['CONTACT_ID']
+      contact = Contact.find_by_old_id contact_id
+      role = Role.find_by_old_id role_id
+      if role && contact
+        contact.roles << role
+      else
+        log "** [error] Could not assign role: #{row.inspect}"
+      end
+    end
+  end
+
+  def setup(options={})
+    @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
+    @silent = options[:silent] || false
+    if options[:files]
+      @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
+    else
+      @files = FILES
+    end
+    # run_habtm default is true if user wants to run the importer for all files
+    @run_habtm = options[:run_habtm] || (@files == FILES)
+    no_observers
+  end
 
   private
-    def setup(options)
-      @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
-      @silent = options[:silent] || false
-      if options[:files]
-        @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
-      else
-        @files = FILES
-      end
-      # run_habtm default is true if user wants to run the importer for all files
-      @run_habtm = options[:run_habtm] || (@files == FILES)
-      no_observers
-    end
-
     # translates the old database status into our state fields
     def update_state(name, model)
       case name
