@@ -4,6 +4,7 @@ class CreateLocalNetworks < ActiveRecord::Migration
       t.string :name
       t.string :manager
       t.string :url
+      t.string :state
 
       t.timestamps
     end
