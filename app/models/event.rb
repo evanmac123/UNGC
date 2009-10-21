@@ -28,16 +28,13 @@ class Event < ActiveRecord::Base
   serialize :urls
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
   
-  def self.find_by_permalink(permalink)
-    find_by_id permalink.to_i
-  end
-  
-  def self.events_for(month=nil, year=nil)
+
+  named_scope :for_month_year, lambda { |month=nil, year=nil|
     today = Date.today
     logger.info " ** Looking for #{year || today.year}, #{month || today.month}"
     start = Time.mktime( year || today.year, month || today.month, 1)
     finish = (start.to_date >> 1).to_time
-    find :all, 
+    {
       :conditions => [
         "starts_on BETWEEN :start AND :finish",
         {
@@ -45,6 +42,12 @@ class Event < ActiveRecord::Base
           :finish => finish
         }
       ]
+    }
+  }
+  
+  
+  def self.find_by_permalink(permalink)
+    find_by_id permalink.to_i
   end
   
   def to_param

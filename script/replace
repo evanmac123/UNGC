@@ -31,16 +31,25 @@ end
 content_for_archive = <<-EOF
 <h1><%= current_month %></h1>
 
-<% for event in this_months_events do %>
-  <h3><%= link_to event.title, event_url(event) %></h3>
-  <div><%= event.starts_on %> - <%= event.ends_on %></div>
-  <%= event.description %>
+<% if this_months_events.any? %>
+  <% for event in this_months_events do %>
+    <h3><%= link_to event.title, event_url(event) %></h3>
+    <div><%= event.starts_on %> - <%= event.ends_on %></div>
+    <%= event.description %>
+  <% end %>
+<% else %>
+  <p>No events currently planned for <%= current_month %>.</p>
 <% end %>
+
+<%= links_to_other_months %>
 EOF
 
 puts "Installing new dynamic event calendar"
 old = Page.find_by_path '/NewsAndEvents/2009_events.html'
-clone = old.new_version :path => '/NewsAndEvents/Upcoming_Events.html', :content => content_for_archive, :dynamic_content => true
+clone = old.new_version :path => '/NewsAndEvents/Upcoming_Events.html', 
+  :content         => content_for_archive, 
+  :position        => old.position,
+  :dynamic_content => true
 clone.approve!
 old.update_attributes :display_in_navigation => false
 puts "  done!\n"
