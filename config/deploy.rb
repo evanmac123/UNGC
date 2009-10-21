@@ -21,7 +21,8 @@ namespace :deploy do
   end
 end
 
-after 'deploy:update', 'files:copy_database_yml'
+after 'deploy:update_code', 'files:copy_database_yml'
+after 'files:copy_database_yml', 'deploy:migrate'
 
 # Avoid keeping the database.yml configuration in git.
 namespace :files do

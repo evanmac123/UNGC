@@ -24,16 +24,15 @@ class Event < ActiveRecord::Base
   belongs_to :created_by, :class_name => 'Contact', :foreign_key => :created_by_id
   belongs_to :updated_by, :class_name => 'Contact', :foreign_key => :updated_by_id
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
-  has_and_belongs_to_many :issues, :class_name => 'Interest', :join_table => :events_interests
+  has_and_belongs_to_many :issues, :class_name => 'PrincipleArea', :join_table => :events_principles
   serialize :urls
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
   
 
   named_scope :for_month_year, lambda { |month=nil, year=nil|
     today = Date.today
-    logger.info " ** Looking for #{year || today.year}, #{month || today.month}"
-    start = Time.mktime( year || today.year, month || today.month, 1)
-    finish = (start.to_date >> 1).to_time
+    start = Time.mktime( year || today.year, month || today.month, 1).to_date
+    finish = start.to_date >> 1
     {
       :conditions => [
         "starts_on BETWEEN :start AND :finish",
@@ -43,8 +42,7 @@ class Event < ActiveRecord::Base
         }
       ]
     }
-  }
-  
+  } 
   
   def self.find_by_permalink(permalink)
     find_by_id permalink.to_i
