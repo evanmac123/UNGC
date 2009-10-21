@@ -48,8 +48,12 @@ module FixtureReplacement
   attributes_for :listing_status do |a|
 	end
 
+  attributes_for :local_network do |l|
+    l.name = String.random
+  end
+
   attributes_for :logo_approval do |a|
-	end
+  end
 
   attributes_for :logo_comment do |a|
 	end
