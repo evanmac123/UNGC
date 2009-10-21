@@ -10,7 +10,6 @@
 #  parent_id             :integer(4)
 #  position              :integer(4)
 #  display_in_navigation :boolean(1)
-#  approved              :boolean(1)
 #  approved_at           :datetime
 #  approved_by_id        :integer(4)
 #  created_by_id         :integer(4)
@@ -20,6 +19,7 @@
 #  created_at            :datetime
 #  updated_at            :datetime
 #  group_id              :integer(4)
+#  approval              :string(255)
 #
 
 class Page < ActiveRecord::Base

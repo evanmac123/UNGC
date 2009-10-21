@@ -4,8 +4,6 @@ require 'test_helper'
 class EventTest < ActiveSupport::TestCase
   should_validate_presence_of :title, :message => "^Please provide a title"
   should_belong_to :country
-  should_belong_to :created_by
-  should_belong_to :updated_by
   should_have_many :attachments
   
   context "given an event with a strange title" do

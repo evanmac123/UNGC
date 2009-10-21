@@ -14,16 +14,15 @@
 #  updated_by_id  :integer(4)
 #  created_at     :datetime
 #  updated_at     :datetime
-#  approved       :boolean(1)
 #  approved_at    :datetime
 #  approved_by_id :integer(4)
+#  approval       :string(255)
 #
 
 class Event < ActiveRecord::Base
   include ContentApproval
+  include TrackCurrentUser
   belongs_to :country
-  belongs_to :created_by, :class_name => 'Contact', :foreign_key => :created_by_id
-  belongs_to :updated_by, :class_name => 'Contact', :foreign_key => :updated_by_id
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
   has_and_belongs_to_many :issues, :class_name => 'PrincipleArea', :join_table => :events_principles
   serialize :urls
@@ -63,18 +62,4 @@ class Event < ActiveRecord::Base
   def full_location
     "#{location}, #{country.try(:name)}"
   end
-
-  # FIXME: Make this a module?
-  attr_writer :current_user
-  before_create :set_created_by
-  before_update :set_updated_by
-  
-  def set_created_by
-    self.created_by ||= @current_user if @current_user
-  end
-  
-  def set_updated_by
-    self.updated_by ||= @current_user if @current_user
-  end
-
 end
