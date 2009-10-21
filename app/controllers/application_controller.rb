@@ -52,7 +52,6 @@ class ApplicationController < ActionController::Base
     end
 
     def determine_navigation
-      logger.info " ** #{params[:navigation]}"
       @look_for_path = case params[:navigation]
       when 'inactive'
         '/COP/inactives.html'

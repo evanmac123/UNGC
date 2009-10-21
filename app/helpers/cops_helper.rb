@@ -11,12 +11,14 @@ module CopsHelper
     scoped_cops(filter_type).count
   end
   
+  # Does the search/filter via paginate
   def paged_cops(filter_type=nil)
     @paged_cops ||= {}
     @paged_cops[filter_type] ||= scoped_cops(filter_type).by_year.paginate(:per_page => params[:per_page] || 10, :page => params[:page] || 1)
     @paged_cops[filter_type]
   end
   
+  # Produces the links
   def paginate_cops(filter_type=nil, options={})
     anchor = options.delete(:anchor)
     params = {}
