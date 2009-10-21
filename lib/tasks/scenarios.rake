@@ -9,16 +9,15 @@ namespace :scenarios do
     require 'faker'
     countries = Country.all
     25.times do
-      start_day = ((Date.today >> rand(12)) + rand(25))
-      starts_on = Time.mktime start_day.year, start_day.month, start_day.day, 18, 0
-      ends_on   = starts_on + rand(4).days
+      starts_on = ((Date.today >> rand(12)) + rand(25))
+      ends_on   = starts_on + rand(4)
       Event.create :title => Faker::Lorem.words(4).join(' ').titleize,
         :description => simple_format(Faker::Lorem.paragraphs(4).join("\n")),
         :country_id  => countries[rand(countries.size)].id,
         :location    => Faker::Lorem.words(2).join(' ').titleize,
         :starts_on   => starts_on,
         :ends_on     => ends_on,
-        :approved    => rand(4) >= 1
+        :approval    => rand(4) >= 1 ? 'approved' : 'pending'
     end
   end
   
