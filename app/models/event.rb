@@ -20,6 +20,7 @@
 #
 
 class Event < ActiveRecord::Base
+  include ContentApproval
   belongs_to :country
   belongs_to :created_by, :class_name => 'Contact', :foreign_key => :created_by_id
   belongs_to :updated_by, :class_name => 'Contact', :foreign_key => :updated_by_id
@@ -28,7 +29,6 @@ class Event < ActiveRecord::Base
   serialize :urls
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
   
-
   named_scope :for_month_year, lambda { |month=nil, year=nil|
     today = Date.today
     start = Time.mktime( year || today.year, month || today.month, 1).to_date

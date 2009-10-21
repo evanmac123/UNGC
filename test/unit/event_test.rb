@@ -66,5 +66,27 @@ class EventTest < ActiveSupport::TestCase
     end
   end
   
+  context "given a new event" do
+    setup do
+      @event = Event.new :title => String.random
+      assert @event.save
+    end
+
+    should "start 'pending' approval" do
+      assert @event.pending?
+    end
+    
+    context "and it is approved" do
+      setup do
+        assert @event.approve!
+      end
+
+      should "should be in 'approved' approval" do
+        assert @event.approved?
+      end
+    end
+    
+  end
+  
   
 end
