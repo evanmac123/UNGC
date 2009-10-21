@@ -256,6 +256,7 @@ class Importer
   
   def post_contact
     assign_roles
+    assign_network_managers
   end
   
   def import_pledge_amount
@@ -297,6 +298,34 @@ class Importer
         contact.roles << role
       else
         log "** [error] Could not assign role: #{row.inspect}"
+      end
+    end
+  end
+  
+  def assign_network_managers
+    #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
+    file = File.join(@data_folder, CONFIG[:country][:file])
+    CSV.foreach(file, :headers => :first_row) do |row|
+      manager = row['GC_COUNTRY_MANAGER']
+      unless manager.blank?
+        # get country, contact and network
+        country = Country.find_by_code(row['COUNTRY_ID'])
+        contact = Contact.first(:conditions => {:first_name => manager.split.first,
+                                                :last_name  => manager.split.last})
+        begin
+          network = country.local_networks.first
+        rescue
+          network = nil
+        end
+        if country && contact && network
+          # get network and assign manager
+          network.manager_id = contact.id
+          network.save
+        else
+          log "** [minor error] Could not find contact: #{manager}" unless contact
+          log "** [minor error] Could not find country: #{row['COUNTRY_ID']}" unless country
+          log "** [minor error] Could not find network for: #{row['COUNTRY_ID']}" unless network
+        end
       end
     end
   end
