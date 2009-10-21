@@ -2,7 +2,7 @@ class CreateLocalNetworks < ActiveRecord::Migration
   def self.up
     create_table :local_networks do |t|
       t.string :name
-      t.string :manager
+      t.integer :manager_id
       t.string :url
       t.string :state
 
