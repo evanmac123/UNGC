@@ -1,0 +1,2 @@
+class PrincipleArea < Principle
+end
