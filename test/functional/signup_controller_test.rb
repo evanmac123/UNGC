@@ -4,6 +4,7 @@ class SignupControllerTest < ActionController::TestCase
   context "given an organization that wants to sign up" do
     setup do
       create_organization_type
+      create_roles
     end
     
     should "get the first step page" do

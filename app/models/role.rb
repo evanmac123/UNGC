@@ -16,4 +16,12 @@ class Role < ActiveRecord::Base
   def self.network_contact
     find :all, :conditions => ["old_id IN (?)", [5,12]] # FIXME: Update this to newer ids, text, constant??
   end
+  
+  def self.ceo
+    find :first, :conditions => ["old_id=?", 3]
+  end
+  
+  def self.contact_point
+    find :first, :conditions => ["old_id=?", 4]
+  end
 end

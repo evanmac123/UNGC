@@ -83,6 +83,12 @@ class ActiveSupport::TestCase
                                  :organization_id => @ungc.id)
   end
   
+  def create_roles
+    # creating roles for ceo and contact point
+    create_role(:name => 'CEO', :old_id => 3)
+    create_role(:name => 'Contact Point', :old_id => 4)
+  end
+  
   def fixture_file_upload(path, mime_type = nil, binary = false)
     fixture_path = ActionController::TestCase.send(:fixture_path) if ActionController::TestCase.respond_to?(:fixture_path)
     ActionController::TestUploadedFile.new("#{fixture_path}#{path}", mime_type, binary)

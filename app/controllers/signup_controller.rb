@@ -66,8 +66,8 @@ class SignupController < ApplicationController
     def load_objects
       @organization = session[:signup_organization] || Organization.new
       load_organization_types
-      @contact = session[:signup_contact] || Contact.new
-      @ceo = session[:signup_ceo] || Contact.new
+      @contact = session[:signup_contact] || Contact.new(:role_ids => [Role.ceo.id])
+      @ceo = session[:signup_ceo] || Contact.new(:role_ids => [Role.contact_point.id])
     end
     
     def set_default_values
