@@ -257,6 +257,7 @@ class Importer
   def post_contact
     assign_roles
     assign_network_managers
+    assign_local_network_id
   end
   
   def import_pledge_amount
@@ -325,6 +326,18 @@ class Importer
           log "** [minor error] Could not find contact: #{manager}" unless contact
           log "** [minor error] Could not find country: #{row['COUNTRY_ID']}" unless country
           log "** [minor error] Could not find network for: #{row['COUNTRY_ID']}" unless network
+        end
+      end
+    end
+  end
+  
+  def assign_local_network_id
+    return if LocalNetwork.count == 0
+    LocalNetwork.all.each do |network|
+      organization = Organization.find_by_name(network.name)
+      if organization && organization.contacts.any?
+        organization.contacts.each do |contact|
+          contact.update_attribute :local_network_id, network.id
         end
       end
     end
