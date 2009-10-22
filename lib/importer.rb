@@ -140,7 +140,7 @@ class Importer
   def run(options={})
     setup(options)
     @files.each{|entry| import(entry, CONFIG[entry])}
-    HabtmImporter.new.run(options) if @run_habtm
+    HabtmImporter.new.delete_all_and_run(options) if @run_habtm
   end
 
   # Imports the data from a single file
@@ -343,6 +343,11 @@ class Importer
     end
   end
 
+  # Creates some instance variables used throughout the application
+  # :data_file - folder where the .CVS files are located, default is lib/un7_tables
+  # :silent - avoid output statements if true
+  # :files - indicates what files you want to import, defaults to all
+  # :habtm - runs the HabtmImporter after Importer if set to true
   def setup(options={})
     @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
     @silent = options[:silent] || false
