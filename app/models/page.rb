@@ -99,7 +99,6 @@ class Page < ActiveRecord::Base
 
   def increment_version_number
     max = versions.last
-    logger.info " ** max: #{max.inspect}"
     self.version_number = max ? (max.version_number || 0) + 1 : 1
   end
 

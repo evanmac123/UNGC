@@ -54,7 +54,6 @@ module LocalNetworkHelper
   end
   
   def local_network_contacts
-    logger.info " ** #{local_network.contacts.inspect}"
     local_network.contacts
   end
   
