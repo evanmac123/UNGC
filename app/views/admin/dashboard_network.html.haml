@@ -1,23 +1,6 @@
+Dashboard for Local Network
+
 %h3 Contacts
 = link_to 'new', new_organization_contact_path(current_user.organization)
 %ul
   = render :partial => current_user.organization.contacts
-
-- if @organization.pending_review? or @organization.in_review?
-  %h3 Comments
-  = link_to 'New comment', new_organization_comment_path(@organization)
-  %ul
-    = render :partial => @organization.comments
-
-- else
-  %h3 Logo requests
-  = link_to 'new', new_organization_logo_request_path(current_user.organization)
-  - if current_user.organization.logo_requests.any?
-    %ul
-      = render :partial => current_user.organization.logo_requests
-
-  %h3 Case Stories
-  = link_to 'new', new_organization_case_story_path(current_user.organization)
-  - if current_user.organization.case_stories.any?
-    %ul
-      = render :partial => current_user.organization.case_stories
