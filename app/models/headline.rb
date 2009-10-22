@@ -26,6 +26,25 @@ class Headline < ActiveRecord::Base
 
   named_scope :published, { :conditions => ['approval = ?', 'approved']}
   
+  def self.recent
+    published.find :all,
+      :limit => 25,
+      :order => 'published_on DESC'
+  end
+  
+  def self.for_year(year)
+    starts = Time.mktime(year, 1, 1).to_date
+    finish = (starts >> 12) - 1
+    published.find :all,
+      :conditions => ['published_on BETWEEN :starts AND :finish', :starts => starts, :finish => finish],
+      :order => 'published_on DESC'
+  end
+  
+  def self.years
+    # select distinct(year(published_on)) as year from headlines order by year desc 
+    find(:all, :select => 'distinct(year(published_on)) as year', :order => 'year desc')
+  end
+  
   def before_approve!
     self.published_on = Date.today
   end

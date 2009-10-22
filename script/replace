@@ -1,61 +1,19 @@
 #!/usr/bin/env ruby
 ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
 require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+require 'replacement_helper'
 
-replacements = File.dirname(__FILE__) + '/../lib/content_replacements.yml'
-
-results = nil
-File.open( replacements ) { |yf| results = YAML::load( yf ) }
-results.each_pair do |path,page|
-  if /\// =~ path
-    puts "Looking for '#{path}'"
-    content = Page.find_by_path path
-    puts " replacing contents"
-    begin
-      old_content = content.versions.first.content
-      new_content = old_content.gsub(/\&lt;\?php[\s\w\W]+\?\&gt;/, page['content'])
-      new_version = content.new_version :content => new_content, :dynamic_content => true
-      new_version.save!
-      new_version.approve!
-      puts "  done!"
-      puts ''
-    rescue Exception => e
-      puts "Whooops! Some kind of #{e.inspect} while doing something with #{old_content.inspect}"
-    end
+replacements = load_replacements
+replacements.each_pair do |path,new_content|
+  if path_valid?(path)
+    replace_contents(path, new_content)
   else
     puts "skipping #{path} - looks like something else?"
   end
 end
 
+install_event_calendar
+rewrite_event_archives
+archive_latest_headlines
+rewrite_news_headlines
 
-content_for_archive = <<-EOF
-<h1><%= current_month %></h1>
-
-<% if this_months_events.any? %>
-  <% for event in this_months_events do %>
-    <h3><%= link_to event.title, event_url(event) %></h3>
-    <div><%= event.starts_on %> - <%= event.ends_on %></div>
-    <%= event.description %>
-  <% end %>
-<% else %>
-  <p>No events currently planned for <%= current_month %>.</p>
-<% end %>
-
-<%= links_to_other_months %>
-EOF
-
-puts "Installing new dynamic event calendar"
-old = Page.find_by_path '/NewsAndEvents/2009_events.html'
-clone = old.new_version :path => '/NewsAndEvents/Upcoming_Events.html', 
-  :content         => content_for_archive, 
-  :position        => old.position,
-  :dynamic_content => true
-clone.approve!
-old.update_attributes :display_in_navigation => false
-puts "  done!\n"
-
-puts "Updating links to old event archives"
-archive = Page.find_by_path '/NewsAndEvents/news_archives/event_archive.html'
-archive.content = archive.content.gsub %Q{<a href="../upcoming_events.html" target="_self" title="2008 Event Calendar">2008 Event Calendar</a>}, "<li><div>\n<a href=\"../2009_events.html\" target=\"_self\" title=\"2009 Event Calendar\">2009 Event Calendar</a>\n</div></li>\n<li><div>\n<a href=\"../2008_events.html\" target=\"_self\" title=\"2008 Event Calendar\">2008 Event Calendar</a>"
-archive.save!
-puts "  done!\n"

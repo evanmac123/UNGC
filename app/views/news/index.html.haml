@@ -1,0 +1,9 @@
+%h1= "News Archive #{year}"
+- if @headlines.any?
+  %ul
+  - for headline in @headlines do
+    %li
+      = link_to headline.title, headline
+      = "(#{headline.published_on})"
+- else
+  %p There are no headlines for the requested period. Feel free to browse the archives.
