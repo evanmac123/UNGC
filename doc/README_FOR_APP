@@ -31,14 +31,13 @@ password: newrelic
 Data Migration
 ==============
 
-We created two classes in the lib/ folder that read create a database in our format from UNGC data
-To run those files, go to a console and:
+We created two classes in the lib/ folder - Importer and HabtmImporter - that populate the database in our format from UNGC data - uses the .CSV files located in lib/un7_tables by default.
+To import the data from the .CSV files, go to a console and run:
 >> Importer.new.run
->> HabtmImporter.new.run
 
-(You can also use runner: ./script/runner "Importer.new.run; HabtmImporter.new.run")
+(You can also use runner: ./script/runner "Importer.new.run")
 
-Be patient, each run will take around 10 minutes :)
+Be patient, a run will take around 30 minutes :)
 
 To import CMS content, install the Hpricot gem - gem install hpricot - and run these two scripts from a command prompt:
 > ./script/import
