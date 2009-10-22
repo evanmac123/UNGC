@@ -9,8 +9,8 @@ class EventsController < ApplicationController
   private
     def find_event
       @event = Event.find_by_id(params[:permalink].to_i)
+      redirect_back_or_to and return unless @event
       redirect_to(:permalink => @event.to_param) unless @event.to_param == params[:permalink]
-      redirect_to(:back) unless @event
     end
 
     def default_navigation

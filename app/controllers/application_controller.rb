@@ -67,4 +67,12 @@ class ApplicationController < ActionController::Base
     def page_is_editable
       @is_editable_content = true
     end
+
+    def redirect_back_or_to(options='/')
+      if request.env["HTTP_REFERER"]
+        redirect_to :back
+      else
+        redirect_to options
+      end
+    end
 end

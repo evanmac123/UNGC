@@ -50,8 +50,12 @@ ActionController::Routing::Routes.draw do |map|
   map.with_options :controller => 'events' do |m|
     m.event '/events/:permalink', :action => :show, :conditions => { :method => :get }
   end
+  map.with_options :controller => 'news' do |m|
+    m.event '/news/:permalink', :action => :show, :conditions => { :method => :get }
+  end
   map.namespace :admin do |admin|
     admin.resources :events
+    admin.resources :headlines, :controller => 'news'
   end
   
   # reports
