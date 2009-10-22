@@ -25,19 +25,19 @@ class EventTest < ActiveSupport::TestCase
     setup do
       @today = Date.today
       5.times do
-        starts_on = Time.mktime(@today.year, @today.month, rand(25)+1).to_date
+        starts_on = Time.mktime(@today.year, @today.month, rand(22)+1).to_date
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
       @later = @today >> 2
       3.times do
-        starts_on = Time.mktime(@later.year, @later.month, rand(25)+1).to_date
+        starts_on = Time.mktime(@later.year, @later.month, rand(22)+1).to_date
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
       @much_later = @today >> 14
       2.times do
-        starts_on = Time.mktime(@much_later.year, @much_later.month, rand(25)).to_date
+        starts_on = Time.mktime(@much_later.year, @much_later.month, rand(22)).to_date
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
@@ -58,9 +58,9 @@ class EventTest < ActiveSupport::TestCase
       assert_equal 2, Event.for_month_year(@much_later.month, @much_later.year).count
     end
     
-    should "find no events for months and years with no events" do
-      assert_equal 0, Event.for_month_year((@today >> 1).month, @today.year).count
-      assert_equal 0, Event.for_month_year(@today.month, @today.year + 1).count
+    should "find no events for months and years with no events" do 
+      assert_equal 0, Event.for_month_year((@today >> 1).month, @today.year).count, "Find no events for next month"
+      assert_equal 0, Event.for_month_year(@today.month, @today.year + 1).count, "Find no events for next year"
     end
   end
   
