@@ -4,3 +4,7 @@ Dashboard for Local Network
 = link_to 'new', new_organization_contact_path(current_user.organization)
 %ul
   = render :partial => current_user.organization.contacts
+
+%h3 Organizations in local network
+%ul
+  = render :partial => @organizations
