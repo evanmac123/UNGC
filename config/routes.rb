@@ -51,7 +51,10 @@ ActionController::Routing::Routes.draw do |map|
     m.event '/events/:permalink', :action => :show, :conditions => { :method => :get }
   end
   map.with_options :controller => 'news' do |m|
-    m.event '/news/:permalink', :action => :show, :conditions => { :method => :get }
+    m.newest_headlines '/news', :action => :index
+    m.newest_headlines '/news/feed.atom', :action => :index, :format => 'atom'
+    m.headline_year '/news/:year', :action => :index, :requirements => { :year => /\d{4}/ }
+    m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
   end
   map.namespace :admin do |admin|
     admin.resources :events
