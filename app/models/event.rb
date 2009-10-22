@@ -27,6 +27,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :issues, :class_name => 'PrincipleArea', :join_table => :events_principles
   serialize :urls
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
+  permalink :title
   
   named_scope :for_month_year, lambda { |month=nil, year=nil|
     today = Date.today
@@ -42,22 +43,6 @@ class Event < ActiveRecord::Base
       ]
     }
   } 
-  
-  def self.find_by_permalink(permalink)
-    find_by_id permalink.to_i
-  end
-  
-  def to_param
-    if !title.blank?
-      escaped = CGI.escape(title.downcase)
-      permalink = escaped.gsub(/(\%..|\+)/, '-')
-      permalink.gsub!(/-+/, '-')
-      permalink.gsub!(/-\Z/, '')
-      "#{id}-#{permalink}"
-    else
-      id.to_s
-    end
-  end
   
   def full_location
     "#{location}, #{country.try(:name)}"

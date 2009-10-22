@@ -1,0 +1,13 @@
+SexyPermalinks
+==============
+
+Turns plain id-ending URLs into "sexy" links with more texty goodness.
+
+Example
+=======
+
+page = Page.new(:title => 'This is an awesome page') # => page #1 created
+link_to 'click here', page_path(page) # => '/pages/1-this-is-an-awesome-page'
+
+
+Copyright (c) 2009 Joshua Wehner, released under the MIT license
