@@ -68,9 +68,13 @@ module NavigationHelper
     # content_tag(:li, , :class => 'login')
   end
   
+  def sections
+    @sections ||= PageGroup.for_navigation #.find(:all)
+  end
+  
   def top_nav_bar(section_children_content='')
-    PageGroup.for_navigation.each do |section|
-      section_link = content_tag :a, section.name, :href => section.link_to_first_child
+    sections.each do |section|
+      section_link = content_tag :a, section.name, :href => section.visible_children.first.path #link_to_first_child
       children = section.visible_children.map do |child|
         child_link = content_tag :a, child.title, :href => child.path
         content_tag :li, child_link

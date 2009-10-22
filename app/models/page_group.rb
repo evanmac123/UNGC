@@ -19,11 +19,11 @@ class PageGroup < ActiveRecord::Base
     :order       => "position ASC"
   
   named_scope :for_navigation, 
-    :include => :children,
+    :include => :visible_children,
     :conditions => ["page_groups.display_in_navigation = ?", true]
   
   def link_to_first_child
-    children.first.path
+    visible_children.first.path
   end
   
   def path
