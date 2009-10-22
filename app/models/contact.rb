@@ -100,8 +100,8 @@ class Contact < ActiveRecord::Base
   
   def user_type
     return TYPE_UNGC if from_ungc?
-    return TYPE_ORGANIZATION if from_organization?
     return TYPE_NETWORK if from_network?
+    return TYPE_ORGANIZATION if from_organization?
   end
   
   private
