@@ -20,5 +20,15 @@ class Headline < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
   permalink :title
+  belongs_to :country
+  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
+  
+  def before_approve!
+    self.published_on = Date.today
+  end
+
+  def full_location
+    "#{location}, #{country.try(:name)}"
+  end
 end

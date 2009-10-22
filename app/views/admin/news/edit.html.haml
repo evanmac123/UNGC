@@ -1,0 +1,9 @@
+%h2 Edit headline
+
+- form_for @headline, :url => admin_headline_path(@headline) do |form|
+  = render :partial => 'form'
+
+  %p
+    = form.submit 'Save changes'
+
+= link_to 'Back', admin_headlines_path
