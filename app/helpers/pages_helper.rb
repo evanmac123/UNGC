@@ -31,7 +31,7 @@ module PagesHelper
   # duplication of years on the archive page.
   def news_archive_years 
     # (2009..Date.today.year).to_a.reverse
-    Headline.years.map { |y| y.year }
+    Headline.years
   end
 
   def participant_link(organization, navigation=nil)

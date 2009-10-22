@@ -25,31 +25,52 @@ class Headline < ActiveRecord::Base
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
 
   named_scope :published, { :conditions => ['approval = ?', 'approved']}
+  named_scope :limit, lambda { |limit| { :limit => limit } }
+  named_scope :descending, {:order => 'published_on DESC'}
+  named_scope :all_for_year, lambda { |year|
+    starts = Time.mktime(year, 1, 1).to_date
+    finish = (starts >> 12) - 1
+    {
+      :conditions => [
+        'published_on BETWEEN :starts AND :finish', 
+        :starts => starts, :finish => finish
+      ]
+    }
+  }
   
   def self.recent
-    published.find :all,
-      :limit => 25,
-      :order => 'published_on DESC'
+    published.limit(25).descending
   end
   
   def self.for_year(year)
-    starts = Time.mktime(year, 1, 1).to_date
-    finish = (starts >> 12) - 1
-    published.find :all,
-      :conditions => ['published_on BETWEEN :starts AND :finish', :starts => starts, :finish => finish],
-      :order => 'published_on DESC'
+    published.descending.all_for_year(year)
   end
   
+  # Used to make a list of years, for the News Archive page - see pages_helper
   def self.years
-    # select distinct(year(published_on)) as year from headlines order by year desc 
-    find(:all, :select => 'distinct(year(published_on)) as year', :order => 'year desc')
+    case connection.adapter_name
+    when 'MySQL'
+      # select distinct(year(published_on)) as year from headlines order by year desc 
+      select = 'distinct(year(published_on)) as year'
+    when 'SQLite'
+      select = "distinct(strftime('%Y', published_on)) as year"
+    else
+      logger.error " *** Headline.years: Unable to figure out DB: #{connection.adapter_name.inspect}"
+    end
+    find(:all, :select => select, :order => 'year desc').map { |y| y.year }
   end
   
   def before_approve!
     self.published_on = Date.today
   end
 
+  # 'location' if just location
+  # 'country' if just country
+  # 'location, country' only if both
   def full_location
-    "#{location}, #{country.try(:name)}"
+    response = []
+    response << location if location
+    response << country.name if country
+    response.join(', ')
   end
 end
