@@ -26,6 +26,7 @@ class EventTest < ActiveSupport::TestCase
       @today = Date.today
       5.times do
         starts_on = Time.mktime(@today.year, @today.month, rand(22)+1).to_date
+        puts starts_on
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
@@ -37,7 +38,7 @@ class EventTest < ActiveSupport::TestCase
       end
       @much_later = @today >> 14
       2.times do
-        starts_on = Time.mktime(@much_later.year, @much_later.month, rand(22)).to_date
+        starts_on = Time.mktime(@much_later.year, @much_later.month, rand(22)+1).to_date
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
@@ -86,5 +87,71 @@ class EventTest < ActiveSupport::TestCase
     
   end
   
+  context "given some Principle Areas" do
+    setup do
+      @p1 = create_principle_area
+      @p2 = create_principle_area
+      @p3 = create_principle_area
+      @event = new_event
+      @event.selected_issues = [@p1.id, @p2.id]
+      @event.save
+      @event.reload
+    end
+
+    should "link event and areas on save" do
+      assert_same_elements [@p1, @p2], @event.issues
+    end
+    
+    context "and selected issues are changed" do
+      setup do
+        @event.selected_issues = [@p2.id, @p3.id]
+        @event.save
+        @event.reload
+      end
+
+      should "change event areas" do
+        assert_same_elements [@p2, @p3], @event.issues
+      end
+    end
+    
+  end
+  
+  context "given an event" do
+    setup do
+      @event = new_event
+    end
+
+    context "with just a location" do
+      setup do
+        @event.location = 'location'
+      end
+
+      should "just have location for #full_location" do
+        assert_equal 'location', @event.full_location
+      end
+    end
+
+    context "with just a country" do
+      setup do
+        @event.country = new_country(:name => 'country')
+      end
+
+      should "just have country for #full_location" do
+        assert_equal 'country', @event.full_location
+      end
+    end
+    
+    context "with both location and country" do
+      setup do
+        @event.location = 'location'
+        @event.country = new_country(:name => 'country')
+      end
+
+      should "have 'location, country' for #full_location" do
+        assert_equal 'location, country', @event.full_location
+      end
+    end
+    
+  end
   
 end

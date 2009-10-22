@@ -108,6 +108,10 @@ module FixtureReplacement
   attributes_for :principle do |a|
 	end
 
+  attributes_for :principle_area do |a|
+    a.name = String.random
+	end
+
   attributes_for :removal_reason do |a|
 	end
 

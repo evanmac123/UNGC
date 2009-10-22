@@ -44,7 +44,22 @@ class Event < ActiveRecord::Base
     }
   } 
   
+  def selected_issues
+    issues.map {|issue| issue.name }
+  end
+  
+  def selected_issues=(selected=[])
+    new_issues = (selected || []).map { |string| PrincipleArea.find_by_id string.to_i }
+    self.issues = new_issues
+  end
+  
+  # 'location' if just location
+  # 'country' if just country
+  # 'location, country' only if both
   def full_location
-    "#{location}, #{country.try(:name)}"
+    response = []
+    response << location if location
+    response << country.name if country
+    response.join(', ')
   end
 end
