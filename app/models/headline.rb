@@ -23,6 +23,8 @@ class Headline < ActiveRecord::Base
   belongs_to :country
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
+
+  named_scope :published, { :conditions => ['approval = ?', 'approved']}
   
   def before_approve!
     self.published_on = Date.today
