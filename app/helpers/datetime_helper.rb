@@ -8,4 +8,8 @@ module DatetimeHelper
     date ? date.strftime('%Y/%m/%d') : '&nbsp;'
   end
 
+  def mm_dd_yyyy(date)
+    date ? date.strftime('%m/%d/%Y') : '&nbsp;'
+  end
+
 end

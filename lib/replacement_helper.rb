@@ -135,3 +135,38 @@ def rewrite_news_headlines
   puts "  done!\n"  
 end
 
+def rewrite_homepage
+  puts "Doing something with homepage"
+  home = Page.find_by_path '/index.html'
+  doc = Hpricot(home.content)
+  news_links = doc/'.news_list .news_item'
+  # add dynamic content at top
+  dynamic = <<-EOF
+    <% counter = 0 %>
+    <% for headline in headlines[0,9] do %>
+      <div class='news_item <%= cycle('blue', '') %>'>
+        <div class='date'><%= mm_dd_yyyy headline.published_on %></div>
+        <div class='title'><%= link_to headline.title, headline %></div>
+        <% counter += 1 %>
+      </div>
+    <% end %>
+    <%# FIXME: Remove these lines once there are nine or more 'dynamic' headlines %>
+  EOF
+  # add counter check and counter++ to each element
+  rebuilt = [dynamic] + news_links.map do |e|
+    inner = e.inner_html  
+    replacement = <<-EOF
+      <% if counter < 9 %>
+        <div class='news_item <%= cycle('blue', '') %>'>
+          <% counter += 1 %>
+          #{inner}
+        </div>
+      <% end %>
+    EOF
+  end
+  doc.at('.news_list').inner_html = rebuilt.join("\n\n")
+  content = doc.to_html
+  nv = home.new_version :dynamic_content => true, :content => content
+  nv.approve!
+  puts " done!"
+end
