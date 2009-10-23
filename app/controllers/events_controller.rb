@@ -14,6 +14,6 @@ class EventsController < ApplicationController
     end
 
     def default_navigation
-      '/NewsAndEvents/Upcoming_Events.html'
+      DEFAULTS[:upcoming_events_path]
     end
 end

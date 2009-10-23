@@ -17,6 +17,6 @@ class ParticipantsController < ApplicationController
   end
   
   def default_navigation
-    '/ParticipantsAndStakeholders/search_participant.html'
+    DEFAULTS[:participant_search_path]
   end
 end

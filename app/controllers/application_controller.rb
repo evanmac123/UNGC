@@ -48,17 +48,17 @@ class ApplicationController < ActionController::Base
     end
 
     def default_navigation # override in other controllers
-      '/COP/cop_search.html'
+      DEFAULTS[:cop_search_path]
     end
 
     def determine_navigation
       @look_for_path = case params[:navigation]
       when 'inactive'
-        '/COP/inactives.html'
+        DEFAULTS[:cop_inactives_path]
       when 'noncommunicating'
-        '/COP/non_communicating.html'
+        DEFAULTS[:cop_noncommunicating_path]
       when 'notable'
-        '/COP/notable_cops.html'
+        DEFAULTS[:cop_notable_path]
       else
         default_navigation
       end

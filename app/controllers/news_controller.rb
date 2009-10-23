@@ -24,9 +24,9 @@ class NewsController < ApplicationController
 
     def default_navigation
       if show_archive?
-        '/NewsAndEvents/news_archives/index.html'
+        DEFAULTS[:news_archive_path]
       else
-        '/NewsAndEvents/index.html'
+        DEFAULTS[:news_headlines_path]
       end
     end
     
