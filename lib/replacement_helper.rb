@@ -48,10 +48,13 @@ def install_event_calendar
 
   puts "Installing new dynamic event calendar"
   old = Page.find_by_path '/NewsAndEvents/2009_events.html'
-  clone = old.new_version :path => '/NewsAndEvents/Upcoming_Events.html', 
+  options = {
+    :path            => '/NewsAndEvents/Upcoming_Events.html', 
     :content         => content_for_archive, 
     :position        => old.position,
     :dynamic_content => true
+  }
+  clone = old.new_version(options)
   clone.approve!
   old.update_attributes :display_in_navigation => false
   puts "  done!\n"
@@ -97,6 +100,7 @@ def archive_latest_headlines
   future = Page.new oh_niner.attributes.merge(:dynamic_content => true)
 
   oh_niner.path = '/NewsAndEvents/news_archives/news_2009.html'
+  oh_niner.content = oh_niner.content.gsub(/<h1>Recent Headlines<\/h1>/, '<h1>News Archive 2009</h1>')
   oh_niner.position = nil
   oh_niner.display_in_navigation = false
   oh_niner.save
