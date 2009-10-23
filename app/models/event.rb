@@ -32,7 +32,7 @@ class Event < ActiveRecord::Base
   named_scope :for_month_year, lambda { |month=nil, year=nil|
     today = Date.today
     start = Time.mktime( year || today.year, month || today.month, 1).to_date
-    finish = start.to_date >> 1
+    finish = (start.to_date >> 1) - 1
     {
       :conditions => [
         "starts_on BETWEEN :start AND :finish",

@@ -24,24 +24,30 @@ class EventTest < ActiveSupport::TestCase
   context "given a bunch of events" do
     setup do
       @today = Date.today
+      starts = []
       5.times do
         starts_on = Time.mktime(@today.year, @today.month, rand(22)+1).to_date
-        puts starts_on
+        starts << starts_on
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
       @later = @today >> 2
       3.times do
         starts_on = Time.mktime(@later.year, @later.month, rand(22)+1).to_date
+        starts << starts_on
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
       @much_later = @today >> 14
       2.times do
         starts_on = Time.mktime(@much_later.year, @much_later.month, rand(22)+1).to_date
+        starts << starts_on
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
+      # puts "??"
+      # puts starts.join(', ')
+      # puts "??"
     end
 
     should "find events for this month" do
@@ -55,7 +61,7 @@ class EventTest < ActiveSupport::TestCase
       assert_equal 3, Event.for_month_year(@later.month).count # even if we don't specify the year, it should assume
     end
     
-    should "find events for much later" do
+    should "find events for much later" do 
       assert_equal 2, Event.for_month_year(@much_later.month, @much_later.year).count
     end
     
