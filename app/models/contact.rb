@@ -50,8 +50,31 @@ class Contact < ActiveRecord::Base
 
   default_scope :order => 'contacts.first_name'
   
-  named_scope :contact_points, :conditions => {:contact_point => true}
-  named_scope :ceos, :conditions => {:ceo => true}
+  named_scope :contact_points, lambda {
+    contact_point_id = Role.contact_point.try(:id)
+    {
+      :joins      => :roles,
+      :conditions => ["contacts_roles.role_id = ?", contact_point_id]
+    }
+  }
+
+  named_scope :ceos, lambda {
+    ceo_id = Role.ceo.try(:id)
+    {
+      :joins      => :roles,
+      :conditions => ["contacts_roles.role_id = ?", ceo_id]
+    }
+  }
+  
+  named_scope :network_contacts, lambda {
+    roles = Role.network_contact
+    {
+      :joins => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", roles],
+      :order => "roles.name DESC"
+    }
+  }
+  
   named_scope :network_contacts, lambda {
     roles = Role.network_contact
     {

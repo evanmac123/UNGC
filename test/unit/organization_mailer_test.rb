@@ -5,8 +5,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
     create_organization_and_user
     create_ungc_organization_and_user
     @organization.comments.create(:contact_id => @staff_user.id,
-                                  :body       => 'Lorem ipsum',
-                                  )
+                                  :body       => 'Lorem ipsum')
   end
   
   test "submission mailer is sent" do

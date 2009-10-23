@@ -65,10 +65,12 @@ class ActiveSupport::TestCase
   end  
 
   def create_organization_and_user
+    create_roles
     create_organization_type
     @organization = create_organization
     @organization_user = create_contact(:organization_id => @organization.id,
-                                        :email           => 'email@example.com')
+                                        :email           => 'email@example.com',
+                                        :role_ids        => [Role.contact_point.id])
   end
   
   def create_staff_user
