@@ -119,7 +119,7 @@ def rewrite_news_headlines
   new_content = <<-EOF
   <ul>
     <% for year in news_archive_years do %>
-      <li><%= link_to year, headline_year_path(:year => year) %></li>
+      <% if year %><li><%= link_to year, headline_year_path(:year => year) %></li><% end %>
     <% end %>
     <li>
       <a target="_self" href="news_2009.html">2009</a>
