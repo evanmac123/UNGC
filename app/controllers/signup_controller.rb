@@ -73,12 +73,12 @@ class SignupController < ApplicationController
     def set_default_values
       # organization country is default for contacts
       @contact.country_id = @organization.country_id unless @contact.country
-      @ceo.country_id = @contact.country_id unless @ceo.country
       # ceo contact fields defaults to contact
       @ceo.address = @contact.address unless @ceo.address
       @ceo.city = @contact.city unless @ceo.city
       @ceo.state = @contact.state unless @ceo.state
-      @ceo.postal_code = @contact.postal_code unless @ceo.postal_code      
+      @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
+      @ceo.country_id = @contact.country_id unless @ceo.country
     end
 
     def load_organization_types
