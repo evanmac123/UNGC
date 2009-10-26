@@ -15,6 +15,25 @@ class FileImporter
     end
   end
   
+  def import_logo_samples(path)
+    if File.directory? path
+      Dir.foreach(path) do |file|
+        # we want files named like "logo_request_sample_68_74.jpg"
+        # 68 is logo_requests.old_id
+        # 74 is logo_comments.old_id
+        next unless file.start_with? "logo_request_sample"
+        # we have a logo sample
+        old_logo_comment_id = file.split('_').last.split('.').first
+        log "file: #{file}"
+        if logo_comment = LogoComment.find_by_old_id(old_logo_comment_id)
+          logo_comment.attachment = File.new(File.join(path, file))
+          # we don't want validations here
+          logo_comment.save(false)
+        end
+      end
+    end
+  end
+
   private
     def log(string)
       puts "** #{string}"

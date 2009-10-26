@@ -282,8 +282,8 @@ class Importer
   def extract_local_networks
     local_networks = OrganizationType.for_filter(:gc_networks).first.organizations
     local_networks.each do |organization|
-      n = LocalNetwork.new(:name       => organization.name,
-                           :url        => organization.url)
+      n = LocalNetwork.new(:name => organization.name,
+                           :url  => organization.url)
       # 0-No network, 1-Network in Development, 2-Established
       if organization.country.network_type
         n.state = ['none', 'emerging', 'established'][organization.country.network_type]
