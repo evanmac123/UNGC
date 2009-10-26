@@ -266,7 +266,6 @@ class Importer
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
     CSV.foreach(file, :headers => :first_row) do |row|
       # get organization by name
-      
       if o = Organization.find_by_name(row["ORG_NAME"])
         # import pledge
         pledge = row["PLEDGE_AMOUNT"]
@@ -277,7 +276,6 @@ class Importer
         # save the record
         o.save
       end
-      puts o
     end
   end
   
