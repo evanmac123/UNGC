@@ -250,7 +250,7 @@ class Importer
   # runs after the organization import, pledge amount only exists
   # in the TEMP table/file
   def post_organization
-    import_pledge_amount
+    import_from_temp_table
     extract_local_networks
   end
   
@@ -260,14 +260,24 @@ class Importer
     assign_local_network_id
   end
   
-  def import_pledge_amount
+  # Imports fields from R01_ORGANIZATION_TEMP.csv:
+  #   pledge_amount & id
+  def import_from_temp_table
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
     CSV.foreach(file, :headers => :first_row) do |row|
-      pledge = row[21]
-      if pledge.to_i > 0
-        o = Organization.find_by_old_id(row[22].to_i)
-        o.try(:update_attribute, :pledge_amount, pledge.to_i)
+      # get organization by name
+      
+      if o = Organization.find_by_name(row["ORG_NAME"])
+        # import pledge
+        pledge = row["PLEDGE_AMOUNT"]
+        o.pledge_amount = pledge.to_i if pledge.to_i > 0
+        # import id in TMP table
+        old_tmp_id = row["ID"].to_i
+        o.old_tmp_id = old_tmp_id if old_tmp_id.to_i > 0
+        # save the record
+        o.save
       end
+      puts o
     end
   end
   
