@@ -38,6 +38,8 @@
 #
 
 class Organization < ActiveRecord::Base
+  include ApprovalWorkflow
+
   validates_presence_of :name
   has_many :signings
   has_many :initiatives, :through => :signings
@@ -58,38 +60,12 @@ class Organization < ActiveRecord::Base
   
   has_attached_file :commitment_letter
   
-  state_machine :state, :initial => :pending_review do
-    event :revise do
-      transition :from => :pending_review, :to => :in_review
-    end
-    event :approve do
-      transition :from => [:in_review, :pending_review], :to => :approved
-    end
-    event :reject do
-      transition :from => [:in_review, :pending_review], :to => :rejected
-    end
-  end
-  
-  STATE_PENDING_REVIEW = 'pending_review'
-  STATE_IN_REVIEW = 'in_review'
-  STATE_APPROVED = 'approved'
-  STATE_REJECTED = 'rejected'
-  
-  EVENT_REVISE = 'revise'
-  EVENT_REJECT = 'reject'
-  EVENT_APPROVE = 'approve'
-  
   COP_STATUSES = {
     :inactive         => 0,
     :noncommunicating => 1,
     :active           => 2,
     :delisted         => 3
   }
-
-  named_scope :pending_review, :conditions => {:state => "pending_review"}
-  named_scope :in_review, :conditions => {:state => "in_review"}
-  named_scope :approved, :conditions => {:state => "approved"}
-  named_scope :rejected, :conditions => {:state => "rejected"}
 
   named_scope :local_network, :conditions => ["local_network = ?", true]
 
