@@ -124,7 +124,13 @@ class Organization < ActiveRecord::Base
   named_scope :without_contacts,
     { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
   
-  named_scope :where_country_id, lambda {|id| { :conditions => {:country_id => id} }}
+  named_scope :where_country_id, lambda {|id_or_array| 
+    if id_or_array.is_a?(Array)
+      { :conditions => ['country_id IN (?)', id_or_array] }
+    else
+      { :conditions => {:country_id => id} }
+    end
+  }
   
   named_scope :created_in, lambda { |month, year|
     { :conditions => ['created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }

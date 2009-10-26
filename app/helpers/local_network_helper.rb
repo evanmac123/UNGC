@@ -1,49 +1,10 @@
-class LocalNet
-  attr_accessor :country_code, :country
-
-  def self.find(country_code)
-    network = self.new
-    network.country_code = country_code
-    network.country = Country.find_by_code(country_code, :include => :organizations)
-    network
-  end
-
-  def contacts
-    unless @contacts
-      @contacts = Contact.network_contacts.for_country(country).find(:all, :include => :roles)
-      @contacts += [manager] if manager
-    end
-    @contacts
-  end
-
-  def latest_participant
-    participants.last_joined.first
-  end
-
-  def manager
-    @manager ||= country.manager
-  end
-
-  def name
-    country.try :name
-  end
-
-  def url
-    @organizer ||= country.organizations.local_network.first.try(:url)
-  end
-
-  def participants
-    @participants ||= country.organizations.visible_in_local_network
-  end
-end
-
 module LocalNetworkHelper
   
   def local_network
     unless @local_network
       if params[:path].last && params[:path].last.is_a?(String)
         country_code = params[:path].last.gsub(/\.html/, '')
-        @local_network = LocalNet.find(country_code)
+        @local_network = LocalNetwork.find_by_code(country_code)
       end
     end
     @local_network

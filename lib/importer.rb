@@ -278,12 +278,27 @@ class Importer
       end
     end
   end
+
+  def get_local_network_organizations
+    OrganizationType.for_filter(:gc_networks).first.organizations.find(:all, :conditions => "name LIKE 'GC Network - %'")
+  end
+  
+  def code_and_name_for_local_network_org(organization)
+    code = organization.country.code
+    name = organization.name.gsub(/GC Network - /, '')
+    code = 'GS' if code == 'AE' and name =~ /Gulf States/
+    code = 'NC' if code == 'DK' and name =~ /Nordic/
+    [code,name]
+  end
   
   def extract_local_networks
-    local_networks = OrganizationType.for_filter(:gc_networks).first.organizations
+    local_networks = get_local_network_organizations
     local_networks.each do |organization|
-      n = LocalNetwork.new(:name => organization.name,
-                           :url  => organization.url)
+      puts "Working on #{organization.name} ##{organization.id}"
+      code, name = code_and_name_for_local_network_org(organization)
+      n = LocalNetwork.new(:name       => name,
+                           :url        => organization.url,
+                           :code       => code)
       # 0-No network, 1-Network in Development, 2-Established
       if organization.country.network_type
         n.state = ['none', 'emerging', 'established'][organization.country.network_type]
@@ -340,10 +355,11 @@ class Importer
   end
   
   def assign_local_network_id
-    return if LocalNetwork.count == 0
-    LocalNetwork.all.each do |network|
-      organization = Organization.find_by_name(network.name)
+    return unless LocalNetwork.count > 0
+    get_local_network_organizations.each do |organization|
       if organization && organization.contacts.any?
+        code,name = code_and_name_for_local_network_org(organization)
+        network = LocalNetwork.find_by_code(code)
         organization.contacts.each do |contact|
           contact.update_attribute :local_network_id, network.id
         end
