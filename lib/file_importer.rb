@@ -2,16 +2,31 @@ require 'rexml/document'
 
 class FileImporter
   # path is the folder where all uploaded files are located
-  def import_commitment_letters(path)
-    if File.directory? path
-      Dir.foreach(path) do |file| 
+  def import_commitment_letters(unapproved_orgs_path, approved_orgs_path)
+    # this works for organizations that are not yet approved
+    if File.directory? unapproved_orgs_path
+      Dir.foreach(unapproved_orgs_path) do |file|
         # we want files named like "welcome_letter_950.doc"
         next unless file.start_with? "welcome_letter"
         # we have a commitment letter
         old_tmp_id = file.split('_').last.split('.').first
         log "file: #{file}"
         if organization = Organization.find_by_old_tmp_id(old_tmp_id)
-          organization.commitment_letter = File.new(File.join(path, file))
+          organization.commitment_letter = File.new(File.join(unapproved_orgs_path, file))
+          organization.save
+        end
+      end
+    end
+    # this works for organizations that are approved
+    if File.directory? approved_orgs_path
+      Dir.foreach(approved_orgs_path) do |file|
+        # we want files named like "Global_Compact_Join_Letter_8114.pdf"
+        next unless file.start_with? "Global_Compact_Join_Letter"
+        # we have a commitment letter
+        old_id = file.split('_').last.split('.').first
+        log "file: #{file}"
+        if organization = Organization.find_by_old_id(old_id)
+          organization.commitment_letter = File.new(File.join(approved_orgs_path, file))
           organization.save
         end
       end
