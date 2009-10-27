@@ -53,6 +53,13 @@ class FileImporter
             log "Invalid xml file #{xml_file}"
           end
         end
+        # user uploaded DOC/PDF for this case story
+        [:doc, :pdf, :ptt].each do |extension|
+          doc_file = File.join(path, "doc", "#{case_story.identifier}.#{extension}")
+          if File.exist?(doc_file)
+            case_story.attachment = File.new(doc_file)
+          end
+        end
 
         case_story.save
       end
