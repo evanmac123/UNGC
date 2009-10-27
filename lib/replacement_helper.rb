@@ -112,6 +112,26 @@ def archive_latest_headlines
   puts "  done!"
 end
 
+def rewrite_network_dropdown
+  puts "Rewriting network dropdown"
+  page = Page.find_by_path '/NetworksAroundTheWorld/index.html'
+  content = page.content
+  gulf = [
+    %q{<option value="/NetworksAroundTheWorld/display.html?id=AE">Gulf States</option>},
+    '<option value="/NetworksAroundTheWorld/display.html?id=GS">Gulf States</option>'
+  ]
+  nord = [
+    %q{<option value="/NetworksAroundTheWorld/display.html?id=DK">Nordic Countries</option>},
+    '<option value="/NetworksAroundTheWorld/display.html?id=NC">Nordic Countries</option>'
+  ]
+  [gulf, nord].each do |search, replace|
+    content = content.gsub(search, replace)
+  end
+  page.update_attribute :content, content
+  puts " done!"
+  puts "\n"
+end
+
 def rewrite_news_headlines
   puts "Adding 2009 archive to Archive page"
   archive = Page.find_by_path '/NewsAndEvents/news_archives/index.html'
