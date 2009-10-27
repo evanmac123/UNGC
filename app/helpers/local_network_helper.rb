@@ -15,10 +15,11 @@ module LocalNetworkHelper
   end
   
   def local_network_contacts
-    local_network.contacts
+    local_network.network_contacts
   end
   
   def formatted_local_network_contact_info(contact)
+    return '&nbsp;' unless contact
     "#{role_for contact}<br />
     #{contact.full_name_with_title}<br />
     #{link_to contact.email, "mailto:#{contact.email}"}"

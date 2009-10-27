@@ -8,6 +8,10 @@ class LocalNetwork < ActiveRecord::Base
     participants.find(:first, :order => 'joined_on DESC')
   end
   
+  def network_contacts
+    contacts.network_contacts + [manager]
+  end
+  
   def participants
     Organization.visible_in_local_network.where_country_id(countries.map(&:id))
   end

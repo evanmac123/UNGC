@@ -357,11 +357,15 @@ class Importer
   def assign_local_network_id
     return unless LocalNetwork.count > 0
     get_local_network_organizations.each do |organization|
-      if organization && organization.contacts.any?
+      puts "Working with #{organization.name} ##{organization.id}"
+      if organization && contacts = organization.contacts and contacts.any?
+        puts "It has contacts!"
         code,name = code_and_name_for_local_network_org(organization)
         network = LocalNetwork.find_by_code(code)
-        organization.contacts.each do |contact|
+        contacts.each do |contact|
+          puts "  working with #{contact.name} ##{contact.id}"
           contact.update_attribute :local_network_id, network.id
+          puts "  DONE!"
         end
       end
     end
