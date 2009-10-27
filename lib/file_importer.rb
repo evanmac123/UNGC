@@ -1,4 +1,7 @@
+require 'rexml/document'
+
 class FileImporter
+  # path is the folder where all uploaded files are located
   def import_commitment_letters(path)
     if File.directory? path
       Dir.foreach(path) do |file| 
@@ -15,6 +18,7 @@ class FileImporter
     end
   end
   
+  # path is the folder where all uploaded files are located
   def import_logo_samples(path)
     if File.directory? path
       Dir.foreach(path) do |file|
@@ -30,6 +34,27 @@ class FileImporter
           # we don't want validations here
           logo_comment.save(false)
         end
+      end
+    end
+  end
+    
+  # path is the folder that contain the doc and xml folder for case stories
+  def import_case_stories(path)
+    if File.directory? path
+      CaseStory.all.each do |case_story|
+        # let's try to find the XML file for this case story
+        xml_file = File.join(path, "xml", "#{case_story.identifier}.xml")
+        if File.exist?(xml_file)
+          begin
+            doc = REXML::Document.new(File.new(xml_file))
+            # there's a single element
+            case_story.description = doc.elements.first.text
+          rescue
+            log "Invalid xml file #{xml_file}"
+          end
+        end
+
+        case_story.save
       end
     end
   end
