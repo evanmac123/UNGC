@@ -4,7 +4,7 @@ module LocalNetworkHelper
     unless @local_network
       if params[:path].last && params[:path].last.is_a?(String)
         country_code = params[:path].last.gsub(/\.html/, '')
-        @local_network = LocalNetwork.find_by_code(country_code)
+        @local_network = Country.find_by_code(country_code).local_network
       end
     end
     @local_network

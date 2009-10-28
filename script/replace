@@ -13,10 +13,10 @@ replacements.each_pair do |path,new_content|
     puts "skipping #{path} - looks like something else?"
   end
 end
+create_new_local_network_pages(replacements)
 
 install_event_calendar
 rewrite_event_archives
 archive_latest_headlines
 rewrite_news_headlines
 rewrite_homepage
-rewrite_network_dropdown

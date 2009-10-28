@@ -244,7 +244,7 @@ local_network: &local_network
       </div>
       <div class='clearme'>&nbsp;</div>
     </div>
-'/NetworksAroundTheWorld/local_network_sheet/GS.html':
+'/NetworksAroundTheWorld/local_network_sheet/AE.html':
   <<: *local_network
 '/NetworksAroundTheWorld/local_network_sheet/AL.html':
   <<: *local_network
@@ -288,7 +288,7 @@ local_network: &local_network
   <<: *local_network
 '/NetworksAroundTheWorld/local_network_sheet/DE.html':
   <<: *local_network
-'/NetworksAroundTheWorld/local_network_sheet/NC.html':
+'/NetworksAroundTheWorld/local_network_sheet/DK.html':
   <<: *local_network
 '/NetworksAroundTheWorld/local_network_sheet/DO.html':
   <<: *local_network

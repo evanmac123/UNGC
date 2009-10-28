@@ -14,6 +14,35 @@ def replace_contents(path, new_content)
   replace(path, new_content)
 end
 
+def create_new_local_network_pages(replacements)
+  new_content = replacements['local_network']['content']
+  new_networks = [
+    'BG',
+    'KE',
+    'BE',
+    'CR',
+    'SV',
+    'EE',
+    'HN',
+    'IL',
+    'JM',
+    'JO',
+    'KZ',
+    'MU',
+    'MN',
+    'SD',
+    'SY',
+    'VE'
+  ]
+  template = '/NetworksAroundTheWorld/local_network_sheet/%s.html'
+  new_networks.each do |code|
+    page = Page.new :path => template % code,
+      :content => new_content,
+      :dynamic_content => true
+    page.save and page.approve!
+  end
+end
+
 def replace(path, hash)
   begin
     content = Page.find_by_path path
@@ -110,26 +139,6 @@ def archive_latest_headlines
   future.content = content_for_future
   future.save
   puts "  done!"
-end
-
-def rewrite_network_dropdown
-  puts "Rewriting network dropdown"
-  page = Page.find_by_path '/NetworksAroundTheWorld/index.html'
-  content = page.content
-  gulf = [
-    %q{<option value="/NetworksAroundTheWorld/display.html?id=AE">Gulf States</option>},
-    '<option value="/NetworksAroundTheWorld/display.html?id=GS">Gulf States</option>'
-  ]
-  nord = [
-    %q{<option value="/NetworksAroundTheWorld/display.html?id=DK">Nordic Countries</option>},
-    '<option value="/NetworksAroundTheWorld/display.html?id=NC">Nordic Countries</option>'
-  ]
-  [gulf, nord].each do |search, replace|
-    content = content.gsub(search, replace)
-  end
-  page.update_attribute :content, content
-  puts " done!"
-  puts "\n"
 end
 
 def rewrite_news_headlines

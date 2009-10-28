@@ -252,13 +252,127 @@ class Importer
   # in the TEMP table/file
   def post_organization
     import_from_temp_table
-    extract_local_networks
+    convert_organizations_to_local_networks
   end
   
   def post_contact
     assign_roles
     assign_network_managers
     assign_local_network_id
+  end
+  
+  def post_communication_on_progress
+    import_cop_xml
+  end
+  
+  def nordic_countries
+    ['Denmark', 'Finland', 'Sweden', 'Norway', 'Iceland']
+  end
+
+  def gulf_states
+    # Saudi Arabia seems mis-spelled?
+    ['Bahrain', 'Kuwait', 'Oman', 'Qatar', 'Saudi Arabia', 'Saudia Arabia', 'United Arab Emirates']
+  end
+
+  def skip_extraction?(name)
+    skip = nordic_countries + gulf_states
+    skip.include?(name)
+  end
+
+  def get_local_network_organizations
+    OrganizationType.for_filter(:gc_networks).first.organizations.find(:all, :conditions => ["local_network = ? AND name LIKE ?", true, 'GC Network - %'])
+  end
+
+  def attach_countries_to_network(local_net, organization)
+    organization.country.update_attribute :local_network_id, local_net.id
+    countries = []
+    if local_net.name =~ /Gulf States/
+      countries = Country.find(:all, :conditions => ["name IN (?)", gulf_states])
+    elsif local_net.name =~ /Nordic/
+      countries = Country.find(:all, :conditions => ["name IN (?)", nordic_countries])
+    end
+    countries.each do |country|
+      country.update_attribute :local_network_id, local_net.id
+    end
+  end
+
+  def convert_organizations_to_local_networks
+    get_local_network_organizations.each do |organization|
+      name = organization.name.gsub(/GC Network - /, '')
+      next if skip_extraction?(name)
+      local_net = LocalNetwork.new( :name => name,
+                                    :url  => organization.url )
+      # 0-No network, 1-Network in Development, 2-Established
+      if organization.country.network_type
+        local_net.state = ['none', 'emerging', 'established'][organization.country.network_type]
+      end
+      # we now save the local network and assign the country
+      local_net.save
+      attach_countries_to_network(local_net, organization)
+      # we no longer need the organization, we could "organization.delete" now
+    end
+  end
+
+  def assign_network_managers
+    #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
+    file = File.join(@data_folder, CONFIG[:country][:file])
+    CSV.foreach(file, :headers => :first_row) do |row|
+      manager = row['GC_COUNTRY_MANAGER']
+      unless manager.blank?
+        # get country, contact and network
+        country = Country.find_by_code(row['COUNTRY_ID'])
+        contact = Contact.first(:conditions => {:first_name => manager.split.first,
+                                                :last_name  => manager.split.last})
+        begin
+          network = country.local_network.first
+        rescue
+          network = nil
+        end
+        if country && contact && network
+          # get network and assign manager
+          network.manager_id = contact.id
+          network.save
+        else
+          log "** [minor error] Could not find contact: #{manager}" unless contact
+          log "** [minor error] Could not find country: #{row['COUNTRY_ID']}" unless country
+          log "** [minor error] Could not find network for: #{row['COUNTRY_ID']}" unless network
+        end
+      end
+    end
+  end
+
+  def assign_local_network_id
+    return unless LocalNetwork.count > 0
+    get_local_network_organizations.each do |organization|
+      puts "Working with #{organization.name} ##{organization.id}"
+      if organization && contacts = organization.contacts and contacts.any?
+        network = organization.country.local_network
+        contacts.each do |contact|
+          puts "  working with #{contact.name} ##{contact.id}"
+          contact.update_attribute :local_network_id, network.id
+          puts "  DONE!"
+        end
+      end
+    end
+  end  
+  
+  def import_cop_xml
+    require 'hpricot'
+    require 'facets'
+    puts "*** Importing from cop_xml data..."
+    files = Dir[DEFAULTS[:path_to_cop_xml]].map {|f| f - 'data/cop_xml/' }.map { |f| f - '.xml' }
+    converter = Iconv.new("UTF-8", "iso8859-1") 
+    files.each do |f|
+      puts "Working with file #{f}:"
+      if cop = CommunicationOnProgress.find_by_identifier(f)
+        description = converter.iconv (Hpricot(open("data/cop_xml/#{f}.xml"))/'description').inner_html
+        cop.update_attribute :description, description.strip
+      else
+        puts "  *** Error: Can't find the COP"
+      end
+      puts "\n"
+    end
+    puts "*** Done!"
   end
   
   # Imports fields from R01_ORGANIZATION_TEMP.csv:
@@ -279,37 +393,6 @@ class Importer
       end
     end
   end
-
-  def get_local_network_organizations
-    OrganizationType.for_filter(:gc_networks).first.organizations.find(:all, :conditions => "name LIKE 'GC Network - %'")
-  end
-  
-  def code_and_name_for_local_network_org(organization)
-    code = organization.country.code
-    name = organization.name.gsub(/GC Network - /, '')
-    code = 'GS' if code == 'AE' and name =~ /Gulf States/
-    code = 'NC' if code == 'DK' and name =~ /Nordic/
-    [code,name]
-  end
-  
-  def extract_local_networks
-    local_networks = get_local_network_organizations
-    local_networks.each do |organization|
-      puts "Working on #{organization.name} ##{organization.id}"
-      code, name = code_and_name_for_local_network_org(organization)
-      n = LocalNetwork.new(:name       => name,
-                           :url        => organization.url,
-                           :code       => code)
-      # 0-No network, 1-Network in Development, 2-Established
-      if organization.country.network_type
-        n.state = ['none', 'emerging', 'established'][organization.country.network_type]
-      end
-      # we now save the local network and assign the country
-      n.save
-      n.countries << organization.country
-      # we no longer need the organization, we could "organization.delete" now
-    end
-  end
   
   def assign_roles
     file = File.join(@data_folder, "R12_XREF_R10_TR07.csv")
@@ -323,51 +406,6 @@ class Importer
         contact.roles << role
       else
         log "** [error] Could not assign role: #{row.inspect}"
-      end
-    end
-  end
-  
-  def assign_network_managers
-    #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
-    file = File.join(@data_folder, CONFIG[:country][:file])
-    CSV.foreach(file, :headers => :first_row) do |row|
-      manager = row['GC_COUNTRY_MANAGER']
-      unless manager.blank?
-        # get country, contact and network
-        country = Country.find_by_code(row['COUNTRY_ID'])
-        contact = Contact.first(:conditions => {:first_name => manager.split.first,
-                                                :last_name  => manager.split.last})
-        begin
-          network = country.local_networks.first
-        rescue
-          network = nil
-        end
-        if country && contact && network
-          # get network and assign manager
-          network.manager_id = contact.id
-          network.save
-        else
-          log "** [minor error] Could not find contact: #{manager}" unless contact
-          log "** [minor error] Could not find country: #{row['COUNTRY_ID']}" unless country
-          log "** [minor error] Could not find network for: #{row['COUNTRY_ID']}" unless network
-        end
-      end
-    end
-  end
-  
-  def assign_local_network_id
-    return unless LocalNetwork.count > 0
-    get_local_network_organizations.each do |organization|
-      puts "Working with #{organization.name} ##{organization.id}"
-      if organization && contacts = organization.contacts and contacts.any?
-        puts "It has contacts!"
-        code,name = code_and_name_for_local_network_org(organization)
-        network = LocalNetwork.find_by_code(code)
-        contacts.each do |contact|
-          puts "  working with #{contact.name} ##{contact.id}"
-          contact.update_attribute :local_network_id, network.id
-          puts "  DONE!"
-        end
       end
     end
   end
