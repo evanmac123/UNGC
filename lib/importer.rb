@@ -185,7 +185,7 @@ class Importer
         elsif field == :organization_id
           if [:contact, :communication_on_progress, :case_story].include? name
             # some tables are linked to organization by name
-            o.organization_id = Organization.find_by_name(row[i]).try(:id) if row[i]
+            o.organization_id = Organization.find_by_name(row[i].strip).try(:id) if row[i]
           else
             o.organization_id = Organization.find_by_old_id(row[i]).try(:id) if row[i]
           end
@@ -215,6 +215,7 @@ class Importer
           unless value.blank?
             value = true if value.is_a?(String) && value.downcase == 'true'
             value = false if value.is_a?(String) && value.downcase == 'false'
+            value.strip! if value.is_a?(String)
             o.send("#{field}=", value)
           end
         end
@@ -402,6 +403,9 @@ class Importer
         when :organization then
           # all organizations in R01_ORGANIZATION were approved
           model.state = 'approved'
+        when :communication_on_progress then
+          # COP Status (0: “In review”, 1: “Published”, -1: “Rejected”)
+          model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]
       end
     end
     
