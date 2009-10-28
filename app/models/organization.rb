@@ -39,6 +39,7 @@
 
 class Organization < ActiveRecord::Base
   validates_presence_of :name
+  validates_presence_of :pledge_amount_other, :if => :other_pledge_selected?
   has_many :signings
   has_many :initiatives, :through => :signings
   has_many :contacts 
@@ -51,7 +52,6 @@ class Organization < ActiveRecord::Base
   belongs_to :exchange
   belongs_to :country
 
-  attr_accessor :fixed_pledge_amounts
   attr_accessor :pledge_amount_other
   
   accepts_nested_attributes_for :contacts
@@ -205,6 +205,10 @@ class Organization < ActiveRecord::Base
     [500, 5000, 10000]
   end
 
+  def other_pledge_selected?
+    self.pledge_amount == -1
+  end
+
   def invoice_id
     "FGCD#{id}"
   end
@@ -215,7 +219,7 @@ class Organization < ActiveRecord::Base
   end
   
    def before_save
-     if self.pledge_amount == -1
+     if other_pledge_selected?
        self.pledge_amount = self.pledge_amount_other
      end
    end
