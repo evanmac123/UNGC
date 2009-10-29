@@ -12,6 +12,7 @@ class AdminController < ApplicationController
       @pending_logo_requests = LogoRequest.pending_review.all(:limit => 10)
       @unreplied_logo_requests = LogoRequest.unreplied.all(:limit => 10)
       @pending_case_stories = CaseStory.pending_review.all(:limit => 10)
+      @pending_cops = CommunicationOnProgress.pending_review.all(:limit => 10)
     elsif current_user.from_network?
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?

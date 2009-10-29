@@ -1,0 +1,6 @@
+= form.error_messages
+= form.text_field :title
+%p
+  = form.label :priciple_ids, 'Principles'
+  %br/
+  = collection_select :communication_on_progress, :principle_ids, PrincipleArea.all, :id, :name, {}, :multiple => true, :name => 'communication_on_progress[principle_ids][]'

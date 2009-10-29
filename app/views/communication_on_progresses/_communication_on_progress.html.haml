@@ -1,0 +1,9 @@
+%li
+  = communication_on_progress.title
+  ==[#{communication_on_progress.state.humanize}]
+  
+  = link_to 'show', [communication_on_progress.organization, communication_on_progress]
+  - organization_only do
+    = link_to 'edit', edit_organization_communication_on_progress_path(communication_on_progress.organization, communication_on_progress)
+  - staff_only do
+    = link_to 'delete', [communication_on_progress.organization, communication_on_progress], :confirm => 'Are you sure?', :method => :delete

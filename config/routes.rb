@@ -10,9 +10,11 @@ ActionController::Routing::Routes.draw do |map|
                                 :has_many   => [:contacts, :comments] do |organization|
     organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
     organization.resources :case_stories
+    organization.resources :communication_on_progresses, :controller => 'admin/cops'
   end
   map.resources :logo_requests, :has_many => :logo_comments
   map.resources :case_stories, :has_many => :comments
+  map.resources :communication_on_progresses, :has_many => :comments
   map.resources :bulletin_subscribers, :has_many => :comments
 
   map.participant_with_nav 'participants/:navigation/:id', 
