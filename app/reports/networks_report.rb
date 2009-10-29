@@ -14,8 +14,8 @@ class NetworksReport < GroupedReport
   end
   
   def headers
-    [['Organization', 'Type', 'Country', 'COP Dude Date'],
-      ['Organization', 'Type', 'Country', 'COP Dude Date'],
+    [['Organization', 'Type', 'Country', 'COP Due Date'],
+      ['Organization', 'Type', 'Country', 'COP Due Date'],
       ['Organization', 'Type', 'Country', 'Inactive Date'],
       ['Organization', 'Type', 'Country', 'Inactive Date'],
       ['Organization', 'Type', 'Country', 'COP Submission Date'],
