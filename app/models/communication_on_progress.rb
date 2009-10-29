@@ -34,24 +34,15 @@
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
+  include VisibleTo
+  include ApprovalWorkflow
+
   validates_presence_of :organization_id, :title
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
   has_and_belongs_to_many :languages
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
-  delegate :name, :to => :organization, :prefix => true
-
-  named_scope :visible_to, lambda { |user|
-    if user.user_type == Contact::TYPE_ORGANIZATION
-      { :conditions => ['organization_id=?', user.organization_id] }
-    elsif user.user_type == Contact::TYPE_NETWORK
-      { :conditions => ["organizations.country_id in (?)", user.local_network.country_ids],
-        :include    => :organization }
-    else
-      {}
-    end
-  }
 
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
@@ -80,6 +71,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   def ended_on
     time = Time.mktime end_year, end_month, 1
     time.to_date
+  end
+  
+  def organization_name
+    organization.try :name || ''    
   end
   
   def sector_name

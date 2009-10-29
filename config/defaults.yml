@@ -10,14 +10,17 @@ universal: &universal
   
 development:
   test: thing
+  path_to_cop_xml: '../shared/data/cop_xml/*'
   <<: *universal
   
 test:
   test: thing
+  path_to_cop_xml: 'data/cop_xml'
   <<: *universal
 
 production:
   test: thing
+  path_to_cop_xml: '../../shared/data/cop_xml/*'
   <<: *universal
 
 staging:

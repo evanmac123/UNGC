@@ -9,14 +9,17 @@ class CreateLocalNetworks < ActiveRecord::Migration
       t.timestamps
     end
     
-    create_table :countries_local_networks, :id => false do |t|
-      t.integer :country_id
-      t.integer :local_network_id
-    end
+    add_column :countries, :local_network_id, :integer
+    
+    # create_table :countries_local_networks, :id => false do |t|
+    #   t.integer :country_id
+    #   t.integer :local_network_id
+    # end
   end
 
   def self.down
     drop_table :local_networks
-    drop_table :countries_local_networks
+    # drop_table :countries_local_networks
+    remove_column :countries, :local_network_id
   end
 end

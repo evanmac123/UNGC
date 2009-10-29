@@ -14,6 +14,35 @@ def replace_contents(path, new_content)
   replace(path, new_content)
 end
 
+def create_new_local_network_pages(replacements)
+  new_content = replacements['local_network']['content']
+  new_networks = [
+    'BG',
+    'KE',
+    'BE',
+    'CR',
+    'SV',
+    'EE',
+    'HN',
+    'IL',
+    'JM',
+    'JO',
+    'KZ',
+    'MU',
+    'MN',
+    'SD',
+    'SY',
+    'VE'
+  ]
+  template = '/NetworksAroundTheWorld/local_network_sheet/%s.html'
+  new_networks.each do |code|
+    page = Page.new :path => template % code,
+      :content => new_content,
+      :dynamic_content => true
+    page.save and page.approve!
+  end
+end
+
 def replace(path, hash)
   begin
     content = Page.find_by_path path

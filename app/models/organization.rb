@@ -38,6 +38,8 @@
 #
 
 class Organization < ActiveRecord::Base
+  include ApprovalWorkflow
+
   validates_presence_of :name
   validates_presence_of :pledge_amount_other, :if => :other_pledge_selected?
   has_many :signings
@@ -61,38 +63,12 @@ class Organization < ActiveRecord::Base
   
   has_attached_file :commitment_letter
   
-  state_machine :state, :initial => :pending_review do
-    event :revise do
-      transition :from => :pending_review, :to => :in_review
-    end
-    event :approve do
-      transition :from => [:in_review, :pending_review], :to => :approved
-    end
-    event :reject do
-      transition :from => [:in_review, :pending_review], :to => :rejected
-    end
-  end
-  
-  STATE_PENDING_REVIEW = 'pending_review'
-  STATE_IN_REVIEW = 'in_review'
-  STATE_APPROVED = 'approved'
-  STATE_REJECTED = 'rejected'
-  
-  EVENT_REVISE = 'revise'
-  EVENT_REJECT = 'reject'
-  EVENT_APPROVE = 'approve'
-  
   COP_STATUSES = {
     :inactive         => 0,
     :noncommunicating => 1,
     :active           => 2,
     :delisted         => 3
   }
-
-  named_scope :pending_review, :conditions => {:state => "pending_review"}
-  named_scope :in_review, :conditions => {:state => "in_review"}
-  named_scope :approved, :conditions => {:state => "approved"}
-  named_scope :rejected, :conditions => {:state => "rejected"}
 
   named_scope :local_network, :conditions => ["local_network = ?", true]
 
@@ -151,7 +127,13 @@ class Organization < ActiveRecord::Base
   named_scope :without_contacts,
     { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
   
-  named_scope :where_country_id, lambda {|id| { :conditions => {:country_id => id} }}
+  named_scope :where_country_id, lambda {|id_or_array| 
+    if id_or_array.is_a?(Array)
+      { :conditions => ['country_id IN (?)', id_or_array] }
+    else
+      { :conditions => {:country_id => id} }
+    end
+  }
   
   named_scope :created_in, lambda { |month, year|
     { :conditions => ['created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }

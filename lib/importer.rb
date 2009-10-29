@@ -185,7 +185,7 @@ class Importer
         elsif field == :organization_id
           if [:contact, :communication_on_progress, :case_story].include? name
             # some tables are linked to organization by name
-            o.organization_id = Organization.find_by_name(row[i]).try(:id) if row[i]
+            o.organization_id = Organization.find_by_name(row[i].strip).try(:id) if row[i]
           else
             o.organization_id = Organization.find_by_old_id(row[i]).try(:id) if row[i]
           end
@@ -215,6 +215,7 @@ class Importer
           unless value.blank?
             value = true if value.is_a?(String) && value.downcase == 'true'
             value = false if value.is_a?(String) && value.downcase == 'false'
+            value.strip! if value.is_a?(String)
             o.send("#{field}=", value)
           end
         end
@@ -250,8 +251,8 @@ class Importer
   # runs after the organization import, pledge amount only exists
   # in the TEMP table/file
   def post_organization
-    import_pledge_amount
-    extract_local_networks
+    import_from_temp_table
+    convert_organizations_to_local_networks
   end
   
   def post_contact
@@ -260,49 +261,58 @@ class Importer
     assign_local_network_id
   end
   
-  def import_pledge_amount
-    file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
-    CSV.foreach(file, :headers => :first_row) do |row|
-      pledge = row[21]
-      if pledge.to_i > 0
-        o = Organization.find_by_old_id(row[22].to_i)
-        o.try(:update_attribute, :pledge_amount, pledge.to_i)
-      end
-    end
+  def post_communication_on_progress
+    import_cop_xml
   end
   
-  def extract_local_networks
-    local_networks = OrganizationType.for_filter(:gc_networks).first.organizations
-    local_networks.each do |organization|
-      n = LocalNetwork.new(:name       => organization.name,
-                           :url        => organization.url)
+  def nordic_countries
+    ['Denmark', 'Finland', 'Sweden', 'Norway', 'Iceland']
+  end
+
+  def gulf_states
+    # Saudi Arabia seems mis-spelled?
+    ['Bahrain', 'Kuwait', 'Oman', 'Qatar', 'Saudi Arabia', 'Saudia Arabia', 'United Arab Emirates']
+  end
+
+  def skip_extraction?(name)
+    skip = nordic_countries + gulf_states
+    skip.include?(name)
+  end
+
+  def get_local_network_organizations
+    OrganizationType.for_filter(:gc_networks).first.organizations.find(:all, :conditions => ["local_network = ? AND name LIKE ?", true, 'GC Network - %'])
+  end
+
+  def attach_countries_to_network(local_net, organization)
+    organization.country.update_attribute :local_network_id, local_net.id
+    countries = []
+    if local_net.name =~ /Gulf States/
+      countries = Country.find(:all, :conditions => ["name IN (?)", gulf_states])
+    elsif local_net.name =~ /Nordic/
+      countries = Country.find(:all, :conditions => ["name IN (?)", nordic_countries])
+    end
+    countries.each do |country|
+      country.update_attribute :local_network_id, local_net.id
+    end
+  end
+
+  def convert_organizations_to_local_networks
+    get_local_network_organizations.each do |organization|
+      name = organization.name.gsub(/GC Network - /, '')
+      next if skip_extraction?(name)
+      local_net = LocalNetwork.new( :name => name,
+                                    :url  => organization.url )
       # 0-No network, 1-Network in Development, 2-Established
       if organization.country.network_type
-        n.state = ['none', 'emerging', 'established'][organization.country.network_type]
+        local_net.state = ['none', 'emerging', 'established'][organization.country.network_type]
       end
       # we now save the local network and assign the country
-      n.save
-      n.countries << organization.country
+      local_net.save
+      attach_countries_to_network(local_net, organization)
       # we no longer need the organization, we could "organization.delete" now
     end
   end
-  
-  def assign_roles
-    file = File.join(@data_folder, "R12_XREF_R10_TR07.csv")
-    # "ROLE_ID","CONTACT_ID","R01_ORG_NAME"
-    CSV.foreach(file, :headers => :first_row) do |row|
-      role_id = row['ROLE_ID']
-      contact_id = row['CONTACT_ID']
-      contact = Contact.find_by_old_id contact_id
-      role = Role.find_by_old_id role_id
-      if role && contact
-        contact.roles << role
-      else
-        log "** [error] Could not assign role: #{row.inspect}"
-      end
-    end
-  end
-  
+
   def assign_network_managers
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     file = File.join(@data_folder, CONFIG[:country][:file])
@@ -314,7 +324,7 @@ class Importer
         contact = Contact.first(:conditions => {:first_name => manager.split.first,
                                                 :last_name  => manager.split.last})
         begin
-          network = country.local_networks.first
+          network = country.local_network.first
         rescue
           network = nil
         end
@@ -330,15 +340,72 @@ class Importer
       end
     end
   end
-  
+
   def assign_local_network_id
-    return if LocalNetwork.count == 0
-    LocalNetwork.all.each do |network|
-      organization = Organization.find_by_name(network.name)
-      if organization && organization.contacts.any?
-        organization.contacts.each do |contact|
+    return unless LocalNetwork.count > 0
+    get_local_network_organizations.each do |organization|
+      puts "Working with #{organization.name} ##{organization.id}"
+      if organization && contacts = organization.contacts and contacts.any?
+        network = organization.country.local_network
+        contacts.each do |contact|
+          puts "  working with #{contact.name} ##{contact.id}"
           contact.update_attribute :local_network_id, network.id
+          puts "  DONE!"
         end
+      end
+    end
+  end  
+  
+  def import_cop_xml
+    require 'hpricot'
+    require 'facets'
+    puts "*** Importing from cop_xml data..."
+    files = Dir[DEFAULTS[:path_to_cop_xml]].map {|f| f - 'data/cop_xml/' }.map { |f| f - '.xml' }
+    converter = Iconv.new("UTF-8", "iso8859-1") 
+    files.each do |f|
+      puts "Working with file #{f}:"
+      if cop = CommunicationOnProgress.find_by_identifier(f)
+        description = converter.iconv (Hpricot(open("data/cop_xml/#{f}.xml"))/'description').inner_html
+        cop.update_attribute :description, description.strip
+      else
+        puts "  *** Error: Can't find the COP"
+      end
+      puts "\n"
+    end
+    puts "*** Done!"
+  end
+  
+  # Imports fields from R01_ORGANIZATION_TEMP.csv:
+  #   pledge_amount & id
+  def import_from_temp_table
+    file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
+    CSV.foreach(file, :headers => :first_row) do |row|
+      # get organization by name
+      if o = Organization.find_by_name(row["ORG_NAME"])
+        # import pledge
+        pledge = row["PLEDGE_AMOUNT"]
+        o.pledge_amount = pledge.to_i if pledge.to_i > 0
+        # import id in TMP table
+        old_tmp_id = row["ID"].to_i
+        o.old_tmp_id = old_tmp_id if old_tmp_id.to_i > 0
+        # save the record
+        o.save
+      end
+    end
+  end
+  
+  def assign_roles
+    file = File.join(@data_folder, "R12_XREF_R10_TR07.csv")
+    # "ROLE_ID","CONTACT_ID","R01_ORG_NAME"
+    CSV.foreach(file, :headers => :first_row) do |row|
+      role_id = row['ROLE_ID']
+      contact_id = row['CONTACT_ID']
+      contact = Contact.find_by_old_id contact_id
+      role = Role.find_by_old_id role_id
+      if role && contact
+        contact.roles << role
+      else
+        log "** [error] Could not assign role: #{row.inspect}"
       end
     end
   end
@@ -374,6 +441,9 @@ class Importer
         when :organization then
           # all organizations in R01_ORGANIZATION were approved
           model.state = 'approved'
+        when :communication_on_progress then
+          # COP Status (0: “In review”, 1: “Published”, -1: “Rejected”)
+          model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]
       end
     end
     

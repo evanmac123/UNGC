@@ -61,7 +61,6 @@ end
 
 def possibly_move(path)
   return path unless MOVED_PAGES[path]
-  puts " *** I got a match for '#{path}'"
   MOVED_PAGES[path]
 end
 

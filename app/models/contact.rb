@@ -118,7 +118,7 @@ class Contact < ActiveRecord::Base
   end
   
   def from_network?
-    !local_network_id.nil?
+    !local_network_id.nil? && !from_ungc?
   end
   
   def user_type

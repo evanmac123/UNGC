@@ -21,6 +21,8 @@
 #
 
 class LogoRequest < ActiveRecord::Base
+  include VisibleTo
+
   validates_presence_of :organization_id, :publication_id
   belongs_to :organization
   belongs_to :contact
@@ -55,17 +57,6 @@ class LogoRequest < ActiveRecord::Base
 
   named_scope :unreplied, :conditions => {:replied_to => false}
 
-  named_scope :visible_to, lambda { |user|
-    if user.user_type == Contact::TYPE_ORGANIZATION
-      { :conditions => ['organization_id=?', user.organization_id] }
-    elsif user.user_type == Contact::TYPE_NETWORK
-      { :conditions => ["organizations.country_id in (?)", user.local_network.country_ids],
-        :include    => :organization }
-    else
-      {}
-    end
-  }
-
   named_scope :submitted_in, lambda { |month, year|
     { :conditions => ['requested_on >= ? AND requested_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
   }
@@ -87,7 +78,7 @@ class LogoRequest < ActiveRecord::Base
   end
   
   def days_to_process
-    # TODO user r.approved_on instead of r.accepted_on
+    # TODO use r.approved_on instead of r.accepted_on
     begin
       (self.accepted_on - self.requested_on).to_i
     rescue
