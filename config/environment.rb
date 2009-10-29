@@ -17,7 +17,7 @@ Rails::Initializer.run do |config|
 
   config.time_zone = 'UTC'
 
-  config.active_record.observers = :organization_observer, :logo_comment_observer, :comment_observer
+  config.active_record.observers = :logo_comment_observer, :comment_observer
   config.action_controller.session_store = :active_record_store
   
   config.load_paths += %W( #{RAILS_ROOT}/app/reports )
