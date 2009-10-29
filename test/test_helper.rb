@@ -9,6 +9,14 @@ class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false  
 
+  def as(user)
+    user.try(:id) ? {:user_id => user.id} : {}
+  end
+  
+  def assert_redirected_to_index
+    assert_redirected_to :action => 'index'
+  end
+
   def assert_layout(layout)
     assert_equal "layouts/#{layout}", @response.layout
   end
