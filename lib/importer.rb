@@ -360,7 +360,7 @@ class Importer
     require 'hpricot'
     require 'facets'
     puts "*** Importing from cop_xml data..."
-    files = Dir[DEFAULTS[:path_to_cop_xml]].map {|f| f - 'data/cop_xml/' }.map { |f| f - '.xml' }
+    files = Dir[DEFAULTS[:path_to_cop_xml]].map { |f| f - '.xml' }.map {|f| f.split('/').last }
     converter = Iconv.new("UTF-8", "iso8859-1") 
     files.each do |f|
       puts "Working with file #{f}:"
