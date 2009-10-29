@@ -17,15 +17,15 @@ module EventsHelper
   end
   
   def this_months_events
-    @this_months_events ||= Event.for_month_year(current_date.month, current_date.year)
+    @this_months_events ||= Event.approved.for_month_year(current_date.month, current_date.year)
   end
 
   def link_to_next_month?
-    Event.for_month_year(next_month.month, next_month.year).any?
+    Event.approved.for_month_year(next_month.month, next_month.year).any?
   end
   
   def link_to_prev_month?
-    Event.for_month_year(prev_month.month, prev_month.year).any?
+    Event.approved.for_month_year(prev_month.month, prev_month.year).any?
   end
   
   def next_month
