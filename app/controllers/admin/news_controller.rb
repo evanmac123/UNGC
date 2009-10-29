@@ -1,6 +1,7 @@
 class Admin::NewsController < AdminController
   helper Admin::NewsHelper
-  before_filter :find_headline, :only => [:edit, :show, :update, :destroy, :delete]
+  before_filter :find_headline, 
+    :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
 
   def index
   end
@@ -36,6 +37,16 @@ class Admin::NewsController < AdminController
 
   def destroy
     @headline.destroy
+    redirect_to :action => 'index'
+  end
+
+  def approve
+    @headline.as_user(current_user).approve!
+    redirect_to :action => 'index'
+  end
+  
+  def revoke
+    @headline.as_user(current_user).revoke!
     redirect_to :action => 'index'
   end
 

@@ -1,6 +1,7 @@
 module ContentApproval
   def self.included(klass)
     klass.class_eval do
+      belongs_to :approved_by, :class_name => 'Contact'
       named_scope :approved, :conditions => {:approval => 'approved'}
       state_machine :approval, :initial => 'pending' do
         event(:approve) { transition :from => 'pending',  :to => 'approved'   }
