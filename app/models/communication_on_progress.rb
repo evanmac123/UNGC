@@ -43,6 +43,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_and_belongs_to_many :languages
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
+  acts_as_commentable
 
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable

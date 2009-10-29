@@ -1,0 +1,8 @@
+%h2 New COP
+
+- form_for([@organization, @cop], :html => { :multipart => true }) do |form|
+  = render :partial => form  
+  %p
+    = form.submit 'Save'
+
+= link_to 'Back', dashboard_path

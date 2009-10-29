@@ -1,0 +1,2 @@
+module Admin::CopsHelper
+end
