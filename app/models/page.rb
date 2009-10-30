@@ -53,6 +53,12 @@ class Page < ActiveRecord::Base
     }
   }
   
+  def validate
+    if pending = self.class.pending_version_for(path) and pending != self
+      errors.add('path', "already exists")
+    end
+  end
+  
   def self.for_path(path)
     find_by_path path, :include => :children
   end
@@ -74,6 +80,10 @@ class Page < ActiveRecord::Base
       return possible if possible
     end
     nil
+  end
+  
+  def self.find_for_section(path)
+    find :all, :conditions => "path REGEXP '^#{path}[^/]+\.html", :group => 'path'
   end
   
   def self.approved_for_path(path)

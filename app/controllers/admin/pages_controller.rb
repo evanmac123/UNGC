@@ -5,7 +5,8 @@ class Admin::PagesController < AdminController
   end
 
   def new
-    @page = Page.new params[:page]
+    defaults = {:path => (params[:section] || '/') + 'untitled.html'}
+    @page = Page.new defaults.merge(params[:page] || {})
   end
 
   def create
