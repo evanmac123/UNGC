@@ -2,4 +2,16 @@
 
 %h3 Thank you!
 
-%p Your Letter of Commitment to the United Nations Global Compact has been received. We will contact you about the status of your organization's registration.
+%p
+  Your Letter of Commitment to the United Nations Global Compact has been received. A confirmation email has been sent to
+  %strong== #{@contact.email}.
+  We will contact you about the status of your organization's registration.
+
+%p
+  If you do not receive an email from the UN Global Compact, please check whether the message has been mislabeled as spam mail. To ensure timely delivery of communications from the UN Global Compact, your email server should be configured to accept messages from
+  %strong info@unglobalcompact.org.
+  For further assistance, please contact your technology staff or network administrator.
+
+%p
+  ==If you still do not receive a confirmation email, please contact #{link_to 'globalcompact@un.org', 'mailto:globalcompact@un.org?subject=Online%20Registration%20ID%20' + @organization.id.to_s} and reference
+  %strong== Registration ID #{@organization.id}.

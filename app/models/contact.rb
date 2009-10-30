@@ -100,6 +100,10 @@ class Contact < ActiveRecord::Base
   def name_with_title
     [prefix, last_name].join(' ')
   end
+  
+  def email_recipient
+    "#{name} <#{email}>" 
+  end
 
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
