@@ -1,12 +1,12 @@
 %p
   %b Title:
-  =h @cop.title
+  =h @communication_on_progress.title
 %p
   %b Principles:
   %br/
-  = @cop.principles.collect(&:name).join('<br/>')
+  = @communication_on_progress.principles.collect(&:name).join('<br/>')
 
 %h3 Comments
-= link_to 'New comment', new_communication_on_progress_comment_path(@cop)
+= link_to 'New comment', new_communication_on_progress_comment_path(@communication_on_progress)
 %ul
-  = render :partial => @cop.comments
+  = render :partial => @communication_on_progress.comments

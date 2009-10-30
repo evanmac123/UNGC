@@ -55,6 +55,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
   
+  FORMAT = {:annual_report     => "COP is part of an annual (financial) report",
+            :sustainability_report => "COP is part of a sustainability or corporate responsibility report",
+            :summary_document  => "COP is a summary document that refers to an annual or sustainability report",
+            :standalone        => "COP is a stand-alone document"}
+  
   def self.find_by_param(param)
     return nil if param.blank?
     if param =~ /\A(\d\d+).*/
