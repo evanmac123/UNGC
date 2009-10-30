@@ -66,8 +66,11 @@
   Does the statement of continued support mention specific types of engagement with the UN Global Compact, such as active participation in a local network, issue working group, Caring for Climate, or the CEO Water Mandate?
   = true_or_false_field(form, :support_statement_mentions_engagements)
 
-%fieldset{:legend => 'Human Rights'}
-  #human_rights_addressed
-    Human Rights Addressed
-  #human_rights_not_addressed
-    Human Rights NOT Addressed
+- PrincipleArea::FILTERS.each_pair do |key, value|
+  %fieldset{:legend => value}
+    %div{:id => "#{key}_not_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "none" : "block"}"}
+      %h4== #{value} NOT Addressed
+      = cop_questions_for @communication_on_progress, key, false
+    %div{:id => "#{key}_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "block" : "none"}"}
+      %h4== #{value} Addressed
+      = cop_questions_for @communication_on_progress, key, true
