@@ -1,6 +1,7 @@
 class Admin::EventsController < AdminController
   helper Admin::EventsHelper
-  before_filter :find_event, :only => [:edit, :show, :update, :destroy, :delete]
+  before_filter :find_event, 
+    :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
   
   def index
   end
@@ -36,6 +37,16 @@ class Admin::EventsController < AdminController
 
   def destroy
     @event.destroy
+    redirect_to :action => 'index'
+  end
+
+  def approve
+    @event.as_user(current_user).approve!
+    redirect_to :action => 'index'
+  end
+  
+  def revoke
+    @event.as_user(current_user).revoke!
     redirect_to :action => 'index'
   end
   

@@ -59,8 +59,16 @@ ActionController::Routing::Routes.draw do |map|
     m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
   end
   map.namespace :admin do |admin|
-    admin.resources :events
-    admin.resources :headlines, :controller => 'news'
+    admin.resources :events, :member => { 
+      :approve => :post, 
+      :revoke => :post 
+    }
+    admin.resources :headlines, 
+      :controller => 'news', 
+      :member => { 
+        :approve => :post, 
+        :revoke => :post 
+      }
   end
   
   # reports
