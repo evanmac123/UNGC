@@ -40,3 +40,10 @@
     = render :partial => @pending_case_stories
 - else
   no work for you
+
+%h3 Pending COPs
+- if @pending_cops.any?
+  %ul
+    = render :partial => @pending_cops
+- else
+  no work for you

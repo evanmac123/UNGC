@@ -21,3 +21,9 @@
   - if current_user.organization.case_stories.any?
     %ul
       = render :partial => current_user.organization.case_stories
+
+  %h3 COPs
+  = link_to 'new', new_organization_communication_on_progress_path(current_user.organization)
+  - if current_user.organization.communication_on_progresses.any?
+    %ul
+      = render :partial => current_user.organization.communication_on_progresses

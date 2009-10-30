@@ -1,8 +1,7 @@
 class FormBuilder < ActionView::Helpers::FormBuilder
-  helpers = field_helpers +
-            [:date_select, :datetime_select, :time_select] +
-            [:collection_select, :select, :country_select, :time_zone_select] -
-            [:hidden_field, :label, :fields_for] # Don't decorate these
+  helpers = [:form_for, :apply_form_for_options!, :text_field, :password_field, :file_field,
+                :text_area, :check_box, :date_select, :datetime_select, :time_select,
+                :collection_select, :select, :country_select, :time_zone_select]
 
   helpers.each do |name|
     define_method(name) do |field, *args|

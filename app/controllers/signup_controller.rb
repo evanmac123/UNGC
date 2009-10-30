@@ -46,10 +46,16 @@ class SignupController < ApplicationController
   def step5
     @organization.attributes = params[:organization]
     if @organization.commitment_letter?
-      # save all records
+      # save all records - THIS LOOKS BAD, but some of the reference to Roles was getting lost
       @organization.save
+      @contact.role_ids = [Role.contact_point.id]
+      @contact.save
+      @ceo.role_ids = [Role.ceo.id]
+      @ceo.save
       @organization.contacts << @contact
       @organization.contacts << @ceo
+      
+      deliver_notification_email(@organization)
       clean_session
     else
       flash[:error] = 'Upload you commitment letter'
@@ -66,8 +72,8 @@ class SignupController < ApplicationController
     def load_objects
       @organization = session[:signup_organization] || Organization.new
       load_organization_types
-      @contact = session[:signup_contact] || Contact.new(:role_ids => [Role.contact_point.id])
-      @ceo = session[:signup_ceo] || Contact.new(:role_ids => [Role.ceo.id])
+      @contact = session[:signup_contact] || Contact.new
+      @ceo = session[:signup_ceo] || Contact.new
     end
     
     def set_default_values
@@ -90,5 +96,13 @@ class SignupController < ApplicationController
       session[:signup_organization] = Organization.new
       session[:signup_contact] = Contact.new
       session[:signup_ceo] = Contact.new
+    end
+    
+    def deliver_notification_email(organization)
+      if organization.micro_enterprise?
+        OrganizationMailer.deliver_reject_microenterprise(organization)
+      else
+        OrganizationMailer.deliver_submission_received(organization)
+      end
     end
 end

@@ -24,6 +24,8 @@ class CommentsController < ApplicationController
     def load_commentable
       if params[:case_story_id]
         @commentable = CaseStory.find params[:case_story_id]
+      elsif params[:communication_on_progress_id]
+        @commentable = CommunicationOnProgress.find params[:communication_on_progress_id]
       elsif params[:organization_id]
         @commentable = Organization.find params[:organization_id]
       end

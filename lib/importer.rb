@@ -360,12 +360,13 @@ class Importer
     require 'hpricot'
     require 'facets'
     puts "*** Importing from cop_xml data..."
-    files = Dir[DEFAULTS[:path_to_cop_xml]].map {|f| f - 'data/cop_xml/' }.map { |f| f - '.xml' }
+    real_files = Dir[DEFAULTS[:path_to_cop_xml]]
     converter = Iconv.new("UTF-8", "iso8859-1") 
-    files.each do |f|
-      puts "Working with file #{f}:"
-      if cop = CommunicationOnProgress.find_by_identifier(f)
-        description = converter.iconv (Hpricot(open("data/cop_xml/#{f}.xml"))/'description').inner_html
+    real_files.each do |f|
+      short = (f - '.xml').split('/').last
+      puts "Working with file #{short}:"
+      if cop = CommunicationOnProgress.find_by_identifier(short)
+        description = converter.iconv (Hpricot(open(f))/'description').inner_html
         cop.update_attribute :description, description.strip
       else
         puts "  *** Error: Can't find the COP"
@@ -441,6 +442,8 @@ class Importer
         when :organization then
           # all organizations in R01_ORGANIZATION were approved
           model.state = 'approved'
+          # COP state - 2=Active, 1=Non-communicating, 0=Inactive, 3=Delisted
+          model.cop_state = ['inactive','non-communicating','active','delisted'][model.cop_status.to_i]
         when :communication_on_progress then
           # COP Status (0: “In review”, 1: “Published”, -1: “Rejected”)
           model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]

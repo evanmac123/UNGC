@@ -1,0 +1,6 @@
+%h2 Edit COP
+
+- form_for([@organization, @cop], :html => { :multipart => true }) do |form|
+  = render :partial => form  
+  %p
+    = form.submit 'Save'
