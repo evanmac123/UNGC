@@ -24,6 +24,8 @@
 
 class Page < ActiveRecord::Base
   include ContentApproval
+  include TrackCurrentUser
+  
   before_create :increment_version_number
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
@@ -76,6 +78,10 @@ class Page < ActiveRecord::Base
     nil
   end
   
+  def self.find_for_section(path)
+    find :all, :conditions => "path REGEXP '^#{path}[^/]+\.html", :group => 'path'
+  end
+  
   def self.approved_for_path(path)
     approved.find_by_path path
   end
@@ -111,6 +117,7 @@ class Page < ActiveRecord::Base
   end
   
   def new_version(options={})
+    options ||= {}
     active = active_version || self
     default_options = {
       :path                  => active.path, 

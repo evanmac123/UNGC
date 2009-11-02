@@ -31,9 +31,10 @@ class EventTest < ActiveSupport::TestCase
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
       end
-      @later = @today >> 2
+      # not always later
+      @other = ( (@today >> 2).year == @today.year ) ? @today >> 2 : @today << 2
       3.times do
-        starts_on = Time.mktime(@later.year, @later.month, rand(22)+1).to_date
+        starts_on = Time.mktime(@other.year, @other.month, rand(22)+1).to_date
         starts << starts_on
         ends_on   = starts_on + rand(4)
         create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
@@ -57,8 +58,8 @@ class EventTest < ActiveSupport::TestCase
     end
     
     should "find events for later" do
-      assert_equal 3, Event.for_month_year(@later.month, @later.year).count
-      assert_equal 3, Event.for_month_year(@later.month).count # even if we don't specify the year, it should assume
+      assert_equal 3, Event.for_month_year(@other.month, @other.year).count
+      assert_equal 3, Event.for_month_year(@other.month).count # even if we don't specify the year, it should assume
     end
     
     should "find events for much later" do 

@@ -1,11 +1,13 @@
 class Admin::PagesController < AdminController
-  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :update]
+  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :revoke, :update]
+  before_filter :ckeditor, :only => [:new, :create, :edit, :update]
 
   def index
   end
 
   def new
-    @page = Page.new params[:page]
+    defaults = {:path => (params[:section] || '/') + 'untitled.html'}
+    @page = Page.new defaults.merge(params[:page] || {})
   end
 
   def create
@@ -45,20 +47,36 @@ class Admin::PagesController < AdminController
   end
   
   def update
-    @version = @page.update_pending_or_new_version(params[:content])
-    respond_to do |wants|
-      wants.html { redirect_to view_page_url(:path => @page.to_path) }
-      wants.js { render :json => { :content => @version.content, :version => @version.version_number } }
+    if params[:content] # this is the live editor
+      @version = @page.update_pending_or_new_version(params[:content])
+      respond_to do |wants|
+        wants.html { redirect_to view_page_url(:path => @page.to_path) }
+        wants.js { render :json => { :content => @version.content, :version => @version.version_number } }
+      end
+      return
+    else
+      @version = @page.update_pending_or_new_version(params[:page])
+      redirect_to edit_admin_page_path(:id => @version)
+      return
     end
+  end
+
+  def find_by_path_and_redirect_to_latest
+    page = Page.all_versions_of(params[:path]).last
+    redirect_to edit_admin_page_path(page.id)
   end
   
   private
-  def find_page
-    if @page = Page.find_by_id(params[:id])
-      @current_version = params[:version].blank? ? @page.active_version : @page.find_version_number(params[:version])
-    else
-      render :text => 'Not Found', :status => 404
+    def ckeditor
+      (@javascript ||= []) << '/ckeditor/ckeditor'
     end
-  end
+    
+    def find_page
+      if @page = Page.find_by_id(params[:id])
+        @current_version = params[:version].blank? ? @page.active_version : @page.find_version_number(params[:version])
+      else
+        render :text => 'Not Found', :status => 404
+      end
+    end
   
 end

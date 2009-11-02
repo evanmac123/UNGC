@@ -1,8 +1,8 @@
 class AdminController < ApplicationController
   layout 'admin'
   # TODO use a single before_filter
+  before_filter :login_required #, :only => :dashboard
   before_filter :require_staff
-  before_filter :login_required, :only => :dashboard
   before_filter :add_admin_js
   
   def dashboard
@@ -23,7 +23,7 @@ class AdminController < ApplicationController
   
   private
   def require_staff # TODO: Make this secure
-    true
+    current_user.from_ungc?
   end
   
   def add_admin_js

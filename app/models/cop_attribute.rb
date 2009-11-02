@@ -24,6 +24,34 @@ class CopAttribute < ActiveRecord::Base
       ],
       [:human_rights, true, "Outcomes: Does the COP contain information on outcomes of your human right policies and activities?", 3,
         ["Qualitative outcomes", "Quantitative outcomes using defined indicators", "Expected outcomes/targets"]
+      ],
+
+      [:labour, false, "Does the COP explain how your company determined labour issues (freedom of association and right to collective bargaining; forced and compulsory labour; child labour; non-discrimination) are not relevant for its business or the communities in which it operates?", 1,
+        [""]
+      ],
+      [:labour, false, "Does the COP make explicit reference to planned policies and/or activities related to labour issues?", 2,
+        [""]
+      ],
+      [:labour, true, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the labour principles?", 1, 
+        ["Reflection on the relevance ('materiality') of the labour principles for your company",
+          "Public commitment to uphold freedom of association and the right to collective bargaining",
+          "Public commitment to eliminate forced and compulsory labour",
+          "Public commitment to eliminate child labour",
+          "Public commitment to eliminate discrimination in respect of employment and occupation",
+          "Reference to the International Labour Organization (ILO) Core Conventions",
+          "Formal policy that addresses the labour principles (e.g. in code of conduct)"
+        ]
+      ],
+      [:labour, true, "Implementation: Does the COP explain how the labour principles are managed and/or what activities your company is undertaking?", 2, 
+        ["Allocation of responsibilities and accountabilities",
+          "Internal and external communication",
+          "Training for employees",
+          "Participation in labour initiatives / collective action",
+          "Inclusion of labour issues in contracts with business partners",
+          "Supplier audits",
+          "Monitoring and evaluation",
+          "Other"
+        ]
       ]
     ].each do |record|
       question = CopQuestion.create(:principle_area_id => PrincipleArea.send(record.first).id,
