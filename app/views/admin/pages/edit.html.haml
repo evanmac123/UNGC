@@ -1,5 +1,14 @@
 %h2 Edit page
 
+%p
+  = link_to 'View', @page.path
+  = link_to 'Delete', '#FIXME'
+  = link_to 'Approve', approve_admin_page_path(@page), :class => 'link_to_post' if @page.can_approve?
+  = link_to 'Revoke', '#FIXME' if @page.can_revoke?
+  - if versions = (@page.versions - [@page]) and versions.any?
+    - for version in versions do
+      = link_to "Version #{version.version_number}", :id => version.id
+
 - form_for @page, :url => admin_page_path(@page) do |form|
   = render :partial => 'form'
 

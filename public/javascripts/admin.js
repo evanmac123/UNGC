@@ -1,5 +1,18 @@
 var CKEDITOR_BASEPATH = '/ckeditor/'
 
+function startEditor(replaceMe) {
+	var editor = CKEDITOR.replace(replaceMe, {
+		toolbar: EditorToolbar,
+		width: 600,
+		height: 500,
+		dialog_magnetDistance: 5,
+		resize_minWidth: 300,
+		resize_maxWidth: 600,
+	});
+	editor.config.protectedSource.push( /<\%=?.*\%>/gm);
+	return editor;
+};
+
 var Editor = {
 	editor: null,
 	originalContents: null,
@@ -18,15 +31,7 @@ var Editor = {
 		editorForm.append('<input type="hidden" name="authenticity_token" value="'+AUTH_TOKEN+'" />');
 		editorForm.append('<textarea id="replaceMe" name="content[content]"></textarea>');
 		
-		Editor.editor = CKEDITOR.replace('replaceMe', {
-			toolbar: EditorToolbar,
-			width: 600,
-			height: 500,
-			dialog_magnetDistance: 5,
-			resize_minWidth: 300,
-			resize_maxWidth: 600,
-		});
-		Editor.editor.config.protectedSource.push( /<\%=?.*\%>/gm);
+		Editor.editor = startEditor('replaceMe');
 		Editor.editor.config.startupMode = json.startupMode;
 		Editor.editor.setData(json.content);
 	},
@@ -130,4 +135,8 @@ $('a.delete').live('click', function(event) {
 $(function() {
 	$('a.link_to_post').live('click', makePostLink );
 	$('a.link_to_destroy').live( 'click', makeDestroyLink );
+	
+	if ($('form textarea#page_content').size() > 0) {
+		startEditor('page_content');
+	}
 });

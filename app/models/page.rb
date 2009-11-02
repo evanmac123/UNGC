@@ -24,6 +24,8 @@
 
 class Page < ActiveRecord::Base
   include ContentApproval
+  include TrackCurrentUser
+  
   before_create :increment_version_number
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
@@ -115,6 +117,7 @@ class Page < ActiveRecord::Base
   end
   
   def new_version(options={})
+    options ||= {}
     active = active_version || self
     default_options = {
       :path                  => active.path, 

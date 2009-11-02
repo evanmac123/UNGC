@@ -58,6 +58,9 @@ ActionController::Routing::Routes.draw do |map|
     m.headline_year '/news/:year', :action => :index, :requirements => { :year => /\d{4}/ }
     m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
   end
+
+  map.find_page_by 'admin/pages/find', :controller => 'admin/pages', :action => 'find_by_path_and_redirect_to_latest'
+
   map.namespace :admin do |admin|
     admin.resources :events, :member => { 
       :approve => :post, 

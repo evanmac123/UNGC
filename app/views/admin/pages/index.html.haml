@@ -1,7 +1,13 @@
 %h3 Pages
+%p
+  = image_tag 'folder_web.png', :width => 24, :style => 'vertical-align: sub'
+  = section_breadcrumbs
           
 %p= link_to 'Create a page', new_admin_page_path(:section=>params[:section])
 
-- pages_and_sections_for(params[:section]).each do |page_or_section|
-  %div
-    = link_to_page_or_section page_or_section
+%table{:cellpadding=>3, :cellspacing=>0, :border=>0}
+  - pages_and_sections_for(params[:section]).each do |page_or_section|
+    - page = is_page?(page_or_section)
+    %tr
+      %td{:width => 24}= image_tag is_page?(page_or_section) ? 'document.png' : 'folder.png', :width => 24, :height => 24
+      %td= link_to_page_or_section page_or_section
