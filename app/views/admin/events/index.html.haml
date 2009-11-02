@@ -11,7 +11,7 @@
     %tbody
       - for event in paged_events do
         %tr
-          %td= event.title
+          %td= link_to event.title, edit_admin_event_path(event)
           %td= date_range event
           %td= event.full_location
           %td

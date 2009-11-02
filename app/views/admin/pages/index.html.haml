@@ -1,0 +1,21 @@
+%h3 Pages
+
+- if paged_pages.any?
+  %table
+    %thead
+      %tr
+        %th Title
+        %th Status
+        %th &nbsp;
+    %tbody
+      - for page in paged_pages do
+        %tr
+          %td= link_to page.title || page.path, edit_admin_page_path(page)
+          %td= page.approval.to_s
+          %td
+            = link_to 'Approve', approve_admin_page_path(page), :class => 'link_to_post' if page.can_approve?
+            = link_to 'Revoke', revoke_admin_page_path(page), :class => 'link_to_post' if page.can_revoke?
+            = link_to 'Edit', edit_admin_page_path(page)
+            = link_to 'Delete', admin_page_path(page), :class => 'link_to_destroy', :confirmation => 'Are you sure you want to delete this page?'
+          
+= link_to 'Create an page', new_admin_page_path

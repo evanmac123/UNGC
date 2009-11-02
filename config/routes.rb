@@ -69,6 +69,11 @@ ActionController::Routing::Routes.draw do |map|
         :approve => :post, 
         :revoke => :post 
       }
+    admin.resources :pages,
+      :member => {
+        :approve => :post,
+        :revoke  => :post
+      }
   end
   
   # reports
