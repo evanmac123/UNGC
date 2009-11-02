@@ -10,3 +10,9 @@ class String
     end
   end
 end
+
+class Array
+  def sixth
+    self[5]
+  end
+end
