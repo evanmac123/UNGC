@@ -35,6 +35,8 @@
 #  commitment_letter_file_size    :integer(4)
 #  commitment_letter_updated_at   :datetime
 #  pledge_amount                  :integer(4)
+#  old_tmp_id                     :integer(4)
+#  cop_state                      :string(255)
 #
 
 class Organization < ActiveRecord::Base

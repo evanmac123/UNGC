@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: local_networks
+#
+#  id         :integer(4)      not null, primary key
+#  name       :string(255)
+#  manager_id :integer(4)
+#  url        :string(255)
+#  state      :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  code       :string(255)
+#
+
 class LocalNetwork < ActiveRecord::Base
   validates_presence_of :name
   # has_and_belongs_to_many :countries

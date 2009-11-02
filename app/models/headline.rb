@@ -12,6 +12,7 @@
 #  approval       :string(255)
 #  approved_at    :datetime
 #  approved_by_id :integer(4)
+#  country_id     :integer(4)
 #  created_at     :datetime
 #  updated_at     :datetime
 #
