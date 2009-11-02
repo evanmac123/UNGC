@@ -50,10 +50,12 @@ module Admin::CopsHelper
   end
   
   def cop_questions_for(cop, principle, selected)
-    # find question
-    questions = CopQuestion.all(:conditions => {:principle_area_id => PrincipleArea.send(principle).id,
-                                                :area_selected     => selected})
-    return questions.collect{|question| output_cop_question(cop, question)}.join('')
+    # find questions
+    questions = CopQuestion.general.all(:conditions => {:principle_area_id => PrincipleArea.send(principle).id,
+                                                        :area_selected     => selected})
+    questions << CopQuestion.initiative_questions_for(cop.organization).all(:conditions => {:principle_area_id => PrincipleArea.send(principle).id,
+                                                                                            :area_selected     => selected})
+    return questions.flatten.collect{|question| output_cop_question(cop, question)}.join('')
   end
   
   def output_cop_question(cop, question)

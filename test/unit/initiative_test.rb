@@ -3,6 +3,7 @@ require 'test_helper'
 class InitiativeTest < ActiveSupport::TestCase
   should_have_many :signings
   should_have_many :signatories, :through => :signings
+  should_have_many :cop_questions
   
   # :climate => id(2)
   context "filtering initiatives for a type" do
