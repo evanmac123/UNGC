@@ -1,21 +1,13 @@
 %h3 Pages
-
-- if paged_pages.any?
-  %table
-    %thead
-      %tr
-        %th Title
-        %th Status
-        %th &nbsp;
-    %tbody
-      - for page in paged_pages do
-        %tr
-          %td= link_to page.title || page.path, edit_admin_page_path(page)
-          %td= page.approval.to_s
-          %td
-            = link_to 'Approve', approve_admin_page_path(page), :class => 'link_to_post' if page.can_approve?
-            = link_to 'Revoke', revoke_admin_page_path(page), :class => 'link_to_post' if page.can_revoke?
-            = link_to 'Edit', edit_admin_page_path(page)
-            = link_to 'Delete', admin_page_path(page), :class => 'link_to_destroy', :confirmation => 'Are you sure you want to delete this page?'
+%p
+  = image_tag 'folder_web.png', :width => 24, :style => 'vertical-align: sub'
+  = section_breadcrumbs
           
-= link_to 'Create an page', new_admin_page_path
+%p= link_to 'Create a page', new_admin_page_path(:section=>params[:section])
+
+%table{:cellpadding=>3, :cellspacing=>0, :border=>0}
+  - pages_and_sections_for(params[:section]).each do |page_or_section|
+    - page = is_page?(page_or_section)
+    %tr
+      %td{:width => 24}= image_tag is_page?(page_or_section) ? 'document.png' : 'folder.png', :width => 24, :height => 24
+      %td= link_to_page_or_section page_or_section
