@@ -3,11 +3,7 @@ class Admin::CopsController < AdminController
   
   def new
     @communication_on_progress = @organization.communication_on_progresses.new
-    # TODO move the line below to the model
-    CopAttribute.all.each {|cop_attribute|
-      @communication_on_progress.cop_answers.build(:cop_attribute_id => cop_attribute.id,
-                                                   :value => false)
-    }
+    @communication_on_progress.init_cop_attributes
   end
   
   def create

@@ -102,4 +102,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   def year
     end_year
   end
+  
+  def init_cop_attributes
+    CopAttribute.all.each {|cop_attribute|
+      self.cop_answers.build(:cop_attribute_id => cop_attribute.id,
+                             :value => false)
+    }
+  end
 end
