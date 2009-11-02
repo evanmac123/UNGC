@@ -52,7 +52,82 @@ class CopAttribute < ActiveRecord::Base
           "Monitoring and evaluation",
           "Other"
         ]
-      ]
+      ],
+      [:labour, true, "Outcomes: Does the COP contain information on outcomes of your labour policies and activities?", 3, 
+        ["Qualitative outcomes (e.g. operations identified as having significant risk for labour incidents)",
+          "Quantitative outcomes using defined indicators (e.g. percentage of employees covered by collective bargaining agreements; )",
+          "Expected outcomes/targets"
+        ]
+      ],
+      
+      [:environment, false, "Does the COP explain how your company determined environmental issues are not relevant for its business or the communities in which it operates?", 1,
+        [""]
+      ],
+      [:environment, false, "Does the COP make explicit reference to planned policies and/or activities related to labour issues?", 2,
+        [""]
+      ],
+      [:environment, true, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", 1, 
+        ["Reflection on the relevance ('materiality') of the labour principles for your company",
+          "Public commitment to support a precautionary approach to environmental challenges",
+          "Public commitment to undertake initiatives to promote greater environmental responsibility",
+          "Public commitment to encourage the development and diffusion of environmentally friendly technologies",
+          "Reference to the Rio Declaration on Environment and Development",
+          "Formal environmental policy"
+        ]
+      ],
+      [:environment, true, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", 2, 
+        ["Environmental risk and/or impact assessment",
+          "Environmental management system",
+          "Allocation of responsibilities and accountabilities",
+          "Awareness raising",
+          "Eco-efficiency programs",
+          "Life cycle assessment",
+          "Participation in environmental initiatives",
+          "Inclusion of environmental issues in contracts with business partners",
+          "Monitoring and evaluation",
+          "Other"
+        ]
+      ],
+      [:environment, true, "Outcomes: Does the COP contain information on outcomes of your environmental policies and activities?", 3, 
+        ["Qualitative outcomes",
+          "Quantitative outcomes using defined indicators",
+          "Expected outcomes/targets"
+        ]
+      ],
+      
+      [:anti_corruption, false, "Does the COP explain how your company determined that corruption is not relevant to its business or the communities in which it operates?", 1,
+        [""]
+      ],
+      [:anti_corruption, false, "Does the COP make explicit reference to planned policies and/or activities related to corruption?", 2,
+        [""]
+      ],
+      [:anti_corruption, true, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", 1, 
+        ["Reflection on the relevance ('materiality') of corruption for your company",
+          "Publicly stated commitment to zero-tolerance of corruption",
+          "Commitment to be compliant with all laws relevant to corruption",
+          "Formal anti-corruption policy (e.g. in code of conduct)",
+          "Statement of support for international and regional legal frameworks, such as the UN Convention Against Corruption"
+        ]
+      ],
+      [:anti_corruption, true, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", 2, 
+        ["Identification of corruption risks within your company's business",
+          "Implementation of an anti-corruption program, such as standards and procedures, allocation of responsibilities, or sanctions",
+          "Support by the organization's leadership to anti-corruption",
+          "Communication of and training on the anti-corruption commitment to all employees",
+          "Internal checks-and-balances to ensure consistency with anti-corruption commitment",
+          "Whistle blowing and other communication channels for reporting concerns or seeking advice and follow up mechanism",
+          "Communications and actions taken to encourage business partners to implement anti-corruption commitments",
+          "Participation in voluntary anti-corruption initiatives / collective action",
+          "Monitoring and improvement processes",
+          "Other"
+        ]
+      ],
+      [:anti_corruption, true, "Outcomes: Does the COP contain information on outcomes of your anti-corruption policies and activities?", 3, 
+        ["Qualitative outcomes (e.g. public legal cases regarding corruption; actions taken in response to incidents of corruption)",
+          "Quantitative outcomes using defined indicators (e.g. percentage and total number of business units analyzed for risks related to corruption)",
+          "Expected outcomes/targets"
+        ]
+      ],
     ].each do |record|
       question = CopQuestion.create(:principle_area_id => PrincipleArea.send(record.first).id,
                                     :area_selected     => record.second,
