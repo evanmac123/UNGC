@@ -135,7 +135,7 @@ class Page < ActiveRecord::Base
   end
   
   def pending_version
-    self.class.pending_version_for(path).first
+    self.class.pending_version_for(path)
   end
   
   def previous_version
@@ -146,6 +146,15 @@ class Page < ActiveRecord::Base
     array = path.split('/')
     array.shift
     array
+  end
+
+  def update_pending_or_new_version(options={})
+    if pending_version
+      pending_version.update_attributes(options)
+      pending_version
+    else
+      new_version(options)
+    end
   end
 
   def version_version_number(version_number)

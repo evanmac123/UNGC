@@ -47,9 +47,10 @@ class Admin::PagesControllerTest < ActionController::TestCase
         assert_response 404
       end
       
-      should "issue a 403 when not an XHR" do
+      should "use the edit template when not XHR" do
         get :edit, :id => @page.id
-        assert_response 403
+        assert_response 200
+        assert_template 'admin/pages/edit'
       end
     end
     
