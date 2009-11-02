@@ -30,8 +30,9 @@ module Admin::CopsHelper
   
   def true_or_false_cop_attributes(cop, attributes)
     # get answers for attributes we are interested in
+    attributes_ids = attributes.collect(&:id)
     answers = cop.cop_answers.collect do |a| 
-      a if attributes.include?(a.cop_attribute)
+      a if attributes_ids.include?(a.cop_attribute_id)
     end.compact
     
     html = ''
