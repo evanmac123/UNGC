@@ -3,6 +3,8 @@ log/*.pid
 db/*.db
 db/*.sqlite3
 db/*.sql
+db/sphinx/*
+config/development.sphinx.conf
 db/schema.rb
 tmp/**/*
 tmp/*
