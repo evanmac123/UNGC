@@ -89,6 +89,8 @@ ActionController::Routing::Routes.draw do |map|
     m.connect 'admin/page/:id/edit', :action => 'update', :conditions => { :method => :post }
   end
 
+  map.search '/search', :controller => 'search', :action => 'index'
+
   map.decorate_page 'decorate/*path', :controller => 'pages', :action => 'decorate'
   map.view_page '*path', :controller => 'pages', :action => 'view'
   # map.connect ':controller/:action/:id'

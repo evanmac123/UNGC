@@ -1,0 +1,22 @@
+THINGS TO DO:
+- word docs
+- events
+- headlines
+- case stories
+- participants
+- contacts?
+
+- DJ runner
+- index daemon
+- DJ instruction when things are deleted (pages, files, contacts, events, etc.) - module??
+- script to index uploaded documents (PDFs, word docs, etc.)
+
+- advanced search page (filters?)
+
+- powerpoint
+- cops
+
+- separate search controller / index for:
+  - cops
+  - case stories
+  - participants

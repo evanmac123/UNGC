@@ -24,8 +24,8 @@
           %a{ :href => "/Languages/german/index.html" }
             %img{ :src => "/images/lang_deutsch_over.gif", :alt => "German" }
     #search
-      %form{ :name => "search", :action => "/dynamic/redirect_search.php", :method => "get" }
-        %input.search_box{ :name => "search_terms", :type => "text" }
+      %form{ :name => "search", :action => "/search", :method => "get" }
+        %input.search_box{ :name => "keyword", :type => "text" }
         %input.search_submit{ :name => "submit", :src => "/images/search_submit.png", :type => "image", :alt => "Search" }
         %p
           %input#search_radio1{ :checked => "checked", :name => "search_option", :type => "radio", :value => "website" }

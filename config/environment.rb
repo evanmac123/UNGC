@@ -12,6 +12,7 @@ Rails::Initializer.run do |config|
   config.gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com'
   config.gem 'mislav-will_paginate', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem 'jackdempsey-acts_as_commentable', :lib => 'acts_as_commentable', :source => "http://gems.github.com"
+  config.gem 'thinking-sphinx-099', :lib     => 'thinking_sphinx', :source => "http://gemcutter.org"
   config.gem 'money'
   config.gem 'haml'
 

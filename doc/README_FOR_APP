@@ -74,6 +74,11 @@ rake db:migrate
 rake db:seed
 ./script/server
 
+Search requires the Python library 'pdfminer', see this page for installation instructions:
+http://www.unixuser.org/~euske/python/pdfminer/index.html
+
+Make sure that pdf2txt.py is in the path, and it should be fine.
+
 Done :)
 
 Fields to delete

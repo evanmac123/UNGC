@@ -1,4 +1,6 @@
 universal: &universal
+  url_host: 'unglobalcompact.org'
+  search_results_per_page: 25
   cop_inactives_path: '/COP/inactives.html'
   cop_noncommunicating_path: '/COP/non_communicating.html'
   cop_notable_path: '/COP/notable_cops.html'
