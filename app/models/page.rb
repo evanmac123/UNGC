@@ -53,12 +53,6 @@ class Page < ActiveRecord::Base
     }
   }
   
-  def validate
-    if pending = self.class.pending_version_for(path) and pending != self
-      errors.add('path', "already exists")
-    end
-  end
-  
   def self.for_path(path)
     find_by_path path, :include => :children
   end
