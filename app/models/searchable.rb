@@ -43,11 +43,15 @@ class Searchable < ActiveRecord::Base
   end
   
   def self.index_page(page)
-    helper = SearchableHelper.new
-    title = page.title
-    content = helper.strip_tags page.content
-    url = page.path
-    import 'Page', :url => url, :title => title, :content => content
+    if page.approved? && !page.dynamic_content
+      helper = SearchableHelper.new
+      title = page.title
+      content = helper.strip_tags page.content
+      url = page.path
+      unless title.blank? && content.blank?
+        import 'Page', :url => url, :title => title, :content => content
+      end
+    end
   end
 
   def self.index_pages
