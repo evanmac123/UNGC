@@ -1,0 +1,3 @@
+#!/bin/sh
+
+java -cp vendor/poi/poi-3.5-FINAL-20090928.jar:vendor/poi/poi-scratchpad-3.5-FINAL-20090928.jar:vendor/poi/ PptReader $@
