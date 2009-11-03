@@ -13,10 +13,10 @@
 #
 
 class SearchableHelper
+  include ActionView::Helpers
   # include ActionView::Helpers::UrlHelper
   include ActionController::UrlWriter
   # include ActionView::Helpers::SanitizeHelper
-  include ActionView::Helpers
   default_url_options[:host] = DEFAULTS[:url_host]
 end
 
@@ -27,6 +27,10 @@ class Searchable < ActiveRecord::Base
     indexes title
     indexes content
     has url, document_type, last_indexed_at
+  end
+
+  def set_indexed_at
+    self.last_indexed_at = Time.now
   end
 
   def self.import(document_type, options)
@@ -56,7 +60,32 @@ class Searchable < ActiveRecord::Base
     import 'PDF', :url => url, :title => title, :content => content
   end
 
-  def set_indexed_at
-    self.last_indexed_at = Time.now
+  def self.index_event(event)
+    helper = SearchableHelper.new
+    title = event.title
+    content = event.location + "\n" + 
+      event.country.try(:name) + 
+      helper.strip_tags(event.description)
+    url = helper.instance_eval { event_path(event) }
+    import 'Event', :url => url, :title => title, :content => content
   end
+
+  def self.index_events
+    Event.approved.each { |e| index_event e }
+  end
+  
+  def self.index_headline(headline)
+    helper = SearchableHelper.new
+    title = headline.title
+    content = headline.location + "\n" + 
+      headline.country.try(:name) + 
+      helper.strip_tags(headline.description)
+    url = helper.instance_eval { headline_path(headline) }
+    import 'Event', :url => url, :title => title, :content => content
+  end
+  
+  def self.index_headlines
+    Headline.approved.each { |h| index_headline h }
+  end
+
 end
