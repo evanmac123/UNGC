@@ -1,15 +1,27 @@
-== Dear #{@organization.name},
+== Dear #{@contact.name_with_title},
 
-Participation Request Status: Declined
+%p== Thank you very much for the letter from #{@organization.name} to the UN Secretary-General expressing commitment to implement the UN Global Compact's principles in the areas of human rights, labour, environment and anti-corruption.
 
-Add contents of ungc_site/master/includes/email_content/microenterprise_rejection_letter.txt
+%p We regret that due to capacity constraints organizations with less than 10 full-time direct employees cannot become official participants in the UN Global Compact. 
 
-Sincerely,
+%p== However, we hope you remain informed about the UN Global Compact through our website #{link_to 'www.unglobalcompact.org', 'http://www.unglobalcompact.org/' }. It contains information and tools on a range of corporate responsibility issues, including the Ten Principles, as well as partnerships for development, business and peace, financial markets, and management education.
 
-The Global Compact Office
+%p== Also you may wish to subscribe to our monthly #{link_to 'UN Global Compact Bulletin', 'http://www.unglobalcompact.org/NewsAndEvents/UNGC_bulletin/'}, which includes recent news, updates and resources.
+
+%p Once again, thank you for your interest in the UN Global Compact and your organization's pursuit of responsible business practices.
+
+%p Sincerely,
+
+%p The Global Compact Office
 
 United Nations Global Compact
+%br/
 Two United Nations Plaza
+%br/
 New York, NY 10017
+%br/
 Email: globalcompact@un.org
-Website: www.unglobalcompact.org
+%br/
+Website:
+%a{:href => "http://www.unglobalcompact.org/"}
+  www.unglobalcompact.org
