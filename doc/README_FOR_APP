@@ -60,8 +60,8 @@ rvm - http://rvm.beginrescueend.com/ - makes installing multiple Ruby versions e
 
 sudo gem install rvm
 rvm-install
-rvm use 1.9.1 - this will download and install ruby 1.9
-rvm 1.9.1 --default - this will make the downloaded 1.9 the default in your computer
+rvm use 1.9.1 - this will download and install ruby 1.9.1
+rvm 1.9.1 --default - this will make the downloaded 1.9.1 the default in your computer
 At this point, you get new executables for gem, irb and ruby, and have to install all gems again.
 Make sure you never run the "sudo" command before installing any of the gems.
 
