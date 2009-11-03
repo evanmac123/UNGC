@@ -26,6 +26,7 @@ end
 
 ActionView::Base.default_form_builder = FormBuilder
 ActiveRecord::Base.colorize_logging = false
+ThinkingSphinx.suppress_delta_output = true
 
 # Application constants
 EMAIL_SENDER = "no-reply@unglobalcompact.org"

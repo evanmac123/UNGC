@@ -3,13 +3,15 @@
 
 - if @results.any?
   - for result in @results do
-    %div{:style=>'margin-bottom: 1em;'}
-      %div{:style => 'font-weight: bold; color: blue'}
-        = link_to result.title, result.url
-      %div
-        = truncate result.content, 150
-      %div{:style => 'color: green'}
-        = result.url
+    - if result
+      %div{:style=>'margin-bottom: 1em;'}
+        %div{:style => 'font-weight: bold; color: blue'}
+          = link_to result.title, result.url
+        %div
+          = truncate result.content, 150
+        %div{:style => 'color: green'}
+          = result.url
+      
   %div
     = will_paginate @results
 - else

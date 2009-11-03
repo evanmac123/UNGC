@@ -27,6 +27,7 @@ class Searchable < ActiveRecord::Base
     indexes title
     indexes content
     has url, document_type, last_indexed_at
+    set_property :delta => true
   end
 
   def set_indexed_at
