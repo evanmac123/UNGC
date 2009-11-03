@@ -30,8 +30,9 @@ module Admin::CopsHelper
   
   def true_or_false_cop_attributes(cop, attributes)
     # get answers for attributes we are interested in
+    attributes_ids = attributes.collect(&:id)
     answers = cop.cop_answers.collect do |a| 
-      a if attributes.include?(a.cop_attribute)
+      a if attributes_ids.include?(a.cop_attribute_id)
     end.compact
     
     html = ''
@@ -49,10 +50,12 @@ module Admin::CopsHelper
   end
   
   def cop_questions_for(cop, principle, selected)
-    # find question
-    questions = CopQuestion.all(:conditions => {:principle_area_id => PrincipleArea.send(principle).id,
-                                                :area_selected     => selected})
-    return questions.collect{|question| output_cop_question(cop, question)}.join('')
+    # find questions
+    questions = CopQuestion.general.all(:conditions => {:principle_area_id => PrincipleArea.send(principle).id,
+                                                        :area_selected     => selected})
+    questions << CopQuestion.initiative_questions_for(cop.organization).all(:conditions => {:principle_area_id => PrincipleArea.send(principle).id,
+                                                                                            :area_selected     => selected})
+    return questions.flatten.collect{|question| output_cop_question(cop, question)}.join('')
   end
   
   def output_cop_question(cop, question)

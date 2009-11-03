@@ -12,6 +12,7 @@
 class Initiative < ActiveRecord::Base
   has_many :signings
   has_many :signatories, :through => :signings
+  has_many :cop_questions
   
   FILTER_TYPES = {
     :climate      => 2,
