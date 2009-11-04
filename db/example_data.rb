@@ -19,6 +19,13 @@ module FixtureReplacement
     c.contact_point = true
 	end
 
+  attributes_for :cop_question do |q|
+    q.text = String.random
+    q.principle_area_id = PrincipleArea.first.id
+    q.area_selected = true
+    q.position = 1
+  end
+  
   attributes_for :cop_score do |a|
 	end
 
@@ -120,4 +127,7 @@ module FixtureReplacement
 
   attributes_for :sector do |a|
 	end
+
+  attributes_for :signing do |s|
+  end
 end

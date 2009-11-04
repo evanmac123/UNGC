@@ -22,4 +22,7 @@ class CopQuestion < ActiveRecord::Base
   named_scope :initiative_questions_for, lambda { |organization|
     { :conditions => ['initiative_id IN (?)', organization.initiative_ids] }
   }
+  named_scope :questions_for, lambda { |organization|
+    { :conditions => ['(initiative_id IS NULL) OR (initiative_id IN (?))', organization.initiative_ids] }
+  }
 end

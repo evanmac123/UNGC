@@ -1,22 +1,32 @@
-== Dear #{@organization.name},
+== Dear #{@contact.name_with_title},
 
-A new comment has been posted for your participation request. Please do not reply to this email. You may submit a comment or question by accessing your case story at the following link:
-= dashboard_url
+%p
+  %strong Participant status: In review
 
-== Organization: #{@organization.name}
-Participation Status: In Review
+%p
+  == A comment regarding #{@organization.name}'s application to the UN Global Compact has been posted.
+  %strong Please do not reply to this email.
+  You may submit a comment or question by accessing your application at the following link:
+  
+%p= link_to "#{dashboard_url}", dashboard_url
 
-Latest Comment:
-___________________________________________________________________________
-= h @organization.comments.last.body
-___________________________________________________________________________
+%p
+  %strong Latest Comment: 
+  
+  = h @organization.comments.last.body
 
-Sincerely,
+%p Sincerely,
 
-The Global Compact Office
+%p The Global Compact Office
 
 United Nations Global Compact
+%br/
 Two United Nations Plaza
+%br/
 New York, NY 10017
+%br/
 Email: globalcompact@un.org
-Website: www.unglobalcompact.org
+%br/
+Website:
+%a{:href => "http://www.unglobalcompact.org/"}
+  www.unglobalcompact.org

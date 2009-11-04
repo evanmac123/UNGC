@@ -11,28 +11,28 @@ class OrganizationMailerTest < ActionMailer::TestCase
   test "submission mailer is sent" do
     response = OrganizationMailer.deliver_submission_received(@organization)
     assert_equal "text/html", response.content_type
-    assert_equal "We received your application", response.subject
+    assert_equal "Your Letter of Commitment to the Global Compact", response.subject
     assert_equal "email@example.com", response.to.first
   end
   
   test "approved mailer is sent" do
     response = OrganizationMailer.deliver_approved(@organization)
     assert_equal "text/html", response.content_type
-    assert_equal "Your Global Compact Participation Request has been accepted", response.subject
+    assert_equal "Welcome to the United Nations Global Compact", response.subject
     assert_equal "email@example.com", response.to.first
   end
 
   test "in review mailer is sent" do
     response = OrganizationMailer.deliver_in_review(@organization)
     assert_equal "text/html", response.content_type
-    assert_equal "Your Global Compact Participation Request has been updated", response.subject
+    assert_equal "Your application to the Global Compact", response.subject
     assert_equal "email@example.com", response.to.first
   end
   
   test "rejected mailer is sent" do
     response = OrganizationMailer.deliver_reject_microenterprise(@organization)
     assert_equal "text/html", response.content_type
-    assert_equal "Global Compact Participation Request Status", response.subject
+    assert_equal "Your Letter of Commitment to the Global Compact", response.subject
     assert_equal "email@example.com", response.to.first
   end
 end
