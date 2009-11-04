@@ -198,11 +198,15 @@ class Organization < ActiveRecord::Base
     22
   end
   
-   def before_save
+  def before_save
      if other_pledge_selected?
        self.pledge_amount = self.pledge_amount_other
      end
    end
+  
+  def to_param
+    CGI.escape(name)    
+  end
   
   private
     def check_micro_enterprise_or_sme

@@ -35,11 +35,10 @@ module PagesHelper
   end
 
   def participant_link(organization, navigation=nil)
-    link_to = CGI.escape(organization.name)
     if navigation
-      participant_with_nav_path(navigation, link_to)
+      participant_with_nav_path(navigation, organization)
     else
-      participant_path(link_to)
+      participant_path(organization)
     end
   end
 
