@@ -57,17 +57,34 @@ class Searchable < ActiveRecord::Base
   def self.index_pages
     Page.approved.each { |page| index_page page }
   end
-  
-  def self.get_text_from_pdf(system_path_to_file)
-    if File.exists?(system_path_to_file)
-      `pdf2txt.py #{system_path_to_file}`
-    else
-      '' # TODO: or raise?
+
+  def self.safe_get_text_command(command, file)
+    begin
+      if File.exists?(file)
+        text = `#{command} #{file}`.force_encoding('UTF-8')
+      else
+        text = '' # TODO: or raise?
+      end
+    rescue Exception => e
+      logger.info " ** Unable to #{command}: #{file} because #{e.inspect}"
+    ensure
+      return text || ''
     end
   end
   
+  def self.get_text_from_pdf(system_path_to_file)
+    puts "Get from pdf #{system_path_to_file}"
+    safe_get_text_command("pdf2txt.py", system_path_to_file)
+  end
+  
+  def self.convert_to_utf8(text)
+    converter = Iconv.new('UTF-8', text.encoding.name)
+    converter.iconv(text)
+  end
+  
   def self.get_text_from_word(system_path_to_file)
-    puts "I don't know this yet" # TODO
+    puts "Get from Word #{system_path_to_file}"
+    safe_get_text_command("#{RAILS_ROOT}/script/word_import", system_path_to_file)
   end
   
   def self.index_pdf(system_path_to_file, public_path_to_file)
@@ -106,20 +123,28 @@ class Searchable < ActiveRecord::Base
   end
 
   def self.index_case_story(case_story)
-    helper = SearchableHelper.new
-    title = case_story.title
-    if case_story.attachment_content_type == 'application/pdf'
-      file_content = get_text_from_pdf(case_story.attachment.path)
-    elsif case_story.attachment_content_type =~ /Word/
-      file_content = get_text_from_word(case_story.attachment.path)
+    if case_story.approved?
+      helper = SearchableHelper.new
+      title = case_story.title
+      if case_story.attachment_content_type =~ /^application\/.*pdf$/
+        file_content = get_text_from_pdf(case_story.attachment.path)
+      elsif case_story.attachment_content_type =~ /doc/
+        file_content = get_text_from_word(case_story.attachment.path)
+      end
+      logger.info " ** desc: #{case_story.description.try(:encoding).try(:inspect)} / content: #{file_content.try(:encoding).try(:inspect)}"
+      content = <<-EOF
+        #{case_story.description}
+        #{case_story.countries.map(&:name).join(' ')}
+      EOF
+      # FIXME: see http://tinyurl.com/ykdcmjt
+      # Summary: ActiveRecord is casting all attributes to US-ASCII (!) but our 
+      # file_content is coming in as UTF-8 - ruby will complain -- so force everything 
+      # into the same encoding. Hopefully someone will patch ActiveRecord to make this 
+      # obsolete, but for now...
+      content = "#{content.force_encoding('UTF-8')} #{file_content}"
+      url = "/case_story/#{case_story.to_param}"
+      import 'CaseStory', :url => url, :title => title, :content => content
     end
-    content = <<-EOF
-      #{case_story.description}
-      #{case_story.countries.map(&:name).join(' ')}
-      #{file_content}
-    EOF
-    url = "/case_story/#{case_story.to_param}"
-    import 'CaseStory', :url => url, :title => title, :content => content
   end
 
   def self.index_case_stories
