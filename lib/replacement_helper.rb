@@ -36,8 +36,10 @@ def create_new_local_network_pages(replacements)
   ]
   template = '/NetworksAroundTheWorld/local_network_sheet/%s.html'
   new_networks.each do |code|
+    title = Country.find_by_code(code).try(:name)
     page = Page.new :path => template % code,
-      :content => new_content,
+      :title           => title,
+      :content         => new_content,
       :dynamic_content => true
     page.save and page.approve!
   end
@@ -46,9 +48,14 @@ end
 def replace(path, hash)
   begin
     content = Page.find_by_path path
+    page = content.versions.first
     old_content = content.versions.first.content
     new_content = old_content.gsub(/\&lt;\?php[\s\w\W]+\?\&gt;/, hash['content'])
-    new_version = content.new_version :content => new_content, :dynamic_content => true
+    title = page.title
+    if path =~ /local_network_sheet\/(..)\.html/ and title.blank?
+      title = Country.find_by_code($1).try(:name)
+    end
+    new_version = content.new_version :title => title, :content => new_content, :dynamic_content => true
     new_version.save!
     new_version.approve!
     puts "  done!"

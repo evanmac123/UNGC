@@ -67,7 +67,7 @@ end
 def create_subnav(doc)
   subnav_from_left(doc).inject(0) do |counter, sub|
     page = Page.find_by_path(possibly_move(sub[:path])) || Page.new(possibly_move(:path => sub[:path]))
-    page.title = sub[:title] if page.title.blank?
+    page.title = sub[:title] # Prefer title from link text
     page.parent_id = sub[:parent_id] if page.parent_id.blank?
     page.display_in_navigation = true
     page.position = counter
@@ -81,7 +81,14 @@ def escape_php(content)
   content = content.gsub(/\?>/, ' ?&gt;')
 end
 
-def regular_page_content(doc)
+def get_headline(doc)
+  if headlines = (doc/'h1') and headlines.any?
+    headlines.first.inner_text.try(:strip)
+  end
+end
+
+def regular_page_content(doc, title=nil)
+  title = get_headline(doc)
   copy = (doc/'#content_inner .copy')
   if copy.first
     children = copy.first.children
@@ -91,7 +98,7 @@ def regular_page_content(doc)
   end
   children.reject! { |c| c.class.to_s == 'Hpricot::BogusETag' }
   children.reject! { |c| c.to_html =~ /\A(<p>)?\s*(<\/p>)?\Z/ }
-  content = children.map { |c| c.to_html }.join("\n")
+  content = children.map { |c| c.to_html.force_encoding('UTF-8') }.join("\n")
   content = escape_php(content.strip)
   create_subnav(doc)
   if false
@@ -100,7 +107,7 @@ def regular_page_content(doc)
       path << { elem.attributes['href'] => elem.inner_html }
     end
   end
-  content
+  {title: title, content: content}
 end
 
 def unfiltered_content(doc)
@@ -108,8 +115,10 @@ def unfiltered_content(doc)
 end
 
 def local_network_sheet(doc)
+  title = get_headline(doc)
   content = escape_php doc.to_html.strip
   content << "\n\n&lt;?php put/local/network/info/here.php ?&gt;"
+  {title: title, content: content}
 end
 
 def href_and_label(link)
@@ -203,11 +212,17 @@ end
 def read_and_write_content(root, filename)
   path = "/#{filename - root}".gsub('//', '/')
   # puts " looking for #{path.inspect}"
-  content = read_content(root, filename)
+  options = read_content(root, filename) || {}
   page = Page.find_by_path(possibly_move(path)) || Page.new(:path => possibly_move(path))
   # puts " found #{page.new_record?.inspect}: #{page.inspect}"
-  result = page.update_attribute(:content, content)
-  approve_first_version(page)
+  begin
+    page.title = options[:title] if page.title.blank? unless options[:title].blank? # Prefer the title that comes from the link text
+    page.content = options[:content] unless options[:content].blank?
+    result = page.save
+    approve_first_version(page)
+  rescue Exception => e
+    puts " ** Options: #{options.inspect} but #{e.inspect}"
+  end
 end
 
 def approve_first_version(content)
@@ -223,11 +238,13 @@ end
 def read_content(root, filename)
   doc = Hpricot(open(filename))
   if filename == (root + 'index.html')
-    home_page_content(doc)
+    {:content => home_page_content(doc)}
+  elsif filename =~ /NetworksAroundTheWorld\/Newsletter/ || filename =~ /WebsiteInfo\/site_map\.html/
+    {} # FIXME
   elsif filename =~ /NetworksAroundTheWorld\/local_network_sheet/
     local_network_sheet(doc)
   elsif filename =~ /NewsAndEvents\/UNGC_bulletin\/contact_response\.html/
-    unfiltered_content(doc)
+    {:content => unfiltered_content(doc)}
   else
     regular_page_content(doc) # will also create sub-level leftnav
   end
