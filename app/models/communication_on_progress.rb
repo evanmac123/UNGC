@@ -104,14 +104,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def init_cop_attributes
-    questions = CopQuestion.general.all
-    # get initiative-specific attributes
-    questions << CopQuestion.initiative_questions_for(self.organization)
-    # get all attributes
-    questions.flatten.each {|cop_question|
+    CopQuestion.questions_for(self.organization).each {|cop_question|
       cop_question.cop_attributes.each {|cop_attribute|
         self.cop_answers.build(:cop_attribute_id => cop_attribute.id,
-                               :value => false)
+                               :value            => false)
         }
     }
   end
