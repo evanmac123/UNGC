@@ -26,8 +26,14 @@ class Searchable < ActiveRecord::Base
   define_index do
     indexes title
     indexes content
-    has url, document_type, last_indexed_at
+    has document_type, :facet => true
+    has url, last_indexed_at
     set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
+  end
+
+  def self.faceted_search(document_type, keyword, options={})
+    options.merge!({with: {document_type_facet: document_type.to_crc32 } })
+    search keyword, options
   end
 
   def set_indexed_at
@@ -44,9 +50,8 @@ class Searchable < ActiveRecord::Base
   
   def self.index_page(page)
     if page.approved? && !page.dynamic_content
-      helper = SearchableHelper.new
       title = page.title
-      content = helper.strip_tags page.content
+      content = with_helper {strip_tags page.content}
       url = page.path
       unless title.blank? && content.blank?
         import 'Page', :url => url, :title => title, :content => content
@@ -95,12 +100,11 @@ class Searchable < ActiveRecord::Base
   end
 
   def self.index_event(event)
-    helper = SearchableHelper.new
     title = event.title
     content = event.location + "\n" + 
       event.country.try(:name) + 
-      helper.strip_tags(event.description)
-    url = helper.instance_eval { event_path(event) }
+      with_helper {strip_tags(event.description)}
+    url = with_helper { event_path(event) }
     import 'Event', :url => url, :title => title, :content => content
   end
 
@@ -109,12 +113,11 @@ class Searchable < ActiveRecord::Base
   end
   
   def self.index_headline(headline)
-    helper = SearchableHelper.new
     title = headline.title
     content = headline.location + "\n" + 
       headline.country.try(:name) + 
-      helper.strip_tags(headline.description)
-    url = helper.instance_eval { headline_path(headline) }
+      with_helper { strip_tags(headline.description) }
+    url = with_helper { headline_path(headline) }
     import 'Headline', :url => url, :title => title, :content => content
   end
   
@@ -124,7 +127,6 @@ class Searchable < ActiveRecord::Base
 
   def self.index_case_story(case_story)
     if case_story.approved?
-      helper = SearchableHelper.new
       title = case_story.title
       if case_story.attachment_content_type =~ /^application\/.*pdf$/
         file_content = get_text_from_pdf(case_story.attachment.path)
@@ -149,6 +151,24 @@ class Searchable < ActiveRecord::Base
 
   def self.index_case_stories
     CaseStory.approved.each { |c| index_case_story c }
+  end
+
+  def self.index_organization(organization)
+    title   = organization.name
+    content = ''
+    url     = with_helper { participant_path(organization) }
+    import 'Participant', :url => url, :title => title, :content => content
+  end
+  
+  def self.index_organizations
+    Organization.approved.each { |o| index_organization o }
+  end
+  
+  def self.with_helper(&block)
+    unless @helper
+      @helper = SearchableHelper.new
+    end
+    @helper.instance_eval(&block)
   end
   
 end

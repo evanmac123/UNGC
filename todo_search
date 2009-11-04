@@ -24,3 +24,6 @@ x headlines
   - participants
 
 - capture errors from external search importer commands ("is not a pdf?" etc.) -- see http://pasadenarb.com/2007/03/ruby-shell-commands.html
+
+
+-- friendly catch for errors from Sphinx like ThinkingSphinx::ConnectionError

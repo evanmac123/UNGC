@@ -1,6 +1,10 @@
 %h1= "Search results for: '#{h params[:keyword]}'"
   
-
+- if @facets.any?
+  %ul.nolist
+    - @facets[:document_type].each_pair do |key, count|
+      %li= link_to "#{key.pluralize}: #{count}", params.merge(:document_type => key, :page => 1)
+    
 - if @results.any?
   - for result in @results do
     - if result
