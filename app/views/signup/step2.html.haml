@@ -1,6 +1,6 @@
-%h2 Sign up
+%h1 Organization Registration
 
-%h3 Your details
+%h2 Contact Information
 
 - form_for(@contact, :url => organization_step3_path) do |form|
   = render :partial => 'contact_form', :locals => {:form => form, :account_info => true}

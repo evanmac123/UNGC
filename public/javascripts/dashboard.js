@@ -14,3 +14,8 @@ $("#organization_listing_status_id").change(function() {
 	$('#public_company_only').hide();
   }
 })
+
+// called from views/signup/step4.html.haml
+$("#organization_pledge_amount_1").click(function() {
+  $('#organization_pledge_amount_other').focus();
+})

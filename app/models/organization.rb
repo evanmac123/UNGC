@@ -185,10 +185,6 @@ class Organization < ActiveRecord::Base
   # NOTE: Convenient alias
   def noncommed_on; cop_due_on; end
 
-  def fixed_pledge_amounts
-    [500, 5000, 10000]
-  end
-
   def other_pledge_selected?
     self.pledge_amount == -1
   end

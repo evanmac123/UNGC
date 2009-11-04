@@ -1,6 +1,6 @@
-%h2 Sign up
+%h1 Organization Registration
 
-%h3 CEO details
+%h2 Contact information for the highest level executive
 
 - form_for(@ceo, :url => organization_step4_path) do |form|
   = render :partial => 'contact_form', :locals => {:form => form, :account_info => false}
