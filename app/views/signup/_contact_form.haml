@@ -7,13 +7,15 @@
 = form.text_field :email
 = form.text_field :phone
 = form.text_field :fax
-= form.text_field :address
+= form.text_field :address, {:label => "Postal address", }
+= form.text_field :address_more, {:label => "Address continued", }
 = form.text_field :city
-= form.text_field :state
+= form.text_field :state, {:label => "State/province"}
 = form.text_field :postal_code
 = form.collection_select :country_id, Country.all, :id, :name
 - if account_info
   %fieldset
-    %legend Account information
-    = form.text_field :login
+    %legend Login information
+    %p Please create a username and password. You will need this login to update or check the status of your application.
+    = form.text_field :login, {:label => "Username" }
     = form.password_field :password

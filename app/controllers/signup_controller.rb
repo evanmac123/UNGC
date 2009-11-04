@@ -58,7 +58,7 @@ class SignupController < ApplicationController
       deliver_notification_email(@organization)
       clean_session
     else
-      flash[:error] = 'Upload you commitment letter'
+      flash[:error] = 'Please upload your Letter of Commitment'
       redirect_to organization_step4_path
     end
   end
@@ -81,6 +81,7 @@ class SignupController < ApplicationController
       @contact.country_id = @organization.country_id unless @contact.country
       # ceo contact fields defaults to contact
       @ceo.address = @contact.address unless @ceo.address
+      @ceo.address_more = @contact.address_more unless @ceo.address_more
       @ceo.city = @contact.city unless @ceo.city
       @ceo.state = @contact.state unless @ceo.state
       @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
