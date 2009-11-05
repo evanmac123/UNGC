@@ -30,6 +30,7 @@
 #  updated_at                :datetime
 #  remember_token_expires_at :datetime
 #  remember_token            :string(255)
+#  local_network_id          :integer(4)
 #
 
 class Contact < ActiveRecord::Base
