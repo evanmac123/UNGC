@@ -34,7 +34,7 @@ class PagesController < ApplicationController
   end
   
   def find_content
-    if @page = Page.approved_for_path(look_for_path)
+    if @page = Page.approved_for_path(formatted_request_path)
       @current_version = @page.find_version_number(params[:version]) if params[:version]
       @current_version ||= active_version_of(@page)
     end

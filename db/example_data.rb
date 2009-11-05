@@ -98,16 +98,16 @@ module FixtureReplacement
 	end
 
   attributes_for :page do |a|
-    a.path     = random_url
-    a.title    = String.random
-    a.slug     = String.random
+    a.path      = random_url
+    a.title     = String.random
+    a.html_code = String.random
+    a.approval  = 'approved'
     a.display_in_navigation = true
-    a.approval = 'approved'
   end
   
   attributes_for :page_group do |a|
-    a.name = String.random
-    a.slug = String.random
+    a.name      = String.random
+    a.html_code = String.random
 
     a.display_in_navigation = true
   end

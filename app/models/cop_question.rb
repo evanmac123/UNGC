@@ -9,6 +9,7 @@
 #  position          :integer(4)
 #  created_at        :datetime
 #  updated_at        :datetime
+#  initiative_id     :integer(4)
 #
 
 class CopQuestion < ActiveRecord::Base

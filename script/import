@@ -14,7 +14,7 @@ rescue LoadError => e
 end
 
 # Abbreviate long section names, so we can use them as CSS selectors
-SLUGS = {
+CODES = {
   'Human Rights' => 'human_rights',
   'Labour' => 'labour',
   'Environment' => 'environment',
@@ -39,11 +39,14 @@ parse_sitenav_nav(root)               # Likewise, the 'WebsiteInfo' section - co
 parse_regular_nav(root)               # For everything else
 
 files = get_files_from(root)
-# files = [root + 'Issues/Environment/Environment_Guidance_Material.html']
+# files = [root + 'Languages/spanish/gp_full_spanish.html']
 
+update_these_pages_at_end = []
 files.each do |filename|
-  puts "Reading from '#{filename - root}'"
-  read_and_write_content(root, filename)
+  puts "Reading from '#{filename - root}'" # if filename =~ /meetings/i
+  possible = read_and_write_content(root, filename)
+  update_these_pages_at_end << possible if possible
 end
 
+update_navigation_info(update_these_pages_at_end)
 manually_adjust_shorts 

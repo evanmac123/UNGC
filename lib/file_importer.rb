@@ -64,7 +64,7 @@ class FileImporter
       end
     end
   end
-    
+
   # path is the folder that contain the doc and xml folder for case stories
   def import_case_stories(path)
     if File.directory? path
@@ -89,7 +89,7 @@ class FileImporter
           end
         end
         # user uploaded DOC/PDF for this case story
-        [:doc, :pdf, :ptt].each do |extension|
+        [:doc, :pdf, :ppt].each do |extension|
           doc_file = File.join(path, "doc", "#{case_story.identifier}.#{extension}")
           if File.exist?(doc_file)
             case_story.attachment = File.new(doc_file)
@@ -99,6 +99,26 @@ class FileImporter
         case_story.save
       end
     end
+  end
+
+  def import_cop_xml(path = nil)
+    require 'hpricot'
+    require 'facets'
+    # puts "*** Importing from cop_xml data..."
+    real_files = Dir[path || DEFAULTS[:path_to_cop_xml]]
+    converter = Iconv.new("UTF-8", "iso8859-1")
+    real_files.each do |f|
+      short = (f - '.xml').split('/').last
+      # puts "Working with file #{short}:"
+      if cop = CommunicationOnProgress.find_by_identifier(short)
+        description = converter.iconv (Hpricot(open(f))/'description').inner_html
+        cop.update_attribute :description, description.strip
+      else
+        # puts "  *** Error: Can't find the COP"
+      end
+      # puts "\n"
+    end
+    # puts "*** Done!"
   end
 
   private

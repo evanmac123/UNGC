@@ -26,7 +26,7 @@ end
 def get_files_from(path, files=[])
   Dir.stuff(path).each do |name|
     fullname = File.join(path, name)
-    files << fullname if name =~ /\.html$/ and !(name =~ /^search_participant/)
+    files << fullname if name =~ /\.html$/ # and !(name =~ /^search_participant/)
     if File.directory?(fullname)
       files += get_files_from(fullname)
     end
@@ -39,12 +39,26 @@ def home_page_content(doc)
   content = (content.first || content).inner_html.strip
 end
 
-def subnav_from_left(doc)
+def subnav_from_left(doc, filename, root)
   nav = doc/"#leftnav ul"
   subnav = doc/"#leftnav ul > li.sub"
   if subnav.any?
     currently_selected = doc/'#leftnav ul > li.selected'
-    mid_nav = Page.find_by_title(currently_selected.inner_text.strip)
+    # These links are often relative, like '../index.html' - so we'd like to match
+    # the text (title), except that not all titles are unique. So, we start with
+    # pages matching the title, and - when necessary - narrow to pages matching the
+    # filename's base path.
+    possible = Page.find_all_by_title(currently_selected.inner_text.strip)
+    if possible.size > 1
+      likely = possible.detect { |p| p.path.match((filename - root).split('/').first) }
+      if likely
+        mid_nav = likely
+      else
+        breakpoint
+      end
+    else
+      mid_nav = possible.first
+    end
     subnav = subnav.map do |sub|
       h = href_and_label(sub.at('a'))
       # new_label = h[:title].gsub('» ', '')
@@ -64,8 +78,25 @@ def possibly_move(path)
   MOVED_PAGES[path]
 end
 
-def create_subnav(doc)
-  subnav_from_left(doc).inject(0) do |counter, sub|
+def find_parent_for(path)
+  debug = false # path =~ /Meetings/i
+  puts " Trying to find parent for #{path}" if debug
+  array = path.split('/')
+  times_to_try = array.size - 2 # not the first empty element, nor the first "top-level" folder
+  times_to_try.times do
+    array.pop
+    try_this_path = array.join('/') + '/index.html'
+    puts "   trying '#{try_this_path}'" if debug
+    possible = Page.find(:first, :conditions => {
+      :display_in_navigation => true, 
+      :path => try_this_path}, :include => :children) # 
+    return possible if possible
+  end
+  nil
+end
+
+def create_subnav(doc, filename, root)
+  subnav_from_left(doc, filename, root).inject(0) do |counter, sub|
     page = Page.find_by_path(possibly_move(sub[:path])) || Page.new(possibly_move(:path => sub[:path]))
     page.title = sub[:title] # Prefer title from link text
     page.parent_id = sub[:parent_id] if page.parent_id.blank?
@@ -83,11 +114,12 @@ end
 
 def get_headline(doc)
   if headlines = (doc/'h1') and headlines.any?
-    headlines.first.inner_text.try(:strip)
+    headline = headlines.first.inner_text.try(:strip)
+    headline.gsub!(/\s+/, ' ')
   end
 end
 
-def regular_page_content(doc, title=nil)
+def regular_page_content(doc, filename, root, title=nil)
   title = get_headline(doc)
   copy = (doc/'#content_inner .copy')
   if copy.first
@@ -100,7 +132,7 @@ def regular_page_content(doc, title=nil)
   children.reject! { |c| c.to_html =~ /\A(<p>)?\s*(<\/p>)?\Z/ }
   content = children.map { |c| c.to_html.force_encoding('UTF-8') }.join("\n")
   content = escape_php(content.strip)
-  create_subnav(doc)
+  create_subnav(doc, filename, root)
   if false
     path = []
     (doc/'#rightcontent .path p a').each do |elem|
@@ -137,7 +169,7 @@ def attributes_for_element doc, elem
     {}
   else
     hash = href_and_label(link)
-    hash[:slug] = short
+    hash[:html_code] = short
     hash[:children] = (doc/"div#nav > ul > li.#{short} > ul li a").map { |a| href_and_label(a) }
     hash
   end
@@ -152,7 +184,7 @@ def manually_adjust_shorts
   special.each_pair do |label, short|
     nav = Page.find_by_title(label)
     if nav
-      nav.update_attribute(:slug, short)
+      nav.update_attribute(:html_code, short)
     else
       puts "Problem with '#{label}'"
     end
@@ -163,12 +195,12 @@ def parse_language_nav(root)
   filename = root + 'Languages/index.html'
   doc = Hpricot(open(filename))
   langs = doc/'#leftnav ul li a'
-  group = PageGroup.create :name => 'Non-English Resources', :display_in_navigation => false
-  top_lang = Page.create :path => "/#{filename - root}", :title => 'Languages', :display_in_navigation => false, :group_id => group.id
+  group = PageGroup.create :name => 'Non-English Resources', :html_code => false, :display_in_navigation => false
+  top_lang = Page.create :path => "/#{filename - root}", :top_level => true, :title => 'Languages', :display_in_navigation => false, :group_id => group.id
   langs.inject(0) do |counter, lang|
     h = href_and_label(lang)
     h[:path] = "/Languages#{h[:path]}"
-    Page.create h.merge(:parent_id => top_lang.id, :position => counter)
+    Page.create h.merge(:parent_id => nil, :top_level => true, :group_id => group.id, :position => counter, :display_in_navigation => true)
     counter += 1
   end  
 end
@@ -183,10 +215,10 @@ def parse_regular_nav(root)
 
     children = attrs.delete(:children)
     attrs[:position] = i
-    group = PageGroup.create :name => attrs[:title], :slug => attrs[:slug], :display_in_navigation => true
+    group = PageGroup.create :name => attrs[:title], :html_code => attrs[:html_code], :display_in_navigation => true
     children.inject(0) do |j, child|
-      short = attrs[:title] == 'Issues' ? SLUGS[child[:title]] : nil # Special slugs all comes from issues
-      Page.create child.merge(:parent_id => nil, :position => j, :slug => short, :group_id => group.id, :display_in_navigation => true)
+      short = attrs[:title] == 'Issues' ? CODES[child[:title]] : nil # Special html_codes all comes from issues
+      Page.create child.merge(:parent_id => nil, :top_level => true, :position => j, :html_code => short, :group_id => group.id, :display_in_navigation => true)
       j += 1
     end
     i += 1
@@ -197,14 +229,21 @@ def parse_sitenav_nav(root)
   filename = root + 'WebsiteInfo/index.html'
   doc = Hpricot(open(filename))
   navs = doc/'#leftnav ul li a'
-  info = Page.find_by_path("/#{filename - root}") || Page.create(:path => "/#{filename - root}")
+  group = PageGroup.find_by_html_code('website') || PageGroup.create(:name => 'Website Information', :html_code => 'website', :display_in_navigation => false)
+  info = Page.find_by_path("/#{filename - root}") || Page.create(:path => "/#{filename - root}", :group_id => group.id)
   info.update_attributes :title => 'Website Information', 
-    :slug => 'websiteinfo',
+    :html_code => 'websiteinfo',
+    :top_level => true,
     :display_in_navigation => false
   navs.inject(0) do |counter, nav|
     h = href_and_label(nav)
     h[:path] = "/WebsiteInfo#{h[:path]}"
-    Page.create h.merge(:parent_id => info.id, :position => counter, :display_in_navigation => true)
+    h.merge!(:parent_id => nil, :top_level => true, :group_id => group.id, :position => counter, :display_in_navigation => true)
+    if page = Page.find_by_path(h[:path])
+      page.update_attributes(h)
+    else
+      Page.create h
+    end
     counter += 1
   end  
 end
@@ -213,19 +252,24 @@ def read_and_write_content(root, filename)
   path = "/#{filename - root}".gsub('//', '/')
   # puts " looking for #{path.inspect}"
   options = read_content(root, filename) || {}
-  page = Page.find_by_path(possibly_move(path)) || Page.new(:path => possibly_move(path))
-  # puts " found #{page.new_record?.inspect}: #{page.inspect}"
+  path = possibly_move(path)
+  # puts " ** Looking for #{path}" if path =~ /meetings/i
+  page = Page.find_by_path(path) || Page.new(:path => path)
   begin
     page.title = options[:title] if page.title.blank? unless options[:title].blank? # Prefer the title that comes from the link text
     page.content = options[:content] unless options[:content].blank?
+    update_after = page unless page.parent_id
     result = page.save
     approve_first_version(page)
   rescue Exception => e
     puts " ** Options: #{options.inspect} but #{e.inspect}"
   end
+  return update_after
 end
 
 def approve_first_version(content)
+  debug = false # content.path =~ /(search_participant|Seal_the_Deal)/
+  puts "Trying to approve #{content.path}" if debug
   # Must have an approved version to be visible
   versions = content.versions
   if versions.any? && approve_me = versions.first
@@ -246,6 +290,25 @@ def read_content(root, filename)
   elsif filename =~ /NewsAndEvents\/UNGC_bulletin\/contact_response\.html/
     {:content => unfiltered_content(doc)}
   else
-    regular_page_content(doc) # will also create sub-level leftnav
+    regular_page_content(doc, filename, root) # will also create sub-level leftnav
+  end
+end
+
+def update_navigation_info(pages)
+  pages.each do |page|
+    next if page.top_level?
+    possible = find_parent_for(page.path)
+    if possible and possible != page # this can happen as we update old records sometimes
+      page.parent = possible
+      page.save
+    end
+  end
+  
+  parent_ids = Page.find(:all, :conditions => ["parent_id is not null"]).map(&:parent_id).uniq.compact
+  parents = Page.find parent_ids
+  parents.each do |parent|
+    parent.children.each do |child|
+      child.update_attribute :group_id, parent.group_id || parent.parent.group_id
+    end
   end
 end

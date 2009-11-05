@@ -5,7 +5,7 @@
 #  id                    :integer(4)      not null, primary key
 #  path                  :string(255)
 #  title                 :string(255)
-#  slug                  :string(255)
+#  html_code             :string(255)
 #  content               :text
 #  parent_id             :integer(4)
 #  position              :integer(4)
@@ -30,6 +30,7 @@ class Page < ActiveRecord::Base
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
   has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
+  has_many :visible_children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id, :conditions => {:display_in_navigation => true}
 
   named_scope :all_versions_of, lambda { |path|
     # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
@@ -122,7 +123,7 @@ class Page < ActiveRecord::Base
     default_options = {
       :path                  => active.path, 
       :title                 => active.title, 
-      :slug                  => active.slug, 
+      :html_code                  => active.html_code, 
       :group_id              => active.group_id, 
       :parent_id             => active.parent_id, 
       :position              => active.position, 

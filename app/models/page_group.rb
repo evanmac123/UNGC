@@ -5,7 +5,7 @@
 #  id                    :integer(4)      not null, primary key
 #  name                  :string(255)
 #  display_in_navigation :boolean(1)
-#  slug                  :string(255)
+#  html_code             :string(255)
 #  created_at            :datetime
 #  updated_at            :datetime
 #
@@ -15,7 +15,7 @@ class PageGroup < ActiveRecord::Base
   has_many :visible_children, 
     :class_name  => 'Page', 
     :foreign_key => :group_id, 
-    :conditions  => {:approval => 'approved', :display_in_navigation => true},
+    :conditions  => {:approval => 'approved', :display_in_navigation => true, :parent_id => nil},
     :order       => "position ASC"
   
   named_scope :for_navigation, 
@@ -23,7 +23,7 @@ class PageGroup < ActiveRecord::Base
     :conditions => ["page_groups.display_in_navigation = ?", true]
   
   def link_to_first_child
-    visible_children.first.path
+    visible_children.first.try(:path) || ''
   end
   
   def path

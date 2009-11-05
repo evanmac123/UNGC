@@ -7,7 +7,6 @@
 #  organization_id            :integer(4)
 #  title                      :string(255)
 #  case_date                  :date
-#  description                :string(255)
 #  url1                       :string(255)
 #  url2                       :string(255)
 #  url3                       :string(255)
@@ -40,6 +39,7 @@
 #  attachment_file_size       :integer(4)
 #  attachment_updated_at      :datetime
 #  contact_id                 :integer(4)
+#  description                :text
 #
 
 class CaseStory < ActiveRecord::Base
