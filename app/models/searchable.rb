@@ -170,5 +170,12 @@ class Searchable < ActiveRecord::Base
     end
     @helper.instance_eval(&block)
   end
-  
+
+  def self.index_all
+    index_pages
+    index_events
+    index_headlines
+    index_case_stories
+    index_organizations
+  end
 end
