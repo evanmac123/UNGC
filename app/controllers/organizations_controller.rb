@@ -62,7 +62,11 @@ class OrganizationsController < ApplicationController
 
   private
     def load_organization
-      @organization = Organization.find(params[:id])
+      if params[:id] =~ /\A[0-9]+\Z/ # it's all numbers
+        @organization = Organization.find_by_id(params[:id])
+      else
+        @organization = Organization.find_by_param(params[:id])
+      end
     end
     
     def load_organization_types
