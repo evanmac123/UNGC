@@ -18,27 +18,31 @@ module NavigationHelper
     @leftnav_selected && navigation.is_child_of?(@leftnav_selected)
   end
 
-  def current_page_or_find_navigation
-    if @page
-      return @page if @page.approved? && @page.display_in_navigation?
+  def selected_elements_from_page(page)
+    logger.info " ** working with #{page.inspect} and #{page.section.inspect}"
+    @current_section = page.section
+    if page.parent
+      @leftnav_selected = page.parent
+      @subnav_selected  = page
+    else
+      @leftnav_selected = page
     end
-    Page.find_navigation_for(look_for_path)
   end
-  
+
+  def something_displayable_from(page)
+    return nil unless page
+    if page.display_in_navigation
+      page
+    else
+      something_displayable_from page.parent
+    end
+  end
+
   def current_section
     unless @current_section
-      return nil if home_page?
-      return nil unless current_or_parent = current_page_or_find_navigation
-      # if we're at the top, then it's our group
-      # if we're a sub-page, then it's our parent's group
-      if current_or_parent.parent_id
-        @leftnav_selected = current_or_parent.parent
-        @subnav_selected  = current_or_parent
-        @current_section  = current_or_parent.parent.section
-      else
-        @leftnav_selected = current_or_parent
-        @current_section  = current_or_parent.section
-      end
+      return @current_section = nil if home_page?
+      return @current_section = nil unless @page || @page = Page.approved_for_path(formatted_request_path)
+      selected_elements_from_page(something_displayable_from(@page))
     end
     @current_section
   end
@@ -48,7 +52,7 @@ module NavigationHelper
   end
 
   def path_matches?(navigation)
-    navigation.path == look_for_path
+    navigation.path == formatted_request_path
   end
   
   def selected?(navigation)

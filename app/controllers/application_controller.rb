@@ -22,15 +22,15 @@ class ApplicationController < ActionController::Base
   end
   helper_method :home_page?
 
-  def look_for_path
-    unless @look_for_path
-      @look_for_path = "/#{params[:path].join('/')}" if params[:path]
-      @look_for_path << '/index.html' if @look_for_path unless @look_for_path =~ /\.html$/
-      @look_for_path = @look_for_path.gsub('//', '/') if @look_for_path.respond_to?(:gsub)
+  def formatted_request_path
+    unless @formatted_request_path
+      @formatted_request_path = "/#{params[:path].join('/')}" if params[:path]
+      @formatted_request_path << '/index.html' if @formatted_request_path unless @formatted_request_path =~ /\.html$/
+      @formatted_request_path = @formatted_request_path.gsub('//', '/') if @formatted_request_path.respond_to?(:gsub)
     end
-    @look_for_path
+    @formatted_request_path
   end
-  helper_method :look_for_path
+  helper_method :formatted_request_path
   
   def staff_user?
     logged_in? && current_user.from_ungc?
@@ -47,12 +47,9 @@ class ApplicationController < ActionController::Base
       ActionMailer::Base.default_url_options[:host] = request.host_with_port
     end
 
-    def default_navigation # override in other controllers
-      DEFAULTS[:cop_search_path]
-    end
-
+    # For Rails actions that we want to "appear" as if they were part of the navigation tree
     def determine_navigation
-      @look_for_path = case params[:navigation]
+      @formatted_request_path = case params[:navigation]
       when 'inactive'
         DEFAULTS[:cop_inactives_path]
       when 'noncommunicating'
@@ -62,6 +59,10 @@ class ApplicationController < ActionController::Base
       else
         default_navigation
       end
+    end
+
+    def default_navigation # override in other controllers
+      DEFAULTS[:cop_search_path]
     end
 
     def page_is_editable

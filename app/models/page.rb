@@ -30,6 +30,7 @@ class Page < ActiveRecord::Base
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
   has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
+  has_many :visible_children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id, :conditions => {:display_in_navigation => true}
 
   named_scope :all_versions_of, lambda { |path|
     # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
