@@ -1,4 +1,5 @@
 module ImporterHooks
+  include ImporterMapping
   # This module contains code that is executed after some files have been imported
 
   # runs after the organization import, pledge amount only exists
@@ -12,10 +13,6 @@ module ImporterHooks
     assign_roles
     assign_network_managers
     assign_local_network_id
-  end
-  
-  def post_communication_on_progress
-    import_cop_xml
   end
   
   def post_principle
@@ -135,26 +132,6 @@ module ImporterHooks
     end
   end
   
-  def import_cop_xml
-    require 'hpricot'
-    require 'facets'
-    # puts "*** Importing from cop_xml data..."
-    real_files = Dir[DEFAULTS[:path_to_cop_xml]]
-    converter = Iconv.new("UTF-8", "iso8859-1") 
-    real_files.each do |f|
-      short = (f - '.xml').split('/').last
-      # puts "Working with file #{short}:"
-      if cop = CommunicationOnProgress.find_by_identifier(short)
-        description = converter.iconv (Hpricot(open(f))/'description').inner_html
-        cop.update_attribute :description, description.strip
-      else
-        # puts "  *** Error: Can't find the COP"
-      end
-      # puts "\n"
-    end
-    # puts "*** Done!"
-  end
-    
   def nordic_countries
     ['Denmark', 'Finland', 'Sweden', 'Norway', 'Iceland']
   end
