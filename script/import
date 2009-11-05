@@ -14,7 +14,7 @@ rescue LoadError => e
 end
 
 # Abbreviate long section names, so we can use them as CSS selectors
-SLUGS = {
+CODES = {
   'Human Rights' => 'human_rights',
   'Labour' => 'labour',
   'Environment' => 'environment',

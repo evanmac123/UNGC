@@ -3,9 +3,9 @@ module ApplicationHelper
   def body_classes
     returning([]) { |classes|
       classes << 'editable_page' if editable_content? # TODO: Editable by the current user?
-      classes << current_section.slug if current_section
-      classes << @leftnav_selected.slug if @leftnav_selected.try(:slug)
-      classes << @subnav_selected.slug if @subnav_selected.try(:slug)
+      classes << current_section.html_code if current_section
+      classes << @leftnav_selected.html_code if @leftnav_selected.try(:html_code)
+      classes << @subnav_selected.html_code if @subnav_selected.try(:html_code)
       classes
     }.join(' ')
   end

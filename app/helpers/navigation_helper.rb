@@ -80,7 +80,7 @@ module NavigationHelper
         content_tag :li, child_link
       end
       insides = section_link + "\n" + content_tag(:ul, children.join("\n  ") + "\n", :class => 'children') + "\n"
-      section_children_content << content_tag(:li, insides, :id => section.slug, :class => section.slug) + "\n"
+      section_children_content << content_tag(:li, insides, :id => section.html_code, :class => section.html_code) + "\n"
     end
     section_children_content << login_and_logout
     content_tag :ul, "\n" + section_children_content

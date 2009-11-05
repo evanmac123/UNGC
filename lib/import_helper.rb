@@ -137,7 +137,7 @@ def attributes_for_element doc, elem
     {}
   else
     hash = href_and_label(link)
-    hash[:slug] = short
+    hash[:html_code] = short
     hash[:children] = (doc/"div#nav > ul > li.#{short} > ul li a").map { |a| href_and_label(a) }
     hash
   end
@@ -152,7 +152,7 @@ def manually_adjust_shorts
   special.each_pair do |label, short|
     nav = Page.find_by_title(label)
     if nav
-      nav.update_attribute(:slug, short)
+      nav.update_attribute(:html_code, short)
     else
       puts "Problem with '#{label}'"
     end
@@ -183,10 +183,10 @@ def parse_regular_nav(root)
 
     children = attrs.delete(:children)
     attrs[:position] = i
-    group = PageGroup.create :name => attrs[:title], :slug => attrs[:slug], :display_in_navigation => true
+    group = PageGroup.create :name => attrs[:title], :html_code => attrs[:html_code], :display_in_navigation => true
     children.inject(0) do |j, child|
-      short = attrs[:title] == 'Issues' ? SLUGS[child[:title]] : nil # Special slugs all comes from issues
-      Page.create child.merge(:parent_id => nil, :position => j, :slug => short, :group_id => group.id, :display_in_navigation => true)
+      short = attrs[:title] == 'Issues' ? CODES[child[:title]] : nil # Special html_codes all comes from issues
+      Page.create child.merge(:parent_id => nil, :position => j, :html_code => short, :group_id => group.id, :display_in_navigation => true)
       j += 1
     end
     i += 1
@@ -199,7 +199,7 @@ def parse_sitenav_nav(root)
   navs = doc/'#leftnav ul li a'
   info = Page.find_by_path("/#{filename - root}") || Page.create(:path => "/#{filename - root}")
   info.update_attributes :title => 'Website Information', 
-    :slug => 'websiteinfo',
+    :html_code => 'websiteinfo',
     :display_in_navigation => false
   navs.inject(0) do |counter, nav|
     h = href_and_label(nav)
