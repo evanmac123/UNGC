@@ -7,7 +7,7 @@ x headlines
 - participants
 - contacts?
 
-- add fields for timestamps from the searchable content (ie, if we want to search pages updated since X, we need the pages' updated_at as a field in searchable)
+x add fields for timestamps from the searchable content (ie, if we want to search pages updated since X, we need the pages' updated_at as a field in searchable)
 
 - DJ runner
 - index daemon
