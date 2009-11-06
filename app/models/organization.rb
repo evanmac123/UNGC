@@ -61,7 +61,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
-  before_save :check_micro_enterprise_or_sme
+  before_save :check_micro_enterprise_or_sme, :check_non_business_sector
   
   has_attached_file :commitment_letter
   
@@ -205,6 +205,10 @@ class Organization < ActiveRecord::Base
    end
   
   private
+  def check_non_business_sector
+    self.sector_id = Sector.not_applicable.id unless self.business_entity?
+  end
+  
     def check_micro_enterprise_or_sme
       if self.business_entity?
         if self.employees < 10
