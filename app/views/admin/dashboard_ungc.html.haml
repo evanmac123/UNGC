@@ -39,7 +39,7 @@
 %h3 Pending Case Stories
 - if @pending_case_stories.any?
   %ul
-    = render :partial => @pending_case_stories
+    = render :partial => 'admin/case_stories/case_story', :collection => @pending_case_stories
 - else
   no work for you
 

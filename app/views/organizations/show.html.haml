@@ -13,17 +13,17 @@
 = organization_actions(@organization)
 
 %h3 Comments
-= link_to 'New comment', new_organization_comment_path(@organization)
+= link_to 'New comment', new_organization_comment_path(@organization.id)
 %ul
   = render :partial => @organization.comments
 
 %h3 Contacts
-= link_to 'New contact', new_organization_contact_path(@organization)
+= link_to 'New contact', new_organization_contact_path(@organization.id)
 %ul
   = render :partial => @organization.contacts
 
 %h3 Logo Requests
-= link_to 'New logo request', new_organization_logo_request_path(@organization)
+= link_to 'New logo request', new_organization_logo_request_path(@organization.id)
 %ul
   = render :partial => @organization.logo_requests
 
