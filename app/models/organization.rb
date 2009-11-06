@@ -61,7 +61,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
-  before_save :check_micro_enterprise_or_sme, :check_non_business_sector
+  before_save :check_micro_enterprise_or_sme, :check_non_business_sector, :check_pledge_amount
   
   has_attached_file :commitment_letter
   
@@ -185,10 +185,6 @@ class Organization < ActiveRecord::Base
   # NOTE: Convenient alias
   def noncommed_on; cop_due_on; end
 
-  def other_pledge_selected?
-    self.pledge_amount == -1
-  end
-
   def invoice_id
     "FGCD#{id}"
   end
@@ -198,16 +194,10 @@ class Organization < ActiveRecord::Base
     22
   end
   
-   def before_save
-     if other_pledge_selected?
-       self.pledge_amount = self.pledge_amount_other
-     end
-   end
-  
   private
-  def check_non_business_sector
-    self.sector_id = Sector.not_applicable.id unless self.business_entity?
-  end
+    def check_non_business_sector
+      self.sector_id = Sector.not_applicable.id unless self.business_entity?
+    end
   
     def check_micro_enterprise_or_sme
       if self.business_entity?
@@ -217,5 +207,9 @@ class Organization < ActiveRecord::Base
           self.organization_type_id = OrganizationType.sme.id
         end
       end
+    end
+    
+    def check_pledge_amount
+      self.pledge_amount = self.pledge_amount_other if self.pledge_amount == -1
     end
 end
