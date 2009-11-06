@@ -2,14 +2,17 @@
 #
 # Table name: searchables
 #
-#  id              :integer(4)      not null, primary key
-#  title           :string(255)
-#  content         :text
-#  url             :string(255)
-#  document_type   :string(255)
-#  last_indexed_at :datetime
-#  created_at      :datetime
-#  updated_at      :datetime
+#  id                :integer(4)      not null, primary key
+#  title             :string(255)
+#  content           :text
+#  url               :string(255)
+#  document_type     :string(255)
+#  last_indexed_at   :datetime
+#  created_at        :datetime
+#  updated_at        :datetime
+#  delta             :boolean(1)      default(TRUE), not null
+#  object_created_at :datetime
+#  object_updated_at :datetime
 #
 
 class SearchableHelper
@@ -20,8 +23,13 @@ class SearchableHelper
   default_url_options[:host] = DEFAULTS[:url_host]
 end
 
+require 'ostruct'
+
 class Searchable < ActiveRecord::Base
-  before_save :set_indexed_at
+  before_create :set_object_created_at
+  before_save   :set_object_updated_at
+  before_save   :set_indexed_at
+  attr_accessor :object
   
   define_index do
     indexes title
@@ -40,10 +48,18 @@ class Searchable < ActiveRecord::Base
     self.last_indexed_at = Time.now
   end
 
+  def set_object_created_at
+    self.object_created_at ||= object.created_at if object && object.respond_to?(:created_at)
+  end
+
+  def set_object_updated_at
+    self.object_updated_at = object.updated_at if object && object.respond_to?(:updated_at)
+  end
+
   def self.import(document_type, options)
     url = options.delete(:url)
-    searchable = find_or_create_by_url(url)
-    searchable.attributes = {:document_type => document_type}.merge(options || {})
+    searchable = find_by_url(url) || create(url: url, object: options.delete(:object))
+    searchable.attributes = {document_type: document_type}.merge(options || {})
     searchable.save
     searchable
   end
@@ -54,7 +70,7 @@ class Searchable < ActiveRecord::Base
       content = with_helper {strip_tags page.content}
       url = page.path
       unless title.blank? && content.blank?
-        import 'Page', :url => url, :title => title, :content => content
+        import 'Page', url: url, title: title, content: content, object: page
       end
     end
   end
@@ -82,6 +98,15 @@ class Searchable < ActiveRecord::Base
     safe_get_text_command("pdf2txt.py", system_path_to_file)
   end
   
+  def self.timestamps_from(system_path_to_file)
+    if system_path_to_file
+      object = OpenStruct.new
+      mtime = File.mtime(system_path_to_file)
+      object.created_at, object.updated_at = mtime, mtime
+      object
+    end
+  end
+  
   def self.convert_to_utf8(text)
     converter = Iconv.new('UTF-8', text.encoding.name)
     converter.iconv(text)
@@ -96,7 +121,8 @@ class Searchable < ActiveRecord::Base
     title = 'PDF File'
     url   = public_path_to_file
     content = get_text_from_pdf(system_path_to_file)
-    import 'PDF', :url => url, :title => title, :content => content
+    object  = timestamps_from(system_path_to_file)
+    import 'PDF', url: url, title: title, content: content, object: object
   end
 
   def self.index_event(event)
@@ -105,7 +131,7 @@ class Searchable < ActiveRecord::Base
       event.country.try(:name) + 
       with_helper {strip_tags(event.description)}
     url = with_helper { event_path(event) }
-    import 'Event', :url => url, :title => title, :content => content
+    import 'Event', url: url, title: title, content: content, object: event
   end
 
   def self.index_events
@@ -118,7 +144,7 @@ class Searchable < ActiveRecord::Base
       headline.country.try(:name) + 
       with_helper { strip_tags(headline.description) }
     url = with_helper { headline_path(headline) }
-    import 'Headline', :url => url, :title => title, :content => content
+    import 'Headline', url: url, title: title, content: content, object: headline
   end
   
   def self.index_headlines
@@ -133,7 +159,12 @@ class Searchable < ActiveRecord::Base
       elsif case_story.attachment_content_type =~ /doc/
         file_content = get_text_from_word(case_story.attachment.path)
       end
-      logger.info " ** desc: #{case_story.description.try(:encoding).try(:inspect)} / content: #{file_content.try(:encoding).try(:inspect)}"
+      if object = timestamps_from(case_story.attachment.path)
+        object.updated_at = case_story.updated_at if case_story.updated_at > object.updated_at
+      else
+        object = OpenStruct.new
+        object.created_at, object.updated_at = case_story.created_at, case_story.updated_at
+      end
       content = <<-EOF
         #{case_story.description}
         #{case_story.countries.map(&:name).join(' ')}
@@ -145,7 +176,7 @@ class Searchable < ActiveRecord::Base
       # obsolete, but for now...
       content = "#{content.force_encoding('UTF-8')} #{file_content}"
       url = "/case_story/#{case_story.to_param}"
-      import 'CaseStory', :url => url, :title => title, :content => content
+      import 'CaseStory', url: url, title: title, content: content, object: object
     end
   end
 
@@ -157,7 +188,7 @@ class Searchable < ActiveRecord::Base
     title   = organization.name
     content = ''
     url     = with_helper { participant_path(organization) }
-    import 'Participant', :url => url, :title => title, :content => content
+    import 'Participant', url: url, title: title, content: content, object: organization
   end
   
   def self.index_organizations
