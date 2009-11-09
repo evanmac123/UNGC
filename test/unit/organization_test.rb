@@ -34,6 +34,33 @@ class OrganizationTest < ActiveSupport::TestCase
                                           :organization_type_id => @companies.id)
       assert_equal @sme.id, @organization.organization_type_id
     end
+    
+    context "setting other pledge amount" do
+      setup do
+        @organization = Organization.new(:name                 => 'SME',
+                                         :employees            => 50,
+                                         :pledge_amount        => 500,
+                                         :organization_type_id => @companies.id)
+      end
+      
+      should "to 0 should be valid - the pledge amount field should be used" do
+        @organization.pledge_amount_other = 0
+        assert @organization.save
+        assert_equal 500, @organization.pledge_amount
+      end
+      
+      should "to 5,000 should be invalid" do
+        @organization.pledge_amount_other = 5000
+        assert !@organization.save
+        assert @organization.errors.on(:pledge_amount_other)
+      end
+
+      should "to 15,000 should be valid" do
+        @organization.pledge_amount_other = 15000
+        assert @organization.save
+        assert_equal 15000, @organization.pledge_amount
+      end
+    end
   end
   
   context "given a climate change initiative, some organization types and an org" do
