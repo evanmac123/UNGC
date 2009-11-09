@@ -5,7 +5,7 @@
 #  id                    :integer(4)      not null, primary key
 #  path                  :string(255)
 #  title                 :string(255)
-#  html_code             :string(255)
+#  slug                  :string(255)
 #  content               :text
 #  parent_id             :integer(4)
 #  position              :integer(4)

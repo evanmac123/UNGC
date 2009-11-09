@@ -5,7 +5,7 @@
 #  id                    :integer(4)      not null, primary key
 #  name                  :string(255)
 #  display_in_navigation :boolean(1)
-#  html_code             :string(255)
+#  slug                  :string(255)
 #  created_at            :datetime
 #  updated_at            :datetime
 #
