@@ -76,6 +76,26 @@ module ImporterHooks
     end
   end
   
+  def assign_initiative_roles
+    # create roles
+    roles = { :'1' => 'Caring for Climate Contact',
+              :'2' => 'CEO Water Mandate - Endorsing Contact',
+              :'4' => 'CEO Statement on Human Rights Contact'
+              :'8' => 'CEO Water Mandate - Non-Endorsing Contact' }
+    roles.values.each {|role| Role.find_or_create_by_name(role) }
+    # "ID","INITIATIVE_ID","ORG_ID","CONTACT_ID"
+    file = File.join(@data_folder, "R17_XREF_R10_TR13.csv")
+    CSV.foreach(file, :headers => :first_row) do |row|
+      role = Role.find_by_name roles[row['INITIATIVE_ID'].to_sym]
+      contact = Contact.find_by_old_id row['CONTACT_ID']
+      if role && contact
+        contact.roles << role
+      else
+        log "** [error] Could not assign role: #{row.inspect} #{role} #{contact}"
+      end
+    end
+  end
+
   def assign_network_managers
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     file = File.join(@data_folder, CONFIG[:country][:file])
