@@ -10,13 +10,15 @@ class GroupedReport
   def render_html
     buffer = ''
     records.each_with_index do |dataset, i|
-      dataset_buffer = content_tag(:h3, titles[i])
-      
-      dataset_buffer << dataset.collect do |r|
-        content_tag(:p, row(r)[i].join(","))
-      end.join
-      
-      buffer << content_tag(:div, dataset_buffer)
+      if dataset.any?
+        dataset_buffer = content_tag(:h3, titles[i])
+
+        dataset_buffer << dataset.collect do |r|
+          content_tag(:p, row(r)[i].join(","))
+        end.join
+
+        buffer << content_tag(:div, dataset_buffer)
+      end
     end
     
     return buffer

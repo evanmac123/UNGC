@@ -1,6 +1,6 @@
 %h3= link_to 'Pages', admin_pages_path
 
-%h3= link_to 'Organizations', organizations_path
+%h3= link_to 'Organizations', admin_organizations_path
 
 %h3= link_to 'Events', admin_events_path
 
@@ -11,28 +11,28 @@
 %h3 Pending Organizations
 - if @pending_organizations.any?
   %ul
-    = render :partial => @pending_organizations
+    = render :partial => 'admin/organizations/organization', :collection => @pending_organizations
 - else
   no work for you
 
 %h3 Organizations under review
 - if @in_review_organizations.any?
   %ul
-    = render :partial => @in_review_organizations
+    = render :partial => 'admin/organizations/organization', :collection => @in_review_organizations
 - else
   no work for you
 
 %h3 Pending Logo Requests
 - if @pending_logo_requests.any?
   %ul
-    = render :partial => @pending_logo_requests
+    = render :partial => 'admin/logo_requests/logo_request', :collection => @pending_logo_requests
 - else
   no work for you
 
 %h3 Logo Requests that need attention
 - if @unreplied_logo_requests.any?
   %ul
-    = render :partial => @unreplied_logo_requests
+    = render :partial => 'admin/logo_requests/logo_request', :collection => @unreplied_logo_requests
 - else
   no work for you
 

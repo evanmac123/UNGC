@@ -1,19 +1,55 @@
 ActionController::Routing::Routes.draw do |map|
+  # Back-end routes
+  map.find_page_by 'admin/pages/find', :controller => 'admin/pages', :action => 'find_by_path_and_redirect_to_latest'
+
+  map.namespace :admin do |admin|
+    admin.resources :events, :member => { 
+      :approve => :post, 
+      :revoke => :post 
+    }
+    admin.resources :headlines, 
+      :controller => 'news', 
+      :member => { 
+        :approve => :post, 
+        :revoke => :post 
+      }
+    admin.resources :pages,
+      :member => {
+        :approve => :post,
+        :revoke  => :post
+      }
+    
+    admin.resources :organizations, :member     => { :approve => :post, :reject => :post },
+                                  :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
+                                  :has_many   => [:contacts, :comments] do |organization|
+      organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
+      organization.resources :case_stories
+      organization.resources :communication_on_progresses, :controller => 'cops'
+    end
+
+    admin.resources :case_stories, :has_many => :comments
+    admin.resources :logo_requests, :has_many => :logo_comments
+    admin.resources :communication_on_progresses, :has_many => :comments
+    
+    admin.reports 'reports', :controller => 'reports', :action => 'index'
+    admin.report 'reports/:action.:format', :controller => 'reports'
+  end
+  
+  map.with_options :controller => 'admin/pages' do |m|
+    m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }
+    m.update_page 'admin/page/:id.:format', :action => 'update', :conditions => { :method => :put }
+    m.connect 'admin/page/:id/edit', :action => 'update', :conditions => { :method => :post }
+  end
+  
+
+
+  # Front-end routes
   map.root :controller => 'pages', :action => 'view', :path => ['index.html']
 
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
     :action => 'redirect_local_network'
 
-  map.resources :organizations, :member     => { :approve => :post, :reject => :post },
-                                :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
-                                :has_many   => [:contacts, :comments] do |organization|
-    organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
-    organization.resources :case_stories, :controller => 'admin/case_stories'
-    organization.resources :communication_on_progresses, :controller => 'admin/cops'
-  end
-  map.resources :logo_requests, :has_many => :logo_comments
-  map.resources :communication_on_progresses, :has_many => :comments
   map.resources :bulletin_subscribers #, :has_many => :comments
 
   map.participant_with_nav 'participants/:navigation/:id', 
@@ -58,36 +94,6 @@ ActionController::Routing::Routes.draw do |map|
     m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
   end
 
-  map.find_page_by 'admin/pages/find', :controller => 'admin/pages', :action => 'find_by_path_and_redirect_to_latest'
-
-  map.namespace :admin do |admin|
-    admin.resources :events, :member => { 
-      :approve => :post, 
-      :revoke => :post 
-    }
-    admin.resources :headlines, 
-      :controller => 'news', 
-      :member => { 
-        :approve => :post, 
-        :revoke => :post 
-      }
-    admin.resources :pages,
-      :member => {
-        :approve => :post,
-        :revoke  => :post
-      }
-    admin.resources :case_stories, :has_many => :comments
-  end
-  
-  # reports
-  map.reports 'admin/reports', :controller => 'reports', :action => 'index'
-  map.report 'admin/reports/:action.:format', :controller => 'reports'
-  
-  map.with_options :controller => 'admin/pages' do |m|
-    m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }
-    m.update_page 'admin/page/:id.:format', :action => 'update', :conditions => { :method => :put }
-    m.connect 'admin/page/:id/edit', :action => 'update', :conditions => { :method => :post }
-  end
 
   map.search '/search', :controller => 'search', :action => 'index'
 

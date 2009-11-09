@@ -1,0 +1,7 @@
+%li
+  = logo_request.purpose
+  ==[#{logo_request.state.humanize}]
+  
+  = link_to 'show', admin_organization_logo_request_path(logo_request.organization.id, logo_request)
+  - staff_only do
+    = link_to 'delete', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :confirm => 'Are you sure?', :method => :delete

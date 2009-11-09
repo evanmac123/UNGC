@@ -1,7 +1,7 @@
 == Dear #{@case_story.contact.name_with_title},
 
 A new comment has been posted for your case story. Please do not reply to this email. You may submit a comment or question by accessing your case story at the following link:
-= organization_case_story_url(:organization_id => @case_story.organization.id, :id => @case_story.id)
+= admin_organization_case_story_url(:organization_id => @case_story.organization.id, :id => @case_story.id)
 
 == Organization: #{@case_story.organization.name}
 Case Story Status: In Review

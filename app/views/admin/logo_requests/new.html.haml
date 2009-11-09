@@ -1,0 +1,13 @@
+%h1 New logo request
+
+- form_for(:logo_request, url: new_admin_organization_logo_request_path(@organization, @logo_request), :html => { :multipart => true }) do |form|
+  = render :partial => form
+  
+  - form.fields_for :logo_comments do |comment_form|
+    = comment_form.text_area :body
+    = comment_form.file_field :attachment
+  
+  %p
+    = form.submit 'Save'
+
+= link_to 'Back', admin_organization_path(@organization)

@@ -10,8 +10,7 @@
   %body{:class => "#{ENV["RAILS_ENV"]} admin"}
     .container
       %h1= link_to "UNGC Dashboard", dashboard_path
-      - if logged_in?
-        %p== for #{link_to current_user.organization.name, edit_organization_path(current_user.organization)} staff
+      = possibly_link_to_organization
       %hr/
 
       %div{:class => "span-15 prepend-1 colborder"}

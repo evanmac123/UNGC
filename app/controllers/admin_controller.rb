@@ -2,7 +2,7 @@ class AdminController < ApplicationController
   layout 'admin'
   # TODO use a single before_filter
   before_filter :login_required #, :only => :dashboard
-  before_filter :require_staff
+  # before_filter :require_staff # FIXME: restore something here, that also works for organization members, local network admins, etc.
   before_filter :add_admin_js
   helper 'Admin'
   

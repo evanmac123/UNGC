@@ -1,5 +1,0 @@
-%li
-  = logo_file.name
-  - if @logo_request.can_download_files?
-    = image_tag logo_file_image_url(logo_file)
-    = link_to 'Download', download_organization_logo_request_path(@logo_request.organization, @logo_request, :logo_file_id => logo_file.id)

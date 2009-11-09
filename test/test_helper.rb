@@ -88,7 +88,8 @@ class ActiveSupport::TestCase
 
   def create_ungc_organization_and_user
     create_organization_type
-    @ungc = create_organization(:name => 'UNGC')
+    @country = create_country
+    @ungc = create_organization(:name => 'UNGC', :country => @country)
     @staff_user = create_contact(:login           => 'staff',
                                  :organization_id => @ungc.id)
   end

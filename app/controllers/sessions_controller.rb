@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   layout 'admin'
+  helper 'Admin'
   
   def create
     user = Contact.authenticate(params[:login], params[:password])

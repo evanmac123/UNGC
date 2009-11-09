@@ -1,0 +1,11 @@
+%h1 Editing organization
+
+- form_for(:organization, url: edit_admin_organization_path(@organization)) do |form|
+  = render :partial => form
+
+  %p
+    = form.submit 'Update'
+
+= link_to 'Show', admin_organization_path(@organization)
+|
+= link_to 'Back', admin_organizations_path

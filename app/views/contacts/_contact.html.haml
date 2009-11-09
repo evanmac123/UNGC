@@ -1,7 +1,0 @@
-%li
-  = contact.name
-  
-  = link_to 'edit', edit_organization_contact_path(contact.organization, contact)
-  - unless contact == current_user
-    = link_to 'delete', [contact.organization, contact], :confirm => 'Are you sure?', :method => :delete
-  

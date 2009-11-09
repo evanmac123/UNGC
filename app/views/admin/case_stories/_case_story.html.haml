@@ -2,8 +2,8 @@
   = case_story.title
   ==[#{case_story.state.humanize}]
   
-  = link_to 'show', [case_story.organization, case_story]
+  = link_to 'show', admin_organization_case_story_path(case_story.organization, case_story)
   - organization_only do
-    = link_to 'edit', edit_organization_case_story_path(case_story.organization, case_story)
+    = link_to 'edit', edit_admin_organization_case_story_path(case_story.organization, case_story)
   - staff_only do
-    = link_to 'delete', [case_story.organization, case_story], :confirm => 'Are you sure?', :method => :delete
+    = link_to 'delete', admin_organization_case_story_path(case_story.organization, case_story), :confirm => 'Are you sure?', :method => :delete
