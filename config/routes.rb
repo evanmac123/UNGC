@@ -1,7 +1,15 @@
 ActionController::Routing::Routes.draw do |map|
+  # Root
+  map.root :controller => 'pages', :action => 'view', :path => ['index.html']
+  
+  # Session routes
+  map.resource :session
+  map.no_session 'no_session', :controller => 'signup', :action => 'no_session'
+  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+  map.login '/login', :controller => 'sessions', :action => 'new'
+  
   # Back-end routes
-  map.find_page_by 'admin/pages/find', :controller => 'admin/pages', :action => 'find_by_path_and_redirect_to_latest'
-
+  map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   map.namespace :admin do |admin|
     admin.resources :events, :member => { 
       :approve => :post, 
@@ -39,13 +47,10 @@ ActionController::Routing::Routes.draw do |map|
     m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }
     m.update_page 'admin/page/:id.:format', :action => 'update', :conditions => { :method => :put }
     m.connect 'admin/page/:id/edit', :action => 'update', :conditions => { :method => :post }
+    m.find_page_by 'admin/pages/find', :action => 'find_by_path_and_redirect_to_latest'
   end
-  
-
 
   # Front-end routes
-  map.root :controller => 'pages', :action => 'view', :path => ['index.html']
-
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
     :action => 'redirect_local_network'
@@ -70,20 +75,19 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'show', 
     :requirements => { :organization => /.*/, :cop => /.*/ }
 
-  map.resource :session
-  
   # shorcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
-  map.organization_step1 'signup/step1/:org_type', :controller => 'signup', :action => 'step1'
-  (2..5).each {|i| eval("map.organization_step#{i} 'signup/step#{i}', :controller => 'signup', :action => 'step#{i}'")}
-  
-  map.no_session 'no_session', :controller => 'signup', :action => 'no_session'
+  map.with_options :controller => 'signup' do |signup|
+    signup.organization_step1 'signup/step1/:org_type', :action => 'step1'
+    signup.organization_step2 'signup/step2',           :action => 'step2'
+    signup.organization_step3 'signup/step3',           :action => 'step3'
+    signup.organization_step4 'signup/step4',           :action => 'step4'
+    signup.organization_step5 'signup/step5',           :action => 'step5'
+  end
 
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
-  map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
-
-  # map.resources :events
+  map.with_options :controller => 'case_stories' do |m|
+    m.case_story 'case_story/:id', :action => :show
+  end
   map.with_options :controller => 'events' do |m|
     m.event '/events/:permalink', :action => :show, :conditions => { :method => :get }
   end
@@ -93,7 +97,6 @@ ActionController::Routing::Routes.draw do |map|
     m.headline_year '/news/:year', :action => :index, :requirements => { :year => /\d{4}/ }
     m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
   end
-
 
   map.search '/search', :controller => 'search', :action => 'index'
 

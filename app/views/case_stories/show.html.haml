@@ -1,0 +1,35 @@
+%h1 Case Story Details
+%p= link_to 'Back', :back
+
+%h2 Organization Name
+%p= link_to @case_story.organization_name, participant_path(@case_story.organization)
+
+%h2 Case Story Title
+%p= @case_story.title
+
+%h2 Case Story Date
+%p= yyyy_mm_dd @case_story.case_date
+
+%h2 Issues Addressed
+= issues_addressed(@case_story.principles)
+
+%h2 Case Story Category
+%p= @case_story.category_name
+
+%h2 Countries of Impact
+%p= @case_story.country_names
+
+%h2 Case Description
+%p= simple_format h @case_story.description
+
+%h2 Links
+= formatted_links(@case_story.links)
+
+%h2 Authors
+= formatted_authors(@case_story.authors_for_display)
+
+%h2 Contact Person
+%p= formatted_email_link_to(@case_story.contact_for_display)
+
+%h2 Note
+%p Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
