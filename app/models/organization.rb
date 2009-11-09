@@ -43,7 +43,6 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  validates_presence_of :pledge_amount_other, :if => :other_pledge_selected?
   has_many :signings
   has_many :initiatives, :through => :signings
   has_many :contacts 
@@ -58,10 +57,13 @@ class Organization < ActiveRecord::Base
 
   attr_accessor :pledge_amount_other
   
+  validate :pledge_amount_other_at_least_10000
+  
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
   before_save :check_micro_enterprise_or_sme
+  before_save :check_pledge_amount_other
   
   has_attached_file :commitment_letter
   
@@ -185,10 +187,6 @@ class Organization < ActiveRecord::Base
   # NOTE: Convenient alias
   def noncommed_on; cop_due_on; end
 
-  def other_pledge_selected?
-    self.pledge_amount == -1
-  end
-
   def invoice_id
     "FGCD#{id}"
   end
@@ -198,17 +196,17 @@ class Organization < ActiveRecord::Base
     22
   end
   
-  def before_save
-     if other_pledge_selected?
-       self.pledge_amount = self.pledge_amount_other
-     end
-   end
-  
   def to_param
     CGI.escape(name)    
   end
   
   private
+    def check_pledge_amount_other
+      unless self.pledge_amount_other.to_i == 0
+        self.pledge_amount = self.pledge_amount_other
+      end
+    end
+  
     def check_micro_enterprise_or_sme
       if self.business_entity?
         if self.employees < 10
@@ -216,6 +214,12 @@ class Organization < ActiveRecord::Base
         elsif self.employees < 250
           self.organization_type_id = OrganizationType.sme.id
         end
+      end
+    end
+    
+    def pledge_amount_other_at_least_10000
+      if pledge_amount_other.to_i != 0 and pledge_amount_other.to_i < 10000
+        errors.add :pledge_amount_other, "cannot be less than US$10,000"
       end
     end
 end
