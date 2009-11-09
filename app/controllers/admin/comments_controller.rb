@@ -1,6 +1,5 @@
-class CommentsController < ApplicationController
-  layout 'admin'
-  before_filter :login_required, :load_commentable
+class Admin::CommentsController < AdminController
+  before_filter :load_commentable
   helper_method :commentable_path
   
   def new

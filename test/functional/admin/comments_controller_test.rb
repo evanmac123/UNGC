@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CommentsControllerTest < ActionController::TestCase
+class Admin::CommentsControllerTest < ActionController::TestCase
   context "given an existing case story" do
     setup do
       create_new_case_story

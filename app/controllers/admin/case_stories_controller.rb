@@ -1,6 +1,5 @@
 class Admin::CaseStoriesController < AdminController
-  layout 'admin'
-  before_filter :login_required, :load_organization
+  before_filter :load_organization
   
   def new
     @case_story = @organization.case_stories.new

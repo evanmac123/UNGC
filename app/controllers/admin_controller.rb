@@ -4,6 +4,7 @@ class AdminController < ApplicationController
   before_filter :login_required #, :only => :dashboard
   before_filter :require_staff
   before_filter :add_admin_js
+  helper 'Admin'
   
   def dashboard
     if current_user.from_ungc?

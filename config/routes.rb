@@ -14,7 +14,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :logo_requests, :has_many => :logo_comments
   map.resources :communication_on_progresses, :has_many => :comments
-  map.resources :bulletin_subscribers, :has_many => :comments
+  map.resources :bulletin_subscribers #, :has_many => :comments
 
   map.participant_with_nav 'participants/:navigation/:id', 
     :controller => 'participants', 
