@@ -1,29 +1,29 @@
 %h3 Contacts
-= link_to 'new', new_organization_contact_path(current_user.organization)
+= link_to 'new', new_admin_organization_contact_path(current_user.organization.id)
 %ul
-  = render :partial => current_user.organization.contacts
+  = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
 
 - if @organization.pending_review? or @organization.in_review?
   %h3 Comments
-  = link_to 'New comment', new_organization_comment_path(@organization)
+  = link_to 'New comment', new_admin_organization_comment_path(@organization.id)
   %ul
     = render :partial => @organization.comments
 
 - else
   %h3 Logo requests
-  = link_to 'new', new_organization_logo_request_path(current_user.organization)
+  = link_to 'new', new_admin_organization_logo_request_path(current_user.organization.id)
   - if current_user.organization.logo_requests.any?
     %ul
       = render :partial => current_user.organization.logo_requests
 
   %h3 Case Stories
-  = link_to 'new', new_organization_case_story_path(current_user.organization)
+  = link_to 'new', new_admin_organization_case_story_path(current_user.organization.id)
   - if current_user.organization.case_stories.any?
     %ul
       = render :partial => current_user.organization.case_stories
 
   %h3 COPs
-  = link_to 'new', new_organization_communication_on_progress_path(current_user.organization)
+  = link_to 'new', new_admin_organization_communication_on_progress_path(current_user.organization.id)
   - if current_user.organization.communication_on_progresses.any?
     %ul
       = render :partial => current_user.organization.communication_on_progresses
