@@ -26,7 +26,13 @@ end
 
 ActionView::Base.default_form_builder = FormBuilder
 ActiveRecord::Base.colorize_logging = false
-ThinkingSphinx.suppress_delta_output = true
+
+begin
+  ThinkingSphinx.suppress_delta_output = true
+rescue Exception => e
+  puts " ** ERROR: Unable to configure Sphinx; is it installed? Run rake gems to find out."
+end
+
 
 # Application constants
 EMAIL_SENDER = "no-reply@unglobalcompact.org"
