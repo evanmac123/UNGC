@@ -23,17 +23,21 @@ class Admin::CaseStoriesControllerTest < ActionController::TestCase
   
   context "given an existing case story" do
     setup do
-      create_new_case_story
+      create_organization_and_user
+      login_as @organization_user
+      @case_story = create_case_story(:organization_id => @organization.id)
     end
     
     should "be able to see the case story" do
       get :show, :organization_id => @organization.id,
                  :id              => @case_story.id
+      assert_response :success
     end
     
     should "be able to edit the case story" do
       get :edit, :organization_id => @organization.id,
                  :id              => @case_story.id
+      assert_response :success
     end
   end
 end
