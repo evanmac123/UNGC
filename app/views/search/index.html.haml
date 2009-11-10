@@ -14,7 +14,7 @@
         %div
           = truncate result.content, length: 150
         %div{:style => 'color: green'}
-          = result.url
+          = "http://#{request.host}#{result.url}"
       
   %div
     = will_paginate @results
