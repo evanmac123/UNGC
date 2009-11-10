@@ -43,6 +43,15 @@ class ApplicationController < ActionController::Base
   helper_method :editable_content?
 
   protected
+    def rescue_action(exception)
+      case exception
+      when Riddle::ConnectionError
+        render :template => '/search/offline'
+      else
+        super
+      end
+    end
+  
     def mailer_set_url_options
       ActionMailer::Base.default_url_options[:host] = request.host_with_port
     end

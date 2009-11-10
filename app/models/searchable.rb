@@ -175,7 +175,7 @@ class Searchable < ActiveRecord::Base
       # into the same encoding. Hopefully someone will patch ActiveRecord to make this 
       # obsolete, but for now...
       content = "#{content.force_encoding('UTF-8')} #{file_content}"
-      url = "/case_story/#{case_story.to_param}"
+      url = "/case_story/#{case_story.identifier}"
       import 'CaseStory', url: url, title: title, content: content, object: object
     end
   end
