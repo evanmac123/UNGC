@@ -18,7 +18,7 @@ class Admin::LogoRequestsController < AdminController
 
     if @logo_request.save
       flash[:notice] = 'Logo request was successfully created.'
-      redirect_to admin_organization_path(@organization)
+      redirect_to admin_organization_path(@organization.id)
     else
       render :action => "new"
     end
@@ -26,12 +26,12 @@ class Admin::LogoRequestsController < AdminController
 
   def update
     @logo_request.update_attributes(params[:logo_request])
-    redirect_to admin_organization_logo_request_path(@organization, @logo_request)
+    redirect_to admin_organization_logo_request_path(@organization.id, @logo_request.id)
   end
 
   def destroy
     @logo_request.destroy
-    redirect_to admin_organization_path(@organization)
+    redirect_to admin_organization_path(@organization.id)
   end
 
   def agree

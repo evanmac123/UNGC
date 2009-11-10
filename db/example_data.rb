@@ -8,6 +8,7 @@ module FixtureReplacement
 	end
 
   attributes_for :communication_on_progress do |cop|
+    cop.title = String.random
 	end
 
   attributes_for :contact do |c|

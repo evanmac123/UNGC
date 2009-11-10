@@ -3,11 +3,12 @@ x word docs
 x powerpoint
 x events
 x headlines
-- case stories
-- participants
+x case stories
+x participants
 - contacts?
 
 x add fields for timestamps from the searchable content (ie, if we want to search pages updated since X, we need the pages' updated_at as a field in searchable)
+x friendly catch for errors from Sphinx like ThinkingSphinx::ConnectionError
 
 - DJ runner
 - index daemon
@@ -26,4 +27,3 @@ x add fields for timestamps from the searchable content (ie, if we want to searc
 - capture errors from external search importer commands ("is not a pdf?" etc.) -- see http://pasadenarb.com/2007/03/ruby-shell-commands.html
 
 
--- friendly catch for errors from Sphinx like ThinkingSphinx::ConnectionError

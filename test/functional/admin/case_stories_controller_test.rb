@@ -30,5 +30,10 @@ class Admin::CaseStoriesControllerTest < ActionController::TestCase
       get :show, :organization_id => @organization.id,
                  :id              => @case_story.id
     end
+    
+    should "be able to edit the case story" do
+      get :edit, :organization_id => @organization.id,
+                 :id              => @case_story.id
+    end
   end
 end

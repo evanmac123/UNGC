@@ -7,6 +7,6 @@
   = @communication_on_progress.principles.collect(&:name).join('<br/>')
 
 %h3 Comments
-= link_to 'New comment', new_communication_on_progress_comment_path(@communication_on_progress)
+= link_to 'New comment', new_admin_communication_on_progress_comment_path(@communication_on_progress)
 %ul
   = render :partial => @communication_on_progress.comments

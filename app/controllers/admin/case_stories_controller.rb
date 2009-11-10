@@ -11,7 +11,7 @@ class Admin::CaseStoriesController < AdminController
 
     if @case_story.save
       flash[:notice] = 'Case Story was successfully created.'
-      redirect_to admin_organization_path(@organization)
+      redirect_to admin_organization_path(@organization.id)
     else
       render :action => "new"
     end
@@ -19,12 +19,12 @@ class Admin::CaseStoriesController < AdminController
 
   def update
     @case_story.update_attributes(params[:case_story])
-    redirect_to admin_organization_case_story_path(@organization, @case_story)
+    redirect_to admin_organization_case_story_path(@organization.id, @case_story)
   end
 
   def destroy
     @case_story.destroy
-    redirect_to admin_organization_path(@organization)
+    redirect_to admin_organization_path(@organization.id)
   end
 
   private

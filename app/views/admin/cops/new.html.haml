@@ -1,6 +1,6 @@
 %h2 New COP
 
-- form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization, @communication_on_progress), :html => { :multipart => true }) do |form|
+- form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization.id), :html => { :multipart => true }) do |form|
   = render :partial => form  
   %p
     = form.submit 'Save'
