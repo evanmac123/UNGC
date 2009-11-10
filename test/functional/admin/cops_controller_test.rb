@@ -20,15 +20,20 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       create_principle_areas
+      @cop = create_communication_on_progress(:organization_id => @organization.id)
       login_as @organization_user
     end
     
     should "be able to see the cop details" do
-      # code here
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_response :success
     end
     
     should "be able to edit the cop" do
-      # code here
+      get :edit, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_response :success
     end
   end
 end
