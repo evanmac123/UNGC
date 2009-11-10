@@ -15,4 +15,25 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
     end
   end
+  
+  context "given an existing cop" do
+    setup do
+      create_organization_and_user
+      create_principle_areas
+      @cop = create_communication_on_progress(:organization_id => @organization.id)
+      login_as @organization_user
+    end
+    
+    should "be able to see the cop details" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_response :success
+    end
+    
+    should "be able to edit the cop" do
+      get :edit, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_response :success
+    end
+  end
 end

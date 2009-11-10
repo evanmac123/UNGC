@@ -6,7 +6,7 @@ module AdminHelper
       new_admin_case_story_comment_path(commentable)
     when Organization
       new_admin_organization_comment_path(commentable)
-    when CommuncationOnProgress
+    when CommunicationOnProgress
       new_admin_communication_on_progress_comment_path(commentable)
     else
       raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect

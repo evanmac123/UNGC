@@ -16,6 +16,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
   test "should get new" do
     get :new, :organization_id => @organization.id
     assert_response :success
+    assert_template 'new'
   end
 
   test "should create logo request" do
@@ -30,7 +31,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                                        :logo_comments_attributes=>{"0"=>comment_attributes} }
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization))
+    assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
   
   test "should destroy logo request" do
@@ -39,7 +40,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                        :id => @logo_request.to_param
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization))
+    assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
   
   context "given an approved logo request" do
