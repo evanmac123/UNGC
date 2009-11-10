@@ -34,7 +34,7 @@ class Admin::CommentsController < AdminController
       case commentable
       when CaseStory
         admin_organization_case_story_path(commentable.organization, commentable)
-      when CommuncationOnProgress
+      when CommunicationOnProgress
         admin_organization_communication_on_progress_path(commentable.organization, commentable)
       when Organization
         admin_organization_path(commentable)
