@@ -1,9 +1,9 @@
 %h1 Editing contact
 
-- form_for(:contact, url: admin_organization_contact_path(@organization, @contact)) do |form|
+- form_for(:contact, url: admin_organization_contact_path(@organization.id, @contact), :html => {:method => :put}) do |form|
   = render :partial => form
   
   %p
     = form.submit 'Save'
 
-= link_to 'Back', admin_organization_path(@organization)
+= link_to 'Back', admin_organization_path(@organization.id)

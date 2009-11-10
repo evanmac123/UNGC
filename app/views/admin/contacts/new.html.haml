@@ -1,9 +1,9 @@
 %h1 New contact
 
-- form_for(:contact, url: admin_organization_contacts_path(@organization)) do |form|
+- form_for(:contact, url: admin_organization_contacts_path(@organization.id)) do |form|
   = render :partial => form
   
   %p
     = form.submit 'Create'
 
-= link_to 'Back', admin_organization_path(@organization)
+= link_to 'Back', admin_organization_path(@organization.id)

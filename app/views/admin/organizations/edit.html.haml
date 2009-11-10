@@ -1,6 +1,6 @@
 %h1 Editing organization
 
-- form_for(:organization, url: edit_admin_organization_path(@organization)) do |form|
+- form_for(:organization, url: edit_admin_organization_path(@organization), :html => {:method => :put}) do |form|
   = render :partial => form
 
   %p

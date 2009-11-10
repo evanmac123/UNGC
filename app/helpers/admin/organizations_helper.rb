@@ -1,9 +1,9 @@
 module Admin::OrganizationsHelper
   def organization_actions(organization)
     actions = []
-    actions << link_to('Approve', approve_admin_organization_path(@organization), :method => :post) if organization.can_approve?
-    actions << link_to('Reject', reject_admin_organization_path(@organization), :method => :post) if organization.can_reject?
-    actions << link_to('Edit', edit_admin_organization_path(@organization))
+    actions << link_to('Approve', approve_admin_organization_path(@organization.id), :method => :post) if organization.can_approve?
+    actions << link_to('Reject', reject_admin_organization_path(@organization.id), :method => :post) if organization.can_reject?
+    actions << link_to('Edit', edit_admin_organization_path(@organization.id))
     actions << link_to('Back', admin_organizations_path)
     actions.join(" | ")
   end
