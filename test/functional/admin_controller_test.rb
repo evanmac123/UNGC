@@ -16,7 +16,10 @@ class AdminControllerTest < ActionController::TestCase
   
   context "given a organization member" do
     setup do
-      login_as create_organization_and_user
+      user = create_organization_and_user
+      @organization.update_attribute :state, 'approved'
+      create_communication_on_progress(:organization_id => @organization.id)
+      login_as user
     end
 
     should "get the dashboard page" do

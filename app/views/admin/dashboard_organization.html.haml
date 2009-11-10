@@ -26,4 +26,4 @@
   = link_to 'new', new_admin_organization_communication_on_progress_path(current_user.organization.id)
   - if current_user.organization.communication_on_progresses.any?
     %ul
-      = render :partial => current_user.organization.communication_on_progresses
+      = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses
