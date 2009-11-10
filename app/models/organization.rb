@@ -64,6 +64,7 @@ class Organization < ActiveRecord::Base
   
   before_save :check_micro_enterprise_or_sme
   before_save :check_pledge_amount_other
+  before_save :check_non_business_sector
   
   has_attached_file :commitment_letter
   
@@ -201,6 +202,10 @@ class Organization < ActiveRecord::Base
   end
   
   private
+    def check_non_business_sector
+       self.sector_id = Sector.not_applicable.id unless self.business_entity?
+     end
+     
     def check_pledge_amount_other
       unless self.pledge_amount_other.to_i == 0
         self.pledge_amount = self.pledge_amount_other
