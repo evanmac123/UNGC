@@ -20,7 +20,7 @@
   = link_to 'new', new_admin_organization_case_story_path(current_user.organization.id)
   - if current_user.organization.case_stories.any?
     %ul
-      = render :partial => current_user.organization.case_stories
+      = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories
 
   %h3 COPs
   = link_to 'new', new_admin_organization_communication_on_progress_path(current_user.organization.id)

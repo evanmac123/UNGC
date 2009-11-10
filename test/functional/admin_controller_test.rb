@@ -18,7 +18,9 @@ class AdminControllerTest < ActionController::TestCase
     setup do
       user = create_organization_and_user
       @organization.update_attribute :state, 'approved'
+      # add some content to the organization
       create_communication_on_progress(:organization_id => @organization.id)
+      create_case_story(:organization_id => @organization.id)
       login_as user
     end
 
