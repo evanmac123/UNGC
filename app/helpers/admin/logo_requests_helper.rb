@@ -1,7 +1,7 @@
 module Admin::LogoRequestsHelper
   def logo_request_actions(logo_request)
     actions = []
-    actions << link_to('Back', admin_organization_path(@organization))
+    actions << link_to('Back', admin_organization_path(@organization.id))
     actions.join(" | ")
   end
   

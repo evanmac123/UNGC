@@ -49,6 +49,12 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       login_as @organization_user
     end
     
+    should "show a logo request page" do
+      get :show, :id              => @logo_request.id,
+                 :organization_id => @logo_request.organization.id
+      assert_response :success
+    end
+    
     should "not allow download of logo" do
       get :download, :id              => @logo_request.id,
                      :organization_id => @logo_request.organization.id

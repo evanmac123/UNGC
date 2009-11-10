@@ -8,7 +8,7 @@ class Admin::LogoRequestsController < AdminController
   
   def show
     if @logo_request.approved? && current_user.from_organization?
-      render :template => 'logo_requests/logo_terms.html.haml'
+      render :template => 'admin/logo_requests/logo_terms.html.haml'
     end
   end
 

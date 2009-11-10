@@ -7,4 +7,4 @@
   %p== I, #{current_user.name_with_title} of #{current_user.organization.name} agree to abide by the terms and conditions set forth in the Global Compact Logo Usage Policy.
 
 %p
-  = link_to 'I agree', agree_admin_organization_logo_request_path(@logo_request.organization, @logo_request), :method => :post
+  = link_to 'I agree', agree_admin_organization_logo_request_path(@logo_request.organization_id, @logo_request), :method => :post
