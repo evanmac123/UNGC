@@ -4,15 +4,15 @@
   %ul.nolist
     - @facets[:document_type].each_pair do |key, count|
       %li= link_to "#{key.pluralize}: #{count}", params.merge(:document_type => key, :page => 1)
-    
+
 - if @results.any?
   - for result in @results do
     - if result
-      %div{:style=>'margin-bottom: 1em;'}
+      .search_results
         %div{:style => 'font-weight: bold; color: blue'}
           = link_to result.title, result.url
         %div
-          = truncate result.content, length: 150
+          = format result # truncate result.content, length: 200
         %div{:style => 'color: green'}
           = "http://#{request.host}#{result.url}"
       
