@@ -44,6 +44,7 @@ class Searchable < ActiveRecord::Base
     has document_type, :facet => true
     has url, last_indexed_at
     set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
+    set_property :field_weights => {"title" => 100}
   end
   
   class << self 
