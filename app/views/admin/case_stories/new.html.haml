@@ -1,0 +1,8 @@
+%h2 New case story
+
+- form_for(:case_story, url: admin_organization_case_stories_path(@organization, @case_story), :html => { :multipart => true }) do |form|
+  = render :partial => form  
+  %p
+    = form.submit 'Save'
+
+= link_to 'Back', dashboard_path

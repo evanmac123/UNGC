@@ -1,0 +1,29 @@
+THINGS TO DO:
+x word docs
+x powerpoint
+x events
+x headlines
+- case stories
+- participants
+- contacts?
+
+x add fields for timestamps from the searchable content (ie, if we want to search pages updated since X, we need the pages' updated_at as a field in searchable)
+
+- DJ runner
+- index daemon
+- DJ instruction when things are deleted (pages, files, contacts, events, etc.) - module??
+- script to index uploaded documents (PDFs, word docs, etc.)
+
+- advanced search page (filters?)
+
+- cops
+
+- separate search controller / index for:
+  - cops
+  - case stories
+  - participants
+
+- capture errors from external search importer commands ("is not a pdf?" etc.) -- see http://pasadenarb.com/2007/03/ruby-shell-commands.html
+
+
+-- friendly catch for errors from Sphinx like ThinkingSphinx::ConnectionError

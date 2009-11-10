@@ -125,6 +125,10 @@ class Contact < ActiveRecord::Base
   def from_network?
     !local_network_id.nil? && !from_ungc?
   end
+
+  def organization_name
+    organization.try(:name)
+  end
   
   def user_type
     return TYPE_UNGC if from_ungc?

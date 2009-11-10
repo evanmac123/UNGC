@@ -1,0 +1,10 @@
+%h2 Foundation Pledges
+
+- form_for admin_report_path(:action => :foundation_pledges), :html => {:method => :get} do |f|
+  = select_month_tag(@month)
+  = select_year_tag(@year)
+  = f.submit 'View'
+  
+= link_to 'download', url_for(params.merge(:format => 'csv'))
+
+%div= @report.render_html

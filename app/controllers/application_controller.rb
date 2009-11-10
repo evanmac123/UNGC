@@ -49,6 +49,7 @@ class ApplicationController < ActionController::Base
 
     # For Rails actions that we want to "appear" as if they were part of the navigation tree
     def determine_navigation
+      @formatted_request_path = default_navigation and return if params[:navigation].blank?
       @formatted_request_path = case params[:navigation]
       when 'inactive'
         DEFAULTS[:cop_inactives_path]

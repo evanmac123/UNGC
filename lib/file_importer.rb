@@ -1,4 +1,16 @@
-require 'rexml/document'
+# require 'rexml/document'
+# encoding: utf-8
+require 'hpricot'
+
+# module Hpricot
+#   # XML unescape
+#   def self.uxs(str)
+#     str.force_encoding("UTF-8")
+#     str.to_s.
+#         gsub(/\&(\w+);/) { [NamedCharacters[$1] || ??].pack("U*") }.
+#         gsub(/\&\#(\d+);/) { [$1.to_i].pack("U*") }
+#   end
+# end
 
 class FileImporter
   # path is the folder where all uploaded files are located
@@ -59,13 +71,21 @@ class FileImporter
       CaseStory.all.each do |case_story|
         # let's try to find the XML file for this case story
         xml_file = File.join(path, "xml", "#{case_story.identifier}.xml")
+        # puts "Working on #{case_story.identifier}.xml"
         if File.exist?(xml_file)
           begin
-            doc = REXML::Document.new(File.new(xml_file))
+            doc = Hpricot(open(xml_file)) # REXML::Document.new(File.new(xml_file))
             # there's a single element
-            case_story.description = doc.elements.first.text
-          rescue
-            log "Invalid xml file #{xml_file}"
+            description = (doc/'description').inner_text
+            unless description.encoding.name == 'UTF-8'
+              encoding = description.encoding.name == 'ASCII-8BIT' ? 'ISO-8859-1' : description.encoding.name
+              # puts "Trying to convert from #{encoding} to UTF8"
+              converter = Iconv.new('UTF-8', encoding)
+              description = converter.iconv(description)
+            end
+            case_story.description = description
+          rescue Encoding::CompatibilityError => e
+            log "Invalid xml file #{xml_file} -- #{e.inspect}"
           end
         end
         # user uploaded DOC/PDF for this case story

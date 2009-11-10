@@ -1,7 +1,7 @@
 Dashboard for Local Network
 
 %h3 Contacts
-= link_to 'new', new_organization_contact_path(current_user.organization)
+= link_to 'new', new_admin_organization_contact_path(current_user.organization)
 %ul
   = render :partial => current_user.organization.contacts
 

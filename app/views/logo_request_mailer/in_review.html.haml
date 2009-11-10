@@ -1,7 +1,7 @@
 == Dear #{@logo_request.contact.name_with_title},
 
 A new comment has been posted for your logo request. Please do not reply to this email. You may submit a comment or question by accessing your logo request at the following link:
-= organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)
+= admin_organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)
 
 == Organization: #{@logo_request.organization.name}
 Logo Request Status: In Review

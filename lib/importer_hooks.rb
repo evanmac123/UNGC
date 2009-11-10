@@ -80,7 +80,7 @@ module ImporterHooks
     # create roles
     roles = { :'1' => 'Caring for Climate Contact',
               :'2' => 'CEO Water Mandate - Endorsing Contact',
-              :'4' => 'CEO Statement on Human Rights Contact'
+              :'4' => 'CEO Statement on Human Rights Contact',
               :'8' => 'CEO Water Mandate - Non-Endorsing Contact' }
     roles.values.each {|role| Role.find_or_create_by_name(role) }
     # "ID","INITIATIVE_ID","ORG_ID","CONTACT_ID"

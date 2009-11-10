@@ -51,8 +51,52 @@ class CaseStory < ActiveRecord::Base
   belongs_to :contact
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
+  
+  delegate :name, :to => :organization, :prefix => true
   acts_as_commentable
   has_attached_file :attachment
 
   named_scope :unreplied, :conditions => {:replied_to => false}
+
+  
+  def authors_for_display
+    authors = [
+      [author1, author1_email, author1_institution],
+      [author2, author2_email, author2_institution]
+    ]
+    
+    authors.map do |details|
+      display_contact(*details) unless author1.blank?
+    end
+  end
+  
+  def category_name
+    if is_partnership_project? and is_internalization_project?
+      'Internalization and Partnership Project'
+    elsif is_partnership_project?
+      'Partnership Project'
+    elsif is_internalization_project?
+      'Internalization Project'
+    else
+      'Unknown'
+    end
+  end
+  
+  def contact_for_display
+    display_contact(contact.name, contact.email, contact.organization_name) if contact
+  end
+
+  def country_names
+    countries.map { |c| c.try :name }.sort.join(', ')
+  end
+  
+  def display_contact(name, email, institution)
+    OpenStruct.new(name: name, email: email, institution: institution)
+  end
+  
+  def links
+    links = [url1, url2, url3].compact
+    links << attachment if attachment
+    links
+  end
 end

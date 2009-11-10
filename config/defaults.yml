@@ -1,4 +1,7 @@
 universal: &universal
+  url_host: 'unglobalcompact.org'
+  search_results_per_page: 25
+  case_story_path: '/COP/Case_Story/case_search.html'
   cop_inactives_path: '/COP/inactives.html'
   cop_noncommunicating_path: '/COP/non_communicating.html'
   cop_notable_path: '/COP/notable_cops.html'
@@ -6,6 +9,7 @@ universal: &universal
   news_archive_path: '/NewsAndEvents/news_archives/index.html'
   news_headlines_path: '/NewsAndEvents/index.html'
   participant_search_path: '/ParticipantsAndStakeholders/search_participant.html'
+  search_path: '/search'
   upcoming_events_path: '/NewsAndEvents/Upcoming_Events.html'
   
 development:

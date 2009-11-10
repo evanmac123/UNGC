@@ -43,7 +43,6 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  validates_presence_of :pledge_amount_other, :if => :other_pledge_selected?
   has_many :signings
   has_many :initiatives, :through => :signings
   has_many :contacts 
@@ -58,10 +57,13 @@ class Organization < ActiveRecord::Base
 
   attr_accessor :pledge_amount_other
   
+  validate :pledge_amount_other_at_least_10000
+  
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
-  before_save :check_micro_enterprise_or_sme, :check_non_business_sector, :check_pledge_amount
+  before_save :check_micro_enterprise_or_sme
+  before_save :check_pledge_amount_other
   
   has_attached_file :commitment_letter
   
@@ -194,9 +196,15 @@ class Organization < ActiveRecord::Base
     22
   end
   
+  def to_param
+    CGI.escape(name)    
+  end
+  
   private
-    def check_non_business_sector
-      self.sector_id = Sector.not_applicable.id unless self.business_entity?
+    def check_pledge_amount_other
+      unless self.pledge_amount_other.to_i == 0
+        self.pledge_amount = self.pledge_amount_other
+      end
     end
   
     def check_micro_enterprise_or_sme
@@ -209,7 +217,9 @@ class Organization < ActiveRecord::Base
       end
     end
     
-    def check_pledge_amount
-      self.pledge_amount = self.pledge_amount_other if self.pledge_amount == -1
+    def pledge_amount_other_at_least_10000
+      if pledge_amount_other.to_i != 0 and pledge_amount_other.to_i < 10000
+        errors.add :pledge_amount_other, "cannot be less than US$10,000"
+      end
     end
 end

@@ -20,6 +20,7 @@
 #  updated_at            :datetime
 #  group_id              :integer(4)
 #  approval              :string(255)
+#  top_level             :boolean(1)
 #
 
 class Page < ActiveRecord::Base

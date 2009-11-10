@@ -23,11 +23,26 @@ class NetworksReport < GroupedReport
   end
 
   def row(record)
-    [[record.name, record.organization_type.name, record.country.name, record.created_at],
-      [record.name, record.organization_type.name, record.country.name, record.created_at],
-      [record.name, record.organization_type.name, record.country.name, record.created_at],
-      [record.name, record.organization_type.name, record.country.name, record.created_at],
-      [record.name, record.organization_type.name, record.country.name, record.created_at],
-      [record.name, record.organization_type.name, record.country.name, record.created_at]]
+    standard = [
+      record.name, 
+      record.organization_type.name, 
+      record.country.name, 
+      record.created_at
+    ]
+    became_non_communicating_90 = standard
+    risk_non_communicating_90   = standard
+    became_inactive_90          = standard
+    risk_inactive_90            = standard
+    submitted_90                = standard
+    joined_90                   = standard
+    
+    [
+      became_non_communicating_90,
+      risk_non_communicating_90,
+      became_inactive_90,
+      risk_inactive_90,
+      submitted_90,
+      joined_90
+    ]
   end
 end

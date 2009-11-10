@@ -1,0 +1,22 @@
+%h1= "Search results for: '#{h params[:keyword]}'"
+  
+- if @facets.any? && @facets[:document_type].size > 1
+  %ul.nolist
+    - @facets[:document_type].each_pair do |key, count|
+      %li= link_to "#{key.pluralize}: #{count}", params.merge(:document_type => key, :page => 1)
+    
+- if @results.any?
+  - for result in @results do
+    - if result
+      %div{:style=>'margin-bottom: 1em;'}
+        %div{:style => 'font-weight: bold; color: blue'}
+          = link_to result.title, result.url
+        %div
+          = truncate result.content, length: 150
+        %div{:style => 'color: green'}
+          = result.url
+      
+  %div
+    = will_paginate @results
+- else
+  %p Nothing found, try again.

@@ -230,14 +230,15 @@ def parse_sitenav_nav(root)
   doc = Hpricot(open(filename))
   navs = doc/'#leftnav ul li a'
   group = PageGroup.find_by_html_code('website') || PageGroup.create(:name => 'Website Information', :html_code => 'website', :display_in_navigation => false)
-  info = Page.find_by_path("/#{filename - root}") || Page.create(:path => "/#{filename - root}", :group_id => group.id)
+  path = possibly_move("/#{filename - root}")
+  info = Page.find_by_path(path) || Page.create(:path => path, :group_id => group.id)
   info.update_attributes :title => 'Website Information', 
     :html_code => 'websiteinfo',
     :top_level => true,
     :display_in_navigation => false
   navs.inject(0) do |counter, nav|
     h = href_and_label(nav)
-    h[:path] = "/WebsiteInfo#{h[:path]}"
+    h[:path] = possibly_move "/WebsiteInfo#{h[:path]}"
     h.merge!(:parent_id => nil, :top_level => true, :group_id => group.id, :position => counter, :display_in_navigation => true)
     if page = Page.find_by_path(h[:path])
       page.update_attributes(h)

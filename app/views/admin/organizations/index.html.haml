@@ -1,0 +1,27 @@
+%h1 Listing organizations
+
+%p
+  = link_to 'All', admin_organizations_path
+  |
+  = link_to 'Approved', approved_admin_organizations_path
+  |
+  = link_to 'Rejected', rejected_admin_organizations_path
+  |
+  = link_to 'Pending', pending_review_admin_organizations_path
+
+%table
+  %tr
+    %th Name
+    %th State
+
+  - @organizations.each do |organization|
+    %tr
+      %td=h organization.name
+      %td=h organization.state
+      %td= link_to 'Show', admin_organization_path(organization.id)
+      %td= link_to 'Edit', edit_admin_organization_path(organization.id)
+      %td= link_to 'Destroy', admin_organization_path(organization.id), :confirm => 'Are you sure?', :method => :delete
+
+%br/
+
+= link_to 'New organization', new_admin_organization_path
