@@ -2,6 +2,6 @@
   = organization.name
   ==[#{organization.state.humanize}]
   
-  = link_to 'show', admin_organization_path(organization)
+  = link_to 'show', admin_organization_path(organization.id)
   - staff_only do
-    = link_to 'delete', admin_organization_path(organization), :confirm => 'Are you sure?', :method => :delete
+    = link_to 'delete', admin_organization_path(organization.id), :confirm => 'Are you sure?', :method => :delete
