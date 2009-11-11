@@ -27,7 +27,7 @@
 
 %h3 Approved logos
 - staff_only do
-  - form_for(:logo_request, url: admin_organization_logo_request_path(@logo_request.organization, @logo_request)) do |f|
+  - form_for(:logo_request, url: admin_organization_logo_request_path(@logo_request.organization_id, @logo_request)) do |f|
     %ul
       = render :partial => 'logo_files'
     = f.submit 'Save logos'

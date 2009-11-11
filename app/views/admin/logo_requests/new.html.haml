@@ -3,9 +3,15 @@
 - form_for(:logo_request, url: admin_organization_logo_requests_path(@organization.id), :html => { :multipart => true }) do |form|
   = render :partial => form
   
-  - form.fields_for :logo_comments do |comment_form|
-    = comment_form.text_area :body
-    = comment_form.file_field :attachment
+  %p
+    = label_tag("logo_request_logo_comments_attributes_0_body", 'Body')
+    %br/
+    = text_area_tag("logo_request[logo_comments_attributes][0][body]", @logo_request.logo_comments.first.body)
+
+  %p
+    = label_tag("logo_request_logo_comments_attributes_0_attachment", 'Attachment')
+    %br/
+    = file_field_tag("logo_request[logo_comments_attributes][0][attachment]")
   
   %p
     = form.submit 'Save'

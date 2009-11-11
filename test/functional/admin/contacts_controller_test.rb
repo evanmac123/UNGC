@@ -24,7 +24,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                                   :password   => 'test' }
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization))
+    assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
   
   test "should get edit" do
@@ -36,7 +36,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   test "should update contact" do
     put :update, :organization_id => @organization.id,
                  :id => @contact.to_param, :contact => { }
-    assert_redirected_to admin_organization_path(assigns(:organization))
+    assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 
   test "should destroy contact" do
@@ -47,6 +47,6 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                        :id => @contact_to_be_deleted.to_param
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization))
+    assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 end

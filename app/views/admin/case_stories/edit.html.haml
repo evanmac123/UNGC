@@ -1,6 +1,6 @@
 %h2 Edit case story
 
-- form_for([@organization, @case_story], :html => { :multipart => true }) do |form|
+- form_for(:case_story, url: admin_organization_case_story_path(@organization.id, @case_story), :html => { :multipart => true, :method => :put }) do |form|
   = render :partial => form  
   %p
     = form.submit 'Save'

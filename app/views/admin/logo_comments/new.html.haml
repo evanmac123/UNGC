@@ -13,4 +13,4 @@
       = form.submit LogoRequest::EVENT_APPROVE.titleize
       = form.submit LogoRequest::EVENT_REJECT.titleize
 
-= link_to 'Back', admin_organization_logo_request_path(@logo_request.organization, @logo_request)
+= link_to 'Back', admin_organization_logo_request_path(@logo_request.organization.id, @logo_request)
