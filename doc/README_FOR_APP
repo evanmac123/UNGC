@@ -87,5 +87,7 @@ organizations.local_network - we have a new LocalNetwork model
 organizations.old_tmp_id - only used by importer
 contacts.ceo - roles replace the use of this field
 contacts.contact_point - roles replace the use of this field
+contacts.newsletter - never used
+contacts.advisory_council - never used
 
 pages.top_level - only used by importer
