@@ -34,9 +34,12 @@ class ParticipantsController < ApplicationController
     
     def results_for_search
       options = {per_page: (params[:per_page] || 10).to_i, page: (params[:page] || 1).to_i}
-      if params[:country]
-        options[:with] = { :country_id => params[:country].map { |i| i.to_i } }
-      end
+      options[:with] ||= {}
+      options[:with].merge!(country_id: params[:country].map { |i| i.to_i }) if params[:country]
+      options[:with].merge!(business: params[:business_type].to_i) if params[:business_type] unless params[:business_type] == 'all'
+      options[:with].merge!(cop_status: params[:cop_status].to_i) if params[:cop_status] unless params[:cop_status] == 'all'
+      options.delete(:with) if options[:with] == {}
+      logger.info " ** #{options.inspect}"
       @results = Organization.search params[:keyword], options
       render :action => 'index'
     end

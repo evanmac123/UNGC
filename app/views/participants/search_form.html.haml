@@ -1,8 +1,8 @@
-%h1 Participant search
+%h1 Participant Search
 
 - form_tag nil, method: 'get' do
   %p
-    %label Participant Name:
+    %label Participant Name
     %br/
     = text_field_tag :keyword
   %p
@@ -14,12 +14,27 @@
     %label Type of Participant
   %p
     = radio_button_tag :business_type, :all, true
-    %label{:for => 'business_type_all'} All participants
-    = radio_button_tag :business_type, 1
-    %label{:for => 'business_type_1'} Business participants only
-    = radio_button_tag :business_type, 0
-    %label{:for => 'business_type_0'} Other Stakeholders only
+    %label#hide_business_and_stakeholders{:for => 'business_type_all'} All participants
+    = radio_button_tag :business_type, OrganizationType::BUSINESS
+    %label#business_only{:for => "business_type_#{OrganizationType::BUSINESS}"} Business participants only
+    = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
+    %label#stakeholders_only{:for => "business_type_#{OrganizationType::NON_BUSINESS}"} Other Stakeholders only
   %hr/
+  %div.for_business_only{:style=>'display:none'}
+    %h3 For Business Participants
+    %p
+      %label Communication on Progress Status
+    %p
+      = radio_button_tag :cop_status, :all
+      %label{:for => 'cop_status_all'} All Active &amp; Non-Communicating
+      = radio_button_tag :cop_status, Organization::COP_STATUSES[:active]
+      %label{:for => "cop_status_#{Organization::COP_STATUSES[:active]}"} Active
+      = radio_button_tag :cop_status, Organization::COP_STATUSES[:noncommunicating]
+      %label{:for => "cop_status_#{Organization::COP_STATUSES[:noncommunicating]}"} Non-Communicating
+      = radio_button_tag :cop_status, Organization::COP_STATUSES[:inactive]
+      %label{:for => "cop_status_#{Organization::COP_STATUSES[:inactive]}"} Inactive
+  %div.for_stakeholders_only{:style=>'display:none'}
+    %h4 I'm a vampire hunter
   %p
     = submit_tag 'Search'
     
