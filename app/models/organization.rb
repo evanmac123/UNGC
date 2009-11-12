@@ -67,6 +67,18 @@ class Organization < ActiveRecord::Base
   before_save :check_non_business_sector
   
   has_attached_file :commitment_letter
+
+  define_index do
+    indexes name
+    has country(:id), :as => :country_id, :facet => true
+    has country(:name), :as => :country_name, :facet => true
+    has organization_type(:type_property), :as => :business, :facet => true
+    has joined_on, :facet => true
+    has delisted_on, :facet => true
+    where 'organizations.state = "approved"'
+    # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
+  end
+  
   
   COP_STATUSES = {
     :inactive         => 0,
@@ -181,6 +193,10 @@ class Organization < ActiveRecord::Base
     sector.try(:name)
   end
   
+  def business_for_search
+    business_entity? ? 1 : 0
+  end
+  
   def business_entity?
     organization_type.business?
   end
@@ -199,6 +215,14 @@ class Organization < ActiveRecord::Base
   
   def to_param
     CGI.escape(name)    
+  end
+  
+  def noncommunicating?
+    cop_status == COP_STATUSES[:noncommunicating]
+  end
+  
+  def inactive?
+    cop_status == COP_STATUSES[:inactive]
   end
   
   private

@@ -20,7 +20,7 @@ class Admin::CopsController < AdminController
 
   def update
     @communication_on_progress.update_attributes(params[:communication_on_progress])
-    redirect_to [@organization, @communication_on_progress]
+    redirect_to admin_organization_communication_on_progress_path(@organization.id, @communication_on_progress)
   end
 
   def destroy

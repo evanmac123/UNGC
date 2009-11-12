@@ -59,14 +59,15 @@ ActionController::Routing::Routes.draw do |map|
 
     map.resources :bulletin_subscribers #, :has_many => :comments
 
-    map.participant_with_nav 'participants/:navigation/:id', 
-      :controller => 'participants', 
-      :action => 'show', 
-      :requirements => { :id => /.*/ }
-    map.participant 'participant/:id', 
-      :controller => 'participants', 
-      :action => 'show', 
-      :requirements => { :id => /.*/ }
+    map.with_options :controller => 'participants' do |m|
+      m.participant_search 'participants/search', :action => 'search'
+      
+      # Needs to catch dots in the org id
+      m.with_options :action => 'show', :requirements => { :id => /.*/ } do |n|
+        n.participant_with_nav 'participants/:navigation/:id'
+        n.participant 'participant/:id'
+      end
+    end
 
     map.cop_detail_with_nav 'COPs/:navigation/:organization/:cop', 
       :controller => 'cops', 

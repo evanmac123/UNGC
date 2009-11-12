@@ -6,4 +6,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   should_have_and_belong_to_many :languages
   should_have_and_belong_to_many :countries
   should_have_and_belong_to_many :principles
+  should_have_many :cop_answers
+  should_have_many :cop_files
 end

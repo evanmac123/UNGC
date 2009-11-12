@@ -6,6 +6,7 @@
   %p
     = form.submit 'Update'
 
-= link_to 'Show', admin_organization_path(@organization)
-|
-= link_to 'Back', admin_organizations_path
+- staff_only do
+  = link_to 'Show', admin_organization_path(@organization)
+  |
+  = link_to 'Back', admin_organizations_path

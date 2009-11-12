@@ -1,0 +1,54 @@
+%h1= "Search results for: '#{h params[:keyword]}'"
+
+%a{ :name => "paged_results" }
+%div
+  .left
+    %strong
+      Number of matching participants:
+      = @results.total_entries
+  .right
+    = per_page_select
+
+- if @results.any?
+
+  %table.striped.sortable{ :cellspacing => "0", :cellpadding => "0" }
+    %thead
+      %tr
+        %th.sort
+          Participant
+        %th.sort
+          Type
+        %th.sort
+          Sector
+        %th.sort
+          Country
+        %th.sort
+          Joined
+    %tbody
+      - for org in @results
+        %tr
+          %td{:class => iconize(org)}
+            = link_to org.name, participant_path(org)
+          %td
+            = org.organization_type.name
+          %td
+            = org.sector_name
+          %td
+            = org.country_name
+          %td
+            = yyyy_mm_dd org.joined_on
+      
+  %div
+    = will_paginate @results, :anchor => 'paged_results'
+    
+  %h3 Key:
+  %ul
+    %li
+      %img{ :src => "/images/icon_alert.gif" }
+      indicates that a participant failed to develop a Communication on Progress by the relevant deadline or did not yet provide link to a Communication on Progress
+    %li 
+      %img{ :src => "/images/icon_inactive.gif" }
+      indicates a failure to submit a Communication on Progress (COP) within three years of joining the Global Compact or a failure to submit a Communication on Progress within two years of submitting their last Communication on Progress
+
+- else
+  %p Nothing found, try again.

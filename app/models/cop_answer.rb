@@ -11,6 +11,6 @@
 #
 
 class CopAnswer < ActiveRecord::Base
-  belongs_to :communication_on_progress
+  belongs_to :communication_on_progress, :foreign_key => :cop_id
   belongs_to :cop_attribute
 end

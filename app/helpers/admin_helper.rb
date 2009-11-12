@@ -1,4 +1,17 @@
 module AdminHelper
+
+  def path_for_polymorphic_commentables(commentable)
+    case commentable
+    when CaseStory
+      admin_case_story_comments_path(commentable)
+    when Organization
+      admin_organization_comments_path(commentable)
+    when CommunicationOnProgress
+      admin_communication_on_progress_comments_path(commentable)
+    else
+      raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
+    end
+  end
   
   def path_for_polymorphic_commentable(commentable, comment)
     case commentable

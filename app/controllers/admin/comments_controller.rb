@@ -33,11 +33,11 @@ class Admin::CommentsController < AdminController
     def commentable_path(commentable)
       case commentable
       when CaseStory
-        admin_organization_case_story_path(commentable.organization, commentable)
+        admin_organization_case_story_path(commentable.organization.id, commentable)
       when CommunicationOnProgress
-        admin_organization_communication_on_progress_path(commentable.organization, commentable)
+        admin_organization_communication_on_progress_path(commentable.organization.id, commentable)
       when Organization
-        admin_organization_path(commentable)
+        admin_organization_path(commentable.id)
       else
         raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
       end

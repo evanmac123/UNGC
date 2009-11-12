@@ -20,3 +20,4 @@ rewrite_event_archives
 archive_latest_headlines
 rewrite_news_headlines
 rewrite_homepage
+rewrite_search_pages

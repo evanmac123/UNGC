@@ -1,22 +1,43 @@
 class ParticipantsController < ApplicationController
   helper :cops, :pages
   before_filter :determine_navigation
-  before_filter :find_participant
+  before_filter :find_participant, :only => [:show]
   
   def show
   end
 
-  private
-  def find_participant
-    if params[:id] =~ /\A[0-9]+\Z/ # it's all numbers
-      @participant = Organization.find_by_id(params[:id])
+  def search
+    unless params[:keyword].blank?
+      results_for_search
     else
-      @participant = Organization.find_by_param(params[:id])
+      show_search_form
     end
-    redirect_to root_path unless @participant # FIXME: Should redirect to search?
   end
-  
-  def default_navigation
-    DEFAULTS[:participant_search_path]
-  end
+
+  private
+    def default_navigation
+      DEFAULTS[:participant_search_path]
+    end
+
+    def find_participant
+      if params[:id] =~ /\A[0-9]+\Z/ # it's all numbers
+        @participant = Organization.find_by_id(params[:id])
+      else
+        @participant = Organization.find_by_param(params[:id])
+      end
+      redirect_to root_path unless @participant # FIXME: Should redirect to search?
+    end
+
+    def show_search_form
+      render :action => 'search_form'
+    end
+    
+    def results_for_search
+      options = {per_page: (params[:per_page] || 10).to_i, page: (params[:page] || 1).to_i}
+      if params[:country]
+        options[:with] = { :country_id => params[:country].map { |i| i.to_i } }
+      end
+      @results = Organization.search params[:keyword], options
+      render :action => 'index'
+    end
 end
