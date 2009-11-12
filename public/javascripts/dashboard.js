@@ -19,3 +19,8 @@ $("#organization_listing_status_id").change(function() {
 $("#organization_pledge_amount_1").click(function() {
   $('#organization_pledge_amount_other').focus();
 })
+
+replace_ids = function(s){
+  var new_id = new Date().getTime();
+  return s.replace(/NEW_RECORD/g, new_id);
+}

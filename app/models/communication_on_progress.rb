@@ -63,6 +63,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   acts_as_commentable
 
   accepts_nested_attributes_for :cop_answers
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
 
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
