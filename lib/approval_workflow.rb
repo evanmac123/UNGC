@@ -13,7 +13,7 @@ module ApprovalWorkflow
       belongs_to :reviewer, :class_name => 'Contact'
       
       state_machine :state, :initial => :pending_review do
-        if klass == Organization
+        if [Organization, CommunicationOnProgress].include? klass
           after_transition :on => :approve, :do => :set_next_cop_due_date
         end
         
