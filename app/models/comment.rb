@@ -16,6 +16,7 @@
 #
 
 class Comment < ActiveRecord::Base
+  validates_presence_of :body
   belongs_to :commentable, :polymorphic => true
   default_scope :order => 'created_at ASC'
   belongs_to :contact
@@ -24,13 +25,14 @@ class Comment < ActiveRecord::Base
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
   
   attr_accessor :state_event
-  after_create :update_request_state
+  after_create :update_commentable_state
+  after_create :update_commentable_replied_to_and_reviewer_id
   
   validate :no_comment_on_approved_or_rejected_commentable
   validate :organization_user_cannot_approve_or_reject
 
   private
-    def update_request_state
+    def update_commentable_state
       if contact && contact.from_ungc?
         commentable.send(state_event) if state_event && commentable.state_events.include?(state_event.to_sym)
       end
@@ -47,4 +49,12 @@ class Comment < ActiveRecord::Base
         errors.add_to_base "cannot approve/reject comment, unless UNGC staff" unless contact.from_ungc?
       end
     end
+    
+    def update_commentable_replied_to_and_reviewer_id
+      commentable.update_attribute(:replied_to, contact && contact.from_ungc?)
+      if contact && contact.from_ungc?
+        commentable.update_attribute(:reviewer_id, contact_id)
+      end
+    end
+    
 end

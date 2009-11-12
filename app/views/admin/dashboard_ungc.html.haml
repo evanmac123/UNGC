@@ -49,3 +49,10 @@
     = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @pending_cops
 - else
   no work for you
+
+%h3 COPs that need attention
+- if @unreplied_cops.any?
+  %ul
+    = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @unreplied_cops
+- else
+  no work for you

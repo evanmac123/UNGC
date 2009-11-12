@@ -10,6 +10,7 @@ module ApprovalWorkflow
   
   def self.included(klass)
     klass.class_eval do
+      belongs_to :reviewer, :class_name => 'Contact'
       
       state_machine :state, :initial => :pending_review do
         event :revise do
@@ -27,6 +28,8 @@ module ApprovalWorkflow
       named_scope :in_review, :conditions => {:state => STATE_IN_REVIEW}
       named_scope :approved, :conditions => {:state => STATE_APPROVED}
       named_scope :rejected, :conditions => {:state => STATE_REJECTED}
+
+      named_scope :unreplied, :conditions => {:replied_to => false}
     end
   end
 end
