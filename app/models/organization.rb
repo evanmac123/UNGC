@@ -259,4 +259,9 @@ class Organization < ActiveRecord::Base
         errors.add :pledge_amount_other, "cannot be less than US$10,000"
       end
     end
+    
+    # COP's next due date is 1 year from current date
+    def set_next_cop_due_date
+      self.update_attribute :cop_due_on, 1.year.from_now
+    end
 end
