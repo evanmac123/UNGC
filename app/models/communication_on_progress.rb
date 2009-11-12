@@ -46,6 +46,8 @@
 #  measures_labour_outcomes               :boolean(1)
 #  measures_environment_outcomes          :boolean(1)
 #  measures_anti_corruption_outcomes      :boolean(1)
+#  replied_to                             :boolean(1)
+#  reviewer_id                            :integer(4)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base

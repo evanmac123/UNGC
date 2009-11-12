@@ -37,6 +37,8 @@
 #  pledge_amount                  :integer(4)
 #  old_tmp_id                     :integer(4)
 #  cop_state                      :string(255)
+#  replied_to                     :boolean(1)
+#  reviewer_id                    :integer(4)
 #
 
 class Organization < ActiveRecord::Base

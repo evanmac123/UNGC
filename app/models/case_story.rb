@@ -40,6 +40,8 @@
 #  attachment_updated_at      :datetime
 #  contact_id                 :integer(4)
 #  description                :text
+#  replied_to                 :boolean(1)
+#  reviewer_id                :integer(4)
 #
 
 class CaseStory < ActiveRecord::Base
