@@ -33,7 +33,7 @@ class ParticipantsController < ApplicationController
     end
     
     def results_for_search
-      @results = Organization.search params[:keyword], :per_page => params[:per_page].to_i, :page => params[:page].to_i
+      @results = Organization.search params[:keyword], :per_page => (params[:per_page] || 10).to_i, :page => (params[:page] || 1).to_i
       render :action => 'index'
     end
 end

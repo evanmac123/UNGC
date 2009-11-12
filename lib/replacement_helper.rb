@@ -206,3 +206,9 @@ def rewrite_homepage
   nv.approve!
   puts " done!"
 end
+
+def rewrite_search_pages
+  [Page.find_by_path('/search'), Page.find_by_path('/participants/search')].each do |page|
+    page.update_attributes content: 'This is a placeholder; it is NOT shown.', dynamic_content: true
+  end
+end

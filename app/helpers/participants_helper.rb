@@ -1,4 +1,8 @@
 module ParticipantsHelper
+  def countries_for_select
+    options_for_select Country.all.map { |c| [c.name, c.id] }
+  end
+
   def iconize(org)
     if org.inactive?
       'alert_icon'
