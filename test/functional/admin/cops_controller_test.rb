@@ -35,5 +35,12 @@ class Admin::CopsControllerTest < ActionController::TestCase
                  :id              => @cop.id
       assert_response :success
     end
+    
+    should "be able to update the cop" do
+      put :update, :organization_id => @organization.id,
+                   :id              => @cop.id,
+                   :communication_on_progress => {}
+      assert_response :redirect
+    end
   end
 end
