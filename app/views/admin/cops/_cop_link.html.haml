@@ -1,0 +1,13 @@
+- record = 'NEW_RECORD' if record.nil?
+%div{:id => "cop_link_#{record}"}
+  = label_tag("communication_on_progress_cop_links_attributes_attributes_#{record}_name", 'Name')
+  = text_field_tag("communication_on_progress[cop_links_attributes][#{record}][name]", cop_link.name)
+  %br/
+  = label_tag("communication_on_progress_cop_links_attributes_attributes_#{record}_url", 'URL')
+  = text_field_tag("communication_on_progress[cop_links_attributes][#{record}][url]", cop_link.url)
+
+  - unless cop_link.new_record?
+    = hidden_field_tag("communication_on_progress[cop_links_attributes][#{record}][id]", cop_link.id)
+    To remove, check
+    = check_box_tag("communication_on_progress[cop_links_attributes][#{record}][_delete]", "1", false)
+%hr/

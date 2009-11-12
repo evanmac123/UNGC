@@ -62,10 +62,12 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_and_belongs_to_many :principles
   has_many :cop_answers, :foreign_key => :cop_id
   has_many :cop_files, :foreign_key => :cop_id
+  has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
+  accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
 
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
