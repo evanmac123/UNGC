@@ -21,9 +21,3 @@
 = link_to 'New contact', new_admin_organization_contact_path(@organization.id)
 %ul
   = render :partial => @organization.contacts
-
-%h3 Logo Requests
-= link_to 'New logo request', new_admin_organization_logo_request_path(@organization.id)
-%ul
-  = render :partial => @organization.logo_requests
-
