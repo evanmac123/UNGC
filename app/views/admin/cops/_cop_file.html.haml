@@ -3,11 +3,14 @@
   = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_name", 'Name')
   = text_field_tag("communication_on_progress[cop_files_attributes][#{record}][name]", cop_file.name)
   %br/
-  = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_url", 'Url')
-  = text_field_tag("communication_on_progress[cop_files_attributes][#{record}][url]", cop_file.url)
+  = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_attachment", 'File')
+  = file_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment]")
 
   - unless cop_file.new_record?
     = hidden_field_tag("communication_on_progress[cop_files_attributes][#{record}][id]", cop_file.id)
     To remove, check
     = check_box_tag("communication_on_progress[cop_files_attributes][#{record}][_delete]", "1", false)
+    %br/
+    Current file: 
+    = link_to cop_file.attachment_file_name, cop_file.attachment.url
 %hr/

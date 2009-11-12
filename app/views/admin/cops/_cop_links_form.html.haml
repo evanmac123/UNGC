@@ -1,0 +1,9 @@
+- new_cop_link_code = escape_javascript(render :partial => 'cop_link', :locals => {:cop_link => CopLink.new, :record => nil})
+= javascript_tag("var cop_link_form = \"#{new_cop_link_code}\"")
+
+%fieldset
+  %legend Links
+  #cop_links
+    - @communication_on_progress.cop_links.each_with_index do |cop_link, i|
+      = render :partial => 'cop_link', :locals => {:cop_link => cop_link, :record => i}
+  = link_to_function "new link", "$('#cop_links').append(replace_ids(cop_link_form))"

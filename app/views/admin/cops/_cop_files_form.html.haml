@@ -6,4 +6,4 @@
   #cop_files
     - @communication_on_progress.cop_files.each_with_index do |cop_file, i|
       = render :partial => 'cop_file', :locals => {:cop_file => cop_file, :record => i}
-  = link_to_function "new url", "$('#cop_files').append(replace_ids(cop_file_form))"
+  = link_to_function "new file", "$('#cop_files').append(replace_ids(cop_file_form))"
