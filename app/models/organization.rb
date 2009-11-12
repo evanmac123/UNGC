@@ -80,6 +80,17 @@ class Organization < ActiveRecord::Base
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
   end
   
+  state_machine :cop_state, :initial => :active do
+    event :communication_late do
+      transition :from => :active, :to => :noncommunicating
+    end
+    event :delist do
+      transition :from => :noncommunicating, :to => :delisted
+    end
+    event :communication_received do
+      transition :from => :noncommunicating, :to => :active
+    end
+  end
   
   COP_STATUSES = {
     :inactive         => 0,
