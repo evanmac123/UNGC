@@ -46,6 +46,6 @@
 %h3 Pending COPs
 - if @pending_cops.any?
   %ul
-    = render :partial => @pending_cops
+    = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @pending_cops
 - else
   no work for you
