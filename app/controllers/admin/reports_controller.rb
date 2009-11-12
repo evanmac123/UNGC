@@ -1,5 +1,10 @@
 class Admin::ReportsController < AdminController
 
+  def participant_breakdown
+    @report = ParticipantBreakdownReport.new
+    render_formatter(filename: "participant_breakdown_#{date_as_filename}.csv")
+  end
+  
   def approved_logo_requests
     @month = params[:month] || Date.today.month
     @year = params[:year] || Date.today.year
@@ -56,4 +61,5 @@ class Admin::ReportsController < AdminController
     def date_as_filename
       [Date.today.month, Date.today.day, Date.today.year].join('.')
     end
+
 end
