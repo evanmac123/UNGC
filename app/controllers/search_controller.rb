@@ -1,4 +1,5 @@
 class SearchController < ApplicationController
+  before_filter :possibly_redirect_to_refine
   before_filter :determine_navigation
   
   def index
@@ -16,6 +17,10 @@ class SearchController < ApplicationController
   private
     def default_navigation
       DEFAULTS[:search_path]
+    end
+    
+    def possibly_redirect_to_refine
+      redirect_to "#{params[:target]}?keyword=#{params[:keyword]}" and return unless params[:target].blank?
     end
     
     def results_for_search
