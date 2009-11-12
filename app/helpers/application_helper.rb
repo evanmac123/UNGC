@@ -13,6 +13,10 @@ module ApplicationHelper
   def flash_messages_for(*keys)
     keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join
   end
+
+  def participant_search?(key)
+    key == :participant && controller.class.to_s == 'ParticipantsController'
+  end
   
   def staff_only(&block)
     yield if logged_in? && current_user.from_ungc?

@@ -308,6 +308,10 @@ table.sortable thead tr th.headerSortDown {
 	background: url(/images/icon_inactive.gif) 3px 8px no-repeat;
 }
 
+.no_icon {
+	padding-left: 16px !important;
+}
+
 .nolist {
 	list-style: none; 
 	margin: 0 0 1em 0 !important;
