@@ -173,6 +173,14 @@ class Organization < ActiveRecord::Base
   }
   
   named_scope :with_pledge, :conditions => 'pledge_amount > 0'
+  
+  named_scope :about_to_become_noncommunicating, lambda {
+    { conditions: ["cop_state=? AND cop_due_on<=?", 'active', 1.day.ago.to_date] }
+  }
+
+  named_scope :about_to_become_delisted, lambda {
+    { conditions: ["cop_state=? AND cop_due_on<=?", 'noncommunicating', (1.year + 1.day).ago.to_date] }
+  }
 
   def self.find_by_param(param)
     return nil if param.blank?
