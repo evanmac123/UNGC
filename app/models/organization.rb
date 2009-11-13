@@ -139,6 +139,10 @@ class Organization < ActiveRecord::Base
       {:conditions => ["cop_status = ?", COP_STATUSES[filter_type]]}
     end
   }
+  
+  named_scope :with_cop_due_on, lambda { |date|
+    {:conditions => {:cop_due_on => date} }
+  }
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
