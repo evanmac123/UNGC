@@ -77,6 +77,12 @@ Make sure that pdf2txt.py is in the path, and it should be fine.
 
 Done :)
 
+Cron Jobs
+=========
+
+The application needs a cron job to notify organizations of their COP submission deadline - this needs to run daily.
+./script/runner 'CopReminder.new.notify_all' RAILS_ENV=production
+
 Fields to delete
 ================
 
