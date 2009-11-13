@@ -74,6 +74,7 @@ class Organization < ActiveRecord::Base
     has country(:id), :as => :country_id, :facet => true
     has country(:name), :as => :country_name, :facet => true
     has organization_type(:type_property), :as => :business, :facet => true
+    has organization_type(:id), :as => :organization_type_id, :facet => true
     has cop_status, :facet => true
     has joined_on, :facet => true
     has delisted_on, :facet => true

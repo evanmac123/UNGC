@@ -25,7 +25,7 @@
     %p
       %label Communication on Progress Status
     %p
-      = radio_button_tag :cop_status, :all
+      = radio_button_tag :cop_status, :all, true
       %label{:for => 'cop_status_all'} All Active &amp; Non-Communicating
       = radio_button_tag :cop_status, Organization::COP_STATUSES[:active]
       %label{:for => "cop_status_#{Organization::COP_STATUSES[:active]}"} Active
@@ -34,7 +34,11 @@
       = radio_button_tag :cop_status, Organization::COP_STATUSES[:inactive]
       %label{:for => "cop_status_#{Organization::COP_STATUSES[:inactive]}"} Inactive
   %div.for_stakeholders_only{:style=>'display:none'}
-    %h4 I'm a vampire hunter
+    %h3 For Stakeholders
+    %p
+      %label Option to select a specific organization type
+    %p
+      = select_tag :organization_type_id, organization_types_for_select
   %p
     = submit_tag 'Search'
     

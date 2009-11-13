@@ -7,7 +7,7 @@ class ParticipantsController < ApplicationController
   end
 
   def search
-    unless params[:keyword].blank?
+    unless params[:commit].blank? # NOTE: keys off of the submit button - since keyword can be blank
       results_for_search
     else
       show_search_form
@@ -36,11 +36,17 @@ class ParticipantsController < ApplicationController
       options = {per_page: (params[:per_page] || 10).to_i, page: (params[:page] || 1).to_i}
       options[:with] ||= {}
       options[:with].merge!(country_id: params[:country].map { |i| i.to_i }) if params[:country]
-      options[:with].merge!(business: params[:business_type].to_i) if params[:business_type] unless params[:business_type] == 'all'
-      options[:with].merge!(cop_status: params[:cop_status].to_i) if params[:cop_status] unless params[:cop_status] == 'all'
+      business_type_selected = params[:business_type] == 'all' ? :all : params[:business_type].to_i
+      options[:with].merge!(business: business_type_selected) if params[:business_type] unless business_type_selected == :all
+      if business_type_selected == OrganizationType::BUSINESS
+        options[:with].merge!(cop_status: business_type_selected) if params[:cop_status] unless params[:cop_status] == 'all'
+      elsif business_type_selected == OrganizationType::NON_BUSINESS
+        options[:with].merge!(organization_type_id: params[:organization_type_id].to_i) unless params[:organization_type_id].blank?
+      end
+      @searched_for = options[:with].merge(:keyword => params[:keyword])
       options.delete(:with) if options[:with] == {}
       logger.info " ** #{options.inspect}"
-      @results = Organization.search params[:keyword], options
+      @results = Organization.search params[:keyword] || '', options
       render :action => 'index'
     end
 end
