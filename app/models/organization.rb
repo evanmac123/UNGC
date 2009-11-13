@@ -241,6 +241,12 @@ class Organization < ActiveRecord::Base
     cop_status == COP_STATUSES[:inactive]
   end
   
+  # COP's next due date is 1 year from current date
+  def set_next_cop_due_date
+    self.communication_received
+    self.update_attribute :cop_due_on, 1.year.from_now
+  end
+  
   private
     def check_pledge_amount_other
       unless self.pledge_amount_other.to_i == 0
@@ -262,10 +268,5 @@ class Organization < ActiveRecord::Base
       if pledge_amount_other.to_i != 0 and pledge_amount_other.to_i < 10000
         errors.add :pledge_amount_other, "cannot be less than US$10,000"
       end
-    end
-    
-    # COP's next due date is 1 year from current date
-    def set_next_cop_due_date
-      self.update_attribute :cop_due_on, 1.year.from_now
     end
 end

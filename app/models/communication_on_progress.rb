@@ -135,6 +135,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   private
     def set_next_cop_due_date
-      self.organization.update_attribute :cop_due_on, 1.year.from_now
+      self.organization.set_next_cop_due_date
     end
 end
