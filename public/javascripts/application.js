@@ -70,6 +70,21 @@ function versionNumberAnchor() {
 	return false;
 }
 
+function showBusinessOnly (argument) {
+	$('.for_stakeholders_only').hide();
+	$('.for_business_only').show();
+}
+
+function showStakeholdersOnly (argument) {
+	$('.for_stakeholders_only').show();
+	$('.for_business_only').hide();
+}
+
+function hideBusinessAndStakeholders (argument) {
+	$('.for_stakeholders_only').hide();
+	$('.for_business_only').hide();
+}
+
 var Watcher = {
 	watcher: null,
 	fetched: null,
@@ -168,4 +183,8 @@ $(function() {
 			window.location = go.replace(/\&amp;/, '&') + anchor;
 		}
 	});
+
+	$('form label#business_only').click( showBusinessOnly );
+	$('form label#stakeholders_only').click( showStakeholdersOnly );
+	$('form label#hide_business_and_stakeholders').click( hideBusinessAndStakeholders );
 });

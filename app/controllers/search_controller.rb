@@ -20,7 +20,7 @@ class SearchController < ApplicationController
     end
     
     def possibly_redirect_to_refine
-      redirect_to "#{params[:target]}?keyword=#{params[:keyword]}" and return unless params[:target].blank?
+      redirect_to "#{params[:target]}?keyword=#{params[:keyword]}&commit=search" and return unless params[:target].blank?
     end
     
     def results_for_search
