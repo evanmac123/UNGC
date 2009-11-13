@@ -17,7 +17,7 @@ class Admin::OrganizationsController < AdminController
 
     if @organization.save
       flash[:notice] = 'Organization was successfully created.'
-      redirect_to( admin_organization_path(@organization) )
+      redirect_to( admin_organization_path(@organization.id) )
     else
       @organization_types = OrganizationType.all(:conditions => ["type_property=?",@organization.organization_type.type_property])
       render :action => "new"
@@ -31,7 +31,7 @@ class Admin::OrganizationsController < AdminController
   def update
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
-      redirect_to( admin_organization_path(@organization) )
+      redirect_to( admin_organization_path(@organization.id) )
     else
       render :action => "edit"
     end
@@ -44,12 +44,12 @@ class Admin::OrganizationsController < AdminController
 
   def approve
     @organization.approve
-    redirect_to( admin_organization_path(@organization) )
+    redirect_to( admin_organization_path(@organization.id) )
   end
 
   def reject
     @organization.reject
-    redirect_to( admin_organization_path(@organization) )
+    redirect_to( admin_organization_path(@organization.id) )
   end
 
   %w{approved rejected pending_review}.each do |method|

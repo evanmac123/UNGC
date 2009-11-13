@@ -1,12 +1,12 @@
 %h1 Editing organization
 
-- form_for(:organization, url: edit_admin_organization_path(@organization), :html => {:method => :put}) do |form|
+- form_for(:organization, url: admin_organization_path(@organization.id), :html => {:method => :put}) do |form|
   = render :partial => form
 
   %p
     = form.submit 'Update'
 
 - staff_only do
-  = link_to 'Show', admin_organization_path(@organization)
+  = link_to 'Show', admin_organization_path(@organization.id)
   |
   = link_to 'Back', admin_organizations_path

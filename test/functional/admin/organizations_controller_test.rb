@@ -23,7 +23,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
                                        :employees            => 500}}, as(@user)
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization))
+    assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 
   test "should show organization" do
@@ -38,7 +38,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
   test "should update organization" do
     put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
-    assert_redirected_to admin_organization_path(assigns(:organization))
+    assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 
   test "should destroy organization" do
@@ -52,14 +52,14 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
   test "should approve pending organization" do
     organization = create_organization(:state => 'pending_review')
     post :approve, {:id => organization.to_param}, as(@user)
-    assert_redirected_to admin_organization_path(organization)
+    assert_redirected_to admin_organization_path(organization.id)
     assert organization.reload.approved?
   end
 
   test "should reject pending organization" do
     organization = create_organization(:state => 'pending_review')
     post :reject, {:id => organization.to_param}, as(@user)
-    assert_redirected_to admin_organization_path(organization)
+    assert_redirected_to admin_organization_path(organization.id)
     assert organization.reload.rejected?
   end
 
