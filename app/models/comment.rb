@@ -40,7 +40,7 @@ class Comment < ActiveRecord::Base
     
     def no_comment_on_approved_or_rejected_commentable
       if commentable && (commentable.approved? || commentable.rejected?)
-        errors.add_to_base "cannot add comments to a #{logo_request.state} model"
+        errors.add_to_base "cannot add comments to a #{commentable.state} model"
       end
     end
     

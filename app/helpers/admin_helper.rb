@@ -5,7 +5,7 @@ module AdminHelper
     when CaseStory
       admin_case_story_comments_path(commentable)
     when Organization
-      admin_organization_comments_path(commentable)
+      admin_organization_comments_path(commentable.id)
     when CommunicationOnProgress
       admin_communication_on_progress_comments_path(commentable)
     else
@@ -18,7 +18,7 @@ module AdminHelper
     when CaseStory
       new_admin_case_story_comment_path(commentable)
     when Organization
-      new_admin_organization_comment_path(commentable)
+      new_admin_organization_comment_path(commentable.id)
     when CommunicationOnProgress
       new_admin_communication_on_progress_comment_path(commentable)
     else
