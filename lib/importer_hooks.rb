@@ -298,8 +298,45 @@ module ImporterHooks
           "Expected outcomes/targets"
         ]
       ],
+      [nil, false, "Does your COP contain information about partnership projects undertaken in support of broader UN goals, usch as the Millennium development Goals?", nil, 1,
+        ["With United Nations entities",
+          "With NGOs",
+          "With other organizations"
+        ]
+      ],
+      [nil, false, "Does your COP provide information about activities that your company is undertaking to implement the UN Global Compact in any conflict-affected countries whenre you have operations?", nil, 2,
+        ["Awareness raising",
+          "Conflict-sensitive training for employees",
+          "Participation in peace-building initiatives",
+          "Supplier due diligence"
+        ]
+      ],
+      [nil, false, "Does your COP describe how the company engages with stakeholders in implementing the UN Global Compact principles and/or in preparing a COP?", nil, 3,
+        ["Engagement with Civil Society Organizations incl. NGOs",
+          "Engagement with trade unions",
+          "Engagement with regulators, governments, etc.",
+          "Engagement with investors",
+          "Engagement with other stakeholders"
+        ]
+      ],
+      [nil, false, "Does your COP use the Global Reporting (GRI) framework?", nil, 4,
+        ["GRI G2 or GRI G3 frameworks",
+          "GRI G3 - application level C / C+",
+          "GRI G3 - application level B / B+",
+          "GRI G3 - application level A / A+"
+        ]
+      ],
+      [nil, false, "Is your COP third-party verified?", nil, 5,
+        ["Using AA1000 Assurance Standard",
+          "Using ISAE 3000 framework",
+          "Verified by a stakeholder panel",
+          "Peer reviewed by Global Compact Local Network",
+          "Other form of external verification"
+        ]
+      ]
     ].each do |record|
-      question = CopQuestion.create(:principle_area_id => PrincipleArea.send(record.first).id,
+      principle_area_id = record.first.nil? ? nil : PrincipleArea.send(record.first).id
+      question = CopQuestion.create(:principle_area_id => principle_area_id,
                                     :area_selected     => record.second,
                                     :text              => record.third,
                                     :initiative_id     => record.fourth,

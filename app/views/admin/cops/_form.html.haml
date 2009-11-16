@@ -78,3 +78,11 @@
     %div{:id => "#{key}_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "block" : "none"}"}
       %h4== #{value} Addressed
       = cop_questions_for @communication_on_progress, key, true
+
+%fieldset
+  %legend Final questions
+  = cop_questions_for @communication_on_progress, nil, false
+
+%p
+  Would you like the Global Compact office to check your COP for inclusion in the Notable COP program?
+  = true_or_false_field(form, :notable_program)
