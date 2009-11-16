@@ -7,9 +7,13 @@ module FixtureReplacement
     c.title = String.random
 	end
 
+  attributes_for :comment do |c|
+    c.body = String.random
+  end
+
   attributes_for :communication_on_progress do |cop|
     cop.title = String.random
-	end
+  end
 
   attributes_for :contact do |c|
     c.first_name = String.random

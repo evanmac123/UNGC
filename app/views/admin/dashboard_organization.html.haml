@@ -7,7 +7,7 @@
   %h3 Comments
   = link_to 'New comment', new_admin_organization_comment_path(@organization.id)
   %ul
-    = render :partial => @organization.comments
+    = render :partial => 'admin/comments/comment', :collection => @organization.comments
 
 - else
   %h3 Logo requests

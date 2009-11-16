@@ -17,11 +17,27 @@ class AdminControllerTest < ActionController::TestCase
     end
   end
   
-  context "given a organization member" do
+  context "given a approved organization member" do
     setup do
       user = create_organization_and_user
       @organization.update_attribute :state, 'approved'
       add_organization_data(@organization, user)
+      login_as user
+    end
+
+    should "get the dashboard page" do
+      get :dashboard
+      assert_response :success
+      assert_template 'admin/dashboard_organization.html.haml'
+    end
+  end
+  
+  context "given a pending organization member" do
+    setup do
+      user = create_organization_and_user
+      create_comment(:commentable_id   => @organization.id,
+                     :commentable_type => 'Organization',
+                     :contact_id       => @organization_user.id)
       login_as user
     end
 
