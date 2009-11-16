@@ -33,6 +33,8 @@
 #  local_network_id          :integer(4)
 #
 
+require 'digest/sha1'
+
 class Contact < ActiveRecord::Base
   include Authentication
   include Authentication::ByCookieToken
@@ -50,6 +52,9 @@ class Contact < ActiveRecord::Base
   has_and_belongs_to_many :roles, :join_table => "contacts_roles"
 
   default_scope :order => 'contacts.first_name'
+  
+  # FIXME no plain password in db - password should only be: attr_accessor :password
+  before_save :encrypt_password
   
   named_scope :contact_points, lambda {
     contact_point_id = Role.contact_point.try(:id)
@@ -110,8 +115,7 @@ class Contact < ActiveRecord::Base
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
     u = find_by_login(login.downcase)
-    # TODO hash the password
-    (u && u.password == password) ? u : nil
+    (u && u.hashed_password == encrypted_password(password)) ? u : nil
   end
   
   def from_ungc?
@@ -140,6 +144,10 @@ class Contact < ActiveRecord::Base
   def is?(role)
     roles.include? role
   end
+  
+  def encrypt_password
+    self.hashed_password = Contact.encrypted_password(password)
+  end
 
   private
     def keep_at_least_one_ceo
@@ -154,5 +162,9 @@ class Contact < ActiveRecord::Base
         errors.add_to_base "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
         return false
       end
+    end
+    
+    def self.encrypted_password(password)
+      Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
 end
