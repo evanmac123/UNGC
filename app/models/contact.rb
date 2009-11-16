@@ -88,7 +88,8 @@ class Contact < ActiveRecord::Base
     {:conditions => {:country_id => country.id} }
   }
 
-  before_destroy :keep_at_least_one_contact
+  before_destroy :keep_at_least_one_ceo
+  before_destroy :keep_at_least_one_contact_point
 
   def name
     [first_name, last_name].join(' ')
@@ -136,10 +137,21 @@ class Contact < ActiveRecord::Base
     return TYPE_ORGANIZATION if from_organization?
   end
   
+  def is?(role)
+    roles.include? role
+  end
+
   private
-    def keep_at_least_one_contact
-      if self.organization.contacts.count <= 1
-        errors.add_to_base "cannot delete contact, at least 1 contact should be kept at all times"
+    def keep_at_least_one_ceo
+      if self.is?(Role.ceo) && self.organization.contacts.ceos.count <= 1
+        errors.add_to_base "cannot delete CEO, at least 1 CEO should be kept at all times"
+        return false
+      end
+    end
+
+    def keep_at_least_one_contact_point
+      if self.is?(Role.contact_point) && self.organization.contacts.contact_points.count <= 1
+        errors.add_to_base "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
         return false
       end
     end
