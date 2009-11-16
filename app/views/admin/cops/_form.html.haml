@@ -71,7 +71,8 @@
   = true_or_false_field(form, :support_statement_mentions_engagements)
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
-  %fieldset{:legend => value}
+  %fieldset
+    %legend= value
     %div{:id => "#{key}_not_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "none" : "block"}"}
       %h4== #{value} NOT Addressed
       = cop_questions_for @communication_on_progress, key, false
