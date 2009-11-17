@@ -43,16 +43,6 @@ class Admin::OrganizationsController < AdminController
     redirect_to( admin_organizations_path )
   end
 
-  def approve
-    @organization.approve
-    redirect_to( admin_organization_path(@organization.id) )
-  end
-
-  def reject
-    @organization.reject
-    redirect_to( admin_organization_path(@organization.id) )
-  end
-
   %w{approved rejected pending_review}.each do |method|
     define_method method do
       @organizations = Organization.send method

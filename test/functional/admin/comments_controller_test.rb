@@ -13,13 +13,45 @@ class Admin::CommentsControllerTest < ActionController::TestCase
       assert_response :success
     end
     
-    should "be able to save a new case story" do
+    should "be able to save a new comment" do
       assert_difference "Comment.count" do
         post :create, :organization_id => @organization.id,
                       :case_story_id   => @case_story.id,
                       :commit          => 'revise',
                       :comment         => { :body => 'Lorem ipsum' }
         assert_response :redirect
+      end
+    end
+  end
+  
+  context "given an existing organization" do
+    setup do
+      create_ungc_organization_and_user
+      create_organization_and_user
+      login_as @staff_user
+    end
+    
+    should "approve the organization on approval comment" do
+      assert_difference 'Comment.count' do
+        assert_emails(1) do
+          post :create, :organization_id => @organization.id,
+                        :commit          => LogoRequest::EVENT_APPROVE,
+                        :comment         => { :body => 'Approved' }
+
+          assert_redirected_to admin_organization_path(@organization.id)
+          assert @organization.reload.approved?
+        end
+      end
+    end
+    
+    should "reject the organization on rejection comment" do
+      assert_difference 'Comment.count' do
+        post :create, :organization_id => @organization.id,
+                      :commit          => LogoRequest::EVENT_REJECT,
+                      :comment         => { :body => 'Rejected' }
+
+        assert_redirected_to admin_organization_path(@organization.id)
+        assert @organization.reload.rejected?
       end
     end
   end
