@@ -35,7 +35,8 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   
   test "should update contact" do
     put :update, :organization_id => @organization.id,
-                 :id => @contact.to_param, :contact => { }
+                 :id => @contact.to_param, :contact => { :login    => 'aaa',
+                                                         :password => "password" }
     assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 

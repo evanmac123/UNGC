@@ -53,7 +53,7 @@ class Contact < ActiveRecord::Base
 
   default_scope :order => 'contacts.first_name'
   
-  # FIXME no plain password in db - password should only be: attr_accessor :password
+  attr_accessor :password
   before_save :encrypt_password
   
   named_scope :contact_points, lambda {

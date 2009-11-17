@@ -92,7 +92,7 @@ class Importer
       
       if perform_validation?(name)
         saved = o.save
-        log "** [error] Could not save #{name}: #{row} - #{o.errors.full_messages.to_sentence}" unless saved
+        log "** [error] Could not save #{name}: #{row} - #{o.errors.full_messages.to_sentence} - #{o.inspect}" unless saved
       else
         begin
           o.save(false)
@@ -148,7 +148,7 @@ class Importer
           # all organizations in R01_ORGANIZATION were approved
           model.state = 'approved'
           # COP state - 2=Active, 1=Non-communicating, 0=Inactive, 3=Delisted
-          model.cop_state = ['inactive','non-communicating','active','delisted'][model.cop_status.to_i]
+          model.cop_state = ['delisted','noncommunicating','active','delisted'][model.cop_status.to_i]
         when :communication_on_progress then
           # COP Status (0: “In review”, 1: “Published”, -1: “Rejected”)
           model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]
