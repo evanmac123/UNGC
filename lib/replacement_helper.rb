@@ -190,13 +190,13 @@ def rewrite_homepage
   EOF
   # add counter check and counter++ to each element
   rebuilt = [dynamic] + news_links.map do |e|
-    inner = e.inner_html  
+    inner = e.inner_html.gsub(/\s+/, ' ')
     replacement = <<-EOF
       <% if counter < 9 %>
         <div class='news_item <%= cycle('blue', '') %>'>
           <% counter += 1 %>
           #{inner}
-        </div>
+        </div> 
       <% end %>
     EOF
   end

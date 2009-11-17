@@ -198,7 +198,7 @@
 '/COP/notable_cops.html':
   content: |
     <a name='paged_results'></a>
-    <div>
+    <div class='clearfix'>
       <div class='left'><strong>Number of documents listed: <%= count_all_cops(:notable) %></strong></div>
       <div class='right'><%= per_page_select %></div>
     </div>
@@ -404,7 +404,7 @@ noncommunicating: &noncommunicating
   content: |
     <h1>Non-Communicating Participants</h1>
     <a name='paged_results'></a>
-    <div>
+    <div class='clearfix'>
       <div class='left'><strong>Number of documents listed: <%= count_all_orgs(:noncommunicating) %></strong></div>
       <div class='right'><%= per_page_select %></div>
     </div>
@@ -446,7 +446,7 @@ noncommunicating: &noncommunicating
   content: |
     <h1>Inactive Participants</h1>
     <a name='paged_results'></a>
-    <div>
+    <div class='clearfix'>
       <div class='left'><strong>Number of documents listed: <%= count_all_orgs(:inactive) %></strong></div>
       <div class='right'><%= per_page_select %></div>
     </div>
