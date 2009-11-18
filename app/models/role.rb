@@ -12,10 +12,20 @@
 class Role < ActiveRecord::Base
   validates_presence_of :name
   has_and_belongs_to_many :contacts, :join_table => "contacts_roles"
+  default_scope :order => :name
   
   FILTERS = {
-    :ceo           => 3,
-    :contact_point => 4
+    :ceo             => 3,
+    :contact_point   => 4,
+    :general_contact => 9
+  }
+  
+  named_scope :visible_to, lambda { |user|
+    if user.user_type == Contact::TYPE_ORGANIZATION
+      { :conditions => ['id in (?)', [Role.ceo, Role.contact_point, Role.general_contact].collect(&:id)] }
+    else
+      {}
+    end
   }
   
   def self.network_contact
@@ -28,5 +38,9 @@ class Role < ActiveRecord::Base
   
   def self.contact_point
     find :first, :conditions => ["old_id=?", FILTERS[:contact_point]]
+  end
+  
+  def self.general_contact
+    find :first, :conditions => ["old_id=?", FILTERS[:general_contact]]
   end
 end

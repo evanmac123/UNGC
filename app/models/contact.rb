@@ -45,7 +45,7 @@ class Contact < ActiveRecord::Base
 
   validates_presence_of :first_name, :last_name
   validates_uniqueness_of :login, :allow_nil => true
-  validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
+  validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? || !contact.hashed_password.blank? }
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
@@ -146,6 +146,7 @@ class Contact < ActiveRecord::Base
   end
   
   def encrypt_password
+    return if password.blank?
     self.hashed_password = Contact.encrypted_password(password)
   end
 

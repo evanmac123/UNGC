@@ -3,6 +3,7 @@ require 'test_helper'
 class Admin::ContactsControllerTest < ActionController::TestCase
   def setup
     create_organization_type
+    create_roles
     @organization = create_organization
     @contact = create_contact(:organization_id => @organization.id,
                               :email           => "dude@example.com")
