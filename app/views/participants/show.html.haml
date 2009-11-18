@@ -17,8 +17,7 @@
     %li.clearfix.odd
       .left
         %strong Financial Information:
-      .right= link_to 'Google Finance', "http://finance.google.com/finance?q=ATH:%s" % @participant.stock_symbol
-      
+      .right= link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]      
 .related_documents
   %h2 Related Documents
 
