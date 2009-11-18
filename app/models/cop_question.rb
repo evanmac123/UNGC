@@ -13,7 +13,7 @@
 #
 
 class CopQuestion < ActiveRecord::Base
-  validates_presence_of :principle_area_id, :text
+  validates_presence_of :text
   has_many :cop_attributes
   belongs_to :principle_area
   belongs_to :initiative

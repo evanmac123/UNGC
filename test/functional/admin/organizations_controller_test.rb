@@ -49,20 +49,6 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     assert_redirected_to admin_organizations_path
   end
 
-  test "should approve pending organization" do
-    organization = create_organization(:state => 'pending_review')
-    post :approve, {:id => organization.to_param}, as(@user)
-    assert_redirected_to admin_organization_path(organization.id)
-    assert organization.reload.approved?
-  end
-
-  test "should reject pending organization" do
-    organization = create_organization(:state => 'pending_review')
-    post :reject, {:id => organization.to_param}, as(@user)
-    assert_redirected_to admin_organization_path(organization.id)
-    assert organization.reload.rejected?
-  end
-
   test "should list approved organizations" do
     get :approved, {}, as(@user)
     assert_response :success

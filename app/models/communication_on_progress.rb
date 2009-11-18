@@ -132,4 +132,9 @@ class CommunicationOnProgress < ActiveRecord::Base
         }
     }
   end
+  
+  private
+    def set_next_cop_due_date
+      self.organization.set_next_cop_due_date
+    end
 end

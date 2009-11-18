@@ -83,6 +83,17 @@ class Organization < ActiveRecord::Base
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
   end
   
+  state_machine :cop_state, :initial => :active do
+    event :communication_late do
+      transition :from => :active, :to => :noncommunicating
+    end
+    event :delist do
+      transition :from => :noncommunicating, :to => :delisted
+    end
+    event :communication_received do
+      transition :from => :noncommunicating, :to => :active
+    end
+  end
   
   COP_STATUSES = {
     :inactive         => 0,
@@ -131,6 +142,10 @@ class Organization < ActiveRecord::Base
       {:conditions => ["cop_status = ?", COP_STATUSES[filter_type]]}
     end
   }
+  
+  named_scope :with_cop_due_on, lambda { |date|
+    {:conditions => {:cop_due_on => date} }
+  }
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
@@ -161,6 +176,14 @@ class Organization < ActiveRecord::Base
   }
   
   named_scope :with_pledge, :conditions => 'pledge_amount > 0'
+  
+  named_scope :about_to_become_noncommunicating, lambda {
+    { conditions: ["cop_state=? AND cop_due_on<=?", 'active', 1.day.ago.to_date] }
+  }
+
+  named_scope :about_to_become_delisted, lambda {
+    { conditions: ["cop_state=? AND cop_due_on<=?", 'noncommunicating', (1.year + 1.day).ago.to_date] }
+  }
 
   def self.find_by_param(param)
     return nil if param.blank?
@@ -227,6 +250,12 @@ class Organization < ActiveRecord::Base
   
   def inactive?
     cop_status == COP_STATUSES[:inactive]
+  end
+  
+  # COP's next due date is 1 year from current date
+  def set_next_cop_due_date
+    self.communication_received
+    self.update_attribute :cop_due_on, 1.year.from_now
   end
   
   private

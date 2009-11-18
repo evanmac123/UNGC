@@ -61,6 +61,18 @@ class OrganizationTest < ActiveSupport::TestCase
         assert_equal 15000, @organization.pledge_amount
       end
     end
+    
+    context "approving its participation" do
+      setup do
+        @organization = create_organization
+      end
+      
+      should "set the COP due date to 1 year from now" do
+        assert_nil @organization.cop_due_on
+        @organization.approve
+        assert_equal 1.year.from_now.to_date, @organization.reload.cop_due_on
+      end
+    end
   end
   
   context "given a climate change initiative, some organization types and an org" do

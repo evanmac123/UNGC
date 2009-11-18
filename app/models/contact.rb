@@ -33,6 +33,8 @@
 #  local_network_id          :integer(4)
 #
 
+require 'digest/sha1'
+
 class Contact < ActiveRecord::Base
   include Authentication
   include Authentication::ByCookieToken
@@ -50,6 +52,9 @@ class Contact < ActiveRecord::Base
   has_and_belongs_to_many :roles, :join_table => "contacts_roles"
 
   default_scope :order => 'contacts.first_name'
+  
+  attr_accessor :password
+  before_save :encrypt_password
   
   named_scope :contact_points, lambda {
     contact_point_id = Role.contact_point.try(:id)
@@ -88,7 +93,8 @@ class Contact < ActiveRecord::Base
     {:conditions => {:country_id => country.id} }
   }
 
-  before_destroy :keep_at_least_one_contact
+  before_destroy :keep_at_least_one_ceo
+  before_destroy :keep_at_least_one_contact_point
 
   def name
     [first_name, last_name].join(' ')
@@ -109,8 +115,7 @@ class Contact < ActiveRecord::Base
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
     u = find_by_login(login.downcase)
-    # TODO hash the password
-    (u && u.password == password) ? u : nil
+    (u && u.hashed_password == encrypted_password(password)) ? u : nil
   end
   
   def from_ungc?
@@ -136,11 +141,30 @@ class Contact < ActiveRecord::Base
     return TYPE_ORGANIZATION if from_organization?
   end
   
+  def is?(role)
+    roles.include? role
+  end
+  
+  def encrypt_password
+    self.hashed_password = Contact.encrypted_password(password)
+  end
+
   private
-    def keep_at_least_one_contact
-      if self.organization.contacts.count <= 1
-        errors.add_to_base "cannot delete contact, at least 1 contact should be kept at all times"
+    def keep_at_least_one_ceo
+      if self.is?(Role.ceo) && self.organization.contacts.ceos.count <= 1
+        errors.add_to_base "cannot delete CEO, at least 1 CEO should be kept at all times"
         return false
       end
+    end
+
+    def keep_at_least_one_contact_point
+      if self.is?(Role.contact_point) && self.organization.contacts.contact_points.count <= 1
+        errors.add_to_base "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
+        return false
+      end
+    end
+    
+    def self.encrypted_password(password)
+      Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
 end

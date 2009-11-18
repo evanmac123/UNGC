@@ -40,4 +40,21 @@ class ContactTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context "given an organization with 2 contact points" do
+    setup do
+      create_organization_and_user
+      @organization_user_2 = create_contact(:organization_id => @organization.id,
+                                            :email           => 'email2@example.com',
+                                            :role_ids        => [Role.contact_point.id])
+    end
+
+    should "only be able to delete 1 contact point" do
+      assert_equal 2, @organization.contacts.count
+      assert_difference 'Contact.count', -1 do
+        assert @organization_user.destroy
+        assert !@organization_user_2.destroy
+      end
+    end
+  end
 end

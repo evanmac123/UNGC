@@ -10,7 +10,8 @@ require 'rake/rdoctask'
 require 'tasks/rails'
 
 begin
-  require 'thinking_sphinx/tasks'  
+  require 'thinking_sphinx/0.9.9'
+  require 'thinking_sphinx/tasks'
 rescue Exception => e
   puts " ** ERROR: Unable to load sphinx tasks -- do you have the thinking-sphinx gem installed?"
 end
