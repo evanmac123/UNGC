@@ -13,6 +13,7 @@ module ImporterHooks
     assign_roles
     assign_network_managers
     assign_local_network_id
+    assign_initiative_roles
   end
   
   def post_principle
