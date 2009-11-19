@@ -1,6 +1,6 @@
 class ParticipantBreakdownReport < SimpleReport
   def records
-    Organization.all(:include => [:country, :exchange], :limit => 10 )
+    Organization.all(:include => [:country, :exchange], :limit => 100 )
   end
   
   def headers
@@ -10,6 +10,7 @@ class ParticipantBreakdownReport < SimpleReport
       'Country',
       'Stock Code',
       'Company Name',
+      'Website',
       'Sector',
       'Number of Employees',
       'FT500',
@@ -31,17 +32,18 @@ class ParticipantBreakdownReport < SimpleReport
     record.country.name,
     record.stock_symbol,
     record.name,
+    record.url,
     record.sector_name,
     record.employees,
     record.is_ft_500,
     record.country.region,
     record.cop_status,
     record.active,
-    record.joined_on, # can't call record.joined_on.year ?
+    record.joined_on.try(:year),
     record.cop_due_on,
     record.inactive_on,
-    record.listing_status, # record.listing_status.name ?
-    record.exchange # record.exchange.name ?
+    record.listing_status.try(:name),
+    record.exchange.try(:name)
   ]
   end
 end
