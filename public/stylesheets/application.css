@@ -85,9 +85,10 @@ body.environment_ceo #inner_head { background: url(/images/banner_environment_ce
 
 #header_content { margin: 0 auto; width: 1000px; position: relative; }
 #logo { position: absolute; top: 30px; left: 45px; }
-#languages { position: absolute; top: 20px; left: 700px; }
-#languages ul { position: relative; width: 263px; height: 11px; list-style: none;}
+#languages { position: absolute; top: 15px; left: 700px; }
+#languages ul { position: relative; list-style: none;}
 #languages ul li { display: inline; margin-right: 5px;}
+#languages a {font-size: 9px; color: #FFF;}
 #search { position: absolute; top: 60px; left: 700px; }
 #search .search_box { width: 200px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; }
 #search p { padding-top: 5px; font-size: 11px; color: #fff;  }
@@ -379,7 +380,6 @@ td.center {
 	font-weight: bold;
 }
 
-table.sortable { clear: both; }
 
 /* Clear for IE 6/7 */
 .clearfix { zoom: 1; clear: left; }
