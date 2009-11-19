@@ -53,7 +53,7 @@ class Contact < ActiveRecord::Base
 
   default_scope :order => 'contacts.first_name'
   
-  attr_accessor :password
+  # TODO: remove plain text password at some point - attr_accessor :password
   before_save :encrypt_password
   
   named_scope :contact_points, lambda {
