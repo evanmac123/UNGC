@@ -19,3 +19,9 @@
     = check_box_tag "contact[role_ids][]", role.id, @contact.roles.include?(role), { :id => "contact_role_ids_" + role.id.to_s }
     = role.name
     %br/
+
+%fieldset
+  %legend Account
+  = form.text_field :login
+  = form.text_field :password
+  
