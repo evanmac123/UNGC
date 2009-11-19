@@ -36,7 +36,8 @@ class Admin::ContactsController < AdminController
   
   private
     def load_organization
-      @organization = Organization.find params[:organization_id]
+      @organization = Organization.visible_to(current_user).find params[:organization_id]
       @contact = @organization.contacts.find params[:id] if params[:id]
+      @roles = Role.visible_to(current_user)
     end
 end

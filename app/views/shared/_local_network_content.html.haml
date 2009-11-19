@@ -1,0 +1,17 @@
+= p_with_link_to_local_network
+.clearfix
+  .left
+    %h2
+      Contact Information
+    - for contact in local_network_contacts do
+      %p
+        = formatted_local_network_contact_info(contact)
+  .right{ :style => "text-align: left" }
+    %h2
+      Participant Information
+    %p.small_print
+      Participation in the Global Compact does not necessarily reflect participation in the Global Compact Local Network.
+    = p_with_link_to_participant_search
+    = display_latest_participant_for_local_network
+  .clearme
+    \&nbsp;
