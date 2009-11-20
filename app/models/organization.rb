@@ -75,12 +75,22 @@ class Organization < ActiveRecord::Base
     has country(:name), :as => :country_name, :facet => true
     has organization_type(:type_property), :as => :business, :facet => true
     has organization_type(:id), :as => :organization_type_id, :facet => true
-    has cop_status, :facet => true
+    has cop_state, :facet => true
     has joined_on, :facet => true
     has delisted_on, :facet => true
     where 'organizations.state = "approved"'
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
   end
+  
+  COP_STATE_ACTIVE = 'active'
+  COP_STATE_NONCOMMUNICATING = 'noncommunicating'
+  COP_STATE_DELISTED = 'delisted'
+  
+  COP_STATES = {
+    :active => COP_STATE_ACTIVE,
+    :noncommunicating => COP_STATE_NONCOMMUNICATING,
+    :delisted => COP_STATE_DELISTED
+  }
   
   state_machine :cop_state, :initial => :active do
     event :communication_late do
@@ -94,13 +104,6 @@ class Organization < ActiveRecord::Base
     end
   end
   
-  COP_STATUSES = {
-    :inactive         => 0,
-    :noncommunicating => 1,
-    :active           => 2,
-    :delisted         => 3
-  }
-
   named_scope :local_network, :conditions => ["local_network = ?", true]
 
   named_scope :active,
@@ -135,10 +138,10 @@ class Organization < ActiveRecord::Base
   
   named_scope :with_cop_status, lambda { |filter_type|
     if filter_type.is_a?(Array)
-      statuses = filter_type.map { |t| COP_STATUSES[t] }
-      {:conditions => ["cop_status IN (?)", statuses]}
+      statuses = filter_type.map { |t| COP_STATES[t] }
+      {:conditions => ["cop_state IN (?)", statuses]}
     else
-      {:conditions => ["cop_status = ?", COP_STATUSES[filter_type]]}
+      {:conditions => ["cop_state = ?", COP_STATES[filter_type]]}
     end
   }
   
@@ -177,11 +180,11 @@ class Organization < ActiveRecord::Base
   named_scope :with_pledge, :conditions => 'pledge_amount > 0'
   
   named_scope :about_to_become_noncommunicating, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", 'active', 1.day.ago.to_date] }
+    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date] }
   }
 
   named_scope :about_to_become_delisted, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", 'noncommunicating', (1.year + 1.day).ago.to_date] }
+    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
   }
 
   def self.find_by_param(param)
@@ -244,11 +247,7 @@ class Organization < ActiveRecord::Base
   end
   
   def noncommunicating?
-    cop_status == COP_STATUSES[:noncommunicating]
-  end
-  
-  def inactive?
-    cop_status == COP_STATUSES[:inactive]
+    cop_state == COP_STATE_NONCOMMUNICATING
   end
   
   # COP's next due date is 1 year from current date
