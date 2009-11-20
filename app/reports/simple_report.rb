@@ -14,13 +14,12 @@ class SimpleReport
     content_tag :ul, buffer.join
   end
 
-  def render_csv
-    buffer = CSV.generate_line(headers)
-    CSV.generate(buffer) do |csv|
-      records.each do |r|
-        csv << row(r)
-      end
+  def render_xls
+    header = headers.join("\t") + "\n"
+    rows = records.collect do |r|
+      row(r).join("\t")
     end
-    return buffer
+    return header + rows.join("\n")
   end
+  
 end
