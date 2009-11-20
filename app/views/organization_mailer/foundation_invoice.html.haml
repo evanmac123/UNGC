@@ -40,7 +40,7 @@
       %br/
       ==#{@contact.city} #{@contact.state} #{@contact.postal_code}
       %br/
-      =@contact.country.name
+      =@contact.country.try(:name)
       
 %p==The following link will take you to the online donation page of the Foundation's website where you can make your contribution by credit card: http://globalcompactfoundation.org/donate/?invoice=#{@organization.invoice_id}
 

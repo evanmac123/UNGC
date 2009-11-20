@@ -35,4 +35,18 @@ class OrganizationMailerTest < ActionMailer::TestCase
     assert_equal "Your Letter of Commitment to the Global Compact", response.subject
     assert_equal "email@example.com", response.to.first
   end
+  
+  test "foundation invoice is sent" do
+    response = OrganizationMailer.deliver_foundation_invoice(@organization)
+    assert_equal "text/html", response.content_type
+    assert_equal "Your pledge to The Foundation for the Global Compact", response.subject
+    assert_equal "email@example.com", response.to.first
+  end
+  
+  test "foundation reminder mailer is sent" do
+    response = OrganizationMailer.deliver_foundation_reminder(@organization)
+    assert_equal "text/html", response.content_type
+    assert_equal "A message from The Foundation for the Global Compact", response.subject
+    assert_equal "email@example.com", response.to.first
+  end
 end

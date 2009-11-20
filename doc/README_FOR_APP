@@ -100,3 +100,9 @@ contacts.newsletter - legacy column was never used
 contacts.advisory_council - legacy column was never used
 
 pages.top_level - only used by importer
+
+organizations.status - using state
+organizations.cop_status - using cop_state
+logo_requests.status - using state
+case_stories.status - using state
+communication_on_progresses.status - using state
