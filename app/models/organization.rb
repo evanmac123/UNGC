@@ -252,6 +252,15 @@ class Organization < ActiveRecord::Base
     cop_status == COP_STATUSES[:inactive]
   end
   
+  def cop_status_name    
+    case self.cop_status
+      when COP_STATUSES[:inactive] then 'Inactive'
+      when COP_STATUSES[:noncommunicating] then 'Non-communicating'
+      when COP_STATUSES[:active] then 'Communicating'
+      when COP_STATUSES[:delisted] then 'Delisted'
+    end
+  end
+  
   # COP's next due date is 1 year from current date
   def set_next_cop_due_date
     self.communication_received

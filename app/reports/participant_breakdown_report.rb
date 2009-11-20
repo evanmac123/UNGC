@@ -8,9 +8,7 @@ class ParticipantBreakdownReport < SimpleReport
       'Join Date',
       'Organization Type',
       'Country',
-      'Stock Code',
       'Company Name',
-      'Website',
       'Sector',
       'Number of Employees',
       'FT500',
@@ -21,6 +19,7 @@ class ParticipantBreakdownReport < SimpleReport
       'COP Due Date',
       'Inactive on',
       'Listed Status',
+      'Stock Code',
       'Exchange'
     ]
   end
@@ -30,19 +29,18 @@ class ParticipantBreakdownReport < SimpleReport
     record.joined_on,
     record.organization_type.name,
     record.country.name,
-    record.stock_symbol,
     record.name,
-    record.url,
     record.sector_name,
     record.employees,
     record.is_ft_500,
     record.country.region,
-    record.cop_status,
+    record.cop_status_name,
     record.active,
     record.joined_on.try(:year),
     record.cop_due_on,
     record.inactive_on,
     record.listing_status.try(:name),
+    record.stock_symbol,
     record.exchange.try(:name)
   ]
   end
