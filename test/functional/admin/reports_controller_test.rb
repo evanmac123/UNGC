@@ -72,5 +72,17 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
+    
+    should "get the participant breakdown report" do
+      get :participant_breakdown, {}, as(@staff_user)
+      assert_response :success
+      assert_template 'participant_breakdown.html.haml'
+    end
+
+    should "get the participant breakdown report as csv" do
+      get :participant_breakdown, {:format => 'csv'}, as(@staff_user)
+      assert_response :success
+      assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    end
   end
 end
