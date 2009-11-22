@@ -5,6 +5,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "participant_breakdown_#{date_as_filename}.xls")
   end
   
+  def contacts_mail_merge
+    @report = ContactsMailMerge.new
+    render_formatter(filename: "contacts_mail_merge_#{date_as_filename}.xls")
+  end
+    
   def approved_logo_requests
     @month = params[:month] || Date.today.month
     @year = params[:year] || Date.today.year
@@ -37,7 +42,7 @@ class Admin::ReportsController < AdminController
     
     @report = NetworksReport.new(:region  => @region,
                                  :country => @country)
-    render_formatter(filename: "networks_report_#{date_as_filename}.xls")
+    render_formatter(filename: "networks_report_#{date_as_filename}.csv")
   end
   
   def foundation_pledges
