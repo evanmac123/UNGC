@@ -56,6 +56,8 @@ class Organization < ActiveRecord::Base
   belongs_to :listing_status
   belongs_to :exchange
   belongs_to :country
+  belongs_to :removal_reason
+  
 
   attr_accessor :pledge_amount_other
   

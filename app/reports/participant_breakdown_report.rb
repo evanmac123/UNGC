@@ -1,6 +1,8 @@
 class ParticipantBreakdownReport < SimpleReport
   def records
-    Organization.all(:include => [:country, :exchange], :limit => 10 )
+    Organization.all( :include => [:organization_type, :country, :exchange, :listing_status, :sector],
+                      :conditions => "participant = true and active = true and cop_state != 'delisted'"
+                    )
   end
   
   def headers
