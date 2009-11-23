@@ -15,11 +15,12 @@ class SimpleReport
   end
 
   def render_xls
-    header = headers.join("\t") + "\n"
-    rows = records.collect do |r|
-      row(r).join("\t")
+    buffer = CSV.generate_line(headers, :col_sep => "\t")
+    CSV.generate(buffer, :col_sep => "\t") do |csv|
+      records.each do |r|
+        csv << row(r)
+      end
     end
-    return header + rows.join("\n")
+    return buffer
   end
-  
 end

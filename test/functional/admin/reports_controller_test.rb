@@ -17,8 +17,8 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_template 'approved_logo_requests.html.haml'
     end
 
-    should "get the approved logo request report as csv" do
-      get :approved_logo_requests, {:format => 'csv'}, as(@staff_user)
+    should "get the approved logo request report as xls" do
+      get :approved_logo_requests, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
@@ -29,8 +29,8 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_template 'listed_companies.html.haml'
     end
 
-    should "get the listed companies report as csv" do
-      get :listed_companies, {:format => 'csv'}, as(@staff_user)
+    should "get the listed companies report as xls" do
+      get :listed_companies, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
@@ -41,8 +41,8 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_template 'companies_without_contacts.html.haml'
     end
 
-    should "get the companies without contacts report as csv" do
-      get :companies_without_contacts, {:format => 'csv'}, as(@staff_user)
+    should "get the companies without contacts report as xls" do
+      get :companies_without_contacts, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
@@ -54,9 +54,9 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_template 'networks.html.haml'
     end
 
-    should "get the networks report as csv" do
+    should "get the networks report as xls" do
       create_country
-      get :networks, {:format => 'csv'}, as(@staff_user)
+      get :networks, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
@@ -67,8 +67,8 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_template 'foundation_pledges.html.haml'
     end
 
-    should "get the foundation pledges report as csv" do
-      get :foundation_pledges, {:format => 'csv'}, as(@staff_user)
+    should "get the foundation pledges report as xls" do
+      get :foundation_pledges, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
@@ -79,8 +79,20 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_template 'participant_breakdown.html.haml'
     end
 
-    should "get the participant breakdown report as csv" do
-      get :participant_breakdown, {:format => 'csv'}, as(@staff_user)
+    should "get the participant breakdown report as xls" do
+      get :participant_breakdown, {:format => 'xls'}, as(@staff_user)
+      assert_response :success
+      assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    end
+
+    should "get the contacts for mail merge report" do
+      get :contacts_mail_merge, {}, as(@staff_user)
+      assert_response :success
+      assert_template 'contacts_mail_merge.html.haml'
+    end
+    
+    should "get the contacts for mail merge report as xls" do
+      get :contacts_mail_merge, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
