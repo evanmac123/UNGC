@@ -11,7 +11,7 @@ class Admin::SigningsControllerTest < ActionController::TestCase
     should "add a signatory by posting to create" do
       assert_difference '@initiative.signings.count' do
         post :create, :initiative_id => @initiative.id,
-                      :signatory     => {:organization_id => @organization.id,
+                      :signing       => {:organization_id => @organization.id,
                                          :added_on        => Date.today}
         assert_response :redirect
       end
