@@ -1,0 +1,4 @@
+%li
+  = link_to initiative.name, admin_initiative_path(initiative)
+  = link_to 'edit', edit_admin_initiative_path(initiative)
+  = link_to 'delete', admin_initiative_path(initiative), :confirm => 'Are you sure?', :method => :delete

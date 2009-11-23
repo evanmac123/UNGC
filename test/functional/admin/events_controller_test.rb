@@ -15,7 +15,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
         @event = Event.find_by_title('This is my event')
       end
 
-      should "create the envet" do
+      should "create the event" do
         assert_redirected_to_index
         assert @event
       end
