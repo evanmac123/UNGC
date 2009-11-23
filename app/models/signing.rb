@@ -12,6 +12,8 @@
 #
 
 class Signing < ActiveRecord::Base
+  validates_presence_of :organization_id
+  
   belongs_to :initiative
   belongs_to :signatory, :class_name => 'Organization', :foreign_key => :organization_id
   belongs_to :organization

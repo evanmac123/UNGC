@@ -22,7 +22,8 @@ class Admin::SigningsControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       @initiative = create_initiative
-      @signatory = create_signing(:initiative_id => @initiative.id)
+      @signatory = create_signing(:initiative_id   => @initiative.id,
+                                  :organization_id => @organization.id)
       login_as @organization_user
     end
 
