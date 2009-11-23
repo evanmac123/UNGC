@@ -10,9 +10,21 @@ class CommentObserver < ActiveRecord::Observer
       elsif comment.commentable.is_a? Organization
         case comment.commentable.state
           when Organization::STATE_IN_REVIEW then OrganizationMailer.deliver_in_review(comment.commentable)
-          when Organization::STATE_APPROVED then OrganizationMailer.deliver_approved(comment.commentable)
+          when Organization::STATE_APPROVED then email_approved_organization(comment.commentable)
         end
       end
     end
   end
+  
+  private
+    def email_approved_organization(organization)
+      OrganizationMailer.deliver_approved(organization)
+      if organization.business_entity?
+        if organization.pledge_amount > 0
+          OrganizationMailer.deliver_foundation_invoice(organization)
+        else
+          OrganizationMailer.deliver_foundation_reminder(organization)
+        end
+      end
+    end
 end

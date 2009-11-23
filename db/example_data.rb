@@ -100,6 +100,7 @@ module FixtureReplacement
     o.name = String.random
     o.organization_type_id = OrganizationType.first.id
     o.employees = 500
+    o.pledge_amount = 1000
 	end
 
   attributes_for :page do |a|
