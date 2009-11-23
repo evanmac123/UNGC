@@ -33,7 +33,8 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     
     should "approve the organization on approval comment" do
       assert_difference 'Comment.count' do
-        assert_emails(1) do
+        # we expect two emails - approval and foundation invoice
+        assert_emails(2) do
           post :create, :organization_id => @organization.id,
                         :commit          => LogoRequest::EVENT_APPROVE,
                         :comment         => { :body => 'Approved' }
