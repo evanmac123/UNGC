@@ -135,5 +135,6 @@ module FixtureReplacement
 	end
 
   attributes_for :signing do |s|
+    s.added_on = Date.today
   end
 end

@@ -2,5 +2,11 @@
   %b Name:
   =h @initiative.name
 
+%p
+  %b Signatories:
+  =h @initiative.signings.count
+
+%p= link_to 'Add signatory', '#'
+
 %ul#signatories
-  %li signatories here
+  %li= render :partial => 'signing', :collection => @initiative.signings

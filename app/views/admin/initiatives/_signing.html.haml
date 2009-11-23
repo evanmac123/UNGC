@@ -1,0 +1,5 @@
+%li
+  = signing.organization.name
+  added on
+  = signing.added_on
+  = link_to 'delete', admin_initiative_signing_path(signing.initiative, signing), :confirm => 'Are you sure?', :method => :delete
