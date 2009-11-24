@@ -15,7 +15,15 @@ class OrganizationMailer < ActionMailer::Base
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
   
-  def approved(organization)
+  def approved_business(organization)
+    from EMAIL_SENDER
+    subject "Welcome to the United Nations Global Compact"
+    content_type "text/html"
+    recipients organization.contacts.contact_points.collect(&:email_recipient)
+    body :organization => organization, :contact => organization.contacts.contact_points.first
+  end
+
+  def approved_nonbusiness(organization)
     from EMAIL_SENDER
     subject "Welcome to the United Nations Global Compact"
     content_type "text/html"

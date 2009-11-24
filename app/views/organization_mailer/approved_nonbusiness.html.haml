@@ -19,19 +19,24 @@
 
 %p== All new UN Global Compact participants are asked to read #{link_to 'After the Signature - A Guide to Engagement in the Global Compact', 'http://www.unglobalcompact.org/docs/news_events/8.1/after_the_signature.pdf'}. The short publication provides an introduction to the UN Global Compact and suggests practical steps to start the implementation process. 
 
-%p== A #{link_to 'resource library is available on our website','http://www.unglobalcompact.org/AboutTheGC/publications.html'} to aid UN Global Compact participants in implementing the Ten Principles, engaging in partnerships and communicating progress on corporate responsibility actions:
+%p== A #{link_to 'resource library is available on our website','http://www.unglobalcompact.org/AboutTheGC/publications.html'} to aid UN Global Compact participants in implementing the Ten Principles, engaging in partnerships and communicating progress on corporate responsibility actions.
 
 %p
   %strong Organization Profile/Contact Information
 
-%p== As the primary contact point for your organization with the UN Global Compact, you are asked to view, and update as necessary, your organization's information by signing on to #{link_to 'Global Compact website', dashboard_url}.
+%p== As the primary contact point for your organization with the UN Global Compact, you are asked to view, and update as necessary, your organization's information by signing on to #{link_to 'Global Compact website', dashboard_url} with the following details:
+
+%p
+  Username: #{@contact.login}
+  %br/
+  Password: #{@contact.password}
 
 %p It is critical that your organization's contact information is up-to-date so that we are able to keep you informed about important news and events.
 
 %p
   %strong Local Networks
 
-%p We encourage your organization to engage in Global Compact Local Networks, which can be found in over 80 countries. Within a local context, these networks provide opportunities for participants to improve understanding and share experiences on the Ten Principles and partnerships, as well as how to report on progress in these areas. Collective action campaigns and government policy dialogues are also organized through the Local Networks. More information can be found in the "Networks Around the World" section of our website:  
+%p We encourage your organization to engage in Global Compact Local Networks, which can be found in over 80 countries. Within a local context, these networks provide opportunities for participants to improve understanding and share experiences on the Ten Principles and partnerships, as well as how to report on progress in these areas. Collective action campaigns and government policy dialogues are also organized through the Local Networks. More information can be found in the "Local Networks" section of our website:  
 
 / == http://www.unglobalcompact.org//NetworksAroundTheWorld/local_network_sheet/#{@organization.country.code}.html
 
@@ -39,9 +44,11 @@
 
 %p
   %strong Use of UN Global Compact Logo
+  
+%p Participants are encouraged to use the "We Support the Global Compact" logo as a way to further show commitment and raise awareness of the initiative, for example on organization websites and pertinent printed materials. To protect the UN Global Compact's brand and integrity, organizations must request permission from the Global Compact Office - and submit a sample of desired usage - before each use of the logo. Our online logo request system can efficiently handle requests. To seek approval for use of a UN Global Compact logo: 
 
 %ol
-  %li Sign on to the Participant Administration section of the UN Global Compact website using your organization's username and password   
+  %li== Login to the #{link_to 'UN Global Compact website', dashboard_url} using your organization's username and password
   %li Go to the "Submissions" tab and click on "Logo Request". 
   %li Complete the request form and upload a sample of desired use. 
   %li Await response from the UN Global Compact.

@@ -18,13 +18,18 @@ class CommentObserver < ActiveRecord::Observer
   
   private
     def email_approved_organization(organization)
-      OrganizationMailer.deliver_approved(organization)
       if organization.business_entity?
+        OrganizationMailer.deliver_approved_business(organization)
+        
+        # emails sent from Foundation to business participants only
         if organization.pledge_amount.to_i > 0
           OrganizationMailer.deliver_foundation_invoice(organization)
         else
           OrganizationMailer.deliver_foundation_reminder(organization)
         end
+        
+      else
+        OrganizationMailer.deliver_approved_nonbusiness(organization)
       end
     end
 end

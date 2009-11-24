@@ -1,0 +1,88 @@
+== Dear #{@contact.name_with_title},
+
+%p== Welcome to the United Nations Global Compact. We are pleased to inform you that #{@organization.name} has been added to our register of participants. Thank you for joining our corporate responsibility initiative - the world's largest with over 6,500 business and non-business participants in 135 countries. An official welcome letter and information package will be sent to your organization's top executive via mail. Please allow 3 to 6 weeks for delivery.
+
+%p This email provides an overview of your organization's commitment to the UN Global Compact and helpful information related to engagement in our initiative.
+
+%p
+  %strong Expectations of Participation
+
+%p== As a participant, #{@organization.name} commits to:
+
+%ul
+  %li Set in motion changes to business operations so that the UN Global Compact and our Ten Principles become part of strategy, culture and day-to-day operations, including in subsidiaries and the supply chain;
+  %li Advocate the UN Global Compact and the Ten Principles via available communications channels; and
+  %li Communicate annually with your stakeholders on efforts to implement the UN Global Compact principles, and post this Communication on Progress (COP) on the UN Global Compact website. Failure to post a COP annually will result in loss of an "active" status in the UN Global Compact, and eventual removal from the initiative.
+
+%p
+  %strong Guidance Materials
+
+%p== All new UN Global Compact participants are asked to read #{link_to 'After the Signature - A Guide to Engagement in the Global Compact', 'http://www.unglobalcompact.org/docs/news_events/8.1/after_the_signature.pdf'}. The short publication provides an introduction to the UN Global Compact, outlines the commitment that a company makes when joining and suggests practical steps to start the implementation process. 
+
+%p== New participants are urged to review the #{link_to 'Communication on Progress', 'http://www.unglobalcompact.org/COP/'} section of the UN Global Compact website. Information can be found on: minimum requirements for the COP; guidance on creating, sharing and posting a COP; and practical examples of how companies are communicating progress.
+
+%p== A #{link_to 'resource library is available on our website','http://www.unglobalcompact.org/AboutTheGC/publications.html'} to aid UN Global Compact participants in implementing the Ten Principles, engaging in partnerships and communicating progress on corporate responsibility actions.
+
+%p
+  %strong Company Profile/Contact Information
+
+%p== As the primary contact point for your company with the UN Global Compact, you are asked to view, and update as necessary, your organization's information by signing on to #{link_to 'Global Compact website', dashboard_url} with the following details:
+
+%p
+  Username: #{@contact.login}
+  %br/
+  Password: #{@contact.password}
+
+%p This Username and Password will also be required for posting your company's annual COP. 
+
+%p It is critical that your organization's contact information is up-to-date so that we are able to keep you informed about important news and events, as well as information on COP deadlines. 
+
+%p
+  %strong Local Networks
+
+%p We encourage your company - and any subsidiaries, if relevant - to engage in Global Compact Local Networks, which can be found in over 80 countries. Within a local context, these networks provide opportunities for participants to improve understanding and share experiences on the Ten Principles and partnerships, as well as how to report on progress in these areas. Collective action campaigns and government policy dialogues are also organized through the Local Networks. More information can be found in the "Local Networks" section of our website:
+
+/ == http://www.unglobalcompact.org//NetworksAroundTheWorld/local_network_sheet/#{@organization.country.code}.html
+
+/ TODO insert Local Network Focal Point contact details, if they exist
+
+%p
+  %strong Use of UN Global Compact Logo
+
+%p Participants are encouraged to use the "We Support the Global Compact" logo as a way to further show commitment and raise awareness of the initiative, for example on corporate websites and pertinent printed materials. To protect the UN Global Compact's brand and integrity, organizations must request permission from the Global Compact Office - and submit a sample of desired usage - before each use of the logo. Our online logo request system can efficiently handle requests. To seek approval for use of a UN Global Compact logo: 
+
+%ol
+  %li== Login to the #{link_to 'UN Global Compact website', dashboard_url} using your organization's username and password
+  %li Go to the "Submissions" tab and click on "Logo Request". 
+  %li Complete the request form and upload a sample of desired use. 
+  %li Await response from the UN Global Compact.
+
+%p
+  %strong Annual Financial Contribution
+
+%p== Participating companies are asked to make a regular annual financial contribution to help support the work of the UN Global Compact. These voluntary donations are vital to our ability to provide a valuable framework for corporate change and innovation around environmental, social and governance issues. The Foundation for the Global Compact, a registered 501(c)(3), serves as the financial intermediary for all contributions. Please visit the Foundation's website for more information and suggested contribution amounts: #{link_to 'http://www.globalcompactfoundation.org','http://www.globalcompactfoundation.org'}
+
+%p
+  %strong Monthly Bulletin
+  
+%p Each month you will receive the UN Global Compact Bulletin via email, which is designed to keep participants updated on news, engagement opportunities, resources and events. Please look to this monthly communication for important information, as the Global Compact Office limits the number of individual emails sent to our participants. The Bulletin can also be read online:
+
+= link_to 'UN Global Compact Monthly Bulletin','http://www.unglobalcompact.org/NewsAndEvents/UNGC_bulletin/'
+
+%p Again, thank you for joining the UN Global Compact. We are eager to hear your ideas and experiences, and encourage you to share your views with us. We stand ready to support your efforts to embrace the Ten Principles and contribute to a more sustainable and inclusive global economy. Should you have any queries, please contact us at globalcompact@un.org.
+
+%p Sincerely,
+
+%p The Global Compact Office
+
+United Nations Global Compact
+%br/
+Two United Nations Plaza
+%br/
+New York, NY 10017
+%br/
+Email: globalcompact@un.org
+%br/
+Website:
+%a{:href => "http://www.unglobalcompact.org/"}
+  www.unglobalcompact.org
