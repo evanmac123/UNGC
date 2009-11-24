@@ -20,7 +20,7 @@ class CommentObserver < ActiveRecord::Observer
     def email_approved_organization(organization)
       OrganizationMailer.deliver_approved(organization)
       if organization.business_entity?
-        if organization.pledge_amount > 0
+        if organization.pledge_amount.to_i > 0
           OrganizationMailer.deliver_foundation_invoice(organization)
         else
           OrganizationMailer.deliver_foundation_reminder(organization)
