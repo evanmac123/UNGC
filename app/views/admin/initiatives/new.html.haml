@@ -1,0 +1,9 @@
+%h2 New initiative
+
+- form_for @initiative, :url => admin_initiatives_path do |form|
+  = render :partial => 'form'
+
+  %p
+    = form.submit 'Create'
+
+= link_to 'Back', admin_initiatives_path

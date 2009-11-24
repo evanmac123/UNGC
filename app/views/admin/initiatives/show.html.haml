@@ -1,0 +1,15 @@
+%p
+  %b Name:
+  =h @initiative.name
+
+%p
+  %b Signatories:
+  =h @initiative.signings.count
+
+%p= link_to_function 'Add signatory', "$('#add_signatory').toggle()"
+
+#add_signatory{:style => 'display: none'}
+  = render :partial => 'admin/signings/form'
+
+%ul#signatories
+  %li= render :partial => 'admin/signings/signing', :collection => @initiative.signings
