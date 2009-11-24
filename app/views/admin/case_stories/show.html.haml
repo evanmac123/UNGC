@@ -1,3 +1,5 @@
+= action_links(@case_story)
+
 %p
   %b Title:
   =h @case_story.title
@@ -43,10 +45,3 @@
 = link_to 'New comment', new_admin_case_story_comment_path(@case_story) #unless @logo_request.state_events.empty?
 %ul
   = render :partial => @case_story.comments
-
-%h3 Files
-%ul
-  - for comment in @case_story.comments.with_attachment
-    %li
-      = link_to_attachment(comment)
-      = number_to_human_size(comment.attachment_file_size)

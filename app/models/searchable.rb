@@ -37,6 +37,7 @@ class Searchable < ActiveRecord::Base
   extend SearchableHeadline
   extend SearchableOrganization
   extend SearchablePage
+  extend SearchableCommunicationOnProgress
   
   define_index do
     indexes title
@@ -72,6 +73,7 @@ class Searchable < ActiveRecord::Base
       index_headlines
       index_case_stories
       index_organizations
+      index_communications_on_progress
     end
 
     def with_helper(&block)

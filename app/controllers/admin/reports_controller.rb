@@ -63,7 +63,7 @@ class Admin::ReportsController < AdminController
     def render_formatter(options={})
       respond_to do |format|
         format.html
-        format.csv  { send_data @report.render_xls, :type     => 'application/ms-excel',
+        format.xls  { send_data @report.render_xls, :type     => 'application/ms-excel',
                                                     :filename => options[:filename] }
       end
     end

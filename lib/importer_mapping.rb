@@ -1,6 +1,6 @@
 module ImporterMapping
   FILES = [:country, :organization_type, :sector, :exchange, :listing_status, :language, :removal_reason,
-            :cop_score, :principle, :interest, :role, :organization, :contact, :communication_on_progress,
+            :cop_score, :principle, :role, :organization, :contact, :communication_on_progress,
             :logo_publication, :logo_request, :logo_file, :logo_comment, :case_story, :initiative, :signing,
             :bulletin_subscriber]
   CONFIG = {
@@ -24,8 +24,6 @@ module ImporterMapping
     :cop_score => {:file => 'TR04_COP_SCORE.csv', :fields => [:old_id, :description]},
     # fields: PRINCIPLE_ID	PRINCIPLE_NAME
     :principle => {:file => 'TR05_PRINCIPLE.csv', :fields => [:old_id, :name]},
-    # fields: INTEREST_ID	INTEREST_NAME
-    :interest  => {:file => 'TR06_INTEREST.csv', :fields => [:old_id, :name]},
     # fields: ROLE_ID ROLE_NAME
     :role      => {:file => 'TR07_ROLE.csv', :fields => [:old_id, :name]},
     #fields LIST_EXCHANGE_CODE	LIST_EXCHANGE_NAME	LIST_SECONDARY_CODE	LIST_TERTIARY_CODE	TR01_COUNTRY_ID
