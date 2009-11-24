@@ -3,3 +3,15 @@
   added on
   = signing.added_on
   = link_to 'delete', admin_initiative_signing_path(signing.initiative, signing), :confirm => 'Are you sure?', :method => :delete
+  = link_to_function 'contacts', "$('##{dom_id(signing.organization, "contacts")}').toggle()"
+  
+  %div{:id => dom_id(signing.organization, "contacts"), :style => 'display: block'}
+    %ul
+      - for contact in signing.organization.contacts
+        %li
+          = contact.name
+          - if contact.roles.include? @initiative.roles.first
+            INITIATIVE CONTACT
+            = link_to 'remove', admin_contacts_role_path(:id => 1, :contact_id => contact.id, :role_id => @initiative.roles.first.id), :method => :delete
+          - else
+            = link_to 'add', admin_contacts_roles_path(:contact_id => contact.id, :role_id => @initiative.roles.first.id), :method => :post
