@@ -1,5 +1,6 @@
 - form_for @signing = @initiative.signings.new(:added_on => Date.today), :url => admin_initiative_signings_path(@initiative) do |form|
-  = form.collection_select :organization_id, Organization.all, :id, :name
+  / FIXME remove limit clause
+  = form.collection_select :organization_id, Organization.all(:limit => 50), :id, :name
   = form.text_field :added_on
 
   %p
