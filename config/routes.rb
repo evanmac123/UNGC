@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Session routes
     map.resource :session
+    map.resource :password, :controller => 'admin/passwords'
     map.no_session 'no_session', :controller => 'signup', :action => 'no_session'
     map.logout '/logout', :controller => 'sessions', :action => 'destroy'
     map.login '/login', :controller => 'sessions', :action => 'new'
@@ -33,7 +34,11 @@ ActionController::Routing::Routes.draw do |map|
       admin.resources :pages,
         :member => {
           :approve => :post,
-          :revoke  => :post
+          :revoke  => :post,
+          :meta    => :get
+        },
+        :collection => {
+          :pending => :get
         }
     
       admin.resources :organizations, :collection => { :approved => :get, :rejected => :get, :pending_review => :get },

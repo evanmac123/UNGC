@@ -1,4 +1,5 @@
 universal: &universal
+  ungc_organization_name: 'UNGC'
   url_host: 'unglobalcompact.org'
   search_results_per_page: 25
   case_story_path: '/COP/Case_Story/case_search.html'

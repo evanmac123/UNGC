@@ -1,0 +1,20 @@
+%h2 Password reset
+
+%p
+  Enter your new password.
+
+- form_tag password_path, :method => :put do
+  = hidden_field_tag :id, @contact.reset_password_token
+  %p
+    = label_tag :password
+    %br/
+    = password_field_tag :password
+    
+  %p
+    = label_tag :password_confirmation
+    %br/
+    = password_field_tag :password_confirmation
+    
+  %p= submit_tag 'Save'
+  
+= link_to 'I just remembered my password!', login_path

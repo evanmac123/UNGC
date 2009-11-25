@@ -1,0 +1,29 @@
+%p= " < #{link_to_parent @page}"
+
+%h2= fancy_page_title(@page)
+
+%div{style: "border: 1px solid #CCC; padding: 0.5em 1em; margin: 1em 0;"}
+  = truncate strip_tags(@page.content || '[No contents]'), 280
+  = link_to 'Edit Now', edit_admin_page_path(@page)
+
+
+- if @page.children.any?
+  .left
+    %ul.page_navigation
+      - for section in sections
+        %li
+          = link_to_section section
+      %li
+        = create_new_section
+  
+  .right
+    %ul.page_navigation
+      - for page in @page.children do
+        %li
+          = link_to_page page
+      %li
+        = create_new_page
+
+- else
+  %p
+    = create_new_page

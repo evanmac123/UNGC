@@ -1,0 +1,27 @@
+.cols3 { width: 100%; height: 320px; overflow: hidden; }
+.cols3 .wrapper { height: 310px; overflow: auto; }
+
+.cols3 div.left  { display: block; width: 32.3%; float: left; margin: 0 0.5em 0 0; }
+.cols3 div.mid   { display: block; width: 32.3%; float: left; margin: 0 0.5em 0 0; }
+.cols3 div.right { display: block; width: 32.3%; float: left; margin: 0 0.5em 0 0; }
+
+.sortable .placeholder {
+	background: #e0e0e0; 
+	padding: 1.25em;
+}
+
+ul.page_navigation { 
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+ul.page_navigation li {
+	margin: 0;
+	padding: 0;
+	padding: 0.5em 1em 0.5em 1em;
+	border: 1px solid #e0e0e0;
+	border-bottom: 0;
+}
+
