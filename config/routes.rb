@@ -33,7 +33,11 @@ ActionController::Routing::Routes.draw do |map|
       admin.resources :pages,
         :member => {
           :approve => :post,
-          :revoke  => :post
+          :revoke  => :post,
+          :meta    => :get
+        },
+        :collection => {
+          :pending => :get
         }
     
       admin.resources :organizations, :collection => { :approved => :get, :rejected => :get, :pending_review => :get },

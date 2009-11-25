@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>untitled</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Joshua Wehner">
+	<script type="text/javascript" charset="utf-8" src='/javascripts/jquery.js'></script>
+	<script type="text/javascript" charset="utf-8" src='/javascripts/jquery-ui.js'></script>
+	
+	<style>
+	  ul, ul li { list-style: none; margin: 0; padding: 0; }
+	  ul { margin-bottom: 1em; border: 1px solid black; }
+	  ul li { border: 1px solid #e0e0e0; padding: 1em; }
+	  ul li:hover { background: #FFC; }
+	  .placeholder { background: #e0e0e0; padding: 2em; }
+	</style>
+	
+	<script>
+	$(function() {
+  		$(".sortable").sortable({connectWith: '.sortable', axis: 'y', forceHelperSize: true, placeholder: 'placeholder', cursor: 'all-scroll' });
+  		$(".sortable").disableSelection();
+  		$('.sortable li').dblclick( function() { console.log('eeew!'); } );
+  	});
+	</script>
+	
+</head>
+<body>
+
+
+<ul class='sortable'>
+  <li id='zoos_1'>monkeys</li>
+  <li id='zoos_2'>zebras</li>
+  <li id='zoos_3'>bears</li>
+  <li id='zoos_4'>tigers</li>
+</ul>
+
+<ul class='sortable'>
+  <li id='fantasy_1'>elves</li>
+  <li id='fantasy_2'>gnomes</li>
+  <li id='fantasy_3'>dwarves</li>
+  <li id='fantasy_4'>goblins</li>
+</ul>
+
+</body>
+</html>

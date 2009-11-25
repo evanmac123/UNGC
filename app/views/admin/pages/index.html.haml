@@ -1,13 +1,38 @@
 %h3 Pages
 %p
-  = image_tag 'folder_web.png', :width => 24, :style => 'vertical-align: sub'
-  = section_breadcrumbs
-          
-%p= link_to 'Create a page', new_admin_page_path(:section=>params[:section])
+  = link_to 'Rearrange', '#sort', class: 'enable-sorting'
+  = link_to 'Done', '#done', class: 'done-sorting', style: 'display:none'
 
-%table{:cellpadding=>3, :cellspacing=>0, :border=>0}
-  - pages_and_sections_for(params[:section]).each do |page_or_section|
-    - page = is_page?(page_or_section)
-    %tr
-      %td{:width => 24}= image_tag is_page?(page_or_section) ? 'document.png' : 'folder.png', :width => 24, :height => 24
-      %td= link_to_page_or_section page_or_section
+.cols3
+  .left.wrapper
+    %ul.page_navigation.sortable
+      - for section in sections
+        %li
+          = link_to_section section
+      %li.create_new_button
+        = create_new_section
+
+  .mid.wrapper
+    %ul.page_navigation.sortable
+      - for page in pages_in_current_section
+        %li
+          = link_to_page page
+      %li.create_new_button
+        = create_new_page
+      
+
+  .right.wrapper
+    - if current_page
+      %ul.page_navigation.sortable
+        - for subpage in subpages_for_current_page
+          %li
+            = link_to_subpage subpage
+        %li.create_new_button
+          = create_new_subpage
+
+.clear
+  - if current_page
+    %div{style: "border: 1px solid #CCC; padding: 0.5em 1em; margin: 1em 0;"}
+      = truncate strip_tags(current_page.content || '[No contents]'), 360
+      = link_to 'Edit Now', edit_admin_page_path(current_page)
+  

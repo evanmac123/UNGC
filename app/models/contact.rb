@@ -36,6 +36,7 @@
 require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
+  attr_accessor :password
   include Authentication
   include Authentication::ByCookieToken
 
