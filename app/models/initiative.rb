@@ -16,8 +16,6 @@ class Initiative < ActiveRecord::Base
   has_many :roles
   default_scope :order => 'name'
   
-  after_create :create_initiative_role
-  
   FILTER_TYPES = {
     :climate      => 2,
     :human_rights => 4
@@ -28,10 +26,4 @@ class Initiative < ActiveRecord::Base
       :conditions => [ "initiatives.id = ?", FILTER_TYPES[filter] ]
     }
   }
-  
-  private
-    def create_initiative_role
-      Role.create(:name          => name,
-                  :initiative_id => id)
-    end
 end
