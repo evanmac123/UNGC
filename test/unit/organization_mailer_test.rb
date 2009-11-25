@@ -15,8 +15,15 @@ class OrganizationMailerTest < ActionMailer::TestCase
     assert_equal "email@example.com", response.to.first
   end
   
-  test "approved mailer is sent" do
-    response = OrganizationMailer.deliver_approved(@organization)
+  test "non-business approved mailer is sent" do
+    response = OrganizationMailer.deliver_approved_nonbusiness(@organization)
+    assert_equal "text/html", response.content_type
+    assert_equal "Welcome to the United Nations Global Compact", response.subject
+    assert_equal "email@example.com", response.to.first
+  end
+
+  test "business approved mailer is sent" do
+    response = OrganizationMailer.deliver_approved_business(@organization)
     assert_equal "text/html", response.content_type
     assert_equal "Welcome to the United Nations Global Compact", response.subject
     assert_equal "email@example.com", response.to.first
