@@ -46,7 +46,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       end
       
       should "change the password" do
-        put :update, :id => VALID_TOKEN,
+        put :update, :id       => VALID_TOKEN,
                      :password => 'password',
                      :password_confirmation => 'password'
         assert_redirected_to login_path
@@ -56,7 +56,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       end
       
       should "not change the password with different passwords" do
-        put :update, :id => VALID_TOKEN,
+        put :update, :id       => VALID_TOKEN,
                      :password => 'password_1',
                      :password_confirmation => 'password_2'
         assert_response :success
