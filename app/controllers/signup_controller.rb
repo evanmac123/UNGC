@@ -1,5 +1,8 @@
 class SignupController < ApplicationController
   before_filter :load_objects
+  
+  BUSINESS_PARAM = 'business'
+  NONBUSINESS_PARAM = 'non_business'
 
   # shows organization form
   def step1
@@ -15,7 +18,7 @@ class SignupController < ApplicationController
       set_default_values
     end
     
-    redirect_to organization_step1_path(:org_type => 'business') unless @organization.valid?
+    redirect_to organization_step1_path(:org_type => extract_organization_type(@organization)) unless @organization.valid?
   end
   
   # POST from contact form
@@ -46,11 +49,9 @@ class SignupController < ApplicationController
   def step5
     @organization.attributes = params[:organization]
     if @organization.commitment_letter?
-      # save all records - THIS LOOKS BAD, but some of the reference to Roles was getting lost
+      # save all records
       @organization.save
-      @contact.role_ids = [Role.contact_point.id]
       @contact.save
-      @ceo.role_ids = [Role.ceo.id]
       @ceo.save
       @organization.contacts << @contact
       @organization.contacts << @ceo
@@ -72,8 +73,8 @@ class SignupController < ApplicationController
     def load_objects
       @organization = session[:signup_organization] || Organization.new
       load_organization_types
-      @contact = session[:signup_contact] || Contact.new
-      @ceo = session[:signup_ceo] || Contact.new
+      @contact = session[:signup_contact] || new_contact(Role.contact_point)
+      @ceo = session[:signup_ceo] || new_contact(Role.ceo)
     end
     
     def set_default_values
@@ -95,8 +96,14 @@ class SignupController < ApplicationController
     
     def clean_session
       session[:signup_organization] = Organization.new
-      session[:signup_contact] = Contact.new
-      session[:signup_ceo] = Contact.new
+      session[:signup_contact] = new_contact(Role.contact_point)
+      session[:signup_ceo] = new_contact(Role.ceo)
+    end
+    
+    def new_contact(role)
+      contact = Contact.new
+      contact.role_ids = [role.id] if role
+      contact
     end
     
     def deliver_notification_email(organization)
@@ -105,5 +112,9 @@ class SignupController < ApplicationController
       else
         OrganizationMailer.deliver_submission_received(organization)
       end
+    end
+    
+    def extract_organization_type(organization)
+      organization.business_entity? ? BUSINESS_PARAM : NONBUSINESS_PARAM
     end
 end
