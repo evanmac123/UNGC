@@ -19,7 +19,9 @@ class SignupControllerTest < ActionController::TestCase
     end
     
     should "get the third step page after posting contact details" do
-      post :step3, :contact => {:first_name => 'Michael', :last_name => 'Smith'}
+      post :step3, :contact => {:first_name => 'Michael',
+                                :last_name  => 'Smith',
+                                :email      => 'michael@example.com'}
       assert_response :success
       assert_template 'step3'
     end
@@ -38,10 +40,16 @@ class SignupControllerTest < ActionController::TestCase
                                                        :employees            => 500)
       session[:signup_contact] = Contact.new(:first_name => 'First',
                                              :last_name  => 'Last',
+                                             :email      => 'first@example.com',
                                              :role_ids   => [Role.contact_point.id])
+      session[:signup_ceo] = Contact.new(:first_name => 'CEO',
+                                         :last_name  => 'Last',
+                                         :role_ids   => [Role.ceo.id])
       assert_emails(1) do
         assert_difference 'Organization.count' do
-          post :step5, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+          assert_difference 'Contact.count', 2 do
+            post :step5, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+          end
         end
       end
       assert_response :success
