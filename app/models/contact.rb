@@ -55,7 +55,7 @@ class Contact < ActiveRecord::Base
 
   default_scope :order => 'contacts.first_name'
   
-  # TODO: remove plain text password at some point - attr_accessor :password
+  # TODO LATER: remove plain text password at some point - attr_accessor :password
   before_save :encrypt_password
   
   named_scope :contact_points, lambda {
@@ -113,8 +113,7 @@ class Contact < ActiveRecord::Base
   end
   
   def from_ungc?
-    # TODO add a robust condition
-    organization.name == 'UNGC'
+    organization.name == DEFAULTS[:ungc_organization_name]
   end
   
   def from_organization?
@@ -142,6 +141,10 @@ class Contact < ActiveRecord::Base
   def encrypt_password
     return if password.blank?
     self.hashed_password = Contact.encrypted_password(password)
+  end
+
+  def refresh_reset_password_token!
+    self.update_attribute :reset_password_token, Digest::SHA1.hexdigest([login, Time.now].join)
   end
 
   private
