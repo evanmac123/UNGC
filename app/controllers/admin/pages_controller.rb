@@ -1,8 +1,14 @@
 class Admin::PagesController < AdminController
-  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :revoke, :update]
+  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :revoke, :update]
   before_filter :ckeditor, :only => [:new, :create, :edit, :update]
 
   def index
+    @section = 'normal'
+  end
+
+  def pending
+    @section = 'pending'
+    render action: 'index'
   end
 
   def new
@@ -33,6 +39,10 @@ class Admin::PagesController < AdminController
   def revoke
     @page.as_user(current_user).revoke!
     redirect_to :action => 'index'
+  end
+  
+  def meta
+    
   end
   
   def edit

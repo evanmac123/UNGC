@@ -35,11 +35,15 @@ def create_new_local_network_pages(replacements)
     'VE'
   ]
   template = '/NetworksAroundTheWorld/local_network_sheet/%s.html'
+  copy_page = Page.find_by_path('/NetworksAroundTheWorld/local_network_sheet/US.html')
+  raise "ERROR: Unable to find page to copy for local network sheets".inspect unless copy_page
   new_networks.each do |code|
     title = Country.find_by_code(code).try(:name)
     page = Page.new :path => template % code,
       :title           => title,
       :content         => new_content,
+      :parent_id       => copy_page.parent_id,
+      :group_id        => copy_page.group_id,
       :dynamic_content => true
     page.save and page.approve!
   end
@@ -139,6 +143,7 @@ def archive_latest_headlines
   oh_niner.content = oh_niner.content.gsub(/<h1>Recent Headlines<\/h1>/, '<h1>News Archive 2009</h1>')
   oh_niner.position = nil
   oh_niner.display_in_navigation = false
+  oh_niner.title = 'News Archive 2009'
   oh_niner.save
   puts "  done!"
   
@@ -202,7 +207,7 @@ def rewrite_homepage
   end
   doc.at('.news_list').inner_html = rebuilt.join("\n\n")
   content = doc.to_html
-  nv = home.new_version :dynamic_content => true, :content => content
+  nv = home.new_version :title => 'Home Page', :dynamic_content => true, :content => content, :position => 0
   nv.approve!
   puts " done!"
 end
