@@ -1,0 +1,7 @@
+%li{:id => dom_id(initiative_contact)}
+  = initiative_contact.name
+  - if initiative_contact.roles.include? @initiative.roles.first
+    INITIATIVE CONTACT
+    = link_to 'remove', admin_contacts_role_path(:id => 1, :contact_id => initiative_contact.id, :role_id => @initiative.roles.first.id), :method => :delete
+  - else
+    = link_to 'add', admin_contacts_roles_path(:contact_id => initiative_contact.id, :role_id => @initiative.roles.first.id), :method => :post
