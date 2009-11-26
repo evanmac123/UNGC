@@ -51,4 +51,8 @@ class Role < ActiveRecord::Base
   def self.network_report_recipient
     find :first, :conditions => ["old_id=?", FILTERS[:network_report_recipient]]
   end
+  
+  def self.login_roles
+    [Role.contact_point, Role.network_report_recipient]
+  end
 end
