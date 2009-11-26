@@ -16,7 +16,7 @@
 %fieldset
   %legend Roles
   - for role in @roles
-    = check_box_tag "contact[role_ids][]", role.id, @contact.roles.include?(role), { :id => "contact_role_ids_" + role.id.to_s }
+    = check_box_tag "contact[role_ids][]", role.id, @contact.roles.include?(role), { :id => "contact_role_ids_" + role.id.to_s, :class => login_fieldset_class(role) }
     = label_tag "contact_role_ids_" + role.id.to_s, role.name
     %br/
 

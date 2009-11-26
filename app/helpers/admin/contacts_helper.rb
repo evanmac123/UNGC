@@ -7,4 +7,8 @@ module Admin::ContactsHelper
       'display: none'
     end
   end
+  
+  def login_fieldset_class(role)
+    "role_for_login_fields" if [Role.contact_point, Role.network_report_recipient].include? role
+  end
 end
