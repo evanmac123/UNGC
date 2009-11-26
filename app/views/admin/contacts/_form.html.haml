@@ -20,7 +20,7 @@
     = label_tag "contact_role_ids_" + role.id.to_s, role.name
     %br/
 
-%fieldset
+%fieldset#login_information{:style => login_fieldset_style(@contact)}
   %legend Account
   = form.text_field :login
   = form.text_field :password
