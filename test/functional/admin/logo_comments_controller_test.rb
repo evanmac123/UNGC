@@ -27,6 +27,6 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
                     :commit          => LogoRequest::EVENT_REPLY
     end
 
-    assert_redirected_to admin_organization_logo_request_path(assigns(:logo_request).organization, assigns(:logo_request))
+    assert_redirected_to admin_organization_logo_request_path(assigns(:logo_request).organization_id, assigns(:logo_request))
   end
 end

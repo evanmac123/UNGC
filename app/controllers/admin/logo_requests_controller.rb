@@ -37,7 +37,7 @@ class Admin::LogoRequestsController < AdminController
   def agree
     @logo_request.accept
     flash[:notice] = 'You accepted the terms and conditions, and can download the logo for the next 7 days'
-    redirect_to admin_organization_logo_request_path(@organization, @logo_request)
+    redirect_to admin_organization_logo_request_path(@organization.id, @logo_request)
   end
   
   def download
@@ -47,7 +47,7 @@ class Admin::LogoRequestsController < AdminController
       send_file :file => logo_file.zip.path, :type => 'application/x-zip-compressed'
     else
       flash[:error] = "You only had 7 days to download the file."
-      redirect_to admin_organization_logo_request_path(@organization, @logo_request)
+      redirect_to admin_organization_logo_request_path(@organization.id, @logo_request)
     end
   end
   
