@@ -3,7 +3,7 @@ class Admin::PasswordsController < ApplicationController
   helper 'Admin'
   
   def create
-    @contact = Contact.find_by_email params[:email]
+    @contact = Contact.with_login.find_by_email params[:email]
     if @contact
       @contact.refresh_reset_password_token!
       ContactMailer.deliver_reset_password(@contact)
