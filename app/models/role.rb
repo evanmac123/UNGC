@@ -16,9 +16,10 @@ class Role < ActiveRecord::Base
   default_scope :order => :name
   
   FILTERS = {
-    :ceo             => 3,
-    :contact_point   => 4,
-    :general_contact => 9
+    :ceo                      => 3,
+    :contact_point            => 4,
+    :general_contact          => 9,
+    :network_report_recipient => 13
   }
   
   named_scope :visible_to, lambda { |user|
@@ -45,5 +46,9 @@ class Role < ActiveRecord::Base
   
   def self.general_contact
     find :first, :conditions => ["old_id=?", FILTERS[:general_contact]]
+  end
+  
+  def self.network_report_recipient
+    find :first, :conditions => ["old_id=?", FILTERS[:network_report_recipient]]
   end
 end
