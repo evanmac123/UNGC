@@ -36,9 +36,7 @@ class ContactsMailMerge < SimpleReport
       JOIN sectors s ON o.sector_id = s.id
       LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = c.id
       RIGHT OUTER JOIN roles r ON r.id = contacts_roles.role_id
-      WHERE
-      o.participant = 1 AND
-      o.cop_state IN ('active','noncommunicating') AND
+      WHERE o.cop_state IN ('active','noncommunicating') AND
       t.name NOT IN ('Media Organization', 'GC Networks', 'Micro Entreprise', 'Mailing List') AND
       contacts_roles.role_id IN (2,3)
       ORDER by o.id",
