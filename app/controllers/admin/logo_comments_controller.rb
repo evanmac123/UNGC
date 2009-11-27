@@ -12,7 +12,7 @@ class Admin::LogoCommentsController < AdminController
 
     if @logo_comment.save
       flash[:notice] = 'Logo comment was successfully created.'
-      redirect_to admin_organization_logo_request_path(@logo_request.organization, @logo_request)
+      redirect_to admin_organization_logo_request_path(@logo_request.organization_id, @logo_request)
     else
       render :action => "new"
     end

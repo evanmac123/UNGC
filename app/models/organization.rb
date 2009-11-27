@@ -280,6 +280,8 @@ class Organization < ActiveRecord::Base
     end
   
     def check_micro_enterprise_or_sme
+      # we don't make assumptions if there is no employees information
+      return if self.employees.nil?
       if self.business_entity?
         if self.employees < 10
           self.organization_type_id = OrganizationType.micro_enterprise.id

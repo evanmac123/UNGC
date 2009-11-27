@@ -61,7 +61,7 @@ class Contact < ActiveRecord::Base
   named_scope :contact_points, lambda {
     contact_point_id = Role.contact_point.try(:id)
     {
-      :joins      => :roles,
+      :include    => :roles,
       :conditions => ["contacts_roles.role_id = ?", contact_point_id]
     }
   }
@@ -69,7 +69,7 @@ class Contact < ActiveRecord::Base
   named_scope :ceos, lambda {
     ceo_id = Role.ceo.try(:id)
     {
-      :joins      => :roles,
+      :include    => :roles,
       :conditions => ["contacts_roles.role_id = ?", ceo_id]
     }
   }
@@ -77,15 +77,17 @@ class Contact < ActiveRecord::Base
   named_scope :network_contacts, lambda {
     roles = Role.network_contact
     {
-      :joins => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
       :conditions => ["contacts_roles.role_id IN (?)", roles],
-      :order => "roles.name DESC"
+      :order      => "roles.name DESC"
     }
   }
   
   named_scope :for_country, lambda { |country|
     {:conditions => {:country_id => country.id} }
   }
+  
+  named_scope :with_login, {:conditions => 'login IS NOT NULL'}
 
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point

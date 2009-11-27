@@ -24,3 +24,12 @@ replace_ids = function(s){
   var new_id = new Date().getTime();
   return s.replace(/NEW_RECORD/g, new_id);
 }
+
+// contact form
+$('.role_for_login_fields').change(function() {
+  if ($(".role_for_login_fields:checked").length > 0) {
+	$('#login_information').show();
+  } else {
+	$('#login_information').hide();
+  }
+})
