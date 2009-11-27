@@ -21,7 +21,6 @@ class SimpleReport
         csv << row(r)
       end
     end
-    return header + rows.join("\n")
   end
   
 end
