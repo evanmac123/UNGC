@@ -3,10 +3,12 @@ class Admin::ContactsController < AdminController
 
   def new
     @contact = @organization.contacts.new(:country_id => @organization.country_id)
+    @roles = Role.visible_to(@contact)
   end
 
   def create
     @contact = @organization.contacts.new(params[:contact])
+    @roles = Role.visible_to(@contact)
 
     if @contact.save
       flash[:notice] = 'Contact was successfully created.'
@@ -37,7 +39,9 @@ class Admin::ContactsController < AdminController
   private
     def load_organization
       @organization = Organization.visible_to(current_user).find params[:organization_id]
-      @contact = @organization.contacts.find params[:id] if params[:id]
-      @roles = Role.visible_to(current_user)
+      if params[:id]
+        @contact = @organization.contacts.find params[:id]
+        @roles = Role.visible_to(@contact)
+      end
     end
 end
