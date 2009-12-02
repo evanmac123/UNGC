@@ -27,6 +27,8 @@ class Role < ActiveRecord::Base
       roles_ids = [Role.ceo, Role.contact_point, Role.general_contact].collect(&:id)
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
+    elsif user.user_type == Contact::TYPE_NETWORK
+      { :conditions => ['name like ?', "%Network%"] }
     else
       {}
     end
@@ -53,6 +55,6 @@ class Role < ActiveRecord::Base
   end
   
   def self.login_roles
-    [Role.contact_point, Role.network_report_recipient]
+    [Role.contact_point, Role.network_report_recipient, Role.general_contact]
   end
 end

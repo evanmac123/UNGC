@@ -34,7 +34,7 @@ Data Migration
 We created two classes in the lib/ folder - Importer and HabtmImporter - that populate the database in our format from UNGC data - uses the .CSV files located in lib/un7_tables by default.
 
 If you want to import from a more recent set of files, open Enterprise Manager in demo.unglobalcompact.org, and run the "Unicode Export" DTS in UNGC2. Then, copy the export files - Desktop/unicode export - to the lib/un7_tables folder in your project folder. After copying the new files TXT files, run the following command to properly convert them to UTF-8 encoded .CSV files:
-./script/convert_to_utf8 lib/un7_tables/*.txt
+> ./script/convert_to_utf8 lib/un7_tables/*.txt
 
 To import the data from the .CSV files, go to a console and run:
 >> Importer.new.run

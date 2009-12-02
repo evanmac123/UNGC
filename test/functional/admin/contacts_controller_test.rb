@@ -4,11 +4,8 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   def setup
     create_organization_type
     create_roles
-    @organization = create_organization
-    @contact = create_contact(:organization_id => @organization.id,
-                              :email           => "dude@example.com")
-
-    login_as(@contact)
+    create_organization_and_user
+    login_as(@organization_user)
   end
   
   test "should get new" do
@@ -30,14 +27,15 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   
   test "should get edit" do
     get :edit, :organization_id => @organization.id,
-               :id => @contact.to_param
+               :id => @organization_user.to_param
     assert_response :success
   end
   
   test "should update contact" do
     put :update, :organization_id => @organization.id,
-                 :id => @contact.to_param, :contact => { :login    => 'aaa',
-                                                         :password => "password" }
+                 :id              => @organization_user.to_param,
+                 :contact         => { :login    => 'aaa',
+                                       :password => "password" }
     assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 

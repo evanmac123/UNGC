@@ -1,10 +1,8 @@
-Dashboard for Local Network
-
 %h3 Contacts
-= link_to 'new', new_admin_organization_contact_path(current_user.organization)
+= link_to 'new', new_admin_organization_contact_path(current_user.organization.id)
 %ul
-  = render :partial => current_user.organization.contacts
+  = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
 
 %h3 Organizations in local network
 %ul
-  = render :partial => @organizations
+  = render :partial => 'admin/organizations/organization', :collection => @organizations
