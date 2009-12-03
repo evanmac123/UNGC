@@ -61,6 +61,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_and_belongs_to_many :countries
   has_and_belongs_to_many :principles
   has_many :cop_answers, :foreign_key => :cop_id
+  has_many :cop_attributes, :through => :cop_answers
   has_many :cop_files, :foreign_key => :cop_id
   has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
