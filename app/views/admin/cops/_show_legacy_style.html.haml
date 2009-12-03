@@ -6,4 +6,4 @@
   TODO
 %p
   %b Web links
-  = [@communication_on_progress.url1, @communication_on_progress.url1, @communication_on_progress.url1].compact.collect{|url| link_to(url, url)}.join(' ')
+  = [@communication_on_progress.url1, @communication_on_progress.url1, @communication_on_progress.url1].compact.uniq.collect{|url| link_to(url, url)}.join(' ')
