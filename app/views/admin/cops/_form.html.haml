@@ -1,6 +1,14 @@
 = form.error_messages
 = form.text_field :title
 
+%p
+  Period from
+  = form.select :start_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
+  = form.select :start_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
+  to
+  = form.select :end_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
+  = form.select :end_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
+
 = render :partial => 'cop_files_form'
 = render :partial => 'cop_links_form'
 
