@@ -27,3 +27,6 @@
       = javascript_include_tag 'jquery', 'jquery-ui', 'application', 'dashboard'
       - (@javascript || []).each do |file|
         = javascript_include_tag file
+      - postscript = yield :postscript
+      - if postscript
+        = postscript
