@@ -3,11 +3,11 @@ ActionController::Routing::Routes.draw do |map|
     map.root :controller => 'pages', :action => 'view', :path => ['index.html']
   
   # Session routes
+    map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+    map.login '/login', :controller => 'sessions', :action => 'new'
     map.resource :session
     map.resource :password, :controller => 'admin/passwords'
     map.no_session 'no_session', :controller => 'signup', :action => 'no_session'
-    map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-    map.login '/login', :controller => 'sessions', :action => 'new'
   
   # Back-end routes
     map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
@@ -20,7 +20,9 @@ ActionController::Routing::Routes.draw do |map|
       m.find_page_by 'admin/pages/find', :action => 'find_by_path_and_redirect_to_latest'
     end
 
+    map.admin '/admin', :controller => 'admin', :action => 'dashboard'
     map.namespace :admin do |admin|
+      
       admin.resources :events, :member => { 
         :approve => :post, 
         :revoke => :post 
