@@ -1,7 +1,10 @@
-%li
-  = logo_request.purpose
-  ==[#{logo_request.state.humanize}]
-  
-  = link_to 'show', admin_organization_logo_request_path(logo_request.organization.id, logo_request)
-  - staff_only do
-    = link_to 'delete', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :confirm => 'Are you sure?', :method => :delete
+%tr
+  %td= logo_request.updated_at
+  %td= logo_request.purpose
+  %td= logo_request.state.humanize
+  %td.age= (Date.today - logo_request.updated_at.to_date).to_i
+  %td
+    %ul.actions
+      %li= link_to 'View Details', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :title => "View/Edit details", :class => "edit"
+      - staff_only do
+        %li= link_to 'Delete', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :confirm => 'Are you sure?', :method => :delete, :title => "Delete entry", :class => 'delete'

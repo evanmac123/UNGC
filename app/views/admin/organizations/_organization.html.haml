@@ -1,7 +1,10 @@
-%li
-  = organization.name
-  ==[#{organization.state.humanize}]
-  
-  = link_to 'show', admin_organization_path(organization.id)
-  - staff_only do
-    = link_to 'delete', admin_organization_path(organization.id), :confirm => 'Are you sure?', :method => :delete
+%tr
+  %td= organization.updated_at
+  %td= organization.name
+  %td= organization.state.humanize
+  %td.age= (Date.today - organization.updated_at.to_date).to_i
+  %td
+    %ul.actions
+      %li= link_to 'View details', admin_organization_path(organization.id), :class => 'edit', :title => 'View/Edit details'
+      - staff_only do
+        %li= link_to 'Delete', admin_organization_path(organization.id), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'

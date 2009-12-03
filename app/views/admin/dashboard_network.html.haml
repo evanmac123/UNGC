@@ -1,8 +1,16 @@
+%h1#page_header UNGC Admin
+
 %h3 Contacts
 = link_to 'new', new_admin_organization_contact_path(current_user.organization.id)
 %ul
   = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
 
-%h3 Organizations in local network
-%ul
+%h2 Organizations
+%table.dashboard_table#organizations_dashboard_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Organization name
+    %th.status Status
+    %th.age Days since last update
+    %th.actions Actions
   = render :partial => 'admin/organizations/organization', :collection => @organizations
