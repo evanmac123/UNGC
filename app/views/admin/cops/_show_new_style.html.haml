@@ -25,8 +25,6 @@
       %li Statement of continued support explains why company sees value in participating in the UN Global Compact
     - if @communication_on_progress.support_statement_mentions_engagements?
       %li Statement of continued support mentions specific types of engagement with the UN Global Compact, such as active participation in a local network, issue working group, Caring for Climate, or the CEO Water Mandate
-    - if @communication_on_progress.notable_program
-      %li Organization requests inclusion in the Notable COP program
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
   %p

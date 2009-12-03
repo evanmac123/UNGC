@@ -1,14 +1,23 @@
 = action_links(@communication_on_progress)
 
 %p
+  %b Organization:
+  = @communication_on_progress.organization.name
+%p
   %b Title:
-  =h @communication_on_progress.title
+  = @communication_on_progress.title
+%p
+  %b Time period:
+  == #{@communication_on_progress.start_month}/#{@communication_on_progress.start_year} to #{@communication_on_progress.end_month}/#{@communication_on_progress.end_year}
 %p
   %b Principles:
   = @communication_on_progress.principles.collect(&:name).join(', ')
 %p
   %b Languages:
   = @communication_on_progress.languages.collect(&:name).join(', ')
+
+- if @communication_on_progress.notable_program
+  %p The organization would like this Communication on Progress to be considered for the Notable COP Program.
 
 - if @communication_on_progress.cop_answers.any?
   = render :partial => 'show_new_style'
