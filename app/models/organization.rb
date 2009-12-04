@@ -78,7 +78,7 @@ class Organization < ActiveRecord::Base
     has cop_state, :facet => true
     has joined_on, :facet => true
     has delisted_on, :facet => true
-    where 'organizations.state = "approved"'
+    where 'organizations.state = "approved"' #FIXME: Exclude everything except participants, possibly exclude delisted?
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
   end
   

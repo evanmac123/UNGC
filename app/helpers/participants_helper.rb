@@ -4,9 +4,7 @@ module ParticipantsHelper
   end
 
   def iconize(org)
-    if org.inactive?
-      'alert_icon'
-    elsif org.noncommunicating?
+    if org.noncommunicating?
       'inactive_icon'
     else
       'no_icon'
@@ -32,11 +30,11 @@ module ParticipantsHelper
         response << " matching #{organization_type.try(:name).try(:downcase) || ''} non-businesses only "
       end
       case @searched_for[:cop_status]
-      when Organization::COP_STATUSES[:active]
+      when Organization::COP_STATES[:active]
         response << " with active status "
-      when Organization::COP_STATUSES[:inactive]
+      when Organization::COP_STATES[:inactive]
         response << ' with inactive status '
-      when Organization::COP_STATUSES[:noncommunicating]
+      when Organization::COP_STATES[:noncommunicating]
         response << ' with non-communicating status '
       end
     end
