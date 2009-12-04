@@ -1,9 +1,12 @@
-%li
-  = case_story.title
-  ==[#{case_story.state.humanize}]
-  
-  = link_to 'show', admin_organization_case_story_path(case_story.organization.id, case_story)
-  - organization_only do
-    = link_to 'edit', edit_admin_organization_case_story_path(case_story.organization.id, case_story)
-  - staff_only do
-    = link_to 'delete', admin_organization_case_story_path(case_story.organization.id, case_story), :confirm => 'Are you sure?', :method => :delete
+%tr
+  %td= case_story.updated_at
+  %td= case_story.title
+  %td= case_story.state.humanize
+  %td.age= (Date.today - case_story.updated_at.to_date).to_i
+  %td
+    %ul.actions
+      %li= link_to 'View Details', admin_organization_case_story_path(case_story.organization.id, case_story), :title => "View/Edit details", :class => "edit"
+      - organization_only do
+        %li= link_to 'View Details', edit_admin_organization_case_story_path(case_story.organization.id, case_story), :title => "View/Edit details", :class => "edit"
+      - staff_only do
+        %li= link_to 'Delete', admin_organization_case_story_path(case_story.organization.id, case_story), :confirm => 'Are you sure?', :method => :delete, :title => "Delete entry", :class => 'delete'

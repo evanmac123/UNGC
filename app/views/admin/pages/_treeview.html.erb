@@ -1,0 +1,31 @@
+<%# workaround for two tree view plugin issues %>
+<script type="text/javascript" charset="utf-8" src='/javascripts/jquery.tree.min.js'></script>
+<% if true %>
+<script>
+function showPage (argument) {
+  $('#loading').hide();
+}
+
+$(function () { 
+	$("#tree").tree({
+	  ui: {
+	    dots: false,
+	    theme_name: 'apple'
+	  },
+	  callback: {
+	    onselect: function(node, tree) {
+	      $('#loading').show();
+	      var url = $(node).children('a').attr('href') + '.js';
+	      jQuery.ajax({
+		    	type: 'get',
+		    	url: url,
+		    	dataType: 'script',
+		    	success: showPage,
+		    	
+				});
+	    }
+	  }
+	});
+});
+</script>
+<% end %>

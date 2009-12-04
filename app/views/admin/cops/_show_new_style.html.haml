@@ -1,0 +1,36 @@
+%p
+  %b Files
+  %ul
+    - for cop_file in @communication_on_progress.cop_files
+      %li= link_to cop_file.name, cop_file.attachment.url
+
+%p
+  %b Links
+  %ul
+    - for cop_link in @communication_on_progress.cop_links
+      %li= link_to cop_link.name, cop_link.url
+
+%p
+  %b Details
+  %ul
+    - if @communication_on_progress.include_continued_support_statement?
+      %li COP includes an explicit statement of continued support or the UN Global Compact and its ten principles
+    %li= CommunicationOnProgress::FORMAT[@communication_on_progress.format.try(:to_sym)]
+    %li== COP makes explicit reference to existing policies and/or activities related to
+    %li== COP measures outcomes, use performance indicators, or describe expected outcomes in
+    
+    - if @communication_on_progress.support_statement_signed?
+      %li Statement of continued support for the UN Global Compact is signed by the company’s top executive
+    - if @communication_on_progress.support_statement_lists_reason?
+      %li Statement of continued support explains why company sees value in participating in the UN Global Compact
+    - if @communication_on_progress.support_statement_mentions_engagements?
+      %li Statement of continued support mentions specific types of engagement with the UN Global Compact, such as active participation in a local network, issue working group, Caring for Climate, or the CEO Water Mandate
+
+- PrincipleArea::FILTERS.each_pair do |key, value|
+  %p
+    %b= value
+    %ul= show_cop_attributes(@communication_on_progress, PrincipleArea.send(key).id, @communication_on_progress.send("references_#{key}?"))
+
+%p
+  %b Final questions
+  %ul= show_cop_attributes(@communication_on_progress, nil)

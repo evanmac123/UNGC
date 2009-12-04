@@ -8,13 +8,19 @@ class AdminController < ApplicationController
   
   def dashboard
     if current_user.from_ungc?
-      @pending_organizations = Organization.pending_review.all(:limit => 10)
-      @in_review_organizations = Organization.in_review.all(:limit => 10)
-      @pending_logo_requests = LogoRequest.pending_review.all(:limit => 10)
-      @unreplied_logo_requests = LogoRequest.unreplied.all(:limit => 10)
-      @pending_case_stories = CaseStory.pending_review.all(:limit => 10)
-      @pending_cops = CommunicationOnProgress.pending_review.all(:limit => 10)
-      @unreplied_cops = CommunicationOnProgress.unreplied.all(:limit => 10)
+      pending_states = [Organization::STATE_PENDING_REVIEW, Organization::STATE_IN_REVIEW]
+      @pending_organizations = Organization.all(:conditions => ['state in (?)', pending_states],
+                                                :limit      => 10,
+                                                :order      => 'updated_at DESC')
+      @pending_logo_requests = LogoRequest.all(:conditions => ['state in (?)', pending_states],
+                                               :limit      => 10,
+                                               :order      => 'updated_at DESC')
+      @pending_case_stories = CaseStory.all(:conditions => ['state in (?)', pending_states],
+                                            :limit      => 10,
+                                            :order      => 'updated_at DESC')
+      @pending_cops = CommunicationOnProgress.all(:conditions => ['state in (?)', pending_states],
+                                                  :limit      => 10,
+                                                  :order      => 'updated_at DESC')
     elsif current_user.from_network?
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?

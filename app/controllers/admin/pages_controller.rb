@@ -1,14 +1,19 @@
 class Admin::PagesController < AdminController
-  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :revoke, :update]
+  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:new, :create, :edit, :update]
 
   def index
-    @section = 'normal'
   end
 
   def pending
     @section = 'pending'
     render action: 'index'
+  end
+
+  def show
+    respond_to do |wants|
+      wants.js { render(:update) { |page| page['#replaceMe'].html(render :partial => 'page') } }
+    end
   end
 
   def new

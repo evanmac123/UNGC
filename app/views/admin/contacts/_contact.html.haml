@@ -1,7 +1,10 @@
-%li
-  = contact.name
-  
-  = link_to 'edit', edit_admin_organization_contact_path(contact.organization.id, contact)
-  - unless contact == current_user
-    = link_to 'delete', admin_organization_contact_path(contact.organization.id, contact), :confirm => 'Are you sure?', :method => :delete
-  
+%tr
+  %td= contact.updated_at
+  %td= contact.name
+  %td= contact.email
+  %td.age= (Date.today - contact.updated_at.to_date).to_i
+  %td
+    %ul.actions
+      %li= link_to 'View details', edit_admin_organization_contact_path(contact.organization.id, contact), :class => 'edit', :title => 'View/Edit details'
+      - unless contact == current_user
+        %li= link_to 'Delete', admin_organization_contact_path(contact.organization.id, contact), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'

@@ -1,0 +1,9 @@
+%p
+  %b Contact Information
+  = [@communication_on_progress.contact_name, @communication_on_progress.job_title, @communication_on_progress.email].compact.join(', ')
+%p
+  %b COP file
+  TODO
+%p
+  %b Web links
+  = [@communication_on_progress.url1, @communication_on_progress.url1, @communication_on_progress.url1].compact.uniq.collect{|url| link_to(url, url)}.join(' ')

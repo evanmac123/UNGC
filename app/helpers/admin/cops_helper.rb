@@ -77,4 +77,31 @@ module Admin::CopsHelper
     end
     content_tag :p, question.text + html
   end
+  
+  # Used to display cop answers on the cop show page
+  def show_cop_attributes(cop, principle, selected=false)
+    if principle.nil?
+      conditions = 'cop_questions.principle_area_id IS NULL'
+    else
+      conditions = ['cop_questions.principle_area_id=? and area_selected=?', principle, selected]
+    end
+    attributes = cop.cop_attributes.all(:conditions => conditions,
+                                        :include    => :cop_question)
+    questions = CopQuestion.find attributes.collect(&:cop_question_id)
+    # we now have all questions, attributes and answers
+    questions.collect do |question|
+      answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id],
+                                    :include    => :cop_attribute)
+      output = question.text
+      if question.cop_attributes.count > 1
+        output << answers.map{|a|
+          content_tag(:span, a.cop_attribute.text, :style => (a.value? ? "" : "text-decoration: line-through;"))
+        }.join(". ")
+      else
+        output << answers.first.value.to_s
+      end
+
+      content_tag :li, output
+    end.join
+  end
 end

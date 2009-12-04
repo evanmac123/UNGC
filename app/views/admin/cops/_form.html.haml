@@ -1,6 +1,14 @@
 = form.error_messages
 = form.text_field :title
 
+%p
+  Period from
+  = form.select :start_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
+  = form.select :start_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
+  to
+  = form.select :end_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
+  = form.select :end_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
+
 = render :partial => 'cop_files_form'
 = render :partial => 'cop_links_form'
 
@@ -55,13 +63,10 @@
   = form.check_box :measures_anti_corruption_outcomes
   = form.label :measures_anti_corruption_outcomes, 'Anti-Corruption'
 
-%p
-  Please select the file or URL (link to website) that contains the statement of continued support for the UN Global Compact and its ten principles. TBD
-
 %p 
   Is the statement of continued support for the UN Global Compact signed by the company’s top executive?
   = true_or_false_field(form, :support_statement_signed)
-  
+
 %p
   Does the statement of continued support explain why your company sees value in participating in the UN Global Compact?
   = true_or_false_field(form, :support_statement_lists_reason)
@@ -74,10 +79,8 @@
   %fieldset
     %legend= value
     %div{:id => "#{key}_not_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "none" : "block"}"}
-      %h4== #{value} NOT Addressed
       = cop_questions_for @communication_on_progress, key, false
     %div{:id => "#{key}_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "block" : "none"}"}
-      %h4== #{value} Addressed
       = cop_questions_for @communication_on_progress, key, true
 
 %fieldset

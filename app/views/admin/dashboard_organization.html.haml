@@ -1,6 +1,12 @@
-%h3 Contacts
-= link_to 'new', new_admin_organization_contact_path(current_user.organization.id)
-%ul
+= link_to 'new contact', new_admin_organization_contact_path(current_user.organization.id)
+%h2 Contacts
+%table.dashboard_table#contacts_dashboard_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.status Email
+    %th.age Days since last update
+    %th.actions Actions
   = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
 
 - if @organization.pending_review? or @organization.in_review?
@@ -10,20 +16,35 @@
     = render :partial => 'admin/comments/comment', :collection => @organization.comments
 
 - else
-  %h3 Logo requests
-  = link_to 'new', new_admin_organization_logo_request_path(current_user.organization.id)
-  - if current_user.organization.logo_requests.any?
-    %ul
-      = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
+  = link_to 'new logo request', new_admin_organization_logo_request_path(current_user.organization.id)
+  %h2 Logo requests
+  %table.dashboard_table#logos_dashboard_table
+    %tr
+      %th.last_updated Last updated on
+      %th.title Purpose
+      %th.status Status
+      %th.age Days since last update
+      %th.actions Actions
+    = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
 
-  %h3 Case Stories
-  = link_to 'new', new_admin_organization_case_story_path(current_user.organization.id)
-  - if current_user.organization.case_stories.any?
-    %ul
-      = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories
+  = link_to 'new case story', new_admin_organization_case_story_path(current_user.organization.id)
+  %h2 Case Stories
+  %table.dashboard_table#case_stories_dashboard_table
+    %tr
+      %th.last_updated Last updated on
+      %th.title Title
+      %th.status Status
+      %th.age Days since last update
+      %th.actions Actions
+    = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories
 
-  %h3 COPs
-  = link_to 'new', new_admin_organization_communication_on_progress_path(current_user.organization.id)
-  - if current_user.organization.communication_on_progresses.any?
-    %ul
-      = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses
+  = link_to 'new COP', new_admin_organization_communication_on_progress_path(current_user.organization.id)
+  %h2 COPs
+  %table.dashboard_table#cops_dashboard_table
+    %tr
+      %th.last_updated Last updated on
+      %th.title Title
+      %th.status Status
+      %th.age Days since last update
+      %th.actions Actions
+    = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses

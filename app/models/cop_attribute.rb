@@ -13,6 +13,7 @@
 class CopAttribute < ActiveRecord::Base
   validates_presence_of :cop_question_id
   belongs_to :cop_question
+  has_many :cop_answers
   
-  default_scope :order => 'position'  
+  default_scope :order => 'cop_attributes.position'
 end

@@ -132,32 +132,9 @@ $('a.delete').live('click', function(event) {
 
 });
 
-function enableSorting(e) {
-	e.preventDefault();
-	console.log("Enabling...");
-	$('.create_new_button').hide();
-	$(".sortable").sortable({cancel: '.button', connectWith: '.sortable', forceHelperSize: true, placeholder: 'placeholder', cursor: 'all-scroll' }); // , axis: 'y' ?
-	$(".sortable").disableSelection();
-	$('.done-sorting').show();
-	$('.enable-sorting').hide();
-	console.log("Enabled!");
-}
-
-function disableSorting(e) {
-	e.preventDefault();
-	$('.create_new_button').show();
-	$('.sortable').sortable('destroy');
-	$('.sortable').enableSelection();
-	$('.done-sorting').hide();
-	$('.enable-sorting').show();
-}
-
 $(function() {
 	$('a.link_to_post').live('click', makePostLink );
 	$('a.link_to_destroy').live( 'click', makeDestroyLink );
-	
-	$('a.enable-sorting').live('click', enableSorting);
-	$('a.done-sorting').live('click', disableSorting)
 	
 	if ($('form textarea#page_content').size() > 0) {
 		startEditor('page_content');
