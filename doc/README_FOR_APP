@@ -102,6 +102,7 @@ contacts.ceo - roles replace the use of this field
 contacts.contact_point - roles replace the use of this field
 contacts.newsletter - legacy column was never used
 contacts.advisory_council - legacy column was never used
+country.manager_id - used in transition, not used anymore
 
 pages.top_level - only used by importer
 
