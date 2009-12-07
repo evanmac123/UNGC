@@ -86,6 +86,11 @@ class CommunicationOnProgress < ActiveRecord::Base
             :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
             :web_based         => "COP is entirely web based ",
             :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for extension of COP deadline"}
+
+  SIGNEES = {:ceo       => "Chief Executive Officer (CEO)",
+             :board     => "Chairperson or member of Board of Directors",
+             :executive => "Other senior executive",
+             :none      => "None of the above"}
   
   def self.find_by_param(param)
     return nil if param.blank?

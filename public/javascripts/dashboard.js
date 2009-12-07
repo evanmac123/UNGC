@@ -46,6 +46,7 @@ $("input[name='communication_on_progress[format]']").change(function() {
   }
 })
 
+// A statement of continued support is required
 $("input[name='communication_on_progress[include_continued_support_statement]']").change(function() {
   if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
 	$("#explicit_statement_of_support_fields").show();
@@ -53,5 +54,16 @@ $("input[name='communication_on_progress[include_continued_support_statement]']"
   } else {
 	$("#explicit_statement_of_support_fields").hide();
 	$("#reject_cop").show();
+  }
+})
+
+// Reject if COP is not signed by a executive
+$("input[name='communication_on_progress[support_statement_signee]']").change(function() {
+  if ($("#communication_on_progress_support_statement_signee_none").is(':checked')) {
+	$("#signed_by_executive_fields").hide();
+	$("#reject_cop").show();
+  } else {
+	$("#signed_by_executive_fields").show();
+	$("#reject_cop").hide();
   }
 })
