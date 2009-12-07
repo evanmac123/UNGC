@@ -49,7 +49,7 @@ $("input[name='communication_on_progress[format]']").change(function() {
 	$("#cop_files").hide();
   } else {
 	$("#grace_letter_fields").hide();
-	$("#non_grace_letter_fields").show();  
+	$("#non_grace_letter_fields").show();
     if ($("#communication_on_progress_format_web_based").is(':checked')) {
 	  $("#cop_links").show();
 	  $("#cop_files").hide();
@@ -113,5 +113,14 @@ $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change
 	$("#reject_cop").hide();
   } else {
 	$("#reject_cop").show();
+  }
+})
+
+// Additional questions
+$("input[name='communication_on_progress[additional_questions]']").change(function() {
+  if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
+	$("#additional_questions").show();
+  } else {
+	$("#additional_questions").hide();
   }
 })
