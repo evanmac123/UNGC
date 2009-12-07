@@ -1,3 +1,6 @@
+- if @initiative.roles.empty?
+  %p.error Please, create a role for this initiative to manage contacts.
+
 %p
   %b Name:
   =h @initiative.name
