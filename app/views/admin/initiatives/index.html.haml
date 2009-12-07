@@ -1,6 +1,10 @@
-%h3 Initiatives
-
-%ul
-  = render @initiatives
-          
 = link_to 'Add an initiative', new_admin_initiative_path
+
+%h2 Initiatives
+%table.dashboard_table#initiatives_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.status Signatories
+    %th.actions Actions
+  = render @initiatives
