@@ -124,3 +124,9 @@ $("input[name='communication_on_progress[additional_questions]']").change(functi
 	$("#additional_questions").hide();
   }
 })
+
+// COP score
+$("input[class='score']").change(function() {
+  score = $("input[class='score'][value='true']:checked").length;
+  alert(score);
+})

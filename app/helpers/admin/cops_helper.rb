@@ -11,10 +11,10 @@ module Admin::CopsHelper
   
   def true_or_false_field(form, field, options={})
     html = tag(:br)
-    html << form.radio_button(field, 'true')
+    html << form.radio_button(field, 'true', :class => options[:class])
     html << form.label(field, (options[:yes] || 'Yes'), :value => 'true')
     html << tag(:br)
-    html << form.radio_button(field, 'false')
+    html << form.radio_button(field, 'false', :class => options[:class])
     html << form.label(field, (options[:no] || 'No'), :value => 'false')
     return html
   end
