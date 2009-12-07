@@ -35,6 +35,7 @@ $('.role_for_login_fields').change(function() {
 })
 
 // COP form
+// Format - grace letters only require a upload
 $("input[name='communication_on_progress[format]']").change(function() {
   if ($("#communication_on_progress_format_grace_letter").is(':checked')) {
 	$("#grace_letter_fields").show();
@@ -42,5 +43,15 @@ $("input[name='communication_on_progress[format]']").change(function() {
   } else {
 	$("#grace_letter_fields").hide();
 	$("#non_grace_letter_fields").show();
+  }
+})
+
+$("input[name='communication_on_progress[include_continued_support_statement]']").change(function() {
+  if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
+	$("#explicit_statement_of_support_fields").show();
+	$("#reject_cop").hide();
+  } else {
+	$("#explicit_statement_of_support_fields").hide();
+	$("#reject_cop").show();
   }
 })

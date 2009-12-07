@@ -14,88 +14,93 @@
     Please upload your "Grace Letter"
     = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Grace Letter'), :record => 100}
 
-#non_grace_letter_fields{:style => 'display: block'}
+#non_grace_letter_fields{:style => 'display: none'}
   %p
     Does your COP include an explicit statement of continued support for the Global Compact and its principles?
     = true_or_false_field(form, :include_continued_support_statement)
 
-  = form.text_field :title
+  #explicit_statement_of_support_fields
 
-  %p
-    Period from
-    = form.select :start_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
-    = form.select :start_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
-    to
-    = form.select :end_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
-    = form.select :end_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
+    %p
+      Is the statement of continued support for the UN Global Compact signed by the company’s top executive?
+      = true_or_false_field(form, :support_statement_signed)
 
-  = render :partial => 'cop_files_form'
-  = render :partial => 'cop_links_form'
+    = form.text_field :title
 
-  %p
-    = form.label :priciple_ids, 'Principles'
-    %br/
-    = collection_select :communication_on_progress, :principle_ids, PrincipleArea.all, :id, :name, {}, :multiple => true, :name => 'communication_on_progress[principle_ids][]'
+    %p
+      Period from
+      = form.select :start_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
+      = form.select :start_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
+      to
+      = form.select :end_month, (1..12).collect{|m| [Date::MONTHNAMES[m], m.to_s]}
+      = form.select :end_year, (Date.today.year-5..Date.today.year).collect {|y| y.to_s}
 
-  %p
-    = form.label :language_ids, 'Language(s)'
-    %br/
-    = collection_select :communication_on_progress, :language_ids, Language.all, :id, :name, {}, :multiple => true, :name => 'communication_on_progress[language_ids][]'
+    = render :partial => 'cop_files_form'
+    = render :partial => 'cop_links_form'
 
-  %p
-    Does the COP make explicit reference to existing policies and/or activities related to the following issue areas?
-    %br
-    = form.check_box :references_human_rights
-    = form.label :references_human_rights, 'Human Rights'
-    %br
-    = form.check_box :references_labour
-    = form.label :references_labour, 'Labour'
-    %br
-    = form.check_box :references_environment
-    = form.label :references_environment, 'Environment'
-    %br
-    = form.check_box :references_anti_corruption
-    = form.label :references_anti_corruption, 'Anti-Corruption'
+    %p
+      = form.label :priciple_ids, 'Principles'
+      %br/
+      = collection_select :communication_on_progress, :principle_ids, PrincipleArea.all, :id, :name, {}, :multiple => true, :name => 'communication_on_progress[principle_ids][]'
 
-  %p
-    Does the COP measure outcomes, use performance indicators, or describe expected outcomes, in the following issue areas?
-    %br
-    = form.check_box :measures_human_rights_outcomes
-    = form.label :measures_human_rights_outcomes, 'Human Rights'
-    %br
-    = form.check_box :measures_labour_outcomes
-    = form.label :measures_labour_outcomes, 'Labour'
-    %br
-    = form.check_box :measures_environment_outcomes
-    = form.label :measures_environment_outcomes, 'Environment'
-    %br
-    = form.check_box :measures_anti_corruption_outcomes
-    = form.label :measures_anti_corruption_outcomes, 'Anti-Corruption'
+    %p
+      = form.label :language_ids, 'Language(s)'
+      %br/
+      = collection_select :communication_on_progress, :language_ids, Language.all, :id, :name, {}, :multiple => true, :name => 'communication_on_progress[language_ids][]'
 
-  %p 
-    Is the statement of continued support for the UN Global Compact signed by the company’s top executive?
-    = true_or_false_field(form, :support_statement_signed)
+    %p
+      Does the COP make explicit reference to existing policies and/or activities related to the following issue areas?
+      %br
+      = form.check_box :references_human_rights
+      = form.label :references_human_rights, 'Human Rights'
+      %br
+      = form.check_box :references_labour
+      = form.label :references_labour, 'Labour'
+      %br
+      = form.check_box :references_environment
+      = form.label :references_environment, 'Environment'
+      %br
+      = form.check_box :references_anti_corruption
+      = form.label :references_anti_corruption, 'Anti-Corruption'
 
-  %p
-    Does the statement of continued support explain why your company sees value in participating in the UN Global Compact?
-    = true_or_false_field(form, :support_statement_lists_reason)
+    %p
+      Does the COP measure outcomes, use performance indicators, or describe expected outcomes, in the following issue areas?
+      %br
+      = form.check_box :measures_human_rights_outcomes
+      = form.label :measures_human_rights_outcomes, 'Human Rights'
+      %br
+      = form.check_box :measures_labour_outcomes
+      = form.label :measures_labour_outcomes, 'Labour'
+      %br
+      = form.check_box :measures_environment_outcomes
+      = form.label :measures_environment_outcomes, 'Environment'
+      %br
+      = form.check_box :measures_anti_corruption_outcomes
+      = form.label :measures_anti_corruption_outcomes, 'Anti-Corruption'
 
-  %p
-    Does the statement of continued support mention specific types of engagement with the UN Global Compact, such as active participation in a local network, issue working group, Caring for Climate, or the CEO Water Mandate?
-    = true_or_false_field(form, :support_statement_mentions_engagements)
+    %p
+      Does the statement of continued support explain why your company sees value in participating in the UN Global Compact?
+      = true_or_false_field(form, :support_statement_lists_reason)
 
-  - PrincipleArea::FILTERS.each_pair do |key, value|
+    %p
+      Does the statement of continued support mention specific types of engagement with the UN Global Compact, such as active participation in a local network, issue working group, Caring for Climate, or the CEO Water Mandate?
+      = true_or_false_field(form, :support_statement_mentions_engagements)
+
+    - PrincipleArea::FILTERS.each_pair do |key, value|
+      %fieldset
+        %legend= value
+        %div{:id => "#{key}_not_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "none" : "block"}"}
+          = cop_questions_for @communication_on_progress, key, false
+        %div{:id => "#{key}_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "block" : "none"}"}
+          = cop_questions_for @communication_on_progress, key, true
+
     %fieldset
-      %legend= value
-      %div{:id => "#{key}_not_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "none" : "block"}"}
-        = cop_questions_for @communication_on_progress, key, false
-      %div{:id => "#{key}_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "block" : "none"}"}
-        = cop_questions_for @communication_on_progress, key, true
+      %legend Final questions
+      = cop_questions_for @communication_on_progress, nil, false
 
-  %fieldset
-    %legend Final questions
-    = cop_questions_for @communication_on_progress, nil, false
-
-  %p
-    Would you like the Global Compact office to check your COP for inclusion in the Notable COP program?
-    = true_or_false_field(form, :notable_program)
+    %p
+      Would you like the Global Compact office to check your COP for inclusion in the Notable COP program?
+      = true_or_false_field(form, :notable_program)
+  
+  #reject_cop
+    Reject COP
