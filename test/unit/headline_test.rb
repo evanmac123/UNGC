@@ -44,6 +44,36 @@ class HeadlineTest < ActiveSupport::TestCase
     end
   end
   
+  context "given a headline with a fixed published date" do
+    setup do
+      fixed_date = (Date.today << 1).strftime('%m/%d/%Y')
+      @headline = Headline.new :title => String.random, :published_on => fixed_date
+      assert @headline.save
+      @headline.reload
+    end
+
+    should "use fixed date for published_on" do
+      expected = (Date.today << 1)
+      actual   = @headline.published_on
+      assert_equal [expected.month, expected.day], [actual.month, actual.day], 'Published date should match'
+    end
+    
+    context "and when it's approved" do
+      setup do
+        @headline.approve!
+        @headline.reload
+      end
+
+      should "still use fixed date for published_on" do
+        expected = (Date.today << 1)
+        actual   = @headline.published_on
+        assert_equal [expected.month, expected.day], [actual.month, actual.day], 'Published date should match'
+      end
+    end
+    
+  end
+  
+  
   context "given a bunch of headlines, some of which are approved" do
     setup do
       @h1 = create_headline :approval => 'approved'
@@ -64,9 +94,9 @@ class HeadlineTest < ActiveSupport::TestCase
   context "given a bunch of headlines, in different years" do
     setup do
       @today = Date.today
-      5.times { |i| create_headline :published_on => Time.mktime(@today.year, i+1, rand(22)+1) }
-      3.times { |i| create_headline :published_on => Time.mktime(@today.year - 1, i+1, rand(22)+1) }
-      2.times { |i| create_headline :published_on => Time.mktime(@today.year - 2, i+1, rand(22)+1) }
+      5.times { |i| create_headline :published_on => Time.mktime(@today.year, i+1, rand(22)+1).to_date }
+      3.times { |i| create_headline :published_on => Time.mktime(@today.year - 1, i+1, rand(22)+1).to_date }
+      2.times { |i| create_headline :published_on => Time.mktime(@today.year - 2, i+1, rand(22)+1).to_date }
     end
 
     should "find 3 years" do
