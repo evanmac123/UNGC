@@ -87,10 +87,14 @@ class CommunicationOnProgress < ActiveRecord::Base
             :web_based         => "COP is entirely web based ",
             :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for extension of COP deadline"}
 
-  SIGNEES = {:ceo       => "Chief Executive Officer (CEO)",
-             :board     => "Chairperson or member of Board of Directors",
-             :executive => "Other senior executive",
-             :none      => "None of the above"}
+  SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
+            :board     => "Chairperson or member of Board of Directors",
+            :executive => "Other senior executive",
+            :none      => "None of the above"}
+  
+  STATEMENT_LOCATION = {:integrated => 'Integrated into the COP',
+                        :document   => 'In a separate document',
+                        :web        => 'On a separate web page'}
   
   def self.find_by_param(param)
     return nil if param.blank?

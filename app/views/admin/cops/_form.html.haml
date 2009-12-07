@@ -22,12 +22,36 @@
   #explicit_statement_of_support_fields{:style => 'display: none'}
     %p
       Who formally endorsed or signed the statement of continued support?
-      - CommunicationOnProgress::SIGNEES.each do |key, value|
+      - CommunicationOnProgress::SIGNEE.each do |key, value|
         %br
         = form.radio_button :support_statement_signee, key
         = form.label :support_statement_signee, value, :value => key
 
     #signed_by_executive_fields{:style => 'display: none'}
+      %p
+        Where is your company's statement of continued support?
+        - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
+          %br
+          = form.radio_button :statement_location, key
+          = form.label :statement_location, value, :value => key
+
+      #cop_files{:style => 'display: none'}
+        Upload the COP .pdf file
+        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'COP'), :record => 105}
+        Add a link to show how they share the COP with stakeholders
+        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'COP shared with stakeholders'), :record => 106}
+      #cop_links{:style => 'display: none'}
+        Post link to COP
+        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'COP'), :record => 120}
+        We encourage you to upload one .pdf file with the content of your web based COP
+        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Web-based COP'), :record => 105}
+      #statement_support_pdf{:style => 'display: none'}
+        Upload one .pdf file which contains the statement of continued support
+        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Statement of Support'), :record => 110}
+      #statement_support_link{:style => 'display: none'}
+        Provide a link to the web page that contains the statement of continued support
+        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'Statement of Support'), :record => 120}
+      
       = form.text_field :title
 
       %p

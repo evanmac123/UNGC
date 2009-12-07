@@ -39,15 +39,25 @@ $("#communication_on_progress_references_anti_corruption").change(function() {
   }
 })
 
-// Format - grace letters only require a upload
+// Format
 $("input[name='communication_on_progress[format]']").change(function() {
   if ($("#communication_on_progress_format_grace_letter").is(':checked')) {
+	// grace letters only require a upload
 	$("#grace_letter_fields").show();
 	$("#non_grace_letter_fields").hide();
+	$("#cop_links").hide();
+	$("#cop_files").hide();
   } else {
 	$("#grace_letter_fields").hide();
-	$("#non_grace_letter_fields").show();
-  }
+	$("#non_grace_letter_fields").show();  
+    if ($("#communication_on_progress_format_web_based").is(':checked')) {
+	  $("#cop_links").show();
+	  $("#cop_files").hide();
+    } else {
+	  $("#cop_links").hide();
+	  $("#cop_files").show();
+	}
+}
 })
 
 // A statement of continued support is required
@@ -71,3 +81,18 @@ $("input[name='communication_on_progress[support_statement_signee]']").change(fu
 	$("#reject_cop").hide();
   }
 })
+
+// Statement of support question
+$("input[name='communication_on_progress[statement_location]']").change(function() {
+  if ($("#communication_on_progress_statement_location_document").is(':checked')) {
+	$("#statement_support_pdf").show();
+	$("#statement_support_link").hide();
+  } else if ($("#communication_on_progress_statement_location_web").is(':checked')) {
+	$("#statement_support_pdf").hide();
+	$("#statement_support_link").show();
+  } else {
+	$("#statement_support_pdf").hide();
+	$("#statement_support_link").hide();
+}
+})
+
