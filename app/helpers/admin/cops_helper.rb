@@ -9,13 +9,13 @@ module Admin::CopsHelper
     content_tag :p, links unless links.blank?
   end
   
-  def true_or_false_field(form, field)
+  def true_or_false_field(form, field, options={})
     html = tag(:br)
     html << form.radio_button(field, 'true')
-    html << form.label(field, 'True', :value => 'true')
+    html << form.label(field, 'Yes', :value => 'true')
     html << tag(:br)
     html << form.radio_button(field, 'false')
-    html << form.label(field, 'False', :value => 'false')
+    html << form.label(field, 'No', :value => 'false')
     return html
   end
   

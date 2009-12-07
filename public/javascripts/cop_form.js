@@ -96,3 +96,22 @@ $("input[name='communication_on_progress[statement_location]']").change(function
 }
 })
 
+// Parent company COP
+$("input[name='communication_on_progress[parent_company_cop]']").change(function() {
+  if ($("#communication_on_progress_parent_company_cop_true").is(':checked')) {
+	$("#parent_company_question").show();
+	$("#own_company_questions").hide();
+  } else {
+	$("#parent_company_question").hide();
+	$("#own_company_questions").show();
+  }
+})
+
+// Parent COP covers subsidiary
+$("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change(function() {
+  if ($("#communication_on_progress_parent_cop_cover_subsidiary_true").is(':checked')) {
+	$("#reject_cop").hide();
+  } else {
+	$("#reject_cop").show();
+  }
+})
