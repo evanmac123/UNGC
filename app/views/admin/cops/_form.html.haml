@@ -1,4 +1,12 @@
 = form.error_messages
+
+%p
+  What is the format of the COP?
+  - CommunicationOnProgress::FORMAT.each do |key, value|
+    %br
+    = form.radio_button :format, key
+    = form.label :format, value, :value => key
+
 = form.text_field :title
 
 %p
@@ -25,13 +33,6 @@
 %p
   Does the COP include an explicit statement of continued support or the UN Global Compact and its ten principles?
   = true_or_false_field(form, :include_continued_support_statement)
-
-%p
-  What is the format of the COP?
-  - CommunicationOnProgress::FORMAT.each do |key, value|
-    %br
-    = form.radio_button :format, key
-    = form.label :format, value, :value => key
 
 %p
   Does the COP make explicit reference to existing policies and/or activities related to the following issue areas?
