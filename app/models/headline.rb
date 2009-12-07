@@ -62,7 +62,15 @@ class Headline < ActiveRecord::Base
   end
   
   def before_approve!
-    self.published_on = Date.today
+    self.write_attribute(:published_on, Date.today) if self.published_on.blank?
+  end
+  
+  def published_on=(date_or_string)
+    if date_or_string.is_a?(String)
+      self.write_attribute(:published_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+    elsif date_or_string.is_a?(Date)
+      self.write_attribute(:published_on, date_or_string)
+    end
   end
 
   # 'location' if just location
@@ -70,7 +78,7 @@ class Headline < ActiveRecord::Base
   # 'location, country' only if both
   def full_location
     response = []
-    response << location if location
+    response << location unless location.blank?
     response << country.name if country
     response.join(', ')
   end

@@ -1,5 +1,9 @@
-%li
-  = link_to initiative.name, admin_initiative_path(initiative)
-  == (#{pluralize initiative.signings.count, 'signatory'})
-  = link_to 'edit', edit_admin_initiative_path(initiative)
-  = link_to 'delete', admin_initiative_path(initiative), :confirm => 'Are you sure?', :method => :delete
+%tr
+  %td= initiative.updated_at
+  %td= initiative.name
+  %td= initiative.signings.count
+  %td
+    %ul.actions
+      %li= link_to 'View details', admin_initiative_path(initiative), :class => 'edit', :title => 'View details'
+      %li= link_to 'Edit', edit_admin_initiative_path(initiative), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Delete', admin_initiative_path(initiative), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
