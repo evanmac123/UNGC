@@ -1,3 +1,4 @@
+// COP form
 $("#communication_on_progress_references_human_rights").change(function() {
   if ($('#communication_on_progress_references_human_rights:checked').is(':checked')) {
 	$('#human_rights_addressed').show();
@@ -35,5 +36,38 @@ $("#communication_on_progress_references_anti_corruption").change(function() {
   } else {
 	$('#anti_corruption_addressed').hide();
 	$('#anti_corruption_not_addressed').show();
+  }
+})
+
+// Format - grace letters only require a upload
+$("input[name='communication_on_progress[format]']").change(function() {
+  if ($("#communication_on_progress_format_grace_letter").is(':checked')) {
+	$("#grace_letter_fields").show();
+	$("#non_grace_letter_fields").hide();
+  } else {
+	$("#grace_letter_fields").hide();
+	$("#non_grace_letter_fields").show();
+  }
+})
+
+// A statement of continued support is required
+$("input[name='communication_on_progress[include_continued_support_statement]']").change(function() {
+  if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
+	$("#explicit_statement_of_support_fields").show();
+	$("#reject_cop").hide();
+  } else {
+	$("#explicit_statement_of_support_fields").hide();
+	$("#reject_cop").show();
+  }
+})
+
+// Reject if COP is not signed by a executive
+$("input[name='communication_on_progress[support_statement_signee]']").change(function() {
+  if ($("#communication_on_progress_support_statement_signee_none").is(':checked')) {
+	$("#signed_by_executive_fields").hide();
+	$("#reject_cop").show();
+  } else {
+	$("#signed_by_executive_fields").show();
+	$("#reject_cop").hide();
   }
 })
