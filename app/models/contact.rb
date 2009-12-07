@@ -24,13 +24,15 @@
 #  newsletter                :boolean(1)
 #  advisory_council          :boolean(1)
 #  login                     :string(255)
-#  password                  :string(255)
 #  address_more              :string(255)
 #  created_at                :datetime
 #  updated_at                :datetime
 #  remember_token_expires_at :datetime
 #  remember_token            :string(255)
 #  local_network_id          :integer(4)
+#  hashed_password           :string(255)
+#  password                  :string(255)
+#  reset_password_token      :string(255)
 #
 
 require 'digest/sha1'
