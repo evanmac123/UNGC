@@ -33,3 +33,14 @@ $('.role_for_login_fields').change(function() {
 	$('#login_information').hide();
   }
 })
+
+// COP form
+$("input[name='communication_on_progress[format]']").change(function() {
+  if ($("#communication_on_progress_format_grace_letter").is(':checked')) {
+	$("#grace_letter_fields").show();
+	$("#non_grace_letter_fields").hide();
+  } else {
+	$("#grace_letter_fields").hide();
+	$("#non_grace_letter_fields").show();
+  }
+})
