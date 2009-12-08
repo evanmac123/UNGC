@@ -3,7 +3,7 @@ class LogoRequestMailer < ActionMailer::Base
     from EMAIL_SENDER
     subject "Your Global Compact Logo Request has been updated"
     content_type "text/html"
-    recipients logo_request.contact.email
+    recipients logo_request.contact.email_recipient
     body :logo_request => logo_request
   end
   
@@ -11,7 +11,7 @@ class LogoRequestMailer < ActionMailer::Base
     from EMAIL_SENDER
     subject "Your Global Compact Logo Request has been accepted"
     content_type "text/html"
-    recipients logo_request.contact.email
+    recipients logo_request.contact.email_recipient
     body :logo_request => logo_request
   end
 
@@ -19,7 +19,7 @@ class LogoRequestMailer < ActionMailer::Base
     from EMAIL_SENDER
     subject "Global Compact Logo Request Status"
     content_type "text/html"
-    recipients logo_request.contact.email
+    recipients logo_request.contact.email_recipient
     body :logo_request => logo_request
   end
 end

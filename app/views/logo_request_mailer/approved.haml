@@ -1,20 +1,29 @@
 == Dear #{@logo_request.contact.name_with_title},
 
-Logo Request Status: Accepted
+%p
+  %strong Logo Request Status:
+  Accepted
 
-== We are pleased to inform you that your logo request has been approved for use in "#{@logo_request.purpose}".
+%p
+  == We are pleased to inform you that your logo request has been approved for use in "#{@logo_request.purpose}".
+  = h @logo_request.logo_comments.last.body
 
-= h @logo_request.logo_comments.last.body
+%p
+  == To download the logo files for #{@logo_request.organization.name}, please login at the Global Compact website and visit the original logo submission:
+  = link_to "#{admin_organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)}", admin_organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)
 
-== To download the logo files for #{@logo_request.organization.name}, please login at the Global Compact website and visit the original logo submission:
-= admin_organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)
+%p Sincerely,
 
-Sincerely,
-
-The Global Compact Office
+%p The Global Compact Office
 
 United Nations Global Compact
+%br/
 Two United Nations Plaza
+%br/
 New York, NY 10017
+%br/
 Email: globalcompact@un.org
-Website: www.unglobalcompact.org
+%br/
+Website:
+%a{:href => "http://www.unglobalcompact.org/"}
+  www.unglobalcompact.org
