@@ -169,77 +169,133 @@ module ImporterHooks
   
   # Adds the default questions to be used in the COP form
   def add_cop_questions
-    [ [:human_rights, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on human rights?", nil, 1, 
-        ["Reflection on the relevance ('materiality') of human rights for your company", "Public commitment to respect and support human rights",
-          "Reference to the Universal Declaration of Human Rights", "Formal human rights policy (e.g. in code of conduct)"]
+    [ [:human_rights, :additional, "Commitment and policy. Does your COP contain information on the elements listed below? If yes, select one or more.", nil, 1, 
+        ["Public commitment to respect and support human rights",
+          "Reference to the Universal Declaration of Human Rights or other international instruments",
+          "Reference to a formal human rights policy (e.g. in code of conduct)",
+          "Differentiation between internal operations and external sphere of influence (complicity)",
+          "Reflection on the relevance ('materiality') of human rights for your company (i.e. description of main human rights-related risks and opportunities)"]
       ],
-      [:human_rights, :additional, "Implementation: Does the COP explain how human rights issues are managed and/or what activities your company is undertaking?", nil, 2,
-        ["Allocation of responsibilities and accountabilities", "Human rights risk and/or impact assessment",
-          "Grievance mechanism", "Internal and external communication", "Training for employees",
-          "Participation in human rights initiatives / collective action", "Inclusion of human rights issues in contracts with business partners",
-          "Supplier audits", "Monitoring and evaluation", "Other"]
+      [:human_rights, :additional, "Implementation: Does your COP contain information on the activities listed below? If yes, select one or more.", nil, 2,
+        ["Allocation of responsibilities and accountabilities within your organization",
+          "Human rights risk and/or impact assessment",
+          "External advice and stakeholder consultations",
+          "Description of a grievance mechanism",
+          "Internal and external educational outreach activities",
+          "Training for employees",
+          "Participation in human rights initiatives / collective action",
+          "Inclusion of human rights issues in contracts with business partners",
+          "Supplier audits (internal or external)",
+          "Monitoring and evaluation"]
+      ],      		
+      [:human_rights, :additional, "Outcomes: Does your COP contain information on measurement of outcomes in the categories below? If yes, select one or more.", nil, 3,
+        ["Qualitative outcomes", "Quantitative outcomes", "Definition of performance indicators", "Expected outcomes/targets"]
       ],
-      [:human_rights, :additional, "Outcomes: Does the COP contain information on outcomes of your human right policies and activities?", nil, 3,
-        ["Qualitative outcomes", "Quantitative outcomes using defined indicators", "Expected outcomes/targets"]
+      [:human_rights, :additional, "Good practice: Does the COP reference good practices or illustrate specific examples in any of the following areas? If yes, select one or more.", nil, 4,
+        ["Differentiation between internal operations and external sphere of influence (complicity)",
+          "Public commitment to respect and support human rights",
+          "Reference to a formal human rights policy (e.g. in code of conduct)",
+          "Allocation of responsibilities and accountabilities within your organization",
+          "Human rights risk and/or impact assessment",
+          "External advice and stakeholder consultations",
+          "Description of a grievance mechanism",
+          "Internal and external educational outreach activities",
+          "Training for employees",
+          "Participation in human rights initiatives through collective action",
+          "Inclusion of human rights issues in contracts with business partners",
+          "Supplier audits (internal or external)",
+          "Monitoring and evaluation"]
+      ],      		
+      [:human_rights, :additional, "Does your COP provide information about activities listed below that your company is undertaking to implement the Global Compact in any conflict-affected countries where you have operations?", nil, 5,
+        ["Awareness raising", "Supplier due diligence", "Conflict-sensitive training for employees", "Participation in peace-building initiatives"]
       ],
 
-      [:labour, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the labour principles?", nil, 1, 
-        ["Reflection on the relevance ('materiality') of the labour principles for your company",
+      [:labour, :additional, "Commitment and policy: Does your COP contain information on the elements listed below?", nil, 1, 
+        ["Reflection on the relevance ('materiality') of the labour principles (i.e. main risks and opportunities)",
           "Public commitment to uphold freedom of association and the right to collective bargaining",
           "Public commitment to eliminate forced and compulsory labour",
           "Public commitment to eliminate child labour",
           "Public commitment to eliminate discrimination in respect of employment and occupation",
-          "Reference to the International Labour Organization (ILO) Core Conventions",
-          "Formal policy that addresses the labour principles (e.g. in code of conduct)"
+          "Reference to labour issues covered in international instruments such as the International Labour Organization (ILO) MNE Declaration, ILO Core Conventions or OECD Guidelines",
+          "Reference to a formal policy that addresses the four Global Compact principles on labour rights"        
         ]
       ],
-      [:labour, :additional, "Implementation: Does the COP explain how the labour principles are managed and/or what activities your company is undertaking?", nil, 2, 
-        ["Allocation of responsibilities and accountabilities",
-          "Internal and external communication",
-          "Training for employees",
-          "Participation in labour initiatives / collective action",
-          "Inclusion of labour issues in contracts with business partners",
-          "Supplier audits",
-          "Monitoring and evaluation",
-          "Other"
+      [:labour, :additional, "Implementation: Does your COP contain information on the activities listed below?", nil, 2, 
+        ["Allocation of responsibilities and accountabilities within your organization",
+          "Labor rights education, awareness and outreach",
+          "Description of a grievance mechanisms",
+          "Participation in industry association, framework agreement or other collective action",
+          "Inclusion of minimal labour standards in contracts with business partners",
+          "Description of internal audit mechanisms within direct (i.e. own and contractors')  operation",
+          "Description of internal or external audit mechanisms within external sphere of influence (i.e. supply chain)"        
         ]
       ],
-      [:labour, :additional, "Outcomes: Does the COP contain information on outcomes of your labour policies and activities?", nil, 3,
-        ["Qualitative outcomes (e.g. operations identified as having significant risk for labour incidents)",
-          "Quantitative outcomes using defined indicators (e.g. percentage of employees covered by collective bargaining agreements; )",
+      [:labour, :additional, "Outcomes: Does your COP contain information on measurement of outcomes in the categories below?", nil, 3,
+        ["Qualitative outcomes",
+          "Quantitative outcomes",
+          "Definition of performance indicators",
           "Expected outcomes/targets"
         ]
       ],
-      
-      [:environment, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", nil, 1,
-        ["Reflection on the relevance ('materiality') of the labour principles for your company",
+      [:labour, :additional, "Good practice: Does the COP reference good practices or illustrate specific examples in any of the following areas? If yes, select one or more.", nil, 4,
+        ["Public commitment to uphold freedom of association and the right to collective bargaining",
+          "Public commitment to eliminate forced and compulsory labour",
+          "Public commitment to eliminate child labour",
+          "Public commitment to eliminate discrimination in respect of employment and occupation",
+          "Reference to a formal policy that addresses the four Global Compact principles on labour",
+          "Allocation of responsibilities and accountabilities within your organization",
+          "Labor rights education, awareness and outreach",
+          "Description of a grievance mechanisms",
+          "Participation in industry association, framework agreement or other collective action",
+          "Inclusion of minimal labour standards in contracts with business partners",
+          "Description of internal audit mechanisms within direct (i.e. own and contractors') operations",
+          "Description of internal or third party audit mechanisms within external sphere of influence (i.e. supply chain)"        
+        ]
+      ],
+
+      [:environment, :additional, "Commitment and policy: Does your COP contain information on the elements listed below?", nil, 1,
+        ["Reflection on the relevance ('materiality') of environmental principles for your company (i.e. main environmental risks and opportunities)",
           "Public commitment to support a precautionary approach to environmental challenges",
           "Public commitment to undertake initiatives to promote greater environmental responsibility",
           "Public commitment to encourage the development and diffusion of environmentally friendly technologies",
-          "Reference to the Rio Declaration on Environment and Development",
-          "Formal environmental policy"
+          "Reference to a formal environmental policy",
+          "Reference to the Rio Declaration on Environment and Development or other international instruments"        
         ]
-      ],
-      [:environment, :additional, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", nil, 2,
+      ],      
+      [:environment, :additional, "Implementation: Does your COP contain information on the activities listed below?", nil, 2,
         ["Environmental risk and/or impact assessment",
-          "Environmental management system",
-          "Allocation of responsibilities and accountabilities",
-          "Awareness raising",
+          "Description of the company-wide environmental management system",
+          "Allocation of responsibilities and accountabilities within your organization",
+          "Awareness raising and educational outreach among employees and outside the organizations",
           "Eco-efficiency programs",
           "Life cycle assessment",
-          "Participation in environmental initiatives",
-          "Inclusion of environmental issues in contracts with business partners",
-          "Monitoring and evaluation",
-          "Other"
+          "Participation in environmental initiatives (e.g. business associations)",
+          "Inclusion of minimal environmental standards in contracts with business partners",
+          "Description of internal audit or review mechanisms within direct operations to propose corrective action",
+          "Description of audit mechanisms within external sphere of influence (contractors or subcontractors' operations)"
         ]
       ],
-      [:environment, :additional, "Outcomes: Does the COP contain information on outcomes of your environmental policies and activities?", nil, 3,
-        ["Qualitative outcomes",
-          "Quantitative outcomes using defined indicators",
-          "Expected outcomes/targets"
+      [:environment, :additional, "Outcomes: Does your COP contain information on measurement of outcomes in the categories below?", nil, 3,
+        ["Qualitative outcomes", "Quantitative outcomes", "Definition of performance indicators", "Expected outcomes/targets"]
+      ],
+      [:environment, :additional, "Good practice: Does the COP reference good practices or illustrate specific examples in any of the following areas? If yes, select one or more of the following items:", nil, 4,
+        ["Public commitment to support a precautionary approach to environmental challenges",
+          "Public commitment to undertake initiatives to promote greater environmental responsibility",
+          "Public commitment to encourage the development and diffusion of environmentally friendly technologies",
+          "Reference to a formal environmental policy",
+          "Environmental risk and/or impact assessment",
+          "Description of the company-wide environmental management system",
+          "Allocation of responsibilities and accountabilities within the organization",
+          "Awareness raising and educational outreach among employees and outside the organizations",
+          "Eco-efficiency programs",
+          "Life cycle assessment",
+          "Participation in environmental initiatives (e.g. business associations)",
+          "Inclusion of minimal environmental standards in contracts with business partners",
+          "Description of internal audit or review mechanisms within direct operations to propose corrective action",
+          "Description of audit mechanisms within external sphere of influence (contractors or subcontractors' operations)"
         ]
       ],
-      [:environment, :additional, "Does your COP provide information about activities and/or outcomes related to your company's participation in Caring for Climate?", Initiative.find_by_name("Caring For Climate").try(:id), 4,
+      [:environment, :additional, "Does your COP provide information on your company's activities related to carbon and climate change?", nil, 5,
         ["Activities aimed at improving the energy efficiency of products, services and processes",
           "Engagement in public policy",
           "Working collaboratively with peers and along the value-chain",
@@ -247,34 +303,55 @@ module ImporterHooks
           "Expected outcomes such as CO2 emission targets"
         ]
       ],
-      
-      [:anti_corruption, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", nil, 1,
-        ["Reflection on the relevance ('materiality') of corruption for your company",
-          "Publicly stated commitment to zero-tolerance of corruption",
-          "Commitment to be compliant with all laws relevant to corruption",
-          "Formal anti-corruption policy (e.g. in code of conduct)",
-          "Statement of support for international and regional legal frameworks, such as the UN Convention Against Corruption"
+      [:environment, :additional, "Does your COP provide information about the following six elements related to water policies and management?", nil, 6,
+        ["Activities and/or outcomes related to water usage in direct operations",
+          "Activities and/or outcomes related to water usage in the supply chain",
+          "Activities and/or outcomes related to participation in collective action on the issue of water",
+          "Activities and/or outcomes related to public policy on the issue of water",
+          "Activities and/or outcomes related to community engagement on the issue of water",
+          "Activities and/or outcomes related to transparency"
         ]
       ],
-      [:anti_corruption, :additional, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", nil, 2,
-        ["Identification of corruption risks within your company's business",
-          "Implementation of an anti-corruption program, such as standards and procedures, allocation of responsibilities, or sanctions",
+
+      [:anti_corruption, :additional, "Commitment and policy: Does your COP contain information on the elements listed below?", nil, 1,
+        ["Reflection on the relevance ('materiality') of corruption (i.e. balanced view of main risks and opportunities)",
+        "Publicly stated commitment to work against corruption in all its forms, including bribery and extortion",
+        "Commitment to be compliant with all relevant laws, including anti-corruption laws",
+        "Publicly stated formal policy of zero-tolerance' of corruption",
+        "Statement of support for international and regional legal frameworks, such as the UN Convention against Corruption (U.N.C.A.C)",
+        "Carrying out risk assessment of potential areas of corruption",
+        "Detailed policies for high risk areas of corruption",
+        "Policy on anti-corruption regarding business partners"
+        ]
+      ],
+      [:anti_corruption, :additional, "Implementation: Does your COP contain information on the activities listed below?", nil, 2,
+        ["Translation of the anti-corruption commitment into actions",
           "Support by the organization's leadership to anti-corruption",
-          "Communication of and training on the anti-corruption commitment to all employees",
-          "Internal checks-and-balances to ensure consistency with anti-corruption commitment",
-          "Whistle blowing and other communication channels for reporting concerns or seeking advice and follow up mechanism",
-          "Communications and actions taken to encourage business partners to implement anti-corruption commitments",
-          "Participation in voluntary anti-corruption initiatives / collective action",
+          "Communication and training on the anti-corruption commitment for all employees",
+          "Internal checks-and balances to ensure consistency with anti-corruption commitment",
           "Monitoring and improvement processes",
-          "Other"
+          "Actions taken to encourage business partners to implement anti-corruption commitments",
+          "Management responsibility and accountability for implementation of the anti-corruption commitment or policy",
+          "Human Resources procedures supporting the anti-corruption commitment or policy",
+          "Communications ('whistle-blowing') channels and follow up mechanisms for reporting concerns or seeking advice",
+          "Internal accounting and auditing procedures related to anti-corruption",
+          "Participation in voluntary anti-corruption initiatives"
         ]
       ],
-      [:anti_corruption, :additional, "Outcomes: Does the COP contain information on outcomes of your anti-corruption policies and activities?", nil, 3,
-        ["Qualitative outcomes (e.g. public legal cases regarding corruption; actions taken in response to incidents of corruption)",
-          "Quantitative outcomes using defined indicators (e.g. percentage and total number of business units analyzed for risks related to corruption)",
-          "Expected outcomes/targets"
-        ]
+      [:anti_corruption, :additional, "Outcomes: Does your COP contain information on measurement of outcomes in the categories below?", nil, 3,
+        ["Qualitative outcomes", "Quantitative outcomes", "Definition of performance indicators", "Expected outcomes/targets"]
       ],
+      [:anti_corruption, :additional, "Monitoring: Does your company's COP describe monitoring and improvement processes? If yes, does your COP contain information on measurement of outcomes in the categories below?", nil, 4,
+        ["Leadership review of monitoring and improvement results", "Dealing with incidents", "Public legal cases regarding corruption", "Use of external assurance of anti-corruption programs"]
+      ],
+      
+      [nil, :additional, "Does your COP contain information on the partners involved in your partnership project undertaken in support of broader United Nations goals?", nil, 1,
+        ["With United Nations", "With NGOs", "With academia", "With other organizations"]
+      ],
+      [nil, :additional, "Does your COP contain information on the evaluation or an impact measurement of the partnership project?", nil, 2,
+        ["Evaluation", "Evaluation using the Global Compact's Partnership Assessment Tool", "Impact measurement"]
+      ],
+
       [nil, :mandatory, "Does your COP use the Global Reporting (GRI) framework?", nil, 1,
         ["No",
           "GRI G2 or GRI G3 frameworks with unknown application level",
