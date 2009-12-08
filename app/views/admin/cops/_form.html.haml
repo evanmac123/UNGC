@@ -132,6 +132,8 @@
               %fieldset
                 %legend= value
                 = cop_questions_for @communication_on_progress, :additional, key
+          #partnership_additional_questions{:style => 'display: none'}
+            = cop_questions_for @communication_on_progress, :additional
 
         #notable_questions{:style => 'display: none'}
           %fieldset
