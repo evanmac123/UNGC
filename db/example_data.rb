@@ -27,7 +27,7 @@ module FixtureReplacement
   attributes_for :cop_question do |q|
     q.text = String.random
     q.principle_area_id = PrincipleArea.first.id
-    q.area_selected = true
+    q.grouping = 'additional'
     q.position = 1
   end
   
