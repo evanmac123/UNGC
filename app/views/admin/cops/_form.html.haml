@@ -120,11 +120,11 @@
 
         %p
           Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
-          = true_or_false_field(form, :additional_questions)
+          = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
 
         %p
           Would you like your Communication on Progress to be reviewed against the Notable Program?
-          = true_or_false_field(form, :notable_program)
+          = true_or_false_field(form, :notable_program, :class => 'additional_questions')
 
         #additional_questions{:style => 'display: none'}
           - PrincipleArea::FILTERS.each_pair do |key, value|

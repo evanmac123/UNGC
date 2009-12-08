@@ -117,10 +117,15 @@ $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change
 })
 
 // Additional questions
-$("input[name='communication_on_progress[additional_questions]']").change(function() {
-  if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
+$("input[class='additional_questions']").change(function() {
+  if ($("#communication_on_progress_notable_program_true").is(':checked')) {
+	$("#notable_questions").show();
+	$("#additional_questions").show();
+  } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
+	$("#notable_questions").hide();
 	$("#additional_questions").show();
   } else {
+	$("#notable_questions").hide();
 	$("#additional_questions").hide();
   }
 })
