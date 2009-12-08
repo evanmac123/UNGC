@@ -30,10 +30,10 @@ module Admin::CopsHelper
     html << hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
 
     html << radio_button_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", 'true', answer.value)
-    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_true", 'True')
+    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_true", 'Yes')
     html << tag(:br)
     html << radio_button_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", 'false', !answer.value)
-    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_false", 'False')
+    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_false", 'No')
     
     return html
   end

@@ -294,23 +294,32 @@ module ImporterHooks
         ]
       ],
       
-      [nil, :notable, "Does the statement of continued support to the Global Compact refer to major achievements in implementing the principles?", nil, 1,[]
+      [nil, :notable, "Does the statement of continued support to the Global Compact refer to major achievements in implementing the principles?", nil, 1,
+        [""]
       ],
-      [nil, :notable, "Does the statement of continued support to the Global Compact describe how your company actively supports the initiative (i.e. participation in UNGC events/Local networks and/or public interviews/speeches)?", nil, 2,[]
+      [nil, :notable, "Does the statement of continued support to the Global Compact describe how your company actively supports the initiative (i.e. participation in UNGC events/Local networks and/or public interviews/speeches)?", nil, 2,
+        [""]
       ],
-      [nil, :notable, "Are your practical actions adequately described to allow readers to learn from your experience and replicate your approach (e.g. no bullet point or check-box descriptions)?", nil, 3,[]
+      [nil, :notable, "Are your practical actions adequately described to allow readers to learn from your experience and replicate your approach (e.g. no bullet point or check-box descriptions)?", nil, 3,
+        [""]
       ],
-      [nil, :notable, "Does the COP outline specific actions your company has planned for the next year(s)?", nil, 4,[]
+      [nil, :notable, "Does the COP outline specific actions your company has planned for the next year(s)?", nil, 4,
+        [""]
       ],
-      [nil, :notable, "Does the COP describe performance for several years, allowing the readers to check progress year on year?", nil, 5,[]
+      [nil, :notable, "Does the COP describe performance for several years, allowing the readers to check progress year on year?", nil, 5,
+        [""]
       ],
-      [nil, :notable, "Is your performance compared to peer companies or the industry/sector average?", nil, 6,[]
+      [nil, :notable, "Is your performance compared to peer companies or the industry/sector average?", nil, 6,
+        [""]
       ],
-      [nil, :notable, "Does your COP present positive and negative aspects of your performance to enable a reasoned assessment of overall performance?", nil, 7,[]
+      [nil, :notable, "Does your COP present positive and negative aspects of your performance to enable a reasoned assessment of overall performance?", nil, 7,
+        [""]
       ],
-      [nil, :notable, "Does your COP attempt to analyse the link between your outcomes and financial performance?", nil, 8,[]
+      [nil, :notable, "Does your COP attempt to analyse the link between your outcomes and financial performance?", nil, 8,
+        [""]
       ],
-      [nil, :notable, "Is information made available in a manner that is understandable and accessible to stakeholders using the report (i.e. graphs, tables, diagrams, definitions)?", nil, 9,[]
+      [nil, :notable, "Is information made available in a manner that is understandable and accessible to stakeholders using the report (i.e. graphs, tables, diagrams, definitions)?", nil, 9,
+        [""]
       ],
       [nil, :notable, "Is your COP third-party verified?", nil, 10,
         ["No",
