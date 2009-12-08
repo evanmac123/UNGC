@@ -3,3 +3,7 @@
   = f.text_area :description
   = f.text_field :location
   = f.select :country_id, countries_for_select
+  = f.text_field :published_on
+
+- content_for :postscript do
+  = render :partial => 'javascript'
