@@ -130,8 +130,35 @@ $("input[class='additional_questions']").change(function() {
   }
 })
 
-// COP score
+// COP score and area questions
 $("input[class='score']").change(function() {
-  score = $("input[class='score'][value='true']:checked").length;
-  alert(score);
+  score = 0;
+  if ($("#communication_on_progress_references_human_rights_true").is(':checked') ||
+		$("#communication_on_progress_concrete_human_rights_activities_true").is(':checked')) {
+    score = score + 1;
+    $("#human_rights_additional_questions").show();
+  } else {
+    $("#human_rights_additional_questions").hide();
+  }
+  if ($("#communication_on_progress_references_labour_true").is(':checked') ||
+		$("#communication_on_progress_concrete_labour_activities_true").is(':checked')) {
+    score = score + 1;
+    $("#labour_additional_questions").show();
+  } else {
+    $("#labour_additional_questions").hide();
+  }
+  if ($("#communication_on_progress_references_environment_true").is(':checked') ||
+		$("#communication_on_progress_concrete_environment_rights_activities_true").is(':checked')) {
+    score = score + 1;
+    $("#environment_additional_questions").show();
+  } else {
+    $("#environment_additional_questions").hide();
+  }
+  if ($("#communication_on_progress_references_anti_corruption_true").is(':checked') ||
+		$("#communication_on_progress_concrete_anti_corruption_activities_true").is(':checked')) {
+    score = score + 1;
+    $("#anti_corruption_additional_questions").show();
+  } else {
+    $("#anti_corruption_additional_questions").hide();
+  }
 })
