@@ -112,8 +112,11 @@
           Does your COP contain information about a partnership project undertaken in support of broader United Nations goals, such as the Millennium Development Goals?
           = true_or_false_field(form, :mentions_partnership_project)
 
-        %p Q13
-        %p Q14
+        = cop_questions_for @communication_on_progress, :mandatory
+
+        %p
+          Does the statement of continued support explain how your company benefits from participating in the Global Compact?
+          = true_or_false_field(form, :support_statement_explain_benefits)
         
         %p
           Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
@@ -125,17 +128,14 @@
           
         #additional_questions{:style => 'display: none'}
           - PrincipleArea::FILTERS.each_pair do |key, value|
-            %fieldset
-              %legend= value
-              %div{:id => "#{key}_not_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "none" : "block"}"}
-                = cop_questions_for @communication_on_progress, key, false
-              %div{:id => "#{key}_addressed", :style => "display:#{@communication_on_progress.send("references_#{key}?") ? "block" : "none"}"}
-                = cop_questions_for @communication_on_progress, key, true
+            %div{:id => "#{key}_additional_questions", :style => "display:#{principle_area_display_value(@communication_on_progress, key)}"}
+              %fieldset
+                = cop_questions_for @communication_on_progress, :additional, key
 
+        #notable_questions{:style => 'display: none'}
           %fieldset
-            %legend Final questions
-            = cop_questions_for @communication_on_progress, nil, false
-
+            %legend Notable questions
+            = cop_questions_for @communication_on_progress, :notable
   
   #reject_cop{:style => 'display: none'}
     %p

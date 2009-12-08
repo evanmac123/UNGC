@@ -59,11 +59,11 @@ module Admin::CopsHelper
     return html
   end
   
-  def cop_questions_for(cop, principle, selected)
+  def cop_questions_for(cop, grouping, principle=nil)
     # find questions
     principle_area_id = principle.nil? ? nil : PrincipleArea.send(principle).id
     questions = CopQuestion.questions_for(cop.organization).all(:conditions => {:principle_area_id => principle_area_id,
-                                                                                :area_selected     => selected})
+                                                                                :grouping          => grouping})
     return questions.collect{|question| output_cop_question(cop, question)}.join('')
   end
   
@@ -103,5 +103,13 @@ module Admin::CopsHelper
 
       content_tag :li, output
     end.join
+  end
+  
+  def principle_area_display_value(cop, area)
+    if cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?")
+      "block"
+    else
+      "none"
+    end
   end
 end
