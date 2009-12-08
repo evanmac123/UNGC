@@ -169,33 +169,21 @@ module ImporterHooks
   
   # Adds the default questions to be used in the COP form
   def add_cop_questions
-    [ [:human_rights, false, "Does the COP explain how your company determined that human rights are not relevant to its business or the communities in which it operates?", nil, 1,
-        [""]
-      ],
-      [:human_rights, false, "Does the COP make explicit reference to planned policies and/or activities related to human rights?", nil, 2,
-        [""]
-      ],
-      [:human_rights, true, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on human rights?", nil, 1, 
+    [ [:human_rights, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on human rights?", nil, 1, 
         ["Reflection on the relevance ('materiality') of human rights for your company", "Public commitment to respect and support human rights",
           "Reference to the Universal Declaration of Human Rights", "Formal human rights policy (e.g. in code of conduct)"]
       ],
-      [:human_rights, true, "Implementation: Does the COP explain how human rights issues are managed and/or what activities your company is undertaking?", nil, 2,
+      [:human_rights, :additional, "Implementation: Does the COP explain how human rights issues are managed and/or what activities your company is undertaking?", nil, 2,
         ["Allocation of responsibilities and accountabilities", "Human rights risk and/or impact assessment",
           "Grievance mechanism", "Internal and external communication", "Training for employees",
           "Participation in human rights initiatives / collective action", "Inclusion of human rights issues in contracts with business partners",
           "Supplier audits", "Monitoring and evaluation", "Other"]
       ],
-      [:human_rights, true, "Outcomes: Does the COP contain information on outcomes of your human right policies and activities?", nil, 3,
+      [:human_rights, :additional, "Outcomes: Does the COP contain information on outcomes of your human right policies and activities?", nil, 3,
         ["Qualitative outcomes", "Quantitative outcomes using defined indicators", "Expected outcomes/targets"]
       ],
 
-      [:labour, false, "Does the COP explain how your company determined labour issues (freedom of association and right to collective bargaining; forced and compulsory labour; child labour; non-discrimination) are not relevant for its business or the communities in which it operates?", nil, 1,
-        [""]
-      ],
-      [:labour, false, "Does the COP make explicit reference to planned policies and/or activities related to labour issues?", nil, 2,
-        [""]
-      ],
-      [:labour, true, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the labour principles?", nil, 1, 
+      [:labour, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the labour principles?", nil, 1, 
         ["Reflection on the relevance ('materiality') of the labour principles for your company",
           "Public commitment to uphold freedom of association and the right to collective bargaining",
           "Public commitment to eliminate forced and compulsory labour",
@@ -205,7 +193,7 @@ module ImporterHooks
           "Formal policy that addresses the labour principles (e.g. in code of conduct)"
         ]
       ],
-      [:labour, true, "Implementation: Does the COP explain how the labour principles are managed and/or what activities your company is undertaking?", nil, 2, 
+      [:labour, :additional, "Implementation: Does the COP explain how the labour principles are managed and/or what activities your company is undertaking?", nil, 2, 
         ["Allocation of responsibilities and accountabilities",
           "Internal and external communication",
           "Training for employees",
@@ -216,20 +204,14 @@ module ImporterHooks
           "Other"
         ]
       ],
-      [:labour, true, "Outcomes: Does the COP contain information on outcomes of your labour policies and activities?", nil, 3,
+      [:labour, :additional, "Outcomes: Does the COP contain information on outcomes of your labour policies and activities?", nil, 3,
         ["Qualitative outcomes (e.g. operations identified as having significant risk for labour incidents)",
           "Quantitative outcomes using defined indicators (e.g. percentage of employees covered by collective bargaining agreements; )",
           "Expected outcomes/targets"
         ]
       ],
       
-      [:environment, false, "Does the COP explain how your company determined environmental issues are not relevant for its business or the communities in which it operates?", nil, 1,
-        [""]
-      ],
-      [:environment, false, "Does the COP make explicit reference to planned policies and/or activities related to labour issues?", nil, 2,
-        [""]
-      ],
-      [:environment, true, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", nil, 1,
+      [:environment, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", nil, 1,
         ["Reflection on the relevance ('materiality') of the labour principles for your company",
           "Public commitment to support a precautionary approach to environmental challenges",
           "Public commitment to undertake initiatives to promote greater environmental responsibility",
@@ -238,7 +220,7 @@ module ImporterHooks
           "Formal environmental policy"
         ]
       ],
-      [:environment, true, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", nil, 2,
+      [:environment, :additional, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", nil, 2,
         ["Environmental risk and/or impact assessment",
           "Environmental management system",
           "Allocation of responsibilities and accountabilities",
@@ -251,13 +233,13 @@ module ImporterHooks
           "Other"
         ]
       ],
-      [:environment, true, "Outcomes: Does the COP contain information on outcomes of your environmental policies and activities?", nil, 3,
+      [:environment, :additional, "Outcomes: Does the COP contain information on outcomes of your environmental policies and activities?", nil, 3,
         ["Qualitative outcomes",
           "Quantitative outcomes using defined indicators",
           "Expected outcomes/targets"
         ]
       ],
-      [:environment, true, "Does your COP provide information about activities and/or outcomes related to your company's participation in Caring for Climate?", Initiative.find_by_name("Caring For Climate").try(:id), 4,
+      [:environment, :additional, "Does your COP provide information about activities and/or outcomes related to your company's participation in Caring for Climate?", Initiative.find_by_name("Caring For Climate").try(:id), 4,
         ["Activities aimed at improving the energy efficiency of products, services and processes",
           "Engagement in public policy",
           "Working collaboratively with peers and along the value-chain",
@@ -266,13 +248,7 @@ module ImporterHooks
         ]
       ],
       
-      [:anti_corruption, false, "Does the COP explain how your company determined that corruption is not relevant to its business or the communities in which it operates?", nil, 1,
-        [""]
-      ],
-      [:anti_corruption, false, "Does the COP make explicit reference to planned policies and/or activities related to corruption?", nil, 2,
-        [""]
-      ],
-      [:anti_corruption, true, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", nil, 1,
+      [:anti_corruption, :additional, "Commitment and policy: Does the COP make an explicit commitment or mention a policy document on the environmental principles?", nil, 1,
         ["Reflection on the relevance ('materiality') of corruption for your company",
           "Publicly stated commitment to zero-tolerance of corruption",
           "Commitment to be compliant with all laws relevant to corruption",
@@ -280,7 +256,7 @@ module ImporterHooks
           "Statement of support for international and regional legal frameworks, such as the UN Convention Against Corruption"
         ]
       ],
-      [:anti_corruption, true, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", nil, 2,
+      [:anti_corruption, :additional, "Implementation: Does the COP explain how environmental issues are managed and/or what activities your company is undertaking?", nil, 2,
         ["Identification of corruption risks within your company's business",
           "Implementation of an anti-corruption program, such as standards and procedures, allocation of responsibilities, or sanctions",
           "Support by the organization's leadership to anti-corruption",
@@ -293,52 +269,63 @@ module ImporterHooks
           "Other"
         ]
       ],
-      [:anti_corruption, true, "Outcomes: Does the COP contain information on outcomes of your anti-corruption policies and activities?", nil, 3,
+      [:anti_corruption, :additional, "Outcomes: Does the COP contain information on outcomes of your anti-corruption policies and activities?", nil, 3,
         ["Qualitative outcomes (e.g. public legal cases regarding corruption; actions taken in response to incidents of corruption)",
           "Quantitative outcomes using defined indicators (e.g. percentage and total number of business units analyzed for risks related to corruption)",
           "Expected outcomes/targets"
         ]
       ],
-      [nil, false, "Does your COP contain information about partnership projects undertaken in support of broader UN goals, usch as the Millennium development Goals?", nil, 1,
-        ["With United Nations entities",
-          "With NGOs",
-          "With other organizations"
+      [nil, :mandatory, "Does your COP use the Global Reporting (GRI) framework?", nil, 1,
+        ["No",
+          "GRI G2 or GRI G3 frameworks with unknown application level",
+          "GRI G3 - application level C",
+          "GRI G3 - application level C+",
+          "GRI G3 - application level B",
+          "GRI G3 - application level B+",
+          "GRI G3 - application level A",
+          "GRI G3 - application level A+"
         ]
       ],
-      [nil, false, "Does your COP provide information about activities that your company is undertaking to implement the UN Global Compact in any conflict-affected countries whenre you have operations?", nil, 2,
-        ["Awareness raising",
-          "Conflict-sensitive training for employees",
-          "Participation in peace-building initiatives",
-          "Supplier due diligence"
+      [nil, :mandatory, "Does your COP contain information on the following elements?", nil, 2,
+        ["Description of your company and its business activities (e.g. company profile,)",
+          "Definition of boundary of COP (e.g. subsidiaries, joint ventures, subcontractors etc.)",
+          "Description of how your company engages with stakeholder on the Global Compact issue areas",
+          "Description of how the COP is shared with your company's stakeholders"
         ]
       ],
-      [nil, false, "Does your COP describe how the company engages with stakeholders in implementing the UN Global Compact principles and/or in preparing a COP?", nil, 3,
-        ["Engagement with Civil Society Organizations incl. NGOs",
-          "Engagement with trade unions",
-          "Engagement with regulators, governments, etc.",
-          "Engagement with investors",
-          "Engagement with other stakeholders"
-        ]
+      
+      [nil, :notable, "Does the statement of continued support to the Global Compact refer to major achievements in implementing the principles?", nil, 1,[]
       ],
-      [nil, false, "Does your COP use the Global Reporting (GRI) framework?", nil, 4,
-        ["GRI G2 or GRI G3 frameworks",
-          "GRI G3 - application level C / C+",
-          "GRI G3 - application level B / B+",
-          "GRI G3 - application level A / A+"
-        ]
+      [nil, :notable, "Does the statement of continued support to the Global Compact describe how your company actively supports the initiative (i.e. participation in UNGC events/Local networks and/or public interviews/speeches)?", nil, 2,[]
       ],
-      [nil, false, "Is your COP third-party verified?", nil, 5,
-        ["Using AA1000 Assurance Standard",
-          "Using ISAE 3000 framework",
-          "Verified by a stakeholder panel",
-          "Peer reviewed by Global Compact Local Network",
-          "Other form of external verification"
+      [nil, :notable, "Are your practical actions adequately described to allow readers to learn from your experience and replicate your approach (e.g. no bullet point or check-box descriptions)?", nil, 3,[]
+      ],
+      [nil, :notable, "Does the COP outline specific actions your company has planned for the next year(s)?", nil, 4,[]
+      ],
+      [nil, :notable, "Does the COP describe performance for several years, allowing the readers to check progress year on year?", nil, 5,[]
+      ],
+      [nil, :notable, "Is your performance compared to peer companies or the industry/sector average?", nil, 6,[]
+      ],
+      [nil, :notable, "Does your COP present positive and negative aspects of your performance to enable a reasoned assessment of overall performance?", nil, 7,[]
+      ],
+      [nil, :notable, "Does your COP attempt to analyse the link between your outcomes and financial performance?", nil, 8,[]
+      ],
+      [nil, :notable, "Is information made available in a manner that is understandable and accessible to stakeholders using the report (i.e. graphs, tables, diagrams, definitions)?", nil, 9,[]
+      ],
+      [nil, :notable, "Is your COP third-party verified?", nil, 10,
+        ["No",
+          "Yes, using AA1000 Assurance Standard",
+          "Yes, using ISAE 3000 framework.",
+          "Yes, verified by a multi-stakeholder panel.",
+          "Yes, peer reviewed by Global Compact Local Network.",
+          "Yes, through other form of external verification."
         ]
       ]
+      
     ].each do |record|
       principle_area_id = record.first.nil? ? nil : PrincipleArea.send(record.first).id
       question = CopQuestion.create(:principle_area_id => principle_area_id,
-                                    :area_selected     => record.second,
+                                    :grouping          => record.second,
                                     :text              => record.third,
                                     :initiative_id     => record.fourth,
                                     :position          => record.fifth)

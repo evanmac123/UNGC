@@ -117,26 +117,27 @@
         %p
           Does the statement of continued support explain how your company benefits from participating in the Global Compact?
           = true_or_false_field(form, :support_statement_explain_benefits)
-        
+
         %p
           Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
           = true_or_false_field(form, :additional_questions)
-          
+
         %p
           Would you like your Communication on Progress to be reviewed against the Notable Program?
           = true_or_false_field(form, :notable_program)
-          
+
         #additional_questions{:style => 'display: none'}
           - PrincipleArea::FILTERS.each_pair do |key, value|
             %div{:id => "#{key}_additional_questions", :style => "display:#{principle_area_display_value(@communication_on_progress, key)}"}
               %fieldset
+                %legend= value
                 = cop_questions_for @communication_on_progress, :additional, key
 
         #notable_questions{:style => 'display: none'}
           %fieldset
             %legend Notable questions
             = cop_questions_for @communication_on_progress, :notable
-  
+
   #reject_cop{:style => 'display: none'}
     %p
       "Reject COP" procedure.
