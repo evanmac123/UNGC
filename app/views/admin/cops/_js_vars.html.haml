@@ -1,0 +1,5 @@
+- new_cop_file_code = escape_javascript(render :partial => 'cop_file', :locals => {:cop_file => CopFile.new, :record => nil})
+= javascript_tag("var cop_file_form = \"#{new_cop_file_code}\"")
+
+- new_cop_link_code = escape_javascript(render :partial => 'cop_link', :locals => {:cop_link => CopLink.new, :record => nil})
+= javascript_tag("var cop_link_form = \"#{new_cop_link_code}\"")

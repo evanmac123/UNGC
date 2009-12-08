@@ -9,13 +9,13 @@ module Admin::CopsHelper
     content_tag :p, links unless links.blank?
   end
   
-  def true_or_false_field(form, field)
+  def true_or_false_field(form, field, options={})
     html = tag(:br)
-    html << form.radio_button(field, 'true')
-    html << form.label(field, 'True', :value => 'true')
+    html << form.radio_button(field, 'true', :class => options[:class])
+    html << form.label(field, (options[:yes] || 'Yes'), :value => 'true')
     html << tag(:br)
-    html << form.radio_button(field, 'false')
-    html << form.label(field, 'False', :value => 'false')
+    html << form.radio_button(field, 'false', :class => options[:class])
+    html << form.label(field, (options[:no] || 'No'), :value => 'false')
     return html
   end
   
@@ -30,10 +30,10 @@ module Admin::CopsHelper
     html << hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
 
     html << radio_button_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", 'true', answer.value)
-    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_true", 'True')
+    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_true", 'Yes')
     html << tag(:br)
     html << radio_button_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", 'false', !answer.value)
-    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_false", 'False')
+    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_false", 'No')
     
     return html
   end
@@ -59,11 +59,11 @@ module Admin::CopsHelper
     return html
   end
   
-  def cop_questions_for(cop, principle, selected)
+  def cop_questions_for(cop, grouping, principle=nil)
     # find questions
     principle_area_id = principle.nil? ? nil : PrincipleArea.send(principle).id
     questions = CopQuestion.questions_for(cop.organization).all(:conditions => {:principle_area_id => principle_area_id,
-                                                                                :area_selected     => selected})
+                                                                                :grouping          => grouping})
     return questions.collect{|question| output_cop_question(cop, question)}.join('')
   end
   
@@ -103,5 +103,13 @@ module Admin::CopsHelper
 
       content_tag :li, output
     end.join
+  end
+  
+  def principle_area_display_value(cop, area)
+    if cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?")
+      "block"
+    else
+      "none"
+    end
   end
 end
