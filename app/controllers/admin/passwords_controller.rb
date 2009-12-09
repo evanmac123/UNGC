@@ -7,9 +7,9 @@ class Admin::PasswordsController < ApplicationController
     if @contact
       @contact.refresh_reset_password_token!
       ContactMailer.deliver_reset_password(@contact)
-      flash.now[:notice] = 'We sent you an email to help you reset your password.'
+      flash.now[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'
     else
-      flash.now[:error] = "We couldn't find a user with the email you provided."
+      flash.now[:error] = "Sorry, we could not find a username with the email you provided."
     end
     render :action => 'new'
   end
@@ -17,7 +17,7 @@ class Admin::PasswordsController < ApplicationController
   def edit
     @contact = Contact.find_by_reset_password_token params[:id]
     unless @contact
-      flash[:error] = "Please, request a new email to reset your password"
+      flash[:error] = "Your password reset request has expired. Please re-enter your email to reset your password."
       redirect_to new_password_path
     end
   end

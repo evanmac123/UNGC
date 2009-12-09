@@ -1,9 +1,9 @@
 class ContactMailer < ActionMailer::Base
   def reset_password(contact)
-    subject "Reset Your Password"
+    subject "United Nations Global Compact - Reset Password"
     from EMAIL_SENDER
     content_type "text/html"
-    recipients contact.email
+    recipients contact.email_recipient
     body :contact => contact
   end
 end
