@@ -81,6 +81,18 @@ Make sure that pdf2txt.py is in the path, and it should be fine.
 
 Done :)
 
+Controlling Sphinx
+==================
+
+rake ts:rebuild
+rake ts:start
+
+Deploy with Capistrano
+======================
+
+cap -T
+cap deploy
+
 Cron Jobs
 =========
 
