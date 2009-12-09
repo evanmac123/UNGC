@@ -1,7 +1,7 @@
-%h2 Password reset
+%h2 Reset your password
 
 %p
-  Enter your email address in the form below, and we'll let you reset your password.
+  Please enter your email address below. You will receive an email with instructions on choosing a new password.
 
 - form_tag password_path do 
   %p
@@ -9,6 +9,22 @@
     %br/
     = text_field_tag :email
     
-  %p= submit_tag 'Go'
+  %p= submit_tag 'Submit'
   
-= link_to 'I just remembered my password!', login_path
+- if flash.now[:error]
+  %h3 Why could you not find my username?
+  
+  %ul
+    %li The email address was typed incorrectly
+    %li Your current email address has changed, but has not been updated in your account settings
+    %li You have not been added as a Contact Point for your organization
+
+  %h3 How can I update my email address?
+
+  %ul
+    %li Request the Contact Point in your organization to update your account, or add you as an additional Contact Point
+    %li
+      If you do not know your organization's Contact Point, please email 
+      = mail_to "globalcompact@un.org", "globalcompact@un.org", :subject => "Username and Password Request"
+      and provide your organization's name
+    %li Once you have received your login information, please be sure to keep your account profile updated with your current email address
