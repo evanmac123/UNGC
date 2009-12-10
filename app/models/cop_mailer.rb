@@ -22,4 +22,29 @@ class CopMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
   end
+  
+  def delisting_in_90_days(organization)
+    from EMAIL_SENDER
+    subject "Your organization is at risk of being delisted from the Global Compact in 90 days"
+    content_type "text/html"
+    recipients organization.contacts.contact_points.collect(&:email_recipient)
+    body :organization => organization
+  end
+
+  def delisting_in_30_days(organization)
+    from EMAIL_SENDER
+    subject "Your organization is at risk of being delisted from the Global Compact in 30 days"
+    content_type "text/html"
+    recipients organization.contacts.contact_points.collect(&:email_recipient)
+    body :organization => organization
+  end
+
+  def delisting_today(organization)
+    from EMAIL_SENDER
+    subject "Your organization has been delisted from the Global Compact"
+    content_type "text/html"
+    recipients organization.contacts.contact_points.collect(&:email_recipient)
+    body :organization => organization
+  end
+  
 end
