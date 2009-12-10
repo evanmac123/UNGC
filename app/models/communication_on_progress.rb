@@ -58,7 +58,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   include VisibleTo
   include ApprovalWorkflow
 
-  validates_presence_of :organization_id, :title
+  validates_presence_of :organization_id
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
   has_and_belongs_to_many :languages
@@ -90,7 +90,7 @@ class CommunicationOnProgress < ActiveRecord::Base
             :annual_report     => "COP is part of an annual (financial) report",
             :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
             :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :web_based         => "COP is entirely web based ",
+            :web_based         => "COP is entirely web based",
             :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for extension of COP deadline"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
@@ -155,6 +155,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     unless self.editable?
       errors.add_to_base("You can no longer edit this COP. Please, submit a new one.")
     end
+  end
+  
+  def is_grace_letter?
+    self.format == FORMAT[:grace_letter]
   end
   
   # Indicated whether this COP is editable
