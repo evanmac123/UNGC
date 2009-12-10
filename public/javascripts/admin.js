@@ -127,6 +127,21 @@ function makeDestroyLink (event) {
 	return false;	
 }
 
+function saveTree (e) {
+	var url  = $(e.target).attr('rel');
+	var data = $.tree.reference('#tree').get();
+	var data_json = JSON.stringify(data);
+	data_json = encodeURIComponent(data_json)
+	// console.log(data); // 'do something with de data');
+	jQuery.ajax({
+	  	type: 'post',
+	  	url: url,
+			data: "tree="+data_json,
+	  	dataType: 'json',
+		// success: Watcher.decoratePage
+	});
+}
+
 // Uses the new live method in jQuery 1.3+
 $('a.delete').live('click', function(event) {
 
@@ -135,6 +150,8 @@ $('a.delete').live('click', function(event) {
 $(function() {
 	$('a.link_to_post').live('click', makePostLink );
 	$('a.link_to_destroy').live( 'click', makeDestroyLink );
+	
+	$('button.save_tree').live('click', saveTree );
 	
 	if ($('form textarea#page_content').size() > 0) {
 		startEditor('page_content');

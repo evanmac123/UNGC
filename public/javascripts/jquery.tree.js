@@ -581,7 +581,8 @@
 					lang = lang ? lang : this.current_lang;
 					obj = obj.children("a." + lang);
 				}
-				else obj = obj.children("a:visible");
+				// else obj = obj.children("a:visible");
+				else obj = obj.children('a');
 				var val = "";
 				obj.contents().each(function () {
 					if(this.nodeType == 3) { val = this.data; return false; }
