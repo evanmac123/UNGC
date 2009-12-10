@@ -1,9 +1,9 @@
 class AddCopsConcreteActivitiesFields < ActiveRecord::Migration
   def self.up
-    add_column :communication_on_progresses, :concrete_human_rights_activities, :boolean
-    add_column :communication_on_progresses, :concrete_labour_activities, :boolean
-    add_column :communication_on_progresses, :concrete_environment_activities, :boolean
-    add_column :communication_on_progresses, :concrete_anti_corruption_activities, :boolean
+    add_column :communication_on_progresses, :concrete_human_rights_activities, :boolean, :default => false
+    add_column :communication_on_progresses, :concrete_labour_activities, :boolean, :default => false
+    add_column :communication_on_progresses, :concrete_environment_activities, :boolean, :default => false
+    add_column :communication_on_progresses, :concrete_anti_corruption_activities, :boolean, :default => false
 
     remove_column :communication_on_progresses, :measures_human_rights_outcomes
     remove_column :communication_on_progresses, :measures_labour_outcomes
