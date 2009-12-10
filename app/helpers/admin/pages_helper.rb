@@ -4,9 +4,9 @@ module Admin::PagesHelper
     if object.id == 'home'
       Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')
     elsif object.is_a?(PageGroup)
-      object.visible_children
+      object.children.approved.find(:all, :include => :children)
     elsif object.is_a?(Page)
-      object.visible_children
+      object.children.approved.find(:all, :include => :children)
     end
   end
   
@@ -16,8 +16,26 @@ module Admin::PagesHelper
     [@home] + PageGroup.all
   end
   
+  def section_for_json(section)
+    opacity = section.display_in_navigation ? '' : 'opacity: .4;'
+    {
+      data: {title: section.title, attributes: { style: opacity } },
+      attributes: {id: "section_#{section.id}", rel: 'section'},
+      children: children_of(section).map { |c| page_for_json(c) }
+    }
+  end
+  
+  def page_for_json(page)
+    opacity = page.display_in_navigation ? '' : 'opacity: .4;'
+    {
+      data: {title: page.title || 'Untitled', attributes: { href: admin_page_path(page), style: opacity}},
+      attributes: {id: "page_#{page.id}", rel: 'page'},
+      children: children_of(page).map { |c| page_for_json(c) }
+    }
+  end
+  
   def link_helper(object)
-    title = object.title || 'Untitled'
+    title = (object.title || 'Untitled').gsub(/\&/, '&amp;')
     url = if object.is_a?(PageGroup)
       '#FIXME'
     elsif object.is_a?(Page)

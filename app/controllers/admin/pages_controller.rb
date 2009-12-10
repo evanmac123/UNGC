@@ -3,6 +3,11 @@ class Admin::PagesController < AdminController
   before_filter :ckeditor, :only => [:new, :create, :edit, :update]
 
   def index
+    # @javascript = ['json2.js']
+    respond_to do |wants|
+      wants.html { }
+      wants.js   { }
+    end
   end
 
   def pending
@@ -76,6 +81,11 @@ class Admin::PagesController < AdminController
     end
   end
 
+  def save_tree
+    PageGroup.import_tree(params[:tree])
+    render :inline => ''
+  end
+
   def find_by_path_and_redirect_to_latest
     page = Page.all_versions_of(params[:path]).last
     redirect_to edit_admin_page_path(page.id)
@@ -93,5 +103,4 @@ class Admin::PagesController < AdminController
         render :text => 'Not Found', :status => 404
       end
     end
-  
 end
