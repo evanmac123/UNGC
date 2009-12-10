@@ -69,6 +69,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_many :cop_files, :foreign_key => :cop_id
   has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
+  
+  before_save :can_be_edited?
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
@@ -147,6 +149,25 @@ class CommunicationOnProgress < ActiveRecord::Base
                                :value            => false)
         }
     }
+  end
+
+  def can_be_edited?
+    unless self.editable?
+      errors.add_to_base("You can no longer edit this COP. Please, submit a new one.")
+    end
+  end
+  
+  # Indicated whether this COP is editable
+  def editable?
+    # TODO use the new pre-pending state here
+    return true if self.new_record?
+    if self.pending_review?
+      self.created_at + 30.days >= Time.now
+    elsif self.in_review?
+      self.created_at + 90.days >= Time.now
+    else
+      false
+    end
   end
   
   private
