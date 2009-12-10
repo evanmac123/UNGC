@@ -14,8 +14,15 @@
 #
 
 class CopFile < ActiveRecord::Base
-  validates_presence_of :name
+  validates_presence_of :attachment_type
   belongs_to :communication_on_progress, :foreign_key => :cop_id
+  belongs_to :language
 
   has_attached_file :attachment
+
+  TYPES = {:grace_letter          => 'grace_letter',
+           :cop                   => 'cop',
+           :cop_with_stakeholders => 'cop_with_stakeholders',
+           :web_cop               => 'web_cop',
+           :support_statement     => 'support_statement'}
 end

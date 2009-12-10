@@ -31,4 +31,9 @@ module ApplicationHelper
       link_to object.attachment_file_name, object.attachment.url
     end
   end
+  
+  def css_display_style(&block)
+    value = block.call ? 'block' : 'none'
+    "display: #{value}"
+  end
 end

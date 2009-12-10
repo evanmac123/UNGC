@@ -1,8 +1,10 @@
 - record = 'NEW_RECORD' if record.nil?
 %div{:id => "cop_file_#{record}"}
-  = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_name", 'Name')
-  = text_field_tag("communication_on_progress[cop_files_attributes][#{record}][name]", cop_file.name)
-  %br/
+  = hidden_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment_type]", cop_file.attachment_type)
+
+  = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_language_id", 'Language')
+  = select_tag("communication_on_progress[cop_files_attributes][#{record}][language_id]",  options_from_collection_for_select(Language.all, 'id', 'name'))
+
   = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_attachment", 'File')
   = file_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment]")
 

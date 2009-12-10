@@ -9,10 +9,10 @@
     = form.radio_button :format, key
     = form.label :format, value, :value => key
 
-#grace_letter_fields{:style => 'display: none'}
+#grace_letter_fields{:style => css_display_style { @communication_on_progress.is_grace_letter? } }
   %p
     Please upload your "Grace Letter"
-    = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Grace Letter'), :record => 100}
+    = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
 
 #non_grace_letter_fields{:style => 'display: none'}
   %p
@@ -37,20 +37,20 @@
 
       #cop_files{:style => 'display: none'}
         Upload the COP .pdf file
-        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'COP'), :record => 105}
+        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
         Add a link to show how they share the COP with stakeholders
-        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'COP shared with stakeholders'), :record => 106}
+        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop_with_stakeholders])}
       #cop_links{:style => 'display: none'}
         Post link to COP
-        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'COP'), :record => 120}
+        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
         We encourage you to upload one .pdf file with the content of your web based COP
-        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Web-based COP'), :record => 105}
+        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
       #statement_support_pdf{:style => 'display: none'}
         Upload one .pdf file which contains the statement of continued support
-        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Statement of Support'), :record => 110}
+        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:support_statement])}
       #statement_support_link{:style => 'display: none'}
         Provide a link to the web page that contains the statement of continued support
-        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'Statement of Support'), :record => 120}
+        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:support_statement])}
       
       %p
         Are you submitting the COP of your parent company (this question only applies, if you are representing a subsidiary of another Global Compact participant)?

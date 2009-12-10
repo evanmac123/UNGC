@@ -11,6 +11,7 @@
 #
 
 class CopLink < ActiveRecord::Base
-  validates_presence_of :name, :url
+  validates_presence_of :attachment_type, :url
   belongs_to :communication_on_progress, :foreign_key => :cop_id
+  belongs_to :language
 end
