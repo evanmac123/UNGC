@@ -1,22 +1,12 @@
 %h3 Pages
- 
+
+%p
+  = content_tag :button, 'Save changes', class: 'save_tree', rel: save_tree_admin_pages_path
+
 #page_tree_wrapper.clearfix
   #tree_container.outside
     #tree.inside
-      %ul
-        - for section in sections do
-          %li{id: id_for(section) }
-            = link_helper section 
-            - if children = children_of(section) and children.any?
-              %ul{id: "children_#{id_for(section)}"}
-                - for page in children do
-                  %li.page
-                    = link_helper page
-                    - if more_children = children_of(page) and more_children.any?
-                      %ul{id: "children_#{id_for(page)}"}
-                        - for subpage in more_children do
-                          %li{id: id_for(subpage)}
-                            = link_helper subpage
+
   #page_container.outside
     #page
       #loading{style: 'display:none'} 

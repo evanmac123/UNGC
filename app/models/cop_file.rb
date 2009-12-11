@@ -4,13 +4,14 @@
 #
 #  id                      :integer(4)      not null, primary key
 #  cop_id                  :integer(4)
-#  name                    :string(255)
 #  attachment_file_name    :string(255)
 #  attachment_content_type :string(255)
 #  attachment_file_size    :integer(4)
 #  attachment_updated_at   :datetime
 #  created_at              :datetime
 #  updated_at              :datetime
+#  attachment_type         :string(255)
+#  language_id             :integer(4)
 #
 
 class CopFile < ActiveRecord::Base

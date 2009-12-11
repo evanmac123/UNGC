@@ -95,6 +95,12 @@
           Anti-Corruption
           = true_or_false_field(form, :concrete_anti_corruption_activities, :class => 'score')
 
+        %p#only_3_areas_selected{:style => 'display: none'}
+          Does your COP contain an explanation of why
+          %span#last_issue_area Human Rights
+          is not relevant to your company?
+          = true_or_false_field(form, :missing_principle_explained)
+
         %p
           Does your COP
           %strong

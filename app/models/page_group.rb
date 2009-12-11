@@ -11,7 +11,7 @@
 #
 
 class PageGroup < ActiveRecord::Base
-  has_many :children, :class_name => 'Page', :foreign_key => :group_id
+  has_many :children, :class_name => 'Page', :foreign_key => :group_id, :conditions => {:parent_id => nil}
   has_many :visible_children, 
     :class_name  => 'Page', 
     :foreign_key => :group_id, 
@@ -19,7 +19,8 @@ class PageGroup < ActiveRecord::Base
     :order       => "position ASC"
   
   named_scope :for_navigation, 
-    :include => :visible_children,
+    :include    => :visible_children,
+    :order      => "page_groups.position ASC",
     :conditions => ["page_groups.display_in_navigation = ?", true]
   
   def link_to_first_child
@@ -34,5 +35,12 @@ class PageGroup < ActiveRecord::Base
     name
   end
   
+  def title=(string)
+    self.name = string
+  end
+  
+  def self.import_tree(json_string)
+    TreeImporter.import_tree(json_string)
+  end
   
 end

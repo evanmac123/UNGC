@@ -107,7 +107,7 @@ $("input[class='score']").change(function() {
     $("#labour_additional_questions").hide();
   }
   if ($("#communication_on_progress_references_environment_true").is(':checked') ||
-		$("#communication_on_progress_concrete_environment_rights_activities_true").is(':checked')) {
+		$("#communication_on_progress_concrete_environment_activities_true").is(':checked')) {
     score = score + 1;
     $("#environment_additional_questions").show();
   } else {
@@ -119,6 +119,21 @@ $("input[class='score']").change(function() {
     $("#anti_corruption_additional_questions").show();
   } else {
     $("#anti_corruption_additional_questions").hide();
+  }
+  if (score == 3) {
+    $("#only_3_areas_selected").show();
+
+    // find out what the missing area is
+    var areas = { human_rights:"Human Rights", labour:"Labour", environment:"Environment", anti_corruption:"Anti-Corruption" };
+	jQuery.each(areas, function(key, val) {
+	  if ($("#communication_on_progress_references_" + key + "_false").is(':checked') &&
+	  	  $("#communication_on_progress_concrete_" + key + "_activities_false").is(':checked')) {
+		area = val;
+	  }
+	});
+    $("#last_issue_area").text(area);
+  } else {
+    $("#only_3_areas_selected").hide();
   }
 })
 
