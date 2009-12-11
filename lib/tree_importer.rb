@@ -1,9 +1,7 @@
 class TreeImporter
   attr_accessor :title, :identifier, :children, :position, :type
-  
-  def self.new_from_json(node, position=0)
-    # raise node.inspect
-    tmp_identifier = node['attributes']['id']
+
+  def self.get_type_and_id(tmp_identifier)
     if tmp_identifier == 'section_home'
       type_str = 'section'
       identifier = nil
@@ -11,6 +9,12 @@ class TreeImporter
       type_str = tmp_identifier[/[^_0-9]+/]
       identifier = tmp_identifier[/\d+/]
     end
+    [type_str, identifier]
+  end
+  
+  def self.new_from_json(node, position=0)
+    # raise node.inspect
+    type_str, identifier = get_type_and_id(node['attributes']['id'])
     title = node['data']['title']
     children = []
     node['children'].each_with_index { |child,i| children << new_from_json(child, i) } if node['children']

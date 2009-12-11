@@ -142,6 +142,35 @@ function saveTree (e) {
 	});
 }
 
+function newSection (e) {
+	e.preventDefault();
+	var tree = $.tree.reference('#tree')
+	var time = new Date().getTime();
+	var node = tree.create(
+		{
+			data: { title: 'New section', attributes: { class: 'hidden' } }, 
+			attributes: {id: 'new_section_'+time, rel: 'section'}
+		}, 
+		-1);
+	tree.rename(node);
+	// console.log(node);
+}
+
+function newPage (e) {
+	e.preventDefault();
+	var tree = $.tree.reference('#tree')
+	if (tree.selected) {
+		var time = new Date().getTime();
+		var node = tree.create(
+			{
+				data: { title: 'New page', attributes: { class: 'hidden' } },
+				attributes: {id: 'new_page_'+time, rel: 'page'}
+			}
+		);
+		tree.rename(node);
+	}
+}
+
 // Uses the new live method in jQuery 1.3+
 $('a.delete').live('click', function(event) {
 
@@ -152,6 +181,8 @@ $(function() {
 	$('a.link_to_destroy').live( 'click', makeDestroyLink );
 	
 	$('button.save_tree').live('click', saveTree );
+	$('button.new_section').live('click', newSection );
+	$('button.new_page').live('click', newPage );
 	
 	if ($('form textarea#page_content').size() > 0) {
 		startEditor('page_content');

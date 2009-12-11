@@ -27,6 +27,11 @@ function showPage (argument) {
 //    }
 //  });
 // });
+
+function successfullyCreated (response) {
+  console.log(response);
+}
+
 var selected = null;
 $(function () { 
 	$("#tree").tree({
@@ -68,6 +73,27 @@ $(function () {
         $.tree.focused().rename();
         // console.log("double clicked dood!");
       },
+      oncreate: function(node, ref_node, type, tree_obj, rollback) {
+        var url = window.location.href + '.js';
+        var time = new Date().getTime();
+        var title = tree_obj.get_text(node);
+        title += ' ' + time; // add timestamp to title for path
+        $(node).addClass('updateAfterRename')
+        if (type == 'after') {
+          // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
+          var parent_id = $(ref_node).parents('li').attr('id');
+          jQuery.ajax({
+            type: 'post',
+            url: url,
+            dataType: 'json',
+            data: "page[title]="+title+"&page[derive_path_from]="+parent_id,
+            success: function(response) { $(node).attr( { id: "page_"+response.page.id } ) }
+          });
+        }
+      },
+      onrename: function(node, tree, rollback) {
+        // TODO: if class =~ /updateAfterRename/ then update Rails and remove class
+      },
       onselect: function(node, tree) {
         if (selected != node) {
           selected = node; // FIXME: global variables might be evil
@@ -79,8 +105,7 @@ $(function () {
               type: 'get',
               url: url,
               dataType: 'script',
-              success: showPage,
-
+              success: showPage
             });
           }
         }
