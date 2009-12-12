@@ -27,3 +27,7 @@
 	padding: 0.5em 2em 0.5em 2em;
 	position: fixed;
 }
+
+#tree ul li a.hidden {
+	opacity: 0.4;
+}

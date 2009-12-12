@@ -29,8 +29,10 @@ class Admin::PagesController < AdminController
   def create
     @page = Page.new params[:page]
     if @page.save
-      flash[:notice] = "Page successfully created"
-      redirect_to :action => 'index'
+      respond_to do |wants|
+        wants.html { flash[:notice] = "Page successfully created"; redirect_to :action => 'index' }
+        wants.js   { render :inline => @page.to_json }
+      end
     else
       render :action => 'new'
     end

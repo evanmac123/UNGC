@@ -28,10 +28,20 @@ class Page < ActiveRecord::Base
   include TrackCurrentUser
   
   before_create :increment_version_number
+  before_create :derive_path
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
   has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
-  has_many :visible_children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id, :conditions => {:display_in_navigation => true}
+  has_many :visible_children, 
+    :order => "position ASC", 
+    :class_name => 'Page', 
+    :foreign_key => :parent_id, 
+    :conditions => {:display_in_navigation => true}
+  has_many :approved_children, 
+    :order => 'position ASC', 
+    :class_name => 'Page', 
+    :foreign_key => :parent_id, 
+    :conditions => { approval: 'approved' }
 
   named_scope :all_versions_of, lambda { |path|
     # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
@@ -101,6 +111,36 @@ class Page < ActiveRecord::Base
     versions.approved.first
   end
   
+  def derive_path
+    return true unless path.blank?
+    if parent || parent_id
+      derive_path_from_parent
+    elsif section || group_id
+      derive_path_from_section
+    end
+  end
+  
+  def derive_path_from_parent
+    parent = parent || Page.find(parent_id)
+    (stub = parent.path)[/(\/index)?\.html$/] = ''
+    self.path = "#{stub}/#{title_to_path}.html"
+  end
+  
+  def derive_path_from_section
+    section = section || PageGroup.find(group_id)
+    self.path = "/#{section.path_stub}/#{title_to_path}.html"
+  end
+  
+  def derive_path_from=(string)
+    type_str, identifier = TreeImporter.get_type_and_id(string)
+    if identifier
+      type_str = type_str == 'page' ? 'parent_id' : 'group_id'
+      self.send("#{type_str}=", identifier)
+    elsif type_str == 'section' # in home area
+      self.path ||= "/#{title_to_path}.html"
+    end
+  end
+  
   def find_version_number(number)
     versions.find_by_version_number number
   end
@@ -151,10 +191,16 @@ class Page < ActiveRecord::Base
     self.class.all_versions_of(path).earlier_versions_than(version_number).first
   end
 
+  def title_to_path
+    path = title.downcase
+    path.gsub!(/\W+/, '_')
+    path.gsub!(/_+/, '_')
+    path.gsub!(/_$/, '')
+    path
+  end
+
   def to_path
-    array = path.split('/')
-    array.shift
-    array
+    path.split('/').reject { |s| s == '' }
   end
 
   def update_pending_or_new_version(options={})

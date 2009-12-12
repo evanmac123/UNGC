@@ -8,6 +8,8 @@
 #  html_code             :string(255)
 #  created_at            :datetime
 #  updated_at            :datetime
+#  position              :integer(4)
+#  path                  :string(255)
 #
 
 class PageGroup < ActiveRecord::Base
@@ -17,6 +19,12 @@ class PageGroup < ActiveRecord::Base
     :foreign_key => :group_id, 
     :conditions  => {:approval => 'approved', :display_in_navigation => true, :parent_id => nil},
     :order       => "position ASC"
+  has_many :approved_children,
+    :class_name  => 'Page', 
+    :foreign_key => :group_id, 
+    :conditions  => {:approval => 'approved', :parent_id => nil},
+    :order       => "position ASC"
+  
   
   named_scope :for_navigation, 
     :include    => :visible_children,
