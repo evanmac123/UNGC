@@ -2,8 +2,4 @@
 
 - form_for(:contact, builder: DefaultFormBuilder, url: admin_organization_contact_path(@organization.id, @contact), :html => {:method => :put}) do |form|
   = render :partial => form
-  
-  %p
-    = form.submit 'Save'
-
-= link_to 'Back', admin_organization_path(@organization.id)
+  = form.submit 'Save', :class => 'button'
