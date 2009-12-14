@@ -1,8 +1,9 @@
 %ul#main_nav.nav_bar
   = link_to_current 'Dashboard', dashboard_path, action_name == 'dashboard'
-  = link_to_current 'Pages', admin_pages_path, controller.is_a?(Admin::PagesController)
-  = link_to_current 'Organizations', admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
-  = link_to_current 'Events', admin_events_path, controller.is_a?(Admin::EventsController)
-  = link_to_current 'News headlines', admin_headlines_path, controller.is_a?(Admin::NewsController)
-  = link_to_current 'Reports', admin_reports_path, controller.is_a?(Admin::ReportsController)
-  = link_to_current 'Initiatives', admin_initiatives_path, controller.is_a?(Admin::InitiativesController)
+  - if logged_in? && current_user.from_ungc?
+    = link_to_current 'Pages', admin_pages_path, controller.is_a?(Admin::PagesController)
+    = link_to_current 'Organizations', admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
+    = link_to_current 'Events', admin_events_path, controller.is_a?(Admin::EventsController)
+    = link_to_current 'News headlines', admin_headlines_path, controller.is_a?(Admin::NewsController)
+    = link_to_current 'Reports', admin_reports_path, controller.is_a?(Admin::ReportsController)
+    = link_to_current 'Initiatives', admin_initiatives_path, controller.is_a?(Admin::InitiativesController)

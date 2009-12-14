@@ -5,3 +5,8 @@
       You are logged in as: <br />
       - link_to current_user.name_with_title, "#", :class => "username"
       ==<small>(#{link_to "Log out", logout_path, :method => :delete, :title => "Log out"})</small>
+
+#tools{:class => "span-6 push-1 sidebar"}
+  %h2 Tools
+  %ul 
+    %li#edit_org <a href="#">Edit your organization</a></li> 
