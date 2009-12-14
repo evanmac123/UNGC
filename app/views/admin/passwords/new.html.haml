@@ -3,14 +3,15 @@
 %p
   Please enter your email address below. You will receive an email with instructions on choosing a new password.
 
-- form_tag password_path do 
-  %p
-    = label_tag :email
-    %br/
-    = text_field_tag :email
-    
-  %p= submit_tag 'Submit'
-  
+- form_tag password_path do
+  %fieldset
+    %ol
+      %li
+        = label_tag :email
+        = text_field_tag :email
+
+  = submit_tag 'Submit', :class => 'button'
+
 - if flash.now[:error]
   %h3 Why could you not find my username?
   
