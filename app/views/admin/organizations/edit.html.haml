@@ -1,10 +1,8 @@
-%h1 Editing organization
+%h2 Editing organization
 
-- form_for(:organization, url: admin_organization_path(@organization.id), :html => {:method => :put, :multipart => true}) do |form|
+- form_for(:organization, builder: DefaultFormBuilder, url: admin_organization_path(@organization.id), :html => {:method => :put, :multipart => true}) do |form|
   = render :partial => form
-
-  %p
-    = form.submit 'Update'
+  = form.submit 'Update', :class => 'button'
 
 - staff_only do
   = link_to 'Show', admin_organization_path(@organization.id)
