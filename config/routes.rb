@@ -56,6 +56,7 @@ ActionController::Routing::Routes.draw do |map|
       admin.resources :communication_on_progresses, :has_many => :comments
       admin.resources :initiatives, :has_many => :signings
       admin.resources :contacts_roles
+      admin.resources :roles
     
       admin.reports 'reports', :controller => 'reports', :action => 'index'
       admin.report 'reports/:action.:format', :controller => 'reports'

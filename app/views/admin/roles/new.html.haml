@@ -1,0 +1,5 @@
+%h2 New role
+
+- form_for @role, builder: DefaultFormBuilder, url: admin_roles_path do |form|
+  = render :partial => form
+  = form.submit 'Create', :class => 'button'

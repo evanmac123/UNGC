@@ -128,7 +128,8 @@ module FixtureReplacement
   attributes_for :removal_reason do |a|
 	end
 
-  attributes_for :role do |a|
+  attributes_for :role do |r|
+    r.name = String.random
 	end
 
   attributes_for :sector do |a|
