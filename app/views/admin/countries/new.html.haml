@@ -1,0 +1,5 @@
+%h2 New country
+
+- form_for @country, builder: DefaultFormBuilder, url: admin_countries_path do |form|
+  = render :partial => form
+  = form.submit 'Create', :class => 'button'
