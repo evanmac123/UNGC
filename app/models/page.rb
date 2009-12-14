@@ -33,15 +33,15 @@ class Page < ActiveRecord::Base
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
   has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
   has_many :visible_children, 
-    :order => "position ASC", 
-    :class_name => 'Page', 
+    :order       => "position ASC", 
+    :class_name  => 'Page', 
     :foreign_key => :parent_id, 
-    :conditions => {:display_in_navigation => true}
+    :conditions  => {:display_in_navigation => true}
   has_many :approved_children, 
-    :order => 'position ASC', 
-    :class_name => 'Page', 
+    :order       => 'position ASC', 
+    :class_name  => 'Page', 
     :foreign_key => :parent_id, 
-    :conditions => { approval: 'approved' }
+    :conditions  => { approval: 'approved' }
 
   named_scope :all_versions_of, lambda { |path|
     # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
@@ -96,6 +96,19 @@ class Page < ActiveRecord::Base
   
   def self.approved_for_path(path)
     approved.find_by_path path
+  end
+
+  def self.find_leaves_for(group_id)
+    sql = "select * from 
+      (select * 
+        from pages 
+        where group_id = %i 
+          and ((approval = %s) or (approval = %s))
+        order by path asc, updated_at desc) as t1
+      group by t1.path
+      order by t1.position asc" % [group_id, "'approved'", "'pending'"]
+    results = find_by_sql(sql)
+    results.group_by { |r| r.parent_id } if results.any?
   end
   
   def self.pending_version_for(path)

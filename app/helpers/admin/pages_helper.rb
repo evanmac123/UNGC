@@ -2,11 +2,9 @@ module Admin::PagesHelper
   
   def children_of(object)
     if object.id == 'home'
-      Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')
+      {nil: Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')}
     elsif object.is_a?(PageGroup)
-      object.approved_children.approved.find(:all, :include => {:children => :children})
-    # elsif object.is_a?(Page)
-    #   object.children.approved.find(:all, :include => :children)
+      object.leaves
     end
   end
   
@@ -18,19 +16,24 @@ module Admin::PagesHelper
   
   def section_for_json(section)
     opacity = section.display_in_navigation ? '' : 'hidden'
+    leaves = children_of(section) || {}
+    children = leaves[nil] || []
     {
       data: {title: section.title, attributes: { class: opacity } },
       attributes: {id: "section_#{section.id}", rel: 'section'},
-      children: children_of(section).map { |c| page_for_json(c) }
+      children: children.map { |c| page_for_json(c, leaves) }
     }
   end
   
-  def page_for_json(page)
-    opacity = page.display_in_navigation ? '' : 'hidden'
+  def page_for_json(page, leaves)
+    opacity  = page.display_in_navigation ? '' : 'hidden'
+    approval = page.approval
+    children = leaves[page.id] if page.id
+    children ||= []
     {
-      data: {title: page.title || 'Untitled', attributes: { href: admin_page_path(page), class: opacity}},
+      data: {title: page.title || 'Untitled', attributes: { href: admin_page_path(page), class: "#{opacity} #{approval}"}},
       attributes: {id: "page_#{page.id}", rel: 'page'},
-      children: page.children.map { |c| page_for_json(c) }
+      children: children.map { |c| page_for_json(c, leaves) }
     }
   end
   

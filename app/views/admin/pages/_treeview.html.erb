@@ -78,7 +78,7 @@ $(function () {
         var time = new Date().getTime();
         var title = tree_obj.get_text(node);
         title += ' ' + time; // add timestamp to title for path
-        $(node).addClass('updateAfterRename')
+        $(node).addClass('updateAfterRename').addClass('pending');
         if (type == 'after') {
           // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
           var parent_id = $(ref_node).parents('li').attr('id');
