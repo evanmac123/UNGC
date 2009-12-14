@@ -147,8 +147,12 @@ class Page < ActiveRecord::Base
   def derive_path_from=(string)
     type_str, identifier = TreeImporter.get_type_and_id(string)
     if identifier
-      type_str = type_str == 'page' ? 'parent_id' : 'group_id'
-      self.send("#{type_str}=", identifier)
+      if type_str == 'page'
+        self.parent_id = identifier
+        self.group_id  = Page.find(identifier).group_id
+      else
+        self.group_id = identifier
+      end
     elsif type_str == 'section' # in home area
       self.path ||= "/#{title_to_path}.html"
     end

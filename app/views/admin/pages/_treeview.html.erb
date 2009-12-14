@@ -78,15 +78,16 @@ $(function () {
         var time = new Date().getTime();
         var title = tree_obj.get_text(node);
         title += ' ' + time; // add timestamp to title for path
-        $(node).addClass('updateAfterRename').addClass('pending');
+        $(node).addClass('updateAfterRename').children('a').addClass('pending');
         if (type == 'after') {
           // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
           var parent_id = $(ref_node).parents('li').attr('id');
+          var position  = $('#'+parent_id+' ul > li').size();
           jQuery.ajax({
             type: 'post',
             url: url,
             dataType: 'json',
-            data: "page[title]="+title+"&page[derive_path_from]="+parent_id,
+            data: "page[title]="+title+"&page[derive_path_from]="+parent_id+"&page[position]="+position,
             success: function(response) { $(node).attr( { id: "page_"+response.page.id } ) }
           });
         }
