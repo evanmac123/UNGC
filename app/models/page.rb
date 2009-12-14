@@ -136,12 +136,15 @@ class Page < ActiveRecord::Base
   def derive_path_from_parent
     parent = parent || Page.find(parent_id)
     (stub = parent.path)[/(\/index)?\.html$/] = ''
-    self.path = "#{stub}/#{title_to_path}.html"
+    new_path = "#{stub}/#{title_to_path}.html"
+    new_path.gsub!(/\/+/, '/')
+    self.path = new_path
   end
   
   def derive_path_from_section
-    section = section || PageGroup.find(group_id)
-    self.path = "/#{section.path_stub}/#{title_to_path}.html"
+    section = section || PageGroup.find_by_id(group_id)
+    stub = "/#{section.path_stub}" if section
+    self.path = "#{stub}/#{title_to_path}.html"
   end
   
   def derive_path_from=(string)

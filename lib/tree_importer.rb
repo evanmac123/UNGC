@@ -45,7 +45,7 @@ class TreeImporter
   end
   
   def is_section?
-    type == 'section'
+    type['section']
   end
   
   def save_page(section=nil, parent=nil)
@@ -67,13 +67,21 @@ class TreeImporter
     end
     p.save
   end
-  
-  def save_section
-    s = PageGroup.find(identifier) if identifier # the 'home' section is fake, doesn't really exist
+
+  def find_or_create_section
+    s = PageGroup.find_by_id(identifier) if identifier 
     if s
       s.title    = title
       s.position = position
+    else
+      s = PageGroup.create(title: title, position: position)
+      # TODO: Add path stub, html, etc.
     end
+    s
+  end
+  
+  def save_section
+    s = find_or_create_section unless identifier.blank? # the 'home' section is fake, doesn't really exist
     children.each do |child|
       child.save_page(s)
     end

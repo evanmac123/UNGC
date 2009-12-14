@@ -127,6 +127,37 @@ function makeDestroyLink (event) {
 	return false;	
 }
 
+function refreshTree(response) {
+	$.tree.focused().refresh();
+}
+
+function saveNewPagePlaceholder(node, ref_node, type, tree_obj, rollback) {
+	if (type == 'after') { // section has other pages, ref_node will be another page
+	  // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
+	  var parent_id = $(ref_node).parents('li').attr('id');
+	} else if (type == 'inside') { // this is the first page in this 'folder'
+		// ref_node may be a section or page
+		var parent_id = $(ref_node).attr('id');
+	}
+  var url = window.location.href + '.js';
+  var time = new Date().getTime();
+  var title = tree_obj.get_text(node);
+  title += ' ' + time; // add timestamp to title for path
+  $(node).addClass('updateAfterRename').children('a').addClass('pending');
+  var position  = $('#'+parent_id+' ul > li').size();
+  jQuery.ajax({
+    type: 'post',
+    url: url,
+    dataType: 'json',
+    data: "page[title]="+title+"&page[derive_path_from]="+parent_id+"&page[position]="+position,
+    success: function(response) { 
+      var href = window.location.href;
+      var page_id = response.page.id;
+      $(node).attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
+    }
+  });
+}
+
 function saveTree (e) {
 	var url  = $(e.target).attr('rel');
 	var data = $.tree.reference('#tree').get();
@@ -138,7 +169,7 @@ function saveTree (e) {
 	  	url: url,
 			data: "tree="+data_json,
 	  	dataType: 'json',
-		// success: Watcher.decoratePage
+			complete: refreshTree
 	});
 }
 
@@ -149,7 +180,7 @@ function newSection (e) {
 	var node = tree.create(
 		{
 			data: { title: 'New section', attributes: { class: 'hidden' } }, 
-			attributes: {id: 'new_section_'+time, rel: 'section'}
+			attributes: {id: 'new-section_'+time, rel: 'section'}
 		}, 
 		-1);
 	tree.rename(node);
