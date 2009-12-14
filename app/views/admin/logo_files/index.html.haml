@@ -1,0 +1,20 @@
+%h2 Listing logo files
+
+= link_to 'Add a logo file', new_admin_logo_file_path
+
+%table.dashboard_table#logo_files_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.status Description
+    %th.actions Actions
+  - for logo_file in @logo_files
+    %tr
+      %td= logo_file.updated_at
+      %td= logo_file.name
+      %td= logo_file.description
+      %td
+        %ul.actions
+          %li= link_to 'Edit', edit_admin_logo_file_path(logo_file), :class => 'edit', :title => 'Edit details'
+          %li= link_to 'Delete', admin_logo_file_path(logo_file), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
+    

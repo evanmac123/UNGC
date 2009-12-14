@@ -1,0 +1,5 @@
+%h2 Editing logo file
+
+- form_for @logo_file, builder: DefaultFormBuilder, url: admin_logo_file_path(@logo_file), html: {multipart: true} do |form|
+  = render :partial => form
+  = form.submit 'Save changes', :class => 'button'
