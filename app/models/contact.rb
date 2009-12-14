@@ -85,6 +85,14 @@ class Contact < ActiveRecord::Base
       :order      => "roles.name DESC"
     }
   }
+    
+  named_scope :network_report_recipients, lambda {
+    roles = Role.network_report_recipient
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", roles]
+    }
+  }
   
   named_scope :for_country, lambda { |country|
     {:conditions => {:country_id => country.id} }

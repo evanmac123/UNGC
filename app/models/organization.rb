@@ -158,7 +158,7 @@ class Organization < ActiveRecord::Base
       {}
     end
   }
-  
+    
   named_scope :listed,
     { :conditions => "organizations.stock_symbol IS NOT NULL" }
   
@@ -187,6 +187,10 @@ class Organization < ActiveRecord::Base
     { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
   }
 
+  def network_report_recipients
+    Contact.network_report_recipients.for_country(self.country)
+  end
+  
   def self.find_by_param(param)
     return nil if param.blank?
     param = CGI.unescape param
@@ -194,7 +198,7 @@ class Organization < ActiveRecord::Base
   end
   
   def self.visible_in_local_network
-    statuses = [:noncommunicating, :active]
+    statuses = [:noncommunicating, :active, :delisted]
     participants.active.with_cop_status(statuses)
   end
 
