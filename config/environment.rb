@@ -28,7 +28,6 @@ Rails::Initializer.run do |config|
   config.load_paths += %W( #{RAILS_ROOT}/app/reports #{RAILS_ROOT}/app/models/search )
 end
 
-ActionView::Base.default_form_builder = FormBuilder
 ActiveRecord::Base.colorize_logging = false
 
 begin
@@ -36,7 +35,6 @@ begin
 rescue Exception => e
   puts " ** ERROR: Unable to configure Sphinx; is it installed? Run rake gems to find out."
 end
-
 
 # Application constants
 EMAIL_SENDER = "no-reply@unglobalcompact.org"
