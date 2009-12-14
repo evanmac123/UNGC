@@ -1,5 +1,5 @@
 class Admin::PagesController < AdminController
-  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :revoke, :show, :update]
+  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :rename, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:new, :create, :edit, :update]
 
   def index
@@ -46,6 +46,18 @@ class Admin::PagesController < AdminController
   def approve
     @page.as_user(current_user).approve!
     redirect_to :action => 'index'
+  end
+
+  def rename
+    if @page.rename(params[:title])
+      respond_to do |wants|
+        wants.js { head :ok }
+      end
+    else
+      respond_to do |wants|
+        wants.js { head :bad_request }
+      end
+    end
   end
 
   def revoke

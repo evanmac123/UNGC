@@ -208,6 +208,14 @@ class Page < ActiveRecord::Base
     self.class.all_versions_of(path).earlier_versions_than(version_number).first
   end
 
+  def rename(string)
+    old_path   = title_to_path
+    self.title = string
+    new_path   = path.gsub(old_path, title_to_path)
+    self.path  = path.gsub(old_path, title_to_path) if 0 == self.class.all_versions_of(new_path).size
+    save
+  end
+
   def title_to_path
     path = title.downcase
     path.gsub!(/\W+/, '_')

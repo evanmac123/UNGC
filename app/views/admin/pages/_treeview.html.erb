@@ -93,7 +93,18 @@ $(function () {
         }
       },
       onrename: function(node, tree, rollback) {
-        // TODO: if class =~ /updateAfterRename/ then update Rails and remove class
+        if ($(node).hasClass('updateAfterRename')) {
+          var id = $(node).attr('id').match(/(\d+)/)[1];
+          var title = tree.get_text(node);
+          var url = window.location.href + '/' + id + '/rename.js'
+          jQuery.ajax({
+            type: 'post',
+            url: url,
+            dataType: 'json',
+            data: "&title="+title,
+            success: function(response) { $(node).removeClass('updateAfterRename') }
+          });
+        }
       },
       onselect: function(node, tree) {
         if (selected != node) {
