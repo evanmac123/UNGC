@@ -1,4 +1,4 @@
-%h1 Editing contact
+%h2 Editing contact
 
 - form_for(:contact, builder: DefaultFormBuilder, url: admin_organization_contact_path(@organization.id, @contact), :html => {:method => :put}) do |form|
   = render :partial => form
