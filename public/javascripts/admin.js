@@ -188,3 +188,46 @@ $(function() {
 		startEditor('page_content');
 	}
 });
+
+/***** Ready? Aim? Fire! *****/
+
+$(document).ready(function() {
+  
+  //style and functionality for table rows
+    //add .odd to alternating table rows
+    $('div#main_content table.dashboard_table tr:odd').addClass("odd");
+  
+    //hover styling for table rows
+    $('div#main_content table.dashboard_table tr').hover(
+      function() {
+        $(this).addClass("over");
+      },
+      function() {
+        $(this).removeClass("over");
+      }
+    );
+  
+    //set click action to anywhere in a table row to go to the url of the a.edit element in that row
+    //note: edited to use the td rather than tr in an attempt to remove click-action from header row
+    $('div#main_content table.dashboard_table tr td').addClass('pointer').click(
+      function() {
+        document.location.href = $('td a.edit', this.parent).attr("href");
+      }
+    );
+  
+  // tabbed content
+    var tab_container = $('div.tab_container > div.tab_content');
+
+    $('div.tab_container ul.tab_nav a').click(function () {
+        tab_container.hide().filter(this.hash).show();
+
+        $('div.tab_container ul.tab_nav a').removeClass('selected');
+        $(this).addClass('selected');
+
+        return false;
+    }).filter(':first').click();
+  
+    //add odd-row class to alternating tabbed-content items
+    $('div.tab_container ul.items li.item:odd').addClass("odd");
+    
+});
