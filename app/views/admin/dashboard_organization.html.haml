@@ -1,50 +1,62 @@
-= link_to 'new contact', new_admin_organization_contact_path(current_user.organization.id)
-%h2 Contacts
-%table.dashboard_table#contacts_dashboard_table
-  %tr
-    %th.last_updated Last updated on
-    %th.title Name
-    %th.status Email
-    %th.age Days since last update
-    %th.actions Actions
-  = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
+- @title = 'Dashboard Overview'
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#contacts">Contacts</a>
+    %li <a href="#logos">Logo Requests</a>
+    %li <a href="#case_stories">Case Stories</a>
+    %li <a href="#cops">COPs</a>
 
-- if @organization.pending_review? or @organization.in_review?
-  %h3 Comments
-  = link_to 'New comment', new_admin_organization_comment_path(@organization.id)
-  %ul
-    = render :partial => 'admin/comments/comment', :collection => @organization.comments
+  #contacts.tab_content
+    %h2 Contacts
+    = link_to 'new contact', new_admin_organization_contact_path(current_user.organization.id)
+    %table.dashboard_table#contacts_dashboard_table
+      %tr
+        %th.last_updated Last updated on
+        %th.title Name
+        %th.status Email
+        %th.age Days since last update
+        %th.actions Actions
+      = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
 
-- else
-  = link_to 'new logo request', new_admin_organization_logo_request_path(current_user.organization.id)
-  %h2 Logo requests
-  %table.dashboard_table#logos_dashboard_table
-    %tr
-      %th.last_updated Last updated on
-      %th.title Purpose
-      %th.status Status
-      %th.age Days since last update
-      %th.actions Actions
-    = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
+  - if @organization.pending_review? or @organization.in_review?
+    %h3 Comments
+    = link_to 'New comment', new_admin_organization_comment_path(@organization.id)
+    %ul
+      = render :partial => 'admin/comments/comment', :collection => @organization.comments
 
-  = link_to 'new case story', new_admin_organization_case_story_path(current_user.organization.id)
-  %h2 Case Stories
-  %table.dashboard_table#case_stories_dashboard_table
-    %tr
-      %th.last_updated Last updated on
-      %th.title Title
-      %th.status Status
-      %th.age Days since last update
-      %th.actions Actions
-    = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories
+  - else
+    #logos.tab_content
+      %h2 Logo requests
+      = link_to 'new logo request', new_admin_organization_logo_request_path(current_user.organization.id)
+      %table.dashboard_table#logos_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Purpose
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
 
-  = link_to 'new COP', new_admin_organization_communication_on_progress_path(current_user.organization.id)
-  %h2 COPs
-  %table.dashboard_table#cops_dashboard_table
-    %tr
-      %th.last_updated Last updated on
-      %th.title Title
-      %th.status Status
-      %th.age Days since last update
-      %th.actions Actions
-    = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses
+    #case_stories.tab_content
+      %h2 Case Stories
+      = link_to 'new case story', new_admin_organization_case_story_path(current_user.organization.id)
+      %table.dashboard_table#case_stories_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Title
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories
+
+    #cops.tab_content
+      %h2 COPs
+      = link_to 'new COP', new_admin_organization_communication_on_progress_path(current_user.organization.id)
+      %table.dashboard_table#cops_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Title
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses
