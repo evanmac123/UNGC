@@ -3,6 +3,13 @@ require 'test_helper'
 class Admin::OrganizationsControllerTest < ActionController::TestCase
   def setup
     @user = create_organization_and_user
+    @local_network = create_local_network(:name => "Canadian Local Network")
+    @country = create_country(:name => "Canada", :local_network_id => @local_network.id)
+    @network_contact = create_contact(:local_network_id => @local_network.id,
+                                      :role_ids         => [Role.network_report_recipient.id])
+    @organization = create_organization( :name                 => 'Unspace Interactive',
+                                         :organization_type_id => OrganizationType.first.id,
+                                         :country_id           => @country.id )
   end
   
   test "should get index" do
@@ -18,9 +25,10 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
   test "should create organization" do
     assert_difference('Organization.count') do
-      post :create, {:organization => { :name                 => 'Unspace Interactive',
+      post :create, {:organization => {:name                 => 'Unspace Interactive',
                                        :organization_type_id => OrganizationType.first.id,
-                                       :employees            => 500}}, as(@user)
+                                       :employees            => 500,
+                                       :country_id           => @country.id}}, as(@user)
     end
 
     assert_redirected_to admin_organization_path(assigns(:organization).id)

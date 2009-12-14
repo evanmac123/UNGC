@@ -99,6 +99,7 @@ class ActiveSupport::TestCase
     create_role(:name => 'CEO', :old_id => 3)
     create_role(:name => 'Contact Point', :old_id => 4)
     create_role(:name => 'General Contact', :old_id => 9)
+    create_role(:name => 'Network Report Recipient', :old_id => 13)
   end
   
   def create_principle_areas
