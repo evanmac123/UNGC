@@ -132,7 +132,8 @@ module FixtureReplacement
     r.name = String.random
 	end
 
-  attributes_for :sector do |a|
+  attributes_for :sector do |s|
+    s.name = String.random
 	end
 
   attributes_for :signing do |s|

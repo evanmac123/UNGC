@@ -57,6 +57,7 @@ ActionController::Routing::Routes.draw do |map|
       admin.resources :initiatives, :has_many => :signings
       admin.resources :contacts_roles
       admin.resources :roles
+      admin.resources :sectors
     
       admin.reports 'reports', :controller => 'reports', :action => 'index'
       admin.report 'reports/:action.:format', :controller => 'reports'

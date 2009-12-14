@@ -1,0 +1,8 @@
+%tr
+  %td= sector.updated_at
+  %td= sector.name
+  %td= sector.parent.try(:name)
+  %td
+    %ul.actions
+      %li= link_to 'Edit', edit_admin_sector_path(sector), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Delete', admin_sector_path(sector), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
