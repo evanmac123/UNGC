@@ -411,7 +411,7 @@ module ImporterHooks
     ].each do |record|
       principle_area_id = record.first.nil? ? nil : PrincipleArea.send(record.first).id
       question = CopQuestion.create(:principle_area_id => principle_area_id,
-                                    :grouping          => record.second,
+                                    :grouping          => record.second.to_s,
                                     :text              => record.third,
                                     :initiative_id     => record.fourth,
                                     :position          => record.fifth)
