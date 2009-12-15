@@ -482,7 +482,7 @@
 3340,"Fundacion El Nogal","Foundation","",101,"",3,3," ",2009-10-19 19:04:00,2009-10-22 10:48:43,2009-10-28 15:44:54,1900-01-01 00:00:00,87806823,False,False,"CO",0," ","ZXXZ","pdf",0,10162
 3341,"Calligraphy Print","SME","",21,"",64,3," ",2009-10-20 05:24:00,2009-11-17 11:38:52,2009-11-25 12:23:07,1900-01-01 00:00:00,87806823,False,False,"FR",1," ","ZXXZ","pdf",0,10267
 3342,"Etablissement Slama Freres","Business Association Local","",101,"",300,3,"",2009-10-20 06:04:43,2009-10-22 11:11:04,2009-10-28 15:45:08,,87806823,False,False,"TN",0,"","ZXXZ","pdf",0,10163
-3343,"Eli Lilly and Company","Company","",24,"",40000,1,"http://www.lilly.com",2009-10-20 09:55:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,True,False,"US",2,"LLY","NYSE","pdf",10000,0
+3343,"Eli Lilly and Company","Company","",24,"",40000,3,"http://www.lilly.com",2009-10-20 09:55:00,1900-01-01 00:00:00,2009-12-02 11:38:55,1900-01-01 00:00:00,87806823,True,False,"US",2,"LLY","NYSE","pdf",10000,10284
 3344,"ORYXGREEN Warenhandels & Marketing GmbH","SME","",6,"",14,3,"",2009-10-20 10:08:26,2009-10-22 11:19:15,2009-10-28 15:45:28,,87806823,False,False,"DE",1,"","ZXXZ","pdf",500,10164
 3345,"ORYXRED Warenhandels & Marketing GmbH","SME","",6,"",14,3,"",2009-10-20 10:12:52,2009-10-22 11:19:55,2009-10-28 15:45:55,,87806823,False,False,"DE",1,"","ZXXZ","pdf",500,10165
 3346,"ORYXYELLOW Warenhandels & Marketing GmbH","Micro Entreprise","",6,"",3,0," ",2009-10-20 10:16:00,1900-01-01 00:00:00,1900-01-01 00:00:00,2009-10-22 14:34:28,93876823,False,False,"DE",1," ","ZXXZ","pdf",500,0
@@ -556,7 +556,7 @@
 3384,"Wilson, Sons","Company","",31,"",4300,3,"http://www.wilsonsons.com.br",2009-10-26 06:33:38,2009-11-10 15:51:36,2009-11-16 11:39:26,,87806823,False,False,"BR",1,"","ZXXZ","pdf",500,10203
 3407,"Universidade Tuiuti do Parana - UTP","Academic","",101,"",1117,1,"http://www.utp.br",2009-10-27 13:18:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"BR",0," ","ZXXZ","doc",0,0
 3408,"Grupo Mexalit","Company","",9,"",1407,3,"http://www.mexalit.com.mx",2009-10-27 14:06:00,2009-11-13 15:15:45,2009-11-19 11:33:04,1900-01-01 00:00:00,87806823,False,False,"MX",1," ","ZXXZ","pdf",0,10263
-3410,"M2GS","SME","",11,"",25,1,"http://www.m2gs.com",2009-10-27 18:03:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"FR",1," ","ZXXZ","pdf",0,0
+3410,"M2GS","SME","",11,"",25,2,"http://www.m2gs.com",2009-10-27 18:03:00,2009-12-09 12:04:44,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"FR",1," ","ZXXZ","pdf",0,0
 3412,"Tecnicos Constructores Santander, S.A.","SME","",9,"",35,3,"http://www.tecosan.es",2009-10-28 05:27:00,2009-11-20 12:26:37,2009-11-25 12:24:16,1900-01-01 00:00:00,87806823,False,False,"ES",0," ","ZXXZ","pdf",0,10270
 3415,"SITCO GROUPE","Company","",32,"",250,3,"",2009-10-28 06:53:09,2009-11-10 15:02:53,2009-11-16 14:15:33,,87806823,False,False,"FR",1,"","ZXXZ","PDF",500,10217
 3434,"Sesa Goa Ltd.","Company","",109,"",2000,1,"http://www.sesagoa.com",2009-10-30 03:25:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"IN",2," ","NSE","pdf",5000,0
@@ -584,24 +584,24 @@
 3515,"Simply Finance","SME","",21,"",16,3," ",2009-11-11 18:39:00,2009-11-13 17:02:29,2009-11-19 11:33:57,1900-01-01 00:00:00,87806823,False,False,"GB",1," ","ZXXZ","pdf",0,10265
 3517,"The Swedish Housing Corporation, SBAB","Company","",13,"",365,3,"http://www.sbab.se",2009-11-12 08:47:52,2009-11-20 14:14:05,2009-11-30 09:29:27,,87806823,False,False,"SW",4,"","ZXXZ","pdf",500,10283
 3518,"RCC Risk Communication Concepts","Micro Entreprise","",11,"",0,0,"http://www.risk-communication.de/en",2009-11-12 09:43:13,,,2009-11-20 14:40:45,93876823,False,False,"DE",1,"","ZXXZ","doc",500,
-3523,"ETHIC (Entreprises Ã  talle Humaine, IndÃ©pendantes et de Croissance)","Business Association Local","",101,"",3,1,"http://www.ethic.fr",2009-11-13 04:48:53,,,,,False,False,"FR",0,"","ZXXZ","pdf",0,
-3524,"Callware Voice Technologies, S.A.","SME","",21,"",18,1,"",2009-11-13 06:43:37,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
-3527,"Cristal net holding","SME","",11,"",200,1,"http://www.cristal-net.fr",2009-11-13 10:05:53,,,,,False,False,"FR",0,"","ZXXZ","pdf",0,
-3528,"PMS COFFEE SOLUTIONS","SME","",14,"",53,1,"http://WWW.PMS.PT",2009-11-13 13:10:49,,,,,False,False,"PT",1,"","ZXXZ","pdf",500,
-3532,"Niagara Industries Inc","SME","",9,"",28,1,"http://www.tanklesswaterheater.com",2009-11-13 15:32:09,,,,,False,False,"US",1,"","ZXXZ","doc",500,
-3536,"S.E.R.T. System","Micro Entreprise","",3,"",5,1,"http://www.sertsystem.com",2009-11-15 20:59:00,,,,,False,False,"US",1,"","ZXXZ","pdf",0,
-3537,"YADIS HOTELS","SME","",30,"",25,1,"http://www.yadis.com",2009-11-16 07:43:07,,,,,False,False,"TN",0,"","ZXXZ","doc",0,
-3538,"Praxis","SME","",32,"",11,1,"http://www.praxiswear.com",2009-11-16 07:57:39,,,,,False,False,"DK",1,"","ZXXZ","pdf",0,
-3539,"Capital Legal Solutions, LLC","SME","",11,"",122,1,"http://www.capitallegals.com",2009-11-16 11:58:48,,,,,False,False,"US",0,"","ZXXZ","pdf",500,
+3523,"ETHIC (Entreprises a talle Humaine, Independantes et de Croissance)","Business Association Local","",101,"",3,3,"http://www.ethic.fr",2009-11-13 04:48:00,2009-12-08 17:00:40,2009-12-14 15:31:50,1900-01-01 00:00:00,87806823,False,False,"FR",0," ","ZXXZ","pdf",0,10299
+3524,"Callware Voice Technologies, S.A.","SME","",21,"",18,3,"",2009-11-13 06:43:37,2009-12-08 17:20:52,2009-12-14 15:32:12,,87806823,False,False,"ES",0,"","ZXXZ","pdf",0,10300
+3527,"Cristal-net Groupe","SME","",11,"",200,1,"http://www.cristal-net.fr",2009-11-13 10:05:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"FR",0," ","ZXXZ","pdf",0,0
+3528,"PMS COFFEE SOLUTIONS","SME","",14,"",53,3,"http://WWW.PMS.PT",2009-11-13 13:10:49,2009-12-04 16:08:36,2009-12-07 11:46:27,,87806823,False,False,"PT",1,"","ZXXZ","pdf",500,10287
+3532,"Niagara Industries Inc","SME","",9,"",28,3,"http://www.tanklesswaterheater.com",2009-11-13 15:32:09,2009-12-08 18:13:15,2009-12-14 15:33:40,,87806823,False,False,"US",1,"","ZXXZ","pdf",500,10304
+3536,"S.E.R.T. System","Micro Entreprise","",3,"",5,0,"http://www.sertsystem.com",2009-11-15 20:59:00,,,2009-12-08 17:46:36,93876823,False,False,"US",1,"","ZXXZ","pdf",0,
+3537,"Yadis Hotels","SME","",30,"",25,2,"http://www.yadis.com",2009-11-16 07:43:00,2009-12-08 17:39:40,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"TN",0," ","ZXXZ","pdf",0,0
+3538,"Praxis","SME","",32,"",11,2,"http://www.praxiswear.com",2009-11-16 07:57:00,2009-12-14 11:09:41,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"DK",1," ","ZXXZ","pdf",0,0
+3539,"Capital Legal Solutions, LLC","SME","",11,"",122,2,"http://www.capitallegals.com",2009-11-16 11:58:48,2009-12-08 17:22:12,,,93876823,False,False,"US",0,"","ZXXZ","pdf",500,
 3542,"Foshan Huahong Copper Tube Co., Ltd","Company","",22,"",600,3,"http://www.huahong-copper.com",2009-11-17 03:10:00,2009-11-17 10:46:03,2009-11-25 12:23:54,1900-01-01 00:00:00,87806823,False,False,"CN",1," ","ZXXZ","pdf",500,10269
 3543,"TSS International B.V.","Micro Entreprise","",2,"",8,0,"http://www.tssh.com",2009-11-17 06:15:30,,,2009-11-20 13:15:06,93876823,False,False,"NL",1,"","ZXXZ","PDF",500,
-3544,"EAD, SA","SME","",17,"",100,1,"http://www.ead.pt",2009-11-17 06:39:14,,,,,False,False,"PT",2,"","ZXXZ","pdf",0,
-3545,"Aplicaciones GrÃ¡ficas e InformÃ¡ticas S.A","SME","",11,"",66,1,"",2009-11-17 07:52:31,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
-3547,"BLF IMPRESSION","SME","",21,"",37,1,"http://www.blfimpression.fr",2009-11-17 11:57:19,,,,,False,False,"FR",1,"","ZXXZ","pdf",500,
-3551,"Association of Business Women","Business Association Local","",101,"",3,1,"http://www.poslovnezene.org.rs",2009-11-18 07:49:35,,,,,False,False,"SE",0,"","ZXXZ","doc",0,
-3552,"LYON BUREAU","SME","",6,"",63,1,"http://www.lyonbureau.fr",2009-11-18 09:35:57,,,,,False,False,"FR",1,"","ZXXZ","pdf",0,
-3553,"Dream Africa Volunteer Service","NGO Local","",101,"",6,1,"http://davsghana.tripod.com",2009-11-18 10:04:24,,,,,False,False,"GH",0,"","ZXXZ","doc",0,
-3554,"Specialty Resources, Inc.","SME","",31,"",40,1,"http://www.srifast.com",2009-11-18 15:23:55,,,,,False,False,"US",1,"","ZXXZ","pdf",0,
+3544,"EAD - Empresa de Arquivo de Documentacao, SA","SME","",17,"",100,2,"http://www.ead.pt",2009-11-17 06:39:00,2009-12-08 17:12:53,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"PT",2," ","ZXXZ","pdf",0,0
+3545,"Aplicaciones Graficas e Informaticas S.A","SME","",11,"",66,2," ",2009-11-17 07:52:00,2009-12-08 17:08:08,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"ES",0," ","ZXXZ","pdf",0,0
+3547,"BLF Impression","SME","",21,"",37,2,"http://www.blfimpression.fr",2009-11-17 11:57:00,2009-12-08 17:03:01,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"FR",1," ","ZXXZ","pdf",500,0
+3551,"Association of Business Women","Business Association Local","",101,"",3,2,"http://www.poslovnezene.org.rs",2009-11-18 07:49:35,2009-12-08 16:44:45,,,93876823,False,False,"SE",0,"","ZXXZ","pdf",0,
+3552,"LYON BUREAU","SME","",6,"",63,0,"http://www.lyonbureau.fr",2009-11-18 09:35:57,,,2009-12-02 13:03:56,93876823,False,False,"FR",1,"","ZXXZ","pdf",0,
+3553,"Dream Africa Volunteer Service","NGO Local","",101,"",6,2,"http://davsghana.tripod.com",2009-11-18 10:04:24,2009-12-08 16:43:47,,,93876823,False,False,"GH",0,"","ZXXZ","pdf",0,
+3554,"Specialty Resources, Inc.","SME","",31,"",40,2,"http://www.srifast.com",2009-11-18 15:23:55,2009-12-08 16:32:51,,,93876823,False,False,"US",1,"","ZXXZ","pdf",0,
 3386,"Responsible Business Solutions","SME","",11,"",12,3,"http://www.responsiblebusinesssolutions.com",2009-10-26 06:50:36,2009-11-10 15:49:28,2009-11-16 12:41:42,,87806823,False,False,"DK",0,"","ZXXZ","pdf",0,10207
 3388,"COCHEPA","SME","",26,"",100,3,"http://www.cochepa.com",2009-10-26 08:11:32,2009-11-10 15:38:42,2009-11-16 12:41:59,,87806823,False,False,"MA",1,"","ZXXZ","pdf",500,10208
 3394,"Federacao Nacional de Associacoes e Gremios de Bairros e Orgaos Congeneres - FENAB","SME","",106,"",200,1,"http://www.fenab2009.blogspot.com",2009-10-26 17:12:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,True,False,"BR",1,"250.000","AMEX","doc",0,0
@@ -626,39 +626,39 @@
 3490,"Allied Soft","Company","",17,"",2000,0,"http://www.alliedsoft.net",2009-11-09 08:48:02,,,2009-11-09 11:30:30,93876823,False,False,"EG",1,"","ZXXZ","pdf",500,
 3494,"John Ferguson Pty Ltd (Fergies Print & Mail)","SME","",11,"",100,3,"http://www.fergies.com.au",2009-11-09 18:43:00,2009-11-11 16:25:17,2009-11-18 11:56:09,1900-01-01 00:00:00,87806823,False,False,"AU",1," ","ZXXZ","pdf",0,10251
 3511,"Tchibo GmbH","Company","",6,"",12000,3,"http://www.tchibo.com",2009-11-11 08:29:19,2009-11-11 13:09:09,2009-11-18 11:59:16,,87806823,False,False,"DE",1,"","ZXXZ","pdf",0,10258
-3555,"Blue Bird Logistics Private Limited","SME","",11,"",12,1,"http://www.bbird.in",2009-11-19 01:52:08,,,,,False,False,"IN",0,"","ZXXZ","pdf",0,
-3557,"Aditel Auxiliar de la distribuciÃ³n ElÃ©ctrica","Company","",105,"",306,1,"",2009-11-19 07:57:29,,,,,False,False,"ES",1,"","ZXXZ","pdf",0,
-3558,"ECOLE DES MINES DE DOUAI","Academic","",101,"",364,1,"http://www.ensm-douai.fr",2009-11-19 08:14:13,,,,,False,False,"FR",0,"","ZXXZ","pdf",0,
-3561,"Grupa 484 (Group 484)","NGO Local","",101,"",17,1,"http://www.grupa484.org.rs/",2009-11-19 10:37:46,,,,,False,False,"SE",0,"","ZXXZ","pdf",0,
+3555,"Blue Bird Logistics Private Limited","SME","",11,"",12,2,"http://www.bbird.in",2009-11-19 01:52:08,2009-12-08 16:31:38,,,93876823,False,False,"IN",0,"","ZXXZ","pdf",0,
+3557,"Aditel Auxiliar de la distribucion Electrica","Company","",105,"",306,2," ",2009-11-19 07:57:00,2009-12-08 16:04:25,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"ES",1," ","ZXXZ","pdf",0,0
+3558,"Ecole Des Mines De Douai","Academic","",101,"",364,1,"http://www.ensm-douai.fr",2009-11-19 08:14:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"FR",0," ","ZXXZ","pdf",0,0
+3561,"Grupa 484 (Group 484)","NGO Local","",101,"",17,3,"http://www.grupa484.org.rs/",2009-11-19 10:37:46,2009-12-07 14:06:13,2009-12-14 15:30:20,,87806823,False,False,"SE",0,"","ZXXZ","pdf",0,10295
 3562,"Fundacion Grupo Energia de Bogota","NGO Local","",101,"",9,3,"http://www.eeb.com.co/",2009-11-19 11:47:00,2009-11-20 14:42:44,2009-11-30 09:29:06,1900-01-01 00:00:00,87806823,False,False,"CO",0," ","ZXXZ","pdf",0,10282
 3563,"Algae Systems, LLC","SME","",102,"",10,3,"http://www.algaesystems.com/wordpress/home/",2009-11-19 16:31:51,2009-11-20 14:38:11,2009-11-30 09:28:39,,87806823,False,False,"US",1,"","ZXXZ","pdf",0,10281
 3564,"Doshisha Women's College of Liberal Arts","Academic","",101,"",886,0,"http://www.dwc.doshisha.ac.jp",2009-11-20 01:12:05,2009-11-20 14:37:08,,2009-11-30 09:28:22,87806823,False,False,"JP",0,"","ZXXZ","pdf",0,10280
 3571,"Societe Plastiss","SME","",29,"",40,3,"http://www.plastiss.com",2009-11-20 07:44:00,2009-11-20 14:30:00,2009-11-30 09:27:03,1900-01-01 00:00:00,87806823,False,False,"TN",0," ","ZXXZ","pdf",0,10277
 3573,"Omega Overseas Investments, Inc.","SME","",13,"",10,0,"http://www.omegaoi.com",2009-11-20 09:17:00,1900-01-01 00:00:00,1900-01-01 00:00:00,2009-11-20 14:23:42,93876823,False,False,"PR",0," ","ZXXZ","pdf",500,0
 3574,"Telindus France","Company","",17,"",633,3,"http://www.telindus.fr",2009-11-20 10:01:16,2009-11-20 14:18:57,2009-11-30 09:26:26,,87806823,False,False,"FR",1,"","ZXXZ","pdf",500,10275
-3582,"Omega Overseas Investments, Inc.","SME","",13,"",10,1,"http://www.omegaoi.com",2009-11-20 14:17:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"PR",0," ","ZXXZ","pdf",500,0
+3582,"Omega Overseas Investments, Inc.","SME","",13,"",10,2,"http://www.omegaoi.com",2009-11-20 14:17:00,2009-12-08 16:20:46,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"PR",0," ","ZXXZ","pdf",500,0
 3589,"Compagnie Tunisienne de l'Assurance du Commerce ExtÃ©rieur - COTUNACE","SME","",116,"",64,1,"",2009-11-23 08:52:21,,,,,False,False,"TN",0,"","ZXXZ","doc",0,
-3597,"Seoul City Credit","Foundation","",101,"",152,1,"http://www.seoulshinbo.co.kr",2009-11-23 20:28:45,,,,,False,False,"KR",0,"","ZXXZ","pdf",0,
+3597,"Seoul City Credit","Foundation","",101,"",152,2,"http://www.seoulshinbo.co.kr",2009-11-23 20:28:45,2009-12-11 15:52:58,,,87806823,False,False,"KR",0,"","ZXXZ","pdf",0,
 3599,"Jomipsa, Jose Mihuel Poveda, S.A.","SME","",1,"",10,1,"http://www.jomipsa.es",2009-11-24 04:40:53,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
 3610,"Centre de DÃ©veloppeent socioculturel","NGO Global","",101,"",77,1,"http://www.cads.ch",2009-11-24 20:30:28,,,,,False,False,"CH",0,"","ZXXZ","pdf",0,
 3613,"TVAB Internaitonal AB","Company","",2,"",310,1,"http://www.tvab.se",2009-11-25 05:40:33,,,,,False,False,"SW",1,"","ZXXZ","pdf",500,
 3616,"IMESYS","SME","",105,"",20,1,"http://www.imesys.fr",2009-11-25 11:13:23,,,,,False,False,"FR",1,"","ZXXZ","pdf",500,
 3624,"NRG Marketing Ereaga XXI S.L.","SME","",21,"",25,1,"http://www.nrg-marketing.com/",2009-11-26 04:56:11,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
 3631,"Kelosika Products (Pty) Ltd.","SME","",1,"",14,1,"http://www.kelosika.co.bw",2009-11-26 10:35:54,,,,,False,False,"BW",0,"","ZXXZ","pdf",500,
-3633,"Canon Marketing Japan Inc.","Company","",6,"",5816,1,"http://canon.jp",2009-11-27 01:50:49,,,,,False,False,"JP",2,"8060","TYO","pdf",0,
+3633,"Canon Marketing Japan Inc.","Company","",6,"",5816,3,"http://canon.jp",2009-11-27 01:50:49,2009-12-08 15:57:19,2009-12-09 11:56:44,,93876823,False,False,"JP",2,"8060","TYO","pdf",0,10290
 3634,"Pauma S.L.","SME","",11,"",115,1,"http://www.pauma.es",2009-11-27 04:30:23,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
 3635,"Adaptive Predictive Expert Control - ADEX S.L.","SME","",11,"",15,1,"http://www.adexcorp.com",2009-11-27 04:39:02,,,,,False,False,"ES",0,"","ZXXZ","doc",0,
 3636,"Adaptive Predictive Expert Control - ADEX S.L:","SME","",11,"",15,1,"http://www.adexcop.com",2009-11-27 04:41:57,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
 3638,"Emesa PrevenciÃ³n S.L.","SME","",11,"",10,1,"http://www.emesaprevencion.com",2009-11-27 06:07:31,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
 3641,"DANY Bienenwohl GmbH","SME","",6,"",10,1,"http://www.dany-bienenwohl.de",2009-11-27 08:04:16,,,,,False,False,"DE",1,"","ZXXZ","pdf",0,
 3512,"Wall Street Institute- Vh Green sas","SME","",11,"",30,3,"http://Wallstreetinstitute.fr",2009-11-11 08:47:00,2009-11-11 13:24:08,2009-11-18 11:59:50,1900-01-01 00:00:00,87806823,False,False,"FR",1," ","ZXXZ","pdf",500,10259
-3525,"AGERE","SME","",20,"",12,1,"http://www.agere-france.com",2009-11-13 07:02:55,,,,,False,False,"FR",1,"","ZXXZ","pdf",500,
-3533,"Association Balkan Agency for Sustainable Development","NGO Local","",101,"",8,1,"http://www.balkanagency.org",2009-11-13 18:30:30,,,,,False,False,"BG",0,"","ZXXZ","pdf",0,
-3540,"Ernst and Young","Company","",13,"",140000,1,"http://www.ey.com",2009-11-16 14:46:45,,,,,False,False,"US",1,"","ZXXZ","PDF",10000,
-3541,"China Railway Construction Corporation Limited","Company","",9,"",192167,1,"http://www.crcc.cn",2009-11-17 02:46:36,,,,,True,False,"CN",2,"","ZXXZ","doc",0,
+3525,"Agere","SME","",20,"",12,3,"http://www.agere-france.com",2009-11-13 07:02:00,2009-12-08 17:51:59,2009-12-14 15:32:44,1900-01-01 00:00:00,87806823,False,False,"FR",1," ","ZXXZ","pdf",500,10301
+3533,"Association Balkan Agency for Sustainable Development","NGO Local","",101,"",8,3,"http://www.balkanagency.org",2009-11-13 18:30:30,2009-12-08 18:06:01,2009-12-14 15:35:37,,87806823,False,False,"BG",0,"","ZXXZ","pdf",0,10305
+3540,"Ernst and Young","Company","",13,"",140000,2,"http://www.ey.com",2009-11-16 14:46:45,2009-12-08 16:02:14,,,93876823,False,False,"US",1,"","ZXXZ","PDF",10000,
+3541,"China Railway Construction Corporation Limited","Company","",9,"",192167,1,"http://www.crcc.cn",2009-11-17 02:46:36,,,,87806823,True,False,"CN",2,"","ZXXZ","pdf",0,
 3569,"Cavalier International","Company","",29,"",350,3," ",2009-11-20 07:05:00,2009-11-20 14:34:52,2009-11-30 09:28:00,1900-01-01 00:00:00,87806823,False,False,"TN",1," ","ZXXZ","pdf",0,10279
-3587,"SocitÃ© MARHABA PALACE","Company","",30,"",250,1,"",2009-11-23 04:15:42,,,,,False,False,"TN",1,"","ZXXZ","pdf",0,
-3596,"Korea Economic Justice Institute (KEJI)","NGO Local","",101,"",3,1,"http://www.keji.or.kr",2009-11-23 20:06:00,,,,,False,False,"KR",0,"","ZXXZ","pdf",0,
+3587,"Socite MARHABA PALACE","Company","",30,"",250,3," ",2009-11-23 04:15:00,2009-12-01 16:23:35,2009-12-07 11:47:18,1900-01-01 00:00:00,87806823,False,False,"TN",1," ","ZXXZ","pdf",0,10288
+3596,"Korea Economic Justice Institute (KEJI)","NGO Local","",101,"",3,2,"http://www.keji.or.kr",2009-11-23 20:06:00,2009-12-11 17:26:23,,,93876823,False,False,"KR",0,"","ZXXZ","pdf",0,
 3598,"INTER MAGHREB MEUBLES","SME","",16,"",191,1,"",2009-11-24 04:40:49,,,,,False,False,"TN",1,"","ZXXZ","pdf",0,
 3605,"Aidenvironment","SME","",11,"",21,1,"http://www.aidenvironment.org",2009-11-24 08:40:47,,,,,False,False,"NL",1,"","ZXXZ","pdf",500,
 3614,"VISION FOUNDATION for Development Management","NGO Local","",101,"",46,1,"http://www.visionfoundationindia.org/",2009-11-25 07:33:23,,,,,False,False,"IN",0,"","ZXXZ","doc",0,
@@ -671,10 +671,40 @@
 3663,"Christine Confection","Company","",29,"",642,1,"",2009-11-30 06:26:06,,,,,False,False,"TN",1,"","ZXXZ","pdf",0,
 3664,"SABRINCOM","Company","",29,"",281,1,"",2009-11-30 06:32:42,,,,,False,False,"TN",1,"","ZXXZ","pdf",0,
 3665,"YSEngineers,Soc. Coop. And.","Micro Entreprise","",21,"",9,1,"http://www.yerbabuena.es",2009-11-30 07:31:55,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
-3559,"Liga Contra el CÃ¡ncer Seccional BogotÃ¡","NGO Local","",101,"",56,1,"http://www.ligacontraelcancer.com.co/",2009-11-19 08:24:21,,,,,False,False,"CO",0,"","ZXXZ","pdf",0,
+3674,"Ateliers MÃ©caniques du Sahel","Company","",29,"",506,1,"",2009-12-01 03:37:28,,,,,False,False,"TN",1,"","ZXXZ","pdf",0,
+3675,"Norwegian Seafood Export Council","SME","",1,"",50,1,"http://www.seafood.no",2009-12-01 06:29:37,,,,,False,False,"NO",4,"","ZXXZ","pdf",0,
+3676,"Architekt Daniel FÃ¼gsnschuh ZV GmbH","Micro Entreprise","",9,"",8,1,"",2009-12-01 07:35:19,,,,,False,False,"AT",1,"","ZXXZ","pdf",500,
+3685,"JAIME PRIOR Y LLOMBART Arquitecto","Micro Entreprise","",9,"",2,1,"",2009-12-01 16:05:37,,,,,False,False,"ES",0,"","ZXXZ","pdf",500,
+3688,"Fameco Group AB","SME","",32,"",130,1,"http://www.fameco.se",2009-12-02 07:18:07,,,,,False,False,"SW",0,"","ZXXZ","pdf",500,
+3689,"Ainair, S.L.","SME","",9,"",240,1,"",2009-12-02 07:28:54,,,,,False,False,"ES",1,"","ZXXZ","pdf",0,
+3690,"Nolato AB","Company","",20,"",4500,1,"http://www.nolato.se",2009-12-02 09:52:02,,,,,False,False,"SW",2,"","STO","pdf",0,
+3691,"i2a Consulting LLP","SME","",112,"",11,1,"http://www.i2a.co.uk",2009-12-02 10:29:54,,,,,False,False,"GB",1,"","ZXXZ","pdf",500,
+3694,"Highland Education Development Organization","NGO Local","",101,"",20,1,"http://www.hedovietnam.org",2009-12-02 22:10:52,,,,,False,False,"VN",0,"","ZXXZ","pdf",0,
+3695,"Hoadley Budge Olphert & edwards Madigan Torzillo Briggs (Australia) Pty Limited","Business Association Global","",101,"",150,1,"http://www.hboemtb.com",2009-12-02 22:39:48,,,,,False,False,"AU",0,"","ZXXZ","pdf",0,
+3697,"Architekt Daniel FÃ¼gsnschuh ZV GmbH","SME","",9,"",10,1,"http://www.fuegenschuh.at/",2009-12-03 05:45:32,,,,,False,False,"AT",1,"","ZXXZ","pdf",500,
+3700,"AUDEMAT","SME","",105,"",102,1,"http://www.audemat.com",2009-12-03 08:43:34,,,,,False,False,"FR",0,"","ZXXZ","pdf",0,
+3701,"Hotel Maritime","SME","",30,"",10,1,"http://www.hotel-maritime.dk",2009-12-03 09:37:17,,,,,False,False,"DK",1,"","ZXXZ","pdf",500,
+3703,"Empresas Varias de Medellin S.A. E.S.P.","Company","",12,"",500,1,"http://www.eevvm.com.co",2009-12-03 12:25:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"CO",2," ","ZXXZ","pdf",0,0
+3705,"Ecobanca A.C.","NGO Local","",101,"",10,1,"http://www.ecobanca.org/",2009-12-03 23:01:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"MX",0," ","ZXXZ","doc",0,0
+3711,"Goldengate Consulting","SME","",11,"",10,2,"http://www.goldengateconsulting.co.za/",2009-12-06 16:07:00,2009-12-08 11:36:29,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"ZA",0," ","ZXXZ","pdf",0,0
+3712,"Seoul Metropolitan Facilities Management Corporation (SFMC)","Public Sector Organization","",101,"",1001,2,"http://www.sisul.or.kr",2009-12-06 20:51:00,2009-12-08 11:33:40,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"KR",0," ","ZXXZ","pdf",0,0
+3719,"Kohn Pedersen Fox Associates P.C.","Company","",9,"",525,2,"http://www.kpf.com",2009-12-07 13:49:15,2009-12-08 11:11:33,,,93876823,False,False,"US",1,"","ZXXZ","pdf",500,
+3722,"Lofts Architecture Company Ltd","SME","",9,"",20,2,"http://www.lqc-spain.es",2009-12-07 22:46:00,2009-12-08 12:49:40,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"ES",1," ","ZXXZ","pdf",500,0
+3724,"Center for International Studies and Cooperation","NGO Global","",101,"",19,2,"http://www.ceci.ca",2009-12-08 02:52:52,2009-12-08 10:57:46,,,93876823,False,False,"VN",0,"","ZXXZ","pdf",0,
+3725,"Forum Advokater","SME","",11,"",50,2,"http://www.forumadvokater.dk",2009-12-08 03:23:00,2009-12-08 10:56:41,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"DK",1," ","ZXXZ","pdf",500,0
+3727,"Fujitsu Limited","Company","",17,"",26102,3,"http://www.fujitsu.com/global/",2009-12-08 05:13:00,2009-12-08 10:52:28,2009-12-09 11:57:28,1900-01-01 00:00:00,93876823,False,False,"JP",2,"67020","TYO","pdf",0,10292
+3733,"DENIZ SU VE ATIKSU ARITIM INS TIC VE SAN AS","SME","",32,"",40,1,"http://www.denizsu.com",2009-12-09 01:34:30,,,,,False,False,"TR",1,"","ZXXZ","pdf",500,
+3736,"The British Land Company plc","Company","",113,"",400,1,"http://www.britishland.com",2009-12-09 06:47:50,,,,,False,False,"GB",2,"BLND:LSE","LON","pdf",10000,
+3743,"Harinera del Valle S.A.","Company","",1,"",2100,1,"http://www.harineradelvalle.com",2009-12-09 13:36:49,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3744,"Delta Lloyd","Company","",115,"",6300,1,"http://www.deltalloydgroep.com",2009-12-09 13:43:42,,,,,False,False,"NL",2,"NL0009294552","AMS","pdf",10000,
+3746,"Mayaguez S.A.","Company","",1,"",3086,1,"http://www.ingeniomayaguez.com",2009-12-09 14:18:16,,,,,False,False,"CO",2,"MAYAGUEZ","ZXXZ","pdf",0,
+3747,"Manuelita S.A.","Company","",1,"",3284,1,"http://www.manuelita.com",2009-12-09 14:27:13,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3748,"Caja de Compensacion Familiar del Valle del Cauca Comfamiliar ANDI - Comfandi","Company","",11,"",4584,1,"http://www.comfandi.com.co",2009-12-09 14:41:20,,,,,False,False,"CO",2,"","ZXXZ","pdf",0,
+3752,"Cecilia Payan S.A., Dulces del Valle S.A.","SME","",1,"",78,1,"http://www.dulcesdelvalle.com",2009-12-09 15:37:49,,,,,False,False,"CO",0,"","ZXXZ","pdf",0,
+3559,"Liga Contra el Cancer Seccional Bogota","NGO Local","",101,"",56,3,"http://www.ligacontraelcancer.com.co/",2009-11-19 08:24:00,2009-12-07 14:08:22,2009-12-14 15:30:38,1900-01-01 00:00:00,87806823,False,False,"CO",0," ","ZXXZ","pdf",0,10296
 3565,"Shenzhen Center Power Tech Co Ltd","Company","",5,"",1800,1,"http://www.vision-batt.com",2009-11-20 01:47:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"CN",1," ","ZXXZ","pdf",500,0
 3578,"Lyon Bureau","SME","",6,"",63,3,"http://www.lyonbureau.fr/",2009-11-20 12:45:00,2009-11-20 13:00:15,2009-11-30 09:26:02,1900-01-01 00:00:00,87806823,False,False,"FR",1," ","ZXXZ","pdf",0,10274
-3588,"INTERTECH BATINORM","SME","",15,"",35,1,"http://www.intertech-batinorm.com",2009-11-23 06:47:51,,,,,False,False,"LB",1,"","ZXXZ","pdf",0,
+3588,"Intertech Batinorm","SME","",15,"",35,3,"http://www.intertech-batinorm.com",2009-11-23 06:47:00,2009-12-01 16:26:00,2009-12-10 11:26:36,1900-01-01 00:00:00,87806823,False,False,"LB",1," ","ZXXZ","pdf",0,10293
 3591,"SNPi","SME","",27,"",20,1,"http://www.snpi.org",2009-11-23 09:10:49,,,,,False,False,"FR",0,"","ZXXZ","pdf",500,
 3600,"Yadis HÃ´tels S.A","Company","",30,"",650,1,"",2009-11-24 05:03:51,,,,,False,False,"TN",1,"","ZXXZ","doc",0,
 3604,"yayasan Pendidikan Bakrie","Foundation","",101,"",100,1,"http://www.bakrie.ac.id/",2009-11-24 06:25:01,,,,,False,False,"ID",0,"","ZXXZ","pdf",0,
@@ -686,6 +716,37 @@
 3653,"LSM Mitra Juang Pancasila","Public Sector Organization","",101,"",7,1,"",2009-11-29 23:33:42,,,,,False,False,"ID",0,"","ZXXZ","doc",0,
 3658,"TOP-TOY Holding A/S","Company","",6,"",2100,1,"http://www.top-toy.com",2009-11-30 05:38:07,,,,,False,False,"DK",1,"","ZXXZ","pdf",5000,
 3659,"Decision Support Systems Laboratory of the School of Electrical and Computer Engineering of the National Technical University of Athens","Academic","",101,"",62,1,"http://www.epu.ntua.gr",2009-11-30 05:38:47,,,,,False,False,"GR",0,"","ZXXZ","pdf",0,
+3680,"Degetel Group","Company","",17,"",500,1,"http://www.degetel.com/",2009-12-01 09:53:17,,,,,False,False,"FR",1,"","ZXXZ","pdf",500,
+3686,"Estratega Consulting Global, S.L.","SME","",13,"",10,3,"",2009-12-02 04:51:37,2009-12-04 13:13:38,2009-12-04 13:13:54,,87806823,False,False,"ES",0,"","ZXXZ","pdf",0,10285
+3699,"Ostos, Sola & Asociados","SME","",11,"",15,1,"",2009-12-03 08:02:24,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3718,"Eserman S.A.","SME","",11,"",74,2,"http://www.eserman.com",2009-12-07 11:47:00,2009-12-08 11:15:54,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"ES",0," ","ZXXZ","pdf",0,0
+3720,"GM Helicopters","SME","",3,"",28,2,"http://www.gmhelicopters.com",2009-12-07 13:59:00,2009-12-08 11:10:26,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"LV",1," ","ZXXZ","pdf",500,0
+3726,"Allied Electronics Corporation Limited","Company","",105,"",14000,2,"http://www.altron.com",2009-12-08 04:37:17,2009-12-08 10:55:50,,,93876823,False,False,"ZA",2,"ATN and ATNP","JNB","pdf",500,
+3731,"Deloitte S.C.","Company","",11,"",350,1,"http://www.deloitte.com.uy",2009-12-08 13:38:05,,,,,False,False,"UY",1,"","ZXXZ","pdf",0,
+3740,"Carton de Colombia S.A.","Company","",26,"",1195,1,"http://www.smurfitkappa.com.co",2009-12-09 13:20:16,,,,,False,False,"CO",2,"CARTON","ZXXZ","pdf",0,
+3753,"Delima Marsh S.A.","SME","",115,"",22,1,"http://www.delimamarsh.com",2009-12-09 15:49:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"CO",2," ","ZXXZ","pdf",0,0
+3757,"Comestibles Aldor S.A.","SME","",1,"",22,1,"http://www.aldoronline.com",2009-12-09 16:48:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"CO",1," ","ZXXZ","pdf",0,0
+3758,"Sucromiles S.A.","Company","",5,"",434,1,"http://www.sucromiles.com.co",2009-12-09 16:52:30,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3760,"The market research and community development co., Ltd (MARKDC)","SME","",21,"",18,1,"http://www.markdc.com.vn",2009-12-09 19:04:37,,,,,False,False,"VN",1,"","ZXXZ","doc",0,
+3761,"Vietvalues Co., Ltd","Micro Entreprise","",11,"",4,1,"",2009-12-09 22:23:35,,,,,False,False,"VN",0,"","ZXXZ","pdf",0,
+3766,"Vietnam Sunrise Travel","SME","",30,"",15,1,"http://www.vietnamsunrisetravel.com",2009-12-10 07:59:20,,,,,False,False,"VN",1,"","ZXXZ","pdf",500,
+3768,"SSAB AB (publ.)","Company","",22,"",9200,1,"http://www.ssab.com/",2009-12-10 09:19:37,,,,,False,False,"SW",2,"SSAB A; SSAB B","STO","PDF",0,
+3769,"ETHIC","Business Association Global","",101,"",3,1,"http://www.ethic.fr/",2009-12-10 09:55:01,,,,,False,False,"FR",0,"","ZXXZ","pdf",0,
+3770,"Close the Gap International vzw","CSR Organization","",101,"",4,1,"http://www.close-the-gap.org/",2009-12-10 10:13:01,,,,,False,False,"BE",0,"","ZXXZ","doc",0,
+3771,"Billerud AB","Business Association Global","",101,"",2200,1,"http://www.billerud.com",2009-12-10 10:34:00,,,,,False,False,"SW",0,"","ZXXZ","pdf",0,
+3774,"EU Policies Institute","NGO Local","",101,"",15,1,"",2009-12-10 16:14:34,,,,,False,False,"TR",0,"","ZXXZ","pdf",0,
+3775,"ARTDO International","Business Association Global","",101,"",11,2,"https://www.artdointernational.org",2009-12-10 18:30:04,2009-12-11 15:39:50,,,87806823,False,False,"AU",0,"","ZXXZ","pdf",0,
+3776,"R&S Consulting","Micro Entreprise","",11,"",4,1,"http://www.responsabilidadysostenibilidad.com",2009-12-10 18:55:01,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3779,"Chaieb Carrelages","SME","",9,"",80,1,"",2009-12-11 03:20:01,,,,,False,False,"TN",0,"","ZXXZ","pdf",0,
+3781,"Kamstrup A/S","SME","",105,"",645,1,"http://www.kamstrup.com",2009-12-11 05:10:13,,,,,False,False,"DK",0,"","ZXXZ","pdf",500,
+3782,"DBee","SME","",17,"",18,1,"http://www.dbee.com/",2009-12-11 06:17:58,,,,,False,False,"FR",1,"","ZXXZ","pdf",0,
+3784,"Smidesprodukter AB","SME","",20,"",40,1,"http://www.smidesprodukter.se",2009-12-11 08:29:33,,,,,False,False,"SW",0,"","ZXXZ","doc",0,
+3786,"Swisscontact","NGO Global","",101,"",400,1,"http://www.swisscontact.ch",2009-12-11 15:54:18,,,,,False,False,"US",0,"","ZXXZ","pdf",0,
+3788,"DeFlores, LLC","Micro Entreprise","",29,"",5,1,"http://www.DeFlor.es",2009-12-12 13:15:02,,,,,False,False,"US",1,"","ZXXZ","pdf",500,
+3793,"Habegger AG","SME","",32,"",87,1,"http://www.habegger.ch",2009-12-14 08:47:46,,,,,False,False,"CH",1,"","ZXXZ","pdf",0,
+3794,"ALYOTECH","Company","",17,"",1600,1,"http://www.alyotech.com",2009-12-14 08:54:28,,,,,False,False,"FR",1,"","ZXXZ","pdf",500,
+3795,"NeuroSearch A/S","SME","",24,"",218,1,"http://www.neurosearch.com",2009-12-15 04:20:07,,,,,False,False,"DK",2,"NEUR","CPH","pdf",500,
+3798,"AES Brasil","Company","",104,"",5907,1,"http://www.aesbrasil.com.br/",2009-12-15 13:50:51,,,,,False,False,"BR",1,"","ZXXZ","pdf",0,
 3617,"CONHYDRA S.A E.S.P","SME","",12,"",242,1,"http://www.conhydra.com/",2009-11-25 14:16:46,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
 3618,"Duc Dung Trading & Honey Company Ltd.","SME","",1,"",14,1,"",2009-11-25 23:53:45,,,,,False,False,"VN",0,"","ZXXZ","doc",0,
 3621,"Academy O Universal Global Peace( A  Higher Educational Wing Of Snahalaya Ashram)","NGO Global","",101,"",57,1,"http://www.snahalayaashram.com",2009-11-26 03:41:23,,,,,False,False,"IN",0,"","ZXXZ","pdf",0,
@@ -693,7 +754,51 @@
 3629,"Center for Partnership in Community Development","NGO Local","",101,"",6,1,"",2009-11-26 06:10:34,,,,,False,False,"VN",0,"","ZXXZ","pdf",0,
 3630,"Azkoyen SA","Company","",32,"",1000,1,"http://www.azkoyen.com",2009-11-26 10:05:14,,,,,False,False,"ES",2,"AZK","MAD","pdf",500,
 3639,"Van Swaay Schijndel and Van Swaay Harlingen","SME","",26,"",49,1,"http://www.vanswaay.nl/",2009-11-27 06:19:26,,,,,False,False,"NL",1,"","ZXXZ","pdf",0,
+3672,"LIGA CONTRA EL CANCER SECCIONAL BOGOTA","NGO Local","",101,"",56,1,"http://www.ligacontraelcancer.com.co/",2009-11-30 19:01:00,,,,,False,False,"CO",0,"","ZXXZ","pdf",0,
+3673,"West Nippon Expressway Co., Ltd.","Company","",11,"",2600,3,"http://www.w-nexco.co.jp",2009-12-01 00:16:42,2009-12-08 15:59:31,2009-12-09 11:57:00,,93876823,False,False,"JP",1,"","ZXXZ","pdf",0,10291
+3678,"Magma Gestion Medioambiental, S.L.U.","SME","",9,"",12,1,"http://www.magmagrupo.es",2009-12-01 07:56:40,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3702,"Empresa de Acueducto y Alcantarillado de Pereira S.A. E.S.P.","Company","",12,"",269,1,"http://www.aguasyaguas.com.co",2009-12-03 11:15:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"CO",0," ","ZXXZ","pdf",0,0
+3707,"B+H Architects","SME","",9,"",237,2,"http://www.bharchitects.com/",2009-12-04 03:50:10,2009-12-08 11:50:20,,,93876823,False,False,"CA",0,"","ZXXZ","pdf",500,
+3709,"Consultative and Research Center for Natural Resources Management (CORENARM)","SME","",26,"",12,2,"http://www.corenarm.org.vn",2009-12-04 05:33:33,2009-12-08 11:48:00,,,93876823,False,False,"VN",0,"","ZXXZ","pdf",0,
+3710,"SysDo. LTD","Micro Entreprise","",110,"",8,0,"HTTP://WWW.SYSDO.NET",2009-12-06 07:08:12,,,2009-12-08 11:38:17,93876823,False,False,"IL",1,"","ZXXZ","doc",500,
+3713,"Universidad Catolica de Cuyo","Academic","",101,"",878,2,"http://www.uccuyo.edu.ar",2009-12-07 08:04:00,2009-12-08 11:29:58,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"AR",0," ","ZXXZ","pdf",0,0
+3715,"Victoria Consulting","Micro Entreprise","",11,"",4,0,"http://www.victoriaconsulting.co.rs/",2009-12-07 09:00:30,,,2009-12-08 11:26:58,93876823,False,False,"SE",0,"","ZXXZ","pdf",0,
+3723,"Ceresis","Micro Entreprise","",21,"",1,0,"http://www.ceresis.fr",2009-12-08 01:53:00,1900-01-01 00:00:00,1900-01-01 00:00:00,2009-12-08 10:58:51,93876823,False,False,"FR",1," ","ZXXZ","pdf",0,0
+3730,"GEFCO","Company","",31,"",10000,1,"http://www.gefco.net/",2009-12-08 12:35:28,,,,,False,False,"FR",3,"","ZXXZ","pdf",0,
+3737,"PsicÃ³logos Empresariales & Asociados S.A.","SME","",11,"",27,1,"http://www.psicologosempresariales.es",2009-12-09 07:52:46,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3738,"Alter Orbis Del Siglo XXI, S.L.","SME","",9,"",18,1,"http://www.alterorbis.net",2009-12-09 08:12:58,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3742,"Gases de Occidente S.A. ESP","Company","",112,"",414,1,"http://www.gasesdeoccidente.com",2009-12-09 13:29:12,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3751,"la Tour S.A.","SME","",5,"",62,1,"http://www.la-tour.com",2009-12-09 15:32:21,,,,,False,False,"CO",0,"","ZXXZ","pdf",0,
+3754,"Laboratorios Recamier Ltda","Company","",29,"",500,1,"http://www.recamier.com",2009-12-09 16:00:53,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3762,"Association of Business Women of Kazakhstan","NGO Local","",101,"",63,1,"http://www.businesswomen.kz",2009-12-09 23:42:22,,,,,False,False,"KZ",0,"","ZXXZ","doc",0,
+3764,"Construccions FerrÃ© SL","SME","",9,"",30,1,"",2009-12-10 06:10:11,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3772,"Schibsted ASA","Company","",21,"",8000,2,"http://www.schibsted.no",2009-12-10 12:07:36,2009-12-10 12:09:45,,,93876823,False,False,"NO",2,"SCH","OSL","pdf",0,
+3777,"Dentsu Inc.","Company","",21,"",6745,1,"http://www.dentsu.co.jp/",2009-12-10 23:42:02,,,,,False,False,"JP",1,"","ZXXZ","pdf",0,
+3787,"Empresa de Telecaciones de Popayan S.A. E.S.P. EMTEL","SME","",12,"",95,1,"http://www.emtel.net.co",2009-12-11 18:14:28,,,,,False,False,"CO",0,"","ZXXZ","pdf",0,
+3791,"NMT Consulting and Training Center Ltd. Åžti.","SME","",11,"",16,1,"http://www.nmt.com.tr/",2009-12-13 19:00:59,,,,,False,False,"TR",1,"","ZXXZ","pdf",500,
+3792,"NMT Consulting and Training Center","SME","",11,"",16,1,"http://www.nmt.com.tr/",2009-12-13 19:18:26,,,,,False,False,"TR",0,"","ZXXZ","pdf",500,
 3649,"VEC ecology","Micro Entreprise","",26,"",1,1,"http://www.vececology.rs/",2009-11-28 18:50:12,,,,,False,False,"SE",1,"","ZXXZ","pdf",0,
+3670,"Electrificadora de Santander S.A. E.S.P.","Company","",104,"",933,1,"http://www.essa.com.co",2009-11-30 17:09:58,,,,,False,False,"CO",2,"","ZXXZ","pdf",0,
+3671,"EMPOCABAL E.S.P.- E.I.C.E","SME","",12,"",58,1,"http://www.empocabal.com.co",2009-11-30 17:18:51,,,,,False,False,"CO",0,"","ZXXZ","pdf",0,
+3679,"Adams Kara Taylor","SME","",9,"",170,1,"",2009-12-01 09:20:01,,,,,False,False,"GB",2,"","ZXXZ","pdf",0,
+3684,"Repsol YPF Ecuador SA","Company","",23,"",450,1,"http://www.repsol.com/ec_es/",2009-12-01 12:01:27,,,,,False,False,"EC",3,"","ZXXZ","pdf",0,
+3692,"Networking for Develeopment","NGO Global","",101,"",1,1,"http://www.developmentmatters.ning.com/",2009-12-02 12:13:33,,,,,False,False,"IN",0,"","ZXXZ","doc",0,
+3693,"AMG Advanced Metallurgical Group N.V.","Company","",22,"",2285,1,"http://www.amg-nv.com",2009-12-02 20:59:02,,,,,False,False,"NL",2,"AMG","AMS","pdf",5000,
+3716,"CELLA informatique","Company","",17,"",350,0,"http://www.cella.fr",2009-12-07 11:02:00,1900-01-01 00:00:00,1900-01-01 00:00:00,2009-12-08 11:56:19,93876823,False,False,"FR",1," ","ZXXZ","pdf",0,0
+3721,"Think Tank Thuto","Academic","",101,"",4,2,"http://www.thinktankthuto.org",2009-12-07 18:23:00,2009-12-08 11:07:52,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"US",0," ","ZXXZ","pdf",0,0
+3728,"GMF-Assurances","Company","",116,"",4080,2,"http://www.gmf.fr/",2009-12-08 10:45:00,2009-12-08 10:54:58,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"FR",1," ","ZXXZ","pdf",10000,0
+3745,"Productos Lacteos Andina S.A.","Company","",1,"",660,1,"http://www.alqueria.com.co",2009-12-09 13:48:23,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3759,"Mac S.A.","Company","",2,"",616,1,"http://www.mac.com.co",2009-12-09 16:58:46,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3767,"noa bank GmbH & Co. KG","SME","",103,"",10,1,"http://www.noabank.de",2009-12-10 09:04:32,,,,,False,False,"DE",1,"","ZXXZ","pdf",500,
+3790,"Kreativne Inovacije d.o.o.","Micro Entreprise","",11,"",2,1,"http://www.kreativneinovacije.com",2009-12-13 11:45:11,,,,,False,False,"SE",1,"","ZXXZ","pdf",0,
+3756,"Colombina S.A.","Company","",1,"",6116,1,"http://www.colombina.com",2009-12-09 16:24:40,,,,,False,False,"CO",2,"COLOMBINA","ZXXZ","pdf",0,
+3763,"CSB BATTERY CO., LTD","Company","",102,"",5000,1,"http://www.csb-battery.com/",2009-12-10 05:30:56,,,,,False,False,"CN",1,"","ZXXZ","pdf",0,
+3773,"EU Policies Institute","NGO Local","",101,"",15,1,"",2009-12-10 15:58:42,,,,,False,False,"TR",0,"","ZXXZ","pdf",0,
+3778,"Seoul Foundation for Arts & Culture","Foundation","",101,"",60,2,"http://sfac.or.kr",2009-12-11 00:22:38,2009-12-11 17:24:35,,,93876823,False,False,"KR",0,"","ZXXZ","pdf",0,
+3780,"SICAME S.A","Company","",2,"",269,1,"",2009-12-11 03:28:51,,,,,False,False,"TN",1,"","ZXXZ","pdf",0,
+3785,"Kiymet-i Harbiye Yonetim DanÄ±ÅŸmanlÄ±k ve Ticaret AÅž","Micro Entreprise","",11,"",5,1,"http://www.kiymetiharbiye.com",2009-12-11 09:25:21,,,,,False,False,"TR",0,"","ZXXZ","pdf",500,
+3797,"3sun Limited","SME","",112,"",11,1,"http://www.3sun.co.uk",2009-12-15 09:08:43,,,,,False,False,"GB",0,"","ZXXZ","pdf",0,
+3799,"AES Sul S/A","Company","",104,"",1041,1,"http://www.aessul.com.br/",2009-12-15 14:17:05,,,,,False,False,"BR",1,"","ZXXZ","pdf",0,
 308,"Passage Cosmetics Laboratory","SME","",16,"",35,3,"http://passage.com.pl",2008-07-17 17:33:22,,2008-07-17 17:33:29,,87806823,False,False,"PL",0,"","ZXXZ","pdf",,
 309,"M/s Kotsons Pvt. Ltd.","SME","",50,"",120,3,"http://www.kotsons.com",2008-07-17 17:37:22,,2008-07-17 17:37:37,,55866823,False,False,"IN",0,"","ZXXZ","pdf",,
 343,"Bright Way Constructors","SME","",9,"",22,3,"",2008-07-23 15:15:08,,2008-07-23 15:15:43,,87806823,False,False,"PK",1,"","ZXXZ","pdf",,
@@ -2990,13 +3095,17 @@
 3347,"Central de Restaurantes-Aramark","Company","",1,"",1800,3,"http://www.centralrestaurantes.com.ar",2009-10-20 10:34:20,2009-10-22 11:26:47,2009-10-28 15:47:46,,87806823,False,False,"AR",3,"","ZXXZ","pdf",0,10166
 3514,"CONCLINA C.A. (HOSPITAL METROPOLITANO QUITO)","Company","",15,"",800,1,"http://www.hospitalmetropolitano.org",2009-11-11 18:10:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"EC",1," ","ZXXZ","doc",500,0
 3516,"Sistema JSFC","Company","",13,"",350,1,"http://www.sistema.ru",2009-11-12 06:02:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"RU",1," ","ZXXZ","pdf",500,0
-3521,"Bakrie University","Academic","",101,"",100,1,"http://www.bakrie.ac.id",2009-11-12 22:48:44,,,,,False,False,"ID",0,"","ZXXZ","pdf",0,
-3522,"YOOPALA Services","SME","",21,"",50,1,"http://www.yoopala.com",2009-11-13 04:39:09,,,,,False,False,"FR",1,"","ZXXZ","pdf",500,
-3529,"Certified Translator & Notary Public Bureau","Business Association Local","",101,"",7,1,"http://www.notarypublic.pl",2009-11-13 13:12:57,,,,,False,False,"PL",0,"","ZXXZ","pdf",0,
-3530,"AIESEC MÃ©xico, A.C.","NGO Global","",101,"",900,1,"http://www.aiesec.org/mexico",2009-11-13 14:19:04,,,,,False,False,"MX",0,"","ZXXZ","pdf",0,
-3556,"Net El Bocho","SME","",21,"",14,1,"",2009-11-19 07:49:57,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3521,"Bakrie University","Academic","",101,"",100,3,"http://www.bakrie.ac.id",2009-11-12 22:48:00,2009-12-07 13:42:28,2009-12-14 15:31:19,1900-01-01 00:00:00,87806823,False,False,"ID",0," ","ZXXZ","pdf",0,10298
+3522,"YOOPALA Services","SME","",21,"",50,3,"http://www.yoopala.com",2009-11-13 04:39:00,2009-12-07 14:04:01,2009-12-14 15:31:02,1900-01-01 00:00:00,87806823,False,False,"FR",1," ","ZXXZ","pdf",500,10297
+3529,"Certified Translator & Notary Public Bureau","Business Association Local","",101,"",7,3,"http://www.notarypublic.pl",2009-11-13 13:12:57,2009-12-08 18:17:59,2009-12-14 15:33:04,,87806823,False,False,"PL",0,"","ZXXZ","pdf",0,10302
+3530,"AIESEC Mexico, A.C.","NGO Global","",101,"",900,3,"http://www.aiesec.org/mexico",2009-11-13 14:19:00,2009-12-08 18:21:36,2009-12-14 15:33:23,1900-01-01 00:00:00,87806823,False,False,"MX",0," ","ZXXZ","pdf",0,10303
+3556,"Net El Bocho","SME","",21,"",14,3," ",2009-11-19 07:49:00,2009-12-08 16:29:32,2009-12-08 16:36:04,1900-01-01 00:00:00,93876823,False,False,"ES",0," ","ZXXZ","pdf",0,10289
 3584,"A&R Technologies Ltd.","SME","",105,"",150,1,"http://www.artechnologiesltd.com",2009-11-23 02:25:14,,,,,False,False,"HK",0,"","ZXXZ","pdf",500,
 3606,"HYY Group","SME","",27,"",222,1,"http://www.hyy.fi/en/",2009-11-24 09:18:55,,,,,False,False,"FI",1,"","ZXXZ","pdf",500,
+3734,"The Association of Information Technology Enterprises of Ukraine","Public Sector Organization","",101,"",3,1,"http://apitu.org.ua",2009-12-09 04:32:33,,,,,False,False,"UA",0,"","ZXXZ","pdf",0,
+3735,"Igoco Trading Coporation SL","SME","",11,"",10,1,"http://www.igoco.es",2009-12-09 06:05:50,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3739,"SÃ¸rup Herregaard","SME","",30,"",50,1,"http://www.sorup.dk/",2009-12-09 12:22:54,,,,,False,False,"DK",1,"","ZXXZ","pdf",500,
+3741,"Riopaila Castilla S.A.","Company","",32,"",6396,1,"http://www.riopaila-castilla.com",2009-12-09 13:24:52,,,,,False,False,"CO",2,"RPI","ZXXZ","pdf",0,
 2928,"Dinuy S.A.","SME","",105,"",45,0,"http://www.dinuy.com",2009-08-11 15:56:49,,,2009-09-03 14:47:13,141256823,False,False,"ES",0,"","ZXXZ","pdf",0,
 2934,"Marston Group","Company","",13,"",600,3,"http://www.marstongroup.co.uk",2009-08-12 04:55:33,2009-08-12 12:41:44,2009-08-18 11:04:36,,87806823,False,False,"GB",1,"","ZXXZ","pdf",500,9911
 2940,"Central Nacional Unimed","Company","",15,"",629,3,"http://www.centralnacionalunimed.com.br",2009-08-12 14:48:15,2009-09-01 13:32:14,2009-09-09 10:56:48,,87806823,False,False,"BR",1,"","ZXXZ","pdf",0,9965
@@ -3040,7 +3149,13 @@
 3615,"Kjerulf & Partnere A/S","SME","",11,"",19,1,"http://www.kpas.dk",2009-11-25 10:06:11,,,,,False,False,"DK",1,"","ZXXZ","pdf",500,
 3637,"Instituto Mediterraneo para el desarrollo sostenible - IMEDES","NGO Local","",101,"",28,1,"http://wwwgrupimedes.com",2009-11-27 04:47:25,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
 3650,"Centre for Environmental Economic Development","NGO Local","",101,"",20,1,"",2009-11-29 21:41:11,,,,,False,False,"VN",0,"","ZXXZ","pdf",0,
-3669,"FOSELEV S.A.","Company","",32,"",1400,1,"http://www.foselev.com/",2009-11-30 11:48:10,,,,,False,False,"FR",1,"","ZXXZ","PDF",0,
+3669,"FOSELEV S.A.","Company","",32,"",1400,3,"http://www.foselev.com/",2009-11-30 11:48:10,2009-12-04 15:59:14,2009-12-14 15:24:55,,87806823,False,False,"FR",1,"","ZXXZ","PDF",0,10294
+3677,"PJM Pujadas, S.A.","SME","",5,"",21,1,"http://www.pujadas1890.com",2009-12-01 07:49:29,,,,,False,False,"ES",0,"","ZXXZ","pdf",0,
+3687,"OUT-2 Design","SME","",9,"",20,1,"http://www.OUT-2.com",2009-12-02 05:07:45,,,,,False,False,"VN",1,"","ZXXZ","pdf",500,
+3696,"SICOVET","SME","",29,"",215,1,"",2009-12-03 03:36:01,,,,,False,False,"TN",0,"","ZXXZ","pdf",0,
+3698,"DENY ALL","SME","",17,"",35,1,"http://www.denyall.com",2009-12-03 06:51:54,,,,,False,False,"FR",1,"","ZXXZ","pdf",0,
+3704,"Patterer Technical Parts Co., Ltd.","SME","",105,"",25,2,"http://www.patterer-thailand.com",2009-12-03 21:01:00,2009-12-08 12:08:29,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"TH",1," ","ZXXZ","pdf",500,0
+3706,"Hassell","SME","",11,"",850,2,"http://www.hassell.com.au",2009-12-04 02:00:00,2009-12-08 12:01:07,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"AU",0," ","ZXXZ","pdf",0,0
 2953,"KEY PARTNERS","Micro Entreprise","",17,"",3,0,"http://www.key-partners.biz",2009-08-14 15:59:49,,,2009-08-14 17:57:57,141256823,False,False,"FR",1,"","ZXXZ","pdf",500,
 2956,"Global Development Research Center (GDRC)","NGO Global","",101,"",89,3,"http://www.gdrc.org/",2009-08-15 23:07:16,2009-08-17 13:52:26,2009-08-24 11:34:33,,87806823,False,False,"JP",0,"","ZXXZ","pdf",0,9922
 2965,"Romarsh Elcomponics Technologies Pvt Ltd","SME","",20,"",75,0,"http://romarshelcomponics.com",2009-08-18 09:24:38,,,2009-10-22 15:13:09,93876823,False,False,"IN",0,"","ZXXZ","pdf",0,
@@ -3086,10 +3201,10 @@
 3359,"Shine Pyung Corporation","SME","",31,"",10,3,"http://www.shinepyung.co.kr",2009-10-22 02:23:49,2009-10-22 11:47:47,2009-10-28 15:51:59,,87806823,False,False,"KR",1,"","ZXXZ","pdf",500,10175
 3508,"Mediterraid Association","NGO Local","",101,"",5,3,"http://www.mediterraid.it",2009-11-11 05:40:00,2009-11-11 11:54:00,2009-11-18 11:58:50,1900-01-01 00:00:00,87806823,False,False,"IT",0," ","ZXXZ","pdf",0,10257
 3513,"KLB Group","Company","",11,"",330,3,"http://www.klb-group.com",2009-11-11 09:49:38,2009-11-11 13:22:32,2009-11-18 12:00:08,,87806823,False,False,"FR",1,"","ZXXZ","pdf",0,10260
-3534,"NDA","Academic","",101,"",2,1,"http://mail@normanday.com",2009-11-14 23:25:46,,,,,False,False,"AU",0,"","ZXXZ","pdf",0,
-3546,"Baluarte AgÃªncia de Projetos Culturais Ltda.","Micro Entreprise","",21,"",5,1,"http://www.baluarteagencia.com.br",2009-11-17 10:24:53,,,,,False,False,"BR",1,"","ZXXZ","pdf",0,
-3548,"GreenTow","Micro Entreprise","",102,"",8,1,"http://www.GreenTow.com",2009-11-17 14:22:15,,,,,False,False,"US",1,"","ZXXZ","pdf",0,
-3549,"GRUPO TOMPLA SOBRE-EXPRÃ‰S, S.L.U.","Company","",32,"",730,1,"http://www.tompla.com",2009-11-18 05:47:15,,,,,False,False,"ES",1,"","ZXXZ","pdf",0,
+3534,"NDA","Academic","",101,"",2,3,"http://www.normanday.com",2009-11-14 23:25:00,2009-12-08 17:57:48,2009-12-14 15:36:01,1900-01-01 00:00:00,87806823,False,False,"AU",0," ","ZXXZ","pdf",0,10306
+3546,"Baluarte Agencia de Projetos Culturais Ltda.","Micro Entreprise","",21,"",5,0,"http://www.baluarteagencia.com.br",2009-11-17 10:24:00,1900-01-01 00:00:00,1900-01-01 00:00:00,2009-12-08 17:05:07,93876823,False,False,"BR",1," ","ZXXZ","pdf",0,0
+3548,"GreenTow","Micro Entreprise","",102,"",8,0,"http://www.GreenTow.com",2009-11-17 14:22:15,,,2009-12-08 16:56:10,93876823,False,False,"US",1,"","ZXXZ","pdf",0,
+3549,"Grupo Tompla Sobre-Expres, S.L.U.","Company","",32,"",730,1,"http://www.tompla.com",2009-11-18 05:47:00,1900-01-01 00:00:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"ES",1," ","ZXXZ","pdf",0,0
 3065,"IGR","SME","",9,"",90,3,"http://www.igrsa.com",2009-09-03 07:06:46,2009-09-21 18:29:15,2009-09-28 11:02:26,,87806823,False,False,"ES",0,"","ZXXZ","pdf",0,10041
 3070,"Design for All Foundation","Foundation","",101,"",2,0,"http://www.designforall.org",2009-09-03 11:27:31,,,2009-09-03 15:16:30,141256823,False,False,"ES",0,"","ZXXZ","pdf",0,
 3089,"SOLUTIONS S.A.","SME","",17,"",20,1,"http://www.solutions.ht",2009-09-07 11:24:01,,,,,False,False,"HT",1,"","ZXXZ","pdf",500,
@@ -3116,11 +3231,19 @@
 3570,"Fashion Company Sahel","Company","",29,"",400,3," ",2009-11-20 07:35:00,2009-11-20 14:31:00,2009-11-30 09:27:36,1900-01-01 00:00:00,87806823,False,False,"TN",1," ","ZXXZ","pdf",0,10278
 3572,"Tunitricot","Company","",29,"",400,3," ",2009-11-20 08:00:00,2009-11-20 14:31:00,2009-11-30 09:26:45,1900-01-01 00:00:00,87806823,False,False,"TN",1," ","ZXXZ","pdf",0,10276
 3581,"Oilfox S.A.","SME","",102,"",45,3,"https://www.oilfox.com.ar",2009-11-20 14:11:00,2009-11-20 14:16:34,2009-11-30 09:25:31,1900-01-01 00:00:00,87806823,False,False,"AR",1," ","ZXXZ","pdf",500,10273
-3585,"Mandala Airlines","Company","",31,"",978,2,"http://www.mandalaair.com/",2009-11-23 02:28:55,2009-11-30 09:30:38,,,87806823,False,False,"ID",1,"","ZXXZ","pdf",0,
+3585,"Mandala Airlines","Company","",31,"",978,3,"http://www.mandalaair.com/",2009-11-23 02:28:55,2009-11-30 09:30:38,2009-12-07 11:12:12,,87806823,False,False,"ID",1,"","ZXXZ","pdf",0,10286
 3586,"Ethica S.p.A.","Micro Entreprise","",11,"",9,0,"http://ethica-spa.com/",2009-11-23 04:00:10,,,2009-11-30 09:31:12,87806823,False,False,"IT",1,"","ZXXZ","pdf",500,
 3590,"MPC Prokim Industrie","SME","",32,"",125,1,"",2009-11-23 09:00:42,,,,,False,False,"TN",1,"","ZXXZ","doc",0,
 3592,"Antarcticland Institution of Higher Education and Research","Academic","",101,"",5,1,"",2009-11-23 10:37:24,,,,,False,False,"IN",0,"","ZXXZ","pdf",0,
 3593,"GT Precision Products Ltd","SME","",20,"",72,1,"http://www.gtgroup.co.uk",2009-11-23 11:21:36,,,,,False,False,"GB",0,"","ZXXZ","pdf",0,
-3594,"InterContinental Hotels Group","Company","",30,"",380000,1,"http://www.ihgplc.com",2009-11-23 12:59:17,,,,,True,False,"GB",2,"ihg","OFEX","doc",5000,
+3594,"InterContinental Hotels Group","Company","",30,"",380000,2,"http://www.ihgplc.com",2009-11-23 12:59:00,2009-12-09 11:52:48,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,True,False,"GB",2,"ihg","OFEX","pdf",5000,0
 3603,"Etablissements Slama FrÃ¨res","Company","",29,"",300,1,"",2009-11-24 05:23:21,,,,,False,False,"TN",1,"","ZXXZ","pdf",0,
 3611,"Global Multidisciplinary & Procurement Consulatnycy","SME","",22,"",159,1,"http://www.cccs.ch",2009-11-24 20:37:49,,,,,False,False,"SL",1,"","ZXXZ","pdf",500,
+3717,"Sigre Medicamentos y Medioambiente","SME","",24,"",14,2,"http://www.sigre.es",2009-12-07 11:38:00,2009-12-08 11:18:32,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"ES",0," ","ZXXZ","pdf",0,0
+3729,"CELLA informatique","Company","",17,"",350,2,"http://www.cella.fr",2009-12-08 11:48:50,2009-12-08 11:56:01,,,93876823,False,False,"FR",1,"","ZXXZ","pdf",0,
+3749,"Organizacion Carvajal","Company","",32,"",25487,1,"http://www.carvajal.com",2009-12-09 14:50:15,,,,,False,False,"CO",1,"","ZXXZ","pdf",0,
+3750,"Almacenes LA 14 S.A.","Company","",11,"",13558,1,"http://www.la14.com",2009-12-09 15:22:07,,,,,False,False,"CO",2,"","ZXXZ","pdf",0,
+3755,"General Metalica S.A.","SME","",11,"",204,2,"http://www.generalmetalica.com",2009-12-09 16:05:00,2009-12-10 12:17:00,1900-01-01 00:00:00,1900-01-01 00:00:00,93876823,False,False,"CO",0," ","ZXXZ","pdf",0,0
+3765,"Skills Training Center","SME","",13,"",10,1,"http://www.skills.rs/",2009-12-10 07:09:30,,,,,False,False,"SE",0,"","ZXXZ","pdf",500,
+3789,"DeFlores, LLC","SME","",29,"",10,1,"http://www.DeFlor.es",2009-12-12 13:19:57,,,,,False,False,"US",1,"","ZXXZ","pdf",500,
+3796,"Az Media","Micro Entreprise","",21,"",9,1,"http://www.az-media.biz",2009-12-15 05:10:15,,,,,False,False,"BG",1,"","ZXXZ","pdf",0,
