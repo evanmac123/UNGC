@@ -48,24 +48,34 @@ class TreeImporter
     type['section']
   end
   
-  def save_page(section=nil, parent=nil)
-    p = Page.find(identifier)
-    p.title = title
-    p.position = position
+  def save_children_for_section(section=nil, parent=nil)
+    ids = children.map(&:identifier)
+    pages = {}
+    Page.find(ids).each { |p| pages[p.id] = p }
+    children.each do |child|
+      id = child.identifier.to_i
+      page = pages[id]
+      raise "Unable to find #{id.inspect} to save #{child.inspect} in #{hash.inspect}" unless page
+      child.save_page(page, section, parent)
+    end
+  end
+  
+  def save_page(page, section=nil, parent=nil)
+    # FIXME: Updates pages whose titles have apostrophes and quotation marks every time, even if they haven't actually changed
+    page.title = title
+    page.position = position
     if section
-      p.group_id = section.id
+      page.group_id = section.id
     else
-      p.group_id = nil
+      page.group_id = nil
     end
     if parent
-      p.parent_id = parent.id 
+      page.parent_id = parent.id 
     else
-      p.parent_id = nil
+      page.parent_id = nil
     end
-    children.each do |child|
-      child.save_page(section, p)
-    end
-    p.save
+    save_children_for_section(section, page)
+    page.save
   end
 
   def find_or_create_section
@@ -82,9 +92,7 @@ class TreeImporter
   
   def save_section
     s = find_or_create_section unless identifier.blank? # the 'home' section is fake, doesn't really exist
-    children.each do |child|
-      child.save_page(s)
-    end
+    save_children_for_section(s)
     s.save if s
   end
 end
