@@ -18,3 +18,4 @@ public/system/zips/**/*
 public/system/commitment_letters/**/*
 coverage.data
 coverage/*
+.sass-cache/*
