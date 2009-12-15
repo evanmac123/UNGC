@@ -1,0 +1,7 @@
+= default_form.error_messages
+%fieldset
+  %ol
+    = default_form.text_field :name
+    = default_form.collection_select :parent_id, Sector.top_level, :id, :name, {:include_blank => true}, {}
+    = default_form.text_field :icb_number
+

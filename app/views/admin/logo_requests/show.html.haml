@@ -1,15 +1,21 @@
-%p
-  %b Purpose:
-  =h @logo_request.purpose
-%p
-  %b Contact:
-  = @logo_request.contact.name
-%p
-  %b Publication:
-  = @logo_request.publication.name
-%p
-  %b State:
-  = @logo_request.state_name
+- @body_class = 'details'
+%h2 Logo request details
+
+#status_box
+  %dl
+    %dt Purpose:
+    %dd= @logo_request.purpose
+    %dt Contact:
+    %dd= @logo_request.contact.name
+    %dt Publication:
+    %dd= @logo_request.publication.name
+    %dt Status:
+    %dd= @logo_request.state.humanize
+    %dt Attachments:
+    %dd
+      %ul.document_list
+        - for logo_comment in @logo_request.logo_comments.with_attachment
+          %li= link_to_attached_file(logo_comment)
 
 = logo_request_actions(@logo_request)
 
@@ -17,13 +23,6 @@
 = link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request) unless @logo_request.state_events.empty?
 %ul
   = render :partial => @logo_request.logo_comments
-
-%h3 Files
-%ul
-  - for comment in @logo_request.logo_comments.with_attachment
-    %li
-      = link_to_attachment(comment)
-      = number_to_human_size(comment.attachment_file_size)
 
 %h3 Approved logos
 - staff_only do
@@ -37,3 +36,44 @@
       = render :partial => @logo_request.logo_files
   - else
     no approved logos
+
+%div{:class => "tab_container top_tabs"} 
+  %ul.tab_nav
+    %li <a href="#comments">Comments</a>
+    %li <a href="#approved">Approved logos</a>
+  
+  #comments.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li <a class="new" href="#" title="New Comment">New Comment</a>
+    #ul.items
+      - for logo_comment in @logo_request.logo_comments
+        %li.item{:id => dom_id(logo_comment)}
+          .meta
+            %p.name John Doe
+            %p.datetime 15:34 23/11/2009
+          
+            %ul{:class => "post_tools inline"}
+              %li <a class="edit" href="#" title="Edit comment">Edit comment</a>
+              %li <a class="delete" href="#" title="Delete comment">Delete comment</a>
+          
+          .body
+            %p= logo_comment.body
+
+  #contacts.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li <a class="new" href="#" title="New Contact">New Contact</a>
+    #ul.items
+      %li.item{:id => "contact-1234"}
+        .meta
+          %p.name John Doe
+          %ul{:class => "post_tools inline"}
+            %li <a class="edit" href="#" title="Edit contact">Edit contact</a>
+            %li <a class="delete" href="#" title="Delete contact">Delete contact</a>
+          
+        .body 
+          %dl#contact_data_left.contact_data
+            %dt Job Title:
+            %dd Executive Director
+          %dl#contact_data_right.contact_data
+            %dt Country:
+            %dd Armenia

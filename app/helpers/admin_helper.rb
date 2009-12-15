@@ -27,6 +27,6 @@ module AdminHelper
   end
   
   def possibly_link_to_organization
-    content_tag :p, "for #{link_to current_user.organization.name, edit_admin_organization_path(current_user.organization.id)} staff" if logged_in?
+    link_to 'Edit your organization', edit_admin_organization_path(current_user.organization.id) if logged_in?
   end
 end

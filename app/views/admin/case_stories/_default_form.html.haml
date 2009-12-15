@@ -1,0 +1,45 @@
+= default_form.error_messages
+%fieldset
+  %ol
+    = default_form.text_field :title
+    %li
+      = label :case_story, :priciple_ids, 'Principles'
+      = collection_select :case_story, :principle_ids, Principle.all, :id, :name, {}, :multiple => true, :name => 'case_story[principle_ids][]'
+    %li
+      = label :case_story, :is_internalization_project, 'Internalization project'
+      = check_box :case_story, :is_internalization_project
+    %li
+      = check_box :case_story, :is_partnership_project
+      = label :case_story, :is_partnership_project, 'Partnership project'
+    %li
+      = label :case_story, :country_ids, 'Countries'
+      = collection_select :case_story, :country_ids, Country.all, :id, :name, {}, :multiple => true, :name => 'case_story[country_ids][]'
+
+    = default_form.text_field :url1
+    = default_form.text_field :url2
+    = default_form.text_field :url3
+    = default_form.text_area :description
+
+    - if @case_story.attachment_file_name
+      %p
+        current file:
+        = link_to_attachment @case_story
+    = default_form.file_field :attachment
+
+%fieldset
+  %legend Authors
+  %ol
+    = default_form.text_field :author1
+    = default_form.text_field :author1_email
+    = default_form.text_field :author1_institution
+    = default_form.text_field :author2
+    = default_form.text_field :author2_email
+    = default_form.text_field :author2_institution
+
+%fieldset
+  %legend Contacts
+  %ol
+    = default_form.text_field :contact1
+    = default_form.text_field :contact1_email
+    = default_form.text_field :contact2
+    = default_form.text_field :contact2_email

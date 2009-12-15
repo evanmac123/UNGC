@@ -1,0 +1,11 @@
+%h2 Listing sectors
+
+= link_to 'Add a sector', new_admin_sector_path
+
+%table.dashboard_table#sectors_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.status Parent
+    %th.actions Actions
+  = render @sectors

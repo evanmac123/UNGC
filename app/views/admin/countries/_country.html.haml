@@ -1,0 +1,8 @@
+%tr
+  %td= country.updated_at
+  %td= country.name
+  %td= country.region
+  %td
+    %ul.actions
+      %li= link_to 'Edit', edit_admin_country_path(country), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Delete', admin_country_path(country), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'

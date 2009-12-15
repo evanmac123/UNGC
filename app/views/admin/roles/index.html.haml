@@ -1,0 +1,11 @@
+%h2 Listing roles
+
+= link_to 'Add a role', new_admin_role_path
+
+%table.dashboard_table#roles_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.status Initiative
+    %th.actions Actions
+  = render @roles

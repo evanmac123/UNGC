@@ -1,0 +1,11 @@
+%h2 Listing countries
+
+= link_to 'Add a country', new_admin_country_path
+
+%table.dashboard_table#countries_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.status Region
+    %th.actions Actions
+  = render @countries
