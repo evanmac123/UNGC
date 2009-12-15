@@ -78,13 +78,10 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
     end
     
     should "allow download of logo" do
-      # TODO: this test should not raise an exception when a LogoFile is created through controller
-      assert_raises TypeError do
-        get :download, :id              => @logo_request.id,
-                       :organization_id => @logo_request.organization.id,
-                       :logo_file_id    => LogoFile.first.id
-        assert_response :success
-      end
+      get :download, :id              => @logo_request.id,
+                     :organization_id => @logo_request.organization.id,
+                     :logo_file_id    => LogoFile.first.id
+      assert_response :success
     end
   end
 end
