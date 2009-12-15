@@ -1,4 +1,6 @@
-%li
-  = comment_date(logo_comment)
-  %blockquote= logo_comment.body
-  = link_to_attachment(logo_comment)
+%li.item{:id => dom_id(logo_comment)}
+  .meta
+    %p.name= logo_comment.contact.name
+    %p.datetime= logo_comment.created_at.strftime '%d-%b-%Y %I:%M%p'
+  .body
+    %p= logo_comment.body

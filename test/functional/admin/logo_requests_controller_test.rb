@@ -31,7 +31,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                                        :logo_comments_attributes=>{"0"=>comment_attributes} }
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization).id)
+    assert_redirected_to admin_organization_logo_request_path(assigns(:organization).id, assigns(:logo_request).id)
   end
   
   test "should destroy logo request" do

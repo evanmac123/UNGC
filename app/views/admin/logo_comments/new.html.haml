@@ -1,16 +1,17 @@
-%h1 New comment
+%h2 New comment
 
-- form_for(:logo_comment, url: admin_logo_request_logo_comments_path(@logo_request), :html => { :multipart => true }) do |form|
-  = form.error_messages
-  = form.text_area :body, :rows => 4
-  = form.file_field :attachment
+- form_for(:logo_comment, builder:DefaultFormBuilder, url: admin_logo_request_logo_comments_path(@logo_request), :html => { :multipart => true }) do |form|
+  %fieldset
+    %ol
+      = form.error_messages
+      = form.text_area :body, :rows => 4
+      = form.file_field :attachment
   
-  %p
-    - organization_only do
-      = form.submit 'Save'
-    - staff_only do
-      = form.submit LogoRequest::EVENT_REVISE.titleize
-      = form.submit LogoRequest::EVENT_APPROVE.titleize
-      = form.submit LogoRequest::EVENT_REJECT.titleize
+  - organization_only do
+    = form.submit 'Save', :class => 'button'
+  - staff_only do
+    = form.submit LogoRequest::EVENT_REVISE.titleize, :class => 'button'
+    = form.submit LogoRequest::EVENT_APPROVE.titleize, :class => 'button'
+    = form.submit LogoRequest::EVENT_REJECT.titleize, :class => 'button'
 
 = link_to 'Back', admin_organization_logo_request_path(@logo_request.organization.id, @logo_request)
