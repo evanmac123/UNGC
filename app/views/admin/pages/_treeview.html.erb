@@ -62,7 +62,10 @@ $(function () {
             url: url,
             dataType: 'json',
             data: "&title="+title,
-            success: function(response) { $(node).removeClass('updateAfterRename') }
+            complete: function(response) { 
+              $(node).removeClass('updateAfterRename');
+              tree.select_branch(node);
+            }
           });
         }
       },
