@@ -43,8 +43,7 @@ class Admin::LogoRequestsController < AdminController
   def download
     if @logo_request.can_download_files?
       logo_file = @logo_request.logo_files.first(:conditions => ['logo_file_id=?', params[:logo_file_id]])
-      # TODO allow upload of zip file
-      send_file :file => logo_file.zip.path, :type => 'application/x-zip-compressed'
+      send_file logo_file.zip.path, :type => 'application/x-zip-compressed'
     else
       flash[:error] = "You only had 7 days to download the file."
       redirect_to admin_organization_logo_request_path(@organization.id, @logo_request)
