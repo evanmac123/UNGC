@@ -467,6 +467,16 @@ ul.nav_bar
     overflow: auto
     width: 518px
   
+    #tree
+      ul 
+        li 
+          a
+            &.hidden
+              opacity: 0.4
+            &.pending
+              color: red
+              
+  
   #page_details, #page_tools
     clear: left
     float: left
@@ -509,6 +519,8 @@ ul.nav_bar
       a
         text-decoration: underline
   
-  
-  
-  
+#loading
+  background: url('/images/indicator.white.gif') 5px 5px no-repeat #FFC
+  padding: 0.5em 2.5em 0.5em 2.5em
+  margin: 0
+  position: fixed

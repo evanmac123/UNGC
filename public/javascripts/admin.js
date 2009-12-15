@@ -159,7 +159,8 @@ function saveNewPagePlaceholder(node, ref_node, type, tree_obj, rollback) {
 }
 
 function saveTree (e) {
-	var url  = $(e.target).attr('rel');
+	e.preventDefault();
+	var url  = $(e.target).attr('href');
 	var data = $.tree.reference('#tree').get();
 	var data_json = JSON.stringify(data);
 	data_json = encodeURIComponent(data_json)
@@ -211,9 +212,9 @@ $(function() {
 	$('a.link_to_post').live('click', makePostLink );
 	$('a.link_to_destroy').live( 'click', makeDestroyLink );
 	
-	$('button.save_tree').live('click', saveTree );
-	$('button.new_section').live('click', newSection );
-	$('button.new_page').live('click', newPage );
+	$('a#save_tree').live('click', saveTree );
+	$('a#new_section').live('click', newSection );
+	$('a#new_page').live('click', newPage );
 	
 	if ($('form textarea#page_content').size() > 0) {
 		startEditor('page_content');

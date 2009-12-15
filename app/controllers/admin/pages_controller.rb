@@ -17,7 +17,12 @@ class Admin::PagesController < AdminController
 
   def show
     respond_to do |wants|
-      wants.js { render(:update) { |page| page['#replaceMe'].html(render :partial => 'page') } }
+      wants.js { 
+        render(:update) { |page| 
+          page['#pageReplace'].html(render partial: 'page')
+          page['#pageDetailsReplace'].html(render partial: 'page_details')
+        } 
+      }
     end
   end
 
