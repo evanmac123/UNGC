@@ -21,6 +21,7 @@ class AdminController < ApplicationController
       @pending_cops = CommunicationOnProgress.all(:conditions => ['state in (?)', pending_states],
                                                   :limit      => 10,
                                                   :order      => 'updated_at DESC')
+      @pending_pages = Page.with_approval('pending').all(:order => 'updated_at DESC')
     elsif current_user.from_network?
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?

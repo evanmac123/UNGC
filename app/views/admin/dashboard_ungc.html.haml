@@ -5,6 +5,7 @@
     %li <a href="#logos">Logo Requests</a>
     %li <a href="#case_stories">Case Stories</a>
     %li <a href="#cops">COPs</a>
+    %li <a href="#pages">Pages</a>
 
   - if @pending_organizations.any?
     #organizations.tab_content
@@ -53,3 +54,15 @@
           %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @pending_cops
+
+  - if @pending_pages.any?
+    #pages.tab_content
+      %h2 Pending Pages
+      %table.dashboard_table#pages_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Title
+          %th.status Status
+          %th.age Days since last update
+          %th.actions
+        = render :partial => 'admin/dashboard/page', collection: @pending_pages
