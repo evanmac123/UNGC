@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
-  helper %w{application case_stories cops datetime events local_network navigation news pages participants search sessions signatories signup stakeholders} # needs to be explicit
+  helper %w{application case_stories cops datetime events local_network navigation news organizations pages participants search sessions signatories signup stakeholders} # needs to be explicit
   before_filter :soft_require_staff_user, :only => :decorate
   before_filter :find_content, :except => [:redirect_local_network]
   before_filter :page_is_editable, :only => :view

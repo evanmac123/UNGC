@@ -25,7 +25,6 @@ class PageGroup < ActiveRecord::Base
     :conditions  => {:approval => 'approved', :parent_id => nil},
     :order       => "position ASC"
   
-  
   named_scope :for_navigation, 
     :include    => :visible_children,
     :order      => "page_groups.position ASC",
@@ -49,6 +48,10 @@ class PageGroup < ActiveRecord::Base
   
   def self.import_tree(json_string)
     TreeImporter.import_tree(json_string)
+  end
+  
+  def leaves
+    Page.find_leaves_for(id)
   end
   
 end

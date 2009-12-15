@@ -1,5 +1,1 @@
-%h3= @page.title || 'Untitled'
-
-%p= @page.path
-
-%p= truncate strip_tags(@page.content || '[No contents]'), 280
+= @page.content || '[No content]'

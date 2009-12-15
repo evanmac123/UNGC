@@ -6,32 +6,6 @@ function showPage (argument) {
   $('#loading').hide();
 }
 
-// $(function () { 
-//  $("#tree").tree({
-//    ui: {
-//      dots: false,
-//      theme_name: 'apple'
-//    },
-//    callback: {
-//      onselect: function(node, tree) {
-//        $('#loading').show();
-//        var url = $(node).children('a').attr('href') + '.js';
-//        jQuery.ajax({
-//          type: 'get',
-//          url: url,
-//          dataType: 'script',
-//          success: showPage,
-//          
-//        });
-//      }
-//    }
-//  });
-// });
-
-function successfullyCreated (response) {
-  console.log(response);
-}
-
 var selected = null;
 $(function () { 
 	$("#tree").tree({
@@ -74,25 +48,23 @@ $(function () {
         // console.log("double clicked dood!");
       },
       oncreate: function(node, ref_node, type, tree_obj, rollback) {
-        var url = window.location.href + '.js';
-        var time = new Date().getTime();
-        var title = tree_obj.get_text(node);
-        title += ' ' + time; // add timestamp to title for path
-        $(node).addClass('updateAfterRename')
-        if (type == 'after') {
-          // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
-          var parent_id = $(ref_node).parents('li').attr('id');
+        if ($(node).attr('rel') != 'section') {
+          saveNewPagePlaceholder(node, ref_node, type, tree_obj, rollback);
+        }
+      },
+      onrename: function(node, tree, rollback) {
+        if ($(node).hasClass('updateAfterRename')) {
+          var id = $(node).attr('id').match(/(\d+)/)[1];
+          var title = tree.get_text(node);
+          var url = window.location.href + '/' + id + '/rename.js'
           jQuery.ajax({
             type: 'post',
             url: url,
             dataType: 'json',
-            data: "page[title]="+title+"&page[derive_path_from]="+parent_id,
-            success: function(response) { $(node).attr( { id: "page_"+response.page.id } ) }
+            data: "&title="+title,
+            success: function(response) { $(node).removeClass('updateAfterRename') }
           });
         }
-      },
-      onrename: function(node, tree, rollback) {
-        // TODO: if class =~ /updateAfterRename/ then update Rails and remove class
       },
       onselect: function(node, tree) {
         if (selected != node) {
