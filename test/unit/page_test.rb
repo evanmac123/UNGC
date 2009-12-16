@@ -196,4 +196,20 @@ class PageTest < ActiveSupport::TestCase
       end
     end
   end
+
+  context "given a mix of variously approved pages" do
+    setup do
+      @group   = create_page_group
+      @page1   = create_page section: @group, path: '/path/to/page1.html' # will start approved
+      @page1v2 = @page1.new_version title: 'I am new'
+      @page1v2.approve!
+      @page1v3 = @page1v2.new_version title: 'I am newest'
+      @page2   = create_page section: @group, path: '/path/to/page2.html', approval: 'pending'
+    end
+
+    should "find appropriate versions for treeview via leaves" do
+      assert_same_elements [@page1v2, @page2], @group.leaves[nil]
+    end
+  end
+  
 end

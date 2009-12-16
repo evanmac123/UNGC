@@ -349,6 +349,10 @@ ul.nav_bar {
   height: 232px;
   overflow: auto;
   width: 518px; }
+  #main_content #site_tree #tree ul li a.hidden {
+    opacity: 0.4; }
+  #main_content #site_tree #tree ul li a.pending {
+    color: red; }
 #main_content #page_details, #main_content #page_tools {
   clear: left;
   float: left; }
@@ -379,3 +383,9 @@ ul.nav_bar {
       color: inherit; }
     #main_content #page_preview #preview_contents a {
       text-decoration: underline; }
+
+#loading {
+  background: url('/images/indicator.white.gif') 5px 5px no-repeat #FFC;
+  padding: 0.5em 2.5em 0.5em 2.5em;
+  margin: 0;
+  position: fixed; }

@@ -19,61 +19,28 @@
 
 = logo_request_actions(@logo_request)
 
-%h3 Comments
-= link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request) unless @logo_request.state_events.empty?
-%ul
-  = render :partial => @logo_request.logo_comments
-
-%h3 Approved logos
-- staff_only do
-  - form_for(:logo_request, url: admin_organization_logo_request_path(:organization_id => @logo_request.organization_id, :id => @logo_request), :html => {:method => :put}) do |f|
-    %ul
-      = render :partial => 'logo_files'
-    = f.submit 'Save logos'
-- organization_only do
-  - if @logo_request.logo_files.any?
-    %ul
-      = render :partial => @logo_request.logo_files
-  - else
-    no approved logos
-
 %div{:class => "tab_container top_tabs"} 
   %ul.tab_nav
     %li <a href="#comments">Comments</a>
     %li <a href="#approved">Approved logos</a>
   
   #comments.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li <a class="new" href="#" title="New Comment">New Comment</a>
-    #ul.items
-      - for logo_comment in @logo_request.logo_comments
-        %li.item{:id => dom_id(logo_comment)}
-          .meta
-            %p.name John Doe
-            %p.datetime 15:34 23/11/2009
-          
-            %ul{:class => "post_tools inline"}
-              %li <a class="edit" href="#" title="Edit comment">Edit comment</a>
-              %li <a class="delete" href="#" title="Delete comment">Delete comment</a>
-          
-          .body
-            %p= logo_comment.body
+    - unless @logo_request.state_events.empty?
+      %ul#contacts_tools{:class => "tools inline"}
+        %li= link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request), :class => 'new', :title => 'New Comment'
+    %ul.items
+      = render @logo_request.logo_comments
 
-  #contacts.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li <a class="new" href="#" title="New Contact">New Contact</a>
-    #ul.items
-      %li.item{:id => "contact-1234"}
-        .meta
-          %p.name John Doe
-          %ul{:class => "post_tools inline"}
-            %li <a class="edit" href="#" title="Edit contact">Edit contact</a>
-            %li <a class="delete" href="#" title="Delete contact">Delete contact</a>
-          
-        .body 
-          %dl#contact_data_left.contact_data
-            %dt Job Title:
-            %dd Executive Director
-          %dl#contact_data_right.contact_data
-            %dt Country:
-            %dd Armenia
+  #approved.tab_content
+    - staff_only do
+      - form_for(:logo_request, url: admin_organization_logo_request_path(:organization_id => @logo_request.organization_id, :id => @logo_request), :html => {:method => :put}) do |f|
+        %fieldset
+          %ol
+            = render :partial => 'logo_files'
+        = f.submit 'Save logos', :class => 'button'
+    - organization_only do
+      - if @logo_request.logo_files.any?
+        %ul.items
+          = render :partial => @logo_request.logo_files
+      - else
+        %p No approved logos

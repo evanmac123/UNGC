@@ -1,0 +1,9 @@
+%tr
+  %td= page.updated_at
+  %td= page.title
+  %td= page.approval.humanize
+  %td.age= (Date.today - page.updated_at.to_date).to_i
+  %td
+    %ul.actions
+      - staff_only do
+        %li= link_to 'View Details', edit_admin_page_path(page.id), title: 'View/Edit Details', class: 'edit'

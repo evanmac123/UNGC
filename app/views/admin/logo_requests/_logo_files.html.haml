@@ -1,5 +1,6 @@
 - LogoFile.all.each do |logo_file|
   %li
+    %label
+      = logo_file.name
+      = logo_file_image_tag(logo_file)
     = check_box_tag 'logo_request[logo_file_ids][]', logo_file.id, @logo_request.logo_files.include?(logo_file)
-    = logo_file.name
-    = logo_file_image_tag(logo_file)

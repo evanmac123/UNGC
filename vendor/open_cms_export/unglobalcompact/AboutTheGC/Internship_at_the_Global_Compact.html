@@ -72,10 +72,11 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                     <li><a href="stages_of_development.html">Global Compact Governance</a></li>
                     <li><a href="The_Global_Compact_Board.html">The Global Compact Board</a></li>
                     <li><a href="Government_Support.html">Government Support</a></li>
-                    <li><a href="integrity.html">Integrity Measures</a></li>
+                    <li><a href="IntegrityMeasures/index.html">Integrity Measures</a></li>
                     <li><a href="Global_Compact_Logo/index.html">Global Compact Logo</a></li>
                     <li><a href="faq.html">FAQ</a></li>
                     <li><a href="publications.html">Tools and Resources</a></li>
+                    <li><a href="Job_Opportunities_at_the_Global_Compact.html">Job Opportunities at the Global Compact</a></li>
                     <li><a href="Internship_at_the_Global_Compact.html">Internships in the Global Compact Office</a></li>
                     <li><a href="The_GC_Foundation.html">Foundation for the Global Compact</a></li>
                     <li><a href="contact_us.html">Contact Us</a></li>
@@ -84,6 +85,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                <li class="participate" id="participate" onmouseover="makeChildVisible('participate')" onmouseout="makeChildInvisible('participate')"><a href="../HowToParticipate/">How to Participate</a>
                  <ul>
                    <li><a href="../HowToParticipate/">Overview</a></li>
+                   <li><a href="../HowToParticipate/How_To_Apply.html">How to Apply</a></li>
                    <li><a href="../HowToParticipate/Business_Participation/index.html">Business Participation</a></li>
                    <li><a href="../HowToParticipate/civil_society/index.html">Civil Society</a></li>
                    <li><a href="../HowToParticipate/academic_network/index.html">Academic Participation</a></li>
@@ -142,8 +144,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                <li class="newsevents" id="newsevents" onmouseover="makeChildVisible('newsevents')" onmouseout="makeChildInvisible('newsevents')"><a href="../NewsAndEvents/">News &amp; Events</a>
                  <ul>
                    <li><a href="../NewsAndEvents/index.html">Recent Headlines</a></li>
-                   <li><a href="../NewsAndEvents/upcoming_events_2009.html">Event Calendar</a></li>
+                   <li><a href="/NewsAndEvents/upcoming_events_2009.html#11">Event Calendar</a></li>
                    <li><a href="../NewsAndEvents/UNGC_bulletin/index.html">Monthly Bulletin</a></li>
+                   <li><a href="../NewsAndEvents/2010_Leaders_Summit/index.html">Leaders Summit 2010</a></li>
                    <li><a href="../NewsAndEvents/Speeches.html">Speeches</a></li>
                    <li><a href="../NewsAndEvents/Academic_Literature.html">Academic Literature</a></li>
                    <li><a href="../NewsAndEvents/news_archives/index.html">Archive</a></li>
@@ -159,7 +162,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
              </ul>
           </div>
 	</div>
-</div>
+</div>	
 
 <div id="content_bg">  
   <div id="content_inner">
@@ -194,7 +197,7 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		<a href="Government_Support.html">Government Support</a>				
 		</li>
 		<li>		
-		<a href="integrity.html">Integrity Measures</a>				
+		<a href="IntegrityMeasures/index.html">Integrity Measures</a>				
 		</li>
 		<li>		
 		<a href="Global_Compact_Logo/index.html">Global Compact Logo</a>				
@@ -204,6 +207,9 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 		</li>
 		<li>		
 		<a href="publications.html">Tools and Resources</a>				
+		</li>
+		<li>		
+		<a href="Job_Opportunities_at_the_Global_Compact.html">Job Opportunities at the Global Compact</a>				
 		</li>
 
 		<li class="selected">
@@ -310,15 +316,27 @@ direct your application to the department of Economic Affairs.&nbsp;
 <p>
 <font face="Arial">Winter 2010 (mid January to mid March): 19 September 2009</font></p>
 <p>
-<font face="Arial">Spring 2010 (mid March to early June): January 2010 - date to be announced at a
-later stage</font></p>
+<font face="Arial">Spring 2010 (mid March to early June): 29 January 2010
+<br /></font></p>
 <p>
-<font face="Arial">Summer 2010 (early June to early September): January 2010&nbsp;&nbsp;- date to
-be announced at a later stage</font></p>
+<font face="Arial">Summer 2010 (early June to early September): 29 January 2010
+<br /></font></p>
 <p>Due to the large number of applications received, only&nbsp;accepted interns will be notified a
 few months before the beginning of the session or within 4 weeks after each
 session's&nbsp;application deadline.&nbsp;</p>
-<br />
+<br /> 
+<form>
+<input type="hidden" id="gwProxy" /> 
+<!--Session data-->
+ 
+<input type="hidden" onclick="jsCall();" id="jsProxy" /></form>
+<div id="refHTML">&nbsp;</div>
+<form>
+<input type="hidden" id="gwProxy" />
+<!--Session data-->
+<input type="hidden" id="jsProxy" onclick="jsCall();" />
+</form>
+<div id="refHTML">&nbsp;</div>
           
           </p>	
         </div>

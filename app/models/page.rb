@@ -33,15 +33,15 @@ class Page < ActiveRecord::Base
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
   has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
   has_many :visible_children, 
-    :order => "position ASC", 
-    :class_name => 'Page', 
+    :order       => "position ASC", 
+    :class_name  => 'Page', 
     :foreign_key => :parent_id, 
-    :conditions => {:display_in_navigation => true}
+    :conditions  => {:display_in_navigation => true}
   has_many :approved_children, 
-    :order => 'position ASC', 
-    :class_name => 'Page', 
+    :order       => 'position ASC', 
+    :class_name  => 'Page', 
     :foreign_key => :parent_id, 
-    :conditions => { approval: 'approved' }
+    :conditions  => { approval: 'approved' }
 
   named_scope :all_versions_of, lambda { |path|
     # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
@@ -97,6 +97,19 @@ class Page < ActiveRecord::Base
   def self.approved_for_path(path)
     approved.find_by_path path
   end
+
+  def self.find_leaves_for(group_id)
+    sql = "select * from 
+      (select * 
+        from pages 
+        where group_id = %i 
+          and ((approval = %s) or (approval = %s))
+        order by path asc, updated_at desc) as t1
+      group by t1.path
+      order by t1.position asc" % [group_id, "'approved'", "'pending'"]
+    results = find_by_sql(sql)
+    results.group_by { |r| r.parent_id } if results.any?
+  end
   
   def self.pending_version_for(path)
     with_approval('pending').find_by_path path
@@ -123,19 +136,26 @@ class Page < ActiveRecord::Base
   def derive_path_from_parent
     parent = parent || Page.find(parent_id)
     (stub = parent.path)[/(\/index)?\.html$/] = ''
-    self.path = "#{stub}/#{title_to_path}.html"
+    new_path = "#{stub}/#{title_to_path}.html"
+    new_path.gsub!(/\/+/, '/')
+    self.path = new_path
   end
   
   def derive_path_from_section
-    section = section || PageGroup.find(group_id)
-    self.path = "/#{section.path_stub}/#{title_to_path}.html"
+    section = section || PageGroup.find_by_id(group_id)
+    stub = "/#{section.path_stub}" if section
+    self.path = "#{stub}/#{title_to_path}.html"
   end
   
   def derive_path_from=(string)
     type_str, identifier = TreeImporter.get_type_and_id(string)
     if identifier
-      type_str = type_str == 'page' ? 'parent_id' : 'group_id'
-      self.send("#{type_str}=", identifier)
+      if type_str == 'page'
+        self.parent_id = identifier
+        self.group_id  = Page.find(identifier).group_id
+      else
+        self.group_id = identifier
+      end
     elsif type_str == 'section' # in home area
       self.path ||= "/#{title_to_path}.html"
     end
@@ -189,6 +209,14 @@ class Page < ActiveRecord::Base
   
   def previous_version
     self.class.all_versions_of(path).earlier_versions_than(version_number).first
+  end
+
+  def rename(string)
+    old_path   = title_to_path
+    self.title = string
+    new_path   = path.gsub(old_path, title_to_path)
+    self.path  = path.gsub(old_path, title_to_path) if 0 == self.class.all_versions_of(new_path).size
+    save
   end
 
   def title_to_path

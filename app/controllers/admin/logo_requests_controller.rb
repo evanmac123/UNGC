@@ -18,7 +18,7 @@ class Admin::LogoRequestsController < AdminController
 
     if @logo_request.save
       flash[:notice] = 'Logo request was successfully created.'
-      redirect_to admin_organization_path(@organization.id)
+      redirect_to admin_organization_logo_request_path(@organization.id, @logo_request.id)
     else
       render :action => "new"
     end
