@@ -35,6 +35,17 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal @sme.id, @organization.organization_type_id
     end
     
+    should "set sector to 'not applicable' when it is a non-business" do
+      @non_business = create_organization_type(:name => 'Foundation', :type_property => 1, )
+      @sector = create_sector(:name => "Media")
+      @sector_not_applicable = create_sector(:name => "Not Applicable")
+      @organization = Organization.create(:name => "Foundation",
+                                          :employees => 5,
+                                          :organization_type_id => @non_business.id,
+                                          :sector => @sector )
+      assert_equal @sector_not_applicable, @organization.sector
+    end
+    
     context "setting other pledge amount" do
       setup do
         @organization = Organization.new(:name                 => 'SME',
