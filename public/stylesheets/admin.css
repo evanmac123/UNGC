@@ -388,4 +388,5 @@ ul.nav_bar {
   background: url('/images/indicator.white.gif') 5px 5px no-repeat #FFC;
   padding: 0.5em 2.5em 0.5em 2.5em;
   margin: 0;
-  position: fixed; }
+  top: -0.25em;
+  position: relative; }

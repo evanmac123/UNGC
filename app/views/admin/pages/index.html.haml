@@ -4,15 +4,10 @@
   %h2 Site Structure:
   #site_tools.box
     %ul
-      %li
-        = link_to 'Add folder', '#', id: 'new_section', class: 'add_folder', title: 'Add folder'
-      %li
-        = link_to 'Add page', '#', id: 'new_page', class: 'add_page', title: 'Add page'
-      %li
-        %a.delete_page{ :title => "Delete page", :href => "#" }
-          Delete Page
-      %li
-        = link_to 'Save changes', save_tree_admin_pages_path, id: 'save_tree', class: 'save', title: 'Save changes'
+      %li= link_to 'Add folder', '#', id: 'new_section', class: 'add_folder', title: 'Add folder'
+      %li= link_to 'Add page', '#', id: 'new_page', class: 'add_page', title: 'Add page'
+      %li= link_to 'Delete page', '#', id: 'delete_page', class: 'delete_page', title: 'Delete page'
+      %li= link_to 'Save changes', save_tree_admin_pages_path, id: 'save_tree', class: 'save', title: 'Save changes'
   #site_tree.box
     #tree_container.outside
       #tree.inside
