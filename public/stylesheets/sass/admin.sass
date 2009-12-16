@@ -82,8 +82,6 @@ ul.nav_bar
       
     &:hover ul, &.sfhover ul
       left: auto
-      
-
 
 #main_content
   clear: left
@@ -105,6 +103,9 @@ ul.nav_bar
       
     td, th
       padding: 10px
+
+      &.pointer
+        cursor: pointer
 
     th
       text-align: left
@@ -218,7 +219,6 @@ ul.nav_bar
   background = !dark_grey
   color: #868686
   margin: 20px 0 0 0
-  
   
 /* tabbed sections */
 #main_content
@@ -489,7 +489,16 @@ ul.nav_bar
     height: 232px
     overflow: auto
     width: 518px
-  
+
+    #tree
+      ul 
+        li 
+          a
+            &.hidden
+              opacity: 0.4
+            &.pending
+              color: red
+
   #page_details, #page_tools
     clear: left
     float: left
@@ -531,7 +540,10 @@ ul.nav_bar
       
       a
         text-decoration: underline
-  
-  
-  
-  
+
+#loading
+  background: url('/images/indicator.white.gif') 5px 5px no-repeat #FFC
+  padding: 0.5em 2.5em 0.5em 2.5em
+  margin: 0
+  top: -0.25em
+  position: relative

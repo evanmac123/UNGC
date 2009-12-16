@@ -1,0 +1,294 @@
+
+
+
+
+
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: WindowText;
+   
+	padding: 0 12px;
+	margin: 0;
+	background-color: ThreeDFace; 
+	background-image: url(/opencms2/resources/admin/images/border.gif);
+	background-position: right;
+	background-repeat: repeat-y;
+	background-attachment: fixed;
+  
+}
+
+img {
+  border: none;
+}
+
+/* --- loader ---*/
+
+#loader {
+  width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#loader td {
+  padding: 0px;
+  background: Window;
+  border: 1px solid black;
+}
+
+#loader p {
+  border-top: 3px solid ThreeDHighlight;
+  border-left: 3px solid ThreeDHighlight;
+  border-right: 3px solid ThreeDShadow;
+  border-bottom: 3px solid ThreeDShadow;
+  padding: 10px;
+  margin: 0;
+  background: ThreeDFace;
+}
+
+#loader img {
+  float: left;
+  margin-right: 12px;
+}
+
+#loader strong {
+  display: block;
+  margin-bottom: 3px;
+}
+
+#loaderContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  height: expression(document.documentElement.clientHeight+'px');
+}
+
+#loaderContainer td {
+	padding-top: 150px;
+	vertical-align: top;
+	text-align: center;
+	background-image: url(/opencms2/resources/admin/images/semi-transparent.gif);
+}
+
+#loaderContainer td td {
+	padding-top: 0px;
+	text-align: left;
+}
+
+/* ---------- links ------------ */
+.link,
+.link a {
+  display: inline;
+  background: none;
+  background-color: transparent;
+  vertical-align: middle;
+  cursor: hand;
+  cursor: pointer;
+  color: WindowText;
+  text-decoration: none;
+}
+
+.link:hover a,
+.link a:hover {
+  text-decoration: underline;
+  color: #000088;
+}
+
+.link:hover img,
+.link img:hover { 
+  text-decoration: none;
+}
+
+.linkdisabled {
+  color: GrayText;
+  text-decoration: none;
+  cursor: default;
+}
+
+.link img {
+  width: 20px;
+  height: 20px;
+  display: inline;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+/* ---------- big icon buttons  --------- */
+.bigLink {
+  width: 128px;
+  height: 62px;
+  float: left;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 2px;
+  padding-right: 2px;
+  padding-left: 2px;
+}
+
+.bigLink .link img {
+  width: 32px;
+  height: 32px;
+  display: inline;
+  vertical-align: middle;
+  padding-bottom: 1px;
+  padding-right: 1px;
+  padding-left: 1px;
+  text-decoration: none;
+}
+
+
+
+/* navegation area */
+
+#navArea img {
+  display: block;
+  margin: 0;
+}
+
+#navArea {
+  padding-top: 12px;
+  padding-bottom: 60px;
+}
+
+.navOpened,
+.navClosed {
+  border-top: 2px solid ThreeDHighlight;
+  border-left: 2px solid ThreeDHighlight;
+  border-right: 2px solid ThreeDShadow;
+  border-bottom: 2px solid ThreeDShadow;
+}
+
+#navArea .node img,
+#navArea .nodeActive img {
+  display: inline;
+  vertical-align: middle;
+  margin: 0px;
+}
+
+/* opened tab */
+
+.navOpened {
+  margin-bottom: 15px;
+  background-color: ActiveCaption;
+}
+
+.navTitle,
+.navTitleOver {
+  cursor: pointer;
+  cursor: hand;
+  -moz-user-select: none;
+}
+
+.titleBorder {
+   border: 3px solid ThreeDFace;  
+   border-bottom: 0px solid ThreeDFace; 
+ }
+
+.treeBorder {
+   border: 3px solid ThreeDFace;  
+ }
+
+.navOpened .navTitle,
+.navOpened .navTitleOver {
+  height: 22px;
+}
+
+.navOpened .navTitle .titleText {
+  font-weight: bold;
+  vertical-align: middle;
+  color: CaptionText;
+}
+
+.navOpened .navTitleOver .titleText {
+  font-weight: bold;
+  vertical-align: middle;
+  color: InactiveCaptionText;
+}
+
+.navClosed {
+  background-position: right;
+  background-repeat: repeat-y;
+  margin-bottom: 15px;
+  background-color: InactiveCaption;
+}
+
+.navClosed .navTitle,
+.navClosed .navTitleOver {
+  height: 22px;
+}
+
+.navClosed .navTitle .titleText,
+.navClosed .navTitleOver .titleText {
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.titleText {
+  padding-left: 20px;
+  padding-top: 3px;
+}
+
+.navClosed .navTitle .titleText {
+  color: InactiveCaptiontext;
+}
+
+.navClosed .navTitleOver .titleText {
+  color: CaptionText;
+}
+
+div.tree {
+  padding: 2px;
+  padding-top: 3px;
+  padding-bottom: 10px;
+  background-color: Window; 
+  border: 1px solid WindowText;
+}
+
+.navOpened .tree {
+  display: block;
+}
+
+.navClosed .tree {
+  display: none;
+}
+
+.node,
+.nodeActive {
+  padding-top: 4px;
+  padding-left: 5px;
+  vertical-align: middle;
+}
+
+#contexthelp {
+  height: 100px;
+  width: 164px;
+  overflow: hidden;
+}
+
+
+
+
+.help { 
+    color: InfoText; 
+    position: absolute; 
+    top: 0px; 
+    left: 0px; 
+    padding: 5px; 
+    width: 200px; 
+    border: 1px solid WindowFrame; 
+    background-color: InfoBackground; 
+    visibility: hidden; 
+    font-size: 8pt; 
+} 
+
+
+
+/* special definition for IE bug displaying horizontal scroll bar in STRICT mode,
+   this must ALWAYS stay at the end of the css! */
+body.dialog { voice-family: "\"}\""; voice-family: inherit; width: expression(document.documentElement.clientWidth - 20); }
+
+   

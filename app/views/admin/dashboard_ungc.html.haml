@@ -1,52 +1,68 @@
-%ul#main_nav.nav_bar
-  %li.current= link_to 'Dashboard', dashboard_path
-  %li= link_to 'Pages', admin_pages_path
-  %li= link_to 'Organizations', admin_organizations_path
-  %li= link_to 'Events', admin_events_path
-  %li= link_to 'News headlines', admin_headlines_path
-  %li= link_to 'Reports', admin_reports_path
-  %li= link_to 'Initiatives', admin_initiatives_path
+- @title = 'Dashboard Overview'
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#organizations">Organizations</a>
+    %li <a href="#logos">Logo Requests</a>
+    %li <a href="#case_stories">Case Stories</a>
+    %li <a href="#cops">COPs</a>
+    %li <a href="#pages">Pages</a>
 
-- if @pending_organizations.any?
-  %h2 Pending Organizations
-  %table.dashboard_table#organizations_dashboard_table
-    %tr
-      %th.last_updated Last updated on
-      %th.title Organization name
-      %th.status Status
-      %th.age Days since last update
-      %th.actions Actions
-    = render :partial => 'admin/organizations/organization', :collection => @pending_organizations
+  - if @pending_organizations.any?
+    #organizations.tab_content
+      %h2 Pending Organizations
+      %table.dashboard_table#organizations_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Organization name
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/organizations/organization', :collection => @pending_organizations
 
-- if @pending_logo_requests.any?
-  %h2 Pending logo requests
-  %table.dashboard_table#logos_dashboard_table
-    %tr
-      %th.last_updated Last updated on
-      %th.title Purpose
-      %th.status Status
-      %th.age Days since last update
-      %th.actions Actions
-    = render :partial => 'admin/logo_requests/logo_request', :collection => @pending_logo_requests
+  - if @pending_logo_requests.any?
+    #logos.tab_content
+      %h2 Pending logo requests
+      %table.dashboard_table#logos_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Purpose
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/logo_requests/logo_request', :collection => @pending_logo_requests
 
-- if @pending_case_stories.any?
-  %h2 Pending Case Stories
-  %table.dashboard_table#case_stories_dashboard_table
-    %tr
-      %th.last_updated Last updated on
-      %th.title Title
-      %th.status Status
-      %th.age Days since last update
-      %th.actions Actions
-    = render :partial => 'admin/case_stories/case_story', :collection => @pending_case_stories
+  - if @pending_case_stories.any?
+    #case_stories.tab_content
+      %h2 Pending Case Stories
+      %table.dashboard_table#case_stories_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Title
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/case_stories/case_story', :collection => @pending_case_stories
 
-- if @pending_cops.any?
-  %h2 Pending COPs
-  %table.dashboard_table#cops_dashboard_table
-    %tr
-      %th.last_updated Last updated on
-      %th.title Title
-      %th.status Status
-      %th.age Days since last update
-      %th.actions Actions
-    = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @pending_cops
+  - if @pending_cops.any?
+    #cops.tab_content
+      %h2 Pending COPs
+      %table.dashboard_table#cops_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Title
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @pending_cops
+
+  - if @pending_pages.any?
+    #pages.tab_content
+      %h2 Pending Pages
+      %table.dashboard_table#pages_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Title
+          %th.status Status
+          %th.age Days since last update
+          %th.actions
+        = render :partial => 'admin/dashboard/page', collection: @pending_pages

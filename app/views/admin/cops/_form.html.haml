@@ -1,149 +1,173 @@
 = render :partial => 'js_vars'
 
-= form.error_messages
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li <a href="#basic">Basic Details</a>
+    %li <a href="#human_rights_additional_questions">Human Rights</a>
+    %li <a href="#environment_additional_questions">Environment</a>
+    %li <a href="#labour_additional_questions">Labour</a>
+    %li <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+    %li <a href="#notable_questions">Notable Program</a>
+    %li <a href="#finish">Finish</a>
+  
+  #basic.tab_content
+    = form.error_messages
+    %fieldset
+      %fieldset
+        %legend What is the format of the COP?
+        - CommunicationOnProgress::FORMAT.each do |key, value|
+          %label
+            = form.radio_button :format, key
+            = value
 
-%p
-  What is the format of the COP?
-  - CommunicationOnProgress::FORMAT.each do |key, value|
-    %br
-    = form.radio_button :format, key
-    = form.label :format, value, :value => key
+      #grace_letter_fields{:style => css_display_style { @communication_on_progress.is_grace_letter? } }
+        %fieldset
+          %legend Please upload your "Grace Letter"
+          = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
 
-#grace_letter_fields{:style => 'display: none'}
-  %p
-    Please upload your "Grace Letter"
-    = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Grace Letter'), :record => 100}
+      #non_grace_letter_fields{:style => 'display: none'}
+        %fieldset
+          %legend Does your COP include an explicit statement of continued support for the Global Compact and its principles?
+          = true_or_false_field(form, :include_continued_support_statement)
 
-#non_grace_letter_fields{:style => 'display: none'}
-  %p
-    Does your COP include an explicit statement of continued support for the Global Compact and its principles?
-    = true_or_false_field(form, :include_continued_support_statement)
-
-  #explicit_statement_of_support_fields{:style => 'display: none'}
-    %p
-      Who formally endorsed or signed the statement of continued support?
-      - CommunicationOnProgress::SIGNEE.each do |key, value|
-        %br
-        = form.radio_button :support_statement_signee, key
-        = form.label :support_statement_signee, value, :value => key
-
-    #signed_by_executive_fields{:style => 'display: none'}
-      %p
-        Where is your company's statement of continued support?
-        - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
-          %br
-          = form.radio_button :statement_location, key
-          = form.label :statement_location, value, :value => key
-
-      #cop_files{:style => 'display: none'}
-        Upload the COP .pdf file
-        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'COP'), :record => 105}
-        Add a link to show how they share the COP with stakeholders
-        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'COP shared with stakeholders'), :record => 106}
-      #cop_links{:style => 'display: none'}
-        Post link to COP
-        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'COP'), :record => 120}
-        We encourage you to upload one .pdf file with the content of your web based COP
-        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Web-based COP'), :record => 105}
-      #statement_support_pdf{:style => 'display: none'}
-        Upload one .pdf file which contains the statement of continued support
-        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:name => 'Statement of Support'), :record => 110}
-      #statement_support_link{:style => 'display: none'}
-        Provide a link to the web page that contains the statement of continued support
-        = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:name => 'Statement of Support'), :record => 120}
-      
-      %p
-        Are you submitting the COP of your parent company (this question only applies, if you are representing a subsidiary of another Global Compact participant)?
-        = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
-      
-      %p#parent_company_question{:style => 'display :none'}
-        Does the COP of your parent company explicitly cover the efforts made by your subsidiary to implement the Global Compact principles?
-        = true_or_false_field(form, :parent_cop_cover_subsidiary)
-        
-      #own_company_questions{:style => 'display: block'}
-        %p
-          Does your COP make explicit reference to
-          %strong policies or commitments
-          related to the following issue areas?
-          %br
-          Human Rights
-          = true_or_false_field(form, :references_human_rights, :class => 'score')
-          %br
-          Labour
-          = true_or_false_field(form, :references_labour, :class => 'score')
-          %br
-          Environment
-          = true_or_false_field(form, :references_environment, :class => 'score')
-          %br
-          Anti-Corruption
-          = true_or_false_field(form, :references_anti_corruption, :class => 'score')
-
-        %p
-          Does your COP contain information about
-          %strong concrete activities
-          within the following issue areas?
-          %br
-          Human Rights
-          = true_or_false_field(form, :concrete_human_rights_activities, :class => 'score')
-          %br
-          Labour
-          = true_or_false_field(form, :concrete_labour_activities, :class => 'score')
-          %br
-          Environment
-          = true_or_false_field(form, :concrete_environment_activities, :class => 'score')
-          %br
-          Anti-Corruption
-          = true_or_false_field(form, :concrete_anti_corruption_activities, :class => 'score')
-
-        %p
-          Does your COP
-          %strong
-            identify targets, define performance indicators
-            %i and
-            measure outcomes
-          ?
-          = true_or_false_field(form, :include_measurement)
-        
-        %p
-          Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
-          = true_or_false_field(form, :include_measurement, yes: 'Yes, continue submitting this COP', no: 'No, I will revise COP and submit it later')
-        
-        %p
-          Does your COP contain information about a partnership project undertaken in support of broader United Nations goals, such as the Millennium Development Goals?
-          = true_or_false_field(form, :mentions_partnership_project)
-
-        = cop_questions_for @communication_on_progress, :mandatory
-
-        %p
-          Does the statement of continued support explain how your company benefits from participating in the Global Compact?
-          = true_or_false_field(form, :support_statement_explain_benefits)
-
-        %p
-          Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
-          = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
-
-        %p
-          Would you like your Communication on Progress to be reviewed against the Notable Program?
-          = true_or_false_field(form, :notable_program, :class => 'additional_questions')
-
-        #additional_questions{:style => 'display: none'}
-          - PrincipleArea::FILTERS.each_pair do |key, value|
-            %div{:id => "#{key}_additional_questions", :style => "display:#{principle_area_display_value(@communication_on_progress, key)}"}
-              %fieldset
-                %legend= value
-                = cop_questions_for @communication_on_progress, :additional, key
-          #partnership_additional_questions{:style => 'display: none'}
-            = cop_questions_for @communication_on_progress, :additional
-
-        #notable_questions{:style => 'display: none'}
+        #explicit_statement_of_support_fields{:style => 'display: none'}
           %fieldset
-            %legend Notable questions
-            = cop_questions_for @communication_on_progress, :notable
+            %legend Who formally endorsed or signed the statement of continued support?
+            - CommunicationOnProgress::SIGNEE.each do |key, value|
+              %label
+                = form.radio_button :support_statement_signee, key
+                = value
 
-  #reject_cop{:style => 'display: none'}
-    %p
-      "Reject COP" procedure.
-      Explain that COP was rejected because it does not live up to the minimum requirements as defined by the COP Policy of April 2009, If due date >= 30 days then end of procedure, If due date < 30 days then ask Q11
-    %p
-      Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
+          #signed_by_executive_fields{:style => 'display: none'}
+            %fieldset
+              %legend Where is your company's statement of continued support?
+              - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
+                %label
+                  = form.radio_button :statement_location, key
+                  = value
+
+            #cop_files{:style => 'display: none'}
+              Upload the COP .pdf file
+              = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
+              Add a link to show how they share the COP with stakeholders
+              = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop_with_stakeholders])}
+            #cop_links{:style => 'display: none'}
+              Post link to COP
+              = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
+              We encourage you to upload one .pdf file with the content of your web based COP
+              = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
+            #statement_support_pdf{:style => 'display: none'}
+              Upload one .pdf file which contains the statement of continued support
+              = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:support_statement])}
+            #statement_support_link{:style => 'display: none'}
+              Provide a link to the web page that contains the statement of continued support
+              = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:support_statement])}
       
+            %fieldset
+              %legend Are you submitting the COP of your parent company (this question only applies, if you are representing a subsidiary of another Global Compact participant)?
+              = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
+      
+            %fieldset#parent_company_question{:style => 'display :none'}
+              %legend Does the COP of your parent company explicitly cover the efforts made by your subsidiary to implement the Global Compact principles?
+              = true_or_false_field(form, :parent_cop_cover_subsidiary)
+        
+            #own_company_questions{:style => 'display: block'}
+              %fieldset
+                %legend
+                  Does your COP make explicit reference to
+                  %strong policies or commitments
+                  related to the following issue areas?
+                Human Rights
+                = true_or_false_field(form, :references_human_rights, :class => 'score')
+                %br
+                Labour
+                = true_or_false_field(form, :references_labour, :class => 'score')
+                %br
+                Environment
+                = true_or_false_field(form, :references_environment, :class => 'score')
+                %br
+                Anti-Corruption
+                = true_or_false_field(form, :references_anti_corruption, :class => 'score')
+
+              %fieldset
+                %legend
+                  Does your COP contain information about
+                  %strong concrete activities
+                  within the following issue areas?
+                Human Rights
+                = true_or_false_field(form, :concrete_human_rights_activities, :class => 'score')
+                %br
+                Labour
+                = true_or_false_field(form, :concrete_labour_activities, :class => 'score')
+                %br
+                Environment
+                = true_or_false_field(form, :concrete_environment_activities, :class => 'score')
+                %br
+                Anti-Corruption
+                = true_or_false_field(form, :concrete_anti_corruption_activities, :class => 'score')
+
+              %fieldset#only_3_areas_selected{:style => 'display: none'}
+                %legend
+                  Does your COP contain an explanation of why
+                  %span#last_issue_area Human Rights
+                  is not relevant to your company?
+                = true_or_false_field(form, :missing_principle_explained)
+
+              %fieldset
+                %legend
+                  Does your COP
+                  %strong
+                    identify targets, define performance indicators
+                    %i and
+                    measure outcomes
+                  ?
+                = true_or_false_field(form, :include_measurement)
+        
+              %fieldset
+                %legend Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
+                = true_or_false_field(form, :include_measurement, yes: 'Yes, continue submitting this COP', no: 'No, I will revise COP and submit it later')
+        
+              %fieldset
+                %legend Does your COP contain information about a partnership project undertaken in support of broader United Nations goals, such as the Millennium Development Goals?
+                = true_or_false_field(form, :mentions_partnership_project)
+
+              = cop_questions_for @communication_on_progress, :mandatory
+
+              %fieldset
+                %legend Does the statement of continued support explain how your company benefits from participating in the Global Compact?
+                = true_or_false_field(form, :support_statement_explain_benefits)
+
+              %fieldset
+                %legend Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
+                = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
+
+              %fieldset
+                %legend Would you like your Communication on Progress to be reviewed against the Notable Program?
+                = true_or_false_field(form, :notable_program, :class => 'additional_questions')
+
+        #reject_cop{:style => 'display: none'}
+          %p
+            "Reject COP" procedure.
+            Explain that COP was rejected because it does not live up to the minimum requirements as defined by the COP Policy of April 2009, If due date >= 30 days then end of procedure, If due date < 30 days then ask Q11
+          %p
+            Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
+      
+  #additional_questions{:style => 'display: none'}
+    TODO: remove this div, show/hide tabs
+
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    %div.tab_content{:id => "#{key}_additional_questions", :style => "display:#{principle_area_display_value(@communication_on_progress, key)}"}
+      %h2= value
+      %fieldset= cop_questions_for @communication_on_progress, :additional, key
+
+  #partnership_additional_questions{:style => 'display: none'}
+    = cop_questions_for @communication_on_progress, :additional
+
+  #notable_questions.tab_content{:style => 'display: none'}
+    %h2 Notable questions
+    %fieldset= cop_questions_for @communication_on_progress, :notable
+
+  #finish.tab_content
+    %h2 Finish:
+    %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+    %input{:type => "button", :name => "finish", :value => "Submit your information", :id => "finish", :class => "button"}

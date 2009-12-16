@@ -1,28 +1,52 @@
-%h3 Pages
- 
-#page_tree_wrapper.clearfix
-  #tree_container.outside
-    #tree.inside
-      %ul
-        - for section in sections do
-          %li{id: id_for(section) }
-            = link_helper section 
-            - if children = children_of(section) and children.any?
-              %ul{id: "children_#{id_for(section)}"}
-                - for page in children do
-                  %li.page
-                    = link_helper page
-                    - if more_children = children_of(page) and more_children.any?
-                      %ul{id: "children_#{id_for(page)}"}
-                        - for subpage in more_children do
-                          %li{id: id_for(subpage)}
-                            = link_helper subpage
-  #page_container.outside
-    #page
-      #loading{style: 'display:none'} 
-        Loading...
-      #replaceMe.inside
-        = render :partial => 'page' if @page
+%h1 Page Manager
 
+#site_structure
+  %h2 Site Structure:
+  #site_tools.box
+    %ul
+      %li= link_to 'Add folder', '#', id: 'new_section', class: 'add_folder', title: 'Add folder'
+      %li= link_to 'Add page', '#', id: 'new_page', class: 'add_page', title: 'Add page'
+      %li= link_to 'Delete page', '#', id: 'delete_page', class: 'delete_page', title: 'Delete page'
+      %li= link_to 'Save changes', save_tree_admin_pages_path, id: 'save_tree', class: 'save', title: 'Save changes'
+  #site_tree.box
+    #tree_container.outside
+      #tree.inside
+
+#page_details
+  %h2
+    Page Details:
+  %dl#pageDetailsReplace.box
+    = render 'page_details' if @page
+#page_tools
+  %h2
+    Page Tools:
+  %ul.box
+    %li
+      %a.edit_page{ :title => "Edit page", :href => "#" }
+        Edit page
+    %li
+      %a.preview_page{ :title => "Preview page", :href => "#" }
+        Preview page
+    %li
+      %a.save{ :title => "Save changes", :href => "#" }
+        Save Changes
+    %li
+      %a.visibility{ :title => "Show/hide", :href => "#" }
+        Show/hide
+    %li
+      %a.approve{ :title => "Approve", :href => "#" }
+        Approve
+    %li
+      %a.delete{ :title => "Delete", :href => "#" }
+        Delete
+#page_preview
+  %h2
+    Page Preview:
+  #preview_contents.box
+    #loading{style: 'display:none'}
+      Loading...
+    #pageReplace.inside
+      = render 'page' if @page
+  
 - content_for :postscript do
   = render :partial => 'treeview'

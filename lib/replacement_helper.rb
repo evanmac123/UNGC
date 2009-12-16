@@ -1,3 +1,11 @@
+def lookup_section_paths
+  PageGroup.find(:all).each do |group|
+    first_child = group.children.first
+    path = first_child.path.split('/').reject { |s| s == '' }.first
+    group.update_attribute :path_stub, path
+  end
+end
+
 def load_replacements
   replacements = File.dirname(__FILE__) + '/../lib/content_replacements.yml'
   results = nil

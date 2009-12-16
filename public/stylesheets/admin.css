@@ -27,9 +27,13 @@ ul.nav_bar {
   padding: 0;
   margin: 0 0 20px;
   background: url('../images/backgrounds/nav_default.png') repeat-x 50% 100%;
+<<<<<<< HEAD:public/stylesheets/admin.css
   overflow: hidden;
   list-style: none;
   z-index: 42; }
+=======
+  overflow: hidden; }
+>>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
   ul.nav_bar li {
     list-style: none;
     float: left; }
@@ -44,6 +48,7 @@ ul.nav_bar {
         color: #86d2f1; }
     ul.nav_bar li.current a {
       background: transparent url('../images/backgrounds/nav_current.png') no-repeat 50% 100%; }
+<<<<<<< HEAD:public/stylesheets/admin.css
     ul.nav_bar li ul {
       left: -9999em;
       margin: -6px 0 0 -1px;
@@ -64,6 +69,8 @@ ul.nav_bar {
           background: #333; }
     ul.nav_bar li:hover ul, ul.nav_bar li.sfhover ul {
       left: auto; }
+=======
+>>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
 
 #main_content {
   clear: left; }
@@ -80,6 +87,11 @@ ul.nav_bar {
       background: #e4eef2; }
     #main_content table.dashboard_table td, #main_content table.dashboard_table th {
       padding: 10px; }
+<<<<<<< HEAD:public/stylesheets/admin.css
+=======
+      #main_content table.dashboard_table td.pointer, #main_content table.dashboard_table th.pointer {
+        cursor: pointer; }
+>>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
     #main_content table.dashboard_table th {
       text-align: left;
       background: #ccc;
@@ -369,6 +381,13 @@ ul.nav_bar {
   height: 232px;
   overflow: auto;
   width: 518px; }
+<<<<<<< HEAD:public/stylesheets/admin.css
+=======
+  #main_content #site_tree #tree ul li a.hidden {
+    opacity: 0.4; }
+  #main_content #site_tree #tree ul li a.pending {
+    color: red; }
+>>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
 #main_content #page_details, #main_content #page_tools {
   clear: left;
   float: left; }
@@ -399,3 +418,13 @@ ul.nav_bar {
       color: inherit; }
     #main_content #page_preview #preview_contents a {
       text-decoration: underline; }
+<<<<<<< HEAD:public/stylesheets/admin.css
+=======
+
+#loading {
+  background: url('/images/indicator.white.gif') 5px 5px no-repeat #FFC;
+  padding: 0.5em 2.5em 0.5em 2.5em;
+  margin: 0;
+  top: -0.25em;
+  position: relative; }
+>>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css

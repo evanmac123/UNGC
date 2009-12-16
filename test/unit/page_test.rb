@@ -125,27 +125,91 @@ class PageTest < ActiveSupport::TestCase
   context "given a new page" do
     setup do
       # default_page starts as approved, but we want to test approval
-      @page = Page.new(:title => String.random)
-      assert @page.save
-    end
-
-    should "start out as pending" do
-      assert @page.pending?
+      @page = Page.new(:title => 'New Page')
     end
     
-    context "and it's approved" do
+    context "and its parent" do
       setup do
-        assert @page.approve!
+        @section = create_page_group :path_stub => 'ThisIsMyPath'
+        @page.group_id = @section.id
       end
 
-      should "save time data on page" do
-        now = Time.now
-        assert (now - @page.approved_at) <= 5
+      should "be able to derive it's path" do
+        assert @page.save
+        @page.reload
+        assert_equal @page.path, '/ThisIsMyPath/new_page.html'
       end
       
-      should "be approved" do
-        assert @page.approved?
+      context "and that page has a subpage" do
+        setup do
+          @page.save
+          @subpage = new_page :title => "I'm a sub-page", :path => nil # need to override the factory
+          @subpage.parent_id = @page.id
+        end
+
+        should "be able to derive the subpage path" do
+          assert @subpage.save
+          @subpage.reload
+          assert_equal @subpage.path, '/ThisIsMyPath/new_page/i_m_a_sub_page.html'
+        end
+      end
+    end
+
+    context "and it is containing index.html and that page's subpage" do
+      setup do
+        @page = new_page(:title => 'New Area', :path => '/NewSection/NewArea/index.html')
+        @page.save
+        @subpage = new_page :title => 'New Subpage', :path => nil # must override factory
+        @subpage.parent_id = @page.id
+      end
+
+      should "derive a path without /index/" do
+        assert @subpage.save
+        @subpage.reload
+        assert_equal '/NewSection/NewArea/new_subpage.html', @subpage.path
+      end
+    end
+    
+    
+    context "and it is saved" do
+      setup do
+        @page.save
+      end
+
+      should "start out as pending" do
+        assert @page.pending?
+      end
+
+      context "and it's approved" do
+        setup do
+          assert @page.approve!
+        end
+
+        should "save time data on page" do
+          now = Time.now
+          assert (now - @page.approved_at) <= 5
+        end
+
+        should "be approved" do
+          assert @page.approved?
+        end
       end
     end
   end
+
+  context "given a mix of variously approved pages" do
+    setup do
+      @group   = create_page_group
+      @page1   = create_page section: @group, path: '/path/to/page1.html' # will start approved
+      @page1v2 = @page1.new_version title: 'I am new'
+      @page1v2.approve!
+      @page1v3 = @page1v2.new_version title: 'I am newest'
+      @page2   = create_page section: @group, path: '/path/to/page2.html', approval: 'pending'
+    end
+
+    should "find appropriate versions for treeview via leaves" do
+      assert_same_elements [@page1v2, @page2], @group.leaves[nil]
+    end
+  end
+  
 end

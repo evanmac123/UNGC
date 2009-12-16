@@ -1,0 +1,5 @@
+%h2 Editing role
+
+- form_for @role, builder: DefaultFormBuilder, url: admin_role_path(@role) do |form|
+  = render :partial => form
+  = form.submit 'Save changes', :class => 'button'

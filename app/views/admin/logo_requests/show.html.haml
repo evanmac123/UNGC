@@ -1,39 +1,46 @@
-%p
-  %b Purpose:
-  =h @logo_request.purpose
-%p
-  %b Contact:
-  = @logo_request.contact.name
-%p
-  %b Publication:
-  = @logo_request.publication.name
-%p
-  %b State:
-  = @logo_request.state_name
+- @body_class = 'details'
+%h2 Logo request details
+
+#status_box
+  %dl
+    %dt Purpose:
+    %dd= @logo_request.purpose
+    %dt Contact:
+    %dd= @logo_request.contact.name
+    %dt Publication:
+    %dd= @logo_request.publication.name
+    %dt Status:
+    %dd= @logo_request.state.humanize
+    %dt Attachments:
+    %dd
+      %ul.document_list
+        - for logo_comment in @logo_request.logo_comments.with_attachment
+          %li= link_to_attached_file(logo_comment)
 
 = logo_request_actions(@logo_request)
 
-%h3 Comments
-= link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request) unless @logo_request.state_events.empty?
-%ul
-  = render :partial => @logo_request.logo_comments
+%div{:class => "tab_container top_tabs"} 
+  %ul.tab_nav
+    %li <a href="#comments">Comments</a>
+    %li <a href="#approved">Approved logos</a>
+  
+  #comments.tab_content
+    - unless @logo_request.state_events.empty?
+      %ul#contacts_tools{:class => "tools inline"}
+        %li= link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request), :class => 'new', :title => 'New Comment'
+    %ul.items
+      = render @logo_request.logo_comments
 
-%h3 Files
-%ul
-  - for comment in @logo_request.logo_comments.with_attachment
-    %li
-      = link_to_attachment(comment)
-      = number_to_human_size(comment.attachment_file_size)
-
-%h3 Approved logos
-- staff_only do
-  - form_for(:logo_request, url: admin_organization_logo_request_path(:organization_id => @logo_request.organization_id, :id => @logo_request), :html => {:method => :put}) do |f|
-    %ul
-      = render :partial => 'logo_files'
-    = f.submit 'Save logos'
-- organization_only do
-  - if @logo_request.logo_files.any?
-    %ul
-      = render :partial => @logo_request.logo_files
-  - else
-    no approved logos
+  #approved.tab_content
+    - staff_only do
+      - form_for(:logo_request, url: admin_organization_logo_request_path(:organization_id => @logo_request.organization_id, :id => @logo_request), :html => {:method => :put}) do |f|
+        %fieldset
+          %ol
+            = render :partial => 'logo_files'
+        = f.submit 'Save logos', :class => 'button'
+    - organization_only do
+      - if @logo_request.logo_files.any?
+        %ul.items
+          = render :partial => @logo_request.logo_files
+      - else
+        %p No approved logos

@@ -1,4 +1,0 @@
-= form.error_messages
-= form.text_field :purpose
-= form.select :contact_id, options_for_select(@organization.contacts.collect{|contact| [contact.name, contact.id]}, current_user.id)
-= form.select :publication_id, option_groups_from_collection_for_select(LogoPublication.top_level, :children, :name, :id, :name, @logo_request.publication_id)

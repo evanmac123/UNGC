@@ -1,8 +1,13 @@
 class Admin::PagesController < AdminController
-  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :revoke, :show, :update]
+  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :rename, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:new, :create, :edit, :update]
 
   def index
+    # @javascript = ['json2.js']
+    respond_to do |wants|
+      wants.html { }
+      wants.js   { }
+    end
   end
 
   def pending
@@ -12,7 +17,12 @@ class Admin::PagesController < AdminController
 
   def show
     respond_to do |wants|
-      wants.js { render(:update) { |page| page['#replaceMe'].html(render :partial => 'page') } }
+      wants.js { 
+        render(:update) { |page| 
+          page['#pageReplace'].html(render partial: 'page')
+          page['#pageDetailsReplace'].html(render partial: 'page_details')
+        } 
+      }
     end
   end
 
@@ -24,8 +34,10 @@ class Admin::PagesController < AdminController
   def create
     @page = Page.new params[:page]
     if @page.save
-      flash[:notice] = "Page successfully created"
-      redirect_to :action => 'index'
+      respond_to do |wants|
+        wants.html { flash[:notice] = "Page successfully created"; redirect_to :action => 'index' }
+        wants.js   { render :inline => @page.to_json }
+      end
     else
       render :action => 'new'
     end
@@ -39,6 +51,18 @@ class Admin::PagesController < AdminController
   def approve
     @page.as_user(current_user).approve!
     redirect_to :action => 'index'
+  end
+
+  def rename
+    if @page.rename(params[:title])
+      respond_to do |wants|
+        wants.js { head :ok }
+      end
+    else
+      respond_to do |wants|
+        wants.js { head :bad_request }
+      end
+    end
   end
 
   def revoke
@@ -76,6 +100,11 @@ class Admin::PagesController < AdminController
     end
   end
 
+  def save_tree
+    PageGroup.import_tree(params[:tree], params[:deleted])
+    render :inline => ''
+  end
+
   def find_by_path_and_redirect_to_latest
     page = Page.all_versions_of(params[:path]).last
     redirect_to edit_admin_page_path(page.id)
@@ -93,5 +122,4 @@ class Admin::PagesController < AdminController
         render :text => 'Not Found', :status => 404
       end
     end
-  
 end

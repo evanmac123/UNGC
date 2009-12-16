@@ -8,18 +8,26 @@
 #  html_code             :string(255)
 #  created_at            :datetime
 #  updated_at            :datetime
+#  position              :integer(4)
+#  path                  :string(255)
 #
 
 class PageGroup < ActiveRecord::Base
-  has_many :children, :class_name => 'Page', :foreign_key => :group_id
+  has_many :children, :class_name => 'Page', :foreign_key => :group_id, :conditions => {:parent_id => nil}
   has_many :visible_children, 
     :class_name  => 'Page', 
     :foreign_key => :group_id, 
     :conditions  => {:approval => 'approved', :display_in_navigation => true, :parent_id => nil},
     :order       => "position ASC"
+  has_many :approved_children,
+    :class_name  => 'Page', 
+    :foreign_key => :group_id, 
+    :conditions  => {:approval => 'approved', :parent_id => nil},
+    :order       => "position ASC"
   
   named_scope :for_navigation, 
-    :include => :visible_children,
+    :include    => :visible_children,
+    :order      => "page_groups.position ASC",
     :conditions => ["page_groups.display_in_navigation = ?", true]
   
   def link_to_first_child
@@ -34,5 +42,16 @@ class PageGroup < ActiveRecord::Base
     name
   end
   
+  def title=(string)
+    self.name = string
+  end
+  
+  def self.import_tree(json_string, deleted_json)
+    TreeImporter.import_tree(json_string, deleted_json)
+  end
+  
+  def leaves
+    Page.find_leaves_for(id)
+  end
   
 end

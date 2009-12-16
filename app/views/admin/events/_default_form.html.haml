@@ -1,0 +1,8 @@
+%fieldset
+  %ol
+    = default_form.text_field :title
+    = default_form.text_area :description
+    = default_form.date_select :starts_on
+    = default_form.date_select :ends_on
+    = default_form.text_field :location
+    = default_form.select :country_id, countries_for_select

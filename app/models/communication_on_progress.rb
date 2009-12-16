@@ -58,7 +58,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   include VisibleTo
   include ApprovalWorkflow
 
-  validates_presence_of :organization_id, :title
+  validates_presence_of :organization_id
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
   has_and_belongs_to_many :languages
@@ -69,6 +69,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_many :cop_files, :foreign_key => :cop_id
   has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
+  
+  before_save :can_be_edited?
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
@@ -88,7 +90,7 @@ class CommunicationOnProgress < ActiveRecord::Base
             :annual_report     => "COP is part of an annual (financial) report",
             :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
             :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :web_based         => "COP is entirely web based ",
+            :web_based         => "COP is entirely web based",
             :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for extension of COP deadline"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
@@ -147,6 +149,29 @@ class CommunicationOnProgress < ActiveRecord::Base
                                :value            => false)
         }
     }
+  end
+
+  def can_be_edited?
+    unless self.editable?
+      errors.add_to_base("You can no longer edit this COP. Please, submit a new one.")
+    end
+  end
+  
+  def is_grace_letter?
+    self.format == FORMAT[:grace_letter]
+  end
+  
+  # Indicated whether this COP is editable
+  def editable?
+    # TODO use the new pre-pending state here
+    return true if self.new_record?
+    if self.pending_review?
+      self.created_at + 30.days >= Time.now
+    elsif self.in_review?
+      self.created_at + 90.days >= Time.now
+    else
+      false
+    end
   end
   
   private

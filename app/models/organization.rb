@@ -250,6 +250,11 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_NONCOMMUNICATING
   end
   
+  # Indicates if this organization uses the most recent COP rules
+  def july_1_2009_cop_rules?
+    self.joined_on > Date.new(2009,7,1)
+  end
+  
   # COP's next due date is 1 year from current date
   def set_next_cop_due_date
     self.communication_received

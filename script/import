@@ -7,7 +7,7 @@ require 'pp'
 require 'facets'
 require 'import_helper'
 begin
-  require 'ruby-debug' if Rails.env == 'development'
+  # require 'ruby-debug' if Rails.env == 'development'
 rescue LoadError => e
   puts "*** ERROR: Please run 'gem install ruby-debug19'"
   raise "unable to load"

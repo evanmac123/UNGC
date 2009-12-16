@@ -36,11 +36,13 @@ ActionController::Routing::Routes.draw do |map|
       admin.resources :pages,
         :member => {
           :approve => :post,
+          :rename  => :post,
           :revoke  => :post,
           :meta    => :get
         },
         :collection => {
-          :pending => :get
+          :pending   => :get,
+          :save_tree => :post
         }
     
       admin.resources :organizations, :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
@@ -55,6 +57,10 @@ ActionController::Routing::Routes.draw do |map|
       admin.resources :communication_on_progresses, :has_many => :comments
       admin.resources :initiatives, :has_many => :signings
       admin.resources :contacts_roles
+      admin.resources :roles
+      admin.resources :sectors
+      admin.resources :countries
+      admin.resources :logo_files
     
       admin.reports 'reports', :controller => 'reports', :action => 'index'
       admin.report 'reports/:action.:format', :controller => 'reports'

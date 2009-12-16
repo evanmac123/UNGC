@@ -6,6 +6,7 @@
 .container {
   width: 950px;
   margin: 0 auto;
+  padding: 0 10px;
 }
 
 /* Use this class on any div.span / container to see the grid. */

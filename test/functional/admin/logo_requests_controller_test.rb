@@ -31,7 +31,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                                        :logo_comments_attributes=>{"0"=>comment_attributes} }
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization).id)
+    assert_redirected_to admin_organization_logo_request_path(assigns(:organization).id, assigns(:logo_request).id)
   end
   
   test "should destroy logo request" do
@@ -78,13 +78,10 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
     end
     
     should "allow download of logo" do
-      # TODO: this test should not raise an exception when a LogoFile is created through controller
-      assert_raises TypeError do
-        get :download, :id              => @logo_request.id,
-                       :organization_id => @logo_request.organization.id,
-                       :logo_file_id    => LogoFile.first.id
-        assert_response :success
-      end
+      get :download, :id              => @logo_request.id,
+                     :organization_id => @logo_request.organization.id,
+                     :logo_file_id    => LogoFile.first.id
+      assert_response :success
     end
   end
 end

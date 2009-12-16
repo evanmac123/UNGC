@@ -1,0 +1,11 @@
+= default_form.error_messages
+%fieldset
+  %ol
+    = default_form.text_field :name
+    = default_form.text_area :description
+    = default_form.text_field :thumbnail
+    = default_form.file_field :zip
+    - unless @logo_file.new_record?
+      %li
+        Current file:
+        = link_to @logo_file.zip_file_name, @logo_file.zip.url

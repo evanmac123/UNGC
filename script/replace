@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
 require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
-require 'ruby-debug'
+# require 'ruby-debug'
 require 'hpricot'
 require 'replacement_helper'
 
@@ -15,6 +15,7 @@ replacements.each_pair do |path,new_content|
 end
 create_new_local_network_pages(replacements)
 
+lookup_section_paths
 install_event_calendar
 rewrite_event_archives
 archive_latest_headlines
