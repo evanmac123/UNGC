@@ -1,6 +1,9 @@
 - LogoFile.all.each do |logo_file|
-  %li
-    %label
-      = logo_file.name
+  %li.item{:id => dom_id(logo_file)}
+    .meta
+      %p.name= logo_file.name
+      %p.language{:style => "margin-bottom: 1em;"} English
+      = label "element", "Use this logo: "
+      = check_box_tag 'logo_request[logo_file_ids][]', logo_file.id, @logo_request.logo_files.include?(logo_file)
+    .body
       = logo_file_image_tag(logo_file)
-    = check_box_tag 'logo_request[logo_file_ids][]', logo_file.id, @logo_request.logo_files.include?(logo_file)
