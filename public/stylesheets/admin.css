@@ -106,10 +106,14 @@ ul.nav_bar {
         width: 24px;
         height: 24px;
         text-indent: -9999px; }
+        #main_content table.dashboard_table ul.actions a.approve {
+          background: url('../images/icons/24x24/note_accept.png'); }
         #main_content table.dashboard_table ul.actions a.edit {
           background-image: url('../images/icons/24x24/pages.png'); }
         #main_content table.dashboard_table ul.actions a.delete {
           background-image: url('../images/icons/24x24/trash_can.png'); }
+        #main_content table.dashboard_table ul.actions a.revoke {
+          background-image: url('../images/icons/24x24/pages_warning.png'); }
   #main_content dl {
     border-bottom: 1px solid #999;
     margin-bottom: 2em;

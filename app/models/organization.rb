@@ -190,6 +190,7 @@ class Organization < ActiveRecord::Base
   }
 
   def network_report_recipients
+    # FIXME: find local network instead, for regional networks
     Contact.network_report_recipients.for_country(self.country)
   end
   
