@@ -171,7 +171,7 @@ function submitEditable(value, settings) {
 }
 
 function setEditable() {
-  $('.editable').editable( submitEditable );
+	$('.editable').editable( submitEditable, { submit: 'OK', tooltip: 'Click to edit' } );
 }
 
 $(function() {
