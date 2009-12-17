@@ -261,10 +261,11 @@ $(function() {
   }
 });
 
-/***** Ready? Aim? Fire! *****/
+
+
+/***** Ready? Aim? Fire! jQuery stuff by Wes *****/
 
 $(document).ready(function() {
-  
   //style and functionality for table rows
     //add .odd to alternating table rows
     $('div#main_content table.dashboard_table tr:odd').addClass("odd");
@@ -305,5 +306,8 @@ $(document).ready(function() {
   
     //add odd-row class to alternating tabbed-content items
     $('div.tab_container ul.items li.item:odd').addClass("odd");
+    
+    //tabbed stuff is hidden by default, so that it doesn't display "unstyled" before document.ready fires. Show it now that we're done!
+    $('div.tab_container').slideDown();
     
 });

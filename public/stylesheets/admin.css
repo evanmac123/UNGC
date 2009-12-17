@@ -25,15 +25,11 @@ ul.inline {
 
 ul.nav_bar {
   padding: 0;
-  margin: 0 0 20px;
+  margin: 0 0 2em;
   background: url('../images/backgrounds/nav_default.png') repeat-x 50% 100%;
-<<<<<<< HEAD:public/stylesheets/admin.css
   overflow: hidden;
   list-style: none;
   z-index: 42; }
-=======
-  overflow: hidden; }
->>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
   ul.nav_bar li {
     list-style: none;
     float: left; }
@@ -48,7 +44,6 @@ ul.nav_bar {
         color: #86d2f1; }
     ul.nav_bar li.current a {
       background: transparent url('../images/backgrounds/nav_current.png') no-repeat 50% 100%; }
-<<<<<<< HEAD:public/stylesheets/admin.css
     ul.nav_bar li ul {
       left: -9999em;
       margin: -6px 0 0 -1px;
@@ -69,8 +64,6 @@ ul.nav_bar {
           background: #333; }
     ul.nav_bar li:hover ul, ul.nav_bar li.sfhover ul {
       left: auto; }
-=======
->>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
 
 #main_content {
   clear: left; }
@@ -84,14 +77,11 @@ ul.nav_bar {
     #main_content table.dashboard_table tr.odd {
       background: #f2f2f2; }
     #main_content table.dashboard_table tr.over {
-      background: #e4eef2; }
+      background: #f0f6fa; }
     #main_content table.dashboard_table td, #main_content table.dashboard_table th {
       padding: 10px; }
-<<<<<<< HEAD:public/stylesheets/admin.css
-=======
       #main_content table.dashboard_table td.pointer, #main_content table.dashboard_table th.pointer {
         cursor: pointer; }
->>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
     #main_content table.dashboard_table th {
       text-align: left;
       background: #ccc;
@@ -152,26 +142,28 @@ ul.nav_bar {
   #main_content #org_name {
     font-weight: bold; }
 
-.sidebar {
-  background: #e4eef2;
+.container > .sidebar {
+  background: #f0f6fa;
   border: 1px solid #999;
   padding: 10px;
-  width: 210px; }
-  .sidebar small {
+  width: 210px;
+  float: none;
+  margin-left: 680px; }
+  .container > .sidebar small {
     font-size: 0.8em; }
-  .sidebar h2 {
+  .container > .sidebar h2 {
     font-weight: bold;
     font-size: 1.5em; }
-  .sidebar ul {
+  .container > .sidebar ul {
     margin: 0; }
-    .sidebar ul li {
+    .container > .sidebar ul li {
       list-style: none;
       padding-bottom: 0.5em; }
-  .sidebar#session_info {
-    margin-top: 3em; }
-    .sidebar#session_info #logged_in_as {
+  .container > .sidebar#session_info {
+    margin-top: 5em; }
+    .container > .sidebar#session_info #logged_in_as {
       font-weight: bold; }
-      .sidebar#session_info #logged_in_as a.username, .sidebar#session_info #logged_in_as small {
+      .container > .sidebar#session_info #logged_in_as a.username, .container > .sidebar#session_info #logged_in_as small {
         font-weight: normal;
         font-style: italic; }
 
@@ -184,6 +176,7 @@ ul.nav_bar {
 
 /* tabbed sections */
 #main_content .tab_container {
+  display: none;
   margin: 1em 0; }
   #main_content .tab_container ul.tab_nav {
     margin: 0;
@@ -201,7 +194,7 @@ ul.nav_bar {
         text-decoration: none;
         border: 1px solid #333; }
         #main_content .tab_container ul.tab_nav li a:hover {
-          background: #e4eef2;
+          background: #f0f6fa;
           color: #14546f; }
         #main_content .tab_container ul.tab_nav li a.selected {
           background: white;
@@ -225,6 +218,7 @@ ul.nav_bar {
   #main_content .tab_container div.tab_content {
     border: 1px solid #333;
     padding: 1em 10px;
+    min-height: 200px``;
     max-height: 400px;
     overflow-x: hidden;
     overflow-y: scroll; }
@@ -233,7 +227,9 @@ ul.nav_bar {
     position: relative;
     left: -1px; }
   #main_content .tab_container ul.tools {
-    margin-bottom: 1em; }
+    border-bottom: 1px solid #999;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em; }
     #main_content .tab_container ul.tools a {
       width: 48px;
       height: 48px;
@@ -248,9 +244,10 @@ ul.nav_bar {
       #main_content .tab_container div.meta p.name {
         font-weight: bold;
         font-size: 1.1em; }
-      #main_content .tab_container div.meta p.datetime {
+      #main_content .tab_container div.meta p.datetime, #main_content .tab_container div.meta p.language {
         font-style: italic;
-        font-size: 0.9em; }
+        font-size: 0.9em;
+        margin-bottom: 1em; }
     #main_content .tab_container div.meta ul.post_tools {
       margin: 0.5em 0; }
       #main_content .tab_container div.meta ul.post_tools a {
@@ -265,8 +262,8 @@ ul.nav_bar {
     margin: 0; }
     #main_content .tab_container ul.items li.item {
       list-style: none;
-      border-top: 1px solid #999;
-      padding-top: 10px;
+      border-bottom: 1px solid #999;
+      padding: 0.5em 0;
       overflow: hidden; }
       #main_content .tab_container ul.items li.item div.body {
         margin-left: 135px; }
@@ -286,9 +283,13 @@ ul.nav_bar {
 #main_content input.button {
   float: right; }
 #main_content fieldset {
-  background-color: #f0fbff; }
+  background-color: #f0f6fa; }
   #main_content fieldset legend {
     color: #aaa; }
+    #main_content fieldset legend span {
+      position: relative;
+      top: 0.5em;
+      white-space: normal; }
   #main_content fieldset ol {
     margin: 0;
     padding: 0 0 0 0; }
@@ -300,14 +301,19 @@ ul.nav_bar {
     display: block;
     float: left;
     width: 100px; }
-  #main_content fieldset input {
+  #main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea {
     color: #000;
-    margin: 0 0 0 25px;
-    width: 305px; }
+    margin: 0 5px 0 25px;
+    width: 305px;
+    font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
+    font-size: 1em; }
+  #main_content fieldset input, #main_content fieldset textarea {
+    padding: 0 0 0 3px; }
+  #main_content fieldset select {
+    width: 307px; }
   #main_content fieldset textarea {
     height: 100px;
-    padding: 10px 16px;
-    width: 398px; }
+    overflow-y: auto; }
   #main_content fieldset fieldset {
     background: #fff; }
     #main_content fieldset fieldset legend {
@@ -327,7 +333,7 @@ ul.nav_bar {
   float: left;
   padding: 10px;
   margin-bottom: 20px;
-  background: #e4eef2; }
+  background: #f0f6fa; }
 #main_content #site_structure {
   overflow: hidden;
   margin-bottom: 2em; }
@@ -381,13 +387,10 @@ ul.nav_bar {
   height: 232px;
   overflow: auto;
   width: 518px; }
-<<<<<<< HEAD:public/stylesheets/admin.css
-=======
   #main_content #site_tree #tree ul li a.hidden {
     opacity: 0.4; }
   #main_content #site_tree #tree ul li a.pending {
     color: red; }
->>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css
 #main_content #page_details, #main_content #page_tools {
   clear: left;
   float: left; }
@@ -418,8 +421,6 @@ ul.nav_bar {
       color: inherit; }
     #main_content #page_preview #preview_contents a {
       text-decoration: underline; }
-<<<<<<< HEAD:public/stylesheets/admin.css
-=======
 
 #loading {
   background: url('/images/indicator.white.gif') 5px 5px no-repeat #FFC;
@@ -427,4 +428,3 @@ ul.nav_bar {
   margin: 0;
   top: -0.25em;
   position: relative; }
->>>>>>> cec7ccc0bd2db5c34ab9dc6d126759eb5fff0d7d:public/stylesheets/admin.css

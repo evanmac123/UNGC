@@ -1,6 +1,5 @@
 !dark_blue = #14546f
-!light_blue = #e4eef2
-!lighter_blue = #f0fbff
+!light_blue = #f0f6fa
 !dark_grey = #333
 !medium_grey = #666
 !light_grey = #f2f2f2
@@ -35,7 +34,7 @@ ul.inline
 
 ul.nav_bar
   padding: 0
-  margin: 0 0 20px
+  margin: 0 0 2em
   background: url('../images/backgrounds/nav_default.png') repeat-x 50% 100%
   overflow: hidden
   list-style: none
@@ -183,11 +182,13 @@ ul.nav_bar
   #org_name
     font-weight: bold 
           
-.sidebar
+.container > .sidebar
   background= !light_blue
   border: 1px solid #999
   padding: 10px
   width: 210px
+  float: none
+  margin-left: 680px
   
   small
     font-size: 0.8em
@@ -204,7 +205,7 @@ ul.nav_bar
       padding-bottom: 0.5em
     
   &#session_info
-    margin-top: 3em
+    margin-top: 5em
     
     #logged_in_as
       font-weight: bold
@@ -223,6 +224,7 @@ ul.nav_bar
 /* tabbed sections */
 #main_content
   .tab_container
+    display: none
     margin: 1em 0
   
     ul.tab_nav
@@ -280,6 +282,7 @@ ul.nav_bar
     div.tab_content
       border: 1px solid #333
       padding: 1em 10px
+      min-height: 200px``
       max-height: 400px
       overflow-x: hidden
       overflow-y: scroll
@@ -293,7 +296,9 @@ ul.nav_bar
         
 
     ul.tools
-      margin-bottom: 1em
+      border-bottom: 1px solid #999
+      margin-bottom: 0.5em
+      padding-bottom: 0.5em
     
       a
         width: 48px
@@ -314,9 +319,10 @@ ul.nav_bar
           font-weight: bold
           font-size: 1.1em
 
-        &.datetime
+        &.datetime,&.language
           font-style: italic
           font-size: 0.9em
+          margin-bottom: 1em
         
       ul.post_tools
         margin: 0.5em 0
@@ -337,8 +343,8 @@ ul.nav_bar
     
       li.item
         list-style: none
-        border-top: 1px solid #999
-        padding-top: 10px
+        border-bottom: 1px solid #999
+        padding: 0.5em 0
         overflow: hidden
       
         div.body
@@ -366,10 +372,15 @@ ul.nav_bar
     float: right
     
   fieldset
-    background-color= !lighter_blue
+    background-color= !light_blue
     
     legend
       color: #aaa
+      
+      span
+        position: relative
+        top: 0.5em
+        white-space: normal
     
     ol
       margin: 0
@@ -385,15 +396,22 @@ ul.nav_bar
       float: left
       width: 100px
       
-    input
+    input, select, textarea
       color: #000
-      margin: 0 0 0 25px
+      margin: 0 5px 0 25px
       width: 305px
+      font-family: "Helvetica Neue",Arial,Helvetica,sans-serif
+      font-size: 1em
+    
+    input, textarea
+      padding: 0 0 0 3px
+      
+    select
+      width: 307px
   
     textarea
       height: 100px
-      padding: 10px 16px
-      width: 398px
+      overflow-y: auto
     
     fieldset
       background: #fff
