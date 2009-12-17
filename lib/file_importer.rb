@@ -132,6 +132,7 @@ class FileImporter
                                :attachment_type => CopFile::FORMATS[:cop])
         end
       end
+      log "Done!"
     end
   end
 
