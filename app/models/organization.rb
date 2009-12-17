@@ -56,6 +56,7 @@ class Organization < ActiveRecord::Base
   belongs_to :listing_status
   belongs_to :exchange
   belongs_to :country
+  belongs_to :removal_reason
 
   attr_accessor :pledge_amount_other
   
@@ -66,6 +67,7 @@ class Organization < ActiveRecord::Base
   
   before_save :check_micro_enterprise_or_sme
   before_save :check_pledge_amount_other
+  before_save :set_non_business_sector
   
   has_attached_file :commitment_letter
 
@@ -158,7 +160,7 @@ class Organization < ActiveRecord::Base
       {}
     end
   }
-  
+    
   named_scope :listed,
     { :conditions => "organizations.stock_symbol IS NOT NULL" }
   
@@ -187,6 +189,10 @@ class Organization < ActiveRecord::Base
     { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
   }
 
+  def network_report_recipients
+    Contact.network_report_recipients.for_country(self.country)
+  end
+  
   def self.find_by_param(param)
     return nil if param.blank?
     param = CGI.unescape param
@@ -194,7 +200,7 @@ class Organization < ActiveRecord::Base
   end
   
   def self.visible_in_local_network
-    statuses = [:noncommunicating, :active]
+    statuses = [:noncommunicating, :active, :delisted]
     participants.active.with_cop_status(statuses)
   end
 
@@ -262,6 +268,13 @@ class Organization < ActiveRecord::Base
   end
   
   private
+  
+   def set_non_business_sector
+     unless self.business_entity?
+       self.sector = Sector.not_applicable
+     end
+   end
+  
     def check_pledge_amount_other
       unless self.pledge_amount_other.to_i == 0
         self.pledge_amount = self.pledge_amount_other

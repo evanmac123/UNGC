@@ -71,7 +71,7 @@ class FileImporter
       CaseStory.all.each do |case_story|
         # let's try to find the XML file for this case story
         xml_file = File.join(path, "xml", "#{case_story.identifier}.xml")
-        # puts "Working on #{case_story.identifier}.xml"
+        log "Working on #{case_story.identifier}"
         if File.exist?(xml_file)
           begin
             doc = Hpricot(open(xml_file)) # REXML::Document.new(File.new(xml_file))
@@ -119,6 +119,21 @@ class FileImporter
       # puts "\n"
     end
     # puts "*** Done!"
+  end
+
+  def import_cop_files(path)
+    if File.directory? path
+      # we go over all the COPs and try to find the PDF file
+      CommunicationOnProgress.all(:conditions => 'identifier IS NOT NULL').each do |cop|
+        cop_file = File.join(path, cop.identifier, "COP.pdf")
+        if File.exist?(cop_file)
+          log "file: #{cop_file} exists"
+          cop.cop_files.create(:attachment => File.new(cop_file),
+                               :attachment_type => CopFile::TYPES[:cop])
+        end
+      end
+      log "Done!"
+    end
   end
 
   private
