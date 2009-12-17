@@ -4,6 +4,7 @@ class Admin::PagesController < AdminController
 
   def index
     # @javascript = ['json2.js']
+    @javascript = [ 'admin.js', 'jquery.jeditable.mini.js' ]
     respond_to do |wants|
       wants.html { }
       wants.js   { }
@@ -23,6 +24,7 @@ class Admin::PagesController < AdminController
           page['#pageDetailsReplace'].html(render partial: 'page_details')
         } 
       }
+      wants.html { render inline: '' }
     end
   end
 
@@ -86,17 +88,45 @@ class Admin::PagesController < AdminController
   end
   
   def update
-    if params[:content] # this is the live editor
-      @version = @page.update_pending_or_new_version(params[:content])
-      respond_to do |wants|
-        wants.html { redirect_to view_page_url(:path => @page.to_path) }
-        wants.js { render :json => { :content => @version.content, :version => @version.version_number } }
-      end
-      return
+    is_live_editor = !!params[:content]
+    key = is_live_editor ? :content : :page
+    changes = params[key]
+    begin
+      @version = @page.update_pending_or_new_version(changes)
+    rescue Page::PathCollision => e
+      update_failed(:forbidden, is_live_editor)
+    rescue Exception => e
+      update_failed(:bad_request, is_live_editor)
     else
-      @version = @page.update_pending_or_new_version(params[:page])
-      redirect_to edit_admin_page_path(:id => @version)
-      return
+      update_successful(is_live_editor)
+    end
+  end
+  
+  def update_failed(error_type, is_live_editor)
+    js_handler = head error_type
+    if is_live_editor
+      respond_to do |wants|
+        wants.js { js_handler }
+      end
+    else
+      respond_to do |wants|
+        wants.html { render action: 'edit' }
+        wants.js   { js_handler }
+      end
+    end
+  end
+  
+  def update_successful(is_live_editor)
+    if is_live_editor
+      respond_to do |wants|
+        wants.html { redirect_to view_page_url(:path => @version.to_path) } # redirect to regular page view
+        wants.js   { render :json => { :content => @version.content, :version => @version.version_number } }
+      end
+    else
+      respond_to do |wants|
+        wants.html { redirect_to edit_admin_page_path(:id => @version) } # redirect to admin editor page view
+        wants.js   { head :ok }
+      end
     end
   end
 
@@ -112,7 +142,7 @@ class Admin::PagesController < AdminController
   
   private
     def ckeditor
-      (@javascript ||= []) << '/ckeditor/ckeditor'
+      (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
     end
     
     def find_page
