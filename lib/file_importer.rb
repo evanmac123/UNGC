@@ -129,7 +129,7 @@ class FileImporter
         if File.exist?(cop_file)
           log "file: #{cop_file} exists"
           cop.cop_files.create(:attachment => File.new(cop_file),
-                               :attachment_type => CopFile::FORMATS[:cop])
+                               :attachment_type => CopFile::TYPES[:cop])
         end
       end
       log "Done!"
