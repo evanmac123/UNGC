@@ -24,6 +24,8 @@
 #
 
 class Page < ActiveRecord::Base
+  class PathCollision < Exception; end
+  
   include ContentApproval
   include TrackCurrentUser
   
@@ -231,7 +233,23 @@ class Page < ActiveRecord::Base
     path.split('/').reject { |s| s == '' }
   end
 
+  def pages_exist_with_new_path?(path)
+    self.class.all_versions_of(path).any?
+  end
+
+  def possibly_move_paths(new_path)
+    unless path == new_path # don't do anything unless there's an actual change
+      raise PathCollision if pages_exist_with_new_path?(new_path)
+      all_versions = self.class.all_versions_of(path)
+      self.class.update_all "pages.path = '%s'" % new_path, { id: all_versions.map(&:id) }
+    end
+  end
+
   def update_pending_or_new_version(options={})
+    options.stringify_keys!
+    new_path = options.delete('path')
+    possibly_move_paths(new_path) if new_path
+    return self.reload unless options.any?
     if pending_version
       pending_version.update_attributes(options)
       pending_version
