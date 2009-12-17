@@ -128,7 +128,7 @@ class FileImporter
         cop_file = File.join(path, cop.identifier, "COP.pdf")
         if File.exist?(cop_file)
           log "file: #{cop_file} exists"
-          cop.cop_files.create(:attachment => File.new(doc_file),
+          cop.cop_files.create(:attachment => File.new(cop_file),
                                :attachment_type => CopFile::FORMATS[:cop])
         end
       end
