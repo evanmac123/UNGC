@@ -12,41 +12,7 @@
     #tree_container.outside
       #tree.inside
 
-#page_details
-  %h2
-    Page Details:
-  %dl#pageDetailsReplace.box
-    = render 'page_details' if @page
-#page_tools
-  %h2
-    Page Tools:
-  %ul.box
-    %li
-      %a.edit_page{ :title => "Edit page", :href => "#" }
-        Edit page
-    %li
-      %a.preview_page{ :title => "Preview page", :href => "#" }
-        Preview page
-    %li
-      %a.save{ :title => "Save changes", :href => "#" }
-        Save Changes
-    %li
-      %a.visibility{ :title => "Show/hide", :href => "#" }
-        Show/hide
-    %li
-      %a.approve{ :title => "Approve", :href => "#" }
-        Approve
-    %li
-      %a.delete{ :title => "Delete", :href => "#" }
-        Delete
-#page_preview
-  %h2
-    Page Preview:
-  #preview_contents.box
-    #loading{style: 'display:none'}
-      Loading...
-    #pageReplace.inside
-      = render 'page' if @page
+= render 'page_area'
   
 - content_for :postscript do
   = render :partial => 'treeview'
