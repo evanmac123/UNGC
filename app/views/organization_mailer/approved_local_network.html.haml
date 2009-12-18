@@ -1,0 +1,77 @@
+== Dear @local_network_recipient
+
+%p This message is to inform you that the applicant @organization.name has been accepted as a participant of the UN Global Compact: link_to(url)
+
+%p Sincerely,
+%p The Global Compact Office
+
+%p
+  %strong Profile for \#{@organization.name}:
+
+- @row_style = 'text-align: right; padding-right: 10px'
+
+%table
+  %tr
+    %td{:style => @row_style} Type:
+    %td  @organization.type
+  %tr
+    %td{:style => @row_style} Sector:
+    %td @organization.sector
+  %tr
+    %td{:style => @row_style} Employees:
+    %td @organization.employees
+  %tr
+    %td{:style => @row_style} Website:
+    %td @organization.url
+    
+%p
+  %strong Login information:
+
+%p
+  %table
+    %tr
+      %td{:style => @row_style} Username:
+      %td @contact.login
+    %tr
+      %td{:style => @row_style} Password:
+      %td @contact.password
+
+%p
+  %strong CEO / Highest Level Executive Information
+%p
+  %table
+    %tr
+      %td{:style => @row_style} Name:
+      %td @contact.fullname
+    %tr
+      %td{:style => @row_style} Title:
+      %td @contact.title
+    %tr
+      %td{:style => @row_style} Address:
+      %td @contact.employees
+    %tr
+      %td{:style => @row_style} Phone:
+      %td @contact.phone
+    %tr
+      %td{:style => @row_style} Email:
+      %td @contact.email
+
+%p
+  %strong Contact Point Information
+%p
+  %table
+    %tr
+      %td{:style => @row_style} Name:
+      %td @contact.fullname
+    %tr
+      %td{:style => @row_style} Title:
+      %td @contact.title
+    %tr
+      %td{:style => @row_style} Address:
+      %td @contact.employees
+    %tr
+      %td{:style => @row_style} Phone:
+      %td @contact.phone
+    %tr
+      %td{:style => @row_style} Email:
+      %td @contact.email

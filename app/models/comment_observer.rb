@@ -31,5 +31,10 @@ class CommentObserver < ActiveRecord::Observer
       else
         OrganizationMailer.deliver_approved_nonbusiness(organization)
       end
+      
+      if organization.network_report_recipients.count > 0
+        OrganizationMailer.deliver_approved_local_network(organization)        
+      end
+      
     end
 end

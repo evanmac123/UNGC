@@ -31,6 +31,14 @@ class OrganizationMailer < ActionMailer::Base
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
 
+  def approved_local_network(organization)
+    from EMAIL_SENDER
+    subject "#{organization.name} has been accepted into the Global Compact"
+    content_type "text/html"
+    recipients organization.contacts.contact_points.collect(&:email_recipient)
+    body :organization => organization, :contact => organization.contacts.contact_points.first
+  end
+
   def reject_microenterprise(organization)
     from EMAIL_SENDER
     subject "Your Letter of Commitment to the Global Compact"

@@ -28,6 +28,8 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     setup do
       create_ungc_organization_and_user
       create_organization_and_user
+      create_local_network_with_report_recipient
+      @organization.country_id = @country.id
       login_as @staff_user
     end
     
@@ -36,7 +38,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
         # we expect two emails - approval and foundation invoice
         assert_emails(2) do
           post :create, :organization_id => @organization.id,
-                        :commit          => LogoRequest::EVENT_APPROVE,
+                        :commit          => Organization::EVENT_APPROVE,
                         :comment         => { :body => 'Approved' }
 
           assert_redirected_to admin_organization_path(@organization.id)
@@ -48,7 +50,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     should "reject the organization on rejection comment" do
       assert_difference 'Comment.count' do
         post :create, :organization_id => @organization.id,
-                      :commit          => LogoRequest::EVENT_REJECT,
+                      :commit          => Organization::EVENT_REJECT,
                       :comment         => { :body => 'Rejected' }
 
         assert_redirected_to admin_organization_path(@organization.id)
