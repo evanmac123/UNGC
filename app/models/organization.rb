@@ -190,7 +190,7 @@ class Organization < ActiveRecord::Base
   }
 
   def network_report_recipients
-    Contact.network_report_recipients.for_country(self.country)
+    self.country.local_network.contacts.network_report_recipients
   end
   
   def self.find_by_param(param)

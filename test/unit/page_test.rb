@@ -212,4 +212,46 @@ class PageTest < ActiveSupport::TestCase
     end
   end
   
+  context "given a page with a path and several versions" do
+    setup do
+      @group   = create_page_group
+      @page1   = create_page section: @group, path: '/path/to/page1.html' # will start approved
+      @page1v2 = @page1.new_version title: 'I am new'
+      @page1v2.approve!
+      @page1v3 = @page1v2.new_version title: 'I am newest'
+      @page2   = create_page path: '/this/does_not/clash.html'
+    end
+
+    context "when only renaming the path" do
+      setup do
+        changes = {path: '/new_path/to_the/first_page.html'}
+        @page1v3.update_pending_or_new_version(changes)
+      end
+
+      should "rename all versions of the page" do
+        actual = [@page1, @page1v2, @page1v3].map { |p| p.reload.path }
+        expected = ['/new_path/to_the/first_page.html'] * 3
+        assert_same_elements expected, actual
+      end
+    end
+    
+    context "when renaming the path to something that already exists" do
+      setup do
+        changes = {path: '/this/new/path/here.html', title: 'I have a changed path'}
+        @page2 = create_page path: changes['path']
+      end
+
+      should "raise an exception and leave pages unchanged" do
+        assert_raise('PageCollision') { @page1v3.update_pending_or_new_version(changes) }
+        [@page1, @page1v2, @page1v3].each do |page|
+          reloaded = page.reload
+          assert_equal reloaded.path, page.path
+          assert_equal reloaded.title, page.title
+        end
+      end
+    end
+    
+  end
+  
+  
 end

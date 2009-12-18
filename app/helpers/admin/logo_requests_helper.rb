@@ -7,7 +7,7 @@ module Admin::LogoRequestsHelper
   
   def logo_file_image_tag(logo_file)
     # TODO we'll no longer use demo.unglobalcompact.org
-    image_tag logo_file_image_url(logo_file)
+    image_tag logo_file_image_url(logo_file), :alt => logo_file.name
   end
   
   def logo_file_image_url(logo_file)

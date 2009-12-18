@@ -130,7 +130,7 @@ var Watcher = {
 	decoratePage: function(response) {
 		if (!Watcher.included) {
 			Watcher.included = true;
-			include('/javascripts/admin.js');
+			include('/javascripts/page_editor.js');
 			include('/ckeditor/ckeditor.js');
 		}
 		if (response.content) {

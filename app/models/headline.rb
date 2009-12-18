@@ -65,12 +65,16 @@ class Headline < ActiveRecord::Base
     self.write_attribute(:published_on, Date.today) if self.published_on.blank?
   end
   
-  def published_on=(date_or_string)
+  def published_on_string=(date_or_string)
     if date_or_string.is_a?(String)
       self.write_attribute(:published_on, Date.strptime(date_or_string, '%m/%d/%Y'))
     elsif date_or_string.is_a?(Date)
       self.write_attribute(:published_on, date_or_string)
     end
+  end
+
+  def published_on_string
+    (published_on || Date.today).strftime('%m/%d/%Y')
   end
 
   # 'location' if just location

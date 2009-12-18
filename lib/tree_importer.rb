@@ -21,8 +21,17 @@ class TreeImporter
     new title: title, identifier: identifier, type: type_str, position: position, children: children
   end
   
-  def self.import_tree(string)
-    data = JSON.parse string
+  def self.delete(deleted)
+    deleted['pages'].each    { |id| Page.destroy(id)      }
+    deleted['sections'].each { |id| PageGroup.destroy(id) }
+  end
+  
+  def self.import_tree(string, deleted_json)
+    delete(JSON.parse deleted_json)
+    parse_data(JSON.parse string)
+  end
+  
+  def self.parse_data(data)
     sections = []
     data.each_with_index do |node,i|
       sections << new_from_json(node, i)
@@ -75,7 +84,7 @@ class TreeImporter
       page.parent_id = nil
     end
     save_children_for_section(section, page)
-    page.save
+    page.save if page.changed?
   end
 
   def find_or_create_section

@@ -34,9 +34,8 @@
   #approved.tab_content
     - staff_only do
       - form_for(:logo_request, url: admin_organization_logo_request_path(:organization_id => @logo_request.organization_id, :id => @logo_request), :html => {:method => :put}) do |f|
-        %fieldset
-          %ol
-            = render :partial => 'logo_files'
+        %ul.items
+          = render :partial => 'logo_files'
         = f.submit 'Save logos', :class => 'button'
     - organization_only do
       - if @logo_request.logo_files.any?
