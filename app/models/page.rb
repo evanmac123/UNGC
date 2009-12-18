@@ -203,8 +203,8 @@ class Page < ActiveRecord::Base
     self.parent_id = nav.id
   end
   
-  def pending_version
-    self.class.pending_version_for(path)
+  def pending_version(new_path=nil)
+    self.class.pending_version_for(new_path || path)
   end
   
   def previous_version
@@ -243,14 +243,15 @@ class Page < ActiveRecord::Base
     end
   end
 
-  def update_pending_or_new_version(options={})
+  def update_pending_or_new_version(their_options={})
+    options = their_options.dup
     options.stringify_keys!
     new_path = options.delete('path')
     possibly_move_paths(new_path) if new_path
     return self.reload unless options.any?
-    if pending_version
-      pending_version.update_attributes(options)
-      pending_version
+    if v = pending_version(new_path)
+      v.update_attributes(options)
+      v
     else
       new_version(options)
     end
