@@ -273,13 +273,16 @@ class Organization < ActiveRecord::Base
     self.update_attribute :cop_due_on, 1.year.from_now
   end
   
-  private
+  def set_approved_fields
+    set_next_cop_due_date
+  end
   
-   def set_non_business_sector
-     unless self.business_entity?
-       self.sector = Sector.not_applicable
-     end
-   end
+  private
+    def set_non_business_sector
+      unless self.business_entity?
+        self.sector = Sector.not_applicable
+      end
+    end
   
     def check_pledge_amount_other
       unless self.pledge_amount_other.to_i == 0

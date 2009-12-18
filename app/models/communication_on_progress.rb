@@ -69,8 +69,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_many :cop_files, :foreign_key => :cop_id
   has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
+
+  attr_accessor :is_draft
   
   before_save :can_be_edited?
+  after_save :move_to_draft?
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
@@ -157,6 +160,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
   
+  # move COP to draft state
+  def move_to_draft?
+    self.save_as_draft if self.is_draft
+  end
+  
   def is_grace_letter?
     self.format == FORMAT[:grace_letter]
   end
@@ -172,6 +180,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def set_approved_fields
+    set_next_cop_due_date
   end
   
   private
