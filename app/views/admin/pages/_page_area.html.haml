@@ -1,0 +1,27 @@
+#page_details
+  %h2
+    Page Details:
+  %dl#pageDetailsReplace.box
+    = render 'page_details' if @page
+#page_tools
+  %h2
+    Page Tools:
+  %ul.box{class: @page ? '' : 'disabled'}
+    %li= link_to 'Edit page', @page ? edit_admin_page_path(@page) : '#', class: 'edit_page', title: 'Edit page'
+    %li= link_to 'Preview page', @page ? view_page_path(@page.to_path) : '#', class: 'preview_page', title: 'Preview page', target: '_blank'
+    %li= link_to 'Save changes', @page ? admin_page_path(@page) : '#', class: 'save save_page', title: 'Save changes to this page'
+    %li
+      %a.visibility{ :title => "Show/hide", :href => "#" }
+        Show/hide
+    %li
+      %a.approve{ :title => "Approve", :href => "#" }
+        Approve
+    %li
+      %a.delete{ :title => "Delete", :href => "#" }
+        Delete
+#page_preview
+  %h2
+    Page Preview:
+  #preview_contents.box
+    .inside
+      = render 'page' if @page

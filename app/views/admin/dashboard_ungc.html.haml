@@ -5,7 +5,8 @@
     %li <a href="#logos">Logo Requests</a>
     %li <a href="#case_stories">Case Stories</a>
     %li <a href="#cops">COPs</a>
-    %li <a href="#pages">Pages</a>
+    - if @pending_pages.any?
+      %li= link_to "Pages (#{@pending_pages.count})", '#pages'
 
   - if @pending_organizations.any?
     #organizations.tab_content

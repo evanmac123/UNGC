@@ -36,9 +36,9 @@ ActionController::Routing::Routes.draw do |map|
       admin.resources :pages,
         :member => {
           :approve => :post,
+          :check   => :put,
           :rename  => :post,
-          :revoke  => :post,
-          :meta    => :get
+          :revoke  => :post
         },
         :collection => {
           :pending   => :get,
@@ -83,14 +83,14 @@ ActionController::Routing::Routes.draw do |map|
       end
     end
 
-    map.cop_detail_with_nav 'COPs/:navigation/:organization/:cop', 
+    map.cop_detail_with_nav 'COPs/:navigation/:id', 
       :controller => 'cops', 
       :action => 'show', 
-      :requirements => { :organization => /.*/, :cop => /.*/ }
-    map.cop_detail 'COPs/detail/:organization/:cop', 
+      :requirements => { id: /\d+/ }
+    map.cop_detail 'COPs/detail/:id', 
       :controller => 'cops', 
       :action => 'show', 
-      :requirements => { :organization => /.*/, :cop => /.*/ }
+      :requirements => { id: /\d+/ }
 
     # shorcut for new organization
     map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'

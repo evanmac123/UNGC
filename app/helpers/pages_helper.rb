@@ -13,12 +13,10 @@ module PagesHelper
   end
 
   def cop_link(cop, navigation=nil)
-    link_to_cop = CGI.escape(cop.title)
-    link_to_org = CGI.escape(cop.organization_name)
     if navigation
-      cop_detail_with_nav_path(navigation, link_to_org, link_to_cop)
+      cop_detail_with_nav_path(navigation, cop.id)
     else
-      cop_detail_path(link_to_org, link_to_cop)
+      cop_detail_path(cop.id)
     end
   end
 

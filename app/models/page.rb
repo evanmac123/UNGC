@@ -46,11 +46,9 @@ class Page < ActiveRecord::Base
     :conditions  => { approval: 'approved' }
 
   named_scope :all_versions_of, lambda { |path|
-    # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
     return {} if path.blank?
     {
       :conditions => ["pages.path = ?", path],
-      # :order      => "pages.version_number DESC"
     }
   }
   named_scope :for_navigation, :conditions => {"display_in_navigation" => true}
@@ -265,6 +263,15 @@ class Page < ActiveRecord::Base
   def versions(*args)
     return [self] unless path
     self.class.all_versions_of(path)
+  end
+  
+  def wants_to_change_path_and_can?(options={})
+    options.stringify_keys!
+    new_path = options['path']
+    wants_to = !new_path.blank? && new_path != path
+    return true unless wants_to
+    can      = !pages_exist_with_new_path?(new_path)
+    wants_to and can
   end
   
 end

@@ -2,11 +2,14 @@
 %div{:id => "cop_file_#{record}"}
   = hidden_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment_type]", cop_file.attachment_type)
 
-  = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_language_id", 'Language')
-  = select_tag("communication_on_progress[cop_files_attributes][#{record}][language_id]",  options_from_collection_for_select(Language.all, 'id', 'name'))
+  %ol
+    %li
+      = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_language_id", 'Language')
+      = select_tag("communication_on_progress[cop_files_attributes][#{record}][language_id]",  options_from_collection_for_select(Language.all, 'id', 'name'))
 
-  = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_attachment", 'File')
-  = file_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment]")
+    %li
+      = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_attachment", 'File')
+      = file_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment]")
 
   - unless cop_file.new_record?
     = hidden_field_tag("communication_on_progress[cop_files_attributes][#{record}][id]", cop_file.id)
@@ -15,4 +18,3 @@
     %br/
     Current file: 
     = link_to cop_file.attachment_file_name, cop_file.attachment.url
-%hr/

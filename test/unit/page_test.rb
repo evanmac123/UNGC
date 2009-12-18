@@ -237,12 +237,17 @@ class PageTest < ActiveSupport::TestCase
     
     context "when renaming the path to something that already exists" do
       setup do
-        changes = {path: '/this/new/path/here.html', title: 'I have a changed path'}
-        @page2 = create_page path: changes['path']
+        @changes = {path: '/this/new/path/here.html', title: 'I have a changed path'}
+        @page2 = create_page path: @changes[:path]
       end
 
-      should "raise an exception and leave pages unchanged" do
-        assert_raise('PageCollision') { @page1v3.update_pending_or_new_version(changes) }
+      should "check if path can be changed" do
+        assert !@page1v3.wants_to_change_path_and_can?(path: @changes[:path])
+        assert @page1v3.wants_to_change_path_and_can?(path: '/this/path/does_not/clash.html')
+      end
+
+      should "raise an exception and leave pages unchanged" do 
+        assert_raise(Page::PathCollision) { @page1v3.update_pending_or_new_version(@changes) }
         [@page1, @page1v2, @page1v3].each do |page|
           reloaded = page.reload
           assert_equal reloaded.path, page.path
