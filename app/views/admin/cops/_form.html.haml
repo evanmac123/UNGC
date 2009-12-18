@@ -14,7 +14,8 @@
     = form.error_messages
     %fieldset
       %fieldset
-        %legend What is the format of the COP?
+        %legend
+          %span What is the format of the COP?
         - CommunicationOnProgress::FORMAT.each do |key, value|
           %label
             = form.radio_button :format, key
@@ -22,17 +23,20 @@
 
       #grace_letter_fields{:style => css_display_style { @communication_on_progress.is_grace_letter? } }
         %fieldset
-          %legend Please upload your "Grace Letter"
+          %legend
+            %span Please upload your "Grace Letter"
           = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
 
       #non_grace_letter_fields{:style => 'display: none'}
         %fieldset
-          %legend Does your COP include an explicit statement of continued support for the Global Compact and its principles?
+          %legend
+            %span Does your COP include an explicit statement of continued support for the Global Compact and its principles?
           = true_or_false_field(form, :include_continued_support_statement)
 
         #explicit_statement_of_support_fields{:style => 'display: none'}
           %fieldset
-            %legend Who formally endorsed or signed the statement of continued support?
+            %legend
+              %span Who formally endorsed or signed the statement of continued support?
             - CommunicationOnProgress::SIGNEE.each do |key, value|
               %label
                 = form.radio_button :support_statement_signee, key
@@ -40,7 +44,8 @@
 
           #signed_by_executive_fields{:style => 'display: none'}
             %fieldset
-              %legend Where is your company's statement of continued support?
+              %legend
+                %span Where is your company's statement of continued support?
               - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
                 %label
                   = form.radio_button :statement_location, key
@@ -64,19 +69,22 @@
               = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:support_statement])}
       
             %fieldset
-              %legend Are you submitting the COP of your parent company (this question only applies, if you are representing a subsidiary of another Global Compact participant)?
+              %legend
+                %span Are you submitting the COP of your parent company (this question only applies, if you are representing a subsidiary of another Global Compact participant)?
               = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
       
             %fieldset#parent_company_question{:style => 'display :none'}
-              %legend Does the COP of your parent company explicitly cover the efforts made by your subsidiary to implement the Global Compact principles?
+              %legend
+                %span Does the COP of your parent company explicitly cover the efforts made by your subsidiary to implement the Global Compact principles?
               = true_or_false_field(form, :parent_cop_cover_subsidiary)
         
             #own_company_questions{:style => 'display: block'}
               %fieldset
                 %legend
-                  Does your COP make explicit reference to
-                  %strong policies or commitments
-                  related to the following issue areas?
+                  %span
+                    Does your COP make explicit reference to
+                    %strong policies or commitments
+                    related to the following issue areas?
                 Human Rights
                 = true_or_false_field(form, :references_human_rights, :class => 'score')
                 %br
@@ -91,9 +99,10 @@
 
               %fieldset
                 %legend
-                  Does your COP contain information about
-                  %strong concrete activities
-                  within the following issue areas?
+                  %span
+                    Does your COP contain information about
+                    %strong concrete activities
+                    within the following issue areas?
                 Human Rights
                 = true_or_false_field(form, :concrete_human_rights_activities, :class => 'score')
                 %br
@@ -115,34 +124,40 @@
 
               %fieldset
                 %legend
-                  Does your COP
-                  %strong
-                    identify targets, define performance indicators
-                    %i and
-                    measure outcomes
-                  ?
+                  %span
+                    Does your COP
+                    %strong
+                      identify targets, define performance indicators
+                      %i and
+                      measure outcomes
+                    ?
                 = true_or_false_field(form, :include_measurement)
         
               %fieldset
-                %legend Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
+                %legend
+                  %span Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
                 = true_or_false_field(form, :include_measurement, yes: 'Yes, continue submitting this COP', no: 'No, I will revise COP and submit it later')
         
               %fieldset
-                %legend Does your COP contain information about a partnership project undertaken in support of broader United Nations goals, such as the Millennium Development Goals?
+                %legend
+                  %span Does your COP contain information about a partnership project undertaken in support of broader United Nations goals, such as the Millennium Development Goals?
                 = true_or_false_field(form, :mentions_partnership_project)
 
               = cop_questions_for @communication_on_progress, :mandatory
 
               %fieldset
-                %legend Does the statement of continued support explain how your company benefits from participating in the Global Compact?
+                %legend
+                  %span Does the statement of continued support explain how your company benefits from participating in the Global Compact?
                 = true_or_false_field(form, :support_statement_explain_benefits)
 
               %fieldset
-                %legend Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
+                %legend
+                  %span Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
                 = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
 
               %fieldset
-                %legend Would you like your Communication on Progress to be reviewed against the Notable Program?
+                %legend
+                  %span Would you like your Communication on Progress to be reviewed against the Notable Program?
                 = true_or_false_field(form, :notable_program, :class => 'additional_questions')
 
         #reject_cop{:style => 'display: none'}
