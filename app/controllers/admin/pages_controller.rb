@@ -20,8 +20,7 @@ class Admin::PagesController < AdminController
     respond_to do |wants|
       wants.js { 
         render(:update) { |page| 
-          page['#pageReplace'].html(render partial: 'page')
-          page['#pageDetailsReplace'].html(render partial: 'page_details')
+          page['#pageArea'].html(render partial: 'page_area')
         } 
       }
       wants.html { render inline: '' }

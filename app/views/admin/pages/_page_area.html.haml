@@ -6,11 +6,9 @@
 #page_tools
   %h2
     Page Tools:
-  %ul.box
+  %ul.box{class: @page ? '' : 'disabled'}
     %li= link_to 'Edit page', @page ? edit_admin_page_path(@page) : '#', class: 'edit_page', title: 'Edit page'
-    %li
-      %a.preview_page{ :title => "Preview page", :href => "#" }
-        Preview page
+    %li= link_to 'Preview page', @page ? view_page_path(@page.to_path) : '#', class: 'preview_page', title: 'Preview page', target: '_blank'
     %li
       %a.save{ :title => "Save changes", :href => "#" }
         Save Changes
@@ -27,7 +25,5 @@
   %h2
     Page Preview:
   #preview_contents.box
-    #loading{style: 'display:none'}
-      Loading...
-    #pageReplace.inside
+    .inside
       = render 'page' if @page

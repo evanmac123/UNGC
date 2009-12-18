@@ -33,6 +33,10 @@ function makeDestroyLink (event) {
   return false; 
 }
 
+var Page = {
+	selected: null
+}
+
 var Treeview = {
   refresh: function(response) {
     $.tree.focused().refresh();
@@ -46,7 +50,7 @@ var Treeview = {
   save: function(e) {
     e.preventDefault();
     var url  = $(e.target).attr('href');
-    var data = $.tree.reference('#tree').get();
+    var data = $.tree.focused().get();
     var deleted = {pages: [], sections: []};
     deleted = Treeview.addNodes(deleted, Treeview.deletedNodes)
     var data_json = encodeURIComponent(JSON.stringify(data));
@@ -72,7 +76,7 @@ var Treeview = {
   },
   newSection: function(e) {
     e.preventDefault();
-    var tree = $.tree.reference('#tree')
+    var tree = $.tree.focused();
     var time = new Date().getTime();
     var node = tree.create(
       {
@@ -85,7 +89,7 @@ var Treeview = {
   },
   newPage: function(e) {
     e.preventDefault();
-    var tree = $.tree.reference('#tree')
+    var tree = $.tree.focused();
     if (tree.selected) {
       var time = new Date().getTime();
       var node = tree.create(
@@ -97,6 +101,10 @@ var Treeview = {
       tree.rename(node);
     }
   },
+	showPage: function() {
+	  $('#loading').hide();
+	  setEditable();
+	},
 	onrename: function(node, tree, rollback) {
     var element = $(node);
     if (element.hasClass('pending')) {
@@ -120,6 +128,24 @@ var Treeview = {
       });
     }
     tree.select_branch(node);
+  },
+	onselect: function(node, tree) {
+    if (Page.selected != node) {
+      Page.selected = node; // FIXME: global variables might be evil
+      var url = $(node).children('a').attr('href');
+      if (url != '') {
+        $('#loading').show();
+				var area = $('#pageArea');
+				area.addClass('loading');
+        url += '.js';
+        jQuery.ajax({
+          type: 'get',
+          url: url,
+          dataType: 'script',
+          success: function() { Treeview.showPage(); area.removeClass('loading'); }
+        });
+      }
+    }
   },
 	newPageCreated: function(node, ref_node, type, tree_obj, rollback) {
 	  if (type == 'after') { // section has other pages, ref_node will be another page
@@ -172,10 +198,6 @@ var Treeview = {
   }
 }
 
-function showPage(argument) {
-  $('#loading').hide();
-  setEditable();
-}
 
 function submitEditable(value, settings) {
   var element = $(this);
@@ -199,14 +221,18 @@ function setEditable() {
 }
 
 $(function() {
+	// Used generically, as an alternative to Rails broken helpers
   $('a.link_to_post').live('click', makePostLink );
   $('a.link_to_destroy').live( 'click', makeDestroyLink );
-  
+
+  // Wire up the buttons for the treeview
   $('a#save_tree').live('click', Treeview.save );
   $('a#new_section').live('click', Treeview.newSection );
   $('a#new_page').live('click', Treeview.newPage );
   $('a#delete_page').live('click', Treeview.markDeleted );
   
+	$('.disabled a').live('click', function(e) { e.preventDefault(); });
+
   if ($('form textarea#page_content').size() > 0) {
     startEditor('page_content');
   }

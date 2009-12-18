@@ -3,7 +3,6 @@
 <% if true %>
 <script>
 
-var selected = null;
 $(function () { 
 	$("#tree").tree({
      ui: {
@@ -50,22 +49,7 @@ $(function () {
         }
       },
       onrename: Treeview.onrename,
-      onselect: function(node, tree) {
-        if (selected != node) {
-          selected = node; // FIXME: global variables might be evil
-          var url = $(node).children('a').attr('href');
-          if (url != '') {
-            $('#loading').show();
-            url += '.js';
-            jQuery.ajax({
-              type: 'get',
-              url: url,
-              dataType: 'script',
-              success: showPage
-            });
-          }
-        }
-      }
+      onselect: Treeview.onselect
      }
 	});
 });

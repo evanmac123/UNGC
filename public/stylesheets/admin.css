@@ -354,6 +354,8 @@ ul.nav_bar {
   text-indent: -9999em; }
   #main_content #site_tools a:hover, #main_content #page_tools a:hover {
     opacity: 0.7; }
+#main_content #site_tools .disabled li, #main_content #page_tools .disabled li {
+  opacity: 0.4; }
 #main_content #site_tools {
   height: 232px;
   margin-right: 20px;
@@ -395,6 +397,8 @@ ul.nav_bar {
     opacity: 0.4; }
   #main_content #site_tree #tree ul li a.pending {
     color: red; }
+#main_content #pageArea.loading {
+  opacity: 0.3; }
 #main_content #page_details, #main_content #page_tools {
   clear: left;
   float: left; }
