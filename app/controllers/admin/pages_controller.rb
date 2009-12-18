@@ -71,10 +71,6 @@ class Admin::PagesController < AdminController
     redirect_to :action => 'index'
   end
   
-  def meta
-    
-  end
-  
   def edit
     if request.xhr?
       render :json => {
