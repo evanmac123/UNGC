@@ -46,11 +46,9 @@ class Page < ActiveRecord::Base
     :conditions  => { approval: 'approved' }
 
   named_scope :all_versions_of, lambda { |path|
-    # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
     return {} if path.blank?
     {
       :conditions => ["pages.path = ?", path],
-      # :order      => "pages.version_number DESC"
     }
   }
   named_scope :for_navigation, :conditions => {"display_in_navigation" => true}
