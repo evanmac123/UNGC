@@ -265,4 +265,13 @@ class Page < ActiveRecord::Base
     self.class.all_versions_of(path)
   end
   
+  def wants_to_change_path_and_can?(options={})
+    options.stringify_keys!
+    new_path = options['path']
+    wants_to = !new_path.blank? && new_path != path
+    return true unless wants_to
+    can      = !pages_exist_with_new_path?(new_path)
+    wants_to and can
+  end
+  
 end

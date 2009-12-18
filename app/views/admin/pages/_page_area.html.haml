@@ -9,9 +9,7 @@
   %ul.box{class: @page ? '' : 'disabled'}
     %li= link_to 'Edit page', @page ? edit_admin_page_path(@page) : '#', class: 'edit_page', title: 'Edit page'
     %li= link_to 'Preview page', @page ? view_page_path(@page.to_path) : '#', class: 'preview_page', title: 'Preview page', target: '_blank'
-    %li
-      %a.save{ :title => "Save changes", :href => "#" }
-        Save Changes
+    %li= link_to 'Save changes', @page ? admin_page_path(@page) : '#', class: 'save save_page', title: 'Save changes to this page'
     %li
       %a.visibility{ :title => "Show/hide", :href => "#" }
         Show/hide

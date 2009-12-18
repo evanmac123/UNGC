@@ -36,6 +36,56 @@ function makeDestroyLink (event) {
 var Page = {
 	selected: null,
 	hasChanges: null,
+	attributes: {},
+	id: null,
+	select: function(element) {
+		Page.selected = element;
+		element = $(element);
+		Page.hasChanges = null;
+		var id = element.attr('id');
+		var matching = id.match(/(page)?\D*_(\d+)/);
+		if ((matching) && (matching[1] == 'page')) { // it's a page
+			Page.id = matching[2];
+	  }
+	},
+	store: function(elements) {
+		elements.each( function(i) {
+			var element = $(this);
+			var name = element.attr('name');
+			// bypass write so that we don't mark this as hasChanges
+			Page.attributes[name] = element.text();
+		});
+	},
+	read: function(name) {
+		return Page.attributes[name];
+	},
+	// using write allows us to track changes, and alert the user before they are lost
+	write: function(name, value) {
+		var old_value = Page.read(name);
+		if (value != old_value) {
+			Page.attributes[name] = value;
+			Page.hasChanges = true;
+		}
+	},
+	saveChanges: function(e) {
+		e.preventDefault();
+		if (Page.hasChanges) {
+			var url = $(e.target).attr('href') + '.js';
+			var data = '_method=put';
+			for (var key in Page.attributes) {
+				data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
+			}
+		  jQuery.ajax({
+		    type: 'post',
+		    url: url,
+		    data: data,
+		    error: function(request, status, error) {
+		      if (request.status == 403)
+		        alert("Unable to save changes, please try again.")
+		    }
+		  });
+		}
+	},
 	warnBeforeChange: function() {
 		return confirm("You have unsaved changes, they will be lost if you continue.");
 	}
@@ -89,7 +139,6 @@ var Treeview = {
       }, 
       -1);
     tree.rename(node);
-    // console.log(node);
   },
   newPage: function(e) {
     e.preventDefault();
@@ -108,6 +157,7 @@ var Treeview = {
 	showPage: function() {
 	  $('#loading').hide();
 	  setEditable();
+		Page.store($('.editable'));
 	},
 	onrename: function(node, tree, rollback) {
     var element = $(node);
@@ -137,12 +187,12 @@ var Treeview = {
 		if (Page.selected == node)
 			return false;
 		else if (Page.selected && Page.hasChanges && !Page.warnBeforeChange())
-				tree.select_branch(Page.selected);
+			tree.select_branch(Page.selected); // they don't want to lose changes, put it back
 		else
 			Treeview.handleSelect(node, tree);
   },
 	handleSelect: function(node, tree) {
-    Page.selected = node; 
+		Page.select(node);
     var url = $(node).children('a').attr('href');
     if (url != '') {
       $('#loading').show();
@@ -213,7 +263,6 @@ function submitEditable(value, settings) {
   var element = $(this);
   var url = element.attr('rel') + '.js';
   var name = element.attr('name');
-  console.log(element.text());
   jQuery.ajax({
     type: 'post',
     url: url,
@@ -226,8 +275,28 @@ function submitEditable(value, settings) {
   return value;
 }
 
+function storeEditable (value, settings) {
+	var element = $(this);
+	var name = element.attr('name');
+  var url = element.attr('rel') + '.js';
+	// check via Ajax if this change is allowed
+	jQuery.ajax({
+    type: 'post',
+    url: url,
+    data: '_method=put&page['+name+"]="+value,
+    error: function(request, status, error) {
+      if (request.status == 403) {
+        alert("The proposed change is invalid, please try again.");
+				element.text(Page.read(name));
+			}
+    },
+		success: function(r,s,e) { Page.write(name, value); }
+  });
+	return value;
+}
+
 function setEditable() {
-	$('.editable').editable( submitEditable, { submit: 'OK', tooltip: 'Click to edit' } );
+	$('.editable').editable( storeEditable, { submit: 'OK', tooltip: 'Click to edit' } );
 }
 
 $(function() {
@@ -240,7 +309,8 @@ $(function() {
   $('a#new_section').live('click', Treeview.newSection );
   $('a#new_page').live('click', Treeview.newPage );
   $('a#delete_page').live('click', Treeview.markDeleted );
-  
+  $('a.save_page').live('click', Page.saveChanges );
+
 	$('.disabled a').live('click', function(e) { e.preventDefault(); });
 
   if ($('form textarea#page_content').size() > 0) {
@@ -287,9 +357,7 @@ $(document).ready(function() {
     var links = $('div#main_content table.dashboard_table tr td a.edit')
     if (links.length > 0) {
       links.each( function(i) {
-        console.log("Removing link from "+$(this).attr('id'));
         $(this).parents('td').removeClass('pointer').unbind('click');
-        console.log('done unbinding');
       })
     }
   
