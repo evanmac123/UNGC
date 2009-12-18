@@ -16,7 +16,12 @@ module ApprovalWorkflow
         if [Organization, CommunicationOnProgress].include? klass
           after_transition :on => :approve, :do => :set_next_cop_due_date
         end
-        
+        event :save_as_draft do
+          transition :from => :pending_review, :to => :draft
+        end
+        event :submit do
+          transition :from => :draft, :to => :pending_review
+        end
         event :revise do
           transition :from => :pending_review, :to => :in_review
         end
