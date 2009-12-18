@@ -125,6 +125,10 @@ def rewrite_event_archives
   # the closing tags are not in the replacing expression
   archive.content = archive.content.gsub replacing, new_content
   archive.save!
+  # 2008 and 2009 archives are "displayable parent less", so ... fix that
+  oh_eight = Page.approved_for_path('/NewsAndEvents/2008_events.html')
+  oh_nine  = Page.approved_for_path('/NewsAndEvents/2009_events.html')
+  [oh_nine, oh_eight].each { |p| p.update_attribute(:parent_id, archive.id) }
   puts "  done!\n"
 end
 

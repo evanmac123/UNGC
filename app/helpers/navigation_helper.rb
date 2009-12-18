@@ -42,7 +42,9 @@ module NavigationHelper
     unless @current_section
       return @current_section = nil if home_page?
       return @current_section = nil unless @page || @page = Page.approved_for_path(formatted_request_path)
-      selected_elements_from_page(something_displayable_from(@page))
+      displayable = something_displayable_from(@page)
+      return @current_section = nil unless displayable
+      selected_elements_from_page(displayable)
     end
     @current_section
   end
