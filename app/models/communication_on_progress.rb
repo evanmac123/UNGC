@@ -181,6 +181,10 @@ class CommunicationOnProgress < ActiveRecord::Base
       false
     end
   end
+
+  def set_approved_fields
+    set_next_cop_due_date
+  end
   
   private
     def set_next_cop_due_date

@@ -101,4 +101,7 @@ class CaseStory < ActiveRecord::Base
     links << attachment if attachment
     links
   end
+  
+  def set_approved_fields
+  end
 end
