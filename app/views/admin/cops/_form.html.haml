@@ -3,11 +3,12 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">Basic Details</a>
-    %li <a href="#human_rights_additional_questions">Human Rights</a>
-    %li <a href="#environment_additional_questions">Environment</a>
-    %li <a href="#labour_additional_questions">Labour</a>
-    %li <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
-    %li <a href="#notable_questions">Notable Program</a>
+    #additional_questions
+      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? || @communication_on_progress.concrete_human_rights_activities? }} <a href="#human_rights_additional_questions">Human Rights</a>
+      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? || @communication_on_progress.concrete_environment_activities? }}  <a href="#environment_additional_questions">Environment</a>
+      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? || @communication_on_progress.concrete_labour_activities? }}  <a href="#labour_additional_questions">Labour</a>
+      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? || @communication_on_progress.concrete_anti_corruption_activities? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+    %li#notable_tab{:style => css_display_style { @communication_on_progress.notable_program? }} <a href="#notable_questions">Notable Program</a>
     %li <a href="#finish">Finish</a>
   
   #basic.tab_content
@@ -167,6 +168,9 @@
                   %span Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
                 = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
 
+              #partnership_additional_questions{:style => 'display: none'}
+                = cop_questions_for @communication_on_progress, :additional
+
               %fieldset
                 %legend
                   %span Would you like your Communication on Progress to be reviewed against the Notable Program?
@@ -179,18 +183,12 @@
           %p
             Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
       
-  #additional_questions{:style => 'display: none'}
-    TODO: remove this div, show/hide tabs
-
   - PrincipleArea::FILTERS.each_pair do |key, value|
-    %div.tab_content{:id => "#{key}_additional_questions", :style => "display:#{principle_area_display_value(@communication_on_progress, key)}"}
+    %div.tab_content{:id => "#{key}_additional_questions"}
       %h2= value
       %fieldset= cop_questions_for @communication_on_progress, :additional, key
 
-  #partnership_additional_questions{:style => 'display: none'}
-    = cop_questions_for @communication_on_progress, :additional
-
-  #notable_questions.tab_content{:style => 'display: none'}
+  #notable_questions.tab_content
     %h2 Notable questions
     %fieldset= cop_questions_for @communication_on_progress, :notable
 
