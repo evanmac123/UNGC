@@ -94,6 +94,13 @@ class ActiveSupport::TestCase
                                  :organization_id => @ungc.id)
   end
   
+  def create_local_network_with_report_recipient
+    @local_network = create_local_network(:name => "Canadian Local Network")
+    @country = create_country(:name => "Canada", :local_network_id => @local_network.id)
+    @network_contact = create_contact(:local_network_id => @local_network.id,
+                                      :role_ids         => [Role.network_report_recipient.id])
+  end
+  
   def create_roles
     # creating roles for ceo and contact point
     create_role(:name => 'CEO', :old_id => 3)

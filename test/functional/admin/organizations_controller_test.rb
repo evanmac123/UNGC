@@ -3,10 +3,7 @@ require 'test_helper'
 class Admin::OrganizationsControllerTest < ActionController::TestCase
   def setup
     @user = create_organization_and_user
-    @local_network = create_local_network(:name => "Canadian Local Network")
-    @country = create_country(:name => "Canada", :local_network_id => @local_network.id)
-    @network_contact = create_contact(:local_network_id => @local_network.id,
-                                      :role_ids         => [Role.network_report_recipient.id])
+    create_local_network_with_report_recipient
     @organization = create_organization( :name                 => 'Unspace Interactive',
                                          :organization_type_id => OrganizationType.first.id,
                                          :country_id           => @country.id )
