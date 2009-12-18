@@ -1,9 +1,7 @@
-= render :partial => 'js_vars'
-
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">Basic Details</a>
-    #additional_questions
+    #additional_questions{:style => css_display_style { @communication_on_progress.notable_program? || @communication_on_progress.additional_questions?}}
       %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? || @communication_on_progress.concrete_human_rights_activities? }} <a href="#human_rights_additional_questions">Human Rights</a>
       %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? || @communication_on_progress.concrete_environment_activities? }}  <a href="#environment_additional_questions">Environment</a>
       %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? || @communication_on_progress.concrete_labour_activities? }}  <a href="#labour_additional_questions">Labour</a>
