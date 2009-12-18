@@ -196,8 +196,9 @@ class Organization < ActiveRecord::Base
   
   def self.find_by_param(param)
     return nil if param.blank?
-    param = CGI.unescape param
-    find :first, :conditions => ["name = ?", param]
+    # param = CGI.unescape param
+    id = param.to_i
+    find_by_id(id)
   end
   
   def self.visible_in_local_network
@@ -250,7 +251,11 @@ class Organization < ActiveRecord::Base
   end
   
   def to_param
-    CGI.escape(name)    
+    string = name
+    string = string.gsub(/\W+/, '-')
+    string = "#{id}-#{string}"
+    string = string.gsub(/-+/, '-')
+    string = CGI.escape(string)
   end
   
   def noncommunicating?
