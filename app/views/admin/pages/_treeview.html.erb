@@ -46,26 +46,10 @@ $(function () {
       },
       oncreate: function(node, ref_node, type, tree_obj, rollback) {
         if ($(node).attr('rel') != 'section') {
-          saveNewPagePlaceholder(node, ref_node, type, tree_obj, rollback);
+          Treeview.newPageCreated(node, ref_node, type, tree_obj, rollback);
         }
       },
-      onrename: function(node, tree, rollback) {
-        if ($(node).hasClass('updateAfterRename')) {
-          var id = $(node).attr('id').match(/(\d+)/)[1];
-          var title = tree.get_text(node);
-          var url = window.location.href + '/' + id + '/rename.js'
-          jQuery.ajax({
-            type: 'post',
-            url: url,
-            dataType: 'json',
-            data: "&title="+title,
-            complete: function(response) { 
-              $(node).removeClass('updateAfterRename');
-              tree.select_branch(node);
-            }
-          });
-        }
-      },
+      onrename: Treeview.onrename,
       onselect: function(node, tree) {
         if (selected != node) {
           selected = node; // FIXME: global variables might be evil
