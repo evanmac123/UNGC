@@ -72,6 +72,7 @@ class Admin::PagesController < AdminController
   end
   
   def edit
+    @javascript = [ 'admin.js', 'jquery.jeditable.mini.js' ]
     if request.xhr?
       render :json => {
         :url => update_page_url(:format => 'js'),

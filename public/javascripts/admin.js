@@ -48,6 +48,9 @@ var Page = {
 			Page.id = matching[2];
 	  }
 	},
+	setEditing: function(id) {
+		
+	},
 	store: function(elements) {
 		elements.each( function(i) {
 			var element = $(this);
