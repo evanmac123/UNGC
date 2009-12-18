@@ -34,7 +34,11 @@ function makeDestroyLink (event) {
 }
 
 var Page = {
-	selected: null
+	selected: null,
+	hasChanges: null,
+	warnBeforeChange: function() {
+		return confirm("You have unsaved changes, they will be lost if you continue.");
+	}
 }
 
 var Treeview = {
@@ -130,23 +134,29 @@ var Treeview = {
     tree.select_branch(node);
   },
 	onselect: function(node, tree) {
-    if (Page.selected != node) {
-      Page.selected = node; // FIXME: global variables might be evil
-      var url = $(node).children('a').attr('href');
-      if (url != '') {
-        $('#loading').show();
-				var area = $('#pageArea');
-				area.addClass('loading');
-        url += '.js';
-        jQuery.ajax({
-          type: 'get',
-          url: url,
-          dataType: 'script',
-          success: function() { Treeview.showPage(); area.removeClass('loading'); }
-        });
-      }
-    }
+		if (Page.selected == node)
+			return false;
+		else if (Page.selected && Page.hasChanges && !Page.warnBeforeChange())
+				tree.select_branch(Page.selected);
+		else
+			Treeview.handleSelect(node, tree);
   },
+	handleSelect: function(node, tree) {
+    Page.selected = node; 
+    var url = $(node).children('a').attr('href');
+    if (url != '') {
+      $('#loading').show();
+			var area = $('#pageArea');
+			area.addClass('loading');
+      url += '.js';
+      jQuery.ajax({
+        type: 'get',
+        url: url,
+        dataType: 'script',
+        success: function() { Treeview.showPage(); area.removeClass('loading'); }
+      });
+    }
+	},
 	newPageCreated: function(node, ref_node, type, tree_obj, rollback) {
 	  if (type == 'after') { // section has other pages, ref_node will be another page
 	    // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
