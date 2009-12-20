@@ -14,6 +14,11 @@ class Admin::ReportsController < AdminController
     @report = ContactsMailMerge.new
     render_formatter(filename: "contacts_mail_merge_#{date_as_filename}.xls")
   end
+
+  def contacts_excel_macro
+    @report = ContactsExcelMacro.new
+    render_formatter(filename: "contacts_excel_macro_#{date_as_filename}.xls")
+  end
     
   def approved_logo_requests
     @month = params[:month] || Date.today.month
@@ -47,7 +52,7 @@ class Admin::ReportsController < AdminController
     
     @report = NetworksReport.new(:region  => @region,
                                  :country => @country)
-    render_formatter(filename: "networks_report_#{date_as_filename}.csv")
+    render_formatter(filename: "networks_report_#{date_as_filename}.xls")
   end
   
   def foundation_pledges
