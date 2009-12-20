@@ -1,8 +1,8 @@
 %dt Title:
-%dd= @page.title
+%dd.editable{name: 'title'}= @page.title
 
 %dt Status:
 %dd= "#{@page.approval.titleize}"
 
 %dt Path:
-%dd.editable{rel: admin_page_path(@page), name: 'page[path]'}= @page.path
+%dd.editable{rel: check_admin_page_path(@page), name: 'path'}= @page.path
