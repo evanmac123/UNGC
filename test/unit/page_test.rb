@@ -256,6 +256,26 @@ class PageTest < ActiveSupport::TestCase
       end
     end
     
+    context "when renaming the path and title at the same time" do
+      setup do
+        @changes = {path: '/this/new/path/here.html', title: 'I have a changed path'}
+        @page2 = create_page path: '/no/worries/I/dont/collide.html'
+      end
+
+      should "update path and change title on pending version" do
+        assert_no_difference('Page.count') { @page1v3.update_pending_or_new_version(@changes) }
+        [@page1, @page1v2].each do |page|
+          reloaded = page.reload
+          assert_equal reloaded.path, @changes[:path], "Old version has new path"
+          assert_equal reloaded.title, page.title, "Title hasn't changed here"
+        end
+        reloaded = @page1v3.reload
+        assert_equal reloaded.path, @changes[:path]
+        assert_equal @changes[:title], reloaded.title
+      end
+    end
+    
+    
   end
   
   

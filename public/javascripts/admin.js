@@ -281,20 +281,25 @@ function submitEditable(value, settings) {
 function storeEditable (value, settings) {
 	var element = $(this);
 	var name = element.attr('name');
-  var url = element.attr('rel') + '.js';
-	// check via Ajax if this change is allowed
-	jQuery.ajax({
-    type: 'post',
-    url: url,
-    data: '_method=put&page['+name+"]="+value,
-    error: function(request, status, error) {
-      if (request.status == 403) {
-        alert("The proposed change is invalid, please try again.");
-				element.text(Page.read(name));
-			}
-    },
-		success: function(r,s,e) { Page.write(name, value); }
-  });
+	var rel = element.attr('rel');
+	if (rel) { // we have a URL to hit, to validate the change
+		var url = element.attr('rel') + '.js';
+		// check via Ajax if this change is allowed
+		jQuery.ajax({
+	    type: 'post',
+	    url: url,
+	    data: '_method=put&page['+name+"]="+value,
+	    error: function(request, status, error) {
+	      if (request.status == 403) {
+	        alert("The proposed change is invalid, please try again.");
+					element.text(Page.read(name));
+				}
+	    },
+			success: function(r,s,e) { Page.write(name, value); }
+	  });
+	} else { // we're not validating this change at all
+		Page.write(name, value);
+	}
 	return value;
 }
 
