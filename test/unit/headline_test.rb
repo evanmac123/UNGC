@@ -47,7 +47,7 @@ class HeadlineTest < ActiveSupport::TestCase
   context "given a headline with a fixed published date" do
     setup do
       fixed_date = (Date.today << 1).strftime('%m/%d/%Y')
-      @headline = Headline.new :title => String.random, :published_on => fixed_date
+      @headline = Headline.new :title => String.random, :published_on_string => fixed_date
       assert @headline.save
       @headline.reload
     end

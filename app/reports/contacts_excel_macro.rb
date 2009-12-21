@@ -1,4 +1,4 @@
-class ContactsMailMerge < SimpleReport
+class ContactsExcelMacro < SimpleReport
 
   def records
       Contact.find_by_sql("SELECT
@@ -45,15 +45,8 @@ class ContactsMailMerge < SimpleReport
   end
     
   def headers
-    [ 'Participant ID',
-      'Contact ID',
+    [ 'Joined on',
       'Participant Name',
-      'Joined on',
-      'Organization Type',
-      'COP Status',
-      'Sector',
-      'Number of Employees',
-      'FT500',
       'Prefix',
       'First Name',
       'Last Name',
@@ -65,25 +58,22 @@ class ContactsMailMerge < SimpleReport
       'State',
       'Postal Code',
       'Country',
-      'Region',
-      'Phone',
-      'Fax',
+      'Organization Type',
+      'Sector',
       'Role',
+      'Phone',
+      'FT500',
+      'COP Status',
+      'Fax',
       'Username',
-      'Password'
+      'Password',
+      'Number of Employees'
     ] 
   end
 
   def row(record)
-  [ record.organization_id,
-    record.contact_id,
+  [ record.joined_on,
     record.organization_name,
-    record.joined_on,
-    record.organization_type,
-    record.cop_state,
-    record.sector_name,
-    record.employees,
-    record.is_ft_500,
     record.prefix,
     record.first_name,
     record.last_name,
@@ -95,12 +85,16 @@ class ContactsMailMerge < SimpleReport
     record.state,
     record.postal_code,
     record.country_name,
-    record.region_name,
-    record.phone,
-    record.fax,
+    record.organization_type,
+    record.sector_name,
     record.role_name,
+    record.phone,
+    record.is_ft_500,
+    record.cop_state,
+    record.fax,
     record.login,
-    record.password
+    record.password,
+    record.employees
   ]
   end
   

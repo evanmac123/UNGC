@@ -155,6 +155,9 @@ end
 
 def href_and_label(link)
   href = "/" + link.get_attribute(:href)
+  # Paths need a little cleanup
+  href = href.gsub(/\/+/, '/')
+  href = href.gsub(/\#.*/, '')
   href << 'index.html' unless href =~ /\.html$/
   {
     :title => link.inner_text.strip,
@@ -250,7 +253,7 @@ def parse_sitenav_nav(root)
 end
 
 def read_and_write_content(root, filename)
-  path = "/#{filename - root}".gsub('//', '/')
+  path = "/#{filename - root}".gsub(/\/+/, '/')
   # puts " looking for #{path.inspect}"
   options = read_content(root, filename) || {}
   path = possibly_move(path)

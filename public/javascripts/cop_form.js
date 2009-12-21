@@ -78,13 +78,13 @@ $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change
 // Additional questions
 $("input[class='additional_questions']").change(function() {
   if ($("#communication_on_progress_notable_program_true").is(':checked')) {
-	$("#notable_questions").show();
+	$("#notable_tab").show();
 	$("#additional_questions").show();
   } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
-	$("#notable_questions").hide();
+	$("#notable_tab").hide();
 	$("#additional_questions").show();
   } else {
-	$("#notable_questions").hide();
+	$("#notable_tab").hide();
 	$("#additional_questions").hide();
   }
 })
@@ -95,30 +95,30 @@ $("input[class='score']").change(function() {
   if ($("#communication_on_progress_references_human_rights_true").is(':checked') ||
 		$("#communication_on_progress_concrete_human_rights_activities_true").is(':checked')) {
     score = score + 1;
-    $("#human_rights_additional_questions").show();
+    $("#human_rights_tab").show();
   } else {
-    $("#human_rights_additional_questions").hide();
+    $("#human_rights_tab").hide();
   }
   if ($("#communication_on_progress_references_labour_true").is(':checked') ||
 		$("#communication_on_progress_concrete_labour_activities_true").is(':checked')) {
     score = score + 1;
-    $("#labour_additional_questions").show();
+    $("#labour_tab").show();
   } else {
-    $("#labour_additional_questions").hide();
+    $("#labour_tab").hide();
   }
   if ($("#communication_on_progress_references_environment_true").is(':checked') ||
 		$("#communication_on_progress_concrete_environment_activities_true").is(':checked')) {
     score = score + 1;
-    $("#environment_additional_questions").show();
+    $("#environment_tab").show();
   } else {
-    $("#environment_additional_questions").hide();
+    $("#environment_tab").hide();
   }
   if ($("#communication_on_progress_references_anti_corruption_true").is(':checked') ||
 		$("#communication_on_progress_concrete_anti_corruption_activities_true").is(':checked')) {
     score = score + 1;
-    $("#anti_corruption_additional_questions").show();
+    $("#anti_corruption_tab").show();
   } else {
-    $("#anti_corruption_additional_questions").hide();
+    $("#anti_corruption_tab").hide();
   }
   if (score == 3) {
     $("#only_3_areas_selected").show();

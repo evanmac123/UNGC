@@ -20,11 +20,6 @@ $("#organization_pledge_amount_1").click(function() {
   $('#organization_pledge_amount_other').focus();
 })
 
-replace_ids = function(s){
-  var new_id = new Date().getTime();
-  return s.replace(/NEW_RECORD/g, new_id);
-}
-
 // contact form
 $('.role_for_login_fields').change(function() {
   if ($(".role_for_login_fields:checked").length > 0) {

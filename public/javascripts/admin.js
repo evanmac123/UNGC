@@ -33,159 +33,300 @@ function makeDestroyLink (event) {
   return false; 
 }
 
-var Treeview = {
-	refresh: function(response) {
-	  $.tree.focused().refresh();
-		Treeview.deletedNodes = [];
-		Treeview.shownNodes   = [];
-		Treeview.hiddenNodes  = [];
-	},
-	saveNewPagePlaceholder: function(node, ref_node, type, tree_obj, rollback) {
-		
-	},
-	save: function(e) {
-	  e.preventDefault();
-	  var url  = $(e.target).attr('href');
-	  var data = $.tree.reference('#tree').get();
-		var deleted = {pages: [], sections: []};
-		deleted = Treeview.addNodes(deleted, Treeview.deletedNodes)
-	  var data_json = encodeURIComponent(JSON.stringify(data));
-		var deleted_json = encodeURIComponent(JSON.stringify(deleted));
-	  jQuery.ajax({
-	      type: 'post',
-	      url: url,
-	      data: "tree="+data_json+'&deleted='+deleted_json,
-	      dataType: 'json',
-	      complete: Treeview.refresh
-	  });
-	},
-	addNodes: function(hash, array) {
-		for(i=0; i<array.length; i++) {
-			var matching = array[i].match(/(page)?\D*_(\d+)/)
-			if ((matching) && (matching[1] == 'page')) { // it's a page
-				hash.pages.push(matching[2]);
-			} else { // it's a section
-				hash.sections.push(matching[2]);
-			}
-		}
-		return hash
-	},
-	newSection: function(e) {
-	  e.preventDefault();
-	  var tree = $.tree.reference('#tree')
-	  var time = new Date().getTime();
-	  var node = tree.create(
-	    {
-	      data: { title: 'New section', attributes: { class: 'hidden' } }, 
-	      attributes: {id: 'new-section_'+time, rel: 'section'}
-	    }, 
-	    -1);
-	  tree.rename(node);
-	  // console.log(node);
-	},
-	newPage: function(e) {
-	  e.preventDefault();
-	  var tree = $.tree.reference('#tree')
-	  if (tree.selected) {
-	    var time = new Date().getTime();
-	    var node = tree.create(
-	      {
-	        data: { title: 'New page', attributes: { class: 'hidden' } },
-	        attributes: {id: 'new_page_'+time, rel: 'page'}
-	      }
-	    );
-	    tree.rename(node);
+var Page = {
+	selected: null,
+	hasChanges: null,
+	attributes: {},
+	id: null,
+	select: function(element) {
+		Page.selected = element;
+		element = $(element);
+		Page.hasChanges = null;
+		var id = element.attr('id');
+		var matching = id.match(/(page)?\D*_(\d+)/);
+		if ((matching) && (matching[1] == 'page')) { // it's a page
+			Page.id = matching[2];
 	  }
 	},
-	deletedNodes: [],
-	hiddenNodes: [],
-	shownNodes: [],
-	markDeleted: function(e) {
-		e.preventDefault();
-		var selected = $.tree.focused().selected;
-		if (selected) {
-			var node = $($.tree.focused().selected[0]); // selected can potentially be multiple, so jsTree returns an array, even if multi-select is disabled
-			var children = $('ul > li', node);
-			Treeview.deletedNodes.push(node.attr('id'));
-			if (children.length > 0) {
-				children.each( function(i) { Treeview.deletedNodes.push($(this).attr('id')) } );
-			}
-			$.tree.focused().remove();
+	setEditing: function(id) {
+		
+	},
+	store: function(elements) {
+		elements.each( function(i) {
+			var element = $(this);
+			var name = element.attr('name');
+			// bypass write so that we don't mark this as hasChanges
+			Page.attributes[name] = element.text();
+		});
+	},
+	read: function(name) {
+		return Page.attributes[name];
+	},
+	// using write allows us to track changes, and alert the user before they are lost
+	write: function(name, value) {
+		var old_value = Page.read(name);
+		if (value != old_value) {
+			Page.attributes[name] = value;
+			Page.hasChanges = true;
 		}
 	},
-	markHidden: function() {
-		
+	saveChanges: function(e) {
+		e.preventDefault();
+		if (Page.hasChanges) {
+			var url = $(e.target).attr('href') + '.js';
+			var data = '_method=put';
+			for (var key in Page.attributes) {
+				data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
+			}
+		  jQuery.ajax({
+		    type: 'post',
+		    url: url,
+		    data: data,
+		    error: function(request, status, error) {
+		      if (request.status == 403)
+		        alert("Unable to save changes, please try again.")
+		    }
+		  });
+		}
 	},
-	markShown: function() {
-		
+	warnBeforeChange: function() {
+		return confirm("You have unsaved changes, they will be lost if you continue.");
 	}
 }
 
-function saveNewPagePlaceholder(node, ref_node, type, tree_obj, rollback) {
-  if (type == 'after') { // section has other pages, ref_node will be another page
-    // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
-    var parent_id = $(ref_node).parents('li').attr('id');
-  } else if (type == 'inside') { // this is the first page in this 'folder'
-    // ref_node may be a section or page
-    var parent_id = $(ref_node).attr('id');
+var Treeview = {
+  refresh: function(response) {
+    $.tree.focused().refresh();
+    Treeview.deletedNodes = [];
+    Treeview.shownNodes   = [];
+    Treeview.hiddenNodes  = [];
+  },
+  saveNewPagePlaceholder: function(node, ref_node, type, tree_obj, rollback) {
+    
+  },
+  save: function(e) {
+    e.preventDefault();
+    var url  = $(e.target).attr('href');
+    var data = $.tree.focused().get();
+    var deleted = {pages: [], sections: []};
+    deleted = Treeview.addNodes(deleted, Treeview.deletedNodes)
+    var data_json = encodeURIComponent(JSON.stringify(data));
+    var deleted_json = encodeURIComponent(JSON.stringify(deleted));
+    jQuery.ajax({
+        type: 'post',
+        url: url,
+        data: "tree="+data_json+'&deleted='+deleted_json,
+        dataType: 'json',
+        complete: Treeview.refresh
+    });
+  },
+  addNodes: function(hash, array) {
+    for(i=0; i<array.length; i++) {
+      var matching = array[i].match(/(page)?\D*_(\d+)/)
+      if ((matching) && (matching[1] == 'page')) { // it's a page
+        hash.pages.push(matching[2]);
+      } else { // it's a section
+        hash.sections.push(matching[2]);
+      }
+    }
+    return hash
+  },
+  newSection: function(e) {
+    e.preventDefault();
+    var tree = $.tree.focused();
+    var time = new Date().getTime();
+    var node = tree.create(
+      {
+        data: { title: 'New section', attributes: { class: 'hidden' } }, 
+        attributes: {id: 'new-section_'+time, rel: 'section'}
+      }, 
+      -1);
+    tree.rename(node);
+  },
+  newPage: function(e) {
+    e.preventDefault();
+    var tree = $.tree.focused();
+    if (tree.selected) {
+      var time = new Date().getTime();
+      var node = tree.create(
+        {
+          data: { title: 'New page', attributes: { class: 'hidden' } },
+          attributes: {id: 'new_page_'+time, rel: 'page'}
+        }
+      );
+      tree.rename(node);
+    }
+  },
+	showPage: function() {
+	  $('#loading').hide();
+	  setEditable();
+		Page.store($('.editable'));
+	},
+	onrename: function(node, tree, rollback) {
+    var element = $(node);
+    if (element.hasClass('pending')) {
+			// waiting for page placeholder to be created
+			setTimeout(function() { Treeview.onrename(node, tree, rollback) }, 100);
+			return false;
+		}
+    if (element.hasClass('updateAfterRename')) {
+      var id = $(node).attr('id').match(/(\d+)/)[1];
+      var title = tree.get_text(node);
+      var url = window.location.href + '/' + id + '/rename.js'
+      jQuery.ajax({
+        type: 'post',
+        url: url,
+        dataType: 'json',
+        data: "&title="+title,
+        complete: function(response) { 
+          $(node).removeClass('updateAfterRename');
+          tree.select_branch(node);
+        }
+      });
+    }
+    tree.select_branch(node);
+  },
+	onselect: function(node, tree) {
+		if (Page.selected == node)
+			return false;
+		else if (Page.selected && Page.hasChanges && !Page.warnBeforeChange())
+			tree.select_branch(Page.selected); // they don't want to lose changes, put it back
+		else
+			Treeview.handleSelect(node, tree);
+  },
+	handleSelect: function(node, tree) {
+		Page.select(node);
+    var url = $(node).children('a').attr('href');
+    if (url != '') {
+      $('#loading').show();
+			var area = $('#pageArea');
+			area.addClass('loading');
+      url += '.js';
+      jQuery.ajax({
+        type: 'get',
+        url: url,
+        dataType: 'script',
+        success: function() { Treeview.showPage(); area.removeClass('loading'); }
+      });
+    }
+	},
+	newPageCreated: function(node, ref_node, type, tree_obj, rollback) {
+	  if (type == 'after') { // section has other pages, ref_node will be another page
+	    // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
+	    var parent_id = $(ref_node).parents('li').attr('id');
+	  } else if (type == 'inside') { // this is the first page in this 'folder'
+	    // ref_node may be a section or page
+	    var parent_id = $(ref_node).attr('id');
+	  }
+	  var url = window.location.href + '.js';
+	  var time = new Date().getTime();
+	  var title = tree_obj.get_text(node);
+	  title += ' ' + time; // add timestamp to title for path
+	  $(node).addClass('updateAfterRename').addClass('pending').children('a').addClass('pending'); 
+		// Pending on the node refers to the Ajax operation happening in the background; Pending on the child refers to the approval status of the page
+	  var position  = $('#'+parent_id+' ul > li').size();
+	  jQuery.ajax({
+	    type: 'post',
+	    url: url,
+	    dataType: 'json',
+	    data: "page[title]="+title+"&page[derive_path_from]="+parent_id+"&page[position]="+position,
+	    success: function(response) { 
+	      var href = window.location.href;
+	      var page_id = response.page.id;
+	      $(node).removeClass('pending').attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
+	    }
+	  });
+	},
+  deletedNodes: [],
+  hiddenNodes: [],
+  shownNodes: [],
+  markDeleted: function(e) {
+    e.preventDefault();
+    var selected = $.tree.focused().selected;
+    if (selected) {
+      var node = $($.tree.focused().selected[0]); // selected can potentially be multiple, so jsTree returns an array, even if multi-select is disabled
+      var children = $('ul > li', node);
+      Treeview.deletedNodes.push(node.attr('id'));
+      if (children.length > 0) {
+        children.each( function(i) { Treeview.deletedNodes.push($(this).attr('id')) } );
+      }
+      $.tree.focused().remove();
+    }
+  },
+  markHidden: function() {
+    
+  },
+  markShown: function() {
+    
   }
-  var url = window.location.href + '.js';
-  var time = new Date().getTime();
-  var title = tree_obj.get_text(node);
-  title += ' ' + time; // add timestamp to title for path
-  $(node).addClass('updateAfterRename').children('a').addClass('pending');
-  var position  = $('#'+parent_id+' ul > li').size();
+}
+
+
+function submitEditable(value, settings) {
+  var element = $(this);
+  var url = element.attr('rel') + '.js';
+  var name = element.attr('name');
   jQuery.ajax({
     type: 'post',
     url: url,
-    dataType: 'json',
-    data: "page[title]="+title+"&page[derive_path_from]="+parent_id+"&page[position]="+position,
-    success: function(response) { 
-      var href = window.location.href;
-      var page_id = response.page.id;
-      $(node).attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
+    data: '_method=put&'+name+"="+value,
+    error: function(request, status, error) {
+      if (request.status == 403)
+        alert("Unable to save this change, please try again.")
     }
   });
+  return value;
 }
 
-function showPage(argument) {
-  $('#loading').hide();
-  setEditable();
-}
-
-function submitEditable(value, settings) {
+function storeEditable (value, settings) {
 	var element = $(this);
-	var url = element.attr('rel') + '.js';
 	var name = element.attr('name');
-	console.log(element.text());
-	jQuery.ajax({
-    type: 'post',
-    url: url,
-    data: '_method=put&'+name+"="+value,
-		error: function(request, status, error) {
-			if (request.status == 403)
-				alert("Unable to save this change, please try again.")
-		}
-  });
+	var rel = element.attr('rel');
+	if (rel) { // we have a URL to hit, to validate the change
+		var url = element.attr('rel') + '.js';
+		// check via Ajax if this change is allowed
+		jQuery.ajax({
+	    type: 'post',
+	    url: url,
+	    data: '_method=put&page['+name+"]="+value,
+	    error: function(request, status, error) {
+	      if (request.status == 403) {
+	        alert("The proposed change is invalid, please try again.");
+					element.text(Page.read(name));
+				}
+	    },
+			success: function(r,s,e) { Page.write(name, value); }
+	  });
+	} else { // we're not validating this change at all
+		Page.write(name, value);
+	}
 	return value;
 }
 
 function setEditable() {
-	$('.editable').editable( submitEditable );
+	$('.editable').editable( storeEditable, { submit: 'OK', tooltip: 'Click to edit' } );
 }
 
 $(function() {
+	// Used generically, as an alternative to Rails broken helpers
   $('a.link_to_post').live('click', makePostLink );
   $('a.link_to_destroy').live( 'click', makeDestroyLink );
-  
+
+  // Wire up the buttons for the treeview
   $('a#save_tree').live('click', Treeview.save );
   $('a#new_section').live('click', Treeview.newSection );
   $('a#new_page').live('click', Treeview.newPage );
-	$('a#delete_page').live('click', Treeview.markDeleted );
-  
+  $('a#delete_page').live('click', Treeview.markDeleted );
+  $('a.save_page').live('click', Page.saveChanges );
+
+	$('.disabled a').live('click', function(e) { e.preventDefault(); });
+
   if ($('form textarea#page_content').size() > 0) {
     startEditor('page_content');
   }
+
+  if ($('.datepicker').length > 0)
+    $('.datepicker').datepicker();
 });
 
 
@@ -210,7 +351,7 @@ $(document).ready(function() {
     //set click action to anywhere in a table row to go to the url of the a.edit element in that row
     //note: edited to use the td rather than tr in an attempt to remove click-action from header row
     $('div#main_content table.dashboard_table tr td').addClass('pointer').click(
-      function() {
+      function(e) {
         var parent_row = $(this).parent();
         var editor_link = $('td a.edit', parent_row);
         var has_edit = editor_link.length > 0;
@@ -218,6 +359,15 @@ $(document).ready(function() {
           document.location.href = editor_link.attr("href");
       }
     );
+    
+    // Order matters: this section must come after the table-row-link code
+    // shouldn't go to the edit action if we clicked on another action icon
+    var links = $('div#main_content table.dashboard_table tr td a.edit')
+    if (links.length > 0) {
+      links.each( function(i) {
+        $(this).parents('td').removeClass('pointer').unbind('click');
+      })
+    }
   
   // tabbed content
     var tab_container = $('div.tab_container > div.tab_content');

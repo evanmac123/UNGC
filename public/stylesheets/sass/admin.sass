@@ -136,10 +136,14 @@ ul.nav_bar
         width: 24px
         height: 24px
         text-indent: -9999px
+        &.approve
+          background: url('../images/icons/24x24/note_accept.png')
         &.edit
           background-image: url('../images/icons/24x24/pages.png')
         &.delete
           background-image: url('../images/icons/24x24/trash_can.png')
+        &.revoke
+          background-image: url('../images/icons/24x24/pages_warning.png')
 
   dl
     margin-bottom: 2em
@@ -475,6 +479,10 @@ ul.nav_bar
       &:hover
         opacity: 0.7
 
+    .disabled
+      li
+        opacity: 0.4
+
   #site_tools
     a
       &.add_folder
@@ -517,7 +525,14 @@ ul.nav_bar
               opacity: 0.4
             &.pending
               color: red
+  #pageArea
+    &.loading
+      opacity: 0.3
 
+  #page_details, #page_tools
+    clear: left
+    float: left
+  
   #page_details
     width: 600px
     margin: 0

@@ -2,7 +2,8 @@
   %ol
     = default_form.text_field :title
     = default_form.text_area :description
-    = default_form.date_select :starts_on
-    = default_form.date_select :ends_on
+    -# The order of class/label is important, see default_form_builder
+    = default_form.text_field :starts_on_string, {class: 'datepicker'}, {label: "Starts on"}
+    = default_form.text_field :ends_on_string, {class: 'datepicker'}, {label: "Ends on"}
     = default_form.text_field :location
     = default_form.select :country_id, countries_for_select

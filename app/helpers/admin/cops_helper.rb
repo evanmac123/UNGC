@@ -67,7 +67,7 @@ module Admin::CopsHelper
       # multiple options
       html = true_or_false_cop_attributes(cop, question.cop_attributes)
     end
-    content_tag :fieldset, (content_tag(:legend, question.text) + html)
+    content_tag :fieldset, (content_tag(:legend, content_tag(:span, question.text)) + html)
   end
   
   # Used to display cop answers on the cop show page

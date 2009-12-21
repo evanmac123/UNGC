@@ -62,4 +62,29 @@ class Event < ActiveRecord::Base
     response << country.name if country
     response.join(', ')
   end
+  
+  def ends_on_string
+    (ends_on || (Date.today + 1)).strftime('%m/%d/%Y')
+  end
+
+  def ends_on_string=(date_or_string)
+    if date_or_string.is_a?(String)
+      self.write_attribute(:ends_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+    elsif date_or_string.is_a?(Date)
+      self.write_attribute(:ends_on, date_or_string)
+    end
+  end
+
+  def starts_on_string
+    (starts_on || Date.today).strftime('%m/%d/%Y')
+  end
+  
+  def starts_on_string=(date_or_string)
+    if date_or_string.is_a?(String)
+      self.write_attribute(:starts_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+    elsif date_or_string.is_a?(Date)
+      self.write_attribute(:starts_on, date_or_string)
+    end
+  end
+
 end

@@ -1,5 +1,5 @@
 class Admin::PagesController < AdminController
-  before_filter :find_page, :only => [:approve, :edit, :delete, :destroy, :meta, :rename, :revoke, :show, :update]
+  before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:new, :create, :edit, :update]
 
   def index
@@ -20,8 +20,7 @@ class Admin::PagesController < AdminController
     respond_to do |wants|
       wants.js { 
         render(:update) { |page| 
-          page['#pageReplace'].html(render partial: 'page')
-          page['#pageDetailsReplace'].html(render partial: 'page_details')
+          page['#pageArea'].html(render partial: 'page_area')
         } 
       }
       wants.html { render inline: '' }
@@ -72,11 +71,8 @@ class Admin::PagesController < AdminController
     redirect_to :action => 'index'
   end
   
-  def meta
-    
-  end
-  
   def edit
+    @javascript = [ 'admin.js', 'jquery.jeditable.mini.js' ]
     if request.xhr?
       render :json => {
         :url => update_page_url(:format => 'js'),
@@ -84,6 +80,14 @@ class Admin::PagesController < AdminController
         :content => @current_version.content
       }
       return
+    end
+  end
+  
+  def check
+    if @page.wants_to_change_path_and_can?(params[:page])
+      update_successful
+    else
+      update_failed(:forbidden)
     end
   end
   
@@ -95,14 +99,14 @@ class Admin::PagesController < AdminController
       @version = @page.update_pending_or_new_version(changes)
     rescue Page::PathCollision => e
       update_failed(:forbidden, is_live_editor)
-    rescue Exception => e
-      update_failed(:bad_request, is_live_editor)
+    # rescue Exception => e
+    #   update_failed(:bad_request, is_live_editor)
     else
       update_successful(is_live_editor)
     end
   end
   
-  def update_failed(error_type, is_live_editor)
+  def update_failed(error_type, is_live_editor=nil)
     js_handler = head error_type
     if is_live_editor
       respond_to do |wants|
@@ -116,7 +120,7 @@ class Admin::PagesController < AdminController
     end
   end
   
-  def update_successful(is_live_editor)
+  def update_successful(is_live_editor=nil)
     if is_live_editor
       respond_to do |wants|
         wants.html { redirect_to view_page_url(:path => @version.to_path) } # redirect to regular page view

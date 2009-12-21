@@ -46,11 +46,9 @@ class Page < ActiveRecord::Base
     :conditions  => { approval: 'approved' }
 
   named_scope :all_versions_of, lambda { |path|
-    # has_many :versions, :class_name => 'ContentVersion', :order => "content_versions.version_number ASC"
     return {} if path.blank?
     {
       :conditions => ["pages.path = ?", path],
-      # :order      => "pages.version_number DESC"
     }
   }
   named_scope :for_navigation, :conditions => {"display_in_navigation" => true}
@@ -205,8 +203,8 @@ class Page < ActiveRecord::Base
     self.parent_id = nav.id
   end
   
-  def pending_version
-    self.class.pending_version_for(path)
+  def pending_version(new_path=nil)
+    self.class.pending_version_for(new_path || path)
   end
   
   def previous_version
@@ -245,14 +243,15 @@ class Page < ActiveRecord::Base
     end
   end
 
-  def update_pending_or_new_version(options={})
+  def update_pending_or_new_version(their_options={})
+    options = their_options.dup
     options.stringify_keys!
     new_path = options.delete('path')
     possibly_move_paths(new_path) if new_path
     return self.reload unless options.any?
-    if pending_version
-      pending_version.update_attributes(options)
-      pending_version
+    if v = pending_version(new_path)
+      v.update_attributes(options)
+      v
     else
       new_version(options)
     end
@@ -265,6 +264,15 @@ class Page < ActiveRecord::Base
   def versions(*args)
     return [self] unless path
     self.class.all_versions_of(path)
+  end
+  
+  def wants_to_change_path_and_can?(options={})
+    options.stringify_keys!
+    new_path = options['path']
+    wants_to = !new_path.blank? && new_path != path
+    return true unless wants_to
+    can      = !pages_exist_with_new_path?(new_path)
+    wants_to and can
   end
   
 end
