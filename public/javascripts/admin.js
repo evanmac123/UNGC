@@ -94,10 +94,22 @@ var Page = {
 			for (var key in Page.attributes) {
 				data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
 			}
+			var needsPending = false;
+			if (Page.editor && Page.editor.checkDirty()) {
+				var content = Page.editor.getData();
+				data += '&page[content]='+encodeURIComponent(content);
+				var needsPending = true;
+			}
 		  jQuery.ajax({
 		    type: 'post',
 		    url: url,
 		    data: data,
+				success: function() { 
+					Page.hasBeenChanged = null; 
+					Page.editor.resetDirty(); 
+					if (needsPending)
+						$(Page.selected).children('a').addClass('pending');
+				},
 		    error: function(request, status, error) {
 		      if (request.status == 403)
 		        alert("Unable to save changes, please try again.")

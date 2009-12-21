@@ -20,7 +20,9 @@ module Admin::PagesHelper
   def page_for_json(page, leaves)
     opacity  = page.display_in_navigation ? '' : 'hidden'
     approval = page.approval
-    children = leaves[page.id] if page.id
+    # Children are attached to an approved parent, the tree needs to reflect their connection
+    # to a new, pending version of that page
+    children = leaves[page.approved_id] if page.approved_id
     children ||= []
     {
       data: {title: page.title || 'Untitled', attributes: { href: admin_page_path(page), class: "#{opacity} #{approval}"}},
