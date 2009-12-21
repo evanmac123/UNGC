@@ -285,22 +285,6 @@ var Treeview = {
 }
 
 
-function submitEditable(value, settings) {
-  var element = $(this);
-  var url = element.attr('rel') + '.js';
-  var name = element.attr('name');
-  jQuery.ajax({
-    type: 'post',
-    url: url,
-    data: '_method=put&'+name+"="+value,
-    error: function(request, status, error) {
-      if (request.status == 403)
-        alert("Unable to save this change, please try again.")
-    }
-  });
-  return value;
-}
-
 function storeEditable (value, settings) {
 	var element = $(this);
 	var name = element.attr('name');
