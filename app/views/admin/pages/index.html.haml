@@ -4,44 +4,42 @@
   %h2 Site Structure:
   #site_tools.box
     %ul
-      %li= link_to 'Add folder', '#', id: 'new_section', class: 'add_folder', title: 'Add folder'
-      %li= link_to 'Add page', '#', id: 'new_page', class: 'add_page', title: 'Add page'
-      %li= link_to 'Delete page', '#', id: 'delete_page', class: 'delete_page', title: 'Delete page'
-      %li= link_to 'Save changes', save_tree_admin_pages_path, id: 'save_tree', class: 'save', title: 'Save changes'
+      -#%li= link_to 'Add Folder', '#', id: 'new_section', class: 'add_folder', title: 'Add folder'
+      %li= link_to 'Add Page', '#', id: 'new_page', class: 'add_page', title: 'Add page'
+      %li= link_to 'Delete Page', '#', id: 'delete_page', class: 'delete_page', title: 'Delete page'
+      %li= link_to 'Show / Hide', '#', id: 'visibility_page', class: 'visibility_page', title: 'Show/Hide page'
+      %li= link_to 'Save All', save_tree_admin_pages_path, id: 'save_tree', class: 'save', title: 'Save changes'
   #site_tree.box
     #tree_container.outside
       #tree.inside
 
-#page_details
-  %h2
-    Page Details:
-  %dl#pageDetailsReplace.box
-    = render 'page_details' if @page
+%h2 Page Details:
 #page_tools
-  %h2
-    Page Tools:
-  %ul.box
+  %ul
     %li
       %a.edit_page{ :title => "Edit page", :href => "#" }
-        Edit page
+        Edit Page
     %li
       %a.preview_page{ :title => "Preview page", :href => "#" }
-        Preview page
+        Preview Page
     %li
       %a.save{ :title => "Save changes", :href => "#" }
-        Save Changes
+        Save Page
     %li
-      %a.visibility{ :title => "Show/hide", :href => "#" }
-        Show/hide
+      %a.visibility{ :title => "Show / hide in site navigation", :href => "#" }
+        Show / Hide
     %li
       %a.approve{ :title => "Approve", :href => "#" }
-        Approve
+        Approve Page
     %li
       %a.delete{ :title => "Delete", :href => "#" }
-        Delete
+        Delete Page
+        
+#page_details.box
+  %dl#pageDetailsReplace
+    = render 'page_details' if @page
+
 #page_preview
-  %h2
-    Page Preview:
   #preview_contents.box
     #loading{style: 'display:none'}
       Loading...
