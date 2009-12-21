@@ -1,12 +1,7 @@
-#page_details
-  %h2
-    Page Details:
-  %dl#pageDetailsReplace.box
-    = render 'page_details' if @page
+%h2
+  Page Details:
 #page_tools
-  %h2
-    Page Tools:
-  %ul.box{class: @page ? '' : 'disabled'}
+  %ul{class: @page ? '' : 'disabled'}
     %li= link_to 'Edit page', @page ? edit_admin_page_path(@page) : '#', class: 'edit_page', title: 'Edit page'
     %li= link_to 'Preview page', @page ? view_page_path(@page.to_path) : '#', class: 'preview_page', title: 'Preview page', target: '_blank'
     %li= link_to 'Save changes', @page ? admin_page_path(@page) : '#', class: 'save save_page', title: 'Save changes to this page'
@@ -19,9 +14,10 @@
     %li
       %a.delete{ :title => "Delete", :href => "#" }
         Delete
+#page_details.box
+  %dl#pageDetailsReplace
+    = render 'page_details' if @page
 #page_preview
-  %h2
-    Page Preview:
   #preview_contents.box
-    .inside
+    #pageReplace.inside
       = render 'page' if @page

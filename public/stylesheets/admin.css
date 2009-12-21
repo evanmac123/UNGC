@@ -421,7 +421,8 @@ ul.nav_bar {
     border: none;
     padding: 0.1em 0; }
 #main_content #page_preview {
-  width: 630px; }
+  width: 630px;
+  overflow: hidden; }
   #main_content #page_preview #preview_contents {
     overflow-x: hidden;
     overflow-y: auto;
