@@ -30,6 +30,15 @@ class PageGroup < ActiveRecord::Base
     :order      => "page_groups.position ASC",
     :conditions => ["page_groups.display_in_navigation = ?", true]
   
+  before_create :derive_position
+  
+  def derive_position
+    unless position
+      max = self.class.find_by_sql('select MAX(position) as position from page_groups').first.position rescue 0
+      self.position = (max || 0) + 1
+    end
+  end
+  
   def link_to_first_child
     visible_children.first.try(:path) || ''
   end

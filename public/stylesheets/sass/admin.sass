@@ -3,7 +3,7 @@
 !dark_grey = #333
 !medium_grey = #666
 !light_grey = #f2f2f2
-
+!border_radius = 7px
 
 body
   background: #eee
@@ -146,7 +146,6 @@ ul.nav_bar
           background-image: url('../images/icons/24x24/pages_warning.png')
 
   dl
-    border-bottom: 1px solid #999
     margin-bottom: 2em
     width: 60%
     
@@ -437,8 +436,7 @@ ul.nav_bar
 
   // page_manager styling
   .box
-    border: 1px solid #999
-    float: left
+    border: 5px solid #d2d2d2
     padding: 10px
     margin-bottom: 20px
     background= !light_blue
@@ -448,19 +446,35 @@ ul.nav_bar
     margin-bottom: 2em
   
   #site_tools, #page_tools
+    -moz-border-radius-topleft= !border_radius
+    -moz-border-radius-topright= !border_radius
+    -webkit-border-radius-topleft= !border_radius
+    -webkit-border-radius-topright= !border_radius
+    background: url('../images/backgrounds/toolbar_bg.png') repeat-x #d2d2d2
+    padding: 0
+    border: 0
+    margin: 0
+    width: 630px
+    overflow: hidden
+    
     ul
       margin: 0
       padding: 0
     
     li
       list-style: none
+      float: left
   
     a
       display: block
-      height: 48px
-      margin: 0 0 10px 0
-      width: 48px
-      text-indent: -9999em
+      height: 24px
+      margin: 5px 10px 0
+      width: 36px
+      text-align: center
+      padding-top: 29px
+      font-size: 0.9em
+      text-decoration: none
+      color= !medium_grey
     
       &:hover
         opacity: 0.7
@@ -470,51 +484,38 @@ ul.nav_bar
         opacity: 0.4
 
   #site_tools
-    height: 232px
-    margin-right: 20px
-    width: 48px
-    
     a
       &.add_folder
-        background: url('../images/icons/32x32/add_pages.png') no-repeat 50% 50%
+        background: url('../images/icons/Folder (Closed) (Add)_24x24.png') no-repeat center top
       &.add_page
-        background: url('../images/icons/32x32/add_comment.png') no-repeat 50% 50%
+        background: url('../images/icons/Document (Add)_24x24.png') no-repeat center top
       &.delete_page
-        background: url('../images/icons/32x32/delete_comment.png') no-repeat 50% 50%
+        background: url('../images/icons/Delete_24x24.png') no-repeat center top
+      &.visibility_page
+        background: url('../images/icons/eye.png') no-repeat center top
       &.save
-        background: url('../images/icons/32x32/process_accept.png') no-repeat 50% 50%
+        background: url('../images/icons/Save_24x24.png') no-repeat center top
         
   #page_tools
-    float: left
-    
-    ul
-      width: 162px
-      padding: 10px
-    
-    li
-      float: left
-      
-      a
-        margin: 3px
-        
-        &.edit_page
-          background: url('../images/icons/32x32/note.png') no-repeat 50% 50%
-        &.preview_page
-          background: url('../images/icons/32x32/television.png') no-repeat 50% 50%
-        &.save
-          background: url('../images/icons/32x32/up.png') no-repeat 50% 50%
-        &.visibility
-          background: url('../images/icons/32x32/light_bulb.png') no-repeat 50% 50%
-        &.approve
-          background: url('../images/icons/32x32/note_accept.png') no-repeat 50% 50%
-        &.delete
-          background: url('../images/icons/32x32/trash_can.png') no-repeat 50% 50%
+    a 
+      &.edit_page
+        background: url('../images/icons/Document (Edit)_24x24.png') no-repeat center top
+      &.preview_page
+        background: url('../images/icons/Web Browser_24x24.png') no-repeat center top
+      &.save
+        background: url('../images/icons/Save_24x24.png') no-repeat center top
+      &.visibility
+        background: url('../images/icons/eye.png') no-repeat center top
+      &.approve
+        background: url('../images/icons/Rate (Thumbs Up)_24x24.png') no-repeat center top
+      &.delete
+        background: url('../images/icons/Delete_24x24.png') no-repeat center top
           
 
   #site_tree
     height: 232px
     overflow: auto
-    width: 518px
+    width: 600px
 
     #tree
       ul 
@@ -532,27 +533,32 @@ ul.nav_bar
     clear: left
     float: left
   
-
   #page_details
+    width: 600px
+    margin: 0
+    border-bottom: none
 
     dl
-      width: 162px
+      width: 600px
+      margin: 0
       
     dt
       width: 60px
       border: none
+      padding: 0.1em 10px 0.1em 0
     
     dd
       margin-left: 60px
       border: none
+      padding: 0.1em 0
       
   #page_preview
-    margin-left: 204px
-    width: 426px
+    width: 630px
+    overflow: hidden
     
     #preview_contents
       overflow-x: hidden
-      overflow-y: scroll
+      overflow-y: auto
       height: 350px
       float: none
         

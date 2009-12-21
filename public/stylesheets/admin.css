@@ -115,7 +115,6 @@ ul.nav_bar {
         #main_content table.dashboard_table ul.actions a.revoke {
           background-image: url('../images/icons/24x24/pages_warning.png'); }
   #main_content dl {
-    border-bottom: 1px solid #999;
     margin-bottom: 2em;
     width: 60%; }
     #main_content dl dt {
@@ -333,66 +332,70 @@ ul.nav_bar {
       margin: 2px 10px 2px 0;
       vertical-align: bottom; }
 #main_content .box {
-  border: 1px solid #999;
-  float: left;
+  border: 5px solid #d2d2d2;
   padding: 10px;
   margin-bottom: 20px;
   background: #f0f6fa; }
 #main_content #site_structure {
   overflow: hidden;
   margin-bottom: 2em; }
-#main_content #site_tools ul, #main_content #page_tools ul {
+#main_content #site_tools, #main_content #page_tools {
+  -moz-border-radius-topleft: 7px;
+  -moz-border-radius-topright: 7px;
+  -webkit-border-radius-topleft: 7px;
+  -webkit-border-radius-topright: 7px;
+  background: url('../images/backgrounds/toolbar_bg.png') repeat-x #d2d2d2;
+  padding: 0;
+  border: 0;
   margin: 0;
-  padding: 0; }
-#main_content #site_tools li, #main_content #page_tools li {
-  list-style: none; }
-#main_content #site_tools a, #main_content #page_tools a {
-  display: block;
-  height: 48px;
-  margin: 0 0 10px 0;
-  width: 48px;
-  text-indent: -9999em; }
-  #main_content #site_tools a:hover, #main_content #page_tools a:hover {
-    opacity: 0.7; }
-#main_content #site_tools .disabled li, #main_content #page_tools .disabled li {
-  opacity: 0.4; }
-#main_content #site_tools {
-  height: 232px;
-  margin-right: 20px;
-  width: 48px; }
-  #main_content #site_tools a.add_folder {
-    background: url('../images/icons/32x32/add_pages.png') no-repeat 50% 50%; }
-  #main_content #site_tools a.add_page {
-    background: url('../images/icons/32x32/add_comment.png') no-repeat 50% 50%; }
-  #main_content #site_tools a.delete_page {
-    background: url('../images/icons/32x32/delete_comment.png') no-repeat 50% 50%; }
-  #main_content #site_tools a.save {
-    background: url('../images/icons/32x32/process_accept.png') no-repeat 50% 50%; }
-#main_content #page_tools {
-  float: left; }
-  #main_content #page_tools ul {
-    width: 162px;
-    padding: 10px; }
-  #main_content #page_tools li {
+  width: 630px;
+  overflow: hidden; }
+  #main_content #site_tools ul, #main_content #page_tools ul {
+    margin: 0;
+    padding: 0; }
+  #main_content #site_tools li, #main_content #page_tools li {
+    list-style: none;
     float: left; }
-    #main_content #page_tools li a {
-      margin: 3px; }
-      #main_content #page_tools li a.edit_page {
-        background: url('../images/icons/32x32/note.png') no-repeat 50% 50%; }
-      #main_content #page_tools li a.preview_page {
-        background: url('../images/icons/32x32/television.png') no-repeat 50% 50%; }
-      #main_content #page_tools li a.save {
-        background: url('../images/icons/32x32/up.png') no-repeat 50% 50%; }
-      #main_content #page_tools li a.visibility {
-        background: url('../images/icons/32x32/light_bulb.png') no-repeat 50% 50%; }
-      #main_content #page_tools li a.approve {
-        background: url('../images/icons/32x32/note_accept.png') no-repeat 50% 50%; }
-      #main_content #page_tools li a.delete {
-        background: url('../images/icons/32x32/trash_can.png') no-repeat 50% 50%; }
+  #main_content #site_tools a, #main_content #page_tools a {
+    display: block;
+    height: 24px;
+    margin: 5px 10px 0;
+    width: 36px;
+    text-align: center;
+    padding-top: 29px;
+    font-size: 0.9em;
+    text-decoration: none;
+    color: #666666; }
+    #main_content #site_tools a:hover, #main_content #page_tools a:hover {
+      opacity: 0.7; }
+  #main_content #site_tools .disabled li, #main_content #page_tools .disabled li {
+    opacity: 0.4; }
+#main_content #site_tools a.add_folder {
+  background: url('../images/icons/Folder (Closed) (Add)_24x24.png') no-repeat center top; }
+#main_content #site_tools a.add_page {
+  background: url('../images/icons/Document (Add)_24x24.png') no-repeat center top; }
+#main_content #site_tools a.delete_page {
+  background: url('../images/icons/Delete_24x24.png') no-repeat center top; }
+#main_content #site_tools a.visibility_page {
+  background: url('../images/icons/eye.png') no-repeat center top; }
+#main_content #site_tools a.save {
+  background: url('../images/icons/Save_24x24.png') no-repeat center top; }
+#main_content #page_tools a.edit_page {
+  background: url('../images/icons/Document (Edit)_24x24.png') no-repeat center top; }
+#main_content #page_tools a.preview_page {
+  background: url('../images/icons/Web Browser_24x24.png') no-repeat center top; }
+#main_content #page_tools a.save {
+  background: url('../images/icons/Save_24x24.png') no-repeat center top; }
+#main_content #page_tools a.visibility {
+  background: url('../images/icons/eye.png') no-repeat center top; }
+#main_content #page_tools a.approve {
+  background: url('../images/icons/Rate (Thumbs Up)_24x24.png') no-repeat center top; }
+#main_content #page_tools a.delete {
+  background: url('../images/icons/Delete_24x24.png') no-repeat center top; }
 #main_content #site_tree {
   height: 232px;
   overflow: auto;
-  width: 518px; }
+  width: 600px; }
   #main_content #site_tree #tree ul li a.hidden {
     opacity: 0.4; }
   #main_content #site_tree #tree ul li a.pending {
@@ -402,20 +405,27 @@ ul.nav_bar {
 #main_content #page_details, #main_content #page_tools {
   clear: left;
   float: left; }
-#main_content #page_details dl {
-  width: 162px; }
-#main_content #page_details dt {
-  width: 60px;
-  border: none; }
-#main_content #page_details dd {
-  margin-left: 60px;
-  border: none; }
+#main_content #page_details {
+  width: 600px;
+  margin: 0;
+  border-bottom: none; }
+  #main_content #page_details dl {
+    width: 600px;
+    margin: 0; }
+  #main_content #page_details dt {
+    width: 60px;
+    border: none;
+    padding: 0.1em 10px 0.1em 0; }
+  #main_content #page_details dd {
+    margin-left: 60px;
+    border: none;
+    padding: 0.1em 0; }
 #main_content #page_preview {
-  margin-left: 204px;
-  width: 426px; }
+  width: 630px;
+  overflow: hidden; }
   #main_content #page_preview #preview_contents {
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 350px;
     float: none; }
     #main_content #page_preview #preview_contents h1 {
