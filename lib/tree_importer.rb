@@ -78,7 +78,7 @@ class TreeImporter
     else
       page.group_id = nil
     end
-    if parent
+    if parent && page.can_change_to_parent?(parent)
       page.parent_id = parent.id 
     else
       page.parent_id = nil

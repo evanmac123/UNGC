@@ -146,6 +146,15 @@ class Page < ActiveRecord::Base
     end
   end
   
+  # Parent ids can change if the potential parent is approved,
+  # or if the paths are different (ie, the page is moving to a new location in the tree)
+  # if these things aren't true, it's likely that the parent has a new, pending version
+  # which we don't want to move the children to until it's actually approved
+  def can_change_to_parent?(possible_parent)
+    return true if possible_parent.approved?
+    return true if parent.path != possible_parent.path
+  end
+  
   def derive_path
     return true unless path.blank?
     if parent || parent_id
