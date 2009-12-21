@@ -237,10 +237,13 @@ var Treeview = {
     tree.select_branch(node);
   },
 	onselect: function(node, tree) {
+		var isSection = $(node).attr('rel') == 'section';
 		if (Page.selected == node)
 			return false;
 		else if (Page.selected && Page.hasChanges && !Page.warnBeforeChange())
 			tree.select_branch(Page.selected); // they don't want to lose changes, put it back
+		else if (isSection)
+			tree.toggle_branch(node);
 		else
 			Treeview.handleSelect(node, tree);
   },
