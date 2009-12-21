@@ -311,7 +311,7 @@ function storeEditable (value, settings) {
 }
 
 function setEditable() {
-	$('.editable').editable( storeEditable, { submit: 'OK', tooltip: 'Click to edit' } );
+	$('.editable').editable( storeEditable, { cssclass: 'editable_field', width: 'none', submit: 'OK', tooltip: 'Click to edit' } );
 }
 
 $(function() {
