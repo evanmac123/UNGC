@@ -55,10 +55,25 @@ var	Folder = {
 
 var Page = {
 	selected: null,
-	hasChanges: null,
+	hasBeenChanged: null,
 	attributes: {},
 	id: null,
 	parent_id: null,
+	editor: null,
+	hasChanges: function() {
+		if (Page.selected) {
+			if (Page.hasBeenChanged)
+				return true 
+			if (Page.editor)
+				return Page.editor.checkDirty();
+		} else {
+			return false;
+		}
+	},
+	launchEditor: function() {
+		// e.preventDefault();
+		Page.editor = startEditor('page_content');
+	},
 	newPageCreated: function(node, ref_node, type, tree_obj) {
 		Page.storeParent(node, ref_node, type);
 		Page.selected = node;
@@ -67,7 +82,7 @@ var Page = {
 	},
 	saveChanges: function(e) {
 		e.preventDefault();
-		if (Page.hasChanges) {
+		if (Page.hasChanges()) {
 			if (Page.id) {
 				// this is an update
 				var url = $(e.target).attr('href') + '.js';
@@ -93,7 +108,11 @@ var Page = {
 	select: function(element) {
 		Page.selected = element;
 		element = $(element);
-		Page.hasChanges = null;
+		if (Page.editor) {
+			$('#pageReplace form').hide()
+			Page.editor.destroy();
+		}
+		Page.hasBeenChanged = null;
 		var id = element.attr('id');
 		var matching = id.match(/(page)?\D*_(\d+)/);
 		if ((matching) && (matching[1] == 'page')) { // it's a page
@@ -147,7 +166,7 @@ var Page = {
 		var old_value = Page.read(name);
 		if (value != old_value) {
 			Page.attributes[name] = value;
-			Page.hasChanges = true;
+			Page.hasBeenChanged = true;
 		}
 	},
 	warnBeforeChange: function() {
@@ -206,11 +225,14 @@ var Treeview = {
   },
   newPage: function(e) {
     e.preventDefault();
-		if (Page.selected && Page.hasChanges && !Page.warnBeforeChange()) 
+		if (Treeview.safeToChangePages()) 
 			var donothing = true; // they don't want to lose changes, put it back
 		else
 			Treeview.createNewPage();
   },
+	safeToChangePages: function() {
+		return (Page.selected && Page.hasChanges() && !Page.warnBeforeChange());
+	},
 	createNewPage: function() {
     var tree = $.tree.focused();
     if (tree.selected) {
@@ -238,12 +260,11 @@ var Treeview = {
   },
 	onselect: function(node, tree) {
 		var isSection = $(node).attr('rel') == 'section';
+		tree.toggle_branch(node);
 		if (Page.selected == node)
 			return false;
-		else if (Page.selected && Page.hasChanges && !Page.warnBeforeChange())
+		else if (Treeview.safeToChangePages())
 			tree.select_branch(Page.selected); // they don't want to lose changes, put it back
-		else if (isSection)
-			tree.toggle_branch(node);
 		else
 			Treeview.handleSelect(node, tree);
   },
@@ -259,7 +280,11 @@ var Treeview = {
         type: 'get',
         url: url,
         dataType: 'script',
-        success: function() { Treeview.showPage(); area.removeClass('loading'); }
+        success: function() { 
+					Page.launchEditor(); 
+					Treeview.showPage(); 
+					area.removeClass('loading'); 
+				}
       });
     }
 	},
@@ -331,12 +356,9 @@ $(function() {
 
 	$('.disabled a').live('click', function(e) { e.preventDefault(); });
 
-  if ($('form textarea#page_content').size() > 0) {
-    startEditor('page_content');
-  }
-
   if ($('.datepicker').length > 0)
     $('.datepicker').datepicker();
+
 });
 
 
