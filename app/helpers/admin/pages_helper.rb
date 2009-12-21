@@ -1,22 +1,14 @@
 module Admin::PagesHelper
   
-  def children_of(object)
-    if object.id == 'home'
-      {nil: Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')}
-    elsif object.is_a?(PageGroup)
-      object.leaves
-    end
-  end
-  
   def sections
-    @home = OpenStruct.new(id: 'home', title: 'Home')
-    # @pending = OpenStruct.new(title: 'Pending', id: 'pending')
+    homes_children = Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')
+    @home = OpenStruct.new(id: 'home', title: 'Home', leaves: {nil => homes_children})
     [@home] + PageGroup.all
   end
   
   def section_for_json(section)
-    opacity = section.display_in_navigation ? '' : 'hidden'
-    leaves = children_of(section) || {}
+    opacity  = section.display_in_navigation ? '' : 'hidden'
+    leaves   = section.leaves || {}
     children = leaves[nil] || []
     {
       data: {title: section.title, attributes: { class: opacity } },
