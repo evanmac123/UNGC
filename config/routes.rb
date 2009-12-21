@@ -42,7 +42,8 @@ ActionController::Routing::Routes.draw do |map|
         },
         :collection => {
           :pending   => :get,
-          :save_tree => :post
+          :save_tree => :post,
+          :create_folder => :post
         }
     
       admin.resources :organizations, :collection => { :approved => :get, :rejected => :get, :pending_review => :get },

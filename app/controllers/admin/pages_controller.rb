@@ -44,6 +44,13 @@ class Admin::PagesController < AdminController
     end
   end
 
+  def create_folder
+    folder = PageGroup.create name: params[:name]
+    respond_to do |wants|
+      wants.js { render json: folder }
+    end
+  end
+
   def destroy
     @page.destroy
     redirect_to :action => 'index'

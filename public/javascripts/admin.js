@@ -33,11 +33,63 @@ function makeDestroyLink (event) {
   return false; 
 }
 
+// Really only used when creating new folders
+var	Folder = {
+	rename: function(element, tree) {
+		// TODO: Should "freeze" other actions until this is done
+		var name = tree.get_text(element);
+		var url = window.location.href + '/create_folder.js';
+		jQuery.ajax({
+	    type: 'post',
+	    url: url,
+	    dataType: 'json',
+	    data: "&name="+name,
+	    success: function(data) { 
+				var folder = data.page_group;
+				element.attr({id: "section_"+folder.id});
+	      tree.select_branch(element);
+	    }
+	  });
+	}
+}
+
 var Page = {
 	selected: null,
 	hasChanges: null,
 	attributes: {},
 	id: null,
+	parent_id: null,
+	newPageCreated: function(node, ref_node, type, tree_obj) {
+		Page.storeParent(node, ref_node, type);
+		Page.selected = node;
+		$(node).addClass('updateAfterRename').children('a').addClass('pending'); // Pending on the child refers to the approval status of the page
+		tree_obj.rename(node);
+	},
+	saveChanges: function(e) {
+		e.preventDefault();
+		if (Page.hasChanges) {
+			if (Page.id) {
+				// this is an update
+				var url = $(e.target).attr('href') + '.js';
+				var data = '_method=put';
+			} else {
+				var url = window.location.href + '.js';
+				var data = '';
+			}
+			for (var key in Page.attributes) {
+				data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
+			}
+		  jQuery.ajax({
+		    type: 'post',
+		    url: url,
+		    data: data,
+		    error: function(request, status, error) {
+		      if (request.status == 403)
+		        alert("Unable to save changes, please try again.")
+		    }
+		  });
+		}
+	},
 	select: function(element) {
 		Page.selected = element;
 		element = $(element);
@@ -59,8 +111,36 @@ var Page = {
 			Page.attributes[name] = element.text();
 		});
 	},
+	storeParent: function(node, ref_node, type) {
+		if (type == 'after') {
+			Page.parent_id = $(ref_node).parents('li').attr('id');
+		} else if (type == 'inside') {
+		  Page.parent_id = $(ref_node).attr('id');
+		}
+	},
 	read: function(name) {
 		return Page.attributes[name];
+	},
+	rename: function(element, tree) {
+		var url = window.location.href + '.js';
+		var title = tree.get_text(element);
+		var position  = $('#'+Page.parent_id+' ul > li').size();
+		jQuery.ajax({
+		  type: 'post',
+		  url: url,
+		  dataType: 'json',
+		  data: "page[title]="+title+"&page[derive_path_from]="+Page.parent_id+"&page[position]="+position,
+		  success: function(response) { 
+		    var href = window.location.href;
+		    var page_id = response.page.id;
+		    element.removeClass('updateAfterRename').attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
+				Treeview.handleSelect(element[0], tree); // needs to pass the node, not the element
+		  },
+			error: function(response) {
+				alert("Something went wrong during save operation. Please try again.");
+			}
+		});
+		
 	},
 	// using write allows us to track changes, and alert the user before they are lost
 	write: function(name, value) {
@@ -68,25 +148,6 @@ var Page = {
 		if (value != old_value) {
 			Page.attributes[name] = value;
 			Page.hasChanges = true;
-		}
-	},
-	saveChanges: function(e) {
-		e.preventDefault();
-		if (Page.hasChanges) {
-			var url = $(e.target).attr('href') + '.js';
-			var data = '_method=put';
-			for (var key in Page.attributes) {
-				data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
-			}
-		  jQuery.ajax({
-		    type: 'post',
-		    url: url,
-		    data: data,
-		    error: function(request, status, error) {
-		      if (request.status == 403)
-		        alert("Unable to save changes, please try again.")
-		    }
-		  });
 		}
 	},
 	warnBeforeChange: function() {
@@ -145,6 +206,12 @@ var Treeview = {
   },
   newPage: function(e) {
     e.preventDefault();
+		if (Page.selected && Page.hasChanges && !Page.warnBeforeChange()) 
+			var donothing = true; // they don't want to lose changes, put it back
+		else
+			Treeview.createNewPage();
+  },
+	createNewPage: function() {
     var tree = $.tree.focused();
     if (tree.selected) {
       var time = new Date().getTime();
@@ -154,36 +221,19 @@ var Treeview = {
           attributes: {id: 'new_page_'+time, rel: 'page'}
         }
       );
-      tree.rename(node);
     }
-  },
+	},
 	showPage: function() {
 	  $('#loading').hide();
 	  setEditable();
 		Page.store($('.editable'));
 	},
 	onrename: function(node, tree, rollback) {
-    var element = $(node);
-    if (element.hasClass('pending')) {
-			// waiting for page placeholder to be created
-			setTimeout(function() { Treeview.onrename(node, tree, rollback) }, 100);
-			return false;
-		}
-    if (element.hasClass('updateAfterRename')) {
-      var id = $(node).attr('id').match(/(\d+)/)[1];
-      var title = tree.get_text(node);
-      var url = window.location.href + '/' + id + '/rename.js'
-      jQuery.ajax({
-        type: 'post',
-        url: url,
-        dataType: 'json',
-        data: "&title="+title,
-        complete: function(response) { 
-          $(node).removeClass('updateAfterRename');
-          tree.select_branch(node);
-        }
-      });
-    }
+		var element = $(node);
+		if (element.attr('rel') == 'section')
+			Folder.rename(element, tree);
+		else if (element.hasClass('updateAfterRename'))
+			Page.rename(element, tree);
     tree.select_branch(node);
   },
 	onselect: function(node, tree) {
@@ -209,33 +259,6 @@ var Treeview = {
         success: function() { Treeview.showPage(); area.removeClass('loading'); }
       });
     }
-	},
-	newPageCreated: function(node, ref_node, type, tree_obj, rollback) {
-	  if (type == 'after') { // section has other pages, ref_node will be another page
-	    // ref_node is not the parent, it's the nearest sibling, go up and get the real parent
-	    var parent_id = $(ref_node).parents('li').attr('id');
-	  } else if (type == 'inside') { // this is the first page in this 'folder'
-	    // ref_node may be a section or page
-	    var parent_id = $(ref_node).attr('id');
-	  }
-	  var url = window.location.href + '.js';
-	  var time = new Date().getTime();
-	  var title = tree_obj.get_text(node);
-	  title += ' ' + time; // add timestamp to title for path
-	  $(node).addClass('updateAfterRename').addClass('pending').children('a').addClass('pending'); 
-		// Pending on the node refers to the Ajax operation happening in the background; Pending on the child refers to the approval status of the page
-	  var position  = $('#'+parent_id+' ul > li').size();
-	  jQuery.ajax({
-	    type: 'post',
-	    url: url,
-	    dataType: 'json',
-	    data: "page[title]="+title+"&page[derive_path_from]="+parent_id+"&page[position]="+position,
-	    success: function(response) { 
-	      var href = window.location.href;
-	      var page_id = response.page.id;
-	      $(node).removeClass('pending').attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
-	    }
-	  });
 	},
   deletedNodes: [],
   hiddenNodes: [],

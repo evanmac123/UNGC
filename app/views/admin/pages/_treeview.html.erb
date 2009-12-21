@@ -45,7 +45,7 @@ $(function () {
       },
       oncreate: function(node, ref_node, type, tree_obj, rollback) {
         if ($(node).attr('rel') != 'section') {
-          Treeview.newPageCreated(node, ref_node, type, tree_obj, rollback);
+          Page.newPageCreated(node, ref_node, type, tree_obj);
         }
       },
       onrename: Treeview.onrename,

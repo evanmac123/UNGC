@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PageGroupTest < ActiveSupport::TestCase
   
-  context "given two page groups" do
+  context "given some page groups" do
     setup do
       @group1 = create_page_group
       @group2 = create_page_group
@@ -37,8 +37,17 @@ class PageGroupTest < ActiveSupport::TestCase
         assert_equal @group1_pages.first.path, @group1.path
       end
     end
-    
+
+    context "and a new folder is created with a name" do
+      setup do
+        @new_group = PageGroup.create name: 'New folder'
+      end
+
+      should "automatically position at end of list" do
+        assert reloaded = @new_group.reload
+        assert_equal 4, reloaded.position
+      end
+    end
   end
-  
   
 end
