@@ -19,7 +19,6 @@ module NavigationHelper
   end
 
   def selected_elements_from_page(page)
-    logger.info " ** working with #{page.inspect} and #{page.section.inspect}"
     @current_section = page.section
     if page.parent
       @leftnav_selected = page.parent
@@ -50,7 +49,11 @@ module NavigationHelper
   end
 
   def is_visible?(child)
-    !@preview || child.display_in_navigation? || (@page && @page == child)
+    if @preview
+      child.display_in_navigation? && (child.approved? || (@page == child))
+    else
+      child.display_in_navigation?
+    end
   end
   
   def leftnav_selected?(navigation)
