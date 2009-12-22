@@ -133,15 +133,17 @@ ul.nav_bar
       a
         display: block
         background: transparent no-repeat 50% 50%
-        width: 24px
-        height: 24px
+        width: 16px
+        height: 16px
         text-indent: -9999px
         &.approve
           background: url('../images/icons/24x24/note_accept.png')
         &.edit
-          background-image: url('../images/icons/24x24/pages.png')
+          background-image: url('../images/icons/Edit_16x16.png')
         &.delete
-          background-image: url('../images/icons/24x24/trash_can.png')
+          background-image: url('../images/icons/Trash (Full)_16x16.png')
+        &.preview
+          background-image: url('../images/icons/Web Browser_16x16.png')
         &.revoke
           background-image: url('../images/icons/24x24/pages_warning.png')
 
@@ -236,6 +238,7 @@ ul.nav_bar
       overflow: hidden
       position: relative
       top: 1px
+      z-index: 42
     
       li
         list-style: none
@@ -289,6 +292,7 @@ ul.nav_bar
       max-height: 400px
       overflow-x: hidden
       overflow-y: scroll
+      position: relative
     
     // tab_content rules specific to left-tabbed nav
     &.left_tabs
@@ -297,6 +301,27 @@ ul.nav_bar
         position: relative
         left: -1px
         
+    .tab_content
+      a.new
+        display: block
+        width: 60px
+        height: 24px
+        padding: 0 30px 0 0
+        position: absolute
+        right: 10px
+        top: 12px
+        text-align: right
+        color= !dark_blue
+        text-decoration: none
+        opacity: 0.85
+        font-weight: bold
+        background: url('../images/icons/Add_24x24.png') no-repeat 100% 50%
+        
+        &:hover
+          opacity: 1
+          
+        &#new_COP
+          line-height: 24px
 
     ul.tools
       border-bottom: 1px solid #999
@@ -381,8 +406,6 @@ ul.nav_bar
       color: #aaa
       
       span
-        position: relative
-        top: 0.5em
         white-space: normal
     
     ol
@@ -422,6 +445,9 @@ ul.nav_bar
       legend
         color= !dark_blue
         font-size: 1em
+        background: #fcfcfc url('../images/backgrounds/legend_bg.png') repeat-x 0 0
+        padding: 5px
+        border: 1px solid #cccccc
       
       label
         display: block
@@ -514,6 +540,8 @@ ul.nav_bar
         background: url('../images/icons/Rate (Thumbs Down)_24x24.png') no-repeat center top
       &.delete
         background: url('../images/icons/Delete_24x24.png') no-repeat center top
+      &.dynamic_content
+        background: url('../images/icons/Document (Edit)_24x24.png') no-repeat center top
       &.disabled
         opacity: 0.4
 
@@ -549,8 +577,7 @@ ul.nav_bar
   
   #page_details
     width: 600px
-    margin: 0
-    border-bottom: none
+    margin: 0 0 1em 0
 
     dl
       width: 600px
@@ -565,15 +592,17 @@ ul.nav_bar
       margin-left: 60px
       border: none
       padding: 0.1em 0
+    
+      label
+        font-weight: normal
+        &:hover
+          background: #FFC
       
   #page_preview
     width: 630px
     overflow: hidden
     
     #preview_contents
-      overflow-x: hidden
-      overflow-y: auto
-      height: 350px
       float: none
         
       h1
@@ -590,3 +619,43 @@ ul.nav_bar
       
       a
         text-decoration: underline
+
+ul#report_list
+  margin: 0
+  width: 50%
+  
+  li
+    list-style: none
+    border-top: 1px solid #ccc
+    padding: 0.75em 10px
+    background-color= !light_grey
+    position: relative
+    
+    &.odd
+      background-color: #fff
+      
+    &:hover
+      background-color= !light_blue
+      
+  a.xls
+    position: absolute
+    right: 10px
+    top: 50%
+    margin-top: -8px
+    display: block
+    width: 16px
+    height: 16px
+    background: url('../images/icons/Accounts Payable_16x16.png')
+    opacity: 0.7
+    text-indent: -9999em
+    
+    &:hover
+      opacity: 1
+    
+  a
+    color= !dark_grey
+    text-decoration: none
+    
+    &:hover
+      color= !dark_blue
+      font-weight: bold

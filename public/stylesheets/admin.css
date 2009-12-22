@@ -103,15 +103,17 @@ ul.nav_bar {
       #main_content table.dashboard_table ul.actions a {
         display: block;
         background: transparent no-repeat 50% 50%;
-        width: 24px;
-        height: 24px;
+        width: 16px;
+        height: 16px;
         text-indent: -9999px; }
         #main_content table.dashboard_table ul.actions a.approve {
           background: url('../images/icons/24x24/note_accept.png'); }
         #main_content table.dashboard_table ul.actions a.edit {
-          background-image: url('../images/icons/24x24/pages.png'); }
+          background-image: url('../images/icons/Edit_16x16.png'); }
         #main_content table.dashboard_table ul.actions a.delete {
-          background-image: url('../images/icons/24x24/trash_can.png'); }
+          background-image: url('../images/icons/Trash (Full)_16x16.png'); }
+        #main_content table.dashboard_table ul.actions a.preview {
+          background-image: url('../images/icons/Web Browser_16x16.png'); }
         #main_content table.dashboard_table ul.actions a.revoke {
           background-image: url('../images/icons/24x24/pages_warning.png'); }
   #main_content dl {
@@ -186,7 +188,8 @@ ul.nav_bar {
     padding: 0;
     overflow: hidden;
     position: relative;
-    top: 1px; }
+    top: 1px;
+    z-index: 42; }
     #main_content .tab_container ul.tab_nav li {
       list-style: none; }
       #main_content .tab_container ul.tab_nav li a {
@@ -224,11 +227,30 @@ ul.nav_bar {
     min-height: 200px``;
     max-height: 400px;
     overflow-x: hidden;
-    overflow-y: scroll; }
+    overflow-y: scroll;
+    position: relative; }
   #main_content .tab_container.left_tabs div.tab_content {
     margin: 0 0 0 125px;
     position: relative;
     left: -1px; }
+  #main_content .tab_container .tab_content a.new {
+    display: block;
+    width: 60px;
+    height: 24px;
+    padding: 0 30px 0 0;
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    text-align: right;
+    color: #14546f;
+    text-decoration: none;
+    opacity: 0.85;
+    font-weight: bold;
+    background: url('../images/icons/Add_24x24.png') no-repeat 100% 50%; }
+    #main_content .tab_container .tab_content a.new:hover {
+      opacity: 1; }
+    #main_content .tab_container .tab_content a.new#new_COP {
+      line-height: 24px; }
   #main_content .tab_container ul.tools {
     border-bottom: 1px solid #999;
     margin-bottom: 0.5em;
@@ -290,8 +312,6 @@ ul.nav_bar {
   #main_content fieldset legend {
     color: #aaa; }
     #main_content fieldset legend span {
-      position: relative;
-      top: 0.5em;
       white-space: normal; }
   #main_content fieldset ol {
     margin: 0;
@@ -321,7 +341,10 @@ ul.nav_bar {
     background: #fff; }
     #main_content fieldset fieldset legend {
       color: #14546f;
-      font-size: 1em; }
+      font-size: 1em;
+      background: #fcfcfc url('../images/backgrounds/legend_bg.png') repeat-x 0 0;
+      padding: 5px;
+      border: 1px solid #cccccc; }
     #main_content fieldset fieldset label {
       display: block;
       width: auto;
@@ -396,6 +419,8 @@ ul.nav_bar {
   background: url('../images/icons/Rate (Thumbs Down)_24x24.png') no-repeat center top; }
 #main_content #page_tools a.delete {
   background: url('../images/icons/Delete_24x24.png') no-repeat center top; }
+#main_content #page_tools a.dynamic_content {
+  background: url('../images/icons/Document (Edit)_24x24.png') no-repeat center top; }
 #main_content #page_tools a.disabled {
   opacity: 0.4; }
 #main_content #site_tree {
@@ -419,8 +444,7 @@ ul.nav_bar {
   float: left; }
 #main_content #page_details {
   width: 600px;
-  margin: 0;
-  border-bottom: none; }
+  margin: 0 0 1em 0; }
   #main_content #page_details dl {
     width: 600px;
     margin: 0; }
@@ -432,13 +456,14 @@ ul.nav_bar {
     margin-left: 60px;
     border: none;
     padding: 0.1em 0; }
+    #main_content #page_details dd label {
+      font-weight: normal; }
+      #main_content #page_details dd label:hover {
+        background: #FFC; }
 #main_content #page_preview {
   width: 630px;
   overflow: hidden; }
   #main_content #page_preview #preview_contents {
-    overflow-x: hidden;
-    overflow-y: auto;
-    height: 350px;
     float: none; }
     #main_content #page_preview #preview_contents h1 {
       font-size: 2em;
@@ -451,3 +476,36 @@ ul.nav_bar {
       color: inherit; }
     #main_content #page_preview #preview_contents a {
       text-decoration: underline; }
+
+ul#report_list {
+  margin: 0;
+  width: 50%; }
+  ul#report_list li {
+    list-style: none;
+    border-top: 1px solid #ccc;
+    padding: 0.75em 10px;
+    background-color: #f2f2f2;
+    position: relative; }
+    ul#report_list li.odd {
+      background-color: #fff; }
+    ul#report_list li:hover {
+      background-color: #f0f6fa; }
+  ul#report_list a.xls {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -8px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url('../images/icons/Accounts Payable_16x16.png');
+    opacity: 0.7;
+    text-indent: -9999em; }
+    ul#report_list a.xls:hover {
+      opacity: 1; }
+  ul#report_list a {
+    color: #333333;
+    text-decoration: none; }
+    ul#report_list a:hover {
+      color: #14546f;
+      font-weight: bold; }
