@@ -339,6 +339,8 @@ ul.nav_bar {
 #main_content #site_structure {
   overflow: hidden;
   margin-bottom: 2em; }
+  #main_content #site_structure.loading {
+    opacity: 0.3; }
 #main_content #site_tools, #main_content #page_tools {
   -moz-border-radius-topleft: 7px;
   -moz-border-radius-topright: 7px;
@@ -390,12 +392,18 @@ ul.nav_bar {
   background: url('../images/icons/eye.png') no-repeat center top; }
 #main_content #page_tools a.approve {
   background: url('../images/icons/Rate (Thumbs Up)_24x24.png') no-repeat center top; }
+#main_content #page_tools a.revoke {
+  background: url('../images/icons/Rate (Thumbs Down)_24x24.png') no-repeat center top; }
 #main_content #page_tools a.delete {
   background: url('../images/icons/Delete_24x24.png') no-repeat center top; }
+#main_content #page_tools a.disabled {
+  opacity: 0.4; }
 #main_content #site_tree {
   height: 232px;
   overflow: auto;
   width: 600px; }
+  #main_content #site_tree.loading {
+    opacity: 0.3; }
   #main_content #site_tree #tree ul li a.hidden {
     opacity: 0.4; }
   #main_content #site_tree #tree ul li a.pending {

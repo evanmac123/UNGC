@@ -37,6 +37,9 @@ module ContentApproval
   
   def destroy
     delete! # use the state machine
+    if respond_to?(:children)
+      (children || []).each { |child| child.destroy }
+    end
   end
   
   # For convenience

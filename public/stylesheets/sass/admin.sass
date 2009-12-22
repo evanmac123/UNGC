@@ -444,6 +444,8 @@ ul.nav_bar
   #site_structure
     overflow: hidden
     margin-bottom: 2em
+    &.loading
+      opacity: 0.3
   
   #site_tools, #page_tools
     -moz-border-radius-topleft= !border_radius
@@ -508,14 +510,19 @@ ul.nav_bar
         background: url('../images/icons/eye.png') no-repeat center top
       &.approve
         background: url('../images/icons/Rate (Thumbs Up)_24x24.png') no-repeat center top
+      &.revoke
+        background: url('../images/icons/Rate (Thumbs Down)_24x24.png') no-repeat center top
       &.delete
         background: url('../images/icons/Delete_24x24.png') no-repeat center top
-          
+      &.disabled
+        opacity: 0.4
 
   #site_tree
     height: 232px
     overflow: auto
     width: 600px
+    &.loading
+      opacity: 0.3
 
     #tree
       ul 

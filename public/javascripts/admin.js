@@ -1,3 +1,9 @@
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
 
 function makePostLink (event) {
   event.preventDefault();
@@ -60,15 +66,62 @@ var Page = {
 	id: null,
 	parent_id: null,
 	editor: null,
+	approved: null,
+	approveAndSave: function(e) {
+		console.log("approveAndSave 1")
+		Page.approved = true;
+		console.log("approveAndSave 2")
+		Page.saveChanges(e);
+	},
+	gatherData: function(e) {
+		$('#pageArea').addClass('loading');
+		if (Page.id) {
+			// this is an update
+			var url = $(e.target).attr('href') + '.js';
+			var data = '_method=put';
+		} else {
+			var url = window.location.href + '.js';
+			var data = '';
+		}
+		if (Page.approved)
+			data += '&approved=true';
+		for (var key in Page.attributes) {
+			data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
+		}
+		if (Page.editor && Page.editor.checkDirty()) {
+			var content = Page.editor.getData();
+			data += '&page[content]='+encodeURIComponent(content);
+		}
+		return({data: data, url: url});
+	},
+	finishedSaving: function(response) {
+		Page.approved = null;
+		Page.hasBeenChanged = null; 
+		Page.editor.resetDirty(); 
+		var node = $(Page.selected);
+		var child = node.children('a');
+		var status = response.page.approval;
+
+		node.attr({id: 'page_'+response.page.id});
+		var href = child.attr('href');
+		child.attr({href: href.replace(/\d+/, response.page.id)});
+		$.tree.focused().rename(node, response.page.title);
+		if (status == 'pending')
+			child.addClass('pending');
+		else if (status == 'approved')
+			child.removeClass('pending');
+		$('#pageArea').removeClass('loading');
+	},
 	hasChanges: function() {
 		if (Page.selected) {
 			if (Page.hasBeenChanged)
 				return true 
+			if (Page.approved)
+				return true;
 			if (Page.editor)
 				return Page.editor.checkDirty();
-		} else {
-			return false;
 		}
+		return false;
 	},
 	launchEditor: function() {
 		// e.preventDefault();
@@ -81,41 +134,31 @@ var Page = {
 		tree_obj.rename(node);
 	},
 	saveChanges: function(e) {
+		console.log("saveChanges 1")
 		e.preventDefault();
-		if (Page.hasChanges()) {
-			if (Page.id) {
-				// this is an update
-				var url = $(e.target).attr('href') + '.js';
-				var data = '_method=put';
-			} else {
-				var url = window.location.href + '.js';
-				var data = '';
-			}
-			for (var key in Page.attributes) {
-				data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
-			}
-			var needsPending = false;
-			if (Page.editor && Page.editor.checkDirty()) {
-				var content = Page.editor.getData();
-				data += '&page[content]='+encodeURIComponent(content);
-				var needsPending = true;
-			}
-		  jQuery.ajax({
-		    type: 'post',
-		    url: url,
-		    data: data,
-				success: function() { 
-					Page.hasBeenChanged = null; 
-					Page.editor.resetDirty(); 
-					if (needsPending)
-						$(Page.selected).children('a').addClass('pending');
-				},
-		    error: function(request, status, error) {
-		      if (request.status == 403)
-		        alert("Unable to save changes, please try again.")
-		    }
-		  });
-		}
+		console.log("saveChanges 2")
+		if (!Page.hasChanges())
+			return;
+		console.log("saveChanges 3")
+		var options = Page.gatherData(e);
+		console.log("saveChanges 4")
+		Page.saveViaAjax(options);
+	},
+	saveViaAjax: function(options) {
+		var url  = options.url;
+		var data = options.data;
+		jQuery.ajax({
+	    type: 'post',
+	    url: url,
+	    data: data,
+		  dataType: 'json',
+			success: function(response) { Page.finishedSaving(response) },
+	    error: function(request, status, error) {
+				$('#pageArea').removeClass('loading');
+	      if (request.status == 403)
+	        alert("Unable to save changes, please try again.")
+	    }
+	  });
 	},
 	select: function(element) {
 		Page.selected = element;
@@ -187,31 +230,56 @@ var Page = {
 }
 
 var Treeview = {
+	changeVisibility: function(e) {
+		e.preventDefault();
+		var node = $.tree.focused().selected;
+		if (!node)
+			return;
+		var child = $('#' + node.attr('id') + ' > a');
+		if (child.hasClass('hidden')) {
+			child.removeClass('hidden');
+			Treeview.markShown(node);
+		} else {
+			child.addClass('hidden');
+			Treeview.markHidden(node);
+		}
+	},
   refresh: function(response) {
     $.tree.focused().refresh();
     Treeview.deletedNodes = [];
     Treeview.shownNodes   = [];
     Treeview.hiddenNodes  = [];
+		$('#site_tree, #pageArea').removeClass('loading'); 
   },
   saveNewPagePlaceholder: function(node, ref_node, type, tree_obj, rollback) {
     
   },
   save: function(e) {
     e.preventDefault();
+		$('#site_tree, #pageArea').addClass('loading');
     var url  = $(e.target).attr('href');
     var data = $.tree.focused().get();
-    var deleted = {pages: [], sections: []};
-    deleted = Treeview.addNodes(deleted, Treeview.deletedNodes)
+    var deleted = Treeview.initNodesForSave(Treeview.deletedNodes);
+		var hidden = Treeview.initNodesForSave(Treeview.hiddenNodes);
+		var shown = Treeview.initNodesForSave(Treeview.shownNodes);
     var data_json = encodeURIComponent(JSON.stringify(data));
-    var deleted_json = encodeURIComponent(JSON.stringify(deleted));
     jQuery.ajax({
         type: 'post',
         url: url,
-        data: "tree="+data_json+'&deleted='+deleted_json,
+        data: "tree="+data_json+'&deleted='+deleted+'&hidden='+hidden+'&shown='+shown,
         dataType: 'json',
         complete: Treeview.refresh
     });
   },
+	initNodesForSave: function(array) {
+		var temp  = {pages: [], sections: []};
+		temp = Treeview.addNodes(temp, array);
+		var isBlank = ((temp.pages.length == 0) && (temp.sections.length == 0));
+		if (isBlank)
+			return('');
+		else
+			return(encodeURIComponent(JSON.stringify(temp)));
+	},
   addNodes: function(hash, array) {
     for(i=0; i<array.length; i++) {
       var matching = array[i].match(/(page)?\D*_(\d+)/)
@@ -272,7 +340,8 @@ var Treeview = {
   },
 	onselect: function(node, tree) {
 		var isSection = $(node).attr('rel') == 'section';
-		tree.toggle_branch(node);
+		if (isSection)
+			tree.toggle_branch(node);
 		if (Page.selected == node)
 			return false;
 		else if (Treeview.safeToChangePages())
@@ -316,12 +385,23 @@ var Treeview = {
       $.tree.focused().remove();
     }
   },
-  markHidden: function() {
-    
+  markHidden: function(node) {
+		swapNodeFromArrays(node, Treeview.hiddenNodes, Treeview.shownNodes);
   },
-  markShown: function() {
-    
+  markShown: function(node) {
+		swapNodeFromArrays(node, Treeview.shownNodes, Treeview.hiddenNodes);
   }
+}
+
+function swapNodeFromArrays(node, addTo, removeFrom) {
+	var id = $(node).attr('id');
+	addTo.push(id);
+	jQuery.unique(addTo);
+	var position = jQuery.inArray(id, removeFrom);
+	if (position != -1) { 
+		removeFrom.remove(position);
+	}
+	jQuery.unique(removeFrom);
 }
 
 
@@ -365,8 +445,10 @@ $(function() {
   $('a#new_page').live('click', Treeview.newPage );
   $('a#delete_page').live('click', Treeview.markDeleted );
   $('a.save_page').live('click', Page.saveChanges );
+	$('a.approve_page').live('click', Page.approveAndSave );
+	$('a#visibility_page').live('click', Treeview.changeVisibility );
 
-	$('.disabled a').live('click', function(e) { e.preventDefault(); });
+	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 
   if ($('.datepicker').length > 0)
     $('.datepicker').datepicker();
