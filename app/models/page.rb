@@ -116,6 +116,7 @@ class Page < ActiveRecord::Base
   end
   
   def before_approve!
+    path = self.find_by_id(id)
     previously = self.class.approved_for_path(path)
     previously.revoke! if previously
   end
