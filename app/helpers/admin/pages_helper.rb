@@ -1,4 +1,13 @@
 module Admin::PagesHelper
+  def dynamic_json(page)
+    hash = {1 => 'Dynamically generated', 0 => 'Standard'}
+    if page.dynamic_content?
+      hash['selected'] = '1'
+    else
+      hash['selected'] = '0'
+    end
+    hash.to_json
+  end
 
   def enable_approval(page)
     if page.can_approve?
@@ -31,6 +40,12 @@ module Admin::PagesHelper
       attributes: {id: "section_#{section.id}", rel: 'section'},
       children: children.map { |c| page_for_json(c, leaves) }
     }
+  end
+  
+  def status_details(page)
+    string = ''
+    # TODO: Add details about who changed, approved, etc.
+    string << "#{@page.approval.titleize}"
   end
   
   def page_for_json(page, leaves)

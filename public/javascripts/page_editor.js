@@ -1,10 +1,17 @@
 var CKEDITOR_BASEPATH = '/ckeditor/'
 
 function startEditor(replaceMe) {
+	var mode = $('#'+replaceMe).attr('rel');
+	if ((mode) && (mode == 'dynamic')) {
+		var startup = 'source';
+	} else {
+		var startup = 'wysiwyg';
+	}
   var editor = CKEDITOR.replace(replaceMe, {
     toolbar: EditorToolbar,
     width: 600,
     height: 500,
+		startupMode: startup,
     dialog_magnetDistance: 5,
     resize_minWidth: 300,
     resize_maxWidth: 600,
