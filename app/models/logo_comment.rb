@@ -17,7 +17,8 @@
 #
 
 class LogoComment < ActiveRecord::Base
-  validates_presence_of :contact_id, :body
+  validates_presence_of :contact_id
+  validates_presence_of :body, :if => Proc.new { |c| c.state_event == ApprovalWorkflow::EVENT_REVISE }
   belongs_to :logo_request
   belongs_to :contact
   has_attached_file :attachment
