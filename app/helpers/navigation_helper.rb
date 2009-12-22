@@ -31,7 +31,7 @@ module NavigationHelper
 
   def something_displayable_from(page)
     return nil unless page
-    if page.display_in_navigation
+    if @preview || page.display_in_navigation
       page
     else
       something_displayable_from page.parent
@@ -47,6 +47,10 @@ module NavigationHelper
       selected_elements_from_page(displayable)
     end
     @current_section
+  end
+
+  def is_visible?(child)
+    !@preview || child.display_in_navigation? || (@page && @page == child)
   end
   
   def leftnav_selected?(navigation)

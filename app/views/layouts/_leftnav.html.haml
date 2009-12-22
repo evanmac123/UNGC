@@ -1,9 +1,11 @@
 %ul
   - if current_section
-    - current_section.visible_children.each do |child|
-      %li{:class => selected?(child) ? 'selected' : ''}
-        = link_to child.title, child.path
-        - if selected?(child)
-          - child.visible_children.each do |sub|
-            %li{:class => 'sub'}
-              = link_to "&raquo;&nbsp;#{sub.title}", sub.path, :class => sub_selected?(sub) ? 'sub_selected' : ''
+    - (@preview ? current_section.children : current_section.visible_children ).each do |child|
+      - if is_visible?(child)
+        %li{:class => selected?(child) ? 'selected' : ''}
+          = link_to child.title, child.path
+          - if selected?(child)
+            - (@preview ? child.children : child.visible_children ).each do |sub|
+              - if is_visible?(sub)
+                %li{:class => 'sub'}
+                  = link_to "&raquo;&nbsp;#{sub.title}", sub.path, :class => sub_selected?(sub) ? 'sub_selected' : ''

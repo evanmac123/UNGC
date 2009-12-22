@@ -38,7 +38,7 @@ class Page < ActiveRecord::Base
     :order       => "position ASC", 
     :class_name  => 'Page', 
     :foreign_key => :parent_id, 
-    :conditions  => {:display_in_navigation => true}
+    :conditions  => {:display_in_navigation => true, approval: 'approved'}
   has_many :approved_children, 
     :order       => 'position ASC', 
     :class_name  => 'Page', 

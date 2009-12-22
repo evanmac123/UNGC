@@ -44,7 +44,7 @@ var	Folder = {
 	rename: function(element, tree) {
 		// TODO: Should "freeze" other actions until this is done
 		var name = tree.get_text(element);
-		var url = window.location.href + '/create_folder.js';
+		var url = window.location.pathname + '/create_folder.js';
 		jQuery.ajax({
 	    type: 'post',
 	    url: url,
@@ -78,7 +78,7 @@ var Page = {
 			var url = $(e.target).attr('href') + '.js';
 			var data = '_method=put';
 		} else {
-			var url = window.location.href + '.js';
+			var url = window.location.pathname + '.js';
 			var data = '';
 		}
 		if (Page.approved)
@@ -191,7 +191,7 @@ var Page = {
 		return Page.attributes[name];
 	},
 	rename: function(element, tree) {
-		var url = window.location.href + '.js';
+		var url = window.location.pathname + '.js';
 		var title = tree.get_text(element);
 		var position  = $('#'+Page.parent_id+' ul > li').size();
 		jQuery.ajax({
@@ -200,7 +200,7 @@ var Page = {
 		  dataType: 'json',
 		  data: "page[title]="+title+"&page[derive_path_from]="+Page.parent_id+"&page[position]="+position,
 		  success: function(response) { 
-		    var href = window.location.href;
+		    var href = window.location.pathname;
 		    var page_id = response.page.id;
 		    element.removeClass('updateAfterRename').attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
 				Treeview.handleSelect(element[0], tree); // needs to pass the node, not the element
@@ -343,7 +343,7 @@ var Treeview = {
 	onselect: function(node, tree) {
 		var isSection = $(node).attr('rel') == 'section';
 		if (isSection)
-			tree.toggle_branch(node);
+			tree.open_branch(node);
 		if (Page.selected == node)
 			return false;
 		else if (Treeview.safeToChangePages())

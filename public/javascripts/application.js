@@ -117,6 +117,7 @@ var Watcher = {
 	goDecorate: function(number) {
 		if ((window.location.pathname != '/') && (window.location.pathname != '')) {
 			var url = "/decorate"+window.location.pathname;
+			url = url.replace(/preview\//, '');
 			if (number != null) url += '?version=' + number;
 
 			if (Watcher.alreadyFetched(url)) {
