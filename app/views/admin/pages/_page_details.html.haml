@@ -1,8 +1,17 @@
 %dt Title:
 %dd.editable{name: 'title'}= @page.title
 
-%dt Status:
-%dd= "#{@page.approval.titleize}"
-
 %dt Path:
 %dd.editable{rel: check_admin_page_path(@page), name: 'path'}= @page.path
+
+%dt Contents:
+%dd
+  %label.dynamic_when_clicked
+    = radio_button_tag 'dynamic_content', '0', !@page.dynamic_content? #, {class: 'dynamic_content'}
+    Standard
+  %label.dynamic_when_clicked
+    = radio_button_tag 'dynamic_content', '1', @page.dynamic_content? #, {class: 'dynamic_content'}
+    Dynamically generated
+    
+%dt Status:
+%dd= status_details(@page)

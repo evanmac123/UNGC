@@ -419,6 +419,8 @@ ul.nav_bar {
   background: url('../images/icons/Rate (Thumbs Down)_24x24.png') no-repeat center top; }
 #main_content #page_tools a.delete {
   background: url('../images/icons/Delete_24x24.png') no-repeat center top; }
+#main_content #page_tools a.dynamic_content {
+  background: url('../images/icons/Document (Edit)_24x24.png') no-repeat center top; }
 #main_content #page_tools a.disabled {
   opacity: 0.4; }
 #main_content #site_tree {
@@ -454,6 +456,10 @@ ul.nav_bar {
     margin-left: 60px;
     border: none;
     padding: 0.1em 0; }
+    #main_content #page_details dd label {
+      font-weight: normal; }
+      #main_content #page_details dd label:hover {
+        background: #FFC; }
 #main_content #page_preview {
   width: 630px;
   overflow: hidden; }

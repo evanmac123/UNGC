@@ -68,9 +68,7 @@ var Page = {
 	editor: null,
 	approved: null,
 	approveAndSave: function(e) {
-		console.log("approveAndSave 1")
 		Page.approved = true;
-		console.log("approveAndSave 2")
 		Page.saveChanges(e);
 	},
 	gatherData: function(e) {
@@ -97,6 +95,7 @@ var Page = {
 	finishedSaving: function(response) {
 		Page.approved = null;
 		Page.hasBeenChanged = null; 
+		Page.attributes = {};
 		Page.editor.resetDirty(); 
 		var node = $(Page.selected);
 		var child = node.children('a');
@@ -134,14 +133,10 @@ var Page = {
 		tree_obj.rename(node);
 	},
 	saveChanges: function(e) {
-		console.log("saveChanges 1")
 		e.preventDefault();
-		console.log("saveChanges 2")
 		if (!Page.hasChanges())
 			return;
-		console.log("saveChanges 3")
 		var options = Page.gatherData(e);
-		console.log("saveChanges 4")
 		Page.saveViaAjax(options);
 	},
 	saveViaAjax: function(options) {
@@ -217,6 +212,10 @@ var Page = {
 		
 	},
 	// using write allows us to track changes, and alert the user before they are lost
+	toggleDynamicContent: function(e) {
+		var element = $(e.target);
+		Page.write('dynamic_content', element.val());
+	},
 	write: function(name, value) {
 		var old_value = Page.read(name);
 		if (value != old_value) {
@@ -297,7 +296,10 @@ var Treeview = {
     var time = new Date().getTime();
     var node = tree.create(
       {
-        data: { title: 'New section', attributes: { class: 'hidden' } }, 
+        data: { 
+					title: 'New section', 
+					attributes: { 'class': 'hidden' } 
+				}, 
         attributes: {id: 'new-section_'+time, rel: 'section'}
       }, 
       -1);
@@ -319,7 +321,7 @@ var Treeview = {
       var time = new Date().getTime();
       var node = tree.create(
         {
-          data: { title: 'New page', attributes: { class: 'hidden' } },
+          data: { title: 'New page', attributes: { 'class': 'hidden' } },
           attributes: {id: 'new_page_'+time, rel: 'page'}
         }
       );
@@ -430,8 +432,15 @@ function storeEditable (value, settings) {
 	return value;
 }
 
+
+
 function setEditable() {
-	$('.editable').editable( storeEditable, { cssclass: 'editable_field', width: 'none', submit: 'OK', tooltip: 'Click to edit' } );
+	$('.editable').editable( storeEditable, { 
+		cssclass: 'editable_field', 
+		width: 'none', 
+		submit: 'OK', 
+		tooltip: 'Click to edit' 
+	} );
 }
 
 $(function() {
@@ -447,6 +456,7 @@ $(function() {
   $('a.save_page').live('click', Page.saveChanges );
 	$('a.approve_page').live('click', Page.approveAndSave );
 	$('a#visibility_page').live('click', Treeview.changeVisibility );
+	$('.dynamic_when_clicked > input').live('click', Page.toggleDynamicContent );
 
 	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 

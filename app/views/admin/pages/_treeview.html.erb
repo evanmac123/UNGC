@@ -49,8 +49,8 @@ $(function () {
         }
       },
       onload: function(tree) { $('.loading').removeClass('loading'); },
-      onrename: Treeview.onrename,
-      onselect: Treeview.onselect
+      onrename: function(node, tree, rollback) { Treeview.onrename(node, tree, rollback) },
+      onselect: function(node, tree) { Treeview.onselect(node, tree) }
      }
 	});
 });

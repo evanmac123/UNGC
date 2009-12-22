@@ -213,6 +213,8 @@ class Page < ActiveRecord::Base
       :dynamic_content       => active.dynamic_content,
       :display_in_navigation => active.display_in_navigation
     } 
+    default_options.stringify_keys!
+    options.stringify_keys!
     self.class.create default_options.merge(options) # TODO: Make this work: .merge({:version_number => (version_number || 1) + 1})
   end
   
@@ -271,6 +273,10 @@ class Page < ActiveRecord::Base
     new_path = options.delete('path')
     possibly_move_paths(new_path) if new_path
     return self.reload unless options.any?
+    unless their_options['dynamic_content'].blank?
+      bool = their_options['dynamic_content'] == '1'
+      their_options['dynamic_content'] = bool
+    end
     if v = pending_version(new_path)
       v.update_attributes(options)
       v
