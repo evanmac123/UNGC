@@ -1,4 +1,20 @@
 module Admin::PagesHelper
+
+  def enable_approval(page)
+    if page.can_approve?
+      ''
+    else
+      'disabled'
+    end
+  end
+  
+  def enable_revoke(page)
+    if page.can_revoke?
+      ''
+    else
+      'disabled'
+    end
+  end
   
   def sections
     homes_children = Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')

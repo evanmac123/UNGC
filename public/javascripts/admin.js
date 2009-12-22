@@ -192,12 +192,14 @@ var Treeview = {
     Treeview.deletedNodes = [];
     Treeview.shownNodes   = [];
     Treeview.hiddenNodes  = [];
+		$('#site_tree, #pageArea').removeClass('loading'); 
   },
   saveNewPagePlaceholder: function(node, ref_node, type, tree_obj, rollback) {
     
   },
   save: function(e) {
     e.preventDefault();
+		$('#site_tree, #pageArea').addClass('loading');
     var url  = $(e.target).attr('href');
     var data = $.tree.focused().get();
     var deleted = {pages: [], sections: []};
@@ -272,7 +274,8 @@ var Treeview = {
   },
 	onselect: function(node, tree) {
 		var isSection = $(node).attr('rel') == 'section';
-		tree.toggle_branch(node);
+		if (isSection)
+			tree.toggle_branch(node);
 		if (Page.selected == node)
 			return false;
 		else if (Treeview.safeToChangePages())
@@ -366,7 +369,7 @@ $(function() {
   $('a#delete_page').live('click', Treeview.markDeleted );
   $('a.save_page').live('click', Page.saveChanges );
 
-	$('.disabled a').live('click', function(e) { e.preventDefault(); });
+	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 
   if ($('.datepicker').length > 0)
     $('.datepicker').datepicker();

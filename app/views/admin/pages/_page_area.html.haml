@@ -2,18 +2,12 @@
   Page Details:
 #page_tools
   %ul{class: @page ? '' : 'disabled'}
-    %li= link_to 'Edit page', @page ? edit_admin_page_path(@page) : '#', class: 'edit_page', title: 'Edit page'
-    %li= link_to 'Preview page', @page ? view_page_path(@page.to_path) : '#', class: 'preview_page', title: 'Preview page', target: '_blank'
-    %li= link_to 'Save changes', @page ? admin_page_path(@page) : '#', class: 'save save_page', title: 'Save changes to this page'
-    %li
-      %a.visibility{ :title => "Show/hide", :href => "#" }
-        Show/hide
-    %li
-      %a.approve{ :title => "Approve", :href => "#" }
-        Approve
-    %li
-      %a.delete{ :title => "Delete", :href => "#" }
-        Delete
+    - if @page
+      /%li= link_to 'Edit page', edit_admin_page_path(@page), class: 'edit_page', title: 'Edit page'
+      %li= link_to 'View on site', view_page_path(@page.to_path), class: 'preview_page', title: 'View on site', target: '_blank'
+      %li= link_to 'Save changes', admin_page_path(@page), class: 'save save_page', title: 'Save changes to this page'
+      %li= link_to 'Approve', approve_admin_page_path(@page), class: "#{enable_approval(@page)} approve approve_page link_to_post", title: 'Approve page'
+      %li= link_to 'Reject', revoke_admin_page_path(@page), class: "#{enable_revoke(@page)} revoke revoke_page link_to_post", title: 'Revoke approval'
 #page_details.box
   %dl#pageDetailsReplace
     = render 'page_details' if @page
