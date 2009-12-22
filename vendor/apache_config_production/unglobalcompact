@@ -1,4 +1,4 @@
-<VirtualHost unglobalcompact.railsmachina.com:80>
+<VirtualHost *:80>
   ServerName unglobalcompact.railsmachina.com
   
   DocumentRoot /srv/unglobalcompact/current/public
