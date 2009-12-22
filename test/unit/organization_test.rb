@@ -78,10 +78,16 @@ class OrganizationTest < ActiveSupport::TestCase
         @organization = create_organization
       end
       
-      should "set the COP due date to 1 year from now" do
+      should "update approval related fields" do
         assert_nil @organization.cop_due_on
         @organization.approve
-        assert_equal 1.year.from_now.to_date, @organization.reload.cop_due_on
+        @organization.reload
+        # set the COP due date to 1 year
+        assert_equal 1.year.from_now.to_date, @organization.cop_due_on
+        # set the paticipant flag to true
+        assert @organization.participant
+        # set the join date today
+        assert_equal Date.today, @organization.joined_on
       end
     end
   end
