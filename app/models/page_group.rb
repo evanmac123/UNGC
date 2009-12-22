@@ -55,8 +55,8 @@ class PageGroup < ActiveRecord::Base
     self.name = string
   end
   
-  def self.import_tree(json_string, deleted_json)
-    TreeImporter.import_tree(json_string, deleted_json)
+  def self.import_tree(*args)
+    TreeImporter.import_tree(*args)
   end
   
   def leaves

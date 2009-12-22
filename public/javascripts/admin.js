@@ -1,3 +1,9 @@
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
 
 function makePostLink (event) {
   event.preventDefault();
@@ -224,6 +230,20 @@ var Page = {
 }
 
 var Treeview = {
+	changeVisibility: function(e) {
+		e.preventDefault();
+		var node = $.tree.focused().selected;
+		if (!node)
+			return;
+		var child = $('#' + node.attr('id') + ' > a');
+		if (child.hasClass('hidden')) {
+			child.removeClass('hidden');
+			Treeview.markShown(node);
+		} else {
+			child.addClass('hidden');
+			Treeview.markHidden(node);
+		}
+	},
   refresh: function(response) {
     $.tree.focused().refresh();
     Treeview.deletedNodes = [];
@@ -239,18 +259,27 @@ var Treeview = {
 		$('#site_tree, #pageArea').addClass('loading');
     var url  = $(e.target).attr('href');
     var data = $.tree.focused().get();
-    var deleted = {pages: [], sections: []};
-    deleted = Treeview.addNodes(deleted, Treeview.deletedNodes)
+    var deleted = Treeview.initNodesForSave(Treeview.deletedNodes);
+		var hidden = Treeview.initNodesForSave(Treeview.hiddenNodes);
+		var shown = Treeview.initNodesForSave(Treeview.shownNodes);
     var data_json = encodeURIComponent(JSON.stringify(data));
-    var deleted_json = encodeURIComponent(JSON.stringify(deleted));
     jQuery.ajax({
         type: 'post',
         url: url,
-        data: "tree="+data_json+'&deleted='+deleted_json,
+        data: "tree="+data_json+'&deleted='+deleted+'&hidden='+hidden+'&shown='+shown,
         dataType: 'json',
         complete: Treeview.refresh
     });
   },
+	initNodesForSave: function(array) {
+		var temp  = {pages: [], sections: []};
+		temp = Treeview.addNodes(temp, array);
+		var isBlank = ((temp.pages.length == 0) && (temp.sections.length == 0));
+		if (isBlank)
+			return('');
+		else
+			return(encodeURIComponent(JSON.stringify(temp)));
+	},
   addNodes: function(hash, array) {
     for(i=0; i<array.length; i++) {
       var matching = array[i].match(/(page)?\D*_(\d+)/)
@@ -356,12 +385,23 @@ var Treeview = {
       $.tree.focused().remove();
     }
   },
-  markHidden: function() {
-    
+  markHidden: function(node) {
+		swapNodeFromArrays(node, Treeview.hiddenNodes, Treeview.shownNodes);
   },
-  markShown: function() {
-    
+  markShown: function(node) {
+		swapNodeFromArrays(node, Treeview.shownNodes, Treeview.hiddenNodes);
   }
+}
+
+function swapNodeFromArrays(node, addTo, removeFrom) {
+	var id = $(node).attr('id');
+	addTo.push(id);
+	jQuery.unique(addTo);
+	var position = jQuery.inArray(id, removeFrom);
+	if (position != -1) { 
+		removeFrom.remove(position);
+	}
+	jQuery.unique(removeFrom);
 }
 
 
@@ -406,6 +446,7 @@ $(function() {
   $('a#delete_page').live('click', Treeview.markDeleted );
   $('a.save_page').live('click', Page.saveChanges );
 	$('a.approve_page').live('click', Page.approveAndSave );
+	$('a#visibility_page').live('click', Treeview.changeVisibility );
 
 	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 

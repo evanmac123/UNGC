@@ -143,7 +143,7 @@ class Admin::PagesController < AdminController
   end
 
   def save_tree
-    PageGroup.import_tree(params[:tree], params[:deleted])
+    PageGroup.import_tree(params[:tree], params[:deleted], params[:hidden], params[:shown])
     render :inline => ''
   end
 
