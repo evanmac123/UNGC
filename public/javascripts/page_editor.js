@@ -3,7 +3,7 @@ var CKEDITOR_BASEPATH = '/ckeditor/'
 function startEditor(replaceMe) {
   var editor = CKEDITOR.replace(replaceMe, {
     toolbar: EditorToolbar,
-    width: 600,
+    width: 618,
     height: 500,
     dialog_magnetDistance: 5,
     resize_minWidth: 300,

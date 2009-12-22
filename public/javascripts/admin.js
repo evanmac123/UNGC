@@ -461,8 +461,9 @@ $(function() {
 
 $(document).ready(function() {
   //style and functionality for table rows
-    //add .odd to alternating table rows
+    //add .odd to alternating table rows and other elements
     $('div#main_content table.dashboard_table tr:odd').addClass("odd");
+    $('ul.striped li:odd').addClass("odd");
   
     //hover styling for table rows
     $('div#main_content table.dashboard_table tr').hover(
