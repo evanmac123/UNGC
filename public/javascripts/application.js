@@ -85,6 +85,10 @@ function hideBusinessAndStakeholders (argument) {
 	$('.for_business_only').hide();
 }
 
+function clearPledgeOtherAmount (argument) {
+	$("#organization_pledge_amount_other").val('');
+}
+
 var Watcher = {
 	watcher: null,
 	fetched: null,
@@ -186,5 +190,6 @@ $(function() {
 
 	$('form label#business_only').click( showBusinessOnly );
 	$('form label#stakeholders_only').click( showStakeholdersOnly );
-	$('form label#hide_business_and_stakeholders').click( hideBusinessAndStakeholders );
+	$('form label#hide_business_and_stakeholders').click( hideBusinessAndStakeholders );	
+	$('form .fixed_pledge').click( clearPledgeOtherAmount );
 });

@@ -1,3 +1,4 @@
+- @css = ['forms', 'application_form']
 %h1 Organization Registration
 
 = flash_messages_for :error
@@ -7,7 +8,6 @@
 %blockquote Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form.
 
 - form_for(@organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
-  = form.error_messages
   = form.file_field :commitment_letter, { :label => '&nbsp;' }
 
   - if @organization.business_entity?
@@ -26,22 +26,22 @@
           &nbsp;
       %tr
         %td Less than USD 250 million
-        %td== #{form.radio_button :pledge_amount, 500} USD 500 
+        %td== #{form.radio_button :pledge_amount, 500, :class => 'fixed_pledge'} USD 500 
         %td
           &nbsp;
       %tr
         %td Between USD 250 million and USD 1 billion
-        %td== #{form.radio_button :pledge_amount, 5000} USD 5000 
+        %td== #{form.radio_button :pledge_amount, 5000, :class => 'fixed_pledge'} USD 5000 
         %td
           &nbsp;
       %tr
         %td USD 1 billion or more
-        %td== #{form.radio_button :pledge_amount, 10000} USD 10000
+        %td== #{form.radio_button :pledge_amount, 10000, :class => 'fixed_pledge'} USD 10000
         %td
           &nbsp;
       %tr
         %td &nbsp;
-        %td== #{form.radio_button :pledge_amount, -1} Greater than USD 10000
+        %td== #{form.radio_button :pledge_amount, 0} Greater than USD 10000
         %td= form.text_field :pledge_amount_other, :size => 6
   %p
     = form.submit 'Submit'

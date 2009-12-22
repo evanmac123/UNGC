@@ -402,13 +402,3 @@ table.sortable { clear: both; }
 /* Clear for NS/FF/Moz */
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
-
-
-/* Error for flash messages */
-.error {
-	border: 2px solid #B0C077;
-	padding: 0 7px 0 7px;
-	margin-bottom: 10px;
-	border-color: #EB7575;
-	color: #EB7575;
-}
