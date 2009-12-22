@@ -339,6 +339,8 @@ ul.nav_bar {
 #main_content #site_structure {
   overflow: hidden;
   margin-bottom: 2em; }
+  #main_content #site_structure.loading {
+    opacity: 0.3; }
 #main_content #site_tools, #main_content #page_tools {
   -moz-border-radius-topleft: 7px;
   -moz-border-radius-topright: 7px;
