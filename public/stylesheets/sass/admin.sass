@@ -529,6 +529,13 @@ ul.nav_bar
     &.loading
       opacity: 0.3
 
+  .editable
+    &:hover
+      background: #FFC
+  .editable_field
+    input
+      width: 88%
+
   #page_details, #page_tools
     clear: left
     float: left
@@ -576,10 +583,3 @@ ul.nav_bar
       
       a
         text-decoration: underline
-
-#loading
-  background: url('/images/indicator.white.gif') 5px 5px no-repeat #FFC
-  padding: 0.5em 2.5em 0.5em 2.5em
-  margin: 0
-  top: -0.25em
-  position: relative

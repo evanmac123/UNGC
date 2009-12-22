@@ -1,10 +1,10 @@
 class Admin::PagesController < AdminController
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
-  before_filter :ckeditor, :only => [:new, :create, :edit, :update]
+  before_filter :ckeditor, :only => [:index, :new, :create, :edit, :update]
 
   def index
     # @javascript = ['json2.js']
-    @javascript = [ 'admin.js', 'jquery.jeditable.mini.js' ]
+    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     respond_to do |wants|
       wants.html { }
       wants.js   { }

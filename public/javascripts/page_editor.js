@@ -13,6 +13,7 @@ function startEditor(replaceMe) {
   return editor;
 };
 
+// Mostly used on front-end, click-to-edit areas
 var Editor = {
   editor: null,
   originalContents: null,
@@ -92,9 +93,3 @@ var Editor = {
     $('#editorLoading').hide();
   }
 }
-
-$(function() {
-  if ($('form textarea#page_content').size() > 0) {
-    startEditor('page_content');
-  }
-});
