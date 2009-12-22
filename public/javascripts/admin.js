@@ -60,15 +60,62 @@ var Page = {
 	id: null,
 	parent_id: null,
 	editor: null,
+	approved: null,
+	approveAndSave: function(e) {
+		console.log("approveAndSave 1")
+		Page.approved = true;
+		console.log("approveAndSave 2")
+		Page.saveChanges(e);
+	},
+	gatherData: function(e) {
+		$('#pageArea').addClass('loading');
+		if (Page.id) {
+			// this is an update
+			var url = $(e.target).attr('href') + '.js';
+			var data = '_method=put';
+		} else {
+			var url = window.location.href + '.js';
+			var data = '';
+		}
+		if (Page.approved)
+			data += '&approved=true';
+		for (var key in Page.attributes) {
+			data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
+		}
+		if (Page.editor && Page.editor.checkDirty()) {
+			var content = Page.editor.getData();
+			data += '&page[content]='+encodeURIComponent(content);
+		}
+		return({data: data, url: url});
+	},
+	finishedSaving: function(response) {
+		Page.approved = null;
+		Page.hasBeenChanged = null; 
+		Page.editor.resetDirty(); 
+		var node = $(Page.selected);
+		var child = node.children('a');
+		var status = response.page.approval;
+
+		node.attr({id: 'page_'+response.page.id});
+		var href = child.attr('href');
+		child.attr({href: href.replace(/\d+/, response.page.id)});
+		$.tree.focused().rename(node, response.page.title);
+		if (status == 'pending')
+			child.addClass('pending');
+		else if (status == 'approved')
+			child.removeClass('pending');
+		$('#pageArea').removeClass('loading');
+	},
 	hasChanges: function() {
 		if (Page.selected) {
 			if (Page.hasBeenChanged)
 				return true 
+			if (Page.approved)
+				return true;
 			if (Page.editor)
 				return Page.editor.checkDirty();
-		} else {
-			return false;
 		}
+		return false;
 	},
 	launchEditor: function() {
 		// e.preventDefault();
@@ -81,41 +128,31 @@ var Page = {
 		tree_obj.rename(node);
 	},
 	saveChanges: function(e) {
+		console.log("saveChanges 1")
 		e.preventDefault();
-		if (Page.hasChanges()) {
-			if (Page.id) {
-				// this is an update
-				var url = $(e.target).attr('href') + '.js';
-				var data = '_method=put';
-			} else {
-				var url = window.location.href + '.js';
-				var data = '';
-			}
-			for (var key in Page.attributes) {
-				data += '&page['+key+']='+encodeURIComponent(Page.attributes[key]);
-			}
-			var needsPending = false;
-			if (Page.editor && Page.editor.checkDirty()) {
-				var content = Page.editor.getData();
-				data += '&page[content]='+encodeURIComponent(content);
-				var needsPending = true;
-			}
-		  jQuery.ajax({
-		    type: 'post',
-		    url: url,
-		    data: data,
-				success: function() { 
-					Page.hasBeenChanged = null; 
-					Page.editor.resetDirty(); 
-					if (needsPending)
-						$(Page.selected).children('a').addClass('pending');
-				},
-		    error: function(request, status, error) {
-		      if (request.status == 403)
-		        alert("Unable to save changes, please try again.")
-		    }
-		  });
-		}
+		console.log("saveChanges 2")
+		if (!Page.hasChanges())
+			return;
+		console.log("saveChanges 3")
+		var options = Page.gatherData(e);
+		console.log("saveChanges 4")
+		Page.saveViaAjax(options);
+	},
+	saveViaAjax: function(options) {
+		var url  = options.url;
+		var data = options.data;
+		jQuery.ajax({
+	    type: 'post',
+	    url: url,
+	    data: data,
+		  dataType: 'json',
+			success: function(response) { Page.finishedSaving(response) },
+	    error: function(request, status, error) {
+				$('#pageArea').removeClass('loading');
+	      if (request.status == 403)
+	        alert("Unable to save changes, please try again.")
+	    }
+	  });
 	},
 	select: function(element) {
 		Page.selected = element;
@@ -368,6 +405,7 @@ $(function() {
   $('a#new_page').live('click', Treeview.newPage );
   $('a#delete_page').live('click', Treeview.markDeleted );
   $('a.save_page').live('click', Page.saveChanges );
+	$('a.approve_page').live('click', Page.approveAndSave );
 
 	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 

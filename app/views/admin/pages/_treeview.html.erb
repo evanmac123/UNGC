@@ -48,6 +48,7 @@ $(function () {
           Page.newPageCreated(node, ref_node, type, tree_obj);
         }
       },
+      onload: function(tree) { $('.loading').removeClass('loading'); },
       onrename: Treeview.onrename,
       onselect: Treeview.onselect
      }
