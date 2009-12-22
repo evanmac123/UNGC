@@ -3,7 +3,6 @@ class Admin::PagesController < AdminController
   before_filter :ckeditor, :only => [:index, :new, :create, :edit, :update]
 
   def index
-    # @javascript = ['json2.js']
     @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     respond_to do |wants|
       wants.html { }
@@ -79,7 +78,7 @@ class Admin::PagesController < AdminController
   end
   
   def edit
-    @javascript = [ 'admin.js', 'jquery.jeditable.mini.js' ]
+    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js' 
     if request.xhr?
       render :json => {
         :url => update_page_url(:format => 'js'),
