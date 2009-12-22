@@ -278,5 +278,30 @@ class PageTest < ActiveSupport::TestCase
     
   end
   
+  context "given a page with children" do
+    setup do
+      @parent = create_page
+      attrs = new_page.attributes.merge(parent_id: @parent.id)
+      @child1 = Page.create(attrs)
+      @child2 = Page.create(attrs)
+      @child3 = Page.create(attrs)
+      @pending = @parent.update_pending_or_new_version(title: "I am new")
+    end
+
+    should "not have children attached to pending" do
+      assert_equal 0, @pending.children.size
+    end
+    
+    context "when pending is approved" do
+      setup do
+        @pending.approve!
+      end
+
+      should "move children to new version" do
+        assert_equal 3, @pending.children.size
+      end
+    end
+    
+  end
   
 end

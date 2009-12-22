@@ -275,6 +275,13 @@ class Organization < ActiveRecord::Base
   
   def set_approved_fields
     set_next_cop_due_date
+    set_approved_on
+  end
+  
+  def set_approved_on
+    self.participant = true
+    self.joined_on = Date.today
+    self.save
   end
   
   private

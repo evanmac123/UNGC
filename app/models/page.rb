@@ -124,6 +124,28 @@ class Page < ActiveRecord::Base
     versions.approved.first
   end
   
+  def after_approve!
+    if prev = previous_version
+      prev.move_children_to_new_parent(id)
+    end
+  end
+  
+  def move_children_to_new_parent(new_parent_id)
+    children.each { |child| child.update_attribute :parent_id, new_parent_id }
+  end
+  
+  # Children are attached to an approved parent, the tree needs to reflect their connection
+  # to a new, pending version of that page
+  def approved_id
+    if approved?
+      id
+    elsif av = active_version
+      av.id
+    else
+      nil
+    end
+  end
+  
   def derive_path
     return true unless path.blank?
     if parent || parent_id

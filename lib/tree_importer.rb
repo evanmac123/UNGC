@@ -1,5 +1,7 @@
 class TreeImporter
-  attr_accessor :title, :identifier, :children, :position, :type
+  attr_accessor :title, :identifier, :children, :position, :type, :display
+  @@hidden = {}
+  @@shown  = {}
 
   def self.get_type_and_id(tmp_identifier)
     if tmp_identifier == 'section_home'
@@ -26,8 +28,9 @@ class TreeImporter
     deleted['sections'].each { |id| PageGroup.destroy(id) }
   end
   
-  def self.import_tree(string, deleted_json)
-    delete(JSON.parse deleted_json)
+  def self.import_tree(string, deleted_json, hidden_json, shown_json)
+    delete(JSON.parse deleted_json) unless deleted_json.blank?
+    display_in_navigation = parse_display(hidden_json, shown_json)
     parse_data(JSON.parse string)
   end
   
@@ -39,10 +42,29 @@ class TreeImporter
     sections.each { |s| s.save }
   end
   
+  def self.parse_display(hidden_json, shown_json)
+    @@hidden = JSON.parse hidden_json unless hidden_json.blank?
+    @@shown  = JSON.parse shown_json  unless shown_json.blank?
+  end
+  
   def initialize(hash)
     hash.each_pair do |key,value|
       self.send("#{key}=", value)
     end
+    if found_in?(@@hidden)
+      self.display = false
+    elsif found_in?(@@shown)
+      self.display = true
+    end
+  end
+  
+  def found_in?(hash)
+    look_in = if is_section?
+      hash['sections']
+    else
+      hash['page']
+    end
+    look_in && look_in.include?(identifier.to_s)
   end
   
   def save
@@ -79,9 +101,14 @@ class TreeImporter
       page.group_id = nil
     end
     if parent
-      page.parent_id = parent.id 
+      new_parent_id = parent.id
+      new_parent_id = parent.approved_id || parent.id if parent.pending?
+      page.parent_id = new_parent_id
     else
       page.parent_id = nil
+    end
+    unless display.nil? # nil means it wasn't set, no change from the UI
+      page.display_in_navigation = display
     end
     save_children_for_section(section, page)
     page.save if page.changed?
@@ -95,6 +122,9 @@ class TreeImporter
     else
       s = PageGroup.create(title: title, position: position)
       # TODO: Add path stub, html, etc.
+    end
+    unless display.nil? # nil means it wasn't set, no change from the UI
+      s.display_in_navigation = display
     end
     s
   end

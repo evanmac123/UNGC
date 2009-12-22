@@ -1,10 +1,10 @@
 class Admin::PagesController < AdminController
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
-  before_filter :ckeditor, :only => [:new, :create, :edit, :update]
+  before_filter :ckeditor, :only => [:index, :new, :create, :edit, :update]
 
   def index
     # @javascript = ['json2.js']
-    @javascript = [ 'admin.js', 'jquery.jeditable.mini.js' ]
+    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     respond_to do |wants|
       wants.html { }
       wants.js   { }
@@ -106,8 +106,8 @@ class Admin::PagesController < AdminController
       @version = @page.update_pending_or_new_version(changes)
     rescue Page::PathCollision => e
       update_failed(:forbidden, is_live_editor)
-    # rescue Exception => e
-    #   update_failed(:bad_request, is_live_editor)
+    rescue Exception => e
+      update_failed(:bad_request, is_live_editor)
     else
       update_successful(is_live_editor)
     end
@@ -128,6 +128,7 @@ class Admin::PagesController < AdminController
   end
   
   def update_successful(is_live_editor=nil)
+    approve_after_update if params[:approved]
     if is_live_editor
       respond_to do |wants|
         wants.html { redirect_to view_page_url(:path => @version.to_path) } # redirect to regular page view
@@ -136,13 +137,13 @@ class Admin::PagesController < AdminController
     else
       respond_to do |wants|
         wants.html { redirect_to edit_admin_page_path(:id => @version) } # redirect to admin editor page view
-        wants.js   { head :ok }
+        wants.js   { render json: @version }
       end
     end
   end
 
   def save_tree
-    PageGroup.import_tree(params[:tree], params[:deleted])
+    PageGroup.import_tree(params[:tree], params[:deleted], params[:hidden], params[:shown])
     render :inline => ''
   end
 
@@ -152,6 +153,10 @@ class Admin::PagesController < AdminController
   end
   
   private
+    def approve_after_update
+      @version.approve! if @version.can_approve?
+    end
+    
     def ckeditor
       (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
     end

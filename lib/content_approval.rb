@@ -25,6 +25,7 @@ module ContentApproval
         event(ContentApproval::EVENTS[:delete])  { transition :to => ContentApproval::STATES[:deleted]    }
         before_transition(:to => ContentApproval::STATES[:approved]) { |obj| obj.store_approved_data }
         before_transition(:to => ContentApproval::STATES[:approved]) { |obj| obj.before_approve! if obj.respond_to?(:before_approve!)  }
+        after_transition(:to  => ContentApproval::STATES[:approved]) { |obj| obj.after_approve! if obj.respond_to?(:after_approve!)    }
       end
     end
   end
@@ -36,6 +37,9 @@ module ContentApproval
   
   def destroy
     delete! # use the state machine
+    if respond_to?(:children)
+      (children || []).each { |child| child.destroy }
+    end
   end
   
   # For convenience
