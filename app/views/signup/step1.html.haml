@@ -1,23 +1,51 @@
+- @css = ['forms', 'application_form']
 %h1 Organization Registration
-
 %h2 About your organization
 
-- form_for(@organization, :url => organization_step2_path) do |form|
-  = form.error_messages
-  = form.text_field :name, {:label => "Name of organization" }
-  = form.text_field :url, {:label => "Website" }
-  = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}, {:label => "Type of organization", }
-
-  - if @organization_types.first.type_property == OrganizationType::BUSINESS
-    = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}, {:label => "Ownership"}
-    #public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
-      = form.check_box :is_ft_500, :label => 'Financial Times 500'
-      = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
-      = form.text_field :stock_symbol
-  - if @organization_types.first.type_property == OrganizationType::BUSINESS
-    = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
-  = form.text_field :employees, {:label => "Number of employees"}
-  = form.collection_select :country_id, Country.all, :id, :name
+#main_content
+  - form_for(@organization, url: organization_step2_path) do |form|
+    = form.error_messages
+    %fieldset
+      %ol
+        %li
+          = form.label :name, "Organization"
+          = form.text_field :name
+        %li
+          = form.label :url, "Website"
+          = form.text_field :url
+        %li
+          = form.label :url, "Type"
+          = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
+        - if @organization_types.first.type_property == OrganizationType::BUSINESS
+          %li
+            = form.label :listing_status_id, "Ownership"
+            = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
+          #public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+            %li
+              = form.label :is_ft_500, "FT 500"
+              = form.check_box :is_ft_500
+            %li
+              = form.label :exchange_id, "Market"
+              = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
+            %li
+              = form.label :stock_symbol
+              = form.text_field :stock_symbol
+        - if @organization_types.first.type_property == OrganizationType::BUSINESS
+          %li
+            = form.label :sector_id
+            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
+        %li
+          = form.label :employees, "# of employees"
+          = form.text_field :employees, {:label => "Number of employees"}
+        %li
+          = form.label :country_id
+          = form.collection_select :country_id, Country.all, :id, :name
   
+<<<<<<< Updated upstream
+    = form.submit 'Next', :class => 'button'
+=======
   %p
     = form.submit 'Next'
+    
+  %p=debug(@organization.listing_status)
+>>>>>>> Stashed changes

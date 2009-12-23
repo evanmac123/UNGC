@@ -62,7 +62,7 @@ class TreeImporter
     look_in = if is_section?
       hash['sections']
     else
-      hash['page']
+      hash['pages']
     end
     look_in && look_in.include?(identifier.to_s)
   end

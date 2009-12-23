@@ -72,7 +72,7 @@ class OrganizationTest < ActiveSupport::TestCase
         assert_equal 15000, @organization.pledge_amount
       end
     end
-    
+        
     context "approving its participation" do
       setup do
         @organization = create_organization

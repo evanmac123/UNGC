@@ -45,6 +45,14 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
+  validates_uniqueness_of :name, :on => :create, :message => "must be unique"
+  # TODO uncomment after import, since un7 data fails validation
+  # validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
+  # validates_format_of :url,
+  #                     :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
+  #                     :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
+  #                     :unless => Proc.new { |organization| organization.url.blank? }
+  # validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
   has_many :signings
   has_many :initiatives, :through => :signings
   has_many :contacts 
@@ -95,6 +103,7 @@ class Organization < ActiveRecord::Base
   }
   
   state_machine :cop_state, :initial => :active do
+    after_transition :on => :delist, :do => :set_delisted_status
     event :communication_late do
       transition :from => :active, :to => :noncommunicating
     end
@@ -280,6 +289,13 @@ class Organization < ActiveRecord::Base
   def set_approved_on
     self.participant = true
     self.joined_on = Date.today
+    self.save
+  end
+  
+  def set_delisted_status
+    puts "set_delisted_status called"
+    self.delisted_on = Date.today
+    self.removal_reason = RemovalReason.delisted
     self.save
   end
   

@@ -118,6 +118,7 @@ ActionController::Routing::Routes.draw do |map|
     map.search '/search', :controller => 'search', :action => 'index'
 
     map.decorate_page 'decorate/*path', :controller => 'pages', :action => 'decorate'
+    map.preview_page 'preview/*path', :controller => 'pages', :action => 'preview'
     map.view_page '*path', :controller => 'pages', :action => 'view'
   # map.connect ':controller/:action/:id'
   # map.connect ':controller/:action/:id.:format'

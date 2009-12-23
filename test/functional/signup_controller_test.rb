@@ -13,7 +13,9 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "get the second step page after posting organization details" do
-      post :step2, :organization => {:name => 'ACME inc', :employees => 500}
+      post :step2, :organization => {:name => 'ACME inc',
+                                     :employees => 500,
+                                     :organization_type_id => OrganizationType.first.id}
       assert_response :success
       assert_template 'step2'
     end

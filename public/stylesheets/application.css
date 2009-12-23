@@ -3,28 +3,46 @@ body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
 #header { background: url(/images/header_image.jpg) top center no-repeat; width: 1000px; height: 160px; margin: 0 auto; }
 
 div.click_to_edit {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border: 1px solid #ccc;
+  background-color: #f0f6fa;
 	float: right;
-	font-size: 10pt;
-	text-align: center;
+	margin: 2px;
 }
+  
+  div.click_to_edit a.edit_content, div.click_to_edit a.saveEditor, div.click_to_edit a.cancelEditor {
+    background: transparent no-repeat 50% 50%;
+    display: block;
+    height: 24px;
+    width: 24px;
+    text-indent: -9999em;
+    opacity: 0.85;
+    padding: 2px;
+  }
+  div.click_to_edit a.edit_content {background-image: url('../images/icons/Edit_24x24.png');}
+  div.click_to_edit a.saveEditor {background-image: url('../images/icons/Save_24x24.png');}
+  div.click_to_edit a.cancelEditor {background-image: url('../images/icons/Cancel_24x24.png');}
 
 div.click_to_edit a,
 #editorLoading {
 	float: right;
-	padding: 0.5em 1em;
 }
 
 div.click_to_edit a {
 	width: 5.5em;
-	border: 1px solid #E0E0E0;
 }
 
 #editorLoading {
 	padding-top: 1em;
 }
 
+#fancyEditor {
+  margin-left: 2px;
+}
+
 div.click_to_edit a:hover {
-	background: #FFC;
+	opacity: 1;
 }
 
 .pagination {
@@ -222,7 +240,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #leftnav ul li.sub a { font-size: 11px; font-weight: normal; color: #00546E; padding: 6px 10px 6px 30px; text-indent: -9px; }
 #leftnav ul li.sub a.sub_selected { font-weight: bold; }
 #rightcontent { min-height: 500px; height: auto !important; height: 500px; position: relative; top: 15px; left: 285px; width: 635px; background-color: #fff; border: 1px solid #dadada; margin-bottom: 35px; }
-#rightcontent .path { height: auto; width: 635px; padding-bottom: 5px; border-bottom: 1px solid #d9d9d9; }
+#rightcontent .path { height: auto; width: 635px; padding-bottom: 7px; border-bottom: 1px solid #d9d9d9; }
 #rightcontent .path p { font-size: 11px; color: #a6a6a6; padding: 14px 0 0 30px; }
 #rightcontent .path a { color: #a6a6a6; }
 #rightcontent .path a:hover { text-decoration: underline; }
@@ -384,4 +402,3 @@ td.center {
 /* Clear for NS/FF/Moz */
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
-

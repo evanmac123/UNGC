@@ -22,7 +22,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
   test "should create organization" do
     assert_difference('Organization.count') do
-      post :create, {:organization => {:name                 => 'Unspace Interactive',
+      post :create, {:organization => {:name                 => 'Unspace',
                                        :organization_type_id => OrganizationType.first.id,
                                        :employees            => 500,
                                        :country_id           => @country.id}}, as(@user)

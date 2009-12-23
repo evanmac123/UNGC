@@ -44,7 +44,7 @@ var	Folder = {
 	rename: function(element, tree) {
 		// TODO: Should "freeze" other actions until this is done
 		var name = tree.get_text(element);
-		var url = window.location.href + '/create_folder.js';
+		var url = window.location.pathname + '/create_folder.js';
 		jQuery.ajax({
 	    type: 'post',
 	    url: url,
@@ -67,9 +67,29 @@ var Page = {
 	parent_id: null,
 	editor: null,
 	approved: null,
+	editMode: null,
 	approveAndSave: function(e) {
 		Page.approved = true;
 		Page.saveChanges(e);
+	},
+	dynamicallyLoad: function(node) {
+    var url = $(node).children('a').attr('href');
+    if (url != '') {
+      $('#loading').show();
+			var area = $('#pageArea');
+			area.addClass('loading');
+      url += '.js';
+      jQuery.ajax({
+        type: 'get',
+        url: url,
+        dataType: 'script',
+        success: function() { 
+					Page.launchEditor(); 
+					Treeview.showPage(); 
+					area.removeClass('loading'); 
+				}
+      });
+    }
 	},
 	gatherData: function(e) {
 		$('#pageArea').addClass('loading');
@@ -78,7 +98,7 @@ var Page = {
 			var url = $(e.target).attr('href') + '.js';
 			var data = '_method=put';
 		} else {
-			var url = window.location.href + '.js';
+			var url = window.location.pathname + '.js';
 			var data = '';
 		}
 		if (Page.approved)
@@ -93,23 +113,13 @@ var Page = {
 		return({data: data, url: url});
 	},
 	finishedSaving: function(response) {
-		Page.approved = null;
-		Page.hasBeenChanged = null; 
-		Page.attributes = {};
-		Page.editor.resetDirty(); 
-		var node = $(Page.selected);
-		var child = node.children('a');
-		var status = response.page.approval;
-
-		node.attr({id: 'page_'+response.page.id});
-		var href = child.attr('href');
-		child.attr({href: href.replace(/\d+/, response.page.id)});
-		$.tree.focused().rename(node, response.page.title);
-		if (status == 'pending')
-			child.addClass('pending');
-		else if (status == 'approved')
-			child.removeClass('pending');
-		$('#pageArea').removeClass('loading');
+		if (Page.editMode)
+			window.location.href = window.location.pathname.replace(/\/\d+\/edit/, '')
+		else {
+			Page.updateNode(response); // needs to happen before Page.selected is cleared
+			Page.initialize(Page.selected);
+			$('#pageArea').removeClass('loading');
+		}
 	},
 	hasChanges: function() {
 		if (Page.selected) {
@@ -121,6 +131,30 @@ var Page = {
 				return Page.editor.checkDirty();
 		}
 		return false;
+	},
+	idForPage: function(element) {
+		var id = element.attr('id');
+		var matching = id.match(/(page)?\D*_(\d+)/);
+		var page_id = null;
+		if ((matching) && (matching[1] == 'page')) { // it's a page
+			page_id = matching[2];
+	  }
+		return page_id;
+	},
+	initialize: function(element) {
+		if (Page.editor) {
+			$('#pageReplace form').hide()
+			Page.editor.destroy();
+		}
+		Page.selected = element;
+		Page.dynamicallyLoad(element);
+		element = $(element);
+		Page.approved = null;
+		Page.hasBeenChanged = null; 
+		Page.attributes = {};
+		var page_id = Page.idForPage(element);
+		if (page_id)
+			Page.id = page_id;
 	},
 	launchEditor: function() {
 		// e.preventDefault();
@@ -156,21 +190,13 @@ var Page = {
 	  });
 	},
 	select: function(element) {
-		Page.selected = element;
-		element = $(element);
-		if (Page.editor) {
-			$('#pageReplace form').hide()
-			Page.editor.destroy();
-		}
-		Page.hasBeenChanged = null;
-		var id = element.attr('id');
-		var matching = id.match(/(page)?\D*_(\d+)/);
-		if ((matching) && (matching[1] == 'page')) { // it's a page
-			Page.id = matching[2];
-	  }
+		Page.initialize(element);
 	},
 	setEditing: function(id) {
-		
+		Page.selected = id;
+		Page.id = id;
+		Page.editMode = true;
+		Page.launchEditor();
 	},
 	store: function(elements) {
 		elements.each( function(i) {
@@ -191,7 +217,7 @@ var Page = {
 		return Page.attributes[name];
 	},
 	rename: function(element, tree) {
-		var url = window.location.href + '.js';
+		var url = window.location.pathname + '.js';
 		var title = tree.get_text(element);
 		var position  = $('#'+Page.parent_id+' ul > li').size();
 		jQuery.ajax({
@@ -200,7 +226,7 @@ var Page = {
 		  dataType: 'json',
 		  data: "page[title]="+title+"&page[derive_path_from]="+Page.parent_id+"&page[position]="+position,
 		  success: function(response) { 
-		    var href = window.location.href;
+		    var href = window.location.pathname;
 		    var page_id = response.page.id;
 		    element.removeClass('updateAfterRename').attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
 				Treeview.handleSelect(element[0], tree); // needs to pass the node, not the element
@@ -215,6 +241,19 @@ var Page = {
 	toggleDynamicContent: function(e) {
 		var element = $(e.target);
 		Page.write('dynamic_content', element.val());
+	},
+	updateNode: function(response) {
+		var node = $(Page.selected);
+		var child = node.children('a');
+		var status = response.page.approval;
+		node.attr({id: 'page_'+response.page.id});
+		var href = child.attr('href');
+		child.attr({href: href.replace(/\d+/, response.page.id)});
+		$.tree.focused().rename(node, response.page.title);
+		if (status == 'pending')
+			child.addClass('pending');
+		else if (status == 'approved')
+			child.removeClass('pending');
 	},
 	write: function(name, value) {
 		var old_value = Page.read(name);
@@ -343,7 +382,7 @@ var Treeview = {
 	onselect: function(node, tree) {
 		var isSection = $(node).attr('rel') == 'section';
 		if (isSection)
-			tree.toggle_branch(node);
+			tree.open_branch(node);
 		if (Page.selected == node)
 			return false;
 		else if (Treeview.safeToChangePages())
@@ -352,24 +391,7 @@ var Treeview = {
 			Treeview.handleSelect(node, tree);
   },
 	handleSelect: function(node, tree) {
-		Page.select(node);
-    var url = $(node).children('a').attr('href');
-    if (url != '') {
-      $('#loading').show();
-			var area = $('#pageArea');
-			area.addClass('loading');
-      url += '.js';
-      jQuery.ajax({
-        type: 'get',
-        url: url,
-        dataType: 'script',
-        success: function() { 
-					Page.launchEditor(); 
-					Treeview.showPage(); 
-					area.removeClass('loading'); 
-				}
-      });
-    }
+		Page.initialize(node);
 	},
   deletedNodes: [],
   hiddenNodes: [],
@@ -471,8 +493,9 @@ $(function() {
 
 $(document).ready(function() {
   //style and functionality for table rows
-    //add .odd to alternating table rows
+    //add .odd to alternating table rows and other elements
     $('div#main_content table.dashboard_table tr:odd').addClass("odd");
+    $('ul.striped li:odd').addClass("odd");
   
     //hover styling for table rows
     $('div#main_content table.dashboard_table tr').hover(

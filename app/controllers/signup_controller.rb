@@ -48,7 +48,7 @@ class SignupController < ApplicationController
   # shows thank you page
   def step5
     @organization.attributes = params[:organization]
-    if @organization.commitment_letter?
+    if @organization.valid? && @organization.commitment_letter?
       # save all records
       @organization.save
       @contact.save
@@ -59,7 +59,7 @@ class SignupController < ApplicationController
       deliver_notification_email(@organization)
       clean_session
     else
-      flash[:error] = 'Please upload your Letter of Commitment'
+      flash[:error] = "Please upload your Letter of Commitment #{@organization.valid?}. #{@organization.errors.full_messages.to_sentence}"
       redirect_to organization_step4_path
     end
   end

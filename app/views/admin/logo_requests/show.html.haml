@@ -17,8 +17,6 @@
         - for logo_comment in @logo_request.logo_comments.with_attachment
           %li= link_to_attached_file(logo_comment)
 
-= logo_request_actions(@logo_request)
-
 %div{:class => "tab_container top_tabs"} 
   %ul.tab_nav
     %li <a href="#comments">Comments</a>

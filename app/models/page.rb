@@ -38,7 +38,7 @@ class Page < ActiveRecord::Base
     :order       => "position ASC", 
     :class_name  => 'Page', 
     :foreign_key => :parent_id, 
-    :conditions  => {:display_in_navigation => true}
+    :conditions  => {:display_in_navigation => true, approval: 'approved'}
   has_many :approved_children, 
     :order       => 'position ASC', 
     :class_name  => 'Page', 
@@ -116,6 +116,7 @@ class Page < ActiveRecord::Base
   end
   
   def before_approve!
+    path = self.find_by_id(id)
     previously = self.class.approved_for_path(path)
     previously.revoke! if previously
   end

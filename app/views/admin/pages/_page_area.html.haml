@@ -4,7 +4,7 @@
   %ul{class: @page ? '' : 'disabled'}
     - if @page
       /%li= link_to 'Edit page', edit_admin_page_path(@page), class: 'edit_page', title: 'Edit page'
-      %li= link_to 'View on site', view_page_path(@page.to_path), class: 'preview_page', title: 'View on site', target: '_blank'
+      %li= link_to 'View on site', preview_page_path(@page.to_path), class: 'preview_page', title: 'View on site', target: '_blank'
       %li= link_to 'Save changes', admin_page_path(@page), class: 'save save_page', title: 'Save changes to this page'
       %li= link_to 'Approve', admin_page_path(@page), class: "approve approve_page", title: 'Approve page'
       /%li= link_to 'Reject', revoke_admin_page_path(@page), class: "#{enable_revoke(@page)} revoke revoke_page link_to_post", title: 'Revoke approval'
@@ -12,6 +12,6 @@
   %dl#pageDetailsReplace
     = render 'page_details' if @page
 #page_preview
-  #preview_contents.box
+  #preview_contents
     #pageReplace.inside
       = render 'page' if @page

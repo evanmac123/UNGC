@@ -1,25 +1,12 @@
 %h3 Reports
-
-%h4 Participant Management
-%ul
+ 
+%ul#report_list.striped
   %li= link_to_report 'Participant Breakdown', :participant_breakdown
   %li= link_to_report 'Contacts for Mail Merge', :contacts_mail_merge
   %li= link_to_report 'Contacts for Excel Macro', :contacts_excel_macro
   %li= link_to_report 'Delisted Participants', :delisted_participants
   %li= link_to_report 'Publicly-traded Companies', :listed_companies
   %li= link_to_report 'Companies without contacts', :companies_without_contacts
-  
-%h4 Communication on Progress
-
-%h4 Local Networks
-%ul
-  %li= link_to_report 'Networks Report', :networks
-
-%h4 Communications
-%ul
   %li= link_to_report 'Bulletin Subscribers', :bulletin_subscribers
-
-%h4 Other Reports
-%ul
+  %li= link_to_report 'Networks Report', :networks
   %li= link_to_report 'Foundation Pledges', :foundation_pledges
-  %li= link_to_report 'Approved Logo Requests', :approved_logo_requests

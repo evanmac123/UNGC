@@ -85,6 +85,10 @@ function hideBusinessAndStakeholders (argument) {
 	$('.for_business_only').hide();
 }
 
+function clearPledgeOtherAmount (argument) {
+	$("#organization_pledge_amount_other").val('');
+}
+
 var Watcher = {
 	watcher: null,
 	fetched: null,
@@ -113,6 +117,7 @@ var Watcher = {
 	goDecorate: function(number) {
 		if ((window.location.pathname != '/') && (window.location.pathname != '')) {
 			var url = "/decorate"+window.location.pathname;
+			url = url.replace(/preview\//, '');
 			if (number != null) url += '?version=' + number;
 
 			if (Watcher.alreadyFetched(url)) {
@@ -186,5 +191,6 @@ $(function() {
 
 	$('form label#business_only').click( showBusinessOnly );
 	$('form label#stakeholders_only').click( showStakeholdersOnly );
-	$('form label#hide_business_and_stakeholders').click( hideBusinessAndStakeholders );
+	$('form label#hide_business_and_stakeholders').click( hideBusinessAndStakeholders );	
+	$('form .fixed_pledge').click( clearPledgeOtherAmount );
 });

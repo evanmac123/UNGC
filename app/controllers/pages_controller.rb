@@ -1,8 +1,10 @@
 class PagesController < ApplicationController
   helper %w{application case_stories cops datetime events local_network navigation news organizations pages participants search sessions signatories signup stakeholders} # needs to be explicit
   before_filter :soft_require_staff_user, :only => :decorate
-  before_filter :find_content, :except => [:redirect_local_network]
-  before_filter :page_is_editable, :only => :view
+  before_filter :require_staff_user, :only => :preview
+  before_filter :find_content, :except => [:decorate, :preview, :redirect_local_network]
+  before_filter :find_content_for_staff, :only => [:decorate, :preview]
+  before_filter :page_is_editable, :only => [:preview, :view]
   # layout :determine_layout
   
   def view
@@ -13,6 +15,12 @@ class PagesController < ApplicationController
     json_to_render = {'editor' => render_to_string(:partial => 'editor')}
     json_to_render['content'] = render_to_string(:template => template, :layout => false) if params[:version]
     render :json => json_to_render
+  end
+
+  def preview
+    @preview = true
+    @current_version.content ||= '<p>[No content]</p>'
+    view
   end
 
   def redirect_local_network
@@ -41,6 +49,17 @@ class PagesController < ApplicationController
     render :text => 'Not Found', :status => 404 unless @page and @current_version
   end
   
+  def find_content_for_staff
+    @page = Page.for_path(formatted_request_path)
+    @current_version = @page.find_version_number(params[:version]) if params[:version]
+    @current_version ||= @page.versions.last
+  end
+  
+  def find_content_for_staff
+    @page = Page.for_path(formatted_request_path)
+    @current_version = @page.versions.last
+  end
+  
   def active_version_of(page)
     if page.approved?
       page
@@ -51,6 +70,10 @@ class PagesController < ApplicationController
   
   def soft_require_staff_user
     render :text => '  ', :status => 200 unless request.xhr? && staff_user?
+  end
+  
+  def require_staff_user
+    redirect_to root_path unless staff_user?
   end
   
   def template
