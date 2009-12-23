@@ -7,6 +7,6 @@ module Searchable::SearchableOrganization
   end
   
   def index_organizations
-    Organization.participants.approved.each { |o| index_organization o }
+    Organization.participants.active.approved.each { |o| index_organization o }
   end
 end
