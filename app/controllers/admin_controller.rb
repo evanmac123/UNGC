@@ -29,13 +29,13 @@ class AdminController < ApplicationController
     end
     render :template => "admin/dashboard_#{current_user.user_type}.html.haml"
   end
-  
+
   private
-  def require_staff # TODO: Make this secure
-    current_user.from_ungc?
-  end
+    def require_staff # TODO: Make this secure
+      current_user.from_ungc?
+    end
   
-  def add_admin_js
-    (@javascript ||= []) << 'admin'
-  end
+    def add_admin_js
+      (@javascript ||= []) << 'admin'
+    end
 end

@@ -11,6 +11,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Back-end routes
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
+  map.parameters '/admin/parameters', :controller => 'admin', :action => 'parameters'
 
   # These need to come before resources :pages
   map.with_options :controller => 'admin/pages' do |m|
