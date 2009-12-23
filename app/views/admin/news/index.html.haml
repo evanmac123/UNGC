@@ -21,4 +21,4 @@
               %li= link_to 'Edit', edit_admin_headline_path(headline), class: 'edit', title: 'Edit details'
               %li= link_to 'Delete', admin_headline_path(headline), class: 'delete link_to_destroy', :confirmation => 'Are you sure you want to delete this headline?'
           
-= link_to 'Create a headline', new_admin_headline_path
+= link_to 'Create a headline', new_admin_headline_path, :class => 'new', :id => 'new_headline'
