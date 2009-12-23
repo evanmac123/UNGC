@@ -13,5 +13,8 @@
 
 class BulletinSubscriber < ActiveRecord::Base
   validates_presence_of :email
-  validates_format_of :email, :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/, :on => :create, :message => "is not a valid emai "
+  validates_format_of   :email,
+                        :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
+                        :on => :create,
+                        :message => "is not a valid email"
 end
