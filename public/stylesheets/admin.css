@@ -66,11 +66,30 @@ ul.nav_bar {
       left: auto; }
 
 #main_content {
-  clear: left; }
+  clear: left;
+  position: relative; }
   #main_content h2 {
     margin-bottom: 0.5em;
     color: #14546f;
     font-weight: bold; }
+  #main_content a.new {
+    display: block;
+    width: 60px;
+    height: 24px;
+    padding: 0 30px 0 0;
+    position: absolute;
+    right: 0;
+    top: 4px;
+    text-align: right;
+    color: #14546f;
+    text-decoration: none;
+    opacity: 0.85;
+    font-weight: bold;
+    background: url('../images/icons/Add_24x24.png') no-repeat 100% 50%; }
+    #main_content a.new:hover {
+      opacity: 1; }
+    #main_content a.new#new_COP {
+      line-height: 24px; }
   #main_content table.dashboard_table {
     width: 100%;
     margin-bottom: 0; }
@@ -99,7 +118,8 @@ ul.nav_bar {
       margin: 0; }
       #main_content table.dashboard_table ul.actions li {
         float: left;
-        list-style: none; }
+        list-style: none;
+        margin: 0 2px; }
       #main_content table.dashboard_table ul.actions a {
         display: block;
         background: transparent no-repeat 50% 50%;
@@ -233,23 +253,10 @@ ul.nav_bar {
     margin: 0 0 0 125px;
     position: relative;
     left: -1px; }
-  #main_content .tab_container .tab_content a.new {
-    display: block;
-    width: 60px;
-    height: 24px;
-    padding: 0 30px 0 0;
-    position: absolute;
-    right: 10px;
-    top: 12px;
-    text-align: right;
-    color: #14546f;
-    text-decoration: none;
-    opacity: 0.85;
-    font-weight: bold;
-    background: url('../images/icons/Add_24x24.png') no-repeat 100% 50%; }
-    #main_content .tab_container .tab_content a.new:hover {
-      opacity: 1; }
-    #main_content .tab_container .tab_content a.new#new_COP {
+  #main_content .tab_container div.tab_content a.new {
+    right: 12px;
+    top: 12px; }
+    #main_content .tab_container div.tab_content a.new#new_COP {
       line-height: 24px; }
   #main_content .tab_container ul.tools {
     border-bottom: 1px solid #999;

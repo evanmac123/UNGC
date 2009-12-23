@@ -1,6 +1,6 @@
 %h2 Events
 
-= link_to 'Create an event', new_admin_event_path
+= link_to 'Create an event', new_admin_event_path, :class => 'new', :id => 'new_event'
 
 - if paged_events.any?
   %table.dashboard_table
