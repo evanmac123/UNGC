@@ -18,19 +18,15 @@
 
 var EditorToolbar = [
 	['Source','-','-'],
-	['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker', 'Scayt'],
-	['Undo','Redo','-','Find','Replace','SelectAll'],
+	['Maximize','Preview'],
+	['PasteText','PasteFromWord'],
+	['Undo','Redo'],
 	['Image','Table','HorizontalRule','SpecialChar'],
-	// ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+	['Link','Unlink','Anchor'],
 	'/',
-	['Bold','Italic','Underline','Strike','Subscript','Superscript','RemoveFormat'],
-	['Link','Unlink'],
+	['Format','Bold','Italic','Underline','Subscript','Superscript','RemoveFormat'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-	['Outdent','Indent','NumberedList','BulletedList','Blockquote'],
-	// '/',
-	// ['Styles','Format','Font','FontSize'],
-	// ['TextColor','BGColor'],
-	// ['Maximize', 'ShowBlocks','-','About']
+	['Outdent','Indent','NumberedList','BulletedList']
 ];
 
 

@@ -16,7 +16,7 @@ $("#organization_listing_status_id").change(function() {
 })
 
 // called from views/signup/step4.html.haml
-$("#organization_pledge_amount_1").click(function() {
+$("#organization_pledge_amount_0").click(function() {
   $('#organization_pledge_amount_other').focus();
 })
 
