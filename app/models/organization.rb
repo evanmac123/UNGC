@@ -45,8 +45,8 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :on => :create, :message => "must be unique"
-  # TODO uncomment after import, since un7 data fails validation
+  # TODO uncomment after import, since un7 data may fail validation
+  # validates_uniqueness_of :name, :on => :create, :message => "must be unique"
   # validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   # validates_format_of :url,
   #                     :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
@@ -286,16 +286,22 @@ class Organization < ActiveRecord::Base
     set_approved_on
   end
   
+  # def set_network_review
+  #   self.network_review_date = Date.today
+  #   self.save  
+  # end
+
   def set_approved_on
+    self.active = true
     self.participant = true
     self.joined_on = Date.today
     self.save
   end
   
   def set_delisted_status
-    puts "set_delisted_status called"
-    self.delisted_on = Date.today
+    self.active = false
     self.removal_reason = RemovalReason.delisted
+    self.delisted_on = Date.today
     self.save
   end
   
@@ -326,7 +332,7 @@ class Organization < ActiveRecord::Base
     
     def pledge_amount_other_at_least_10000
       if pledge_amount_other.to_i != 0 and pledge_amount_other.to_i < 10000
-        errors.add :pledge_amount_other, "cannot be less than US$10,000"
+        errors.add :pledge_amount_other, "cannot be less than 10000 USD"
       end
     end
 end

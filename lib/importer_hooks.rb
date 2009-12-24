@@ -34,6 +34,27 @@ module ImporterHooks
         # import id in TMP table
         old_tmp_id = row["ID"].to_i
         o.old_tmp_id = old_tmp_id if old_tmp_id.to_i > 0
+
+        # import network_review state
+
+        # R01_ORGANIZATION_TEMP.ORG_STATUS values
+        # 0 = rejected 
+        # 1 = new 
+        # 2 = in review by Local Network 
+        # 3 = accepted 
+        
+        
+        # review_state = row["[ORG_STATUS]"]
+        # if review_state.to_i == 2 
+        #   o.state = 'network_review'
+        #   o.network_review_date = row["[ORG_DATE_APPROVE]"]
+        # end
+        
+        # if review_state.to_i == 0 
+        #   o.state = 'rejected'
+        #   o.rejected_date = row["[ORG_DATE_REJECT]"]
+        # end
+        
         # save the record
         o.save
       end
