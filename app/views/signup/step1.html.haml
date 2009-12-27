@@ -8,7 +8,7 @@
     %fieldset
       %ol
         %li
-          = form.label :name, "Organization"
+          = form.label :name, "Name"
           = form.text_field :name
         %li
           = form.label :url, "Website"
@@ -25,7 +25,7 @@
               = form.label :is_ft_500, "FT 500"
               = form.check_box :is_ft_500
             %li
-              = form.label :exchange_id, "Market"
+              = form.label :exchange_id, "Exchange"
               = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
             %li
               = form.label :stock_symbol
@@ -35,7 +35,7 @@
             = form.label :sector_id
             = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
         %li
-          = form.label :employees, "# of employees"
+          = form.label :employees, "Employees"
           = form.text_field :employees, {:label => "Number of employees"}
         %li
           = form.label :country_id

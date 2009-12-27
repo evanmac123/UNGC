@@ -1,7 +1,7 @@
 %fieldset
   %ol
     = default_form.text_field :title
-    = default_form.text_area :description
+    = default_form.text_area :description, {:label => "Body" }
     = default_form.text_field :location
     = default_form.select :country_id, countries_for_select
     -# The order of class/label is important, see default_form_builder
