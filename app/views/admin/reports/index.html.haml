@@ -1,5 +1,8 @@
-%h3 Reports
+%h2 Reports
  
+%p
+  %h3 Participant Management
+
 %ul#report_list.striped
   %li= link_to_report 'Participant Breakdown', :participant_breakdown
   %li= link_to_report 'Contacts for Mail Merge', :contacts_mail_merge
@@ -7,6 +10,16 @@
   %li= link_to_report 'Delisted Participants', :delisted_participants
   %li= link_to_report 'Publicly-traded Companies', :listed_companies
   %li= link_to_report 'Companies without contacts', :companies_without_contacts
+
+%p
+  %h3 Communications
+
+%ul#report_list.striped
   %li= link_to_report 'Bulletin Subscribers', :bulletin_subscribers
+
+  %p
+    %h3 Other
+    
+%ul#report_list.striped
   %li= link_to_report 'Networks Report', :networks
   %li= link_to_report 'Foundation Pledges', :foundation_pledges
