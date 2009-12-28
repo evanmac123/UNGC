@@ -13,7 +13,7 @@
           = link_to result.title, result.url
         %div
           = format result # truncate result.content, length: 200
-        %div{:style => 'color: green'}
+        %div{:style => 'color: #BAD5FB'}
           = "http://#{request.host}#{result.url}"
       
   %div

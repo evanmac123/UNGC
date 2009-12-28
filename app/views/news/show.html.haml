@@ -1,4 +1,16 @@
+- @title = @headline.title
 %h1= @headline.title
-%div= " #{@headline.published_on}"
-= @headline.description
-%p= link_to 'Back to headlines', :back
+%div
+  %em==(#{@headline.location}, #{@headline.formatted_date}) &ndash;
+
+  #{@headline.description}
+
+
+<div style="position: absolute; top: 10px; left: 520px; width: 120px;" class="addthis_toolbox addthis_default_style">
+<a class="addthis_button_delicious"></a>
+<a style="margin-left: 10px;" class="addthis_button_digg"></a>
+<a style="margin-left: 10px;" class="addthis_button_newsvine"></a>
+<a style="margin-left: 10px;" class="addthis_button_reddit"></a>
+</div>
+  
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js"></script>

@@ -77,6 +77,10 @@ class Headline < ActiveRecord::Base
     (published_on || Date.today).strftime('%m/%d/%Y')
   end
 
+  def formatted_date
+    self.published_on.strftime('%e %B, %Y')
+  end
+
   # 'location' if just location
   # 'country' if just country
   # 'location, country' only if both
