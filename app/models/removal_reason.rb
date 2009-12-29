@@ -30,7 +30,7 @@ class RemovalReason < ActiveRecord::Base
    }
   
    def self.delisted
-     first :conditions => {:description => FILTERS[:delisted]}
+     first :conditions => { :description => FILTERS[:delisted] }
    end
 
 end
