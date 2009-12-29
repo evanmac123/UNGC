@@ -59,7 +59,7 @@ class SignupController < ApplicationController
       deliver_notification_email(@organization)
       clean_session
     else
-      flash[:error] = "Please upload your Letter of Commitment #{@organization.valid?}. #{@organization.errors.full_messages.to_sentence}"
+      flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
       redirect_to organization_step4_path
     end
   end

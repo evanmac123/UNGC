@@ -297,7 +297,7 @@ class Organization < ActiveRecord::Base
     end
   
     def check_pledge_amount_other
-      unless self.pledge_amount_other.to_i == 0
+      if self.pledge_amount.to_i == -1
         self.pledge_amount = self.pledge_amount_other
       end
     end
@@ -315,7 +315,7 @@ class Organization < ActiveRecord::Base
     end
     
     def pledge_amount_other_at_least_10000
-      if pledge_amount_other.to_i != 0 and pledge_amount_other.to_i < 10000
+      if pledge_amount.to_i == -1 and pledge_amount_other.to_i < 10000
         errors.add :pledge_amount_other, "cannot be less than US$10,000"
       end
     end
