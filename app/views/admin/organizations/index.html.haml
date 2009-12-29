@@ -1,26 +1,32 @@
 %h1 Listing organizations
 
 %p
-  = link_to 'All', admin_organizations_path
+  = link_to 'All', admin_organizations_path, :id => "show_all", :class => "restrictions"
   |
-  = link_to 'Approved', approved_admin_organizations_path
+  = link_to 'Approved', approved_admin_organizations_path, :id => "show_approved", :class => "restrictions"
   |
-  = link_to 'Rejected', rejected_admin_organizations_path
+  = link_to 'Rejected', rejected_admin_organizations_path, :id => "show_rejected", :class => "restrictions"
   |
-  = link_to 'Pending', pending_review_admin_organizations_path
+  = link_to 'Pending', pending_review_admin_organizations_path, :id => "show_pending", :class => "restrictions"
 
-%table
+%table.dashboard_table
   %tr
     %th Name
     %th State
+    %th Actions
 
   - @organizations.each do |organization|
     %tr
       %td=h organization.name
       %td=h organization.state
-      %td= link_to 'Show', admin_organization_path(organization.id)
-      %td= link_to 'Edit', edit_admin_organization_path(organization.id)
-      %td= link_to 'Destroy', admin_organization_path(organization.id), :confirm => 'Are you sure?', :method => :delete
+      %td
+        %ul.actions
+          %li 
+            = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
+          %li 
+            = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
+          %li 
+            = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Destroy", :confirm => 'Are you sure?', :method => :delete
 
 %br/
 
