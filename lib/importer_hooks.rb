@@ -47,12 +47,12 @@ module ImporterHooks
         # review_state = row["[ORG_STATUS]"]
         # if review_state.to_i == 2 
         #   o.state = 'network_review'
-        #   o.network_review_date = row["[ORG_DATE_APPROVE]"]
+        #   o.network_review_on = row["[ORG_DATE_APPROVE]"]
         # end
         
         # if review_state.to_i == 0 
         #   o.state = 'rejected'
-        #   o.rejected_date = row["[ORG_DATE_REJECT]"]
+        #   o.rejected_on = row["[ORG_DATE_REJECT]"]
         # end
         
         # save the record

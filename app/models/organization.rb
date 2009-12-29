@@ -292,7 +292,7 @@ class Organization < ActiveRecord::Base
   end
   
   # def set_network_review
-  #   self.network_review_date = Date.today
+  #   self.network_review_on = Date.today
   #   self.save  
   # end
 
