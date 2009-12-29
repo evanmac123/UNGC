@@ -19,7 +19,7 @@ class OrganizationMailer < ActionMailer::Base
     from EMAIL_SENDER
     subject "#{organization.name} has submitted a registration to the Global Compact"
     content_type "text/html"
-    recipients organization.contacts.contact_points.collect(&:email_recipient)
+    recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
   

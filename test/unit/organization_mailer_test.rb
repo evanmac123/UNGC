@@ -4,8 +4,14 @@ class OrganizationMailerTest < ActionMailer::TestCase
   def setup
     create_organization_and_user
     create_ungc_organization_and_user
+    create_organization_and_ceo
+    create_local_network_with_report_recipient
+    @organization.country_id = @country.id
+
     @organization.comments.create(:contact_id => @staff_user.id,
                                   :body       => 'Lorem ipsum')
+                                  
+
   end
   
   test "submission mailer is sent" do
@@ -33,7 +39,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
     response = OrganizationMailer.deliver_approved_local_network(@organization)
     assert_equal "text/html", response.content_type
     assert_equal "#{@organization.name} has been accepted into the Global Compact", response.subject
-    assert_equal "email@example.com", response.to.first
+    assert_equal @network_contact.email, response.to.first
   end
 
   test "in review mailer is sent" do

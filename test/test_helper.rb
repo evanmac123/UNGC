@@ -80,6 +80,13 @@ class ActiveSupport::TestCase
                                         :email           => 'email@example.com',
                                         :role_ids        => [Role.contact_point.id])
   end
+
+  def create_organization_and_ceo
+    create_organization_and_user
+    @organization_ceo = create_contact(:organization_id => @organization.id,
+                                       :email           => 'email@example.com',
+                                       :role_ids        => [Role.ceo.id])                                        
+  end
   
   def create_staff_user
     create_ungc_organization_and_user
@@ -98,6 +105,7 @@ class ActiveSupport::TestCase
     @local_network = create_local_network(:name => "Canadian Local Network")
     @country = create_country(:name => "Canada", :local_network_id => @local_network.id)
     @network_contact = create_contact(:local_network_id => @local_network.id,
+                                      :email            => 'network@example.com',
                                       :role_ids         => [Role.network_report_recipient.id])
   end
   
