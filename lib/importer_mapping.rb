@@ -62,7 +62,7 @@ module ImporterMapping
                           "ORG_PARTICIPANT_BIT"    => :participant,
                           "ORG_NB_EMPLOY"          => :employees,
                           "ORG_URL"                => :url,
-                          "ORG_BHR_URL"            => nil,
+                          "ORG_BHR_URL"            => :bhr_url,
                           "ORG_DATE_CREATE"        => :added_on,
                           "ORG_DATE_MODIFICATION"  => :modified_on,
                           "ORG_DATE_JOINING"       => :joined_on,
