@@ -9,4 +9,18 @@ module Admin::OrganizationsHelper
     actions << link_to('Back', dashboard_path)
     actions.join(" | ")
   end
+  
+  def link_to_commitment_letter(organization)
+    if organization.commitment_letter_file_name.downcase.ends_with?('.pdf')
+      file_type = 'PDF'
+    elsif organization.commitment_letter_file_name.downcase.ends_with?('.doc') || 
+      organization.attachment_file_name.downcase.ends_with?('.docx')
+      file_type = 'Word'
+    else
+      file_type = 'Other'
+    end
+
+    link_to "#{file_type} document", organization.commitment_letter.url, :class => "#{file_type.downcase}_doc",
+                                                                         :title => "Download #{file_type} document"
+  end
 end

@@ -1,31 +1,30 @@
-%p
-  %b Name:
-  =h @organization.name
-%p
-  %b Status:
-  = @organization.state == 'approved' ? @organization.cop_state : @organization.state
+- @body_class = 'details'
+%h2 Organization details:
 
-- if @organization.commitment_letter
-  %p
-    Letter of Commitment:
-    = link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
+#status_box
+  %dl
+    %dt Name:
+    %dd=h @organization.name
+    %dt Status:
+    %dd= @organization.state == 'approved' ? @organization.cop_state : @organization.state
+    %dt Commitment Letter:
+    %dd
+      %ul.document_list
+        %li= link_to_commitment_letter(@organization)
 
-= organization_actions(@organization)
+/= organization_actions(@organization)
 
-%h3 Comments
-= link_to 'New comment', new_admin_organization_comment_path(@organization.id)
-%ul
-  = render :partial => @organization.comments
-
-%h3 Contacts
-= link_to 'New contact', new_admin_organization_contact_path(@organization.id)
-%ul
-  = render :partial => @organization.contacts
-
-%h3 Local Network
-- if @organization.network_report_recipients.count >= 1
-  Network Report Recipients
-  %ul
-    = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
-- else
-  == There is no Network Report Recipient for #{@organization.country.name}
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#comments">Comments</a>
+    %li <a href="#contacts">Contacts</a>
+  
+  #comments.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new', :title => 'New Comment'
+    %ul.items= render @organization.comments
+  
+  #contacts.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new', :title => 'New Contact'
+    %ul.items= render @organization.contacts
