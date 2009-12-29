@@ -4,8 +4,10 @@ class CopReminderTest < ActiveSupport::TestCase
   context "given a new CopReminder object" do
     setup do
       @reminder = CopReminder.new
-      @business_organization_type = create_organization_type(:name => 'Company')
-      @non_business_organization_type = create_organization_type(:name => 'Academic')
+      @business_organization_type = create_organization_type(:name          => 'Company',
+                                                             :type_property => OrganizationType::BUSINESS)
+      @non_business_organization_type = create_organization_type(:name => 'Academic',
+                                                                 :type_property => OrganizationType::NON_BUSINESS)
 
       # adding organizations with COP due today, in 30 days and in 90 days
       create_organization(:cop_due_on           => Date.today,
@@ -27,6 +29,10 @@ class CopReminderTest < ActiveSupport::TestCase
       create_organization(:cop_due_on           => Date.today,
                           :participant          => false,
                           :organization_type_id => @business_organization_type.id)
+      # not a business
+      create_organization(:cop_due_on           => Date.today,
+                          :participant          => true,
+                          :organization_type_id => @non_business_organization_type.id)
     end
     
     should "send email to the 1 organization with COP due for today" do

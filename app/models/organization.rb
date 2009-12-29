@@ -116,7 +116,12 @@ class Organization < ActiveRecord::Base
 
   named_scope :companies_and_smes, { 
     :include => :organization_type,
-    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ] 
+    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ]
+  }
+  
+  named_scope :businesses, {
+    :include    => :organization_type,
+    :conditions => ["organization_types.type_property = ?", OrganizationType::BUSINESS] 
   }
 
   named_scope :by_type, lambda { |filter_type|
