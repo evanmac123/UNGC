@@ -1,4 +1,5 @@
-%li
-  = comment.created_at
-  %blockquote= comment.body
-  = link_to_attachment(comment)
+%li.item{:id => dom_id(comment)}
+  .meta
+    %p.name= comment.contact.name
+    %p.datetime= comment.created_at.strftime '%d-%b-%Y %I:%M%p'
+  .body= comment.body

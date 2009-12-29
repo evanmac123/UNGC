@@ -6,7 +6,7 @@
     %dt Name:
     %dd=h @organization.name
     %dt Status:
-    %dd= @organization.state == 'approved' ? @organization.cop_state : @organization.state
+    %dd= @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
     %dt Commitment Letter:
     %dd
       %ul.document_list
