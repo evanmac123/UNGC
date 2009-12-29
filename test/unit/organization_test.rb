@@ -61,15 +61,31 @@ class OrganizationTest < ActiveSupport::TestCase
       end
       
       should "to 5,000 should be invalid" do
+        @organization.pledge_amount = -1
         @organization.pledge_amount_other = 5000
         assert !@organization.save
         assert @organization.errors.on(:pledge_amount_other)
       end
 
       should "to 15,000 should be valid" do
+        @organization.pledge_amount = -1
         @organization.pledge_amount_other = 15000
         assert @organization.save
         assert_equal 15000, @organization.pledge_amount
+      end
+      
+      should "catch empty string as invalid pledge" do
+        @organization.pledge_amount = -1
+        @organization.pledge_amount_other = ''
+        assert !@organization.valid?, "is not valid, pledge other amount should be greater than 10,000"
+        assert @organization.errors.on :pledge_amount_other
+      end
+      
+      should "catch 0 as invalid pledge" do
+        @organization.pledge_amount = -1
+        @organization.pledge_amount_other = '0'
+        assert !@organization.valid?, "is not valid, pledge other amount should be greater than 10,000"
+        assert @organization.errors.on :pledge_amount_other
       end
     end
         

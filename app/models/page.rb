@@ -104,7 +104,7 @@ class Page < ActiveRecord::Base
         from pages 
         where group_id = %i 
           and ((approval = %s) or (approval = %s))
-        order by path asc, updated_at desc) as t1
+        order by path asc, approval desc, updated_at desc) as t1
       group by t1.path
       order by t1.position asc" % [group_id, "'approved'", "'pending'"]
     results = find_by_sql(sql)
@@ -116,9 +116,9 @@ class Page < ActiveRecord::Base
   end
   
   def before_approve!
-    path = self.find_by_id(id)
-    previously = self.class.approved_for_path(path)
-    previously.revoke! if previously
+    path = self.class.find_by_id(id).path
+    was_approved = self.class.approved_for_path(path)
+    was_approved.revoke! if was_approved unless was_approved == self
   end
   
   def active_version

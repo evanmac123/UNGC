@@ -9,6 +9,7 @@ class PageTest < ActiveSupport::TestCase
   context "given a page" do
     setup do
       @page = create_page :content => "<p>This is my content.</p>", :approval => 'pending'
+      @page.approve!
     end
 
     should "auto-create first version" do
@@ -18,7 +19,12 @@ class PageTest < ActiveSupport::TestCase
     
     context "with another version" do
       setup do
-        @version2 = @page.new_version :content => "<p>Middle version.</p>", :approval => 'approved'
+        @version2 = @page.new_version :content => "<p>Middle version.</p>"
+        @version2.approve!
+      end
+      
+      should "make version1 'previously'" do
+        assert_equal 'previously', @page.reload.approval
       end
 
       should "auto-increment version number" do
@@ -208,7 +214,7 @@ class PageTest < ActiveSupport::TestCase
     end
 
     should "find appropriate versions for treeview via leaves" do
-      assert_same_elements [@page1v2, @page2], @group.leaves[nil]
+      assert_same_elements [@page1v3, @page2], @group.leaves[nil]
     end
   end
   

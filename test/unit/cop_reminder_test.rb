@@ -4,40 +4,35 @@ class CopReminderTest < ActiveSupport::TestCase
   context "given a new CopReminder object" do
     setup do
       @reminder = CopReminder.new
-      @business_organization_type = create_organization_type(:name => 'Company')
-      @non_business_organization_type = create_organization_type(:name => 'Academic')
+      @business_organization_type = create_organization_type(:name          => 'Company',
+                                                             :type_property => OrganizationType::BUSINESS)
+      @non_business_organization_type = create_organization_type(:name => 'Academic',
+                                                                 :type_property => OrganizationType::NON_BUSINESS)
 
-      # we organizations with COP due today, in 30 days and in 90 days
-      
-      create_organization(:cop_due_on => Date.today,
-                          :participant => true,
-                          :organization_type_id => @business_organization_type.id 
-                          )
+      # adding organizations with COP due today, in 30 days and in 90 days
+      create_organization(:cop_due_on           => Date.today,
+                          :participant          => true,
+                          :organization_type_id => @business_organization_type.id)
 
-      create_organization(:cop_due_on => 30.days.from_now.to_date,
-                          :participant => true,
-                          :organization_type_id => @business_organization_type.id 
-                          )
+      create_organization(:cop_due_on           => 30.days.from_now.to_date,
+                          :participant          => true,
+                          :organization_type_id => @business_organization_type.id)
 
-      create_organization(:cop_due_on => 90.days.from_now.to_date,
-                          :participant => true,
-                          :organization_type_id => @business_organization_type.id 
-                          )
+      create_organization(:cop_due_on           => 90.days.from_now.to_date,
+                          :participant          => true,
+                          :organization_type_id => @business_organization_type.id)
 
       # adding organizations that shouldn't be notified
       create_organization(:cop_due_on => 45.days.from_now.to_date)
 
       # not a participant
-      create_organization(:cop_due_on => Date.today,
-                          :participant => false,
-                          :organization_type_id => @business_organization_type.id 
-                          )
+      create_organization(:cop_due_on           => Date.today,
+                          :participant          => false,
+                          :organization_type_id => @business_organization_type.id)
       # not a business
-      create_organization(:cop_due_on => Date.today,
-                          :participant => true,
-                          :organization_type_id => @non_business_organization_type.id 
-                          )
-                           
+      create_organization(:cop_due_on           => Date.today,
+                          :participant          => true,
+                          :organization_type_id => @non_business_organization_type.id)
     end
     
     should "send email to the 1 organization with COP due for today" do

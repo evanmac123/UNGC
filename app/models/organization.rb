@@ -125,7 +125,12 @@ class Organization < ActiveRecord::Base
 
   named_scope :companies_and_smes, { 
     :include => :organization_type,
-    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ] 
+    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ]
+  }
+  
+  named_scope :businesses, {
+    :include    => :organization_type,
+    :conditions => ["organization_types.type_property = ?", OrganizationType::BUSINESS] 
   }
 
   named_scope :by_type, lambda { |filter_type|
@@ -291,7 +296,7 @@ class Organization < ActiveRecord::Base
   end
   
   # def set_network_review
-  #   self.network_review_date = Date.today
+  #   self.network_review_on = Date.today
   #   self.save  
   # end
 
@@ -317,7 +322,7 @@ class Organization < ActiveRecord::Base
     end
   
     def check_pledge_amount_other
-      unless self.pledge_amount_other.to_i == 0
+      if self.pledge_amount.to_i == -1
         self.pledge_amount = self.pledge_amount_other
       end
     end
@@ -335,7 +340,7 @@ class Organization < ActiveRecord::Base
     end
     
     def pledge_amount_other_at_least_10000
-      if pledge_amount_other.to_i != 0 and pledge_amount_other.to_i < 10000
+      if pledge_amount.to_i == -1 and pledge_amount_other.to_i < 10000
         errors.add :pledge_amount_other, "cannot be less than 10000 USD"
       end
     end
