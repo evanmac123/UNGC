@@ -10,25 +10,26 @@
   .body
     %dl#contact_data_left.contact_data
       %dt Job Title:
-      %dd= contact.job_title
+      %dd= contact.job_title.blank? ? 'n/a' : contact.job_title
       
       %dt Email Address
-      %dd= contact.email
+      %dd= contact.email.blank? ? 'n/a' : contact.email
       
       %dt Phone Number:
-      %dd= contact.phone
+      %dd= contact.phone.blank? ? 'n/a' : contact.phone
+
     %dl#contact_data_right.contact_data
       %dt Country:
       %dd= contact.country.name
       
       %dt Address:
-      %dd= contact.address
+      %dd= contact.address.blank? ? 'n/a' : contact.address
       
       %dt City:
-      %dd= contact.city
+      %dd= contact.city.blank? ? 'n/a' : contact.city
       
       %dt State:
-      %dd= contact.state
+      %dd= contact.state.blank? ? 'n/a' : contact.state
       
       %dt Postal Code:
-      %dd= contact.postal_code
+      %dd= contact.postal_code.blank? ? 'n/a' : contact.postal_code
