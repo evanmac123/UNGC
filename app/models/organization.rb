@@ -199,7 +199,11 @@ class Organization < ActiveRecord::Base
   }
 
   def network_report_recipients
-    self.country.local_network.contacts.network_report_recipients
+    if self.country.try(:local_network)
+      self.country.local_network.contacts.network_report_recipients
+    else
+      []
+    end
   end
   
   def self.find_by_param(param)
@@ -212,10 +216,6 @@ class Organization < ActiveRecord::Base
   def self.visible_in_local_network
     statuses = [:noncommunicating, :active, :delisted]
     participants.active.with_cop_status(statuses)
-  end
-
-  def country_name
-    country.name
   end
 
   def company?
@@ -236,6 +236,10 @@ class Organization < ActiveRecord::Base
   
   def sector_name
     sector.try(:name)
+  end
+
+  def organization_type_name
+    organization_type.try(:name)
   end
   
   def business_for_search

@@ -15,6 +15,14 @@ class OrganizationMailer < ActionMailer::Base
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
   
+  def network_review(organization)
+    from EMAIL_SENDER
+    subject "#{organization.name} has submitted a registration to the Global Compact"
+    content_type "text/html"
+    recipients organization.contacts.contact_points.collect(&:email_recipient)
+    body :organization => organization, :contact => organization.contacts.contact_points.first
+  end
+  
   def approved_business(organization)
     from EMAIL_SENDER
     subject "Welcome to the United Nations Global Compact"
@@ -35,8 +43,8 @@ class OrganizationMailer < ActionMailer::Base
     from EMAIL_SENDER
     subject "#{organization.name} has been accepted into the Global Compact"
     content_type "text/html"
-    recipients organization.contacts.contact_points.collect(&:email_recipient)
-    body :organization => organization, :contact => organization.contacts.contact_points.first
+    recipients organization.network_report_recipients.collect(&:email_recipient)
+    body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first 
   end
 
   def reject_microenterprise(organization)
