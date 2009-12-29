@@ -20,7 +20,7 @@
 
     %dl#contact_data_right.contact_data
       %dt Country:
-      %dd= contact.country.name
+      %dd= contact.country.try(:name)
       
       %dt Address:
       %dd= contact.address.blank? ? 'n/a' : contact.address
