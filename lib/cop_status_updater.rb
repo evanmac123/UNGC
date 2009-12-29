@@ -11,8 +11,6 @@ class CopStatusUpdater
   
   def move_noncommunicating_organizations_to_delisted
     organizations = Organization.participants.companies_and_smes.about_to_become_delisted
-    organizations.each { |org| puts "Before: #{org.id} => #{org.cop_state} #{org.name}\n"; }
-    # organizations.each { |org| org.delist }
-    organizations.each { |org| puts "After: #{org.id} => #{org.cop_state} #{org.name}\n"; }
+    organizations.each { |org| org.delist }
   end
 end
