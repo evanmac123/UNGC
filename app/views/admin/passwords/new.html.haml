@@ -3,6 +3,8 @@
 %p
   Please enter your email address below. You will receive an email with instructions on choosing a new password.
 
+= flash_messages_for :error, :notice
+
 - form_tag password_path do
   %fieldset
     %ol
