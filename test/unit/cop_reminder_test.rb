@@ -59,7 +59,7 @@ class CopReminderTest < ActiveSupport::TestCase
       end
     end
 
-    should "send emails to both an organization and its local network when COP is due in 90 days" do
+    should "send emails to 2 organizations with a COP due in 90 days and 1 local network " do
       create_organization_and_user
       create_local_network_with_report_recipient    
       # organization with Local Network and Report Recipient, also due in 90 days
@@ -68,7 +68,7 @@ class CopReminderTest < ActiveSupport::TestCase
                                           :organization_type_id => @business_organization_type.id,
                                           :country_id           => @country.id)
       assert_equal 1, @organization.network_report_recipients.count                    
-      assert_emails(2) do
+      assert_emails(3) do
         @reminder.notify_cop_due_in_90_days
       end
     end    
