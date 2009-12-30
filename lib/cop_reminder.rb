@@ -31,10 +31,10 @@ class CopReminder
   
   private
 
-  def notify_cop_due_on(organizations, mailer, *network_mailer)
+  def notify_cop_due_on(organizations, mailer, network_mailer = nil)
     organizations.each do |org|
       CopMailer.send(mailer, org)
-      if network_mailer && org.network_report_recipients.count > 0
+      if network_mailer and org.network_report_recipients.count > 0
         CopMailer.send(network_mailer, org)
       end      
     end
