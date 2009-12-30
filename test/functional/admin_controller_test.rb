@@ -43,8 +43,7 @@ class AdminControllerTest < ActionController::TestCase
 
     should "get the dashboard page" do
       get :dashboard
-      assert_response :success
-      assert_template 'admin/dashboard_organization.html.haml'
+      assert_redirected_to admin_organization_path(@organization.id)
     end
   end
   
