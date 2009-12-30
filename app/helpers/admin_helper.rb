@@ -27,6 +27,10 @@ module AdminHelper
   end
   
   def possibly_link_to_organization
+    link_to 'Organization details', admin_organization_path(current_user.organization.id) if logged_in?
+  end
+  
+  def possibly_link_to_edit_organization
     link_to 'Edit your organization', edit_admin_organization_path(current_user.organization.id) if logged_in?
   end
 end
