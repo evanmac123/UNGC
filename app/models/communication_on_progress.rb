@@ -52,6 +52,7 @@
 #  mentions_partnership_project        :boolean(1)
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
+#  missing_principle_explained         :boolean(1)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
