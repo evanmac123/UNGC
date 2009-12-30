@@ -1,5 +1,6 @@
 class Admin::LogoRequestsController < AdminController
   before_filter :load_organization
+  before_filter :no_unapproved_organizations_access
 
   def new
     @logo_request = @organization.logo_requests.new

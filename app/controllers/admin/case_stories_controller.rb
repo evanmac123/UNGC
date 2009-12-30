@@ -1,5 +1,6 @@
 class Admin::CaseStoriesController < AdminController
   before_filter :load_organization
+  before_filter :no_unapproved_organizations_access
   
   def new
     @case_story = @organization.case_stories.new

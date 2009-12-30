@@ -1,9 +1,22 @@
 require 'test_helper'
 
 class Admin::CaseStoriesControllerTest < ActionController::TestCase
-  context "given an organization" do
+  context "given a pending organization" do
     setup do
       create_organization_and_user
+      login_as @organization_user
+    end
+    
+    should "not be able to get new case story form" do
+      get :new, :organization_id => @organization.id
+      assert_redirected_to admin_organization_path(@organization.id)
+    end    
+  end
+  
+  context "given an approved organization" do
+    setup do
+      create_organization_and_user
+      @organization.approve!
       login_as @organization_user
     end
     
@@ -24,6 +37,7 @@ class Admin::CaseStoriesControllerTest < ActionController::TestCase
   context "given an existing case story" do
     setup do
       create_organization_and_user
+      @organization.approve!
       login_as @organization_user
       @case_story = create_case_story(:organization_id => @organization.id)
     end
