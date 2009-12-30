@@ -47,7 +47,7 @@ class Contact < ActiveRecord::Base
 
   validates_presence_of  :first_name, :last_name
   # validates_presence_of :prefix, :job_title, :phone, :address, :city, :country_id
-  validates_uniqueness_of :login, :allow_nil => true
+  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? || !contact.hashed_password.blank? }
   validates_presence_of :email, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
   
