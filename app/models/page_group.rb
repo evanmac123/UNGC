@@ -9,7 +9,7 @@
 #  created_at            :datetime
 #  updated_at            :datetime
 #  position              :integer(4)
-#  path                  :string(255)
+#  path_stub             :string(255)
 #
 
 class PageGroup < ActiveRecord::Base

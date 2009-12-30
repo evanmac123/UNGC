@@ -39,6 +39,9 @@
 #  cop_state                      :string(255)
 #  replied_to                     :boolean(1)
 #  reviewer_id                    :integer(4)
+#  bhr_url                        :string(255)
+#  rejected_on                    :date
+#  network_review_on              :date
 #
 
 class Organization < ActiveRecord::Base
