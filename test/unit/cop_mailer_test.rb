@@ -62,7 +62,7 @@ class CopMailerTest < ActionMailer::TestCase
     setup do
       create_organization_and_user
       create_local_network_with_report_recipient
-      @organization = create_organization(:name => 'UNGC', :country_id => @country.id)
+      @organization = create_organization(:name => 'non-communcation-company', :country_id => @country.id)
       @organization.communication_late
     end
 

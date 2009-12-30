@@ -7,11 +7,8 @@ class OrganizationMailerTest < ActionMailer::TestCase
     create_organization_and_ceo
     create_local_network_with_report_recipient
     @organization.country_id = @country.id
-
     @organization.comments.create(:contact_id => @staff_user.id,
                                   :body       => 'Lorem ipsum')
-                                  
-
   end
   
   test "submission mailer is sent" do
