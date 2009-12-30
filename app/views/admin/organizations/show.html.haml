@@ -27,4 +27,4 @@
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new', :title => 'New Contact'
-    %ul.items= render @organization.contacts
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
