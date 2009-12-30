@@ -1,5 +1,6 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, :add_cop_form_js
+  before_filter :no_unapproved_organizations_access
   
   def new
     @communication_on_progress = @organization.communication_on_progresses.new

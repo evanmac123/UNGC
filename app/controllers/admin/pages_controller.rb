@@ -1,4 +1,5 @@
 class Admin::PagesController < AdminController
+  before_filter :no_organization_or_local_network_access
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:index, :new, :create, :edit, :update]
 

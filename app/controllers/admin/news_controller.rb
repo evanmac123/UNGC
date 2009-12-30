@@ -1,5 +1,6 @@
 class Admin::NewsController < AdminController
   helper Admin::NewsHelper
+  before_filter :no_organization_or_local_network_access
   before_filter :find_headline, 
     :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
 
