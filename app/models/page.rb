@@ -116,19 +116,23 @@ class Page < ActiveRecord::Base
   end
   
   def before_approve!
-    path = self.class.find_by_id(id).path
-    was_approved = self.class.approved_for_path(path)
-    was_approved.revoke! if was_approved unless was_approved == self
+    all_versions = self.class.all_versions_of(path)
+    if change_path
+      self.class.update_all "pages.path = '%s'" % change_path, { id: (all_versions - [self]).map(&:id) }
+      self.path = change_path
+      self.change_path = nil
+    end
+    if previous = all_versions.with_approval('approved').try(:first)
+      previous.move_children_to_new_parent(id)
+      previous.revoke! if previous.approved?
+    end
+    # if previous = all_versions.with_approval('approved')
+    #   self.class.update_all "pages.approval = '%s'" % STATES[:previously], { id: (previous).map(&:id) }
+    # end
   end
   
   def active_version
     versions.approved.first
-  end
-  
-  def after_approve!
-    if prev = previous_version
-      prev.move_children_to_new_parent(id)
-    end
   end
   
   def move_children_to_new_parent(new_parent_id)
@@ -261,24 +265,29 @@ class Page < ActiveRecord::Base
   end
 
   def possibly_move_paths(new_path)
-    unless path == new_path # don't do anything unless there's an actual change
-      raise PathCollision if pages_exist_with_new_path?(new_path)
-      all_versions = self.class.all_versions_of(path)
-      self.class.update_all "pages.path = '%s'" % new_path, { id: all_versions.map(&:id) }
+    if path == new_path # don't do anything unless there's an actual change
+      return nil
+    else
+      if pages_exist_with_new_path?(new_path)
+        raise PathCollision
+      else
+        return new_path
+      end
     end
   end
 
   def update_pending_or_new_version(their_options={})
     options = their_options.dup
     options.stringify_keys!
-    new_path = options.delete('path')
-    possibly_move_paths(new_path) if new_path
+    if new_path = options.delete('path') and result = possibly_move_paths(new_path)
+      options['change_path'] = result
+    end
     return self.reload unless options.any?
     unless their_options['dynamic_content'].blank?
       bool = their_options['dynamic_content'] == '1'
       their_options['dynamic_content'] = bool
     end
-    if v = pending_version(new_path)
+    if v = pending_version(path)
       v.update_attributes(options)
       v
     else
