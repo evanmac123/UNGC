@@ -46,7 +46,11 @@ ActionController::Routing::Routes.draw do |map|
         :create_folder => :post
       }
   
-    admin.resources :organizations, :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
+    admin.resources :organizations, :collection => { :approved       => :get,
+                                                     :rejected       => :get,
+                                                     :pending_review => :get,
+                                                     :in_review      => :get,
+                                                     :network_review => :get },
                                     :has_many   => [:contacts, :comments] do |organization|
       organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
       organization.resources :case_stories

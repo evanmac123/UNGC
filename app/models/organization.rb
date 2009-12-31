@@ -298,10 +298,10 @@ class Organization < ActiveRecord::Base
     set_approved_on
   end
   
-  # def set_network_review
-  #   self.network_review_on = Date.today
-  #   self.save  
-  # end
+  def set_network_review
+    self.network_review_on = Date.today
+    self.save
+  end
 
   def set_approved_on
     self.active = true
