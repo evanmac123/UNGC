@@ -1,4 +1,6 @@
 class Admin::CountriesController < AdminController
+  before_filter :no_organization_or_local_network_access
+
   def index
     @countries = Country.all
   end

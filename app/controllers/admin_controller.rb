@@ -37,6 +37,11 @@ class AdminController < ApplicationController
     end
   end
 
+  # Denies access to a resource if the user belongs to organization or local network
+  def no_organization_or_local_network_access
+    redirect_to admin_organization_path(current_user.organization.id) unless current_user.from_ungc?
+  end
+
   private
     def require_staff # TODO: Make this secure
       current_user.from_ungc?

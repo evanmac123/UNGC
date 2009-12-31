@@ -5,12 +5,12 @@ class CopStatusUpdater
   end
   
   def move_active_organizations_to_noncommunicating
-    organizations = Organization.participants.companies_and_smes.about_to_become_noncommunicating
+    organizations = Organization.businesses.participants.about_to_become_noncommunicating
     organizations.each { |org| org.communication_late }
   end
   
   def move_noncommunicating_organizations_to_delisted
-    organizations = Organization.participants.companies_and_smes.about_to_become_delisted
+    organizations = Organization.businesses.participants.about_to_become_delisted
     organizations.each { |org| org.delist }
   end
 end

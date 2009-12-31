@@ -1,5 +1,4 @@
 module AdminHelper
-
   def path_for_polymorphic_commentables(commentable)
     case commentable
     when CaseStory
@@ -32,5 +31,20 @@ module AdminHelper
   
   def possibly_link_to_edit_organization
     link_to 'Edit your organization', edit_admin_organization_path(current_user.organization.id) if logged_in?
+  end
+  
+  def link_to_attached_file(logo_comment)
+    return '' if logo_comment.attachment_file_name.blank?
+    if logo_comment.attachment_file_name.downcase.ends_with?('.pdf')
+      file_type = 'PDF'
+    elsif logo_comment.attachment_file_name.downcase.ends_with?('.doc') ||
+            logo_comment.attachment_file_name.downcase.ends_with?('.docx')
+      file_type = 'Word'
+    else
+      file_type = 'Other'
+    end
+
+    link_to "#{file_type} document", logo_comment.attachment.url, :class => "#{file_type.downcase}_doc",
+                                                                  :title => "Download #{file_type} document"
   end
 end
