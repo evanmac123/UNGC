@@ -16,7 +16,10 @@ module ParticipantsHelper
   end
   
   def organization_types_for_select
-    options_for_select [ [] ] + OrganizationType.all.map { |type| [type.name, type.id] }
+    allowed = ["Academic", "Business Association Global", "Business Association Local", "City", "Foundation", "Labour Global", "Labour Local", "NGO Global", "NGO Local", "Public Sector Organization"]
+    all = OrganizationType.all
+    types = all.reject { |t| !allowed.include?(t.name) }
+    options_for_select [ ['All', ''] ] + types.map { |type| [type.name, type.id] }
   end
   
   def searched_for
@@ -25,17 +28,16 @@ module ParticipantsHelper
       response << " in #{countries_list}" unless @searched_for[:country].blank?
       if @searched_for[:business] == OrganizationType::BUSINESS
         response << " matching businesses only " 
+
+        case @searched_for[:cop_state]
+        when Organization::COP_STATES[:active].to_crc32
+          response << " with active status "
+        when Organization::COP_STATES[:noncommunicating].to_crc32
+          response << ' with non-communicating status '
+        end
       elsif @searched_for[:business] == OrganizationType::NON_BUSINESS
         organization_type = OrganizationType.find_by_id(@searched_for[:organization_type_id])
-        response << " matching #{organization_type.try(:name).try(:downcase) || ''} non-businesses only "
-      end
-      case @searched_for[:cop_status]
-      when Organization::COP_STATES[:active]
-        response << " with active status "
-      when Organization::COP_STATES[:inactive]
-        response << ' with inactive status '
-      when Organization::COP_STATES[:noncommunicating]
-        response << ' with non-communicating status '
+        response << " matching '#{organization_type.try(:name) || ''}' non-businesses only "
       end
     end
   end
