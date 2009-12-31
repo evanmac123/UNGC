@@ -216,7 +216,8 @@ class Page < ActiveRecord::Base
     default_options = {
       :path                  => active.path, 
       :title                 => active.title, 
-      :html_code                  => active.html_code, 
+      :content               => active.content,
+      :html_code             => active.html_code, 
       :group_id              => active.group_id, 
       :parent_id             => active.parent_id, 
       :position              => active.position, 
