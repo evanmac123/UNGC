@@ -31,8 +31,8 @@
       %label{:for => "cop_status_#{Organization::COP_STATES[:active]}"} Active
       = radio_button_tag :cop_status, Organization::COP_STATES[:noncommunicating]
       %label{:for => "cop_status_#{Organization::COP_STATES[:noncommunicating]}"} Non-Communicating
-      = radio_button_tag :cop_status, Organization::COP_STATES[:inactive]
-      %label{:for => "cop_status_#{Organization::COP_STATES[:inactive]}"} Inactive
+      -# = radio_button_tag :cop_status, Organization::COP_STATES[:inactive]
+      -# %label{:for => "cop_status_#{Organization::COP_STATES[:inactive]}"} Inactive
   %div.for_stakeholders_only{:style=>'display:none'}
     %h3 For Stakeholders
     %p
