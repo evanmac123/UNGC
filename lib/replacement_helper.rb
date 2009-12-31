@@ -1,3 +1,11 @@
+def delete_useless_pages
+  useless = ['/HowToParticipate/Business_Organization_Information.html', '/HowToParticipate/Organization_Information.html']
+  useless.each do |path|
+    page = Page.find_by_path(path)
+    page.destroy! if page
+  end
+end
+
 def lookup_section_paths
   PageGroup.find(:all).each do |group|
     first_child = group.children.first

@@ -1,2 +1,3 @@
 #!/bin/sh
+# Please stop sphinx first!
 cd /srv/unglobalcompact/current && ./script/runner -e production "Searchable.index_all"

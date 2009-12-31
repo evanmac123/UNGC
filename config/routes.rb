@@ -100,6 +100,8 @@ ActionController::Routing::Routes.draw do |map|
   # shorcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
   map.with_options :controller => 'signup' do |signup|
+    signup.connect '/HowToParticipate/Business_Organization_Information.html', :action => 'step1', :org_type => 'business'
+    signup.connect '/HowToParticipate/Organization_Information.html', :action => 'step1', :org_type => 'non_business'
     signup.organization_step1 'signup/step1/:org_type', :action => 'step1'
     signup.organization_step2 'signup/step2',           :action => 'step2'
     signup.organization_step3 'signup/step3',           :action => 'step3'

@@ -11,6 +11,7 @@ universal: &universal
   news_headlines_path: '/NewsAndEvents/index.html'
   participant_search_path: '/participants/search'
   search_path: '/search'
+  signup_form_path: '/HowToParticipate/How_To_Apply.html'
   upcoming_events_path: '/NewsAndEvents/Upcoming_Events.html'
   
 development:
