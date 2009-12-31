@@ -219,7 +219,7 @@ def rewrite_homepage
   end
   doc.at('.news_list').inner_html = rebuilt.join("\n\n")
   content = doc.to_html
-  nv = home.new_version :title => 'Home Page', :dynamic_content => true, :content => content, :position => 0
+  nv = home.new_version :title => 'Welcome to the United Nations Global Compact', :dynamic_content => true, :content => content, :position => 0
   nv.approve!
   puts " done!"
 end
