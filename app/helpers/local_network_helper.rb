@@ -26,7 +26,8 @@ module LocalNetworkHelper
   end
 
   def p_with_link_to_participant_search
-    content_tag :p, link_to("Participants in #{local_network.name}: #{local_network.participants.count}", '#FIXME') if local_network.participants.any?
+    country_ids = local_network.countries.map(&:id)# { |c| "country_id[]=#{c.id}" }.join('&')
+    content_tag :p, link_to("Participants in #{local_network.name}: #{local_network.participants.count}", participant_search_path(country: country_ids, commit: 't')) if local_network.participants.any?
   end
   
   def display_latest_participant_for_local_network

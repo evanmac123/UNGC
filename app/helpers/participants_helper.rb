@@ -12,6 +12,7 @@ module ParticipantsHelper
   end
   
   def countries_list
+    ids = params[:country]
     Country.find(params[:country]).map { |c| c.name }.sort.join(', ')
   end
   
@@ -25,7 +26,7 @@ module ParticipantsHelper
   def searched_for
     returning('') do |response|
       response << " for: '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
-      response << " in #{countries_list}" unless @searched_for[:country].blank?
+      response << " in #{countries_list}" unless @searched_for[:country_id].blank?
       if @searched_for[:business] == OrganizationType::BUSINESS
         response << " matching businesses only " 
 
