@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   layout 'admin'
   helper 'Admin'
+  before_filter :redirect_user_to_dashboard, :only => :new
   
   def create
     user = Contact.authenticate(params[:login], params[:password])
@@ -22,7 +23,7 @@ class SessionsController < ApplicationController
   def destroy
     logout_killing_session!
     flash[:notice] = "You have been logged out."
-    redirect_to root_path
+    redirect_to login_path
   end
   
   protected
@@ -30,5 +31,10 @@ class SessionsController < ApplicationController
     def note_failed_signin
       flash[:error] = "Couldn't log you in as '#{params[:login]}'"
       logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
-    end  
+    end
+    
+    # Forward logged-in users to dashboard
+    def redirect_user_to_dashboard
+      redirect_to dashboard_path if logged_in?
+    end
 end
