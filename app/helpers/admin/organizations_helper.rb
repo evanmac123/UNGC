@@ -15,12 +15,12 @@ module Admin::OrganizationsHelper
       if organization.commitment_letter_file_name.downcase.ends_with?('.pdf')
         file_type = 'PDF'
       elsif organization.commitment_letter_file_name.downcase.ends_with?('.doc') || 
-        organization.attachment_file_name.downcase.ends_with?('.docx')
+        organization.commitment_letter_file_name.downcase.ends_with?('.docx')
         file_type = 'Word'
       else
         file_type = 'Other'
       end
-
+      # TODO: We need a generic file type icon
       link_to "#{file_type} document", organization.commitment_letter.url, :class => "#{file_type.downcase}_doc",
                                                                            :title => "Download #{file_type} document"
     end
