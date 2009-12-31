@@ -17,7 +17,8 @@ set :user, 'rails'
 namespace :deploy do
   desc "Restarting passenger with restart.txt"
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{current_path}/tmp/restart.txt"
+    # run "touch #{current_path}/tmp/restart.txt"
+    sudo "/etc/init.d/apache2 restart"
   end
 end
 
