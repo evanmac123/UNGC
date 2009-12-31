@@ -35,18 +35,39 @@ class ParticipantsController < ApplicationController
     def results_for_search
       options = {per_page: (params[:per_page] || 10).to_i, page: (params[:page] || 1).to_i}
       options[:with] ||= {}
-      options[:with].merge!(country_id: params[:country].map { |i| i.to_i }) if params[:country]
-      business_type_selected = params[:business_type] == 'all' ? :all : params[:business_type].to_i
-      options[:with].merge!(business: business_type_selected) if params[:business_type] unless business_type_selected == :all
+      filter_options_for_country(options) if params[:country]
+      filter_options_for_business_type(options) if params[:business_type]
+
+      # store what we searched_for so that the helper can pick it apart and make a pretty label
+      @searched_for = options[:with].merge(:keyword => params[:keyword])
+      options.delete(:with) if options[:with] == {}
+      logger.info " ** Participant search with options: #{options.inspect}"
+      @results = Organization.search params[:keyword] || '', options
+      render :action => 'index'
+    end
+    
+    def filter_options_for_country(options)
+      options[:with].merge!(country_id: params[:country].map { |i| i.to_i }) 
+    end
+    
+    def filter_options_for_business_type(options)
+      business_type_selected = if params[:business_type] != 'all'
+        params[:business_type].to_i
+      else
+        :all # all if it's nil or 'all'
+      end
+
+      # we don't need to set this if it's all
+      unless business_type_selected == :all
+        options[:with].merge!(business: business_type_selected) 
+      end
+
       if business_type_selected == OrganizationType::BUSINESS
-        options[:with].merge!(cop_status: business_type_selected) if params[:cop_status] unless params[:cop_status] == 'all'
+        cop_status = params[:cop_status]
+        skip_cop_status = cop_status.blank? || cop_status == 'all'
+        options[:with].merge!(cop_state: cop_status.to_crc32) unless skip_cop_status
       elsif business_type_selected == OrganizationType::NON_BUSINESS
         options[:with].merge!(organization_type_id: params[:organization_type_id].to_i) unless params[:organization_type_id].blank?
       end
-      @searched_for = options[:with].merge(:keyword => params[:keyword])
-      options.delete(:with) if options[:with] == {}
-      logger.info " ** #{options.inspect}"
-      @results = Organization.search params[:keyword] || '', options
-      render :action => 'index'
     end
 end
