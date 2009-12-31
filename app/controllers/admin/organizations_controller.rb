@@ -43,9 +43,10 @@ class Admin::OrganizationsController < AdminController
     redirect_to( admin_organizations_path )
   end
 
-  %w{approved rejected pending_review}.each do |method|
+  # Define state-specific index methods
+  %w{approved rejected pending_review network_review in_review}.each do |method|
     define_method method do
-      @organizations = Organization.send method
+      @organizations = Organization.send(method).all(:limit => 15)
       render 'index'
     end
   end

@@ -113,9 +113,12 @@ var Page = {
 		return({data: data, url: url});
 	},
 	finishedSaving: function(response) {
-		if (Page.editMode)
-			window.location.href = window.location.pathname.replace(/\/\d+\/edit/, '')
-		else {
+		if (Page.editMode) {
+			var url = window.location.pathname;
+			var id = response.page.id;
+			url = url.replace(/\/\d+\/edit/, '/'+id+'/edit');
+			window.location.href = url;
+		} else {
 			Page.updateNode(response); // needs to happen before Page.selected is cleared
 			Page.initialize(Page.selected);
 			$('#pageArea').removeClass('loading');

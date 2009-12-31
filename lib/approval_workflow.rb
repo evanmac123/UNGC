@@ -8,6 +8,9 @@ module ApprovalWorkflow
   EVENT_REVISE = 'revise'
   EVENT_REJECT = 'reject'
   EVENT_APPROVE = 'approve'
+  EVENT_NETWORK_REVIEW = 'network_review'
+  
+  STAFF_EVENTS = [EVENT_APPROVE, EVENT_REJECT, EVENT_NETWORK_REVIEW]
   
   def self.included(klass)
     klass.class_eval do

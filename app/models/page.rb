@@ -67,6 +67,11 @@ class Page < ActiveRecord::Base
     }
   }
   
+  
+  def self.approved_for_path(path)
+    approved.find_by_path path
+  end
+
   def self.for_path(path)
     find_by_path path, :include => :children
   end
@@ -93,10 +98,6 @@ class Page < ActiveRecord::Base
   def self.find_for_section(path)
     find :all, :conditions => "path REGEXP '^#{path}[^/]+\.html", :group => 'path'
   end
-  
-  def self.approved_for_path(path)
-    approved.find_by_path path
-  end
 
   def self.find_leaves_for(group_id)
     sql = "select * from 
@@ -115,6 +116,22 @@ class Page < ActiveRecord::Base
     with_approval('pending').find_by_path path
   end
   
+  def active_version
+    versions.approved.first
+  end
+  
+  # Children are attached to an approved parent, the tree needs to reflect their connection
+  # to a new, pending version of that page
+  def approved_id
+    if approved?
+      id
+    elsif av = active_version
+      av.id
+    else
+      nil
+    end
+  end
+  
   def before_approve!
     all_versions = self.class.all_versions_of(path)
     if change_path
@@ -129,26 +146,6 @@ class Page < ActiveRecord::Base
     # if previous = all_versions.with_approval('approved')
     #   self.class.update_all "pages.approval = '%s'" % STATES[:previously], { id: (previous).map(&:id) }
     # end
-  end
-  
-  def active_version
-    versions.approved.first
-  end
-  
-  def move_children_to_new_parent(new_parent_id)
-    children.each { |child| child.update_attribute :parent_id, new_parent_id }
-  end
-  
-  # Children are attached to an approved parent, the tree needs to reflect their connection
-  # to a new, pending version of that page
-  def approved_id
-    if approved?
-      id
-    elsif av = active_version
-      av.id
-    else
-      nil
-    end
   end
   
   def derive_path
@@ -188,6 +185,10 @@ class Page < ActiveRecord::Base
     end
   end
   
+  def editable_path
+    change_path || path
+  end
+  
   def find_version_number(number)
     versions.find_by_version_number number
   end
@@ -201,6 +202,10 @@ class Page < ActiveRecord::Base
     !!parent_id && parent_id == nav.id
   end
   
+  def move_children_to_new_parent(new_parent_id)
+    children.each { |child| child.update_attribute :parent_id, new_parent_id }
+  end
+  
   def next_version
     self.class.all_versions_of(path).later_versions_than(version_number).first
   end
@@ -211,7 +216,8 @@ class Page < ActiveRecord::Base
     default_options = {
       :path                  => active.path, 
       :title                 => active.title, 
-      :html_code                  => active.html_code, 
+      :content               => active.content,
+      :html_code             => active.html_code, 
       :group_id              => active.group_id, 
       :parent_id             => active.parent_id, 
       :position              => active.position, 
@@ -277,6 +283,7 @@ class Page < ActiveRecord::Base
   end
 
   def update_pending_or_new_version(their_options={})
+    return self if their_options.blank?
     options = their_options.dup
     options.stringify_keys!
     if new_path = options.delete('path') and result = possibly_move_paths(new_path)

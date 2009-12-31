@@ -6,7 +6,10 @@
     %dt Name:
     %dd=h @organization.name
     %dt Status:
-    %dd= @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
+    %dd
+      = @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
+      - if @organization.network_review?
+        == since #{@organization.network_review_on}
     %dt Commitment Letter:
     %dd
       %ul.document_list
