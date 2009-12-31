@@ -283,6 +283,7 @@ class Page < ActiveRecord::Base
   end
 
   def update_pending_or_new_version(their_options={})
+    return self if their_options.blank?
     options = their_options.dup
     options.stringify_keys!
     if new_path = options.delete('path') and result = possibly_move_paths(new_path)
