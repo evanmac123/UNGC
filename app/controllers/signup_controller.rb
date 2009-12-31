@@ -1,4 +1,5 @@
 class SignupController < ApplicationController
+  before_filter :determine_navigation
   before_filter :load_objects
   
   BUSINESS_PARAM = 'business'
@@ -70,6 +71,10 @@ class SignupController < ApplicationController
   end
 
   private
+    def default_navigation
+      DEFAULTS[:signup_form_path]
+    end
+
     def load_objects
       @organization = session[:signup_organization] || Organization.new
       load_organization_types
