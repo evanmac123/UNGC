@@ -3,5 +3,5 @@
     %a{ :href => "javascript:window.print();" }
       Print
   %p.send
-    %a{ :href => "mailto:?subject=#{@title}&body=United%20Nations%20Global%20Compact%20website:%0A%0A#{request.env["REQUEST_URI"]}"}
+    %a{ :href => "mailto:?subject=#{@title}&body=The%20following%20page%20is%20available%20on%20the%20United%20Nations%20Global%20Compact%20website:%0A%0A#{url_for(:only_path => false)}"}
       Email
