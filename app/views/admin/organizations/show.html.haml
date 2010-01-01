@@ -9,7 +9,7 @@
     %dd
       = @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
       - if @organization.network_review?
-        == since #{@organization.network_review_on}
+        == for #{distance_of_time_in_words(@organization.network_review_on, Date.today + 24.hours)}
     %dt Commitment Letter:
     %dd
       %ul.document_list
