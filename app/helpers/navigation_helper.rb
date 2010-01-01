@@ -19,7 +19,6 @@ module NavigationHelper
   end
 
   def selected_elements_from_page(page)
-    @current_section = page.section
     if page.parent
       @leftnav_selected = page.parent
       @subnav_selected  = page
@@ -41,9 +40,10 @@ module NavigationHelper
     unless @current_section
       return @current_section = nil if home_page?
       return @current_section = nil unless @page || @page = Page.approved_for_path(formatted_request_path)
-      displayable = something_displayable_from(@page)
-      return @current_section = nil unless displayable
-      selected_elements_from_page(displayable)
+      @current_section = @page.section
+      if displayable = something_displayable_from(@page)
+        selected_elements_from_page(displayable)
+      end
     end
     @current_section
   end

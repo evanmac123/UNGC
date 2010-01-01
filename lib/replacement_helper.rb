@@ -2,7 +2,7 @@ def delete_useless_pages
   useless = ['/HowToParticipate/Business_Organization_Information.html', '/HowToParticipate/Organization_Information.html']
   useless.each do |path|
     page = Page.find_by_path(path)
-    page.destroy! if page
+    page.destroy if page
   end
 end
 
@@ -35,7 +35,7 @@ def create_new_local_network_pages(replacements)
   new_networks = [
     'BG',
     'KE',
-    'BE',
+    # 'BE',
     'CR',
     'SV',
     'EE',

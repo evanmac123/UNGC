@@ -11,11 +11,11 @@ module LocalNetworkHelper
   end
   
   def p_with_link_to_local_network
-    content_tag :p, "Website: #{link_to(local_network.url)}" unless local_network.url.blank?
+    content_tag :p, "Website: #{link_to(local_network.url)}" if local_network unless local_network.try(:url).blank?
   end
   
   def local_network_contacts
-    local_network.network_contacts
+    local_network.try(:network_contacts) || []
   end
   
   def formatted_local_network_contact_info(contact)
@@ -26,12 +26,14 @@ module LocalNetworkHelper
   end
 
   def p_with_link_to_participant_search
-    country_ids = local_network.countries.map(&:id)# { |c| "country_id[]=#{c.id}" }.join('&')
-    content_tag :p, link_to("Participants in #{local_network.name}: #{local_network.participants.count}", participant_search_path(country: country_ids, commit: 't')) if local_network.participants.any?
+    if local_network
+      country_ids = local_network.countries.map(&:id)# { |c| "country_id[]=#{c.id}" }.join('&')
+      content_tag :p, link_to("Participants in #{local_network.name}: #{local_network.participants.count}", participant_search_path(country: country_ids, commit: 't')) if local_network.participants.any?
+    end
   end
   
   def display_latest_participant_for_local_network
-    if latest = local_network.latest_participant
+    if local_network && latest = local_network.latest_participant
       content = <<-EOF
       Latest Participant:<br />
       #{link_to latest.name, participant_link(latest)}<br />
