@@ -29,6 +29,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def update
+    @organization.last_modified_by_id = current_user.id
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to( admin_organization_path(@organization.id) )
@@ -46,7 +47,7 @@ class Admin::OrganizationsController < AdminController
   # Define state-specific index methods
   %w{approved rejected pending_review network_review in_review}.each do |method|
     define_method method do
-      @organizations = Organization.send(method).all(:limit => 15)
+      @organizations = Organization.send(method).all
       render 'index'
     end
   end
