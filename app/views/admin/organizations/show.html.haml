@@ -10,10 +10,16 @@
       = @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
       - if @organization.network_review?
         == for #{distance_of_time_in_words(@organization.network_review_on, Date.today + 24.hours)}
-    %dt Commitment Letter:
+    %dt Local Network:
+    %dd
+      - if @organization.network_report_recipients.count >= 1
+        = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
+      - else
+        == There is no Network Report Recipient for #{@organization.country.name}
+    %dt Letter of Commitment:
     %dd
       %ul.document_list
-        %li= link_to_commitment_letter(@organization)
+        %li= link_to_commitment_letter(@organization)    
 
 %p= organization_actions(@organization)
 
