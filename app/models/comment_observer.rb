@@ -10,7 +10,7 @@ class CommentObserver < ActiveRecord::Observer
       elsif comment.commentable.is_a? Organization
         case comment.commentable.state
           when Organization::STATE_IN_REVIEW then OrganizationMailer.deliver_in_review(comment.commentable)
-          # when Organization::STATE_NETWORK_REVIEW then OrganizationMailer.deliver_network_review(comment.commentable)
+          when Organization::STATE_NETWORK_REVIEW then OrganizationMailer.deliver_network_review(comment.commentable)
           when Organization::STATE_APPROVED then email_approved_organization(comment.commentable)
         end
       end
