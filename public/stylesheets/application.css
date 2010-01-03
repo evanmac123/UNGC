@@ -121,6 +121,7 @@ body.environment_ceo #inner_head { background: url(/images/banner_environment_ce
 #nav ul li.issues { width: 38px; }
 #nav ul li.newsevents { width: 90px; }
 #nav ul li.login { width: 30px; border-right: 0; }
+#nav ul li.login ul li { width: 70px; border-right: 1; }
 #nav ul li a { font-size: 12px; font-weight: bold; color: #000; height: 28px; display: block; height: 100%; padding-top: 5px;}
 #nav ul li a:hover { color: #3a7a8e; }
 #nav ul li ul {list-style: none; position: relative; top: -2px; left: -13px; visibility: hidden; opacity: 0.95; }
