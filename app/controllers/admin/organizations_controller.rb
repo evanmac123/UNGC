@@ -29,6 +29,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def update
+    @organization.state = Organization::STATE_IN_REVIEW if @organization.state == Organization::STATE_PENDING_REVIEW
     @organization.last_modified_by_id = current_user.id
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
