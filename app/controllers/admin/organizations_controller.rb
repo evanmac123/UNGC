@@ -48,8 +48,18 @@ class Admin::OrganizationsController < AdminController
   # Define state-specific index methods
   %w{approved rejected pending_review network_review in_review}.each do |method|
     define_method method do
-      @organizations = Organization.send(method).all
-      render 'index'
+      # use custom index view if defined
+      render case method
+        when 'approved'
+          @organizations = Organization.send(method).participants
+          method
+        when 'network_review'
+          @organizations = Organization.send(method).all
+          method
+        else
+          @organizations = Organization.send(method).all
+          'index'
+      end
     end
   end
 

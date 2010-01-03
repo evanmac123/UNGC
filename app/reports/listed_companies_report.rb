@@ -9,7 +9,7 @@ class ListedCompaniesReport < SimpleReport
   end
 
   def row(record)
-    [record.id, record.name, record.country.name, record.stock_symbol, record.exchange.try(:code),
+    [record.id, record.name, record.country.try(:name), record.stock_symbol, record.exchange.try(:code),
       record.exchange.try(:secondary_code), record.exchange.try(:terciary_code)]
   end
 end
