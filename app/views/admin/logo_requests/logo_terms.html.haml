@@ -1,10 +1,10 @@
-%h2 Request approved
+%h2 Logo Request approved
 
-%p You request has been approved; however, you have to agree to the Logo terms and conditions below:
-
-#terms_and_conditions{:style => 'border: dotted'}
-  %p== Before you download your approved logos, please review the #{link_to 'Global Compact Logo Usage Policy', 'http://demo.unglobalcompact.org/AboutTheGC/Global_Compact_Logo/GC_Logo_Policy.html', :target => '_blank'}. After reading the policy, you may click "I agree" to access the logo files. 
-  %p== I, #{current_user.name_with_title} of #{current_user.organization.name} agree to abide by the terms and conditions set forth in the Global Compact Logo Usage Policy.
-
-%p
-  = link_to 'I agree', agree_admin_organization_logo_request_path(@logo_request.organization_id, @logo_request), :method => :post
+#terms_and_conditions{:style => 'width: 420px; height: 250px; margin: 30px auto; border: 1px solid #DDD; background: url(/images/backgrounds/gc_logo_background.jpg) no-repeat center;'}
+  #agreement{:style => 'padding: 25px; font-size: 16px; text-align: justify;'}
+    %p== Before you download your approved logos, please review the #{link_to 'Global Compact Logo Usage Policy', '/AboutTheGC/Global_Compact_Logo/GC_Logo_Policy.html', :target => '_blank'}. After reading the policy, you may click "I agree" to access the logo files.
+    %p
+      I,
+      %strong==#{current_user.name} of #{current_user.organization.name}
+      agree to abide by the terms and conditions set forth in the Global Compact Logo Usage Policy.
+    %p{:style => 'text-align: center;'}= link_to 'I agree', agree_admin_organization_logo_request_path(@logo_request.organization_id, @logo_request), :method => :post
