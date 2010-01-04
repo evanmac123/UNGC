@@ -134,14 +134,16 @@ class Page < ActiveRecord::Base
   
   def before_approve!
     all_versions = self.class.all_versions_of(path)
+    if previous = all_versions.with_approval('approved')
+      previous.each do |v|
+        v.move_children_to_new_parent(id) if v.children.any?
+        v.revoke! if v.approved?
+      end
+    end
     if change_path
       self.class.update_all "pages.path = '%s'" % change_path, { id: (all_versions - [self]).map(&:id) }
       self.path = change_path
       self.change_path = nil
-    end
-    if previous = all_versions.with_approval('approved').try(:first)
-      previous.move_children_to_new_parent(id)
-      previous.revoke! if previous.approved?
     end
     # if previous = all_versions.with_approval('approved')
     #   self.class.update_all "pages.approval = '%s'" % STATES[:previously], { id: (previous).map(&:id) }

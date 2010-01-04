@@ -176,7 +176,6 @@ class PageTest < ActiveSupport::TestCase
       end
     end
     
-    
     context "and it is saved" do
       setup do
         @page.save
@@ -283,6 +282,10 @@ class PageTest < ActiveSupport::TestCase
             assert reloaded.change_path.nil?
             assert_equal @changes[:path], reloaded.path, "Path for #{page.id} should be #{@changes[:path]} instead of #{page.path}"
           end
+        end
+        
+        should "have only one approved version of the page" do
+          assert_equal 1, Page.all_versions_of(@changes[:path]).with_approval('approved').size, "Should only be one approved version for this path"
         end
       end
       
