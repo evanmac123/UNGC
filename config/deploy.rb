@@ -24,6 +24,7 @@ end
 
 after 'deploy:update_code', 'files:copy_database_yml'
 after 'deploy:update_code', 'files:copy_sphinx_config'
+after 'deploy:update_code', 'files:symlink_docs'
 after 'files:copy_database_yml', 'deploy:migrate'
 
 # Avoid keeping the database.yml configuration in git.
@@ -36,5 +37,9 @@ namespace :files do
   task :copy_sphinx_config, :roles => :app do
     db_config = "/srv/unglobalcompact/shared/config/production.sphinx.conf"
     run "ln -s #{db_config} #{release_path}/config/production.sphinx.conf"
+  end
+  
+  task :symlink_docs, :roles => :app do
+    run "ln -s /srv/unglobalcompact/shared/docs #{release_path}/public/docs"
   end
 end
