@@ -37,4 +37,4 @@ rescue Exception => e
 end
 
 # Application constants
-EMAIL_SENDER = "no-reply@unglobalcompact.org"
+EMAIL_SENDER = "United Nations Global Compact <info@unglobalcompact.org>"

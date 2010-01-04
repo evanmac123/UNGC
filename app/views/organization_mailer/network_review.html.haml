@@ -23,17 +23,16 @@
 %table
   %tr
     %td{:style => @row_style} Type:
-    %td= @organization.type
+    %td= @organization.organization_type_name
   %tr
     %td{:style => @row_style} Sector:
-    %td= @organization.sector
+    %td= @organization.sector_name
   %tr
     %td{:style => @row_style} Employees:
     %td= @organization.employees
   %tr
     %td{:style => @row_style} Website:
-    %td= @organization.url || 'No address provided'
-    
+    %td= @organization.url
 
 %p
   %strong CEO / Highest Level Executive Information
@@ -57,6 +56,18 @@
     %tr
       %td{:style => @row_style} Email:
       %td= @ceo.email
+
+%p
+  %strong Login information:
+
+%p
+  %table
+    %tr
+      %td{:style => @row_style} Username:
+      %td= @contact.login
+    %tr
+      %td{:style => @row_style} Password:
+      %td= @contact.password
 
 %p
   %strong Contact Point Information

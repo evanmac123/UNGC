@@ -10,16 +10,16 @@ class AdminController < ApplicationController
     if current_user.from_ungc?
       pending_states = [Organization::STATE_PENDING_REVIEW, Organization::STATE_IN_REVIEW]
       @pending_organizations = Organization.all(:conditions => ['state in (?)', pending_states],
-                                                :limit      => 10,
+                                                # :limit      => 10,
                                                 :order      => 'updated_at DESC')
       @pending_logo_requests = LogoRequest.all(:conditions => ['state in (?)', pending_states],
-                                               :limit      => 10,
+                                               # :limit      => 10,
                                                :order      => 'updated_at DESC')
       @pending_case_stories = CaseStory.all(:conditions => ['state in (?)', pending_states],
-                                            :limit      => 10,
+                                            # :limit      => 10,
                                             :order      => 'updated_at DESC')
       @pending_cops = CommunicationOnProgress.all(:conditions => ['state in (?)', pending_states],
-                                                  :limit      => 10,
+                                                  # :limit      => 10,
                                                   :order      => 'updated_at DESC')
       @pending_pages = Page.with_approval('pending').all(:order => 'updated_at DESC')
     elsif current_user.from_network?

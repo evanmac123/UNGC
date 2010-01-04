@@ -265,6 +265,12 @@ class Organization < ActiveRecord::Base
     "FGCD#{id}"
   end
   
+  def last_modified_by_full_name
+    if last_modified_by_id || reviewer_id
+      Contact.find(last_modified_by_id || reviewer_id).name
+    end
+  end
+  
   # TODO: save date when invoice is sent
   def days_since_invoiced
     22
@@ -286,7 +292,7 @@ class Organization < ActiveRecord::Base
   def july_1_2009_cop_rules?
     self.joined_on > Date.new(2009,7,1)
   end
-  
+    
   # COP's next due date is 1 year from current date
   def set_next_cop_due_date
     self.communication_received

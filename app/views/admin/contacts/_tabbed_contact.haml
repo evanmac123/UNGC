@@ -12,6 +12,9 @@
       %dt Job Title:
       %dd= tabbed_contact.job_title.blank? ? 'n/a' : tabbed_contact.job_title
       
+      %dt Roles:
+      %dd= render :partial => 'admin/contacts/role', :collection => tabbed_contact.roles
+      
       %dt Email Address
       %dd= tabbed_contact.email.blank? ? 'n/a' : tabbed_contact.email
       

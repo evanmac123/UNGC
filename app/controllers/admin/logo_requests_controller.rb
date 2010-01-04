@@ -37,7 +37,7 @@ class Admin::LogoRequestsController < AdminController
 
   def agree
     @logo_request.accept
-    flash[:notice] = 'You accepted the terms and conditions, and can download the logo for the next 7 days'
+    flash[:notice] = 'Thank you for accepting the Logo Policy. Your logos will be available for the next 7 days.'
     redirect_to admin_organization_logo_request_path(@organization.id, @logo_request)
   end
   

@@ -1,4 +1,4 @@
-%h2 Listing organizations
+%h2 Organizations under Network Review
 
 %p
   = link_to 'All', admin_organizations_path, :id => "show_all", :class => "restrictions"
@@ -18,7 +18,7 @@
     %th ID
     %th Old ID
     %th Name
-    %th Status
+    %th Review time
     %th Updated by
     %th Actions
 
@@ -27,7 +27,7 @@
       %td=h organization.id
       %td=h organization.old_id || organization.old_tmp_id
       %td{:title => organization.name}=h truncate(organization.name)
-      %td=h organization.state.humanize
+      %td=h distance_of_time_in_words(organization.network_review_on, Date.today + 24.hours)
       %td=h organization.last_modified_by_full_name
       %td
         %ul.actions
