@@ -1,7 +1,7 @@
 module Searchable::SearchableCommunicationOnProgress
   def index_communication_on_progress(cop)
     title   = cop.title
-    url     = with_helper { cop_detail_path(:organization => cop.organization, :cop => cop) }
+    url     = with_helper { cop_detail_path(:id => cop) }
     # import cop files
     file_content = []
     for file in cop.cop_files
