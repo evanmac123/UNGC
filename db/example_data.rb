@@ -18,7 +18,13 @@ module FixtureReplacement
   attributes_for :contact do |c|
     c.first_name = String.random
     c.last_name = String.random
+    c.prefix = String.random
+    c.job_title = String.random
+    c.phone = String.random
+    c.address = String.random
+    c.city = String.random
     c.organization_id = Organization.first.id
+    c.country_id = Country.first.id
     c.login = String.random
     c.password = String.random
     c.contact_point = true
@@ -100,6 +106,7 @@ module FixtureReplacement
     o.name = String.random
     o.organization_type_id = OrganizationType.first.id
     o.employees = 500
+    o.url = 'http://www.example.com'
     o.pledge_amount = 1000
 	end
 
