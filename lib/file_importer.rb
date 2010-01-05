@@ -46,20 +46,24 @@ class FileImporter
   end
   
   # path is the folder where all uploaded files are located
-  def import_logo_samples(path)
+  def import_logo_samples(path, reset=false)
+    # reset all previously assigned files
+    LogoComment.with_attachment.all.each {|c| c.attachment = nil; c.save(false)} if reset
     if File.directory? path
       Dir.foreach(path) do |file|
         # we want files named like "logo_request_sample_68_74.jpg"
         # 68 is logo_requests.old_id
-        # 74 is logo_comments.old_id
         next unless file.start_with? "logo_request_sample"
         # we have a logo sample
-        old_logo_comment_id = file.split('_').last.split('.').first
+        old_logo_request_id = file.split('_').fourth
         log "file: #{file}"
-        if logo_comment = LogoComment.find_by_old_id(old_logo_comment_id)
-          logo_comment.attachment = File.new(File.join(path, file))
-          # we don't want validations here
-          logo_comment.save(false)
+        if logo_request = LogoRequest.find_by_old_id(old_logo_request_id)
+          logo_comment = logo_request.logo_comments.without_attachment.first
+          if logo_comment
+            logo_comment.attachment = File.new(File.join(path, file))
+            # we don't want validations here
+            logo_comment.save(false)
+          end
         end
       end
     end
