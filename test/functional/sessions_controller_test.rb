@@ -68,6 +68,7 @@ class SessionsControllerTest < ActionController::TestCase
     def create_test_users
       create_organization_type
       create_organization
+      create_country
       @contact = create_contact(:login => 'quentin',
                                 :password => 'monkey',
                                 :remember_token_expires_at => 1.days.from_now.to_s,
