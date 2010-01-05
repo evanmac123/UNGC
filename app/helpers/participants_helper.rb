@@ -5,7 +5,7 @@ module ParticipantsHelper
 
   def iconize(org)
     if org.noncommunicating?
-      'inactive_icon'
+      'alert_icon'
     else
       'no_icon'
     end
