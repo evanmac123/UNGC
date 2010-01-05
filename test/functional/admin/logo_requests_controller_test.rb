@@ -4,6 +4,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
   context "given a pending organization" do
     setup do
       create_organization_type
+      create_country
       @organization = create_organization
       @contact = create_contact(:organization_id => @organization.id,
                                 :email           => "dude@example.com")
@@ -23,6 +24,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
   context "given an approved organization" do
     setup do
       create_organization_type
+      create_country
       @organization = create_organization
       @organization.approve!
       @contact = create_contact(:organization_id => @organization.id,

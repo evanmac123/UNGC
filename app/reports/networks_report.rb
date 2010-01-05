@@ -26,7 +26,7 @@ class NetworksReport < GroupedReport
     standard = [
       record.name, 
       record.organization_type.name, 
-      record.country.name, 
+      record.country.try(:name), 
       record.created_at
     ]
     became_non_communicating_90 = standard

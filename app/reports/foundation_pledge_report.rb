@@ -9,7 +9,7 @@ class FoundationPledgeReport < SimpleReport
   end
 
   def row(record)
-    ["Contact", 'email@example.com', record.name, record.country.name, record.invoice_id,
+    ["Contact", 'email@example.com', record.name, record.country.try(:name), record.invoice_id,
       record.pledge_amount, record.created_at, record.days_since_invoiced]
   end
 end

@@ -75,6 +75,7 @@ class ActiveSupport::TestCase
   def create_organization_and_user
     create_roles
     create_organization_type
+    create_country
     @organization = create_organization
     @organization_user = create_contact(:organization_id => @organization.id,
                                         :email           => 'email@example.com',
@@ -95,8 +96,8 @@ class ActiveSupport::TestCase
 
   def create_ungc_organization_and_user
     create_organization_type
-    @country = create_country
-    @ungc = create_organization(:name => 'UNGC', :country => @country)
+    create_country
+    @ungc = create_organization(:name => 'UNGC')
     @staff_user = create_contact(:login           => 'staff',
                                  :organization_id => @ungc.id)
   end

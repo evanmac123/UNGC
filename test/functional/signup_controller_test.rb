@@ -4,6 +4,7 @@ class SignupControllerTest < ActionController::TestCase
   context "given an organization that wants to sign up" do
     setup do
       create_organization_type
+      create_country
       create_roles
     end
     
@@ -13,8 +14,9 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "get the second step page after posting organization details" do
-      post :step2, :organization => {:name => 'ACME inc',
+      post :step2, :organization => {:name      => 'ACME inc',
                                      :employees => 500,
+                                     :url       => 'http://www.example.com',
                                      :organization_type_id => OrganizationType.first.id}
       assert_response :success
       assert_template 'step2'
@@ -23,6 +25,12 @@ class SignupControllerTest < ActionController::TestCase
     should "get the third step page after posting contact details" do
       post :step3, :contact => {:first_name => 'Michael',
                                 :last_name  => 'Smith',
+                                :prefix     => 'Mr',
+                                :job_title  => 'Job Title',
+                                :phone      => '+1 416 1234567',
+                                :address    => '123 Example Ave',
+                                :city       => 'Toronto',
+                                :country_id => Country.first.id,
                                 :email      => 'michael@example.com'}
       assert_response :success
       assert_template 'step3'
@@ -31,7 +39,14 @@ class SignupControllerTest < ActionController::TestCase
     should "get the fourth step page after posting ceo contact details" do
       session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
                                                        :organization_type_id => OrganizationType.first.id)
-      post :step4, :contact => {:first_name => 'CEO', :last_name => 'Smith'}
+      post :step4, :contact => {:first_name => 'CEO',
+                                :last_name  => 'Smith',
+                                :prefix     => 'Mr',
+                                :job_title  => 'CEO',
+                                :phone      => '+1 416 1234567',
+                                :address    => '123 Example Ave',
+                                :city       => 'Toronto',
+                                :country_id => Country.first.id}
       assert_response :success
       assert_template 'step4'
     end
@@ -42,10 +57,22 @@ class SignupControllerTest < ActionController::TestCase
                                                        :employees            => 500)
       session[:signup_contact] = Contact.new(:first_name => 'First',
                                              :last_name  => 'Last',
+                                             :prefix     => 'Mr',
+                                             :job_title  => 'Job Title',
+                                             :phone      => '+1 416 1234567',
+                                             :address    => '123 Example Ave',
+                                             :city       => 'Toronto',
+                                             :country_id => Country.first.id,
                                              :email      => 'first@example.com',
                                              :role_ids   => [Role.contact_point.id])
       session[:signup_ceo] = Contact.new(:first_name => 'CEO',
                                          :last_name  => 'Last',
+                                         :prefix     => 'Mr',
+                                         :job_title  => 'CEO',
+                                         :phone      => '+1 416 1234567',
+                                         :address    => '123 Example Ave',
+                                         :city       => 'Toronto',
+                                         :country_id => Country.first.id,
                                          :role_ids   => [Role.ceo.id])
       assert_emails(1) do
         assert_difference 'Organization.count' do
@@ -57,5 +84,5 @@ class SignupControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'step5'
     end
-  end
+  end  
 end
