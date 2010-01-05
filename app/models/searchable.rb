@@ -75,6 +75,21 @@ class Searchable < ActiveRecord::Base
       index_organizations
       index_communications_on_progress
     end
+    
+    def index_new_or_updated
+      max = find(:all, select: 'MAX(last_indexed_at) as max').first.try(:max)
+      raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
+      index_pages_since(max)
+      index_events_since(max)
+      index_headlines_since(max)
+      index_case_stories_since(max)
+      index_organizations_since(max)
+      index_communications_on_progress_since(max)
+    end
+    
+    def new_or_updated_since(time)
+      ["(created_at > ?) OR (updated_at > ?)", time, time]
+    end
 
     def with_helper(&block)
       unless @helper
