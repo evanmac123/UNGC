@@ -20,7 +20,7 @@
 %h2 Links to Communication in Progress
 %ul.nolist
   - for cop_file in @cop.cop_files do
-    %li= link_to cop_file.name, cop_file.attachment.url
+    %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
   - for url in @cop.urls do
     %li= link_to truncate(url, 80), url
 
