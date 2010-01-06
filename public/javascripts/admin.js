@@ -457,8 +457,6 @@ function storeEditable (value, settings) {
 	return value;
 }
 
-
-
 function setEditable() {
 	$('.editable').editable( storeEditable, { 
 		cssclass: 'editable_field', 
@@ -467,6 +465,7 @@ function setEditable() {
 		tooltip: 'Click to edit' 
 	} );
 }
+
 
 $(function() {
 	// Used generically, as an alternative to Rails broken helpers
@@ -486,7 +485,7 @@ $(function() {
 	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 
   if ($('.datepicker').length > 0)
-    $('.datepicker').datepicker();
+    $('.datepicker').datepicker({ showAnim: 'slide' });
 
 });
 

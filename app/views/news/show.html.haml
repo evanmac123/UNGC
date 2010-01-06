@@ -1,7 +1,7 @@
 - @title = @headline.title
 %h1= @headline.title
 %div
-  %em==(#{@headline.location}, #{@headline.formatted_date}) &ndash;
+  %em= formatted_dateline(@headline)
 
   #{@headline.description}
 

@@ -3,6 +3,7 @@ class Admin::NewsController < AdminController
   before_filter :no_organization_or_local_network_access
   before_filter :find_headline, 
     :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
+  before_filter :add_javascript, :only => [:create, :edit, :new, :update]
 
   def index
   end
@@ -57,4 +58,7 @@ class Admin::NewsController < AdminController
       redirect_to :action => 'index' unless @headline
     end
 
+    def add_javascript
+      (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
+    end
 end

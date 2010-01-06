@@ -20,6 +20,19 @@ function startEditor(replaceMe) {
   return editor;
 };
 
+function replace_with_editor(){
+	var element = $('.replace_with_editor')[0];
+	CKEDITOR.replace(element.id, {
+     toolbar: EditorToolbar,
+     width: 500,
+     height: 300,
+ 		 startupMode: 'wysiwyg',
+     dialog_magnetDistance: 5,
+     resize_minWidth: 300,
+     resize_maxWidth: 600,
+  });
+}
+
 // Mostly used on front-end, click-to-edit areas
 var Editor = {
   editor: null,
@@ -99,4 +112,8 @@ var Editor = {
   doneLoading: function() {
     $('#editorLoading').hide();
   }
+}
+
+if ($('.replace_with_editor').length == 1) {
+	replace_with_editor();
 }

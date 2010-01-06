@@ -8,6 +8,6 @@ module Admin::NewsHelper
   end
   
   def countries_for_select
-    Country.find(:all, :order => 'name ASC').map { |c| [c.name, c.id] }
+    [''] + Country.find(:all, :order => 'name ASC').map { |c| [c.name, c.id] }
   end
 end
