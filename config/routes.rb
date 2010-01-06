@@ -46,7 +46,11 @@ ActionController::Routing::Routes.draw do |map|
         :create_folder => :post
       }
   
-    admin.resources :organizations, :collection => { :approved => :get, :rejected => :get, :pending_review => :get },
+    admin.resources :organizations, :collection => { :approved       => :get,
+                                                     :rejected       => :get,
+                                                     :pending_review => :get,
+                                                     :in_review      => :get,
+                                                     :network_review => :get },
                                     :has_many   => [:contacts, :comments] do |organization|
       organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
       organization.resources :case_stories
@@ -96,6 +100,8 @@ ActionController::Routing::Routes.draw do |map|
   # shorcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
   map.with_options :controller => 'signup' do |signup|
+    signup.connect '/HowToParticipate/Business_Organization_Information.html', :action => 'step1', :org_type => 'business'
+    signup.connect '/HowToParticipate/Organization_Information.html', :action => 'step1', :org_type => 'non_business'
     signup.organization_step1 'signup/step1/:org_type', :action => 'step1'
     signup.organization_step2 'signup/step2',           :action => 'step2'
     signup.organization_step3 'signup/step3',           :action => 'step3'

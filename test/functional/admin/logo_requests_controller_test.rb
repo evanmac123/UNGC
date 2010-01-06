@@ -1,51 +1,76 @@
 require 'test_helper'
 
 class Admin::LogoRequestsControllerTest < ActionController::TestCase
-  def setup
-    create_organization_type
-    @organization = create_organization
-    @contact = create_contact(:organization_id => @organization.id,
-                              :email           => "dude@example.com")
-    @publication = create_logo_publication
-    @logo_request = create_logo_request(:organization_id => @organization.id,
-                                        :contact_id      => @contact.id,
-                                        :publication_id  => @publication.id)
-    login_as @contact
+  context "given a pending organization" do
+    setup do
+      create_organization_type
+      create_country
+      @organization = create_organization
+      @contact = create_contact(:organization_id => @organization.id,
+                                :email           => "dude@example.com")
+      @publication = create_logo_publication
+      @logo_request = create_logo_request(:organization_id => @organization.id,
+                                          :contact_id      => @contact.id,
+                                          :publication_id  => @publication.id)
+      login_as @contact
+    end
+    
+    should "not get new form" do
+      get :new, :organization_id => @organization.id
+      assert_redirected_to admin_organization_path(@organization.id)
+    end
   end
   
-  test "should get new" do
-    get :new, :organization_id => @organization.id
-    assert_response :success
-    assert_template 'new'
-  end
-
-  test "should create logo request" do
-    assert_difference('LogoRequest.count') do
-      comment_attributes = {:body       =>"comment",
-                            :attachment => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
-      
-      post :create, :organization_id => @organization.id,
-                    :logo_request => { :contact_id     => @contact.id,
-                                       :purpose        => 'Report',
-                                       :publication_id => @publication.id,
-                                       :logo_comments_attributes=>{"0"=>comment_attributes} }
+  context "given an approved organization" do
+    setup do
+      create_organization_type
+      create_country
+      @organization = create_organization
+      @organization.approve!
+      @contact = create_contact(:organization_id => @organization.id,
+                                :email           => "dude@example.com")
+      @publication = create_logo_publication
+      @logo_request = create_logo_request(:organization_id => @organization.id,
+                                          :contact_id      => @contact.id,
+                                          :publication_id  => @publication.id)
+      login_as @contact
+    end
+    
+    should "get new form" do
+      get :new, :organization_id => @organization.id
+      assert_response :success
+      assert_template 'new'
     end
 
-    assert_redirected_to admin_organization_logo_request_path(assigns(:organization).id, assigns(:logo_request).id)
-  end
-  
-  test "should destroy logo request" do
-    assert_difference('LogoRequest.count', -1) do
-      delete :destroy, :organization_id => @organization.id,
-                       :id => @logo_request.to_param
+    should "create logo request" do
+      assert_difference('LogoRequest.count') do
+        comment_attributes = {:body       =>"comment",
+                              :attachment => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+
+        post :create, :organization_id => @organization.id,
+                      :logo_request => { :contact_id     => @contact.id,
+                                         :purpose        => 'Report',
+                                         :publication_id => @publication.id,
+                                         :logo_comments_attributes=>{"0"=>comment_attributes} }
+      end
+
+      assert_redirected_to admin_organization_logo_request_path(assigns(:organization).id, assigns(:logo_request).id)
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization).id)
+    should "destroy logo request" do
+      assert_difference('LogoRequest.count', -1) do
+        delete :destroy, :organization_id => @organization.id,
+                         :id => @logo_request.to_param
+      end
+
+      assert_redirected_to admin_organization_path(assigns(:organization).id)
+    end
   end
   
   context "given an approved logo request" do
     setup do
       create_approved_logo_request
+      @organization.approve!
       login_as @organization_user
     end
     
@@ -73,6 +98,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
   context "given an accepted logo request" do
     setup do
       create_approved_logo_request
+      @organization.approve!
       @logo_request.accept
       login_as @organization_user
     end

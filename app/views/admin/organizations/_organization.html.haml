@@ -1,6 +1,6 @@
 %tr
   %td= organization.updated_at
-  %td= organization.name
+  %td{:title => organization.name}= truncate(organization.name)
   %td= organization.state.humanize
   %td.age= (Date.today - organization.updated_at.to_date).to_i
   %td

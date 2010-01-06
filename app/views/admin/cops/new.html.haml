@@ -1,4 +1,9 @@
-%h2 New COP
+%h2 New Communication on Progress
 
-- form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization.id), :html => { :multipart => true }) do |form|
-  = render :partial => form  
+%p Thank you for submitting your Communication on Progress. We are not accepting COPs at this time, but will record the date of your submission and maintain your participant status as 'Communicating'.
+  
+%p Please use the following link to contact our COP Analyst, Simon Gargonne for further instructions:
+=mail_to("gargonne@un.org?cc=keesari@unglobalcompact.org&subject=COP%20Submission%20from%20#{@organization.name}&body=The%20following%20participant%20has%20requested%20to%20submit%20their%20COP%20on%20#{Date.today}.%0A%0AParticipant%20Name%3A%20#{@organization.name}%0AParticipant%20ID%3A%20#{@organization.id}%0ACOP%20due%20on%3A%20#{@organization.cop_due_on}",'gargonne@un.org')
+
+/- form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization.id), :html => { :multipart => true }) do |form|
+/  = render :partial => form  

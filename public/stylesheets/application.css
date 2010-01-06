@@ -101,9 +101,10 @@ body.environment_ceo #inner_head { background: url(/images/banner_environment_ce
 
 #header_content { margin: 0 auto; width: 1000px; position: relative; }
 #logo { position: absolute; top: 30px; left: 45px; }
-#languages { position: absolute; top: 20px; left: 700px; }
-#languages ul { position: relative; width: 263px; height: 11px; list-style: none;}
+#languages { position: absolute; top: 15px; left: 700px; }
+#languages ul { position: relative; list-style: none;}
 #languages ul li { display: inline; margin-right: 5px;}
+#languages a {font-size: 9px; color: #FFF;}
 #search { position: absolute; top: 60px; left: 700px; }
 #search .search_box { width: 200px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; }
 #search p { padding-top: 5px; font-size: 11px; color: #fff;  }
@@ -120,6 +121,7 @@ body.environment_ceo #inner_head { background: url(/images/banner_environment_ce
 #nav ul li.issues { width: 38px; }
 #nav ul li.newsevents { width: 90px; }
 #nav ul li.login { width: 30px; border-right: 0; }
+#nav ul li.login ul li { width: 70px; border-right: 1; }
 #nav ul li a { font-size: 12px; font-weight: bold; color: #000; height: 28px; display: block; height: 100%; padding-top: 5px;}
 #nav ul li a:hover { color: #3a7a8e; }
 #nav ul li ul {list-style: none; position: relative; top: -2px; left: -13px; visibility: hidden; opacity: 0.95; }
@@ -187,15 +189,16 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box4 div.last { border-bottom: 0; }
 
 #box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; border: 4px solid #d9e2e5; cursor: pointer;}
-#box5 { left: 40px; background-position: -5px -5px; background-image: url(Leaders_Summit_Logo.png); }
+#box5:hover, #box6:hover {border: 4px solid #C1C8CC}
+#box5 { left: 40px; background-position: -5px -5px; background-image: url(/images/Leaders_Summit_Logo.png); }
 #box5 h2 { padding: 25px 0 0 15px; }
 #box5 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px;}
-#box5 p a { color: #555; }
+#box5 p { color: #666; }
 
-#box6 { left: 357px; background: top left no-repeat; background: url(box6_bg.jpg); }
+#box6 { left: 357px; background: top left no-repeat; background: url(/images/box6_bg.jpg); }
 #box6 h2 { padding: 25px 0 0 15px; }
 #box6 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px; }
-#box6 p a { color: #555; }
+#box6 p { color: #666; }
 
 #footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
 #footer_content { width: 1000px; margin: 0 auto; position: relative; }
@@ -395,7 +398,6 @@ td.center {
 	font-weight: bold;
 }
 
-table.sortable { clear: both; }
 
 /* Clear for IE 6/7 */
 .clearfix { zoom: 1; clear: left; }

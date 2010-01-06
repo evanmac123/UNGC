@@ -6,13 +6,22 @@
     %dt Name:
     %dd=h @organization.name
     %dt Status:
-    %dd= @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
-    %dt Commitment Letter:
+    %dd
+      = @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
+      - if @organization.network_review?
+        == for #{distance_of_time_in_words(@organization.network_review_on, Date.today + 24.hours)}
+    %dt Local Network:
+    %dd
+      - if @organization.network_report_recipients.count >= 1
+        = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
+      - else
+        == There is no Network Report Recipient for #{@organization.country.name}
+    %dt Letter of Commitment:
     %dd
       %ul.document_list
-        %li= link_to_commitment_letter(@organization)
+        %li= link_to_commitment_letter(@organization)    
 
-/= organization_actions(@organization)
+%p= organization_actions(@organization)
 
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
@@ -27,4 +36,4 @@
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new', :title => 'New Contact'
-    %ul.items= render @organization.contacts
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts

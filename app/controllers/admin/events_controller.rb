@@ -1,5 +1,6 @@
 class Admin::EventsController < AdminController
   helper Admin::EventsHelper
+  before_filter :no_organization_or_local_network_access
   before_filter :find_event, 
     :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
   

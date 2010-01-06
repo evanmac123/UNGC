@@ -1,4 +1,5 @@
 class Admin::PagesController < AdminController
+  before_filter :no_organization_or_local_network_access
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:index, :new, :create, :edit, :update]
 
@@ -78,6 +79,7 @@ class Admin::PagesController < AdminController
   end
   
   def edit
+    @show_approve_button = true
     @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js' 
     if request.xhr?
       render :json => {
@@ -106,6 +108,7 @@ class Admin::PagesController < AdminController
     rescue Page::PathCollision => e
       update_failed(:forbidden, is_live_editor)
     rescue Exception => e
+      logger.error "*** ERROR on PagesController#update: #{e.inspect}"
       update_failed(:bad_request, is_live_editor)
     else
       update_successful(is_live_editor)

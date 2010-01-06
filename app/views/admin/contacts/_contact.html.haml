@@ -1,35 +1,10 @@
-%li.item{:id => dom_id(contact)}
-  .meta
-    %p.name= contact.name
-    
-    #ul{:class => "post_tools inline"}
-      %li= link_to 'Edit details', edit_admin_organization_contact_path(contact.organization.id, contact), :class => 'edit', :title => 'Edit details'
+%tr
+  %td= contact.updated_at
+  %td= contact.name
+  %td= contact.email
+  %td.age= (Date.today - contact.updated_at.to_date).to_i
+  %td
+    %ul.actions
+      %li= link_to 'View details', edit_admin_organization_contact_path(contact.organization.id, contact), :class => 'edit', :title => 'View/Edit details'
       - unless contact == current_user
-        %li= link_to 'Delete', admin_organization_contact_path(contact.organization.id, contact), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete contact'
-
-  .body
-    %dl#contact_data_left.contact_data
-      %dt Job Title:
-      %dd= contact.job_title.blank? ? 'n/a' : contact.job_title
-      
-      %dt Email Address
-      %dd= contact.email.blank? ? 'n/a' : contact.email
-      
-      %dt Phone Number:
-      %dd= contact.phone.blank? ? 'n/a' : contact.phone
-
-    %dl#contact_data_right.contact_data
-      %dt Country:
-      %dd= contact.country.try(:name)
-      
-      %dt Address:
-      %dd= contact.address.blank? ? 'n/a' : contact.address
-      
-      %dt City:
-      %dd= contact.city.blank? ? 'n/a' : contact.city
-      
-      %dt State:
-      %dd= contact.state.blank? ? 'n/a' : contact.state
-      
-      %dt Postal Code:
-      %dd= contact.postal_code.blank? ? 'n/a' : contact.postal_code
+        %li= link_to 'Delete', admin_organization_contact_path(contact.organization.id, contact), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'

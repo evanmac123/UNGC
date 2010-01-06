@@ -13,7 +13,7 @@
       %strong Website:
     .right= @participant.url.blank? ? 'No address provided' : link_to(@participant.url, @participant.url)
 
-  - unless @participant.stock_symbol.blank?
+  - unless @participant.stock_symbol.blank? || @participant.exchange.blank?
     %li.clearfix.odd
       .left
         %strong Financial Information:

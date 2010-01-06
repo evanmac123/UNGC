@@ -39,20 +39,23 @@
 #  cop_state                      :string(255)
 #  replied_to                     :boolean(1)
 #  reviewer_id                    :integer(4)
+#  bhr_url                        :string(255)
+#  rejected_on                    :date
+#  network_review_on              :date
 #
 
 class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  # TODO uncomment after import, since un7 data may fail validation
-  # validates_uniqueness_of :name, :on => :create, :message => "must be unique"
-  # validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
-  # validates_format_of :url,
-  #                     :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
-  #                     :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
-  #                     :unless => Proc.new { |organization| organization.url.blank? }
-  # validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
+  # TODO update test data
+  validates_uniqueness_of :name, :on => :create, :message => "must be unique"
+  validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
+  validates_format_of :url,
+                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
+                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
+                       :unless => Proc.new { |organization| organization.url.blank? }
+  validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
   has_many :signings
   has_many :initiatives, :through => :signings
   has_many :contacts 
@@ -85,10 +88,10 @@ class Organization < ActiveRecord::Base
     has country(:name), :as => :country_name, :facet => true
     has organization_type(:type_property), :as => :business, :facet => true
     has organization_type(:id), :as => :organization_type_id, :facet => true
-    has cop_state, :facet => true
+    has "CRC32(cop_state)", :as => :cop_state, :type => :integer # NOTE: This used to have :facet => true, but it broke search in production, and *only* in production - I don't know why, but I do know that this fixes it
     has joined_on, :facet => true
     has delisted_on, :facet => true
-    where 'organizations.state = "approved"' #FIXME: Exclude everything except participants, possibly exclude delisted?
+    where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
   end
   
@@ -103,6 +106,7 @@ class Organization < ActiveRecord::Base
   }
   
   state_machine :cop_state, :initial => :active do
+    after_transition :on => :delist, :do => :set_delisted_status
     event :communication_late do
       transition :from => :active, :to => :noncommunicating
     end
@@ -203,8 +207,11 @@ class Organization < ActiveRecord::Base
   }
 
   def network_report_recipients
-    # FIXME: find local network instead, for regional networks
-    Contact.network_report_recipients.for_country(self.country)
+    if self.country.try(:local_network)
+      self.country.local_network.contacts.network_report_recipients
+    else
+      []
+    end
   end
   
   def self.find_by_param(param)
@@ -217,10 +224,6 @@ class Organization < ActiveRecord::Base
   def self.visible_in_local_network
     statuses = [:noncommunicating, :active, :delisted]
     participants.active.with_cop_status(statuses)
-  end
-
-  def country_name
-    country.name
   end
 
   def company?
@@ -242,6 +245,10 @@ class Organization < ActiveRecord::Base
   def sector_name
     sector.try(:name)
   end
+
+  def organization_type_name
+    organization_type.try(:name)
+  end
   
   def business_for_search
     business_entity? ? 1 : 0
@@ -256,6 +263,12 @@ class Organization < ActiveRecord::Base
 
   def invoice_id
     "FGCD#{id}"
+  end
+  
+  def last_modified_by_full_name
+    if last_modified_by_id || reviewer_id
+      Contact.find(last_modified_by_id || reviewer_id).name
+    end
   end
   
   # TODO: save date when invoice is sent
@@ -279,7 +292,7 @@ class Organization < ActiveRecord::Base
   def july_1_2009_cop_rules?
     self.joined_on > Date.new(2009,7,1)
   end
-  
+    
   # COP's next due date is 1 year from current date
   def set_next_cop_due_date
     self.communication_received
@@ -291,10 +304,10 @@ class Organization < ActiveRecord::Base
     set_approved_on
   end
   
-  # def set_network_review
-  #   self.network_review_on = Date.today
-  #   self.save  
-  # end
+  def set_network_review
+    self.network_review_on = Date.today
+    self.save
+  end
 
   def set_approved_on
     self.active = true
@@ -336,8 +349,8 @@ class Organization < ActiveRecord::Base
     end
     
     def pledge_amount_other_at_least_10000
-      if pledge_amount.to_i == -1 and pledge_amount_other.to_i < 10000
-        errors.add :pledge_amount_other, "cannot be less than 10000 USD"
+      if pledge_amount.to_i == -1 and pledge_amount_other.to_i <= 10000
+        errors.add :pledge_amount_other, "has to be more than 10000 USD"
       end
     end
 end

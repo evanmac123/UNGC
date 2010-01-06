@@ -3,4 +3,4 @@
     %p.name= logo_comment.contact.name
     %p.datetime= logo_comment.created_at.strftime '%d-%b-%Y %I:%M%p'
   .body
-    %p= logo_comment.body
+    %p= simple_format(logo_comment.body)

@@ -8,32 +8,30 @@
         %li
           %a{ :href => "/Languages/arabic/index.html" }
             %img{ :src => "/images/lang_arabic_over.gif", :alt => "Arabic" }
-        %li
+
           %a{ :href => "/Languages/chinese/index.html" }
+            &nbsp;
             %img{ :src => "/images/lang_chinese_over.gif", :alt => "Chinese" }
-        %li
+
           %a{ :href => "/Languages/french/index.html" }
+            &nbsp;
             %img{ :src => "/images/lang_french_over.gif", :alt => "French" }
-        %li
+
           %a{ :href => "/Languages/russian/index.html" }
+            &nbsp;
             %img{ :src => "/images/lang_russian_over.gif", :alt => "Russian" }
-        %li
+
           %a{ :href => "/Languages/spanish/index.html" }
+            &nbsp;
             %img{ :src => "/images/lang_spanish_over.gif", :alt => "Spanish" }
-        %li
+
           %a{ :href => "/Languages/german/index.html" }
+            &nbsp;
             %img{ :src => "/images/lang_deutsch_over.gif", :alt => "German" }
     #search
       %form{ :name => "search", :action => "/search", :method => "get" }
         %input.search_box{ :name => "keyword", :type => "text" }
         %input.search_submit{ :name => "submit", :src => "/images/search_submit.png", :type => "image", :alt => "Search" }
-        %p
-          %input#search_radio1{ :checked => "checked", :name => "target", :type => "radio", :value => "" }
-          %label{ :for => "search_radio1" }
-            Search Website
-          %input#search_radio2{ :name => "target", :type => "radio", :value => participant_search_path, :checked => participant_search?(:participant) }
-          %label{ :for => "search_radio2" }
-            Search Participants
   #nav_bg
     .transparency
     #nav= top_nav_bar

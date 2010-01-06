@@ -62,6 +62,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     end
 
     should "get the foundation pledges report" do
+      create_country
       get :foundation_pledges, {}, as(@staff_user)
       assert_response :success
       assert_template 'foundation_pledges.html.haml'

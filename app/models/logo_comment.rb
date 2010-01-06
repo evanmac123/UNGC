@@ -21,9 +21,10 @@ class LogoComment < ActiveRecord::Base
   validates_presence_of :body, :if => Proc.new { |c| c.state_event == ApprovalWorkflow::EVENT_REVISE }
   belongs_to :logo_request
   belongs_to :contact
-  has_attached_file :attachment
   
+  has_attached_file :attachment
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
+  named_scope :without_attachment, :conditions => "attachment_file_name IS NULL"
 
   attr_accessor :state_event
   after_create :update_request_state

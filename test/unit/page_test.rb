@@ -176,7 +176,6 @@ class PageTest < ActiveSupport::TestCase
       end
     end
     
-    
     context "and it is saved" do
       setup do
         @page.save
@@ -193,6 +192,7 @@ class PageTest < ActiveSupport::TestCase
 
         should "save time data on page" do
           now = Time.now
+          assert !@page.approved_at.nil?
           assert (now - @page.approved_at) <= 5
         end
 
@@ -227,21 +227,8 @@ class PageTest < ActiveSupport::TestCase
       @page1v3 = @page1v2.new_version title: 'I am newest'
       @page2   = create_page path: '/this/does_not/clash.html'
     end
-
-    context "when only renaming the path" do
-      setup do
-        changes = {path: '/new_path/to_the/first_page.html'}
-        @page1v3.update_pending_or_new_version(changes)
-      end
-
-      should "rename all versions of the page" do
-        actual = [@page1, @page1v2, @page1v3].map { |p| p.reload.path }
-        expected = ['/new_path/to_the/first_page.html'] * 3
-        assert_same_elements expected, actual
-      end
-    end
     
-    context "when renaming the path to something that already exists" do
+    context "and the new path collides with an existing path" do
       setup do
         @changes = {path: '/this/new/path/here.html', title: 'I have a changed path'}
         @page2 = create_page path: @changes[:path]
@@ -256,32 +243,53 @@ class PageTest < ActiveSupport::TestCase
         assert_raise(Page::PathCollision) { @page1v3.update_pending_or_new_version(@changes) }
         [@page1, @page1v2, @page1v3].each do |page|
           reloaded = page.reload
-          assert_equal reloaded.path, page.path
           assert_equal reloaded.title, page.title
+          assert_equal reloaded.path, page.path
+          assert page.change_path.nil?, 'Change page is nil because of collision' if page.id == @page1v3.id
         end
       end
     end
     
-    context "when renaming the path and title at the same time" do
+    context "and the path and other attributes are changed" do
       setup do
         @changes = {path: '/this/new/path/here.html', title: 'I have a changed path'}
         @page2 = create_page path: '/no/worries/I/dont/collide.html'
       end
 
-      should "update path and change title on pending version" do
+      should "change title, leaving path alone, but setting change_path for later approval" do
         assert_no_difference('Page.count') { @page1v3.update_pending_or_new_version(@changes) }
         [@page1, @page1v2].each do |page|
           reloaded = page.reload
-          assert_equal reloaded.path, @changes[:path], "Old version has new path"
+          assert_equal reloaded.path, @page1.path, "Old versions have old path"
           assert_equal reloaded.title, page.title, "Title hasn't changed here"
         end
         reloaded = @page1v3.reload
-        assert_equal reloaded.path, @changes[:path]
-        assert_equal @changes[:title], reloaded.title
+        assert_equal reloaded.change_path, @changes[:path], "Reloaded's path change is pending"
+        assert_equal reloaded.path, @page1v3.path, "Reloaded's path change is pending, still has old path"
+        assert_equal @changes[:title], reloaded.title 
       end
+
+      context "and the new version is approved" do
+        setup do
+          @page1v3.update_pending_or_new_version(@changes)
+          @page1v3.reload # needs to be refreshed in between to see path changes, won't happen in real app
+          assert @page1v3.approve!
+        end
+
+        should "update all page1's paths" do
+          [@page1, @page1v2, @page1v3].each do |page|
+            reloaded = page.reload
+            assert reloaded.change_path.nil?
+            assert_equal @changes[:path], reloaded.path, "Path for #{page.id} should be #{@changes[:path]} instead of #{page.path}"
+          end
+        end
+        
+        should "have only one approved version of the page" do
+          assert_equal 1, Page.all_versions_of(@changes[:path]).with_approval('approved').size, "Should only be one approved version for this path"
+        end
+      end
+      
     end
-    
-    
   end
   
   context "given a page with children" do

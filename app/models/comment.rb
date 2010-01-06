@@ -16,12 +16,7 @@
 #
 
 class Comment < ActiveRecord::Base
-  
-  EVENT_REVISE = 'revise'
-  EVENT_REJECT = 'reject'
-  EVENT_APPROVE = 'approve'
-  
-  validates_presence_of :body, :if => Proc.new { |c| ![EVENT_APPROVE, EVENT_REJECT].include?(c.state_event) }
+  validates_presence_of :body, :unless => Proc.new { |c| ApprovalWorkflow::STAFF_EVENTS.include?(c.state_event) }
   belongs_to :commentable, :polymorphic => true
   default_scope :order => 'created_at ASC'
   belongs_to :contact
@@ -50,7 +45,7 @@ class Comment < ActiveRecord::Base
     end
     
     def organization_user_cannot_approve_or_reject
-      if state_event.to_s == LogoRequest::EVENT_APPROVE || state_event.to_s == LogoRequest::EVENT_REJECT
+      if ApprovalWorkflow::STAFF_EVENTS.include? state_event.to_s
         errors.add_to_base "cannot approve/reject comment, unless UNGC staff" unless contact.from_ungc?
       end
     end
@@ -61,5 +56,4 @@ class Comment < ActiveRecord::Base
         commentable.update_attribute(:reviewer_id, contact_id)
       end
     end
-    
 end

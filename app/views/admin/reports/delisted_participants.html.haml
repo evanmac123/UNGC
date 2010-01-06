@@ -1,0 +1,5 @@
+%h2 Delisted Participants
+  
+= link_to 'download', url_for(params.merge(:format => 'csv'))
+
+%div= @report.render_html

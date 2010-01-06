@@ -13,4 +13,8 @@ module Searchable::SearchableEvent
     Event.approved.each { |e| index_event e }
   end
 
+  def index_events_since(time)
+    Event.approved.find(:all, conditions: new_or_updated_since(time)).each { |e| index_event e }
+  end
+
 end

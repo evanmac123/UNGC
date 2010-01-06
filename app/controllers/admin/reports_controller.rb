@@ -1,5 +1,10 @@
 class Admin::ReportsController < AdminController
 
+  def delisted_participants
+    @report = DelistedParticipants.new
+    render_formatter(filename: "delisted_participants_#{date_as_filename}.xls")
+  end
+
   def participant_breakdown
     @report = ParticipantBreakdownReport.new
     render_formatter(filename: "participant_breakdown_#{date_as_filename}.xls")

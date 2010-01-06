@@ -149,6 +149,9 @@ class Importer
           model.state = 'approved'
           # COP state - 2=Active, 1=Non-communicating, 0=Inactive, 3=Delisted
           model.cop_state = ['delisted','noncommunicating','active','delisted'][model.cop_status.to_i]
+          if model.participant == 1 && model.active == 0
+            model.cop_state = 'delisted'
+          end
         when :communication_on_progress then
           # COP Status (0: “In review”, 1: “Published”, -1: “Rejected”)
           model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]

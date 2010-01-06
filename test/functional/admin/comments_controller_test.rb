@@ -28,6 +28,8 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     setup do
       create_ungc_organization_and_user
       create_organization_and_user
+      create_local_network_with_report_recipient
+      @organization.country_id = @country.id
       login_as @staff_user
     end
     

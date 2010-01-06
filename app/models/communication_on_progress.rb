@@ -52,6 +52,7 @@
 #  mentions_partnership_project        :boolean(1)
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
+#  missing_principle_explained         :boolean(1)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
@@ -120,8 +121,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def ended_on
-    time = Time.mktime end_year, end_month, 1
-    time.to_date
+    if end_year and end_month
+      time = Time.mktime end_year, end_month, 1
+      time.to_date
+    end
   end
   
   def organization_name
@@ -133,8 +136,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def started_on
-    time = Time.mktime start_year, start_month, 1
-    time.to_date
+    if start_year and start_month
+      time = Time.mktime start_year, start_month, 1
+      time.to_date
+    end
   end
   
   def urls

@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
     def rescue_action(exception)
       case exception
       when Riddle::ConnectionError
-        render :template => '/search/offline'
+        render :template => '/search/offline' and return false
       else
         super
       end

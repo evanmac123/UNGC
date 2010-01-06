@@ -88,7 +88,7 @@ class OrganizationTest < ActiveSupport::TestCase
         assert @organization.errors.on :pledge_amount_other
       end
     end
-    
+        
     context "approving its participation" do
       setup do
         @organization = create_organization

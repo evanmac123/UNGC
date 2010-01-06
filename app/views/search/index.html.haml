@@ -1,9 +1,10 @@
-%h1= "Search results for: '#{h params[:keyword]}'"
+%h1= "Search results for '#{h params[:keyword]}'"
   
 - if @facets.any? && @facets[:document_type].size > 1
+  %p You can refine your search by category:
   %ul.nolist
     - @facets[:document_type].each_pair do |key, count|
-      %li= link_to "#{key.pluralize}: #{count}", params.merge(:document_type => key, :page => 1)
+      %li= link_to "#{pretty_facet_label(key)}: #{count}", params.merge(:document_type => key, :page => 1)
 
 - if @results.any?
   - for result in @results do
@@ -19,4 +20,4 @@
   %div
     = will_paginate @results
 - else
-  %p Nothing found, try again.
+  %p No search results were found for your query, please try again.

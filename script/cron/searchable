@@ -1,2 +1,3 @@
 #!/bin/sh
-cd /srv/unglobalcompact/current && ./script/runner -e production "CopStatusUpdater.update_all"
+# Please stop sphinx first!
+cd /srv/unglobalcompact/current && ./script/runner -e production "Searchable.index_new_or_updated"

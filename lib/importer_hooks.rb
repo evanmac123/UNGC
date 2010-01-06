@@ -27,7 +27,7 @@ module ImporterHooks
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
     CSV.foreach(file, :headers => :first_row) do |row|
       # get organization by name
-      if o = Organization.find_by_name(row["ORG_NAME"])
+      if o = Organization.find_by_old_id(row["R01_ORG_ID"].to_i)
         # import pledge
         pledge = row["PLEDGE_AMOUNT"]
         o.pledge_amount = pledge.to_i if pledge.to_i > 0
@@ -35,26 +35,6 @@ module ImporterHooks
         old_tmp_id = row["ID"].to_i
         o.old_tmp_id = old_tmp_id if old_tmp_id.to_i > 0
 
-        # import network_review state
-
-        # R01_ORGANIZATION_TEMP.ORG_STATUS values
-        # 0 = rejected 
-        # 1 = new 
-        # 2 = in review by Local Network 
-        # 3 = accepted 
-        
-        
-        # review_state = row["[ORG_STATUS]"]
-        # if review_state.to_i == 2 
-        #   o.state = 'network_review'
-        #   o.network_review_on = row["[ORG_DATE_APPROVE]"]
-        # end
-        
-        # if review_state.to_i == 0 
-        #   o.state = 'rejected'
-        #   o.rejected_on = row["[ORG_DATE_REJECT]"]
-        # end
-        
         # save the record
         o.save
       end

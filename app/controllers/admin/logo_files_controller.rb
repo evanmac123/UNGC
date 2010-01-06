@@ -1,4 +1,6 @@
 class Admin::LogoFilesController < AdminController
+  before_filter :no_organization_or_local_network_access
+
   def index
     @logo_files = LogoFile.all
   end

@@ -21,6 +21,6 @@ class SimpleReport
         csv << row(r)
       end
     end
-    return buffer
   end
+  
 end

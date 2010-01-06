@@ -1,0 +1,38 @@
+%li.item{:id => dom_id(tabbed_contact)}
+  .meta
+    %p.name= tabbed_contact.name
+    
+    %ul{:class => "post_tools inline"}
+      %li= link_to 'Edit details', edit_admin_organization_contact_path(tabbed_contact.organization.id, tabbed_contact), :class => 'edit', :title => 'Edit details'
+      - unless tabbed_contact == current_user
+        %li= link_to 'Delete', admin_organization_contact_path(tabbed_contact.organization.id, tabbed_contact), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete contact'
+
+  .body
+    %dl#contact_data_left.contact_data
+      %dt Job Title:
+      %dd= tabbed_contact.job_title.blank? ? 'n/a' : tabbed_contact.job_title
+      
+      %dt Roles:
+      %dd= render :partial => 'admin/contacts/role', :collection => tabbed_contact.roles
+      
+      %dt Email Address
+      %dd= tabbed_contact.email.blank? ? 'n/a' : tabbed_contact.email
+      
+      %dt Phone Number:
+      %dd= tabbed_contact.phone.blank? ? 'n/a' : tabbed_contact.phone
+
+    %dl#contact_data_right.contact_data
+      %dt Country:
+      %dd= tabbed_contact.country.try(:name)
+      
+      %dt Address:
+      %dd= tabbed_contact.address.blank? ? 'n/a' : tabbed_contact.address
+      
+      %dt City:
+      %dd= tabbed_contact.city.blank? ? 'n/a' : tabbed_contact.city
+      
+      %dt State:
+      %dd= tabbed_contact.state.blank? ? 'n/a' : tabbed_contact.state
+      
+      %dt Postal Code:
+      %dd= tabbed_contact.postal_code.blank? ? 'n/a' : tabbed_contact.postal_code

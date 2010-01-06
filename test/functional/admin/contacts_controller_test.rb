@@ -3,6 +3,7 @@ require 'test_helper'
 class Admin::ContactsControllerTest < ActionController::TestCase
   def setup
     create_organization_type
+    create_country
     create_roles
     create_organization_and_user
     login_as(@organization_user)
@@ -18,6 +19,12 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       post :create, :organization_id => @organization.id,
                     :contact => { :first_name => 'Dude',
                                   :last_name  => 'Smith',
+                                  :prefix     => 'Mr',
+                                  :job_title  => 'Job Title',
+                                  :phone      => '+1 416 1234567',
+                                  :address    => '123 Example Ave',
+                                  :city       => 'Toronto',
+                                  :country_id => Country.first.id,
                                   :login      => 'test',
                                   :password   => 'test' }
     end
