@@ -88,7 +88,7 @@ class Organization < ActiveRecord::Base
     has country(:name), :as => :country_name, :facet => true
     has organization_type(:type_property), :as => :business, :facet => true
     has organization_type(:id), :as => :organization_type_id, :facet => true
-    has "CRC32(cop_state)", :facet => true, :type => :integer
+    has "CRC32(cop_state)", :as => :cop_state, :type => :integer # NOTE: This used to have :facet => true, but it broke search in production, and *only* in production - I don't know why, but I do know that this fixes it
     has joined_on, :facet => true
     has delisted_on, :facet => true
     where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
