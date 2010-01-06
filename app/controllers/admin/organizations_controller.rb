@@ -53,6 +53,9 @@ class Admin::OrganizationsController < AdminController
         when 'approved'
           @organizations = Organization.send(method).participants
           method
+        when 'pending_review'
+          @organizations = Organization.send(method).all
+          method
         when 'network_review'
           @organizations = Organization.send(method).all
           method
