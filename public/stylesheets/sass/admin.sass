@@ -200,7 +200,7 @@ ul.nav_bar
         
         a
           display: block
-          // positioning defaults to Word icon in sprited png file:
+          // positioning defaults to generic icon in sprited png file:
           background: white url('../images/icons/doc_icons.png') no-repeat 0px 0px
           text-indent: -9999em
           width: 24px
@@ -209,6 +209,10 @@ ul.nav_bar
           &.pdf_doc
             // fixes positioning for PDF icon in sprited png file:
             background-position: -24px 0
+            
+          &.word_doc
+            // fixes positioning for PDF icon in sprited png file:
+            background-position: -48px 0
             
   #org_name
     font-weight: bold 
