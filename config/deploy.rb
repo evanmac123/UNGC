@@ -7,8 +7,7 @@ set :deploy_to, "/srv/unglobalcompact"
 # Use Git source control
 set :scm, :git
 set :repository, "git@github.com:unspace/UNGC.git"
-# Deploy from master branch by default
-set :branch, "master"
+# see production/staging for branch settings
 set :deploy_via, :remote_cache
 set :scm_verbose, true
 
