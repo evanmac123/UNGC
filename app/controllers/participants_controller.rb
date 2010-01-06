@@ -34,6 +34,7 @@ class ParticipantsController < ApplicationController
     
     def results_for_search
       options = {per_page: (params[:per_page] || 10).to_i, page: (params[:page] || 1).to_i}
+      options[:per_page] = 100 if options[:per_page] > 100
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]
