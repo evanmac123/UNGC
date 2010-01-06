@@ -43,7 +43,8 @@ class ParticipantsController < ApplicationController
       options.delete(:with) if options[:with] == {}
       logger.info " ** Participant search with options: #{options.inspect}"
       @results = Organization.search params[:keyword] || '', options
-      render :action => 'index' if @results && @results.total_entries
+      raise Riddle::ConnectionError unless @results && @results.total_entries
+      render :action => 'index'
     end
     
     def filter_options_for_country(options)
