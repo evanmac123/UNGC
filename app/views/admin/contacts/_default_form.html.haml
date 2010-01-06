@@ -10,6 +10,7 @@
     = default_form.text_field :phone
     = default_form.text_field :fax
     = default_form.text_field :address
+    = default_form.text_field :address_more, :label => 'Address 2'
     = default_form.text_field :city
     = default_form.text_field :state
     = default_form.text_field :postal_code
@@ -20,8 +21,8 @@
   %ol
     - for role in @roles
       %li
-        = label_tag "contact_role_ids_" + role.id.to_s, role.name
         = check_box_tag "contact[role_ids][]", role.id, @contact.roles.include?(role), { :id => "contact_role_ids_" + role.id.to_s, :class => login_fieldset_class(role) }
+        = label_tag "contact_role_ids_" + role.id.to_s, role.name
 
 %fieldset#login_information{:style => login_fieldset_style(@contact)}
   %legend Account
