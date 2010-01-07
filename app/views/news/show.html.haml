@@ -1,9 +1,6 @@
 - @title = @headline.title
 %h1= @headline.title
-%div
-  %em==(#{@headline.location}, #{@headline.formatted_date}) &ndash;
-
-  #{@headline.description}
+%div= @headline.description
 
 
 <div style="position: absolute; top: 10px; left: 520px; width: 120px;" class="addthis_toolbox addthis_default_style">
