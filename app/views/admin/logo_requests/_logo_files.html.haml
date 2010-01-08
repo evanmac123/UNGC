@@ -6,4 +6,4 @@
       = label "element", "Use this logo: "
       = check_box_tag 'logo_request[logo_file_ids][]', logo_file.id, @logo_request.logo_files.include?(logo_file)
     .body
-      = logo_file_image_tag(logo_file)
+      = image_tag logo_file.preview.url, :alt => logo_file.name
