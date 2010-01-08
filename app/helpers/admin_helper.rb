@@ -33,13 +33,13 @@ module AdminHelper
     link_to 'Edit your organization', edit_admin_organization_path(current_user.organization.id) if logged_in?
   end
   
-  def link_to_attached_file(logo_comment)
-    return '' if logo_comment.attachment_file_name.blank?
-    if logo_comment.attachment_file_name.downcase.ends_with?('.pdf')
+  def link_to_attached_file(object, file='attachment')
+    return '' if object.send("#{file}_file_name").blank?
+    if object.send("#{file}_file_name").downcase.ends_with?('.pdf')
       name = "PDF document"
       options = {:title => 'Download PDF document', :class => 'pdf_doc'}
-    elsif logo_comment.attachment_file_name.downcase.ends_with?('.doc') ||
-            logo_comment.attachment_file_name.downcase.ends_with?('.docx')
+    elsif object.send("#{file}_file_name").downcase.ends_with?('.doc') ||
+            object.send("#{file}_file_name").downcase.ends_with?('.docx')
       name = "Word document"
       options = {:title => 'Download Word document', :class => 'word_doc'}
     else
@@ -47,6 +47,6 @@ module AdminHelper
       options = {:title => 'Download document'}
     end
 
-    link_to name, logo_comment.attachment.url, options
+    link_to name, object.send(file).url, options
   end
 end
