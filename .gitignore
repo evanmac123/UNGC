@@ -16,6 +16,7 @@ config/database.yml
 public/system/attachments/**/*
 public/system/zips/**/*
 public/system/commitment_letters/**/*
+public/system/previews/**/*
 coverage.data
 coverage/*
 .sass-cache/*
