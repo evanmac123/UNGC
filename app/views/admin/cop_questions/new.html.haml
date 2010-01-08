@@ -1,0 +1,5 @@
+%h2 New COP question
+
+- form_for @cop_question, builder: DefaultFormBuilder, url: admin_cop_questions_path do |form|
+  = render :partial => form
+  = form.submit 'Create', :class => 'button'

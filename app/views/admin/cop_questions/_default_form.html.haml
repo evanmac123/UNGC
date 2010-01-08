@@ -1,0 +1,7 @@
+= default_form.error_messages
+%fieldset
+  %ol
+    = default_form.text_field :grouping
+    = default_form.collection_select :principle_area_id, PrincipleArea.all, :id, :name, {:include_blank => true}, {}
+    = default_form.text_area :text
+    = default_form.text_field :position
