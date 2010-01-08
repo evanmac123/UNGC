@@ -9,3 +9,8 @@
       %li
         Current file:
         = link_to @logo_file.zip_file_name, @logo_file.zip.url
+    = default_form.file_field :preview
+    - unless @logo_file.new_record?
+      %li
+        Current file:
+        = image_tag @logo_file.preview.url, :valign => 'middle'

@@ -167,6 +167,8 @@ ul.nav_bar {
           height: 24px; }
           #main_content dl ul.document_list li a.pdf_doc {
             background-position: -24px 0; }
+          #main_content dl ul.document_list li a.word_doc {
+            background-position: -48px 0; }
   #main_content #org_name {
     font-weight: bold; }
 

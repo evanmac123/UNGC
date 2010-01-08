@@ -43,10 +43,6 @@ class AdminController < ApplicationController
   end
 
   private
-    def require_staff # TODO: Make this secure
-      current_user.from_ungc?
-    end
-  
     def add_admin_js
       (@javascript ||= []) << 'admin'
     end
