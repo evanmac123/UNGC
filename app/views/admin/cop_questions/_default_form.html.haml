@@ -1,4 +1,6 @@
+= render :partial => 'cop_attributes_form'
 = default_form.error_messages
+
 %fieldset
   %ol
     = default_form.text_field :grouping
@@ -10,15 +12,5 @@
   %legend Attributes
   %p Each attribute will be represented by a check box in the COP form. If you don't add custom attributes, this will be a Yes/No question.
   
-  - for attribute in @cop_question.cop_attributes
-    %ol
-      %li
-        = label_tag("cop_question_cop_attributes_attributes_#{attribute.id}_text", 'Text')
-        = text_area_tag("cop_question[cop_attributes_attributes][#{attribute.id}][text]", attribute.text, :style => 'height: 50px')
-    
-      - unless attribute.new_record?
-        = hidden_field_tag("cop_question[cop_attributes_attributes][#{attribute.id}][id]", attribute.id)
-        %li
-          = label_tag("cop_question_cop_attributes_attributes_#{attribute.id}__delete", 'Remove?')
-          = check_box_tag("cop_question[cop_attributes_attributes][#{attribute.id}][_delete]", "1", false)
-    %hr
+  #cop_attributes= render @cop_question.cop_attributes
+  = link_to_function "New attributes", "$('#cop_attributes').append(replace_ids(cop_attribute_form))"
