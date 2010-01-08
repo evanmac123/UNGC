@@ -36,7 +36,7 @@
         %th.check 2
         %th.check 3
     %tbody
-      - for cop in @participant.communication_on_progresses do
+      - for cop in @participant.communication_on_progresses.approved do
         %tr
           %td.center= yyyy_mm_dd cop.added_on
           %td.center= date_range cop
