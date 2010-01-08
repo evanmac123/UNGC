@@ -17,6 +17,9 @@ class CopQuestion < ActiveRecord::Base
   has_many :cop_attributes
   belongs_to :principle_area
   belongs_to :initiative
+  
+  accepts_nested_attributes_for :cop_attributes, :allow_destroy => true,
+                                                 :reject_if     => proc { |a| a['text'].blank? }
 
   default_scope :order => 'cop_questions.position'
   named_scope :general, :conditions => "initiative_id IS NULL"
