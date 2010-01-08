@@ -36,15 +36,17 @@ module AdminHelper
   def link_to_attached_file(logo_comment)
     return '' if logo_comment.attachment_file_name.blank?
     if logo_comment.attachment_file_name.downcase.ends_with?('.pdf')
-      file_type = 'PDF'
+      name = "PDF document"
+      options = {:title => 'Download PDF document', :class => 'pdf_doc'}
     elsif logo_comment.attachment_file_name.downcase.ends_with?('.doc') ||
             logo_comment.attachment_file_name.downcase.ends_with?('.docx')
-      file_type = 'Word'
+      name = "Word document"
+      options = {:title => 'Download Word document', :class => 'word_doc'}
     else
-      file_type = 'Other'
+      name = "Document"
+      options = {:title => 'Download document'}
     end
 
-    link_to "#{file_type} document", logo_comment.attachment.url, :class => "#{file_type.downcase}_doc",
-                                                                  :title => "Download #{file_type} document"
+    link_to name, logo_comment.attachment.url, options
   end
 end
