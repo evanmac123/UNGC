@@ -11,7 +11,7 @@ module LocalNetworkHelper
   end
   
   def p_with_link_to_local_network
-    content_tag :p, "Website: #{link_to(local_network.url)}" if local_network unless local_network.try(:url).blank?
+    content_tag :p, "Website: #{link_to(local_network.url,local_network.url)}" if local_network unless local_network.try(:url).blank?
   end
   
   def local_network_contacts

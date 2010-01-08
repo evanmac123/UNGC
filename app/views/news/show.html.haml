@@ -1,9 +1,6 @@
 - @title = @headline.title
 %h1= @headline.title
-%div
-  %em= formatted_dateline(@headline)
-
-  #{@headline.description}
+%div= @headline.description
 
 
 <div style="position: absolute; top: 10px; left: 520px; width: 120px;" class="addthis_toolbox addthis_default_style">
