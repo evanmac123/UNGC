@@ -21,6 +21,7 @@
 #  group_id              :integer(4)
 #  approval              :string(255)
 #  top_level             :boolean(1)
+#  change_path           :string(255)
 #
 
 class Page < ActiveRecord::Base
