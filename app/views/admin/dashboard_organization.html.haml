@@ -59,4 +59,4 @@
           %th.status Status
           %th.age Days since last update
           %th.actions Actions
-        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses.find(:all, order: "updated_at DESC")

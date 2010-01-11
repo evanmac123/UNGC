@@ -75,7 +75,7 @@ module Admin::CopsHelper
     if principle.nil?
       conditions = 'cop_questions.principle_area_id IS NULL'
     else
-      conditions = ['cop_questions.principle_area_id=? and area_selected=?', principle, selected]
+      conditions = ['cop_questions.principle_area_id=?', principle]
     end
     attributes = cop.cop_attributes.all(:conditions => conditions,
                                         :include    => :cop_question)

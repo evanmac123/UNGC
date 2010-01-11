@@ -72,11 +72,12 @@ class ActiveSupport::TestCase
     @logo_request.approve
   end  
 
-  def create_organization_and_user
+  def create_organization_and_user(state=nil)
     create_roles
     create_organization_type
     create_country
-    @organization = create_organization
+    @organization = create_organization 
+    @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
                                         :email           => 'email@example.com',
                                         :role_ids        => [Role.contact_point.id])
