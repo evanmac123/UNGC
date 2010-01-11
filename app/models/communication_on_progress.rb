@@ -74,7 +74,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :is_draft
   
   before_save :can_be_edited?
-  after_save :move_to_draft?
+  after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['attachment'].blank? }
@@ -166,8 +166,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   # move COP to draft state
-  def move_to_draft?
-    self.save_as_draft if self.is_draft
+  def draft_or_submit!
+    return true unless initial? # tests might setup COPs with state pre-set
+    if self.is_draft
+      save_as_draft!
+    else
+      submit! if can_submit?
+    end
   end
   
   def is_grace_letter?

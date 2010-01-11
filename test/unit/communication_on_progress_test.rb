@@ -32,6 +32,18 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
   end
   
+  context "given a COP in draft mode" do
+    setup do
+      create_organization_and_user
+      @cop = create_communication_on_progress(:organization => @organization, :is_draft => true)
+    end
+
+    should "save in draft state (not pending_review)" do
+      assert @cop.draft?
+    end
+  end
+  
+  
   context "given a pending review COP" do
     setup do
       create_organization_and_user

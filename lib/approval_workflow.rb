@@ -16,14 +16,23 @@ module ApprovalWorkflow
     klass.class_eval do
       belongs_to :reviewer, :class_name => 'Contact'
       
-      state_machine :state, :initial => :pending_review do
+      determine_initial_state = case klass.to_s
+        # COPs start in an initial state, and then move to either submitted ('pending_review', 
+        # like other models), or draft. Other models don't support draft states, yet.
+        when 'CommunicationOnProgress'
+          :initial
+        else
+          :pending_review
+        end
+      
+      state_machine :state, :initial => determine_initial_state do
         after_transition :on => :approve, :do => :set_approved_fields
         after_transition :on => :network_review, :do => :set_network_review
         event :save_as_draft do
-          transition :from => :pending_review, :to => :draft
+          transition :from => :initial, :to => :draft
         end
         event :submit do
-          transition :from => :draft, :to => :pending_review
+          transition :from => [:initial, :draft], :to => :pending_review
         end
         event :revise do
           transition :from => :pending_review, :to => :in_review
