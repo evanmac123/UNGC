@@ -1,13 +1,13 @@
 = default_form.error_messages
 %fieldset
   %ol
-    = default_form.text_field :purpose
+    = default_form.text_field :purpose, :label => 'Title'
     = default_form.select :contact_id, options_for_select(@organization.contacts.collect{|contact| [contact.name, contact.id]}, current_user.id)
-    = default_form.select :publication_id, option_groups_from_collection_for_select(LogoPublication.top_level, :children, :name, :id, :name, @logo_request.publication_id)
+    = default_form.select :publication_id, option_groups_from_collection_for_select(LogoPublication.top_level, :children, :name, :id, :name, @logo_request.publication_id), :label => 'Publication Type'
     - if @logo_request.new_record?
       %li
-        = label_tag("logo_request_logo_comments_attributes_0_body", 'Body')
+        = label_tag("logo_request_logo_comments_attributes_0_body", 'Description')
         = text_area_tag("logo_request[logo_comments_attributes][0][body]", @logo_request.logo_comments.first.body)
       %li
-        = label_tag("logo_request_logo_comments_attributes_0_attachment", 'Attachment')
+        = label_tag("logo_request_logo_comments_attributes_0_attachment", 'Sample')
         = file_field_tag("logo_request[logo_comments_attributes][0][attachment]")

@@ -1,7 +1,41 @@
 class Admin::LogoRequestsController < AdminController
-  before_filter :load_organization
+  # before_filter :load_organization
+  before_filter :load_organization, :only => [:new, :create, :show, :edit, :update, :destroy, :approve, :reject, :agree, :download]
   before_filter :no_unapproved_organizations_access
 
+  # Define state-specific index methods
+  %w{pending_review in_review unreplied approved rejected accepted}.each do |method|
+    define_method method do
+      # use custom index view if defined
+      render case method
+        when 'pending_review'
+          @logo_requests = LogoRequest.pending_review.all(:order => 'created_at' )
+          method
+        when 'in_review'
+          @logo_requests = LogoRequest.in_review.all
+          method
+        when 'unreplied'
+          @logo_requests = LogoRequest.unreplied.all
+          method
+        when 'approved'
+          @logo_requests = LogoRequest.approved.all(:order => 'status_changed_on')
+          method
+        when 'rejected'
+          @logo_requests = LogoRequest.rejected.all(:order => 'status_changed_on')
+          method
+        when 'accepted'
+          @logo_requests = LogoRequest.accepted.all(:order => 'accepted_on')
+          method
+        else
+          'index'
+      end
+    end
+  end
+  
+  def index
+    @logo_requests = LogoRequest.all
+  end  
+  
   def new
     @logo_request = @organization.logo_requests.new
     @logo_request.logo_comments << @logo_request.logo_comments.new
