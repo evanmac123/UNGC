@@ -9,7 +9,9 @@ class OrganizationMailer < ActionMailer::Base
   end
   
   def in_review(organization)
-    from EMAIL_SENDER
+    from 'no-reply@unglobalcompact.org'
+    cc 'vnukova@un.org'
+    bcc 'globalcompact@un.org'
     subject "Your application to the Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -19,7 +21,7 @@ class OrganizationMailer < ActionMailer::Base
   def network_review(organization)
     from EMAIL_SENDER
     cc 'vnukova@un.org'
-    bcc 'vkeesari@yahoo.com'
+    bcc ['globalcompact@un.org','vkeesari@yahoo.com']
     subject "#{organization.name} has submitted a registration to the Global Compact"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
@@ -28,6 +30,7 @@ class OrganizationMailer < ActionMailer::Base
   
   def approved_business(organization)
     from EMAIL_SENDER
+    bcc 'globalcompact@un.org'
     subject "Welcome to the United Nations Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -36,6 +39,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def approved_nonbusiness(organization)
     from EMAIL_SENDER
+    bcc 'globalcompact@un.org'
     subject "Welcome to the United Nations Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -44,6 +48,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def approved_local_network(organization)
     from EMAIL_SENDER
+    bcc 'globalcompact@un.org'
     subject "#{organization.name} has been accepted into the Global Compact"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
@@ -52,6 +57,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def reject_microenterprise(organization)
     from EMAIL_SENDER
+    bcc 'globalcompact@un.org'
     subject "Your Letter of Commitment to the Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)

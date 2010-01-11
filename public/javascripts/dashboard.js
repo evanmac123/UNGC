@@ -28,3 +28,8 @@ $('.role_for_login_fields').change(function() {
 	$('#login_information').hide();
   }
 })
+
+replace_ids = function(s){
+  var new_id = new Date().getTime();
+  return s.replace(/NEW_RECORD/g, new_id);
+}

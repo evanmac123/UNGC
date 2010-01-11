@@ -5,4 +5,4 @@
     - if @logo_request.can_download_files?
       = link_to 'Download', download_admin_organization_logo_request_path(@logo_request.organization_id, @logo_request, :logo_file_id => logo_file.id, :class => 'download', :style => "margin-top: 1em; width: auto;")
   .body
-    = image_tag logo_file_image_url(logo_file), :alt => logo_file.name
+    = image_tag logo_file.preview.url, :alt => logo_file.name
