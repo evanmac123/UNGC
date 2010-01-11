@@ -77,8 +77,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   after_save :move_to_draft?
 
   accepts_nested_attributes_for :cop_answers
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
-  accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['attachment'].blank? }
+  accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['url'].blank? }
 
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
@@ -171,7 +171,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def is_grace_letter?
-    self.format == FORMAT[:grace_letter]
+    self.format == CopFile::TYPES[:grace_letter]
   end
   
   # Indicated whether this COP is editable

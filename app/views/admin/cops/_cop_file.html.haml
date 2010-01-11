@@ -1,4 +1,4 @@
-- record = 'NEW_RECORD' if record.nil?
+- record = "new_#{cop_file.attachment_type}" if record.nil?
 %div{:id => "cop_file_#{record}"}
   = hidden_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment_type]", cop_file.attachment_type)
 
