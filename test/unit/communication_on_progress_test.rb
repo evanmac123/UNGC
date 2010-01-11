@@ -9,6 +9,14 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   should_have_many :cop_answers
   should_have_many :cop_files
   
+  def pending_review(organization, options={})
+    defaults = {
+      :organization_id => organization.id,
+      :state           => ApprovalWorkflow::STATE_PENDING_REVIEW
+    }
+    create_communication_on_progress(defaults.merge(options))
+  end
+  
   context "given a COP" do
     setup do
       create_organization_and_user
@@ -27,8 +35,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a pending review COP" do
     setup do
       create_organization_and_user
-      @cop = create_communication_on_progress(:organization_id => @organization.id,
-                                              :state           => ApprovalWorkflow::STATE_PENDING_REVIEW)
+      @cop = pending_review(@organization)
     end
     
     should "be editable" do
@@ -40,6 +47,34 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert !@cop.editable?
     end
   end
+  
+  context "given a COP that is a grace letter request and is currently pending review" do
+    setup do
+      create_organization_and_user('approved')
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @old_cop_due_on = @organization.cop_due_on
+    end
+
+    should "have is_grace_letter? return true" do
+      assert @cop.is_grace_letter?
+    end
+    
+    context "and it gets approved" do
+      setup do
+        @cop.approve!
+      end
+
+      should "now be approved" do
+        assert @cop.approved?
+      end
+      
+      should "have an extra 60 days to submit a COP" do
+        assert_equal (@old_cop_due_on + 60.days).to_date, (@organization.reload.cop_due_on).to_date
+      end
+    end
+    
+  end
+  
   
   context "given a COP under review" do
     setup do

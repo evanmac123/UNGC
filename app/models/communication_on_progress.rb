@@ -188,11 +188,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def set_approved_fields
-    set_next_cop_due_date
-  end
-  
-  private
-    def set_next_cop_due_date
+    if is_grace_letter?
+      organization.extend_cop_grace_period
+    else
       self.organization.set_next_cop_due_date
     end
+  end
 end
