@@ -1,5 +1,4 @@
 class Admin::LogoRequestsController < AdminController
-  # before_filter :load_organization
   before_filter :load_organization, :only => [:new, :create, :show, :edit, :update, :destroy, :approve, :reject, :agree, :download]
   before_filter :no_unapproved_organizations_access
 
