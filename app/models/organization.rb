@@ -105,6 +105,8 @@ class Organization < ActiveRecord::Base
     :delisted => COP_STATE_DELISTED
   }
   
+  COP_GRACE_PERIOD = 60
+  
   state_machine :cop_state, :initial => :active do
     after_transition :on => :delist, :do => :set_delisted_status
     event :communication_late do
@@ -293,6 +295,10 @@ class Organization < ActiveRecord::Base
     self.joined_on > Date.new(2009,7,1)
   end
     
+  def extend_cop_grace_period # TODO: Verify the date math here
+    self.update_attribute(:cop_due_on, cop_due_on + COP_GRACE_PERIOD)
+  end
+  
   # COP's next due date is 1 year from current date
   def set_next_cop_due_date
     self.communication_received

@@ -514,7 +514,7 @@ $(document).ready(function() {
     $('div#main_content table.dashboard_table tr td').addClass('pointer').click(
       function(e) {
         var parent_row = $(this).parent();
-        var editor_link = $('td a.edit', parent_row);
+        var editor_link = $('td a.edit, td a.preview', parent_row);
         var has_edit = editor_link.length > 0;
         if (has_edit)
           document.location.href = editor_link.attr("href");

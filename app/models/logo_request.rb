@@ -28,7 +28,7 @@ class LogoRequest < ActiveRecord::Base
   belongs_to :contact
   belongs_to :reviewer, :class_name => "Contact"
   belongs_to :publication, :class_name => "LogoPublication"
-  has_many :logo_comments, :dependent => :delete_all
+  has_many :logo_comments, :dependent => :delete_all, :order => 'logo_comments.created_at DESC'
   has_and_belongs_to_many :logo_files
 
   accepts_nested_attributes_for :logo_comments
@@ -50,12 +50,20 @@ class LogoRequest < ActiveRecord::Base
   end
 
   named_scope :pending_review, :conditions => {:state => "pending_review"}
-  named_scope :in_review, :conditions => {:state => "in_review"}
+
+  named_scope :in_review, :conditions => {:state => "in_review"},
+                          :joins => :logo_comments,
+                          :group => :logo_request_id,
+                          :order => 'logo_comments.created_at DESC' 
+  
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
   named_scope :accepted, :conditions => {:state => "accepted"}
 
-  named_scope :unreplied, :conditions => {:replied_to => false}
+  named_scope :unreplied, :conditions => {:replied_to => false},
+                          :joins => :logo_comments,
+                          :group => :logo_request_id,
+                          :order => 'logo_comments.created_at DESC' 
 
   named_scope :submitted_in, lambda { |month, year|
     { :conditions => ['requested_on >= ? AND requested_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }

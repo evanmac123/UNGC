@@ -74,11 +74,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :is_draft
   
   before_save :can_be_edited?
-  after_save :move_to_draft?
+  after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
-  accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['name'].blank? }
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['attachment'].blank? }
+  accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['url'].blank? }
 
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
@@ -166,12 +166,17 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   # move COP to draft state
-  def move_to_draft?
-    self.save_as_draft if self.is_draft
+  def draft_or_submit!
+    return true unless initial? # tests might setup COPs with state pre-set
+    if self.is_draft
+      save_as_draft!
+    else
+      submit! if can_submit?
+    end
   end
   
   def is_grace_letter?
-    self.format == FORMAT[:grace_letter]
+    self.format == CopFile::TYPES[:grace_letter]
   end
   
   # Indicated whether this COP is editable
@@ -188,11 +193,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def set_approved_fields
-    set_next_cop_due_date
-  end
-  
-  private
-    def set_next_cop_due_date
+    if is_grace_letter?
+      organization.extend_cop_grace_period
+    else
       self.organization.set_next_cop_due_date
     end
+  end
 end

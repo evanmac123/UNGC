@@ -1,0 +1,20 @@
+%h2 Accepted Logo Requests
+= render :partial => 'control_tabs'
+%h3 Participants have accepted the Logo Policy
+%table.dashboard_table
+  %tr
+    %th ID
+    %th Organization
+    %th Accepted
+    %th Actions
+  - @logo_requests.each do |logo_request|
+    %tr
+      %td=h logo_request.id
+      %td{:title => logo_request.organization.name}=h truncate(logo_request.organization.name)
+      %td=h logo_request.accepted_on
+      %td
+        %ul.actions
+          %li 
+            = link_to 'Show', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "preview", :title => "Show"
+          %li 
+            = link_to 'Delete', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
