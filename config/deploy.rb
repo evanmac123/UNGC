@@ -45,5 +45,7 @@ namespace :files do
   
   task :symlink_docs, :roles => :app do
     run "ln -s /srv/unglobalcompact/shared/docs #{release_path}/public/docs"
+    run "ln -s /srv/unglobalcompact/shared/pics #{release_path}/public/pics"
+    run "ln -s /srv/unglobalcompact/shared/NetworksAroundTheWorld #{release_path}/public/NetworksAroundTheWorld"
   end
 end
