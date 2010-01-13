@@ -1,22 +1,31 @@
+- @body_class = 'details'
+%h2 Communication On Progress details
+
+#status_box
+  %dl
+    %dt Organization:
+    %dd= @communication_on_progress.organization.name
+    - if @communication_on_progress.is_grace_letter?
+      %dt Grace Letter:
+      %dd Yes
+    - if @communication_on_progress.notable_program?
+      %dt Notable Program:
+      %dd Yes
+
+    - if @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
+      = render :partial => 'show_new_style'
+    - else
+      = render :partial => 'show_legacy_style'
+
 = action_links(@communication_on_progress)
 
-%p
-  %b Organization:
-  = @communication_on_progress.organization.name
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#comments">Comments</a>
 
-- if @communication_on_progress.is_grace_letter?
-  %p
-    %b This is a grace letter!
-
-- if @communication_on_progress.notable_program
-  %p The organization would like this Communication on Progress to be considered for the Notable COP Program.
-
-- if @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
-  = render :partial => 'show_new_style'
-- else
-  = render :partial => 'show_legacy_style'
-
-%h3 Comments
-= link_to 'New comment', new_admin_communication_on_progress_comment_path(@communication_on_progress)
-%ul
-  = render :partial => @communication_on_progress.comments
+  #comments.tab_content
+    - unless @communication_on_progress.state_events.empty?
+      %ul#contacts_tools{:class => "tools inline"}
+        %li= link_to 'New comment', new_admin_communication_on_progress_comment_path(@communication_on_progress), :class => 'new', :title => 'New Comment'
+    %ul.items
+      = render @communication_on_progress.comments

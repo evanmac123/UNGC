@@ -176,7 +176,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def is_grace_letter?
-    self.format == CopFile::TYPES[:grace_letter]
+    # FIXME: self.format was throwing an exception
+    self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
   
   # Indicated whether this COP is editable

@@ -1,22 +1,14 @@
-%p
-  %b Title:
-  = @communication_on_progress.title
-%p
-  %b Time period:
-  == #{@communication_on_progress.start_month}/#{@communication_on_progress.start_year} to #{@communication_on_progress.end_month}/#{@communication_on_progress.end_year}
-%p
-  %b Principles:
-  = @communication_on_progress.principles.collect(&:name).join(', ')
-%p
-  %b Languages:
-  = @communication_on_progress.languages.collect(&:name).join(', ')
-
-%p
-  %b Contact Information
-  = [@communication_on_progress.contact_name, @communication_on_progress.job_title, @communication_on_progress.email].compact.join(', ')
-%p
-  %b COP file
-  TODO
-%p
-  %b Web links
-  = [@communication_on_progress.url1, @communication_on_progress.url1, @communication_on_progress.url1].compact.uniq.collect{|url| link_to(url, url)}.join(' ')
+%dt Title:
+%dd= @communication_on_progress.title
+%dt Time period:
+%dd== #{@communication_on_progress.start_month}/#{@communication_on_progress.start_year} to #{@communication_on_progress.end_month}/#{@communication_on_progress.end_year}
+%dt Principles:
+%dd= @communication_on_progress.principles.collect(&:name).join(', ')
+%dt Languages:
+%dd= @communication_on_progress.languages.collect(&:name).join(', ')
+%dt Contact Information:
+%dd= [@communication_on_progress.contact_name, @communication_on_progress.job_title, @communication_on_progress.email].compact.join(', ')
+%dt Files
+%dd TODO
+%dt Web links
+%dd= [@communication_on_progress.url1, @communication_on_progress.url1, @communication_on_progress.url1].compact.uniq.collect{|url| link_to(url, url)}.join(' ')
