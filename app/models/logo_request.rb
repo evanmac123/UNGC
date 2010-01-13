@@ -60,7 +60,7 @@ class LogoRequest < ActiveRecord::Base
   named_scope :rejected, :conditions => {:state => "rejected"}
   named_scope :accepted, :conditions => {:state => "accepted"}
 
-  named_scope :unreplied, :conditions => {:replied_to => false},
+  named_scope :unreplied, :conditions => {:replied_to => false, :state => "in_review"},
                           :joins => :logo_comments,
                           :group => :logo_request_id,
                           :order => 'logo_comments.created_at DESC' 
