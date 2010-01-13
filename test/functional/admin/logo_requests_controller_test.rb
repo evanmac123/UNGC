@@ -54,7 +54,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                                          :logo_comments_attributes=>{"0"=>comment_attributes} }
       end
 
-      assert_redirected_to admin_organization_logo_request_path(assigns(:organization).id, assigns(:logo_request).id)
+      assert_template 'confirmation'
     end
 
     should "destroy logo request" do

@@ -27,6 +27,7 @@ class LogoComment < ActiveRecord::Base
   named_scope :without_attachment, :conditions => "attachment_file_name IS NULL"
 
   attr_accessor :state_event
+  before_save :add_default_body_to_approval_comment
   after_create :update_request_state
   after_create :update_request_replied_to_and_reviewer_id
   
@@ -70,6 +71,12 @@ class LogoComment < ActiveRecord::Base
     def first_comment_needs_a_file
       unless logo_request && logo_request.logo_comments.with_attachment.any?
         errors.add_to_base "requires a PDF/Word file" unless attachment_file_name
+      end
+    end
+    
+    def add_default_body_to_approval_comment
+      if state_event.to_s == LogoRequest::EVENT_APPROVE && body.blank?
+        self.body = 'Your logo request has been approved.'
       end
     end
 end

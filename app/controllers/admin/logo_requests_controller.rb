@@ -1,5 +1,4 @@
 class Admin::LogoRequestsController < AdminController
-  # before_filter :load_organization
   before_filter :load_organization, :only => [:new, :create, :show, :edit, :update, :destroy, :approve, :reject, :agree, :download]
   before_filter :no_unapproved_organizations_access
 
@@ -52,8 +51,8 @@ class Admin::LogoRequestsController < AdminController
     @logo_request.logo_comments.first.contact_id = current_user.id
 
     if @logo_request.save
-      flash[:notice] = 'Logo request was successfully created.'
-      redirect_to admin_organization_logo_request_path(@organization.id, @logo_request.id)
+      flash[:notice] = 'Your Logo Request was received.'
+      render :action => "confirmation" 
     else
       render :action => "new"
     end
