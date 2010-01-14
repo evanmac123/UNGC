@@ -195,7 +195,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box5 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px;}
 #box5 p { color: #666; }
 
-#box6 { left: 357px; background: top left no-repeat; background: url(/images/box6_bg.jpg); }
+#box6 { left: 357px; background-position: -10px -10px; background-image: url(/pics/un_images/UN_Business_Banner_Haiti.png); }
 #box6 h2 { padding: 25px 0 0 15px; }
 #box6 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px; }
 #box6 p { color: #666; }
