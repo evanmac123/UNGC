@@ -176,11 +176,16 @@
                 = true_or_false_field(form, :notable_program, :class => 'additional_questions')
 
         #reject_cop{:style => 'display: none'}
-          %p
-            "Reject COP" procedure.
-            Explain that COP was rejected because it does not live up to the minimum requirements as defined by the COP Policy of April 2009, If due date >= 30 days then end of procedure, If due date < 30 days then ask Q11
-          %p
-            Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
+          %fieldset
+            %legend
+              %span Your COP has been rejected
+            %p
+              You COP was rejected because it does not live up to the minimum requirements as defined by the COP Policy of April 2009. [link here]
+          - if submission_30_days_before_due? @organization, @communication_on_progress
+            %fieldset
+              %legend
+                %span Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
+              = true_or_false_field(form, :is_draft)
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}

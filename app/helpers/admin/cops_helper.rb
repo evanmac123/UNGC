@@ -104,4 +104,8 @@ module Admin::CopsHelper
       "none"
     end
   end
+  
+  def submission_30_days_before_due?(organization, cop)
+    cop.new_record? && organization.cop_due_on < (Date.today + 30.days)
+  end
 end

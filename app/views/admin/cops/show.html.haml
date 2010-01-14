@@ -2,9 +2,11 @@
 %h2 Communication On Progress details
 
 #status_box
-  %dl
+  %dl{:style => 'width: 90%'}
     %dt Organization:
     %dd= @communication_on_progress.organization.name
+    %dt Status:
+    %dd= @communication_on_progress.state.humanize
     - if @communication_on_progress.is_grace_letter?
       %dt Grace Letter:
       %dd Yes
