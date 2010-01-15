@@ -24,14 +24,23 @@ class Admin::PasswordsController < ApplicationController
   
   def update
     @contact = Contact.find_by_reset_password_token params[:id]
-    if params[:password] == params[:password_confirmation]
+    errors = validate_new_password
+    if errors.empty?
       @contact.password = params[:password]
       @contact.save
       flash[:notice] = "Your password was successfully changed."
       redirect_to login_path
     else
-      flash.now[:error] = "Make sure the passwords you entered match."
+      flash.now[:error] = errors.join(" ")
       render :action => 'edit'
     end
   end
+  
+  private
+    def validate_new_password
+      errors = []
+      errors << "Make sure the passwords you entered match." if params[:password] != params[:password_confirmation]
+      errors << "You cannot use a blank password." if params[:password].blank? || params[:password_confirmation].blank?
+      errors
+    end
 end
