@@ -62,6 +62,14 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
         assert_response :success
         assert_not_nil flash[:error]
       end
+      
+      should "not change the password with a blank password" do
+        put :update, :id       => VALID_TOKEN,
+                     :password => '',
+                     :password_confirmation => ''
+        assert_response :success
+        assert_not_nil flash[:error]
+      end
     end
   end
 end

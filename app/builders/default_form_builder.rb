@@ -1,6 +1,6 @@
 class DefaultFormBuilder < ActionView::Helpers::FormBuilder
   helpers = [:form_for, :apply_form_for_options!, :text_field, :password_field, :file_field,
-                :text_area, :date_select, :datetime_select, :time_select,
+                :text_area, :date_select, :datetime_select, :time_select, :check_box,
                 :collection_select, :select, :country_select, :time_zone_select]
 
   helpers.each do |name|
