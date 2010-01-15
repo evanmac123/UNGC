@@ -92,8 +92,11 @@ class SignupController < ApplicationController
       @ceo.country_id = @contact.country_id unless @ceo.country
     end
     
+    # Makes sure the CEO and Contact point don't have the same email address
     def unique_emails?
-      @ceo.email.downcase != @contact.email.downcase
+      unique = (@ceo.email.try(:downcase) != @contact.email.try(:downcase))
+      @ceo.errors.add :email, "cannot be the same as contact points'" unless unique
+      return unique
     end
 
     def load_organization_types
