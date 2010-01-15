@@ -1,4 +1,7 @@
-- if request.host == 'www.unglobalcompact.org' || request.host == 'unglobalcompact.org'
+%span{:style => 'display:none'}
+  = request.host
+
+- if ['www.unglobalcompact.org', 'unglobalcompact.org'].include?(request.host)
   %h2 New Communication on Progress
 
   %p Thank you for submitting your Communication on Progress. We are not accepting COPs at this time, but will record the date of your submission and maintain your participant status as 'Communicating'.
