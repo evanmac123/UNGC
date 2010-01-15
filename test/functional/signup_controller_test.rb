@@ -31,7 +31,9 @@ class SignupControllerTest < ActionController::TestCase
                                 :address    => '123 Example Ave',
                                 :city       => 'Toronto',
                                 :country_id => Country.first.id,
-                                :email      => 'michael@example.com'}
+                                :email      => 'michael@example.com',
+                                :login      => 'username',
+                                :password   => 'password'}
       assert_response :success
       assert_template 'step3'
     end
@@ -46,7 +48,8 @@ class SignupControllerTest < ActionController::TestCase
                                 :phone      => '+1 416 1234567',
                                 :address    => '123 Example Ave',
                                 :city       => 'Toronto',
-                                :country_id => Country.first.id}
+                                :country_id => Country.first.id,
+                                :email      => 'smith@example.com'}
       assert_response :success
       assert_template 'step4'
     end
@@ -64,6 +67,8 @@ class SignupControllerTest < ActionController::TestCase
                                              :city       => 'Toronto',
                                              :country_id => Country.first.id,
                                              :email      => 'first@example.com',
+                                             :login      => 'username',
+                                             :password   => 'password',
                                              :role_ids   => [Role.contact_point.id])
       session[:signup_ceo] = Contact.new(:first_name => 'CEO',
                                          :last_name  => 'Last',
@@ -73,7 +78,8 @@ class SignupControllerTest < ActionController::TestCase
                                          :address    => '123 Example Ave',
                                          :city       => 'Toronto',
                                          :country_id => Country.first.id,
-                                         :role_ids   => [Role.ceo.id])
+                                         :role_ids   => [Role.ceo.id],
+                                         :email      => 'smith@example.com',)
       assert_emails(1) do
         assert_difference 'Organization.count' do
           assert_difference 'Contact.count', 2 do

@@ -30,7 +30,6 @@ class SignupController < ApplicationController
       session[:signup_contact] = @contact
       set_default_values
     end
-
     redirect_to organization_step2_path unless @contact.valid?
   end
 
@@ -41,8 +40,7 @@ class SignupController < ApplicationController
       @ceo.attributes = params[:contact]
       session[:signup_ceo] = @ceo
     end
-
-    redirect_to organization_step3_path unless @ceo.valid?
+    redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
   end
   
   # POST from commitment letter/pledge form
@@ -92,6 +90,10 @@ class SignupController < ApplicationController
       @ceo.state = @contact.state unless @ceo.state
       @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
       @ceo.country_id = @contact.country_id unless @ceo.country
+    end
+    
+    def unique_emails?
+      @ceo.email.downcase != @contact.email.downcase
     end
 
     def load_organization_types

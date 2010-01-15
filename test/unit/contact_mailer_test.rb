@@ -9,6 +9,6 @@ class ContactMailerTest < ActionMailer::TestCase
     response = ContactMailer.deliver_reset_password(@organization_user)
     assert_equal "text/html", response.content_type
     assert_equal "United Nations Global Compact - Reset Password", response.subject
-    assert_equal "email@example.com", response.to.first
+    assert_equal @organization_user.email, response.to.first
   end
 end

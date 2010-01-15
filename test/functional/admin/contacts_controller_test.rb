@@ -25,6 +25,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                                   :address    => '123 Example Ave',
                                   :city       => 'Toronto',
                                   :country_id => Country.first.id,
+                                  :email      => 'test@example.com',
                                   :login      => 'test',
                                   :password   => 'test' }
     end
