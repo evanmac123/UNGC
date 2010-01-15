@@ -79,14 +79,12 @@ class ActiveSupport::TestCase
     @organization = create_organization 
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
-                                        :email           => 'email@example.com',
                                         :role_ids        => [Role.contact_point.id])
   end
 
   def create_organization_and_ceo
     create_organization_and_user
     @organization_ceo = create_contact(:organization_id => @organization.id,
-                                       :email           => 'email@example.com',
                                        :role_ids        => [Role.ceo.id])                                        
   end
   
@@ -100,6 +98,8 @@ class ActiveSupport::TestCase
     create_country
     @ungc = create_organization(:name => 'UNGC')
     @staff_user = create_contact(:login           => 'staff',
+                                 :password        => 'password',
+                                 :email           => 'staff@un.org',
                                  :organization_id => @ungc.id)
   end
   

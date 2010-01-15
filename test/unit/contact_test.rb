@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ContactTest < ActiveSupport::TestCase
-  should_validate_presence_of :first_name, :last_name
+  should_validate_presence_of :first_name, :last_name, :email
   should_belong_to :organization
   should_belong_to :local_network
   should_belong_to :country
@@ -34,7 +34,8 @@ class ContactTest < ActiveSupport::TestCase
     end
 
     should "delete 1 contact when there are multiple contacts" do
-      @contact_to_be_deleted = create_contact(:organization_id => @organization.id)
+      @contact_to_be_deleted = create_contact(:email => 'email@example.com',
+                                              :organization_id => @organization.id)
       assert_difference "Contact.count", -1 do
         @contact_to_be_deleted.destroy
       end

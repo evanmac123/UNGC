@@ -45,12 +45,11 @@ class Contact < ActiveRecord::Base
   TYPE_ORGANIZATION = :organization
   TYPE_NETWORK = :network
 
-  validates_presence_of  :first_name, :last_name
-  validates_presence_of :prefix, :job_title, :phone, :address, :city, :country_id
-  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true
+  validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
+  validates_presence_of :login, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? || !contact.hashed_password.blank? }
-  validates_presence_of :email, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
-  
+  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true
+    
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
