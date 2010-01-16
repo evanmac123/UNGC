@@ -95,7 +95,7 @@ class SignupController < ApplicationController
     # Makes sure the CEO and Contact point don't have the same email address
     def unique_emails?
       unique = (@ceo.email.try(:downcase) != @contact.email.try(:downcase))
-      @ceo.errors.add :email, "cannot be the same as contact points'" unless unique
+      @ceo.errors.add :email, "cannot be the same as the Contact Point" unless unique
       return unique
     end
 
