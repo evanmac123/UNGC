@@ -3,8 +3,8 @@
 %table.dashboard_table
   %tr
     %th ID
-    %th Organization
-    %th Updated
+    %th= sort_header 'Organization', field: 'organizations.name'
+    %th= sort_header 'Updated', field: 'updated_at'
     %th Actions
   - @logo_requests.each do |logo_request|
     %tr

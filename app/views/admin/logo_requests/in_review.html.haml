@@ -3,8 +3,8 @@
 %table.dashboard_table
   %tr
     %th ID
-    %th Organization
-    %th Created
+    %th= sort_header 'Organization', field: 'organizations.name'
+    %th= sort_header 'Created', field: 'created_at', direction: 'DESC'
     %th In review
     %th Latest activity
     %th Reviewer

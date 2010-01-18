@@ -16,9 +16,9 @@
 %table.dashboard_table
   %tr
     %th ID
-    %th Old ID
-    %th Name
-    %th Status
+    %th= sort_header 'Old ID', field: 'old_id'
+    %th= sort_header 'Name', field: 'name'
+    %th= sort_header 'Status', field: 'state'
     %th Updated by
     %th Actions
 
