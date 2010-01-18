@@ -81,6 +81,9 @@ class Organization < ActiveRecord::Base
   before_save :set_non_business_sector
   
   has_attached_file :commitment_letter
+  
+  cattr_reader :per_page
+  @@per_page = 15
 
   define_index do
     indexes name

@@ -57,9 +57,11 @@ class CaseStory < ActiveRecord::Base
   delegate :name, :to => :organization, :prefix => true
   acts_as_commentable
   has_attached_file :attachment
+  
+  cattr_reader :per_page
+  @@per_page = 15
 
   named_scope :unreplied, :conditions => {:replied_to => false}
-
   
   def authors_for_display
     authors = [

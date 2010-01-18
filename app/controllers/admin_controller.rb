@@ -9,19 +9,20 @@ class AdminController < ApplicationController
   def dashboard
     if current_user.from_ungc?
       pending_states = [Organization::STATE_PENDING_REVIEW, Organization::STATE_IN_REVIEW]
-      @pending_organizations = Organization.all(:conditions => ['state in (?)', pending_states],
-                                                # :limit      => 10,
-                                                :order      => 'updated_at DESC')
-      @pending_logo_requests = LogoRequest.all(:conditions => ['state in (?)', pending_states],
-                                               # :limit      => 10,
-                                               :order      => 'updated_at DESC')
-      @pending_case_stories = CaseStory.all(:conditions => ['state in (?)', pending_states],
-                                            # :limit      => 10,
-                                            :order      => 'updated_at DESC')
-      @pending_cops = CommunicationOnProgress.all(:conditions => ['state in (?)', pending_states],
-                                                  # :limit      => 10,
-                                                  :order      => 'updated_at DESC')
-      @pending_pages = Page.with_approval('pending').all(:order => 'updated_at DESC')
+      @pending_organizations = Organization.paginate(:conditions => ['state in (?)', pending_states],
+                                                     :order      => 'updated_at DESC',
+                                                     :page       => params[:organizations_page])
+      @pending_logo_requests = LogoRequest.paginate(:conditions => ['state in (?)', pending_states],
+                                                    :order      => 'updated_at DESC',
+                                                    :page       => params[:logo_requests_page])
+      @pending_case_stories = CaseStory.paginate(:conditions => ['state in (?)', pending_states],
+                                                 :order      => 'updated_at DESC',
+                                                 :page       => params[:case_stories_page])
+      @pending_cops = CommunicationOnProgress.paginate(:conditions => ['state in (?)', pending_states],
+                                                       :order      => 'updated_at DESC',
+                                                       :page       => params[:cops_page])
+      @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
+                                                              :page  => params[:pages_page])
     elsif current_user.from_network?
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?

@@ -45,6 +45,9 @@ class Page < ActiveRecord::Base
     :class_name  => 'Page', 
     :foreign_key => :parent_id, 
     :conditions  => { approval: 'approved' }
+  
+  cattr_reader :per_page
+  @@per_page = 15
 
   named_scope :all_versions_of, lambda { |path|
     return {} if path.blank?

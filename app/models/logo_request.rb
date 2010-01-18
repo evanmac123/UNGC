@@ -32,6 +32,9 @@ class LogoRequest < ActiveRecord::Base
   has_and_belongs_to_many :logo_files
 
   accepts_nested_attributes_for :logo_comments
+  
+  cattr_reader :per_page
+  @@per_page = 15
 
   state_machine :state, :initial => :pending_review do
     after_transition :on => :accept, :do => :set_accepted_on
