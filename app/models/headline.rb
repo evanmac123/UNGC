@@ -25,6 +25,9 @@ class Headline < ActiveRecord::Base
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
 
+  cattr_reader :per_page
+  @@per_page = 15
+  
   named_scope :published, { :conditions => ['approval = ?', 'approved']}
   named_scope :limit, lambda { |limit| { :limit => limit } }
   named_scope :descending, {:order => 'published_on DESC'}
