@@ -28,6 +28,9 @@ class Event < ActiveRecord::Base
   serialize :urls
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
   permalink :title
+
+  cattr_reader :per_page
+  @@per_page = 15
   
   named_scope :for_month_year, lambda { |month=nil, year=nil|
     today = Date.today

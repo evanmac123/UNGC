@@ -39,6 +39,8 @@
             %li 
               = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
+= will_paginate @organizations
+
 %br/
 
 = link_to 'New organization', new_admin_organization_path

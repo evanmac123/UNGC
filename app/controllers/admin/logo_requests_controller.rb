@@ -8,22 +8,32 @@ class Admin::LogoRequestsController < AdminController
       # use custom index view if defined
       render case method
         when 'pending_review'
-          @logo_requests = LogoRequest.pending_review.all(:order => 'created_at' )
+          @logo_requests = LogoRequest.pending_review.all.paginate(:order    => 'created_at',
+                                                                   :page     => params[:page],
+                                                                   :per_page => LogoRequest.per_page)
           method
         when 'in_review'
-          @logo_requests = LogoRequest.in_review.all
+          @logo_requests = LogoRequest.in_review.all.paginate(:page     => params[:page],
+                                                              :per_page => LogoRequest.per_page)
           method
         when 'unreplied'
-          @logo_requests = LogoRequest.unreplied.all
+          @logo_requests = LogoRequest.unreplied.all.paginate(:page     => params[:page],
+                                                              :per_page => LogoRequest.per_page)
           method
         when 'approved'
-          @logo_requests = LogoRequest.approved.all(:order => 'status_changed_on')
+          @logo_requests = LogoRequest.approved.all.paginate(:order => 'status_changed_on',
+                                                             :page  => params[:page],
+                                                             :per_page => LogoRequest.per_page)
           method
         when 'rejected'
-          @logo_requests = LogoRequest.rejected.all(:order => 'status_changed_on')
+          @logo_requests = LogoRequest.rejected.all.paginate(:order    => 'status_changed_on',
+                                                             :page     => params[:page],
+                                                             :per_page => LogoRequest.per_page)
           method
         when 'accepted'
-          @logo_requests = LogoRequest.accepted.all(:order => 'accepted_on')
+          @logo_requests = LogoRequest.accepted.all.paginate(:order    => 'accepted_on',
+                                                             :page     => params[:page],
+                                                             :per_page => LogoRequest.per_page)
           method
         else
           'index'
@@ -32,7 +42,7 @@ class Admin::LogoRequestsController < AdminController
   end
   
   def index
-    @logo_requests = LogoRequest.all
+    @logo_requests = LogoRequest.paginate(:page => params[:page])
   end  
   
   def new

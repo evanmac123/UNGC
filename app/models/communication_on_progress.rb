@@ -79,6 +79,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['attachment'].blank? }
   accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['url'].blank? }
+  
+  cattr_reader :per_page
+  @@per_page = 15
 
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable

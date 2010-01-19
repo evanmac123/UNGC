@@ -3,7 +3,7 @@ class Admin::OrganizationsController < AdminController
   before_filter :load_organization_types, :only => :new
   
   def index
-    @organizations = Organization.paginate :per_page => 10, :page => params[:page]
+    @organizations = Organization.paginate :page => params[:page]
   end
 
   def new
@@ -51,16 +51,16 @@ class Admin::OrganizationsController < AdminController
       # use custom index view if defined
       render case method
         when 'approved'
-          @organizations = Organization.send(method).participants
+          @organizations = Organization.send(method).participants.paginate :page => params[:page]
           method
         when 'pending_review'
-          @organizations = Organization.send(method).all
+          @organizations = Organization.send(method).paginate :page => params[:page]
           method
         when 'network_review'
-          @organizations = Organization.send(method).all
+          @organizations = Organization.send(method).paginate :page => params[:page]
           method
         else
-          @organizations = Organization.send(method).all
+          @organizations = Organization.send(method).paginate :page => params[:page]
           'index'
       end
     end
