@@ -1,6 +1,9 @@
-%h2 Listing organizations
+%h2== Search results #{searched_for}
 
-= render :partial => 'organization_navigation'
+%div
+  %p
+    Number of matching participants:
+    %strong= @results.total_entries
 
 %table.dashboard_table
   %tr
@@ -11,12 +14,12 @@
     %th Updated by
     %th Actions
 
-  - @organizations.each do |organization|
+  - for organization in @results
     %tr
       %td=h organization.id
       %td=h organization.old_id || organization.old_tmp_id
       %td{:title => organization.name}=h truncate(organization.name)
-      %td=h organization.state.humanize
+      %td=h organization.cop_state.humanize
       %td=h organization.last_modified_by_full_name
       %td
         %ul.actions
@@ -27,8 +30,4 @@
           %li 
             = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
-= will_paginate @organizations
-
-%br/
-
-= link_to 'New organization', new_admin_organization_path
+= will_paginate @results, :anchor => 'paged_results'
