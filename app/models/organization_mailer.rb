@@ -9,7 +9,7 @@ class OrganizationMailer < ActionMailer::Base
   end
   
   def in_review(organization)
-    from 'noreply@unglobalcompact.org'
+    from EMAIL_SENDER
     bcc ['globalcompact@un.org','vkeesari@yahoo.com']
     subject "Your application to the Global Compact"
     content_type "text/html"
