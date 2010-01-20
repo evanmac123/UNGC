@@ -10,14 +10,14 @@
         %label Country
         = select_tag :country, options_for_select(Country.all.map{|c| [c.name, c.id]}, ''), :multiple => true, :size => 6
   %fieldset
-    %legend Type of Participant
+    %legend Type of Organization
     %ol
       %li
         = radio_button_tag :business_type, :all, true
-        %label{:for => 'business_type_all', :style => 'width: 150px'} All participants
+        %label{:for => 'business_type_all', :style => 'width: 150px'} All organizations
       %li
         = radio_button_tag :business_type, OrganizationType::BUSINESS
-        %label{:for => "business_type_#{OrganizationType::BUSINESS}", :style => 'width: 150px'} Business participants only
+        %label{:for => "business_type_#{OrganizationType::BUSINESS}", :style => 'width: 150px'} Business only
       %li
         = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
         %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}", :style => 'width: 150px'} Other Stakeholders only
