@@ -44,7 +44,7 @@
           #signed_by_executive_fields{:style => 'display: none'}
             %fieldset
               %legend
-                %span Where is your company's statement of continued support?
+                %span Where is your company's statement of continued support located?
               - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
                 %label
                   = form.radio_button :statement_location, key
@@ -53,20 +53,20 @@
             #cop_files{:style => 'display: none'}
               %fieldset
                 %legend
-                  %span Upload the COP .pdf file
+                  %span Upload the COP as a .pdf file
                 = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
               %fieldset
                 %legend
-                  %span Add a link to show how they share the COP with stakeholders
+                  %span Provide a link that illustrates how the COP is shared with your stakeholders
                 = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop_with_stakeholders])}
             #cop_links{:style => 'display: none'}
               %fieldset
                 %legend
-                  %span Post link to COP
+                  %span Provide a link to your web-based COP
                 = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
               %fieldset
                 %legend
-                  %span We encourage you to upload one .pdf file with the content of your web based COP
+                  %span We encourage you to upload one .pdf file in addition to your web-based COP
                 = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
             #statement_support_pdf{:style => 'display: none'}
               %fieldset
@@ -81,12 +81,12 @@
       
             %fieldset
               %legend
-                %span Are you submitting the COP of your parent company (this question only applies, if you are representing a subsidiary of another Global Compact participant)?
+                %span Are you submitting the COP of your parent company (this question only applies if you are representing a subsidiary of another Global Compact participant)?
               = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
       
             %fieldset#parent_company_question{:style => 'display :none'}
               %legend
-                %span Does the COP of your parent company explicitly cover the efforts made by your subsidiary to implement the Global Compact principles?
+                %span Does the COP of your parent company cover the efforts made by your subsidiary to implement the Global Compact principles?
               = true_or_false_field(form, :parent_cop_cover_subsidiary)
         
             #own_company_questions{:style => 'display: block'}
@@ -94,7 +94,7 @@
                 %legend
                   %span
                     Does your COP make explicit reference to
-                    %strong policies or commitments
+                    %strong commitments, strategies or policies
                     related to the following issue areas?
                 Human Rights
                 = true_or_false_field(form, :references_human_rights, :class => 'score')
@@ -112,8 +112,8 @@
                 %legend
                   %span
                     Does your COP contain information about
-                    %strong concrete activities
-                    within the following issue areas?
+                    %strong procedures or concrete activities
+                    related to the following issue areas?
                 Human Rights
                 = true_or_false_field(form, :concrete_human_rights_activities, :class => 'score')
                 %br
