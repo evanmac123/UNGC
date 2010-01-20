@@ -1,0 +1,7 @@
+= default_form.error_messages
+%fieldset
+  %ol
+    = default_form.text_field :name
+    = default_form.select :state, LocalNetwork::STATES
+    = default_form.text_field :url
+

@@ -74,6 +74,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :countries
     admin.resources :logo_files
     admin.resources :cop_questions
+    admin.resources :local_networks
   
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'
