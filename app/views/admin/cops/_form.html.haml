@@ -40,7 +40,7 @@
         #explicit_statement_of_support_fields{:style => 'display: none'}
           %fieldset
             %legend
-              %span Who formally endorsed or signed the statement of continued support?
+              %span Who signed the statement of continued support?
             - CommunicationOnProgress::SIGNEE.each do |key, value|
               %label
                 = form.radio_button :support_statement_signee, key
@@ -79,7 +79,9 @@
       
             %fieldset
               %legend
-                %span Are you submitting the COP of your parent company (this question only applies if you are representing a subsidiary of another Global Compact participant)?
+                %span Are you a subsidiary of another Global Compact participant submitting the COP of your parent company?
+              %p= link_to 'Please refer to Subsidiary Participation and Communication on Progress', '/HowToParticipate/Business_Participation/Subsidiary_Engagement.html', {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1']}
+              
               = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
       
             %fieldset#parent_company_question{:style => 'display :none'}
@@ -91,9 +93,7 @@
               %fieldset
                 %legend
                   %span
-                    Does your COP make explicit reference to
-                    %strong commitments, strategies or policies
-                    related to the following issue areas?
+                    Does your COP contain description of actions, and when relevant, policies related to the following issue areas?
                 Human Rights
                 = true_or_false_field(form, :references_human_rights, :class => 'score')
                 %br
@@ -128,7 +128,7 @@
                 %legend
                   %span
                     Does your COP contain an explanation of why
-                    %span#last_issue_area Human Rights
+                    %span#last_issue_area
                     is not relevant to your company?
                 = true_or_false_field(form, :missing_principle_explained)
 
