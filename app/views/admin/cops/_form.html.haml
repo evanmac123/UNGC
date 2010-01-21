@@ -29,6 +29,11 @@
       #non_grace_letter_fields{:style => 'display: none'}
         %fieldset
           %legend
+            %span Is you COP web-based?
+          = true_or_false_field(form, :web_based)
+
+        %fieldset
+          %legend
             %span Does your COP include an explicit statement of continued support for the Global Compact and its principles?
           = true_or_false_field(form, :include_continued_support_statement)
 
@@ -42,13 +47,6 @@
                 = value
 
           #signed_by_executive_fields{:style => 'display: none'}
-            %fieldset
-              %legend
-                %span Where is your company's statement of continued support located?
-              - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
-                %label
-                  = form.radio_button :statement_location, key
-                  = value
 
             #cop_files{:style => 'display: none'}
               %fieldset
