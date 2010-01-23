@@ -14,10 +14,11 @@
 
 class LocalNetwork < ActiveRecord::Base
   validates_presence_of :name
-  # has_and_belongs_to_many :countries
   has_many :countries
   has_many :contacts
   belongs_to :manager, :class_name => "Contact"
+  
+  STATES = ['emerging', 'established', 'none']
   
   def latest_participant
     participants.find(:first, :order => 'joined_on DESC')
