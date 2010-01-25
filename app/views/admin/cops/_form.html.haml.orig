@@ -82,6 +82,10 @@
                 %span Are you a subsidiary of another Global Compact participant submitting the COP of your parent company?
               %p= link_to 'Please refer to Subsidiary Participation and Communication on Progress', '/HowToParticipate/Business_Participation/Subsidiary_Engagement.html', {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1']}
               
+<<<<<<< HEAD
+=======
+              %span Are you submitting the COP of your parent company (this question only applies if you are representing a subsidiary of another Global Compact participant)?
+>>>>>>> venu_branch
               = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
       
             %fieldset#parent_company_question{:style => 'display :none'}
@@ -184,11 +188,6 @@
               %legend
                 %span Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
               = true_or_false_field(form, :is_draft)
-
-      #texts
-        #text_a{:style => 'display: none'}= render :partial => 'text_a'
-        #text_b{:style => 'display: none'}= render :partial => 'text_b'
-        #text_c{:style => 'display: none'}= render :partial => 'text_c'
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
