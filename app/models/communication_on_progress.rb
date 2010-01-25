@@ -104,10 +104,6 @@ class CommunicationOnProgress < ActiveRecord::Base
             :executive => "Other senior executive",
             :none      => "None of the above"}
   
-  STATEMENT_LOCATION = {:integrated => 'Integrated into the COP',
-                        :document   => 'In a separate document',
-                        :web        => 'On a separate web page'}
-  
   def self.find_by_param(param)
     return nil if param.blank?
     if param =~ /\A(\d\d+).*/

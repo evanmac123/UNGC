@@ -2,10 +2,10 @@
   %ul.tab_nav
     %li <a href="#basic">Basic Details</a>
     #additional_questions{:style => css_display_style { @communication_on_progress.notable_program? || @communication_on_progress.additional_questions?}}
-      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? || @communication_on_progress.concrete_human_rights_activities? }} <a href="#human_rights_additional_questions">Human Rights</a>
-      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? || @communication_on_progress.concrete_environment_activities? }}  <a href="#environment_additional_questions">Environment</a>
-      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? || @communication_on_progress.concrete_labour_activities? }}  <a href="#labour_additional_questions">Labour</a>
-      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? || @communication_on_progress.concrete_anti_corruption_activities? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
+      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
+      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
+      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
     %li#notable_tab{:style => css_display_style { @communication_on_progress.notable_program? }} <a href="#notable_questions">Notable Program</a>
     %li <a href="#finish">Finish</a>
   
@@ -29,26 +29,24 @@
       #non_grace_letter_fields{:style => 'display: none'}
         %fieldset
           %legend
+            %span Is you COP web-based?
+          = true_or_false_field(form, :web_based)
+
+        %fieldset
+          %legend
             %span Does your COP include an explicit statement of continued support for the Global Compact and its principles?
           = true_or_false_field(form, :include_continued_support_statement)
 
         #explicit_statement_of_support_fields{:style => 'display: none'}
           %fieldset
             %legend
-              %span Who formally endorsed or signed the statement of continued support?
+              %span Who signed the statement of continued support?
             - CommunicationOnProgress::SIGNEE.each do |key, value|
               %label
                 = form.radio_button :support_statement_signee, key
                 = value
 
           #signed_by_executive_fields{:style => 'display: none'}
-            %fieldset
-              %legend
-                %span Where is your company's statement of continued support located?
-              - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
-                %label
-                  = form.radio_button :statement_location, key
-                  = value
 
             #cop_files{:style => 'display: none'}
               %fieldset
@@ -81,7 +79,9 @@
       
             %fieldset
               %legend
-                %span Are you submitting the COP of your parent company (this question only applies if you are representing a subsidiary of another Global Compact participant)?
+                %span Are you a subsidiary of another Global Compact participant submitting the COP of your parent company?
+              %p= link_to 'Please refer to Subsidiary Participation and Communication on Progress', '/HowToParticipate/Business_Participation/Subsidiary_Engagement.html', {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1']}
+              
               = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
       
             %fieldset#parent_company_question{:style => 'display :none'}
@@ -93,9 +93,7 @@
               %fieldset
                 %legend
                   %span
-                    Does your COP make explicit reference to
-                    %strong commitments, strategies or policies
-                    related to the following issue areas?
+                    Does your COP contain description of actions, and when relevant, policies related to the following issue areas?
                 Human Rights
                 = true_or_false_field(form, :references_human_rights, :class => 'score')
                 %br
@@ -107,24 +105,6 @@
                 %br
                 Anti-Corruption
                 = true_or_false_field(form, :references_anti_corruption, :class => 'score')
-
-              %fieldset
-                %legend
-                  %span
-                    Does your COP contain information about
-                    %strong procedures or concrete activities
-                    related to the following issue areas?
-                Human Rights
-                = true_or_false_field(form, :concrete_human_rights_activities, :class => 'score')
-                %br
-                Labour
-                = true_or_false_field(form, :concrete_labour_activities, :class => 'score')
-                %br
-                Environment
-                = true_or_false_field(form, :concrete_environment_activities, :class => 'score')
-                %br
-                Anti-Corruption
-                = true_or_false_field(form, :concrete_anti_corruption_activities, :class => 'score')
 
               %fieldset#only_3_areas_selected{:style => 'display: none'}
                 %legend
@@ -186,6 +166,11 @@
               %legend
                 %span Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
               = true_or_false_field(form, :is_draft)
+
+      #texts
+        #text_a{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_a'
+        #text_b{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_b'
+        #text_c{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_c'
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
