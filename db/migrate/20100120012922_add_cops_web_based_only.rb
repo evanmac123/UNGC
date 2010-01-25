@@ -4,6 +4,6 @@ class AddCopsWebBasedOnly < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :communication_on_progresses, :web_based, :boolean
+    remove_column :communication_on_progresses, :web_based
   end
 end
