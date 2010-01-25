@@ -186,9 +186,9 @@
               = true_or_false_field(form, :is_draft)
 
       #texts
-        #text_a{:style => 'display: none'}= render :partial => 'text_a'
-        #text_b{:style => 'display: none'}= render :partial => 'text_b'
-        #text_c{:style => 'display: none'}= render :partial => 'text_c'
+        #text_a{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_a'
+        #text_b{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_b'
+        #text_c{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_c'
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
