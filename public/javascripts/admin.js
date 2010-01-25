@@ -531,16 +531,40 @@ $(document).ready(function() {
     }
   
   // tabbed content
+    // mark first tab as selected by default
+    $('div.tab_container ul.tab_nav a:first').addClass('selected');
+    
+    // tab selection via query string
+    var query = $.parseQuery();
+    if (query.tab) {
+      // show proper tab_content
+      $('div.tab_container > div.tab_content')
+        .hide()
+        .filter('#' + query.tab)
+          .show();
+
+      // highlight active tab
+      $('div.tab_container ul.tab_nav a')
+        .removeClass('selected')
+        .filter(function() {
+          return $(this).attr('href').indexOf(query.tab) >= 0;
+        })
+          .addClass('selected');
+    }
+    
+    
+    
     var tab_container = $('div.tab_container > div.tab_content');
 
-    $('div.tab_container ul.tab_nav a').click(function () {
+    $('div.tab_container ul.tab_nav a')
+      .click(function () {
         tab_container.hide().filter(this.hash).show();
 
         $('div.tab_container ul.tab_nav a').removeClass('selected');
         $(this).addClass('selected');
 
         return false;
-    }).filter(':first').click();
+      });
   
     //add odd-row class to alternating tabbed-content items
     $('div.tab_container ul.items li.item:odd').addClass("odd");
