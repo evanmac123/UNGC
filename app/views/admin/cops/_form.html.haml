@@ -2,10 +2,10 @@
   %ul.tab_nav
     %li <a href="#basic">Basic Details</a>
     #additional_questions{:style => css_display_style { @communication_on_progress.notable_program? || @communication_on_progress.additional_questions?}}
-      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? || @communication_on_progress.concrete_human_rights_activities? }} <a href="#human_rights_additional_questions">Human Rights</a>
-      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? || @communication_on_progress.concrete_environment_activities? }}  <a href="#environment_additional_questions">Environment</a>
-      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? || @communication_on_progress.concrete_labour_activities? }}  <a href="#labour_additional_questions">Labour</a>
-      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? || @communication_on_progress.concrete_anti_corruption_activities? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
+      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
+      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
+      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
     %li#notable_tab{:style => css_display_style { @communication_on_progress.notable_program? }} <a href="#notable_questions">Notable Program</a>
     %li <a href="#finish">Finish</a>
   
@@ -105,24 +105,6 @@
                 %br
                 Anti-Corruption
                 = true_or_false_field(form, :references_anti_corruption, :class => 'score')
-
-              %fieldset
-                %legend
-                  %span
-                    Does your COP contain information about
-                    %strong procedures or concrete activities
-                    related to the following issue areas?
-                Human Rights
-                = true_or_false_field(form, :concrete_human_rights_activities, :class => 'score')
-                %br
-                Labour
-                = true_or_false_field(form, :concrete_labour_activities, :class => 'score')
-                %br
-                Environment
-                = true_or_false_field(form, :concrete_environment_activities, :class => 'score')
-                %br
-                Anti-Corruption
-                = true_or_false_field(form, :concrete_anti_corruption_activities, :class => 'score')
 
               %fieldset#only_3_areas_selected{:style => 'display: none'}
                 %legend

@@ -12,24 +12,21 @@ $("input[name='communication_on_progress[format]']").change(function() {
     $("#grace_letter_fields").hide();
     $("#text_a").hide();
     $("#non_grace_letter_fields").show();
-    if ($("#communication_on_progress_format_web_based").is(':checked')) {
-      $("#cop_links").show();
-      $("#cop_files").hide();
-    } else {
-      $("#cop_links").hide();
-      $("#cop_files").show();
-    }
   }
 })
 
 // Q2 - Web based
 $("input[name='communication_on_progress[web_based]']").change(function() {
   if ($("#communication_on_progress_web_based_true").is(':checked')) {
-    
+    $("#cop_links").show();
+    $("#cop_files").hide();
+    $("#text_b").show();
   } else {
-    
+    $("#cop_links").hide();
+    $("#cop_files").show();
+    $("#text_b").hide();
   }
-}
+})
 
 // A statement of continued support is required
 $("input[name='communication_on_progress[include_continued_support_statement]']").change(function() {
@@ -104,29 +101,25 @@ $("input[class='additional_questions']").change(function() {
 // COP score and area questions
 $("input[class='score']").change(function() {
   score = 0;
-  if ($("#communication_on_progress_references_human_rights_true").is(':checked') ||
-    $("#communication_on_progress_concrete_human_rights_activities_true").is(':checked')) {
+  if ($("#communication_on_progress_references_human_rights_true").is(':checked')) {
     score = score + 1;
     $("#human_rights_tab").show();
   } else {
     $("#human_rights_tab").hide();
   }
-  if ($("#communication_on_progress_references_labour_true").is(':checked') ||
-    $("#communication_on_progress_concrete_labour_activities_true").is(':checked')) {
+  if ($("#communication_on_progress_references_labour_true").is(':checked')) {
     score = score + 1;
     $("#labour_tab").show();
   } else {
     $("#labour_tab").hide();
   }
-  if ($("#communication_on_progress_references_environment_true").is(':checked') ||
-    $("#communication_on_progress_concrete_environment_activities_true").is(':checked')) {
+  if ($("#communication_on_progress_references_environment_true").is(':checked')) {
     score = score + 1;
     $("#environment_tab").show();
   } else {
     $("#environment_tab").hide();
   }
-  if ($("#communication_on_progress_references_anti_corruption_true").is(':checked') ||
-    $("#communication_on_progress_concrete_anti_corruption_activities_true").is(':checked')) {
+  if ($("#communication_on_progress_references_anti_corruption_true").is(':checked')) {
     score = score + 1;
     $("#anti_corruption_tab").show();
   } else {
@@ -138,9 +131,8 @@ $("input[class='score']").change(function() {
     // find out what the missing area is
     var areas = { human_rights:"Human Rights", labour:"Labour", environment:"Environment", anti_corruption:"Anti-Corruption" };
   jQuery.each(areas, function(key, val) {
-    if ($("#communication_on_progress_references_" + key + "_false").is(':checked') &&
-        $("#communication_on_progress_concrete_" + key + "_activities_false").is(':checked')) {
-    area = val;
+    if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
+      area = val;
     }
   });
     $("#last_issue_area").text(area);
