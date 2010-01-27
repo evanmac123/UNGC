@@ -52,25 +52,29 @@ $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change
   }
 })
 
-// A statement of continued support is required
+// Q5 - A statement of continued support is required
 $("input[name='communication_on_progress[include_continued_support_statement]']").change(function() {
   if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
     $("#explicit_statement_of_support_fields").show();
     $("#reject_cop").hide();
+    $("#text_d").hide();
   } else {
     $("#explicit_statement_of_support_fields").hide();
     $("#reject_cop").show();
+    $("#text_d").show();
   }
 })
 
-// Reject if COP is not signed by a executive
+// Q6 - Reject if COP is not signed by a executive
 $("input[name='communication_on_progress[support_statement_signee]']").change(function() {
   if ($("#communication_on_progress_support_statement_signee_none").is(':checked')) {
-  $("#signed_by_executive_fields").hide();
-  $("#reject_cop").show();
+    $("#signed_by_executive_fields").hide();
+    $("#reject_cop").show();
+    $("#text_e").show();
   } else {
-  $("#signed_by_executive_fields").show();
-  $("#reject_cop").hide();
+    $("#signed_by_executive_fields").show();
+    $("#reject_cop").hide();
+    $("#text_e").hide();
   }
 })
 
