@@ -109,6 +109,7 @@ module FixtureReplacement
     o.employees = 500
     o.url = 'http://www.example.com'
     o.pledge_amount = 1000
+    o.joined_on = Date.new(2009,10,10)
 	end
 
   attributes_for :page do |a|
