@@ -117,8 +117,8 @@ module Admin::CopsHelper
   # how to calculate the COP score
   def organization_javascript_vars(organization)
     vars = []
-    vars << "joined_after_july_09 = #{(organization.joined_on >= Date.new(2009,7,1))}"
-    vars << "participant_for_more_than_5_years = #{(organization.joined_on < 5.years.ago.to_date)}"
+    vars << "joined_after_july_09 = #{organization.joined_after_july_2009?}"
+    vars << "participant_for_more_than_5_years = #{organization.participant_for_over_5_years?}"
     vars.collect{|v| javascript_tag "var #{v};"}.join
   end
 end

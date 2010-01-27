@@ -526,3 +526,25 @@ ul#report_list {
     ul#report_list a:hover {
       color: #14546f;
       font-weight: bold; }
+
+div.pagination {
+  background: #f0f6fa;
+  border-bottom: 1px solid #ccc;
+  font-size: 0.9em;
+  padding: 6px 150px;
+  position: relative;
+  text-align: center; }
+  div.pagination a {
+    text-decoration: none; }
+    div.pagination a:hover {
+      text-decoration: underline; }
+  div.pagination .prev_page, div.pagination .next_page {
+    position: absolute; }
+  div.pagination .prev_page {
+    left: 10px; }
+  div.pagination .next_page {
+    right: 10px; }
+  div.pagination .current {
+    font-weight: bold; }
+  div.pagination .disabled {
+    color: #7a8d99; }
