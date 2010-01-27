@@ -32,6 +32,25 @@
             %span Is you COP web-based?
           = true_or_false_field(form, :web_based)
 
+        #cop_files{:style => 'display: none'}
+          %fieldset
+            %legend
+              %span Upload the COP as a .pdf file
+            = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
+          %fieldset
+            %legend
+              %span Provide a link that illustrates how the COP is shared with your stakeholders
+            = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop_with_stakeholders])}
+        #cop_links{:style => 'display: none'}
+          %fieldset
+            %legend
+              %span Provide a link to your web-based COP
+            = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
+          %fieldset
+            %legend
+              %span We encourage you to upload one .pdf file in addition to your web-based COP
+            = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
+        
         %fieldset
           %legend
             %span Does your COP include an explicit statement of continued support for the Global Compact and its principles?
@@ -48,24 +67,6 @@
 
           #signed_by_executive_fields{:style => 'display: none'}
 
-            #cop_files{:style => 'display: none'}
-              %fieldset
-                %legend
-                  %span Upload the COP as a .pdf file
-                = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
-              %fieldset
-                %legend
-                  %span Provide a link that illustrates how the COP is shared with your stakeholders
-                = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop_with_stakeholders])}
-            #cop_links{:style => 'display: none'}
-              %fieldset
-                %legend
-                  %span Provide a link to your web-based COP
-                = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
-              %fieldset
-                %legend
-                  %span We encourage you to upload one .pdf file in addition to your web-based COP
-                = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
             #statement_support_pdf{:style => 'display: none'}
               %fieldset
                 %legend
@@ -168,9 +169,8 @@
               = true_or_false_field(form, :is_draft)
 
       #texts
-        #text_a{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_a'
-        #text_b{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_b'
-        #text_c{:style => 'display: none'}= render :partial => 'admin/cops/texts/text_c'
+        - for letter in ('a'..'c')
+          %div{:id => "text_#{letter}", :style => 'display: none'}= render :partial => "admin/cops/texts/text_#{letter}"
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
