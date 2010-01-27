@@ -191,7 +191,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     if is_grace_letter?
       organization.extend_cop_grace_period
     else
-      self.organization.set_next_cop_due_date
+      organization.set_next_cop_due_date
     end
   end
 end
