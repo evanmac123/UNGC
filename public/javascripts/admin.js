@@ -537,6 +537,7 @@ $(document).ready(function() {
     // tab selection via query string
     var query = $.parseQuery();
     if (query.tab) {
+      
       // show proper tab_content
       $('div.tab_container > div.tab_content')
         .hide()
@@ -550,6 +551,7 @@ $(document).ready(function() {
           return $(this).attr('href').indexOf(query.tab) >= 0;
         })
           .addClass('selected');
+          
     }
     
     
@@ -564,7 +566,9 @@ $(document).ready(function() {
         $(this).addClass('selected');
 
         return false;
-      });
+      })
+      .filter(':first')
+        .click();
   
     //add odd-row class to alternating tabbed-content items
     $('div.tab_container ul.items li.item:odd').addClass("odd");
