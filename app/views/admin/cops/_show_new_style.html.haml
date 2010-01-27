@@ -20,10 +20,12 @@
     %li== COP measures outcomes, use performance indicators, or describe expected outcomes in
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
-  %dt= value
-  %dd
-    %ul= show_cop_attributes(@communication_on_progress, PrincipleArea.send(key).id, @communication_on_progress.send("references_#{key}?"))
+  - if @communication_on_progress.send("references_#{key}?") && (@communication_on_progress.notable_program? || @communication_on_progress.additional_questions?)
+    %dt= value
+    %dd
+      %ul= show_cop_attributes(@communication_on_progress, PrincipleArea.send(key).id, @communication_on_progress.send("references_#{key}?"))
 
-%dt Final questions
-%dd
-  %ul= show_cop_attributes(@communication_on_progress, nil)
+- if @communication_on_progress.notable_program? || @communication_on_progress.additional_questions?
+  %dt Final questions
+  %dd
+    %ul= show_cop_attributes(@communication_on_progress, nil)
