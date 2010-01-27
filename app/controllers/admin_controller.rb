@@ -4,6 +4,7 @@ class AdminController < ApplicationController
 
   before_filter :login_required
   before_filter :redirect_non_approved_organizations, :only => :dashboard
+  before_filter :no_organization_or_local_network_access, :only => :parameters
   before_filter :add_admin_js
   
   def dashboard
