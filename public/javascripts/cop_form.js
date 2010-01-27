@@ -78,31 +78,17 @@ $("input[name='communication_on_progress[support_statement_signee]']").change(fu
   }
 })
 
-// Statement of support question
-$("input[name='communication_on_progress[statement_location]']").change(function() {
-  if ($("#communication_on_progress_statement_location_document").is(':checked')) {
-  $("#statement_support_pdf").show();
-  $("#statement_support_link").hide();
-  } else if ($("#communication_on_progress_statement_location_web").is(':checked')) {
-  $("#statement_support_pdf").hide();
-  $("#statement_support_link").show();
-  } else {
-  $("#statement_support_pdf").hide();
-  $("#statement_support_link").hide();
-}
-})
-
 // Additional questions
 $("input[class='additional_questions']").change(function() {
   if ($("#communication_on_progress_notable_program_true").is(':checked')) {
-  $("#notable_tab").show();
-  $("#additional_questions").show();
+    $("#notable_tab").show();
+    $("#additional_questions").show();
   } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
-  $("#notable_tab").hide();
-  $("#additional_questions").show();
+    $("#notable_tab").hide();
+    $("#additional_questions").show();
   } else {
-  $("#notable_tab").hide();
-  $("#additional_questions").hide();
+    $("#notable_tab").hide();
+    $("#additional_questions").hide();
   }
 })
 
@@ -146,14 +132,5 @@ $("input[class='score']").change(function() {
     $("#last_issue_area").text(area);
   } else {
     $("#only_3_areas_selected").hide();
-  }
-})
-
-// partnership project
-$("input[name='communication_on_progress[mentions_partnership_project]']").change(function() {
-  if ($("#communication_on_progress_mentions_partnership_project_true").is(':checked')) {
-  $("#partnership_additional_questions").show();
-  } else {
-  $("#partnership_additional_questions").hide();
   }
 })
