@@ -42,17 +42,13 @@
 #  replied_to                          :boolean(1)
 #  reviewer_id                         :integer(4)
 #  support_statement_signee            :string(255)
-#  statement_location                  :string(255)
 #  parent_company_cop                  :boolean(1)
 #  parent_cop_cover_subsidiary         :boolean(1)
-#  concrete_human_rights_activities    :boolean(1)
-#  concrete_labour_activities          :boolean(1)
-#  concrete_environment_activities     :boolean(1)
-#  concrete_anti_corruption_activities :boolean(1)
 #  mentions_partnership_project        :boolean(1)
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
 #  missing_principle_explained         :boolean(1)
+#  web_based                           :boolean(1)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
