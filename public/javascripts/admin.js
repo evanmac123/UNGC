@@ -533,6 +533,20 @@ $(document).ready(function() {
   // tabbed content
     // mark first tab as selected by default
     $('div.tab_container ul.tab_nav a:first').addClass('selected');
+
+    
+    var tab_container = $('div.tab_container > div.tab_content');
+
+    $('div.tab_container ul.tab_nav a')
+      .click(function () {
+        tab_container.hide().filter(this.hash).show();
+
+        $('div.tab_container ul.tab_nav a').removeClass('selected');
+        $(this).addClass('selected');
+
+        return false;
+      });
+      
     
     // tab selection via query string
     var query = $.parseQuery();
@@ -553,22 +567,9 @@ $(document).ready(function() {
           .addClass('selected');
           
     }
-    
-    
-    
-    var tab_container = $('div.tab_container > div.tab_content');
-
-    $('div.tab_container ul.tab_nav a')
-      .click(function () {
-        tab_container.hide().filter(this.hash).show();
-
-        $('div.tab_container ul.tab_nav a').removeClass('selected');
-        $(this).addClass('selected');
-
-        return false;
-      })
-      .filter(':first')
-        .click();
+    else {
+      $('div.tab_container ul.tab_nav a:first').click();
+    }
   
     //add odd-row class to alternating tabbed-content items
     $('div.tab_container ul.items li.item:odd').addClass("odd");
