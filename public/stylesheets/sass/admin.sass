@@ -683,3 +683,32 @@ ul#report_list
     &:hover
       color= !dark_blue
       font-weight: bold
+      
+div.pagination
+  background= !light_blue
+  border-bottom: 1px solid #ccc
+  font-size: 0.9em
+  padding: 6px 150px
+  position: relative
+  text-align: center
+  
+  a
+    text-decoration: none
+    
+    &:hover
+      text-decoration: underline
+  
+  .prev_page, .next_page
+    position: absolute
+  
+  .prev_page
+    left: 10px
+  
+  .next_page
+    right: 10px
+  
+  .current
+    font-weight: bold
+  
+  .disabled
+    color: #7a8d99
