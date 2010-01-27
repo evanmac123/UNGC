@@ -28,6 +28,30 @@ $("input[name='communication_on_progress[web_based]']").change(function() {
   }
 })
 
+// Q3 - Parent company COP
+$("input[name='communication_on_progress[parent_company_cop]']").change(function() {
+  if ($("#communication_on_progress_parent_company_cop_true").is(':checked')) {
+    $("#parent_company_question").show();
+    $("#own_company_questions").hide();
+  } else {
+    $("#parent_company_question").hide();
+    $("#own_company_questions").show();
+  }
+})
+
+// Q4 - Parent COP covers subsidiary
+$("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change(function() {
+  if ($("#communication_on_progress_parent_cop_cover_subsidiary_true").is(':checked')) {
+    // if Yes, end of submission
+    $("#reject_cop").hide();
+    $("#text_c").hide();
+  } else {
+    // if No, reject COP, show Text C
+    $("#reject_cop").show();
+    $("#text_c").show();
+  }
+})
+
 // A statement of continued support is required
 $("input[name='communication_on_progress[include_continued_support_statement]']").change(function() {
   if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
@@ -62,26 +86,6 @@ $("input[name='communication_on_progress[statement_location]']").change(function
   $("#statement_support_pdf").hide();
   $("#statement_support_link").hide();
 }
-})
-
-// Parent company COP
-$("input[name='communication_on_progress[parent_company_cop]']").change(function() {
-  if ($("#communication_on_progress_parent_company_cop_true").is(':checked')) {
-  $("#parent_company_question").show();
-  $("#own_company_questions").hide();
-  } else {
-  $("#parent_company_question").hide();
-  $("#own_company_questions").show();
-  }
-})
-
-// Parent COP covers subsidiary
-$("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change(function() {
-  if ($("#communication_on_progress_parent_cop_cover_subsidiary_true").is(':checked')) {
-  $("#reject_cop").hide();
-  } else {
-  $("#reject_cop").show();
-  }
 })
 
 // Additional questions
