@@ -78,21 +78,7 @@ $("input[name='communication_on_progress[support_statement_signee]']").change(fu
   }
 })
 
-// Additional questions
-$("input[class='additional_questions']").change(function() {
-  if ($("#communication_on_progress_notable_program_true").is(':checked')) {
-    $("#notable_tab").show();
-    $("#additional_questions").show();
-  } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
-    $("#notable_tab").hide();
-    $("#additional_questions").show();
-  } else {
-    $("#notable_tab").hide();
-    $("#additional_questions").hide();
-  }
-})
-
-// COP score and area questions
+// Q7 - COP score and area questions
 $("input[class='score']").change(function() {
   score = 0;
   if ($("#communication_on_progress_references_human_rights_true").is(':checked')) {
@@ -123,7 +109,10 @@ $("input[class='score']").change(function() {
     $("#only_3_areas_selected").show();
 
     // find out what the missing area is
-    var areas = { human_rights:"Human Rights", labour:"Labour", environment:"Environment", anti_corruption:"Anti-Corruption" };
+    var areas = { human_rights:"Human Rights",
+                  labour:"Labour",
+                  environment:"Environment",
+                  anti_corruption:"Anti-Corruption" };
   jQuery.each(areas, function(key, val) {
     if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
       area = val;
@@ -132,5 +121,19 @@ $("input[class='score']").change(function() {
     $("#last_issue_area").text(area);
   } else {
     $("#only_3_areas_selected").hide();
+  }
+})
+
+// Q16 & Q17 - Additional questions
+$("input[class='additional_questions']").change(function() {
+  if ($("#communication_on_progress_notable_program_true").is(':checked')) {
+    $("#notable_tab").show();
+    $("#additional_questions").show();
+  } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
+    $("#notable_tab").hide();
+    $("#additional_questions").show();
+  } else {
+    $("#notable_tab").hide();
+    $("#additional_questions").hide();
   }
 })

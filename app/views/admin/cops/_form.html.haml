@@ -113,25 +113,27 @@
                       measure outcomes
                     ?
                 = true_or_false_field(form, :include_measurement)
-    
-              %fieldset
-                %legend
-                  %span Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
-                = true_or_false_field(form, :include_measurement, yes: 'Yes, continue submitting this COP', no: 'No, I will revise COP and submit it later')
 
-              = cop_questions_for @communication_on_progress, :mandatory
+              #low_score{:style => 'display:none'}
+                %fieldset
+                  %legend
+                    %span Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
+                  = true_or_false_field(form, :include_measurement, yes: 'Yes, continue submitting this COP', no: 'No, I will revise COP and submit it later')
 
-              %fieldset
-                %legend
-                  %span Would you like to answer some additional questions regarding the content of your COP?
-                %p This will make it easier for others to search and find your COP on the Global Compact web site
-                = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
+              #high_score{:style => 'display:none'}
+                = cop_questions_for @communication_on_progress, :mandatory
 
-              %fieldset
-                %legend
-                  %span Would you like your Communication on Progress to be reviewed for possible inclusion in the Notable COP Program?
-                %p= popup_link_to 'Find more information about the Notable COP Program here', '/docs/communication_on_progress/Notable_COPs.pdf'
-                = true_or_false_field(form, :notable_program, :class => 'additional_questions')
+                %fieldset
+                  %legend
+                    %span Would you like to answer some additional questions regarding the content of your COP?
+                  %p This will make it easier for others to search and find your COP on the Global Compact web site
+                  = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
+
+                %fieldset
+                  %legend
+                    %span Would you like your Communication on Progress to be reviewed for possible inclusion in the Notable COP Program?
+                  %p= popup_link_to 'Find more information about the Notable COP Program here', '/docs/communication_on_progress/Notable_COPs.pdf'
+                  = true_or_false_field(form, :notable_program, :class => 'additional_questions')
 
         #reject_cop{:style => 'display: none'}
           %fieldset
@@ -146,7 +148,7 @@
               = true_or_false_field(form, :is_draft)
 
       #texts
-        - for letter in ('a'..'e')
+        - for letter in ('a'..'o')
           %div{:id => "text_#{letter}", :style => 'display: none'}= render :partial => "admin/cops/texts/text_#{letter}"
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
@@ -162,3 +164,5 @@
     %h2 Finish:
     %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
     = submit_tag 'Submit your information', :class => "button", :id => "finish"
+
+= organization_javascript_vars @organization
