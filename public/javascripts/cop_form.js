@@ -113,14 +113,67 @@ $("input[class='score']").change(function() {
                   labour:"Labour",
                   environment:"Environment",
                   anti_corruption:"Anti-Corruption" };
-  jQuery.each(areas, function(key, val) {
-    if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
-      area = val;
-    }
-  });
+    area = '';
+    jQuery.each(areas, function(key, val) {
+      if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
+        area = val;
+      }
+    });
     $("#last_issue_area").text(area);
   } else {
     $("#only_3_areas_selected").hide();
+  }
+  // take decisions based on organization details and score
+  reject_cop = true;
+  text_to_display = '';
+  if (joined_after_july_09) {
+    if (participant_for_more_than_5_years) {
+      // participant for more than 5 years who joined after July 1st 2009
+      if ((score == 4 && $("#communication_on_progress_include_measurement_true").is(':checked')) || 
+          (score == 3 && $("#communication_on_progress_include_measurement_true").is(':checked') && $("#communication_on_progress_missing_principle_explained_true").is(':checked'))) {
+        reject_cop = false;
+      } else {
+        text_to_display = '#text_g';
+      }
+    } else {
+      // participant for less than 5 years who joined after July 1st 2009
+      if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
+        reject_cop = false;
+      } else {
+        text_to_display = '#text_f';
+      }
+    }
+  } else {
+    if (participant_for_more_than_5_years) {
+      // participant for more than 5 years who joined before July 1st 2009
+      if ((score == 4 && $("#communication_on_progress_include_measurement_true").is(':checked')) || 
+          (score == 3 && $("#communication_on_progress_include_measurement_true").is(':checked') && $("#communication_on_progress_missing_principle_explained_true").is(':checked'))) {
+        reject_cop = false;
+      } else {
+        text_to_display = '#text_i';
+      }
+    } else {
+      // participant for less than 5 years who joined before July 1st 2009
+      if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
+        reject_cop = false;
+      } else {
+        text_to_display = '#text_h';
+      }
+    }
+  }
+  // time to show/hide divs
+  if (reject_cop) {
+    $("#reject_cop").show();
+    $("#approved_cop").hide();
+    $(text_to_display).show();
+  } else {
+    $("#reject_cop").hide();
+    $("#approved_cop").show();
+    // hide texts F to I
+    $("#text_f").hide();
+    $("#text_g").hide();
+    $("#text_h").hide();
+    $("#text_i").hide();
   }
 })
 

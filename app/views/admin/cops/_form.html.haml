@@ -112,15 +112,9 @@
                       %i and
                       measure outcomes
                     ?
-                = true_or_false_field(form, :include_measurement)
+                = true_or_false_field(form, :include_measurement, :class => 'score')
 
-              #low_score{:style => 'display:none'}
-                %fieldset
-                  %legend
-                    %span Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
-                  = true_or_false_field(form, :include_measurement, yes: 'Yes, continue submitting this COP', no: 'No, I will revise COP and submit it later')
-
-              #high_score{:style => 'display:none'}
+              #approved_cop{:style => 'display: none'}
                 = cop_questions_for @communication_on_progress, :mandatory
 
                 %fieldset
