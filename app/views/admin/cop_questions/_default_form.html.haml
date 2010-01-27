@@ -10,7 +10,7 @@
 
 %fieldset
   %legend Attributes
-  %p Each attribute will be represented by a check box in the COP form. If you don't add custom attributes, this will be a Yes/No question.
+  %p Each attribute will be represented by a check box in the COP form. If you add a single attribute, this will be a Yes/No question.
   
   #cop_attributes= render @cop_question.cop_attributes
   = link_to_function "New attributes", "$('#cop_attributes').append(replace_ids(cop_attribute_form))"
