@@ -136,4 +136,23 @@ $("input[class='additional_questions']").change(function() {
     $("#notable_tab").hide();
     $("#additional_questions").hide();
   }
+  // defining text to display
+  $("#text_l").hide();
+  $("#text_m").hide();
+  $("#text_n").hide();
+  $("#text_o").hide();
+  
+  if ($("#communication_on_progress_notable_program_true").is(':checked') &&
+      $("#communication_on_progress_additional_questions_true").is(':checked')) {
+    $("#text_l").show();
+  } else if ($("#communication_on_progress_notable_program_true").is(':checked') &&
+             $("#communication_on_progress_additional_questions_false").is(':checked')) {
+    $("#text_m").show();
+  } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
+             $("#communication_on_progress_additional_questions_true").is(':checked')) {
+    $("#text_n").show();
+  } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
+             $("#communication_on_progress_additional_questions_false").is(':checked')) {
+    $("#text_o").show();
+  }
 })
