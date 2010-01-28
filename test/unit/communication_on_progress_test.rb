@@ -20,7 +20,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP" do
     setup do
       create_organization_and_user
-      @cop = create_communication_on_progress(:organization_id => @organization.id)
+      @cop = pending_review(@organization)
     end
     
     should "change the organization's due date after it is approved" do
