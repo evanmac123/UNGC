@@ -130,14 +130,14 @@
               %fieldset
                 %legend
                   %span Would you like to answer some additional questions regarding the content of your COP?
-                  %p This will make it easier for others to search and find your COP on the Global Compact web site
-                  = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
+                %p This will make it easier for others to search and find your COP on the Global Compact web site
+                = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
 
               %fieldset
                 %legend
                   %span Would you like your Communication on Progress to be reviewed for possible inclusion in the Notable COP Program?
-                  %p= popup_link_to 'Find more information about the Notable COP Program here', '/docs/communication_on_progress/Notable_COPs.pdf'
-                  = true_or_false_field(form, :notable_program, :class => 'additional_questions')
+                %p= popup_link_to 'Find more information about the Notable COP Program here.', '/docs/communication_on_progress/Notable_COPs.pdf'
+                = true_or_false_field(form, :notable_program, :class => 'additional_questions')
 
         #reject_cop{:style => 'display: none'}
           %fieldset
