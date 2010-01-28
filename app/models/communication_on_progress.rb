@@ -68,6 +68,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   acts_as_commentable
 
   attr_accessor :is_draft
+  attr_accessor :policy_exempted
   
   before_save :can_be_edited?
   after_create :draft_or_submit!
