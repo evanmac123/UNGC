@@ -13,7 +13,7 @@ class Admin::CopsController < AdminController
 
     if @communication_on_progress.save
       flash[:notice] = 'COP was successfully created.'
-      redirect_to dashboard_path
+      redirect_to dashboard_path(tab: 'cops')
     else
       render :action => "new"
     end
@@ -26,7 +26,7 @@ class Admin::CopsController < AdminController
 
   def destroy
     @communication_on_progress.destroy
-    redirect_to dashboard_path
+    redirect_to dashboard_path(tab: 'cops')
   end
 
   private

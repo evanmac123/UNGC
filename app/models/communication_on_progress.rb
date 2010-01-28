@@ -42,17 +42,13 @@
 #  replied_to                          :boolean(1)
 #  reviewer_id                         :integer(4)
 #  support_statement_signee            :string(255)
-#  statement_location                  :string(255)
 #  parent_company_cop                  :boolean(1)
 #  parent_cop_cover_subsidiary         :boolean(1)
-#  concrete_human_rights_activities    :boolean(1)
-#  concrete_labour_activities          :boolean(1)
-#  concrete_environment_activities     :boolean(1)
-#  concrete_anti_corruption_activities :boolean(1)
 #  mentions_partnership_project        :boolean(1)
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
 #  missing_principle_explained         :boolean(1)
+#  web_based                           :boolean(1)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
@@ -169,8 +165,12 @@ class CommunicationOnProgress < ActiveRecord::Base
     if self.is_draft
       save_as_draft!
     else
-      submit! if can_submit?
+      if can_submit?
+        submit!
+        automatic_decision
+      end
     end
+    
   end
   
   def is_grace_letter?
@@ -195,7 +195,44 @@ class CommunicationOnProgress < ActiveRecord::Base
     if is_grace_letter?
       organization.extend_cop_grace_period
     else
-      self.organization.set_next_cop_due_date
+      organization.set_next_cop_due_date
     end
+  end
+  
+  # COPs may be automatically approved
+  def automatic_decision
+    if organization.joined_after_july_2009?
+      if organization.participant_for_over_5_years?
+        # participant for more than 5 years who joined after July 1st 2009
+        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
+          approve
+        else
+          reject
+        end
+      else
+        # participant for less than 5 years who joined after July 1st 2009
+        (score >= 2 && include_measurement?) ? approve : reject
+      end
+    else
+      if organization.participant_for_over_5_years?
+        # participant for more than 5 years who joined before July 1st 2009
+        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
+          approve
+        else
+          reject
+        end
+      else
+        # participant for less than 5 years who joined before July 1st 2009
+        (score >= 2 && include_measurement?) ? approve! : reject!
+      end
+    end
+  end
+  
+  # Calculate COP score based on answers to Q7
+  def score
+    [references_labour,
+      references_human_rights,
+      references_anti_corruption,
+      references_environment].collect{|r| r if r}.compact.count
   end
 end

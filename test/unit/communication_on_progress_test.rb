@@ -20,7 +20,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP" do
     setup do
       create_organization_and_user
-      @cop = create_communication_on_progress(:organization_id => @organization.id)
+      @cop = pending_review(@organization)
     end
     
     should "change the organization's due date after it is approved" do
@@ -80,8 +80,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
         assert @cop.approved?
       end
       
-      should "have an extra 60 days to submit a COP" do
-        assert_equal (@old_cop_due_on + 60.days).to_date, (@organization.reload.cop_due_on).to_date
+      should "have an extra 30 days to submit a COP" do
+        assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
       end
     end
     
