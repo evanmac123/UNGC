@@ -108,7 +108,7 @@ class Organization < ActiveRecord::Base
     :delisted => COP_STATE_DELISTED
   }
   
-  COP_GRACE_PERIOD = 60
+  COP_GRACE_PERIOD = 30
   
   state_machine :cop_state, :initial => :active do
     after_transition :on => :delist, :do => :set_delisted_status
