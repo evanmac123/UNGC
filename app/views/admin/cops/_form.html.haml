@@ -32,17 +32,12 @@
             %span Is your COP web-based?
           = true_or_false_field(form, :web_based)
 
-        #cop_files{:style => 'display: none'}
+        #cop_attachments{:style => 'display: none'}
           %fieldset
             %legend
               %span Upload the COP as a PDF file
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
-          / TODO: uncomment if we later decide to ask for this link
-          / %fieldset
-          /   %legend
-          /     %span Provide a link that illustrates how the COP is shared with your stakeholders
-          /   = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop_with_stakeholders])}
-        #cop_links{:style => 'display: none'}
+        #web_cop_attachments{:style => 'display: none'}
           %fieldset
             %legend
               %span Provide a link to your web-based COP
