@@ -65,7 +65,8 @@ module FixtureReplacement
   attributes_for :interest do |a|
 	end
 
-  attributes_for :language do |a|
+  attributes_for :language do |l|
+    l.name = String.random
 	end
 
   attributes_for :listing_status do |a|
