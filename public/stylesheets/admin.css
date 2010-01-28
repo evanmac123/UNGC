@@ -204,49 +204,48 @@ ul.nav_bar {
   color: #868686;
   margin: 20px 0 0 0; }
 
-/* tabbed sections */
-#main_content .tab_container {
+.tab_container {
   display: none;
   margin: 1em 0; }
-  #main_content .tab_container ul.tab_nav {
+  .tab_container ul.tab_nav {
     margin: 0;
     padding: 0;
     overflow: hidden;
     position: relative;
     top: 1px;
     z-index: 42; }
-    #main_content .tab_container ul.tab_nav li {
+    .tab_container ul.tab_nav li {
       list-style: none; }
-      #main_content .tab_container ul.tab_nav li a {
+      .tab_container ul.tab_nav li a {
         display: block;
         background: #14546f;
         padding: 5px 10px;
         color: white;
         text-decoration: none;
         border: 1px solid #333; }
-        #main_content .tab_container ul.tab_nav li a:hover {
+        .tab_container ul.tab_nav li a:hover {
           background: #f0f6fa;
           color: #14546f; }
-        #main_content .tab_container ul.tab_nav li a.selected {
+        .tab_container ul.tab_nav li a.selected {
           background: white;
           color: #14546f; }
-  #main_content .tab_container.top_tabs ul.tab_nav li {
+  .tab_container.top_tabs ul.tab_nav li {
     float: left;
     margin-right: 1px; }
-  #main_content .tab_container.top_tabs ul.tab_nav a.selected {
+  .tab_container.top_tabs ul.tab_nav a.selected {
     border-bottom: 1px solid #fff; }
-  #main_content .tab_container.left_tabs ul.tab_nav {
+  .tab_container.left_tabs ul.tab_nav {
     width: 125px;
     float: left;
     margin-top: 13px;
     z-index: 42; }
-    #main_content .tab_container.left_tabs ul.tab_nav li {
+    .tab_container.left_tabs ul.tab_nav li {
       margin-bottom: 1px; }
-    #main_content .tab_container.left_tabs ul.tab_nav a.selected {
+    .tab_container.left_tabs ul.tab_nav a.selected {
       border-right: 1px solid #fff; }
-  #main_content .tab_container.left_tabs .tab_content {
+  .tab_container.left_tabs .tab_content {
     width: 483px; }
-  #main_content .tab_container div.tab_content {
+  .tab_container div.tab_content {
     border: 1px solid #333;
     padding: 1em 10px;
     min-height: 200px``;
@@ -254,71 +253,72 @@ ul.nav_bar {
     overflow-x: hidden;
     overflow-y: scroll;
     position: relative; }
-  #main_content .tab_container.left_tabs div.tab_content {
+  .tab_container.left_tabs div.tab_content {
     margin: 0 0 0 125px;
     position: relative;
     left: -1px; }
-  #main_content .tab_container div.tab_content a.new {
+  .tab_container div.tab_content a.new {
     right: 12px;
     top: 12px; }
-    #main_content .tab_container div.tab_content a.new#new_COP {
+    .tab_container div.tab_content a.new#new_COP {
       line-height: 24px; }
-  #main_content .tab_container ul.tools {
+  .tab_container ul.tools {
     border-bottom: 1px solid #999;
     margin-bottom: 0.5em;
     padding-bottom: 0.5em; }
-    #main_content .tab_container ul.tools li {
+    .tab_container ul.tools li {
       float: right; }
-      #main_content .tab_container ul.tools li a {
+      .tab_container ul.tools li a {
         height: 24px;
         display: block;
         position: static; }
-        #main_content .tab_container ul.tools li a.new {
+        .tab_container ul.tools li a.new {
           background: transparent url('../images/icons/Add_24x24.png') no-repeat 100% 50%; }
-  #main_content .tab_container div.meta {
+  .tab_container div.meta {
     float: left;
     width: 125px; }
-    #main_content .tab_container div.meta p {
+    .tab_container div.meta p {
       margin: 0; }
-      #main_content .tab_container div.meta p.name {
+      .tab_container div.meta p.name {
         font-weight: bold;
         font-size: 1.1em; }
-      #main_content .tab_container div.meta p.datetime, #main_content .tab_container div.meta p.language {
+      .tab_container div.meta p.datetime, .tab_container div.meta p.language {
         font-style: italic;
         font-size: 0.9em;
         margin-bottom: 1em; }
-    #main_content .tab_container div.meta ul.post_tools {
+    .tab_container div.meta ul.post_tools {
       margin: 0.5em 0; }
-      #main_content .tab_container div.meta ul.post_tools a {
+      .tab_container div.meta ul.post_tools a {
         width: 24px;
         height: 24px;
         text-indent: -9999em; }
-        #main_content .tab_container div.meta ul.post_tools a.edit {
+        .tab_container div.meta ul.post_tools a.edit {
           background: transparent url('../images/icons/Edit_24x24.png') no-repeat; }
-        #main_content .tab_container div.meta ul.post_tools a.delete {
+        .tab_container div.meta ul.post_tools a.delete {
           background: transparent url('../images/icons/Delete_24x24.png') no-repeat; }
-  #main_content .tab_container ul.items {
+  .tab_container ul.items {
     margin: 0; }
-    #main_content .tab_container ul.items li.item {
+    .tab_container ul.items li.item {
       list-style: none;
       border-bottom: 1px solid #999;
       padding: 0.5em 0;
       overflow: hidden; }
-      #main_content .tab_container ul.items li.item div.body {
+      .tab_container ul.items li.item div.body {
         margin-left: 135px; }
-        #main_content .tab_container ul.items li.item div.body dl.contact_data {
+        .tab_container ul.items li.item div.body dl.contact_data {
           font-size: 0.9em;
           width: 220px;
           float: left;
           border: 0; }
-          #main_content .tab_container ul.items li.item div.body dl.contact_data#contact_data_left {
+          .tab_container ul.items li.item div.body dl.contact_data#contact_data_left {
             margin-right: 15px; }
-          #main_content .tab_container ul.items li.item div.body dl.contact_data dt, #main_content .tab_container ul.items li.item div.body dl.contact_data dd {
+          .tab_container ul.items li.item div.body dl.contact_data dt, .tab_container ul.items li.item div.body dl.contact_data dd {
             width: 110px;
             padding: 0.35em 0;
             border: 0; }
-          #main_content .tab_container ul.items li.item div.body dl.contact_data dd {
+          .tab_container ul.items li.item div.body dl.contact_data dd {
             margin-left: 112px; }
+
 #main_content input.button {
   float: right; }
 #main_content fieldset {
@@ -548,3 +548,29 @@ div.pagination {
     font-weight: bold; }
   div.pagination .disabled {
     color: #7a8d99; }
+
+ul.view_modes {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  top: 1px;
+  z-index: 42; }
+  ul.view_modes li {
+    list-style: none;
+    float: left;
+    margin-right: 1px; }
+    ul.view_modes li a {
+      display: block;
+      background: #14546f;
+      padding: 5px 10px;
+      color: white;
+      text-decoration: none;
+      border: 1px solid #333; }
+      ul.view_modes li a:hover {
+        background: #f0f6fa;
+        color: #14546f; }
+      ul.view_modes li a.selected {
+        background: white;
+        color: #14546f;
+        border-bottom: 1px solid #fff; }

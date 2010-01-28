@@ -1,45 +1,42 @@
 %h2 Pending Applications
 
-%p
-  = link_to 'All', admin_organizations_path, :id => "show_all", :class => "restrictions"
-  |
-  = link_to 'Approved', approved_admin_organizations_path, :id => "show_approved", :class => "restrictions"
-  |
-  = link_to 'Rejected', rejected_admin_organizations_path, :id => "show_rejected", :class => "restrictions"
-  |
-  = link_to 'In Review', in_review_admin_organizations_path, :id => "show_in_review", :class => "restrictions"
-  |
-  = link_to 'Network Review', network_review_admin_organizations_path, :id => "show_network_review", :class => "restrictions"
-  |
-  = link_to 'Pending', pending_review_admin_organizations_path, :id => "show_pending", :class => "restrictions"
+%div.tab_container
+  %ul.view_modes
+    %li= link_to 'All', admin_organizations_path, :id => "show_all", :class => "restrictions"
+    %li= link_to 'Approved', approved_admin_organizations_path, :id => "show_approved", :class => "restrictions"
+    %li= link_to 'Rejected', rejected_admin_organizations_path, :id => "show_rejected", :class => "restrictions"
+    %li= link_to 'In Review', in_review_admin_organizations_path, :id => "show_in_review", :class => "restrictions"
+    %li= link_to 'Network Review', network_review_admin_organizations_path, :id => "show_network_review", :class => "restrictions"
+    %li= link_to 'Pending', pending_review_admin_organizations_path, :id => "show_pending", :class => "restrictions selected"
 
-%table.dashboard_table
-  %tr
-    %th ID
-    %th Old ID
-    %th Name
-    %th Status
-    %th Received
-    %th Actions
+  %div.tab_content
+    %table.dashboard_table
+      %tr
+        %th ID
+        %th Old ID
+        %th Name
+        %th Status
+        %th Received
+        %th Actions
 
-  - @organizations.each do |organization|
-    %tr
-      %td=h organization.id
-      %td=h organization.old_id || organization.old_tmp_id
-      %td{:title => organization.name}=h truncate(organization.name)
-      %td=h organization.state.humanize
-      %td=h organization.created_at
-      %td
-        %ul.actions
-          %li 
-            = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
-          %li 
-            = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
-          %li 
-            = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+      - @organizations.each do |organization|
+        %tr
+          %td=h organization.id
+          %td=h organization.old_id || organization.old_tmp_id
+          %td{:title => organization.name}=h truncate(organization.name)
+          %td=h organization.state.humanize
+          %td=h organization.created_at
+          %td
+            %ul.actions
+              %li 
+                = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
+              %li 
+                = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
+              %li 
+                = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
-= will_paginate @organizations
+    = will_paginate @organizations
 
-%br/
+    %br/
 
-= link_to 'New organization', new_admin_organization_path
+    = link_to 'New organization', new_admin_organization_path
