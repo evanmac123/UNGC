@@ -80,8 +80,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
         assert @cop.approved?
       end
       
-      should "have an extra 60 days to submit a COP" do
-        assert_equal (@old_cop_due_on + 60.days).to_date, (@organization.reload.cop_due_on).to_date
+      should "have an extra 30 days to submit a COP" do
+        assert_equal (@old_cop_due_on + 30.days).to_date, (@organization.reload.cop_due_on).to_date
       end
     end
     
