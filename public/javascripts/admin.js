@@ -494,6 +494,40 @@ $(function() {
 /***** Ready? Aim? Fire! jQuery stuff by Wes *****/
 
 $(document).ready(function() {
+  var box_height = $('#session_info ul').innerHeight();
+  console.log(box_height);
+  var state = 'closed';
+  
+  $('#session_info')
+    .css('top', '-' + box_height + 'px')
+    .find('h2 a')
+      .click( function() {
+        if (state == 'closed'){
+          $('#session_info')
+            .animate({
+              'top' : '0'
+            }, 500)
+            .find('h2 a')
+              .css('backgroundPosition','100% 50%');
+          
+          state = 'open';
+          console.log(state);
+        }
+        else {
+          $('#session_info')
+            .animate({
+              'top' : '-' + box_height
+            }, 500)
+            .find('h2 a')
+              .css('backgroundPosition','0% 50%');
+          
+          state = 'closed';
+          console.log(state);
+        }
+        return false;
+      });
+  
+  
   //style and functionality for table rows
     //add .odd to alternating table rows and other elements
     $('div#main_content table.dashboard_table tr:odd').addClass("odd");

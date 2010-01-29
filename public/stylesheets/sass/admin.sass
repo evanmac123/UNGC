@@ -15,6 +15,7 @@ a
   background: #fff
   overflow: hidden
   padding-bottom: 10px
+  position: relative
   
 h1#page_header
   background: url('../images/backgrounds/header_image.jpg') no-repeat
@@ -742,3 +743,53 @@ ul.view_modes
         background: white
         color= !dark_blue
         border-bottom: 1px solid #fff
+        
+#session_info
+  background= !dark_grey
+  border: 1px solid #999
+  color: #999
+  font-weight: bold
+  line-height: 1.3em
+  margin-top: -1px
+  padding: 0 10px 2em 10px
+  position: absolute
+  text-align: center
+  top: -999em
+  right: 25px
+  width: 175px
+  
+  a
+    color: #51a7cb
+    font-weight: normal
+    
+    &:hover
+      color: #63cbf7
+  
+  h2
+    bottom: 5px
+    font-size: 1em
+    margin: 0
+    position: absolute
+    text-align: center
+    
+    a
+      background: transparent url('/images/session_info_arrows.png') no-repeat 0 50%
+      border-top: 1px solid #345
+      color: #567
+      display: block
+      font-weight: bold
+      text-decoration: none
+      width: 175px
+      
+      &:hover
+        color: #51A7CB
+  
+  ul
+    margin: 0
+    padding: 1em 0
+    
+    li
+      list-style: none
+      
+  small
+    font-size: 0.9em
