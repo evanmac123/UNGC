@@ -45,7 +45,7 @@
           %fieldset
             %legend
               %span We encourage you to upload a copy of your web-based COP in PDF format
-            %div{:id => "text_b"}= render :partial => "admin/cops/texts/text_b"
+            = text_partial('b')
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
         
         %fieldset
@@ -114,7 +114,6 @@
               #approved_cop{:style => 'display: none'}
                 = cop_questions_for @communication_on_progress, :mandatory
 
-                
               #policy_exempted{:style => 'display: none'}
                 %fieldset
                   %legend
@@ -138,8 +137,8 @@
           %fieldset
             %legend
               %span Your COP has been rejected
-            %p
-              You COP was rejected because it does not live up to the minimum requirements as defined by the COP Policy of April 2009. [link here]
+            - for letter in ['a', ('c'..'k').to_a].flatten
+              = text_partial(letter)
           - if submission_30_days_before_due? @organization, @communication_on_progress
             %fieldset
               %legend
@@ -147,8 +146,8 @@
               = true_or_false_field(form, :is_draft)
 
       #texts
-        - for letter in ['a', ('c'..'o').to_a].flatten
-          %div{:id => "text_#{letter}", :style => 'display: none'}= render :partial => "admin/cops/texts/text_#{letter}"
+        - for letter in ('l'..'o')
+          = text_partial(letter)
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
