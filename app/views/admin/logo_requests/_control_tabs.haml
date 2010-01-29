@@ -1,7 +1,7 @@
 %ul.view_modes
-  %li= link_to 'Pending', pending_review_admin_logo_requests_path, :id => "show_pending", :class => "restrictions"
-  %li= link_to 'In Review', in_review_admin_logo_requests_path, :id => "show_in_review", :class => "restrictions"
-  %li= link_to 'Updated', unreplied_admin_logo_requests_path, :id => "show_unreplied", :class => "restrictions"
-  %li= link_to 'Approved', approved_admin_logo_requests_path, :id => "show_approved", :class => "restrictions"
-  %li= link_to 'Rejected', rejected_admin_logo_requests_path, :id => "show_rejected", :class => "restrictions"
-  %li= link_to 'Accepted', accepted_admin_logo_requests_path, :id => "show_accepted", :class => "restrictions"
+  %li= link_to 'Pending', pending_review_admin_logo_requests_path, :id => "show_pending", :class => "restrictions#{action_name == 'pending_review' ? ' selected' : ''}"
+  %li= link_to 'In Review', in_review_admin_logo_requests_path, :id => "show_in_review", :class => "restrictions#{action_name == 'in_review' ? ' selected' : ''}"
+  %li= link_to 'Updated', unreplied_admin_logo_requests_path, :id => "show_unreplied", :class => "restrictions#{action_name == 'unreplied' ? ' selected' : ''}"
+  %li= link_to 'Approved', approved_admin_logo_requests_path, :id => "show_approved", :class => "restrictions#{action_name == 'approved' ? ' selected' : ''}"
+  %li= link_to 'Rejected', rejected_admin_logo_requests_path, :id => "show_rejected", :class => "restrictions#{action_name == 'rejected' ? ' selected' : ''}"
+  %li= link_to 'Accepted', accepted_admin_logo_requests_path, :id => "show_accepted", :class => "restrictions#{action_name == 'accepted' ? ' selected' : ''}"
