@@ -94,9 +94,18 @@ class Organization < ActiveRecord::Base
     has "CRC32(cop_state)", :as => :cop_state, :type => :integer # NOTE: This used to have :facet => true, but it broke search in production, and *only* in production - I don't know why, but I do know that this fixes it
     has joined_on, :facet => true
     has delisted_on, :facet => true
-    where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
+    has state, active, participant
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
   end
+  
+  # We want to index all organizations, not just participant; so, this scope replaces the index clause below
+  # where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
+  sphinx_scope(:participants_only) { 
+    { 
+      with: { participant: 1,
+              active:      1 }
+    }
+  }
   
   COP_STATE_ACTIVE = 'active'
   COP_STATE_NONCOMMUNICATING = 'noncommunicating'

@@ -13,9 +13,7 @@ Rails::Initializer.run do |config|
   config.gem 'will_paginate', :version => '~> 2.3.11', :source => 'http://gemcutter.org'
   config.gem 'jackdempsey-acts_as_commentable', :lib => 'acts_as_commentable', :source => "http://gems.github.com"
   # config.gem 'thinking-sphinx-099', :lib     => 'thinking_sphinx', :source => "http://gemcutter.org"
-  config.gem 'thinking-sphinx',
-    :lib     => 'thinking_sphinx/0.9.9',
-    :version => '1.3.4'
+  config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :version => '1.3.14'
 
   config.gem 'money'
   config.gem 'haml'
