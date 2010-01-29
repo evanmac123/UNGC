@@ -20,8 +20,6 @@
     - if @communication_on_progress.include_continued_support_statement?
       %li COP includes an explicit statement of continued support or the UN Global Compact and its ten principles
     %li= CommunicationOnProgress::FORMAT[@communication_on_progress.format.try(:to_sym)]
-    %li== COP makes explicit reference to existing policies and/or activities related to
-    %li== COP measures outcomes, use performance indicators, or describe expected outcomes in
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if @communication_on_progress.send("references_#{key}?") && (@communication_on_progress.notable_program? || @communication_on_progress.additional_questions?)

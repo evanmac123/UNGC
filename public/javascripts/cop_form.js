@@ -2,28 +2,30 @@
 $("input[name='communication_on_progress[format]']").change(function() {
   if ($("#communication_on_progress_format_grace_letter").is(':checked')) {
     // grace letters only require a upload
-    $("#grace_letter_fields").show();
     $("#non_grace_letter_fields").hide();
-    $("#cop_links").hide();
-    $("#cop_files").hide();
-    $("#grace_letter_fields").show();
+    showAndEnableFormElements("#grace_letter_fields");
+    hideAndDisableFormElements("#cop_attachments");
+    hideAndDisableFormElements("#web_cop_attachments");
+    $("#web_cop_attachments").hide();
     $("#text_a").show();
   } else {
-    $("#grace_letter_fields").hide();
+    hideAndDisableFormElements("#grace_letter_fields");
     $("#text_a").hide();
     $("#non_grace_letter_fields").show();
+    showAndEnableFormElements("#cop_attachments");
+    showAndEnableFormElements("#web_cop_attachments");
   }
 })
 
 // Q2 - Web based
 $("input[name='communication_on_progress[web_based]']").change(function() {
   if ($("#communication_on_progress_web_based_true").is(':checked')) {
-    $("#cop_links").show();
-    $("#cop_files").hide();
+    showAndEnableFormElements("#web_cop_attachments");
+    hideAndDisableFormElements("#cop_attachments");
     $("#text_b").show();
   } else {
-    $("#cop_links").hide();
-    $("#cop_files").show();
+    showAndEnableFormElements("#cop_attachments");
+    hideAndDisableFormElements("#web_cop_attachments");
     $("#text_b").hide();
   }
 })
@@ -209,3 +211,13 @@ $("input[class='additional_questions']").change(function() {
     $("#text_o").show();
   }
 })
+
+function hideAndDisableFormElements(div) {
+  $(div).hide();
+  $(div + " input, " + div + " select").attr("disabled", "disabled");
+}
+
+function showAndEnableFormElements(div) {
+  $(div).show();
+  $(div + " input, " + div + " select").attr("disabled", "");
+}
