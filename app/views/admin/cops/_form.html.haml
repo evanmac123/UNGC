@@ -147,7 +147,7 @@
               = true_or_false_field(form, :is_draft)
 
       #texts
-        - for letter in ('a'..'o')
+        - for letter in ['a', ('c'..'o').to_a].flatten
           %div{:id => "text_#{letter}", :style => 'display: none'}= render :partial => "admin/cops/texts/text_#{letter}"
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
