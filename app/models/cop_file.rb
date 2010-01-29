@@ -20,6 +20,7 @@ class CopFile < ActiveRecord::Base
   belongs_to :language
 
   has_attached_file :attachment
+  validates_attachment_presence :attachment
 
   TYPES = {:grace_letter          => 'grace_letter',
            :cop                   => 'cop',

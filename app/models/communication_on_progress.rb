@@ -56,6 +56,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
+  validates_associated :cop_links, :if => Proc.new { |cop| cop.web_based? }
+  validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }
+  
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
   has_and_belongs_to_many :languages
@@ -71,11 +74,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :policy_exempted
   
   before_save :can_be_edited?
+  before_create :set_title
   after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['attachment'].blank? }
-  accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['url'].blank? }
+  # TODO: fix issue with Web based COP requiring the optional upload
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true#, :reject_if => proc { |f| f['attachment'].blank? }
+  accepts_nested_attributes_for :cop_links, :allow_destroy => true
   
   cattr_reader :per_page
   @@per_page = 15
@@ -171,7 +176,6 @@ class CommunicationOnProgress < ActiveRecord::Base
         automatic_decision
       end
     end
-    
   end
   
   def is_grace_letter?
@@ -202,6 +206,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   # COPs may be automatically approved
   def automatic_decision
+    approve and return if is_grace_letter?
     if organization.joined_after_july_2009?
       if organization.participant_for_over_5_years?
         # participant for more than 5 years who joined after July 1st 2009
@@ -235,5 +240,13 @@ class CommunicationOnProgress < ActiveRecord::Base
       references_human_rights,
       references_anti_corruption,
       references_environment].collect{|r| r if r}.compact.count
+  end
+  
+  def set_title
+    if is_grace_letter?
+      self.title = "Grace Letter"
+    else
+      self.title = "#{Date.today.year} Communication on Progress"
+    end
   end
 end

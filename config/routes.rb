@@ -51,7 +51,8 @@ ActionController::Routing::Routes.draw do |map|
                                                      :rejected       => :get,
                                                      :pending_review => :get,
                                                      :in_review      => :get,
-                                                     :network_review => :get },
+                                                     :network_review => :get,
+                                                     :search         => :get },
                                     :has_many   => [:contacts, :comments] do |organization|
     admin.resources :logo_requests, :collection => { :approved       => :get,
                                                      :rejected       => :get,
