@@ -17,10 +17,38 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     create_communication_on_progress(defaults.merge(options))
   end
   
+  context "given a new COP" do
+    setup do
+      create_organization_and_user
+      create_language
+    end
+    
+    should "require a file if it's not web based" do
+      assert_raise ActiveRecord::RecordInvalid do
+        cop = create_communication_on_progress(:organization_id    => @organization.id,
+                                               :format             => 'standalone',
+                                               :web_based          => false,
+                                               :parent_company_cop => false,
+                                               :include_continued_support_statement => true,
+                                               :support_statement_signee            => 'ceo',
+                                               :references_human_rights             => true,
+                                               :references_labour                   => true,
+                                               :references_environment              => true,
+                                               :references_anti_corruption          => true,
+                                               :include_measurement                 => true,
+                                               :cop_files_attributes => {
+                                                 "new_cop"=> {:attachment_type => "cop",
+                                                              #:attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
+                                                              :language_id     => Language.first.id}
+                                               })
+      end
+    end
+  end
+  
   context "given a COP" do
     setup do
       create_organization_and_user
-      @cop = create_communication_on_progress(:organization_id => @organization.id)
+      @cop = pending_review(@organization)
     end
     
     should "change the organization's due date after it is approved" do
@@ -80,8 +108,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
         assert @cop.approved?
       end
       
-      should "have an extra 60 days to submit a COP" do
-        assert_equal (@old_cop_due_on + 60.days).to_date, (@organization.reload.cop_due_on).to_date
+      should "have an extra 30 days to submit a COP" do
+        assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
       end
     end
     

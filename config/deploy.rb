@@ -14,7 +14,7 @@ set :scm_verbose, true
 set :user, 'rails'
 
 # Number of releases to keep when "cap deploy:cleanup"
-set :keep_releases, 5
+set :keep_releases, 7
 
 namespace :deploy do
   desc "Restarting passenger with restart.txt"
@@ -28,8 +28,7 @@ after 'deploy:update_code', 'files:copy_database_yml'
 after 'deploy:update_code', 'files:copy_sphinx_config'
 after 'deploy:update_code', 'files:symlink_docs'
 after 'files:copy_database_yml', 'deploy:migrate'
-# uncomment below automatic clean up
-# after "deploy:update", "deploy:cleanup"
+after "deploy:update", "deploy:cleanup"
 
 # Avoid keeping the database.yml configuration in git.
 namespace :files do

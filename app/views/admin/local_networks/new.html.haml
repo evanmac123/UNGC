@@ -1,0 +1,5 @@
+%h2 New local network
+
+- form_for @local_network, builder: DefaultFormBuilder, url: admin_local_networks_path do |form|
+  = render :partial => form
+  = form.submit 'Create', :class => 'button'

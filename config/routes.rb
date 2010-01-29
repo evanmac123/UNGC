@@ -12,6 +12,7 @@ ActionController::Routing::Routes.draw do |map|
   # Back-end routes
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   map.parameters '/admin/parameters', :controller => 'admin', :action => 'parameters'
+  map.cop_introduction '/admin/cops/introduction', :controller => 'admin', :action => 'cop_introduction'
 
   # These need to come before resources :pages
   map.with_options :controller => 'admin/pages' do |m|
@@ -75,6 +76,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :countries
     admin.resources :logo_files
     admin.resources :cop_questions
+    admin.resources :local_networks
   
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'

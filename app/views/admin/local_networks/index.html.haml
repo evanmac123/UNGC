@@ -1,0 +1,10 @@
+%h2 Listing local networks
+= link_to 'Create a network', new_admin_local_network_path, :class => "new", :id => "new_local_network"
+
+%table.dashboard_table#local_networks_table
+  %tr
+    %th.last_updated Last updated on
+    %th.title Name
+    %th.status State
+    %th.actions Actions
+  = render @local_networks

@@ -494,6 +494,40 @@ $(function() {
 /***** Ready? Aim? Fire! jQuery stuff by Wes *****/
 
 $(document).ready(function() {
+  var box_height = $('#session_info ul').innerHeight();
+  console.log(box_height);
+  var state = 'closed';
+  
+  $('#session_info')
+    .css('top', '-' + box_height + 'px')
+    .find('h2 a')
+      .click( function() {
+        if (state == 'closed'){
+          $('#session_info')
+            .animate({
+              'top' : '0'
+            }, 500)
+            .find('h2 a')
+              .css('backgroundPosition','100% 50%');
+          
+          state = 'open';
+          console.log(state);
+        }
+        else {
+          $('#session_info')
+            .animate({
+              'top' : '-' + box_height
+            }, 500)
+            .find('h2 a')
+              .css('backgroundPosition','0% 50%');
+          
+          state = 'closed';
+          console.log(state);
+        }
+        return false;
+      });
+  
+  
   //style and functionality for table rows
     //add .odd to alternating table rows and other elements
     $('div#main_content table.dashboard_table tr:odd').addClass("odd");
@@ -531,16 +565,45 @@ $(document).ready(function() {
     }
   
   // tabbed content
+    // mark first tab as selected by default
+    $('div.tab_container ul.tab_nav a:first').addClass('selected');
+
+    
     var tab_container = $('div.tab_container > div.tab_content');
 
-    $('div.tab_container ul.tab_nav a').click(function () {
+    $('div.tab_container ul.tab_nav a')
+      .click(function () {
         tab_container.hide().filter(this.hash).show();
 
         $('div.tab_container ul.tab_nav a').removeClass('selected');
         $(this).addClass('selected');
 
         return false;
-    }).filter(':first').click();
+      });
+      
+    
+    // tab selection via query string
+    var query = $.parseQuery();
+    if (query.tab) {
+      
+      // show proper tab_content
+      $('div.tab_container > div.tab_content')
+        .hide()
+        .filter('#' + query.tab)
+          .show();
+
+      // highlight active tab
+      $('div.tab_container ul.tab_nav a')
+        .removeClass('selected')
+        .filter(function() {
+          return $(this).attr('href').indexOf(query.tab) >= 0;
+        })
+          .addClass('selected');
+          
+    }
+    else {
+      $('div.tab_container ul.tab_nav a:first').click();
+    }
   
     //add odd-row class to alternating tabbed-content items
     $('div.tab_container ul.items li.item:odd').addClass("odd");

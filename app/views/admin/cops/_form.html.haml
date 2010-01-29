@@ -1,13 +1,13 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
-    %li <a href="#basic">Basic Details</a>
+    %li <a href="#basic">Required Information</a>
     #additional_questions{:style => css_display_style { @communication_on_progress.notable_program? || @communication_on_progress.additional_questions?}}
-      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? || @communication_on_progress.concrete_human_rights_activities? }} <a href="#human_rights_additional_questions">Human Rights</a>
-      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? || @communication_on_progress.concrete_environment_activities? }}  <a href="#environment_additional_questions">Environment</a>
-      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? || @communication_on_progress.concrete_labour_activities? }}  <a href="#labour_additional_questions">Labour</a>
-      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? || @communication_on_progress.concrete_anti_corruption_activities? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
+      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
+      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
+      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
     %li#notable_tab{:style => css_display_style { @communication_on_progress.notable_program? }} <a href="#notable_questions">Notable Program</a>
-    %li <a href="#finish">Finish</a>
+    %li <a href="#finish">Submit your COP</a>
   
   #basic.tab_content
     = form.error_messages
@@ -29,73 +29,57 @@
       #non_grace_letter_fields{:style => 'display: none'}
         %fieldset
           %legend
-            %span Does your COP include an explicit statement of continued support for the Global Compact and its principles?
-          = true_or_false_field(form, :include_continued_support_statement)
+            %span Is your COP web-based?
+          = true_or_false_field(form, :web_based)
 
-        #explicit_statement_of_support_fields{:style => 'display: none'}
+        #cop_attachments{:style => 'display: none'}
           %fieldset
             %legend
-              %span Who formally endorsed or signed the statement of continued support?
-            - CommunicationOnProgress::SIGNEE.each do |key, value|
-              %label
-                = form.radio_button :support_statement_signee, key
-                = value
+              %span Upload the COP as a PDF file
+            = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
+        #web_cop_attachments{:style => 'display: none'}
+          %fieldset
+            %legend
+              %span Provide a link to your web-based COP
+            = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
+          %fieldset
+            %legend
+              %span We encourage you to upload a copy of your web-based COP in PDF format
+            %div{:id => "text_b"}= render :partial => "admin/cops/texts/text_b"
+            = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
+        
+        %fieldset
+          %legend
+            %span Are you a subsidiary of another Global Compact participant submitting the COP of your parent company?
+          %p= popup_link_to 'Please refer to Subsidiary Participation and Communication on Progress', '/HowToParticipate/Business_Participation/Subsidiary_Engagement.html'
+          
+          = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
+  
+        %fieldset#parent_company_question{:style => 'display :none'}
+          %legend
+            %span Does the COP of your parent company cover the efforts made by your subsidiary to implement the Global Compact principles?
+          = true_or_false_field(form, :parent_cop_cover_subsidiary)
+      
+        #own_company_questions{:style => 'display: block'}
+          %fieldset
+            %legend
+              %span Does your COP include an explicit statement of continued support for the Global Compact and its principles?
+            = true_or_false_field(form, :include_continued_support_statement)
 
-          #signed_by_executive_fields{:style => 'display: none'}
+          #explicit_statement_of_support_fields{:style => 'display: none'}
             %fieldset
               %legend
-                %span Where is your company's statement of continued support?
-              - CommunicationOnProgress::STATEMENT_LOCATION.each do |key, value|
+                %span Who signed the statement of continued support?
+              - CommunicationOnProgress::SIGNEE.each do |key, value|
                 %label
-                  = form.radio_button :statement_location, key
+                  = form.radio_button :support_statement_signee, key
                   = value
 
-            #cop_files{:style => 'display: none'}
-              %fieldset
-                %legend
-                  %span Upload the COP .pdf file
-                = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
-              %fieldset
-                %legend
-                  %span Add a link to show how they share the COP with stakeholders
-                = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop_with_stakeholders])}
-            #cop_links{:style => 'display: none'}
-              %fieldset
-                %legend
-                  %span Post link to COP
-                = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
-              %fieldset
-                %legend
-                  %span We encourage you to upload one .pdf file with the content of your web based COP
-                = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
-            #statement_support_pdf{:style => 'display: none'}
-              %fieldset
-                %legend
-                  %span Upload one .pdf file which contains the statement of continued support
-                = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:support_statement])}
-            #statement_support_link{:style => 'display: none'}
-              %fieldset
-                %legend
-                  %span Provide a link to the web page that contains the statement of continued support
-                = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:support_statement])}
-      
-            %fieldset
-              %legend
-                %span Are you submitting the COP of your parent company (this question only applies, if you are representing a subsidiary of another Global Compact participant)?
-              = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
-      
-            %fieldset#parent_company_question{:style => 'display :none'}
-              %legend
-                %span Does the COP of your parent company explicitly cover the efforts made by your subsidiary to implement the Global Compact principles?
-              = true_or_false_field(form, :parent_cop_cover_subsidiary)
-        
-            #own_company_questions{:style => 'display: block'}
+            #signed_by_executive_fields{:style => 'display: none'}
               %fieldset
                 %legend
                   %span
-                    Does your COP make explicit reference to
-                    %strong policies or commitments
-                    related to the following issue areas?
+                    Does your COP contain description of actions, and when relevant, policies related to the following issue areas?
                 Human Rights
                 = true_or_false_field(form, :references_human_rights, :class => 'score')
                 %br
@@ -107,24 +91,6 @@
                 %br
                 Anti-Corruption
                 = true_or_false_field(form, :references_anti_corruption, :class => 'score')
-
-              %fieldset
-                %legend
-                  %span
-                    Does your COP contain information about
-                    %strong concrete activities
-                    within the following issue areas?
-                Human Rights
-                = true_or_false_field(form, :concrete_human_rights_activities, :class => 'score')
-                %br
-                Labour
-                = true_or_false_field(form, :concrete_labour_activities, :class => 'score')
-                %br
-                Environment
-                = true_or_false_field(form, :concrete_environment_activities, :class => 'score')
-                %br
-                Anti-Corruption
-                = true_or_false_field(form, :concrete_anti_corruption_activities, :class => 'score')
 
               %fieldset#only_3_areas_selected{:style => 'display: none'}
                 %legend
@@ -143,36 +109,29 @@
                       %i and
                       measure outcomes
                     ?
-                = true_or_false_field(form, :include_measurement)
-        
-              %fieldset
-                %legend
-                  %span Your COP does not live up to the minimum requirements as defined by the COP Policy of April 2009, but for this time we can accept it anyhow. Do you want to continue submitting the COP?
-                = true_or_false_field(form, :include_measurement, yes: 'Yes, continue submitting this COP', no: 'No, I will revise COP and submit it later')
-        
-              %fieldset
-                %legend
-                  %span Does your COP contain information about a partnership project undertaken in support of broader United Nations goals, such as the Millennium Development Goals?
-                = true_or_false_field(form, :mentions_partnership_project)
+                = true_or_false_field(form, :include_measurement, :class => 'score')
 
-              = cop_questions_for @communication_on_progress, :mandatory
+              #approved_cop{:style => 'display: none'}
+                = cop_questions_for @communication_on_progress, :mandatory
 
-              %fieldset
-                %legend
-                  %span Does the statement of continued support explain how your company benefits from participating in the Global Compact?
-                = true_or_false_field(form, :support_statement_explain_benefits)
+                
+              #policy_exempted{:style => 'display: none'}
+                %fieldset
+                  %legend
+                    %span Unfortunately, your COP does not meet the minimum requirements as defined by the COP Policy of April 2009.
+                  %p We will, however, be able to accept it this time, if you so wish. Do you want to continue the submission of this COP?
+                  = true_or_false_field(form, :policy_exempted, yes: 'Yes, I want to continue submitting this COP', no: "No, I will revise the COP to ensure it complies with the COP Policy and submit it later")
 
               %fieldset
                 %legend
-                  %span Would you like to answer some additional questions regarding the content of your COP in order to make it easier for others to search and find your COP on the Global Compact web site.
+                  %span Would you like to answer some additional questions regarding the content of your COP?
+                %p This will make it easier for others to search and find your COP on the Global Compact web site
                 = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
 
-              #partnership_additional_questions{:style => 'display: none'}
-                = cop_questions_for @communication_on_progress, :additional
-
               %fieldset
                 %legend
-                  %span Would you like your Communication on Progress to be reviewed against the Notable Program?
+                  %span Would you like your Communication on Progress to be reviewed for possible inclusion in the Notable COP Program?
+                %p= popup_link_to 'Find more information about the Notable COP Program here.', '/docs/communication_on_progress/Notable_COPs.pdf'
                 = true_or_false_field(form, :notable_program, :class => 'additional_questions')
 
         #reject_cop{:style => 'display: none'}
@@ -186,6 +145,10 @@
               %legend
                 %span Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
               = true_or_false_field(form, :is_draft)
+
+      #texts
+        - for letter in ('a'..'o')
+          %div{:id => "text_#{letter}", :style => 'display: none'}= render :partial => "admin/cops/texts/text_#{letter}"
       
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
@@ -200,3 +163,5 @@
     %h2 Finish:
     %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
     = submit_tag 'Submit your information', :class => "button", :id => "finish"
+
+= organization_javascript_vars @organization

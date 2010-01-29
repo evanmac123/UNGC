@@ -19,7 +19,7 @@
           %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/organizations/organization', :collection => @pending_organizations
-      = will_paginate @pending_organizations, param_name: 'organizations_page'
+      = will_paginate @pending_organizations, param_name: 'organizations_page', params: {tab: 'organizations'}
 
   - if @pending_logo_requests.any?
     #logos.tab_content
@@ -32,7 +32,7 @@
           %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/logo_requests/logo_request', :collection => @pending_logo_requests
-      = will_paginate @pending_logo_requests, param_name: 'logo_requests_page'
+      = will_paginate @pending_logo_requests, param_name: 'logo_requests_page', params: {tab: 'logos'}
 
   - if @pending_case_stories.any?
     #case_stories.tab_content
@@ -45,7 +45,7 @@
           %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/case_stories/case_story', :collection => @pending_case_stories
-      = will_paginate @pending_case_stories, param_name: 'case_stories_page'
+      = will_paginate @pending_case_stories, param_name: 'case_stories_page', params: {tab: 'case_stories'}
 
   - if @pending_cops.any?
     #cops.tab_content
@@ -58,7 +58,7 @@
           %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @pending_cops
-      = will_paginate @pending_cops, param_name: 'cops_page'
+      = will_paginate @pending_cops, param_name: 'cops_page', params: {tab: 'cops'}
 
   - if @pending_pages.any?
     #pages.tab_content
@@ -71,4 +71,4 @@
           %th.age Days since last update
           %th.actions
         = render :partial => 'admin/dashboard/page', collection: @pending_pages
-      = will_paginate @pending_pages, param_name: 'pages_page'
+      = will_paginate @pending_pages, param_name: 'pages_page', params: {tab: 'pages'}

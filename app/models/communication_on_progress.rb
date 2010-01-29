@@ -42,17 +42,13 @@
 #  replied_to                          :boolean(1)
 #  reviewer_id                         :integer(4)
 #  support_statement_signee            :string(255)
-#  statement_location                  :string(255)
 #  parent_company_cop                  :boolean(1)
 #  parent_cop_cover_subsidiary         :boolean(1)
-#  concrete_human_rights_activities    :boolean(1)
-#  concrete_labour_activities          :boolean(1)
-#  concrete_environment_activities     :boolean(1)
-#  concrete_anti_corruption_activities :boolean(1)
 #  mentions_partnership_project        :boolean(1)
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
 #  missing_principle_explained         :boolean(1)
+#  web_based                           :boolean(1)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
@@ -60,6 +56,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
+  validates_associated :cop_links, :if => Proc.new { |cop| cop.web_based? }
+  validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }
+  
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
   has_and_belongs_to_many :languages
@@ -72,13 +71,16 @@ class CommunicationOnProgress < ActiveRecord::Base
   acts_as_commentable
 
   attr_accessor :is_draft
+  attr_accessor :policy_exempted
   
   before_save :can_be_edited?
+  before_create :set_title
   after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true, :reject_if => proc { |f| f['attachment'].blank? }
-  accepts_nested_attributes_for :cop_links, :allow_destroy => true, :reject_if => proc { |f| f['url'].blank? }
+  # TODO: fix issue with Web based COP requiring the optional upload
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true#, :reject_if => proc { |f| f['attachment'].blank? }
+  accepts_nested_attributes_for :cop_links, :allow_destroy => true
   
   cattr_reader :per_page
   @@per_page = 15
@@ -97,17 +99,12 @@ class CommunicationOnProgress < ActiveRecord::Base
             :annual_report     => "COP is part of an annual (financial) report",
             :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
             :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :web_based         => "COP is entirely web based",
-            :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for extension of COP deadline"}
+            :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for an extension of our COP deadline"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
             :executive => "Other senior executive",
             :none      => "None of the above"}
-  
-  STATEMENT_LOCATION = {:integrated => 'Integrated into the COP',
-                        :document   => 'In a separate document',
-                        :web        => 'On a separate web page'}
   
   def self.find_by_param(param)
     return nil if param.blank?
@@ -174,7 +171,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     if self.is_draft
       save_as_draft!
     else
-      submit! if can_submit?
+      if can_submit?
+        submit!
+        automatic_decision
+      end
     end
   end
   
@@ -200,7 +200,53 @@ class CommunicationOnProgress < ActiveRecord::Base
     if is_grace_letter?
       organization.extend_cop_grace_period
     else
-      self.organization.set_next_cop_due_date
+      organization.set_next_cop_due_date
+    end
+  end
+  
+  # COPs may be automatically approved
+  def automatic_decision
+    approve and return if is_grace_letter?
+    if organization.joined_after_july_2009?
+      if organization.participant_for_over_5_years?
+        # participant for more than 5 years who joined after July 1st 2009
+        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
+          approve
+        else
+          reject
+        end
+      else
+        # participant for less than 5 years who joined after July 1st 2009
+        (score >= 2 && include_measurement?) ? approve : reject
+      end
+    else
+      if organization.participant_for_over_5_years?
+        # participant for more than 5 years who joined before July 1st 2009
+        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
+          approve
+        else
+          reject
+        end
+      else
+        # participant for less than 5 years who joined before July 1st 2009
+        (score >= 2 && include_measurement?) ? approve! : reject!
+      end
+    end
+  end
+  
+  # Calculate COP score based on answers to Q7
+  def score
+    [references_labour,
+      references_human_rights,
+      references_anti_corruption,
+      references_environment].collect{|r| r if r}.compact.count
+  end
+  
+  def set_title
+    if is_grace_letter?
+      self.title = "Grace Letter"
+    else
+      self.title = "#{Date.today.year} Communication on Progress"
     end
   end
 end
