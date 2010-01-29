@@ -15,15 +15,16 @@
           %img{:src => '/images/logo.png', :style => 'margin-left: 2px; margin-top: 15px; margin-bottom: 15px;'}/
       = render :partial => 'layouts/main_nav'
       
-      #session_info
-        %h2
-          %a{:href => '#', :class => 'slider'}
-            Session info
-        %ul
-          %li.logged_in_as 
-            You are logged in as: <br />
-            = link_to current_user.name_with_title, "#", :class => "username"
-            ==<small>(#{link_to "Log out", logout_path, :method => :delete, :title => "Log out"})</small>
+      - if logged_in?
+        #session_info
+          %h2
+            %a{:href => '#', :class => 'slider'}
+              Session info
+          %ul
+            %li.logged_in_as
+              You are logged in as: <br />
+              = link_to current_user.name_with_title, "#", :class => "username"
+              ==<small>(#{link_to "Log out", logout_path, :method => :delete, :title => "Log out"})</small>
 
       #main_content.span-16
         = flash_messages_for :error, :notice
