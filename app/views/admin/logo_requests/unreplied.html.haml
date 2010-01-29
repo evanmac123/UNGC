@@ -1,21 +1,25 @@
 %h2 Updated Logo Requests
-= render :partial => 'control_tabs'
-%table.dashboard_table
-  %tr
-    %th ID
-    %th Organization
-    %th Updated
-    %th Actions
-  - @logo_requests.each do |logo_request|
-    %tr
-      %td=h logo_request.id
-      %td{:title => logo_request.organization.name}=h truncate(logo_request.organization.name)
-      %td=h comment_date(logo_request.logo_comments.first)
-      %td
-        %ul.actions
-          %li 
-            = link_to 'Show', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "preview", :title => "Show"
-          %li 
-            = link_to 'Delete', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
-= will_paginate @logo_requests
+.tab_container
+  = render :partial => 'control_tabs'
+  
+  .tab_content
+    %table.dashboard_table
+      %tr
+        %th ID
+        %th Organization
+        %th Updated
+        %th Actions
+      - @logo_requests.each do |logo_request|
+        %tr
+          %td=h logo_request.id
+          %td{:title => logo_request.organization.name}=h truncate(logo_request.organization.name)
+          %td=h comment_date(logo_request.logo_comments.first)
+          %td
+            %ul.actions
+              %li 
+                = link_to 'Show', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "preview", :title => "Show"
+              %li 
+                = link_to 'Delete', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+
+    = will_paginate @logo_requests

@@ -495,7 +495,6 @@ $(function() {
 
 $(document).ready(function() {
   var box_height = $('#session_info ul').innerHeight();
-  console.log(box_height);
   var state = 'closed';
   
   $('#session_info')
@@ -511,7 +510,6 @@ $(document).ready(function() {
               .css('backgroundPosition','100% 50%');
           
           state = 'open';
-          console.log(state);
         }
         else {
           $('#session_info')
@@ -522,7 +520,6 @@ $(document).ready(function() {
               .css('backgroundPosition','0% 50%');
           
           state = 'closed';
-          console.log(state);
         }
         return false;
       });
