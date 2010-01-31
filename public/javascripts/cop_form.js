@@ -108,20 +108,22 @@ $("input[class='score']").change(function() {
     $("#anti_corruption_tab").hide();
   }
   if (score == 3) {
-    $("#only_3_areas_selected").show();
+    if (participant_for_more_than_5_years) {
+      $("#only_3_areas_selected").show();
 
-    // find out what the missing area is
-    var areas = { human_rights:"Human Rights",
-                  labour:"Labour",
-                  environment:"Environment",
-                  anti_corruption:"Anti-Corruption" };
-    area = '';
-    jQuery.each(areas, function(key, val) {
-      if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
-        area = val;
-      }
-    });
-    $("#last_issue_area").text(area);
+      // find out what the missing area is
+      var areas = { human_rights:"Human Rights",
+                    labour:"Labour",
+                    environment:"Environment",
+                    anti_corruption:"Anti-Corruption" };
+      area = '';
+      jQuery.each(areas, function(key, val) {
+        if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
+          area = val;
+        }
+      });
+      $("#last_issue_area").text(area);
+    }
   } else {
     $("#only_3_areas_selected").hide();
   }
