@@ -1,5 +1,7 @@
 %ul#main_nav.nav_bar
   = link_to_current 'Dashboard', dashboard_path, action_name == 'dashboard'
+  - if logged_in? && current_user.from_organization?
+    = link_to_current 'Participant Profile', edit_admin_organization_path(current_user.organization.id), controller.is_a?(Admin::OrganizationsController)
   - if logged_in? && current_user.from_ungc?
     = link_to_current 'Organizations', admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
     = link_to_current 'Logo Requests', admin_logo_requests_path, controller.is_a?(Admin::LogoRequestsController)
