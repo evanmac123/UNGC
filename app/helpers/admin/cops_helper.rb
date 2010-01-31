@@ -121,4 +121,9 @@ module Admin::CopsHelper
     vars << "participant_for_more_than_5_years = #{organization.participant_for_over_5_years?}"
     vars.collect{|v| javascript_tag "var #{v};"}.join
   end
+  
+  def text_partial(letter)
+    content_tag :div, render(:partial => "admin/cops/texts/text_#{letter}"),
+      :id => "text_#{letter}", :style => 'display: none'
+  end
 end
