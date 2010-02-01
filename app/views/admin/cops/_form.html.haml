@@ -145,10 +145,6 @@
                 %span Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
               = true_or_false_field(form, :is_draft)
 
-      #texts
-        - for letter in ('l'..'o')
-          = text_partial(letter)
-
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
       %h2= value
@@ -161,6 +157,10 @@
   #finish.tab_content
     %h2 Submit your Communication on Progress:
     %p Please provide all required information before submitting your COP.
+    
+    - for letter in ('l'..'o')
+      = text_partial(letter)
+    
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
