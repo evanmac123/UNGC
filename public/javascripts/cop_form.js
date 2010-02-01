@@ -6,14 +6,15 @@ $("input[name='communication_on_progress[format]']").change(function() {
     showAndEnableFormElements("#grace_letter_fields");
     hideAndDisableFormElements("#cop_attachments");
     hideAndDisableFormElements("#web_cop_attachments");
-    $("#web_cop_attachments").hide();
     $("#text_a").show();
+    $("#submit_tab").show();
   } else {
-    hideAndDisableFormElements("#grace_letter_fields");
-    $("#text_a").hide();
     $("#non_grace_letter_fields").show();
+    hideAndDisableFormElements("#grace_letter_fields");
     showAndEnableFormElements("#cop_attachments");
     showAndEnableFormElements("#web_cop_attachments");
+    $("#text_a").hide();
+    $("#submit_tab").hide();
   }
 })
 
@@ -181,6 +182,15 @@ $("input[class='score']").change(function() {
   }
 })
 
+// Q10 - Temporary COP submission
+$("input[name='communication_on_progress[is_draft]']").change(function() {
+  if ($("#communication_on_progress_is_draft_true").is(':checked')) {
+    $("#submit_tab").show();
+  } else {
+    $("#submit_tab").hide();
+  }
+})
+
 // Q16 & Q17 - Additional questions
 $("input[class='additional_questions']").change(function() {
   if ($("#communication_on_progress_notable_program_true").is(':checked')) {
@@ -212,6 +222,12 @@ $("input[class='additional_questions']").change(function() {
              $("#communication_on_progress_additional_questions_false").is(':checked')) {
     $("#text_o").show();
   }
+})
+
+// Q17 - Notable program
+$("input[name='communication_on_progress[notable_program]']").change(function() {
+  // display the submit tab after a selection is made
+  $("#submit_tab").show();
 })
 
 function hideAndDisableFormElements(div) {
