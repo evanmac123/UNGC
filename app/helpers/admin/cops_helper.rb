@@ -85,12 +85,13 @@ module Admin::CopsHelper
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id],
                                     :include    => :cop_attribute)
       output = question.text
+      output << "<br/>"
       if question.cop_attributes.count > 1
         output << answers.map{|a|
-          content_tag(:span, a.cop_attribute.text, :style => (a.value? ? "" : "text-decoration: line-through;"))
-        }.join(". ")
+          content_tag(:span, a.cop_attribute.text, :style => 'background-color:#F0F6FA;') if a.value?
+        }.compact.join(". ")
       else
-        output << answers.first.value.to_s
+        output << content_tag(:span, (answers.first.value? ? 'Yes' : 'No'), :style => 'background-color:#F0F6FA;')
       end
 
       content_tag :li, output

@@ -1,13 +1,12 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">Required Information</a>
-    #additional_questions{:style => css_display_style { @communication_on_progress.notable_program? || @communication_on_progress.additional_questions?}}
-      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
-      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
-      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
-      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+    %li#human_rights_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
+    %li#labour_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
+    %li#environment_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
+    %li#anti_corruption_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
     %li#notable_tab{:style => css_display_style { @communication_on_progress.notable_program? }} <a href="#notable_questions">Notable Program</a>
-    %li <a href="#finish">Submit your COP</a>
+    %li#submit_tab{:style => 'display:none'} <a href="#finish">Submit your COP</a>
   
   #basic.tab_content
     = form.error_messages
@@ -137,7 +136,7 @@
           %fieldset
             %legend
               %span Your Communication on Progress has been rejected
-            - for letter in ['a', ('c'..'k').to_a].flatten
+            - for letter in ('c'..'k')
               = text_partial(letter)
           - if submission_30_days_before_due? @organization, @communication_on_progress
             %fieldset
@@ -158,6 +157,7 @@
     %h2 Submit your Communication on Progress:
     %p Please provide all required information before submitting your COP.
     
+    = text_partial('a')
     - for letter in ('l'..'o')
       = text_partial(letter)
     
