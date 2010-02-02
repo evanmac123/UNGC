@@ -91,13 +91,14 @@
                 Anti-Corruption
                 = true_or_false_field(form, :references_anti_corruption, :class => 'score')
 
-              %fieldset#only_3_areas_selected{:style => 'display: none'}
-                %legend
-                  %span
-                    Does your COP contain an explanation of why
-                    %span#last_issue_area Human Rights
-                    is not relevant to your company?
-                = true_or_false_field(form, :missing_principle_explained)
+              - unless @organization.joined_after_july_2009? && !@organization.participant_for_over_5_years?
+                %fieldset#only_3_areas_selected{:style => 'display: none'}
+                  %legend
+                    %span
+                      Does your COP contain an explanation of why
+                      %span#last_issue_area Human Rights
+                      is not relevant to your company?
+                  = true_or_false_field(form, :missing_principle_explained)
 
               %fieldset
                 %legend
