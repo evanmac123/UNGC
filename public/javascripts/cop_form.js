@@ -121,7 +121,7 @@ $("input[class='score']").change(function() {
   text_to_display = '';
   if (joined_after_july_09) {
     if (participant_for_more_than_5_years) {
-      // participant for more than 5 years who joined after July 1st 2009
+      // 1B - participant for more than 5 years who joined after July 1st 2009
       if ((score == 4 && $("#communication_on_progress_include_measurement_true").is(':checked')) || 
           (score == 3 && $("#communication_on_progress_include_measurement_true").is(':checked') && $("#communication_on_progress_missing_principle_explained_true").is(':checked'))) {
         reject_cop = false;
@@ -129,7 +129,7 @@ $("input[class='score']").change(function() {
         text_to_display = '#text_g';
       }
     } else {
-      // participant for less than 5 years who joined after July 1st 2009
+      // 1A - participant for less than 5 years who joined after July 1st 2009
       if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
         reject_cop = false;
       } else {
@@ -138,7 +138,7 @@ $("input[class='score']").change(function() {
     }
   } else {
     if (participant_for_more_than_5_years) {
-      // participant for more than 5 years who joined before July 1st 2009
+      // 2B - participant for more than 5 years who joined before July 1st 2009
       if ((score == 4 && $("#communication_on_progress_include_measurement_true").is(':checked')) || 
           (score == 3 && $("#communication_on_progress_include_measurement_true").is(':checked') && $("#communication_on_progress_missing_principle_explained_true").is(':checked'))) {
         reject_cop = false;
@@ -146,7 +146,7 @@ $("input[class='score']").change(function() {
         text_to_display = '#text_i';
       }
     } else {
-      // participant for less than 5 years who joined before July 1st 2009
+      // 2A - participant for less than 5 years who joined before July 1st 2009
       if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
         reject_cop = false;
       } else {
