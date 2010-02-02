@@ -1,13 +1,12 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">Required Information</a>
-    #additional_questions{:style => css_display_style { @communication_on_progress.notable_program? || @communication_on_progress.additional_questions?}}
-      %li#human_rights_tab{:style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
-      %li#labour_tab{:style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
-      %li#environment_tab{:style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
-      %li#anti_corruption_tab{:style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+    %li#human_rights_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
+    %li#labour_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
+    %li#environment_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
+    %li#anti_corruption_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
     %li#notable_tab{:style => css_display_style { @communication_on_progress.notable_program? }} <a href="#notable_questions">Notable Program</a>
-    %li <a href="#finish">Submit your COP</a>
+    %li#submit_tab{:style => 'display:none'} <a href="#finish">Submit your COP</a>
   
   #basic.tab_content
     = form.error_messages
@@ -45,7 +44,7 @@
           %fieldset
             %legend
               %span We encourage you to upload a copy of your web-based COP in PDF format
-            %div{:id => "text_b"}= render :partial => "admin/cops/texts/text_b"
+            = text_partial('b')
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
         
         %fieldset
@@ -92,13 +91,14 @@
                 Anti-Corruption
                 = true_or_false_field(form, :references_anti_corruption, :class => 'score')
 
-              %fieldset#only_3_areas_selected{:style => 'display: none'}
-                %legend
-                  %span
-                    Does your COP contain an explanation of why
-                    %span#last_issue_area Human Rights
-                    is not relevant to your company?
-                = true_or_false_field(form, :missing_principle_explained)
+              - unless @organization.joined_after_july_2009? && !@organization.participant_for_over_5_years?
+                %fieldset#only_3_areas_selected{:style => 'display: none'}
+                  %legend
+                    %span
+                      Does your COP contain an explanation of why
+                      %span#last_issue_area Human Rights
+                      is not relevant to your company?
+                  = true_or_false_field(form, :missing_principle_explained)
 
               %fieldset
                 %legend
@@ -111,45 +111,40 @@
                     ?
                 = true_or_false_field(form, :include_measurement, :class => 'score')
 
+                #policy_exempted{:style => 'display: none'}
+                  %fieldset
+                    %legend
+                      %span Unfortunately, your COP does not meet the minimum requirements as defined by the COP Policy of April 2009.
+                    %p We will, however, be able to accept it this time, if you so wish. Do you want to continue the submission of this COP?
+                    = true_or_false_field(form, :policy_exempted, yes: 'Yes, I want to continue submitting this COP', no: "No, I will revise the COP to ensure it complies with the COP Policy and submit it later")
+
               #approved_cop{:style => 'display: none'}
                 = cop_questions_for @communication_on_progress, :mandatory
 
-                
-              #policy_exempted{:style => 'display: none'}
                 %fieldset
                   %legend
-                    %span Unfortunately, your COP does not meet the minimum requirements as defined by the COP Policy of April 2009.
-                  %p We will, however, be able to accept it this time, if you so wish. Do you want to continue the submission of this COP?
-                  = true_or_false_field(form, :policy_exempted, yes: 'Yes, I want to continue submitting this COP', no: "No, I will revise the COP to ensure it complies with the COP Policy and submit it later")
+                    %span Would you like to answer some additional questions regarding the content of your COP?
+                  %p This will make it easier for others to search and find your COP on the Global Compact web site
+                  = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
 
-              %fieldset
-                %legend
-                  %span Would you like to answer some additional questions regarding the content of your COP?
-                %p This will make it easier for others to search and find your COP on the Global Compact web site
-                = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
-
-              %fieldset
-                %legend
-                  %span Would you like your Communication on Progress to be reviewed for possible inclusion in the Notable COP Program?
-                %p= popup_link_to 'Find more information about the Notable COP Program here.', '/docs/communication_on_progress/Notable_COPs.pdf'
-                = true_or_false_field(form, :notable_program, :class => 'additional_questions')
+                %fieldset
+                  %legend
+                    %span Would you like your Communication on Progress to be reviewed for possible inclusion in the Notable COP Program?
+                  %p= popup_link_to 'Find more information about the Notable COP Program here.', '/docs/communication_on_progress/Notable_COPs.pdf'
+                  = true_or_false_field(form, :notable_program, :class => 'additional_questions')
 
         #reject_cop{:style => 'display: none'}
           %fieldset
             %legend
-              %span Your COP has been rejected
-            %p
-              You COP was rejected because it does not live up to the minimum requirements as defined by the COP Policy of April 2009. [link here]
+              %span Your Communication on Progress has been rejected
+            - for letter in ('c'..'k')
+              = text_partial(letter)
           - if submission_30_days_before_due? @organization, @communication_on_progress
             %fieldset
               %legend
                 %span Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
               = true_or_false_field(form, :is_draft)
 
-      #texts
-        - for letter in ('a'..'o')
-          %div{:id => "text_#{letter}", :style => 'display: none'}= render :partial => "admin/cops/texts/text_#{letter}"
-      
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
       %h2= value
@@ -160,8 +155,13 @@
     %fieldset= cop_questions_for @communication_on_progress, :notable
 
   #finish.tab_content
-    %h2 Finish:
-    %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
-    = submit_tag 'Submit your information', :class => "button", :id => "finish"
+    %h2 Submit your Communication on Progress:
+    %p Please provide all required information before submitting your COP.
+    
+    = text_partial('a')
+    - for letter in ('l'..'o')
+      = text_partial(letter)
+    
+    = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization

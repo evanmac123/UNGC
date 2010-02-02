@@ -5,7 +5,7 @@
 
 %h2 Letter of Commitment
 
-%blockquote Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form.
+%blockquote Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form. The uploaded file should be in PDF format.
 
 - form_for(@organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
   = form.file_field :commitment_letter, { :label => '&nbsp;' }

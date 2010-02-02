@@ -65,8 +65,7 @@ class OrganizationMailer < ActionMailer::Base
   
   def foundation_invoice(organization)
     from 'foundation@unglobalcompact.org'
-    cc 'gorre@globalcompactfoundation.org'
-    bcc 'vkeesari@yahoo.com'
+    bcc ['gorre@globalcompactfoundation.org','vkeesari@yahoo.com']
     subject "Your pledge to The Foundation for the Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)

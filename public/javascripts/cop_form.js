@@ -6,14 +6,15 @@ $("input[name='communication_on_progress[format]']").change(function() {
     showAndEnableFormElements("#grace_letter_fields");
     hideAndDisableFormElements("#cop_attachments");
     hideAndDisableFormElements("#web_cop_attachments");
-    $("#web_cop_attachments").hide();
     $("#text_a").show();
+    $("#submit_tab").show();
   } else {
-    hideAndDisableFormElements("#grace_letter_fields");
-    $("#text_a").hide();
     $("#non_grace_letter_fields").show();
+    hideAndDisableFormElements("#grace_letter_fields");
     showAndEnableFormElements("#cop_attachments");
     showAndEnableFormElements("#web_cop_attachments");
+    $("#text_a").hide();
+    $("#submit_tab").hide();
   }
 })
 
@@ -85,43 +86,33 @@ $("input[class='score']").change(function() {
   score = 0;
   if ($("#communication_on_progress_references_human_rights_true").is(':checked')) {
     score = score + 1;
-    $("#human_rights_tab").show();
-  } else {
-    $("#human_rights_tab").hide();
   }
   if ($("#communication_on_progress_references_labour_true").is(':checked')) {
     score = score + 1;
-    $("#labour_tab").show();
-  } else {
-    $("#labour_tab").hide();
   }
   if ($("#communication_on_progress_references_environment_true").is(':checked')) {
     score = score + 1;
-    $("#environment_tab").show();
-  } else {
-    $("#environment_tab").hide();
   }
   if ($("#communication_on_progress_references_anti_corruption_true").is(':checked')) {
     score = score + 1;
-    $("#anti_corruption_tab").show();
-  } else {
-    $("#anti_corruption_tab").hide();
   }
   if (score == 3) {
-    $("#only_3_areas_selected").show();
+    if (participant_for_more_than_5_years) {
+      $("#only_3_areas_selected").show();
 
-    // find out what the missing area is
-    var areas = { human_rights:"Human Rights",
-                  labour:"Labour",
-                  environment:"Environment",
-                  anti_corruption:"Anti-Corruption" };
-    area = '';
-    jQuery.each(areas, function(key, val) {
-      if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
-        area = val;
-      }
-    });
-    $("#last_issue_area").text(area);
+      // find out what the missing area is
+      var areas = { human_rights:"Human Rights",
+                    labour:"Labour",
+                    environment:"Environment",
+                    anti_corruption:"Anti-Corruption" };
+      area = '';
+      jQuery.each(areas, function(key, val) {
+        if ($("#communication_on_progress_references_" + key + "_false").is(':checked')) {
+          area = val;
+        }
+      });
+      $("#last_issue_area").text(area);
+    }
   } else {
     $("#only_3_areas_selected").hide();
   }
@@ -179,17 +170,26 @@ $("input[class='score']").change(function() {
   }
 })
 
+// Q10 - Temporary COP submission
+$("input[name='communication_on_progress[is_draft]']").change(function() {
+  if ($("#communication_on_progress_is_draft_true").is(':checked')) {
+    $("#submit_tab").show();
+  } else {
+    $("#submit_tab").hide();
+  }
+})
+
 // Q16 & Q17 - Additional questions
 $("input[class='additional_questions']").change(function() {
   if ($("#communication_on_progress_notable_program_true").is(':checked')) {
     $("#notable_tab").show();
-    $("#additional_questions").show();
+    $(".tab_nav .additional_questions").show();
   } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
     $("#notable_tab").hide();
-    $("#additional_questions").show();
+    $(".tab_nav .additional_questions").show();
   } else {
     $("#notable_tab").hide();
-    $("#additional_questions").hide();
+    $(".tab_nav .additional_questions").hide();
   }
   // defining text to display
   $("#text_l").hide();
@@ -210,6 +210,12 @@ $("input[class='additional_questions']").change(function() {
              $("#communication_on_progress_additional_questions_false").is(':checked')) {
     $("#text_o").show();
   }
+})
+
+// Q17 - Notable program
+$("input[name='communication_on_progress[notable_program]']").change(function() {
+  // display the submit tab after a selection is made
+  $("#submit_tab").show();
 })
 
 function hideAndDisableFormElements(div) {
