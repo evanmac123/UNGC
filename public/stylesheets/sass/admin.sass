@@ -100,9 +100,6 @@ ul.nav_bar
     width: 60px
     height: 24px
     padding: 0 30px 0 0
-    position: absolute
-    right: 0
-    top: 4px
     text-align: right
     color= !dark_blue
     text-decoration: none
@@ -128,19 +125,42 @@ ul.nav_bar
       
     td, th
       padding: 10px
+      border-right: 1px solid #dedede
 
       &.pointer
         cursor: pointer
 
     th
       text-align: left
-      background: #ccc
-      color = !medium_grey
+      background: #ccc no-repeat 100% 0
+      color= !medium_grey
       vertical-align: bottom
       border-bottom: 1px solid #999
       
       &.age
         width: 75px
+        
+      a
+        background: transparent no-repeat
+        color= !medium_grey
+        display: block
+        
+        &:hover
+          color= !dark_grey
+        
+        &.ascending
+          background-image: url('/images/sort_arrows.png')
+          background-position: 100% 4px
+        
+          &:hover
+            background-position: 100% -116px
+        
+        &.descending
+          background-image: url('/images/sort_arrows.png')
+          background-position: 95% -56px
+        
+          &:hover
+            background-position: 95% -176px
 
     td
       border-bottom: 1px solid #ccc
@@ -176,7 +196,7 @@ ul.nav_bar
 
   dl
     margin-bottom: 2em
-    width: 60%
+    width: 45%
     
     dt
       width: 130px
@@ -312,13 +332,13 @@ ul.nav_bar
         border-right: 1px solid #fff
         
     .tab_content
-      width: 700px
+      width: 804px
       
   div.tab_content
     border: 1px solid #333
     padding: 1em 10px
-    min-height: 200px``
-    max-height: 400px
+    min-height: 250px
+    max-height: 500px
     overflow-x: hidden
     overflow-y: scroll
     position: relative
@@ -440,7 +460,7 @@ ul.nav_bar
       color= !dark_blue
       display: block
       float: left
-      width: 100px
+      width: 150px
       
     input, select, textarea
       color: #000
