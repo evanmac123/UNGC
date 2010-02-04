@@ -15,9 +15,10 @@ a
   background: #fff
   overflow: hidden
   padding-bottom: 10px
+  position: relative
   
 h1#page_header
-  background: url('../images/backgrounds/header_image.jpg') no-repeat
+  background: #333333 url('../images/backgrounds/header_image.jpg') no-repeat
   display: block
   text-shadow: 2px 2px 5px #000
   padding: 0.5em 10px
@@ -252,167 +253,167 @@ ul.nav_bar
 #footer
   padding: 10px
   width: 930px
-  background = !dark_grey
+  background= !dark_grey
   color: #868686
   margin: 20px 0 0 0
+
+.tab_container
+  display: none
+  margin: 1em 0
+
+  ul.tab_nav
+    margin: 0
+    padding: 0
+    overflow: hidden
+    position: relative
+    top: 1px
+    z-index: 42
   
-/* tabbed sections */
-#main_content
-  .tab_container
-    display: none
-    margin: 1em 0
-  
+    li
+      list-style: none
+    
+      a
+        display: block
+        background = !dark_blue
+        padding: 5px 10px
+        color: white
+        text-decoration: none
+        border: 1px solid #333
+      
+        &:hover
+          background = !light_blue
+          color = !dark_blue
+        
+        &.selected
+          background: white
+          color = !dark_blue
+    
+  // tab rules specific to top-tabbed nav
+  &.top_tabs
     ul.tab_nav
-      margin: 0
-      padding: 0
-      overflow: hidden
-      position: relative
-      top: 1px
-      z-index: 42
-    
       li
-        list-style: none
-      
-        a
-          display: block
-          background = !dark_blue
-          padding: 5px 10px
-          color: white
-          text-decoration: none
-          border: 1px solid #333
-        
-          &:hover
-            background = !light_blue
-            color = !dark_blue
-          
-          &.selected
-            background: white
-            color = !dark_blue
-      
-    // tab rules specific to top-tabbed nav
-    &.top_tabs
-      ul.tab_nav
-        li
-          float: left
-          margin-right: 1px
-        a.selected
-          border-bottom: 1px solid #fff
-    
-    // tab rules specific to left-tabbed nav
-    &.left_tabs
-      ul.tab_nav
-        width: 125px
         float: left
-        margin-top: 13px
-        z-index: 42
-        
-        li
-          margin-bottom: 1px
-      
-        a.selected
-          border-right: 1px solid #fff
-          
-      .tab_content
-        width: 483px
-        
-    div.tab_content
-      border: 1px solid #333
-      padding: 1em 10px
-      min-height: 200px``
-      max-height: 400px
-      overflow-x: hidden
-      overflow-y: scroll
-      position: relative
-    
-    // tab_content rules specific to left-tabbed nav
-    &.left_tabs
-      div.tab_content
-        margin: 0 0 0 125px
-        position: relative
-        left: -1px
-    
-    div.tab_content
-      a.new
-        right: 12px
-        top: 12px
-
-        &#new_COP
-          line-height: 24px
-
-    ul.tools
-      border-bottom: 1px solid #999
-      margin-bottom: 0.5em
-      padding-bottom: 0.5em
+        margin-right: 1px
+      a.selected
+        border-bottom: 1px solid #fff
+  
+  // tab rules specific to left-tabbed nav
+  &.left_tabs
+    ul.tab_nav
+      width: 125px
+      float: left
+      margin-top: 13px
+      z-index: 42
       
       li
-        float: right
+        margin-bottom: 1px
     
-        a
-          height: 24px
-          display: block
-          position: static
+      a.selected
+        border-right: 1px solid #fff
+        
+    .tab_content
+      width: 700px
       
-          &.new
-            background: transparent url('../images/icons/Add_24x24.png') no-repeat 100% 50%
-        
-    div.meta
-      float: left
-      width: 125px
+  div.tab_content
+    border: 1px solid #333
+    padding: 1em 10px
+    min-height: 200px``
+    max-height: 400px
+    overflow-x: hidden
+    overflow-y: scroll
+    position: relative
+  
+  // tab_content rules specific to left-tabbed nav
+  &.left_tabs
+    div.tab_content
+      margin: 0 0 0 125px
+      position: relative
+      left: -1px
+  
+  div.tab_content
+    a.new
+      right: 12px
+      top: 12px
 
-      p
-        margin: 0
+      &#new_COP
+        line-height: 24px
 
-        &.name
-          font-weight: bold
-          font-size: 1.1em
+  ul.tools
+    border-bottom: 1px solid #999
+    margin-bottom: 0.5em
+    padding-bottom: 0.5em
+    
+    li
+      float: right
+  
+      a
+        height: 24px
+        display: block
+        position: static
+    
+        &.new
+          background: transparent url('../images/icons/Add_24x24.png') no-repeat 100% 50%
+      
+  div.meta
+    float: left
+    width: 125px
 
-        &.datetime,&.language
-          font-style: italic
-          font-size: 0.9em
-          margin-bottom: 1em
-        
-      ul.post_tools
-        margin: 0.5em 0
-
-        a
-          width: 24px
-          height: 24px
-          text-indent: -9999em
-
-          &.edit
-            background: transparent url('../images/icons/Edit_24x24.png') no-repeat
-
-          &.delete
-            background: transparent url('../images/icons/Delete_24x24.png') no-repeat
-
-    ul.items
+    p
       margin: 0
-    
-      li.item
-        list-style: none
-        border-bottom: 1px solid #999
-        padding: 0.5em 0
-        overflow: hidden
+
+      &.name
+        font-weight: bold
+        font-size: 1.1em
+
+      &.datetime,&.language
+        font-style: italic
+        font-size: 0.9em
+        margin-bottom: 1em
       
-        div.body
-          margin-left: 135px
-        
-          dl.contact_data
-            font-size: 0.9em
-            width: 220px
-            float: left
-            border: 0
-            
-            &#contact_data_left
-              margin-right: 15px
+    ul.post_tools
+      margin: 0.5em 0
+
+      a
+        width: 24px
+        height: 24px
+        text-indent: -9999em
+
+        &.edit
+          background: transparent url('../images/icons/Edit_24x24.png') no-repeat
+
+        &.delete
+          background: transparent url('../images/icons/Delete_24x24.png') no-repeat
+
+  ul.items
+    margin: 0
+  
+    li.item
+      list-style: none
+      border-bottom: 1px solid #999
+      padding: 0.5em 0
+      overflow: hidden
+    
+      div.body
+        margin-left: 135px
+      
+        dl.contact_data
+          font-size: 0.9em
+          width: 220px
+          float: left
+          border: 0
           
-            dt,dd
-              width: 110px
-              padding: 0.35em 0
-              border: 0
-            
-            dd
-              margin-left: 112px
+          &#contact_data_left
+            margin-right: 15px
+        
+          dt,dd
+            width: 110px
+            padding: 0.35em 0
+            border: 0
+          
+          dd
+            margin-left: 112px  
+
+#main_content
   
   // general form element styling
   input.button
@@ -481,7 +482,9 @@ ul.nav_bar
       input
         width: auto
         margin: 2px 10px 2px 0
-        vertical-align: bottom
+        
+      select
+        margin-left: 0
 
   // page_manager styling
   .box
@@ -683,3 +686,113 @@ ul#report_list
     &:hover
       color= !dark_blue
       font-weight: bold
+      
+div.pagination
+  background= !light_blue
+  border-bottom: 1px solid #ccc
+  font-size: 0.9em
+  padding: 6px 150px
+  position: relative
+  text-align: center
+  
+  a
+    text-decoration: none
+    
+    &:hover
+      text-decoration: underline
+  
+  .prev_page, .next_page
+    position: absolute
+  
+  .prev_page
+    left: 10px
+  
+  .next_page
+    right: 10px
+  
+  .current
+    font-weight: bold
+  
+  .disabled
+    color: #7a8d99
+    
+ul.view_modes
+  margin: 0
+  padding: 0
+  overflow: hidden
+  position: relative
+  top: 1px
+  z-index: 42
+  
+  li
+    list-style: none
+    float: left
+    margin-right: 1px
+
+    a
+      display: block
+      background= !dark_blue
+      padding: 5px 10px
+      color: white
+      text-decoration: none
+      border: 1px solid #333
+  
+      &:hover
+        background= !light_blue
+        color= !dark_blue
+    
+      &.selected
+        background: white
+        color= !dark_blue
+        border-bottom: 1px solid #fff
+        
+#session_info
+  background= !dark_grey
+  border: 1px solid #999
+  color: #999
+  font-weight: bold
+  line-height: 1.3em
+  margin-top: -1px
+  padding: 0 10px 2em 10px
+  position: absolute
+  text-align: center
+  top: -999em
+  right: 25px
+  width: 175px
+  
+  a
+    color: #51a7cb
+    font-weight: normal
+    
+    &:hover
+      color: #63cbf7
+  
+  h2
+    bottom: 5px
+    font-size: 1em
+    left: 10px
+    margin: 0
+    position: absolute
+    text-align: center
+    
+    a
+      background: transparent url('/images/session_info_arrows.png') no-repeat 0 50%
+      border-top: 1px solid #345
+      color: #567
+      display: block
+      font-weight: bold
+      text-decoration: none
+      width: 175px
+      
+      &:hover
+        color: #51A7CB
+  
+  ul
+    margin: 0
+    padding: 1em 0
+    
+    li
+      list-style: none
+      
+  small
+    font-size: 0.9em

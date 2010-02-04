@@ -43,7 +43,7 @@ class ParticipantsController < ApplicationController
       @searched_for = options[:with].merge(:keyword => params[:keyword])
       options.delete(:with) if options[:with] == {}
       logger.info " ** Participant search with options: #{options.inspect}"
-      @results = Organization.search params[:keyword] || '', options
+      @results = Organization.participants_only.search params[:keyword] || '', options
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'index'
     end

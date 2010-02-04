@@ -94,9 +94,18 @@ class Organization < ActiveRecord::Base
     has "CRC32(cop_state)", :as => :cop_state, :type => :integer # NOTE: This used to have :facet => true, but it broke search in production, and *only* in production - I don't know why, but I do know that this fixes it
     has joined_on, :facet => true
     has delisted_on, :facet => true
-    where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
+    has state, active, participant
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
   end
+  
+  # We want to index all organizations, not just participant; so, this scope replaces the index clause below
+  # where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
+  sphinx_scope(:participants_only) { 
+    { 
+      with: { participant: 1,
+              active:      1 }
+    }
+  }
   
   COP_STATE_ACTIVE = 'active'
   COP_STATE_NONCOMMUNICATING = 'noncommunicating'
@@ -108,7 +117,7 @@ class Organization < ActiveRecord::Base
     :delisted => COP_STATE_DELISTED
   }
   
-  COP_GRACE_PERIOD = 60
+  COP_GRACE_PERIOD = 30
   
   state_machine :cop_state, :initial => :active do
     after_transition :on => :delist, :do => :set_delisted_status
@@ -294,8 +303,12 @@ class Organization < ActiveRecord::Base
   end
   
   # Indicates if this organization uses the most recent COP rules
-  def july_1_2009_cop_rules?
-    self.joined_on > Date.new(2009,7,1)
+  def joined_after_july_2009?
+    joined_on >= Date.new(2009,7,1)
+  end
+  
+  def participant_for_over_5_years?
+    joined_on < 5.years.ago.to_date
   end
     
   def extend_cop_grace_period # TODO: Verify the date math here

@@ -4,12 +4,14 @@
 %table.dashboard_table#cop_questions_table
   %tr
     %th.last_updated Last updated on
-    %th.title Grouping
+    %th Area
+    %th Grouping
     %th.status Description
     %th.actions Actions
   - for cop_question in @cop_questions
     %tr
       %td= cop_question.updated_at
+      %td= cop_question.principle_area.try(:name)
       %td= cop_question.grouping
       %td= cop_question.text
       %td
