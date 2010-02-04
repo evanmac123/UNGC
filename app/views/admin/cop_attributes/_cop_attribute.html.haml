@@ -4,6 +4,9 @@
     %li
       = label_tag("cop_question_cop_attributes_attributes_#{record}_text", 'Text')
       = text_area_tag("cop_question[cop_attributes_attributes][#{record}][text]", cop_attribute.text, :style => 'height: 50px')
+    %li
+      = label_tag("cop_question_cop_attributes_attributes_#{record}_position", 'Position')
+      = text_field_tag("cop_question[cop_attributes_attributes][#{record}][position]", cop_attribute.position)
 
     - unless cop_attribute.new_record?
       = hidden_field_tag("cop_question[cop_attributes_attributes][#{record}][id]", cop_attribute.id)
