@@ -138,6 +138,12 @@ $("input[class='score']").change(function() {
     }
   } else {
     if (participant_for_more_than_5_years) {
+      // policy_exempt - if score >= 1 and Q8 = yes then go to Q9
+      if (score >= 1 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
+        $("policy_exempted").show();
+      } else {
+        $("policy_exempted").hide();
+      }
       // 2B - participant for more than 5 years who joined before July 1st 2009
       if ((score == 4 && $("#communication_on_progress_include_measurement_true").is(':checked')) || 
           (score == 3 && $("#communication_on_progress_include_measurement_true").is(':checked') && $("#communication_on_progress_missing_principle_explained_true").is(':checked'))) {
@@ -146,6 +152,12 @@ $("input[class='score']").change(function() {
         text_to_display = '#text_i';
       }
     } else {
+      // policy_exempted - if score = 1 and Question 8 = Yes then create and display missing Question 9
+      if (score == 1 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
+        $("policy_exempted").show();
+      } else {
+        $("policy_exempted").hide();
+      }
       // 2A - participant for less than 5 years who joined before July 1st 2009
       if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
         reject_cop = false;
@@ -167,6 +179,16 @@ $("input[class='score']").change(function() {
     $("#text_g").hide();
     $("#text_h").hide();
     $("#text_i").hide();
+  }
+})
+
+// Q9 - Policy exempted
+$("input[name='communication_on_progress[policy_exempted]']").change(function() {
+  if ($("#communication_on_progress_policy_exempted_true").is(':checked')) {
+    $("#approved_cop").show();
+    $("#reject_cop").hide();
+  } else {
+    $("#approved_cop").hide();
   }
 })
 
