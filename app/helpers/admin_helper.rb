@@ -49,4 +49,20 @@ module AdminHelper
 
     link_to name, object.send(file).url, options
   end
+  
+  # Outputs a table header that is also a link to sort the current data set
+  def sort_header(label, options={})
+    if @order.nil? || @order.split(' ').first != options[:field]
+      # this is the default direction
+      direction = options[:direction] || 'ASC'
+    else
+      # current field, so let's invert the direction
+      direction = (@order.split(' ').last == 'ASC') ? 'DESC' : 'ASC'
+    end
+    
+    html = link_to label, url_for(sort_field:     options[:field],
+                                  sort_direction: direction)
+    html << " [current]" if @order.split(' ').first == options[:field]
+    html
+  end
 end

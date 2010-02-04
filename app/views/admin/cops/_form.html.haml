@@ -2,6 +2,7 @@
   %ul.tab_nav
     %li <a href="#basic">Required Information</a>
     %li#human_rights_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
+    %li#business_and_peace_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#business_and_peace_additional_questions">Business &amp; Peace</a>
     %li#labour_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
     %li#environment_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
     %li#anti_corruption_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
@@ -91,13 +92,14 @@
                 Anti-Corruption
                 = true_or_false_field(form, :references_anti_corruption, :class => 'score')
 
-              %fieldset#only_3_areas_selected{:style => 'display: none'}
-                %legend
-                  %span
-                    Does your COP contain an explanation of why
-                    %span#last_issue_area Human Rights
-                    is not relevant to your company?
-                = true_or_false_field(form, :missing_principle_explained)
+              - unless @organization.joined_after_july_2009? && !@organization.participant_for_over_5_years?
+                %fieldset#only_3_areas_selected{:style => 'display: none'}
+                  %legend
+                    %span
+                      Does your COP contain an explanation of why
+                      %span#last_issue_area Human Rights
+                      is not relevant to your company?
+                  = true_or_false_field(form, :missing_principle_explained)
 
               %fieldset
                 %legend
@@ -148,6 +150,10 @@
     %div.tab_content{:id => "#{key}_additional_questions"}
       %h2= value
       %fieldset= cop_questions_for @communication_on_progress, :additional, key
+
+  %div.tab_content{:id => "business_and_peace_additional_questions"}
+    %h2 Business and Peace
+    %fieldset= cop_questions_for @communication_on_progress, :business_and_peace
 
   #notable_questions.tab_content
     %h2 Notable questions

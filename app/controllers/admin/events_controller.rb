@@ -5,6 +5,8 @@ class Admin::EventsController < AdminController
     :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
   
   def index
+    @paged_events ||= Event.paginate(:page  => params[:page],
+                                     :order => order_from_params)
   end
 
   def new
@@ -52,8 +54,12 @@ class Admin::EventsController < AdminController
   end
   
   private
-  def find_event
-    @event = Event.find_by_id(params[:id])
-    redirect_to :action => 'index' unless @event
-  end
+    def find_event
+      @event = Event.find_by_id(params[:id])
+      redirect_to :action => 'index' unless @event
+    end
+    
+    def order_from_params
+      @order = [params[:sort_field] || 'starts_on', params[:sort_direction] || 'ASC'].join(' ')
+    end
 end

@@ -8,8 +8,8 @@
     %table.dashboard_table
       %tr
         %th ID
-        %th Organization
-        %th Accepted
+        %th= sort_header 'Organization', field: 'organizations.name'
+        %th= sort_header 'Accepted', field: 'accepted_on'
         %th Actions
       - @logo_requests.each do |logo_request|
         %tr

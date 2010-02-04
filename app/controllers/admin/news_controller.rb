@@ -6,6 +6,8 @@ class Admin::NewsController < AdminController
   before_filter :add_javascript, :only => [:create, :edit, :new, :update]
 
   def index
+    @paged_headlines ||= Headline.paginate(:page  => params[:page],
+                                           :order => order_from_params)
   end
 
   def new
@@ -60,5 +62,9 @@ class Admin::NewsController < AdminController
 
     def add_javascript
       (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
+    end
+    
+    def order_from_params
+      @order = [params[:sort_field] || 'published_on', params[:sort_direction] || 'ASC'].join(' ')
     end
 end

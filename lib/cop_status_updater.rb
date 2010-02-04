@@ -11,8 +11,12 @@ class CopStatusUpdater
     end
 
     def move_noncommunicating_organizations_to_delisted
-      organizations = Organization.businesses.participants.active.about_to_become_delisted
-      organizations.each { |org| org.delist }
+      organizations = Organization.businesses.participants.active.about_to_become_delisted.all :limit => 2
+      organizations.each do |organization|
+        organization.delist
+        CopMailer.deliver_delisting_today(organization)
+        CopMailer.deliver_delisting_today_notify_network(organization)
+      end
     end
   end
 end
