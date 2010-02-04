@@ -1,5 +1,5 @@
 // Q1 - Format
-$("input[name='communication_on_progress[format]']").change(function() {
+$("input[name='communication_on_progress[format]']").click(function() {
   if ($("#communication_on_progress_format_grace_letter").is(':checked')) {
     // grace letters only require a upload
     $("#non_grace_letter_fields").hide();
@@ -19,7 +19,7 @@ $("input[name='communication_on_progress[format]']").change(function() {
 })
 
 // Q2 - Web based
-$("input[name='communication_on_progress[web_based]']").change(function() {
+$("input[name='communication_on_progress[web_based]']").click(function() {
   if ($("#communication_on_progress_web_based_true").is(':checked')) {
     showAndEnableFormElements("#web_cop_attachments");
     hideAndDisableFormElements("#cop_attachments");
@@ -32,7 +32,7 @@ $("input[name='communication_on_progress[web_based]']").change(function() {
 })
 
 // Q3 - Parent company COP
-$("input[name='communication_on_progress[parent_company_cop]']").change(function() {
+$("input[name='communication_on_progress[parent_company_cop]']").click(function() {
   if ($("#communication_on_progress_parent_company_cop_true").is(':checked')) {
     $("#parent_company_question").show();
     $("#own_company_questions").hide();
@@ -43,7 +43,7 @@ $("input[name='communication_on_progress[parent_company_cop]']").change(function
 })
 
 // Q4 - Parent COP covers subsidiary
-$("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change(function() {
+$("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").click(function() {
   if ($("#communication_on_progress_parent_cop_cover_subsidiary_true").is(':checked')) {
     // if Yes, end of submission
     $("#reject_cop").hide();
@@ -56,7 +56,7 @@ $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").change
 })
 
 // Q5 - A statement of continued support is required
-$("input[name='communication_on_progress[include_continued_support_statement]']").change(function() {
+$("input[name='communication_on_progress[include_continued_support_statement]']").click(function() {
   if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
     $("#explicit_statement_of_support_fields").show();
     $("#reject_cop").hide();
@@ -69,7 +69,7 @@ $("input[name='communication_on_progress[include_continued_support_statement]']"
 })
 
 // Q6 - Reject if COP is not signed by a executive
-$("input[name='communication_on_progress[support_statement_signee]']").change(function() {
+$("input[name='communication_on_progress[support_statement_signee]']").click(function() {
   if ($("#communication_on_progress_support_statement_signee_none").is(':checked')) {
     $("#signed_by_executive_fields").hide();
     $("#reject_cop").show();
@@ -82,7 +82,7 @@ $("input[name='communication_on_progress[support_statement_signee]']").change(fu
 })
 
 // Q7 - COP score and area questions
-$("input[class='score']").change(function() {
+$("input[class='score']").click(function() {
   score = 0;
   if ($("#communication_on_progress_references_human_rights_true").is(':checked')) {
     score = score + 1;
@@ -183,7 +183,7 @@ $("input[class='score']").change(function() {
 })
 
 // Q9 - Policy exempted
-$("input[name='communication_on_progress[policy_exempted]']").change(function() {
+$("input[name='communication_on_progress[policy_exempted]']").click(function() {
   if ($("#communication_on_progress_policy_exempted_true").is(':checked')) {
     $("#approved_cop").show();
     $("#reject_cop").hide();
@@ -193,7 +193,7 @@ $("input[name='communication_on_progress[policy_exempted]']").change(function() 
 })
 
 // Q10 - Temporary COP submission
-$("input[name='communication_on_progress[is_draft]']").change(function() {
+$("input[name='communication_on_progress[is_draft]']").click(function() {
   if ($("#communication_on_progress_is_draft_true").is(':checked')) {
     $("#submit_tab").show();
   } else {
@@ -202,7 +202,7 @@ $("input[name='communication_on_progress[is_draft]']").change(function() {
 })
 
 // Q16 & Q17 - Additional questions
-$("input[class='additional_questions']").change(function() {
+$("input[class='additional_questions']").click(function() {
   if ($("#communication_on_progress_notable_program_true").is(':checked')) {
     $("#notable_tab").show();
     $(".tab_nav .additional_questions").show();
@@ -235,7 +235,7 @@ $("input[class='additional_questions']").change(function() {
 })
 
 // Q17 - Notable program
-$("input[name='communication_on_progress[notable_program]']").change(function() {
+$("input[name='communication_on_progress[notable_program]']").click(function() {
   // display the submit tab after a selection is made
   $("#submit_tab").show();
 })
