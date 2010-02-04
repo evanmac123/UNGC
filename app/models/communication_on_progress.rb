@@ -170,6 +170,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     return true unless initial? # tests might setup COPs with state pre-set
     if self.is_draft
       save_as_draft!
+      organization.extend_cop_temporary_period
     else
       if can_submit?
         submit!
