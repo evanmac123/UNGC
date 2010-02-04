@@ -117,8 +117,8 @@ $("input[class='score']").click(function() {
     $("#only_3_areas_selected").hide();
   }
   // take decisions based on organization details and score
-  reject_cop = true;
-  text_to_display = '';
+  var reject_cop = true;
+  var text_to_display = '';
   if (joined_after_july_09) {
     if (participant_for_more_than_5_years) {
       // 1B - participant for more than 5 years who joined after July 1st 2009
