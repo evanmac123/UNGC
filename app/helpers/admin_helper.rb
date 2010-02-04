@@ -60,9 +60,11 @@ module AdminHelper
       direction = (@order.split(' ').last == 'ASC') ? 'DESC' : 'ASC'
     end
     
-    html = link_to label, url_for(sort_field:     options[:field],
-                                  sort_direction: direction)
-    html << " [current]" if @order.split(' ').first == options[:field]
-    html
+    # defines the HTML class for the link, based on the direction of the link
+    if @order.split(' ').first == options[:field]
+      html_class = {'ASC' => 'descending', 'DESC' => 'ascending'}[direction]
+    end
+    link_to label, url_for(sort_field:     options[:field],
+                           sort_direction: direction), :class => html_class
   end
 end
