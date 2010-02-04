@@ -7,8 +7,8 @@
     %table.dashboard_table
       %tr
         %th ID
-        %th Organization
-        %th Rejected
+        %th= sort_header 'Organization', field: 'organizations.name'
+        %th= sort_header 'Rejected', field: 'status_changed_on'
         %th Reviewer
         %th Actions
       - @logo_requests.each do |logo_request|

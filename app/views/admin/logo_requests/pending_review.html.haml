@@ -7,8 +7,8 @@
     %table.dashboard_table
       %tr
         %th ID
-        %th Organization
-        %th Received
+        %th= sort_header 'Organization', field: 'organizations.name'
+        %th= sort_header 'Received', field: 'created_at'
         %th Actions
       - @logo_requests.each do |logo_request|
         %tr

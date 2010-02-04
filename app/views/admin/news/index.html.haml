@@ -5,9 +5,9 @@
 - if paged_headlines.any?
   %table.dashboard_table
     %tr
-      %th Title
-      %th Dates
-      %th Location
+      %th= sort_header 'Title', field: 'title'
+      %th= sort_header 'Dates', field: 'published_on'
+      %th= sort_header 'Location', field: 'location'
       %th.actions Actions
     - for headline in paged_headlines do
       %tr

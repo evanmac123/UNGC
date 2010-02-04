@@ -15,8 +15,8 @@
       %tr
         %th ID
         %th Old ID
-        %th Name
-        %th Review time
+        %th= sort_header 'Name', field: 'name', direction: 'ASC'
+        %th= sort_header 'Review time', field: 'network_review_on', direction: 'DESC'
         %th Updated by
         %th Actions
 

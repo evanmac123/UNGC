@@ -4,7 +4,9 @@ class Admin::OrganizationsController < AdminController
   helper :participants
   
   def index
-    @organizations = Organization.paginate :page => params[:page]
+    @organizations = Organization.all(:order => order_from_params)
+                        .paginate(:page     => params[:page],
+                                  :per_page => Organization.per_page)
   end
 
   def new
@@ -52,16 +54,24 @@ class Admin::OrganizationsController < AdminController
       # use custom index view if defined
       render case method
         when 'approved'
-          @organizations = Organization.send(method).participants.paginate :page => params[:page]
+          @organizations = Organization.send(method).participants.all(:order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
           method
         when 'pending_review'
-          @organizations = Organization.send(method).paginate :page => params[:page]
+          @organizations = Organization.send(method).all(:order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
           method
         when 'network_review'
-          @organizations = Organization.send(method).paginate :page => params[:page]
+          @organizations = Organization.send(method).all(:order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
           method
         else
-          @organizations = Organization.send(method).paginate :page => params[:page]
+          @organizations = Organization.send(method).all(:order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
           'index'
       end
     end
@@ -87,6 +97,10 @@ class Admin::OrganizationsController < AdminController
       @organization_types = OrganizationType.send method
     end
     
+    def order_from_params
+      @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')
+    end
+
     def display_search_results
       options = {per_page: (params[:per_page] || 15).to_i, page: params[:page]}
       options[:with] ||= {}

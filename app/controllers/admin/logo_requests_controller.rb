@@ -8,32 +8,40 @@ class Admin::LogoRequestsController < AdminController
       # use custom index view if defined
       render case method
         when 'pending_review'
-          @logo_requests = LogoRequest.pending_review.all.paginate(:order    => 'created_at',
-                                                                   :page     => params[:page],
-                                                                   :per_page => LogoRequest.per_page)
+          @logo_requests = LogoRequest.pending_review.all(:include => :organization,
+                                                          :order   => order_from_params('created_at', 'DESC'))
+                              .paginate(:page     => params[:page],
+                                        :per_page => LogoRequest.per_page)
           method
         when 'in_review'
-          @logo_requests = LogoRequest.in_review.all.paginate(:page     => params[:page],
-                                                              :per_page => LogoRequest.per_page)
+          @logo_requests = LogoRequest.in_review.all(:include => :organization,
+                                                     :order   => order_from_params('created_at', 'DESC'))
+                              .paginate(:page     => params[:page],
+                                        :per_page => LogoRequest.per_page)
           method
         when 'unreplied'
-          @logo_requests = LogoRequest.unreplied.all.paginate(:page     => params[:page],
-                                                              :per_page => LogoRequest.per_page)
+          @logo_requests = LogoRequest.unreplied.all(:include => :organization,
+                                                     :order   => order_from_params('updated_at', 'DESC'))
+                              .paginate(:page     => params[:page],
+                                        :per_page => LogoRequest.per_page)
           method
         when 'approved'
-          @logo_requests = LogoRequest.approved.all.paginate(:order => 'status_changed_on',
-                                                             :page  => params[:page],
-                                                             :per_page => LogoRequest.per_page)
+          @logo_requests = LogoRequest.approved.all(:include => :organization,
+                                                    :order   => order_from_params('status_changed_on', 'DESC'))
+                              .paginate(:page     => params[:page],
+                                        :per_page => LogoRequest.per_page)
           method
         when 'rejected'
-          @logo_requests = LogoRequest.rejected.all.paginate(:order    => 'status_changed_on',
-                                                             :page     => params[:page],
-                                                             :per_page => LogoRequest.per_page)
+          @logo_requests = LogoRequest.rejected.all(:include => :organization,
+                                                    :order   => order_from_params('status_changed_on', 'DESC'))
+                              .paginate(:page     => params[:page],
+                                        :per_page => LogoRequest.per_page)
           method
         when 'accepted'
-          @logo_requests = LogoRequest.accepted.all.paginate(:order    => 'accepted_on',
-                                                             :page     => params[:page],
-                                                             :per_page => LogoRequest.per_page)
+          @logo_requests = LogoRequest.accepted.all(:include => :organization,
+                                                    :order   => order_from_params('accepted_on', 'DESC'))
+                              .paginate(:page     => params[:page],
+                                        :per_page => LogoRequest.per_page)
           method
         else
           'index'
@@ -98,5 +106,9 @@ class Admin::LogoRequestsController < AdminController
     def load_organization
       @logo_request = LogoRequest.visible_to(current_user).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
+    end
+    
+    def order_from_params(field, direction)
+      @order = [params[:sort_field] || field, params[:sort_direction] || direction].join(' ')
     end
 end
