@@ -15,10 +15,10 @@
 
   <Location /webdav>
     DAV On
-    AuthType Basic
-    AuthName "webdav"
-    AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
-    Require valid-user
+    # AuthType Basic
+    # AuthName "webdav"
+    # AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
+    # Require valid-user
   </Location>
 
   ##
