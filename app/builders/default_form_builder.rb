@@ -7,7 +7,7 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
     define_method(name) do |field, *args|
       options = args.last.is_a?(Hash) ? args.pop : {}
       label = label(field, options[:label], :class => options[:label_class])
-      @template.content_tag(:li, [label, super(field, *args)].join(''))  #wrap with a paragraph
+      @template.content_tag(:li, [label, super(field, *args)].join(''), :class => options[:li_class])  #wrap with a li
     end
   end
 end 

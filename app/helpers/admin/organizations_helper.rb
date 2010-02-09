@@ -13,4 +13,10 @@ module Admin::OrganizationsHelper
   def link_to_commitment_letter(organization)
     link_to_attached_file organization, 'commitment_letter'
   end
+  
+  def initial_public_company_state(organization)
+    commands = ["$('.company_only').#{organization.company? ? 'show' : 'hide'}();"]
+    commands << "$('.public_company_only').#{organization.public_company? ? 'show' : 'hide'}();"
+    commands.collect{|c| javascript_tag(c)}.join
+  end
 end
