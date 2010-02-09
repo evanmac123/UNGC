@@ -11,7 +11,15 @@
     Allow from all
   </Directory>
 
-  
+  # Alias /webdav /srv/unglobalcompact/shared/system
+  # 
+  # <Location /webdav/>
+  #   DAV On
+  #   AuthType Basic
+  #   AuthName "webdav"
+  #   AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
+  #   Require valid-user
+  # </Location>
 
   ##
   ## The following options are Rails specific options. They may occur
@@ -95,4 +103,17 @@
 
 </VirtualHost>
 
+<VirtualHost *:80>
+  ServerName webdav.unglobalcompact.org
+
+  DocumentRoot /srv/unglobalcompact/shared/editable
+
+  <Directory /srv/unglobalcompact/shared/editable>
+    DAV On
+    AuthType Basic
+    AuthName "webdav"
+    AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
+    Require valid-user
+  </Directory>
+</VirtualHost>
 
