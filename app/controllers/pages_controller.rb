@@ -7,6 +7,8 @@ class PagesController < ApplicationController
   before_filter :page_is_editable, :only => [:preview, :view]
   # layout :determine_layout
   
+  caches_page :view
+  
   def view
     render :template => template, :layout => determine_layout
   end
