@@ -57,7 +57,7 @@
   %h2 Case Stories
   - if @participant.case_stories.any?
     %ul
-      - for case_story in @participant.case_stories do
+      - for case_story in @participant.case_stories.approved do
         %li= link_to case_story.title, case_story_path(case_story.id)
   - else
     %p No case stories.

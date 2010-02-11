@@ -2,7 +2,7 @@
   %td= contact.updated_at
   %td= contact.name
   %td= contact.email
-  %td.age= (Date.today - contact.updated_at.to_date).to_i
+  %td= contact.job_title
   %td
     %ul.actions
       %li= link_to 'View details', edit_admin_organization_contact_path(contact.organization.id, contact), :class => 'edit', :title => 'View/Edit details'
