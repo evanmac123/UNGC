@@ -11,8 +11,6 @@
     Allow from all
   </Directory>
 
-  
-
   ##
   ## The following options are Rails specific options. They may occur
   ## here in your VirtualHost entry or in the global configuration.
@@ -95,4 +93,23 @@
 
 </VirtualHost>
 
+<VirtualHost *:80>
+  ServerName webdav-staging.unglobalcompact.org
+  DocumentRoot /srv/unglobalcompact/shared/
 
+  <Directory /srv/unglobalcompact/shared/pics>
+    DAV On
+    AuthType Basic
+    AuthName "webdav"
+    AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
+    Require valid-user
+  </Directory>
+
+  <Directory /srv/unglobalcompact/shared/docs>
+    DAV On
+    AuthType Basic
+    AuthName "webdav"
+    AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
+    Require valid-user
+  </Directory>
+</VirtualHost>
