@@ -40,14 +40,18 @@ class CopReminder
     def notify_cop_due_on(organizations, mailer, network_mailer = nil)
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
-        CopMailer.send(mailer, org)
-        if network_mailer and org.network_report_recipients.count > 0
-          CopMailer.send(network_mailer, org)
+        begin
+          CopMailer.send(mailer, org)
+          if network_mailer and org.network_report_recipients.count > 0
+            CopMailer.send(network_mailer, org)
+          end
+        rescue
+          log :error, "Could not send email: #{$!}"
         end
       end
     end
     
-    def log(string)
-      @logger.info "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
+    def log(method="info", string)
+      @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
     end
 end
