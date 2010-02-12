@@ -106,9 +106,11 @@ class Admin::OrganizationsController < AdminController
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]
+      filter_options_for_joined_on(options)
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = options[:with].merge(:keyword => params[:keyword])
+                                    .merge(:joined_after => date_from_params(:joined_after))
       options.delete(:with) if options[:with] == {}
       logger.info " ** Organizations search with options: #{options.inspect}"
       @results = Organization.search params[:keyword] || '', options
@@ -139,5 +141,17 @@ class Admin::OrganizationsController < AdminController
       elsif business_type_selected == OrganizationType::NON_BUSINESS
         options[:with].merge!(organization_type_id: params[:organization_type_id].to_i) unless params[:organization_type_id].blank?
       end
+    end
+    
+    def filter_options_for_joined_on(options)
+      if params[:joined_after]
+        options[:with].merge!(joined_on: date_from_params(:joined_after)..Time.now)
+      end
+    end
+    
+    def date_from_params(param_name)
+      Time.parse [params[param_name][:year],
+                    params[param_name][:month],
+                    params[param_name][:day]].join('-')
     end
 end

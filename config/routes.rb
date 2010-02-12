@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
         :save_tree => :post,
         :create_folder => :post
       }
-  
+    admin.resources :contacts, :collection => {:search => :get}
     admin.resources :organizations, :collection => { :approved       => :get,
                                                      :rejected       => :get,
                                                      :pending_review => :get,

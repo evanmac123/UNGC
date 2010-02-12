@@ -57,4 +57,17 @@ class Admin::ContactsControllerTest < ActionController::TestCase
 
     assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
+  
+  context "given a logged in UNGC staff user" do
+    setup do
+      login_as create_staff_user
+    end
+    
+    should "get the search page" do
+      get :search
+      assert_response :success
+      assert_template 'search'
+    end
+  end
+  
 end
