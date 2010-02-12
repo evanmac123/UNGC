@@ -22,5 +22,13 @@
         = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
         %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}", :style => 'width: 150px'} Other Stakeholders only
 
+  %fieldset
+    %legend Options
+    %ol
+      %li
+        %label{:for => 'joined_after_year'} Joined after
+        = select_year(2000, {:start_year => 2000, :end_year => Date.today.year, :prefix => 'joined_after'}, {:style => 'width: 60px'})
+        = select_month(1, {:prefix => 'joined_after'}, :style => 'width: 150px')
+        = select_day(1, {:prefix => 'joined_after'}, :style => 'width: 60px')
+
   = submit_tag 'Search', :class => 'button'
-    
