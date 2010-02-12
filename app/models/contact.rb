@@ -105,6 +105,10 @@ class Contact < ActiveRecord::Base
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point
   
+  define_index do
+    indexes first_name, last_name, middle_name, email
+  end
+  
   def name
     [first_name, last_name].join(' ')
   end

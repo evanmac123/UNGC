@@ -17,6 +17,7 @@ Rails::Initializer.run do |config|
 
   config.gem 'money'
   config.gem 'haml'
+  config.gem 'hoptoad_notifier'
 
   config.time_zone = 'UTC'
 
