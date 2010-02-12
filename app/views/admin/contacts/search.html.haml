@@ -1,0 +1,10 @@
+%h2 Contacts search
+
+- form_tag nil, method: 'get' do
+  %fieldset
+    %ol
+      %li
+        %label Name or Email
+        = text_field_tag :keyword
+
+  = submit_tag 'Search', :class => 'button'

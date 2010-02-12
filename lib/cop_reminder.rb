@@ -43,6 +43,7 @@ class CopReminder
         begin
           CopMailer.send(mailer, org)
           if network_mailer and org.network_report_recipients.count > 0
+            log "Emailing local network"
             CopMailer.send(network_mailer, org)
           end
         rescue
