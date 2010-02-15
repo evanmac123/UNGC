@@ -37,6 +37,7 @@ class LogoRequest < ActiveRecord::Base
   @@per_page = 15
 
   state_machine :state, :initial => :pending_review do
+    after_transition :on => :approve, :do => :set_approved_on
     after_transition :on => :accept, :do => :set_accepted_on
     event :revise do
       transition :from => :pending_review, :to => :in_review
@@ -98,8 +99,8 @@ class LogoRequest < ActiveRecord::Base
   end
   
   private
-    def set_requested_on
-      requested_on = Date.today
+    def set_approved_on
+      update_attribute :approved_on, Date.today
     end
     
     def set_accepted_on
