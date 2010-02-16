@@ -4,7 +4,7 @@
     = default_form.text_field :title
     %li
       = label :case_story, :priciple_ids, 'Principles'
-      = collection_select :case_story, :principle_ids, Principle.all, :id, :name, {}, :multiple => true, :name => 'case_story[principle_ids][]'
+      = collection_select :case_story, :principle_ids, Principle.all, :id, :name, {}, :multiple => true, :name => 'case_story[principle_ids][]', :style => 'width: 650px'
     %li
       = label :case_story, :is_internalization_project, 'Internalization project'
       = check_box :case_story, :is_internalization_project

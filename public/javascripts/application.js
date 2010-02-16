@@ -189,4 +189,6 @@ $(function() {
 	$('form label#stakeholders_only').click( showStakeholdersOnly );
 	$('form label#hide_business_and_stakeholders').click( hideBusinessAndStakeholders );	
 	$('form .fixed_pledge').click( clearPledgeOtherAmount );
+
+	$.datepicker.setDefaults({ changeYear: true });
 });

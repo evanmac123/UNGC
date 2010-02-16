@@ -4,7 +4,7 @@ class CaseStoriesController < ApplicationController
   
   private
     def find_case_story
-      @case_story = CaseStory.approved.find_by_id params[:id]
+      @case_story = CaseStory.approved.find params[:id]
       redirect_back_or_to and return false unless @case_story
     end
     
