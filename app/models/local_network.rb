@@ -9,7 +9,6 @@
 #  state      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  code       :string(255)
 #
 
 class LocalNetwork < ActiveRecord::Base
