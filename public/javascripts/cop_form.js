@@ -249,3 +249,11 @@ function showAndEnableFormElements(div) {
   $(div).show();
   $(div + " input, " + div + " select").attr("disabled", "");
 }
+
+$('#cop_form').submit(function() {
+  // We disable the upload elements for a web based COP if a file wasn't selected
+  if ( $("#communication_on_progress_web_based_true").is(':checked') &&
+      ($("#communication_on_progress_cop_files_attributes_new_web_cop_attachment").val() == "")) {
+        $("#cop_file_new_web_cop input, #cop_file_new_web_cop select").attr("disabled", "disabled");
+  }
+});

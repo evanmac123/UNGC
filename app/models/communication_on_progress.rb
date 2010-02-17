@@ -78,8 +78,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
-  # TODO: fix issue with Web based COP requiring the optional upload
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true#, :reject_if => proc { |f| f['attachment'].blank? }
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
   
   cattr_reader :per_page
