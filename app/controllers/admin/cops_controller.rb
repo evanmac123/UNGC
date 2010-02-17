@@ -9,10 +9,8 @@ class Admin::CopsController < AdminController
   
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
-    #@cop.contact_id = current_user.id
-
     if @communication_on_progress.save
-      flash[:notice] = 'COP was successfully created.'
+      flash[:notice] = "The COP was #{@communication_on_progress.state}."
       redirect_to dashboard_path(tab: 'cops')
     else
       render :action => "new"
