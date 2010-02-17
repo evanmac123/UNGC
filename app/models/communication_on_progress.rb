@@ -229,7 +229,7 @@ class CommunicationOnProgress < ActiveRecord::Base
         end
       else
         # participant for less than 5 years who joined before July 1st 2009
-        (score >= 2 && include_measurement?) ? approve! : reject!
+        (score >= 1 && include_measurement?) ? approve! : reject!
       end
     end
   end

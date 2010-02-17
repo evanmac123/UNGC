@@ -159,7 +159,7 @@ $("input[class='score']").click(function() {
         $("policy_exempted").hide();
       }
       // 2A - participant for less than 5 years who joined before July 1st 2009
-      if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
+      if (score >= 1 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
         reject_cop = false;
       } else {
         text_to_display = '#text_h';
