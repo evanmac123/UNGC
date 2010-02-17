@@ -127,4 +127,9 @@ module Admin::CopsHelper
     content_tag :div, render(:partial => "admin/cops/texts/text_#{letter}"),
       :id => "text_#{letter}", :style => 'display: none'
   end
+  
+  def principle_tab_display_style(cop, principle)
+    css_display_style(cop.send("references_#{principle}?") &&
+                        (cop.additional_questions? || cop.notable_program?))
+  end
 end
