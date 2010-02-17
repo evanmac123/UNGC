@@ -1,12 +1,12 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">Required Information</a>
-    %li#human_rights_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#human_rights_additional_questions">Human Rights</a>
-    %li#business_and_peace_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_human_rights? }} <a href="#business_and_peace_additional_questions">Business &amp; Peace</a>
-    %li#labour_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_labour? }}  <a href="#labour_additional_questions">Labour</a>
-    %li#environment_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_environment? }}  <a href="#environment_additional_questions">Environment</a>
-    %li#anti_corruption_tab{:class => 'additional_questions', :style => css_display_style { @communication_on_progress.references_anti_corruption? }}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
-    %li#notable_tab{:style => css_display_style { @communication_on_progress.notable_program? }} <a href="#notable_questions">Notable Program</a>
+    %li#human_rights_tab{:class => 'additional_questions', :style => css_display_style( @communication_on_progress.references_human_rights?)} <a href="#human_rights_additional_questions">Human Rights</a>
+    %li#business_and_peace_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_human_rights?)} <a href="#business_and_peace_additional_questions">Business &amp; Peace</a>
+    %li#labour_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_labour?)}  <a href="#labour_additional_questions">Labour</a>
+    %li#environment_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_environment?)}  <a href="#environment_additional_questions">Environment</a>
+    %li#anti_corruption_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_anti_corruption?)}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+    %li#notable_tab{:style => css_display_style(@communication_on_progress.notable_program?)} <a href="#notable_questions">Notable Program</a>
     %li#submit_tab{:style => 'display:none'} <a href="#finish">Submit your COP</a>
   
   #basic.tab_content
@@ -20,7 +20,7 @@
             = form.radio_button :format, key
             = value
 
-      #grace_letter_fields{:style => css_display_style { @communication_on_progress.is_grace_letter? } }
+      #grace_letter_fields{:style => css_display_style(@communication_on_progress.is_grace_letter?)}
         %fieldset
           %legend
             %span Please upload your "Grace Letter"

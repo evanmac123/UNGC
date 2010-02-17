@@ -32,9 +32,8 @@ module ApplicationHelper
     end
   end
   
-  def css_display_style(&block)
-    value = block.call ? 'block' : 'none'
-    "display: #{value}"
+  def css_display_style(show)
+    "display: #{show ? 'block' : 'none'}"
   end
   
   def link_to_current(name, url, current)
