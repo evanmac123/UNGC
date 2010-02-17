@@ -159,7 +159,7 @@ $("input[class='score']").click(function() {
         $("policy_exempted").hide();
       }
       // 2A - participant for less than 5 years who joined before July 1st 2009
-      if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
+      if (score >= 1 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
         reject_cop = false;
       } else {
         text_to_display = '#text_h';
@@ -249,3 +249,11 @@ function showAndEnableFormElements(div) {
   $(div).show();
   $(div + " input, " + div + " select").attr("disabled", "");
 }
+
+$('#cop_form').submit(function() {
+  // We disable the upload elements for a web based COP if a file wasn't selected
+  if ( $("#communication_on_progress_web_based_true").is(':checked') &&
+      ($("#communication_on_progress_cop_files_attributes_new_web_cop_attachment").val() == "")) {
+        $("#cop_file_new_web_cop input, #cop_file_new_web_cop select").attr("disabled", "disabled");
+  }
+});

@@ -20,14 +20,3 @@
       = render :partial => 'show_legacy_style'
 
 = action_links(@communication_on_progress)
-
-%div{:class => "tab_container top_tabs"}
-  %ul.tab_nav
-    %li <a href="#comments">Comments</a>
-
-  #comments.tab_content
-    - unless @communication_on_progress.state_events.empty?
-      %ul#contacts_tools{:class => "tools inline"}
-        %li= link_to 'New comment', new_admin_communication_on_progress_comment_path(@communication_on_progress), :class => 'new', :title => 'New Comment'
-    %ul.items
-      = render @communication_on_progress.comments
