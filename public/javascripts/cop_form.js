@@ -251,9 +251,23 @@ function showAndEnableFormElements(div) {
 }
 
 $('#cop_form').submit(function() {
+  window.onbeforeunload = null;
   // We disable the upload elements for a web based COP if a file wasn't selected
   if ( $("#communication_on_progress_web_based_true").is(':checked') &&
       ($("#communication_on_progress_cop_files_attributes_new_web_cop_attachment").val() == "")) {
         $("#cop_file_new_web_cop input, #cop_file_new_web_cop select").attr("disabled", "disabled");
   }
-});
+})
+
+$("#cop_form input, #cop_form select").change(function() {
+  work_in_progress = true;
+})
+
+$(document).ready(function() {
+  // tell the browser to warn before navigating away
+  window.onbeforeunload = function() {
+    if (work_in_progress) {
+      return "You COP submission hasn't been saved and will be lost if you navigate away.";
+    }
+  }
+;});
