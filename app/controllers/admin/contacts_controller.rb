@@ -52,7 +52,9 @@ class Admin::ContactsController < AdminController
     end
     
     def display_search_results
-      options = {per_page: (params[:per_page] || 15).to_i, page: params[:page]}
+      options = {per_page: (params[:per_page] || 15).to_i,
+                 page: params[:page],
+                 star: true}
       options[:with] ||= {}
       options[:with].merge!(email: params[:email]) if params[:email]
 

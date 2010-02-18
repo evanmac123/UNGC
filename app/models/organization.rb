@@ -96,6 +96,8 @@ class Organization < ActiveRecord::Base
     has delisted_on, :facet => true
     has state, active, participant
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
+    set_property :enable_star => true
+    set_property :min_prefix_len => 4
   end
   
   # We want to index all organizations, not just participant; so, this scope replaces the index clause below

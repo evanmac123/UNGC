@@ -102,7 +102,9 @@ class Admin::OrganizationsController < AdminController
     end
 
     def display_search_results
-      options = {per_page: (params[:per_page] || 15).to_i, page: params[:page]}
+      options = {per_page: (params[:per_page] || 15).to_i,
+                 page: params[:page],
+                 star: true}
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]

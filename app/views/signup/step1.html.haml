@@ -20,16 +20,15 @@
           %li
             = form.label :listing_status_id, "Ownership"
             = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
-          #public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
-            %li
-              = form.label :is_ft_500, "FT 500"
-              = form.check_box :is_ft_500
-            %li
-              = form.label :exchange_id, "Exchange"
-              = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
-            %li
-              = form.label :stock_symbol
-              = form.text_field :stock_symbol
+          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+            = form.label :is_ft_500, "FT 500"
+            = form.check_box :is_ft_500
+          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+            = form.label :exchange_id, "Exchange"
+            = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
+          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+            = form.label :stock_symbol
+            = form.text_field :stock_symbol
         - if @organization_types.first.type_property == OrganizationType::BUSINESS
           %li
             = form.label :sector_id
