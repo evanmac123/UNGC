@@ -107,6 +107,8 @@ class Contact < ActiveRecord::Base
   
   define_index do
     indexes first_name, last_name, middle_name, email
+    set_property :enable_star => true
+    set_property :min_prefix_len => 4
   end
   
   def name

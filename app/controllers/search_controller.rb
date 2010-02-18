@@ -25,7 +25,9 @@ class SearchController < ApplicationController
     
     def results_for_search
       # NOTE: Should the facets chain? ie, top-level: Events: 2 - then you select Events, and we show more facets for Events?
-      options = {:page => params[:page], :per_page => params[:per_page] || DEFAULTS[:search_results_per_page]}
+      options = {:page     => params[:page],
+                 :per_page => params[:per_page] || DEFAULTS[:search_results_per_page],
+                 :star     => true}
       if params[:document_type]
         @results = Searchable.faceted_search params[:document_type], params[:keyword], options
       else
