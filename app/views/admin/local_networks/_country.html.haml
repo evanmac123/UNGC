@@ -1,0 +1,5 @@
+- id = "country_#{rand(Time.now.to_i)}"
+%li{:id => id}
+  = select_tag 'local_network[country_ids][]', options_from_collection_for_select(Country.all, 'id', 'name', country.try(:id))
+  = link_to_function 'remove', "$('##{id}').remove();"
+
