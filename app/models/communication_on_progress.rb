@@ -207,6 +207,14 @@ class CommunicationOnProgress < ActiveRecord::Base
   # COPs may be automatically approved
   def automatic_decision
     approve and return if is_grace_letter?
+    if parent_company_cop?
+      if parent_cop_cover_subsidiary?
+        approve
+      else
+        reject
+      end
+      return
+    end
     if organization.joined_after_july_2009?
       if organization.participant_for_over_5_years?
         # participant for more than 5 years who joined after July 1st 2009
