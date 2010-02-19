@@ -1,6 +1,10 @@
 module SearchHelper
   def format(result)
     response = result.excerpts.content
+    begin
+      response = response.force_encoding("UTF-8")
+    rescue
+    end
     response.gsub!('&amp;nbsp;', ' ')
     response.gsub!(/&amp;gt(;)?/, '>')
     response.gsub!(/&amp;(n|m)dash;/, '-')
