@@ -323,9 +323,12 @@ class Organization < ActiveRecord::Base
   end
   
   # COP's next due date is 1 year from current date
+  # organization's participant and cop status are now 'active'
   def set_next_cop_due_date
     self.communication_received
     self.update_attribute :cop_due_on, 1.year.from_now
+    self.update_attribute :cop_state, COP_STATE_ACTIVE
+    self.update_attribute :active, true
   end
   
   def set_approved_fields

@@ -179,4 +179,21 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert !@cop.editable?
     end
   end
+  
+  context "given a COP from a delisted company" do
+    setup do
+      create_organization_and_user
+      @organization.update_attribute :cop_state, Organization::COP_STATE_DELISTED
+      @organization.update_attribute :active, false
+      @cop = pending_review(@organization)
+    end
+    
+    should "change the company's participant and cop status to active" do
+      @cop.approve
+      @organization.reload
+      assert_equal true, @organization.active
+      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+    end
+  end
+  
 end
