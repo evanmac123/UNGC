@@ -48,10 +48,12 @@ $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").click(
     // if Yes, end of submission
     $("#reject_cop").hide();
     $("#text_c").hide();
+    $("#submit_tab").show();
   } else {
     // if No, reject COP, show Text C
     $("#reject_cop").show();
     $("#text_c").show();
+    $("#submit_tab").hide();
   }
 })
 

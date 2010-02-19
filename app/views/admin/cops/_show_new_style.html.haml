@@ -19,6 +19,10 @@
   %ul
     - if @communication_on_progress.include_continued_support_statement?
       %li COP includes an explicit statement of continued support or the UN Global Compact and its ten principles
+    - if @communication_on_progress.parent_company_cop?
+      %li This is the COP of a parent company
+      - if @communication_on_progress.parent_cop_cover_subsidiary?
+        %li COP of parent company covers the efforts made by subsidiary to implement the Global Compact principles
     %li= CommunicationOnProgress::FORMAT[@communication_on_progress.format.try(:to_sym)]
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
