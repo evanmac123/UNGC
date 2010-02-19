@@ -33,7 +33,7 @@ class SearchController < ApplicationController
       else
         @results = Searchable.search params[:keyword], options
       end
-      @facets = @results && @results.any? ? Searchable.facets(params[:keyword]) : []
+      @facets = @results && @results.any? ? Searchable.facets(params[:keyword], star: true) : []
     end
     
     def show_search_form
