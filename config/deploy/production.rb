@@ -3,3 +3,5 @@ role :web, "unglobalcompact.railsmachina.com"
 role :db,  "unglobalcompact.railsmachina.com", :primary => true
 
 set :branch, "production"
+
+after "deploy:update", "newrelic:notice_deployment"
