@@ -60,7 +60,7 @@ class Comment < ActiveRecord::Base
     
     def add_default_body_to_comment
       if state_event.to_s == ApprovalWorkflow::EVENT_NETWORK_REVIEW && body.blank?
-        self.body = 'Your request has been sent to Local Network review.'
+        self.body = 'Your application is under review by the Local Network in your country.'
       end
     end
 end
