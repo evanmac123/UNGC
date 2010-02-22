@@ -1,10 +1,12 @@
-%li
-  = signing.organization.name
-  added on
-  = signing.added_on
-  = link_to 'delete', admin_initiative_signing_path(signing.initiative, signing), :confirm => 'Are you sure?', :method => :delete
-  = link_to_function 'contacts', "$('##{dom_id(signing.organization, "contacts")}').toggle()"
-  
-  %div{:id => dom_id(signing.organization, "contacts"), :style => 'display: none'}
+%tr
+  %td= signing.organization.name
+  %td= signing.added_on
+  %td
+    %ul.actions
+      %li= link_to 'Delete', admin_initiative_signing_path(signing.initiative, signing), :confirm => 'Are you sure?', :method => :delete, :class => 'delete'
+      %li= link_to_function 'Contacts', "$('##{dom_id(signing.organization, "contacts")}').toggle()", :class => 'preview'
+
+%tr{:id => dom_id(signing.organization, "contacts"), :style => 'display: none'}
+  %td{:colspan => 3}
     %ul
       = render :partial => 'admin/signings/initiative_contact', :collection => signing.organization.contacts
