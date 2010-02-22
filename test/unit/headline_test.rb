@@ -10,7 +10,7 @@ class HeadlineTest < ActiveSupport::TestCase
     end
     
     should "find headline given a permalink" do
-      assert_equal @headline1, Headline.find_by_permalink("1-what-is-this-t-tall-valid-name-really")
+      assert_equal @headline1, Headline.find_by_permalink("1-#{Date.today.strftime('%m/%d/%Y')}")
     end
   end
 
@@ -54,7 +54,7 @@ class HeadlineTest < ActiveSupport::TestCase
     end
     
     should "create an SEO-friendly permalink" do
-      assert_equal "#{@headline.id}-#{@headline.published_on.to_s}", @headline.to_param
+      assert_equal "#{@headline.id}-#{@headline.date_for_permalink}", @headline.to_param
     end
     
     context "and when it's approved" do
@@ -106,7 +106,5 @@ class HeadlineTest < ActiveSupport::TestCase
     should "find 5 headlines for this year" do
       assert_equal 5, Headline.all_for_year(@today.year).count
     end
-  end
-  
-  
+  end  
 end

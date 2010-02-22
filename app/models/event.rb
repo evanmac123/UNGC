@@ -27,7 +27,7 @@ class Event < ActiveRecord::Base
   has_and_belongs_to_many :issues, :class_name => 'PrincipleArea', :join_table => :events_principles
   serialize :urls
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
-  permalink :title
+  permalink :date_for_permalink
 
   cattr_reader :per_page
   @@per_page = 15
@@ -90,4 +90,7 @@ class Event < ActiveRecord::Base
     end
   end
 
+  def date_for_permalink
+    (starts_on || Date.today).strftime('%m-%d-%Y')
+  end
 end
