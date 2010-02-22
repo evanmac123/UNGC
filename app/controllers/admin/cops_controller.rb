@@ -3,7 +3,7 @@ class Admin::CopsController < AdminController
   before_filter :no_unapproved_organizations_access
   
   def new
-    @communication_on_progress = @organization.communication_on_progresses.new
+    @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
     @communication_on_progress.init_cop_attributes
   end
   
@@ -35,5 +35,5 @@ class Admin::CopsController < AdminController
     
     def add_cop_form_js
       (@javascript ||= []) << 'cop_form'
-    end    
+    end
 end
