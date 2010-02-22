@@ -52,13 +52,16 @@ class Admin::ContactsController < AdminController
     end
     
     def display_search_results
-      options = {per_page: (params[:per_page] || 15).to_i, page: params[:page]}
+      keyword = params[:keyword].force_encoding("UTF-8")
+      options = {per_page: (params[:per_page] || 15).to_i,
+                 page: params[:page],
+                 star: true}
       options[:with] ||= {}
       options[:with].merge!(email: params[:email]) if params[:email]
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
-      @searched_for = params[:keyword]
-      @results = Contact.search params[:keyword], options
+      @searched_for = keyword
+      @results = Contact.search keyword, options
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'search_results'
     end

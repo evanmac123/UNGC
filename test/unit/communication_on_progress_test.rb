@@ -179,4 +179,48 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert !@cop.editable?
     end
   end
+  
+  context "given a COP from a parent company" do
+    setup do
+      create_organization_and_user
+      create_language
+      @cop = @organization.communication_on_progresses.new(:format             => 'standalone',
+                                                           :web_based          => true,
+                                                           :parent_company_cop => true,
+                                                           :cop_links_attributes => {
+                                                             "new_link"=> {:attachment_type => "cop",
+                                                                           :url             => "http://my-cop-online.com",
+                                                                           :language_id     => Language.first.id}
+                                                            })
+    end
+    
+    should "be approved if COP covers subsidiary efforts" do
+      @cop.parent_cop_cover_subsidiary = true
+      assert @cop.save
+      assert @cop.reload.approved?
+    end
+    
+    should "be rejected if COP doesn't cover subsidiary efforts" do
+      @cop.parent_cop_cover_subsidiary = false
+      assert @cop.save
+      assert @cop.reload.rejected?
+    end
+  end
+
+  context "given a COP from a delisted company" do
+    setup do
+      create_organization_and_user
+      @organization.update_attribute :cop_state, Organization::COP_STATE_DELISTED
+      @organization.update_attribute :active, false
+      @cop = pending_review(@organization)
+    end
+    
+    should "change the company's participant and cop status to active" do
+      @cop.approve
+      @organization.reload
+      assert_equal true, @organization.active
+      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+    end
+  end
+
 end

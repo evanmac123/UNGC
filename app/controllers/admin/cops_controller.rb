@@ -1,9 +1,10 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, :add_cop_form_js
   before_filter :no_unapproved_organizations_access
+  before_filter :only_editable_cops_go_to_edit, :only => :edit
   
   def new
-    @communication_on_progress = @organization.communication_on_progresses.new
+    @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
     @communication_on_progress.init_cop_attributes
   end
   
@@ -26,7 +27,7 @@ class Admin::CopsController < AdminController
     @communication_on_progress.destroy
     redirect_to dashboard_path(tab: 'cops')
   end
-
+  
   private
     def load_organization
       @communication_on_progress = CommunicationOnProgress.visible_to(current_user).find(params[:id]) if params[:id]
@@ -35,5 +36,12 @@ class Admin::CopsController < AdminController
     
     def add_cop_form_js
       (@javascript ||= []) << 'cop_form'
-    end    
+    end
+    
+    def only_editable_cops_go_to_edit
+      unless @communication_on_progress.editable?
+        flash[:notice] = "You cannot edit this COP"
+        redirect_to dashboard_path(:tab => 'cops')
+      end
+    end
 end

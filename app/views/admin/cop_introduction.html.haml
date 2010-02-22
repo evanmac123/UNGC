@@ -9,5 +9,11 @@
 
 %p The new submission process will also allow companies to submit their COP for inclusion in the Global Compact Notable COP programme.
 
-
+%p
+  Translations of the questions are currently available in the following languages. We recommend downloading the PDF file and reviewing the questions before proceeding to the COP submission.
+  %ul
+    %li= link_to 'Français', '/docs/communication_on_progress/translations/COP_Questionnaire_FR.pdf'
+    %li= link_to 'Español', '/docs/communication_on_progress/translations/COP_Questionnaire_ES.pdf'
+    %li= link_to '中文', '/docs/communication_on_progress/translations/COP_Questionnaire_CN.pdf'
+   
 = link_to 'Proceed to COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id)

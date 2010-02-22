@@ -32,12 +32,12 @@
             %span Is your COP web-based?
           = true_or_false_field(form, :web_based)
 
-        #cop_attachments{:style => 'display: none'}
+        #cop_attachments{:style => css_display_style(!@communication_on_progress.web_based?)}
           %fieldset
             %legend
               %span Upload the COP as a PDF file
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
-        #web_cop_attachments{:style => 'display: none'}
+        #web_cop_attachments{:style => css_display_style(@communication_on_progress.web_based?)}
           %fieldset
             %legend
               %span Provide a link to your web-based COP
@@ -170,3 +170,4 @@
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
+= javascript_tag "var work_in_progress = false;"

@@ -11,9 +11,9 @@
     - if result
       .search_results
         %div{:style => 'font-weight: bold; color: blue'}
-          = link_to result.title, result.url
+          = link_to result.title.force_encoding("UTF-8"), result.url
         %div
-          = format result # truncate result.content, length: 200
+          = format result
         %div{:style => 'color: #BAD5FB'}
           = "http://#{request.host}#{result.url}"
       

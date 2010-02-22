@@ -102,18 +102,21 @@ class Admin::OrganizationsController < AdminController
     end
 
     def display_search_results
-      options = {per_page: (params[:per_page] || 15).to_i, page: params[:page]}
+      keyword = params[:keyword].force_encoding("UTF-8")
+      options = {per_page: (params[:per_page] || 15).to_i,
+                 page: params[:page],
+                 star: true}
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]
       filter_options_for_joined_on(options)
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
-      @searched_for = options[:with].merge(:keyword => params[:keyword])
+      @searched_for = options[:with].merge(:keyword      => keyword)
                                     .merge(:joined_after => date_from_params(:joined_after))
       options.delete(:with) if options[:with] == {}
       logger.info " ** Organizations search with options: #{options.inspect}"
-      @results = Organization.search params[:keyword] || '', options
+      @results = Organization.search keyword || '', options
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'search_results'
     end
