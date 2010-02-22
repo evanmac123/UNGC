@@ -1,0 +1,7 @@
+development:
+  mem_limit: 32M
+test:
+  mem_limit: 32M
+production:
+  mem_limit: 32M
+  

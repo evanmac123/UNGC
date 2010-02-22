@@ -11,15 +11,13 @@ $("input[name='communication_on_progress[format]']").click(function() {
   } else {
     $("#non_grace_letter_fields").show();
     hideAndDisableFormElements("#grace_letter_fields");
-    showAndEnableFormElements("#cop_attachments");
-    showAndEnableFormElements("#web_cop_attachments");
+    showCopFileOrLinks();
     $("#text_a").hide();
     $("#submit_tab").hide();
   }
 })
 
-// Q2 - Web based
-$("input[name='communication_on_progress[web_based]']").click(function() {
+function showCopFileOrLinks() {
   if ($("#communication_on_progress_web_based_true").is(':checked')) {
     showAndEnableFormElements("#web_cop_attachments");
     hideAndDisableFormElements("#cop_attachments");
@@ -29,6 +27,11 @@ $("input[name='communication_on_progress[web_based]']").click(function() {
     hideAndDisableFormElements("#web_cop_attachments");
     $("#text_b").hide();
   }
+}
+
+// Q2 - Web based
+$("input[name='communication_on_progress[web_based]']").click(function() {
+  showCopFileOrLinks();
 })
 
 // Q3 - Parent company COP

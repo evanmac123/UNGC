@@ -31,6 +31,11 @@ class Admin::InitiativesController < AdminController
     redirect_to admin_initiatives_path
   end
   
+  def show
+    @signatories = @initiative.signings.all(:order => "added_on").paginate(:page     => params[:page],
+                                                                           :per_page => 20)
+  end
+
   private
     def load_initiative
       @initiative = Initiative.find params[:id] if params[:id]

@@ -1,18 +1,26 @@
+- @body_class = 'details'
+%h2 Initiative details:
+
 - if @initiative.roles.empty?
   %p.error Please, create a role for this initiative to manage contacts.
-
-%p
-  %b Name:
-  =h @initiative.name
-
-%p
-  %b Signatories:
-  =h @initiative.signings.count
 
 %p= link_to_function 'Add signatory', "$('#add_signatory').toggle()"
 
 #add_signatory{:style => 'display: none'}
   = render :partial => 'admin/signings/form'
 
-%ul#signatories
-  = render :partial => 'admin/signings/signing', :collection => @initiative.signings
+#status_box
+  %dl
+    %dt Name:
+    %dd= @initiative.name
+    %dt Signatories:
+    %dd= @initiative.signings.count
+
+%table.dashboard_table#signatories
+  %tr
+    %th.title Name
+    %th.status Signed on
+    %th.actions Actions
+  = render :partial => 'admin/signings/signing', :collection => @signatories
+= will_paginate @signatories
+
