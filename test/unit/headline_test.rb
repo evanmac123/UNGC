@@ -7,11 +7,6 @@ class HeadlineTest < ActiveSupport::TestCase
   context "given an headline with a strange title" do
     setup do
       @headline1 = create_headline :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?'
-      @headline2 = create_headline :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?'
-    end
-
-    should "create an SEO-friendly permalink" do
-      assert_equal "1-what-is-this-t-tall-valid-name-really", @headline1.to_param
     end
     
     should "find headline given a permalink" do
@@ -56,6 +51,10 @@ class HeadlineTest < ActiveSupport::TestCase
       expected = (Date.today << 1)
       actual   = @headline.published_on
       assert_equal [expected.month, expected.day], [actual.month, actual.day], 'Published date should match'
+    end
+    
+    should "create an SEO-friendly permalink" do
+      assert_equal "#{@headline.id}-#{@headline.published_on.to_s}", @headline.to_param
     end
     
     context "and when it's approved" do
