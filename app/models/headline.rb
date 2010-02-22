@@ -20,7 +20,7 @@
 class Headline < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
-  permalink :title
+  permalink :date_for_permalink
   belongs_to :country
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
@@ -92,5 +92,9 @@ class Headline < ActiveRecord::Base
     response << location unless location.blank?
     response << country.name if country
     response.join(', ')
+  end
+  
+  def date_for_permalink
+    published_on.strftime('%m-%d-%Y')
   end
 end
