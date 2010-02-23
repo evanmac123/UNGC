@@ -1,27 +1,26 @@
-%h2 Title of Communication on Progress
-%p= @cop.title
+%h2= @cop.title
 
-%h2 Details
+%h2 Content
 %ul.nolist
   - if @cop.include_continued_support_statement?
-    %li COP includes an explicit statement of continued support or the UN Global Compact and its ten principles
+    %li COP includes an explicit statement of continued support for the UN Global Compact and its ten principles
   %li= CommunicationOnProgress::FORMAT[@cop.format.try(:to_sym)]
 
-%h2 Links & Files to Communication in Progress
+%h2 Links & Files
 %ul.nolist
   - for cop_file in @cop.cop_files do
     %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
   - for url in @cop.urls do
     %li= link_to truncate(url, 80), url
 
-%h2 Date
+%h2 Date Published
 %p= yyyy_mm_dd @cop.created_at
 
-- PrincipleArea::FILTERS.each_pair do |key, value|
-  - if @cop.send("references_#{key}?") && (@cop.notable_program? || @cop.additional_questions?)
-    %h2= value
-    %ul.nolist= show_cop_attributes(@cop, PrincipleArea.send(key).id, @cop.send("references_#{key}?"))
-
-- if @cop.notable_program? || @cop.additional_questions?
-  %h2 Final questions
-  %ul.nolist= show_cop_attributes(@cop, nil)
+/ - PrincipleArea::FILTERS.each_pair do |key, value|
+/   - if @cop.send("references_#{key}?") && (@cop.notable_program? || @cop.additional_questions?)
+/     %h2= value
+/     %ul.nolist= show_cop_attributes(@cop, PrincipleArea.send(key).id, @cop.send("references_#{key}?"))
+/ 
+/ - if @cop.notable_program? || @cop.additional_questions?
+/   %h2 Final questions
+/   %ul.nolist= show_cop_attributes(@cop, nil)

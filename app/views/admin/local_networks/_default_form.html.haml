@@ -5,3 +5,9 @@
     = default_form.select :state, LocalNetwork::STATES
     = default_form.text_field :url
 
+    %li
+      = label_tag 'Countries'
+      %li#countries_list
+        - for country in @local_network.countries
+          = render :partial => 'country', :locals => {:country => country}
+      = link_to_add_another_country "Add Country"

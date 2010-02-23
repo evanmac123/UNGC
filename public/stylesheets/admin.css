@@ -341,7 +341,8 @@ ul.nav_bar {
   #main_content fieldset legend {
     color: #aaa; }
     #main_content fieldset legend span {
-      white-space: normal; }
+      white-space: normal;
+      .float: left; }
   #main_content fieldset ol {
     margin: 0;
     padding: 0 0 0 0; }

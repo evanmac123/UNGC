@@ -37,6 +37,7 @@ class LogoRequestTest < ActiveSupport::TestCase
         end
       end
       assert @logo_request.reload.approved?
+      assert_equal Date.today, @logo_request.approved_on
     end
 
     should "make sure only ungc staff can approve or reject" do
@@ -48,4 +49,5 @@ class LogoRequestTest < ActiveSupport::TestCase
       assert !@logo_request.reload.approved?
     end
   end
+  
 end

@@ -47,10 +47,10 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_response :success
     end
     
-    should "be able to edit the cop" do
+    should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_response :success
+      assert_redirected_to dashboard_path(tab: 'cops')
     end
     
     should "be able to update the cop" do

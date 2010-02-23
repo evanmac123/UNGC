@@ -25,6 +25,7 @@ class Comment < ActiveRecord::Base
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
   
   attr_accessor :state_event
+  before_save :add_default_body_to_comment
   after_create :update_commentable_state
   after_create :update_commentable_replied_to_and_reviewer_id
   
@@ -54,6 +55,12 @@ class Comment < ActiveRecord::Base
       commentable.update_attribute(:replied_to, contact && contact.from_ungc?)
       if contact && contact.from_ungc?
         commentable.update_attribute(:reviewer_id, contact_id)
+      end
+    end
+    
+    def add_default_body_to_comment
+      if state_event.to_s == ApprovalWorkflow::EVENT_NETWORK_REVIEW && body.blank?
+        self.body = 'Your application is under review by the Local Network in your country.'
       end
     end
 end

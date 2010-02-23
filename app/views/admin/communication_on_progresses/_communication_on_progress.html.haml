@@ -7,6 +7,7 @@
     %ul.actions
       %li= link_to 'View Details', admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :title => "View details", :class => "preview"
       - organization_only do
-        %li= link_to 'Edit Details', edit_admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :title => "Edit details", :class => "edit"
+        - if communication_on_progress.editable?
+          %li= link_to 'Edit Details', edit_admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :title => "Edit details", :class => "edit"
       - staff_only do
         %li= link_to 'Delete', admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :confirm => 'Are you sure?', :method => :delete, :title => "Delete entry", :class => 'delete'

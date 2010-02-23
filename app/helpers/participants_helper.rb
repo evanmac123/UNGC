@@ -27,6 +27,9 @@ module ParticipantsHelper
     returning('') do |response|
       response << " for: '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
       response << " in #{countries_list}" unless @searched_for[:country_id].blank?
+      if @searched_for[:joined_after] && @searched_for[:joined_after] > Time.parse("2000-01-01")
+        response << " who joined after #{@searched_for[:joined_after]}"
+      end
       if @searched_for[:business] == OrganizationType::BUSINESS
         response << " matching businesses only " 
 

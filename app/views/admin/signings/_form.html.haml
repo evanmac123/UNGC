@@ -1,6 +1,6 @@
 - form_for @signing = @initiative.signings.new(:added_on => Date.today), :url => admin_initiative_signings_path(@initiative) do |form|
   = form.collection_select :organization_id, Organization.all(:order => :name), :id, :name
-  = form.text_field :added_on
+  = form.text_field :added_on, class: 'datepicker'
 
   %p
     = form.submit 'Add organization'

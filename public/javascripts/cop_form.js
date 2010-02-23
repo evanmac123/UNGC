@@ -11,15 +11,13 @@ $("input[name='communication_on_progress[format]']").click(function() {
   } else {
     $("#non_grace_letter_fields").show();
     hideAndDisableFormElements("#grace_letter_fields");
-    showAndEnableFormElements("#cop_attachments");
-    showAndEnableFormElements("#web_cop_attachments");
+    showCopFileOrLinks();
     $("#text_a").hide();
     $("#submit_tab").hide();
   }
 })
 
-// Q2 - Web based
-$("input[name='communication_on_progress[web_based]']").click(function() {
+function showCopFileOrLinks() {
   if ($("#communication_on_progress_web_based_true").is(':checked')) {
     showAndEnableFormElements("#web_cop_attachments");
     hideAndDisableFormElements("#cop_attachments");
@@ -29,6 +27,11 @@ $("input[name='communication_on_progress[web_based]']").click(function() {
     hideAndDisableFormElements("#web_cop_attachments");
     $("#text_b").hide();
   }
+}
+
+// Q2 - Web based
+$("input[name='communication_on_progress[web_based]']").click(function() {
+  showCopFileOrLinks();
 })
 
 // Q3 - Parent company COP
@@ -48,10 +51,12 @@ $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").click(
     // if Yes, end of submission
     $("#reject_cop").hide();
     $("#text_c").hide();
+    $("#submit_tab").show();
   } else {
     // if No, reject COP, show Text C
     $("#reject_cop").show();
     $("#text_c").show();
+    $("#submit_tab").hide();
   }
 })
 
@@ -159,7 +164,7 @@ $("input[class='score']").click(function() {
         $("policy_exempted").hide();
       }
       // 2A - participant for less than 5 years who joined before July 1st 2009
-      if (score >= 2 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
+      if (score >= 1 && $("#communication_on_progress_include_measurement_true").is(':checked')) {
         reject_cop = false;
       } else {
         text_to_display = '#text_h';
@@ -249,3 +254,25 @@ function showAndEnableFormElements(div) {
   $(div).show();
   $(div + " input, " + div + " select").attr("disabled", "");
 }
+
+$('#cop_form').submit(function() {
+  window.onbeforeunload = null;
+  // We disable the upload elements for a web based COP if a file wasn't selected
+  if ( $("#communication_on_progress_web_based_true").is(':checked') &&
+      ($("#communication_on_progress_cop_files_attributes_new_web_cop_attachment").val() == "")) {
+        $("#cop_file_new_web_cop input, #cop_file_new_web_cop select").attr("disabled", "disabled");
+  }
+})
+
+$("#cop_form input, #cop_form select").change(function() {
+  work_in_progress = true;
+})
+
+$(document).ready(function() {
+  // tell the browser to warn before navigating away
+  window.onbeforeunload = function() {
+    if (work_in_progress) {
+      return "You COP submission hasn't been saved and will be lost if you navigate away.";
+    }
+  }
+;});

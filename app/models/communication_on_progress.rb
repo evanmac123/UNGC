@@ -78,8 +78,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
-  # TODO: fix issue with Web based COP requiring the optional upload
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true#, :reject_if => proc { |f| f['attachment'].blank? }
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
   
   cattr_reader :per_page
@@ -208,6 +207,14 @@ class CommunicationOnProgress < ActiveRecord::Base
   # COPs may be automatically approved
   def automatic_decision
     approve and return if is_grace_letter?
+    if parent_company_cop?
+      if parent_cop_cover_subsidiary?
+        approve
+      else
+        reject
+      end
+      return
+    end
     if organization.joined_after_july_2009?
       if organization.participant_for_over_5_years?
         # participant for more than 5 years who joined after July 1st 2009
@@ -230,7 +237,7 @@ class CommunicationOnProgress < ActiveRecord::Base
         end
       else
         # participant for less than 5 years who joined before July 1st 2009
-        (score >= 2 && include_measurement?) ? approve! : reject!
+        (score >= 1 && include_measurement?) ? approve! : reject!
       end
     end
   end

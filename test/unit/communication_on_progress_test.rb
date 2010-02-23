@@ -43,6 +43,27 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                                })
       end
     end
+    
+    should "not require a file if it's web based" do
+      assert_difference 'CommunicationOnProgress.count' do
+        cop = create_communication_on_progress(:organization_id    => @organization.id,
+                                               :format             => 'standalone',
+                                               :web_based          => true,
+                                               :parent_company_cop => false,
+                                               :include_continued_support_statement => true,
+                                               :support_statement_signee            => 'ceo',
+                                               :references_human_rights             => true,
+                                               :references_labour                   => true,
+                                               :references_environment              => true,
+                                               :references_anti_corruption          => true,
+                                               :include_measurement                 => true,
+                                               :cop_links_attributes => {
+                                                 "new_link"=> {:attachment_type => "cop",
+                                                               :url             => "http://my-cop-online.com",
+                                                               :language_id     => Language.first.id}
+                                               })
+      end
+    end
   end
   
   context "given a COP" do
@@ -156,6 +177,33 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
 
     should "not be editable" do
       assert !@cop.editable?
+    end
+  end
+  
+  context "given a COP from a parent company" do
+    setup do
+      create_organization_and_user
+      create_language
+      @cop = @organization.communication_on_progresses.new(:format             => 'standalone',
+                                                           :web_based          => true,
+                                                           :parent_company_cop => true,
+                                                           :cop_links_attributes => {
+                                                             "new_link"=> {:attachment_type => "cop",
+                                                                           :url             => "http://my-cop-online.com",
+                                                                           :language_id     => Language.first.id}
+                                                            })
+    end
+    
+    should "be approved if COP covers subsidiary efforts" do
+      @cop.parent_cop_cover_subsidiary = true
+      assert @cop.save
+      assert @cop.reload.approved?
+    end
+    
+    should "be rejected if COP doesn't cover subsidiary efforts" do
+      @cop.parent_cop_cover_subsidiary = false
+      assert @cop.save
+      assert @cop.reload.rejected?
     end
   end
 end
