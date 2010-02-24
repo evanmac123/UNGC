@@ -15,13 +15,16 @@ class AdminController < ApplicationController
                                                      :page       => params[:organizations_page])
       @pending_logo_requests = LogoRequest.paginate(:conditions => ['state in (?)', pending_states],
                                                     :order      => 'updated_at DESC',
-                                                    :page       => params[:logo_requests_page])
+                                                    :page       => params[:logo_requests_page],
+                                                    :include    => :organization)
       @pending_case_stories = CaseStory.paginate(:conditions => ['state in (?)', pending_states],
                                                  :order      => 'updated_at DESC',
-                                                 :page       => params[:case_stories_page])
+                                                 :page       => params[:case_stories_page],
+                                                 :include    => :organization)
       @pending_cops = CommunicationOnProgress.paginate(:conditions => ['state in (?)', pending_states],
                                                        :order      => 'updated_at DESC',
-                                                       :page       => params[:cops_page])
+                                                       :page       => params[:cops_page],
+                                                       :include    => :organization)
       @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
                                                               :page  => params[:pages_page])
     elsif current_user.from_network?
