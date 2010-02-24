@@ -8,7 +8,7 @@ class PagesController < ApplicationController
 
   def view
     render :template => template, :layout => determine_layout
-    cache_page response.body, @current_version.path unless @current_version.dynamic_content?
+    cache_page response.body, @page.path unless @page.dynamic_content?
   end
 
   def decorate
