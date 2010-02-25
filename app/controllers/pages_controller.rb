@@ -5,10 +5,10 @@ class PagesController < ApplicationController
   before_filter :find_content, :except => [:decorate, :preview, :redirect_local_network]
   before_filter :find_content_for_staff, :only => [:decorate, :preview]
   before_filter :page_is_editable, :only => [:preview, :view]
-  # layout :determine_layout
-  
+
   def view
     render :template => template, :layout => determine_layout
+    cache_page response.body, @page.path unless @page.dynamic_content?
   end
 
   def decorate
