@@ -21,8 +21,26 @@
 .related_documents
   %h2 Related Documents
 
-.cop_links
-  %h3 Links to Communications on Progress
+-if @participant.case_stories.any?
+  .cop_links
+    %h3 Communications on Progress
+    
+  %table.cop_links{:cellspacing=>0, :cellpadding=>0}
+    %thead
+      %tr
+        %th Communication Title
+        %th CEO Statement
+        %th Issue Areas Covered
+        %th Measurement of Outcome
+    %tbody
+      - for cop in @participant.communication_on_progresses.new_policy.approved do
+        %tr{:title => cop.title}
+          %td= link_to cop.title, cop_link(cop, params[:navigation])
+          %td.center= check_if cop.include_ceo_letter?
+          %td.center== #{cop.score} / 4
+          %td.center= check_if cop.include_measurement?
+    
+  %h3 Communications on Progress (pre-2010)
   
   %table.cop_links{:cellspacing=>0, :cellpadding=>0}
     %thead
@@ -36,11 +54,11 @@
         %th.check 2
         %th.check 3
     %tbody
-      - for cop in @participant.communication_on_progresses.approved do
-        %tr
+      - for cop in  @participant.communication_on_progresses.old_policy.approved do
+        %tr{:title => cop.title}
           %td.center= yyyy_mm_dd cop.added_on
           %td.center= date_range cop
-          %td= link_to cop.title, cop_link(cop, params[:navigation])
+          %td= link_to truncate(cop.title), cop_link(cop, params[:navigation])
           %td.center= check_if cop.include_ceo_letter?
           %td.center= check_if cop.include_actions?
           %td.center= check_if cop.include_measurement?
@@ -53,11 +71,11 @@
 .note
   %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
   
-.case_stories
-  %h2 Case Stories
-  - if @participant.case_stories.any?
+
+- if @participant.case_stories.any?
+  .case_stories
+    %h2 Case Stories
     %ul
-      - for case_story in @participant.case_stories.approved do
-        %li= link_to case_story.title, case_story_path(case_story.id)
-  - else
-    %p No case stories.
+    - for case_story in @participant.case_stories.approved do
+      %li= link_to case_story.title, case_story_path(case_story.id)
+
