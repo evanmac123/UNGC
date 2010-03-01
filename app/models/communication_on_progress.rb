@@ -84,6 +84,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
+  default_scope :order => 'created_at DESC'
+  
+  named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
+  named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
+  
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
     {
