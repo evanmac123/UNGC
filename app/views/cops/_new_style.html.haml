@@ -1,10 +1,18 @@
 %h2= @cop.title
 
+%p== Published on #{yyyy_mm_dd @cop.created_at}
+
 %h2 Content
 %ul.nolist
   - if @cop.include_continued_support_statement?
     %li COP includes an explicit statement of continued support for the UN Global Compact and its ten principles
   %li= CommunicationOnProgress::FORMAT[@cop.format.try(:to_sym)]
+
+%h2 Issue areas covered
+%ul.nolist
+- PrincipleArea::FILTERS.each_pair do |key, value|
+  - if @cop.send("references_#{key}?") && (@cop.notable_program? || @cop.additional_questions?)
+    %li= value
 
 %h2 Links & Files
 %ul.nolist
@@ -12,9 +20,6 @@
     %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
   - for url in @cop.urls do
     %li= link_to truncate(url, 80), url
-
-%h2 Date Published
-%p= yyyy_mm_dd @cop.created_at
 
 / - PrincipleArea::FILTERS.each_pair do |key, value|
 /   - if @cop.send("references_#{key}?") && (@cop.notable_program? || @cop.additional_questions?)
