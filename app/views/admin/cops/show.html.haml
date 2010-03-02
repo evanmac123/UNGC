@@ -10,9 +10,6 @@
     - if @communication_on_progress.is_grace_letter?
       %dt Grace Letter:
       %dd Yes
-    - if @communication_on_progress.notable_program?
-      %dt Notable Program:
-      %dd Yes
 
     - if @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
       = render :partial => 'show_new_style'
