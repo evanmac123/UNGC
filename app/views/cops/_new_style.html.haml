@@ -8,16 +8,11 @@
     %li COP includes an explicit statement of continued support for the UN Global Compact and its ten principles
   %li= CommunicationOnProgress::FORMAT[@cop.format.try(:to_sym)]
 
-%h2 Issue Areas Covered
+%h2 Issue areas covered
 %ul.nolist
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if @cop.send("references_#{key}?") && (@cop.notable_program? || @cop.additional_questions?)
     %li= value
-    / %ul.nolist= show_cop_attributes(@cop, PrincipleArea.send(key).id, @cop.send("references_#{key}?"))
-
-/ - if @cop.notable_program? || @cop.additional_questions?
-/   %h2 Final questions
-/   %ul.nolist= show_cop_attributes(@cop, nil)
 
 %h2 Links & Files
 %ul.nolist
@@ -25,3 +20,12 @@
     %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
   - for url in @cop.urls do
     %li= link_to truncate(url, 80), url
+
+/ - PrincipleArea::FILTERS.each_pair do |key, value|
+/   - if @cop.send("references_#{key}?") && (@cop.notable_program? || @cop.additional_questions?)
+/     %h2= value
+/     %ul.nolist= show_cop_attributes(@cop, PrincipleArea.send(key).id, @cop.send("references_#{key}?"))
+/ 
+/ - if @cop.notable_program? || @cop.additional_questions?
+/   %h2 Final questions
+/   %ul.nolist= show_cop_attributes(@cop, nil)
