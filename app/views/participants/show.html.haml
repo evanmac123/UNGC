@@ -18,10 +18,10 @@
       .left
         %strong Financial Information:
       .right= link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]      
-.related_documents
-  %h2 Related Documents
 
--if @participant.communication_on_progresses.any?
+%h2 Related Documents
+
+- if @participant.communication_on_progresses.new_policy.approved.any?
   .cop_links
     %h3 Communications on Progress
     
@@ -40,6 +40,8 @@
           %td.center== #{cop.score} / 4
           %td.center= check_if cop.include_measurement?
     
+- if @participant.communication_on_progresses.old_policy.approved.any?
+  .cop_links
   %h3 Communications on Progress (pre-2010)
   
   %table.cop_links{:cellspacing=>0, :cellpadding=>0}
@@ -68,14 +70,14 @@
     %li Statement of continued support for the Global Compact by the CEO or other senior executive
     %li Description of practical actions taken to implement the Global Compact principles
     %li Measurement of outcomes or expected outcomes
-.note
-  %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
-  
 
+- if @participant.communication_on_progresses.approved.any?
+  .note
+    %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
+  
 - if @participant.case_stories.any?
   .case_stories
     %h2 Case Stories
     %ul
     - for case_story in @participant.case_stories.approved do
       %li= link_to case_story.title, case_story_path(case_story.id)
-
