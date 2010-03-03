@@ -7,7 +7,7 @@
 %h2 Title of Communication on Progress
 %p= @cop.title
 
-%h2 Annual time period covered
+%h2 Time period covered
 %p
   = date_range(@cop)
 
@@ -18,8 +18,9 @@
   - for url in @cop.urls do
     %li= link_to truncate(url, 80), url
 
-%h2 Methods COP is shared with stakeholders:
-%p= @cop.description
+- unless @cop.description.blank?
+  %h2 Method COP is shared with stakeholders:
+  %p= @cop.description
 
 %h2 Contact Person
 %p= @cop.contact_name
@@ -27,5 +28,5 @@
 %h2 Contact Email
 %p= link_to @cop.email
 
-%h2 Date
+%h2 Published
 %p= yyyy_mm_dd @cop.added_on
