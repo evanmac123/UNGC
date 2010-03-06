@@ -83,7 +83,7 @@ class Organization < ActiveRecord::Base
   has_attached_file :commitment_letter
   
   cattr_reader :per_page
-  @@per_page = 15
+  @@per_page = 100
 
   define_index do
     indexes name
@@ -209,8 +209,12 @@ class Organization < ActiveRecord::Base
     end
   }
   
-  named_scope :created_in, lambda { |month, year|
+  named_scope :created_at, lambda { |month, year|
     { :conditions => ['created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
+  }
+  
+  named_scope :joined_on, lambda { |month, year|
+    { :conditions => ['joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
   }
   
   named_scope :with_pledge, :conditions => 'pledge_amount > 0'
@@ -323,10 +327,15 @@ class Organization < ActiveRecord::Base
   end
   
   # COP's next due date is 1 year from current date
-  # organization's participant and cop status are now 'active'
+  # Organization's participant and cop status are now 'active'
+  # A grace period of 30 days is granted if a COP has been previously submitted
   def set_next_cop_due_date
     self.communication_received
-    self.update_attribute :cop_due_on, 1.year.from_now
+    # if self.communication_on_progresses.count >= 1
+    #   self.update_attribute :cop_due_on, 1.year+30.days.from_now
+    # else
+      self.update_attribute :cop_due_on, 1.year.from_now
+    # end
     self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
   end
@@ -353,6 +362,18 @@ class Organization < ActiveRecord::Base
     self.removal_reason = RemovalReason.delisted
     self.delisted_on = Date.today
     self.save
+  end
+  
+  def delisted_on_string=(date_or_string)
+    if date_or_string.is_a?(String)
+      self.write_attribute(:delisted_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+    elsif date_or_string.is_a?(Date)
+      self.write_attribute(:delisted_on, date_or_string)
+    end
+  end
+
+  def delisted_on_string
+    (delisted_on || Date.today).strftime('%m/%d/%Y')
   end
   
   private
@@ -384,5 +405,5 @@ class Organization < ActiveRecord::Base
       if pledge_amount.to_i == -1 and pledge_amount_other.to_i <= 10000
         errors.add :pledge_amount_other, "has to be more than 10000 USD"
       end
-    end
+    end    
 end
