@@ -48,17 +48,17 @@
             = text_partial('b')
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
         
-        %fieldset
-          %legend
-            %span Are you a subsidiary of another Global Compact participant submitting the COP of your parent company?
-          %p= popup_link_to 'Please refer to Subsidiary Participation and Communication on Progress', '/HowToParticipate/Business_Participation/Subsidiary_Engagement.html'
-          
-          = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
-  
-        %fieldset#parent_company_question{:style => 'display :none'}
-          %legend
-            %span Does the COP of your parent company cover the efforts made by your subsidiary to implement the Global Compact principles?
-          = true_or_false_field(form, :parent_cop_cover_subsidiary)
+        / %fieldset
+        /   %legend
+        /     %span Are you a subsidiary of another Global Compact participant submitting the COP of your parent company?
+        /   %p= popup_link_to 'Please refer to Subsidiary Participation and Communication on Progress', '/HowToParticipate/Business_Participation/Subsidiary_Engagement.html'
+        /   
+        /   = true_or_false_field(form, :parent_company_cop, yes: 'Yes, I am submitting the COP of my parent company', no: "No, this is my company's own COP")
+        /   
+        / %fieldset#parent_company_question{:style => 'display :none'}
+        /   %legend
+        /     %span Does the COP of your parent company cover the efforts made by your subsidiary to implement the Global Compact principles?
+        /   = true_or_false_field(form, :parent_cop_cover_subsidiary)
       
         #own_company_questions{:style => 'display: block'}
           %fieldset

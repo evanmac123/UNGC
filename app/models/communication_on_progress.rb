@@ -57,7 +57,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   validates_presence_of :organization_id
   validates_associated :cop_links, :if => Proc.new { |cop| cop.web_based? }
-  validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }
+  validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }, :message => ': please upload your COP as a PDF file.'
   
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
