@@ -34,31 +34,31 @@ $("input[name='communication_on_progress[web_based]']").click(function() {
   showCopFileOrLinks();
 })
 
-// Q3 - Parent company COP
-$("input[name='communication_on_progress[parent_company_cop]']").click(function() {
-  if ($("#communication_on_progress_parent_company_cop_true").is(':checked')) {
-    $("#parent_company_question").show();
-    $("#own_company_questions").hide();
-  } else {
-    $("#parent_company_question").hide();
-    $("#own_company_questions").show();
-  }
-})
-
-// Q4 - Parent COP covers subsidiary
-$("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").click(function() {
-  if ($("#communication_on_progress_parent_cop_cover_subsidiary_true").is(':checked')) {
-    // if Yes, end of submission
-    $("#reject_cop").hide();
-    $("#text_c").hide();
-    $("#submit_tab").show();
-  } else {
-    // if No, reject COP, show Text C
-    $("#reject_cop").show();
-    $("#text_c").show();
-    $("#submit_tab").hide();
-  }
-})
+// // Q3 - Parent company COP
+// $("input[name='communication_on_progress[parent_company_cop]']").click(function() {
+//   if ($("#communication_on_progress_parent_company_cop_true").is(':checked')) {
+//     $("#parent_company_question").show();
+//     $("#own_company_questions").hide();
+//   } else {
+//     $("#parent_company_question").hide();
+//     $("#own_company_questions").show();
+//   }
+// })
+// 
+// // Q4 - Parent COP covers subsidiary
+// $("input[name='communication_on_progress[parent_cop_cover_subsidiary]']").click(function() {
+//   if ($("#communication_on_progress_parent_cop_cover_subsidiary_true").is(':checked')) {
+//     // if Yes, end of submission
+//     $("#reject_cop").hide();
+//     $("#text_c").hide();
+//     $("#submit_tab").show();
+//   } else {
+//     // if No, reject COP, show Text C
+//     $("#reject_cop").show();
+//     $("#text_c").show();
+//     $("#submit_tab").hide();
+//   }
+// })
 
 // Q5 - A statement of continued support is required
 $("input[name='communication_on_progress[include_continued_support_statement]']").click(function() {

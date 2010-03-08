@@ -61,7 +61,7 @@ class Admin::ReportsController < AdminController
     
     @report = FoundationPledgeReport.new(:month => @month,
                                          :year  => @year)
-    render_formatter(filename: "foundation_pledges_#{date_as_filename}.xls")
+    render_formatter(filename: "foundation_pledges_#{@year}_#{@month}.xls")
   end
   
   private

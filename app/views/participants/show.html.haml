@@ -2,24 +2,35 @@
 %h2= @participant.name
 
 %ul.nolist.participant_data.striped
-  - [ ['Country', @participant.country_name], ['Joining Date', yyyy_mm_dd(@participant.joined_on)], ['Organization Type', @participant.organization_type.name], ['Sector', @participant.sector_name] ].each do |label, data|
+  - [ ['Participant since', yyyy_mm_dd(@participant.joined_on)], ['Country', @participant.country_name], ['Organization Type', @participant.organization_type.name], ['Sector', @participant.sector_name] ].each do |label, data|
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
         %strong= "#{label}:"
       .right
         = data
-  %li.clearfix.even
+
+  - unless @participant.commitment_letter_file_name.blank?
+    %li{:class=>"clearfix #{cycle('even', 'odd')}",:title=>@participant.commitment_letter_file_name}
+      .left
+        %strong Letter of Commitment:
+      .right= link_to truncate(@participant.commitment_letter_file_name), @participant.commitment_letter.url
+
+  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
     .left
       %strong Website:
     .right= @participant.url.blank? ? 'No address provided' : link_to(@participant.url, @participant.url)
 
   - unless @participant.stock_symbol.blank? || @participant.exchange.blank?
-    %li.clearfix.odd
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
         %strong Financial Information:
       .right= link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]      
 
-%h2 Related Documents
+  - unless @participant.bhr_url.blank?
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+      .left
+        %strong{:style=>'white-space: nowrap;'} Non-Financial Information:
+      .right= link_to 'Business and Human Rights Resource Centre', 'http://www.business-humanrights.org/Categories/Individualcompanies/' + @participant.bhr_url
 
 - if @participant.communication_on_progresses.new_policy.approved.any?
   .cop_links
