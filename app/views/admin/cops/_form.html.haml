@@ -83,13 +83,6 @@
                     ?
                 = true_or_false_field(form, :include_measurement, :class => 'score')
 
-                #policy_exempted{:style => 'display: none'}
-                  %fieldset
-                    %legend
-                      %span Unfortunately, your COP does not meet the minimum requirements as defined by the COP Policy of April 2009.
-                    %p We will, however, be able to accept it this time, if you so wish. Do you want to continue the submission of this COP?
-                    = true_or_false_field(form, :policy_exempted, yes: 'Yes, I want to continue submitting this COP', no: "No, I will revise the COP to ensure it complies with the COP Policy and submit it later")
-
               #approved_cop{:style => 'display: none'}
                 = cop_questions_for @communication_on_progress, :mandatory
 
@@ -104,18 +97,6 @@
                     %span Would you like your Communication on Progress to be reviewed for possible inclusion in the Notable COP Program?
                   %p= popup_link_to 'Find more information about the Notable COP Program here.', '/docs/communication_on_progress/Notable_COPs.pdf'
                   = true_or_false_field(form, :notable_program, :class => 'additional_questions')
-
-        #reject_cop{:style => 'display: none'}
-          %fieldset
-            %legend
-              %span Your Communication on Progress has been rejected
-            - for letter in ('c'..'k')
-              = text_partial(letter)
-          - if submission_30_days_before_due? @organization, @communication_on_progress
-            %fieldset
-              %legend
-                %span Do you want to submit this COP temporarily, which will give you an additional 90 days to submit a revised COP that complies with minimum requirements?
-              = true_or_false_field(form, :is_draft)
 
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
