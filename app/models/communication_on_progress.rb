@@ -178,7 +178,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     else
       if can_submit?
         submit!
-        automatic_decision
+        approve
+        # automatic_decision
       end
     end
   end
