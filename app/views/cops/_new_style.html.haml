@@ -11,7 +11,7 @@
 %h2 Issue areas covered
 %ul.nolist
 - PrincipleArea::FILTERS.each_pair do |key, value|
-  - if @cop.send("references_#{key}?") && (@cop.notable_program? || @cop.additional_questions?)
+  - if @cop.send("references_#{key}?")
     %li= value
 
 %h2 Links & Files
