@@ -102,8 +102,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   FORMAT = {:standalone        => "COP is a stand-alone document",
             :annual_report     => "COP is part of an annual (financial) report",
             :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
-            :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for an extension of our COP deadline"}
+            :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
