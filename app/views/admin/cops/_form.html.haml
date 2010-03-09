@@ -14,7 +14,7 @@
     %fieldset
       %fieldset
         %legend
-          %span What is the format of the COP?
+          %span How is your COP shared with stakeholders?
         - CommunicationOnProgress::FORMAT.each do |key, value|
           %label
             = form.radio_button :format, key
@@ -51,13 +51,15 @@
         #own_company_questions{:style => 'display: block'}
           %fieldset
             %legend
-              %span Does your COP include an explicit statement of continued support for the Global Compact and its principles?
+              %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company’s ongoing commitment to the initiative and its principles.
             = true_or_false_field(form, :include_continued_support_statement)
 
           #include_continued_support_statement{:style => 'display: none'}
             %fieldset
               %legend
-                %span Does your COP contain description of actions, and when relevant, policies related to the following issue areas?
+                %span
+                  Does your COP contain description of actions, and when relevant policies, related to the following issue areas?
+                  %em Please answer 'Yes' or 'No' for each of the four issue areas.
               %br
               Human Rights
               = true_or_false_field(form, :references_human_rights, :class => 'score')
