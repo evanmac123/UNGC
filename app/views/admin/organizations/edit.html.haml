@@ -2,8 +2,8 @@
 
 - form_for(:organization, builder: DefaultFormBuilder, url: admin_organization_path(@organization.id), :html => {:method => :put, :multipart => true}) do |form|
   = render :partial => form
-  = form.submit 'Save changes', :class => 'button'
-  
+  = form.submit 'Update', :class => 'button'
+
 - staff_only do
   = link_to 'Show', admin_organization_path(@organization.id)
   |

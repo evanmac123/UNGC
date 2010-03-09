@@ -2,5 +2,3 @@
 #nav ul ul li { filter:alpha(opacity=95); }
 #footer_nav li { padding: 0 1px 0 4px; }
 #rightcontent .bookmarks { float: right; position: relative; margin: 5px 10px -15px 0px;}
-#logos ul li a { filter:alpha(opacity=50); }
-#logos ul li a:hover { filter:alpha(opacity=1); }

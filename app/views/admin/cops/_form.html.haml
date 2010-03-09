@@ -36,7 +36,6 @@
           %fieldset
             %legend
               %span Upload the COP as a PDF file
-            %br
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
         #web_cop_attachments{:style => css_display_style(@communication_on_progress.web_based?)}
           %fieldset
@@ -99,6 +98,7 @@
 
   #finish.tab_content
     %h2 Submit your Communication on Progress:
+    %p Please provide all required information before submitting your COP.
     
     = text_partial('a')
     - for letter in ('l'..'o')
