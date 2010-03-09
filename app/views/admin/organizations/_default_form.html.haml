@@ -1,8 +1,9 @@
 = default_form.error_messages
 %fieldset
+  %legend Details
   %ol
     = default_form.text_field :name
-    = default_form.text_field :url
+    = default_form.text_field :url, {:label => 'Website'}
     = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
 
     - if @organization_types.first.type_property == OrganizationType::BUSINESS
@@ -15,10 +16,18 @@
     = default_form.collection_select :country_id, Country.all, :id, :name
 
     - if @organization.commitment_letter
-      %p
-        Current Commitment letter:
-        = link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
-
-    = default_form.file_field :commitment_letter
-
+      %label Letter of Commitment
+      %li= link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
+    = default_form.file_field :commitment_letter, {:label => '&nbsp;'}
 = initial_public_company_state @organization
+
+/ staff only
+
+%fieldset
+  %legend Participant Status
+  %ol
+    = default_form.check_box :participant, :label => 'Participant'
+    = default_form.check_box :active, :label => 'Active'
+    = default_form.text_field :delisted_on_string, {class: 'datepicker'}, {:label => 'COP due on', :li_class => 'active_only'}    
+    = default_form.text_field :delisted_on_string, {class: 'datepicker'}, {:label => 'Delisted on', :li_class => 'delisted_only'}
+    = default_form.select :removal_reason_id, RemovalReason.all.collect{|t| [t.description, t.id]}, {:label => 'Reason for delisting', :li_class => 'delisted_only'}

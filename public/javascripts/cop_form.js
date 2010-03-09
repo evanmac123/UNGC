@@ -49,7 +49,8 @@ $("input[name='communication_on_progress[include_continued_support_statement]']"
 })
 
 $("input[name='communication_on_progress[include_measurement]']").click(function() {
-  $("#approved_cop").show();
+  // $("#approved_cop").show();
+  $("#submit_tab").show();
 })
 
 // Q16 & Q17 - Additional questions

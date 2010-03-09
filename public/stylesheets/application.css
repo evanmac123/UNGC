@@ -203,10 +203,10 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
 #footer_content { width: 1000px; margin: 0 auto; position: relative; }
 #logos { position: absolute; top: 30px; left: 50px; }
-#logos ul { background: url(/images/footer_logos.jpg) top left no-repeat; width: 553px; height: 42px; list-style: none; position: relative;}
-#logos ul li { display: inline; position: absolute; top: -5px; height: 40px; }
-#logos ul li a { width: 100%; height: 100%; display: block; opacity: 1; background: none; }
-#logos ul li a:hover { opacity: 0.25; background: #fff; }
+#logos ul { background: url(/images/footer_logos.png) top left no-repeat; width: 553px; height: 42px; list-style: none; position: relative;}
+#logos ul li { display: inline; position: absolute; top: -5px; height: 41px; }
+#logos ul li a { width: 100%; height: 100%; display: block; opacity: 0.65; background: #fff; }
+#logos ul li a:hover { opacity: 0.1; background: #fff; }
 #logos ul li.logo1 { left: 0px; width: 40px; }
 #logos ul li.logo2 { left: 45px; width: 40px; }
 #logos ul li.logo3 { left: 93px; width: 40px; }
@@ -214,13 +214,13 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #logos ul li.logo5 { left: 193px; width: 20px; }
 #logos ul li.logo6 { left: 222px; width: 40px; }
 #logos ul li.logo7 { left: 270px; width: 40px; }
-#logos ul li.logo8 { left: 318px; width: 40px; }
-#logos ul li.logo9 { left: 367px; width: 40px; }
 #footer_nav { position: absolute; left: 40px; top: 80px; }
 #footer_nav li { display: inline; border-right: 1px solid #666; padding: 0 5px 0 9px; margin: 0; }
 #footer_nav li.last { border: 0; }
 #footer_nav li a { font-size: 12px; color: #666;  }
 #bulletin_signup { position: absolute; top: 25px; right: 120px; width: 200px; border: 0px solid #e5e5e5; }
+
+
 /**** inner ****/
 #content_inner { display: block; width: 1000px; margin: 0 auto; position: relative; }
 #content_inner h1.title { font-size: 20px; font-weight: bold; color: #FFF; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; }
@@ -341,10 +341,6 @@ table.sortable thead tr th.headerSortDown {
 	list-style: none; 
 	margin: 0 !important;
 	padding: 0 !important;
-}
-
-.related_documents {
-	clear: both;
 }
 
 .participant_data li {

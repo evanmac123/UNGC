@@ -91,14 +91,21 @@ Done :)
 Controlling Sphinx
 ==================
 
+rake -T ts:
 rake ts:rebuild
+rake ts:rebuild RAILS_ENV=production
 rake ts:start
+rake ts:reindex
 
 Deploy with Capistrano
 ======================
 
 cap -T
 cap deploy
+cap staging deploy
+
+Using the 'git remote branch' gem
+grb track staging
 
 Cron Jobs
 =========
@@ -109,12 +116,16 @@ The application needs a cron job to notify organizations of their COP submission
 The application needs a cron job to update organizations' COP state - this needs to run daily.
 ./script/runner 'CopStatusUpdater.new.update_all' RAILS_ENV=production
 
+Apache Logs
+===========
+/var/log/apache2/error.log
+/var/log/apache2/other_vhosts_access.log
+
 Fields to delete
 ================
 
 Here's a list of tables/fields that should be safe to delete after the application has been launched:
 
-*.old_id - only used by importer
 organizations.local_network - we have a new LocalNetwork model
 organizations.old_tmp_id - only used by importer
 contacts.ceo - roles replace the use of this field
