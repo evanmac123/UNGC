@@ -200,10 +200,10 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert @cop.reload.approved?
     end
     
-    should "be rejected if COP doesn't cover subsidiary efforts" do
+    should "be approved if COP doesn't cover subsidiary efforts" do
       @cop.parent_cop_cover_subsidiary = false
       assert @cop.save
-      assert @cop.reload.rejected?
+      assert @cop.reload.approved?
     end
   end
 
