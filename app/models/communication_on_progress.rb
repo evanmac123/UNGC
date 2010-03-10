@@ -56,6 +56,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
+  validates_presence_of :start_month, :start_year, :end_month, :end_year
   validates_associated :cop_links, :if => Proc.new { |cop| cop.web_based? }
   validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }, :message => ': please upload your COP as a PDF file.'
   
