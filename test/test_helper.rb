@@ -120,11 +120,7 @@ class ActiveSupport::TestCase
   end
   
   def create_cop(organization_id)
-    create_communication_on_progress(:organization_id => organization_id,
-                                     :start_month     => 8,
-                                     :start_year      => 2008,
-                                     :end_month       => 9,
-                                     :end_year        => 2009 )
+    create_communication_on_progress(:organization_id => organization_id)
   end
   
   def create_principle_areas

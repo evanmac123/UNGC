@@ -2,7 +2,6 @@ require 'test_helper'
 
 class CommunicationOnProgressTest < ActiveSupport::TestCase
   should_validate_presence_of :organization_id
-  should_validate_presence_of :start_month, :start_year, :end_month, :end_year
   should_belong_to :organization
   should_have_and_belong_to_many :languages
   should_have_and_belong_to_many :countries
@@ -13,10 +12,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   def pending_review(organization, options={})
     defaults = {
       :organization_id => organization.id,
-      :start_month        => 8,
-      :start_year         => 2008,
-      :end_month          => 9,
-      :end_year           => 2009,
       :state           => ApprovalWorkflow::STATE_PENDING_REVIEW
     }
     create_communication_on_progress(defaults.merge(options))
@@ -31,10 +26,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "require a file if it's not web based" do
       assert_raise ActiveRecord::RecordInvalid do
         cop = create_communication_on_progress(:organization_id    => @organization.id,
-                                               :start_month        => 8,
-                                               :start_year         => 2008,
-                                               :end_month          => 9,
-                                               :end_year           => 2009,
                                                :format             => 'standalone',
                                                :web_based          => false,
                                                :parent_company_cop => false,
@@ -56,10 +47,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "not require a file if it's web based" do
       assert_difference 'CommunicationOnProgress.count' do
         cop = create_communication_on_progress(:organization_id    => @organization.id,
-                                               :start_month        => 8,
-                                               :start_year         => 2008,
-                                               :end_month          => 9,
-                                               :end_year           => 2009,
                                                :format             => 'standalone',
                                                :web_based          => true,
                                                :parent_company_cop => false,

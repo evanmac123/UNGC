@@ -45,6 +45,16 @@
         #own_company_questions{:style => 'display: block'}
           %fieldset
             %legend
+              %span What is the time period covered by your COP?
+            %ul.date_select
+              %li Start date
+              = form.date_select :starts_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year, :default => {:year => current_year-1} }
+            %ul.date_select
+              %li End date
+              = form.date_select :ends_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year}
+        
+          %fieldset
+            %legend
               %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company’s ongoing commitment to the initiative and its principles.
             = true_or_false_field(form, :include_continued_support_statement)
 
@@ -68,16 +78,10 @@
               = true_or_false_field(form, :references_anti_corruption, :class => 'score')
               %br
 
-              %fieldset
-                %legend
-                  %span
-                    Does your COP
-                    %strong
-                      identify targets, define performance indicators
-                      %i and
-                      measure outcomes
-                    ?
-                = true_or_false_field(form, :include_measurement, :class => 'score')
+            %fieldset
+              %legend
+                %span Does your COP identify targets, define performance indicators and measure outcomes?
+              = true_or_false_field(form, :include_measurement, :class => 'score')
 
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
