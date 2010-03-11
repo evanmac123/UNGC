@@ -15,12 +15,12 @@
     %li= value
 
 - if @cop.cop_files.any?
-  %h2 Files:
+  %h2 Files
   %ul.nolist
     - for cop_file in @cop.cop_files
       %li
         = link_to cop_file.attachment_file_name, cop_file.attachment.url
-        == [#{cop_file.language.name}]
+        == (#{cop_file.language.name})
 
 - if @cop.cop_links.any?
   %h2 Website links
