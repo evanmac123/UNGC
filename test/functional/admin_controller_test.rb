@@ -51,7 +51,7 @@ class AdminControllerTest < ActionController::TestCase
     def add_organization_data(organization, user)
       # add some content to the organization
       create_logo_publication
-      create_communication_on_progress(:organization_id => organization.id)
+      create_cop(organization.id)
       create_case_story(:organization_id => organization.id)
       create_logo_request(:organization_id => organization.id,
                           :contact_id      => user.id)

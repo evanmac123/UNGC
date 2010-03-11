@@ -56,6 +56,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
+  # validates_presence_of :start_month, :start_year, :end_month, :end_year
   validates_associated :cop_links, :if => Proc.new { |cop| cop.web_based? }
   validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }, :message => ': please upload your COP as a PDF file.'
   
@@ -102,8 +103,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   FORMAT = {:standalone        => "COP is a stand-alone document",
             :annual_report     => "COP is part of an annual (financial) report",
             :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
-            :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :grace_letter      => "I am currently uploading a ""Grace Letter"" to apply for an extension of our COP deadline"}
+            :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
@@ -178,7 +178,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     else
       if can_submit?
         submit!
-        automatic_decision
+        approve
+        # automatic_decision
       end
     end
   end

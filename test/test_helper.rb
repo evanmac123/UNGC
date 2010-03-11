@@ -119,6 +119,10 @@ class ActiveSupport::TestCase
     create_role(:name => 'Network Report Recipient', :old_id => 13)
   end
   
+  def create_cop(organization_id)
+    create_communication_on_progress(:organization_id => organization_id)
+  end
+  
   def create_principle_areas
     PrincipleArea::FILTERS.values.each {|name| create_principle_area(:name => name)}
   end

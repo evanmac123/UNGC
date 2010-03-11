@@ -37,7 +37,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_organization_and_user
       @organization.approve!
       create_principle_areas
-      @cop = create_communication_on_progress(:organization_id => @organization.id)
+      # @cop = create_communication_on_progress(:organization_id => @organization.id)
+      @cop = create_cop(@organization.id)
       login_as @organization_user
     end
     
