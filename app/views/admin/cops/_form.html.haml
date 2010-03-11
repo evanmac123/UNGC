@@ -1,11 +1,11 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
-    %li <a href="#basic">Required Information</a>
-    %li#human_rights_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#human_rights_additional_questions">Human Rights</a>
-    %li#business_and_peace_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#business_and_peace_additional_questions">Business &amp; Peace</a>
-    %li#labour_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :labour)}  <a href="#labour_additional_questions">Labour</a>
-    %li#environment_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :environment)}  <a href="#environment_additional_questions">Environment</a>
-    %li#anti_corruption_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :anti_corruption)}  <a href="#anti_corruption_additional_questions">Anti-Corruption</a>
+    %li <a href="#basic">General Information</a>
+    %li#human_rights_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
+    / %li#business_and_peace_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#business_and_peace_additional_questions">&nbsp;&raquo;&nbsp;Business &amp; Peace</a>
+    %li#labour_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :labour)}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
+    %li#environment_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :environment)}  <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
+    %li#anti_corruption_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :anti_corruption)}  <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
     %li#notable_tab{:style => css_display_style(@communication_on_progress.notable_program?)} <a href="#notable_questions">Notable Program</a>
     %li#submit_tab{:style => 'display:none'} <a href="#finish">Submit your COP</a>
   
@@ -83,9 +83,15 @@
                 %span Does your COP identify targets, define performance indicators and measure outcomes?
               = true_or_false_field(form, :include_measurement, :class => 'score')
 
+            %fieldset
+              %legend
+                %span Would you like to answer some additional questions regarding the content of your COP? This will make it easier for others to search and find your COP on the Global Compact web site.
+              = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
+
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
       %h2= value
+      %p (optional questions)
       %fieldset= cop_questions_for @communication_on_progress, :additional, key
 
   %div.tab_content{:id => "business_and_peace_additional_questions"}
@@ -98,7 +104,7 @@
 
   #finish.tab_content
     %h2 Submit your Communication on Progress:
-    
+    %p By clicking on the ‘submit’ button on the right, you will publish your COP on our website. Thank you very much for your support of the Global Compact.
     = text_partial('a')
     - for letter in ('l'..'o')
       = text_partial(letter)
