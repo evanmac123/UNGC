@@ -83,10 +83,12 @@
                 %span Does your COP identify targets, define performance indicators and measure outcomes?
               = true_or_false_field(form, :include_measurement, :class => 'score')
 
+          #ask_additional_questions{:style => 'display: none'}
             %fieldset
               %legend
-                %span Would you like to answer some additional questions regarding the content of your COP? This will make it easier for others to search and find your COP on the Global Compact web site.
+                %span Would you like to answer some additional questions regarding the content of your COP? This will make it easier for others to search and find your COP on the Global Compact website.
               = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
+              %p.alert Please click 'Submit your COP' to complete your Communication on Progress.
 
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
@@ -104,7 +106,7 @@
 
   #finish.tab_content
     %h2 Submit your Communication on Progress:
-    %p By clicking on the 'submit' button on the right, you will publish your COP on our website. Thank you very much for your support of the Global Compact.
+    %p By clicking on the 'Submit' button on the right, you will publish your COP on our website. Thank you very much for your support of the Global Compact.
     = text_partial('a')
     - for letter in ('l'..'o')
       = text_partial(letter)

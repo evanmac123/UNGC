@@ -48,10 +48,11 @@ $("input[name='communication_on_progress[include_continued_support_statement]']"
   }
 })
 
+// Answered last required question, so show optional questions
 $("input[name='communication_on_progress[include_measurement]']").click(function() {
-  // $("#approved_cop").show();
-  $("#submit_tab").show();
+  $("#ask_additional_questions").show();
 })
+
 
 // Q16 & Q17 - Additional questions
 $("input[class='additional_questions']").click(function() {
@@ -61,9 +62,11 @@ $("input[class='additional_questions']").click(function() {
   } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
     $("#notable_tab").hide();
     $(".tab_nav .additional_questions").show();
+    $("#submit_tab").show();
   } else {
     $("#notable_tab").hide();
     $(".tab_nav .additional_questions").hide();
+    $("#submit_tab").show();
   }
   // defining text to display
   $("#text_l").hide();
