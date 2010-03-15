@@ -23,18 +23,19 @@
     - else
       The Letter of Commitment has not been uploaded
       = default_form.file_field :commitment_letter, {:label => 'Upload file'}
-      
-%fieldset
-  %legend Participant Status
-  %ol
-    = default_form.check_box :participant, :label => 'Participant'
-    = default_form.check_box :active, :label => 'Active'
 
-#delisted_only{:style => "display: #{show_delisted_details @organization};"}
+- if @organization.participant
   %fieldset
-    %legend Delisting Status
+    %legend Participant Status
     %ol
-      = default_form.text_field :delisted_on_string, {class: 'datepicker'}, {:label => 'Date'}
-      = default_form.select :removal_reason_id, RemovalReason.all.collect{|t| [t.description, t.id]}, {:label => 'Reason'}
+      = default_form.check_box :participant, :label => 'Participant'
+      = default_form.check_box :active, :label => 'Active'
+
+  #delisted_only{:style => "display: #{show_delisted_details @organization};"}
+    %fieldset
+      %legend Delisting Status
+      %ol
+        = default_form.text_field :delisted_on_string, {class: 'datepicker'}, {:label => 'Date'}
+        = default_form.select :removal_reason_id, RemovalReason.all.collect{|t| [t.description, t.id]}, {:label => 'Reason'}
 
 = initial_organization_state @organization
