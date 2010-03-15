@@ -374,7 +374,7 @@ ul.nav_bar {
     width: 305px;
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
-  #main_content fieldset input[type="checkbox"] {
+  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"] {
     width: auto; }
   #main_content fieldset span.cke_skin_kama {
     display: block;
