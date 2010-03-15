@@ -49,6 +49,8 @@
 #  support_statement_explain_benefits  :boolean(1)
 #  missing_principle_explained         :boolean(1)
 #  web_based                           :boolean(1)
+#  starts_on                           :date
+#  ends_on                             :date
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
