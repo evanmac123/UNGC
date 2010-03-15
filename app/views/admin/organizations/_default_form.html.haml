@@ -1,8 +1,9 @@
 = default_form.error_messages
 %fieldset
+  %legend Details
   %ol
     = default_form.text_field :name
-    = default_form.text_field :url
+    = default_form.text_field :url, {:label => 'Website'}
     = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
 
     - if @organization_types.first.type_property == OrganizationType::BUSINESS
@@ -14,11 +15,26 @@
     = default_form.text_field :employees
     = default_form.collection_select :country_id, Country.all, :id, :name
 
-    - if @organization.commitment_letter
-      %p
-        Current Commitment letter:
-        = link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
+    / TODO create styles displaying for non-field attributes
+    %label{:style => 'margin-right: 25px;'} Letter of Commitment
+    - if @organization.commitment_letter?
+      %li= link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
+      = default_form.file_field :commitment_letter, {:label => 'Replace file'}
+    - else
+      The Letter of Commitment has not been uploaded
+      = default_form.file_field :commitment_letter, {:label => 'Upload file'}
+      
+%fieldset
+  %legend Participant Status
+  %ol
+    = default_form.check_box :participant, :label => 'Participant'
+    = default_form.check_box :active, :label => 'Active'
 
-    = default_form.file_field :commitment_letter
+#delisted_only{:style => "display: #{show_delisted_details @organization};"}
+  %fieldset
+    %legend Delisting Status
+    %ol
+      = default_form.text_field :delisted_on_string, {class: 'datepicker'}, {:label => 'Date'}
+      = default_form.select :removal_reason_id, RemovalReason.all.collect{|t| [t.description, t.id]}, {:label => 'Reason'}
 
-= initial_public_company_state @organization
+= initial_organization_state @organization

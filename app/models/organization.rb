@@ -48,7 +48,6 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  # TODO update test data
   validates_uniqueness_of :name, :on => :create, :message => "must be unique"
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
@@ -132,7 +131,7 @@ class Organization < ActiveRecord::Base
     end
     event :communication_received do
       transition :from => :noncommunicating, :to => :active
-    end
+    end    
   end
   
   named_scope :local_network, :conditions => ["local_network = ?", true]
@@ -291,12 +290,7 @@ class Organization < ActiveRecord::Base
       Contact.find(last_modified_by_id || reviewer_id).name
     end
   end
-  
-  # TODO: save date when invoice is sent
-  def days_since_invoiced
-    22
-  end
-  
+    
   def to_param
     string = name
     string = string.gsub(/\W+/, '-')
@@ -328,14 +322,9 @@ class Organization < ActiveRecord::Base
   
   # COP's next due date is 1 year from current date
   # Organization's participant and cop status are now 'active'
-  # A grace period of 30 days is granted if a COP has been previously submitted
   def set_next_cop_due_date
     self.communication_received
-    # if self.communication_on_progresses.count >= 1
-    #   self.update_attribute :cop_due_on, 1.year+30.days.from_now
-    # else
-      self.update_attribute :cop_due_on, 1.year.from_now
-    # end
+    self.update_attribute :cop_due_on, 1.year.from_now
     self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
   end
@@ -362,6 +351,10 @@ class Organization < ActiveRecord::Base
     self.removal_reason = RemovalReason.delisted
     self.delisted_on = Date.today
     self.save
+  end
+  
+  def set_manual_delisted_status
+    self.update_attribute :cop_state, Organization::COP_STATE_DELISTED if self.participant?
   end
   
   def delisted_on_string=(date_or_string)

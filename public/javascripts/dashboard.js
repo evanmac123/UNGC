@@ -19,14 +19,12 @@ $("#organization_listing_status_id").change(function() {
 // used to set delisting date/reason when Active is unchecked
 $("#organization_active").change(function() {
   if ($("#organization_active").is(':checked')) {
-    $(".active_only").show('slow');
-    $(".delisted_only").hide('slow');
+    $("#delisted_only").hide('slow');
     $('#organization_delisted_on').attr('value', '');
     $("#organization_removal_reason_id option[value='1']").attr('selected', 'selected');
   }
   else {
-    $(".delisted_only").show('slow');
-    $(".active_only").hide('slow');
+    $("#delisted_only").show('slow');
   } 
 })
   
