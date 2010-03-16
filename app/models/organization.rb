@@ -247,7 +247,7 @@ class Organization < ActiveRecord::Base
   end
 
   def company?
-    organization_type.try(:name) == 'Company'
+    organization_type.try(:name) == 'Company' || organization_type.try(:name) == 'SME'
   end
 
   def public_company?
