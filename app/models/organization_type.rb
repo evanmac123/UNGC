@@ -15,9 +15,11 @@ class OrganizationType < ActiveRecord::Base
   
   NON_BUSINESS = 1
   BUSINESS = 2
+  PARTICIPANT = [1,2]
   
   named_scope :non_business, :conditions => ['type_property=?', NON_BUSINESS]
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
+  named_scope :participants, :conditions => ['type_property in (?)', PARTICIPANT]
   
   FILTERS = {
     :academia         => 'Academic',

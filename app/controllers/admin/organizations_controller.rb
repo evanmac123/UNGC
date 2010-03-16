@@ -28,7 +28,7 @@ class Admin::OrganizationsController < AdminController
   end
   
   def edit
-    @organization_types = OrganizationType.all(:conditions => ["type_property=?",@organization.organization_type.type_property])
+    @organization_types = OrganizationType.participants
   end
 
   def update
@@ -39,7 +39,7 @@ class Admin::OrganizationsController < AdminController
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to( admin_organization_path(@organization.id) )
     else
-      @organization_types = OrganizationType.all(:conditions => ["type_property=?",@organization.organization_type.type_property])
+      @organization_types = OrganizationType.participants
       render :action => "edit"
     end
   end
