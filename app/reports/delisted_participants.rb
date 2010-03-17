@@ -5,7 +5,7 @@ class DelistedParticipants < SimpleReport
                       :joins => "LEFT JOIN (
                       SELECT
                         organization_id,
-                        MAX(added_on) AS latest_cop,
+                        MAX(created_at) AS latest_cop,
                         COUNT(id) AS cop_count
                       FROM
                         communication_on_progresses

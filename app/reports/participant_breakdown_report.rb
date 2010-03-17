@@ -1,12 +1,25 @@
 class ParticipantBreakdownReport < SimpleReport
   def records
-    Organization.all( :include => [:organization_type, :country, :exchange, :listing_status, :sector],
-                      :conditions => "participant = true and active = true and cop_state != 'delisted'"
-                    )
+    Organization.all( :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
+                      :conditions => 'participant = true',
+                      :select => 'organizations.*, C.*',
+                      :joins => "LEFT JOIN (
+                      SELECT
+                        organization_id,
+                        MAX(created_at) AS latest_cop,
+                        COUNT(id) AS cop_count
+                      FROM
+                        communication_on_progresses
+                      WHERE
+                        state = 'approved'
+                      GROUP BY
+                         organization_id) as C ON organizations.id = C.organization_id"
+                      )
   end
   
   def headers
     [ 'Participant ID',
+      'Old ID',
       'Join Date',
       'Organization Type',
       'Country',
@@ -19,6 +32,8 @@ class ParticipantBreakdownReport < SimpleReport
       'Active?',
       'Join Year',
       'COP Due Date',
+      'Number of COPs',
+      'Date of Last COP',
       'Inactive on',
       'Listed Status',
       'Stock Code',
@@ -28,6 +43,7 @@ class ParticipantBreakdownReport < SimpleReport
 
   def row(record)
   [ record.id,
+    record.old_id,
     record.joined_on,
     record.organization_type.name,
     record.country.name,
@@ -40,6 +56,8 @@ class ParticipantBreakdownReport < SimpleReport
     record.active,
     record.joined_on.try(:year),
     record.cop_due_on,
+    record.cop_count,
+    record.latest_cop.try(:to_date),
     record.inactive_on,
     record.listing_status.try(:name),
     record.stock_symbol,
