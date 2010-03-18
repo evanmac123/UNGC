@@ -112,9 +112,8 @@
 
   #finish.tab_content
     %h2 Submit your Communication on Progress:
-    %p By clicking on the 'Submit' button on the right, you will publish your COP on our website. Thank you very much for your support of the Global Compact.
     = text_partial('a')
-    - for letter in ('l'..'o')
+    - for letter in ('l'..'p')
       = text_partial(letter)
     
     = submit_tag 'Submit', :class => "button", :id => "finish"

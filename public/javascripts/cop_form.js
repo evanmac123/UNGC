@@ -56,37 +56,49 @@ $("input[name='communication_on_progress[include_measurement]']").click(function
 
 // Q16 & Q17 - Additional questions
 $("input[class='additional_questions']").click(function() {
-  if ($("#communication_on_progress_notable_program_true").is(':checked')) {
-    $("#notable_tab").show();
+  if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
     $(".tab_nav .additional_questions").show();
-  } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
-    $("#notable_tab").hide();
-    $(".tab_nav .additional_questions").show();
-    $("#submit_tab").show();
-  } else {
-    $("#notable_tab").hide();
-    $(".tab_nav .additional_questions").hide();
-    $("#submit_tab").show();
-  }
-  // defining text to display
-  $("#text_l").hide();
-  $("#text_m").hide();
-  $("#text_n").hide();
-  $("#text_o").hide();
-  
-  if ($("#communication_on_progress_notable_program_true").is(':checked') &&
-      $("#communication_on_progress_additional_questions_true").is(':checked')) {
-    $("#text_l").show();
-  } else if ($("#communication_on_progress_notable_program_true").is(':checked') &&
-             $("#communication_on_progress_additional_questions_false").is(':checked')) {
     $("#text_m").show();
-  } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
-             $("#communication_on_progress_additional_questions_true").is(':checked')) {
-    $("#text_n").show();
-  } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
-             $("#communication_on_progress_additional_questions_false").is(':checked')) {
-    $("#text_o").show();
+    $("#text_p").hide();
   }
+  else {
+    $(".tab_nav .additional_questions").hide();
+    $("#text_p").show();
+    $("#text_m").hide();
+  }
+  $("#submit_tab").show();
+  
+  // if ($("#communication_on_progress_notable_program_true").is(':checked')) {
+  //   $("#notable_tab").show();
+  //   $(".tab_nav .additional_questions").show();
+  // } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
+  //   $("#notable_tab").hide();
+  //   $(".tab_nav .additional_questions").show();
+  //   $("#submit_tab").show();
+  // } else {
+  //   $("#notable_tab").hide();
+  //   $(".tab_nav .additional_questions").hide();
+  //   $("#submit_tab").show();
+  // }
+  // // defining text to display
+  // $("#text_l").hide();
+  // $("#text_m").hide();
+  // $("#text_n").hide();
+  // $("#text_o").hide();
+  // 
+  // if ($("#communication_on_progress_notable_program_true").is(':checked') &&
+  //     $("#communication_on_progress_additional_questions_true").is(':checked')) {
+  //   $("#text_l").show();
+  // } else if ($("#communication_on_progress_notable_program_true").is(':checked') &&
+  //            $("#communication_on_progress_additional_questions_false").is(':checked')) {
+  //   $("#text_m").show();
+  // } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
+  //            $("#communication_on_progress_additional_questions_true").is(':checked')) {
+  //   $("#text_n").show();
+  // } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
+  //            $("#communication_on_progress_additional_questions_false").is(':checked')) {
+  //   $("#text_o").show();
+  // }
 })
 
 // Q17 - Notable program
