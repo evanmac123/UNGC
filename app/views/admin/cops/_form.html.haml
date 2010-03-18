@@ -20,6 +20,12 @@
             = form.radio_button :format, key
             = value
 
+      #grace_letter_fields{:style => css_display_style(@communication_on_progress.is_grace_letter?)}
+        %fieldset
+          %legend
+            %span Please upload your "Grace Letter"
+          = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
+                  
       #non_grace_letter_fields{:style => 'display: none'}
         %fieldset
           %legend

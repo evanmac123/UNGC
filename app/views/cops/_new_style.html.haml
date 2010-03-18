@@ -8,11 +8,12 @@
     %li COP includes an explicit statement of continued support for the UN Global Compact and its ten principles
   %li= CommunicationOnProgress::FORMAT[@cop.format.try(:to_sym)]
 
-%h2 Issue areas covered
-%ul.nolist
-- PrincipleArea::FILTERS.each_pair do |key, value|
-  - if @cop.send("references_#{key}?")
-    %li= value
+- unless @cop.format.try(:to_sym) == :grace_letter
+  %h2 Issue areas covered
+  %ul.nolist
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    - if @cop.send("references_#{key}?")
+      %li= value
 
 - if @cop.cop_files.any?
   %h2 Files
