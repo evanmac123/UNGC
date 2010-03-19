@@ -4,11 +4,6 @@ body {
 a {
   color: #14546f; }
 
-p.alert {
-  text-align: center;
-  color: #F00;
-  font-weight: bold; }
-
 .container {
   background: #fff;
   overflow: hidden;

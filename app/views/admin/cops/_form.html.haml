@@ -94,7 +94,6 @@
               %legend
                 %span Would you like to answer some additional questions regarding the content of your COP? This will make it easier for others to search and find your COP on the Global Compact website.
               = true_or_false_field(form, :additional_questions, :class => 'additional_questions')
-              %p.alert Please click 'Submit your COP' to complete your Communication on Progress.
 
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
@@ -111,7 +110,6 @@
     %fieldset= cop_questions_for @communication_on_progress, :notable
 
   #finish.tab_content
-    %h2 Submit your Communication on Progress:
     = text_partial('a')
     - for letter in ('l'..'p')
       = text_partial(letter)
