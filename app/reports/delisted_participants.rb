@@ -53,7 +53,7 @@ class DelistedParticipants < SimpleReport
     record.exchange.try(:name),
     record.country.name,
     record.country.region,
-    record.latest_cop,
+    record.latest_cop.try(:to_date),
     record.cop_count,
     record.removal_reason.try(:description)
   ]
