@@ -302,7 +302,7 @@ table.sortable thead tr th.sort {
 }
 
 table.sortable thead tr th.sort:hover {
-	color: black;
+	color: #00546E;
 }
 
 /*table.sortable thead tr th.headerSortUp, table.sortable thead tr th.headerSortDown {

@@ -49,4 +49,52 @@ module LocalNetworkHelper
     possible.try(:first).try(:name)
   end
   
+  # temporary participant reports until Local Networks can login
+  # these should be removed 
+
+  def country_id
+    @country = Country.find_by_code(params[:country].to_s)
+    @country.nil? ? nil : @country.id
+  end
+  
+  def country_name
+    Country.find(country_id).try(:name)
+  end
+
+  def organization_ids
+    Organization.where_country_id([country_id]).participants.collect {|o| o.id} || []
+  end
+
+  def cop_submitted_days_ago(days)
+    cops = CommunicationOnProgress.approved.find(:all,
+      :conditions => ['updated_at BETWEEN (?) AND (?) AND organization_id in (?)',
+        (Date.today - days.day).to_s, (Date.today).to_s, organization_ids]
+    )
+  end
+
+  def cop_due_in_days(days)
+    Organization.where_country_id([country_id]).participants.find(
+      :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today).to_s, (Date.today + days.day).to_s]
+    )
+  end
+  
+  def participants_became_noncommunicating(days)
+    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:noncommunicating).find(
+      :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today - days.day).to_s, (Date.today).to_s]
+    )
+  end
+  
+  def participants_became_delisted(days)
+    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
+      :all, :conditions => [  'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)',
+                            (Date.today - days.day).to_s, (Date.today).to_s, RemovalReason.delisted.id.to_i])
+  end
+  
+  def approved_logo_requests(days)
+    logo_requests = LogoRequest.approved.find(:all,
+      :conditions => ['approved_on BETWEEN (?) AND (?) AND organization_id in (?)',
+        (Date.today - days.day).to_s, (Date.today).to_s, organization_ids]
+    )
+  end
+  
 end

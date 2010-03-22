@@ -1,0 +1,95 @@
+- if country_id.nil?
+  %h1 There is no report available for that country
+- else
+  - @title = "Participant Report for #{country_name}"
+  %h1== Participant Report for #{country_name}
+
+  %h2 COPs submitted in the past 30 days
+  - unless cop_submitted_days_ago(30).any?
+    There are no participants in this category
+  - else
+    %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+      %thead
+        %tr
+          %th{:class => 'sort'} Name
+          %th{:class => 'sort'} Latest COP
+          %th{:class => 'sort'} COP Title      
+      %tbody
+        - for cop in cop_submitted_days_ago(30) do
+          %tr{:title => cop.organization.name}
+            %td= link_to truncate(cop.organization.name, 70), participant_path(cop.organization)
+            %td= cop.updated_at.to_date
+            %td= link_to cop.title, cop_link(cop, params[:navigation])
+
+  %h2 COP due in the next 30 days
+  - unless cop_due_in_days(30).any?
+    There are no participants in this category
+  - else
+    %p Non-Communicating participants will be delisted if a COP is not submitted by the due date  
+    %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+      %thead
+        %tr
+          %th{:class => 'sort'} Name
+          %th{:class => 'sort'} Status
+          %th{:class => 'sort'} Participant since
+          %th{:class => 'sort'} COP due date
+      %tbody
+        - for organization in cop_due_in_days(30) do
+          %tr{:title => organization.name}
+            %td= link_to truncate(organization.name, 70), participant_path(organization)
+            %td= organization.cop_state.humanize
+            %td= organization.joined_on.to_date
+            %td= organization.cop_due_on.to_date
+
+  %h2 Non-Communicating in the past 30 days
+  - unless participants_became_noncommunicating(30).any?
+    There are no participants in this category
+  - else
+    %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+      %thead
+        %tr
+          %th{:class => 'sort'} Name
+          %th{:class => 'sort'} Participant since
+          %th{:class => 'sort'} COP due date
+      %tbody
+        - for organization in participants_became_noncommunicating(30) do
+          %tr{:title => organization.name}
+            %td= link_to truncate(organization.name, 70), participant_path(organization)
+            %td= organization.joined_on.to_date
+            %td= organization.cop_due_on.to_date
+        
+  %h2 Delisted in the past 30 days
+  - unless participants_became_delisted(30).any?
+    There are no participants in this category
+  - else
+    %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+      %thead
+        %tr
+          %th{:class => 'sort'} Name
+          %th{:class => 'sort'} Participant since
+          %th{:class => 'sort'} Delisting date
+      %tbody
+        - for organization in participants_became_delisted(30) do
+          %tr{:title => organization.name}
+            %td= link_to truncate(organization.name, 70), participant_path(organization)
+            %td= organization.joined_on.to_date
+            %td= organization.delisted_on.to_date
+        
+  %h2 Logo Requests approved in the past 30 days
+  - unless approved_logo_requests(30).any?
+    There are no participants in this category
+  - else
+    %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+      %thead
+        %tr
+          %th{:class => 'sort'} Name
+          %th{:class => 'sort'} Publication Type
+          %th{:class => 'sort'} Purpose
+          %th{:class => 'sort'} Approval Date
+      %tbody
+        - for logo_request in approved_logo_requests(30) do
+          %tr{:title => logo_request.organization.name}
+            %td= link_to truncate(logo_request.organization.name, 20), participant_path(logo_request.organization.name)
+            %td= logo_request.publication.name        
+            %td{:title => logo_request.purpose}= truncate(logo_request.purpose, 20)
+            %td= logo_request.approved_on.to_date
