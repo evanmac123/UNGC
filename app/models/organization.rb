@@ -69,6 +69,7 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
 
   attr_accessor :pledge_amount_other
+  attr_accessor :delisting_on
   
   validate :pledge_amount_other_at_least_10000
   
@@ -225,7 +226,7 @@ class Organization < ActiveRecord::Base
   named_scope :about_to_become_delisted, lambda {
     { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
   }
-
+  
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
@@ -367,6 +368,20 @@ class Organization < ActiveRecord::Base
 
   def delisted_on_string
     (delisted_on || Date.today).strftime('%m/%d/%Y')
+  end
+  
+  # predict delisting date based on current status and COP due date
+  # only one year of non-communicating is assumed
+  def delisting_on
+    return unless company?
+    case cop_state
+      when COP_STATE_NONCOMMUNICATING
+        cop_due_on + 1.year unless cop_due_on.nil?
+      when COP_STATE_ACTIVE
+        cop_due_on + 2.year unless cop_due_on.nil?
+      else
+        ''
+    end
   end
   
   private

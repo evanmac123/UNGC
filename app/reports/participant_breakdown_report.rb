@@ -16,7 +16,7 @@ class ParticipantBreakdownReport < SimpleReport
                          organization_id) as C ON organizations.id = C.organization_id"
                       )
   end
-  
+
   def headers
     [ 'Participant ID',
       'Old ID',
@@ -35,6 +35,7 @@ class ParticipantBreakdownReport < SimpleReport
       'Number of COPs',
       'Date of Last COP',
       'Inactive on',
+      'Projected Delisting',
       'Listed Status',
       'Stock Code',
       'Exchange'
@@ -59,6 +60,7 @@ class ParticipantBreakdownReport < SimpleReport
     record.cop_count,
     record.latest_cop.try(:to_date),
     record.inactive_on,
+    record.try(:delisting_on),
     record.listing_status.try(:name),
     record.stock_symbol,
     record.exchange.try(:name)
