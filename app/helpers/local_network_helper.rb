@@ -73,8 +73,14 @@ module LocalNetworkHelper
   end
 
   def cop_due_in_days(days)
-    Organization.where_country_id([country_id]).participants.find(
+    Organization.where_country_id([country_id]).participants.with_cop_status(:active).find(
       :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today).to_s, (Date.today + days.day).to_s]
+    )
+  end
+  
+  def delisted_in_days(days)
+    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:noncommunicating).find(
+      :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today - 1.year).to_s, (Date.today - 1.year + days.day).to_s]
     )
   end
   
@@ -86,7 +92,7 @@ module LocalNetworkHelper
   
   def participants_became_delisted(days)
     Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
-      :all, :conditions => [  'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)',
+      :all, :conditions => [ 'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)',
                             (Date.today - days.day).to_s, (Date.today).to_s, RemovalReason.delisted.id.to_i])
   end
   

@@ -4,7 +4,7 @@
   - @title = "Participant Report for #{country_name}"
   %h1== Participant Report for #{country_name}
 
-  %h2 COPs submitted in the past 30 days
+  %h2 COP submitted in the past 30 days
   - unless cop_submitted_days_ago(30).any?
     There are no participants in this category
   - else
@@ -25,7 +25,6 @@
   - unless cop_due_in_days(30).any?
     There are no participants in this category
   - else
-    %p Non-Communicating participants will be delisted if a COP is not submitted by the due date  
     %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
       %thead
         %tr
@@ -41,6 +40,27 @@
             %td= organization.joined_on.to_date
             %td= organization.cop_due_on.to_date
 
+  %h2 Non-Communicating and at risk of being delisted in the next 30 days
+  - unless delisted_in_days(30).any?
+    There are no participants in this category
+  - else
+    %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+      %thead
+        %tr
+          %th{:class => 'sort'} Name
+          %th{:class => 'sort'} Participant since
+          %th{:class => 'sort'} Number of COPs
+          %th{:class => 'sort'} Delisting date
+      %tbody
+        - for organization in delisted_in_days(30) do
+          %tr{:title => organization.name}
+            %td= link_to truncate(organization.name, 30), participant_path(organization)
+            %td= organization.joined_on.to_date
+            %td= organization.communication_on_progresses.approved.try(:count)
+            - projected_delisted_date = organization.cop_due_on + 1.year
+            %td= projected_delisted_date.to_date
+
+
   %h2 Non-Communicating in the past 30 days
   - unless participants_became_noncommunicating(30).any?
     There are no participants in this category
@@ -50,7 +70,7 @@
         %tr
           %th{:class => 'sort'} Name
           %th{:class => 'sort'} Participant since
-          %th{:class => 'sort'} COP due date
+          %th{:class => 'sort'} COP past due date
       %tbody
         - for organization in participants_became_noncommunicating(30) do
           %tr{:title => organization.name}
@@ -72,6 +92,7 @@
         - for organization in participants_became_delisted(30) do
           %tr{:title => organization.name}
             %td= link_to truncate(organization.name, 70), participant_path(organization)
+
             %td= organization.joined_on.to_date
             %td= organization.delisted_on.to_date
         
@@ -84,7 +105,7 @@
         %tr
           %th{:class => 'sort'} Name
           %th{:class => 'sort'} Publication Type
-          %th{:class => 'sort'} Purpose
+          %th{:class => 'sort'} Title / Purpose
           %th{:class => 'sort'} Approval Date
       %tbody
         - for logo_request in approved_logo_requests(30) do
