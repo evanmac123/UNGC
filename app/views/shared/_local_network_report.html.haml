@@ -78,8 +78,8 @@
             %td= organization.joined_on.to_date
             %td= organization.cop_due_on.to_date
         
-  %h2 Delisted in the past 30 days
-  - unless participants_became_delisted(30).any?
+  %h2 Delisted in the past 90 days
+  - unless participants_became_delisted(90).any?
     There are no participants in this category
   - else
     %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
@@ -89,7 +89,7 @@
           %th{:class => 'sort'} Participant since
           %th{:class => 'sort'} Delisting date
       %tbody
-        - for organization in participants_became_delisted(30) do
+        - for organization in participants_became_delisted(90) do
           %tr{:title => organization.name}
             %td= link_to truncate(organization.name, 70), participant_path(organization)
 
