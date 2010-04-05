@@ -119,7 +119,7 @@ class Organization < ActiveRecord::Base
     :delisted => COP_STATE_DELISTED
   }
   
-  COP_GRACE_PERIOD = 30
+  COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
   
   state_machine :cop_state, :initial => :active do
@@ -314,7 +314,9 @@ class Organization < ActiveRecord::Base
   end
     
   def extend_cop_grace_period # TODO: Verify the date math here
-    self.update_attribute(:cop_due_on, cop_due_on + COP_GRACE_PERIOD)
+    self.update_attribute :cop_due_on, cop_due_on + COP_GRACE_PERIOD
+    self.update_attribute :cop_state, COP_STATE_ACTIVE
+    self.update_attribute :active, true
   end
   
   def extend_cop_temporary_period

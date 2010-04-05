@@ -109,32 +109,44 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   
-  # context "given a COP that is a grace letter request and is currently pending review" do
-  #   setup do
-  #     create_organization_and_user('approved')
-  #     @cop = pending_review(@organization, format: 'grace_letter')
-  #     @old_cop_due_on = @organization.cop_due_on
-  #   end
-  # 
-  #   should "have is_grace_letter? return true" do
-  #     assert @cop.is_grace_letter?
-  #   end
-  #   
-  #   context "and it gets approved" do
-  #     setup do
-  #       @cop.approve!
-  #     end
-  # 
-  #     should "now be approved" do
-  #       assert @cop.approved?
-  #     end
-  #     
-  #     should "have an extra 30 days to submit a COP" do
-  #       assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
-  #     end
-  #   end
-  #   
-  # end
+  context "given a COP that is a grace letter request and is currently pending review" do
+    setup do
+      create_organization_and_user('approved')
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @old_cop_due_on = @organization.cop_due_on
+    end
+  
+    should "have is_grace_letter? return true" do
+      assert @cop.is_grace_letter?
+    end
+    
+    context "and it gets approved" do
+      setup do
+        @cop.approve!
+      end
+  
+      should "now be approved" do
+        assert @cop.approved?
+      end
+      
+      should "have an extra 90 days to submit a COP" do
+        assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
+      end
+    end
+    
+    context "and the company is non-communicating" do
+      setup do
+        @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
+        @cop.approve!
+      end
+      
+      should "make the company active" do
+        @organization.reload
+        assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+      end
+    end
+    
+  end
   
   
   # context "given a COP under review" do
