@@ -16,7 +16,7 @@ class OrganizationTest < ActiveSupport::TestCase
   context "given a new organization" do
     setup do
       @companies = create_organization_type(:name => 'Company')
-      @micro_enterprise = create_organization_type(:name => 'Micro Entreprise')
+      @micro_enterprise = create_organization_type(:name => 'Micro Enterprise')
       @sme = create_organization_type(:name => 'SME')
     end
     
