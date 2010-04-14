@@ -45,7 +45,9 @@
       %dl
         %h3 Local Network
         %dt.first Status:
-        %dd.first= local_network_state(@organization)
+        %dd.first= local_network_detail(@organization, :state)
+        %dt Name:
+        %dd= local_network_detail(@organization, :name)
         %dt Report Recipients:
         %dd
           - if @organization.network_report_recipients.count >= 1

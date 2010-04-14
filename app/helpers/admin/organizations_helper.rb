@@ -41,9 +41,9 @@ module Admin::OrganizationsHelper
       "Network Review exceeded by #{distance_of_time_in_words(Date.today, organization.network_review_on + 7.days)}"
     end
   end
-  
-  def local_network_state(organization)
-    organization.country.local_network ? organization.country.try(:local_network).try(:state).humanize : 'Unknown'
+    
+  def local_network_detail(organization, detail)
+    organization.country.local_network ? organization.country.try(:local_network).try(detail).humanize : 'Unknown'
   end
   
 end
