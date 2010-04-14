@@ -15,10 +15,13 @@
 
     %dl
       %h3 Organization Details
-      %dt.first Participant since:
-      %dd.first= @organization.joined_on || 'n/a'
-      %dt Status:
-      %dd= display_status(@organization)
+      %dt.first Status:
+      %dd.first= display_status(@organization)
+      %dt Participant since:
+      %dd= @organization.joined_on || 'n/a'
+      - if @organization.company?
+        %dt COP Due Date:
+        %dd= @organization.cop_due_on || 'n/a'
       %dt Organization Type:
       %dd= @organization.organization_type_name
       - if @organization.company?
@@ -42,7 +45,7 @@
       %dl
         %h3 Local Network
         %dt.first Status:
-        %dd.first= @organization.country.try(:local_network).try(:state).humanize
+        %dd.first= local_network_state(@organization)
         %dt Report Recipients:
         %dd
           - if @organization.network_report_recipients.count >= 1

@@ -42,4 +42,8 @@ module Admin::OrganizationsHelper
     end
   end
   
+  def local_network_state(organization)
+    organization.country.local_network ? organization.country.try(:local_network).try(:state).humanize : 'Unknown'
+  end
+  
 end
