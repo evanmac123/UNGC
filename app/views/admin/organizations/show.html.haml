@@ -33,6 +33,9 @@
       %dd= @organization.employees
       %dt Country:
       %dd= @organization.country_name
+      - if @organization.commitment_letter?
+        %dt Letter of Commitment:
+        %dd{:title => @organization.commitment_letter_file_name}= link_to truncate(@organization.commitment_letter_file_name, :length => 30), @organization.commitment_letter.url
 
     %dl
       %h3 Contact Information
