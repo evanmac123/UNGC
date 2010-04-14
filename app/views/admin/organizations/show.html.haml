@@ -1,39 +1,62 @@
 - @body_class = 'details'
-%h2 Organization details:
-
-#status_box
-  %dl
-    %dt Name:
-    %dd=h @organization.name
-    %dt Status:
-    %dd
-      = @organization.approved? ? @organization.cop_state.humanize : @organization.state.humanize
-      - if @organization.network_review?
-        == for #{distance_of_time_in_words(@organization.network_review_on, Date.today + 24.hours)}
-    %dt Local Network:
-    %dd
-      - if @organization.network_report_recipients.count >= 1
-        = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
-      - else
-        == There is no Network Report Recipient for #{@organization.country.name}
-    %dt Letter of Commitment:
-    %dd
-      %ul.document_list
-        %li= link_to_commitment_letter(@organization)    
+%h2= @organization.name
 
 %p= organization_actions(@organization)
 
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    %li <a href="#comments">Comments</a>
+    %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
-  
-  #comments.tab_content
+    %li <a href="#comments">Comments</a>
+
+  #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new', :title => 'New Comment'
-    %ul.items= render @organization.comments
+      %li= link_to 'Edit', edit_admin_organization_path(@organization.id), :class => 'edit', :title => 'Edit Profile'
+
+    %dl
+      %h3 Organization Details
+      %dt.first Participant since:
+      %dd.first= @organization.joined_on || 'n/a'
+      %dt Status:
+      %dd= display_status(@organization)
+      %dt Organization Type:
+      %dd= @organization.organization_type_name
+      - if @organization.company?
+        %dt Listing Status:
+        %dd= @organization.listing_status_name
+      %dt Sector:
+      %dd= @organization.sector_name
+      %dt Employees:
+      %dd= @organization.employees
+      %dt Country:
+      %dd= @organization.country_name
+
+    %dl
+      %h3 Contact Information
+      %dt.first Highest Level Executive:
+      %dd.first= render :partial => 'admin/contacts/contact_overview', :collection => @organization.contacts.ceos 
+      %dt Contact Point:
+      %dd= render :partial => 'admin/contacts/contact_overview', :collection => @organization.contacts.contact_points
+  
+    -staff_only do
+      %dl
+        %h3 Local Network
+        %dt.first Status:
+        %dd.first= @organization.country.try(:local_network).try(:state).humanize
+        %dt Report Recipients:
+        %dd
+          - if @organization.network_report_recipients.count >= 1
+            = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
+          - else
+            == There is no Network Report Recipient for #{@organization.country_name}
   
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new', :title => 'New Contact'
     %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
+
+  #comments.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new', :title => 'New Comment'
+    %ul.items= render @organization.comments
+  

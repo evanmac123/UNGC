@@ -94,6 +94,9 @@ ul.nav_bar
     margin-bottom: 0.5em
     color = !dark_blue
     font-weight: bold
+  
+  h3
+    color = !dark_blue
       
   a.new
     display: block
@@ -197,6 +200,8 @@ ul.nav_bar
   dl
     margin-bottom: 2em
     width: 45%
+    float: left
+    margin-right: 30px
     
     dt
       width: 130px
@@ -204,12 +209,17 @@ ul.nav_bar
       margin: 0
       float: left
       font-weight: bold
+      white-space: nowrap
       border-top: 1px solid #999
+      &.first
+        border: none
       
     dd
       margin-left: 140px
       padding: 10px
       border-top: 1px solid #999
+      &.first
+        border: none
       
     ul.document_list
       overflow: hidden
@@ -438,7 +448,7 @@ ul.nav_bar
             margin-right: 15px
         
           dt,dd
-            width: 110px
+            width: 130px
             padding: 0.35em 0
             border: 0
           
