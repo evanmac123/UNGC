@@ -159,8 +159,9 @@ ul.nav_bar {
   #main_content dl {
     margin-bottom: 2em;
     width: 45%;
-    float: left;
     margin-right: 30px; }
+    #main_content dl.left_column {
+      float: left; }
     #main_content dl dt {
       width: 130px;
       padding: 10px 10px 10px 0;
