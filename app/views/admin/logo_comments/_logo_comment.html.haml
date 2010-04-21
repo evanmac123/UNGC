@@ -1,6 +1,6 @@
 %li.item{:id => dom_id(logo_comment)}
   .meta
-    %p.name= logo_comment.contact.name
-    %p.datetime= logo_comment.created_at.strftime '%d-%b-%Y %I:%M%p'
+    %p.name= contact_name(logo_comment)
+    %p.datetime= logo_comment.created_at.strftime '%d-%b-%Y at %I:%M %p'
   .body
     %p= simple_format(logo_comment.body)
