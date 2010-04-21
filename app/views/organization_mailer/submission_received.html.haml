@@ -1,12 +1,13 @@
 == Dear #{@contact.name_with_title},
 
-%p The UN Global Compact welcomes your organization's intention to become a participant in the global corporate citizenship initiative. 
+%p The UN Global Compact welcomes your organization's intention to become a participant in our global corporate citizenship initiative. 
 
-%p== This communication acknowledges the online receipt of a Letter of Commitment and organization information from #{@organization.name}. Following review of the information submitted, we will revert to you within 1-2 weeks regarding your future engagement in the Global Compact.
+%p== This communication acknowledges the online receipt of a Letter of Commitment and organization information from #{@organization.name}. Following review of the information submitted, we will revert to you within 1-2 weeks regarding future engagement in the Global Compact.
 
-%p
-  == You may check the status of your application at anytime by logging into the #{link_to 'Global Compact website', dashboard_url} using your selected username:
-  %strong= @contact.login
+%p== You may check the status of your application, post any questions or comments, and submit additional documents (if requested) by logging on to the #{link_to 'Global Compact website', dashboard_url} using the following username:
+%strong= @contact.login
+
+%p Your organization's online account should serve as your means of communication with the Global Compact Office during the review of your application.
 
 %p Sincerely,
 
