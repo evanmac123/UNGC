@@ -34,11 +34,15 @@ module Admin::OrganizationsHelper
     end
   end
   
+  def letter_of_commitment_updated(organization)
+    if organization.commitment_letter_updated_at > organization.created_at
+      "updated #{distance_of_time_in_words(Date.today, organization.commitment_letter_updated_at)} ago"
+    end
+  end
+  
   def network_review_period(organization)
     if organization.network_review_on + 7.days == Date.today
-      content_tag :span,
-                  "Ends today",
-                  :style => 'color: green;'
+      content_tag :span, "Ends today", :style => 'color: green;'
     elsif Date.today - 7.days < organization.network_review_on
       "#{distance_of_time_in_words(Date.today - 7.days, organization.network_review_on)} remaining"
     else

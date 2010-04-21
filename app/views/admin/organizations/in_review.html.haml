@@ -10,9 +10,9 @@
         %th= sort_header 'Old ID', field: 'old_id'
         %th= sort_header 'Name', field: 'name'
         %th= sort_header 'Submitted on', field: 'created_at'
-        %th= sort_header 'Last profile update', field: 'updated_at'
         %th= sort_header 'Last comment', field: 'comment'
         %th Comment posted by
+        %th= sort_header 'Letter of Commitment', field: 'commitment_letter_updated_at'
         %th Actions
 
       - @organizations.each do |organization|
@@ -21,9 +21,9 @@
           %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name}=h truncate(organization.name, :length => 40)
           %td=h organization.created_at
-          %td=h distance_of_time_in_words(Date.today, organization.updated_at) + ' ago'
           %td=h organization.last_comment_date
           %td=h organization.last_comment_author
+          %td=h letter_of_commitment_updated(organization)
           %td
             %ul.actions
               %li 

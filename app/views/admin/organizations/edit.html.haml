@@ -5,6 +5,7 @@
   = form.submit 'Save changes', :class => 'button'
 
 - staff_only do
+  %p== Last edit by #{@organization.last_modified_by_full_name} on #{@organization.updated_at.strftime("%A %e %B %Y, %H:%M")}
   = link_to 'Show', admin_organization_path(@organization.id)
   |
   = link_to 'Back', admin_organizations_path
