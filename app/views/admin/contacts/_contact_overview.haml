@@ -1,2 +1,2 @@
-== #{contact_overview.name}, #{truncate(contact_overview.job_title, :length => 50)}
+= link_to "#{truncate(contact_overview.name, :length => 30)}, #{truncate(contact_overview.job_title, :length => 25)}", edit_admin_organization_contact_path(contact_overview.organization.id, contact_overview), :title => "#{contact_overview.name}, #{contact_overview.job_title}"
 %br/

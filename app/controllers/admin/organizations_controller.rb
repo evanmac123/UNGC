@@ -64,7 +64,17 @@ class Admin::OrganizationsController < AdminController
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
+        when 'in_review'
+          @organizations = Organization.send(method).all(:include => [:comments], :order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
+          method
         when 'network_review'
+          @organizations = Organization.send(method).all(:order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
+          method
+        when 'rejected'
           @organizations = Organization.send(method).all(:order => order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
@@ -99,7 +109,11 @@ class Admin::OrganizationsController < AdminController
     end
     
     def order_from_params
-      @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')
+      if params[:sort_field] == 'comment'
+        @order = ['comments.contact_id', params[:sort_direction] || 'DESC'].join(' ')
+      else
+        @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')
+      end
     end
 
     def display_search_results

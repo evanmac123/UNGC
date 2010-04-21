@@ -1,4 +1,4 @@
-%h2== Listing Organizations: #{action_name.humanize}
+%h2 Rejected Organizations
 
 %div.tab_container
   = render :partial => 'control_tabs'
@@ -6,9 +6,11 @@
   %div.tab_content
     %table.dashboard_table
       %tr
-        %th ID
+        %th= sort_header 'ID', field: 'id'
         %th= sort_header 'Old ID', field: 'old_id'
         %th= sort_header 'Name', field: 'name'
+        %th= sort_header 'Submitted on', field: 'created_at'
+        %th= sort_header 'Updated on', field: 'updated_at'
         %th Updated by
         %th Actions
 
@@ -17,6 +19,8 @@
           %td=h organization.id
           %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name}=h truncate(organization.name, :length => 20)
+          %td=h organization.created_at
+          %td=h organization.updated_at
           %td=h organization.last_modified_by_full_name
           %td
             %ul.actions

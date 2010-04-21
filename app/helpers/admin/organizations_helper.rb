@@ -28,22 +28,28 @@ module Admin::OrganizationsHelper
     if organization.approved?
       organization.cop_state.humanize
     elsif organization.network_review?
-      network_review_period(organization)
+      'Network Review: ' + network_review_period(organization).downcase
     else
       organization.state.humanize
     end
   end
   
   def network_review_period(organization)
-    if Date.today - 7.days < organization.network_review_on
-      "Network Review ends in #{distance_of_time_in_words(Date.today - 7.days, organization.network_review_on)}"
-    else        
-      "Network Review exceeded by #{distance_of_time_in_words(Date.today, organization.network_review_on + 7.days)}"
+    if organization.network_review_on + 7.days == Date.today
+      content_tag :span,
+                  "Ends today",
+                  :style => 'color: green;'
+    elsif Date.today - 7.days < organization.network_review_on
+      "#{distance_of_time_in_words(Date.today - 7.days, organization.network_review_on)} remaining"
+    else
+      content_tag :span,
+                  "#{distance_of_time_in_words(Date.today, organization.network_review_on + 7.days)} overdue",
+                  :style => 'color: red;' 
     end
   end
     
   def local_network_detail(organization, detail)
-    organization.country.local_network ? organization.country.try(:local_network).try(detail).titleize : 'Unknown'
+    organization.country.local_network ? organization.country.try(:local_network).try(detail) : 'Unknown'
   end
   
 end

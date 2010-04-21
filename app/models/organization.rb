@@ -226,7 +226,7 @@ class Organization < ActiveRecord::Base
   named_scope :about_to_become_delisted, lambda {
     { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
   }
-  
+    
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
@@ -294,6 +294,15 @@ class Organization < ActiveRecord::Base
     if last_modified_by_id || reviewer_id
       Contact.find(last_modified_by_id || reviewer_id).name
     end
+  end
+  
+  def last_comment_date
+    self.try(:comments).try(:first).try(:updated_at) || ''
+  end
+    
+  def last_comment_author
+    last_comment = self.try(:comments).try(:first)
+    last_comment ? last_comment.try(:contact).try(:name) : ''
   end
     
   def to_param

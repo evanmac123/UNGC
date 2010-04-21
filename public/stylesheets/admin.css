@@ -2,7 +2,11 @@ body {
   background: #eee; }
 
 a {
-  color: #14546f; }
+  color: #14546f;
+  text-decoration: none; }
+  a:hover {
+    color: #14546f;
+    text-decoration: underline; }
 
 .container {
   background: #fff;
@@ -111,6 +115,8 @@ ul.nav_bar {
       color: #666666;
       vertical-align: bottom;
       border-bottom: 1px solid #999; }
+      #main_content table.dashboard_table th.center {
+        text-align: center; }
       #main_content table.dashboard_table th.age {
         width: 75px; }
       #main_content table.dashboard_table th a {
@@ -134,6 +140,8 @@ ul.nav_bar {
       vertical-align: middle;
       padding-top: 5px;
       padding-bottom: 5px; }
+      #main_content table.dashboard_table td.center {
+        text-align: center; }
     #main_content table.dashboard_table ul.actions {
       margin: 0; }
       #main_content table.dashboard_table ul.actions li {

@@ -1,35 +1,37 @@
 %h2 Organizations search
+%div.tab_container
+  = render :partial => 'control_tabs'
+  %div.tab_content
+    - form_tag nil, method: 'get' do
+      = hidden_field_tag 'commit', 'Search'
+      %fieldset
+        %ol
+          %li
+            %label Participant Name
+            = text_field_tag :keyword
+          %li
+            %label Country
+            = select_tag :country, options_for_select(Country.all.map{|c| [c.name, c.id]}, ''), :multiple => true, :size => 6
+      %fieldset
+        %legend Type of Organization
+        %ol
+          %li
+            = radio_button_tag :business_type, :all, true
+            %label{:for => 'business_type_all', :style => 'width: 150px'} All organizations
+          %li
+            = radio_button_tag :business_type, OrganizationType::BUSINESS
+            %label{:for => "business_type_#{OrganizationType::BUSINESS}", :style => 'width: 150px'} Business only
+          %li
+            = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
+            %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}", :style => 'width: 150px'} Other Stakeholders only
 
-- form_tag nil, method: 'get' do
-  = hidden_field_tag 'commit', 'Search'
-  %fieldset
-    %ol
-      %li
-        %label Participant Name
-        = text_field_tag :keyword
-      %li
-        %label Country
-        = select_tag :country, options_for_select(Country.all.map{|c| [c.name, c.id]}, ''), :multiple => true, :size => 6
-  %fieldset
-    %legend Type of Organization
-    %ol
-      %li
-        = radio_button_tag :business_type, :all, true
-        %label{:for => 'business_type_all', :style => 'width: 150px'} All organizations
-      %li
-        = radio_button_tag :business_type, OrganizationType::BUSINESS
-        %label{:for => "business_type_#{OrganizationType::BUSINESS}", :style => 'width: 150px'} Business only
-      %li
-        = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
-        %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}", :style => 'width: 150px'} Other Stakeholders only
+      %fieldset
+        %legend Options
+        %ol
+          %li
+            %label{:for => 'joined_after_year'} Joined after
+            = select_year(2000, {:start_year => 2000, :end_year => Date.today.year, :prefix => 'joined_after'}, {:style => 'width: 60px'})
+            = select_month(1, {:prefix => 'joined_after'}, :style => 'width: 150px')
+            = select_day(1, {:prefix => 'joined_after'}, :style => 'width: 60px')
 
-  %fieldset
-    %legend Options
-    %ol
-      %li
-        %label{:for => 'joined_after_year'} Joined after
-        = select_year(2000, {:start_year => 2000, :end_year => Date.today.year, :prefix => 'joined_after'}, {:style => 'width: 60px'})
-        = select_month(1, {:prefix => 'joined_after'}, :style => 'width: 150px')
-        = select_day(1, {:prefix => 'joined_after'}, :style => 'width: 60px')
-
-  = submit_tag 'Search', :class => 'button'
+      = submit_tag 'Search', :class => 'button'

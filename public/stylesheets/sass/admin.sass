@@ -10,6 +10,10 @@ body
 
 a
   color= !dark_blue
+  text-decoration: none
+  &:hover
+    color= !dark_blue
+    text-decoration: underline
 
 .container
   background: #fff
@@ -139,7 +143,8 @@ ul.nav_bar
       color= !medium_grey
       vertical-align: bottom
       border-bottom: 1px solid #999
-      
+      &.center
+        text-align: center
       &.age
         width: 75px
         
@@ -171,6 +176,8 @@ ul.nav_bar
       padding:
         top: 5px
         bottom: 5px
+      &.center
+        text-align: center
 
     ul.actions
       margin: 0
@@ -243,7 +250,7 @@ ul.nav_bar
             background-position: -24px 0
             
           &.word_doc
-            // fixes positioning for PDF icon in sprited png file:
+            // fixes positioning for Word icon in sprited png file:
             background-position: -48px 0
 
   // new COP submission

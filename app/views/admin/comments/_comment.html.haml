@@ -2,4 +2,4 @@
   .meta
     %p.name= comment.contact.name
     %p.datetime= comment.created_at.strftime '%d-%b-%Y %I:%M%p'
-  .body= comment.body
+  .body= simple_format(comment.body)
