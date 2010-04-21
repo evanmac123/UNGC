@@ -1,9 +1,8 @@
 %ul.view_modes
-  %ul.view_modes
-    /%li= link_to 'All', admin_organizations_path, :id => "show_all", :class => "restrictions #{action_name == 'index' ? ' selected' : ''}"
-    %li= link_to 'New', pending_review_admin_organizations_path, :id => "show_pending", :class => "restrictions"
-    %li= link_to 'In Review', in_review_admin_organizations_path, :id => "show_in_review", :class => "restrictions #{action_name == 'in_review' ? ' selected' : ''}"
-    %li= link_to 'Network Review', network_review_admin_organizations_path, :id => "show_network_review", :class => "restrictions"
-    %li= link_to 'Accepted', approved_admin_organizations_path, :id => "show_approved", :class => "restrictions"
-    %li= link_to 'Rejected', rejected_admin_organizations_path, :id => "show_rejected", :class => "restrictions #{action_name == 'rejected' ? ' selected' : ''}"
-    %li= link_to 'Search', search_admin_organizations_path, :id => "show_search", :class => "restrictions"
+  /%li= link_to 'All', admin_organizations_path, :id => "show_all", :class => "restrictions #{action_name == 'index' ? ' selected' : ''}"
+  %li= link_to 'New', pending_review_admin_organizations_path, :id => "show_pending", :class => "restrictions #{action_name == 'pending_review' ? ' selected' : ''}"
+  %li= link_to 'In Review', in_review_admin_organizations_path, :id => "show_in_review", :class => "restrictions #{action_name == 'in_review' ? ' selected' : ''}"
+  %li= link_to 'Network Review', network_review_admin_organizations_path, :id => "show_network_review", :class => "restrictions #{action_name == 'network_review' ? ' selected' : ''}"
+  %li= link_to 'Accepted', approved_admin_organizations_path, :id => "show_approved", :class => "restrictions #{action_name == 'approved' ? ' selected' : ''}"
+  %li= link_to 'Rejected', rejected_admin_organizations_path, :id => "show_rejected", :class => "restrictions #{action_name == 'rejected' ? ' selected' : ''}"
+  %li= link_to 'Search', search_admin_organizations_path, :id => "show_search", :class => "restrictions #{action_name == 'search' ? ' selected' : ''}"
