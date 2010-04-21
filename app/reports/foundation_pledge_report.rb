@@ -15,9 +15,9 @@ class FoundationPledgeReport < SimpleReport
   end
 
   def row(r)
-    [ r.contacts.contact_points.first.name,
-      r.contacts.contact_points.first.email,
-      r.contacts.contact_points.first.phone,
+    [ r.contacts.contact_points.first.try(:name),
+      r.contacts.contact_points.first.try(:email),
+      r.contacts.contact_points.first.try(:phone),
       r.try(:name),
       r.country.try(:name),
       r.invoice_id,
