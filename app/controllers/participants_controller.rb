@@ -38,6 +38,7 @@ class ParticipantsController < ApplicationController
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]
+      filter_options_for_sector(options) if params[:sector_id]
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = options[:with].merge(:keyword => params[:keyword])
@@ -72,4 +73,9 @@ class ParticipantsController < ApplicationController
         options[:with].merge!(organization_type_id: params[:organization_type_id].to_i) unless params[:organization_type_id].blank?
       end
     end
+    
+    def filter_options_for_sector(options)
+      options[:with].merge!(sector_id: params[:sector_id].to_i) if params[:sector_id] != 'all'
+    end
+    
 end

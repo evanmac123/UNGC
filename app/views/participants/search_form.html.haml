@@ -27,10 +27,10 @@
   %hr/
   %div.for_business_only{:style=>'display:none'}
     %h3 For Business Participants
-    / %p
-    /   %label{:for => 'sector_id'} Sector
-    /   %br/
-    /   = select_tag :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name)
+    %p
+      %label{:for => 'sector_id'} Sector
+      %br/
+      = select_tag :sector_id, sectors_for_select
     %p
       %label Communication on Progress status:
       %br/
