@@ -26,9 +26,10 @@
           Joined
     %tbody
       - for org in @results
-        %tr
-          %td{:class => iconize(org)}
-            = link_to org.name, participant_path(org)
+        %tr{:title => org.name}
+          %td
+            #div{:class => iconize(org)}
+              = link_to truncate(org.name, :length => 25), participant_path(org)
           %td
             = org.organization_type.name
           %td

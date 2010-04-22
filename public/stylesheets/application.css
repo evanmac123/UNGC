@@ -320,12 +320,12 @@ table.sortable thead tr th.headerSortDown {
 
 .alert_icon {
 	padding-left: 16px !important;
-	background: url(/images/icon_alert.gif) 3px 8px no-repeat;
+	background: url(/images/icon_alert.gif) 1px 4px no-repeat;
 }
 
 .inactive_icon {
 	padding-left: 16px !important;
-	background: url(/images/icon_inactive.gif) 3px 8px no-repeat;
+	background: url(/images/icon_inactive.gif) 3px 3px no-repeat;
 }
 
 .no_icon {
@@ -400,7 +400,7 @@ td.center {
 
 
 /* Clear for IE 6/7 */
-.clearfix { zoom: 1; clear: left; }
+.clearfix { zoom: 1; clear: left; margin-bottom: 10px;}
 /* Clear for NS/FF/Moz */
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
