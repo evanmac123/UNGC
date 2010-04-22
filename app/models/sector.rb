@@ -15,8 +15,8 @@ class Sector < ActiveRecord::Base
   validates_presence_of :name
   acts_as_tree
   
-  default_scope :order => 'name'
-  named_scope :top_level, :conditions => 'parent_id IS NULL'
+  default_scope :order => 'icb_number'
+  named_scope :top_level, :conditions => "parent_id IS NULL AND name != 'Not Applicable'"
   
   def self.not_applicable
     find_by_name("Not Applicable")
