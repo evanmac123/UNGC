@@ -40,8 +40,6 @@ module ParticipantsHelper
       if @searched_for[:business] == OrganizationType::BUSINESS
         response << ' business participants'
 
-        response << " from #{countries_list}" unless @searched_for[:country_id].blank?
-        
         if @searched_for[:sector_id].blank?
           response << ', in all sectors'
         else
@@ -58,9 +56,10 @@ module ParticipantsHelper
       elsif @searched_for[:business] == OrganizationType::NON_BUSINESS
         organization_type = OrganizationType.find_by_id(@searched_for[:organization_type_id])
         response << " #{organization_type.try(:name) || ''} non-business participants"
-        response << " from #{countries_list}" unless @searched_for[:country_id].blank?
+        # response << " from #{countries_list}" unless @searched_for[:country_id].blank?
       end
-
+      response << ' participants' if @searched_for[:business].blank?
+      response << " from #{countries_list}" unless @searched_for[:country_id].blank?
       response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
       
     end
