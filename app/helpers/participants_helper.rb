@@ -29,19 +29,20 @@ module ParticipantsHelper
   end
   
   def searched_for
+    
     returning('') do |response|
       
-      response << ' participants' if params[:business_type] == 'all'
-      
+      response << ' participants' if @searched_for[:business].blank?
+
       if @searched_for[:joined_after] && @searched_for[:joined_after] > Time.parse("2000-01-01")
         response << " who joined after #{@searched_for[:joined_after]}"
       end
       
+      # Business search criteria
       if @searched_for[:business] == OrganizationType::BUSINESS
         response << ' business participants'
-
         response << " from #{countries_list}" unless @searched_for[:country_id].blank?
-        
+
         if @searched_for[:sector_id].blank?
           response << ', in all sectors'
         else
@@ -54,13 +55,15 @@ module ParticipantsHelper
           when Organization::COP_STATES[:noncommunicating].to_crc32
             response << ', with a Non-communicating COP status'
         end
-        
+      
+      # Non-business search criteria
       elsif @searched_for[:business] == OrganizationType::NON_BUSINESS
         organization_type = OrganizationType.find_by_id(@searched_for[:organization_type_id])
         response << " #{organization_type.try(:name) || ''} non-business participants"
         response << " from #{countries_list}" unless @searched_for[:country_id].blank?
       end
 
+      response << " from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?
       response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
       
     end
