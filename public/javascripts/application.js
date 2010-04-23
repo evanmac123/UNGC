@@ -184,10 +184,10 @@ $(function() {
 			window.location = go.replace(/\&amp;/, '&') + anchor;
 		}
 	});
-
-	$('form label#business_only').click( showBusinessOnly );
-	$('form label#stakeholders_only').click( showStakeholdersOnly );
-	$('form label#hide_business_and_stakeholders').click( hideBusinessAndStakeholders );	
+  // public participant search controls
+	$('form #business_only').click( showBusinessOnly );
+	$('form #stakeholders_only').click( showStakeholdersOnly );
+	$('form #hide_business_and_stakeholders').click( hideBusinessAndStakeholders );	
 	$('form .fixed_pledge').click( clearPledgeOtherAmount );
 
 	$.datepicker.setDefaults({ changeYear: true });

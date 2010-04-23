@@ -1,6 +1,7 @@
 %h1 Participant Search
 
 - form_tag nil, method: 'get' do
+  = hidden_field_tag 'commit', 'Search'
   %p
     %label Participant Name
     %br/
@@ -13,31 +14,41 @@
   %p
     %label Type of Participant
   %p
-    = radio_button_tag :business_type, :all, true
-    %label#hide_business_and_stakeholders{:for => 'business_type_all'} All participants
-    = radio_button_tag :business_type, OrganizationType::BUSINESS
-    %label#business_only{:for => "business_type_#{OrganizationType::BUSINESS}"} Business participants only
-    = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
-    %label#stakeholders_only{:for => "business_type_#{OrganizationType::NON_BUSINESS}"} Other Stakeholders only
+    #hide_business_and_stakeholders
+      = radio_button_tag :business_type, :all, true
+      %label{:for => 'business_type_all'} All
+    
+    #business_only
+      = radio_button_tag :business_type, OrganizationType::BUSINESS
+      %label{:for => "business_type_#{OrganizationType::BUSINESS}"} Business
+    
+    #stakeholders_only
+      = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
+      %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}"} Non-business
   %hr/
   %div.for_business_only{:style=>'display:none'}
-    %h3 For Business Participants
+    %h3 Business Participants
     %p
-      %label Communication on Progress Status
+      %label{:for => 'sector_id'} Sector
+      %br/
+      = select_tag :sector_id, sectors_for_select
     %p
+      %label Communication on Progress status:
+      %br/
       = radio_button_tag :cop_status, :all, true
-      %label{:for => 'cop_status_all'} All Active &amp; Non-Communicating
+      %label{:for => 'cop_status_all'} All
+      %br/
       = radio_button_tag :cop_status, Organization::COP_STATES[:active]
       %label{:for => "cop_status_#{Organization::COP_STATES[:active]}"} Active
+      %br/
       = radio_button_tag :cop_status, Organization::COP_STATES[:noncommunicating]
       %label{:for => "cop_status_#{Organization::COP_STATES[:noncommunicating]}"} Non-Communicating
       -# = radio_button_tag :cop_status, Organization::COP_STATES[:inactive]
       -# %label{:for => "cop_status_#{Organization::COP_STATES[:inactive]}"} Inactive
   %div.for_stakeholders_only{:style=>'display:none'}
-    %h3 For Stakeholders
+    %h3 Non-business Participants
     %p
-      %label Option to select a specific organization type
-    %p
+      %label Select a specific organization type:
       = select_tag :organization_type_id, organization_types_for_select
   %p
     = submit_tag 'Search'

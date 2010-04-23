@@ -274,16 +274,16 @@ table.striped {
 }
 
 table.striped th {
-	border: 2px solid #cac1bc;
-	border-width: 2px 0; 
-	padding: 5px 7px 5px 12px; 
+	border: 1px solid #aaa;
+	border-width: 1px 0; 
+	padding: 3px 7px 3px 10px; 
 	color: #6f8aa5; 
 	font-size: 12px;
 	text-align: left;
 }
 
 table.striped td {
-	padding: 5px 7px; 
+	padding: 3px 5px; 
 	vertical-align: top;
 	font-size: 12px;
 }
@@ -320,12 +320,12 @@ table.sortable thead tr th.headerSortDown {
 
 .alert_icon {
 	padding-left: 16px !important;
-	background: url(/images/icon_alert.gif) 3px 8px no-repeat;
+	background: url(/images/icon_alert.gif) 1px 4px no-repeat;
 }
 
 .inactive_icon {
 	padding-left: 16px !important;
-	background: url(/images/icon_inactive.gif) 3px 8px no-repeat;
+	background: url(/images/icon_inactive.gif) 3px 3px no-repeat;
 }
 
 .no_icon {
@@ -400,7 +400,7 @@ td.center {
 
 
 /* Clear for IE 6/7 */
-.clearfix { zoom: 1; clear: left; }
+.clearfix { zoom: 1; clear: left; margin-bottom: 10px;}
 /* Clear for NS/FF/Moz */
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
