@@ -274,16 +274,16 @@ table.striped {
 }
 
 table.striped th {
-	border: 2px solid #cac1bc;
-	border-width: 2px 0; 
-	padding: 5px 7px 5px 12px; 
+	border: 1px solid #aaa;
+	border-width: 1px 0; 
+	padding: 3px 7px 3px 10px; 
 	color: #6f8aa5; 
 	font-size: 12px;
 	text-align: left;
 }
 
 table.striped td {
-	padding: 5px 7px; 
+	padding: 3px 5px; 
 	vertical-align: top;
 	font-size: 12px;
 }
