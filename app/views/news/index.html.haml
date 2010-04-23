@@ -1,9 +1,9 @@
 %h1= "News Archive #{year}"
 - if @headlines.any?
-  %ul
-    - for headline in @headlines do
-      %li
-        = link_to headline.title, headline
-        = "(#{headline.published_on})"
+  - for headline in @headlines do
+    %h4= headline.published_on
+    = link_to truncate(headline.title, :length => 95), headline
 - else
-  %p There are no headlines for the requested period. Feel free to browse the archives.
+  %p
+    ==There are no items in #{year}. Feel free to 
+    = link_to 'browse the news archives.', '/NewsAndEvents/news_archives/'
