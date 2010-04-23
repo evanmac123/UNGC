@@ -1,21 +1,20 @@
-%h1= "Participants #{searched_for}"
-
-%a{ :name => "paged_results" }
-%div.clearfix
-  .left
-    %strong
-      Number of matching participants:
-      = @results.total_entries
-  .right
-    = per_page_select
+%h1 Participant Search
 
 - if @results.any?
+  %p== There are #{@results.total_entries} #{searched_for}.
+  
+  %a{ :name => "paged_results" }
+  %div.clearfix
+    .left
+      %strong== #{@results.total_entries} results
+    .right
+      = per_page_select
 
   %table.striped.sortable{ :cellspacing => "0", :cellpadding => "0", :width => '100%' }
     %thead
       %tr
         %th.sort
-          Participant
+          Name
         %th.sort
           Type
         %th.sort
@@ -23,19 +22,19 @@
         %th.sort
           Country
         %th.sort
-          Joined
+          Participant since
     %tbody
       - for org in @results
-        %tr{:title => org.name}
-          %td
+        %tr
+          %td{:title => org.name}
             #div{:class => iconize(org)}
               = link_to truncate(org.name, :length => 25), participant_path(org)
-          %td
-            = org.organization_type.name
-          %td
-            = org.sector_name
-          %td
-            = org.country_name
+          %td{:title => org.organization_type.name}
+            = truncate(org.organization_type.name, :length => 15)
+          %td{:title => org.sector_name}
+            = truncate(org.sector_name, :length => 20)
+          %td{:title => org.country_name}
+            = truncate(org.country_name, :length => 20)
           %td
             = yyyy_mm_dd org.joined_on
       
@@ -49,4 +48,4 @@
       indicates that a participant is "Non-communicating" for failing to develop a Communication on Progress by the relevant deadline.
 
 - else
-  %p Sorry, there are no participants matching that criteria.
+  %p== Sorry, there are no #{searched_for}.
