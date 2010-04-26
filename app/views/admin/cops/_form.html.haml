@@ -1,6 +1,7 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">General Information</a>
+    %li#human_rights_tab{:class => 'additional_questions', :style => 'display: block;'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
     %li#human_rights_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
     / %li#business_and_peace_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#business_and_peace_additional_questions">&nbsp;&raquo;&nbsp;Business &amp; Peace</a>
     %li#labour_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :labour)}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
@@ -101,9 +102,10 @@
       %p (optional questions)
       %fieldset= cop_questions_for @communication_on_progress, :additional, key
 
-  %div.tab_content{:id => "business_and_peace_additional_questions"}
-    %h2 Business and Peace
-    %fieldset= cop_questions_for @communication_on_progress, :business_and_peace
+  %div.tab_content{:id => "governance_additional_questions"}
+    %h2 Governance
+    %p (optional questions)
+    %fieldset= cop_questions_for @communication_on_progress, :governance
 
   #notable_questions.tab_content
     %h2 Notable questions
