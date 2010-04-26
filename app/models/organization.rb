@@ -295,15 +295,17 @@ class Organization < ActiveRecord::Base
   def last_modified_by_full_name
     if last_modified_by_id || reviewer_id
       Contact.find(last_modified_by_id || reviewer_id).name
+    else
+      'unknown user'
     end
   end
   
   def last_comment_date
-    self.try(:comments).try(:first).try(:updated_at) || ''
+    self.try(:comments).try(:last).try(:updated_at) || ''
   end
     
   def last_comment_author
-    last_comment = self.try(:comments).try(:first)
+    last_comment = self.try(:comments).try(:last)
     last_comment ? last_comment.try(:contact).try(:name) : ''
   end
     
