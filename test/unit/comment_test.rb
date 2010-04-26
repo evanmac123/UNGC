@@ -30,5 +30,12 @@ class CommentTest < ActiveSupport::TestCase
       assert !@organization.replied_to
       assert_nil @organization.reviewer
     end
+  
+    should "get the full name (contact.name) of the user who posted the last comment" do
+      @organization.comments.create(:body => 'new comment',
+                                    :contact_id => @organization_user.id)
+      assert_equal @organization.last_comment_author, @organization_user.name
+    end
   end
+  
 end
