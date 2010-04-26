@@ -18,7 +18,7 @@
 class Comment < ActiveRecord::Base
   validates_presence_of :body, :unless => Proc.new { |c| ApprovalWorkflow::STAFF_EVENTS.include?(c.state_event) }
   belongs_to :commentable, :polymorphic => true
-  default_scope :order => 'created_at ASC'
+  default_scope :order => 'created_at DESC'
   belongs_to :contact
   
   has_attached_file :attachment
@@ -61,6 +61,9 @@ class Comment < ActiveRecord::Base
     def add_default_body_to_comment
       if state_event.to_s == ApprovalWorkflow::EVENT_NETWORK_REVIEW && body.blank?
         self.body = 'Your application is under review by the Local Network in your country.'
+      end
+      if state_event.to_s == ApprovalWorkflow::STATE_APPROVED && body.blank?
+        self.body = 'Your application has been approved.'
       end
     end
 end
