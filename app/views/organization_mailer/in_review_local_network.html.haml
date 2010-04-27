@@ -1,13 +1,14 @@
 == To all Network Report Recipients in #{@organization.country_name}:
 
 %p
-  %strong Participant status: In review
+  %strong Application status: In review
 %p
   == A comment regarding #{@organization.name}'s application to the UN Global Compact has been posted.
-%p
-  %strong Latest Comment: 
-  
-  = simple_format(@organization.comments.first.body)
+%table{:border => 1, :cellspacing => 1, :cellpadding => 15, :style => 'background: #E5EDF8;'}
+  %tr
+    %td
+      %strong Latest Comment to applicant: 
+      = simple_format(@organization.comments.first.body)
 
 %p If you would like to assist the organization with submitting the above requested information, please find the contact information below: 
 
