@@ -13,6 +13,9 @@ class Admin::CommentsController < AdminController
 
     if @comment.save
       flash[:notice] = 'Comment was successfully created.'
+      if @comment.copy_local_network?
+        flash[:notice] += ' The Local Network has been notified by email.'
+      end
       redirect_to commentable_path(@commentable) 
     else
       render :action => "new"

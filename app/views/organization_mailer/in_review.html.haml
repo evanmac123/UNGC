@@ -13,7 +13,7 @@
 %p
   %strong Latest Comment: 
   
-  = simple_format(@organization.comments.last.body)
+  = simple_format(@organization.comments.first.body)
 
 %p Sincerely,
 

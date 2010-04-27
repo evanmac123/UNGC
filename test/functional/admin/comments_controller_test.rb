@@ -32,7 +32,36 @@ class Admin::CommentsControllerTest < ActionController::TestCase
       @organization.country_id = @country.id
       login_as @staff_user
     end
-    
+
+    should "also send email to the Local Network when posting a comment" do      
+      assert_difference 'Comment.count' do
+        # FIXME: we expect *two* emails - one to the applicant, and one to the network (if the checkbox is checked)
+        assert_emails(1) do
+          post :create, :organization_id    => @organization.id,
+                        :commit             => Organization::EVENT_REVISE,
+                        :comment            => { :body => 'Please revise your application.', :copy_local_network => '1' }
+
+          assert_redirected_to admin_organization_path(@organization.id)
+          assert_equal 'Comment was successfully created. The Local Network has been notified by email.', flash[:notice]
+          assert @organization.reload.state, 'in_review'
+        end
+      end
+    end
+
+    should "only email comment to application organization" do
+      assert_difference 'Comment.count' do
+        assert_emails(1) do
+          post :create, :organization_id    => @organization.id,
+                        :commit             => Organization::EVENT_REVISE,
+                        :comment            => { :body => 'Please revise your application.', :copy_local_network => '0' }
+
+          assert_redirected_to admin_organization_path(@organization.id)
+          assert_equal 'Comment was successfully created.', flash[:notice]
+          assert @organization.reload.state, 'in_review'
+        end
+      end
+    end
+        
     should "approve the organization on approval comment" do
       assert_difference 'Comment.count' do
         # we expect two emails - approval and foundation invoice

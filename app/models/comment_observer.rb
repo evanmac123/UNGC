@@ -9,7 +9,7 @@ class CommentObserver < ActiveRecord::Observer
         end
       elsif comment.commentable.is_a? Organization
         case comment.commentable.state
-          when Organization::STATE_IN_REVIEW then OrganizationMailer.deliver_in_review(comment.commentable)
+          when Organization::STATE_IN_REVIEW then email_in_review_organization(comment)
           when Organization::STATE_NETWORK_REVIEW then OrganizationMailer.deliver_network_review(comment.commentable)
           when Organization::STATE_APPROVED then email_approved_organization(comment.commentable)
         end
@@ -18,6 +18,15 @@ class CommentObserver < ActiveRecord::Observer
   end
   
   private
+    def email_in_review_organization(comment)
+      organization = comment.commentable
+      OrganizationMailer.deliver_in_review(organization)
+      # checkbox was selected
+      if comment.copy_local_network? && organization.network_report_recipients.count > 0
+        OrganizationMailer.deliver_in_review_local_network(organization)        
+      end
+    end
+  
     def email_approved_organization(organization)
       if organization.business_entity?
         OrganizationMailer.deliver_approved_business(organization)

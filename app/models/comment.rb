@@ -18,11 +18,14 @@
 class Comment < ActiveRecord::Base
   validates_presence_of :body, :unless => Proc.new { |c| ApprovalWorkflow::STAFF_EVENTS.include?(c.state_event) }
   belongs_to :commentable, :polymorphic => true
-  default_scope :order => 'created_at ASC'
+  default_scope :order => 'updated_at DESC'
   belongs_to :contact
   
   has_attached_file :attachment
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
+  
+  # copy email to local network is option is selected
+  attr_accessor :copy_local_network
   
   attr_accessor :state_event
   before_save :add_default_body_to_comment
@@ -31,6 +34,10 @@ class Comment < ActiveRecord::Base
   
   validate :no_comment_on_approved_or_rejected_commentable
   validate :organization_user_cannot_approve_or_reject
+
+  def copy_local_network?
+   copy_local_network.to_i == 1 ? true : false
+  end
 
   private
     def update_commentable_state
@@ -57,10 +64,13 @@ class Comment < ActiveRecord::Base
         commentable.update_attribute(:reviewer_id, contact_id)
       end
     end
-    
+        
     def add_default_body_to_comment
       if state_event.to_s == ApprovalWorkflow::EVENT_NETWORK_REVIEW && body.blank?
         self.body = 'Your application is under review by the Local Network in your country.'
+      end
+      if state_event.to_s == ApprovalWorkflow::STATE_APPROVED && body.blank?
+        self.body = 'Your application has been approved.'
       end
     end
 end
