@@ -16,6 +16,16 @@ class OrganizationMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
+
+  def in_review_local_network(organization)
+    from EMAIL_SENDER
+    cc 'filipic@un.org'
+    bcc ['globalcompact@un.org','vkeesari@yahoo.com']
+    subject "#{organization.name}'s application to the Global Compact is under review"
+    content_type "text/html"
+    recipients organization.network_report_recipients.collect(&:email_recipient)
+    body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
+  end
   
   def network_review(organization)
     from EMAIL_SENDER
