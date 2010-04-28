@@ -410,16 +410,20 @@ ul.nav_bar {
     #main_content fieldset fieldset label {
       display: block;
       width: auto;
+      padding: 4px 0 6px 5px;
       float: none;
       color: #333333; }
+      #main_content fieldset fieldset label:hover {
+        cursor: pointer;
+        background: #f0f6fa; }
     #main_content fieldset fieldset span.label_text {
       display: block;
       position: relative;
       left: 20px;
-      top: -16px; }
+      top: -14px; }
     #main_content fieldset fieldset input {
       width: auto;
-      margin: 3px 5px 5px 0; }
+      margin: 3px 5px 0px 0; }
     #main_content fieldset fieldset select {
       margin-left: 0; }
 #main_content .box {
