@@ -412,9 +412,14 @@ ul.nav_bar {
       width: auto;
       float: none;
       color: #333333; }
+    #main_content fieldset fieldset span.label_text {
+      display: block;
+      position: relative;
+      left: 20px;
+      top: -16px; }
     #main_content fieldset fieldset input {
       width: auto;
-      margin: 2px 10px 2px 0; }
+      margin: 3px 5px 5px 0; }
     #main_content fieldset fieldset select {
       margin-left: 0; }
 #main_content .box {
