@@ -11,6 +11,18 @@
     %br/
     = select_tag :country, countries_for_select, :multiple => true, :size => 6
   %hr/
+  
+  %p
+    %label Acceptance date
+  %p
+    %label Starting
+    %br/
+    = text_field_tag :joined_after, nil, :class => 'datepicker'
+  %p
+    %label Ending
+    %br/
+    = text_field_tag :joined_before, nil, :class => 'datepicker'
+  
   %p
     %label Type of Participant
   %p

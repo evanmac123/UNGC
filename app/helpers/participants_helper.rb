@@ -28,16 +28,18 @@ module ParticipantsHelper
     options_for_select [ ['All', ''] ] + types.map { |type| [type.name, type.id] }
   end
   
+  def nice_date_from_param(join_date)
+    month, day, year = params[join_date].split('/')
+    parsed_date = Date.parse([year,month,day].join('-'))
+    parsed_date.strftime("%e&nbsp;%B,&nbsp;%Y")
+  end
+  
   def searched_for
     
     returning('') do |response|
       
       response << ' participants' if @searched_for[:business].blank?
 
-      if @searched_for[:joined_after] && @searched_for[:joined_after] > Time.parse("2000-01-01")
-        response << " who joined after #{@searched_for[:joined_after]}"
-      end
-      
       # Business search criteria
       if @searched_for[:business] == OrganizationType::BUSINESS
         response << ' business participants'
@@ -46,7 +48,7 @@ module ParticipantsHelper
         if @searched_for[:sector_id].blank?
           response << ', in all sectors'
         else
-          response << " in the #{Sector.find(@searched_for[:sector_id]).name} sector"
+          response << ", in the #{Sector.find(@searched_for[:sector_id]).name} sector"
         end
 
         case @searched_for[:cop_state]
@@ -63,8 +65,13 @@ module ParticipantsHelper
         response << " from #{countries_list}" unless @searched_for[:country_id].blank?
       end
 
-      response << " from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?
-      response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
+      response << ", from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?
+      
+      if @searched_for[:joined_on]
+        response << ", who were accepted between #{nice_date_from_param(:joined_after)} and #{nice_date_from_param(:joined_before)}"
+      end
+      
+      response << ", matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
       
     end
   end
