@@ -28,7 +28,7 @@ module Admin::OrganizationsHelper
     if organization.approved?
       organization.cop_state.humanize
     elsif organization.network_review?
-      current_user.from_ungc? ? "Network Review: #{network_review_period(organization).downcase}" : 'Your application is under review'
+      current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
     else
       organization.state.humanize
     end
