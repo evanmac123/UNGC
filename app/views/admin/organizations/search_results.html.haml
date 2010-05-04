@@ -16,7 +16,7 @@
           %td=h organization.id
           %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name.force_encoding("UTF-8")}=h truncate(organization.name.force_encoding("UTF-8"))
-          %td=h organization.state.humanize
+          %td=h display_status(organization)
           %td=h organization.country_name
           %td
             %ul.actions
