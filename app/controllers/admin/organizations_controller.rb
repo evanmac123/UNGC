@@ -28,7 +28,7 @@ class Admin::OrganizationsController < AdminController
   end
   
   def edit
-    @organization_types = OrganizationType.participants
+    @organization_types = OrganizationType.staff_types
   end
 
   def update
@@ -39,7 +39,7 @@ class Admin::OrganizationsController < AdminController
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to( admin_organization_path(@organization.id) )
     else
-      @organization_types = OrganizationType.participants
+      @organization_types = OrganizationType.staff_types
       render :action => "edit"
     end
   end
@@ -104,8 +104,7 @@ class Admin::OrganizationsController < AdminController
     end
     
     def load_organization_types
-      method = ['business', 'non_business'].include?(params[:org_type]) ? params[:org_type] : 'business'
-      @organization_types = OrganizationType.send method
+      @organization_types = OrganizationType.staff_types
     end
     
     def order_from_params
