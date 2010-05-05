@@ -1,7 +1,7 @@
 %h1= "Search results for '#{h params[:keyword]}'"
   
 - if @facets.any? && @facets[:document_type].size > 1
-  %p You can refine your search by category:
+  %p You may browse the search results by category:
   %ul.nolist
     - @facets[:document_type].each_pair do |key, count|
       %li= link_to "#{pretty_facet_label(key)}: #{count}", params.merge(:document_type => key, :page => 1)
@@ -10,11 +10,11 @@
   - for result in @results do
     - if result
       .search_results
-        %div{:style => 'font-weight: bold; color: blue'}
+        %div{:style => 'font-weight: bold; color: blue;'}
           = link_to result.title.force_encoding("UTF-8"), result.url
         %div
           = format result
-        %div{:style => 'color: #BAD5FB'}
+        %div{:style => 'color: gray;'}
           = "http://#{request.host}#{result.url}"
       
   %div

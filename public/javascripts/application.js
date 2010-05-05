@@ -67,18 +67,18 @@ function versionNumberAnchor() {
 }
 
 function showBusinessOnly (argument) {
-	$('.for_stakeholders_only').hide();
-	$('.for_business_only').show();
+	$('.for_stakeholders_only').hide('slow');
+	$('.for_business_only').show('slow');
 }
 
 function showStakeholdersOnly (argument) {
-	$('.for_stakeholders_only').show();
-	$('.for_business_only').hide();
+	$('.for_stakeholders_only').show('slow');
+	$('.for_business_only').hide('slow');
 }
 
 function hideBusinessAndStakeholders (argument) {
-	$('.for_stakeholders_only').hide();
-	$('.for_business_only').hide();
+	$('.for_stakeholders_only').hide('slow');
+	$('.for_business_only').hide('slow');
 }
 
 function clearPledgeOtherAmount (argument) {
