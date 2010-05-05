@@ -7,7 +7,7 @@
       %fieldset
         %ol
           %li
-            %label Organization Name
+            %label Search by Name or ID
             = text_field_tag :keyword
           %li
             %label Country
@@ -26,7 +26,6 @@
             %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}", :style => 'width: 150px'} Non-business
 
       / %fieldset
-      /   %legend Options
       /   %ol
       /     %li
       /       %label{:for => 'joined_after_year'} Participant since

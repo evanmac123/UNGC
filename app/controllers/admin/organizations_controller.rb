@@ -90,7 +90,19 @@ class Admin::OrganizationsController < AdminController
   
   def search
     if params[:commit] == 'Search'
-      display_search_results
+      # intercept search by ID
+      if params[:keyword].to_i > 0
+        org_id = params[:keyword].to_i
+        if Organization.find_by_id(org_id)
+          organization = Organization.find_by_id(org_id)
+          redirect_to(admin_organization_path(organization.id))
+        else
+          flash[:error] = "There is no organization with the ID #{org_id}." 
+          render :action => "search"
+        end
+      else
+        display_search_results
+      end
     end
   end
 
@@ -131,8 +143,14 @@ class Admin::OrganizationsController < AdminController
       options.delete(:with) if options[:with] == {}
       logger.info " ** Organizations search with options: #{options.inspect}"
       @results = Organization.search keyword || '', options
-      raise Riddle::ConnectionError unless @results && @results.total_entries
-      render :action => 'search_results'
+      
+      if @results.total_entries > 0
+        render :action => 'search_results'
+      else
+        flash.now[:error] = "Sorry, there are no organizations with '#{keyword}' in their name."
+        render :action => "search"
+      end
+      
     end
     
     def filter_options_for_country(options)

@@ -56,6 +56,18 @@ module Admin::OrganizationsHelper
     end
   end
     
+  def display_id_type(organization)
+    if organization.approved?
+      if organization.participant?
+        'Participant ID:'
+      else
+        'Organization ID:'
+      end
+    else
+      'Registration ID:'
+    end
+  end
+    
   def local_network_detail(organization, detail)
     organization.country.local_network ? organization.country.try(:local_network).try(detail) : 'Unknown'
   end

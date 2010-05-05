@@ -142,6 +142,8 @@ ul.nav_bar {
       padding-bottom: 5px; }
       #main_content table.dashboard_table td.center {
         text-align: center; }
+      #main_content table.dashboard_table td span .small {
+        font-size: 9px; }
     #main_content table.dashboard_table ul.actions {
       margin: 0; }
       #main_content table.dashboard_table ul.actions li {
