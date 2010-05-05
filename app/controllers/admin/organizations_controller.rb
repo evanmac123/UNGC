@@ -123,11 +123,11 @@ class Admin::OrganizationsController < AdminController
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]
-      filter_options_for_joined_on(options)
+      # filter_options_for_joined_on(options)
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = options[:with].merge(:keyword      => keyword)
-                                    .merge(:joined_after => date_from_params(:joined_after))
+                                    # .merge(:joined_after => date_from_params(:joined_after))
       options.delete(:with) if options[:with] == {}
       logger.info " ** Organizations search with options: #{options.inspect}"
       @results = Organization.search keyword || '', options
