@@ -7,6 +7,7 @@
         %th ID
         %th Old ID
         %th Name
+        %th Type
         %th Status
         %th Country
         %th Actions
@@ -16,6 +17,7 @@
           %td=h organization.id
           %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name.force_encoding("UTF-8")}=h truncate(organization.name.force_encoding("UTF-8"))
+          %td= organization.organization_type_name
           %td= display_status(organization)
           %td=h organization.country_name
           %td

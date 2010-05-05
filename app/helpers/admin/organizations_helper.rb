@@ -19,19 +19,23 @@ module Admin::OrganizationsHelper
     commands << "$('.public_company_only').#{organization.public_company? ? 'show' : 'hide'}();"
     commands.collect{|c| javascript_tag(c)}.join
   end
-  
-  def show_delisted_details(organization)
-    organization.active ? 'none' : 'block'
-  end
 
   def display_status(organization)
+
     if organization.approved?
-      organization.cop_state.humanize
+      if organization.participant?
+        organization.cop_state.humanize
+      # they've been approved, but only participants have a COP state
+      else
+        'Not a participant'
+      end
     elsif organization.network_review?
       current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
+    # still in review, or has been rejected
     else
       organization.state.humanize
     end
+
   end
   
   def letter_of_commitment_updated(organization)
