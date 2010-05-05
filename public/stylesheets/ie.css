@@ -2,3 +2,6 @@
 #nav ul ul li { filter:alpha(opacity=95); }
 #footer_nav li { padding: 0 1px 0 4px; }
 #rightcontent .bookmarks { float: right; position: relative; margin: 5px 10px -15px 0px;}
+/* fix query datepicker */
+div.ui-datepicker .ui-datepicker-title { font-size: 11px; text-align: left;}
+div.ui-datepicker select.ui-datepicker-year { float: left; position: relative; top: -20px;}

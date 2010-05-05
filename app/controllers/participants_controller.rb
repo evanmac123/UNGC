@@ -37,13 +37,14 @@ class ParticipantsController < ApplicationController
       options[:per_page] = 100 if options[:per_page] > 100
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
+      filter_options_for_joined_on(options) if params[:joined_after] != '' && params[:joined_before] != ''
       filter_options_for_business_type(options) if params[:business_type]
       filter_options_for_sector(options) if params[:sector_id]
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = options[:with].merge(:keyword => params[:keyword])
       options.delete(:with) if options[:with] == {}
-      logger.info " ** Participant search with options: #{options.inspect}"
+      # logger.info " ** Participant search with options: #{options.inspect}"
       @results = Organization.participants_only.search params[:keyword] || '', options
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'index'
@@ -76,6 +77,15 @@ class ParticipantsController < ApplicationController
     
     def filter_options_for_sector(options)
       options[:with].merge!(sector_id: params[:sector_id].to_i) if params[:sector_id] != 'all'
+    end
+    
+    def filter_options_for_joined_on(options)
+        options[:with].merge!(joined_on: date_from_params(:joined_after)..date_from_params(:joined_before))
+    end
+    
+    def date_from_params(param_name)
+      month, day, year = params[param_name].split('/')
+      Time.parse [year,month,day].join('-')
     end
     
 end
