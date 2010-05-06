@@ -94,10 +94,9 @@ class Admin::OrganizationsController < AdminController
       if params[:keyword] =~ /\A[+\-]?\d+\Z/
         org_id = params[:keyword].to_i
         if Organization.find_by_id(org_id)
-          # organization = Organization.find_by_id(org_id)
           redirect_to(admin_organization_path(org_id))
         else
-          flash[:error] = "There is no organization with the ID #{org_id}." 
+          flash.now[:error] = "There is no organization with the ID #{org_id}." 
           render :action => "search"
         end
       else
