@@ -138,8 +138,8 @@ ul.nav_bar {
     #main_content table.dashboard_table td {
       border-bottom: 1px solid #ccc;
       vertical-align: middle;
-      padding-top: 5px;
-      padding-bottom: 5px; }
+      padding-top: 6px;
+      padding-bottom: 3px; }
       #main_content table.dashboard_table td.center {
         text-align: center; }
       #main_content table.dashboard_table td span .small {
