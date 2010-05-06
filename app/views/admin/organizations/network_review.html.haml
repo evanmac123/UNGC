@@ -19,7 +19,10 @@
           %td=h organization.id
           %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name}=h truncate(organization.name, :length => 40)
-          %td=h organization.created_at
+          %td
+            =h organization.created_at
+            %br/
+            %span.small= distance_of_time_in_words(Date.today, organization.created_at) + ' ago'
           %td= network_review_period(organization)
           %td=h organization.last_modified_by_full_name
           %td

@@ -10,7 +10,7 @@
         %th= sort_header 'Old ID', field: 'old_id'
         %th= sort_header 'Name', field: 'name'
         %th= sort_header 'Submitted on', field: 'created_at'
-        %th= sort_header 'Last comment', field: 'comment'
+        %th Last comment
         %th Comment posted by
         %th= sort_header 'Letter of Commitment', field: 'commitment_letter_updated_at'
         %th Actions
@@ -20,8 +20,15 @@
           %td=h organization.id
           %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name}=h truncate(organization.name, :length => 40)
-          %td=h organization.created_at
-          %td=h organization.last_comment_date
+          %td
+            =h organization.created_at
+            %br/
+            %span.small= distance_of_time_in_words(Date.today, organization.created_at) + ' ago'
+          %td
+            - if organization.last_comment_date
+              = organization.last_comment_date
+              %br/
+              %span.small= distance_of_time_in_words(Date.today, organization.last_comment_date) + ' ago'
           %td=h organization.last_comment_author
           %td=h letter_of_commitment_updated(organization)
           %td

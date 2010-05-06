@@ -5,10 +5,11 @@ class OrganizationTypeTest < ActiveSupport::TestCase
   
   context "filtering by type" do
     setup do
-      @academia  = create_organization_type(:name => 'Academic')
-      @public    = create_organization_type(:name => 'Public Sector Organization')
-      @companies = create_organization_type(:name => 'Company')
-      @sme       = create_organization_type(:name => 'SME')
+      @academia  = create_organization_type(:name => 'Academic', :type_property => 1 )
+      @public    = create_organization_type(:name => 'Public Sector Organization', :type_property => 1)
+      @companies = create_organization_type(:name => 'Company', :type_property => 2)
+      @sme       = create_organization_type(:name => 'SME', :type_property => 2)
+      @micro     = create_organization_type(:name => 'Micro Enterprise', :type_property => 0)
     end
 
     should "find Academics when filtering for :academia" do
@@ -30,6 +31,11 @@ class OrganizationTypeTest < ActiveSupport::TestCase
     should "find SME and Companies when filtering for :companies and :sme" do
       assert_same_elements [@companies, @sme], OrganizationType.for_filter(:companies, :sme)
     end
+    
+    should "find Busines, Non Business and Micro Enterprise using named scope for staff" do
+      assert_same_elements [@academia, @public, @companies, @sme, @micro], OrganizationType.staff_types
+    end
+    
   end
   
 end

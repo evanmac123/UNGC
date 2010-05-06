@@ -19,19 +19,23 @@ module Admin::OrganizationsHelper
     commands << "$('.public_company_only').#{organization.public_company? ? 'show' : 'hide'}();"
     commands.collect{|c| javascript_tag(c)}.join
   end
-  
-  def show_delisted_details(organization)
-    organization.active ? 'none' : 'block'
-  end
 
   def display_status(organization)
+
     if organization.approved?
-      organization.cop_state.humanize
+      if organization.participant?
+        organization.cop_state.humanize
+      # they've been approved, but only participants have a COP state
+      else
+        'Not a participant'
+      end
     elsif organization.network_review?
-      'Network Review: ' + network_review_period(organization).downcase
+      current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
+    # still in review, or has been rejected
     else
       organization.state.humanize
     end
+
   end
   
   def letter_of_commitment_updated(organization)
@@ -49,6 +53,18 @@ module Admin::OrganizationsHelper
       content_tag :span,
                   "#{distance_of_time_in_words(Date.today, organization.network_review_on + 7.days)} overdue",
                   :style => 'color: red;' 
+    end
+  end
+    
+  def display_id_type(organization)
+    if organization.approved?
+      if organization.participant?
+        'Participant ID:'
+      else
+        'Organization ID:'
+      end
+    else
+      'Registration ID:'
     end
   end
     

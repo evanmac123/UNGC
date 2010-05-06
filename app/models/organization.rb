@@ -301,7 +301,7 @@ class Organization < ActiveRecord::Base
   end
   
   def last_comment_date
-    self.try(:comments).try(:last).try(:updated_at) || ''
+    self.try(:comments).try(:last).try(:updated_at) || nil
   end
     
   def last_comment_author

@@ -15,8 +15,10 @@
 
     %dl.left_column
       %h3 Organization Details
-      %dt.first Status:
-      %dd.first= display_status(@organization)
+      %dt.first= display_id_type(@organization)
+      %dd.first= @organization.id
+      %dt Status:
+      %dd= display_status(@organization)
       %dt Participant since:
       %dd= @organization.joined_on || 'n/a'
       - if @organization.company?
@@ -40,7 +42,7 @@
     %dl.left_column
       %h3 Contact Information
       %dt.first Highest Level Executive:
-      %dd.first= render :partial => 'admin/contacts/contact_overview', :collection => @organization.contacts.ceos 
+      %dd.first= render :partial => 'admin/contacts/contact_overview', :collection => @organization.contacts.ceos
       %dt Contact Point:
       %dd= render :partial => 'admin/contacts/contact_overview', :collection => @organization.contacts.contact_points
   

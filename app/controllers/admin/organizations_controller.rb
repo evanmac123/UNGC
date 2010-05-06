@@ -28,7 +28,7 @@ class Admin::OrganizationsController < AdminController
   end
   
   def edit
-    @organization_types = OrganizationType.participants
+    @organization_types = OrganizationType.staff_types
   end
 
   def update
@@ -39,7 +39,7 @@ class Admin::OrganizationsController < AdminController
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to( admin_organization_path(@organization.id) )
     else
-      @organization_types = OrganizationType.participants
+      @organization_types = OrganizationType.staff_types
       render :action => "edit"
     end
   end
@@ -90,7 +90,19 @@ class Admin::OrganizationsController < AdminController
   
   def search
     if params[:commit] == 'Search'
-      display_search_results
+      # intercept search by ID and check for number
+      if params[:keyword] =~ /\A[+\-]?\d+\Z/
+        org_id = params[:keyword].to_i
+        if Organization.find_by_id(org_id)
+          # organization = Organization.find_by_id(org_id)
+          redirect_to(admin_organization_path(org_id))
+        else
+          flash[:error] = "There is no organization with the ID #{org_id}." 
+          render :action => "search"
+        end
+      else
+        display_search_results
+      end
     end
   end
 
@@ -104,8 +116,7 @@ class Admin::OrganizationsController < AdminController
     end
     
     def load_organization_types
-      method = ['business', 'non_business'].include?(params[:org_type]) ? params[:org_type] : 'business'
-      @organization_types = OrganizationType.send method
+      @organization_types = OrganizationType.staff_types
     end
     
     def order_from_params
@@ -124,16 +135,22 @@ class Admin::OrganizationsController < AdminController
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]
-      filter_options_for_joined_on(options)
+      # filter_options_for_joined_on(options)
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = options[:with].merge(:keyword      => keyword)
-                                    .merge(:joined_after => date_from_params(:joined_after))
+                                    # .merge(:joined_after => date_from_params(:joined_after))
       options.delete(:with) if options[:with] == {}
-      logger.info " ** Organizations search with options: #{options.inspect}"
+      #logger.info " ** Organizations search with options: #{options.inspect}"
       @results = Organization.search keyword || '', options
-      raise Riddle::ConnectionError unless @results && @results.total_entries
-      render :action => 'search_results'
+      
+      if @results.total_entries > 0
+        render :action => 'search_results'
+      else
+        flash.now[:error] = "Sorry, there are no organizations with '#{keyword}' in their name."
+        render :action => "search"
+      end
+      
     end
     
     def filter_options_for_country(options)
