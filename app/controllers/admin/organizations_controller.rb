@@ -90,12 +90,12 @@ class Admin::OrganizationsController < AdminController
   
   def search
     if params[:commit] == 'Search'
-      # intercept search by ID
-      if params[:keyword].to_i > 0
+      # intercept search by ID and check for number
+      if params[:keyword] =~ /\A[+\-]?\d+\Z/
         org_id = params[:keyword].to_i
         if Organization.find_by_id(org_id)
-          organization = Organization.find_by_id(org_id)
-          redirect_to(admin_organization_path(organization.id))
+          # organization = Organization.find_by_id(org_id)
+          redirect_to(admin_organization_path(org_id))
         else
           flash[:error] = "There is no organization with the ID #{org_id}." 
           render :action => "search"
@@ -141,7 +141,7 @@ class Admin::OrganizationsController < AdminController
       @searched_for = options[:with].merge(:keyword      => keyword)
                                     # .merge(:joined_after => date_from_params(:joined_after))
       options.delete(:with) if options[:with] == {}
-      logger.info " ** Organizations search with options: #{options.inspect}"
+      #logger.info " ** Organizations search with options: #{options.inspect}"
       @results = Organization.search keyword || '', options
       
       if @results.total_entries > 0
