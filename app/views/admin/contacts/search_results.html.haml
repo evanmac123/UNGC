@@ -18,7 +18,7 @@
   - for contact in @results
     %tr
       %td= contact.id
-      %td= contact.name.force_encoding("UTF-8")
+      %td= contact.name
       %td= link_to truncate(contact.organization.name, :length => 40), admin_organization_path(contact.organization.id)
       %td= contact.email
       %td.center= image_tag('/images/checked.jpg') if contact.is?(Role.ceo)
