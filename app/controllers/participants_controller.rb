@@ -37,7 +37,7 @@ class ParticipantsController < ApplicationController
       options[:per_page] = 100 if options[:per_page] > 100
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
-      filter_options_for_joined_on(options) if params[:joined_after] != '' && params[:joined_before] != ''
+      filter_options_for_joined_on(options) if params[:joined_after] && params[:joined_before]
       filter_options_for_business_type(options) if params[:business_type]
       filter_options_for_sector(options) if params[:sector_id]
 
@@ -80,7 +80,9 @@ class ParticipantsController < ApplicationController
     end
     
     def filter_options_for_joined_on(options)
+      if params[:joined_after] != "" && params[:joined_before] != ""
         options[:with].merge!(joined_on: date_from_params(:joined_after)..date_from_params(:joined_before))
+      end
     end
     
     def date_from_params(param_name)
