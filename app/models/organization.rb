@@ -282,7 +282,7 @@ class Organization < ActiveRecord::Base
   end
   
   def business_entity?
-    organization_type.business?
+    organization_type.try(:business?) || micro_enterprise?
   end
   
   # NOTE: Convenient alias
@@ -421,9 +421,11 @@ class Organization < ActiveRecord::Base
       return if self.employees.nil?
       if self.business_entity?
         if self.employees < 10
-          self.organization_type_id = OrganizationType.micro_enterprise.id
+          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
         elsif self.employees < 250
-          self.organization_type_id = OrganizationType.sme.id
+          self.organization_type_id = OrganizationType.try(:sme).try(:id)
+        elsif self.employees > 250
+          self.organization_type_id = OrganizationType.try(:company).try(:id)
         end
       end
     end

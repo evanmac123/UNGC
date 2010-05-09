@@ -59,4 +59,9 @@ class OrganizationType < ActiveRecord::Base
   def self.sme
     first :conditions => {:name => FILTERS[:sme]}
   end
+  
+  def self.company
+    first :conditions => {:name => FILTERS[:companies]}
+  end
+  
 end
