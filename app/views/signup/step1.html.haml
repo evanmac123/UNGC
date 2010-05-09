@@ -13,10 +13,12 @@
         %li
           = form.label :url, "Website"
           = form.text_field :url
-        %li
-          = form.label :url, "Type"
-          = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
+        - if @organization_types.first.type_property == OrganizationType::NON_BUSINESS
+          %li
+            = form.label :url, "Type"
+            = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
         - if @organization_types.first.type_property == OrganizationType::BUSINESS
+          = hidden_field :organization, :organization_type_id, :value => OrganizationType.try(:company).try(:id)
           %li
             = form.label :listing_status_id, "Ownership"
             = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
@@ -25,7 +27,7 @@
             = form.check_box :is_ft_500
           %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
             = form.label :exchange_id, "Exchange"
-            = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}
+            = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, :include_blank => true
           %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
             = form.label :stock_symbol
             = form.text_field :stock_symbol

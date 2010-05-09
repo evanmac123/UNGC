@@ -7,6 +7,7 @@ class SignupController < ApplicationController
 
   # shows organization form
   def step1
+    clean_session
     @organization.organization_type_id = @organization_types.first.id unless @organization.organization_type_id
   end
   

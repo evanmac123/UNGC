@@ -282,7 +282,7 @@ class Organization < ActiveRecord::Base
   end
   
   def business_entity?
-    organization_type.try(:business?)
+    organization_type.try(:business?) || micro_enterprise?
   end
   
   # NOTE: Convenient alias
