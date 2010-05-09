@@ -3,12 +3,12 @@
   %legend Details
   %ol
     = default_form.text_field :name
-    = default_form.text_field :url, {:label => 'Website'}
+    = default_form.text_field :url, :label => 'Website'
     - staff_only do
       = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
     
     - if @organization.company?
-      = default_form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}, :li_class => 'company_only'
+      = default_form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}, :li_class => 'company_only', :label => 'Ownership'
       - if @organization.public_company?
         = default_form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, :li_class => 'public_company_only'
         = default_form.text_field :stock_symbol, :li_class => 'public_company_only'

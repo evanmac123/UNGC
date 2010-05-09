@@ -424,7 +424,7 @@ class Organization < ActiveRecord::Base
           self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
         elsif self.employees < 250
           self.organization_type_id = OrganizationType.try(:sme).try(:id)
-        elsif self.employees > 250
+        elsif self.employees >= 250
           self.organization_type_id = OrganizationType.try(:company).try(:id)
         end
       end
