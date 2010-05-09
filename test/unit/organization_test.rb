@@ -35,6 +35,13 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal @sme.id, @organization.organization_type_id
     end
     
+    should "set the organization type to Company when it has more than 250 employees" do
+      @organization = Organization.create(:name                 => 'SME should be a Company',
+                                          :employees            => 500,
+                                          :organization_type_id => @sme.id)
+      assert_equal @companies.id, @organization.organization_type_id
+    end
+    
     should "set sector to 'not applicable' when it is a non-business" do
       @non_business = create_organization_type(:name => 'Foundation', :type_property => 1, )
       @sector = create_sector(:name => "Media")
@@ -117,7 +124,7 @@ class OrganizationTest < ActiveSupport::TestCase
       @micro     = create_organization_type(:name => 'Micro Entreprise')
       @climate   = create_initiative(:id => 2, :name => 'Climate Change')
 
-      @an_org    = create_organization
+      @an_org    = create_organization(:organization_type_id => @sme.id, :employees => 50)
     end
     
     should "find no orgs when filtering by initiative for climate" do

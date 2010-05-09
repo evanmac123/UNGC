@@ -25,7 +25,7 @@ class NetworksReport < GroupedReport
   def row(record)
     standard = [
       record.name, 
-      record.organization_type.name, 
+      record.organization_type.try(:name), 
       record.country.try(:name), 
       record.created_at
     ]
