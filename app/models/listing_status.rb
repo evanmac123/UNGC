@@ -11,4 +11,5 @@
 
 class ListingStatus < ActiveRecord::Base
   validates_presence_of :name
+  default_scope :conditions => "name != 'Not applicable'"
 end
