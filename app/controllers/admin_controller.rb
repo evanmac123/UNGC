@@ -50,6 +50,14 @@ class AdminController < ApplicationController
     end
   end
 
+  # Denies access to a resource if the user belongs to an approved organization 
+  def no_approved_organizations_access
+    if current_user.from_organization? and current_user.organization.approved?
+      flash[:notice] = "Your organization's application was approved. Comments are no longer being accepted."
+      redirect_to admin_organization_path current_user.organization.id
+    end
+  end
+
   # Denies access to a resource if the user belongs to organization or local network
   def no_organization_or_local_network_access
     redirect_to admin_organization_path(current_user.organization.id) unless current_user.from_ungc?

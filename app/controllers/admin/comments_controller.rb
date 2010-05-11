@@ -1,6 +1,7 @@
 class Admin::CommentsController < AdminController
   before_filter :load_commentable
   before_filter :no_rejected_organizations_access, :only => :new
+  before_filter :no_approved_organizations_access, :only => :new
   helper_method :commentable_path
   
   def new
