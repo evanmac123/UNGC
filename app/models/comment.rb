@@ -69,13 +69,13 @@ class Comment < ActiveRecord::Base
       if state_event.to_s == ApprovalWorkflow::EVENT_NETWORK_REVIEW && body.blank?
         self.body = 'Your application is under review by the Local Network in your country.'
       end
-      if state_event.to_s == ApprovalWorkflow::STATE_APPROVED && body.blank?
+      if state_event.to_s == ApprovalWorkflow::EVENT_APPROVE && body.blank?
         self.body = 'Your application has been accepted.'
       end
-      if state_event.to_s == ApprovalWorkflow::STATE_REJECTED && body.blank?
+      if state_event.to_s == ApprovalWorkflow::EVENT_REJECT && body.blank?
         self.body = 'Your application could not be accepted.'
       end
-      if state_event.to_s == ApprovalWorkflow::STATE_REJECTED_MICRO && body.blank?
+      if state_event.to_s == ApprovalWorkflow::EVENT_REJECT_MICRO && body.blank?
         self.body = 'Your application could not be accepted.'
       end
     end

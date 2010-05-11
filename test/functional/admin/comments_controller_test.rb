@@ -84,8 +84,10 @@ class Admin::CommentsControllerTest < ActionController::TestCase
         assert_emails(2) do
           post :create, :organization_id => @organization.id,
                         :commit          => Organization::EVENT_APPROVE,
-                        :comment         => { :body => 'Approved' }
+                        :comment         => { :body => '' }
 
+          # empty comment should have default message
+          assert_equal 'Your application has been accepted.', @organization.comments.first.body
           assert_redirected_to admin_organization_path(@organization.id)
           assert_equal 'The application was approved.', flash[:notice]
           assert @organization.reload.approved?

@@ -80,6 +80,7 @@ class ParticipantsController < ApplicationController
     end
     
     def filter_options_for_joined_on(options)
+      # check that date_from_params returns a valid date
       if params[:joined_after] != "" && params[:joined_before] != ""
         options[:with].merge!(joined_on: date_from_params(:joined_after)..date_from_params(:joined_before))
       end
@@ -87,6 +88,7 @@ class ParticipantsController < ApplicationController
     
     def date_from_params(param_name)
       month, day, year = params[param_name].split('/')
+      # check for valid date segments
       Time.parse [year,month,day].join('-')
     end
     
