@@ -35,6 +35,14 @@ class AdminController < ApplicationController
     render :template => "admin/dashboard_#{current_user.user_type}.html.haml"
   end
   
+  # Denies access if the user belongs to a rejected organization
+  def no_rejected_organizations_access
+    if current_user.organization.rejected? and !current_user.from_ungc?
+      flash[:error] = "We're sorry, your organization's application was not approved. No edits or comments can be made."
+      redirect_to admin_organization_path current_user.organization.id
+    end
+  end
+  
   # Denies access to a resource if the user belongs to a not yet approved organization 
   def no_unapproved_organizations_access
     if current_user.from_organization? and !current_user.organization.approved?

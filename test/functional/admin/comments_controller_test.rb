@@ -24,6 +24,27 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     end
   end
   
+  context "given a rejected organization" do
+    setup do
+      create_ungc_organization_and_user
+      create_organization_and_user
+      @organization.reject
+    end
+    
+    should "not allow comments to be posted about a rejected application by user" do
+      login_as @organization_user
+      get :new, {:organization_id => @organization_user.organization.id}, as(@organization_user)
+      assert_equal "We're sorry, your organization's application was not approved. No edits or comments can be made.", flash[:error]
+      assert_redirected_to admin_organization_path(@organization_user.organization.id)
+    end
+    
+    should "allow comments to be posted about a rejected application by staff" do
+      login_as @staff_user
+      get :new, {:organization_id => @organization.id}, as(@staff_user)
+      assert_response :success
+    end
+  end  
+  
   context "given an existing organization" do
     setup do
       create_ungc_organization_and_user
@@ -33,7 +54,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
       @organization.country_id = @local_network.country_ids.first
       login_as @staff_user
     end
-
+    
     should "also send email to the Local Network when posting a comment" do
             
       assert_difference 'Comment.count' do
