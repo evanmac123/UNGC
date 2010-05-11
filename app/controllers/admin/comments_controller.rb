@@ -12,10 +12,7 @@ class Admin::CommentsController < AdminController
     @comment.contact_id = current_user.id
 
     if @comment.save
-      flash[:notice] = 'Comment was successfully created.'
-      if @comment.copy_local_network?
-        flash[:notice] += ' The Local Network has been notified by email.'
-      end
+      flash[:notice] = set_flash_notice_text(@commentable, @comment)
       redirect_to commentable_path(@commentable) 
     else
       render :action => "new"
@@ -23,6 +20,28 @@ class Admin::CommentsController < AdminController
   end
   
   private
+  
+    def set_flash_notice_text(commentable, comment)
+      case comment.state_event
+        when Organization::EVENT_REVISE
+          flash = 'Comment was successfully created.'
+          flash += ' The Local Network has been notified by email.' if comment.copy_local_network?
+          return flash
+        when Organization::EVENT_NETWORK_REVIEW
+          'The application is now under review by the Local Network.'          
+        when Organization::EVENT_REJECT
+          'The application was rejected.'
+        when Organization::EVENT_REJECT_MICRO
+          flash = 'The Micro Enterprise application was rejected.'
+          flash += ' The Local Network has been notified by email.' if commentable.network_report_recipients.count > 0
+          return flash
+        when Organization::EVENT_APPROVE
+          'The application was approved.'
+        else
+          'Comment was successfully created.'
+      end
+    end
+  
     def load_commentable
       if params[:case_story_id]
         @commentable = CaseStory.find params[:case_story_id]
