@@ -35,4 +35,8 @@ rescue Exception => e
 end
 
 # Application constants
-EMAIL_SENDER = "United Nations Global Compact <info@unglobalcompact.org>"
+EMAIL_SENDER = "info@unglobalcompact.org"
+
+# EMAIL_SENDER = "United Nations Global Compact <info@unglobalcompact.org>"
+# Setting the sender name requires this patch: 
+# http://github.com/rails/rails/commit/7e0aa35c20f06fd9ef245155e30e81cfb38bad05
