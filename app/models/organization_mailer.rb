@@ -73,6 +73,15 @@ class OrganizationMailer < ActionMailer::Base
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
   
+  def reject_microenterprise_network(organization)
+    from EMAIL_SENDER
+    bcc 'globalcompact@un.org'
+    subject "#{organization.name}'s application to the Global Compact has been declined"
+    content_type "text/html"
+    recipients organization.network_report_recipients.collect(&:email_recipient)
+    body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
+  end
+  
   def foundation_invoice(organization)
     from 'foundation@unglobalcompact.org'
     cc 'radulescu@globalcompactfoundation.org'

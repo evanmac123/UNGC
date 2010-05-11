@@ -24,7 +24,7 @@ class Comment < ActiveRecord::Base
   has_attached_file :attachment
   named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
   
-  # copy email to local network is option is selected
+  # copy email to local network if option is selected
   attr_accessor :copy_local_network
   
   attr_accessor :state_event
@@ -70,7 +70,13 @@ class Comment < ActiveRecord::Base
         self.body = 'Your application is under review by the Local Network in your country.'
       end
       if state_event.to_s == ApprovalWorkflow::STATE_APPROVED && body.blank?
-        self.body = 'Your application has been approved.'
+        self.body = 'Your application has been accepted.'
+      end
+      if state_event.to_s == ApprovalWorkflow::STATE_REJECTED && body.blank?
+        self.body = 'Your application could not be accepted.'
+      end
+      if state_event.to_s == ApprovalWorkflow::STATE_REJECTED_MICRO && body.blank?
+        self.body = 'Your application could not be accepted.'
       end
     end
 end

@@ -64,6 +64,11 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should list network review organizations" do
+    get :network_review, {}, as(@user)
+    assert_response :success
+  end
+
   test "should list rejected organizations" do
     get :rejected, {}, as(@user)
     assert_response :success

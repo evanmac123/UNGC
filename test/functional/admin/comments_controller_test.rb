@@ -28,12 +28,14 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     setup do
       create_ungc_organization_and_user
       create_organization_and_user
+      create_organization_and_ceo
       create_local_network_with_report_recipient
-      @organization.country_id = @country.id
+      @organization.country_id = @local_network.country_ids.first
       login_as @staff_user
     end
 
-    should "also send email to the Local Network when posting a comment" do      
+    should "also send email to the Local Network when posting a comment" do
+            
       assert_difference 'Comment.count' do
         # FIXME: we expect *two* emails - one to the applicant, and one to the network (if the checkbox is checked)
         assert_emails(1) do
@@ -61,6 +63,20 @@ class Admin::CommentsControllerTest < ActionController::TestCase
         end
       end
     end
+
+    should "send email to Local Network when organization status is changed to Network Review" do
+      assert_difference 'Comment.count' do
+        assert_emails(1) do
+          post :create, :organization_id    => @organization.id,
+                        :commit             => Organization::EVENT_NETWORK_REVIEW,
+                        :comment            => { :body => 'Your application is under review by the Local Network in your country.'}
+
+          assert_redirected_to admin_organization_path(@organization.id)
+          assert_equal 'The application is now under review by the Local Network.', flash[:notice]
+          assert @organization.reload.state, 'network_review'
+        end
+      end
+    end
         
     should "approve the organization on approval comment" do
       assert_difference 'Comment.count' do
@@ -71,6 +87,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
                         :comment         => { :body => 'Approved' }
 
           assert_redirected_to admin_organization_path(@organization.id)
+          assert_equal 'The application was approved.', flash[:notice]
           assert @organization.reload.approved?
         end
       end
@@ -78,13 +95,32 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     
     should "reject the organization on rejection comment" do
       assert_difference 'Comment.count' do
-        post :create, :organization_id => @organization.id,
-                      :commit          => Organization::EVENT_REJECT,
-                      :comment         => { :body => 'Rejected' }
+        assert_emails(0) do        
+          post :create, :organization_id => @organization.id,
+                        :commit          => Organization::EVENT_REJECT,
+                        :comment         => { :body => 'Rejected' }
 
-        assert_redirected_to admin_organization_path(@organization.id)
-        assert @organization.reload.rejected?
+          assert_redirected_to admin_organization_path(@organization.id)
+          assert_equal 'The application was rejected.', flash[:notice]
+          assert @organization.reload.rejected?
+        end
       end
     end
-  end
+
+    should "reject the micro enterprise organization on reject micro comment" do
+      assert_difference 'Comment.count' do
+        assert_emails(1) do
+          post :create, :organization_id => @organization.id,
+                        :commit          => Organization::EVENT_REJECT_MICRO,
+                        :comment         => { :body => 'Rejected' }
+
+          assert_redirected_to admin_organization_path(@organization.id)
+          assert_equal 'The Micro Enterprise application was rejected.', flash[:notice]
+          assert @organization.reload.rejected?
+        end
+      end
+    end
+    
+  end # content
+  
 end
