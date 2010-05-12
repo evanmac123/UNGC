@@ -4,13 +4,15 @@ module ApprovalWorkflow
   STATE_NETWORK_REVIEW = 'network_review'
   STATE_APPROVED = 'approved'
   STATE_REJECTED = 'rejected'
+  STATE_REJECTED_MICRO = 'reject_micro'
 
   EVENT_REVISE = 'revise'
-  EVENT_REJECT = 'reject'
-  EVENT_APPROVE = 'approve'
   EVENT_NETWORK_REVIEW = 'network_review'
+  EVENT_APPROVE = 'approve'
+  EVENT_REJECT = 'reject'
+  EVENT_REJECT_MICRO = 'reject_micro'
   
-  STAFF_EVENTS = [EVENT_APPROVE, EVENT_REJECT, EVENT_NETWORK_REVIEW]
+  STAFF_EVENTS = [EVENT_APPROVE, EVENT_REJECT, EVENT_REJECT_MICRO, EVENT_NETWORK_REVIEW]
   
   def self.included(klass)
     klass.class_eval do
@@ -46,6 +48,9 @@ module ApprovalWorkflow
         event :reject do
           transition :from => [:in_review, :pending_review, :network_review], :to => :rejected
         end
+        event :reject_micro do
+          transition :from => [:in_review, :pending_review, :network_review], :to => :rejected
+        end
       end
 
       named_scope :pending_review, :conditions => {:state => STATE_PENDING_REVIEW}
@@ -53,7 +58,8 @@ module ApprovalWorkflow
       named_scope :network_review, :conditions => {:state => STATE_NETWORK_REVIEW}
       named_scope :approved, :conditions => {:state => STATE_APPROVED}
       named_scope :rejected, :conditions => {:state => STATE_REJECTED}
-
+      named_scope :reject_micro, :conditions => {:state => STATE_REJECTED_MICRO}
+      
       named_scope :unreplied, :conditions => {:replied_to => false}
     end
   end

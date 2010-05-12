@@ -67,6 +67,13 @@ class OrganizationMailerTest < ActionMailer::TestCase
     assert_equal @organization_user.email, response.to.first
   end
   
+  test "micro entrprise rejected mailer is sent to the local network" do
+    response = OrganizationMailer.deliver_reject_microenterprise_network(@organization)
+    assert_equal "text/html", response.content_type
+    assert_equal "#{@organization.name}'s application to the Global Compact has been declined", response.subject
+    assert_equal @network_contact.email, response.to.first
+  end
+  
   test "foundation invoice is sent" do
     response = OrganizationMailer.deliver_foundation_invoice(@organization)
     assert_equal "text/html", response.content_type

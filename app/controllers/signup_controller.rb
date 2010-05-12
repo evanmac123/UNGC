@@ -56,7 +56,7 @@ class SignupController < ApplicationController
       @organization.contacts << @contact
       @organization.contacts << @ceo
       
-      deliver_notification_email(@organization)
+      OrganizationMailer.deliver_submission_received(@organization)
       clean_session
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
@@ -116,15 +116,7 @@ class SignupController < ApplicationController
       contact.role_ids = [role.id] if role
       contact
     end
-    
-    def deliver_notification_email(organization)
-      if organization.micro_enterprise?
-        OrganizationMailer.deliver_reject_microenterprise(organization)
-      else
-        OrganizationMailer.deliver_submission_received(organization)
-      end
-    end
-    
+        
     def extract_organization_type(organization)
       organization.business_entity? ? BUSINESS_PARAM : NONBUSINESS_PARAM
     end

@@ -1,16 +1,13 @@
 == To all Network Report Recipients in #{@organization.country_name}:
 
-%p
-  %strong Application status: In review
-%p
-  == A comment regarding #{@organization.name}'s application to the UN Global Compact has been posted.
-%table{:border => 1, :cellspacing => 1, :cellpadding => 15, :style => 'background: #E5EDF8;'}
-  %tr
-    %td
-      %strong Latest Comment to applicant: 
-      = simple_format(@organization.comments.first.body)
+%p== This message is to inform you that #{@organization.name}'s application, based in #{@organization.country_name}, has been declined.
 
-%p If you would like to assist the organization with submitting the above requested information, please find the contact information below: 
+%p Due to administrative constraints, companies with less than ten direct employees (micro enterprises) will not be entered into the database of participating companies. However, we encourage micro enterprises to engage with their Global Compact Local Network. 
+
+%p For your records, the organization's profile and contact information are below.
+
+%p Sincerely,
+%p The Global Compact Office
 
 %p
   %strong== Profile for #{@organization.name}:
@@ -18,9 +15,6 @@
 - @row_style = 'text-align: right; padding-right: 10px'
 
 %table
-  %tr
-    %td{:style => @row_style} Letter of Commitment:
-    %td= link_to @organization.commitment_letter_file_name, 'http://unglobalcompact.org' + @organization.commitment_letter.url
   %tr
     %td{:style => @row_style} Type:
     %td= @organization.organization_type_name
@@ -58,18 +52,6 @@
       %td= @ceo.email
 
 %p
-  %strong Login information:
-
-%p
-  %table
-    %tr
-      %td{:style => @row_style} Username:
-      %td= @contact.login
-    %tr
-      %td{:style => @row_style} Password:
-      %td= @contact.password
-
-%p
   %strong Contact Point Information
 %p
   %table
@@ -91,21 +73,3 @@
     %tr
       %td{:style => @row_style} Email:
       %td= @contact.email
-
-%p Please feel free to contact Ms. Gordana Filipic at filipic@un.org in case you have further questions.
-
-%p Sincerely,
-
-%p The Global Compact Office
-
-United Nations Global Compact
-%br/
-Two United Nations Plaza
-%br/
-New York, NY 10017
-%br/
-Email: globalcompact@un.org
-%br/
-Website:
-%a{:href => "http://www.unglobalcompact.org/"}
-  www.unglobalcompact.org

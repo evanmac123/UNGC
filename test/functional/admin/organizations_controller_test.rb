@@ -3,10 +3,8 @@ require 'test_helper'
 class Admin::OrganizationsControllerTest < ActionController::TestCase
   def setup
     @user = create_organization_and_user
+    create_staff_user
     create_local_network_with_report_recipient
-    @organization = create_organization( :name                 => 'Unspace Interactive',
-                                         :organization_type_id => OrganizationType.first.id,
-                                         :country_id           => @country.id )
   end
   
   test "should get index" do
@@ -40,7 +38,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     get :edit, {:id => @organization.to_param}, as(@user)
     assert_response :success
   end
-
+  
   test "should update organization" do
     put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
     assert_redirected_to admin_organization_path(assigns(:organization).id)
@@ -64,8 +62,33 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should list network review organizations" do
+    get :network_review, {}, as(@user)
+    assert_response :success
+  end
+
   test "should list rejected organizations" do
     get :rejected, {}, as(@user)
     assert_response :success
   end
+  
+  context "given a rejected organization" do
+     setup do
+       @organization.reject
+     end
+
+     should "applicant should not be able to edit" do
+       login_as @user
+       get :edit, {:id => @organization.id}, as(@user)
+       assert_equal "We're sorry, your organization's application was not approved. No edits or comments can be made.", flash[:error]
+       assert_redirected_to admin_organization_path(@user.organization.id)
+     end
+
+     should "staff should still be able to edit" do
+       login_as @staff_user
+       get :edit, {:id => @organization.id}, as(@staff_user)
+       assert_response :success
+     end
+   end
+
 end
