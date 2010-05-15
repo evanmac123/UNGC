@@ -28,7 +28,9 @@
       %dd= @organization.organization_type_name
       - if @organization.company?
         %dt Ownership:
-        %dd= @organization.listing_status_name
+        %dd
+          = @organization.is_ft_500 ? 'FT 500' : nil
+          = @organization.listing_status_name
       %dt Sector:
       %dd= @organization.sector_name
       %dt Employees:
