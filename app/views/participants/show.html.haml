@@ -2,12 +2,28 @@
 %h2= @participant.name
 
 %ul.nolist.participant_data.striped
-  - [ ['Participant since', yyyy_mm_dd(@participant.joined_on)], ['Country', @participant.country_name], ['Organization Type', @participant.organization_type.name], ['Sector', @participant.sector_name] ].each do |label, data|
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong= "#{label}:"
-      .right
-        = data
+
+  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+    .left
+      %strong Participant since:
+    .right= yyyy_mm_dd(@participant.joined_on)
+
+  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+    .left
+      %strong Country:
+    .right= @participant.country_name
+
+  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+    .left
+      %strong Organization Type:
+    .right
+      = @participant.is_ft_500 ? 'FT 500' : nil
+      = @participant.organization_type.name
+
+  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+    .left
+      %strong Sector:
+    .right= @participant.sector_name
 
   - unless @participant.commitment_letter_file_name.blank?
     %li{:class=>"clearfix #{cycle('even', 'odd')}",:title=>@participant.commitment_letter_file_name}
