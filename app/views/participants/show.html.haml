@@ -32,16 +32,16 @@
       = @participant.is_ft_500 ? 'FT 500' : nil
       = @participant.organization_type.name
 
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong Ownership
-    .right
-      = @participant.listing_status_name
+  - if @participant.business_entity?
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+      .left
+        %strong Ownership
+      .right= @participant.listing_status_name
 
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong Sector
-    .right= @participant.sector_name
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+      .left
+        %strong Sector
+      .right= @participant.sector_name
 
   - unless @participant.commitment_letter_file_name.blank?
     %li{:class=>"clearfix #{cycle('even', 'odd')}",:title=>@participant.commitment_letter_file_name}
@@ -70,7 +70,7 @@
   %h3 Participant Status
   %p== #{@participant.name} was required to communicate on progress by #{yyyy_mm_dd(@participant.cop_due_on)}. Their COP is now #{days_cop_overdue(@participant)} overdue.
 
-- if @participant.active?
+- if @participant.business_entity? and @participant.active?
   %h3 Next Communication on Progress
   %p== #{@participant.name} is required to communicate on progress by #{yyyy_mm_dd(@participant.cop_due_on)}.
 
