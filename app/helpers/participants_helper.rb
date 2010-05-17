@@ -11,6 +11,30 @@ module ParticipantsHelper
     end
   end
   
+  def display_participant_status_title(organization)
+    case organization.cop_state        
+      when Organization::COP_STATE_DELISTED
+        'Delisted on'
+      else
+        'Status'
+    end    
+  end
+  
+  def display_participant_status(organization)
+    case organization.cop_state
+      when Organization::COP_STATE_NONCOMMUNICATING
+        'Non-Communicating'
+      when Organization::COP_STATE_DELISTED
+        yyyy_mm_dd(organization.delisted_on)
+      else
+        organization.cop_state.humanize
+    end
+  end
+  
+  def days_cop_overdue(organization)
+    distance_of_time_in_words(Date.today, organization.cop_due_on)
+  end
+  
   def countries_list
     ids = params[:country]
     Country.find(params[:country]).map { |c| c.name }.sort.join(', ')
