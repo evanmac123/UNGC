@@ -66,7 +66,7 @@
 
 - if @participant.active?
   %h3 Next Communication on Progress
-  %p== The participant is required to submit a COP by #{yyyy_mm_dd(@participant.cop_due_on)}.
+  %p== #{@participant.name} is required to communicate on progress by #{yyyy_mm_dd(@participant.cop_due_on)}.
 
 
 - if @participant.communication_on_progresses.new_policy.approved.any?
