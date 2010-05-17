@@ -320,6 +320,10 @@ class Organization < ActiveRecord::Base
   def noncommunicating?
     cop_state == COP_STATE_NONCOMMUNICATING
   end
+
+  def active?
+    cop_state == COP_STATE_ACTIVE
+  end
   
   # Indicates if this organization uses the most recent COP rules
   def joined_after_july_2009?
@@ -331,7 +335,7 @@ class Organization < ActiveRecord::Base
   end
     
   def extend_cop_grace_period # TODO: Verify the date math here
-    self.update_attribute :cop_due_on, cop_due_on + COP_GRACE_PERIOD
+    self.update_attribute :cop_due_on, Date.today + COP_GRACE_PERIOD
     self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
   end
