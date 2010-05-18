@@ -1,6 +1,5 @@
 - @body_class = 'details'
 %h2= @organization.name
-
 %p= organization_actions(@organization)
 
 %div{:class => "tab_container top_tabs"}
@@ -37,6 +36,9 @@
       %dd= @organization.employees
       %dt Country:
       %dd= @organization.country_name
+      - unless @organization.url.blank?
+        %dt Website:
+        %dd= link_to truncate(@organization.url, :length => 30), @organization.url
       - if @organization.commitment_letter?
         %dt Letter of Commitment:
         %dd{:title => @organization.commitment_letter_file_name}= link_to truncate(@organization.commitment_letter_file_name, :length => 30), @organization.commitment_letter.url
