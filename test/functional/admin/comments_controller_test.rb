@@ -72,7 +72,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
                         :commit             => Organization::EVENT_REVISE,
                         :comment            => { :body => 'Please revise your application.', :copy_local_network => '1' }
 
-          assert_redirected_to admin_organization_path(@organization.id)
+          assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'Comment was successfully created. The Local Network has been notified by email.', flash[:notice]
           assert @organization.reload.state, 'in_review'
         end
@@ -86,7 +86,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
                         :commit             => Organization::EVENT_REVISE,
                         :comment            => { :body => 'Please revise your application.', :copy_local_network => '0' }
 
-          assert_redirected_to admin_organization_path(@organization.id)
+          assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'Comment was successfully created.', flash[:notice]
           assert @organization.reload.state, 'in_review'
         end
@@ -100,7 +100,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
                         :commit             => Organization::EVENT_NETWORK_REVIEW,
                         :comment            => { :body => 'Your application is under review by the Local Network in your country.'}
 
-          assert_redirected_to admin_organization_path(@organization.id)
+          assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'The application is now under review by the Local Network.', flash[:notice]
           assert @organization.reload.state, 'network_review'
         end
@@ -117,7 +117,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
           # empty comment should have default message
           assert_equal 'Your application has been accepted.', @organization.comments.first.body
-          assert_redirected_to admin_organization_path(@organization.id)
+          assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'The application was approved.', flash[:notice]
           assert @organization.reload.approved?
         end
@@ -131,7 +131,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
                         :commit          => Organization::EVENT_REJECT,
                         :comment         => { :body => 'Rejected' }
 
-          assert_redirected_to admin_organization_path(@organization.id)
+          assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'The application was rejected.', flash[:notice]
           assert @organization.reload.rejected?
         end
@@ -145,7 +145,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
                         :commit          => Organization::EVENT_REJECT_MICRO,
                         :comment         => { :body => 'Rejected' }
 
-          assert_redirected_to admin_organization_path(@organization.id)
+          assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'The Micro Enterprise application was rejected.', flash[:notice]
           assert @organization.reload.rejected?
         end

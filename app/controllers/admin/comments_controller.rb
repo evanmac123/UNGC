@@ -61,7 +61,7 @@ class Admin::CommentsController < AdminController
       when CommunicationOnProgress
         admin_organization_communication_on_progress_path(commentable.organization.id, commentable)
       when Organization
-        admin_organization_path(commentable.id)
+        admin_organization_path(commentable.id, :tab => :comments)
       else
         raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
       end

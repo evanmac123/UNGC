@@ -12,7 +12,7 @@ class Admin::ContactsController < AdminController
 
     if @contact.save
       flash[:notice] = 'Contact was successfully created.'
-      redirect_to admin_organization_path(@organization.id)
+      redirect_to admin_organization_path(@organization.id, :tab => :contacts)
     else
       render :action => "new"
     end
@@ -21,7 +21,7 @@ class Admin::ContactsController < AdminController
   def update
     if @contact.update_attributes(params[:contact])
       flash[:notice] = 'Contact was successfully updated.'
-      redirect_to admin_organization_path(@organization.id)
+      redirect_to admin_organization_path(@organization.id, :tab => :contacts)
     else
       render :action => "edit"
     end
@@ -33,7 +33,7 @@ class Admin::ContactsController < AdminController
     else
       flash[:error] =  @contact.errors.full_messages.to_sentence
     end
-    redirect_to admin_organization_path(@organization.id)
+    redirect_to admin_organization_path(@organization.id, :tab => :contacts)
   end
   
   def search

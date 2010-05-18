@@ -30,7 +30,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                                   :password   => 'test' }
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization).id)
+    assert_redirected_to admin_organization_path(assigns(:organization).id, :tab => :contacts)
   end
   
   test "should get edit" do
@@ -44,7 +44,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                  :id              => @organization_user.to_param,
                  :contact         => { :login    => 'aaa',
                                        :password => "password" }
-    assert_redirected_to admin_organization_path(assigns(:organization).id)
+    assert_redirected_to admin_organization_path(assigns(:organization).id, :tab => :contacts)
   end
 
   test "should destroy contact" do
@@ -55,7 +55,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                        :id => @contact_to_be_deleted.to_param
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization).id)
+    assert_redirected_to admin_organization_path(assigns(:organization).id, :tab => :contacts)
   end
   
   context "given a logged in UNGC staff user" do
