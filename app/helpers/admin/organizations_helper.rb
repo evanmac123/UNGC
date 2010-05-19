@@ -72,5 +72,23 @@ module Admin::OrganizationsHelper
   def local_network_detail(organization, detail)
     organization.country.local_network ? organization.country.try(:local_network).try(detail) : 'Unknown'
   end
+    
+  def duplicate_application(organization)
+    matches = Organization.search organization.name
+    
+    if matches.count > 0
+      list_items = ''
+      matches.try(:each) do |match|
+        unless match.id == organization.id
+          list_items += content_tag :li, link_to(match.name, admin_organization_path(match.id)), :title => match.name
+        end
+      end
+    end
+    
+    unless list_items == ''
+      html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
+      html += content_tag :ul, list_items, :class => 'matching_list'
+    end
+  end
   
 end

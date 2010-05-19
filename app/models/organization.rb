@@ -48,7 +48,6 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :on => :create, :message => "must be unique"
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
                        :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
@@ -406,8 +405,9 @@ class Organization < ActiveRecord::Base
         ''
     end
   end
-  
+    
   private
+  
     def set_non_business_sector
       unless self.business_entity?
         self.sector = Sector.not_applicable
