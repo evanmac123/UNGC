@@ -1,7 +1,11 @@
 module Admin::ReportsHelper
   def link_to_report(text, action)
-    [link_to(text, admin_report_path(:action => action)),
-      link_to('xls', admin_report_path(:action => action, :format => 'xls'), :class => 'xls')].join(' ')
+    link_to text, admin_report_path(:action => action)
+  end
+  
+  def link_to_report_xls(text,action)
+    [link_to(text, admin_report_path(:action => action, :format => 'xls')),
+    link_to(text, admin_report_path(:action => action, :format => 'xls'), :class => 'xls')].join(' ')
   end
   
   def select_month_tag(selected)

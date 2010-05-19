@@ -144,6 +144,9 @@ ul.nav_bar {
         text-align: center; }
       #main_content table.dashboard_table td span .small {
         font-size: 9px; }
+    #main_content table.dashboard_table ul.matching_list {
+      margin: 0;
+      list-style: none; }
     #main_content table.dashboard_table ul.actions {
       margin: 0; }
       #main_content table.dashboard_table ul.actions li {
@@ -544,10 +547,10 @@ ul.nav_bar {
 
 ul#report_list {
   margin: 0;
-  width: 50%; }
+  width: 400px; }
   ul#report_list li {
     list-style: none;
-    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding: 0.75em 10px;
     background-color: #f2f2f2;
     position: relative; }
@@ -572,8 +575,7 @@ ul#report_list {
     color: #333333;
     text-decoration: none; }
     ul#report_list a:hover {
-      color: #14546f;
-      font-weight: bold; }
+      color: #14546f; }
 
 div.pagination {
   background: #f0f6fa;
