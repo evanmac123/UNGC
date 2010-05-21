@@ -115,18 +115,22 @@ Fields to delete
 Here's a list of tables/fields that should be safe to delete after the application has been launched:
 
 *.old_id - only used by importer
-organizations.local_network - we have a new LocalNetwork model
-organizations.old_tmp_id - only used by importer
+case_stories.status - using state
+communication_on_progresses.facilitator - never used
+communication_on_progresses.status - using state
+contacts.advisory_council - legacy column was never used
 contacts.ceo - roles replace the use of this field
 contacts.contact_point - roles replace the use of this field
 contacts.newsletter - legacy column was never used
-contacts.advisory_council - legacy column was never used
 country.manager_id - used in transition, not used anymore
-
+logo_requests.status - using state
+organizations.cop_status - using cop_state
+organizations.local_network - we have a new LocalNetwork model
+organizations.old_tmp_id - only used by importer
+organizations.status - using state
 pages.top_level - only used by importer
 
-organizations.status - using state
-organizations.cop_status - using cop_state
-logo_requests.status - using state
-case_stories.status - using state
-communication_on_progresses.status - using state
+Server Backup
+=============
+- installed JungleDisk backup
+- sudo /usr/local/bin/junglediskserver
