@@ -36,8 +36,8 @@ module LocalNetworkHelper
     if local_network && latest = local_network.latest_participant
       content = <<-EOF
       Latest Participant:<br />
-      #{link_to latest.name, participant_link(latest)}<br />
-      Joined on #{latest.joined_on.day} #{latest.joined_on.strftime('%B, %Y')}
+      #{link_to truncate(latest.name, :length => 45), participant_link(latest), :title => latest.name}<br />
+      Accepted on #{latest.joined_on.day} #{latest.joined_on.strftime('%B, %Y')}
       EOF
       content_tag :p, content
     end
@@ -45,7 +45,7 @@ module LocalNetworkHelper
   
   def role_for(contact)
     return 'Global Compact Coordinator' if local_network.manager == contact
-    possible = contact.roles.select { |r| Role.network_contact.include?(r) }
+    possible = contact.roles.select { |r| Role.network_contacts.include?(r) }
     possible.try(:first).try(:name)
   end
   

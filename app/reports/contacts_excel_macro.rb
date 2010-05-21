@@ -39,7 +39,7 @@ class ContactsExcelMacro < SimpleReport
       WHERE o.cop_state IN ('active','noncommunicating') AND
       o.active = 1 AND
       o.participant = 1 AND
-      t.name NOT IN ('Media Organization', 'GC Networks', 'Micro Entreprise', 'Mailing List') AND
+      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
       contacts_roles.role_id IN (2,3)
       ORDER by o.id",
       )
