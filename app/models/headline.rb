@@ -43,7 +43,7 @@ class Headline < ActiveRecord::Base
   }
   
   def self.recent
-    published.limit(25).descending
+    published.descending
   end
   
   def self.for_year(year)
