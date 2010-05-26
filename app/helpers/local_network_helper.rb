@@ -11,7 +11,11 @@ module LocalNetworkHelper
   end
   
   def p_with_link_to_local_network
-    content_tag :p, "Website: #{link_to(local_network.url,local_network.url)}" if local_network unless local_network.try(:url).blank?
+    if local_network and !local_network.try(:url).blank?
+      content_tag :p, link_to(local_network.url, local_network.url)
+    else
+      nil
+    end
   end
   
   def local_network_contacts
@@ -47,6 +51,26 @@ module LocalNetworkHelper
     return 'Global Compact Coordinator' if local_network.manager == contact
     possible = contact.roles.select { |r| Role.network_contacts.include?(r) }
     possible.try(:first).try(:name)
+  end
+  
+  def link_to_annuaL_report_if_file_exists
+    if local_network
+      
+      # get country code from path
+      if params[:path].last && params[:path].last.is_a?(String)
+        country_code = params[:path].last.gsub(/\.html/, '')
+      end
+      report_file = "public/docs/networks_around_world_doc/communication/network_reports/2009/#{country_code}.pdf"
+      if FileTest.exists?(report_file)
+        content_tag :p, link_to("#{local_network.try(:name)} (pdf)", "/docs/networks_around_world_doc/communication/network_reports/2009/#{country_code}.pdf")
+      else
+        'A report has not been provided'
+      
+      end
+    else
+      return nil
+    end
+    
   end
   
   # temporary participant reports until Local Networks can login
