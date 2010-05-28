@@ -64,9 +64,9 @@ module LocalNetworkHelper
       if FileTest.exists?(report_file)
         content_tag :p, link_to("#{local_network.try(:name)} (pdf)", "/docs/networks_around_world_doc/communication/network_reports/2009/#{country_code}.pdf")
       else
-        'A report has not been provided'
-      
+        'A report has not been provided'      
       end
+      
     else
       return nil
     end
@@ -118,6 +118,11 @@ module LocalNetworkHelper
     Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
       :all, :conditions => [ 'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)',
                             (Date.today - days.day).to_s, (Date.today).to_s, RemovalReason.delisted.id.to_i])
+  end
+
+  def participants_requesting_withdrawal()
+    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
+      :all, :conditions => [ 'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)', ("#{current_year}-01-01"), (Date.today).to_s, RemovalReason.withdrew.id.to_i])
   end
   
   def approved_logo_requests(days)

@@ -32,5 +32,9 @@ class RemovalReason < ActiveRecord::Base
    def self.delisted
      first :conditions => { :description => FILTERS[:delisted] }
    end
+   
+   def self.withdrew
+     first :conditions => { :description => FILTERS[:requested] }
+   end
 
 end

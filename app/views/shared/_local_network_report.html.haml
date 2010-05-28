@@ -95,11 +95,25 @@
 
             %td= organization.joined_on.to_date
             %td= organization.delisted_on.to_date
+
+  - if participants_requesting_withdrawal().any?
+    %h2== Participants requesting withdrawal in #{current_year}
+    %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+      %thead
+        %tr
+          %th{:class => 'sort'} Name
+          %th{:class => 'sort'} Participant since
+          %th{:class => 'sort'} Withdrawal date
+      %tbody
+        - for organization in participants_requesting_withdrawal() do
+          %tr{:title => organization.name}
+            %td= link_to truncate(organization.name, :length => 70), participant_path(organization)
+
+            %td= organization.joined_on.to_date
+            %td= organization.delisted_on.to_date
         
-  %h2 Logo Requests approved in the past 30 days
-  - unless approved_logo_requests(30).any?
-    There are no participants in this category
-  - else
+  - if approved_logo_requests(30).any?
+    %h2 Logo Requests approved in the past 30 days
     %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
       %thead
         %tr
