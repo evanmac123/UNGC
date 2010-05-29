@@ -1,18 +1,17 @@
-%h2 Log In
+%h2 Login
 
 - form_tag session_path do
   %fieldset
     %ol
       %li
-        = label_tag :login
+        = label_tag :login, 'Username:'
         = text_field_tag :login
       %li
-        = label_tag :password
+        = label_tag :password, 'Password:'
         = password_field_tag :password
       %li
         = label_tag 'remember_me', 'Remember me'
         = check_box_tag 'remember_me', '1', @remember_me, :style => 'width: 15px'
-    
-  = submit_tag 'Log in', :class => 'button'
   
-= link_to 'Forgot your username or password?', new_password_path
+  = submit_tag 'Login', :class => 'button'
+  %h3= link_to 'Forgot your username or password?', new_password_path

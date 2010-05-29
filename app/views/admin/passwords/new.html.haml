@@ -1,17 +1,5 @@
 %h2 Reset your password
 
-%p
-  Please enter your email address below. You will receive an email with instructions on choosing a new password.
-
-- form_tag password_path do
-  %fieldset
-    %ol
-      %li
-        = label_tag :email
-        = text_field_tag :email
-
-  = submit_tag 'Submit', :class => 'button'
-
 - if flash.now[:error]
   %h3 Why could you not find my username?
   
@@ -25,3 +13,15 @@
   %ul
     %li Request the Contact Point in your organization to update your account, or add you as an additional Contact Point
     %li Once your Contact Point has provided your username and password, please be sure to keep your account profile updated with your current email address
+
+%p
+  Please enter your email address below. You will receive an email with instructions on choosing a new password.
+
+- form_tag password_path do
+  %fieldset
+    %ol
+      %li
+        = label_tag :email
+        = text_field_tag :email
+
+  = submit_tag 'Submit', :class => 'button'
