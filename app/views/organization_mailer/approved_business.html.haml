@@ -31,9 +31,12 @@
 %p== As the primary contact point for your company with the UN Global Compact, you are asked to view, and update as necessary, your organization's information by signing on to #{link_to 'Global Compact website', dashboard_url} with the following details:
 
 %p
-  Username: #{@contact.login}
+  %strong Username:
+  = @contact.login
   %br/
-  Password: #{@contact.password}
+  %strong Password:
+  Please use the password you entered in the application form. If you have forgotten your password,
+  = link_to 'please click here to select a new one.', new_password_url
 
 %p This Username and Password will also be required for posting your company's annual COP. 
 
