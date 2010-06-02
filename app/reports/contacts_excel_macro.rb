@@ -39,7 +39,7 @@ class ContactsExcelMacro < SimpleReport
             LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = c.id
             RIGHT OUTER JOIN roles r ON r.id = contacts_roles.role_id
             WHERE o.cop_state IN ('active','noncommunicating','delisted') AND
-            o.removal_reason_id NOT IN (2,3) AND
+            o.removal_reason_id NOT IN (2,3,5,6) AND
             o.participant = 1 AND
             t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
             contacts_roles.role_id IN (2,3)
