@@ -327,8 +327,7 @@ ul.nav_bar {
     .tab_container div.meta p {
       margin: 0; }
       .tab_container div.meta p.name {
-        font-weight: bold;
-        font-size: 1.1em; }
+        font-weight: bold; }
       .tab_container div.meta p.datetime, .tab_container div.meta p.language {
         font-style: italic;
         font-size: 0.9em;
@@ -355,14 +354,12 @@ ul.nav_bar {
         .tab_container ul.items li.item div.body dl.contact_data {
           font-size: 0.9em;
           width: 220px;
-          float: left;
-          border: 0; }
+          float: left; }
           .tab_container ul.items li.item div.body dl.contact_data#contact_data_left {
             margin-right: 15px; }
           .tab_container ul.items li.item div.body dl.contact_data dt, .tab_container ul.items li.item div.body dl.contact_data dd {
-            width: 130px;
-            padding: 0.35em 0;
-            border: 0; }
+            width: 150px;
+            padding: 0.35em 0; }
           .tab_container ul.items li.item div.body dl.contact_data dd {
             margin-left: 112px; }
 
