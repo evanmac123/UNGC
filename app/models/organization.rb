@@ -292,10 +292,11 @@ class Organization < ActiveRecord::Base
   end
   
   def last_modified_by_full_name
-    if last_modified_by_id || reviewer_id
-      Contact.find(last_modified_by_id || reviewer_id).name
+    contact_id = last_modified_by_id || reviewer_id
+    if contact_id
+      Contact.exists?(contact_id) ? Contact.find(contact_id).try(:name) : "Contact ID: #{contact_id} (deleted)"
     else
-      'unknown user'
+      'unknown'
     end
   end
   
