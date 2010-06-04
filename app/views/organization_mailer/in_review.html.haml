@@ -10,9 +10,15 @@
   
 %p= link_to "#{dashboard_url}", dashboard_url
 
-%p Please use the following login
+%p Please use the following login:
 
-
+%p
+  %strong Username:
+  = @contact.login
+  %br/
+  %strong Password:
+  Please use the password you entered in the application form. If you have forgotten your password,
+  = link_to 'please click here to select a new one.', new_password_url
 
 %p
   %strong Latest Comment: 
