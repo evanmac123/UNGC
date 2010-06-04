@@ -9,12 +9,15 @@
         %th ID
         %th= sort_header 'Organization', field: 'organizations.name'
         %th= sort_header 'Received', field: 'created_at'
+        %th Latest activity
         %th Actions
       - @logo_requests.each do |logo_request|
+        - @latest_comment_date = comment_date(logo_request.logo_comments.first)
         %tr
           %td=h logo_request.id
-          %td{:title => logo_request.organization.name}=h truncate(logo_request.organization.name)
+          %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name, :length => 50), admin_organization_path(logo_request.organization.id)
           %td=h logo_request.created_at
+          %td= distance_of_time_in_words(Date.today, @latest_comment_date) + ' ago'
           %td
             %ul.actions
               %li 

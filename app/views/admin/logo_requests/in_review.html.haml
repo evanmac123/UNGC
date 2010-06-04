@@ -1,5 +1,4 @@
-%h2 Logo Requests in Review
-
+%h2= @list_name || "Logo Requests in Review"
 .tab_container
   = render :partial => 'control_tabs'
   
@@ -8,20 +7,27 @@
       %tr
         %th ID
         %th= sort_header 'Organization', field: 'organizations.name'
+        %th Purpose
+        %th Country
         %th= sort_header 'Created', field: 'created_at', direction: 'DESC'
-        %th In review
-        %th Latest activity
+        %th= sort_header 'Latest activity', field: 'updated_at', direction: 'DESC'
         %th Reviewer
         %th Actions
       - @logo_requests.each do |logo_request|
-      / TODO remove after all old_id logo requests have been processed
-      - @latest_comment_date = comment_date(logo_request.logo_comments.last)
+      - @latest_comment_date = comment_date(logo_request.logo_comments.first)
         %tr
           %td=h logo_request.id
-          %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name), edit_admin_organization_path(logo_request.organization.id)
-          %td=h logo_request.created_at
-          %td= pluralize((Date.today - logo_request.created_at.to_date).to_i, 'day')
-          %td= pluralize((Date.today - @latest_comment_date.to_date).to_i, 'day')
+          %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name, :length => 30), edit_admin_organization_path(logo_request.organization.id)
+          %td{:title => logo_request.purpose}= logo_request.purpose.blank? ? 'Not specified' : truncate(logo_request.purpose, :length => 20)
+          %td= logo_request.organization.try(:country_name)
+          %td
+            = logo_request.created_at
+            %br/
+            %span.small= distance_of_time_in_words(Date.today, logo_request.created_at) + ' ago'
+          %td
+            = @latest_comment_date
+            %br/
+            %span.small= distance_of_time_in_words(Date.today, @latest_comment_date) + ' ago'
           %td= Contact.find(logo_request.reviewer_id).name
           %td
             %ul.actions

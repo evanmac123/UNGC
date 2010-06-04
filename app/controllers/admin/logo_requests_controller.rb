@@ -3,7 +3,7 @@ class Admin::LogoRequestsController < AdminController
   before_filter :no_unapproved_organizations_access
 
   # Define state-specific index methods
-  %w{pending_review in_review unreplied approved rejected accepted}.each do |method|
+  %w{pending_review in_review unreplied approved rejected}.each do |method|
     define_method method do
       # use custom index view if defined
       render case method
@@ -15,7 +15,7 @@ class Admin::LogoRequestsController < AdminController
           method
         when 'in_review'
           @logo_requests = LogoRequest.in_review.all(:include => :organization,
-                                                     :order   => order_from_params('created_at', 'DESC'))
+                                                     :order   => order_from_params('updated_at', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           method
@@ -24,22 +24,17 @@ class Admin::LogoRequestsController < AdminController
                                                      :order   => order_from_params('updated_at', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
-          method
+          @list_name = 'Updated Logo Requests'
+          'in_review'
         when 'approved'
-          @logo_requests = LogoRequest.approved.all(:include => :organization,
-                                                    :order   => order_from_params('status_changed_on', 'DESC'))
+          @logo_requests = LogoRequest.approved.accepted.all(:include => :organization,
+                                                    :order   => order_from_params('approved_on', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           method
         when 'rejected'
           @logo_requests = LogoRequest.rejected.all(:include => :organization,
-                                                    :order   => order_from_params('status_changed_on', 'DESC'))
-                              .paginate(:page     => params[:page],
-                                        :per_page => LogoRequest.per_page)
-          method
-        when 'accepted'
-          @logo_requests = LogoRequest.accepted.all(:include => :organization,
-                                                    :order   => order_from_params('accepted_on', 'DESC'))
+                                                    :order   => order_from_params('updated_at', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           method
@@ -69,7 +64,7 @@ class Admin::LogoRequestsController < AdminController
     @logo_request.logo_comments.first.contact_id = current_user.id
 
     if @logo_request.save
-      flash[:notice] = 'Your Logo Request was received.'
+      flash.now[:notice] = 'Thank you, your Logo Request was received.'
       render :action => "confirmation" 
     else
       render :action => "new"
@@ -78,7 +73,12 @@ class Admin::LogoRequestsController < AdminController
 
   def update
     @logo_request.update_attributes(params[:logo_request])
-    redirect_to admin_organization_logo_request_path(@organization.id, @logo_request.id)
+    if params[:commit] == "Save logos"
+      flash[:notice] = 'The approved logos have been saved. You may now approve the Logo Request.'
+      redirect_to new_admin_logo_request_logo_comment_path(@logo_request)
+    else
+      redirect_to admin_organization_logo_request_path(@organization.id, @logo_request.id)
+    end
   end
 
   def destroy

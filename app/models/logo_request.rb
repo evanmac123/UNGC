@@ -91,9 +91,8 @@ class LogoRequest < ActiveRecord::Base
   end
   
   def days_to_process
-    # TODO use r.approved_on instead of r.accepted_on
     begin
-      (self.accepted_on - self.requested_on).to_i
+      (self.approved_on - self.created_at).to_i
     rescue
       0
     end

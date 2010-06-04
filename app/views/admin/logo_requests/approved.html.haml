@@ -8,14 +8,16 @@
       %tr
         %th ID
         %th= sort_header 'Organization', field: 'organizations.name'
-        %th= sort_header 'Approved', field: 'status_changed_on'
+        %th= sort_header 'Approved', field: 'approved_on'
+        %th= sort_header 'Accepted', field: 'accepted_on'
         %th Reviewer
         %th Actions
       - @logo_requests.each do |logo_request|
         %tr
           %td=h logo_request.id
           %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name), edit_admin_organization_path(logo_request.organization.id)
-          %td=h logo_request.logo_comments.last.added_on || logo_request.logo_comments.last.created_at
+          %td=h logo_request.approved_on
+          %td=h logo_request.accepted_on
           %td= Contact.find(logo_request.reviewer_id).name
           %td
             %ul.actions

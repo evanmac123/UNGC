@@ -1,10 +1,12 @@
 - @body_class = 'details'
 %h2 Logo request details
-
+%p= return_to_current_list(@logo_request)
 #status_box
   %dl
+    %dt Country:
+    %dd= @logo_request.organization.try(:country_name)
     %dt Purpose:
-    %dd= @logo_request.purpose
+    %dd= @logo_request.purpose || 'Not Specified'
     %dt Contact:
     %dd= contact_name(@logo_request)
     %dt Publication:

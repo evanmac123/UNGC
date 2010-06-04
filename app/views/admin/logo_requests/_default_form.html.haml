@@ -1,4 +1,4 @@
-= default_form.error_messages
+= default_form.error_messages :header_message => "Sorry, we could not save your logo request", :message => "The following fields must be completed:"
 
 %h3 Instructions
 
@@ -14,7 +14,7 @@
 
 %fieldset
   %ol
-    = default_form.text_field :purpose, :label => 'Title'
+    = default_form.text_field :purpose
     = default_form.select :contact_id, options_for_select(@organization.contacts.collect{|contact| [contact.name, contact.id]}, current_user.id)
     = default_form.select :publication_id, option_groups_from_collection_for_select(LogoPublication.top_level, :children, :name, :id, :name, @logo_request.publication_id), :label => 'Publication Type'
     - if @logo_request.new_record?

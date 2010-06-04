@@ -58,7 +58,10 @@
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
         %strong Financial Information
-      .right= link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]      
+      .right
+        = link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]
+        |
+        = link_to 'Yahoo Finance', "http://finance.yahoo.com/q?s=%s%s" % [@participant.stock_symbol, ('.' + @participant.exchange.secondary_code unless @participant.exchange.secondary_code.blank?)]
 
   - unless @participant.bhr_url.blank?
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
