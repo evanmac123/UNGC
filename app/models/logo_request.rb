@@ -24,7 +24,7 @@
 class LogoRequest < ActiveRecord::Base
   include VisibleTo
 
-  validates_presence_of :organization_id, :publication_id
+  validates_presence_of :organization_id, :publication_id, :purpose
   belongs_to :organization
   belongs_to :contact
   belongs_to :reviewer, :class_name => "Contact"
