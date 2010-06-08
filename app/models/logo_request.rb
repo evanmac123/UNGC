@@ -34,7 +34,7 @@ class LogoRequest < ActiveRecord::Base
 
   accepts_nested_attributes_for :logo_comments
   
-  cattr_reader :per_page
+  attr_reader :per_page
   @@per_page = 15
 
   state_machine :state, :initial => :pending_review do
@@ -64,15 +64,21 @@ class LogoRequest < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
   named_scope :accepted, :conditions => {:state => "accepted"}
+  named_scope :approved_or_accepted, :conditions => "state in ('approved','accepted')"
 
   named_scope :unreplied, :conditions => {:replied_to => false, :state => "in_review"},
                           :joins => :logo_comments,
                           :group => :logo_request_id,
                           :order => 'logo_comments.created_at DESC' 
 
-  named_scope :submitted_in, lambda { |month, year|
-    { :conditions => ['requested_on >= ? AND requested_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
+  named_scope :approved_between, lambda { |month, year|
+    {
+      :conditions => ["state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?",
+                      Date.new(year, month, 1), Date.new(year, month, 1).end_of_month],
+      :order => "approved_on DESC"
+    }
   }
+  
   
   STATE_PENDING_REVIEW = 'pending_review'
   STATE_IN_REVIEW = 'in_review'
@@ -91,11 +97,7 @@ class LogoRequest < ActiveRecord::Base
   end
   
   def days_to_process
-    begin
-      (self.approved_on - self.created_at).to_i
-    rescue
-      0
-    end
+    (self.approved_on.to_date - self.created_at.to_date).to_i
   end
   
   private

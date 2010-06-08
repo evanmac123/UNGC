@@ -27,7 +27,7 @@ class Admin::LogoRequestsController < AdminController
           @list_name = 'Updated Logo Requests'
           'in_review'
         when 'approved'
-          @logo_requests = LogoRequest.approved.accepted.all(:include => :organization,
+          @logo_requests = LogoRequest.approved_or_accepted.all(:include => :organization,
                                                     :order   => order_from_params('approved_on', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
