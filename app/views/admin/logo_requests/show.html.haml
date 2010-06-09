@@ -6,7 +6,7 @@
     %dt Country:
     %dd= @logo_request.organization.try(:country_name)
     %dt Purpose:
-    %dd= @logo_request.purpose || 'Not Specified'
+    %dd= @logo_request.purpose
     %dt Contact:
     %dd= contact_name(@logo_request)
     %dt Publication:
