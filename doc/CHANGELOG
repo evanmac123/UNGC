@@ -1,0 +1,20 @@
+h1. 2010-05-28
+
+* copy old COP date fields to single fields
+* cop.starts_on = Date.new(y=cop.start_year,m=cop.start_month,d=1).to_s
+* cop.ends_on = Date.new(y=cop.end_year,m=cop.end_month,d=1).to_s
+* delete old date coverage functions from cop model
+
+h1. 2010-05-10
+
+* remove auto rejection email for micro enterprise applications
+* adding new rejection email for 
+
+h1. 2010-04-26
+
+* create new section in COP
+* copy the following tables from staging to production:
+# cop_questions
+# cop_attributes
+
+* add organization mailer to local network when comment is posted by participant
