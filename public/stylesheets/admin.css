@@ -204,9 +204,9 @@ ul.nav_bar {
           width: 24px;
           height: 24px; }
           #main_content dl ul.document_list li a.pdf_doc {
-            background-position: -24px 0; }
-          #main_content dl ul.document_list li a.word_doc {
             background-position: -48px 0; }
+          #main_content dl ul.document_list li a.word_doc {
+            background-position: -24px 0; }
   #main_content ul.date_select {
     float: left;
     margin-top: 10px;
@@ -352,7 +352,7 @@ ul.nav_bar {
       .tab_container ul.items li.item div.body {
         margin-left: 135px; }
         .tab_container ul.items li.item div.body dl.contact_data {
-          font-size: 0.9em;
+          font-size: 9px;
           width: 220px;
           float: left; }
           .tab_container ul.items li.item div.body dl.contact_data#contact_data_left {
