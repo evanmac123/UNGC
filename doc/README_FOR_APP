@@ -56,6 +56,10 @@ To import CMS content, install the Hpricot gem - gem install hpricot - and run t
 
 > rake db:drop db:create && rake db:migrate && ./script/runner "Importer.new.run" && ./script/import && ./script/replace
 
+Some COP files not imported, individual files can be imported with:
+cop.cop_files.create(:attachment => File.new('/home/rails/ungc/uploaded/cops/2D2301B3-7B72-40F5-98EE-E0F30463D843/COP.doc'), :attachment_type => CopFile::TYPES[:cop])
+
+
 Application setup
 =================
 
@@ -116,6 +120,7 @@ Here's a list of tables/fields that should be safe to delete after the applicati
 
 *.old_id - only used by importer
 case_stories.status - using state
+case_stories.case_date - using updated_at
 
 communication_on_progresses.facilitator - never used
 communication_on_progresses.status - using state
