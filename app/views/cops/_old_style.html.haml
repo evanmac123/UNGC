@@ -1,17 +1,17 @@
-%h2 Country
+%h3 Country
 %p= @cop.country_name
 
-%h2 Sector
+%h3 Sector
 %p= @cop.sector_name
 
-%h2 Title of Communication on Progress
+%h3 Title of Communication on Progress
 %p= @cop.title
 
-%h2 Time period covered
+%h3 Time period covered
 %p
   = date_range(@cop)
 
-%h2 Links to Communication in Progress
+%h3 Links to Communication in Progress
 %ul.nolist
   - for cop_file in @cop.cop_files do
     %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
@@ -22,11 +22,11 @@
   %h2 Method COP is shared with stakeholders:
   %p= @cop.description
 
-%h2 Contact Person
+%h3 Contact Person
 %p= @cop.contact_name
 
-%h2 Contact Email
+%h3 Contact Email
 %p= link_to @cop.email
 
-%h2 Published
+%h3 Published
 %p= yyyy_mm_dd @cop.added_on

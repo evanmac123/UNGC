@@ -125,27 +125,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   def country_name
     organization.try(:country).try(:name)
   end
-  
-  def ended_on
-    if end_year and end_month
-      time = Time.mktime end_year, end_month, 1
-      time.to_date
-    end
-  end
-  
+    
   def organization_name
     organization.try :name || ''    
   end
   
   def sector_name
     organization.sector.try(:name) || ''
-  end
-  
-  def started_on
-    if start_year and start_month
-      time = Time.mktime start_year, start_month, 1
-      time.to_date
-    end
   end
   
   def urls

@@ -1,4 +1,5 @@
 class TransferCopDates
+def run  
   cops = CommunicationOnProgress.find(:all, :conditions => 'starts_on IS NULL and ends_on IS NULL')
   puts "Found #{cops.count}"  
   
@@ -44,5 +45,5 @@ class TransferCopDates
         puts "The start date is: #{cop.starts_on} \t The end date is: #{cop.ends_on}"
       end
     end
-
+end
 end

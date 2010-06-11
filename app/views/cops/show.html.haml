@@ -1,6 +1,7 @@
-%h1 COP Details
+-@title = "#{@cop.organization_name} &ndash; #{@cop.title}"
+%h1 Communication on Progress
 
-%h2 Participant Name
+%h2 Participant
 %p= link_to @cop.organization_name, participant_link(@cop.organization, params[:navigation])
 
 - if @cop.created_at >= Date.new(2010, 1, 1)
