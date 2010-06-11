@@ -7,7 +7,15 @@
     %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
     %li <a href="#comments">Comments</a>
-
+    - if @organization.communication_on_progresses.any?
+      %li <a href="#cops">COPs</a>
+    - if @organization.case_stories.any?
+      %li <a href="#case_stories">Case Stories</a>
+    - if @organization.logo_requests.any?
+      %li <a href="#logo_requests">Logo Requests</a>
+    - if @organization.initiatives.any?
+      %li <a href="#initiatives">Engagement</a>      
+    
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_organization_path(@organization.id), :class => 'edit', :title => 'Edit Profile'
@@ -73,4 +81,47 @@
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new', :title => 'New Comment'
     %ul.items= render @organization.comments
-  
+
+  - if @organization.communication_on_progresses.any?
+    #cops.tab_content
+      %h2 Communication on Progress
+      %table.dashboard_table#cops_dashboard_table
+        %tr
+          %th.title Title
+          %th.last_updated Updated
+          %th.status Status
+          %th.actions Actions
+        = render :partial => 'admin/communication_on_progresses/cop_admin', :collection => @organization.communication_on_progresses.find(:all, order: "created_at DESC")
+
+  - if @organization.case_stories.any?
+    #case_stories.tab_content
+      %h2 Case Stories
+      %table.dashboard_table#case_stories_dashboard_table
+        %tr
+          %th.last_updated Updated
+          %th.title Title
+          %th.status Status
+          %th.actions Actions
+        = render :partial => 'admin/case_stories/case_story', :collection => @organization.case_stories.find(:all, order: "created_at DESC")
+      
+  - if @organization.logo_requests.any?
+    #logo_requests.tab_content
+      %h2 Logo Requests
+      %table.dashboard_table#logos_dashboard_table
+        %tr
+          %th.last_updated Last updated on
+          %th.title Purpose
+          %th.status Status
+          %th.age Days since last update
+          %th.actions Actions
+        = render :partial => 'admin/logo_requests/logo_request', :collection => @organization.logo_requests.find(:all, order: "created_at DESC")
+
+  - if @organization.initiatives.any?
+    #initiatives.tab_content
+      %h2 Engagement
+      %table.dashboard_table#initiatives_dashboard_table
+        %tr
+          %th.title Initiative / Activity
+          %th.title Since
+          %th.actions Actions
+        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.find(:all, order: "added_on DESC")

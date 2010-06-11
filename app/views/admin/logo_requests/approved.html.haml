@@ -16,7 +16,7 @@
       - @logo_requests.each do |logo_request|
         %tr
           %td=h logo_request.id
-          %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name), edit_admin_organization_path(logo_request.organization.id)
+          %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name), admin_organization_path(logo_request.organization.id)
           %td=h logo_request.created_at.to_date
           %td=h logo_request.approved_on
           %td=h logo_request.accepted_on

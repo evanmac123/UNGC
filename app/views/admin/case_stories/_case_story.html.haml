@@ -2,7 +2,6 @@
   %td= case_story.updated_at
   %td= case_story.title
   %td= case_story.state.humanize
-  %td.age= (Date.today - case_story.updated_at.to_date).to_i
   %td
     %ul.actions
       %li= link_to 'View', admin_organization_case_story_path(case_story.organization.id, case_story), :title => "View details", :class => "preview"
