@@ -15,10 +15,10 @@
       %dt Roles:
       %dd= render :partial => 'admin/contacts/role', :collection => tabbed_contact.roles
       
-      %dt Email Address
-      %dd= tabbed_contact.email.blank? ? 'n/a' : mail_to(tabbed_contact.email,tabbed_contact.email, :body => "Dear #{tabbed_contact.prefix} #{tabbed_contact.last_name},")
+      %dt Email:
+      %dd- if staff_user do ? 'n/a' : mail_to(tabbed_contact.email,tabbed_contact.email)
       
-      %dt Phone Number:
+      %dt Telephone:
       %dd= tabbed_contact.phone.blank? ? 'n/a' : tabbed_contact.phone
 
     %dl#contact_data_right.contact_data
