@@ -16,7 +16,7 @@
       %dd= render :partial => 'admin/contacts/role', :collection => tabbed_contact.roles
       
       %dt Email:
-      %dd- if staff_user do ? 'n/a' : mail_to(tabbed_contact.email,tabbed_contact.email)
+      %dd= mail_to(tabbed_contact.email,tabbed_contact.email)
       
       %dt Telephone:
       %dd= tabbed_contact.phone.blank? ? 'n/a' : tabbed_contact.phone
