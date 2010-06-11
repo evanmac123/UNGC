@@ -13,7 +13,7 @@
       %li <a href="#case_stories">Case Stories</a>
     - if @organization.logo_requests.any?
       %li <a href="#logo_requests">Logo Requests</a>
-    - if @organization.initiatives.any?
+    - if @organization.initiatives.any? and current_user.from_ungc?
       %li <a href="#initiatives">Engagement</a>      
     
   #overview.tab_content
