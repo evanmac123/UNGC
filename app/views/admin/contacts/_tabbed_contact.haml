@@ -7,23 +7,27 @@
       - unless tabbed_contact == current_user
         %li= link_to 'Delete', admin_organization_contact_path(tabbed_contact.organization.id, tabbed_contact), :confirm => 'Are you sure you want to delete this contact?', :method => :delete, :class => 'delete', :title => 'Delete contact'
 
-  .body
+  %div.body
     %dl#contact_data_left.contact_data
-      %dt Job Title:
-      %dd= tabbed_contact.job_title.blank? ? 'n/a' : tabbed_contact.job_title
+      %dt{:style => 'border: 0;'} Job Title:
+      %dd{:style => 'border: 0;'}= tabbed_contact.job_title.blank? ? 'n/a' : tabbed_contact.job_title
       
       %dt Roles:
       %dd= render :partial => 'admin/contacts/role', :collection => tabbed_contact.roles
       
       %dt Email:
-      %dd= mail_to(tabbed_contact.email,tabbed_contact.email)
+      %dd
+        - if current_user.from_ungc?
+          = mail_to(tabbed_contact.email,tabbed_contact.email, :body => "Dear #{tabbed_contact.prefix} #{tabbed_contact.last_name},")
+        - else
+          = mail_to(tabbed_contact.email,tabbed_contact.email)
       
       %dt Telephone:
       %dd= tabbed_contact.phone.blank? ? 'n/a' : tabbed_contact.phone
 
     %dl#contact_data_right.contact_data
-      %dt Country:
-      %dd= tabbed_contact.country.try(:name)
+      %dt{:style => 'border: 0;'} Country:
+      %dd{:style => 'border: 0;'}= tabbed_contact.country.try(:name)
       
       %dt Address:
       %dd= tabbed_contact.address.blank? ? 'n/a' : tabbed_contact.address
