@@ -16,7 +16,7 @@
   - for cop_file in @cop.cop_files do
     %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
   - for url in @cop.urls do
-    %li= link_to truncate(url, 80), url
+    %li= link_to truncate(url, :length => 80), url
 
 - unless @cop.description.blank?
   %h2 Method COP is shared with stakeholders:
