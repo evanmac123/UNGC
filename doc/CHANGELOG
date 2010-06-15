@@ -1,3 +1,8 @@
+h1. 2010-06-14
+
+* don't allow organization with existing names to be saved
+* TODO should_validate_uniqueness_of :name in OrganizationTest
+
 h1. 2010-06-10
 
 * added other tabs to dashboard organization view

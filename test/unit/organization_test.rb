@@ -2,6 +2,7 @@ require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
   should_validate_presence_of :name
+  # should_validate_uniqueness_of :name
   should_have_many :contacts
   should_have_many :logo_requests
   should_have_many :case_stories
