@@ -40,7 +40,7 @@ class Admin::OrganizationsController < AdminController
       flash[:notice] = 'Organization was successfully updated.'
       if current_user.from_ungc?
         redirect_to( admin_organization_path(@organization.id) )
-      else
+      elsif current_user.from_organization?
         redirect_to( dashboard_path )
       end
     else

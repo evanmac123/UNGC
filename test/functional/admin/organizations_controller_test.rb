@@ -39,8 +39,8 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  test "should update organization" do
-    put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
+  test "staff should update organization and redirect to organization show view" do
+    put :update, {:id => @organization.to_param, :organization => { }}, as(@staff_user)
     assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 
@@ -74,8 +74,8 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
   end
   
   test "should redirect participants to main dashboard after updating" do
-    login_as @organization_user
-    put :update, {:id => @organization.to_param, :organization => { }}, as(@organization_user)
+    login_as @user
+    put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
     assert_redirected_to dashboard_path
   end
   
