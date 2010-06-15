@@ -106,7 +106,7 @@ body.supply_chain    #inner_head { background: url(/images/banner_supply_chain.p
 #languages ul li { display: inline; margin-right: 5px;}
 #languages a {font-size: 9px; color: #FFF;}
 #search { position: absolute; top: 60px; left: 700px; }
-#search .search_box { width: 200px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; }
+#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.90; -moz-opacity: 0.90; filter:alpha(opacity=90);}
 #search p { padding-top: 5px; font-size: 11px; color: #fff;  }
 #nav_bg {  width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
