@@ -38,7 +38,11 @@ class Admin::OrganizationsController < AdminController
     @organization.last_modified_by_id = current_user.id
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
-      redirect_to( admin_organization_path(@organization.id) )
+      if current_user.from_ungc?
+        redirect_to( admin_organization_path(@organization.id) )
+      else
+        redirect_to( dashboard_path )
+      end
     else
       @organization_types = OrganizationType.staff_types
       render :action => "edit"

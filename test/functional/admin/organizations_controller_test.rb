@@ -73,6 +73,13 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  test "should redirect participants to main dashboard after updating" do
+    login_as @organization_user
+    put :update, {:id => @organization.to_param, :organization => { }}, as(@organization_user)
+    assert_redirected_to dashboard_path
+  end
+  
+  
   context "given a rejected organization" do
      setup do
        @organization.reject
