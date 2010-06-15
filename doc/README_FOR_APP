@@ -147,5 +147,10 @@ pages.top_level - only used by importer
 
 Server Backup
 =============
-- installed JungleDisk backup
-- sudo /usr/local/bin/junglediskserver
+To upgrade current version of JungleDisk
+sudo kill 'current process id'
+curl -O http://downloads.jungledisk.com/jungledisk/junglediskserver_308-0_amd64.deb
+sudo dpkg -i junglediskserver_308-0_amd64.deb
+
+Server should start, if not: 
+sudo /usr/local/bin/junglediskserver
