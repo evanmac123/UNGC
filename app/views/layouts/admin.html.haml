@@ -11,21 +11,28 @@
 
   %body{:class => (@body_class || "form")}
     .container
+      - if logged_in? and current_user.from_ungc?
+        %form#search{ :name => "search", :action => "/admin/organizations/search", :method => "get" }
+          = hidden_field_tag 'commit', 'Search'
+          %input.search_box{ :id => 'admin_search' :name => "keyword", :type => "text" :value => "Search organizations"}
+          %input.search_submit{ :name => "submit", :src => "/images/search_submit.png", :type => "image", :alt => "Search" }
+    
       %h1#page_header
         %a{:href => '/'}
           %img{:src => '/images/logo.png', :style => 'margin-left: 2px; margin-top: 15px; margin-bottom: 15px;'}/
+
       = render :partial => 'layouts/main_nav'
-      
+
       - if logged_in?
-        #session_info
+        #session_info{:style => 'display: none;'}
           %h2
             %a{:href => '#', :class => 'slider'}
-              Session info
+              Login status
           %ul
             %li.logged_in_as
               You are logged in as: <br />
-              = link_to current_user.name_with_title, "#", :class => "username"
-              ==<small>(#{link_to "Log out", logout_path, :method => :delete, :title => "Log out"})</small>
+              = link_to current_user.name, "#", :class => "username"
+              = link_to "[Log out]", logout_path, :method => :delete, :title => "Log out"
 
       #main_content.span-24
         = flash_messages_for :error, :notice

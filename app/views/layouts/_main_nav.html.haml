@@ -11,3 +11,5 @@
     = link_to_current 'Contacts Search', search_admin_contacts_path, controller.is_a?(Admin::ContactsController) && action_name == 'search'
     = link_to_current 'Reports', admin_reports_path, controller.is_a?(Admin::ReportsController)
     /= link_to_current 'Parameters', parameters_path, action_name == 'parameters'
+  - if logged_in?
+    = link_to_current 'Logout', logout_path, action_name == 'logout'

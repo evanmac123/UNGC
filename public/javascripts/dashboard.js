@@ -43,6 +43,15 @@ $('.role_for_login_fields').change(function() {
   }
 })
 
+// search
+$("#admin_search").focus(function() {
+  $('#admin_search').attr('value', '');
+})
+$("#admin_search").blur(function() {
+  $('#admin_search').attr('value', 'Search organizations');
+})
+
+
 replace_ids = function(s){
   var new_id = new Date().getTime();
   return s.replace(/NEW_RECORD/g, new_id);
