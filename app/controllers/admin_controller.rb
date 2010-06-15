@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   layout 'admin'
-  helper 'Admin'
+  helper 'Admin', 'Admin/Organizations'
 
   before_filter :login_required
   before_filter :redirect_non_approved_organizations, :only => :dashboard
