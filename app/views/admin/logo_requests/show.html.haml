@@ -1,6 +1,7 @@
 - @body_class = 'details'
 %h2 Logo request details
-%p= return_to_current_list(@logo_request)
+- staff_only do
+  %p= return_to_current_list(@logo_request)
 #status_box
   %dl
     %dt Country:
