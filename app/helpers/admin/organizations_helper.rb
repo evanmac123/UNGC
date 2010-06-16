@@ -11,6 +11,16 @@ module Admin::OrganizationsHelper
     actions.join(" | ")
   end
   
+  def text_for_edit_icon(user)
+    if user.from_organization?
+      "Edit your organization's details"
+    elsif user.from_network?
+      "Edit this organization's details"
+    else
+      "Edit"
+    end
+  end
+    
   def link_to_commitment_letter(organization)
     link_to_attached_file organization, 'commitment_letter'
   end
@@ -70,7 +80,7 @@ module Admin::OrganizationsHelper
   end
     
   def local_network_detail(organization, detail)
-    organization.country.local_network ? organization.country.try(:local_network).try(detail) : 'Unknown'
+    organization.country.try(:local_network) ? organization.country.try(:local_network).try(detail) : 'Unknown'
   end
     
   def duplicate_application(organization)

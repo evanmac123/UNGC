@@ -2,6 +2,7 @@ class Admin::OrganizationsController < AdminController
   before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject]
   before_filter :load_organization_types, :only => :new
   before_filter :no_rejected_organizations_access, :only => :edit
+  before_filter :no_access_to_other_organizations
   helper :participants
   
   def index
