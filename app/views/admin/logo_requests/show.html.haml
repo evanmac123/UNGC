@@ -28,7 +28,7 @@
   #comments.tab_content
     - unless @logo_request.state_events.empty?
       %ul#contacts_tools{:class => "tools inline"}
-        %li= link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request), :class => 'new', :title => 'New Comment'
+        %li= link_to 'New comment', new_admin_logo_request_logo_comment_path(@logo_request), :class => 'new_large', :title => 'New Comment'
     %ul.items
       = render @logo_request.logo_comments
 
