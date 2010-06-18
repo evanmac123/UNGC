@@ -115,23 +115,27 @@ ul.nav_bar
   h3
     color = !dark_blue
       
-  a.new
+  a.new_large, a.edit_large
     display: block
-    width: 60px
+    width: 240px
     height: 24px
-    padding: 0 30px 0 0
-    text-align: right
+    padding: 5px 0 0 30px
+    text-align: left
     color= !dark_blue
     text-decoration: none
     opacity: 0.85
     font-weight: bold
-    background: url('../images/icons/Add_24x24.png') no-repeat 100% 50%
-
+    
     &:hover
       opacity: 1
+      text-decoration: underline
+  
+  a.new_large
+    background: url('../images/icons/Add_24x24.png') no-repeat top left
 
-    &#new_COP
-      line-height: 24px
+  a.edit_large
+    background: url('../images/icons/Edit_24x24.png') no-repeat top left
+
 
   table.dashboard_table
     width: 100%
@@ -401,6 +405,7 @@ ul.nav_bar
       position: relative
       left: -1px
   
+  // used in organization tabs for various 'new' actions
   div.tab_content
     a.new
       right: 12px
@@ -413,9 +418,9 @@ ul.nav_bar
     border-bottom: 1px solid #999
     margin-bottom: 0.5em
     padding-bottom: 0.5em
-    
+  
     li
-      float: right
+      float: left
   
       a
         height: 24px

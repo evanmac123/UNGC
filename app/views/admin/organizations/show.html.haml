@@ -17,8 +17,8 @@
       %li <a href="#initiatives">Engagement</a>      
     
   #overview.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_organization_path(@organization.id), :class => 'edit', :title => 'Edit Profile'
+    %ul{:class => "tools inline"}
+      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit organization's profile"
 
     %dl.left_column
       %h3 Organization Details
@@ -74,12 +74,12 @@
   
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new', :title => 'New Contact'
+      %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_large', :title => 'New Contact'
     %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
 
   #comments.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new', :title => 'New Comment'
+      %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new_large', :title => 'New Comment'
     %ul.items= render @organization.comments
 
   - if @organization.communication_on_progresses.any?

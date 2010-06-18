@@ -8,11 +8,11 @@
     %li <a href="#cops">COPs</a>
 
   #overview.tab_content
-    %ul{:class => "tools inline"}
-      = link_to 'Edit your organization details', edit_admin_organization_path(@organization.id), :class => 'edit', :title => 'Edit Profile'
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
 
     %dl.left_column
-      %h3 Your Organization Details
+      %h3 Organization Details
       %dt.first= display_id_type(@organization)
       %dd.first= @organization.id
       %dt Status:
@@ -64,7 +64,7 @@
             == There is no Network Report Recipient for #{@organization.country_name}
 
   #contacts.tab_content
-    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new', :id => 'new_contact'
+    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new_large', :id => 'new_contact'
     %table.dashboard_table#contacts_dashboard_table
       %tr
         %th.last_updated Last update
@@ -82,7 +82,7 @@
 
   - else
     #logos.tab_content
-      = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new', :id => 'new_logo_request'
+      = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new_large', :id => 'new_logo_request'
       %table.dashboard_table#logos_dashboard_table
         %tr
           %th.last_updated Last updated on
@@ -93,7 +93,7 @@
         = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
 
     #case_stories.tab_content
-      = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new', :id => 'new_case_story'
+      = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new_large', :id => 'new_case_story'
       %table.dashboard_table#case_stories_dashboard_table
         %tr
           %th.last_udpated Updated on
@@ -104,7 +104,7 @@
     #cops.tab_content
       - unless @organization.communication_on_progresses.any?
         No COPs have been submitted.
-      = link_to 'New COP', cop_introduction_path, :class => 'new', :id => 'new_COP'
+      = link_to 'New Communication on Progress', cop_introduction_path, :class => 'new_large', :id => 'new_COP'
       %table.dashboard_table#cops_dashboard_table
         %tr
           %th.last_updated Updated
