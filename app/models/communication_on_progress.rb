@@ -95,7 +95,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     score_to_find = CopScore.notable if filter_type == :notable
     {
       :include => [:score, {:organization => [:sector, :country]}],
-      :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ]
+      :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ],
+      :order => 'ends_on DESC'
     }
   }
   
@@ -139,7 +140,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def year
-    end_year
+    ends_on.strftime('%Y')
   end
   
   def init_cop_attributes
