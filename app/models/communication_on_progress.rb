@@ -94,7 +94,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
     {
-      :include => [:score, {:organization => [:sector, :country]}],
+      :include => [:score, {:organization => [:country]}],
       :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ],
       :order => 'ends_on DESC'
     }
