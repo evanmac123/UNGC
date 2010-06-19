@@ -7,6 +7,9 @@ module Admin::OrganizationsHelper
       actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post) if organization.can_reject?
       actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post) if organization.can_reject?
       actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
+      if @organization.participant 
+        actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
+      end
     end
     actions.join(" | ")
   end
