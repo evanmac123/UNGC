@@ -359,6 +359,11 @@ class Organization < ActiveRecord::Base
     set_approved_on
   end
   
+  def set_rejected_fields
+    self.name = self.name + ' (rejected)'
+    self.save
+  end
+  
   def set_network_review
     self.network_review_on = Date.today
     self.save

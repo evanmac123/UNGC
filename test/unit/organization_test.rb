@@ -116,6 +116,34 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
   
+   context "rejecting its participation" do
+      setup do
+        @organization = Organization.create(:name      => 'Duplicate Name',
+                                            :employees => 50)
+      end
+      
+      should "rename organization" do
+        @organization.reject
+        @organization.reload
+        assert !@organization.participant
+        assert_equal 'Duplicate Name (rejected)', @organization.name 
+      end
+    end
+
+    context "rejecting a micro enterprise" do
+       setup do
+         @organization = Organization.create(:name      => 'Duplicate Name',
+                                             :employees => 5)
+       end
+
+       should "rename organization" do
+         @organization.reject_micro
+         @organization.reload
+         assert !@organization.participant
+         assert_equal 'Duplicate Name (rejected)', @organization.name 
+       end
+     end
+  
   context "given a climate change initiative, some organization types and an org" do
     setup do
       @academia  = create_organization_type(:name => 'Academic')
