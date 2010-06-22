@@ -54,7 +54,7 @@ module Admin::OrganizationsHelper
   
   def letter_of_commitment_updated(organization)
     if organization.commitment_letter_updated_at > organization.created_at
-      "updated #{distance_of_time_in_words(Date.today, organization.commitment_letter_updated_at)} ago"
+      "updated #{display_days_ago(organization.commitment_letter_updated_at)}"
     end
   end
   
@@ -87,18 +87,18 @@ module Admin::OrganizationsHelper
   end
     
   def duplicate_application(organization)
-    matches = Organization.search organization.name
+    matches = Organization.search organization.name, :retry_stale => true, :stat => true 
     
     if matches.count > 0
       list_items = ''
       matches.try(:each) do |match|
         unless match.id == organization.id
-          list_items += content_tag :li, link_to(match.name, admin_organization_path(match.id)), :title => match.name
+          list_items += content_tag :li, link_to("#{match.id}: #{match.name}", admin_organization_path(match.id)), :title => "#{match.id}: #{match.name}"
         end
       end
     end
     
-    unless list_items == ''
+    unless list_items.blank?
       html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
       html += content_tag :ul, list_items, :class => 'matching_list'
     end
