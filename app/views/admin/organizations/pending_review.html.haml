@@ -23,7 +23,7 @@
           %td
             =h organization.created_at
             %br/
-            %span.small= distance_of_time_in_words(Date.today, organization.created_at) + ' ago'
+            %span.small= display_days_ago(organization.created_at)
           %td=h organization.state.humanize
           %td
             %ul.actions

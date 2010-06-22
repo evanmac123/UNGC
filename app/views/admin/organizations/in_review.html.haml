@@ -23,12 +23,12 @@
           %td
             =h organization.created_at
             %br/
-            %span.small= distance_of_time_in_words(Date.today, organization.created_at) + ' ago'
+            %span.small= display_days_ago(organization.created_at)
           %td
             - if organization.last_comment_date
               = organization.last_comment_date
               %br/
-              %span.small= distance_of_time_in_words(Date.today, organization.last_comment_date) + ' ago'
+              %span.small= display_days_ago(organization.last_comment_date)
           %td=h organization.last_comment_author
           %td=h letter_of_commitment_updated(organization)
           %td

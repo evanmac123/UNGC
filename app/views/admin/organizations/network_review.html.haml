@@ -22,7 +22,7 @@
           %td
             =h organization.created_at
             %br/
-            %span.small= distance_of_time_in_words(Date.today, organization.created_at) + ' ago'
+            %span.small= display_days_ago(organization.created_at)
           %td= network_review_period(organization)
           %td=h organization.last_modified_by_full_name
           %td

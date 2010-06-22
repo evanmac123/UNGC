@@ -17,7 +17,7 @@
           %td=h logo_request.id
           %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name, :length => 50), admin_organization_path(logo_request.organization.id)
           %td=h logo_request.created_at
-          %td= distance_of_time_in_words(Date.today, @latest_comment_date) + ' ago'
+          %td= display_days_ago(@latest_comment_date)
           %td
             %ul.actions
               %li 
