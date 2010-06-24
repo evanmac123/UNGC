@@ -30,7 +30,7 @@ class Headline < ActiveRecord::Base
   
   named_scope :published, { :conditions => ['approval = ?', 'approved']}
   named_scope :limit, lambda { |limit| { :limit => limit } }
-  named_scope :descending, {:order => 'published_on DESC'}
+  named_scope :descending, {:order => 'published_on DESC, approved_at DESC'}
   named_scope :all_for_year, lambda { |year|
     starts = Time.mktime(year, 1, 1).to_date
     finish = (starts >> 12) - 1
