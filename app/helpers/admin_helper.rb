@@ -73,9 +73,9 @@ module AdminHelper
     days_ago = (Date.today.to_date - date.to_date).to_i
     case days_ago
       when 0
-        'today'
+        'Today'
       when 1
-        'yesterday'
+        'Yesterday'
       else
         days_ago.to_s + ' days ago'
     end

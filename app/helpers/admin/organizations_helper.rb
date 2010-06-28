@@ -78,14 +78,15 @@ module Admin::OrganizationsHelper
         'Organization ID:'
       end
     else
-      'Registration ID:'
+      'Application ID:'
     end
   end
     
   def local_network_detail(organization, detail)
     organization.country.try(:local_network) ? organization.country.try(:local_network).try(detail) : 'Unknown'
   end
-    
+  
+  # display organizations with similar names
   def duplicate_application(organization)
     matches = Organization.search organization.name, :retry_stale => true, :stat => true 
     
