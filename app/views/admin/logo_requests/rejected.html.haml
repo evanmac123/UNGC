@@ -16,7 +16,7 @@
           %td=h logo_request.id
           %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name), admin_organization_path(logo_request.organization.id)
           %td=h logo_request.updated_at
-          %td= Contact.find(logo_request.reviewer_id).name
+          %td= Contact.find(logo_request.reviewer_id).try(:name)
           %td
             %ul.actions
               %li 
