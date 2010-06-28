@@ -1,19 +1,19 @@
 $("#organization_organization_type_id").change(function() {
   org_type = $("#organization_organization_type_id option:selected").text(); 
   if (org_type == "Company" || org_type == "SME") {
-    $('.company_only').show();
+    $('.company_only').show('slow');
   } else {
-    $('.company_only').hide();
-    $('.public_company_only').hide();
+    $('.company_only').hide('slow');
+    $('.public_company_only').hide('slow');
   }
 })
 
 $("#organization_listing_status_id").change(function() {
   selected_listing_status = jQuery.trim($("#organization_listing_status_id option:selected").text());
   if (selected_listing_status == "Public Company") {
-    $('.public_company_only').show();
+    $('.public_company_only').show('slow');
   } else {
-    $('.public_company_only').hide();
+    $('.public_company_only').hide('slow');
   }
 })
 
