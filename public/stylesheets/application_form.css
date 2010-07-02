@@ -1,5 +1,5 @@
 #main_content fieldset {
-  background-color: #f0f6fa; }
+  background-color: #fff; }
   #main_content fieldset legend {
     color: #aaa; }
     #main_content fieldset legend span {
@@ -16,7 +16,7 @@
     color: #14546f;
     display: block;
     float: left;
-    width: 100px; }
+    width: 120px; }
   #main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea {
     color: #000;
     margin: 0 5px 0 25px;
@@ -46,4 +46,4 @@
       vertical-align: bottom; }
 
 /* Error for flash messages */
-.error      { background: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+#main_content .errorExplanation { color: #8a1f11; }
