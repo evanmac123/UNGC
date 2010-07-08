@@ -17,7 +17,9 @@ Rails::Initializer.run do |config|
   config.gem 'money'
   config.gem 'haml'
   config.gem 'hoptoad_notifier'
-
+  config.gem 'state_machine'
+  config.gem "nested_layouts", :source => "http://gemcutter.org"
+  
   config.time_zone = 'UTC'
 
   config.active_record.observers = :logo_comment_observer, :comment_observer
@@ -26,7 +28,7 @@ Rails::Initializer.run do |config|
   config.load_paths += %W( #{RAILS_ROOT}/app/reports #{RAILS_ROOT}/app/models/search #{RAILS_ROOT}/app/builders)
 end
 
-ActiveRecord::Base.colorize_logging = false
+#ActiveRecord::Base.colorize_logging = false
 
 begin
   ThinkingSphinx.suppress_delta_output = true

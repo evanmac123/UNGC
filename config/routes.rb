@@ -77,6 +77,8 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :logo_files
     admin.resources :cop_questions
     admin.resources :local_networks
+    
+    map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
   
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'

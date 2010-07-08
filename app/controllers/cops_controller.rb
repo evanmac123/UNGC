@@ -1,9 +1,16 @@
 class CopsController < ApplicationController
   helper :cops, :pages, 'admin/cops'
   before_filter :determine_navigation
-  before_filter :find_cop
+  before_filter :find_cop, :except => [:feed]
 
   def show
+  end
+  
+  def feed
+    @cops = CommunicationOnProgress.find(:all)
+    respond_to do |format|
+      format.atom
+    end
   end
 
   private

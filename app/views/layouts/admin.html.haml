@@ -14,7 +14,7 @@
       - if logged_in? and current_user.from_ungc?
         %form#search{ :name => "search", :action => "/admin/organizations/search", :method => "get" }
           = hidden_field_tag 'commit', 'Search'
-          %input.search_box{ :id => 'admin_search' :name => "keyword", :type => "text" :value => "Search organizations"}
+          %input.search_box{ :id => 'admin_search', :name => "keyword", :type => "text", :value => "Search organizations"}
           %input.search_submit{ :name => "submit", :src => "/images/search_submit.png", :type => "image", :alt => "Search" }
     
       %h1#page_header

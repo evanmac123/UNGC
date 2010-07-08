@@ -1,3 +1,5 @@
+require 'state_machine'
+
 module ContentApproval
   STATES = {
     :pending    => 'pending',
