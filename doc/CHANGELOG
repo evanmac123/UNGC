@@ -1,3 +1,8 @@
+h1. 2010-06-28
+
+* TODO call javascript to show/hide publicly traded company options after JQuery is loaded
+* TODO sign up form align changes in IE when there are errors.
+
 h1. 2010-06-14
 
 * don't allow organization with existing names to be saved
