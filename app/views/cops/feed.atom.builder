@@ -1,19 +1,17 @@
-atom_feed do |feed|
+atom_feed(:url => "http://localhost:3000/") do |feed|
   feed.title("UNGC COP Feed")
+  #feed.updated(@cops.first.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"))
+  feed.updated(@cops.first ? @cops.first.created_at : Time.now.utc)
   
-  if @cops.empty?
-    #feed.updated(Time.now.strftime("%Y-%m-%dT%H:%M:%SZ"))
-  else
-    feed.updated(@cops.first.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"))
-  end
-  
+
   @cops.each do |cop|
-    next if cop.updated_at.blank?
-    feed.entry(cop) do |entry|
-      entry.title(cop.organization.name)
-      entry.content("Content: " + cop.related_document, :type => 'html')
-      entry.updated(cop.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) # needed to work with Google Reader.
+    feed.entry(cop, :url => "http://localhost:3000/feeds/cops/") do |entry|
+      entry.title(cop.organization.name + " - " + cop.title) rescue "TITLE RESCUE"
+      entry.author do |author|
+        author.name("Jamie")
+      end
+      entry.content("This is a placeholder for the content of the COP", :type => 'html') rescue "CONTENT RESCUE"
+      #entry.updated(cop.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) rescue "UPDATED TIMESTAMP"
     end
   end
-  
 end

@@ -11,12 +11,17 @@ ARGV.each do |file|
   puts "Working on file #{file}"
   out_file = File.new("#{file - '.txt'}.csv", "w")
   in_file.each do |line|
-    line = (line - BOM).strip
     begin
-      out_file.write(ic.iconv(line) + "\n")
-    rescue Iconv::InvalidCharacter => e
-      puts "OOops!"
-    end    
+      line = (line - BOM).strip 
+      begin
+        out_file.write(ic.iconv(line) + "\n")
+      rescue Iconv::InvalidCharacter => e
+        puts "OOops!"
+      end  
+    rescue Exception => e
+      puts "Caught an exception: #{e.inspect}"
+    end  
+    puts "\n"
   end
   out_file.close
 end

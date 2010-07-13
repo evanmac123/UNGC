@@ -3,11 +3,11 @@ class CopsController < ApplicationController
   before_filter :determine_navigation
   before_filter :find_cop, :except => [:feed]
 
-  def show
+  def show 
   end
   
   def feed
-    @cops = CommunicationOnProgress.find(:all)
+    @cops = CommunicationOnProgress.find(:all, :order => "updated_at ASC", :limit => 3)
     respond_to do |format|
       format.atom
     end
