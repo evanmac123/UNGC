@@ -35,8 +35,11 @@ class Admin::OrganizationsController < AdminController
 
   def update
     @organization.state = Organization::STATE_IN_REVIEW if @organization.state == Organization::STATE_PENDING_REVIEW
+    # when an application is in review, we record who made the last change
+    @organization.set_replied_to(current_user) if Organization::STATE_IN_REVIEW
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
     @organization.last_modified_by_id = current_user.id
+    
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
       if current_user.from_ungc?
@@ -56,7 +59,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   # Define state-specific index methods
-  %w{approved rejected pending_review network_review in_review}.each do |method|
+  %w{approved rejected pending_review network_review in_review updated}.each do |method|
     define_method method do
       # use custom index view if defined
       render case method
@@ -72,6 +75,11 @@ class Admin::OrganizationsController < AdminController
           method
         when 'in_review'
           @organizations = Organization.send(method).all(:include => [:comments], :order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
+          method
+        when 'updated'
+          @organizations = Organization.unreplied.all(:include => [:comments], :order => order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method

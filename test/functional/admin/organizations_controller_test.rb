@@ -83,12 +83,40 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
+  test "should list organizations in review" do
+    get :in_review, {}, as(@staff_user)
+    assert_response :success
+  end
+  
   test "should redirect participants to main dashboard after updating" do
     login_as @user
     put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
     assert_redirected_to dashboard_path
   end
+
   
+  context "given an organization in review" do
+    setup do
+      @organization.state = Organization::STATE_IN_REVIEW
+    end
+
+    should "should set replied_to to false after a user updates" do
+      login_as @user
+      put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
+      @organization.reload
+      assert_equal false, @organization.replied_to
+      assert_redirected_to dashboard_path
+    end
+    
+    should "should set replied_to to true after a staff user updates" do
+      login_as @staff_user
+      put :update, {:id => @organization.to_param, :organization => { }}, as(@staff_user)
+      @organization.reload
+      assert_equal true, @organization.replied_to
+      assert_redirected_to admin_organization_path(@organization.id)
+    end
+
+  end
   
   context "given a rejected organization" do
      setup do
