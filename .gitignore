@@ -22,3 +22,4 @@ public/system/previews/**/*
 public/system/zips/**/*
 tmp/*
 tmp/**/*
+lib/un7_tables
