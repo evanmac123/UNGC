@@ -1,7 +1,7 @@
 class OrganizationMailer < ActionMailer::Base
   def submission_received(organization)
     subject "Your Letter of Commitment to the Global Compact"
-    bcc ['globalcompact@un.org','vnukova@un.org','vkeesari@yahoo.com']
+    bcc ['globalcompact@un.org','vkeesari@yahoo.com']
     from EMAIL_SENDER
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -10,7 +10,7 @@ class OrganizationMailer < ActionMailer::Base
   
   def in_review(organization)
     from EMAIL_SENDER
-    bcc ['globalcompact@un.org','vkeesari@yahoo.com']
+    bcc 'globalcompact@un.org'
     subject "Your application to the Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -20,7 +20,7 @@ class OrganizationMailer < ActionMailer::Base
   def in_review_local_network(organization)
     from EMAIL_SENDER
     cc 'filipic@un.org'
-    bcc ['globalcompact@un.org','vkeesari@yahoo.com']
+    bcc 'globalcompact@un.org'
     subject "#{organization.name}'s application to the Global Compact is under review"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
@@ -29,8 +29,8 @@ class OrganizationMailer < ActionMailer::Base
   
   def network_review(organization)
     from EMAIL_SENDER
-    cc 'vnukova@un.org'
-    bcc ['globalcompact@un.org','vkeesari@yahoo.com']
+    cc 'filipic@un.org'
+    bcc 'globalcompact@un.org'
     subject "#{organization.name} has submitted a registration to the Global Compact"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
