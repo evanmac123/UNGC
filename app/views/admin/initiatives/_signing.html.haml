@@ -1,0 +1,6 @@
+%tr
+  %td= signing.initiative.name
+  %td= signing.added_on
+  %td
+    %ul.actions
+      %li= link_to 'View details', admin_initiative_path(signing.initiative), :class => 'preview', :title => "Details on #{signing.initiative.name}"

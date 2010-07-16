@@ -67,4 +67,18 @@ module AdminHelper
     link_to label, url_for(sort_field:     options[:field],
                            sort_direction: direction), :class => html_class
   end
+  
+  # describes the number of days since last event
+  def display_days_ago(date)
+    days_ago = (Date.today.to_date - date.to_date).to_i
+    case days_ago
+      when 0
+        'Today'
+      when 1
+        'Yesterday'
+      else
+        days_ago.to_s + ' days ago'
+    end
+  end
+  
 end

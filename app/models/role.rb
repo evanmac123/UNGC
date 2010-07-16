@@ -20,6 +20,8 @@ class Role < ActiveRecord::Base
     :ceo                      => 3,
     :contact_point            => 4,
     :general_contact          => 9,
+    :network_focal_point    => 5,
+    :network_representative   => 12,
     :network_report_recipient => 13
   }
   
@@ -29,15 +31,28 @@ class Role < ActiveRecord::Base
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
     elsif user.user_type == Contact::TYPE_NETWORK
-      { :conditions => ['name like ?', "%Network%"] }
+      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient].collect(&:id)
+      { :conditions => ['id in (?)', roles_ids.flatten] }
     else
       {}
     end
   }
-  
-  def self.network_contact
-    find :all, :conditions => ["old_id IN (?)", [5,12]] # FIXME: Update this to newer ids, text, constant??
+
+  def self.network_contacts
+    find :all, :conditions => ["old_id in (?)", [5,12,13]]
   end
+  
+  def self.network_focal_point
+    find :first, :conditions => ["old_id=?", FILTERS[:network_focal_point]]
+  end
+  
+  def self.network_representative
+    find :first, :conditions => ["old_id=?", FILTERS[:network_representative]]
+  end
+
+  def self.network_report_recipient
+    find :first, :conditions => ["old_id=?", FILTERS[:network_report_recipient]]
+  end  
   
   def self.ceo
     find :first, :conditions => ["old_id=?", FILTERS[:ceo]]
@@ -49,10 +64,6 @@ class Role < ActiveRecord::Base
   
   def self.general_contact
     find :first, :conditions => ["old_id=?", FILTERS[:general_contact]]
-  end
-  
-  def self.network_report_recipient
-    find :first, :conditions => ["old_id=?", FILTERS[:network_report_recipient]]
   end
   
   def self.login_roles

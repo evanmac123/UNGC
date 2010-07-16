@@ -94,8 +94,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   named_scope :for_filter, lambda { |filter_type|
     score_to_find = CopScore.notable if filter_type == :notable
     {
-      :include => [:score, {:organization => [:sector, :country]}],
-      :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ]
+      :include => [:score, {:organization => [:country]}],
+      :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ],
+      :order => 'ends_on DESC'
     }
   }
   
@@ -125,14 +126,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   def country_name
     organization.try(:country).try(:name)
   end
-  
-  def ended_on
-    if end_year and end_month
-      time = Time.mktime end_year, end_month, 1
-      time.to_date
-    end
-  end
-  
+    
   def organization_name
     organization.try :name || ''    
   end
@@ -141,19 +135,12 @@ class CommunicationOnProgress < ActiveRecord::Base
     organization.sector.try(:name) || ''
   end
   
-  def started_on
-    if start_year and start_month
-      time = Time.mktime start_year, start_month, 1
-      time.to_date
-    end
-  end
-  
   def urls
     [url1, url2, url3].compact
   end
   
   def year
-    end_year
+    ends_on.strftime('%Y')
   end
   
   def init_cop_attributes

@@ -70,13 +70,14 @@ class ActiveSupport::TestCase
                                        :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                        :state_event => LogoRequest::EVENT_REVISE)
     @logo_request.approve
-  end  
+  end
 
   def create_organization_and_user(state=nil)
     create_roles
-    create_organization_type
+    create_organization_type(:name => 'SME')
     create_country
-    @organization = create_organization 
+    @organization = create_organization(:employees => 50,
+                                        :organization_type_id => OrganizationType.sme.id)
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
                                         :role_ids        => [Role.contact_point.id])

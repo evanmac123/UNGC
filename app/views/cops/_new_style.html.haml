@@ -1,22 +1,24 @@
 %h2= @cop.title
 
-%p== Published on #{yyyy_mm_dd @cop.created_at}
+%ul.nolist
+  %li== Published on #{yyyy_mm_dd @cop.created_at}
+  %li== Period covered #{m_yyyy(@cop.starts_on)} to #{m_yyyy(@cop.ends_on)}
 
-%h2 Content
+%h3 Content
 %ul.nolist
   - if @cop.include_continued_support_statement?
     %li COP includes an explicit statement of continued support for the UN Global Compact and its ten principles
   %li= CommunicationOnProgress::FORMAT[@cop.format.try(:to_sym)]
 
 - unless @cop.format.try(:to_sym) == :grace_letter
-  %h2 Issue areas covered
+  %h3 Issue areas covered
   %ul.nolist
   - PrincipleArea::FILTERS.each_pair do |key, value|
     - if @cop.send("references_#{key}?")
       %li= value
 
 - if @cop.cop_files.any?
-  %h2 Files
+  %h3 Files
   %ul.nolist
     - for cop_file in @cop.cop_files
       %li
@@ -24,11 +26,11 @@
         == (#{cop_file.language.name})
 
 - if @cop.cop_links.any?
-  %h2 Website links
+  %h3 Website links
   %ul.nolist
     - for cop_link in @cop.cop_links
       %li
-        = link_to truncate(cop_link.url,70), cop_link.url
+        = link_to truncate(cop_link.url, :length => 70), cop_link.url
         == (#{cop_link.language.name})
 
 / - PrincipleArea::FILTERS.each_pair do |key, value|

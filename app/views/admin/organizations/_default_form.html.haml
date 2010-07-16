@@ -3,16 +3,15 @@
   %legend Details
   %ol
     = default_form.text_field :name
-    = default_form.text_field :url, {:label => 'Website'}
+    = default_form.text_field :url, :label => 'Website'
     - staff_only do
       = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
     
     - if @organization.company?
-      = default_form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}, :li_class => 'company_only'
-      - if @organization.public_company?
-        = default_form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, :li_class => 'public_company_only'
-        = default_form.text_field :stock_symbol, :li_class => 'public_company_only'
-        = default_form.check_box :is_ft_500, :label => 'FT 500', :li_class => 'public_company_only'
+      = default_form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}, :li_class => 'company_only', :label => 'Ownership'
+      = default_form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, {:include_blank => true}, :li_class => 'public_company_only'
+      = default_form.text_field :stock_symbol, :li_class => 'public_company_only'
+      = default_form.check_box :is_ft_500, :label => 'FT 500', :li_class => 'public_company_only'
       = default_form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id), :li_class => 'company_only'
     
     = default_form.text_field :employees
@@ -35,7 +34,7 @@
         = default_form.check_box :participant, :label => 'Participant'
         = default_form.check_box :active, :label => 'Active'
 
-    #delisted_only{:style => "display: #{show_delisted_details @organization};"}
+    #delisted_only{:style => "#{css_display_style(@organization.cop_state == Organization::COP_STATE_DELISTED)}"}
       %fieldset
         %legend Delisting Status
         %ol

@@ -65,6 +65,6 @@ class Admin::NewsController < AdminController
     end
     
     def order_from_params
-      @order = [params[:sort_field] || 'published_on', params[:sort_direction] || 'ASC'].join(' ')
+      @order = [params[:sort_field] || 'published_on', params[:sort_direction] || 'DESC'].join(' ')
     end
 end

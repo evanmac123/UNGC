@@ -1,14 +1,70 @@
 - @title = 'Dashboard Overview'
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
+    %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
     %li <a href="#logos">Logo Requests</a>
     %li <a href="#case_stories">Case Stories</a>
     %li <a href="#cops">COPs</a>
 
+  #overview.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
+
+    %dl.left_column
+      %h3 Organization Details
+      %dt.first= display_id_type(@organization)
+      %dd.first= @organization.id
+      %dt Status:
+      %dd= display_status(@organization)
+      %dt Participant since:
+      %dd= @organization.joined_on || 'n/a'
+      - if @organization.company?
+        %dt COP Due Date:
+        %dd= @organization.cop_due_on || 'n/a'
+      %dt Organization Type:
+      %dd= @organization.organization_type_name
+      - if @organization.company?
+        %dt Ownership:
+        %dd
+          = @organization.is_ft_500 ? 'FT 500' : nil
+          = @organization.listing_status_name
+      %dt Sector:
+      %dd= @organization.sector_name
+      %dt Employees:
+      %dd= @organization.employees
+      %dt Country:
+      %dd= @organization.country_name
+      - unless @organization.url.blank?
+        %dt Website:
+        %dd= link_to truncate(@organization.url, :length => 30), @organization.url
+      - if @organization.commitment_letter?
+        %dt Letter of Commitment:
+        %dd{:title => @organization.commitment_letter_file_name}= link_to truncate(@organization.commitment_letter_file_name, :length => 30), @organization.commitment_letter.url
+
+    %dl.left_column
+      %h3 Contact Information
+      %dt.first Highest Level Executive:
+      %dd.first= render :partial => 'admin/contacts/contact_overview', :collection => @organization.contacts.ceos
+      %dt Contact Point:
+      %dd= render :partial => 'admin/contacts/contact_overview', :collection => @organization.contacts.contact_points
+
+    -staff_only do
+      %dl.left_column
+        %h3 Local Network
+        %dt.first Status:
+        %dd.first= local_network_detail(@organization, :state).titleize
+        %dt Name:
+        %dd= local_network_detail(@organization, :name)
+        %dt Report Recipients:
+        %dd
+          - if @organization.network_report_recipients.count >= 1
+            = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
+          - else
+            == There is no Network Report Recipient for #{@organization.country_name}
+
   #contacts.tab_content
-    %h2 Contacts
-    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new', :id => 'new_contact'
+    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new_large', :id => 'new_contact'
     %table.dashboard_table#contacts_dashboard_table
       %tr
         %th.last_updated Last update
@@ -26,8 +82,7 @@
 
   - else
     #logos.tab_content
-      %h2 Logo requests
-      = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new', :id => 'new_logo_request'
+      = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new_large', :id => 'new_logo_request'
       %table.dashboard_table#logos_dashboard_table
         %tr
           %th.last_updated Last updated on
@@ -38,23 +93,21 @@
         = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
 
     #case_stories.tab_content
-      %h2 Case Stories
-      = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new', :id => 'new_case_story'
+      = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new_large', :id => 'new_case_story'
       %table.dashboard_table#case_stories_dashboard_table
         %tr
-          %th.last_updated Last updated on
+          %th.last_udpated Updated on
           %th.title Title
           %th.status Status
-          %th.age Days since last update
           %th.actions Actions
-        = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories
-
+        = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories.find(:all, order: "updated_at DESC")
     #cops.tab_content
-      %h2 COPs
-      = link_to 'New COP', cop_introduction_path, :class => 'new', :id => 'new_COP'
+      - unless @organization.communication_on_progresses.any?
+        No COPs have been submitted.
+      = link_to 'New Communication on Progress', cop_introduction_path, :class => 'new_large', :id => 'new_COP'
       %table.dashboard_table#cops_dashboard_table
         %tr
-          %th.last_updated Last updated on
+          %th.last_updated Updated
           %th.title Title
           %th.status Status
           %th.age Days since last update

@@ -1,7 +1,7 @@
 - @css = ['forms', 'application_form']
-%h1 Organization Registration
-%h2 Contact information for the highest level executive
-
+%h1== #{signup_type} Organization Application
+%h2 Highest level executive
+%p 
 #main_content
   - form_for(@ceo, :url => organization_step4_path) do |form|
     = form.error_messages

@@ -62,7 +62,6 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     end
 
     should "get the foundation pledges report" do
-      create_country
       get :foundation_pledges, {}, as(@staff_user)
       assert_response :success
       assert_template 'foundation_pledges.html.haml'
@@ -97,5 +96,18 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
+
+    should "get the local networks contacts report" do
+      get :local_networks_contacts, {}, as(@staff_user)
+      assert_response :success
+      assert_template 'local_networks_contacts.html.haml'
+    end
+    
+    should "get the local networks contacts report as xls" do
+      get :local_networks_contacts, {:format => 'xls'}, as(@staff_user)
+      assert_response :success
+      assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    end
+    
   end
 end

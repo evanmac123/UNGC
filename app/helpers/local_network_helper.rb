@@ -11,7 +11,11 @@ module LocalNetworkHelper
   end
   
   def p_with_link_to_local_network
-    content_tag :p, "Website: #{link_to(local_network.url,local_network.url)}" if local_network unless local_network.try(:url).blank?
+    if local_network and !local_network.try(:url).blank?
+      content_tag :p, link_to(local_network.url, local_network.url)
+    else
+      nil
+    end
   end
   
   def local_network_contacts
@@ -36,8 +40,8 @@ module LocalNetworkHelper
     if local_network && latest = local_network.latest_participant
       content = <<-EOF
       Latest Participant:<br />
-      #{link_to latest.name, participant_link(latest)}<br />
-      Joined on #{latest.joined_on.day} #{latest.joined_on.strftime('%B, %Y')}
+      #{link_to truncate(latest.name, :length => 45), participant_link(latest), :title => latest.name}<br />
+      Accepted on #{latest.joined_on.day} #{latest.joined_on.strftime('%B, %Y')}
       EOF
       content_tag :p, content
     end
@@ -45,8 +49,28 @@ module LocalNetworkHelper
   
   def role_for(contact)
     return 'Global Compact Coordinator' if local_network.manager == contact
-    possible = contact.roles.select { |r| Role.network_contact.include?(r) }
+    possible = contact.roles.select { |r| Role.network_contacts.include?(r) }
     possible.try(:first).try(:name)
+  end
+  
+  def link_to_annuaL_report_if_file_exists
+    if local_network
+      
+      # get country code from path
+      if params[:path].last && params[:path].last.is_a?(String)
+        country_code = params[:path].last.gsub(/\.html/, '')
+      end
+      report_file = "public/docs/networks_around_world_doc/communication/network_reports/2009/#{country_code}.pdf"
+      if FileTest.exists?(report_file)
+        content_tag :p, link_to("#{local_network.try(:name)} (pdf)", "/docs/networks_around_world_doc/communication/network_reports/2009/#{country_code}.pdf")
+      else
+        'A report has not been provided'      
+      end
+      
+    else
+      return nil
+    end
+    
   end
   
   # temporary participant reports until Local Networks can login
@@ -94,6 +118,11 @@ module LocalNetworkHelper
     Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
       :all, :conditions => [ 'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)',
                             (Date.today - days.day).to_s, (Date.today).to_s, RemovalReason.delisted.id.to_i])
+  end
+
+  def participants_requesting_withdrawal()
+    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
+      :all, :conditions => [ 'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)', ("#{current_year}-01-01"), (Date.today).to_s, RemovalReason.withdrew.id.to_i])
   end
   
   def approved_logo_requests(days)

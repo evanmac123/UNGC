@@ -8,9 +8,6 @@ class Admin::LogoCommentsController < AdminController
   def create
     @logo_comment = @logo_request.logo_comments.new(params[:logo_comment])
     @logo_comment.state_event = params[:commit].downcase
-    # if @logo_comment.state_event = 'approve' and @logo_comment.body.blank?
-    #   @logo_comment.body = 'Your Logo Request has been approved.'
-    # end
     @logo_comment.contact_id = current_user.id
 
     if @logo_comment.save

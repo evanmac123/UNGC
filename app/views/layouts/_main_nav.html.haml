@@ -1,13 +1,15 @@
 %ul#main_nav.nav_bar
   = link_to_current 'Dashboard', dashboard_path, action_name == 'dashboard'
   - if logged_in? && current_user.from_organization?
-    = link_to_current 'Participant Profile', edit_admin_organization_path(current_user.organization.id), controller.is_a?(Admin::OrganizationsController)
+    / = link_to_current 'Participant Profile', edit_admin_organization_path(current_user.organization.id), controller.is_a?(Admin::OrganizationsController)
   - if logged_in? && current_user.from_ungc?
-    = link_to_current 'Organizations', admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
-    = link_to_current 'Logo Requests', admin_logo_requests_path, controller.is_a?(Admin::LogoRequestsController)
+    = link_to_current 'Organizations', pending_review_admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
+    = link_to_current 'Logo Requests', pending_review_admin_logo_requests_path, controller.is_a?(Admin::LogoRequestsController)
     = link_to_current 'Pages', admin_pages_path, controller.is_a?(Admin::PagesController)
     = link_to_current 'Events', admin_events_path, controller.is_a?(Admin::EventsController)
     = link_to_current 'News headlines', admin_headlines_path, controller.is_a?(Admin::NewsController)
     = link_to_current 'Contacts Search', search_admin_contacts_path, controller.is_a?(Admin::ContactsController) && action_name == 'search'
     = link_to_current 'Reports', admin_reports_path, controller.is_a?(Admin::ReportsController)
     /= link_to_current 'Parameters', parameters_path, action_name == 'parameters'
+  - if logged_in?
+    = link_to_current 'Logout', logout_path, action_name == 'logout'

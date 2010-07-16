@@ -20,7 +20,20 @@ a
   overflow: hidden
   padding-bottom: 10px
   position: relative
-  
+
+form#search
+  position: absolute
+  top:  55px
+  left: 750px
+  .search_box
+    padding: 2px
+    height: 15px
+    width: 135px
+    background-color: #fff
+    border: 1px solid #000
+    margin-right: 5px
+    color: grey
+                
 h1#page_header
   background: #333333 url('../images/backgrounds/header_image.jpg') no-repeat
   display: block
@@ -102,23 +115,27 @@ ul.nav_bar
   h3
     color = !dark_blue
       
-  a.new
+  a.new_large, a.edit_large
     display: block
-    width: 60px
+    width: 240px
     height: 24px
-    padding: 0 30px 0 0
-    text-align: right
+    padding: 5px 0 0 30px
+    text-align: left
     color= !dark_blue
     text-decoration: none
     opacity: 0.85
     font-weight: bold
-    background: url('../images/icons/Add_24x24.png') no-repeat 100% 50%
-
+    
     &:hover
       opacity: 1
+      text-decoration: underline
+  
+  a.new_large
+    background: url('../images/icons/Add_24x24.png') no-repeat top left
 
-    &#new_COP
-      line-height: 24px
+  a.edit_large
+    background: url('../images/icons/Edit_24x24.png') no-repeat top left
+
 
   table.dashboard_table
     width: 100%
@@ -174,11 +191,19 @@ ul.nav_bar
       border-bottom: 1px solid #ccc
       vertical-align: middle
       padding:
-        top: 5px
-        bottom: 5px
+        top: 6px
+        bottom: 3px
       &.center
         text-align: center
+      span
+        .small
+          font-size: 9px
 
+    // list matching orgnization within table
+    ul.matching_list
+      margin: 0
+      list-style: none
+    
     ul.actions
       margin: 0
       
@@ -247,11 +272,11 @@ ul.nav_bar
           
           &.pdf_doc
             // fixes positioning for PDF icon in sprited png file:
-            background-position: -24px 0
+            background-position: -48px 0
             
           &.word_doc
             // fixes positioning for Word icon in sprited png file:
-            background-position: -48px 0
+            background-position: -24px 0
 
   // new COP submission
   ul.date_select
@@ -380,6 +405,7 @@ ul.nav_bar
       position: relative
       left: -1px
   
+  // used in organization tabs for various 'new' actions
   div.tab_content
     a.new
       right: 12px
@@ -392,9 +418,9 @@ ul.nav_bar
     border-bottom: 1px solid #999
     margin-bottom: 0.5em
     padding-bottom: 0.5em
-    
+  
     li
-      float: right
+      float: left
   
       a
         height: 24px
@@ -413,7 +439,6 @@ ul.nav_bar
 
       &.name
         font-weight: bold
-        font-size: 1.1em
 
       &.datetime,&.language
         font-style: italic
@@ -447,21 +472,19 @@ ul.nav_bar
         margin-left: 135px
       
         dl.contact_data
-          font-size: 0.9em
+          font-size: 9px
           width: 220px
           float: left
-          border: 0
           
           &#contact_data_left
             margin-right: 15px
         
           dt,dd
-            width: 130px
+            width: 150px
             padding: 0.35em 0
-            border: 0
-          
+            
           dd
-            margin-left: 112px  
+            margin-left: 112px
 
 #main_content
   
@@ -712,11 +735,11 @@ ul.nav_bar
 
 ul#report_list
   margin: 0
-  width: 50%
+  width: 400px
   
   li
     list-style: none
-    border-top: 1px solid #ccc
+    border-bottom: 1px solid #ccc
     padding: 0.75em 10px
     background-color= !light_grey
     position: relative
@@ -748,7 +771,6 @@ ul#report_list
     
     &:hover
       color= !dark_blue
-      font-weight: bold
       
 div.pagination
   background= !light_blue

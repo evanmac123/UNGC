@@ -80,14 +80,26 @@ class Contact < ActiveRecord::Base
   }
   
   named_scope :network_contacts, lambda {
-    roles = Role.network_contact
+    roles = []
+    roles << Role.network_focal_point
+    roles << Role.network_representative
     {
       :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
       :conditions => ["contacts_roles.role_id IN (?)", roles],
       :order      => "roles.name DESC"
     }
   }
-    
+  named_scope :network_roles, lambda {
+    roles = []
+    roles << Role.network_focal_point
+    roles << Role.network_representative
+    roles << Role.network_report_recipient
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", roles],
+      :order      => "roles.name DESC"
+    }
+  }
   named_scope :network_report_recipients, lambda {
     roles = Role.network_report_recipient
     {
@@ -189,7 +201,7 @@ class Contact < ActiveRecord::Base
     
     # Set the local network when the organization is a local network
     def set_local_network_id
-      logger.info "******* set_local_network_id"
+      # logger.info "******* set_local_network_id"
       if self.organization.try :local_network?
         self.local_network_id = self.organization.country.local_network_id
       end

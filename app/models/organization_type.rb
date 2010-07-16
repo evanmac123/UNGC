@@ -20,6 +20,7 @@ class OrganizationType < ActiveRecord::Base
   named_scope :non_business, :conditions => ['type_property=?', NON_BUSINESS]
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
   named_scope :participants, :conditions => ['type_property in (?)', PARTICIPANT]
+  named_scope :staff_types, :conditions => ["type_property in (?) or name = 'Micro Enterprise'", PARTICIPANT]
   
   FILTERS = {
     :academia         => 'Academic',
@@ -58,4 +59,9 @@ class OrganizationType < ActiveRecord::Base
   def self.sme
     first :conditions => {:name => FILTERS[:sme]}
   end
+  
+  def self.company
+    first :conditions => {:name => FILTERS[:companies]}
+  end
+  
 end

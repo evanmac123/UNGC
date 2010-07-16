@@ -44,6 +44,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "companies_without_contacts_#{date_as_filename}.xls")
   end
   
+  def local_networks_contacts
+    @report = LocalNetworksContacts.new
+    render_formatter(filename: "local_networks_contacts_#{date_as_filename}.xls")
+  end
+  
   def networks
     @regions = Country.regions
     @region = params[:region] || @regions.first.region

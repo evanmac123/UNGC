@@ -1,0 +1,42 @@
+%h2 Updated Organizations
+
+%div.tab_container
+  = render :partial => 'control_tabs'
+
+  %div.tab_content
+    %table.dashboard_table
+      %tr
+        %th= sort_header 'ID', field: 'id'
+        %th= sort_header 'Old ID', field: 'old_id'
+        %th= sort_header 'Name', field: 'name'
+        %th= sort_header 'Submitted on', field: 'created_at'
+        %th= sort_header 'Updated on', field: 'updated_at'
+        %th Updated by
+        %th= sort_header 'Letter of Commitment', field: 'commitment_letter_updated_at'
+        %th Actions
+
+      - @organizations.each do |organization|
+        %tr
+          %td=h organization.id
+          %td=h organization.old_id || organization.old_tmp_id
+          %td{:title => organization.name}=h truncate(organization.name, :length => 40)
+          %td
+            =h organization.created_at
+            %br/
+            %span.small= display_days_ago(organization.created_at)
+            %td
+              =h organization.updated_at
+              %br/
+              %span.small= display_days_ago(organization.updated_at)
+          %td=h organization.last_modified_by_full_name
+          %td=h letter_of_commitment_updated(organization)
+          %td
+            %ul.actions
+              %li 
+                = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
+              %li 
+                = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
+              %li 
+                = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+
+    = will_paginate @organizations

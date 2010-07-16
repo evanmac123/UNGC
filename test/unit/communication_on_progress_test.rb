@@ -130,7 +130,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       end
       
       should "have an extra 90 days to submit a COP" do
-        assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
+        assert_equal (Date.today + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
       end
     end
     

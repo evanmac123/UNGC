@@ -42,6 +42,6 @@
   #comments.tab_content
     - unless @case_story.state_events.empty?
       %ul#contacts_tools{:class => "tools inline"}
-        %li= link_to 'New comment', new_admin_case_story_comment_path(@case_story), :class => 'new', :title => 'New Comment'
+        %li= link_to 'New comment', new_admin_case_story_comment_path(@case_story), :class => 'new_large', :title => 'New Comment'
     %ul.items
       = render @case_story.comments

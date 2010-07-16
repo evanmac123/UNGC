@@ -2,6 +2,7 @@ require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
   should_validate_presence_of :name
+  # should_validate_uniqueness_of :name
   should_have_many :contacts
   should_have_many :logo_requests
   should_have_many :case_stories
@@ -33,6 +34,13 @@ class OrganizationTest < ActiveSupport::TestCase
                                           :employees            => 50,
                                           :organization_type_id => @companies.id)
       assert_equal @sme.id, @organization.organization_type_id
+    end
+    
+    should "set the organization type to Company when it has more than 250 employees" do
+      @organization = Organization.create(:name                 => 'SME should be a Company',
+                                          :employees            => 500,
+                                          :organization_type_id => @sme.id)
+      assert_equal @companies.id, @organization.organization_type_id
     end
     
     should "set sector to 'not applicable' when it is a non-business" do
@@ -108,6 +116,27 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
   
+   context "rejecting its participation" do
+      setup do
+        @organization = Organization.create(:name      => 'Duplicate Name',
+                                            :employees => 50)
+      end
+      
+      should "rename organization" do
+        @organization.reject
+        @organization.reload
+        assert !@organization.participant
+        assert_equal 'Duplicate Name (rejected)', @organization.name 
+      end
+
+     should "rename organization" do
+       @organization.reject_micro
+       @organization.reload
+       assert !@organization.participant
+       assert_equal 'Duplicate Name (rejected)', @organization.name 
+     end
+  end
+  
   context "given a climate change initiative, some organization types and an org" do
     setup do
       @academia  = create_organization_type(:name => 'Academic')
@@ -117,7 +146,7 @@ class OrganizationTest < ActiveSupport::TestCase
       @micro     = create_organization_type(:name => 'Micro Entreprise')
       @climate   = create_initiative(:id => 2, :name => 'Climate Change')
 
-      @an_org    = create_organization
+      @an_org    = create_organization(:organization_type_id => @sme.id, :employees => 50)
     end
     
     should "find no orgs when filtering by initiative for climate" do

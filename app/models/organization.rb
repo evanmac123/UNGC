@@ -48,7 +48,7 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :on => :create, :message => "must be unique"
+  validates_uniqueness_of :name, :on => :update, :message => "has already been used by another organization" 
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
                        :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
@@ -138,7 +138,7 @@ class Organization < ActiveRecord::Base
   end
   
   named_scope :local_network, :conditions => ["local_network = ?", true]
-
+  
   named_scope :active,
     { :conditions => ["organizations.active = ?", true] }
 
@@ -228,7 +228,16 @@ class Organization < ActiveRecord::Base
   named_scope :about_to_become_delisted, lambda {
     { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
   }
+  
+  def set_replied_to(current_user)
+    if current_user.from_organization?
+      self.replied_to = false
+    elsif current_user.from_ungc?
+      self.replied_to = true
+    end
     
+  end
+  
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
@@ -282,7 +291,7 @@ class Organization < ActiveRecord::Base
   end
   
   def business_entity?
-    organization_type.business?
+    organization_type.try(:business?) || micro_enterprise?
   end
   
   # NOTE: Convenient alias
@@ -293,15 +302,16 @@ class Organization < ActiveRecord::Base
   end
   
   def last_modified_by_full_name
-    if last_modified_by_id || reviewer_id
-      Contact.find(last_modified_by_id || reviewer_id).name
+    contact_id = last_modified_by_id || reviewer_id
+    if contact_id
+      Contact.exists?(contact_id) ? Contact.find(contact_id).try(:name) : "Contact ID: #{contact_id} (deleted)"
     else
-      'unknown user'
+      'unknown'
     end
   end
   
   def last_comment_date
-    self.try(:comments).try(:last).try(:updated_at) || ''
+    self.try(:comments).try(:last).try(:updated_at) || nil
   end
     
   def last_comment_author
@@ -320,6 +330,10 @@ class Organization < ActiveRecord::Base
   def noncommunicating?
     cop_state == COP_STATE_NONCOMMUNICATING
   end
+
+  def active?
+    cop_state == COP_STATE_ACTIVE
+  end
   
   # Indicates if this organization uses the most recent COP rules
   def joined_after_july_2009?
@@ -331,7 +345,7 @@ class Organization < ActiveRecord::Base
   end
     
   def extend_cop_grace_period # TODO: Verify the date math here
-    self.update_attribute :cop_due_on, cop_due_on + COP_GRACE_PERIOD
+    self.update_attribute :cop_due_on, Date.today + COP_GRACE_PERIOD
     self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
   end
@@ -352,6 +366,11 @@ class Organization < ActiveRecord::Base
   def set_approved_fields
     set_next_cop_due_date
     set_approved_on
+  end
+  
+  def set_rejected_fields
+    self.name = self.name + ' (rejected)'
+    self.save
   end
   
   def set_network_review
@@ -402,8 +421,9 @@ class Organization < ActiveRecord::Base
         ''
     end
   end
-  
+    
   private
+    
     def set_non_business_sector
       unless self.business_entity?
         self.sector = Sector.not_applicable
@@ -421,9 +441,11 @@ class Organization < ActiveRecord::Base
       return if self.employees.nil?
       if self.business_entity?
         if self.employees < 10
-          self.organization_type_id = OrganizationType.micro_enterprise.id
+          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
         elsif self.employees < 250
-          self.organization_type_id = OrganizationType.sme.id
+          self.organization_type_id = OrganizationType.try(:sme).try(:id)
+        elsif self.employees >= 250
+          self.organization_type_id = OrganizationType.try(:company).try(:id)
         end
       end
     end

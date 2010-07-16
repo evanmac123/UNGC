@@ -106,7 +106,7 @@ body.supply_chain    #inner_head { background: url(/images/banner_supply_chain.p
 #languages ul li { display: inline; margin-right: 5px;}
 #languages a {font-size: 9px; color: #FFF;}
 #search { position: absolute; top: 60px; left: 700px; }
-#search .search_box { width: 200px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; }
+#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.90; -moz-opacity: 0.90; filter:alpha(opacity=90);}
 #search p { padding-top: 5px; font-size: 11px; color: #fff;  }
 #nav_bg {  width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
@@ -203,25 +203,34 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 
 #footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
 #footer_content { width: 1000px; margin: 0 auto; position: relative; }
-#logos { position: absolute; top: 30px; left: 50px; }
-#logos ul { background: url(/images/footer_logos.jpg) top left no-repeat; width: 553px; height: 42px; list-style: none; position: relative;}
+#logos { position: absolute; top: 35px; left: 52px; }
+#logos ul { background: url(/images/footer_logos.png) top left no-repeat; background-position: 0px -1px; width: 553px; height: 42px; list-style: none; position: relative;}
 #logos ul li { display: inline; position: absolute; top: -5px; height: 40px; }
-#logos ul li a { width: 100%; height: 100%; display: block; opacity: 1; background: none; }
-#logos ul li a:hover { opacity: 0.25; background: #fff; }
+#logos ul li a { width: 100%; height: 100%; display: block; opacity: 0.5; background: #fff; }
+#logos ul li a:hover { opacity: 1; background: none; }
 #logos ul li.logo1 { left: 0px; width: 40px; }
 #logos ul li.logo2 { left: 45px; width: 40px; }
 #logos ul li.logo3 { left: 93px; width: 40px; }
 #logos ul li.logo4 { left: 140px; width: 40px; }
 #logos ul li.logo5 { left: 193px; width: 20px; }
 #logos ul li.logo6 { left: 222px; width: 40px; }
-#logos ul li.logo7 { left: 270px; width: 40px; }
-#logos ul li.logo8 { left: 318px; width: 40px; }
-#logos ul li.logo9 { left: 367px; width: 40px; }
+
 #footer_nav { position: absolute; left: 40px; top: 80px; }
-#footer_nav li { display: inline; border-right: 1px solid #666; padding: 0 5px 0 9px; margin: 0; }
+#footer_nav li { display: inline; border-right: 1px solid #999; padding: 0px 3px 0px 5px; margin: 0; }
 #footer_nav li.last { border: 0; }
-#footer_nav li a { font-size: 12px; color: #666;  }
-#bulletin_signup { position: absolute; top: 25px; right: 120px; width: 200px; border: 0px solid #e5e5e5; }
+#footer_nav li a { font-size: 11px; color: #999;}
+#footer_nav li a:hover { color: #555; text-decoration: underline; }
+
+#partner_logos { position: absolute; top: 33px; left: 400px; }
+#partner_logos ul li { display: inline; position: absolute; top: 10px; }
+#partner_logos ul li a { width: 100%; height: 100%; display: block; }
+#partner_logos ul li.pri { height: 32px; width: 92px; background: url(/images/partner_logo_1.png) no-repeat; opacity: 0.3;}
+#partner_logos ul li.pri:hover { background-position: -93px; opacity: 1;}
+#partner_logos ul li.prme { left: 155px; height: 35px; width: 125px; background: url(/images/partner_logo_2.png) no-repeat; opacity: 0.3;}
+#partner_logos ul li.prme:hover { background-position: -126px; opacity: 1;}
+#partner_logos ul li.gcf { left: 345px; top: -7px; height: 57px; width: 205px; background: url(/images/partner_logo_3.png) no-repeat; opacity: 0.4;}
+#partner_logos ul li.gcf:hover { background-position: -206px; opacity: 1;}
+
 /**** inner ****/
 #content_inner { display: block; width: 1000px; margin: 0 auto; position: relative; }
 #content_inner h1.title { font-size: 20px; font-weight: bold; color: #FFF; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; }
@@ -257,7 +266,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy a:visited { color: #00546E; }
 #rightcontent .copy h1 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 19px; font-weight: bold; margin-bottom: 15px; color: #00546E; line-height: 1.2; }
 #rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
-#rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 16px 0; color: #00546E; }
+#rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
 #rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; }
 #rightcontent .copy .highlight_box { padding: 10px 15px; margin: 5px 0px; width: 100%; height: auto; background-color: #e5eef0; color: #222; }
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
@@ -398,7 +407,7 @@ td.center {
 	font-weight: bold;
 }
 
-div.ui-datepicker { font-size: 12px; }
+div.ui-datepicker { font-size: 10px; }
 div.ui-datepicker .ui-datepicker-title { font-size: 9px; }
 div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
  

@@ -17,8 +17,13 @@
         %tr
           %td=h organization.id
           %td=h organization.old_id || organization.old_tmp_id
-          %td{:title => organization.name}=h truncate(organization.name, :length => 40)
-          %td=h organization.created_at
+          %td{:title => organization.name}
+            =h truncate(organization.name, :length => 40)
+            = duplicate_application(organization)
+          %td
+            =h organization.created_at
+            %br/
+            %span.small= display_days_ago(organization.created_at)
           %td=h organization.state.humanize
           %td
             %ul.actions

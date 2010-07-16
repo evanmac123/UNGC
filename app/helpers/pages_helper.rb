@@ -21,11 +21,7 @@ module PagesHelper
   end
 
   def date_range(cop)
-    if cop.started_on and cop.ended_on
-      "#{m_yyyy(cop.started_on)} - #{m_yyyy(cop.ended_on)}" 
-    else
-      ''
-    end
+    "#{m_yyyy(cop.starts_on)} - #{m_yyyy(cop.ends_on)}"
   end
 
   # NOTE: Used to combine dynamic headlines with old, static content

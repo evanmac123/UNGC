@@ -1,0 +1,41 @@
+h1. 2010-06-28
+
+* TODO call javascript to show/hide publicly traded company options after JQuery is loaded
+* TODO sign up form align changes in IE when there are errors.
+
+h1. 2010-06-14
+
+* don't allow organization with existing names to be saved
+* TODO should_validate_uniqueness_of :name in OrganizationTest
+
+h1. 2010-06-10
+
+* added other tabs to dashboard organization view
+* transfer case story dates to updated_to
+* UPDATE case_stories SET updated_at = CONCAT_WS(' ', case_date, '12:00:00') WHERE case_date IS NOT NULL
+
+h1. 2010-06-09
+
+* script/runner -e production TransferCopDates.new
+* transferred all COP coverage dates, can now remove unused columns
+
+h1. 2010-05-28
+
+* copy old COP date fields to single fields
+* cop.starts_on = Date.new(y=cop.start_year,m=cop.start_month,d=1).to_s
+* cop.ends_on = Date.new(y=cop.end_year,m=cop.end_month,d=1).to_s
+* delete old date coverage functions from cop model
+
+h1. 2010-05-10
+
+* remove auto rejection email for micro enterprise applications
+* adding new rejection email for 
+
+h1. 2010-04-26
+
+* create new section in COP
+* copy the following tables from staging to production:
+# cop_questions
+# cop_attributes
+
+* add organization mailer to local network when comment is posted by participant

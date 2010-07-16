@@ -11,6 +11,7 @@ class CommentObserver < ActiveRecord::Observer
         case comment.commentable.state
           when Organization::STATE_IN_REVIEW then email_in_review_organization(comment)
           when Organization::STATE_NETWORK_REVIEW then OrganizationMailer.deliver_network_review(comment.commentable)
+          when Organization::STATE_REJECTED then email_rejected_organization(comment)
           when Organization::STATE_APPROVED then email_approved_organization(comment.commentable)
         end
       end
@@ -18,6 +19,20 @@ class CommentObserver < ActiveRecord::Observer
   end
   
   private
+  
+  def email_rejected_organization(comment)
+    # only email rejection notice for micro enterprise applications
+    if comment.state_event == Organization::EVENT_REJECT_MICRO
+      organization = comment.commentable
+      OrganizationMailer.deliver_reject_microenterprise(organization)
+      
+      if organization.network_report_recipients.count > 0
+        OrganizationMailer.deliver_reject_microenterprise_network(organization)
+      end
+      
+    end
+  end
+  
     def email_in_review_organization(comment)
       organization = comment.commentable
       OrganizationMailer.deliver_in_review(organization)

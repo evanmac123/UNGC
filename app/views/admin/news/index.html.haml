@@ -6,12 +6,12 @@
   %table.dashboard_table
     %tr
       %th= sort_header 'Title', field: 'title'
-      %th= sort_header 'Dates', field: 'published_on'
+      %th= sort_header 'Date', field: 'published_on'
       %th= sort_header 'Location', field: 'location'
       %th.actions Actions
     - for headline in paged_headlines do
       %tr
-        %td= link_to headline.title, edit_admin_headline_path(headline)
+        %td{:title => headline.title}= link_to truncate(headline.title, :length => 90), edit_admin_headline_path(headline)
         %td= headline.published_on || headline.approval
         %td= headline.full_location
         %td
