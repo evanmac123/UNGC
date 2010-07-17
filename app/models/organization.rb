@@ -138,7 +138,7 @@ class Organization < ActiveRecord::Base
   end
   
   named_scope :local_network, :conditions => ["local_network = ?", true]
-
+  
   named_scope :active,
     { :conditions => ["organizations.active = ?", true] }
 
@@ -228,7 +228,16 @@ class Organization < ActiveRecord::Base
   named_scope :about_to_become_delisted, lambda {
     { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
   }
+  
+  def set_replied_to(current_user)
+    if current_user.from_organization?
+      self.replied_to = false
+    elsif current_user.from_ungc?
+      self.replied_to = true
+    end
     
+  end
+  
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
@@ -414,7 +423,7 @@ class Organization < ActiveRecord::Base
   end
     
   private
-  
+    
     def set_non_business_sector
       unless self.business_entity?
         self.sector = Sector.not_applicable

@@ -17,8 +17,6 @@ Rails::Initializer.run do |config|
   config.gem 'money'
   config.gem 'haml'
   config.gem 'hoptoad_notifier'
-  config.gem 'state_machine'
-  config.gem "nested_layouts", :source => "http://gemcutter.org"
   
   config.time_zone = 'UTC'
 

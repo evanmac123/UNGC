@@ -4,22 +4,10 @@ United Nations Global Compact
 Accounts
 ========
 
-OpenCms
--------
-OpenCms login
-http://66.109.24.102:8080/opencms2/opencms/system/login/index.html
-unspace:unspacecms
-
-Administration section
-----------------------
-http://demo.unglobalcompact.org/
-Administrator - unspace:unspace
-Participant   - logo:request
-
 Hoptoad
 -------
 http://unspaceungc.hoptoadapp.com/
-user: cloves@unspace.ca
+user: jamie@unspace.ca
 password: hoptoad
 
 NewRelic RPM
@@ -32,7 +20,6 @@ App
 ---
 organization user: ungc341 / FE2EC4C8
 admin user: keesari / compact2
-
 
 
 Data Migration
