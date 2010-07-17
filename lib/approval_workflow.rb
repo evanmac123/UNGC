@@ -56,13 +56,12 @@ module ApprovalWorkflow
       end
 
       named_scope :pending_review, :conditions => {:state => STATE_PENDING_REVIEW}
-      named_scope :in_review, :conditions => {:state => STATE_IN_REVIEW}
+      named_scope :in_review, :conditions => {:state => STATE_IN_REVIEW, :replied_to => true}
       named_scope :network_review, :conditions => {:state => STATE_NETWORK_REVIEW}
       named_scope :approved, :conditions => {:state => STATE_APPROVED}
       named_scope :rejected, :conditions => {:state => STATE_REJECTED}
       named_scope :reject_micro, :conditions => {:state => STATE_REJECTED_MICRO}
-      
-      named_scope :unreplied, :conditions => {:replied_to => false}
+      named_scope :unreplied, :conditions => {:state => STATE_IN_REVIEW, :replied_to => false}
     end
   end
 end

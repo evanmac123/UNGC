@@ -124,7 +124,7 @@
       %tbody
         - for logo_request in approved_logo_requests(30) do
           %tr{:title => logo_request.organization.name}
-            %td= link_to truncate(logo_request.organization.name, :length => 20), participant_path(organization)
+            %td= link_to truncate(logo_request.organization.name, :length => 20), participant_path(logo_request.organization)
             %td= logo_request.publication.name        
             %td{:title => logo_request.purpose}= truncate(logo_request.purpose, :length => 20)
             %td= logo_request.approved_on.to_date
