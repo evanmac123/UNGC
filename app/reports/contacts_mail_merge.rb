@@ -40,7 +40,7 @@ class ContactsMailMerge < SimpleReport
       o.participant = 1 AND
       t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
       contacts_roles.role_id IN (2,3)
-      ORDER by o.id",
+      ORDER by o.id"
       )
   end
     
