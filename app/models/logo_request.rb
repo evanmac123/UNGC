@@ -56,7 +56,7 @@ class LogoRequest < ActiveRecord::Base
 
   named_scope :pending_review, :conditions => {:state => "pending_review"}
 
-  named_scope :in_review, :conditions => {:state => "in_review"},
+  named_scope :in_review, :conditions => {:state => "in_review", :replied_to => true},
                           :joins => :logo_comments,
                           :group => :logo_request_id,
                           :order => 'logo_comments.created_at DESC' 
@@ -66,7 +66,7 @@ class LogoRequest < ActiveRecord::Base
   named_scope :accepted, :conditions => {:state => "accepted"}
   named_scope :approved_or_accepted, :conditions => "state in ('approved','accepted')"
 
-  named_scope :unreplied, :conditions => {:replied_to => false, :state => "in_review"},
+  named_scope :unreplied, :conditions => {:state => "in_review", :replied_to => false},
                           :joins => :logo_comments,
                           :group => :logo_request_id,
                           :order => 'logo_comments.created_at DESC' 

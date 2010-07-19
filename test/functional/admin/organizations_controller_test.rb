@@ -72,6 +72,11 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     # get :pending_review, {}, as(@user)
     # assert_response :success
   end
+  
+  test "should list updated organizations" do
+    get :updated, {}, as(@staff_user)
+    assert_response :success
+  end
 
   test "should list network review organizations" do
     get :network_review, {}, as(@staff_user)
@@ -87,7 +92,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     get :in_review, {}, as(@staff_user)
     assert_response :success
   end
-  
+    
   test "should redirect participants to main dashboard after updating" do
     login_as @user
     put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
