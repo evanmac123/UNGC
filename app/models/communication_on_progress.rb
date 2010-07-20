@@ -58,8 +58,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
-  validates_associated :cop_links, :if => Proc.new { |cop| cop.web_based? }
-  validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }, :message => ': please upload your COP as a PDF file.'
+  validates_associated :cop_links
+  validates_associated :cop_files
   
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
@@ -106,7 +106,7 @@ class CommunicationOnProgress < ActiveRecord::Base
             :annual_report     => "COP is part of an annual (financial) report",
             :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
             :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :grace_letter      => "I am currently uploading a Grace Letter to apply for an extension of our COP deadline"}
+            :grace_letter      => "A Grace Letter to apply for a 90 day extension of the COP deadline"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",

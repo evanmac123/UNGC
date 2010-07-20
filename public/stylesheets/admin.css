@@ -400,11 +400,11 @@ ul.nav_bar {
     width: 150px; }
   #main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea {
     color: #000;
-    margin: 0 5px 0 25px;
+    margin: 5px 5px 5px 25px;
     width: 305px;
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
-  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"] {
+  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"] {
     width: auto; }
   #main_content fieldset span.cke_skin_kama {
     display: block;
@@ -428,9 +428,11 @@ ul.nav_bar {
       display: block;
       width: 700px;
       padding: 0 0 0 5px;
-      margin: 0px 0;
+      margin: 3px 0 3px 0;
       float: none;
       color: #333333; }
+      #main_content fieldset fieldset label:hover {
+        cursor: pointer; }
     #main_content fieldset fieldset span.label_text {
       display: block;
       position: relative;

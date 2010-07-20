@@ -72,7 +72,7 @@ module Admin::CopsHelper
   end
   
   # Used to display cop answers on the cop show page
-  def show_cop_attributes(cop, principle, selected=false)
+  def show_cop_attributes(cop, principle, selected=false, grouping='additional')
     if principle.nil?
       conditions = 'cop_questions.principle_area_id IS NULL'
     else
@@ -91,7 +91,7 @@ module Admin::CopsHelper
         output << answers.map{|a|
           content_tag(:li, a.cop_attribute.text) if a.value?
         }.compact.join('')
-        output << "</ul></p>"        
+        output << "</ul></p><br />"        
       else
         output << content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' )
       end

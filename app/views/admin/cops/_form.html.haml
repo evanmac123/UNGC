@@ -28,26 +28,18 @@
           = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
                   
       #non_grace_letter_fields{:style => 'display: none'}
-        %fieldset
-          %legend
-            %span Is your COP web-based?
-          = true_or_false_field(form, :web_based)
-
-        #cop_attachments{:style => css_display_style(!@communication_on_progress.web_based?)}
+        #cop_attachments{:style => 'display: block'}
           %fieldset
             %legend
               %span Upload the COP as a PDF file
+            = text_partial('b')
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
-        #web_cop_attachments{:style => css_display_style(@communication_on_progress.web_based?)}
+        
+        #web_cop_attachments{:style => 'display: block'}
           %fieldset
             %legend
               %span Provide a link to your web-based COP
             = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
-          %fieldset
-            %legend
-              %span We encourage you to upload a copy of your web-based COP in PDF format
-            = text_partial('b')
-            = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
               
         #own_company_questions{:style => 'display: block'}
           %fieldset

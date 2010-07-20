@@ -23,11 +23,11 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_language
     end
     
-    should "require a file if it's not web based" do
+    should "be invalid if there is no file" do
       assert_raise ActiveRecord::RecordInvalid do
         cop = create_communication_on_progress(:organization_id    => @organization.id,
                                                :format             => 'standalone',
-                                               :web_based          => false,
+                                               # :web_based          => false,
                                                :parent_company_cop => false,
                                                :include_continued_support_statement => true,
                                                :support_statement_signee            => 'ceo',
@@ -44,11 +44,11 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       end
     end
     
-    should "not require a file if it's web based" do
+    should "be valid when a file is attached" do
       assert_difference 'CommunicationOnProgress.count' do
         cop = create_communication_on_progress(:organization_id    => @organization.id,
                                                :format             => 'standalone',
-                                               :web_based          => true,
+                                               # :web_based          => false,
                                                :parent_company_cop => false,
                                                :include_continued_support_statement => true,
                                                :support_statement_signee            => 'ceo',
@@ -57,15 +57,16 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                                :references_environment              => true,
                                                :references_anti_corruption          => true,
                                                :include_measurement                 => true,
-                                               :cop_links_attributes => {
-                                                 "new_link"=> {:attachment_type => "cop",
-                                                               :url             => "http://my-cop-online.com",
-                                                               :language_id     => Language.first.id}
+                                               :cop_files_attributes => {
+                                                 "new_cop"=> {:attachment_type => "cop",
+                                                              :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                                              :language_id     => Language.first.id}
                                                })
       end
     end
-  end
-  
+      
+  end #context
+ 
   context "given a COP" do
     setup do
       create_organization_and_user
