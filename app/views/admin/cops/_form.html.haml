@@ -99,10 +99,6 @@
     %p (optional questions)
     %fieldset= cop_questions_for @communication_on_progress, :governance
 
-  #notable_questions.tab_content
-    %h2 Notable questions
-    %fieldset= cop_questions_for @communication_on_progress, :notable
-
   #finish.tab_content
     = text_partial('a')
     - for letter in ('l'..'p')
