@@ -32,8 +32,9 @@ class Admin::InitiativesController < AdminController
   end
   
   def show
-    @signatories = @initiative.signings.all(:order => "added_on").paginate(:page     => params[:page],
-                                                                           :per_page => 20)
+    # @signatories = @initiative.signings.all(:joins => 'JOIN organizations o ON o.id = signings.organization_id', :order => "o.cop_state, o.name")
+    @signatories = @initiative.signings.all(:joins => :organization, :order => "organizations.cop_state, organizations.name")
+
   end
 
   private
