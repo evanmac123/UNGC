@@ -682,6 +682,10 @@ ul.view_modes {
 
 .details #main_content p:empty {
   display: none; }
+.details #main_content dd:empty {
+  min-height: 12px; }
+.details #main_content dt {
+  clear: left; }
 .details #main_content dd ul {
   margin: 0; }
 .details #main_content dd li {

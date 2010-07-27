@@ -1,26 +1,30 @@
-// Styles & Layout for the Bloomburg Atom Feeds
+// Style and layout overrides for the Bloomburg Atom Feeds
+
 .details #main_content
   p:empty
-    :display none
-  dd 
+    :display                  none
+  dt
+    :clear                    left
+  dd
+    &:empty
+      :min-height             12px
     ul
-      :margin 0
+      :margin                 0
     li
-      :line-height 1.4
-      :margin-bottom 10px
-      :border-bottom 1px dotted #ccc
-      :padding-bottom 11px
-      p
-        :margin 10px 0 0 0
+      :border-bottom          1px dotted #ccc
+      :line-height            1.4
+      :margin-bottom          10px
+      :padding-bottom         11px
       &:last-child, li
-        :border 0
-        :padding 0
-        :margin 0
+        :border-bottom        0
+        :margin-bottom        0
+        :padding-bottom       0
+      p
+        :margin               10px 0 0 0
       ul
-        :list-style-type circle
-        :margin 10px 0 0 15px
-        :font-size 12px
+        :font-size            12px
+        :margin               10px 0 0 15px
+        :list-style-type      circle
       li
-        :margin-bottom 8px
-        :color #555
-  
+        :color                #555
+        :margin-bottom        8px
