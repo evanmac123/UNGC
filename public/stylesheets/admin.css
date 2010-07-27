@@ -679,3 +679,26 @@ ul.view_modes {
       list-style: none; }
   #session_info small {
     font-size: 0.9em; }
+
+.details #main_content p:empty {
+  display: none; }
+.details #main_content dd ul {
+  margin: 0; }
+.details #main_content dd li {
+  line-height: 1.4;
+  margin-bottom: 10px;
+  border-bottom: 1px dotted #ccc;
+  padding-bottom: 11px; }
+  .details #main_content dd li p {
+    margin: 10px 0 0 0; }
+  .details #main_content dd li:last-child, .details #main_content dd li li {
+    border: 0;
+    padding: 0;
+    margin: 0; }
+  .details #main_content dd li ul {
+    list-style-type: circle;
+    margin: 10px 0 0 15px;
+    font-size: 12px; }
+  .details #main_content dd li li {
+    margin-bottom: 8px;
+    color: #555; }
