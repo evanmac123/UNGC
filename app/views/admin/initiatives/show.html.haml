@@ -1,4 +1,4 @@
-- @body_class = 'details'
+/ - @body_class = 'details'
 %h2 Initiative details:
 
 - if @initiative.roles.empty?
@@ -16,11 +16,11 @@
     %dt Signatories:
     %dd= @initiative.signings.count
 
-%table.dashboard_table#signatories
+%table.dashboard_table
   %tr
     %th.title Name
     %th.status Signed on
+    %th.status Organization Type
+    %th.status COP Status
     %th.actions Actions
   = render :partial => 'admin/signings/signing', :collection => @signatories
-= will_paginate @signatories
-

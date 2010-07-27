@@ -1,6 +1,8 @@
 %tr
-  %td= signing.organization.name
+  %td{:title => signing.organization.name}= link_to truncate(signing.organization.name, :length => 70), admin_organization_path(signing.organization.id)
   %td= signing.added_on
+  %td= signing.organization.organization_type_name
+  %td= signing.organization.cop_state.humanize
   %td
     %ul.actions
       %li= link_to 'Delete', admin_initiative_signing_path(signing.initiative, signing), :confirm => 'Are you sure?', :method => :delete, :class => 'delete'
