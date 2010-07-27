@@ -25,27 +25,17 @@ admin user: keesari / compact2
 Data Migration
 ==============
 
-We created two classes in the lib/ folder - Importer and HabtmImporter - that populate the database in our format from UNGC data - uses the .CSV files located in lib/un7_tables by default.
+Firstly, you will want to make sure that you have all the required plugins.  This can be accomplished with the following commands:
 
-If you want to import from a more recent set of files, open Enterprise Manager in demo.unglobalcompact.org, and run the "Unicode Export" DTS in UNGC2. Then, copy the export files - Desktop/unicode export - to the lib/un7_tables folder in your project folder. After copying the new files TXT files, run the following command to properly convert them to UTF-8 encoded .CSV files:
-> ./script/convert_to_utf8 lib/un7_tables/*.txt
+rake gems:install
+git submodule init
+git submodule update
 
-To import the data from the .CSV files, go to a console and run:
->> Importer.new.run
+Secondly, the data from the current production database can be imported by taking a dump of the production database using the mysqldump command.  You'll need to get access to the machine running the production application.  This can be done by SSHing to rails@unglobalcompact.railsmachina.com.  You will need to get your public SSH key added to the ~/.ssh/authorized_keys file for the rails user on unglobalcompact.railsmachina.com.  Once you have access use the mysqldump command to get a snapshot of the current production database.  Copy this file to your machine using scp. 
 
-(You can also use runner: ./script/runner "Importer.new.run")
-
-Be patient, a run will take close to 1 hour - or more :)
-
-To import CMS content, install the Hpricot gem - gem install hpricot - and run these two scripts from a command prompt:
-> ./script/import
-> ./script/replace
-
-> rake db:drop db:create && rake db:migrate && ./script/runner "Importer.new.run" && ./script/import && ./script/replace
-
-Some COP files not imported, individual files can be imported with:
-cop.cop_files.create(:attachment => File.new('/home/rails/ungc/uploaded/cops/2D2301B3-7B72-40F5-98EE-E0F30463D843/COP.doc'), :attachment_type => CopFile::TYPES[:cop], :language_id => 4)
-
+Once you have the database dump import it into your development database using:
+  mysql -D <database> < production_dumpfile.sql
+  
 
 Application setup
 =================
