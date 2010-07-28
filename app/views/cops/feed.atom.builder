@@ -1,16 +1,18 @@
-atom_feed(:url => request.request_uri) do |feed|
-  feed.title("UNGC COP Feed")
+atom_feed(:url => "http://localhost:3000/") do |feed|
+  feed.title("UNGC Communications on Progress")
   #feed.updated(@cops.first.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ"))
-  feed.updated(@cops.first ? @cops.first.created_at : Time.now.utc)
+  feed.updated(@communication_on_progresses.first ? @communication_on_progresses.first.created_at : Time.now.utc)
   
 
-  @cops.each do |cop|
-    feed.entry(cop, :url => "#{request.request_uri}/feeds/cops/") do |entry|
+  @communication_on_progresses.each do |cop|
+    @communication_on_progress = cop
+    feed.entry(cop, :url => "http://localhost:3000/feeds/cops/") do |entry|
       entry.title(cop.organization.name + " - " + cop.title) rescue "TITLE RESCUE"
       entry.author do |author|
-        author.name(cop.organization.name)
+        author.name(cop.organization.name.to_s)
       end
-      entry.content("This is a placeholder for the content of the COP", :type => 'html') rescue "CONTENT RESCUE"
+      #entry.content(render(:controller => :organizations, "))
+      entry.content(render(:partial => '/admin/cops/feed.html.haml', :format => :html), :type => 'html')
       #entry.updated(cop.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) rescue "UPDATED TIMESTAMP"
     end
   end
