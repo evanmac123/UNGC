@@ -17,7 +17,6 @@ Rails::Initializer.run do |config|
   config.gem 'money'
   config.gem 'haml'
   config.gem 'hoptoad_notifier'
-  
   config.time_zone = 'UTC'
 
   config.active_record.observers = :logo_comment_observer, :comment_observer

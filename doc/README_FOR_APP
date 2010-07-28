@@ -25,17 +25,7 @@ admin user: keesari / compact2
 Data Migration
 ==============
 
-Firstly, you will want to make sure that you have all the required plugins.  This can be accomplished with the following commands:
-
-rake gems:install
-git submodule init
-git submodule update
-
-Secondly, the data from the current production database can be imported by taking a dump of the production database using the mysqldump command.  You'll need to get access to the machine running the production application.  This can be done by SSHing to rails@unglobalcompact.railsmachina.com.  You will need to get your public SSH key added to the ~/.ssh/authorized_keys file for the rails user on unglobalcompact.railsmachina.com.  Once you have access use the mysqldump command to get a snapshot of the current production database.  Copy this file to your machine using scp. 
-
-Once you have the database dump import it into your development database using:
-  mysql -D <database> < production_dumpfile.sql
-  
+To import the CMS data you need to get a recent dump of the production database.  This can be done by SSHing into the production server at:  rails@unglobalcompact.railsmachina.com.  You'll need to get someone who already has access to add your ssh public key to the authorized_keys file on the server.  Create a dump of the production database using mysqldump and then SCP that dump file over to your localhost.  Import that and you're good to go.  
 
 Application setup
 =================
