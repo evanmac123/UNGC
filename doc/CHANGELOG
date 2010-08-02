@@ -1,3 +1,13 @@
+h1. 2010-08-02
+
+* Creating a Basic COP that allows text entry instead if the multiple choice format
+* Should be easier for less advanced ESG reports to submit a COP
+
+h1. 2010-07-20
+
+* removed question in COP form that asks if the COP is a file or web-based
+* now a file is required and the web link is optional
+
 h1. 2010-06-28
 
 * TODO call javascript to show/hide publicly traded company options after JQuery is loaded
