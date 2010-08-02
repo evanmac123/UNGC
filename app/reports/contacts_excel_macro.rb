@@ -5,6 +5,7 @@ class ContactsExcelMacro < SimpleReport
       o.id AS organization_id,
       c.id AS contact_id,
       o.name AS organization_name,
+      org_country.name AS organization_country,
       o.joined_on,
       t.name AS organization_type,
       o.cop_state,
@@ -32,6 +33,7 @@ class ContactsExcelMacro < SimpleReport
       contacts c
       JOIN organizations o ON c.organization_id = o.id
       JOIN countries country ON c.country_id = country.id
+      JOIN countries org_country ON o.country_id = org_country.id
       JOIN organization_types t ON o.organization_type_id = t.id
       JOIN sectors s ON o.sector_id = s.id
       LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = c.id
@@ -47,6 +49,7 @@ class ContactsExcelMacro < SimpleReport
   def headers
     [ 'Joined on',
       'Participant Name',
+      'Participant Country',
       'Prefix',
       'First Name',
       'Last Name',
@@ -74,6 +77,7 @@ class ContactsExcelMacro < SimpleReport
   def row(record)
   [ record.joined_on,
     record.organization_name,
+    record.organization_country,
     record.prefix,
     record.first_name,
     record.last_name,
