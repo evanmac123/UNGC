@@ -245,6 +245,31 @@ class CommunicationOnProgress < ActiveRecord::Base
       references_environment].collect{|r| r if r}.compact.count
   end
   
+  # Calculate % of items covered for each issue area
+  # Grouping is usually 'additional'
+  def issue_area_coverage(principle_area_id, grouping)
+    cop_questions = CopQuestion.find_all_by_principle_area_id_and_grouping(principle_area_id, grouping)
+
+    question_count = 0
+    answer_count = 0
+
+    cop_questions.each do |question|
+
+      # for each question, how many multiple choice options were there?
+      question_count += question.cop_attributes.count
+
+      # how many of those options were selected?
+      question.cop_attributes.each do |attribute|
+        responses = self.cop_answers.find_all_by_cop_attribute_id_and_value(attribute.id,true)
+        answer_count += responses.count
+      end
+
+    end
+    percentage = (answer_count.to_f / question_count.to_f) * 100
+    "covers #{percentage.to_i}% or #{answer_count} of #{question_count} items"
+    
+  end
+  
   def set_title
     if is_grace_letter?
       self.title = "Grace Letter"

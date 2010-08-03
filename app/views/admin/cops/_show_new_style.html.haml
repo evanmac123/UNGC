@@ -28,7 +28,10 @@
 - staff_only do
   - PrincipleArea::FILTERS.each_pair do |key, value|
     - if @communication_on_progress.send("references_#{key}?") && (@communication_on_progress.notable_program? || @communication_on_progress.additional_questions?)
-      %dt= value
+      %dt
+        = value
+        %br/
+        == #{@communication_on_progress.issue_area_coverage(PrincipleArea.send(key).id, 'additional')}
       %dd
         %ul= show_cop_attributes(@communication_on_progress, PrincipleArea.send(key).id, @communication_on_progress.send("references_#{key}?"))
 
