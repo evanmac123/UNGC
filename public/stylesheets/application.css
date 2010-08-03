@@ -144,7 +144,6 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; } 
-#box2 { background-position: 0px 0px; background-image: url(/images/Leaders_Summit_Logo.png); }
 #box2:hover {border: 1px solid #00546E; cursor: pointer;}
 
 #news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
@@ -196,7 +195,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box5 div.more div { padding: 4px 0 0 10px;}
 #box5_content { position: relative; }
 
-#box6 { left: 357px; background-position: -10px -10px; background-image: url(/pics/un_images/UN_Business_Banner_Haiti.png); }
+#box6 { left: 357px; }
 #box6 h2 { padding: 25px 0 0 15px; }
 #box6 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px; }
 #box6 p { color: #666; }
