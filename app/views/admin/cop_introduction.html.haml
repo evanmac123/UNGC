@@ -15,4 +15,6 @@
     %li= link_to 'Russian', '/docs/communication_on_progress/translations/COP_Questionnaire_RU.pdf'
     %li= link_to 'Spanish', '/docs/communication_on_progress/translations/COP_Questionnaire_ES.pdf'
    
-= link_to 'Proceed to COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id)
+  %ul
+    %li= link_to 'Proceed to COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id)
+    %li= link_to 'Proceed to Basic COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type => 'basic')
