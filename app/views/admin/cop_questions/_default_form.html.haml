@@ -10,7 +10,10 @@
 
 %fieldset
   %legend Attributes
-  %p Each attribute will be represented by a check box in the COP form. If you add a single attribute, this will be a Yes/No question.
+  %ul{:class => 'bulleted'}
+    %li Each attribute will be represented by a check box in the COP form. If you add a single attribute, then this will be a Yes/No question.
+    %li You may add an optional hint or suggested topics for each question.
+    %li For Basic COP questions, a text field will appear below the question and hints.
   
   #cop_attributes= render @cop_question.cop_attributes
   = link_to_function "New attributes", "$('#cop_attributes').append(replace_ids(cop_attribute_form))"
