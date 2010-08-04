@@ -134,4 +134,11 @@ module Admin::CopsHelper
     css_display_style(cop.send("references_#{principle}?") &&
                         (cop.additional_questions? || cop.notable_program?))
   end
+  
+  def show_issue_area_coverage(cop, principle_area)
+    answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
+    percentage = (answer_count.to_f / question_count.to_f) * 100
+    content_tag(:p, "#{percentage.to_i}% coverage<br /> #{answer_count} of #{question_count} items", :style => "margin-top: 5px;")
+  end
+  
 end

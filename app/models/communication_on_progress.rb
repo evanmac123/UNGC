@@ -254,7 +254,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     answer_count = 0
 
     cop_questions.each do |question|
-
       # for each question, how many multiple choice options were there?
       question_count += question.cop_attributes.count
 
@@ -263,11 +262,9 @@ class CommunicationOnProgress < ActiveRecord::Base
         responses = self.cop_answers.find_all_by_cop_attribute_id_and_value(attribute.id,true)
         answer_count += responses.count
       end
-
     end
-    percentage = (answer_count.to_f / question_count.to_f) * 100
-    "covers #{percentage.to_i}% or #{answer_count} of #{question_count} items"
-    
+
+    [answer_count, question_count]
   end
   
   def set_title
