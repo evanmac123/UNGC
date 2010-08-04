@@ -107,6 +107,18 @@ $("input[name='communication_on_progress[notable_program]']").click(function() {
   $("#submit_tab").show();
 })
 
+// Show and Hide question hints
+// $("div.hint_toggle").toggle(function(){
+//  $(this).addClass("active"); 
+//  }, function () {
+//  $(this).removeClass("active");
+// });
+
+$("div.hint_toggle").click(function(){
+	$(this).next(".hint_text").slideToggle('slow');
+});
+
+
 function hideAndDisableFormElements(div) {
   $(div).hide();
   $(div + " input, " + div + " select").attr("disabled", "disabled");
@@ -126,7 +138,7 @@ $('#cop_form').submit(function() {
   }
 })
 
-$("#cop_form input, #cop_form select").change(function() {
+$("#cop_form input, #cop_form select, #cop_form textarea").change(function() {
   work_in_progress = true;
 })
 

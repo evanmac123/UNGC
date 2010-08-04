@@ -56,12 +56,26 @@ module Admin::CopsHelper
     principle_area_id = principle.nil? ? nil : PrincipleArea.send(principle).id
     questions = CopQuestion.questions_for(cop.organization).all(:conditions => {:principle_area_id => principle_area_id,
                                                                                 :grouping          => grouping.to_s})
-    return questions.collect{|question| output_cop_question(cop, question)}.join('')
+    return questions.collect{|question| output_cop_question(cop, grouping, question)}.join('')
   end
   
-  def output_cop_question(cop, question)
+  def output_cop_question(cop, grouping, question)
+
+    # if the grouping is basic, then these are text based answers, not yes/no or multiple choice
+    if grouping == :basic
+      html = ''
+      html << content_tag(:p, question.cop_attributes.first.text)
+      unless question.cop_attributes.first.hint.blank?
+        html << content_tag(:div, 'Suggested topics (show/hide)', :class => "hint_toggle")
+        html << content_tag(:div, simple_format(question.cop_attributes.first.hint), :class => "hint_text", :style => 'display: none;')
+      end
+      # TODO: associate textarea with cop attribute
+      html << text_area_tag("communication_on_progress", nil, :rows => 10, :class => 'cop_answer')
+      return content_tag :fieldset, (content_tag(:legend, content_tag(:span, question.text)) + html)
+    end
+    
     if question.cop_attributes.count == 1
-      # single attribute, this is a YES|NO question
+      # single attribute, this is a yes/no question
       html = true_or_false_cop_attribute(cop, question.cop_attributes.first)
     else
       # multiple options

@@ -509,6 +509,15 @@ ul.nav_bar
     li
       list-style: none
       margin: 0 0 1em 0
+
+    ul.bulleted
+      margin: 0
+      padding: 0 0 0 0
+
+      li
+        list-style-type: disc
+        margin: 0 0 0.5em 2em
+
       
     label
       color= !dark_blue
@@ -539,9 +548,25 @@ ul.nav_bar
     textarea
       height: 100px
       overflow-y: auto
-    
+      &.cop_answer
+        margin-left: 0px
+        width: 100%
+        clear: both
+        
     fieldset
       background: #fff
+      
+      // divs for COP form text
+      div.hint_toggle
+        color= !dark_blue
+        font-weight: bold
+        margin: 1em 0
+        &:hover
+        cursor: pointer 
+
+      div.hint_toggle
+        font-weight: bold
+        margin: 1em 0
       
       legend
         color= !dark_blue
