@@ -471,7 +471,7 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 #main_content dd {
 	border-top: 1px solid #999999;
 	margin-left: 100px;
-	padding: 10px;
+/*	padding: 10px;*/
 }
 
 .organization_name {
