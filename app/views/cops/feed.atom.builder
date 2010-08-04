@@ -6,14 +6,14 @@ atom_feed(:url => "http://localhost:3000/") do |feed|
 
   @communication_on_progresses.each do |cop|
     @communication_on_progress = cop
-    feed.entry(cop, :url => "http://localhost:3000/feeds/cops/") do |entry|
+    feed.entry(cop, :url => "/COPs/detail/#{cop.id}") do |entry|
       entry.title(cop.organization.name + " - " + cop.title) rescue "TITLE RESCUE"
       entry.author do |author|
         author.name(cop.organization.name.to_s)
       end
       #entry.content(render(:controller => :organizations, "))
-      entry.content(render(:partial => '/admin/cops/feed.html.haml', :format => :html), :type => 'html')
-      #entry.updated(cop.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) rescue "UPDATED TIMESTAMP"
+      entry.content(render(:partial => '/shared/cops/feed.html.haml', :format => :html), :type => 'html')
+      entry.updated(cop.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) rescue Time.now
     end
   end
 end
