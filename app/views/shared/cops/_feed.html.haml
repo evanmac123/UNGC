@@ -1,8 +1,6 @@
-/= stylesheet_link_tag 'admin'
-
 .main_content
   #status_box
-  - if @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
-    = render :partial => '/shared/cops/show_new_style.html.haml'
-  - else
-    = render :partial => '/shared/cops/show_legacy_style.html.haml'
+    - if communication_on_progress.cop_answers.any? || communication_on_progress.is_grace_letter?
+      = render :partial => '/shared/cops/show_new_style.html.haml', :locals => { :communication_on_progress => communication_on_progress } 
+    - else
+      = render :partial => '/shared/cops/show_legacy_style.html.haml', :locals => { :communication_on_progress => communication_on_progress } 

@@ -699,8 +699,14 @@ ul.view_modes {
     margin: 10px 0 0 0; }
   #main_content dd li ul {
     font-size: 12px;
-    margin: 10px 0 0 15px;
-    list-style-type: circle; }
+    margin: 10px 0 0 15px; }
   #main_content dd li li {
     color: #555;
     margin-bottom: 8px; }
+
+.selected_question {
+  list-style-type: disc;
+  list-style-image: url(/images/checked.jpg); }
+
+.unselected_question {
+  list-style-type: circle; }

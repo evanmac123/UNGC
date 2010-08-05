@@ -452,12 +452,13 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 #main_content dd ul li {
   font-size: 12px;
   margin: 10px 0 0 15px;
-  list-style-type: circle; 
+/*  list-style-type: disc; */
 }
 
 #main_content dd li li {
   color: #555;
   margin-bottom: 8px; 
+/*  list-style-type: circle;*/
 }
 
 #main_content dt {
@@ -471,9 +472,17 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 #main_content dd {
 	border-top: 1px solid #999999;
 	margin-left: 100px;
-/*	padding: 10px;*/
 }
 
 .organization_name {
 	font-size: 1.6em;
+}
+
+.selected_question {
+	list-style-image: url(/images/checked.jpg);
+	list-style-type: disc;
+}
+
+.unselected_question {
+	list-style-type: circle;
 }
