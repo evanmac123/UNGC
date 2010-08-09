@@ -689,3 +689,34 @@ ul.view_modes {
       list-style: none; }
   #session_info small {
     font-size: 0.9em; }
+
+#main_content dt {
+  clear: left; }
+#main_content dd:empty {
+  min-height: 12px; }
+#main_content dd ul {
+  margin: 0; }
+#main_content dd li {
+  border-bottom: 1px dotted #ccc;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  padding-bottom: 11px; }
+  #main_content dd li:last-child, #main_content dd li li {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0; }
+  #main_content dd li p {
+    margin: 10px 0 0 0; }
+  #main_content dd li ul {
+    font-size: 12px;
+    margin: 10px 0 0 15px; }
+  #main_content dd li li {
+    color: #555;
+    margin-bottom: 8px; }
+
+.selected_question {
+  list-style-type: disc;
+  list-style-image: url(/images/checked.jpg); }
+
+.unselected_question {
+  list-style-type: circle; }

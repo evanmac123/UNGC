@@ -34,7 +34,7 @@
         %input.search_submit{ :name => "submit", :src => "/images/search_submit.png", :type => "image", :alt => "Search" }
         %p
           %input#search_radio1{ :checked => "checked", :name => "target", :type => "radio", :value => "" }
-          %label{ :for => "search_radio1" :style => 'margin-right: 10px;' } Search website
+          %label{ :for => "search_radio1", :style => 'margin-right: 10px;' } Search website
           %input#search_radio2{ :name => "target", :type => "radio", :value => participant_search_path, :checked => participant_search?(:participant) }
           %label{ :for => "search_radio2" } Search participants
   #nav_bg

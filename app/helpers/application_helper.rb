@@ -32,6 +32,10 @@ module ApplicationHelper
     end
   end
   
+  def is_staff
+    return logged_in? && current_user.from_ungc?
+  end
+  
   def css_display_style(show)
     "display: #{show ? 'block' : 'none'}"
   end

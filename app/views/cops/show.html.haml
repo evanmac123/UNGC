@@ -1,13 +1,19 @@
--@title = "#{@cop.organization_name} &ndash; #{@cop.title}"
+-@title = "#{@communication_on_progress.organization_name} &ndash; #{@communication_on_progress.title}"
 %h1 Communication on Progress
 
 %h2 Participant
-%p= link_to @cop.organization_name, participant_link(@cop.organization, params[:navigation])
+%p.organization_name= link_to @communication_on_progress.organization_name, participant_link(@communication_on_progress.organization, params[:navigation])
 
-- if @cop.created_at >= Date.new(2010, 1, 1)
-  = render :partial => 'new_style'
-- else
-  = render :partial => 'old_style'
+/ - if @cop.created_at >= Date.new(2010, 1, 1)
+/   = render :partial => 'new_style'
+/ - else
+/   = render :partial => 'old_style'
+
+#main_content
+  - if @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
+    = render :partial => '/shared/cops/show_new_style.html.haml', :locals => { :communication_on_progress => @communication_on_progress } 
+  - else
+    = render :partial => '/shared/cops/show_legacy_style.html.haml', :locals => { :communication_on_progress => @communication_on_progress } 
 
 .note
   %p{:style => 'margin-top: 2em; font-size: 11px;'} Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.

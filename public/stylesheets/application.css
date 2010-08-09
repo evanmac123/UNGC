@@ -417,3 +417,72 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 /* Clear for NS/FF/Moz */
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
+
+
+#main_content dt {
+  clear: left; 
+  font-weight: bold;
+}
+
+#main_content dd:empty {
+  min-height: 12px; 
+}
+
+#main_content dd ul {
+  margin: 0; 
+}
+
+#main_content dd li {
+  border-bottom: 1px dotted #ccc;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  padding-bottom: 11px; 
+}
+
+#main_content dd li:last-child, #main_content dd li li {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0; 
+}
+
+#main_content dd li p {
+  margin: 10px 0 0 0; 
+}
+
+#main_content dd ul li {
+  font-size: 12px;
+  margin: 10px 0 0 15px;
+/*  list-style-type: disc; */
+}
+
+#main_content dd li li {
+  color: #555;
+  margin-bottom: 8px; 
+/*  list-style-type: circle;*/
+}
+
+#main_content dt {
+	border-top:1px solid #999999;
+	float:left;
+	width: 100px;
+	padding-top: 10px;
+	clear: left;
+}
+
+#main_content dd {
+	border-top: 1px solid #999999;
+	margin-left: 100px;
+}
+
+.organization_name {
+	font-size: 1.6em;
+}
+
+.selected_question {
+	list-style-image: url(/images/checked.jpg);
+	list-style-type: disc;
+}
+
+.unselected_question {
+	list-style-type: circle;
+}
