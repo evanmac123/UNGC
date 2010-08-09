@@ -248,21 +248,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   # Calculate % of items covered for each issue area
   # Grouping is usually 'additional'
   def issue_area_coverage(principle_area_id, grouping)
-    # cop_questions = CopQuestion.find_all_by_principle_area_id_and_grouping(principle_area_id, grouping)
-    # 
-    # question_count = 0
-    # answer_count = 0
-    # 
-    # cop_questions.each do |question|
-    #   # for each question, how many multiple choice options were there?
-    #   question_count += question.cop_attributes.count
-    # 
-    #   # how many of those options were selected?
-    #   question.cop_attributes.each do |attribute|
-    #     responses = self.cop_answers.find_all_by_cop_attribute_id_and_value(attribute.id,true)
-    #     answer_count += responses.count
-    #   end
-    # end
 
     question_count = CopQuestion.find_by_sql(
       ["SELECT count(*) AS question_count FROM cop_attributes attributes
