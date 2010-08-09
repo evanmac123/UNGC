@@ -248,23 +248,39 @@ class CommunicationOnProgress < ActiveRecord::Base
   # Calculate % of items covered for each issue area
   # Grouping is usually 'additional'
   def issue_area_coverage(principle_area_id, grouping)
-    cop_questions = CopQuestion.find_all_by_principle_area_id_and_grouping(principle_area_id, grouping)
+    # cop_questions = CopQuestion.find_all_by_principle_area_id_and_grouping(principle_area_id, grouping)
+    # 
+    # question_count = 0
+    # answer_count = 0
+    # 
+    # cop_questions.each do |question|
+    #   # for each question, how many multiple choice options were there?
+    #   question_count += question.cop_attributes.count
+    # 
+    #   # how many of those options were selected?
+    #   question.cop_attributes.each do |attribute|
+    #     responses = self.cop_answers.find_all_by_cop_attribute_id_and_value(attribute.id,true)
+    #     answer_count += responses.count
+    #   end
+    # end
 
-    question_count = 0
-    answer_count = 0
+    question_count = CopQuestion.find_by_sql(
+      ["SELECT count(*) AS question_count FROM cop_attributes attributes
+        WHERE cop_question_id IN (
+          SELECT id FROM cop_questions WHERE principle_area_id = ? AND grouping = ?
+        )", principle_area_id.to_i, grouping.to_s]
+    )
 
-    cop_questions.each do |question|
-      # for each question, how many multiple choice options were there?
-      question_count += question.cop_attributes.count
+    answer_count = CopAnswer.find_by_sql(
+    ["SELECT count(answers.cop_id) AS answer_count FROM cop_attributes attributes
+      JOIN cop_answers answers
+      ON answers.cop_attribute_id = attributes.id
+      WHERE answers.cop_id = ? AND answers.value = ? AND cop_question_id IN (
+        SELECT id FROM cop_questions
+        WHERE principle_area_id = ? AND grouping = ?)", self.id, true, principle_area_id.to_i, grouping.to_s]
+    )
 
-      # how many of those options were selected?
-      question.cop_attributes.each do |attribute|
-        responses = self.cop_answers.find_all_by_cop_attribute_id_and_value(attribute.id,true)
-        answer_count += responses.count
-      end
-    end
-
-    [answer_count, question_count]
+    [answer_count.first.answer_count, question_count.first.question_count]
   end
   
   def set_title
