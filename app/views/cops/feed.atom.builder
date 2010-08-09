@@ -1,5 +1,5 @@
-atom_feed(:url => "/feeds/cops") do |feed|
-  feed.title("UNGC Communications on Progress")
+atom_feed(:url => "#{request.host}/COP/") do |feed|
+  feed.title("United Nations Global Compact - Communication on Progress #{request.host}")
   feed.updated(@cops_for_feed.first ? @cops_for_feed.first.created_at : Time.now.utc)
 
   @cops_for_feed.each do |cop|

@@ -25,13 +25,13 @@
         %li COP of parent company covers the efforts made by subsidiary to implement the Global Compact principles
     %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)]
 
-/- if is_staff || params[:action] == 'feed'
+/ - if logged_in? || params[:action] == 'feed'
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
     %dt
       = value
       %br/
-      = show_issue_area_coverage(@communication_on_progress, key)
+      = show_issue_area_coverage(communication_on_progress, key)
     %dd
       %ul= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"))
 

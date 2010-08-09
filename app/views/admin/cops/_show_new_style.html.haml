@@ -32,7 +32,6 @@
         = value
         %br/
         = show_issue_area_coverage(@communication_on_progress, key)
-        / == #{@communication_on_progress.issue_area_coverage(PrincipleArea.send(key).id, 'additional')}
       %dd
         %ul= show_cop_attributes(@communication_on_progress, PrincipleArea.send(key).id, @communication_on_progress.send("references_#{key}?"))
 

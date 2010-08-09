@@ -474,10 +474,6 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 	margin-left: 100px;
 }
 
-.organization_name {
-	font-size: 1.6em;
-}
-
 .selected_question {
 	list-style-image: url(/images/checked.jpg);
 	list-style-type: disc;
