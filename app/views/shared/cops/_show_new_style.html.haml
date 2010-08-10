@@ -33,9 +33,14 @@
       %br/
       = show_issue_area_coverage(communication_on_progress, key)
     %dd
-      %ul= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"))
+      %ul= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
 
-- if communication_on_progress.notable_program? || communication_on_progress.additional_questions?
-  %dt Final questions
+- if communication_on_progress.notable_program?
+  %dt Notable Program
   %dd
-    %ul= show_cop_attributes(communication_on_progress, nil)
+    %ul= show_cop_attributes(communication_on_progress, nil, nil, 'notable')
+    
+- if communication_on_progress.cop_answers.by_group(:governance).count > 0
+  %dt Governance
+  %dd
+    %ul= show_cop_attributes(communication_on_progress, nil, nil, 'governance')

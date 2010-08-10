@@ -74,10 +74,11 @@ module Admin::CopsHelper
   # Used to display cop answers on the cop show page
   def show_cop_attributes(cop, principle, selected=false, grouping='additional')
     if principle.nil?
-      conditions = ['cop_questions.principle_area_id IS NULL']
+      conditions = ['cop_questions.principle_area_id IS NULL AND cop_questions.grouping=?', grouping]
     else
-      conditions = ['cop_questions.principle_area_id=?', principle]
+      conditions = ['cop_questions.principle_area_id=? AND cop_questions.grouping=?', principle, grouping]
     end
+    
     attributes = cop.cop_attributes.all(:conditions => conditions,
                                         :include    => :cop_question,
                                         :order      => 'cop_attributes.position ASC') 
@@ -87,7 +88,8 @@ module Admin::CopsHelper
     # we now have all questions, attributes and answers
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      output = question.text + " <span style='color: red; font-weight: bold;'>" + question.grouping + "</span>"
+      output = question.text
+      # output += " <span style='color: red; font-weight: bold;'>" + question.grouping + "</span>"
       if question.cop_attributes.count > 1
         output += "<p><ul>"
         output += answers.map{|a|
