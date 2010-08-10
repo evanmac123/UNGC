@@ -8,7 +8,6 @@ class CopsController < ApplicationController
   
   def feed
     @cops_for_feed = CommunicationOnProgress.find(:all, :order => "created_at DESC", :limit => 20)
-    #@cops_for_feed = [CommunicationOnProgress.find(7586)] # Just for testing...
     respond_to do |format|
       format.atom { render :layout => false }
     end

@@ -9,7 +9,6 @@ atom_feed(:url => "http://#{request.host}/feeds/cops/") do |feed|
         author.name(cop.organization.name.to_s)
       end
       entry.content(render(:partial => '/shared/cops/feed.html.haml', :locals => { :communication_on_progress => cop, :feed => true }, :format => :html), :type => 'html')
-      # entry.updated(cop.updated_at.strftime("%Y-%m-%dT%H:%M:%SZ")) rescue Time.now
     end
   end
 end
