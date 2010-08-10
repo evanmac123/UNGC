@@ -45,7 +45,8 @@ module Admin::CopsHelper
       checkbox = check_box_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", '1', answer.value)
       html += hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
       html += hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", "0", :id => nil)
-      html += label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value", (checkbox + answer.cop_attribute.text))
+      cop_attribute_text = content_tag(:span, answer.cop_attribute.text, :class => 'label_text')
+      html += label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value", (checkbox + cop_attribute_text))
     end
     
     return html

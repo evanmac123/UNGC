@@ -400,7 +400,7 @@ ul.nav_bar {
     width: 150px; }
   #main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea {
     color: #000;
-    margin: 2px 5px 1px 25px;
+    margin: 2px 4px 1px 25px;
     width: 305px;
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
@@ -428,7 +428,7 @@ ul.nav_bar {
       display: block;
       width: 700px;
       padding: 0 0 0 5px;
-      margin: 1px 3px 2px 0;
+      margin: 1px 3px 1px 0;
       float: none;
       color: #333333; }
       #main_content fieldset fieldset label:hover {
@@ -436,12 +436,12 @@ ul.nav_bar {
     #main_content fieldset fieldset span.label_text {
       display: block;
       position: relative;
-      line-height: 1.5em;
+      line-height: 1em;
       left: 20px;
-      top: -12px; }
+      top: -10px; }
     #main_content fieldset fieldset input {
       width: 10px;
-      margin: 5px 3px 0px 0; }
+      margin: 3px 3px 0 0; }
     #main_content fieldset fieldset select {
       margin-left: 0; }
 #main_content .box {
