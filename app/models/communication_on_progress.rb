@@ -58,8 +58,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
-  validates_associated :cop_links
-  validates_associated :cop_files
+  validates_associated :cop_links, :message => "Please enter one address in the format http://www.company.com/"
+  validates_associated :cop_files, :message => "Please upload a file in PDF format."
   
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
@@ -102,11 +102,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
   
-  FORMAT = {:standalone        => "COP is a stand-alone document",
-            :annual_report     => "COP is part of an annual (financial) report",
-            :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
-            :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :grace_letter      => "A Grace Letter to apply for a 90 day extension of the COP deadline"}
+  FORMAT = {:standalone        => "Stand-alone document",
+            :annual_report     => "Part of an annual (financial) report",
+            :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
+            :summary_document  => "Summary document that refers to sections of an annual or sustainability report",
+            :grace_letter      => "Grace Letter to apply for a 90 day extension of the COP deadline"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
@@ -237,6 +237,14 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
   
+  def set_title
+     if is_grace_letter?
+       self.title = "Grace Letter"
+     else
+       self.title = "#{Date.today.year} Communication on Progress"
+     end
+   end
+  
   # Calculate COP score based on answers to Q7
   def score
     [references_labour,
@@ -249,11 +257,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   # Grouping is usually 'additional'
   def issue_area_coverage(principle_area_id, grouping)
 
-    question_count = CopQuestion.find_by_sql(
-      ["SELECT count(*) AS question_count FROM cop_attributes attributes
-        WHERE cop_question_id IN (
-          SELECT id FROM cop_questions WHERE principle_area_id = ? AND grouping = ?
-        )", principle_area_id.to_i, grouping.to_s]
+    question_count = CopAnswer.find_by_sql(
+    ["SELECT count(answers.cop_id) AS question_count FROM cop_attributes attributes
+      JOIN cop_answers answers
+      ON answers.cop_attribute_id = attributes.id
+      WHERE answers.cop_id = ? AND cop_question_id IN (
+        SELECT id FROM cop_questions
+        WHERE principle_area_id = ? AND grouping = ?)", self.id, principle_area_id.to_i, grouping.to_s]
     )
 
     answer_count = CopAnswer.find_by_sql(
@@ -268,11 +278,5 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
   
-  def set_title
-    if is_grace_letter?
-      self.title = "Grace Letter"
-    else
-      self.title = "#{Date.today.year} Communication on Progress"
-    end
-  end
+ 
 end
