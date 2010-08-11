@@ -724,13 +724,3 @@ ul.view_modes {
 .unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png); }
-
-ul.date_select {
-  float: left;
-  margin-top: 10px;
-  margin-right: 25px;
-  list-style: none; }
-  ul.date_select li {
-    font-weight: bold; }
-  ul.date_select select {
-    width: 90px; }
