@@ -15,7 +15,7 @@
 #
 
 class CopFile < ActiveRecord::Base
-  validates_presence_of :attachment_type
+  validates_presence_of :attachment_type, :message => "Please upload a file in PDF format." 
   belongs_to :communication_on_progress, :foreign_key => :cop_id
   belongs_to :language
 
