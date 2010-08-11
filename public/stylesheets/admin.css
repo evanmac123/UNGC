@@ -222,15 +222,6 @@ ul.nav_bar {
             background-position: -48px 0; }
           #main_content dl ul.document_list li a.word_doc {
             background-position: -24px 0; }
-  #main_content ul.date_select {
-    float: left;
-    margin-top: 10px;
-    margin-right: 25px;
-    list-style: none; }
-    #main_content ul.date_select li {
-      font-weight: bold; }
-    #main_content ul.date_select select {
-      width: 90px; }
   #main_content #org_name {
     font-weight: bold; }
 
@@ -447,6 +438,15 @@ ul.nav_bar {
       margin: 3px 3px 0 0; }
     #main_content fieldset fieldset select {
       margin-left: 0; }
+    #main_content fieldset fieldset ul.date_select {
+      float: left;
+      margin-top: 10px;
+      margin-right: 25px;
+      list-style: none; }
+      #main_content fieldset fieldset ul.date_select li {
+        font-weight: bold; }
+      #main_content fieldset fieldset ul.date_select select {
+        width: 90px; }
 #main_content .box {
   border: 5px solid #d2d2d2;
   padding: 10px;
@@ -724,3 +724,13 @@ ul.view_modes {
 .unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png); }
+
+ul.date_select {
+  float: left;
+  margin-top: 10px;
+  margin-right: 25px;
+  list-style: none; }
+  ul.date_select li {
+    font-weight: bold; }
+  ul.date_select select {
+    width: 90px; }

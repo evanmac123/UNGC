@@ -1,7 +1,7 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">General Information</a>
-    %li#governance_tab{:class => 'additional_questions', :style => 'display: block;'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
+    %li#governance_tab{:class => 'additional_questions', :style => 'display: none;'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
     %li#human_rights_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
     %li#labour_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :labour)}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
     %li#environment_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :environment)}  <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
@@ -19,6 +19,7 @@
           %label
             = form.radio_button :format, key
             = value
+            / %span{:class => 'label_text'}= value
 
       #grace_letter_fields{:style => css_display_style(@communication_on_progress.is_grace_letter?)}
         %fieldset
@@ -62,19 +63,19 @@
                 %span
                   Does your COP contain description of actions, and when relevant policies, related to the following issue areas?
                   %em Please answer 'Yes' or 'No' for each of the four issue areas.
-              %br
-              Human Rights
-              = true_or_false_field(form, :references_human_rights, :class => 'score')
-              %br
-              Labour
-              = true_or_false_field(form, :references_labour, :class => 'score')
-              %br
-              Environment
-              = true_or_false_field(form, :references_environment, :class => 'score')
-              %br
-              Anti-Corruption
-              = true_or_false_field(form, :references_anti_corruption, :class => 'score')
-              %br
+
+              %span{:class => 'radio_label'}
+                Human Rights
+                = true_or_false_field(form, :references_human_rights, :class => 'score')
+              %span{:class => 'radio_label'}
+                Labour
+                = true_or_false_field(form, :references_labour, :class => 'score')
+              %span{:class => 'radio_label'}
+                Environment
+                = true_or_false_field(form, :references_environment, :class => 'score')
+              %span{:class => 'radio_label'}
+                Anti-Corruption
+                = true_or_false_field(form, :references_anti_corruption, :class => 'score')
 
             %fieldset
               %legend
