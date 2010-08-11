@@ -23,3 +23,4 @@ public/system/previews/**/*
 public/system/zips/**/*
 tmp/*
 tmp/**/*
+.rvmrc
