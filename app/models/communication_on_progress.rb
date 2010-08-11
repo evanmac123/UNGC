@@ -58,8 +58,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
-  validates_associated :cop_links, :message => "Please enter one address in the format http://www.company.com/"
-  validates_associated :cop_files, :message => "Please upload a file in PDF format."
+  validates_associated :cop_links
+  validates_associated :cop_files
   
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id

@@ -405,7 +405,8 @@ ul.nav_bar {
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
   #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"] {
-    width: auto; }
+    width: auto;
+    margin: 0 5px 0 0; }
   #main_content fieldset span.cke_skin_kama {
     display: block;
     margin: 0 5px 0 120px; }
@@ -427,12 +428,14 @@ ul.nav_bar {
     #main_content fieldset fieldset label {
       display: block;
       width: 700px;
-      padding: 0 0 0 5px;
-      margin: 1px 3px 1px 0;
-      float: none;
+      padding: 1px;
+      margin: 1px;
       color: #333333; }
       #main_content fieldset fieldset label:hover {
         cursor: pointer; }
+    #main_content fieldset fieldset span.radio_label {
+      float: left;
+      margin: 5px 0 5px 0; }
     #main_content fieldset fieldset span.label_text {
       display: block;
       position: relative;
@@ -716,7 +719,8 @@ ul.view_modes {
 
 .selected_question {
   list-style-type: disc;
-  list-style-image: url(/images/checked.jpg); }
+  list-style-image: url(/images/checked.png); }
 
 .unselected_question {
-  list-style-type: circle; }
+  list-style-type: circle;
+  list-style-image: url(/images/unchecked.png); }

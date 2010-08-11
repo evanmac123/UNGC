@@ -475,10 +475,11 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 }
 
 .selected_question {
-	list-style-image: url(/images/checked.jpg);
+	list-style-image: url(/images/checked.png);
 	list-style-type: disc;
 }
 
 .unselected_question {
 	list-style-type: circle;
+	list-style-image: url(/images/unchecked.png);
 }
