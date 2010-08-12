@@ -18,7 +18,7 @@
 %dd
   %ul
     - if communication_on_progress.include_continued_support_statement?
-      %li COP includes an explicit statement of continued support for the UN Global Compact and its ten principles
+      %li COP includes an explicit statement of continued support for the UN Global Compact and the Ten Principles
     - if communication_on_progress.parent_company_cop?
       %li This is the COP of a parent company
       - if communication_on_progress.parent_cop_cover_subsidiary?
@@ -29,9 +29,8 @@
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
     %dt
-      = value
-      %br/
-      = show_issue_area_coverage(communication_on_progress, key)
+      %span{:class => "#{value.gsub(/ /,'').tableize.singularize}" }= value
+      %span{:class => "coverage" }= show_issue_area_coverage(communication_on_progress, key)
     %dd
       %ul= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
 

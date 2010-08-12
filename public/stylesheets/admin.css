@@ -691,14 +691,27 @@ ul.view_modes {
     font-size: 0.9em; }
 
 #main_content dt {
-  clear: left; }
+  clear: left;
+  color: #14546f; }
+  #main_content dt span.coverage {
+    font-size: 10px;
+    line-height: 1.1em; }
+  #main_content dt span.human_right {
+    color: #f7931e; }
+  #main_content dt span.labour {
+    color: #52c6d8; }
+  #main_content dt span.environment {
+    color: #688442; }
+  #main_content dt span.anti_corruption {
+    color: #ed1c24; }
 #main_content dd:empty {
   min-height: 12px; }
 #main_content dd ul {
-  margin: 0; }
+  margin: 0;
+  list-style: none; }
 #main_content dd li {
   border-bottom: 1px dotted #ccc;
-  line-height: 1.4;
+  line-height: 1.2em;
   margin-bottom: 10px;
   padding-bottom: 11px; }
   #main_content dd li:last-child, #main_content dd li li {
@@ -711,7 +724,7 @@ ul.view_modes {
     font-size: 12px;
     margin: 10px 0 0 15px; }
   #main_content dd li li {
-    color: #555;
+    color: #666;
     margin-bottom: 8px; }
 
 .selected_question {

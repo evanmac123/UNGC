@@ -315,10 +315,6 @@ table.sortable thead tr th.sort:hover {
 	color: #00546E;
 }
 
-/*table.sortable thead tr th.headerSortUp, table.sortable thead tr th.headerSortDown {
-  background-color: #ccc;
-}
-*/
 table.sortable thead tr th.headerSortUp {
   background-image:url(/images/sortable_up.gif);
 }
@@ -418,11 +414,24 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
 
-
+/* COPs */
 #main_content dt {
-  clear: left; 
+  clear: left;
   font-weight: bold;
+  color: #00546E;
 }
+
+#main_content dt span.coverage {
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 1.1em;
+  color: #00546E;
+}
+
+#main_content dt span.human_right { color: #F7931E; }
+#main_content dt span.labour { color: #52C6D8; }
+#main_content dt span.environment { color: #688442; }
+#main_content dt span.anti_corruption { color: #ED1C24; }
 
 #main_content dd:empty {
   min-height: 12px; 
@@ -434,9 +443,9 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 
 #main_content dd li {
   border-bottom: 1px dotted #ccc;
-  line-height: 1.4;
-  margin-bottom: 10px;
-  padding-bottom: 11px; 
+  line-height: 1.2;
+  margin-bottom: 1px;
+  padding-bottom: 1px;
 }
 
 #main_content dd li:last-child, #main_content dd li li {
@@ -450,15 +459,25 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 }
 
 #main_content dd ul li {
-  font-size: 12px;
+/*  font-size: 10px;*/
   margin: 10px 0 0 15px;
-/*  list-style-type: disc; */
+  list-style-type: none; 
 }
 
 #main_content dd li li {
-  color: #555;
-  margin-bottom: 8px; 
-/*  list-style-type: circle;*/
+  color: #666;
+  padding-left: 3px;
+  list-style-type: none;
+}
+
+#main_content dd li li.selected_question {
+  list-style-image: url(/images/checked.png);
+  list-style-type: disc;
+}
+
+#main_content dd li li.unselected_question {
+  list-style-type: circle;
+  list-style-image: url(/images/unchecked.png);
 }
 
 #main_content dt {
@@ -474,12 +493,3 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 	margin-left: 100px;
 }
 
-.selected_question {
-	list-style-image: url(/images/checked.png);
-	list-style-type: disc;
-}
-
-.unselected_question {
-	list-style-type: circle;
-	list-style-image: url(/images/unchecked.png);
-}
