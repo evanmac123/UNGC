@@ -9,7 +9,7 @@
     - communication_on_progress.cop_files.each do |cop_file|
       %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
     - communication_on_progress.urls.each do |url|
-      %li= link_to truncate(url, :length => 80), url
+      %li= link_to truncate(url, :length => 60), url
 
 - unless communication_on_progress.description.blank?
   %dt Description:

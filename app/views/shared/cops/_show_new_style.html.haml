@@ -12,7 +12,7 @@
     %ul
       - for cop_link in communication_on_progress.cop_links
         %li
-          = link_to cop_link.url, cop_link.url
+          = link_to truncate(cop_link.url, :length => 60), cop_link.url
           == [#{cop_link.language.name}]
 %dt Details:
 %dd
