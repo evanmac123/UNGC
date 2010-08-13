@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   helper %w{application case_stories cops datetime events local_network navigation news organizations pages participants search sessions signatories signup stakeholders} # needs to be explicit
   before_filter :soft_require_staff_user, :only => :decorate
   before_filter :require_staff_user, :only => :preview
-  before_filter :find_content, :except => [:decorate, :preview, :redirect_local_network]
+  before_filter :find_content, :except => [:decorate, :preview, :redirect_local_network, :redirect_to_page]
   before_filter :find_content_for_staff, :only => [:decorate, :preview]
   before_filter :page_is_editable, :only => [:preview, :view]
 
@@ -23,6 +23,14 @@ class PagesController < ApplicationController
     view
   end
 
+  def redirect_to_page
+    if params[:page]
+      redirect_to params[:page]
+    else
+      redirect_to root_path
+    end
+  end
+  
   def redirect_local_network
     if params[:id]
       redirect_to "/NetworksAroundTheWorld/local_network_sheet/#{params[:id]}.html"
