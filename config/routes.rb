@@ -84,6 +84,9 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # Front-end routes
+  
+  map.connect "/watermandate", :controller => 'pages', :action => :redirect_to_page, :page => '/Issues/Environment/CEO_Water_Mandate/'
+  
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
     :action => 'redirect_local_network'
@@ -109,7 +112,7 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'show', 
     :requirements => { id: /\d+/ }
 
-  # shorcut for new organization
+  # shortcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
   map.with_options :controller => 'signup' do |signup|
     signup.connect '/HowToParticipate/Business_Organization_Information.html', :action => 'step1', :org_type => 'business'
