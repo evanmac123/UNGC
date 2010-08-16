@@ -1,6 +1,7 @@
 class CopFileImporter
   def run
-    path = '/Users/Shared/Downloads/'    
+    path = '/home/rails/ungc/uploaded/'
+    
     conditions = "identifier IS NOT NULL and related_document IS NOT NULL and related_document NOT LIKE '%COP.pdf'"
     
     cops = CommunicationOnProgress.find(:all, :joins => 'left join cop_files on cop_files.cop_id = communication_on_progresses.id', :conditions =>  conditions)
@@ -16,8 +17,8 @@ class CopFileImporter
         if File.exist?(cop_file)
           found += 1
           puts "Found: #{cop_file}\n"
-          # cop.cop_files.create(:attachment => File.new(cop_file),
-          #                      :attachment_type => CopFile::TYPES[:cop])
+          cop.cop_files.create(:attachment => File.new(cop_file),
+                               :attachment_type => CopFile::TYPES[:cop])
         end
       end
     end
@@ -31,20 +32,24 @@ class CopFileImporter
     require 'hpricot'
     require 'facets'
     puts "*** Importing from cop_xml data..."
-    real_files = @path + ""
+    cop_dir = '/home/rails/ungc/uploaded/cops_xml/'
+    real_files = Dir.new(cop_dir).entries
     converter = Iconv.new("UTF-8", "iso8859-1")
+    count = 0
+    puts "*** Found #{real_files.count} COP files"
     real_files.each do |f|
       short = (f - '.xml').split('/').last
-      # puts "Working with file #{short}:"
+      puts "Working with file #{f}"
       if cop = CommunicationOnProgress.find_by_identifier(short)
-        description = converter.iconv (Hpricot(open(f))/'description').inner_html
-        # cop.update_attribute :description, description.strip
+        puts "Found COP #{cop.id}: #{cop.title}"
+        description = converter.iconv (Hpricot(open(cop_dir + f))/'description').inner_html
+        count += 1 if !description.blank?
+        cop.update_attribute :description, description.strip
       else
-        # puts "  *** Error: Can't find the COP"
+        puts "  *** Error: Can't find the COP record #{short}"
       end
-      # puts "\n"
     end
-    # puts "*** Done!"
+    puts "*** Found #{count} COP descriptions"
   end
   
 end
