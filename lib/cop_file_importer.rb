@@ -33,6 +33,7 @@ class CopFileImporter
     require 'facets'
     puts "*** Importing from cop_xml data..."
     cop_dir = '/home/rails/ungc/uploaded/cops_xml/'
+    # cop_dir = '/Users/Shared/Downloads/cops_xml/'
     real_files = Dir.new(cop_dir).entries
     converter = Iconv.new("UTF-8", "iso8859-1")
     count = 0
@@ -41,10 +42,14 @@ class CopFileImporter
       short = (f - '.xml').split('/').last
       puts "Working with file #{f}"
       if cop = CommunicationOnProgress.find_by_identifier(short)
-        puts "Found COP #{cop.id}: #{cop.title}"
-        description = converter.iconv (Hpricot(open(cop_dir + f))/'description').inner_html
-        count += 1 if !description.blank?
-        cop.update_attribute :description, description.strip
+        
+        if cop.description.blank?
+          puts "Found COP #{cop.id}: #{cop.title}"
+          description = converter.iconv (Hpricot(open(cop_dir + f))/'description').inner_html
+          count += 1 if !description.blank?
+          cop.update_attribute :description, description.strip
+        end
+      
       else
         puts "  *** Error: Can't find the COP record #{short}"
       end
