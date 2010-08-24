@@ -253,6 +253,14 @@ class CommunicationOnProgress < ActiveRecord::Base
       references_environment].collect{|r| r if r}.compact.count
   end
   
+  def issue_areas_covered
+    issues = []
+    PrincipleArea::FILTERS.each_pair do |key, value|
+      issues << value if self.send("references_#{key}?")
+    end
+    issues
+  end
+  
   # Calculate % of items covered for each issue area
   # Grouping is usually 'additional'
   def issue_area_coverage(principle_area_id, grouping)
