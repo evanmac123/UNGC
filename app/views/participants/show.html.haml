@@ -30,7 +30,7 @@
       %strong Organization Type
     .right
       = @participant.is_ft_500 ? 'FT 500' : nil
-      = @participant.organization_type.name
+      = @participant.organization_type_name
 
   - if @participant.business_entity?
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
