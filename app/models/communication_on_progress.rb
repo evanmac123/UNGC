@@ -147,7 +147,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     CopQuestion.questions_for(self.organization).each {|cop_question|
       cop_question.cop_attributes.each {|cop_attribute|
         self.cop_answers.build(:cop_attribute_id => cop_attribute.id,
-                               :value            => false)
+                               :value            => false,
+                               :text             => nil)
         }
     }
   end

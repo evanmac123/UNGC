@@ -70,7 +70,8 @@ module Admin::CopsHelper
         html << content_tag(:div, simple_format(question.cop_attributes.first.hint), :class => "hint_text", :style => 'display: none;')
       end
       # TODO: associate textarea with cop attribute
-      html << text_area_tag("communication_on_progress", nil, :rows => 10, :class => 'cop_answer')
+      html << hidden_field_tag("communication_on_progress[cop_answers_attributes][][cop_attribute_id]", question.cop_attributes.first.id)
+      html << text_area_tag("communication_on_progress[cop_answers_attributes][][text]", '', { :class => 'cop_answer' })
       return content_tag :fieldset, (content_tag(:legend, content_tag(:span, question.text)) + html)
     end
     
