@@ -1,0 +1,39 @@
+%dt Title
+%dd
+  %ul
+    %li= communication_on_progress.title
+
+%dt Links
+%dd
+  %ul
+    - communication_on_progress.cop_files.each do |cop_file|
+      %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
+    - communication_on_progress.urls.each do |url|
+      %li= link_to truncate(url, :length => 60), url
+
+- unless communication_on_progress.description.blank?
+  %dt Description
+  %dd
+    %ul
+      %li= simple_format(communication_on_progress.description)
+
+%dt Time period
+%dd
+  %ul
+    %li== #{communication_on_progress.start_month}/#{communication_on_progress.start_year} to #{communication_on_progress.end_month}/#{communication_on_progress.end_year}
+
+%dt Principles covered
+%dd
+  %ul
+    - communication_on_progress.principles.each do |principle|
+      %li= principle.name
+
+%dt Languages
+%dd
+  %ul
+    %li= communication_on_progress.languages.collect(&:name).join(', ')
+
+%dt Contact
+%dd
+  %ul
+    %li= [communication_on_progress.contact_name, communication_on_progress.job_title, communication_on_progress.email].compact.join('<br />')

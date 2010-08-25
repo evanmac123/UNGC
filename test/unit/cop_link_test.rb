@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class CopLinkTest < ActiveSupport::TestCase
-  should_validate_presence_of :attachment_type, :url
+  #removed because of the exception :unless => Proc.new { |cop_link| cop_link.url.blank? }
+  should_validate_presence_of :attachment_type
   should_belong_to :communication_on_progress
   should_belong_to :language
   
@@ -21,6 +22,12 @@ class CopLinkTest < ActiveSupport::TestCase
       @cop.cop_links.create(:url => 'http://goodlink.com/', :attachment_type => 'cop', :language_id => @language.id)
       assert @cop.valid?
     end
+    
+    should "save the COP if the URL is blank" do
+      @cop.cop_links.create(:url => '', :attachment_type => 'cop', :language_id => @language.id)
+      assert @cop.valid?
+    end
+    
   end
    
 end

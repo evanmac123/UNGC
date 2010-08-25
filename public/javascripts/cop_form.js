@@ -11,23 +11,26 @@ $("input[name='communication_on_progress[format]']").click(function() {
   } else {
     $("#non_grace_letter_fields").show();
     hideAndDisableFormElements("#grace_letter_fields");
-    showCopFileOrLinks();
+    showAndEnableFormElements("#web_cop_attachments");
+    showAndEnableFormElements("#cop_attachments");
+    $("#text_b").show();
+    // showCopFileOrLinks();
     $("#text_a").hide();
     $("#submit_tab").hide();
   }
 })
 
-function showCopFileOrLinks() {
-  if ($("#communication_on_progress_web_based_true").is(':checked')) {
-    showAndEnableFormElements("#web_cop_attachments");
-    hideAndDisableFormElements("#cop_attachments");
-    $("#text_b").show();
-  } else {
-    showAndEnableFormElements("#cop_attachments");
-    hideAndDisableFormElements("#web_cop_attachments");
-    $("#text_b").hide();
-  }
-}
+// function showCopFileOrLinks() {
+//   if ($("#communication_on_progress_web_based_true").is(':checked')) {
+//     showAndEnableFormElements("#web_cop_attachments");
+//     hideAndDisableFormElements("#cop_attachments");
+//     $("#text_b").show();
+//   } else {
+//     showAndEnableFormElements("#cop_attachments");
+//     hideAndDisableFormElements("#web_cop_attachments");
+//     $("#text_b").hide();
+//   }
+// }
 
 // Q2 - Web based
 $("input[name='communication_on_progress[web_based]']").click(function() {
@@ -68,37 +71,6 @@ $("input[class='additional_questions']").click(function() {
   }
   $("#submit_tab").show();
   
-  // if ($("#communication_on_progress_notable_program_true").is(':checked')) {
-  //   $("#notable_tab").show();
-  //   $(".tab_nav .additional_questions").show();
-  // } else if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
-  //   $("#notable_tab").hide();
-  //   $(".tab_nav .additional_questions").show();
-  //   $("#submit_tab").show();
-  // } else {
-  //   $("#notable_tab").hide();
-  //   $(".tab_nav .additional_questions").hide();
-  //   $("#submit_tab").show();
-  // }
-  // // defining text to display
-  // $("#text_l").hide();
-  // $("#text_m").hide();
-  // $("#text_n").hide();
-  // $("#text_o").hide();
-  // 
-  // if ($("#communication_on_progress_notable_program_true").is(':checked') &&
-  //     $("#communication_on_progress_additional_questions_true").is(':checked')) {
-  //   $("#text_l").show();
-  // } else if ($("#communication_on_progress_notable_program_true").is(':checked') &&
-  //            $("#communication_on_progress_additional_questions_false").is(':checked')) {
-  //   $("#text_m").show();
-  // } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
-  //            $("#communication_on_progress_additional_questions_true").is(':checked')) {
-  //   $("#text_n").show();
-  // } else if ($("#communication_on_progress_notable_program_false").is(':checked') &&
-  //            $("#communication_on_progress_additional_questions_false").is(':checked')) {
-  //   $("#text_o").show();
-  // }
 })
 
 // Q17 - Notable program
@@ -131,10 +103,9 @@ function showAndEnableFormElements(div) {
 
 $('#cop_form').submit(function() {
   window.onbeforeunload = null;
-  // We disable the upload elements for a web based COP if a file wasn't selected
-  if ( $("#communication_on_progress_web_based_true").is(':checked') &&
-      ($("#communication_on_progress_cop_files_attributes_new_web_cop_attachment").val() == "")) {
-        $("#cop_file_new_web_cop input, #cop_file_new_web_cop select").attr("disabled", "disabled");
+  // We disable the upload elements for a web based COP if no URL was provided
+  if ( $("#communication_on_progress_cop_links_attributes_new_cop_url").val().trim() == "" ) {
+        hideAndDisableFormElements("#web_cop_attachments");
   }
 })
 

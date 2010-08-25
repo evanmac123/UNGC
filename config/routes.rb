@@ -78,18 +78,20 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :logo_files
     admin.resources :cop_questions
     admin.resources :local_networks
-  
+      
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'
   end
 
   # Front-end routes
+  
+  map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
+  map.connect "/watermandate", :controller => 'pages', :action => :redirect_to_page, :page => '/Issues/Environment/CEO_Water_Mandate/'
+  
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
     :action => 'redirect_local_network'
-
-  map.resources :bulletin_subscribers #, :has_many => :comments
-
+    
   map.with_options :controller => 'participants' do |m|
     m.participant_search 'participants/search', :action => 'search'
     
@@ -109,7 +111,7 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'show', 
     :requirements => { id: /\d+/ }
 
-  # shorcut for new organization
+  # shortcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
   map.with_options :controller => 'signup' do |signup|
     signup.connect '/HowToParticipate/Business_Organization_Information.html', :action => 'step1', :org_type => 'business'

@@ -1,3 +1,7 @@
+!human_right = #F7931E
+!labour = #52C6D8
+!environment = #688442
+!anti_corruption = #ED1C24
 !dark_blue = #14546f
 !light_blue = #f0f6fa
 !dark_grey = #333
@@ -278,18 +282,6 @@ ul.nav_bar
             // fixes positioning for Word icon in sprited png file:
             background-position: -24px 0
 
-  // new COP submission
-  ul.date_select
-    float: left
-    margin-top: 10px
-    margin-right: 25px
-    list-style: none
-    li
-      font-weight: bold
-    select
-      width: 90px
-            
-
   #org_name
     font-weight: bold 
           
@@ -527,24 +519,20 @@ ul.nav_bar
       
     input, select, textarea
       color: #000
-      margin: 0 5px 0 25px
+      margin: 2px 4px 1px 25px
+      padding: 0 0 0 3px
       width: 305px
       font-family: "Helvetica Neue",Arial,Helvetica,sans-serif
       font-size: 1em
     
-    input[type="checkbox"], input[type="radio"] 
+    input[type="checkbox"], input[type="radio"], input[type="file"] 
       width: auto
+      margin: 0 5px 0px 25px
     
     span.cke_skin_kama
       display: block
       margin: 0 5px 0 120px
     
-    input, textarea
-      padding: 0 0 0 3px
-      
-    select
-      width: 307px
-  
     textarea
       height: 100px
       overflow-y: auto
@@ -575,18 +563,43 @@ ul.nav_bar
         padding: 5px
         border: 1px solid #cccccc
       
+      input[type="checkbox"], input[type="radio"], input[type="file"] 
+        width: auto
+        margin: -2px 10px 0px 5px
+      
       label
         display: block
-        width: auto
-        float: none
+        width: 700px
+        padding: 1px
+        margin: 1px
         color= !dark_grey
+        &:hover
+          cursor: pointer
       
-      input
-        width: auto
-        margin: 2px 10px 2px 0
-        
+      span.radio_label
+        float: left
+        margin: 5px 0 5px 0
+              
+      span.label_text
+        display: block
+        position: relative
+        line-height: 1em
+        left: 25px
+        top: -10px
+      
       select
         margin-left: 0
+
+      // new COP submission
+      ul.date_select
+        float: left
+        margin-top: 10px
+        margin-right: 25px
+        list-style: none
+        li
+          font-weight: bold
+        select
+          width: 90px
 
   // page_manager styling
   .box
@@ -897,3 +910,7 @@ ul.view_modes
       
   small
     font-size: 0.9em
+    
+    
+    
+@import cops.sass    

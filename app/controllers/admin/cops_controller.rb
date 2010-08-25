@@ -12,7 +12,7 @@ class Admin::CopsController < AdminController
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     if @communication_on_progress.save
       flash[:notice] = "The COP was #{@communication_on_progress.state}."
-      redirect_to dashboard_path(tab: 'cops')
+      redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
       render :action => "new"
     end

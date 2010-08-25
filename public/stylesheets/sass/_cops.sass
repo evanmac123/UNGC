@@ -1,0 +1,51 @@
+// Style and layout overrides for the Bloomburg Atom Feeds
+
+#main_content
+  dt
+    :clear                    left
+    :color=                   !dark_blue
+    
+    span
+      &.coverage
+        :font-size              10px
+        :line-height            1.1em    
+      &.human_right
+        :color=               !human_right
+      &.labour
+        :color=               !labour
+      &.environment
+        :color=               !environment
+      &.anti_corruption
+        :color=               !anti_corruption
+    
+  dd
+    &:empty
+      :min-height             12px
+    ul
+      :margin                 0
+      :list-style             none
+    li
+      :border-bottom          1px dotted #ccc
+      :line-height            1.2em
+      :margin-bottom          10px
+      :padding-bottom         11px
+      &:last-child, li
+        :border-bottom        0
+        :margin-bottom        0
+        :padding-bottom       0
+      p
+        :margin               10px 0 0 0
+      ul
+        :font-size            12px
+        :margin               10px 0 0 15px
+      li
+        :color                #666
+        :margin-bottom        8px
+
+.selected_question
+  :list-style-type        disc
+  :list-style-image       url(/images/checked.png)
+      
+.unselected_question
+  :list-style-type        circle
+  :list-style-image       url(/images/unchecked.png)

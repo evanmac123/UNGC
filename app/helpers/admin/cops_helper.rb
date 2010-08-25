@@ -11,7 +11,7 @@ module Admin::CopsHelper
   
   def true_or_false_field(form, field, options={})
     html = content_tag(:label, [form.radio_button(field, 'true', :class => options[:class]), options[:yes] || 'Yes'].join)
-    html << content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join)
+    html += content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join)
     return html
   end
   
@@ -24,10 +24,10 @@ module Admin::CopsHelper
     answer_index = cop.cop_answers.index(answer)
     html = hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
     input_tag = radio_button_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", 'true', answer.value)
-    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_true", input_tag + 'Yes')
+    html += label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_true", input_tag + 'Yes')
 
     input_tag = radio_button_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", 'false', !answer.value)
-    html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_false", input_tag + 'No')
+    html += label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value_false", input_tag + 'No')
     
     return html
   end
@@ -43,9 +43,10 @@ module Admin::CopsHelper
     answers.each do |answer|
       answer_index = cop.cop_answers.index(answer)
       checkbox = check_box_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", '1', answer.value)
-      html << hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
-      html << hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", "0", :id => nil)
-      html << label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value", (checkbox + answer.cop_attribute.text))
+      html += hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
+      html += hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", "0", :id => nil)
+      cop_attribute_text = content_tag(:span, answer.cop_attribute.text, :class => 'label_text')
+      html += label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value", (checkbox + cop_attribute_text))
     end
     
     return html
@@ -86,33 +87,42 @@ module Admin::CopsHelper
   end
   
   # Used to display cop answers on the cop show page
-  def show_cop_attributes(cop, principle, selected=false)
+  def show_cop_attributes(cop, principle, selected=false, grouping='additional')
     if principle.nil?
-      conditions = 'cop_questions.principle_area_id IS NULL'
+      conditions = ['cop_questions.principle_area_id IS NULL AND cop_questions.grouping=?', grouping]
     else
-      conditions = ['cop_questions.principle_area_id=?', principle]
+      conditions = ['cop_questions.principle_area_id=? AND cop_questions.grouping=?', principle, grouping]
     end
+    
     attributes = cop.cop_attributes.all(:conditions => conditions,
-                                        :include    => :cop_question)
-    questions = CopQuestion.find attributes.collect(&:cop_question_id)
+                                        :include    => :cop_question,
+                                        :order      => 'cop_attributes.position ASC') 
+                                                                           
+    questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+    
     # we now have all questions, attributes and answers
     questions.collect do |question|
-      answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id],
-                                    :include    => :cop_attribute)
+      answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
       output = question.text
+      # output += " <span style='color: red; font-weight: bold;'>" + question.grouping + "</span>"
       if question.cop_attributes.count > 1
-        output << "<p><ul>"
-        output << answers.map{|a|
-          content_tag(:li, a.cop_attribute.text) if a.value?
+        output += "<p><ul>"
+        output += answers.map{|a|
+          content_tag(:li, a.cop_attribute.text, :class => "selected_question") if a.value?
         }.compact.join('')
-        output << "</ul></p>"        
+        if params[:action] != 'feed'
+          output += answers.map{|a|
+            content_tag(:li, a.cop_attribute.text, :class => "unselected_question") if !a.value?
+          }.compact.join('')
+        end
+        output += "</ul></p>"        
       else
-        output << content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' )
+        output += content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' )
       end
-
       content_tag :li, output
     end.join
   end
+  
   
   def principle_area_display_value(cop, area)
     if cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?")
@@ -148,4 +158,11 @@ module Admin::CopsHelper
     css_display_style(cop.send("references_#{principle}?") &&
                         (cop.additional_questions? || cop.notable_program?))
   end
+  
+  def show_issue_area_coverage(cop, principle_area)
+    answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
+    percentage = (answer_count.to_f / question_count.to_f) * 100
+    content_tag(:p, "#{percentage.to_i}% coverage<br /> #{answer_count} of #{question_count} items", :style => "margin-top: 5px;")
+  end
+  
 end

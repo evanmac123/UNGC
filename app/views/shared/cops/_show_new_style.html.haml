@@ -1,0 +1,87 @@
+- if params[:action] == 'feed'
+  %h1 Company Information
+  %dt Participant since
+  %dd
+    %ul
+      %li= communication_on_progress.organization.joined_on
+  %dt Country
+  %dd
+    %ul
+      %li= communication_on_progress.organization.country_name
+  %dt Ownership
+  %dd
+    %ul
+      %li
+        = communication_on_progress.organization.is_ft_500 ? 'FT 500' : nil
+        = communication_on_progress.organization.listing_status_name
+  %dt Sector
+  %dd
+    %ul
+      %li= communication_on_progress.organization.sector_name
+  
+  %h1 COP Details
+
+- if communication_on_progress.cop_files.any?
+  %dt Files
+  %dd
+    %ul
+      - for cop_file in communication_on_progress.cop_files
+        %li
+          = link_to cop_file.attachment_file_name, cop_file.attachment.url
+          == (#{cop_file.language.name})
+- if communication_on_progress.cop_links.any?
+  %dt Links
+  %dd
+    %ul
+      - for cop_link in communication_on_progress.cop_links
+        %li
+          = link_to truncate(cop_link.url, :length => 60), cop_link.url
+          == [#{cop_link.language.name}]
+
+%dt Format
+%dd
+  %ul
+    %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)]
+
+%dt Content
+%dd
+  %ul
+    - if communication_on_progress.include_continued_support_statement?
+      %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
+    - if communication_on_progress.include_measurement?
+      %li Identifies targets, defines performance indicators and measures outcomes
+    - if communication_on_progress.parent_company_cop?
+      %li This is the COP of a parent company
+      - if communication_on_progress.parent_cop_cover_subsidiary?
+        %li COP of parent company covers the efforts made by subsidiary to implement the Global Compact principles
+
+%dt Issue Areas Covered
+%dd
+  %ul
+    %li= communication_on_progress.issue_areas_covered.join(', ')
+
+/ - if logged_in? || params[:action] == 'feed'
+- if communication_on_progress.additional_questions?
+  %dt Detailed Content
+  %dd
+    %ul
+      %li Additional voluntary information on key management processes
+
+- PrincipleArea::FILTERS.each_pair do |key, value|
+  - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
+
+    %dt
+      %span{:class => "#{value.gsub(/ /,'').tableize.singularize}" }= value
+      %span{:class => "coverage" }= show_issue_area_coverage(communication_on_progress, key)
+    %dd
+      %ul= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
+
+- if communication_on_progress.notable_program?
+  %dt Notable Program
+  %dd
+    %ul= show_cop_attributes(communication_on_progress, nil, nil, 'notable')
+    
+- if communication_on_progress.cop_answers.by_group(:governance).count > 0
+  %dt Governance
+  %dd
+    %ul= show_cop_attributes(communication_on_progress, nil, nil, 'governance')

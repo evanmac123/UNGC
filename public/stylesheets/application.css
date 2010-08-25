@@ -144,7 +144,6 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; } 
-#box2 { background-position: 0px 0px; background-image: url(/images/Leaders_Summit_Logo.png); }
 #box2:hover {border: 1px solid #00546E; cursor: pointer;}
 
 #news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
@@ -196,7 +195,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box5 div.more div { padding: 4px 0 0 10px;}
 #box5_content { position: relative; }
 
-#box6 { left: 357px; background-position: -10px -10px; background-image: url(/pics/un_images/UN_Business_Banner_Haiti.png); }
+#box6 { left: 357px; }
 #box6 h2 { padding: 25px 0 0 15px; }
 #box6 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px; }
 #box6 p { color: #666; }
@@ -315,10 +314,6 @@ table.sortable thead tr th.sort:hover {
 	color: #00546E;
 }
 
-/*table.sortable thead tr th.headerSortUp, table.sortable thead tr th.headerSortDown {
-  background-color: #ccc;
-}
-*/
 table.sortable thead tr th.headerSortUp {
   background-image:url(/images/sortable_up.gif);
 }
@@ -417,3 +412,84 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 /* Clear for NS/FF/Moz */
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
+
+/* COPs */
+#main_content dt {
+  clear: left;
+  font-weight: bold;
+  color: #00546E;
+  white-space: nowrap;
+}
+
+#main_content dt span.coverage {
+  font-weight: normal;
+  font-size: 10px;
+  line-height: 1.1em;
+  color: #00546E;
+}
+
+#main_content dt span.human_right { color: #F7931E; }
+#main_content dt span.labour { color: #52C6D8; }
+#main_content dt span.environment { color: #688442; }
+#main_content dt span.anti_corruption { color: #ED1C24; }
+
+#main_content dd:empty {
+  min-height: 12px; 
+}
+
+#main_content dd ul {
+  margin: 0; 
+}
+
+#main_content dd li {
+  border-bottom: 1px dotted #ccc;
+  line-height: 1.2;
+  margin-bottom: 1px;
+  padding-bottom: 1px;
+}
+
+#main_content dd li:last-child, #main_content dd li li {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0; 
+}
+
+#main_content dd li p {
+  margin: 10px 0 0 0; 
+}
+
+#main_content dd ul li {
+/*  font-size: 10px;*/
+  margin: 10px 0 0 15px;
+  list-style-type: none; 
+}
+
+#main_content dd li li {
+  color: #666;
+  padding-left: 3px;
+  list-style-type: none;
+}
+
+#main_content dd li li.selected_question {
+  list-style-image: url(/images/checked.png);
+  list-style-type: disc;
+}
+
+#main_content dd li li.unselected_question {
+  list-style-type: circle;
+  list-style-image: url(/images/unchecked.png);
+}
+
+#main_content dt {
+	border-top:1px solid #999999;
+	float:left;
+	width: 100px;
+	padding-top: 10px;
+	clear: left;
+}
+
+#main_content dd {
+	border-top: 1px solid #999999;
+	margin-left: 100px;
+}
+
