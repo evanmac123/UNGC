@@ -59,6 +59,12 @@ Make sure that pdf2txt.py is in the path, and it should be fine.
 
 Done :)
 
+Debugger
+========
+script/server --debugger
+place 'debugger' at your breakpoint
+press 'c' to continue execution
+
 Controlling Sphinx
 ==================
 
