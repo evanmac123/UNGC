@@ -40,8 +40,8 @@ class ParticipantsController < ApplicationController
       }
       options[:per_page] = 100 if options[:per_page] > 100
       #options[:sort_mode] = :extended
-      options[:order] = params[:sort_by] || "name"
-      options[:order] += ' ' + (params[:direction] || 'ASC')
+      options[:order] = params[:sort_by] || "joined_on"
+      options[:order] += ' ' + (params[:direction] || 'DESC')
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_joined_on(options) if params[:joined_after] && params[:joined_before]
