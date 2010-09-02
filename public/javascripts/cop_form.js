@@ -90,6 +90,7 @@ function showAndEnableFormElements(div) {
 }
 
 $('#cop_form').submit(function() {
+  $('input[type=submit]', this).attr('disabled', 'disabled');
   window.onbeforeunload = null;
   // We disable the upload elements for a web based COP if no URL was provided
   if ( $("#communication_on_progress_cop_links_attributes_new_cop_url").val().trim() == "" ) {
