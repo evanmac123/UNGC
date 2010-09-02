@@ -184,8 +184,6 @@ $(function() {
 			new_window_location = new_window_location.replace(/&sort_by=(\w+)/g, ''); // Cut the previous sort by out
 			new_window_location = new_window_location.replace(/&amp;direction=(\w+)/g, ''); // Cut the previous direction out
 			new_window_location = new_window_location.replace(/&amp;sort_by=(\w+)/g, ''); // Cut the previous direction out
-			console.log('previous_sort_by: ' + previous_sort_by);
-			console.log('new_sort_by: ' + new_sort_by);
 			
 			if(new_sort_by == previous_sort_by) {
 				if(previous_direction != 'undefined' && previous_direction == 'ASC') {
@@ -193,9 +191,7 @@ $(function() {
 				}
 			}
 				
-			new_window_location += '&sort_by=' + new_sort_by + '&direction=' + new_direction;
-			console.log('new_window_location: ' + new_window_location);
-			
+			new_window_location += '&sort_by=' + new_sort_by + '&direction=' + new_direction;			
 			window.location = new_window_location
 		});
 		
