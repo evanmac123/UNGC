@@ -167,23 +167,17 @@ $(function() {
 		
 		$('.sort.server').click(function() {	
 			
-			// If we are selecting a new sort_by we want to sort ASC
-			// If we are on the same sort_by as before we want to toggle the sort direction
 			new_window_location = window.location.href;
 			new_direction = 'ASC';
-			new_sort_by = this.id;
-			if(/sort_by=(\w+)/.test(new_window_location))
-				previous_sort_by = new_window_location.match(/sort_by=(\w+)/)[1];
-			else
-				previous_sort_by = 'n/a'
-		  if(/direction=(\w+)/.test(new_window_location))		
-				previous_direction = new_window_location.match(/direction=(\w+)/)[1];
-			else
-				previous_direction = 'n/a'
-			new_window_location = new_window_location.replace(/&direction=(\w+)/g, ''); // Cut the previous direction out
-			new_window_location = new_window_location.replace(/&sort_by=(\w+)/g, ''); // Cut the previous sort by out
-			new_window_location = new_window_location.replace(/&amp;direction=(\w+)/g, ''); // Cut the previous direction out
-			new_window_location = new_window_location.replace(/&amp;sort_by=(\w+)/g, ''); // Cut the previous direction out
+			new_sort_by = this.id;			
+			previous_sort_by = (/sort_by=(\w+)/.test(new_window_location)) ? new_window_location.match(/sort_by=(\w+)/)[1] : 'n/a'
+			previous_direction = (/direction=(\w+)/.test(new_window_location)) ? new_window_location.match(/direction=(\w+)/)[1] : 'n/a'
+			
+			// Cut the previous sort_by and direction params out
+			new_window_location = new_window_location.replace(/&direction=(\w+)/g, '');
+			new_window_location = new_window_location.replace(/&sort_by=(\w+)/g, ''); 
+			new_window_location = new_window_location.replace(/&amp;direction=(\w+)/g, '');
+			new_window_location = new_window_location.replace(/&amp;sort_by=(\w+)/g, '');
 			
 			if(new_sort_by == previous_sort_by) {
 				if(previous_direction != 'undefined' && previous_direction == 'ASC') {
@@ -191,6 +185,7 @@ $(function() {
 				}
 			}
 				
+			// Add the new sort params to the end of the URL and redirect
 			new_window_location += '&sort_by=' + new_sort_by + '&direction=' + new_direction;			
 			window.location = new_window_location
 		});
