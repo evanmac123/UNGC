@@ -470,6 +470,7 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 }
 
 #main_content dd {
+	padding-top: 10px;
 	border-top: 1px solid #999999;
 	margin-left: 100px;
 }

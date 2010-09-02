@@ -1,5 +1,7 @@
 %h1 Participant Search
 
+= stylesheet_link_tag '/javascripts/tablesorter/addons/pager/jquery.tablesorter.pager.css'
+
 - if @results.any?
   %p== There are #{@results.total_entries} #{searched_for}.
   
@@ -13,18 +15,18 @@
   %table.striped.sortable{ :cellspacing => "0", :cellpadding => "0", :width => '100%' }
     %thead
       %tr
-        %th.sort
+        %th.sort.server#name
           Name
-        %th.sort
+        %th.sort.server#organization_type_id
           Type
-        %th.sort
+        %th.sort.server#sector_name
           Sector
-        %th.sort
+        %th.sort.server#country_name
           Country
-        %th.sort
+        %th.sort.server#joined_on
           Participant since
     %tbody
-      - for org in @results
+      - @results.each do |org|
         %tr
           %td{:title => org.name}
             #div{:class => iconize(org)}
@@ -37,15 +39,17 @@
             = truncate(org.country_name, :length => 20)
           %td
             = yyyy_mm_dd org.joined_on
-      
+  %br
+  %br
+  /= render :partial => 'shared/pager'
   %div
     = will_paginate @results, :anchor => 'paged_results'
     
-  %h3 Key:
-  %ul
-    %li
-      %img{ :src => "/images/icon_alert.gif" }
-      indicates that a participant is "Non-communicating" for failing to develop a Communication on Progress by the relevant deadline.
+%h3 Key:
+%ul
+  %li
+    %img{ :src => "/images/icon_alert.gif" }
+    indicates that a participant is "Non-communicating" for failing to develop a Communication on Progress by the relevant deadline.
 
 - else
   %p== Sorry, there are no #{searched_for}.

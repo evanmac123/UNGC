@@ -33,8 +33,15 @@ class ParticipantsController < ApplicationController
     end
     
     def results_for_search
-      options = {per_page: (params[:per_page] || 10).to_i, page: (params[:page] || 1).to_i}
+      options = {
+        per_page: (params[:per_page] || 10).to_i, 
+        page: (params[:page] || 1).to_i,
+        #,order: 'organization_type'
+      }
       options[:per_page] = 100 if options[:per_page] > 100
+      #options[:sort_mode] = :extended
+      options[:order] = params[:sort_by] || "name"
+      options[:order] += ' ' + (params[:direction] || 'ASC')
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_joined_on(options) if params[:joined_after] && params[:joined_before]

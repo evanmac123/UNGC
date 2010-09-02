@@ -149,13 +149,65 @@ var Watcher = {
 }
 
 $(function() {
-	if ($('table.sortable').size() > 0) 
-		$('table.sortable').tablesorter({widgets: ['zebra']});
+	
+	// if ($('table.sortable').size() > 0) {
+	// 	//$('table.sortable').tablesorter({widgets: ['zebra']});
+	// 	// $('table.sortable')
+	// 	// 	.tablesorter({
+	// 	// 		widthFixed: true, 
+	// 	// 		widgets: ['zebra']}) 
+	// 	//     	.tablesorterPager({
+	// 	// 		container: $(".pager"), 
+	// 	// 		positionFixed: false,
+	// 	// 		size: 20
+	// 	// 	});
+	// }
+	
+	$(document).ready(function() { 
+		
+		$('.sort.server').click(function() {	
+			
+			// If we are selecting a new sort_by we want to sort ASC
+			// If we are on the same sort_by as before we want to toggle the sort direction
+			new_window_location = window.location.href;
+			new_direction = 'ASC';
+			new_sort_by = this.id;
+			if(/sort_by=(\w+)/.test(new_window_location))
+				previous_sort_by = new_window_location.match(/sort_by=(\w+)/)[1];
+			else
+				previous_sort_by = 'n/a'
+		  if(/direction=(\w+)/.test(new_window_location))		
+				previous_direction = new_window_location.match(/direction=(\w+)/)[1];
+			else
+				previous_direction = 'n/a'
+			new_window_location = new_window_location.replace(/&direction=(\w+)/g, ''); // Cut the previous direction out
+			new_window_location = new_window_location.replace(/&sort_by=(\w+)/g, ''); // Cut the previous sort by out
+			new_window_location = new_window_location.replace(/&amp;direction=(\w+)/g, ''); // Cut the previous direction out
+			new_window_location = new_window_location.replace(/&amp;sort_by=(\w+)/g, ''); // Cut the previous direction out
+			console.log('previous_sort_by: ' + previous_sort_by);
+			console.log('new_sort_by: ' + new_sort_by);
+			
+			if(new_sort_by == previous_sort_by) {
+				if(previous_direction != 'undefined' && previous_direction == 'ASC') {
+					new_direction = 'DESC';
+				}
+			}
+				
+			new_window_location += '&sort_by=' + new_sort_by + '&direction=' + new_direction;
+			console.log('new_window_location: ' + new_window_location);
+			
+			window.location = new_window_location
+		});
+		
+	});
 	
 	if ($('body.editable_page').length > 0) {
 		Watcher.init();
 	}
 
+	$(".tablesorter").tablesorter({widgets: ['zebra']}); 
+	
+	
 	$('a.edit_content').live('click', function(event) {
 		// jQuery.get(event.target.href, [], null, 'script');
 		Editor.loading();

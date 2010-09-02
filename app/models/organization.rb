@@ -86,7 +86,7 @@ class Organization < ActiveRecord::Base
   @@per_page = 100
 
   define_index do
-    indexes name
+    indexes name, :sortable => true
     has country(:id), :as => :country_id, :facet => true
     has country(:name), :as => :country_name, :facet => true
     has organization_type(:type_property), :as => :business, :facet => true
