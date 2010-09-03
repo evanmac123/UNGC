@@ -1,0 +1,3 @@
+#!/bin/sh
+DATE=`date "+20%y_%m_%d"`
+mysqldump -u root --password=suffic\!entlyr\@nd0m unglobalcompact --add-drop-table --ignore-table=unglobalcompact.sessions --ignore-table=unglobalcompact.searchables | gzip > /var/backups/production_unglobalcompact_$DATE.sql.gz
