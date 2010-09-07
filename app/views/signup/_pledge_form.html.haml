@@ -1,0 +1,19 @@
+%br/
+%hr
+%h2 Financial Commitment
+%p All companies are expected to commit to making annual contributions to support the work of the UN Global Compact Office. This revenue is critically important with respect to the development of value-maximizing programmes, projects and resources for the benefit of all participating companies. These fees are received, and the money deployed, through the Foundation for the Global Compact &ndash; a non-profit 501(c)(3) &ndash; and are therefore tax deductible in many jurisdictions. 
+%h3 The annual fees are set as follows:
+%fieldset{:class => 'pledge'}
+  %ol
+    %li
+      = form.radio_button :pledge_amount, 10000, :class => 'fixed_pledge'
+      = label_tag "organization_pledge_amount_10000", "USD 10,000 for companies with annual sales/revenues of USD&nbsp;1&nbsp;billion or more"
+    %li
+      = form.radio_button :pledge_amount, 5000, :class => 'fixed_pledge'
+      = label_tag "organization_pledge_amount_5000", "USD 5,000 for companies with annual sales/revenues of between USD&nbsp;250&nbsp;million and USD&nbsp;1&nbsp;billion"
+    %li
+      = form.radio_button :pledge_amount, 2000, :class => 'fixed_pledge'
+      = label_tag "organization_pledge_amount_2000", "USD 2,000 for companies with annual sales/revenues of between USD&nbsp;25&nbsp;million and USD&nbsp;250&nbsp;million"
+    %li
+      = form.radio_button :pledge_amount, 500, :class => 'fixed_pledge'
+      = label_tag "organization_pledge_amount_500", "Note: for companies with annual sales/revenues of less than USD&nbsp;25&nbsp;million, the contribution is considered entirely voluntary and is set at USD 500"
