@@ -67,6 +67,6 @@ class Role < ActiveRecord::Base
   end
   
   def self.login_roles
-    [Role.contact_point, Role.network_report_recipient, Role.general_contact]
+    [Role.contact_point, Role.network_report_recipient]
   end
 end
