@@ -4,52 +4,32 @@
 = flash_messages_for :error
 
 %h2 Letter of Commitment
+#main_content
 
-%p Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form. The uploaded file should be in PDF format.
+  %p Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form. The uploaded file should be in PDF format.
 
-- form_for(@organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
-  %p= form.file_field :commitment_letter, { :label => '&nbsp;' }
+  - form_for(@organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
+    %p= form.file_field :commitment_letter, { :label => '&nbsp;' }
 
-  - if @organization.business_entity?
-    %br/
-    %hr
-    %h2 Financial Contribution
-    %p Companies are asked, upon endorsement, to make an annual voluntary financial contribution to help support the work of the UN Global Compact. Please indicate your pledge amount according to the suggested contribution levels listed below. Once you are confirmed as a participant, additional information will be sent to you regarding this contribution. (Financial contributions are made to the Foundation for the Global Compact.) Thank you for your support.
-    
-    %table{:style =>'width: 100%;'}
-      %tr
-        %td
-          %strong Annual sales/revenues
-        %td
-          %strong Suggested Contribution
-        %td
-          &nbsp;
-      %tr
-        %td Less than USD 250 million
-        %td
-          = form.radio_button :pledge_amount, 500, :class => 'fixed_pledge'
-          = label_tag "organization_pledge_amount_500", "USD 500", :style => "font-weight:normal"
-        %td
-          &nbsp;
-      %tr
-        %td Between USD 250 million and USD 1 billion
-        %td
-          = form.radio_button :pledge_amount, 5000, :class => 'fixed_pledge'
-          = label_tag "organization_pledge_amount_5000", "USD 5,000", :style => "font-weight:normal"
-        %td
-          &nbsp;
-      %tr
-        %td USD 1 billion or more
-        %td
-          = form.radio_button :pledge_amount, 10000, :class => 'fixed_pledge'
-          = label_tag "organization_pledge_amount_10000", "USD 10,000", :style => "font-weight:normal"
-        %td
-          &nbsp;
-      %tr
-        %td &nbsp;
-        %td
-          = form.radio_button :pledge_amount, -1
-          = label_tag "organization_pledge_amount_1", "Greater than USD 10,000", :style => "font-weight:normal"
-        %td= form.text_field :pledge_amount_other, :size => 6
-  %p
-    = form.submit 'Submit'
+    - if @organization.business_entity?
+      %br/
+      %hr
+      %h2 Financial Commitment
+      %p All companies are expected to commit to making annual contributions to support the work of the UN Global Compact Office. This revenue is critically important with respect to the development of value-maximizing programmes, projects and resources for the benefit of all participating companies. These fees are received, and the money deployed, through the Foundation for the Global Compact &ndash; a non-profit 501(c)(3) &ndash; and are therefore tax deductible in many jurisdictions. 
+      %h3 The annual fees are set as follows:
+      %fieldset{:class => 'pledge'}
+        %ol
+          %li
+            = form.radio_button :pledge_amount, 10000, :class => 'fixed_pledge'
+            = label_tag "organization_pledge_amount_10000", "USD 10,000 for companies with annual sales/revenues of USD&nbsp;1&nbsp;billion or more"
+          %li
+            = form.radio_button :pledge_amount, 5000, :class => 'fixed_pledge'
+            = label_tag "organization_pledge_amount_5000", "USD 5,000 for companies with annual sales/revenues of between USD&nbsp;250&nbsp;million and USD&nbsp;1&nbsp;billion"
+          %li
+            = form.radio_button :pledge_amount, 2000, :class => 'fixed_pledge'
+            = label_tag "organization_pledge_amount_2000", "USD 2,000 for companies with annual sales/revenues of between USD&nbsp;25&nbsp;million and USD&nbsp;250&nbsp;million"
+          %li
+            = form.radio_button :pledge_amount, 500, :class => 'fixed_pledge'
+            = label_tag "organization_pledge_amount_500", "Note: for companies with annual sales/revenues of less than USD&nbsp;25&nbsp;million, the contribution is considered entirely voluntary and is set at USD 500"
+  
+    =form.submit 'Submit', :class => 'button'

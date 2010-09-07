@@ -1,5 +1,10 @@
+#main_content input.button {
+  margin: 10px 0 0 520px;
+  clear: both;
+}
 #main_content fieldset {
-  background-color: #fff; }
+  background-color: #fff;
+  }
   #main_content fieldset legend {
     color: #aaa; }
     #main_content fieldset legend span {
@@ -45,5 +50,26 @@
       margin: 2px 10px 2px 0;
       vertical-align: bottom; }
 
+  #main_content fieldset.pledge {
+    margin: 0 0 0 0; }
+    #main_content fieldset.pledge input:hover, label:hover {
+      cursor: pointer;
+    }
+  #main_content fieldset.pledge input[type=radio] {
+    clear: left;
+    float: left;
+    width: auto;
+    margin: -2px 15px 0px -30px; }
+  #main_content fieldset.pledge label {
+    display: block;
+    float: left;
+    width: 500px;
+    color: #000;
+    font-weight: normal;
+    line-height: 1.2em;
+    margin-bottom: 1em;
+  }
+
 /* Error for flash messages */
 #main_content .errorExplanation { color: #8a1f11; }
+
