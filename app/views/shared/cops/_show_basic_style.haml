@@ -1,19 +1,27 @@
-%dt Level
-%dd Basic
+%dt Format
+%dd
+  %ul
+    %li Stand alone document
 
 %dt Time period
 %dd
   %ul
     %li== #{communication_on_progress.starts_on.month}/#{communication_on_progress.starts_on.year} to #{communication_on_progress.ends_on.month}/#{communication_on_progress.ends_on.year}
 
-%dt Issue areas covered
+/ %dt Issue areas covered
+/ %dd
+/   %ul
+/     %li= communication_on_progress.issue_areas_covered.join(', ')
+
+%dt
+  Content   
 %dd
   %ul
-    %li= communication_on_progress.issue_areas_covered.join(', ')
-
+    %li= show_basic_cop_attributes(communication_on_progress, nil, false)
+      
 - PrincipleArea::FILTERS.each_pair do |key, value|
   %dt
     %span{:class => "#{value.gsub(/ /,'').tableize.singularize}" }= value
   %dd
     %ul
-      %li= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'basic')
+      %li= show_basic_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"))

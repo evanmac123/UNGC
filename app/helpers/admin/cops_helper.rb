@@ -67,10 +67,9 @@ module Admin::CopsHelper
       html = ''
       html << content_tag(:p, question.cop_attributes.first.try(:text))
       unless question.cop_attributes.first.hint.blank?
-        html << content_tag(:div, 'Suggested topics (show/hide)', :class => "hint_toggle")
+        html << content_tag(:div, 'Suggested topics', :class => "hint_toggle")
         html << content_tag(:div, simple_format(question.cop_attributes.first.hint), :class => "hint_text", :style => 'display: none;')
       end
-      # TODO: associate textarea with cop attribute
       html << hidden_field_tag("communication_on_progress[cop_answers_attributes][][cop_attribute_id]", question.cop_attributes.first.id)
       html << text_area_tag("communication_on_progress[cop_answers_attributes][][text]", '', { :class => 'cop_answer' })
       return content_tag :fieldset, (content_tag(:legend, content_tag(:span, question.text)) + html)
@@ -126,6 +125,43 @@ module Admin::CopsHelper
     end.join
   end
   
+  # basic cop answers
+  def show_basic_cop_attributes(cop, principle=nil, selected=false, grouping='basic')
+    if principle.nil?
+      conditions = ['cop_questions.principle_area_id IS NULL AND cop_questions.grouping=?', grouping]
+    else
+      conditions = ['cop_questions.principle_area_id=? AND cop_questions.grouping=?', principle, grouping]
+    end
+    
+    attributes = cop.cop_attributes.all(:conditions => conditions,
+                                        :include    => :cop_question,
+                                        :order      => 'cop_attributes.position ASC') 
+                                                                           
+    questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+    
+    # we now have all questions, attributes and answers
+    questions.collect do |question|
+      answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
+      output = content_tag(:strong, question.text)
+      if question.cop_attributes.count > 1
+        output += "<p><ul>"
+        output += answers.map{|a|
+          content_tag(:li, a.cop_attribute.text, :class => "selected_question") if a.value?
+        }.compact.join('')
+        if params[:action] != 'feed'
+          output += answers.map{|a|
+            content_tag(:li, a.cop_attribute.text, :class => "unselected_question") unless a.value.present? && a.value?
+            content_tag(:p, a.text.inspect) if a.text.present?
+          }.compact.join('')
+        end
+        output += "</ul></p>"        
+      else
+        output += content_tag(:p, 'No answer provided.') unless answers.first.text.present?
+        output += content_tag(:p, answers.first.text) if answers.first.text.present?
+      end
+      content_tag :li, output
+    end.join
+  end
   
   def principle_area_display_value(cop, area)
     if cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?")
