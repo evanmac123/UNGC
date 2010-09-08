@@ -19,8 +19,7 @@
           %label
             = form.radio_button :format, key
             = value
-            / %span{:class => 'label_text'}= value
-
+            
       #grace_letter_fields{:style => css_display_style(@communication_on_progress.is_grace_letter?)}
         %fieldset
           %legend
