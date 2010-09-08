@@ -731,7 +731,8 @@ ul.view_modes {
   border-bottom: 1px dotted #ccc;
   line-height: 1.2em;
   margin-bottom: 10px;
-  padding-bottom: 11px; }
+  padding-bottom: 11px;
+  list-style-type: none; }
   #main_content dd li:last-child, #main_content dd li li {
     border-bottom: 0;
     margin-bottom: 0;
