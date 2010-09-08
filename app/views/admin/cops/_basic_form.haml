@@ -19,7 +19,7 @@
         %ul.date_select
           %li End date
           = form.date_select :ends_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year}
-        
+      = cop_questions_for @communication_on_progress, :basic
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
       = hidden_field_tag("communication_on_progress[references_#{key}]", 1)
