@@ -1,17 +1,19 @@
 - @body_class = 'details'
-%h2 Communication On Progress Details
+%h2 Communication on Progress Details
 
 #status_box
   %dl{:style => 'width: 90%'}
-    %dt Organization:
+    %dt Organization
     %dd= @communication_on_progress.organization.name
-    %dt Status:
+    %dt Status
     %dd= @communication_on_progress.state.humanize
     - if @communication_on_progress.is_grace_letter?
-      %dt Grace Letter:
+      %dt Grace Letter
       %dd Yes
 
-    - if @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
+    - if @communication_on_progress.format == 'basic'
+      = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
+    - elsif @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
       = render :partial => '/shared/cops/show_new_style', :locals => { :communication_on_progress => @communication_on_progress } 
     - else
       = render :partial => '/shared/cops/show_legacy_style', :locals => { :communication_on_progress => @communication_on_progress } 

@@ -1,3 +1,8 @@
+h1. 2010-08-25
+
+* using hidden fields to pass Basic COP information, such as the format and principles covered
+* their value will depend on whether the question is answered
+
 h1. 2010-08-10
 
 * COP scoring now only takes the number of questions at time of submission, instead of getting all of the questions.

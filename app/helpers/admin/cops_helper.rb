@@ -112,12 +112,15 @@ module Admin::CopsHelper
         }.compact.join('')
         if params[:action] != 'feed'
           output += answers.map{|a|
-            content_tag(:li, a.cop_attribute.text, :class => "unselected_question") if !a.value?
+            content_tag(:li, a.cop_attribute.text, :class => "unselected_question") unless a.value.present? && a.value?
+            
+            content_tag(:p, a.text.inspect) if a.text.present?
           }.compact.join('')
         end
         output += "</ul></p>"        
       else
-        output += content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' )
+        output += content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' ) unless answers.first.text.present?
+        output += content_tag(:p, answers.first.text) if answers.first.text.present?
       end
       content_tag :li, output
     end.join

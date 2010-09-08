@@ -22,12 +22,14 @@
         
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
+      = hidden_field_tag("communication_on_progress[references_#{key}]", 1)
       %h3= value
       %fieldset= cop_questions_for @communication_on_progress, :basic, key
 
   #finish.tab_content
     %h3 Submit your COP
     You are now ready to submit your Basic COP.
+    = hidden_field_tag('communication_on_progress[format]', 'basic')
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
