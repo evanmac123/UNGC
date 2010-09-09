@@ -9,12 +9,21 @@ class Admin::CopsController < AdminController
 
     # if parameter matches existing partial
     partials = %w{first_time basic intermediate advanced}
-    if partials.include?(params[:type])
-      @cop_partial = params[:type]
+    # these defaults and setting should be moved to model
+    case params[:type]      
+      when 'basic'
+        @communication_on_progress.format = 'basic'
+        @cop_partial = 'basic'
+      when 'advanced'
+        @communication_on_progress.additional_questions = true
+        @cop_partial = 'advanced'    
+    end      
+    # if partials.include?(params[:type])
+    #   @cop_partial = params[:type]
     # else
     #   flash[:error] = "Please select the type of COP you would like to submit."
     #   redirect_to cop_introduction_path
-    end
+    # end
   end
   
   def create

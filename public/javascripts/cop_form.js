@@ -53,7 +53,7 @@ $("input[name='communication_on_progress[include_continued_support_statement]']"
 
 // Answered last required question, so show optional questions
 $("input[name='communication_on_progress[include_measurement]']").click(function() {
-  $("#ask_additional_questions").show();
+  $("#submit_tab").show();
 })
 
 
