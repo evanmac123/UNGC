@@ -1,8 +1,8 @@
-%h2 Communication on Progress
+%h2== Communication on Progress
 
-- if params[:type] == 'basic'
+- if @cop_partial == 'basic'
   - form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization.id), :html => { :multipart => true, :id => 'cop_form' }) do |form|
-    = render :partial => 'basic_form', :locals => { :form => form } 
+    = render :partial => "#{@cop_partial}_form", :locals => { :form => form } 
 
 - else
   - form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization.id), :html => { :multipart => true, :id => 'cop_form' }) do |form|

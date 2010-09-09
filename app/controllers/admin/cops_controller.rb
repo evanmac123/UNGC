@@ -6,6 +6,15 @@ class Admin::CopsController < AdminController
   def new
     @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
     @communication_on_progress.init_cop_attributes
+
+    # if parameter matches existing partial
+    partials = %w{first_time basic intermediate advanced}
+    if partials.include?(params[:type])
+      @cop_partial = params[:type]
+    # else
+    #   flash[:error] = "Please select the type of COP you would like to submit."
+    #   redirect_to cop_introduction_path
+    end
   end
   
   def create
