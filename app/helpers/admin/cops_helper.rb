@@ -157,7 +157,7 @@ module Admin::CopsHelper
         output += "</ul></p>"        
       else
         output += content_tag(:p, 'No answer provided.') unless answers.first.text.present?
-        output += content_tag(:p, answers.first.text) if answers.first.text.present?
+        output += content_tag(:p, simple_format(answers.first.text)) if answers.first.text.present?
       end
       content_tag :li, output
     end.join
