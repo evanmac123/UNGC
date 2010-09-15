@@ -20,14 +20,14 @@ class Role < ActiveRecord::Base
     :ceo                      => 3,
     :contact_point            => 4,
     :general_contact          => 9,
-    :network_focal_point    => 5,
+    :network_focal_point      => 5,
     :network_representative   => 12,
     :network_report_recipient => 13
   }
   
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
-      roles_ids = [Role.ceo, Role.contact_point, Role.general_contact].collect(&:id)
+      roles_ids = [Role.ceo, Role.contact_point, Role.general_contact, Role.financial_contact].collect(&:id)
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
     elsif user.user_type == Contact::TYPE_NETWORK
@@ -64,6 +64,10 @@ class Role < ActiveRecord::Base
   
   def self.general_contact
     find :first, :conditions => ["old_id=?", FILTERS[:general_contact]]
+  end
+  
+  def self.financial_contact
+    find :first, :conditions => ["name='Financial Contact'"]
   end
   
   def self.login_roles

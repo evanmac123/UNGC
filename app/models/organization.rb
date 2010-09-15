@@ -69,6 +69,7 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
 
   attr_accessor :pledge_amount_other
+  attr_accessor :foundation_contact
   attr_accessor :delisting_on
   
   validate :pledge_amount_other_at_least_10000
