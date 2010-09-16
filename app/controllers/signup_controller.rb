@@ -29,13 +29,19 @@ class SignupController < ApplicationController
     if params[:contact]
       @contact.attributes = params[:contact]
       session[:signup_contact] = @contact
-      set_default_values
+      set_default_values    
     end
+    
+    # skip pledge form for non-business
+    @organization.attributes = params[:organization]
+    # session[:signup_organization] @organization.attributes = session[:signup_organization]
+    @next_step = @organization.business_entity? ? organization_step4_path : organization_step5_path
+    
     redirect_to organization_step2_path unless @contact.valid?
   end
 
   # POST from ceo form
-  # shows commitment letter/pledge form
+  # pledge form if business organization
   def step4
     if params[:contact]
       @ceo.attributes = params[:contact]
@@ -43,10 +49,24 @@ class SignupController < ApplicationController
     end
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
   end
-  
-  # POST from commitment letter/pledge form
-  # shows thank you page
+
+  # POST from ceo or pledge form
+  # shows commitment letter form
   def step5
+    @organization.attributes = params[:organization]
+    @ceo.attributes = params[:contact]
+    if params[:contact]
+      # @financial_contact.attributes = @contact.attributes
+      session[:signup_ceo] = @ceo
+    end
+    # redirect if financial contact is not valid
+    # redirect_to organization_step3_path unless @financial_contact.valid?
+    redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
+  end
+  
+  # POST from commitment letter form
+  # shows thank you page
+  def step6
     @organization.attributes = params[:organization]
     if @organization.valid? && @organization.commitment_letter?
       # save all records
@@ -60,7 +80,7 @@ class SignupController < ApplicationController
       clean_session
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
-      redirect_to organization_step4_path
+      redirect_to organization_step5_path
     end
   end
   
@@ -79,11 +99,13 @@ class SignupController < ApplicationController
       load_organization_types
       @contact = session[:signup_contact] || new_contact(Role.contact_point)
       @ceo = session[:signup_ceo] || new_contact(Role.ceo)
+      @financial_contact = session[:signup_contact] || new_contact(Role.financial_contact)
     end
     
     def set_default_values
       # organization country is default for contacts
       @contact.country_id = @organization.country_id unless @contact.country
+      
       # ceo contact fields defaults to contact
       @ceo.address = @contact.address unless @ceo.address
       @ceo.address_more = @contact.address_more unless @ceo.address_more
@@ -91,6 +113,14 @@ class SignupController < ApplicationController
       @ceo.state = @contact.state unless @ceo.state
       @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
       @ceo.country_id = @contact.country_id unless @ceo.country
+      
+      # financial contact fields defaults to contact
+      @financial_contact.address = @contact.address unless @financial_contact.address
+      @financial_contact.address_more = @contact.address_more unless @financial_contact.address_more
+      @financial_contact.city = @contact.city unless @financial_contact.city
+      @financial_contact.state = @contact.state unless @financial_contact.state
+      @financial_contact.postal_code = @contact.postal_code unless @financial_contact.postal_code
+      @financial_contact.country_id = @contact.country_id unless @financial_contact.country
     end
     
     # Makes sure the CEO and Contact point don't have the same email address

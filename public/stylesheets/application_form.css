@@ -51,7 +51,7 @@
       vertical-align: bottom; }
 
   #main_content fieldset.pledge {
-    margin: 0 0 0 0; }
+    margin: 0 0 10px 0; }
     #main_content fieldset.pledge input:hover, label:hover {
       cursor: pointer;
     }

@@ -3,7 +3,7 @@
 %h2 Highest level executive
 %p 
 #main_content
-  - form_for(@ceo, :url => organization_step4_path) do |form|
+  - form_for(@ceo, :url => @next_step) do |form|
     = form.error_messages
     = render :partial => 'contact_form', :locals => {:form => form, :account_info => false}
     = form.submit 'Next', :class => 'button'
