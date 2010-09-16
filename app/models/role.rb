@@ -20,6 +20,7 @@ class Role < ActiveRecord::Base
     :ceo                      => 3,
     :contact_point            => 4,
     :general_contact          => 9,
+    :financial_contact        => 2,
     :network_focal_point      => 5,
     :network_representative   => 12,
     :network_report_recipient => 13
@@ -67,7 +68,7 @@ class Role < ActiveRecord::Base
   end
   
   def self.financial_contact
-    find :first, :conditions => ["name='Financial Contact'"]
+    find :first, :conditions => ["old_id=?", FILTERS[:financial_contact]]
   end
   
   def self.login_roles

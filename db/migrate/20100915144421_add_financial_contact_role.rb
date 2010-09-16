@@ -1,7 +1,7 @@
 class AddFinancialContactRole < ActiveRecord::Migration
   def self.up
     say "Adding Financial Contact"
-    Role.create :name => 'Financial Contact'
+    Role.create :name => 'Financial Contact', :old_id => 2
   end
 
   def self.down

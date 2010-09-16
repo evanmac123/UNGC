@@ -113,10 +113,10 @@ class ActiveSupport::TestCase
   end
   
   def create_roles
-    # creating roles for ceo and contact point
     create_role(:name => 'CEO', :old_id => 3)
     create_role(:name => 'Contact Point', :old_id => 4)
     create_role(:name => 'General Contact', :old_id => 9)
+    create_role(:name => 'Financial Contact', :old_id => 2)
     create_role(:name => 'Network Report Recipient', :old_id => 13)
   end
   
