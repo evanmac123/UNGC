@@ -125,7 +125,6 @@ class SignupController < ApplicationController
       @ceo.country_id = @contact.country_id unless @ceo.country
       
       # financial contact fields defaults to contact
-      @financial_contact.phone = @contact.phone unless @financial_contact.phone
       @financial_contact.fax = @contact.fax unless @financial_contact.fax
       @financial_contact.address = @contact.address unless @financial_contact.address
       @financial_contact.address_more = @contact.address_more unless @financial_contact.address_more

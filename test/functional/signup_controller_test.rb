@@ -31,6 +31,16 @@ class SignupControllerTest < ActionController::TestCase
               :email      => 'smith@example.com',
               :role_ids   => [Role.ceo.id]}
 
+      @financial_contact = {:first_name => 'Michael',
+                            :last_name  => 'Smith',
+                            :prefix     => 'Mr',
+                            :job_title  => 'Accountant',
+                            :phone      => '+1 416 1234567',
+                            :address    => '123 Example Ave',
+                            :city       => 'Toronto',
+                            :country_id => Country.first.id,
+                            :email      => 'michael@example.com',
+                            :role_ids   => [Role.financial_contact.id]}
       
     end
     
@@ -72,8 +82,7 @@ class SignupControllerTest < ActionController::TestCase
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
       post :step5
       assert_redirected_to organization_step6_path
-      end
-    
+    end
 
     should "non-business should get the sixth step page after posting ceo contact details" do
       @non_business_organization_type = create_organization_type(:name => 'Academic', :type_property => OrganizationType::NON_BUSINESS)
@@ -103,9 +112,10 @@ class SignupControllerTest < ActionController::TestCase
                                                        :employees            => 500)
       session[:signup_contact] = Contact.new(@contact)
       session[:signup_ceo] = Contact.new(@ceo)
+      session[:financial_contact] = Contact.new(@financial_contact)
       assert_emails(1) do
         assert_difference 'Organization.count' do
-          assert_difference 'Contact.count', 2 do
+          assert_difference 'Contact.count', 3 do
             post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
           end
         end
