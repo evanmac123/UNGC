@@ -29,9 +29,9 @@ $("#organization_active").change(function() {
   } 
 })
   
-// called from views/signup/step4.html.haml
-$("#organization_pledge_amount_1").click(function() {
-  $('#organization_pledge_amount_other').focus();
+// called from views/signup/step5.html.haml
+$("#contact_foundation_contact").click(function() {
+  $('#contact_form').slideToggle('slow');
 })
 
 // contact form

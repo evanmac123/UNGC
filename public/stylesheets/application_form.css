@@ -70,6 +70,23 @@
     margin-bottom: 1em;
   }
 
+  #main_content #check_contact {
+    clear: both;
+    margin-bottom: 20px;
+  }
+  
+  #main_content #check_contact input[type=checkbox] {
+    clear: left;
+    float: left;
+    width: auto;
+    margin: -1px 10px 0px 0px;
+    font-weight: normal;
+  }
+  
+  #main_content #check_contact label {
+   font-weight: normal;
+  }
+
 /* Error for flash messages */
 #main_content .errorExplanation { color: #8a1f11; }
 

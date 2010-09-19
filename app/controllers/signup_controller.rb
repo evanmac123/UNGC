@@ -32,41 +32,44 @@ class SignupController < ApplicationController
       set_default_values    
     end
     
-    # skip pledge form for non-business
+    # skip pledge form for non-business and go to step 6 to upload letter of commitment
     @organization.attributes = params[:organization]
-    # session[:signup_organization] @organization.attributes = session[:signup_organization]
-    @next_step = @organization.business_entity? ? organization_step4_path : organization_step5_path
-    
+    @next_step = @organization.business_entity? ? organization_step4_path : organization_step6_path
+        
     redirect_to organization_step2_path unless @contact.valid?
   end
 
   # POST from ceo form
   # pledge form if business organization
   def step4
-    if params[:contact]
-      @ceo.attributes = params[:contact]
-      session[:signup_ceo] = @ceo
-    end
+    save_ceo_info_from_params_into_session
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
   end
 
-  # POST from ceo or pledge form
-  # shows commitment letter form
+  # POST from pledge form
+  # ask for financial contact if pledge was made
   def step5
     @organization.attributes = params[:organization]
-    @ceo.attributes = params[:contact]
-    if params[:contact]
-      # @financial_contact.attributes = @contact.attributes
-      session[:signup_ceo] = @ceo
+    redirect_to organization_step6_path if @organization.pledge_amount.blank?
+    set_default_values
+  end
+
+  # POST from ceo or financial contact form
+  # shows commitment letter form
+  def step6
+    @organization.attributes = params[:organization]
+    if @organization.pledge_amount.present?
+      create_financial_contact_or_add_role_to_existing_contact
+      redirect_to organization_step5_path unless @financial_contact.valid? || @contact.is?(Role.financial_contact)
+    else
+      save_ceo_info_from_params_into_session
     end
-    # redirect if financial contact is not valid
-    # redirect_to organization_step3_path unless @financial_contact.valid?
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
   end
   
   # POST from commitment letter form
   # shows thank you page
-  def step6
+  def step7
     @organization.attributes = params[:organization]
     if @organization.valid? && @organization.commitment_letter?
       # save all records
@@ -76,11 +79,17 @@ class SignupController < ApplicationController
       @organization.contacts << @contact
       @organization.contacts << @ceo
       
+      # add financial contact if a pledge was made and the existing contact has not been assigned that role
+      unless @organization.pledge_amount.blank? and @contact.is?(Role.financial_contact)
+        @financial_contact.save
+        @organization.contacts << @financial_contact
+      end
+      
       OrganizationMailer.deliver_submission_received(@organization)
       clean_session
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
-      redirect_to organization_step5_path
+      redirect_to organization_step6_path
     end
   end
   
@@ -99,7 +108,7 @@ class SignupController < ApplicationController
       load_organization_types
       @contact = session[:signup_contact] || new_contact(Role.contact_point)
       @ceo = session[:signup_ceo] || new_contact(Role.ceo)
-      @financial_contact = session[:signup_contact] || new_contact(Role.financial_contact)
+      @financial_contact = session[:financial_contact] || new_contact(Role.financial_contact)
     end
     
     def set_default_values
@@ -107,6 +116,7 @@ class SignupController < ApplicationController
       @contact.country_id = @organization.country_id unless @contact.country
       
       # ceo contact fields defaults to contact
+      @ceo.fax = @contact.fax unless @ceo.fax
       @ceo.address = @contact.address unless @ceo.address
       @ceo.address_more = @contact.address_more unless @ceo.address_more
       @ceo.city = @contact.city unless @ceo.city
@@ -115,6 +125,8 @@ class SignupController < ApplicationController
       @ceo.country_id = @contact.country_id unless @ceo.country
       
       # financial contact fields defaults to contact
+      @financial_contact.phone = @contact.phone unless @financial_contact.phone
+      @financial_contact.fax = @contact.fax unless @financial_contact.fax
       @financial_contact.address = @contact.address unless @financial_contact.address
       @financial_contact.address_more = @contact.address_more unless @financial_contact.address_more
       @financial_contact.city = @contact.city unless @financial_contact.city
@@ -139,6 +151,7 @@ class SignupController < ApplicationController
       session[:signup_organization] = Organization.new
       session[:signup_contact] = new_contact(Role.contact_point)
       session[:signup_ceo] = new_contact(Role.ceo)
+      session[:financial_contact] = new_contact(Role.financial_contact)
     end
     
     def new_contact(role)
@@ -149,5 +162,33 @@ class SignupController < ApplicationController
         
     def extract_organization_type(organization)
       organization.business_entity? ? BUSINESS_PARAM : NONBUSINESS_PARAM
+    end
+    
+    def save_ceo_info_from_params_into_session
+      if params[:contact]
+        @ceo.attributes = params[:contact]
+        session[:signup_ceo] = @ceo
+      end
+    end
+
+    def create_financial_contact_or_add_role_to_existing_contact
+      # value from checkbox to indicate that invoice should be sent to Contact Points
+      if params[:contact]
+        if params[:contact][:foundation_contact].to_i == 1
+          @contact.roles << Role.financial_contact
+        else
+          @financial_contact.attributes = params[:contact]
+          session[:financial_contact] = @financial_contact
+        end
+      end
+      
+      
+      # if params[:contact][:foundation_contact].to_i == 1
+      #         @contact.roles << Role.financial_contact
+      #       elsif params[:contact]
+      #         # not checked, so create new contact
+      #         @financial_contact.attributes = params[:contact]
+      #         session[:financial_contact] = @financial_contact
+      #       end    
     end
 end

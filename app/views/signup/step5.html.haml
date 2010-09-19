@@ -3,11 +3,18 @@
 
 = flash_messages_for :error
 
-%h2 Letter of Commitment
+%h2 Financial Contact
 #main_content
 
-  %p Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form. The uploaded file should be in PDF format.
+  %p 
+    Thank you for your contribution. An invoice for
+    %strong== #{@organization.pledge_amount} USD
+    will be emailed after your company's application has been reviewed and accepted. Please provide a Financial Contact to receive the invoice.
 
-  - form_for(@organization, :url => organization_step6_path, :html => { :multipart => true }) do |form|
-    %p= form.file_field :commitment_letter, { :label => '&nbsp;' }
-    = form.submit 'Submit', :class => 'button'
+  - form_for(@financial_contact, :url => organization_step6_path) do |form|
+    #check_contact
+      = form.check_box :foundation_contact
+      = label_tag :contact_foundation_contact, "The invoice should be sent to the Contact Point, #{@contact.full_name_with_title}"
+    = form.error_messages
+    = render :partial => 'contact_form', :locals => {:form => form, :account_info => false, :financial_contact => true}
+    = form.submit 'Next', :class => 'button'

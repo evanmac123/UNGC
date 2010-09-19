@@ -1,56 +1,60 @@
-%fieldset
-  %legend Contact Information
-  %ol
-    %li
-      = form.label :prefix
-      = form.text_field :prefix
-    %li
-      = form.label :first_name
-      = form.text_field :first_name
-    %li
-      = form.label :middle_name
-      = form.text_field :middle_name
-    %li
-      = form.label :last_name
-      = form.text_field :last_name
-    %li
-      = form.label :job_title
-      = form.text_field :job_title
-    %li
-      = form.label :email
-      = form.text_field :email
-    %li
-      = form.label :phone
-      = form.text_field :phone
-    %li
-      = form.label :fax
-      = form.text_field :fax
-    %li
-      = form.label :address, "Postal address"
-      = form.text_field :address
-    %li
-      = form.label :address_more, "Address cont."
-      = form.text_field :address_more
-    %li
-      = form.label :city
-      = form.text_field :city
-    %li
-      = form.label :state, "State/Province"
-      = form.text_field :state
-    %li
-      = form.label :postal_code, "ZIP/Code"
-      = form.text_field :postal_code
-    %li
-      = form.label :country_id
-      = form.collection_select :country_id, Country.all, :id, :name
-- if account_info
+#contact_form
   %fieldset
-    %legend Login information
-    %p Please create a username and password. You will need this login to update or check the status of your application.
+    %legend Contact Information
     %ol
       %li
-        = form.label :login, "Username"
-        = form.text_field :login
+        = form.label :prefix
+        = form.text_field :prefix
       %li
-        = form.label :password
-        = form.password_field :password
+        = form.label :first_name
+        = form.text_field :first_name
+      %li
+        = form.label :middle_name
+        = form.text_field :middle_name
+      %li
+        = form.label :last_name
+        = form.text_field :last_name
+      %li
+        = form.label :job_title
+        = form.text_field :job_title
+      %li
+        = form.label :email
+        = form.text_field :email
+      %li
+        = form.label :phone
+        = form.text_field :phone      
+      - unless financial_contact
+        %li
+          = form.label :fax
+          = form.text_field :fax
+        %li
+          = form.label :address, "Postal address"
+          = form.text_field :address
+        %li
+          = form.label :address_more, "Address cont."
+          = form.text_field :address_more
+        %li
+          = form.label :city
+          = form.text_field :city
+        %li
+          = form.label :state, "State/Province"
+          = form.text_field :state
+        %li
+          = form.label :postal_code, "ZIP/Code"
+          = form.text_field :postal_code
+        %li
+          = form.label :country_id
+          = form.collection_select :country_id, Country.all, :id, :name
+
+  - if account_info
+
+    %fieldset
+      %legend Login information
+      %p Please create a username and password. You will need this login to update or check the status of your application.
+      %ol
+        %li
+          = form.label :login, "Username"
+          = form.text_field :login
+        %li
+          = form.label :password
+          = form.password_field :password

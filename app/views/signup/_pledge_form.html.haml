@@ -15,8 +15,3 @@
     %li
       = form.radio_button :pledge_amount, 500, :class => 'fixed_pledge'
       = label_tag "organization_pledge_amount_500", "Note: for companies with annual sales/revenues of less than USD&nbsp;25&nbsp;million, the contribution is considered entirely voluntary and is set at USD 500"
-      
-  %p An invoice for the selected amount will be emailed after your company's application has been reviewed and accepted. Please provide a Financial Contact to receive the invoice:
-
-  = form.check_box :foundation_contact
-  = label_tag :foundation_contact, "The invoice should be sent to the Contact Point"

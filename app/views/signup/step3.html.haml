@@ -5,5 +5,5 @@
 #main_content
   - form_for(@ceo, :url => @next_step) do |form|
     = form.error_messages
-    = render :partial => 'contact_form', :locals => {:form => form, :account_info => false}
+    = render :partial => 'contact_form', :locals => {:form => form, :account_info => false, :financial_contact => false}
     = form.submit 'Next', :class => 'button'

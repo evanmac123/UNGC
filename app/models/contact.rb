@@ -63,6 +63,10 @@ class Contact < ActiveRecord::Base
   before_save :encrypt_password
   before_save :set_local_network_id
   
+  # used for checkbox in sign up form
+  # /app/views/signup/step5.html.haml
+  attr_accessor :foundation_contact
+  
   named_scope :contact_points, lambda {
     contact_point_id = Role.contact_point.try(:id)
     {
