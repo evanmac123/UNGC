@@ -31,7 +31,7 @@ class OrganizationMailer < ActionMailer::Base
     from EMAIL_SENDER
     cc 'filipic@un.org'
     bcc 'globalcompact@un.org'
-    subject "#{organization.name} has submitted a registration to the Global Compact"
+    subject "#{organization.name} has submitted an application to the Global Compact"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
