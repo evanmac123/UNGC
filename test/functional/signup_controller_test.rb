@@ -103,7 +103,6 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step6'
     end
 
-    
     should "get the sixth step page after posting ceo contact details" do
       session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
                                                        :organization_type_id => OrganizationType.first.id)

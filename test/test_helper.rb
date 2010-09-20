@@ -93,6 +93,11 @@ class ActiveSupport::TestCase
     create_ungc_organization_and_user
     return @staff_user
   end
+  
+  def create_financial_contact
+    @financial_contact = create_contact(:organization_id => @organization.id,
+                                        :role_ids        => [Role.financial_contact.id])
+  end
 
   def create_ungc_organization_and_user
     create_organization_type

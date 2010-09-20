@@ -32,7 +32,7 @@ class SignupController < ApplicationController
       set_default_values    
     end
     
-    # skip pledge form for non-business and go to step 6 to upload letter of commitment
+    # business make a financial contribution (step 4), non-business upload their letter of commitment (step 6)
     @organization.attributes = params[:organization]
     @next_step = @organization.business_entity? ? organization_step4_path : organization_step6_path
         

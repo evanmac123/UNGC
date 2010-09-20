@@ -67,6 +67,14 @@ class Contact < ActiveRecord::Base
   # /app/views/signup/step5.html.haml
   attr_accessor :foundation_contact
   
+  named_scope :financial_contacts, lambda {
+    contact_point_id = Role.financial_contact.try(:id)
+    {
+      :include    => :roles,
+      :conditions => ["contacts_roles.role_id = ?", contact_point_id]
+    }
+  }
+
   named_scope :contact_points, lambda {
     contact_point_id = Role.contact_point.try(:id)
     {
