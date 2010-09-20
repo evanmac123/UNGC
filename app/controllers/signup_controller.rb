@@ -115,7 +115,8 @@ class SignupController < ApplicationController
       # organization country is default for contacts
       @contact.country_id = @organization.country_id unless @contact.country
       
-      # ceo contact fields defaults to contact
+      # ceo contact fields which default to contact
+      @ceo.phone = @contact.phone unless @ceo.phone
       @ceo.fax = @contact.fax unless @ceo.fax
       @ceo.address = @contact.address unless @ceo.address
       @ceo.address_more = @contact.address_more unless @ceo.address_more
@@ -124,7 +125,7 @@ class SignupController < ApplicationController
       @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
       @ceo.country_id = @contact.country_id unless @ceo.country
       
-      # financial contact fields defaults to contact
+      # financial contact fields which default to contact
       @financial_contact.fax = @contact.fax unless @financial_contact.fax
       @financial_contact.address = @contact.address unless @financial_contact.address
       @financial_contact.address_more = @contact.address_more unless @financial_contact.address_more
@@ -180,14 +181,6 @@ class SignupController < ApplicationController
           session[:financial_contact] = @financial_contact
         end
       end
-      
-      
-      # if params[:contact][:foundation_contact].to_i == 1
-      #         @contact.roles << Role.financial_contact
-      #       elsif params[:contact]
-      #         # not checked, so create new contact
-      #         @financial_contact.attributes = params[:contact]
-      #         session[:financial_contact] = @financial_contact
-      #       end    
     end
+
 end

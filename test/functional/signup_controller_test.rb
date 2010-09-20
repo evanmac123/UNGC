@@ -64,11 +64,19 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step3'
     end
 
-    should "business should get the fourth step page after posting ceo contact details" do
-      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
+    should "business should get the fourth step page after posting ceo contact details" do      
+      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
+                                                                      :organization_type_id => OrganizationType.first.id)
       post :step4, :contact => @ceo
       assert_response :success
       assert_template 'step4'
+    end
+
+    should "non-business should get the sixth step page after posting ceo contact details" do
+      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
+                                                                      :organization_type_id => @non_business_organization_type)
+      post :step4, :contact => @ceo
+      assert_redirected_to organization_step6_path
     end
     
     should "business should get the fifth step page after selecting a contribution amount" do
