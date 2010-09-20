@@ -28,6 +28,9 @@
     width: 305px; 
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
+  #main_content fieldset input[type='checkbox'] {
+    width: auto;
+  }
   #main_content fieldset input, #main_content fieldset textarea {
     padding: 0 0 0 3px; }
   #main_content fieldset select {
