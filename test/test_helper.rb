@@ -80,12 +80,14 @@ class ActiveSupport::TestCase
                                         :organization_type_id => OrganizationType.sme.id)
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
+                                        :email           => 'contact@example.com',
                                         :role_ids        => [Role.contact_point.id])
   end
 
   def create_organization_and_ceo
     create_organization_and_user
     @organization_ceo = create_contact(:organization_id => @organization.id,
+                                       :email           => "ceo@example.com", 
                                        :role_ids        => [Role.ceo.id])                                        
   end
   
