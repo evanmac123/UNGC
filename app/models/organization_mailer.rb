@@ -88,8 +88,8 @@ class OrganizationMailer < ActionMailer::Base
     bcc 'vkeesari@yahoo.com'
     subject "Your pledge to The Foundation for the Global Compact"
     content_type "text/html"
-    recipients organization.contacts.financial_contacts.collect(&:email_recipient)
-    body :organization => organization, :contact => organization.contacts.financial_contacts.first
+    recipients organization.financial_contact_or_contact_point.email_recipient
+    body :organization => organization, :contact => organization.financial_contact_or_contact_point
   end
 
   def foundation_reminder(organization)

@@ -309,6 +309,11 @@ class Organization < ActiveRecord::Base
       'unknown'
     end
   end
+
+  def financial_contact_or_contact_point
+    self.contacts.financial_contacts.count > 0 ? self.contacts.financial_contacts.first : self.contacts.contact_points.first
+  end
+
   
   def last_comment_date
     self.try(:comments).try(:last).try(:updated_at) || nil
