@@ -219,7 +219,23 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #     assert @cop.reload.approved?
   #   end
   # end
-
+  
+  context "given a basic COP" do
+    setup do
+        @cop_question = create_cop_question
+        create_cop_attribute
+        create_organization_and_user
+        @cop = @organization.communication_on_progresses.new(:format             => 'standalone',
+                                                             :web_based          => false,
+                                                             :cop_links_attributes => {
+                                                               "new_answer"=> {:cop_id           => @cop.id,
+                                                                               :cop_attribute_id => nil,
+                                                                               :value            => 0,
+                                                                               :text             => 'Text answer'}
+                                                              })
+      end
+  end
+  
   context "given a COP from a delisted company" do
     setup do
       create_organization_and_user
