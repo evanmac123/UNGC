@@ -63,6 +63,13 @@ class Contact < ActiveRecord::Base
   before_save :encrypt_password
   before_save :set_local_network_id
   
+  before_destroy :keep_at_least_one_ceo
+  before_destroy :keep_at_least_one_contact_point
+  
+  # before_update  :do_not_allow_last_contact_point_to_uncheck_role
+  # before_update  :do_not_allow_last_ceo_to_uncheck_role
+  
+  
   # used for checkbox in sign up form
   # /app/views/signup/step5.html.haml
   attr_accessor :foundation_contact
@@ -125,11 +132,6 @@ class Contact < ActiveRecord::Base
   }
   
   named_scope :with_login, {:conditions => 'login IS NOT NULL'}
-
-  before_destroy :keep_at_least_one_ceo
-  before_destroy :keep_at_least_one_contact_point
-  before_update  :do_not_allow_last_contact_point_to_uncheck_role
-  before_update  :do_not_allow_last_ceo_to_uncheck_role
   
   define_index do
     indexes first_name, last_name, middle_name, email
