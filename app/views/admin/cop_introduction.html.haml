@@ -1,21 +1,63 @@
-%h2 Revised Procedure for Submitting a Communication on Progress
+%h2 Submitting a Communication on Progress (COP)
 
-%p The Global Compact has introduced a new submission procedure for Communication on Progress (COP) that will further enhance the integrity of the initiative and facilitate the analysis of companies' implementation of the principles.
+%p The Global Compact Office is introducing a new Performance Differentiation Programme, offering different options for completing and submitting a Communication on Progress (COP) – First-timer, Basic, Intermediate and Advanced. The goal of the Programme is:
 
-%p== Effective 1 February, 2010, companies submitting a COP to the Global Compact website must answer 6 basic questions about the format and content of their COP - consistent with the #{link_to('COP Policy of April 2009 (pdf)', '/docs/communication_on_progress/COP_Policy.pdf')}.
+%ul
+  %li to recognize that companies have common but differentiated responsibilities towards global sustainability;
+  %li to recognize the unique contributions to the UN Global Compact of companies of different sizes and sophistication; and 
+  %li to facilitate better assessment of sustainability performance and transparency.
+
+%p
+  %em Note: The Advanced Programme is now available for beta-testing until the end of 2010 and will result in a detailed analysis of companies’ performance and the incorporation of feedback from participants before the official launch in 2011.
 
 %p In addition, companies that wish to increase the visibility and usability of their COP can choose to answer more detailed questions on the content of their COP, allowing users to search for specific actions of companies in each of the issue areas: Human Rights, Labour, Environment and Anti-corruption.
 
+%h3 First-timers
+%p Has your company never produced a COP or a sustainability report? Do you struggle with writing your COP? This template is an easy start for a first time communication. (coming soon)
+
 %p
-  Translations of the questions are currently available in the following languages. We recommend downloading the PDF file and reviewing the questions before proceeding to the COP submission.
-  %ul
-    %li= link_to 'Arabic', '/docs/communication_on_progress/translations/COP_Questionnaire_AR.pdf'
-    %li Chinese
-    %li= link_to 'French', '/docs/communication_on_progress/translations/COP_Questionnaire_FR.pdf'
-    %li= link_to 'Russian', '/docs/communication_on_progress/translations/COP_Questionnaire_RU.pdf'
-    %li= link_to 'Spanish', '/docs/communication_on_progress/translations/COP_Questionnaire_ES.pdf'
-   
-  %ul
-    %li= link_to 'Basic', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic')
-    %li= link_to 'Intermediate', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
-    %li= link_to 'Advanced', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced')
+  %strong Translations:
+  Arabic | Chinese | French | Russian | Spanish | Portuguese
+
+%h3 Basic 
+
+%p Do you already have some experience in implementing the principles, but you would still like some guidance in building a COP? This template takes you through the issue areas step by step and will create a COP that is tailored to your company.
+
+%p
+  %strong Translations:
+  Arabic | Chinese | French | Russian | Spanish | Portuguese
+
+%ul
+  %li= link_to 'Basic', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic')
+
+%h3 General
+
+%p Is your company experienced in communicating progress? Do you want to upload a standalone report? This is the best programme for your company. More information
+
+%p
+  %strong Translations:
+  Arabic | Chinese | French | Russian | Spanish | Portuguese
+
+%ul
+  %li= link_to 'Intermediate', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
+
+%h3 Advanced (beta)
+
+%p Is your company well positioned in sustainability? Do you want to upload a comprehensive standalone COP and qualify for advanced status? The advanced programme provides recognition for comprehensive implementation and disclosure of the Global Compact principles.
+
+%p
+  %strong Translations:
+  Arabic | Chinese | French | Russian | Spanish | Portuguese
+
+%ul
+  %li= link_to 'Advanced', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced')
+
+
+/ %p
+/   Translations of the questions are currently available in the following languages. We recommend downloading the PDF file and reviewing the questions before proceeding to the COP submission.
+/   %ul
+/     %li= link_to 'Arabic', '/docs/communication_on_progress/translations/COP_Questionnaire_AR.pdf'
+/     %li Chinese
+/     %li= link_to 'French', '/docs/communication_on_progress/translations/COP_Questionnaire_FR.pdf'
+/     %li= link_to 'Russian', '/docs/communication_on_progress/translations/COP_Questionnaire_RU.pdf'
+/     %li= link_to 'Spanish', '/docs/communication_on_progress/translations/COP_Questionnaire_ES.pdf'
