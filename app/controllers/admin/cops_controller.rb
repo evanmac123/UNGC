@@ -7,23 +7,28 @@ class Admin::CopsController < AdminController
     @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
     @communication_on_progress.init_cop_attributes
 
-    # if parameter matches existing partial
     partials = %w{first_time basic intermediate advanced}
-    # these defaults and setting should be moved to model
-    case params[:type]      
+    @cop_partial = params[:type_of_cop]
+    unless partials.include?(params[:type_of_cop])
+      flash[:error] = "Please select the type of COP you would like to submit."
+      redirect_to cop_introduction_path
+    end
+    
+    # TODO: these defaults and setting should be moved to the COP model
+    case params[:type_of_cop]
       when 'basic'
         @communication_on_progress.format = 'basic'
+        @communication_on_progress.include_continued_support_statement = true
+        @communication_on_progress.include_measurement = true
         @cop_partial = 'basic'
+      when 'intermediate'
+        @communication_on_progress.additional_questions = false
+        @cop_partial = 'intermediate'
       when 'advanced'
         @communication_on_progress.additional_questions = true
-        @cop_partial = 'advanced'    
-    end      
-    # if partials.include?(params[:type])
-    #   @cop_partial = params[:type]
-    # else
-    #   flash[:error] = "Please select the type of COP you would like to submit."
-    #   redirect_to cop_introduction_path
-    # end
+        @cop_partial = 'advanced'
+    end
+
   end
   
   def create

@@ -16,6 +16,6 @@
     %li= link_to 'Spanish', '/docs/communication_on_progress/translations/COP_Questionnaire_ES.pdf'
    
   %ul
-    %li= link_to 'Basic COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type => 'basic')
-    %li= link_to 'Advanced COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type => 'advanced')
-    / %li= link_to 'Intermediate COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type => 'intermediate')
+    %li= link_to 'Basic', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic')
+    %li= link_to 'Intermediate', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
+    %li= link_to 'Advanced', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced')

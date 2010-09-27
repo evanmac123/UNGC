@@ -9,9 +9,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     context "creating a new cop" do
-      should "get the new cop form" do
+      should "not get the new cop form" do
         get :new, :organization_id => @organization.id
-        assert_redirected_to admin_organization_path(@organization.id)
+        assert_response :redirect
       end
     end
   end
@@ -27,7 +27,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     context "creating a new cop" do
       should "get the new cop form" do
         get :new, :organization_id => @organization.id
-        assert_response :success
+        assert_redirected_to cop_introduction_path
       end
     end
   end
@@ -37,7 +37,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_organization_and_user
       @organization.approve!
       create_principle_areas
-      # @cop = create_communication_on_progress(:organization_id => @organization.id)
       @cop = create_cop(@organization.id)
       login_as @organization_user
     end
