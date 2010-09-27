@@ -63,35 +63,46 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step3'
     end
 
-    should "business should get the fourth step page after posting ceo contact details" do      
+    # pledge form
+    should "as a business should get the fourth step page after posting ceo contact details" do      
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
-                                                                      :organization_type_id => OrganizationType.first.id)
+                                                                      :organization_type_id => OrganizationType.first.id,
+                                                                      :revenue => 2000)
       post :step4, :contact => @signup_ceo
       assert_response :success
       assert_template 'step4'
+      assert_select 'h2', 'Financial Commitment'
+      # four possible pledge amounts
+      assert_select 'ol' do
+        assert_select "input[type=radio]", 4
+        assert_select 'label', 4
+      end
     end
-
-    should "non-business should get the sixth step page after posting ceo contact details" do
+    
+    # upload letter of commitment
+    should "as a non-business should get the sixth step page after posting ceo contact details" do
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
                                                                       :organization_type_id => @non_business_organization_type)
       post :step4, :contact => @signup_ceo
       assert_redirected_to organization_step6_path
     end
     
-    should "business should get the fifth step page after selecting a contribution amount" do
+    should "as a business should get the fifth step page after selecting a contribution amount" do
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
       post :step5, :organization => {:pledge_amount => 2000}
       assert_response :success
       assert_template 'step5'
+      assert_select 'h2', 'Financial Contact'
     end
 
-    should "business should get the sixth step page if they don't select a contribution amount" do
+    # upload letter of commitment
+    should "as a business should get the sixth step page if they don't select a contribution amount" do
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
       post :step5
       assert_redirected_to organization_step6_path
     end
 
-    should "non-business should get the sixth step page after posting ceo contact details" do
+    should "as a non-business should get the sixth step page after posting ceo contact details" do
       @non_business_organization_type = create_organization_type(:name => 'Academic', :type_property => OrganizationType::NON_BUSINESS)
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type)
       post :step6, :contact => @signup_ceo
@@ -113,16 +124,15 @@ class SignupControllerTest < ActionController::TestCase
                                                        :employees            => 500)
       session[:signup_contact] = Contact.new(@signup_contact)
       session[:signup_ceo] = Contact.new(@signup_ceo)
-    # FIXME: @contact is not recognized in email view
-    #   assert_emails(1) do
-    #     assert_difference 'Organization.count' do
-    #       assert_difference 'Contact.count', 2 do
-    #         post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
-    #       end
-    #     end
-    #   end
-    #   assert_response :success
-    #   assert_template 'step7'
+      assert_emails(1) do
+        assert_difference 'Organization.count' do
+          assert_difference 'Contact.count', 2 do
+            post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+          end
+        end
+      end
+      assert_response :success
+      assert_template 'step7'
     end 
     
   end

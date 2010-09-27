@@ -7,7 +7,6 @@
 #  name                           :string(255)
 #  organization_type_id           :integer(4)
 #  sector_id                      :integer(4)
-#  local_network                  :boolean(1)
 #  participant                    :boolean(1)
 #  employees                      :integer(4)
 #  url                            :string(255)
@@ -26,10 +25,8 @@
 #  exchange_id                    :integer(4)
 #  listing_status_id              :integer(4)
 #  is_ft_500                      :boolean(1)
-#  cop_status                     :integer(4)
 #  cop_due_on                     :date
 #  inactive_on                    :date
-#  one_year_member_on             :string(255)
 #  commitment_letter_file_name    :string(255)
 #  commitment_letter_content_type :string(255)
 #  commitment_letter_file_size    :integer(4)
@@ -42,6 +39,8 @@
 #  bhr_url                        :string(255)
 #  rejected_on                    :date
 #  network_review_on              :date
+#  local_network                  :boolean(1)
+#  revenue                        :integer(4)
 #
 
 class Organization < ActiveRecord::Base
@@ -68,16 +67,12 @@ class Organization < ActiveRecord::Base
   belongs_to :country
   belongs_to :removal_reason
 
-  attr_accessor :pledge_amount_other
   attr_accessor :delisting_on
-  
-  validate :pledge_amount_other_at_least_10000
-  
+    
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
   before_save :check_micro_enterprise_or_sme
-  before_save :check_pledge_amount_other
   before_save :set_non_business_sector
   
   has_attached_file :commitment_letter
@@ -123,6 +118,14 @@ class Organization < ActiveRecord::Base
   
   COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
+  
+  # revenue and corresponding pledge amount
+  REVENUE = {
+    'less than 25 million' => 500,
+    'between USD 25 million and 250 million' => 2000,
+    'between USD 250 million and USD 1 billion' => 5000,
+    'USD 1 billion or more' => 10000
+  }
   
   state_machine :cop_state, :initial => :active do
     after_transition :on => :delist, :do => :set_delisted_status
@@ -434,13 +437,7 @@ class Organization < ActiveRecord::Base
         self.sector = Sector.not_applicable
       end
     end
-  
-    def check_pledge_amount_other
-      if self.pledge_amount.to_i == -1
-        self.pledge_amount = self.pledge_amount_other
-      end
-    end
-  
+    
     def check_micro_enterprise_or_sme
       # we don't make assumptions if there is no employees information
       return if self.employees.nil?
@@ -455,9 +452,4 @@ class Organization < ActiveRecord::Base
       end
     end
     
-    def pledge_amount_other_at_least_10000
-      if pledge_amount.to_i == -1 and pledge_amount_other.to_i <= 10000
-        errors.add :pledge_amount_other, "has to be more than 10000 USD"
-      end
-    end    
 end

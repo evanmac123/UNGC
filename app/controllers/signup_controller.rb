@@ -44,6 +44,9 @@ class SignupController < ApplicationController
   def step4
     save_ceo_info_from_params_into_session
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
+    # highlight amount by assigning CSS class
+    @suggested_pledge_amount = {}
+    @suggested_pledge_amount[@organization.revenue.to_s] = 'highlight_suggested_amount'
   end
 
   # POST from pledge form

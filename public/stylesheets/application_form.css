@@ -58,19 +58,26 @@
     #main_content fieldset.pledge input:hover, label:hover {
       cursor: pointer;
     }
+    
   #main_content fieldset.pledge input[type=radio] {
     clear: left;
     float: left;
     width: auto;
     margin: -2px 15px 0px -30px; }
+
   #main_content fieldset.pledge label {
     display: block;
     float: left;
     width: 500px;
-    color: #000;
+    color: #666;
     font-weight: normal;
     line-height: 1.2em;
     margin-bottom: 1em;
+  }
+  
+  #main_content fieldset.pledge label.highlight_suggested_amount {
+    color: #00546E;
+    font-weight: bold;
   }
 
   #main_content #check_contact {
