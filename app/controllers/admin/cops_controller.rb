@@ -14,25 +14,21 @@ class Admin::CopsController < AdminController
       redirect_to cop_introduction_path
     end
     
-    # TODO: these defaults and setting should be moved to the COP model
-    case params[:type_of_cop]
-      when 'basic'
-        @communication_on_progress.format = 'basic'
-        @communication_on_progress.include_continued_support_statement = true
-        @communication_on_progress.include_measurement = true
-        @cop_partial = 'basic'
-      when 'intermediate'
-        @communication_on_progress.additional_questions = false
-        @cop_partial = 'intermediate'
-      when 'advanced'
-        @communication_on_progress.additional_questions = true
-        @cop_partial = 'advanced'
-    end
-
   end
   
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
+      # TODO: these defaults and setting should be moved to the COP model
+      case params[:type_of_cop]
+        when 'basic'
+          @communication_on_progress.format = 'basic'
+          @communication_on_progress.include_continued_support_statement = true
+          @communication_on_progress.include_measurement = true
+        when 'intermediate'
+          @communication_on_progress.additional_questions = false
+        when 'advanced'
+          @communication_on_progress.additional_questions = true
+      end
     if @communication_on_progress.save
       flash[:notice] = "The COP was #{@communication_on_progress.state}."
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
