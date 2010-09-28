@@ -80,7 +80,7 @@
     = text_partial('a')
     - for letter in ('l'..'p')
       = text_partial(letter)
-    
+    = hidden_field_tag("communication_on_progress[additional_questions]", 0)
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
