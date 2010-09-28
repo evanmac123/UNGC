@@ -29,6 +29,7 @@
   #finish.tab_content
     %h3 Submit your COP
     You are now ready to submit your Basic COP.
+    = hidden_field_tag("communication_on_progress[format]", 'basic')
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
