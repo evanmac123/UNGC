@@ -13,9 +13,9 @@
 
     - if @communication_on_progress.format == 'basic'
       = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
-    - elsif @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
+    - elsif @communication_on_progress.is_new_format? || @communication_on_progress.is_grace_letter?
       = render :partial => '/shared/cops/show_new_style', :locals => { :communication_on_progress => @communication_on_progress } 
-    - else
+    - elsif  @communication_on_progress.is_legacy_format?
       = render :partial => '/shared/cops/show_legacy_style', :locals => { :communication_on_progress => @communication_on_progress } 
 
 = action_links(@communication_on_progress)

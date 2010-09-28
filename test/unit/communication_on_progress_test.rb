@@ -220,6 +220,31 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   
+  context "given a COP created in 2008" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new({:title => "2008 COP"})
+      @cop.update_attribute :created_at, Date.new(2008, 12, 31)
+    end
+    
+    should "identify the COP as a legacy format" do
+      assert_equal true, @cop.is_legacy_format?
+    end    
+  end
+  
+  context "given a COP created in 2012" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new()
+      @cop.update_attribute :created_at, Date.new(2012, 01, 01)
+    end
+    
+    should "identify the COP as a new format" do
+      assert_equal true, @cop.is_new_format?
+    end  
+  end
+  
+  
   context "given a basic COP" do
     setup do
         @cop_question = create_cop_question

@@ -102,11 +102,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
   
-  FORMAT = {:standalone        => "Stand alone document",
-            :annual_report     => "Part of an annual (financial) report",
+  FORMAT = {:standalone            => "Stand alone document",
+            :annual_report         => "Part of an annual (financial) report",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
-            :summary_document  => "Summary document that refers to sections of an annual or sustainability report",
-            :grace_letter      => "Grace Letter to apply for a 90 day extension of the COP deadline"}
+            :summary_document      => "Summary document that refers to sections of an annual or sustainability report",
+            :grace_letter          => "Grace Letter to apply for a 90 day extension of the COP deadline"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
@@ -172,6 +172,14 @@ class CommunicationOnProgress < ActiveRecord::Base
         # automatic_decision
       end
     end
+  end
+  
+  def is_legacy_format?
+    created_at <= Date.new(2009, 12, 31)
+  end
+  
+  def is_new_format?
+    created_at >= Date.new(2010, 01, 01)
   end
   
   def is_grace_letter?

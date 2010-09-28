@@ -121,7 +121,9 @@ class ActiveSupport::TestCase
   end
   
   def create_cop(organization_id)
-    create_communication_on_progress(:organization_id => organization_id)
+    create_communication_on_progress(:organization_id => organization_id,
+                                     :starts_on => Date.new(2010, 01, 01),
+                                     :ends_on => Date.new(2010, 12, 31))
   end
   
   def create_principle_areas

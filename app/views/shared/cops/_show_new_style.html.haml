@@ -20,6 +20,11 @@
       %li= communication_on_progress.organization.sector_name
   
   %h1 COP Details
+      
+%dt Time period
+%dd
+  %ul
+    %li== #{communication_on_progress.starts_on.month}/#{communication_on_progress.starts_on.year} to #{communication_on_progress.ends_on.month}/#{communication_on_progress.ends_on.year}
 
 - if communication_on_progress.cop_files.any?
   %dt Files
