@@ -65,9 +65,9 @@ module Admin::CopsHelper
     # if the grouping is basic, then these are text based answers, not yes/no or multiple choice
     if grouping == :basic
       html = ''
-      html << content_tag(:p, question.cop_attributes.first.try(:text))
+      html << content_tag(:p, question.cop_attributes.first.try(:text), :class => 'question_text')
       unless question.cop_attributes.first.hint.blank?
-        html << content_tag(:div, 'Suggested topics', :class => "hint_toggle")
+        html << content_tag(:div, 'Click here for suggested topics...', :class => "hint_toggle")
         html << content_tag(:div, simple_format(question.cop_attributes.first.hint), :class => "hint_text", :style => 'display: none;')
       end
       html << hidden_field_tag("communication_on_progress[cop_answers_attributes][][cop_attribute_id]", question.cop_attributes.first.id)
