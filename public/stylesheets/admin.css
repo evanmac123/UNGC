@@ -424,9 +424,12 @@ ul.nav_bar {
       font-weight: bold;
       margin: 1em 0;
       cursor: pointer; }
-    #main_content fieldset fieldset div.hint_toggle {
-      font-weight: bold;
-      margin: 1em 0; }
+    #main_content fieldset fieldset div.hint_text ul {
+      margin: 0;
+      padding: 0 0 0 0; }
+      #main_content fieldset fieldset div.hint_text ul li {
+        list-style-type: disc;
+        margin: 0 0 0.5em 2em; }
     #main_content fieldset fieldset legend {
       color: #14546f;
       font-size: 1em;
