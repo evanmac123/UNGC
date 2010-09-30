@@ -9,12 +9,12 @@
   %p 
     Thank you for your contribution. An invoice for
     %strong== #{@organization.pledge_amount} USD
-    will be emailed after your company's application has been reviewed and accepted. Please provide a Financial Contact to receive the invoice.
+    will be emailed after your company's application has been reviewed and accepted. Please provide a Financial Contact to receive the invoice. Please note that the contribution should be made to the Foundation for the Global Compact within 30 days of receiving the invoice.
 
   - form_for(@financial_contact, :url => organization_step6_path) do |form|
     #check_contact
       = form.check_box :foundation_contact
-      = label_tag :contact_foundation_contact, "The invoice should be sent to the Contact Point, #{@contact.full_name_with_title}"
+      = label_tag :contact_foundation_contact, "The invoice should be sent to the Primary Contact Point"
     = form.error_messages
-    = render :partial => 'contact_form', :locals => {:form => form, :account_info => false, :financial_contact => true}
+    = render :partial => 'contact_form', :locals => {:form => form, :account_info => false, :contact_type => 'Financial Contact', :financial_contact => true}
     = form.submit 'Next', :class => 'button'

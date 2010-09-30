@@ -16,12 +16,12 @@
     padding: 0 0 0 0; }
   #main_content fieldset li {
     list-style: none;
-    margin: 0 0 1em 0; }
+    margin: 0 0 1em -1em; }
   #main_content fieldset label {
     color: #14546f;
     display: block;
     float: left;
-    width: 120px; }
+    width: 150px; }
   #main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea {
     color: #000;
     margin: 0 5px 0 25px;

@@ -5,5 +5,5 @@
 #main_content
   - form_for(@contact, url: organization_step3_path) do |form|
     = form.error_messages
-    = render :partial => 'contact_form', :locals => {:form => form, :account_info => true, :financial_contact => false}
+    = render :partial => 'contact_form', :locals => {:form => form, :account_info => true, :contact_type => 'Primary Contact Point', :financial_contact => false}
     = form.submit 'Next', :class => 'button'

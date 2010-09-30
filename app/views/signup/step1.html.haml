@@ -39,7 +39,7 @@
             = form.label :sector_id
             = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
             %li
-              = form.label :revenue, "Sales / Revenues"
+              = form.label :revenue, "Annual Sales / Revenues"
               = form.select :revenue, Organization::REVENUE.each { |k,v| [k.to_s.humanize,v] }
         %li
           = form.label :country_id
