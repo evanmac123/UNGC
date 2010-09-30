@@ -29,7 +29,7 @@
   Arabic | Chinese | French | Russian | Spanish | Portuguese
 
 %ul
-  %li= link_to 'Basic', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic')
+  %li= link_to 'Proceed to Basic COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic')
 
 %h3 General
 
@@ -40,7 +40,7 @@
   Arabic | Chinese | French | Russian | Spanish | Portuguese
 
 %ul
-  %li= link_to 'Intermediate', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
+  %li= link_to 'Proceed to General COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
 
 %h3 Advanced (beta)
 
@@ -51,4 +51,4 @@
   Arabic | Chinese | French | Russian | Spanish | Portuguese
 
 %ul
-  %li= link_to 'Advanced', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced')
+  %li= link_to 'Proceed to Advanced COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced')

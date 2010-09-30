@@ -6,7 +6,9 @@
     %dt Organization
     %dd= @communication_on_progress.organization.name
     %dt Status
-    %dd= @communication_on_progress.state.humanize
+    %dd
+      - if @communication_on_progress.additional_questions?
+        This COP qualifies for the Advanced Programme
     - if @communication_on_progress.is_grace_letter?
       %dt Grace Letter
       %dd Yes

@@ -11,10 +11,24 @@
 %dt Issue areas covered
 %dd
   %ul
-    %li= communication_on_progress.issue_areas_covered.join(', ')
+    %li
+      - if communication_on_progress.issue_areas_covered.count > 0
+        = communication_on_progress.issue_areas_covered.join(', ')
+      - else
+        The participant has not confirmed coverage for any issue area
+
+%dt Self-assessment
+%dd
+  %ul
+    - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
+      %li The participant did not provide a self-assessment of the COP's content
+    - if communication_on_progress.include_continued_support_statement?
+      %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
+    - if communication_on_progress.include_measurement?
+      %li Includes a measurement of outcomes for at least one issue area
 
 %dt
-  Content   
+  COP Content
 %dd
   %ul
     %li= show_basic_cop_attributes(communication_on_progress, nil, false)

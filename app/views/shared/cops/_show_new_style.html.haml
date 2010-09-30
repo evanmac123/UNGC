@@ -51,26 +51,23 @@
 %dt Content
 %dd
   %ul
-    - if communication_on_progress.include_continued_support_statement?
-      %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
-    - if communication_on_progress.include_measurement?
-      %li Identifies targets, defines performance indicators and measures outcomes
-    - if communication_on_progress.parent_company_cop?
-      %li This is the COP of a parent company
-      - if communication_on_progress.parent_cop_cover_subsidiary?
-        %li COP of parent company covers the efforts made by subsidiary to implement the Global Compact principles
-
-%dt Issue Areas Covered
-%dd
-  %ul
-    %li= communication_on_progress.issue_areas_covered.join(', ')
-
+  - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
+    %li The participant did not provide a self-assessment of the COP's content
+  - if communication_on_progress.include_continued_support_statement?
+    %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
+  - if communication_on_progress.include_measurement?
+    %li Identifies targets, define performance indicators and measure outcomes
+  - if communication_on_progress.issue_areas_covered.count > 0
+    %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
+    
 / - if logged_in? || params[:action] == 'feed'
-- if communication_on_progress.additional_questions?
-  %dt Detailed Content
-  %dd
-    %ul
-      %li Additional voluntary information on key management processes
+/ - if communication_on_progress.additional_questions?
+/   %dt COP Programme
+/   %dd
+/     %ul
+/       %li This COP 
+/       - PrincipleArea::FILTERS.each_pair do |key, value|
+/         == #{value} #{show_issue_area_coverage(communication_on_progress, key)}
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
