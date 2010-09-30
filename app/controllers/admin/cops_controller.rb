@@ -1,6 +1,7 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, :add_cop_form_js
   before_filter :no_unapproved_organizations_access
+  before_filter :set_session_template, :only => :new 
   before_filter :only_editable_cops_go_to_edit, :only => :edit
   
   def new
@@ -8,7 +9,6 @@ class Admin::CopsController < AdminController
     @communication_on_progress.init_cop_attributes
 
     partials = %w{first_time basic intermediate advanced}
-    @cop_partial = params[:type_of_cop]
     unless partials.include?(params[:type_of_cop])
       flash[:error] = "Please select the type of COP you would like to submit."
       redirect_to cop_introduction_path
@@ -18,17 +18,6 @@ class Admin::CopsController < AdminController
   
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
-      # # TODO: these defaults and setting should be moved to the COP model
-      # case params[:type_of_cop]
-      #   when 'basic'
-      #     @communication_on_progress.format = 'basic'
-      #     @communication_on_progress.include_continued_support_statement = true
-      #     @communication_on_progress.include_measurement = true
-      #   when 'intermediate'
-      #     @communication_on_progress.additional_questions = false
-      #   when 'advanced'
-      #     @communication_on_progress.additional_questions = true
-      # end
     if @communication_on_progress.save
       flash[:notice] = "The COP was #{@communication_on_progress.state}."
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
@@ -48,6 +37,11 @@ class Admin::CopsController < AdminController
   end
   
   private
+  
+    def set_session_template
+      session[:cop_template] = params[:type_of_cop]
+    end
+  
     def load_organization
       @communication_on_progress = CommunicationOnProgress.visible_to(current_user).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
