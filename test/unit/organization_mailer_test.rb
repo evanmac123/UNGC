@@ -21,7 +21,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
   test "network review mailer sent" do
     response = OrganizationMailer.deliver_network_review(@organization)
     assert_equal "text/html", response.content_type
-    assert_equal "#{@organization.name} has submitted a registration to the Global Compact", response.subject
+    assert_equal "#{@organization.name} has submitted an application to the Global Compact", response.subject
     assert_equal @network_contact.email, response.to.first
   end
   
