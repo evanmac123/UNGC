@@ -742,6 +742,10 @@ ul.view_modes {
     border-bottom: 0;
     margin-bottom: 0;
     padding-bottom: 0; }
+  #main_content dd li:first-child, #main_content dd li li {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0; }
   #main_content dd li p {
     margin: 10px 0 0 0; }
   #main_content dd li ul {

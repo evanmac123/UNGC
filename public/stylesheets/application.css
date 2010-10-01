@@ -454,12 +454,17 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   padding-bottom: 0; 
 }
 
+#main_content dd li:first-child, #main_content dd li li {
+  border-bottom: 0;
+  margin-bottom: 0;
+  padding-bottom: 0; 
+}
+
 #main_content dd li p {
   margin: 10px 0 0 0; 
 }
 
 #main_content dd ul li {
-/*  font-size: 10px;*/
   margin: 10px 0 0 15px;
   list-style-type: none; 
 }
@@ -470,12 +475,23 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   list-style-type: none;
 }
 
-#main_content dd li li.selected_question {
+#main_content dd ul li.question_text {
+  font-style: italic;
+  color: #666;
+  list-style-type: none;
+}
+
+#main_content dd ul li.selected_question, #main_content dd ul li.unselected_question {
+  color: #666;
+  font-style: italic;  
+}
+
+#main_content dd ul li.selected_question {
   list-style-image: url(/images/checked.png);
   list-style-type: disc;
 }
 
-#main_content dd li li.unselected_question {
+#main_content dd ul li.unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png);
 }

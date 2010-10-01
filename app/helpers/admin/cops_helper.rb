@@ -142,20 +142,25 @@ module Admin::CopsHelper
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
       output = content_tag(:strong, question.text)
       output += answers.map{|a|
-              content_tag(:li, a.cop_attribute.text, :class => answers.first.text.present? ? 'selected_question' : 'unselected_question') 
+              content_tag(:li, a.cop_attribute.text, :class => answers.first.text.present? ? 'question_text' : 'unselected_question') 
             }.compact.join('')
       
-      if question.cop_attributes.count > 1
-        output += "<p><ul>"
-        output += answers.map{|a|
-          content_tag(:li, a.cop_attribute.id, :class => "unselected_question")
-          content_tag(:li, a.cop_attribute.text, :class => "unselected_question")
-          content_tag(:p, a.text) if a.text.present?
-        }.compact.join('')
-        output += "</ul></p>"        
+      # if there are more than one attribute for cop question, then use the following to combine every question/response
+      
+      # if question.cop_attributes.count > 1
+      #   output += "<p><ul>"
+      #   output += answers.map{|a|
+      #     content_tag(:li, a.cop_attribute.id, :class => "selected_question")
+      #     content_tag(:li, a.cop_attribute.text, :class => "selected_question")
+      #     content_tag(:li, a.text) if a.text.present?
+      #   }.compact.join('')
+      #   output += "</ul></p>"        
+      # else
+      
+      if answers.first.text.present?
+        output += content_tag(:li, simple_format(answers.first.text))
       else
-        output += content_tag(:p, 'No answer provided.') unless answers.first.text.present?
-        output += content_tag(:p, simple_format(answers.first.text)) if answers.first.text.present?
+        output += content_tag(:li, 'No answer provided.')
       end
       content_tag :li, output
     end.join
