@@ -9,6 +9,8 @@
     %dd
       - if @communication_on_progress.additional_questions?
         This COP qualifies for the Advanced Programme
+      - else
+        Approved
     - if @communication_on_progress.is_grace_letter?
       %dt Grace Letter
       %dd Yes

@@ -141,17 +141,17 @@ module Admin::CopsHelper
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
       output = content_tag(:strong, question.text)
+      output += answers.map{|a|
+              content_tag(:li, a.cop_attribute.text, :class => answers.first.text.present? ? 'selected_question' : 'unselected_question') 
+            }.compact.join('')
+      
       if question.cop_attributes.count > 1
         output += "<p><ul>"
         output += answers.map{|a|
-          content_tag(:li, a.cop_attribute.text, :class => "selected_question") if a.value?
+          content_tag(:li, a.cop_attribute.id, :class => "unselected_question")
+          content_tag(:li, a.cop_attribute.text, :class => "unselected_question")
+          content_tag(:p, a.text) if a.text.present?
         }.compact.join('')
-        if params[:action] != 'feed'
-          output += answers.map{|a|
-            content_tag(:li, a.cop_attribute.text, :class => "unselected_question") unless a.value.present? && a.value?
-            content_tag(:p, a.text.inspect) if a.text.present?
-          }.compact.join('')
-        end
         output += "</ul></p>"        
       else
         output += content_tag(:p, 'No answer provided.') unless answers.first.text.present?
