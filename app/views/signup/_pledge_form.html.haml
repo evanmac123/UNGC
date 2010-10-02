@@ -1,0 +1,21 @@
+%p All companies are expected to commit to making annual contributions to support the work of the UN Global Compact Office. This revenue is critically important with respect to the development of value-maximizing programmes, projects and resources for the benefit of all participating companies. These fees are received, and the money deployed, through the Foundation for the Global Compact &ndash; a non-profit 501(c)(3) &ndash; and are therefore tax deductible in many jurisdictions. The annual fees are set as follows:
+
+%fieldset{:class => 'pledge'}
+  %legend Annual fees
+  %p We have highlighted the amount of your annual contribution.
+  %ol
+    %li
+      = form.radio_button :pledge_amount, 10000, { :checked => @checked_pledge_amount['10000'], :class => 'fixed_pledge' }
+      = label_tag "organization_pledge_amount_10000", "USD 10,000 for companies with annual sales/revenues of USD&nbsp;1&nbsp;billion or more", :class => @suggested_pledge_amount['10000']
+    %li
+      = form.radio_button :pledge_amount, 5000, { :checked => @checked_pledge_amount['5000'], :class => 'fixed_pledge' }
+      = label_tag "organization_pledge_amount_5000", "USD 5,000 for companies with annual sales/revenues of between USD&nbsp;250&nbsp;million and USD&nbsp;1&nbsp;billion", :class => @suggested_pledge_amount['5000']
+    %li
+      = form.radio_button :pledge_amount, 2500, { :checked => @checked_pledge_amount['2500'], :class => 'fixed_pledge' }
+      = label_tag "organization_pledge_amount_2500", "USD 2,500 for companies with annual sales/revenues of between USD&nbsp;25&nbsp;million and USD&nbsp;250&nbsp;million", :class => @suggested_pledge_amount['2500']
+    %li
+      = form.radio_button :pledge_amount, 500, { :checked => @checked_pledge_amount['500'], :class => 'fixed_pledge' }
+      = label_tag "organization_pledge_amount_500", "USD 500 for companies with annual sales/revenues of less than USD&nbsp;25&nbsp;million", :class => @suggested_pledge_amount['500']
+    %li
+      = form.radio_button :pledge_amount, 0, { :checked => false, :class => 'fixed_pledge' }
+      = label_tag "organization_pledge_amount_0", "Our company has elected not to make a contribution to the Foundation for the Global Compact at this time"

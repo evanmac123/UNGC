@@ -81,10 +81,6 @@ function hideBusinessAndStakeholders (argument) {
 	$('.for_business_only').hide('slow');
 }
 
-function clearPledgeOtherAmount (argument) {
-	$("#organization_pledge_amount_other").val('');
-}
-
 var Watcher = {
 	watcher: null,
 	fetched: null,
@@ -188,7 +184,15 @@ $(function() {
 	$('form #business_only').click( showBusinessOnly );
 	$('form #stakeholders_only').click( showStakeholdersOnly );
 	$('form #hide_business_and_stakeholders').click( hideBusinessAndStakeholders );	
-	$('form .fixed_pledge').click( clearPledgeOtherAmount );
+
+  // called from views/signup/step5.html.haml
+  $("#contact_foundation_contact").click(function() {
+    if ($('#errorExplanation').length > 0) {
+    $('#errorExplanation').slideToggle('slow');  
+    }
+
+    $('#contact_form').slideToggle('slow');
+  })
 
 	$.datepicker.setDefaults({ changeYear: true });
 });

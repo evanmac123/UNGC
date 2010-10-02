@@ -122,6 +122,8 @@ ActionController::Routing::Routes.draw do |map|
     signup.organization_step3 'signup/step3',           :action => 'step3'
     signup.organization_step4 'signup/step4',           :action => 'step4'
     signup.organization_step5 'signup/step5',           :action => 'step5'
+    signup.organization_step6 'signup/step6',           :action => 'step6'
+    signup.organization_step7 'signup/step7',           :action => 'step7'
   end
 
   map.with_options :controller => 'case_stories' do |m|
