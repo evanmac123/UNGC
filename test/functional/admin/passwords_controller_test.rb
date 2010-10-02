@@ -6,7 +6,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
   context "given an existing user" do
     setup do
-      create_organization_and_user
+      create_organization_and_ceo
     end
     
     should "get the reset password page" do

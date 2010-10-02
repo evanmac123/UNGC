@@ -63,6 +63,25 @@ class Contact < ActiveRecord::Base
   before_save :encrypt_password
   before_save :set_local_network_id
   
+  before_destroy :keep_at_least_one_ceo
+  before_destroy :keep_at_least_one_contact_point
+  
+  # before_update  :do_not_allow_last_contact_point_to_uncheck_role
+  # before_update  :do_not_allow_last_ceo_to_uncheck_role
+  
+  
+  # used for checkbox in sign up form
+  # /app/views/signup/step5.html.haml
+  attr_accessor :foundation_contact
+    
+  named_scope :financial_contacts, lambda {
+    contact_point_id = Role.financial_contact.try(:id)
+    {
+      :include    => :roles,
+      :conditions => ["contacts_roles.role_id = ?", contact_point_id]
+    }
+  }
+
   named_scope :contact_points, lambda {
     contact_point_id = Role.contact_point.try(:id)
     {
@@ -113,9 +132,6 @@ class Contact < ActiveRecord::Base
   }
   
   named_scope :with_login, {:conditions => 'login IS NOT NULL'}
-
-  before_destroy :keep_at_least_one_ceo
-  before_destroy :keep_at_least_one_contact_point
   
   define_index do
     indexes first_name, last_name, middle_name, email
@@ -193,6 +209,20 @@ class Contact < ActiveRecord::Base
         errors.add_to_base "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
         return false
       end
+    end
+    
+    def do_not_allow_last_contact_point_to_uncheck_role
+      if !self.is?(Role.contact_point) && self.organization.contacts.contact_points.count < 1
+        errors.add_to_base "Your organization should have at least one Contact Point."
+        return false
+      end      
+    end
+
+    def do_not_allow_last_ceo_to_uncheck_role
+      if !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
+        errors.add_to_base "Your organization should have at least one CEO or Equivalent."
+        return false
+      end      
     end
     
     def self.encrypted_password(password)
