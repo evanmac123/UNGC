@@ -47,13 +47,16 @@ class SignupController < ApplicationController
     # highlight amount by assigning CSS class
     @suggested_pledge_amount = {}
     @suggested_pledge_amount[@organization.revenue.to_s] = 'highlight_suggested_amount'
+    # preselect radio button
+    @checked_pledge_amount = {}
+    @checked_pledge_amount[@organization.revenue.to_s] = true
   end
 
   # POST from pledge form
   # ask for financial contact if pledge was made
   def step5
     @organization.attributes = params[:organization]
-    redirect_to organization_step6_path if @organization.pledge_amount.blank?
+    redirect_to organization_step6_path unless @organization.pledge_amount.to_i > 0
     set_default_values
   end
 
@@ -61,7 +64,7 @@ class SignupController < ApplicationController
   # shows commitment letter form
   def step6
     @organization.attributes = params[:organization]
-    if @organization.pledge_amount.present?
+    if @organization.pledge_amount.to_i > 0
       create_financial_contact_or_add_role_to_existing_contact
       redirect_to organization_step5_path unless @financial_contact.valid? || @contact.is?(Role.financial_contact)
     else

@@ -122,7 +122,7 @@ class Organization < ActiveRecord::Base
   # revenue and corresponding pledge amount
   REVENUE = {
     'less than 25 million' => 500,
-    'between USD 25 million and 250 million' => 2000,
+    'between USD 25 million and 250 million' => 2500,
     'between USD 250 million and USD 1 billion' => 5000,
     'USD 1 billion or more' => 10000
   }

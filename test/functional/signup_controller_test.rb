@@ -67,15 +67,15 @@ class SignupControllerTest < ActionController::TestCase
     should "as a business should get the fourth step page after posting ceo contact details" do      
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
                                                                       :organization_type_id => OrganizationType.first.id,
-                                                                      :revenue => 2000)
+                                                                      :revenue => 2500)
       post :step4, :contact => @signup_ceo
       assert_response :success
       assert_template 'step4'
       assert_select 'h2', 'Financial Commitment'
-      # four possible pledge amounts
+      # four possible pledge amounts and one opt out
       assert_select 'ol' do
-        assert_select "input[type=radio]", 4
-        assert_select 'label', 4
+        assert_select "input[type=radio]", 5
+        assert_select 'label', 5
       end
     end
     
@@ -89,15 +89,14 @@ class SignupControllerTest < ActionController::TestCase
     
     should "as a business should get the fifth step page after selecting a contribution amount" do
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
-      post :step5, :organization => {:pledge_amount => 2000}
+      post :step5, :organization => {:pledge_amount => 2500}
       assert_response :success
       assert_template 'step5'
       assert_select 'h2', 'Financial Contact'
     end
 
-    # upload letter of commitment
     should "as a business should get the sixth step page if they don't select a contribution amount" do
-      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
+      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id, :pledge_amount => 0)
       post :step5
       assert_redirected_to organization_step6_path
     end
