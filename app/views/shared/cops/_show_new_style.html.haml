@@ -51,14 +51,14 @@
 %dt Content
 %dd
   %ul
-  - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
-    %li The participant did not provide a self-assessment of the COP's content
-  - if communication_on_progress.include_continued_support_statement?
-    %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
-  - if communication_on_progress.include_measurement?
-    %li Identifies targets, define performance indicators and measure outcomes
-  - if communication_on_progress.issue_areas_covered.count > 0
-    %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
+    - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
+      %li The participant did not provide a self-assessment of the COP's content
+    - if communication_on_progress.include_continued_support_statement?
+      %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
+    - if communication_on_progress.include_measurement?
+      %li Identifies targets, define performance indicators and measure outcomes
+    - if communication_on_progress.issue_areas_covered.count > 0
+      %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
     
 / - if logged_in? || params[:action] == 'feed'
 / - if communication_on_progress.additional_questions?
