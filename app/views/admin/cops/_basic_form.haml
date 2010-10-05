@@ -22,8 +22,13 @@
       = cop_questions_for @communication_on_progress, :basic
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
-      %h3= value
-      %p= Principle.principles_for_issue_area(key).collect(&:name).join('<br />')
+      %div.principles
+        %h3
+          %span{:class => "#{issue_area_colour_for(value)}" }= value
+        %ul
+          - Principle.principles_for_issue_area(key).each do |area|
+            %li= area.name
+      
       %fieldset= cop_questions_for @communication_on_progress, :basic, key
 
   #finish.tab_content

@@ -105,7 +105,7 @@ module Admin::CopsHelper
       output = question.text
       # output += " <span style='color: red; font-weight: bold;'>" + question.grouping + "</span>"
       if question.cop_attributes.count > 1
-        output += "<p><ul>"
+        output += "<ul>"
         output += answers.map{|a|
           content_tag(:li, a.cop_attribute.text, :class => "selected_question") if a.value?
         }.compact.join('')
@@ -114,7 +114,7 @@ module Admin::CopsHelper
             content_tag(:li, a.cop_attribute.text, :class => "unselected_question") unless a.value.present? && a.value?
           }.compact.join('')
         end
-        output += "</ul></p>"        
+        output += "</ul>"
       else
         output += content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' ) unless answers.first.text.present?
         output += content_tag(:p, answers.first.text) if answers.first.text.present?
@@ -204,7 +204,17 @@ module Admin::CopsHelper
   def show_issue_area_coverage(cop, principle_area)
     answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
     percentage = (answer_count.to_f / question_count.to_f) * 100
-    content_tag(:p, "#{percentage.to_i}% coverage<br /> #{answer_count} of #{question_count} items", :style => "margin-top: 5px;")
+    "#{answer_count} of #{question_count} items"
+  end
+  
+  def percent_issue_area_coverage(cop, principle_area)
+    answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
+    ((answer_count.to_f / question_count.to_f) * 100).to_i
+  end
+  
+  
+  def issue_area_colour_for(issue)
+    issue.gsub(/ /,'').tableize.singularize
   end
   
 end

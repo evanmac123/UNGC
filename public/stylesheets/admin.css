@@ -753,12 +753,21 @@ ul.view_modes {
     margin: 10px 0 0 15px; }
   #main_content dd li li {
     color: #666;
-    margin-bottom: 8px; }
-
-.selected_question {
-  list-style-type: disc;
-  list-style-image: url(/images/checked.png); }
-
-.unselected_question {
-  list-style-type: circle;
-  list-style-image: url(/images/unchecked.png); }
+    margin-bottom: 10px;
+    padding-bottom: 11px; }
+  #main_content dd li .selected_question {
+    list-style-type: disc;
+    list-style-image: url(/images/checked.png);
+    margin-bottom: 10px;
+    padding-bottom: 11px; }
+  #main_content dd li .unselected_question {
+    list-style-type: circle;
+    list-style-image: url(/images/unchecked.png);
+    margin-bottom: 10px;
+    padding-bottom: 11px; }
+#main_content div.principles {
+  margin: 0 0 0 10px;
+  font-size: 12px;
+  color: #14546f;
+  line-height: 1.3em;
+  font-weight: bold; }

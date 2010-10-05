@@ -45,12 +45,24 @@
         :margin               10px 0 0 15px
       li
         :color                #666
-        :margin-bottom        8px
+        :margin-bottom        10px
+        :padding-bottom       11px
 
-.selected_question
-  :list-style-type        disc
-  :list-style-image       url(/images/checked.png)
+      .selected_question
+        :list-style-type        disc
+        :list-style-image       url(/images/checked.png)
+        :margin-bottom          10px
+        :padding-bottom         11px
       
-.unselected_question
-  :list-style-type        circle
-  :list-style-image       url(/images/unchecked.png)
+      .unselected_question
+        :list-style-type        circle
+        :list-style-image       url(/images/unchecked.png)
+        :margin-bottom          10px
+        :padding-bottom         11px
+  
+  div.principles
+    :margin                     0 0 0 10px
+    :font-size                  12px
+    :color=                     !dark_blue
+    :line-height                1.3em
+    :font-weight                bold

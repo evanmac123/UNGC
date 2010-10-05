@@ -414,24 +414,34 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 .clearme { clear: both; }
 
 /* COPs */
+
+/* jquery progress bar*/
+
+#main_content #issue_coverage {
+  margin: 0 0 0 0;
+}
+
 #main_content dt {
   clear: left;
   font-weight: bold;
   color: #00546E;
   white-space: nowrap;
+  border-top:1px solid #999999;
+	float:left;
+	width: 100px;
+	padding-top: 10px;
+	
 }
 
-#main_content dt span.coverage {
-  font-weight: normal;
-  font-size: 10px;
-  line-height: 1.1em;
-  color: #00546E;
+#main_content dd {
+	border-top: 1px solid #999999;
+	margin-left: 100px;
 }
 
-#main_content dt span.human_right { color: #F7931E; }
-#main_content dt span.labour { color: #52C6D8; }
-#main_content dt span.environment { color: #688442; }
-#main_content dt span.anti_corruption { color: #ED1C24; }
+#main_content dt span.human_right { color: #F7931E; line-height: 1.2em;}
+#main_content dt span.labour { color: #52C6D8; line-height: 1.2em;}
+#main_content dt span.environment { color: #688442; line-height: 1.2em;}
+#main_content dt span.anti_corruption { color: #ED1C24; line-height: 1.2em;}
 
 #main_content dd:empty {
   min-height: 12px; 
@@ -441,27 +451,23 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   margin: 0; 
 }
 
-#main_content dd li {
+#main_content dd ul li {
   border-bottom: 1px dotted #ccc;
   line-height: 1.2;
   margin-bottom: 1px;
   padding-bottom: 1px;
 }
 
-#main_content dd li:last-child, #main_content dd li li {
+#main_content dd li:last-child, #main_content dd ul li {
   border-bottom: 0;
   margin-bottom: 0;
   padding-bottom: 0; 
 }
 
-#main_content dd li:first-child, #main_content dd li li {
+#main_content dd li:first-child, #main_content dd ul li {
   border-bottom: 0;
   margin-bottom: 0;
   padding-bottom: 0; 
-}
-
-#main_content dd li p {
-  margin: 10px 0 0 0; 
 }
 
 #main_content dd ul li {
@@ -481,31 +487,18 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   list-style-type: none;
 }
 
-#main_content dd ul li.selected_question, #main_content dd ul li.unselected_question {
+#main_content dd ul li.selected_question, #main_content dd ul li.unselected_question, {
   color: #666;
-  font-style: italic;  
+  font-style: italic;
+  border-bottom: 1px dotted #ccc;
 }
 
 #main_content dd ul li.selected_question {
-  list-style-image: url(/images/checked.png);
   list-style-type: disc;
+  list-style-image: url(/images/checked.png);
 }
 
 #main_content dd ul li.unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png);
 }
-
-#main_content dt {
-	border-top:1px solid #999999;
-	float:left;
-	width: 100px;
-	padding-top: 10px;
-	clear: left;
-}
-
-#main_content dd {
-	border-top: 1px solid #999999;
-	margin-left: 100px;
-}
-
