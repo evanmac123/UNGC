@@ -62,19 +62,17 @@
     
 / - if logged_in? || params[:action] == 'feed'
 
-
-%div
-  %dt Issue Area Coverage
-  %dd
-    %ul
-      %li
-        %div{:id => 'issue_coverage'}
-          - PrincipleArea::FILTERS.each_pair do |key, value|
-            %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "Issue area coverage for #{value}"}
-              %div{:style => "width: #{percent_issue_area_coverage(communication_on_progress, key)}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
-                %div{:style => 'color: #fff; font-size: 10px; font-weight:bold; margin: 4px 0 0 5px;'}
-                  == #{value}
-                  == #{percent_issue_area_coverage(communication_on_progress, key)}%
+%dt Issue Area Coverage
+%dd
+  %ul
+    %li
+      %div{:id => 'issue_coverage'}
+        - PrincipleArea::FILTERS.each_pair do |key, value|
+          %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "Issue area coverage for #{value}"}
+            %div{:style => "width: #{percent_issue_area_coverage(communication_on_progress, key)}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
+              %div{:class => 'ui-progressbar-text'}
+                == #{value}
+                == #{percent_issue_area_coverage(communication_on_progress, key)}%
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
