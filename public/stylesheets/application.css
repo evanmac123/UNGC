@@ -416,21 +416,19 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 /* COPs */
 
 /* jquery progress bar*/
-
 #main_content #issue_coverage {
   margin: 0 0 0 0;
 }
 
 #main_content dt {
-  clear: left;
-  font-weight: bold;
-  color: #00546E;
-  white-space: nowrap;
   border-top:1px solid #999999;
-	float:left;
-	width: 100px;
-	padding-top: 10px;
-	
+  clear: left;
+  color: #00546E;
+  float:left;
+  font-weight: bold;
+  padding-top: 10px;
+  white-space: nowrap;
+  width: 100px;
 }
 
 #main_content dd {
@@ -438,10 +436,11 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 	margin-left: 100px;
 }
 
-#main_content dt span.human_right { color: #F7931E; line-height: 1.2em;}
-#main_content dt span.labour { color: #52C6D8; line-height: 1.2em;}
-#main_content dt span.environment { color: #688442; line-height: 1.2em;}
-#main_content dt span.anti_corruption { color: #ED1C24; line-height: 1.2em;}
+#main_content dt span { line-height: 1.2em; }
+#main_content dt span.human_right { color: #F7931E; }
+#main_content dt span.labour { color: #52C6D8; }
+#main_content dt span.environment { color: #688442; }
+#main_content dt span.anti_corruption { color: #ED1C24; }
 
 #main_content dd:empty {
   min-height: 12px; 

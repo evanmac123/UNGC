@@ -5,18 +5,15 @@
     :clear                    left
     :color=                   !dark_blue
     
-    span
-      &.coverage
-        :font-size              10px
-        :line-height            1.1em    
-      &.human_right
-        :color=               !human_right
-      &.labour
-        :color=               !labour
-      &.environment
-        :color=               !environment
-      &.anti_corruption
-        :color=               !anti_corruption
+  span
+    &.human_right
+      :color=               !human_right
+    &.labour
+      :color=               !labour
+    &.environment
+      :color=               !environment
+    &.anti_corruption
+      :color=               !anti_corruption
     
   dd
     &:empty
@@ -34,10 +31,6 @@
         :border-bottom        0
         :margin-bottom        0
         :padding-bottom       0
-      &:first-child, li
-        :border-bottom        0
-        :margin-bottom        0
-        :padding-bottom       0      
       p
         :margin               10px 0 0 0
       ul
