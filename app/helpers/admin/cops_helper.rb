@@ -203,17 +203,21 @@ module Admin::CopsHelper
   
   def show_issue_area_coverage(cop, principle_area)
     answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
-    percentage = (answer_count.to_f / question_count.to_f) * 100
     "#{answer_count} of #{question_count} items"
   end
   
   def percent_issue_area_coverage(cop, principle_area)
     answer_count, question_count = cop.issue_area_coverage(PrincipleArea.send(principle_area).id, 'additional')
-    ((answer_count.to_f / question_count.to_f) * 100).to_i
+    if answer_count.to_i > 0 && question_count.to_i > 0
+      ((answer_count.to_f / question_count.to_f) * 100).to_i
+    else
+      0
+    end
   end
   
-  
   def issue_area_colour_for(issue)
+    # Human Rights -> human_right
+    # Labour -> labour
     issue.gsub(/ /,'').tableize.singularize
   end
   
