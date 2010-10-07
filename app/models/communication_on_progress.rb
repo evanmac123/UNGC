@@ -86,6 +86,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
+  TYPES = %w{grace basic intermediate advanced}
+
   default_scope :order => 'created_at DESC'
   
   named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
@@ -151,6 +153,18 @@ class CommunicationOnProgress < ActiveRecord::Base
                                :text             => nil)
         }
     }
+  end
+  
+  def set_cop_defaults(type_of_cop)
+    case type_of_cop
+      when 'basic'
+        self.additional_questions = false
+        self.format = 'basic'
+      when 'intermediate'
+        self.additional_questions = false
+      when 'advanced'
+        self.additional_questions = true
+    end  
   end
 
   def can_be_edited?
@@ -250,7 +264,7 @@ class CommunicationOnProgress < ActiveRecord::Base
      if is_grace_letter?
        self.title = "Grace Letter"
      else
-       self.title = "#{Date.today.year} Communication on Progress"
+       self.title = "#{self.ends_on.year} Communication on Progress"
      end
    end
   

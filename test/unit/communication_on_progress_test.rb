@@ -12,7 +12,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   def pending_review(organization, options={})
     defaults = {
       :organization_id => organization.id,
-      :state           => ApprovalWorkflow::STATE_PENDING_REVIEW
+      :state           => ApprovalWorkflow::STATE_PENDING_REVIEW,
+      :ends_on         => Date.new(2009, 12, 31)
     }
     create_communication_on_progress(defaults.merge(options))
   end
@@ -36,6 +37,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                                :references_environment              => true,
                                                :references_anti_corruption          => true,
                                                :include_measurement                 => true,
+                                               :ends_on                             => Date.today,
                                                :cop_files_attributes => {
                                                  "new_cop"=> {:attachment_type => "cop",
                                                               #:attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
@@ -57,6 +59,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                                :references_environment              => true,
                                                :references_anti_corruption          => true,
                                                :include_measurement                 => true,
+                                               :ends_on                             => Date.today,                                             
                                                :cop_files_attributes => {
                                                  "new_cop"=> {:attachment_type => "cop",
                                                               :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
@@ -220,10 +223,21 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   
+  context "given a COP with its period ending in 2009" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new({:ends_on => '2009-12-31'})
+      @cop.save
+    end
+      should "title should be Communication on Progress 2009" do
+        assert_equal "2009 Communication on Progress", @cop.title
+      end
+  end
+  
   context "given a COP created in 2008" do
     setup do
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new({:title => "2008 COP"})
+      @cop = @organization.communication_on_progresses.new({:ends_on => '2008-12-31'})
       @cop.update_attribute :created_at, Date.new(2008, 12, 31)
     end
     
@@ -235,7 +249,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP created in 2012" do
     setup do
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new()
+      @cop = @organization.communication_on_progresses.new(:ends_on => Date.new(2012, 12, 31))
       @cop.update_attribute :created_at, Date.new(2012, 01, 01)
     end
     
@@ -259,6 +273,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                                                                :text             => 'Text answer'}
                                                               })
       end
+            
   end
   
   context "given a COP from a delisted company" do

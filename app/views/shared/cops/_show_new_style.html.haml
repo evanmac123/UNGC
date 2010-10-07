@@ -41,7 +41,7 @@
       - for cop_link in communication_on_progress.cop_links
         %li
           = link_to truncate(cop_link.url, :length => 60), cop_link.url
-          == [#{cop_link.language.name}]
+          == (#{cop_link.language.name})
 
 %dt Format
 %dd
@@ -62,17 +62,21 @@
     
 / - if logged_in? || params[:action] == 'feed'
 
-%dt Issue Area Coverage
-%dd
-  %ul
-    %li
-      %div{:id => 'issue_coverage'}
-        - PrincipleArea::FILTERS.each_pair do |key, value|
-          %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "Issue area coverage for #{value}"}
-            %div{:style => "width: #{percent_issue_area_coverage(communication_on_progress, key)}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
-              %div{:class => 'ui-progressbar-text'}
-                == #{value}
-                == #{percent_issue_area_coverage(communication_on_progress, key)}%
+- if communication_on_progress.additional_questions?
+  %dt Issue Area Coverage
+  %dd
+    %ul
+      %li
+        %div{:id => 'issue_coverage'}
+          - PrincipleArea::FILTERS.each_pair do |key, value|
+            - percent = percent_issue_area_coverage(communication_on_progress, key)
+            - if percent > 0
+              %span{:class => "#{issue_area_colour_for(value)}" }
+                %strong= value
+              %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "Issue area coverage for #{value}"}
+                %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
+                  %div{:class => 'ui-progressbar-text'}
+                    == #{percent}%
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)

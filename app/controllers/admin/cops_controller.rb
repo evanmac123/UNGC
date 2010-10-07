@@ -3,21 +3,23 @@ class Admin::CopsController < AdminController
   before_filter :no_unapproved_organizations_access
   before_filter :set_session_template, :only => :new 
   before_filter :only_editable_cops_go_to_edit, :only => :edit
+  after_filter  :clear_session_template, :only => :create
   
   def new
-    @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
-    @communication_on_progress.init_cop_attributes
-
-    partials = %w{first_time basic intermediate advanced}
-    unless partials.include?(params[:type_of_cop])
+    type_of_cop = params[:type_of_cop]
+    
+    unless CommunicationOnProgress::TYPES.include?(type_of_cop)
       flash[:error] = "Please select the type of COP you would like to submit."
       redirect_to cop_introduction_path
     end
     
+    @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
+    @communication_on_progress.init_cop_attributes
   end
   
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
+    @communication_on_progress.set_cop_defaults(session[:cop_template])
     if @communication_on_progress.save
       flash[:notice] = "The COP was #{@communication_on_progress.state}."
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
@@ -40,6 +42,10 @@ class Admin::CopsController < AdminController
   
     def set_session_template
       session[:cop_template] = params[:type_of_cop]
+    end
+    
+    def clear_session_template
+      session[:cop_template] = nil
     end
   
     def load_organization

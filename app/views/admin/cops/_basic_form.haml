@@ -62,8 +62,8 @@
           %span Measurement of outcomes for any of the above issue areas
         = true_or_false_field(form, :include_measurement, :class => 'score')
     
-    = hidden_field_tag("communication_on_progress[format]", 'basic')
-    = hidden_field_tag("communication_on_progress[additional_questions]", 0)
+    / = hidden_field_tag("communication_on_progress[format]", 'basic')
+    / = hidden_field_tag("communication_on_progress[additional_questions]", 0)
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
