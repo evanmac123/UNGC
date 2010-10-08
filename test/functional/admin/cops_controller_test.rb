@@ -67,7 +67,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
     should "confirm the format" do
       assert_equal 'basic', session[:cop_template]
-      # FIXME: test if format has been set
+      # FIXME: test if cop was created and format has been set
       # @cop = CommunicationOnProgress.find(:last)
       # assert_equal 'basic', @cop.format
     end

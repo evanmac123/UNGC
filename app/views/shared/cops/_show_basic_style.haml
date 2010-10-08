@@ -29,13 +29,9 @@
 
 %dt
   COP Content
-%dd
-  %ul
-    %li= show_basic_cop_attributes(communication_on_progress, nil, false)
+%dd= show_basic_cop_attributes(communication_on_progress, nil, false)
       
 - PrincipleArea::FILTERS.each_pair do |key, value|
   %dt
     %span{:class => "#{issue_area_colour_for(value)}" }= value
-  %dd
-    %ul
-      %li= show_basic_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"))
+  %dd= show_basic_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"))

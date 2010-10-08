@@ -83,8 +83,7 @@
     %dt
       %span{:class => "#{issue_area_colour_for(value)}" }
         == #{value} <br /> #{show_issue_area_coverage(communication_on_progress, key)}
-    %dd
-      %ul= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
+    %dd= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
 
 - if communication_on_progress.notable_program?
   %dt Notable Program

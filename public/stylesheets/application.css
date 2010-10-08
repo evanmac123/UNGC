@@ -415,10 +415,6 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 
 /* COPs */
 
-/* jquery progress bar*/
-#main_content #issue_coverage {
-  margin: 0 0 0 0;
-}
 
 #main_content dt {
   border-top:1px solid #999999;
@@ -426,7 +422,7 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   color: #00546E;
   float:left;
   font-weight: bold;
-  padding-top: 10px;
+  padding-top: 12px;
   white-space: nowrap;
   width: 100px;
 }
@@ -436,6 +432,7 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 	margin-left: 100px;
 }
 
+/* jquery progres bar */
 #main_content dt span { line-height: 1.2em; }
 #main_content dt span.human_right, span.human_right { color: #F7931E; }
 #main_content dt span.labour, span.labour { color: #52C6D8; }
@@ -446,45 +443,46 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   min-height: 12px; 
 }
 
-#main_content dd ul {
-  margin: 0;
-}
-
 #main_content dd ul li {
-  margin: 10px 0 0 15px;
+  margin: 10px 0 0 5px;
   list-style-type: none; 
   border-bottom: 1px dotted #ccc;
-  margin-bottom: 1px;
-  padding-bottom: 1px;
-}
-
-#main_content dd ul li:first-child {
-  margin-bottom: 0;
   padding-bottom: 0; 
 }
 
-#main_content dd li:last-child {
+#main_content dd ul li:last-child {
   border-bottom: 0;
-  margin-bottom: 0;
-  padding-bottom: 0; 
 }
 
-#main_content dd li li {
-  color: #666;
-  padding-left: 3px;
-  list-style-type: none;
+#main_content dd ul.basic_question li.question_group, #main_content dd ul.questionnaire li.question_group {
+  font-weight: bold;
+  color: #00546E;
+  margin-bottom: -0.5em;
+  border-bottom: 0;
 }
 
-#main_content dd ul li.question_text {
-  font-style: italic;
-  color: #666;
-  list-style-type: none;
-}
-
-#main_content dd ul li.selected_question, #main_content dd ul li.unselected_question, {
-  color: #666;
-  font-style: italic;
+#main_content dd ul li.selected_question, #main_content dd ul li.unselected_question, #main_content dd ul.basic_question li.selected_question {
   border-bottom: 1px dotted #ccc;
+}
+
+#main_content dd ul.basic_question li.question_text p, #main_content dd ul.basic_question li.unselected_question p {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+}
+
+#main_content dd ul.questionnaire li:last-child {
+  border-bottom:  0;
+  margin-bottom:  0;
+  padding-bottom: 1em; 
+}
+
+#main_content, li p {
+  line-height: 1.3em;  
+}
+
+#main_content dd ul li.selected_question {
+  color: #222;
 }
 
 #main_content dd ul li.selected_question {

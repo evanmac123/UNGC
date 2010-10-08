@@ -102,24 +102,24 @@ module Admin::CopsHelper
     # we now have all questions, attributes and answers
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      output = question.text
+      output = content_tag(:li, question.text, :class => 'question_group')
       # output += " <span style='color: red; font-weight: bold;'>" + question.grouping + "</span>"
       if question.cop_attributes.count > 1
-        output += "<ul>"
+        # output += "<ul>"
         output += answers.map{|a|
-          content_tag(:li, a.cop_attribute.text, :class => "selected_question") if a.value?
+          content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "selected_question") if a.value?
         }.compact.join('')
         if params[:action] != 'feed'
           output += answers.map{|a|
-            content_tag(:li, a.cop_attribute.text, :class => "unselected_question") unless a.value.present? && a.value?
+            content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "unselected_question") unless a.value.present? && a.value?
           }.compact.join('')
         end
-        output += "</ul>"
+        # output += "</ul>"
       else
         output += content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' ) unless answers.first.text.present?
         output += content_tag(:p, answers.first.text) if answers.first.text.present?
       end
-      content_tag :li, output
+      content_tag :ul, output, :class => 'questionnaire'
     end.join
   end
   
@@ -140,21 +140,19 @@ module Admin::CopsHelper
     # we now have all questions, attributes and answers
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      output = content_tag(:strong, question.text)
+      output = content_tag(:li, content_tag(:p, question.text), :class => 'question_group')
       output += answers.map{|a|
-              content_tag(:li, a.cop_attribute.text, :class => answers.first.text.present? ? 'question_text' : 'unselected_question') 
+              content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => answers.first.text.present? ? 'question_text' : 'unselected_question') 
             }.compact.join('')
       
       # if there are more than one attribute for cop question, then use the following to combine every question/response
       
       # if question.cop_attributes.count > 1
-      #   output += "<p><ul>"
       #   output += answers.map{|a|
       #     content_tag(:li, a.cop_attribute.id, :class => "selected_question")
       #     content_tag(:li, a.cop_attribute.text, :class => "selected_question")
       #     content_tag(:li, a.text) if a.text.present?
       #   }.compact.join('')
-      #   output += "</ul></p>"        
       # else
       
       if answers.first.text.present?
@@ -162,7 +160,7 @@ module Admin::CopsHelper
       else
         output += content_tag(:li, 'No answer provided.')
       end
-      content_tag :li, output
+      content_tag :ul, output, :class => 'basic_question'
     end.join
   end
   
