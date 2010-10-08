@@ -749,25 +749,23 @@ ul.view_modes {
 #main_content ul li.question_group {
   font-weight: bold;
   color: #14546f;
-  padding-bottom: 5px;
-  margin-bottom: 5px; }
-#main_content ul li {
+  padding-bottom: 3px;
+  margin-bottom: 3px;
   border-bottom: 1px dotted #ccc; }
-  #main_content ul li.question_text, #main_content ul li.unselected_question {
-    list-style-type: none;
-    margin-bottom: 0px;
-    padding-bottom: 0px;
-    border-bottom: 1px dotted #ccc; }
-  #main_content ul li.selected_question {
-    list-style-type: disc;
-    list-style-image: url(/images/checked.png); }
-  #main_content ul li.unselected_question {
-    list-style-type: circle;
-    list-style-image: url(/images/unchecked.png); }
-  #main_content ul li:last-child, #main_content ul li li {
-    margin-bottom: 0;
-    padding-bottom: 0;
-    border-bottom: 0; }
+#main_content ul li.question_text, #main_content ul li.unselected_question {
+  list-style-type: none;
+  margin-bottom: 0px;
+  padding-bottom: 0px; }
+#main_content ul li:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: 0; }
+#main_content ul li.selected_question {
+  list-style-type: disc;
+  list-style-image: url(/images/checked.png); }
+#main_content ul li.unselected_question {
+  list-style-type: circle;
+  list-style-image: url(/images/unchecked.png); }
 #main_content div.principles {
   margin: 0 0 0 10px;
   font-size: 12px;

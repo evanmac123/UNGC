@@ -1,46 +1,33 @@
 %h2 Submitting a Communication on Progress (COP)
 
-%p The Global Compact Office is introducing a new Performance Differentiation Programme, offering different options for completing and submitting a Communication on Progress (COP) - Basic, Intermediate and Advanced. The goal of the Programme is:
+%h3 Submit a COP to the Global Compact Database
 
-%ul
-  %li to recognize that companies have common but differentiated responsibilities towards global sustainability;
-  %li to recognize the unique contributions to the UN Global Compact of companies of different sizes and sophistication; and 
-  %li to facilitate better assessment of sustainability performance and transparency.
+%p Every year, businesses in the Global Compact must submit an electronic version of their COP (preferably a PDF  file)  and, if available, a link to the web page that contains the COP - to the Global Compact COP database.  As part of the online submission, participants are asked to answer six basic questions about the format and content of the COP. This is done to ensure compliance with the COP policy and to facilitate further analysis of companies' performance. Translations of the questions are currently available in the following languages: (Arabic) (Chinese) (French) (Russian) (Spanish).
 
 %p
-  %em Note: The Advanced Programme is now available for beta-testing until the end of 2010 and will result in a detailed analysis of companies' performance and the incorporation of feedback from participants before the official launch in 2011.
+  %ul
+    %li= link_to 'Proceed to general COP submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
 
-%p In addition, companies that wish to increase the visibility and usability of their COP can choose to answer more detailed questions on the content of their COP, allowing users to search for specific actions of companies in each of the issue areas: Human Rights, Labour, Environment and Anti-corruption.
+%h3 Use the Basic COP Template
 
-%h3 Basic 
-
-%p Do you already have some experience in implementing the principles, but you would still like some guidance in building a COP? This template takes you through the issue areas step by step and will create a COP that is tailored to your company. More information.
-
-%p
-  %strong Translations:
-  Arabic | Chinese | French | Russian | Spanish | Portuguese
-
-%ul
-  %li= link_to 'Proceed to Basic COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic')
-
-%h3 General
-
-%p Is your company experienced in communicating progress? Do you want to upload a standalone report? This is the best programme for your company. More information.
+%p This online template helps smaller and less experienced companies communicate their progress by following a series of simple steps that meet basic disclosure requirements in accordance with the COP policy. Translations of the template are available in (Arabic) (Chinese) (French) (Russian) (Spanish) (Portuguese)
 
 %p
-  %strong Translations:
-  Arabic | Chinese | French | Russian | Spanish | Portuguese
+  %ul
+    %li= link_to 'Proceed to the Basic COP Template', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic')
 
-%ul
-  %li= link_to 'Proceed to General COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
+%h3 Participate in the Advanced Programme
 
-%h3 Advanced (beta)
-
-%p Is your company well positioned in sustainability? Do you want to upload a comprehensive standalone COP and qualify for advanced status? The advanced programme provides recognition for comprehensive implementation and disclosure of the Global Compact principles. More information.
+%p Companies at a higher level of sustainability performance and disclosure are encouraged to participate in the Advanced Programme by completing a self-assessment covering the content of their COP and assessing their implementation of the Global Compact principles against global best practices. More information. 
 
 %p
-  %strong Translations:
-  Arabic | Chinese | French | Russian | Spanish | Portuguese
+  %ul
+    %li= link_to 'Proceed to the Advanced Programme', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced')
+  
+%h3 Submit a Grace Letter for COP deadline extension request 
 
-%ul
-  %li= link_to 'Proceed to Advanced COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced')
+%p In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of 90 days if a reasonable explanation for the delay (e.g. changes to reporting cycles) is posted on the Global Compact website, including an expected date of COP submission.
+
+%p
+  %ul
+    %li= link_to 'Proceed to Grace Letter submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')

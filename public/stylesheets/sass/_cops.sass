@@ -32,8 +32,7 @@
         :margin-bottom          0
         :padding-bottom         0
         :border-bottom          0
-    
-
+  
       p
         :line-height            1.2em  
       
@@ -49,14 +48,21 @@
       &.question_group
         :font-weight            bold
         :color=                 !dark_blue
-        :padding-bottom         5px
-        :margin-bottom          5px
+        :padding-bottom         3px
+        :margin-bottom          3px 
+        :border-bottom          1px dotted #ccc
     li
       &.question_text, &.unselected_question
         :list-style-type        none
         :margin-bottom          0px
         :padding-bottom         0px
-        :border-bottom          1px dotted #ccc
+
+      &:first-child
+
+      &:last-child
+        :margin-bottom          0
+        :padding-bottom         0
+        :border-bottom          0    
       
       &.selected_question
         :list-style-type        disc
@@ -65,15 +71,7 @@
       &.unselected_question
         :list-style-type        circle
         :list-style-image       url(/images/unchecked.png)
-      
-      &:first-child, li
-      :border-bottom            1px dotted #ccc
-      
-      &:last-child, li
-        :margin-bottom          0
-        :padding-bottom         0
-        :border-bottom          0
-                                    
+                                          
   div.principles
     :margin                     0 0 0 10px
     :font-size                  12px
