@@ -33,19 +33,23 @@ class ParticipantsController < ApplicationController
     end
     
     def results_for_search
-      options = {per_page: (params[:per_page] || 10).to_i, page: (params[:page] || 1).to_i}
+      options = { per_page: (params[:per_page] || 10).to_i,
+                  page: (params[:page] || 1).to_i,
+                  star: true}
       options[:per_page] = 100 if options[:per_page] > 100
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_joined_on(options) if params[:joined_after] && params[:joined_before]
       filter_options_for_business_type(options) if params[:business_type]
       filter_options_for_sector(options) if params[:sector_id]
-
+      
+      keyword = params[:keyword].force_encoding("UTF-8")
+            
       # store what we searched_for so that the helper can pick it apart and make a pretty label
-      @searched_for = options[:with].merge(:keyword => params[:keyword])
+      @searched_for = options[:with].merge(:keyword => keyword)
       options.delete(:with) if options[:with] == {}
       # logger.info " ** Participant search with options: #{options.inspect}"
-      @results = Organization.participants_only.search params[:keyword] || '', options
+      @results = Organization.participants_only.search keyword || '', options
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'index'
     end
