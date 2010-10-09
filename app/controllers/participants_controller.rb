@@ -43,7 +43,7 @@ class ParticipantsController < ApplicationController
       filter_options_for_business_type(options) if params[:business_type]
       filter_options_for_sector(options) if params[:sector_id]
       
-      keyword = params[:keyword].force_encoding("UTF-8")
+      keyword = params[:keyword].force_encoding("UTF-8") if params[:keyword].present?
             
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = options[:with].merge(:keyword => keyword)
