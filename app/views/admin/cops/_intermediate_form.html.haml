@@ -6,7 +6,7 @@
   #basic.tab_content
     - if form.error_messages.present?
       %p
-        %strong Please select a COP file for upload. If you have provided a website link, it should be in the format http://www.company.com/
+        %strong Please select a COP file for upload. If you have provided a website link, it should be in the format http://company.com
 
     %fieldset
       %fieldset
@@ -34,7 +34,7 @@
         #web_cop_attachments{:style => 'display: block'}
           %fieldset
             %legend
-              %span Provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
+              %span Provide a link to your web-based COP. The link should be in the format 'http://company.com'
             = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
               
         #own_company_questions{:style => 'display: block'}

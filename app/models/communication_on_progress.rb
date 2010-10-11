@@ -259,7 +259,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       end
     end
   end
-  
+    
   def set_title
      if is_grace_letter?
        self.title = "Grace Letter"

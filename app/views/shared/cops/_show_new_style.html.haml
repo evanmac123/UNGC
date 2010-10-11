@@ -32,7 +32,7 @@
     %ul
       - for cop_file in communication_on_progress.cop_files
         %li
-          = link_to cop_file.attachment_file_name, cop_file.attachment.url
+          = link_to truncate(cop_file.attachment_file_name, :length => 60), cop_file.attachment.url
           == (#{cop_file.language.name})
 - if communication_on_progress.cop_links.any?
   %dt Links
@@ -70,13 +70,15 @@
         %div{:id => 'issue_coverage'}
           - PrincipleArea::FILTERS.each_pair do |key, value|
             - percent = percent_issue_area_coverage(communication_on_progress, key)
-            - if percent > 0
+            - if communication_on_progress.send("references_#{key}?") && percent > 0
               %span{:class => "#{issue_area_colour_for(value)}" }
                 %strong= value
               %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "Issue area coverage for #{value}"}
                 %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
                   %div{:class => 'ui-progressbar-text'}
                     == #{percent}%
+            - else
+              %li== No reported coverage for #{value}
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)

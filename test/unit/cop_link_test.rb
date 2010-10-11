@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class CopLinkTest < ActiveSupport::TestCase
-  #removed because of the exception :unless => Proc.new { |cop_link| cop_link.url.blank? }
   should_validate_presence_of :attachment_type
   should_belong_to :communication_on_progress
   should_belong_to :language
