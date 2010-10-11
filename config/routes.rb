@@ -133,7 +133,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.with_options :controller => 'news' do |m|
     m.newest_headlines '/news', :action => :index
-    m.newest_headlines '/news/feed.atom', :action => :index, :format => 'atom'
+    m.newest_headlines '/feeds/news/', :action => :index, :format => 'atom'
     m.headline_year '/news/:year', :action => :index, :requirements => { :year => /\d{4}/ }
     m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
   end

@@ -17,6 +17,8 @@
 #  updated_at     :datetime
 #
 
+require 'hpricot'
+
 class Headline < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
@@ -97,4 +99,9 @@ class Headline < ActiveRecord::Base
   def date_for_permalink
     published_on.strftime('%m-%d-%Y')
   end
+  
+  def teaser
+   (Hpricot(self.description)/'p').first.inner_html
+  end
+  
 end
