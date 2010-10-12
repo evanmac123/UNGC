@@ -37,25 +37,39 @@
           :line-height            1.2em  
       
     ul
-      &.basic_question, &.questionnaire
+      &.questionnaire, &.basic_question
         :margin                   0
         :list-style               none
+      &:first-child
         :padding-top              0
-        &:first-child
-          :padding-top            0
-    
+        
       li
         &.question_group
           :font-weight            bold
           :color=                 !dark_blue
-          :padding-bottom         3px
-          :margin-bottom          3px 
+          :padding-top            1em
+          :padding-bottom         1em
+          :margin-bottom          1em 
           :border-bottom          1px dotted #ccc
+          
+        &:first-child
+          :padding-top            0
+          &:first-child
+            :padding-top          0
+            :line-height          1.2em
+          
+        
       li
-        &.question_text, &.unselected_question
+        &.question_text
           :list-style-type        none
           :margin-bottom          0px
-          :padding-bottom         0px
+          :padding-top            0em
+          p
+            :font-style           italic
+
+        &.unselected_question
+          p
+            :font-style           normal        
 
         &:first-child
 

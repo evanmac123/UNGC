@@ -140,7 +140,7 @@ module Admin::CopsHelper
     # we now have all questions, attributes and answers
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      output = content_tag(:li, content_tag(:p, question.text), :class => 'question_group')
+      output = content_tag(:li, question.text, :class => 'question_group')
       output += answers.map{|a|
               content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => answers.first.text.present? ? 'question_text' : 'unselected_question') 
             }.compact.join('')
@@ -156,9 +156,9 @@ module Admin::CopsHelper
       # else
       
       if answers.first.text.present?
-        output += content_tag(:li, simple_format(answers.first.text))
+        output += content_tag(:li, simple_format(answers.first.text), :class => 'question_response')
       else
-        output += content_tag(:li, 'No answer provided.')
+        output += content_tag(:li, 'No answer provided.', :class => 'question_response')
       end
       content_tag :ul, output, :class => 'basic_question'
     end.join

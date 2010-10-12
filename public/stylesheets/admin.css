@@ -740,22 +740,31 @@ ul.view_modes {
       border-bottom: 0; }
     #main_content dd ul li p {
       line-height: 1.2em; }
-#main_content dd ul.basic_question, #main_content dd ul.questionnaire {
+#main_content dd ul.questionnaire, #main_content dd ul.basic_question {
   margin: 0;
-  list-style: none;
+  list-style: none; }
+#main_content dd ul:first-child {
   padding-top: 0; }
-  #main_content dd ul.basic_question:first-child, #main_content dd ul.questionnaire:first-child {
-    padding-top: 0; }
 #main_content dd ul li.question_group {
   font-weight: bold;
   color: #14546f;
-  padding-bottom: 3px;
-  margin-bottom: 3px;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
   border-bottom: 1px dotted #ccc; }
-#main_content dd ul li.question_text, #main_content dd ul li.unselected_question {
+#main_content dd ul li:first-child {
+  padding-top: 0; }
+  #main_content dd ul li:first-child:first-child {
+    padding-top: 0;
+    line-height: 1.2em; }
+#main_content dd ul li.question_text {
   list-style-type: none;
   margin-bottom: 0px;
-  padding-bottom: 0px; }
+  padding-top: 0em; }
+  #main_content dd ul li.question_text p {
+    font-style: italic; }
+#main_content dd ul li.unselected_question p {
+  font-style: normal; }
 #main_content dd ul li:last-child {
   margin-bottom: 0;
   padding-bottom: 0;
