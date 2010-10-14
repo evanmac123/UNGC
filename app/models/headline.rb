@@ -100,6 +100,7 @@ class Headline < ActiveRecord::Base
     published_on.strftime('%m-%d-%Y')
   end
   
+  # use first paragraph of news item as teaser
   def teaser
    (Hpricot(self.description)/'p').first.inner_html
   end
