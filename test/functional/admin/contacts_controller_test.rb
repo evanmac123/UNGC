@@ -51,7 +51,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     put :update, :organization_id => @organization.id,
                  :id              => @organization_user.to_param,
                  :contact         => { :role_ids => [],
-                                       :email => "value" }
+                                       :email => "user@example.com" }
     # assert_equal "Your organization should have at least one Contact Point.", flash[:error]    
     # assert_redirected_to edit_admin_organization_contact_path(@organization.id, @organization_user.id)
   end

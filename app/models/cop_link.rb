@@ -17,7 +17,7 @@ class CopLink < ActiveRecord::Base
   validates_format_of :url,
                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
                       :message => "for website is invalid. Please enter one address in the format http://company.com/",
-                      :if => Proc.new { |cop_link| cop_link.url.present? } 
+                      :if => Proc.new { |link| link.url.present? } 
   belongs_to :communication_on_progress, :foreign_key => :cop_id
   belongs_to :language
 end

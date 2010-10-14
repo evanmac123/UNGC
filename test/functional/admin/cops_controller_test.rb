@@ -48,6 +48,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @organization.approve!
       create_principle_areas
       create_language
+      # pass in parameter? 
       get :new, :organization_id => @organization.id
       post :create, { :organization_id                     => @organization.id,
                       :include_continued_support_statement => true,
@@ -62,7 +63,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
                        "new_cop"=> {:attachment_type => "cop", :language_id => Language.first.id}
                       }
                     }
-                      
+      
+      # test new Basic COP
+      # assert_equal @cop.format, 'basic'
                       
     end
     should "confirm the format" do

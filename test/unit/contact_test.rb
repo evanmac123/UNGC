@@ -59,7 +59,7 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
 
-  # context "given an organization with 1 contact points" do
+  # context "given an organization with 1 contact point" do
   #   setup do
   #     create_organization_and_user
   #     @organization_user_2 = create_contact(:organization_id => @organization.id,
