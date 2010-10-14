@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
     end
 
     def default_navigation # override in other controllers
-      DEFAULTS[:cop_search_path]
+      DEFAULTS[:participant_search_path]
     end
 
     def page_is_editable
