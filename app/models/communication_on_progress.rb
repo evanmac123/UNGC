@@ -76,7 +76,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :policy_exempted
   
   before_save :can_be_edited?
-  before_create :set_title
+  before_create :set_title, :check_links
   after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
@@ -267,6 +267,14 @@ class CommunicationOnProgress < ActiveRecord::Base
        self.title = "#{self.ends_on.year} Communication on Progress"
      end
    end
+  
+  # javascript will normally hide the link field if it's blank,
+  # but IE7 was not cooperating, so we double check
+  def check_links
+    self.cop_links.each do |link|
+      link.destroy if link.url.blank?
+    end
+  end
   
   # Calculate COP score based on answers to Q7
   def score
