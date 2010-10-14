@@ -471,6 +471,11 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   font-style: italic;
 }
 
+#main_content dd ul.questionnaire li.unselected_question, #main_content dd ul.questionnaire li.selected_question{
+  font-size: 11px;
+  color: #666;
+}
+
 #main_content dd ul.questionnaire li:last-child {
   border-bottom:  0;
   margin-bottom:  0;

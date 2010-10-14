@@ -748,33 +748,26 @@ ul.view_modes {
 #main_content dd ul li.question_group {
   font-weight: bold;
   color: #14546f;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  margin-bottom: 1em;
-  border-bottom: 1px dotted #ccc; }
-#main_content dd ul li:first-child {
-  padding-top: 0; }
-  #main_content dd ul li:first-child:first-child {
-    padding-top: 0;
-    line-height: 1.2em; }
-#main_content dd ul li.question_text {
-  list-style-type: none;
-  margin-bottom: 0px;
-  padding-top: 0em; }
-  #main_content dd ul li.question_text p {
-    font-style: italic; }
-#main_content dd ul li.unselected_question p {
-  font-style: normal; }
-#main_content dd ul li:last-child {
+  padding-top: 0;
   margin-bottom: 0;
-  padding-bottom: 0;
   border-bottom: 0; }
+#main_content dd ul li.question_text, #main_content dd ul li.unselected_question, #main_content dd ul li.selected_question {
+  list-style-type: none; }
+  #main_content dd ul li.question_text p, #main_content dd ul li.unselected_question p, #main_content dd ul li.selected_question p {
+    font-style: italic; }
+#main_content dd ul li.question_response {
+  padding-top: 0;
+  margin-bottom: 1em; }
 #main_content dd ul li.selected_question {
   list-style-type: disc;
   list-style-image: url(/images/checked.png); }
 #main_content dd ul li.unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png); }
+#main_content dd ul.questionnaire li.unselected_question p, #main_content dd ul.questionnaire li.selected_question p {
+  font-style: normal; }
+#main_content dd ul.questionnaire li.question_group {
+  margin-bottom: 1em; }
 #main_content div.principles {
   margin: 0 0 0 10px;
   font-size: 12px;

@@ -47,36 +47,19 @@
         &.question_group
           :font-weight            bold
           :color=                 !dark_blue
-          :padding-top            1em
-          :padding-bottom         1em
-          :margin-bottom          1em 
-          :border-bottom          1px dotted #ccc
-          
-        &:first-child
           :padding-top            0
-          &:first-child
-            :padding-top          0
-            :line-height          1.2em
+          :margin-bottom          0 
+          :border-bottom          0
           
-        
       li
-        &.question_text
+        &.question_text, &.unselected_question, &.selected_question
           :list-style-type        none
-          :margin-bottom          0px
-          :padding-top            0em
           p
             :font-style           italic
-
-        &.unselected_question
-          p
-            :font-style           normal        
-
-        &:first-child
-
-        &:last-child
-          :margin-bottom          0
-          :padding-bottom         0
-          :border-bottom          0    
+      
+        &.question_response
+          :padding-top            0
+          :margin-bottom          1em
       
         &.selected_question
           :list-style-type        disc
@@ -85,6 +68,14 @@
         &.unselected_question
           :list-style-type        circle
           :list-style-image       url(/images/unchecked.png)
+
+    ul.questionnaire
+      li
+        &.unselected_question, &.selected_question
+          p
+            :font-style           normal
+        &.question_group
+          :margin-bottom          1em
                                           
   div.principles
     :margin                     0 0 0 10px

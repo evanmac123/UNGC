@@ -7,6 +7,10 @@
     %dd
       %ul
         %li= link_to @communication_on_progress.organization_name, participant_link(@communication_on_progress.organization, params[:navigation])
+    %dt Published
+    %dd
+      %ul
+        %li= yyyy_mm_dd(@communication_on_progress.updated_at)
 
     - if @communication_on_progress.format == 'basic'
       = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
