@@ -1,3 +1,10 @@
+h1. 2010-10-19
+
+* Advanced Programme was launched Oct 11, 2010
+* participants could answer the additional voluntary questions prior to this date
+* however, those submitting after Oct 11 are considered to be participating in the programme
+* created is_advanced_programme? method for COP to determine this
+
 h1. 2010-08-25
 
 * using hidden fields to pass Basic COP information, such as the format and principles covered

@@ -203,6 +203,13 @@ class CommunicationOnProgress < ActiveRecord::Base
     created_at >= Date.new(2010, 01, 01)
   end
   
+  # Advanced Programme was launched Oct 11, 2010
+  # Participants could answer the additional voluntary questions prior to this date
+  # However, those submitting after Oct 11 are actually considered to be participating in the programme
+  def is_advanced_programme?
+    additional_questions && created_at >= Date.new(2010, 10, 11)
+  end
+  
   def is_grace_letter?
     # FIXME: self.format was throwing an exception
     self.attributes['format'] == CopFile::TYPES[:grace_letter]

@@ -118,13 +118,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_organization_and_user('approved')
       @old_cop_due_on = @organization.cop_due_on
       @cop = pending_review(@organization, format: 'grace_letter')
-      # @cop = create_communication_on_progress(:organization_id => @organization.id,
-      #                                         :cop_files_attributes => {
-      #                                           "new_cop"=> {:attachment_type => "cop",
-      #                                            :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-      #                                            :language_id     => Language.first.id}
-      #                                         }
-      # )
       @cop.type = 'grace'
       @cop.save
     end
@@ -133,25 +126,16 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert @cop.is_grace_letter?
     end
     
-    # context "and it gets approved" do
-    #   setup do
-    #     @cop.approve!
-    #   end
-    #   
-    #   should "now be approved" do
-    #     assert @cop.approved?
-    #   end
-      
-      should "have an extra 90 days to submit a COP" do
-        @organization.reload
-        assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD).to_date, (@organization.cop_due_on).to_date
-      end
-      
-      should "set the coverage dates from today until 90 days from now" do
-        @cop.reload
-        assert_equal Date.today, @cop.starts_on
-        assert_equal (Date.today + 90.days), @cop.ends_on
-      end
+    should "have an extra 90 days to submit a COP" do
+      @organization.reload
+      assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD).to_date, (@organization.cop_due_on).to_date
+    end
+    
+    should "set the coverage dates from today until 90 days from now" do
+      @cop.reload
+      assert_equal Date.today, @cop.starts_on
+      assert_equal (Date.today + 90.days), @cop.ends_on
+    end
       
   end
     
@@ -289,6 +273,29 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal false, @cop.additional_questions
     end
 
+  end
+  
+  context "given a COP with additional question" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
+      @cop.type = 'advanced'
+      @cop.save
+    end
+
+    should "have default attributes set" do
+      assert @cop.additional_questions
+    end
+
+    should "be considered for the Advanced Programme if received after start date of programme" do
+      @cop.update_attribute :created_at, Date.new(2010, 11, 11)
+      assert @cop.is_advanced_programme?
+    end
+
+    should "not be considered for the Advanced Programme if received before start date of programme" do
+      @cop.update_attribute :created_at, Date.new(2010, 8, 8)
+      assert !@cop.is_advanced_programme?
+    end
   end
   
   context "given a COP from a delisted company" do

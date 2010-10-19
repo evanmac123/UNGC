@@ -8,7 +8,7 @@
     %dt Published
     %dd= yyyy_mm_dd @communication_on_progress.created_at
     
-    - if @communication_on_progress.additional_questions?
+    - if @communication_on_progress.is_advanced_programme?
       %dt Status
       %dd This COP qualifies for the Advanced Programme
         
