@@ -219,4 +219,8 @@ module Admin::CopsHelper
     issue.gsub(/ /,'').tableize.singularize
   end
   
+  def date_range(cop)
+    "#{m_yyyy(cop.starts_on)} &ndash; #{m_yyyy(cop.ends_on)}"
+  end
+
 end

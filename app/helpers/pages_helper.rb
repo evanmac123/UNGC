@@ -20,9 +20,7 @@ module PagesHelper
     end
   end
 
-  def date_range(cop)
-    "#{m_yyyy(cop.starts_on)} - #{m_yyyy(cop.ends_on)}"
-  end
+
 
   # NOTE: Used to combine dynamic headlines with old, static content
   # if there are headlines for old years (< 2009) there will be

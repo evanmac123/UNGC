@@ -5,15 +5,16 @@
   %dl{:style => 'width: 90%;'}
     %dt Organization
     %dd= @communication_on_progress.organization.name
-    %dt Status
-    %dd
-      - if @communication_on_progress.additional_questions?
-        This COP qualifies for the Advanced Programme
-      - else
-        Approved
+    %dt Published
+    %dd= yyyy_mm_dd @communication_on_progress.created_at
+    
+    - if @communication_on_progress.additional_questions?
+      %dt Status
+      %dd This COP qualifies for the Advanced Programme
+        
     - if @communication_on_progress.is_grace_letter?
       %dt Grace Letter
-      %dd Yes
+      %dd== COP due date extended to #{yyyy_mm_dd @communication_on_progress.created_at + Organization::COP_GRACE_PERIOD.days}
 
     - if @communication_on_progress.format == 'basic'
       = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
