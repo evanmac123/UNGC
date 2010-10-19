@@ -116,43 +116,59 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP that is a grace letter request and is currently pending review" do
     setup do
       create_organization_and_user('approved')
-      @cop = pending_review(@organization, format: 'grace_letter')
       @old_cop_due_on = @organization.cop_due_on
+      @cop = pending_review(@organization, format: 'grace_letter')
+      # @cop = create_communication_on_progress(:organization_id => @organization.id,
+      #                                         :cop_files_attributes => {
+      #                                           "new_cop"=> {:attachment_type => "cop",
+      #                                            :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+      #                                            :language_id     => Language.first.id}
+      #                                         }
+      # )
+      @cop.type = 'grace'
+      @cop.save
     end
   
     should "have is_grace_letter? return true" do
       assert @cop.is_grace_letter?
     end
     
-    context "and it gets approved" do
-      setup do
-        @cop.approve!
-      end
-  
-      should "now be approved" do
-        assert @cop.approved?
-      end
+    # context "and it gets approved" do
+    #   setup do
+    #     @cop.approve!
+    #   end
+    #   
+    #   should "now be approved" do
+    #     assert @cop.approved?
+    #   end
       
       should "have an extra 90 days to submit a COP" do
-        assert_equal (Date.today + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
-      end
-    end
-    
-    context "and the company is non-communicating" do
-      setup do
-        @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
-        @cop.approve!
+        @organization.reload
+        assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD).to_date, (@organization.cop_due_on).to_date
       end
       
-      should "make the company active" do
-        @organization.reload
-        assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+      should "set the coverage dates from today until 90 days from now" do
+        @cop.reload
+        assert_equal Date.today, @cop.starts_on
+        assert_equal (Date.today + 90.days), @cop.ends_on
       end
+      
+  end
+    
+  context "Given a non-communicating company submitting a grace letter" do
+    setup do
+      create_organization_and_user
+      @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop.approve!
     end
     
+    should "make the company active" do
+      @organization.reload
+      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+    end
   end
-  
-  
+    
   # context "given a COP under review" do
   #   setup do
   #     create_organization_and_user
@@ -258,22 +274,21 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end  
   end
   
-  
   context "given a basic COP" do
     setup do
-        @cop_question = create_cop_question
-        create_cop_attribute
-        create_organization_and_user
-        @cop = @organization.communication_on_progresses.new(:format             => 'standalone',
-                                                             :web_based          => false,
-                                                             :cop_links_attributes => {
-                                                               "new_answer"=> {:cop_id           => @cop.id,
-                                                                               :cop_attribute_id => nil,
-                                                                               :value            => 0,
-                                                                               :text             => 'Text answer'}
-                                                              })
-      end
-            
+      create_principle_area
+      @cop_question = create_cop_question
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
+      @cop.type = 'basic'
+      @cop.save
+    end
+
+    should "have default attributes set" do
+      assert_equal 'basic', @cop.format
+      assert_equal false, @cop.additional_questions
+    end
+
   end
   
   context "given a COP from a delisted company" do

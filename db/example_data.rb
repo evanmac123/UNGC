@@ -12,6 +12,8 @@ module FixtureReplacement
   end
 
   attributes_for :communication_on_progress do |cop|
+    cop.starts_on = Date.today - 1.year
+    cop.ends_on = Date.today
     cop.title = String.random
   end
 
@@ -37,7 +39,7 @@ module FixtureReplacement
     q.grouping = 'additional'
     q.position = 1
   end
-  
+
   attributes_for :cop_score do |a|
 	end
 
@@ -129,6 +131,7 @@ module FixtureReplacement
   end
 
   attributes_for :principle do |a|
+    a.name = String.random
 	end
 
   attributes_for :principle_area do |a|

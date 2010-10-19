@@ -74,9 +74,12 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   attr_accessor :is_draft
   attr_accessor :policy_exempted
+  attr_accessor :type
   
+  before_create :set_title
+  before_create :check_links
+  before_save :set_cop_defaults
   before_save :can_be_edited?
-  before_create :set_title, :check_links
   after_create :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
@@ -107,8 +110,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   FORMAT = {:standalone            => "Stand alone document",
             :annual_report         => "Part of an annual (financial) report",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
-            :summary_document      => "Summary document that refers to sections of an annual or sustainability report",
-            :grace_letter          => "Grace Letter to apply for a 90 day extension of the COP deadline"}
+            :summary_document      => "Summary document that refers to sections of an annual or sustainability report"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
@@ -155,8 +157,13 @@ class CommunicationOnProgress < ActiveRecord::Base
     }
   end
   
-  def set_cop_defaults(type_of_cop)
-    case type_of_cop
+  def set_cop_defaults
+    case self.type
+      when 'grace'
+        self.additional_questions = false
+        self.format = CopFile::TYPES[:grace_letter]
+        self.starts_on = Date.today
+        self.ends_on = Date.today + 90.days
       when 'basic'
         self.additional_questions = false
         self.format = 'basic'

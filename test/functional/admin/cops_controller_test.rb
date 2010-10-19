@@ -25,7 +25,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     context "given a new cop" do    
-      %w{basic intermediate advanced}.each do |cop_type|
+      %w{basic intermediate advanced grace}.each do |cop_type|
         should "get the #{cop_type} cop form" do
           get :new, :organization_id => @organization.id, :type_of_cop => cop_type
           assert_response :success
@@ -73,6 +73,37 @@ class Admin::CopsControllerTest < ActionController::TestCase
       # FIXME: test if cop was created and format has been set
       # @cop = CommunicationOnProgress.find(:last)
       # assert_equal 'basic', @cop.format
+    end
+  end
+  
+  context "given a new grace letter" do
+    setup do
+      @request.session[:cop_template] = 'grace'
+      create_organization_and_user
+      @organization.approve!
+      create_principle_areas
+      create_language
+      # pass in cop_type parameter? 
+      get :new, :organization_id => @organization.id
+      post :create, { :organization_id => @organization.id,
+                      :cop_files_attributes => {
+                       "new_cop"=> {:attachment_type => "grace_letter", :language_id => Language.first.id}
+                      }
+                    }
+      
+      # test new Basic COP
+      # assert_equal @cop.format, 'basic'
+                      
+    end
+    should "confirm the format" do
+      assert_equal 'grace', session[:cop_template]
+      # asssert correct template, but leave values for the model
+      
+      # FIXME: test if cop was created and correct attributes have been set
+      # @cop = CommunicationOnProgress.find(:last)
+      # assert_equal 'grace_letter', @cop.format
+      # assert_equal Date.today, @cop.starts_on
+      # assert_equal Date.today + 90.days, @cop.ends_on
     end
   end
   
