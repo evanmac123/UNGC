@@ -262,7 +262,9 @@ class Organization < ActiveRecord::Base
   end
 
   def company?
-    organization_type.try(:name) == 'Company' || organization_type.try(:name) == 'SME'
+    organization_type.try(:name) == 'Company' ||
+    organization_type.try(:name) == 'SME' ||
+    organization_type.try(:name) == 'Micro Enterprise'
   end
 
   def listing_status_name
