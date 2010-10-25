@@ -1,8 +1,12 @@
 class Admin::CopsController < AdminController
-  before_filter :load_organization, :add_cop_form_js
+  before_filter :load_organization, :except => :introduction
+  before_filter :add_cop_form_js
   before_filter :no_unapproved_organizations_access
   before_filter :set_session_template, :only => :new
   before_filter :only_editable_cops_go_to_edit, :only => :edit
+  
+  def introduction
+  end
   
   def new
     unless CommunicationOnProgress::TYPES.include?(session[:cop_template])
@@ -18,8 +22,8 @@ class Admin::CopsController < AdminController
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
     if @communication_on_progress.save
-      clear_session_template
       flash[:notice] = "The COP was #{@communication_on_progress.state}."
+      clear_session_template
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
       render :action => "new"

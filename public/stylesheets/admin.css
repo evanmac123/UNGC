@@ -90,12 +90,13 @@ ul.nav_bar {
   clear: left;
   position: relative; }
   #main_content h2 {
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
     color: #14546f;
     font-weight: bold; }
   #main_content h3 {
-    color: #14546f; }
-  #main_content a.new_large, #main_content a.edit_large {
+    color: #14546f;
+    font-weight: bold; }
+  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content a.info_large, #main_content div.hint_toggle {
     display: block;
     width: 240px;
     height: 24px;
@@ -105,13 +106,17 @@ ul.nav_bar {
     text-decoration: none;
     opacity: 0.85;
     font-weight: bold; }
-    #main_content a.new_large:hover, #main_content a.edit_large:hover {
+    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover {
       opacity: 1;
       text-decoration: underline; }
   #main_content a.new_large {
     background: url('../images/icons/Add_24x24.png') no-repeat top left; }
   #main_content a.edit_large {
     background: url('../images/icons/Edit_24x24.png') no-repeat top left; }
+  #main_content a.new_page_large {
+    background: url('../images/icons/Add_Document_24x24.png') no-repeat top left; }
+  #main_content a.info_large, #main_content div.hint_toggle {
+    background: url('../images/icons/Info_24x24.png') no-repeat top left; }
   #main_content table.dashboard_table {
     width: 100%;
     margin-bottom: 0; }
@@ -377,7 +382,7 @@ ul.nav_bar {
     color: #aaa; }
     #main_content fieldset legend span {
       white-space: normal;
-      .float: left; }
+      float: left; }
   #main_content fieldset ol {
     margin: 0;
     padding: 0 0 0 0; }
@@ -419,17 +424,6 @@ ul.nav_bar {
     background: #fff; }
     #main_content fieldset fieldset p.question_text {
       margin-top: 1em; }
-    #main_content fieldset fieldset div.hint_toggle {
-      color: #14546f;
-      font-weight: bold;
-      margin: 1em 0;
-      cursor: pointer; }
-    #main_content fieldset fieldset div.hint_text ul {
-      margin: 0;
-      padding: 0 0 0 0; }
-      #main_content fieldset fieldset div.hint_text ul li {
-        list-style-type: disc;
-        margin: 0 0 0.5em 2em; }
     #main_content fieldset fieldset legend {
       color: #14546f;
       font-size: 1em;
@@ -511,7 +505,7 @@ ul.nav_bar {
 #main_content #site_tools a.add_folder {
   background: url('../images/icons/Folder (Closed) (Add)_24x24.png') no-repeat center top; }
 #main_content #site_tools a.add_page {
-  background: url('../images/icons/Document (Add)_24x24.png') no-repeat center top; }
+  background: url('../images/icons/Add_Document_24x24.png') no-repeat center top; }
 #main_content #site_tools a.delete_page {
   background: url('../images/icons/Delete_24x24.png') no-repeat center top; }
 #main_content #site_tools a.visibility_page {
@@ -713,6 +707,20 @@ ul.view_modes {
   #session_info small {
     font-size: 0.9em; }
 
+#main_content p.cop_description {
+  font-size: 13px;
+  line-height: 1.2em; }
+#main_content div.hint_toggle {
+  color: #14546f;
+  font-weight: bold;
+  margin: 1em 0;
+  cursor: pointer; }
+#main_content div.hint_text ul {
+  margin: 0;
+  padding: 0 0 0 0; }
+  #main_content div.hint_text ul li {
+    list-style-type: disc;
+    margin: 0 0 0.5em 2em; }
 #main_content dt {
   clear: left;
   color: #14546f; }

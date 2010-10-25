@@ -112,14 +112,15 @@ ul.nav_bar
   position: relative
   
   h2
-    margin-bottom: 0.5em
+    margin-bottom: 1em
     color = !dark_blue
     font-weight: bold
   
   h3
     color = !dark_blue
-      
-  a.new_large, a.edit_large
+    font-weight: bold
+  
+  a.new_large, a.edit_large, a.new_page_large, a.info_large, div.hint_toggle
     display: block
     width: 240px
     height: 24px
@@ -140,6 +141,11 @@ ul.nav_bar
   a.edit_large
     background: url('../images/icons/Edit_24x24.png') no-repeat top left
 
+  a.new_page_large
+    background: url('../images/icons/Add_Document_24x24.png') no-repeat top left
+
+  a.info_large, div.hint_toggle
+    background: url('../images/icons/Info_24x24.png') no-repeat top left
 
   table.dashboard_table
     width: 100%
@@ -492,7 +498,7 @@ ul.nav_bar
       
       span
         white-space: normal
-        .float: left
+        float: left
     
     ol
       margin: 0
@@ -547,22 +553,6 @@ ul.nav_bar
       p.question_text
         margin-top: 1em
       
-      // divs for COP form text
-      div.hint_toggle
-        color= !dark_blue
-        font-weight: bold
-        margin: 1em 0
-        &:hover
-        cursor: pointer
-
-      div.hint_text
-        ul
-          margin: 0
-          padding: 0 0 0 0
-          li
-            list-style-type: disc
-            margin: 0 0 0.5em 2em
-        
       legend
         color= !dark_blue
         font-size: 1em
@@ -664,7 +654,7 @@ ul.nav_bar
       &.add_folder
         background: url('../images/icons/Folder (Closed) (Add)_24x24.png') no-repeat center top
       &.add_page
-        background: url('../images/icons/Document (Add)_24x24.png') no-repeat center top
+        background: url('../images/icons/Add_Document_24x24.png') no-repeat center top
       &.delete_page
         background: url('../images/icons/Delete_24x24.png') no-repeat center top
       &.visibility_page

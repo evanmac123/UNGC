@@ -1,23 +1,45 @@
 // Style and layout overrides for the Bloomburg Atom Feeds
 
 #main_content
+  
+  // COP intro page and form hints
+  
+  p.cop_description
+    :font-size                     13px
+    :line-height                   1.2em
+  
+  div.hint_toggle
+    color=                        !dark_blue
+    :font-weight                  bold
+    :margin                       1em 0
+    &:hover
+    :cursor                       pointer
+  
+  div.hint_text
+    ul
+      :margin                     0
+      :padding                    0 0 0 0
+      li
+        :list-style-type          disc
+        :margin                   0 0 0.5em 2em
+  
   dt
-    :clear                      left
-    :color=                     !dark_blue
+    :clear                        left
+    :color=                       !dark_blue
     
   span
     &.human_right
-      :color=                   !human_right
+      :color=                     !human_right
     &.labour
-      :color=                   !labour
+      :color=                     !labour
     &.environment
-      :color=                   !environment
+      :color=                     !environment
     &.anti_corruption
-      :color=                   !anti_corruption
+      :color=                     !anti_corruption
     
   dd
     &:empty
-      :min-height               12px
+      :min-height                 12px
     
     ul
       :margin                     0

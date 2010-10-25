@@ -67,7 +67,7 @@ module Admin::CopsHelper
       html = ''
       html << content_tag(:p, question.cop_attributes.first.try(:text), :class => 'question_text')
       unless question.cop_attributes.first.hint.blank?
-        html << content_tag(:div, 'Click here for suggested topics...', :class => "hint_toggle")
+        html << content_tag(:div, 'Suggested topics...', :class => "hint_toggle")
         html << content_tag(:div, question.cop_attributes.first.hint, :class => "hint_text", :style => 'display: none;')
       end
       html << hidden_field_tag("communication_on_progress[cop_answers_attributes][][cop_attribute_id]", question.cop_attributes.first.id)

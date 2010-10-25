@@ -86,11 +86,12 @@
 
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
-      %h2= value
+      %h3
+        %span{:class => "#{issue_area_colour_for(value)}" }= value
       %fieldset= cop_questions_for @communication_on_progress, :additional, key
 
   %div.tab_content{:id => "governance_additional_questions"}
-    %h2 Governance
+    %h3 Governance
     %fieldset= cop_questions_for @communication_on_progress, :governance
 
   #finish.tab_content
@@ -98,7 +99,6 @@
     = text_partial('a')
     - for letter in ('l'..'p')
       = text_partial(letter)
-    / = hidden_field_tag("communication_on_progress[additional_questions]", 1)
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization

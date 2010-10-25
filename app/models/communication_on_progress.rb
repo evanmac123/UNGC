@@ -158,17 +158,14 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def set_cop_defaults
+    self.additional_questions = false
     case self.type
       when 'grace'
-        self.additional_questions = false
         self.format = CopFile::TYPES[:grace_letter]
         self.starts_on = Date.today
         self.ends_on = Date.today + 90.days
       when 'basic'
-        self.additional_questions = false
         self.format = 'basic'
-      when 'intermediate'
-        self.additional_questions = false
       when 'advanced'
         self.additional_questions = true
     end  

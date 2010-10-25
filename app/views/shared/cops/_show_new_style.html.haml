@@ -78,14 +78,16 @@
                 %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
                   %div{:class => 'ui-progressbar-text'}
                     == #{percent}%
-            - else
+          - PrincipleArea::FILTERS.each_pair do |key, value|
+            - percent = percent_issue_area_coverage(communication_on_progress, key)
+            - if communication_on_progress.send("references_#{key}?") && percent < 1
               %li== No reported coverage for #{value}
 
 - PrincipleArea::FILTERS.each_pair do |key, value|
   - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
     %dt
       %span{:class => "#{issue_area_colour_for(value)}" }
-        == #{value} <br /> #{show_issue_area_coverage(communication_on_progress, key)}
+        = value + '<br />' + show_issue_area_coverage(communication_on_progress, key)
     %dd= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
     
 - if communication_on_progress.cop_answers.by_group(:governance).count > 0

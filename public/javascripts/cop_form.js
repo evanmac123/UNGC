@@ -86,8 +86,8 @@ $("input[name='communication_on_progress[notable_program]']").click(function() {
 //  $(this).removeClass("active");
 // });
 
-$("div.hint_toggle").click(function(){
-	$(this).next(".hint_text").slideToggle('slow');
+$(".hint_toggle").click(function(){
+  $(this).next(".hint_text").slideToggle('slow');
 });
 
 
