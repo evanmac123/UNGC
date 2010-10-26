@@ -189,6 +189,11 @@ module Admin::CopsHelper
     vars.collect{|v| javascript_tag "var #{v};"}.join
   end
   
+  # we need to preselect the submision tab
+  def form_submitted?(form_submitted)
+    javascript_tag "var submitted = #{form_submitted ? 1:0};"
+  end
+  
   def text_partial(letter)
     content_tag :div, render(:partial => "admin/cops/texts/text_#{letter}"),
       :id => "text_#{letter}", :style => 'display: none'

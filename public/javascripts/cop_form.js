@@ -115,10 +115,18 @@ $("#cop_form input, #cop_form select, #cop_form textarea").change(function() {
 })
 
 $(document).ready(function() {
+  // preselect Submit tab
+  if (submitted == 1) {
+    $('#basic').hide();
+    $('#finish').show();
+    $('#submit_link').addClass("selected");
+    $('#basic_link').removeClass("selected");
+  }
+  
   // tell the browser to warn before navigating away
   window.onbeforeunload = function() {
     if (work_in_progress) {
-      return "Your COP submission will not be saved.";
+      return "Your COP submission will NOT be saved.";
     }
   }
 ;});

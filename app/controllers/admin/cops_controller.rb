@@ -16,6 +16,7 @@ class Admin::CopsController < AdminController
     
     @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
     @communication_on_progress.init_cop_attributes
+    @submitted = false
   end
   
   def create
@@ -26,6 +27,8 @@ class Admin::CopsController < AdminController
       clear_session_template
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
+      # we want to preselect the submit tab
+      @submitted = true
       render :action => "new"
     end
   end
