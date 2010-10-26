@@ -1,19 +1,20 @@
+- if form.error_messages.present?
+  %div{:class => 'flash error'}
+    Please select a PDF file for upload. If you have provided a website link, it should begin with 'http://'
+
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
-    %li <a href="#basic">General Information</a>
+    %li <a id="basic_link" href="#basic">General Information</a>
     %li#governance_tab{:class => 'additional_questions'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
     %li#human_rights_tab{:class => 'additional_questions'} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
     %li#labour_tab{:class => 'additional_questions'}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
     %li#environment_tab{:class => 'additional_questions'}  <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
     %li#anti_corruption_tab{:class => 'additional_questions'}  <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
     %li#notable_tab{:style => css_display_style(@communication_on_progress.notable_program?)} <a href="#notable_questions">Notable Program</a>
-    %li#submit_tab{:style => 'display:none'} <a href="#finish">Submit your COP</a>
+    %li#submit_tab{:style => "#{css_display_style(@submitted)}"} <a id="submit_link" href="#finish">Submit your COP</a>
   
   #basic.tab_content
-    -if form.error_messages.present?
-      %p
-        %strong Please select a COP file for upload. If you have provided a website link, it should be in the format http://www.company.com/
-      
+        
     %fieldset
       %fieldset
         %legend
@@ -23,25 +24,7 @@
             = form.radio_button :format, key
             = value
             
-      #grace_letter_fields{:style => css_display_style(@communication_on_progress.is_grace_letter?)}
-        %fieldset
-          %legend
-            %span Please upload your "Grace Letter"
-          = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
-                  
-      #non_grace_letter_fields{:style => 'display: none'}
-        #cop_attachments{:style => 'display: block'}
-          %fieldset
-            %legend
-              %span Upload the COP as a PDF file
-            = text_partial('b')
-            = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
-        
-        #web_cop_attachments{:style => 'display: block'}
-          %fieldset
-            %legend
-              %span Provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
-            = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
+      #non_grace_letter_fields{:style => "#{css_display_style(@submitted)}"}
               
         #own_company_questions{:style => 'display: block'}
           %fieldset
@@ -59,12 +42,11 @@
               %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company's ongoing commitment to the initiative and its principles.
             = true_or_false_field(form, :include_continued_support_statement)
 
-          #include_continued_support_statement{:style => 'display: none'}
+          #include_continued_support_statement{:style => css_display_style(@submitted)}
             %fieldset
               %legend
                 %span
                   Does your COP contain description of actions, and when relevant policies, related to the following issue areas?
-                  %em Please answer 'Yes' or 'No' for each of the four issue areas.
 
               %span{:class => 'radio_label'}
                 Human Rights
@@ -95,7 +77,22 @@
     %fieldset= cop_questions_for @communication_on_progress, :governance
 
   #finish.tab_content
-    Please click 'Submit' to complete the COP submission process.
+    %fieldset
+      #cop_attachments{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Upload the COP as a PDF file
+          = text_partial('b')
+          = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
+  
+    %fieldset
+      #web_cop_attachments{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
+          = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
+  
+    %strong Please click 'Submit' to complete the COP submission process.
     = text_partial('a')
     - for letter in ('l'..'p')
       = text_partial(letter)
@@ -103,3 +100,4 @@
 
 = organization_javascript_vars @organization
 = javascript_tag "var work_in_progress = false;"
+= form_submitted?(@submitted)
