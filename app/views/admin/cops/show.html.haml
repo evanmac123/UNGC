@@ -1,10 +1,12 @@
 - @body_class = 'details'
 %h2 Communication on Progress Details
 
+%p= link_to 'View public version', cop_detail_path( @communication_on_progress.id), :class => 'web_preview_large'
+
 #status_box
   %dl{:style => 'width: 90%;'}
     %dt Organization
-    %dd= @communication_on_progress.organization.name
+    %dd= link_to @communication_on_progress.organization.name, admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
     %dt Published
     %dd= yyyy_mm_dd @communication_on_progress.created_at
     
