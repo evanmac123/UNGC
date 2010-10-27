@@ -11,7 +11,7 @@
   #general.tab_content
     %h3 Publish a COP on the Global Compact Website
 
-    %p{:class => 'cop_description'} Every year, businesses in the Global Compact must submit an electronic version of their COP (preferably a PDF  file)  and, if available, a link to the web page that contains the COP - to the Global Compact COP database.  As part of the online submission, participants are asked to answer six basic questions about the format and content of the COP. This is done to ensure compliance with the COP policy and to facilitate further analysis of companies' performance.
+    %p{:class => 'cop_description'} Participants are first asked to answer five basic questions about the format and content of the COP. This is done to ensure compliance with the COP policy and to facilitate further analysis of companies' performance. To complete the submission process, upload the COP as a PDF file and optionally provide a website link to the COP.
 
     %p= link_to 'New General COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
       
