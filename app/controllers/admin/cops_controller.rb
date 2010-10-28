@@ -1,6 +1,6 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, :except => :introduction
-  before_filter :add_cop_form_js
+  before_filter :add_cop_form_js, :except => [:introduction, :show]
   before_filter :no_unapproved_organizations_access
   before_filter :set_session_template, :only => :new
   before_filter :only_editable_cops_go_to_edit, :only => :edit
@@ -23,7 +23,7 @@ class Admin::CopsController < AdminController
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
     if @communication_on_progress.save
-      flash[:notice] = "The COP was #{@communication_on_progress.state}."
+      flash[:notice] = "The COP has been published on the Global Compact website."
       clear_session_template
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
