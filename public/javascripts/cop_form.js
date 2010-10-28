@@ -115,6 +115,7 @@ $(document).ready(function() {
   if (submitted == 1) {
     $('#basic').hide();
     $('#finish').show();
+    $('#text_b').show();
     $('#submit_link').addClass("selected");
     $('#basic_link').removeClass("selected");
   }
