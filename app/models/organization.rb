@@ -344,6 +344,11 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_ACTIVE
   end
   
+  def delisted?
+    cop_state == COP_STATE_DELISTED
+  end
+  
+  
   # Indicates if this organization uses the most recent COP rules
   def joined_after_july_2009?
     joined_on >= Date.new(2009,7,1)
