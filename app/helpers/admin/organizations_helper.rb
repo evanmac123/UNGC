@@ -35,19 +35,19 @@ module Admin::OrganizationsHelper
   end
 
   def display_status(organization)
-    status = ''
+
     if organization.approved? && organization.participant?
       # they've been approved, but only participants have a COP state
         if organization.delisted?
-          status += "#{organization.delisted_on} (Delisted)"
+          status = "#{organization.delisted_on} (Delisted)"
         else
           status = organization.cop_state.humanize
         end
     elsif organization.network_review?
-      status += current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
+      status = current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
     # if not approved then pending, in review, or rejected
     else
-      status += organization.state.humanize
+      status = organization.state.humanize
     end
 
   end
