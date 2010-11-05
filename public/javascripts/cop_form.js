@@ -92,7 +92,7 @@ $(".hint_toggle").click(function(){
 
 
 function hideAndDisableFormElements(div) {
-  $(div).hide();
+  $(div).hide('slow');
   $(div + " input, " + div + " select").attr("disabled", "disabled");
 }
 
@@ -103,6 +103,7 @@ function showAndEnableFormElements(div) {
 
 $('#cop_form').submit(function() {
   $('input[type=submit]', this).attr('disabled', 'disabled');
+  $('input[type=submit]', this).attr('value', 'Please wait...');
   window.onbeforeunload = null;
 })
 

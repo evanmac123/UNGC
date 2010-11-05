@@ -83,7 +83,7 @@
           %legend
             %span Upload the COP as a PDF file
           = text_partial('b')
-          = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
+          = render :partial => 'cop_files_form'
   
     %fieldset
       #web_cop_attachments{:style => 'display: block'}
@@ -92,10 +92,6 @@
             %span Provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
   
-    %strong Please click 'Submit' to complete the COP submission process.
-    = text_partial('a')
-    - for letter in ('l'..'p')
-      = text_partial(letter)
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization

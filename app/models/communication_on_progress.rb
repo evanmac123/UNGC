@@ -78,9 +78,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   before_create :set_title
   before_create :check_links
-  before_save :set_cop_defaults
-  before_save :can_be_edited?
-  after_create :draft_or_submit!
+  before_save   :set_cop_defaults
+  before_save   :can_be_edited?
+  after_create  :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
