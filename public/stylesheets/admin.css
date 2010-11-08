@@ -96,7 +96,7 @@ ul.nav_bar {
   #main_content h3 {
     color: #14546f;
     font-weight: bold; }
-  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc {
+  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc {
     display: block;
     width: 240px;
     height: 24px;
@@ -106,14 +106,15 @@ ul.nav_bar {
     text-decoration: none;
     opacity: 0.85;
     font-weight: bold; }
-    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover, #main_content a.web_preview_large:hover, #main_content a.delete_doc:hover {
+    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content div.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover, #main_content a.web_preview_large:hover, #main_content a.delete_doc:hover {
       opacity: 1;
-      text-decoration: underline; }
+      text-decoration: underline;
+      cursor: pointer; }
   #main_content a.new_large {
     background: url('../images/icons/Add_24x24.png') no-repeat top left; }
   #main_content a.edit_large {
     background: url('../images/icons/Edit_24x24.png') no-repeat top left; }
-  #main_content a.new_page_large {
+  #main_content a.new_page_large, #main_content div.new_page_large {
     background: url('../images/icons/Add_Document_24x24.png') no-repeat top left; }
   #main_content a.web_preview_large {
     background: url('../images/icons/Web Browser_24x24.png') no-repeat top left; }

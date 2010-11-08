@@ -120,7 +120,7 @@ ul.nav_bar
     color = !dark_blue
     font-weight: bold
   
-  a.new_large, a.edit_large, a.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc
+  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc
     display: block
     width: 240px
     height: 24px
@@ -134,6 +134,7 @@ ul.nav_bar
     &:hover
       opacity: 1
       text-decoration: underline
+      cursor: pointer
   
   a.new_large
     background: url('../images/icons/Add_24x24.png') no-repeat top left
@@ -141,7 +142,7 @@ ul.nav_bar
   a.edit_large
     background: url('../images/icons/Edit_24x24.png') no-repeat top left
 
-  a.new_page_large
+  a.new_page_large, div.new_page_large
     background: url('../images/icons/Add_Document_24x24.png') no-repeat top left
     
   a.web_preview_large

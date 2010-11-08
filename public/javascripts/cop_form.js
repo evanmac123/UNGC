@@ -90,6 +90,9 @@ $(".hint_toggle").click(function(){
   $(this).next(".hint_text").slideToggle('slow');
 });
 
+$("#new_cop_file").click(function(){
+  $('#cop_files').append(replace_ids(cop_file_form));
+});
 
 function hideAndDisableFormElements(div) {
   $(div).hide('slow');

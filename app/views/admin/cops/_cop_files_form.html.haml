@@ -6,4 +6,4 @@
     = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop]), :record => 0}
   - @communication_on_progress.cop_files.each_with_index do |cop_file, i|
     = render :partial => 'cop_file', :locals => {:cop_file => cop_file, :record => i}
-= link_to_function "Add PDF file", "$('#cop_files').append(replace_ids(cop_file_form))", :class => 'new_page_large'
+%div{:id => 'new_cop_file', :class => 'new_page_large'} Add a PDF file
