@@ -4,7 +4,7 @@
 %div{:class => "tab_container top_tabs", :style => 'width: 60%;'}
   %ul.tab_nav
     %li <a href="#general">General</a>
-    %li <a href="#basic">Basic</a>
+    %li <a href="#basic">Basic COP Template</a>
     %li <a href="#advanced">Advanced Programme</a>
     %li <a href="#grace">Grace Letter</a>
 
@@ -16,7 +16,7 @@
     %p= link_to 'New General COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
       
   #basic.tab_content
-    %h3 Use the Basic COP Template
+    %h3 Create your COP by following the Basic Template
 
     %p{:class => 'cop_description'} This online template helps smaller and less experienced companies communicate their progress by following a series of simple steps that meet basic disclosure requirements in accordance with the COP policy. Translations of the questions are currently available in the following languages:
     %p
