@@ -372,7 +372,7 @@
 /* Progressbar
 ----------------------------------*/
 .ui-progressbar { height: 1.5em; width: 420px; text-align: left; margin-bottom: 3px; }
-.ui-progressbar-text { color: #fff; font-size: 9px; font-weight:bold; margin: 0px 0 0 5px; }
+.ui-progressbar-text { color: #fff; font-size: 9px; font-weight:bold; margin: 0 0 0 5px; }
 .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }/* Resizable
 ----------------------------------*/
 .ui-resizable { position: relative;}

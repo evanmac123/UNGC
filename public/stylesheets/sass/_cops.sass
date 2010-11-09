@@ -1,12 +1,12 @@
 // Style and layout overrides for the Bloomburg Atom Feeds
 
 #main_content
-  
+ 
   // COP intro page and form hints
   
   p.cop_description
-    :font-size                     13px
-    :line-height                   1.2em
+    :font-size                    13px
+    :line-height                  1.2em
   
   div.hint_toggle
     color=                        !dark_blue
@@ -54,9 +54,8 @@
           :margin-bottom          0
           :padding-bottom         0
           :border-bottom          0
-  
         p
-          :line-height            1.2em  
+          :line-height            1.2em
       
     ul
       &.questionnaire, &.basic_question
@@ -66,13 +65,16 @@
         :padding-top              0
         
       li
+        &:last-child
+          :padding-bottom           10px
+      
         &.question_group
           :font-weight            bold
           :color=                 !dark_blue
-          :padding-top            0
+          :padding-top            0em
           :margin-bottom          0 
-          :border-bottom          0
-          
+          :border-bottom          0          
+      
       li
         &.question_text, &.unselected_question, &.selected_question
           :list-style-type        none
@@ -92,16 +94,39 @@
           :list-style-image       url(/images/unchecked.png)
 
     ul.questionnaire
+      :padding-bottom             20px
       li
         &.unselected_question, &.selected_question
           p
             :font-style           normal
+            :color                #666
+            :margin               3px 0
+            :font-size            11px
         &.question_group
-          :margin-bottom          1em
-                                          
+          :margin                 0px 0 5px 0        
+                                  
+  // Basic Template        
   div.principles
-    :margin                     0 0 0 10px
-    :font-size                  12px
-    :color=                     !dark_blue
-    :line-height                1.3em
-    :font-weight                bold
+    :margin                       0 0 0 10px
+    :font-size                    12px
+    :color=                       !dark_blue
+    :line-height                  1.5em
+    :font-weight                  bold
+    
+    // Jquery Progressbar styles need to be adjusted in Dashboard
+  div.issue_coverage
+    span
+      &.human_right, &.labour, &.environment, &.anti_corruption
+        :margin                   0 0 10px 0
+      
+  div.ui-progressbar
+    :width                        500px
+    :text-align                   left
+    :margin                       5px 0
+
+  div.ui-progressbar-text
+    :color                        #fff
+    :font-size                    9px
+    :font-weight                  bold
+    :margin                       0 0 0 5px
+    :padding                      5px 0

@@ -8,11 +8,13 @@
     %li#submit_tab{:style => 'display:block;'} <a href="#finish">Submit your COP</a>
   
   #basic.tab_content
+    %div.principles
+      %h3 General
     %fieldset
       %fieldset
         %legend
-          %span Completing your submitting your COP
-        Please submit your responses in the open text boxes provided.  Your answers will be saved as you click on the different issue area tabs. The UN Global Compact Office recommends preparing your responses in advance.  Please make sure to complete and submit your COP before exiting the application.
+          %span Completing your COP
+        %p{:class => 'question_text'}Please submit your responses in the open text boxes provided.  Your answers will be saved as you click on the different issue area tabs. The UN Global Compact Office recommends preparing your responses in advance.  Please make sure to complete and submit your COP before exiting the application.
     %fieldset
       %fieldset
         %legend
@@ -36,8 +38,9 @@
       %fieldset= cop_questions_for @communication_on_progress, :basic, key
 
   #finish.tab_content
-    %h3 Submit your COP
-    %h4 Before submitting your COP, please confirm that the answers you have provided include the following content.
+    %div.principles
+      %h3 Submit your COP
+      %h4 Before submitting your COP, please confirm that the answers you have provided include the following content.
     %fieldset
       %fieldset
         %legend

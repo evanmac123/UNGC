@@ -102,10 +102,10 @@ module Admin::CopsHelper
     # we now have all questions, attributes and answers
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      output = content_tag(:li, question.text, :class => 'question_group')
+      
       # output += " <span style='color: red; font-weight: bold;'>" + question.grouping + "</span>"
       if question.cop_attributes.count > 1
-        # output += "<ul>"
+        output = content_tag(:li, question.text, :class => 'question_group')
         output += answers.map{|a|
           content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "selected_question") if a.value?
         }.compact.join('')
@@ -114,8 +114,9 @@ module Admin::CopsHelper
             content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "unselected_question") unless a.value.present? && a.value?
           }.compact.join('')
         end
-        # output += "</ul>"
+
       else
+        output = content_tag(:li, question.text, :class => 'question_group')
         output += content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' ) unless answers.first.text.present?
         output += content_tag(:p, answers.first.text) if answers.first.text.present?
       end
