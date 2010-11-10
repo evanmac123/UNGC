@@ -9,7 +9,11 @@
       %dt Organization
       %dd
         %ul
-          %li= link_to @communication_on_progress.organization.name, dashboard_path(:tab => :cops)
+          - if current_user.from_organization?
+            %li= link_to @communication_on_progress.organization.name, dashboard_path(:tab => :cops)
+          - else
+            %li= link_to @communication_on_progress.organization.name, admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
+        
       %dt Published
       %dd
         %ul
@@ -25,7 +29,7 @@
         %dt Grace Letter
         %dd
           %ul
-            %li= COP due date extended to #{yyyy_mm_dd @communication_on_progress.created_at + Organization::COP_GRACE_PERIOD.days}
+            %li== COP due date extended to #{yyyy_mm_dd @communication_on_progress.created_at + Organization::COP_GRACE_PERIOD.days}
       - if @communication_on_progress.format == 'basic'
         = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
       - elsif @communication_on_progress.is_new_format? || @communication_on_progress.is_grace_letter?
