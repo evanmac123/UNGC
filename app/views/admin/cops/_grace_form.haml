@@ -9,5 +9,5 @@
       %fieldset
         %legend
           %span Please upload your "Grace Letter" as a PDF file
-        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
+        = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter]), :record => 0}
     = submit_tag 'Submit', :class => "button", :id => "finish"
