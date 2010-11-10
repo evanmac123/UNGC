@@ -107,6 +107,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
   
+  # feed contains daily COP submissions, without grace letters
+  named_scope :for_feed, { 
+    :include => :organization,
+    :conditions => ["format != (?) AND created_at >= (?)", 'grace_letter', Date.today],
+    :order => "created_at DESC"
+  }
+  
   FORMAT = {:standalone            => "Stand alone document",
             :annual_report         => "Part of an annual (financial) report",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
@@ -202,7 +209,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   # Advanced Programme was launched Oct 11, 2010
   # Participants could answer the additional voluntary questions prior to this date
-  # However, those submitting after Oct 11 are actually considered to be participating in the programme
+  # However, only those submitting after Oct 11 are actually considered to be participating in the programme
   def is_advanced_programme?
     additional_questions && created_at >= Date.new(2010, 10, 11)
   end
