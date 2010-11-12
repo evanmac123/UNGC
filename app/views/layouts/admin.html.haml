@@ -5,6 +5,8 @@
     %meta{'http-equiv' => 'X-UA-Compatible', :content => 'IE=EmulateIE7'}/
     %title= @title || "United Nations Global Compact | #{controller.controller_name.titleize} | #{controller.action_name.titleize}"
     = stylesheet_link_tag 'reset', 'grid', 'typography', 'forms', 'jquery-ui', 'admin'
+    /[if IE]
+      = stylesheet_link_tag 'ie'
     - (@css || []).each do |file|
       = stylesheet_link_tag file
     = stylesheet_link_tag 'print', :media => 'print'

@@ -1,6 +1,6 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
-    %li <a href="#basic">General</a>
+    %li <a href="#basic">General Information</a>
     %li#human_rights_tab{:class => 'additional_questions'} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
     %li#labour_tab{:class => 'additional_questions'} <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
     %li#environment_tab{:class => 'additional_questions'} <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
@@ -9,7 +9,7 @@
   
   #basic.tab_content
     %div.principles
-      %h3 General
+      %h3 General Information
     %fieldset
       %fieldset
         %legend
@@ -51,7 +51,7 @@
         %legend
           %span
             Coverage of the four issue areas
-        %span{:class => 'radio_label'}
+        %span{:class => 'radio_label' :style => 'float: left;'}
           Human Rights
           = true_or_false_field(form, :references_human_rights, :class => 'score')
         %span{:class => 'radio_label'}

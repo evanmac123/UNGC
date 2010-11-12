@@ -12,3 +12,9 @@
 /* fix JQuery datepicker */
 div.ui-datepicker .ui-datepicker-title { font-size: 11px; text-align: left;}
 div.ui-datepicker select.ui-datepicker-year { float: left; position: relative; top: -20px;}
+
+/* wrap text in form legend for COPs */
+#main_content fieldset legend span {
+white-space:normal;
+float: left;
+}

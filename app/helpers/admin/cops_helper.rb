@@ -10,8 +10,8 @@ module Admin::CopsHelper
   end
   
   def true_or_false_field(form, field, options={})
-    html = content_tag(:label, [form.radio_button(field, 'true', :class => options[:class]), options[:yes] || 'Yes'].join)
-    html += content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join)
+    html = content_tag(:label, [form.radio_button(field, 'true', :class => options[:class]), options[:yes] || 'Yes'].join, {:class => options[:class]})
+    html += content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join, {:class => options[:class]})
     return html
   end
   

@@ -32,7 +32,7 @@
         
           %fieldset
             %legend
-              %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company's ongoing commitment to the initiative and its principles.
+              %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company's ongoing commitment to the initiative and its principles?
             = true_or_false_field(form, :include_continued_support_statement)
 
           #include_continued_support_statement{:style => css_display_style(@submitted)}
@@ -41,19 +41,24 @@
                 %span
                   Does your COP contain description of actions, and when relevant policies, related to the following issue areas?
                   %em Please answer 'Yes' or 'No' for each of the four issue areas.
-
-              %span{:class => 'radio_label'}
-                Human Rights
-                = true_or_false_field(form, :references_human_rights, :class => 'score')
-              %span{:class => 'radio_label'}
-                Labour
-                = true_or_false_field(form, :references_labour, :class => 'score')
-              %span{:class => 'radio_label'}
-                Environment
-                = true_or_false_field(form, :references_environment, :class => 'score')
-              %span{:class => 'radio_label'}
-                Anti-Corruption
-                = true_or_false_field(form, :references_anti_corruption, :class => 'score')
+              
+              - PrincipleArea::FILTERS.each_pair do |key, value|
+                %div{:id => 'issue_areas'}
+                  %span{:class => 'radio_label'}= value
+                  = true_or_false_field(form, "references_#{key}".to_s, :class => 'radio_label')
+              
+              / %span{:class => 'radio_label', :style => 'float: left; border: 1px solid black; width: 100px;'}
+              /   Human Rights
+              /   = true_or_false_field(form, :references_human_rights, :class => 'score')
+              / %span{:class => 'radio_label', :style => 'float: left; width: 100px;'}
+              /   Labour
+              /   = true_or_false_field(form, :references_labour, :class => 'score')
+              / %span{:class => 'radio_label'}
+              /   Environment
+              /   = true_or_false_field(form, :references_environment, :class => 'score')
+              / %span{:class => 'radio_label'}
+              /   Anti-Corruption
+              /   = true_or_false_field(form, :references_anti_corruption, :class => 'score')
 
             %fieldset
               %legend
