@@ -109,7 +109,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   # feed contains daily COP submissions, without grace letters
   named_scope :for_feed, { 
-    :include => :organization,
     :conditions => ["format != (?) AND created_at >= (?)", 'grace_letter', Date.today],
     :order => "created_at DESC"
   }

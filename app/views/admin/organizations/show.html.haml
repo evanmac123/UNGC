@@ -87,11 +87,11 @@
       %h2 Communication on Progress
       %table.dashboard_table#cops_dashboard_table
         %tr
+          %th.last_updated Published
           %th.title Title
-          %th.last_updated Updated
           %th.status Status
           %th.actions Actions
-        = render :partial => 'admin/communication_on_progresses/cop_admin', :collection => @organization.communication_on_progresses.find(:all, order: "created_at DESC")
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.find(:all, order: "created_at DESC")
 
   - if @organization.case_stories.any?
     #case_stories.tab_content
