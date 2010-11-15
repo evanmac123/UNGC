@@ -49,20 +49,11 @@
       
       %fieldset
         %legend
-          %span
-            Coverage of the four issue areas
-        %span{:class => 'radio_label' :style => 'float: left;'}
-          Human Rights
-          = true_or_false_field(form, :references_human_rights, :class => 'score')
-        %span{:class => 'radio_label'}
-          Labour
-          = true_or_false_field(form, :references_labour, :class => 'score')
-        %span{:class => 'radio_label'}
-          Environment
-          = true_or_false_field(form, :references_environment, :class => 'score')
-        %span{:class => 'radio_label'}
-          Anti-Corruption
-          = true_or_false_field(form, :references_anti_corruption, :class => 'score')
+          %span Coverage of the four issue areas
+        - PrincipleArea::FILTERS.each_pair do |key, value|
+          %div{:class => 'issue_area'}
+            %span{:class => 'radio_label'}= value
+            = true_or_false_field(form, "references_#{key}".to_s)
     
       %fieldset
         %legend

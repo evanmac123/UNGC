@@ -384,7 +384,8 @@ ul.nav_bar {
 #main_content input.button {
   float: right; }
 #main_content fieldset {
-  background-color: #f0f6fa; }
+  background-color: #f0f6fa;
+  border: 1px solid #aaa; }
   #main_content fieldset legend {
     color: #aaa; }
     #main_content fieldset legend span {
@@ -427,7 +428,8 @@ ul.nav_bar {
       width: 100%;
       clear: both; }
   #main_content fieldset fieldset {
-    background: #fff; }
+    background: #fff;
+    border: 1px solid #aaa; }
     #main_content fieldset fieldset p.question_text {
       margin-top: 1em; }
     #main_content fieldset fieldset div.hint_toggle {
@@ -441,6 +443,14 @@ ul.nav_bar {
       #main_content fieldset fieldset div.hint_text ul li {
         list-style-type: disc;
         margin: 0 0 0.5em 2em; }
+    #main_content fieldset fieldset div.issue_area {
+      float: left;
+      width: 175px; }
+      #main_content fieldset fieldset div.issue_area span.radio_label {
+        margin: 0 0 5px 8px;
+        font-weight: bold; }
+      #main_content fieldset fieldset div.issue_area label {
+        font-weight: normal; }
     #main_content fieldset fieldset legend {
       color: #14546f;
       font-size: 1em;

@@ -36,30 +36,8 @@
             = true_or_false_field(form, :include_continued_support_statement)
 
           #include_continued_support_statement{:style => css_display_style(@submitted)}
-            %fieldset
-              %legend
-                %span
-                  Does your COP contain description of actions, and when relevant policies, related to the following issue areas?
-                  %em Please answer 'Yes' or 'No' for each of the four issue areas.
+            = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
               
-              - PrincipleArea::FILTERS.each_pair do |key, value|
-                %div{:id => 'issue_areas'}
-                  %span{:class => 'radio_label'}= value
-                  = true_or_false_field(form, "references_#{key}".to_s, :class => 'radio_label')
-              
-              / %span{:class => 'radio_label', :style => 'float: left; border: 1px solid black; width: 100px;'}
-              /   Human Rights
-              /   = true_or_false_field(form, :references_human_rights, :class => 'score')
-              / %span{:class => 'radio_label', :style => 'float: left; width: 100px;'}
-              /   Labour
-              /   = true_or_false_field(form, :references_labour, :class => 'score')
-              / %span{:class => 'radio_label'}
-              /   Environment
-              /   = true_or_false_field(form, :references_environment, :class => 'score')
-              / %span{:class => 'radio_label'}
-              /   Anti-Corruption
-              /   = true_or_false_field(form, :references_anti_corruption, :class => 'score')
-
             %fieldset
               %legend
                 %span Does your COP identify targets, define performance indicators and measure outcomes?
@@ -70,14 +48,14 @@
       #cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
-            %span Upload the COP as a PDF file
+            %span Required: Upload the COP as a PDF file
           = text_partial('b')
           = render :partial => 'cop_files_form'
   
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
-            %span Provide a link to your web-based COP. The link should be in the format 'http://company.com'
+            %span Optional: Provide a link to your web-based COP. The link should be in the format 'http://company.com'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
   
     = submit_tag 'Submit', :class => "button", :id => "finish"
