@@ -3,10 +3,26 @@
 
 %div{:class => "tab_container top_tabs", :style => 'width: 60%;'}
   %ul.tab_nav
+    %li <a href="#introduction">Introduction</a>
     %li <a href="#general">General</a>
     %li <a href="#basic">Basic Template</a>
     %li <a href="#advanced">Advanced Programme</a>
     %li <a href="#grace">Grace Letter</a>
+
+  #introduction.tab_content
+    %h3 There are four alternatives for submitting a COP
+    %p{:class => 'cop_description'}
+      %strong General:
+      For companies who prepare a standalone COP and communicate directly with stakeholders (e.g. Sustainability Report).
+    %p{:class => 'cop_description'}
+      %strong Basic Template:
+      == This online template follows a series of simple steps that meet basic COP requirements. #{popup_link_to 'Learn more...','/COP/differentiation/basic_programme.html'}
+    %p{:class => 'cop_description'}
+      %strong Advanced Programme:
+      == Companies who are at a higher level of sustainability performance and disclosure are encouraged to participate in this test phase. #{popup_link_to 'Learn more...','/COP/differentiation/advanced_programme.html'}
+    %p{:class => 'cop_description'}
+      %strong Grace Letter:
+      Submitting a Grace Letter allows for a 90 day extension of the COP due date. 
 
   #general.tab_content
     %h3 Publish a COP on the Global Compact Website
@@ -29,16 +45,15 @@
       = link_to '(Spanish)','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf'
 
     %p= link_to 'New Basic COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
-
   #advanced.tab_content
-    %h3 Participate in the Advanced Programme
+    %h3 Participate in the Advanced Programme (test phase)
 
     %p{:class => 'cop_description'} Companies at a higher level of sustainability performance and disclosure are encouraged to participate in the Advanced Programme by completing a self-assessment covering the content of their COP and assessing their implementation of the Global Compact principles against global best practices. 
 
     %p= link_to 'Proceed to Advanced Programme', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
   
   #grace.tab_content
-    %h3 Request a COP deadline extension
+    %h3 Request a COP due date extension
 
     %p{:class => 'cop_description'} In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of 90 days if a reasonable explanation for the delay (e.g. changes to reporting cycles) is posted on the Global Compact website, including an expected date of COP submission.
 
