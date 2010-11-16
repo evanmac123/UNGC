@@ -28,8 +28,10 @@ class Role < ActiveRecord::Base
   
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
-      roles_ids = [Role.ceo, Role.contact_point, Role.general_contact, Role.financial_contact].collect(&:id)
-      # financial contact for business only
+      roles_ids = [Role.ceo, Role.contact_point, Role.general_contact].collect(&:id)
+      # only business organizations have a financial contact
+      roles_ids << Role.financial_contact.id if user.organization.business_entity?
+      # if the organization signed an initiative, then add the initiative's role, if available
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
     elsif user.user_type == Contact::TYPE_NETWORK

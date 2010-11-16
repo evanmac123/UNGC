@@ -43,7 +43,7 @@ class OrganizationTest < ActiveSupport::TestCase
     end
     
     should "set sector to 'not applicable' when it is a non-business" do
-      @non_business = create_organization_type(:name => 'Foundation', :type_property => 1, )
+      @non_business = create_organization_type(:name => 'Foundation', :type_property => 1)
       @sector = create_sector(:name => "Media")
       @sector_not_applicable = create_sector(:name => "Not Applicable")
       @organization = Organization.create(:name => "Foundation",
