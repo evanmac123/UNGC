@@ -11,7 +11,7 @@
 #
 
 class Role < ActiveRecord::Base
-  validates_presence_of :name
+  validates_presence_of :name, :description
   has_and_belongs_to_many :contacts, :join_table => "contacts_roles"
   belongs_to :initiative
   default_scope :order => :name
@@ -29,6 +29,7 @@ class Role < ActiveRecord::Base
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
       roles_ids = [Role.ceo, Role.contact_point, Role.general_contact, Role.financial_contact].collect(&:id)
+      # financial contact for business only
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
     elsif user.user_type == Contact::TYPE_NETWORK

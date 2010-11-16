@@ -2,4 +2,5 @@
 %fieldset
   %ol
     = default_form.text_field :name
+    = default_form.text_field :description
     = default_form.collection_select :initiative_id, Initiative.all, :id, :name, {:include_blank => true}, {}
