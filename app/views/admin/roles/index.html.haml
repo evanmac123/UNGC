@@ -1,10 +1,10 @@
 %h2 Listing roles
-= link_to 'Create a role', new_admin_role_path, :class => "new", :id => "new_role"
+= link_to 'Create a role', new_admin_role_path, :class => "new_user_large", :id => "new_role"
 
 %table.dashboard_table#roles_table
   %tr
-    %th.last_updated Last updated on
     %th.title Name
+    %th.title Order
     %th.description Description
     %th.status Initiative
     %th.actions Actions

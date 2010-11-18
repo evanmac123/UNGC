@@ -14,7 +14,7 @@ class Role < ActiveRecord::Base
   validates_presence_of :name, :description
   has_and_belongs_to_many :contacts, :join_table => "contacts_roles"
   belongs_to :initiative
-  default_scope :order => :name
+  default_scope :order => 'roles.position, roles.initiative_id, roles.name'
   
   FILTERS = {
     :ceo                      => 3,
