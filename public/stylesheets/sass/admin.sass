@@ -1,3 +1,7 @@
+!human_right = #F7931E
+!labour = #52C6D8
+!environment = #688442
+!anti_corruption = #ED1C24
 !dark_blue = #14546f
 !light_blue = #f0f6fa
 !dark_grey = #333
@@ -106,16 +110,17 @@ ul.nav_bar
 #main_content
   clear: left
   position: relative
-  
+
   h2
-    margin-bottom: 0.5em
+    margin-bottom: 1em
     color = !dark_blue
     font-weight: bold
-  
+
   h3
     color = !dark_blue
-      
-  a.new_large, a.edit_large
+    font-weight: bold
+
+  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large
     display: block
     width: 240px
     height: 24px
@@ -125,16 +130,34 @@ ul.nav_bar
     text-decoration: none
     opacity: 0.85
     font-weight: bold
-    
+
     &:hover
       opacity: 1
       text-decoration: underline
-  
+      cursor: pointer
+
   a.new_large
     background: url('../images/icons/Add_24x24.png') no-repeat top left
 
   a.edit_large
     background: url('../images/icons/Edit_24x24.png') no-repeat top left
+
+  a.new_page_large, div.new_page_large
+    background: url('../images/icons/Add_Document_24x24.png') no-repeat top left
+
+  a.web_preview_large
+    background: url('../images/icons/Web Browser_24x24.png') no-repeat top left
+
+  a.info_large, div.hint_toggle
+    background: url('../images/icons/Info_24x24.png') no-repeat top left
+
+  a.delete_doc
+    display: inline
+    padding: 5px 0 10px 30px
+    background: url('../images/icons/Document (Remove)_24x24.png') no-repeat top left
+
+  a.new_user_large
+    background: url('../images/icons/User (Add)_24x24.png') no-repeat top left
 
 
   table.dashboard_table
@@ -277,18 +300,6 @@ ul.nav_bar
           &.word_doc
             // fixes positioning for Word icon in sprited png file:
             background-position: -24px 0
-
-  // new COP submission
-  ul.date_select
-    float: left
-    margin-top: 10px
-    margin-right: 25px
-    list-style: none
-    li
-      font-weight: bold
-    select
-      width: 90px
-            
 
   #org_name
     font-weight: bold 
@@ -491,16 +502,17 @@ ul.nav_bar
   // general form element styling
   input.button
     float: right
+    clear: both
     
   fieldset
     background-color= !light_blue
+    border: 1px solid #aaa
     
     legend
       color: #aaa
       
       span
         white-space: normal
-        .float: left
     
     ol
       margin: 0
@@ -509,6 +521,15 @@ ul.nav_bar
     li
       list-style: none
       margin: 0 0 1em 0
+
+    ul.bulleted
+      margin: 0
+      padding: 0 0 0 0
+
+      li
+        list-style-type: disc
+        margin: 0 0 0.5em 2em
+
       
     label
       color= !dark_blue
@@ -518,30 +539,76 @@ ul.nav_bar
       
     input, select, textarea
       color: #000
-      margin: 0 5px 0 25px
-      width: 305px
+      margin: 2px 4px 1px 25px
+      padding: 0 0 0 3px
+      width: 250px
       font-family: "Helvetica Neue",Arial,Helvetica,sans-serif
       font-size: 1em
     
-    input[type="checkbox"], input[type="radio"] 
+    input[type="checkbox"], input[type="radio"], input[type="file"] 
       width: auto
+      margin: 0 5px 0px 25px
     
+    // next 3 styles used in roles fieldset
+    input[type="checkbox"].label_right
+      float: left
+      margin: -2px 10px 0 0
+      clear: left
+      
+    label.checkbox_label
+      width: auto
+      cursor: pointer
+      float: none
+      margin: 5px 0 0 0
+    
+    p.check_box_label_description
+      margin: 3px 0 0 24px
+      display: block
+  
     span.cke_skin_kama
       display: block
       margin: 0 5px 0 120px
     
-    input, textarea
-      padding: 0 0 0 3px
-      
-    select
-      width: 307px
-  
     textarea
       height: 100px
       overflow-y: auto
-    
+      &.cop_answer
+        margin-left: 0px
+        width: 100%
+        clear: both
+        
     fieldset
       background: #fff
+      border: 1px solid #aaa
+      
+      p.question_text
+        margin-top: 1em
+      
+      // divs for COP form text
+      div.hint_toggle
+        color= !dark_blue
+        font-weight: bold
+        margin: 1em 0
+        &:hover
+        cursor: pointer
+
+      div.hint_text
+        ul
+          margin: 0
+          padding: 0 0 0 0
+          li
+            list-style-type: disc
+            margin: 0 0 0.5em 2em
+        
+      div.issue_area
+        float: left
+        width: 175px
+        span.radio_label
+          margin: 0 0 5px 8px
+          font-weight: bold
+        label
+          font-weight: normal
+        
       
       legend
         color= !dark_blue
@@ -550,18 +617,43 @@ ul.nav_bar
         padding: 5px
         border: 1px solid #cccccc
       
+      input[type="checkbox"], input[type="radio"], input[type="file"] 
+        width: auto
+        margin: -2px 10px 0px 5px
+      
       label
         display: block
-        width: auto
-        float: none
+        width: 700px
+        padding: 1px
+        margin: 1px
         color= !dark_grey
+        &:hover
+          cursor: pointer
       
-      input
-        width: auto
-        margin: 2px 10px 2px 0
-        
+      span.radio_label
+        float: left
+        margin: 5px 0 5px 0
+              
+      span.label_text
+        display: block
+        position: relative
+        line-height: 1em
+        left: 25px
+        top: -10px
+      
       select
         margin-left: 0
+
+      // new COP submission
+      ul.date_select
+        float: left
+        margin-top: 10px
+        margin-right: 25px
+        list-style: none
+        li
+          font-weight: bold
+        select
+          width: 90px
 
   // page_manager styling
   .box
@@ -619,7 +711,7 @@ ul.nav_bar
       &.add_folder
         background: url('../images/icons/Folder (Closed) (Add)_24x24.png') no-repeat center top
       &.add_page
-        background: url('../images/icons/Document (Add)_24x24.png') no-repeat center top
+        background: url('../images/icons/Add_Document_24x24.png') no-repeat center top
       &.delete_page
         background: url('../images/icons/Delete_24x24.png') no-repeat center top
       &.visibility_page

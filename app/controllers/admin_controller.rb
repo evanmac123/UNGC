@@ -21,10 +21,7 @@ class AdminController < ApplicationController
                                                  :order      => 'updated_at DESC',
                                                  :page       => params[:case_stories_page],
                                                  :include    => :organization)
-      @pending_cops = CommunicationOnProgress.paginate(:conditions => ['state in (?)', pending_states],
-                                                       :order      => 'updated_at DESC',
-                                                       :page       => params[:cops_page],
-                                                       :include    => :organization)
+      @pending_cops = CommunicationOnProgress.for_feed.paginate(:page => params[:cops_page])
       @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
                                                               :page  => params[:pages_page])
     elsif current_user.from_network?

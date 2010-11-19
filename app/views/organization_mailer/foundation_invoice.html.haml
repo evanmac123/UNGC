@@ -2,7 +2,7 @@
 
 %p== We are writing to follow up on your recent pledge of #{@organization.pledge_amount}.00 USD made on #{@organization.created_at} to the Foundation for the Global Compact in relation to your company's endorsement of the UN Global Compact.
 
-%p On behalf of the UN Global Compact Office and the Foundation for the Global Compact, we thank you for your generous pledge. Your financial contribution will help support the work of the UN Global Compact as it strives to deliver maximum value to participants.
+%p On behalf of the UN Global Compact Office and the Foundation for the Global Compact, we thank you for your generous pledge. Your financial contribution will help support the work of the UN Global Compact in delivering maximum value to participants.
 
 %table{:border => 1, :cellspacing => 0, :cellpadding => 10}
   %tr
@@ -42,6 +42,8 @@
       %br/
       =@contact.country.try(:name)
       
+%p Please note that the contribution should be made to the Foundation for the Global Compact within 30 days of receiving this invoice.
+
 %p==The following link will take you to the online donation page of the Foundation's website where you can make your contribution by credit card: http://globalcompactfoundation.org/donate/?invoice=#{@organization.invoice_id}
 
 %p Additional payment methods *
@@ -60,6 +62,9 @@
 
 %p
   %strong (2) Bank transfer
+
+%p
+  %em The Foundation for the Global Compact kindly requests that your company cover any transfer fees charged by your financial institution
 
 %p
   Account name: Foundation for the Global Compact 

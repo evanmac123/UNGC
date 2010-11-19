@@ -27,10 +27,15 @@
 
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
     .left
+      %strong Employees
+    .right= @participant.employees
+
+  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+    .left
       %strong Organization Type
     .right
       = @participant.is_ft_500 ? 'FT 500' : nil
-      = @participant.organization_type.name
+      = @participant.organization_type_name
 
   - if @participant.business_entity?
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
@@ -61,7 +66,7 @@
       .right
         = link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]
         |
-        = link_to 'Yahoo Finance', "http://finance.yahoo.com/q?s=%s%s" % [@participant.stock_symbol, ('.' + @participant.exchange.secondary_code unless @participant.exchange.secondary_code.blank?)]
+        = link_to 'Yahoo! Finance', "http://finance.yahoo.com/q?s=%s%s" % [@participant.stock_symbol, ('.' + @participant.exchange.secondary_code unless @participant.exchange.secondary_code.blank?)]
 
   - unless @participant.bhr_url.blank?
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
@@ -69,11 +74,11 @@
         %strong{:style=>'white-space: nowrap;'} Non-Financial Information:
       .right= link_to 'Business and Human Rights Resource Centre', 'http://www.business-humanrights.org/Categories/Individualcompanies/' + @participant.bhr_url
 
-- if @participant.noncommunicating?
+- if @participant.noncommunicating? && @participant.cop_due_on < Date.today
   %h3 Participant Status
   %p== #{@participant.name} was required to communicate on progress by #{yyyy_mm_dd(@participant.cop_due_on)}. Their COP is now #{days_cop_overdue(@participant)} overdue.
 
-- if @participant.business_entity? and @participant.active?
+- if @participant.business_entity? && @participant.active?
   %h3 Next Communication on Progress
   %p== #{@participant.name} is required to communicate on progress by #{yyyy_mm_dd(@participant.cop_due_on)}.
 

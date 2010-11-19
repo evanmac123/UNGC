@@ -80,18 +80,25 @@ class ActiveSupport::TestCase
                                         :organization_type_id => OrganizationType.sme.id)
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
+                                        :email           => 'contact@example.com',
                                         :role_ids        => [Role.contact_point.id])
   end
 
   def create_organization_and_ceo
     create_organization_and_user
     @organization_ceo = create_contact(:organization_id => @organization.id,
+                                       :email           => "ceo@example.com", 
                                        :role_ids        => [Role.ceo.id])                                        
   end
   
   def create_staff_user
     create_ungc_organization_and_user
     return @staff_user
+  end
+  
+  def create_financial_contact
+    @financial_contact = create_contact(:organization_id => @organization.id,
+                                        :role_ids        => [Role.financial_contact.id])
   end
 
   def create_ungc_organization_and_user
@@ -113,15 +120,17 @@ class ActiveSupport::TestCase
   end
   
   def create_roles
-    # creating roles for ceo and contact point
-    create_role(:name => 'CEO', :old_id => 3)
-    create_role(:name => 'Contact Point', :old_id => 4)
-    create_role(:name => 'General Contact', :old_id => 9)
-    create_role(:name => 'Network Report Recipient', :old_id => 13)
+    create_role(:name => 'CEO', :description => "value",  :old_id => 3)
+    create_role(:name => 'Contact Point', :description => "value", :old_id => 4)
+    create_role(:name => 'General Contact', :description => "value", :old_id => 9)
+    create_role(:name => 'Financial Contact', :description => "value", :old_id => 2)
+    create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
   end
   
   def create_cop(organization_id)
-    create_communication_on_progress(:organization_id => organization_id)
+    create_communication_on_progress(:organization_id => organization_id,
+                                     :starts_on => Date.new(2010, 01, 01),
+                                     :ends_on => Date.new(2010, 12, 31))
   end
   
   def create_principle_areas

@@ -1,3 +1,30 @@
+h1. 2010-10-19
+
+* Advanced Programme was launched Oct 11, 2010
+* participants could answer the additional voluntary questions prior to this date
+* however, those submitting after Oct 11 are considered to be participating in the programme
+* created is_advanced_programme? method for COP to determine this
+
+h1. 2010-08-25
+
+* using hidden fields to pass Basic COP information, such as the format and principles covered
+* their value will depend on whether the question is answered
+
+h1. 2010-08-10
+
+* COP scoring now only takes the number of questions at time of submission, instead of getting all of the questions.
+* It's possible that new questions will be added, so we don't want previous submissions to have lower scores as a result
+
+h1. 2010-08-02
+
+* Creating a Basic COP that allows text entry instead if the multiple choice format
+* Should be easier for less advanced ESG reports to submit a COP
+
+h1. 2010-07-20
+
+* removed question in COP form that asks if the COP is a file or web-based
+* now a file is required and the web link is optional
+
 h1. 2010-06-28
 
 * TODO call javascript to show/hide publicly traded company options after JQuery is loaded

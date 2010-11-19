@@ -14,6 +14,15 @@ class HeadlineTest < ActiveSupport::TestCase
     end
   end
 
+  context "given a headline being read in an Atom feed" do
+    setup do
+      @headline = Headline.new :title => String.random, :description => "<p>First paragraph</p><p>Second paragraph</p>" 
+    end
+    should "use first paragraph as teaser" do
+      assert_equal @headline.teaser, "First paragraph"
+    end
+  end
+
   context "given a new headline" do
     setup do
       @headline = Headline.new :title => String.random

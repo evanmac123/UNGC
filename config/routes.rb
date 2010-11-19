@@ -12,7 +12,7 @@ ActionController::Routing::Routes.draw do |map|
   # Back-end routes
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   map.parameters '/admin/parameters', :controller => 'admin', :action => 'parameters'
-  map.cop_introduction '/admin/cops/introduction', :controller => 'admin', :action => 'cop_introduction'
+  map.cop_introduction '/admin/cops/introduction', :controller => 'admin/cops', :action => 'introduction'
 
   # These need to come before resources :pages
   map.with_options :controller => 'admin/pages' do |m|
@@ -78,20 +78,20 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :logo_files
     admin.resources :cop_questions
     admin.resources :local_networks
-    
-    map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
-  
+      
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'
   end
 
   # Front-end routes
+  
+  map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
+  map.connect "/watermandate", :controller => 'pages', :action => :redirect_to_page, :page => '/Issues/Environment/CEO_Water_Mandate/'
+  
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
     :action => 'redirect_local_network'
-
-  map.resources :bulletin_subscribers #, :has_many => :comments
-
+    
   map.with_options :controller => 'participants' do |m|
     m.participant_search 'participants/search', :action => 'search'
     
@@ -111,7 +111,7 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'show', 
     :requirements => { id: /\d+/ }
 
-  # shorcut for new organization
+  # shortcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
   map.with_options :controller => 'signup' do |signup|
     signup.connect '/HowToParticipate/Business_Organization_Information.html', :action => 'step1', :org_type => 'business'
@@ -121,6 +121,8 @@ ActionController::Routing::Routes.draw do |map|
     signup.organization_step3 'signup/step3',           :action => 'step3'
     signup.organization_step4 'signup/step4',           :action => 'step4'
     signup.organization_step5 'signup/step5',           :action => 'step5'
+    signup.organization_step6 'signup/step6',           :action => 'step6'
+    signup.organization_step7 'signup/step7',           :action => 'step7'
   end
 
   map.with_options :controller => 'case_stories' do |m|
@@ -131,7 +133,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.with_options :controller => 'news' do |m|
     m.newest_headlines '/news', :action => :index
-    m.newest_headlines '/news/feed.atom', :action => :index, :format => 'atom'
+    m.newest_headlines '/feeds/news/', :action => :index, :format => 'atom'
     m.headline_year '/news/:year', :action => :index, :requirements => { :year => /\d{4}/ }
     m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
   end

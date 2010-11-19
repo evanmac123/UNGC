@@ -58,8 +58,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id
-  validates_associated :cop_links, :if => Proc.new { |cop| cop.web_based? }
-  validates_associated :cop_files, :if => Proc.new { |cop| cop.is_grace_letter? || !cop.web_based? }, :message => ': please upload your COP as a PDF file.'
+  validates_associated :cop_links
+  validates_associated :cop_files
   
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
@@ -74,10 +74,13 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   attr_accessor :is_draft
   attr_accessor :policy_exempted
+  attr_accessor :type
   
-  before_save :can_be_edited?
   before_create :set_title
-  after_create :draft_or_submit!
+  before_create :check_links
+  before_save   :set_cop_defaults
+  before_save   :can_be_edited?
+  after_create  :draft_or_submit!
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
@@ -85,6 +88,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   cattr_reader :per_page
   @@per_page = 15
+
+  TYPES = %w{grace basic intermediate advanced}
 
   default_scope :order => 'created_at DESC'
   
@@ -102,11 +107,16 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
   
-  FORMAT = {:standalone        => "COP is a stand-alone document",
-            :annual_report     => "COP is part of an annual (financial) report",
-            :sustainability_report => "COP is part of a sustainability or corporate (social) responsibility report",
-            :summary_document  => "COP is a summary document that refers to sections of an annual or sustainability report",
-            :grace_letter      => "I am currently uploading a Grace Letter to apply for an extension of our COP deadline"}
+  # feed contains daily COP submissions, without grace letters
+  named_scope :for_feed, { 
+    :conditions => ["format != (?) AND created_at >= (?)", 'grace_letter', Date.today],
+    :order => "created_at DESC"
+  }
+  
+  FORMAT = {:standalone            => "Stand alone document",
+            :annual_report         => "Part of an annual (financial) report",
+            :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
+            :summary_document      => "Summary document that refers to sections of an annual or sustainability report"}
 
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
@@ -147,9 +157,24 @@ class CommunicationOnProgress < ActiveRecord::Base
     CopQuestion.questions_for(self.organization).each {|cop_question|
       cop_question.cop_attributes.each {|cop_attribute|
         self.cop_answers.build(:cop_attribute_id => cop_attribute.id,
-                               :value            => false)
+                               :value            => false,
+                               :text             => nil)
         }
     }
+  end
+  
+  def set_cop_defaults
+    self.additional_questions = false
+    case self.type
+      when 'grace'
+        self.format = CopFile::TYPES[:grace_letter]
+        self.starts_on = Date.today
+        self.ends_on = Date.today + 90.days
+      when 'basic'
+        self.format = 'basic'
+      when 'advanced'
+        self.additional_questions = true
+    end  
   end
 
   def can_be_edited?
@@ -171,6 +196,21 @@ class CommunicationOnProgress < ActiveRecord::Base
         # automatic_decision
       end
     end
+  end
+  
+  def is_legacy_format?
+    created_at <= Date.new(2009, 12, 31)
+  end
+  
+  def is_new_format?
+    created_at >= Date.new(2010, 01, 01)
+  end
+  
+  # Advanced Programme was launched Oct 11, 2010
+  # Participants could answer the additional voluntary questions prior to this date
+  # However, only those submitting after Oct 11 are actually considered to be participating in the programme
+  def is_advanced_programme?
+    additional_questions && created_at >= Date.new(2010, 10, 11)
   end
   
   def is_grace_letter?
@@ -236,6 +276,22 @@ class CommunicationOnProgress < ActiveRecord::Base
       end
     end
   end
+    
+  def set_title
+     if is_grace_letter?
+       self.title = "Grace Letter"
+     else
+       self.title = "#{self.ends_on.year} Communication on Progress"
+     end
+   end
+  
+  # javascript will normally hide the link field if it's blank,
+  # but IE7 was not cooperating, so we double check
+  def check_links
+    self.cop_links.each do |link|
+      link.destroy if link.url.blank?
+    end
+  end
   
   # Calculate COP score based on answers to Q7
   def score
@@ -245,11 +301,38 @@ class CommunicationOnProgress < ActiveRecord::Base
       references_environment].collect{|r| r if r}.compact.count
   end
   
-  def set_title
-    if is_grace_letter?
-      self.title = "Grace Letter"
-    else
-      self.title = "#{Date.today.year} Communication on Progress"
+  def issue_areas_covered
+    issues = []
+    PrincipleArea::FILTERS.each_pair do |key, value|
+      issues << value if self.send("references_#{key}?")
     end
+    issues
   end
+  
+  # Calculate % of items covered for each issue area
+  # Grouping is usually 'additional'
+  def issue_area_coverage(principle_area_id, grouping)
+
+    question_count = CopAnswer.find_by_sql(
+    ["SELECT count(answers.cop_id) AS question_count FROM cop_attributes attributes
+      JOIN cop_answers answers
+      ON answers.cop_attribute_id = attributes.id
+      WHERE answers.cop_id = ? AND cop_question_id IN (
+        SELECT id FROM cop_questions
+        WHERE principle_area_id = ? AND grouping = ?)", self.id, principle_area_id.to_i, grouping.to_s]
+    )
+
+    answer_count = CopAnswer.find_by_sql(
+    ["SELECT count(answers.cop_id) AS answer_count FROM cop_attributes attributes
+      JOIN cop_answers answers
+      ON answers.cop_attribute_id = attributes.id
+      WHERE answers.cop_id = ? AND answers.value = ? AND cop_question_id IN (
+        SELECT id FROM cop_questions
+        WHERE principle_area_id = ? AND grouping = ?)", self.id, true, principle_area_id.to_i, grouping.to_s]
+    )
+
+    [answer_count.first.answer_count, question_count.first.question_count]
+  end
+  
+ 
 end

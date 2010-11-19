@@ -5,6 +5,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
     create_organization_and_user
     create_ungc_organization_and_user
     create_organization_and_ceo
+    create_financial_contact
     create_local_network_with_report_recipient
     @organization.country_id = @country.id
     @organization.comments.create(:contact_id => @staff_user.id,
@@ -21,7 +22,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
   test "network review mailer sent" do
     response = OrganizationMailer.deliver_network_review(@organization)
     assert_equal "text/html", response.content_type
-    assert_equal "#{@organization.name} has submitted a registration to the Global Compact", response.subject
+    assert_equal "#{@organization.name} has submitted an application to the Global Compact", response.subject
     assert_equal @network_contact.email, response.to.first
   end
   
@@ -77,8 +78,8 @@ class OrganizationMailerTest < ActionMailer::TestCase
   test "foundation invoice is sent" do
     response = OrganizationMailer.deliver_foundation_invoice(@organization)
     assert_equal "text/html", response.content_type
-    assert_equal "Your pledge to The Foundation for the Global Compact", response.subject
-    assert_equal @organization_user.email, response.to.first
+    assert_equal "[Invoice] The Foundation for the Global Compact", response.subject
+    assert_equal @financial_contact.email, response.to.first
   end
   
   test "foundation reminder mailer is sent" do

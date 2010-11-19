@@ -29,4 +29,8 @@ class CopQuestion < ActiveRecord::Base
   named_scope :questions_for, lambda { |organization|
     { :conditions => ['(initiative_id IS NULL) OR (initiative_id IN (?))', organization.initiative_ids] }
   }
+  named_scope :group_by, lambda { |group|
+    { :conditions => ['grouping =?', group.to_s] }
+  }
+  
 end

@@ -50,6 +50,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
       create_ungc_organization_and_user
       create_organization_and_user
       create_organization_and_ceo
+      create_financial_contact
       create_local_network_with_report_recipient
       @organization.country_id = @local_network.country_ids.first
       login_as @staff_user

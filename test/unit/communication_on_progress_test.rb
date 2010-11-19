@@ -12,7 +12,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   def pending_review(organization, options={})
     defaults = {
       :organization_id => organization.id,
-      :state           => ApprovalWorkflow::STATE_PENDING_REVIEW
+      :state           => ApprovalWorkflow::STATE_PENDING_REVIEW,
+      :ends_on         => Date.new(2009, 12, 31)
     }
     create_communication_on_progress(defaults.merge(options))
   end
@@ -23,11 +24,11 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_language
     end
     
-    should "require a file if it's not web based" do
+    should "be invalid if there is no file" do
       assert_raise ActiveRecord::RecordInvalid do
         cop = create_communication_on_progress(:organization_id    => @organization.id,
                                                :format             => 'standalone',
-                                               :web_based          => false,
+                                               # :web_based          => false,
                                                :parent_company_cop => false,
                                                :include_continued_support_statement => true,
                                                :support_statement_signee            => 'ceo',
@@ -36,6 +37,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                                :references_environment              => true,
                                                :references_anti_corruption          => true,
                                                :include_measurement                 => true,
+                                               :ends_on                             => Date.today,
                                                :cop_files_attributes => {
                                                  "new_cop"=> {:attachment_type => "cop",
                                                               #:attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
@@ -44,11 +46,11 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       end
     end
     
-    should "not require a file if it's web based" do
+    should "be valid when a file is attached" do
       assert_difference 'CommunicationOnProgress.count' do
         cop = create_communication_on_progress(:organization_id    => @organization.id,
                                                :format             => 'standalone',
-                                               :web_based          => true,
+                                               # :web_based          => false,
                                                :parent_company_cop => false,
                                                :include_continued_support_statement => true,
                                                :support_statement_signee            => 'ceo',
@@ -57,15 +59,17 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                                :references_environment              => true,
                                                :references_anti_corruption          => true,
                                                :include_measurement                 => true,
-                                               :cop_links_attributes => {
-                                                 "new_link"=> {:attachment_type => "cop",
-                                                               :url             => "http://my-cop-online.com",
-                                                               :language_id     => Language.first.id}
+                                               :ends_on                             => Date.today,                                             
+                                               :cop_files_attributes => {
+                                                 "new_cop"=> {:attachment_type => "cop",
+                                                              :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                                              :language_id     => Language.first.id}
                                                })
       end
     end
-  end
-  
+      
+  end #context
+ 
   context "given a COP" do
     setup do
       create_organization_and_user
@@ -112,43 +116,43 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP that is a grace letter request and is currently pending review" do
     setup do
       create_organization_and_user('approved')
-      @cop = pending_review(@organization, format: 'grace_letter')
       @old_cop_due_on = @organization.cop_due_on
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop.type = 'grace'
+      @cop.save
     end
   
     should "have is_grace_letter? return true" do
       assert @cop.is_grace_letter?
     end
     
-    context "and it gets approved" do
-      setup do
-        @cop.approve!
-      end
-  
-      should "now be approved" do
-        assert @cop.approved?
-      end
-      
-      should "have an extra 90 days to submit a COP" do
-        assert_equal (Date.today + Organization::COP_GRACE_PERIOD.days).to_date, (@organization.reload.cop_due_on).to_date
-      end
+    should "have an extra 90 days to submit a COP" do
+      @organization.reload
+      assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD).to_date, (@organization.cop_due_on).to_date
     end
     
-    context "and the company is non-communicating" do
-      setup do
-        @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
-        @cop.approve!
-      end
-      
-      should "make the company active" do
-        @organization.reload
-        assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
-      end
+    should "set the coverage dates from today until 90 days from now" do
+      @cop.reload
+      assert_equal Date.today, @cop.starts_on
+      assert_equal (Date.today + 90.days), @cop.ends_on
     end
-    
+      
   end
-  
-  
+    
+  context "Given a non-communicating company submitting a grace letter" do
+    setup do
+      create_organization_and_user
+      @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop.approve!
+    end
+    
+    should "make the company active" do
+      @organization.reload
+      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+    end
+  end
+    
   # context "given a COP under review" do
   #   setup do
   #     create_organization_and_user
@@ -218,7 +222,82 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #     assert @cop.reload.approved?
   #   end
   # end
+  
+  context "given a COP with its period ending in 2009" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new({:ends_on => '2009-12-31'})
+      @cop.save
+    end
+      should "title should be Communication on Progress 2009" do
+        assert_equal "2009 Communication on Progress", @cop.title
+      end
+  end
+  
+  context "given a COP created in 2008" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new({:ends_on => '2008-12-31'})
+      @cop.update_attribute :created_at, Date.new(2008, 12, 31)
+    end
+    
+    should "identify the COP as a legacy format" do
+      assert_equal true, @cop.is_legacy_format?
+    end    
+  end
+  
+  context "given a COP created in 2012" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new(:ends_on => Date.new(2012, 12, 31))
+      @cop.update_attribute :created_at, Date.new(2012, 01, 01)
+    end
+    
+    should "identify the COP as a new format" do
+      assert_equal true, @cop.is_new_format?
+    end  
+  end
+  
+  context "given a basic COP" do
+    setup do
+      create_principle_area
+      @cop_question = create_cop_question
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
+      @cop.type = 'basic'
+      @cop.save
+    end
 
+    should "have default attributes set" do
+      assert_equal 'basic', @cop.format
+      assert_equal false, @cop.additional_questions
+    end
+
+  end
+  
+  context "given a COP with additional question" do
+    setup do
+      create_organization_and_user
+      @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
+      @cop.type = 'advanced'
+      @cop.save
+    end
+
+    should "have default attributes set" do
+      assert @cop.additional_questions
+    end
+
+    should "be considered for the Advanced Programme if received after start date of programme" do
+      @cop.update_attribute :created_at, Date.new(2010, 11, 11)
+      assert @cop.is_advanced_programme?
+    end
+
+    should "not be considered for the Advanced Programme if received before start date of programme" do
+      @cop.update_attribute :created_at, Date.new(2010, 8, 8)
+      assert !@cop.is_advanced_programme?
+    end
+  end
+  
   context "given a COP from a delisted company" do
     setup do
       create_organization_and_user

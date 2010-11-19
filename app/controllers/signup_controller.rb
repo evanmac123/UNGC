@@ -29,24 +29,53 @@ class SignupController < ApplicationController
     if params[:contact]
       @contact.attributes = params[:contact]
       session[:signup_contact] = @contact
-      set_default_values
+      set_default_values    
     end
+    
+    # business make a financial contribution (step 4), non-business upload their letter of commitment (step 6)
+    @organization.attributes = params[:organization]
+    @next_step = @organization.business_entity? ? organization_step4_path : organization_step6_path
+        
     redirect_to organization_step2_path unless @contact.valid?
   end
 
   # POST from ceo form
-  # shows commitment letter/pledge form
+  # pledge form if business organization
   def step4
-    if params[:contact]
-      @ceo.attributes = params[:contact]
-      session[:signup_ceo] = @ceo
+    save_ceo_info_from_params_into_session
+    redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
+    # highlight amount by assigning CSS class
+    @suggested_pledge_amount = {}
+    @suggested_pledge_amount[@organization.revenue.to_s] = 'highlight_suggested_amount'
+    # preselect radio button
+    @checked_pledge_amount = {}
+    @checked_pledge_amount[@organization.revenue.to_s] = true
+  end
+
+  # POST from pledge form
+  # ask for financial contact if pledge was made
+  def step5
+    @organization.attributes = params[:organization]
+    redirect_to organization_step6_path unless @organization.pledge_amount.to_i > 0
+    set_default_values
+  end
+
+  # POST from ceo or financial contact form
+  # shows commitment letter form
+  def step6
+    @organization.attributes = params[:organization]
+    if @organization.pledge_amount.to_i > 0
+      create_financial_contact_or_add_role_to_existing_contact
+      redirect_to organization_step5_path unless @financial_contact.valid? || @contact.is?(Role.financial_contact)
+    else
+      save_ceo_info_from_params_into_session
     end
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
   end
   
-  # POST from commitment letter/pledge form
+  # POST from commitment letter form
   # shows thank you page
-  def step5
+  def step7
     @organization.attributes = params[:organization]
     if @organization.valid? && @organization.commitment_letter?
       # save all records
@@ -56,11 +85,17 @@ class SignupController < ApplicationController
       @organization.contacts << @contact
       @organization.contacts << @ceo
       
+      # add financial contact if a pledge was made and the existing contact has not been assigned that role
+      unless @organization.pledge_amount.blank? and @contact.is?(Role.financial_contact)
+        @financial_contact.save
+        @organization.contacts << @financial_contact
+      end
+      
       OrganizationMailer.deliver_submission_received(@organization)
       clean_session
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
-      redirect_to organization_step4_path
+      redirect_to organization_step6_path
     end
   end
   
@@ -79,18 +114,31 @@ class SignupController < ApplicationController
       load_organization_types
       @contact = session[:signup_contact] || new_contact(Role.contact_point)
       @ceo = session[:signup_ceo] || new_contact(Role.ceo)
+      @financial_contact = session[:financial_contact] || new_contact(Role.financial_contact)
     end
     
     def set_default_values
       # organization country is default for contacts
       @contact.country_id = @organization.country_id unless @contact.country
-      # ceo contact fields defaults to contact
+      
+      # ceo contact fields which default to contact
+      @ceo.phone = @contact.phone unless @ceo.phone
+      @ceo.fax = @contact.fax unless @ceo.fax
       @ceo.address = @contact.address unless @ceo.address
       @ceo.address_more = @contact.address_more unless @ceo.address_more
       @ceo.city = @contact.city unless @ceo.city
       @ceo.state = @contact.state unless @ceo.state
       @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
       @ceo.country_id = @contact.country_id unless @ceo.country
+      
+      # financial contact fields which default to contact
+      @financial_contact.fax = @contact.fax unless @financial_contact.fax
+      @financial_contact.address = @contact.address unless @financial_contact.address
+      @financial_contact.address_more = @contact.address_more unless @financial_contact.address_more
+      @financial_contact.city = @contact.city unless @financial_contact.city
+      @financial_contact.state = @contact.state unless @financial_contact.state
+      @financial_contact.postal_code = @contact.postal_code unless @financial_contact.postal_code
+      @financial_contact.country_id = @contact.country_id unless @financial_contact.country
     end
     
     # Makes sure the CEO and Contact point don't have the same email address
@@ -109,6 +157,7 @@ class SignupController < ApplicationController
       session[:signup_organization] = Organization.new
       session[:signup_contact] = new_contact(Role.contact_point)
       session[:signup_ceo] = new_contact(Role.ceo)
+      session[:financial_contact] = new_contact(Role.financial_contact)
     end
     
     def new_contact(role)
@@ -120,4 +169,24 @@ class SignupController < ApplicationController
     def extract_organization_type(organization)
       organization.business_entity? ? BUSINESS_PARAM : NONBUSINESS_PARAM
     end
+    
+    def save_ceo_info_from_params_into_session
+      if params[:contact]
+        @ceo.attributes = params[:contact]
+        session[:signup_ceo] = @ceo
+      end
+    end
+
+    def create_financial_contact_or_add_role_to_existing_contact
+      # value from checkbox to indicate that invoice should be sent to Contact Points
+      if params[:contact]
+        if params[:contact][:foundation_contact].to_i == 1
+          @contact.roles << Role.financial_contact
+        else
+          @financial_contact.attributes = params[:contact]
+          session[:financial_contact] = @financial_contact
+        end
+      end
+    end
+
 end

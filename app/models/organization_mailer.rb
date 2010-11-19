@@ -31,7 +31,7 @@ class OrganizationMailer < ActionMailer::Base
     from EMAIL_SENDER
     cc 'filipic@un.org'
     bcc 'globalcompact@un.org'
-    subject "#{organization.name} has submitted a registration to the Global Compact"
+    subject "#{organization.name} has submitted an application to the Global Compact"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
@@ -84,12 +84,12 @@ class OrganizationMailer < ActionMailer::Base
   
   def foundation_invoice(organization)
     from 'foundation@unglobalcompact.org'
-    cc 'radulescu@globalcompactfoundation.org'
+    cc 'contributions@globalcompactfoundation.org'
     bcc 'vkeesari@yahoo.com'
-    subject "Your pledge to The Foundation for the Global Compact"
+    subject "[Invoice] The Foundation for the Global Compact"
     content_type "text/html"
-    recipients organization.contacts.contact_points.collect(&:email_recipient)
-    body :organization => organization, :contact => organization.contacts.contact_points.first
+    recipients organization.financial_contact_or_contact_point.email_recipient
+    body :organization => organization, :contact => organization.financial_contact_or_contact_point
   end
 
   def foundation_reminder(organization)

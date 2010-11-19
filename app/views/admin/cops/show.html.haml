@@ -1,19 +1,40 @@
 - @body_class = 'details'
-%h2 Communication On Progress Details
+%h2 Communication on Progress Details
 
-#status_box
-  %dl{:style => 'width: 90%'}
-    %dt Organization:
-    %dd= @communication_on_progress.organization.name
-    %dt Status:
-    %dd= @communication_on_progress.state.humanize
-    - if @communication_on_progress.is_grace_letter?
-      %dt Grace Letter:
-      %dd Yes
+%p= link_to 'View public version', cop_detail_path( @communication_on_progress.id), :class => 'web_preview_large'
 
-    - if @communication_on_progress.cop_answers.any? || @communication_on_progress.is_grace_letter?
-      = render :partial => '/shared/cops/show_new_style', :locals => { :communication_on_progress => @communication_on_progress } 
-    - else
-      = render :partial => '/shared/cops/show_legacy_style', :locals => { :communication_on_progress => @communication_on_progress } 
+#main_content
+  #status_box
+    %dl{:style => 'width: 90%;'}
+      %dt Organization
+      %dd
+        %ul
+          - if current_user.from_organization?
+            %li= link_to @communication_on_progress.organization.name, dashboard_path(:tab => :cops)
+          - else
+            %li= link_to @communication_on_progress.organization.name, admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
+        
+      %dt Published
+      %dd
+        %ul
+          %li= yyyy_mm_dd @communication_on_progress.created_at
+    
+      - if @communication_on_progress.is_advanced_programme?
+        %dt Status
+        %dd
+          %ul
+            %li This COP qualifies for the Advanced Programme
+        
+      - if @communication_on_progress.is_grace_letter?
+        %dt Grace Letter
+        %dd
+          %ul
+            %li== COP due date extended to #{yyyy_mm_dd @communication_on_progress.created_at + Organization::COP_GRACE_PERIOD.days}
+      - if @communication_on_progress.format == 'basic'
+        = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
+      - elsif @communication_on_progress.is_new_format? || @communication_on_progress.is_grace_letter?
+        = render :partial => '/shared/cops/show_new_style', :locals => { :communication_on_progress => @communication_on_progress } 
+      - elsif  @communication_on_progress.is_legacy_format?
+        = render :partial => '/shared/cops/show_legacy_style', :locals => { :communication_on_progress => @communication_on_progress } 
 
-= action_links(@communication_on_progress)
+  = action_links(@communication_on_progress)

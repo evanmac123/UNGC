@@ -59,6 +59,12 @@ Make sure that pdf2txt.py is in the path, and it should be fine.
 
 Done :)
 
+Debugger
+========
+script/server --debugger
+place 'debugger' at your breakpoint
+press 'c' to continue execution
+
 Controlling Sphinx
 ==================
 
@@ -106,7 +112,6 @@ logo_requests.status - using state
 logo_requests.requested_on - using created_at
 logo_requests.status_changed_on - using updated_at
 
-organizations.cop_status - using cop_state
 organizations.local_network - we have a new LocalNetwork model
 organizations.old_tmp_id - only used by importer
 organizations.status - using state

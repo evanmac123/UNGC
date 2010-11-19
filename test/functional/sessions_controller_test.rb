@@ -2,6 +2,7 @@ require 'test_helper'
 
 class SessionsControllerTest < ActionController::TestCase
   def setup
+    create_roles
     create_test_users
   end
 
@@ -67,13 +68,14 @@ class SessionsControllerTest < ActionController::TestCase
   protected
     def create_test_users
       create_organization_type
-      create_organization
+      create_organization_and_ceo
       create_country
       @contact = create_contact(:login => 'quentin',
                                 :password => 'monkey',
                                 :email => 'user@example.com',
                                 :remember_token_expires_at => 1.days.from_now.to_s,
-                                :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb')
+                                :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb',
+                                :role_ids => [Role.contact_point.id])
     end
   
     def auth_token(token)

@@ -5,7 +5,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     create_organization_type
     create_country
     create_roles
-    create_organization_and_user
+    create_organization_and_ceo
     login_as(@organization_user)
   end
   
@@ -45,6 +45,15 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                  :contact         => { :login    => 'aaa',
                                        :password => "password" }
     assert_redirected_to admin_organization_path(assigns(:organization).id, :tab => :contacts)
+  end
+  
+  test "should not update contact if no role is selected" do
+    put :update, :organization_id => @organization.id,
+                 :id              => @organization_user.to_param,
+                 :contact         => { :role_ids => [],
+                                       :email => "user@example.com" }
+    # assert_equal "Your organization should have at least one Contact Point.", flash[:error]    
+    # assert_redirected_to edit_admin_organization_contact_path(@organization.id, @organization_user.id)
   end
 
   test "should destroy contact" do

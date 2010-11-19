@@ -1,8 +1,8 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#basic">General Information</a>
+    %li#governance_tab{:class => 'additional_questions', :style => 'display: none;'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
     %li#human_rights_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
-    / %li#business_and_peace_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :human_rights)} <a href="#business_and_peace_additional_questions">&nbsp;&raquo;&nbsp;Business &amp; Peace</a>
     %li#labour_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :labour)}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
     %li#environment_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :environment)}  <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
     %li#anti_corruption_tab{:class => 'additional_questions', :style => principle_tab_display_style(@communication_on_progress, :anti_corruption)}  <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
@@ -14,12 +14,12 @@
     %fieldset
       %fieldset
         %legend
-          %span How is your COP shared with stakeholders?
+          %span The Communication on Progress is in the following format:
         - CommunicationOnProgress::FORMAT.each do |key, value|
           %label
             = form.radio_button :format, key
             = value
-
+            
       #grace_letter_fields{:style => css_display_style(@communication_on_progress.is_grace_letter?)}
         %fieldset
           %legend
@@ -27,26 +27,18 @@
           = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter])}
                   
       #non_grace_letter_fields{:style => 'display: none'}
-        %fieldset
-          %legend
-            %span Is your COP web-based?
-          = true_or_false_field(form, :web_based)
-
-        #cop_attachments{:style => css_display_style(!@communication_on_progress.web_based?)}
+        #cop_attachments{:style => 'display: block'}
           %fieldset
             %legend
               %span Upload the COP as a PDF file
+            = text_partial('b')
             = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop])}
-        #web_cop_attachments{:style => css_display_style(@communication_on_progress.web_based?)}
+        
+        #web_cop_attachments{:style => 'display: block'}
           %fieldset
             %legend
               %span Provide a link to your web-based COP
             = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
-          %fieldset
-            %legend
-              %span We encourage you to upload a copy of your web-based COP in PDF format
-            = text_partial('b')
-            = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:web_cop])}
               
         #own_company_questions{:style => 'display: block'}
           %fieldset
@@ -70,19 +62,19 @@
                 %span
                   Does your COP contain description of actions, and when relevant policies, related to the following issue areas?
                   %em Please answer 'Yes' or 'No' for each of the four issue areas.
-              %br
-              Human Rights
-              = true_or_false_field(form, :references_human_rights, :class => 'score')
-              %br
-              Labour
-              = true_or_false_field(form, :references_labour, :class => 'score')
-              %br
-              Environment
-              = true_or_false_field(form, :references_environment, :class => 'score')
-              %br
-              Anti-Corruption
-              = true_or_false_field(form, :references_anti_corruption, :class => 'score')
-              %br
+
+              %span{:class => 'radio_label'}
+                Human Rights
+                = true_or_false_field(form, :references_human_rights, :class => 'score')
+              %span{:class => 'radio_label'}
+                Labour
+                = true_or_false_field(form, :references_labour, :class => 'score')
+              %span{:class => 'radio_label'}
+                Environment
+                = true_or_false_field(form, :references_environment, :class => 'score')
+              %span{:class => 'radio_label'}
+                Anti-Corruption
+                = true_or_false_field(form, :references_anti_corruption, :class => 'score')
 
             %fieldset
               %legend
@@ -98,16 +90,11 @@
   - PrincipleArea::FILTERS.each_pair do |key, value|
     %div.tab_content{:id => "#{key}_additional_questions"}
       %h2= value
-      %p (optional questions)
       %fieldset= cop_questions_for @communication_on_progress, :additional, key
 
-  %div.tab_content{:id => "business_and_peace_additional_questions"}
-    %h2 Business and Peace
-    %fieldset= cop_questions_for @communication_on_progress, :business_and_peace
-
-  #notable_questions.tab_content
-    %h2 Notable questions
-    %fieldset= cop_questions_for @communication_on_progress, :notable
+  %div.tab_content{:id => "governance_additional_questions"}
+    %h2 Governance
+    %fieldset= cop_questions_for @communication_on_progress, :governance
 
   #finish.tab_content
     = text_partial('a')

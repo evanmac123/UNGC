@@ -49,15 +49,14 @@
 
   - if @pending_cops.any?
     #cops.tab_content
-      %h2 Pending COPs
+      %h2 Today's COPs
       %table.dashboard_table#cops_dashboard_table
         %tr
-          %th.last_updated Last updated on
-          %th.title Title
-          %th.status Status
-          %th.age Days since last update
+          %th.title Received
+          %th.title Participant
+          %th.status Format
           %th.actions Actions
-        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @pending_cops
+        = render :partial => 'admin/communication_on_progresses/cop_admin', :collection => @pending_cops
       = will_paginate @pending_cops, param_name: 'cops_page', params: {tab: 'cops'}
 
   - if @pending_pages.any?

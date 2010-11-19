@@ -1,7 +1,7 @@
 module CopsHelper
   def check_if(condition)
     if condition
-      image_tag 'checked.jpg'
+      image_tag 'checked.png'
     else
       '&nbsp;'
     end

@@ -90,12 +90,13 @@ ul.nav_bar {
   clear: left;
   position: relative; }
   #main_content h2 {
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
     color: #14546f;
     font-weight: bold; }
   #main_content h3 {
-    color: #14546f; }
-  #main_content a.new_large, #main_content a.edit_large {
+    color: #14546f;
+    font-weight: bold; }
+  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large {
     display: block;
     width: 240px;
     height: 24px;
@@ -105,13 +106,26 @@ ul.nav_bar {
     text-decoration: none;
     opacity: 0.85;
     font-weight: bold; }
-    #main_content a.new_large:hover, #main_content a.edit_large:hover {
+    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content div.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover, #main_content a.web_preview_large:hover, #main_content a.delete_doc:hover, #main_content a.new_user_large:hover {
       opacity: 1;
-      text-decoration: underline; }
+      text-decoration: underline;
+      cursor: pointer; }
   #main_content a.new_large {
     background: url('../images/icons/Add_24x24.png') no-repeat top left; }
   #main_content a.edit_large {
     background: url('../images/icons/Edit_24x24.png') no-repeat top left; }
+  #main_content a.new_page_large, #main_content div.new_page_large {
+    background: url('../images/icons/Add_Document_24x24.png') no-repeat top left; }
+  #main_content a.web_preview_large {
+    background: url('../images/icons/Web Browser_24x24.png') no-repeat top left; }
+  #main_content a.info_large, #main_content div.hint_toggle {
+    background: url('../images/icons/Info_24x24.png') no-repeat top left; }
+  #main_content a.delete_doc {
+    display: inline;
+    padding: 5px 0 10px 30px;
+    background: url('../images/icons/Document (Remove)_24x24.png') no-repeat top left; }
+  #main_content a.new_user_large {
+    background: url('../images/icons/User (Add)_24x24.png') no-repeat top left; }
   #main_content table.dashboard_table {
     width: 100%;
     margin-bottom: 0; }
@@ -222,15 +236,6 @@ ul.nav_bar {
             background-position: -48px 0; }
           #main_content dl ul.document_list li a.word_doc {
             background-position: -24px 0; }
-  #main_content ul.date_select {
-    float: left;
-    margin-top: 10px;
-    margin-right: 25px;
-    list-style: none; }
-    #main_content ul.date_select li {
-      font-weight: bold; }
-    #main_content ul.date_select select {
-      width: 90px; }
   #main_content #org_name {
     font-weight: bold; }
 
@@ -379,20 +384,27 @@ ul.nav_bar {
             margin-left: 112px; }
 
 #main_content input.button {
-  float: right; }
+  float: right;
+  clear: both; }
 #main_content fieldset {
-  background-color: #f0f6fa; }
+  background-color: #f0f6fa;
+  border: 1px solid #aaa; }
   #main_content fieldset legend {
     color: #aaa; }
     #main_content fieldset legend span {
-      white-space: normal;
-      .float: left; }
+      white-space: normal; }
   #main_content fieldset ol {
     margin: 0;
     padding: 0 0 0 0; }
   #main_content fieldset li {
     list-style: none;
     margin: 0 0 1em 0; }
+  #main_content fieldset ul.bulleted {
+    margin: 0;
+    padding: 0 0 0 0; }
+    #main_content fieldset ul.bulleted li {
+      list-style-type: disc;
+      margin: 0 0 0.5em 2em; }
   #main_content fieldset label {
     color: #14546f;
     display: block;
@@ -400,40 +412,97 @@ ul.nav_bar {
     width: 150px; }
   #main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea {
     color: #000;
-    margin: 0 5px 0 25px;
-    width: 305px;
+    margin: 2px 4px 1px 25px;
+    padding: 0 0 0 3px;
+    width: 250px;
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
-  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"] {
-    width: auto; }
+  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"] {
+    width: auto;
+    margin: 0 5px 0px 25px; }
+  #main_content fieldset input[type="checkbox"].label_right {
+    float: left;
+    margin: -2px 10px 0 0;
+    clear: left; }
+  #main_content fieldset label.checkbox_label {
+    width: auto;
+    cursor: pointer;
+    float: none;
+    margin: 5px 0 0 0; }
+  #main_content fieldset p.check_box_label_description {
+    margin: 3px 0 0 24px;
+    display: block; }
   #main_content fieldset span.cke_skin_kama {
     display: block;
     margin: 0 5px 0 120px; }
-  #main_content fieldset input, #main_content fieldset textarea {
-    padding: 0 0 0 3px; }
-  #main_content fieldset select {
-    width: 307px; }
   #main_content fieldset textarea {
     height: 100px;
     overflow-y: auto; }
+    #main_content fieldset textarea.cop_answer {
+      margin-left: 0px;
+      width: 100%;
+      clear: both; }
   #main_content fieldset fieldset {
-    background: #fff; }
+    background: #fff;
+    border: 1px solid #aaa; }
+    #main_content fieldset fieldset p.question_text {
+      margin-top: 1em; }
+    #main_content fieldset fieldset div.hint_toggle {
+      color: #14546f;
+      font-weight: bold;
+      margin: 1em 0;
+      cursor: pointer; }
+    #main_content fieldset fieldset div.hint_text ul {
+      margin: 0;
+      padding: 0 0 0 0; }
+      #main_content fieldset fieldset div.hint_text ul li {
+        list-style-type: disc;
+        margin: 0 0 0.5em 2em; }
+    #main_content fieldset fieldset div.issue_area {
+      float: left;
+      width: 175px; }
+      #main_content fieldset fieldset div.issue_area span.radio_label {
+        margin: 0 0 5px 8px;
+        font-weight: bold; }
+      #main_content fieldset fieldset div.issue_area label {
+        font-weight: normal; }
     #main_content fieldset fieldset legend {
       color: #14546f;
       font-size: 1em;
       background: #fcfcfc url('../images/backgrounds/legend_bg.png') repeat-x 0 0;
       padding: 5px;
       border: 1px solid #cccccc; }
+    #main_content fieldset fieldset input[type="checkbox"], #main_content fieldset fieldset input[type="radio"], #main_content fieldset fieldset input[type="file"] {
+      width: auto;
+      margin: -2px 10px 0px 5px; }
     #main_content fieldset fieldset label {
       display: block;
-      width: auto;
-      float: none;
+      width: 700px;
+      padding: 1px;
+      margin: 1px;
       color: #333333; }
-    #main_content fieldset fieldset input {
-      width: auto;
-      margin: 2px 10px 2px 0; }
+      #main_content fieldset fieldset label:hover {
+        cursor: pointer; }
+    #main_content fieldset fieldset span.radio_label {
+      float: left;
+      margin: 5px 0 5px 0; }
+    #main_content fieldset fieldset span.label_text {
+      display: block;
+      position: relative;
+      line-height: 1em;
+      left: 25px;
+      top: -10px; }
     #main_content fieldset fieldset select {
       margin-left: 0; }
+    #main_content fieldset fieldset ul.date_select {
+      float: left;
+      margin-top: 10px;
+      margin-right: 25px;
+      list-style: none; }
+      #main_content fieldset fieldset ul.date_select li {
+        font-weight: bold; }
+      #main_content fieldset fieldset ul.date_select select {
+        width: 90px; }
 #main_content .box {
   border: 5px solid #d2d2d2;
   padding: 10px;
@@ -478,7 +547,7 @@ ul.nav_bar {
 #main_content #site_tools a.add_folder {
   background: url('../images/icons/Folder (Closed) (Add)_24x24.png') no-repeat center top; }
 #main_content #site_tools a.add_page {
-  background: url('../images/icons/Document (Add)_24x24.png') no-repeat center top; }
+  background: url('../images/icons/Add_Document_24x24.png') no-repeat center top; }
 #main_content #site_tools a.delete_page {
   background: url('../images/icons/Delete_24x24.png') no-repeat center top; }
 #main_content #site_tools a.visibility_page {
@@ -680,33 +749,97 @@ ul.view_modes {
   #session_info small {
     font-size: 0.9em; }
 
+#main_content p.cop_description {
+  font-size: 13px;
+  line-height: 1.2em; }
+#main_content div.hint_toggle {
+  color: #14546f;
+  font-weight: bold;
+  margin: 1em 0;
+  cursor: pointer; }
+#main_content div.hint_text ul {
+  margin: 0;
+  padding: 0 0 0 0; }
+  #main_content div.hint_text ul li {
+    list-style-type: disc;
+    margin: 0 0 0.5em 2em; }
 #main_content dt {
-  clear: left; }
+  clear: left;
+  color: #14546f; }
+#main_content span.human_right {
+  color: #f7931e; }
+#main_content span.labour {
+  color: #52c6d8; }
+#main_content span.environment {
+  color: #688442; }
+#main_content span.anti_corruption {
+  color: #ed1c24; }
 #main_content dd:empty {
   min-height: 12px; }
 #main_content dd ul {
-  margin: 0; }
-#main_content dd li {
-  border-bottom: 1px dotted #ccc;
-  line-height: 1.4;
-  margin-bottom: 10px;
-  padding-bottom: 11px; }
-  #main_content dd li:last-child, #main_content dd li li {
-    border-bottom: 0;
-    margin-bottom: 0;
-    padding-bottom: 0; }
-  #main_content dd li p {
-    margin: 10px 0 0 0; }
-  #main_content dd li ul {
-    font-size: 12px;
-    margin: 10px 0 0 15px; }
-  #main_content dd li li {
-    color: #555;
-    margin-bottom: 8px; }
-
-.selected_question {
+  margin: 0;
+  list-style: none; }
+  #main_content dd ul li {
+    border-bottom: 1px dotted #ccc;
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    list-style-type: none; }
+    #main_content dd ul li:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0; }
+    #main_content dd ul li p {
+      line-height: 1.2em; }
+#main_content dd ul.questionnaire, #main_content dd ul.basic_question {
+  margin: 0;
+  list-style: none; }
+#main_content dd ul:first-child {
+  padding-top: 0; }
+#main_content dd ul li:last-child {
+  padding-bottom: 10px; }
+#main_content dd ul li.question_group {
+  font-weight: bold;
+  color: #14546f;
+  padding-top: 0em;
+  margin-bottom: 0;
+  border-bottom: 0; }
+#main_content dd ul li.question_text, #main_content dd ul li.unselected_question, #main_content dd ul li.selected_question {
+  list-style-type: none; }
+  #main_content dd ul li.question_text p, #main_content dd ul li.unselected_question p, #main_content dd ul li.selected_question p {
+    font-style: italic; }
+#main_content dd ul li.question_response {
+  padding-top: 0;
+  margin-bottom: 1em; }
+#main_content dd ul li.selected_question {
   list-style-type: disc;
-  list-style-image: url(/images/checked.jpg); }
-
-.unselected_question {
-  list-style-type: circle; }
+  list-style-image: url(/images/checked.png); }
+#main_content dd ul li.unselected_question {
+  list-style-type: circle;
+  list-style-image: url(/images/unchecked.png); }
+#main_content dd ul.questionnaire {
+  padding-bottom: 20px; }
+  #main_content dd ul.questionnaire li.unselected_question p, #main_content dd ul.questionnaire li.selected_question p {
+    font-style: normal;
+    color: #666;
+    margin: 3px 0;
+    font-size: 11px; }
+  #main_content dd ul.questionnaire li.question_group {
+    margin: 0px 0 5px 0; }
+#main_content div.principles {
+  margin: 0 0 0 10px;
+  font-size: 12px;
+  color: #14546f;
+  line-height: 1.5em;
+  font-weight: bold; }
+#main_content div.issue_coverage span.human_right, #main_content div.issue_coverage span.labour, #main_content div.issue_coverage span.environment, #main_content div.issue_coverage span.anti_corruption {
+  margin: 0 0 10px 0; }
+#main_content div.ui-progressbar {
+  width: 500px;
+  text-align: left;
+  margin: 5px 0; }
+#main_content div.ui-progressbar-text {
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  margin: 0 0 0 5px;
+  padding: 5px 0; }

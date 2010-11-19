@@ -9,9 +9,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     context "creating a new cop" do
-      should "get the new cop form" do
+      should "not get the new cop form" do
         get :new, :organization_id => @organization.id
-        assert_redirected_to admin_organization_path(@organization.id)
+        assert_response :redirect
       end
     end
   end
@@ -24,12 +24,50 @@ class Admin::CopsControllerTest < ActionController::TestCase
       login_as @organization_user
     end
 
-    context "creating a new cop" do
-      should "get the new cop form" do
-        get :new, :organization_id => @organization.id
-        assert_response :success
+    context "given a new cop" do    
+      %w{basic intermediate advanced grace}.each do |cop_type|
+        should "get the #{cop_type} cop form" do
+          get :new, :organization_id => @organization.id, :type_of_cop => cop_type
+          assert_response :success
+          assert_template :new
+          assert_template :partial => "_#{cop_type}_form"
+        end        
+      end
+      should "redirect to introduction page if the type_of_cop parameter is not valid" do
+        get :new, :organization_id => @organization.id, :type_of_cop => "bad type"
+        assert_redirected_to cop_introduction_path
       end
     end
+    
+  end
+  
+  context "given a new basic cop" do
+    setup do
+      create_organization_and_user
+      @organization.approve!
+      create_principle_areas
+      create_language
+      login_as @organization_user
+      get :new, :organization_id => @organization.id, :type_of_cop => 'basic'
+      post :create, :organization_id => @organization.id,
+                    :communication_on_progress => {
+                      :references_human_rights             => true,
+                      :references_labour                   => true,
+                      :references_environment              => true,
+                      :references_anti_corruption          => true,
+                      :include_measurement                 => true,
+                      :starts_on                           => Date.today,
+                      :ends_on                             => Date.today
+                    }
+      
+    end
+
+    should "confirm the format" do
+       assert_redirected_to admin_organization_communication_on_progress_path(:organization_id => @organization.id,
+                                                                              :id => assigns(:communication_on_progress).id)
+       assert_equal 'basic', assigns(:communication_on_progress).format
+    end
+    
   end
   
   context "given an existing cop" do
@@ -37,7 +75,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_organization_and_user
       @organization.approve!
       create_principle_areas
-      # @cop = create_communication_on_progress(:organization_id => @organization.id)
       @cop = create_cop(@organization.id)
       login_as @organization_user
     end

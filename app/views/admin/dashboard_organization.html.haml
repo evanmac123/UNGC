@@ -64,7 +64,7 @@
             == There is no Network Report Recipient for #{@organization.country_name}
 
   #contacts.tab_content
-    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new_large', :id => 'new_contact'
+    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new_user_large', :id => 'new_contact'
     %table.dashboard_table#contacts_dashboard_table
       %tr
         %th.last_updated Last update
@@ -107,9 +107,8 @@
       = link_to 'New Communication on Progress', cop_introduction_path, :class => 'new_large', :id => 'new_COP'
       %table.dashboard_table#cops_dashboard_table
         %tr
-          %th.last_updated Updated
+          %th.last_updated Published
           %th.title Title
           %th.status Status
-          %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses.find(:all, order: "updated_at DESC")

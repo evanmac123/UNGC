@@ -1,0 +1,9 @@
+%fieldset
+  %legend
+    %span
+      Does your COP contain a description of actions, and when relevant policies, related to the following issue areas?
+  
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    %div{:class => 'issue_area'}
+      %span{:class => 'radio_label'}= value
+      = true_or_false_field(form, "references_#{key}".to_s)

@@ -2,7 +2,6 @@ require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
   should_validate_presence_of :name
-  # should_validate_uniqueness_of :name
   should_have_many :contacts
   should_have_many :logo_requests
   should_have_many :case_stories
@@ -44,7 +43,7 @@ class OrganizationTest < ActiveSupport::TestCase
     end
     
     should "set sector to 'not applicable' when it is a non-business" do
-      @non_business = create_organization_type(:name => 'Foundation', :type_property => 1, )
+      @non_business = create_organization_type(:name => 'Foundation', :type_property => 1)
       @sector = create_sector(:name => "Media")
       @sector_not_applicable = create_sector(:name => "Not Applicable")
       @organization = Organization.create(:name => "Foundation",
@@ -53,53 +52,10 @@ class OrganizationTest < ActiveSupport::TestCase
                                           :sector => @sector )
       assert_equal @sector_not_applicable, @organization.sector
     end
-    
-    context "setting other pledge amount" do
-      setup do
-        @organization = Organization.new(:name                 => 'SME',
-                                         :employees            => 50,
-                                         :pledge_amount        => 500,
-                                         :organization_type_id => @companies.id)
-      end
-      
-      should "to 0 should be valid - the pledge amount field should be used" do
-        @organization.pledge_amount_other = 0
-        assert @organization.save
-        assert_equal 500, @organization.pledge_amount
-      end
-      
-      should "to 5,000 should be invalid" do
-        @organization.pledge_amount = -1
-        @organization.pledge_amount_other = 5000
-        assert !@organization.save
-        assert @organization.errors.on(:pledge_amount_other)
-      end
-
-      should "to 15,000 should be valid" do
-        @organization.pledge_amount = -1
-        @organization.pledge_amount_other = 15000
-        assert @organization.save
-        assert_equal 15000, @organization.pledge_amount
-      end
-      
-      should "catch empty string as invalid pledge" do
-        @organization.pledge_amount = -1
-        @organization.pledge_amount_other = ''
-        assert !@organization.valid?, "is not valid, pledge other amount should be greater than 10,000"
-        assert @organization.errors.on :pledge_amount_other
-      end
-      
-      should "catch 0 as invalid pledge" do
-        @organization.pledge_amount = -1
-        @organization.pledge_amount_other = '0'
-        assert !@organization.valid?, "is not valid, pledge other amount should be greater than 10,000"
-        assert @organization.errors.on :pledge_amount_other
-      end
-    end
         
     context "approving its participation" do
       setup do
-        @organization = create_organization
+        @organization = Organization.create(:name => 'Company', :employees => 100)
       end
       
       should "update approval related fields" do
@@ -113,6 +69,19 @@ class OrganizationTest < ActiveSupport::TestCase
         # set the join date today
         assert_equal Date.today, @organization.joined_on
       end
+      
+      should "find a financial contact or default to a contact point" do
+        create_organization_and_user
+        @financial = create_contact(:organization_id => @organization.id,
+                                              :email           => 'email2@example.com',
+                                              :role_ids        => [Role.financial_contact.id])
+        assert_equal @organization.contacts.contact_points.first, @organization_user
+        assert_equal @organization.contacts.financial_contacts.first,  @financial
+        @organization.contacts.financial_contacts.first.destroy
+        assert_equal @organization.contacts.financial_contacts.count,  0
+        assert_equal @organization.financial_contact_or_contact_point, @organization_user
+      end
+      
     end
   end
   

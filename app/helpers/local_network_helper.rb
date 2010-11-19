@@ -97,7 +97,7 @@ module LocalNetworkHelper
   end
 
   def cop_due_in_days(days)
-    Organization.where_country_id([country_id]).participants.with_cop_status(:active).find(
+    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:active).find(
       :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today).to_s, (Date.today + days.day).to_s]
     )
   end

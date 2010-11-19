@@ -3,7 +3,7 @@ require 'test_helper'
 class Admin::RolesControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
-    @role = create_role
+    @role = create_role(:name => 'Staff', :description => 'Describes the role')
     
     login_as @staff_user
   end
@@ -21,7 +21,7 @@ class Admin::RolesControllerTest < ActionController::TestCase
 
   test "should create role" do
     assert_difference('Role.count') do
-      post :create, :role => { :name => 'role #3'}
+      post :create, :role => { :name => 'role #3', :description => 'Describes the role'}
     end
 
     assert_redirected_to admin_roles_path

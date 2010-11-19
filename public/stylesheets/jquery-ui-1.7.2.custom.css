@@ -52,7 +52,14 @@
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
 .ui-widget-content { border: 1px solid #aaaaaa; background: #ffffff url(/images/ui-bg_glass_75_ffffff_1x400.png) 50% 50% repeat-x; color: #222222; }
 .ui-widget-content a { color: #222222; }
+
 .ui-widget-header { border: 1px solid #aaaaaa; background: #cccccc url(/images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x; color: #222222; font-weight: bold; }
+
+.ui-widget-header-human_right { background: #cccccc url(/images/ui-bg_highlight-soft_75_f7931e_1x100.png) 50% 50% repeat-x; }
+.ui-widget-header-labour { background: #cccccc url(/images/ui-bg_highlight-soft_75_52c6d8_1x100.png) 50% 50% repeat-x; }
+.ui-widget-header-environment { background: #cccccc url(/images/ui-bg_highlight-soft_75_688442_1x100.png) 50% 50% repeat-x; }
+.ui-widget-header-anti_corruption { background: #cccccc url(/images/ui-bg_highlight-soft_75_ed1c24_1x100.png) 50% 50% repeat-x; }
+
 .ui-widget-header a { color: #222222; }
 
 /* Interaction states
@@ -364,7 +371,8 @@
 .ui-draggable .ui-dialog-titlebar { cursor: move; }
 /* Progressbar
 ----------------------------------*/
-.ui-progressbar { height:2em; text-align: left; }
+.ui-progressbar { height: 1.5em; width: 420px; text-align: left; margin-bottom: 3px; }
+.ui-progressbar-text { color: #fff; font-size: 9px; font-weight:bold; margin: 0 0 0 5px; }
 .ui-progressbar .ui-progressbar-value {margin: -1px; height:100%; }/* Resizable
 ----------------------------------*/
 .ui-resizable { position: relative;}
