@@ -143,6 +143,7 @@ module FixtureReplacement
 
   attributes_for :role do |r|
     r.name = String.random
+    r.description = String.random
 	end
 
   attributes_for :sector do |s|

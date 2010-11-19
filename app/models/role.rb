@@ -11,10 +11,10 @@
 #
 
 class Role < ActiveRecord::Base
-  validates_presence_of :name
+  validates_presence_of :name, :description
   has_and_belongs_to_many :contacts, :join_table => "contacts_roles"
   belongs_to :initiative
-  default_scope :order => :name
+  default_scope :order => 'roles.position, roles.initiative_id, roles.name'
   
   FILTERS = {
     :ceo                      => 3,
@@ -28,7 +28,10 @@ class Role < ActiveRecord::Base
   
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
-      roles_ids = [Role.ceo, Role.contact_point, Role.general_contact, Role.financial_contact].collect(&:id)
+      roles_ids = [Role.ceo, Role.contact_point].collect(&:id)
+      # only business organizations have a financial contact
+      roles_ids << Role.financial_contact.id if user.organization.business_entity?
+      # if the organization signed an initiative, then add the initiative's role, if available
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
     elsif user.user_type == Contact::TYPE_NETWORK

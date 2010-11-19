@@ -64,7 +64,7 @@
             == There is no Network Report Recipient for #{@organization.country_name}
 
   #contacts.tab_content
-    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new_large', :id => 'new_contact'
+    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new_user_large', :id => 'new_contact'
     %table.dashboard_table#contacts_dashboard_table
       %tr
         %th.last_updated Last update

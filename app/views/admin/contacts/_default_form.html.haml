@@ -1,5 +1,6 @@
+= default_form.error_messages
 %fieldset
-  = default_form.error_messages
+  %legend Details
   %ol
     = default_form.text_field :prefix
     = default_form.text_field :first_name
@@ -21,10 +22,10 @@
   %ol
     - for role in @roles
       %li
-        = check_box_tag "contact[role_ids][]", role.id, @contact.roles.include?(role), { :id => "contact_role_ids_" + role.id.to_s, :class => login_fieldset_class(role) }
-        = label_tag "contact_role_ids_" + role.id.to_s, role.name, :style => 'width: 250px'
-
+        = check_box_tag "contact[role_ids][]", role.id, @contact.roles.include?(role), { :id => "contact_role_ids_" + role.id.to_s, :class => "#{login_fieldset_class(role)} label_right" }
+        = label_tag "contact_role_ids_" + role.id.to_s, role.name, :class => 'checkbox_label'
+        = content_tag :p, role.description || 'There is no description for this role', :class => 'check_box_label_description'
 %fieldset#login_information{:style => login_fieldset_style(@contact)}
-  %legend Account
-  = default_form.text_field :login
+  %legend Login
+  = default_form.text_field :login, :label => 'Username'
   = default_form.password_field :password
