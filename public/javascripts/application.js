@@ -145,19 +145,22 @@ var Watcher = {
 }
 
 $(function() {
+
+  if ($('table.sortable').size() > 0) 
+  		$('table.sortable').tablesorter({widgets: ['zebra']});
 	
-	// if ($('table.sortable').size() > 0) {
-	// 	//$('table.sortable').tablesorter({widgets: ['zebra']});
-	// 	// $('table.sortable')
-	// 	// 	.tablesorter({
-	// 	// 		widthFixed: true, 
-	// 	// 		widgets: ['zebra']}) 
-	// 	//     	.tablesorterPager({
-	// 	// 		container: $(".pager"), 
-	// 	// 		positionFixed: false,
-	// 	// 		size: 20
-	// 	// 	});
-	// }
+  // if ($('table.sortable').size() > 0) {
+  //   $('table.sortable').tablesorter({widgets: ['zebra']});
+  //   $('table.sortable')
+  //    .tablesorter({
+  //      widthFixed: true, 
+  //      widgets: ['zebra']}) 
+  //        .tablesorterPager({
+  //      container: $(".pager"), 
+  //      positionFixed: false,
+  //      size: 20
+  //    });
+  // }
 	
 	$(document).ready(function() { 
 		
