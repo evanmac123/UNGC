@@ -27,7 +27,7 @@ class RoleTest < ActiveSupport::TestCase
     end
     
     should "have CEO, Contact and General role options" do
-      assert_same_elements [Role.ceo, Role.contact_point, Role.general_contact], @roles
+      assert_same_elements [Role.ceo, Role.contact_point], @roles
     end
   end
   

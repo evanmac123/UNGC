@@ -28,7 +28,7 @@ class Role < ActiveRecord::Base
   
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
-      roles_ids = [Role.ceo, Role.contact_point, Role.general_contact].collect(&:id)
+      roles_ids = [Role.ceo, Role.contact_point].collect(&:id)
       # only business organizations have a financial contact
       roles_ids << Role.financial_contact.id if user.organization.business_entity?
       # if the organization signed an initiative, then add the initiative's role, if available
