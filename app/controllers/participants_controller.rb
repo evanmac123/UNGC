@@ -48,9 +48,11 @@ class ParticipantsController < ApplicationController
       filter_options_for_joined_on(options) if params[:joined_after] && params[:joined_before]
       filter_options_for_business_type(options) if params[:business_type]
       filter_options_for_sector(options) if params[:sector_id]
-      
-      keyword = params[:keyword].force_encoding("UTF-8") if params[:keyword].present?
+      filter_options_for_listing_status(options) if params[:listing_status_id]
+      filter_options_for_is_ft_500(options) if params[:is_ft_500]
             
+      keyword = params[:keyword].force_encoding("UTF-8") if params[:keyword].present?            
+
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = options[:with].merge(:keyword => keyword)
       options.delete(:with) if options[:with] == {}
@@ -88,6 +90,15 @@ class ParticipantsController < ApplicationController
     def filter_options_for_sector(options)
       options[:with].merge!(sector_id: params[:sector_id].to_i) if params[:sector_id] != 'all'
     end
+
+    def filter_options_for_listing_status(options)
+      options[:with].merge!(listing_status_id: params[:listing_status_id].to_i) if params[:listing_status_id] != 'all'
+    end
+    
+    def filter_options_for_is_ft_500(options)
+      options[:with].merge!(is_ft_500: params[:is_ft_500].to_i) if params[:is_ft_500] != ''
+    end
+    
     
     def filter_options_for_joined_on(options)
       # check that date_from_params returns a valid date

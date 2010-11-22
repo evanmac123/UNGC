@@ -16,6 +16,8 @@
 //     ['Maximize', 'ShowBlocks','-','About']
 // ]
 
+$.datepicker.setDefaults({ changeYear: true });
+
 var EditorToolbar = [
 	['Source','-','-'],
 	['Maximize','Preview'],
@@ -161,41 +163,42 @@ $(function() {
   //      size: 20
   //    });
   // }
+});
+
+$(document).ready(function() { 
 	
-	$(document).ready(function() { 
+	$('.sort.server').click(function() {	
 		
-		$('.sort.server').click(function() {	
-			
-			new_window_location = window.location.href;
-			new_direction = 'ASC';
-			new_sort_by = this.id;			
-			previous_sort_by = (/sort_by=(\w+)/.test(new_window_location)) ? new_window_location.match(/sort_by=(\w+)/)[1] : 'n/a'
-			previous_direction = (/direction=(\w+)/.test(new_window_location)) ? new_window_location.match(/direction=(\w+)/)[1] : 'n/a'
-			
-			// Cut the previous sort_by and direction params out
-			new_window_location = new_window_location.replace(/&direction=(\w+)/g, '');
-			new_window_location = new_window_location.replace(/&sort_by=(\w+)/g, ''); 
-			new_window_location = new_window_location.replace(/&amp;direction=(\w+)/g, '');
-			new_window_location = new_window_location.replace(/&amp;sort_by=(\w+)/g, '');
-			
-			if(new_sort_by == previous_sort_by) {
-				if(previous_direction != 'undefined' && previous_direction == 'ASC') {
-					new_direction = 'DESC';
-				}
+		new_window_location = window.location.href;
+		new_direction = 'ASC';
+		new_sort_by = this.id;			
+		previous_sort_by = (/sort_by=(\w+)/.test(new_window_location)) ? new_window_location.match(/sort_by=(\w+)/)[1] : 'n/a'
+		previous_direction = (/direction=(\w+)/.test(new_window_location)) ? new_window_location.match(/direction=(\w+)/)[1] : 'n/a'
+		
+		// Cut the previous sort_by and direction params out
+		new_window_location = new_window_location.replace(/&direction=(\w+)/g, '');
+		new_window_location = new_window_location.replace(/&sort_by=(\w+)/g, ''); 
+		new_window_location = new_window_location.replace(/&amp;direction=(\w+)/g, '');
+		new_window_location = new_window_location.replace(/&amp;sort_by=(\w+)/g, '');
+		
+		if(new_sort_by == previous_sort_by) {
+			if(previous_direction != 'undefined' && previous_direction == 'ASC') {
+				new_direction = 'DESC';
 			}
-				
-			// Add the new sort params to the end of the URL and redirect
-			new_window_location += '&sort_by=' + new_sort_by + '&direction=' + new_direction;			
-			window.location = new_window_location
-		});
-		
+		}
+			
+		// Add the new sort params to the end of the URL and redirect
+		new_window_location += '&sort_by=' + new_sort_by + '&direction=' + new_direction;			
+		window.location = new_window_location
 	});
+	
+});
 	
 	if ($('body.editable_page').length > 0) {
 		Watcher.init();
 	}
 
-	$(".tablesorter").tablesorter({widgets: ['zebra']}); 
+  // $(".tablesorter").tablesorter({widgets: ['zebra']}); 
 	
 	
 	$('a.edit_content').live('click', function(event) {
@@ -226,19 +229,26 @@ $(function() {
 			window.location = go.replace(/\&amp;/, '&') + anchor;
 		}
 	});
+  
   // public participant search controls
 	$('form #business_only').click( showBusinessOnly );
 	$('form #stakeholders_only').click( showStakeholdersOnly );
-	$('form #hide_business_and_stakeholders').click( hideBusinessAndStakeholders );	
+	$('form #hide_business_and_stakeholders').click( hideBusinessAndStakeholders );
+	$("#listing_status_id").change(function() {
+    selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
+    if (selected_listing_status == "Public Company") {
+      $('.public_company_only').show('slow');
+    } else {
+      $('.public_company_only').hide('slow');
+    }
+  })
+  
 
   // called from views/signup/step5.html.haml
   $("#contact_foundation_contact").click(function() {
     if ($('#errorExplanation').length > 0) {
     $('#errorExplanation').slideToggle('slow');  
     }
-
     $('#contact_form').slideToggle('slow');
-  })
-
-	$.datepicker.setDefaults({ changeYear: true });
-});
+  });
+  
