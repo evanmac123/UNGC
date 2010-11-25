@@ -3,12 +3,13 @@
 = stylesheet_link_tag '/javascripts/tablesorter/addons/pager/jquery.tablesorter.pager.css'
 
 - if @results.any?
-  %p== There are #{@results.total_entries} #{searched_for}.
+
+  %p== There #{@results.total_entries > 1 ?  'are' : 'is only'} #{searched_for}.
   
   %a{ :name => "paged_results" }
   %div.clearfix
     .left
-      %strong== #{@results.total_entries} results
+      &nbsp;
     .right
       = per_page_select
 
@@ -31,25 +32,30 @@
           %td{:title => org.name}
             #div{:class => iconize(org)}
               = link_to truncate(org.name, :length => 25), participant_path(org)
-          %td{:title => org.organization_type.name}
-            = truncate(org.organization_type.name, :length => 15)
+          
+          - if @searched_for[:business] == OrganizationType::BUSINESS
+            %td{:title => org.listing_status_name}
+              = truncate(org.listing_status_name, :length => 15)
+          - else
+            %td{:title => org.organization_type.name}
+              = truncate(org.organization_type.name, :length => 15)
+          
           %td{:title => org.sector_name}
-            = truncate(org.sector_name, :length => 20)
+            = truncate(org.sector_name, :length => 15)
           %td{:title => org.country_name}
-            = truncate(org.country_name, :length => 20)
+            = truncate(org.country_name, :length => 15)
           %td
             = yyyy_mm_dd org.joined_on
   %br
-  %br
-  /= render :partial => 'shared/pager'
+
   %div
     = will_paginate @results, :anchor => 'paged_results'
     
-%h3 Key:
-%ul
-  %li
-    %img{ :src => "/images/icon_alert.gif" }
-    indicates that a participant is "Non-communicating" for failing to develop a Communication on Progress by the relevant deadline.
+    %img{ :src => "/images/icon_alert.gif", :style => 'margin-right: 10px;' }
+    Non-communicating for failing to develop a Communication on Progress by the relevant deadline.
 
 - else
-  %p== Sorry, there are no #{searched_for}.
+  %p
+    == Sorry, there are #{searched_for}.
+    %br
+    #{link_to 'Try another search.', participant_search_url}

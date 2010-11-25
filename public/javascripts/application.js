@@ -16,7 +16,7 @@
 //     ['Maximize', 'ShowBlocks','-','About']
 // ]
 
-$.datepicker.setDefaults({ changeYear: true });
+$.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
 
 var EditorToolbar = [
 	['Source','-','-'],
@@ -66,21 +66,6 @@ function versionNumberAnchor() {
 		}
 	}
 	return false;
-}
-
-function showBusinessOnly (argument) {
-	$('.for_stakeholders_only').hide('slow');
-	$('.for_business_only').show('slow');
-}
-
-function showStakeholdersOnly (argument) {
-	$('.for_stakeholders_only').show('slow');
-	$('.for_business_only').hide('slow');
-}
-
-function hideBusinessAndStakeholders (argument) {
-	$('.for_stakeholders_only').hide('slow');
-	$('.for_business_only').hide('slow');
 }
 
 var Watcher = {
@@ -231,15 +216,30 @@ $(document).ready(function() {
 	});
   
   // public participant search controls
+  function showBusinessOnly (argument) {
+  	$('.for_stakeholders_only').fadeOut('slow')
+  	$('.for_business_only').fadeIn('slow');
+  }
+
+  function showStakeholdersOnly (argument) {
+  	$('.for_business_only').fadeOut('slow');
+  	$('.for_stakeholders_only').fadeIn('slow');
+  }
+
+  function hideBusinessAndStakeholders (argument) {
+  	$('.for_stakeholders_only').fadeOut('slow');
+  	$('.for_business_only').fadeOut('slow');
+  }
+  
 	$('form #business_only').click( showBusinessOnly );
 	$('form #stakeholders_only').click( showStakeholdersOnly );
 	$('form #hide_business_and_stakeholders').click( hideBusinessAndStakeholders );
 	$("#listing_status_id").change(function() {
     selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
     if (selected_listing_status == "Public Company") {
-      $('.public_company_only').show('slow');
+      $('.public_company_only').show();
     } else {
-      $('.public_company_only').hide('slow');
+      $('.public_company_only').hide();
     }
   })
   
@@ -247,7 +247,7 @@ $(document).ready(function() {
   // called from views/signup/step5.html.haml
   $("#contact_foundation_contact").click(function() {
     if ($('#errorExplanation').length > 0) {
-    $('#errorExplanation').slideToggle('slow');  
+      $('#errorExplanation').slideToggle('slow');  
     }
     $('#contact_form').slideToggle('slow');
   });

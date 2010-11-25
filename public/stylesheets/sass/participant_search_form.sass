@@ -1,0 +1,36 @@
+!dark_blue = #14546f
+div#participant_search
+  fieldset
+    padding: 1.4em
+    margin: 0 0 1.5em 0
+    border: 1px solid #ccc
+  legend
+    font-weight: bold
+    color= !dark_blue
+  label
+    font-weight: normal
+    color= !dark_blue 
+    float: left
+    width: 120px
+    cursor: pointer
+    &.date
+      width: auto
+      margin: 0 10px 0 0
+  
+  input[type=text], select
+    width: 275px
+    border: 1px solid #bbb
+    &.datepicker
+      width: auto
+  
+  input[type=radio], input[type=checkbox]
+    float: left
+    margin: 2px 10px 0 0
+  
+  dl
+    dt
+      float: left
+      &.radio
+        text-align: right
+    dd
+      clear: right

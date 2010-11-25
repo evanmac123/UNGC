@@ -1,0 +1,30 @@
+div#participant_search fieldset {
+  padding: 1.4em;
+  margin: 0 0 1.5em 0;
+  border: 1px solid #ccc; }
+div#participant_search legend {
+  font-weight: bold;
+  color: #14546f; }
+div#participant_search label {
+  font-weight: normal;
+  color: #14546f;
+  float: left;
+  width: 120px;
+  cursor: pointer; }
+  div#participant_search label.date {
+    width: auto;
+    margin: 0 10px 0 0; }
+div#participant_search input[type=text], div#participant_search select {
+  width: 275px;
+  border: 1px solid #bbb; }
+  div#participant_search input[type=text].datepicker, div#participant_search select.datepicker {
+    width: auto; }
+div#participant_search input[type=radio], div#participant_search input[type=checkbox] {
+  float: left;
+  margin: 2px 10px 0 0; }
+div#participant_search dl dt {
+  float: left; }
+  div#participant_search dl dt.radio {
+    text-align: right; }
+div#participant_search dl dd {
+  clear: right; }

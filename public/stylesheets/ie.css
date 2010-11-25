@@ -16,3 +16,6 @@ div.ui-datepicker select.ui-datepicker-year { float: left; position: relative; t
 /* wrap text in form legend for COPs */
 #main_content fieldset legend { margin-bottom: 15px; }
 #main_content fieldset legend span { white-space:normal; float: left; }
+
+/* participant search */
+div.radio_button_group { margin: 15px 0 -15px 0; }
