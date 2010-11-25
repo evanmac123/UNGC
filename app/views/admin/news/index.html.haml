@@ -1,6 +1,6 @@
 %h2 News headlines
 
-= link_to 'Create a headline', new_admin_headline_path, :class => 'new', :id => 'new_headline'
+%p= link_to 'New headline', new_admin_headline_path, :class => 'new_headline_large', :id => 'new_headline'
 
 - if paged_headlines.any?
   %table.dashboard_table
