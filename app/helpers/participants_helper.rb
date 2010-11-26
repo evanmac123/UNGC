@@ -91,7 +91,7 @@ module ParticipantsHelper
           ownership = case ListingStatus.find(@searched_for[:listing_status_id]).name.downcase
             when 'public company'
               # all FT500 companies are publicly traded
-              @searched_for[:is_ft_500] ? 'FT500' : 'publicly-traded'
+              @searched_for[:is_ft_500] ? 'FT 500' : 'publicly-traded'
             when 'private company'
               'privately held'
             when 'state-owned'
