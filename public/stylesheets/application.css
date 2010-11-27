@@ -140,7 +140,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1_content { position: relative; }
 #box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
 #box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
-#box1 div.readmore { position: absolute; top: 125px; right: 0px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: center; }
+#box1 div.readmore { position: absolute; top: 125px; right: 10px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: center; }
 #box1 div.readmore div { padding: 7px 0 0 0; }
 #box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
