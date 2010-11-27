@@ -15,6 +15,6 @@
     = yield
     = render :partial => 'layouts/footer'
     = javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery?
-    = javascript_include_tag 'jquery', 'jquery-ui', 'admin', 'jquery.parsequery.min', 'tablesorter', 'application', 'dashboard','http://www.google-analytics.com/urchin', 'google_analytics'
+    = javascript_include_tag 'jquery', 'jquery-ui', 'admin', 'jquery.parsequery.min', 'tablesorter', 'jquery.tablesorter.pager', 'application', 'dashboard','http://www.google-analytics.com/urchin', 'google_analytics'
     - (@javascript || []).each do |file|
       = javascript_include_tag file
