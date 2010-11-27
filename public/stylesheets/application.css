@@ -106,9 +106,10 @@ body.supply_chain    #inner_head { background: url(/images/banner_supply_chain.p
 #languages ul li { display: inline; margin-right: 5px;}
 #languages a {font-size: 9px; color: #FFF;}
 #search { position: absolute; top: 60px; left: 700px; }
-#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.90; -moz-opacity: 0.90; filter:alpha(opacity=90);}
-#search p { padding-top: 5px; font-size: 11px; color: #fff;  }
-#nav_bg {  width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
+#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
+#search p { padding-top: 5px; font-size: 11px; color: #fff; }
+#search p label, #search p input {cursor: pointer;}
+#nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
 #nav ul { list-style: none; position: absolute; top: 3px; left: 42px; height: 22px; z-index: 10; white-space: nowrap;}
@@ -139,9 +140,9 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1_content { position: relative; }
 #box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
 #box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
-#box1 div.readmore { position: absolute; top: 125px; right: 0px; width: 90px; height: 30px; background-color: #48788A; font-size: 12px; font-weight: bold; text-align: right; }
-#box1 div.readmore div { padding: 7px 6px 0 0; }
-#box1 div.readmore div a { color: #fff; }
+#box1 div.readmore { position: absolute; top: 125px; right: 0px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: center; }
+#box1 div.readmore div { padding: 7px 0 0 0; }
+#box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; background-repeat: no-repeat; background-image: url(/pics/un_images/Leaders_Summit_Logo_small.png);} 
 #box2_content { position: relative; }
