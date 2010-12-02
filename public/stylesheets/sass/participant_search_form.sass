@@ -1,9 +1,13 @@
 !dark_blue = #14546f
+!border_radius = 4px
 div#participant_search
   fieldset
     padding: 1.4em
     margin: 0 0 1.5em 0
     border: 1px solid #ccc
+    -moz-border-radius= !border_radius
+    -webkit-border-radius= !border_radius
+    border-radius= !border_radius
   legend
     font-weight: bold
     color= !dark_blue
@@ -28,6 +32,8 @@ div#participant_search
     margin: 2px 10px 0 0
   
   dl
+    &.dates
+      margin: 0
     dt
       float: left
       &.radio

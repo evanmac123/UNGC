@@ -18,17 +18,18 @@
           = select_tag :country, countries_for_select, :multiple => true, :size => 6
   
     %fieldset
-      %legend Accepted dates
-      %dl.left
-        %dt
-          %label.date{:for => :joined_after} Start date
-        %dd
-        = text_field_tag :joined_after, nil, :class => 'datepicker', :size => 11
-      %dl.left
-        %dt
-          %label.date{:for => :joined_before} End date
-        %dd
-          = text_field_tag :joined_before, nil, :class => 'datepicker', :size => 11
+      %legend Acceptance Date
+      %div.radio_button_group
+        %dl.left.dates
+          %dt
+            %label.date{:for => :joined_after} Starting
+          %dd
+          = text_field_tag :joined_after, nil, :class => 'datepicker', :size => 11
+        %dl.left.dates
+          %dt
+            %label.date{:for => :joined_before} Ending
+          %dd
+            = text_field_tag :joined_before, nil, :class => 'datepicker', :size => 11
   
     %fieldset
       %legend Type of Participant
@@ -70,12 +71,13 @@
   
       %fieldset
         %legend Communication on Progress status
-        = radio_button_tag :cop_status, :all, true
-        %label{:for => 'cop_status_all'} Any
-        = radio_button_tag :cop_status, Organization::COP_STATES[:active]
-        %label{:for => 'cop_status_active'} Active
-        = radio_button_tag :cop_status, Organization::COP_STATES[:noncommunicating]
-        %label{:for => 'cop_status_noncommunicating'} Non-Communicating
+        %div.radio_button_group
+          = radio_button_tag :cop_status, :all, true
+          %label{:for => 'cop_status_all'} Any
+          = radio_button_tag :cop_status, Organization::COP_STATES[:active]
+          %label{:for => 'cop_status_active'} Active
+          = radio_button_tag :cop_status, Organization::COP_STATES[:noncommunicating]
+          %label{:for => 'cop_status_noncommunicating'} Non-Communicating
 
     %div.for_stakeholders_only{:style => 'display: none;'}
       %fieldset
