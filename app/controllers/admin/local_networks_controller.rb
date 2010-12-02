@@ -8,7 +8,11 @@ class Admin::LocalNetworksController < AdminController
   def new
     @local_network = LocalNetwork.new
   end
-
+  
+  def show
+    @local_network = LocalNetwork.find(params[:id])
+  end
+  
   def edit
     @local_network = LocalNetwork.find(params[:id])
   end
@@ -16,7 +20,7 @@ class Admin::LocalNetworksController < AdminController
   def create
     @local_network = LocalNetwork.new(params[:local_network])
     if @local_network.save
-      flash[:notice] = 'Local network was successfully created.'
+      flash[:notice] = 'Local Network was successfully created.'
       redirect_to(admin_local_networks_path)
     else
       render :action => "new"
@@ -26,7 +30,7 @@ class Admin::LocalNetworksController < AdminController
   def update
     @local_network = LocalNetwork.find(params[:id])
     if @local_network.update_attributes(params[:local_network])
-      flash[:notice] = 'LocalNetwork was successfully updated.'
+      flash[:notice] = 'Local Network was successfully updated.'
       redirect_to(admin_local_networks_path)
     else
       render :action => "edit"

@@ -1,8 +1,9 @@
 %tr
   %td= local_network.updated_at
   %td= local_network.name
-  %td= local_network.state
+  %td= local_network.state.humanize
   %td
     %ul.actions
+      %li= link_to 'View', admin_local_network_path(local_network), :class => "preview", :title => "View Local Network"
       %li= link_to 'Edit', edit_admin_local_network_path(local_network), :class => 'edit', :title => 'Edit details'
       %li= link_to 'Delete', admin_local_network_path(local_network), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'

@@ -1,0 +1,26 @@
+- @body_class = 'details'
+%h2= @local_network.name
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#overview">Overview</a>
+    %li <a href="#contacts">Contacts</a>
+
+  #overview.tab_content
+    %dl.left_column
+      %h3 Status
+      %dt.first Development Stage
+      %dd.first= @local_network.state.humanize
+      %dt Established
+      %dd= Date.today
+
+    %dl.left_column
+      %h3 Contacts
+      %dt.first Network Manager
+      %dd.first Jonas Haertle
+      %dt Network Representative
+      %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
+      %dt Network Report Recipient
+      %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_report_recipients
+
+  #contacts.tab_content
+    =@local_network.contacts.count
