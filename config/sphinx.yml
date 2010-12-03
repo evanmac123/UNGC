@@ -1,7 +1,9 @@
 development:
   mem_limit: 32M
+  max_matches: 15000
 test:
   mem_limit: 32M
+  max_matches: 15000
 production:
   mem_limit: 32M
-  
+  max_matches: 15000

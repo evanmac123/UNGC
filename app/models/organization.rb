@@ -81,16 +81,19 @@ class Organization < ActiveRecord::Base
   @@per_page = 100
 
   define_index do
-    indexes name
+    indexes name, :sortable => true
     has country(:id), :as => :country_id, :facet => true
     has country(:name), :as => :country_name, :facet => true
     has organization_type(:type_property), :as => :business, :facet => true
     has organization_type(:id), :as => :organization_type_id, :facet => true
     has sector(:id), :as => :sector_id, :facet => true
     has sector(:name), :as => :sector_name, :facet => true
+    has listing_status(:id), :as => :listing_status_id, :facet => true
+    has listing_status(:name), :as => :listing_status_name, :facet => true
     has "CRC32(cop_state)", :as => :cop_state, :type => :integer # NOTE: This used to have :facet => true, but it broke search in production, and *only* in production - I don't know why, but I do know that this fixes it
     has joined_on, :facet => true
     has delisted_on, :facet => true
+    has is_ft_500, :facet => true
     has state, active, participant
     # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
     set_property :enable_star => true
