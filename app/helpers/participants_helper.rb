@@ -88,6 +88,7 @@ module ParticipantsHelper
         # describe type of ownership
         ownership = ''
         if @searched_for[:listing_status_id].present?
+          
           ownership = case ListingStatus.find(@searched_for[:listing_status_id]).name.downcase
             when 'public company'
               # all FT500 companies are publicly traded
@@ -96,6 +97,10 @@ module ParticipantsHelper
               'privately held'
             when 'state-owned'
               'state-owned'
+            when 'subsidiary'
+              'subsidiary'
+            else
+              ownership = ''
           end
         end
         
@@ -128,10 +133,10 @@ module ParticipantsHelper
       response << " from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?
       
       if @searched_for[:joined_on]
-        response << ", who were accepted between #{nice_date_from_param(:joined_after)} and #{nice_date_from_param(:joined_before)}"
+        response << " who were accepted between #{nice_date_from_param(:joined_after)} and #{nice_date_from_param(:joined_before)}"
       end
       
-      response << ", matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
+      response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
       
     end
   end
