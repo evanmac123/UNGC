@@ -19,11 +19,17 @@
 %h2 Countries of Impact
 %p= @case_story.country_names
 
-%h2 Case Description
-%p= simple_format h @case_story.description
+- if @case_story.description.present?
+  %h2 Case Description
+  %p= simple_format h @case_story.description
 
-%h2 Links
-= formatted_links(@case_story.links)
+- if @case_story.links.any?
+  %h2 Links
+  = formatted_links(@case_story.links)
+
+- if @case_story.attachment?
+  %h2 File
+  %ul= content_tag :li, link_to("Case Story Attachment (#{@case_story.extension})", @case_story.attachment.url)
 
 %h2 Authors
 = formatted_authors(@case_story.authors_for_display)
@@ -31,5 +37,5 @@
 %h2 Contact Person
 %p= formatted_email_link_to(@case_story.contact_for_display)
 
-%h2 Note
-%p Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
+%strong Note:
+Responsibility for the content of Case Stories and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
