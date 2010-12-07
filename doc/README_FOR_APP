@@ -86,6 +86,10 @@ The application needs a cron job to notify organizations of their COP submission
 The application needs a cron job to update organizations' COP state - this needs to run daily.
 ./script/runner 'CopStatusUpdater.new.update_all' RAILS_ENV=production
 
+COP Maintenance
+===============
+cop.cop_links.create(:url => 'http://www.ahkbrasil.com/download/CSR_RelatorioAnualAHK_2009_10.pdf', :attachment_type => 'cop', :language_id => 19)
+
 Fields to delete
 ================
 

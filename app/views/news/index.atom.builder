@@ -1,8 +1,7 @@
 atom_feed(:url => "http://#{request.host}/feeds/news/") do |feed|
 
   feed.title("United Nations Global Compact - Latest News")
-  feed.updated(@headlines.first.published_on)
-
+  feed.updated(@headlines.first.approved_at)
   for headline in @headlines
     feed.entry(headline, :url => headline_url(headline)) do |entry|
       entry.title(strip_tags(headline.title))
