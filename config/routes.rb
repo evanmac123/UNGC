@@ -86,7 +86,8 @@ ActionController::Routing::Routes.draw do |map|
   # Front-end routes
   
   map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
-  map.connect "/watermandate", :controller => 'pages', :action => :redirect_to_page, :page => '/Issues/Environment/CEO_Water_Mandate/'
+  map.connect '/watermandate', :controller => 'pages', :action => :redirect_to_page, :page => '/Issues/Environment/CEO_Water_Mandate/'
+  map.connect '/Lead', :controller => 'pages', :action => :redirect_to_page, :page => '/HowToParticipate/Lead/'
   
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
