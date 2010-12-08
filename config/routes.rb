@@ -86,8 +86,17 @@ ActionController::Routing::Routes.draw do |map|
   # Front-end routes
   
   map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
-  map.connect '/watermandate', :controller => 'pages', :action => :redirect_to_page, :page => '/Issues/Environment/CEO_Water_Mandate/'
-  map.connect '/Lead', :controller => 'pages', :action => :redirect_to_page, :page => '/HowToParticipate/Lead/'
+  
+  # some important URLs are just too long to type
+  short_urls = {
+    'Lead' => '/HowToParticipate/Lead/',
+    'lead' => '/HowToParticipate/Lead/',
+    'watermandate'=> '/Issues/Environment/CEO_Water_Mandate/'
+  }
+  
+  short_urls.each do |url, webpage|
+    map.connect url, :controller => 'pages', :action => :redirect_to_page, :page => webpage
+  end
   
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
