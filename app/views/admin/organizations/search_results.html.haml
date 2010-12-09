@@ -1,4 +1,4 @@
-%h3== There are #{@results.total_entries} #{searched_for}.
+%h3== There #{@results.total_entries > 1 ?  'are' : 'is only'} #{searched_for}.
 %div.tab_container
   = render :partial => 'control_tabs'
   %div.tab_content
