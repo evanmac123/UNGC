@@ -9,7 +9,7 @@ $("input[name='communication_on_progress[format]']").click(function() {
     $("#text_a").show();
     $("#submit_tab").show();
   } else {
-    $("#non_grace_letter_fields").show();
+    $("#non_grace_letter_fields").fadeIn('slow');
     hideAndDisableFormElements("#grace_letter_fields");
     showAndEnableFormElements("#web_cop_attachments");
     showAndEnableFormElements("#cop_attachments");
@@ -40,12 +40,12 @@ $("input[name='communication_on_progress[web_based]']").click(function() {
 // Q5 - A statement of continued support is required
 $("input[name='communication_on_progress[include_continued_support_statement]']").click(function() {
   if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
-    $("#include_continued_support_statement").show();
+    $("#include_continued_support_statement").fadeIn('slow');
     $("#reject_cop").hide();
     $("#text_d").hide();
   }
   else {
-    $("#include_continued_support_statement").show();
+    $("#include_continued_support_statement").fadeIn('slow');
     $("#reject_cop").hide();
     $("#text_d").hide();
   }
@@ -100,7 +100,7 @@ function hideAndDisableFormElements(div) {
 }
 
 function showAndEnableFormElements(div) {
-  $(div).show();
+  $(div).fadeIn('slow');
   $(div + " input, " + div + " select").attr("disabled", "");
 }
 

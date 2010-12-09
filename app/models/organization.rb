@@ -360,10 +360,10 @@ class Organization < ActiveRecord::Base
   def participant_for_over_5_years?
     joined_on < 5.years.ago.to_date
   end
-    
-  def extend_cop_grace_period # TODO: Verify the date math here
-    self.update_attribute :cop_due_on, Date.today + COP_GRACE_PERIOD
-    self.update_attribute :cop_state, COP_STATE_ACTIVE
+  
+  # Policy specifies 90 days, so we extend the current due date
+  def extend_cop_grace_period
+    self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
     self.update_attribute :active, true
   end
   

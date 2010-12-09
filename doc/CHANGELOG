@@ -1,3 +1,9 @@
+h1. 2010-12-09
+
+* Change rules for Grace Period. It's now 90 days from the COP due date, not 90 days from the day the Grace Letter is submitted
+* Non-Communicating companies that submit a Grace Letter stay Non-Communicating
+* Delisted companies do not see the Grace Letter option
+
 h1. 2010-12-01
 
 * added descriptions for roles since participants were not sure which one to use

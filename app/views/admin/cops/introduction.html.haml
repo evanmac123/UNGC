@@ -6,11 +6,12 @@
     %li <a href="#general">General</a>
     %li <a href="#basic">Basic Template</a>
     %li <a href="#advanced">Advanced Programme</a>
-    %li <a href="#grace">Grace Letter</a>
+    - unless current_user.organization.delisted?
+      %li <a href="#grace">Grace Letter</a>
 
   #introduction.tab_content
     %p{:class => 'cop_description' :style => 'margin-top: 10px;'}
-      %strong Using the tabs above, choose among four alternatives to submit your COP
+      %strong Please choose the type of COP to submit
     %p{:class => 'cop_description'}
       %strong General:
       For companies who prepare a standalone COP and communicate directly with stakeholders (e.g. Sustainability Report).
@@ -20,9 +21,10 @@
     %p{:class => 'cop_description'}
       %strong Advanced Programme:
       == Companies who are at a higher level of sustainability performance and disclosure are encouraged to participate in this test phase. #{popup_link_to 'Learn more...','/COP/differentiation/advanced_programme.html'}
-    %p{:class => 'cop_description'}
-      %strong Grace Letter:
-      Submitting a Grace Letter allows for a 90 day extension of the COP due date. 
+    - unless current_user.organization.delisted?
+      %p{:class => 'cop_description'}
+        %strong Grace Letter:
+        == Submitting a Grace Letter allows for a #{Organization::COP_GRACE_PERIOD} day extension of the COP due date. 
 
   #general.tab_content
     %h3 Publish a COP on the Global Compact Website
@@ -52,9 +54,10 @@
 
     %p= link_to 'Proceed to Advanced Programme', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
   
-  #grace.tab_content
-    %h3 Request a COP due date extension
+  - unless current_user.organization.delisted?
+    #grace.tab_content
+      %h3 Request a COP due date extension
 
-    %p{:class => 'cop_description'} In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of 90 days if a reasonable explanation for the delay (e.g. changes to reporting cycles) is posted on the Global Compact website, including an expected date of COP submission.
+      %p{:class => 'cop_description'}== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{Organization::COP_GRACE_PERIOD} days if a reasonable explanation for the delay (e.g. changes to reporting cycles) is posted on the Global Compact website, including an expected date of COP submission.
 
-    %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'
+      %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'

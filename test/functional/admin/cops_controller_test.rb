@@ -23,6 +23,35 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_principle_areas
       login_as @organization_user
     end
+   
+   context "with an Active status" do
+     should "see Grace Letter tab" do
+       get :introduction
+       assert_response :success
+       assert_select 'ul.tab_nav' do
+         assert_select 'li:last-child', 'Grace Letter'
+       end
+     end
+   end
+
+   context "with a Delisted status" do
+     setup do
+       create_organization_and_user
+       @organization.approve!
+       # state machine requires organization to be non-communicating first
+       @organization.communication_late
+       @organization.delist
+       login_as @organization_user
+     end
+     should "not see Grace Letter tab" do
+       assert @organization.delisted?
+       get :introduction
+       assert_response :success
+       assert_select 'ul.tab_nav' do
+         assert_select 'li:last-child', 'Advanced Programme'
+       end
+     end
+   end
 
     context "given a new cop" do    
       %w{basic intermediate advanced grace}.each do |cop_type|

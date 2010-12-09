@@ -77,8 +77,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
     
     should "change the organization's due date after it is approved" do
-      assert_nil @organization.cop_due_on
-      
+      # assert_nil @organization.cop_due_on
       @cop.approve
       @organization.reload
       assert_equal 1.year.from_now.to_date, @organization.cop_due_on
@@ -113,28 +112,29 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   
-  context "given a COP that is a grace letter request and is currently pending review" do
+  context "given a COP that is a grace letter" do
     setup do
       create_organization_and_user('approved')
       @old_cop_due_on = @organization.cop_due_on
       @cop = pending_review(@organization, format: 'grace_letter')
       @cop.type = 'grace'
       @cop.save
+      @cop.approve!
     end
   
     should "have is_grace_letter? return true" do
       assert @cop.is_grace_letter?
     end
     
-    should "have an extra 90 days to submit a COP" do
+    should "have an extra 90 days added to the current COP due date" do
       @organization.reload
-      assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD).to_date, (@organization.cop_due_on).to_date
+      assert_equal (@old_cop_due_on + 90.days).to_date, @organization.cop_due_on.to_date
     end
     
     should "set the coverage dates from today until 90 days from now" do
       @cop.reload
-      assert_equal Date.today, @cop.starts_on
-      assert_equal (Date.today + 90.days), @cop.ends_on
+      assert_equal @organization.cop_due_on.to_date, @cop.starts_on
+      assert_equal (@organization.cop_due_on + 90.days).to_date, @cop.ends_on
     end
       
   end
@@ -147,9 +147,9 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       @cop.approve!
     end
     
-    should "make the company active" do
+    should "not make the company active" do
       @organization.reload
-      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+      assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
     end
   end
     

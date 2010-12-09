@@ -168,8 +168,9 @@ class CommunicationOnProgress < ActiveRecord::Base
     case self.type
       when 'grace'
         self.format = CopFile::TYPES[:grace_letter]
-        self.starts_on = Date.today
-        self.ends_on = Date.today + 90.days
+        # normally they can choose the coverage dates, but for grace letters it matches the grace period
+        self.starts_on = self.organization.cop_due_on
+        self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
       when 'basic'
         self.format = 'basic'
       when 'advanced'
