@@ -18,6 +18,7 @@ class OrganizationTest < ActiveSupport::TestCase
       @companies = create_organization_type(:name => 'Company')
       @micro_enterprise = create_organization_type(:name => 'Micro Enterprise')
       @sme = create_organization_type(:name => 'SME')
+      @academic = create_organization_type(:name => 'Academic')
     end
     
     should "set the organization type to micro enterprise when it has less than 10 employees" do
@@ -51,6 +52,13 @@ class OrganizationTest < ActiveSupport::TestCase
                                           :organization_type_id => @non_business.id,
                                           :sector => @sector )
       assert_equal @sector_not_applicable, @organization.sector
+    end
+    
+    should "identify Academic organizations" do
+      @organization = Organization.create(:name => "University",
+                                          :employees => 5,
+                                          :organization_type_id => @academic.id)
+      assert @organization.academic?
     end
         
     context "approving its participation" do

@@ -133,6 +133,19 @@ class SignupControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'step7'
     end 
-    
+
+    should "see the PRME invitation on the seventh step page if they are an Academic organization" do
+      @academic = create_organization_type(:name => 'Academic', :type_property => 1)
+      session[:signup_organization] = Organization.new(:name                 => 'City University',
+                                                       :organization_type_id => @academic.id,
+                                                       :employees            => 50)
+      session[:signup_contact] = Contact.new(@signup_contact)
+      session[:signup_ceo] = Contact.new(@signup_ceo)
+      post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+      assert_response :success
+      assert_template 'step7'
+      assert_select 'div.prme'
+    end
   end
+
 end
