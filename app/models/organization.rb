@@ -269,6 +269,10 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name) == 'SME'
   end
 
+  def academic?
+     organization_type.try(:name) == 'Academic'
+   end
+
   def listing_status_name
     listing_status.try(:name) || 'Unknown'
   end

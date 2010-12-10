@@ -14,3 +14,35 @@
 
 %p
   ==If you still do not receive a confirmation email, please contact #{link_to 'globalcompact@un.org', 'mailto:globalcompact@un.org?subject=Online%20Application%20ID%20' + @organization.id.to_s} and reference Application ID #{@organization.id}.
+
+- if @organization.academic?
+  %div.prme
+    %hr
+    %p{:style => 'text-align: center; margin-top: 25px;'}= image_tag "/pics/un_images/prme.png", :title => "Principles for Responsible Management Education (PRME)"
+    %h4 A message from the Principles for Responsible Management Education (PRME) Secretariat
+  
+    %p We welcome your organization's intention to participate in the UN Global Compact. It is a strong demonstration of your academic institution's leadership and vision in advancing the tenets of corporate sustainability and the principles of the initiative. 
+  
+    %p If you are representing a degree-granting academic institution we would invite you to consider also participating in the Principles for Responsible Management Education (PRME) initiative which focuses on incorporating corporate sustainability topics into curricula and research. PRME supports these efforts by providing academic institutions with a framework for curriculum change and adaptation of research, giving access to a global learning community, and by serving as a means to recognize your organization's efforts to incorporate corporate sustainability in teaching, research and internal systems.
+  
+    %p The PRME initiative is organized jointly by the UN Global Compact Office and the following PRME Steering Committee organizations: 
+
+    %ul
+      %li Association to Advance Collegiate Schools of Business (AACSB International), 
+      %li European Foundation for Management Development (EFMD) 
+      %li Association of MBAs 
+      %li Aspen Institute’s Business and Society Program 
+      %li Central and East European Management Development Association (CEEMAN) 
+      %li The Academy for Business in Society (EABIS) 
+      %li Globally Responsible Leadership Initiative (GRLI) 
+      %li Latin American Council of Management Schools (CLADEA) 
+      %li Net Impact
+    
+    %p== Participating in PRME requires you to sign up separately on the #{link_to 'PRME website', 'http://www.unprme.org/how-to-participate/'}. For more information, please visit #{link_to 'www.unprme.org','http://www.unprme.org'}, or contact the PRME Secretariat at #{link_to 'PRMESecretariat@unprme.org', 'mailto:PRMESecretariat@unprme.org'}.
+    
+    %p
+      Jonas Haertle
+      %br
+      Head, PRME Secretariat
+      
+      
