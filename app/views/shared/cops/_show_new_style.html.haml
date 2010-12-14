@@ -54,7 +54,7 @@
     %ul
       %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)]
 
-  %dt Content
+  %dt Self-assessment
   %dd
     %ul
       - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
@@ -75,7 +75,10 @@
 / - if logged_in? || params[:action] == 'feed'
 
 - if communication_on_progress.additional_questions?
-  %dt Issue Area Coverage
+  %dt
+    Issue Area Coverage
+    %br
+    (self-assessed)
   %dd
     %ul
       %li

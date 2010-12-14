@@ -48,14 +48,14 @@
       #cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
-            %span Required: Upload the COP as a PDF file
+            %span Required: upload the COP as a PDF file
           = text_partial('b')
           = render :partial => 'cop_files_form'
   
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
-            %span Optional: Provide a link to your web-based COP. The link should be in the format 'http://company.com'
+            %span Optional: provide a link to your web-based COP. The link should be in the format 'http://company.com'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
   
     = submit_tag 'Submit', :class => "button", :id => "finish"
