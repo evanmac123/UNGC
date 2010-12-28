@@ -16,9 +16,7 @@ module Admin::OrganizationsHelper
   
   def text_for_edit_icon(user)
     if user.from_organization?
-      "Edit your organization's details"
-    elsif user.from_network?
-      "Edit this organization's details"
+      "Edit your organization's profile"
     else
       "Edit"
     end

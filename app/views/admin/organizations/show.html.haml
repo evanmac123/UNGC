@@ -18,7 +18,7 @@
     
   #overview.tab_content
     %ul{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit organization's profile"
+      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large'
 
     %dl.left_column
       %h3 Organization Details
@@ -75,6 +75,10 @@
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
+      - staff_only do
+        - unless @organization.approved?
+          %li= link_to 'Reverse roles', reverse_roles_admin_organization_path(@organization.id), :class => 'refresh_large', :title => 'Switch the CEO and Contact Point roles, and transfer login information.'
+      
     %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
 
   #comments.tab_content

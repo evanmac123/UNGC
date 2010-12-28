@@ -90,6 +90,17 @@ class OrganizationTest < ActiveSupport::TestCase
         assert_equal @organization.financial_contact_or_contact_point, @organization_user
       end
       
+      should "reverse contact and ceo roles if the information was incorrectly entered in the signup registration form" do
+        create_organization_and_ceo
+        assert @organization.reverse_roles
+      end
+      
+      should "reverse roles only if there is one contact and one ceo" do
+        # only create a contact point - there is no CEO
+        create_organization_and_user
+        assert !@organization.reverse_roles
+      end
+      
     end
   end
   

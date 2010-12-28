@@ -54,6 +54,7 @@ ActionController::Routing::Routes.draw do |map|
                                                      :updated        => :get,
                                                      :network_review => :get,
                                                      :search         => :get },
+                                    :member     => { :reverse_roles  => :get }, 
                                     :has_many   => [:contacts, :comments] do |organization|
     admin.resources :logo_requests, :collection => { :approved       => :get,
                                                      :rejected       => :get,

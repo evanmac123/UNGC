@@ -1,3 +1,8 @@
+h1. 2010-12-27
+
+* a number of online registrations were being completed with the CEO entered as a Contact Point and vice versa
+* after making the change in the database, a user function was created to make this change
+
 h1. 2010-12-10
 
 * added PRME message at end of sign up process to encourage PRME participants to be GC participants and vice versa
