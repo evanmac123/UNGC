@@ -86,21 +86,24 @@ module Admin::OrganizationsHelper
   
   # display organizations with similar names
   def duplicate_application(organization)
-    matches = Organization.search organization.name, :retry_stale => true, :stat => true 
+    if ThinkingSphinx.sphinx_running?
     
-    if matches.count > 0
-      list_items = ''
-      matches.try(:each) do |match|
-        unless match.id == organization.id
-          list_items += content_tag :li, link_to("#{match.id}: #{match.name}", admin_organization_path(match.id)), :title => "#{match.id}: #{match.name}"
+      matches = Organization.search organization.name, :retry_stale => true, :stat => true
+      if matches.count > 0
+        list_items = ''
+        matches.try(:each) do |match|
+          unless match.id == organization.id
+            list_items += content_tag :li, link_to("#{match.id}: #{match.name}", admin_organization_path(match.id)), :title => "#{match.id}: #{match.name}"
+          end
         end
       end
-    end
     
-    unless list_items.blank?
-      html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
-      html += content_tag :ul, list_items, :class => 'matching_list'
+      unless list_items.blank?
+        html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
+        html += content_tag :ul, list_items, :class => 'matching_list'
+      end
     end
+  
   end
   
 end

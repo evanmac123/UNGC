@@ -3,6 +3,10 @@ h1. 2010-12-27
 * a number of online registrations were being completed with the CEO entered as a Contact Point and vice versa
 * after making the change in the database, a user function was created to make this change
 
+* for pending organizations, we like to know if there are possible duplicate applications being submitted
+* we run a search on all organization names when listing pending organizations
+* but if Sphinx is indexing, we get an error, so I added "if ThinkingSphinx.sphinx_running?" before calling Organization.search
+
 h1. 2010-12-10
 
 * added PRME message at end of sign up process to encourage PRME participants to be GC participants and vice versa
