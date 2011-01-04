@@ -4,8 +4,8 @@ module Admin::OrganizationsHelper
     unless current_user.from_organization?
       actions << link_to('Network review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post) if organization.can_network_review?
       actions << link_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), :method => :post) if organization.can_approve?
-      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post) if organization.can_reject?
-      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post) if organization.can_reject?
+      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this application?") if organization.can_reject?
+      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this Micro Enterprise?") if organization.can_reject?
       actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
       if @organization.participant 
         actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
