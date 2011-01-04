@@ -65,7 +65,7 @@ class Admin::OrganizationsController < AdminController
     else 
       flash[:error] = @organization.errors.full_messages.to_sentence
     end
-    redirect_to( admin_organization_path(@organization.id, {:tab => 'contacts'}) )
+    redirect_to admin_organization_path(@organization.id)
   end
 
   # Define state-specific index methods

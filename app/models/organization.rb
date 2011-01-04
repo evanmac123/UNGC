@@ -486,9 +486,6 @@ class Organization < ActiveRecord::Base
       false
     end
     
-    
-    
-    
   end
   
   
