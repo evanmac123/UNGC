@@ -1,7 +1,10 @@
 - @body_class = 'details'
 %h2 Communication on Progress Details
 
-%p= link_to 'View public version', cop_detail_path( @communication_on_progress.id), :class => 'web_preview_large'
+%ul{:class => "tools inline"}
+  %li= link_to 'Public version', cop_detail_path(@communication_on_progress.id), :class => 'web_preview_large'
+  - staff_only do
+    %li= link_to 'Delete COP', admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress), :method => :delete, :class => 'delete_large', :confirm => 'All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?', :title => 'Delete COP and remove all answers, files and links'
 
 #main_content
   #status_box

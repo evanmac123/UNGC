@@ -23,7 +23,7 @@ class Admin::CopsController < AdminController
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
     if @communication_on_progress.save
-      flash[:notice] = "The COP has been published on the Global Compact website."
+      flash[:notice] = "The COP has been published on the Global Compact website"
       clear_session_template
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
@@ -39,8 +39,13 @@ class Admin::CopsController < AdminController
   end
 
   def destroy
-    @communication_on_progress.destroy
-    redirect_to dashboard_path(tab: 'cops')
+    org_id = @communication_on_progress.organization.id
+    if @communication_on_progress.destroy
+      flash[:notice] = 'The COP was deleted'
+    else
+      flash[:error] =  @communication_on_progress.errors.full_messages.to_sentence
+    end
+   redirect_to admin_organization_path(org_id, :tab => :cops)
   end
   
   private
@@ -65,7 +70,7 @@ class Admin::CopsController < AdminController
     def only_editable_cops_go_to_edit
       unless @communication_on_progress.editable?
         flash[:notice] = "You cannot edit this COP"
-        redirect_to dashboard_path(:tab => 'cops')
+        redirect_to admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
       end
     end
 end

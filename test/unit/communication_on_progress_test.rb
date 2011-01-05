@@ -77,7 +77,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
     
     should "change the organization's due date after it is approved" do
-      # assert_nil @organization.cop_due_on
       @cop.approve
       @organization.reload
       assert_equal 1.year.from_now.to_date, @organization.cop_due_on
@@ -172,17 +171,33 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   # 
-  # context "given an approved COP" do
-  #   setup do
-  #     create_organization_and_user
-  #     @cop = create_communication_on_progress(:organization_id => @organization.id,
-  #                                             :state           => ApprovalWorkflow::STATE_APPROVED)
-  #   end
-  # 
-  #   should "not be editable" do
-  #     assert !@cop.editable?
-  #   end
-  # end
+  context "given an approved COP" do
+    setup do
+      create_language
+      create_organization_and_user
+      @cop = create_communication_on_progress(:organization_id => @organization.id,
+                                              :cop_files_attributes => {
+                                                 "new_cop"=> {:attachment_type => "cop",
+                                                              :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                                              :language_id     => Language.first.id} },
+                                              :state => ApprovalWorkflow::STATE_APPROVED)
+    end
+  
+    should "not be editable" do
+      assert !@cop.editable?
+    end
+    
+    should "have a file attached" do
+      assert_equal 1, @cop.cop_files.count
+    end
+    
+     should "remove file when COP is deleted" do
+       assert_difference "CopFile.count", -1 do
+         @cop.destroy
+       end
+     end
+    
+  end
   # 
   # context "given a rejected COP" do
   #   setup do

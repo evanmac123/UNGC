@@ -76,14 +76,15 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :policy_exempted
   attr_accessor :type
   
-  before_create :set_title
-  before_create :check_links
-  before_save   :set_cop_defaults
-  before_save   :can_be_edited?
-  after_create  :draft_or_submit!
+  before_create  :set_title
+  before_create  :check_links
+  before_save    :set_cop_defaults
+  before_save    :can_be_edited?
+  after_create   :draft_or_submit!
+  before_destroy :delete_associated_attributes
 
   accepts_nested_attributes_for :cop_answers
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true  
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
   
   cattr_reader :per_page
@@ -335,5 +336,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
   
+  def delete_associated_attributes
+    self.cop_files.each {|file| file.destroy}
+    self.cop_links.each {|link| link.destroy}
+    self.cop_answers.each {|answer| answer.destroy}
+  end
  
 end
