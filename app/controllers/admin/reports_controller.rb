@@ -84,7 +84,7 @@ class Admin::ReportsController < AdminController
     end
 
     def date_as_filename
-      [Date.today.year, Date.today.month, Date.today.day].join('_')
+      Date.today.iso8601.gsub('-', '_')
     end
 
 end
