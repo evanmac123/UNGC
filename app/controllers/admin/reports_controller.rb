@@ -19,6 +19,11 @@ class Admin::ReportsController < AdminController
     @report = ContactsExcelMacro.new
     render_formatter(filename: "contacts_excel_macro_#{date_as_filename}.xls")
   end
+  
+  def all_cops
+    @report = AllCops.new
+    render_formatter(filename: "all_cops_#{date_as_filename}.xls")
+  end
     
   def approved_logo_requests
     @month = params[:month] || Date.today.month

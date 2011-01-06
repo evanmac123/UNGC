@@ -1,6 +1,8 @@
 module Admin::ReportsHelper
   def link_to_report(text, action)
-    link_to text, admin_report_path(:action => action)
+    [link_to(text, admin_report_path(:action => action, :format => 'html')),
+    link_to(text, admin_report_path(:action => action, :format => 'html'), :class => 'doc')].join(' ')
+    # link_to text, admin_report_path(:action => action), :class => 'xls'
   end
   
   def link_to_report_xls(text,action)
