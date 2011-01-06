@@ -2,7 +2,7 @@ include ActionController::UrlWriter
 class AllCops < SimpleReport
 
   def records
-    CommunicationOnProgress.all(:include => [ :organization, { :organization => :country } ], :limit => 10)
+    CommunicationOnProgress.all(:include => [ :organization, { :organization => :country } ])
   end
     
   def headers
