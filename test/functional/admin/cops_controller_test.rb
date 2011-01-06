@@ -53,7 +53,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
      end
    end
 
-    context "given a new cop" do    
+    context "given a new cop" do
+        
       %w{basic intermediate advanced grace}.each do |cop_type|
         should "get the #{cop_type} cop form" do
           get :new, :organization_id => @organization.id, :type_of_cop => cop_type
@@ -62,10 +63,11 @@ class Admin::CopsControllerTest < ActionController::TestCase
           assert_template :partial => "_#{cop_type}_form"
         end        
       end
+      
       should "redirect to introduction page if the type_of_cop parameter is not valid" do
         get :new, :organization_id => @organization.id, :type_of_cop => "bad type"
         assert_redirected_to cop_introduction_path
-      end
+      end    
     end
     
   end
@@ -117,7 +119,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_redirected_to dashboard_path(tab: 'cops')
+      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops')
     end
     
     should "be able to update the cop" do
