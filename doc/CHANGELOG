@@ -1,7 +1,7 @@
 h1. 2011-01-06
 
 * added ability to delete COPs from within the Dashboard
-* :dependent => :destroy was not deleting the association models, so a :before_destroy method was added to the COP model
+* :dependent => :destroy was not deleting the associated models, so a :before_destroy method was added to the COP model
 
 h1. 2010-12-27
 
