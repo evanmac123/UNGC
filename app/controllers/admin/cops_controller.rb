@@ -6,6 +6,11 @@ class Admin::CopsController < AdminController
   before_filter :only_editable_cops_go_to_edit, :only => :edit
   
   def introduction
+    # non-business organizations can submit a COP, but they do not get a choice, so redirect them to the General (intermediate) COP
+    # but we still want Global Compact Staff and Networks to choose the type of COP
+    if current_user.from_organization? && !current_user.organization.company?
+      redirect_to new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
+    end
   end
   
   def new
