@@ -3,17 +3,19 @@
 
 %fieldset
   %ol
-    = default_form.text_field :grouping
+    = default_form.select :grouping, CopQuestion.grouping_areas, {:include_blank => true}, {:label => "Grouping area"}
     = default_form.collection_select :principle_area_id, PrincipleArea.all, :id, :name, {:include_blank => true}, {}
+    = default_form.select :implementation, CopQuestion::IMPLEMENTATION_AREAS.collect {|a| [a.humanize, a]}, {:include_blank => true}, {:label => "Implementation area" }
     = default_form.text_area :text
     = default_form.text_field :position
 
 %fieldset
   %legend Attributes
-  %ul{:class => 'bulleted'}
-    %li Each attribute will be represented by a check box in the COP form. If you add a single attribute, then this will be a Yes/No question.
-    %li You may add an optional hint or suggested topics for each question.
-    %li For Basic COP questions, a text field will appear below the question and hints.
-  
+  %p
+    %ul{:class => 'bulleted'}
+      %li Each attribute will be represented by a check box in the COP form. If you add a single attribute, then this will be a Yes/No question.
+      %li You may add an optional hint or suggested topics for each question.
+      %li For Basic COP questions, a text field will appear below the question and hints.
+  %hr
   #cop_attributes= render @cop_question.cop_attributes
-  = link_to_function "New attributes", "$('#cop_attributes').append(replace_ids(cop_attribute_form))"
+  = link_to_function "New attribute", "$('#cop_attributes').append(replace_ids(cop_attribute_form))", :class => 'new_large' 
