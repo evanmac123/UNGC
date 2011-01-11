@@ -64,4 +64,8 @@ class OrganizationType < ActiveRecord::Base
     first :conditions => {:name => FILTERS[:companies]}
   end
   
+  def self.academic
+    first :conditions => {:name => FILTERS[:academia]}
+  end
+  
 end
