@@ -15,7 +15,6 @@ class Admin::CopsController < AdminController
   
   def new
     unless CommunicationOnProgress::TYPES.include?(session[:cop_template])
-      flash[:error] = "Please select the type of COP you would like to submit."
       redirect_to cop_introduction_path
     end
     
