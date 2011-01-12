@@ -14,6 +14,11 @@ h1. 2011-01-10
 * when creating a new COP, non-business goes straight to the Intermediate COP, instead of the COP introduction screen
 * only business participants should be able to choose the type of COP
 
+h1. 2011-01-06
+
+* added ability to delete COPs from within the Dashboard
+* :dependent => :destroy was not deleting the associated models, so a :before_destroy method was added to the COP model
+
 h1. 2010-12-27
 
 * a number of online registrations were being completed with the CEO entered as a Contact Point and vice versa

@@ -636,20 +636,20 @@ ul.nav_bar {
     #main_content #page_preview #preview_contents a {
       text-decoration: underline; }
 
-ul#report_list {
+ul.report_list {
   margin: 0;
   width: 400px; }
-  ul#report_list li {
+  ul.report_list li {
     list-style: none;
     border-bottom: 1px solid #ccc;
     padding: 0.75em 10px;
-    background-color: #f2f2f2;
+    background-color: #fff;
     position: relative; }
-    ul#report_list li.odd {
+    ul.report_list li.odd {
       background-color: #fff; }
-    ul#report_list li:hover {
+    ul.report_list li:hover {
       background-color: #f0f6fa; }
-  ul#report_list a.xls {
+  ul.report_list a.xls, ul.report_list a.doc {
     position: absolute;
     right: 10px;
     top: 50%;
@@ -657,15 +657,20 @@ ul#report_list {
     display: block;
     width: 16px;
     height: 16px;
-    background: url('../images/icons/Accounts Payable_16x16.png');
     opacity: 0.7;
     text-indent: -9999em; }
-    ul#report_list a.xls:hover {
+    ul.report_list a.xls:hover, ul.report_list a.doc:hover {
       opacity: 1; }
-  ul#report_list a {
+  ul.report_list a.xls {
+    background: url('../images/icons/Accounts Payable_16x16.png'); }
+  ul.report_list a.doc {
+    background: url('../images/icons/Folder (Closed)_16x16.png'); }
+    ul.report_list a.doc:hover {
+      background: url('../images/icons/Folder (Open)_16x16.png'); }
+  ul.report_list a {
     color: #333333;
     text-decoration: none; }
-    ul#report_list a:hover {
+    ul.report_list a:hover {
       color: #14546f; }
 
 div.pagination {

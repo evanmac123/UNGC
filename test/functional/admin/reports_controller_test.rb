@@ -109,5 +109,17 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
     
+    should "get the cop report" do
+      get :all_cops, {}, as(@staff_user)
+      assert_response :success
+      assert_template 'all_cops.html.haml'
+    end
+    
+    should "get the cop as xls" do
+      get :all_cops, {:format => 'xls'}, as(@staff_user)
+      assert_response :success
+      assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    end
+    
   end
 end
