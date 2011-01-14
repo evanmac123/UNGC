@@ -107,3 +107,16 @@
 - if communication_on_progress.cop_answers.by_group(:governance).count > 0
   %dt Governance
   %dd= show_cop_attributes(communication_on_progress, nil, nil, 'governance')
+  
+- if communication_on_progress.cop_answers.by_group(:strategy_governance).count > 0
+  %dt
+    Strategy and <br /> Governance <br />
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'strategy_governance')
+
+- if communication_on_progress.cop_answers.by_group(:transparency_disclosure).count > 0
+  %dt Transparency <br /> and Disclosure
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'transparency_disclosure')
+
+- if communication_on_progress.cop_answers.by_group(:un_goals).count > 0
+  %dt UN Goals and Issues
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'un_goals')

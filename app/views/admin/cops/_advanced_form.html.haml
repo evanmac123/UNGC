@@ -5,12 +5,23 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a id="basic_link" href="#basic">General Information</a>
-    %li#governance_tab{:class => 'additional_questions'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
+       
+    %li#strategy_governance_tab{:class => 'additional_questions'} <a href="#strategy_governance_additional_questions">&nbsp;&raquo;&nbsp;Strategy</a>
+
+    %li#transparency_disclosure_tab{:class => 'additional_questions'} <a href="#transparency_disclosure_additional_questions">&nbsp;&raquo;&nbsp;Transparency</a>
+
+    %li#un_goals_tab{:class => 'additional_questions'} <a href="#un_goals_additional_questions">&nbsp;&raquo;&nbsp;UN Goals</a>
+
     %li#human_rights_tab{:class => 'additional_questions'} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
+    
     %li#labour_tab{:class => 'additional_questions'}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
+
     %li#environment_tab{:class => 'additional_questions'}  <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
+
     %li#anti_corruption_tab{:class => 'additional_questions'}  <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
+
     %li#notable_tab{:style => css_display_style(@communication_on_progress.notable_program?)} <a href="#notable_questions">Notable Program</a>
+
     %li#submit_tab{:style => "#{css_display_style(@submitted)}"} <a id="submit_link" href="#finish">Submit your COP</a>
   
   #basic.tab_content
@@ -59,6 +70,18 @@
   %div.tab_content{:id => "governance_additional_questions"}
     %h3 Governance
     %fieldset= cop_questions_for @communication_on_progress, :governance
+
+  %div.tab_content{:id => "strategy_governance_additional_questions"}
+    %h3 Strategy and Governance
+    %fieldset= cop_questions_for @communication_on_progress, :strategy_governance
+
+  %div.tab_content{:id => "transparency_disclosure_additional_questions"}
+    %h3 Transparency and Disclosure
+    %fieldset= cop_questions_for @communication_on_progress, :transparency_disclosure
+
+  %div.tab_content{:id => "un_goals_additional_questions"}
+    %h3 UN Goals and Issues
+    %fieldset= cop_questions_for @communication_on_progress, :un_goals
 
   #finish.tab_content
     %fieldset
