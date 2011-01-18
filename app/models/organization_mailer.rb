@@ -7,6 +7,15 @@ class OrganizationMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
+
+  def submission_jci_referral_received(organization)
+    subject "New Global Compact referral"
+    bcc ['vkeesari@yahoo.com']
+    from EMAIL_SENDER
+    content_type "text/html"
+    recipients 'externalrelations@jci.cc'
+    body :organization => organization, :ceo => organization.contacts.ceos.first
+  end
   
   def in_review(organization)
     from EMAIL_SENDER

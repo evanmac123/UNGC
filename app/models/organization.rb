@@ -68,7 +68,7 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
 
   attr_accessor :delisting_on
-    
+  
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
@@ -488,6 +488,15 @@ class Organization < ActiveRecord::Base
     
   end
   
+  def jci_referral?(url)
+     valid_urls = [
+       'http://www.jci.cc/media/en/presidentscorner/globalcompact',
+       'http://www.jci.cc/media/es/presidentscorner/globalcompact',
+       'http://www.jci.cc/media/fr/presidentscorner/globalcompact',
+       'http://127.0.0.1:3000/HowToParticipate/How_to_Apply_Business.html'
+      ]
+      valid_urls.include?(url) ? true : false
+  end
   
   private
     
