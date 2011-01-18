@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
+  # FIXME create object first
+  # should_validate_uniqueness_of :name
   should_validate_presence_of :name
   should_have_many :contacts
   should_have_many :logo_requests
