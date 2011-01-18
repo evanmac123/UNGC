@@ -499,9 +499,9 @@ ul.nav_bar {
     #main_content fieldset fieldset span.label_text {
       display: block;
       position: relative;
-      line-height: 1em;
+      line-height: 1.3em;
       left: 25px;
-      top: -10px; }
+      top: -11px; }
     #main_content fieldset fieldset select {
       margin-left: 0; }
     #main_content fieldset fieldset ul.date_select {
