@@ -493,7 +493,8 @@ class Organization < ActiveRecord::Base
        'http://www.jci.cc/media/en/presidentscorner/globalcompact',
        'http://www.jci.cc/media/es/presidentscorner/globalcompact',
        'http://www.jci.cc/media/fr/presidentscorner/globalcompact',
-       'http://127.0.0.1:3000/HowToParticipate/How_to_Apply_Business.html'
+       'http://127.0.0.1:3000/HowToParticipate/How_to_Apply_Business.html',
+       'http://127.0.0.1:3000/HowToParticipate/How_to_Apply_NonBusiness.html'
       ]
       valid_urls.include?(url) ? true : false
   end
