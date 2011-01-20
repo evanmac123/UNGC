@@ -193,6 +193,10 @@ class Organization < ActiveRecord::Base
     {:conditions => {:cop_due_on => date} }
   }
 
+  # named_scope :failed_to_communicate_progress, {
+  #   :conditions => ["organizations.removal_reason_id = ?", RemovalReason.delisted.id] 
+  # }
+
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
       { :conditions => ['id=?', user.organization_id] }
@@ -490,11 +494,9 @@ class Organization < ActiveRecord::Base
   
   def jci_referral?(url)
      valid_urls = [
-       'http://www.jci.cc/media/en/presidentscorner/globalcompact',
-       'http://www.jci.cc/media/es/presidentscorner/globalcompact',
-       'http://www.jci.cc/media/fr/presidentscorner/globalcompact',
-       'http://127.0.0.1:3000/HowToParticipate/How_to_Apply_Business.html',
-       'http://127.0.0.1:3000/HowToParticipate/How_to_Apply_NonBusiness.html'
+       'http://www.jci.cc/media/en/presidentscorner/unglobalcompact',
+       'http://www.jci.cc/media/es/presidentscorner/unglobalcompact',
+       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact'
       ]
       valid_urls.include?(url) ? true : false
   end
