@@ -14,7 +14,7 @@ module ParticipantsHelper
   def display_participant_status_title(organization)
     case organization.cop_state        
       when Organization::COP_STATE_DELISTED
-        'Delisted on'
+        'Expelled on'
       else
         'Status'
     end    
