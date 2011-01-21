@@ -2,13 +2,21 @@
   %div{:class => 'flash error'}
     Please select a PDF file for upload. If you have provided a website link, it should begin with 'http://'
 
+    / Strategy, Governance and Engagement (Strategy)
+    / UN Goals and Issues (UN Goals)
+    / Human Rights Implementation (Human Rights)
+    / Labour Rights and Principles Implementation (Labour)
+    / Environmental Stewardship Implementation (Environment)
+    / Anti-Corruption Implementation (Anti-Corruption)
+    / Value Chain Implementation (Value Chain)
+    / Verification and Transparency (Verification)
+
+
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a id="basic_link" href="#basic">General Information</a>
        
-    %li#strategy_governance_tab{:class => 'additional_questions'} <a href="#strategy_governance_additional_questions">&nbsp;&raquo;&nbsp;Strategy</a>
-
-    %li#transparency_disclosure_tab{:class => 'additional_questions'} <a href="#transparency_disclosure_additional_questions">&nbsp;&raquo;&nbsp;Transparency</a>
+    %li#strategy_governance_tab{:class => 'additional_questions'} <a href="#strategy_additional_questions">&nbsp;&raquo;&nbsp;Strategy</a>
 
     %li#un_goals_tab{:class => 'additional_questions'} <a href="#un_goals_additional_questions">&nbsp;&raquo;&nbsp;UN Goals</a>
 
@@ -19,6 +27,10 @@
     %li#environment_tab{:class => 'additional_questions'}  <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
 
     %li#anti_corruption_tab{:class => 'additional_questions'}  <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
+
+    %li#value_chain_tab{:class => 'additional_questions'} <a href="#value_chain_additional_questions">&nbsp;&raquo;&nbsp;Value Chain</a>
+
+    %li#verification_disclosure_tab{:class => 'additional_questions'} <a href="#verification_additional_questions">&nbsp;&raquo;&nbsp;Verification</a>
 
     %li#notable_tab{:style => css_display_style(@communication_on_progress.notable_program?)} <a href="#notable_questions">Notable Program</a>
 
@@ -61,27 +73,47 @@
                 %span Does your COP identify targets, define performance indicators and measure outcomes?
               = true_or_false_field(form, :include_measurement, :class => 'score')
 
-  - PrincipleArea::FILTERS.each_pair do |key, value|
-    %div.tab_content{:id => "#{key}_additional_questions"}
-      %h3
-        %span{:class => "#{issue_area_colour_for(value)}" }= value
-      %fieldset= cop_questions_for @communication_on_progress, :additional, key
+  / - PrincipleArea::FILTERS.each_pair do |key, value|
+  /   %div.tab_content{:id => "#{key}_additional_questions"}
+  /     %h3
+  /       %span{:class => "#{issue_area_colour_for(value)}" }= value
+  /     %fieldset= cop_questions_for @communication_on_progress, :additional, key
 
-  %div.tab_content{:id => "governance_additional_questions"}
-    %h3 Governance
-    %fieldset= cop_questions_for @communication_on_progress, :governance
-
-  %div.tab_content{:id => "strategy_governance_additional_questions"}
-    %h3 Strategy and Governance
-    %fieldset= cop_questions_for @communication_on_progress, :strategy_governance
-
-  %div.tab_content{:id => "transparency_disclosure_additional_questions"}
-    %h3 Transparency and Disclosure
-    %fieldset= cop_questions_for @communication_on_progress, :transparency_disclosure
+  %div.tab_content{:id => "strategy_additional_questions"}
+    %h3 Strategy, Governance and Engagement
+    %fieldset= cop_questions_for @communication_on_progress, :strategy
 
   %div.tab_content{:id => "un_goals_additional_questions"}
     %h3 UN Goals and Issues
     %fieldset= cop_questions_for @communication_on_progress, :un_goals
+
+  %div.tab_content{:id => "human_rights_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation 
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :human_rights
+
+  %div.tab_content{:id => "labour_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('labour')}" } Labour Rights Implementation
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :labour
+
+  %div.tab_content{:id => "environment_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :environment
+
+  %div.tab_content{:id => "anti_corruption_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :anti_corruption
+
+  %div.tab_content{:id => "value_chain_additional_questions"}
+    %h3 Value Chain Implementation
+    %fieldset= cop_questions_for @communication_on_progress, :value_chain
+
+  %div.tab_content{:id => "verification_additional_questions"}
+    %h3 Verification and Transparency
+    %fieldset= cop_questions_for @communication_on_progress, :verification
 
   #finish.tab_content
     %fieldset

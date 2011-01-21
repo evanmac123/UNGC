@@ -25,15 +25,16 @@ class CopQuestion < ActiveRecord::Base
   # optionally group questions so they can be displayed together
   # basic is used for Basic COP where the responses are in text format
   GROUPING_AREAS = {
-    'additional'              => 'Additional',             
-    'additional_disabled'     => 'Additional (disabled)',  
-    'basic'                   => 'Basic Template',
-    'governance'              => 'Governance',
-    'strategy_governance'     => 'Strategy and Governance',
-    'un_goals'                => 'UN Goals and Issues',
-    'transparency_disclosure' => 'Transparency and Disclosure',
-    'mandatory'               => 'Mandatory',
-    'notable'                 => 'Notable'
+    'additional'          => 'Additional',             
+    'additional_disabled' => 'Additional (disabled)',  
+    'basic'               => 'Basic Template',
+    'strategy'            => 'Strategy, Governance and Engagement',
+    'un_goals'            => 'UN Goals and Issues',
+    'value_chain'         => 'Value Chain Implementation',
+    'verification'        => 'Verification and Transparency',
+    'governance'          => 'Governance',
+    'mandatory'           => 'Mandatory',
+    'notable'             => 'Notable'
   }
   
   # can optionally select the implementation area the question covers
