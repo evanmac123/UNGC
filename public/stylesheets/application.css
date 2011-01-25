@@ -457,8 +457,9 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 #main_content dd ul.basic_question li.question_group, #main_content dd ul.questionnaire li.question_group {
   font-weight: bold;
   color: #00546E;
-  margin-bottom: -0.5em;
+  margin-top: 1.2em;
   border-bottom: 0;
+  line-height: 1.2em;
 }
 
 #main_content dd ul li.selected_question, #main_content dd ul li.unselected_question, #main_content dd ul.basic_question li.selected_question {
