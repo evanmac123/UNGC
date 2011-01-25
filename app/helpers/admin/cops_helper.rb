@@ -47,7 +47,7 @@ module Admin::CopsHelper
       html += hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", "0", :id => nil)
       
       cop_attribute_text_content = answer.cop_attribute.text
-      cop_attribute_text_content += '&nbsp;&nbsp;' + image_tag('/images/icons/Info_11x11.png', :style => 'margin-bottom: -2px;') if answer.cop_attribute.hint.present?
+      cop_attribute_text_content += '&nbsp;&nbsp;' + image_tag('/images/icons/Info_11x11.png', :style => 'margin-bottom: -2px;', :title => answer.cop_attribute.hint) if answer.cop_attribute.hint.present?
       cop_attribute_text = content_tag(:span, cop_attribute_text_content , :class => 'label_text')
             
       html += label_tag("communication_on_progress_cop_answers_attributes_#{answer_index}_value", (checkbox + cop_attribute_text), :title => answer.cop_attribute.hint)
