@@ -496,7 +496,8 @@ class Organization < ActiveRecord::Base
      valid_urls = [
        'http://www.jci.cc/media/en/presidentscorner/unglobalcompact',
        'http://www.jci.cc/media/es/presidentscorner/unglobalcompact',
-       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact'
+       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact',
+       'http://keesari.net/jci_test.html'
       ]
       valid_urls.include?(url) ? true : false
   end
