@@ -53,6 +53,12 @@ $("input[name='communication_on_progress[include_continued_support_statement]']"
 
 // Answered last required question, so show optional questions
 $("input[name='communication_on_progress[include_measurement]']").click(function() {
+  $("#method_shared_with_stakeholders").fadeIn('slow');
+})
+
+
+// Answered last required question, so show optional questions
+$("input[name='communication_on_progress[method_shared]']").click(function() {
   $("#submit_tab").show();
 })
 

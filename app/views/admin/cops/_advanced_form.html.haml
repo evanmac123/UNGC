@@ -46,7 +46,7 @@
           %label
             = form.radio_button :format, key
             = value
-            
+    
       #non_grace_letter_fields{:style => "#{css_display_style(@submitted)}"}
               
         #own_company_questions{:style => 'display: block'}
@@ -72,7 +72,17 @@
               %legend
                 %span Does your COP identify targets, define performance indicators and measure outcomes?
               = true_or_false_field(form, :include_measurement, :class => 'score')
-
+              
+          #method_shared_with_stakeholders{:style => css_display_style(@submitted)}
+            %fieldset
+              %fieldset
+                %legend
+                  %span How does your organisation share its COP with stakeholders?
+                - CommunicationOnProgress::METHOD.each do |key, value|
+                  %label
+                    = form.radio_button :method_shared, key
+                    = value
+            
   / - PrincipleArea::FILTERS.each_pair do |key, value|
   /   %div.tab_content{:id => "#{key}_additional_questions"}
   /     %h3
@@ -85,6 +95,35 @@
 
   %div.tab_content{:id => "un_goals_additional_questions"}
     %h3 UN Goals and Issues
+    %div{:class => 'hint_toggle'} About this section...
+    %div{:class => 'hint_text', :style => 'display: none;'}
+      %div{:style => 'margin-left: 2em;'}
+        %p "Broader UN Goals and Issues" refers to an array of global issues - based on the most acute or chronic global challenges - including: 
+        %ul{:style => "float: left; margin-left: 1em; margin-right: 3em;"}
+          %li Peace & Security 
+          %li Millennium Development Goals 
+          %li Human Rights 
+          %li Children's Rights
+          %li Gender Equality
+
+        %ul{:style => "float: left; margin-right: 4em;"}
+          %li Health
+          %li Education
+          %li Humanitarian Assistance
+          %li Migration
+          %li Food Security
+        
+        %ul{:style => "margin-bottom: 2em;"}
+          %li Sustainable Ecosystems and Biodiversity
+          %li Climate Change Mitigation and Adaptation
+          %li Water Security and Sanitation
+          %li Employment and Decent Working Conditions
+          %li Anti-Corruption
+       
+      %p{:style => 'display: block; clear both; margin-left: 2em;'}
+        For a list of further Global Issues that are relevant to the work of the UN as well as business, please refer to
+        = popup_link_to 'business.un.org','http://business.un.org/en/browse/global_issues' 
+          
     %fieldset= cop_questions_for @communication_on_progress, :un_goals
 
   %div.tab_content{:id => "human_rights_additional_questions"}
@@ -109,6 +148,10 @@
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation
+    %div{:class => 'hint_toggle'} About this section...
+    %div{:class => 'hint_text', :style => 'display: none;'}
+      %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
+      
     %fieldset= cop_questions_for @communication_on_progress, :value_chain
 
   %div.tab_content{:id => "verification_additional_questions"}
@@ -130,8 +173,20 @@
           %legend
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
-  
-    = submit_tag 'Submit', :class => "button", :id => "finish"
+
+    %fieldset
+      #signature{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Virtual signature confirming that the organization meets all 24 above-listed criteria
+          %p
+            = form.text_field :contact_name, :value => current_user.full_name_with_title
+            (virtual signature)
+          %p  Note: Validating this document by signature indicates good faith by the person who signs that the organisation has fulfilled the 24 above criteria. The person's signature is for accountability purposes only, and does not create any legal liability for either the person signing or for the organisation.
+          %p To establish credibility among stakeholders and other interested parties, the Global Compact recommends that the above signature be completed by an executive of the company or the company's officer in charge of corporate sustainability.
+          %p This criterion refers to the self-assessment that will be visible on the Global Compact website, meaning that a signature need not be included in the COP itself.
+      
+    %p= submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
 = javascript_tag "var work_in_progress = false;"
