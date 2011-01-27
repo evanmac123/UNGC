@@ -48,9 +48,10 @@
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
 #  missing_principle_explained         :boolean(1)
-#  web_based                           :boolean(1)
+#  is_shared_with_stakeholders         :boolean(1)
 #  starts_on                           :date
 #  ends_on                             :date
+#  method_shared                       :string(255)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
@@ -117,12 +118,21 @@ class CommunicationOnProgress < ActiveRecord::Base
   FORMAT = {:standalone            => "Stand alone document",
             :annual_report         => "Part of an annual (financial) report",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
-            :summary_document      => "Summary document that refers to sections of an annual or sustainability report"}
+            :summary_document      => "Summary document that refers to sections of an annual or sustainability report"
+            }
 
+  # How the COP is shared
+  METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
+            :all_access   => "b) COP is easily accessible to all interested parties (e.g. via its website)",
+            :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
+            :all          => "d) Both b) and c)"
+           }
+                      
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
             :executive => "Other senior executive",
-            :none      => "None of the above"}
+            :none      => "None of the above"
+            }
   
   def self.find_by_param(param)
     return nil if param.blank?
@@ -208,12 +218,18 @@ class CommunicationOnProgress < ActiveRecord::Base
     created_at >= Date.new(2010, 01, 01)
   end
   
-  # Advanced Programme was launched Oct 11, 2010
-  # Participants could answer the additional voluntary questions prior to this date
-  # However, only those submitting after Oct 11 are actually considered to be participating in the programme
+  # Official launch of Differentiation Programme was January 28, 2011
   def is_advanced_programme?
-    additional_questions && created_at >= Date.new(2010, 10, 11)
+    additional_questions && created_at >= Date.new(2011, 01, 20)
   end
+
+  # Test phase of Advanced Programme was launched Oct 11, 2010
+  # Only those submitting after this date are actually considered to be participating in the programme
+  # However, participants could answer the additional voluntary questions prior to this date
+  def is_test_phase_advanced_programme?
+    additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= Date.new(2011, 01, 20)
+  end
+  
   
   def is_grace_letter?
     # FIXME: self.format was throwing an exception
