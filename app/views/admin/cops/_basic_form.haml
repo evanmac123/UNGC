@@ -30,7 +30,7 @@
     %div.tab_content{:id => "#{key}_additional_questions"}
       %div.principles
         %h3
-          %span{:class => "#{issue_area_colour_for(value)}" }= value
+          %span{:class => "#{issue_area_colour_for(value)}"}= value
         %ul
           - Principle.principles_for_issue_area(key).each do |area|
             %li= area.name
