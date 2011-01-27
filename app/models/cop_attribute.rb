@@ -8,6 +8,7 @@
 #  position        :integer(4)
 #  created_at      :datetime
 #  updated_at      :datetime
+#  hint            :text            default(""), not null
 #
 
 class CopAttribute < ActiveRecord::Base

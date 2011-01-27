@@ -7,6 +7,7 @@
 #  name                           :string(255)
 #  organization_type_id           :integer(4)
 #  sector_id                      :integer(4)
+#  local_network                  :boolean(1)
 #  participant                    :boolean(1)
 #  employees                      :integer(4)
 #  url                            :string(255)
@@ -39,7 +40,6 @@
 #  bhr_url                        :string(255)
 #  rejected_on                    :date
 #  network_review_on              :date
-#  local_network                  :boolean(1)
 #  revenue                        :integer(4)
 #
 

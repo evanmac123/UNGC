@@ -8,6 +8,7 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  type       :string(255)
+#  parent_id  :integer(4)
 #
 
 class Principle < ActiveRecord::Base
