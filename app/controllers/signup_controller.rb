@@ -12,6 +12,7 @@ class SignupController < ApplicationController
     # check if they were referred from the JCI website
     if @organization.jci_referral? request.env["HTTP_REFERER"]
       session[:is_jci_referral] = true
+      @jci_referral = true
     end
   end
   

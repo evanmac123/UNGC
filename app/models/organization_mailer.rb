@@ -10,7 +10,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def submission_jci_referral_received(organization)
     subject "New Global Compact referral"
-    bcc ['vkeesari@yahoo.com']
+    bcc 'vkeesari@yahoo.com'
     from EMAIL_SENDER
     content_type "text/html"
     recipients 'externalrelations@jci.cc'

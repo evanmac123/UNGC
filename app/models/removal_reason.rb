@@ -13,7 +13,7 @@ class RemovalReason < ActiveRecord::Base
   validates_presence_of :description
   
   FILTERS = {
-     :delisted         => 'Expulsion for failure to communicate progress',
+     :delisted         => 'Failure to communicate progress',
      :not_applicable   => 'Not applicable',
      :requested        => 'Participant requested withdrawal',
      :dialogue         => 'Failure to engage in dialogue',

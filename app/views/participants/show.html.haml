@@ -17,7 +17,7 @@
   - if @participant.delisted?
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
-        %strong Reason for delisting
+        %strong Reason for expulsion
       .right= @participant.try(:removal_reason).try(:description)
       
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
