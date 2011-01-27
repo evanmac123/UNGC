@@ -18,7 +18,7 @@ class Admin::CopsController < AdminController
       redirect_to cop_introduction_path
     end
     
-    @communication_on_progress = @organization.communication_on_progresses.new(web_based: false)
+    @communication_on_progress = @organization.communication_on_progresses.new
     @communication_on_progress.init_cop_attributes
     @submitted = false
   end
