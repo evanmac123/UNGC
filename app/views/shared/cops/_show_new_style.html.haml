@@ -52,7 +52,7 @@
   %dt Format
   %dd
     %ul
-      %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)]
+      %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
 
   %dt Self-assessment
   %dd
