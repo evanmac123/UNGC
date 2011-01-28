@@ -53,10 +53,10 @@
           %li Implementation of Global Compact principles
         %ul.bulleted{:style => "margin-bottom: 2em;"}
           %li Value chain implementation
-          %li Verification and disclosure
+          %li Verification and transparency
         %p{:style => 'display: block; clear both; margin: 3em 0em 2em 2em;'}
-          %em Note: A criterion is "met" if a business participant believes it has, in good faith, implemented best practices that are relevant for its context of operation. For each criterion, the Global Compact provides examples of commonly accepted best practices that companies are encouraged to implement to meet the criteria.  (See Advanced Criteria and Associated Best practices (pdf)).
-        %p 2. The Communication on Progress (COP) demonstrates implementation of all 24 criteria and associated best practices
+          %em Note: A criterion is "met" if a business participant believes it has, in good faith, implemented best practices that are relevant for its context of operation. For each criterion, the Global Compact provides examples of commonly accepted best practices that companies are encouraged to implement to meet the criteria.
+        %p 2. The Communication on Progress (COP) demonstrates implementation of all 24 criteria and associated best practices.
         %p 3. Provide the public with a detailed self-assessment of the content of the COP to facilitate accessibility of information.
         
     %fieldset
@@ -207,13 +207,10 @@
       #signature{:style => 'display: block'}
         %fieldset
           %legend
-            %span Virtual signature confirming that the organization meets all 24 above-listed criteria
-          %h4
-            I,
-            = form.text_field :contact_name, :value => current_user.full_name_with_title, :style => 'border: 0px; border-bottom: 1px dashed #000; margin: 0px;', :title => "Click to edit the name"
-            believe, in good faith, that the company I represent meets all 24 criteria for the Advanced level, as described in this self-assessment, and that our COP substantiates our self-assessment.
-          %p  Note: Validating this document by signature indicates good faith by the person who signs that the organisation has fulfilled the 24 above criteria. The person's signature is for accountability purposes only, and does not create any legal liability for either the person signing or for the organisation.
-          %p To establish credibility among stakeholders and other interested parties, the Global Compact recommends that the above signature be completed by an executive of the company or the company's officer in charge of corporate sustainability.      
+            %span Please review the following information before submitting your COP
+          %p By submitting this COP and the self-assessment, I confirm that my company meets all 24 criteria for the Advanced level, as described in this self-assessment, and that our COP substantiates our self-assessment.
+          = form.text_field :contact_name, :value => "#{current_user.full_name_with_title}, #{current_user.job_title}", :style => ' width: 500px; margin: 0em 0em 1em 0em;'
+          %p (Please confirm your name and position)
     %p= submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
