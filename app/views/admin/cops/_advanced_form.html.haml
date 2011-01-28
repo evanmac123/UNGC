@@ -37,6 +37,27 @@
     %li#submit_tab{:style => "#{css_display_style(@submitted)}"} <a id="submit_link" href="#finish">Submit your COP</a>
   
   #basic.tab_content
+    %div.principles
+      %h3 General Information
+    %fieldset
+      %fieldset
+        %legend
+          %span Eligibility for the GC Advanced level
+        %p{:class => 'question_text'}
+          The purpose of this online questionnaire is to assess eligibility for the GC Advanced level by confirming that
+
+        %p 1. Your company meets 24 Advanced Criteria in the following areas:
+        %ul.bulleted
+          %li Strategy, Governance and Engagement
+          %li UN goals and issues
+          %li Implementation of Global Compact principles
+          %li Value chain implementation
+          %li Verification and disclosure
+        %br
+        %p
+          %em Note: A criterion is "met" if a business participant believes it has, in good faith, implemented best practices that are relevant for its context of operation. For each criterion, the Global Compact provides examples of commonly accepted best practices that companies are encouraged to implement to meet the criteria.  (See Advanced Criteria and Associated Best practices (pdf)).
+        %p 2. The Communication on Progress (COP) demonstrates implementation of all 24 criteria and associated best practices
+        %p 3. Provide the public with a detailed self-assessment of the content of the COP to facilitate accessibility of information.
         
     %fieldset
       %fieldset
@@ -91,10 +112,12 @@
 
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Strategy, Governance and Engagement
+    %p For each of the following criteria, please check the best practices you have implemented.
     %fieldset= cop_questions_for @communication_on_progress, :strategy
 
   %div.tab_content{:id => "un_goals_additional_questions"}
     %h3 UN Goals and Issues
+    %p For the following criterion, please check the best practices you have implemented.    
     %div{:class => 'hint_toggle'} About this section...
     %div{:class => 'hint_text', :style => 'display: none;'}
       %div{:style => 'margin-left: 2em;'}
@@ -128,26 +151,31 @@
 
   %div.tab_content{:id => "human_rights_additional_questions"}
     %h3
-      %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation 
+      %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
+    %p For each of the following criteria, please check the best practices you have implemented.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :human_rights
 
   %div.tab_content{:id => "labour_additional_questions"}
     %h3
-      %span{:class => "#{issue_area_colour_for('labour')}" } Labour Rights Implementation
+      %span{:class => "#{issue_area_colour_for('labour')}" } Labour Principles Implementation
+    %p For each of the following criteria, please check the best practices you have implemented.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :labour
 
   %div.tab_content{:id => "environment_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
+    %p For each of the following criteria, please check the best practices you have implemented.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :environment
 
   %div.tab_content{:id => "anti_corruption_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
+    %p For each of the following criteria, please check the best practices you have implemented.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :anti_corruption
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation
+    %p For the following criterion, please check the best practices you have implemented.
     %div{:class => 'hint_toggle'} About this section...
     %div{:class => 'hint_text', :style => 'display: none;'}
       %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
@@ -156,6 +184,7 @@
 
   %div.tab_content{:id => "verification_additional_questions"}
     %h3 Verification and Transparency
+    %p For each of the following criteria, please check the best practices you have implemented.
     %fieldset= cop_questions_for @communication_on_progress, :verification
 
   #finish.tab_content
@@ -179,9 +208,10 @@
         %fieldset
           %legend
             %span Virtual signature confirming that the organization meets all 24 above-listed criteria
-          %p
-            = form.text_field :contact_name, :value => current_user.full_name_with_title
-            (virtual signature)
+          %h4
+            I,
+            = form.text_field :contact_name, :value => current_user.full_name_with_title, :style => 'border: 0px; border-bottom: 1px dashed #000; margin: 0px;', :title => "Click to edit the name"
+            believe, in good faith, that the company I represent meets all 24 criteria for the Advanced level, as described in this self-assessment, and that our COP substantiates our self-assessment.
           %p  Note: Validating this document by signature indicates good faith by the person who signs that the organisation has fulfilled the 24 above criteria. The person's signature is for accountability purposes only, and does not create any legal liability for either the person signing or for the organisation.
           %p To establish credibility among stakeholders and other interested parties, the Global Compact recommends that the above signature be completed by an executive of the company or the company's officer in charge of corporate sustainability.      
     %p= submit_tag 'Submit', :class => "button", :id => "finish"

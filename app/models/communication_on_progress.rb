@@ -116,8 +116,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   }
   
   FORMAT = {:standalone            => "Stand alone document",
-            :annual_report         => "Part of an annual (financial) report",
-            :sustainability_report => "Part of a sustainability or corporate (social) responsibility report"
+            :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
+            :annual_report         => "Part of an annual (financial) report"
+            
            }
 
   # How the COP is shared
