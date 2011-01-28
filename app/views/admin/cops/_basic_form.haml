@@ -63,7 +63,7 @@
       %fieldset
         %fieldset
           %legend
-            %span Please indicate how else you will share the COP directly with stakeholders
+            %span After creating your COP using the Basic template, your COP will be made public on the UN Global Compact website. Please indicate how else you will share the COP directly with stakeholders:
           - CommunicationOnProgress::BASIC_METHOD.each do |key, value|
             %label
               = form.radio_button :method_shared, key
