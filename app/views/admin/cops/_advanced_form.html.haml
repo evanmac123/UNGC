@@ -183,9 +183,7 @@
             = form.text_field :contact_name, :value => current_user.full_name_with_title
             (virtual signature)
           %p  Note: Validating this document by signature indicates good faith by the person who signs that the organisation has fulfilled the 24 above criteria. The person's signature is for accountability purposes only, and does not create any legal liability for either the person signing or for the organisation.
-          %p To establish credibility among stakeholders and other interested parties, the Global Compact recommends that the above signature be completed by an executive of the company or the company's officer in charge of corporate sustainability.
-          %p This criterion refers to the self-assessment that will be visible on the Global Compact website, meaning that a signature need not be included in the COP itself.
-      
+          %p To establish credibility among stakeholders and other interested parties, the Global Compact recommends that the above signature be completed by an executive of the company or the company's officer in charge of corporate sustainability.      
     %p= submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization

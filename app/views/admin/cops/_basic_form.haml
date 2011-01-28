@@ -60,6 +60,16 @@
           %span Measurement of outcomes for any of the above issue areas
         = true_or_false_field(form, :include_measurement, :class => 'score')
     
+      %fieldset
+        %fieldset
+          %legend
+            %span Please indicate how else you will share the COP directly with stakeholders
+          - CommunicationOnProgress::BASIC_METHOD.each do |key, value|
+            %label
+              = form.radio_button :method_shared, key
+              = value
+    
+    
     = submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization

@@ -119,7 +119,7 @@ class CommunicationOnProgress < ActiveRecord::Base
             :annual_report         => "Part of an annual (financial) report",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :summary_document      => "Summary document that refers to sections of an annual or sustainability report"
-            }
+           }
 
   # How the COP is shared
   METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
@@ -127,7 +127,14 @@ class CommunicationOnProgress < ActiveRecord::Base
             :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
             :all          => "d) Both b) and c)"
            }
-                      
+           
+  # Basic COP templates have other options for sharing their COP   
+  BASIC_METHOD = {:gc_website   => "a) On the UN Global Compact website only",
+                  :all_access   => "b) COP will be made easily accessible to all interested parties on company website",
+                  :stakeholders => "c) COP will be actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
+                  :all          => "d) Both b) and c)"
+                 }
+                        
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
             :executive => "Other senior executive",

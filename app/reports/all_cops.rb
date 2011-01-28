@@ -46,7 +46,7 @@ class AllCops < SimpleReport
       'additional_questions',
       'support_statement_explain_benefits',
       'missing_principle_explained',
-      'web_based',
+      'is_shared_with_stakeholders',
       'starts_on',
       'ends_on'
     ] 
@@ -93,7 +93,7 @@ class AllCops < SimpleReport
     record.additional_questions ? 1:0,
     record.support_statement_explain_benefits ? 1:0,
     record.missing_principle_explained ? 1:0,
-    record.web_based ? 1:0,
+    record.is_shared_with_stakeholders ? 1:0,
     record.starts_on,
     record.ends_on
   ]
