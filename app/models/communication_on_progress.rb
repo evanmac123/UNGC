@@ -227,14 +227,14 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   # Official launch of Differentiation Programme was January 28, 2011
   def is_advanced_programme?
-    additional_questions && created_at >= Date.new(2011, 01, 20)
+    additional_questions && created_at >= Date.new(2011, 01, 29)
   end
 
   # Test phase of Advanced Programme was launched Oct 11, 2010
   # Only those submitting after this date are actually considered to be participating in the programme
   # However, participants could answer the additional voluntary questions prior to this date
   def is_test_phase_advanced_programme?
-    additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= Date.new(2011, 01, 20)
+    additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= Date.new(2011, 01, 29)
   end
   
   
