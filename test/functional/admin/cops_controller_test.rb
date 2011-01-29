@@ -48,7 +48,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
        get :introduction
        assert_response :success
        assert_select 'ul.tab_nav' do
-         assert_select 'li:last-child', 'Advanced Programme'
+         assert_select 'li:last-child', 'Advanced Level'
        end
      end
    end
