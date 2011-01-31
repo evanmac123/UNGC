@@ -8,6 +8,8 @@
 #  created_at    :datetime
 #  updated_at    :datetime
 #  initiative_id :integer(4)
+#  description   :string(255)
+#  position      :integer(4)
 #
 
 class Role < ActiveRecord::Base

@@ -37,11 +37,21 @@
 
           #include_continued_support_statement{:style => css_display_style(@submitted)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
-              
+
             %fieldset
               %legend
                 %span Does your COP identify targets, define performance indicators and measure outcomes?
               = true_or_false_field(form, :include_measurement, :class => 'score')
+
+          #method_shared_with_stakeholders{:style => css_display_style(@submitted)}
+            %fieldset
+              %fieldset
+                %legend
+                  %span How does your organisation share its COP with stakeholders?
+                - CommunicationOnProgress::METHOD.each do |key, value|
+                  %label
+                    = form.radio_button :method_shared, key
+                    = value
 
   #finish.tab_content
     %fieldset

@@ -303,13 +303,14 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
     should "be considered for the Advanced Programme if received after start date of programme" do
-      @cop.update_attribute :created_at, Date.new(2010, 11, 11)
+      @cop.update_attribute :created_at, Date.new(2011, 01, 30)
       assert @cop.is_advanced_programme?
     end
 
     should "not be considered for the Advanced Programme if received before start date of programme" do
-      @cop.update_attribute :created_at, Date.new(2010, 8, 8)
+      @cop.update_attribute :created_at, Date.new(2010, 11, 8)
       assert !@cop.is_advanced_programme?
+      assert @cop.is_test_phase_advanced_programme?
     end
   end
   

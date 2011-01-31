@@ -102,7 +102,7 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "as a non-business should get the sixth step page after posting ceo contact details" do
-      @non_business_organization_type = create_organization_type(:name => 'Academic', :type_property => OrganizationType::NON_BUSINESS)
+      create_non_business_organization_type
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type)
       post :step6, :contact => @signup_ceo
       assert_response :success

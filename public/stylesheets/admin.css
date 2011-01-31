@@ -96,7 +96,7 @@ ul.nav_bar {
   #main_content h3 {
     color: #14546f;
     font-weight: bold; }
-  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large, #main_content a.new_headline_large, #main_content a.refresh_large, #main_content a.delete_large {
+  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large, #main_content a.new_headline_large, #main_content a.refresh_large, #main_content a.delete_large, #main_content a.cancel_large {
     display: block;
     height: 24px;
     padding: 5px 0 0 30px;
@@ -106,7 +106,7 @@ ul.nav_bar {
     opacity: 0.85;
     font-weight: bold;
     margin-right: 25px; }
-    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content div.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover, #main_content a.web_preview_large:hover, #main_content a.delete_doc:hover, #main_content a.new_user_large:hover, #main_content a.new_headline_large:hover, #main_content a.refresh_large:hover, #main_content a.delete_large:hover {
+    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content div.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover, #main_content a.web_preview_large:hover, #main_content a.delete_doc:hover, #main_content a.new_user_large:hover, #main_content a.new_headline_large:hover, #main_content a.refresh_large:hover, #main_content a.delete_large:hover, #main_content a.cancel_large:hover {
       opacity: 1;
       text-decoration: underline;
       cursor: pointer; }
@@ -132,6 +132,8 @@ ul.nav_bar {
     background: url('../images/icons/Refresh_24x24.png') no-repeat top left; }
   #main_content a.delete_large {
     background: transparent url('../images/icons/Delete_24x24.png') no-repeat top left; }
+  #main_content a.cancel_large {
+    background: url('../images/icons/Cancel_24x24.png') no-repeat top left; }
   #main_content table.dashboard_table {
     width: 100%;
     margin-bottom: 0; }
@@ -177,6 +179,8 @@ ul.nav_bar {
       padding-bottom: 3px; }
       #main_content table.dashboard_table td.center {
         text-align: center; }
+      #main_content table.dashboard_table td.nowrap {
+        white-space: nowrap; }
       #main_content table.dashboard_table td span .small {
         font-size: 9px; }
     #main_content table.dashboard_table ul.matching_list {
@@ -495,9 +499,9 @@ ul.nav_bar {
     #main_content fieldset fieldset span.label_text {
       display: block;
       position: relative;
-      line-height: 1em;
+      line-height: 1.3em;
       left: 25px;
-      top: -10px; }
+      top: -11px; }
     #main_content fieldset fieldset select {
       margin-left: 0; }
     #main_content fieldset fieldset ul.date_select {

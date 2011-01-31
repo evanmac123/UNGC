@@ -120,7 +120,7 @@ ul.nav_bar
     color = !dark_blue
     font-weight: bold
 
-  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large
+  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -168,6 +168,9 @@ ul.nav_bar
   a.delete_large
     background: transparent url('../images/icons/Delete_24x24.png') no-repeat top left
 
+  a.cancel_large
+    background: url('../images/icons/Cancel_24x24.png') no-repeat top left
+    
   table.dashboard_table
     width: 100%
     margin-bottom: 0
@@ -184,7 +187,7 @@ ul.nav_bar
 
       &.pointer
         cursor: pointer
-
+    
     th
       text-align: left
       background: #ccc no-repeat 100% 0
@@ -226,6 +229,9 @@ ul.nav_bar
         bottom: 3px
       &.center
         text-align: center
+      &.nowrap
+        white-space: nowrap
+        
       span
         .small
           font-size: 9px
@@ -645,9 +651,9 @@ ul.nav_bar
       span.label_text
         display: block
         position: relative
-        line-height: 1em
+        line-height: 1.3em
         left: 25px
-        top: -10px
+        top: -11px
       
       select
         margin-left: 0

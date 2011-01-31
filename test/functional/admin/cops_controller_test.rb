@@ -48,7 +48,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
        get :introduction
        assert_response :success
        assert_select 'ul.tab_nav' do
-         assert_select 'li:last-child', 'Advanced Programme'
+         assert_select 'li:last-child', 'Advanced Level'
        end
      end
    end
@@ -70,6 +70,20 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end    
     end
     
+  end
+  
+  context "given a non-business submitting a COP" do
+
+    setup do
+      create_non_business_organization_and_user('approved')
+      login_as @organization_user
+    end
+
+    should "be redirected to intermediate COP template" do
+      get :introduction
+      assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'intermediate')
+    end
+
   end
   
   context "given a new basic cop" do

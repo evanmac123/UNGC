@@ -1,16 +1,20 @@
-%h2 Listing COP questions
-= link_to 'Create a question', new_admin_cop_question_path, :class => "new", :id => "new_cop_question"
+%h2 COP Questions
+= link_to 'Create a question', new_admin_cop_question_path, :class => "new_large", :id => "new_cop_question"
 
 %table.dashboard_table#cop_questions_table
   %tr
-    %th Issue Area
+    %th ID
+    %th.status Issue Area
     %th Grouping
-    %th.status Question
+    %th Implementation
+    %th Question
     %th.actions Actions
   - for cop_question in @cop_questions
     %tr
-      %td= cop_question.principle_area.try(:name)
-      %td= cop_question.grouping
+      %td= cop_question.id
+      %td.nowrap= cop_question.principle_area.try(:name)
+      %td.nowrap= CopQuestion::GROUPING_AREAS[cop_question.grouping]
+      %td= cop_question.implementation.try(:humanize)
       %td= cop_question.text
       %td
         %ul.actions
