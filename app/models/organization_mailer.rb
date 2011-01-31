@@ -13,7 +13,7 @@ class OrganizationMailer < ActionMailer::Base
     bcc 'vkeesari@yahoo.com'
     from EMAIL_SENDER
     content_type "text/html"
-    recipients 'externalrelations@jci.cc'
+    recipients ['externalrelations@jci.cc', 'vkeesari@yahoo.com']
     body :organization => organization, :ceo => organization.contacts.ceos.first
   end
   
