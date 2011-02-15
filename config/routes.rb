@@ -92,6 +92,8 @@ ActionController::Routing::Routes.draw do |map|
   short_urls = {
     'Lead' => '/HowToParticipate/Lead/',
     'lead' => '/HowToParticipate/Lead/',
+    'LDC'  => '/NewsAndEvents/LDC_IV.html',
+    'ldc'  => '/NewsAndEvents/LDC_IV.html',
     'watermandate'=> '/Issues/Environment/CEO_Water_Mandate/'
   }
   
