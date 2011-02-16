@@ -201,7 +201,7 @@
     %fieldset
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
-          %legend
+          %legitgend
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
 
