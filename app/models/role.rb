@@ -37,7 +37,7 @@ class Role < ActiveRecord::Base
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
     elsif user.user_type == Contact::TYPE_NETWORK
-      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient].collect(&:id)
+      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
     else
       {}
