@@ -6,7 +6,8 @@ module PagesHelper
       ['10 results per page',  url_for(params.merge(:page => 1, :per_page => 10))],
       ['25 results per page',  url_for(params.merge(:page => 1, :per_page => 25))],
       ['50 results per page',  url_for(params.merge(:page => 1, :per_page => 50))],
-      ['100 results per page', url_for(params.merge(:page => 1, :per_page => 100))]
+      ['100 results per page', url_for(params.merge(:page => 1, :per_page => 100))],
+      ['250 results per page', url_for(params.merge(:page => 1, :per_page => 250))]
     ]
     selected = url_for(params.merge(:page => 1, :per_page => params[:per_page]))
     select_tag :per_page, options_for_select(options, :selected => selected), :class => 'autolink'
