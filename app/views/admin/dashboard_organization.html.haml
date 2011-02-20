@@ -64,15 +64,9 @@
             == There is no Network Report Recipient for #{@organization.country_name}
 
   #contacts.tab_content
-    = link_to 'New Contact', new_admin_organization_contact_path(current_user.organization.id), :class => 'new_user_large', :id => 'new_contact'
-    %table.dashboard_table#contacts_dashboard_table
-      %tr
-        %th.last_updated Last update
-        %th.title Name
-        %th.status Email
-        %th.age Job title
-        %th.actions Actions
-      = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => current_user.organization.contacts
 
   - if @organization.pending_review? or @organization.in_review?
     %h3 Comments
@@ -93,7 +87,8 @@
         = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
 
     #case_stories.tab_content
-      = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new_large', :id => 'new_case_story'
+      / = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new_large', :id => 'new_case_story'
+      %h4 We are no longer accepting Case Stories at this time.
       %table.dashboard_table#case_stories_dashboard_table
         %tr
           %th.last_udpated Updated on
