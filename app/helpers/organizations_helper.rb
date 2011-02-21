@@ -21,7 +21,7 @@ module OrganizationsHelper
   end
   
   def scoped_orgs(filter_type)
-    Organization.participants.companies_and_smes.active.with_cop_status(filter_type)
+    Organization.participants.companies_and_smes.send(filter_type)    
   end
   
 end

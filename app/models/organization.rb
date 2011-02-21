@@ -193,9 +193,13 @@ class Organization < ActiveRecord::Base
     {:conditions => {:cop_due_on => date} }
   }
 
-  # named_scope :failed_to_communicate_progress, {
-  #   :conditions => ["organizations.removal_reason_id = ?", RemovalReason.delisted.id] 
-  # }
+  named_scope :noncommunicating,
+    { :conditions => ["cop_state = ? AND active = ?", COP_STATES[:noncommunicating], true] }
+
+  named_scope :expelled_for_failure_to_communicate_progress, {
+    :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.delisted.id, false, ["active,noncommunicating"] ],
+    :order => 'delisted_on DESC', 
+  }
 
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
