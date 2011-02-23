@@ -371,9 +371,9 @@ class Organization < ActiveRecord::Base
   def participant_for_over_5_years?
     joined_on < 5.years.ago.to_date
   end
-  
-  def participant_for_less_than_one_year?
-    joined_on.to_time.years_since(1) >= Time.now
+
+  def participant_for_less_than_years(years)
+    joined_on.to_time.years_since(years) >= Time.now
   end
   
   # Policy specifies 90 days, so we extend the current due date
@@ -462,20 +462,21 @@ class Organization < ActiveRecord::Base
     end
     
     # New company that has not submitted a COP
-    if participant_for_less_than_one_year? && communication_on_progresses.count == 0
-      return "New"
+    if  (participant_for_less_than_years(1) && communication_on_progresses.count == 0) ||
+        (!joined_after_july_2009? && participant_for_less_than_years(2) && communication_on_progresses.count == 0)
+      return 'New'
     end
 
     # Company has submitted a COP
     if communication_on_progresses.approved.count > 0
       
       # Determine status based on level of latest COP
-      if communication_on_progresses.first.is_advanced_level?
-        'Advanced'
-      elsif communication_on_progresses.first.is_intermediate_level?
-        'Active'
+      if communication_on_progresses.approved.first.is_advanced_level?
+        'Global Compact Advanced'
+      elsif communication_on_progresses.approved.first.is_intermediate_level?
+        'Global Compact Active'
       else
-        'Learner'
+        'Global Compact Learner'
       end
 
     else
