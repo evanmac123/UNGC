@@ -467,7 +467,7 @@ class Organization < ActiveRecord::Base
     end
 
     # Company has submitted a COP
-    if communication_on_progresses.count > 0
+    if communication_on_progresses.approved.count > 0
       
       # Determine status based on level of latest COP
       if communication_on_progresses.first.is_advanced_level?
