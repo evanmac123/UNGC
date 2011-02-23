@@ -194,11 +194,11 @@ class Organization < ActiveRecord::Base
   }
 
   named_scope :noncommunicating,
-    { :conditions => ["cop_state = ? AND active = ?", COP_STATES[:noncommunicating], true] }
+    { :conditions => ["cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true] }
 
   named_scope :expelled_for_failure_to_communicate_progress, {
-    :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.delisted.id, false, ["active,noncommunicating"] ],
-    :order => 'delisted_on DESC', 
+    :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING] ],
+    :order => 'delisted_on DESC' 
   }
 
   named_scope :visible_to, lambda { |user|
@@ -363,7 +363,6 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_DELISTED
   end
   
-  
   # Indicates if this organization uses the most recent COP rules
   def joined_after_july_2009?
     joined_on >= Date.new(2009,7,1)
@@ -371,6 +370,10 @@ class Organization < ActiveRecord::Base
   
   def participant_for_over_5_years?
     joined_on < 5.years.ago.to_date
+  end
+  
+  def participant_for_less_than_one_year?
+    joined_on.to_time.years_since(1) >= Time.now
   end
   
   # Policy specifies 90 days, so we extend the current due date
@@ -449,6 +452,36 @@ class Organization < ActiveRecord::Base
       else
         ''
     end
+  end
+  
+  def status_name
+    
+    # Non-businesses are not assigned these labels
+    unless company?
+      return cop_state.humanize
+    end
+    
+    # New company that has not submitted a COP
+    if participant_for_less_than_one_year? && communication_on_progresses.count == 0
+      return "New"
+    end
+
+    # Company has submitted a COP
+    if communication_on_progresses.count > 0
+      
+      # Determine status based on level of latest COP
+      if communication_on_progresses.first.is_advanced_level?
+        'Advanced'
+      elsif communication_on_progresses.first.is_intermediate_level?
+        'Active'
+      else
+        'Learner'
+      end
+
+    else
+      cop_state.humanize
+    end
+
   end
   
   def reverse_roles
