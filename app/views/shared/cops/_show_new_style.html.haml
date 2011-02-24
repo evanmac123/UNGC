@@ -66,11 +66,11 @@
       - if communication_on_progress.issue_areas_covered.count > 0
         %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
     
-/ - if communication_on_progress.is_advanced_programme?
-/   %dt Advanced Programme
-/   %dd
-/     %ul
-/       %li This company has elected to participate in the Advanced Programme by completing a self-assessment questionnaire covering the content of their COP and assessing their implementation of the Global Compact principles against global best practices.
+- if communication_on_progress.evaluated_for_differentiation?
+  %dt Differentiation Level
+  %dd
+    %ul
+      %li== This COP qualifies for the #{communication_on_progress.differentation_level} level
 
 / - if logged_in? || params[:action] == 'feed'
 

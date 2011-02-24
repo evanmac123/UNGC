@@ -22,11 +22,11 @@
         %ul
           %li= yyyy_mm_dd @communication_on_progress.created_at
     
-      - if @communication_on_progress.is_advanced_programme?
-        %dt Status
+      - if @communication_on_progress.evaluated_for_differentiation?
+        %dt Differentiation Level
         %dd
           %ul
-            %li Submitted to the Advanced Level
+            %li== This COP qualifies for the #{@communication_on_progress.differentation_level} level
         
       - if @communication_on_progress.format == 'basic'
         = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 

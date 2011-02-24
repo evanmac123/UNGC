@@ -362,8 +362,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   # as defined in COP Policy, these are the minimum requirements for an acceptable COP
   # only those that submitted after the start of the differentiation program can be counted
+  
+  def evaluated_for_differentiation?
+    created_at >= START_DATE_OF_DIFFERENTIATION
+  end
+  
   def is_intermediate_level?
-    created_at >= START_DATE_OF_DIFFERENTIATION &&
+    evaluated_for_differentiation? &&
     include_continued_support_statement &&
     include_measurement &&
     issue_areas_covered.count == 4 &&
@@ -373,6 +378,16 @@ class CommunicationOnProgress < ActiveRecord::Base
   # those that have also self-declared themeselves as meeting the advanced critera (yes/no)
   def is_advanced_level?
     is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
+  end
+  
+  def differentation_level
+    if is_advanced_level?
+      "Advanced"
+    elsif is_intermediate_level?
+      "Active"
+    else
+      "Learner"
+    end
   end
   
   private
