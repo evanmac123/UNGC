@@ -320,7 +320,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       @cop.update_attribute :references_human_rights, true
       @cop.update_attribute :references_anti_corruption, true
       @cop.update_attribute :references_environment, true
-      @cop.update_attribute :method_shared, 'stakeholders'
+      @cop.update_attribute :method_shared, 'web_based'
       assert @cop.is_intermediate_level?
       # based on response to Yes/No quesition in COP submission
       @cop.update_attribute :meets_advanced_criteria, true      

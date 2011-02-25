@@ -371,8 +371,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     evaluated_for_differentiation? &&
     include_continued_support_statement &&
     include_measurement &&
-    issue_areas_covered.count == 4 &&
-    method_shared != 'gc_website'
+    issue_areas_covered.count == 4
   end
   
   # those that have also self-declared themeselves as meeting the advanced critera (yes/no)
