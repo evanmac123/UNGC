@@ -480,7 +480,7 @@ class Organization < ActiveRecord::Base
       end
 
     else
-      cop_state.humanize
+      'A Communication on Progress has not been submitted'
     end
 
   end
