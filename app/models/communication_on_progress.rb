@@ -381,11 +381,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   def differentation_level
     if is_advanced_level?
-      "Advanced"
+      "This COP qualifies for the Global Compact Advanced level"
     elsif is_intermediate_level?
-      "Active"
+      "This COP qualifies for the Global Compact Active level"
     else
-      "Learner"
+      'This COP places the participant on the Global Compact Learner Platform'
     end
   end
   
