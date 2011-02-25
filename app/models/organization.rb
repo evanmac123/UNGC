@@ -482,9 +482,8 @@ class Organization < ActiveRecord::Base
     else
       'A Communication on Progress has not been submitted'
     end
-
   end
-  
+
   def reverse_roles
 
     if self.contacts.ceos.count == 1 && self.contacts.contact_points.count == 1      

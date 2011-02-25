@@ -289,7 +289,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
-    
+
   context "given a COP with additional questions" do
     setup do
       create_organization_and_user
