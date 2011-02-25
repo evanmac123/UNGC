@@ -206,7 +206,7 @@
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
 
     %fieldset
-      #signature{:style => 'display: block'}
+      #confirmation{:style => 'display: block'}
         %fieldset
           %legend
             %span Confirmation
@@ -217,9 +217,15 @@
           %br
           %p{:style => 'padding-top: 20px;'}
             %em Note: The self-assessment will be made public on the Global Compact website, alongside the COP, to improve the searchability and analysis of the COPs and underlying performance. If you do not want the results to be publicly displayed, please do not proceed with this submission and use the regular COP submission process instead.
-          
-          = form.text_field :contact_name, :value => "#{current_user.full_name_with_title}, #{current_user.job_title}", :style => ' width: 500px; margin: 0em 0em 1em 0em;'
-          %p (Please confirm your name and position)
+
+    %fieldset
+      #signature{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Contact Information
+          %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
+          = form.text_area :contact_name, :rows => "4", :value => "#{current_user.full_name_with_title}\n#{current_user.job_title}\n#{current_user.email}\n#{current_user.phone}", :style => 'width: 300px; margin: 0em 0em 1em 0em;'
+
     %p= submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization
