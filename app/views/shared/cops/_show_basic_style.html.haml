@@ -21,7 +21,12 @@
       %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
     - else
       %li The participant has not confirmed coverage for any issue area
-      
+
+- if communication_on_progress.evaluated_for_differentiation?
+  %dt Differentiation Level
+  %dd
+    %ul
+      %li== This COP qualifies for the Global Compact #{communication_on_progress.differentation_level} level
 
 %dt &nbsp;
 %dd= show_basic_cop_attributes(communication_on_progress, nil, false)
