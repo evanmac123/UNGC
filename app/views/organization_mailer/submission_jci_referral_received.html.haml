@@ -1,0 +1,49 @@
+%strong This is an automated message:
+
+%p A referral from JCI has submitted a new participant application on the Global Compact website.
+
+%p
+  %strong== Profile for #{@organization.name}:
+
+- @row_style = 'text-align: right; padding-right: 10px'
+
+%table
+  %tr
+    %td{:style => @row_style} Type:
+    %td= @organization.organization_type_name
+  %tr
+    %td{:style => @row_style} Sector:
+    %td= @organization.sector_name
+  %tr
+    %td{:style => @row_style} Employees:
+    %td= @organization.employees
+  %tr
+    %td{:style => @row_style} Website:
+    %td= @organization.url
+
+%p
+  %strong CEO / Highest Level Executive
+%p
+  %table
+    %tr
+      %td{:style => @row_style} Name:
+      %td= @ceo.full_name_with_title
+    %tr
+      %td{:style => @row_style} Title:
+      %td= @ceo.job_title
+
+%p Sincerely,
+
+%p The Global Compact Office
+
+United Nations Global Compact
+%br/
+Two United Nations Plaza
+%br/
+New York, NY 10017
+%br/
+Email: globalcompact@un.org
+%br/
+Website:
+%a{:href => "http://www.unglobalcompact.org/"}
+  www.unglobalcompact.org

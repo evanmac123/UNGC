@@ -48,9 +48,10 @@
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
 #  missing_principle_explained         :boolean(1)
-#  web_based                           :boolean(1)
+#  is_shared_with_stakeholders         :boolean(1)
 #  starts_on                           :date
 #  ends_on                             :date
+#  method_shared                       :string(255)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
@@ -76,14 +77,15 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :policy_exempted
   attr_accessor :type
   
-  before_create :set_title
-  before_create :check_links
-  before_save   :set_cop_defaults
-  before_save   :can_be_edited?
-  after_create  :draft_or_submit!
+  before_create  :set_title
+  before_create  :check_links
+  before_save    :set_cop_defaults
+  before_save    :can_be_edited?
+  after_create   :draft_or_submit!
+  before_destroy :delete_associated_attributes
 
   accepts_nested_attributes_for :cop_answers
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true  
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
   
   cattr_reader :per_page
@@ -114,14 +116,30 @@ class CommunicationOnProgress < ActiveRecord::Base
   }
   
   FORMAT = {:standalone            => "Stand alone document",
-            :annual_report         => "Part of an annual (financial) report",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
-            :summary_document      => "Summary document that refers to sections of an annual or sustainability report"}
+            :annual_report         => "Part of an annual (financial) report"
+            
+           }
 
+  # How the COP is shared
+  METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
+            :all_access   => "b) COP is easily accessible to all interested parties (e.g. via its website)",
+            :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
+            :all          => "d) Both b) and c)"
+           }
+           
+  # Basic COP templates have other options for sharing their COP   
+  BASIC_METHOD = {:gc_website   => "a) On the UN Global Compact website only",
+                  :all_access   => "b) COP will be made easily accessible to all interested parties on company website",
+                  :stakeholders => "c) COP will be actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
+                  :all          => "d) Both b) and c)"
+                 }
+                        
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
             :executive => "Other senior executive",
-            :none      => "None of the above"}
+            :none      => "None of the above"
+            }
   
   def self.find_by_param(param)
     return nil if param.blank?
@@ -168,8 +186,9 @@ class CommunicationOnProgress < ActiveRecord::Base
     case self.type
       when 'grace'
         self.format = CopFile::TYPES[:grace_letter]
-        self.starts_on = Date.today
-        self.ends_on = Date.today + 90.days
+        # normally they can choose the coverage dates, but for grace letters it matches the grace period
+        self.starts_on = self.organization.cop_due_on
+        self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
       when 'basic'
         self.format = 'basic'
       when 'advanced'
@@ -206,12 +225,18 @@ class CommunicationOnProgress < ActiveRecord::Base
     created_at >= Date.new(2010, 01, 01)
   end
   
-  # Advanced Programme was launched Oct 11, 2010
-  # Participants could answer the additional voluntary questions prior to this date
-  # However, only those submitting after Oct 11 are actually considered to be participating in the programme
+  # Official launch of Differentiation Programme was January 28, 2011
   def is_advanced_programme?
-    additional_questions && created_at >= Date.new(2010, 10, 11)
+    additional_questions && created_at >= Date.new(2011, 01, 29)
   end
+
+  # Test phase of Advanced Programme was launched Oct 11, 2010
+  # Only those submitting after this date are actually considered to be participating in the programme
+  # However, participants could answer the additional voluntary questions prior to this date
+  def is_test_phase_advanced_programme?
+    additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= Date.new(2011, 01, 29)
+  end
+  
   
   def is_grace_letter?
     # FIXME: self.format was throwing an exception
@@ -334,5 +359,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
   
+  def delete_associated_attributes
+    self.cop_files.each {|file| file.destroy}
+    self.cop_links.each {|link| link.destroy}
+    self.cop_answers.each {|answer| answer.destroy}
+  end
  
 end

@@ -3,39 +3,41 @@
 %div{:class => "tab_container top_tabs", :style => 'width: 60%;'}
   %ul.tab_nav
     %li <a href="#introduction">Introduction</a>
-    %li <a href="#general">General</a>
     %li <a href="#basic">Basic Template</a>
-    %li <a href="#advanced">Advanced Programme</a>
-    %li <a href="#grace">Grace Letter</a>
+    %li <a href="#general">COP Submission</a>
+    %li <a href="#advanced">Advanced Level</a>
+    - unless current_user.organization.delisted?
+      %li <a href="#grace">Grace Letter</a>
 
   #introduction.tab_content
     %p{:class => 'cop_description' :style => 'margin-top: 10px;'}
-      %strong Using the tabs above, choose among four alternatives to submit your COP
-    %p{:class => 'cop_description'}
-      %strong General:
-      For companies who prepare a standalone COP and communicate directly with stakeholders (e.g. Sustainability Report).
+      %strong Please choose among the following options to publish your COP on the Global Compact website
     %p{:class => 'cop_description'}
       %strong Basic Template:
-      == This online template follows a series of simple steps that meet basic COP requirements. #{popup_link_to 'Learn more...','/COP/differentiation/basic_programme.html'}
+      If you are new to the Global Compact, this Template will help you create your first COP.
+      %p{:class => 'cop_description'}
+        %strong COP Submission:
+        Use this tab if you have already created your COP, either integrated into your sustainability report or as a standalone report, and you are not aiming to qualify for the GC Advanced level.
     %p{:class => 'cop_description'}
-      %strong Advanced Programme:
-      == Companies who are at a higher level of sustainability performance and disclosure are encouraged to participate in this test phase. #{popup_link_to 'Learn more...','/COP/differentiation/advanced_programme.html'}
-    %p{:class => 'cop_description'}
-      %strong Grace Letter:
-      Submitting a Grace Letter allows for a 90 day extension of the COP due date. 
+      %strong Advanced Level:
+      Use this tab if your COP demonstrates a higher level of performance and disclosure and you would like to participate in the GC Advanced level.
+    - unless current_user.organization.delisted?
+      %p{:class => 'cop_description'}
+        %strong Grace Letter:
+        == You can also submit a grace letter for a #{Organization::COP_GRACE_PERIOD} day extension to your COP deadline.
 
-  #general.tab_content
-    %h3 Publish a COP on the Global Compact Website
-
-    %p{:class => 'cop_description'} Participants are first asked to answer five basic questions about the format and content of the COP. This is done to ensure compliance with the COP policy and to facilitate further analysis of companies' performance. To complete the submission process, upload the COP as a PDF file and optionally provide a website link to the COP.
-
-    %p= link_to 'New General COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
-      
   #basic.tab_content
     %h3 Create your COP by following the Basic Template
 
-    %p{:class => 'cop_description'} This online template helps smaller and less experienced companies communicate their progress by following a series of simple steps that meet basic disclosure requirements in accordance with the COP policy. Translations of the questions are currently available in the following languages:
-    %p
+    %p{:class => 'cop_description'} This template is designed to guide smaller and less experienced companies to communicate their progress by following simple steps and suggested topics using an easy to follow web-based template.
+
+    %p{:class => 'cop_description'}
+      A COP created using the Basic COP Template will automatically qualify participants at the <strong>GC Learner</strong> or <strong>GC General</strong> levels, in accordance with the
+      = popup_link_to 'COP policy.','/COP/communicating_progress/cop_policy.html'
+      To qualify as GC Advanced, participants must submit their COP using the Advanced Level tab.
+
+    %p{:class => 'cop_description'} Translations of the template are currently available in the following languages:
+    %p{:class => 'cop_description'}
       = link_to '(Arabic)','/docs/communication_on_progress/templates/Basic/Basic_COP_AR.pdf'
       = link_to '(Chinese)','/docs/communication_on_progress/templates/Basic/Basic_COP_ZH.pdf'
       = link_to '(English)','/docs/communication_on_progress/templates/Basic/Basic_COP_EN.pdf'
@@ -45,16 +47,26 @@
       = link_to '(Spanish)','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf'
 
     %p= link_to 'New Basic COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
+
+  #general.tab_content
+    %h3 Publish a COP on the Global Compact Website
+
+    %p{:class => 'cop_description'} Submit an electronic version of their COP (preferably a PDF file) and an optional link (URL) to the web page that contains their COP.
+
+    %p= link_to 'New COP Submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
+
   #advanced.tab_content
-    %h3 Participate in the Advanced Programme (test phase)
+    %h3 The Advanced Level
+    %p{:class => 'cop_description'} To qualify for the Advanced level, participants must submit a COP and fill out a self-assessment covering the content of their COP and describing how they meet the 24 Advanced criteria.
+    %p{:class => 'cop_description'} A criterion is "met" if a business participant believes it has, in good faith, implemented best practices that are <strong><em>relevant</em></strong> for its context of operation. For each criterion, the Global Compact provides examples of commonly accepted best practices that companies are encouraged to implement to meet the criteria.
+    %p{:class => 'cop_description'} Detailed results of the self-assessment and statistics on coverage of best practices will also be made public to encourage stakeholder vetting and extra-financial analysis.
 
-    %p{:class => 'cop_description'} Companies at a higher level of sustainability performance and disclosure are encouraged to participate in the Advanced Programme by completing a self-assessment covering the content of their COP and assessing their implementation of the Global Compact principles against global best practices. 
-
-    %p= link_to 'Proceed to Advanced Programme', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
+    %p= link_to 'Qualify your COP for the GC Advanced level', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
   
-  #grace.tab_content
-    %h3 Request a COP due date extension
+  - unless current_user.organization.delisted?
+    #grace.tab_content
+      %h3 Request a COP due date extension
 
-    %p{:class => 'cop_description'} In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of 90 days if a reasonable explanation for the delay (e.g. changes to reporting cycles) is posted on the Global Compact website, including an expected date of COP submission.
+      %p{:class => 'cop_description'}== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{Organization::COP_GRACE_PERIOD} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
 
-    %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'
+      %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'

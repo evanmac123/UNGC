@@ -106,9 +106,10 @@ body.supply_chain    #inner_head { background: url(/images/banner_supply_chain.p
 #languages ul li { display: inline; margin-right: 5px;}
 #languages a {font-size: 9px; color: #FFF;}
 #search { position: absolute; top: 60px; left: 700px; }
-#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.90; -moz-opacity: 0.90; filter:alpha(opacity=90);}
-#search p { padding-top: 5px; font-size: 11px; color: #fff;  }
-#nav_bg {  width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
+#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
+#search p { padding-top: 5px; font-size: 11px; color: #fff; }
+#search p label, #search p input {cursor: pointer;}
+#nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
 #nav ul { list-style: none; position: absolute; top: 3px; left: 42px; height: 22px; z-index: 10; white-space: nowrap;}
@@ -139,9 +140,9 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1_content { position: relative; }
 #box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
 #box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
-#box1 div.readmore { position: absolute; top: 125px; right: 0px; width: 90px; height: 30px; background-color: #48788A; font-size: 12px; font-weight: bold; text-align: right; }
-#box1 div.readmore div { padding: 7px 6px 0 0; }
-#box1 div.readmore div a { color: #fff; }
+#box1 div.readmore { position: absolute; top: 125px; right: 10px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: center; }
+#box1 div.readmore div { padding: 7px 0 0 0; }
+#box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; background-repeat: no-repeat; background-image: url(/pics/un_images/Leaders_Summit_Logo_small.png);} 
 #box2_content { position: relative; }
@@ -201,8 +202,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #logos { position: absolute; top: 35px; left: 52px; }
 #logos ul { background: url(/images/footer_logos.png) top left no-repeat; background-position: 0px -1px; width: 553px; height: 42px; list-style: none; position: relative;}
 #logos ul li { display: inline; position: absolute; top: -5px; height: 40px; }
-#logos ul li a { width: 100%; height: 100%; display: block; opacity: 0.5; background: #fff; }
-#logos ul li a:hover { opacity: 1; background: none; }
+#logos ul li a { width: 100%; height: 100%; display: block; opacity: 0.6; background: #fff; }
+#logos ul li a:hover { opacity: 0; background: none; }
 #logos ul li.logo1 { left: 0px; width: 40px; }
 #logos ul li.logo2 { left: 45px; width: 40px; }
 #logos ul li.logo3 { left: 93px; width: 40px; }
@@ -216,15 +217,17 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #footer_nav li a { font-size: 11px; color: #999;}
 #footer_nav li a:hover { color: #555; text-decoration: underline; }
 
-#partner_logos { position: absolute; top: 33px; left: 400px; }
+#partner_logos { position: absolute; top: 35px; left: 400px; }
 #partner_logos ul li { display: inline; position: absolute; top: 10px; }
 #partner_logos ul li a { width: 100%; height: 100%; display: block; }
-#partner_logos ul li.pri { height: 32px; width: 92px; background: url(/images/partner_logo_1.png) no-repeat; opacity: 0.3;}
-#partner_logos ul li.pri:hover { background-position: -93px; opacity: 1;}
-#partner_logos ul li.prme { left: 155px; height: 35px; width: 125px; background: url(/images/partner_logo_2.png) no-repeat; opacity: 0.3;}
-#partner_logos ul li.prme:hover { background-position: -126px; opacity: 1;}
-#partner_logos ul li.gcf { left: 345px; top: -7px; height: 57px; width: 205px; background: url(/images/partner_logo_3.png) no-repeat; opacity: 0.4;}
-#partner_logos ul li.gcf:hover { background-position: -206px; opacity: 1;}
+#partner_logos ul li.gri { height: 26px; top: 7px; width: 66px; background: url(/images/partner_logo_4.png) no-repeat; opacity: 0.3;}
+#partner_logos ul li.gri:hover { background-position: -67px; opacity: 1;}
+#partner_logos ul li.pri { left: 130px; height: 22px; width: 63px; background: url(/images/partner_logo_1.png) no-repeat; opacity: 0.3;}
+#partner_logos ul li.pri:hover { background-position: -65px; opacity: 1;}
+#partner_logos ul li.prme { left: 263px; height: 22px; width: 83px; background: url(/images/partner_logo_2.png) no-repeat; opacity: 0.25;}
+#partner_logos ul li.prme:hover { background-position: -84px; opacity: 1;}
+#partner_logos ul li.gcf { left: 415px; top: -1px; height: 36px; width: 136px; background: url(/images/partner_logo_3.png) no-repeat; opacity: 0.5;}
+#partner_logos ul li.gcf:hover { background-position: -136px; opacity: 1;}
 
 /**** inner ****/
 #content_inner { display: block; width: 1000px; margin: 0 auto; position: relative; }
@@ -262,6 +265,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy h1 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 19px; font-weight: bold; margin-bottom: 15px; color: #00546E; line-height: 1.2; }
 #rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
+#rightcontent .copy h4 { font-size: 13px; font-style: italic; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
 #rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; }
 #rightcontent .copy .highlight_box { padding: 10px 15px; margin: 5px 0px; width: 100%; height: auto; background-color: #e5eef0; color: #222; }
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
@@ -453,8 +457,9 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 #main_content dd ul.basic_question li.question_group, #main_content dd ul.questionnaire li.question_group {
   font-weight: bold;
   color: #00546E;
-  margin-bottom: -0.5em;
+  margin-top: 1.2em;
   border-bottom: 0;
+  line-height: 1.2em;
 }
 
 #main_content dd ul li.selected_question, #main_content dd ul li.unselected_question, #main_content dd ul.basic_question li.selected_question {

@@ -42,7 +42,6 @@
           %th.last_updated Last updated on
           %th.title Title
           %th.status Status
-          %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/case_stories/case_story', :collection => @pending_case_stories
       = will_paginate @pending_case_stories, param_name: 'case_stories_page', params: {tab: 'case_stories'}

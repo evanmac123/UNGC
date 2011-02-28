@@ -37,25 +37,35 @@
 
           #include_continued_support_statement{:style => css_display_style(@submitted)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
-              
+
             %fieldset
               %legend
                 %span Does your COP identify targets, define performance indicators and measure outcomes?
               = true_or_false_field(form, :include_measurement, :class => 'score')
+
+          #method_shared_with_stakeholders{:style => css_display_style(@submitted)}
+            %fieldset
+              %fieldset
+                %legend
+                  %span How does your organisation share its COP with stakeholders?
+                - CommunicationOnProgress::METHOD.each do |key, value|
+                  %label
+                    = form.radio_button :method_shared, key
+                    = value
 
   #finish.tab_content
     %fieldset
       #cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
-            %span Required: Upload the COP as a PDF file
+            %span Required: upload the COP as a PDF file
           = text_partial('b')
           = render :partial => 'cop_files_form'
   
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
-            %span Optional: Provide a link to your web-based COP. The link should be in the format 'http://company.com'
+            %span Optional: provide a link to your web-based COP. The link should be in the format 'http://company.com'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
   
     = submit_tag 'Submit', :class => "button", :id => "finish"

@@ -1,5 +1,5 @@
 %tr
-  %td= cop_admin.created_at.strftime '%I:%M %p'
+  %td= cop_admin.created_at.in_time_zone('Eastern Time (US & Canada)').strftime '%I:%M %p'
   %td= cop_admin.organization.name
   %td
     = cop_admin.format.try(:humanize)

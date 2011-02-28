@@ -23,8 +23,8 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
     should "get an email when posting a valid email address" do
       assert_emails(1) do
         post :create, :email => @organization_user.email
-        assert_response :success
         assert_not_nil flash[:notice]
+        assert_redirected_to login_path
         assert_not_nil @organization_user.reload.reset_password_token
       end
     end

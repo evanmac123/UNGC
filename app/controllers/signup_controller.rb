@@ -9,6 +9,11 @@ class SignupController < ApplicationController
   def step1
     clean_session
     @organization.organization_type_id = @organization_types.first.id unless @organization.organization_type_id
+    # check if they were referred from the JCI website
+    if @organization.jci_referral? request.env["HTTP_REFERER"]
+      session[:is_jci_referral] = true
+      @jci_referral = true
+    end
   end
   
   # POST from oganization form
@@ -20,7 +25,10 @@ class SignupController < ApplicationController
       set_default_values
     end
     
-    redirect_to organization_step1_path(:org_type => extract_organization_type(@organization)) unless @organization.valid?
+    unless @organization.valid?
+      redirect_to organization_step1_path(:org_type => extract_organization_type(@organization))
+    end
+    
   end
   
   # POST from contact form
@@ -92,6 +100,11 @@ class SignupController < ApplicationController
       end
       
       OrganizationMailer.deliver_submission_received(@organization)
+      
+      if session[:is_jci_referral]
+        OrganizationMailer.deliver_submission_jci_referral_received(@organization)
+      end
+      
       clean_session
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
@@ -158,6 +171,7 @@ class SignupController < ApplicationController
       session[:signup_contact] = new_contact(Role.contact_point)
       session[:signup_ceo] = new_contact(Role.ceo)
       session[:financial_contact] = new_contact(Role.financial_contact)
+      session[:is_jci_referral] = nil
     end
     
     def new_contact(role)
@@ -188,5 +202,5 @@ class SignupController < ApplicationController
         end
       end
     end
-
+    
 end

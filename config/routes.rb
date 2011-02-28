@@ -54,6 +54,7 @@ ActionController::Routing::Routes.draw do |map|
                                                      :updated        => :get,
                                                      :network_review => :get,
                                                      :search         => :get },
+                                    :member     => { :reverse_roles  => :get }, 
                                     :has_many   => [:contacts, :comments] do |organization|
     admin.resources :logo_requests, :collection => { :approved       => :get,
                                                      :rejected       => :get,
@@ -86,7 +87,19 @@ ActionController::Routing::Routes.draw do |map|
   # Front-end routes
   
   map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
-  map.connect "/watermandate", :controller => 'pages', :action => :redirect_to_page, :page => '/Issues/Environment/CEO_Water_Mandate/'
+  
+  # some important URLs are just too long to type
+  short_urls = {
+    'Lead' => '/HowToParticipate/Lead/',
+    'lead' => '/HowToParticipate/Lead/',
+    'LDC'  => '/NewsAndEvents/LDC_IV.html',
+    'ldc'  => '/NewsAndEvents/LDC_IV.html',
+    'watermandate'=> '/Issues/Environment/CEO_Water_Mandate/'
+  }
+  
+  short_urls.each do |url, webpage|
+    map.connect url, :controller => 'pages', :action => :redirect_to_page, :page => webpage
+  end
   
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',

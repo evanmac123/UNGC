@@ -120,6 +120,21 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_equal true, @organization.replied_to
       assert_redirected_to admin_organization_path(@organization.id)
     end
+    
+    should "not reverse roles without one CEO and Contact Point" do
+      login_as @staff_user
+      get :reverse_roles, {:id => @organization.to_param}
+      assert_equal 'Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.', flash[:error]
+      assert_redirected_to admin_organization_path(@organization.id)
+    end
+
+    should "reverse roles" do
+      create_organization_and_ceo
+      login_as @staff_user
+      get :reverse_roles, {:id => @organization.to_param}
+      assert_equal 'The CEO and Contact Point roles were reversed.', flash[:notice]
+      assert_redirected_to admin_organization_path(@organization.id)
+    end
 
   end
   

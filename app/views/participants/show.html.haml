@@ -17,7 +17,7 @@
   - if @participant.delisted?
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
-        %strong Reason for delisting
+        %strong= display_delisted_description(@participant)
       .right= @participant.try(:removal_reason).try(:description)
       
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
@@ -90,7 +90,7 @@
   %table.cop_links{:cellspacing => 0, :cellpadding => 0}
     %thead
       %tr
-        %th Communication Title
+        %th Communication
         %th CEO Statement
         %th Issue Areas Covered
         %th Measurement of Outcome

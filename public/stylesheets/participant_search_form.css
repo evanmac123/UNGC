@@ -15,7 +15,7 @@ div#participant_search label {
   cursor: pointer; }
   div#participant_search label.date {
     width: auto;
-    margin: 0 10px 0 0; }
+    margin: 0 20px 0 0; }
 div#participant_search input[type=text], div#participant_search select {
   width: 275px;
   border: 1px solid #bbb; }

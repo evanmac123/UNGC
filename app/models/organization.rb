@@ -7,6 +7,7 @@
 #  name                           :string(255)
 #  organization_type_id           :integer(4)
 #  sector_id                      :integer(4)
+#  local_network                  :boolean(1)
 #  participant                    :boolean(1)
 #  employees                      :integer(4)
 #  url                            :string(255)
@@ -39,7 +40,6 @@
 #  bhr_url                        :string(255)
 #  rejected_on                    :date
 #  network_review_on              :date
-#  local_network                  :boolean(1)
 #  revenue                        :integer(4)
 #
 
@@ -47,7 +47,7 @@ class Organization < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :name
-  validates_uniqueness_of :name, :on => :update, :message => "has already been used by another organization" 
+  validates_uniqueness_of :name, :message => "has already been used by another organization" 
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
                        :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
@@ -68,7 +68,7 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
 
   attr_accessor :delisting_on
-    
+  
   accepts_nested_attributes_for :contacts
   acts_as_commentable
   
@@ -193,6 +193,14 @@ class Organization < ActiveRecord::Base
     {:conditions => {:cop_due_on => date} }
   }
 
+  named_scope :noncommunicating,
+    { :conditions => ["cop_state = ? AND active = ?", COP_STATES[:noncommunicating], true] }
+
+  named_scope :expelled_for_failure_to_communicate_progress, {
+    :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.delisted.id, false, ["active,noncommunicating"] ],
+    :order => 'delisted_on DESC', 
+  }
+
   named_scope :visible_to, lambda { |user|
     if user.user_type == Contact::TYPE_ORGANIZATION
       { :conditions => ['id=?', user.organization_id] }
@@ -268,6 +276,10 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name) == 'Company' ||
     organization_type.try(:name) == 'SME'
   end
+
+  def academic?
+     organization_type.try(:name) == 'Academic'
+   end
 
   def listing_status_name
     listing_status.try(:name) || 'Unknown'
@@ -360,10 +372,10 @@ class Organization < ActiveRecord::Base
   def participant_for_over_5_years?
     joined_on < 5.years.ago.to_date
   end
-    
-  def extend_cop_grace_period # TODO: Verify the date math here
-    self.update_attribute :cop_due_on, Date.today + COP_GRACE_PERIOD
-    self.update_attribute :cop_state, COP_STATE_ACTIVE
+  
+  # Policy specifies 90 days, so we extend the current due date
+  def extend_cop_grace_period
+    self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
     self.update_attribute :active, true
   end
   
@@ -438,7 +450,62 @@ class Organization < ActiveRecord::Base
         ''
     end
   end
+  
+  def reverse_roles
+
+    if self.contacts.ceos.count == 1 && self.contacts.contact_points.count == 1      
+      ceo = self.contacts.ceos.first
+      contact = self.contacts.contact_points.first
+      
+      # save ceo login first since we have to change it before reassigning it to the contact point
+      # logins must be unique
+      ceo_login = contact.login
+      
+      # make current ceo a contact point
+      ceo.roles << Role.contact_point
+      
+      # logins must be unique, so change the current contact's login
+      contact.login = contact.id                
+      contact.save
+      
+      # copy original login
+      ceo.login = ceo_login
+      
+      # copy passwords
+      ceo.hashed_password = contact.hashed_password
+      ceo.password = contact.password
+      ceo.save
+      
+      # remove login/password from former contact
+      contact.roles.delete(Role.contact_point)
+      contact.login = nil
+      contact.hashed_password = nil
+      contact.password = nil
+      contact.save                
+              
+      # the contact person should now be CEO
+      contact.roles << Role.ceo
+      
+      # remove CEO role from contact point
+      ceo.roles.delete(Role.ceo)
+      true
+    else
+      self.errors.add_to_base("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
+      false
+    end
     
+  end
+  
+  def jci_referral?(url)
+     valid_urls = [
+       'http://www.jci.cc/media/en/presidentscorner/unglobalcompact',
+       'http://www.jci.cc/media/es/presidentscorner/unglobalcompact',
+       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact',
+       'http://keesari.net/jci_test.html'
+      ]
+      valid_urls.include?(url) ? true : false
+  end
+  
   private
     
     def set_non_business_sector

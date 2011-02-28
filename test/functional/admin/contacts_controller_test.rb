@@ -30,7 +30,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                                   :password   => 'test' }
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization).id, :tab => :contacts)
+    assert_redirected_to dashboard_path(:tab => :contacts)
   end
   
   test "should get edit" do
@@ -44,7 +44,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                  :id              => @organization_user.to_param,
                  :contact         => { :login    => 'aaa',
                                        :password => "password" }
-    assert_redirected_to admin_organization_path(assigns(:organization).id, :tab => :contacts)
+    assert_redirected_to dashboard_path(:tab => :contacts)
   end
   
   test "should not update contact if no role is selected" do
@@ -63,13 +63,20 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       delete :destroy, :organization_id => @organization.id,
                        :id => @contact_to_be_deleted.to_param
     end
-
-    assert_redirected_to admin_organization_path(assigns(:organization).id, :tab => :contacts)
+    assert_redirected_to dashboard_path(:tab => :contacts)
   end
   
   context "given a logged in UNGC staff user" do
     setup do
       login_as create_staff_user
+    end
+    
+    should "redirect to the organization's path after updating its contact" do
+      put :update, :organization_id => @organization.id,
+                   :id              => @organization_user.to_param,
+                   :contact         => { :login    => 'aaa',
+                                         :password => "password" }
+      assert_redirected_to admin_organization_path(@organization.id, :tab => :contacts)
     end
     
     should "get the search page" do

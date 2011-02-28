@@ -1,7 +1,10 @@
 - @body_class = 'details'
 %h2 Communication on Progress Details
 
-%p= link_to 'View public version', cop_detail_path( @communication_on_progress.id), :class => 'web_preview_large'
+%ul{:class => "tools inline"}
+  %li= link_to 'Public version', cop_detail_path(@communication_on_progress.id), :class => 'web_preview_large'
+  - staff_only do
+    %li= link_to 'Delete COP', admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress), :method => :delete, :class => 'delete_large', :confirm => 'All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?', :title => 'Delete COP and remove all answers, files and links'
 
 #main_content
   #status_box
@@ -23,16 +26,13 @@
         %dt Status
         %dd
           %ul
-            %li Submitted to the test phase of the Advanced Programme
+            %li Submitted to the Advanced Level
         
-      - if @communication_on_progress.is_grace_letter?
-        %dt Grace Letter
-        %dd
-          %ul
-            %li== COP due date extended to #{yyyy_mm_dd @communication_on_progress.created_at + Organization::COP_GRACE_PERIOD.days}
       - if @communication_on_progress.format == 'basic'
         = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
-      - elsif @communication_on_progress.is_new_format? || @communication_on_progress.is_grace_letter?
+      - elsif @communication_on_progress.is_grace_letter?
+        = render :partial => '/shared/cops/show_grace_style', :locals => { :communication_on_progress => @communication_on_progress } 
+      - elsif @communication_on_progress.is_new_format?
         = render :partial => '/shared/cops/show_new_style', :locals => { :communication_on_progress => @communication_on_progress } 
       - elsif  @communication_on_progress.is_legacy_format?
         = render :partial => '/shared/cops/show_legacy_style', :locals => { :communication_on_progress => @communication_on_progress } 

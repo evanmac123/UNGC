@@ -18,6 +18,13 @@ class OrganizationMailerTest < ActionMailer::TestCase
     assert_equal "Your Letter of Commitment to the Global Compact", response.subject
     assert_equal @organization_user.email, response.to.first
   end
+
+  test "submission mailer is sent to JCI" do
+    response = OrganizationMailer.deliver_submission_jci_referral_received(@organization)
+    assert_equal "text/html", response.content_type
+    assert_equal "New Global Compact referral", response.subject
+    assert_equal "externalrelations@jci.cc", response.to.first
+  end
   
   test "network review mailer sent" do
     response = OrganizationMailer.deliver_network_review(@organization)

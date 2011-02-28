@@ -1,0 +1,16 @@
+%dt Grace Letter
+%dd
+  %ul
+    %li== COP due date was extended until #{yyyy_mm_dd communication_on_progress.ends_on}
+%dt Grace Period
+%dd
+  %ul
+    %li= date_range(communication_on_progress)
+- if communication_on_progress.cop_files.any?
+  %dt Files
+  %dd
+    %ul
+      - for cop_file in communication_on_progress.cop_files
+        %li
+          = link_to truncate(cop_file.attachment_file_name, :length => 60), cop_file.attachment.url
+          == (#{cop_file.language.name})

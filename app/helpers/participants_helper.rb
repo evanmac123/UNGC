@@ -14,7 +14,11 @@ module ParticipantsHelper
   def display_participant_status_title(organization)
     case organization.cop_state        
       when Organization::COP_STATE_DELISTED
+        if organization.removal_reason == RemovalReason.delisted
+        'Expelled on'
+      else
         'Delisted on'
+      end
       else
         'Status'
     end    
@@ -29,6 +33,15 @@ module ParticipantsHelper
       else
         organization.cop_state.humanize
     end
+  end
+  
+  def display_delisted_description(organization)
+    if organization.removal_reason == RemovalReason.delisted
+      'Reason for expulsion'
+    else
+      'Reason for delisting'
+    end
+    
   end
   
   def days_cop_overdue(organization)

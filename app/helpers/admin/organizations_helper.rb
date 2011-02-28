@@ -4,8 +4,8 @@ module Admin::OrganizationsHelper
     unless current_user.from_organization?
       actions << link_to('Network review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post) if organization.can_network_review?
       actions << link_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), :method => :post) if organization.can_approve?
-      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post) if organization.can_reject?
-      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post) if organization.can_reject?
+      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this application?") if organization.can_reject?
+      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this Micro Enterprise?") if organization.can_reject?
       actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
       if @organization.participant 
         actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
@@ -16,9 +16,7 @@ module Admin::OrganizationsHelper
   
   def text_for_edit_icon(user)
     if user.from_organization?
-      "Edit your organization's details"
-    elsif user.from_network?
-      "Edit this organization's details"
+      "Edit your organization's profile"
     else
       "Edit"
     end
@@ -88,21 +86,24 @@ module Admin::OrganizationsHelper
   
   # display organizations with similar names
   def duplicate_application(organization)
-    matches = Organization.search organization.name, :retry_stale => true, :stat => true 
+    if ThinkingSphinx.sphinx_running?
     
-    if matches.count > 0
-      list_items = ''
-      matches.try(:each) do |match|
-        unless match.id == organization.id
-          list_items += content_tag :li, link_to("#{match.id}: #{match.name}", admin_organization_path(match.id)), :title => "#{match.id}: #{match.name}"
+      matches = Organization.search organization.name, :retry_stale => true, :stat => true
+      if matches.count > 0
+        list_items = ''
+        matches.try(:each) do |match|
+          unless match.id == organization.id
+            list_items += content_tag :li, link_to("#{match.id}: #{match.name}", admin_organization_path(match.id)), :title => "#{match.id}: #{match.name}"
+          end
         end
       end
-    end
     
-    unless list_items.blank?
-      html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
-      html += content_tag :ul, list_items, :class => 'matching_list'
+      unless list_items.blank?
+        html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
+        html += content_tag :ul, list_items, :class => 'matching_list'
+      end
     end
+  
   end
   
 end

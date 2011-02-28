@@ -8,15 +8,6 @@
   %ul
     %li== #{communication_on_progress.starts_on.month}/#{communication_on_progress.starts_on.year} to #{communication_on_progress.ends_on.month}/#{communication_on_progress.ends_on.year}
 
-%dt Issue areas covered
-%dd
-  %ul
-    %li
-      - if communication_on_progress.issue_areas_covered.count > 0
-        = communication_on_progress.issue_areas_covered.join(', ')
-      - else
-        The participant has not confirmed coverage for any issue area
-
 %dt Self-assessment
 %dd
   %ul
@@ -26,9 +17,13 @@
       %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
     - if communication_on_progress.include_measurement?
       %li Includes a measurement of outcomes for at least one issue area
+    - if communication_on_progress.issue_areas_covered.count > 0
+      %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
+    - else
+      %li The participant has not confirmed coverage for any issue area
+      
 
-%dt
-  COP Content
+%dt &nbsp;
 %dd= show_basic_cop_attributes(communication_on_progress, nil, false)
       
 - PrincipleArea::FILTERS.each_pair do |key, value|

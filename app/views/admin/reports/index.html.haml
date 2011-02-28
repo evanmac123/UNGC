@@ -1,26 +1,41 @@
 %h2 Reports
- 
-%p
-  %h3 Participant Management
 
-%ul#report_list.striped
-  %li= link_to_report_xls 'Participant Breakdown', :participant_breakdown
-  %li= link_to_report_xls 'Contacts for Mail Merge', :contacts_mail_merge
-  %li= link_to_report_xls 'Contacts for Excel Macro', :contacts_excel_macro
-  %li= link_to_report_xls 'Delisted Participants', :delisted_participants
-  %li= link_to_report_xls 'Publicly-traded Companies', :listed_companies
-  %li= link_to_report_xls 'Companies without contacts', :companies_without_contacts
+%hr
 
-%p
-  %h3 Local Networks
-
-%ul#report_list.striped
-  %li= link_to_report_xls 'Local Networks Contacts', :local_networks_contacts
+%dl.left_column
 
   %p
-    %h3 Other
+    %h3 Participant Management
+
+  %ul.report_list
+    %li= link_to_report_xls 'Participant Breakdown', :participant_breakdown
+    %li= link_to_report_xls 'Contacts for Mail Merge', :contacts_mail_merge
+    %li= link_to_report_xls 'Contacts for Excel Macro', :contacts_excel_macro
+    %li= link_to_report_xls 'Delisted Participants', :delisted_participants
+    %li= link_to_report_xls 'Publicly-traded Companies', :listed_companies
+    %li= link_to_report_xls 'Companies without contacts', :companies_without_contacts
+
+  %p
+    %h3 Local Networks
+
+  %ul.report_list
+    %li= link_to_report_xls 'Local Networks Contacts', :local_networks_contacts
+
+%dl.left_column
+
+  %p
+    %h3 Communication on Progress
+
+  %ul.report_list
+    %li
+      = link_to_report_xls 'Communication on Progress Export', :all_cops
+
+  %p
+    %h3 Other Reports
     
-%ul#report_list.striped
-  %li= link_to_report 'Networks Report', :networks
-  %li= link_to_report 'Foundation Pledges', :foundation_pledges
-  %li= link_to_report 'Approved Logo Requests', :approved_logo_requests
+  %ul.report_list
+    %li= link_to_report 'Networks Report', :networks
+    %li= link_to_report 'Foundation Pledges', :foundation_pledges
+    %li= link_to_report 'Approved Logo Requests', :approved_logo_requests
+  
+  
