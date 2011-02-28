@@ -95,7 +95,7 @@
         %div{:id => 'issue_coverage'}
           - PrincipleArea::FILTERS.each_pair do |key, value|
             - percent = percent_issue_area_coverage(communication_on_progress, key)
-            - if communication_on_progress.send("references_#{key}?") && percent > 0
+            - if percent > 0
               %span{:class => "#{issue_area_colour_for(value)}" }
                 %strong= value
               %a{:href => "##{key}", :style => "text-decoration: none;"}
@@ -105,7 +105,7 @@
                       == #{percent}%
           - PrincipleArea::FILTERS.each_pair do |key, value|
             - percent = percent_issue_area_coverage(communication_on_progress, key)
-            - if communication_on_progress.send("references_#{key}?") && percent < 1
+            - if percent < 1
               %li== No reported coverage for #{value}
     
   - if communication_on_progress.cop_answers.by_group(:governance).count > 0
@@ -121,7 +121,7 @@
     %dd= show_cop_attributes(communication_on_progress, nil, nil, 'un_goals')  
 
   - PrincipleArea::FILTERS.each_pair do |key, value|
-    - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
+    - if (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
       %a{:name => "#{key}"}
       %dt
         %span{:class => "#{issue_area_colour_for(value)}" }
