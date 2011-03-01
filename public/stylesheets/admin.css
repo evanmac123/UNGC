@@ -427,6 +427,8 @@ ul.nav_bar {
     width: 250px;
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
+  #main_content fieldset li.date > select {
+    width: auto; }
   #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"] {
     width: auto;
     margin: 0 5px 0px 25px; }

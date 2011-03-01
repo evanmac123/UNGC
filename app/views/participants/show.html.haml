@@ -13,12 +13,18 @@
     .left
       %strong= display_participant_status_title(@participant)
     .right= display_participant_status(@participant)
-      
+
   - if @participant.delisted?
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
         %strong= display_delisted_description(@participant)
       .right= @participant.try(:removal_reason).try(:description)
+
+  - elsif @participant.company?
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+      .left
+        %strong Differentiation Level
+      .right= @participant.status_name
       
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
     .left

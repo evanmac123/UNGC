@@ -21,13 +21,7 @@
       %dd
         %ul
           %li= yyyy_mm_dd @communication_on_progress.created_at
-    
-      - if @communication_on_progress.is_advanced_programme?
-        %dt Status
-        %dd
-          %ul
-            %li Submitted to the Advanced Level
-        
+            
       - if @communication_on_progress.format == 'basic'
         = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
       - elsif @communication_on_progress.is_grace_letter?

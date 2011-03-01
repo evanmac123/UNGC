@@ -42,11 +42,10 @@
     %fieldset
       %fieldset
         %legend
-          %span Eligibility for the GC Advanced level
+          %span About the self-assessment
         %p{:class => 'question_text'}
-          The purpose of this online questionnaire is to assess eligibility for the GC Advanced level by confirming that
+          Using this online questionnaire you will have the opportunity to assess what commonly accepted best practice your COP describes under each of the 24 GC Advanced criteria, in the following areas:
 
-        %p 1. Your company meets 24 Advanced Criteria in the following areas:
         %ul.bulleted{:style => "float: left; margin-left: 1em; margin-right: 3em;"}
           %li Strategy, Governance and Engagement
           %li UN goals and issues
@@ -55,10 +54,13 @@
           %li Value chain implementation
           %li Verification and transparency
         %p{:style => 'display: block; clear both; margin: 3em 0em 2em 2em;'}
-          %em Note: A criterion is "met" if a business participant believes it has, in good faith, implemented best practices that are relevant for its context of operation. For each criterion, the Global Compact provides examples of commonly accepted best practices that companies are encouraged to implement to meet the criteria.
-        %p 2. The Communication on Progress (COP) demonstrates implementation of all 24 criteria and associated best practices.
-        %p 3. Provide the public with a detailed self-assessment of the content of the COP to facilitate accessibility of information.
-        
+        %p At the end of the questionnaire, you will be asked to confirm that, based on the self-assessment, your company meets all 24 GC Advanced criteria and that the COP describes implementation of all 24 criteria and relevant best practices selected in the self-assessment.
+        %ul.bulleted
+          %li If you confirm, your company and the COP will automatically qualify for the GC Advanced level and the results of the self assessment will be made public on the Global Compact website, alongside your COP.
+          %li
+            If you cannot confirm, the COP will be submitted but the company will not qualify for the GC Advanced level. However, the results of the self assessment will be made public on the Global Compact website, alongside the COP, to improve the searchability and analysis of the COPs and underlying performance.
+            %em Note: If you do not want the results to be publicly displayed, please use the regular COP submission process.        
+
     %fieldset
       %fieldset
         %legend
@@ -199,18 +201,31 @@
     %fieldset
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
-          %legend
+          %legitgend
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
+
+    %fieldset
+      #confirmation{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Confirmation
+          %p Before submitting this COP and the self-assessment, please confirm that your company meets all 24 criteria for the GC Advanced level and that the COP describes implementation of all criteria and relevant best practices selected in the self-assessment.
+          
+          %p= true_or_false_field form, :meets_advanced_criteria
+          %br
+          %br
+          %p{:style => 'padding-top: 20px;'}
+            %em Note: The self-assessment will be made public on the Global Compact website, alongside the COP, to improve the searchability and analysis of the COPs and underlying performance. If you do not want the results to be publicly displayed, please do not proceed with this submission and use the regular COP submission process instead.
 
     %fieldset
       #signature{:style => 'display: block'}
         %fieldset
           %legend
-            %span Please review the following information before submitting your COP
-          %p By submitting this COP and the self-assessment, I confirm that my company meets all 24 criteria for the Advanced level, as described in this self-assessment, and that our COP substantiates our self-assessment.
-          = form.text_field :contact_name, :value => "#{current_user.full_name_with_title}, #{current_user.job_title}", :style => ' width: 500px; margin: 0em 0em 1em 0em;'
-          %p (Please confirm your name and position)
+            %span Contact Information
+          %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
+          = form.text_area :contact_name, :rows => "4", :value => "#{current_user.full_name_with_title}\n#{current_user.job_title}\n#{current_user.email}\n#{current_user.phone}", :style => 'width: 300px; margin: 0em 0em 1em 0em;'
+
     %p= submit_tag 'Submit', :class => "button", :id => "finish"
 
 = organization_javascript_vars @organization

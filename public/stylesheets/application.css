@@ -365,6 +365,7 @@ table.sortable thead tr th.headerSortDown {
 	text-align: left;
 	float: left;
 	padding: 0.2em 1em;
+	width: auto;
 }
 
 table.cop_links {

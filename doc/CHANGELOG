@@ -1,8 +1,22 @@
+h1. 2011-02-24
+
+* Differentiation levels were launched to assigned labels based on the results of the self-assessment in the COP
+* The levels are assigned to both COPs and companies, however the companies level is based on the latest COP
+* The Organization and COP models contain methods for determining these levels
+* In the views, the labels are conditionally displayed based on the type and status of the participant
+* For example, non-business and expelled participants do not have their differentiation level displayed
+
+h1. 2011-02-21
+
+* added a new dynamic page for listing 'expelled' participants
+* we changed the name from delisted to expelled on most public pages, but the code will still contain many references to delisted
+
 h1. 2011-01-17
 
 * we're tracking referrals for new participants from JCI (Junior Chamber International) members
 * they're linking directly to the business participant signup page
-* use a session variables to track this information
+* using session variables to track this information
+* auto email is sent to JCI when someone completes the signup form
 
 h1. 2011-01-10
 
@@ -36,7 +50,7 @@ h1. 2010-12-27
 
 h1. 2010-12-10
 
-* added PRME message at end of sign up process to encourage PRME participants to be GC participants and vice versa
+* added PRME message at end of sign up process to encourage PRME participants to be Global Compact participants and vice versa
 
 h1. 2010-12-09
 
@@ -79,7 +93,6 @@ h1. 2010-07-20
 h1. 2010-06-28
 
 * TODO call javascript to show/hide publicly traded company options after JQuery is loaded
-* TODO sign up form align changes in IE when there are errors.
 
 h1. 2010-06-14
 

@@ -42,7 +42,7 @@ class AllCops < SimpleReport
       'support_statement_signee',
       'parent_company_cop',
       'parent_cop_cover_subsidiary',
-      'mentions_partnership_project',
+      'meets_advanced_criteria',
       'additional_questions',
       'support_statement_explain_benefits',
       'missing_principle_explained',

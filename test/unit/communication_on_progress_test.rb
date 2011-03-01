@@ -289,8 +289,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
-  
-  context "given a COP with additional question" do
+
+  context "given a COP with additional questions" do
     setup do
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
@@ -312,6 +312,21 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert !@cop.is_advanced_programme?
       assert @cop.is_test_phase_advanced_programme?
     end
+    
+    should "be considered intermediate if all criteria are met, and advanced if they self-declare " do
+      @cop.update_attribute :include_continued_support_statement, true
+      @cop.update_attribute :include_measurement, true
+      @cop.update_attribute :references_labour, true
+      @cop.update_attribute :references_human_rights, true
+      @cop.update_attribute :references_anti_corruption, true
+      @cop.update_attribute :references_environment, true
+      @cop.update_attribute :method_shared, 'web_based'
+      assert @cop.is_intermediate_level?
+      # based on response to Yes/No quesition in COP submission
+      @cop.update_attribute :meets_advanced_criteria, true      
+      assert @cop.is_advanced_level?
+    end
+    
   end
   
   context "given a COP from a delisted company" do

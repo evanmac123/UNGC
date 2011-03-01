@@ -44,7 +44,7 @@
 #  support_statement_signee            :string(255)
 #  parent_company_cop                  :boolean(1)
 #  parent_cop_cover_subsidiary         :boolean(1)
-#  mentions_partnership_project        :boolean(1)
+#  meets_advanced_criteria             :boolean(1)
 #  additional_questions                :boolean(1)
 #  support_statement_explain_benefits  :boolean(1)
 #  missing_principle_explained         :boolean(1)
@@ -141,6 +141,8 @@ class CommunicationOnProgress < ActiveRecord::Base
             :none      => "None of the above"
             }
   
+  START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
+  
   def self.find_by_param(param)
     return nil if param.blank?
     if param =~ /\A(\d\d+).*/
@@ -227,16 +229,15 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   # Official launch of Differentiation Programme was January 28, 2011
   def is_advanced_programme?
-    additional_questions && created_at >= Date.new(2011, 01, 29)
+    additional_questions && created_at >= START_DATE_OF_DIFFERENTIATION
   end
 
   # Test phase of Advanced Programme was launched Oct 11, 2010
   # Only those submitting after this date are actually considered to be participating in the programme
   # However, participants could answer the additional voluntary questions prior to this date
   def is_test_phase_advanced_programme?
-    additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= Date.new(2011, 01, 29)
+    additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= START_DATE_OF_DIFFERENTIATION
   end
-  
   
   def is_grace_letter?
     # FIXME: self.format was throwing an exception
@@ -359,10 +360,41 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
   
-  def delete_associated_attributes
-    self.cop_files.each {|file| file.destroy}
-    self.cop_links.each {|link| link.destroy}
-    self.cop_answers.each {|answer| answer.destroy}
+  # as defined in COP Policy, these are the minimum requirements for an acceptable COP
+  # only those that submitted after the start of the differentiation program can be counted
+  
+  def evaluated_for_differentiation?
+    created_at >= START_DATE_OF_DIFFERENTIATION
   end
+  
+  def is_intermediate_level?
+    evaluated_for_differentiation? &&
+    include_continued_support_statement &&
+    include_measurement &&
+    issue_areas_covered.count == 4
+  end
+  
+  # those that have also self-declared themeselves as meeting the advanced critera (yes/no)
+  def is_advanced_level?
+    is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
+  end
+  
+  def differentation_level
+    if is_advanced_level?
+      "This COP qualifies for the Global Compact Advanced level"
+    elsif is_intermediate_level?
+      "This COP qualifies for the Global Compact Active level"
+    else
+      'This COP places the participant on the Global Compact Learner Platform'
+    end
+  end
+  
+  private
+  
+    def delete_associated_attributes
+      self.cop_files.each {|file| file.destroy}
+      self.cop_links.each {|link| link.destroy}
+      self.cop_answers.each {|answer| answer.destroy}
+    end
  
 end

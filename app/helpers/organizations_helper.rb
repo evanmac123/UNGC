@@ -24,4 +24,5 @@ module OrganizationsHelper
     Organization.participants.companies_and_smes.send(filter_type)    
   end
   
+  
 end
