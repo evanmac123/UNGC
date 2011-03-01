@@ -89,7 +89,7 @@ class AllCops < SimpleReport
     record.support_statement_signee,
     record.parent_company_cop ? 1:0,
     record.parent_cop_cover_subsidiary ? 1:0,
-    record.mentions_partnership_project ? 1:0,
+    record.meets_advanced_criteria ? 1:0,
     record.additional_questions ? 1:0,
     record.support_statement_explain_benefits ? 1:0,
     record.missing_principle_explained ? 1:0,
