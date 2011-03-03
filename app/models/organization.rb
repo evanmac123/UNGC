@@ -472,6 +472,10 @@ class Organization < ActiveRecord::Base
     end
   end
   
+  def participant_has_submitted_differentiation_cop
+    communication_on_progresses.approved.first.is_differentiation_program?
+  end
+  
   def status_name
     
     # Non-businesses are not assigned these labels
