@@ -473,7 +473,9 @@ class Organization < ActiveRecord::Base
   end
   
   def participant_has_submitted_differentiation_cop
-    communication_on_progresses.approved.first.is_differentiation_program?
+    if communication_on_progresses.approved.count > 0
+      communication_on_progresses.approved.first.is_differentiation_program?
+    end
   end
   
   def status_name
