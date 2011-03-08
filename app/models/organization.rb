@@ -379,6 +379,7 @@ class Organization < ActiveRecord::Base
   # Policy specifies 90 days, so we extend the current due date
   def extend_cop_grace_period
     self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
+    self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
   end
   
@@ -398,6 +399,11 @@ class Organization < ActiveRecord::Base
   
   def can_submit_grace_letter?
 
+    # not if grace period has already passed
+    if (Date.today - cop_due_on).to_i > COP_GRACE_PERIOD
+      return false
+    end
+
     # companies cannot submit two grace letters in a row      
     if communication_on_progresses.approved.any?
       if communication_on_progresses.approved.first.is_grace_letter?
@@ -405,12 +411,12 @@ class Organization < ActiveRecord::Base
       end
     end
     
-    # delisted companies cannot submit grace letters    
     if delisted?
       return false
     end
 
     return true
+    
   end
   
   def set_approved_fields

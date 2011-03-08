@@ -24,12 +24,30 @@ class Admin::CopsControllerTest < ActionController::TestCase
       login_as @organization_user
     end
    
-   context "with an Active status" do
+   context "with an Active status and within 90 day grace letter period" do
+     setup do
+       @organization.update_attribute :cop_due_on, Date.today - 75.days
+       @organization.reload
+     end
      should "see Grace Letter tab" do
        get :introduction
        assert_response :success
        assert_select 'ul.tab_nav' do
          assert_select 'li:last-child', 'Grace Letter'
+       end
+     end
+   end
+
+   context "whose 90 grace period has passed" do
+     setup do
+       @organization.update_attribute :cop_due_on, Date.today - 180.days
+       @organization.reload
+   end
+     should "should not see Grace Letter tab" do
+       get :introduction
+       assert_response :success
+       assert_select 'ul.tab_nav' do
+         assert_select 'li:last-child', 'Advanced Level'
        end
      end
    end

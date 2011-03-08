@@ -138,20 +138,21 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       
   end
     
-  context "Given a non-communicating company submitting a grace letter" do
+  context "Given a non-communicating company submitting a grace letter within 90 days of their COP due date" do
     setup do
       create_organization_and_user
-      @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
+      @organization.cop_due_on = Date.today - 180.days
+      @organization.cop_state = Organization::COP_STATE_NONCOMMUNICATING
       @cop = pending_review(@organization, format: 'grace_letter')
       @cop.approve!
     end
     
-    should "not make the company active" do
+    should "make the company active" do
       @organization.reload
-      assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
+      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
     end
   end
-    
+
   # context "given a COP under review" do
   #   setup do
   #     create_organization_and_user
