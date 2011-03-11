@@ -393,9 +393,15 @@ class CommunicationOnProgress < ActiveRecord::Base
       :advanced
     elsif is_intermediate_level?
       :active
-    else
+    elsif evaluated_for_differentiation?
       :learner
+    else
+      ''
     end
+  end
+  
+  def differentation_level_name
+    differentation_level.to_s.try(:humanize)
   end
   
   def differentiation_description

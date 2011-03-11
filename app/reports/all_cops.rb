@@ -48,7 +48,8 @@ class AllCops < SimpleReport
       'missing_principle_explained',
       'is_shared_with_stakeholders',
       'starts_on',
-      'ends_on'
+      'ends_on',
+      'differentiation'
     ] 
   end
   
@@ -95,7 +96,8 @@ class AllCops < SimpleReport
     record.missing_principle_explained ? 1:0,
     record.is_shared_with_stakeholders ? 1:0,
     record.starts_on,
-    record.ends_on
+    record.ends_on,
+    record.differentation_level
   ]
   end
   
