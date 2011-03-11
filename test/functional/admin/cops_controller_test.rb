@@ -38,9 +38,12 @@ class Admin::CopsControllerTest < ActionController::TestCase
      end
    end
 
-   context "whose 90 grace period has passed" do
+   context "who has already submitted a grace letter" do
      setup do
-       @organization.update_attribute :cop_due_on, Date.today - 180.days
+       @organization.update_attribute :cop_due_on, Date.today - 75.days
+       @cop = create_communication_on_progress(organization: @organization, format: 'grace_letter')
+       @cop.type = 'grace'
+       @cop.save
        @organization.reload
    end
      should "should not see Grace Letter tab" do

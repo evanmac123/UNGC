@@ -114,6 +114,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP that is a grace letter" do
     setup do
       create_organization_and_user('approved')
+      @organization.communication_late
       @old_cop_due_on = @organization.cop_due_on
       @cop = pending_review(@organization, format: 'grace_letter')
       @cop.type = 'grace'
@@ -125,32 +126,46 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert @cop.is_grace_letter?
     end
     
+    should "change the organization's COP state to Active" do
+      @organization.reload
+      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+    end
+       
     should "have an extra 90 days added to the current COP due date" do
       @organization.reload
       assert_equal (@old_cop_due_on + 90.days).to_date, @organization.cop_due_on.to_date
     end
-    
+       
     should "set the coverage dates from today until 90 days from now" do
       @cop.reload
       assert_equal @organization.cop_due_on.to_date, @cop.starts_on
       assert_equal (@organization.cop_due_on + 90.days).to_date, @cop.ends_on
-    end
+     end
       
   end
     
-  context "Given a non-communicating company submitting a grace letter within 90 days of their COP due date" do
+  context "Given a non-communicating company submitting a grace letter" do
     setup do
       create_organization_and_user
-      @organization.cop_due_on = Date.today - 180.days
-      @organization.cop_state = Organization::COP_STATE_NONCOMMUNICATING
-      @cop = pending_review(@organization, format: 'grace_letter')
-      @cop.approve!
+      @organization.communication_late
     end
     
-    should "make the company active" do
+    should "keep the company Non-communicating if passed grace period" do
+      @organization.update_attribute :cop_due_on, Date.today - 91.days
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop.approve!
+      @organization.reload
+      assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
+    end
+    
+    should "make the company Active if within grace period" do
+      @organization.update_attribute :cop_due_on, Date.today - 89.days
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop.approve!
       @organization.reload
       assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
     end
+    
   end
 
   # context "given a COP under review" do
