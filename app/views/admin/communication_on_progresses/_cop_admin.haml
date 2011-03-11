@@ -2,7 +2,7 @@
   %td= cop_admin.created_at.in_time_zone('Eastern Time (US & Canada)').strftime '%I:%M %p'
   %td= cop_admin.organization.name
   %td= cop_admin.format.try(:humanize)
-  %td= cop_admin.differentation_level_name
+  %td= 'GC ' + cop_admin.differentation_level_name
   %td
     %ul.actions
       %li= link_to 'View Details', admin_organization_communication_on_progress_path(cop_admin.organization.id, cop_admin), :title => "View details", :class => "preview"
