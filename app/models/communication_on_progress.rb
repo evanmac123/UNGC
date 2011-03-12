@@ -232,6 +232,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     additional_questions && created_at >= START_DATE_OF_DIFFERENTIATION
   end
 
+  def is_differentiation_program?
+    created_at >= START_DATE_OF_DIFFERENTIATION
+  end
+
   # Test phase of Advanced Programme was launched Oct 11, 2010
   # Only those submitting after this date are actually considered to be participating in the programme
   # However, participants could answer the additional voluntary questions prior to this date

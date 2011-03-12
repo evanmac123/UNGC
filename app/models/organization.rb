@@ -395,6 +395,24 @@ class Organization < ActiveRecord::Base
     self.update_attribute :active, true
   end
   
+  
+  def can_submit_grace_letter?
+
+    # companies cannot submit two grace letters in a row      
+    if communication_on_progresses.approved.any?
+      if communication_on_progresses.approved.first.is_grace_letter?
+        return false
+      end
+    end
+    
+    # delisted companies cannot submit grace letters    
+    if delisted?
+      return false
+    end
+
+    return true
+  end
+  
   def set_approved_fields
     set_next_cop_due_date
     set_approved_on
@@ -451,6 +469,12 @@ class Organization < ActiveRecord::Base
         cop_due_on + 2.year unless cop_due_on.nil?
       else
         ''
+    end
+  end
+  
+  def participant_has_submitted_differentiation_cop
+    if communication_on_progresses.approved.count > 0
+      communication_on_progresses.approved.first.is_differentiation_program?
     end
   end
   

@@ -30,7 +30,7 @@
       %dt Status:
       %dd
         == #{display_status(@organization)}
-        - if @organization.participant && @organization.company?
+        - if @organization.participant && @organization.active && @organization.company?
           == (#{@organization.status_name})
       %dt Participant since:
       %dd= @organization.joined_on || 'n/a'

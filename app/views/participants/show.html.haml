@@ -20,7 +20,7 @@
         %strong= display_delisted_description(@participant)
       .right= @participant.try(:removal_reason).try(:description)
 
-  - elsif @participant.company?
+  - elsif @participant.company? && @participant.participant_has_submitted_differentiation_cop
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
         %strong Differentiation Level

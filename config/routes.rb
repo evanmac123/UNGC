@@ -90,6 +90,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # some important URLs are just too long to type
   short_urls = {
+    'leadlab' => 'http://leadlab.unglobalcompact.org/',
     'Lead' => '/HowToParticipate/Lead/',
     'lead' => '/HowToParticipate/Lead/',
     'LDC'  => '/NewsAndEvents/LDC_IV.html',
