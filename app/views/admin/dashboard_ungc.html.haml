@@ -54,6 +54,7 @@
           %th.title Received
           %th.title Participant
           %th.status Format
+          %th.status Differentiation Level
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/cop_admin', :collection => @pending_cops
       = will_paginate @pending_cops, param_name: 'cops_page', params: {tab: 'cops'}

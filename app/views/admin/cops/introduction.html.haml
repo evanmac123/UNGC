@@ -6,7 +6,7 @@
     %li <a href="#basic">Basic Template</a>
     %li <a href="#general">COP Submission</a>
     %li <a href="#advanced">Advanced Level</a>
-    - if current_user.organization.can_submit_grace_letter?
+    - if current_user.submit_grace_letter?
       %li <a href="#grace">Grace Letter</a>
 
   #introduction.tab_content
@@ -21,10 +21,14 @@
     %p{:class => 'cop_description'}
       %strong Advanced Level:
       Use this tab if your COP demonstrates a higher level of performance and disclosure and you would like to participate in the GC Advanced level.
-    - if current_user.organization.can_submit_grace_letter?
+    - if current_user.submit_grace_letter?
       %p{:class => 'cop_description'}
         %strong Grace Letter:
         == You can also submit a grace letter for a #{Organization::COP_GRACE_PERIOD} day extension to your COP deadline.
+    - else
+      %p{:class => 'cop_description'}
+        %strong Grace Letter:
+        == This option is not available because you have already submitted a Grace Letter.
 
   #basic.tab_content
     %h3 Create your COP by following the Basic Template
@@ -64,7 +68,7 @@
 
     %p= link_to 'Qualify your COP for the GC Advanced level', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
   
-  - unless current_user.organization.delisted?
+  - if current_user.submit_grace_letter?
     #grace.tab_content
       %h3 Request a COP due date extension
 

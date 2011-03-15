@@ -141,6 +141,11 @@ class CommunicationOnProgress < ActiveRecord::Base
             :none      => "None of the above"
             }
   
+  LEVEL_DESCRIPTION = {:advanced => "This COP qualifies for the Global Compact Advanced level",
+                       :active   => "This COP qualifies for the Global Compact Active level",
+                       :learner  => "This COP places the participant on the Global Compact Learner Platform"
+                      }
+             
   START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
   
   def self.find_by_param(param)
@@ -385,12 +390,22 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   def differentation_level
     if is_advanced_level?
-      "This COP qualifies for the Global Compact Advanced level"
+      :advanced
     elsif is_intermediate_level?
-      "This COP qualifies for the Global Compact Active level"
+      :active
+    elsif evaluated_for_differentiation?
+      :learner
     else
-      'This COP places the participant on the Global Compact Learner Platform'
+      ''
     end
+  end
+  
+  def differentation_level_name
+    differentation_level.to_s.try(:humanize)
+  end
+  
+  def differentiation_description
+    LEVEL_DESCRIPTION[self.differentation_level]
   end
   
   private
