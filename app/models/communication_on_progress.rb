@@ -238,7 +238,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_differentiation_program?
-    created_at >= START_DATE_OF_DIFFERENTIATION
+    created_at >= START_DATE_OF_DIFFERENTIATION && !is_grace_letter?
   end
 
   # Test phase of Advanced Programme was launched Oct 11, 2010
@@ -373,7 +373,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   # only those that submitted after the start of the differentiation program can be counted
   
   def evaluated_for_differentiation?
-    created_at >= START_DATE_OF_DIFFERENTIATION
+    created_at > START_DATE_OF_DIFFERENTIATION && !is_grace_letter?
   end
   
   def is_intermediate_level?
