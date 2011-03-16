@@ -28,10 +28,7 @@
       %dt.first= display_id_type(@organization)
       %dd.first= @organization.id
       %dt Status:
-      %dd
-        == #{display_status(@organization)}
-        - if @organization.participant && @organization.active && @organization.company?
-          == (#{@organization.status_name})
+      %dd= display_status(@organization)
       %dt Participant since:
       %dd= @organization.joined_on || 'n/a'
       - if @organization.company?
