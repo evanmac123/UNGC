@@ -141,6 +141,10 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal @organization.cop_due_on.to_date, @cop.starts_on
       assert_equal (@organization.cop_due_on + 90.days).to_date, @cop.ends_on
      end
+     
+    should "not be evaluated for differentiation" do
+      assert_equal '', @cop.differentation_level
+    end
       
   end
     
