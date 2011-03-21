@@ -72,7 +72,13 @@
     %ul
       %li= communication_on_progress.differentiation_description
 
-/ - if logged_in? || params[:action] == 'feed'
+- dashboard_view_only do
+  %dt Other Best Practices
+  %dd
+    %ul
+      %li
+        %em The following information is not shared publicly
+      %li= simple_format communication_on_progress.description
 
 - if communication_on_progress.is_test_phase_advanced_programme? && communication_on_progress.additional_questions?
   %dt
