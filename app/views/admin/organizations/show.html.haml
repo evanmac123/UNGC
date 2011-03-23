@@ -18,7 +18,10 @@
     
   #overview.tab_content
     %ul{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit organization's profile"
+      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large'
+      - staff_only do
+        - unless @organization.approved?
+          %li{:style => 'margin-left: 362px;'}= link_to 'Reverse roles', reverse_roles_admin_organization_path(@organization.id), :class => 'refresh_large', :title => 'Switch the CEO and Contact Point roles, and transfer login information.'
 
     %dl.left_column
       %h3 Organization Details

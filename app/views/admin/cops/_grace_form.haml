@@ -8,6 +8,14 @@
     %fieldset
       %fieldset
         %legend
+          %span Grace Period
+        By submitting a Grace Letter, your COP due date will be extended by
+        %strong== #{Organization::COP_GRACE_PERIOD} days.
+        Your COP must be received by
+        %strong==  #{yyyy_mm_dd (@organization.cop_due_on + Organization::COP_GRACE_PERIOD).to_date}.
+
+      %fieldset
+        %legend
           %span Please upload your "Grace Letter" as a PDF file
         = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter]), :record => 0}
     = submit_tag 'Submit', :class => "button", :id => "finish"

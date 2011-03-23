@@ -52,9 +52,9 @@
   %dt Format
   %dd
     %ul
-      %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)]
+      %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
 
-  %dt Content
+  %dt Self-assessment
   %dd
     %ul
       - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
@@ -66,41 +66,78 @@
       - if communication_on_progress.issue_areas_covered.count > 0
         %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
     
-/ - if communication_on_progress.is_advanced_programme?
-/   %dt Advanced Programme
-/   %dd
-/     %ul
-/       %li This company has elected to participate in the Advanced Programme by completing a self-assessment questionnaire covering the content of their COP and assessing their implementation of the Global Compact principles against global best practices.
+- if communication_on_progress.evaluated_for_differentiation?
+  %dt Differentiation Level
+  %dd
+    %ul
+      %li= communication_on_progress.differentiation_description
 
-/ - if logged_in? || params[:action] == 'feed'
+- dashboard_view_only do
+  %dt Other Best Practices
+  %dd
+    %ul
+      %li
+        %em The following information is not shared publicly
+      %li= simple_format communication_on_progress.description
 
-- if communication_on_progress.additional_questions?
-  %dt Issue Area Coverage
+- if communication_on_progress.is_test_phase_advanced_programme? && communication_on_progress.additional_questions?
+  %dt
+    Advanced Programme
+    %br
+    (test phase)
+  %dd
+    %ul
+      %li
+        Submitted to the test phase of the Advanced Programme
+
+- if communication_on_progress.is_advanced_programme? && communication_on_progress.issue_areas_covered.count > 0
+  %dt
+    Issue Area Coverage
+    %br
+    (self-assessed)
   %dd
     %ul
       %li
         %div{:id => 'issue_coverage'}
           - PrincipleArea::FILTERS.each_pair do |key, value|
             - percent = percent_issue_area_coverage(communication_on_progress, key)
-            - if communication_on_progress.send("references_#{key}?") && percent > 0
+            - if percent > 0
               %span{:class => "#{issue_area_colour_for(value)}" }
                 %strong= value
-              %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "Issue area coverage for #{value}"}
-                %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
-                  %div{:class => 'ui-progressbar-text'}
-                    == #{percent}%
+              %a{:href => "##{key}", :style => "text-decoration: none;"}
+                %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "#{show_issue_area_coverage(communication_on_progress, key)}"}
+                  %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
+                    %div{:class => 'ui-progressbar-text'}
+                      == #{percent}%
           - PrincipleArea::FILTERS.each_pair do |key, value|
             - percent = percent_issue_area_coverage(communication_on_progress, key)
-            - if communication_on_progress.send("references_#{key}?") && percent < 1
+            - if percent < 1
               %li== No reported coverage for #{value}
-
-- PrincipleArea::FILTERS.each_pair do |key, value|
-  - if communication_on_progress.send("references_#{key}?") && (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
-    %dt
-      %span{:class => "#{issue_area_colour_for(value)}" }
-        = value + '<br />' + show_issue_area_coverage(communication_on_progress, key)
-    %dd= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
     
-- if communication_on_progress.cop_answers.by_group(:governance).count > 0
-  %dt Governance
-  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'governance')
+  - if communication_on_progress.cop_answers.by_group(:governance).count > 0
+    %dt Governance
+    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'governance')
+
+  - if communication_on_progress.cop_answers.by_group(:strategy).count > 0
+    %dt Strategy, Governance <br /> and Engagement
+    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'strategy')
+
+  - if communication_on_progress.cop_answers.by_group(:un_goals).count > 0
+    %dt UN Goals and Issues
+    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'un_goals')  
+
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    - if (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
+      %a{:name => "#{key}"}
+      %dt
+        %span{:class => "#{issue_area_colour_for(value)}" }
+          = value
+      %dd= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
+
+  - if communication_on_progress.cop_answers.by_group(:value_chain).count > 0
+    %dt Value Chain <br /> Implementation
+    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'value_chain')
+
+  - if communication_on_progress.cop_answers.by_group(:verification).count > 0
+    %dt Verification and <br /> Transparency
+    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'verification')

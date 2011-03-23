@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
+  # FIXME create object first
+  # should_validate_uniqueness_of :name
   should_validate_presence_of :name
   should_have_many :contacts
   should_have_many :logo_requests
@@ -18,6 +20,7 @@ class OrganizationTest < ActiveSupport::TestCase
       @companies = create_organization_type(:name => 'Company')
       @micro_enterprise = create_organization_type(:name => 'Micro Enterprise')
       @sme = create_organization_type(:name => 'SME')
+      @academic = create_organization_type(:name => 'Academic')
     end
     
     should "set the organization type to micro enterprise when it has less than 10 employees" do
@@ -52,6 +55,13 @@ class OrganizationTest < ActiveSupport::TestCase
                                           :sector => @sector )
       assert_equal @sector_not_applicable, @organization.sector
     end
+    
+    should "identify Academic organizations" do
+      @organization = Organization.create(:name => "University",
+                                          :employees => 5,
+                                          :organization_type_id => @academic.id)
+      assert @organization.academic?
+    end
         
     context "approving its participation" do
       setup do
@@ -80,6 +90,17 @@ class OrganizationTest < ActiveSupport::TestCase
         @organization.contacts.financial_contacts.first.destroy
         assert_equal @organization.contacts.financial_contacts.count,  0
         assert_equal @organization.financial_contact_or_contact_point, @organization_user
+      end
+      
+      should "reverse contact and ceo roles if the information was incorrectly entered in the signup registration form" do
+        create_organization_and_ceo
+        assert @organization.reverse_roles
+      end
+      
+      should "reverse roles only if there is one contact and one ceo" do
+        # only create a contact point - there is no CEO
+        create_organization_and_user
+        assert !@organization.reverse_roles
       end
       
     end

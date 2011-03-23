@@ -100,8 +100,6 @@ class CaseStory < ActiveRecord::Base
   
   def links
     links = [url1, url2, url3].compact
-    links << attachment if attachment
-    links
   end
   
   def set_approved_fields

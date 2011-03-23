@@ -7,4 +7,3 @@ test:
 production:
   mem_limit: 32M
   max_matches: 15000
-  

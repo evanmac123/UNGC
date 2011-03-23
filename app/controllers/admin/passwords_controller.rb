@@ -7,11 +7,12 @@ class Admin::PasswordsController < ApplicationController
     if @contact
       @contact.refresh_reset_password_token!
       ContactMailer.deliver_reset_password(@contact)
-      flash.now[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'
+      flash[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'
+      redirect_to login_path
     else
       flash.now[:error] = "Sorry, we could not find a username with the email you provided."
+      render :action => 'new'
     end
-    render :action => 'new'
   end
   
   def edit

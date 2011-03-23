@@ -77,8 +77,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
     
     should "change the organization's due date after it is approved" do
-      assert_nil @organization.cop_due_on
-      
       @cop.approve
       @organization.reload
       assert_equal 1.year.from_now.to_date, @organization.cop_due_on
@@ -113,28 +111,39 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   
-  context "given a COP that is a grace letter request and is currently pending review" do
+  context "given a COP that is a grace letter" do
     setup do
       create_organization_and_user('approved')
+      @organization.communication_late
       @old_cop_due_on = @organization.cop_due_on
       @cop = pending_review(@organization, format: 'grace_letter')
       @cop.type = 'grace'
       @cop.save
+      @cop.approve!
     end
   
     should "have is_grace_letter? return true" do
       assert @cop.is_grace_letter?
     end
     
-    should "have an extra 90 days to submit a COP" do
+    should "change the organization's COP state to Active" do
       @organization.reload
-      assert_equal (@old_cop_due_on + Organization::COP_GRACE_PERIOD).to_date, (@organization.cop_due_on).to_date
+      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
     end
-    
+       
+    should "have an extra 90 days added to the current COP due date" do
+      @organization.reload
+      assert_equal (@old_cop_due_on + 90.days).to_date, @organization.cop_due_on.to_date
+    end
+       
     should "set the coverage dates from today until 90 days from now" do
       @cop.reload
-      assert_equal Date.today, @cop.starts_on
-      assert_equal (Date.today + 90.days), @cop.ends_on
+      assert_equal @organization.cop_due_on.to_date, @cop.starts_on
+      assert_equal (@organization.cop_due_on + 90.days).to_date, @cop.ends_on
+     end
+     
+    should "not be evaluated for differentiation" do
+      assert_equal '', @cop.differentation_level
     end
       
   end
@@ -142,17 +151,27 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "Given a non-communicating company submitting a grace letter" do
     setup do
       create_organization_and_user
-      @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
-      @cop = pending_review(@organization, format: 'grace_letter')
-      @cop.approve!
+      @organization.communication_late
     end
     
-    should "make the company active" do
+    should "keep the company Non-communicating if passed grace period" do
+      @organization.update_attribute :cop_due_on, Date.today - 91.days
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop.approve!
+      @organization.reload
+      assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
+    end
+    
+    should "make the company Active if within grace period" do
+      @organization.update_attribute :cop_due_on, Date.today - 89.days
+      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop.approve!
       @organization.reload
       assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
     end
-  end
     
+  end
+
   # context "given a COP under review" do
   #   setup do
   #     create_organization_and_user
@@ -172,17 +191,33 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   # 
-  # context "given an approved COP" do
-  #   setup do
-  #     create_organization_and_user
-  #     @cop = create_communication_on_progress(:organization_id => @organization.id,
-  #                                             :state           => ApprovalWorkflow::STATE_APPROVED)
-  #   end
-  # 
-  #   should "not be editable" do
-  #     assert !@cop.editable?
-  #   end
-  # end
+  context "given an approved COP" do
+    setup do
+      create_language
+      create_organization_and_user
+      @cop = create_communication_on_progress(:organization_id => @organization.id,
+                                              :cop_files_attributes => {
+                                                 "new_cop"=> {:attachment_type => "cop",
+                                                              :attachment      => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                                              :language_id     => Language.first.id} },
+                                              :state => ApprovalWorkflow::STATE_APPROVED)
+    end
+  
+    should "not be editable" do
+      assert !@cop.editable?
+    end
+    
+    should "have a file attached" do
+      assert_equal 1, @cop.cop_files.count
+    end
+    
+     should "remove file when COP is deleted" do
+       assert_difference "CopFile.count", -1 do
+         @cop.destroy
+       end
+     end
+    
+  end
   # 
   # context "given a rejected COP" do
   #   setup do
@@ -274,8 +309,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
-  
-  context "given a COP with additional question" do
+
+  context "given a COP with additional questions" do
     setup do
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
@@ -288,14 +323,30 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
     should "be considered for the Advanced Programme if received after start date of programme" do
-      @cop.update_attribute :created_at, Date.new(2010, 11, 11)
+      @cop.update_attribute :created_at, Date.new(2011, 01, 30)
       assert @cop.is_advanced_programme?
     end
 
     should "not be considered for the Advanced Programme if received before start date of programme" do
-      @cop.update_attribute :created_at, Date.new(2010, 8, 8)
+      @cop.update_attribute :created_at, Date.new(2010, 11, 8)
       assert !@cop.is_advanced_programme?
+      assert @cop.is_test_phase_advanced_programme?
     end
+    
+    should "be considered intermediate if all criteria are met, and advanced if they self-declare " do
+      @cop.update_attribute :include_continued_support_statement, true
+      @cop.update_attribute :include_measurement, true
+      @cop.update_attribute :references_labour, true
+      @cop.update_attribute :references_human_rights, true
+      @cop.update_attribute :references_anti_corruption, true
+      @cop.update_attribute :references_environment, true
+      @cop.update_attribute :method_shared, 'web_based'
+      assert @cop.is_intermediate_level?
+      # based on response to Yes/No quesition in COP submission
+      @cop.update_attribute :meets_advanced_criteria, true      
+      assert @cop.is_advanced_level?
+    end
+    
   end
   
   context "given a COP from a delisted company" do

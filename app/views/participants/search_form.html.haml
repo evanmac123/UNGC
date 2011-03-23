@@ -22,17 +22,17 @@
       %div.radio_button_group
         %dl.left.dates
           %dt
-            %label.date{:for => :joined_after} Starting
+            %label.date{:for => :joined_after} between
           %dd
           = text_field_tag :joined_after, nil, :class => 'datepicker', :size => 11
         %dl.left.dates
           %dt
-            %label.date{:for => :joined_before} Ending
+            %label.date{:for => :joined_before} and
           %dd
             = text_field_tag :joined_before, nil, :class => 'datepicker', :size => 11
   
     %fieldset
-      %legend Type of Participant
+      %legend Participants
       %div.radio_button_group
         #hide_business_and_stakeholders
           = radio_button_tag :business_type, :all, true
@@ -48,7 +48,7 @@
   
     %div.for_business_only{:style => 'display: none;'}
       %fieldset
-        %legend Type of Sector and Ownership
+        %legend Sector and Ownership
       
         %dl
           %dt

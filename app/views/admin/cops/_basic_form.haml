@@ -14,7 +14,7 @@
       %fieldset
         %legend
           %span Completing your COP
-        %p{:class => 'question_text'}Please submit your responses in the open text boxes provided.  Your answers will be saved as you click on the different issue area tabs. The UN Global Compact Office recommends preparing your responses in advance.  Please make sure to complete and submit your COP before exiting the application.
+        %p{:class => 'question_text'}Please submit your responses in the open text boxes provided. Your answers will be saved as you click on the different issue area tabs. The UN Global Compact Office recommends preparing your responses in advance. Please make sure to complete and submit your COP before exiting the application.
     %fieldset
       %fieldset
         %legend
@@ -30,7 +30,7 @@
     %div.tab_content{:id => "#{key}_additional_questions"}
       %div.principles
         %h3
-          %span{:class => "#{issue_area_colour_for(value)}" }= value
+          %span{:class => "#{issue_area_colour_for(value)}"}= value
         %ul
           - Principle.principles_for_issue_area(key).each do |area|
             %li= area.name
@@ -59,6 +59,16 @@
         %legend
           %span Measurement of outcomes for any of the above issue areas
         = true_or_false_field(form, :include_measurement, :class => 'score')
+    
+      %fieldset
+        %fieldset
+          %legend
+            %span After creating your COP using the Basic template, your COP will be made public on the UN Global Compact website. Please indicate how else you will share the COP directly with stakeholders:
+          - CommunicationOnProgress::BASIC_METHOD.each do |key, value|
+            %label
+              = form.radio_button :method_shared, key
+              = value
+    
     
     = submit_tag 'Submit', :class => "button", :id => "finish"
 

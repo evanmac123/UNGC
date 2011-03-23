@@ -72,12 +72,31 @@ class ActiveSupport::TestCase
     @logo_request.approve
   end
 
+
+  def create_non_business_organization_type
+    @non_business_organization_type = create_organization_type(:name => 'Academic',
+                                                               :type_property => OrganizationType::NON_BUSINESS)
+  end
+
+  def create_non_business_organization_and_user(state=nil)
+    create_roles
+    create_organization_type(:name => 'Academic')
+    create_country
+    @organization = create_organization(:employees => 50,
+                                        :organization_type_id => OrganizationType.academic.id)
+    @organization.approve! if state == 'approved'
+    @organization_user = create_contact(:organization_id => @organization.id,
+                                        :email           => 'contact@example.com',
+                                        :role_ids        => [Role.contact_point.id])
+  end
+
   def create_organization_and_user(state=nil)
     create_roles
     create_organization_type(:name => 'SME')
     create_country
     @organization = create_organization(:employees => 50,
-                                        :organization_type_id => OrganizationType.sme.id)
+                                        :organization_type_id => OrganizationType.sme.id,
+                                        :cop_due_on => Date.today + 1.year)
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
                                         :email           => 'contact@example.com',

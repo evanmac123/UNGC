@@ -120,9 +120,8 @@ ul.nav_bar
     color = !dark_blue
     font-weight: bold
 
-  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large
+  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large
     display: block
-    width: 240px
     height: 24px
     padding: 5px 0 0 30px
     text-align: left
@@ -130,6 +129,7 @@ ul.nav_bar
     text-decoration: none
     opacity: 0.85
     font-weight: bold
+    margin-right: 25px
 
     &:hover
       opacity: 1
@@ -162,7 +162,15 @@ ul.nav_bar
   a.new_headline_large
     background: url('../images/icons/Headline (Add)_24x24.png') no-repeat top left
 
+  a.refresh_large
+    background: url('../images/icons/Refresh_24x24.png') no-repeat top left
 
+  a.delete_large
+    background: transparent url('../images/icons/Delete_24x24.png') no-repeat top left
+
+  a.cancel_large
+    background: url('../images/icons/Cancel_24x24.png') no-repeat top left
+    
   table.dashboard_table
     width: 100%
     margin-bottom: 0
@@ -179,7 +187,7 @@ ul.nav_bar
 
       &.pointer
         cursor: pointer
-
+    
     th
       text-align: left
       background: #ccc no-repeat 100% 0
@@ -221,11 +229,14 @@ ul.nav_bar
         bottom: 3px
       &.center
         text-align: center
+      &.nowrap
+        white-space: nowrap
+        
       span
         .small
           font-size: 9px
 
-    // list matching orgnization within table
+    // list matching organization within table
     ul.matching_list
       margin: 0
       list-style: none
@@ -548,6 +559,9 @@ ul.nav_bar
       font-family: "Helvetica Neue",Arial,Helvetica,sans-serif
       font-size: 1em
     
+    li.date > select
+      width: auto
+    
     input[type="checkbox"], input[type="radio"], input[type="file"] 
       width: auto
       margin: 0 5px 0px 25px
@@ -563,7 +577,7 @@ ul.nav_bar
       cursor: pointer
       float: none
       margin: 5px 0 0 0
-    
+          
     p.check_box_label_description
       margin: 3px 0 0 24px
       display: block
@@ -640,9 +654,9 @@ ul.nav_bar
       span.label_text
         display: block
         position: relative
-        line-height: 1em
+        line-height: 1.3em
         left: 25px
-        top: -10px
+        top: -11px
       
       select
         margin-left: 0
@@ -819,7 +833,7 @@ ul.nav_bar
         text-decoration: underline
 
 
-ul#report_list
+ul.report_list
   margin: 0
   width: 400px
   
@@ -827,7 +841,7 @@ ul#report_list
     list-style: none
     border-bottom: 1px solid #ccc
     padding: 0.75em 10px
-    background-color= !light_grey
+    background-color: #fff
     position: relative
     
     &.odd
@@ -836,7 +850,7 @@ ul#report_list
     &:hover
       background-color= !light_blue
       
-  a.xls
+  a.xls, a.doc
     position: absolute
     right: 10px
     top: 50%
@@ -844,12 +858,19 @@ ul#report_list
     display: block
     width: 16px
     height: 16px
-    background: url('../images/icons/Accounts Payable_16x16.png')
     opacity: 0.7
     text-indent: -9999em
-    
+
     &:hover
       opacity: 1
+
+  a.xls
+    background: url('../images/icons/Accounts Payable_16x16.png')
+  a.doc
+    background: url('../images/icons/Folder (Closed)_16x16.png')
+    &:hover
+      background: url('../images/icons/Folder (Open)_16x16.png')
+    
     
   a
     color= !dark_grey

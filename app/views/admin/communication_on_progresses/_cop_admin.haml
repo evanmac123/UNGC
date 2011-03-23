@@ -1,16 +1,11 @@
 %tr
-  %td= cop_admin.created_at.strftime '%I:%M %p'
+  %td= cop_admin.created_at.in_time_zone('Eastern Time (US & Canada)').strftime '%I:%M %p'
   %td= cop_admin.organization.name
-  %td
-    = cop_admin.format.try(:humanize)
-    - if cop_admin.is_advanced_programme?
-      %br/
-      %span.small (Advanced Programme)
+  %td= cop_admin.format.try(:humanize)
+  %td= 'GC ' + cop_admin.differentation_level_name
   %td
     %ul.actions
       %li= link_to 'View Details', admin_organization_communication_on_progress_path(cop_admin.organization.id, cop_admin), :title => "View details", :class => "preview"
       - organization_only do
         - if cop_admin.editable?
           %li= link_to 'Edit Details', edit_admin_organization_communication_on_progress_path(cop_admin.organization.id, cop_admin), :title => "Edit details", :class => "edit"
-      - staff_only do
-        %li= link_to 'Delete', admin_organization_communication_on_progress_path(cop_admin.organization.id, cop_admin), :confirm => 'Are you sure?', :method => :delete, :title => "Delete entry", :class => 'delete'

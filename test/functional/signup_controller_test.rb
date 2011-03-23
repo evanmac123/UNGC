@@ -102,7 +102,7 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "as a non-business should get the sixth step page after posting ceo contact details" do
-      @non_business_organization_type = create_organization_type(:name => 'Academic', :type_property => OrganizationType::NON_BUSINESS)
+      create_non_business_organization_type
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type)
       post :step6, :contact => @signup_ceo
       assert_response :success
@@ -132,7 +132,35 @@ class SignupControllerTest < ActionController::TestCase
       end
       assert_response :success
       assert_template 'step7'
-    end 
+    end
     
+    should "send an email to JCI if the applicant was a referral from their website" do
+      session[:signup_organization] = Organization.new(:name                 => 'JCI Member',
+                                                       :organization_type_id => OrganizationType.first.id,
+                                                       :employees            => 500)
+      session[:signup_contact] = Contact.new(@signup_contact)
+      session[:signup_ceo] = Contact.new(@signup_ceo)
+      session[:is_jci_referral] = true
+
+      assert_emails(2) do
+        post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+      end
+      assert_response :success
+      assert_template 'step7'
+    end
+
+    should "see the PRME invitation on the seventh step page if they are an Academic organization" do
+      @academic = create_organization_type(:name => 'Academic', :type_property => 1)
+      session[:signup_organization] = Organization.new(:name                 => 'City University',
+                                                       :organization_type_id => @academic.id,
+                                                       :employees            => 50)
+      session[:signup_contact] = Contact.new(@signup_contact)
+      session[:signup_ceo] = Contact.new(@signup_ceo)
+      post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
+      assert_response :success
+      assert_template 'step7'
+      assert_select 'div.prme'
+    end
   end
+
 end

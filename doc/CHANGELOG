@@ -1,3 +1,84 @@
+h1. 2011-03-19
+
+* add text area to advanced COP to capture best practices not included in the questionnaire
+* reusing the _description_ column to record answer
+
+h1. 2011-03-17
+
+* Grace Letter period rules were adjusted to allow companies to submit a Grace Letter at anytime
+* 90 days will be added to the COP due date
+* It won't have any effect if they've gone beyond their 90 day grace period, but it would delay their delisting
+* You can't submit two grace letters in a row
+
+h1. 2011-03-05
+
+* Case Story submissions are now disabled by not displaying the 'new' button
+
+h1. 2011-02-24
+
+* Differentiation levels were launched to assigned labels based on the results of the self-assessment in the COP
+* The levels are assigned to both COPs and companies, however the companies level is based on the latest COP
+* The Organization and COP models contain methods for determining these levels
+* In the views, the labels are conditionally displayed based on the type and status of the participant
+* For example, non-business and expelled participants do not have their differentiation level displayed
+
+h1. 2011-02-21
+
+* added a new dynamic page for listing 'expelled' participants
+* we changed the name from delisted to expelled on most public pages, but the code will still contain many references to delisted
+
+h1. 2011-01-17
+
+* we're tracking referrals for new participants from JCI (Junior Chamber International) members
+* they're linking directly to the business participant signup page
+* using session variables to track this information
+* auto email is sent to JCI when someone completes the signup form
+
+h1. 2011-01-10
+
+* in addition to grouping COP questions, we want to tag questions in order to evaluate how the principles are being implemented
+* adding an 'implementation' field to the CopQuestion model to categorize each question under one of four categories of implementation:
+
+# Policy
+# Process
+# Monitoring
+# Performance
+
+* we can then group and evaluate the coverage of each implementation category
+* added grouping select options to CopQuestion model instead of asking staff to type in the grouping name
+
+* when creating a new COP, non-business goes straight to the Intermediate COP, instead of the COP introduction screen
+* only business participants should be able to choose the type of COP
+
+h1. 2011-01-06
+
+* added ability to delete COPs from within the Dashboard
+* :dependent => :destroy was not deleting the associated models, so a :before_destroy method was added to the COP model
+
+h1. 2010-12-27
+
+* a number of online registrations were being completed with the CEO entered as a Contact Point and vice versa
+* after making the change in the database, a user function was created to make this change
+
+* for pending organizations, we like to know if there are possible duplicate applications being submitted
+* we run a search on all organization names when listing pending organizations
+* but if Sphinx is indexing, we get an error, so I added "if ThinkingSphinx.sphinx_running?" before calling Organization.search
+
+h1. 2010-12-10
+
+* added PRME message at end of sign up process to encourage PRME participants to be Global Compact participants and vice versa
+
+h1. 2010-12-09
+
+* Change rules for Grace Period. It's now 90 days from the COP due date, not 90 days from the day the Grace Letter is submitted
+* Non-Communicating companies that submit a Grace Letter stay Non-Communicating
+* Delisted companies do not see the Grace Letter option
+
+h1. 2010-12-01
+
+* added descriptions for roles since participants were not sure which one to use
+* General Contact is being phased out - it's not displayed as an option, although current General Contacts will not be deleted or have their role changed
+
 h1. 2010-10-19
 
 * Advanced Programme was launched Oct 11, 2010
@@ -17,7 +98,7 @@ h1. 2010-08-10
 
 h1. 2010-08-02
 
-* Creating a Basic COP that allows text entry instead if the multiple choice format
+* Creating a Basic COP that allows text entry instead of the multiple choice format
 * Should be easier for less advanced ESG reports to submit a COP
 
 h1. 2010-07-20
@@ -28,7 +109,6 @@ h1. 2010-07-20
 h1. 2010-06-28
 
 * TODO call javascript to show/hide publicly traded company options after JQuery is loaded
-* TODO sign up form align changes in IE when there are errors.
 
 h1. 2010-06-14
 
