@@ -68,9 +68,8 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "should list pending organizations" do
-    # FIXME test error due to sphinx call in organizations helper
-    # get :pending_review, {}, as(@user)
-    # assert_response :success
+    get :pending_review, {}, as(@staff_user)
+    assert_response :success
   end
   
   test "should list updated organizations" do
@@ -136,6 +135,24 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_redirected_to admin_organization_path(@organization.id)
     end
 
+    should "be able to edit Letter of Commitment" do
+      login_as @user
+      get :edit, {:id => @organization.to_param}, as(@staff_user)
+      assert_select "input#organization_commitment_letter"
+    end
+
+  end
+  
+  context "given an approved organization" do
+    setup do
+      @organization.approve
+    end
+    
+    should "user should not see upload field for commitment letter" do
+      login_as @user
+      get :edit, {:id => @organization.to_param}, as(@user)
+      assert_select "input#organization_commitment_letter", 0 
+    end
   end
   
   context "given a rejected organization" do
