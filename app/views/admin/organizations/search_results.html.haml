@@ -15,7 +15,7 @@
       - for organization in @results
         %tr
           %td=h organization.id
-          %td=h organization.old_id || organization.old_tmp_id
+          %td=h organization.old_id
           %td{:title => organization.name}=h truncate(organization.name, :length => 50)
           %td= organization.organization_type_name
           %td= display_status(organization)
