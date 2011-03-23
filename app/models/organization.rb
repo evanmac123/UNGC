@@ -363,6 +363,10 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_DELISTED
   end
   
+  def was_expelled?
+    delisted_on.present? && removal_reason == RemovalReason.delisted
+  end
+  
   # Indicates if this organization uses the most recent COP rules
   def joined_after_july_2009?
     joined_on >= Date.new(2009,7,1)

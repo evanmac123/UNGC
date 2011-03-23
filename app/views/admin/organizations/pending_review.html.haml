@@ -7,7 +7,6 @@
     %table.dashboard_table
       %tr
         %th= sort_header 'ID', field: 'id'
-        %th= sort_header 'Old ID', field: 'old_id'
         %th= sort_header 'Name', field: 'name'
         %th= sort_header 'Submitted on', field: 'created_at'
         %th Status
@@ -16,7 +15,6 @@
       - @organizations.each do |organization|
         %tr
           %td=h organization.id
-          %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name}
             =h truncate(organization.name, :length => 40)
             = duplicate_application(organization)

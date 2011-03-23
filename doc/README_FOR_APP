@@ -137,6 +137,7 @@ contacts.advisory_council - legacy column was never used
 contacts.ceo - roles replace the use of this field
 contacts.contact_point - roles replace the use of this field
 contacts.newsletter - roles replace the use of this field
+
 country.manager_id - used in transition, not used anymore
 
 logo_requests.status - using state
@@ -144,8 +145,9 @@ logo_requests.requested_on - using created_at
 logo_requests.status_changed_on - using updated_at
 
 organizations.local_network - we have a new LocalNetwork model
-organizations.old_tmp_id - only used by importer
-organizations.status - using state
+organizations.added_on - may want to transfer to created_at
+organizations.modified_on - may want to transfer to updated_at
+
 pages.top_level - only used by importer
 
 Server Backup
