@@ -91,11 +91,12 @@ ActionController::Routing::Routes.draw do |map|
   # some important URLs are just too long to type
   short_urls = {
     'annualmeeting' => '/NewsAndEvents/global_compact_week.html',
-    'leadlab'       => 'http://leadlab.unglobalcompact.org/',
-    'Lead'          => '/HowToParticipate/Lead/',
-    'lead'          => '/HowToParticipate/Lead/',
+    'ungcweek'      => '/NewsAndEvents/global_compact_week.html',
     'LDC'           => '/NewsAndEvents/LDC_IV.html',
     'ldc'           => '/NewsAndEvents/LDC_IV.html',
+    'Lead'          => '/HowToParticipate/Lead/',
+    'lead'          => '/HowToParticipate/Lead/',
+    'leadlab'       => 'http://leadlab.unglobalcompact.org/',
     'watermandate'  => '/Issues/Environment/CEO_Water_Mandate/'
   }
   
