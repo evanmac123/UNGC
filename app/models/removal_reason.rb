@@ -37,7 +37,6 @@ class RemovalReason < ActiveRecord::Base
      first :conditions => { :description => FILTERS[:blacklisted] }
    end
    
-   
    def self.withdrew
      first :conditions => { :description => FILTERS[:requested] }
    end

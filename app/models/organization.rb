@@ -33,7 +33,6 @@
 #  commitment_letter_file_size    :integer(4)
 #  commitment_letter_updated_at   :datetime
 #  pledge_amount                  :integer(4)
-#  old_tmp_id                     :integer(4)
 #  cop_state                      :string(255)
 #  replied_to                     :boolean(1)
 #  reviewer_id                    :integer(4)
@@ -41,6 +40,7 @@
 #  rejected_on                    :date
 #  network_review_on              :date
 #  revenue                        :integer(4)
+#  rejoined_on                    :date
 #
 
 class Organization < ActiveRecord::Base
@@ -396,12 +396,12 @@ class Organization < ActiveRecord::Base
   # COP's next due date is 1 year from current date
   # Organization's participant and cop status are now 'active'
   def set_next_cop_due_date
+    self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
     self.update_attribute :cop_due_on, 1.year.from_now
     self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
   end
-  
   
   def can_submit_grace_letter?
 
@@ -417,6 +417,17 @@ class Organization < ActiveRecord::Base
     end
 
     return true
+  end
+  
+  def can_submit_cop?
+    if active? || delisted_on.blank?
+      return true
+    end
+    
+    if was_expelled?
+      # if a new Letter of Commitment was uploaded, then they can submit a COP
+      commitment_letter_updated_at.present? && commitment_letter_updated_at > delisted_on ? true : false
+    end
     
   end
   
@@ -569,7 +580,7 @@ class Organization < ActiveRecord::Base
       ]
       valid_urls.include?(url) ? true : false
   end
-  
+    
   private
     
     def set_non_business_sector

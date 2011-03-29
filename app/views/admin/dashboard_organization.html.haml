@@ -97,7 +97,7 @@
           %th.actions Actions
         = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories.find(:all, order: "updated_at DESC")
     #cops.tab_content
-      - if @organization.was_expelled?
+      - unless @organization.can_submit_cop?
         %h3 Your company has been expelled
         %p Please contact Participant Management for further instructions.
       - else
