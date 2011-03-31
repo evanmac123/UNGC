@@ -173,5 +173,22 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
        assert_response :success
      end
    end
+   
+   context "given an expelled company" do
+     setup do
+       create_expelled_organization
+     end
+
+     should "not be able to submit a COP" do
+       login_as @organization_user
+       get :show, {:id => @organization.to_param}, as(@organization_user)
+       # TODO need to check that the "New Communication on Progress" button is not displayed
+       assert_response :success
+       assert_select 'div' do
+         assert_select 'div', 1
+       end
+     end
+     
+   end
 
 end
