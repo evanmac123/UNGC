@@ -98,8 +98,7 @@
         = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories.find(:all, order: "updated_at DESC")
     #cops.tab_content
       - unless @organization.can_submit_cop?
-        %h3 Your company has been expelled
-        %p Please contact Participant Management for further instructions.
+        = render :partial => 'admin/cops/expelled_note'
       - else
         = link_to 'New Communication on Progress', cop_introduction_path, :class => 'new_large', :id => 'new_COP'
        
