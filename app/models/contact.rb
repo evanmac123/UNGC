@@ -177,6 +177,10 @@ class Contact < ActiveRecord::Base
     self.organization.can_submit_grace_letter?
   end
   
+  def organization_delisted_on
+    self.organization.delisted_on
+  end
+  
   def organization_name
     organization.try(:name)
   end
