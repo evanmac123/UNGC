@@ -194,7 +194,9 @@ class Organization < ActiveRecord::Base
   }
 
   named_scope :noncommunicating,
-    { :conditions => ["cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true] }
+    { :conditions => ["cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true],
+      :order => 'cop_due_on'
+    }
 
   named_scope :expelled_for_failure_to_communicate_progress, {
     :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING] ],
