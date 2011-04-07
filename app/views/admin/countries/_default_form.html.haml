@@ -4,3 +4,4 @@
     = default_form.text_field :code
     = default_form.text_field :name
     = default_form.text_field :region
+    = default_form.collection_select :local_network_id, LocalNetwork.all, :id, :name, {:include_blank => true}, {:label => 'Local Network'}
