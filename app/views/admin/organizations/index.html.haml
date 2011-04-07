@@ -7,7 +7,6 @@
     %table.dashboard_table
       %tr
         %th ID
-        %th= sort_header 'Old ID', field: 'old_id'
         %th= sort_header 'Name', field: 'name'
         %th Updated by
         %th Actions
@@ -15,7 +14,6 @@
       - @organizations.each do |organization|
         %tr
           %td=h organization.id
-          %td=h organization.old_id || organization.old_tmp_id
           %td{:title => organization.name}=h truncate(organization.name, :length => 20)
           %td=h organization.last_modified_by_full_name
           %td

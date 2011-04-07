@@ -33,7 +33,6 @@
 #  commitment_letter_file_size    :integer(4)
 #  commitment_letter_updated_at   :datetime
 #  pledge_amount                  :integer(4)
-#  old_tmp_id                     :integer(4)
 #  cop_state                      :string(255)
 #  replied_to                     :boolean(1)
 #  reviewer_id                    :integer(4)
@@ -41,6 +40,7 @@
 #  rejected_on                    :date
 #  network_review_on              :date
 #  revenue                        :integer(4)
+#  rejoined_on                    :date
 #
 
 class Organization < ActiveRecord::Base
@@ -194,7 +194,9 @@ class Organization < ActiveRecord::Base
   }
 
   named_scope :noncommunicating,
-    { :conditions => ["cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true] }
+    { :conditions => ["cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true],
+      :order => 'cop_due_on'
+    }
 
   named_scope :expelled_for_failure_to_communicate_progress, {
     :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING] ],
@@ -363,6 +365,10 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_DELISTED
   end
   
+  def was_expelled?
+    delisted_on.present? && removal_reason == RemovalReason.delisted
+  end
+  
   # Indicates if this organization uses the most recent COP rules
   def joined_after_july_2009?
     joined_on >= Date.new(2009,7,1)
@@ -392,12 +398,12 @@ class Organization < ActiveRecord::Base
   # COP's next due date is 1 year from current date
   # Organization's participant and cop status are now 'active'
   def set_next_cop_due_date
+    self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
     self.update_attribute :cop_due_on, 1.year.from_now
     self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
   end
-  
   
   def can_submit_grace_letter?
 
@@ -413,6 +419,17 @@ class Organization < ActiveRecord::Base
     end
 
     return true
+  end
+  
+  def can_submit_cop?
+    if active? || delisted_on.blank?
+      return true
+    end
+    
+    if was_expelled?
+      # if a new Letter of Commitment was uploaded, then they can submit a COP
+      commitment_letter_updated_at.present? && commitment_letter_updated_at > delisted_on ? true : false
+    end
     
   end
   
@@ -565,7 +582,7 @@ class Organization < ActiveRecord::Base
       ]
       valid_urls.include?(url) ? true : false
   end
-  
+    
   private
     
     def set_non_business_sector

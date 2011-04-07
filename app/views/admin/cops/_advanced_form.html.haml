@@ -114,12 +114,12 @@
 
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Strategy, Governance and Engagement
-    %p For each of the following criteria, please check the best practices you have implemented.
+    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :strategy
 
   %div.tab_content{:id => "un_goals_additional_questions"}
     %h3 UN Goals and Issues
-    %p For the following criterion, please check the best practices you have implemented.    
+    %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
     %div{:class => 'hint_toggle'} About this section...
     %div{:class => 'hint_text', :style => 'display: none;'}
       %div{:style => 'margin-left: 2em;'}
@@ -154,30 +154,30 @@
   %div.tab_content{:id => "human_rights_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
-    %p For each of the following criteria, please check the best practices you have implemented.
+    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :human_rights
 
   %div.tab_content{:id => "labour_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('labour')}" } Labour Principles Implementation
-    %p For each of the following criteria, please check the best practices you have implemented.
+    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :labour
 
   %div.tab_content{:id => "environment_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
-    %p For each of the following criteria, please check the best practices you have implemented.
+    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :environment
 
   %div.tab_content{:id => "anti_corruption_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
-    %p For each of the following criteria, please check the best practices you have implemented.
+    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :anti_corruption
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation
-    %p For the following criterion, please check the best practices you have implemented.
+    %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
     %div{:class => 'hint_toggle'} About this section...
     %div{:class => 'hint_text', :style => 'display: none;'}
       %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
@@ -186,7 +186,7 @@
 
   %div.tab_content{:id => "verification_additional_questions"}
     %h3 Verification and Transparency
-    %p For each of the following criteria, please check the best practices you have implemented.
+    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :verification
 
   #finish.tab_content
@@ -206,6 +206,14 @@
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
 
     %fieldset
+      #best_practices{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Optional: Other established or emerging best practices
+          %p Please use the text box below to share with the Global Compact Office any other established or emerging best practices.
+          = form.text_area :description, :class => 'cop_answer'
+ 
+    %fieldset
       #confirmation{:style => 'display: block'}
         %fieldset
           %legend
@@ -224,7 +232,7 @@
           %legend
             %span Contact Information
           %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
-          = form.text_area :contact_name, :rows => "4", :value => "#{current_user.full_name_with_title}\n#{current_user.job_title}\n#{current_user.email}\n#{current_user.phone}", :style => 'width: 300px; margin: 0em 0em 1em 0em;'
+          = form.text_area :contact_name, :class => 'cop_answer', :value => "#{current_user.full_name_with_title}\n#{current_user.job_title}\n#{current_user.email}\n#{current_user.phone}"
 
     %p= submit_tag 'Submit', :class => "button", :id => "finish"
 

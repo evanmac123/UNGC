@@ -1,0 +1,13 @@
+%h3 Your company has been expelled
+
+%p== Your organization was expelled from the UN Global Compact on #{ dd_month_yyyy current_user.organization_delisted_on} for failure to communicate on progress. In order to be readmitted as a participant, please submit the following to #{mail_to 'participants@unglobalcompact.org'}:
+
+%ol
+  %li
+    %p A valid Communication on Progress (COP)
+  %li
+    %p Letter of Recommitment
+    ==The letter should be similar to the initial #{link_to 'Letter of Commitment','/HowToParticipate/How_to_Apply_Business.html', {:target => 'new'}} and
+    %strong must also include a brief explanation for your organization's failure to submit a COP by the required deadline.
+
+%p Once these documents are received, further instructions on the readmission process will be emailed to your organization's Contact Point.

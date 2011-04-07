@@ -266,7 +266,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
-  def set_approved_fields
+  def set_approved_fields    
     if is_grace_letter?
       organization.extend_cop_grace_period
     else

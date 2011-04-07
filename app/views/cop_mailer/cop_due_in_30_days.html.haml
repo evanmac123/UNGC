@@ -1,30 +1,23 @@
 To all Contact Points for
 %strong== #{@organization.name}:
 
-%p Your commitment to the UN Global Compact, the world's largest voluntary corporate citizenship initiative, is important. Today, we would like to send you a reminder and offer our assistance regarding your company's Communication on Progress (COP), which is an essential component of this commitment.
+%p== The Global Compact Office would like to remind you that the deadline for submitting your company's annual Communication on Progress (COP) to the Global Compact website is in 30 days on #{dd_month_yyyy @organization.cop_due_on}.
 
-%p Please note that your company's Communication on Progress (COP) report will be due in 30 days. The Global Compact requires companies to develop, annually, a COP in order to promote transparency and accountability, showcase best practices and protect the 'investment' made by participants. The COP policy stipulates that companies communicate publicly to their stakeholders on progress made in implementing the Global Compact's ten principles, e.g. through their annual reports, sustainability reports and other prominent corporate communications. 
+%p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website. 
 
-%p Company participants are required to submit a first COP within two years from the date of joining the Global Compact. Should a company fail to meet this initial submission deadline, they will be marked as 'Non-communicating' in the participant database of the Global Compact website. Further, should a company also miss the second COP deadline after an additional year, the company will be removed from the Global Compact database of active participants and delisted from the Global Compact website.
+%p== If a company fails to meet its submission deadline, it will be listed in the #{link_to '"non-communicating" list of participants', 'http://www.unglobalcompact.org/'+DEFAULTS[:cop_noncommunicating_path]} and the company's #{link_to 'public profile', 'http://unglobalcompact.org/participant/'+@organization.id.to_s}. Companies that remain non-communicating for more than a year will be expelled from the initiative.
 
-%p Our records indicate that your company will be listed as 'Non-communicating' if we have not received your COP in the next 30 days.
+%p== Should you need any guidance on preparing or submitting your COP, we offer a wide range of #{link_to 'COP tools and publications', 'http://www.unglobalcompact.org/COP/communicating_progress.html'} on the Global Compact website.
 
-%p== We offer a wide range of tools and publications for your reference in the #{link_to 'COP section of the Global Compact website', 'http://www.unglobalcompact.org/COP/'}. Please email cop@unglobalcompact.org if you require instructions for submitting a COP.
+%p== Note: All COPs must be submitted online by #{link_to 'logging into the Global Compact website', dashboard_url}. If you do not have your login information, you may #{link_to 'retrieve your username and select a new password.', new_password_url}.
 
-%p We look forward to hearing from you soon and the timely receipt of your COP.
+%p
+  == If you have further questions on the COP policy or tools, please consult the FAQs or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
+
+%p We look forward to the timely submission of your COP.
 
 %p Sincerely,
 
 %p The Global Compact Office
 
-United Nations Global Compact
-%br/
-Two United Nations Plaza
-%br/
-New York, NY 10017
-%br/
-Email: globalcompact@un.org
-%br/
-Website:
-%a{:href => "http://www.unglobalcompact.org/"}
-  www.unglobalcompact.org
+= render :partial => '/shared/ungc_signature'

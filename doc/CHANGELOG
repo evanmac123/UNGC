@@ -1,3 +1,44 @@
+h1. 2011-04-06
+
+* Updated text in auto emails
+* Copy Local Network (Network Report Recipient) instead of sending a separate email
+
+# COP due in 90 days (cc)
+# COP due in 30 days
+# COP due today (cc)
+# Expelled in 90 days
+# Expelled in 30 days (cc)
+# Expelled today (cc)
+
+h1. 2011-03-26
+
+* Companies that are expelled cannot submit a COP
+* They must email a new Letter of Commitment to Participant Management, who will review and upload the file
+* Once the file is uploaded, the option to submit a COP will appear in their dashboard
+* The date of rejoining is then set when the next COP is submitted
+
+h1. 2011-03-22
+
+* don't allow existing participants to change their Letter of Commitment
+* this is to prevent expelled companies from signing on again
+* organizations in review can still do this
+
+h1. 2011-03-19
+
+* add text area to advanced COP to capture best practices not included in the questionnaire
+* reusing the _description_ column to record answer
+
+h1. 2011-03-17
+
+* Grace Letter period rules were adjusted to allow companies to submit a Grace Letter at anytime
+* 90 days will be added to the COP due date
+* It won't have any effect if they've gone beyond their 90 day grace period, but it would delay their delisting
+* You can't submit two grace letters in a row
+
+h1. 2011-03-05
+
+* Case Story submissions are now disabled by not displaying the 'new' button
+
 h1. 2011-02-24
 
 * Differentiation levels were launched to assigned labels based on the results of the self-assessment in the COP

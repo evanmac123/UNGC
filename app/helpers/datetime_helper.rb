@@ -12,4 +12,8 @@ module DatetimeHelper
     date ? date.strftime('%m/%d/%Y') : '&nbsp;'
   end
 
+  def dd_month_yyyy(date)
+    date ? date.strftime('%e %B, %Y') : '&nbsp;'
+  end
+
 end

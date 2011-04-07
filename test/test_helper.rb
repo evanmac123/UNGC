@@ -130,6 +130,15 @@ class ActiveSupport::TestCase
                                  :organization_id => @ungc.id)
   end
   
+  def create_expelled_organization
+    create_organization_and_user
+    create_removal_reasons
+    @organization.update_attribute :delisted_on, Date.today - 1.month
+    @organization.update_attribute :cop_state, Organization::COP_STATE_DELISTED
+    @organization.update_attribute :active, false
+    @organization.update_attribute :removal_reason_id, RemovalReason.delisted.id    
+  end
+  
   def create_local_network_with_report_recipient
     @local_network = create_local_network(:name => "Canadian Local Network")
     @country = create_country(:name => "Canada", :local_network_id => @local_network.id)
@@ -154,6 +163,10 @@ class ActiveSupport::TestCase
   
   def create_principle_areas
     PrincipleArea::FILTERS.values.each {|name| create_principle_area(:name => name)}
+  end
+
+  def create_removal_reasons
+    RemovalReason::FILTERS.values.each {|description| create_removal_reason(:description => description)}
   end
   
   def fixture_file_upload(path, mime_type = nil, binary = false)

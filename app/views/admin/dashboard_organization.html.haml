@@ -4,7 +4,8 @@
     %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
     %li <a href="#logos">Logo Requests</a>
-    %li <a href="#case_stories">Case Stories</a>
+    - if @organization.case_stories.any?
+      %li <a href="#case_stories">Case Stories</a>
     %li <a href="#cops">COPs</a>
 
   #overview.tab_content
@@ -85,10 +86,9 @@
           %th.age Days since last update
           %th.actions Actions
         = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
-
     #case_stories.tab_content
       / = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new_large', :id => 'new_case_story'
-      %h4 We are no longer accepting Case Stories at this time.
+      %p We are no longer accepting Case Stories at this time.
       %table.dashboard_table#case_stories_dashboard_table
         %tr
           %th.last_udpated Updated on
@@ -97,7 +97,11 @@
           %th.actions Actions
         = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories.find(:all, order: "updated_at DESC")
     #cops.tab_content
-      = link_to 'New Communication on Progress', cop_introduction_path, :class => 'new_large', :id => 'new_COP'
+      - unless @organization.can_submit_cop?
+        = render :partial => 'admin/cops/expelled_note'
+      - else
+        = link_to 'New Communication on Progress', cop_introduction_path, :class => 'new_large', :id => 'new_COP'
+       
       %table.dashboard_table#cops_dashboard_table
         %tr
           %th.last_updated Published

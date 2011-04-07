@@ -6,8 +6,22 @@
 
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
     .left
-      %strong Participant since
-    .right= yyyy_mm_dd(@participant.joined_on)
+      %strong
+        - if @participant.was_expelled? && @participant.active
+          Initial Participation
+        - else
+          Participant since
+    .right= yyyy_mm_dd @participant.joined_on
+
+  - if @participant.was_expelled? && @participant.active
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+      .left
+        %strong Expelled
+      .right= yyyy_mm_dd @participant.delisted_on
+    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
+      .left
+        %strong Readmitted
+      .right= yyyy_mm_dd @participant.rejoined_on
 
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
     .left

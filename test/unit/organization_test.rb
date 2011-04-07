@@ -173,4 +173,27 @@ class OrganizationTest < ActiveSupport::TestCase
       end
     end
   end
+  
+    context "given an expelled company" do
+      setup do
+        create_expelled_organization
+      end
+  
+      should "not be able to submit a COP" do
+        assert !@organization.can_submit_cop?
+      end
+     
+      context "and a staff member updates their Letter of Commitment" do
+        setup do
+         @organization.update_attribute :commitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
+        end
+       
+        should "be able to submit a COP" do
+         assert @organization.can_submit_cop?
+        end
+       
+      end
+     
+     end
+  
 end

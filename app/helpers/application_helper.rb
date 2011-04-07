@@ -26,14 +26,18 @@ module ApplicationHelper
     yield if logged_in? && current_user.from_organization?
   end
   
+  def dashboard_view_only
+    yield if logged_in? && request.env['PATH_INFO'].include?('admin')
+  end
+
+  def is_staff
+    return logged_in? && current_user.from_ungc?
+  end
+  
   def link_to_attachment(object)
     if object.attachment_file_name
       link_to object.attachment_file_name, object.attachment.url
     end
-  end
-  
-  def is_staff
-    return logged_in? && current_user.from_ungc?
   end
   
   def css_display_style(show)
