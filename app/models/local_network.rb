@@ -17,8 +17,10 @@ class LocalNetwork < ActiveRecord::Base
   has_many :contacts
   belongs_to :manager, :class_name => "Contact"
   
-  STATES = ['emerging', 'established', 'none']
+  default_scope :order => 'name'
   
+  STATES = { :emerging => 'Emerging', :established => 'Established' }
+          
   def latest_participant
     participants.find(:first, :order => 'joined_on DESC')
   end
@@ -30,4 +32,5 @@ class LocalNetwork < ActiveRecord::Base
   def participants
     Organization.visible_in_local_network.where_country_id(countries.map(&:id))
   end
+  
 end

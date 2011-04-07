@@ -52,13 +52,4 @@ class CopQuestion < ActiveRecord::Base
     { :conditions => ['grouping =?', group.to_s] }
   }
   
-  # swap key/value so the values and labels for the <select> options are in the correct order
-  def self.grouping_areas
-    reverse_hash = Hash.new
-    		GROUPING_AREAS.each {|key,value|
-    			reverse_hash[value] = key unless reverse_hash.has_key?(key)
-    		}
-  	return reverse_hash
-  end
-  
 end

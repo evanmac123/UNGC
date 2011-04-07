@@ -3,7 +3,7 @@
 
 %fieldset
   %ol
-    = default_form.select :grouping, CopQuestion.grouping_areas, {:include_blank => true}, {:label => "Grouping area"}
+    = default_form.select :grouping, select_options_from_hash(CopQuestion::GROUPING_AREAS), :include_blank => true, :label => "Grouping area"
     = default_form.collection_select :principle_area_id, PrincipleArea.all, :id, :name, {:include_blank => true}, {}
     = default_form.select :implementation, CopQuestion::IMPLEMENTATION_AREAS.collect {|a| [a.humanize, a]}, {:include_blank => true}, {:label => "Implementation area" }
     = default_form.text_area :text
