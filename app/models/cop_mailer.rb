@@ -1,26 +1,20 @@
 class CopMailer < ActionMailer::Base
+  helper :datetime
+
   def cop_due_in_90_days(organization)
     from EMAIL_SENDER
+    cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
-    subject "Your UN Global Compact participation - Communication on Progress required in 90 days"
+    subject "UN Global Compact COP Deadline - 90 Days"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
-    body :organization => organization
-  end
-
-  def cop_due_in_90_days_notify_network(organization)
-    from EMAIL_SENDER
-    bcc 'vkeesari@yahoo.com'
-    subject "#{organization.name} - Communication on Progress required in 90 days"
-    content_type "text/html"
-    recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization
   end
   
   def cop_due_in_30_days(organization)
     from EMAIL_SENDER
     bcc 'vkeesari@yahoo.com'
-    subject "Your UN Global Compact participation - Communication on Progress required in 30 days"
+    subject "UN Global Compact COP Deadline - 30 Days"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
@@ -28,26 +22,18 @@ class CopMailer < ActionMailer::Base
 
   def cop_due_today(organization)
     from EMAIL_SENDER
+    cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
-    subject "Your organization is Non-Communicating with the UN Global Compact"
+    subject "UN Global Compact COP Deadline - Today"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
   end
-  
-  def cop_due_today_notify_network(organization)
-    from EMAIL_SENDER
-    bcc 'vkeesari@yahoo.com'
-    subject "#{organization.name} is Non-Communicating with the UN Global Compact"
-    content_type "text/html"
-    recipients organization.network_report_recipients.collect(&:email_recipient)
-    body :organization => organization
-  end
-  
+    
   def delisting_in_90_days(organization)
     from EMAIL_SENDER
     bcc 'vkeesari@yahoo.com'
-    subject "Your organization is at risk of being delisted from the Global Compact in 90 days"
+    subject "UN Global Compact Expulsion in 3 months"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
@@ -55,38 +41,22 @@ class CopMailer < ActionMailer::Base
 
   def delisting_in_30_days(organization)
     from EMAIL_SENDER
+    cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
-    subject "Your organization is at risk of being delisted from the Global Compact in 30 days"
+    subject "Urgent - UN Global Compact Expulsion in 30 days"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
-    body :organization => organization
-  end
-
-  def delisting_in_30_days_notify_network(organization)
-    from EMAIL_SENDER
-    bcc 'vkeesari@yahoo.com'
-    subject "#{organization.name} is at risk of being delisted from the Global Compact in 30 days"
-    content_type "text/html"
-    recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization
   end
 
   def delisting_today(organization)
     from EMAIL_SENDER
+    cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
-    subject "Your organization has been delisted from the Global Compact"
+    subject "UN Global Compact Status - Expelled"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
   end
   
-  def delisting_today_notify_network(organization)
-    from EMAIL_SENDER
-    bcc 'vkeesari@yahoo.com'
-    subject "#{organization.name} has been delisted from the Global Compact"
-    content_type "text/html"
-    recipients organization.network_report_recipients.collect(&:email_recipient)
-    body :organization => organization
-  end
-
 end

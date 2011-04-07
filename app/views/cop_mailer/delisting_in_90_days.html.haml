@@ -1,29 +1,27 @@
 To all Contact Points for
 %strong== #{@organization.name}:
 
-%p Due to the fact that your company failed to meet the previous COP deadline, your company has been marked as 'non-communicating' on our website for several months. When new participants, who joined after July 1st 2009, fail to submit a COP for one year, they are no longer considered active participants in the initiative and will be delisted. This means that they can neither use the Global Compact logo nor participate in Global Compact events.
+%p== Your company is currently listed as "non-communicating" on the Global Compact website and will be expelled from the initiative if it fails to submit a Communication on Progress by #{dd_month_yyyy @organization.delisting_on}.
+
+%p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website.
+   
+%p== When a company fails to meet its submission deadline, it will be listed in the #{link_to '"non-communicating" list of participants', 'http://www.unglobalcompact.org/'+DEFAULTS[:cop_noncommunicating_path]} and the company's #{link_to 'public profile', 'http://unglobalcompact.org/participant/'+@organization.id.to_s}. Companies that remain non-communicating for more than a year will be expelled from the initiative.
+
+%p== Should you need any guidance on preparing or submitting your COP, we offer a wide range of #{link_to 'COP tools and publications', 'http://www.unglobalcompact.org/COP/communicating_progress.html'} on the Global Compact website.
+
+%p== Note: All COPs must be submitted online by #{link_to 'logging into the Global Compact website', dashboard_url}. If you do not have your login information, you may #{link_to 'retrieve your username and select a new password.', new_password_url}.
 
 %p
-  Business participants who became participants before July 1st 2009 still have 2 years after the joining date to submit a COP. Your company's COP was due several months ago and has not been received. Therefore, to ensure your company remains an active participant in the Global Compact, a COP must be submitted in the next 90 days. We have improved our tools and publications to assist your company in returning to 'active' participant status:
-  %a{:href => "http://www.unglobalcompact.org/COP"}
-    http://www.unglobalcompact.org/COP.
-   
-%p The Global Compact recognizes that lack of communication by our participants does not necessarily mean that they are not implementing the ten principles. However, the COP does act as a proxy for engagement and, therefore, the policy must be respected by all participants. Please contact email cop@unglobalcompact.org if you require instructions for submitting a COP.
+  If you require additional time to submit your COP, you may obtain a
+  %strong grace period
+  == of 90 days from the COP deadline by submitting a letter with a reasonable explanation on the Global Compact website. #{link_to 'Submitting a Grace Letter: A Step-by-Step Guide (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/Grace_Letter_Step_by_Step_Guide.pdf'}
 
-%p We look forward to hearing from you soon and receiving your COP.
+%p== If you have further questions on the COP policy or tools, please consult the FAQs or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
+
+%p We look forward to the timely submission of your COP.
 
 %p Sincerely,
 
 %p The Global Compact Office
 
-United Nations Global Compact
-%br/
-Two United Nations Plaza
-%br/
-New York, NY 10017
-%br/
-Email: globalcompact@un.org
-%br/
-Website:
-%a{:href => "http://www.unglobalcompact.org/"}
-  www.unglobalcompact.org
+= render :partial => '/shared/ungc_signature'
