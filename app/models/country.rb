@@ -30,4 +30,9 @@ class Country < ActiveRecord::Base
                        :conditions => 'region IS NOT NULL',
                        :order      => 'region')
   end
+  
+  def local_network_name
+    self.local_network.try(:name) || 'None'    
+  end
+  
 end
