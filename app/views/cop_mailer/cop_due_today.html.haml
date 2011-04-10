@@ -1,7 +1,7 @@
 To all Contact Points for
 %strong== #{@organization.name}:
 
-%p== The Global Compact Office would like to remind you that the deadline for submitting your company's annual Communication on Progress (COP) to the Global Compact website is today, #{dd_month_yyyy @organization.cop_due_on}.
+%p== The Global Compact Office would like to remind you that the deadline for submitting your company's annual Communication on Progress (COP) to the Global Compact website is #{dd_month_yyyy @organization.cop_due_on}.
 
 %p== When a company fails to meet its submission deadline, it will be listed in the #{link_to '"non-communicating" list of participants', 'http://www.unglobalcompact.org/'+DEFAULTS[:cop_noncommunicating_path]} and the company's #{link_to 'public profile', 'http://www.unglobalcompact.org/participant/'+@organization.id.to_s}. Companies that remain non-communicating for more than a year will be expelled from the initiative.
 
