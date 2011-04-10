@@ -33,7 +33,7 @@ class CopReminder
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
         begin
-          CopMailer.send(mailer, org) if org.contacts.contact_points.any?
+          CopMailer.send(mailer, org)
           if network_mailer && org.network_report_recipients.any?
             log "Emailing local network"
             CopMailer.send(network_mailer, org)
