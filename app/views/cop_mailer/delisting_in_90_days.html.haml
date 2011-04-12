@@ -1,7 +1,7 @@
 To all Contact Points for
 %strong== #{@organization.name}:
 
-%p== Your company is currently listed as "non-communicating" on the Global Compact website and will be expelled from the initiative if it fails to submit a Communication on Progress by #{dd_month_yyyy @organization.delisting_on}.
+%p== Your company is currently listed as "non-communicating" on the Global Compact website and will be expelled from the initiative if it fails to submit a Communication on Progress by #{dd_month_yyyy @organization.cop_due_on + 1.year}.
 
 %p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website.
    
