@@ -1,7 +1,7 @@
 To all Contact Points for
 %strong== #{@organization.name}:
 
-%p== We regret to inform you that after #{dd_month_yyyy @organization.delisting_on}, your company will be expelled from the Global Compact for failure to submit a Communication on Progress (COP) by the required deadline.
+%p== We regret to inform you that your company will be expelled from the Global Compact for failure to submit a Communication on Progress (COP) by the required deadline.
 
 %p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website. 
 
@@ -12,12 +12,7 @@ To all Contact Points for
 %p== Note: All COPs must be submitted online by #{link_to 'logging into the Global Compact website', dashboard_url}. If you do not have your login information, you may #{link_to 'retrieve your username and select a new password', new_password_url}.
 
 %p
-  If you require additional time to submit your COP, you may obtain a
-  %strong grace period
-  == of 90 days from the COP deadline by submitting a letter with a reasonable explanation on the Global Compact website. #{link_to 'Submitting a Grace Letter: A Step-by-Step Guide (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/Grace_Letter_Step_by_Step_Guide.pdf'}
-
-%p
-  == If you wish to reverse your expelled status after #{dd_month_yyyy @organization.delisting_on}, and rejoin the Global Compact, please contact our Participant Management team #{mail_to 'participants@unglobalcompact.org'}.
+  == If you wish to reverse your expelled status and be readmitted to the Global Compact, please contact our Participant Management team #{mail_to 'participants@unglobalcompact.org'}.
   - if @organization.network_report_recipients.any?
     == Additionally, your Local Network Contact Point in #{@organization.country_name} has been copied on this email.
 
