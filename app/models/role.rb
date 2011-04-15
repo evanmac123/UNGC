@@ -19,13 +19,15 @@ class Role < ActiveRecord::Base
   default_scope :order => 'roles.position, roles.initiative_id, roles.name'
   
   FILTERS = {
-    :ceo                      => 3,
-    :contact_point            => 4,
-    :general_contact          => 9,
-    :financial_contact        => 2,
-    :network_focal_point      => 5,
-    :network_representative   => 12,
-    :network_report_recipient => 13
+    :ceo                       => 3,
+    :contact_point             => 4,
+    :general_contact           => 9,
+    :financial_contact         => 2,
+    :website_editor            => 15,
+    :network_focal_point       => 5,
+    :network_representative    => 12,
+    :network_report_recipient  => 13,
+    :network_regional_manager  => 14
   }
   
   named_scope :visible_to, lambda { |user|
@@ -36,6 +38,11 @@ class Role < ActiveRecord::Base
       # if the organization signed an initiative, then add the initiative's role, if available
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
+      
+    elsif user.user_type == Contact::TYPE_UNGC
+      roles_ids = [Role.ceo, Role.contact_point, Role.network_regional_manager, Role.website_editor].collect(&:id)
+      { :conditions => ['id in (?)', roles_ids.flatten] }
+      
     elsif user.user_type == Contact::TYPE_NETWORK
       roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
@@ -59,6 +66,10 @@ class Role < ActiveRecord::Base
   def self.network_report_recipient
     find :first, :conditions => ["old_id=?", FILTERS[:network_report_recipient]]
   end  
+
+  def self.network_regional_manager
+    find :first, :conditions => ["old_id=?", FILTERS[:network_regional_manager]]
+  end  
   
   def self.ceo
     find :first, :conditions => ["old_id=?", FILTERS[:ceo]]
@@ -76,7 +87,11 @@ class Role < ActiveRecord::Base
     find :first, :conditions => ["old_id=?", FILTERS[:financial_contact]]
   end
   
+  def self.website_editor
+    find :first, :conditions => ["old_id=?", FILTERS[:website_editor]]
+  end
+  
   def self.login_roles
-    [Role.contact_point, Role.network_report_recipient]
+    [Role.contact_point, Role.network_report_recipient, Role.network_focal_point]
   end
 end
