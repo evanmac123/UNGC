@@ -1,0 +1,2 @@
+#!/bin/sh
+cd /srv/unglobalcompact/current && ./script/runner -e production "CopReminder.new.notify_all"
