@@ -109,12 +109,7 @@ class ActiveSupport::TestCase
                                        :email           => "ceo@example.com", 
                                        :role_ids        => [Role.ceo.id])                                        
   end
-  
-  def create_staff_user
-    create_ungc_organization_and_user
-    return @staff_user
-  end
-  
+    
   def create_financial_contact
     @financial_contact = create_contact(:organization_id => @organization.id,
                                         :role_ids        => [Role.financial_contact.id])
@@ -129,6 +124,12 @@ class ActiveSupport::TestCase
                                  :email           => 'staff@un.org',
                                  :organization_id => @ungc.id)
   end
+  
+  def create_staff_user
+    create_ungc_organization_and_user
+    return @staff_user
+  end
+  
   
   def create_expelled_organization
     create_organization_and_user
@@ -153,6 +154,7 @@ class ActiveSupport::TestCase
     create_role(:name => 'General Contact', :description => "value", :old_id => 9)
     create_role(:name => 'Financial Contact', :description => "value", :old_id => 2)
     create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
+    create_role(:name => 'Website Editor', :description => "value", :old_id => 15)
   end
   
   def create_cop(organization_id)

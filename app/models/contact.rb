@@ -194,7 +194,7 @@ class Contact < ActiveRecord::Base
   def is?(role)
     roles.include? role
   end
-  
+    
   def encrypt_password
     return if password.blank?
     self.hashed_password = Contact.encrypted_password(password)

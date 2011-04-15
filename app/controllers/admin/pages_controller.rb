@@ -81,7 +81,7 @@ class Admin::PagesController < AdminController
   end
   
   def edit
-    @show_approve_button = true
+    @show_approve_button = true if current_user.is? Role.website_editor
     @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js' 
     if request.xhr?
       render :json => {

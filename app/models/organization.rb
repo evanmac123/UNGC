@@ -422,7 +422,7 @@ class Organization < ActiveRecord::Base
   end
   
   def can_submit_cop?
-    if active? || delisted_on.blank?
+    if active? || noncommunicating? || delisted_on.blank?
       return true
     end
     
@@ -488,7 +488,7 @@ class Organization < ActiveRecord::Base
       when COP_STATE_ACTIVE
         cop_due_on + 2.year unless cop_due_on.nil?
       else
-        ''
+        cop_due_on
     end
   end
   
