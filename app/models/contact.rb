@@ -127,12 +127,20 @@ class Contact < ActiveRecord::Base
     }
   }
   
+  named_scope :network_regional_managers, lambda {
+    roles = Role.network_regional_manager
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", roles]
+    }
+  }
+  
   named_scope :for_country, lambda { |country|
     {:conditions => {:country_id => country.id} }
   }
   
   named_scope :with_login, {:conditions => 'login IS NOT NULL'}
-  
+    
   define_index do
     indexes first_name, last_name, middle_name, email
     set_property :enable_star => true
@@ -205,6 +213,7 @@ class Contact < ActiveRecord::Base
   end
 
   private
+  
     def keep_at_least_one_ceo
       if self.is?(Role.ceo) && self.organization.contacts.ceos.count <= 1
         errors.add_to_base "cannot delete CEO, at least 1 CEO should be kept at all times"
