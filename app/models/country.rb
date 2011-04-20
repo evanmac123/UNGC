@@ -23,6 +23,8 @@ class Country < ActiveRecord::Base
   
   default_scope :order => 'name'
   
+  REGIONS = ['Africa', 'Americas', 'Asia', 'Australasia', 'Europe', 'MENA']
+    
   named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
   
   def self.regions
@@ -32,7 +34,11 @@ class Country < ActiveRecord::Base
   end
   
   def local_network_name
-    self.local_network.try(:name) || 'None'    
+    self.local_network.try(:name) || ''    
+  end
+
+  def regional_manager_name
+    self.manager.try(:name) || ''
   end
   
 end
