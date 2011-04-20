@@ -1,10 +1,12 @@
-%h2 Listing local networks
-= link_to 'Add Local Network', new_admin_local_network_path, :class => "new_large", :id => "new_local_network"
+%h2 Local Networks
+
+%ul{:class => "tools inline"}
+  %li= link_to 'New Local Network', new_admin_local_network_path, :class => "new_large", :id => "new_local_network"
+  %li= link_to 'Countries', admin_countries_path, :class => 'web_preview_large', :title => 'Listing of all countries'
 
 %table.dashboard_table#local_networks_table
   %tr
-    %th.last_updated Last updated on
     %th.title Name
-    %th.status State
+    %th.status Stage
     %th.actions Actions
   = render @local_networks

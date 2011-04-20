@@ -4,6 +4,10 @@
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
+    %li <a href="#network_management">Network Management</a>
+    %li <a href="#events">Events & Activities</a>
+    %li <a href="#integrity">Integrity Measures</a>
+    %li <a href="#awards">Awards</a>
 
   #overview.tab_content
     %dl.left_column
@@ -15,12 +19,24 @@
 
     %dl.left_column
       %h3 Contacts
-      %dt.first Network Manager
-      %dd.first Jonas Haertle
-      %dt Network Representative
-      %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
+      %dt.first Network Representative
+      %dd.first= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
       %dt Network Report Recipient
       %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_report_recipients
 
   #contacts.tab_content
-    =@local_network.contacts.count
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New contact', new_admin_organization_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
+    
+  #network_management.tab_content
+    %h3 Network Management
+  
+  #events.tab_content
+    %h3 Events & Activities
+
+  #integrity.tab_content
+    %h3 Integrity Measures
+
+  #awards.tab_content
+    %h3 Awards
