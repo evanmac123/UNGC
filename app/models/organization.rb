@@ -121,7 +121,7 @@ class Organization < ActiveRecord::Base
   
   COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
-  
+    
   # revenue and corresponding pledge amount
   REVENUE = {
     'less than 25 million' => 500,
@@ -273,7 +273,7 @@ class Organization < ActiveRecord::Base
     statuses = [:noncommunicating, :active, :delisted]
     participants.active.with_cop_status(statuses)
   end
-
+  
   def company?
     organization_type.try(:name) == 'Company' ||
     organization_type.try(:name) == 'SME'

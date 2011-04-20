@@ -122,7 +122,7 @@ class ActiveSupport::TestCase
     @staff_user = create_contact(:login           => 'staff',
                                  :password        => 'password',
                                  :email           => 'staff@un.org',
-                                 :organization_id => @ungc.id)
+                                 :organization_id => @ungc.id)                            
   end
   
   def create_staff_user
