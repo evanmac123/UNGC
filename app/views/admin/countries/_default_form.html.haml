@@ -2,6 +2,7 @@
 %fieldset
   %ol
     = default_form.text_field :name
-    = default_form.text_field :region
     = default_form.text_field :code, :label => 'ISO Code'
+    = default_form.select :region, Country::REGIONS, {:include_blank => true}, :label => 'Region'
     = default_form.collection_select :local_network_id, LocalNetwork.all, :id, :name, {:include_blank => true}, {:label => 'Local Network'}
+    = default_form.collection_select :manager_id, Contact.network_regional_managers, :id, :name, {:include_blank => true}, {:label => 'Regional Network Manager'}
