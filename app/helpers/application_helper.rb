@@ -51,8 +51,4 @@ module ApplicationHelper
     content_tag :li, link, li_options
   end
   
-  def current_year
-    Time.now.strftime('%Y').to_i
-  end
-
 end

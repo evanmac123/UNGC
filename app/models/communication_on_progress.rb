@@ -58,7 +58,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   include VisibleTo
   include ApprovalWorkflow
 
-  validates_presence_of :organization_id
+  validates_presence_of :organization_id, :title
   validates_associated :cop_links
   validates_associated :cop_files
   
@@ -313,12 +313,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
     
   def set_title
-     if is_grace_letter?
-       self.title = "Grace Letter"
-     else
-       self.title = "#{self.ends_on.year} Communication on Progress"
-     end
-   end
+    self.title = "Grace Letter" if is_grace_letter?
+  end
   
   # javascript will normally hide the link field if it's blank,
   # but IE7 was not cooperating, so we double check

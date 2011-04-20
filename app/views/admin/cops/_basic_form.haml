@@ -15,6 +15,9 @@
         %legend
           %span Completing your COP
         %p{:class => 'question_text'}Please submit your responses in the open text boxes provided. Your answers will be saved as you click on the different issue area tabs. The UN Global Compact Office recommends preparing your responses in advance. Please make sure to complete and submit your COP before exiting the application.
+
+    = render :partial => 'cop_title_field', :locals => {:form => form, :current_year => current_year}
+
     %fieldset
       %fieldset
         %legend
