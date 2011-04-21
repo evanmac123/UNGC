@@ -61,6 +61,8 @@
             If you cannot confirm, the COP will be submitted but the company will not qualify for the GC Advanced level. However, the results of the self assessment will be made public on the Global Compact website, alongside the COP, to improve the searchability and analysis of the COPs and underlying performance.
             %em Note: If you do not want the results to be publicly displayed, please use the regular COP submission process.        
 
+    = render :partial => 'cop_title_field', :locals => {:form => form, :current_year => current_year}
+
     %fieldset
       %fieldset
         %legend

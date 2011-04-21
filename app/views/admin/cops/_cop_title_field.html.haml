@@ -1,0 +1,6 @@
+%fieldset
+  %fieldset
+    %legend
+      %span Communication Title
+    %p{:class => 'question_text'} Please enter a short title for your submission.
+    %p= form.text_field :title, :class => 'cop_answer', :value => "#{current_year} Communication on Progress", :style => 'margin: 0px;'

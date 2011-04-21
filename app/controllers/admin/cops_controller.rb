@@ -4,6 +4,7 @@ class Admin::CopsController < AdminController
   before_filter :no_unapproved_organizations_access
   before_filter :set_session_template, :only => :new
   before_filter :only_editable_cops_go_to_edit, :only => :edit
+  helper 'datetime'
   
   def introduction
     # non-business organizations can submit a COP, but they do not get a choice, so redirect them to the General (intermediate) COP
