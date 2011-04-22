@@ -19,10 +19,6 @@
 #  state                     :string(255)
 #  postal_code               :string(255)
 #  country_id                :integer(4)
-#  ceo                       :boolean(1)
-#  contact_point             :boolean(1)
-#  newsletter                :boolean(1)
-#  advisory_council          :boolean(1)
 #  login                     :string(255)
 #  address_more              :string(255)
 #  created_at                :datetime
