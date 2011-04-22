@@ -133,11 +133,6 @@ communication_on_progresses.start_month - using starts_on
 communication_on_progresses.end_year - using ends_on
 communication_on_progresses.end_month - using ends_on
 
-contacts.advisory_council - legacy column was never used
-contacts.ceo - roles replace the use of this field
-contacts.contact_point - roles replace the use of this field
-contacts.newsletter - roles replace the use of this field
-
 country.manager_id - used in transition, not used anymore
 
 logo_requests.status - using state
