@@ -18,6 +18,10 @@ class Admin::ContactsController < AdminController
     end
   end
 
+  def edit
+     @needs_to_update = params[:update]
+  end
+
   def update
     if @contact.update_attributes(params[:contact])
       flash[:notice] = 'Contact was successfully updated.'

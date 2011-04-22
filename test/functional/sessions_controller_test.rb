@@ -11,7 +11,7 @@ class SessionsControllerTest < ActionController::TestCase
     assert session[:user_id]
     assert_response :redirect
   end
-
+  
   def test_should_fail_login_and_not_redirect
     post :create, :login => 'quentin', :password => 'bad password'
     assert_nil session[:user_id]
@@ -64,6 +64,21 @@ class SessionsControllerTest < ActionController::TestCase
     get :new
     assert !@controller.send(:logged_in?)
   end
+  
+  def test_should_redirect_user_to_edit_if_not_updated_in_over_six_months
+    @contact.update_attribute :last_login_at, 8.months.ago
+    post :create, :login => 'quentin', :password => 'monkey'
+    assert session[:user_id]
+    assert_redirected_to edit_admin_organization_contact_path(@contact.organization.id, @contact, {:update => true})
+  end
+
+  def test_should_redirect_user_dashboard_if_updated_within_one_month
+    @contact.update_attribute :last_login_at, 5.months.ago
+    post :create, :login => 'quentin', :password => 'monkey'
+    assert session[:user_id]
+    assert_redirected_to dashboard_url
+  end
+  
 
   protected
     def create_test_users
@@ -75,7 +90,7 @@ class SessionsControllerTest < ActionController::TestCase
                                 :email => 'user@example.com',
                                 :remember_token_expires_at => 1.days.from_now.to_s,
                                 :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb',
-                                :role_ids => [Role.contact_point.id])
+                                :role_ids => [Role.contact_point.id])      
     end
   
     def auth_token(token)

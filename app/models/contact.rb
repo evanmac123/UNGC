@@ -33,6 +33,7 @@
 #  hashed_password           :string(255)
 #  password                  :string(255)
 #  reset_password_token      :string(255)
+#  last_login_at             :datetime
 #
 
 require 'digest/sha1'
@@ -44,6 +45,9 @@ class Contact < ActiveRecord::Base
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
   TYPE_NETWORK = :network
+  
+  # if they haven't logged in then we redirect them to their edit page to confirm their contact information
+  MONTHS_SINCE_LOGIN = 6
 
   validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
   validates_presence_of :login, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
@@ -161,6 +165,10 @@ class Contact < ActiveRecord::Base
     (u && u.hashed_password == encrypted_password(password)) ? u : nil
   end
   
+  def set_last_login_at
+    self.update_attribute :last_login_at, Time.now
+  end
+  
   def from_ungc?
     organization.name == DEFAULTS[:ungc_organization_name]
   end
@@ -202,6 +210,13 @@ class Contact < ActiveRecord::Base
 
   def refresh_reset_password_token!
     self.update_attribute :reset_password_token, Digest::SHA1.hexdigest([login, Time.now].join)
+  end
+  
+  def needs_to_update_contact_info
+    unless from_ungc?
+      last_update = last_login_at || updated_at
+      last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
+    end
   end
 
   private
