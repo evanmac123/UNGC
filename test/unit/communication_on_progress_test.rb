@@ -118,7 +118,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_organization_and_user('approved')
       @organization.communication_late
       @old_cop_due_on = @organization.cop_due_on
-      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop = pending_review(@organization, format: 'grace_letter', :title => 'Grace Letter')
       @cop.type = 'grace'
       @cop.save
       @cop.approve!
@@ -128,7 +128,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert @cop.is_grace_letter?
     end
 
-    should "have is_grace_letter? return true" do
+    should "have the title 'Grace Letter'" do
       assert_equal @cop.title, 'Grace Letter'
     end
     
