@@ -422,7 +422,7 @@ class Organization < ActiveRecord::Base
   end
   
   def can_submit_cop?
-    if active? || delisted_on.blank?
+    if active? || noncommunicating? || delisted_on.blank?
       return true
     end
     

@@ -191,8 +191,18 @@ class OrganizationTest < ActiveSupport::TestCase
         should "be able to submit a COP" do
          assert @organization.can_submit_cop?
         end
-       
       end
+      
+      context "and they are Non-Communicating" do
+        setup do
+         @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
+        end
+       
+        should "be able to submit a COP" do
+         assert @organization.can_submit_cop?
+        end
+      end
+      
      
      end
   
