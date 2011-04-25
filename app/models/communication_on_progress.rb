@@ -77,7 +77,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :policy_exempted
   attr_accessor :type
   
-  before_create  :set_title
   before_create  :check_links
   before_save    :set_cop_defaults
   before_save    :can_be_edited?
@@ -311,11 +310,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       end
     end
   end
-    
-  def set_title
-    self.title = "Grace Letter" if is_grace_letter?
-  end
-  
+      
   # javascript will normally hide the link field if it's blank,
   # but IE7 was not cooperating, so we double check
   def check_links
