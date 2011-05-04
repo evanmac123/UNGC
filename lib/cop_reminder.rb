@@ -24,7 +24,6 @@ class CopReminder
   def notify_cop_due_today
     log "Running notify_cop_due_today"
     notify_cop_due_on Organization.businesses.participants.with_cop_status(:active).with_cop_due_on(Date.today), :deliver_cop_due_today
-    notify_cop_due_on Organization.businesses.participants.with_cop_status(:noncommunicating).with_cop_due_on(Date.today), :deliver_delisting_today
   end
   
   private

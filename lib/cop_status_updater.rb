@@ -1,5 +1,12 @@
-class CopStatusUpdater
+class CopStatusUpdater  
+  
   class << self
+
+    def log (method="info", string)
+      @logger = Logger.new(File.join(RAILS_ROOT, 'log', 'cop_reminder.log'))
+      @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
+    end
+            
     def update_all
       move_active_organizations_to_noncommunicating
       move_noncommunicating_organizations_to_delisted
@@ -11,12 +18,14 @@ class CopStatusUpdater
     end
 
     def move_noncommunicating_organizations_to_delisted
+      log "Running move_noncommunicating_organizations_to_delisted"
       organizations = Organization.businesses.participants.active.about_to_become_delisted
       organizations.each do |organization|
         organization.delist
+        log "Delist and email #{organization.id}:#{organization.name}"
         CopMailer.deliver_delisting_today(organization)
-        CopMailer.deliver_delisting_today_notify_network(organization)
       end
     end
   end
+      
 end
