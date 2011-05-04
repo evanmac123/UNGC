@@ -48,10 +48,11 @@ class Contact < ActiveRecord::Base
   validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
   validates_presence_of :login, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
-  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true
+  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true, :message => "with the same username already exists"
+  validates_uniqueness_of :email, :on => :create 
   validates_format_of   :email,
                         :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
-                        :message => "is not a valid email address"  
+                        :message => "is not a valid email address"
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
