@@ -47,6 +47,7 @@ class AllCops < SimpleReport
       'support_statement_explain_benefits',
       'missing_principle_explained',
       'is_shared_with_stakeholders',
+      'method_shared',
       'starts_on',
       'ends_on',
       'differentiation'
@@ -67,7 +68,7 @@ class AllCops < SimpleReport
     record.url1,
     record.url2,
     record.url3,
-    record.contact_name,
+    record.contact_name.present? ? record.contact_name.gsub(/\r\n?/, ' ') : nil,
     record.include_ceo_letter ? 1:0,
     record.include_actions ? 1:0,
     record.include_measurement ? 1:0,
@@ -95,6 +96,7 @@ class AllCops < SimpleReport
     record.support_statement_explain_benefits ? 1:0,
     record.missing_principle_explained ? 1:0,
     record.is_shared_with_stakeholders ? 1:0,
+    record.method_shared,
     record.starts_on,
     record.ends_on,
     record.differentation_level
