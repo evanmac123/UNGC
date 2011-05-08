@@ -104,6 +104,11 @@ class CommunicationOnProgress < ActiveRecord::Base
       :order => 'ends_on DESC'
   }
   
+  named_scope :advanced, {
+    :include => [ {:organization => [:country, :sector]} ],
+    :conditions => [ "differentiation = ?", 'advanced' ]
+  }
+  
   named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
   
   # feed contains daily COP submissions, without grace letters
@@ -395,7 +400,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def differentation_level_name
-    differentation_level.to_s.try(:humanize)
+    differentiation.to_s.try(:humanize)
   end
   
   def differentiation_description
