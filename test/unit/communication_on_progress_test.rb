@@ -150,6 +150,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
      
     should "not be evaluated for differentiation" do
       assert_equal '', @cop.differentation_level
+      assert_equal '', @cop.differentiation
     end
       
   end
@@ -321,7 +322,13 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
       @cop.type = 'advanced'
-      @cop.save
+      # 6 required criteria to be considered Active
+      @cop.update_attribute :include_continued_support_statement, true
+      @cop.update_attribute :include_measurement, true
+      @cop.update_attribute :references_labour, true
+      @cop.update_attribute :references_human_rights, true
+      @cop.update_attribute :references_anti_corruption, true
+      @cop.update_attribute :references_environment, true
     end
 
     should "have default attributes set" do
@@ -339,18 +346,20 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert @cop.is_test_phase_advanced_programme?
     end
     
-    should "be considered intermediate if all criteria are met, and advanced if they self-declare " do
-      @cop.update_attribute :include_continued_support_statement, true
-      @cop.update_attribute :include_measurement, true
-      @cop.update_attribute :references_labour, true
-      @cop.update_attribute :references_human_rights, true
-      @cop.update_attribute :references_anti_corruption, true
-      @cop.update_attribute :references_environment, true
-      @cop.update_attribute :method_shared, 'web_based'
-      assert @cop.is_intermediate_level?
-      # based on response to Yes/No quesition in COP submission
+    should "be considered Learner if they are missing one of the 6 criteria" do
+      @cop.update_attribute :references_environment, false
+      assert_equal 'learner', @cop.differentiation      
+    end
+    
+    should "be considered Active if all intermediate criteria are met" do
+      assert_equal true, @cop.is_intermediate_level?
+      assert_equal 'active', @cop.differentiation
+    end
+    
+    should "be considered advanced if they self-declare" do
       @cop.update_attribute :meets_advanced_criteria, true      
-      assert @cop.is_advanced_level?
+      assert_equal true, @cop.is_advanced_level?
+      assert_equal 'advanced', @cop.differentiation
     end
     
   end
