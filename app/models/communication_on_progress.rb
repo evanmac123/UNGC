@@ -109,7 +109,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     :conditions => [ "differentiation = ?", 'advanced' ]
   }
   
-  named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
+  named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
   
   # feed contains daily COP submissions, without grace letters
   named_scope :for_feed, { 
