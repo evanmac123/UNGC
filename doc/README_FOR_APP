@@ -32,7 +32,10 @@ rake gems:install
 git submodule init
 git submodule update
 
-Secondly, the data from the current production database can be imported by taking a dump of the production database using the mysqldump command.  You'll need to get access to the machine running the production application.  This can be done by SSHing to rails@unglobalcompact.railsmachina.com.  You will need to get your public SSH key added to the ~/.ssh/authorized_keys file for the rails user on unglobalcompact.railsmachina.com.  Once you have access use the mysqldump command to get a snapshot of the current production database.  Copy this file to your machine using scp. 
+Secondly, the data from the current production database can be imported by taking a dump of the production database using the mysqldump command. You'll need to get access to the machine running the production application. This can be done by SSHing to rails@unglobalcompact.railsmachina.com. You will need to get your public SSH key added to the ~/.ssh/authorized_keys file for the rails user on unglobalcompact.railsmachina.com. Once you have access use the mysqldump command to get a snapshot of the current production database.  Copy this file to your machine using scp. 
+
+Make sure your database is using the correct encoding:
+  mysql -u root -e CREATE DATABASE unglobalcompact CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 Once you have the database dump import it into your development database using:
   mysql -D <database> < production_dumpfile.sql
