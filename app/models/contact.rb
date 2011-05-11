@@ -130,9 +130,7 @@ class Contact < ActiveRecord::Base
   named_scope :for_country, lambda { |country|
     {:conditions => {:country_id => country.id} }
   }
-  
-  named_scope :with_login, {:conditions => 'login IS NOT NULL'}
-  
+    
   define_index do
     indexes first_name, last_name, middle_name, email
     set_property :enable_star => true
