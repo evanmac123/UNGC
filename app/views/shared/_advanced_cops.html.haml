@@ -17,13 +17,13 @@
       %th{:class => 'sort'} Participant
       %th{:class => 'sort'} Sector
       %th{:class => 'sort'} Country
-      %th{:class => 'sort'} Submitted
+      %th{:class => 'sort'} Year
   %tbody
     - for cop in paged_cops(:advanced)
       %tr
         %td{:title => cop.organization_name}= truncate(cop.organization_name, :length => 40)
         %td{:title => cop.sector_name}= truncate(cop.sector_name, :length => 30)
         %td{:title => cop.country_name}= truncate(cop.country_name, :length => 15)
-        %td= link_to yyyy_mm_dd(cop.created_at), cop_link(cop, :advanced)
+        %td= link_to cop.created_at.year, cop_link(cop, :advanced)
 
 = paginate_cops(:advanced, {:anchor => 'paged_results'})
