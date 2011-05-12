@@ -4,6 +4,7 @@ universal: &universal
   search_results_per_page: 25
   case_story_path: '/COP/Case_Story/case_search.html'
   cop_advanced_path: '/COP/analyzing_progress/advanced_cops.html'
+  cop_learner_path: '/COP/analyzing_progress/learner_cops.html'
   cop_expelled_path: '/COP/analyzing_progress/expelled_participants.html'
   cop_inactives_path: '/COP/inactives.html'
   cop_noncommunicating_path: '/COP/analyzing_progress/non_communicating.html'

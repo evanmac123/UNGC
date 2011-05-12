@@ -108,6 +108,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     :include => [ {:organization => [:country, :sector]} ],
     :conditions => [ "differentiation = ?", 'advanced' ]
   }
+
+  named_scope :learner, {
+    :include => [ {:organization => [:country, :sector]} ],
+    :conditions => [ "differentiation = ?", 'learner' ]
+  }
   
   named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
   
