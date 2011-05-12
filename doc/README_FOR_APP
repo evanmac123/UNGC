@@ -1,4 +1,3 @@
-cap staging deploy
 United Nations Global Compact
 =============================
 
@@ -81,7 +80,7 @@ press 'c' to continue execution
 Controlling Sphinx
 ==================
 
-rake ts:rebuild
+rake ts:rebuild RAILS_ENV=production
 rake ts:start
 
 Deploy with Capistrano
