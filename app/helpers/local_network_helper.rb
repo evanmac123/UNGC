@@ -91,7 +91,7 @@ module LocalNetworkHelper
 
   def cop_submitted_days_ago(days)
     cops = CommunicationOnProgress.approved.find(:all,
-      :conditions => ['updated_at BETWEEN (?) AND (?) AND organization_id in (?)',
+      :conditions => ['created_at BETWEEN (?) AND (?) AND organization_id in (?)',
         (Date.today - days.day).to_s, (Date.today).to_s, organization_ids]
     )
   end
