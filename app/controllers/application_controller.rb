@@ -72,6 +72,8 @@ class ApplicationController < ActionController::Base
         DEFAULTS[:cop_learner_path]
       when 'expelled'
         DEFAULTS[:cop_expelled_path]
+      when 'lead'
+        DEFAULTS[:participant_lead_path]
       else
         default_navigation
       end
