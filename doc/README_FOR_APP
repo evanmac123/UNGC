@@ -107,8 +107,6 @@ cop.cop_links.create(:url => 'http://www.ahkbrasil.com/', :attachment_type => 'c
 
 cop.cop_files.create(:attachment => File.new('/home/rails/ungc/uploaded/cops/COP.pdf'), :attachment_type => CopFile::TYPES[:cop], :language_id => 4)
 
-
-
 Adding a new Report
 ===================
 
@@ -118,6 +116,23 @@ Follow these steps while referring to existing reports:
 2) Add corresponding method to controllers/admin/reports_controller.rb
 3) Optional: add a view for your report in app/views/admin/reports
 4) Add the report to the reports index screen app/views/admin/report/index.html.haml
+
+Adding a new section banner
+===========================
+
+1) Save banner as PNG from Illustrator (use 10% opacity for logo when using blue background)
+2) Note filename and add body class to application.css
+3) Ex: body.environment #inner_head { background: url(/images/banner_environment.png); }
+4) For subsections, the class will be added after the previous classes in the body tag, so in the stylesheet, add the new class after the main section so it overrides the previous body class
+
+<body class='development editable_page environment environment_climate'>
+
+Example:
+
+body.environment #inner_head { background: url(/images/banner_environment.png); }
+body.environment_climate #inner_head { background: url(/images/banner_environment_climate.png); }
+
+5) Set page.html_code to the body class for the section you want the banner to appear in
 
 Fields to delete
 ================
