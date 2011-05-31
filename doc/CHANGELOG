@@ -1,3 +1,12 @@
+h1. 2011-05-12
+
+* list Advanced COPs in /COP/analyzing_progress/advanced_cops.html
+
+h1. 2011-05-10
+
+* now saving differentiation level in COP record, instead of calculating
+* the requirements could change, so it's better to save the current level for each COP
+
 h1. 2011-04-12
 
 * add new roles for Website Editor (for controlling publishing rights) and Local Network Manager
