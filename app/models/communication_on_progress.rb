@@ -52,6 +52,7 @@
 #  starts_on                           :date
 #  ends_on                             :date
 #  method_shared                       :string(255)
+#  differentiation                     :string(255)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
