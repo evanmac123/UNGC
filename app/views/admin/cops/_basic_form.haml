@@ -73,7 +73,7 @@
               = value
     
     
-    = submit_tag 'Submit', :class => "button", :id => "finish"
+    = render :partial => 'submit_cop'
 
 = organization_javascript_vars @organization
 = javascript_tag "var work_in_progress = false;"
