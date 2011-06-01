@@ -1,3 +1,8 @@
+h1. 2011-06-01
+
+* save @contact.contact_info in @cop.contact_name
+* Normally asked for all Advanced COPs, but we save the information for other COPs
+
 h1. 2011-05-12
 
 * list Advanced COPs in /COP/analyzing_progress/advanced_cops.html

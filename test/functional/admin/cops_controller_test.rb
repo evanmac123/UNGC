@@ -135,6 +135,10 @@ class Admin::CopsControllerTest < ActionController::TestCase
        assert_equal 'basic', assigns(:communication_on_progress).format
     end
     
+    should "make sure the contact information has been saved" do
+      assert_equal @organization_user.contact_info, assigns(:communication_on_progress).contact_name
+    end
+    
   end
   
   context "given an existing cop" do

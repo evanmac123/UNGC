@@ -153,6 +153,10 @@ class Contact < ActiveRecord::Base
     "#{name} <#{email}>" 
   end
 
+  def contact_info
+    "#{full_name_with_title}\n#{job_title}\n#{email}\n#{phone}"
+  end
+
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
     u = find_by_login(login.downcase)
