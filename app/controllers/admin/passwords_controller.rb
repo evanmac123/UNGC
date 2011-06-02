@@ -3,8 +3,8 @@ class Admin::PasswordsController < ApplicationController
   helper 'Admin'
   
   def create
-    @contact = Contact.with_login.find_by_email params[:email] unless params[:email].blank?
-    if @contact
+    @contact = Contact.find_by_email params[:email] unless params[:email].blank?
+    if @contact && @contact.login.present?
       @contact.refresh_reset_password_token!
       ContactMailer.deliver_reset_password(@contact)
       flash[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'

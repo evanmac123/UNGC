@@ -70,7 +70,7 @@
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://company.com'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
   
-    = submit_tag 'Submit', :class => "button", :id => "finish"
+    = render :partial => 'submit_cop'
 
 = organization_javascript_vars @organization
 = javascript_tag "var work_in_progress = false;"

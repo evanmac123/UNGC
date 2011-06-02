@@ -131,9 +131,7 @@ class Contact < ActiveRecord::Base
   named_scope :for_country, lambda { |country|
     {:conditions => {:country_id => country.id} }
   }
-  
-  named_scope :with_login, {:conditions => 'login IS NOT NULL'}
-  
+    
   define_index do
     indexes first_name, last_name, middle_name, email
     set_property :enable_star => true
@@ -154,6 +152,10 @@ class Contact < ActiveRecord::Base
   
   def email_recipient
     "#{name} <#{email}>" 
+  end
+
+  def contact_info
+    "#{full_name_with_title}\n#{job_title}\n#{email}\n#{phone}"
   end
 
   def self.authenticate(login, password)

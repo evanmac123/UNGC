@@ -66,6 +66,10 @@ class ApplicationController < ActionController::Base
         DEFAULTS[:cop_noncommunicating_path]
       when 'notable'
         DEFAULTS[:cop_notable_path]
+      when 'advanced'
+        DEFAULTS[:cop_advanced_path]
+      when 'learner'
+        DEFAULTS[:cop_learner_path]
       when 'expelled'
         DEFAULTS[:cop_expelled_path]
       else

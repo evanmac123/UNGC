@@ -242,7 +242,7 @@ class Organization < ActiveRecord::Base
   }
 
   named_scope :about_to_become_delisted, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
+    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date] }
   }
   
   def set_replied_to(current_user)

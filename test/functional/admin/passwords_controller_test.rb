@@ -28,6 +28,28 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
         assert_not_nil @organization_user.reload.reset_password_token
       end
     end
+            
+  end
+  
+  context "given a user with no login information" do      
+    setup do
+      create_organization_and_ceo
+      @financial_contact = create_contact(:organization_id => @organization.id,
+                                          :email           => 'finance@example.com',
+                                          :role_ids        => [Role.financial_contact.id])
+      @financial_contact.roles.delete(Role.contact_point)
+      @financial_contact.login, @financial_contact.password = nil
+      @financial_contact.save
+    end
+    
+    should "not get an email even when posting a valid email address" do
+      assert_emails(0) do
+        post :create, :email => @financial_contact.email
+        assert_response :success
+        assert_not_nil flash[:error]
+      end
+    end
+
     
     context "with a token" do
       setup do

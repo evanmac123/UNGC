@@ -52,6 +52,7 @@
 #  starts_on                           :date
 #  ends_on                             :date
 #  method_shared                       :string(255)
+#  differentiation                     :string(255)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
@@ -79,6 +80,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   before_create  :check_links
   before_save    :set_cop_defaults
+  before_save    :set_differentiation_level
   before_save    :can_be_edited?
   after_create   :draft_or_submit!
   before_destroy :delete_associated_attributes
@@ -97,16 +99,23 @@ class CommunicationOnProgress < ActiveRecord::Base
   named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
   named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
   
-  named_scope :for_filter, lambda { |filter_type|
-    score_to_find = CopScore.notable if filter_type == :notable
-    {
+  named_scope :notable, {
       :include => [:score, {:organization => [:country]}],
-      :conditions => [ "cop_score_id = ?", score_to_find.try(:id) ],
+      :conditions => [ "cop_score_id = ?", CopScore.notable.try(:id) ],
       :order => 'ends_on DESC'
-    }
   }
   
-  named_scope :by_year, { :order => "end_year DESC, sectors.name ASC, organizations.name ASC" }
+  named_scope :advanced, {
+    :include => [ {:organization => [:country, :sector]} ],
+    :conditions => [ "differentiation = ?", 'advanced' ]
+  }
+
+  named_scope :learner, {
+    :include => [ {:organization => [:country, :sector]} ],
+    :conditions => [ "differentiation = ?", 'learner' ]
+  }
+  
+  named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
   
   # feed contains daily COP submissions, without grace letters
   named_scope :for_feed, { 
@@ -199,7 +208,7 @@ class CommunicationOnProgress < ActiveRecord::Base
         self.format = 'basic'
       when 'advanced'
         self.additional_questions = true
-    end  
+    end
   end
 
   def can_be_edited?
@@ -233,7 +242,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   
   # Official launch of Differentiation Programme was January 28, 2011
   def is_advanced_programme?
-    additional_questions && created_at >= START_DATE_OF_DIFFERENTIATION
+    if additional_questions
+      new_record? || created_at > START_DATE_OF_DIFFERENTIATION
+    end    
   end
 
   def is_differentiation_program?
@@ -359,14 +370,17 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     [answer_count.first.answer_count, question_count.first.question_count]
   end
-  
-  # as defined in COP Policy, these are the minimum requirements for an acceptable COP
-  # only those that submitted after the start of the differentiation program can be counted
-  
+    
   def evaluated_for_differentiation?
-    created_at > START_DATE_OF_DIFFERENTIATION && !is_grace_letter?
+    if is_grace_letter?
+      false
+    else
+      new_record? || created_at > START_DATE_OF_DIFFERENTIATION
+    end
   end
   
+  # as defined in COP Policy, these are the minimum requirements for an acceptable (Active Level) COP
+  # only those that submitted after the start of the differentiation program can be counted
   def is_intermediate_level?
     evaluated_for_differentiation? &&
     include_continued_support_statement &&
@@ -392,11 +406,16 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def differentation_level_name
-    differentation_level.to_s.try(:humanize)
+    differentiation.to_s.try(:humanize)
   end
   
   def differentiation_description
-    LEVEL_DESCRIPTION[self.differentation_level]
+    LEVEL_DESCRIPTION[differentation_level]
+  end
+  
+  # record level in case the criteria changes in the future
+  def set_differentiation_level
+    self.differentiation = differentation_level.try(:to_s)
   end
   
   private

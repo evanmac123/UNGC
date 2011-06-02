@@ -117,7 +117,7 @@
     %tbody
       - for cop in @participant.communication_on_progresses.new_policy.approved do
         %tr{:title => cop.title}
-          %td= link_to cop.title, cop_link(cop, params[:navigation])
+          %td= link_to truncate(cop.title, :length => 30), cop_link(cop, params[:navigation])
           %td.center= check_if cop.include_continued_support_statement?
           %td.center== #{cop.score} / 4
           %td.center= check_if cop.include_measurement?
@@ -142,7 +142,7 @@
         %tr{:title => cop.title}
           %td.center= yyyy_mm_dd cop.added_on
           %td.center= date_range cop
-          %td= link_to truncate(cop.title), cop_link(cop, params[:navigation])
+          %td= link_to truncate(cop.title, :length => 30), cop_link(cop, params[:navigation])
           %td.center= check_if cop.include_ceo_letter?
           %td.center= check_if cop.include_actions?
           %td.center= check_if cop.include_measurement?
