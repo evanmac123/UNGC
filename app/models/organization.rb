@@ -352,6 +352,10 @@ class Organization < ActiveRecord::Base
     string = string.gsub(/-+/, '-')
     string = CGI.escape(string)
   end
+
+  def rejected?
+    state == ApprovalWorkflow::STATE_REJECTED
+  end
   
   def noncommunicating?
     cop_state == COP_STATE_NONCOMMUNICATING
@@ -440,6 +444,7 @@ class Organization < ActiveRecord::Base
   
   def set_rejected_fields
     self.name = self.name + ' (rejected)'
+    self.rejected_on = Date.today
     self.save
   end
   

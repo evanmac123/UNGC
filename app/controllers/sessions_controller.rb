@@ -1,16 +1,22 @@
 class SessionsController < ApplicationController
   layout 'admin'
-  helper 'Admin'
+  helper 'Admin','datetime'
   before_filter :redirect_user_to_dashboard, :only => :new
   
   def create
     user = Contact.authenticate(params[:login], params[:password])
     if user
       self.current_user = user
-      new_cookie_flag = (params[:remember_me] == "1")
-      handle_remember_cookie! new_cookie_flag
-      redirect_back_or_default(dashboard_path)
-      flash[:notice] = "Welcome #{user.first_name}. You have been logged in."
+      
+      if user.from_rejected_organization?
+        logout_and_redirect_to_login(user)
+      else
+        new_cookie_flag = (params[:remember_me] == "1")
+        handle_remember_cookie! new_cookie_flag
+        redirect_back_or_default(dashboard_path)
+        flash[:notice] = "Welcome #{user.first_name}. You have been logged in."
+      end
+
     else
       note_failed_signin
       @login       = params[:login]
@@ -37,4 +43,12 @@ class SessionsController < ApplicationController
     def redirect_user_to_dashboard
       redirect_to dashboard_path if logged_in?
     end
+    
+    # Forward rejected applicants back to login
+    def logout_and_redirect_to_login(user)
+      logout_killing_session!
+      flash[:error] = "Sorry, your organization's application was rejected on #{user.organization.rejected_on.strftime('%e %B, %Y')} and can no longer be accessed."
+      redirect_to login_path
+    end
+    
 end
