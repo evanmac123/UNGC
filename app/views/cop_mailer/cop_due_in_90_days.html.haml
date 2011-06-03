@@ -12,7 +12,7 @@ To all Contact Points for
 %p== Note: All COPs must be submitted online by #{link_to 'logging into the Global Compact website', dashboard_url}. If you do not have your login information, you may #{link_to 'retrieve your username and select a new password', new_password_url}.
 
 %p
-  == If you have further questions on the COP policy or tools, please consult the FAQs or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
+  == If you have further questions on the COP policy or tools, please consult the #{link_to 'FAQs', 'http://unglobalcompact.org/COP/frequently_asked_questions.html'} or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
   - if @organization.network_report_recipients.any?
     == Additionally, your Local Network Contact Point in #{@organization.country_name} has been copied on this email.
 
