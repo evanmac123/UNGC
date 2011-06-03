@@ -13,6 +13,7 @@ universal: &universal
   news_archive_path: '/NewsAndEvents/news_archives/index.html'
   news_headlines_path: '/NewsAndEvents/index.html'
   participant_search_path: '/participants/search'
+  participant_lead_path: '/HowToParticipate/Lead/lead_participants.html'
   search_path: '/search'
   signup_form_path: '/HowToParticipate/How_To_Apply.html'
   upcoming_events_path: '/NewsAndEvents/Upcoming_Events.html'
