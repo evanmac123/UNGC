@@ -29,7 +29,7 @@ class Admin::CopsController < AdminController
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
-    @communication_on_progress.contact_name = current_user.contact_info if @communication_on_progress.contact_name.blank?
+    @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_user.contact_info
     
     if @communication_on_progress.save
       flash[:notice] = "The COP has been published on the Global Compact website"
