@@ -1,6 +1,6 @@
 - if form.error_messages.present?
-  %div{:class => 'flash error'}
-    Please select a PDF file for upload. If you have provided a website link, it should begin with 'http://'
+  %h3== Please correct the following before submitting your COP:
+  %div{:class => 'flash error'}= display_errors_for_cop(@communication_on_progress)
 
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
@@ -62,13 +62,13 @@
           %legend
             %span Required: upload the COP as a PDF file
           = text_partial('b')
-          = render :partial => 'cop_files_form'
+          = render :partial => 'cop_files_form', :locals => {:language_id => @cop_file_language}
   
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://company.com'
-          = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop])}
+          = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop], :language_id => @cop_link_language, :url => @cop_link_url)}
   
     = render :partial => 'submit_cop'
 

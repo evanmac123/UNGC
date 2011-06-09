@@ -21,6 +21,8 @@ class Admin::CopsController < AdminController
     
     @communication_on_progress = @organization.communication_on_progresses.new
     @communication_on_progress.init_cop_attributes
+    @cop_link_language = Language.for(:english).try(:id)
+    @cop_file_language = Language.for(:english).try(:id)
     @submitted = false
   end
   
@@ -36,6 +38,12 @@ class Admin::CopsController < AdminController
     else
       # we want to preselect the submit tab
       @submitted = true
+
+      unless @communication_on_progress.is_basic?
+        @cop_link_url = params[:communication_on_progress][:cop_links_attributes][:new_cop][:url] || ''
+        @cop_link_language = params[:communication_on_progress][:cop_links_attributes][:new_cop][:language_id] || Language.for(:english).id
+      end
+      
       render :action => "new"
     end
   end
