@@ -174,6 +174,10 @@ class Contact < ActiveRecord::Base
   def from_network?
     self.organization.local_network?
   end
+
+  def from_rejected_organization?
+    self.organization.rejected?
+  end
   
   def submit_grace_letter?
     self.organization.can_submit_grace_letter?
