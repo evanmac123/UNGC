@@ -112,6 +112,11 @@ class OrganizationTest < ActiveSupport::TestCase
                                             :employees => 50)
       end
       
+      should "set rejection date" do
+        @organization.reject
+        assert_equal Date.today, @organization.rejected_on
+      end
+      
       should "rename organization" do
         @organization.reject
         @organization.reload

@@ -4,7 +4,7 @@
 
   = label_tag("communication_on_progress_cop_links_attributes_attributes_#{record}_language_id", 'Language')
   
-  = select_tag("communication_on_progress[cop_links_attributes][#{record}][language_id]",  options_from_collection_for_select(Language.all, 'id', 'name'))
+  = select_tag("communication_on_progress[cop_links_attributes][#{record}][language_id]", options_from_collection_for_select(Language.all, 'id', 'name', cop_link.language_id))
 
   = text_field_tag("communication_on_progress[cop_links_attributes][#{record}][url]", cop_link.url, :style => 'width: 300px')
 

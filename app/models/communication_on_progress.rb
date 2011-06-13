@@ -60,7 +60,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id, :title
-  validates_associated :cop_links
+  validates_associated :cop_links 
   validates_associated :cop_files
   
   belongs_to :organization
@@ -262,6 +262,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     # FIXME: self.format was throwing an exception
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
+
+  def is_basic?
+    self.attributes['format'] == CopFile::TYPES[:basic]
+  end
   
   # Indicated whether this COP is editable
   def editable?
@@ -416,6 +420,23 @@ class CommunicationOnProgress < ActiveRecord::Base
   # record level in case the criteria changes in the future
   def set_differentiation_level
     self.differentiation = differentation_level.try(:to_s)
+  end
+  
+  def readable_error_messages
+    error_messages = []
+    errors.each do |error|
+      case error
+        when 'cop_files.attachment'
+          error_messages << 'Choose a file to upload'
+        when 'cop_files.language'
+          error_messages << 'Select a language for each file'
+        when 'cop_links.url'
+          error_messages << 'Please make sure your link begins with \'http://\''
+        when 'cop_links.language'
+          error_messages << 'Select a language for each link'
+       end
+    end
+    error_messages
   end
   
   private
