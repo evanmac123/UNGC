@@ -1,22 +1,23 @@
 class SessionsController < ApplicationController
   layout 'admin'
   helper 'Admin'
-  before_filter :redirect_user_to_dashboard, :only => :new
+  # after_filter :redirect_to_edit_or_dashboard, :only => :create
   after_filter :set_last_login_at, :only => :create
   
   def create
-    user = Contact.authenticate(params[:login], params[:password])
-    if user
+    @user = Contact.authenticate(params[:login], params[:password])
+    if @user
+      
+      self.current_user = @user
 
-      self.current_user = user
-
-      if user.from_rejected_organization?
-        logout_and_redirect_to_login(user)
+      if @user.from_rejected_organization?
+        logout_and_redirect_to_login @user
       else
         new_cookie_flag = (params[:remember_me] == "1")
         handle_remember_cookie! new_cookie_flag
-        redirect_back_or_default(dashboard_path)
-        flash[:notice] = "Welcome #{user.first_name}. You have been logged in."
+        redirect_path = redirect_to_edit_or_dashboard @user
+        redirect_back_or_default redirect_path
+        flash[:notice] = "Welcome #{@user.first_name}. You have been logged in."
       end
 
     else
@@ -34,9 +35,9 @@ class SessionsController < ApplicationController
     redirect_to login_path
   end
 
-  def redirect_to_edit_or_dashboard
-    if logged_in? && self.current_user.needs_to_update_contact_info
-      edit_admin_organization_contact_path(self.current_user.organization.id, self.current_user, {:update => true})
+  def redirect_to_edit_or_dashboard(user)
+    if user.needs_to_update_contact_info
+      edit_admin_organization_contact_path(user.organization.id, user, {:update => true})
     else
       dashboard_path
     end

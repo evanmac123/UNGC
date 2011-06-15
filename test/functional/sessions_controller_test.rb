@@ -12,12 +12,19 @@ context "given an organization user" do
     post :create, :login => 'quentin', :password => 'monkey'
     assert session[:user_id]
     assert_response :redirect
+    assert_equal "Welcome #{@contact.first_name}. You have been logged in.", flash[:notice]
+  end
+
+  should "login and redirect to edit screen" do
+    post :create, :login => 'login', :password => 'nexen'
+    assert session[:user_id]
+    assert_redirected_to edit_admin_organization_contact_path(@old_contact.organization.id, @old_contact, {:update => true})
   end
   
   should 'not allow rejected applicants to login' do
     @organization.reject
     post :create, :login => 'quentin', :password => 'monkey'
-    assert flash[:error]
+    assert_equal "Sorry, your organization's application was rejected on #{@organization.rejected_on.strftime('%e %B, %Y')} and can no longer be accessed.", flash[:error] 
     assert_response :redirect
   end
 
@@ -86,7 +93,14 @@ end
                                 :email => 'user@example.com',
                                 :remember_token_expires_at => 1.days.from_now.to_s,
                                 :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb',
+                                :role_ids => [Role.contact_point.id])
+
+      @old_contact = create_contact(:login => 'login',
+                                :password => 'nexen',
+                                :email => 'user2@example.com',
+                                :last_login_at => 7.months.ago, 
                                 :role_ids => [Role.contact_point.id])      
+
     end
   
     def auth_token(token)
