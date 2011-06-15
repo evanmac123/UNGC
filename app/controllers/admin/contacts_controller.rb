@@ -19,7 +19,7 @@ class Admin::ContactsController < AdminController
   end
 
   def edit
-     @needs_to_update = params[:update]
+    @needs_to_update = params[:update]
   end
 
   def update
