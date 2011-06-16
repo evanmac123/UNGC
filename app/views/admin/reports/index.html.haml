@@ -13,7 +13,6 @@
     %li= link_to_report_xls 'Contacts for Excel Macro', :contacts_excel_macro
     %li= link_to_report_xls 'Delisted Participants', :delisted_participants
     %li= link_to_report_xls 'Publicly-traded Companies', :listed_companies
-    %li= link_to_report_xls 'Companies without contacts', :companies_without_contacts
 
   %p
     %h3 Local Networks
@@ -34,7 +33,7 @@
     %h3 Other Reports
     
   %ul.report_list
-    %li= link_to_report 'Networks Report', :networks
+    / %li= link_to_report 'Networks Report', :networks
     %li= link_to_report 'Foundation Pledges', :foundation_pledges
     %li= link_to_report 'Approved Logo Requests', :approved_logo_requests
   

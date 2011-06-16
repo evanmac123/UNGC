@@ -34,18 +34,6 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
-
-    should "get the companies without contacts report" do
-      get :companies_without_contacts, {}, as(@staff_user)
-      assert_response :success
-      assert_template 'companies_without_contacts.html.haml'
-    end
-
-    should "get the companies without contacts report as xls" do
-      get :companies_without_contacts, {:format => 'xls'}, as(@staff_user)
-      assert_response :success
-      assert_equal @response.headers['Content-type'], 'application/ms-excel'
-    end
     
     should "get the networks report" do
       create_country
