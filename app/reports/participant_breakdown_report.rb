@@ -36,6 +36,7 @@ class ParticipantBreakdownReport < SimpleReport
       'Date of Last COP',
       'Inactive on',
       'Projected Delisting',
+      'Readmitted On',
       'Listed Status',
       'Stock Code',
       'Exchange'
@@ -61,6 +62,7 @@ class ParticipantBreakdownReport < SimpleReport
     record.latest_cop.try(:to_date),
     record.inactive_on,
     record.try(:delisting_on),
+    record.rejoined_on.try(:to_date),
     record.listing_status.try(:name),
     record.stock_symbol,
     record.exchange.try(:name)
