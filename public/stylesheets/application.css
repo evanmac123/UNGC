@@ -264,7 +264,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
 #rightcontent .copy h4 { font-size: 13px; font-style: italic; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
-#rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; }
+#rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; line-height: 1.3em;}
 #rightcontent .copy .highlight_box { padding: 10px 10px; margin: 5px 0px; width: auto; height: auto; background-color: #e5eef0; }
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
 #rightcontent .copy ul { list-style: disc; margin: 0 0 10px 40px; }
