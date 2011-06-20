@@ -298,6 +298,10 @@ class Organization < ActiveRecord::Base
   def country_name
     country.try(:name)
   end
+
+  def region_name
+    country.try(:region)
+  end
   
   def sector_name
     sector.try(:name)

@@ -1,5 +1,5 @@
 @import url(undohtml.css);
-body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
+body { background-color: #fff; font-family: Helvetica, Arial, sans-serif; }
 #header { background: url(/images/header_image.jpg) top center no-repeat; width: 1000px; height: 160px; margin: 0 auto; }
 
 div.click_to_edit {
@@ -255,6 +255,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .bookmarks ol li { list-style: none; display: inline; margin: 0px 5px; }
 #rightcontent .copy { width: 576px; padding: 15px 0 0 30px; }
 #rightcontent .copy { color: #222; font-size: 12px; margin-bottom: 10px; line-height: 19px; }
+#rightcontent .copy .hint_text { display: none; }
 #rightcontent .copy p { margin-bottom: 10px; }
 #rightcontent .copy a { color: #2993A5; text-decoration: none; }
 #rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
@@ -264,10 +265,15 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
 #rightcontent .copy h4 { font-size: 13px; font-style: italic; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
 #rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; }
-#rightcontent .copy .highlight_box { padding: 10px 15px; margin: 5px 0px; width: 100%; height: auto; background-color: #e5eef0; color: #222; }
+#rightcontent .copy .highlight_box { padding: 10px 10px; margin: 5px 0px; width: auto; height: auto; background-color: #e5eef0; }
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
 #rightcontent .copy ul { list-style: disc; margin: 0 0 10px 40px; }
 #rightcontent .copy ol li, #rightcontent .copy ul li { font-size: 12px; line-height: 19px; }
+#rightcontent .highlight { float: right; width: 150px; margin: 0px 0px 15px 25px; border: 1px solid #ccc; padding: 0px 10px; }
+#rightcontent .highlight h1 { font-size: 14px; position: relative; top: 15px; left: 3px; }
+#rightcontent .highlight ul { list-style: none; margin-left: 0px; padding: 8px 0px 0px 0px; }
+#rightcontent .highlight ul li { font-size: 80%; padding: 3px; border-bottom: 1px solid #ddd; line-height: 1.5em;}
+#rightcontent .highlight ul li:last-child { border: none;}
 #rightcontent .blue { background-color: #e5eef0; }
 
 /* Participant Tables */
