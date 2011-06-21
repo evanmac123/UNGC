@@ -19,7 +19,7 @@ class ContactTest < ActiveSupport::TestCase
   
   context "given a all Local Network Managers" do
     setup do
-      @local_network_managers = Contact.local_network_managers
+      @local_network_managers = Contact.network_regional_managers
     end
   
     should "be from the Global Compact Office" do
