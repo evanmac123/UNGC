@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class CommunicationOnProgressTest < ActiveSupport::TestCase
-  should_validate_presence_of :organization_id
+  should_validate_presence_of :organization_id, :title
   should_belong_to :organization
   should_have_and_belong_to_many :languages
   should_have_and_belong_to_many :countries
@@ -27,6 +27,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "be invalid if there is no file" do
       assert_raise ActiveRecord::RecordInvalid do
         cop = create_communication_on_progress(:organization_id    => @organization.id,
+                                               :title              => 'Our COP',
                                                :format             => 'standalone',
                                                # :web_based          => false,
                                                :parent_company_cop => false,
@@ -48,10 +49,11 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     
     should "be valid when a file is attached" do
       assert_difference 'CommunicationOnProgress.count' do
-        cop = create_communication_on_progress(:organization_id    => @organization.id,
-                                               :format             => 'standalone',
-                                               # :web_based          => false,
-                                               :parent_company_cop => false,
+        cop = create_communication_on_progress(:organization_id                     => @organization.id,
+                                              :title                                => 'Our COP',
+                                               :format                              => 'standalone',
+                                               # :web_based                         => false,
+                                               :parent_company_cop                  => false,
                                                :include_continued_support_statement => true,
                                                :support_statement_signee            => 'ceo',
                                                :references_human_rights             => true,
@@ -116,7 +118,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_organization_and_user('approved')
       @organization.communication_late
       @old_cop_due_on = @organization.cop_due_on
-      @cop = pending_review(@organization, format: 'grace_letter')
+      @cop = pending_review(@organization, format: 'grace_letter', :title => 'Grace Letter')
       @cop.type = 'grace'
       @cop.save
       @cop.approve!
@@ -124,6 +126,10 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   
     should "have is_grace_letter? return true" do
       assert @cop.is_grace_letter?
+    end
+
+    should "have the title 'Grace Letter'" do
+      assert_equal @cop.title, 'Grace Letter'
     end
     
     should "change the organization's COP state to Active" do
@@ -144,6 +150,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
      
     should "not be evaluated for differentiation" do
       assert_equal '', @cop.differentation_level
+      assert_equal '', @cop.differentiation
     end
       
   end
@@ -258,21 +265,21 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   end
   # end
   
-  context "given a COP with its period ending in 2009" do
-    setup do
-      create_organization_and_user
-      @cop = @organization.communication_on_progresses.new({:ends_on => '2009-12-31'})
-      @cop.save
-    end
-      should "title should be Communication on Progress 2009" do
-        assert_equal "2009 Communication on Progress", @cop.title
-      end
-  end
+  # context "given a COP with its period ending in 2009" do
+  #   setup do
+  #     create_organization_and_user
+  #     @cop = @organization.communication_on_progresses.new({:ends_on => '2009-12-31'})
+  #     @cop.save
+  #   end
+  #     should "title should be Communication on Progress 2009" do
+  #       assert_equal "2009 Communication on Progress", @cop.title
+  #     end
+  # end
   
   context "given a COP created in 2008" do
     setup do
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new({:ends_on => '2008-12-31'})
+      @cop = @organization.communication_on_progresses.new({:title => 'Our COP', :ends_on => '2008-12-31'})
       @cop.update_attribute :created_at, Date.new(2008, 12, 31)
     end
     
@@ -284,7 +291,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP created in 2012" do
     setup do
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new(:ends_on => Date.new(2012, 12, 31))
+      @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.new(2012, 12, 31))
       @cop.update_attribute :created_at, Date.new(2012, 01, 01)
     end
     
@@ -298,7 +305,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_principle_area
       @cop_question = create_cop_question
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
+      @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
       @cop.type = 'basic'
       @cop.save
     end
@@ -313,9 +320,15 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP with additional questions" do
     setup do
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new(:ends_on => Date.today)
+      @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
       @cop.type = 'advanced'
-      @cop.save
+      # 6 required criteria to be considered Active
+      @cop.update_attribute :include_continued_support_statement, true
+      @cop.update_attribute :include_measurement, true
+      @cop.update_attribute :references_labour, true
+      @cop.update_attribute :references_human_rights, true
+      @cop.update_attribute :references_anti_corruption, true
+      @cop.update_attribute :references_environment, true
     end
 
     should "have default attributes set" do
@@ -333,18 +346,20 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert @cop.is_test_phase_advanced_programme?
     end
     
-    should "be considered intermediate if all criteria are met, and advanced if they self-declare " do
-      @cop.update_attribute :include_continued_support_statement, true
-      @cop.update_attribute :include_measurement, true
-      @cop.update_attribute :references_labour, true
-      @cop.update_attribute :references_human_rights, true
-      @cop.update_attribute :references_anti_corruption, true
-      @cop.update_attribute :references_environment, true
-      @cop.update_attribute :method_shared, 'web_based'
-      assert @cop.is_intermediate_level?
-      # based on response to Yes/No quesition in COP submission
+    should "be considered Learner if they are missing one of the 6 criteria" do
+      @cop.update_attribute :references_environment, false
+      assert_equal 'learner', @cop.differentiation      
+    end
+    
+    should "be considered Active if all intermediate criteria are met" do
+      assert_equal true, @cop.is_intermediate_level?
+      assert_equal 'active', @cop.differentiation
+    end
+    
+    should "be considered advanced if they self-declare" do
       @cop.update_attribute :meets_advanced_criteria, true      
-      assert @cop.is_advanced_level?
+      assert_equal true, @cop.is_advanced_level?
+      assert_equal 'advanced', @cop.differentiation
     end
     
   end

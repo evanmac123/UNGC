@@ -1,5 +1,5 @@
 @import url(undohtml.css);
-body { background-color: #fff; font-family: Arial, Helvetica, sans-serif; }
+body { background-color: #fff; font-family: Helvetica, Arial, sans-serif; }
 #header { background: url(/images/header_image.jpg) top center no-repeat; width: 1000px; height: 160px; margin: 0 auto; }
 
 div.click_to_edit {
@@ -73,31 +73,28 @@ div.click_to_edit a:hover {
 	text-align: right;
 }
 
-
-/* TODO Banners:
-banner_search_website.png
-*/
-
-body                 #inner_head { background: url(/images/banner_default.png); }
-body.aboutus         #inner_head { background: url(/images/banner_aboutus.png); } 
-body.communicating   #inner_head { background: url(/images/banner_cop.png); } 
-body.issues          #inner_head { background: url(/images/banner_issues.png); }
-body.newsevents      #inner_head { background: url(/images/banner_newsandevents.png); }
-body.networks        #inner_head { background: url(/images/banner_local_networks.png); }
-body.participants    #inner_head { background: url(/images/banner_participantsandstakeholders.png); }
-body.participate     #inner_head { background: url(/images/banner_howtoparticipate.png); }
-body.anti_corruption #inner_head { background: url(/images/banner_anti_corruption.png); }
-body.business_peace  #inner_head { background: url(/images/banner_business_peace.png); }
-body.environment     #inner_head { background: url(/images/banner_environment.png); }
-body.financial       #inner_head { background: url(/images/banner_financial.png); }
-body.human_rights    #inner_head { background: url(/images/banner_human_rights.png); }
-body.labour          #inner_head { background: url(/images/banner_labour.png); }
-body.partnerships    #inner_head { background: url(/images/banner_partnerships.png); }
-body.un_business     #inner_head { background: url(/images/banner_un_business.png); }
-body.websiteinfo     #inner_head { background: url(/images/banner_websiteinfo.png); }
-body.environment_c4c #inner_head { background: url(/images/banner_environment_c4c.png); }
-body.environment_ceo #inner_head { background: url(/images/banner_environment_ceo.png); }
-body.supply_chain    #inner_head { background: url(/images/banner_supply_chain.png); }
+body                  #inner_head { background: url(/images/banner_default.png); }
+body.search_website   #inner_head { background: url(/images/banner_search_website.png); }
+body.aboutus          #inner_head { background: url(/images/banner_aboutus.png); } 
+body.communicating    #inner_head { background: url(/images/banner_cop.png); } 
+body.issues           #inner_head { background: url(/images/banner_issues.png); }
+body.newsevents       #inner_head { background: url(/images/banner_newsandevents.png); }
+body.networks         #inner_head { background: url(/images/banner_local_networks.png); }
+body.participants     #inner_head { background: url(/images/banner_participantsandstakeholders.png); }
+body.participate      #inner_head { background: url(/images/banner_howtoparticipate.png); }
+body.participate_lead #inner_head { background: url(/images/banner_participate_lead.png); }
+body.anti_corruption  #inner_head { background: url(/images/banner_anti_corruption.png); }
+body.business_peace   #inner_head { background: url(/images/banner_business_peace.png); }
+body.environment      #inner_head { background: url(/images/banner_environment.png); }
+body.financial        #inner_head { background: url(/images/banner_financial.png); }
+body.human_rights     #inner_head { background: url(/images/banner_human_rights.png); }
+body.labour           #inner_head { background: url(/images/banner_labour.png); }
+body.partnerships     #inner_head { background: url(/images/banner_partnerships.png); }
+body.un_business      #inner_head { background: url(/images/banner_un_business.png); }
+body.websiteinfo      #inner_head { background: url(/images/banner_websiteinfo.png); }
+body.environment_c4c  #inner_head { background: url(/images/banner_environment_c4c.png); }
+body.environment_ceo  #inner_head { background: url(/images/banner_environment_ceo.png); }
+body.supply_chain     #inner_head { background: url(/images/banner_supply_chain.png); }
 
 #header_content { margin: 0 auto; width: 1000px; position: relative; }
 #logo { position: absolute; top: 30px; left: 45px; }
@@ -140,11 +137,11 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1_content { position: relative; }
 #box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
 #box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
-#box1 div.readmore { position: absolute; top: 125px; right: 10px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: center; }
+#box1 div.readmore { position: absolute; top: 125px; right: 22px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: right; }
 #box1 div.readmore div { padding: 7px 0 0 0; }
 #box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
-#box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; background-repeat: no-repeat; background-image: url(/pics/un_images/Leaders_Summit_Logo_small.png);} 
+#box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8;} 
 #box2_content { position: relative; }
 #box2 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
 #box2 p { position: absolute; top: 35px; left: 25px; font-size: 23px; font-weight: 900; line-height: 23px;}
@@ -167,8 +164,9 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #news .title { position: relative; left: 80px; top: 2px; }
 #news .news_list .title a { color: #666; }
 #news .news_list .title a:hover { border-bottom: 1px solid #666; }
-#news .morenews { position: absolute; bottom: 10px; right: 0px; width: 90px; height: 30px; background-color: #e5eef0; text-align: right; }
-#news .morenews a { font-size: 12px; color: #00546E; font-weight: bold; }
+#news .morenews { position: absolute; top: 280px; right: 13px; width: 280px; height: 30px; }
+#news .morenews { font-size: 12px; color: #00546E; text-align: right; }
+#news .morenews a { font-size: 12px; color: #00546E; text-align: right; font-weight: bold; }
 #news .morenews a:hover { text-decoration: underline; }
 #news .morenews div { padding: 7px 6px 0 0; }
 
@@ -193,9 +191,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box5:hover, #box6:hover {border: 4px solid #C1C8CC}
 #box5 { left: 40px; }
 #box6 { left: 357px; }
-#box6 h2 { padding: 25px 0 0 15px; }
-#box6 p { font-size: 12px; font-weight: bold; padding: 20px 40px 0 15px; }
-#box6 p { color: #666; }
+#box6 h2 { padding: 15px 0 0 15px; }
+#box6 p { color: #666; font-size: 12px; font-weight: bold; line-height: 1.25em; padding: 20px 40px 0 15px; }
 
 #footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
 #footer_content { width: 1000px; margin: 0 auto; position: relative; }
@@ -258,6 +255,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .bookmarks ol li { list-style: none; display: inline; margin: 0px 5px; }
 #rightcontent .copy { width: 576px; padding: 15px 0 0 30px; }
 #rightcontent .copy { color: #222; font-size: 12px; margin-bottom: 10px; line-height: 19px; }
+#rightcontent .copy .hint_text { display: none; }
 #rightcontent .copy p { margin-bottom: 10px; }
 #rightcontent .copy a { color: #2993A5; text-decoration: none; }
 #rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
@@ -266,11 +264,16 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
 #rightcontent .copy h4 { font-size: 13px; font-style: italic; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
-#rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; }
-#rightcontent .copy .highlight_box { padding: 10px 15px; margin: 5px 0px; width: 100%; height: auto; background-color: #e5eef0; color: #222; }
+#rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; line-height: 1.3em;}
+#rightcontent .copy .highlight_box { padding: 10px 10px; margin: 5px 0px; width: auto; height: auto; background-color: #e5eef0; }
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
 #rightcontent .copy ul { list-style: disc; margin: 0 0 10px 40px; }
 #rightcontent .copy ol li, #rightcontent .copy ul li { font-size: 12px; line-height: 19px; }
+#rightcontent .highlight { float: right; width: 150px; margin: 0px 0px 15px 25px; border: 1px solid #ccc; padding: 0px 10px; }
+#rightcontent .highlight h1 { font-size: 14px; position: relative; top: 15px; left: 3px; }
+#rightcontent .highlight ul { list-style: none; margin-left: 0px; padding: 8px 0px 0px 0px; }
+#rightcontent .highlight ul li { font-size: 80%; padding: 3px; border-bottom: 1px solid #ddd; line-height: 1.5em;}
+#rightcontent .highlight ul li:last-child { border: none;}
 #rightcontent .blue { background-color: #e5eef0; }
 
 /* Participant Tables */
@@ -433,7 +436,7 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 	margin-left: 100px;
 }
 
-/* jquery progres bar */
+/* jquery progress bar */
 #main_content dt span { line-height: 1.2em; }
 #main_content dt span.human_right, span.human_right { color: #F7931E; }
 #main_content dt span.labour, span.labour { color: #52C6D8; }

@@ -1,4 +1,3 @@
-cap staging deploy
 United Nations Global Compact
 =============================
 
@@ -32,7 +31,10 @@ rake gems:install
 git submodule init
 git submodule update
 
-Secondly, the data from the current production database can be imported by taking a dump of the production database using the mysqldump command.  You'll need to get access to the machine running the production application.  This can be done by SSHing to rails@unglobalcompact.railsmachina.com.  You will need to get your public SSH key added to the ~/.ssh/authorized_keys file for the rails user on unglobalcompact.railsmachina.com.  Once you have access use the mysqldump command to get a snapshot of the current production database.  Copy this file to your machine using scp. 
+Secondly, the data from the current production database can be imported by taking a dump of the production database using the mysqldump command. You'll need to get access to the machine running the production application. This can be done by SSHing to rails@unglobalcompact.railsmachina.com. You will need to get your public SSH key added to the ~/.ssh/authorized_keys file for the rails user on unglobalcompact.railsmachina.com. Once you have access use the mysqldump command to get a snapshot of the current production database.  Copy this file to your machine using scp. 
+
+Make sure your database is using the correct encoding:
+  mysql -u root -e CREATE DATABASE unglobalcompact CHARACTER SET utf8 COLLATE utf8_general_ci;
 
 Once you have the database dump import it into your development database using:
   mysql -D <database> < production_dumpfile.sql
@@ -78,7 +80,7 @@ press 'c' to continue execution
 Controlling Sphinx
 ==================
 
-rake ts:rebuild
+rake ts:rebuild RAILS_ENV=production
 rake ts:start
 
 Deploy with Capistrano
@@ -105,8 +107,6 @@ cop.cop_links.create(:url => 'http://www.ahkbrasil.com/', :attachment_type => 'c
 
 cop.cop_files.create(:attachment => File.new('/home/rails/ungc/uploaded/cops/COP.pdf'), :attachment_type => CopFile::TYPES[:cop], :language_id => 4)
 
-
-
 Adding a new Report
 ===================
 
@@ -116,6 +116,23 @@ Follow these steps while referring to existing reports:
 2) Add corresponding method to controllers/admin/reports_controller.rb
 3) Optional: add a view for your report in app/views/admin/reports
 4) Add the report to the reports index screen app/views/admin/report/index.html.haml
+
+Adding a new section banner
+===========================
+
+1) Save banner as PNG from Illustrator (use 10% opacity for logo when using blue background)
+2) Note filename and add body class to application.css
+3) Ex: body.environment #inner_head { background: url(/images/banner_environment.png); }
+4) For subsections, the class will be added after the previous classes in the body tag, so in the stylesheet, add the new class after the main section so it overrides the previous body class
+
+<body class='development editable_page environment environment_climate'>
+
+Example:
+
+body.environment #inner_head { background: url(/images/banner_environment.png); }
+body.environment_climate #inner_head { background: url(/images/banner_environment_climate.png); }
+
+5) Set page.html_code to the body class for the section you want the banner to appear in
 
 Fields to delete
 ================
@@ -132,11 +149,6 @@ communication_on_progresses.start_year - using starts_on
 communication_on_progresses.start_month - using starts_on
 communication_on_progresses.end_year - using ends_on
 communication_on_progresses.end_month - using ends_on
-
-contacts.advisory_council - legacy column was never used
-contacts.ceo - roles replace the use of this field
-contacts.contact_point - roles replace the use of this field
-contacts.newsletter - roles replace the use of this field
 
 country.manager_id - used in transition, not used anymore
 

@@ -19,10 +19,6 @@
 #  state                     :string(255)
 #  postal_code               :string(255)
 #  country_id                :integer(4)
-#  ceo                       :boolean(1)
-#  contact_point             :boolean(1)
-#  newsletter                :boolean(1)
-#  advisory_council          :boolean(1)
 #  login                     :string(255)
 #  address_more              :string(255)
 #  created_at                :datetime
@@ -33,6 +29,7 @@
 #  hashed_password           :string(255)
 #  password                  :string(255)
 #  reset_password_token      :string(255)
+#  last_login_at             :datetime
 #
 
 require 'digest/sha1'
@@ -44,14 +41,18 @@ class Contact < ActiveRecord::Base
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
   TYPE_NETWORK = :network
+  
+  # if they haven't logged in then we redirect them to their edit page to confirm their contact information
+  MONTHS_SINCE_LOGIN = 6
 
   validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
   validates_presence_of :login, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
-  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true
+  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true, :message => "with the same username already exists"
+  validates_uniqueness_of :email, :on => :create 
   validates_format_of   :email,
                         :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
-                        :message => "is not a valid email address"  
+                        :message => "is not a valid email address"
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
@@ -163,10 +164,18 @@ class Contact < ActiveRecord::Base
     "#{name} <#{email}>" 
   end
 
+  def contact_info
+    "#{full_name_with_title}\n#{job_title}\n#{email}\n#{phone}"
+  end
+
   def self.authenticate(login, password)
     return nil if login.blank? || password.blank?
     u = find_by_login(login.downcase)
     (u && u.hashed_password == encrypted_password(password)) ? u : nil
+  end
+  
+  def set_last_login_at
+    self.update_attribute :last_login_at, Time.now
   end
   
   def from_ungc?
@@ -179,6 +188,10 @@ class Contact < ActiveRecord::Base
   
   def from_network?
     self.organization.local_network?
+  end
+
+  def from_rejected_organization?
+    self.organization.rejected?
   end
   
   def submit_grace_letter?
@@ -210,6 +223,13 @@ class Contact < ActiveRecord::Base
 
   def refresh_reset_password_token!
     self.update_attribute :reset_password_token, Digest::SHA1.hexdigest([login, Time.now].join)
+  end
+  
+  def needs_to_update_contact_info
+    unless from_ungc?
+      last_update = last_login_at || updated_at
+      last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
+    end
   end
 
   private

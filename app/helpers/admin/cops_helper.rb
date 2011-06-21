@@ -234,4 +234,13 @@ module Admin::CopsHelper
     "#{m_yyyy(cop.starts_on)} &ndash; #{m_yyyy(cop.ends_on)}"
   end
 
+  def display_errors_for_cop(cop)
+     error_messages = cop.readable_error_messages.map { |error| content_tag :li, error }
+     content_tag :ol, error_messages.join
+  end
+  
+  def language_choice_or_english
+    
+  end
+
 end

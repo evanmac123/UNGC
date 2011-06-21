@@ -6,51 +6,67 @@ class SessionsControllerTest < ActionController::TestCase
     create_test_users
   end
 
-  def test_should_login_and_redirect
+context "given an organization user" do
+
+  should "login and redirect" do
     post :create, :login => 'quentin', :password => 'monkey'
     assert session[:user_id]
     assert_response :redirect
+    assert_equal "Welcome #{@contact.first_name}. You have been logged in.", flash[:notice]
   end
 
-  def test_should_fail_login_and_not_redirect
+  should "login and redirect to edit screen" do
+    post :create, :login => 'login', :password => 'nexen'
+    assert session[:user_id]
+    assert_redirected_to edit_admin_organization_contact_path(@old_contact.organization.id, @old_contact, {:update => true})
+  end
+  
+  should 'not allow rejected applicants to login' do
+    @organization.reject
+    post :create, :login => 'quentin', :password => 'monkey'
+    assert_equal "Sorry, your organization's application was rejected on #{@organization.rejected_on.strftime('%e %B, %Y')} and can no longer be accessed.", flash[:error] 
+    assert_response :redirect
+  end
+
+  should 'fail login and not redirect' do
     post :create, :login => 'quentin', :password => 'bad password'
     assert_nil session[:user_id]
     assert_response :success
   end
 
-  def test_should_logout
+  should 'logout' do
     login_as :quentin
     get :destroy
     assert_nil session[:user_id]
     assert_response :redirect
   end
 
-  def test_should_remember_me
+  should 'remember me' do
     @request.cookies["auth_token"] = nil
     post :create, :login => 'quentin', :password => 'monkey', :remember_me => "1"
     assert_not_nil @response.cookies["auth_token"]
   end
 
-  def test_should_not_remember_me
+  should 'not remember me' do
     @request.cookies["auth_token"] = nil
     post :create, :login => 'quentin', :password => 'monkey', :remember_me => "0"
     assert @response.cookies["auth_token"].blank?
   end
   
-  def test_should_delete_token_on_logout
+  should 'delete token on logout' do
     login_as :quentin
     get :destroy
     assert @response.cookies["auth_token"].blank?
   end
 
-  def test_should_login_with_cookie
+  should 'login with cookie' do
     @contact.remember_me
     @request.cookies["auth_token"] = cookie_for(:quentin)
     get :new
     assert @controller.send(:logged_in?)
   end
 
-  def test_should_fail_expired_cookie_login
+  should 'fail expired cookie login' do
     @contact.remember_me
     @contact.update_attribute :remember_token_expires_at, 5.minutes.ago
     @request.cookies["auth_token"] = cookie_for(:quentin)
@@ -58,13 +74,15 @@ class SessionsControllerTest < ActionController::TestCase
     assert !@controller.send(:logged_in?)
   end
 
-  def test_should_fail_cookie_login
+  should 'fail cookie login' do
     @contact.remember_me
     @request.cookies["auth_token"] = auth_token('invalid_auth_token')
     get :new
     assert !@controller.send(:logged_in?)
   end
-
+  
+end
+  
   protected
     def create_test_users
       create_organization_type
@@ -76,6 +94,13 @@ class SessionsControllerTest < ActionController::TestCase
                                 :remember_token_expires_at => 1.days.from_now.to_s,
                                 :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb',
                                 :role_ids => [Role.contact_point.id])
+
+      @old_contact = create_contact(:login => 'login',
+                                :password => 'nexen',
+                                :email => 'user2@example.com',
+                                :last_login_at => 7.months.ago, 
+                                :role_ids => [Role.contact_point.id])      
+
     end
   
     def auth_token(token)

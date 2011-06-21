@@ -117,13 +117,14 @@ class Admin::CopsControllerTest < ActionController::TestCase
       get :new, :organization_id => @organization.id, :type_of_cop => 'basic'
       post :create, :organization_id => @organization.id,
                     :communication_on_progress => {
-                      :references_human_rights             => true,
-                      :references_labour                   => true,
-                      :references_environment              => true,
-                      :references_anti_corruption          => true,
-                      :include_measurement                 => true,
-                      :starts_on                           => Date.today,
-                      :ends_on                             => Date.today
+                      :title                        => 'Our COP',
+                      :references_human_rights      => true,
+                      :references_labour            => true,
+                      :references_environment       => true,
+                      :references_anti_corruption   => true,
+                      :include_measurement          => true,
+                      :starts_on                    => Date.today,
+                      :ends_on                      => Date.today
                     }
       
     end
@@ -132,6 +133,10 @@ class Admin::CopsControllerTest < ActionController::TestCase
        assert_redirected_to admin_organization_communication_on_progress_path(:organization_id => @organization.id,
                                                                               :id => assigns(:communication_on_progress).id)
        assert_equal 'basic', assigns(:communication_on_progress).format
+    end
+    
+    should "make sure the contact information has been saved" do
+      assert_equal @organization_user.contact_info, assigns(:communication_on_progress).contact_name
     end
     
   end

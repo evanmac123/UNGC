@@ -43,12 +43,7 @@ class Admin::ReportsController < AdminController
     @report = BulletinSubscribersReport.new
     render_formatter(filename: "bulletin_subscribers_#{date_as_filename}.xls")
   end
-  
-  def companies_without_contacts
-    @report = SimpleOrganizationReport.new
-    render_formatter(filename: "companies_without_contacts_#{date_as_filename}.xls")
-  end
-  
+    
   def local_networks_contacts
     @report = LocalNetworksContacts.new
     render_formatter(filename: "local_networks_contacts_#{date_as_filename}.xls")

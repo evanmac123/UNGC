@@ -3,7 +3,7 @@ To all Contact Points for
 
 %p We would like to bring your attention to an increasingly urgent matter related to your participation in the United Nations Global Compact. 
 
-%p== Your company is currently listed as "non-communicating" on the Global Compact website and will be expelled from the initiative it fails to submit a Communication on Progress by #{dd_month_yyyy @organization.delisting_on}.
+%p== Your company is currently listed as "non-communicating" on the Global Compact website and will be expelled from the initiative it fails to submit a Communication on Progress by #{dd_month_yyyy Date.today + 30.days}.
 
 %p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website. 
 
@@ -19,7 +19,7 @@ To all Contact Points for
   == of 90 days from the COP deadline by submitting a letter with a reasonable explanation on the Global Compact website. #{link_to 'Submitting a Grace Letter: A Step-by-Step Guide (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/Grace_Letter_Step_by_Step_Guide.pdf'}
 
 %p
-  == If you have further questions on the COP policy or tools, please consult the FAQs or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
+  == If you have further questions on the COP policy or tools, please consult the #{link_to 'FAQs', 'http://unglobalcompact.org/COP/frequently_asked_questions.html'} or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
   - if @organization.network_report_recipients.any?
     == Additionally, your Local Network Contact Point in #{@organization.country_name} has been copied on this email.
 

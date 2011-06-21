@@ -16,6 +16,11 @@
             %li= link_to @communication_on_progress.organization.name, dashboard_path(:tab => :cops)
           - else
             %li= link_to @communication_on_progress.organization.name, admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
+
+      %dt Title
+      %dd
+        %ul
+          %li= @communication_on_progress.title
         
       %dt Published
       %dd

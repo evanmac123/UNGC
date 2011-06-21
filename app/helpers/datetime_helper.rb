@@ -16,4 +16,8 @@ module DatetimeHelper
     date ? date.strftime('%e %B, %Y') : '&nbsp;'
   end
 
+  def current_year
+    Time.now.strftime('%Y').to_i
+  end
+
 end

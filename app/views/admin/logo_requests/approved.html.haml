@@ -25,7 +25,5 @@
             %ul.actions
               %li 
                 = link_to 'Show', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "preview", :title => "Show"
-              %li 
-                = link_to 'Delete', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
     = will_paginate @logo_requests

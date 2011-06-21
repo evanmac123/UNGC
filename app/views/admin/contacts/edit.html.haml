@@ -1,4 +1,13 @@
-%h2 Editing contact
+- if @needs_to_update
+  %fieldset
+    %h2 Information Update
+    - if current_user.from_organization?
+      %p{:class => 'cop_description'}== Please review and update your organization&rsquo;s contact information before proceeding. It is critical that your contact information is correct so that we are able to keep you informed about important news and events, including Communication on Progress deadlines. Thank you for helping us keep our records up to date.
+    - if current_user.from_network?
+      %p{:class => 'cop_description'}== It is critical that your contact information is correct so that we are able to keep your Local Network informed about important news and events, including participants' Communication on Progress deadlines. Please review the following details before proceeding.
+
+- else
+  %h2 Editing contact
 
 - form_for(:contact, builder: DefaultFormBuilder, url: admin_organization_contact_path(@organization.id, @contact), :html => {:method => :put}) do |form|
   = render :partial => form

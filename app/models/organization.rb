@@ -242,7 +242,7 @@ class Organization < ActiveRecord::Base
   }
 
   named_scope :about_to_become_delisted, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, (1.year + 1.day).ago.to_date] }
+    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date] }
   }
   
   def set_replied_to(current_user)
@@ -298,6 +298,10 @@ class Organization < ActiveRecord::Base
   def country_name
     country.try(:name)
   end
+
+  def region_name
+    country.try(:region)
+  end
   
   def sector_name
     sector.try(:name)
@@ -351,6 +355,10 @@ class Organization < ActiveRecord::Base
     string = "#{id}-#{string}"
     string = string.gsub(/-+/, '-')
     string = CGI.escape(string)
+  end
+
+  def rejected?
+    state == ApprovalWorkflow::STATE_REJECTED
   end
   
   def noncommunicating?
@@ -440,6 +448,7 @@ class Organization < ActiveRecord::Base
   
   def set_rejected_fields
     self.name = self.name + ' (rejected)'
+    self.rejected_on = Date.today
     self.save
   end
   

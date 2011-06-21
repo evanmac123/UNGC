@@ -1,6 +1,6 @@
 h1. 2011-04-16
 
-* Assigning roles to Network Manangers
+* (1) Assign roles to Network Manangers
 
 <pre>
  c = Contact.find([13224,23253,23254,23138,26273])
@@ -11,9 +11,7 @@ h1. 2011-04-16
 c = Contact.find([13224,23253,23254,23138,26273])
 c.each {|c| c.roles.delete(Role.ceo)}
 
-
-
-* Assigning Global Compact contact IDs to Regions
+* (2) Assign Global Compact contact IDs to Regions
 
 # 13224 Meng, China
 # 23253 Nike, Africa
@@ -30,6 +28,30 @@ c.each {|c| c.roles.delete(Role.ceo)}
   Country.where_region('Australasia').update_all(:manager_id => 26273)
   Country.find_by_name('China').update_attribute(:manager_id, 13224)
 </pre>
+
+h1. 2011-06-02
+
+* redirect users who try to login to a rejected organization
+* this was causing some confusion as organizations that were eventually accepted were logging into the wrong account
+
+h1. 2011-06-01
+
+* save @contact.contact_info in @cop.contact_name
+* Normally asked for all Advanced COPs, but we save the information for other COPs
+
+h1. 2011-05-12
+
+* list Advanced COPs in /COP/analyzing_progress/advanced_cops.html
+
+h1. 2011-05-10
+
+* now saving differentiation level in COP record, instead of calculating
+* the requirements could change, so it's better to save the current level for each COP
+
+h1. 2011-04-22
+
+* Ask contacts to review and update their information if they haven't logged in for 6 months
+* redirect them to edit screen, or send them on their way to the dashboard
 
 h1. 2011-04-13
 

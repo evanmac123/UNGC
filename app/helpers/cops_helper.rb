@@ -14,7 +14,7 @@ module CopsHelper
   # Does the search/filter via paginate
   def paged_cops(filter_type=nil)
     @paged_cops ||= {}
-    @paged_cops[filter_type] ||= scoped_cops(filter_type).by_year.paginate(:per_page => params[:per_page] || 10, :page => params[:page] || 1)
+    @paged_cops[filter_type] ||= scoped_cops(filter_type).paginate(:per_page => params[:per_page] || 10, :page => params[:page] || 1)
     @paged_cops[filter_type]
   end
   
@@ -31,6 +31,6 @@ module CopsHelper
   end
   
   def scoped_cops(filter_type)
-    CommunicationOnProgress.for_filter(filter_type)
+    CommunicationOnProgress.send(filter_type).by_year
   end
 end

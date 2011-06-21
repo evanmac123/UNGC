@@ -4,6 +4,7 @@ class Admin::CopsController < AdminController
   before_filter :no_unapproved_organizations_access
   before_filter :set_session_template, :only => :new
   before_filter :only_editable_cops_go_to_edit, :only => :edit
+  helper 'datetime'
   
   def introduction
     # non-business organizations can submit a COP, but they do not get a choice, so redirect them to the General (intermediate) COP
@@ -20,12 +21,16 @@ class Admin::CopsController < AdminController
     
     @communication_on_progress = @organization.communication_on_progresses.new
     @communication_on_progress.init_cop_attributes
+    @cop_link_language = Language.for(:english).try(:id)
+    @cop_file_language = Language.for(:english).try(:id)
     @submitted = false
   end
   
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
+    @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_user.contact_info
+    
     if @communication_on_progress.save
       flash[:notice] = "The COP has been published on the Global Compact website"
       clear_session_template
@@ -33,6 +38,12 @@ class Admin::CopsController < AdminController
     else
       # we want to preselect the submit tab
       @submitted = true
+
+      unless @communication_on_progress.is_basic?
+        @cop_link_url = params[:communication_on_progress][:cop_links_attributes][:new_cop][:url] || ''
+        @cop_link_language = params[:communication_on_progress][:cop_links_attributes][:new_cop][:language_id] || Language.for(:english).id
+      end
+      
       render :action => "new"
     end
   end

@@ -1,0 +1,26 @@
+-if form.error_messages.present?
+  %div{:class => 'flash error'}
+    Please select a PDF file for upload.
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li <a href="#grace">Grace Letter</a>
+  #grace.tab_content
+    %fieldset
+      %fieldset
+        %legend
+          %span Grace Period
+        By submitting a Grace Letter, your COP due date will be extended by
+        %strong== #{Organization::COP_GRACE_PERIOD} days.
+        Your COP must be received by
+        %strong==  #{yyyy_mm_dd (@organization.cop_due_on + Organization::COP_GRACE_PERIOD).to_date}.
+
+      %fieldset
+        %legend
+          %span Please upload your "Grace Letter" as a PDF file
+        - if @submitted
+          = render :partial => 'cop_file', :locals => {:cop_file => @communication_on_progress.cop_files.first, :record => 0, :attachment_type => CopFile::TYPES[:grace_letter], :language_id => @cop_file_language }
+        - else
+          = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter]), :record => 0, :language_id => 4 }
+
+    = form.hidden_field :title, :value => 'Grace Letter'
+    = submit_tag 'Submit', :class => "button", :id => "finish"

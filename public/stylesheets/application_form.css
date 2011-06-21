@@ -98,5 +98,6 @@
   }
 
 /* Error for flash messages */
-#main_content .errorExplanation { color: #8a1f11; }
+#main_content .errorExplanation { color: #A00; }
+#main_content div.fieldWithErrors input {border: 1px dotted #A00;}
 
