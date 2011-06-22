@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   layout 'admin'
   helper 'Admin'
-  # after_filter :redirect_to_edit_or_dashboard, :only => :create
+  before_filter :redirect_user_to_dashboard, :only => :new
   after_filter :set_last_login_at, :only => :create
   
   def create
