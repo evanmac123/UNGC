@@ -6,7 +6,7 @@
 
 %table.dashboard_table#local_networks_table
   %tr
-    %th.title Name
-    %th.status Stage
+    %th= sort_header 'Name', field: 'name'
+    %th= sort_header 'Stage', field: 'state'
     %th.actions Actions
   = render @local_networks

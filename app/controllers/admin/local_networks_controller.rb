@@ -2,7 +2,7 @@ class Admin::LocalNetworksController < AdminController
   before_filter :no_organization_or_local_network_access
 
   def index
-    @local_networks = LocalNetwork.all(:order => 'name')
+    @local_networks = LocalNetwork.all(:order => order_from_params)
   end
 
   def new
@@ -42,4 +42,11 @@ class Admin::LocalNetworksController < AdminController
     @local_network.destroy
     redirect_to(admin_local_networks_path)
   end
+  
+  private
+
+    def order_from_params
+      @order = [params[:sort_field] || 'name', params[:sort_direction] || 'ASC'].join(' ')
+    end
+  
 end
