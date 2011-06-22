@@ -21,7 +21,7 @@ class Country < ActiveRecord::Base
   has_and_belongs_to_many :communication_on_progresses
   belongs_to :local_network
   
-  default_scope :order => 'name'
+  default_scope :order => 'countries.name'
   
   REGIONS = ['Africa', 'Americas', 'Asia', 'Australasia', 'Europe', 'MENA']
     
