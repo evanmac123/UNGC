@@ -2,7 +2,7 @@ class Admin::CountriesController < AdminController
   before_filter :no_organization_or_local_network_access
 
   def index
-    @countries = Country.all
+    @countries = Country.all(:order => order_from_params, :include => [:manager, :local_network])
   end
 
   def new
@@ -38,4 +38,11 @@ class Admin::CountriesController < AdminController
     @country.destroy
     redirect_to(admin_countries_path)
   end
+  
+  private
+
+    def order_from_params
+      @order = [params[:sort_field] || 'countries.name', params[:sort_direction] || 'ASC'].join(' ')
+    end
+  
 end
