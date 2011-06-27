@@ -1,0 +1,8 @@
+%ul.questionnaire{:style => 'padding-left: 23px;'}
+  %li{:class => select_answer_class(communication_on_progress.include_continued_support_statement?) }
+    Includes an explicit statement of continued support for the UN Global Compact and its ten principles
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    %li{:class => select_answer_class(communication_on_progress.send("references_#{key}?")) }
+      == Description of actions or relevant policies related to #{value}
+  %li{:class => select_answer_class(communication_on_progress.include_measurement?) }
+    Identifies targets, define performance indicators and measure outcomes
