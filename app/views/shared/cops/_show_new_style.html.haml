@@ -54,24 +54,29 @@
     %ul
       %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
 
+- if communication_on_progress.evaluated_for_differentiation?
+  %dt
+    Differentiation Level
+  %dd
+    %ul
+      %li
+        = communication_on_progress.differentiation_description
+        - if communication_on_progress.differentation_level == :learner
+          %br
+          %span{:style => 'color: red;'} Attention:
+          Missing items have been flagged in the self-assessment
+
   %dt Self-assessment
   %dd
-    %ul
-      - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
-        %li The participant did not provide a self-assessment of the COP's content
-      - if communication_on_progress.include_continued_support_statement?
-        %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
-      - if communication_on_progress.include_measurement?
-        %li Identifies targets, define performance indicators and measure outcomes
-      - if communication_on_progress.issue_areas_covered.count > 0
-        %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
+    %ul.questionnaire{:style => 'padding-left: 23px;'}
+      %li{:class => select_answer_class(communication_on_progress.include_continued_support_statement?) }
+        Includes an explicit statement of continued support for the UN Global Compact and its ten principles
+      - PrincipleArea::FILTERS.each_pair do |key, value|
+        %li{:class => select_answer_class(communication_on_progress.send("references_#{key}?")) }
+          == Description of actions or relevant policies related to #{value}
+      %li{:class => select_answer_class(communication_on_progress.include_measurement?) }
+        Identifies targets, define performance indicators and measure outcomes
     
-- if communication_on_progress.evaluated_for_differentiation?
-  %dt Differentiation Level
-  %dd
-    %ul
-      %li= communication_on_progress.differentiation_description
-
 - if communication_on_progress.is_advanced_programme? && communication_on_progress.description.present?
   - dashboard_view_only do
     %dt Other Best Practices
