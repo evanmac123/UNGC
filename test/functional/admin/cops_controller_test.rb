@@ -156,6 +156,13 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_response :success
     end
     
+    should "show alert if COP is on Learner Platform" do
+      @cop.update_attribute :differentiation, 'learner'
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_select 'span', 'Attention:'
+    end
+    
     should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
