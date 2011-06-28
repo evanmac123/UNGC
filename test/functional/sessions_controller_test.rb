@@ -24,7 +24,7 @@ context "given an organization user" do
   should 'not allow rejected applicants to login' do
     @organization.reject
     post :create, :login => 'quentin', :password => 'monkey'
-    assert_equal "Sorry, your organization's application was rejected on #{@organization.rejected_on.strftime('%e %B, %Y')} and can no longer be accessed.", flash[:error] 
+    assert_equal "Sorry, your organization's application was rejected and can no longer be accessed.", flash[:error] 
     assert_response :redirect
   end
 

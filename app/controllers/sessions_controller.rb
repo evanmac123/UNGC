@@ -63,8 +63,7 @@ class SessionsController < ApplicationController
     # Forward rejected applicants back to login
     def logout_and_redirect_to_login(user)
       logout_killing_session!
-      rejected_date = user.organization.rejected_on.strftime('%e %B, %Y')
-      flash[:error] = "Sorry, your organization's application was rejected on #{rejected_date} and can no longer be accessed."
+      flash[:error] = "Sorry, your organization's application was rejected and can no longer be accessed."
       redirect_to login_path
     end
     
