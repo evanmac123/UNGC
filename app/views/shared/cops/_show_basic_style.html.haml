@@ -9,10 +9,16 @@
     %li== #{communication_on_progress.starts_on.month}/#{communication_on_progress.starts_on.year} to #{communication_on_progress.ends_on.month}/#{communication_on_progress.ends_on.year}
 
 - if communication_on_progress.evaluated_for_differentiation?
-  %dt Differentiation Level
+  %dt
+    Differentiation Level
   %dd
     %ul
-      %li= communication_on_progress.differentiation_description
+      %li
+        = communication_on_progress.differentiation_description
+        - if communication_on_progress.differentation_level == :learner
+          %br
+          %span{:style => 'color: red;'} Attention:
+          Missing items have been flagged in the self-assessment
 
 %dt
   Self-assessment
