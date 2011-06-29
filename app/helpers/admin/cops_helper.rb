@@ -239,8 +239,8 @@ module Admin::CopsHelper
      content_tag :ol, error_messages.join
   end
   
-  def language_choice_or_english
-    
+  def select_answer_class(item)
+    # we reuse the classes from the questionnaire
+    item ? 'selected_question' : 'unselected_question'
   end
-
 end
