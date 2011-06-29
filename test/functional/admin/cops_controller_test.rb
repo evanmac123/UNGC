@@ -124,9 +124,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
                       :references_anti_corruption   => true,
                       :include_measurement          => true,
                       :starts_on                    => Date.today,
-                      :ends_on                      => Date.today
+                      :ends_on                      => Date.today,
+                      :differentiation              => 'learner'
                     }
-      
     end
 
     should "confirm the format" do
@@ -137,6 +137,10 @@ class Admin::CopsControllerTest < ActionController::TestCase
     
     should "make sure the contact information has been saved" do
       assert_equal @organization_user.contact_info, assigns(:communication_on_progress).contact_name
+    end
+    
+    should "not show standard confirmation is on the Learner Platform" do
+      assert_not_equal "The COP has been published on the Global Compact website", flash[:notice]    
     end
     
   end
