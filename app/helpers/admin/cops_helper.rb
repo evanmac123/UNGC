@@ -116,7 +116,7 @@ module Admin::CopsHelper
         }.compact.join('')
         if params[:action] != 'feed'
           output += answers.map{|a|
-            content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "unselected_question") unless a.value.present? && a.value?
+            content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "advanced_question") unless a.value.present? && a.value?
           }.compact.join('')
         end
 
