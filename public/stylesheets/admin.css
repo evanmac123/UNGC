@@ -89,6 +89,8 @@ ul.nav_bar {
 #main_content {
   clear: left;
   position: relative; }
+  #main_content p {
+    line-height: 1.4em; }
   #main_content h2 {
     margin-bottom: 1em;
     color: #14546f;
