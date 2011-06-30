@@ -139,10 +139,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_equal @organization_user.contact_info, assigns(:communication_on_progress).contact_name
     end
     
-    should "not show standard confirmation is on the Learner Platform" do
-      assert_not_equal "The COP has been published on the Global Compact website", flash[:notice]    
-    end
-    
   end
   
   context "given an existing cop" do
@@ -159,14 +155,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
                  :id              => @cop.id
       assert_response :success
     end
-    
-    should "show alert if COP is on Learner Platform" do
-      @cop.update_attribute :differentiation, 'learner'
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-      assert_select 'span', 'Attention:'
-    end
-    
+
     should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
@@ -179,5 +168,19 @@ class Admin::CopsControllerTest < ActionController::TestCase
                    :communication_on_progress => {}
       assert_response :redirect
     end
+
+    should "show alert if COP is on Learner Platform" do
+      @cop.update_attribute :differentiation, 'learner'
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_select 'span', 'Attention:'
+    end
+    
+    should "display tabbed results if submitted into Differentiation Programme" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_template :partial => '_show_dashboard_style'
+    end
+    
   end
 end

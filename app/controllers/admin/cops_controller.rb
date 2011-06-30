@@ -32,13 +32,7 @@ class Admin::CopsController < AdminController
     @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_user.contact_info
     
     if @communication_on_progress.save
-      
-      if @communication_on_progress.differentation_level == :learner
-        flash[:notice] = "IMPORTANT: Although your COP has been published on the Global Compact website, your self-assessment indicates it is missing at least one of the required elements (flagged below). Your company has therefore been placed on the Learner Platform."
-      else
-        flash[:notice] = "The COP has been published on the Global Compact website"
-      end
-      
+      flash[:notice] = "The COP has been published on the Global Compact website"
       clear_session_template
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
