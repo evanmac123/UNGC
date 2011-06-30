@@ -264,7 +264,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_basic?
-    self.attributes['format'] == CopFile::TYPES[:basic]
+    is_new_format? && self.attributes['format'] == CopFile::TYPES[:basic]
   end
   
   # Indicated whether this COP is editable
@@ -341,6 +341,17 @@ class CommunicationOnProgress < ActiveRecord::Base
       references_anti_corruption,
       references_environment].collect{|r| r if r}.compact.count
   end
+  
+  def number_missing_items
+    items = [ include_continued_support_statement,
+              references_labour,
+              references_human_rights,
+              references_anti_corruption,
+              references_environment,
+              include_measurement]
+    items.count - items.collect{|r| r if r}.compact.count
+  end
+  
   
   def issue_areas_covered
     issues = []
