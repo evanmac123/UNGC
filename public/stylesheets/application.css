@@ -476,7 +476,7 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   font-style: italic;
 }
 
-#main_content dd ul.questionnaire li.unselected_question, #main_content dd ul.questionnaire li.selected_question{
+#main_content dd ul.questionnaire li.unselected_question, #main_content dd ul.questionnaire li.selected_question, #main_content dd ul.questionnaire li.advanced_question {
   font-size: 11px;
   color: #666;
 }
@@ -503,4 +503,8 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 #main_content dd ul li.unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png);
+}
+
+#main_content dd ul li.advanced_question {
+  list-style-type: none;
 }
