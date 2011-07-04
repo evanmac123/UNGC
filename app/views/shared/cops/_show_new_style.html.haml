@@ -37,7 +37,7 @@
     %ul
       - for cop_file in communication_on_progress.cop_files
         %li
-          = link_to truncate(cop_file.attachment_file_name, :length => 60), cop_file.attachment.url
+          = link_to truncate(cop_file.attachment_file_name, :length => 50), cop_file.attachment.url
           == (#{cop_file.language.name})
 - if communication_on_progress.cop_links.any?
   %dt Links
@@ -45,7 +45,7 @@
     %ul
       - for cop_link in communication_on_progress.cop_links
         %li
-          = link_to truncate(cop_link.url, :length => 60), cop_link.url
+          = link_to truncate(cop_link.url, :length => 50), cop_link.url
           == (#{cop_link.language.name})
 
 - unless communication_on_progress.is_grace_letter?

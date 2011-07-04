@@ -181,6 +181,16 @@ class Admin::CopsControllerTest < ActionController::TestCase
                  :id              => @cop.id
       assert_template :partial => '_show_dashboard_style'
     end
+
+  context "given a GC Active COP" do
+    setup do
+      create_organization_and_user
+      @organization.approve!
+      create_principle_areas
+      @cop = create_cop(@organization.id)
+      login_as @organization_user  
+    end
+  end
     
   end
 end

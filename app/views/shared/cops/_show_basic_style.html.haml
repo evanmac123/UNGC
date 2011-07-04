@@ -1,34 +1,40 @@
-%dt Format
-%dd
-  %ul
-    %li Stand alone document
+%dl{:style => 'width: 90%;'}
 
-%dt Time period
-%dd
-  %ul
-    %li== #{communication_on_progress.starts_on.month}/#{communication_on_progress.starts_on.year} to #{communication_on_progress.ends_on.month}/#{communication_on_progress.ends_on.year}
+  = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
 
-- if communication_on_progress.evaluated_for_differentiation?
-  %dt
-    Differentiation Level
+  %dt Format
   %dd
     %ul
       %li
-        = communication_on_progress.differentiation_description
-        - if communication_on_progress.differentation_level == :learner
-          %br
-          %span{:style => 'color: red;'} Attention:
-          Missing items have been flagged in the self-assessment
+        Stand alone document (Basic COP Template)
+        = communication_on_progress.is_basic?
 
-%dt
-  Self-assessment
-%dd
-  = render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+  %dt Time period
+  %dd
+    %ul
+      %li== #{communication_on_progress.starts_on.month}/#{communication_on_progress.starts_on.year} to #{communication_on_progress.ends_on.month}/#{communication_on_progress.ends_on.year}
 
-%dt &nbsp;
-%dd= show_basic_cop_attributes(communication_on_progress, nil, false)
-      
-- PrincipleArea::FILTERS.each_pair do |key, value|
+  - if communication_on_progress.evaluated_for_differentiation?
+    %dt
+      Differentiation Level
+    %dd
+      %ul
+        %li
+          = communication_on_progress.differentiation_description
+          - if communication_on_progress.differentation_level == :learner
+            %br
+            %span{:style => 'color: red;'} Attention:
+            Missing items have been flagged in the self-assessment
+
   %dt
-    %span{:class => "#{issue_area_colour_for(value)}" }= value
-  %dd= show_basic_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"))
+    Self-assessment
+  %dd
+    = render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+
+  %dt &nbsp;
+  %dd= show_basic_cop_attributes(communication_on_progress, nil, false)
+      
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    %dt
+      %span{:class => "#{issue_area_colour_for(value)}" }= value
+    %dd= show_basic_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"))

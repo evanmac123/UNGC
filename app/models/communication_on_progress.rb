@@ -348,7 +348,7 @@ class CommunicationOnProgress < ActiveRecord::Base
               references_human_rights,
               references_anti_corruption,
               references_environment,
-              include_measurement]
+              include_measurement ]
     items.count - items.collect{|r| r if r}.compact.count
   end
   
