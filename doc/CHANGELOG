@@ -1,10 +1,7 @@
-<!-- 
-if @communication_on_progress.differentation_level == :learner
-  flash[:notice] = "IMPORTANT: Although your COP has been published on the Global Compact website, your self-assessment indicates it is missing at least one of the required elements (flagged below). Your company has therefore been placed on the Learner Platform."
-else
+h1. 2011-07-03
 
- -->
-
+* creating a new COP results screen to better inform participants of their Differentiation Level
+* will need to use a number of partials since there information displayed will vary across the different types of COPs
 
 h1. 2011-06-28
 
