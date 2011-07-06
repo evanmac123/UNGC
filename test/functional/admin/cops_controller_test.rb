@@ -165,49 +165,72 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_response :redirect
     end
 
-    should "show alert if COP is on Learner Platform" do
-      @cop.update_attribute :differentiation, 'learner'
+  end
+  
+  context "given a COP on the Learner Platform" do
+    setup do
+      # if any item is missing, then the COP puts the participant on the Learner Platform
+      create_cop_and_login_as_user(:include_measurement => false)
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
+    end
+    
+    should "display active partial" do
+      assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
+      assert_template :partial => 'show_learner_style'
+    end
+    
+    should "show alert if COP is on Learner Platform" do
       assert_select 'span', 'Attention:'
     end
     
-    should "display tabbed results if submitted into Differentiation Programme" do
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-      assert_template :partial => '_show_dashboard_style'
-    end
-
   end
   
   context "given a GC Active COP" do
     setup do
       create_cop_and_login_as_user
-      @cop.update_attribute :differentiation, 'active'
     end
 
-    should "display tabbed results if submitted into Differentiation Programme" do
+    should "display active partial" do
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_equal assigns(:cop_partial), '/shared/cops/show_dashboard_style'
-      assert_template :partial => '_show_dashboard_style'
+      assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
+      assert_template :partial => 'show_active_style'
+    end
+  end
+
+  context "given a GC Advanced COP" do
+    setup do
+      create_cop_and_login_as_user({:meets_advanced_criteria => true, :type => 'advanced'})
     end
 
-    # should "redirect if unknown COP type" do
-    #   @cop.update_attribute :created_at, Date.new(2010,1,1)
-    #   @cop.update_attribute :differentiation, 'bad_type'
-    #   assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops')
-    # end
-
+    should "display advanced partial" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_equal true, @cop.is_advanced_level?
+      assert_equal assigns(:cop_partial), '/shared/cops/show_advanced_style'
+      assert_template :partial => 'show_advanced_style'
+    end
   end
+
 
   private
 
-    def create_cop_and_login_as_user
+    def create_cop_and_login_as_user(cop_options = {})
+      # let's assume an Active COP where all criteria have been met
+      defaults = {
+        :references_human_rights             => true,
+        :references_labour                   => true,
+        :references_environment              => true,
+        :references_anti_corruption          => true,
+        :include_measurement                 => true,
+        :include_continued_support_statement => true
+      }
+      
       create_organization_and_user
       @organization.approve!
       create_principle_areas
-      @cop = create_cop(@organization.id)
+      @cop = create_cop(@organization.id, defaults.merge(cop_options))
       login_as @organization_user  
     end
 
