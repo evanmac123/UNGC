@@ -48,6 +48,24 @@ class Admin::CopsController < AdminController
     end
   end
 
+  def show
+    if @communication_on_progress.evaluated_for_differentiation?
+      # @cop_partial = "/shared/cops/show_#{@communication_on_progress.differentiation}_style"
+      @cop_partial = "/shared/cops/show_dashboard_style"
+    elsif @communication_on_progress.is_grace_letter?
+      @cop_partial = '/shared/cops/show_grace_style'
+    elsif @communication_on_progress.is_basic?
+      @cop_partial = '/shared/cops/show_basic_style'
+    elsif @communication_on_progress.is_new_format?
+      @cop_partial = '/shared/cops/show_new_style'
+    elsif @communication_on_progress.is_legacy_format?
+      @cop_partial = '/shared/cops/show_legacy_style'
+    else
+     flash[:error] = "Sorry, we could not determine the COP type."
+     redirect_to admin_organization_path(org_id, :tab => :cops)
+    end
+  end
+
   def update
     @communication_on_progress.update_attributes(params[:communication_on_progress])
     redirect_to admin_organization_communication_on_progress_path(@organization.id, @communication_on_progress)

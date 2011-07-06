@@ -143,11 +143,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   
   context "given an existing cop" do
     setup do
-      create_organization_and_user
-      @organization.approve!
-      create_principle_areas
-      @cop = create_cop(@organization.id)
-      login_as @organization_user
+      create_cop_and_login_as_user
     end
     
     should "be able to see the cop details" do
@@ -182,15 +178,38 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_template :partial => '_show_dashboard_style'
     end
 
+  end
+  
   context "given a GC Active COP" do
     setup do
+      create_cop_and_login_as_user
+      @cop.update_attribute :differentiation, 'active'
+    end
+
+    should "display tabbed results if submitted into Differentiation Programme" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_equal assigns(:cop_partial), '/shared/cops/show_dashboard_style'
+      assert_template :partial => '_show_dashboard_style'
+    end
+
+    # should "redirect if unknown COP type" do
+    #   @cop.update_attribute :created_at, Date.new(2010,1,1)
+    #   @cop.update_attribute :differentiation, 'bad_type'
+    #   assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops')
+    # end
+
+  end
+
+  private
+
+    def create_cop_and_login_as_user
       create_organization_and_user
       @organization.approve!
       create_principle_areas
       @cop = create_cop(@organization.id)
       login_as @organization_user  
     end
-  end
-    
-  end
+
+  
 end
