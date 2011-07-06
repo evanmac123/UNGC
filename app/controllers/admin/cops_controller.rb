@@ -50,8 +50,9 @@ class Admin::CopsController < AdminController
 
   def show
     if @communication_on_progress.evaluated_for_differentiation?
-      # @cop_partial = "/shared/cops/show_#{@communication_on_progress.differentiation}_style"
-      @cop_partial = "/shared/cops/show_dashboard_style"
+      @cop_partial = "/shared/cops/show_#{@communication_on_progress.differentiation}_style"
+      # Basic COP template has its own partial
+      @results_partial = @communication_on_progress.is_basic? ? '/shared/cops/show_basic_style' : '/shared/cops/show_new_style'
     elsif @communication_on_progress.is_grace_letter?
       @cop_partial = '/shared/cops/show_grace_style'
     elsif @communication_on_progress.is_basic?

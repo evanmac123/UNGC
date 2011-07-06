@@ -7,5 +7,5 @@
     %li= link_to 'Delete COP', admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress), :method => :delete, :class => 'delete_large', :confirm => 'All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?', :title => 'Delete COP and remove all answers, files and links'
 
 .main_content
-  #status_box= render :partial => @cop_partial, :locals => { :communication_on_progress => @communication_on_progress } 
+  #status_box= render :partial => @cop_partial, :locals => {:results_partial => @results_partial, :communication_on_progress => @communication_on_progress } 
   = action_links(@communication_on_progress)
