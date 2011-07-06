@@ -17,57 +17,8 @@
   
     %dl{:style => 'width: 100%;'}
       = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
-  
-      - if communication_on_progress.cop_files.any?
-        %dt Files
-        %dd
-          %ul
-            - for cop_file in communication_on_progress.cop_files
-              %li
-                = link_to truncate(cop_file.attachment_file_name, :length => 50), cop_file.attachment.url
-                == (#{cop_file.language.name})
-      - if communication_on_progress.cop_links.any?
-        %dt Links
-        %dd
-          %ul
-            - for cop_link in communication_on_progress.cop_links
-              %li
-                = link_to truncate(cop_link.url, :length => 50), cop_link.url
-                == (#{cop_link.language.name})
-
-      - unless communication_on_progress.is_grace_letter?
-        %dt Format
-        %dd
-          %ul
-            %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
-
-      - if communication_on_progress.evaluated_for_differentiation?
-        %dt
-          Differentiation Level
-        %dd
-          %ul
-            %li
-              = communication_on_progress.differentiation_description
-              - if communication_on_progress.differentation_level == :learner
-                %br
-                %span{:style => 'color: red;'} Attention:
-                Missing items have been flagged in the self-assessment
-
-      %dt
-        Self-assessment
-      %dd
-        = render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
-
-      - if communication_on_progress.is_advanced_programme? && communication_on_progress.description.present?
-        %dt Other Best Practices
-        %dd
-          %ul
-            %li
-              %em The following information is not shared publicly
-            %li= simple_format communication_on_progress.description
-            
-  / - if communication_on_progress.is_advanced_programme? && communication_on_progress.issue_areas_covered.count > 0
-
+      = render :partial => results_partial, :locals => { :communication_on_progress => communication_on_progress }
+      = "Loaded #{results_partial}"
   #next_steps.tab_content
     %p Companies in the Learner&rsquo;s Platform are given a one-time, 12-month &ldquo;Learner&rdquo; grace period to submit a COP that meets all content requirements. 
     %p The Learner status will be communicated publicly on the Global Compact website. We therefore encourage your company to move to the GC Active level as soon as possible by submitting an updated COP meeting all content requirements. Alternatively, you may wait until your next COP submission deadline to meet all content requirements, provided that the COP is submitted within the 12-month &ldquo;Learner&rdquo; grace period.
@@ -84,7 +35,3 @@
       %li= popup_link_to 'The Learner Platform', '/COP/differentiation/the_learner_platform.html'
       %li= popup_link_to 'GC Active level', '/COP/differentiation/GCActive_level.html'
       %li= popup_link_to 'Local Networks', '/NetworksAroundTheWorld/'
-      
-      
-      
-      
