@@ -264,7 +264,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_basic?
-    is_new_format? && self.attributes['format'] == CopFile::TYPES[:basic]
+    is_new_format? && self.attributes['format'] == 'basic'
   end
   
   # Indicated whether this COP is editable
