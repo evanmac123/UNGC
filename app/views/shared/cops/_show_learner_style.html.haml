@@ -6,11 +6,11 @@
     %li <a href="#resources">Resources</a>
 
   #differentiation.tab_content
-    %h3 Learner's Platform &rarr; GC Active &rarr; GC Advanced
+    %h3 &#x25BA; Learner's Platform <span style="color: #D1DADE"> &#x25BA; GC Active &#x25BA; GC Advanced</span>
     %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements and as a result, your company has been placed on the #{popup_link_to 'Learner\'s Platform.','/COP/differentiation/the_learner_platform.html'}
     
     %dl{:style => 'width: 85%;'}
-      %dt COP Elements
+      %dt Self-assessment
       %dd= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
 
   #results.tab_content
@@ -29,8 +29,10 @@
   #resources.tab_content
     %p The Learner Platform was created to help participants that have demonstrated a commitment to progress and transparency by submitting a COP, but have not yet achieved the level of disclosure and transparency expected for the GC Active level. 
     %p The Global Compact is working with Local Networks and other partners, including the Global Reporting Initiative, to help companies in the Learner Platform to meet all COP requirements.
-    %p== If you need any assistance in improving your COP, please do not hesitate to contact the COP team at #{mail_to 'cop@unglobalcompact.org'} or your Local Network Contact Person.    
-    %ul    
-      %li= popup_link_to 'The Learner Platform', '/COP/differentiation/the_learner_platform.html'
-      %li= popup_link_to 'GC Active level', '/COP/differentiation/GCActive_level.html'
-      %li= popup_link_to 'Local Networks', '/NetworksAroundTheWorld/'
+    %p== If you need any assistance in improving your COP, please do not hesitate to contact the COP team at #{mail_to 'cop@unglobalcompact.org'} or your Local Network Contact Person.
+    
+    %h4 Resources    
+    %ul.bulleted  
+      %li= link_to 'The Learner Platform', '/COP/differentiation/the_learner_platform.html'
+      %li= link_to 'GC Active level', '/COP/differentiation/GCActive_level.html'
+      %li= link_to 'Local Networks', '/NetworksAroundTheWorld/'

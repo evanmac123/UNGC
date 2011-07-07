@@ -7,6 +7,8 @@ a {
   a:hover {
     color: #14546f;
     text-decoration: underline; }
+  a:visited {
+    color: #14546f; }
 
 .container {
   background: #fff;
@@ -91,6 +93,10 @@ ul.nav_bar {
   position: relative; }
   #main_content p {
     line-height: 1.4em; }
+  #main_content ul.bulleted {
+    margin-left: 2em; }
+    #main_content ul.bulleted li {
+      line-height: 1.4em; }
   #main_content h2 {
     margin-bottom: 1em;
     color: #14546f;
@@ -98,6 +104,8 @@ ul.nav_bar {
   #main_content h3 {
     color: #14546f;
     font-weight: bold; }
+  #main_content h4 {
+    color: #14546f; }
   #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large, #main_content a.new_headline_large, #main_content a.refresh_large, #main_content a.delete_large, #main_content a.cancel_large, #main_content a.edit_page_large {
     display: block;
     height: 24px;
@@ -815,7 +823,7 @@ ul.view_modes {
 #main_content dd ul:first-child {
   padding-top: 0; }
 #main_content dd ul li:last-child {
-  padding-bottom: 10px; }
+  padding-bottom: 5px; }
 #main_content dd ul li.question_group {
   font-weight: bold;
   color: #14546f;
@@ -828,7 +836,7 @@ ul.view_modes {
     font-style: italic; }
 #main_content dd ul li.question_response {
   padding-top: 0;
-  margin-bottom: 1em; }
+  margin-bottom: 0; }
 #main_content dd ul li.selected_question {
   list-style-type: disc;
   list-style-image: url(/images/checked.png); }

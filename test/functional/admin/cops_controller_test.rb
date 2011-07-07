@@ -207,12 +207,28 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "display advanced partial" do
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_equal true, @cop.is_advanced_level?
       assert_equal assigns(:cop_partial), '/shared/cops/show_advanced_style'
       assert_template :partial => 'show_advanced_style'
     end
   end
+  
+  context "given a GC Advanced COP that did not qualify" do
+    setup do
+      create_cop_and_login_as_user({:meets_advanced_criteria => false, :type => 'advanced'})
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+    end
 
+    should "display active partial" do
+      assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
+      assert_template :partial => 'show_active_style'
+    end
+    
+    should "show alert if COP is on Learner Platform" do
+      assert_select 'span', 'Although you submitted for an Advanced level COP, you did not confirm the the COP meets all 24 criteria, and therefore do not qualify for the GC Advanced level.'
+    end
+    
+  end
 
   private
 

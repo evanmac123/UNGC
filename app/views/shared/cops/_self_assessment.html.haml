@@ -6,3 +6,6 @@
       == Description of actions or relevant policies related to #{value}
   %li{:class => select_answer_class(communication_on_progress.include_measurement?) }
     Identifies targets, define performance indicators and measure outcomes
+  - if communication_on_progress.additional_questions?
+    %li{:class => select_answer_class(communication_on_progress.meets_advanced_criteria) }
+      Meets all 24 criteria for the GC Advanced level

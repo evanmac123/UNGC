@@ -18,6 +18,8 @@ a
   &:hover
     color= !dark_blue
     text-decoration: underline
+  &:visited
+    color= !dark_blue
 
 .container
   background: #fff
@@ -113,6 +115,11 @@ ul.nav_bar
 
   p
     line-height: 1.4em
+  
+  ul.bulleted
+    margin-left: 2em
+    li
+      line-height: 1.4em
 
   h2
     margin-bottom: 1em
@@ -122,6 +129,9 @@ ul.nav_bar
   h3
     color = !dark_blue
     font-weight: bold
+    
+  h4
+    color = !dark_blue
 
   a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large
     display: block
@@ -441,7 +451,7 @@ ul.nav_bar
 
       &#new_COP
         line-height: 24px
-
+  
   ul.tools
     border-bottom: 1px solid #999
     margin-bottom: 0.5em
