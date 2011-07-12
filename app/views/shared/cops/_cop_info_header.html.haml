@@ -1,13 +1,5 @@
-%dt.first Organization
+%dt.first Title
 %dd.first
-  %ul
-    - if current_user.from_organization?
-      %li= link_to communication_on_progress.organization.name, dashboard_path(:tab => :cops)
-    - else
-      %li= link_to communication_on_progress.organization.name, admin_organization_path(communication_on_progress.organization.id, :tab => :cops)
-
-%dt Title
-%dd
   %ul
     %li= communication_on_progress.title
   
