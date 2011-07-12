@@ -1,8 +1,14 @@
+h1. 2011-07-12
+
+* move COP differentiation results into its own partial
+* remove unused results from 'new' style COP
+* 'new' means any COP submitted in 2010, until the Differentiation Program was launched in February 2011
+
 h1. 2011-07-06
 
-* pass in COP options to overide defaults
+* when testing the COP controller, pass in COP options to override defaults
 * necessary when testing the different types of COPs and templates
-* if someone completes the Basic COP template and report at the Learner level, are the correct partials being used?
+* if someone completes the Basic COP template and report a at the Learner level, are the correct partials being used?
 * that's what needs to be tested
 
 h1. 2011-07-03
