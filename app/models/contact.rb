@@ -62,7 +62,6 @@ class Contact < ActiveRecord::Base
   
   # TODO LATER: remove plain text password at some point - attr_accessor :password
   before_save :encrypt_password
-  before_save :set_local_network_id
   
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point
@@ -179,15 +178,15 @@ class Contact < ActiveRecord::Base
   end
   
   def from_ungc?
-    organization.name == DEFAULTS[:ungc_organization_name]
+    organization_id? && organization.name == DEFAULTS[:ungc_organization_name]
   end
   
   def from_organization?
-    !organization_id.nil? && !from_ungc?
+    organization_id? && !from_ungc?
   end
   
   def from_network?
-    self.organization.local_network?
+    local_network_id?
   end
 
   def from_rejected_organization?
@@ -264,13 +263,5 @@ class Contact < ActiveRecord::Base
     
     def self.encrypted_password(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
-    end
-    
-    # Set the local network when the organization is a local network
-    def set_local_network_id
-      # logger.info "******* set_local_network_id"
-      if self.organization.try :local_network?
-        self.local_network_id = self.organization.country.local_network_id
-      end
     end
 end
