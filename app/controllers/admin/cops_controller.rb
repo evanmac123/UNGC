@@ -49,10 +49,17 @@ class Admin::CopsController < AdminController
   end
 
   def show
+    
     if @communication_on_progress.evaluated_for_differentiation?
       @cop_partial = "/shared/cops/show_#{@communication_on_progress.differentiation}_style"
-      # Basic COP template has its own partial
-      @results_partial = @communication_on_progress.is_basic? ? '/shared/cops/show_basic_style' : '/shared/cops/show_new_style'
+      
+      # Basic COP template has its own partial to display text responses
+      if @communication_on_progress.is_basic?
+        @results_partial = '/shared/cops/show_basic_style'
+      else
+        @results_partial = '/shared/cops/show_differentiation_style'
+      end
+            
     elsif @communication_on_progress.is_grace_letter?
       @cop_partial = '/shared/cops/show_grace_style'
     elsif @communication_on_progress.is_basic?
@@ -65,6 +72,7 @@ class Admin::CopsController < AdminController
      flash[:error] = "Sorry, we could not determine the COP type."
      redirect_to admin_organization_path(org_id, :tab => :cops)
     end
+    
   end
 
   def update

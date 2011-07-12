@@ -166,6 +166,31 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
   end
+
+  context "given a COP submitted between 2010-01-01 and 2011-01-29" do
+    setup do
+      create_cop_and_login_as_user :created_at => Date.parse('31-12-2010')
+    end
+    should "show the new style template" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+     assert_template :partial => 'show_new_style'
+    end
+  end
+  
+  context "given a Grace Letter" do
+    setup do
+      create_cop_and_login_as_user(:type => 'grace')
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+    end
+    
+    should "view with the Grace Letter partial" do
+      assert_equal '/shared/cops/show_grace_style', assigns(:cop_partial)
+      assert_template :partial => 'show_grace_style'
+    end
+    
+  end
   
   context "given a COP on the Learner Platform" do
     setup do
@@ -177,6 +202,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     
     should "display active partial" do
       assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => 'show_learner_style'
     end
     
@@ -195,6 +221,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
       assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => 'show_active_style'
     end
   end
@@ -208,6 +235,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
       assert_equal assigns(:cop_partial), '/shared/cops/show_advanced_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => 'show_advanced_style'
     end
   end
@@ -221,6 +249,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     should "display active partial" do
       assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => 'show_active_style'
     end
     
