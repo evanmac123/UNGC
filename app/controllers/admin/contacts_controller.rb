@@ -1,13 +1,15 @@
 class Admin::ContactsController < AdminController
-  before_filter :load_organization, :except => :search
+  before_filter :load_parent, :except => :search
+  helper_method :parent_path
 
   def new
-    @contact = @organization.contacts.new(:country_id => @organization.country_id)
+    @contact = @parent.contacts.new
+    @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
     @roles = Role.visible_to(@contact)
   end
 
   def create
-    @contact = @organization.contacts.new(params[:contact])
+    @contact = @parent.contacts.new(params[:contact])
     @roles = Role.visible_to(@contact)
 
     if @contact.save
@@ -47,10 +49,15 @@ class Admin::ContactsController < AdminController
   end
   
   private
-    def load_organization
-      @organization = Organization.visible_to(current_user).find params[:organization_id]
+    def load_parent
+      @parent = if params[:organization_id]
+                  Organization.visible_to(current_user).find params[:organization_id]
+                elsif params[:local_network_id]
+                  LocalNetwork.find params[:local_network_id]
+                end
+
       if params[:id]
-        @contact = @organization.contacts.find params[:id]
+        @contact = @parent.contacts.find params[:id]
         @roles = Role.visible_to(@contact)
       end
     end
@@ -72,10 +79,17 @@ class Admin::ContactsController < AdminController
     
     def redirect_user_to_appropriate_screen
       if current_user.from_ungc?
-        redirect_to admin_organization_path(@organization.id, :tab => :contacts)
+        redirect_to parent_path([], :tab => :contacts)
       elsif current_user.from_organization?
         redirect_to dashboard_path(:tab => :contacts) 
       end
     end
-    
+
+    def parent_path(components, *args)
+      class_component = @parent.class.name.underscore
+      components = ["admin", class_component] + [components].flatten + ["path"]
+      method_name = components.join("_")
+      send(method_name, @parent.id, *args)
+    end
+
 end
