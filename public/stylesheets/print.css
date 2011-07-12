@@ -10,4 +10,4 @@ body {
 
 #rightcontent { position: absolute; top: 10px; left: 25px; }
 #rightcontent .copy .hint_text { display: block; margin: 10px 0px;}
-#rightcontent .copy .hint_toggle .hint_title { font-weight: bold; line-height: 0.8em;}
+#rightcontent .copy .hint_toggle .hint_title { font-weight: bold; line-height: 1.3em;}
