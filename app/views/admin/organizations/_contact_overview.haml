@@ -1,2 +1,2 @@
-= link_to "#{contact_overview.prefix} #{truncate(contact_overview.name, :length => 40)}, #{truncate(contact_overview.job_title, :length => 15)}", edit_admin_organization_contact_path(contact_overview.organization.id, contact_overview), :title => "#{contact_overview.name}, #{contact_overview.job_title}, Tel: #{contact_overview.phone}"
+= link_to "#{contact_overview.prefix} #{truncate(contact_overview.name, :length => 40)}, #{truncate(contact_overview.job_title, :length => 15)}", edit_contact_path(contact_overview), :title => "#{contact_overview.name}, #{contact_overview.job_title}, Tel: #{contact_overview.phone}"
 %br/

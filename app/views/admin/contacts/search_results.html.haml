@@ -26,8 +26,8 @@
       %td
         %ul.actions
           %li 
-            = link_to 'Edit', edit_admin_organization_contact_path(id: contact.id, organization_id: contact.organization_id), :class => "edit", :title => "Edit"
+            = link_to 'Edit', edit_contact_path(contact), :class => "edit", :title => "Edit"
           %li 
-            = link_to 'Destroy', admin_organization_contact_path(id: contact.id, organization_id: contact.organization_id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+            = link_to 'Destroy', contact_path(contact), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
 = will_paginate @results, :anchor => 'paged_results'

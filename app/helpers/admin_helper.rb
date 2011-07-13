@@ -80,5 +80,37 @@ module AdminHelper
         days_ago.to_s + ' days ago'
     end
   end
+
+  def edit_contact_path(contact)
+    contact_path(contact, :action => :edit)
+  end
+
+  def contact_path(contact, params={})
+    params = params.with_indifferent_access
+
+    components = ["contact_path"]
+    arguments  = [contact]
+
+    if contact.organization_id?
+      components.unshift("organization")
+      arguments.unshift(contact.organization_id)
+    elsif contact.local_network_id?
+      components.unshift("local_network")
+      arguments.unshift(contact.local_network_id)
+    else
+      raise ArgumentError, "Contact is from neither an organization nor a network"
+    end
+
+    components.unshift("admin")
+
+    if action = params.delete(:action)
+      components.unshift(action)
+    end
+
+    arguments.push(params)
+
+    method_name = components.join("_")
+    send(method_name, *arguments)
+  end
   
 end
