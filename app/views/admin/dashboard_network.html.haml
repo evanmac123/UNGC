@@ -1,9 +1,9 @@
 %h1#page_header UNGC Admin
 
 %h3 Contacts
-= link_to 'new', new_admin_organization_contact_path(current_user.organization.id)
+= link_to 'new', new_admin_local_network_contact_path(current_user.local_network_id)
 %ul
-  = render :partial => 'admin/contacts/contact', :collection => current_user.organization.contacts
+  = render :partial => 'admin/contacts/contact', :collection => current_user.local_network.contacts
 
 %h2 Organizations
 %table.dashboard_table#organizations_dashboard_table

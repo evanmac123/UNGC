@@ -190,7 +190,7 @@ class Contact < ActiveRecord::Base
   end
 
   def from_rejected_organization?
-    self.organization.rejected?
+    organization.try(:rejected?)
   end
   
   def submit_grace_letter?
