@@ -214,6 +214,10 @@ class Contact < ActiveRecord::Base
   def is?(role)
     roles.include? role
   end
+
+  def can_login?
+    Role.login_roles.any? { |r| is?(r) }
+  end
     
   def encrypt_password
     return if password.blank?
