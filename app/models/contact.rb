@@ -46,7 +46,7 @@ class Contact < ActiveRecord::Base
   MONTHS_SINCE_LOGIN = 6
 
   validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
-  validates_presence_of :login, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
+  validates_presence_of :login, :if => :can_login?
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
   validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true, :message => "with the same username already exists"
   validates_uniqueness_of :email, :on => :create 
