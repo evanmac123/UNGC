@@ -47,16 +47,6 @@
           %em The following information is not shared publicly
         %li= simple_format communication_on_progress.description
 
-- if communication_on_progress.is_test_phase_advanced_programme? && communication_on_progress.additional_questions?
-  %dt
-    Advanced Programme
-    %br
-    (test phase)
-  %dd
-    %ul
-      %li
-        Submitted to the test phase of the Advanced Programme
-
 - if communication_on_progress.is_advanced_programme? && communication_on_progress.issue_areas_covered.count > 0
   %dt
     Issue Area Coverage
