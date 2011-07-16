@@ -1,13 +1,9 @@
 %dl{:style => 'width: 100%;'}
-
-  %dt.first Grace Letter
-  %dd.first
-    %ul
-      %li== COP due date was extended until #{yyyy_mm_dd communication_on_progress.ends_on}
-  %dt Grace Period
+  = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
+  %dt Grace Letter
   %dd
     %ul
-      %li= date_range(communication_on_progress)
+      %li== COP due date was extended until #{yyyy_mm_dd communication_on_progress.ends_on}
   - if communication_on_progress.cop_files.any?
     %dt Files
     %dd
