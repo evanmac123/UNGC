@@ -1,31 +1,3 @@
-- if params[:action] == 'feed'
-  %h1 Company Information
-  %dt Participant since
-  %dd
-    %ul
-      %li= communication_on_progress.organization.joined_on
-  %dt Country
-  %dd
-    %ul
-      %li= communication_on_progress.organization.country_name
-  %dt Ownership
-  %dd
-    %ul
-      %li
-        = communication_on_progress.organization.is_ft_500 ? 'FT 500' : nil
-        = communication_on_progress.organization.listing_status_name
-  - unless communication_on_progress.organization.stock_symbol.blank? || communication_on_progress.organization.exchange.blank?
-    %dt Stock Information
-    %dd
-      %ul
-        %li
-          == #{communication_on_progress.organization.exchange.name} (#{communication_on_progress.organization.stock_symbol})
-          
-  %dt Sector
-  %dd
-    %ul
-      %li= communication_on_progress.organization.sector_name
-  
 %dt Time period
 %dd
   %ul
