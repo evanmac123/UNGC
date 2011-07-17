@@ -1,16 +1,14 @@
-%h1#page_header UNGC Admin
+- @title = 'Dashboard Overview'
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#overview">Overview</a>
+    %li <a href="#contacts">Contacts</a>
 
-%h3 Contacts
-= link_to 'new', new_admin_local_network_contact_path(current_user.local_network_id)
-%ul
-  = render :partial => 'admin/contacts/contact', :collection => current_user.local_network.contacts
+  #overview.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'Edit', edit_admin_local_network_path(current_user.local_network.id), :class => 'edit_large', :title => "Edit profile"
 
-%h2 Organizations
-%table.dashboard_table#organizations_dashboard_table
-  %tr
-    %th.last_updated Last update
-    %th.title Organization name
-    %th.status Status
-    %th.age Days since last update
-    %th.actions Actions
-  = render :partial => 'admin/organizations/organization', :collection => @organizations
+  #contacts.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New contact', new_admin_local_network_contact_path(current_user.local_network.id), :class => 'new_user_large', :title => 'New Contact'
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => current_user.local_network.contacts
