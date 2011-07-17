@@ -11,8 +11,7 @@
     %th Name
     %th Organization
     %th Email
-    %th.center CEO
-    %th.center Contact Point
+    %th Roles
     %th Actions
 
   - for contact in @results
@@ -21,8 +20,10 @@
       %td= contact.name
       %td{:title => contact.organization_name}= truncate contact.organization_name, :length => 40
       %td= contact.email
-      %td.center= image_tag('/images/checked.png') if contact.is?(Role.ceo)
-      %td.center= image_tag('/images/checked.png') if contact.is?(Role.contact_point)
+      %td
+        %ul.matching_list
+          - for role in contact.roles
+            %li= role.name
       %td
         %ul.actions
           %li 
