@@ -19,7 +19,7 @@
     %tr
       %td= contact.id
       %td= contact.name
-      %td= link_to truncate(contact.organization.name, :length => 40), admin_organization_path(contact.organization.id)
+      %td{:title => contact.organization_name}= truncate contact.organization_name, :length => 40
       %td= contact.email
       %td.center= image_tag('/images/checked.png') if contact.is?(Role.ceo)
       %td.center= image_tag('/images/checked.png') if contact.is?(Role.contact_point)
