@@ -202,7 +202,7 @@ class Contact < ActiveRecord::Base
   end
   
   def organization_name
-    organization.try(:name)
+    from_network? ? local_network.try(:name) : organization.try(:name)
   end
   
   def user_type
