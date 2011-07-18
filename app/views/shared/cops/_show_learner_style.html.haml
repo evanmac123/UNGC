@@ -10,8 +10,8 @@
     %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements and as a result, your company has been placed on the #{popup_link_to 'Learner\'s Platform.','/COP/differentiation/the_learner_platform.html'}
     
     %dl{:style => 'width: 85%;'}
-      %dt Self-assessment
-      %dd= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+      %dt.first Self-assessment
+      %dd.first= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
 
   #results.tab_content
     %dl{:style => 'width: 100%;'}
