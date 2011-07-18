@@ -116,7 +116,7 @@ module Admin::CopsHelper
         }.compact.join('')
         if params[:action] != 'feed'
           output += answers.map{|a|
-            content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "unselected_question") unless a.value.present? && a.value?
+            content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "advanced_question") unless a.value.present? && a.value?
           }.compact.join('')
         end
 
@@ -239,8 +239,8 @@ module Admin::CopsHelper
      content_tag :ol, error_messages.join
   end
   
-  def language_choice_or_english
-    
+  def select_answer_class(item)
+    # we reuse the classes from the questionnaire
+    item ? 'selected_question' : 'unselected_question'
   end
-
 end

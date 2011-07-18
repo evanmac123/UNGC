@@ -40,7 +40,7 @@
   # is enabled.
   # Options: <on|off>
 
-  RailsAllowModRewrite On
+  # RailsAllowModRewrite On
 
   ## RailsEnv
   #

@@ -8,25 +8,22 @@
   %ul
     %li== #{communication_on_progress.starts_on.month}/#{communication_on_progress.starts_on.year} to #{communication_on_progress.ends_on.month}/#{communication_on_progress.ends_on.year}
 
-%dt Self-assessment
-%dd
-  %ul
-    - unless communication_on_progress.include_continued_support_statement? || communication_on_progress.include_measurement?
-      %li The participant did not provide a self-assessment of the COP's content
-    - if communication_on_progress.include_continued_support_statement?
-      %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
-    - if communication_on_progress.include_measurement?
-      %li Includes a measurement of outcomes for at least one issue area
-    - if communication_on_progress.issue_areas_covered.count > 0
-      %li== Issue areas covered: #{communication_on_progress.issue_areas_covered.join(', ')}
-    - else
-      %li The participant has not confirmed coverage for any issue area
-
 - if communication_on_progress.evaluated_for_differentiation?
-  %dt Differentiation Level
+  %dt
+    Differentiation Level
   %dd
     %ul
-      %li= communication_on_progress.differentiation_description
+      %li
+        = communication_on_progress.differentiation_description
+        - if communication_on_progress.differentation_level == :learner
+          %br
+          %span{:style => 'color: red;'} Attention:
+          Missing items have been flagged in the self-assessment
+
+%dt
+  Self-assessment
+%dd
+  = render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
 
 %dt &nbsp;
 %dd= show_basic_cop_attributes(communication_on_progress, nil, false)
