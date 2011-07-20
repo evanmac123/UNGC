@@ -26,6 +26,7 @@ class AdminController < ApplicationController
       @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
                                                               :page  => params[:pages_page])
     elsif current_user.from_network?
+      @local_network = current_user.local_network
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?
       @organization = current_user.organization
