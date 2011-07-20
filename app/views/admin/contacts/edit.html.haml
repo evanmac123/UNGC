@@ -9,6 +9,6 @@
 - else
   %h2 Editing contact
 
-- form_for(:contact, builder: DefaultFormBuilder, url: parent_path(:contact, @contact), :html => {:method => :put}) do |form|
+- form_for(:contact, builder: DefaultFormBuilder, url: contact_path(@contact), :html => {:method => :put}) do |form|
   = render :partial => form
   = form.submit 'Save', :class => 'button'

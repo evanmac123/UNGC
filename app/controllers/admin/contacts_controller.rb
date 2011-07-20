@@ -1,6 +1,5 @@
 class Admin::ContactsController < AdminController
   before_filter :load_parent, :except => :search
-  helper_method :parent_path
 
   def new
     @contact = @parent.contacts.new
@@ -79,17 +78,10 @@ class Admin::ContactsController < AdminController
     
     def redirect_user_to_appropriate_screen
       if current_user.from_ungc?
-        redirect_to parent_path([], :tab => :contacts)
+        redirect_to contact_parent_path(@contact, [], [], :tab => :contacts)
       elsif current_user.from_organization?
         redirect_to dashboard_path(:tab => :contacts) 
       end
-    end
-
-    def parent_path(components, *args)
-      class_component = @parent.class.name.underscore
-      components = ["admin", class_component] + [components].flatten + ["path"]
-      method_name = components.join("_")
-      send(method_name, @parent.id, *args)
     end
 
 end

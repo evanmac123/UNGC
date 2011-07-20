@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
   layout 'admin'
   helper 'Admin', 'Admin/Organizations'
+  helper_method :contact_path, :contact_parent_path
 
   before_filter :login_required
   before_filter :redirect_non_approved_organizations, :only => :dashboard
@@ -68,6 +69,40 @@ class AdminController < ApplicationController
   end
 
   private
+
+  def contact_path(contact, params={})
+    contact_parent_path(contact, ["contact"], [contact], params)
+  end
+
+  def contact_parent_path(contact, components=[], arguments=[], params={})
+    params = params.with_indifferent_access
+
+    components = [components].flatten
+    arguments  = [arguments].flatten
+
+    if contact.organization_id?
+      components.unshift("organization")
+      arguments.unshift(contact.organization_id)
+    elsif contact.local_network_id?
+      components.unshift("local_network")
+      arguments.unshift(contact.local_network_id)
+    else
+      raise ArgumentError, "Contact is from neither an organization nor a network"
+    end
+
+    components.unshift("admin")
+
+    if action = params.delete(:action)
+      components.unshift(action)
+    end
+
+    components.push("path")
+    arguments.push(params)
+
+    method_name = components.join("_")
+    send(method_name, *arguments)
+  end
+  
     def add_admin_js
       (@javascript ||= []) << 'admin'
     end
