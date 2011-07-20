@@ -18,7 +18,7 @@
     %tr
       %td= contact.id
       %td= contact.name
-      %td{:title => contact.organization_name}= truncate contact.organization_name, :length => 40
+      %td{:title => contact.organization_name}= link_to (truncate contact.organization_name, :length => 40), contact_parent_path(contact)
       %td= contact.email
       %td
         %ul.matching_list
