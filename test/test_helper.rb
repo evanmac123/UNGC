@@ -143,6 +143,7 @@ class ActiveSupport::TestCase
     @local_network = create_local_network(:name => "Canadian Local Network")
     @country = create_country(:name => "Canada", :local_network_id => @local_network.id)
     @network_contact = create_contact(:local_network_id => @local_network.id,
+                                      :organization_id  => nil,
                                       # :email            => 'network@example.com',
                                       :role_ids         => [Role.network_report_recipient.id])
   end

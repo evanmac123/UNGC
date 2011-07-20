@@ -113,9 +113,11 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
 
-    should "destroy contact" do
+    should "destroy contact for a local network" do
       @contact_to_be_deleted = create_contact(:local_network_id => @local_network.id,
+                                              :organization_id  => nil,
                                               :email           => "dude2@example.com")
+
       assert_difference('Contact.count', -1) do
         delete :destroy, :local_network_id => @local_network.id,
                          :id => @contact_to_be_deleted.to_param
