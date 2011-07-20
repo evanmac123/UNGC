@@ -34,7 +34,7 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
 
   test "should update local network" do
     put :update, :id => @local_network.to_param, :local_network => { }
-    assert_redirected_to admin_local_networks_path
+    assert_redirected_to admin_local_network_path(@local_network.id)
   end
 
   test "should destroy local network" do
@@ -44,4 +44,18 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
 
     assert_redirected_to admin_local_networks_path
   end
+  
+  context "given a local network contact" do
+    setup do
+     create_local_network_with_report_recipient
+     login_as @network_contact
+    end
+
+    should "update local network" do
+      put :update, :id => @local_network.to_param, :local_network => { }
+      assert_redirected_to dashboard_path
+    end
+    
+  end
+
 end

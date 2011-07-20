@@ -31,7 +31,13 @@ class Admin::LocalNetworksController < AdminController
     @local_network = LocalNetwork.find(params[:id])
     if @local_network.update_attributes(params[:local_network])
       flash[:notice] = 'Local Network was successfully updated.'
-      redirect_to(admin_local_networks_path)
+      
+      if current_user.from_ungc?
+        redirect_to admin_local_network_path(@local_network.id)
+      elsif current_user.from_network?
+        redirect_to dashboard_path
+      end
+      
     else
       render :action => "edit"
     end
@@ -48,5 +54,5 @@ class Admin::LocalNetworksController < AdminController
     def order_from_params
       @order = [params[:sort_field] || 'name', params[:sort_direction] || 'ASC'].join(' ')
     end
-  
+    
 end
