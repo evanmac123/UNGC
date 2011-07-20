@@ -33,4 +33,8 @@ class LocalNetwork < ActiveRecord::Base
     Organization.visible_in_local_network.where_country_id(countries.map(&:id))
   end
   
+  def humanize_state
+    state.try(:humanize) || ''    
+  end
+  
 end
