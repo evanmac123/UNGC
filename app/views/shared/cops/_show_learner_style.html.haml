@@ -7,7 +7,7 @@
 
   #differentiation.tab_content
     %h3= differentiation_placement(communication_on_progress)
-    %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements and as a result, your company has been placed on the #{popup_link_to 'Learner\'s Platform.','/COP/differentiation/the_learner_platform.html'}
+    %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements and as a result, your company has been placed on the #{popup_link_to 'Learner Platform.','/COP/differentiation/the_learner_platform.html'}
     
     %dl{:style => 'width: 85%;'}
       %dt.first Self-assessment
@@ -19,7 +19,7 @@
       = render :partial => results_partial, :locals => { :communication_on_progress => communication_on_progress }
 
   #next_steps.tab_content
-    %p Companies in the Learner's Platform are given a one-time, 12-month 'Learner' grace period to submit a COP that meets all content requirements. 
+    %p Companies in the Learner Platform are given a one-time, 12-month 'Learner' grace period to submit a COP that meets all content requirements. 
     %p The Learner status will be communicated publicly on the Global Compact website. We therefore encourage your company to move to the GC Active level as soon as possible by submitting an updated COP meeting all content requirements. Alternatively, you may wait until your next COP submission deadline to meet all content requirements, provided that the COP is submitted within the 12-month 'Learner' grace period.
     %p
       %strong If a COP is submitted after the 12-month 'Learner' grace period fails to meet all content requirements, your company will be marked as non-communicating on the Global Compact website.
