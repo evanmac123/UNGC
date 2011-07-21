@@ -244,15 +244,5 @@ module Admin::CopsHelper
     item ? 'selected_question' : 'unselected_question'
   end
   
-  def determine_partials(cop)
-    
-  end
-  
-  def differentiation_placement(cop)
-    html = ''
-    html += content_tag :span, "Learner's Platform &#x25BA; "
-    html += content_tag :span, "GC Active &#x25BA; "
-    html += content_tag :span, "GC Advanced"
-  end
   
 end
