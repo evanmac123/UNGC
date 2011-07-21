@@ -1,3 +1,7 @@
+h1. 2011-07-21
+
+* extended COP results styles so we can access them in div.copy, where the page content is rendered
+
 h1. 2011-06-28
 
 * to better alert participants that they are on the Learner Platform, we now indicate which required items in the COP are missing
