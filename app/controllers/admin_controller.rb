@@ -36,7 +36,7 @@ class AdminController < ApplicationController
   
   def no_access_to_other_organizations
     if current_user.from_organization? and current_user.organization != @organization
-      flash[:error] = "You do not have permission to access that resource."
+      flash[:error] = "You do not have permission to access that organization."
       redirect_to admin_organization_path current_user.organization.id
     end
   end
@@ -73,7 +73,10 @@ class AdminController < ApplicationController
 
   # Denies access to a resource if the user belongs to organization or local network
   def no_organization_or_local_network_access
-    redirect_to admin_organization_path(current_user.organization.id) unless current_user.from_ungc?
+    unless current_user.from_ungc?
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path 
+    end
   end
 
   private
