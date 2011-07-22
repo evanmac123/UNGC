@@ -79,7 +79,7 @@ class Admin::ContactsController < AdminController
     def redirect_user_to_appropriate_screen
       if current_user.from_ungc?
         redirect_to contact_parent_path(@contact, [], [], :tab => :contacts)
-      elsif current_user.from_organization?
+      else
         redirect_to dashboard_path(:tab => :contacts) 
       end
     end
