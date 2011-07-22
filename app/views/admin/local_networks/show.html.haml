@@ -11,7 +11,7 @@
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_local_network_path(@local_network.id), :class => 'edit_large', :title => "Edit Local Netork profile"
+      %li= link_to text_for_edit_icon(current_user), edit_admin_local_network_path(@local_network.id), :class => 'edit_large', :title => "Edit Local Network profile"
   
     %dl.left_column
       %h3 Profile
@@ -26,11 +26,11 @@
     %dl.left_column
       %h3 Contacts
       %dt.first Representative
-      %dd.first= render :partial => 'admin/local_networks/contact_overview.html.haml', :collection => @local_network.contacts.network_contacts
+      %dd.first= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_representatives
       %dt Contact Person
-      %dd= render :partial => 'admin/local_networks/contact_overview.html.haml', :collection => @local_network.contacts.network_contacts
+      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_contacts
       %dt Report Recipient
-      %dd= render :partial => 'admin/local_networks/contact_overview.html.haml', :collection => @local_network.contacts.network_report_recipients
+      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_report_recipients
 
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
