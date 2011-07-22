@@ -1,4 +1,4 @@
-# ./script/runner 'AssignNetworkRoles.new.run'
+# ./script/runner 'AssignNetworkRoles.new.run' -e production
 
 class AssignNetworkRoles
   def run
