@@ -48,6 +48,7 @@ class Admin::LocalNetworksController < AdminController
   def destroy
     @local_network = LocalNetwork.find(params[:id])
     @local_network.destroy
+    flash[:notice] = 'Local Network was deleted.'
     redirect_to(admin_local_networks_path)
   end
   
