@@ -148,12 +148,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
     
     should "redirect to dashboard contacts tab" do
-      put :update, :local_network_id => @local_network.id,
-                   :id              => @network_contact.to_param,
-                   :contact         => { :login    => 'aaa',
-                                         :password => "password" }
-
-      assert_equal 'aaa', @network_contact.reload.login
+      put :update, :local_network_id => @local_network.id, :id => @network_contact.to_param
       assert_redirected_to dashboard_path(:tab => :contacts)
     end
     
