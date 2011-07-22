@@ -98,16 +98,6 @@ class Contact < ActiveRecord::Base
     }
   }
   
-  named_scope :network_contacts, lambda {
-    roles = []
-    roles << Role.network_focal_point
-    roles << Role.network_representative
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles],
-      :order      => "roles.name DESC"
-    }
-  }
   named_scope :network_roles, lambda {
     roles = []
     roles << Role.network_focal_point
@@ -119,19 +109,39 @@ class Contact < ActiveRecord::Base
       :order      => "roles.name DESC"
     }
   }
-  named_scope :network_report_recipients, lambda {
-    roles = Role.network_report_recipient
+  # roles << Role.network_representative
+
+  named_scope :network_contacts, lambda {
+    role = Role.network_focal_point
     {
       :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles]
+      :conditions => ["contacts_roles.role_id IN (?)", role],
+      :order      => "roles.name DESC"
+    }
+  }
+
+  named_scope :network_representatives, lambda {
+    role = Role.network_representative
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", role],
+      :order      => "roles.name DESC"
+    }
+  }
+
+  named_scope :network_report_recipients, lambda {
+    role = Role.network_report_recipient
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", role]
     }
   }
   
   named_scope :network_regional_managers, lambda {
-    roles = Role.network_regional_manager
+    role = Role.network_regional_manager
     {
       :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles]
+      :conditions => ["contacts_roles.role_id IN (?)", role]
     }
   }
   
