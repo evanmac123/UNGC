@@ -40,6 +40,13 @@ class AdminController < ApplicationController
       redirect_to admin_organization_path current_user.organization.id
     end
   end
+
+  def no_access_to_other_local_networks
+    if (current_user.from_network? and current_user.local_network != @local_network) || current_user.from_organization?
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path
+    end
+  end
   
   # Denies access if the user belongs to a rejected organization
   def no_rejected_organizations_access

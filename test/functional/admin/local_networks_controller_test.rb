@@ -51,8 +51,27 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
      login_as @network_contact
     end
 
+    should "should get edit" do
+      get :edit, :id => @local_network.to_param
+      assert_response :success
+    end
+
     should "update local network" do
       put :update, :id => @local_network.to_param, :local_network => { }
+      assert_redirected_to dashboard_path
+    end
+    
+    should "not edit another Local Network" do
+      @another_network = create_local_network
+      get :edit, :id => @another_network.to_param
+      assert_redirected_to dashboard_path
+    end
+    
+    should "not destroy another local network" do
+      @another_network = create_local_network
+      assert_difference('LocalNetwork.count', 0) do
+        delete :destroy, :id => @another_network.to_param
+      end
       assert_redirected_to dashboard_path
     end
     

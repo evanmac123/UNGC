@@ -1,5 +1,7 @@
 class Admin::LocalNetworksController < AdminController
+  before_filter :load_local_network, :only => [:edit, :destroy]
   before_filter :no_organization_or_local_network_access
+  before_filter :no_access_to_other_local_networks
 
   def index
     @local_networks = LocalNetwork.all(:order => order_from_params)
@@ -53,6 +55,10 @@ class Admin::LocalNetworksController < AdminController
 
     def order_from_params
       @order = [params[:sort_field] || 'name', params[:sort_direction] || 'ASC'].join(' ')
+    end
+    
+    def load_local_network
+      @local_network = LocalNetwork.find(params[:id])
     end
     
 end
