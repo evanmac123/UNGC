@@ -17,6 +17,17 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
   
+  context "given a all Local Network Managers" do
+    setup do
+      @local_network_managers = Contact.network_regional_managers
+    end
+  
+    should "be from the Global Compact Office" do
+      @local_network_managers.each { |contact| assert contact.from_ungc? }
+    end
+    
+  end
+  
   context "given an organization user" do
     setup do
       create_organization_and_user

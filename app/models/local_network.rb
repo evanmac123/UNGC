@@ -16,9 +16,16 @@ class LocalNetwork < ActiveRecord::Base
   has_many :countries
   has_many :contacts
   belongs_to :manager, :class_name => "Contact"
+  validates_format_of :url,
+                      :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,
+                      :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
+                      :unless => Proc.new { |local_network| local_network.url.blank? }
   
-  STATES = ['emerging', 'established', 'none']
   
+  default_scope :order => 'name'
+  
+  STATES = { :emerging => 'Emerging', :established => 'Established' }
+          
   def latest_participant
     participants.find(:first, :order => 'joined_on DESC')
   end
@@ -30,4 +37,9 @@ class LocalNetwork < ActiveRecord::Base
   def participants
     Organization.visible_in_local_network.where_country_id(countries.map(&:id))
   end
+  
+  def humanize_state
+    state.try(:humanize) || ''    
+  end
+  
 end

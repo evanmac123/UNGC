@@ -43,6 +43,12 @@ h1. 2011-06-28
 * reused check/flag styles from the questionnaire
 * also display an alert on the dashboard/public views
 
+h1. 2011-06-22
+
+* assign Network Managers to countries
+* some commands are only running in the console
+* ./script/runner 'AssignNetworkRoles.new.run'
+
 h1. 2011-06-02
 
 * redirect users who try to login to a rejected organization
@@ -66,6 +72,10 @@ h1. 2011-04-22
 
 * Ask contacts to review and update their information if they haven't logged in for 6 months
 * redirect them to edit screen, or send them on their way to the dashboard
+
+h1. 2011-04-13
+
+* split COP status change and COP reminder emails into separate cron jobs because the reminder job seemed to be stalling
 
 h1. 2011-04-12
 

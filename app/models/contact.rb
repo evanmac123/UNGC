@@ -46,7 +46,7 @@ class Contact < ActiveRecord::Base
   MONTHS_SINCE_LOGIN = 6
 
   validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
-  validates_presence_of :login, :if => Proc.new {|contact| contact.is?(Role.contact_point) }
+  validates_presence_of :login, :if => :can_login?
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
   validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true, :message => "with the same username already exists"
   validates_uniqueness_of :email, :on => :create 
@@ -62,7 +62,6 @@ class Contact < ActiveRecord::Base
   
   # TODO LATER: remove plain text password at some point - attr_accessor :password
   before_save :encrypt_password
-  before_save :set_local_network_id
   
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point
@@ -99,16 +98,6 @@ class Contact < ActiveRecord::Base
     }
   }
   
-  named_scope :network_contacts, lambda {
-    roles = []
-    roles << Role.network_focal_point
-    roles << Role.network_representative
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles],
-      :order      => "roles.name DESC"
-    }
-  }
   named_scope :network_roles, lambda {
     roles = []
     roles << Role.network_focal_point
@@ -120,17 +109,47 @@ class Contact < ActiveRecord::Base
       :order      => "roles.name DESC"
     }
   }
-  named_scope :network_report_recipients, lambda {
-    roles = Role.network_report_recipient
+  # roles << Role.network_representative
+
+  named_scope :network_contacts, lambda {
+    role = Role.network_focal_point
     {
       :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles]
+      :conditions => ["contacts_roles.role_id IN (?)", role],
+      :order      => "roles.name DESC"
+    }
+  }
+
+  named_scope :network_representatives, lambda {
+    role = Role.network_representative
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", role],
+      :order      => "roles.name DESC"
+    }
+  }
+
+  named_scope :network_report_recipients, lambda {
+    role = Role.network_report_recipient
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", role]
+    }
+  }
+  
+  named_scope :network_regional_managers, lambda {
+    role = Role.network_regional_manager
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", role]
     }
   }
   
   named_scope :for_country, lambda { |country|
     {:conditions => {:country_id => country.id} }
   }
+  
+  named_scope :with_login, {:conditions => 'login IS NOT NULL'}
     
   define_index do
     indexes first_name, last_name, middle_name, email
@@ -169,19 +188,19 @@ class Contact < ActiveRecord::Base
   end
   
   def from_ungc?
-    organization.name == DEFAULTS[:ungc_organization_name]
+    organization_id? && organization.name == DEFAULTS[:ungc_organization_name]
   end
   
   def from_organization?
-    !organization_id.nil? && !from_ungc?
+    organization_id? && !from_ungc?
   end
   
   def from_network?
-    self.organization.local_network?
+    local_network_id?
   end
 
   def from_rejected_organization?
-    self.organization.rejected?
+    organization.try(:rejected?)
   end
   
   def submit_grace_letter?
@@ -193,7 +212,7 @@ class Contact < ActiveRecord::Base
   end
   
   def organization_name
-    organization.try(:name)
+    from_network? ? local_network.try(:name) : organization.try(:name)
   end
   
   def user_type
@@ -204,6 +223,10 @@ class Contact < ActiveRecord::Base
   
   def is?(role)
     roles.include? role
+  end
+
+  def can_login?
+    Role.login_roles.any? { |r| is?(r) }
   end
     
   def encrypt_password
@@ -223,6 +246,7 @@ class Contact < ActiveRecord::Base
   end
 
   private
+  
     def keep_at_least_one_ceo
       if self.is?(Role.ceo) && self.organization.contacts.ceos.count <= 1
         errors.add_to_base "cannot delete CEO, at least 1 CEO should be kept at all times"
@@ -253,13 +277,5 @@ class Contact < ActiveRecord::Base
     
     def self.encrypted_password(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
-    end
-    
-    # Set the local network when the organization is a local network
-    def set_local_network_id
-      # logger.info "******* set_local_network_id"
-      if self.organization.try :local_network?
-        self.local_network_id = self.organization.country.local_network_id
-      end
     end
 end

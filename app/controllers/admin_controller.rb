@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
   layout 'admin'
   helper 'Admin', 'Admin/Organizations'
+  helper_method :contact_path, :contact_parent_path
 
   before_filter :login_required
   before_filter :redirect_non_approved_organizations, :only => :dashboard
@@ -25,6 +26,7 @@ class AdminController < ApplicationController
       @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
                                                               :page  => params[:pages_page])
     elsif current_user.from_network?
+      @local_network = current_user.local_network
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?
       @organization = current_user.organization
@@ -36,6 +38,13 @@ class AdminController < ApplicationController
     if current_user.from_organization? and current_user.organization != @organization
       flash[:error] = "You do not have permission to access that resource."
       redirect_to admin_organization_path current_user.organization.id
+    end
+  end
+
+  def no_access_to_other_local_networks
+    if (current_user.from_network? and current_user.local_network != @local_network) || current_user.from_organization?
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path
     end
   end
   
@@ -64,10 +73,47 @@ class AdminController < ApplicationController
 
   # Denies access to a resource if the user belongs to organization or local network
   def no_organization_or_local_network_access
-    redirect_to admin_organization_path(current_user.organization.id) unless current_user.from_ungc?
+    unless current_user.from_ungc?
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path 
+    end
   end
 
   private
+
+  def contact_path(contact, params={})
+    contact_parent_path(contact, ["contact"], [contact], params)
+  end
+
+  def contact_parent_path(contact, components=[], arguments=[], params={})
+    params = params.with_indifferent_access
+
+    components = [components].flatten
+    arguments  = [arguments].flatten
+
+    if contact.organization_id?
+      components.unshift("organization")
+      arguments.unshift(contact.organization_id)
+    elsif contact.local_network_id?
+      components.unshift("local_network")
+      arguments.unshift(contact.local_network_id)
+    else
+      raise ArgumentError, "Contact is from neither an organization nor a network"
+    end
+
+    components.unshift("admin")
+
+    if action = params.delete(:action)
+      components.unshift(action)
+    end
+
+    components.push("path")
+    arguments.push(params)
+
+    method_name = components.join("_")
+    send(method_name, *arguments)
+  end
+  
     def add_admin_js
       (@javascript ||= []) << 'admin'
     end

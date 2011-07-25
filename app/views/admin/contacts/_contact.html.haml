@@ -5,6 +5,6 @@
   %td= contact.job_title
   %td
     %ul.actions
-      %li= link_to 'View details', edit_admin_organization_contact_path(contact.organization.id, contact), :class => 'edit', :title => 'View/Edit details'
+      %li= link_to 'View details', edit_contact_path(contact), :class => 'edit', :title => 'View/Edit details'
       - unless contact == current_user
-        %li= link_to 'Delete', admin_organization_contact_path(contact.organization.id, contact), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
+        %li= link_to 'Delete', contact_path(contact), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'

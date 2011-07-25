@@ -1,7 +1,8 @@
 %tr
-  %td= country.updated_at
   %td= country.name
+  %td= country.local_network_name
   %td= country.region
+  %td= country.regional_manager_name
   %td
     %ul.actions
       %li= link_to 'Edit', edit_admin_country_path(country), :class => 'edit', :title => 'Edit details'

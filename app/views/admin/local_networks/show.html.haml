@@ -1,12 +1,13 @@
-- @title = 'Dashboard Overview'
 - @body_class = 'details'
-
+%h2= @local_network.name
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
-    %li <a href="#applications">New Applications</a>
-    %li <a href="#expelled">Participants to be Expelled</a>
+    %li <a href="#network_management">Network Management</a>
+    %li <a href="#events">Events & Activities</a>
+    %li <a href="#integrity">Integrity Measures</a>
+    %li <a href="#awards">Awards</a>
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -23,20 +24,27 @@
         %dd= link_to @local_network.url, @local_network.url
 
     %dl.left_column
-      %h3 Recent Activity
-      %dt.first Example Item
-      %dd.first Sample Meeting Report
-      %dt Example Newsletter
-      %dd Sample Newsletter
+      %h3 Contacts
+      %dt.first Representative
+      %dd.first= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_representatives
+      %dt Contact Person
+      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_contacts
+      %dt Report Recipient
+      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_report_recipients
 
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
     %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
     
-  #applications.tab_content
-    %p Applications pending your review
-    
-  #expelled.tab_content
-    %p These participants will be expelled for failure to submit a Communication on Progress
-   
+  #network_management.tab_content
+    %h3 Network Management
+  
+  #events.tab_content
+    %h3 Events & Activities
+
+  #integrity.tab_content
+    %h3 Integrity Measures
+
+  #awards.tab_content
+    %h3 Awards

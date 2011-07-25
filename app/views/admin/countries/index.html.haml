@@ -1,10 +1,12 @@
-%h2 Listing countries
-= link_to 'Create a country', new_admin_country_path, :class => "new", :id => "new_country"
+%h2 Countries
+= link_to 'New country', new_admin_country_path, :class => "new_large", :id => "new_country"
 
 %table.dashboard_table#countries_table
   %tr
-    %th.last_updated Last updated on
-    %th.title Name
-    %th.status Region
+    %th= sort_header 'Name', field: 'countries.name'
+    / %th Local Network
+    %th= sort_header 'Local Network', field: 'local_networks.name'
+    %th= sort_header 'Region', field: 'region'
+    %th= sort_header 'Regional Manager', field: 'contacts.first_name'
     %th.actions Actions
   = render @countries

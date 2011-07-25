@@ -80,5 +80,9 @@ module AdminHelper
         days_ago.to_s + ' days ago'
     end
   end
-  
+
+  def edit_contact_path(contact)
+    contact_path(contact, :action => :edit)
+  end
+
 end

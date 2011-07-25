@@ -62,6 +62,18 @@ module ApplicationHelper
 
     html
   end
-  
-  
+
+  def current_year
+    Time.now.strftime('%Y').to_i
+  end
+
+  # swap key/value so the values and labels for the <select> options are in the correct order
+  def select_options_from_hash(hash)
+    reverse_hash = Hash.new
+    		hash.each {|key,value|
+    			reverse_hash[value] = key unless reverse_hash.has_key?(key)
+    		}
+  	return reverse_hash
+  end
+
 end

@@ -14,15 +14,17 @@
 #
 
 class Country < ActiveRecord::Base
-  validates_presence_of :name, :code
+  validates_presence_of :name, :code, :region
   belongs_to :manager, :class_name => 'Contact'
   has_many :organizations
   has_and_belongs_to_many :case_stories
   has_and_belongs_to_many :communication_on_progresses
   belongs_to :local_network
   
-  default_scope :order => 'name'
+  default_scope :order => 'countries.name'
   
+  REGIONS = ['Africa', 'Americas', 'Asia', 'Australasia', 'Europe', 'MENA']
+    
   named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
   
   def self.regions
@@ -30,4 +32,13 @@ class Country < ActiveRecord::Base
                        :conditions => 'region IS NOT NULL',
                        :order      => 'region')
   end
+  
+  def local_network_name
+    self.local_network.try(:name) || ''    
+  end
+
+  def regional_manager_name
+    self.manager.try(:name) || ''
+  end
+  
 end

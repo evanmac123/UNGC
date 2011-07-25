@@ -22,7 +22,8 @@ class Admin::CountriesControllerTest < ActionController::TestCase
   test "should create country" do
     assert_difference('Country.count') do
       post :create, :country => { :name => 'country #3',
-                                  :code => 'C3'}
+                                  :code => 'C3',
+                                  :region => "MENA" }
     end
 
     assert_redirected_to admin_countries_path

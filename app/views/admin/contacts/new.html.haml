@@ -1,5 +1,5 @@
 %h2 New contact
 
-- form_for(:contact, builder: DefaultFormBuilder, url: admin_organization_contacts_path(@organization.id)) do |form|
+- form_for(:contact, builder: DefaultFormBuilder, url: contact_parent_path(@contact, :contacts)) do |form|
   = render :partial => form
   = form.submit 'Create', :class => 'button'

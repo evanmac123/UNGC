@@ -11,23 +11,24 @@
     %th Name
     %th Organization
     %th Email
-    %th.center CEO
-    %th.center Contact Point
+    %th Roles
     %th Actions
 
   - for contact in @results
     %tr
       %td= contact.id
       %td= contact.name
-      %td= link_to truncate(contact.organization.name, :length => 40), admin_organization_path(contact.organization.id)
+      %td{:title => contact.organization_name}= link_to (truncate contact.organization_name, :length => 40), contact_parent_path(contact)
       %td= contact.email
-      %td.center= image_tag('/images/checked.png') if contact.is?(Role.ceo)
-      %td.center= image_tag('/images/checked.png') if contact.is?(Role.contact_point)
+      %td
+        %ul.matching_list
+          - for role in contact.roles
+            %li= role.name
       %td
         %ul.actions
           %li 
-            = link_to 'Edit', edit_admin_organization_contact_path(id: contact.id, organization_id: contact.organization_id), :class => "edit", :title => "Edit"
+            = link_to 'Edit', edit_contact_path(contact), :class => "edit", :title => "Edit"
           %li 
-            = link_to 'Destroy', admin_organization_contact_path(id: contact.id, organization_id: contact.organization_id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+            = link_to 'Destroy', contact_path(contact), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
 = will_paginate @results, :anchor => 'paged_results'
