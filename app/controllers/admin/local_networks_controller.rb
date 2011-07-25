@@ -8,7 +8,7 @@ class Admin::LocalNetworksController < AdminController
   end
 
   def new
-    @local_network = LocalNetwork.new
+    @local_network = LocalNetwork.new(:state => LocalNetwork::STATES[:emerging])
   end
   
   def show
