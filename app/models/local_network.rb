@@ -16,6 +16,11 @@ class LocalNetwork < ActiveRecord::Base
   has_many :countries
   has_many :contacts
   belongs_to :manager, :class_name => "Contact"
+  validates_format_of :url,
+                      :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,
+                      :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
+                      :unless => Proc.new { |local_network| local_network.url.blank? }
+  
   
   default_scope :order => 'name'
   
