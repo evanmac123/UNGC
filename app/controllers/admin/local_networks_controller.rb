@@ -1,7 +1,7 @@
 class Admin::LocalNetworksController < AdminController
   before_filter :load_local_network, :only => [:edit, :destroy]
   before_filter :no_organization_or_local_network_access
-  before_filter :no_access_to_other_local_networks
+  before_filter :no_access_to_other_local_networks, :except => [:update] 
 
   def index
     @local_networks = LocalNetwork.all(:order => order_from_params)
