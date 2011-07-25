@@ -1,39 +1,14 @@
 - @body_class = 'details'
-%h2 Communication on Progress Details
+- @return_path = current_user.from_organization? ? dashboard_path(:tab => :cops) : admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
 
+%h2 Communication on Progress Details
 %ul{:class => "tools inline"}
+
+  %li= link_to 'Back to COPs', @return_path, :class => 'go_back_large'
   %li= link_to 'Public version', cop_detail_path(@communication_on_progress.id), :class => 'web_preview_large'
   - staff_only do
     %li= link_to 'Delete COP', admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress), :method => :delete, :class => 'delete_large', :confirm => 'All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?', :title => 'Delete COP and remove all answers, files and links'
 
-#main_content
-  #status_box
-    %dl{:style => 'width: 90%;'}
-      %dt Organization
-      %dd
-        %ul
-          - if current_user.from_organization?
-            %li= link_to @communication_on_progress.organization.name, dashboard_path(:tab => :cops)
-          - else
-            %li= link_to @communication_on_progress.organization.name, admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
-
-      %dt Title
-      %dd
-        %ul
-          %li= @communication_on_progress.title
-        
-      %dt Published
-      %dd
-        %ul
-          %li= yyyy_mm_dd @communication_on_progress.created_at
-            
-      - if @communication_on_progress.format == 'basic'
-        = render :partial => '/shared/cops/show_basic_style', :locals => { :communication_on_progress => @communication_on_progress } 
-      - elsif @communication_on_progress.is_grace_letter?
-        = render :partial => '/shared/cops/show_grace_style', :locals => { :communication_on_progress => @communication_on_progress } 
-      - elsif @communication_on_progress.is_new_format?
-        = render :partial => '/shared/cops/show_new_style', :locals => { :communication_on_progress => @communication_on_progress } 
-      - elsif  @communication_on_progress.is_legacy_format?
-        = render :partial => '/shared/cops/show_legacy_style', :locals => { :communication_on_progress => @communication_on_progress } 
-
+.main_content
+  #status_box= render :partial => @cop_partial, :locals => {:results_partial => @results_partial, :communication_on_progress => @communication_on_progress } 
   = action_links(@communication_on_progress)

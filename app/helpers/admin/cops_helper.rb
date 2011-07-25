@@ -243,4 +243,6 @@ module Admin::CopsHelper
     # we reuse the classes from the questionnaire
     item ? 'selected_question' : 'unselected_question'
   end
+  
+  
 end
