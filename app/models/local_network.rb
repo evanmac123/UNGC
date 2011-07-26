@@ -33,8 +33,8 @@ class LocalNetwork < ActiveRecord::Base
     participants.find(:first, :order => 'joined_on DESC')
   end
   
-  def network_contacts
-    contacts.network_contacts + [manager]
+  def public_network_contacts
+    contacts.network_roles_public + [manager]
   end
   
   def participants
@@ -48,7 +48,6 @@ class LocalNetwork < ActiveRecord::Base
   def state_for_select_field
     state.try(:to_sym)
   end
-  
     
   def country_code
     if countries.count == 1
