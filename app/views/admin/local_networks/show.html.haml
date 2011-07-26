@@ -12,6 +12,7 @@
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to text_for_edit_icon(current_user), edit_admin_local_network_path(@local_network.id), :class => 'edit_large', :title => "Edit Local Network profile"
+      %li= link_to 'Public profile', "/NetworksAroundTheWorld/local_network_sheet/#{@local_network.country_code}.html", :class => 'web_preview_large'
   
     %dl.left_column
       %h3 Profile
