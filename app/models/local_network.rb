@@ -49,6 +49,7 @@ class LocalNetwork < ActiveRecord::Base
     state.try(:to_sym)
   end
   
+    
   def country_code
     if countries.count == 1
       countries.first.code
