@@ -21,10 +21,13 @@ class LocalNetwork < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
   
-  
   default_scope :order => 'name'
   
   STATES = { :emerging => 'Emerging', :established => 'Established' }
+  
+  # To link to public profiles, we associate the two regional networks with their host countries
+  # Ex: NetworksAroundTheWorld/local_network_sheet/AE.html
+  REGION_COUNTRY = { 'Gulf States' => 'AE', 'Nordic Network' => 'DK' }
           
   def latest_participant
     participants.find(:first, :order => 'joined_on DESC')
@@ -40,6 +43,16 @@ class LocalNetwork < ActiveRecord::Base
   
   def humanize_state
     state.try(:humanize) || ''    
+  end
+  
+  def state_for_select_field
+    state.try(:to_sym)
+  end
+  
+  def country_code
+    if countries.count == 1
+      countries.first.code
+    end
   end
   
 end
