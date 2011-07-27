@@ -38,7 +38,8 @@
     %li{:class=>"clearfix #{cycle('even', 'odd')}"}
       .left
         %strong Differentiation Level
-      .right= differentiation_placement(@participant.communication_on_progresses.first)
+      .right= @participant.status_name
+      
       
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
     .left
