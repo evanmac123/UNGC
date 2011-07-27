@@ -9,10 +9,6 @@
     %p Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your company has reached the <strong>GC Advanced</strong> level.
     %p GC Advanced companies will be publicly recognized on the Global Compact website with detailed results of the self-assessment and statistics on coverage of best practices for the COP.
     
-    %dl{:style => 'width: 85%;'}
-      %dt.first Self-assessment
-      %dd.first= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
-
   #results.tab_content
     %dl{:style => 'width: 100%;'}
       = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
