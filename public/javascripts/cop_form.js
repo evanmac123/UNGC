@@ -85,17 +85,6 @@ $("input[name='communication_on_progress[notable_program]']").click(function() {
   $("#submit_tab").show();
 })
 
-// Show and Hide question hints
-// $("div.hint_toggle").toggle(function(){
-//  $(this).addClass("active"); 
-//  }, function () {
-//  $(this).removeClass("active");
-// });
-
-$(".hint_toggle").click(function(){
-  $(this).next(".hint_text").slideToggle('slow');
-});
-
 $("#new_cop_file").click(function(){
   $('#cop_files').append(replace_ids(cop_file_form));
 });
