@@ -23,6 +23,14 @@ module Importers
         local_network
       end
 
+      def model_string(local_network)
+        if local_network
+          local_network.name
+        else
+          super
+        end
+      end
+
       def get_date(row, column_name)
         value = get_value(row, column_name).strip
 

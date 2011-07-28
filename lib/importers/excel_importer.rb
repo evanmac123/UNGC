@@ -46,11 +46,18 @@ module Importers
       end
     end
 
+    def model_string(model)
+      if model
+        "#{model.class.name}(#{model.id})"
+      else
+        ""
+      end
+    end
+
     def report(row, model, message, color)
       line = "Row: #{row.idx.to_s.rjust(4)} "
 
-      model_str = model ? "#{model.class.name}(#{model.id})" : ""
-      line << model_str.ljust(20)
+      line << model_string(model).ljust(20)
 
       message = message.ljust(20)
       message = highlight(message, color) if color
