@@ -4,6 +4,9 @@ h1. 2011-07-28
 * first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
 * then update search index to remove 'GC Networks' from search
 
+* launched new COP results screen
+* any participant who submitted a COP between the last COP mass-mailing on 30 June, 2011 would not have been informed of their status 
+
 h1. 2011-07-17
 
 * there are now a number of partials for displaying COPs depending on the view: Dashboard, public, feed
