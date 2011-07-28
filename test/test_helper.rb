@@ -156,10 +156,13 @@ class ActiveSupport::TestCase
     create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
   end
   
-  def create_cop(organization_id)
-    create_communication_on_progress(:organization_id => organization_id,
-                                     :starts_on => Date.new(2010, 01, 01),
-                                     :ends_on => Date.new(2010, 12, 31))
+  def create_cop(organization_id, options = {})
+    defaults = {
+      :organization_id => organization_id,
+      :starts_on => Date.new(2010, 01, 01), 
+      :ends_on => Date.new(2010, 12, 31)
+    }    
+    create_communication_on_progress(defaults.merge(options))
   end
   
   def create_principle_areas

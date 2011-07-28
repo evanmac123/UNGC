@@ -1,3 +1,42 @@
+h1. 2011-07-17
+
+* there are now a number of partials for displaying COPs depending on the view: Dashboard, public, feed
+* the different partials populate the content for the dt and dd
+* TODO the correct partial is determined in the two COP controllers, but this should be moved to the model in the case of further changes or customization for viewing COP results
+* views/shared/cops:
+
+*_cop_info_header* - title, publish date, period covered 
+*_cop_questionnaire_results* - lists the COP question attributes and responses with a green check for 'Yes'
+*_feed* - calls the new, basic, or legacy partials for displaying COP content in the atom feed
+*_self_assessment* - Yes/No response to the 6 required COP criteria (only Yes responses are included in feed)
+*_show_active_style* - Dashboard only view
+*_show_advanced_style* - Dashboard only view 
+*_show_basic_style* - results of Basic template COP. These COPs do not include files or links so we only show the results of their open text responses
+*_show_differentiation_style* - for COPs submitted within the Differentiation Program
+*_show_differentiation_style_public* - we need to include the cop_info_header in the public version
+*_show_grace_style* - Grace Letters have the same Dashboard and public view
+*_show_learner_style* - Dashboard only view
+*_show_legacy_style* - for COPs submitted before 2010
+*_show_new_style* - for COPs submitted in 2010, but before the Differentiation Program (also used by the feed)
+
+h1. 2011-07-12
+
+* move COP differentiation results into its own partial
+* remove unused results from 'new' style COP
+* 'new' means any COP submitted in 2010, until the Differentiation Program was launched in February 2011
+
+h1. 2011-07-06
+
+* when testing the COP controller, pass in COP options to override defaults
+* necessary when testing the different types of COPs and templates
+* if someone completes the Basic COP template and report a at the Learner level, are the correct partials being used?
+* that's what needs to be tested
+
+h1. 2011-07-03
+
+* creating a new COP results screen to better inform participants of their Differentiation Level
+* will need to use a number of partials since the information displayed will vary across the different types of COPs
+
 h1. 2011-06-28
 
 * to better alert participants that they are on the Learner Platform, we now indicate which required items in the COP are missing
