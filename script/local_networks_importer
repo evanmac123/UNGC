@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+if ARGV.length != 1
+  puts "usage: #{$0} DATA_FILE"
+  exit -1
+end
+
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+require "importers/local_networks_importer"
+
+Importers::LocalNetworks::MainImporter.new(*ARGV).run
+
