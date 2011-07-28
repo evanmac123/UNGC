@@ -16,7 +16,7 @@ module Importers
           if country
             country.local_network
           else
-            puts "No country found: region = #{region.inspect}, name = #{country_name.inspect}"
+            warn "No country found: region = #{region.inspect}, name = #{country_name.inspect}"
             nil
           end
         else
@@ -34,7 +34,7 @@ module Importers
 
     class MembershipImporter < NetworkManagement
       def update_model(model, row)
-        puts "Hello from MembershipImporter"
+        # todo
       end
     end
   end

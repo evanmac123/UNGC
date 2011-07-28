@@ -19,21 +19,19 @@ module Importers
           model = init_model(row)
 
           if model
-            model_str = "#{model.class.name} with id=#{model.id}:"
-
             update_model(model, row)
 
             if model.changed?
               if model.save
-                puts "#{model_str} updated"
+                report(row, model, "updated", :green)
               else
-                puts "#{model_str} validation failed"
+                report(row, model, "validation failed", :red)
               end
             else
-              puts "#{model_str} identical"
+              report(row, model, "identical", :grey)
             end
           else
-            puts "No model found for row \##{row.idx}"
+            report(row, nil, "no model found", :yellow)
           end
         end
       end
@@ -43,7 +41,7 @@ module Importers
       if index = @column_names.index(column_name)
         row[index]
       else
-        puts "Column not found: #{column_name.inspect}"
+        warn "Column not found: #{column_name.inspect}"
         nil
       end
     end
@@ -56,9 +54,35 @@ module Importers
       elsif value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
         Date.strptime(value, "%d/%m/%Y")
       else
-        puts "Bad date on row \##{row.idx}, column #{column_name.inspect}: #{value.inspect}"
+        warn "Bad date on row \##{row.idx}, column #{column_name.inspect}: #{value.inspect}"
         nil
       end
+    end
+
+    def report(row, model, message, color)
+      line = "Row: #{row.idx.to_s.rjust(4)} "
+
+      model_str = model ? "#{model.class.name}(#{model.id})" : ""
+      line << model_str.ljust(20)
+
+      message = message.ljust(20)
+      message = highlight(message, color) if color
+      line << message
+
+      $stderr.puts(line)
+    end
+
+    def warn(message)
+      $stderr.puts(" * " + highlight(message, :yellow))
+    end
+
+    def highlight(str, color)
+      code = {
+        black:   30, red:  31, green: 32, yellow: 33, blue: 34,
+        magenta: 35, cyan: 36, white: 37, grey:   90
+      }.fetch(color)
+
+      "\033[#{code}m#{str}\033[m"
     end
 
     class InvalidData < StandardError; end
