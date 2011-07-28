@@ -254,7 +254,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
     
     should "show alert if COP is on Learner Platform" do
-      assert_select 'span', 'Although you submitted for an Advanced level COP, you did not confirm the the COP meets all 24 criteria, and therefore do not qualify for the GC Advanced level.'
+      assert_select 'span#notice', 'Although you submitted an Advanced level COP, you did not confirm if the COP meets all 24 criteria, and therefore do not qualify for the GC Advanced level.'
     end
     
   end
