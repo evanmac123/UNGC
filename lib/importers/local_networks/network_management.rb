@@ -6,22 +6,21 @@ module Importers
       end
 
       def init_model(row)
-        region = get_value(row, "Region Name")
-        country_name = get_value(row, "Country Name")
+        name = get_value(row, "GCLN Name")
 
-        if region.present? and country_name.present?
-          region = region[/\w+/].capitalize
-          country = Country.find_by_region_and_name(region, country_name)
-
-          if country
-            country.local_network
-          else
-            warn "No country found: region = #{region.inspect}, name = #{country_name.inspect}"
-            nil
-          end
-        else
-          nil
+        if name.blank?
+          warn "No local network name found on row \##{row.idx}"
+          return nil
         end
+
+        local_network = LocalNetwork.find_by_name(name)
+
+        if local_network.nil?
+          warn "Local network not found (#{name.inspect})"
+          return nil
+        end
+
+        local_network
       end
 
       def get_date(row, column_name)
