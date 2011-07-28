@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
-if ARGV.length != 1
-  puts "usage: #{$0} DATA_FILE"
+unless (1..2) === ARGV.length
+  puts "usage: #{$0} DATA_FILE [IMPORTER_CLASS]"
   exit -1
 end
 
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require "importers/local_networks_importer"
+require "importers/local_networks"
 
-Importers::LocalNetworks::MainImporter.new(*ARGV).run
+Importers::LocalNetworks::Runner.new(*ARGV).run
 
