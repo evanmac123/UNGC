@@ -124,9 +124,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
                       :references_anti_corruption   => true,
                       :include_measurement          => true,
                       :starts_on                    => Date.today,
-                      :ends_on                      => Date.today
+                      :ends_on                      => Date.today,
+                      :differentiation              => 'learner'
                     }
-      
     end
 
     should "confirm the format" do
@@ -143,11 +143,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   
   context "given an existing cop" do
     setup do
-      create_organization_and_user
-      @organization.approve!
-      create_principle_areas
-      @cop = create_cop(@organization.id)
-      login_as @organization_user
+      create_cop_and_login_as_user
     end
     
     should "be able to see the cop details" do
@@ -155,14 +151,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
                  :id              => @cop.id
       assert_response :success
     end
-    
-    should "show alert if COP is on Learner Platform" do
-      @cop.update_attribute :differentiation, 'learner'
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-      assert_select 'span', 'Attention:'
-    end
-    
+
     should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
@@ -175,5 +164,120 @@ class Admin::CopsControllerTest < ActionController::TestCase
                    :communication_on_progress => {}
       assert_response :redirect
     end
+
   end
+
+  context "given a COP submitted between 2010-01-01 and 2011-01-29" do
+    setup do
+      create_cop_and_login_as_user :created_at => Date.parse('31-12-2010')
+    end
+    should "show the new style template" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+     assert_template :partial => 'show_new_style'
+    end
+  end
+  
+  context "given a Grace Letter" do
+    setup do
+      create_cop_and_login_as_user(:type => 'grace')
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+    end
+    
+    should "view with the Grace Letter partial" do
+      assert_equal '/shared/cops/show_grace_style', assigns(:cop_partial)
+      assert_template :partial => 'show_grace_style'
+    end
+    
+  end
+  
+  context "given a COP on the Learner Platform" do
+    setup do
+      # if any item is missing, then the COP puts the participant on the Learner Platform
+      create_cop_and_login_as_user(:include_measurement => false)
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+    end
+    
+    should "display active partial" do
+      assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
+      assert_template :partial => 'show_learner_style'
+    end
+    
+    should "show alert if COP is on Learner Platform" do
+      assert_select 'span', 'Attention:'
+    end
+    
+  end
+  
+  context "given a GC Active COP" do
+    setup do
+      create_cop_and_login_as_user
+    end
+
+    should "display active partial" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
+      assert_template :partial => 'show_active_style'
+    end
+  end
+
+  context "given a GC Advanced COP" do
+    setup do
+      create_cop_and_login_as_user({:meets_advanced_criteria => true, :type => 'advanced'})
+    end
+
+    should "display advanced partial" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_equal assigns(:cop_partial), '/shared/cops/show_advanced_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
+      assert_template :partial => 'show_advanced_style'
+    end
+  end
+  
+  context "given a GC Advanced COP that did not qualify" do
+    setup do
+      create_cop_and_login_as_user({:meets_advanced_criteria => false, :type => 'advanced'})
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+    end
+
+    should "display active partial" do
+      assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
+      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
+      assert_template :partial => 'show_active_style'
+    end
+    
+    should "show alert if COP is on Learner Platform" do
+      assert_select 'span#notice', 'Although you submitted an Advanced level COP, you did not confirm if the COP meets all 24 criteria, and therefore do not qualify for the GC Advanced level.'
+    end
+    
+  end
+
+  private
+
+    def create_cop_and_login_as_user(cop_options = {})
+      # let's assume an Active COP where all criteria have been met
+      defaults = {
+        :references_human_rights             => true,
+        :references_labour                   => true,
+        :references_environment              => true,
+        :references_anti_corruption          => true,
+        :include_measurement                 => true,
+        :include_continued_support_statement => true
+      }
+      
+      create_organization_and_user
+      @organization.approve!
+      create_principle_areas
+      @cop = create_cop(@organization.id, defaults.merge(cop_options))
+      login_as @organization_user  
+    end
+
+  
 end

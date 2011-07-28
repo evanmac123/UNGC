@@ -1,143 +1,92 @@
-- if params[:action] == 'feed'
-  %h1 Company Information
-  %dt Participant since
-  %dd
-    %ul
-      %li= communication_on_progress.organization.joined_on
-  %dt Country
-  %dd
-    %ul
-      %li= communication_on_progress.organization.country_name
-  %dt Ownership
-  %dd
-    %ul
-      %li
-        = communication_on_progress.organization.is_ft_500 ? 'FT 500' : nil
-        = communication_on_progress.organization.listing_status_name
-  - unless communication_on_progress.organization.stock_symbol.blank? || communication_on_progress.organization.exchange.blank?
-    %dt Stock Information
+%dl{:style => 'width: 100%;'}
+
+  - if params[:action] == 'feed'
+    %dt Participant since
+    %dd
+      %ul
+        %li= communication_on_progress.organization.joined_on
+    %dt Country
+    %dd
+      %ul
+        %li= communication_on_progress.organization.country_name
+    %dt Ownership
     %dd
       %ul
         %li
-          == #{communication_on_progress.organization.exchange.name} (#{communication_on_progress.organization.stock_symbol})
+          = communication_on_progress.organization.is_ft_500 ? 'FT 500' : nil
+          = communication_on_progress.organization.listing_status_name
+    - unless communication_on_progress.organization.stock_symbol.blank? || communication_on_progress.organization.exchange.blank?
+      %dt Stock Information
+      %dd
+        %ul
+          %li
+            == #{communication_on_progress.organization.exchange.name} (#{communication_on_progress.organization.stock_symbol})
           
-  %dt Sector
-  %dd
-    %ul
-      %li= communication_on_progress.organization.sector_name
-  
-%dt Time period
-%dd
-  %ul
-    %li= date_range(communication_on_progress)
+    %dt Sector
+    %dd
+      %ul
+        %li= communication_on_progress.organization.sector_name
 
-- if communication_on_progress.cop_files.any?
-  %dt Files
-  %dd
-    %ul
-      - for cop_file in communication_on_progress.cop_files
+  = render :partial => '/shared/cops/cop_info_header.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+
+  - if communication_on_progress.cop_files.any?
+    %dt Files
+    %dd
+      %ul
+        - for cop_file in communication_on_progress.cop_files
+          %li
+            = link_to truncate(cop_file.attachment_file_name, :length => 50), cop_file.attachment.url
+            == (#{cop_file.language.name})
+  - if communication_on_progress.cop_links.any?
+    %dt Links
+    %dd
+      %ul
+        - for cop_link in communication_on_progress.cop_links
+          %li
+            = link_to truncate(cop_link.url, :length => 50), cop_link.url
+            == (#{cop_link.language.name})
+
+  - unless communication_on_progress.is_grace_letter?
+    %dt Format
+    %dd
+      %ul
+        %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
+
+  - if communication_on_progress.evaluated_for_differentiation?
+    %dt
+      Differentiation Level
+    %dd
+      %ul
         %li
-          = link_to truncate(cop_file.attachment_file_name, :length => 60), cop_file.attachment.url
-          == (#{cop_file.language.name})
-- if communication_on_progress.cop_links.any?
-  %dt Links
-  %dd
-    %ul
-      - for cop_link in communication_on_progress.cop_links
-        %li
-          = link_to truncate(cop_link.url, :length => 60), cop_link.url
-          == (#{cop_link.language.name})
-
-- unless communication_on_progress.is_grace_letter?
-  %dt Format
-  %dd
-    %ul
-      %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
-
-- if communication_on_progress.evaluated_for_differentiation?
-  %dt
-    Differentiation Level
-  %dd
-    %ul
-      %li
-        = communication_on_progress.differentiation_description
-        - if communication_on_progress.differentation_level == :learner
-          %br
-          %span{:style => 'color: red;'} Attention:
-          Missing items have been flagged in the self-assessment
+          = communication_on_progress.differentiation_description
+          - if communication_on_progress.differentation_level == :learner
+            %br
+            %span{:style => 'color: red;'} Attention:
+            Missing items have been flagged in the self-assessment
 
   %dt
     Self-assessment
   %dd
     = render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
-    
-- if communication_on_progress.is_advanced_programme? && communication_on_progress.description.present?
-  - dashboard_view_only do
-    %dt Other Best Practices
+
+  - if communication_on_progress.is_advanced_programme? && communication_on_progress.description.present?
+    - dashboard_view_only do
+      %dt Other Best Practices
+      %dd
+        %ul
+          %li
+            %em The following information is not shared publicly
+          %li= simple_format communication_on_progress.description
+
+  - if communication_on_progress.is_test_phase_advanced_programme? && communication_on_progress.additional_questions?
+    %dt
+      Advanced Programme
+      %br
+      (test phase)
     %dd
       %ul
         %li
-          %em The following information is not shared publicly
-        %li= simple_format communication_on_progress.description
+          Submitted to the test phase of the Advanced Programme
 
-- if communication_on_progress.is_test_phase_advanced_programme? && communication_on_progress.additional_questions?
-  %dt
-    Advanced Programme
-    %br
-    (test phase)
-  %dd
-    %ul
-      %li
-        Submitted to the test phase of the Advanced Programme
-
-- if communication_on_progress.is_advanced_programme? && communication_on_progress.issue_areas_covered.count > 0
-  %dt
-    Issue Area Coverage
-    %br
-    (self-assessed)
-  %dd
-    %ul
-      %li
-        %div{:id => 'issue_coverage'}
-          - PrincipleArea::FILTERS.each_pair do |key, value|
-            - percent = percent_issue_area_coverage(communication_on_progress, key)
-            - if percent > 0
-              %span{:class => "#{issue_area_colour_for(value)}" }
-                %strong= value
-              %a{:href => "##{key}", :style => "text-decoration: none;"}
-                %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "#{show_issue_area_coverage(communication_on_progress, key)}"}
-                  %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
-                    %div{:class => 'ui-progressbar-text'}
-                      == #{percent}%
-          - PrincipleArea::FILTERS.each_pair do |key, value|
-            - percent = percent_issue_area_coverage(communication_on_progress, key)
-            - if percent < 1
-              %li== No reported coverage for #{value}
-    
-  - if communication_on_progress.cop_answers.by_group(:governance).count > 0
-    %dt Governance
-    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'governance')
-
-  - if communication_on_progress.cop_answers.by_group(:strategy).count > 0
-    %dt Strategy, Governance <br /> and Engagement
-    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'strategy')
-
-  - if communication_on_progress.cop_answers.by_group(:un_goals).count > 0
-    %dt UN Goals and Issues
-    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'un_goals')  
-
-  - PrincipleArea::FILTERS.each_pair do |key, value|
-    - if (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
-      %a{:name => "#{key}"}
-      %dt
-        %span{:class => "#{issue_area_colour_for(value)}" }
-          = value
-      %dd= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
-
-  - if communication_on_progress.cop_answers.by_group(:value_chain).count > 0
-    %dt Value Chain <br /> Implementation
-    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'value_chain')
-
-  - if communication_on_progress.cop_answers.by_group(:verification).count > 0
-    %dt Verification and <br /> Transparency
-    %dd= show_cop_attributes(communication_on_progress, nil, nil, 'verification')
+  - if communication_on_progress.is_advanced_programme? && communication_on_progress.issue_areas_covered.count > 0
+    = render :partial => '/shared/cops/cop_questionnaire_results.html.haml', :locals => { :communication_on_progress => communication_on_progress }
