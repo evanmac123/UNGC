@@ -1,6 +1,6 @@
 module Importers
   module LocalNetworks
-    class NetworkManagement < ExcelImporter
+    class NetworkManagementImporter < ExcelImporter
       def worksheet_name
         "NetworkManagementAndFastFact"
       end
@@ -23,6 +23,11 @@ module Importers
         local_network
       end
 
+      def update_model(model, row)
+        model.sg_global_compact_launch_date = get_date(row, "Date Of Launch Of Global Compact In Country")
+        model.sg_local_network_launch_date  = get_date(row, "Date Of Local Network Launch")
+      end
+
       def model_string(local_network)
         if local_network
           local_network.name
@@ -42,19 +47,6 @@ module Importers
           warn "Bad date on row \##{row.idx}, column #{column_name.inspect}: #{value.inspect}"
           nil
         end
-      end
-    end
-
-    class StructureGovernanceImporter < NetworkManagement
-      def update_model(model, row)
-        model.sg_global_compact_launch_date = get_date(row, "Date Of Launch Of Global Compact In Country")
-        model.sg_local_network_launch_date  = get_date(row, "Date Of Local Network Launch")
-      end
-    end
-
-    class MembershipImporter < NetworkManagement
-      def update_model(model, row)
-        # todo
       end
     end
   end
