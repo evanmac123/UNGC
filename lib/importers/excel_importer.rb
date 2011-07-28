@@ -55,7 +55,7 @@ module Importers
     end
 
     def report(row, model, message, color)
-      line = "Row: #{row.idx.to_s.rjust(4)} "
+      line = "#{row.idx.to_s.rjust(8)} "
 
       line << model_string(model).ljust(20)
 
@@ -67,7 +67,7 @@ module Importers
     end
 
     def warn(message)
-      $stderr.puts(" * " + highlight(message, :yellow))
+      $stderr.puts(highlight(message, :yellow))
     end
 
     def highlight(str, color)
