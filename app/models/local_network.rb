@@ -50,8 +50,13 @@ class LocalNetwork < ActiveRecord::Base
   end
     
   def country_code
-    if countries.count == 1
+    # if more than one country, it's a regional network, so lookup the host country
+    if countries.count > 1
+      REGION_COUNTRY[name]
+    elsif countries.count == 1
       countries.first.code
+    else
+      ''
     end
   end
   
