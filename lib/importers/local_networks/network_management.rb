@@ -1,6 +1,6 @@
 module Importers
   module LocalNetworks
-    class StructureGovernanceImporter < ExcelImporter
+    class NetworkManagement < ExcelImporter
       def worksheet_name
         "NetworkManagementAndFastFact"
       end
@@ -23,10 +23,18 @@ module Importers
           nil
         end
       end
+    end
 
+    class StructureGovernanceImporter < NetworkManagement
       def update_model(model, row)
         model.sg_global_compact_launch_date = get_date(row, "Date Of Launch Of Global Compact In Country")
         model.sg_local_network_launch_date  = get_date(row, "Date Of Local Network Launch")
+      end
+    end
+
+    class MembershipImporter < NetworkManagement
+      def update_model(model, row)
+        puts "Hello from MembershipImporter"
       end
     end
   end
