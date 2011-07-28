@@ -1,3 +1,9 @@
+h1. 2011-07-28
+
+* deploying Phase I of Local Networks Dashboard
+* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* then update search index to remove 'GC Networks' from search
+
 h1. 2011-07-17
 
 * there are now a number of partials for displaying COPs depending on the view: Dashboard, public, feed
