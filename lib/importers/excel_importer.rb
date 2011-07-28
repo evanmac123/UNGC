@@ -46,19 +46,6 @@ module Importers
       end
     end
 
-    def get_date(row, column_name)
-      value = get_value(row, column_name).strip
-
-      if value == ""
-        nil
-      elsif value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
-        Date.strptime(value, "%d/%m/%Y")
-      else
-        warn "Bad date on row \##{row.idx}, column #{column_name.inspect}: #{value.inspect}"
-        nil
-      end
-    end
-
     def report(row, model, message, color)
       line = "Row: #{row.idx.to_s.rjust(4)} "
 
