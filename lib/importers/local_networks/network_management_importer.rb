@@ -26,6 +26,18 @@ module Importers
       def update_model(model, row)
         model.sg_global_compact_launch_date = get_date(row, "Date Of Launch Of Global Compact In Country")
         model.sg_local_network_launch_date  = get_date(row, "Date Of Local Network Launch")
+
+        model.membership_subsidiaries           = get_yesno(row, "Subsidiaries Of Multi-National Companies Participate In Local Network Activities")
+        model.membership_companies              = get_integer(row, "Companies > 250 Employees")
+        model.membership_sme                    = get_integer(row, "Small and Medium sized Enterprise (10 - 249) employees")
+        model.membership_micro_enterprise       = get_integer(row, "Micro-Companies (< 10 employees)")
+        model.membership_business_organizations = get_integer(row, "Business Organizations")
+        model.membership_csr_organizations      = get_integer(row, "CSR Organizations")
+        model.membership_labour_organizations   = get_integer(row, "Labour Organizations")
+        model.membership_civil_societies        = get_integer(row, "Civil Society Organizations/NGOs")
+        model.membership_academic_institutions  = get_integer(row, "Academic Institutions")
+        model.membership_government             = get_integer(row, "Government Entities")
+        model.membership_other                  = get_integer(row, "Other Stakeholders")
       end
 
       def model_string(local_network)
@@ -33,6 +45,33 @@ module Importers
           local_network.name
         else
           super
+        end
+      end
+
+      def get_yesno(row, column_name)
+        value = get_value(row, column_name)
+        return nil if value.nil?
+
+        case value.downcase
+        when "yes"
+          true
+        when "no"
+          false
+        else
+          warn_of_bad_value(row, column_name, "yes/no")
+          nil
+        end
+      end
+
+      def get_integer(row, column_name)
+        value = get_value(row, column_name)
+        return nil if value.nil?
+
+        begin
+          Integer(value)
+        rescue ArgumentError
+          warn_of_bad_value(row, column_name, "integer")
+          nil
         end
       end
 
