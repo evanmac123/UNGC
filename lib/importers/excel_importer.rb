@@ -39,7 +39,13 @@ module Importers
 
     def get_value(row, column_name)
       if index = @column_names.index(column_name)
-        row[index]
+        value = row[index]
+
+        if value.empty?
+          nil
+        else
+          value.strip
+        end
       else
         warn "Column not found: #{column_name.inspect}"
         nil

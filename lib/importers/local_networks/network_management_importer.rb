@@ -37,16 +37,19 @@ module Importers
       end
 
       def get_date(row, column_name)
-        value = get_value(row, column_name).strip
+        value = get_value(row, column_name)
+        return nil if value.nil?
 
-        if value == ""
-          nil
-        elsif value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
+        if value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
           Date.strptime(value, "%d/%m/%Y")
         else
-          warn "Bad date on row \##{row.idx}, column #{column_name.inspect}: #{value.inspect}"
+          warn_of_bad_value(row, column_name, "date")
           nil
         end
+      end
+
+      def warn_of_bad_value(row, column_name, type)
+        warn "Bad #{type} value on row \##{row.idx}, column name #{column_name.inspect}: #{get_value(row, column_name).inspect}"
       end
     end
   end
