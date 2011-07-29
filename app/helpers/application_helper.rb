@@ -51,7 +51,6 @@ module ApplicationHelper
     content_tag :li, link, li_options
   end
   
-<<<<<<< HEAD
   def differentiation_placement(cop)
     levels = { :learner => "Learner Platform &#x25BA;", :active => "GC Active &#x25BA;", :advanced => "GC Advanced" }
     html = ''
