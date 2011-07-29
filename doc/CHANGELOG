@@ -1,3 +1,7 @@
+h1. 2011-07-21
+
+* extended COP results styles so we can access them in div.copy, where the page content is rendered
+
 h1. 2011-07-17
 
 * there are now a number of partials for displaying COPs depending on the view: Dashboard, public, feed
@@ -36,6 +40,7 @@ h1. 2011-07-03
 
 * creating a new COP results screen to better inform participants of their Differentiation Level
 * will need to use a number of partials since the information displayed will vary across the different types of COPs
+>>>>>>> master
 
 h1. 2011-06-28
 
