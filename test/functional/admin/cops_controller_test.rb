@@ -206,10 +206,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_template :partial => 'show_learner_style'
     end
     
-    should "show alert if COP is on Learner Platform" do
-      assert_select 'span', 'Attention:'
-    end
-    
   end
   
   context "given a GC Active COP" do
