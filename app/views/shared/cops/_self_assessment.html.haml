@@ -7,7 +7,7 @@
       %li{:class => select_answer_class(communication_on_progress.send("references_#{key}?")) }
         == Description of actions or relevant policies related to #{value}
     %li{:class => select_answer_class(communication_on_progress.include_measurement?) }
-      Identifies targets, define performance indicators and measure outcomes
+      Includes a measurement of outcomes
     - if communication_on_progress.evaluated_for_differentiation? && communication_on_progress.additional_questions?
       %li{:class => select_answer_class(communication_on_progress.meets_advanced_criteria) }
         Meets all 24 criteria for the GC Advanced level
@@ -20,6 +20,6 @@
       - if communication_on_progress.send("references_#{key}?")
         %li== Description of actions or relevant policies related to #{value}
   - if communication_on_progress.include_measurement?
-    %li Identifies targets, define performance indicators and measure outcomes
+    %li Includes a measurement of outcomes
   - if communication_on_progress.evaluated_for_differentiation? && communication_on_progress.additional_questions? && communication_on_progress.meets_advanced_criteria
     %li Meets all 24 criteria for the GC Advanced level

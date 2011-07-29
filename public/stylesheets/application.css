@@ -422,11 +422,10 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
 
-/* COPs */
+/* COPs, item descriptions */
 
-
-#main_content dt {
-  border-top:1px solid #999999;
+#main_content dt, .copy dt {
+  border-top: 1px solid #ccc;
   clear: left;
   color: #00546E;
   float:left;
@@ -436,9 +435,20 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   width: 100px;
 }
 
-#main_content dd {
-	border-top: 1px solid #999999;
+
+#main_content dd, .copy dd {
+	border-top: 1px solid #ccc;
 	margin-left: 100px;
+}
+
+#main_content dt:first-child, .copy dt:first-child, #main_content dt:first-child + dd, .copy dt:first-child + dd {
+  font-weight: bold;
+  color: #00546E;
+  border-top: 1px solid #fff;
+}
+
+#main_content dt:first-child + dd, .copy dt:first-child + dd {
+  font-weight: normal;
 }
 
 /* jquery progress bar */
@@ -452,14 +462,14 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   min-height: 12px; 
 }
 
-#main_content dd ul li {
+#main_content dd ul li, .copy dd ul li {
   margin: 10px 0 0 5px;
   list-style-type: none; 
   border-bottom: 1px dotted #ccc;
   padding-bottom: 0; 
 }
 
-#main_content dd ul li:last-child {
+#main_content dd ul li:last-child, .copy dd ul li:last-child {
   border-bottom: 0;
 }
 
