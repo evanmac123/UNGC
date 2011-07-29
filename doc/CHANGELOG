@@ -1,3 +1,12 @@
+h1. 2011-07-28
+
+* deploying Phase I of Local Networks Dashboard
+* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* then update search index to remove 'GC Networks' from search
+
+* launched new COP results screen
+* any participant who submitted a COP between the last COP mass-mailing on 30 June, 2011 would not have been informed of their status 
+
 h1. 2011-07-21
 
 * extended COP results styles so we can access them in div.copy, where the page content is rendered

@@ -1,7 +1,7 @@
 # raise "Requires Ruby >= 1.9" unless RUBY_VERSION =~ /^1\.9/
 
-Encoding.default_internal = 'utf-8'
-Encoding.default_external = 'utf-8'
+# Encoding.default_internal = 'utf-8'
+# Encoding.default_external = 'utf-8'
 
 # Be sure to restart your server when you modify this file
 

@@ -109,8 +109,18 @@ class Contact < ActiveRecord::Base
       :order      => "roles.name DESC"
     }
   }
-  # roles << Role.network_representative
 
+  named_scope :network_roles_public, lambda {
+    roles = []
+    roles << Role.network_focal_point
+    roles << Role.network_representative
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", roles],
+      :order      => "roles.name DESC"
+    }
+  }
+  
   named_scope :network_contacts, lambda {
     role = Role.network_focal_point
     {

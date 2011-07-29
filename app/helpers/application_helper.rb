@@ -51,6 +51,7 @@ module ApplicationHelper
     content_tag :li, link, li_options
   end
   
+<<<<<<< HEAD
   def differentiation_placement(cop)
     levels = { :learner => "Learner Platform &#x25BA;", :active => "GC Active &#x25BA;", :advanced => "GC Advanced" }
     html = ''
@@ -74,6 +75,18 @@ module ApplicationHelper
     			reverse_hash[value] = key unless reverse_hash.has_key?(key)
     		}
   	return reverse_hash
+  end
+
+  def differentiation_placement(cop)
+    levels = { :learner => "Learner Platform &#x25BA;", :active => "GC Active &#x25BA;", :advanced => "GC Advanced" }
+    html = ''
+    
+    levels.each do |key, value|
+      css_style = cop.differentation_level == key ? '' : 'color: #aaa'
+      html += content_tag :span, value + '&nbsp;', :style => css_style
+    end
+
+    html
   end
 
 end

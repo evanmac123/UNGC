@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   layout 'admin'
-  helper 'Admin', 'Admin/Organizations'
+  helper 'Admin', 'Admin/Organizations', 'Admin/LocalNetworks'
   helper_method :contact_path, :contact_parent_path
 
   before_filter :login_required
