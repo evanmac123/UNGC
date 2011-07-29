@@ -27,7 +27,7 @@ test:
   # port: 3306
 
 production:
-  adapter: mysql2
+  adapter: mysql
   database: unglobalcompact
   username: root
   password:
