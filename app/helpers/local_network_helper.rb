@@ -19,7 +19,7 @@ module LocalNetworkHelper
   end
   
   def local_network_contacts
-    local_network.try(:network_contacts) || []
+    local_network.try(:public_network_contacts) || []
   end
   
   def formatted_local_network_contact_info(contact)

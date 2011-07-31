@@ -1,12 +1,14 @@
 class Admin::LocalNetworksController < AdminController
+  before_filter :load_local_network, :only => [:edit, :destroy]
   before_filter :no_organization_or_local_network_access
+  before_filter :no_access_to_other_local_networks, :except => [:update] 
 
   def index
     @local_networks = LocalNetwork.all(:order => order_from_params)
   end
 
   def new
-    @local_network = LocalNetwork.new
+    @local_network = LocalNetwork.new(:state => LocalNetwork::STATES[:emerging])
   end
   
   def show
@@ -31,7 +33,13 @@ class Admin::LocalNetworksController < AdminController
     @local_network = LocalNetwork.find(params[:id])
     if @local_network.update_attributes(params[:local_network])
       flash[:notice] = 'Local Network was successfully updated.'
-      redirect_to(admin_local_networks_path)
+      
+      if current_user.from_ungc?
+        redirect_to admin_local_network_path(@local_network.id)
+      elsif current_user.from_network?
+        redirect_to dashboard_path
+      end
+      
     else
       render :action => "edit"
     end
@@ -40,6 +48,7 @@ class Admin::LocalNetworksController < AdminController
   def destroy
     @local_network = LocalNetwork.find(params[:id])
     @local_network.destroy
+    flash[:notice] = 'Local Network was deleted.'
     redirect_to(admin_local_networks_path)
   end
   
@@ -48,5 +57,9 @@ class Admin::LocalNetworksController < AdminController
     def order_from_params
       @order = [params[:sort_field] || 'name', params[:sort_direction] || 'ASC'].join(' ')
     end
-  
+    
+    def load_local_network
+      @local_network = LocalNetwork.find(params[:id])
+    end
+    
 end

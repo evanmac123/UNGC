@@ -3,4 +3,4 @@
   %ol
     = default_form.text_field :name
     = default_form.text_field :url, :label => 'Website'
-    = default_form.select :state, select_options_from_hash(LocalNetwork::STATES), :label => 'Stage'
+    = default_form.select :state, options_for_select(select_options_from_hash(LocalNetwork::STATES), @local_network.state_for_select_field), :label => 'Stage' 

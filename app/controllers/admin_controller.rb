@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   layout 'admin'
-  helper 'Admin', 'Admin/Organizations'
+  helper 'Admin', 'Admin/Organizations', 'Admin/LocalNetworks'
   helper_method :contact_path, :contact_parent_path
 
   before_filter :login_required
@@ -26,6 +26,7 @@ class AdminController < ApplicationController
       @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
                                                               :page  => params[:pages_page])
     elsif current_user.from_network?
+      @local_network = current_user.local_network
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?
       @organization = current_user.organization
@@ -37,6 +38,13 @@ class AdminController < ApplicationController
     if current_user.from_organization? and current_user.organization != @organization
       flash[:error] = "You do not have permission to access that resource."
       redirect_to admin_organization_path current_user.organization.id
+    end
+  end
+
+  def no_access_to_other_local_networks
+    if (current_user.from_network? and current_user.local_network != @local_network) || current_user.from_organization?
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path
     end
   end
   
@@ -65,7 +73,10 @@ class AdminController < ApplicationController
 
   # Denies access to a resource if the user belongs to organization or local network
   def no_organization_or_local_network_access
-    redirect_to admin_organization_path(current_user.organization.id) unless current_user.from_ungc?
+    unless current_user.from_ungc?
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path 
+    end
   end
 
   private

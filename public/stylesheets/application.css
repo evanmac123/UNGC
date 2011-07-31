@@ -255,7 +255,12 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .bookmarks ol li { list-style: none; display: inline; margin: 0px 5px; }
 #rightcontent .copy { width: 576px; padding: 15px 0 0 30px; }
 #rightcontent .copy { color: #222; font-size: 12px; margin-bottom: 10px; line-height: 19px; }
-#rightcontent .copy .hint_text { display: none; }
+#rightcontent .copy .hint_toggle { padding: 8px 10px 10px 30px; line-height: 0.6em; background: url('/images/icons/arrow_right_16X16.png') 5px 5px no-repeat; }
+#rightcontent .copy .hint_toggle:hover { background-color: #FFF; cursor: pointer; }
+#rightcontent .copy .hint_toggle .hint_title { font-weight: bold; }
+#rightcontent .copy .hint_toggle .hint_description { margin-top: 0.5em; line-height: 1.3em; }
+#rightcontent .copy .selected { background: url('/images/icons/arrow_down_16X16.png') 5px 5px no-repeat; }
+#rightcontent .copy .hint_text { display: none; padding: 10px 30px 10px 30px; }
 #rightcontent .copy p { margin-bottom: 10px; }
 #rightcontent .copy a { color: #2993A5; text-decoration: none; }
 #rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
@@ -274,7 +279,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .highlight ul { list-style: none; margin-left: 0px; padding: 8px 0px 0px 0px; }
 #rightcontent .highlight ul li { font-size: 80%; padding: 3px; border-bottom: 1px solid #ddd; line-height: 1.5em;}
 #rightcontent .highlight ul li:last-child { border: none;}
-#rightcontent .blue { background-color: #e5eef0; }
+#rightcontent .blue { background-color: #E5EEF0; }
 
 /* Participant Tables */
 table.striped {
@@ -417,11 +422,10 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
 
-/* COPs */
+/* COPs, item descriptions */
 
-
-#main_content dt {
-  border-top:1px solid #999999;
+#main_content dt, .copy dt {
+  border-top: 1px solid #ccc;
   clear: left;
   color: #00546E;
   float:left;
@@ -431,9 +435,20 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   width: 100px;
 }
 
-#main_content dd {
-	border-top: 1px solid #999999;
+
+#main_content dd, .copy dd {
+	border-top: 1px solid #ccc;
 	margin-left: 100px;
+}
+
+#main_content dt:first-child, .copy dt:first-child, #main_content dt:first-child + dd, .copy dt:first-child + dd {
+  font-weight: bold;
+  color: #00546E;
+  border-top: 1px solid #fff;
+}
+
+#main_content dt:first-child + dd, .copy dt:first-child + dd {
+  font-weight: normal;
 }
 
 /* jquery progress bar */
@@ -447,14 +462,14 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   min-height: 12px; 
 }
 
-#main_content dd ul li {
+#main_content dd ul li, .copy dd ul li {
   margin: 10px 0 0 5px;
   list-style-type: none; 
   border-bottom: 1px dotted #ccc;
   padding-bottom: 0; 
 }
 
-#main_content dd ul li:last-child {
+#main_content dd ul li:last-child, .copy dd ul li:last-child {
   border-bottom: 0;
 }
 
@@ -476,7 +491,7 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
   font-style: italic;
 }
 
-#main_content dd ul.questionnaire li.unselected_question, #main_content dd ul.questionnaire li.selected_question{
+#main_content dd ul.questionnaire li.unselected_question, #main_content dd ul.questionnaire li.selected_question, #main_content dd ul.questionnaire li.advanced_question {
   font-size: 11px;
   color: #666;
 }
@@ -503,4 +518,8 @@ div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
 #main_content dd ul li.unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png);
+}
+
+#main_content dd ul li.advanced_question {
+  list-style-type: none;
 }

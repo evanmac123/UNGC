@@ -140,5 +140,18 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_template 'search'
     end
   end
+  
+  context "when logged in as a Local Network" do
+    setup do
+      create_local_network_with_report_recipient
+       login_as @network_contact
+    end
+    
+    should "redirect to dashboard contacts tab" do
+      put :update, :local_network_id => @local_network.id, :id => @network_contact.to_param
+      assert_redirected_to dashboard_path(:tab => :contacts)
+    end
+    
+  end
 
 end

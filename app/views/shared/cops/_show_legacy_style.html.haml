@@ -1,3 +1,5 @@
+= render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
+
 %dt Links
 %dd
   %ul
@@ -11,11 +13,6 @@
   %dd
     %ul
       %li= simple_format(communication_on_progress.description)
-
-%dt Time period
-%dd
-  %ul
-    %li= date_range(communication_on_progress)
 
 %dt Principles covered
 %dd

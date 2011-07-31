@@ -1,8 +1,10 @@
 - record = cop_attribute.new_record? ? 'NEW_RECORD' : cop_attribute.id
+
 %div{:id => "cop_attribute_#{record}"}
   %ol
     %li
-      = label_tag("cop_question_cop_attributes_attributes_#{record}_text", 'Text')
+      - text = cop_attribute.new_record? ? "Text" : "Attribute #{cop_attribute.id}"
+      = label_tag("cop_question_cop_attributes_attributes_#{record}_text", text)
       = text_area_tag("cop_question[cop_attributes_attributes][#{record}][text]", cop_attribute.text, :style => 'height: 50px')
     %li
       = label_tag("cop_question_cop_attributes_attributes_#{record}_hint", 'Hints')
@@ -14,6 +16,6 @@
     - unless cop_attribute.new_record?
       = hidden_field_tag("cop_question[cop_attributes_attributes][#{record}][id]", cop_attribute.id)
       %li
-        = label_tag("cop_question_cop_attributes_attributes_#{record}__delete", 'Remove?')
+        = label_tag("cop_question_cop_attributes_attributes_#{record}__delete", 'Check to delete')
         = check_box_tag("cop_question[cop_attributes_attributes][#{record}][_delete]", "1", false)
   %hr

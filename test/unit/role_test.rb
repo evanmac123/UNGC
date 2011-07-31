@@ -46,6 +46,22 @@ class RoleTest < ActiveSupport::TestCase
     end
     
   end
+
+  context "given a Local Network" do
+    setup do
+      create_local_network_with_report_recipient
+      @roles = Role.visible_to(@network_contact)
+    end
+    
+    should "have focal, rep, report and general role options" do
+      assert_same_elements [ Role.network_focal_point,
+                             Role.network_representative,
+                             Role.network_report_recipient,
+                             Role.general_contact ], @roles
+ 
+    end
+    
+  end
   
 
 end

@@ -46,6 +46,20 @@ class AdminControllerTest < ActionController::TestCase
       assert_redirected_to admin_organization_path(@organization.id)
     end
   end
+
+  context "given a local network contact" do
+    setup do
+      create_local_network_with_report_recipient
+      login_as @network_contact
+    end
+
+    should "get the dashboard page" do
+      get :dashboard
+      assert_response :success
+      assert_template 'admin/dashboard_network.html.haml'
+    end
+  end
+
   
   private
     def add_organization_data(organization, user)

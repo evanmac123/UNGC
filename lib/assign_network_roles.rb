@@ -1,7 +1,15 @@
-# ./script/runner 'AssignNetworkRoles.new'
+# ./script/runner 'AssignNetworkRoles.new.run' -e production
 
 class AssignNetworkRoles
   def run
+
+    # Here are the relevant IDs
+
+    # 13224 Meng, China
+    # 23253 Adenike, Africa
+    # 23254 Javier, Americas
+    # 23138 Walid, MENA and Europe
+    # 26273 Yukako, Asia and Australasia
     
     # (1) Assign roles to Network Managers
 
@@ -9,18 +17,9 @@ class AssignNetworkRoles
 
     c = Contact.find([13224,23253,23254,23138,26273])
     c.each {|c| c.roles << Role.network_regional_manager}
-    # c.roles.delete(Role.contact_point)
-
-    # c = Contact.find([13224,23253,23254,23138,26273])
     c.each {|c| c.roles.delete(Role.ceo)}
 
     # (2) Assign Global Compact contact IDs to Regions
-
-    # 13224 Meng, China
-    # 23253 Nike, Africa
-    # 23254 Javier, Americas
-    # 23138 Walid, MENA and Europe
-    # 26273 Yukako, Asia and Australasia
 
     puts "Assigning managers\n"
 

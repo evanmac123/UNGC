@@ -245,7 +245,8 @@ $(document).ready(function() {
   
   // hide and show sections for FAQs, titles and descriptions etc.
   $(".hint_toggle").click(function(){
-    $(this).next(".hint_text").slideToggle('slow');
+    $(this).next(".hint_text").slideToggle();
+    $(this).toggleClass('selected');
   });
 
   // called from views/signup/step5.html.haml
