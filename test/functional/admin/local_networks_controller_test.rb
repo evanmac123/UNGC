@@ -31,6 +31,12 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     get :edit, :id => @local_network.to_param
     assert_response :success
   end
+  
+  test "should get show" do
+    get :show, :id => @local_network.to_param
+    assert_response :success
+    assert_template 'show_ungc'
+  end
 
   test "should update local network" do
     put :update, :id => @local_network.to_param, :local_network => { }

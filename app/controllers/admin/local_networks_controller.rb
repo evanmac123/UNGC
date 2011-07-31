@@ -1,5 +1,5 @@
 class Admin::LocalNetworksController < AdminController
-  before_filter :load_local_network, :only => [:edit, :destroy]
+  before_filter :load_local_network, :only => [:show, :edit, :destroy]
   before_filter :no_organization_or_local_network_access
   before_filter :no_access_to_other_local_networks, :except => [:update] 
 
@@ -13,6 +13,7 @@ class Admin::LocalNetworksController < AdminController
   
   def show
     @local_network = LocalNetwork.find(params[:id])
+    render 'show_ungc' if current_user.from_ungc?
   end
   
   def edit

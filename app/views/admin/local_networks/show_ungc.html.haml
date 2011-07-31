@@ -1,0 +1,51 @@
+- @body_class = 'details'
+%h2= @local_network.name
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#overview">Overview</a>
+    %li <a href="#contacts">Contacts</a>
+    %li <a href="#network_management">Network Management</a>
+    %li <a href="#events">Events & Activities</a>
+    %li <a href="#integrity">Integrity Measures</a>
+    %li <a href="#awards">Awards</a>
+
+  #overview.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to text_for_edit_icon(current_user), edit_admin_local_network_path(@local_network.id), :class => 'edit_large', :title => "Edit Local Network profile"
+      %li= link_to_public_profile(@local_network)
+  
+    %dl.left_column
+      %h3 Profile
+      %dt.first Local Network
+      %dd.first= @local_network.name
+      %dt Development Stage
+      %dd= @local_network.humanize_state
+      -if @local_network.url.present?
+        %dt Website
+        %dd= link_to @local_network.url, @local_network.url
+
+    %dl.left_column
+      %h3 Contacts
+      %dt.first Representative
+      %dd.first= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_representatives
+      %dt Contact Person
+      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_contacts
+      %dt Report Recipient
+      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_report_recipients
+
+  #contacts.tab_content
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
+    
+  #network_management.tab_content
+    %h3 Network Management
+  
+  #events.tab_content
+    %h3 Events & Activities
+
+  #integrity.tab_content
+    %h3 Integrity Measures
+
+  #awards.tab_content
+    %h3 Awards
