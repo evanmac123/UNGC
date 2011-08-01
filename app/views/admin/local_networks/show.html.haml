@@ -31,7 +31,7 @@
   
   #membership.tab_content
     %ul#tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id), :class => 'edit_large'
+      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
       
     %dl.left_column.short
       %h3 Business
