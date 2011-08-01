@@ -2,50 +2,66 @@
 %h2= @local_network.name
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    %li <a href="#overview">Overview</a>
-    %li <a href="#contacts">Contacts</a>
-    %li <a href="#network_management">Network Management</a>
-    %li <a href="#events">Events & Activities</a>
-    %li <a href="#integrity">Integrity Measures</a>
-    %li <a href="#awards">Awards</a>
+    %li <a href="#structure_governance">Structure and Governance</a>
+    %li <a href="#mou">Memorandum of Understanding</a>
+    %li <a href="#meetings">Meetings</a>
+    %li <a href="#membership">Membership Breakdown</a>
+    %li <a href="#fees_contributions">Fees and Contributions</a>
+    %li <a href="#communications">Communications</a>
 
-  #overview.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_local_network_path(@local_network.id), :class => 'edit_large', :title => "Edit Local Network profile"
-      %li= link_to_public_profile(@local_network)
-  
-    %dl.left_column
-      %h3 Profile
-      %dt.first Local Network
-      %dd.first= @local_network.name
-      %dt Development Stage
-      %dd= @local_network.humanize_state
-      -if @local_network.url.present?
-        %dt Website
-        %dd= link_to @local_network.url, @local_network.url
+  #structure_governance.tab_content
+    %ul#tools{:class => "tools inline"}
+      %div.hint_toggle
+        About this section...
+      %div.hint_text{:style => 'display: none;'}
+        Information about key dates, appointments and legal status.
+      
+    %dl.left_column.short
+      %h3 Key Launch Dates
+      %dt.first Global Compact
+      %dd.first= @local_network.sg_global_compact_launch_date
+      %dt Local Network
+      %dd= @local_network.sg_local_network_launch_date      
 
-    %dl.left_column
-      %h3 Contacts
-      %dt.first Representative
-      %dd.first= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_representatives
-      %dt Contact Person
-      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_contacts
-      %dt Report Recipient
-      %dd= render :partial => 'admin/local_networks/contact_overview', :collection => @local_network.contacts.network_report_recipients
-
-  #contacts.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
-    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
+  #mou.tab_content
+    %h3 Memorandum of Understanding
     
-  #network_management.tab_content
-    %h3 Network Management
+  #meetings.tab_content
+    %h3 Meetings
   
-  #events.tab_content
-    %h3 Events & Activities
+  #membership.tab_content
+    %ul#tools{:class => "tools inline"}
+      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id), :class => 'edit_large'
+      
+    %dl.left_column.short
+      %h3 Business
+      %dt.first Companies
+      %dd.first= @local_network.membership_companies
+      %dt SMEs
+      %dd= @local_network.membership_sme
+      %dt Subsidiaries
+      %dd= @local_network.membership_subsidiaries      
+      %dt Micro Enterprises
+      %dd= @local_network.membership_micro_enterprise      
+      %dt Business Associations
+      %dd= @local_network.membership_business_organizations      
 
-  #integrity.tab_content
-    %h3 Integrity Measures
+    %dl.left_column.short
+      %h3 Non-Business
+      %dt.first Academic
+      %dd.first= @local_network.membership_academic_institutions
+      %dt Civil Society
+      %dd= @local_network.membership_civil_societies      
+      %dt CSR Organizations
+      %dd= @local_network.membership_csr_organizations      
+      %dt Government
+      %dd= @local_network.membership_government      
+      %dt Labour
+      %dd= @local_network.membership_labour_organizations      
 
-  #awards.tab_content
-    %h3 Awards
+
+  #fees_contributions.tab_content
+    %h3 Fees and Contributions
+
+  #communications.tab_content
+    %h3 Communications
