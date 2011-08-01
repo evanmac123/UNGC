@@ -226,6 +226,8 @@ ul.nav_bar {
     margin-right: 30px; }
     #main_content dl.left_column {
       float: left; }
+    #main_content dl.short dd {
+      width: 65px; }
     #main_content dl dt {
       width: 130px;
       padding: 10px 10px 10px 0;
