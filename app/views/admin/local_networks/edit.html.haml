@@ -1,5 +1,5 @@
-%h2 Editing Local Network
+%h2==  Editing Local Network
 
 - form_for @local_network, builder: DefaultFormBuilder, url: admin_local_network_path(@local_network) do |form|
-  = render :partial => form
+  = render :partial => "#{@form_partial}.html.haml", :locals => {:default_form => form}
   = form.submit 'Save changes', :class => 'button'

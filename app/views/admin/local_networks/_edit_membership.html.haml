@@ -1,0 +1,17 @@
+%fieldset{:style => 'width: 50%;'}
+  %legend Business
+  %ol
+    = default_form.text_field :membership_companies, :label => 'Companies'
+    = default_form.text_field :membership_sme, :label => 'SMEs'
+    = default_form.text_field :membership_subsidiaries, :label => 'Subsidiaries'
+    = default_form.text_field :membership_micro_enterprise, :label => 'Micro Enterprises'
+    = default_form.text_field :membership_business_organizations, :label => 'Business Associations'
+
+%fieldset{:style => 'width: 50%;'}
+  %legend Non-Business
+  %ol
+    = default_form.text_field :membership_academic_institutions, :label => 'Academic'
+    = default_form.text_field :membership_civil_societies, :label => 'Civil Society'
+    = default_form.text_field :membership_csr_organizations, :label => 'CSR Organizations'
+    = default_form.text_field :membership_government, :label => 'Government'
+    = default_form.text_field :membership_labour_organizations, :label => 'Labour'

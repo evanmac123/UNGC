@@ -18,6 +18,8 @@ class Admin::LocalNetworksController < AdminController
   
   def edit
     @local_network = LocalNetwork.find(params[:id])
+    @section ||= params[:section]
+    @form_partial = @section ? 'edit_' + @section : 'default_form'
   end
 
   def create
