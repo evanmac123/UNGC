@@ -152,7 +152,7 @@ ul.nav_bar {
     #main_content table.dashboard_table tr.odd {
       background: #f2f2f2; }
     #main_content table.dashboard_table tr.over {
-      background: #f0f6fa; }
+      background: #fafaff; }
     #main_content table.dashboard_table td, #main_content table.dashboard_table th {
       padding: 10px;
       border-right: 1px solid #dedede; }
@@ -264,7 +264,7 @@ ul.nav_bar {
     font-weight: bold; }
 
 .container > .sidebar {
-  background: #f0f6fa;
+  background: #fafaff;
   border: 1px solid #999;
   padding: 10px;
   width: 210px;
@@ -315,7 +315,7 @@ ul.nav_bar {
         text-decoration: none;
         border: 1px solid #333; }
         .tab_container ul.tab_nav li a:hover {
-          background: #f0f6fa;
+          background: #fafaff;
           color: #14546f; }
         .tab_container ul.tab_nav li a.selected {
           background: white;
@@ -411,7 +411,7 @@ ul.nav_bar {
   float: right;
   clear: both; }
 #main_content fieldset {
-  background-color: #f0f6fa;
+  background-color: #fafaff;
   border: 1px solid #aaa; }
   #main_content fieldset legend {
     color: #aaa; }
@@ -476,8 +476,9 @@ ul.nav_bar {
     #main_content fieldset fieldset div.hint_toggle {
       color: #14546f;
       font-weight: bold;
-      margin: 1em 0;
-      cursor: pointer; }
+      margin: 1em 0; }
+      #main_content fieldset fieldset div.hint_toggle:hover {
+        cursor: pointer; }
     #main_content fieldset fieldset div.hint_text ul {
       margin: 0;
       padding: 0 0 0 0; }
@@ -533,7 +534,7 @@ ul.nav_bar {
   border: 5px solid #d2d2d2;
   padding: 10px;
   margin-bottom: 20px;
-  background: #f0f6fa; }
+  background: #fafaff; }
 #main_content #site_structure {
   overflow: hidden;
   margin-bottom: 2em; }
@@ -664,7 +665,7 @@ ul.report_list {
     ul.report_list li.odd {
       background-color: #fff; }
     ul.report_list li:hover {
-      background-color: #f0f6fa; }
+      background-color: #fafaff; }
   ul.report_list a.xls, ul.report_list a.doc {
     position: absolute;
     right: 10px;
@@ -690,7 +691,7 @@ ul.report_list {
       color: #14546f; }
 
 div.pagination {
-  background: #f0f6fa;
+  background: #fafaff;
   border-bottom: 1px solid #ccc;
   font-size: 0.9em;
   padding: 6px 150px;
@@ -730,7 +731,7 @@ ul.view_modes {
       text-decoration: none;
       border: 1px solid #333; }
       ul.view_modes li a:hover {
-        background: #f0f6fa;
+        background: #fafaff;
         color: #14546f; }
       ul.view_modes li a.selected {
         background: white;
