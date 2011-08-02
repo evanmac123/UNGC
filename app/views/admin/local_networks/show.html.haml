@@ -10,16 +10,19 @@
     %li <a href="#communications">Communications</a>
 
   #structure_governance.tab_content
-    %ul#tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure_governance), :class => 'edit_large'
+
     %div.hint_toggle
       About this section...
     %div.hint_text{:style => 'display: none;'}
       %p Launching the Global Compact should be distinguished from launching the network. A public launch of the Global Compact, which is a high-level event within a country, typically takes place after a significant number of local companies have become engaged or are ready to be engaged in the initiative. Support from a critical mass of companies before the launch increases the likelihood that a GCLN will be established and that the network will be sustainable.
       %p Launching the network is essentially about institutionalizing a group of companies with a sufficient level of commitment to ensure the effective, inclusive and accountable governance system of the Global Compact initiative in a country.
+
+    %ul#tools{:class => "tools inline"}
+      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure_governance), :class => 'edit_large'
         
     %dl.left_column.short
-      %h3 Key Launch Dates
+      %dt.title Key Launch Dates
+      %dd.title &nbsp;
       %dt.first Global Compact
       %dd.first= @local_network.sg_global_compact_launch_date
       %dt Local Network
