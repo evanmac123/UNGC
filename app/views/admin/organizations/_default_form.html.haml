@@ -30,6 +30,13 @@
 
 - staff_only do
   - if @organization.participant
+
+    %fieldset
+      %legend Failure to Engage in Dialogue
+      %p Select the date on which the participant became Non-Communicating for failing to engage in dialogue.
+      %ol
+        = default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
+
     %fieldset
       %legend Participant Status
       %ol
