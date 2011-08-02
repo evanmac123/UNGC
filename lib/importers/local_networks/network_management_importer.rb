@@ -38,6 +38,14 @@ module Importers
         model.membership_academic_institutions  = get_integer(row, "Academic Institutions")
         model.membership_government             = get_integer(row, "Government Entities")
         model.membership_other                  = get_integer(row, "Other Stakeholders")
+
+        model.fees_participant               = get_yesno(row, "Participant Fees")
+        model.fees_amount_company            = get_integer(row, "Company Fee")
+        model.fees_amount_sme                = get_integer(row, "SME Fee")
+        model.fees_amount_other_organization = get_integer(row, "Other Organization Fee")
+        model.fees_amount_participant        = get_integer(row, "Participant  Fees")
+        model.fees_amount_voluntary_private  = get_integer(row, "Private Voluntary Contribution")
+        model.fees_amount_voluntary_public   = get_integer(row, "Public Voluntary Contribution")
       end
 
       def model_string(local_network)
