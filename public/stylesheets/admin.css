@@ -476,9 +476,8 @@ ul.nav_bar {
     #main_content fieldset fieldset div.hint_toggle {
       color: #14546f;
       font-weight: bold;
-      margin: 1em 0; }
-      #main_content fieldset fieldset div.hint_toggle:hover {
-        cursor: pointer; }
+      margin: 1em 0;
+      cursor: pointer; }
     #main_content fieldset fieldset div.hint_text ul {
       margin: 0;
       padding: 0 0 0 0; }
