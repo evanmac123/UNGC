@@ -39,7 +39,7 @@ class Admin::LocalNetworksController < AdminController
       flash[:notice] = 'Local Network was successfully updated.'
       
       if current_user.from_ungc?
-        redirect_to admin_local_network_path(@local_network.id)
+        redirect_to admin_local_network_path(@local_network.id, :tab => 'network_management') 
       elsif current_user.from_network?
         redirect_to admin_local_network_path(@local_network.id, :tab => @section) 
       end
