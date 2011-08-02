@@ -39,7 +39,35 @@
     %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
     
   #network_management.tab_content
-    %h3 Network Management
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => 'membership'), :class => 'edit_large'
+    %h3 Membership
+    %dl.left_column.short
+      %h4 Business
+      %dt.first Companies
+      %dd.first= @local_network.membership_companies
+      %dt SMEs
+      %dd= @local_network.membership_sme
+      %dt Subsidiaries
+      %dd= @local_network.membership_subsidiaries      
+      %dt Micro Enterprises
+      %dd= @local_network.membership_micro_enterprise      
+      %dt Business Associations
+      %dd= @local_network.membership_business_organizations      
+
+    %dl.left_column.short
+      %h4 Non-Business
+      %dt.first Academic
+      %dd.first= @local_network.membership_academic_institutions
+      %dt Civil Society
+      %dd= @local_network.membership_civil_societies      
+      %dt CSR Organizations
+      %dd= @local_network.membership_csr_organizations      
+      %dt Government
+      %dd= @local_network.membership_government      
+      %dt Labour
+      %dd= @local_network.membership_labour_organizations      
+    
   
   #events.tab_content
     %h3 Events & Activities
