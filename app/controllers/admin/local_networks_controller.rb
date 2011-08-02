@@ -34,13 +34,14 @@ class Admin::LocalNetworksController < AdminController
 
   def update
     @local_network = LocalNetwork.find(params[:id])
+    @section ||= params[:section]
     if @local_network.update_attributes(params[:local_network])
       flash[:notice] = 'Local Network was successfully updated.'
       
       if current_user.from_ungc?
         redirect_to admin_local_network_path(@local_network.id)
       elsif current_user.from_network?
-        redirect_to dashboard_path
+        redirect_to admin_local_network_path(@local_network.id, :tab => @section) 
       end
       
     else

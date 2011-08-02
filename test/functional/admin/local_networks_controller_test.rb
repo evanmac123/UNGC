@@ -64,14 +64,21 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
 
     should "should get edit for a specific section" do
       get :edit, :id => @local_network.to_param, :section => 'membership'
-      # assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
+      assert_equal 'membership', assigns(:section)
+      assert_equal 'edit_membership', assigns(:form_partial)
       assert_template :partial => 'edit_membership'
       assert_response :success
     end
 
+    should "update local network membership section" do
+      put :update, :id => @local_network.to_param, :local_network => { }, :section => 'membership'
+      assert_equal 'membership', assigns(:section)
+      assert_redirected_to admin_local_network_path(@local_network.id, :tab => 'membership')
+    end
+
     should "update local network" do
       put :update, :id => @local_network.to_param, :local_network => { }
-      assert_redirected_to dashboard_path
+      assert_redirected_to admin_local_network_path(@local_network.id)
     end
     
     should "not edit another Local Network" do
