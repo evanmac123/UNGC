@@ -88,18 +88,20 @@ end
       create_organization_type
       create_organization_and_ceo
       create_country
-      @contact = create_contact(:login => 'quentin',
+      @contact = create_contact(:organization_id => @organization.id,
+                                :login => 'quentin',
                                 :password => 'monkey',
                                 :email => 'user@example.com',
                                 :remember_token_expires_at => 1.days.from_now.to_s,
                                 :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb',
                                 :role_ids => [Role.contact_point.id])
 
-      @old_contact = create_contact(:login => 'login',
-                                :password => 'nexen',
-                                :email => 'user2@example.com',
-                                :last_login_at => 7.months.ago, 
-                                :role_ids => [Role.contact_point.id])      
+      @old_contact = create_contact(:organization_id => @organization.id,
+                                    :login => 'login',
+                                    :password => 'nexen',
+                                    :email => 'user2@example.com',
+                                    :last_login_at => 7.months.ago, 
+                                    :role_ids => [Role.contact_point.id])      
 
     end
   

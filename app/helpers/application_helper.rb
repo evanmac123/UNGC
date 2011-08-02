@@ -51,6 +51,18 @@ module ApplicationHelper
     content_tag :li, link, li_options
   end
   
+  def differentiation_placement(cop)
+    levels = { :learner => "Learner Platform &#x25BA;", :active => "GC Active &#x25BA;", :advanced => "GC Advanced" }
+    html = ''
+    
+    levels.each do |key, value|
+      css_style = cop.differentation_level == key ? '' : 'color: #aaa'
+      html += content_tag :span, value + '&nbsp;', :style => css_style
+    end
+
+    html
+  end
+
   def current_year
     Time.now.strftime('%Y').to_i
   end

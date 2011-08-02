@@ -3,7 +3,26 @@ class CopsController < ApplicationController
   before_filter :determine_navigation
   before_filter :find_cop, :except => [:feed]
 
-  def show 
+  def show
+    if @communication_on_progress.evaluated_for_differentiation?
+      @cop_partial = "/shared/cops/show_differentiation_style_public"
+
+      # Basic COP template has its own partial to display text responses
+      if @communication_on_progress.is_basic?
+        @results_partial = '/shared/cops/show_basic_style'
+      else
+        @results_partial = '/shared/cops/show_differentiation_style'
+      end
+
+    elsif @communication_on_progress.is_grace_letter?
+      @cop_partial = '/shared/cops/show_grace_style'
+    elsif @communication_on_progress.is_basic?
+      @cop_partial = '/shared/cops/show_basic_style'
+    elsif @communication_on_progress.is_new_format?
+      @cop_partial = '/shared/cops/show_new_style'
+    elsif @communication_on_progress.is_legacy_format?
+      @cop_partial = '/shared/cops/show_legacy_style'
+    end
   end
   
   def feed
@@ -13,7 +32,9 @@ class CopsController < ApplicationController
     end
   end
 
+
   private
+  
     def find_cop
       @communication_on_progress = find_cop_by_id unless params[:id].blank?
       @communication_on_progress = find_cop_by_cop_and_org unless @communication_on_progress
@@ -28,4 +49,5 @@ class CopsController < ApplicationController
       @organization = Organization.find_by_param(params[:organization])
       @organization.communication_on_progresses.find_by_param(params[:cop])
     end
+    
 end

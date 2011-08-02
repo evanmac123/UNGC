@@ -1,0 +1,52 @@
+- if communication_on_progress.cop_files.any?
+  %dt Files
+  %dd
+    %ul
+      - for cop_file in communication_on_progress.cop_files
+        %li
+          = link_to truncate(cop_file.attachment_file_name, :length => 50), cop_file.attachment.url
+          == (#{cop_file.language.name})
+- if communication_on_progress.cop_links.any?
+  %dt Links
+  %dd
+    %ul
+      - for cop_link in communication_on_progress.cop_links
+        %li
+          = link_to truncate(cop_link.url, :length => 50), cop_link.url
+          == (#{cop_link.language.name})
+
+- unless communication_on_progress.is_grace_letter?
+  %dt Format
+  %dd
+    %ul
+      %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
+
+- if communication_on_progress.evaluated_for_differentiation?
+  %dt
+    Differentiation Level
+  %dd
+    %ul
+      %li
+        = communication_on_progress.differentiation_description
+        - if communication_on_progress.differentation_level == :learner
+          %li
+            Missing items have been flagged
+            %img{:src => '/images/unchecked.png', :height => 10, :width => 12}
+            in the self-assessment
+          
+  %dt
+    Self-assessment
+  %dd
+    = render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+    
+- if communication_on_progress.is_advanced_programme? && communication_on_progress.description.present?
+  - dashboard_view_only do
+    %dt Other Best Practices
+    %dd
+      %ul
+        %li
+          %em The following information is not shared publicly
+        %li= simple_format communication_on_progress.description
+
+- if communication_on_progress.is_advanced_programme? && communication_on_progress.issue_areas_covered.count > 0
+  = render :partial => '/shared/cops/cop_questionnaire_results', :locals => { :communication_on_progress => communication_on_progress }

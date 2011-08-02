@@ -86,7 +86,6 @@ class ActiveSupport::TestCase
                                         :organization_type_id => OrganizationType.academic.id)
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
-                                        # :email           => 'String.random@example.com',
                                         :role_ids        => [Role.contact_point.id])
   end
 
@@ -99,14 +98,12 @@ class ActiveSupport::TestCase
                                         :cop_due_on => Date.today + 1.year)
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(:organization_id => @organization.id,
-                                        # :email           => 'contact@example.com',
                                         :role_ids        => [Role.contact_point.id])
   end
 
   def create_organization_and_ceo
     create_organization_and_user
     @organization_ceo = create_contact(:organization_id => @organization.id,
-                                       # :email           => "ceo@example.com", 
                                        :role_ids        => [Role.ceo.id])                                        
   end
     
@@ -140,11 +137,10 @@ class ActiveSupport::TestCase
   end
   
   def create_local_network_with_report_recipient
+    create_roles
     @local_network = create_local_network(:name => "Canadian Local Network")
     @country = create_country(:name => "Canada", :local_network_id => @local_network.id)
     @network_contact = create_contact(:local_network_id => @local_network.id,
-                                      :organization_id  => nil,
-                                      # :email            => 'network@example.com',
                                       :role_ids         => [Role.network_report_recipient.id])
   end
   
@@ -160,10 +156,13 @@ class ActiveSupport::TestCase
     create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
   end
   
-  def create_cop(organization_id)
-    create_communication_on_progress(:organization_id => organization_id,
-                                     :starts_on => Date.new(2010, 01, 01),
-                                     :ends_on => Date.new(2010, 12, 31))
+  def create_cop(organization_id, options = {})
+    defaults = {
+      :organization_id => organization_id,
+      :starts_on => Date.new(2010, 01, 01), 
+      :ends_on => Date.new(2010, 12, 31)
+    }    
+    create_communication_on_progress(defaults.merge(options))
   end
   
   def create_principle_areas

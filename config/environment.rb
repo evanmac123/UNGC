@@ -1,5 +1,8 @@
 # raise "Requires Ruby >= 1.9" unless RUBY_VERSION =~ /^1\.9/
 
+# Encoding.default_internal = 'utf-8'
+# Encoding.default_external = 'utf-8'
+
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
@@ -15,6 +18,7 @@ Rails::Initializer.run do |config|
   config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :version => '1.3.14'
   config.gem 'spreadsheet', :version => '0.6.5.7', :lib => nil
 
+  # config.gem 'mysql2', :version => "0.2.6"
   config.gem 'money'
   config.gem 'haml'
   config.gem 'hoptoad_notifier'

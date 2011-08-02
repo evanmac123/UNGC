@@ -1,0 +1,50 @@
+%dt
+  Issue Area Coverage
+  %br
+  (self-assessed)
+%dd
+  %ul
+    %li
+      %div{:id => 'issue_coverage'}
+        - PrincipleArea::FILTERS.each_pair do |key, value|
+          - percent = percent_issue_area_coverage(communication_on_progress, key)
+          - if percent > 0
+            %span{:class => "#{issue_area_colour_for(value)}" }
+              %strong= value
+            %a{:href => "##{key}", :style => "text-decoration: none;"}
+              %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "#{show_issue_area_coverage(communication_on_progress, key)}"}
+                %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
+                  %div{:class => 'ui-progressbar-text'}
+                    == #{percent}%
+        - PrincipleArea::FILTERS.each_pair do |key, value|
+          - percent = percent_issue_area_coverage(communication_on_progress, key)
+          - if percent < 1
+            %li== No reported coverage for #{value}
+  
+- if communication_on_progress.cop_answers.by_group(:governance).count > 0
+  %dt Governance
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'governance')
+
+- if communication_on_progress.cop_answers.by_group(:strategy).count > 0
+  %dt Strategy, Governance <br /> and Engagement
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'strategy')
+
+- if communication_on_progress.cop_answers.by_group(:un_goals).count > 0
+  %dt UN Goals and Issues
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'un_goals')  
+
+- PrincipleArea::FILTERS.each_pair do |key, value|
+  - if (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
+    %a{:name => "#{key}"}
+    %dt
+      %span{:class => "#{issue_area_colour_for(value)}" }
+        = value
+    %dd= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
+
+- if communication_on_progress.cop_answers.by_group(:value_chain).count > 0
+  %dt Value Chain <br /> Implementation
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'value_chain')
+
+- if communication_on_progress.cop_answers.by_group(:verification).count > 0
+  %dt Verification and <br /> Transparency
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'verification')

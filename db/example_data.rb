@@ -25,7 +25,6 @@ module FixtureReplacement
     c.phone = String.random
     c.address = String.random
     c.city = String.random
-    c.organization_id = Organization.first.id
     c.country_id = Country.first.id
     c.email = String.random + '@example.com' 
     c.login = String.random
