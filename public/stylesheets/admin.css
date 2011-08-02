@@ -152,7 +152,7 @@ ul.nav_bar {
     #main_content table.dashboard_table tr.odd {
       background: #f2f2f2; }
     #main_content table.dashboard_table tr.over {
-      background: #fafaff; }
+      background: #f8f8ff; }
     #main_content table.dashboard_table td, #main_content table.dashboard_table th {
       padding: 10px;
       border-right: 1px solid #dedede; }
@@ -236,14 +236,18 @@ ul.nav_bar {
       font-weight: bold;
       white-space: nowrap;
       border-top: 1px solid #999; }
-      #main_content dl dt.first {
+      #main_content dl dt.first, #main_content dl dt.title {
         border: none; }
+      #main_content dl dt.title {
+        font-size: 130%; }
     #main_content dl dd {
       margin-left: 140px;
       padding: 10px;
       border-top: 1px solid #999; }
-      #main_content dl dd.first {
+      #main_content dl dd.first, #main_content dl dd.title {
         border: none; }
+      #main_content dl dd.title {
+        font-size: 130%; }
     #main_content dl ul.document_list {
       overflow: hidden;
       margin: 0; }
@@ -264,7 +268,7 @@ ul.nav_bar {
     font-weight: bold; }
 
 .container > .sidebar {
-  background: #fafaff;
+  background: #f8f8ff;
   border: 1px solid #999;
   padding: 10px;
   width: 210px;
@@ -315,7 +319,7 @@ ul.nav_bar {
         text-decoration: none;
         border: 1px solid #333; }
         .tab_container ul.tab_nav li a:hover {
-          background: #fafaff;
+          background: #f8f8ff;
           color: #14546f; }
         .tab_container ul.tab_nav li a.selected {
           background: white;
@@ -411,10 +415,10 @@ ul.nav_bar {
   float: right;
   clear: both; }
 #main_content fieldset {
-  background-color: #fafaff;
+  background-color: #f8f8ff;
   border: 1px solid #aaa; }
   #main_content fieldset legend {
-    color: #aaa; }
+    color: #888; }
     #main_content fieldset legend span {
       white-space: normal; }
   #main_content fieldset ol {
@@ -441,9 +445,7 @@ ul.nav_bar {
     width: 250px;
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
-  #main_content fieldset li.date > select {
-    width: auto; }
-  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"] {
+  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"], #main_content fieldset li.date > select {
     width: auto;
     margin: 0 5px 0px 25px; }
   #main_content fieldset input[type="checkbox"].label_right {
@@ -533,7 +535,7 @@ ul.nav_bar {
   border: 5px solid #d2d2d2;
   padding: 10px;
   margin-bottom: 20px;
-  background: #fafaff; }
+  background: #f8f8ff; }
 #main_content #site_structure {
   overflow: hidden;
   margin-bottom: 2em; }
@@ -664,7 +666,7 @@ ul.report_list {
     ul.report_list li.odd {
       background-color: #fff; }
     ul.report_list li:hover {
-      background-color: #fafaff; }
+      background-color: #f8f8ff; }
   ul.report_list a.xls, ul.report_list a.doc {
     position: absolute;
     right: 10px;
@@ -690,7 +692,7 @@ ul.report_list {
       color: #14546f; }
 
 div.pagination {
-  background: #fafaff;
+  background: #f8f8ff;
   border-bottom: 1px solid #ccc;
   font-size: 0.9em;
   padding: 6px 150px;
@@ -730,7 +732,7 @@ ul.view_modes {
       text-decoration: none;
       border: 1px solid #333; }
       ul.view_modes li a:hover {
-        background: #fafaff;
+        background: #f8f8ff;
         color: #14546f; }
       ul.view_modes li a.selected {
         background: white;

@@ -3,7 +3,7 @@
 !environment = #688442
 !anti_corruption = #ED1C24
 !dark_blue = #14546f
-!light_blue = #FAFAFF
+!light_blue = #F8F8FF
 !dark_grey = #333
 !medium_grey = #666
 !light_grey = #f2f2f2
@@ -300,15 +300,19 @@ ul.nav_bar
       font-weight: bold
       white-space: nowrap
       border-top: 1px solid #999
-      &.first
+      &.first, &.title
         border: none
+      &.title
+        font-size: 130%
       
     dd
       margin-left: 140px
       padding: 10px
       border-top: 1px solid #999
-      &.first
+      &.first, &.title
         border: none
+      &.title
+        font-size: 130%
       
     ul.document_list
       overflow: hidden
@@ -542,7 +546,7 @@ ul.nav_bar
     border: 1px solid #aaa
     
     legend
-      color: #aaa
+      color: #888
       
       span
         white-space: normal
@@ -578,10 +582,7 @@ ul.nav_bar
       font-family: "Helvetica Neue",Arial,Helvetica,sans-serif
       font-size: 1em
     
-    li.date > select
-      width: auto
-    
-    input[type="checkbox"], input[type="radio"], input[type="file"] 
+    input[type="checkbox"], input[type="radio"], input[type="file"], li.date > select
       width: auto
       margin: 0 5px 0px 25px
     

@@ -40,10 +40,10 @@
     
   #network_management.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => 'membership'), :class => 'edit_large'
-    %h3 Membership
+      %li= link_to 'Membership Breakdown', edit_admin_local_network_path(@local_network.id, :section => 'membership'), :class => 'edit_large'
     %dl.left_column.short
-      %h4 Business
+      %dt.title Business
+      %dd.title &nbsp;
       %dt.first Companies
       %dd.first= @local_network.membership_companies
       %dt SMEs
@@ -56,7 +56,8 @@
       %dd= @local_network.membership_business_organizations      
 
     %dl.left_column.short
-      %h4 Non-Business
+      %dt.title Non-Business
+      %dd.title &nbsp;
       %dt.first Academic
       %dd.first= @local_network.membership_academic_institutions
       %dt Civil Society
@@ -66,8 +67,20 @@
       %dt Government
       %dd= @local_network.membership_government      
       %dt Labour
-      %dd= @local_network.membership_labour_organizations      
+      %dd= @local_network.membership_labour_organizations
     
+    %p{:style => 'clear: both;'}
+    
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'Structure and Governance', edit_admin_local_network_path(@local_network.id, :section => 'structure_governance'), :class => 'edit_large'
+  
+    %dl.left_column.short
+      %dt.title Key Launch Dates
+      %dd.title &nbsp;
+      %dt.first Global Compact
+      %dd.first= @local_network.sg_global_compact_launch_date
+      %dt Local Network
+      %dd= @local_network.sg_local_network_launch_date      
   
   #events.tab_content
     %h3 Events & Activities
