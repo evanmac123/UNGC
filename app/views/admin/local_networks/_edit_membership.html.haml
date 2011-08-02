@@ -1,25 +1,24 @@
-%fieldset{:style => 'width: 50%;'}
+%fieldset{:style => 'width: 230px; float: left; margin-right: 20px;'}
   %legend Business
   %ol
-    = default_form.text_field :membership_companies, :label => 'Companies'
-    = default_form.text_field :membership_sme, :label => 'SMEs'
-    /= default_form.text_field :membership_subsidiaries, :label => 'Subsidiaries'
-    = default_form.text_field :membership_micro_enterprise, :label => 'Micro Enterprises'
-    = default_form.text_field :membership_business_organizations, :label => 'Business Associations'
+    = default_form.text_field :membership_companies, {:class => 'short'}, :label => 'Companies'
+    = default_form.text_field :membership_sme, {:class => 'short'}, :label => 'SMEs'
+    = default_form.text_field :membership_subsidiaries, {:class => 'short'}, :label => 'Subsidiaries'
+    = default_form.text_field :membership_micro_enterprise, {:class => 'short'}, :label => 'Micro Enterprises'
+    = default_form.text_field :membership_business_organizations, {:class => 'short'}, :label => 'Business Associations'
 
-%fieldset{:style => 'width: 50%;'}
+%fieldset{:style => 'width: 230px; float: left;'}
   %legend Non-Business
   %ol
-    = default_form.text_field :membership_academic_institutions, {:class => 'number_field'}, :label => 'Academic'
-    = default_form.text_field :membership_civil_societies, :label => 'Civil Society'
-    = default_form.text_field :membership_csr_organizations, :label => 'CSR Organizations'
-    = default_form.text_field :membership_government, :label => 'Government'
-    = default_form.text_field :membership_labour_organizations, :label => 'Labour'
-    
-%fieldset{:style => 'width: 50%;'}
+    = default_form.text_field :membership_academic_institutions, {:class => 'short'}, :label => 'Academic'
+    = default_form.text_field :membership_civil_societies, {:class => 'short'}, :label => 'Civil Society'
+    = default_form.text_field :membership_csr_organizations, {:class => 'short'}, :label => 'CSR Organizations'
+    = default_form.text_field :membership_government, {:class => 'short'}, :label => 'Government'
+    = default_form.text_field :membership_labour_organizations, {:class => 'short'}, :label => 'Labour'
+  
+%fieldset{:style => 'width: 510px; clear: both;'}
   %legend Subsidiaries
   Please check if subsidiaries of multi-national companies participate in Local Network activities
   %ol
     %li
       = default_form.check_box :membership_subsidiaries, :label => 'Subsidiary Participation'
-      
