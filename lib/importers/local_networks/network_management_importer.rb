@@ -79,7 +79,10 @@ module Importers
         value = get_value(row, column_name)
         return nil if value.nil?
 
-        if value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
+        if value =~ %r{^(\d{4})}
+          value = "01/01/#{value}"
+          Date.strptime(value, "%d/%m/%Y")
+        elsif value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
           Date.strptime(value, "%d/%m/%Y")
         else
           warn_of_bad_value(row, column_name, "date")
