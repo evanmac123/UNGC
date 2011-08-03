@@ -41,6 +41,7 @@
 #  network_review_on              :date
 #  revenue                        :integer(4)
 #  rejoined_on                    :date
+#  non_comm_dialogue_on           :date
 #
 
 class Organization < ActiveRecord::Base
@@ -68,6 +69,10 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
 
   attr_accessor :delisting_on
+  
+  # if the date is set, then the participant
+  # is non-communicating for failing to engage in dialogue
+  attr_accessor :non_comm_dialogue
   
   accepts_nested_attributes_for :contacts
   acts_as_commentable
@@ -499,6 +504,10 @@ class Organization < ActiveRecord::Base
       else
         cop_due_on
     end
+  end
+  
+  def non_comm_dialogue
+    non_comm_dialogue_on.present?
   end
   
   def participant_has_submitted_differentiation_cop

@@ -142,6 +142,8 @@ ul.nav_bar {
     background: url('../images/icons/Refresh_24x24.png') no-repeat top left; }
   #main_content a.delete_large {
     background: transparent url('../images/icons/Delete_24x24.png') no-repeat top left; }
+  #main_content a.cancel_large {
+    background: transparent url('../images/icons/Cancel_24x24.png') no-repeat top left; }
   #main_content a.edit_page_large {
     background: url('../images/icons/Document (Edit)_24x24.png') no-repeat top left; }
   #main_content a.go_back_large {
