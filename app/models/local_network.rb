@@ -15,6 +15,7 @@ class LocalNetwork < ActiveRecord::Base
   validates_presence_of :name
   has_many :countries
   has_many :contacts
+  has_many :awards
   belongs_to :manager, :class_name => "Contact"
   validates_format_of :url,
                       :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,

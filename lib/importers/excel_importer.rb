@@ -7,6 +7,10 @@ module Importers
     end
 
     def run
+      $stderr.puts
+      $stderr.puts highlight("Importing #{worksheet_name}", :blue)
+      $stderr.puts
+
       workbook  = Spreadsheet.open(@path)
       worksheet = workbook.worksheet(self.worksheet_name)
 
@@ -39,12 +43,22 @@ module Importers
 
     def get_value(row, column_name)
       if index = @column_names.index(column_name)
-        value = row[index]
+        value = row[index].strip
+        return nil if value.empty?
 
-        if value.empty?
+        begin
+          yield(value)
+        rescue BadValue => e
+          msg = if e.message
+                  "Bad #{e.message} value"
+                else
+                  "Bad value"
+                end
+
+          msg << " on row \##{row.idx}, column name #{column_name.inspect}: #{value.inspect}"
+
+          warn(msg)
           nil
-        else
-          value.strip
         end
       else
         warn "Column not found: #{column_name.inspect}"
@@ -63,7 +77,7 @@ module Importers
     def report(row, model, message, color)
       line = "#{row.idx.to_s.rjust(8)} "
 
-      line << model_string(model).ljust(20)
+      line << model_string(model).ljust(35)
 
       message = message.ljust(20)
       message = highlight(message, color) if color
@@ -85,7 +99,7 @@ module Importers
       "\033[#{code}m#{str}\033[m"
     end
 
-    class InvalidData < StandardError; end
+    class BadValue < StandardError; end
   end
 end
 
