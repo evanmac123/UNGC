@@ -41,21 +41,19 @@
   #network_management.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'Membership Breakdown', edit_admin_local_network_path(@local_network.id, :section => 'membership'), :class => 'edit_large'
-    %dl.left_column.short
+    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Business
       %dd.title &nbsp;
       %dt.first Companies
       %dd.first= @local_network.membership_companies
       %dt SMEs
       %dd= @local_network.membership_sme
-      %dt Subsidiaries
-      %dd= @local_network.membership_subsidiaries      
       %dt Micro Enterprises
       %dd= @local_network.membership_micro_enterprise      
       %dt Business Associations
       %dd= @local_network.membership_business_organizations      
 
-    %dl.left_column.short
+    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Non-Business
       %dd.title &nbsp;
       %dt.first Academic
@@ -67,8 +65,14 @@
       %dt Government
       %dd= @local_network.membership_government      
       %dt Labour
-      %dd= @local_network.membership_labour_organizations
-    
+      %dd= @local_network.membership_labour_organizations      
+
+    %dl.left_column{:style => 'width: 175px;'}
+      %dt.title Subsidiary Participation
+      %dd.title &nbsp;
+      %dt.first= subsidiary_participation(@local_network)
+      %dd.first &nbsp;
+            
     %p{:style => 'clear: both;'}
     
     %ul#contacts_tools{:class => "tools inline"}

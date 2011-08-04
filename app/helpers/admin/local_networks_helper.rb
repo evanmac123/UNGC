@@ -8,5 +8,9 @@ module Admin::LocalNetworksHelper
     end
     link_to 'Public profile', link , :class => 'web_preview_large'
   end
+  
+  def subsidiary_participation(local_network)
+    local_network.membership_subsidiaries ? "Yes, in Local Network activities" : "None"
+  end
 
 end

@@ -38,21 +38,19 @@
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
       
-    %dl.left_column.short
+    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Business
       %dd.title &nbsp;
       %dt.first Companies
       %dd.first= @local_network.membership_companies
       %dt SMEs
       %dd= @local_network.membership_sme
-      %dt Subsidiaries
-      %dd= @local_network.membership_subsidiaries      
       %dt Micro Enterprises
       %dd= @local_network.membership_micro_enterprise      
       %dt Business Associations
       %dd= @local_network.membership_business_organizations      
 
-    %dl.left_column.short
+    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Non-Business
       %dd.title &nbsp;
       %dt.first Academic
@@ -66,6 +64,11 @@
       %dt Labour
       %dd= @local_network.membership_labour_organizations      
 
+    %dl.left_column{:style => 'width: 175px;'}
+      %dt.title Subsidiary Participation
+      %dd.title &nbsp;
+      %dt.first= subsidiary_participation(@local_network)
+      %dd.first &nbsp;
 
   #fees_contributions.tab_content
     %h3 Fees and Contributions
