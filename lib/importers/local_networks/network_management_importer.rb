@@ -41,54 +41,6 @@ module Importers
           super
         end
       end
-
-      def get_yesno(row, column_name)
-        value = get_value(row, column_name)
-        return nil if value.nil?
-
-        case value.downcase
-        when "yes"
-          true
-        when "no"
-          false
-        else
-          warn_of_bad_value(row, column_name, "yes/no")
-          nil
-        end
-      end
-
-      def get_integer(row, column_name)
-        value = get_value(row, column_name)
-        return nil if value.nil?
-
-        begin
-          Integer(value)
-        rescue ArgumentError
-          warn_of_bad_value(row, column_name, "integer")
-          nil
-        end
-      end
-
-      def get_date(row, column_name)
-        value = get_value(row, column_name)
-        return nil if value.nil?
-
-        if value =~ %r{^(\d{4})}
-          value = "01/01/#{value}"
-          Date.strptime(value, "%d/%m/%Y")
-        elsif value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
-          Date.strptime(value, "%d/%m/%Y")
-        else
-          warn_of_bad_value(row, column_name, "date")
-          nil
-        end
-      end
-
-      def warn_of_bad_value(row, column_name, type)
-        warn "Bad #{type} value on row \##{row.idx}, column name #{column_name.inspect}: #{get_value(row, column_name).inspect}"
-      end
-
     end
   end
 end
-
