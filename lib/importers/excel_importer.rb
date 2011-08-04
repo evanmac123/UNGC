@@ -7,6 +7,10 @@ module Importers
     end
 
     def run
+      $stderr.puts
+      $stderr.puts highlight("Importing #{worksheet_name}", :blue)
+      $stderr.puts
+
       workbook  = Spreadsheet.open(@path)
       worksheet = workbook.worksheet(self.worksheet_name)
 
@@ -63,7 +67,7 @@ module Importers
     def report(row, model, message, color)
       line = "#{row.idx.to_s.rjust(8)} "
 
-      line << model_string(model).ljust(20)
+      line << model_string(model).ljust(35)
 
       message = message.ljust(20)
       message = highlight(message, color) if color
