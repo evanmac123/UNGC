@@ -87,6 +87,8 @@ module Importers
         value = get_value(row, column_name)
         return nil if value.nil?
 
+        value = "01/01/#{value}" if value =~ %r{^\d{4}$}
+
         if value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})}
           Date.strptime(value, "%d/%m/%Y")
         else
