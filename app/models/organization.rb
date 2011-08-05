@@ -41,6 +41,7 @@
 #  network_review_on              :date
 #  revenue                        :integer(4)
 #  rejoined_on                    :date
+#  non_comm_dialogue_on           :date
 #
 
 class Organization < ActiveRecord::Base

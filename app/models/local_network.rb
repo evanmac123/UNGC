@@ -2,13 +2,40 @@
 #
 # Table name: local_networks
 #
-#  id         :integer(4)      not null, primary key
-#  name       :string(255)
-#  manager_id :integer(4)
-#  url        :string(255)
-#  state      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id                                                  :integer(4)      not null, primary key
+#  name                                                :string(255)
+#  manager_id                                          :integer(4)
+#  url                                                 :string(255)
+#  state                                               :string(255)
+#  created_at                                          :datetime
+#  updated_at                                          :datetime
+#  sg_global_compact_launch_date                       :date
+#  sg_local_network_launch_date                        :date
+#  sg_annual_meeting_appointments                      :boolean(1)
+#  sg_annual_meeting_appointments_file_id              :integer(4)
+#  sg_selected_appointees_local_network_representative :boolean(1)
+#  sg_selected_appointees_steering_committee           :boolean(1)
+#  sg_selected_appointees_contact_point                :boolean(1)
+#  sg_established_as_a_legal_entity                    :boolean(1)
+#  sg_established_as_a_legal_entity_file_id            :integer(4)
+#  membership_subsidiaries                             :boolean(1)
+#  membership_companies                                :integer(4)
+#  membership_sme                                      :integer(4)
+#  membership_micro_enterprise                         :integer(4)
+#  membership_business_organizations                   :integer(4)
+#  membership_csr_organizations                        :integer(4)
+#  membership_labour_organizations                     :integer(4)
+#  membership_civil_societies                          :integer(4)
+#  membership_academic_institutions                    :integer(4)
+#  membership_government                               :integer(4)
+#  membership_other                                    :integer(4)
+#  fees_participant                                    :boolean(1)
+#  fees_amount_company                                 :integer(4)
+#  fees_amount_sme                                     :integer(4)
+#  fees_amount_other_organization                      :integer(4)
+#  fees_amount_participant                             :integer(4)
+#  fees_amount_voluntary_private                       :integer(4)
+#  fees_amount_voluntary_public                        :integer(4)
 #
 
 class LocalNetwork < ActiveRecord::Base
