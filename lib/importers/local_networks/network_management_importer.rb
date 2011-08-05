@@ -32,6 +32,17 @@ module Importers
         model.fees_amount_participant        = get_integer(row, "Participant  Fees")
         model.fees_amount_voluntary_private  = get_integer(row, "Private Voluntary Contribution")
         model.fees_amount_voluntary_public   = get_integer(row, "Public Voluntary Contribution")
+        
+        model.stakeholder_company              = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Business")
+        model.stakeholder_sme                  = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "SMEs")
+        model.stakeholder_business_association = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Business Associations")
+        model.stakeholder_labour               = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Labour")
+        model.stakeholder_un_agency            = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "UN Agency")
+        model.stakeholder_ngo                  = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "NGOs")
+        model.stakeholder_foundation           = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Foundations")
+        model.stakeholder_academic             = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Academies")
+        model.stakeholder_government           = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Government Entity")
+        
       end
 
       def model_string(local_network)
