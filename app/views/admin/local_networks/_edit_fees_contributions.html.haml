@@ -1,0 +1,21 @@
+%fieldset{:style => 'width: 235px; height: 100px; float: left; margin-right: 50px;'}
+  %legend Member Fees
+  %ol
+    %li= default_form.radio_button :fees_participant, true, :label => 'Fees are required'
+    %li= default_form.radio_button :fees_participant, false, :label => 'Fees are not required'
+    
+%fieldset{:style => 'width: 235px; height: 100px; float: left; margin-right: 50px;'}
+  %legend Annual Amount in U.S. Dollars
+  %ol
+    = default_form.text_field :fees_amount_company, {:class => 'short'}, :label => 'Company'
+    = default_form.text_field :fees_amount_sme, {:class => 'short'}, :label => 'SME'
+    = default_form.text_field :fees_amount_other_organization, {:class => 'short'}, :label => 'Other'
+
+%fieldset{:style => 'width: 235px; height: 100px; float: left;'}
+  %legend Financing of Total Budget (%)
+  %ol
+    = default_form.text_field :fees_amount_participant, {:class => 'short'}, :label => 'Member Fees'
+    = default_form.text_field :fees_amount_voluntary_private, {:class => 'short'}, :label => 'Private Voluntary'
+    = default_form.text_field :fees_amount_voluntary_public, {:class => 'short'}, :label => 'Public Voluntary'
+    
+  

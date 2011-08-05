@@ -86,6 +86,37 @@
       %dt Local Network
       %dd= @local_network.sg_local_network_launch_date      
   
+    %p{:style => 'clear: both;'}
+
+    %ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'Fees and Contributions', edit_admin_local_network_path(@local_network.id, :section => 'fees_contributions'), :class => 'edit_large'
+  
+    %dl.left_column{:style => 'width: 275px; margin-right: 0px;'}
+      %dt.title Member Fees
+      %dd.title &nbsp;
+      %dt.first= participant_fees(@local_network)
+      %dd.first &nbsp;
+
+    %dl.left_column.short{:style => 'width: 275px; margin-right: 50px;'}
+      %dt.title Annual Amount in U.S. Dollars
+      %dd.title &nbsp;
+      %dt.first Company
+      %dd.first= number_to_currency(@local_network.fees_amount_company, :unit => "$")
+      %dt SME
+      %dd= number_to_currency(@local_network.fees_amount_sme, :unit => "$")
+      %dt Other
+      %dd= number_to_currency(@local_network.fees_amount_other_organization, :unit => "$")
+
+    %dl.left_column.short{:style => 'width: 275px;'}
+      %dt.title Financing of Total Budget
+      %dd.title &nbsp;
+      %dt.first Participant Fees
+      %dd.first= number_to_percentage(@local_network.fees_amount_participant, :precision => 0)
+      %dt Private Voluntary
+      %dd= number_to_percentage(@local_network.fees_amount_voluntary_private, :precision => 0)
+      %dt Public Voluntary
+      %dd= number_to_percentage(@local_network.fees_amount_voluntary_public, :precision => 0)
+    
   #events.tab_content
     %h3 Events & Activities
 

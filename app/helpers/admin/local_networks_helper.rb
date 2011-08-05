@@ -12,5 +12,9 @@ module Admin::LocalNetworksHelper
   def subsidiary_participation(local_network)
     local_network.membership_subsidiaries ? "Yes, in Local Network activities" : "None"
   end
+  
+  def participant_fees(local_network)
+    local_network.fees_participant ? "Member fees are required" : "Member fees are not required"
+  end
 
 end
