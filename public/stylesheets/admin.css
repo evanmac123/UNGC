@@ -450,6 +450,17 @@ ul.nav_bar {
   #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"], #main_content fieldset li.date > select {
     width: auto;
     margin: 0 5px 0px 25px; }
+  #main_content fieldset ol.checkbox_list li.checkbox {
+    clear: both;
+    padding-bottom: 10px; }
+    #main_content fieldset ol.checkbox_list li.checkbox input[type="checkbox"] {
+      cursor: pointer;
+      float: left;
+      top: 0px; }
+    #main_content fieldset ol.checkbox_list li.checkbox label {
+      cursor: pointer;
+      float: left;
+      margin: 1px 0 0 10px; }
   #main_content fieldset input[type="checkbox"].label_right {
     float: left;
     margin: -2px 10px 0 0;

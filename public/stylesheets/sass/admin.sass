@@ -567,7 +567,6 @@ ul.nav_bar
         list-style-type: disc
         margin: 0 0 0.5em 2em
 
-      
     label
       color= !dark_blue
       display: block
@@ -587,6 +586,20 @@ ul.nav_bar
     input[type="checkbox"], input[type="radio"], input[type="file"], li.date > select
       width: auto
       margin: 0 5px 0px 25px
+    
+    ol.checkbox_list
+      li.checkbox
+        clear: both
+        padding-bottom: 10px
+        
+        input[type="checkbox"]
+          cursor: pointer
+          float: left
+          top: 0px
+        label
+          cursor: pointer
+          float: left
+          margin: 1px 0 0 10px
     
     // next 3 styles used in roles fieldset
     input[type="checkbox"].label_right
