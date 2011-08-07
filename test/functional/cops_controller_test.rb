@@ -51,6 +51,17 @@ class CopsControllerTest < ActionController::TestCase
     end
   end
 
+  context "given a COP that doesn't exist" do
+    setup do
+      setup_organization
+      @cop = create_cop(@organization.id)
+    end    
+    
+    should "redirect to COP path" do  
+      get :show, :id => 123456789
+      assert_redirected_to DEFAULTS[:cop_path]
+    end
+  end
 
 private
   
