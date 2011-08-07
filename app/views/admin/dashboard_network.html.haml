@@ -5,8 +5,6 @@
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
-    %li <a href="#applications">New Applications</a>
-    %li <a href="#expelled">Participants to be Expelled</a>
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -34,10 +32,3 @@
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
     %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
-    
-  #applications.tab_content
-    %p Applications pending your review
-    
-  #expelled.tab_content
-    %p These participants will be expelled for failure to submit a Communication on Progress
-   

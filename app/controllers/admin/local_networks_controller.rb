@@ -1,5 +1,5 @@
 class Admin::LocalNetworksController < AdminController
-  before_filter :load_local_network, :only => [:show, :edit, :destroy]
+  before_filter :load_local_network, :only => [:show, :edit, :destroy, :knowledge_sharing]
   before_filter :no_organization_or_local_network_access
   before_filter :no_access_to_other_local_networks, :except => [:update] 
 
@@ -47,6 +47,10 @@ class Admin::LocalNetworksController < AdminController
     else
       render :action => "edit"
     end
+  end
+
+  def knowledge_sharing
+  
   end
 
   def destroy

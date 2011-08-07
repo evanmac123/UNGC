@@ -4,8 +4,8 @@
     / = link_to_current 'Participant Profile', edit_admin_organization_path(current_user.organization.id), controller.is_a?(Admin::OrganizationsController)
 
   - if logged_in? && current_user.from_network?
-    = link_to_current 'Network Management', admin_local_network_path(current_user.local_network), controller.is_a?(Admin::LocalNetworksController)
-    = link_to_current 'Knowledge Sharing', nil, nil
+    = link_to_current 'Network Management', admin_local_network_path(current_user.local_network), controller.is_a?(Admin::LocalNetworksController) && action_name != 'knowledge_sharing'
+    = link_to_current 'Knowledge Sharing', knowledge_sharing_path(current_user.local_network), controller.is_a?(Admin::LocalNetworksController) && action_name == 'knowledge_sharing'
 
   - if logged_in? && current_user.from_ungc?
     = link_to_current 'Organizations', pending_review_admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
