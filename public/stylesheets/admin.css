@@ -240,6 +240,11 @@ ul.nav_bar {
         border: none; }
       #main_content dl dt.title {
         font-size: 130%; }
+      #main_content dl dt.checked {
+        padding-left: 20px;
+        background: url('../images/checked.png') no-repeat 0px 50%; }
+      #main_content dl dt.unchecked {
+        padding-left: 20px; }
     #main_content dl dd {
       margin-left: 140px;
       padding: 10px;

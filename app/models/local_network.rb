@@ -36,6 +36,15 @@
 #  fees_amount_participant                             :integer(4)
 #  fees_amount_voluntary_private                       :integer(4)
 #  fees_amount_voluntary_public                        :integer(4)
+#  stakeholder_company                                 :boolean(1)
+#  stakeholder_sme                                     :boolean(1)
+#  stakeholder_business_association                    :boolean(1)
+#  stakeholder_labour                                  :boolean(1)
+#  stakeholder_un_agency                               :boolean(1)
+#  stakeholder_ngo                                     :boolean(1)
+#  stakeholder_foundation                              :boolean(1)
+#  stakeholder_academic                                :boolean(1)
+#  stakeholder_government                              :boolean(1)
 #
 
 class LocalNetwork < ActiveRecord::Base
@@ -56,6 +65,18 @@ class LocalNetwork < ActiveRecord::Base
   # To link to public profiles, we associate the two regional networks with their host countries
   # Ex: NetworksAroundTheWorld/local_network_sheet/AE.html
   REGION_COUNTRY = { 'Gulf States' => 'AE', 'Nordic Network' => 'DK' }
+  
+  STAKEHOLDERS = {   
+    :stakeholder_company              => 'Companies',
+    :stakeholder_sme                  => 'SMEs',
+    :stakeholder_business_association => 'Business Associations',
+    :stakeholder_labour               => 'Labour',
+    :stakeholder_un_agency            => 'UN Agencies',
+    :stakeholder_ngo                  => 'NGOs',
+    :stakeholder_foundation           => 'Foundations',
+    :stakeholder_academic             => 'Academics',
+    :stakeholder_government           => 'Government Entities'
+  }
           
   def latest_participant
     participants.find(:first, :order => 'joined_on DESC')
@@ -86,6 +107,14 @@ class LocalNetwork < ActiveRecord::Base
     else
       ''
     end
+  end
+  
+  def stakeholders_involved_in_governance
+    selected = []
+    STAKEHOLDERS.each do |key, value|
+      selected << key if self.send(key.to_s)
+    end
+    selected
   end
   
 end

@@ -78,14 +78,35 @@
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'Structure and Governance', edit_admin_local_network_path(@local_network.id, :section => 'structure_governance'), :class => 'edit_large'
   
-    %dl.left_column.short
+    %dl.short{:style => 'clear: both;'}
       %dt.title Key Launch Dates
       %dd.title &nbsp;
       %dt.first Global Compact
       %dd.first= @local_network.sg_global_compact_launch_date
       %dt Local Network
       %dd= @local_network.sg_local_network_launch_date      
-  
+
+    %dl.left_column.short{:style => 'width: 175px;'}
+      %dt.title Stakeholders Groups Involved in Governance
+      %dd.title &nbsp;
+      %dt{:class => "first #{show_check(@local_network.stakeholder_company)}"} Companies
+      %dt{:class => show_check(@local_network.stakeholder_sme)} SMEs
+      %dt{:class => show_check(@local_network.stakeholder_business_association)} Business Associations
+
+    %dl.left_column.short{:style => 'width: 175px;'}
+      %dt.title &nbsp;
+      %dd.title &nbsp;
+      %dt{:class => "first #{show_check(@local_network.stakeholder_labour)}"} Labour
+      %dt{:class => show_check(@local_network.stakeholder_un_agency)} UN Agencies
+      %dt{:class => show_check(@local_network.stakeholder_ngo)} NGOs
+
+    %dl.left_column.short{:style => 'width: 175px;'}
+      %dt.title &nbsp;
+      %dd.title &nbsp;
+      %dt{:class => "first #{show_check(@local_network.stakeholder_foundation)}"} Foundations
+      %dt{:class => show_check(@local_network.stakeholder_academic)} Academic Institutions
+      %dt{:class => show_check(@local_network.stakeholder_government)} Government Entities
+
     %p{:style => 'clear: both;'}
 
     %ul#contacts_tools{:class => "tools inline"}

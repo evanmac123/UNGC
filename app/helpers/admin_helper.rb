@@ -84,5 +84,9 @@ module AdminHelper
   def edit_contact_path(contact)
     contact_path(contact, :action => :edit)
   end
+  
+  def show_check(condition)
+    condition ? 'checked' : 'unchecked'
+  end
 
 end
