@@ -237,7 +237,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def is_new_format?
-    created_at >= Date.new(2010, 01, 01)
+    new_record? || created_at >= Date.new(2010, 01, 01)
   end
   
   # Official launch of Differentiation Programme was January 28, 2011

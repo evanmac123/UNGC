@@ -77,8 +77,8 @@ class AllCops < SimpleReport
     record.use_gri ? 1:0,
     record.has_certification ? 1:0,
     record.notable_program ? 1:0,
-    record.created_at.strftime('%Y-%m-%d %X'),
-    record.updated_at.strftime('%Y-%m-%d %X'),
+    record.created_at.present? ? record.created_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
+    record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
     record.state,
     record.include_continued_support_statement ? 1:0,
     record.format,
@@ -99,7 +99,7 @@ class AllCops < SimpleReport
     record.method_shared,
     record.starts_on,
     record.ends_on,
-    record.differentation_level
+    record.created_at.present? ? record.differentation_level : 'invalid COP record'
   ]
   end
   
