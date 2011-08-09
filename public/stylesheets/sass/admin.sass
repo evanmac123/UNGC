@@ -129,11 +129,23 @@ ul.nav_bar
   h3
     color = !dark_blue
     font-weight: bold
+    &.button_label
+      margin-top: 3px
     
   h4
     color = !dark_blue
 
-  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large
+  div.click_to_edit
+    -moz-border-radius: 3px
+    -webkit-border-radius: 3px
+    border: 1px solid #bbb
+    background-color: #f0f6ff
+    float: left
+    margin: 2px 10px 2px 2px
+    height: 19px
+    width: 19px
+  
+  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -154,6 +166,9 @@ ul.nav_bar
 
   a.edit_large
     background: url('../images/icons/Edit_24x24.png') no-repeat top left
+
+  a.edit_small
+    background: url('../images/icons/Edit_16x16.png') no-repeat 2px 1px
 
   a.new_page_large, div.new_page_large
     background: url('../images/icons/Add_Document_24x24.png') no-repeat top left
@@ -299,21 +314,23 @@ ul.nav_bar
       float: left
       white-space: nowrap
       border-top: 1px solid #999
-      &.first, &.title, &.checked, &.unchecked
-        border: none
       &.title
         font-size: 130%
       &.checked
+        border-top-style: dotted
         font-weight: normal
-        padding: 0 0 15px 20px
-        background: url('../images/checked.png') no-repeat 0px 0px
+        padding: 10px 0 10px 20px
+        background: url('../images/checked.png') no-repeat 0px 10px
       &.unchecked
+        border-top-style: dotted      
         font-weight: normal
-        padding: 0 0 15px 20px
+        padding: 10px 0 10px 20px
+      &.first, &.title
+        border: none
         
     dd
       margin-left: 140px
-      padding: 10px
+      padding: 10px 10px 10px 0
       border-top: 1px solid #999
       &.first, &.title
         border: none

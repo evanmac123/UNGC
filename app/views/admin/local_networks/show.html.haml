@@ -11,16 +11,10 @@
 
   #structure_governance.tab_content
 
-    %div.hint_toggle
-      About this section...
-    %div.hint_text{:style => 'display: none;'}
-      %p Launching the Global Compact should be distinguished from launching the network. A public launch of the Global Compact, which is a high-level event within a country, typically takes place after a significant number of local companies have become engaged or are ready to be engaged in the initiative. Support from a critical mass of companies before the launch increases the likelihood that a GCLN will be established and that the network will be sustainable.
-      %p Launching the network is essentially about institutionalizing a group of companies with a sufficient level of commitment to ensure the effective, inclusive and accountable governance system of the Global Compact initiative in a country.
-
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure_governance), :class => 'edit_large'
         
-    %dl.short{:style => 'clear: both;'}
+    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Key Launch Dates
       %dd.title &nbsp;
       %dt.first Global Compact
@@ -28,21 +22,21 @@
       %dt Local Network
       %dd= @local_network.sg_local_network_launch_date      
 
-    %dl.left_column.short{:style => 'width: 175px;'}
-      %dt.title Stakeholders Groups Involved in Governance
+    %dl.left_column.short.ie_fix{:style => 'width: 150px;'}
+      %dt.title Stakeholder Groups Involved in Governance
       %dd.title &nbsp;
       %dt{:class => "first #{show_check(@local_network.stakeholder_company)}"} Companies
       %dt{:class => show_check(@local_network.stakeholder_sme)} SMEs
       %dt{:class => show_check(@local_network.stakeholder_business_association)} Business Associations
 
-    %dl.left_column.short{:style => 'width: 175px;'}
+    %dl.left_column.short.ie_fix{:style => 'width: 150px;'}
       %dt.title &nbsp;
       %dd.title &nbsp;
       %dt{:class => "first #{show_check(@local_network.stakeholder_labour)}"} Labour
       %dt{:class => show_check(@local_network.stakeholder_un_agency)} UN Agencies
       %dt{:class => show_check(@local_network.stakeholder_ngo)} NGOs
-    
-    %dl.left_column.short{:style => 'width: 175px;'}
+
+    %dl.left_column.short.ie_fix{:style => 'width: 150px;'}
       %dt.title &nbsp;
       %dd.title &nbsp;
       %dt{:class => "first #{show_check(@local_network.stakeholder_foundation)}"} Foundations
@@ -59,6 +53,12 @@
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
       
+    %dl.left_column{:style => 'width: 300px; margin-right: 20px;'}
+      %dt.title Subsidiary Participation
+      %dd.title &nbsp;
+      %dt.first= subsidiary_participation(@local_network)
+      %dd.first &nbsp;
+
     %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Business
       %dd.title &nbsp;
@@ -71,7 +71,7 @@
       %dt Business Associations
       %dd= @local_network.membership_business_organizations      
 
-    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
+    %dl.left_column.short{:style => 'width: 200px;'}
       %dt.title Non-Business
       %dd.title &nbsp;
       %dt.first Academic
@@ -83,25 +83,19 @@
       %dt Government
       %dd= @local_network.membership_government      
       %dt Labour
-      %dd= @local_network.membership_labour_organizations      
-
-    %dl.left_column{:style => 'width: 175px;'}
-      %dt.title Subsidiary Participation
-      %dd.title &nbsp;
-      %dt.first= subsidiary_participation(@local_network)
-      %dd.first &nbsp;
+      %dd= @local_network.membership_labour_organizations
 
   #fees_contributions.tab_content
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :fees_contributions), :class => 'edit_large'
 
-    %dl.left_column{:style => 'width: 275px; margin-right: 0px;'}
+    %dl.left_column{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Member Fees
       %dd.title &nbsp;
       %dt.first= participant_fees(@local_network)
       %dd.first &nbsp;
 
-    %dl.left_column.short{:style => 'width: 275px; margin-right: 50px;'}
+    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Annual Amount in U.S. Dollars
       %dd.title &nbsp;
       %dt.first Company
@@ -111,7 +105,7 @@
       %dt Other
       %dd= number_to_currency(@local_network.fees_amount_other_organization, :unit => "$")
 
-    %dl.left_column.short{:style => 'width: 275px;'}
+    %dl.left_column.short{:style => 'width: 200px;'}
       %dt.title Financing of Total Budget
       %dd.title &nbsp;
       %dt.first Participant Fees
