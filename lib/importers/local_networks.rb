@@ -7,21 +7,20 @@ end
 module Importers
   module LocalNetworks
     class Runner
-      def initialize(path, specific_class_name=nil)
-        @path = path
-        @specific_class_name = specific_class_name
+      def initialize(*args)
+        @path, @file_directory, @class_name = *args
       end
 
       def run
         importer_class_names.each do |name|
           klass = "Importers::LocalNetworks::#{name}".constantize
-          klass.new(@path).run
+          klass.new(@path, @file_directory).run
         end
       end
 
       def importer_class_names
-        if @specific_class_name
-          [@specific_class_name]
+        if @class_name
+          [@class_name]
         else
           LocalNetworks.constants.map(&:to_s).grep(/Importer$/)
         end

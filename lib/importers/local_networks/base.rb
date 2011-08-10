@@ -1,6 +1,10 @@
 module Importers
   module LocalNetworks
     class Base < ExcelImporter
+      def initialize(path, file_directory)
+        @path, @file_directory = path, file_directory
+      end
+
       def get_local_network(row)
         get_value(row, "Country Name") do |name|
           if name.blank?
@@ -70,7 +74,19 @@ module Importers
           values.include?(lookup_term)
         end
       end
-    
+
+      def get_file(row, column_name)
+        get_value(row, column_name) do |filename|
+          path = File.join(@file_directory, filename)
+
+          if File.exist?(path)
+            UploadedFile.new(:uploaded_data => File.new(path))
+          else
+            warn "File not found: #{path}"
+            nil
+          end
+        end
+      end
     end
   end
 end

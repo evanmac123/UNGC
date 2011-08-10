@@ -30,6 +30,10 @@ module Importers
         model.stakeholder_government           = get_1(row, "Stakeholder Group(Government Entities)")
         model.stakeholder_media                = get_1(row, "Stakeholder Group(Media)")
         model.stakeholder_others               = get_1(row, "Stakeholder Group(Others)")
+
+        unless model.attachment
+          model.attachment = get_file(row, "Relevant Information of Event / Activity")
+        end
       end
 
       def model_string(model)

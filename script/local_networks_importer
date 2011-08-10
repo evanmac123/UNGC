@@ -1,12 +1,31 @@
 #!/usr/bin/env ruby
 
-unless (1..2) === ARGV.length
-  puts "usage: #{$0} DATA_FILE [IMPORTER_CLASS]"
+require "optparse"
+
+path, file_directory, class_name = nil
+
+opts = OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} [options] SPREADSHEET"
+
+  opts.on "-d", "--file-directory DIRECTORY", "Directory to search for files referenced in spreadsheet" do |v|
+    file_directory = v
+  end
+
+  opts.on "-c", "--class CLASS_NAME", "Specific importer class name" do |v|
+    class_name = v
+  end
+end
+
+opts.parse!
+path = ARGV.first
+
+if path.nil?
+  puts opts
   exit -1
 end
 
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require "importers/local_networks"
 
-Importers::LocalNetworks::Runner.new(*ARGV).run
+Importers::LocalNetworks::Runner.new(path, file_directory, class_name).run
 

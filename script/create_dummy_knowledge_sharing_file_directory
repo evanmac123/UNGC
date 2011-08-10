@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "fileutils"
+
+dir = ARGV.first
+
+if dir.nil? or dir.empty?
+  puts "Usage: #{$0} DIRECTORY"
+  exit -1
+end
+
+FileUtils.mkdir_p(dir)
+
+require "uri"
+require "open-uri"
+require "hpricot"
+
+page = open("http://gcln.unglobalcompact.org/UploadedDocument/")
+doc  = Hpricot(page)
+
+doc.search("a").each do |link|
+  filename = File.basename(URI.unescape(link.attributes["href"]))
+
+  if filename != "/"
+    File.open(File.join(dir, filename), "w") do |f|
+      f.puts "hello world"
+    end
+
+    puts filename
+  end
+end
