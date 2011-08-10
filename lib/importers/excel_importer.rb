@@ -46,6 +46,8 @@ module Importers
         value = row[index].strip
         return nil if value.empty?
 
+        return value unless block_given?
+
         begin
           yield(value)
         rescue BadValue => e
@@ -77,7 +79,7 @@ module Importers
     def report(row, model, message, color)
       line = "#{row.idx.to_s.rjust(8)} "
 
-      line << model_string(model).ljust(35)
+      line << model_string(model)[0..33].ljust(35)
 
       message = message.ljust(20)
       message = highlight(message, color) if color

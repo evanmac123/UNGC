@@ -52,7 +52,12 @@ module Importers
 
           if value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})$}
             format = {:little => "%d/%m/%Y", :middle => "%m/%d/%Y"}.fetch(order)
-            Date.strptime(value, format)
+
+            begin
+              Date.strptime(value, format)
+            rescue ArgumentError
+              raise BadValue, "date"
+            end
           else
             raise BadValue, "date"
           end
