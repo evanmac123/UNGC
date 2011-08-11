@@ -26,7 +26,7 @@ module Importers
       def get_yesno(row, column_name)
         get_value(row, column_name) do |value|
           case value.downcase
-          when "yes"
+          when /^yes/
             true
           when "no"
             false
