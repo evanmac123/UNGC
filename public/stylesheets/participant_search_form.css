@@ -11,7 +11,7 @@ div#participant_search label {
   font-weight: normal;
   color: #14546f;
   float: left;
-  width: 120px;
+  width: 140px;
   cursor: pointer; }
   div#participant_search label.date {
     margin: 0 0px 0 0; }
@@ -32,3 +32,4 @@ div#participant_search dl dt {
     text-align: right; }
 div#participant_search dl dd {
   clear: right; }
+div.ui-datepicker { font-size: 12.5px; }

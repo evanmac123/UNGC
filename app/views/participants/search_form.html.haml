@@ -8,7 +8,7 @@
       %legend Name and Country
       %dl
         %dt
-          %label Participant Name
+          %label Name
         %dd
           = text_field_tag :keyword
       %dl
@@ -38,13 +38,13 @@
           = radio_button_tag :business_type, :all, true
           %label{:for => 'business_type_all'} All
   
-        #business_only
+        #business_only{:title => 'More search options are available'}
           = radio_button_tag :business_type, OrganizationType::BUSINESS
-          %label{:for => "business_type_#{OrganizationType::BUSINESS}", :style => 'margin-right: 30px;'} Business
+          %label{:for => "business_type_#{OrganizationType::BUSINESS}", :style => 'margin-right: 30px;'} Business...
   
-        #stakeholders_only
+        #stakeholders_only{:title => 'More search options are available'}
           = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
-          %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}"} Non-business
+          %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}"} Non-business...
   
     %div.for_business_only{:style => 'display: none;'}
       %fieldset
