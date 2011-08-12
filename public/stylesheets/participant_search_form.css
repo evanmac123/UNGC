@@ -11,24 +11,25 @@ div#participant_search label {
   font-weight: normal;
   color: #14546f;
   float: left;
-  width: 120px;
+  width: 140px;
   cursor: pointer; }
   div#participant_search label.date {
-    width: auto;
-    margin: 0 20px 0 0; }
+    margin: 0 0px 0 0; }
 div#participant_search input[type=text], div#participant_search select {
   width: 275px;
   border: 1px solid #bbb; }
-  div#participant_search input[type=text].datepicker, div#participant_search select.datepicker {
+  div#participant_search input[type=text].datepicker {
     width: auto; }
 div#participant_search input[type=radio], div#participant_search input[type=checkbox] {
   float: left;
   margin: 2px 10px 0 0; }
 div#participant_search dl.dates {
-  margin: 0; }
+  margin-right: 0; }
 div#participant_search dl dt {
+  padding-top: 0px;
   float: left; }
   div#participant_search dl dt.radio {
     text-align: right; }
 div#participant_search dl dd {
   clear: right; }
+div.ui-datepicker { font-size: 12.5px; }
