@@ -9,8 +9,9 @@
   %legend Annual Meeting Appointments
   %p Are appointments made during the Annual Meeting?
   %ol.radio_button_list
-    %li= default_form.radio_button :sg_annual_meeting_appointments, false, {:li_class => 'radio_button', :label => 'No'}
-    %li= default_form.radio_button :sg_annual_meeting_appointments, true, {:li_class => 'radio_button', :label => 'Yes'}
+    %li= default_form.radio_button :sg_annual_meeting_appointments, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_sg_annual_meeting_appointments_true}
+    %li= default_form.radio_button :sg_annual_meeting_appointments, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_sg_annual_meeting_appointments_false}
+
 
 %fieldset{:style => 'width: 270px; height: 95px;'}
   %legend Positions Appointed

@@ -6,7 +6,7 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
   helpers.each do |name|
     define_method(name) do |field, *args|
       options = args.last.is_a?(Hash) ? args.pop : {}
-      label = label(field, options[:label], :class => options[:label_class])
+      label = label(field, options[:label], :for => options[:label_for], :class => options[:label_class])
       
       #wrap with a li and place labels after checkboxes and radio buttons
       

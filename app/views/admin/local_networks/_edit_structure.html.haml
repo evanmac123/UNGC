@@ -14,8 +14,8 @@
   %legend Legal Status
   %p Has the Local Network been established as a legal entity?
   %ol.radio_button_list
-    %li= default_form.radio_button :sg_established_as_a_legal_entity, false, {:li_class => 'radio_button', :label => 'No'}
-    %li= default_form.radio_button :sg_established_as_a_legal_entity, true, {:li_class => 'radio_button', :label => 'Yes'}
+    %li= default_form.radio_button :sg_established_as_a_legal_entity, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_sg_established_as_a_legal_entity_true}
+    %li= default_form.radio_button :sg_established_as_a_legal_entity, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_sg_established_as_a_legal_entity_false}
 
 %fieldset{:style => 'width: 500px;'}
   %legend Supporting Document
