@@ -411,10 +411,6 @@ td.center {
 	font-weight: bold;
 }
 
-div.ui-datepicker { font-size: 10px; }
-div.ui-datepicker .ui-datepicker-title { font-size: 9px; }
-div.ui-datepicker .ui-datepicker-year { margin-right: 3px; }
- 
 /* Clear for IE 6/7 */
 .clearfix { zoom: 1; clear: left; margin-bottom: 10px;}
 

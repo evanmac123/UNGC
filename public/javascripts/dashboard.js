@@ -20,12 +20,23 @@ $("#organization_listing_status_id").change(function() {
 // used to set delisting date/reason when Active is unchecked
 $("#organization_active").change(function() {
   if ($("#organization_active").is(':checked')) {
-    $("#delisted_only").hide('slow');
+    $("#delisted_only").hide();
     $('#organization_delisted_on').attr('value', '');
     $("#organization_removal_reason_id option[value='1']").attr('selected', 'selected');
   }
   else {
-    $("#delisted_only").show('slow');
+    $("#delisted_only").toggle();
+  } 
+})
+
+// used when 'No Dialogue' is set
+$("#organization_non_comm_dialogue").change(function() {
+  if ($("#organization_non_comm_dialogue").is(':checked')) {
+    $("#non_comm_dialogue_only").show();
+  }
+  else {
+    $("select[id^=organization_non_comm_dialogue_on_]").val($("select[id^=organization_non_comm_dialogue_on_] option:first").val());
+    $("#non_comm_dialogue_only").toggle();
   } 
 })
   

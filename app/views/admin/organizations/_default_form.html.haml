@@ -30,11 +30,13 @@
 
 - staff_only do
   - if @organization.participant
+
     %fieldset
       %legend Participant Status
       %ol
         = default_form.check_box :participant, :label => 'Participant'
         = default_form.check_box :active, :label => 'Active'
+        = default_form.check_box :non_comm_dialogue, :label => 'No Dialogue'
 
     #delisted_only{:style => "#{css_display_style(@organization.cop_state == Organization::COP_STATE_DELISTED)}"}
       %fieldset
@@ -42,5 +44,13 @@
         %ol
           = default_form.text_field :delisted_on_string, {class: 'datepicker'}, {:label => 'Date'}
           = default_form.select :removal_reason_id, RemovalReason.all.collect{|t| [t.description, t.id]}, {:label => 'Reason'}
+
+    #non_comm_dialogue_only{:style => "#{css_display_style(@organization.non_comm_dialogue)}"}
+      %fieldset
+        %legend Failure to Engage in Dialogue
+        %p Select the date on which the participant became Non-Communicating for failing to engage in dialogue.
+        %ol
+          = default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
+
 
 = initial_organization_state @organization
