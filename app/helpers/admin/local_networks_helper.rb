@@ -9,6 +9,10 @@ module Admin::LocalNetworksHelper
     link_to 'Public profile', link , :class => 'web_preview_large'
   end
   
+  def legal_status(local_network)
+    local_network.sg_established_as_a_legal_entity ? "Established as a legal entity" : "No legal status"
+  end
+
   def subsidiary_participation(local_network)
     local_network.membership_subsidiaries ? "Yes, in Local Network activities" : "None"
   end
