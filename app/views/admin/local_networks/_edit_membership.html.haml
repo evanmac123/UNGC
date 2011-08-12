@@ -7,9 +7,9 @@
 %fieldset{:style => 'width: 235px; height: 175px; float: left; margin-right: 50px;'}
   %legend Subsidiary Participation
   %p Do subsidiaries of multinational companies participate in Local Network activities?
-  %ol
-    %li= default_form.radio_button :membership_subsidiaries, true, :label => 'Yes, in activities'
-    %li= default_form.radio_button :membership_subsidiaries, false, :label => 'No participation'
+  %ol.radio_button_list
+    %li= default_form.radio_button :membership_subsidiaries, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_membership_subsidiaries_true}
+    %li= default_form.radio_button :membership_subsidiaries, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_membership_subsidiaries_false}
 
 %fieldset{:style => 'width: 235px; height: 175px; float: left; margin-right: 50px;'}
   %legend Business Members
