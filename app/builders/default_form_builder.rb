@@ -8,9 +8,9 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
       options = args.last.is_a?(Hash) ? args.pop : {}
       label = label(field, options[:label], :class => options[:label_class])
       
-      #wrap with a li and place labels after the checkbox
+      #wrap with a li and place labels after checkboxes and radio buttons
       
-      if name == :check_box
+      if name == :check_box || name == :radio_button
         @template.content_tag(:li, [super(field, *args), label].join(''), :class => options[:li_class])
       else
         @template.content_tag(:li, [label, super(field, *args)].join(''), :class => options[:li_class])

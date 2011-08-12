@@ -471,14 +471,14 @@ ul.nav_bar {
   #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"], #main_content fieldset li.date > select {
     width: auto;
     margin: 0 5px 0px 25px; }
-  #main_content fieldset ol.checkbox_list li.checkbox {
+  #main_content fieldset ol.checkbox_list li.checkbox, #main_content fieldset ol.checkbox_list li.radio_button, #main_content fieldset ol.radio_button_list li.checkbox, #main_content fieldset ol.radio_button_list li.radio_button {
     clear: both;
     padding-bottom: 10px; }
-    #main_content fieldset ol.checkbox_list li.checkbox input[type="checkbox"] {
+    #main_content fieldset ol.checkbox_list li.checkbox input[type="checkbox"], #main_content fieldset ol.checkbox_list li.checkbox input[type="radio"], #main_content fieldset ol.checkbox_list li.radio_button input[type="checkbox"], #main_content fieldset ol.checkbox_list li.radio_button input[type="radio"], #main_content fieldset ol.radio_button_list li.checkbox input[type="checkbox"], #main_content fieldset ol.radio_button_list li.checkbox input[type="radio"], #main_content fieldset ol.radio_button_list li.radio_button input[type="checkbox"], #main_content fieldset ol.radio_button_list li.radio_button input[type="radio"] {
       cursor: pointer;
       float: left;
       top: 0px; }
-    #main_content fieldset ol.checkbox_list li.checkbox label {
+    #main_content fieldset ol.checkbox_list li.checkbox label, #main_content fieldset ol.checkbox_list li.radio_button label, #main_content fieldset ol.radio_button_list li.checkbox label, #main_content fieldset ol.radio_button_list li.radio_button label {
       cursor: pointer;
       float: left;
       margin: 1px 0 0 10px; }
