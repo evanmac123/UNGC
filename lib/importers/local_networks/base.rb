@@ -1,6 +1,10 @@
 module Importers
   module LocalNetworks
     class Base < ExcelImporter
+      def initialize(path, file_directory)
+        @path, @file_directory = path, file_directory
+      end
+
       def get_local_network(row)
         get_value(row, "Country Name") do |name|
           if name.blank?
@@ -25,8 +29,8 @@ module Importers
 
       def get_yesno(row, column_name)
         get_value(row, column_name) do |value|
-          case value.downcase
-          when /^yes/
+          case value.split.first.downcase
+          when "yes"
             true
           when "no"
             false
@@ -52,7 +56,12 @@ module Importers
 
           if value =~ %r{^(\d{1,2})/(\d{1,2})/(\d{4})$}
             format = {:little => "%d/%m/%Y", :middle => "%m/%d/%Y"}.fetch(order)
-            Date.strptime(value, format)
+
+            begin
+              Date.strptime(value, format)
+            rescue ArgumentError
+              raise BadValue, "date"
+            end
           else
             raise BadValue, "date"
           end
@@ -65,7 +74,19 @@ module Importers
           values.include?(lookup_term)
         end
       end
-    
+
+      def get_file(row, column_name)
+        get_value(row, column_name) do |filename|
+          path = File.join(@file_directory, filename)
+
+          if File.exist?(path)
+            UploadedFile.new(:uploaded_data => File.new(path))
+          else
+            warn "File not found: #{path}"
+            nil
+          end
+        end
+      end
     end
   end
 end

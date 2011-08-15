@@ -13,6 +13,10 @@
 #
 
 class Award < ActiveRecord::Base
+  TYPES = { :cop          => 'Communication on Progress',
+            :principles   => 'Global Compact - Ten Principles',
+            :partnerships => 'Partnerships for Development' }
+
   belongs_to :local_network
   has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
 end
