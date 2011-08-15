@@ -14,6 +14,8 @@ module Importers
         model.sg_local_network_launch_date      = get_date(row, "Date Of Local Network Launch")
         model.sg_annual_meeting_appointments    = get_yesno(row, "Does Annual General Meeting Appoint/Elect Steering Committee/Board?")
         model.sg_established_as_a_legal_entity  = get_yesno(row, "Has the GCLN been established as a legal entity?")
+        model.sg_selected_appointees_steering_committee = get_yesno(row, "Does Annual General Meeting Appoint/Elect Steering Committee/Board?")
+        model.sg_selected_appointees_contact_point      = get_yesno(row, "Does Annual General Meeting Or Steering Committee Appoint GCLN Focal Point")
         
         model.membership_subsidiaries           = get_yesno(row, "Subsidiaries Of Multi-National Companies Participate In Local Network Activities")
         model.membership_companies              = get_integer(row, "Companies > 250 Employees")
