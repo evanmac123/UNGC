@@ -1,3 +1,9 @@
+h1. 2011-08-12
+
+* testing local_network_importer on staging
+* be sure to install this gem before deploying
+* sudo gem install spreadsheet --version 0.6.5.7
+
 h1. 2011-08-02
 
 * adding a new date field to Organizations to record when a company becomes Non-Communicating for failure to engage in dialogue
