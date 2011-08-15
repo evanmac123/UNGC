@@ -29,7 +29,7 @@ module Importers
 
       def get_yesno(row, column_name)
         get_value(row, column_name) do |value|
-          case value.downcase
+          case value.split.first.downcase
           when "yes"
             true
           when "no"

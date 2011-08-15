@@ -42,6 +42,7 @@ class LocalNetwork < ActiveRecord::Base
   validates_presence_of :name
   has_many :countries
   has_many :contacts
+  has_many :integrity_measures
   has_many :awards
   has_many :events, :class_name => 'LocalNetworkEvent'
   belongs_to :manager, :class_name => "Contact"

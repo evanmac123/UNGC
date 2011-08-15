@@ -20,19 +20,30 @@ module Importers
         if @column_names.nil?
           @column_names = row
         else
-          model = init_model(row)
+          m = init_model(row)
 
-          if model
-            update_model(model, row)
+          if m
+            update_model(m, row)
 
-            if model.changed?
-              if model.save
-                report(row, model, "updated", :green)
+            all_models = case m
+                         when Array
+                           m
+                         when Hash
+                           m.values
+                         else
+                           [m]
+                         end
+
+            all_models.each do |model|
+              if model.changed?
+                if model.save
+                  report(row, model, "updated", :green)
+                else
+                  report(row, model, "validation failed", :red)
+                end
               else
-                report(row, model, "validation failed", :red)
+                report(row, model, "identical", :grey)
               end
-            else
-              report(row, model, "identical", :grey)
             end
           else
             report(row, nil, "no model found", :yellow)
