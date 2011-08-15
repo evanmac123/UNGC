@@ -3,7 +3,7 @@ class CreateIntegrityMeasuresTable < ActiveRecord::Migration
     create_table :integrity_measures do |t|
       t.integer :local_network_id
       t.string  :title
-      t.string  :measure_type
+      t.string  :policy_type
       t.text    :description
       t.date    :date
     end

@@ -10,15 +10,15 @@ module Importers
           models = {}
 
           if get_yesno(row, "Policies on Network Involvement In Communication on Progress")
-            models[:cop] = local_network.integrity_measures.find_or_initialize_by_measure_type("cop")
+            models[:cop] = local_network.integrity_measures.find_or_initialize_by_policy_type("cop")
           end
 
           if get_yesno(row, "Does The Network have a Specific Logo Policy?")
-            models[:logo] = local_network.integrity_measures.find_or_initialize_by_measure_type("logo")
+            models[:logo] = local_network.integrity_measures.find_or_initialize_by_policy_type("logo")
           end
 
           if get_yesno(row, "Does GCLN Have A Policy On Dialogue Facilitation?")
-            models[:dialogue] = local_network.integrity_measures.find_or_initialize_by_measure_type("dialogue")
+            models[:dialogue] = local_network.integrity_measures.find_or_initialize_by_policy_type("dialogue")
           end
 
           if get_yesno(row, "Has Network Been Involved In Awards/ Recognition Mechanism")
@@ -36,7 +36,7 @@ module Importers
           if models[type]
             models[type].attributes = {
               title:        IntegrityMeasure::TYPES[type],
-              measure_type: type.to_s,
+              policy_type:  type.to_s,
               description:  "Not specified",
               date:         Date.today
             }
@@ -55,7 +55,7 @@ module Importers
         if model
           type_string = case model
                         when IntegrityMeasure
-                          model.measure_type
+                          model.policy_type
                         when Award
                           "award"
                         end
