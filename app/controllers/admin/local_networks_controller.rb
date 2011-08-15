@@ -20,6 +20,7 @@ class Admin::LocalNetworksController < AdminController
     @local_network = LocalNetwork.find(params[:id])
     @section ||= params[:section]
     @form_partial = @section ? 'edit_' + @section : 'default_form'
+    @section = 'network_management' if current_user.from_ungc?
   end
 
   def create

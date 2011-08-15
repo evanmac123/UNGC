@@ -42,16 +42,23 @@
  
     %ul#contacts_tools{:class => "tools inline"}
       %div.click_to_edit
-        %li= link_to '', edit_admin_local_network_path(@local_network.id, :section => 'structure_governance'), :class => 'edit_small'
-      %h3.button_label Structure and Governance
+        %li= link_to '', edit_admin_local_network_path(@local_network.id, :section => 'structure'), :class => 'edit_small'
+      %h3.button_label Structure
 
-    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
+    %dl.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Key Launch Dates
       %dd.title &nbsp;
       %dt.first Global Compact
       %dd.first= @local_network.sg_global_compact_launch_date
       %dt Local Network
       %dd= @local_network.sg_local_network_launch_date      
+
+    %p{:style => 'clear: both;'}
+    
+    %ul#contacts_tools{:class => "tools inline"}
+      %div.click_to_edit
+        %li= link_to '', edit_admin_local_network_path(@local_network.id, :section => 'governance'), :class => 'edit_small'
+      %h3.button_label Governance
 
     %dl.left_column.short.ie_fix{:style => 'width: 150px;'}
       %dt.title Stakeholder Groups Involved in Governance
