@@ -1,5 +1,7 @@
 - @body_class = 'details'
-%h2= @local_network.name
+%h3== #{@local_network.name} &#x25BA; Network Management
+= link_to 'Knowledge Sharing', knowledge_sharing_path(@local_network.id)
+
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#structure">Structure</a>

@@ -1,5 +1,6 @@
 - @body_class = 'details'
-%h2= @local_network.name
+%h3== #{@local_network.name} &#x25BA; Knowledge Sharing
+= link_to 'Network Management', admin_local_network_path(@local_network)
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#events_activities">Events and Activities</a>
