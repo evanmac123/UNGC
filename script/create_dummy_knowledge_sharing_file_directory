@@ -20,7 +20,10 @@ page = open("http://gcln.unglobalcompact.org/UploadedDocument/")
 doc  = Hpricot(page)
 
 doc.search("a").each do |link|
-  filename = File.basename(URI.unescape(link.attributes["href"]))
+  href = link.attributes["href"]
+  next if href.nil? or href.empty?
+
+  filename = File.basename(URI.unescape(href))
 
   if filename != "/"
     File.open(File.join(dir, filename), "w") do |f|
