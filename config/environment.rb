@@ -17,6 +17,7 @@ Rails::Initializer.run do |config|
   config.gem 'jackdempsey-acts_as_commentable', :lib => 'acts_as_commentable', :source => "http://gems.github.com"
   config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :version => '1.3.14'
   config.gem 'spreadsheet', :version => '0.6.5.7', :lib => nil
+  config.gem 'hpricot', :version => '~> 0.8.4'
 
   # config.gem 'mysql2', :version => "0.2.6"
   config.gem 'money'
