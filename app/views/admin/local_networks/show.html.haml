@@ -148,4 +148,7 @@
       %dd= number_to_percentage(@local_network.fees_amount_voluntary_public, :precision => 0)
 
   #communications.tab_content
-    %h3 Communications
+    %ul#tools{:class => "tools inline"}
+      %li= link_to 'New Communication', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'new_large'
+      %li= link_to_public_profile(@local_network)
+      %li= link_to 'Website Address', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'edit_large'
