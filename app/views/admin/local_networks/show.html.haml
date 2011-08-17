@@ -8,6 +8,8 @@
     
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
+    - if current_user.from_ungc? || (current_user.local_network == @local_network)
+      %li <a href="#contacts">Contacts</a>
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
     %li <a href="#mou">Memorandum of Understanding</a>
@@ -16,8 +18,13 @@
     %li <a href="#fees_contributions">Fees and Contributions</a>
     %li <a href="#communications">Communications</a>
 
+  - if current_user.from_ungc? || (current_user.local_network == @local_network)
+    #contacts.tab_content
+      %ul#contacts_tools{:class => "tools inline"}
+        %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
+      %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
+  
   #structure.tab_content
-
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure), :class => 'edit_large'
         
