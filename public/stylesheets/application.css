@@ -164,6 +164,25 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #news .title { position: relative; left: 80px; top: 2px; }
 #news .news_list .title a { color: #666; }
 #news .news_list .title a:hover { border-bottom: 1px solid #666; }
+
+#news .social { position: absolute; top: 280px; left: 20px; }
+#news .social ul.icons { width: 125px; height: 18px; list-style: none; }
+#news .social ul li { display: inline; position: absolute; height: 16px; }
+#news .social ul li a { width: 100%; height: 100%; display: block; }
+#news .social ul li { background: url(/images/social_media_icons.png) no-repeat; height: 17px; }
+#news .social ul li.facebook { background-position: 0px -21px; left: 0px; width: 16px; }
+#news .social ul li.facebook:hover { background-position: 0px 1px; }
+#news .social ul li.twitter { background-position: -18px -21px; left: 20px; width: 20px; }
+#news .social ul li.twitter:hover { background-position: -18px 1px; }
+#news .social ul li.linkedin { background-position: -42px -21px; left: 47px; width: 19px; }
+#news .social ul li.linkedin:hover { background-position: -42px 1px; }
+#news .social ul li.flickr { background-position: -65px -21px; left: 73px; width: 17px; }
+#news .social ul li.flickr:hover { background-position: -65px 1px; }
+#news .social ul li.youtube { background-position: -85px -21px; left: 96px; width: 19px; }
+#news .social ul li.youtube:hover { background-position: -85px 1px; }
+#news .social ul li.news { background-position: -105px -21px; left: 118px; width: 20px; }
+#news .social ul li.news:hover { background-position: -105px 1px; }
+
 #news .morenews { position: absolute; top: 280px; right: 13px; width: 280px; height: 30px; }
 #news .morenews { font-size: 12px; color: #00546E; text-align: right; }
 #news .morenews a { font-size: 12px; color: #00546E; text-align: right; font-weight: bold; }
@@ -196,6 +215,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 
 #footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
 #footer_content { width: 1000px; margin: 0 auto; position: relative; }
+
 #logos { position: absolute; top: 35px; left: 52px; }
 #logos ul { background: url(/images/footer_logos.png) top left no-repeat; background-position: 0px -1px; width: 553px; height: 42px; list-style: none; position: relative;}
 #logos ul li { display: inline; position: absolute; top: -5px; height: 40px; }
