@@ -157,15 +157,16 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
 #news_content { position: relative; }
 #news h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }	
-#news .news_list { width: 590px; padding: 55px 0 50px 10px; position: relative; }
-#news .blue { background-color: #e5eef0; }
-#news .news_item { position: relative; color: #666; font-size: 11px; display: block; width: 590px; padding: 4px 10px 6px 0; }
+#news .news_list { width: 570px; padding: 48px 0px 50px 20px; position: relative; }
+#news .blue { background-color: #FFF}
+#news .news_item { position: relative; color: #666; font-size: 11px; display: block; padding: 4px 10px 6px 0; border-bottom: 1px dotted #DDD;}
+#news .news_item:last-child { border-bottom: none;}
+#news .news_item:hover { background-color: #F9F9F9; }
 #news .date { position: absolute; left: 6px; top: 7px; }
 #news .title { position: relative; left: 80px; top: 2px; }
 #news .news_list .title a { color: #666; }
-#news .news_list .title a:hover { border-bottom: 1px solid #666; }
 
-#news .social { position: absolute; top: 280px; left: 20px; }
+#news .social { position: absolute; top: 283px; left: 25px; }
 #news .social ul.icons { width: 125px; height: 18px; list-style: none; }
 #news .social ul li { display: inline; position: absolute; height: 16px; }
 #news .social ul li a { width: 100%; height: 100%; display: block; }
