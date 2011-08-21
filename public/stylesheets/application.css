@@ -540,3 +540,10 @@ td.center {
 #main_content dd ul li.advanced_question {
   list-style-type: none;
 }
+
+/*Social Media Icons*/
+
+.copy ul.icons { display: inline; clear: both; }
+.copy ul.icons li { list-style: none; }
+.copy ul.icons li img { margin: 0px 10px 0 0; float: left; }
+.copy ul.icons li + li { padding-top: 8px; height: 50px; width: 260px;}
