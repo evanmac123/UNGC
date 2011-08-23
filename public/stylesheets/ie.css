@@ -27,3 +27,7 @@ div.radio_button_group { margin: 15px 0 0 0; }
   line-height: 1.3em;
   margin: -5px 0px 0px 10px;
 }
+
+/*Social Media Icons*/
+.copy ul.icons li {display: inline; padding-right: 8px; height: 32px; width: 32px; float: left; list-style: none; }
+.copy ul.icons li + li {display: inline; padding-top: 8px; height: 60px; width: 215px; float: left; }
