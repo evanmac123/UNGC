@@ -1,3 +1,12 @@
+h1. 2011-08-02
+
+* adding a new date field to Organizations to record when a company becomes Non-Communicating for failure to engage in dialogue
+* If a participant does not respond to the Global Compact Office three months after being contacted, this date should be manually set
+* attr_accessor :non_comm_dialogue checks to see if this date is present
+* in the organization edit form, there is a checkbox for :non_comm_dialogue which the user can select
+* a field then appears so they can set the correct date
+* unselecting the checkbox will cleat the date fields
+ 
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
