@@ -66,7 +66,7 @@ class Contact < ActiveRecord::Base
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point
   
-  # before_update  :do_not_allow_last_contact_point_to_uncheck_role
+  before_update  :do_not_allow_last_contact_point_to_uncheck_role
   # before_update  :do_not_allow_last_ceo_to_uncheck_role
   
   
@@ -272,15 +272,15 @@ class Contact < ActiveRecord::Base
     end
     
     def do_not_allow_last_contact_point_to_uncheck_role
-      if !self.is?(Role.contact_point) && self.organization.contacts.contact_points.count < 1
-        errors.add_to_base "Your organization should have at least one Contact Point."
+      if self.from_organization? && !self.is?(Role.contact_point) && self.organization.contacts.contact_points.count < 1
+        errors.add_to_base "There should be at least one Contact Point"
         return false
       end      
     end
 
     def do_not_allow_last_ceo_to_uncheck_role
       if !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
-        errors.add_to_base "Your organization should have at least one CEO or Equivalent."
+        errors.add_to_base "There should be at least one Highest Level Executive"
         return false
       end      
     end

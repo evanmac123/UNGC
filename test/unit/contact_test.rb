@@ -70,26 +70,17 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
 
-  # context "given an organization with 1 contact point" do
-  #   setup do
-  #     create_organization_and_user
-  #     @organization_user_2 = create_contact(:organization_id => @organization.id,
-  #                                           :email           => 'email2@example.com',
-  #                                           :role_ids        => [Role.contact_point.id])
-  #   end
-  # 
-  #   should "not be able to remove role from the only Contact Point" do
-  #     assert_equal 2, @organization.contacts.contact_points.count
-  #     assert @organization_user.roles.delete(Role.contact_point)
-  #     # assert @organization_user.save
-  #     assert_equal 1, @organization.contacts.contact_points.count
-  #     assert @organization_user_2.roles.delete(Role.contact_point)
-  #     assert
-  #     assert_equal 1, @organization.contacts.contact_points.count
-  #     
-  #   end
+  context "given an organization with 1 contact point" do
+    setup do
+      create_organization_and_user
+    end
+  
+    should "not be able to remove role from the only Contact Point" do
+      assert @organization_user.roles.delete(Role.contact_point)
+      assert !@organization_user.save
+    end
    
-  # end
+  end
 
 
 end
