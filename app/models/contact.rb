@@ -254,6 +254,10 @@ class Contact < ActiveRecord::Base
       last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
     end
   end
+  
+  def rejected_organization_email
+    self.update_attribute :email, "rejected.#{self.email}"
+  end
 
   private
   

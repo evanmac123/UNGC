@@ -1,3 +1,8 @@
+h1. 2011-08-29
+
+* when an application is rejected, be sure to rename the email addresses user@mail.com --> rejected. user@mail.com
+* if they reapply, then can used the same address
+
 h1. 2011-08-28
 
 * made sure that the last Contact Point cannot be unchecked

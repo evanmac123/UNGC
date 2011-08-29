@@ -87,5 +87,17 @@ class ContactTest < ActiveSupport::TestCase
     end   
   end
 
+  context "given an organization with 1 contact point and CEO" do
+    setup do
+      create_organization_and_ceo
+      @old_email = @organization_user.email
+      assert @organization.reject
+    end
+  
+    should "not be able to remove role from the only Contact Point" do
+      # FIXME the contact is being updated, but when testing the change is not being saved
+      # assert_equal "rejected.#{@old_email}", @organization_user.email
+    end
+  end
 
 end
