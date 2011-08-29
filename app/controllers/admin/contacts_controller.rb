@@ -4,7 +4,7 @@ class Admin::ContactsController < AdminController
   def new
     @contact = @parent.contacts.new
     @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
-    @roles = Role.visible_to(@contact)
+    @roles = Role.visible_to(@contact, current_user)
   end
 
   def create
@@ -21,6 +21,7 @@ class Admin::ContactsController < AdminController
 
   def edit
     @needs_to_update = params[:update]
+    @roles = Role.visible_to(@contact, current_user)
   end
 
   def update
