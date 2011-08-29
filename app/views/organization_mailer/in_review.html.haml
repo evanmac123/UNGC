@@ -1,4 +1,4 @@
-== Dear #{@contact.name_with_title},
+== Dear #{@contact.try(:name_with_title)},
 
 %p
   %strong Participant status: In review
@@ -14,7 +14,7 @@
 
 %p
   %strong Username:
-  = @contact.login
+  = @contact.try(:login)
   %br/
   %strong Password:
   Please use the password you entered in the application form. If you have forgotten your password,

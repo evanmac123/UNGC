@@ -48,7 +48,7 @@ class Contact < ActiveRecord::Base
   validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
   validates_presence_of :login, :if => :can_login?
   validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
-  validates_uniqueness_of :login, :allow_nil => true, :allow_blank => true, :message => "with the same username already exists"
+  validates_uniqueness_of :login, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
   validates_uniqueness_of :email, :on => :create 
   validates_format_of   :email,
                         :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
@@ -67,7 +67,7 @@ class Contact < ActiveRecord::Base
   before_destroy :keep_at_least_one_contact_point
   
   before_update  :do_not_allow_last_contact_point_to_uncheck_role
-  # before_update  :do_not_allow_last_ceo_to_uncheck_role
+  before_update  :do_not_allow_last_ceo_to_uncheck_role
   
   
   # used for checkbox in sign up form
@@ -279,7 +279,10 @@ class Contact < ActiveRecord::Base
     end
 
     def do_not_allow_last_ceo_to_uncheck_role
-      if !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
+      if  self.from_organization? && 
+          self.organization.participant &&
+          !self.is?(Role.ceo) &&
+          self.organization.contacts.ceos.count <= 1
         errors.add_to_base "There should be at least one Highest Level Executive"
         return false
       end      

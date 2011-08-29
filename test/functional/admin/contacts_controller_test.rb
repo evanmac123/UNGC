@@ -36,7 +36,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_select "option[value=#{@organization.country_id.inspect}][selected='selected']"
     end
     
-    should "be only able to assign contatc and financial roles when editing a contact" do
+    should "be only able to assign contact and financial roles when editing a contact" do
       get :edit, :organization_id => @organization.id,
                  :id => @organization_user.to_param
 

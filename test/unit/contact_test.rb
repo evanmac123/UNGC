@@ -70,16 +70,21 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
 
-  context "given an organization with 1 contact point" do
+  context "given an organization with 1 contact point and CEO" do
     setup do
-      create_organization_and_user
+      create_organization_and_ceo
+      @organization.approve
     end
   
     should "not be able to remove role from the only Contact Point" do
       assert @organization_user.roles.delete(Role.contact_point)
       assert !@organization_user.save
     end
-   
+
+    should "not be able to remove role from the only Highest Level Executive" do
+      assert @organization_ceo.roles.delete(Role.ceo)
+      assert !@organization_ceo.save
+    end   
   end
 
 
