@@ -1,7 +1,7 @@
 h1. 2011-08-29
 
-* when an application is rejected, be sure to rename the email addresses user@mail.com --> rejected. user@mail.com
-* if they reapply, then can used the same address
+* when an application is rejected, rename the email addresses user@mail.com --> rejected.user@mail.com
+* if they reapply, then they can used the same address
 
 h1. 2011-08-28
 
@@ -11,6 +11,20 @@ h1. 2011-08-28
 * this rule needs to be enforced without affecting the signup process
 * so we do not show the roles in the form for CEO if the organization already has a CEO
 * staff can still assign CEOs at anytime
+
+h1. 2011-08-16
+
+* instead of having separate views for Local Networks and staff, we're going to create a single view
+* Networks have their own Dashboard and can switch between Network Management and Knowledge Sharing
+* but switching between the two sections of a Local Networks profile will need to be supported within the staff dashboard
+* there areoeg  some styles created in admin.sass to allow staff to edit various from a single screen Network Management sections
+* if these styles are not useful, then they can be removed: .click_to_edit, .edit_small, h3.button_label
+
+h1. 2011-08-12
+
+* testing local_network_importer on staging
+* be sure to install this gem before deploying
+* sudo gem install spreadsheet --version 0.6.5.7
 
 h1. 2011-08-02
 
