@@ -15,7 +15,7 @@ class Admin::ContactsController < AdminController
     
     if @contact.save
       flash[:notice] = 'Contact was successfully created.'
-      redirect_user_to_appropriate_screen
+      redirect_to return_path
     else
       render :action => "new"
     end
@@ -31,7 +31,7 @@ class Admin::ContactsController < AdminController
     @return_path = return_path
     if @contact.update_attributes(params[:contact])
       flash[:notice] = 'Contact was successfully updated.'
-      redirect_user_to_appropriate_screen
+      redirect_to return_path
     else
       render :action => "edit"
     end
@@ -43,7 +43,7 @@ class Admin::ContactsController < AdminController
     else
       flash[:error] =  @contact.errors.full_messages.to_sentence
     end
-    redirect_user_to_appropriate_screen
+      redirect_to return_path
   end
   
   def search
@@ -89,12 +89,5 @@ class Admin::ContactsController < AdminController
       end
     end
         
-    def redirect_user_to_appropriate_screen
-      if current_user.from_ungc?
-        redirect_to contact_parent_path(@contact, [], [], :tab => :contacts)
-      else
-        redirect_to dashboard_path(:tab => :contacts) 
-      end
-    end
-
+        
 end
