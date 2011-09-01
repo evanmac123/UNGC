@@ -35,18 +35,13 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
   test "should get show" do
     get :show, :id => @local_network.to_param
     assert_response :success
-    assert_template 'show_ungc'
+    assert_template 'show'
   end
 
   should "update local network membership section and redirect to Network Management tab" do
     put :update, :id => @local_network.to_param, :local_network => { }, :section => 'membership'
     assert_equal 'membership', assigns(:section)
-    assert_redirected_to admin_local_network_path(@local_network.id, :tab => 'network_management')
-  end
-
-  test "should update local network" do
-    put :update, :id => @local_network.to_param, :local_network => { }
-    assert_redirected_to admin_local_network_path(@local_network.id, :tab => 'network_management')
+    assert_redirected_to admin_local_network_path(@local_network.id, :tab => 'membership')
   end
 
   test "should destroy local network" do

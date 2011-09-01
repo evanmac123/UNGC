@@ -13,6 +13,8 @@ ActionController::Routing::Routes.draw do |map|
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   map.parameters '/admin/parameters', :controller => 'admin', :action => 'parameters'
   map.cop_introduction '/admin/cops/introduction', :controller => 'admin/cops', :action => 'introduction'
+  
+  map.knowledge_sharing 'admin/local_networks/:id/knowledge_sharing', :controller => 'admin/local_networks', :action => 'knowledge_sharing', :conditions => { :method => :get }
 
   # These need to come before resources :pages
   map.with_options :controller => 'admin/pages' do |m|
@@ -78,7 +80,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :countries
     admin.resources :logo_files
     admin.resources :cop_questions
-    admin.resources :local_networks, :has_many => :contacts 
+    admin.resources :local_networks, :has_many => [:contacts, :awards]
       
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'

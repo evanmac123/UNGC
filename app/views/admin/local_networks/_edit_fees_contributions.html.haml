@@ -1,8 +1,10 @@
+%h2 Editing Fees and Contributions
 %fieldset{:style => 'width: 235px; height: 100px; float: left; margin-right: 50px;'}
   %legend Member Fees
-  %ol
-    %li= default_form.radio_button :fees_participant, true, :label => 'Fees are required'
-    %li= default_form.radio_button :fees_participant, false, :label => 'Fees are not required'
+  %p Are members required to pay fees?
+  %ol.radio_button_list
+    %li= default_form.radio_button :fees_participant, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_fees_participant_true}
+    %li= default_form.radio_button :fees_participant, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_fees_participant_false}
     
 %fieldset{:style => 'width: 235px; height: 100px; float: left; margin-right: 50px;'}
   %legend Annual Amount in U.S. Dollars

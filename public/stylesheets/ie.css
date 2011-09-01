@@ -35,3 +35,7 @@ div.radio_button_group { margin: 15px 0 0 0; }
 #main_content fieldset input {
   margin: 0px;
 }
+
+#main_content .ie_fix dt.title, #main_content .ie_fix dd.title {
+  margin-bottom: -18px;
+}

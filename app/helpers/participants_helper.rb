@@ -12,6 +12,11 @@ module ParticipantsHelper
   end
   
   def display_participant_status_title(organization)
+    
+    if organization.non_comm_dialogue_on.present?
+      return "Non-Communicating"
+    end
+    
     case organization.cop_state        
       when Organization::COP_STATE_DELISTED
         if organization.removal_reason == RemovalReason.delisted
@@ -25,6 +30,11 @@ module ParticipantsHelper
   end
   
   def display_participant_status(organization)
+    
+    if organization.non_comm_dialogue_on.present?
+      return "#{yyyy_mm_dd organization.non_comm_dialogue_on} - for failure to engage in dialogue"
+    end
+    
     case organization.cop_state
       when Organization::COP_STATE_NONCOMMUNICATING
         'Non-Communicating'
