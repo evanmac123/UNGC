@@ -409,10 +409,36 @@ ul.nav_bar
   color: #868686
   margin: 20px 0 0 0
 
+.tab_switcher
+  ul.tab_switch
+    float: right
+    margin: 0 0 20px 0
+    padding: 0
+    li
+      display: inline
+      list-style: none
+      overflow: hidden
+      position: relative
+      top: 1px
+      a
+        font-size: 9px
+        -moz-border-radius: 4px
+        -webkit-border-radius: 4px
+        background= !light_grey 
+        border= 1px solid !light_blue
+        padding: 5px 10px
+        color= !medium_grey
+        text-decoration: none
+        &.selected
+          color: white
+          border= 1px solid grey
+          background= !medium_grey
+
 .tab_container
+  clear: both
   display: none
   margin: 1em 0
-
+    
   ul.tab_nav
     margin: 0
     padding: 0

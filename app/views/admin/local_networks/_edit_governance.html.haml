@@ -1,10 +1,5 @@
 %h2 Editing Network Governance
 
-%div.hint_toggle
-  About appointments...
-%div.hint_text{:style => 'display: none; width: 75%;'}
-  %p It is required for governance accountability that a document containing a brief description of how the Network Representative and Steering Committee derive their mandate.
-
 %fieldset{:style => 'width: 270px; height: 95px; float: left; margin-right: 25px;'}
   %legend Annual Meeting Appointments
   %p Are appointments made during the Annual Meeting?
@@ -20,8 +15,13 @@
     = default_form.check_box :sg_selected_appointees_steering_committee, {:li_class => 'checkbox', :label => 'Steering Committee'} 
     = default_form.check_box :sg_selected_appointees_contact_point, {:li_class => 'checkbox', :label => 'Contact Person'} 
 
+%div.hint_toggle
+  About the Governance Document...
+%div.hint_text{:style => 'display: none; width: 600px;'}
+  %p It is required for governance accountability to upload a document containing a brief description of how the Network Representative and Steering Committee derive their mandate.
+
 %fieldset{:style => 'width: 600px; height: 50px;'}
-  %legend Supporting Document
+  %legend Governance Document
   %ol
     %li=default_form.file_field :sg_annual_meeting_appointments_file_id, {:li_class => 'file', :label => 'Select a PDF to upload'}
     

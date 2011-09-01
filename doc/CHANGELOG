@@ -1,3 +1,11 @@
+h1. 2011-08-16
+
+* instead of having separate views for Local Networks and staff, we're going to create a single view
+* Networks have their own Dashboard and can switch between Network Management and Knowledge Sharing
+* but switching between the two sections of a Local Networks profile will need to be supported within the staff dashboard
+* there are some styles created in admin.sass to allow staff to edit various from a single screen Network Management sections
+* if these styles are not useful, then they can be removed: .click_to_edit, .edit_small, h3.button_label
+
 h1. 2011-08-12
 
 * testing local_network_importer on staging

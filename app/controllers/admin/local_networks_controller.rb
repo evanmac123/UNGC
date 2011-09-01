@@ -13,14 +13,12 @@ class Admin::LocalNetworksController < AdminController
   
   def show
     @local_network = LocalNetwork.find(params[:id])
-    render 'show_ungc' if current_user.from_ungc?
   end
   
   def edit
     @local_network = LocalNetwork.find(params[:id])
     @section ||= params[:section]
     @form_partial = @section ? 'edit_' + @section : 'default_form'
-    @section = 'network_management' if current_user.from_ungc?
   end
 
   def create
@@ -38,13 +36,7 @@ class Admin::LocalNetworksController < AdminController
     @section ||= params[:section]
     if @local_network.update_attributes(params[:local_network])
       flash[:notice] = 'Local Network was successfully updated.'
-      
-      if current_user.from_ungc?
-        redirect_to admin_local_network_path(@local_network.id, :tab => 'network_management') 
-      elsif current_user.from_network?
-        redirect_to admin_local_network_path(@local_network.id, :tab => @section) 
-      end
-      
+      redirect_to admin_local_network_path(@local_network.id, :tab => @section) 
     else
       render :action => "edit"
     end

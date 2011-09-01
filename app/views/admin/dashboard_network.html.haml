@@ -4,12 +4,8 @@
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
-    %li <a href="#contacts">Contacts</a>
 
   #overview.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      /%li= link_to text_for_edit_icon(current_user), edit_admin_local_network_path(@local_network.id), :class => 'edit_large', :title => "Edit Local Network profile"
-      %li= link_to_public_profile(@local_network)
   
     %dl.left_column
       %h3 Profile
@@ -27,8 +23,3 @@
       %dd.first Sample Meeting Report
       %dt Example Newsletter
       %dd Sample Newsletter
-
-  #contacts.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
-    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts

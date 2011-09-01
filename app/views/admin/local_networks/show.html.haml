@@ -1,7 +1,15 @@
 - @body_class = 'details'
-%h2= @local_network.name
+- unless current_user.local_network == @local_network
+  %div.tab_switcher
+    %ul.tab_switch
+      %li=link_to 'Network Management', admin_local_network_path(@local_network), :class => "restrictions #{action_name != 'knowledge_sharing' ? ' selected' : ''}"
+      %li=link_to 'Knowledge Sharing', knowledge_sharing_path(@local_network), :class => "restrictions #{action_name == 'knowledge_sharing' ? ' selected' : ''}"
+%h3= @local_network.name
+    
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
+    - if current_user.from_ungc? || (current_user.local_network == @local_network)
+      %li <a href="#contacts">Contacts</a>
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
     %li <a href="#mou">Memorandum of Understanding</a>
@@ -10,8 +18,13 @@
     %li <a href="#fees_contributions">Fees and Contributions</a>
     %li <a href="#communications">Communications</a>
 
+  - if current_user.from_ungc? || (current_user.local_network == @local_network)
+    #contacts.tab_content
+      %ul#contacts_tools{:class => "tools inline"}
+        %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
+      %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
+  
   #structure.tab_content
-
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure), :class => 'edit_large'
         
@@ -135,4 +148,7 @@
       %dd= number_to_percentage(@local_network.fees_amount_voluntary_public, :precision => 0)
 
   #communications.tab_content
-    %h3 Communications
+    %ul#tools{:class => "tools inline"}
+      %li= link_to 'New Communication', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'new_large'
+      %li= link_to_public_profile(@local_network)
+      %li= link_to 'Website Address', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'edit_large'
