@@ -76,6 +76,15 @@ module Importers
       end
 
       def get_file(row, column_name)
+        if @file_directory.nil?
+          unless @file_directory_nil_already_warned
+            warn "You need to specify a file directory with -d or --file-directory in order to import files."
+            @file_directory_nil_already_warned = true
+          end
+
+          return nil
+        end
+
         get_value(row, column_name) do |filename|
           path = File.join(@file_directory, filename)
 
