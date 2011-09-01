@@ -5,12 +5,14 @@ class Admin::ContactsController < AdminController
     @contact = @parent.contacts.new
     @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
     @roles = Role.visible_to(@contact, current_user)
+    @return_path = return_path
   end
 
   def create
     @contact = @parent.contacts.new(params[:contact])
     @roles = Role.visible_to(@contact)
-
+    @return_path = return_path
+    
     if @contact.save
       flash[:notice] = 'Contact was successfully created.'
       redirect_user_to_appropriate_screen
@@ -22,9 +24,11 @@ class Admin::ContactsController < AdminController
   def edit
     @needs_to_update = params[:update]
     @roles = Role.visible_to(@contact, current_user)
+    @return_path = return_path
   end
 
   def update
+    @return_path = return_path
     if @contact.update_attributes(params[:contact])
       flash[:notice] = 'Contact was successfully updated.'
       redirect_user_to_appropriate_screen
@@ -76,7 +80,15 @@ class Admin::ContactsController < AdminController
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'search_results'
     end
-    
+       
+    def return_path
+      if current_user.from_ungc?
+        contact_parent_path(@contact, [], [], :tab => :contacts)
+      else
+        dashboard_path(:tab => :contacts)
+      end
+    end
+        
     def redirect_user_to_appropriate_screen
       if current_user.from_ungc?
         redirect_to contact_parent_path(@contact, [], [], :tab => :contacts)
