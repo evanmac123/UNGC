@@ -49,14 +49,18 @@
 
 class LocalNetwork < ActiveRecord::Base
   validates_presence_of :name
+
   has_many :countries
   has_many :contacts
   has_many :integrity_measures
   has_many :awards
   has_many :events, :class_name => 'LocalNetworkEvent'
+  has_many :mous, :class_name => 'MOU'
+
   belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
   belongs_to :sg_established_as_a_legal_entity_file, :class_name => 'UploadedFile'
+
   validates_format_of :url,
                       :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",

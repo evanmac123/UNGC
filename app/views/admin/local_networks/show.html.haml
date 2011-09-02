@@ -77,6 +77,16 @@
     
   #mou.tab_content
     %h3 Memorandum of Understanding
+
+    %ul{:class => "tools inline"}
+      %li= link_to 'New MOU', new_admin_local_network_mou_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Year
+        %th Submitted
+        %th.actions Actions
+      = render @local_network.mous
     
   #meetings.tab_content
     %h3 Meetings

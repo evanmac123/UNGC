@@ -1,0 +1,6 @@
+%h2 New Memorandum of Understanding
+
+- form_for @mou, builder: DefaultFormBuilder, :url => admin_local_network_mous_path(@local_network), :html => {:multipart => true} do |form|
+  = render :partial => form
+  = form.submit 'Create', :class => 'button'
+

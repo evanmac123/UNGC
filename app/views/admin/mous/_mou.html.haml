@@ -1,0 +1,9 @@
+%tr
+  %td= mou.year
+  %td= mou.created_at
+  %td
+    %ul.actions
+      %li= link_to 'View', admin_local_network_mou_path(@local_network, mou), :class => "preview", :title => "View MOU"
+      %li= link_to 'Edit', edit_admin_local_network_mou_path(@local_network, mou), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Delete', admin_local_network_mou_path(@local_network, mou), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete MOU'
+

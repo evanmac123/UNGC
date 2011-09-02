@@ -1,0 +1,8 @@
+= default_form.error_messages
+
+%fieldset
+  %ol
+    = default_form.text_field :year
+    - if @mou.new_record?
+      = default_form.file_field :file
+
