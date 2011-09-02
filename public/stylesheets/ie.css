@@ -39,3 +39,6 @@ div.radio_button_group { margin: 15px 0 0 0; }
 #main_content .ie_fix dt.title, #main_content .ie_fix dd.title {
   margin-bottom: -18px;
 }
+/*Social Media Icons*/
+.copy ul.icons li {display: inline; padding-right: 8px; height: 32px; width: 32px; float: left; list-style: none; }
+.copy ul.icons li + li {display: inline; padding-top: 8px; height: 60px; width: 215px; float: left; }
