@@ -57,6 +57,7 @@ class LocalNetwork < ActiveRecord::Base
   has_many :events, :class_name => 'LocalNetworkEvent'
   has_many :mous, :class_name => 'MOU'
   has_many :meetings
+  has_many :communications
 
   belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
