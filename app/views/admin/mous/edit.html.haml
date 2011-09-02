@@ -1,6 +1,6 @@
 %h2 Edit Memorandum of Understanding
 
-- form_for @mou, builder: DefaultFormBuilder, :url => admin_local_network_mou_path(@local_network, @mou) do |form|
+- form_for @mou, builder: DefaultFormBuilder, :url => admin_local_network_mou_path(@local_network, @mou), :html => {:multipart => true} do |form|
   = render :partial => form
   = form.submit 'Update', :class => 'button'
 

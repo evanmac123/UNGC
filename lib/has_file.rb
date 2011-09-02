@@ -11,7 +11,8 @@ module HasFile
   end
 
   def file=(file)
-    build_attachment(:uploaded_data => file)
+    attachment.destroy if attachment
+    self.attachment = UploadedFile.new(:uploaded_data => file)
   end
 end
 
