@@ -41,7 +41,8 @@
       %dd.title &nbsp;
       %dt.first= legal_status(@local_network)
       %dd.first &nbsp;
-      
+      %dt Supporting Document
+      %dd= link_to_local_network_document(@local_network.sg_established_as_a_legal_entity_file)
 
   #governance.tab_content
     %ul#tools{:class => "tools inline"}
@@ -68,12 +69,18 @@
       %dt{:class => show_check(@local_network.stakeholder_un_agency)} UN Agencies
       %dt{:class => show_check(@local_network.stakeholder_ngo)} NGOs
 
-    %dl.left_column.short.ie_fix{:style => 'width: 165px;'}
+    %dl.left_column{:style => 'width: 165px;'}
       %dt.title &nbsp;
       %dd.title &nbsp;
       %dt{:class => "first #{show_check(@local_network.stakeholder_foundation)}"} Foundations
       %dt{:class => show_check(@local_network.stakeholder_academic)} Academic Institutions
       %dt{:class => show_check(@local_network.stakeholder_government)} Government Entities
+      
+    - if @local_network.sg_annual_meeting_appointments_file
+      %dl.left_column.short.ie_fix{:style => 'float: none; width: 165px;'}
+        %dt.title Governance Document
+        %dd.title &nbsp;
+      %p= link_to_local_network_document(@local_network.sg_annual_meeting_appointments_file)  
     
   #mou.tab_content
     %h3 Memorandum of Understanding

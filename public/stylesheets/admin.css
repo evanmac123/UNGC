@@ -467,6 +467,8 @@ ul.nav_bar {
 #main_content fieldset {
   background-color: #fcfcff;
   border: 1px solid #aaa; }
+  #main_content fieldset.governance {
+    height: 90px; }
   #main_content fieldset legend {
     color: #888; }
     #main_content fieldset legend span {

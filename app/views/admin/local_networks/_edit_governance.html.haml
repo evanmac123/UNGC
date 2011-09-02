@@ -1,44 +1,47 @@
 %h2 Editing Network Governance
 
-%fieldset{:style => 'width: 270px; height: 95px; float: left; margin-right: 25px;'}
+%fieldset.governance{:style => 'width: 425px; float: left;'}
   %legend Annual Meeting Appointments
   %p Are appointments made during the Annual Meeting?
   %ol.radio_button_list
     %li= default_form.radio_button :sg_annual_meeting_appointments, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_sg_annual_meeting_appointments_true}
     %li= default_form.radio_button :sg_annual_meeting_appointments, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_sg_annual_meeting_appointments_false}
-
-
-%fieldset{:style => 'width: 270px; height: 95px;'}
+  
+%fieldset.governance{:style => 'width: 425px; float: right;'}
   %legend Positions Appointed
   %ol.checkbox_list{:style => 'padding-top: 10px;'}
     = default_form.check_box :sg_selected_appointees_local_network_representative, {:li_class => 'checkbox', :label => 'Network Representative'} 
     = default_form.check_box :sg_selected_appointees_steering_committee, {:li_class => 'checkbox', :label => 'Steering Committee'} 
     = default_form.check_box :sg_selected_appointees_contact_point, {:li_class => 'checkbox', :label => 'Contact Person'} 
 
-%div.hint_toggle
+%div.hint_toggle.clear
   About the Governance Document...
-%div.hint_text{:style => 'display: none; width: 600px;'}
+%div.hint_text{:style => 'display: none; width: 650px;'}
   %p It is required for governance accountability to upload a document containing a brief description of how the Network Representative and Steering Committee derive their mandate.
 
-%fieldset{:style => 'width: 600px; height: 50px;'}
+%fieldset
   %legend Governance Document
+  - if @local_network.sg_annual_meeting_appointments_file
+    %dl{:style => 'width: auto;'} 
+      %dt.first{:style=> 'width: 165px;'} Current file
+      %dd.first= link_to_local_network_document(@local_network.sg_annual_meeting_appointments_file)
   %ol
-    %li=default_form.file_field :sg_annual_meeting_appointments_file_id, {:li_class => 'file', :label => 'Select a PDF to upload'}
-    
+    %li=default_form.file_field :sg_annual_meeting_appointments_uploaded_data, {:li_class => 'file', :label => 'Select a PDF to upload'}
+
 %div.hint_toggle
   Steering committees...
-%div.hint_text{:style => 'display: none; width: 600px;'}
+%div.hint_text{:style => 'display: none;'}
   %p Members of a steering committee should have solid standing and reputation in their countries. They should also have a sound understanding of the Global Compact's philosophy and work to implement the Ten Principles in a spirit of competence, respect and integrity while pursuing commercial interests.
 
-%fieldset{:style => 'width: 600px;'}
+%fieldset
   %legend Stakeholder Groups Involved in Governance
 
-  %ol.checkbox_list{:style => 'float: left; margin-left: -25px; margin-right: 20px;'}
+  %ol.checkbox_list{:style => 'float: left; margin-left: -25px; margin-right: 180px;'}
     = default_form.check_box :stakeholder_company, {:li_class => 'checkbox', :label => 'Companies'} 
     = default_form.check_box :stakeholder_sme, {:li_class => 'checkbox', :label => 'SMEs'} 
     = default_form.check_box :stakeholder_business_association, {:li_class => 'checkbox', :label => 'Business Associations'} 
 
-  %ol.checkbox_list{:style => 'float: left; margin-right: -20px;'}
+  %ol.checkbox_list{:style => 'float: left; margin-right: 80px;'}
     = default_form.check_box :stakeholder_labour, {:li_class => 'checkbox', :label => 'Labour'} 
     = default_form.check_box :stakeholder_un_agency, {:li_class => 'checkbox', :label => 'UN Agencies'} 
     = default_form.check_box :stakeholder_ngo, {:li_class => 'checkbox', :label => 'NGOs'} 

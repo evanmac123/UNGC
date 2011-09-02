@@ -10,7 +10,11 @@ module Admin::LocalNetworksHelper
   end
   
   def legal_status(local_network)
-    local_network.sg_established_as_a_legal_entity ? "Established as a legal entity" : "No legal status"
+    local_network.sg_established_as_a_legal_entity ? "Established as legal entity" : "No legal status"
+  end
+
+  def link_to_local_network_document(file)
+    file ? (link_to file.filename, file.public_filename) : 'No file'
   end
 
   def subsidiary_participation(local_network)
