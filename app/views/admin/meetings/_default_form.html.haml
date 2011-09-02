@@ -1,0 +1,8 @@
+= default_form.error_messages
+
+%fieldset
+  %ol
+    = default_form.select :meeting_type, Meeting::TYPES
+    = default_form.date_select :date
+    = default_form.file_field :file
+

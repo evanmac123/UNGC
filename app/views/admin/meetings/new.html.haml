@@ -1,0 +1,6 @@
+%h2 New Meeting
+
+- form_for @submodel, builder: DefaultFormBuilder, :url => submodels_path, :html => {:multipart => true} do |form|
+  = render :partial => form
+  = form.submit 'Create', :class => 'button'
+

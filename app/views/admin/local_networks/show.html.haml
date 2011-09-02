@@ -91,6 +91,16 @@
   #meetings.tab_content
     %h3 Meetings
   
+    %ul{:class => "tools inline"}
+      %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Type
+        %th Date
+        %th.actions Actions
+      = render @local_network.meetings
+
   #membership.tab_content
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
