@@ -6,6 +6,11 @@ class Admin::LocalNetworkSubmodelController < AdminController
   helper Admin::LocalNetworkSubmodelHelper
   helper_method :submodel
 
+  def show
+    file = @submodel.file
+    send_file file.full_filename, :type => file.content_type, :disposition => 'inline'
+  end
+
   def create
     @submodel.attributes = params[submodel.name.underscore]
 
