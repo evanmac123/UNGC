@@ -3,6 +3,9 @@ class Admin::LocalNetworkSubmodelController < AdminController
   before_filter :build_submodel, :only => [:new, :create]
   before_filter :load_submodel, :only => [:show, :edit, :update, :destroy]
 
+  helper Admin::LocalNetworkSubmodelHelper
+  helper_method :submodel
+
   def create
     @submodel.attributes = params[submodel.name.underscore]
 
@@ -54,10 +57,12 @@ class Admin::LocalNetworkSubmodelController < AdminController
   end
 
   def redirect_user_to_appropriate_screen
+    tab = submodel.name.underscore.pluralize
+
     if current_user.from_ungc?
-      redirect_to admin_local_network_path(@local_network, :tab => submodel.name.underscore)
+      redirect_to admin_local_network_path(@local_network, :tab => tab)
     else
-      redirect_to dashboard_path(:tab => submodel.name.underscore)
+      redirect_to dashboard_path(:tab => tab)
     end
   end
 end

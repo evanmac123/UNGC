@@ -1,6 +1,6 @@
 %h2 New Memorandum of Understanding
 
-- form_for @submodel, builder: DefaultFormBuilder, :url => admin_local_network_mous_path(@local_network), :html => {:multipart => true} do |form|
+- form_for @submodel, builder: DefaultFormBuilder, :url => submodels_path, :html => {:multipart => true} do |form|
   = render :partial => form
   = form.submit 'Create', :class => 'button'
 
