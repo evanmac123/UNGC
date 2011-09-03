@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: meetings
+#
+#  id               :integer(4)      not null, primary key
+#  local_network_id :integer(4)
+#  meeting_type     :string(255)
+#  date             :date
+#  created_at       :datetime
+#  updated_at       :datetime
+#
+
 class Meeting < ActiveRecord::Base
   TYPES = ["Steering Committee", "General", "Governance"]
 
