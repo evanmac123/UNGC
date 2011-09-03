@@ -1,7 +1,13 @@
-= default_form.error_messages
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_errors_for_submodel(@submodel)
 
 %fieldset
+  - unless @submodel.new_record?
+    %dl{:style => 'width: auto;'} 
+      %dt.first{:style=> 'width: 165px;'} Current file
+      %dd.first= link_to_local_network_document(@submodel.file)
+    
   %ol
-    = default_form.text_field :year
-    = default_form.file_field :file
+    = default_form.date_select :year, {:order => [:year]}, {:label => 'Year of Agreement'}
+    = default_form.file_field :file, {:label => 'Supporting Document'} 
 

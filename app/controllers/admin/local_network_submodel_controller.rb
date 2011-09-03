@@ -1,7 +1,7 @@
 class Admin::LocalNetworkSubmodelController < AdminController
-  before_filter :load_local_network
+  before_filter :load_local_network, :set_return_tab
   before_filter :build_submodel, :only => [:new, :create]
-  before_filter :load_submodel, :only => [:show, :edit, :update, :destroy]
+  before_filter :load_submodel,  :only => [:show, :edit, :update, :destroy]
 
   helper Admin::LocalNetworkSubmodelHelper
   helper_method :submodel
@@ -13,10 +13,10 @@ class Admin::LocalNetworkSubmodelController < AdminController
 
   def create
     @submodel.attributes = params[submodel.name.underscore]
-
+    
     if @submodel.save
       flash[:notice] = "#{submodel.name} was successfully created."
-      redirect_user_to_appropriate_screen
+      redirect_to admin_local_network_path(@local_network, :tab => @tab)
     else
       render :action => "new"
     end
@@ -27,7 +27,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
 
     if @submodel.save
       flash[:notice] = "#{submodel.name} was successfully updated."
-      redirect_user_to_appropriate_screen
+      redirect_to admin_local_network_path(@local_network, :tab => @tab)
     else
       render :action => "edit"
     end
@@ -37,10 +37,10 @@ class Admin::LocalNetworkSubmodelController < AdminController
     if @submodel.destroy
       flash[:notice] = "#{submodel.name} was successfully deleted."
     else
-      flash[:error] =  @submodel.errors.full_messages.to_sentence
+      flash[:error] = @submodel.errors.full_messages.to_sentence
     end
 
-    redirect_user_to_appropriate_screen
+    redirect_to admin_local_network_path(@local_network, :tab => @tab)
   end
 
   private
@@ -60,15 +60,12 @@ class Admin::LocalNetworkSubmodelController < AdminController
   def submodels_proxy
     @local_network.send(submodel.name.underscore.pluralize)
   end
-
-  def redirect_user_to_appropriate_screen
-    tab = submodel.name.underscore.pluralize
-
-    if current_user.from_ungc?
-      redirect_to admin_local_network_path(@local_network, :tab => tab)
-    else
-      redirect_to dashboard_path(:tab => tab)
-    end
+  
+  # select same tab after cancelling or completing an operation
+  def set_return_tab
+    @tab = submodel.name.underscore.pluralize 
   end
+
+
 end
 
