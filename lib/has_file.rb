@@ -2,7 +2,7 @@ module HasFile
   def self.included(klass)
     klass.class_eval do
       has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
-      validates_presence_of :file
+      validates_presence_of :file, :message => 'must be uploaded'
     end
   end
 
