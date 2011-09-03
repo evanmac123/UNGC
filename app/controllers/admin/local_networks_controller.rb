@@ -3,6 +3,8 @@ class Admin::LocalNetworksController < AdminController
   before_filter :no_organization_or_local_network_access
   before_filter :no_access_to_other_local_networks, :except => [:update] 
 
+  helper Admin::LocalNetworkSubmodelHelper
+
   def index
     @local_networks = LocalNetwork.all(:order => order_from_params)
   end

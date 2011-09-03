@@ -1,0 +1,6 @@
+%h2 Edit Memorandum of Understanding
+
+- form_for @submodel, builder: DefaultFormBuilder, :url => submodel_path(@submodel), :html => {:multipart => true} do |form|
+  = render :partial => form
+  = form.submit 'Update', :class => 'button'
+

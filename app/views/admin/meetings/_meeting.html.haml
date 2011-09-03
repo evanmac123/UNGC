@@ -1,0 +1,9 @@
+%tr
+  %td= meeting.meeting_type
+  %td= meeting.date
+  %td
+    %ul.actions
+      %li= link_to 'View', submodel_path(meeting), :class => "preview", :title => "View meeting"
+      %li= link_to 'Edit', edit_submodel_path(meeting), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Delete', submodel_path(meeting), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete meeting'
+

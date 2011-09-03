@@ -12,7 +12,7 @@
       %li <a href="#contacts">Contacts</a>
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
-    %li <a href="#mou">Memorandum of Understanding</a>
+    %li <a href="#mous">Memorandum of Understanding</a>
     %li <a href="#meetings">Meetings</a>
     %li <a href="#membership">Membership Breakdown</a>
     %li <a href="#fees_contributions">Fees and Contributions</a>
@@ -82,12 +82,32 @@
         %dd.title &nbsp;
       %p= link_to_local_network_document(@local_network.sg_annual_meeting_appointments_file)  
     
-  #mou.tab_content
+  #mous.tab_content
     %h3 Memorandum of Understanding
+
+    %ul{:class => "tools inline"}
+      %li= link_to 'New MOU', new_admin_local_network_mou_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Year
+        %th Submitted
+        %th.actions Actions
+      = render @local_network.mous
     
   #meetings.tab_content
     %h3 Meetings
   
+    %ul{:class => "tools inline"}
+      %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Type
+        %th Date
+        %th.actions Actions
+      = render @local_network.meetings
+
   #membership.tab_content
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'

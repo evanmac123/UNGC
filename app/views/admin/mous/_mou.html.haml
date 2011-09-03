@@ -1,0 +1,9 @@
+%tr
+  %td= mou.year
+  %td= mou.created_at
+  %td
+    %ul.actions
+      %li= link_to 'View', submodel_path(mou), :class => "preview", :title => "View MOU"
+      %li= link_to 'Edit', edit_submodel_path(mou), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Delete', submodel_path(mou), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete MOU'
+
