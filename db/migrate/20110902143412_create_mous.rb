@@ -2,7 +2,7 @@ class CreateMous < ActiveRecord::Migration
   def self.up
     create_table :mous do |t|
       t.integer :local_network_id
-      t.integer :year
+      t.date :year
       t.timestamps
     end
   end
