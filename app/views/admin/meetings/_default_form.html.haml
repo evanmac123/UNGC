@@ -1,8 +1,13 @@
-= default_form.error_messages
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_errors_for_submodel(@submodel)
 
 %fieldset
-  %ol
-    = default_form.select :meeting_type, Meeting::TYPES
-    = default_form.date_select :date
-    = default_form.file_field :file
+  - unless @submodel.new_record?
+    %dl{:style => 'width: auto;'} 
+      %dt.first{:style=> 'width: 165px;'} Current file
+      %dd.first= link_to_local_network_document(@submodel.file)
 
+  %ol
+    = default_form.select :meeting_type, Meeting::TYPES, {:label => 'Type of Meeting'}
+    = default_form.date_select :date, {:order => [:day, :month, :year]}, { :li_class => 'date' }
+    = default_form.file_field :file, {:label => 'Supporting Document'}

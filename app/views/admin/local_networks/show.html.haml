@@ -100,8 +100,9 @@
 
     %table.dashboard_table
       %tr
-        %th Type
+        %th Type of Meeting
         %th Date
+        %th Document
         %th.actions Actions
       = render @local_network.meetings
 
@@ -175,4 +176,4 @@
     %ul#tools{:class => "tools inline"}
       %li= link_to 'New Communication', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'new_large'
       %li= link_to_public_profile(@local_network)
-      %li= link_to 'Website Address', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'edit_large'
+      %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'edit_page_large'
