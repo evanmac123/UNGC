@@ -81,9 +81,9 @@ class Admin::ContactsController < AdminController
       render :action => 'search_results'
     end
     
-    def redirect_user_to_appropriate_screen
+    def return_path
       if current_user.from_ungc? || current_user.from_network?
-        redirect_to contact_parent_path(@contact, [], [], :tab => :contacts)
+        contact_parent_path(@contact, [], [], :tab => :contacts)
       else
         dashboard_path(:tab => :contacts)
       end
