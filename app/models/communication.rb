@@ -10,12 +10,25 @@
 #
 
 class Communication < ActiveRecord::Base
-  TYPES = ["Annual Report", "NewsLetter", "Printed Material"]
+  TYPES = ["Annual Report", "Newsletter", "Printed Material"]
 
   include HasFile
   belongs_to :local_network
 
   validates_inclusion_of :communication_type, :in => TYPES, :allow_nil => false
   validates_presence_of :title, :date
+  
+  def readable_error_messages
+    error_messages = []
+    errors.each do |error|
+      case error
+        when 'title'
+          error_messages << 'Enter a title'
+        when 'file'
+          error_messages << 'Choose a file to upload'
+       end
+    end
+    error_messages
+  end
+  
 end
-

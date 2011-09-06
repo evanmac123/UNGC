@@ -1,0 +1,9 @@
+%tr
+  %td= communication.communication_type
+  %td= communication.title
+  %td= communication.date
+  %td= link_to_local_network_document(communication.file)
+  %td
+    %ul.actions
+      %li= link_to 'Edit', edit_submodel_path(communication), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Delete', submodel_path(communication), :confirm => 'Are you sure you want to delete this communication?', :method => :delete, :class => 'delete', :title => 'Delete meeting'
