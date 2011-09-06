@@ -57,10 +57,16 @@
     %dl.left_column
       %h3 Contact Information
       %dt.first Highest Level Executive:
-      %dd.first= render :partial => 'contact_overview', :collection => @organization.contacts.ceos
+      - if @organization.contacts.ceos.count > 0
+        %dd.first= render :partial => 'contact_overview', :collection => @organization.contacts.ceos
+      - else
+        %dd.first{:style => 'color: red'} Not assigned
       %dt Contact Point:
-      %dd= render :partial => 'contact_overview', :collection => @organization.contacts.contact_points
-  
+      - if @organization.contacts.contact_points.count > 0
+        %dd= render :partial => 'contact_overview', :collection => @organization.contacts.contact_points
+      - else
+        %dd{:style => 'color: red'} Not assigned
+        
     -staff_only do
       %dl.left_column
         %h3 Local Network
