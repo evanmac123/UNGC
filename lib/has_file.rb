@@ -15,4 +15,3 @@ module HasFile
     self.attachment = UploadedFile.new(:uploaded_data => file)
   end
 end
-
