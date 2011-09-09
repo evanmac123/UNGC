@@ -36,9 +36,10 @@ class Admin::LocalNetworksController < AdminController
   def update
     @local_network = LocalNetwork.find(params[:id])
     @section ||= params[:section]
+    @form_partial = @section ? 'edit_' + @section : 'default_form'
     if @local_network.update_attributes(params[:local_network])
       flash[:notice] = 'Local Network was successfully updated.'
-      redirect_to admin_local_network_path(@local_network.id, :tab => @section) 
+      redirect_to admin_local_network_path(@local_network.id, :tab => @section)
     else
       render :action => "edit"
     end

@@ -108,8 +108,7 @@ class OrganizationTest < ActiveSupport::TestCase
   
    context "rejecting its participation" do
       setup do
-        @organization = Organization.create(:name      => 'Duplicate Name',
-                                            :employees => 50)
+        create_organization_and_ceo
       end
       
       should "set rejection date" do
@@ -118,19 +117,23 @@ class OrganizationTest < ActiveSupport::TestCase
       end
       
       should "rename organization" do
+        name = @organization.name
         @organization.reject
         @organization.reload
         assert !@organization.participant
-        assert_equal 'Duplicate Name (rejected)', @organization.name 
+        assert_equal "#{name} (rejected)", @organization.name
       end
 
-     should "rename organization" do
-       @organization.reject_micro
-       @organization.reload
-       assert !@organization.participant
-       assert_equal 'Duplicate Name (rejected)', @organization.name 
-     end
-  end
+      should "rename organization" do
+        name = @organization.name
+        @organization.reject_micro
+        @organization.reload
+        assert !@organization.participant
+        assert_equal "#{name} (rejected)", @organization.name
+      end
+     
+   end
+  
   
   context "given a climate change initiative, some organization types and an org" do
     setup do

@@ -30,11 +30,19 @@ class Role < ActiveRecord::Base
     :network_regional_manager  => 14
   }
   
-  named_scope :visible_to, lambda { |user|
+  named_scope :visible_to, lambda { |user, current_user = nil|
     if user.user_type == Contact::TYPE_ORGANIZATION
-      roles_ids = [Role.ceo, Role.contact_point].collect(&:id)
+      roles_ids = [Role.contact_point].collect(&:id)
+      
+      # give option to check Highlest Level Executive if no CEO has been assigned
+      roles_ids << Role.ceo.id if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
+      
+      if current_user && current_user.from_ungc?
+        roles_ids << Role.ceo.id
+      end
+            
       # only business organizations have a financial contact
-      roles_ids << Role.financial_contact.id if user.organization.business_entity?
+      roles_ids << Role.financial_contact.id if user.organization.business_entity? 
       # if the organization signed an initiative, then add the initiative's role, if available
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }

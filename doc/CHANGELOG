@@ -1,3 +1,17 @@
+h1. 2011-08-29
+
+* when an application is rejected, rename the email addresses user@mail.com --> rejected.user@mail.com
+* if they reapply, then they can used the same address
+
+h1. 2011-08-28
+
+* made sure that the last Contact Point cannot be unchecked
+* the rules may have to be modified as we start to add non-Participant organizations and contacts
+* we need to make sure that organizations only have one contact assigned the Highest Level Executive role
+* this rule needs to be enforced without affecting the signup process
+* so we do not show the roles in the form for CEO if the organization already has a CEO
+* staff can still assign CEOs at anytime
+
 h1. 2011-08-16
 
 * instead of having separate views for Local Networks and staff, we're going to create a single view
@@ -20,7 +34,7 @@ h1. 2011-08-02
 * in the organization edit form, there is a checkbox for :non_comm_dialogue which the user can select
 * a field then appears so they can set the correct date
 * unselecting the checkbox will cleat the date fields
- 
+
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard

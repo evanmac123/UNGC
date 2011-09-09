@@ -68,6 +68,8 @@ class LocalNetwork < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
   
+  # validates_numericality_of :fees_amount_company, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
+  
   default_scope :order => 'name'
   
   STATES = { :emerging => 'Emerging', :established => 'Established' }
@@ -139,6 +141,17 @@ class LocalNetwork < ActiveRecord::Base
     define_method "sg_#{m}_uploaded_data=" do |file|
       self.send "sg_#{m}_file=", UploadedFile.new(uploaded_data: file, attachable: self)
     end
+  end
+  
+  def readable_error_messages
+    error_messages = []
+    errors.each do |error|
+      case error
+        when 'url'
+          error_messages << 'Please provide a website address in the format http://organization.org'
+       end
+    end
+    error_messages
   end
   
 end
