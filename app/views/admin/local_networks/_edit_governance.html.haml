@@ -15,20 +15,6 @@
     = default_form.check_box :sg_selected_appointees_contact_point, {:li_class => 'checkbox', :label => 'Contact Person'} 
 
 %div.hint_toggle.clear
-  About the Governance Document...
-%div.hint_text{:style => 'display: none; width: 650px;'}
-  %p It is required for governance accountability to upload a document containing a brief description of how the Network Representative and Steering Committee derive their mandate.
-
-%fieldset
-  %legend Governance Document
-  - if @local_network.sg_annual_meeting_appointments_file
-    %dl{:style => 'width: auto;'} 
-      %dt.first{:style=> 'width: 165px;'} Current file
-      %dd.first= link_to_local_network_document(@local_network.sg_annual_meeting_appointments_file)
-  %ol
-    %li=default_form.file_field :sg_annual_meeting_appointments_uploaded_data, {:li_class => 'file', :label => 'Select a PDF to upload'}
-
-%div.hint_toggle
   Steering committees...
 %div.hint_text{:style => 'display: none;'}
   %p Members of a steering committee should have solid standing and reputation in their countries. They should also have a sound understanding of the Global Compact's philosophy and work to implement the Ten Principles in a spirit of competence, respect and integrity while pursuing commercial interests.
@@ -50,3 +36,17 @@
     = default_form.check_box :stakeholder_foundation, {:li_class => 'checkbox', :label => 'Foundations'} 
     = default_form.check_box :stakeholder_academic, {:li_class => 'checkbox', :label => 'Academic Institutions'} 
     = default_form.check_box :stakeholder_government, {:li_class => 'checkbox', :label => 'Government Entities'} 
+
+%div.hint_toggle.clear
+  About the Governance Document...
+%div.hint_text{:style => 'display: none;'}
+  %p It is required for governance accountability to upload a document containing a brief description of how the Network Representative and Steering Committee derive their mandate.
+
+%fieldset
+  %legend Governance Document
+  - if @local_network.sg_annual_meeting_appointments_file
+    %dl{:style => 'width: auto;'} 
+      %dt.first{:style=> 'width: 165px;'} Current file
+      %dd.first= link_to_local_network_document(@local_network.sg_annual_meeting_appointments_file)
+  %ol
+    %li=default_form.file_field :sg_annual_meeting_appointments_uploaded_data, {:li_class => 'file', :label => 'Select a PDF to upload'}
