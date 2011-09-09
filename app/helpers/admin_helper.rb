@@ -88,5 +88,11 @@ module AdminHelper
   def show_check(condition)
     condition ? 'checked' : 'unchecked'
   end
+  
+  def display_readable_errors(object)
+     error_messages = object.readable_error_messages.map { |error| content_tag :li, error }
+     content_tag :ul, error_messages.join
+  end
+  
 
 end

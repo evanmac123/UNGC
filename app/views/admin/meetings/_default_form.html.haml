@@ -1,5 +1,5 @@
 - if default_form.error_messages.present?
-  %div{:class => 'flash error'}= display_errors_for_submodel(@submodel)
+  %div{:class => 'flash error'}= display_readable_errors(@submodel)
 
 %fieldset
   - unless @submodel.new_record?
