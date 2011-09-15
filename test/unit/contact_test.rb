@@ -70,26 +70,34 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
 
-  # context "given an organization with 1 contact point" do
-  #   setup do
-  #     create_organization_and_user
-  #     @organization_user_2 = create_contact(:organization_id => @organization.id,
-  #                                           :email           => 'email2@example.com',
-  #                                           :role_ids        => [Role.contact_point.id])
-  #   end
-  # 
-  #   should "not be able to remove role from the only Contact Point" do
-  #     assert_equal 2, @organization.contacts.contact_points.count
-  #     assert @organization_user.roles.delete(Role.contact_point)
-  #     # assert @organization_user.save
-  #     assert_equal 1, @organization.contacts.contact_points.count
-  #     assert @organization_user_2.roles.delete(Role.contact_point)
-  #     assert
-  #     assert_equal 1, @organization.contacts.contact_points.count
-  #     
-  #   end
-   
-  # end
+  context "given an organization with 1 contact point and CEO" do
+    setup do
+      create_organization_and_ceo
+      @organization.approve
+    end
+  
+    should "not be able to remove role from the only Contact Point" do
+      assert @organization_user.roles.delete(Role.contact_point)
+      assert !@organization_user.save
+    end
 
+    should "not be able to remove role from the only Highest Level Executive" do
+      assert @organization_ceo.roles.delete(Role.ceo)
+      assert !@organization_ceo.save
+    end   
+  end
+
+  context "given an organization with 1 contact point and CEO" do
+    setup do
+      create_organization_and_ceo
+      @old_email = @organization_user.email
+      assert @organization.reject
+    end
+  
+    should "not be able to remove role from the only Contact Point" do
+      # FIXME the contact is being updated, but when testing the change is not being saved
+      # assert_equal "rejected.#{@old_email}", @organization_user.email
+    end
+  end
 
 end

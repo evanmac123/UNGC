@@ -4,6 +4,36 @@ h1. 2011-09-15
 * sent to Contact who is logged in
 * a different email is sent depending on the Differentiation level
 
+* To gracefully handle SMTP errors when sending email, I placed the ActionMailer delivery methods inside a begin/rescue block
+* Currently being used for password resets and signup confirmations
+
+h1. 2011-08-29
+
+* when an application is rejected, rename the email addresses user@mail.com --> rejected.user@mail.com
+* if they reapply, then they can used the same address
+
+h1. 2011-08-28
+
+* made sure that the last Contact Point cannot be unchecked
+* the rules may have to be modified as we start to add non-Participant organizations and contacts
+* we need to make sure that organizations only have one contact assigned the Highest Level Executive role
+* this rule needs to be enforced without affecting the signup process
+* so we do not show the roles in the form for CEO if the organization already has a CEO
+* staff can still assign CEOs at anytime
+
+h1. 2011-08-16
+
+* instead of having separate views for Local Networks and staff, we're going to create a single view
+* Networks have their own Dashboard and can switch between Network Management and Knowledge Sharing
+* but switching between the two sections of a Local Networks profile will need to be supported within the staff dashboard
+* if these styles are not useful, then they can be removed: .click_to_edit, .edit_small, h3.button_label
+
+h1. 2011-08-12
+
+* testing local_network_importer on staging
+* be sure to install this gem before deploying
+* sudo gem install spreadsheet --version 0.6.5.7
+
 h1. 2011-08-02
 
 * adding a new date field to Organizations to record when a company becomes Non-Communicating for failure to engage in dialogue
@@ -13,7 +43,7 @@ h1. 2011-08-02
 * a field then appears so they can set the correct date
 * unselecting the checkbox will cleat the date fields
 
-h1. 2011-09-15
+h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
 * first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production

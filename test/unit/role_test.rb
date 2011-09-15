@@ -26,7 +26,7 @@ class RoleTest < ActiveSupport::TestCase
       assert_does_not_contain @roles, Role.financial_contact
     end
     
-    should "have CEO, Contact and General role options" do
+    should "have CEO and Contact Point role options" do
       assert_same_elements [Role.ceo, Role.contact_point], @roles
     end
   end
@@ -44,7 +44,6 @@ class RoleTest < ActiveSupport::TestCase
     should "have Financial Contact as a Role option" do
       assert_contains @roles, Role.financial_contact
     end
-    
   end
 
   context "given a Local Network" do
@@ -60,8 +59,6 @@ class RoleTest < ActiveSupport::TestCase
                              Role.general_contact ], @roles
  
     end
-    
   end
   
-
 end
