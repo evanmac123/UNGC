@@ -34,6 +34,15 @@ class Admin::CopsController < AdminController
     if @communication_on_progress.save
       flash[:notice] = "The COP has been published on the Global Compact website"
       clear_session_template
+      
+      unless @communication_on_progress.is_grace_letter?
+        begin
+          CopMailer.send("deliver_confirmation_#{@communication_on_progress.differentation_level}", @organization, @communication_on_progress, current_user)
+        rescue Exception => e
+         flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
+        end
+      end
+      
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
       # we want to preselect the submit tab
