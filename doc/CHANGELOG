@@ -1,3 +1,9 @@
+h1. 2011-09-15
+
+* adding confirmation emails for COP submissions
+* sent to Contact who is logged in
+* a different email is sent depending on the Differentiation level
+
 h1. 2011-08-02
 
 * adding a new date field to Organizations to record when a company becomes Non-Communicating for failure to engage in dialogue
@@ -6,8 +12,8 @@ h1. 2011-08-02
 * in the organization edit form, there is a checkbox for :non_comm_dialogue which the user can select
 * a field then appears so they can set the correct date
 * unselecting the checkbox will cleat the date fields
- 
-h1. 2011-07-28
+
+h1. 2011-09-15
 
 * deploying Phase I of Local Networks Dashboard
 * first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
