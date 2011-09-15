@@ -100,7 +100,7 @@ class SignupController < ApplicationController
       end
       
       begin
-        ContactMailer.deliver_reset_password(@contact)
+        OrganizationMailer.deliver_submission_received(@organization)
         if session[:is_jci_referral]
           OrganizationMailer.deliver_submission_jci_referral_received(@organization)
         end
