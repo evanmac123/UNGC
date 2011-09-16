@@ -6,9 +6,17 @@ class Admin::PasswordsController < ApplicationController
     @contact = Contact.find_by_email params[:email] unless params[:email].blank?
     if @contact && @contact.login.present?
       @contact.refresh_reset_password_token!
-      ContactMailer.deliver_reset_password(@contact)
-      flash[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'
-      redirect_to login_path
+      
+      begin
+        ContactMailer.deliver_reset_password(@contact)
+      rescue Exception => e
+       flash[:notice] = 'Sorry, we could not send the email due to a server error. Please try again.'
+       redirect_to new_password_path
+      else
+       flash[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'
+       redirect_to login_path
+      end
+
     else
       flash.now[:error] = "Sorry, we could not find a username with the email you provided."
       render :action => 'new'

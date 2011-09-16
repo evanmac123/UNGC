@@ -22,6 +22,12 @@ class CopReminderTest < ActiveSupport::TestCase
                           :participant          => true,
                           :organization_type_id => @business_organization_type.id)
 
+      # adding organization about to be expelled in 90 days
+      @non_communicating_org = create_organization(:cop_due_on           => 90.days.from_now.to_date - 1.year,
+                                                   :participant          => true,
+                                                   :organization_type_id => @business_organization_type.id)
+      @non_communicating_org.communication_late
+      
       # adding organizations that shouldn't be notified
       create_organization(:cop_due_on => 45.days.from_now.to_date)
 
@@ -47,19 +53,19 @@ class CopReminderTest < ActiveSupport::TestCase
       end
     end
     
-    should "send emails to the 1 organization with COP due in 90 days" do
-      assert_emails(1) do
+    should "send email to 1 active organization with COP due in 90 days, and 1 non-communicating organization about to be expelled in 90 days" do
+      assert_emails(2) do
         @reminder.notify_cop_due_in_90_days
       end
     end
 
     should "send email to the 3 organizations when notifying all" do
-      assert_emails(3) do
+      assert_emails(4) do
         @reminder.notify_all
       end
     end
 
-    should "send emails to 2 organizations with a COP due in 90 days" do
+    should "send emails to 3 people with a COP due in 90 days" do
       create_organization_and_user
       create_local_network_with_report_recipient    
       # organization with Local Network and Report Recipient, also due in 90 days
@@ -68,7 +74,7 @@ class CopReminderTest < ActiveSupport::TestCase
                                           :organization_type_id => @business_organization_type.id,
                                           :country_id           => @country.id)
       assert_equal 1, @organization.network_report_recipients.count                   
-      assert_emails(2) do
+      assert_emails(3) do
         @reminder.notify_cop_due_in_90_days
       end
     end    

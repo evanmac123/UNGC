@@ -99,10 +99,13 @@ class SignupController < ApplicationController
         @organization.contacts << @financial_contact
       end
       
-      OrganizationMailer.deliver_submission_received(@organization)
-      
-      if session[:is_jci_referral]
-        OrganizationMailer.deliver_submission_jci_referral_received(@organization)
+      begin
+        OrganizationMailer.deliver_submission_received(@organization)
+        if session[:is_jci_referral]
+          OrganizationMailer.deliver_submission_jci_referral_received(@organization)
+        end
+      rescue Exception => e
+       flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
       end
       
       clean_session

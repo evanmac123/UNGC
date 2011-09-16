@@ -11,7 +11,7 @@
 #rightcontent .bookmarks { float: right; position: relative; margin: 5px 10px -15px 0px;}
 /* fix JQuery datepicker */
 div.ui-datepicker .ui-datepicker-title { font-size: 11px; text-align: left;}
-div.ui-datepicker select.ui-datepicker-year { float: left; position: relative; top: -20px;}
+div.ui-datepicker select.ui-datepicker-year { float: right; position: relative; top: -38px;}
 
 /* wrap text in form legend for COPs */
 #main_content fieldset legend { margin-bottom: 15px; }
