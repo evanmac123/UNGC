@@ -207,7 +207,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box4 div.first { margin-top: 56px; }
 #box4 div.last { border-bottom: 0; }
 
-#box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; border: 4px solid #d9e2e5; cursor: pointer;}
+#box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; border: 4px solid #d9e2e5; background-position: -5px -8px; cursor: pointer; }
+#box5 a, #box6 a { width: 100%; height: 100%; display: block; }
 #box5:hover, #box6:hover {border: 4px solid #C1C8CC}
 #box5 { left: 40px; }
 #box6 { left: 357px; }
