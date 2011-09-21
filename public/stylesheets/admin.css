@@ -106,7 +106,7 @@ ul.nav_bar {
     font-weight: bold; }
   #main_content h4 {
     color: #14546f; }
-  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large, #main_content a.new_headline_large, #main_content a.refresh_large, #main_content a.delete_large, #main_content a.cancel_large, #main_content a.edit_page_large, #main_content a.go_back_large {
+  #main_content a.new_large, #main_content a.edit_large, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large, #main_content a.new_headline_large, #main_content a.refresh_large, #main_content a.delete_large, #main_content a.cancel_large, #main_content a.edit_page_large, #main_content a.go_back_large, #main_content a.download_large {
     display: block;
     height: 24px;
     padding: 5px 0 0 30px;
@@ -116,7 +116,7 @@ ul.nav_bar {
     opacity: 0.85;
     font-weight: bold;
     margin-right: 25px; }
-    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content div.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover, #main_content a.web_preview_large:hover, #main_content a.delete_doc:hover, #main_content a.new_user_large:hover, #main_content a.new_headline_large:hover, #main_content a.refresh_large:hover, #main_content a.delete_large:hover, #main_content a.cancel_large:hover, #main_content a.edit_page_large:hover, #main_content a.go_back_large:hover {
+    #main_content a.new_large:hover, #main_content a.edit_large:hover, #main_content a.new_page_large:hover, #main_content div.new_page_large:hover, #main_content a.info_large:hover, #main_content div.hint_toggle:hover, #main_content a.web_preview_large:hover, #main_content a.delete_doc:hover, #main_content a.new_user_large:hover, #main_content a.new_headline_large:hover, #main_content a.refresh_large:hover, #main_content a.delete_large:hover, #main_content a.cancel_large:hover, #main_content a.edit_page_large:hover, #main_content a.go_back_large:hover, #main_content a.download_large:hover {
       opacity: 1;
       text-decoration: underline;
       cursor: pointer; }
@@ -148,6 +148,8 @@ ul.nav_bar {
     background: url('../images/icons/Document (Edit)_24x24.png') no-repeat top left; }
   #main_content a.go_back_large {
     background: url('../images/icons/GoBack_24x24.png') no-repeat top left; }
+  #main_content a.download_large {
+    background: url('../images/icons/Accounts Payable_24x24.png') no-repeat top left; }
   #main_content table.dashboard_table {
     width: 100%;
     margin-bottom: 0; }

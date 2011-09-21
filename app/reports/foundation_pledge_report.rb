@@ -1,6 +1,6 @@
 class FoundationPledgeReport < SimpleReport
   def records
-    Organization.active.participants.with_pledge.joined_on(@options[:month].to_i, @options[:year].to_i).all(:order => 'joined_on')
+    Organization.active.participants.companies_and_smes.joined_on(@options[:month].to_i, @options[:year].to_i).all(:order => 'joined_on')
   end
   
   def headers
@@ -9,17 +9,19 @@ class FoundationPledgeReport < SimpleReport
       'Phone',
       'Company',
       'Country',
+      'Number of Employees',
       'Invoice ID',
       'Pledge',
       'Invoice Date']
   end
 
   def row(r)
-    [ r.contacts.contact_points.first.try(:name),
-      r.contacts.contact_points.first.try(:email),
-      r.contacts.contact_points.first.try(:phone),
+    [ r.financial_contact_or_contact_point.try(:name),
+      r.financial_contact_or_contact_point.try(:email),
+      r.financial_contact_or_contact_point.try(:phone),
       r.try(:name),
       r.country.try(:name),
+      r.employees,
       r.invoice_id,
       r.pledge_amount,
       r.joined_on]
