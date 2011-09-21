@@ -5,6 +5,7 @@ module Importers
 
       def initialize(path)
         @path = path
+        @corrections = YAML.load_file(File.expand_path("../corrections.yml", __FILE__))
       end
 
       def get_local_network(row)
@@ -13,6 +14,8 @@ module Importers
             warn "No local network name found on row \##{row.idx}"
             return nil
           end
+
+          name = @corrections["network_names"].fetch(name, name)
 
           local_network = LocalNetwork.find_by_name(name)
 
