@@ -7,14 +7,22 @@ end
 module Importers
   module LocalNetworks
     class Runner
-      def initialize(*args)
-        @path, @file_directory, @class_name = *args
+      def initialize(path, options)
+        @path = path
+        @file_directory = options[:file_directory]
+        @class_name = options[:class_name]
+        @log_file_name = options[:log_file_name]
       end
 
       def run
         importer_class_names.each do |name|
           klass = "Importers::LocalNetworks::#{name}".constantize
-          klass.new(@path, @file_directory).run
+          importer = klass.new(@path)
+
+          importer.file_directory = @file_directory                 if @file_directory
+          importer.log_file       = File.open(@log_file_name, "w+") if @log_file_name
+
+          importer.run
         end
       end
 

@@ -2,6 +2,8 @@ require "spreadsheet"
 
 module Importers
   class ExcelImporter
+    attr_accessor :log_file
+
     def initialize(path)
       @path = path
     end
@@ -37,16 +39,16 @@ module Importers
             all_models.each do |model|
               if model.changed?
                 if model.save
-                  report(row, model, "updated", :green)
+                  report(row, model, "updated", :green, true)
                 else
-                  report(row, model, "validation failed", :red)
+                  report(row, model, "validation failed", :red, false)
                 end
               else
-                report(row, model, "identical", :grey)
+                report(row, model, "identical", :grey, true)
               end
             end
           else
-            report(row, nil, "no model found", :yellow)
+            report(row, nil, "no model found", :yellow, false)
           end
         end
       end
@@ -87,23 +89,32 @@ module Importers
       end
     end
 
-    def report(row, model, message, color)
-      line = "#{row.idx.to_s.rjust(8)} "
+    def report(row, model, message, color, success)
+      row_index = row.idx + 1
+      model_str = model_string(model)
 
-      line << model_string(model)[0..33].ljust(35)
-
-      message = message.ljust(20)
-      message = highlight(message, color) if color
-      line << message
+      line = "%8d %-35s %s" % [row_index, model_str[0..33], highlight(message, color)]
 
       $stderr.puts(line)
+
+      if log_file
+        success_str = success ? "SUCCESS" : "FAILURE"
+        log_file.puts("#{success_str} - #{row_index} - #{message} - #{model_str}")
+      end
+    end
+
+    def notice(message)
+      log_file.puts("NOTICE - #{message}") if log_file
     end
 
     def warn(message)
       $stderr.puts(highlight(message, :yellow))
+      log_file.puts("WARNING - #{message}") if log_file
     end
 
-    def highlight(str, color)
+    def highlight(str, color=nil)
+      return str unless color
+
       code = {
         black:   30, red:  31, green: 32, yellow: 33, blue: 34,
         magenta: 35, cyan: 36, white: 37, grey:   90
