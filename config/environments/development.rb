@@ -18,7 +18,7 @@ config.cache_store = :file_store, File.join(RAILS_ROOT, "tmp/cache")
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = true
-config.action_mailer.default_url_options = { :host => 'localhost', :port => 3000 }
+config.action_mailer.default_url_options = { :protocal => 'http', :host => '127.0.0.1', :port => 3000 }
 config.action_mailer.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
   :address => "localhost",
