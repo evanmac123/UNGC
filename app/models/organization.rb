@@ -259,6 +259,12 @@ class Organization < ActiveRecord::Base
     
   end
   
+  def local_network_country_code
+    if country.try(:local_network)
+      country.local_network.country_code
+    end
+  end
+  
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients

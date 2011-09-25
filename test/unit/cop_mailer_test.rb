@@ -5,7 +5,7 @@ class CopMailerTest < ActionMailer::TestCase
   context "given a submitted COP" do
     setup do
       create_organization_and_user
-      create_cop(@organization.id)
+      @cop = create_cop(@organization.id)
     end
 
     should "send confirmation Learner email" do

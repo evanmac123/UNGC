@@ -1,10 +1,23 @@
-To all Contact Points for
-%strong== #{@organization.name}:
+%p== Dear #{@user.name_with_title},
 
-Thank you for submitting your COP at the Advanced level.
+%p Thank you for submitting your Communication on Progress (COP) to the Global Compact website. According to your self-assessment, your company has reached the GC Advanced level. 
+
+%p== Through the #{link_to 'GC Advanced', 'http://www.unglobalcompact.org/COP/differentiation/GCAdvanced_level.html'} level, the Global Compact Office recognizes companies that strive to be top performers and declare that they have adopted and report on a broad range of best practices in sustainability governance and management. 
+
+%p
+  We hope that the self-assessment can also serve as a roadmap to guide your actions for the upcoming year and that your company continues to progress towards implementing all relevant best practices of the GC Advanced level, following the
+  =link_to 'Global Compact\'s Blueprint for Corporate Sustainability Leadership.', 'http://www.unglobalcompact.org/HowToParticipate/Business_Participation/blueprint_for_corporate_sustainability_leadership.html'
+
+%p== #{link_to 'GC Advanced companies', 'http://www.unglobalcompact.org/' + DEFAULTS[:cop_advanced_path]} will be publicly recognized on the Global Compact website with detailed results of the self-assessment and statistics on coverage of best practices on the participant's #{link_to 'COP page', 'http://www.unglobalcompact.org' + cop_detail_path(@cop.id)}.
+
+%p The Global Compact is currently working with long-term investors (through the Principles for Responsible Investment) and financial information service providers (Bloomberg L.P.) to disseminate this information throughout the financial community, thus increasing visibility and recognition. 
+
+%p We look forward to your continued participation in the Global Compact at the GC Advanced level.
 
 %p Sincerely,
-
-%p The Global Compact Office
-
-= render :partial => '/shared/ungc_signature'
+%p
+  The COP Team
+  %br
+  United Nations Global Compact
+  %br
+  = mail_to 'cop@unglobalcompact.org'
