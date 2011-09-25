@@ -26,7 +26,11 @@ class CopsController < ApplicationController
   end
   
   def feed
-    @cops_for_feed = CommunicationOnProgress.for_feed
+    if params[:type] == 'advanced'
+      @cops_for_feed = CommunicationOnProgress.advanced.all(:limit => 10)
+    else
+      @cops_for_feed = CommunicationOnProgress.for_feed
+    end
     respond_to do |format|
       format.atom { render :layout => false }
     end
