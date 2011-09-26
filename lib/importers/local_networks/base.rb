@@ -1,8 +1,11 @@
 module Importers
   module LocalNetworks
     class Base < ExcelImporter
-      def initialize(path, file_directory)
-        @path, @file_directory = path, file_directory
+      attr_accessor :file_directory
+
+      def initialize(path)
+        @path = path
+        @corrections = YAML.load_file(File.expand_path("../corrections.yml", __FILE__))
       end
 
       def get_local_network(row)
@@ -11,6 +14,8 @@ module Importers
             warn "No local network name found on row \##{row.idx}"
             return nil
           end
+
+          name = @corrections["network_names"].fetch(name, name)
 
           local_network = LocalNetwork.find_by_name(name)
 
@@ -89,9 +94,10 @@ module Importers
           path = File.join(@file_directory, filename)
 
           if File.exist?(path)
+            notice "File imported: #{path.inspect}"
             UploadedFile.new(:uploaded_data => File.new(path))
           else
-            warn "File not found: #{path}"
+            warn "File not found: #{path.inspect}"
             nil
           end
         end
