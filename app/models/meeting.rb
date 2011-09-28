@@ -11,13 +11,20 @@
 #
 
 class Meeting < ActiveRecord::Base
-  TYPES = ["General", "Governance", "Steering Committee"]
+  TYPES = { :general => "General", :governance => "Governance", :steering_commitee => "Steering Committee" }
 
   include HasFile
   belongs_to :local_network
 
-  validates_inclusion_of :meeting_type, :in => TYPES, :allow_nil => false
   validates_presence_of :date
+
+  def type_name
+    TYPES[meeting_type.try(:to_sym)]
+  end
+
+  def meeting_type_for_select_field
+    meeting_type.try(:to_sym)
+  end
   
   def readable_error_messages
     error_messages = []

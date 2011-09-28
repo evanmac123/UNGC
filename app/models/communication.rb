@@ -10,13 +10,24 @@
 #
 
 class Communication < ActiveRecord::Base
-  TYPES = ["Annual Report", "Newsletter", "Printed Material"]
-
+  TYPES = { :annual_report => "Annual Report",
+            :newsletter => "Newsletter",
+            :printed => "Printed Material"
+          }
+    
   include HasFile
   belongs_to :local_network
 
-  validates_inclusion_of :communication_type, :in => TYPES, :allow_nil => false
+  # validates_inclusion_of :communication_type, :in => TYPES, :allow_nil => false
   validates_presence_of :title, :date
+  
+  def type_name
+    TYPES[communication_type.try(:to_sym)]
+  end
+
+  def communication_type_for_select_field
+    communication_type.try(:to_sym)
+  end
   
   def readable_error_messages
     error_messages = []

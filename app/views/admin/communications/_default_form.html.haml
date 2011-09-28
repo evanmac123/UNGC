@@ -8,7 +8,7 @@
       %dd.first= link_to_local_network_document(@submodel.file)
 
   %ol
-    = default_form.select :communication_type, Communication::TYPES, {:label => 'Format'}
+    = default_form.select :communication_type, options_for_select(select_options_from_hash(Communication::TYPES), @submodel.communication_type_for_select_field), :label => 'Format'
     = default_form.text_field :title
     = default_form.date_select :date, {:order => [:day, :month, :year]}, { :li_class => 'date', :label => 'Published on' }
     = default_form.file_field :file, {:label => 'Document'}

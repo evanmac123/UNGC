@@ -8,6 +8,6 @@
       %dd.first= link_to_local_network_document(@submodel.file)
 
   %ol
-    = default_form.select :meeting_type, Meeting::TYPES, {:label => 'Type of Meeting'}
+    = default_form.select :meeting_type, options_for_select(select_options_from_hash(Meeting::TYPES), @submodel.meeting_type_for_select_field), :label => 'Type'
     = default_form.date_select :date, {:order => [:day, :month, :year]}, { :li_class => 'date' }
     = default_form.file_field :file, {:label => 'Supporting Document'}
