@@ -1,0 +1,17 @@
+%h2
+
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@submodel)
+
+%fieldset
+  - unless @submodel.new_record?
+    %dl{:style => 'width: auto;'} 
+      %dt.first{:style=> 'width: 165px;'} Current file
+      %dd.first= link_to_local_network_document(@submodel.file)
+    
+  %ol
+    = default_form.select :policy_type, options_for_select(select_options_from_hash(IntegrityMeasure::TYPES), @submodel.policy_type_for_select_field), :label => 'Type'
+    = default_form.date_select :date, {:order => [:day, :month, :year]}, :li_class => 'date'
+    = default_form.text_field :title
+    = default_form.text_area :description
+    = default_form.file_field :file, {:label => 'Supporting Document'}

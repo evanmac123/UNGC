@@ -15,7 +15,28 @@ class IntegrityMeasure < ActiveRecord::Base
             :logo     => 'Network Logo Policy',
             :dialogue => 'Dialogue Faciliation' }
 
+  include HasFile
   belongs_to :local_network
   has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
+
+  def policy_type_for_select_field
+    policy_type.try(:to_sym)
+  end
+
+  def readable_error_messages
+    error_messages = []
+    errors.each do |error|
+      case error
+        when 'title'
+          error_messages << 'Enter a title'
+        when 'description'
+          error_messages << 'Enter a description'
+        when 'file'
+          error_messages << 'Choose a file to upload'
+       end
+    end
+    error_messages
+  end
+
 end
 
