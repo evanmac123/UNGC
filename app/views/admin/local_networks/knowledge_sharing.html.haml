@@ -20,3 +20,13 @@
 
   #awards.tab_content
     %h3 Awards
+    %ul{:class => "tools inline"}
+      %li= link_to 'New Award', new_admin_local_network_award_path(@local_network), :class => "new_large"
+    %table.dashboard_table
+      %tr
+        %th Type
+        %th Title
+        %th Date
+        %th Document
+        %th.actions Actions
+      = render @local_network.awards

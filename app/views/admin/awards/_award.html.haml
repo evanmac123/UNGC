@@ -1,0 +1,9 @@
+%tr
+  %td= award.type_name
+  %td= award.title  
+  %td= award.date
+  %td= link_to_local_network_document(award.file)
+  %td
+    %ul.actions
+      %li= link_to 'Edit', edit_submodel_path(award), :class => 'edit', :title => 'Edit award details'
+      %li= link_to 'Delete', submodel_path(award), :confirm => 'Are you sure you want to delete this award?', :method => :delete, :class => 'delete', :title => 'Delete Award'
