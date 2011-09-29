@@ -13,7 +13,14 @@
 #  attachment_updated_at   :datetime
 #
 
+Paperclip.interpolates(:attachable_type) { |attachment, style|
+  raise "Could not determine attachable_type" unless attachment.try(:instance).try(:attachable_type).present?
+  attachment.instance.attachable_type
+}
+
 class UploadedFile < ActiveRecord::Base
   belongs_to :attachable, :polymorphic => true
-  has_attached_file :attachment
+
+  has_attached_file :attachment,
+    :url => "/system/:attachment/UploadedFile/:attachable_type/:id/:style/:filename"
 end
