@@ -16,7 +16,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
     
     if @submodel.save
       flash[:notice] = "#{submodel.name} was successfully created."
-      redirect_to admin_local_network_path(@local_network, :tab => @tab)
+      redirect_to_return_path
     else
       render :action => "new"
     end
@@ -27,7 +27,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
 
     if @submodel.save
       flash[:notice] = "#{submodel.name} was successfully updated."
-      redirect_to admin_local_network_path(@local_network, :tab => @tab)
+      redirect_to_return_path
     else
       render :action => "edit"
     end
@@ -40,7 +40,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
       flash[:error] = @submodel.errors.full_messages.to_sentence
     end
 
-    redirect_to admin_local_network_path(@local_network, :tab => @tab)
+    redirect_to_return_path
   end
 
   private
@@ -66,6 +66,14 @@ class Admin::LocalNetworkSubmodelController < AdminController
     @tab = submodel.name.underscore.pluralize 
   end
 
+  # either Network Management or Knowledge Sharing
+  def redirect_to_return_path
+    if @submodel.local_network_model_type == :network_management
+      redirect_to admin_local_network_path @local_network, :tab => @tab
+    elsif @submodel.local_network_model_type == :knowledge_sharing
+      redirect_to knowledge_sharing_path @local_network, :tab => @tab
+    end
+  end
 
 end
 
