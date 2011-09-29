@@ -2,20 +2,25 @@
 #
 # Table name: uploaded_files
 #
-#  id              :integer(4)      not null, primary key
-#  size            :integer(4)
-#  content_type    :string(255)
-#  filename        :string(255)
-#  attachable_id   :integer(4)
-#  attachable_type :string(255)
-#  created_at      :datetime
-#  updated_at      :datetime
+#  id                      :integer(4)      not null, primary key
+#  attachable_id           :integer(4)
+#  attachable_type         :string(255)
+#  created_at              :datetime
+#  updated_at              :datetime
+#  attachment_file_name    :string(255)
+#  attachment_file_size    :integer(4)
+#  attachment_content_type :string(255)
+#  attachment_updated_at   :datetime
 #
+
+Paperclip.interpolates(:attachable_type) { |attachment, style|
+  raise "Could not determine attachable_type" unless attachment.try(:instance).try(:attachable_type).present?
+  attachment.instance.attachable_type
+}
 
 class UploadedFile < ActiveRecord::Base
   belongs_to :attachable, :polymorphic => true
-  
-  has_attachment  :content_type => ["application/msword", "application/pdf", "application/vnd.mozilla.xul+xml", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/x-shockwave-flash", "application/xhtml+xml", "application/xml", "application/zip", "image/gif", "image/jpeg", "image/png", "image/svg+xml", "image/tiff", "image/x-xwindowdump", "text/calendar", "text/html", "text/plain", "video/mp4", "video/mpeg", "video/quicktime"],
-                  :storage      => :file_system, 
-                  :path_prefix  => 'public/uploaded_files'
+
+  has_attached_file :attachment,
+    :url => "/system/:attachment/UploadedFile/:attachable_type/:id/:style/:filename"
 end
