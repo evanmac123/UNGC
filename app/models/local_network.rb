@@ -138,8 +138,8 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   [:annual_meeting_appointments, :established_as_a_legal_entity].each do |m|
-    define_method "sg_#{m}_uploaded_data=" do |file|
-      self.send "sg_#{m}_file=", UploadedFile.new(uploaded_data: file, attachable: self)
+    define_method "sg_#{m}_attachment=" do |file|
+      self.send "sg_#{m}_file=", UploadedFile.new(attachment: file, attachable: self)
     end
   end
   

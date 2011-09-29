@@ -95,7 +95,7 @@ module Importers
 
           if File.exist?(path)
             notice "File imported: #{path.inspect}"
-            UploadedFile.new(:uploaded_data => File.new(path))
+            UploadedFile.new(:attachment => File.new(path))
           else
             warn "File not found: #{path.inspect}"
             nil
