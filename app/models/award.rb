@@ -22,7 +22,11 @@ class Award < ActiveRecord::Base
   has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
   
   validates_presence_of :title, :description
-
+  
+  def local_network_model_type
+    :knowledge_sharing
+  end
+  
   def type_name
     TYPES[award_type.try(:to_sym)]
   end

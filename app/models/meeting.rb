@@ -18,6 +18,10 @@ class Meeting < ActiveRecord::Base
 
   validates_presence_of :date
 
+  def local_network_model_type
+    :network_management
+  end
+
   def type_name
     TYPES[meeting_type.try(:to_sym)]
   end
