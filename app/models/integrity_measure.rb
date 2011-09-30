@@ -23,6 +23,10 @@ class IntegrityMeasure < ActiveRecord::Base
     :knowledge_sharing
   end
 
+  def policy_type_name
+    TYPES[policy_type.try(:to_sym)]
+  end
+
   def policy_type_for_select_field
     policy_type.try(:to_sym)
   end
