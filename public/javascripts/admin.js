@@ -608,4 +608,17 @@ $(document).ready(function() {
     //tabbed stuff is hidden by default, so that it doesn't display "unstyled" before document.ready fires. Show it now that we're done!
     $('div.tab_container').slideDown();
     
+    $('.file_inputs').each(function() {
+      var e         = $(this),
+          inputList = e.find('ol'),
+          button    = $('<button type="button">Add File</button>');
+
+      if (inputList.length) {
+        button.click(function() {
+          inputList.find('li:last').clone().appendTo(inputList);
+        });
+
+        button.appendTo(e);
+      }
+    });
 });

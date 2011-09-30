@@ -30,7 +30,7 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   belongs_to :local_network
   has_and_belongs_to_many :principles
-  has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
+  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
 
   validates_presence_of :title, :event_type, :date
 
@@ -51,6 +51,12 @@ class LocalNetworkEvent < ActiveRecord::Base
        end
     end
     error_messages
+  end
+
+  def uploaded_attachments=(attribute_array)
+    attribute_array.each do |attrs|
+      self.attachments.build(attrs)
+    end
   end
 end
 

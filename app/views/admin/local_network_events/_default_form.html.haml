@@ -45,6 +45,11 @@
     = default_form.text_field :num_participants,          :label => 'Total Attendance'
     = default_form.text_field :gc_participant_percentage, :label => 'Global Compact Participants (%)'
 
-%fieldset
+%fieldset.file_inputs
   %legend Files
 
+  - if @submodel.new_record?
+    %ol
+      %li= file_field_tag 'local_network_event[uploaded_attachments][][attachment]'
+  - else
+    = link_to 'Manage files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel)
