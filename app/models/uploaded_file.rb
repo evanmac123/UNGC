@@ -22,5 +22,5 @@ class UploadedFile < ActiveRecord::Base
   belongs_to :attachable, :polymorphic => true
 
   has_attached_file :attachment,
-    :url => "/system/:attachment/UploadedFile/:attachable_type/:id/:style/:filename"
+    :url => "/system/:attachment/:attachable_type/:id/:style/:filename"
 end
