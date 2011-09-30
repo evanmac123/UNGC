@@ -15,7 +15,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
     @submodel.attributes = params[submodel.name.underscore]
     
     if @submodel.save
-      flash[:notice] = "#{submodel.name} was successfully created."
+      flash[:notice] = "#{submodel.name.titleize} was successfully created."
       redirect_to return_url
     else
       render :action => "new"
@@ -26,7 +26,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
     @submodel.attributes = params[submodel.name.underscore]
 
     if @submodel.save
-      flash[:notice] = "#{submodel.name} was successfully updated."
+      flash[:notice] = "#{submodel.name.titleize} was successfully updated."
       redirect_to return_url
     else
       render :action => "edit"
@@ -35,7 +35,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
 
   def destroy
     if @submodel.destroy
-      flash[:notice] = "#{submodel.name} was successfully deleted."
+      flash[:notice] = "#{submodel.name.titleize} was successfully deleted."
     else
       flash[:error] = @submodel.errors.full_messages.to_sentence
     end
