@@ -4,7 +4,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
   before_filter :load_submodel,  :only => [:show, :edit, :update, :destroy]
 
   helper Admin::LocalNetworkSubmodelHelper
-  helper_method :submodel
+  helper_method :submodel, :return_url
 
   def show
     file = @submodel.file
@@ -16,7 +16,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
     
     if @submodel.save
       flash[:notice] = "#{submodel.name} was successfully created."
-      redirect_to admin_local_network_path(@local_network, :tab => @tab)
+      redirect_to return_url
     else
       render :action => "new"
     end
@@ -27,7 +27,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
 
     if @submodel.save
       flash[:notice] = "#{submodel.name} was successfully updated."
-      redirect_to admin_local_network_path(@local_network, :tab => @tab)
+      redirect_to return_url
     else
       render :action => "edit"
     end
@@ -40,7 +40,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
       flash[:error] = @submodel.errors.full_messages.to_sentence
     end
 
-    redirect_to admin_local_network_path(@local_network, :tab => @tab)
+    redirect_to return_url
   end
 
   private
@@ -58,7 +58,15 @@ class Admin::LocalNetworkSubmodelController < AdminController
   end
 
   def submodels_proxy
-    @local_network.send(submodel.name.underscore.pluralize)
+    @local_network.send(submodel_association_method)
+  end
+
+  def submodel_association_method
+    submodel.name.underscore.pluralize
+  end
+
+  def return_url
+    admin_local_network_path(@local_network, :tab => @tab)
   end
   
   # select same tab after cancelling or completing an operation

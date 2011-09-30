@@ -641,9 +641,14 @@ ul.nav_bar
       &.short
         width: 40px
     
-    input[type="checkbox"], input[type="radio"], input[type="file"], li.date > select
+    input[type="checkbox"], input[type="radio"], input[type="file"], li.date select
       width: auto
       margin: 0 5px 0px 25px
+
+    .checkbox_list_container
+      overflow: auto
+      width: 100%
+      padding-top: 2px
     
     ol.checkbox_list, ol.radio_button_list
       li.checkbox, li.radio_button
@@ -678,7 +683,7 @@ ul.nav_bar
     span.cke_skin_kama
       display: block
       margin: 0 5px 0 120px
-    
+
     textarea
       height: 100px
       overflow-y: auto
@@ -764,6 +769,24 @@ ul.nav_bar
           font-weight: bold
         select
           width: 90px
+
+    .numeric_inputs
+      border-top: 1px solid #aaa
+      margin-top: 8px
+      padding-top: 20px
+
+      li
+        float: left
+        margin-right: 50px
+        margin-bottom: 0
+
+        label
+          width: auto
+          margin-top: 1px
+
+        input[type="text"]
+          width: 20px
+          margin-top: 0
 
   // page_manager styling
   .box

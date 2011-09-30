@@ -499,9 +499,13 @@ ul.nav_bar {
     font-size: 1em; }
     #main_content fieldset input.short, #main_content fieldset select.short, #main_content fieldset textarea.short {
       width: 40px; }
-  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"], #main_content fieldset li.date > select {
+  #main_content fieldset input[type="checkbox"], #main_content fieldset input[type="radio"], #main_content fieldset input[type="file"], #main_content fieldset li.date select {
     width: auto;
     margin: 0 5px 0px 25px; }
+  #main_content fieldset .checkbox_list_container {
+    overflow: auto;
+    width: 100%;
+    padding-top: 2px; }
   #main_content fieldset ol.checkbox_list li.checkbox, #main_content fieldset ol.checkbox_list li.radio_button, #main_content fieldset ol.radio_button_list li.checkbox, #main_content fieldset ol.radio_button_list li.radio_button {
     clear: both;
     padding-bottom: 10px; }
@@ -596,6 +600,20 @@ ul.nav_bar {
         font-weight: bold; }
       #main_content fieldset fieldset ul.date_select select {
         width: 90px; }
+  #main_content fieldset .numeric_inputs {
+    border-top: 1px solid #aaa;
+    margin-top: 8px;
+    padding-top: 20px; }
+    #main_content fieldset .numeric_inputs li {
+      float: left;
+      margin-right: 50px;
+      margin-bottom: 0; }
+      #main_content fieldset .numeric_inputs li label {
+        width: auto;
+        margin-top: 1px; }
+      #main_content fieldset .numeric_inputs li input[type="text"] {
+        width: 20px;
+        margin-top: 0; }
 #main_content .box {
   border: 5px solid #d2d2d2;
   padding: 10px;
