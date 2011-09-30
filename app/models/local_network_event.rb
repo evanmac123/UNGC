@@ -62,6 +62,6 @@ class LocalNetworkEvent < ActiveRecord::Base
       self.attachments.build(attrs)
     end
   end
->>>>>>> local_networks_aanand
+
 end
 
