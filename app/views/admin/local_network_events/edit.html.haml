@@ -1,5 +1,4 @@
 %h2 Edit Event
-
 - form_for @submodel, builder: DefaultFormBuilder, :url => submodel_path(@submodel), :html => {:multipart => true} do |form|
   = render :partial => form
   %ul{:class => "tools inline" :style => 'float: right;'}
