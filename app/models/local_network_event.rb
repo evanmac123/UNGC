@@ -28,6 +28,7 @@
 class LocalNetworkEvent < ActiveRecord::Base
   TYPES = ['Policy Dialogue', 'Learning', 'Tool Provision', 'Publication or Translation', 'Partnership', 'COP Related Activity, Governance']
 
+  include HasFile
   belongs_to :local_network
   has_and_belongs_to_many :principles
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
