@@ -26,13 +26,42 @@
 #
 
 class LocalNetworkEvent < ActiveRecord::Base
+  TYPES = ['Policy Dialogue', 'Learning', 'Tool Provision', 'Publication or Translation', 'Partnership', 'COP Related Activity, Governance']
+
   belongs_to :local_network
   has_and_belongs_to_many :principles
-  has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
-  
+  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
+
+  validates_presence_of :title, :event_type, :date
+
   def local_network_model_type
     :knowledge_sharing
   end
-  
+
+  def self.principle_areas
+    Principle.all(:conditions => 'parent_id is null')
+  end
+
+  def readable_error_messages
+    error_messages = []
+    errors.each do |error|
+      case error
+        when 'title'
+          error_messages << 'Enter a title'
+        when 'event_type'
+          error_messages << 'Select an event type'
+        when 'date'
+          error_messages << 'Select a date'
+       end
+    end
+    error_messages
+  end
+
+  def uploaded_attachments=(attribute_array)
+    attribute_array.each do |attrs|
+      self.attachments.build(attrs)
+    end
+  end
+>>>>>>> local_networks_aanand
 end
 

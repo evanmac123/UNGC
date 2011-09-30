@@ -8,13 +8,21 @@
     
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    %li <a href="#events_activities">Events and Activities</a>
+    %li <a href="#local_network_events">Events and Activities</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
     %li <a href="#awards">Awards</a>
 
-  #events_activities.tab_content
+  #local_network_events.tab_content
     %ul{:class => "tools inline"}
-      %li= link_to 'New Event', '#', :class => "new_large"
+      %li= link_to 'New Event', new_admin_local_network_local_network_event_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Title
+        %th Type of Event
+        %th Date
+        %th.actions Actions
+      = render @local_network.events
 
   #integrity_measures.tab_content
     %ul{:class => "tools inline"}
