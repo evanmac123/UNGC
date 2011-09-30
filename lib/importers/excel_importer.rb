@@ -38,10 +38,10 @@ module Importers
 
             all_models.each do |model|
               if model.changed?
-                if model.save
+                if model.save(false)
                   report(row, model, "updated", :green, true)
                 else
-                  report(row, model, "validation failed", :red, false)
+                  report(row, model, "failed to save", :red, false)
                 end
               else
                 report(row, model, "identical", :grey, true)
