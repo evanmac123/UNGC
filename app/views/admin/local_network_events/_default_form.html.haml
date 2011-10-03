@@ -52,4 +52,7 @@
     %ol
       %li= file_field_tag 'local_network_event[uploaded_attachments][][attachment]'
   - else
-    = link_to 'Manage files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel)
+    %p
+      = pluralize(@submodel.attachments.count, 'file')
+      attached to this event.
+      = link_to 'Manage files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel)
