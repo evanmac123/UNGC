@@ -26,7 +26,17 @@
 #
 
 class LocalNetworkEvent < ActiveRecord::Base
-  TYPES = ['Policy Dialogue', 'Learning', 'Tool Provision', 'Publication or Translation', 'Partnership', 'COP Related Activity, Governance']
+  # TYPES = ['Policy Dialogue', 'Learning', 'Tool Provision', 'Publication or Translation', 'Partnership', 'COP Related Activity, Governance']
+
+  TYPES = { :cop              => "COP Related Activity",
+            :learning         => "Learning",
+            :governance       => "Governance", 
+            :outreach         => "Outreach",
+            :partnership      => "Partnership",
+            :policy_dialogue  => "Policy Dialogue",
+            :tool_publication => "Tool Provision, Publication or Translation",
+            :other            => "Other"
+          }
 
   include HasFile
   belongs_to :local_network
@@ -46,15 +56,17 @@ class LocalNetworkEvent < ActiveRecord::Base
   def readable_error_messages
     error_messages = []
     errors.each do |error|
-      case error
-        when 'title'
-          error_messages << 'Enter a title'
-        when 'event_type'
-          error_messages << 'Select an event type'
-        when 'date'
-          error_messages << 'Select a date'
+         case error
+           when 'title'
+             error_messages << 'Enter a title'
+           when 'event_type'
+             error_messages << 'Select an event type'
+           when 'date'
+             error_messages << 'Select a date'
+           when 'file'
+             error_messages << 'Select a file to upload'
+          end
        end
-    end
     error_messages
   end
 
