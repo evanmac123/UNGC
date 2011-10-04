@@ -2,7 +2,9 @@
   %td= local_network_event.title
   %td= local_network_event.event_type
   %td= local_network_event.date
+  %td= local_network_event.attachments.count
   %td
     %ul.actions
       %li= link_to 'Edit', edit_submodel_path(local_network_event), :class => 'edit', :title => 'Edit details'
+      %li= link_to 'Files', admin_local_network_local_network_event_attachments_path(@local_network, local_network_event), :class => 'files', :title => 'Manage files'
       %li= link_to 'Delete', submodel_path(local_network_event), :confirm => 'Are you sure you want to delete this event?', :method => :delete, :class => 'delete', :title => 'Delete event'
