@@ -38,7 +38,6 @@ class LocalNetworkEvent < ActiveRecord::Base
             :other            => "Other"
           }
 
-  include HasFile
   belongs_to :local_network
   has_and_belongs_to_many :principles
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
@@ -51,6 +50,14 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   def self.principle_areas
     Principle.all(:conditions => 'parent_id is null')
+  end
+  
+  def type_name
+    TYPES[event_type.try(:to_sym)]
+  end
+
+  def event_type_for_select_field
+    event_type.try(:to_sym)
   end
 
   def readable_error_messages
