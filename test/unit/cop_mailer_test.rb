@@ -1,6 +1,36 @@
 require 'test_helper'
 
 class CopMailerTest < ActionMailer::TestCase
+  
+  context "given a submitted COP" do
+    setup do
+      create_organization_and_user
+      @cop = create_cop(@organization.id)
+    end
+
+    should "send confirmation Learner email" do
+      response = CopMailer.deliver_confirmation_learner(@organization, @cop, @organization_user)
+      assert_equal "text/html", response.content_type
+      assert_equal "UN Global Compact Status - 12 Month Learner Grace Period", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end 
+
+    should "send confirmation Active email" do
+      response = CopMailer.deliver_confirmation_active(@organization, @cop, @organization_user)
+      assert_equal "text/html", response.content_type
+      assert_equal "UN Global Compact Status - GC Active", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end 
+
+    should "send confirmation Advanced email" do
+      response = CopMailer.deliver_confirmation_advanced(@organization, @cop, @organization_user)
+      assert_equal "text/html", response.content_type
+      assert_equal "UN Global Compact Status - GC Advanced", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end 
+    
+  end
+  
   context "given an organization with a Local Network" do
     setup do
       create_organization_and_user

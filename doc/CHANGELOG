@@ -1,5 +1,9 @@
 h1. 2011-09-15
 
+* adding confirmation emails for COP submissions
+* sent to Contact who is logged in
+* a different email is sent depending on the Differentiation level
+
 * To gracefully handle SMTP errors when sending email, I placed the ActionMailer delivery methods inside a begin/rescue block
 * Currently being used for password resets and signup confirmations
 
