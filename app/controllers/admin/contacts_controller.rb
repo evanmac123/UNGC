@@ -88,5 +88,9 @@ class Admin::ContactsController < AdminController
         dashboard_path(:tab => :contacts)
       end
     end
+
+    def network_management_tab?
+      true
+    end
         
 end

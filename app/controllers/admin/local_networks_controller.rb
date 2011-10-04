@@ -65,5 +65,13 @@ class Admin::LocalNetworksController < AdminController
     def load_local_network
       @local_network = LocalNetwork.find(params[:id])
     end
+
+    def network_management_tab?
+      !knowledge_sharing_tab?
+    end
+
+    def knowledge_sharing_tab?
+      action_name == 'knowledge_sharing'
+    end
     
 end

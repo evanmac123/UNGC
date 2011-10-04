@@ -23,7 +23,7 @@ class Award < ActiveRecord::Base
   
   validates_presence_of :title, :description
   
-  def local_network_model_type
+  def self.local_network_model_type
     :knowledge_sharing
   end
   

@@ -43,7 +43,7 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   validates_presence_of :title, :event_type, :date
 
-  def local_network_model_type
+  def self.local_network_model_type
     :knowledge_sharing
   end
 

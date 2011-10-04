@@ -2,7 +2,7 @@ class MOU < ActiveRecord::Base
   include HasFile
   belongs_to :local_network
 
-  def local_network_model_type
+  def self.local_network_model_type
     :network_management
   end
 

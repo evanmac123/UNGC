@@ -18,7 +18,7 @@ class Meeting < ActiveRecord::Base
 
   validates_presence_of :date
 
-  def local_network_model_type
+  def self.local_network_model_type
     :network_management
   end
 

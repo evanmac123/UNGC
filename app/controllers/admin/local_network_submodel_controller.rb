@@ -65,7 +65,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
   end
 
   def return_url
-    if @submodel.local_network_model_type == :knowledge_sharing
+    if submodel.local_network_model_type == :knowledge_sharing
       knowledge_sharing_path(@local_network, :tab => @tab)
     else
       admin_local_network_path(@local_network, :tab => @tab)      
@@ -75,6 +75,14 @@ class Admin::LocalNetworkSubmodelController < AdminController
   # select same tab after cancelling or completing an operation
   def set_return_tab
     @tab = submodel.name.underscore.pluralize 
+  end
+
+  def network_management_tab?
+    submodel.local_network_model_type == :network_management
+  end
+
+  def knowledge_sharing_tab?
+    submodel.local_network_model_type == :knowledge_sharing
   end
 
 end

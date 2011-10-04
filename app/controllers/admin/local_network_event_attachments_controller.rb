@@ -20,4 +20,8 @@ class Admin::LocalNetworkEventAttachmentsController < Admin::AttachmentsControll
   def cancel_path
     knowledge_sharing_path(@model, :tab => 'local_network_events')
   end
+
+  def knowledge_sharing_tab?
+    true
+  end
 end

@@ -21,7 +21,7 @@ class Communication < ActiveRecord::Base
   # validates_inclusion_of :communication_type, :in => TYPES, :allow_nil => false
   validates_presence_of :title, :date
   
-  def local_network_model_type
+  def self.local_network_model_type
     :network_management
   end
   
