@@ -15,9 +15,16 @@ module Importers
 
       def update_model(model, row)
         model.date                      = get_date(row, "Date")
-        model.event_type                = get_value(row, "Type Of Event or Activity")
         model.num_participants          = get_integer(row, "Total Number Of Participants")
         model.gc_participant_percentage = get_integer(row, "Out Of Which, Approximate % Were GC Participants")
+
+        type_name = get_value(row, "Type Of Event or Activity")
+
+        if event_type = LocalNetworkEvent::TYPES.invert[type_name]
+          model.event_type = event_type.to_s
+        else
+          warn "Unrecognised event type: #{type_name.inspect}"
+        end
 
         principle_column_map = {
           "Human Rights"                => "Human Rights",
