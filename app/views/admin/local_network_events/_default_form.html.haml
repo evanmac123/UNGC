@@ -11,14 +11,20 @@
     = default_form.date_select :date, {:order => [:day, :month, :year]}, :li_class => 'date'
 
 %fieldset
-  %legend Issue Areas
+  %legend Issue Areas Covered
 
-  - LocalNetworkEvent.principle_areas.in_groups(3).each do |group|
-    %ol.checkbox_list{:style => 'float: left'}
-      - group.each do |area|
-        %li.checkbox
-          = check_box_tag 'local_network_event[principle_ids][]', area.id, @submodel.principle_ids.include?(area.id), :id => "principle_area_checkbox_#{area.id}"
-          %label{:for => "principle_area_checkbox_#{area.id}"}= area.name
+  %ol.checkbox_list{:style => 'float: left'}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :human_rights}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :labour}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :environment}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :anti_corruption}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_peace}
+
+  %ol.checkbox_list{:style => 'float: left'}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :financial_markets}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_development}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :un_business}
+    %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :supply_chain}
 
 %fieldset
   %legend Stakeholder Attendance
@@ -27,19 +33,17 @@
     %ol.checkbox_list{:style => 'float: left'}
       = default_form.check_box :stakeholder_company,              { :li_class => 'checkbox', :label => 'Companies'             }
       = default_form.check_box :stakeholder_sme,                  { :li_class => 'checkbox', :label => 'SMEs'                  }
+      = default_form.check_box :stakeholder_labour,               { :li_class => 'checkbox', :label => 'Labour'                }
       = default_form.check_box :stakeholder_business_association, { :li_class => 'checkbox', :label => 'Business Associations' }
-      = default_form.check_box :stakeholder_media,                { :li_class => 'checkbox', :label => 'Media'                 }
+      = default_form.check_box :stakeholder_ngo,                  { :li_class => 'checkbox', :label => 'Civil Society'         }
+
 
     %ol.checkbox_list{:style => 'float: left'}
-      = default_form.check_box :stakeholder_labour,    { :li_class => 'checkbox', :label => 'Labour'      }
-      = default_form.check_box :stakeholder_un_agency, { :li_class => 'checkbox', :label => 'UN Agencies' }
-      = default_form.check_box :stakeholder_ngo,       { :li_class => 'checkbox', :label => 'NGOs'        }
-      = default_form.check_box :stakeholder_others,    { :li_class => 'checkbox', :label => 'Others'      }
-
-    %ol.checkbox_list{:style => 'float: left'}
-      = default_form.check_box :stakeholder_foundation, { :li_class => 'checkbox', :label => 'Foundations'           }
-      = default_form.check_box :stakeholder_academic,   { :li_class => 'checkbox', :label => 'Academic Institutions' }
-      = default_form.check_box :stakeholder_government, { :li_class => 'checkbox', :label => 'Government Entities'   }
+      = default_form.check_box :stakeholder_academic,   { :li_class => 'checkbox', :label => 'Academic'    }
+      = default_form.check_box :stakeholder_foundation, { :li_class => 'checkbox', :label => 'Foundations' }
+      = default_form.check_box :stakeholder_government, { :li_class => 'checkbox', :label => 'Government'  }
+      = default_form.check_box :stakeholder_media,      { :li_class => 'checkbox', :label => 'Media'       }
+      = default_form.check_box :stakeholder_un_agency,  { :li_class => 'checkbox', :label => 'UN Agencies' }
 
   %ol.numeric_inputs
     = default_form.text_field :num_participants,          :label => 'Total Attendance'
