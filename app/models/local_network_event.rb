@@ -39,10 +39,12 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   belongs_to :local_network
   has_and_belongs_to_many :principles
-  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
+  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy 
 
   validates_presence_of :title, :event_type, :date
-
+  
+  default_scope :order => 'date DESC'
+  
   def self.local_network_model_type
     :knowledge_sharing
   end
