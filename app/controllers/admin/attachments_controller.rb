@@ -13,9 +13,14 @@ class Admin::AttachmentsController < AdminController
   end
 
   def create
-    @submodel.uploaded_attachments = params[:uploaded_attachments]
-    @submodel.save!
-    redirect_to(attachments_path)
+    if params[:uploaded_attachments].is_a?(Array)
+      @submodel.uploaded_attachments = params[:uploaded_attachments]
+      @submodel.save!
+      redirect_to(attachments_path)
+    else
+      flash.now[:error] = 'Please select at least one file to upload.'
+      render '/admin/attachments/new', :layout => 'admin'
+    end
   end
 
   def destroy
