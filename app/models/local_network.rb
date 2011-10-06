@@ -70,7 +70,7 @@ class LocalNetwork < ActiveRecord::Base
   
   # validates_numericality_of :fees_amount_company, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   
-  default_scope :order => 'name'
+  default_scope :order => 'local_networks.name'
   
   STATES = { :emerging => 'Emerging', :established => 'Established' }
   
@@ -109,7 +109,12 @@ class LocalNetwork < ActiveRecord::Base
   def state_for_select_field
     state.try(:to_sym)
   end
-    
+  
+  def region_name
+    country = Country.find_by_code(country_code)
+    country.region unless country.nil?
+  end
+  
   def country_code
     # if more than one country, it's a regional network, so lookup the host country
     if countries.count > 1
