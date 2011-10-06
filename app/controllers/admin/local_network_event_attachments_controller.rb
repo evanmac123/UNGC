@@ -10,11 +10,11 @@ class Admin::LocalNetworkEventAttachmentsController < Admin::AttachmentsControll
   end
 
   def header_string
-    "Files for local network event &ldquo;#{@submodel.title}&rdquo;"
+    "Upload Files"
   end
 
   def cancel_string
-    "Back to events"
+    "Back to Events"
   end
 
   def cancel_path

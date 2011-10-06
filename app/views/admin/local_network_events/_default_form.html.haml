@@ -13,14 +13,14 @@
 %fieldset
   %legend Issue Areas Covered
 
-  %ol.checkbox_list{:style => 'float: left'}
+  %ol.checkbox_list{:style => 'float: left; width: 300px;'}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :human_rights}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :labour}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :environment}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :anti_corruption}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_peace}
 
-  %ol.checkbox_list{:style => 'float: left'}
+  %ol.checkbox_list{:style => 'float: left; width: 300px;'}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :financial_markets}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_development}
     %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :un_business}
@@ -30,7 +30,7 @@
   %legend Stakeholder Attendance
 
   .checkbox_list_container
-    %ol.checkbox_list{:style => 'float: left'}
+    %ol.checkbox_list{:style => 'float: left; width: 300px;'}
       = default_form.check_box :stakeholder_company,              { :li_class => 'checkbox', :label => 'Companies'             }
       = default_form.check_box :stakeholder_sme,                  { :li_class => 'checkbox', :label => 'SMEs'                  }
       = default_form.check_box :stakeholder_labour,               { :li_class => 'checkbox', :label => 'Labour'                }
@@ -38,7 +38,7 @@
       = default_form.check_box :stakeholder_ngo,                  { :li_class => 'checkbox', :label => 'Civil Society'         }
 
 
-    %ol.checkbox_list{:style => 'float: left'}
+    %ol.checkbox_list{:style => 'float: left; width: 300px;'}
       = default_form.check_box :stakeholder_academic,   { :li_class => 'checkbox', :label => 'Academic'    }
       = default_form.check_box :stakeholder_foundation, { :li_class => 'checkbox', :label => 'Foundations' }
       = default_form.check_box :stakeholder_government, { :li_class => 'checkbox', :label => 'Government'  }
@@ -56,7 +56,9 @@
     %ol
       %li= file_field_tag 'local_network_event[uploaded_attachments][][attachment]'
   - else
-    %p
-      = pluralize(@submodel.attachments.count, 'file')
-      attached to this event.
-      = link_to 'Manage files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel)
+    %ul{:class => "tools inline"}
+      %li= link_to 'Manage Files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel), :class => "edit_page_large"
+
+    %ul.bulleted
+      - @submodel.attachments.each do |a|
+        %li= link_to a.attachment_file_name, a.attachment.url

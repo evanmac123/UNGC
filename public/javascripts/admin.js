@@ -611,7 +611,7 @@ $(document).ready(function() {
     $('.file_inputs').each(function() {
       var e         = $(this),
           inputList = e.find('ol'),
-          button    = $('<button type="button">Add File</button>');
+          button    = $("<div class='new_page_large align'>Add File</div>");
 
       if (inputList.length) {
         button.click(function() {

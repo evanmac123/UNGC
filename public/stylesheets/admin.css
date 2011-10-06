@@ -139,6 +139,8 @@ ul.nav_bar {
     background: url('../images/icons/Edit_16x16.png') no-repeat 2px 1px; }
   #main_content a.new_page_large, #main_content div.new_page_large {
     background: url('../images/icons/Add_Document_24x24.png') no-repeat top left; }
+    #main_content a.new_page_large.align, #main_content div.new_page_large.align {
+      margin-left: 25px; }
   #main_content a.web_preview_large {
     background: url('../images/icons/Web Browser_24x24.png') no-repeat top left; }
   #main_content a.info_large, #main_content div.hint_toggle {
