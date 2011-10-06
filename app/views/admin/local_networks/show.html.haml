@@ -110,13 +110,13 @@
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
       
-    %dl.left_column{:style => 'width: 300px; margin-right: 20px;'}
+    %dl.left_column{:style => 'width: 275px; margin-right: 20px;'}
       %dt.title Subsidiary Participation
       %dd.title &nbsp;
       %dt.first= subsidiary_participation(@local_network)
       %dd.first &nbsp;
 
-    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
+    %dl.left_column.short{:style => 'width: 275px; margin-right: 20px;'}
       %dt.title Business
       %dd.title &nbsp;
       %dt.first Companies
@@ -128,7 +128,7 @@
       %dt Business Associations
       %dd= @local_network.membership_business_organizations      
 
-    %dl.left_column.short{:style => 'width: 200px;'}
+    %dl.left_column.short{:style => 'width: 275px;'}
       %dt.title Non-Business
       %dd.title &nbsp;
       %dt.first Academic
@@ -146,13 +146,13 @@
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :fees_contributions), :class => 'edit_large'
 
-    %dl.left_column{:style => 'width: 300px; margin-right: 20px;'}
+    %dl.left_column{:style => 'width: 275px; margin-right: 20px;'}
       %dt.title Member Fees
       %dd.title &nbsp;
       %dt.first= participant_fees(@local_network)
       %dd.first &nbsp;
 
-    %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
+    %dl.left_column.short{:style => 'width: 275px; margin-right: 20px;'}
       %dt.title Annual Amount in U.S. Dollars
       %dd.title &nbsp;
       %dt.first Company
@@ -162,7 +162,7 @@
       %dt Other
       %dd= number_to_currency(@local_network.fees_amount_other_organization, :unit => "$")
 
-    %dl.left_column.short{:style => 'width: 200px;'}
+    %dl.left_column.short{:style => 'width: 275px;'}
       %dt.title Financing of Total Budget
       %dd.title &nbsp;
       %dt.first Participant Fees
