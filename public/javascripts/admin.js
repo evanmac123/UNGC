@@ -615,7 +615,12 @@ $(document).ready(function() {
 
       if (inputList.length) {
         button.click(function() {
-          inputList.find('li:last').clone().appendTo(inputList);
+          var lastLi = inputList.find('li:last');
+
+          lastLi
+            .clone()
+            .html(lastLi.html())
+            .appendTo(inputList);
         });
 
         button.appendTo(e);
