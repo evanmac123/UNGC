@@ -1,20 +1,23 @@
 - @body_class = 'details'
-%h2 Logo request details
+%h2 Logo Request details
 - staff_only do
   %p= return_to_current_list(@logo_request)
 #status_box
   %dl
-    %dt Country:
+    - staff_only do
+      %dt.first Participant Status
+      %dd.first= display_status(@logo_request.organization)
+    %dt Country
     %dd= @logo_request.organization.try(:country_name)
-    %dt Purpose:
+    %dt Purpose
     %dd= @logo_request.purpose
-    %dt Contact:
+    %dt Contact
     %dd= contact_name(@logo_request)
-    %dt Publication:
+    %dt Publication
     %dd= @logo_request.publication.name
     %dt Status:
     %dd= @logo_request.state.humanize
-    %dt Attachments:
+    %dt Attachments
     %dd
       %ul.document_list
         - for logo_comment in @logo_request.logo_comments.with_attachment
