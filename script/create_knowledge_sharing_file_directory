@@ -35,7 +35,7 @@ require "uri"
 require "open-uri"
 require "hpricot"
 
-puts "Downloading file list..."
+puts "NOTICE - Downloading file list..."
 
 uri  = URI.parse("http://gcln.unglobalcompact.org/UploadedDocument/")
 page = open(uri)
@@ -44,34 +44,38 @@ doc  = Hpricot(page)
 links = doc.search("a").map { |a| a.attributes["href"] }
 links.reject! { |href| href.nil? or href.empty? or href == "/" }
 
-puts "Found #{links.size} files"
+puts "NOTICE - Found #{links.size} files"
 
 links.each do |href|
   filename   = File.basename(URI.unescape(href))
   local_path = File.join(dir, filename)
 
   if File.exist?(local_path)
-    puts "Already exists: #{filename}"
+    puts "SKIP - already exists - #{filename}"
     next
   end
 
-  content = if download
-              puts "Downloading file: #{href}"
-              response = Net::HTTP.get_response(uri.host, href)
+  content = nil
 
-              unless response.code.to_i == 200
-                puts response.body
-                puts "request failed with code #{response.code}"
-                exit -1
-              end
+  if download
+    puts "NOTICE - Downloading #{href}"
+    response = Net::HTTP.get_response(uri.host, href)
 
-              response.body
-            else
-              puts "Creating dummy file: #{filename}"
-              "hello world"
-            end
+    if response.code.to_i == 200
+      content = response.body
+    else
+      puts "FAILURE - request failed with #{response.code} - #{filename}"
+    end
+  else
+    puts "NOTICE - Creating dummy file #{filename}"
+    content = "hello world"
+  end
 
-  File.open(local_path, "w", encoding: "ASCII-8BIT") do |f|
-    f.write(content)
+  if content
+    File.open(local_path, "w", encoding: "ASCII-8BIT") do |f|
+      f.write(content)
+    end
+
+    puts "SUCCESS - #{filename}"
   end
 end
