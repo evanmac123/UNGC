@@ -37,7 +37,7 @@ class LocalNetworkEventSearch < OpenStruct
       args << local_network_id
     end
 
-    LocalNetworkEvent.paginate :page => page,
+    LocalNetworkEvent.paginate :page => page, :per_page => per_page,
       :joins => %{
         LEFT JOIN local_network_events_principles ON local_network_events_principles.local_network_event_id = local_network_events.id
         LEFT JOIN local_networks ON local_networks.id = local_network_events.local_network_id

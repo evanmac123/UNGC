@@ -5,7 +5,8 @@ class Admin::LearningController < AdminController
 
   def search
     @search = LocalNetworkEventSearch.new params[:local_network_event_search]
-    @search.page = 1
+    @search.page = params[:page] || 1
+    @search.per_page = 10
   end
 end
 
