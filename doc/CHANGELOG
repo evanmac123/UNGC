@@ -1,3 +1,13 @@
+h1. 2011-09-30
+
+* Every participant must have no more than one CEO and at least one Contact Point
+* The Contact form does not allow the last CEO or Contact Point to change that role checkbox value
+* see last_contact_or_ceo?(role, current_user) in contact.rb
+
+h1. 2011-09-29
+
+* Expelled participants cannot submit Logo Requests
+
 h1. 2011-09-15
 
 * adding confirmation emails for COP submissions
