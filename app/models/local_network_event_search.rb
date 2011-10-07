@@ -44,6 +44,7 @@ class LocalNetworkEventSearch < OpenStruct
         LEFT JOIN countries ON countries.local_network_id = local_networks.id
       }.gsub(/\s+/, ' '),
       :group => 'local_network_events.id',
+      :order => 'date',
       :conditions => [conditions.join(' AND '), *args]
   end
 end
