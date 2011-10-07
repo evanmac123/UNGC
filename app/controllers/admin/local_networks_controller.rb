@@ -6,7 +6,7 @@ class Admin::LocalNetworksController < AdminController
   helper Admin::LocalNetworkSubmodelHelper
 
   def index
-    @local_networks = LocalNetwork.all(:order => order_from_params)
+    @local_networks = LocalNetwork.all(:order => order_from_params, :include => :countries)
   end
 
   def new
@@ -59,7 +59,7 @@ class Admin::LocalNetworksController < AdminController
   private
 
     def order_from_params
-      @order = [params[:sort_field] || 'name', params[:sort_direction] || 'ASC'].join(' ')
+      @order = [params[:sort_field] || 'local_networks.name', params[:sort_direction] || 'ASC'].join(' ')
     end
     
     def load_local_network
