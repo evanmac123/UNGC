@@ -20,11 +20,11 @@ class ApprovedLogoRequestsReport < SimpleReport
   def row(record)
     [
       record.id,
-      record.organization.name,
+      record.organization.try(:name),
       record.organization.sector.try(:name),
-      record.organization.country.name,
-      record.publication.name,
-      record.reviewer.name,
+      record.organization.country.try(:name),
+      record.publication.try(:name),
+      record.reviewer.try(:name),
       record.approved_on,
       record.state,
       record.days_to_process
