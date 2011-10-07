@@ -121,12 +121,16 @@ class LocalNetwork < ActiveRecord::Base
     end
   end
   
-  def country_id
+  def country
     if countries.count > 1
-      Country.find_by_code(REGION_COUNTRY[name]).id
+      Country.find_by_code(REGION_COUNTRY[name])
     elsif countries.count == 1
-      countries.first.id
+      countries.first
     end
+  end
+
+  def country_id
+    country.id
   end
   
   def stakeholders_involved_in_governance

@@ -484,8 +484,10 @@ $(function() {
 
 	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 
-  if ($('.datepicker').length > 0)
-    $('.datepicker').datepicker({ showAnim: 'slide' });
+  if ($('.datepicker').length > 0) {
+    $('.datepicker').not('.iso-date').datepicker({ showAnim: 'slide' });
+    $('.datepicker').filter('.iso-date').datepicker({ showAnim: 'slide', dateFormat: 'yy-mm-dd' });
+  }
 
 });
 
