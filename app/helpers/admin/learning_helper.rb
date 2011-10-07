@@ -14,5 +14,9 @@ module Admin::LearningHelper
   def local_network_options
     [['All', '']] + LocalNetwork.all.map { |n| [n.name, n.id.to_s] }
   end
+
+  def new_search_button
+    button_to 'New search', :action => 'index', :local_network_event_search => params[:local_network_event_search]
+  end
 end
 

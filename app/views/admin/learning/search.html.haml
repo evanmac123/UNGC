@@ -1,7 +1,5 @@
 %h2= "There are #{@search.results.total_entries} items matching your criteria"
 
-%p= link_to 'Refine search', :action => 'index', :local_network_event_search => params[:local_network_event_search]
-
 %table.dashboard_table
   %tr
     %th Date
@@ -23,4 +21,6 @@
       %td
 
 = will_paginate @search.results
+
+%p= new_search_button
 
