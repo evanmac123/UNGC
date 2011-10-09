@@ -145,7 +145,7 @@ ul.nav_bar
     height: 19px
     width: 19px
   
-  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large
+  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.open_folder_large
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -209,6 +209,9 @@ ul.nav_bar
   
   a.go_back_large
     background: url('../images/icons/GoBack_24x24.png') no-repeat top left
+    
+  a.open_folder_large
+    background: url('../images/icons/Folder (Open)_24x24.png') no-repeat top left
     
   table.dashboard_table
     width: 100%
@@ -370,9 +373,6 @@ ul.nav_bar
           &.word_doc
             // fixes positioning for Word icon in sprited png file:
             background-position: -24px 0
-
-  #org_name
-    font-weight: bold 
           
 .container > .sidebar
   background= !light_blue
@@ -775,21 +775,15 @@ ul.nav_bar
           width: 90px
 
     .numeric_inputs
-      border-top: 1px solid #aaa
-      margin-top: 8px
-      padding-top: 20px
-
       li
-        float: left
-        margin-right: 50px
-        margin-bottom: 0
-
+        margin-bottom: 1em
+        margin-left: 25px
         label
-          width: auto
+          width: 275px
           margin-top: 1px
 
         input[type="text"]
-          width: 20px
+          width: 40px
           margin-top: 0
 
   // page_manager styling
