@@ -65,7 +65,8 @@ module AdminHelper
       html_class = {'ASC' => 'descending', 'DESC' => 'ascending'}[direction]
     end
     link_to label, url_for(sort_field:     options[:field],
-                           sort_direction: direction), :class => html_class
+                           sort_direction: direction,
+                           tab:            options[:tab]), :class => html_class
   end
   
   # describes the number of days since last event

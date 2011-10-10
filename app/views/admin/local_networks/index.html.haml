@@ -4,10 +4,17 @@
   %li= link_to 'New Local Network', new_admin_local_network_path, :class => "new_large", :id => "new_local_network"
   %li= link_to 'Countries', admin_countries_path, :class => 'web_preview_large', :title => 'Listing of all countries'
 
-%table.dashboard_table#local_networks_table
-  %tr
-    %th= sort_header 'Name',   field: 'name'
-    %th= sort_header 'Region', field: 'countries.region'
-    %th= sort_header 'Stage',  field: 'state'
-    %th.actions Actions
-  = render @local_networks
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    - Country::REGIONS.each_pair do |key, value|
+      %li
+        %a{:href => "##{key}"}== #{value}
+
+  - Country::REGIONS.each_pair do |key, value|
+    .tab_content{:id => key}
+      %table.dashboard_table
+        %tr
+          %th= sort_header 'Name',  field: 'name',  tab: key
+          %th= sort_header 'Stage', field: 'state', tab: key
+          %th.actions Actions
+        = render @local_networks.find_all{ |item| item.region_name == value }

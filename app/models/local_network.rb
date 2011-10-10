@@ -71,6 +71,10 @@ class LocalNetwork < ActiveRecord::Base
   # validates_numericality_of :fees_amount_company, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   
   default_scope :order => 'local_networks.name'
+  named_scope :where_region, lambda { |region| {
+        :include => :countries, :conditions => {'countries.region' => region.to_s}
+        }
+  }
   
   STATES = { :emerging => 'Emerging', :established => 'Established' }
   
@@ -112,7 +116,7 @@ class LocalNetwork < ActiveRecord::Base
   
   def region_name
     country = Country.find_by_code(country_code)
-    country.region unless country.nil?
+    Country::REGIONS[country.region.to_sym] unless country.nil?
   end
   
   def country_code
