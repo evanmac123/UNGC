@@ -29,7 +29,6 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   TYPES = { :cop              => "COP Related Activity",
             :learning         => "Learning",
-            :governance       => "Governance", 
             :outreach         => "Outreach",
             :partnership      => "Partnership",
             :policy_dialogue  => "Policy Dialogue",
