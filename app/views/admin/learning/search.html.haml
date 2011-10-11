@@ -12,7 +12,7 @@
 
   - @search.results.each do |event|
     %tr{ 'data-id' => event.id }
-      %td= event.date.strftime('%d-%b-%Y')
+      %td= event.date.try(:strftime, '%d-%b-%Y')
       %td= event.title
       %td= event.type_name
       %td= event.principles.map(&:name).join("<br/>")
