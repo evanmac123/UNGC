@@ -629,11 +629,12 @@ $(document).ready(function() {
       }
     });
 
-    var localNetworkSelect  = $('#local_network_event_search_local_network_id'),
+    var regionSelect        = $('#local_network_event_search_region'),
+        localNetworkSelect  = $('#local_network_event_search_local_network_id'),
         localNetworkOptions = localNetworkSelect.find('option');
 
-    $('#local_network_event_search_region').change(function() {
-      var region     = $(this).attr('value'),
+    function populateLocalNetworkSelect() {
+      var region     = regionSelect.attr('value'),
           selectedId = localNetworkSelect.attr('value');
 
       localNetworkSelect.empty();
@@ -649,5 +650,8 @@ $(document).ready(function() {
           option.attr('selected', false);
         }
       });
-    });
+    }
+
+    regionSelect.change(populateLocalNetworkSelect);
+    populateLocalNetworkSelect();
 });
