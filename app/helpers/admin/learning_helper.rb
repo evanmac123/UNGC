@@ -18,5 +18,18 @@ module Admin::LearningHelper
   def new_search_button
     button_to 'New search', :action => 'index', :local_network_event_search => params[:local_network_event_search]
   end
+
+  def local_network_region_js
+    regions = {}
+
+    Country.all.each do |country|
+      if country.local_network_id
+        regions[country.region] ||= []
+        regions[country.region] << country.local_network_id.to_s
+      end
+    end
+
+    content_tag :script, "var LocalNetworkRegions = #{regions.to_json};", :type => "text/javascript"
+  end
 end
 

@@ -628,4 +628,26 @@ $(document).ready(function() {
         button.appendTo(e);
       }
     });
+
+    var localNetworkSelect  = $('#local_network_event_search_local_network_id'),
+        localNetworkOptions = localNetworkSelect.find('option');
+
+    $('#local_network_event_search_region').change(function() {
+      var region     = $(this).attr('value'),
+          selectedId = localNetworkSelect.attr('value');
+
+      localNetworkSelect.empty();
+
+      localNetworkOptions.each(function() {
+        var option = $(this),
+            id     = option.attr('value');
+
+        if (region === '' || id === '' || LocalNetworkRegions[region].indexOf(id) !== -1) {
+          option.attr('selected', id === selectedId);
+          option.appendTo(localNetworkSelect);
+        } else {
+          option.attr('selected', false);
+        }
+      });
+    });
 });
