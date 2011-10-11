@@ -1,4 +1,9 @@
 class Admin::LocalNetworkEventsController < Admin::LocalNetworkSubmodelController
+  def show
+  end
+
+  private
+
   def submodel
     LocalNetworkEvent
   end

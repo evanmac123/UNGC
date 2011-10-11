@@ -19,6 +19,8 @@
       %td= event.local_network.country.region
       %td= event.local_network.name
       %td
+        %ul.actions
+          = render :partial => '/admin/local_network_events/admin_actions', :locals => { :local_network_event => event }
 
 = will_paginate @search.results
 

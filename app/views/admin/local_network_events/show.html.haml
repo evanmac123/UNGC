@@ -1,0 +1,21 @@
+%h2= @submodel.title
+%p= @submodel.description
+%p= @submodel.date
+%p= @submodel.type_name
+
+%h3 Issue Areas
+%ul
+  - @submodel.principles.each do |principle|
+    %li= principle.name
+
+%h3 Stakeholder Attendance
+%ul
+  - [:stakeholder_company, :stakeholder_sme, :stakeholder_business_association, :stakeholder_media, :stakeholder_labour, :stakeholder_un_agency, :stakeholder_ngo, :stakeholder_others, :stakeholder_foundation, :stakeholder_academic, :stakeholder_government].each do |field|
+    - if @submodel[field]
+      %li= field.to_s.sub('stakeholder_', '').humanize.pluralize
+
+%h3 Files
+%ul
+  - @submodel.attachments.each do |uploaded_file|
+    %li= link_to uploaded_file.attachment_file_name, uploaded_file.attachment.url
+
