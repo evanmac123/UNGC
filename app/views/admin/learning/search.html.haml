@@ -1,0 +1,28 @@
+%h2= "There are #{@search.results.total_entries} items matching your criteria"
+
+%table.dashboard_table
+  %tr
+    %th Date
+    %th Title
+    %th Type
+    %th Issues
+    %th Region
+    %th Local Network
+    %th Actions
+
+  - @search.results.each do |event|
+    %tr{ 'data-id' => event.id }
+      %td= event.date.try(:strftime, '%d-%b-%Y')
+      %td= event.title
+      %td= event.type_name
+      %td= event.principles.map(&:name).join("<br/>")
+      %td= event.local_network.country.region
+      %td= event.local_network.name
+      %td
+        %ul.actions
+          = render :partial => '/admin/local_network_events/admin_actions', :locals => { :local_network_event => event }
+
+= will_paginate @search.results
+
+%p= new_search_button
+

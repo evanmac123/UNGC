@@ -88,6 +88,11 @@ ActionController::Routing::Routes.draw do |map|
       
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'
+
+    admin.with_options :controller => 'learning' do |learning|
+      learning.learning 'learning', :action => 'index'
+      learning.connect 'learning/:action'
+    end
   end
 
   # Front-end routes

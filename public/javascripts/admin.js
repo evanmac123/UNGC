@@ -484,8 +484,10 @@ $(function() {
 
 	$('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
 
-  if ($('.datepicker').length > 0)
-    $('.datepicker').datepicker({ showAnim: 'slide' });
+  if ($('.datepicker').length > 0) {
+    $('.datepicker').not('.iso-date').datepicker({ showAnim: 'slide' });
+    $('.datepicker').filter('.iso-date').datepicker({ showAnim: 'slide', dateFormat: 'yy-mm-dd' });
+  }
 
 });
 
@@ -626,4 +628,30 @@ $(document).ready(function() {
         button.appendTo(e);
       }
     });
+
+    var regionSelect        = $('#local_network_event_search_region'),
+        localNetworkSelect  = $('#local_network_event_search_local_network_id'),
+        localNetworkOptions = localNetworkSelect.find('option');
+
+    function populateLocalNetworkSelect() {
+      var region     = regionSelect.attr('value'),
+          selectedId = localNetworkSelect.attr('value');
+
+      localNetworkSelect.empty();
+
+      localNetworkOptions.each(function() {
+        var option = $(this),
+            id     = option.attr('value');
+
+        if (region === '' || id === '' || LocalNetworkRegions[region].indexOf(id) !== -1) {
+          option.attr('selected', id === selectedId);
+          option.appendTo(localNetworkSelect);
+        } else {
+          option.attr('selected', false);
+        }
+      });
+    }
+
+    regionSelect.change(populateLocalNetworkSelect);
+    populateLocalNetworkSelect();
 });
