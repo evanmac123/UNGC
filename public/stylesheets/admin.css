@@ -856,6 +856,8 @@ ul.view_modes {
       list-style: none; }
   #session_info small {
     font-size: 0.9em; }
+  #session_info .nowrap {
+    white-space: nowrap; }
 
 #main_content p.cop_description {
   font-size: 13px;

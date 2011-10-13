@@ -12,10 +12,10 @@
 
   - @search.results.each do |event|
     %tr{ 'data-id' => event.id }
-      %td= event.date.try(:strftime, '%d-%b-%Y')
-      %td= event.title
+      %td.nowrap= event.date.try(:strftime, '%d-%b-%Y')
+      %td{:title => event.title }= truncate(event.title, :length => 80)
       %td= event.type_name
-      %td= event.principles.map(&:name).join("<br/>")
+      %td.nowrap.small= event.principles.map(&:name).join("<br/>")
       %td= event.local_network.country.region
       %td= event.local_network.name
       %td
