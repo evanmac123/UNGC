@@ -1,21 +1,50 @@
-%h2= @submodel.title
-%p= @submodel.description
-%p= @submodel.date
-%p= @submodel.type_name
+%h2 Local Network Event
 
-%h3 Issue Areas
-%ul
-  - @submodel.principles.each do |principle|
-    %li= principle.name
+.main_content
+  #status_box
+    %dl{:style => 'width: 50%;'}
+      %dt.first Title
+      %dd.first
+        %ul
+          %li= @submodel.title
+      %dt Local Network
+      %dd
+        %ul
+          %li= @submodel.local_network_name
+      %dt Type
+      %dd
+        %ul
+          %li= @submodel.type_name
+      %dt Description
+      %dd
+        %ul
+          %li= @submodel.description || 'Not available'
+      %dt Date
+      %dd
+        %ul
+          %li= @submodel.date || 'Not available'
+      %dt Issue Areas
+      %dd
+        %ul
+          - @submodel.principles.each do |principle|
+            %li= principle.name
+      %dt Stakeholders
+      %dd
+        %ul
+          - [:stakeholder_company, :stakeholder_sme, :stakeholder_business_association, :stakeholder_media, :stakeholder_labour, :stakeholder_un_agency, :stakeholder_ngo, :stakeholder_others, :stakeholder_foundation, :stakeholder_academic, :stakeholder_government].each do |field|
+            - if @submodel[field]
+              %li= @submodel.stakeholder_name(field)
 
-%h3 Stakeholder Attendance
-%ul
-  - [:stakeholder_company, :stakeholder_sme, :stakeholder_business_association, :stakeholder_media, :stakeholder_labour, :stakeholder_un_agency, :stakeholder_ngo, :stakeholder_others, :stakeholder_foundation, :stakeholder_academic, :stakeholder_government].each do |field|
-    - if @submodel[field]
-      %li= field.to_s.sub('stakeholder_', '').humanize.pluralize
-
-%h3 Files
-%ul
-  - @submodel.attachments.each do |uploaded_file|
-    %li= link_to uploaded_file.attachment_file_name, uploaded_file.attachment.url
+      %dt Attendance
+      %dd
+        %ul
+          %li== Number of Attendees: #{@submodel.num_participants || 'unknown'}
+          %li== Global Compact Participants: #{number_to_percentage(@submodel.num_participants, :precision => 0) || 'unknown'}
+      
+      - if @submodel.attachments.any?
+        %dt Files
+        %dd
+          %ul
+            - @submodel.attachments.each do |uploaded_file|
+              %li= link_to uploaded_file.attachment_file_name, uploaded_file.attachment.url
 

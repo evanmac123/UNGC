@@ -36,6 +36,18 @@ class LocalNetworkEvent < ActiveRecord::Base
             :other            => "Other"
           }
 
+STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
+                      :stakeholder_sme                   => "SMEs",
+                      :stakeholder_business_association  => "Business Associations",
+                      :stakeholder_labour                => "Labour",
+                      :stakeholder_ngo                   => "Civil Society",
+                      :stakeholder_foundation            => "Foundations",
+                      :stakeholder_academic              => "Academics",
+                      :stakeholder_government            => "Government",
+                      :stakeholder_media                 => "Media",
+                      :stakeholder_un_agency             => "UN Agencies"
+                     }
+
   belongs_to :local_network
   has_and_belongs_to_many :principles
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy 
@@ -48,12 +60,20 @@ class LocalNetworkEvent < ActiveRecord::Base
     :knowledge_sharing
   end
 
+  def stakeholder_name(type)
+    STAKEHOLDER_TYPES[type]
+  end
+
   def self.principle_areas
     Principle.all(:conditions => 'parent_id is null')
   end
   
   def type_name
     TYPES[event_type.try(:to_sym)]
+  end
+
+  def local_network_name
+    local_network.try(:name)
   end
 
   def event_type_for_select_field
