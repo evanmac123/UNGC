@@ -547,3 +547,38 @@ td.center {
 .copy ul.icons li { list-style: none; }
 .copy ul.icons li img { margin: 0px 10px 0 0; float: left; }
 .copy ul.icons li + li { padding-top: 8px; height: 50px; width: 260px;}
+
+/*table for */
+
+table.summaryBenefits {
+  border: none;
+  line-height: 115%;
+  font-size: 11px;
+  text-align: center;
+}
+
+table.summaryBenefits td {
+  padding: 8px 5px;
+  border-bottom: 1px solid #999;
+  }
+
+table.summaryBenefits tr.headerRow th, table.summaryBenefits tr:hover.headerRow th {
+  background-color: #00546E;
+  color: #FFF;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1.3em;
+}
+table.summaryBenefits td.sectionTitle { border: none; background-color: #EEE; font-size: 10px; font-weight: bold; color: #000; }
+
+table.summaryBenefits td.title {
+  font-size: 12px;
+  text-align: center;
+  color: #FFF;
+  background-color: #004860;
+}
+
+table.summaryBenefits td.rowTitle {
+  text-align: left;
+}
