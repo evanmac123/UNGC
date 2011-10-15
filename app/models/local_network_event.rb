@@ -63,6 +63,12 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   def stakeholder_name(type)
     STAKEHOLDER_TYPES[type]
   end
+  
+  def stakeholders
+    stakeholders = []
+    STAKEHOLDER_TYPES.keys.each { |type| stakeholders << type if self[type] }
+    stakeholders
+  end
 
   def self.principle_areas
     Principle.all(:conditions => 'parent_id is null')
@@ -79,7 +85,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   def event_type_for_select_field
     event_type.try(:to_sym)
   end
-
+  
   def readable_error_messages
     error_messages = []
     errors.each do |error|
