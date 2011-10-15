@@ -24,15 +24,17 @@
     
   #issues.tab_content
     %fieldset
-      %legend Issue Areas Covered
-      %ol.checkbox_list{:style => 'float: left; width: 300px;'}
+      %legend Principle Issue Areas
+      %ol.checkbox_list
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :human_rights}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :labour}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :environment}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :anti_corruption}
-        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_peace}
 
-      %ol.checkbox_list{:style => 'float: left; width: 300px;'}
+    %fieldset
+      %legend Other Issue Areas
+      %ol.checkbox_list
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_peace}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :financial_markets}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_development}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :un_business}
@@ -71,7 +73,7 @@
           %li= file_field_tag 'local_network_event[uploaded_attachments][][attachment]'
       - else
         %ul{:class => "tools inline"}
-          %li= link_to 'Manage Files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel), :class => "open_folder_large"
+          %li= link_to 'Manage Files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel), :class => "folder_large"
 
         %ul.bulleted
           - @submodel.attachments.each do |a|
