@@ -562,6 +562,8 @@ table.summaryBenefits td {
   border-bottom: 1px solid #999;
   }
 
+table.summaryBenefits tr.last td {border: none;}
+
 table.summaryBenefits tr.headerRow th, table.summaryBenefits tr:hover.headerRow th {
   background-color: #00546E;
   color: #FFF;
