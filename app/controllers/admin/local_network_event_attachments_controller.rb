@@ -14,11 +14,11 @@ class Admin::LocalNetworkEventAttachmentsController < Admin::AttachmentsControll
   end
 
   def cancel_string
-    "Back to Events"
+    "Back to Event Details"
   end
 
   def cancel_path
-    knowledge_sharing_path(@model, :tab => 'local_network_events')
+    edit_admin_local_network_local_network_event_path(@submodel.local_network, @submodel, :tab => :files)
   end
 
   def knowledge_sharing_tab?
