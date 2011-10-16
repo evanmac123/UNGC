@@ -13,7 +13,6 @@
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
     %li <a href="#mous">Memorandum of Understanding</a>
-    %li <a href="#meetings">Meetings</a>
     %li <a href="#membership">Membership Breakdown</a>
     %li <a href="#fees_contributions">Fees and Contributions</a>
     %li <a href="#communications">Communications</a>
@@ -94,18 +93,6 @@
         %th.actions Actions
       = render @local_network.mous
     
-  #meetings.tab_content 
-    %ul{:class => "tools inline"}
-      %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
-
-    %table.dashboard_table
-      %tr
-        %th Type of Meeting
-        %th Date
-        %th Document
-        %th.actions Actions
-      = render @local_network.meetings
-
   #membership.tab_content
     %ul#tools{:class => "tools inline"}
       %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'

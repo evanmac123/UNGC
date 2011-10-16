@@ -9,6 +9,7 @@
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#local_network_events">Events and Activities</a>
+    %li <a href="#meetings">Meetings</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
     %li <a href="#awards">Awards</a>
 
@@ -24,6 +25,18 @@
         %th Files
         %th.actions Actions
       = render @local_network.events
+
+  #meetings.tab_content
+    %ul{:class => "tools inline"}
+      %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Type of Meeting
+        %th Date
+        %th Document
+        %th.actions Actions
+      = render @local_network.meetings
 
   #integrity_measures.tab_content
     %ul{:class => "tools inline"}
