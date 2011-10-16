@@ -20,7 +20,7 @@ class IntegrityMeasure < ActiveRecord::Base
   has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
 
   def self.local_network_model_type
-    :knowledge_sharing
+    :network_management
   end
 
   def policy_type_name

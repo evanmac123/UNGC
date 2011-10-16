@@ -10,7 +10,6 @@
   %ul.tab_nav
     %li <a href="#local_network_events">Events and Activities</a>
     %li <a href="#meetings">Meetings</a>
-    %li <a href="#integrity_measures">Integrity Measures</a>
     %li <a href="#awards">Awards</a>
 
   #local_network_events.tab_content
@@ -37,18 +36,6 @@
         %th Document
         %th.actions Actions
       = render @local_network.meetings
-
-  #integrity_measures.tab_content
-    %ul{:class => "tools inline"}
-      %li= link_to 'New Policy', new_admin_local_network_integrity_measure_path(@local_network), :class => "new_large"
-    %table.dashboard_table
-      %tr
-        %th Type
-        %th Title
-        %th Date
-        %th Document
-        %th.actions Actions
-      = render @local_network.integrity_measures
 
   #awards.tab_content
     %ul{:class => "tools inline"}

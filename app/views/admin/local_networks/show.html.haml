@@ -16,6 +16,7 @@
     %li <a href="#membership">Membership Breakdown</a>
     %li <a href="#fees_contributions">Fees and Contributions</a>
     %li <a href="#communications">Communications</a>
+    %li <a href="#integrity_measures">Integrity Measures</a>
 
   - if current_user.from_ungc? || (current_user.local_network == @local_network)
     #contacts.tab_content
@@ -173,3 +174,15 @@
         %th Document
         %th.actions Actions
       = render @local_network.communications
+
+  #integrity_measures.tab_content
+    %ul{:class => "tools inline"}
+      %li= link_to 'New Policy', new_admin_local_network_integrity_measure_path(@local_network), :class => "new_large"
+    %table.dashboard_table
+      %tr
+        %th Type
+        %th Title
+        %th Date
+        %th Document
+        %th.actions Actions
+      = render @local_network.integrity_measures
