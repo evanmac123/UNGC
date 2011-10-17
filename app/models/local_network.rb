@@ -55,7 +55,7 @@ class LocalNetwork < ActiveRecord::Base
   has_many :integrity_measures
   has_many :awards
   has_many :events, :class_name => 'LocalNetworkEvent'
-  has_many :mous, :class_name => 'MOU'
+  has_many :mous, :class_name => 'Mou'
   has_many :meetings
   has_many :communications
 

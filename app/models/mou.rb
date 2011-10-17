@@ -1,4 +1,16 @@
-class MOU < ActiveRecord::Base
+# == Schema Information
+#
+# Table name: mous
+#
+#  id               :integer(4)      not null, primary key
+#  local_network_id :integer(4)
+#  year             :date
+#  created_at       :datetime
+#  updated_at       :datetime
+#  mou_type         :string(255)
+#
+
+class Mou < ActiveRecord::Base
   include HasFile
   belongs_to :local_network
 
@@ -34,7 +46,7 @@ class MOU < ActiveRecord::Base
   private
   
     def set_type
-      self.mou_type = :in_review.to_s
+      mou_type = 'in_review' unless mou_type.present?
     end
 
 end
