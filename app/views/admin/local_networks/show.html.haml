@@ -13,10 +13,10 @@
     %li <a href="#profile">Public Profile</a>  
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
-    %li <a href="#mous">Memorandum of Understanding</a>
     %li <a href="#membership">Membership Breakdown</a>
     %li <a href="#fees_contributions">Fees and Contributions</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
+    %li <a href="#mous">Memorandum of Understanding</a>
 
   - if current_user.from_ungc? || (current_user.local_network == @local_network)
     #contacts.tab_content
@@ -38,8 +38,6 @@
       %dd= @local_network.humanize_state
       %dt Website Address
       %dd= @local_network.url.present? ? link_to(@local_network.url, @local_network.url) : 'Not provided'
-  
-  
   
   #structure.tab_content
     %ul#tools{:class => "tools inline"}
@@ -98,18 +96,6 @@
         %dt.title Governance Document
         %dd.title &nbsp;
       %p= link_to_local_network_document(@local_network.sg_annual_meeting_appointments_file)  
-    
-  #mous.tab_content
-    %ul{:class => "tools inline"}
-      %li= link_to 'New MOU', new_admin_local_network_mou_path(@local_network), :class => "new_large"
-
-    %table.dashboard_table
-      %tr
-        %th Year of MOU
-        %th Received on
-        %th Document
-        %th.actions Actions
-      = render @local_network.mous
     
   #membership.tab_content
     %ul#tools{:class => "tools inline"}
@@ -188,3 +174,14 @@
         %th Document
         %th.actions Actions
       = render @local_network.integrity_measures
+
+  #mous.tab_content
+    %ul{:class => "tools inline"}
+      %li= link_to 'New MOU', new_admin_local_network_mou_path(@local_network), :class => "new_large"
+    %table.dashboard_table
+      %tr
+        %th Year of MOU
+        %th Received on
+        %th Document
+        %th.actions Actions
+      = render @local_network.mous
