@@ -8,7 +8,7 @@ module Admin::LearningHelper
   end
 
   def region_options
-    [['All', '']] + Country::REGIONS.map { |r| [r, r] }
+    [['All', '']] + Country::REGIONS.invert.to_a.map { |pair| pair.map(&:to_s) }
   end
 
   def local_network_options

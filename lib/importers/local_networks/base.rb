@@ -80,7 +80,13 @@ module Importers
         end
       end
 
-      def get_file(row, column_name)
+      FILENAME_REGEX = /
+        [^.]+ # one or more non-dot chars
+        \.    # dot
+        [^ ]+ # one or more non-space chars
+      /x
+
+      def get_files(row, column_name)
         if @file_directory.nil?
           unless @file_directory_nil_already_warned
             warn "You need to specify a file directory with -d or --file-directory in order to import files."
@@ -90,15 +96,20 @@ module Importers
           return nil
         end
 
-        get_value(row, column_name) do |filename|
-          path = File.join(@file_directory, filename)
+        [].tap do |filenames|
+          get_value(row, column_name) do |value|
+            matches = value.scan(FILENAME_REGEX).map(&:strip)
 
-          if File.exist?(path)
-            notice "File imported: #{path.inspect}"
-            UploadedFile.new(:attachment => File.new(path))
-          else
-            warn "File not found: #{path.inspect}"
-            nil
+            matches.each do |filename|
+              path = File.join(@file_directory, filename)
+
+              if File.exist?(path)
+                notice "File imported: #{path.inspect}"
+                filenames << UploadedFile.new(:attachment => File.new(path))
+              else
+                warn "File not found: #{path.inspect}"
+              end
+            end
           end
         end
       end
