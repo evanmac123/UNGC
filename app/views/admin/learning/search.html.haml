@@ -16,7 +16,7 @@
       %td{:title => event.title }= truncate(event.title, :length => 80)
       %td= event.type_name
       %td.nowrap.small= event.principles.map(&:name).join("<br/>")
-      %td= event.local_network.country.region
+      %td= event.local_network.country.region_name
       %td= event.local_network.name
       %td
         %ul.actions
