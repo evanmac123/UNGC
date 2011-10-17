@@ -1,3 +1,7 @@
+h1. 2011-10-17
+
+* added TYPE to Local Network MOUs to allow staff to change the status from 'In Review' to 'Accepted'
+
 h1. 2011-09-15
 
 * To gracefully handle SMTP errors when sending email, I placed the ActionMailer delivery methods inside a begin/rescue block
