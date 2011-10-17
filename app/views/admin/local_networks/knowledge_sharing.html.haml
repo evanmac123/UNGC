@@ -10,6 +10,7 @@
   %ul.tab_nav
     %li <a href="#local_network_events">Events and Activities</a>
     %li <a href="#meetings">Meetings</a>
+    %li <a href="#communications">Communications</a>
     %li <a href="#awards">Awards</a>
 
   #local_network_events.tab_content
@@ -36,6 +37,19 @@
         %th Document
         %th.actions Actions
       = render @local_network.meetings
+
+  #communications.tab_content
+    %ul#tools{:class => "tools inline"}
+      %li= link_to 'New Communication', new_admin_local_network_communication_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Format
+        %th Title
+        %th Published on
+        %th Document
+        %th.actions Actions
+      = render @local_network.communications
 
   #awards.tab_content
     %ul{:class => "tools inline"}

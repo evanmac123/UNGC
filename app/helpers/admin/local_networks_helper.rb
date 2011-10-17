@@ -6,7 +6,7 @@ module Admin::LocalNetworksHelper
     else
       link = "/NetworksAroundTheWorld/"
     end
-    link_to 'Public profile', link , :class => 'web_preview_large'
+    popup_link_to 'View', link , {:title => "Your Local Network's public profile on the Global Compact website", :class => 'web_preview_large'}
   end
   
   def legal_status(local_network)

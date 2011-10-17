@@ -95,5 +95,9 @@ module AdminHelper
      content_tag :ul, error_messages.join
   end
   
+  def popup_link_to(text, url, options={})
+    link_to text, url, {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1'], :title => options[:title], :class => options[:class]}
+  end
+  
 
 end

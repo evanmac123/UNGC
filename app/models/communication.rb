@@ -22,7 +22,7 @@ class Communication < ActiveRecord::Base
   validates_presence_of :title, :date
   
   def self.local_network_model_type
-    :network_management
+    :knowledge_sharing
   end
   
   def type_name

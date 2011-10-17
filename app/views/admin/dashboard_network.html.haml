@@ -8,16 +8,6 @@
   #overview.tab_content
   
     %dl.left_column
-      %h3 Profile
-      %dt.first Local Network
-      %dd.first= @local_network.name
-      %dt Development Stage
-      %dd= @local_network.humanize_state
-      -if @local_network.url.present?
-        %dt Website
-        %dd= link_to @local_network.url, @local_network.url
-
-    %dl.left_column
       %h3 Recent Activity
       %dt.first Example Item
       %dd.first Sample Meeting Report

@@ -10,19 +10,36 @@
   %ul.tab_nav
     - if current_user.from_ungc? || (current_user.local_network == @local_network)
       %li <a href="#contacts">Contacts</a>
+    %li <a href="#profile">Public Profile</a>  
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
     %li <a href="#mous">Memorandum of Understanding</a>
     %li <a href="#membership">Membership Breakdown</a>
     %li <a href="#fees_contributions">Fees and Contributions</a>
-    %li <a href="#communications">Communications</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
 
   - if current_user.from_ungc? || (current_user.local_network == @local_network)
     #contacts.tab_content
       %ul#contacts_tools{:class => "tools inline"}
         %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
+        
       %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
+
+  #profile.tab_content
+    %ul#tools{:class => "tools inline"}
+      %li= link_to_public_profile(@local_network)
+      %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_page_large'
+
+    %dl.left_column
+      %h3 Profile
+      %dt.first Local Network
+      %dd.first= @local_network.name
+      %dt Development Stage
+      %dd= @local_network.humanize_state
+      %dt Website Address
+      %dd= @local_network.url.present? ? link_to(@local_network.url, @local_network.url) : 'Not provided'
+  
+  
   
   #structure.tab_content
     %ul#tools{:class => "tools inline"}
@@ -159,21 +176,6 @@
       %dd= number_to_percentage(@local_network.fees_amount_voluntary_private, :precision => 0)
       %dt Public Voluntary
       %dd= number_to_percentage(@local_network.fees_amount_voluntary_public, :precision => 0)
-
-  #communications.tab_content
-    %ul#tools{:class => "tools inline"}
-      %li= link_to 'New Communication', new_admin_local_network_communication_path(@local_network), :class => "new_large"
-      %li= link_to_public_profile(@local_network)
-      %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :communications), :class => 'edit_page_large'
-
-    %table.dashboard_table
-      %tr
-        %th Format
-        %th Title
-        %th Published on
-        %th Document
-        %th.actions Actions
-      = render @local_network.communications
 
   #integrity_measures.tab_content
     %ul{:class => "tools inline"}
