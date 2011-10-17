@@ -76,7 +76,7 @@ class LocalNetwork < ActiveRecord::Base
         }
   }
   
-  STATES = { :emerging => 'Emerging', :established => 'Established' }
+  STATES = { :emerging => 'Emerging', :established => 'Established', :formal => 'Formal', :hub => 'Sustainability Hub' }
   
   # To link to public profiles, we associate the two regional networks with their host countries
   # Ex: NetworksAroundTheWorld/local_network_sheet/AE.html
@@ -107,7 +107,7 @@ class LocalNetwork < ActiveRecord::Base
   end
   
   def humanize_state
-    state.try(:humanize) || ''    
+    STATES[state.to_sym] || ''    
   end
   
   def state_for_select_field
