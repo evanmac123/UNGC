@@ -5,4 +5,4 @@
     = default_form.text_field :code, :label => 'ISO Code'
     = default_form.select :region, options_for_select(select_options_from_hash(Country::REGIONS), @country.region_for_select_field), {:include_blank => true}, :label => 'Region'
     = default_form.collection_select :local_network_id, LocalNetwork.all, :id, :name, {:include_blank => true}, {:label => 'Local Network'}
-    = default_form.collection_select :manager_id, Contact.network_regional_managers, :id, :name, {:include_blank => true}, {:label => 'Regional Network Manager'}
+    = default_form.collection_select :manager_id, Contact.network_regional_managers, :id, :name, {:include_blank => true}, {:label => 'Regional Manager'}
