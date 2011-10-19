@@ -85,6 +85,8 @@ ActionController::Routing::Routes.draw do |map|
         event.resources :attachments, :controller => 'local_network_event_attachments'
       end
     end
+
+    admin.resources :uploaded_files, :only => [:show]
       
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'

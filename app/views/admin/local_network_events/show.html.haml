@@ -57,4 +57,4 @@
             - unless @submodel.attachments.any?
               %li No files uploaded
             - @submodel.attachments.each do |uploaded_file|
-              %li= link_to uploaded_file.attachment_file_name, uploaded_file.attachment.url
+              %li= link_to uploaded_file.attachment_file_name, admin_uploaded_file_path(uploaded_file)

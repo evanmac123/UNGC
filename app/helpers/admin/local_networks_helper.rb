@@ -14,7 +14,7 @@ module Admin::LocalNetworksHelper
   end
 
   def link_to_local_network_document(file)
-    file ? (link_to file.attachment.original_filename, file.attachment.url) : 'No file'
+    file ? link_to(file.attachment.original_filename, admin_uploaded_file_path(file)) : 'No file'
   end
 
   def subsidiary_participation(local_network)
