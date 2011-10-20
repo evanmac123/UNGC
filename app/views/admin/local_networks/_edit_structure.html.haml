@@ -22,7 +22,7 @@
   - if @local_network.sg_established_as_a_legal_entity_file
     %dl{:style => 'width: auto;'} 
       %dt.first{:style=> 'width: 165px;'} Current file
-      %dd.first= link_to_local_network_document(@local_network.sg_established_as_a_legal_entity_file)
+      %dd.first= link_to_uploaded_file(@local_network.sg_established_as_a_legal_entity_file)
   - else
     %p Please upload a document establishing the network's legal status
   %ol

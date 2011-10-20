@@ -13,7 +13,7 @@ module Admin::LocalNetworksHelper
     local_network.sg_established_as_a_legal_entity ? "Established as legal entity" : "No legal status"
   end
 
-  def link_to_local_network_document(file)
+  def link_to_uploaded_file(file)
     file ? link_to(file.attachment.original_filename, admin_uploaded_file_path(file)) : 'No file'
   end
 

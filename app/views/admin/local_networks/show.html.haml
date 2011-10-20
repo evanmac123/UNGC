@@ -57,7 +57,7 @@
       %dt.first= legal_status(@local_network)
       %dd.first &nbsp;
       %dt Supporting Document
-      %dd= link_to_local_network_document(@local_network.sg_established_as_a_legal_entity_file)
+      %dd= link_to_uploaded_file(@local_network.sg_established_as_a_legal_entity_file)
 
   #governance.tab_content
     %ul#tools{:class => "tools inline"}
@@ -95,7 +95,7 @@
       %dl.left_column.short.ie_fix{:style => 'float: none; width: 165px;'}
         %dt.title Governance Document
         %dd.title &nbsp;
-      %p= link_to_local_network_document(@local_network.sg_annual_meeting_appointments_file)  
+      %p= link_to_uploaded_file(@local_network.sg_annual_meeting_appointments_file)  
     
   #membership.tab_content
     %ul#tools{:class => "tools inline"}

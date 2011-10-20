@@ -2,7 +2,7 @@
   %td= communication.type_name
   %td= communication.title
   %td= communication.date
-  %td= link_to_local_network_document(communication.file)
+  %td= link_to_uploaded_file(communication.file)
   %td
     %ul.actions
       %li= link_to 'Edit', edit_submodel_path(communication), :class => 'edit', :title => 'Edit details'

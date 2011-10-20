@@ -2,7 +2,7 @@
   %td= mou.year.year
   %td= mou.created_at
   %td= mou.type_name
-  %td= link_to_local_network_document(mou.file)
+  %td= link_to_uploaded_file(mou.file)
   %td
     %ul.actions
       %li= link_to 'Edit', edit_submodel_path(mou), :class => 'edit', :title => 'Edit MOU details'
