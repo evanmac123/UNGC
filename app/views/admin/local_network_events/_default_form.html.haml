@@ -77,4 +77,4 @@
 
         %ul.bulleted
           - @submodel.attachments.each do |a|
-            %li= link_to a.attachment_file_name, a.attachment.url
+            %li= link_to_uploaded_file(a)

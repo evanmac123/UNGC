@@ -23,4 +23,18 @@ class UploadedFile < ActiveRecord::Base
 
   has_attached_file :attachment,
     :url => "/system/:attachment/:attachable_type/:id/:style/:filename"
+
+  alias_method :original_attachment=, :attachment=
+
+  def attachment=(file)
+    self.original_attachment = file
+
+    if file.respond_to?(:original_filename)
+      self.attachment_unmodified_filename = file.original_filename
+    end
+  end
+
+  def attachment_unmodified_filename
+    self[:attachment_unmodified_filename] || self[:attachment_file_name]
+  end
 end

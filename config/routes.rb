@@ -86,7 +86,7 @@ ActionController::Routing::Routes.draw do |map|
       end
     end
 
-    admin.resources :uploaded_files, :only => [:show]
+    admin.uploaded_file '/uploaded_files/:id/:filename', :controller => 'uploaded_files', :action => 'show', :filename => /.*/
       
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'

@@ -50,6 +50,14 @@ module AdminHelper
     link_to name, object.send(file).url, options
   end
   
+  def link_to_uploaded_file(uploaded_file)
+    if uploaded_file
+      link_to(uploaded_file.attachment_unmodified_filename, admin_uploaded_file_path(uploaded_file, uploaded_file.attachment_unmodified_filename))
+    else
+      'No file'
+    end
+  end
+
   # Outputs a table header that is also a link to sort the current data set
   def sort_header(label, options={})
     if @order.nil? || @order.split(' ').first != options[:field]
