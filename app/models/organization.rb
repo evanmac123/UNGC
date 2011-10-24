@@ -454,7 +454,6 @@ class Organization < ActiveRecord::Base
   def set_rejected_fields
     self.name = self.name + ' (rejected)'
     self.rejected_on = Date.today
-    self.contacts.each {|c| c.rejected_organization_email}
     self.save
   end
   

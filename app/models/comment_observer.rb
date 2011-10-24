@@ -29,8 +29,10 @@ class CommentObserver < ActiveRecord::Observer
       if organization.network_report_recipients.count > 0
         OrganizationMailer.deliver_reject_microenterprise_network(organization)
       end
-      
+      # rename emails after the message is sent
+      organization.contacts.each {|c| c.rejected_organization_email}  
     end
+    
   end
   
     def email_in_review_organization(comment)
