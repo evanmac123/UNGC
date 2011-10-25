@@ -1,7 +1,7 @@
 h1. 2011-10-24
 
 * Applicants were not receiving their 'rejected micro enterprise' emails because I had changed their email address upon rejection (see 2011-08-29)
-* Moved the Contact.rejected_organization_email call to comment_observer.rb so the emails are renamed after the message is sent
+* Combined renaming the organization name and contact emails into a single method, which is called from comment_observer.rb so they're renamed after the message is sent
 * I'd prefer to keep the comment observer clean, so there may be a better place for this method call
 
 h1. 2011-09-30

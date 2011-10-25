@@ -115,23 +115,7 @@ class OrganizationTest < ActiveSupport::TestCase
         @organization.reject
         assert_equal Date.today, @organization.rejected_on
       end
-      
-      should "rename organization" do
-        name = @organization.name
-        @organization.reject
-        @organization.reload
-        assert !@organization.participant
-        assert_equal "#{name} (rejected)", @organization.name
-      end
-
-      should "rename organization" do
-        name = @organization.name
-        @organization.reject_micro
-        @organization.reload
-        assert !@organization.participant
-        assert_equal "#{name} (rejected)", @organization.name
-      end
-     
+           
    end
   
   
