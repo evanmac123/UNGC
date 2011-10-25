@@ -8,7 +8,7 @@
     
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    - if current_user.from_ungc? || (current_user.local_network == @local_network)
+    - if current_user_can_edit_network?
       %li <a href="#contacts">Contacts</a>
     %li <a href="#profile">Profile</a>  
     %li <a href="#structure">Structure</a>
@@ -18,7 +18,7 @@
     %li <a href="#integrity_measures">Integrity Measures</a>
     %li <a href="#mous">Memorandum of Understanding</a>
 
-  - if current_user.from_ungc? || (current_user.local_network == @local_network)
+  - if current_user_can_edit_network?
     #contacts.tab_content
       %ul#contacts_tools{:class => "tools inline"}
         %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
@@ -28,7 +28,8 @@
   #profile.tab_content
     %ul#tools{:class => "tools inline"}
       %li= link_to_public_profile(@local_network)
-      %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_page_large'
+      - if current_user_can_edit_network?
+        %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_page_large'
 
     %dl.left_column
       %h3 Profile
@@ -40,8 +41,9 @@
       %dd= @local_network.url.present? ? link_to(@local_network.url, @local_network.url) : 'Not provided'
   
   #structure.tab_content
-    %ul#tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure), :class => 'edit_large'
+    - if current_user_can_edit_network?
+      %ul#tools{:class => "tools inline"}
+        %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure), :class => 'edit_large'
         
     %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Key Launch Dates
@@ -60,8 +62,9 @@
       %dd= link_to_uploaded_file(@local_network.sg_established_as_a_legal_entity_file)
 
   #governance.tab_content
-    %ul#tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :governance), :class => 'edit_large'
+    - if current_user_can_edit_network?
+      %ul#tools{:class => "tools inline"}
+        %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :governance), :class => 'edit_large'
 
     %dl.left_column{:style => 'width: 165px; margin-right: 150px;'}
       %dt.title Annual Meeting Appointments
@@ -98,8 +101,9 @@
       %p= link_to_uploaded_file(@local_network.sg_annual_meeting_appointments_file)  
     
   #membership.tab_content
-    %ul#tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
+    - if current_user_can_edit_network?
+      %ul#tools{:class => "tools inline"}
+        %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
       
     %dl.left_column{:style => 'width: 275px; margin-right: 20px;'}
       %dt.title Subsidiary Participation
@@ -134,8 +138,9 @@
       %dd= @local_network.membership_labour_organizations
 
   #fees_contributions.tab_content
-    %ul#tools{:class => "tools inline"}
-      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :fees_contributions), :class => 'edit_large'
+    - if current_user_can_edit_network?
+      %ul#tools{:class => "tools inline"}
+        %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :fees_contributions), :class => 'edit_large'
 
     %dl.left_column{:style => 'width: 275px; margin-right: 20px;'}
       %dt.title Member Fees
@@ -164,25 +169,30 @@
       %dd= number_to_percentage(@local_network.fees_amount_voluntary_public, :precision => 0)
 
   #integrity_measures.tab_content
-    %ul{:class => "tools inline"}
-      %li= link_to 'New Policy', new_admin_local_network_integrity_measure_path(@local_network), :class => "new_large"
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Policy', new_admin_local_network_integrity_measure_path(@local_network), :class => "new_large"
+
     %table.dashboard_table
       %tr
         %th Type
         %th Title
         %th Date
         %th Document
-        %th.actions Actions
+        - if current_user_can_edit_network?
+          %th.actions Actions
       = render @local_network.integrity_measures
 
   #mous.tab_content
-    %ul{:class => "tools inline"}
-      %li= link_to 'New MOU', new_admin_local_network_mou_path(@local_network), :class => "new_large"
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New MOU', new_admin_local_network_mou_path(@local_network), :class => "new_large"
     %table.dashboard_table
       %tr
         %th Year of MOU
         %th Received on
         %th Status
         %th Document
-        %th.actions Actions
+        - if current_user_can_edit_network?
+          %th.actions Actions
       = render @local_network.mous

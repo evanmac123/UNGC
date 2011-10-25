@@ -3,8 +3,9 @@
   %td= mou.created_at
   %td= mou.type_name
   %td= link_to_uploaded_file(mou.file)
-  %td
-    %ul.actions
-      %li= link_to 'Edit', edit_submodel_path(mou), :class => 'edit', :title => 'Edit MOU details'
-      %li= link_to 'Delete', submodel_path(mou), :confirm => 'Are you sure you want to delete this MOU?', :method => :delete, :class => 'delete', :title => 'Delete MOU'
+  - if current_user_can_edit_network?
+    %td
+      %ul.actions
+        %li= link_to 'Edit', edit_submodel_path(mou), :class => 'edit', :title => 'Edit MOU details'
+        %li= link_to 'Delete', submodel_path(mou), :confirm => 'Are you sure you want to delete this MOU?', :method => :delete, :class => 'delete', :title => 'Delete MOU'
 

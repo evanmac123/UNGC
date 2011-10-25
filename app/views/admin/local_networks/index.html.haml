@@ -1,9 +1,10 @@
 %h2 Local Networks
 
-%ul{:class => "tools inline"}
-  %li= link_to 'New Local Network', new_admin_local_network_path, :class => "new_large", :id => "new_local_network"
-  %li= link_to 'Countries', admin_countries_path, :class => 'web_preview_large', :title => 'Listing of all countries'
-  %li= link_to 'Find Events', admin_learning_path, :class => 'search_large', :title => 'Find events'
+- if current_user.from_ungc?
+  %ul{:class => "tools inline"}
+    %li= link_to 'New Local Network', new_admin_local_network_path, :class => "new_large", :id => "new_local_network"
+    %li= link_to 'Countries', admin_countries_path, :class => 'web_preview_large', :title => 'Listing of all countries'
+    %li= link_to 'Find Events', admin_learning_path, :class => 'search_large', :title => 'Find events'
 
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav

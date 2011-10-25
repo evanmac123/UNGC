@@ -1,7 +1,7 @@
 class Admin::LocalNetworksController < AdminController
   before_filter :load_local_network, :only => [:show, :edit, :destroy, :knowledge_sharing]
-  before_filter :no_organization_or_local_network_access
-  before_filter :no_access_to_other_local_networks, :except => [:update] 
+  before_filter :no_organization_or_local_network_access, :except => [:index, :show, :knowledge_sharing]
+  before_filter :no_access_to_other_local_networks, :except => [:index, :show, :knowledge_sharing, :update] 
 
   helper Admin::LocalNetworkSubmodelHelper
 

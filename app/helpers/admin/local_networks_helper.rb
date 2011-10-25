@@ -21,4 +21,8 @@ module Admin::LocalNetworksHelper
     local_network.fees_participant ? "Member fees are required" : "Member fees are not required"
   end
 
+  def current_user_can_edit_network?
+    current_user.from_ungc? || (current_user.local_network == @local_network)
+  end
+
 end

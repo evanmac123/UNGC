@@ -14,8 +14,9 @@
     %li <a href="#awards">Awards</a>
 
   #local_network_events.tab_content
-    %ul{:class => "tools inline"}
-      %li= link_to 'New Event', new_admin_local_network_local_network_event_path(@local_network), :class => "new_large"
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Event', new_admin_local_network_local_network_event_path(@local_network), :class => "new_large"
 
     %table.dashboard_table
       %tr
@@ -27,20 +28,23 @@
       = render @local_network.events
 
   #meetings.tab_content
-    %ul{:class => "tools inline"}
-      %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
 
     %table.dashboard_table
       %tr
         %th Type of Meeting
         %th Date
         %th Document
-        %th.actions Actions
+        - if current_user_can_edit_network?
+          %th.actions Actions
       = render @local_network.meetings
 
   #communications.tab_content
-    %ul#tools{:class => "tools inline"}
-      %li= link_to 'New Communication', new_admin_local_network_communication_path(@local_network), :class => "new_large"
+    - if current_user_can_edit_network?
+      %ul#tools{:class => "tools inline"}
+        %li= link_to 'New Communication', new_admin_local_network_communication_path(@local_network), :class => "new_large"
 
     %table.dashboard_table
       %tr
@@ -48,17 +52,20 @@
         %th Title
         %th Published on
         %th Document
-        %th.actions Actions
+        - if current_user_can_edit_network?
+          %th.actions Actions
       = render @local_network.communications
 
   #awards.tab_content
-    %ul{:class => "tools inline"}
-      %li= link_to 'New Award', new_admin_local_network_award_path(@local_network), :class => "new_large"
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Award', new_admin_local_network_award_path(@local_network), :class => "new_large"
     %table.dashboard_table
       %tr
         %th Type
         %th Title
         %th Date
         %th Document
-        %th.actions Actions
+        - if current_user_can_edit_network?
+          %th.actions Actions
       = render @local_network.awards
