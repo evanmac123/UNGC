@@ -39,6 +39,13 @@
       %dd= @local_network.humanize_state
       %dt Website Address
       %dd= @local_network.url.present? ? link_to(@local_network.url, @local_network.url) : 'Not provided'
+
+    %dl.left_column
+      %h3 Contacts
+      %dt.first Representative
+      %dd.first= render :partial => 'contact_overview', :collection => @local_network.contacts.network_representatives
+      %dt Contact Person
+      %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
   
   #structure.tab_content
     - if current_user_can_edit_network?
