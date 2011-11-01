@@ -39,9 +39,8 @@ class Principle < ActiveRecord::Base
 
   def self.all_types
     types = []
-    # preserve order 
-    [:human_rights, :labour, :environment, :anti_corruption, :business_peace, :financial_markets, :business_development, :un_business, :supply_chain].each do |type|
-      types << Principle.by_type(type)
+    Principle::TYPE_NAMES.each do |key,value|
+      types << Principle.by_type(key)
     end
     types
   end
