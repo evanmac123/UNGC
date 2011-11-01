@@ -71,7 +71,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   end
 
   def self.principle_areas
-    Principle.all(:conditions => 'parent_id is null')
+    Principle.all_types
   end
   
   def type_name

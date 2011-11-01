@@ -37,6 +37,15 @@ class Principle < ActiveRecord::Base
      end
    }
 
+  def self.all_types
+    types = []
+    # preserve order 
+    [:human_rights, :labour, :environment, :anti_corruption, :business_peace, :financial_markets, :business_development, :un_business, :supply_chain].each do |type|
+      types << Principle.by_type(type)
+    end
+    types
+  end
+
   def self.by_type(type)
     Principle.find_by_name(TYPE_NAMES[type])
   end
