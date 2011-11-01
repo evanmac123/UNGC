@@ -14,7 +14,7 @@ class Mou < ActiveRecord::Base
   include HasFile
   belongs_to :local_network
 
-  TYPES = { :in_review => 'In review', :accepted => 'Accepted' }
+  TYPES = { :in_review => 'Under review', :accepted => 'Accepted' }
 
   before_create :set_type
   
@@ -46,7 +46,7 @@ class Mou < ActiveRecord::Base
   private
   
     def set_type
-      mou_type = 'in_review' unless mou_type.present?
+      self.mou_type = 'in_review' unless mou_type.present?
     end
 
 end
