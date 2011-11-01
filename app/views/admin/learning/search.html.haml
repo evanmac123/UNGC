@@ -5,7 +5,7 @@
     %th Date
     %th Title
     %th Type
-    %th Issues
+    %th Issues<br />Covered
     %th Region
     %th Local Network
     %th Actions
@@ -13,9 +13,9 @@
   - @search.results.each do |event|
     %tr{ 'data-id' => event.id }
       %td.nowrap= event.date.try(:strftime, '%d-%b-%Y')
-      %td{:title => event.title }= truncate(event.title, :length => 80)
+      %td{:title => event.title }= truncate(event.title, :length => 50)
       %td= event.type_name
-      %td.nowrap.small= event.principles.map(&:name).join("<br/>")
+      %td.nowrap.small= event.principles.count
       %td= event.local_network.country.region_name
       %td= event.local_network.name
       %td
