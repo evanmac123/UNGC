@@ -15,8 +15,12 @@ module Admin::LearningHelper
     [['All', '']] + LocalNetwork.all.map { |n| [n.name, n.id.to_s] }
   end
 
+  def refine_search_button
+    link_to 'Refine search', admin_learning_path(:local_network_event_search => params[:local_network_event_search]), :class => 'edit_page_large' 
+  end
+
   def new_search_button
-    button_to 'New search', :action => 'index', :local_network_event_search => params[:local_network_event_search]
+    link_to 'New search', admin_learning_path, :class => 'search_large'
   end
 
   def local_network_region_js

@@ -1,5 +1,8 @@
 %h2= "There are #{@search.results.total_entries} events matching your criteria"
-
+%ul#contacts_tools{:class => "tools inline"}
+  %li= refine_search_button
+  %li= new_search_button
+%p   
 %table.dashboard_table
   %tr
     %th Date
@@ -23,6 +26,3 @@
           = render :partial => '/admin/local_network_events/admin_actions', :locals => { :local_network_event => event }
 
 = will_paginate @search.results
-
-%p= new_search_button
-
