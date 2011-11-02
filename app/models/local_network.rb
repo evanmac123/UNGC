@@ -107,7 +107,7 @@ class LocalNetwork < ActiveRecord::Base
   end
   
   def humanize_state
-    STATES[state.to_sym] || ''    
+    STATES[state.try(:to_sym)] || ''    
   end
   
   def state_for_select_field
