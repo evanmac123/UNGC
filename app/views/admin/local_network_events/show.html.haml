@@ -23,19 +23,19 @@
       %dt Description
       %dd
         %ul
-          %li= @submodel.description || 'Not available'
+          %li= @submodel.description.present? ? @submodel.description : 'Not available'
       %dt Date
       %dd
         %ul
           %li= @submodel.date || 'Not available'
       %dt Issue Areas
-      %dd
-        %ul
+      %dd.issue_list
+        %ul.issues_covered
           - if @submodel.principles.any?
             - @submodel.principles.each do |principle|
-              %li= principle.name
+              %li{:class => Principle::TYPE_NAMES.key(principle.name)}= principle.name
           - else
-            %li None specified
+            %li.none None specified
       %dt Stakeholders
       %dd
         %ul

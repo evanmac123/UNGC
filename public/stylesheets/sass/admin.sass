@@ -207,7 +207,47 @@ ul.nav_bar
 
   a.search_large
     background: url('../images/icons/Search_Calendar_24x24.png') no-repeat top left
-    
+
+  // icons for issues areas in search results admin/learning/search.html.haml 
+
+  ul.issues_covered, dd.issue_list ul.issues_covered
+    margin: 0
+    white-space: nowrap
+    li
+      float: left
+      list-style: none
+      padding: 0 5px
+      background: transparent no-repeat 50% 50%
+
+  dd.issue_list
+    ul.issues_covered
+      li
+        float: none
+        background-position: 0px 1px
+        padding: 0px 0px 5px 0px
+        text-indent: 20px
+        &.none
+          text-indent: 0px
+  ul.issues_covered, dd.issue_list ul.issues_covered
+    li.human_rights
+      background-image: url('../images/icons/issue_icon_human_rights.png')
+    li.labour
+      background-image: url('../images/icons/issue_icon_labour.png')
+    li.environment
+      background-image: url('../images/icons/issue_icon_environment.png')
+    li.anti_corruption
+      background-image: url('../images/icons/issue_icon_anti_corruption.png')
+    li.business_peace
+      background-image: url('../images/icons/issue_icon_business_peace.png')
+    li.financial_markets
+      background-image: url('../images/icons/issue_icon_financial_markets.png')
+    li.business_development
+      background-image: url('../images/icons/issue_icon_business_development.png')
+    li.un_business
+      background-image: url('../images/icons/issue_icon_un_business.png')
+    li.supply_chain
+      background-image: url('../images/icons/issue_icon_supply_chain.png')
+
   table.dashboard_table
     width: 100%
     margin-bottom: 0
@@ -272,33 +312,6 @@ ul.nav_bar
       span
         .small
           font-size: 9px
-
-    // icons for issues areas in search results admin/learning/search.html.haml 
-    ul.issues_covered
-      margin: 0
-      li
-        float: left
-        list-style: none
-        padding: 0 5px
-        background: transparent no-repeat 50% 50%
-      li.human_rights
-        background-image: url('../images/icons/issue_icon_human_rights.png')
-      li.labour
-        background-image: url('../images/icons/issue_icon_labour.png')
-      li.environment
-        background-image: url('../images/icons/issue_icon_environment.png')
-      li.anti_corruption
-        background-image: url('../images/icons/issue_icon_anti_corruption.png')
-      li.business_peace
-        background-image: url('../images/icons/issue_icon_business_peace.png')
-      li.financial_markets
-        background-image: url('../images/icons/issue_icon_financial_markets.png')
-      li.business_development
-        background-image: url('../images/icons/issue_icon_business_development.png')
-      li.un_business
-        background-image: url('../images/icons/issue_icon_un_business.png')
-      li.supply_chain
-        background-image: url('../images/icons/issue_icon_supply_chain.png')
 
     // list matching organization within table
     ul.matching_list

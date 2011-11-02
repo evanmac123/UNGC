@@ -162,6 +162,39 @@ ul.nav_bar {
       background: url('../images/icons/Folder (Open)_24x24.png') no-repeat top left; }
   #main_content a.search_large {
     background: url('../images/icons/Search_Calendar_24x24.png') no-repeat top left; }
+  #main_content ul.issues_covered, #main_content dd.issue_list ul.issues_covered {
+    margin: 0;
+    white-space: nowrap; }
+    #main_content ul.issues_covered li, #main_content dd.issue_list ul.issues_covered li {
+      float: left;
+      list-style: none;
+      padding: 0 5px;
+      background: transparent no-repeat 50% 50%; }
+  #main_content dd.issue_list ul.issues_covered li {
+    float: none;
+    background-position: 0px 1px;
+    padding: 0px 0px 5px 0px;
+    text-indent: 20px; }
+    #main_content dd.issue_list ul.issues_covered li.none {
+      text-indent: 0px; }
+  #main_content ul.issues_covered li.human_rights, #main_content dd.issue_list ul.issues_covered li.human_rights {
+    background-image: url('../images/icons/issue_icon_human_rights.png'); }
+  #main_content ul.issues_covered li.labour, #main_content dd.issue_list ul.issues_covered li.labour {
+    background-image: url('../images/icons/issue_icon_labour.png'); }
+  #main_content ul.issues_covered li.environment, #main_content dd.issue_list ul.issues_covered li.environment {
+    background-image: url('../images/icons/issue_icon_environment.png'); }
+  #main_content ul.issues_covered li.anti_corruption, #main_content dd.issue_list ul.issues_covered li.anti_corruption {
+    background-image: url('../images/icons/issue_icon_anti_corruption.png'); }
+  #main_content ul.issues_covered li.business_peace, #main_content dd.issue_list ul.issues_covered li.business_peace {
+    background-image: url('../images/icons/issue_icon_business_peace.png'); }
+  #main_content ul.issues_covered li.financial_markets, #main_content dd.issue_list ul.issues_covered li.financial_markets {
+    background-image: url('../images/icons/issue_icon_financial_markets.png'); }
+  #main_content ul.issues_covered li.business_development, #main_content dd.issue_list ul.issues_covered li.business_development {
+    background-image: url('../images/icons/issue_icon_business_development.png'); }
+  #main_content ul.issues_covered li.un_business, #main_content dd.issue_list ul.issues_covered li.un_business {
+    background-image: url('../images/icons/issue_icon_un_business.png'); }
+  #main_content ul.issues_covered li.supply_chain, #main_content dd.issue_list ul.issues_covered li.supply_chain {
+    background-image: url('../images/icons/issue_icon_supply_chain.png'); }
   #main_content table.dashboard_table {
     width: 100%;
     margin-bottom: 0; }
@@ -211,31 +244,6 @@ ul.nav_bar {
         white-space: nowrap; }
       #main_content table.dashboard_table td span .small {
         font-size: 9px; }
-    #main_content table.dashboard_table ul.issues_covered {
-      margin: 0; }
-      #main_content table.dashboard_table ul.issues_covered li {
-        float: left;
-        list-style: none;
-        padding: 0 5px;
-        background: transparent no-repeat 50% 50%; }
-      #main_content table.dashboard_table ul.issues_covered li.human_rights {
-        background-image: url('../images/icons/issue_icon_human_rights.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.labour {
-        background-image: url('../images/icons/issue_icon_labour.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.environment {
-        background-image: url('../images/icons/issue_icon_environment.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.anti_corruption {
-        background-image: url('../images/icons/issue_icon_anti_corruption.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.business_peace {
-        background-image: url('../images/icons/issue_icon_business_peace.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.financial_markets {
-        background-image: url('../images/icons/issue_icon_financial_markets.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.business_development {
-        background-image: url('../images/icons/issue_icon_business_development.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.un_business {
-        background-image: url('../images/icons/issue_icon_un_business.png'); }
-      #main_content table.dashboard_table ul.issues_covered li.supply_chain {
-        background-image: url('../images/icons/issue_icon_supply_chain.png'); }
     #main_content table.dashboard_table ul.matching_list {
       margin: 0;
       list-style: none; }
