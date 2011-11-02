@@ -37,3 +37,10 @@ module Admin::LearningHelper
   end
 end
 
+def issues_covered(event)
+  issues = ''
+  event.principles.each do |issue|
+    issues += content_tag :li, '&nbsp;', :class => Principle::TYPE_NAMES.key(issue.name), :title => issue.name
+  end
+  content_tag :ul, issues, :class => 'issues_covered'
+end

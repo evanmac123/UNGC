@@ -8,7 +8,7 @@
     %th Date
     %th Title
     %th Type
-    %th Issues<br />Covered
+    %th Issues
     %th Region
     %th Local Network
     %th Actions
@@ -18,7 +18,7 @@
       %td.nowrap= event.date.try(:strftime, '%d-%b-%Y')
       %td{:title => event.title }= truncate(event.title, :length => 50)
       %td= event.type_name
-      %td.nowrap.small= event.principles.count
+      %td.nowrap.small= issues_covered(event)
       %td= event.local_network.country.region_name
       %td= event.local_network.name
       %td
