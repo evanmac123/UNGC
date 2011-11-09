@@ -34,6 +34,7 @@ module AdminHelper
   end
   
   def link_to_attached_file(object, file='attachment')
+    options = {}
     # clean this up
     return 'Not available' if object.send("#{file}_file_name").blank?
     if object.send("#{file}_file_name").downcase.ends_with?('.pdf')
