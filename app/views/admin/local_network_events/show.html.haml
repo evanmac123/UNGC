@@ -7,7 +7,7 @@
 
 .main_content
   #status_box
-    %dl{:style => 'width: 50%;'}
+    %dl{:style => 'width: 60%;'}
       %dt.first Title
       %dd.first
         %ul
@@ -52,8 +52,9 @@
       
         %dt Files
         %dd
-          %ul
+          %ul.document_list
             - unless @submodel.attachments.any?
               %li No files uploaded
             - @submodel.attachments.each do |uploaded_file|
-              %li= link_to_uploaded_file(uploaded_file)
+              %li= link_to_attached_file(uploaded_file, file='attachment')
+              / %li= link_to_uploaded_file(uploaded_file)

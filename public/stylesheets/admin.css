@@ -307,22 +307,25 @@ ul.nav_bar {
         border: none; }
       #main_content dl dd.title {
         font-size: 130%; }
-    #main_content dl ul.document_list {
-      overflow: hidden;
-      margin: 0; }
-      #main_content dl ul.document_list li {
-        float: left;
-        list-style: none; }
-        #main_content dl ul.document_list li a {
-          display: block;
-          background: white url('../images/icons/doc_icons.png') no-repeat 0px 0px;
-          text-indent: -9999em;
-          width: 24px;
-          height: 24px; }
-          #main_content dl ul.document_list li a.pdf_doc {
-            background-position: -48px 0; }
-          #main_content dl ul.document_list li a.word_doc {
-            background-position: -24px 0; }
+    #main_content dl ul.document_list li {
+      float: none;
+      list-style: none; }
+      #main_content dl ul.document_list li a {
+        padding-top: 10px;
+        margin-bottom: -10px;
+        vertical-align: text-bottom;
+        display: block;
+        background: transparent url('../images/icons/Document_24x24.png') no-repeat 0px 0px;
+        text-indent: 30px;
+        height: 24px; }
+        #main_content dl ul.document_list li a.ppt {
+          background-image: url('../images/icons/doc_ppt.png'); }
+        #main_content dl ul.document_list li a.jpg {
+          background-image: url('../images/icons/doc_jpg.png'); }
+        #main_content dl ul.document_list li a.pdf {
+          background-image: url('../images/icons/doc_pdf.png'); }
+        #main_content dl ul.document_list li a.word {
+          background-image: url('../images/icons/doc_word.png'); }
 
 .container > .sidebar {
   background: #fcfcff;

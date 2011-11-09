@@ -34,20 +34,28 @@ module AdminHelper
   end
   
   def link_to_attached_file(object, file='attachment')
+    # clean this up
     return 'Not available' if object.send("#{file}_file_name").blank?
     if object.send("#{file}_file_name").downcase.ends_with?('.pdf')
-      name = "PDF document"
-      options = {:title => 'Download PDF document', :class => 'pdf_doc'}
-    elsif object.send("#{file}_file_name").downcase.ends_with?('.doc') ||
-            object.send("#{file}_file_name").downcase.ends_with?('.docx')
-      name = "Word document"
-      options = {:title => 'Download Word document', :class => 'word_doc'}
+      options = {:class => 'pdf'}
+    elsif object.send("#{file}_file_name").downcase.ends_with?('.jpg')
+      options = {:class => 'jpg'}
+    elsif object.send("#{file}_file_name").downcase.ends_with?('.ppt') || object.send("#{file}_file_name").downcase.ends_with?('.pptx')
+      options = {:class => 'ppt'}
+    elsif object.send("#{file}_file_name").downcase.ends_with?('.doc') || object.send("#{file}_file_name").downcase.ends_with?('.docx')
+      options = {:class => 'word'}
+    end
+    
+    if object.is_a?(UploadedFile)
+      name = object.send("#{file}_unmodified_filename")
+      options[:title] = name 
+      link_to(object.attachment_unmodified_filename, admin_uploaded_file_path(object, object.attachment_unmodified_filename), options)
     else
-      name = "Document"
-      options = {:title => 'Download document'}
+      name = object.send("#{file}_file_name")
+      options[:title] = name 
+      link_to truncate(name, :length => 120), object.send(file).url, options
     end
 
-    link_to name, object.send(file).url, options
   end
   
   def link_to_uploaded_file(uploaded_file)

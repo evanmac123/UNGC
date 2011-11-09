@@ -3,22 +3,22 @@
 - staff_only do
   %p= return_to_current_list(@logo_request)
 #status_box
-  %dl
-    %dt Country:
-    %dd= @logo_request.organization.try(:country_name)
-    %dt Purpose:
+  %dl{:style => 'width: 60%;'}
+    %dt.first Country
+    %dd.first= @logo_request.organization.try(:country_name)
+    %dt Purpose
     %dd= @logo_request.purpose
-    %dt Contact:
+    %dt Contact
     %dd= contact_name(@logo_request)
-    %dt Publication:
+    %dt Publication
     %dd= @logo_request.publication.name
-    %dt Status:
+    %dt Status
     %dd= @logo_request.state.humanize
-    %dt Attachments:
+    %dt Attachments
     %dd
       %ul.document_list
         - for logo_comment in @logo_request.logo_comments.with_attachment
-          %li= link_to_attached_file(logo_comment)
+          %li= link_to_attached_file(logo_comment, 'attachment')
 
 %div{:class => "tab_container top_tabs"} 
   %ul.tab_nav

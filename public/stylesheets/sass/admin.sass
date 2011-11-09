@@ -386,28 +386,28 @@ ul.nav_bar
         font-size: 130%
       
     ul.document_list
-      overflow: hidden
-      margin: 0
-      
       li
-        float: left
+        float: none
         list-style: none
         
         a
+          padding-top: 10px
+          margin-bottom: -10px
+          vertical-align: text-bottom
           display: block
           // positioning defaults to generic icon in sprited png file:
-          background: white url('../images/icons/doc_icons.png') no-repeat 0px 0px
-          text-indent: -9999em
-          width: 24px
+          background: transparent url('../images/icons/Document_24x24.png') no-repeat 0px 0px
+          text-indent: 30px
           height: 24px
           
-          &.pdf_doc
-            // fixes positioning for PDF icon in sprited png file:
-            background-position: -48px 0
-            
-          &.word_doc
-            // fixes positioning for Word icon in sprited png file:
-            background-position: -24px 0
+          &.ppt
+            background-image: url('../images/icons/doc_ppt.png')
+          &.jpg
+            background-image: url('../images/icons/doc_jpg.png')
+          &.pdf
+            background-image: url('../images/icons/doc_pdf.png')
+          &.word
+            background-image: url('../images/icons/doc_word.png')
           
 .container > .sidebar
   background= !light_blue
@@ -464,13 +464,13 @@ ul.nav_bar
         -moz-border-radius: 4px
         -webkit-border-radius: 4px
         background= !light_grey 
-        border= 1px solid !light_blue
+        border= 1px "solid" !light_blue
         padding: 5px 10px
         color= !medium_grey
         text-decoration: none
         &.selected
           color: white
-          border= 1px solid grey
+          border: 1px solid grey
           background= !medium_grey
 
 .tab_container
@@ -743,7 +743,6 @@ ul.nav_bar
         color= !dark_blue
         font-weight: bold
         margin: 1em 0
-        &:hover
         cursor: pointer
 
       div.hint_text
