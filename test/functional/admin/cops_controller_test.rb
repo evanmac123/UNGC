@@ -255,6 +255,36 @@ class Admin::CopsControllerTest < ActionController::TestCase
     
   end
 
+  context "given a COP submitted that is not a Grace Letter" do
+      setup do
+        create_organization_and_user
+        @organization.approve!
+        create_principle_areas
+        create_language
+        login_as @organization_user
+        get :new, :organization_id => @organization.id, :type_of_cop => 'intermediate'
+      end
+
+    should "send a confirmation email" do
+      assert_emails(1) do
+        post :create, :organization_id => @organization.id,
+                      :communication_on_progress => {
+                        :title                        => 'Our COP',
+                        :references_human_rights      => true,
+                        :references_labour            => true,
+                        :references_environment       => true,
+                        :references_anti_corruption   => true,
+                        :include_measurement          => true,
+                        :starts_on                    => Date.today,
+                        :ends_on                      => Date.today,
+                        :differentiation              => 'active'
+                      }
+      end
+    end
+    
+  end
+
+
   private
 
     def create_cop_and_login_as_user(cop_options = {})

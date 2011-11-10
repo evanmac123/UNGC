@@ -1,11 +1,14 @@
 - @body_class = 'details'
-%h2 Logo request details
+%h2 Logo Request details
 - staff_only do
   %p= return_to_current_list(@logo_request)
 #status_box
   %dl{:style => 'width: 60%;'}
-    %dt.first Country
-    %dd.first= @logo_request.organization.try(:country_name)
+    - staff_only do
+      %dt.first Participant Status
+      %dd.first= display_status(@logo_request.organization)
+    %dt Country
+    %dd= @logo_request.organization.try(:country_name)
     %dt Purpose
     %dd= @logo_request.purpose
     %dt Contact

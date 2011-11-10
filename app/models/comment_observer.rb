@@ -21,16 +21,21 @@ class CommentObserver < ActiveRecord::Observer
   private
   
   def email_rejected_organization(comment)
+    organization = comment.commentable
+    
     # only email rejection notice for micro enterprise applications
-    if comment.state_event == Organization::EVENT_REJECT_MICRO
-      organization = comment.commentable
+    if comment.state_event == Organization::EVENT_REJECT_MICRO 
       OrganizationMailer.deliver_reject_microenterprise(organization)
       
       if organization.network_report_recipients.count > 0
         OrganizationMailer.deliver_reject_microenterprise_network(organization)
       end
-      
+    
     end
+    
+    # kept the original names in the email
+    organization.set_rejected_names
+    
   end
   
     def email_in_review_organization(comment)

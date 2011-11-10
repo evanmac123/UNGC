@@ -1,0 +1,38 @@
+%p== Dear #{@user.name_with_title},
+
+%p
+  Thank you for submitting your company's Communication on Progress (COP).
+  == It is now #{link_to "publicly available", 'http://www.unglobalcompact.org' + cop_detail_path(@cop.id)} on the Global Compact website. 
+
+%p== We would like to notify you that your COP is missing #{@cop.number_missing_items} of the required elements:
+
+%ul
+  - unless @cop.include_continued_support_statement?
+    %li An explicit statement of continued support for the UN Global Compact and its ten principles
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    - unless @cop.send("references_#{key}?")
+      %li== Description of actions or relevant policies related to #{value}
+  - unless @cop.include_measurement?
+    %li A measurement of outcomes
+
+%p= link_to 'Review the COP Policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'
+
+%p As a result, your company has been placed in the Learner's Platform and will be given a one-time, 12-month "Learner" grace period to submit a COP that meets all content requirements.
+
+%p The Learner status will be communicated publicly on the Global Compact website. We therefore encourage your company to move to the GC Active level as soon as possible by submitting an updated COP meeting all content requirements. Alternatively, you may wait until your next COP submission deadline to meet all content requirements, provided that the COP is submitted within the 12-month "Learner" grace period. 
+
+%p If a COP submitted after the 12-month "Learner" grace period fails to meet all content requirements, your company will be marked as non-communicating on the Global Compact website.
+
+%p== The #{link_to 'Learner Platform', 'http://www.unglobalcompact.org/COP/differentiation/the_learner_platform.html'} was created to help participants that have demonstrated a commitment to progress and transparency by submitting a COP, but have not yet achieved the level of disclosure and transparency expected for the #{link_to 'GC Active level', 'http://www.unglobalcompact.org/COP/differentiation/the_learner_platform.html'}.
+
+%p The Global Compact is working with Local Networks and other partners, including the Global Reporting Initiative, to help companies in the Learner Platform to meet all COP requirements. 
+
+%p== If you need any assistance in improving your COP, please do not hesitate to contact the COP team #{mail_to 'cop@unglobalcompact.org'} or your #{link_to 'Local Network', 'http://www.unglobalcompact.org' + link_to_local_network(@organization)} Contact Person.
+
+%p Sincerely,
+%p
+  The COP Team
+  %br
+  United Nations Global Compact
+  %br
+  = mail_to 'cop@unglobalcompact.org'

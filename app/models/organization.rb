@@ -259,6 +259,12 @@ class Organization < ActiveRecord::Base
     
   end
   
+  def local_network_country_code
+    if country.try(:local_network)
+      country.local_network.country_code
+    end
+  end
+  
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
@@ -452,10 +458,14 @@ class Organization < ActiveRecord::Base
   end
   
   def set_rejected_fields
-    self.name = self.name + ' (rejected)'
     self.rejected_on = Date.today
-    self.contacts.each {|c| c.rejected_organization_email}
     self.save
+  end
+  
+  # called after OrganizationMailer.deliver_reject_microenterprise
+  def set_rejected_names
+    self.update_attribute :name, name + ' (rejected)'
+    self.contacts.each {|c| c.rejected_organization_email}
   end
   
   def set_network_review

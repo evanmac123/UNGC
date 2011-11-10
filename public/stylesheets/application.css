@@ -207,7 +207,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box4 div.first { margin-top: 56px; }
 #box4 div.last { border-bottom: 0; }
 
-#box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; border: 4px solid #d9e2e5; cursor: pointer;}
+#box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; border: 4px solid #d9e2e5; background-position: -4px -5px; }
+#box5 a, #box6 a { width: 100%; height: 100%; display: block; }
 #box5:hover, #box6:hover {border: 4px solid #C1C8CC}
 #box5 { left: 40px; }
 #box6 { left: 357px; }
@@ -546,3 +547,40 @@ td.center {
 .copy ul.icons li { list-style: none; }
 .copy ul.icons li img { margin: 0px 10px 0 0; float: left; }
 .copy ul.icons li + li { padding-top: 8px; height: 50px; width: 260px;}
+
+/*table for */
+
+table.summaryBenefits {
+  border: none;
+  line-height: 115%;
+  font-size: 11px;
+  text-align: center;
+}
+
+table.summaryBenefits td {
+  padding: 8px 5px;
+  border-bottom: 1px solid #999;
+  }
+
+table.summaryBenefits tr.last td {border: none;}
+
+table.summaryBenefits tr.headerRow th, table.summaryBenefits tr:hover.headerRow th {
+  background-color: #00546E;
+  color: #FFF;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1.3em;
+}
+table.summaryBenefits td.sectionTitle { border: none; background-color: #EEE; font-size: 10px; font-weight: bold; color: #000; }
+
+table.summaryBenefits td.title {
+  font-size: 12px;
+  text-align: center;
+  color: #FFF;
+  background-color: #004860;
+}
+
+table.summaryBenefits td.rowTitle {
+  text-align: left;
+}

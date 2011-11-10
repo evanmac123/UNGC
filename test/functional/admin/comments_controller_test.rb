@@ -139,6 +139,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     end
 
     should "reject the micro enterprise organization on reject micro comment" do
+      original_name = @organization.name
       assert_difference 'Comment.count' do
         assert_emails(1) do
           post :create, :organization_id => @organization.id,
@@ -148,6 +149,8 @@ class Admin::CommentsControllerTest < ActionController::TestCase
           assert_redirected_to admin_organization_path(@organization.id, :tab => :comments)
           assert_equal 'The Micro Enterprise application was rejected.', flash[:notice]
           assert @organization.reload.rejected?
+          assert_equal "#{original_name} (rejected)", @organization.name
+          
         end
       end
     end

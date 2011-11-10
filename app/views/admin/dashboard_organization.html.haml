@@ -77,7 +77,10 @@
 
   - else
     #logos.tab_content
-      = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new_large', :id => 'new_logo_request'
+      - if @organization.delisted?
+        = render :partial => 'admin/cops/expelled_note'
+      - else
+        = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new_large', :id => 'new_logo_request'
       %table.dashboard_table#logos_dashboard_table
         %tr
           %th.last_updated Last updated on

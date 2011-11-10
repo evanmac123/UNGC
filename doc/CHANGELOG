@@ -2,7 +2,27 @@ h1. 2011-10-17
 
 * added TYPE to Local Network MOUs to allow staff to change the status from 'In Review' to 'Accepted'
 
+h1. 2011-10-24
+
+* Applicants were not receiving their 'rejected micro enterprise' emails because I had changed their email address upon rejection (see 2011-08-29)
+* Combined renaming the organization name and contact emails into a single method, which is called from comment_observer.rb so they're renamed after the message is sent
+* I'd prefer to keep the comment observer clean, so there may be a better place for this method call
+
+h1. 2011-09-30
+
+* Every participant must have no more than one CEO and at least one Contact Point
+* The Contact form does not allow the last CEO or Contact Point to change that role checkbox value
+* see last_contact_or_ceo?(role, current_user) in contact.rb
+
+h1. 2011-09-29
+
+* Expelled participants cannot submit Logo Requests
+
 h1. 2011-09-15
+
+* adding confirmation emails for COP submissions
+* sent to Contact who is logged in
+* a different email is sent depending on the Differentiation level
 
 * To gracefully handle SMTP errors when sending email, I placed the ActionMailer delivery methods inside a begin/rescue block
 * Currently being used for password resets and signup confirmations
@@ -10,7 +30,7 @@ h1. 2011-09-15
 h1. 2011-08-29
 
 * when an application is rejected, rename the email addresses user@mail.com --> rejected.user@mail.com
-* if they reapply, then they can used the same address
+* if they reapply, then they can use the same address
 
 h1. 2011-08-28
 

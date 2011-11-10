@@ -1,6 +1,30 @@
 class CopMailer < ActionMailer::Base
   helper :datetime
 
+  def confirmation_learner(organization, cop, user)
+    from 'cop@unglobalcompact.org'
+    subject "UN Global Compact Status - 12 Month Learner Grace Period"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+  
+  def confirmation_active(organization, cop, user)
+    from 'cop@unglobalcompact.org'
+    subject "UN Global Compact Status - GC Active"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+
+  def confirmation_advanced(organization, cop, user)
+    from 'cop@unglobalcompact.org'
+    subject "UN Global Compact Status - GC Advanced"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+  
   def cop_due_in_90_days(organization)
     from EMAIL_SENDER
     cc organization.network_report_recipients.collect(&:email_recipient)
