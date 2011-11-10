@@ -7,8 +7,9 @@
 %fieldset
   %legend Key Launch Dates
   %ol
-    = default_form.date_select :sg_global_compact_launch_date, {:order => [:day, :month, :year]}, {:li_class => 'date', :label => 'Global Compact'} 
-    = default_form.date_select :sg_local_network_launch_date, {:order => [:day, :month, :year]}, {:li_class => 'date', :label => 'Local Network'} 
+  
+    = default_form.text_field :sg_global_compact_launch_date, {class: 'datepicker iso-date'}, {:label => 'Date'}
+    = default_form.text_field :sg_local_network_launch_date, {class: 'datepicker iso-date'}, {:label => 'Date'}
 
 %fieldset
   %legend Legal Status

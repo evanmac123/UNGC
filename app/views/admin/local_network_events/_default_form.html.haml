@@ -17,10 +17,11 @@
     %fieldset
       %legend General Information
       %ol
-        = default_form.text_field  :title,                                                             :label => 'Title'
-        = default_form.text_area   :description,                                                       :label => 'Description'
         = default_form.select      :event_type, options_for_select(select_options_from_hash(LocalNetworkEvent::TYPES), @submodel.event_type_for_select_field), :label => 'Type'
-        = default_form.date_select :date, {:order => [:day, :month, :year]}, :li_class => 'date'
+        = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
+        = default_form.text_field  :title, :label => 'Title'
+        = default_form.text_area   :description, :label => 'Description'
+        
     
   #issues.tab_content
     %fieldset
@@ -32,7 +33,7 @@
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :anti_corruption}
 
     %fieldset
-      %legend Other Issue Areas
+      %legend Additional Issue Areas
       %ol.checkbox_list
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_peace}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :financial_markets}

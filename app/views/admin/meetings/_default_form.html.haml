@@ -9,5 +9,5 @@
 
   %ol
     = default_form.select :meeting_type, options_for_select(select_options_from_hash(Meeting::TYPES), @submodel.meeting_type_for_select_field), :label => 'Type'
-    = default_form.date_select :date, {:order => [:day, :month, :year]}, { :li_class => 'date' }
+    = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
     = default_form.file_field :file, {:label => 'Supporting Document'}
