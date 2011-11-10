@@ -48,13 +48,13 @@ module AdminHelper
     end
     
     if object.is_a?(UploadedFile)
-      name = object.send("#{file}_unmodified_filename")
-      options[:title] = name 
-      link_to(object.attachment_unmodified_filename, admin_uploaded_file_path(object, object.attachment_unmodified_filename), options)
+      options[:title] = object.send("#{file}_unmodified_filename")
+      name = truncate options[:title], :length => 65
+      link_to(name, admin_uploaded_file_path(object, object.attachment_unmodified_filename), options)
     else
-      name = object.send("#{file}_file_name")
-      options[:title] = name 
-      link_to truncate(name, :length => 120), object.send(file).url, options
+      options[:title] = object.send("#{file}_file_name")
+      name = truncate options[:title], :length => 65
+      link_to name, object.send(file).url, options
     end
 
   end

@@ -309,7 +309,8 @@ ul.nav_bar {
         font-size: 130%; }
     #main_content dl ul.document_list li {
       float: none;
-      list-style: none; }
+      list-style: none;
+      white-space: nowrap; }
       #main_content dl ul.document_list li a {
         padding-top: 10px;
         margin-bottom: -10px;
