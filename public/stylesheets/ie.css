@@ -37,8 +37,7 @@ div.radio_button_group { margin: 15px 0 0 0; }
 #main_content fieldset.governance { height: 140px; }
 
 /* Dashboard document list */
-ul.document_list li a { padding: 5px 0 15px 0;}
-
+ul.document_list li a { padding: 5px 0 5px 0; }
 
 /*Social Media Icons*/
 .copy ul.icons li {display: inline; padding-right: 8px; height: 32px; width: 32px; float: left; list-style: none; }

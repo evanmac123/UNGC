@@ -309,12 +309,12 @@ ul.nav_bar {
         border: none; }
       #main_content dl dd.title {
         font-size: 130%; }
-    #main_content dl ul.document_list li {
+    #main_content dl ul.document_list li, #main_content dl ul.stakeholders li, #main_content dl ul.issues_covered li {
       float: none;
       list-style: none;
       white-space: nowrap;
       border: none; }
-      #main_content dl ul.document_list li a {
+      #main_content dl ul.document_list li a, #main_content dl ul.stakeholders li a, #main_content dl ul.issues_covered li a {
         padding-top: 10px;
         margin-bottom: -10px;
         vertical-align: text-bottom;
@@ -322,13 +322,13 @@ ul.nav_bar {
         background: transparent url('../images/icons/Document_24x24.png') no-repeat 0px 0px;
         text-indent: 30px;
         height: 24px; }
-        #main_content dl ul.document_list li a.ppt {
+        #main_content dl ul.document_list li a.ppt, #main_content dl ul.stakeholders li a.ppt, #main_content dl ul.issues_covered li a.ppt {
           background-image: url('../images/icons/doc_ppt.png'); }
-        #main_content dl ul.document_list li a.jpg {
+        #main_content dl ul.document_list li a.jpg, #main_content dl ul.stakeholders li a.jpg, #main_content dl ul.issues_covered li a.jpg {
           background-image: url('../images/icons/doc_jpg.png'); }
-        #main_content dl ul.document_list li a.pdf {
+        #main_content dl ul.document_list li a.pdf, #main_content dl ul.stakeholders li a.pdf, #main_content dl ul.issues_covered li a.pdf {
           background-image: url('../images/icons/doc_pdf.png'); }
-        #main_content dl ul.document_list li a.word {
+        #main_content dl ul.document_list li a.word, #main_content dl ul.stakeholders li a.word, #main_content dl ul.issues_covered li a.word {
           background-image: url('../images/icons/doc_word.png'); }
 
 .container > .sidebar {

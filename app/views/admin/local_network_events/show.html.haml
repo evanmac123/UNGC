@@ -38,7 +38,7 @@
             %li.none None specified
       %dt Stakeholders
       %dd
-        %ul
+        %ul.stakeholders
           - unless @submodel.stakeholders.any?
             %li None specified
           - @submodel.stakeholders.each do |field|
