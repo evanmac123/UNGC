@@ -59,9 +59,11 @@ module AdminHelper
 
   end
   
-  def link_to_uploaded_file(uploaded_file)
-    if uploaded_file
-      link_to(uploaded_file.attachment_unmodified_filename, admin_uploaded_file_path(uploaded_file, uploaded_file.attachment_unmodified_filename))
+  def link_to_uploaded_file(object)
+    if object
+      options = {:title => object.attachment_unmodified_filename}
+      name = truncate options[:title], :length => 100
+      link_to(name, admin_uploaded_file_path(object, object.attachment_unmodified_filename), options)
     else
       'No file'
     end
