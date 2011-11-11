@@ -39,6 +39,8 @@ class Communication < ActiveRecord::Base
       case error
         when 'title'
           error_messages << 'Enter a title'
+        when 'date'
+          error_messages << 'Select a date'
         when 'file'
           error_messages << 'Choose a file to upload'
        end

@@ -21,7 +21,7 @@ class Award < ActiveRecord::Base
   belongs_to :local_network
   has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
   
-  validates_presence_of :title, :description
+  validates_presence_of :title, :description, :date
   
   def self.local_network_model_type
     :knowledge_sharing
@@ -39,6 +39,8 @@ class Award < ActiveRecord::Base
     error_messages = []
     errors.each do |error|
       case error
+        when 'date'
+          error_messages << 'Select a date'
         when 'title'
           error_messages << 'Enter a title'
         when 'description'

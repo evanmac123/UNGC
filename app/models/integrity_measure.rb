@@ -19,6 +19,8 @@ class IntegrityMeasure < ActiveRecord::Base
   belongs_to :local_network
   has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
 
+  validates_presence_of :title, :description
+
   def self.local_network_model_type
     :network_management
   end

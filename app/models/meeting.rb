@@ -34,6 +34,8 @@ class Meeting < ActiveRecord::Base
     error_messages = []
     errors.each do |error|
       case error
+        when 'date'
+          error_messages << 'Select a date'
         when 'file'
           error_messages << 'Choose a file to upload'
        end

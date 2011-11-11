@@ -52,7 +52,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   has_and_belongs_to_many :principles
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy 
 
-  validates_presence_of :title, :event_type, :date
+  validates_presence_of :title, :description, :event_type, :date
   
   default_scope :order => 'date DESC'
   
@@ -92,6 +92,8 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
          case error
            when 'title'
              error_messages << 'Enter a title'
+           when 'description'
+             error_messages << 'Enter a description'
            when 'event_type'
              error_messages << 'Select an event type'
            when 'date'
