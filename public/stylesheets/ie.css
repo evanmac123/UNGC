@@ -28,8 +28,10 @@ div.radio_button_group { margin: 15px 0 0 0; }
   margin: -5px 0px 0px 10px;
 }
 
+/* Form fixes */
 #main_content fieldset ol li { margin: 5px; }
 #main_content fieldset input { margin: 0px; }
+#main_content input[type='text'], #main_content input[type='password'] { margin-left: 25px; }
 
 /* Local Networks form fixes */
 #main_content .ie_fix dt.title, #main_content .ie_fix dd.title { margin-bottom: -18px; }
