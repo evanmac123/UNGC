@@ -31,7 +31,9 @@ div.radio_button_group { margin: 15px 0 0 0; }
 /* Form fixes */
 #main_content fieldset ol li { margin: 5px; }
 #main_content fieldset input { margin: 0px; }
-#main_content input[type='text'], #main_content input[type='password'] { margin-left: 25px; }
+#main_content fieldset input[type='text'], #main_content input[type='password'] { margin-left: 25px; }
+#main_content fieldset ol.radio_button_list li { margin-top: -15px; border: none; }
+#main_content ul.tools, #main_content ul.inline {clear: both;}
 
 /* Local Networks form fixes */
 #main_content .ie_fix dt.title, #main_content .ie_fix dd.title { margin-bottom: -18px; }
