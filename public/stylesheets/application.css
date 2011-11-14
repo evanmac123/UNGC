@@ -453,7 +453,6 @@ td.center {
   width: 100px;
 }
 
-
 #main_content dd, .copy dd {
 	border-top: 1px solid #ccc;
 	margin-left: 100px;
@@ -470,6 +469,7 @@ td.center {
 }
 
 /* jquery progress bar */
+#main_content dd ul.self_assessment div.issue_coverage { margin-left: -20px; }
 #main_content dt span { line-height: 1.2em; }
 #main_content dt span.human_right, span.human_right { color: #F7931E; }
 #main_content dt span.labour, span.labour { color: #52C6D8; }

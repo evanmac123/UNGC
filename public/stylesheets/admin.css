@@ -868,8 +868,10 @@ ul.view_modes {
   color: #14546f;
   line-height: 1.5em;
   font-weight: bold; }
-#main_content div.issue_coverage span.human_right, #main_content div.issue_coverage span.labour, #main_content div.issue_coverage span.environment, #main_content div.issue_coverage span.anti_corruption {
-  margin: 0 0 10px 0; }
+#main_content div.issue_coverage {
+  margin-left: -20px; }
+  #main_content div.issue_coverage span.human_right, #main_content div.issue_coverage span.labour, #main_content div.issue_coverage span.environment, #main_content div.issue_coverage span.anti_corruption {
+    margin: 0 0 10px 0; }
 #main_content div.ui-progressbar {
   width: 500px;
   text-align: left;

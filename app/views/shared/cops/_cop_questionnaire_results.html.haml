@@ -5,7 +5,7 @@
 %dd
   %ul.self_assessment
     %li
-      %div{:id => 'issue_coverage'}
+      %div.issue_coverage
         - PrincipleArea::FILTERS.each_pair do |key, value|
           - percent = percent_issue_area_coverage(communication_on_progress, key)
           - if percent > 0
