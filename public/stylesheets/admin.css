@@ -849,6 +849,10 @@ ul.view_modes {
 #main_content dd ul li.unselected_question {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png); }
+#main_content dd ul.self_assessment {
+  padding-left: 23px; }
+  #main_content dd ul.self_assessment li {
+    border: none; }
 #main_content dd ul.questionnaire {
   padding-bottom: 20px; }
   #main_content dd ul.questionnaire li.unselected_question p, #main_content dd ul.questionnaire li.selected_question p, #main_content dd ul.questionnaire li.advanced_question p {
@@ -864,8 +868,10 @@ ul.view_modes {
   color: #14546f;
   line-height: 1.5em;
   font-weight: bold; }
-#main_content div.issue_coverage span.human_right, #main_content div.issue_coverage span.labour, #main_content div.issue_coverage span.environment, #main_content div.issue_coverage span.anti_corruption {
-  margin: 0 0 10px 0; }
+#main_content div.issue_coverage {
+  margin-left: -20px; }
+  #main_content div.issue_coverage span.human_right, #main_content div.issue_coverage span.labour, #main_content div.issue_coverage span.environment, #main_content div.issue_coverage span.anti_corruption {
+    margin: 0 0 10px 0; }
 #main_content div.ui-progressbar {
   width: 500px;
   text-align: left;
