@@ -514,6 +514,9 @@ td.center {
   color: #666;
 }
 
+#main_content dd ul.self_assessment { padding-left: 23px; }
+#main_content dd ul.self_assessment li { border: none; }
+
 #main_content dd ul.questionnaire li:last-child {
   border-bottom:  0;
   margin-bottom:  0;
