@@ -19,7 +19,7 @@ class IntegrityMeasure < ActiveRecord::Base
   belongs_to :local_network
   has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
 
-  validates_presence_of :title, :description
+  validates_presence_of :date, :title, :description
 
   def self.local_network_model_type
     :network_management
@@ -37,6 +37,8 @@ class IntegrityMeasure < ActiveRecord::Base
     error_messages = []
     errors.each do |error|
       case error
+        when 'date'
+          error_messages << 'Enter a date'
         when 'title'
           error_messages << 'Enter a title'
         when 'description'

@@ -1,4 +1,6 @@
 %h2 Editing Membership Breakdown
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@local_network)
 %div.hint_toggle
   About membership...
 %div.hint_text{:style => 'display: none;'}

@@ -503,6 +503,8 @@ ul.nav_bar {
 #main_content input.button {
   float: right;
   clear: both; }
+#main_content div.fieldWithErrors input, #main_content div.fieldWithErrors textarea {
+  border: 1px solid #F99; }
 #main_content fieldset {
   background-color: #fcfcff;
   border: 1px solid #aaa; }
@@ -556,16 +558,16 @@ ul.nav_bar {
       cursor: pointer;
       float: left;
       margin: 1px 0 0 10px; }
-  #main_content fieldset input[type="checkbox"].label_right {
+  #main_content fieldset ol.checkbox_list input[type="checkbox"].label_right {
     float: left;
     margin: -2px 10px 0 0;
     clear: left; }
-  #main_content fieldset label.checkbox_label {
+  #main_content fieldset ol.checkbox_list label.checkbox_label {
     width: auto;
     cursor: pointer;
     float: none;
     margin: 5px 0 0 0; }
-  #main_content fieldset p.check_box_label_description {
+  #main_content fieldset ol.checkbox_list p.check_box_label_description {
     margin: 3px 0 0 24px;
     display: block; }
   #main_content fieldset span.cke_skin_kama {

@@ -1,4 +1,6 @@
 %h2 Editing Fees and Contributions
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@local_network)
 %fieldset{:style => 'width: 250px; height: 100px; float: left; margin-right: 45px;'}
   %legend Member Fees
   %p Are members required to pay fees?

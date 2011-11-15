@@ -52,8 +52,8 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   has_and_belongs_to_many :principles
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy 
 
-  validates_presence_of :title, :description, :event_type, :date
-  
+  validates_presence_of :title, :description, :event_type, :date, :num_participants, :gc_participant_percentage
+
   default_scope :order => 'date DESC'
   
   def self.local_network_model_type
@@ -96,6 +96,10 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
              error_messages << 'Enter a description'
            when 'event_type'
              error_messages << 'Select an event type'
+           when 'num_participants'
+             error_messages << 'Stakeholders > Enter the number of attendees at the event'
+           when 'gc_participant_percentage'
+             error_messages << 'Stakeholders > Enter the approximate percentage of Global Compact participants'
            when 'date'
              error_messages << 'Select a date'
            when 'file'

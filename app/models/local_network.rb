@@ -67,9 +67,17 @@ class LocalNetwork < ActiveRecord::Base
                       :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
-  
-  # validates_numericality_of :fees_amount_company, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
-  
+
+  NUMERIC =  [:membership_subsidiaries, :membership_companies, :membership_sme, :membership_micro_enterprise,
+              :membership_business_organizations, :membership_csr_organizations, :membership_labour_organizations,
+              :membership_civil_societies, :membership_academic_institutions, :membership_government, :membership_other,
+              :fees_amount_company, :fees_amount_sme, :fees_amount_other_organization, :fees_amount_participant,
+              :fees_amount_voluntary_private, :fees_amount_voluntary_public]
+
+  NUMERIC.each do |attribute|
+    validates_numericality_of attribute, :only_integer => true, :allow_blank => true
+  end
+
   default_scope :order => 'local_networks.name'
   named_scope :where_region, lambda { |region| {
         :include => :countries, :conditions => {'countries.region' => region.to_s}
@@ -158,13 +166,20 @@ class LocalNetwork < ActiveRecord::Base
   
   def readable_error_messages
     error_messages = []
+    fee_error_messages = ''
     errors.each do |error|
+      
+      if NUMERIC.include?(error.to_sym)
+        fee_error_messages = 'Please use whole numbers without decimals or commas'
+      end
+      
       case error
         when 'url'
           error_messages << 'Please provide a website address in the format http://organization.org'
-       end
+        end
     end
-    error_messages
+       
+    error_messages << fee_error_messages
   end
   
 end

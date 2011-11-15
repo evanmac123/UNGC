@@ -19,7 +19,7 @@
 
 %fieldset
   %legend Roles
-  %ol
+  %ol.checkbox_list
     - for role in @roles
       %li
         = check_box_tag "contact[role_ids][]", role.id, @contact.roles.include?(role), { :id => "contact_role_ids_" + role.id.to_s, :class => "#{login_fieldset_class(role)} label_right", :readonly => @contact.last_contact_or_ceo?(role, current_user) }
