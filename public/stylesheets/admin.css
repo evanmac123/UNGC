@@ -554,6 +554,8 @@ ul.nav_bar {
       cursor: pointer;
       float: left;
       top: 0px; }
+    #main_content fieldset ol.checkbox_list li.checkbox input[type="radio"], #main_content fieldset ol.checkbox_list li.radio_button input[type="radio"], #main_content fieldset ol.radio_button_list li.checkbox input[type="radio"], #main_content fieldset ol.radio_button_list li.radio_button input[type="radio"] {
+      margin-top: 1px; }
     #main_content fieldset ol.checkbox_list li.checkbox label, #main_content fieldset ol.checkbox_list li.radio_button label, #main_content fieldset ol.radio_button_list li.checkbox label, #main_content fieldset ol.radio_button_list li.radio_button label {
       cursor: pointer;
       float: left;

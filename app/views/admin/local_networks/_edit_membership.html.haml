@@ -6,14 +6,14 @@
 %div.hint_text{:style => 'display: none;'}
   %p Membership in the Local Network does not necessarily reflect participation in the Global Compact. Similarly, participants in the Global Compact may not necessarily be members of the Local Network.
 
-%fieldset{:style => 'width: 250px; height: 175px; float: left; margin-right: 45px;'}
+%fieldset{:style => 'width: 250px; height: 155px; float: left; margin-right: 45px;'}
   %legend Subsidiary Participation
   %p Do subsidiaries of multinational companies participate in Local Network activities?
   %ol.radio_button_list
     %li= default_form.radio_button :membership_subsidiaries, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_membership_subsidiaries_true}
     %li= default_form.radio_button :membership_subsidiaries, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_membership_subsidiaries_false}
 
-%fieldset{:style => 'width: 250px; height: 175px; float: left; margin-right: 45px;'}
+%fieldset{:style => 'width: 250px; height: 155px; float: left; margin-right: 45px;'}
   %legend Business Members
   %ol
     = default_form.text_field :membership_companies, {:class => 'short'}, :label => 'Companies'
@@ -21,7 +21,7 @@
     = default_form.text_field :membership_micro_enterprise, {:class => 'short'}, :label => 'Micro Enterprises'
     = default_form.text_field :membership_business_organizations, {:class => 'short'}, :label => 'Business Associations'
 
-%fieldset{:style => 'width: 250px; height: 175px;'}
+%fieldset{:style => 'width: 250px; height: 155px;'}
   %legend Non-Business Members
   %ol
     = default_form.text_field :membership_academic_institutions, {:class => 'short'}, :label => 'Academic'

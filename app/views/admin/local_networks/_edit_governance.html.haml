@@ -2,7 +2,7 @@
 
 %fieldset.governance{:style => 'width: 425px; float: left;'}
   %legend Annual Meeting Appointments
-  %p Are appointments made during the Annual Meeting?
+  %p{:style => 'margin-bottom: 0.5em;'} Are appointments made during the Annual Meeting?
   %ol.radio_button_list
     %li= default_form.radio_button :sg_annual_meeting_appointments, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_sg_annual_meeting_appointments_true}
     %li= default_form.radio_button :sg_annual_meeting_appointments, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_sg_annual_meeting_appointments_false}
@@ -22,17 +22,17 @@
 %fieldset
   %legend Stakeholder Groups Involved in Governance
 
-  %ol.checkbox_list{:style => 'float: left; margin-left: -25px; margin-right: 180px;'}
+  %ol.checkbox_list{:style => 'margin-right: 180px;'}
     = default_form.check_box :stakeholder_company, {:li_class => 'checkbox', :label => 'Companies'} 
     = default_form.check_box :stakeholder_sme, {:li_class => 'checkbox', :label => 'SMEs'} 
     = default_form.check_box :stakeholder_business_association, {:li_class => 'checkbox', :label => 'Business Associations'} 
 
-  %ol.checkbox_list{:style => 'float: left; margin-right: 80px;'}
+  %ol.checkbox_list{:style => 'margin-right: 120px;'}
     = default_form.check_box :stakeholder_labour, {:li_class => 'checkbox', :label => 'Labour'} 
     = default_form.check_box :stakeholder_un_agency, {:li_class => 'checkbox', :label => 'UN Agencies'} 
     = default_form.check_box :stakeholder_ngo, {:li_class => 'checkbox', :label => 'NGOs'} 
 
-  %ol.checkbox_list{:style => 'float: left;'}
+  %ol.checkbox_list
     = default_form.check_box :stakeholder_foundation, {:li_class => 'checkbox', :label => 'Foundations'} 
     = default_form.check_box :stakeholder_academic, {:li_class => 'checkbox', :label => 'Academic Institutions'} 
     = default_form.check_box :stakeholder_government, {:li_class => 'checkbox', :label => 'Government Entities'} 
