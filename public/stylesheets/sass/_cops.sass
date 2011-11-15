@@ -93,6 +93,11 @@
           :list-style-type        circle
           :list-style-image       url(/images/unchecked.png)
 
+    ul.self_assessment
+      :padding-left               23px
+      li
+        :border                   none
+
     ul.questionnaire
       :padding-bottom             20px
       li
@@ -115,6 +120,7 @@
     
     // Jquery Progressbar styles need to be adjusted in Dashboard
   div.issue_coverage
+    :margin-left                 -20px
     span
       &.human_right, &.labour, &.environment, &.anti_corruption
         :margin                   0 0 10px 0

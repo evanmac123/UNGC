@@ -1,6 +1,6 @@
 - if params[:action] != 'feed'
 
-  %ul.questionnaire{:style => 'padding-left: 23px;'}
+  %ul.self_assessment
     %li{:class => select_answer_class(communication_on_progress.include_continued_support_statement?) }
       Includes an explicit statement of continued support for the UN Global Compact and its ten principles
     - PrincipleArea::FILTERS.each_pair do |key, value|
