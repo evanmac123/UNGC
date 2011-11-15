@@ -8,13 +8,13 @@ class AssignNetworkLogins
   file = ARGV.first
   
   if FileTest.exists?(file)
-
+   # tab delimited so we can open in Excel
    puts ['Email', 'Username', 'Password', 'Name', 'Local Network / Organization', 'Status'].join("\t")
 
     CSV.foreach(file, :headers => :first_row) do |row|
       c = Contact.find_all_by_email(row["email"])
       unless c.any?
-        puts "#{row["email"]}\t#{row["username"]}\t\t#{row["name"]}\t\tEmail not found"
+        puts "#{row["email"]}\t#{row["username"]}\t\t#{row["name"]}\t#{row["local_network"]}\tEmail not found"
       end
       
       c.each do |contact|        
