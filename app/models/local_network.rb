@@ -179,7 +179,7 @@ class LocalNetwork < ActiveRecord::Base
         end
     end
        
-    error_messages << fee_error_messages
+    fee_error_messages.present? ? error_messages << fee_error_messages : error_messages
   end
   
 end
