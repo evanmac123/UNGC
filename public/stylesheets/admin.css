@@ -407,12 +407,10 @@ ul.nav_bar {
         color: white;
         text-decoration: none;
         border: 1px solid #333; }
-        .tab_container ul.tab_nav li a:hover {
-          background: #fcfcff;
-          color: #14546f; }
         .tab_container ul.tab_nav li a.selected {
           background: white;
-          color: #14546f; }
+          color: #14546f;
+          cursor: default; }
   .tab_container.top_tabs ul.tab_nav li {
     float: left;
     margin-right: 1px; }
