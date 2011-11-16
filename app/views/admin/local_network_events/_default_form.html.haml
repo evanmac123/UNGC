@@ -66,16 +66,19 @@
         = default_form.text_field :gc_participant_percentage, :label => 'Global Compact participants (%)' 
 
   #files.tab_content
-    %fieldset.file_inputs
+    %fieldset.file_inputs{:style => 'min-height: 200px;'}
       %legend File attachments
-
       - if @submodel.new_record?
         %ol
           %li= file_field_tag 'local_network_event[uploaded_attachments][][attachment]'
       - else
-        %ul{:class => "tools inline"}
-          %li= link_to 'Manage Files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel), :class => "folder_large"
-
-        %ul.bulleted
-          - @submodel.attachments.each do |a|
-            %li= link_to_uploaded_file(a)
+        = link_to 'Manage Files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel), :class => "folder_large"
+        %hr/
+        %ul.document_list{:style => 'margin-left: 0;'}
+          - unless @submodel.attachments.any?
+            %li No files uploaded
+          - @submodel.attachments.each do |uploaded_file|
+            %li= link_to_attached_file(uploaded_file, file='attachment')
+        / %ul.bulleted
+        /   - @submodel.attachments.each do |a|
+        /     %li= link_to_uploaded_file(a)

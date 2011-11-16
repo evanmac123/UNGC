@@ -57,4 +57,3 @@
               %li No files uploaded
             - @submodel.attachments.each do |uploaded_file|
               %li= link_to_attached_file(uploaded_file, file='attachment')
-              / %li= link_to_uploaded_file(uploaded_file)
