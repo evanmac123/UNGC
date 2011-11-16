@@ -2,7 +2,7 @@
 
 %fieldset.governance{:style => 'width: 425px; float: left;'}
   %legend Annual Meeting Appointments
-  %p{:style => 'margin-bottom: 0.5em;'} Are appointments made during the Annual Meeting?
+  %p{:style => 'margin-bottom: 5px;'} Are appointments made during the Annual Meeting?
   %ol.radio_button_list
     %li= default_form.radio_button :sg_annual_meeting_appointments, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_sg_annual_meeting_appointments_true}
     %li= default_form.radio_button :sg_annual_meeting_appointments, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_sg_annual_meeting_appointments_false}

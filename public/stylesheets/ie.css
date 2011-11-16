@@ -29,13 +29,12 @@ div.radio_button_group { margin: 15px 0 0 0; }
 }
 
 /* Form fixes */
-#main_content div.fieldWithErrors {display: inline;}
 #main_content div.fieldWithErrors input[type='text'] {border: 1px solid #F99;}
 #main_content div.fieldWithErrors input[type='radio'] {border-color: white;}
 #main_content fieldset ol li { margin: 5px; }
 #main_content fieldset input { margin: 0px; }
 #main_content fieldset input[type='text'], #main_content input[type='password'] { margin-left: 25px; }
-#main_content fieldset ol.radio_button_list { clear: both; height: 100px; }
+#main_content fieldset ol.radio_button_list { clear: both; height: auto; }
 #main_content fieldset ol.radio_button_list li { margin: -10px; padding: 0;}
 #main_content ul.tools, #main_content ul.inline {clear: both;}
 
