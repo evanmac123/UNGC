@@ -388,31 +388,31 @@ ul.nav_bar
       &.title
         font-size: 130%
       
-    ul.document_list, ul.stakeholders, ul.issues_covered
-      li
-        float: none
-        list-style: none
-        white-space: nowrap
-        border: none
+  ul.document_list, ul.stakeholders, ul.issues_covered
+    li
+      float: none
+      list-style: none
+      white-space: nowrap
+      border: none
+      
+      a
+        padding-top: 10px
+        margin-bottom: -10px
+        vertical-align: text-bottom
+        display: block
+        // positioning defaults to generic icon in sprited png file:
+        background: transparent url('../images/icons/Document_24x24.png') no-repeat 0px 0px
+        text-indent: 30px
+        height: 24px
         
-        a
-          padding-top: 10px
-          margin-bottom: -10px
-          vertical-align: text-bottom
-          display: block
-          // positioning defaults to generic icon in sprited png file:
-          background: transparent url('../images/icons/Document_24x24.png') no-repeat 0px 0px
-          text-indent: 30px
-          height: 24px
-          
-          &.ppt
-            background-image: url('../images/icons/doc_ppt.png')
-          &.jpg
-            background-image: url('../images/icons/doc_jpg.png')
-          &.pdf
-            background-image: url('../images/icons/doc_pdf.png')
-          &.word
-            background-image: url('../images/icons/doc_word.png')
+        &.ppt
+          background-image: url('../images/icons/doc_ppt.png')
+        &.jpg
+          background-image: url('../images/icons/doc_jpg.png')
+        &.pdf
+          background-image: url('../images/icons/doc_pdf.png')
+        &.word
+          background-image: url('../images/icons/doc_word.png')
           
 .container > .sidebar
   background= !light_blue
