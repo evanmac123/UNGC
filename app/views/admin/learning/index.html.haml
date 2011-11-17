@@ -9,9 +9,12 @@
       = form.select     :event_type,       event_type_options,                :label => 'Type of Event'
       = form.select     :principle_id,     issue_area_options,                :label => 'Issue Area'
       = form.select     :region,           region_options,                    :label => 'Region'
+      <!--[if !IE]><!-->
       = form.select     :local_network_id, local_network_options,             :label => 'Local Network'
+      <!-- <![endif]-->
 
-  = form.submit 'Search'
+  %p= form.submit 'Search'
 
+<!--[if IE]><!-->
 = local_network_region_js
-
+<!-- <![endif]-->
