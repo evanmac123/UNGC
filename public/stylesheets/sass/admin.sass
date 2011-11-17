@@ -211,12 +211,11 @@ ul.nav_bar
   a.search_large
     background: url('../images/icons/Search_Calendar_24x24.png') no-repeat top left
 
-  // icons for issues areas in search results admin/learning/search.html.haml 
-
+  // icons for issues areas in search results admin/learning/search.html.haml and event show page 
   ul.issues_covered, dd.issue_list ul.issues_covered
     margin: 0
-    white-space: nowrap
     li
+      display: inline
       float: left
       list-style: none
       padding: 0 5px
@@ -225,6 +224,7 @@ ul.nav_bar
   dd.issue_list
     ul.issues_covered
       li
+        display: block
         float: none
         background-position: 0px 1px
         padding: 0px 0px 5px 0px

@@ -16,7 +16,7 @@
   - @search.results.each do |event|
     %tr{ 'data-id' => event.id }
       %td.nowrap= event.date.try(:strftime, '%d-%b-%Y')
-      %td{ :title => event.title }= truncate(event.title, :length => 50)
+      %td{ :title => event.title }= truncate(event.title, :length => 55)
       %td{ :title => event.type_name }= truncate(event.type_name, :length => 20)
       %td.nowrap.small= issues_covered(event)
       %td= event.local_network.country.region_name

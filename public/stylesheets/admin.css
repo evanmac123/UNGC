@@ -165,14 +165,15 @@ ul.nav_bar {
   #main_content a.search_large {
     background: url('../images/icons/Search_Calendar_24x24.png') no-repeat top left; }
   #main_content ul.issues_covered, #main_content dd.issue_list ul.issues_covered {
-    margin: 0;
-    white-space: nowrap; }
+    margin: 0; }
     #main_content ul.issues_covered li, #main_content dd.issue_list ul.issues_covered li {
+      display: inline;
       float: left;
       list-style: none;
       padding: 0 5px;
       background: transparent no-repeat 50% 50%; }
   #main_content dd.issue_list ul.issues_covered li {
+    display: block;
     float: none;
     background-position: 0px 1px;
     padding: 0px 0px 5px 0px;
