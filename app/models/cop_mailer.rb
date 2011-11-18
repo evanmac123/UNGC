@@ -3,7 +3,6 @@ class CopMailer < ActionMailer::Base
 
   def confirmation_learner(organization, cop, user)
     from 'cop@unglobalcompact.org'
-    bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact Status - 12 Month Learner Grace Period"
     content_type "text/html"
     recipients user.email_recipient
@@ -12,7 +11,6 @@ class CopMailer < ActionMailer::Base
   
   def confirmation_active(organization, cop, user)
     from 'cop@unglobalcompact.org'
-    bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact Status - GC Active"
     content_type "text/html"
     recipients user.email_recipient
@@ -21,7 +19,6 @@ class CopMailer < ActionMailer::Base
 
   def confirmation_advanced(organization, cop, user)
     from 'cop@unglobalcompact.org'
-    bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact Status - GC Advanced"
     content_type "text/html"
     recipients user.email_recipient
