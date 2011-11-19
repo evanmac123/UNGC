@@ -37,7 +37,7 @@ require "hpricot"
 
 puts "NOTICE - Downloading file list..."
 
-uri  = URI.parse("http://gcln.unglobalcompact.org/UploadedDocument/")
+uri  = URI.parse("http://74.127.39.97/UploadedDocument/")
 page = open(uri)
 doc  = Hpricot(page)
 
