@@ -1,7 +1,6 @@
 class LocalNetworksContacts < SimpleReport
   def records
-    Contact.network_roles.all(:include => :local_network,
-                                 :order => 'local_networks.name')
+    Contact.network_roles.all(:include => :local_network, :order => 'local_networks.name')
   end
   
   def headers
@@ -58,7 +57,7 @@ class LocalNetworksContacts < SimpleReport
       r.try(:local_network).try(:name) || 'Unknown',
       r.try(:local_network).try(:state).try(:humanize) || 'None',
       r.try(:local_network).try(:countries).map(&:code).join(','),
-      r.try(:local_network).try(:countries).try(:first).try(:region)
+      r.try(:local_network).region_name
     ]
   end
 end
