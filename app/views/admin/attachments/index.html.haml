@@ -1,0 +1,15 @@
+%h3 Manage Files
+%h4= @submodel.title
+%ul{:class => "tools inline"}
+  %li= link_to cancel_string, cancel_path, :class => 'go_back_large'
+  %li= link_to 'Add Files', new_attachment_path, :class => "new_page_large"  
+
+%table.dashboard_table
+  %tr
+    %th File name
+    %th Size
+    %th Uploaded
+    %th Actions
+  - attachments.each do |a|
+    = render :partial => '/admin/attachments/attachment', :object => a
+

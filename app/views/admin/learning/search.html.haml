@@ -1,0 +1,28 @@
+%h2= "There are #{@search.results.total_entries} events matching your criteria"
+%ul#contacts_tools{:class => "tools inline"}
+  %li= refine_search_button
+  %li= new_search_button
+%p   
+%table.dashboard_table
+  %tr
+    %th Date
+    %th Title
+    %th Type
+    %th Issues
+    %th Region
+    %th Local Network
+    %th Actions
+
+  - @search.results.each do |event|
+    %tr{ 'data-id' => event.id }
+      %td.nowrap= event.date.try(:strftime, '%d-%b-%Y')
+      %td{ :title => event.title }= truncate(event.title, :length => 55)
+      %td{ :title => event.type_name }= truncate(event.type_name, :length => 20)
+      %td.nowrap.small= issues_covered(event)
+      %td= event.local_network.country.region_name
+      %td= event.local_network.name
+      %td
+        %ul.actions
+          = render :partial => '/admin/local_network_events/admin_actions', :locals => { :local_network_event => event }
+
+= will_paginate @search.results

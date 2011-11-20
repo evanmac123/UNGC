@@ -1,0 +1,84 @@
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@submodel)
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li
+      %a{:href => '#general'} General
+    %li
+      %a{:href => '#issues'} Issue Areas
+    %li
+      %a{:href => '#stakeholders'} Stakeholders
+    %li
+      %a{:href => '#files'} Files
+      
+
+  #general.tab_content
+    %fieldset
+      %legend General Information
+      %ol
+        = default_form.select      :event_type, options_for_select(select_options_from_hash(LocalNetworkEvent::TYPES), @submodel.event_type_for_select_field), :label => 'Type'
+        = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
+        = default_form.text_field  :title, :label => 'Title'
+        = default_form.text_area   :description, :label => 'Description'
+        
+    
+  #issues.tab_content
+    %fieldset
+      %legend Principle Issue Areas
+      %ol.checkbox_list
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :human_rights}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :labour}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :environment}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :anti_corruption}
+
+    %fieldset
+      %legend Additional Issue Areas
+      %ol.checkbox_list
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_peace}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :financial_markets}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :business_development}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :un_business}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:principle => :supply_chain}
+
+  #stakeholders.tab_content
+    %fieldset
+      %legend Stakeholders Represented
+      .checkbox_list_container
+        %ol.checkbox_list{:style => 'float: left; width: 300px;'}
+          = default_form.check_box :stakeholder_company,              { :li_class => 'checkbox', :label => 'Companies'             }
+          = default_form.check_box :stakeholder_sme,                  { :li_class => 'checkbox', :label => 'SMEs'                  }
+          = default_form.check_box :stakeholder_labour,               { :li_class => 'checkbox', :label => 'Labour'                }
+          = default_form.check_box :stakeholder_business_association, { :li_class => 'checkbox', :label => 'Business Associations' }
+          = default_form.check_box :stakeholder_ngo,                  { :li_class => 'checkbox', :label => 'Civil Society'         }
+
+        %ol.checkbox_list{:style => 'float: left; width: 300px;'}
+          = default_form.check_box :stakeholder_academic,   { :li_class => 'checkbox', :label => 'Academic'    }
+          = default_form.check_box :stakeholder_foundation, { :li_class => 'checkbox', :label => 'Foundations' }
+          = default_form.check_box :stakeholder_government, { :li_class => 'checkbox', :label => 'Government'  }
+          = default_form.check_box :stakeholder_media,      { :li_class => 'checkbox', :label => 'Media'       }
+          = default_form.check_box :stakeholder_un_agency,  { :li_class => 'checkbox', :label => 'UN Agencies' }
+
+    %fieldset
+      %legend Stakeholder Attendance
+      %ol.numeric_inputs
+        = default_form.text_field :num_participants,          :label => 'Number of attendees at the event'
+        = default_form.text_field :gc_participant_percentage, :label => 'Global Compact participants (%)' 
+
+  #files.tab_content
+    %fieldset.file_inputs{:style => 'min-height: 200px;'}
+      %legend File attachments
+      - if @submodel.new_record?
+        %ol
+          %li= file_field_tag 'local_network_event[uploaded_attachments][][attachment]'
+      - else
+        = link_to 'Manage Files', admin_local_network_local_network_event_attachments_path(@local_network, @submodel), :class => "folder_large"
+        %hr/
+        %ul.document_list{:style => 'margin-left: 0;'}
+          - unless @submodel.attachments.any?
+            %li No files uploaded
+          - @submodel.attachments.each do |uploaded_file|
+            %li= link_to_attached_file(uploaded_file, file='attachment')
+        / %ul.bulleted
+        /   - @submodel.attachments.each do |a|
+        /     %li= link_to_uploaded_file(a)

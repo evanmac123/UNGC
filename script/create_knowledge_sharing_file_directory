@@ -1,0 +1,81 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "fileutils"
+
+download = false
+
+option_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} DIRECTORY"
+
+  opts.on "-d", "--download", "Download files instead of creating dummies" do |v|
+    download = true
+  end
+end
+
+begin
+  option_parser.parse!
+rescue OptionParser::ParseError => e
+  puts e
+  puts
+  puts option_parser
+  exit -1
+end
+
+dir = ARGV.first
+
+if dir.nil? or dir.empty?
+  puts option_parser
+  exit -1
+end
+
+FileUtils.mkdir_p(dir)
+
+require "uri"
+require "open-uri"
+require "hpricot"
+
+puts "NOTICE - Downloading file list..."
+
+uri  = URI.parse("http://74.127.39.97/UploadedDocument/")
+page = open(uri)
+doc  = Hpricot(page)
+
+links = doc.search("a").map { |a| a.attributes["href"] }
+links.reject! { |href| href.nil? or href.empty? or href == "/" }
+
+puts "NOTICE - Found #{links.size} files"
+
+links.each do |href|
+  filename   = File.basename(URI.unescape(href))
+  local_path = File.join(dir, filename)
+
+  if File.exist?(local_path)
+    puts "SKIP - already exists - #{filename}"
+    next
+  end
+
+  content = nil
+
+  if download
+    puts "NOTICE - Downloading #{href}"
+    response = Net::HTTP.get_response(uri.host, href)
+
+    if response.code.to_i == 200
+      content = response.body
+    else
+      puts "FAILURE - request failed with #{response.code} - #{filename}"
+    end
+  else
+    puts "NOTICE - Creating dummy file #{filename}"
+    content = "hello world"
+  end
+
+  if content
+    File.open(local_path, "w", encoding: "ASCII-8BIT") do |f|
+      f.write(content)
+    end
+
+    puts "SUCCESS - #{filename}"
+  end
+end

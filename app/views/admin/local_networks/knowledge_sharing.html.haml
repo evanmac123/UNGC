@@ -1,0 +1,70 @@
+- @body_class = 'details'
+- unless current_user.local_network == @local_network
+  %div.tab_switcher
+    %ul.tab_switch
+      %li=link_to 'Network Management', admin_local_network_path(@local_network), :class => "restrictions #{action_name != 'knowledge_sharing' ? ' selected' : ''}"
+      %li=link_to 'Knowledge Sharing', knowledge_sharing_path(@local_network), :class => "restrictions #{action_name == 'knowledge_sharing' ? ' selected' : ''}"
+%h3= @local_network.name
+    
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#local_network_events">Events and Activities</a>
+    %li <a href="#meetings">Meetings</a>
+    %li <a href="#communications">Communications</a>
+    %li <a href="#awards">Awards</a>
+
+  #local_network_events.tab_content
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Event', new_admin_local_network_local_network_event_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Title
+        %th Type of Event
+        %th Date
+        %th.actions Actions
+      = render @local_network.events
+
+  #meetings.tab_content
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Meeting', new_admin_local_network_meeting_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Type of Meeting
+        %th Date
+        %th Document
+        - if current_user_can_edit_network?
+          %th.actions Actions
+      = render @local_network.meetings
+
+  #communications.tab_content
+    - if current_user_can_edit_network?
+      %ul#tools{:class => "tools inline"}
+        %li= link_to 'New Communication', new_admin_local_network_communication_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Format
+        %th Title
+        %th Published on
+        %th Document
+        - if current_user_can_edit_network?
+          %th.actions Actions
+      = render @local_network.communications
+
+  #awards.tab_content
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Award', new_admin_local_network_award_path(@local_network), :class => "new_large"
+    %table.dashboard_table
+      %tr
+        %th Type
+        %th Title
+        %th Date
+        %th Document
+        - if current_user_can_edit_network?
+          %th.actions Actions
+      = render @local_network.awards

@@ -13,6 +13,8 @@ ActionController::Routing::Routes.draw do |map|
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   map.parameters '/admin/parameters', :controller => 'admin', :action => 'parameters'
   map.cop_introduction '/admin/cops/introduction', :controller => 'admin/cops', :action => 'introduction'
+  
+  map.knowledge_sharing 'admin/local_networks/:id/knowledge_sharing', :controller => 'admin/local_networks', :action => 'knowledge_sharing', :conditions => { :method => :get }
 
   # These need to come before resources :pages
   map.with_options :controller => 'admin/pages' do |m|
@@ -78,10 +80,21 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :countries
     admin.resources :logo_files
     admin.resources :cop_questions
-    admin.resources :local_networks, :has_many => :contacts 
+    admin.resources :local_networks, :has_many => [:contacts, :awards, :mous, :meetings, :communications, :integrity_measures] do |local_network|
+      local_network.resources :local_network_events do |event|
+        event.resources :attachments, :controller => 'local_network_event_attachments'
+      end
+    end
+
+    admin.uploaded_file '/uploaded_files/:id/:filename', :controller => 'uploaded_files', :action => 'show', :filename => /.*/
       
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'
+
+    admin.with_options :controller => 'learning' do |learning|
+      learning.learning 'learning', :action => 'index'
+      learning.connect 'learning/:action'
+    end
   end
 
   # Front-end routes

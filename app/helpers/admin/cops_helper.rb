@@ -181,11 +181,7 @@ module Admin::CopsHelper
   def submission_30_days_before_due?(organization, cop)
     cop.new_record? && organization.cop_due_on < (Date.today + 30.days)
   end
-  
-  def popup_link_to(text, url)
-    link_to text, url, {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1'], :style => 'display: inline;'}
-  end
-  
+    
   # Outputs javascript variables that will indicate to cop_form.js
   # how to calculate the COP score
   def organization_javascript_vars(organization)

@@ -1,7 +1,7 @@
 class AdminController < ApplicationController
   layout 'admin'
   helper 'Admin', 'Admin/Organizations', 'Admin/LocalNetworks'
-  helper_method :contact_path, :contact_parent_path
+  helper_method :contact_path, :contact_parent_path, :network_management_tab?, :knowledge_sharing_tab?
 
   before_filter :login_required
   before_filter :redirect_non_approved_organizations, :only => :dashboard
@@ -122,5 +122,13 @@ class AdminController < ApplicationController
       if current_user.from_organization? and !current_user.organization.approved?
         redirect_to admin_organization_path current_user.organization.id
       end
+    end
+
+    def network_management_tab?
+      false
+    end
+
+    def knowledge_sharing_tab?
+      false
     end
 end

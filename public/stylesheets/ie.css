@@ -28,6 +28,33 @@ div.radio_button_group { margin: 15px 0 0 0; }
   margin: -5px 0px 0px 10px;
 }
 
+/* Form fixes */
+#main_content div.fieldWithErrors input[type='text'] {border: 1px solid #F99;}
+#main_content div.fieldWithErrors input[type='radio'] {border-color: white;}
+#main_content fieldset ol li { margin: 5px; }
+#main_content fieldset input { margin: 0px; }
+#main_content fieldset input[type='text'], #main_content input[type='password'] { margin-left: 25px; }
+#main_content fieldset ol.radio_button_list { clear: both; height: auto; }
+#main_content fieldset ol.radio_button_list li { margin: -10px; padding: 0;}
+#main_content ul.tools, #main_content ul.inline {clear: both;}
+
+/* FT500 Checkbox in organization profile */
+#main_content fieldset input[type='checkbox']#organization_is_ft_500 {display: inline; right: 710px; top: -2px; float: right;}
+
+/*radio button*/
+#main_content fieldset ol.radio_button_list li.radio_button { clear: both;  padding: 5px 0; }
+#main_content fieldset ol.radio_button_list li.radio_button input[type='radio'] { margin-top: -3px; }
+#main_content fieldset ol.checkbox_list { clear: both; }
+
+/* Local Networks form fixes */
+#main_content .ie_fix dt.title, #main_content .ie_fix dd.title { margin-bottom: -18px; }
+#main_content fieldset.governance { float: none; }
+#main_content fieldset.governance ol.radio_button_list li { margin-top: -10px; }
+#main_content fieldset.governance { height: 130px; }
+
+/* Dashboard document list */
+ul.document_list li a { padding: 5px 0 5px 0; }
+
 /*Social Media Icons*/
 .copy ul.icons li {display: inline; padding-right: 8px; height: 32px; width: 32px; float: left; list-style: none; }
 .copy ul.icons li + li {display: inline; padding-top: 8px; height: 60px; width: 215px; float: left; }

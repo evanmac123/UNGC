@@ -14,23 +14,38 @@
 #
 
 class Country < ActiveRecord::Base
-  validates_presence_of :name, :code, :region
+  belongs_to :local_network
   belongs_to :manager, :class_name => 'Contact'
-  has_many :organizations
   has_and_belongs_to_many :case_stories
   has_and_belongs_to_many :communication_on_progresses
-  belongs_to :local_network
+  has_many :organizations
+
+  validates_presence_of :name, :code, :region
   
   default_scope :order => 'countries.name'
   
-  REGIONS = ['Africa', 'Americas', 'Asia', 'Australasia', 'Europe', 'MENA']
+  REGIONS = { :africa      => 'Africa',
+              :americas    => 'Americas',
+              :asia        => 'Asia',
+              :australasia => 'Australasia',
+              :europe      => 'Europe',
+              :mena        => 'MENA'
+            }
     
   named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
+  
+  def region_for_select_field
+    region.try(:to_sym)
+  end
   
   def self.regions
     Country.find(:all, :select     => 'DISTINCT region',
                        :conditions => 'region IS NOT NULL',
                        :order      => 'region')
+  end
+  
+  def region_name
+    REGIONS[self.region.to_sym] unless region.nil?
   end
   
   def local_network_name

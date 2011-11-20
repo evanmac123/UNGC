@@ -3,7 +3,7 @@
 !environment = #688442
 !anti_corruption = #ED1C24
 !dark_blue = #14546f
-!light_blue = #f0f6fa
+!light_blue = #FCFCFF
 !dark_grey = #333
 !medium_grey = #666
 !light_grey = #f2f2f2
@@ -129,11 +129,13 @@ ul.nav_bar
   h3
     color = !dark_blue
     font-weight: bold
+    &.button_label
+      margin-top: 3px
     
   h4
     color = !dark_blue
 
-  a.new_large, a.edit_large, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large
+  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large, a.folder_large, a.search_large
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -155,14 +157,22 @@ ul.nav_bar
   a.edit_large
     background: url('../images/icons/Edit_24x24.png') no-repeat top left
 
+  a.edit_small
+    background: url('../images/icons/Edit_16x16.png') no-repeat 2px 1px
+
   a.new_page_large, div.new_page_large
     background: url('../images/icons/Add_Document_24x24.png') no-repeat top left
+    &.align
+      margin-left: 25px
 
   a.web_preview_large
     background: url('../images/icons/Web Browser_24x24.png') no-repeat top left
 
   a.info_large, div.hint_toggle
-    background: url('../images/icons/Info_24x24.png') no-repeat top left
+    background: url('../images/icons/Add_Button_24x24.png') no-repeat top left
+
+  a.info_large, div.selected
+    background: url('../images/icons/Minus_Button_24x24.png') no-repeat top left
 
   a.delete_doc
     display: inline
@@ -189,9 +199,57 @@ ul.nav_bar
   
   a.go_back_large
     background: url('../images/icons/GoBack_24x24.png') no-repeat top left
-
+  
   a.download_large
     background: url('../images/icons/Accounts Payable_24x24.png') no-repeat top left
+    
+  a.folder_large
+    background: url('../images/icons/Folder (Closed)_24x24.png') no-repeat top left
+    &:hover
+      background: url('../images/icons/Folder (Open)_24x24.png') no-repeat top left
+
+  a.search_large
+    background: url('../images/icons/Search_Calendar_24x24.png') no-repeat top left
+
+  // icons for issues areas in search results admin/learning/search.html.haml and event show page 
+  ul.issues_covered, dd.issue_list ul.issues_covered
+    margin: 0
+    li
+      display: inline
+      float: left
+      list-style: none
+      padding: 0 5px
+      background: transparent no-repeat 50% 50%
+
+  dd.issue_list
+    ul.issues_covered
+      li
+        display: block
+        float: none
+        background-position: 0px 1px
+        padding: 0px 0px 5px 0px
+        text-indent: 20px
+        &.none
+          text-indent: 0px
+  ul.issues_covered, dd.issue_list ul.issues_covered
+    li.human_rights
+      background-image: url('../images/icons/issue_icon_human_rights.png')
+    li.labour
+      background-image: url('../images/icons/issue_icon_labour.png')
+    li.environment
+      background-image: url('../images/icons/issue_icon_environment.png')
+    li.anti_corruption
+      background-image: url('../images/icons/issue_icon_anti_corruption.png')
+    li.business_peace
+      background-image: url('../images/icons/issue_icon_business_peace.png')
+    li.financial_markets
+      background-image: url('../images/icons/issue_icon_financial_markets.png')
+    li.business_development
+      background-image: url('../images/icons/issue_icon_business_development.png')
+    li.un_business
+      background-image: url('../images/icons/issue_icon_un_business.png')
+    li.supply_chain
+      background-image: url('../images/icons/issue_icon_supply_chain.png')
 
   table.dashboard_table
     width: 100%
@@ -287,6 +345,8 @@ ul.nav_bar
           background-image: url('../images/icons/Web Browser_16x16.png')
         &.revoke
           background-image: url('../images/icons/Rate (Thumbs Down)_16x16.png')
+        &.files
+          background-image: url('../images/icons/Folder (Open)_16x16.png')
     
   dl
     margin-bottom: 2em
@@ -294,51 +354,65 @@ ul.nav_bar
     margin-right: 30px
     &.left_column
       float: left
-    
+    &.short
+      dd
+        width: 65px
+
     dt
       width: 130px
       padding: 10px 10px 10px 0
       margin: 0
       float: left
-      font-weight: bold
       white-space: nowrap
       border-top: 1px solid #999
-      &.first
+      &.title
+        font-size: 130%
+      &.checked
+        border-top-style: dotted
+        font-weight: normal
+        padding: 10px 0 10px 20px
+        background: url('../images/checked.png') no-repeat 0px 10px
+      &.unchecked
+        border-top-style: dotted      
+        font-weight: normal
+        padding: 10px 0 10px 20px
+      &.first, &.title
         border: none
-      
+        
     dd
       margin-left: 140px
-      padding: 10px
+      padding: 10px 10px 10px 0
       border-top: 1px solid #999
-      &.first
+      &.first, &.title
         border: none
+      &.title
+        font-size: 130%
       
-    ul.document_list
-      overflow: hidden
-      margin: 0
+  ul.document_list, ul.stakeholders, ul.issues_covered
+    li
+      float: none
+      list-style: none
+      white-space: nowrap
+      border: none
       
-      li
-        float: left
-        list-style: none
+      a
+        padding-top: 10px
+        margin-bottom: -10px
+        vertical-align: text-bottom
+        display: block
+        // positioning defaults to generic icon in sprited png file:
+        background: transparent url('../images/icons/Document_24x24.png') no-repeat 0px 0px
+        text-indent: 30px
+        height: 24px
         
-        a
-          display: block
-          // positioning defaults to generic icon in sprited png file:
-          background: white url('../images/icons/doc_icons.png') no-repeat 0px 0px
-          text-indent: -9999em
-          width: 24px
-          height: 24px
-          
-          &.pdf_doc
-            // fixes positioning for PDF icon in sprited png file:
-            background-position: -48px 0
-            
-          &.word_doc
-            // fixes positioning for Word icon in sprited png file:
-            background-position: -24px 0
-
-  #org_name
-    font-weight: bold 
+        &.ppt
+          background-image: url('../images/icons/doc_ppt.png')
+        &.jpg
+          background-image: url('../images/icons/doc_jpg.png')
+        &.pdf
+          background-image: url('../images/icons/doc_pdf.png')
+        &.word
+          background-image: url('../images/icons/doc_word.png')
           
 .container > .sidebar
   background= !light_blue
@@ -379,10 +453,36 @@ ul.nav_bar
   color: #868686
   margin: 20px 0 0 0
 
+.tab_switcher
+  ul.tab_switch
+    float: right
+    margin: 0 0 20px 0
+    padding: 0
+    li
+      display: inline
+      list-style: none
+      overflow: hidden
+      position: relative
+      top: 1px
+      a
+        font-size: 9px
+        -moz-border-radius: 4px
+        -webkit-border-radius: 4px
+        background= !light_grey 
+        border= 1px "solid" !light_blue
+        padding: 5px 10px
+        color= !medium_grey
+        text-decoration: none
+        &.selected
+          color: white
+          border: 1px solid grey
+          background= !medium_grey
+
 .tab_container
+  clear: both
   display: none
   margin: 1em 0
-
+    
   ul.tab_nav
     margin: 0
     padding: 0
@@ -402,13 +502,10 @@ ul.nav_bar
         text-decoration: none
         border: 1px solid #333
       
-        &:hover
-          background = !light_blue
-          color = !dark_blue
-        
         &.selected
           background: white
           color = !dark_blue
+          cursor: default
     
   // tab rules specific to top-tabbed nav
   &.top_tabs
@@ -539,13 +636,20 @@ ul.nav_bar
   input.button
     float: right
     clear: both
+  
+  div.fieldWithErrors
+    input, textarea
+      border: 1px solid #F99
     
   fieldset
     background-color= !light_blue
     border: 1px solid #aaa
+    // Local Network fieldset styling
+    &.governance
+      height: 90px
     
     legend
-      color: #aaa
+      color: #888
       
       span
         white-space: normal
@@ -566,7 +670,6 @@ ul.nav_bar
         list-style-type: disc
         margin: 0 0 0.5em 2em
 
-      
     label
       color= !dark_blue
       display: block
@@ -580,34 +683,57 @@ ul.nav_bar
       width: 250px
       font-family: "Helvetica Neue",Arial,Helvetica,sans-serif
       font-size: 1em
+      &.short
+        width: 40px
     
-    li.date > select
-      width: auto
-    
-    input[type="checkbox"], input[type="radio"], input[type="file"] 
+    input[type="checkbox"], input[type="radio"], input[type="file"], li.date select
       width: auto
       margin: 0 5px 0px 25px
+
+    .checkbox_list_container
+      overflow: auto
+      width: 100%
+      padding-top: 2px
+    
+    ol.checkbox_list, ol.radio_button_list
+      float: left
+      li.checkbox, li.radio_button
+        clear: both
+        padding-bottom: 10px
+        
+        input[type="checkbox"], input[type="radio"]
+          cursor: pointer
+          float: left
+          top: 0px
+        input[type="radio"]
+          margin-top: 1px
+          
+        label
+          cursor: pointer
+          float: left
+          margin: 1px 0 0 10px
     
     // next 3 styles used in roles fieldset
-    input[type="checkbox"].label_right
-      float: left
-      margin: -2px 10px 0 0
-      clear: left
+    ol.checkbox_list
+      input[type="checkbox"].label_right
+        float: left
+        margin: -2px 10px 0 0
+        clear: left
       
-    label.checkbox_label
-      width: auto
-      cursor: pointer
-      float: none
-      margin: 5px 0 0 0
+      label.checkbox_label
+        width: auto
+        cursor: pointer
+        float: none
+        margin: 5px 0 0 0
           
-    p.check_box_label_description
-      margin: 3px 0 0 24px
-      display: block
+      p.check_box_label_description
+        margin: 3px 0 0 24px
+        display: block
   
     span.cke_skin_kama
       display: block
       margin: 0 5px 0 120px
-    
+
     textarea
       height: 100px
       overflow-y: auto
@@ -628,7 +754,6 @@ ul.nav_bar
         color= !dark_blue
         font-weight: bold
         margin: 1em 0
-        &:hover
         cursor: pointer
 
       div.hint_text
@@ -693,6 +818,18 @@ ul.nav_bar
           font-weight: bold
         select
           width: 90px
+
+    .numeric_inputs
+      li
+        margin-bottom: 1em
+        margin-left: 25px
+        label
+          width: 275px
+          margin-top: 1px
+
+        input[type="text"]
+          width: 40px
+          margin-top: 0
 
   // page_manager styling
   .box
@@ -1010,7 +1147,7 @@ ul.view_modes
       
   small
     font-size: 0.9em
-    
-    
+  .nowrap
+    white-space: nowrap
     
 @import cops.sass    

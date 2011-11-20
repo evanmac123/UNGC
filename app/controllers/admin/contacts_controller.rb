@@ -80,14 +80,17 @@ class Admin::ContactsController < AdminController
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'search_results'
     end
-       
+    
     def return_path
-      if current_user.from_ungc?
+      if current_user.from_ungc? || current_user.from_network?
         contact_parent_path(@contact, [], [], :tab => :contacts)
       else
         dashboard_path(:tab => :contacts)
       end
     end
-        
+
+    def network_management_tab?
+      true
+    end
         
 end

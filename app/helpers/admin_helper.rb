@@ -34,22 +34,41 @@ module AdminHelper
   end
   
   def link_to_attached_file(object, file='attachment')
+    options = {}
+    # clean this up
     return 'Not available' if object.send("#{file}_file_name").blank?
     if object.send("#{file}_file_name").downcase.ends_with?('.pdf')
-      name = "PDF document"
-      options = {:title => 'Download PDF document', :class => 'pdf_doc'}
-    elsif object.send("#{file}_file_name").downcase.ends_with?('.doc') ||
-            object.send("#{file}_file_name").downcase.ends_with?('.docx')
-      name = "Word document"
-      options = {:title => 'Download Word document', :class => 'word_doc'}
+      options = {:class => 'pdf'}
+    elsif object.send("#{file}_file_name").downcase.ends_with?('.jpg')
+      options = {:class => 'jpg'}
+    elsif object.send("#{file}_file_name").downcase.ends_with?('.ppt') || object.send("#{file}_file_name").downcase.ends_with?('.pptx')
+      options = {:class => 'ppt'}
+    elsif object.send("#{file}_file_name").downcase.ends_with?('.doc') || object.send("#{file}_file_name").downcase.ends_with?('.docx')
+      options = {:class => 'word'}
+    end
+    
+    if object.is_a?(UploadedFile)
+      options[:title] = object.send("#{file}_unmodified_filename")
+      name = truncate options[:title], :length => 65
+      link_to(name, admin_uploaded_file_path(object, object.attachment_unmodified_filename), options)
     else
-      name = "Document"
-      options = {:title => 'Download document'}
+      options[:title] = object.send("#{file}_file_name")
+      name = truncate options[:title], :length => 65
+      link_to name, object.send(file).url, options
     end
 
-    link_to name, object.send(file).url, options
   end
   
+  def link_to_uploaded_file(object)
+    if object
+      options = {:title => object.attachment_unmodified_filename}
+      name = truncate options[:title], :length => 100
+      link_to(name, admin_uploaded_file_path(object, object.attachment_unmodified_filename), options)
+    else
+      'No file'
+    end
+  end
+
   # Outputs a table header that is also a link to sort the current data set
   def sort_header(label, options={})
     if @order.nil? || @order.split(' ').first != options[:field]
@@ -65,7 +84,8 @@ module AdminHelper
       html_class = {'ASC' => 'descending', 'DESC' => 'ascending'}[direction]
     end
     link_to label, url_for(sort_field:     options[:field],
-                           sort_direction: direction), :class => html_class
+                           sort_direction: direction,
+                           tab:            options[:tab]), :class => html_class
   end
   
   # describes the number of days since last event
@@ -84,5 +104,19 @@ module AdminHelper
   def edit_contact_path(contact)
     contact_path(contact, :action => :edit)
   end
+  
+  def show_check(condition)
+    condition ? 'checked' : 'unchecked'
+  end
+  
+  def display_readable_errors(object)
+     error_messages = object.readable_error_messages.map { |error| content_tag :li, error }
+     content_tag :ul, error_messages.join
+  end
+  
+  def popup_link_to(text, url, options={})
+    link_to text, url, {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1'], :title => options[:title], :class => options[:class]}
+  end
+  
 
 end

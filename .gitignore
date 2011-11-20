@@ -23,5 +23,6 @@ public/system/attachments/**/*
 public/system/commitment_letters/**/*
 public/system/previews/**/*
 public/system/zips/**/*
+public/uploaded_files
 tmp/*
 tmp/**/*

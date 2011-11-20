@@ -1,0 +1,59 @@
+%h2 Local Network Event
+
+%ul{:class => "tools inline"}
+  - if current_user.from_ungc? or (current_user.from_network? and current_user.local_network == @submodel.local_network)
+    %li= link_to 'Edit', edit_admin_local_network_local_network_event_path(@submodel.local_network, @submodel), :class => 'edit_large', :title => 'Edit details'
+
+
+.main_content
+  #status_box
+    %dl{:style => 'width: 60%;'}
+      %dt.first Title
+      %dd.first
+        %ul
+          %li= @submodel.title
+      %dt Local Network
+      %dd
+        %ul
+          %li= @submodel.local_network_name
+      %dt Type
+      %dd
+        %ul
+          %li= @submodel.type_name
+      %dt Description
+      %dd
+        %ul
+          %li= @submodel.description.present? ? @submodel.description : 'Not available'
+      %dt Date
+      %dd
+        %ul
+          %li= @submodel.date || 'Not available'
+      %dt Issue Areas
+      %dd.issue_list
+        %ul.issues_covered
+          - if @submodel.principles.any?
+            - @submodel.principles.each do |principle|
+              %li{:class => Principle::TYPE_NAMES.key(principle.name)}= principle.name
+          - else
+            %li.none None specified
+      %dt Stakeholders
+      %dd
+        %ul.stakeholders
+          - unless @submodel.stakeholders.any?
+            %li None specified
+          - @submodel.stakeholders.each do |field|
+            %li= @submodel.stakeholder_name(field)
+
+      %dt Attendance
+      %dd
+        %ul
+          %li== Number of Attendees: #{@submodel.num_participants || 'unknown'}
+          %li== Global Compact Participants: #{number_to_percentage(@submodel.gc_participant_percentage, :precision => 0) || 'unknown'}
+      
+        %dt Files
+        %dd
+          %ul.document_list
+            - unless @submodel.attachments.any?
+              %li No files uploaded
+            - @submodel.attachments.each do |uploaded_file|
+              %li= link_to_attached_file(uploaded_file, file='attachment')

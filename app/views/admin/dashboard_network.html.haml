@@ -1,43 +1,22 @@
 - @title = 'Dashboard Overview'
 - @body_class = 'details'
-
+%h3= @local_network.name
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
-    %li <a href="#contacts">Contacts</a>
-    %li <a href="#applications">New Applications</a>
-    %li <a href="#expelled">Participants to be Expelled</a>
 
   #overview.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_local_network_path(@local_network.id), :class => 'edit_large', :title => "Edit Local Network profile"
-      %li= link_to_public_profile(@local_network)
   
-    %dl.left_column
-      %h3 Profile
-      %dt.first Local Network
-      %dd.first= @local_network.name
-      %dt Development Stage
-      %dd= @local_network.humanize_state
-      -if @local_network.url.present?
-        %dt Website
-        %dd= link_to @local_network.url, @local_network.url
-
-    %dl.left_column
-      %h3 Recent Activity
-      %dt.first Example Item
-      %dd.first Sample Meeting Report
-      %dt Example Newsletter
-      %dd Sample Newsletter
-
-  #contacts.tab_content
-    %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
-    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
-    
-  #applications.tab_content
-    %p Applications pending your review
-    
-  #expelled.tab_content
-    %p These participants will be expelled for failure to submit a Communication on Progress
-   
+    %dl.left_column{:style => 'width: 50%'}
+      %h3 Welcome to the Dashboard
+      
+      %p Manage and share information about your Local Network with the Global Compact Office and learn about the activities of other networks.
+      
+      %dt.first Network Management
+      %dd.first Create and update your Local Network's profile
+      %dt Knowledge Sharing
+      %dd Publish and share your events and activities
+      %dt Browse Networks
+      %dd View other Local Network profiles by Region
+      %dt Learning
+      %dd Find events and activities shared by other Networks

@@ -1,0 +1,2 @@
+= check_box_tag 'local_network_event[principle_ids][]', Principle.by_type(principle).id, @submodel.principle_ids.include?(Principle.by_type(principle).id), :id => "principle_area_checkbox_#{Principle.by_type(principle).id}"
+%label{:style => 'width: auto;', :for => "principle_area_checkbox_#{Principle.by_type(principle).id}"}= Principle.by_type(principle).name

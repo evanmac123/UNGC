@@ -1,0 +1,36 @@
+%h2 New Policy
+
+%div.hint_toggle
+  About Policies...
+%div.hint_text{:style => 'display: none; width: 600px;'}
+
+  %h3 Local Network policies related to Integrity Measures
+
+  %h4 1. Communication on Progress
+
+  %ul
+    %li
+      Policies describing how the Local Network supports participants in developing a Communication on Progress (COP), including:
+      %br/
+      %br/
+      %p <b>Mentoring</b> by providing systematic and substantive feedback to participants on their Communication on Progress reports
+      %p <b>Facilitating</b> by communicating upcoming deadlines to participants, providing assistance in uploading COPs to the website, managing usernames and passwords, developing a step-by-step guidance/template, and providing existing or translated COP materials
+      %p <b>Peer-Review</b> by facilitating assessment and review of COPs by other business participants
+      %p <b>NGO/Media Engagement</b> by facilitating dialogue on COPs with NGOs or the media
+    
+  %p  
+    %h4 2. Network Logo Policy
+    %ul
+      %li A policy on the use of the Global Compact Local Network logo or co-branding of activities. This may include application criteria and procedures to be followed by members of the Local Network.
+    
+  %p
+    %h4 3. Dialogue Facilitation
+    %ul
+      %li A policy on dealing with complaints against Local Network members and responding to the request for facilitating dialogues from other stakeholders.
+  
+
+- form_for @submodel, builder: DefaultFormBuilder, :url => submodels_path, :html => {:multipart => true} do |form|
+  = render :partial => form
+  %ul{:class => "tools inline" :style => 'float: right;'}
+    %li= link_to 'Cancel', return_url, :class => 'cancel_large'
+    %li= form.submit 'Create', :class => 'button'

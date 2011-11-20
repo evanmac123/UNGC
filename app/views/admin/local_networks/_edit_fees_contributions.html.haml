@@ -1,0 +1,23 @@
+%h2 Editing Fees and Contributions
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@local_network)
+%fieldset{:style => 'width: 250px; height: 100px; float: left; margin-right: 45px;'}
+  %legend Member Fees
+  %p Are members required to pay fees?
+  %ol.radio_button_list
+    %li= default_form.radio_button :fees_participant, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_fees_participant_true}
+    %li= default_form.radio_button :fees_participant, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_fees_participant_false}
+    
+%fieldset{:style => 'width: 250px; height: 100px; float: left; margin-right: 45px;'}
+  %legend Annual Amount in U.S. Dollars
+  %ol
+    = default_form.text_field :fees_amount_company, {:class => 'short'}, :label => 'Company'
+    = default_form.text_field :fees_amount_sme, {:class => 'short'}, :label => 'SME'
+    = default_form.text_field :fees_amount_other_organization, {:class => 'short'}, :label => 'Other'
+
+%fieldset{:style => 'width: 250px; height: 100px; float: left; clear: right;'}
+  %legend Financing of Total Budget (%)
+  %ol
+    = default_form.text_field :fees_amount_participant, {:class => 'short'}, :label => 'Member Fees'
+    = default_form.text_field :fees_amount_voluntary_private, {:class => 'short'}, :label => 'Private Voluntary'
+    = default_form.text_field :fees_amount_voluntary_public, {:class => 'short'}, :label => 'Public Voluntary'
