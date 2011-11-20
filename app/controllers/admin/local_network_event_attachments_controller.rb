@@ -1,5 +1,12 @@
 class Admin::LocalNetworkEventAttachmentsController < Admin::AttachmentsController
+  before_filter :load_local_network
+  before_filter :no_access_to_other_local_networks, :except => [:show] 
+  
   private
+
+  def load_local_network
+    @local_network = @submodel.local_network
+  end
 
   def model
     LocalNetwork
