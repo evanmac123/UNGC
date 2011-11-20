@@ -2,7 +2,6 @@
   %td{:title => local_network_event.title}= truncate(local_network_event.title, :length => 65)
   %td= local_network_event.type_name
   %td= local_network_event.date
-  %td= local_network_event.attachments.count
   %td
     %ul.actions
       = render :partial => '/admin/local_network_events/admin_actions', :locals => { :local_network_event => local_network_event }
