@@ -109,7 +109,7 @@ body.supply_chain     #inner_head { background: url(/images/banner_supply_chain.
 #nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
-#nav ul { list-style: none; position: absolute; top: 3px; left: 42px; height: 22px; z-index: 10; white-space: nowrap;}
+#nav ul { list-style: none; position: absolute; top: 3px; left: 41px; height: 22px; z-index: 10; white-space: nowrap;}
 #nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; }
 #nav ul li.aboutus { width: 55px; }
 #nav ul li.participate { width: 105px; }
@@ -255,8 +255,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #inner_head h1 { position: absolute; top: 20px; left: 20px; }
 #inner_head p a { color: #FFF; font-size: 11px; margin-left: 17px; }
 #inner_head p a:hover { text-decoration: underline; }
-#inner_head p.print { position: absolute; top: 25px; left: 790px; background: url(/images/print_icon.png) top left no-repeat; }
-#inner_head p.send { position: absolute; top: 25px; left: 855px; background: url(/images/email_icon.png) top left no-repeat; }
+#inner_head p.print { position: absolute; top: 25px; left: 790px; background: url(/images/print_icon.png) 1px 1px no-repeat; }
+#inner_head p.send { position: absolute; top: 25px; left: 855px; background: url(/images/email_icon.png) 1px 2px no-repeat; }
 #inner_body { display: block; height: 100%; width: 920px; position: relative; left: 30px;  }
 #leftnav { width: 270px; position: absolute; top: 15px; left: 0px; background-color: #fff; border: 1px solid #dadada; }
 #leftnav ul { list-style: none; }
@@ -440,6 +440,17 @@ td.center {
 .clearfix:after { content: "."; height: 0; display: block; visibility: hidden; overflow: hidden; clear: left; }
 .clearme { clear: both; }
 
+/* Contact Us table*/
+#rightcontent .copy table.contacts { width: 100%; margin-bottom: 35px; }
+#rightcontent .copy table.contacts tr td {
+  border-bottom: 1px dotted #D1DADE;
+  padding: 0.25em;
+  white-space: nowrap;
+}
+#rightcontent .copy table.contacts tr td.initiative {font-size: 11px; text-indent: 0.5em;}
+#rightcontent .copy table.contacts tr td:first-child {width: 425px;}
+#rightcontent .copy table.contacts tr.section td, #rightcontent .copy table.contacts tr:last-child td {border: none;}
+
 /* COPs, item descriptions */
 
 #main_content dt, .copy dt {
@@ -466,6 +477,7 @@ td.center {
 
 #main_content dt:first-child + dd, .copy dt:first-child + dd {
   font-weight: normal;
+  color: #222;
 }
 
 /* jquery progress bar */
@@ -551,7 +563,7 @@ td.center {
 .copy ul.icons li img { margin: 0px 10px 0 0; float: left; }
 .copy ul.icons li + li { padding-top: 8px; height: 50px; width: 260px;}
 
-/*table for */
+/*table for Rio+20 Sponsorship */
 
 table.summaryBenefits {
   border: none;
