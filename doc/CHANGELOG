@@ -1,3 +1,8 @@
+h1. 2011-11-26
+
+* adding the date and timezone to expelled email since some companies said they were within the deadline according to their time zone
+* if the time of the cron job ever changes, then the time should be updated in delisting_today.html.haml
+
 h1. 2011-10-17
 
 * added TYPE to Local Network MOUs to allow staff to change the status from 'In Review' to 'Accepted'
