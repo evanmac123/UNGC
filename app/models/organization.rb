@@ -308,11 +308,7 @@ class Organization < ActiveRecord::Base
   
   def signatory_of?(initiative)
     initiative = Initiative.for_filter(initiative).first
-    if initiative
-      signings.include?(Signing.find_by_organization_id_and_initiative_id id, initiative.id)
-    else
-      false
-    end
+    initiative ? initiative_ids.include?(initiative.id) : false
   end
   
   def country_name
