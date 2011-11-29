@@ -76,7 +76,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     context "given a new cop" do
         
-      %w{basic intermediate advanced grace}.each do |cop_type|
+      %w{basic intermediate advanced lead grace}.each do |cop_type|
         should "get the #{cop_type} cop form" do
           get :new, :organization_id => @organization.id, :type_of_cop => cop_type
           assert_response :success
@@ -105,6 +105,23 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'intermediate')
     end
 
+  end
+  
+  context "given a company that is a signatory of LEAD" do
+    setup do
+      create_organization_and_user
+      @organization.approve!
+      create_initiatives
+      initiative = Initiative.for_filter(:lead).first
+      create_signing(:organization_id => @organization.id, :initiative_id => initiative.id)
+    end
+    
+    should "get the LEAD COP form" do
+      login_as @organization_user
+      get :introduction
+      assert_template "lead_introduction"       
+    end
+    
   end
   
   context "given a new basic cop" do

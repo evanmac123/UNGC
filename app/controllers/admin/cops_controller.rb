@@ -12,6 +12,11 @@ class Admin::CopsController < AdminController
     if current_user.from_organization? && !current_user.organization.company?
       redirect_to new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
     end
+    
+    if current_user.organization.signatory_of?(:lead)
+      render 'lead_introduction'
+    end
+    
   end
   
   def new

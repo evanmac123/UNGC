@@ -92,7 +92,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  TYPES = %w{grace basic intermediate advanced}
+  TYPES = %w{grace basic intermediate advanced lead}
 
   default_scope :order => 'created_at DESC'
   
