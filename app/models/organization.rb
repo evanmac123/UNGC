@@ -306,6 +306,15 @@ class Organization < ActiveRecord::Base
     organization_type_id == OrganizationType.micro_enterprise.try(:id)
   end
   
+  def signatory_of?(initiative)
+    initiative = Initiative.for_filter(initiative).first
+    if initiative
+      signings.include?(Signing.find_by_organization_id_and_initiative_id id, initiative.id)
+    else
+      false
+    end
+  end
+  
   def country_name
     country.try(:name)
   end
