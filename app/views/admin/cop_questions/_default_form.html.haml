@@ -12,11 +12,10 @@
 - unless @cop_question.new_record?
   %fieldset
     %legend Attributes
-    %p
-      %ul{:class => 'bulleted'}
-        %li Each attribute will be represented by a check box in the COP form. If you add a single attribute, then this will be a Yes/No question.
-        %li You may add an optional hint or suggested topics for each question.
-        %li For Basic COP questions, a text field will appear below the question and hints.
+    %ul{:class => 'bulleted'}
+      %li Each attribute will be represented by a check box in the COP form. If you add a single attribute, then this will be a Yes/No question.
+      %li You may add an optional hint or suggested topics for each question.
+      %li For Basic COP questions, a text field will appear below the question and hints.
     %hr
     #cop_attributes= render @cop_question.cop_attributes
     = link_to_function "New attribute", "$('#cop_attributes').append(replace_ids(cop_attribute_form))", :class => 'new_large' 
