@@ -33,6 +33,8 @@ class CopQuestion < ActiveRecord::Base
     'value_chain'         => 'Value Chain Implementation',
     'verification'        => 'Verification and Transparency',
     'governance'          => 'Governance',
+    'lead_un_goals'       => 'LEAD: UN Goals',
+    'lead_gc'             => 'LEAD: Global Compact',
     'mandatory'           => 'Mandatory',
     'notable'             => 'Notable'
   }
