@@ -2,23 +2,17 @@
   %h3== Please correct the following before submitting your COP:
   %div{:class => 'flash error'}= display_errors_for_cop(@communication_on_progress)
 
-  / Strategy, Governance and Engagement (Strategy)
-  / UN Goals and Issues (UN Goals)
   / Human Rights Implementation (Human Rights)
   / Labour Rights and Principles Implementation (Labour)
   / Environmental Stewardship Implementation (Environment)
   / Anti-Corruption Implementation (Anti-Corruption)
-  / Value Chain Implementation (Value Chain)
-  / Verification and Transparency (Verification)
-
+  / UN Goals and Issues (UN Goals)
+  / Engaging with the Global Compact (Global Compact)
+  
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a id="basic_link" href="#basic">General Information</a>
        
-    %li#strategy_governance_tab{:class => 'additional_questions'} <a href="#strategy_additional_questions">&nbsp;&raquo;&nbsp;Strategy</a>
-
-    %li#un_goals_tab{:class => 'additional_questions'} <a href="#un_goals_additional_questions">&nbsp;&raquo;&nbsp;UN Goals</a>
-
     %li#human_rights_tab{:class => 'additional_questions'} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
     
     %li#labour_tab{:class => 'additional_questions'}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
@@ -27,11 +21,9 @@
 
     %li#anti_corruption_tab{:class => 'additional_questions'}  <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
 
-    %li#value_chain_tab{:class => 'additional_questions'} <a href="#value_chain_additional_questions">&nbsp;&raquo;&nbsp;Value Chain</a>
+    %li#un_goals_tab{:class => 'additional_questions'} <a href="#un_goals_additional_questions">&nbsp;&raquo;&nbsp;UN Goals</a>
 
-    %li#verification_disclosure_tab{:class => 'additional_questions'} <a href="#verification_additional_questions">&nbsp;&raquo;&nbsp;Verification</a>
-
-    %li#notable_tab{:style => css_display_style(@communication_on_progress.notable_program?)} <a href="#notable_questions">Notable Program</a>
+    %li#global_compact_tab{:class => 'additional_questions'} <a href="#global_compact_additional_questions">&nbsp;&raquo;&nbsp;Global Compact</a>
 
     %li#submit_tab{:style => "#{css_display_style(@submitted)}"} <a id="submit_link" href="#finish">Submit your COP</a>
   
@@ -107,51 +99,6 @@
                     = form.radio_button :method_shared, key
                     = value
             
-  / - PrincipleArea::FILTERS.each_pair do |key, value|
-  /   %div.tab_content{:id => "#{key}_additional_questions"}
-  /     %h3
-  /       %span{:class => "#{issue_area_colour_for(value)}" }= value
-  /     %fieldset= cop_questions_for @communication_on_progress, :additional, key
-
-  %div.tab_content{:id => "strategy_additional_questions"}
-    %h3 Strategy, Governance and Engagement
-    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :strategy
-
-  %div.tab_content{:id => "un_goals_additional_questions"}
-    %h3 UN Goals and Issues
-    %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
-    %div{:class => 'hint_toggle'} About this section...
-    %div{:class => 'hint_text', :style => 'display: none;'}
-      %div{:style => 'margin-left: 2em;'}
-        %p "Broader UN Goals and Issues" refers to an array of global issues - based on the most acute or chronic global challenges - including: 
-        %ul{:style => "float: left; margin-left: 1em; margin-right: 3em;"}
-          %li Peace & Security 
-          %li Millennium Development Goals 
-          %li Human Rights 
-          %li Children's Rights
-          %li Gender Equality
-
-        %ul{:style => "float: left; margin-right: 4em;"}
-          %li Health
-          %li Education
-          %li Humanitarian Assistance
-          %li Migration
-          %li Food Security
-        
-        %ul{:style => "margin-bottom: 2em;"}
-          %li Sustainable Ecosystems and Biodiversity
-          %li Climate Change Mitigation and Adaptation
-          %li Water Security and Sanitation
-          %li Employment and Decent Working Conditions
-          %li Anti-Corruption
-       
-      %p{:style => 'display: block; clear both; margin-left: 2em;'}
-        For a list of further Global Issues that are relevant to the work of the UN as well as business, please refer to
-        = popup_link_to 'business.un.org','http://business.un.org/en/browse/global_issues' 
-          
-    %fieldset= cop_questions_for @communication_on_progress, :un_goals
-
   %div.tab_content{:id => "human_rights_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
@@ -176,19 +123,23 @@
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :anti_corruption
 
-  %div.tab_content{:id => "value_chain_additional_questions"}
-    %h3 Value Chain Implementation
+  %div.tab_content{:id => "un_goals_additional_questions"}
+    %h3 Taking Action in Support of Broader UN Goals and Issues
     %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
     %div{:class => 'hint_toggle'} About this section...
     %div{:class => 'hint_text', :style => 'display: none;'}
-      %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
-      
-    %fieldset= cop_questions_for @communication_on_progress, :value_chain
+      %div{:style => 'margin-left: 2em;'}
+        %p "Broader UN Goals and Issues" refers to an array of global issues - based on the most acute or chronic global challenges - including: 
 
-  %div.tab_content{:id => "verification_additional_questions"}
-    %h3 Verification and Transparency
-    %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :verification
+      %p{:style => 'display: block; clear both; margin-left: 2em;'}
+        For a list of further Global Issues that are relevant to the work of the UN as well as business, please refer to
+        = popup_link_to 'business.un.org','http://business.un.org/en/browse/global_issues' 
+
+    %fieldset= cop_questions_for @communication_on_progress, :lead_un_goals
+
+  %div.tab_content{:id => "global_compact_additional_questions"}
+    %h3 Engaging with the UN Global Compact
+    %fieldset= cop_questions_for @communication_on_progress, :lead_gc
 
   #finish.tab_content
     %fieldset
@@ -207,33 +158,12 @@
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop], :language_id => @cop_link_language, :url => @cop_link_url)}
 
     %fieldset
-      #best_practices{:style => 'display: block'}
-        %fieldset
-          %legend
-            %span Optional: Other established or emerging best practices
-          %p Please use the text box below to share with the Global Compact Office any other established or emerging best practices.
-          = form.text_area :description, :class => 'cop_answer'
- 
-    %fieldset
-      #confirmation{:style => 'display: block'}
-        %fieldset
-          %legend
-            %span Confirmation
-          %p Before submitting this COP and the self-assessment, please confirm that your company meets all 24 criteria for the GC Advanced level and that the COP describes implementation of all criteria and relevant best practices selected in the self-assessment.
-          
-          %p= true_or_false_field form, :meets_advanced_criteria
-          %br
-          %br
-          %p{:style => 'padding-top: 20px;'}
-            %em Note: The self-assessment will be made public on the Global Compact website, alongside the COP, to improve the searchability and analysis of the COPs and underlying performance. If you do not want the results to be publicly displayed, please do not proceed with this submission and use the regular COP submission process instead.
-
-    %fieldset
       #signature{:style => 'display: block'}
         %fieldset
           %legend
             %span Contact Information
           %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
-          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name
+          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name || current_user.contact_info
 
     = render :partial => 'submit_cop'
     %br
