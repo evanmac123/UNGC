@@ -149,9 +149,10 @@ class CommunicationOnProgress < ActiveRecord::Base
             :none      => "None of the above"
             }
   
-  LEVEL_DESCRIPTION = {:advanced => "This COP qualifies for the Global Compact Advanced level",
-                       :active   => "This COP qualifies for the Global Compact Active level",
-                       :learner  => "This COP places the participant on the Global Compact Learner Platform"
+  LEVEL_DESCRIPTION = { :blueprint => "Global Compact LEAD - Blueprint",
+                        :advanced  => "This COP qualifies for the Global Compact Advanced level",
+                        :active    => "This COP qualifies for the Global Compact Active level",
+                        :learner   => "This COP places the participant on the Global Compact Learner Platform"
                       }
              
   START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
@@ -208,6 +209,9 @@ class CommunicationOnProgress < ActiveRecord::Base
         self.format = 'basic'
       when 'advanced'
         self.additional_questions = true
+      when 'lead'
+        self.additional_questions = true
+        self.meets_advanced_criteria = true
     end
   end
 
@@ -408,8 +412,14 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
   end
   
+  def is_blueprint_level?
+    organization.signatory_of?(:lead)
+  end
+  
   def differentation_level
-    if is_advanced_level?
+    if is_blueprint_level?
+      :blueprint
+    elsif is_advanced_level?
       :advanced
     elsif is_intermediate_level?
       :active
