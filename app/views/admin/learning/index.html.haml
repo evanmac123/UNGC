@@ -9,17 +9,12 @@
       = form.select     :event_type,       event_type_options,                :label => 'Type of Event'
       = form.select     :principle_id,     issue_area_options,                :label => 'Issue Area'
       = form.select     :region,           region_options,                    :label => 'Region'
-      <!--[if !IE]><!-->
       = form.select     :local_network_id, local_network_options,             :label => 'Local Network'
-      <!-- <![endif]-->
-    
-      /[if IE]
-        %p.small{:style => 'margin: 1em 0;'}
-          ==Selecting specific countries is not currently possible with Internet Explorer. While this is being corrected, we suggest using a standards-compliant browser such as #{link_to 'Firefox', 'http://mozilla.com', :target => "_blank"}, #{link_to 'Chrome', 'http://www.google.com/chrome', :target => "_blank"} or #{link_to 'Safari', 'http://www.apple.com/safari/download/', :target => "_blank"}. All search options are available in these compatible browsers.
+  
   /[if IE]
     %p
+ 
   = form.submit 'Search'
-    
-<!--[if IE]><!-->
+
 = local_network_region_js
-<!-- <![endif]-->
+
