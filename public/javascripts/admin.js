@@ -643,7 +643,7 @@ $(document).ready(function() {
         var option = $(this),
             id     = option.attr('value');
 
-        if (region === '' || id === '' || LocalNetworkRegions[region].indexOf(id) !== -1) {
+        if (region === '' || id === '' || $.inArray(id, LocalNetworkRegions[region]) !== -1) {
           option.attr('selected', id === selectedId);
           option.appendTo(localNetworkSelect);
         } else {

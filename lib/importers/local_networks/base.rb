@@ -93,7 +93,7 @@ module Importers
             @file_directory_nil_already_warned = true
           end
 
-          return nil
+          return []
         end
 
         [].tap do |filenames|
