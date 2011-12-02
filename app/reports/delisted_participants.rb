@@ -52,7 +52,7 @@ class DelistedParticipants < SimpleReport
     record.stock_symbol,
     record.exchange.try(:name),
     record.country.name,
-    record.country.region,
+    record.country.region_name,
     record.latest_cop.try(:to_date),
     record.cop_count,
     record.removal_reason.try(:description)
