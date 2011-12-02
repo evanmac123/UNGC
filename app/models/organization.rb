@@ -311,7 +311,7 @@ class Organization < ActiveRecord::Base
   end
 
   def region_name
-    country.try(:region)
+    country.try(:region_name)
   end
   
   def sector_name
