@@ -49,3 +49,11 @@
 - if communication_on_progress.cop_answers.by_group(:verification).count > 0
   %dt Verification and <br /> Transparency
   %dd= show_cop_attributes(communication_on_progress, nil, nil, 'verification')
+  
+- if communication_on_progress.cop_answers.by_group(:lead_un_goals).count > 0
+  %dt Support of <br />Broader <br />UN Goals<br /> and Issues
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'lead_un_goals')
+  
+- if communication_on_progress.cop_answers.by_group(:lead_gc).count > 0
+  %dt Engaging with the<br /> UN Global Compact
+  %dd= show_cop_attributes(communication_on_progress, nil, nil, 'lead_gc')
