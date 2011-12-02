@@ -22,7 +22,14 @@ class ContactsMailMerge < SimpleReport
       c.state,
       c.postal_code,
       country.name as country_name,
-      country.region as region_name,
+      CASE country.region
+        WHEN 'africa'      THEN 'Africa'
+        WHEN 'americas'    THEN 'Americas'
+        WHEN 'asia'        THEN 'Asia'
+        WHEN 'australasia' THEN 'Australasia'
+        WHEN 'europe'      THEN 'Europe'
+        WHEN 'mena'        THEN 'MENA'
+      END AS region_name,
       r.name as role_name,
       c.phone,
       c.fax,
