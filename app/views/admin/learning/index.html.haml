@@ -10,7 +10,10 @@
       = form.select     :principle_id,     issue_area_options,                :label => 'Issue Area'
       = form.select     :region,           region_options,                    :label => 'Region'
       = form.select     :local_network_id, local_network_options,             :label => 'Local Network'
-
+  
+  /[if IE]
+    %p
+ 
   = form.submit 'Search'
 
 = local_network_region_js
