@@ -931,6 +931,8 @@ ul.view_modes {
   color: #688442; }
 #main_content span.anti_corruption {
   color: #ed1c24; }
+#main_content dd.indent {
+  padding-left: 30px; }
 #main_content dd:empty {
   min-height: 12px; }
 #main_content dd ul {
