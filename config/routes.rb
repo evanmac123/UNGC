@@ -103,19 +103,18 @@ ActionController::Routing::Routes.draw do |map|
   
   # some important URLs are just too long to type
   short_urls = {
-    'annualmeeting' => '/NewsAndEvents/global_compact_week.html',
-    'ungcweek'      => '/NewsAndEvents/global_compact_week.html',
-    'LDC'           => '/NewsAndEvents/LDC_IV.html',
-    'ldc'           => '/NewsAndEvents/LDC_IV.html',
-    'Lead'          => '/HowToParticipate/Lead/',
-    'lead'          => '/HowToParticipate/Lead/',
-    'leadlab'       => 'http://leadlab.unglobalcompact.org/',
-    'watermandate'  => '/Issues/Environment/CEO_Water_Mandate/'
+    'leadlab'      => 'http://leadlab.unglobalcompact.org/',
+    'ungcweek'     => '/NewsAndEvents/global_compact_week.html',
+    'watermandate' => '/Issues/Environment/CEO_Water_Mandate/',
+    'weps'         => '/Issues/human_rights/equality_means_business.html'
   }
   
   short_urls.each do |url, webpage|
     map.connect url, :controller => 'pages', :action => :redirect_to_page, :page => webpage
   end
+  
+  # handle any case for Lead
+  map.connect ':lead', :controller => 'pages', :action => :redirect_to_page, :page => '/HowToParticipate/Lead/', :requirements => { :lead => /lead/i }
   
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
