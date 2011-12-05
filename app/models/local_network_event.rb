@@ -53,7 +53,9 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy 
 
   validates_presence_of :title, :description, :event_type, :date, :num_participants, :gc_participant_percentage
-
+  validates_numericality_of :num_participants, :only_integer => true, :allow_blank => true
+  validates_numericality_of :gc_participant_percentage, :only_integer => true, :allow_blank => true
+  
   default_scope :order => 'date DESC'
   
   def self.local_network_model_type
@@ -97,9 +99,9 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
            when 'event_type'
              error_messages << 'Select an event type'
            when 'num_participants'
-             error_messages << 'Stakeholders > Enter the number of attendees at the event'
+             error_messages << 'Stakeholders > Enter the number of attendees at the event. Letters or other symbols cannot be entered.'
            when 'gc_participant_percentage'
-             error_messages << 'Stakeholders > Enter the approximate percentage of Global Compact participants'
+             error_messages << 'Stakeholders > Enter the approximate percentage of Global Compact participants. Letters or other symbols cannot be entered.'
            when 'date'
              error_messages << 'Select a date'
            when 'file'
