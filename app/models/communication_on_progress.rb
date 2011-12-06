@@ -357,6 +357,9 @@ class CommunicationOnProgress < ActiveRecord::Base
     items.count - items.collect{|r| r if r}.compact.count
   end
   
+  def missing_items?
+    number_missing_items > 0
+  end
   
   def issue_areas_covered
     issues = []
