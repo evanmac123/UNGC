@@ -149,7 +149,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
      end
      
     should "not be evaluated for differentiation" do
-      assert_equal '', @cop.differentation_level
+      assert_equal '', @cop.differentiation_level
       assert_equal '', @cop.differentiation
     end
       

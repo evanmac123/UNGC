@@ -420,7 +420,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     evaluated_for_differentiation? && organization.signatory_of?(:lead)
   end
   
-  def differentation_level
+  def differentiation_level
     if is_blueprint_level?
       :blueprint
     elsif is_advanced_level?
@@ -434,17 +434,17 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
   
-  def differentation_level_name
+  def differentiation_level_name
     differentiation.to_s.try(:humanize)
   end
   
   def differentiation_description
-    LEVEL_DESCRIPTION[differentation_level]
+    LEVEL_DESCRIPTION[differentiation_level]
   end
   
   # record level in case the criteria changes in the future
   def set_differentiation_level
-    self.differentiation = differentation_level.try(:to_s)
+    self.differentiation = differentiation_level.try(:to_s)
   end
   
   def readable_error_messages
