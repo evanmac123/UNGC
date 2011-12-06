@@ -178,10 +178,6 @@ module Admin::CopsHelper
     end
   end
   
-  def submission_30_days_before_due?(organization, cop)
-    cop.new_record? && organization.cop_due_on < (Date.today + 30.days)
-  end
-    
   # Outputs javascript variables that will indicate to cop_form.js
   # how to calculate the COP score
   def organization_javascript_vars(organization)
