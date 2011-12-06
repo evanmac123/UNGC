@@ -48,6 +48,16 @@ class Admin::ReportsController < AdminController
     @report = LocalNetworksContacts.new
     render_formatter(filename: "local_networks_contacts_#{date_as_filename}.xls")
   end
+
+  def initiative_contacts
+    @report = InitiativeContacts.new
+    render_formatter(filename: "water_mandate_contacts_#{date_as_filename}.xls")
+  end
+
+  def cop_questionnaire_answers
+    @report = CopQuestionnaireAnswers.new
+    render_formatter(filename: "cop_questionnaire_answers_#{date_as_filename}.xls")
+  end
   
   def networks
     @regions = Country.regions
