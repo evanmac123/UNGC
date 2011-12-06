@@ -202,6 +202,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     case self.type
       when 'grace'
         self.format = CopFile::TYPES[:grace_letter]
+        self.title = 'Grace Letter'
         # normally they can choose the coverage dates, but for grace letters it matches the grace period
         self.starts_on = self.organization.cop_due_on
         self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
@@ -413,7 +414,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
   
   def is_blueprint_level?
-    organization.signatory_of?(:lead)
+    evaluated_for_differentiation? && organization.signatory_of?(:lead)
   end
   
   def differentation_level
