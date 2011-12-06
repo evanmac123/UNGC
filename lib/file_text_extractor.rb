@@ -23,6 +23,7 @@ module FileTextExtractor
     begin
       if File.exists?(file)
         text = `#{command} #{file}`.force_encoding('UTF-8')
+        text = Iconv.conv('utf-8//IGNORE', 'utf-8', text)
       else
         text = '' # TODO: or raise?
       end
