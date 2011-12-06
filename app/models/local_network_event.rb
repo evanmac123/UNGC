@@ -55,7 +55,37 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   validates_presence_of :title, :description, :event_type, :date, :num_participants, :gc_participant_percentage
 
   default_scope :order => 'date DESC'
-  
+
+  before_save :set_indexed_fields, :if => :new_record?
+
+  define_index do
+    indexes title
+    indexes description
+    indexes file_content
+
+    has date
+    has local_network_id
+    has country_id
+    has 'CRC32(event_type)', :as => :event_type_crc, :type => :integer
+    has 'CRC32(region)',     :as => :region_crc,     :type => :integer
+    has principles(:id),     :as => :principle_ids
+  end
+
+  def set_indexed_fields
+    country = local_network.countries.first
+
+    self.attributes = {
+      :country_id   => country.id,
+      :region       => country.region,
+      :file_content => attachments.map { |uploaded_file| FileTextExtractor.extract(uploaded_file) }.join("\n")
+    }
+  end
+
+  def update_indexed_fields
+    set_indexed_fields
+    save
+  end
+
   def self.local_network_model_type
     :knowledge_sharing
   end
