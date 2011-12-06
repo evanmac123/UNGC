@@ -909,6 +909,11 @@ ul.view_modes {
 #main_content p.cop_description {
   font-size: 13px;
   line-height: 1.2em; }
+#main_content ol.cop_list {
+  padding-left: 1em; }
+  #main_content ol.cop_list li {
+    font-size: 13px;
+    line-height: 2em; }
 #main_content div.hint_toggle {
   color: #14546f;
   font-weight: bold;

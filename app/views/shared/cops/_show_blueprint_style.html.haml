@@ -1,13 +1,19 @@
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    %li <a href="#differentiation">Differentiation Level</a>
+    %li <a href="#differentiation">COP Assessment</a>
     %li <a href="#results">Detailed Results</a>
     %li <a href="#next_steps">Next Steps</a>
 
   #differentiation.tab_content
     %h3 Blueprint
-    %p Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website. According to your self-assessment, your company has reached the <strong>GC Advanced</strong> level.
-    %p GC Advanced companies will be publicly recognized on the Global Compact website with detailed results of the self-assessment and statistics on coverage of best practices for the COP.
+    %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website.
+    
+    - if communication_on_progress.missing_items?
+      %p== According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements:
+      
+      %dl{:style => 'width: 85%;'}
+        %dt.first Flagged items are missing
+        %dd.first{:style => 'padding-left: 50px;'}= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
     
   #results.tab_content
     %h3 Blueprint
@@ -16,10 +22,20 @@
       = render :partial => results_partial, :locals => { :communication_on_progress => communication_on_progress }
   #next_steps.tab_content
     %h3 Blueprint
-    %p Through the GC Advanced level, the Global Compact Office recognizes companies that strive to be top performers and declare that they have adopted and report on a broad range of best practices in sustainability governance and management. 
+    - if communication_on_progress.missing_items?
+      %p== Please send your updated COP covering the following missing elements to #{mail_to 'lead@unglobalcompact.org'}:
+      %ul
+        - unless communication_on_progress.include_continued_support_statement?
+          %li An explicit statement of continued support for the UN Global Compact and its ten principles
+        - PrincipleArea::FILTERS.each_pair do |key, value|
+          - unless communication_on_progress.send("references_#{key}?")
+            %li== Description of actions or relevant policies related to #{value}
+        - unless communication_on_progress.include_measurement?
+          %li A measurement of outcomes
+    
+    %p The Global Compact Office recognizes companies that strive to be top performers and declare that they have adopted and report on a broad range of best practices in sustainability governance and management. 
     %p The Global Compact is currently working with long-term investors (through the Principles for Responsible Investment) and financial information service providers (Bloomberg L.P.) to disseminate this information throughout the financial community, thus increasing visibility and recognition. 
     %p We hope that the self-assessment can also serve as a roadmap to guide your actions for the upcoming year and that your company continues to progress towards implementing all relevant best practices of the GC Advanced level, following the Global Compact's Blueprint for Corporate Sustainability Leadership. 
-    %p We look forward to your continued participation in the Global Compact at the GC Advanced level.
     
     %h3 Resources
     %ul.bulleted

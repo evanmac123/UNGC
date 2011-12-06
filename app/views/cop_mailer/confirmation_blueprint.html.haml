@@ -4,18 +4,19 @@
   Thank you for submitting your company's Communication on Progress (COP).
   == It is now #{link_to "publicly available", 'http://www.unglobalcompact.org' + cop_detail_path(@cop.id)} on the Global Compact website. 
 
-%p== We would like to notify you that your COP is missing #{@cop.number_missing_items} of the required elements:
+- if @cop.missing_items?
+  
+  %p== We would like to notify you that your COP is missing #{@cop.number_missing_items} of the required elements:
+  %ul
+    - unless @cop.include_continued_support_statement?
+      %li An explicit statement of continued support for the UN Global Compact and its ten principles
+    - PrincipleArea::FILTERS.each_pair do |key, value|
+      - unless @cop.send("references_#{key}?")
+        %li== Description of actions or relevant policies related to #{value}
+    - unless @cop.include_measurement?
+      %li A measurement of outcomes
 
-%ul
-  - unless @cop.include_continued_support_statement?
-    %li An explicit statement of continued support for the UN Global Compact and its ten principles
-  - PrincipleArea::FILTERS.each_pair do |key, value|
-    - unless @cop.send("references_#{key}?")
-      %li== Description of actions or relevant policies related to #{value}
-  - unless @cop.include_measurement?
-    %li A measurement of outcomes
-
-%p Please revise your COP within the next 3 months.
+  %p Please revise your COP within the next 3 months.
 
 %p Sincerely,
 %p
