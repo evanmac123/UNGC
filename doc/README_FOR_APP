@@ -120,7 +120,7 @@ Adding a new Report
 
 Follow these steps while referring to existing reports:
 
-1) Add your report query to app/reports as a type of SimpleReport
+1) Add your report query to app/reports as a type of SimpleReport and assign the appropriate class name
 2) Add corresponding method to controllers/admin/reports_controller.rb
 3) Optional: add a view for your report in app/views/admin/reports
 4) Add the report to the reports index screen app/views/admin/report/index.html.haml
