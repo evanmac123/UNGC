@@ -1,3 +1,14 @@
+h1. 2011-12-02
+
+* LEAD COPs should have their own set of confirmation emails
+* The actual differentiation level is yet to be determined, so we will use the following
+* learner_blueprint - for COPs that do not yet meet the requirements of a LEAD COP
+* blueprint - for COPs that do meet the requirements
+
+* a few defaults must be set for LEAD COPs, so they are treated as Advanced COPs with the questionnaire
+
+* Depending on the differentiation level of the COP, a specific email should be sent
+
 h1. 2011-11-29
 
 * added signatory_of?(initiative) to Organization model to determine if it has signed onto an Initiative
