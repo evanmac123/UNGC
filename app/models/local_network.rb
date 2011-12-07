@@ -68,7 +68,7 @@ class LocalNetwork < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
 
-  NUMERIC =  [:membership_subsidiaries, :membership_companies, :membership_sme, :membership_micro_enterprise,
+  NUMERIC =  [:membership_companies, :membership_sme, :membership_micro_enterprise,
               :membership_business_organizations, :membership_csr_organizations, :membership_labour_organizations,
               :membership_civil_societies, :membership_academic_institutions, :membership_government, :membership_other,
               :fees_amount_company, :fees_amount_sme, :fees_amount_other_organization, :fees_amount_participant,

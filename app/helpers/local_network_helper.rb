@@ -60,13 +60,20 @@ module LocalNetworkHelper
       if params[:path].last && params[:path].last.is_a?(String)
         country_code = params[:path].last.gsub(/\.html/, '')
       end
-      report_file = "public/docs/networks_around_world_doc/communication/network_reports/2009/#{country_code}.pdf"
-      if FileTest.exists?(report_file)
-        content_tag :p, link_to("#{local_network.try(:name)} (pdf)", "/docs/networks_around_world_doc/communication/network_reports/2009/#{country_code}.pdf")
-      else
-        'A report has not been provided'      
-      end
       
+      html = ''
+      
+      [2010,2009].each do |year|
+        filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{country_code}_#{year}.pdf"
+        if FileTest.exists?("public/#{filename}")
+          html += content_tag :li, link_to("#{year} #{local_network.try(:name)} (pdf)", filename)
+        else
+          html += content_tag :li, "No report for #{year}"
+        end
+      end
+     
+     content_tag :ul, html
+    
     else
       return nil
     end

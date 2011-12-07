@@ -2,9 +2,8 @@
   %h3 Website
   =p_with_link_to_local_network
 
-- if link_to_annuaL_report_if_file_exists
-  %h3 Local Network Report 2009
-  =link_to_annuaL_report_if_file_exists
+%h3 Local Network Reports
+=link_to_annuaL_report_if_file_exists
 
 %hr/
 
@@ -18,7 +17,7 @@
   .right{ :style => "text-align: left" }
     %h2
       Participant Information
-    %p.small_print
+    %p
       Participation in the Global Compact does not necessarily reflect participation in the Global Compact Local Network.
     = p_with_link_to_participant_search
     = display_latest_participant_for_local_network
