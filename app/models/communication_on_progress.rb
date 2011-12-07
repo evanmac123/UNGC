@@ -394,6 +394,16 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
     
+  def number_question_attributes_covered(cop_attribute_id)
+    answer_count = CopAnswer.find_by_sql(
+    ["SELECT sum(value) AS total FROM cop_answers 
+      JOIN cop_attributes
+      ON cop_answers.cop_attribute_id = cop_attributes.id
+      WHERE cop_answers.cop_id = ? AND cop_question_id = ?", self.id, cop_attribute_id]
+    )
+    answer_count.first.total.to_i
+  end    
+    
   def evaluated_for_differentiation?
     if is_grace_letter?
       false
