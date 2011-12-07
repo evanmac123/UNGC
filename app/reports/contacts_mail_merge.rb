@@ -5,6 +5,7 @@ class ContactsMailMerge < SimpleReport
       o.id as organization_id,
       c.id as contact_id,
       o.name as organization_name,
+      org_country.name AS organization_country,
       o.joined_on,
       t.name as organization_type,
       o.cop_state,
@@ -39,6 +40,7 @@ class ContactsMailMerge < SimpleReport
       contacts c
       JOIN organizations o ON c.organization_id = o.id
       JOIN countries country ON c.country_id = country.id
+      JOIN countries org_country ON o.country_id = org_country.id
       JOIN organization_types t ON o.organization_type_id = t.id
       JOIN sectors s ON o.sector_id = s.id
       LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = c.id
@@ -55,6 +57,7 @@ class ContactsMailMerge < SimpleReport
     [ 'Participant ID',
       'Contact ID',
       'Participant Name',
+      'Participant Country',
       'Joined on',
       'Organization Type',
       'COP Status',
@@ -85,6 +88,7 @@ class ContactsMailMerge < SimpleReport
   [ record.organization_id,
     record.contact_id,
     record.organization_name,
+    record.organization_country,
     record.joined_on,
     record.organization_type,
     record.cop_state,
