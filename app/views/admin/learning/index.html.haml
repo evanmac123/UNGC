@@ -4,7 +4,7 @@
 
   %fieldset{:style => "width: 50%;"}
     %ol
-      = form.text_field :fulltext,                                            :label => 'Match words'
+      = form.text_field :fulltext,                                            :label => 'Search Terms'
       = form.text_field :start_date,       {:class => 'datepicker iso-date'}, :label => 'Start Date'
       = form.text_field :end_date,         {:class => 'datepicker iso-date'}, :label => 'End Date'
       = form.select     :event_type,       event_type_options,                :label => 'Type of Event'
