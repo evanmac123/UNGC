@@ -2,11 +2,7 @@ module Searchable::SearchableCaseStory
   def index_case_story(case_story)
     if case_story.approved?
       title = case_story.title
-      if case_story.attachment_content_type =~ /^application\/.*pdf$/
-        file_content = get_text_from_pdf(case_story.attachment.path)
-      elsif case_story.attachment_content_type =~ /doc/
-        file_content = get_text_from_word(case_story.attachment.path)
-      end
+      file_content = FileTextExtractor.extract(case_story)
       if object = timestamps_from(case_story.attachment.path)
         object.updated_at = case_story.updated_at if case_story.updated_at > object.updated_at
       else

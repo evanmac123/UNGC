@@ -26,6 +26,9 @@ class UploadedFile < ActiveRecord::Base
 
   alias_method :original_attachment=, :attachment=
 
+  after_save    :update_indexed_fields_on_parent
+  after_destroy :update_indexed_fields_on_parent
+
   def attachment=(file)
     self.original_attachment = file
 
@@ -36,5 +39,11 @@ class UploadedFile < ActiveRecord::Base
 
   def attachment_unmodified_filename
     self[:attachment_unmodified_filename] || self[:attachment_file_name]
+  end
+
+  def update_indexed_fields_on_parent
+    if attachable.respond_to?(:update_indexed_fields)
+      attachable.update_indexed_fields
+    end
   end
 end
