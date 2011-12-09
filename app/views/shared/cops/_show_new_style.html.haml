@@ -27,7 +27,7 @@
 
 = render :partial => '/shared/cops/cop_info_header.html.haml', :locals => { :communication_on_progress => communication_on_progress }
 
-- if communication_on_progress.cop_files.any?
+- if communication_on_progress.cop_files.any? && params[:action] != 'feed'
   %dt Files
   %dd
     %ul
@@ -35,6 +35,7 @@
         %li
           = link_to truncate(cop_file.attachment_file_name, :length => 50), cop_file.attachment.url
           == (#{cop_file.language.name})
+
 - if communication_on_progress.cop_links.any?
   %dt Links
   %dd
