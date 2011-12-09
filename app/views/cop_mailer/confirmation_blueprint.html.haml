@@ -2,7 +2,7 @@
 
 %p
   Thank you for submitting your company's Communication on Progress (COP).
-  == It is now #{link_to "publicly available", 'http://www.unglobalcompact.org' + cop_detail_path(@cop.id)} on the Global Compact website. 
+  == It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website. 
 
 - if @cop.missing_items?
   
