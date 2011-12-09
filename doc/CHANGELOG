@@ -1,3 +1,7 @@
+h1. 2011-12-09
+
+* use cop_detail_url(@cop) in COP mailer views to avoid entering the full URL
+
 h1. 2011-12-02
 
 * LEAD COPs should have their own set of confirmation emails
