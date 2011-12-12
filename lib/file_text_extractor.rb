@@ -1,10 +1,15 @@
+require 'timeout'
+require 'tempfile'
+
 module FileTextExtractor
+  PROCESS_TIMEOUT = 20
+
   module_function
 
   def extract(model)
     if model.attachment_content_type =~ /^application\/.*pdf$/
       get_text_from_pdf(model.attachment.path)
-    elsif model.attachment_content_type =~ /doc|msword/
+    elsif model.attachment_content_type =~ /\b(doc|msword)\b/
       get_text_from_word(model.attachment.path)
     end
   end
@@ -21,16 +26,38 @@ module FileTextExtractor
 
   def safe_get_text_command(command, file)
     begin
+      full_command = "#{command} #{file}"
+      pid          = nil
+      text         = ""
+
       if File.exists?(file)
-        text = `#{command} #{file}`.force_encoding('UTF-8')
-        text = Iconv.conv('utf-8//IGNORE', 'utf-8', text)
+        output = Timeout.timeout(PROCESS_TIMEOUT) do
+          Tempfile.open("FileTextExtractor.out") do |out|
+            Tempfile.open("FileTextExtractor.err") do |err|
+              Rails.logger.info "Spawning #{full_command.inspect}, redirecting stdout to #{out.path}, stderr to #{err.path}"
+
+              pid = Process.spawn(full_command, :out => out.path, :err => err.path)
+              Process.wait(pid)
+
+              unless $?.success?
+                Rails.logger.error "Process exited with status #{$?.to_s.inspect}: #{full_command}"
+                Rails.logger.error "Stderr output: #{File.read(err.path)}"
+              end
+
+              File.read(out.path, encoding: 'ASCII-8BIT')
+            end
+          end
+        end
+
+        text = Iconv.conv('utf-8//IGNORE', 'utf-8', output.force_encoding('UTF-8'))
       else
-        text = '' # TODO: or raise?
+        Rails.logger.error "File does not exist: #{file.inspect}"
       end
-    rescue Exception => e
-      logger.info " ** Unable to #{command}: #{file} because #{e.inspect}"
+    rescue StandardError => e
+      Process.kill(9, pid) if pid
+      Rails.logger.error "Unable to execute #{full_command.inspect} because of #{e.class.name}: #{e.message}"
     ensure
-      return text || ''
+      return text
     end
   end
 end
