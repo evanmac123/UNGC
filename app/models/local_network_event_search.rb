@@ -27,7 +27,7 @@ class LocalNetworkEventSearch < OpenStruct
     end
 
     if principle_id.present?
-      filters[:principle_ids] = principle_id
+      filters[:principle_ids] = principle_id.to_i
     end
 
     if region.present?
@@ -35,7 +35,7 @@ class LocalNetworkEventSearch < OpenStruct
     end
 
     if local_network_id.present?
-      filters[:local_network_id] = local_network_id
+      filters[:local_network_id] = local_network_id.to_i
     end
 
     LocalNetworkEvent.search(fulltext, :with => filters, :order => :date)
