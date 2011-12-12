@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require File.expand_path('../../config/environment', __FILE__)
+
+message = "Populating indexed fields on LocalNetworkEvent..."
+
+print(message)
+
+events = LocalNetworkEvent.all
+count  = events.count
+
+events.each_with_index do |event, index|
+  print "\r#{message} #{index+1} of #{count}"
+  event.update_indexed_fields
+
+  # puts
+  # puts "Files: #{event.attachments.map(&:attachment_file_name).join(", ")}"
+  # puts "File content: #{event.file_content.strip.inspect}"
+end
+
+puts
