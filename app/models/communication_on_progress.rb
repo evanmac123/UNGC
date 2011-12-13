@@ -394,6 +394,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
     
+  # number of attributes selected for a question
   def number_question_attributes_covered(cop_attribute_id)
     answer_count = CopAnswer.find_by_sql(
     ["SELECT sum(value) AS total FROM cop_answers 
@@ -403,7 +404,23 @@ class CommunicationOnProgress < ActiveRecord::Base
     )
     answer_count.first.total.to_i
   end    
-    
+  
+  # gather questions based on submitted attributes
+  def answered_questions
+    attributes = cop_attributes.all(:include => :cop_question, :order => 'cop_questions.position')
+    attributes.collect &:cop_question_id
+    CopQuestion.find(attributes.collect &:cop_question_id)
+  end
+
+  # questions with no selected attributes
+  def questions_missing_answers
+    missing = []
+    answered_questions.each do |question|
+      missing << question.id if number_question_attributes_covered(question.id) == 0
+    end
+    CopQuestion.find(missing)
+  end
+  
   def evaluated_for_differentiation?
     if is_grace_letter?
       false
