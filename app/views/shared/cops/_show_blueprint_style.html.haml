@@ -6,14 +6,19 @@
 
   #differentiation.tab_content
     %h3 Blueprint
-    %p== Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website.
+    %p Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website.
     
     - if communication_on_progress.missing_items?
       %p== According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements:
-      
+
       %dl{:style => 'width: 85%;'}
         %dt.first Flagged items are missing
         %dd.first{:style => 'padding-left: 50px;'}= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+
+    - if communication_on_progress.questions_missing_answers.count > 0
+      %p According to your self-assessment, you have not covered any best practices for the following criteria:
+      = render :partial => '/shared/cops/cop_questionnaire_evaluation.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+
     
   #results.tab_content
     %h3 Blueprint

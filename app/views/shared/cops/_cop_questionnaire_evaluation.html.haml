@@ -1,0 +1,6 @@
+%dl{:style => 'width: 100%;'}
+  %dt.first Missing Criteria
+  %dd.first
+    %ul.self_assessment
+      - communication_on_progress.questions_missing_answers.each do |question|
+        = content_tag :li, question.text, :class => select_answer_class(false)
