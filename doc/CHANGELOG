@@ -1,3 +1,9 @@
+h1. 2011-12-14
+
+* Added methods to COP model to determine how many CopAttributes were covered for each CopQuestion
+* If no attributes (best practices) were covered, then that question (criterion) is NOT considered to be covered
+* The company is notified is the missing criteria in the results screen views/shared/cops/_cop_questionnaire_evaluation.html.haml
+
 h1. 2011-12-09
 
 * use cop_detail_url(@cop) in COP mailer views to avoid entering the full URL
