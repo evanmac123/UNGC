@@ -1,5 +1,6 @@
 class Admin::LearningController < AdminController
   def index
+    render :template => '/search/offline' unless ThinkingSphinx.sphinx_running?
     @search = LocalNetworkEventSearch.new params[:local_network_event_search]
   end
 
