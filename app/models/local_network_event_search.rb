@@ -38,7 +38,7 @@ class LocalNetworkEventSearch < OpenStruct
       filters[:local_network_id] = local_network_id.to_i
     end
 
-    LocalNetworkEvent.search(fulltext, :with => filters, :order => :date, :page => page, :per_page => per_page)
+    LocalNetworkEvent.search(fulltext, :with => filters, :order => :date, :sort_mode => :desc, :page => page, :per_page => per_page)
   end
 end
 
