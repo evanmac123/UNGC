@@ -4,48 +4,41 @@ class LocalNetworkEventSearch < OpenStruct
   end
 
   def perform_search
-    conditions = []
-    args = []
+    filters = {}
 
-    if start_date.present?
-      conditions << 'local_network_events.date > ?'
-      args << start_date
-    end
+    if start_date.present? or end_date.present?
+      start_date_d = if start_date.present?
+                       Date.parse(start_date)
+                     else
+                       Date.parse('1900-01-01')
+                     end
 
-    if end_date.present?
-      conditions << 'local_network_events.date < ?'
-      args << end_date
+      end_date_d = if end_date.present?
+                     Date.parse(end_date)
+                   else
+                     Date.today
+                   end
+
+      filters[:date] = (start_date_d.to_time .. end_date_d.to_time)
     end
 
     if event_type.present?
-      conditions << 'local_network_events.event_type = ?'
-      args << event_type
+      filters[:event_type_crc] = event_type.to_crc32
     end
 
     if principle_id.present?
-      conditions << 'local_network_events_principles.principle_id = ?'
-      args << principle_id
+      filters[:principle_ids] = principle_id.to_i
     end
 
     if region.present?
-      conditions << 'countries.region = ?'
-      args << region
+      filters[:region_crc] = region.to_crc32
     end
 
     if local_network_id.present?
-      conditions << 'local_network_events.local_network_id = ?'
-      args << local_network_id
+      filters[:local_network_id] = local_network_id.to_i
     end
 
-    LocalNetworkEvent.paginate :page => page, :per_page => per_page,
-      :joins => %{
-        LEFT JOIN local_network_events_principles ON local_network_events_principles.local_network_event_id = local_network_events.id
-        LEFT JOIN local_networks ON local_networks.id = local_network_events.local_network_id
-        LEFT JOIN countries ON countries.local_network_id = local_networks.id
-      }.gsub(/\s+/, ' '),
-      :group => 'local_network_events.id',
-      :order => 'date',
-      :conditions => [conditions.join(' AND '), *args]
+    LocalNetworkEvent.search(fulltext, :with => filters, :order => :date, :sort_mode => :desc, :page => page, :per_page => per_page)
   end
 end
 

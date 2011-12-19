@@ -5,11 +5,7 @@ module Searchable::SearchableCommunicationOnProgress
     # import cop files
     file_content = []
     for file in cop.cop_files
-      if file.attachment_content_type =~ /^application\/.*pdf$/
-        file_content << get_text_from_pdf(file.attachment.path)
-      elsif file.attachment_content_type =~ /doc/
-        file_content << get_text_from_word(file.attachment.path)
-      end
+      file_content << FileTextExtractor.extract(file)
     end
     content = <<-EOF
       #{cop.description}
