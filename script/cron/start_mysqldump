@@ -1,3 +1,3 @@
 #!/bin/sh
 DATE=`date "+20%y_%m_%d"`
-sudo mysqldump --opt -u root unglobalcompact --ignore-table=unglobalcompact.sessions --ignore-table=unglobalcompact.searchables | gzip > /home/rails/ungc/mysql_dumps/production_unglobalcompact_$DATE.sql.gz
+sudo mysqldump --opt -u root unglobalcompact --ignore-table=unglobalcompact.sessions | gzip > /home/rails/ungc/mysql_dumps/production_unglobalcompact_$DATE.sql.gz
