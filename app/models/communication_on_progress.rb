@@ -427,7 +427,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     CopQuestion.find(missing)
   end
   
-  # questions that have some, but not all attributes selected
+  # questions that have at least one, but not all attributes selected
   def questions_not_fully_covered(grouping=nil)
     missing = []
     answered_questions(grouping).each do |question|
