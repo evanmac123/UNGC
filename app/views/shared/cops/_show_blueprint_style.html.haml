@@ -25,23 +25,32 @@
       = render :partial => results_partial, :locals => { :communication_on_progress => communication_on_progress }
   #next_steps.tab_content
     %h3 Blueprint
-    - if communication_on_progress.missing_items?
-      %p== Please send your updated COP covering the following missing elements to #{mail_to 'lead@unglobalcompact.org'}:
-      %ul
-        - unless communication_on_progress.include_continued_support_statement?
-          %li An explicit statement of continued support for the UN Global Compact and its ten principles
-        - PrincipleArea::FILTERS.each_pair do |key, value|
-          - unless communication_on_progress.send("references_#{key}?")
-            %li== Description of actions or relevant policies related to #{value}
-        - unless communication_on_progress.include_measurement?
-          %li A measurement of outcomes
+    - if communication_on_progress.missing_items? || communication_on_progress.lead_cop_is_incomplete?
+      %p== Please resubmit your COP or send your updated COP covering the following missing elements to #{mail_to 'lead@unglobalcompact.org'}.
+      %dl{:style => 'width: 100%;'}
+        %dt Missing items
+        %dd
+          %ul.self_assessment
+            - unless communication_on_progress.include_continued_support_statement?
+              %li.unselected_question An explicit statement of continued support for the UN Global Compact and its ten principles
+            - PrincipleArea::FILTERS.each_pair do |key, value|
+              - unless communication_on_progress.send("references_#{key}?")
+                %li.unselected_question== Description of actions or relevant policies related to #{value}
+            - unless communication_on_progress.include_measurement?
+              %li.unselected_question A measurement of outcomes
+            - if communication_on_progress.questions_missing_answers.any?
+              %li.unselected_question Coverage of all 24 Advanced Criteria
+            - if communication_on_progress.questions_not_fully_covered('lead_un_goals').any?
+              %li.unselected_question Complete coverage of all LEAD criteria pertaining to "Taking Action in Support of Broader UN Goals and Issues"
+            - if communication_on_progress.questions_not_fully_covered('lead_gc').any?
+              %li.unselected_question Complete coverage of all LEAD criteria pertaining to "Engaging with the UN Global Compact"
+    - else
+      %p The Global Compact Office recognizes companies that strive to be top performers and declare that they have adopted and report on a broad range of best practices in sustainability governance and management. 
+      %p The Global Compact is currently working with long-term investors (through the Principles for Responsible Investment) and financial information service providers (Bloomberg L.P.) to disseminate this information throughout the financial community, thus increasing visibility and recognition. 
+      %p We hope that the self-assessment can also serve as a roadmap to guide your actions for the upcoming year and that your company continues to progress towards implementing all relevant best practices of the GC Advanced level, following the Global Compact's Blueprint for Corporate Sustainability Leadership. 
     
-    %p The Global Compact Office recognizes companies that strive to be top performers and declare that they have adopted and report on a broad range of best practices in sustainability governance and management. 
-    %p The Global Compact is currently working with long-term investors (through the Principles for Responsible Investment) and financial information service providers (Bloomberg L.P.) to disseminate this information throughout the financial community, thus increasing visibility and recognition. 
-    %p We hope that the self-assessment can also serve as a roadmap to guide your actions for the upcoming year and that your company continues to progress towards implementing all relevant best practices of the GC Advanced level, following the Global Compact's Blueprint for Corporate Sustainability Leadership. 
-    
-    %h3 Resources
-    %ul.bulleted
-      %li= link_to 'Blueprint for Corporate Sustainability Leadership', '/HowToParticipate/Business_Participation/blueprint_for_corporate_sustainability_leadership.html'
-      %li= link_to 'COP Webinars', '/NewsAndEvents/event_calendar/webinars.html'
+      %h3 Resources
+      %ul.bulleted
+        %li= link_to 'Blueprint for Corporate Sustainability Leadership', '/HowToParticipate/Business_Participation/blueprint_for_corporate_sustainability_leadership.html'
+        %li= link_to 'COP Webinars', '/NewsAndEvents/event_calendar/webinars.html'
     

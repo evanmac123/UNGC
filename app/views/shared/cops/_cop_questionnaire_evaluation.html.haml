@@ -2,18 +2,18 @@
 
   - if communication_on_progress.questions_missing_answers.any?
 
-    %dt.first No coverage
+    %dt.first Advanced Criteria<br />not completed
     %dd.first
       %p Your company must implement at least one best practice under each of the first 24 criteria. The following criteria have not been covered:
       %ul.self_assessment
         - communication_on_progress.questions_missing_answers.each do |question|
           = content_tag :li, question.text, :class => select_answer_class(false)
 
-  - if communication_on_progress.questions_not_fully_covered('lead_un_goals').any? || communication_on_progress. questions_not_fully_covered('lead_gc').any?
+  - if communication_on_progress.questions_not_fully_covered('lead_un_goals').any? || communication_on_progress.questions_not_fully_covered('lead_gc').any?
 
-    %dt Partial coverage
+    %dt LEAD Criteria<br />not completed
     %dd
-      %p The following criteria are required to be fully covered in your COP. The following items are missing criteria:
+      %p The following criteria are required to be fully covered in your COP:
       %ul.self_assessment
         - communication_on_progress.questions_not_fully_covered('lead_un_goals').each do |question|
           = content_tag :li, question.text, :class => select_answer_class(false)
