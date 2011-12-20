@@ -7,16 +7,16 @@
   #differentiation.tab_content
     %h3 Blueprint
     %p Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website.
-    
-    - if communication_on_progress.missing_items?
-      %p== According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements:
 
-      %dl{:style => 'width: 85%;'}
-        %dt.first Flagged items are missing
-        %dd.first{:style => 'padding-left: 50px;'}= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+    %dl{:style => 'width: 100%;'}
+      - if communication_on_progress.missing_items?
+        %p== According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements:
 
-    - if communication_on_progress.lead_cop_is_incomplete?
-      = render :partial => '/shared/cops/cop_questionnaire_evaluation.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+        %dt.first Required elements
+        %dd.first= render :partial => '/shared/cops/self_assessment', :locals => { :communication_on_progress => communication_on_progress }
+
+      - if communication_on_progress.lead_cop_is_incomplete?
+        = render :partial => '/shared/cops/cop_questionnaire_evaluation', :locals => { :communication_on_progress => communication_on_progress }
 
   #results.tab_content
     %h3 Blueprint
@@ -30,20 +30,7 @@
       %dl{:style => 'width: 100%;'}
         %dt Missing items
         %dd
-          %ul.self_assessment
-            - unless communication_on_progress.include_continued_support_statement?
-              %li.unselected_question An explicit statement of continued support for the UN Global Compact and its ten principles
-            - PrincipleArea::FILTERS.each_pair do |key, value|
-              - unless communication_on_progress.send("references_#{key}?")
-                %li.unselected_question== Description of actions or relevant policies related to #{value}
-            - unless communication_on_progress.include_measurement?
-              %li.unselected_question A measurement of outcomes
-            - if communication_on_progress.questions_missing_answers.any?
-              %li.unselected_question Coverage of all 24 Advanced Criteria
-            - if communication_on_progress.questions_not_fully_covered('lead_un_goals').any?
-              %li.unselected_question Complete coverage of all LEAD criteria pertaining to "Taking Action in Support of Broader UN Goals and Issues"
-            - if communication_on_progress.questions_not_fully_covered('lead_gc').any?
-              %li.unselected_question Complete coverage of all LEAD criteria pertaining to "Engaging with the UN Global Compact"
+          = render :partial => '/shared/cops/cop_missing_lead_criteria', :locals => { :communication_on_progress => communication_on_progress }
     - else
       %p The Global Compact Office recognizes companies that strive to be top performers and declare that they have adopted and report on a broad range of best practices in sustainability governance and management. 
       %p The Global Compact is currently working with long-term investors (through the Principles for Responsible Investment) and financial information service providers (Bloomberg L.P.) to disseminate this information throughout the financial community, thus increasing visibility and recognition. 
