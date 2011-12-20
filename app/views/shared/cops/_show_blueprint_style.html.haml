@@ -15,11 +15,9 @@
         %dt.first Flagged items are missing
         %dd.first{:style => 'padding-left: 50px;'}= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
 
-    - if communication_on_progress.questions_missing_answers.count > 0
-      %p According to your self-assessment, you have not covered any best practices for the following criteria:
+    - if communication_on_progress.lead_cop_is_incomplete?
       = render :partial => '/shared/cops/cop_questionnaire_evaluation.html.haml', :locals => { :communication_on_progress => communication_on_progress }
 
-    
   #results.tab_content
     %h3 Blueprint
     %dl{:style => 'width: 100%;'}
