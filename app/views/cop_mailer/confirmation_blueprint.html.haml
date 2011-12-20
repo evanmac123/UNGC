@@ -1,22 +1,15 @@
 %p== Dear #{@user.name_with_title},
 
-%p
-  Thank you for submitting your company's Communication on Progress (COP).
-  == It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website. 
-
-- if @cop.missing_items?
+- if @cop.missing_items? || @cop.lead_cop_is_incomplete?
   
-  %p== We would like to notify you that your COP is missing #{@cop.number_missing_items} of the required elements:
-  %ul
-    - unless @cop.include_continued_support_statement?
-      %li An explicit statement of continued support for the UN Global Compact and its ten principles
-    - PrincipleArea::FILTERS.each_pair do |key, value|
-      - unless @cop.send("references_#{key}?")
-        %li== Description of actions or relevant policies related to #{value}
-    - unless @cop.include_measurement?
-      %li A measurement of outcomes
+  %p== Thank you for submitting your company's Communication on Progress (COP) on implementing the <em>Blueprint for Corporate Sustainability Leadership</em>. It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website.
+  %p We would like to notify you that your COP is missing the following required elements:
+  = render :partial => '/shared/cops/cop_missing_lead_criteria', :locals => { :communication_on_progress => @cop }
+  %p== Please revise your COP within the next 3 months or by #{dd_month_yyyy Date.today + 3.months}.
 
-  %p Please revise your COP within the next 3 months.
+- else
+  
+  %p== Thank you for submitting your company's Communication on Progress (COP) on implementing the <em>Blueprint for Corporate Sustainability Leadership</em>. It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website and you have met the COP requirement for LEAD companies.
 
 %p Sincerely,
 %p
