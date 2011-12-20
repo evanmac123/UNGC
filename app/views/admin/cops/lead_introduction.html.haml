@@ -7,23 +7,17 @@
       %li <a href="#grace">Grace Letter</a>
 
   #introduction.tab_content
-    %p{:class => 'cop_description' :style => 'margin-top: 10px;'}
-      As a participant in LEAD, you are required to communicate progress on implementing the Blueprint.
-      %ol.cop_list
-        %li Core Business Contributions to UN Goals and Issues
-        %li Strategic Social Investments and Philanthropy
-        %li Advocacy and Public Policy Engagement
-        %li Partnerships and Collective Action
-
-      %p= link_to 'Publish your COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'lead'), :class => 'new_page_large'
+    %p.cop_description{:style => 'margin-top: 10px;'} As a participant in Global Compact LEAD, you have committed to communicate progress on implementing the Blueprint for Corporate Sustainability Leadership.
+    %p.cop_description Please click the link below to Publish your COP or select the "Grace Letter" tab if you need to submit a grace letter for a 90 day extension to your COP deadline.
+    %p= link_to 'Publish your COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'lead'), :class => 'new_page_large'
  
   #grace.tab_content
     %h3 Request a COP due date extension
 
-    %p{:class => 'cop_description'}== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{Organization::COP_GRACE_PERIOD} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
+    %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{Organization::COP_GRACE_PERIOD} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
 
     - if current_user.submit_grace_letter?
       %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'
     - else
-      %p{:class => 'cop_description'}
+      %p.cop_description
         %strong This option is not available because you have already submitted a Grace Letter.
