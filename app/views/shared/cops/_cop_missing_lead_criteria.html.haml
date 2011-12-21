@@ -8,7 +8,7 @@
     %li.unselected_question A measurement of outcomes
   - if communication_on_progress.questions_missing_answers.any?
     %li.unselected_question Coverage of all 24 Advanced Criteria
-  - if communication_on_progress.questions_not_fully_covered('lead_un_goals').any?
-    %li.unselected_question Complete coverage of all LEAD criteria pertaining to "Taking Action in Support of Broader UN Goals and Issues"
-  - if communication_on_progress.questions_not_fully_covered('lead_gc').any?
-    %li.unselected_question Complete coverage of all LEAD criteria pertaining to "Engaging with the UN Global Compact"
+  - communication_on_progress.questions_not_fully_covered('lead_un_goals').each do |question|
+    = content_tag :li, question.text, :class => select_answer_class(false)
+  - communication_on_progress.questions_not_fully_covered('lead_gc').each do |question|
+    = content_tag :li, question.text, :class => select_answer_class(false)
