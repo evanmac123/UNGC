@@ -404,13 +404,13 @@ class CommunicationOnProgress < ActiveRecord::Base
     )
     answer_count.first.total.to_i
   end    
-  
+
   # gather questions based on submitted attributes
   def answered_questions(grouping = nil)
     attributes = cop_attributes.all(:include => :cop_question, :order => 'cop_questions.position')
     
     if grouping
-      CopQuestion.all(:conditions => ["grouping = ? AND id IN (?)", grouping, attributes.collect(&:cop_question_id)])
+      CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", attributes.collect(&:cop_question_id)])
     else
       CopQuestion.find(attributes.collect &:cop_question_id)
     end
@@ -426,11 +426,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     CopQuestion.find(missing)
   end
   
-  # questions that have at least one, but not all attributes selected
+  # questions that do not have all attributes selected
   def questions_not_fully_covered(grouping = nil)
     missing = []
     answered_questions(grouping).each do |question|
-      missing << question.id if question.cop_attributes.count > number_question_attributes_covered(question.id) && number_question_attributes_covered(question.id) != 0
+      missing << question.id if question.cop_attributes.count > number_question_attributes_covered(question.id)
     end
     CopQuestion.find(missing)
   end
