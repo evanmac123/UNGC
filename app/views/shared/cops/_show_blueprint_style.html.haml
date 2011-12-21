@@ -28,7 +28,7 @@
     - if communication_on_progress.missing_items? || communication_on_progress.lead_cop_is_incomplete?
       %p== Please resubmit your COP or send your updated COP covering the following missing elements to #{mail_to 'lead@unglobalcompact.org'}.
       %dl{:style => 'width: 100%;'}
-        %dt Missing items
+        %dt Missing or<br />incomplete items
         %dd
           = render :partial => '/shared/cops/cop_missing_lead_criteria', :locals => { :communication_on_progress => communication_on_progress }
     - else

@@ -11,7 +11,7 @@
 
   %dt LEAD Criteria<br />not completed
   %dd
-    %p The following criteria are required to be fully covered in your COP:
+    %p Your company must implement all best practices under each of the LEAD criteria. The following criteria have not been covered:
     %ul.self_assessment
       - communication_on_progress.questions_not_fully_covered('lead_un_goals').each do |question|
         = content_tag :li, question.text, :class => select_answer_class(false)

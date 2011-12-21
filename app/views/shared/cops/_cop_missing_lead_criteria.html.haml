@@ -1,13 +1,19 @@
 %ul.self_assessment
+
   - unless communication_on_progress.include_continued_support_statement?
     %li.unselected_question An explicit statement of continued support for the UN Global Compact and its ten principles
+
   - PrincipleArea::FILTERS.each_pair do |key, value|
     - unless communication_on_progress.send("references_#{key}?")
       %li.unselected_question== Description of actions or relevant policies related to #{value}
+
   - unless communication_on_progress.include_measurement?
     %li.unselected_question A measurement of outcomes
+    
   - if communication_on_progress.questions_missing_answers.any?
-    %li.unselected_question Coverage of all 24 Advanced Criteria
+    - communication_on_progress.questions_missing_answers.each do |question|
+      = content_tag :li, question.text, :class => select_answer_class(false)
+
   - communication_on_progress.questions_not_fully_covered('lead_un_goals').each do |question|
     = content_tag :li, question.text, :class => select_answer_class(false)
   - communication_on_progress.questions_not_fully_covered('lead_gc').each do |question|
