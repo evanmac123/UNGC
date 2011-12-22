@@ -291,7 +291,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       organization.set_next_cop_due_date
     end
   end
-      
+        
   # javascript will normally hide the link field if it's blank,
   # but IE7 was not cooperating, so we double check
   def check_links
@@ -368,12 +368,18 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   # gather questions based on submitted attributes
   def answered_questions(grouping = nil)
+    
     attributes = cop_attributes.all(:include => :cop_question, :order => 'cop_questions.position')
     
     if grouping
       CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", attributes.collect(&:cop_question_id)])
     else
-      CopQuestion.find(attributes.collect &:cop_question_id)
+      # don't include LEAD questions
+      questions = []
+      attributes.each do |a|
+        questions << a.cop_question unless a.cop_question.initiative == Initiative.for_filter(:lead).first
+      end
+      questions
     end
     
   end
