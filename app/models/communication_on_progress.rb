@@ -232,7 +232,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       if can_submit?
         submit!
         approve
-        # automatic_decision
       end
     end
   end
@@ -290,44 +289,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       organization.extend_cop_grace_period
     else
       organization.set_next_cop_due_date
-    end
-  end
-  
-  # COPs may be automatically approved
-  def automatic_decision
-    approve and return if is_grace_letter?
-    if parent_company_cop?
-      if parent_cop_cover_subsidiary?
-        approve
-      else
-        reject
-      end
-      return
-    end
-    if organization.joined_after_july_2009?
-      if organization.participant_for_over_5_years?
-        # participant for more than 5 years who joined after July 1st 2009
-        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
-          approve
-        else
-          reject
-        end
-      else
-        # participant for less than 5 years who joined after July 1st 2009
-        (score >= 2 && include_measurement?) ? approve : reject
-      end
-    else
-      if organization.participant_for_over_5_years?
-        # participant for more than 5 years who joined before July 1st 2009
-        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
-          approve
-        else
-          reject
-        end
-      else
-        # participant for less than 5 years who joined before July 1st 2009
-        (score >= 1 && include_measurement?) ? approve! : reject!
-      end
     end
   end
       
