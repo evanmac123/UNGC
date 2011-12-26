@@ -27,6 +27,7 @@ class CopQuestion < ActiveRecord::Base
   GROUPING_AREAS = {
     'additional'          => 'Additional',             
     'additional_disabled' => 'Additional (disabled)',
+    'additional_2012'     => '2012 Advanced',
     'basic'               => 'Basic Template',
     'strategy'            => 'Strategy, Governance and Engagement',
     'un_goals'            => 'UN Goals and Issues',
