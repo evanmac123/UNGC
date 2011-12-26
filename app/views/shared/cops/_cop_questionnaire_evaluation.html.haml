@@ -2,7 +2,7 @@
 
   %dt Advanced Criteria<br />not completed
   %dd
-    %p Your company must implement at least one best practice under each of the first 24 criteria. The following criteria have not been covered:
+    %p Your company must implement at least one best practice under each of the first 24 criteria.
     %ul.self_assessment
       - communication_on_progress.questions_missing_answers.each do |question|
         = content_tag :li, question.text, :class => select_answer_class(false)
@@ -11,7 +11,7 @@
 
   %dt LEAD Criteria<br />not completed
   %dd
-    %p Your company must implement all best practices under each of the LEAD criteria. The following criteria have not been covered:
+    %p Your company must implement all best practices under each of the LEAD criteria.
     %ul.self_assessment
       - communication_on_progress.questions_not_fully_covered('lead_un_goals').each do |question|
         = content_tag :li, question.text, :class => select_answer_class(false)
