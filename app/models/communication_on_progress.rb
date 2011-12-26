@@ -368,16 +368,14 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   # gather questions based on submitted attributes
   def answered_questions(grouping = nil)
-    
-    attributes = cop_attributes.all(:include => :cop_question, :order => 'cop_questions.position')
-    
+        
     if grouping
-      CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", attributes.collect(&:cop_question_id)])
+      CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", cop_attributes.collect(&:cop_question_id)])
     else
       # don't include LEAD questions
       questions = []
-      attributes.each do |a|
-        questions << a.cop_question unless a.cop_question.initiative == Initiative.for_filter(:lead).first
+      cop_attributes.each do |a|
+        questions << a.cop_question unless Initiative.for_filter(:lead).include? a.cop_question.initiative
       end
       questions
     end
