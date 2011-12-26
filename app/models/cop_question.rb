@@ -26,7 +26,7 @@ class CopQuestion < ActiveRecord::Base
   # basic is used for Basic COP where the responses are in text format
   GROUPING_AREAS = {
     'additional'          => 'Additional',             
-    'additional_disabled' => 'Additional (disabled)',  
+    'additional_disabled' => 'Additional (disabled)',
     'basic'               => 'Basic Template',
     'strategy'            => 'Strategy, Governance and Engagement',
     'un_goals'            => 'UN Goals and Issues',
@@ -38,6 +38,10 @@ class CopQuestion < ActiveRecord::Base
     'mandatory'           => 'Mandatory',
     'notable'             => 'Notable'
   }
+  
+  # for accessing particular grouping areas
+  ADVANCED_GROUPS = ['additional', 'strategy', 'un_goals', 'verification', 'governance'] 
+  LEAD_GROUPS     = ['lead_un_goals', 'lead_gc'] 
   
   # can optionally select the implementation area the question covers
   IMPLEMENTATION_AREAS =  ['policy', 'process', 'monitoring', 'performance']
