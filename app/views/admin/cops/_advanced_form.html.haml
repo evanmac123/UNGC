@@ -116,7 +116,7 @@
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Strategy, Governance and Engagement
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :strategy
+    %fieldset= cop_questions_for @communication_on_progress, :strategy_2012
 
   %div.tab_content{:id => "un_goals_additional_questions"}
     %h3 UN Goals and Issues
@@ -150,31 +150,31 @@
         For a list of further Global Issues that are relevant to the work of the UN as well as business, please refer to
         = popup_link_to 'business.un.org','http://business.un.org/en/browse/global_issues' 
           
-    %fieldset= cop_questions_for @communication_on_progress, :un_goals
+    %fieldset= cop_questions_for @communication_on_progress, :un_goals_2012
 
   %div.tab_content{:id => "human_rights_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :human_rights
+    %fieldset= cop_questions_for @communication_on_progress, :additional_2012, :human_rights
 
   %div.tab_content{:id => "labour_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('labour')}" } Labour Principles Implementation
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :labour
+    %fieldset= cop_questions_for @communication_on_progress, :additional_2012, :labour
 
   %div.tab_content{:id => "environment_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :environment
+    %fieldset= cop_questions_for @communication_on_progress, :additional_2012, :environment
 
   %div.tab_content{:id => "anti_corruption_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :anti_corruption
+    %fieldset= cop_questions_for @communication_on_progress, :additional_2012, :anti_corruption
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation
@@ -183,12 +183,12 @@
     %div{:class => 'hint_text', :style => 'display: none;'}
       %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
       
-    %fieldset= cop_questions_for @communication_on_progress, :value_chain
+    %fieldset= cop_questions_for @communication_on_progress, :value_chain_2012
 
   %div.tab_content{:id => "verification_additional_questions"}
     %h3 Verification and Transparency
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :verification
+    %fieldset= cop_questions_for @communication_on_progress, :verification_2012
 
   #finish.tab_content
     %fieldset
