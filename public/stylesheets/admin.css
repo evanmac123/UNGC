@@ -906,6 +906,16 @@ ul.view_modes {
   #session_info .nowrap {
     white-space: nowrap; }
 
+ul.cop-question-year-filter li:first-child {
+  border-left: none; }
+ul.cop-question-year-filter li {
+  border-left: 1px solid grey;
+  padding-left: 5px;
+  list-style: none;
+  display: inline; }
+  ul.cop-question-year-filter li.active {
+    font-weight: bold; }
+
 #main_content p.cop_description {
   font-size: 13px;
   line-height: 1.2em; }
@@ -1013,16 +1023,3 @@ ul.view_modes {
   font-weight: bold;
   margin: 0 0 0 5px;
   padding: 5px 0; }
-
-.cop-question-year-filter {
-  border-left: 1px solid grey;
-  padding-left: 5px;
-  list-style: none;
-  display: inline;
-}
-ul > li.cop-question-year-filter:first-child {
-  border-left: none;
-}
-li.cop-question-year-filter.active {
-  font-weight: bold;;
-}

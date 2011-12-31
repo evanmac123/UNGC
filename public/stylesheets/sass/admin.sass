@@ -39,7 +39,7 @@ form#search
     border: 1px solid #000
     margin-right: 5px
     color: grey
-                
+
 h1#page_header
   background: #333333 url('../images/backgrounds/header_image.jpg') no-repeat
   display: block
@@ -51,11 +51,11 @@ h1#page_header
 ul.inline
   overflow: hidden
   margin: 0
-  
+
   li
     list-style: none
     float: left
-    
+
   a
     display: block
 
@@ -70,7 +70,7 @@ ul.nav_bar
   li
     list-style: none
     float: left
-    
+
     a
       display: block
       padding: 10px 13px 17px
@@ -80,10 +80,10 @@ ul.nav_bar
       border-right: 1px solid #fff
       &:hover
         color: #86d2f1
-    
+
     &.current a
       background: transparent url('../images/backgrounds/nav_current.png') no-repeat 50% 100%
-      
+
     ul
       left: -9999em
       margin: -6px 0 0 -1px
@@ -95,17 +95,17 @@ ul.nav_bar
       border:
         left: 1px solid #fff
         right: 1px solid #fff
-      
+
       li a
         background: #666
         border-bottom: 1px solid #fff
         width: 150px
         padding: 7px 13px
         font-size: 0.9em
-        
+
         &:hover
           background: #333
-      
+
     &:hover ul, &.sfhover ul
       left: auto
 
@@ -115,7 +115,7 @@ ul.nav_bar
 
   p
     line-height: 1.4em
-  
+
   ul.bulleted
     margin-left: 2em
     li
@@ -131,7 +131,7 @@ ul.nav_bar
     font-weight: bold
     &.button_label
       margin-top: 3px
-    
+
   h4
     color = !dark_blue
 
@@ -193,16 +193,16 @@ ul.nav_bar
 
   a.cancel_large
     background: transparent url('../images/icons/Cancel_24x24.png') no-repeat top left
-  
+
   a.edit_page_large
     background: url('../images/icons/Document (Edit)_24x24.png') no-repeat top left
-  
+
   a.go_back_large
     background: url('../images/icons/GoBack_24x24.png') no-repeat top left
-  
+
   a.download_large
     background: url('../images/icons/Accounts Payable_24x24.png') no-repeat top left
-    
+
   a.folder_large
     background: url('../images/icons/Folder (Closed)_24x24.png') no-repeat top left
     &:hover
@@ -211,7 +211,7 @@ ul.nav_bar
   a.search_large
     background: url('../images/icons/Search_Calendar_24x24.png') no-repeat top left
 
-  // icons for issues areas in search results admin/learning/search.html.haml and event show page 
+  // icons for issues areas in search results admin/learning/search.html.haml and event show page
   ul.issues_covered, dd.issue_list ul.issues_covered
     margin: 0
     li
@@ -254,20 +254,20 @@ ul.nav_bar
   table.dashboard_table
     width: 100%
     margin-bottom: 0
-    
+
     tr
       &.odd
         background = !light_grey
       &.over
         background = !light_blue
-      
+
     td, th
       padding: 10px
       border-right: 1px solid #dedede
 
       &.pointer
         cursor: pointer
-    
+
     th
       text-align: left
       background: #ccc no-repeat 100% 0
@@ -278,26 +278,26 @@ ul.nav_bar
         text-align: center
       &.age
         width: 75px
-        
+
       a
         background: transparent no-repeat
         color= !medium_grey
         display: block
-        
+
         &:hover
           color= !dark_grey
-        
+
         &.ascending
           background-image: url('/images/sort_arrows.png')
           background-position: 100% 4px
-        
+
           &:hover
             background-position: 100% -116px
-        
+
         &.descending
           background-image: url('/images/sort_arrows.png')
           background-position: 95% -56px
-        
+
           &:hover
             background-position: 95% -176px
 
@@ -311,7 +311,7 @@ ul.nav_bar
         text-align: center
       &.nowrap
         white-space: nowrap
-        
+
       span
         .small
           font-size: 9px
@@ -320,10 +320,10 @@ ul.nav_bar
     ul.matching_list
       margin: 0
       list-style: none
-    
+
     ul.actions
       margin: 0
-      
+
       li
         float: left
         list-style: none
@@ -347,7 +347,7 @@ ul.nav_bar
           background-image: url('../images/icons/Rate (Thumbs Down)_16x16.png')
         &.files
           background-image: url('../images/icons/Folder (Open)_16x16.png')
-    
+
   dl
     margin-bottom: 2em
     width: 45%
@@ -373,12 +373,12 @@ ul.nav_bar
         padding: 10px 0 10px 20px
         background: url('../images/checked.png') no-repeat 0px 10px
       &.unchecked
-        border-top-style: dotted      
+        border-top-style: dotted
         font-weight: normal
         padding: 10px 0 10px 20px
       &.first, &.title
         border: none
-        
+
     dd
       margin-left: 150px
       padding: 10px 10px 10px 0
@@ -387,14 +387,14 @@ ul.nav_bar
         border: none
       &.title
         font-size: 130%
-      
+
   ul.document_list, ul.stakeholders, ul.issues_covered
     li
       float: none
       list-style: none
       white-space: nowrap
       border: none
-      
+
       a
         padding-top: 10px
         margin-bottom: -10px
@@ -404,7 +404,7 @@ ul.nav_bar
         background: transparent url('../images/icons/Document_24x24.png') no-repeat 0px 0px
         text-indent: 30px
         height: 24px
-        
+
         &.ppt
           background-image: url('../images/icons/doc_ppt.png')
         &.jpg
@@ -413,7 +413,7 @@ ul.nav_bar
           background-image: url('../images/icons/doc_pdf.png')
         &.word
           background-image: url('../images/icons/doc_word.png')
-          
+
 .container > .sidebar
   background= !light_blue
   border: 1px solid #999
@@ -421,31 +421,31 @@ ul.nav_bar
   width: 210px
   float: none
   margin-left: 680px
-  
+
   small
     font-size: 0.8em
-  
+
   h2
     font-weight: bold
     font-size: 1.5em
-    
+
   ul
     margin: 0
-  
+
     li
       list-style: none
       padding-bottom: 0.5em
-    
+
   &#session_info
     margin-top: 5em
-    
+
     #logged_in_as
       font-weight: bold
 
       a.username,small
         font-weight: normal
         font-style: italic
-    
+
 #footer
   padding: 10px
   width: 930px
@@ -468,7 +468,7 @@ ul.nav_bar
         font-size: 9px
         -moz-border-radius: 4px
         -webkit-border-radius: 4px
-        background= !light_grey 
+        background= !light_grey
         border= 1px "solid" !light_blue
         padding: 5px 10px
         color= !medium_grey
@@ -482,7 +482,7 @@ ul.nav_bar
   clear: both
   display: none
   margin: 1em 0
-    
+
   ul.tab_nav
     margin: 0
     padding: 0
@@ -490,10 +490,10 @@ ul.nav_bar
     position: relative
     top: 1px
     z-index: 42
-  
+
     li
       list-style: none
-    
+
       a
         display: block
         background = !dark_blue
@@ -501,12 +501,12 @@ ul.nav_bar
         color: white
         text-decoration: none
         border: 1px solid #333
-      
+
         &.selected
           background: white
           color = !dark_blue
           cursor: default
-    
+
   // tab rules specific to top-tabbed nav
   &.top_tabs
     ul.tab_nav
@@ -515,7 +515,7 @@ ul.nav_bar
         margin-right: 1px
       a.selected
         border-bottom: 1px solid #fff
-  
+
   // tab rules specific to left-tabbed nav
   &.left_tabs
     ul.tab_nav
@@ -523,16 +523,16 @@ ul.nav_bar
       float: left
       margin-top: 13px
       z-index: 42
-      
+
       li
         margin-bottom: 1px
-    
+
       a.selected
         border-right: 1px solid #fff
-        
+
     .tab_content
       width: 802px
-      
+
   div.tab_content
     border: 1px solid #333
     padding: 1em 10px
@@ -541,14 +541,14 @@ ul.nav_bar
     overflow-x: hidden
     overflow-y: scroll
     position: relative
-  
+
   // tab_content rules specific to left-tabbed nav
   &.left_tabs
     div.tab_content
       margin: 0 0 0 125px
       position: relative
       left: -1px
-  
+
   // used in organization tabs for various 'new' actions
   div.tab_content
     a.new
@@ -557,23 +557,23 @@ ul.nav_bar
 
       &#new_COP
         line-height: 24px
-  
+
   ul.tools
     border-bottom: 1px solid #999
     margin-bottom: 0.5em
     padding-bottom: 0.5em
-  
+
     li
       float: left
-  
+
       a
         height: 24px
         display: block
         position: static
-    
+
         &.new
           background: transparent url('../images/icons/Add_24x24.png') no-repeat 100% 50%
-      
+
   div.meta
     float: left
     width: 125px
@@ -588,7 +588,7 @@ ul.nav_bar
         font-style: italic
         font-size: 0.9em
         margin-bottom: 1em
-      
+
     ul.post_tools
       margin: 0.5em 0
 
@@ -605,59 +605,59 @@ ul.nav_bar
 
   ul.items
     margin: 0
-  
+
     li.item
       list-style: none
       border-bottom: 1px solid #999
       padding: 0.5em 0
       overflow: hidden
-    
+
       div.body
         margin-left: 135px
-      
+
         dl.contact_data
           font-size: 9px
           width: 220px
           float: left
-          
+
           &#contact_data_left
             margin-right: 15px
-        
+
           dt,dd
             width: 150px
             padding: 0.35em 0
-            
+
           dd
             margin-left: 112px
 
 #main_content
-  
+
   // general form element styling
   input.button
     float: right
     clear: both
-  
+
   div.fieldWithErrors
     input, textarea
       border: 1px solid #F99
-    
+
   fieldset
     background-color= !light_blue
     border: 1px solid #aaa
     // Local Network fieldset styling
     &.governance
       height: 90px
-    
+
     legend
       color: #888
-      
+
       span
         white-space: normal
-    
+
     ol
       margin: 0
       padding: 0 0 0 0
-      
+
     li
       list-style: none
       margin: 0 0 1em 0
@@ -675,7 +675,7 @@ ul.nav_bar
       display: block
       float: left
       width: 150px
-      
+
     input, select, textarea
       color: #000
       margin: 2px 4px 1px 25px
@@ -685,7 +685,7 @@ ul.nav_bar
       font-size: 1em
       &.short
         width: 40px
-    
+
     input[type="checkbox"], input[type="radio"], input[type="file"], li.date select
       width: auto
       margin: 0 5px 0px 25px
@@ -694,42 +694,42 @@ ul.nav_bar
       overflow: auto
       width: 100%
       padding-top: 2px
-    
+
     ol.checkbox_list, ol.radio_button_list
       float: left
       li.checkbox, li.radio_button
         clear: both
         padding-bottom: 10px
-        
+
         input[type="checkbox"], input[type="radio"]
           cursor: pointer
           float: left
           top: 0px
         input[type="radio"]
           margin-top: 1px
-          
+
         label
           cursor: pointer
           float: left
           margin: 1px 0 0 10px
-    
+
     // next 3 styles used in roles fieldset
     ol.checkbox_list
       input[type="checkbox"].label_right
         float: left
         margin: -2px 10px 0 0
         clear: left
-      
+
       label.checkbox_label
         width: auto
         cursor: pointer
         float: none
         margin: 5px 0 0 0
-          
+
       p.check_box_label_description
         margin: 3px 0 0 24px
         display: block
-  
+
     span.cke_skin_kama
       display: block
       margin: 0 5px 0 120px
@@ -741,14 +741,14 @@ ul.nav_bar
         margin-left: 0px
         width: 100%
         clear: both
-        
+
     fieldset
       background: #fff
       border: 1px solid #aaa
-      
+
       p.question_text
         margin-top: 1em
-      
+
       // divs for COP form text
       div.hint_toggle
         color= !dark_blue
@@ -763,7 +763,7 @@ ul.nav_bar
           li
             list-style-type: disc
             margin: 0 0 0.5em 2em
-        
+
       div.issue_area
         float: left
         width: 175px
@@ -772,19 +772,19 @@ ul.nav_bar
           font-weight: bold
         label
           font-weight: normal
-        
-      
+
+
       legend
         color= !dark_blue
         font-size: 1em
         background: #fcfcfc url('../images/backgrounds/legend_bg.png') repeat-x 0 0
         padding: 5px
         border: 1px solid #cccccc
-      
-      input[type="checkbox"], input[type="radio"], input[type="file"] 
+
+      input[type="checkbox"], input[type="radio"], input[type="file"]
         width: auto
         margin: -2px 10px 0px 5px
-      
+
       label
         display: block
         width: 700px
@@ -793,18 +793,18 @@ ul.nav_bar
         color= !dark_grey
         &:hover
           cursor: pointer
-      
+
       span.radio_label
         float: left
         margin: 5px 0 5px 0
-              
+
       span.label_text
         display: block
         position: relative
         line-height: 1.3em
         left: 25px
         top: -11px
-      
+
       select
         margin-left: 0
 
@@ -837,13 +837,13 @@ ul.nav_bar
     padding: 10px
     margin-bottom: 20px
     background= !light_blue
-    
+
   #site_structure
     overflow: hidden
     margin-bottom: 2em
     &.loading
       opacity: 0.3
-  
+
   #site_tools, #page_tools
     -moz-border-radius-topleft= !border_radius
     -moz-border-radius-topright= !border_radius
@@ -855,15 +855,15 @@ ul.nav_bar
     margin: 0
     width: 630px
     overflow: hidden
-    
+
     ul
       margin: 0
       padding: 0
-    
+
     li
       list-style: none
       float: left
-  
+
     a
       display: block
       height: 24px
@@ -874,7 +874,7 @@ ul.nav_bar
       font-size: 0.9em
       text-decoration: none
       color= !medium_grey
-    
+
       &:hover
         opacity: 0.7
 
@@ -894,9 +894,9 @@ ul.nav_bar
         background: url('../images/icons/eye.png') no-repeat center top
       &.save
         background: url('../images/icons/Save_24x24.png') no-repeat center top
-        
+
   #page_tools
-    a 
+    a
       &.edit_page
         background: url('../images/icons/Document (Edit)_24x24.png') no-repeat center top
       &.preview_page
@@ -924,8 +924,8 @@ ul.nav_bar
       opacity: 0.3
 
     #tree
-      ul 
-        li 
+      ul
+        li
           a
             &.hidden
               opacity: 0.4
@@ -945,7 +945,7 @@ ul.nav_bar
   #page_details, #page_tools
     clear: left
     float: left
-  
+
   #page_details
     width: 600px
     margin: 0 0 1em 0
@@ -953,41 +953,41 @@ ul.nav_bar
     dl
       width: 600px
       margin: 0
-      
+
     dt
       width: 60px
       border: none
       padding: 0.1em 10px 0.1em 0
-    
+
     dd
       margin-left: 60px
       border: none
       padding: 0.1em 0
-    
+
       label
         font-weight: normal
         &:hover
           background: #FFC
-      
+
   #page_preview
     width: 630px
     overflow: hidden
-    
+
     #preview_contents
       float: none
-        
+
       h1
         font-size: 2em
         color: inherit
-      
+
       h2
         font-size: 1.6em
         color: inherit
-      
+
       h3
         font-size: 1.3em
         color: inherit
-      
+
       a
         text-decoration: underline
 
@@ -995,20 +995,20 @@ ul.nav_bar
 ul.report_list
   margin: 0
   width: 400px
-  
+
   li
     list-style: none
     border-bottom: 1px solid #ccc
     padding: 0.75em 10px
     background-color: #fff
     position: relative
-    
+
     &.odd
       background-color: #fff
-      
+
     &:hover
       background-color= !light_blue
-      
+
   a.xls, a.doc
     position: absolute
     right: 10px
@@ -1029,15 +1029,15 @@ ul.report_list
     background: url('../images/icons/Folder (Closed)_16x16.png')
     &:hover
       background: url('../images/icons/Folder (Open)_16x16.png')
-    
-    
+
+
   a
     color= !dark_grey
     text-decoration: none
-    
+
     &:hover
       color= !dark_blue
-      
+
 div.pagination
   background= !light_blue
   border-bottom: 1px solid #ccc
@@ -1045,28 +1045,28 @@ div.pagination
   padding: 6px 150px
   position: relative
   text-align: center
-  
+
   a
     text-decoration: none
-    
+
     &:hover
       text-decoration: underline
-  
+
   .prev_page, .next_page
     position: absolute
-  
+
   .prev_page
     left: 10px
-  
+
   .next_page
     right: 10px
-  
+
   .current
     font-weight: bold
-  
+
   .disabled
     color: #7a8d99
-    
+
 ul.view_modes
   margin: 0
   padding: 0
@@ -1074,7 +1074,7 @@ ul.view_modes
   position: relative
   top: 1px
   z-index: 42
-  
+
   li
     list-style: none
     float: left
@@ -1087,16 +1087,16 @@ ul.view_modes
       color: white
       text-decoration: none
       border: 1px solid #333
-  
+
       &:hover
         background= !light_blue
         color= !dark_blue
-    
+
       &.selected
         background: white
         color= !dark_blue
         border-bottom: 1px solid #fff
-        
+
 #session_info
   background= !dark_grey
   border: 1px solid #999
@@ -1110,14 +1110,14 @@ ul.view_modes
   top: -999em
   right: 25px
   width: 175px
-  
+
   a
     color: #51a7cb
     font-weight: normal
-    
+
     &:hover
       color: #63cbf7
-  
+
   h2
     bottom: 5px
     font-size: 1em
@@ -1125,7 +1125,7 @@ ul.view_modes
     margin: 0
     position: absolute
     text-align: center
-    
+
     a
       background: transparent url('/images/session_info_arrows.png') no-repeat 0 50%
       border-top: 1px solid #345
@@ -1134,20 +1134,32 @@ ul.view_modes
       font-weight: bold
       text-decoration: none
       width: 175px
-      
+
       &:hover
         color: #51A7CB
-  
+
   ul
     margin: 0
     padding: 1em 0
-    
+
     li
       list-style: none
-      
+
   small
     font-size: 0.9em
   .nowrap
     white-space: nowrap
-    
-@import cops.sass    
+
+
+ul.cop-question-year-filter
+  li:first-child
+    border-left: none
+  li
+    border-left: 1px solid grey
+    padding-left: 5px
+    list-style: none
+    display: inline
+    &.active
+      font-weight: bold
+
+@import cops.sass
