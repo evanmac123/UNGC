@@ -1,9 +1,15 @@
 %h2 COP Questions
-= link_to 'Create a question', new_admin_cop_question_path, :class => "new_large", :id => "new_cop_question"
-
+%h3 Filter by year
+%ul
+  %li.cop-question-year-filter{ :class => (params[:year].nil? ? 'active' : '') }= link_to "All", admin_cop_questions_path
+  - (CopQuestion::EARLIEST_YEAR..(Time.now.year + 3)).map do |year|
+    %li{ :class => 'cop-question-year-filter' + (params[:year].to_i == year ? ' active' : '') }= link_to year, admin_cop_questions_path(:year => year)
+= link_to 'Create a question', new_admin_cop_question_path(:year => params[:year]), :class => "new_large", :id => "new_cop_question"
+%br
 %table.dashboard_table#cop_questions_table
   %tr
     %th ID
+    %th Year
     %th.status Issue Area
     %th Grouping
     %th Implementation
@@ -12,6 +18,7 @@
   - for cop_question in @cop_questions
     %tr
       %td= cop_question.id
+      %td= cop_question.year
       %td.nowrap= cop_question.principle_area.try(:name)
       %td.nowrap= CopQuestion::GROUPING_AREAS[cop_question.grouping]
       %td= cop_question.implementation.try(:humanize)

@@ -1,25 +1,25 @@
 # United Nations Global Compact
 
-
 # Accounts
 
-
 ## Hoptoad
-http://unspaceungc.hoptoadapp.com/  
-user: jamie@unspace.ca  
-password: hoptoad  
+`http://unspaceungc.hoptoadapp.com/`  
+user: `jamie@unspace.ca`  
+password: `hoptoad`  
 
 ## NewRelic RPM
-URL: https://rpm.newrelic.com  
-user: ungc@unspace.ca  
-password: newrelic  
+URL: `https://rpm.newrelic.com`  
+user: `ungc@unspace.ca`  
+password: `newrelic`  
 
 ## App
-organization user: ungc341 / FE2EC4C8  
-admin user: keesari / compact2  
+Organization user / pass:  
+`ungc341` / `FE2EC4C8`  
+
+Admin user / pass:  
+`keesari` / `compact2`  
 
 # Data Migration
-
 Firstly, you will want to make sure that you have all the required plugins.  This can be accomplished with the following commands:
 
 `rake gems:install`  
@@ -67,7 +67,7 @@ If you are setting up this application for the first time in you machine, follow
 ## Search requires:
 - the Sphinx search engine, install version 0.9.9 from source:
 [](http://freelancing-god.github.com/ts/en/installing_sphinx.html)
-- the Python library 'pdfminer', see this page for installation instructions:
+- the Python library `pdfminer`, see this page for installation instructions:
 [](http://www.unixuser.org/~euske/python/pdfminer/index.html)
 
 Make sure that `pdf2txt.py` is in the path, and it should be fine.
@@ -76,7 +76,7 @@ Done :)
 
 # Debugger
 `script/server --debugger`  
-place 'debugger' at your breakpoint and press 'c' to continue execution  
+place `debugger` at your breakpoint and press 'c' to continue execution  
 
 # Controlling Sphinx
 `rake ts:rebuild RAILS_ENV=production`  
@@ -108,7 +108,6 @@ Follow these steps while referring to existing reports:
 4. Add the report to the reports index screen app/views/admin/report/index.html.haml
 
 # Adding a new section banner
-
 1. Save banner as PNG from Illustrator (use 10% opacity for logo when using blue background)
 2. Note filename and add body class to application.css
 3. Ex: body.environment #inner_head { background: url(/images/banner_environment.png); }
@@ -127,7 +126,6 @@ Example:
 Set `page.html_code` to the body class for the section you want the banner to appear in
 
 # Fields to delete
-
 Here's a list of tables/fields that should be safe to delete after the application has been launched:
 
 *.old\_id - only used by importer  

@@ -109,25 +109,25 @@
     %h3
       %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :human_rights
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :human_rights
 
   %div.tab_content{:id => "labour_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('labour')}" } Labour Principles Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :labour
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :labour
 
   %div.tab_content{:id => "environment_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :environment
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :environment
 
   %div.tab_content{:id => "anti_corruption_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :anti_corruption
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :anti_corruption
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation

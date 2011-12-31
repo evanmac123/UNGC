@@ -14,11 +14,14 @@
 #
 
 class CopQuestion < ActiveRecord::Base
+
+  EARLIEST_YEAR = 2010
+
   validates_presence_of :text, :grouping
   has_many :cop_attributes
   belongs_to :principle_area
   belongs_to :initiative
-  
+
   accepts_nested_attributes_for :cop_attributes, :allow_destroy => true,
                                                  :reject_if     => proc { |a| a['text'].blank? }
 
@@ -31,7 +34,7 @@ class CopQuestion < ActiveRecord::Base
     'value_chain_2012'    => '2012 Value Chain Implementation',
     'verification_2012'   => '2012 Verification and Transparency',
     'governance_2012'     => 'Governance',
-    'additional'          => 'Additional',             
+    'additional'          => 'Additional',
     'additional_disabled' => 'Additional (disabled)',
     'basic'               => 'Basic Template',
     'strategy'            => 'Strategy, Governance and Engagement',
@@ -44,14 +47,14 @@ class CopQuestion < ActiveRecord::Base
     'mandatory'           => 'Mandatory',
     'notable'             => 'Notable'
   }
-  
+
   # for accessing particular grouping areas
-  ADVANCED_GROUPS = ['additional', 'strategy', 'un_goals', 'verification', 'governance'] 
-  LEAD_GROUPS     = ['lead_un_goals', 'lead_gc'] 
-  
+  ADVANCED_GROUPS = ['additional', 'strategy', 'un_goals', 'verification', 'governance']
+  LEAD_GROUPS     = ['lead_un_goals', 'lead_gc']
+
   # can optionally select the implementation area the question covers
   IMPLEMENTATION_AREAS =  ['policy', 'process', 'monitoring', 'performance']
-                                               
+
   default_scope :order => 'cop_questions.position'
   named_scope :general, :conditions => "initiative_id IS NULL"
   named_scope :initiative_questions_for, lambda { |organization|
@@ -63,5 +66,5 @@ class CopQuestion < ActiveRecord::Base
   named_scope :group_by, lambda { |group|
     { :conditions => ['grouping =?', group.to_s] }
   }
-  
+
 end

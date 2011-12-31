@@ -2,7 +2,9 @@ class Admin::CopQuestionsController < AdminController
   before_filter :no_organization_or_local_network_access
 
   def index
-    @cop_questions = CopQuestion.all(:order => 'grouping, position')
+    conditions = {}
+    conditions[:year] = params[:year] if params[:year].present?
+    @cop_questions = CopQuestion.all(:order => 'year, grouping, position', :conditions => conditions)
   end
 
   def new
@@ -17,7 +19,7 @@ class Admin::CopQuestionsController < AdminController
     @cop_question = CopQuestion.new(params[:cop_question])
     if @cop_question.save
       flash[:notice] = 'COP Question was successfully created.'
-      redirect_to(admin_cop_questions_path)
+      redirect_to admin_cop_questions_path(:year => @cop_question.year)
     else
       render :action => "new"
     end
