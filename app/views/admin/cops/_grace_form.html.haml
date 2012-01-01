@@ -18,7 +18,7 @@
         %legend
           %span Please upload your "Grace Letter" as a PDF file
         - if @submitted
-          = render :partial => 'cop_file', :locals => {:cop_file => @communication_on_progress.cop_files.first, :record => 0, :attachment_type => CopFile::TYPES[:grace_letter], :language_id => @cop_file_language }
+          = render :partial => 'cop_file', :locals => {:cop_file => @communication_on_progress.cop_files.first, :record => 0, :attachment_type => CopFile::TYPES[:grace_letter], :language_id => @communication_on_progress.cop_files.first.language.id }
         - else
           = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:grace_letter]), :record => 0, :language_id => 4 }
 
