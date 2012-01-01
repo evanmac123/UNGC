@@ -15,7 +15,9 @@
 
 class CopQuestion < ActiveRecord::Base
 
-  EARLIEST_YEAR = 2010
+  FIRST_YEAR = 2010
+  LAST_YEAR = Time.now.year + 1
+  YEAR_RANGE = FIRST_YEAR..LAST_YEAR
 
   validates_presence_of :text, :grouping
   has_many :cop_attributes

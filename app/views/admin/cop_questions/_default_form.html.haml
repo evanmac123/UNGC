@@ -3,8 +3,7 @@
 
 %fieldset
   %ol
-    - year = @cop_question.new_record? ? params[:year].to_i : @cop_question.year
-    = default_form.select :year, options_for_select(CopQuestion::EARLIEST_YEAR..(Time.now.year + 3), year), :label => 'Year'
+    = default_form.select :year, CopQuestion::YEAR_RANGE, { :selected => @cop_question.year, :include_blank => true }, { :label => 'Year' }
     = default_form.select :grouping, select_options_from_hash(CopQuestion::GROUPING_AREAS), :include_blank => true, :label => "Grouping area"
     = default_form.collection_select :principle_area_id, PrincipleArea.all, :id, :name, {:include_blank => true}, {}
     = default_form.select :implementation, CopQuestion::IMPLEMENTATION_AREAS.collect {|a| [a.humanize, a]}, {:include_blank => true}, {:label => "Implementation area" }

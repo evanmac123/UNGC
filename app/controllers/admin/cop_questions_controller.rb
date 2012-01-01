@@ -1,5 +1,7 @@
 class Admin::CopQuestionsController < AdminController
+
   before_filter :no_organization_or_local_network_access
+  before_filter :fetch_question, :only => [:destroy, :update, :edit]
 
   def index
     conditions = {}
@@ -9,10 +11,10 @@ class Admin::CopQuestionsController < AdminController
 
   def new
     @cop_question = CopQuestion.new
+    @cop_question.year = params[:year]
   end
 
   def edit
-    @cop_question = CopQuestion.find(params[:id])
   end
 
   def create
@@ -26,18 +28,23 @@ class Admin::CopQuestionsController < AdminController
   end
 
   def update
-    @cop_question = CopQuestion.find(params[:id])
     if @cop_question.update_attributes(params[:cop_question])
       flash[:notice] = 'COP Question was successfully updated.'
-      redirect_to(admin_cop_questions_path)
+      redirect_to admin_cop_questions_path(:year => @cop_question.year)
     else
       render :action => "edit"
     end
   end
 
   def destroy
-    @cop_question = CopQuestion.find(params[:id])
     @cop_question.destroy
     redirect_to(admin_cop_questions_path)
   end
+
+  private
+
+  def fetch_question
+    @cop_question = CopQuestion.find(params[:id])
+  end
+
 end
