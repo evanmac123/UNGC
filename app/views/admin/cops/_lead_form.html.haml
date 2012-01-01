@@ -103,31 +103,31 @@
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Strategy, Governance and Engagement
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :strategy
+    %fieldset= cop_questions_for @communication_on_progress, :strategy, :year => current_year
             
   %div.tab_content{:id => "human_rights_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :human_rights
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :human_rights, :year => current_year
 
   %div.tab_content{:id => "labour_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('labour')}" } Labour Principles Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :labour
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :labour, :year => current_year
 
   %div.tab_content{:id => "environment_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :environment
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :environment, :year => current_year
 
   %div.tab_content{:id => "anti_corruption_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :anti_corruption
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :anti_corruption, :year => current_year
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation
@@ -136,12 +136,12 @@
     %div{:class => 'hint_text', :style => 'display: none;'}
       %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
 
-    %fieldset= cop_questions_for @communication_on_progress, :value_chain
+    %fieldset= cop_questions_for @communication_on_progress, :value_chain, :year => current_year
 
   %div.tab_content{:id => "verification_additional_questions"}
     %h3 Verification and Transparency
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :verification
+    %fieldset= cop_questions_for @communication_on_progress, :verification, :year => current_year
 
   %div.tab_content{:id => "un_goals_additional_questions"}
     %h3 Taking Action in Support of Broader UN Goals and Issues
