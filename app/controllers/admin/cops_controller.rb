@@ -35,7 +35,7 @@ class Admin::CopsController < AdminController
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
     @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_user.contact_info
-    
+
     if @communication_on_progress.save
       flash[:notice] = "The COP has been published on the Global Compact website"
       clear_session_template
@@ -52,8 +52,8 @@ class Admin::CopsController < AdminController
     else
       # we want to preselect the submit tab
       @submitted = true
-
-      unless @communication_on_progress.is_basic?
+      # web links are not included with Basic COPs and Grace Letters 
+      unless @communication_on_progress.type == 'basic' || @communication_on_progress.type == 'grace'
         @cop_link_url = params[:communication_on_progress][:cop_links_attributes][:new_cop][:url] || ''
         @cop_link_language = params[:communication_on_progress][:cop_links_attributes][:new_cop][:language_id] || Language.for(:english).id
       end
