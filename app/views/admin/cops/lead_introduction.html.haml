@@ -8,7 +8,10 @@
 
   #introduction.tab_content
     %p.cop_description{:style => 'margin-top: 10px;'} As a participant in Global Compact LEAD, you have committed to communicate progress on implementing the Blueprint for Corporate Sustainability Leadership.
-    %p.cop_description Please click the link below to Publish your COP or select the "Grace Letter" tab if you need to submit a grace letter for a 90 day extension to your COP deadline.
+    %p.cop_description
+      Please click the link below to Publish your COP.
+      - if current_user.submit_grace_letter?
+        Select the "Grace Letter" tab if you need to submit a grace letter for a 90 day extension to your COP deadline.
     %p= link_to 'Publish your COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'lead'), :class => 'new_page_large'
  
   #grace.tab_content
