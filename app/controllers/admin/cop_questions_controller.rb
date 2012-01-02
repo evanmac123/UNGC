@@ -5,7 +5,7 @@ class Admin::CopQuestionsController < AdminController
   def index
     conditions = {}
     conditions[:year] = params[:year] if params[:year].present?
-    @cop_questions = CopQuestion.all(:order => 'year, position, grouping', :conditions => conditions)
+    @cop_questions = CopQuestion.all(:order => 'position, grouping, year', :conditions => conditions)
   end
 
   def new
