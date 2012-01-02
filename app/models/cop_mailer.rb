@@ -4,6 +4,7 @@ class CopMailer < ActionMailer::Base
 
   def confirmation_blueprint(organization, cop, user)
     from 'lead@unglobalcompact.org'
+    cc 'lead@unglobalcompact.org'
     subject "Global Compact LEAD - COP Status"
     content_type "text/html"
     recipients user.email_recipient
