@@ -1,3 +1,28 @@
+h1. 2011-12-14
+
+* Added methods to COP model to determine how many CopAttributes were covered for each CopQuestion
+* If no attributes (best practices) were covered, then that question (criterion) is NOT considered to be covered
+* The company is notified is the missing criteria in the results screen views/shared/cops/_cop_questionnaire_evaluation.html.haml
+
+h1. 2011-12-09
+
+* use cop_detail_url(@cop) in COP mailer views to avoid entering the full URL
+
+h1. 2011-12-02
+
+* LEAD COPs should have their own set of confirmation emails
+* The actual differentiation level is yet to be determined, so we will use the following
+* learner_blueprint - for COPs that do not yet meet the requirements of a LEAD COP
+* blueprint - for COPs that do meet the requirements
+
+* a few defaults must be set for LEAD COPs, so they are treated as Advanced COPs with the questionnaire
+
+* Depending on the differentiation level of the COP, a specific email should be sent
+
+h1. 2011-11-29
+
+* added signatory_of?(initiative) to Organization model to determine if it has signed onto an Initiative
+
 h1. 2011-11-26
 
 * adding the date and timezone to expelled email since some companies said they were within the deadline according to their time zone

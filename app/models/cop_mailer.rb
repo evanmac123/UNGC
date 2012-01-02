@@ -1,6 +1,16 @@
 class CopMailer < ActionMailer::Base
   helper :datetime
 
+
+  def confirmation_blueprint(organization, cop, user)
+    from 'lead@unglobalcompact.org'
+    cc 'lead@unglobalcompact.org'
+    subject "Global Compact LEAD - COP Status"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+
   def confirmation_learner(organization, cop, user)
     from 'cop@unglobalcompact.org'
     subject "UN Global Compact Status - 12 Month Learner Grace Period"

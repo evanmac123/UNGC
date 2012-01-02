@@ -283,7 +283,7 @@ ul.nav_bar {
     #main_content dl.short dd {
       width: 65px; }
     #main_content dl dt {
-      width: 130px;
+      width: 140px;
       padding: 10px 10px 10px 0;
       margin: 0;
       float: left;
@@ -303,7 +303,7 @@ ul.nav_bar {
       #main_content dl dt.first, #main_content dl dt.title {
         border: none; }
     #main_content dl dd {
-      margin-left: 140px;
+      margin-left: 150px;
       padding: 10px 10px 10px 0;
       border-top: 1px solid #999; }
       #main_content dl dd.first, #main_content dl dd.title {
@@ -906,9 +906,24 @@ ul.view_modes {
   #session_info .nowrap {
     white-space: nowrap; }
 
+ul.cop-question-year-filter li:first-child {
+  border-left: none; }
+ul.cop-question-year-filter li {
+  border-left: 1px solid grey;
+  padding-left: 5px;
+  list-style: none;
+  display: inline; }
+  ul.cop-question-year-filter li.active {
+    font-weight: bold; }
+
 #main_content p.cop_description {
   font-size: 13px;
   line-height: 1.2em; }
+#main_content ol.cop_list {
+  padding-left: 1em; }
+  #main_content ol.cop_list li {
+    font-size: 13px;
+    line-height: 2em; }
 #main_content div.hint_toggle {
   color: #14546f;
   font-weight: bold;
@@ -931,6 +946,8 @@ ul.view_modes {
   color: #688442; }
 #main_content span.anti_corruption {
   color: #ed1c24; }
+#main_content dd.indent {
+  padding-left: 30px; }
 #main_content dd:empty {
   min-height: 12px; }
 #main_content dd ul {

@@ -92,7 +92,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  TYPES = %w{grace basic intermediate advanced}
+  TYPES = %w{grace basic intermediate advanced lead}
 
   default_scope :order => 'created_at DESC'
   
@@ -149,9 +149,10 @@ class CommunicationOnProgress < ActiveRecord::Base
             :none      => "None of the above"
             }
   
-  LEVEL_DESCRIPTION = {:advanced => "This COP qualifies for the Global Compact Advanced level",
-                       :active   => "This COP qualifies for the Global Compact Active level",
-                       :learner  => "This COP places the participant on the Global Compact Learner Platform"
+  LEVEL_DESCRIPTION = { :blueprint => "Global Compact LEAD - Blueprint",
+                        :advanced  => "This COP qualifies for the Global Compact Advanced level",
+                        :active    => "This COP qualifies for the Global Compact Active level",
+                        :learner   => "This COP places the participant on the Global Compact Learner Platform"
                       }
              
   START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
@@ -201,6 +202,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     case self.type
       when 'grace'
         self.format = CopFile::TYPES[:grace_letter]
+        self.title = 'Grace Letter'
         # normally they can choose the coverage dates, but for grace letters it matches the grace period
         self.starts_on = self.organization.cop_due_on
         self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
@@ -208,6 +210,9 @@ class CommunicationOnProgress < ActiveRecord::Base
         self.format = 'basic'
       when 'advanced'
         self.additional_questions = true
+      when 'lead'
+        self.additional_questions = true
+        self.meets_advanced_criteria = true
     end
   end
 
@@ -227,7 +232,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       if can_submit?
         submit!
         approve
-        # automatic_decision
       end
     end
   end
@@ -287,45 +291,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       organization.set_next_cop_due_date
     end
   end
-  
-  # COPs may be automatically approved
-  def automatic_decision
-    approve and return if is_grace_letter?
-    if parent_company_cop?
-      if parent_cop_cover_subsidiary?
-        approve
-      else
-        reject
-      end
-      return
-    end
-    if organization.joined_after_july_2009?
-      if organization.participant_for_over_5_years?
-        # participant for more than 5 years who joined after July 1st 2009
-        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
-          approve
-        else
-          reject
-        end
-      else
-        # participant for less than 5 years who joined after July 1st 2009
-        (score >= 2 && include_measurement?) ? approve : reject
-      end
-    else
-      if organization.participant_for_over_5_years?
-        # participant for more than 5 years who joined before July 1st 2009
-        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
-          approve
-        else
-          reject
-        end
-      else
-        # participant for less than 5 years who joined before July 1st 2009
-        (score >= 1 && include_measurement?) ? approve! : reject!
-      end
-    end
-  end
-      
+        
   # javascript will normally hide the link field if it's blank,
   # but IE7 was not cooperating, so we double check
   def check_links
@@ -352,6 +318,9 @@ class CommunicationOnProgress < ActiveRecord::Base
     items.count - items.collect{|r| r if r}.compact.count
   end
   
+  def missing_items?
+    number_missing_items > 0
+  end
   
   def issue_areas_covered
     issues = []
@@ -386,6 +355,55 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
     
+  # number of attributes selected for a question
+  def number_question_attributes_covered(cop_attribute_id)
+    answer_count = CopAnswer.find_by_sql(
+    ["SELECT sum(value) AS total FROM cop_answers 
+      JOIN cop_attributes
+      ON cop_answers.cop_attribute_id = cop_attributes.id
+      WHERE cop_answers.cop_id = ? AND cop_question_id = ?", self.id, cop_attribute_id]
+    )
+    answer_count.first.total.to_i
+  end    
+
+  # gather questions based on submitted attributes
+  def answered_questions(grouping = nil)
+        
+    if grouping
+      CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", cop_attributes.collect(&:cop_question_id)])
+    else
+      # don't include LEAD questions
+      questions = []
+      cop_attributes.each do |a|
+        questions << a.cop_question unless Initiative.for_filter(:lead).include? a.cop_question.initiative
+      end
+      questions
+    end
+    
+  end
+
+  # questions with no selected attributes
+  def questions_missing_answers
+    missing = []
+    answered_questions.each do |question|
+      missing << question.id if number_question_attributes_covered(question.id) == 0
+    end
+    CopQuestion.find(missing)
+  end
+  
+  # questions that do not have all attributes selected
+  def questions_not_fully_covered(grouping = nil)
+    missing = []
+    answered_questions(grouping).each do |question|
+      missing << question.id if question.cop_attributes.count > number_question_attributes_covered(question.id)
+    end
+    CopQuestion.find(missing)
+  end
+  
+  def lead_cop_is_incomplete?
+    questions_missing_answers.any? || questions_not_fully_covered('lead_un_goals').any? || questions_not_fully_covered('lead_gc').any?
+  end
+  
   def evaluated_for_differentiation?
     if is_grace_letter?
       false
@@ -408,8 +426,14 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
   end
   
-  def differentation_level
-    if is_advanced_level?
+  def is_blueprint_level?
+    evaluated_for_differentiation? && organization.signatory_of?(:lead)
+  end
+  
+  def differentiation_level
+    if is_blueprint_level?
+      :blueprint
+    elsif is_advanced_level?
       :advanced
     elsif is_intermediate_level?
       :active
@@ -420,17 +444,17 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
   
-  def differentation_level_name
+  def differentiation_level_name
     differentiation.to_s.try(:humanize)
   end
   
   def differentiation_description
-    LEVEL_DESCRIPTION[differentation_level]
+    LEVEL_DESCRIPTION[differentiation_level]
   end
   
   # record level in case the criteria changes in the future
   def set_differentiation_level
-    self.differentiation = differentation_level.try(:to_s)
+    self.differentiation = differentiation_level.try(:to_s)
   end
   
   def readable_error_messages

@@ -56,7 +56,7 @@ module ApplicationHelper
     html = ''
     
     levels.each do |key, value|
-      css_style = cop.differentation_level == key ? '' : 'color: #aaa'
+      css_style = cop.differentiation_level == key ? '' : 'color: #aaa'
       html += content_tag :span, value + '&nbsp;', :style => css_style
     end
 

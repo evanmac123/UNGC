@@ -6,7 +6,7 @@
     %li#environment_tab{:class => 'additional_questions'} <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
     %li#anti_corruption_tab{:class => 'additional_questions'} <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
     %li#submit_tab{:style => 'display:block;'} <a href="#finish">Submit your COP</a>
-  
+
   #basic.tab_content
     %div.principles
       %h3 General Information
@@ -37,8 +37,8 @@
         %ul
           - Principle.principles_for_issue_area(key).each do |area|
             %li= area.name
-      
-      %fieldset= cop_questions_for @communication_on_progress, :basic, key
+
+      %fieldset= cop_questions_for @communication_on_progress, :basic, :principle => key
 
   #finish.tab_content
     %div.principles
@@ -49,7 +49,7 @@
         %legend
           %span A statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company's ongoing commitment to the initiative and its principles
         = true_or_false_field(form, :include_continued_support_statement)
-      
+
       %fieldset
         %legend
           %span Coverage of the four issue areas
@@ -57,12 +57,12 @@
           %div{:class => 'issue_area'}
             %span{:class => 'radio_label'}= value
             = true_or_false_field(form, "references_#{key}".to_s)
-    
+
       %fieldset
         %legend
           %span Measurement of outcomes for any of the above issue areas
         = true_or_false_field(form, :include_measurement, :class => 'score')
-    
+
       %fieldset
         %fieldset
           %legend
@@ -71,7 +71,7 @@
             %label
               = form.radio_button :method_shared, key
               = value
-    
+
     = render :partial => 'submit_cop'
 
 = organization_javascript_vars @organization
