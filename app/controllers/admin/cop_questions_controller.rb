@@ -1,6 +1,6 @@
 class Admin::CopQuestionsController < AdminController
 
-  before_filter :no_organization_or_local_network_access #, :only => [:index, :new, :edit, :create, :update, :destroy]
+  before_filter :no_organization_or_local_network_access
   before_filter :fetch_question, :only => [:destroy, :update, :edit]
 
   def index
