@@ -462,6 +462,12 @@ class Organization < ActiveRecord::Base
     set_approved_on
   end
   
+  def set_non_participant_fields
+    self.state = ApprovalWorkflow::STATE_APPROVED
+    self.participant = false
+    self.active = false
+  end
+  
   def set_rejected_fields
     self.rejected_on = Date.today
     self.save

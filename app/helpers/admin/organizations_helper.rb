@@ -108,7 +108,7 @@ module Admin::OrganizationsHelper
   
   # if an organization is still under review, then they should be able to change their letter
   def can_edit_letter?(organization)
-    unless organization.approved? && current_user.from_organization? 
+    unless organization.new_record? || organization.approved? && current_user.from_organization? 
       true
     end
   end

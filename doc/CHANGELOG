@@ -1,3 +1,17 @@
+h1. 2012-01-03
+
+* COP Questions can now be created and grouped by year
+* There is a helper method called from the COP form: cop_questions_for @communication_on_progress, :un_goals, :year => current_year
+* :year is an optional parameter. If left out, all questions with grouping :un_goals will be returned
+
+h1. 2011-12-30
+
+* Added basic support for creating organizations that are not participants
+* Increasingly initiatives like Caring for Climate are accepting non-participant signatories
+* These organizations must still be added as signatories to the Initiative without going through the normal signup process
+* A new Organization Type was created to identify these organizations: Initiative Signatory
+* When a new organization is created, this will be the default organization type
+
 h1. 2011-12-14
 
 * Added methods to COP model to determine how many CopAttributes were covered for each CopQuestion
@@ -16,7 +30,6 @@ h1. 2011-12-02
 * blueprint - for COPs that do meet the requirements
 
 * a few defaults must be set for LEAD COPs, so they are treated as Advanced COPs with the questionnaire
-
 * Depending on the differentiation level of the COP, a specific email should be sent
 
 h1. 2011-11-29
