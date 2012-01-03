@@ -1,3 +1,11 @@
+h1. 2011-12-30
+
+* Added basic support for creating organizations that are not participants
+* Increasingly initiatives like Caring for Climate are accepting non-participant signatories
+* These organizations must still be added as signatories to the Initiative without going through the normal signup process
+* A new Organization Type was created to identify these organizations: Initiative Signatory
+* When a new organization is created, this will be the default organization type
+
 h1. 2011-11-26
 
 * adding the date and timezone to expelled email since some companies said they were within the deadline according to their time zone

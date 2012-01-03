@@ -16,11 +16,12 @@ class OrganizationType < ActiveRecord::Base
   NON_BUSINESS = 1
   BUSINESS = 2
   PARTICIPANT = [1,2]
+  ALL_ORGANIZATIONS = [0,1,2]
   
   named_scope :non_business, :conditions => ['type_property=?', NON_BUSINESS]
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
   named_scope :participants, :conditions => ['type_property in (?)', PARTICIPANT]
-  named_scope :staff_types, :conditions => ["type_property in (?) or name IN ('Micro Enterprise','Mailing List')", PARTICIPANT]
+  named_scope :staff_types, :conditions => ["type_property in (?)", ALL_ORGANIZATIONS]
   
   FILTERS = {
     :academia         => 'Academic',
@@ -36,7 +37,8 @@ class OrganizationType < ActiveRecord::Base
     :public           => 'Public Sector Organization',
     :companies        => 'Company',
     :micro_enterprise => 'Micro Enterprise',
-    :sme              => 'SME'
+    :sme              => 'SME',
+    :signatory        => 'Initiative Signatory'
   }
 
   named_scope :for_filter, lambda { |*filter_types|
@@ -66,6 +68,10 @@ class OrganizationType < ActiveRecord::Base
   
   def self.academic
     first :conditions => {:name => FILTERS[:academia]}
+  end
+
+  def self.signatory
+    first :conditions => {:name => FILTERS[:signatory]}
   end
   
 end

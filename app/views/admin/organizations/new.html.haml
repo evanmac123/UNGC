@@ -1,23 +1,5 @@
 %h2 New organization
 
 - form_for(:organization, builder: DefaultFormBuilder, url: admin_organizations_path) do |f|
-  = render :partial => f
-
-  %fieldset
-    %legend Contact
-    %ol
-      - f.fields_for :contacts do |contact_form|
-        = contact_form.text_field :first_name
-        = contact_form.text_field :middle_name
-        = contact_form.text_field :last_name
-        = contact_form.text_field :job_title
-        = contact_form.text_field :email
-        = contact_form.text_field :phone
-        = contact_form.text_field :fax
-        = contact_form.text_field :address
-        = contact_form.text_field :city
-        = contact_form.text_field :state
-        = contact_form.text_field :postal_code
-        = contact_form.collection_select :country_id, Country.all, :id, :name
-  
+  = render :partial => f  
   = f.submit 'Create', :class => 'button'
