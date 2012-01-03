@@ -2,13 +2,13 @@ body {
   background: #eee; }
 
 a {
-  color: #14546f;
+  color: #2993a5;
   text-decoration: none; }
   a:hover {
-    color: #14546f;
+    color: #52c6d8;
     text-decoration: underline; }
   a:visited {
-    color: #14546f; }
+    color: #52c6d8; }
 
 .container {
   background: #fff;
@@ -445,6 +445,8 @@ ul.nav_bar {
     top: 12px; }
     .tab_container div.tab_content a.new#new_COP {
       line-height: 24px; }
+  .tab_container div.tab_content p.indent {
+    padding-left: 2em; }
   .tab_container ul.tools {
     border-bottom: 1px solid #999;
     margin-bottom: 0.5em;
