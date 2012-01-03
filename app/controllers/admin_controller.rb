@@ -5,9 +5,8 @@ class AdminController < ApplicationController
 
   before_filter :login_required
   before_filter :redirect_non_approved_organizations, :only => :dashboard
-  before_filter :no_organization_or_local_network_access, :only => :parameters
   before_filter :add_admin_js
-  
+
   def dashboard
     if current_user.from_ungc?
       pending_states = [Organization::STATE_PENDING_REVIEW, Organization::STATE_IN_REVIEW]
@@ -30,10 +29,10 @@ class AdminController < ApplicationController
       @organizations = Organization.visible_to(current_user)
     elsif current_user.from_organization?
       @organization = current_user.organization
-    end      
+    end
     render :template => "admin/dashboard_#{current_user.user_type}.html.haml"
   end
-  
+
   def no_access_to_other_organizations
     if current_user.from_organization? and current_user.organization != @organization
       flash[:error] = "You do not have permission to access that resource."
@@ -47,7 +46,7 @@ class AdminController < ApplicationController
       redirect_to dashboard_path
     end
   end
-  
+
   # Denies access if the user belongs to a rejected organization
   def no_rejected_organizations_access
     if current_user.organization.rejected? and !current_user.from_ungc?
@@ -55,15 +54,15 @@ class AdminController < ApplicationController
       redirect_to admin_organization_path current_user.organization.id
     end
   end
-  
-  # Denies access to a resource if the user belongs to a not yet approved organization 
+
+  # Denies access to a resource if the user belongs to a not yet approved organization
   def no_unapproved_organizations_access
     if current_user.from_organization? and !current_user.organization.approved?
       redirect_to admin_organization_path current_user.organization.id
     end
   end
 
-  # Denies access to a resource if the user belongs to an approved organization 
+  # Denies access to a resource if the user belongs to an approved organization
   def no_approved_organizations_access
     if current_user.from_organization? and current_user.organization.approved?
       flash[:notice] = "Your organization's application was approved. Comments are no longer being accepted."
@@ -75,7 +74,7 @@ class AdminController < ApplicationController
   def no_organization_or_local_network_access
     unless current_user.from_ungc?
       flash[:error] = "You do not have permission to access that resource."
-      redirect_to dashboard_path 
+      redirect_to dashboard_path
     end
   end
 
@@ -113,11 +112,11 @@ class AdminController < ApplicationController
     method_name = components.join("_")
     send(method_name, *arguments)
   end
-  
+
     def add_admin_js
       (@javascript ||= []) << 'admin'
     end
-    
+
     def redirect_non_approved_organizations
       if current_user.from_organization? and !current_user.organization.approved?
         redirect_to admin_organization_path current_user.organization.id
