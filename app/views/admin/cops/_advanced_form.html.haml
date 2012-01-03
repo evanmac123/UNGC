@@ -111,7 +111,7 @@
   /   %div.tab_content{:id => "#{key}_additional_questions"}
   /     %h3
   /       %span{:class => "#{issue_area_colour_for(value)}" }= value
-  /     %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => key
+  /     %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => key, :year => Time.now.year
 
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Strategy, Governance and Engagement
