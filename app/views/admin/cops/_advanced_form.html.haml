@@ -107,12 +107,6 @@
                     = form.radio_button :method_shared, key
                     = value
 
-  / - PrincipleArea::FILTERS.each_pair do |key, value|
-  /   %div.tab_content{:id => "#{key}_additional_questions"}
-  /     %h3
-  /       %span{:class => "#{issue_area_colour_for(value)}" }= value
-  /     %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => key
-
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Strategy, Governance and Engagement
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.

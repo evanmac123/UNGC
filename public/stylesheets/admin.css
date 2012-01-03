@@ -2,13 +2,13 @@ body {
   background: #eee; }
 
 a {
-  color: #2993a5;
+  color: #14546f;
   text-decoration: none; }
   a:hover {
-    color: #52c6d8;
+    color: #14546f;
     text-decoration: underline; }
   a:visited {
-    color: #52c6d8; }
+    color: #14546f; }
 
 .container {
   background: #fff;
