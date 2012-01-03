@@ -7,10 +7,10 @@
 %table{:border => 1, :cellspacing => 1, :cellpadding => 15, :style => 'background: #E5EDF8;'}
   %tr
     %td
-      %strong Latest Comment to applicant: 
+      %strong Latest Comment to applicant:
       = simple_format(@organization.comments.first.body)
 
-%p If you would like to assist the organization with submitting the above requested information, please find the contact information below: 
+%p If you would like to assist the organization with submitting the above requested information, please find the contact information below:
 
 %p
   %strong== Profile for #{@organization.name}:

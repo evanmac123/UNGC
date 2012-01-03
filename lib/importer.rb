@@ -3,7 +3,7 @@ require 'csv'
 class Importer
   include ImporterHooks
   include ImporterMapping
-  
+
   # Imports all the data in files located in options[:folder]
   def run(options={})
     setup(options)
@@ -89,7 +89,7 @@ class Importer
         end
       end
       update_state(name, o)
-      
+
       if perform_validation?(name)
         saved = o.save
         log "** [error] Could not save #{name}: #{row} - #{o.errors.full_messages.to_sentence} - #{o.inspect}" unless saved
@@ -105,7 +105,7 @@ class Importer
     # call a post_* method for work required after importing a file
     send("post_#{name}") if self.respond_to?("post_#{name}")
   end
-  
+
   def delete_all(options={})
     setup(options)
     @files.each{|entry| entry.to_s.camelize.constantize.delete_all}
@@ -157,11 +157,11 @@ class Importer
           model.state = ['rejected', 'in_review', 'approved'][model.status.to_i + 1]
       end
     end
-    
+
     def perform_validation?(name)
       name != :logo_comment
     end
-    
+
     def no_observers
       # We don't want observers to be called on import
       unless RAILS_ENV == 'test'
@@ -170,7 +170,7 @@ class Importer
         LogoComment.delete_observers
       end
     end
-    
+
     def log(string)
       puts(string) unless @silent
     end

@@ -12,17 +12,17 @@
 class OrganizationType < ActiveRecord::Base
   validates_presence_of :name
   has_many :organizations
-  
+
   NON_BUSINESS = 1
   BUSINESS = 2
   PARTICIPANT = [1,2]
   ALL_ORGANIZATIONS = [0,1,2]
-  
+
   named_scope :non_business, :conditions => ['type_property=?', NON_BUSINESS]
   named_scope :business, :conditions => ['type_property=?', BUSINESS]
   named_scope :participants, :conditions => ['type_property in (?)', PARTICIPANT]
   named_scope :staff_types, :conditions => ["type_property in (?)", ALL_ORGANIZATIONS]
-  
+
   FILTERS = {
     :academia         => 'Academic',
     :business_global  => 'Business Association Global',
@@ -30,7 +30,7 @@ class OrganizationType < ActiveRecord::Base
     :civil_global     => 'NGO Global',
     :civil_local      => 'NGO Local',
     :city             => 'City',
-    :foundation       => 'Foundation', 
+    :foundation       => 'Foundation',
     :gc_networks      => 'GC Networks',
     :labour_global    => 'Labour Global',
     :labour_local     => 'Labour Local',
@@ -49,23 +49,23 @@ class OrganizationType < ActiveRecord::Base
       {:conditions => ["name = ?", FILTERS[filter_types]]}
     end
   }
-  
+
   def business?
     type_property == BUSINESS
   end
-  
+
   def self.micro_enterprise
     first :conditions => {:name => FILTERS[:micro_enterprise]}
   end
-  
+
   def self.sme
     first :conditions => {:name => FILTERS[:sme]}
   end
-  
+
   def self.company
     first :conditions => {:name => FILTERS[:companies]}
   end
-  
+
   def self.academic
     first :conditions => {:name => FILTERS[:academia]}
   end
@@ -73,5 +73,5 @@ class OrganizationType < ActiveRecord::Base
   def self.signatory
     first :conditions => {:name => FILTERS[:signatory]}
   end
-  
+
 end

@@ -31,11 +31,11 @@
           %td=h letter_of_commitment_updated(organization)
           %td
             %ul.actions
-              %li 
+              %li
                 = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
-              %li 
+              %li
                 = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
-              %li 
+              %li
                 = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
     = will_paginate @organizations

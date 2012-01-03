@@ -18,7 +18,7 @@ function makePostLink (event) {
         .submit();
   }
 
-  return false; 
+  return false;
 }
 
 function makeDestroyLink (event) {
@@ -36,7 +36,7 @@ function makeDestroyLink (event) {
         .submit();
   }
 
-  return false; 
+  return false;
 }
 
 // Really only used when creating new folders
@@ -50,7 +50,7 @@ var	Folder = {
 	    url: url,
 	    dataType: 'json',
 	    data: "&name="+name,
-	    success: function(data) { 
+	    success: function(data) {
 				var folder = data.page_group;
 				element.attr({id: "section_"+folder.id});
 	      tree.select_branch(element);
@@ -83,10 +83,10 @@ var Page = {
         type: 'get',
         url: url,
         dataType: 'script',
-        success: function() { 
-					Page.launchEditor(); 
-					Treeview.showPage(); 
-					area.removeClass('loading'); 
+        success: function() {
+					Page.launchEditor();
+					Treeview.showPage();
+					area.removeClass('loading');
 				}
       });
     }
@@ -127,7 +127,7 @@ var Page = {
 	hasChanges: function() {
 		if (Page.selected) {
 			if (Page.hasBeenChanged)
-				return true 
+				return true
 			if (Page.approved)
 				return true;
 			if (Page.editor)
@@ -153,7 +153,7 @@ var Page = {
 		Page.dynamicallyLoad(element);
 		element = $(element);
 		Page.approved = null;
-		Page.hasBeenChanged = null; 
+		Page.hasBeenChanged = null;
 		Page.attributes = {};
 		var page_id = Page.idForPage(element);
 		if (page_id)
@@ -228,7 +228,7 @@ var Page = {
 		  url: url,
 		  dataType: 'json',
 		  data: "page[title]="+title+"&page[derive_path_from]="+Page.parent_id+"&page[position]="+position,
-		  success: function(response) { 
+		  success: function(response) {
 		    var href = window.location.pathname;
 		    var page_id = response.page.id;
 		    element.removeClass('updateAfterRename').attr( { id: "page_"+ page_id} ).children('a').attr({ 'href': href + '/' + page_id });
@@ -238,7 +238,7 @@ var Page = {
 				alert("Something went wrong during save operation. Please try again.");
 			}
 		});
-		
+
 	},
 	// using write allows us to track changes, and alert the user before they are lost
 	toggleDynamicContent: function(e) {
@@ -290,10 +290,10 @@ var Treeview = {
     Treeview.deletedNodes = [];
     Treeview.shownNodes   = [];
     Treeview.hiddenNodes  = [];
-		$('#site_tree, #pageArea').removeClass('loading'); 
+		$('#site_tree, #pageArea').removeClass('loading');
   },
   saveNewPagePlaceholder: function(node, ref_node, type, tree_obj, rollback) {
-    
+
   },
   save: function(e) {
     e.preventDefault();
@@ -338,18 +338,18 @@ var Treeview = {
     var time = new Date().getTime();
     var node = tree.create(
       {
-        data: { 
-					title: 'New section', 
-					attributes: { 'class': 'hidden' } 
-				}, 
+        data: {
+					title: 'New section',
+					attributes: { 'class': 'hidden' }
+				},
         attributes: {id: 'new-section_'+time, rel: 'section'}
-      }, 
+      },
       -1);
     tree.rename(node);
   },
   newPage: function(e) {
     e.preventDefault();
-		if (Treeview.safeToChangePages()) 
+		if (Treeview.safeToChangePages())
 			var donothing = true; // they don't want to lose changes, put it back
 		else
 			Treeview.createNewPage();
@@ -425,7 +425,7 @@ function swapNodeFromArrays(node, addTo, removeFrom) {
 	addTo.push(id);
 	jQuery.unique(addTo);
 	var position = jQuery.inArray(id, removeFrom);
-	if (position != -1) { 
+	if (position != -1) {
 		removeFrom.remove(position);
 	}
 	jQuery.unique(removeFrom);
@@ -458,11 +458,11 @@ function storeEditable (value, settings) {
 }
 
 function setEditable() {
-	$('.editable').editable( storeEditable, { 
-		cssclass: 'editable_field', 
-		width: 'none', 
-		submit: 'OK', 
-		tooltip: 'Click to edit' 
+	$('.editable').editable( storeEditable, {
+		cssclass: 'editable_field',
+		width: 'none',
+		submit: 'OK',
+		tooltip: 'Click to edit'
 	} );
 }
 
@@ -498,7 +498,7 @@ $(function() {
 $(document).ready(function() {
   var box_height = $('#session_info ul').innerHeight();
   var state = 'closed';
-  
+
   $('#session_info')
     .css('top', '-' + box_height + 'px')
     .find('h2 a')
@@ -510,7 +510,7 @@ $(document).ready(function() {
             }, 500)
             .find('h2 a')
               .css('backgroundPosition','100% 50%');
-          
+
           state = 'open';
         }
         else {
@@ -520,18 +520,18 @@ $(document).ready(function() {
             }, 500)
             .find('h2 a')
               .css('backgroundPosition','0% 50%');
-          
+
           state = 'closed';
         }
         return false;
       });
-  
-  
+
+
   //style and functionality for table rows
     //add .odd to alternating table rows and other elements
     $('div#main_content table.dashboard_table tr:odd').addClass("odd");
     $('ul.striped li:odd').addClass("odd");
-  
+
     //hover styling for table rows
     $('div#main_content table.dashboard_table tr').hover(
       function() {
@@ -541,7 +541,7 @@ $(document).ready(function() {
         $(this).removeClass("over");
       }
     );
-  
+
     //set click action to anywhere in a table row to go to the url of the a.edit element in that row
     //note: edited to use the td rather than tr in an attempt to remove click-action from header row
     $('div#main_content table.dashboard_table tr td').addClass('pointer').click(
@@ -553,7 +553,7 @@ $(document).ready(function() {
           document.location.href = editor_link.attr("href");
       }
     );
-    
+
     // Order matters: this section must come after the table-row-link code
     // shouldn't go to the edit action if we clicked on another action icon
     var links = $('div#main_content table.dashboard_table tr td a.edit')
@@ -562,12 +562,12 @@ $(document).ready(function() {
         $(this).parents('td').removeClass('pointer').unbind('click');
       })
     }
-  
+
   // tabbed content
     // mark first tab as selected by default
     $('div.tab_container ul.tab_nav a:first').addClass('selected');
 
-    
+
     var tab_container = $('div.tab_container > div.tab_content');
 
     $('div.tab_container ul.tab_nav a')
@@ -579,12 +579,12 @@ $(document).ready(function() {
 
         return false;
       });
-      
-    
+
+
     // tab selection via query string
     var query = $.parseQuery();
     if (query.tab) {
-      
+
       // show proper tab_content
       $('div.tab_container > div.tab_content')
         .hide()
@@ -598,18 +598,18 @@ $(document).ready(function() {
           return $(this).attr('href').indexOf(query.tab) >= 0;
         })
           .addClass('selected');
-          
+
     }
     else {
       $('div.tab_container ul.tab_nav a:first').click();
     }
-  
+
     //add odd-row class to alternating tabbed-content items
     $('div.tab_container ul.items li.item:odd').addClass("odd");
-    
+
     //tabbed stuff is hidden by default, so that it doesn't display "unstyled" before document.ready fires. Show it now that we're done!
     $('div.tab_container').slideDown();
-    
+
     $('.file_inputs').each(function() {
       var e         = $(this),
           inputList = e.find('ol'),

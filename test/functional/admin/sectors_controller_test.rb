@@ -4,10 +4,10 @@ class Admin::SectorsControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
     @sector = create_sector
-    
+
     login_as @staff_user
   end
-  
+
   test "should get index" do
     get :index, {}
     assert_response :success

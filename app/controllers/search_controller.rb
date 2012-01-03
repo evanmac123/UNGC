@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   before_filter :possibly_redirect_to_refine
   before_filter :determine_navigation
-  
+
   def index
     unless params[:keyword].blank?
       results_for_search
@@ -18,11 +18,11 @@ class SearchController < ApplicationController
     def default_navigation
       DEFAULTS[:search_path]
     end
-    
+
     def possibly_redirect_to_refine
       redirect_to "#{params[:target]}?keyword=#{params[:keyword]}&commit=search" and return unless params[:target].blank?
     end
-    
+
     def results_for_search
       keyword = params[:keyword].force_encoding("UTF-8")
       # NOTE: Should the facets chain? ie, top-level: Events: 2 - then you select Events, and we show more facets for Events?
@@ -36,7 +36,7 @@ class SearchController < ApplicationController
       end
       @facets = @results && @results.any? ? Searchable.facets(keyword, star: true) : []
     end
-    
+
     def show_search_form
       # @facets = Searchable.count > 0 ? Searchable.facets : []
       render 'form'

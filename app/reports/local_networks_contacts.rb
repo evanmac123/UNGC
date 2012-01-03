@@ -2,7 +2,7 @@ class LocalNetworksContacts < SimpleReport
   def records
     Contact.network_roles.all(:include => :local_network, :order => 'local_networks.name')
   end
-  
+
   def headers
     [ 'Contact ID',
       'Local Network ID',

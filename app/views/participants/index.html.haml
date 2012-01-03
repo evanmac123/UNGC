@@ -6,7 +6,7 @@
 
   %p
     == There #{@results.total_entries > 1 ?  'are' : 'is only'} #{searched_for}.
-  
+
   %a{ :name => "paged_results" }
   %div.clearfix
     .left
@@ -33,14 +33,14 @@
           %td{:title => org.name}
             #div{:class => iconize(org)}
               = link_to truncate(org.name, :length => 25), participant_path(org)
-          
+
           - if @searched_for[:business] == OrganizationType::BUSINESS
             %td{:title => org.listing_status_name}
               = truncate(org.listing_status_name, :length => 15)
           - else
             %td{:title => org.organization_type.name}
               = truncate(org.organization_type.name, :length => 15)
-          
+
           %td{:title => org.sector_name}
             = truncate(org.sector_name, :length => 15)
           %td{:title => org.country_name}
@@ -50,7 +50,7 @@
   %br
   %div
     = will_paginate @results, :anchor => 'paged_results'
-  %h5  
+  %h5
     If
     %img{ :src => "/images/icon_alert.gif" }
     appears next to the company's name, the company is Non-communicating for failing to submit a Communication on Progress by the relevant deadline.  If no such icon appears, the company is currently an Active participant.

@@ -9,7 +9,7 @@ CKEDITOR.editorConfig = function( config )
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	// config.toolbar = 'SmallBar';
-	// 
+	//
 	// config.toolbar_SmallBar = [
 	//     ['Source','-','Save','NewPage','Preview','-','Templates'],
 	//     ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],

@@ -1,15 +1,15 @@
 class Admin::InitiativesController < AdminController
   before_filter :no_organization_or_local_network_access
   before_filter :load_initiative
-  
+
   def index
     @initiatives = Initiative.all
   end
-  
+
   def new
     @initiative = Initiative.new
   end
-  
+
   def create
     @initiative = Initiative.new(params[:initiative])
 
@@ -30,7 +30,7 @@ class Admin::InitiativesController < AdminController
     @initiative.destroy
     redirect_to admin_initiatives_path
   end
-  
+
   def show
     # @signatories = @initiative.signings.all(:joins => 'JOIN organizations o ON o.id = signings.organization_id', :order => "o.cop_state, o.name")
     @signatories = @initiative.signings.all(:joins => :organization, :order => "organizations.cop_state, organizations.name")

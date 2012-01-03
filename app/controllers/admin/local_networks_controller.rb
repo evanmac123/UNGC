@@ -1,7 +1,7 @@
 class Admin::LocalNetworksController < AdminController
   before_filter :load_local_network, :only => [:show, :edit, :destroy, :knowledge_sharing]
   before_filter :no_organization_or_local_network_access, :except => [:index, :show, :knowledge_sharing]
-  before_filter :no_access_to_other_local_networks, :except => [:index, :show, :knowledge_sharing, :update] 
+  before_filter :no_access_to_other_local_networks, :except => [:index, :show, :knowledge_sharing, :update]
 
   helper Admin::LocalNetworkSubmodelHelper
 
@@ -12,11 +12,11 @@ class Admin::LocalNetworksController < AdminController
   def new
     @local_network = LocalNetwork.new(:state => LocalNetwork::STATES[:emerging])
   end
-  
+
   def show
     @local_network = LocalNetwork.find(params[:id])
   end
-  
+
   def edit
     @local_network = LocalNetwork.find(params[:id])
     @section ||= params[:section]
@@ -46,7 +46,7 @@ class Admin::LocalNetworksController < AdminController
   end
 
   def knowledge_sharing
-  
+
   end
 
   def destroy
@@ -55,13 +55,13 @@ class Admin::LocalNetworksController < AdminController
     flash[:notice] = 'Local Network was deleted.'
     redirect_to(admin_local_networks_path)
   end
-  
+
   private
 
     def order_from_params
       @order = [params[:sort_field] || 'local_networks.name', params[:sort_direction] || 'ASC'].join(' ')
     end
-    
+
     def load_local_network
       @local_network = LocalNetwork.find(params[:id])
     end
@@ -73,5 +73,5 @@ class Admin::LocalNetworksController < AdminController
     def knowledge_sharing_tab?
       action_name == 'knowledge_sharing'
     end
-    
+
 end

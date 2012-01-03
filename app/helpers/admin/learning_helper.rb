@@ -16,7 +16,7 @@ module Admin::LearningHelper
   end
 
   def refine_search_button
-    link_to 'Refine search', admin_learning_path(:local_network_event_search => params[:local_network_event_search]), :class => 'edit_page_large' 
+    link_to 'Refine search', admin_learning_path(:local_network_event_search => params[:local_network_event_search]), :class => 'edit_page_large'
   end
 
   def new_search_button

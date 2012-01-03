@@ -72,10 +72,10 @@ module Importers
           end
         end
       end
-    
+
       def get_boolean_from_csv(row, column_name, lookup_term)
         get_value(row, column_name) do |value|
-          values = value.split(',') 
+          values = value.split(',')
           values.include?(lookup_term)
         end
       end

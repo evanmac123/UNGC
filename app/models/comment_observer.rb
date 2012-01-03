@@ -17,54 +17,54 @@ class CommentObserver < ActiveRecord::Observer
       end
     end
   end
-  
+
   private
-  
+
   def email_rejected_organization(comment)
     organization = comment.commentable
-    
+
     # only email rejection notice for micro enterprise applications
-    if comment.state_event == Organization::EVENT_REJECT_MICRO 
+    if comment.state_event == Organization::EVENT_REJECT_MICRO
       OrganizationMailer.deliver_reject_microenterprise(organization)
-      
+
       if organization.network_report_recipients.count > 0
         OrganizationMailer.deliver_reject_microenterprise_network(organization)
       end
-    
+
     end
-    
+
     # kept the original names in the email
     organization.set_rejected_names
-    
+
   end
-  
+
     def email_in_review_organization(comment)
       organization = comment.commentable
       OrganizationMailer.deliver_in_review(organization)
       # checkbox was selected
       if comment.copy_local_network? && organization.network_report_recipients.count > 0
-        OrganizationMailer.deliver_in_review_local_network(organization)        
+        OrganizationMailer.deliver_in_review_local_network(organization)
       end
     end
-  
+
     def email_approved_organization(organization)
       if organization.business_entity?
         OrganizationMailer.deliver_approved_business(organization)
-        
+
         # emails sent from Foundation to business participants only
         if organization.pledge_amount.to_i > 0
           OrganizationMailer.deliver_foundation_invoice(organization)
         else
           OrganizationMailer.deliver_foundation_reminder(organization)
         end
-        
+
       else
         OrganizationMailer.deliver_approved_nonbusiness(organization)
       end
-      
+
       if organization.network_report_recipients.count > 0
-        OrganizationMailer.deliver_approved_local_network(organization)        
+        OrganizationMailer.deliver_approved_local_network(organization)
       end
-      
+
     end
 end

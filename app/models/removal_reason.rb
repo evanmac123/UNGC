@@ -11,7 +11,7 @@
 
 class RemovalReason < ActiveRecord::Base
   validates_presence_of :description
-  
+
   FILTERS = {
      :delisted         => 'Failure to communicate progress',
      :not_applicable   => 'Not applicable',
@@ -19,7 +19,7 @@ class RemovalReason < ActiveRecord::Base
      :dialogue         => 'Failure to engage in dialogue',
      :blacklisted      => 'Removed due to Blacklisting'
   }
-  
+
   named_scope :for_filter, lambda { |*filter_types|
      if filter_types.is_a?(Array)
        filter_types.map! { |f| FILTERS[f] }
@@ -28,15 +28,15 @@ class RemovalReason < ActiveRecord::Base
        {:conditions => ["description = ?", FILTERS[filter_types]]}
      end
    }
-  
+
    def self.delisted
      first :conditions => { :description => FILTERS[:delisted] }
    end
-   
+
    def self.blacklisted
      first :conditions => { :description => FILTERS[:blacklisted] }
    end
-   
+
    def self.withdrew
      first :conditions => { :description => FILTERS[:requested] }
    end

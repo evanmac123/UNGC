@@ -30,7 +30,7 @@ class Searchable < ActiveRecord::Base
   before_save   :set_object_updated_at
   before_save   :set_indexed_at
   attr_accessor :object
-  
+
   extend SearchableCaseStory
   extend SearchableEvent
   extend SearchableFiles
@@ -38,7 +38,7 @@ class Searchable < ActiveRecord::Base
   extend SearchableOrganization
   extend SearchablePage
   extend SearchableCommunicationOnProgress
-  
+
   define_index do
     indexes title
     indexes content
@@ -50,8 +50,8 @@ class Searchable < ActiveRecord::Base
     set_property :enable_star => true
     set_property :min_prefix_len => 4
   end
-  
-  class << self 
+
+  class << self
     def convert_to_utf8(text)
       converter = Iconv.new('UTF-8', text.encoding.name)
       converter.iconv(text)
@@ -78,7 +78,7 @@ class Searchable < ActiveRecord::Base
       index_organizations
       index_communications_on_progress
     end
-    
+
     def index_new_or_updated
       max = find(:all, select: 'MAX(last_indexed_at) as max').first.try(:max)
       raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
@@ -89,7 +89,7 @@ class Searchable < ActiveRecord::Base
       index_organizations_since(max)
       index_communications_on_progress_since(max)
     end
-    
+
     def new_or_updated_since(time)
       ["(created_at > ?) OR (updated_at > ?)", time, time]
     end

@@ -4,10 +4,10 @@ class Admin::LogoFilesControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
     @logo_file = create_logo_file
-    
+
     login_as @staff_user
   end
-  
+
   test "should get index" do
     get :index, {}
     assert_response :success

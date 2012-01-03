@@ -20,7 +20,7 @@ module SignatoriesHelper
 
   def signatories_showing?(symbol)
     if params[:sme]
-      symbol == :sme  
+      symbol == :sme
     else
       symbol == :companies
     end

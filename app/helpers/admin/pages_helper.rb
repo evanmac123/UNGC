@@ -16,7 +16,7 @@ module Admin::PagesHelper
       'disabled'
     end
   end
-  
+
   def enable_revoke(page)
     if page.can_revoke?
       ''
@@ -24,13 +24,13 @@ module Admin::PagesHelper
       'disabled'
     end
   end
-  
+
   def sections
     homes_children = Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')
     @home = OpenStruct.new(id: 'home', title: 'Home', leaves: {nil => homes_children})
     [@home] + PageGroup.all
   end
-  
+
   def section_for_json(section)
     opacity  = section.display_in_navigation ? '' : 'hidden'
     leaves   = section.leaves || {}
@@ -41,13 +41,13 @@ module Admin::PagesHelper
       children: children.map { |c| page_for_json(c, leaves) }
     }
   end
-  
+
   def status_details(page)
     string = ''
     # TODO: Add details about who changed, approved, etc.
     string << "#{@page.approval.titleize}"
   end
-  
+
   def page_for_json(page, leaves)
     opacity  = page.display_in_navigation ? '' : 'hidden'
     approval = page.approval
@@ -61,7 +61,7 @@ module Admin::PagesHelper
       children: children.map { |c| page_for_json(c, leaves) }
     }
   end
-  
+
   def link_helper(object)
     title = (object.title || 'Untitled').gsub(/\&/, '&amp;')
     url = if object.is_a?(PageGroup)
@@ -73,7 +73,7 @@ module Admin::PagesHelper
     end
     link_to "#{title}", url #, class: object.path == '/index.html' ? 'clicked' : ''
   end
-  
+
   def id_for(object)
     if object.is_a?(PageGroup)
       "section_#{object.id}"

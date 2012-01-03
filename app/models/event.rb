@@ -31,7 +31,7 @@ class Event < ActiveRecord::Base
 
   cattr_reader :per_page
   @@per_page = 15
-  
+
   named_scope :for_month_year, lambda { |month=nil, year=nil|
     today = Date.today
     start = Time.mktime( year || today.year, month || today.month, 1).to_date
@@ -45,17 +45,17 @@ class Event < ActiveRecord::Base
         }
       ]
     }
-  } 
-  
+  }
+
   def selected_issues
     issues.map {|issue| issue.name }
   end
-  
+
   def selected_issues=(selected=[])
     new_issues = (selected || []).map { |string| PrincipleArea.find_by_id string.to_i }
     self.issues = new_issues
   end
-  
+
   # 'location' if just location
   # 'country' if just country
   # 'location, country' only if both
@@ -65,7 +65,7 @@ class Event < ActiveRecord::Base
     response << country.name if country
     response.join(', ')
   end
-  
+
   def ends_on_string
     (ends_on || (Date.today + 1)).strftime('%m/%d/%Y')
   end
@@ -81,7 +81,7 @@ class Event < ActiveRecord::Base
   def starts_on_string
     (starts_on || Date.today).strftime('%m/%d/%Y')
   end
-  
+
   def starts_on_string=(date_or_string)
     if date_or_string.is_a?(String)
       self.write_attribute(:starts_on, Date.strptime(date_or_string, '%m/%d/%Y'))

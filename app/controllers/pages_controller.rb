@@ -30,7 +30,7 @@ class PagesController < ApplicationController
       redirect_to root_path
     end
   end
-  
+
   def redirect_local_network
     if params[:id]
       redirect_to "/NetworksAroundTheWorld/local_network_sheet/#{params[:id]}.html"
@@ -40,15 +40,15 @@ class PagesController < ApplicationController
   end
 
   private
-  
+
   def determine_layout
-    if home_page? 
+    if home_page?
       'home'
     else
       'application'
     end
   end
-  
+
   def find_content
     if @page = Page.approved_for_path(formatted_request_path)
       @current_version = @page.find_version_number(params[:version]) if params[:version]
@@ -56,34 +56,34 @@ class PagesController < ApplicationController
     end
     render :text => 'Not Found', :status => 404 unless @page and @current_version
   end
-  
+
   def find_content_for_staff
     @page = Page.for_path(formatted_request_path)
     @current_version = @page.find_version_number(params[:version]) if params[:version]
     @current_version ||= @page.versions.last
   end
-  
+
   def find_content_for_staff
     @page = Page.for_path(formatted_request_path)
     @current_version = @page.versions.last
   end
-  
+
   def active_version_of(page)
     if page.approved?
       page
     else
-      page.active_version 
+      page.active_version
     end
   end
-  
+
   def soft_require_staff_user
     render :text => '  ', :status => 200 unless request.xhr? && staff_user?
   end
-  
+
   def require_staff_user
     redirect_to root_path unless staff_user?
   end
-  
+
   def template
     "/pages/#{@current_version.try(:dynamic_content?) ? 'dynamic' : 'static'}.html.haml"
   end

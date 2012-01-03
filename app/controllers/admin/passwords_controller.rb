@@ -1,12 +1,12 @@
 class Admin::PasswordsController < ApplicationController
   layout 'admin'
   helper 'Admin'
-  
+
   def create
     @contact = Contact.find_by_email params[:email] unless params[:email].blank?
     if @contact && @contact.login.present?
       @contact.refresh_reset_password_token!
-      
+
       begin
         ContactMailer.deliver_reset_password(@contact)
       rescue Exception => e
@@ -22,7 +22,7 @@ class Admin::PasswordsController < ApplicationController
       render :action => 'new'
     end
   end
-  
+
   def edit
     @contact = Contact.find_by_reset_password_token params[:id]
     unless @contact
@@ -30,7 +30,7 @@ class Admin::PasswordsController < ApplicationController
       redirect_to new_password_path
     end
   end
-  
+
   def update
     @contact = Contact.find_by_reset_password_token params[:id]
     errors = validate_new_password
@@ -44,7 +44,7 @@ class Admin::PasswordsController < ApplicationController
       render :action => 'edit'
     end
   end
-  
+
   private
     def validate_new_password
       errors = []

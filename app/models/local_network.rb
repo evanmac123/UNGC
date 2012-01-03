@@ -83,14 +83,14 @@ class LocalNetwork < ActiveRecord::Base
         :include => :countries, :conditions => {'countries.region' => region.to_s}
         }
   }
-  
+
   STATES = { :emerging => 'Emerging', :established => 'Established', :formal => 'Formal', :hub => 'Sustainability Hub' }
-  
+
   # To link to public profiles, we associate the two regional networks with their host countries
   # Ex: NetworksAroundTheWorld/local_network_sheet/AE.html
   REGION_COUNTRY = { 'Gulf States' => 'AE', 'Nordic Network' => 'DK' }
-  
-  STAKEHOLDERS = {   
+
+  STAKEHOLDERS = {
     :stakeholder_company              => 'Companies',
     :stakeholder_sme                  => 'SMEs',
     :stakeholder_business_association => 'Business Associations',
@@ -101,32 +101,32 @@ class LocalNetwork < ActiveRecord::Base
     :stakeholder_academic             => 'Academics',
     :stakeholder_government           => 'Government Entities'
   }
-          
+
   def latest_participant
     participants.find(:first, :order => 'joined_on DESC')
   end
-  
+
   def public_network_contacts
     contacts.network_roles_public + [manager]
   end
-  
+
   def participants
     Organization.visible_in_local_network.where_country_id(countries.map(&:id))
   end
-  
+
   def humanize_state
-    STATES[state.try(:to_sym)] || ''    
+    STATES[state.try(:to_sym)] || ''
   end
-  
+
   def state_for_select_field
     state.try(:to_sym)
   end
-  
+
   def region_name
     country = Country.find_by_code(country_code)
     Country::REGIONS[country.region.to_sym] unless country.nil?
   end
-  
+
   def country_code
     # if more than one country, it's a regional network, so lookup the host country
     if countries.count > 1
@@ -137,7 +137,7 @@ class LocalNetwork < ActiveRecord::Base
       ''
     end
   end
-  
+
   def country
     if countries.count > 1
       Country.find_by_code(REGION_COUNTRY[name])
@@ -149,7 +149,7 @@ class LocalNetwork < ActiveRecord::Base
   def country_id
     country.id
   end
-  
+
   def stakeholders_involved_in_governance
     selected = []
     STAKEHOLDERS.each do |key, value|
@@ -163,23 +163,23 @@ class LocalNetwork < ActiveRecord::Base
       self.send "sg_#{m}_file=", UploadedFile.new(attachment: file, attachable: self)
     end
   end
-  
+
   def readable_error_messages
     error_messages = []
     fee_error_messages = ''
     errors.each do |error|
-      
+
       if NUMERIC.include?(error.to_sym)
         fee_error_messages = 'Please use whole numbers without decimals or commas'
       end
-      
+
       case error
         when 'url'
           error_messages << 'Please provide a website address in the format http://organization.org'
         end
     end
-       
+
     fee_error_messages.present? ? error_messages << fee_error_messages : error_messages
   end
-  
+
 end

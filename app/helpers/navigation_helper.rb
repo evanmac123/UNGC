@@ -8,12 +8,12 @@ module NavigationHelper
       @breadcrumbs.map { |b| link_to_unless suppress_link(b), b.first, b.last }.join(' / ')
     end
   end
-  
+
   def suppress_link(b)
     # Don't link to last item in breadcrumbs, but always link to 'Home'
     b == @breadcrumbs.last unless b.first == 'Home'
   end
-  
+
   def child_selected?(navigation)
     @leftnav_selected && navigation.is_child_of?(@leftnav_selected)
   end
@@ -55,7 +55,7 @@ module NavigationHelper
       child.display_in_navigation?
     end
   end
-  
+
   def leftnav_selected?(navigation)
     @leftnav_selected && navigation == @leftnav_selected
   end
@@ -63,15 +63,15 @@ module NavigationHelper
   def path_matches?(navigation)
     navigation.path == formatted_request_path
   end
-  
+
   def selected?(navigation)
     path_matches?(navigation) || leftnav_selected?(navigation) || child_selected?(navigation)
   end
-  
+
   def sub_selected?(navigation)
     (@subnav_selected && @subnav_selected == navigation) || path_matches?(navigation)
   end
-  
+
   def login_and_logout
     section_link = link_to('Login', login_path)
     children = []
@@ -81,11 +81,11 @@ module NavigationHelper
     content_tag(:li, insides, :id => 'login', :class => 'login') + "\n"
     # content_tag(:li, , :class => 'login')
   end
-  
+
   def sections
     @sections ||= PageGroup.for_navigation #.find(:all)
   end
-  
+
   def top_nav_bar(section_children_content='')
     sections.each do |section|
       section_link = content_tag :a, section.name, :href => section.visible_children.first.path #link_to_first_child

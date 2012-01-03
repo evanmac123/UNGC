@@ -19,11 +19,11 @@ class Admin::EventsControllerTest < ActionController::TestCase
         assert_redirected_to_index
         assert @event
       end
-      
+
       should "be pending approval" do
         assert @event.pending?
       end
-      
+
       context "then approve it" do
         setup do
           assert_no_difference 'Event.count' do
@@ -37,7 +37,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
           assert @event.approved?
           assert_contains Event.approved, @event
         end
-        
+
         context "but then revoke it" do
           setup do
             assert_no_difference 'Event.count' do
@@ -69,6 +69,6 @@ class Admin::EventsControllerTest < ActionController::TestCase
       end
     end
   end
-  
-  
+
+
 end

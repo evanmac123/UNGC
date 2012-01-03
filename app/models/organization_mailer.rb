@@ -16,7 +16,7 @@ class OrganizationMailer < ActionMailer::Base
     recipients ['externalrelations@jci.cc', 'vkeesari@yahoo.com']
     body :organization => organization, :ceo => organization.contacts.ceos.first
   end
-  
+
   def in_review(organization)
     from EMAIL_SENDER
     bcc 'globalcompact@un.org'
@@ -35,7 +35,7 @@ class OrganizationMailer < ActionMailer::Base
     recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
   end
-  
+
   def network_review(organization)
     from EMAIL_SENDER
     cc 'filipic@un.org'
@@ -45,7 +45,7 @@ class OrganizationMailer < ActionMailer::Base
     recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
   end
-  
+
   def approved_business(organization)
     from EMAIL_SENDER
     bcc 'globalcompact@un.org'
@@ -81,7 +81,7 @@ class OrganizationMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
-  
+
   def reject_microenterprise_network(organization)
     from EMAIL_SENDER
     bcc 'globalcompact@un.org'
@@ -90,7 +90,7 @@ class OrganizationMailer < ActionMailer::Base
     recipients organization.network_report_recipients.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
   end
-  
+
   def foundation_invoice(organization)
     from 'foundation@unglobalcompact.org'
     cc 'contributions@globalcompactfoundation.org'
@@ -108,5 +108,5 @@ class OrganizationMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization, :contact => organization.contacts.contact_points.first
   end
-  
+
 end

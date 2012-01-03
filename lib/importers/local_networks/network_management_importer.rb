@@ -16,7 +16,7 @@ module Importers
         model.sg_established_as_a_legal_entity  = get_yesno(row, "Has the GCLN been established as a legal entity?")
         model.sg_selected_appointees_steering_committee = get_yesno(row, "Does Annual General Meeting Appoint/Elect Steering Committee/Board?")
         model.sg_selected_appointees_contact_point      = get_yesno(row, "Does Annual General Meeting Or Steering Committee Appoint GCLN Focal Point")
-        
+
         model.membership_subsidiaries           = get_yesno(row, "Subsidiaries Of Multi-National Companies Participate In Local Network Activities")
         model.membership_companies              = get_integer(row, "Companies > 250 Employees")
         model.membership_sme                    = get_integer(row, "Small and Medium sized Enterprise (10 - 249) employees")
@@ -36,7 +36,7 @@ module Importers
         model.fees_amount_participant           = get_integer(row, "Participant  Fees")
         model.fees_amount_voluntary_private     = get_integer(row, "Private Voluntary Contribution")
         model.fees_amount_voluntary_public      = get_integer(row, "Public Voluntary Contribution")
-        
+
         model.stakeholder_company               = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Business")
         model.stakeholder_sme                   = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "SMEs")
         model.stakeholder_business_association  = get_boolean_from_csv(row, "Stakeholder Groups Involved In Governance:", "Business Associations")

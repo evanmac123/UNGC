@@ -8,7 +8,7 @@ class SearchableTest < ActiveSupport::TestCase
       @page3 = create_page title: 'Page 3 here'
       Searchable.index_pages
     end
-    
+
     context "and changes are made" do
       setup do
         assert @prev_max = Searchable.find(:all, select: "MAX(last_indexed_at) as max").first.try(:max)
@@ -24,8 +24,8 @@ class SearchableTest < ActiveSupport::TestCase
         assert_same_elements [@page4.title, @page3.title], newish.map(&:title)
       end
     end
-    
+
 
   end
-  
+
 end

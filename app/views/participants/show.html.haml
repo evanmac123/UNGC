@@ -39,8 +39,8 @@
       .left
         %strong Differentiation Level
       .right= @participant.status_name
-      
-      
+
+
   %li{:class=>"clearfix #{cycle('even', 'odd')}"}
     .left
       %strong Country
@@ -107,7 +107,7 @@
 - if @participant.communication_on_progresses.new_policy.approved.any?
   .cop_links
     %h3 Communication on Progress
-    
+
   %table.cop_links{:cellspacing => 0, :cellpadding => 0}
     %thead
       %tr
@@ -122,11 +122,11 @@
           %td.center= check_if cop.include_continued_support_statement?
           %td.center== #{cop.score} / 4
           %td.center= check_if cop.include_measurement?
-    
+
 - if @participant.communication_on_progresses.old_policy.approved.any?
   .cop_links
   %h3 Communication on Progress (pre-2010)
-  
+
   %table.cop_links{:cellspacing=>0, :cellpadding=>0}
     %thead
       %tr
@@ -156,7 +156,7 @@
 
 - if @participant.communication_on_progresses.approved.any?
   %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
-  
+
 - if @participant.case_stories.approved.any?
   .case_stories
     %h2 Case Stories

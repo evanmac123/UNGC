@@ -12,7 +12,7 @@ class Admin::ContactsController < AdminController
     @contact = @parent.contacts.new(params[:contact])
     @roles = Role.visible_to(@contact)
     @return_path = return_path
-    
+
     if @contact.save
       flash[:notice] = 'Contact was successfully created.'
       redirect_to return_path
@@ -45,13 +45,13 @@ class Admin::ContactsController < AdminController
     end
       redirect_to return_path
   end
-  
+
   def search
     if params[:commit] == 'Search'
       display_search_results
     end
   end
-  
+
   private
     def load_parent
       @parent = if params[:organization_id]
@@ -65,7 +65,7 @@ class Admin::ContactsController < AdminController
         @roles = Role.visible_to(@contact)
       end
     end
-    
+
     def display_search_results
       keyword = params[:keyword].force_encoding("UTF-8")
       options = {per_page: (params[:per_page] || 15).to_i,
@@ -80,7 +80,7 @@ class Admin::ContactsController < AdminController
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'search_results'
     end
-    
+
     def return_path
       if current_user.from_ungc? || current_user.from_network?
         contact_parent_path(@contact, [], [], :tab => :contacts)
@@ -92,5 +92,5 @@ class Admin::ContactsController < AdminController
     def network_management_tab?
       true
     end
-        
+
 end

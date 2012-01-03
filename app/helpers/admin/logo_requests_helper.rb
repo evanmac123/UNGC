@@ -2,7 +2,7 @@ module Admin::LogoRequestsHelper
   def comment_date(logo_comment)
     logo_comment.added_on ? logo_comment.added_on : logo_comment.created_at
   end
-  
+
   def contact_name(logo_request_object)
     if logo_request_object.try(:contact).try(:name)
       logo_request_object.contact.name
@@ -10,7 +10,7 @@ module Admin::LogoRequestsHelper
       content_tag :span, "Contact deleted", :style => 'color: red;'
     end
   end
-  
+
   def return_to_current_list(logo_request)
     case logo_request.state
       when LogoRequest::STATE_PENDING_REVIEW
@@ -22,7 +22,7 @@ module Admin::LogoRequestsHelper
           link_to "Return to updated requests", unreplied_admin_logo_requests_path
         end
       when LogoRequest::STATE_PENDING_REVIEW
-        link_to "Return to #{logo_request.state} requests", pending_review_admin_logo_requests_path        
+        link_to "Return to #{logo_request.state} requests", pending_review_admin_logo_requests_path
       when LogoRequest::STATE_APPROVED
         link_to "Return to #{logo_request.state} requests", approved_admin_logo_requests_path
       when LogoRequest::STATE_REJECTED
@@ -31,5 +31,5 @@ module Admin::LogoRequestsHelper
         link_to "Return to #{logo_request.state} requests", accepted_admin_logo_requests_path
     end
   end
-  
+
 end

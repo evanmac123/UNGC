@@ -34,9 +34,9 @@ class CopQuestionnaireAnswers < SimpleReport
     ORDER BY
       cop_id, q.position, a.created_at")
   end
-    
+
   def headers
-    [ 
+    [
     'answer_id',
     'implementation',
     'grouping',
@@ -51,12 +51,12 @@ class CopQuestionnaireAnswers < SimpleReport
     'value',
     'cop_attribute_id_covered',
     'differentiation',
-    'created_at'									
-    ] 
+    'created_at'
+    ]
   end
 
   def row(record)
-    [ 
+    [
     record.answer_id,
     record.implementation,
     record.grouping,
@@ -74,5 +74,5 @@ class CopQuestionnaireAnswers < SimpleReport
     record.created_at
     ]
   end
-  
+
 end

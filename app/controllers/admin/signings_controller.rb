@@ -18,7 +18,7 @@ class Admin::SigningsController < AdminController
     @signing.destroy
     redirect_to admin_initiative_path(@initiative)
   end
-  
+
   private
     def load_initiative
       @initiative = Initiative.find params[:initiative_id]

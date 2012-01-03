@@ -88,8 +88,8 @@ def find_parent_for(path)
     try_this_path = array.join('/') + '/index.html'
     puts "   trying '#{try_this_path}'" if debug
     possible = Page.find(:first, :conditions => {
-      :display_in_navigation => true, 
-      :path => try_this_path}, :include => :children) # 
+      :display_in_navigation => true,
+      :path => try_this_path}, :include => :children) #
     return possible if possible
   end
   nil
@@ -205,7 +205,7 @@ def parse_language_nav(root)
     h[:path] = "/Languages#{h[:path]}"
     Page.create h.merge(:parent_id => nil, :top_level => true, :group_id => group.id, :position => counter, :display_in_navigation => true)
     counter += 1
-  end  
+  end
 end
 
 # Top nav elements read from home page
@@ -235,7 +235,7 @@ def parse_sitenav_nav(root)
   group = PageGroup.find_by_html_code('website') || PageGroup.create(:name => 'Website Information', :html_code => 'website', :display_in_navigation => false)
   path = possibly_move("/#{filename - root}")
   info = Page.find_by_path(path) || Page.create(:path => path, :group_id => group.id)
-  info.update_attributes :title => 'Website Information', 
+  info.update_attributes :title => 'Website Information',
     :html_code => 'websiteinfo',
     :top_level => true,
     :display_in_navigation => false
@@ -249,7 +249,7 @@ def parse_sitenav_nav(root)
       Page.create h
     end
     counter += 1
-  end  
+  end
 end
 
 def read_and_write_content(root, filename)
@@ -307,7 +307,7 @@ def update_navigation_info(pages)
       page.save
     end
   end
-  
+
   parent_ids = Page.find(:all, :conditions => ["parent_id is not null"]).map(&:parent_id).uniq.compact
   parents = Page.find parent_ids
   parents.each do |parent|

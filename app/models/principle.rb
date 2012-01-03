@@ -24,10 +24,10 @@ class Principle < ActiveRecord::Base
                  :financial_markets    => "Financial Markets",
                  :business_development => "Business for Development",
                  :un_business          => "UN / Business Partnerships",
-                 :supply_chain         => "Supply Chain Sustainability", 
+                 :supply_chain         => "Supply Chain Sustainability",
                 }
-    
-                 
+
+
   named_scope :by_types, lambda { |filter_type|
      if filter_type.is_a?(Array)
        types = filter_type.map { |t| TYPE_NAMES[t] }

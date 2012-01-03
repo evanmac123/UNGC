@@ -76,7 +76,7 @@ $("input[class='additional_questions']").click(function() {
     $("#text_m").hide();
   }
   $("#submit_tab").show();
-  
+
 })
 
 // Q17 - Notable program
@@ -118,7 +118,7 @@ $(document).ready(function() {
     $('#submit_link').addClass("selected");
     $('#basic_link').removeClass("selected");
   }
-  
+
   // tell the browser to warn before navigating away
   window.onbeforeunload = function() {
     if (work_in_progress) {

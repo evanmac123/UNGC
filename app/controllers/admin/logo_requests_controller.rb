@@ -43,16 +43,16 @@ class Admin::LogoRequestsController < AdminController
       end
     end
   end
-  
+
   def index
     @logo_requests = LogoRequest.paginate(:page => params[:page])
-  end  
-  
+  end
+
   def new
     @logo_request = @organization.logo_requests.new
     @logo_request.logo_comments << @logo_request.logo_comments.new
   end
-  
+
   def show
     if @logo_request.approved? && current_user.from_organization?
       render :template => 'admin/logo_requests/logo_terms.html.haml'
@@ -65,7 +65,7 @@ class Admin::LogoRequestsController < AdminController
 
     if @logo_request.save
       flash.now[:notice] = 'Thank you, your Logo Request was received.'
-      render :action => "confirmation" 
+      render :action => "confirmation"
     else
       render :action => "new"
     end
@@ -91,7 +91,7 @@ class Admin::LogoRequestsController < AdminController
     flash[:notice] = 'Thank you for accepting the Logo Policy. Your logos will be available for the next 7 days.'
     redirect_to admin_organization_logo_request_path(@organization.id, @logo_request)
   end
-  
+
   def download
     if @logo_request.can_download_files?
       logo_file = @logo_request.logo_files.first(:conditions => ['logo_file_id=?', params[:logo_file_id]])
@@ -101,13 +101,13 @@ class Admin::LogoRequestsController < AdminController
       redirect_to admin_organization_logo_request_path(@organization.id, @logo_request)
     end
   end
-  
+
   private
     def load_organization
       @logo_request = LogoRequest.visible_to(current_user).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
     end
-    
+
     def order_from_params(field, direction)
       @order = [params[:sort_field] || field, params[:sort_direction] || direction].join(' ')
     end

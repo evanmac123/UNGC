@@ -1,11 +1,11 @@
 class Admin::CaseStoriesController < AdminController
   before_filter :load_organization
   before_filter :no_unapproved_organizations_access
-  
+
   def new
     @case_story = @organization.case_stories.new
   end
-  
+
   def create
     @case_story = @organization.case_stories.new(params[:case_story])
     @case_story.contact_id = current_user.id

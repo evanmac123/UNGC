@@ -3,11 +3,11 @@
   About launch dates...
 %div.hint_text{:style => 'display: none;'}
   %p Launching the Global Compact should be distinguished from launching the network. A public launch of the Global Compact, which is a high-level event within a country, typically takes place after a significant number of local companies have become engaged or are ready to be engaged in the initiative. Support from a critical mass of companies before the launch increases the likelihood that a Local Network will be established and that the network will be sustainable.
-  
+
 %fieldset
   %legend Key Launch Dates
   %ol
-  
+
     = default_form.text_field :sg_global_compact_launch_date, {class: 'datepicker iso-date'}, {:label => 'Global Compact'}
     = default_form.text_field :sg_local_network_launch_date, {class: 'datepicker iso-date'}, {:label => 'Local Network'}
 
@@ -21,7 +21,7 @@
 %fieldset
   %legend Supporting Document
   - if @local_network.sg_established_as_a_legal_entity_file
-    %dl{:style => 'width: auto;'} 
+    %dl{:style => 'width: auto;'}
       %dt.first{:style=> 'width: 165px;'} Current file
       %dd.first= link_to_uploaded_file(@local_network.sg_established_as_a_legal_entity_file)
   - else

@@ -10,14 +10,14 @@ module ParticipantsHelper
       'no_icon'
     end
   end
-  
+
   def display_participant_status_title(organization)
-    
+
     if organization.non_comm_dialogue_on.present?
       return "Non-Communicating"
     end
-    
-    case organization.cop_state        
+
+    case organization.cop_state
       when Organization::COP_STATE_DELISTED
         if organization.removal_reason == RemovalReason.delisted
         'Expelled on'
@@ -26,15 +26,15 @@ module ParticipantsHelper
       end
       else
         'Status'
-    end    
+    end
   end
-  
+
   def display_participant_status(organization)
-    
+
     if organization.non_comm_dialogue_on.present?
       return "#{yyyy_mm_dd organization.non_comm_dialogue_on} - for failure to engage in dialogue"
     end
-    
+
     case organization.cop_state
       when Organization::COP_STATE_NONCOMMUNICATING
         'Non-Communicating'
@@ -44,20 +44,20 @@ module ParticipantsHelper
         organization.cop_state.humanize
     end
   end
-  
+
   def display_delisted_description(organization)
     if organization.removal_reason == RemovalReason.delisted
       'Reason for expulsion'
     else
       'Reason for delisting'
     end
-    
+
   end
-  
+
   def days_cop_overdue(organization)
     distance_of_time_in_words(Date.today, organization.cop_due_on)
   end
-  
+
   def countries_list
     ids = params[:country]
     Country.find(params[:country]).map { |c| c.name }.sort.join(', ')
@@ -81,37 +81,37 @@ module ParticipantsHelper
     sectors = Sector.participant_search_options
     options_for_select [ ['All sectors', 'all'] ] + sectors.map { |s| [s.name, s.id] }
   end
-  
+
   def ownership_types_for_select
     ownership_types = ListingStatus.all
     options_for_select [ ['Any type of ownership', 'all'] ] + ownership_types.map { |s| [s.name, s.id] }
-    
+
   end
-  
+
   def organization_types_for_select
     allowed = ["Academic", "Business Association Global", "Business Association Local", "City", "Foundation", "Labour Global", "Labour Local", "NGO Global", "NGO Local", "Public Sector Organization"]
     all = OrganizationType.all
     types = all.reject { |t| !allowed.include?(t.name) }
     options_for_select [ ['All', ''] ] + types.map { |type| [type.name, type.id] }
   end
-    
+
   def nice_date_from_param(join_date)
     month, day, year = params[join_date].split('/')
     parsed_date = Date.parse([year,month,day].join('-'))
     parsed_date.strftime("%e&nbsp;%B,&nbsp;%Y")
   end
-  
+
   def searched_for
-    
+
     returning('') do |response|
-      
+
       # Business search criteria
       if @searched_for[:business] == OrganizationType::BUSINESS
-        
+
         # describe type of ownership
         ownership = ''
         if @searched_for[:listing_status_id].present?
-          
+
           ownership = case ListingStatus.find(@searched_for[:listing_status_id]).name.downcase
             when 'public company'
               # all FT500 companies are publicly traded
@@ -126,7 +126,7 @@ module ParticipantsHelper
               ownership = ''
           end
         end
-        
+
         response << pluralize(@results.total_entries, ownership + ' business participant')
         response << " from #{countries_list}" unless @searched_for[:country_id].blank?
 
@@ -142,7 +142,7 @@ module ParticipantsHelper
           when Organization::COP_STATES[:noncommunicating].to_crc32
             response << ', with a non-communicating COP status'
         end
-      
+
       # Non-business search criteria
       elsif @searched_for[:business] == OrganizationType::NON_BUSINESS
         organization_type = OrganizationType.find_by_id(@searched_for[:organization_type_id])
@@ -154,14 +154,14 @@ module ParticipantsHelper
       end
 
       response << " from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?
-      
+
       if @searched_for[:joined_on]
         response << " who were accepted between #{nice_date_from_param(:joined_after)} and #{nice_date_from_param(:joined_before)}"
       end
-      
+
       response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
-      
+
     end
   end
-  
+
 end

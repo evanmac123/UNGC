@@ -5,7 +5,7 @@ class EventTest < ActiveSupport::TestCase
   should_validate_presence_of :title, :message => "^Please provide a title"
   should_belong_to :country
   should_have_many :attachments
-  
+
   context "given an event with a strange title" do
     setup do
       @event1 = create_event :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?'
@@ -15,12 +15,12 @@ class EventTest < ActiveSupport::TestCase
     should "create an SEO-friendly permalink" do
       assert_equal @permalink, @event1.to_param
     end
-    
+
     should "find event given a permalink" do
       assert_equal @event1, Event.find_by_permalink(@permalink)
     end
   end
-  
+
   context "given a bunch of events" do
     setup do
       @today = Date.today
@@ -29,7 +29,7 @@ class EventTest < ActiveSupport::TestCase
         starts_on = Time.mktime(@today.year, @today.month, rand(22)+1).to_date
         starts << starts_on
         ends_on   = starts_on + rand(4)
-        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
+        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'
       end
       # not always later
       @other = ( (@today >> 2).year == @today.year ) ? @today >> 2 : @today << 2
@@ -37,14 +37,14 @@ class EventTest < ActiveSupport::TestCase
         starts_on = Time.mktime(@other.year, @other.month, rand(22)+1).to_date
         starts << starts_on
         ends_on   = starts_on + rand(4)
-        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
+        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'
       end
       @much_later = @today >> 14
       2.times do
         starts_on = Time.mktime(@much_later.year, @much_later.month, rand(22)+1).to_date
         starts << starts_on
         ends_on   = starts_on + rand(4)
-        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'  
+        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'
       end
       # puts "??"
       # puts starts.join(', ')
@@ -56,22 +56,22 @@ class EventTest < ActiveSupport::TestCase
       assert_equal 5, Event.for_month_year(@today.month).count
       assert_equal 5, Event.for_month_year().count # even if we don't specify today, it should assume
     end
-    
+
     should "find events for later" do
       assert_equal 3, Event.for_month_year(@other.month, @other.year).count
       assert_equal 3, Event.for_month_year(@other.month).count # even if we don't specify the year, it should assume
     end
-    
-    should "find events for much later" do 
+
+    should "find events for much later" do
       assert_equal 2, Event.for_month_year(@much_later.month, @much_later.year).count
     end
-    
-    should "find no events for months and years with no events" do 
+
+    should "find no events for months and years with no events" do
       assert_equal 0, Event.for_month_year((@today >> 1).month, @today.year).count, "Find no events for next month"
       assert_equal 0, Event.for_month_year(@today.month, @today.year + 1).count, "Find no events for next year"
     end
   end
-  
+
   context "given a new event" do
     setup do
       @event = Event.new :title => String.random
@@ -81,7 +81,7 @@ class EventTest < ActiveSupport::TestCase
     should "start 'pending' approval" do
       assert @event.pending?
     end
-    
+
     context "and it is approved" do
       setup do
         assert @event.approve!
@@ -91,9 +91,9 @@ class EventTest < ActiveSupport::TestCase
         assert @event.approved?
       end
     end
-    
+
   end
-  
+
   context "given some Principle Areas" do
     setup do
       @p1 = create_principle_area
@@ -108,7 +108,7 @@ class EventTest < ActiveSupport::TestCase
     should "link event and areas on save" do
       assert_same_elements [@p1, @p2], @event.issues
     end
-    
+
     context "and selected issues are changed" do
       setup do
         @event.selected_issues = [@p2.id, @p3.id]
@@ -120,9 +120,9 @@ class EventTest < ActiveSupport::TestCase
         assert_same_elements [@p2, @p3], @event.issues
       end
     end
-    
+
   end
-  
+
   context "given an event" do
     setup do
       @event = new_event
@@ -147,7 +147,7 @@ class EventTest < ActiveSupport::TestCase
         assert_equal 'country', @event.full_location
       end
     end
-    
+
     context "with both location and country" do
       setup do
         @event.location = 'location'
@@ -158,7 +158,7 @@ class EventTest < ActiveSupport::TestCase
         assert_equal 'location, country', @event.full_location
       end
     end
-    
+
   end
-  
+
 end

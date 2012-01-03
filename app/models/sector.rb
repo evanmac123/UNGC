@@ -14,11 +14,11 @@
 class Sector < ActiveRecord::Base
   validates_presence_of :name
   acts_as_tree
-  
+
   default_scope :order => :icb_number
   named_scope :top_level, :conditions => "parent_id IS NULL AND name != 'Not Applicable'"
   named_scope :participant_search_options, :order => :name, :conditions => "parent_id IS NOT NULL AND name != 'Not Applicable'"
-  
+
   def self.not_applicable
     find_by_name("Not Applicable")
   end

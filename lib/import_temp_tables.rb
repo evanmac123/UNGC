@@ -4,12 +4,12 @@ def datetime_to_date(dtime)
   if dtime =~ /\d{4}-\d{2}-\d{2} .*/
     year, month, day = dtime.split(' ').first.split('-')
     "#{year}-#{month}-#{day}"
-  end  
+  end
 end
 
 class ImportTempTables
-  
-  def run  
+
+  def run
     @data_folder = File.join(RAILS_ROOT, 'lib/un7_tables')
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
 
@@ -48,20 +48,20 @@ class ImportTempTables
             o.state = 'in_review'
           else
             o.state = 'pending_review'
-          end 
+          end
           o.modified_on = datetime_to_date(row["ORG_DATE_CREATE"])
         when 2
           o.state = 'network_review'
-          o.network_review_on = datetime_to_date(row["ORG_DATE_APPROVE"])  
+          o.network_review_on = datetime_to_date(row["ORG_DATE_APPROVE"])
       end
-      
+
       # Approved organizations have already been imported
       unless review_state.to_i == 3
         o.save
         # puts "#{o.id}: #{o.name} is #{o.state}"
       end
-      
-    end 
+
+    end
 
     file = File.join(@data_folder, "R10_CONTACTS_TEMP.csv")
     CSV.foreach(file, :headers => :first_row) do |row|
@@ -81,17 +81,17 @@ class ImportTempTables
       c.state = row["CONTACT_STATE"]
       c.postal_code = row["CONTACT_CODE_POSTAL"]
       c.country_id = Country.find_by_code(row["CONTACT_COUNTRY_ID"]).try(:id)
-      
+
       # assign contact roles
       role = Role.find_by_old_id row["ROLE_ID"]
       c.roles << role if role
-      
+
       # generate login and password for Contact Point
       if row["ROLE_ID"].to_i == 4
         c.login = "#{row["ID"]}ungc"
         c.password = "ungc#{row["ID"]}"
       end
-     
+
       # don't add if organization has been approved and is now an active participant
       if contact_organization = Organization.find_by_old_tmp_id(row["ORG_ID"])
         unless contact_organization.state == 'approved' and contact_organization.participant and contact_organization.active

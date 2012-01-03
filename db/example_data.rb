@@ -2,7 +2,7 @@ module FixtureReplacement
   def random_url
     "/#{[String.random, String.random, String.random].join('/')}.html"
   end
-  
+
   attributes_for :case_story do |c|
     c.title = String.random
 	end
@@ -26,7 +26,7 @@ module FixtureReplacement
     c.address = String.random
     c.city = String.random
     c.country_id = Country.first.id
-    c.email = String.random + '@example.com' 
+    c.email = String.random + '@example.com'
     c.login = String.random
     c.password = String.random
 	end
@@ -120,7 +120,7 @@ module FixtureReplacement
     a.approval  = 'approved'
     a.display_in_navigation = true
   end
-  
+
   attributes_for :page_group do |a|
     a.name      = String.random
     a.html_code = String.random

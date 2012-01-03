@@ -5,7 +5,7 @@ class BulletinSubscribersController < ApplicationController
   def new
     @bulletin_subscriber = BulletinSubscriber.new
   end
-  
+
   def create
     @bulletin_subscriber = BulletinSubscriber.new(params[:bulletin_subscriber])
     if params[:commit] == 'Subscribe'
@@ -14,12 +14,12 @@ class BulletinSubscribersController < ApplicationController
       unsubscribe
     end
   end
-  
+
   private
     def default_navigation
       '/NewsAndEvents/UNGC_bulletin/index.html'
     end
-    
+
     def subscribe
       if @bulletin_subscriber.save
         flash[:notice] = 'You have been subscribed to the Bulletin.'
@@ -29,7 +29,7 @@ class BulletinSubscribersController < ApplicationController
         render :action => 'new'
       end
     end
-    
+
     def unsubscribe
       bulletin_subscriber = BulletinSubscriber.find_by_email params[:bulletin_subscriber][:email]
       if bulletin_subscriber

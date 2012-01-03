@@ -1,5 +1,5 @@
 $("#organization_organization_type_id").change(function() {
-  org_type = $("#organization_organization_type_id option:selected").text(); 
+  org_type = $("#organization_organization_type_id option:selected").text();
   if (org_type == "Company" || org_type == "SME") {
     $('.company_only').show('slow');
   } else {
@@ -26,7 +26,7 @@ $("#organization_active").change(function() {
   }
   else {
     $("#delisted_only").toggle();
-  } 
+  }
 })
 
 // used when 'No Dialogue' is set
@@ -37,9 +37,9 @@ $("#organization_non_comm_dialogue").change(function() {
   else {
     $("select[id^=organization_non_comm_dialogue_on_]").val($("select[id^=organization_non_comm_dialogue_on_] option:first").val());
     $("#non_comm_dialogue_only").toggle();
-  } 
+  }
 })
-  
+
 // contact form
 $('.role_for_login_fields').change(function() {
   if ($(".role_for_login_fields:checked").length > 0) {
