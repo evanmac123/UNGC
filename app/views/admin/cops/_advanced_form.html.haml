@@ -155,6 +155,9 @@
     %h3
       %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
+    %div.hint_toggle About this section...
+    %div.hint_text{:style => 'display: none;'}
+      %p.indent== Criteria and best practices under human rights implementation have been modified to reflect the Guiding Principles on Business and Human Rights: Implementing the United Nations "Protect, Respect and Remedy" Framework #{popup_link_to '(the Guiding Principles)','/Issues/human_rights/The_UN_SRSG_and_the_UN_Global_Compact.html'}.
     %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :human_rights, :year => current_year
 
   %div.tab_content{:id => "labour_additional_questions"}
@@ -173,14 +176,17 @@
     %h3
       %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
+    %div.hint_toggle About this section...
+    %div.hint_text{:style => 'display: none;'}
+      %p.indent== Criteria and best practices under Anti-Corruption implementation have been modified to reflect the #{link_to 'Anti-Corruption Reporting Guidance (pdf)','/docs/issues_doc/Anti-Corruption/UNGC_AntiCorruptionReporting.pdf'}. Best practices reflect specific reporting elements of the guidance, either Basic (numbers starting with B) or Desired (numbers starting with D).
     %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :anti_corruption, :year => current_year
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation
     %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
-    %div{:class => 'hint_toggle'} About this section...
-    %div{:class => 'hint_text', :style => 'display: none;'}
-      %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).      
+    %div.hint_toggle About this section...
+    %div.hint_text{:style => 'display: none;'}
+      %p.indent The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).      
     %fieldset= cop_questions_for @communication_on_progress, :value_chain, :year => current_year
 
   %div.tab_content{:id => "verification_additional_questions"}
