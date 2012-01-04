@@ -20,11 +20,11 @@ context "given an organization user" do
     assert session[:user_id]
     assert_redirected_to edit_admin_organization_contact_path(@old_contact.organization.id, @old_contact, {:update => true})
   end
-  
+
   should 'not allow rejected applicants to login' do
     @organization.reject
     post :create, :login => 'quentin', :password => 'monkey'
-    assert_equal "Sorry, your organization's application was rejected and can no longer be accessed.", flash[:error] 
+    assert_equal "Sorry, your organization's application was rejected and can no longer be accessed.", flash[:error]
     assert_response :redirect
   end
 
@@ -52,7 +52,7 @@ context "given an organization user" do
     post :create, :login => 'quentin', :password => 'monkey', :remember_me => "0"
     assert @response.cookies["auth_token"].blank?
   end
-  
+
   should 'delete token on logout' do
     login_as :quentin
     get :destroy
@@ -80,9 +80,9 @@ context "given an organization user" do
     get :new
     assert !@controller.send(:logged_in?)
   end
-  
+
 end
-  
+
   protected
     def create_test_users
       create_organization_type
@@ -100,15 +100,15 @@ end
                                     :login => 'login',
                                     :password => 'nexen',
                                     :email => 'user2@example.com',
-                                    :last_login_at => 7.months.ago, 
-                                    :role_ids => [Role.contact_point.id])      
+                                    :last_login_at => 7.months.ago,
+                                    :role_ids => [Role.contact_point.id])
 
     end
-  
+
     def auth_token(token)
       CGI::Cookie.new('name' => 'auth_token', 'value' => token)
     end
-    
+
     def cookie_for(user)
       auth_token @contact.remember_token
     end

@@ -11,22 +11,22 @@ module ApprovalWorkflow
   EVENT_APPROVE = 'approve'
   EVENT_REJECT = 'reject'
   EVENT_REJECT_MICRO = 'reject_micro'
-  
+
   STAFF_EVENTS = [EVENT_APPROVE, EVENT_REJECT, EVENT_REJECT_MICRO, EVENT_NETWORK_REVIEW]
-  
+
   def self.included(klass)
     klass.class_eval do
       belongs_to :reviewer, :class_name => 'Contact'
-      
+
       determine_initial_state = case klass.to_s
-        # COPs start in an initial state, and then move to either submitted ('pending_review', 
+        # COPs start in an initial state, and then move to either submitted ('pending_review',
         # like other models), or draft. Other models don't support draft states, yet.
         when 'CommunicationOnProgress'
           :initial
         else
           :pending_review
         end
-      
+
       state_machine :state, :initial => determine_initial_state do
         after_transition :on => :approve, :do => :set_approved_fields
         after_transition :on => :reject, :do => :set_rejected_fields

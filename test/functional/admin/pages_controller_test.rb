@@ -17,18 +17,18 @@ class Admin::PagesControllerTest < ActionController::TestCase
         assert_equal @page, assigns(:page)
         assert_response :success
       end
-      
+
       should "respond with JSON" do
         json = ActiveSupport::JSON.decode @response.body
         assert_same_elements %w{url content startupMode}, json.keys
-        assert_same_elements [ 
+        assert_same_elements [
           update_page_url(:id => @page.id, :format => 'js'),
           'wysiwyg',
           @page.content
         ], json.values
       end
     end
-    
+
     context "edit a specific version" do
       setup do
         @version = @page.new_version :content => "<p>I am new.</p>"
@@ -40,21 +40,21 @@ class Admin::PagesControllerTest < ActionController::TestCase
         content = json['content']
         assert_equal "<p>I am new.</p>", content
       end
-    end    
-    
+    end
+
     context "bad edit action" do
       should "issue a 404 when page not found" do
         xhr :get, :edit, {:id => 123456}, as(@staff_user)
         assert_response 404
       end
-      
+
       should "use the edit template when not XHR" do
         get :edit, {:id => @page.id}, as(@staff_user)
         assert_response 200
         assert_template 'admin/pages/edit'
       end
     end
-    
+
     context "successful update via XHR" do
       setup do
         xhr :put, :update, { :id => @page.id, :content => { :content => "<p>I am new.</p>" } }, as(@staff_user)
@@ -69,7 +69,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
         assert_equal "<p>I am new.</p>", @page.versions(:reload).last.content
         assert @page.next_version
       end
-      
+
       should "respond with JSON" do
         json = ActiveSupport::JSON.decode @response.body
         expected = {'content' => "<p>I am new.</p>", 'version' => 2}
@@ -85,13 +85,13 @@ class Admin::PagesControllerTest < ActionController::TestCase
       should "find content by id" do
         assert_equal @page, assigns(:page)
       end
-      
+
       should "save changes as new version" do
         assert_equal 2, @page.versions.count
         assert_equal "<p>I am edited from the dashboard.</p>", @page.versions(:reload).last.content
         assert @page.next_version
       end
-      
+
       should "redirect to new version" do
         assert_redirected_to :action => 'edit', :id => @page.versions(:reload).last.id
       end
@@ -112,7 +112,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   context "given a page with several versions" do
     setup do
       @staff_user = create_staff_user
@@ -127,5 +127,5 @@ class Admin::PagesControllerTest < ActionController::TestCase
       assert_redirected_to( :action => :edit, :id => @third.id )
     end
   end
-  
+
 end

@@ -1,19 +1,19 @@
 ActionController::Routing::Routes.draw do |map|
   # Root
   map.root :controller => 'pages', :action => 'view', :path => ['index.html']
-  
+
   # Session routes
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.resource :session
   map.resource :password, :controller => 'admin/passwords'
   map.no_session 'no_session', :controller => 'signup', :action => 'no_session'
-  
+
   # Back-end routes
   map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
   map.parameters '/admin/parameters', :controller => 'admin', :action => 'parameters'
   map.cop_introduction '/admin/cops/introduction', :controller => 'admin/cops', :action => 'introduction'
-  
+
   map.knowledge_sharing 'admin/local_networks/:id/knowledge_sharing', :controller => 'admin/local_networks', :action => 'knowledge_sharing', :conditions => { :method => :get }
 
   # These need to come before resources :pages
@@ -26,16 +26,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.admin '/admin', :controller => 'admin', :action => 'dashboard'
   map.namespace :admin do |admin|
-    
-    admin.resources :events, :member => { 
-      :approve => :post, 
-      :revoke => :post 
+
+    admin.resources :events, :member => {
+      :approve => :post,
+      :revoke => :post
     }
-    admin.resources :headlines, 
-      :controller => 'news', 
-      :member => { 
-        :approve => :post, 
-        :revoke => :post 
+    admin.resources :headlines,
+      :controller => 'news',
+      :member => {
+        :approve => :post,
+        :revoke => :post
       }
     admin.resources :pages,
       :member => {
@@ -56,7 +56,7 @@ ActionController::Routing::Routes.draw do |map|
                                                      :updated        => :get,
                                                      :network_review => :get,
                                                      :search         => :get },
-                                    :member     => { :reverse_roles  => :get }, 
+                                    :member     => { :reverse_roles  => :get },
                                     :has_many   => [:contacts, :comments] do |organization|
     admin.resources :logo_requests, :collection => { :approved       => :get,
                                                      :rejected       => :get,
@@ -64,7 +64,7 @@ ActionController::Routing::Routes.draw do |map|
                                                      :in_review      => :get,
                                                      :unreplied      => :get,
                                                      :accepted       => :get},
-                                    :has_many => :logo_comments                                      
+                                    :has_many => :logo_comments
       organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
       organization.resources :case_stories
       organization.resources :communication_on_progresses, :controller => 'cops'
@@ -87,7 +87,7 @@ ActionController::Routing::Routes.draw do |map|
     end
 
     admin.uploaded_file '/uploaded_files/:id/:filename', :controller => 'uploaded_files', :action => 'show', :filename => /.*/
-      
+
     admin.reports 'reports', :controller => 'reports', :action => 'index'
     admin.report 'reports/:action.:format', :controller => 'reports'
 
@@ -98,9 +98,9 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # Front-end routes
-  
+
   map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
-  
+
   # some important URLs are just too long to type
   short_urls = {
     'leadlab'      => 'http://leadlab.unglobalcompact.org/',
@@ -108,21 +108,21 @@ ActionController::Routing::Routes.draw do |map|
     'watermandate' => '/Issues/Environment/CEO_Water_Mandate/',
     'weps'         => '/Issues/human_rights/equality_means_business.html'
   }
-  
+
   short_urls.each do |url, webpage|
     map.connect url, :controller => 'pages', :action => :redirect_to_page, :page => webpage
   end
-  
+
   # handle any case for Lead
   map.connect ':lead', :controller => 'pages', :action => :redirect_to_page, :page => '/HowToParticipate/Lead/', :requirements => { :lead => /lead/i }
-  
+
   map.redirect_local_network '/NetworksAroundTheWorld/display.html',
     :controller => 'pages',
     :action => 'redirect_local_network'
-    
+
   map.with_options :controller => 'participants' do |m|
     m.participant_search 'participants/search', :action => 'search'
-    
+
     # Needs to catch dots in the org id
     m.with_options :action => 'show', :requirements => { :id => /.*/ } do |n|
       n.participant_with_nav 'participants/:navigation/:id'
@@ -130,13 +130,13 @@ ActionController::Routing::Routes.draw do |map|
     end
   end
 
-  map.cop_detail_with_nav 'COPs/:navigation/:id', 
-    :controller => 'cops', 
-    :action => 'show', 
+  map.cop_detail_with_nav 'COPs/:navigation/:id',
+    :controller => 'cops',
+    :action => 'show',
     :requirements => { id: /\d+/ }
-  map.cop_detail 'COPs/detail/:id', 
-    :controller => 'cops', 
-    :action => 'show', 
+  map.cop_detail 'COPs/detail/:id',
+    :controller => 'cops',
+    :action => 'show',
     :requirements => { id: /\d+/ }
 
   # shortcut for new organization

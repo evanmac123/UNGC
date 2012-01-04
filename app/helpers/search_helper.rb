@@ -10,7 +10,7 @@ module SearchHelper
     response.gsub!(/&amp;(n|m)dash;/, '-')
     response
   end
-  
+
   def pretty_facet_label(key)
     prettier = {
       'CaseStory' => 'Case Stories',

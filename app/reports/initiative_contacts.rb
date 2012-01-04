@@ -27,7 +27,7 @@ class InitiativeContacts < SimpleReport
     c.postal_code,
     country.name AS country_name,
     country.region AS region_name
-    FROM 
+    FROM
     contacts c
     LEFT JOIN organizations o ON c.organization_id = o.id
     LEFT JOIN countries country ON c.country_id = country.id
@@ -44,9 +44,9 @@ class InitiativeContacts < SimpleReport
     GROUP BY contact_id
     ORDER BY o.id")
   end
-    
+
   def headers
-    [ 
+    [
     'organization_id',
     'contact_id',
     'organization_name',
@@ -71,11 +71,11 @@ class InitiativeContacts < SimpleReport
     'postal_code',
     'country_name',
     'region_name'
-    ] 
+    ]
   end
 
   def row(record)
-  [ 
+  [
     record.organization_id,
     record.contact_id,
     record.organization_name,
@@ -102,5 +102,5 @@ class InitiativeContacts < SimpleReport
     record.region_name
   ]
   end
-  
+
 end

@@ -6,7 +6,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     create_staff_user
     create_local_network_with_report_recipient
   end
-  
+
   test "should get index" do
     get :index, {}, as(@staff_user)
     assert_response :success
@@ -48,7 +48,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     get :edit, {:id => @organization.to_param}, as(@staff_user)
     assert_response :success
   end
-  
+
   test "staff should update organization and redirect to organization show view" do
     put :update, {:id => @organization.to_param, :organization => { }}, as(@staff_user)
     assert_redirected_to admin_organization_path(assigns(:organization).id)
@@ -71,7 +71,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     get :pending_review, {}, as(@staff_user)
     assert_response :success
   end
-  
+
   test "should list updated organizations" do
     get :updated, {}, as(@staff_user)
     assert_response :success
@@ -86,19 +86,19 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     get :rejected, {}, as(@staff_user)
     assert_response :success
   end
-  
+
   test "should list organizations in review" do
     get :in_review, {}, as(@staff_user)
     assert_response :success
   end
-    
+
   test "should redirect participants to main dashboard after updating" do
     login_as @user
     put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
     assert_redirected_to dashboard_path
   end
 
-  
+
   context "given an organization in review" do
     setup do
       @organization.state = Organization::STATE_IN_REVIEW
@@ -111,7 +111,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_equal false, @organization.replied_to
       assert_redirected_to dashboard_path
     end
-    
+
     should "should set replied_to to true after a staff user updates" do
       login_as @staff_user
       put :update, {:id => @organization.to_param, :organization => { }}, as(@staff_user)
@@ -119,7 +119,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_equal true, @organization.replied_to
       assert_redirected_to admin_organization_path(@organization.id)
     end
-    
+
     should "not reverse roles without one CEO and Contact Point" do
       login_as @staff_user
       get :reverse_roles, {:id => @organization.to_param}
@@ -142,19 +142,19 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     end
 
   end
-  
+
   context "given an approved organization" do
     setup do
       @organization.approve
     end
-    
+
     should "user should not see upload field for commitment letter" do
       login_as @user
       get :edit, {:id => @organization.to_param}, as(@user)
-      assert_select "input#organization_commitment_letter", 0 
+      assert_select "input#organization_commitment_letter", 0
     end
   end
-  
+
   context "given a rejected organization" do
      setup do
        @organization.reject
@@ -173,7 +173,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
        assert_response :success
      end
    end
-   
+
    context "given an expelled company" do
      setup do
        create_expelled_organization
@@ -188,7 +188,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
          assert_select 'div', 1
        end
      end
-     
+
    end
 
 end

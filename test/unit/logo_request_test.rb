@@ -49,5 +49,5 @@ class LogoRequestTest < ActiveSupport::TestCase
       assert !@logo_request.reload.approved?
     end
   end
-  
+
 end

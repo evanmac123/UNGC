@@ -1,5 +1,5 @@
 module Searchable::SearchableFiles
-  
+
   def timestamps_from(system_path_to_file)
     if system_path_to_file
       object = OpenStruct.new
@@ -8,7 +8,7 @@ module Searchable::SearchableFiles
       object
     end
   end
-  
+
   def index_pdf(system_path_to_file, public_path_to_file)
     title = 'PDF File'
     url   = public_path_to_file

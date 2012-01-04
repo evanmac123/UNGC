@@ -13,7 +13,7 @@
         %span#notice Although you submitted an Advanced level COP, you did not confirm if the COP meets all 24 criteria, and therefore do not qualify for the GC Advanced level.
 
   #results.tab_content
-    %h3= differentiation_placement(communication_on_progress)  
+    %h3= differentiation_placement(communication_on_progress)
     %dl{:style => 'width: 100%;'}
       = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
       = render :partial => results_partial, :locals => { :communication_on_progress => communication_on_progress }
@@ -29,9 +29,9 @@
       %li implementation of Global Compact principles
       %li value chain implementation
       %li verification and disclosure
-      
+
     %p== We look forward to receiving your next COP by #{dd_month_yyyy communication_on_progress.created_at + 1.year} and hope that you will consider participating at the GC Advanced level.
-    
+
     %h3 Resources
     %ul.bulleted
       %li= link_to 'GC Advanced level', '/COP/differentiation/GCAdvanced_level.html'

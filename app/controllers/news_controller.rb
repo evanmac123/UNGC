@@ -36,12 +36,12 @@ class NewsController < ApplicationController
         DEFAULTS[:news_headlines_path]
       end
     end
-    
+
     def show_archive?
       return true if action_name == 'index'
       @headline.published_on < (Date.today << 1) # older than one month
     end
-    
+
     def year
       @year
     end

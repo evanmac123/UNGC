@@ -35,13 +35,13 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_select "form[action=#{admin_organization_contacts_path(@organization.id).inspect}]"
       assert_select "option[value=#{@organization.country_id.inspect}][selected='selected']"
     end
-    
+
     should "be only able to assign contact and financial roles when editing a contact" do
       get :edit, :organization_id => @organization.id,
                  :id => @organization_user.to_param
 
       assert_response :success
-      assert_same_elements [ Role.contact_point, Role.financial_contact], assigns(:roles)      
+      assert_same_elements [ Role.contact_point, Role.financial_contact], assigns(:roles)
     end
 
     should "create contact" do
@@ -59,7 +59,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_response :success
       assert_select "form[action=#{admin_organization_contact_path(@organization.id, @organization_user.id).inspect}]"
     end
-    
+
     should "update contact for an organization" do
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
@@ -87,7 +87,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       create_local_network_with_report_recipient
       login_as create_staff_user
     end
-    
+
     should "be able to assign the three organization roles when editing a contact" do
       get :edit, :organization_id => @organization.id,
                  :id => @organization_user.to_param
@@ -95,7 +95,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_response :success
       assert_same_elements [ Role.contact_point,
                              Role.financial_contact,
-                             Role.ceo], assigns(:roles)      
+                             Role.ceo], assigns(:roles)
     end
 
     should "display the 'new contact' form for a local network" do
@@ -103,7 +103,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_response :success
       assert_select "form[action=#{admin_local_network_contacts_path(@local_network.id).inspect}]"
     end
-    
+
     should "create contact for a local network" do
       assert_difference('@local_network.contacts.count') do
         post :create, :local_network_id => @local_network.id, :contact => @new_contact_attributes
@@ -158,18 +158,18 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_template 'search'
     end
   end
-  
+
   context "when logged in as a Local Network" do
     setup do
       create_local_network_with_report_recipient
        login_as @network_contact
     end
-    
+
     should "redirect to dashboard contacts tab" do
       put :update, :local_network_id => @local_network.id, :id => @network_contact.to_param
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
-    
+
   end
 
 end

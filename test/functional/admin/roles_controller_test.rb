@@ -4,10 +4,10 @@ class Admin::RolesControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
     @role = create_role(:name => 'Staff', :description => 'Describes the role')
-    
+
     login_as @staff_user
   end
-  
+
   test "should get index" do
     get :index, {}
     assert_response :success

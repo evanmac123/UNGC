@@ -26,26 +26,26 @@
 
 class Page < ActiveRecord::Base
   class PathCollision < Exception; end
-  
+
   include ContentApproval
   include TrackCurrentUser
-  
+
   before_create :increment_version_number
   before_create :derive_path
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
   has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
-  has_many :visible_children, 
-    :order       => "position ASC", 
-    :class_name  => 'Page', 
-    :foreign_key => :parent_id, 
+  has_many :visible_children,
+    :order       => "position ASC",
+    :class_name  => 'Page',
+    :foreign_key => :parent_id,
     :conditions  => {:display_in_navigation => true, approval: 'approved'}
-  has_many :approved_children, 
-    :order       => 'position ASC', 
-    :class_name  => 'Page', 
-    :foreign_key => :parent_id, 
+  has_many :approved_children,
+    :order       => 'position ASC',
+    :class_name  => 'Page',
+    :foreign_key => :parent_id,
     :conditions  => { approval: 'approved' }
-  
+
   cattr_reader :per_page
   @@per_page = 15
 
@@ -63,15 +63,15 @@ class Page < ActiveRecord::Base
       :order => "pages.version_number DESC"
     }
   }
-  
+
   named_scope :later_versions_than, lambda { |version_version_number|
     {
       :conditions => ["pages.version_number > ?", version_version_number],
       :order => "pages.version_number ASC"
     }
   }
-  
-  
+
+
   def self.approved_for_path(path)
     approved.find_by_path path
   end
@@ -79,35 +79,35 @@ class Page < ActiveRecord::Base
   def self.for_path(path)
     find_by_path path, :include => :children
   end
-  
+
   def self.find_navigation_for(path)
     return nil if path.blank?
     possible = approved.for_navigation.find_by_path(path, :include => :children) #, :include => :children
     possible = find_parent_directory(path) unless possible # it couldn't be found, but maybe it's inside a "directory"
     possible
   end
-  
+
   def self.find_parent_directory(path)
     # split gives us an empty first element - /second/thing/index.html becomes ["", "second", "thing", "index.html"]
     array = path.split('/')
     times_to_try = array.size - 1 # not the first empty element
     times_to_try.times do
       array.pop
-      possible = approved.for_navigation.find_by_path(array.join('/') + '/index.html', :include => :children) # 
+      possible = approved.for_navigation.find_by_path(array.join('/') + '/index.html', :include => :children) #
       return possible if possible
     end
     nil
   end
-  
+
   def self.find_for_section(path)
     find :all, :conditions => "path REGEXP '^#{path}[^/]+\.html", :group => 'path'
   end
 
   def self.find_leaves_for(group_id)
-    sql = "select * from 
-      (select * 
-        from pages 
-        where group_id = %i 
+    sql = "select * from
+      (select *
+        from pages
+        where group_id = %i
           and ((approval = %s) or (approval = %s))
         order by path asc, approval desc, updated_at desc) as t1
       group by t1.path
@@ -115,15 +115,15 @@ class Page < ActiveRecord::Base
     results = find_by_sql(sql)
     results.group_by { |r| r.parent_id } if results.any?
   end
-  
+
   def self.pending_version_for(path)
     with_approval('pending').find_by_path path
   end
-  
+
   def active_version
     versions.approved.first
   end
-  
+
   # Children are attached to an approved parent, the tree needs to reflect their connection
   # to a new, pending version of that page
   def approved_id
@@ -135,7 +135,7 @@ class Page < ActiveRecord::Base
       nil
     end
   end
-  
+
   def before_approve!
     all_versions = self.class.all_versions_of(path)
     if previous = all_versions.with_approval('approved')
@@ -153,7 +153,7 @@ class Page < ActiveRecord::Base
     #   self.class.update_all "pages.approval = '%s'" % STATES[:previously], { id: (previous).map(&:id) }
     # end
   end
-  
+
   def derive_path
     return true unless path.blank?
     if parent || parent_id
@@ -162,21 +162,21 @@ class Page < ActiveRecord::Base
       derive_path_from_section
     end
   end
-  
+
   def derive_path_from_parent
     parent = parent || Page.find(parent_id)
     (stub = parent.path)[/(\/index)?\.html$/] = ''
     new_path = "#{stub}/#{title_to_path}.html"
     self.path = new_path.gsub(/\/+/, '/')
   end
-  
+
   def derive_path_from_section
     section = section || PageGroup.find_by_id(group_id)
     stub = "/#{section.path_stub}" if section
     new_path = "#{stub}/#{title_to_path}.html"
     self.path = new_path.gsub(/\/+/, '/')
   end
-  
+
   def derive_path_from=(string)
     type_str, identifier = TreeImporter.get_type_and_id(string)
     if identifier
@@ -190,11 +190,11 @@ class Page < ActiveRecord::Base
       self.path ||= "/#{title_to_path}.html"
     end
   end
-  
+
   def editable_path
     change_path || path
   end
-  
+
   def find_version_number(number)
     versions.find_by_version_number number
   end
@@ -207,47 +207,47 @@ class Page < ActiveRecord::Base
   def is_child_of?(nav)
     !!parent_id && parent_id == nav.id
   end
-  
+
   def move_children_to_new_parent(new_parent_id)
     children.each { |child| child.update_attribute :parent_id, new_parent_id }
   end
-  
+
   def next_version
     self.class.all_versions_of(path).later_versions_than(version_number).first
   end
-  
+
   def new_version(options={})
     options ||= {}
     active = active_version || self
     default_options = {
-      :path                  => active.path, 
-      :title                 => active.title, 
+      :path                  => active.path,
+      :title                 => active.title,
       :content               => active.content,
-      :html_code             => active.html_code, 
-      :group_id              => active.group_id, 
-      :parent_id             => active.parent_id, 
-      :position              => active.position, 
+      :html_code             => active.html_code,
+      :group_id              => active.group_id,
+      :parent_id             => active.parent_id,
+      :position              => active.position,
       :dynamic_content       => active.dynamic_content,
       :display_in_navigation => active.display_in_navigation
-    } 
+    }
     default_options.stringify_keys!
     options.stringify_keys!
     self.class.create default_options.merge(options) # TODO: Make this work: .merge({:version_number => (version_number || 1) + 1})
   end
-  
+
   def parent
     return nil unless parent_id
     self.class.find_by_id parent_id
   end
-  
+
   def parent=(nav)
     self.parent_id = nav.id
   end
-  
+
   def pending_version(new_path=nil)
     self.class.pending_version_for(new_path || path)
   end
-  
+
   def previous_version
     self.class.all_versions_of(path).earlier_versions_than(version_number).first
   end
@@ -316,7 +316,7 @@ class Page < ActiveRecord::Base
     return [self] unless path
     self.class.all_versions_of(path)
   end
-  
+
   def wants_to_change_path_and_can?(options={})
     options.stringify_keys!
     new_path = options['path']
@@ -325,5 +325,5 @@ class Page < ActiveRecord::Base
     can      = !pages_exist_with_new_path?(new_path)
     wants_to and can
   end
-  
+
 end

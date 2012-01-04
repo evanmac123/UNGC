@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AdminControllerTest < ActionController::TestCase
-  
+
   context "given a UNGC staff member" do
     setup do
       create_organization_and_user
@@ -16,7 +16,7 @@ class AdminControllerTest < ActionController::TestCase
       assert_template 'admin/dashboard_ungc.html.haml'
     end
   end
-  
+
   context "given a approved organization member" do
     setup do
       user = create_organization_and_user
@@ -31,7 +31,7 @@ class AdminControllerTest < ActionController::TestCase
       assert_template 'admin/dashboard_organization.html.haml'
     end
   end
-  
+
   context "given a pending organization member" do
     setup do
       user = create_organization_and_user
@@ -60,7 +60,7 @@ class AdminControllerTest < ActionController::TestCase
     end
   end
 
-  
+
   private
     def add_organization_data(organization, user)
       # add some content to the organization

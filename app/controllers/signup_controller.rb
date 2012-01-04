@@ -1,7 +1,7 @@
 class SignupController < ApplicationController
   before_filter :determine_navigation
   before_filter :load_objects
-  
+
   BUSINESS_PARAM = 'business'
   NONBUSINESS_PARAM = 'non_business'
 
@@ -15,7 +15,7 @@ class SignupController < ApplicationController
       @jci_referral = true
     end
   end
-  
+
   # POST from oganization form
   # shows contact form
   def step2
@@ -24,26 +24,26 @@ class SignupController < ApplicationController
       session[:signup_organization] = @organization
       set_default_values
     end
-    
+
     unless @organization.valid?
       redirect_to organization_step1_path(:org_type => extract_organization_type(@organization))
     end
-    
+
   end
-  
+
   # POST from contact form
   # shows ceo form
   def step3
     if params[:contact]
       @contact.attributes = params[:contact]
       session[:signup_contact] = @contact
-      set_default_values    
+      set_default_values
     end
-    
+
     # business make a financial contribution (step 4), non-business upload their letter of commitment (step 6)
     @organization.attributes = params[:organization]
     @next_step = @organization.business_entity? ? organization_step4_path : organization_step6_path
-        
+
     redirect_to organization_step2_path unless @contact.valid?
   end
 
@@ -80,7 +80,7 @@ class SignupController < ApplicationController
     end
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
   end
-  
+
   # POST from commitment letter form
   # shows thank you page
   def step7
@@ -92,13 +92,13 @@ class SignupController < ApplicationController
       @ceo.save
       @organization.contacts << @contact
       @organization.contacts << @ceo
-      
+
       # add financial contact if a pledge was made and the existing contact has not been assigned that role
       unless @organization.pledge_amount.blank? and @contact.is?(Role.financial_contact)
         @financial_contact.save
         @organization.contacts << @financial_contact
       end
-      
+
       begin
         OrganizationMailer.deliver_submission_received(@organization)
         if session[:is_jci_referral]
@@ -107,14 +107,14 @@ class SignupController < ApplicationController
       rescue Exception => e
        flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
       end
-      
+
       clean_session
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
       redirect_to organization_step6_path
     end
   end
-  
+
   def no_session
     clean_session
     redirect_to organization_step1_path(:org_type => 'business')
@@ -132,11 +132,11 @@ class SignupController < ApplicationController
       @ceo = session[:signup_ceo] || new_contact(Role.ceo)
       @financial_contact = session[:financial_contact] || new_contact(Role.financial_contact)
     end
-    
+
     def set_default_values
       # organization country is default for contacts
       @contact.country_id = @organization.country_id unless @contact.country
-      
+
       # ceo contact fields which default to contact
       @ceo.phone = @contact.phone unless @ceo.phone
       @ceo.fax = @contact.fax unless @ceo.fax
@@ -146,7 +146,7 @@ class SignupController < ApplicationController
       @ceo.state = @contact.state unless @ceo.state
       @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
       @ceo.country_id = @contact.country_id unless @ceo.country
-      
+
       # financial contact fields which default to contact
       @financial_contact.fax = @contact.fax unless @financial_contact.fax
       @financial_contact.address = @contact.address unless @financial_contact.address
@@ -156,7 +156,7 @@ class SignupController < ApplicationController
       @financial_contact.postal_code = @contact.postal_code unless @financial_contact.postal_code
       @financial_contact.country_id = @contact.country_id unless @financial_contact.country
     end
-    
+
     # Makes sure the CEO and Contact point don't have the same email address
     def unique_emails?
       unique = (@ceo.email.try(:downcase) != @contact.email.try(:downcase))
@@ -168,7 +168,7 @@ class SignupController < ApplicationController
       method = ['business', 'non_business'].include?(params[:org_type]) ? params[:org_type] : 'business'
       @organization_types = OrganizationType.send method
     end
-    
+
     def clean_session
       session[:signup_organization] = Organization.new
       session[:signup_contact] = new_contact(Role.contact_point)
@@ -176,17 +176,17 @@ class SignupController < ApplicationController
       session[:financial_contact] = new_contact(Role.financial_contact)
       session[:is_jci_referral] = nil
     end
-    
+
     def new_contact(role)
       contact = Contact.new
       contact.role_ids = [role.id] if role
       contact
     end
-        
+
     def extract_organization_type(organization)
       organization.business_entity? ? BUSINESS_PARAM : NONBUSINESS_PARAM
     end
-    
+
     def save_ceo_info_from_params_into_session
       if params[:contact]
         @ceo.attributes = params[:contact]
@@ -205,5 +205,5 @@ class SignupController < ApplicationController
         end
       end
     end
-    
+
 end

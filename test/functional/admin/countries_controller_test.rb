@@ -4,10 +4,10 @@ class Admin::CountriesControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
     @country = create_country
-    
+
     login_as @staff_user
   end
-  
+
   test "should get index" do
     get :index, {}
     assert_response :success

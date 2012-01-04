@@ -1,10 +1,10 @@
 class Admin::LogoCommentsController < AdminController
   before_filter :load_logo_request
-  
+
   def new
     @logo_comment = @logo_request.logo_comments.new
   end
-  
+
   def create
     @logo_comment = @logo_request.logo_comments.new(params[:logo_comment])
     @logo_comment.state_event = params[:commit].downcase
@@ -17,7 +17,7 @@ class Admin::LogoCommentsController < AdminController
       render :action => "new"
     end
   end
-  
+
   private
     def load_logo_request
       @logo_request = LogoRequest.find params[:logo_request_id]

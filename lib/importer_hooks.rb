@@ -8,19 +8,19 @@ module ImporterHooks
     import_from_temp_table
     convert_organizations_to_local_networks
   end
-  
+
   def post_contact
     assign_roles
     assign_network_managers
     assign_local_network_id
     assign_initiative_roles
   end
-  
+
   def post_principle
     populate_principle_areas
     add_cop_questions if CopQuestion.count == 0
   end
-  
+
   # Imports fields from R01_ORGANIZATION_TEMP.csv:
   #   pledge_amount & id
   def import_from_temp_table
@@ -40,7 +40,7 @@ module ImporterHooks
       end
     end
   end
-  
+
   def convert_organizations_to_local_networks
     get_local_network_organizations.each do |organization|
       name = organization.name.gsub(/GC Network - /, '')
@@ -57,11 +57,11 @@ module ImporterHooks
       # we no longer need the organization, we could "organization.delete" now
     end
   end
-  
+
   def get_local_network_organizations
     OrganizationType.for_filter(:gc_networks).first.organizations.find(:all, :conditions => ["local_network = ? AND name LIKE ?", true, 'GC Network - %'])
   end
-  
+
   def assign_roles
     file = File.join(@data_folder, "R12_XREF_R10_TR07.csv")
     # "ROLE_ID","CONTACT_ID","R01_ORG_NAME"
@@ -77,7 +77,7 @@ module ImporterHooks
       end
     end
   end
-  
+
   def assign_initiative_roles
     # create roles
     roles = { :'1' => 'Caring for Climate Contact',
@@ -125,7 +125,7 @@ module ImporterHooks
       end
     end
   end
-  
+
   def assign_local_network_id
     return unless LocalNetwork.count > 0
     get_local_network_organizations.each do |organization|
@@ -140,7 +140,7 @@ module ImporterHooks
       end
     end
   end
-  
+
   def attach_countries_to_network(local_net, organization)
     organization.country.update_attribute :local_network_id, local_net.id
     countries = []
@@ -153,7 +153,7 @@ module ImporterHooks
       country.update_attribute :local_network_id, local_net.id
     end
   end
-  
+
   def nordic_countries
     ['Denmark', 'Finland', 'Sweden', 'Norway', 'Iceland']
   end
@@ -167,10 +167,10 @@ module ImporterHooks
     skip = nordic_countries + gulf_states
     skip.include?(name)
   end
-  
+
   # Adds the default questions to be used in the COP form
   def add_cop_questions
-    [ [:human_rights, :additional, "Commitment and policy. Does your COP contain information on the elements listed below? If yes, select one or more.", nil, 1, 
+    [ [:human_rights, :additional, "Commitment and policy. Does your COP contain information on the elements listed below? If yes, select one or more.", nil, 1,
         ["Public commitment to respect and support human rights",
           "Reference to the Universal Declaration of Human Rights or other international instruments",
           "Reference to a formal human rights policy (e.g. in code of conduct)",
@@ -188,7 +188,7 @@ module ImporterHooks
           "Inclusion of human rights issues in contracts with business partners",
           "Supplier audits (internal or external)",
           "Monitoring and evaluation"]
-      ],      		
+      ],
       [:human_rights, :additional, "Outcomes: Does your COP contain information on measurement of outcomes in the categories below? If yes, select one or more.", nil, 3,
         ["Qualitative outcomes", "Quantitative outcomes", "Definition of performance indicators", "Expected outcomes/targets"]
       ],
@@ -206,29 +206,29 @@ module ImporterHooks
           "Inclusion of human rights issues in contracts with business partners",
           "Supplier audits (internal or external)",
           "Monitoring and evaluation"]
-      ],      		
+      ],
       [:human_rights, :additional, "Does your COP provide information about activities listed below that your company is undertaking to implement the Global Compact in any conflict-affected countries where you have operations?", nil, 5,
         ["Awareness raising", "Supplier due diligence", "Conflict-sensitive training for employees", "Participation in peace-building initiatives"]
       ],
 
-      [:labour, :additional, "Commitment and policy: Does your COP contain information on the elements listed below?", nil, 1, 
+      [:labour, :additional, "Commitment and policy: Does your COP contain information on the elements listed below?", nil, 1,
         ["Reflection on the relevance ('materiality') of the labour principles (i.e. main risks and opportunities)",
           "Public commitment to uphold freedom of association and the right to collective bargaining",
           "Public commitment to eliminate forced and compulsory labour",
           "Public commitment to eliminate child labour",
           "Public commitment to eliminate discrimination in respect of employment and occupation",
           "Reference to labour issues covered in international instruments such as the International Labour Organization (ILO) MNE Declaration, ILO Core Conventions or OECD Guidelines",
-          "Reference to a formal policy that addresses the four Global Compact principles on labour rights"        
+          "Reference to a formal policy that addresses the four Global Compact principles on labour rights"
         ]
       ],
-      [:labour, :additional, "Implementation: Does your COP contain information on the activities listed below?", nil, 2, 
+      [:labour, :additional, "Implementation: Does your COP contain information on the activities listed below?", nil, 2,
         ["Allocation of responsibilities and accountabilities within your organization",
           "Labor rights education, awareness and outreach",
           "Description of a grievance mechanisms",
           "Participation in industry association, framework agreement or other collective action",
           "Inclusion of minimal labour standards in contracts with business partners",
           "Description of internal audit mechanisms within direct (i.e. own and contractors')  operation",
-          "Description of internal or external audit mechanisms within external sphere of influence (i.e. supply chain)"        
+          "Description of internal or external audit mechanisms within external sphere of influence (i.e. supply chain)"
         ]
       ],
       [:labour, :additional, "Outcomes: Does your COP contain information on measurement of outcomes in the categories below?", nil, 3,
@@ -250,7 +250,7 @@ module ImporterHooks
           "Participation in industry association, framework agreement or other collective action",
           "Inclusion of minimal labour standards in contracts with business partners",
           "Description of internal audit mechanisms within direct (i.e. own and contractors') operations",
-          "Description of internal or third party audit mechanisms within external sphere of influence (i.e. supply chain)"        
+          "Description of internal or third party audit mechanisms within external sphere of influence (i.e. supply chain)"
         ]
       ],
 
@@ -260,9 +260,9 @@ module ImporterHooks
           "Public commitment to undertake initiatives to promote greater environmental responsibility",
           "Public commitment to encourage the development and diffusion of environmentally friendly technologies",
           "Reference to a formal environmental policy",
-          "Reference to the Rio Declaration on Environment and Development or other international instruments"        
+          "Reference to the Rio Declaration on Environment and Development or other international instruments"
         ]
-      ],      
+      ],
       [:environment, :additional, "Implementation: Does your COP contain information on the activities listed below?", nil, 2,
         ["Environmental risk and/or impact assessment",
           "Description of the company-wide environmental management system",
@@ -345,7 +345,7 @@ module ImporterHooks
       [:anti_corruption, :additional, "Monitoring: Does your company's COP describe monitoring and improvement processes? If yes, does your COP contain information on measurement of outcomes in the categories below?", nil, 4,
         ["Leadership review of monitoring and improvement results", "Dealing with incidents", "Public legal cases regarding corruption", "Use of external assurance of anti-corruption programs"]
       ],
-      
+
       [nil, :additional, "Does your COP contain information on the partners involved in your partnership project undertaken in support of broader United Nations goals?", nil, 1,
         ["With United Nations", "With NGOs", "With academia", "With other organizations"]
       ],
@@ -371,7 +371,7 @@ module ImporterHooks
           "Description of how the COP is shared with your company's stakeholders"
         ]
       ],
-      
+
       [nil, :notable, "Does the statement of continued support to the Global Compact refer to major achievements in implementing the principles?", nil, 1,
         [""]
       ],
@@ -408,7 +408,7 @@ module ImporterHooks
           "Yes, through other form of external verification."
         ]
       ]
-      
+
     ].each do |record|
       principle_area_id = record.first.nil? ? nil : PrincipleArea.send(record.first).id
       question = CopQuestion.create(:principle_area_id => principle_area_id,
@@ -421,7 +421,7 @@ module ImporterHooks
       end
     end
   end
-  
+
   def populate_principle_areas
     [
       'Human Rights',

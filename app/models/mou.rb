@@ -17,7 +17,7 @@ class Mou < ActiveRecord::Base
   TYPES = { :in_review => 'Under review', :accepted => 'Accepted' }
 
   before_create :set_type
-  
+
   default_scope :order => 'year DESC'
 
   def self.local_network_model_type
@@ -44,7 +44,7 @@ class Mou < ActiveRecord::Base
   end
 
   private
-  
+
     def set_type
       self.mou_type = 'in_review' unless mou_type.present?
     end

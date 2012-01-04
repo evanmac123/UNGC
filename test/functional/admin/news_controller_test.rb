@@ -19,11 +19,11 @@ class Admin::NewsControllerTest < ActionController::TestCase
         assert_redirected_to_index
         assert @headline
       end
-      
+
       should "be pending approval" do
         assert @headline.pending?
       end
-      
+
       context "then approve it" do
         setup do
           assert_no_difference 'Headline.count' do
@@ -37,7 +37,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
           assert @headline.approved?
           assert_contains Headline.approved, @headline
         end
-        
+
         context "but then revoke it" do
           setup do
             assert_no_difference 'Headline.count' do

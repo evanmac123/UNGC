@@ -14,8 +14,8 @@
     - if @organization.logo_requests.any?
       %li <a href="#logo_requests">Logo Requests</a>
     - if @organization.initiatives.any? and current_user.from_ungc?
-      %li <a href="#initiatives">Engagement</a>      
-    
+      %li <a href="#initiatives">Engagement</a>
+
   #overview.tab_content
     %ul{:class => "tools inline"}
       %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large'
@@ -66,7 +66,7 @@
         %dd= render :partial => 'contact_overview', :collection => @organization.contacts.contact_points
       - else
         %dd{:style => 'color: red'} Not assigned
-        
+
     -staff_only do
       %dl.left_column
         %h3 Local Network
@@ -80,7 +80,7 @@
             = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
           - else
             == There is no Network Report Recipient for #{@organization.country_name}
-  
+
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
@@ -112,7 +112,7 @@
           %th.status Status
           %th.actions Actions
         = render :partial => 'admin/case_stories/case_story', :collection => @organization.case_stories.find(:all, order: "created_at DESC")
-      
+
   - if @organization.logo_requests.any?
     #logo_requests.tab_content
       %h2 Logo Requests

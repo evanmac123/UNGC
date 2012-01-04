@@ -36,12 +36,12 @@ namespace :files do
     db_config = "/srv/unglobalcompact/shared/config/database.yml"
     run "cp #{db_config} #{release_path}/config/database.yml"
   end
-  
+
   task :copy_sphinx_config, :roles => :app do
     db_config = "/srv/unglobalcompact/shared/config/production.sphinx.conf"
     run "ln -s #{db_config} #{release_path}/config/production.sphinx.conf"
   end
-  
+
   task :symlink_docs, :roles => :app do
     run "ln -s /srv/unglobalcompact/shared/docs #{release_path}/public/docs"
     run "ln -s /srv/unglobalcompact/shared/pics #{release_path}/public/pics"

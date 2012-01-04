@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OrganizationTypeTest < ActiveSupport::TestCase
   should_validate_presence_of :name
-  
+
   context "filtering by type" do
     setup do
       @academia  = create_organization_type(:name => 'Academic', :type_property => 1 )
@@ -27,19 +27,19 @@ class OrganizationTypeTest < ActiveSupport::TestCase
     should "find SME when filtering for :sme" do
       assert_same_elements [@sme], OrganizationType.for_filter(:sme)
     end
-    
+
     should "find SME and Companies when filtering for :companies and :sme" do
       assert_same_elements [@companies, @sme], OrganizationType.for_filter(:companies, :sme)
     end
-    
+
     should "find Busines, Non Business and Micro Enterprise using named scope for staff" do
       assert_same_elements [@academia, @public, @companies, @sme, @micro], OrganizationType.staff_types
     end
-    
+
     should "find company, sme, and micro enterprise when filtering for business" do
       assert_same_elements [@companies, @sme, @micro], OrganizationType.business
     end
-    
+
   end
-  
+
 end

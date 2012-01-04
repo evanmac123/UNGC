@@ -12,11 +12,11 @@ class DelistedParticipants < SimpleReport
                       WHERE
                         state = 'approved'
                       GROUP BY
-                         organization_id) as C ON organizations.id = C.organization_id", 
+                         organization_id) as C ON organizations.id = C.organization_id",
                       :conditions => "organizations.cop_state NOT IN ('active','noncommunicating')"
-                      )                      
+                      )
   end
-  
+
   def headers
     [ 'Participant ID',
       'Participant Name',
@@ -29,12 +29,12 @@ class DelistedParticipants < SimpleReport
       'Sector',
       'Listed Status',
       'Stock Code',
-      'Exchange', 
+      'Exchange',
       'Country',
       'Region',
       'Latest COP',
       'Number of COPs',
-      'Reason for Removal'      
+      'Reason for Removal'
     ]
   end
 

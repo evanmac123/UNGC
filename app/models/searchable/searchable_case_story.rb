@@ -14,9 +14,9 @@ module Searchable::SearchableCaseStory
         #{case_story.countries.map(&:name).join(' ')}
       EOF
       # FIXME: see http://tinyurl.com/ykdcmjt
-      # Summary: ActiveRecord is casting all attributes to US-ASCII (!) but our 
-      # file_content is coming in as UTF-8 - ruby will complain -- so force everything 
-      # into the same encoding. Hopefully someone will patch ActiveRecord to make this 
+      # Summary: ActiveRecord is casting all attributes to US-ASCII (!) but our
+      # file_content is coming in as UTF-8 - ruby will complain -- so force everything
+      # into the same encoding. Hopefully someone will patch ActiveRecord to make this
       # obsolete, but for now...
       content = "#{content.force_encoding('UTF-8')} #{file_content}"
       url = "/case_story/#{case_story.id}"

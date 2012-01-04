@@ -5,34 +5,34 @@ class ContactTest < ActiveSupport::TestCase
   should_belong_to :organization
   should_belong_to :local_network
   should_belong_to :country
-  
+
   context "given a ungc user" do
     setup do
       create_ungc_organization_and_user
     end
-    
+
     should "return proper type" do
       assert_equal Contact::TYPE_UNGC, @staff_user.user_type
       assert @staff_user.from_ungc?
     end
   end
-  
+
   context "given a all Local Network Managers" do
     setup do
       @local_network_managers = Contact.network_regional_managers
     end
-  
+
     should "be from the Global Compact Office" do
       @local_network_managers.each { |contact| assert contact.from_ungc? }
     end
-    
+
   end
-  
+
   context "given an organization user" do
     setup do
       create_organization_and_user
     end
-    
+
     should "return proper type" do
       assert_equal Contact::TYPE_ORGANIZATION, @organization_user.user_type
       assert @organization_user.from_organization?
@@ -75,7 +75,7 @@ class ContactTest < ActiveSupport::TestCase
       create_organization_and_ceo
       @organization.approve
     end
-  
+
     should "not be able to remove role from the only Contact Point" do
       assert @organization_user.roles.delete(Role.contact_point)
       assert !@organization_user.save
@@ -84,7 +84,7 @@ class ContactTest < ActiveSupport::TestCase
     should "not be able to remove role from the only Highest Level Executive" do
       assert @organization_ceo.roles.delete(Role.ceo)
       assert !@organization_ceo.save
-    end   
+    end
   end
 
   context "given an organization with 1 contact point and CEO" do
@@ -93,7 +93,7 @@ class ContactTest < ActiveSupport::TestCase
       @old_email = @organization_user.email
       assert @organization.reject
     end
-  
+
     should "not be able to remove role from the only Contact Point" do
       # FIXME the contact is being updated, but when testing the change is not being saved
       # assert_equal "rejected.#{@old_email}", @organization_user.email

@@ -38,11 +38,11 @@ class Admin::CountriesController < AdminController
     @country.destroy
     redirect_to(admin_countries_path)
   end
-  
+
   private
 
     def order_from_params
       @order = [params[:sort_field] || 'countries.name', params[:sort_direction] || 'ASC'].join(' ')
     end
-  
+
 end

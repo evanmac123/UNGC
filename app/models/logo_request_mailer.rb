@@ -7,7 +7,7 @@ class LogoRequestMailer < ActionMailer::Base
     recipients logo_request.contact.email_recipient
     body :logo_request => logo_request
   end
-  
+
   def approved(logo_request)
     from 'logorequests@unglobalcompact.org'
     bcc 'gclogo@un.org'

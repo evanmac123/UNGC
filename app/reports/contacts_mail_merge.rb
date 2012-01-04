@@ -52,7 +52,7 @@ class ContactsMailMerge < SimpleReport
       ORDER by o.id"
       )
   end
-    
+
   def headers
     [ 'Participant ID',
       'Contact ID',
@@ -81,7 +81,7 @@ class ContactsMailMerge < SimpleReport
       'Role',
       'Username',
       'Password'
-    ] 
+    ]
   end
 
   def row(record)
@@ -114,5 +114,5 @@ class ContactsMailMerge < SimpleReport
     record.password
   ]
   end
-  
+
 end

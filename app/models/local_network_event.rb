@@ -50,12 +50,12 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
 
   belongs_to :local_network
   has_and_belongs_to_many :principles
-  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy 
+  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable, :dependent => :destroy
 
   validates_presence_of :title, :description, :event_type, :date, :num_participants, :gc_participant_percentage
   validates_numericality_of :num_participants, :only_integer => true, :allow_blank => true
   validates_numericality_of :gc_participant_percentage, :only_integer => true, :allow_blank => true
-  
+
   default_scope :order => 'date DESC'
 
   before_save :set_indexed_fields, :if => :new_record?
@@ -95,7 +95,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   def stakeholder_name(type)
     STAKEHOLDER_TYPES[type]
   end
-  
+
   def stakeholders
     stakeholders = []
     STAKEHOLDER_TYPES.keys.each { |type| stakeholders << type if self[type] }
@@ -105,7 +105,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   def self.principle_areas
     Principle.all_types
   end
-  
+
   def type_name
     TYPES[event_type.try(:to_sym)]
   end
@@ -117,7 +117,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   def event_type_for_select_field
     event_type.try(:to_sym)
   end
-  
+
   def readable_error_messages
     error_messages = []
     errors.each do |error|

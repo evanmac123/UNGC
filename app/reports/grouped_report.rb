@@ -6,7 +6,7 @@ class GroupedReport
   def initialize(options={})
     @options = options
   end
-  
+
   def render_html
     buffer = ''
     records.each_with_index do |dataset, i|
@@ -20,7 +20,7 @@ class GroupedReport
         buffer << content_tag(:div, dataset_buffer)
       end
     end
-    
+
     return buffer
   end
 

@@ -29,7 +29,7 @@ class Meeting < ActiveRecord::Base
   def meeting_type_for_select_field
     meeting_type.try(:to_sym)
   end
-  
+
   def readable_error_messages
     error_messages = []
     errors.each do |error|
@@ -42,6 +42,6 @@ class Meeting < ActiveRecord::Base
     end
     error_messages
   end
-  
+
 end
 

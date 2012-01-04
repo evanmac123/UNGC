@@ -8,7 +8,7 @@ module Admin::CaseStoriesHelper
     links = actions.join(" | ")
     content_tag :p, links unless links.blank?
   end
-  
+
   def case_story_type(case_story)
     type = []
     type << "Internalization" if case_story.is_internalization_project?

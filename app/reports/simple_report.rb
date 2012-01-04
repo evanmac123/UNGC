@@ -6,7 +6,7 @@ class SimpleReport
   def initialize(options={})
     @options = options
   end
-  
+
   def render_html
     buffer = records.collect do |r|
       content_tag(:li, row(r).join(","))
@@ -22,5 +22,5 @@ class SimpleReport
       end
     end
   end
-  
+
 end

@@ -44,7 +44,7 @@ class FileImporter
       end
     end
   end
-  
+
   # path is the folder where all uploaded files are located
   def import_logo_samples(path, reset=false)
     # reset all previously assigned files

@@ -6,7 +6,7 @@
       = form.error_messages
       = form.text_area :body, :rows => 4
       = form.file_field :attachment
-  
+
   - organization_only do
     = form.submit 'Save', :class => 'button'
   - staff_only do

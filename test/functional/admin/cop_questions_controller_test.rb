@@ -5,10 +5,10 @@ class Admin::CopQuestionsControllerTest < ActionController::TestCase
     @staff_user = create_staff_user
     create_principle_area
     @cop_question = create_cop_question
-    
+
     login_as @staff_user
   end
-  
+
   test "should get index" do
     get :index, {}
     assert_response :success

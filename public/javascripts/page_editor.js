@@ -40,9 +40,9 @@ var Editor = {
   create: function(json) {
     if (Editor.editor)
       return;
-    
+
     Editor.swapButtons();
-    
+
     var contentDiv = '#rightcontent div.copy';
     Editor.originalContents = $(contentDiv).html();
     $(contentDiv).empty();
@@ -51,7 +51,7 @@ var Editor = {
     editorForm.append('<input type="hidden" name="_method" value="put" />');
     editorForm.append('<input type="hidden" name="authenticity_token" value="'+AUTH_TOKEN+'" />');
     editorForm.append('<textarea id="replaceMe" name="content[content]"></textarea>');
-    
+
     Editor.editor = startEditor('replaceMe');
     Editor.editor.config.startupMode = json.startupMode;
     Editor.editor.setData(json.content);

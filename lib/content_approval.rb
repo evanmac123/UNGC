@@ -6,14 +6,14 @@ module ContentApproval
     :previously => 'previously',
     :deleted    => 'deleted'
   }
-  
+
   EVENTS = {
     :approve => :approve,
     :delete  => :delete,
     :reject  => :reject,
     :revoke  => :revoke
   }
-  
+
   def self.included(klass)
     klass.class_eval do
       belongs_to :approved_by, :class_name => 'Contact'
@@ -34,14 +34,14 @@ module ContentApproval
     self.approved_at = Time.now
     self.approved_by = @current_user if @current_user
   end
-  
+
   def destroy
     delete! # use the state machine
     if respond_to?(:children)
       (children || []).each { |child| child.destroy }
     end
   end
-  
+
   # For convenience
   def revoked?
     previously?

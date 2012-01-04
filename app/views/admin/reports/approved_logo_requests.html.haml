@@ -4,7 +4,7 @@
   = select_month_tag(@month)
   = select_year_tag(@year)
   = f.submit 'View'
-  
+
 = link_to 'download', url_for(params.merge(:format => 'xls'))
 
 %div= @report.render_html

@@ -5,12 +5,12 @@
       %li=link_to 'Network Management', admin_local_network_path(@local_network), :class => "restrictions #{action_name != 'knowledge_sharing' ? ' selected' : ''}"
       %li=link_to 'Knowledge Sharing', knowledge_sharing_path(@local_network), :class => "restrictions #{action_name == 'knowledge_sharing' ? ' selected' : ''}"
 %h3= @local_network.name
-    
+
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     - if current_user_can_edit_network?
       %li <a href="#contacts">Contacts</a>
-    %li <a href="#profile">Profile</a>  
+    %li <a href="#profile">Profile</a>
     %li <a href="#structure">Structure</a>
     %li <a href="#governance">Governance</a>
     %li <a href="#membership">Membership</a>
@@ -22,7 +22,7 @@
     #contacts.tab_content
       %ul#contacts_tools{:class => "tools inline"}
         %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
-        
+
       %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
 
   #profile.tab_content
@@ -46,12 +46,12 @@
       %dd.first= render :partial => 'contact_overview', :collection => @local_network.contacts.network_representatives
       %dt Contact Person
       %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
-  
+
   #structure.tab_content
     - if current_user_can_edit_network?
       %ul#tools{:class => "tools inline"}
         %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure), :class => 'edit_large'
-        
+
     %dl.left_column.short{:style => 'width: 300px; margin-right: 20px;'}
       %dt.title Key Launch Dates
       %dd.title &nbsp;
@@ -100,18 +100,18 @@
       %dt{:class => "first #{show_check(@local_network.stakeholder_foundation)}"} Foundations
       %dt{:class => show_check(@local_network.stakeholder_academic)} Academic Institutions
       %dt{:class => show_check(@local_network.stakeholder_government)} Government Entities
-      
+
     - if @local_network.sg_annual_meeting_appointments_file
       %dl.left_column.short.ie_fix{:style => 'float: none; width: 165px;'}
         %dt.title Governance Document
         %dd.title &nbsp;
-      %p= link_to_uploaded_file(@local_network.sg_annual_meeting_appointments_file)  
-    
+      %p= link_to_uploaded_file(@local_network.sg_annual_meeting_appointments_file)
+
   #membership.tab_content
     - if current_user_can_edit_network?
       %ul#tools{:class => "tools inline"}
         %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
-      
+
     %dl.left_column{:style => 'width: 275px; margin-right: 20px;'}
       %dt.title Subsidiary Participation
       %dd.title &nbsp;
@@ -126,9 +126,9 @@
       %dt SMEs
       %dd= @local_network.membership_sme
       %dt Micro Enterprises
-      %dd= @local_network.membership_micro_enterprise      
+      %dd= @local_network.membership_micro_enterprise
       %dt Business Associations
-      %dd= @local_network.membership_business_organizations      
+      %dd= @local_network.membership_business_organizations
 
     %dl.left_column.short{:style => 'width: 275px;'}
       %dt.title Non-Business
@@ -136,11 +136,11 @@
       %dt.first Academic
       %dd.first= @local_network.membership_academic_institutions
       %dt Civil Society
-      %dd= @local_network.membership_civil_societies      
+      %dd= @local_network.membership_civil_societies
       %dt CSR Organizations
-      %dd= @local_network.membership_csr_organizations      
+      %dd= @local_network.membership_csr_organizations
       %dt Government
-      %dd= @local_network.membership_government      
+      %dd= @local_network.membership_government
       %dt Labour
       %dd= @local_network.membership_labour_organizations
 

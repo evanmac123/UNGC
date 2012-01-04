@@ -8,7 +8,7 @@ module TrackCurrentUser
       # include TrackCurrentUser::InstanceMethods
     end
   end
-  
+
   def set_created_by
     self.created_by ||= @current_user if @current_user
   end
@@ -16,7 +16,7 @@ module TrackCurrentUser
   def set_updated_by
     self.updated_by ||= @current_user if @current_user
   end
-  
+
   def as_user(user)
     @current_user = user
     self # makes chaining possible

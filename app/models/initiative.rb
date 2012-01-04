@@ -15,13 +15,13 @@ class Initiative < ActiveRecord::Base
   has_many :cop_questions
   has_many :roles
   default_scope :order => 'name'
-  
+
   FILTER_TYPES = {
     :climate      => 2,
     :human_rights => 4,
     :lead         => 19
   }
-  
+
   named_scope :for_filter, lambda { |filter|
     {
       :conditions => [ "initiatives.id = ?", FILTER_TYPES[filter] ]

@@ -20,10 +20,10 @@ class Admin::PagesController < AdminController
 
   def show
     respond_to do |wants|
-      wants.js { 
-        render(:update) { |page| 
+      wants.js {
+        render(:update) { |page|
           page['#pageArea'].html(render partial: 'page_area')
-        } 
+        }
       }
       wants.html { render inline: '' }
     end
@@ -79,10 +79,10 @@ class Admin::PagesController < AdminController
     @page.as_user(current_user).revoke!
     redirect_to :action => 'index'
   end
-  
+
   def edit
     @show_approve_button = true if current_user.is? Role.website_editor
-    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js' 
+    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     if request.xhr?
       render :json => {
         :url => update_page_url(:format => 'js'),
@@ -92,7 +92,7 @@ class Admin::PagesController < AdminController
       return
     end
   end
-  
+
   def check
     if @page.wants_to_change_path_and_can?(params[:page])
       update_successful
@@ -100,7 +100,7 @@ class Admin::PagesController < AdminController
       update_failed(:forbidden)
     end
   end
-  
+
   def update
     is_live_editor = !!params[:content]
     key = is_live_editor ? :content : :page
@@ -116,7 +116,7 @@ class Admin::PagesController < AdminController
       update_successful(is_live_editor)
     end
   end
-  
+
   def update_failed(error_type, is_live_editor=nil)
     js_handler = head error_type
     if is_live_editor
@@ -130,7 +130,7 @@ class Admin::PagesController < AdminController
       end
     end
   end
-  
+
   def update_successful(is_live_editor=nil)
     approve_after_update if params[:approved]
     if is_live_editor
@@ -155,16 +155,16 @@ class Admin::PagesController < AdminController
     page = Page.all_versions_of(params[:path]).last
     redirect_to edit_admin_page_path(page.id)
   end
-  
+
   private
     def approve_after_update
       @version.approve! if @version.can_approve?
     end
-    
+
     def ckeditor
       (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
     end
-    
+
     def find_page
       if @page = Page.find_by_id(params[:id])
         @current_version = params[:version].blank? ? @page.active_version : @page.find_version_number(params[:version])
