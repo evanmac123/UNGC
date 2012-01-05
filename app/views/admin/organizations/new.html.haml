@@ -1,5 +1,5 @@
 %h2 New organization
 
 - form_for(:organization, builder: DefaultFormBuilder, url: admin_organizations_path) do |f|
-  = render :partial => f  
+  = render :partial => "new_signatory_form", :locals => {:default_form => f}
   = f.submit 'Create', :class => 'button'
