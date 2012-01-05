@@ -5,4 +5,3 @@
     = default_form.text_field :name
     = default_form.text_field :employees
     = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
-    = default_form.select "organization","initiative_id", Initiative.all.collect {|p| [ p.name, p.id ] }
