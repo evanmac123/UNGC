@@ -1,4 +1,4 @@
-%h2=@initiative.name
+%h2== #{@initiative.name} (#{@initiative.signings.count})
 
 %ul.tools.inline
   %li= link_to_function 'Add signatory', "$('#add_signatory').toggle()", :class => 'new_large'
