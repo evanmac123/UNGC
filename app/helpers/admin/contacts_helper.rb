@@ -6,7 +6,7 @@ module Admin::ContactsHelper
       'display: none'
     end
   end
-  
+
   def login_fieldset_class(role)
     "role_for_login_fields" if Role.login_roles.include? role
   end

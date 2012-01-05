@@ -4,12 +4,12 @@ class LogoCommentTest < ActiveSupport::TestCase
   should_validate_presence_of :contact_id, :body
   should_belong_to :logo_request
   should_belong_to :contact
-  
+
   context "give a new logo request" do
     setup do
       create_new_logo_request
     end
-    
+
     should "only approve with comment if approved logos have been selected" do
       assert_no_difference '@logo_request.logo_comments.count' do
         @logo_request.logo_comments.create(:body        => 'lorem ipsum',
@@ -18,7 +18,7 @@ class LogoCommentTest < ActiveSupport::TestCase
                                            :state_event => LogoRequest::EVENT_APPROVE)
       end
     end
-    
+
     should "go to 'in review' state with a comment" do
       assert_difference '@logo_request.logo_comments.count' do
         assert_emails(1) do
@@ -31,7 +31,7 @@ class LogoCommentTest < ActiveSupport::TestCase
       end
     end
   end
-  
+
   context "given a 'in review' logo request" do
     setup do
       create_new_logo_request
@@ -41,7 +41,7 @@ class LogoCommentTest < ActiveSupport::TestCase
                                          :state_event => LogoRequest::EVENT_REVISE)
       @logo_request.logo_files << create_logo_file
     end
-    
+
     should "go to approved state after approval comment" do
       assert_difference '@logo_request.logo_comments.count' do
         assert_emails(1) do
@@ -52,7 +52,7 @@ class LogoCommentTest < ActiveSupport::TestCase
         end
       end
     end
-    
+
     should "set a default body to an approval comment" do
       assert_difference '@logo_request.logo_comments.count' do
         assert_emails(1) do
@@ -62,7 +62,7 @@ class LogoCommentTest < ActiveSupport::TestCase
         end
       end
     end
-    
+
     should "go to rejected state after negative comment" do
       assert_difference '@logo_request.logo_comments.count' do
         assert_emails(1) do
@@ -73,7 +73,7 @@ class LogoCommentTest < ActiveSupport::TestCase
         end
       end
     end
-    
+
     should "not go to approved/rejected state after comment from organization" do
       assert_no_difference '@logo_request.logo_comments.count' do
         assert_emails(0) do
@@ -85,12 +85,12 @@ class LogoCommentTest < ActiveSupport::TestCase
       end
     end
   end
-  
+
   context "given an approved/rejected logo request" do
     setup do
       create_approved_logo_request
     end
-    
+
     should "not accept new comments" do
       assert_no_difference '@logo_request.logo_comments.count' do
         assert_emails(0) do

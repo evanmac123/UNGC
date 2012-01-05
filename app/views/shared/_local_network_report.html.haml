@@ -13,7 +13,7 @@
         %tr
           %th{:class => 'sort'} Name
           %th{:class => 'sort'} Latest COP
-          %th{:class => 'sort'} COP Title      
+          %th{:class => 'sort'} COP Title
       %tbody
         - for cop in cop_submitted_days_ago(30) do
           %tr{:title => cop.organization.name}
@@ -77,7 +77,7 @@
             %td= link_to truncate(organization.name, :length => 70), participant_path(organization)
             %td= organization.joined_on.to_date
             %td= organization.cop_due_on.to_date
-        
+
   %h2 Delisted in the past 90 days
   - unless participants_became_delisted(90).any?
     There are no participants in this category
@@ -111,7 +111,7 @@
 
             %td= organization.joined_on.to_date
             %td= organization.delisted_on.to_date
-        
+
   - if approved_logo_requests(30).any?
     %h2 Logo Requests approved in the past 30 days
     %table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
@@ -125,6 +125,6 @@
         - for logo_request in approved_logo_requests(30) do
           %tr{:title => logo_request.organization.name}
             %td= link_to truncate(logo_request.organization.name, :length => 20), participant_path(logo_request.organization)
-            %td= logo_request.publication.name        
+            %td= logo_request.publication.name
             %td{:title => logo_request.purpose}= truncate(logo_request.purpose, :length => 20)
             %td= logo_request.approved_on.to_date

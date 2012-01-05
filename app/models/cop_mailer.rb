@@ -1,6 +1,16 @@
 class CopMailer < ActionMailer::Base
   helper :datetime
 
+
+  def confirmation_blueprint(organization, cop, user)
+    from 'lead@unglobalcompact.org'
+    cc 'lead@unglobalcompact.org'
+    subject "Global Compact LEAD - COP Status"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+
   def confirmation_learner(organization, cop, user)
     from 'cop@unglobalcompact.org'
     subject "UN Global Compact Status - 12 Month Learner Grace Period"
@@ -8,7 +18,7 @@ class CopMailer < ActionMailer::Base
     recipients user.email_recipient
     body :organization => organization, :cop => cop, :user => user
   end
-  
+
   def confirmation_active(organization, cop, user)
     from 'cop@unglobalcompact.org'
     subject "UN Global Compact Status - GC Active"
@@ -24,7 +34,7 @@ class CopMailer < ActionMailer::Base
     recipients user.email_recipient
     body :organization => organization, :cop => cop, :user => user
   end
-  
+
   def cop_due_in_90_days(organization)
     from EMAIL_SENDER
     cc organization.network_report_recipients.collect(&:email_recipient)
@@ -34,7 +44,7 @@ class CopMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
   end
-  
+
   def cop_due_in_30_days(organization)
     from EMAIL_SENDER
     bcc 'vkeesari@yahoo.com'
@@ -53,7 +63,7 @@ class CopMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
   end
-    
+
   def delisting_in_90_days(organization)
     from EMAIL_SENDER
     bcc 'vkeesari@yahoo.com'
@@ -82,5 +92,5 @@ class CopMailer < ActionMailer::Base
     recipients organization.contacts.contact_points.collect(&:email_recipient)
     body :organization => organization
   end
-  
+
 end

@@ -8,18 +8,18 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
     setup do
       create_organization_and_ceo
     end
-    
+
     should "get the reset password page" do
       get :new
       assert_response :success
     end
-    
+
     should "get an error when posting invalid email address" do
       post :create, :email => 'invalid@example.com'
       assert_response :success
       assert_not_nil flash[:error]
     end
-    
+
     should "get an email when posting a valid email address" do
       assert_emails(1) do
         post :create, :email => @organization_user.email
@@ -28,10 +28,10 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
         assert_not_nil @organization_user.reload.reset_password_token
       end
     end
-            
+
   end
-  
-  context "given a user with no login information" do      
+
+  context "given a user with no login information" do
     setup do
       create_organization_and_ceo
       @financial_contact = create_contact(:organization_id => @organization.id,
@@ -41,7 +41,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       @financial_contact.login, @financial_contact.password = nil
       @financial_contact.save
     end
-    
+
     should "not get an email even when posting a valid email address" do
       assert_emails(0) do
         post :create, :email => @financial_contact.email
@@ -50,23 +50,23 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       end
     end
 
-    
+
     context "with a token" do
       setup do
         @organization_user.update_attribute :reset_password_token, VALID_TOKEN
       end
-      
+
       should "not get the edit page with an invalid token" do
         get :edit, :id => INVALID_TOKEN
         assert_redirected_to new_password_path
         assert_not_nil flash[:error]
       end
-      
+
       should "get to the edit page with a valid token" do
         get :edit, :id => VALID_TOKEN
         assert_response :success
       end
-      
+
       should "change the password" do
         put :update, :id       => VALID_TOKEN,
                      :password => 'password',
@@ -76,7 +76,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
         # plain passwords are still saved, so we can still check this:
         assert_equal 'password', @organization_user.reload.password
       end
-      
+
       should "not change the password with different passwords" do
         put :update, :id       => VALID_TOKEN,
                      :password => 'password_1',
@@ -84,7 +84,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
         assert_response :success
         assert_not_nil flash[:error]
       end
-      
+
       should "not change the password with a blank password" do
         put :update, :id       => VALID_TOKEN,
                      :password => '',

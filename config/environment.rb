@@ -27,7 +27,7 @@ Rails::Initializer.run do |config|
 
   config.active_record.observers = :logo_comment_observer, :comment_observer
   config.action_controller.session_store = :active_record_store
-  
+
   config.load_paths += %W( #{RAILS_ROOT}/app/reports #{RAILS_ROOT}/app/models/search #{RAILS_ROOT}/app/builders)
 end
 
@@ -43,5 +43,5 @@ end
 EMAIL_SENDER = "info@unglobalcompact.org"
 
 # EMAIL_SENDER = "United Nations Global Compact <info@unglobalcompact.org>"
-# Setting the sender name requires this patch: 
+# Setting the sender name requires this patch:
 # http://github.com/rails/rails/commit/7e0aa35c20f06fd9ef245155e30e81cfb38bad05

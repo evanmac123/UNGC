@@ -488,9 +488,8 @@ td.center {
 #main_content dt span.environment, span.environment { color: #688442; }
 #main_content dt span.anti_corruption, span.anti_corruption { color: #ED1C24; }
 
-#main_content dd:empty {
-  min-height: 12px; 
-}
+#main_content dd:empty { min-height: 12px; }
+#main_content dd.indent { padding-left: 30px; }
 
 #main_content dd ul li, .copy dd ul li {
   margin: 10px 0 0 5px;

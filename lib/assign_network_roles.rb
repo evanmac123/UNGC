@@ -10,7 +10,7 @@ class AssignNetworkRoles
     # 23254 Javier, Americas
     # 23138 Walid, MENA and Europe
     # 26273 Yukako, Asia and Australasia
-    
+
     # (1) Assign roles to Network Managers
 
     puts "Assigning roles\n"

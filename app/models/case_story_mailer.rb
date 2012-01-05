@@ -6,7 +6,7 @@ class CaseStoryMailer < ActionMailer::Base
     recipients case_story.contact.email
     body :case_story => case_story
   end
-  
+
   def approved(case_story)
     from EMAIL_SENDER
     subject "Your Global Compact Case Story has been accepted"

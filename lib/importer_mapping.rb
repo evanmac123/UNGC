@@ -90,7 +90,7 @@ module ImporterMapping
                           "ORG_LAST_MODIFIED_BY"   => :last_modified_by_id,
                           "ORG_JOIN_LETTER"        => nil
                         }.values
-                      
+
                       },
     # fields: CONTACT_ID	CONTACT_FNAME	CONTACT_MNAME	CONTACT_LNAME	CONTACT_PREFIX	CONTACT_JOB_TITLE	CONTACT_EMAIL
     #         CONTACT_PHONE	CONTACT_MOBILE	CONTACT_FAX	R01_ORG_NAME	CONTACT_ADRESS	CONTACT_CITY	CONTACT_STATE
@@ -99,9 +99,9 @@ module ImporterMapping
     :contact => {:file   => 'R10_CONTACT.csv',
                  :fields => [:old_id, :first_name, :middle_name, :last_name, :prefix, :job_title, :email,
                               :phone, :mobile, :fax, :organization_id, :address, :city, :state,
-                              :postal_code, :country_id, :ceo, :contact_point, :newsletter, 
+                              :postal_code, :country_id, :ceo, :contact_point, :newsletter,
                               :advisory_council, :login, :password, :address_more]},
-    # fields: COP_ID	R01_ORG_NAME	COP_TITLE	COP_DOCUMENT_RELATED	COP_CONTACT_EMAIL	COP_PERIOD_START_YEAR	
+    # fields: COP_ID	R01_ORG_NAME	COP_TITLE	COP_DOCUMENT_RELATED	COP_CONTACT_EMAIL	COP_PERIOD_START_YEAR
     #         COP_FACILITATOR	COP_CONTACT_TITLE	COP_PERIOD_START_MONTH	COP_PERIOD_END_MONTH	COP_PERIOD_LINK1
     #         COP_PERIOD_LINK2	COP_PERIOD_LINK3	COP_DATE_CREATE	COP_DATE_MODIFICATION	COP_CONTACT_PERSON
     #         COP_PERIOD_END_YEAR	COP_DOCUMENT_STATUS	COP_CEO_COMMIT_LETTER	COP_DESCRIPTION_ACTIONS	COP_USE_INDICATORS
@@ -125,7 +125,7 @@ module ImporterMapping
                                 :reviewer1_institution, :reviewer1_email, :reviewer2, :reviewer2_institution,
                                 :reviewer2_email, :uploaded, :contact1, :contact1_email, :contact2,
                                 :contact2_email, :status, :extension]},
-                                
+
     #fields: "ID","FIRST_NAME","LAST_NAME","ORG_NAME","EMAIL"
     :bulletin_subscriber => {:file  => 'TR20_GCB_SUBSCRIBERS.csv',
                              :fields => [nil, :first_name, :last_name, :organization_name, :email]}

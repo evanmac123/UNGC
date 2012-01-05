@@ -15,7 +15,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   context "given an approved organization user" do
     setup do
       create_organization_and_user
@@ -23,7 +23,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_principle_areas
       login_as @organization_user
     end
-   
+
    context "with an Active status and within 90 day grace letter period" do
      setup do
        @organization.update_attribute :cop_due_on, Date.today - 75.days
@@ -75,24 +75,24 @@ class Admin::CopsControllerTest < ActionController::TestCase
    end
 
     context "given a new cop" do
-        
-      %w{basic intermediate advanced grace}.each do |cop_type|
+
+      %w{basic intermediate advanced lead grace}.each do |cop_type|
         should "get the #{cop_type} cop form" do
           get :new, :organization_id => @organization.id, :type_of_cop => cop_type
           assert_response :success
           assert_template :new
           assert_template :partial => "_#{cop_type}_form"
-        end        
+        end
       end
-      
+
       should "redirect to introduction page if the type_of_cop parameter is not valid" do
         get :new, :organization_id => @organization.id, :type_of_cop => "bad type"
         assert_redirected_to cop_introduction_path
-      end    
+      end
     end
-    
+
   end
-  
+
   context "given a non-business submitting a COP" do
 
     setup do
@@ -106,7 +106,24 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
   end
-  
+
+  context "given a company that is a signatory of LEAD" do
+    setup do
+      create_organization_and_user
+      @organization.approve!
+      create_initiatives
+      initiative = Initiative.for_filter(:lead).first
+      create_signing(:organization_id => @organization.id, :initiative_id => initiative.id)
+    end
+
+    should "get the LEAD COP form" do
+      login_as @organization_user
+      get :introduction
+      assert_template "lead_introduction"
+    end
+
+  end
+
   context "given a new basic cop" do
     setup do
       create_organization_and_user
@@ -134,18 +151,18 @@ class Admin::CopsControllerTest < ActionController::TestCase
                                                                               :id => assigns(:communication_on_progress).id)
        assert_equal 'basic', assigns(:communication_on_progress).format
     end
-    
+
     should "make sure the contact information has been saved" do
       assert_equal @organization_user.contact_info, assigns(:communication_on_progress).contact_name
     end
-    
+
   end
-  
+
   context "given an existing cop" do
     setup do
       create_cop_and_login_as_user
     end
-    
+
     should "be able to see the cop details" do
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
@@ -157,7 +174,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
                  :id              => @cop.id
       assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops')
     end
-    
+
     should "be able to update the cop" do
       put :update, :organization_id => @organization.id,
                    :id              => @cop.id,
@@ -177,21 +194,21 @@ class Admin::CopsControllerTest < ActionController::TestCase
      assert_template :partial => 'show_new_style'
     end
   end
-  
+
   context "given a Grace Letter" do
     setup do
       create_cop_and_login_as_user(:type => 'grace')
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
-    
+
     should "view with the Grace Letter partial" do
       assert_equal '/shared/cops/show_grace_style', assigns(:cop_partial)
       assert_template :partial => 'show_grace_style'
     end
-    
+
   end
-  
+
   context "given a COP on the Learner Platform" do
     setup do
       # if any item is missing, then the COP puts the participant on the Learner Platform
@@ -199,15 +216,15 @@ class Admin::CopsControllerTest < ActionController::TestCase
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
-    
+
     should "display active partial" do
       assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
       assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => 'show_learner_style'
     end
-    
+
   end
-  
+
   context "given a GC Active COP" do
     setup do
       create_cop_and_login_as_user
@@ -235,7 +252,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_template :partial => 'show_advanced_style'
     end
   end
-  
+
   context "given a GC Advanced COP that did not qualify" do
     setup do
       create_cop_and_login_as_user({:meets_advanced_criteria => false, :type => 'advanced'})
@@ -248,11 +265,11 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => 'show_active_style'
     end
-    
+
     should "show alert if COP is on Learner Platform" do
       assert_select 'span#notice', 'Although you submitted an Advanced level COP, you did not confirm if the COP meets all 24 criteria, and therefore do not qualify for the GC Advanced level.'
     end
-    
+
   end
 
   context "given a COP submitted that is not a Grace Letter" do
@@ -281,7 +298,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
                       }
       end
     end
-    
+
   end
 
 
@@ -297,13 +314,13 @@ class Admin::CopsControllerTest < ActionController::TestCase
         :include_measurement                 => true,
         :include_continued_support_statement => true
       }
-      
+
       create_organization_and_user
       @organization.approve!
       create_principle_areas
       @cop = create_cop(@organization.id, defaults.merge(cop_options))
-      login_as @organization_user  
+      login_as @organization_user
     end
 
-  
+
 end

@@ -28,17 +28,17 @@
     %ul
       %li
         = communication_on_progress.differentiation_description
-        - if communication_on_progress.differentation_level == :learner
+        - if communication_on_progress.differentiation_level == :learner
           %li
             Missing items have been flagged
             %img{:src => '/images/unchecked.png', :height => 10, :width => 12}
             in the self-assessment
-          
+
   %dt
     Self-assessment
   %dd
     = render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
-    
+
 - if communication_on_progress.is_advanced_programme? && communication_on_progress.description.present?
   - dashboard_view_only do
     %dt Other Best Practices

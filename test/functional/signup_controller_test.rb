@@ -18,7 +18,7 @@ class SignupControllerTest < ActionController::TestCase
                   :login      => 'username',
                   :password   => 'password',
                   :role_ids   => [Role.contact_point.id]}
-                  
+
       @signup_ceo = {:first_name => 'CEO',
               :last_name  => 'Smith',
               :prefix     => 'Mr',
@@ -40,9 +40,9 @@ class SignupControllerTest < ActionController::TestCase
                             :country_id => Country.first.id,
                             :email      => 'michael@example.com',
                             :role_ids   => [Role.financial_contact.id]}
-      
+
     end
-    
+
     should "get the first step page" do
       get :step1, :org_type => 'business'
       assert_response :success
@@ -56,7 +56,7 @@ class SignupControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'step2'
     end
-    
+
     should "get the third step page after posting contact details" do
       post :step3, :contact => @signup_contact
       assert_response :success
@@ -64,7 +64,7 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     # pledge form
-    should "as a business should get the fourth step page after posting ceo contact details" do      
+    should "as a business should get the fourth step page after posting ceo contact details" do
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
                                                                       :organization_type_id => OrganizationType.first.id,
                                                                       :revenue => 2500)
@@ -78,7 +78,7 @@ class SignupControllerTest < ActionController::TestCase
         assert_select 'label', 5
       end
     end
-    
+
     # upload letter of commitment
     should "as a non-business should get the sixth step page after posting ceo contact details" do
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
@@ -86,7 +86,7 @@ class SignupControllerTest < ActionController::TestCase
       post :step4, :contact => @signup_ceo
       assert_redirected_to organization_step6_path
     end
-    
+
     should "as a business should get the fifth step page after selecting a contribution amount" do
       @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
       post :step5, :organization => {:pledge_amount => 2500}
@@ -116,7 +116,7 @@ class SignupControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'step6'
     end
-    
+
     should "get the seventh step page after submitting letter of commitment" do
       session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
                                                        :organization_type_id => OrganizationType.first.id,
@@ -133,7 +133,7 @@ class SignupControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'step7'
     end
-    
+
     should "send an email to JCI if the applicant was a referral from their website" do
       session[:signup_organization] = Organization.new(:name                 => 'JCI Member',
                                                        :organization_type_id => OrganizationType.first.id,

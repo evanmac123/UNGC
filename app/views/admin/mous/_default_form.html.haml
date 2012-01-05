@@ -3,13 +3,13 @@
 
 %fieldset
   - unless @submodel.new_record?
-    %dl{:style => 'width: auto;'} 
+    %dl{:style => 'width: auto;'}
       %dt.first{:style=> 'width: 165px;'} Current file
       %dd.first= link_to_uploaded_file(@submodel.file)
-    
+
   %ol
     - staff_only do
       = default_form.select :mou_type, options_for_select(select_options_from_hash(Mou::TYPES), @submodel.mou_type_for_select_field), :label => 'Status'
     = default_form.date_select :year, {:order => [:year]}, {:label => 'Year of Agreement'}
-    = default_form.file_field :file, {:label => 'Supporting Document'} 
+    = default_form.file_field :file, {:label => 'Supporting Document'}
 

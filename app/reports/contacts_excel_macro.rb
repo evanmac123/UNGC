@@ -45,7 +45,7 @@ class ContactsExcelMacro < SimpleReport
       ORDER BY o.id"
       )
   end
-    
+
   def headers
     [ 'Joined on',
       'Participant Name',
@@ -71,7 +71,7 @@ class ContactsExcelMacro < SimpleReport
       'Username',
       'Password',
       'Number of Employees'
-    ] 
+    ]
   end
 
   def row(record)
@@ -101,5 +101,5 @@ class ContactsExcelMacro < SimpleReport
     record.employees
   ]
   end
-  
+
 end

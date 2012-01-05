@@ -60,9 +60,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   include ApprovalWorkflow
 
   validates_presence_of :organization_id, :title
-  validates_associated :cop_links 
+  validates_associated :cop_links
   validates_associated :cop_files
-  
+
   belongs_to :organization
   belongs_to :score, :class_name => 'CopScore', :foreign_key => :cop_score_id
   has_and_belongs_to_many :languages
@@ -77,7 +77,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   attr_accessor :is_draft
   attr_accessor :policy_exempted
   attr_accessor :type
-  
+
   before_create  :check_links
   before_save    :set_cop_defaults
   before_save    :set_differentiation_level
@@ -86,25 +86,25 @@ class CommunicationOnProgress < ActiveRecord::Base
   before_destroy :delete_associated_attributes
 
   accepts_nested_attributes_for :cop_answers
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true  
+  accepts_nested_attributes_for :cop_files, :allow_destroy => true
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
-  
+
   cattr_reader :per_page
   @@per_page = 15
 
-  TYPES = %w{grace basic intermediate advanced}
+  TYPES = %w{grace basic intermediate advanced lead}
 
   default_scope :order => 'created_at DESC'
-  
+
   named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
   named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
-  
+
   named_scope :notable, {
       :include => [:score, {:organization => [:country]}],
       :conditions => [ "cop_score_id = ?", CopScore.notable.try(:id) ],
       :order => 'ends_on DESC'
   }
-  
+
   named_scope :advanced, {
     :include => [ {:organization => [:country, :sector]} ],
     :conditions => [ "differentiation = ?", 'advanced' ]
@@ -114,19 +114,19 @@ class CommunicationOnProgress < ActiveRecord::Base
     :include => [ {:organization => [:country, :sector]} ],
     :conditions => [ "differentiation = ?", 'learner' ]
   }
-  
+
   named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
-  
+
   # feed contains daily COP submissions, without grace letters
-  named_scope :for_feed, { 
+  named_scope :for_feed, {
     :conditions => ["format != (?) AND created_at >= (?)", 'grace_letter', Date.today],
     :order => "created_at DESC"
   }
-  
+
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :annual_report         => "Part of an annual (financial) report"
-            
+
            }
 
   # How the COP is shared
@@ -135,57 +135,58 @@ class CommunicationOnProgress < ActiveRecord::Base
             :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
             :all          => "d) Both b) and c)"
            }
-           
-  # Basic COP templates have other options for sharing their COP   
+
+  # Basic COP templates have other options for sharing their COP
   BASIC_METHOD = {:gc_website   => "a) On the UN Global Compact website only",
                   :all_access   => "b) COP will be made easily accessible to all interested parties on company website",
                   :stakeholders => "c) COP will be actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
                   :all          => "d) Both b) and c)"
                  }
-                        
+
   SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
             :board     => "Chairperson or member of Board of Directors",
             :executive => "Other senior executive",
             :none      => "None of the above"
             }
-  
-  LEVEL_DESCRIPTION = {:advanced => "This COP qualifies for the Global Compact Advanced level",
-                       :active   => "This COP qualifies for the Global Compact Active level",
-                       :learner  => "This COP places the participant on the Global Compact Learner Platform"
+
+  LEVEL_DESCRIPTION = { :blueprint => "Global Compact LEAD - Blueprint",
+                        :advanced  => "This COP qualifies for the Global Compact Advanced level",
+                        :active    => "This COP qualifies for the Global Compact Active level",
+                        :learner   => "This COP places the participant on the Global Compact Learner Platform"
                       }
-             
+
   START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
-  
+
   def self.find_by_param(param)
     return nil if param.blank?
     if param =~ /\A(\d\d+).*/
       find_by_id param.to_i
-    else 
+    else
       param = CGI.unescape param
       find :first, :conditions => ["title = ?", param]
     end
   end
-  
+
   def country_name
     organization.try(:country).try(:name)
   end
-    
+
   def organization_name
-    organization.try :name || ''    
+    organization.try :name || ''
   end
-  
+
   def sector_name
     organization.sector.try(:name) || ''
   end
-  
+
   def urls
     [url1, url2, url3].compact
   end
-  
+
   def year
     ends_on.strftime('%Y')
   end
-  
+
   def init_cop_attributes
     CopQuestion.questions_for(self.organization).each {|cop_question|
       cop_question.cop_attributes.each {|cop_attribute|
@@ -195,12 +196,13 @@ class CommunicationOnProgress < ActiveRecord::Base
         }
     }
   end
-  
+
   def set_cop_defaults
     self.additional_questions = false
     case self.type
       when 'grace'
         self.format = CopFile::TYPES[:grace_letter]
+        self.title = 'Grace Letter'
         # normally they can choose the coverage dates, but for grace letters it matches the grace period
         self.starts_on = self.organization.cop_due_on
         self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
@@ -208,6 +210,9 @@ class CommunicationOnProgress < ActiveRecord::Base
         self.format = 'basic'
       when 'advanced'
         self.additional_questions = true
+      when 'lead'
+        self.additional_questions = true
+        self.meets_advanced_criteria = true
     end
   end
 
@@ -216,7 +221,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       errors.add_to_base("You can no longer edit this COP. Please, submit a new one.")
     end
   end
-  
+
   # move COP to draft state
   def draft_or_submit!
     return true unless initial? # tests might setup COPs with state pre-set
@@ -227,24 +232,23 @@ class CommunicationOnProgress < ActiveRecord::Base
       if can_submit?
         submit!
         approve
-        # automatic_decision
       end
     end
   end
-  
+
   def is_legacy_format?
     created_at <= Date.new(2009, 12, 31)
   end
-  
+
   def is_new_format?
     new_record? || created_at >= Date.new(2010, 01, 01)
   end
-  
+
   # Official launch of Differentiation Programme was January 28, 2011
   def is_advanced_programme?
     if additional_questions
       new_record? || created_at > START_DATE_OF_DIFFERENTIATION
-    end    
+    end
   end
 
   def is_differentiation_program?
@@ -257,7 +261,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   def is_test_phase_advanced_programme?
     additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= START_DATE_OF_DIFFERENTIATION
   end
-  
+
   def is_grace_letter?
     # FIXME: self.format was throwing an exception
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
@@ -266,7 +270,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   def is_basic?
     is_new_format? && self.attributes['format'] == 'basic'
   end
-  
+
   # Indicated whether this COP is editable
   def editable?
     # TODO use the new pre-pending state here
@@ -280,52 +284,14 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
-  def set_approved_fields    
+  def set_approved_fields
     if is_grace_letter?
       organization.extend_cop_grace_period
     else
       organization.set_next_cop_due_date
     end
   end
-  
-  # COPs may be automatically approved
-  def automatic_decision
-    approve and return if is_grace_letter?
-    if parent_company_cop?
-      if parent_cop_cover_subsidiary?
-        approve
-      else
-        reject
-      end
-      return
-    end
-    if organization.joined_after_july_2009?
-      if organization.participant_for_over_5_years?
-        # participant for more than 5 years who joined after July 1st 2009
-        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
-          approve
-        else
-          reject
-        end
-      else
-        # participant for less than 5 years who joined after July 1st 2009
-        (score >= 2 && include_measurement?) ? approve : reject
-      end
-    else
-      if organization.participant_for_over_5_years?
-        # participant for more than 5 years who joined before July 1st 2009
-        if (score == 4 && include_measurement?) || (score == 3 && include_measurement? && missing_principle_explained?)
-          approve
-        else
-          reject
-        end
-      else
-        # participant for less than 5 years who joined before July 1st 2009
-        (score >= 1 && include_measurement?) ? approve! : reject!
-      end
-    end
-  end
-      
+
   # javascript will normally hide the link field if it's blank,
   # but IE7 was not cooperating, so we double check
   def check_links
@@ -333,7 +299,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       link.destroy if link.url.blank?
     end
   end
-  
+
   # Calculate COP score based on answers to Q7
   def score
     [references_labour,
@@ -341,7 +307,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       references_anti_corruption,
       references_environment].collect{|r| r if r}.compact.count
   end
-  
+
   def number_missing_items
     items = [ include_continued_support_statement,
               references_labour,
@@ -351,8 +317,11 @@ class CommunicationOnProgress < ActiveRecord::Base
               include_measurement ]
     items.count - items.collect{|r| r if r}.compact.count
   end
-  
-  
+
+  def missing_items?
+    number_missing_items > 0
+  end
+
   def issue_areas_covered
     issues = []
     PrincipleArea::FILTERS.each_pair do |key, value|
@@ -360,7 +329,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
     issues
   end
-  
+
   # Calculate % of items covered for each issue area
   # Grouping is usually 'additional'
   def issue_area_coverage(principle_area_id, grouping)
@@ -385,7 +354,56 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     [answer_count.first.answer_count, question_count.first.question_count]
   end
-    
+
+  # number of attributes selected for a question
+  def number_question_attributes_covered(cop_attribute_id)
+    answer_count = CopAnswer.find_by_sql(
+    ["SELECT sum(value) AS total FROM cop_answers
+      JOIN cop_attributes
+      ON cop_answers.cop_attribute_id = cop_attributes.id
+      WHERE cop_answers.cop_id = ? AND cop_question_id = ?", self.id, cop_attribute_id]
+    )
+    answer_count.first.total.to_i
+  end
+
+  # gather questions based on submitted attributes
+  def answered_questions(grouping = nil)
+
+    if grouping
+      CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", cop_attributes.collect(&:cop_question_id)])
+    else
+      # don't include LEAD questions
+      questions = []
+      cop_attributes.each do |a|
+        questions << a.cop_question unless Initiative.for_filter(:lead).include? a.cop_question.initiative
+      end
+      questions
+    end
+
+  end
+
+  # questions with no selected attributes
+  def questions_missing_answers
+    missing = []
+    answered_questions.each do |question|
+      missing << question.id if number_question_attributes_covered(question.id) == 0
+    end
+    CopQuestion.find(missing)
+  end
+
+  # questions that do not have all attributes selected
+  def questions_not_fully_covered(grouping = nil)
+    missing = []
+    answered_questions(grouping).each do |question|
+      missing << question.id if question.cop_attributes.count > number_question_attributes_covered(question.id)
+    end
+    CopQuestion.find(missing)
+  end
+
+  def lead_cop_is_incomplete?
+    questions_missing_answers.any? || questions_not_fully_covered('lead_un_goals').any? || questions_not_fully_covered('lead_gc').any?
+  end
+
   def evaluated_for_differentiation?
     if is_grace_letter?
       false
@@ -393,7 +411,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       new_record? || created_at > START_DATE_OF_DIFFERENTIATION
     end
   end
-  
+
   # as defined in COP Policy, these are the minimum requirements for an acceptable (Active Level) COP
   # only those that submitted after the start of the differentiation program can be counted
   def is_intermediate_level?
@@ -402,14 +420,20 @@ class CommunicationOnProgress < ActiveRecord::Base
     include_measurement &&
     issue_areas_covered.count == 4
   end
-  
+
   # those that have also self-declared themeselves as meeting the advanced critera (yes/no)
   def is_advanced_level?
     is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
   end
-  
-  def differentation_level
-    if is_advanced_level?
+
+  def is_blueprint_level?
+    evaluated_for_differentiation? && organization.signatory_of?(:lead)
+  end
+
+  def differentiation_level
+    if is_blueprint_level?
+      :blueprint
+    elsif is_advanced_level?
       :advanced
     elsif is_intermediate_level?
       :active
@@ -419,20 +443,20 @@ class CommunicationOnProgress < ActiveRecord::Base
       ''
     end
   end
-  
-  def differentation_level_name
+
+  def differentiation_level_name
     differentiation.to_s.try(:humanize)
   end
-  
+
   def differentiation_description
-    LEVEL_DESCRIPTION[differentation_level]
+    LEVEL_DESCRIPTION[differentiation_level]
   end
-  
+
   # record level in case the criteria changes in the future
   def set_differentiation_level
-    self.differentiation = differentation_level.try(:to_s)
+    self.differentiation = differentiation_level.try(:to_s)
   end
-  
+
   def readable_error_messages
     error_messages = []
     errors.each do |error|
@@ -449,13 +473,13 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
     error_messages
   end
-  
+
   private
-  
+
     def delete_associated_attributes
       self.cop_files.each {|file| file.destroy}
       self.cop_links.each {|link| link.destroy}
       self.cop_answers.each {|answer| answer.destroy}
     end
- 
+
 end

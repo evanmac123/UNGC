@@ -3,11 +3,11 @@ class SessionsController < ApplicationController
   helper 'Admin'
   before_filter :redirect_user_to_dashboard, :only => :new
   after_filter :set_last_login_at, :only => :create
-  
+
   def create
     @user = Contact.authenticate(params[:login], params[:password])
     if @user
-      
+
       self.current_user = @user
 
       if @user.from_rejected_organization?
@@ -26,9 +26,9 @@ class SessionsController < ApplicationController
       @remember_me = params[:remember_me]
       render :action => 'new'
     end
-    
+
   end
-  
+
   def destroy
     logout_killing_session!
     flash[:notice] = "You have been logged out."
@@ -42,29 +42,29 @@ class SessionsController < ApplicationController
       dashboard_path
     end
   end
-  
+
   protected
-    
+
     def set_last_login_at
       current_user.set_last_login_at if logged_in?
     end
-    
+
     # Track failed login attempts
     def note_failed_signin
       flash[:error] = "Sorry, either your username or password was incorrect. Please click 'Forgot your username or password?' to retrieve your username and choose a new password."
       logger.warn "Failed login for '#{params[:login]}' from #{request.remote_ip} at #{Time.now.utc}"
     end
-    
+
     # Forward logged-in users to dashboard
     def redirect_user_to_dashboard
       redirect_to dashboard_path if logged_in?
     end
-    
+
     # Forward rejected applicants back to login
     def logout_and_redirect_to_login(user)
       logout_killing_session!
       flash[:error] = "Sorry, your organization's application was rejected and can no longer be accessed."
       redirect_to login_path
     end
-    
+
 end

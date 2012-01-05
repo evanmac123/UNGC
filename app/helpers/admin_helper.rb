@@ -11,7 +11,7 @@ module AdminHelper
       raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
     end
   end
-  
+
   def path_for_polymorphic_commentable(commentable, comment)
     case commentable
     when CaseStory
@@ -24,15 +24,15 @@ module AdminHelper
       raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
     end
   end
-  
+
   def possibly_link_to_organization
     link_to 'Organization details', admin_organization_path(current_user.organization.id) if logged_in?
   end
-  
+
   def possibly_link_to_edit_organization
     link_to 'Edit your organization', edit_admin_organization_path(current_user.organization.id) if logged_in?
   end
-  
+
   def link_to_attached_file(object, file='attachment')
     options = {}
     # clean this up
@@ -46,7 +46,7 @@ module AdminHelper
     elsif object.send("#{file}_file_name").downcase.ends_with?('.doc') || object.send("#{file}_file_name").downcase.ends_with?('.docx')
       options = {:class => 'word'}
     end
-    
+
     if object.is_a?(UploadedFile)
       options[:title] = object.send("#{file}_unmodified_filename")
       name = truncate options[:title], :length => 65
@@ -58,7 +58,7 @@ module AdminHelper
     end
 
   end
-  
+
   def link_to_uploaded_file(object)
     if object
       options = {:title => object.attachment_unmodified_filename}
@@ -78,7 +78,7 @@ module AdminHelper
       # current field, so let's invert the direction
       direction = (@order.split(' ').last == 'ASC') ? 'DESC' : 'ASC'
     end
-    
+
     # defines the HTML class for the link, based on the direction of the link
     if @order.split(' ').first == options[:field]
       html_class = {'ASC' => 'descending', 'DESC' => 'ascending'}[direction]
@@ -87,7 +87,7 @@ module AdminHelper
                            sort_direction: direction,
                            tab:            options[:tab]), :class => html_class
   end
-  
+
   # describes the number of days since last event
   def display_days_ago(date)
     days_ago = (Date.today.to_date - date.to_date).to_i
@@ -104,19 +104,19 @@ module AdminHelper
   def edit_contact_path(contact)
     contact_path(contact, :action => :edit)
   end
-  
+
   def show_check(condition)
     condition ? 'checked' : 'unchecked'
   end
-  
+
   def display_readable_errors(object)
      error_messages = object.readable_error_messages.map { |error| content_tag :li, error }
      content_tag :ul, error_messages.join
   end
-  
+
   def popup_link_to(text, url, options={})
     link_to text, url, {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1'], :title => options[:title], :class => options[:class]}
   end
-  
+
 
 end

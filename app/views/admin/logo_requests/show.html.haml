@@ -23,11 +23,11 @@
         - for logo_comment in @logo_request.logo_comments.with_attachment
           %li= link_to_attached_file(logo_comment, 'attachment')
 
-%div{:class => "tab_container top_tabs"} 
+%div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#comments">Comments</a>
     %li <a href="#approved">Approved logos</a>
-  
+
   #comments.tab_content
     - unless @logo_request.state_events.empty?
       %ul#contacts_tools{:class => "tools inline"}

@@ -14,13 +14,13 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                                           :publication_id  => @publication.id)
       login_as @contact
     end
-    
+
     should "not get new form" do
       get :new, :organization_id => @organization.id
       assert_redirected_to admin_organization_path(@organization.id)
     end
   end
-  
+
   context "given an approved organization" do
     setup do
       create_organization_type
@@ -35,7 +35,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                                           :publication_id  => @publication.id)
       login_as @contact
     end
-    
+
     should "get new form" do
       get :new, :organization_id => @organization.id
       assert_response :success
@@ -66,27 +66,27 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       assert_redirected_to admin_organization_path(assigns(:organization).id)
     end
   end
-  
+
   context "given an approved logo request" do
     setup do
       create_approved_logo_request
       @organization.approve!
       login_as @organization_user
     end
-    
+
     should "show a logo request page" do
       get :show, :id              => @logo_request.id,
                  :organization_id => @logo_request.organization.id
       assert_response :success
     end
-    
+
     should "not allow download of logo" do
       get :download, :id              => @logo_request.id,
                      :organization_id => @logo_request.organization.id
       assert_response :redirect
       assert_not_nil flash[:error]
     end
-    
+
     should "allow organization user to agree to logo terms" do
       post :agree, :id              => @logo_request.id,
                    :organization_id => @logo_request.organization.id
@@ -94,7 +94,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       assert_not_nil @logo_request.accepted_on
     end
   end
-  
+
   context "given an accepted logo request" do
     setup do
       create_approved_logo_request
@@ -102,7 +102,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       @logo_request.accept
       login_as @organization_user
     end
-    
+
     should "allow download of logo" do
       get :download, :id              => @logo_request.id,
                      :organization_id => @logo_request.organization.id,

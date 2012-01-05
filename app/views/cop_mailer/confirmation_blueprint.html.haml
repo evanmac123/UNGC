@@ -1,0 +1,20 @@
+%p== Dear #{@user.name_with_title},
+
+- if @cop.missing_items? || @cop.lead_cop_is_incomplete?
+
+  %p== Thank you for submitting your company's Communication on Progress (COP) on implementing the <em>Blueprint for Corporate Sustainability Leadership</em>. It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website.
+  %p We would like to notify you that your COP is missing the following required elements:
+  = render :partial => '/shared/cops/cop_missing_lead_criteria', :locals => { :communication_on_progress => @cop }
+  %p== Please revise your COP within the next 3 months or by #{dd_month_yyyy Date.today + 3.months}.
+
+- else
+
+  %p== Thank you for submitting your company's Communication on Progress (COP) on implementing the <em>Blueprint for Corporate Sustainability Leadership</em>. It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website and you have met the COP requirement for LEAD companies.
+
+%p Sincerely,
+%p
+  Global Compact LEAD
+  %br
+  United Nations Global Compact
+  %br
+  = mail_to 'lead@unglobalcompact.org'

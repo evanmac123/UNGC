@@ -2,7 +2,7 @@ class BulletinSubscribersReport < SimpleReport
   def records
     BulletinSubscriber.all
   end
-  
+
   def headers
     ['Email']
   end

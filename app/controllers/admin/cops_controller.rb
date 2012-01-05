@@ -5,70 +5,75 @@ class Admin::CopsController < AdminController
   before_filter :set_session_template, :only => :new
   before_filter :only_editable_cops_go_to_edit, :only => :edit
   helper 'datetime'
-  
+
   def introduction
     # non-business organizations can submit a COP, but they do not get a choice, so redirect them to the General (intermediate) COP
     # but we still want Global Compact Staff and Networks to choose the type of COP
     if current_user.from_organization? && !current_user.organization.company?
       redirect_to new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
     end
+
+    if current_user.organization.signatory_of?(:lead)
+      render 'lead_introduction'
+    end
+
   end
-  
+
   def new
     unless CommunicationOnProgress::TYPES.include?(session[:cop_template])
       redirect_to cop_introduction_path
     end
-    
+
     @communication_on_progress = @organization.communication_on_progresses.new
     @communication_on_progress.init_cop_attributes
     @cop_link_language = Language.for(:english).try(:id)
     @cop_file_language = Language.for(:english).try(:id)
     @submitted = false
   end
-  
+
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
     @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_user.contact_info
-    
+
     if @communication_on_progress.save
       flash[:notice] = "The COP has been published on the Global Compact website"
       clear_session_template
-      
+
       unless @communication_on_progress.is_grace_letter?
         begin
-          CopMailer.send("deliver_confirmation_#{@communication_on_progress.differentation_level}", @organization, @communication_on_progress, current_user)
+          CopMailer.send("deliver_confirmation_#{@communication_on_progress.differentiation_level}", @organization, @communication_on_progress, current_user)
         rescue Exception => e
          flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
         end
       end
-      
+
       redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
       # we want to preselect the submit tab
       @submitted = true
-
-      unless @communication_on_progress.is_basic?
+      # web links are not included with Basic COPs and Grace Letters
+      unless @communication_on_progress.type == 'basic' || @communication_on_progress.type == 'grace'
         @cop_link_url = params[:communication_on_progress][:cop_links_attributes][:new_cop][:url] || ''
         @cop_link_language = params[:communication_on_progress][:cop_links_attributes][:new_cop][:language_id] || Language.for(:english).id
       end
-      
+
       render :action => "new"
     end
   end
 
   def show
-    
+
     if @communication_on_progress.evaluated_for_differentiation?
       @cop_partial = "/shared/cops/show_#{@communication_on_progress.differentiation}_style"
-      
+
       # Basic COP template has its own partial to display text responses
       if @communication_on_progress.is_basic?
         @results_partial = '/shared/cops/show_basic_style'
       else
         @results_partial = '/shared/cops/show_differentiation_style'
       end
-            
+
     elsif @communication_on_progress.is_grace_letter?
       @cop_partial = '/shared/cops/show_grace_style'
     elsif @communication_on_progress.is_basic?
@@ -81,7 +86,7 @@ class Admin::CopsController < AdminController
      flash[:error] = "Sorry, we could not determine the COP type."
      redirect_to admin_organization_path(org_id, :tab => :cops)
     end
-    
+
   end
 
   def update
@@ -98,26 +103,26 @@ class Admin::CopsController < AdminController
     end
    redirect_to admin_organization_path(org_id, :tab => :cops)
   end
-  
+
   private
-  
+
     def set_session_template
       session[:cop_template] = params[:type_of_cop]
     end
-    
+
     def clear_session_template
       session[:cop_template] = nil
     end
-  
+
     def load_organization
       @communication_on_progress = CommunicationOnProgress.visible_to(current_user).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
     end
-    
+
     def add_cop_form_js
       (@javascript ||= []) << 'cop_form'
     end
-    
+
     def only_editable_cops_go_to_edit
       unless @communication_on_progress.editable?
         flash[:notice] = "You cannot edit this COP"

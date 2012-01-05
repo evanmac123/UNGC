@@ -17,7 +17,7 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
       should "create the initiative" do
         assert_redirected_to_index
         assert @initiative
-      end      
+      end
     end
 
     context "working with an existing initiative" do
@@ -34,6 +34,6 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
       end
     end
   end
-  
-  
+
+
 end

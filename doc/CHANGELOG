@@ -1,3 +1,9 @@
+h1. 2012-01-03
+
+* COP Questions can now be created and grouped by year
+* There is a helper method called from the COP form: cop_questions_for @communication_on_progress, :un_goals, :year => current_year
+* :year is an optional parameter. If left out, all questions with grouping :un_goals will be returned
+
 h1. 2012-01-04
 
 * Updated public listing of Caring for Climate participants at /Issues/Environment/Climate_Change/list_of_signatories.html
@@ -5,6 +11,7 @@ h1. 2012-01-04
 * The helpers were also currently limited to Company and SME organization types, so that filtering has been removed
 * Plus, Caring for Climate is now accepting non-participants, so that means they can be an organization type other than Company or SME
 * Companies that are delisted will no longer by displayed publicly, however they will remain in the initiative unless they are transferred to the Delisted C4C list
+>>>>>>> dashboard
 
 h1. 2011-12-30
 
@@ -13,6 +20,30 @@ h1. 2011-12-30
 * These organizations must still be added as signatories to the Initiative without going through the normal signup process
 * A new Organization Type was created to identify these organizations: Initiative Signatory
 * When a new organization is created, this will be the default organization type
+
+h1. 2011-12-14
+
+* Added methods to COP model to determine how many CopAttributes were covered for each CopQuestion
+* If no attributes (best practices) were covered, then that question (criterion) is NOT considered to be covered
+* The company is notified is the missing criteria in the results screen views/shared/cops/_cop_questionnaire_evaluation.html.haml
+
+h1. 2011-12-09
+
+* use cop_detail_url(@cop) in COP mailer views to avoid entering the full URL
+
+h1. 2011-12-02
+
+* LEAD COPs should have their own set of confirmation emails
+* The actual differentiation level is yet to be determined, so we will use the following
+* learner_blueprint - for COPs that do not yet meet the requirements of a LEAD COP
+* blueprint - for COPs that do meet the requirements
+
+* a few defaults must be set for LEAD COPs, so they are treated as Advanced COPs with the questionnaire
+* Depending on the differentiation level of the COP, a specific email should be sent
+
+h1. 2011-11-29
+
+* added signatory_of?(initiative) to Organization model to determine if it has signed onto an Initiative
 
 h1. 2011-11-26
 

@@ -13,7 +13,7 @@
         %div{:style => 'font-weight: bold; color: blue;'}
           = link_to result.title.force_encoding("UTF-8"), result.url
         %div
-          = format result      
+          = format result
   %div
     = will_paginate @results
 - else

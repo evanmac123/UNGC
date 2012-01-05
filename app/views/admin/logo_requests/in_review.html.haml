@@ -1,7 +1,7 @@
 %h2= @list_name || "Logo Requests in Review"
 .tab_container
   = render :partial => 'control_tabs'
-  
+
   .tab_content
     %table.dashboard_table
       %tr
@@ -31,7 +31,7 @@
           %td= Contact.find(logo_request.reviewer_id).try(:name)
           %td
             %ul.actions
-              %li 
+              %li
                 = link_to 'Show', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "preview", :title => "Show"
-                
+
     = will_paginate @logo_requests

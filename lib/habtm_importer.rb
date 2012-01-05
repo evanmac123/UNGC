@@ -1,10 +1,10 @@
 require 'csv'
 
 class HabtmImporter
-  
+
   FILES = [:case_stories_countries, :case_stories_principles, :communication_on_progresses_languages,
             :communication_on_progresses_countries, :communication_on_progresses_principles, :logo_files_logo_requests]
-  
+
   CONFIG = {
     #fields: COUNTRY_ID	COUNTRY_NAME	COUNTRY_REGION	COUNTRY_NETWORK_TYPE	GC_COUNTRY_MANAGER
     :case_stories_countries => {:file   => 'R10_XREF_R07_TR01.csv',
@@ -21,7 +21,7 @@ class HabtmImporter
                                   :models => [LogoRequest, LogoFile],
                                   :index  => [1,2]}
   }
-  
+
   # Imports all the data in files located in options[:folder]
   def run(options={})
     setup(options)
@@ -51,7 +51,7 @@ class HabtmImporter
       end
     end
   end
-  
+
   def delete_all(options={})
     setup(options)
     @files.each{|entry| ActiveRecord::Base.connection.delete "DELETE FROM #{entry}"}
@@ -72,7 +72,7 @@ class HabtmImporter
         @files = FILES
       end
     end
-    
+
     def find_model_object(model, id)
       if [CaseStory, CommunicationOnProgress].include? model
         model.find_by_identifier(id)
@@ -82,7 +82,7 @@ class HabtmImporter
         model.find_by_old_id(id)
       end
     end
-    
+
     def log(string)
       puts(string) unless @silent
     end

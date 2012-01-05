@@ -1,12 +1,12 @@
-class CopStatusUpdater  
-  
+class CopStatusUpdater
+
   class << self
 
     def log (method="info", string)
       @logger = Logger.new(File.join(RAILS_ROOT, 'log', 'cop_reminder.log'))
       @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
     end
-            
+
     def update_all
       move_active_organizations_to_noncommunicating
       move_noncommunicating_organizations_to_delisted
@@ -27,5 +27,5 @@ class CopStatusUpdater
       end
     end
   end
-      
+
 end

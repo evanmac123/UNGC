@@ -2,7 +2,7 @@ class FoundationPledgeReport < SimpleReport
   def records
     Organization.active.participants.companies_and_smes.joined_on(@options[:month].to_i, @options[:year].to_i).all(:order => 'joined_on')
   end
-  
+
   def headers
     [ 'Contact',
       'Email',

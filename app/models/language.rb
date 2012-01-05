@@ -14,12 +14,12 @@ class Language < ActiveRecord::Base
   has_and_belongs_to_many :communication_on_progresses
 
   default_scope :order => 'name'
-  
+
   FILTERS = {
     :english => 'English',
     :french  => 'French'
   }
-  
+
    def self.for(name)
       first(:conditions => {:name => FILTERS[name]})
     end

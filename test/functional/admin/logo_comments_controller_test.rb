@@ -12,7 +12,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
                                         :contact_id      => @contact.id,
                                         :publication_id  => @publication.id)
   end
-  
+
   test "should get new" do
     login_as @contact
     get :new, :logo_request_id => @logo_request.id
@@ -49,7 +49,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
       @logo_request.reload
       assert_equal false, @logo_request.replied_to
     end
-  
+
     should "should set replied_to to true after a staff user updates" do
       login_as @contact
       assert_difference('LogoComment.count') do
@@ -60,8 +60,8 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
         end
       @logo_request.reload
       assert_equal false, @logo_request.replied_to
-      
-      
+
+
       login_as @staff_user
       assert_difference('LogoComment.count') do
         post :create, {:logo_request_id => @logo_request.id,
@@ -72,7 +72,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
       @logo_request.reload
       # FIXME - should be true. May not be posting as staff user
       assert_equal false, @logo_request.replied_to
-    end 
+    end
 
   end
 

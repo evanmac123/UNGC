@@ -5,12 +5,12 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     setup do
       @staff_user = create_staff_user
     end
-    
+
     should "get the index page" do
       get :index, {}, as(@staff_user)
       assert_response :success
     end
-    
+
     should "get the approved logo request report" do
       get :approved_logo_requests, {}, as(@staff_user)
       assert_response :success
@@ -34,7 +34,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
-    
+
     should "get the networks report" do
       create_country
       get :networks, {}, as(@staff_user)
@@ -60,7 +60,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
-    
+
     should "get the participant breakdown report" do
       get :participant_breakdown, {}, as(@staff_user)
       assert_response :success
@@ -78,7 +78,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'contacts_mail_merge.html.haml'
     end
-    
+
     should "get the contacts for mail merge report as xls" do
       get :contacts_mail_merge, {:format => 'xls'}, as(@staff_user)
       assert_response :success
@@ -90,24 +90,24 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_template 'local_networks_contacts.html.haml'
     end
-    
+
     should "get the local networks contacts report as xls" do
       get :local_networks_contacts, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
-    
+
     should "get the cop report" do
       get :all_cops, {}, as(@staff_user)
       assert_response :success
       assert_template 'all_cops.html.haml'
     end
-    
+
     should "get the cop as xls" do
       get :all_cops, {:format => 'xls'}, as(@staff_user)
       assert_response :success
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
-    
+
   end
 end

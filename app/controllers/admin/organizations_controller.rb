@@ -4,7 +4,7 @@ class Admin::OrganizationsController < AdminController
   before_filter :no_rejected_organizations_access, :only => :edit
   before_filter :no_access_to_other_organizations
   helper :participants
-  
+
   def index
     @organizations = Organization.all(:order => order_from_params)
                         .paginate(:page     => params[:page],
@@ -27,7 +27,7 @@ class Admin::OrganizationsController < AdminController
       render :action => "new"
     end
   end
-  
+
   def edit
     @organization_types = OrganizationType.staff_types
   end
@@ -38,7 +38,7 @@ class Admin::OrganizationsController < AdminController
     @organization.set_replied_to(current_user) if Organization::STATE_IN_REVIEW
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
     @organization.last_modified_by_id = current_user.id
-    
+
     if @organization.update_attributes(params[:organization])
       flash[:notice] = 'Organization was successfully updated.'
       if current_user.from_ungc?
@@ -61,7 +61,7 @@ class Admin::OrganizationsController < AdminController
   def reverse_roles
     if @organization.reverse_roles
       flash[:notice] = 'The CEO and Contact Point roles were reversed.'
-    else 
+    else
       flash[:error] = @organization.errors.full_messages.to_sentence
     end
     redirect_to admin_organization_path(@organization.id)
@@ -111,7 +111,7 @@ class Admin::OrganizationsController < AdminController
       end
     end
   end
-  
+
   def search
     if params[:commit] == 'Search'
       # intercept search by ID and check for number
@@ -120,7 +120,7 @@ class Admin::OrganizationsController < AdminController
         if Organization.find_by_id(org_id)
           redirect_to(admin_organization_path(org_id))
         else
-          flash.now[:error] = "There is no organization with the ID #{org_id}." 
+          flash.now[:error] = "There is no organization with the ID #{org_id}."
           render :action => "search"
         end
       else
@@ -137,11 +137,11 @@ class Admin::OrganizationsController < AdminController
         @organization = Organization.find_by_param(params[:id])
       end
     end
-    
+
     def load_organization_types
       @organization_types = OrganizationType.staff_types
     end
-    
+
     def order_from_params
       if params[:sort_field] == 'comment'
         @order = ['comments.contact_id', params[:sort_direction] || 'DESC'].join(' ')
@@ -166,20 +166,20 @@ class Admin::OrganizationsController < AdminController
       options.delete(:with) if options[:with] == {}
       #logger.info " ** Organizations search with options: #{options.inspect}"
       @results = Organization.search keyword || '', options
-      
+
       if @results.total_entries > 0
         render :action => 'search_results'
       else
         flash.now[:error] = "Sorry, there are no organizations with '#{keyword}' in their name."
         render :action => "search"
       end
-      
+
     end
-    
+
     def filter_options_for_country(options)
-      options[:with].merge!(country_id: params[:country].map { |i| i.to_i }) 
+      options[:with].merge!(country_id: params[:country].map { |i| i.to_i })
     end
-    
+
     def filter_options_for_business_type(options)
       business_type_selected = if params[:business_type] != 'all'
         params[:business_type].to_i
@@ -189,7 +189,7 @@ class Admin::OrganizationsController < AdminController
 
       # we don't need to set this if it's all
       unless business_type_selected == :all
-        options[:with].merge!(business: business_type_selected) 
+        options[:with].merge!(business: business_type_selected)
       end
 
       if business_type_selected == OrganizationType::BUSINESS
@@ -200,13 +200,13 @@ class Admin::OrganizationsController < AdminController
         options[:with].merge!(organization_type_id: params[:organization_type_id].to_i) unless params[:organization_type_id].blank?
       end
     end
-    
+
     def filter_options_for_joined_on(options)
       if params[:joined_after]
         options[:with].merge!(joined_on: date_from_params(:joined_after)..Time.now)
       end
     end
-    
+
     def date_from_params(param_name)
       Time.parse [params[param_name][:year],
                     params[param_name][:month],

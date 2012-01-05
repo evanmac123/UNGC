@@ -17,7 +17,7 @@ class Admin::SigningsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
   context "given an existing initiative and a signatory" do
     setup do
       create_organization_and_user
@@ -35,5 +35,5 @@ class Admin::SigningsControllerTest < ActionController::TestCase
       end
     end
   end
-  
+
 end

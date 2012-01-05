@@ -11,7 +11,7 @@
       %a{:href => '#stakeholders'} Stakeholders
     %li
       %a{:href => '#files'} Files
-      
+
 
   #general.tab_content
     %fieldset
@@ -21,8 +21,8 @@
         = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
         = default_form.text_field  :title, :label => 'Title'
         = default_form.text_area   :description, :label => 'Description'
-        
-    
+
+
   #issues.tab_content
     %fieldset
       %legend Principle Issue Areas
@@ -63,7 +63,7 @@
       %legend Stakeholder Attendance
       %ol.numeric_inputs
         = default_form.text_field :num_participants,          :label => 'Number of attendees at the event'
-        = default_form.text_field :gc_participant_percentage, :label => 'Global Compact participants (%)' 
+        = default_form.text_field :gc_participant_percentage, :label => 'Global Compact participants (%)'
 
   #files.tab_content
     %fieldset.file_inputs{:style => 'min-height: 200px;'}

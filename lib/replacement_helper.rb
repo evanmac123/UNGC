@@ -105,8 +105,8 @@ def install_event_calendar
   puts "Installing new dynamic event calendar"
   old = Page.find_by_path '/NewsAndEvents/2009_events.html'
   options = {
-    :path            => '/NewsAndEvents/Upcoming_Events.html', 
-    :content         => content_for_archive, 
+    :path            => '/NewsAndEvents/Upcoming_Events.html',
+    :content         => content_for_archive,
     :position        => old.position,
     :dynamic_content => true
   }
@@ -166,7 +166,7 @@ def archive_latest_headlines
   oh_niner.title = 'News Archive 2009'
   oh_niner.save
   puts "  done!"
-  
+
   puts "Making a dynamic headline page"
   future.content = content_for_future
   future.save
@@ -193,7 +193,7 @@ def rewrite_news_headlines
   archive.content = archive.content.gsub replacing, new_content
   archive.dynamic_content = true
   archive.save!
-  puts "  done!\n"  
+  puts "  done!\n"
 end
 
 def rewrite_homepage
@@ -221,7 +221,7 @@ def rewrite_homepage
         <div class='news_item <%= cycle('blue', '') %>'>
           <% counter += 1 %>
           #{inner}
-        </div> 
+        </div>
       <% end %>
     EOF
   end

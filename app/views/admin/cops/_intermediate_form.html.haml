@@ -6,7 +6,7 @@
   %ul.tab_nav
     %li <a id="basic_link" href="#basic">General Information</a>
     %li#submit_tab{:style => css_display_style(@submitted)} <a id="submit_link" href="#finish">Submit your COP</a>
-  
+
   #basic.tab_content
 
     = render :partial => 'cop_title_field', :locals => {:form => form, :current_year => current_year}
@@ -19,7 +19,7 @@
           %label
             = form.radio_button :format, key
             = value
-            
+
       #non_grace_letter_fields{:style => css_display_style(@submitted)}
         #own_company_questions{:style => 'display: block'}
           %fieldset
@@ -31,7 +31,7 @@
             %ul.date_select
               %li End date
               = form.date_select :ends_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year}
-        
+
           %fieldset
             %legend
               %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company's ongoing commitment to the initiative and its principles?
@@ -63,13 +63,13 @@
             %span Required: upload the COP as a PDF file
           = text_partial('b')
           = render :partial => 'cop_files_form', :locals => {:language_id => @cop_file_language}
-  
+
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://company.com'
           = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop], :language_id => @cop_link_language, :url => @cop_link_url)}
-  
+
     = render :partial => 'submit_cop'
 
 = organization_javascript_vars @organization

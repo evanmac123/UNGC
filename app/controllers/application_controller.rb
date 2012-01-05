@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
     url_for :only_path => true
   end
   helper_method :current_url
-  
+
   def home_page?
     current_url == root_path
   end
@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
     @formatted_request_path
   end
   helper_method :formatted_request_path
-  
+
   def staff_user?
     logged_in? && current_user.from_ungc?
   end
@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
         super
       end
     end
-  
+
     def mailer_set_url_options
       ActionMailer::Base.default_url_options[:host] = request.host_with_port
     end

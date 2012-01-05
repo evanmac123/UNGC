@@ -4,7 +4,7 @@ class AllCops < SimpleReport
   def records
     CommunicationOnProgress.all(:include => [ :organization, { :organization => :country } ])
   end
-    
+
   def headers
     [ 'participant_name',
       'country',
@@ -51,9 +51,9 @@ class AllCops < SimpleReport
       'starts_on',
       'ends_on',
       'differentiation'
-    ] 
+    ]
   end
-  
+
   def row(record)
   [ record.organization.try(:name),
     record.organization.try(:country_name),
@@ -99,8 +99,8 @@ class AllCops < SimpleReport
     record.method_shared,
     record.starts_on,
     record.ends_on,
-    record.created_at.present? ? record.differentation_level : 'invalid COP record'
+    record.created_at.present? ? record.differentiation_level : 'invalid COP record'
   ]
   end
-  
+
 end

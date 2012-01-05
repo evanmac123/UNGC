@@ -5,29 +5,29 @@ class CopQuestionTest < ActiveSupport::TestCase
   should_have_many :cop_attributes
   should_belong_to :principle_area
   should_belong_to :initiative
-  
+
   context "given an organization in no initiatives" do
     setup do
       init_data
     end
-    
+
     should "only have generic questions in its list" do
       assert_equal 2, CopQuestion.questions_for(@organization).size
       assert !CopQuestion.questions_for(@organization).include?(CopQuestion.find_by_position(3))
     end
   end
-  
+
   context "given an organization with 1 initiave" do
     setup do
       init_data(true)
     end
-    
+
     should "have initiative specific questions in its list" do
       assert_equal 3, CopQuestion.questions_for(@organization).size
       assert CopQuestion.questions_for(@organization).include?(CopQuestion.find_by_position(3))
     end
   end
-  
+
   private
     def init_data(signatory=false)
       create_organization_and_user

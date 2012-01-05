@@ -1,0 +1,192 @@
+- if form.error_messages.present?
+  %h3== Please correct the following before submitting your COP:
+  %div{:class => 'flash error'}= display_errors_for_cop(@communication_on_progress)
+
+  / Strategy, Governance and Engagement (Strategy)
+  / Human Rights Implementation (Human Rights)
+  / Labour Rights and Principles Implementation (Labour)
+  / Environmental Stewardship Implementation (Environment)
+  / Anti-Corruption Implementation (Anti-Corruption)
+  / Value Chain Implementation (Value Chain)
+  / Verification and Transparency (Verification)
+  / UN Goals and Issues (UN Goals)
+  / Engaging with the Global Compact (Global Compact)
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li <a id="basic_link" href="#basic">General Information</a>
+
+    %li#strategy_governance_tab{:class => 'additional_questions'} <a href="#strategy_additional_questions">&nbsp;&raquo;&nbsp;Strategy</a>
+
+    %li#human_rights_tab{:class => 'additional_questions'} <a href="#human_rights_additional_questions">&nbsp;&raquo;&nbsp;Human Rights</a>
+
+    %li#labour_tab{:class => 'additional_questions'}  <a href="#labour_additional_questions">&nbsp;&raquo;&nbsp;Labour</a>
+
+    %li#environment_tab{:class => 'additional_questions'}  <a href="#environment_additional_questions">&nbsp;&raquo;&nbsp;Environment</a>
+
+    %li#anti_corruption_tab{:class => 'additional_questions'}  <a href="#anti_corruption_additional_questions">&nbsp;&raquo;&nbsp;Anti-Corruption</a>
+
+    %li#value_chain_tab{:class => 'additional_questions'} <a href="#value_chain_additional_questions">&nbsp;&raquo;&nbsp;Value Chain</a>
+
+    %li#verification_disclosure_tab{:class => 'additional_questions'} <a href="#verification_additional_questions">&nbsp;&raquo;&nbsp;Verification</a>
+
+    %li#un_goals_tab{:class => 'additional_questions'} <a href="#un_goals_additional_questions">&nbsp;&raquo;&nbsp;UN Goals</a>
+
+    %li#global_compact_tab{:class => 'additional_questions'} <a href="#global_compact_additional_questions">&nbsp;&raquo;&nbsp;Global Compact</a>
+
+    %li#submit_tab{:style => "#{css_display_style(@submitted)}"} <a id="submit_link" href="#finish">Submit your COP</a>
+
+  #basic.tab_content
+    %div.principles
+      %h3 Implementing the Blueprint
+    %fieldset
+      %fieldset
+        %legend
+          %span General Information
+        %p
+          Using this online questionnaire, you will have the opportunity to assess that your COP describes your company's implementation of the <em>Blueprint for Corporate Sustainability Leadership</em>.
+        %p
+          Similar to the self-assessment of the Advanced Level, by confirming that your company implements at least one best practice under each of the first 24 criteria, you will meet the requirements of the first dimension of the "Blueprint Implementation of the Ten Global Compact Principles" and the "Cross-cutting" components of governance leadership, stakeholder engagement and transparency and disclosure.
+        %p Additionally, under the "UN Goals" and "Global Compact" sections you will be asked to confirm that your COP describes each of the additional 20 criteria for LEAD companies related to taking action in support of UN Goals and Engagement with the Global Compact.
+        %ul.bulleted
+          %li If you confirm that you meet each of the criteria of the Advanced Level and the additional 20 criteria under &ldquo;UN Goals&rdquo; and &ldquo;Global Compact&rdquo; your COP will qualify for the Blueprint level and meet the minimum requirement for LEAD companies. The results of the self-assessment will be made public on the Global Compact website, alongside your COP.
+          %li
+            If you cannot confirm, the COP will be submitted but the company will not meet the minimum criteria for LEAD. An email will be sent to the LEAD team notifying that an incomplete COP has been submitted. You will then have 3 months to resubmit. However, the results of the self-assessment will be made public on the Global Compact website, alongside the COP, to improve the searchability and analysis of the COPs and underlying performance.
+
+    = render :partial => 'cop_title_field', :locals => {:form => form, :current_year => current_year}
+
+    %fieldset
+      %fieldset
+        %legend
+          %span The Communication on Progress is in the following format:
+        - CommunicationOnProgress::FORMAT.each do |key, value|
+          %label
+            = form.radio_button :format, key
+            = value
+
+      #non_grace_letter_fields{:style => "#{css_display_style(@submitted)}"}
+
+        #own_company_questions{:style => 'display: block'}
+          %fieldset
+            %legend
+              %span What is the time period covered by your COP?
+            %ul.date_select
+              %li Start date
+              = form.date_select :starts_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year, :default => {:year => current_year-1} }
+            %ul.date_select
+              %li End date
+              = form.date_select :ends_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year}
+
+          %fieldset
+            %legend
+              %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company's ongoing commitment to the initiative and its principles?
+            = true_or_false_field(form, :include_continued_support_statement)
+
+          #include_continued_support_statement{:style => css_display_style(@submitted)}
+            = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
+
+            %fieldset
+              %legend
+                %span Does your COP include a measurement of outcomes?
+              = true_or_false_field(form, :include_measurement, :class => 'score')
+
+          #method_shared_with_stakeholders{:style => css_display_style(@submitted)}
+            %fieldset
+              %fieldset
+                %legend
+                  %span How does your organisation share its COP with stakeholders?
+                - CommunicationOnProgress::METHOD.each do |key, value|
+                  %label
+                    = form.radio_button :method_shared, key
+                    = value
+
+  %div.tab_content{:id => "strategy_additional_questions"}
+    %h3 Strategy, Governance and Engagement
+    = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
+    %fieldset= cop_questions_for @communication_on_progress, :strategy, :year => current_year
+
+  %div.tab_content{:id => "human_rights_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('human_rights')}" } Human Rights Implementation
+    = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
+    %div.hint_toggle About this section...
+    %div.hint_text{:style => 'display: none;'}
+      %p.indent== Criteria and best practices under human rights implementation have been modified to reflect the Guiding Principles on Business and Human Rights: Implementing the United Nations "Protect, Respect and Remedy" Framework #{popup_link_to '(the Guiding Principles)','/Issues/human_rights/The_UN_SRSG_and_the_UN_Global_Compact.html'}.
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :human_rights, :year => current_year
+
+  %div.tab_content{:id => "labour_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('labour')}" } Labour Principles Implementation
+    = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :labour, :year => current_year
+
+  %div.tab_content{:id => "environment_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
+    = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :environment, :year => current_year
+
+  %div.tab_content{:id => "anti_corruption_additional_questions"}
+    %h3
+      %span{:class => "#{issue_area_colour_for('anti_corruption')}" } Anti-Corruption Implementation
+    = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
+    %div.hint_toggle About this section...
+    %div.hint_text{:style => 'display: none;'}
+      %p.indent== Criteria and best practices under Anti-Corruption implementation have been modified to reflect the #{link_to 'Anti-Corruption Reporting Guidance (pdf)','/docs/issues_doc/Anti-Corruption/UNGC_AntiCorruptionReporting.pdf'}. Best practices reflect specific reporting elements of the guidance, either Basic (numbers starting with B) or Desired (numbers starting with D).
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :anti_corruption, :year => current_year
+
+  %div.tab_content{:id => "value_chain_additional_questions"}
+    %h3 Value Chain Implementation
+    = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
+    %div{:class => 'hint_toggle'} About this section...
+    %div{:class => 'hint_text', :style => 'display: none;'}
+      %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
+
+    %fieldset= cop_questions_for @communication_on_progress, :value_chain, :year => current_year
+
+  %div.tab_content{:id => "verification_additional_questions"}
+    %h3 Verification and Transparency
+    = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
+    %fieldset= cop_questions_for @communication_on_progress, :verification, :year => current_year
+
+  %div.tab_content{:id => "un_goals_additional_questions"}
+    %h3 Taking Action in Support of Broader UN Goals and Issues
+    = render :partial => 'admin/cops/texts/lead_reporting_rules.html.haml'
+    %fieldset= cop_questions_for @communication_on_progress, :lead_un_goals
+
+  %div.tab_content{:id => "global_compact_additional_questions"}
+    %h3 Engaging with the UN Global Compact
+    = render :partial => 'admin/cops/texts/lead_reporting_rules.html.haml'
+    %fieldset= cop_questions_for @communication_on_progress, :lead_gc
+
+  #finish.tab_content
+    %fieldset
+      #cop_attachments{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Required: upload the COP as a PDF file
+          = text_partial('b')
+          = render :partial => 'cop_files_form', :locals => {:language_id => @cop_file_language}
+
+    %fieldset
+      #web_cop_attachments{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Optional: provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
+          = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop], :language_id => @cop_link_language, :url => @cop_link_url)}
+
+    %fieldset
+      #signature{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Contact Information
+          %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
+          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name || current_user.contact_info
+
+    = render :partial => 'submit_cop'
+    %br
+    %br
+
+= organization_javascript_vars @organization
+= javascript_tag "var work_in_progress = false;"
+= form_submitted?(@submitted)

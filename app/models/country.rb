@@ -21,9 +21,9 @@ class Country < ActiveRecord::Base
   has_many :organizations
 
   validates_presence_of :name, :code, :region
-  
+
   default_scope :order => 'countries.name'
-  
+
   REGIONS = { :africa      => 'Africa',
               :americas    => 'Americas',
               :asia        => 'Asia',
@@ -31,29 +31,29 @@ class Country < ActiveRecord::Base
               :europe      => 'Europe',
               :mena        => 'MENA'
             }
-    
+
   named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
-  
+
   def region_for_select_field
     region.try(:to_sym)
   end
-  
+
   def self.regions
     Country.find(:all, :select     => 'DISTINCT region',
                        :conditions => 'region IS NOT NULL',
                        :order      => 'region')
   end
-  
+
   def region_name
     REGIONS[self.region.to_sym] unless region.nil?
   end
-  
+
   def local_network_name
-    self.local_network.try(:name) || ''    
+    self.local_network.try(:name) || ''
   end
 
   def regional_manager_name
     self.manager.try(:name) || ''
   end
-  
+
 end

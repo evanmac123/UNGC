@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PageGroupTest < ActiveSupport::TestCase
-  
+
   context "given some page groups" do
     setup do
       @group1 = create_page_group
@@ -12,7 +12,7 @@ class PageGroupTest < ActiveSupport::TestCase
     should "fail to show @hidden in navigation" do
       assert_same_elements [@group1, @group2], PageGroup.for_navigation
     end
-    
+
     context "and some pages are assigned" do
       setup do
         @group1_pages, @group2_pages, @hidden_pages = [], [], []
@@ -32,7 +32,7 @@ class PageGroupTest < ActiveSupport::TestCase
       should "find children for group2" do
         assert_same_elements @group2_pages, @group2.children
       end
-      
+
       should "forward group#path to first child" do
         assert_equal @group1_pages.first.path, @group1.path
       end
@@ -49,5 +49,5 @@ class PageGroupTest < ActiveSupport::TestCase
       end
     end
   end
-  
+
 end

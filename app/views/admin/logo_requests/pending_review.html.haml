@@ -2,7 +2,7 @@
 
 .tab_container
   = render :partial => 'control_tabs'
-  
+
   .tab_content
     %table.dashboard_table
       %tr
@@ -20,7 +20,7 @@
           %td= display_days_ago(@latest_comment_date)
           %td
             %ul.actions
-              %li 
+              %li
                 = link_to 'Show', admin_organization_logo_request_path(logo_request.organization.id, logo_request), :class => "preview", :title => "Show"
 
     = will_paginate @logo_requests

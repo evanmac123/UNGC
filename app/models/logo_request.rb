@@ -33,7 +33,7 @@ class LogoRequest < ActiveRecord::Base
   has_and_belongs_to_many :logo_files
 
   accepts_nested_attributes_for :logo_comments
-  
+
   attr_reader :per_page
   @@per_page = 15
 
@@ -59,8 +59,8 @@ class LogoRequest < ActiveRecord::Base
   named_scope :in_review, :conditions => {:state => "in_review", :replied_to => true},
                           :joins => :logo_comments,
                           :group => :logo_request_id,
-                          :order => 'logo_comments.created_at DESC' 
-  
+                          :order => 'logo_comments.created_at DESC'
+
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
   named_scope :accepted, :conditions => {:state => "accepted"}
@@ -69,7 +69,7 @@ class LogoRequest < ActiveRecord::Base
   named_scope :unreplied, :conditions => {:state => "in_review", :replied_to => false},
                           :joins => :logo_comments,
                           :group => :logo_request_id,
-                          :order => 'logo_comments.created_at DESC' 
+                          :order => 'logo_comments.created_at DESC'
 
   named_scope :approved_between, lambda { |month, year|
     {
@@ -78,33 +78,33 @@ class LogoRequest < ActiveRecord::Base
       :order => "approved_on DESC"
     }
   }
-  
-  
+
+
   STATE_PENDING_REVIEW = 'pending_review'
   STATE_IN_REVIEW = 'in_review'
   STATE_APPROVED = 'approved'
   STATE_REJECTED = 'rejected'
   STATE_ACCEPTED = 'accepted'
-  
+
   EVENT_REVISE = 'revise'
   EVENT_REPLY = 'reply'
   EVENT_REJECT = 'reject'
   EVENT_APPROVE = 'approve'
   EVENT_ACCEPT = 'accept'
-  
+
   def can_download_files?
     accepted? && Time.now <= accepted_on + 7.days
   end
-  
+
   def days_to_process
     (self.approved_on.to_date - self.created_at.to_date).to_i
   end
-  
+
   private
     def set_approved_on
       update_attribute :approved_on, Date.today
     end
-    
+
     def set_accepted_on
       update_attribute :accepted_on, Date.today
     end

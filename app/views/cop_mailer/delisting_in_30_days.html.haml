@@ -1,11 +1,11 @@
 To all Contact Points for
 %strong== #{@organization.name}:
 
-%p We would like to bring your attention to an increasingly urgent matter related to your participation in the United Nations Global Compact. 
+%p We would like to bring your attention to an increasingly urgent matter related to your participation in the United Nations Global Compact.
 
 %p== Your company is currently listed as "non-communicating" on the Global Compact website and will be expelled from the initiative if it fails to submit a Communication on Progress by #{dd_month_yyyy Date.today + 30.days}.
 
-%p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website. 
+%p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website.
 
 %p== When a company fails to meet its submission deadline, it will be listed in the #{link_to '"non-communicating" list of participants', 'http://www.unglobalcompact.org/'+DEFAULTS[:cop_noncommunicating_path]} and the company's #{link_to 'public profile', 'http://www.unglobalcompact.org/participant/'+@organization.id.to_s}. Companies that remain non-communicating for more than a year will be expelled from the initiative.
 

@@ -13,10 +13,10 @@ module Searchable::SearchableCommunicationOnProgress
       #{cop.countries.map(&:name).join(' ')}
     EOF
     content = "#{content.force_encoding('UTF-8')} #{file_content.join(' ')}"
-    
+
     import 'CommunicationOnProgress', url: url, title: title, content: content, object: cop
   end
-  
+
   def index_communications_on_progress
     CommunicationOnProgress.approved.each { |cop| index_communication_on_progress cop }
   end

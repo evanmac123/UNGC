@@ -49,7 +49,7 @@
         %ul
           %li== Number of Attendees: #{@submodel.num_participants || 'unknown'}
           %li== Global Compact Participants: #{number_to_percentage(@submodel.gc_participant_percentage, :precision => 0) || 'unknown'}
-      
+
         %dt Files
         %dd
           %ul.document_list

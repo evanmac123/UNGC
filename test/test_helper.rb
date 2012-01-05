@@ -7,12 +7,12 @@ class ActiveSupport::TestCase
   include AuthenticatedTestHelper
 
   self.use_transactional_fixtures = true
-  self.use_instantiated_fixtures  = false  
+  self.use_instantiated_fixtures  = false
 
   def as(user)
     user.try(:id) ? {:user_id => user.id} : {}
   end
-  
+
   def assert_redirected_to_index
     assert_redirected_to :action => 'index'
   end
@@ -20,11 +20,11 @@ class ActiveSupport::TestCase
   def assert_layout(layout)
     assert_equal "layouts/#{layout}", @response.layout
   end
-  
+
   def create_approved_content(options)
     create_page(options)
   end
-  
+
   def create_approved_page(options)
     create_page(options)
   end
@@ -37,7 +37,7 @@ class ActiveSupport::TestCase
     @child2 = create_page :parent => @parent1, :position => 1, :path => '/parent1/child2.html'
     @sub1 = create_page :parent => @child1, :position => 0, :path => '/parent1/child1/sub1.html'
   end
-  
+
   def create_new_logo_request
     create_organization_and_user
     create_ungc_organization_and_user
@@ -45,14 +45,14 @@ class ActiveSupport::TestCase
     @logo_request = create_logo_request(:contact_id      => @organization_user.id,
                                         :organization_id => @organization.id)
   end
-  
+
   def create_new_case_story
     create_organization_and_user
     create_ungc_organization_and_user
     @case_story = create_case_story(:contact_id      => @organization_user.id,
                                     :organization_id => @organization.id)
   end
-  
+
   def create_approved_case_story
     create_new_case_story
     @case_story.comments.create(:body        => 'lorem ipsum',
@@ -60,7 +60,7 @@ class ActiveSupport::TestCase
                                 :state_event => LogoRequest::EVENT_REVISE)
     @case_story.approve
   end
-  
+
   def create_approved_logo_request
     create_new_logo_request
     # we need a comment before approving
@@ -104,9 +104,9 @@ class ActiveSupport::TestCase
   def create_organization_and_ceo
     create_organization_and_user
     @organization_ceo = create_contact(:organization_id => @organization.id,
-                                       :role_ids        => [Role.ceo.id])                                        
+                                       :role_ids        => [Role.ceo.id])
   end
-    
+
   def create_financial_contact
     @financial_contact = create_contact(:organization_id => @organization.id,
                                         :role_ids        => [Role.financial_contact.id])
@@ -120,22 +120,22 @@ class ActiveSupport::TestCase
                                  :password        => 'password',
                                  :organization_id => @ungc.id)
   end
-  
+
   def create_staff_user
     create_ungc_organization_and_user
     return @staff_user
   end
-  
-  
+
+
   def create_expelled_organization
     create_organization_and_user
     create_removal_reasons
     @organization.update_attribute :delisted_on, Date.today - 1.month
     @organization.update_attribute :cop_state, Organization::COP_STATE_DELISTED
     @organization.update_attribute :active, false
-    @organization.update_attribute :removal_reason_id, RemovalReason.delisted.id    
+    @organization.update_attribute :removal_reason_id, RemovalReason.delisted.id
   end
-  
+
   def create_local_network_with_report_recipient
     create_roles
     @local_network = create_local_network(:name => "Canadian Local Network")
@@ -143,7 +143,7 @@ class ActiveSupport::TestCase
     @network_contact = create_contact(:local_network_id => @local_network.id,
                                       :role_ids         => [Role.network_report_recipient.id])
   end
-  
+
   def create_roles
     create_role(:name => 'CEO', :description => "value",  :old_id => 3)
     create_role(:name => 'Contact Point', :description => "value", :old_id => 4)
@@ -155,16 +155,16 @@ class ActiveSupport::TestCase
     create_role(:name => 'Network Representative', :description => "value", :old_id => 12)
     create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
   end
-  
+
   def create_cop(organization_id, options = {})
     defaults = {
       :organization_id => organization_id,
-      :starts_on => Date.new(2010, 01, 01), 
+      :starts_on => Date.new(2010, 01, 01),
       :ends_on => Date.new(2010, 12, 31)
-    }    
+    }
     create_communication_on_progress(defaults.merge(options))
   end
-  
+
   def create_principle_areas
     PrincipleArea::FILTERS.values.each {|name| create_principle_area(:name => name)}
   end
@@ -172,7 +172,12 @@ class ActiveSupport::TestCase
   def create_removal_reasons
     RemovalReason::FILTERS.values.each {|description| create_removal_reason(:description => description)}
   end
-  
+
+  def create_initiatives
+    create_initiative(:id => 19, :name => 'Global Compact LEAD')
+  end
+
+
   def fixture_file_upload(path, mime_type = nil, binary = false)
     fixture_path = ActionController::TestCase.send(:fixture_path) if ActionController::TestCase.respond_to?(:fixture_path)
     ActionController::TestUploadedFile.new("#{fixture_path}#{path}", mime_type, binary)

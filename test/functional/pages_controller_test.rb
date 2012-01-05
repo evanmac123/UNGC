@@ -1,12 +1,12 @@
 require 'test_helper'
 
 class PagesControllerTest < ActionController::TestCase
-  
+
   def assert_blank_response
     assert_response :success
     assert_match /\A\s*\Z/, @response.body
   end
-  
+
   context "given a simple tree and some content" do
     setup do
       create_simple_tree
@@ -23,14 +23,14 @@ class PagesControllerTest < ActionController::TestCase
         assert_layout 'home'
         assert_response :success
       end
-      
+
       should "find content via path" do
         get :view, :path => @page.to_path
         assert_equal @page, assigns(:page)
         assert_layout 'application'
         assert_response :success
       end
-      
+
       should "issue a 404 when content not found" do
         get :view, :path => 'invalid/path/here.html'.split('/')
         assert_response 404
@@ -41,7 +41,7 @@ class PagesControllerTest < ActionController::TestCase
         assert_template 'pages/static.html.haml'
       end
     end
-    
+
     context "decorate action" do
       context "when logged-in staff" do
         setup do
@@ -93,14 +93,14 @@ class PagesControllerTest < ActionController::TestCase
           assert_blank_response
         end
       end
-      
+
       context "when not logged-in" do
         should "get blank response" do
           get :decorate, {:path => @page.to_path}
           assert_blank_response
         end
       end
-      
+
     end
   end
 end
