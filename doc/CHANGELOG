@@ -4,6 +4,15 @@ h1. 2012-01-03
 * There is a helper method called from the COP form: cop_questions_for @communication_on_progress, :un_goals, :year => current_year
 * :year is an optional parameter. If left out, all questions with grouping :un_goals will be returned
 
+h1. 2012-01-04
+
+* Updated public listing of Caring for Climate participants at /Issues/Environment/Climate_Change/list_of_signatories.html
+* Since we list organizations of any type, many of the helper methods in signatories_helper.rb are no longer used
+* The helpers were also currently limited to Company and SME organization types, so that filtering has been removed
+* Plus, Caring for Climate is now accepting non-participants, so that means they can be an organization type other than Company or SME
+* Companies that are delisted will no longer by displayed publicly, however they will remain in the initiative unless they are transferred to the Delisted C4C list
+>>>>>>> dashboard
+
 h1. 2011-12-30
 
 * Added basic support for creating organizations that are not participants
@@ -114,7 +123,7 @@ h1. 2011-07-28
 * then update search index to remove 'GC Networks' from search
 
 * launched new COP results screen
-* any participant who submitted a COP between the last COP mass-mailing on 30 June, 2011 would not have been informed of their status 
+* any participant who submitted a COP between the last COP mass-mailing on 30 June, 2011 would not have been informed of their status
 
 h1. 2011-07-21
 
@@ -127,12 +136,12 @@ h1. 2011-07-17
 * TODO the correct partial is determined in the two COP controllers, but this should be moved to the model in the case of further changes or customization for viewing COP results
 * views/shared/cops:
 
-*_cop_info_header* - title, publish date, period covered 
+*_cop_info_header* - title, publish date, period covered
 *_cop_questionnaire_results* - lists the COP question attributes and responses with a green check for 'Yes'
 *_feed* - calls the new, basic, or legacy partials for displaying COP content in the atom feed
 *_self_assessment* - Yes/No response to the 6 required COP criteria (only Yes responses are included in feed)
 *_show_active_style* - Dashboard only view
-*_show_advanced_style* - Dashboard only view 
+*_show_advanced_style* - Dashboard only view
 *_show_basic_style* - results of Basic template COP. These COPs do not include files or links so we only show the results of their open text responses
 *_show_differentiation_style* - for COPs submitted within the Differentiation Program
 *_show_differentiation_style_public* - we need to include the cop_info_header in the public version
@@ -366,7 +375,7 @@ h1. 2010-05-28
 h1. 2010-05-10
 
 * remove auto rejection email for micro enterprise applications
-* adding new rejection email for 
+* adding new rejection email for
 
 h1. 2010-04-26
 
