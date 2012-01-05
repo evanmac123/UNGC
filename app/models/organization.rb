@@ -194,6 +194,10 @@ class Organization < ActiveRecord::Base
     end
   }
   
+  named_scope :not_delisted,
+    { :conditions => ["cop_state != ?", COP_STATE_DELISTED] }
+  
+  
   named_scope :with_cop_due_on, lambda { |date|
     {:conditions => {:cop_due_on => date} }
   }
