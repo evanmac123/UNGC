@@ -12,13 +12,15 @@ class Admin::OrganizationsController < AdminController
   end
 
   def new
-    @organization = Organization.new(:organization_type => OrganizationType.signatory)
+    @organization_types = OrganizationType.staff_types
+    @organization = Organization.new(:organization_type => OrganizationType.signatory, :employees => 10)
   end
 
   def create
+
     @organization = Organization.new(params[:organization])
     @organization.set_non_participant_fields
-    
+
     if @organization.save
       flash[:notice] = 'Organization was successfully created.'
       redirect_to( admin_organization_path(@organization.id) )

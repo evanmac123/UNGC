@@ -16,6 +16,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
   test "should get new" do
     get :new, {}, as(@staff_user)
     assert_response :success
+    assert_template :partial => '_new_signatory'
   end
 
   test "should create organization" do
