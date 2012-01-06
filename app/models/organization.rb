@@ -74,11 +74,12 @@ class Organization < ActiveRecord::Base
   # is non-communicating for failing to engage in dialogue
   attr_accessor :non_comm_dialogue
 
-  accepts_nested_attributes_for :contacts
+  accepts_nested_attributes_for :contacts, :signings
   acts_as_commentable
 
   before_save :check_micro_enterprise_or_sme
   before_save :set_non_business_sector
+  before_save :set_initiative_signatory_sector
 
   has_attached_file :commitment_letter
 
@@ -193,6 +194,9 @@ class Organization < ActiveRecord::Base
       {:conditions => ["cop_state = ?", COP_STATES[filter_type]]}
     end
   }
+
+  named_scope :not_delisted,
+    { :conditions => ["cop_state != ?", COP_STATE_DELISTED] }
 
   named_scope :with_cop_due_on, lambda { |date|
     {:conditions => {:cop_due_on => date} }
@@ -333,6 +337,11 @@ class Organization < ActiveRecord::Base
 
   def business_entity?
     organization_type.try(:business?) || micro_enterprise?
+  end
+
+  # to identify non-participants that were added as signatories
+  def initiative_signatory?
+    organization_type_id == OrganizationType.signatory.try(:id)
   end
 
   # NOTE: Convenient alias
@@ -626,7 +635,13 @@ class Organization < ActiveRecord::Base
   private
 
     def set_non_business_sector
-      unless self.business_entity?
+      unless business_entity? || initiative_signatory?
+        self.sector = Sector.not_applicable
+      end
+    end
+
+    def set_initiative_signatory_sector
+      if initiative_signatory? && sector.nil?
         self.sector = Sector.not_applicable
       end
     end

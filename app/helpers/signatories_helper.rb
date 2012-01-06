@@ -2,7 +2,7 @@ module SignatoriesHelper
   # Counts all signatories for the initiative represented by filter_type,
   # not further limited by organization type
   def count_all_signatories(filter_type=nil)
-    Organization.for_initiative(filter_type).count
+    Organization.for_initiative(filter_type).not_delisted.count
   end
 
   def describe_signatories(filter_type=nil)
@@ -28,9 +28,18 @@ module SignatoriesHelper
 
   def showing_signatory_type(filter_type)
     if filter_type == :climate
-      signatories_showing?(:sme) ? :sme : :companies
+      # signatories_showing?(:sme) ? :sme : :companies
+      :all
     else
       :all
+    end
+  end
+
+  def link_to_path_if_participant(organization)
+    if organization.participant?
+      link_to truncate(organization.name, :length => 40), participant_path(organization)
+    else
+      truncate(organization.name, :length => 40)
     end
   end
 
@@ -39,9 +48,9 @@ module SignatoriesHelper
     unless @signatories[filter_type]
       if filter_type
         if showing_signatory_type(filter_type) == :all
-          scoped = Organization.for_initiative(filter_type)
+          scoped = Organization.for_initiative(filter_type).not_delisted
         else
-          scoped = Organization.for_initiative(filter_type).by_type(showing_signatory_type(filter_type))
+          scoped = Organization.for_initiative(filter_type).by_type(showing_signatory_type(filter_type)).not_delisted
         end
       else
         scoped = Organization

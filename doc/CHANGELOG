@@ -1,8 +1,25 @@
+h1. 2012-01-06
+
+* Initiative Signatories can also have a sector
+* This complicates things somewhat because sectors were only intended for valid businesses (Companies and SMEs)
+* Valid businesses must have at least 10 employees, otherwise they are saved as a micro-enterprise
+* When creating a new organization, the number of employees defaults to 10
+* Although this is not a robust solution, the rule around micro-enterprises could change - that is they could be accepted as valid businesses even if they have less than 10 employees
+* For now the organization model will allow sectors to be saved for Initiative Signatories, or assign "Not Applicable" if no sector was selected
+
 h1. 2012-01-03
 
 * COP Questions can now be created and grouped by year
 * There is a helper method called from the COP form: cop_questions_for @communication_on_progress, :un_goals, :year => current_year
 * :year is an optional parameter. If left out, all questions with grouping :un_goals will be returned
+
+h1. 2012-01-04
+
+* Updated public listing of Caring for Climate participants at /Issues/Environment/Climate_Change/list_of_signatories.html
+* Since we list organizations of any type, many of the helper methods in signatories_helper.rb are no longer used
+* The helpers were also currently limited to Company and SME organization types, so that filtering has been removed
+* Plus, Caring for Climate is now accepting non-participants, so that means they can be an organization type other than Company or SME
+* Companies that are delisted will no longer by displayed publicly, however they will remain in the initiative unless they are transferred to the Delisted C4C list
 
 h1. 2011-12-30
 
