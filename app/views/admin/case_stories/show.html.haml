@@ -1,47 +1,48 @@
 - @body_class = 'details'
 %h2 Case Story details
+.main_content
+  #status_box
+    %dl{:style => 'width: 90%;'}
+      %dt Title
+      %dd= @case_story.title
+      %dt Principles
+      %dd
+        %ul
+          - @case_story.principles.each do |c|
+            %li= c.name
+      %dt Countries
+      %dd= @case_story.countries.collect(&:name).join('<br />')
+      - unless @case_story.url1.blank?
+        %dt URL(s)
+        %dd= [@case_story.url1, @case_story.url2, @case_story.url3].compact.join(' ')
+      - unless @case_story.author1.blank?
+        %dt Author 1
+        %dd= [@case_story.author1, @case_story.author1_email, @case_story.author1_institution].compact.join(' ')
+      - unless @case_story.author2.blank?
+        %dt Author 2
+        %dd= [@case_story.author2, @case_story.author2_email, @case_story.author2_institution].compact.join(' ')
+      - unless @case_story.contact1.blank?
+        %dt Contact
+        %dd= [@case_story.contact1, @case_story.contact1_email].compact.join(' ')
+      - unless @case_story.contact2.blank?
+        %dt Contact
+        %dd= [@case_story.contact2, @case_story.contact2_email].compact.join(' ')
+      %dt Type
+      %dd= case_story_type(@case_story)
+      %dt Status
+      %dd= @case_story.state.humanize
+      %dt Attachments
+      %dd
+        %ul.document_list
+          %li= link_to_attached_file(@case_story)
 
-#status_box
-  %dl
-    %dt Title:
-    %dd= @case_story.title
-    %dt Principles:
-    %dd= @case_story.principles.collect(&:name).join(', ')
-    %dt Countries:
-    %dd= @case_story.countries.collect(&:name).join(', ')
-    - unless @case_story.url1.blank?
-      %dt URL(s):
-      %dd= [@case_story.url1, @case_story.url2, @case_story.url3].compact.join(' ')
-    - unless @case_story.author1.blank?
-      %dt Author 1:
-      %dd= [@case_story.author1, @case_story.author1_email, @case_story.author1_institution].compact.join(' ')
-    - unless @case_story.author2.blank?
-      %dt Author 2:
-      %dd= [@case_story.author2, @case_story.author2_email, @case_story.author2_institution].compact.join(' ')
-    - unless @case_story.contact1.blank?
-      %dt Contact:
-      %dd= [@case_story.contact1, @case_story.contact1_email].compact.join(' ')
-    - unless @case_story.contact2.blank?
-      %dt Contact:
-      %dd= [@case_story.contact2, @case_story.contact2_email].compact.join(' ')
-    %dt Type:
-    %dd= case_story_type(@case_story)
-    %dt Status:
-    %dd= @case_story.state.humanize
-    %dt Attachments:
-    %dd
-      %ul.document_list
-        %li= link_to_attached_file(@case_story)
+  %div{:class => "tab_container top_tabs"}
+    %ul.tab_nav
+      %li <a href="#comments">Comments</a>
 
-= action_links(@case_story)
-
-%div{:class => "tab_container top_tabs"}
-  %ul.tab_nav
-    %li <a href="#comments">Comments</a>
-
-  #comments.tab_content
-    - unless @case_story.state_events.empty?
-      %ul#contacts_tools{:class => "tools inline"}
-        %li= link_to 'New comment', new_admin_case_story_comment_path(@case_story), :class => 'new_large', :title => 'New Comment'
-    %ul.items
-      = render @case_story.comments
+    #comments.tab_content
+      - unless @case_story.state_events.empty?
+        %ul#contacts_tools{:class => "tools inline"}
+          %li= link_to 'New comment', new_admin_case_story_comment_path(@case_story), :class => 'new_large', :title => 'New Comment'
+      %ul.items
+        = render @case_story.comments
