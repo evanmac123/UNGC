@@ -8,7 +8,7 @@
         == Description of actions or relevant policies related to #{value}
     %li{:class => select_answer_class(communication_on_progress.include_measurement?) }
       Includes a measurement of outcomes
-    - if communication_on_progress.evaluated_for_differentiation? && communication_on_progress.additional_questions?
+    - if communication_on_progress.evaluated_for_differentiation? && communication_on_progress.additional_questions? && communication_on_progress.meets_advanced_criteria
       %li{:class => select_answer_class(communication_on_progress.meets_advanced_criteria) }
         Meets all 24 criteria for the GC Advanced level
 - else
