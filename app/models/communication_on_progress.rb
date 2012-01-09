@@ -149,13 +149,14 @@ class CommunicationOnProgress < ActiveRecord::Base
             :none      => "None of the above"
             }
 
-  LEVEL_DESCRIPTION = { :blueprint => "Global Compact LEAD - Blueprint",
+  LEVEL_DESCRIPTION = { :blueprint => "This COP qualifies for the Global Compact Advanced level",
                         :advanced  => "This COP qualifies for the Global Compact Advanced level",
                         :active    => "This COP qualifies for the Global Compact Active level",
                         :learner   => "This COP places the participant on the Global Compact Learner Platform"
                       }
 
   START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
+  START_DATE_OF_LEAD_BLUEPRINT = Date.new(2012, 01, 01)
 
   def self.find_by_param(param)
     return nil if param.blank?
@@ -427,7 +428,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_blueprint_level?
-    evaluated_for_differentiation? && organization.signatory_of?(:lead)
+    (new_record? || created_at > START_DATE_OF_LEAD_BLUEPRINT) &&
+    organization.signatory_of?(:lead) &&
+    evaluated_for_differentiation?
   end
 
   def differentiation_level
