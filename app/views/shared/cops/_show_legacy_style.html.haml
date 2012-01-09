@@ -17,8 +17,11 @@
 %dt Principles covered
 %dd
   %ul
-    - communication_on_progress.principles.each do |principle|
-      %li= principle.name
+    - if communication_on_progress.principles.any?
+      - communication_on_progress.principles.each do |principle|
+        %li= principle.name
+    - else
+      %li None reported
 
 %dt Languages
 %dd
