@@ -1,5 +1,9 @@
 %h2 Initiatives
-= link_to 'Add an initiative', new_admin_initiative_path, :class => 'new_large', :id => 'new_initiative'
+
+%p
+  %ul.tools.inline
+    %li= link_to 'New initiative', new_admin_initiative_path, :class => 'new_large', :id => 'new_initiative'
+    %li= link_to 'New non-participant', new_admin_organization_path, :class => 'new_org', :id => 'new_initiative', :title => 'Add an organization that belongs to an initiative, but is not a Global Compact participant'
 
 %table.dashboard_table#initiatives_table
   %tr
