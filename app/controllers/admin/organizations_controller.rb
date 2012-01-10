@@ -17,11 +17,12 @@ class Admin::OrganizationsController < AdminController
   end
 
   def create
-
+    signings = params[:organization].delete(:signings)
     @organization = Organization.new(params[:organization])
     @organization.set_non_participant_fields
 
     if @organization.save
+      @organization.signings.create!(signings)
       flash[:notice] = 'Organization was successfully created.'
       redirect_to( admin_organization_path(@organization.id) )
     else
