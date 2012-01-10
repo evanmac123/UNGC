@@ -1,3 +1,11 @@
+h1. 2012-01-09
+
+* Jamie @ Unspace found the issue with getting nested attributes to work
+* Normally, Rails controllers expect multiple nested attributes, but the :fields_for in the new organization form only creates one instance of a Signing
+* Since Rails expects an array of signings, the create method in organizations_controller removes the signatory parameter entirely,
+* First the signing is removed and saved: signings = params[:organization].delete(:signings)
+* After the organization is saved, create the signing: @organization.signings.create!(signings)
+
 h1. 2012-01-06
 
 * Initiative Signatories can also have a sector
