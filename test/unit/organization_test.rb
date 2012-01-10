@@ -56,12 +56,18 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal @sector_not_applicable, @organization.sector
     end
 
-    should "set sector to 'not applicable' when it is a signatory and no sector was selected" do
-      @organization = Organization.create(:name => "Signatory",
-                                          :employees => 10,
-                                          :organization_type_id => OrganizationType.signatory.try(:id)
-                                           )
-      assert_equal Sector.not_applicable, @organization.sector
+    context "when creating a non-participant" do
+      setup do
+        @organization = Organization.create(:name => "Signatory", :employees => 10)
+      end
+
+      should "set sector to 'not applicable' when it is a signatory and no sector was selected" do
+        assert_equal Sector.not_applicable, @organization.sector
+      end
+
+      should "set organization type to 'Initiative Signatory'" do
+        assert_equal OrganizationType.signatory, @organization.organization_type
+      end
     end
 
     should "set sector when it is a signatory" do

@@ -1,3 +1,10 @@
+h1. 2012-01-10
+
+* Remove ability to choose organization types from new organization form
+* In the past, it created confusion when non-participants were entered as Company or SME
+* Now organizations created through the form are assigned the 'Initiative Signatory' type
+* For now, the only reason to add a non-participant is to associate them with a particular initiative
+
 h1. 2012-01-09
 
 * Jamie @ Unspace found the issue with getting nested attributes to work
