@@ -12,8 +12,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def new
-    @organization_types = OrganizationType.staff_types
-    @organization = Organization.new(:organization_type => OrganizationType.signatory, :employees => 10)
+    @organization = Organization.new(:employees => 10)
   end
 
   def create
@@ -26,7 +25,6 @@ class Admin::OrganizationsController < AdminController
       flash[:notice] = 'Organization was successfully created.'
       redirect_to( admin_organization_path(@organization.id) )
     else
-      @organization_types = OrganizationType.all(:conditions => ["type_property=?",@organization.organization_type.type_property])
       render :action => "new"
     end
   end

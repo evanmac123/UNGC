@@ -472,6 +472,7 @@ class Organization < ActiveRecord::Base
   end
 
   def set_non_participant_fields
+    self.organization_type = OrganizationType.signatory
     self.state = ApprovalWorkflow::STATE_APPROVED
     self.participant = false
     self.active = false
