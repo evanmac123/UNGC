@@ -84,9 +84,9 @@ place `debugger` at your breakpoint and press 'c' to continue execution
 
 # Deploy with Capistrano
 
-`cap -T` -- choose which branch to deploy from  
-`cap staging deploy` -- deploys from production branch  
-`cap production deploy`  
+`cap -T` -- list out the available tasks  
+`cap staging deploy`  -- deploys from the staging branch
+`cap production deploy`  -- deploys from production branch  
 
 # Cron Jobs
 The application needs a cron job to notify organizations of their COP submission deadline - this needs to run daily.  
