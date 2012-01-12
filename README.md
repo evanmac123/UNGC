@@ -85,7 +85,7 @@ place `debugger` at your breakpoint and press 'c' to continue execution
 # Deploy with Capistrano
 
 `cap -T` -- list out the available tasks  
-`cap staging deploy`  -- deploys from the staging branch
+`cap staging deploy`  -- deploys from the staging branch  
 `cap production deploy`  -- deploys from production branch  
 
 # Cron Jobs
