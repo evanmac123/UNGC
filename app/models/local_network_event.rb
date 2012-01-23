@@ -55,6 +55,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   validates_presence_of :title, :description, :event_type, :date, :num_participants, :gc_participant_percentage
   validates_numericality_of :num_participants, :only_integer => true, :allow_blank => true
   validates_numericality_of :gc_participant_percentage, :only_integer => true, :allow_blank => true
+  validate :must_have_attachment
 
   default_scope :order => 'date DESC'
 
@@ -71,6 +72,10 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
     has 'CRC32(event_type)', :as => :event_type_crc, :type => :integer
     has 'CRC32(region)',     :as => :region_crc,     :type => :integer
     has principles(:id),     :as => :principle_ids
+  end
+
+  def must_have_attachment
+    errors.add(:file) if new_record? && attachments.empty?
   end
 
   def set_indexed_fields
