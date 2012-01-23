@@ -140,7 +140,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
            when 'date'
              error_messages << 'Select a date'
            when 'file'
-             error_messages << 'Select a file to upload'
+             error_messages << 'Files > Select a file to upload'
           end
        end
     error_messages
