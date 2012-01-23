@@ -75,7 +75,7 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
   end
 
   def must_have_attachment
-    errors.add(:file) if new_record? && attachments.empty?
+    errors.add(:file) if attachments.empty?
   end
 
   def set_indexed_fields
