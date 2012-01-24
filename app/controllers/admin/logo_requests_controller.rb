@@ -97,7 +97,7 @@ class Admin::LogoRequestsController < AdminController
       logo_file = @logo_request.logo_files.first(:conditions => ['logo_file_id=?', params[:logo_file_id]])
       send_file logo_file.zip.path, :type => 'application/x-zip-compressed'
     else
-      flash[:error] = "You only had 7 days to download the file."
+      flash[:error] = "Approved logo files must be downloaded within 7 days of accepting the Logo Policy."
       redirect_to admin_organization_logo_request_path(@organization.id, @logo_request, :tab => :approved)
     end
   end

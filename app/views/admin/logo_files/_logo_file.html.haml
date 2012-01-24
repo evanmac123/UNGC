@@ -1,8 +1,6 @@
 %li.item{:id => dom_id(logo_file)}
   .meta
     %p.name= logo_file.name
-    %p.language{:style => "margin-bottom: 1em;"} English
-    - if @logo_request.can_download_files?
-      = link_to 'Download', download_admin_organization_logo_request_path(@logo_request.organization_id, @logo_request, :logo_file_id => logo_file.id, :class => 'download', :style => "margin-top: 1em; width: auto;")
+    %p= link_to 'Download', download_admin_organization_logo_request_path(@logo_request.organization_id, @logo_request, :logo_file_id => logo_file.id), :class => 'zip_file_large'
   .body
     = image_tag logo_file.preview.url, :alt => logo_file.name
