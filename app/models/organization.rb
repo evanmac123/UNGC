@@ -385,8 +385,12 @@ class Organization < ActiveRecord::Base
     REVIEW_REASONS[review_reason.to_sym] if review_reason.present?
   end
 
+  def review_reason_to_sym
+    review_reason.try(:to_sym)
+  end
+
   def review_status(user)
-    if user.from_ungc?
+    if review_reason.present? && user.from_ungc?
       "#{state.humanize} (#{review_reason_value})"
     else
       state.humanize
