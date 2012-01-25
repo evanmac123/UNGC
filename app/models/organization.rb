@@ -42,6 +42,7 @@
 #  revenue                        :integer(4)
 #  rejoined_on                    :date
 #  non_comm_dialogue_on           :date
+#  review_reason                  :string(255)
 #
 
 class Organization < ActiveRecord::Base
@@ -134,6 +135,13 @@ class Organization < ActiveRecord::Base
     'between USD 25 million and 250 million' => 2500,
     'between USD 250 million and USD 1 billion' => 5000,
     'USD 1 billion or more' => 10000
+  }
+
+  # identify why an organization has state 'in_reveiew'
+  REVIEW_REASONS = {
+    :duplicate         => 'Duplicate',
+    :incomplete        => 'Incomplete',
+    :integrity_measure => 'Integrity Measure'
   }
 
   state_machine :cop_state, :initial => :active do
@@ -364,7 +372,6 @@ class Organization < ActiveRecord::Base
     self.contacts.financial_contacts.count > 0 ? self.contacts.financial_contacts.first : self.contacts.contact_points.first
   end
 
-
   def last_comment_date
     self.try(:comments).try(:last).try(:updated_at) || nil
   end
@@ -372,6 +379,18 @@ class Organization < ActiveRecord::Base
   def last_comment_author
     last_comment = self.try(:comments).try(:last)
     last_comment ? last_comment.try(:contact).try(:name) : ''
+  end
+
+  def review_reason_value
+    REVIEW_REASONS[review_reason.to_sym]
+  end
+
+  def review_status(user)
+    if user.from_ungc?
+      "#{state.humanize} (#{review_reason_value})"
+    else
+      state.humanize
+    end
   end
 
   def to_param

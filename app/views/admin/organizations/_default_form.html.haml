@@ -29,8 +29,14 @@
       = default_form.file_field :commitment_letter, {:label => 'Upload file'}
 
 - staff_only do
-  - if @organization.participant
 
+  - if @organization.in_review?
+    %fieldset#review_reason
+      %legend Review Status
+      %ol
+        = default_form.select :review_reason, options_for_select(select_options_from_hash(Organization::REVIEW_REASONS), @organization.review_reason.to_sym), {:include_blank => true}, :label => 'Reason in review'
+
+  - if @organization.participant
     %fieldset
       %legend Participant Status
       %ol
