@@ -11,6 +11,7 @@
 #  initiative_id     :integer(4)
 #  grouping          :string(255)
 #  implementation    :string(255)
+#  year              :integer(4)
 #
 
 class CopQuestion < ActiveRecord::Base
