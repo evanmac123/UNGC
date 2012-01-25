@@ -8,6 +8,7 @@
       %tr
         %th= sort_header 'ID', field: 'id'
         %th= sort_header 'Name', field: 'name'
+        %th= sort_header 'Review Reason', field: 'review_reason', direction: 'DESC'
         %th= sort_header 'Submitted on', field: 'created_at'
         %th Last comment
         %th Comment posted by
@@ -17,7 +18,8 @@
       - @organizations.each do |organization|
         %tr
           %td=h organization.id
-          %td{:title => organization.name}=h truncate(organization.name, :length => 40)
+          %td{:title => organization.name}=h truncate(organization.name, :length => 30)
+          %td.small= organization.review_reason_value
           %td
             =h organization.created_at
             %br/

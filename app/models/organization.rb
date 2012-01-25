@@ -382,7 +382,7 @@ class Organization < ActiveRecord::Base
   end
 
   def review_reason_value
-    REVIEW_REASONS[review_reason.to_sym]
+    REVIEW_REASONS[review_reason.to_sym] if review_reason.present?
   end
 
   def review_status(user)
