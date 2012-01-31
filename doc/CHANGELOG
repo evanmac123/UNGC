@@ -1,3 +1,14 @@
+h1. 2012-01-31
+
+* Adding new reports for Local Network Management, Events
+* Also separated the Report Recipients from the Representatives and Contact Persons
+
+h1. 2012-01-26
+
+* Create new field for Organization to label why their application status (organization.state) is 'in_review'
+* The In Review listing was getting long and the Participant Management team wanted a method to identify why these organizations were placed in review
+* When an organization is in review, a drop-down select appears when editing the organization so they can optionally select the reason
+
 h1. 2012-01-10
 
 * Remove ability to choose organization types from new organization form
@@ -9,7 +20,7 @@ h1. 2012-01-09
 
 * Jamie @ Unspace found the issue with getting nested attributes to work
 * Normally, Rails controllers expect multiple nested attributes, but the :fields_for in the new organization form only creates one instance of a Signing
-* Since Rails expects an array of signings, the create method in organizations_controller removes the signatory parameter entirely,
+* Since Rails expects an array of signings, the create method in organizations_controller removes the signatory parameter entirely
 * First the signing is removed and saved: signings = params[:organization].delete(:signings)
 * After the organization is saved, create the signing: @organization.signings.create!(signings)
 

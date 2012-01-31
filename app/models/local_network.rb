@@ -150,6 +150,10 @@ class LocalNetwork < ActiveRecord::Base
     country.id
   end
 
+  def country_name
+    country.name
+  end
+
   def stakeholders_involved_in_governance
     selected = []
     STAKEHOLDERS.each do |key, value|

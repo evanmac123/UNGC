@@ -1,6 +1,6 @@
-class LocalNetworksContacts < SimpleReport
+class LocalNetworksReportRecipients < SimpleReport
   def records
-    Contact.network_roles_public.all(:include => :local_network, :order => 'local_networks.name')
+    Contact.network_report_recipients.all(:include => :local_network, :order => 'local_networks.name')
   end
 
   def headers
@@ -20,8 +20,6 @@ class LocalNetworksContacts < SimpleReport
       'State',
       'Postal Code',
       'Contact Country',
-      'Network Contact Person',
-      'Network Representative',
       'Username',
       'Password',
       'Local Network Name',
@@ -49,8 +47,6 @@ class LocalNetworksContacts < SimpleReport
       r.try(:state),
       r.try(:postal_code),
       r.try(:country).try(:name),
-      r.is?(Role.network_focal_point) ? 1:0,
-      r.is?(Role.network_representative) ? 1:0,
       r.try(:login),
       r.try(:password),
       r.try(:local_network).try(:name) || 'Unknown',

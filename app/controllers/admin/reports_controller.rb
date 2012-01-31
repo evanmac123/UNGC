@@ -44,9 +44,24 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "bulletin_subscribers_#{date_as_filename}.xls")
   end
 
+  def local_networks_management
+    @report = LocalNetworksManagement.new
+    render_formatter(filename: "local_networks_management_#{date_as_filename}.xls")
+  end
+
   def local_networks_contacts
     @report = LocalNetworksContacts.new
     render_formatter(filename: "local_networks_contacts_#{date_as_filename}.xls")
+  end
+
+  def local_networks_report_recipients
+    @report = LocalNetworksReportRecipients.new
+    render_formatter(filename: "local_networks_report_recipients_#{date_as_filename}.xls")
+  end
+
+  def local_networks_events
+    @report = LocalNetworksEvents.new
+    render_formatter(filename: "local_networks_events_#{date_as_filename}.xls")
   end
 
   def initiative_contacts
@@ -58,6 +73,8 @@ class Admin::ReportsController < AdminController
     @report = CopQuestionnaireAnswers.new
     render_formatter(filename: "cop_questionnaire_answers_#{date_as_filename}.xls")
   end
+
+
 
   def networks
     @regions = Country.regions
