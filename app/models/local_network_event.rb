@@ -123,6 +123,10 @@ STAKEHOLDER_TYPES = { :stakeholder_company               => "Companies",
     event_type.try(:to_sym)
   end
 
+  def covers?(issue)
+    principles.include? Principle.by_type(issue)
+  end
+
   def readable_error_messages
     error_messages = []
     errors.each do |error|
