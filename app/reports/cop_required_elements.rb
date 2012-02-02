@@ -19,14 +19,14 @@ class CopRequiredElements < SimpleReport
       'References Environment',
       'References Anti-Corruption',
       'Includes Measurement of Outcomes',
-      'Advanced Questtionnaire',
+      'Advanced Questionnaire',
       'Meets 24 Advanced Criteria',
       'Method of Sharing COP',
       'Coverage starts on',
       'Coverage ends on',
       'Differentiation Level',
       'Created at',
-      'Updated at'      
+      'Updated at'
     ]
   end
 
@@ -51,7 +51,7 @@ class CopRequiredElements < SimpleReport
       record.ends_on,
       record.created_at.present? ? record.differentiation_level : 'invalid COP record',
       record.created_at.present? ? record.created_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
-      record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record'    
+      record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record'
     ]
   end
 
