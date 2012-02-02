@@ -8,6 +8,7 @@ class CopQuestionnaireAnswers < SimpleReport
       q.grouping,
       p.name AS issue_area,
       a.cop_id,
+      o.id as organization_id,
       q.id AS cop_question_id,
       q.position AS question_position,
       q.text AS criterion,
@@ -27,6 +28,8 @@ class CopQuestionnaireAnswers < SimpleReport
     LEFT JOIN
       communication_on_progresses cop ON a.cop_id = cop.id
     LEFT JOIN
+      organizations o ON o.id = cop.organization_id
+    LEFT JOIN
       principles p ON p.id = q.principle_area_id
     WHERE
       a.created_at >= '2011-01-31' AND
@@ -42,6 +45,7 @@ class CopQuestionnaireAnswers < SimpleReport
     'grouping',
     'issue_area',
     'cop_id',
+    'organization_id',
     'cop_question_id',
     'question_position',
     'criterion',
@@ -62,6 +66,7 @@ class CopQuestionnaireAnswers < SimpleReport
     record.grouping,
     record.issue_area,
     record.cop_id,
+    record.organization_id,
     record.cop_question_id,
     record.question_position,
     record.criterion,
