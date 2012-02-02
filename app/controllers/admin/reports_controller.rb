@@ -74,7 +74,10 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "cop_questionnaire_answers_#{date_as_filename}.xls")
   end
 
-
+  def cop_required_elements
+    @report = CopRequiredElements.new
+    render_formatter(filename: "cop_required_elements_#{date_as_filename}.xls")
+  end
 
   def networks
     @regions = Country.regions
