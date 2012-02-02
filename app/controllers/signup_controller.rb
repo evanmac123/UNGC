@@ -16,7 +16,7 @@ class SignupController < ApplicationController
     end
   end
 
-  # POST from oganization form
+  # POST from organization form
   # shows contact form
   def step2
     if params[:organization]

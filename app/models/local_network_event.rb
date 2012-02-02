@@ -23,6 +23,9 @@
 #  stakeholder_others               :boolean(1)
 #  created_at                       :datetime
 #  updated_at                       :datetime
+#  country_id                       :integer(4)
+#  region                           :string(255)
+#  file_content                     :text
 #
 
 class LocalNetworkEvent < ActiveRecord::Base

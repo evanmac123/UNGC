@@ -142,6 +142,12 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_select "input#organization_commitment_letter"
     end
 
+    should "staff should see the fieldset for selecting why they are in review" do
+      # login_as @staff_user
+      # get :edit, {:id => @organization.to_param}, as(@staff_user)
+      # assert_select "fieldset#review_reason"
+    end
+
   end
 
   context "given an approved organization" do

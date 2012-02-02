@@ -41,6 +41,8 @@ module Admin::OrganizationsHelper
         else
           status = organization.cop_state.humanize
         end
+    elsif organization.in_review?
+      status = organization.review_status(current_user)
     elsif organization.network_review?
       status = current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
     # if not approved then pending, in review, or rejected
