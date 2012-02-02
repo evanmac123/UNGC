@@ -137,11 +137,15 @@ class Organization < ActiveRecord::Base
     'USD 1 billion or more' => 10000
   }
 
-  # identify why an organization has state 'in_reveiew'
+  # identify why an organization is being reviewed
   REVIEW_REASONS = {
-    :duplicate         => 'Duplicate',
-    :incomplete        => 'Incomplete',
-    :integrity_measure => 'Integrity Measure'
+    :duplicate            => 'Duplicate',
+    :incomplete_cop       => 'Incomplete - Missing COP Statement',
+    :incomplete_format    => 'Incomplete - Incorrect Format',
+    :incomplete_signature => 'Incomplete - Signature from CEO',
+    :integrity_measure    => 'Integrity Measure',
+    :local_network        => 'Local Network followup',
+    :microenterprise      => 'Micro Enterprise - Verify Employees'
   }
 
   state_machine :cop_state, :initial => :active do
