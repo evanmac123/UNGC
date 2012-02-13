@@ -39,7 +39,8 @@ class ParticipantBreakdownReport < SimpleReport
       'Listed Status',
       'Stock Code',
       'Exchange',
-      'Readmitted On'
+      'Expelled on',
+      'Readmitted on'
     ]
   end
 
@@ -65,6 +66,7 @@ class ParticipantBreakdownReport < SimpleReport
     record.listing_status.try(:name),
     record.stock_symbol,
     record.exchange.try(:name),
+    record.delisted_on.try(:to_date),
     record.rejoined_on.try(:to_date)
   ]
   end
