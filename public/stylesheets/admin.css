@@ -970,7 +970,10 @@ ul.cop-question-year-filter li {
       padding-bottom: 0;
       border-bottom: 0; }
     #main_content dd ul li p {
-      line-height: 1.2em; }
+      line-height: 1.75em; }
+      #main_content dd ul li p:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0; }
 #main_content dd ul.questionnaire, #main_content dd ul.basic_question {
   margin: 0;
   list-style: none; }
