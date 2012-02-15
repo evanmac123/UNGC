@@ -79,6 +79,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "cop_required_elements_#{date_as_filename}.xls")
   end
 
+  def cops_with_differentiation
+    @report = CopsWithDifferentiation.new
+    render_formatter(filename: "cops_with_differentiation#{date_as_filename}.xls")
+  end
+
   def networks
     @regions = Country.regions
     @region = params[:region] || @regions.first.region
