@@ -29,8 +29,9 @@
     %h3 Communication on Progress
 
   %ul.report_list
-    %li= link_to_report_xls 'Communication on Progress Export', :all_cops
+    %li= link_to_report_xls 'Differentiated COPs for Weekly and Monthly Analysis', :cops_with_differentiation
     %li= link_to_report_xls 'COPs received after 2010 with required elements', :cop_required_elements
+    %li= link_to_report_xls 'Communication on Progress Export', :all_cops
     %li= link_to_report_xls 'Advanced Questionnaire Answers', :cop_questionnaire_answers
 
   %p

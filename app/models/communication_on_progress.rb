@@ -100,9 +100,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
 
   named_scope :notable, {
-      :include => [:score, {:organization => [:country]}],
-      :conditions => [ "cop_score_id = ?", CopScore.notable.try(:id) ],
-      :order => 'ends_on DESC'
+    :include => [:score, {:organization => [:country]}],
+    :conditions => [ "cop_score_id = ?", CopScore.notable.try(:id) ],
+    :order => 'ends_on DESC'
   }
 
   named_scope :advanced, {
@@ -116,6 +116,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   }
 
   named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
+
+  named_scope :for_year, lambda { |year| {
+    :conditions => ["created_at >= ?", Date.new(year, 01, 01) ]
+    }
+  }
 
   # feed contains daily COP submissions, without grace letters
   named_scope :for_feed, {
