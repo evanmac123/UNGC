@@ -23,7 +23,7 @@
       %dt Description
       %dd
         %ul
-          %li= @submodel.description.present? ? @submodel.description : 'Not available'
+          %li= @submodel.description.present? ? simple_format(@submodel.description) : 'Not available'
       %dt Date
       %dd
         %ul

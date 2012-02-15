@@ -1,4 +1,5 @@
 - if default_form.error_messages.present?
+  %h3 Sorry, the event was not saved. Please provide all required information:
   %div{:class => 'flash error'}= display_readable_errors(@submodel)
 
 %div{:class => "tab_container left_tabs"}
