@@ -81,7 +81,7 @@ class Admin::ReportsController < AdminController
 
   def cops_with_differentiation
     @report = CopsWithDifferentiation.new
-    render_formatter(filename: "cops_with_differentiation#{date_as_filename}.xls")
+    render_formatter(filename: "cops_with_differentiation_#{date_as_filename}.xls")
   end
 
   def networks
