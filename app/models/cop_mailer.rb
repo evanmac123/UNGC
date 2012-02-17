@@ -66,6 +66,7 @@ class CopMailer < ActionMailer::Base
 
   def delisting_in_90_days(organization)
     from EMAIL_SENDER
+    cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact Expulsion in 3 months"
     content_type "text/html"
