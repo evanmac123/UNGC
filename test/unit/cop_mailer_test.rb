@@ -111,7 +111,7 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal "text/html", response.content_type
       assert_equal "UN Global Compact Expulsion in 3 months", response.subject
       assert_equal @organization_user.email, response.to.first
-      assert_equal nil, response.cc
+      assert_equal @network_contact.email, response.cc.first
     end
 
     should "copy Local Network on 30 days until delisting" do

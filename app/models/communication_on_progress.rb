@@ -465,6 +465,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     self.differentiation = differentiation_level.try(:to_s)
   end
 
+  def organization_business_entity?
+    organization.business_entity?
+  end
+
   def readable_error_messages
     error_messages = []
     errors.each do |error|

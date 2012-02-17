@@ -18,6 +18,9 @@ To all Contact Points for
 
 %p== If you have further questions on the COP policy or tools, please consult the #{link_to 'FAQs', 'http://unglobalcompact.org/COP/frequently_asked_questions.html'} or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
 
+- if @organization.network_report_recipients.any?
+  %p== Additionally, your Local Network Contact Person in #{@organization.country_name} has been copied on this email.
+
 %p We look forward to the timely submission of your COP.
 
 %p Sincerely,

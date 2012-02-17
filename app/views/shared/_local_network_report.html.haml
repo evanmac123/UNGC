@@ -12,14 +12,16 @@
       %thead
         %tr
           %th{:class => 'sort'} Name
-          %th{:class => 'sort'} Latest COP
-          %th{:class => 'sort'} COP Title
+          %th{:class => 'sort'} Received
+          %th{:class => 'sort'} Title
+          %th{:class => 'sort'} Differentiation
       %tbody
         - for cop in cop_submitted_days_ago(30) do
           %tr{:title => cop.organization.name}
-            %td= link_to truncate(cop.organization.name, :length => 50), participant_path(cop.organization)
+            %td= link_to truncate(cop.organization.name, :length => 30), participant_path(cop.organization)
             %td= cop.created_at.to_date
             %td= link_to truncate(cop.title, :length => 30), cop_link(cop, params[:navigation])
+            %td= cop.differentiation_level_name
 
   %h2 COP due in the next 30 days
   - unless cop_due_in_days(30).any?
