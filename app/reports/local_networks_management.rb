@@ -36,7 +36,16 @@ class LocalNetworksManagement < SimpleReport
       '($) Other Fee',
       'Budget - % of Participant Fees',
       'Budget - % of Private Voluntary',
-      'Budget - % of Public Voluntary'
+      'Budget - % of Public Voluntary',
+      'Companies involved in governance?',
+      'SMEs involved in governance?',
+      'Business Associations involved in governance?',
+      'Labour involved in governance?',
+      'UN agencies involved in governance?',
+      'NGOs involved in governance?',
+      'Foundations involved in governance?',
+      'Academics involved in governance?',
+      'Governments involved in governance?'
     ]
   end
 
@@ -72,7 +81,16 @@ class LocalNetworksManagement < SimpleReport
     record.fees_amount_other_organization,
     record.fees_amount_participant,
     record.fees_amount_voluntary_private,
-    record.fees_amount_voluntary_public
+    record.fees_amount_voluntary_public,
+    record.stakeholder_company? ? 1:0,
+    record.stakeholder_sme? ? 1:0,
+    record.stakeholder_business_association? ? 1:0,
+    record.stakeholder_labour? ? 1:0,
+    record.stakeholder_un_agency? ? 1:0,
+    record.stakeholder_ngo? ? 1:0,
+    record.stakeholder_foundation? ? 1:0,
+    record.stakeholder_academic? ? 1:0,
+    record.stakeholder_government? ? 1:0
   ]
   end
 
