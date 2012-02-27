@@ -117,7 +117,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
 
-  named_scope :for_year, lambda { |year| {
+  named_scope :since_year, lambda { |year| {
     :conditions => ["created_at >= ?", Date.new(year, 01, 01) ]
     }
   }
