@@ -1,7 +1,7 @@
 class CopsWithDifferentiation < SimpleReport
 
   def records
-    CommunicationOnProgress.for_year(2011).all(:include => [ :organization,
+    CommunicationOnProgress.since_year(2011).all(:include => [ :organization,
                                                            { :organization => :country,
                                                              :organization => :organization_type } ])
   end
