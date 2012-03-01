@@ -49,6 +49,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "local_networks_management_#{date_as_filename}.xls")
   end
 
+  def local_networks_knowledge_sharing
+    @report = LocalNetworksKnowledgeSharing.new
+    render_formatter(filename: "local_networks_knowledge_sharing_#{date_as_filename}.xls")
+  end
+
   def local_networks_contacts
     @report = LocalNetworksContacts.new
     render_formatter(filename: "local_networks_contacts_#{date_as_filename}.xls")
