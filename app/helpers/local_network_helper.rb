@@ -24,9 +24,9 @@ module LocalNetworkHelper
 
   def formatted_local_network_contact_info(contact)
     return '&nbsp;' unless contact
-    "#{role_for contact}<br />
-    #{contact.full_name_with_title}<br />
-    #{link_to contact.email, "mailto:#{contact.email}"}"
+    html =  "#{role_for contact}<br />#{contact.full_name_with_title}"
+    html += "<br />#{link_to contact.email, "mailto:#{contact.email}"}" unless contact.is?(Role.network_representative)
+    html
   end
 
   def p_with_link_to_participant_search
