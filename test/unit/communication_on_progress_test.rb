@@ -349,6 +349,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "be considered Learner if they are missing one of the 6 criteria" do
       @cop.update_attribute :references_environment, false
       assert_equal 'learner', @cop.differentiation
+      assert @cop.learner?
+      assert @organization.last_cop_is_learner?
     end
 
     should "be considered Active if all intermediate criteria are met" do

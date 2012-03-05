@@ -1,3 +1,8 @@
+h1. 2012-03-02
+
+* Revising COP reminder emails to insert 'Learner' message when @organization.last_cop_is_learner?
+* We are also including links to translated PDF versions of the emails
+
 h1. 2012-02-17
 
 * Do not display differentiation level publicly in COPs from non-business
