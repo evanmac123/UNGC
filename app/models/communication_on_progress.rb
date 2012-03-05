@@ -452,6 +452,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
+  def learner?
+    differentiation == 'learner'
+  end
+
   def differentiation_level_name
     differentiation.to_s.try(:humanize)
   end

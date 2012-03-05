@@ -409,6 +409,14 @@ class Organization < ActiveRecord::Base
     string = CGI.escape(string)
   end
 
+  def last_approved_cop
+    communication_on_progresses.approved.first if communication_on_progresses.approved.any?
+  end
+
+  def last_cop_is_learner?
+    last_approved_cop && last_approved_cop.learner?
+  end
+
   def rejected?
     state == ApprovalWorkflow::STATE_REJECTED
   end
