@@ -22,4 +22,15 @@ class CopAnswer < ActiveRecord::Base
     }
   }
 
+  named_scope :not_covered_by_group, lambda { |group|
+    {
+     :include => :cop_attribute,
+     :conditions => ["cop_attributes.cop_question_id IN (?) AND value = 0", CopQuestion.group_by(group).map(&:id)]
+    }
+  }
+
+  def cop_attribute_text
+    cop_attribute.text
+  end
+
 end

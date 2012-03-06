@@ -13,7 +13,9 @@
   - if communication_on_progress.questions_missing_answers.any?
     - communication_on_progress.questions_missing_answers.each do |question|
       %li.unselected_question= question.text
-  - communication_on_progress.questions_not_fully_covered('lead_un_goals').each do |question|
-    %li.unselected_question= question.text
-  - communication_on_progress.questions_not_fully_covered('lead_gc').each do |question|
-    %li.unselected_question= question.text
+
+  - communication_on_progress.missing_answers_for_group('lead_un_goals').each do |answer|
+    %li.unselected_question= answer.cop_attribute_text
+
+  - communication_on_progress.missing_answers_for_group('lead_gc').each do |answer|
+    %li.unselected_question= answer.cop_attribute_text

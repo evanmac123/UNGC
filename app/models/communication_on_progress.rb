@@ -406,6 +406,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     CopQuestion.find(missing)
   end
 
+  # get specific cop_answers not answered for a particular COP Question group
+  def missing_answers_for_group(grouping)
+    cop_answers.not_covered_by_group(grouping)
+  end
+
   def lead_cop_is_incomplete?
     questions_missing_answers.any? || questions_not_fully_covered('lead_un_goals').any? || questions_not_fully_covered('lead_gc').any?
   end
