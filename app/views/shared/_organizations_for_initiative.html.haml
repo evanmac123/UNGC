@@ -5,7 +5,7 @@
       %th{:class => 'sort'} Sector
       %th{:class => 'sort'} Country
   %tbody
-    - for organization in signatories(:climate)
+    - for organization in signatories(initiative)
       %tr
         %td{:title => organization.name}= link_to_path_if_participant(organization)
         %td{:title => organization.sector_name}= truncate(organization.sector_name, :length => 30)
