@@ -34,10 +34,10 @@
   %table
     %tr
       %td{:style => @row_style} Name:
-      %td= @ceo.full_name_with_title
+      %td= @ceo.try(:full_name_with_title)
     %tr
       %td{:style => @row_style} Title:
-      %td= @ceo.job_title
+      %td= @ceo.try(:job_title)
     %tr
       %td{:style => @row_style} Address:
       %td

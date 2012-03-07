@@ -8,18 +8,12 @@
     %h3 Blueprint
     %p Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website.
 
-    %dl{:style => 'width: 100%;'}
-      - if communication_on_progress.missing_items?
-        %p== According to your self-assessment, your COP is missing <strong>#{communication_on_progress.number_missing_items}</strong> of the required elements:
-
-        %dt.first Required elements
-        %dd.first= render :partial => '/shared/cops/self_assessment', :locals => { :communication_on_progress => communication_on_progress }
-
-      - if communication_on_progress.lead_cop_is_incomplete?
-        %dl{:style => 'width: 100%;'}
-          %dt Missing or<br />incomplete criteria
-          %dd
-            = render :partial => '/shared/cops/cop_missing_lead_criteria', :locals => { :communication_on_progress => communication_on_progress }
+    - if communication_on_progress.lead_cop_is_incomplete?
+      %p We would like to inform you that, according to your self-assessment, your COP is missing the following elements required for LEAD companies:
+      %dl{:style => 'width: 100%;'}
+        %dt.first Missing or<br />incomplete criteria
+        %dd.first
+          = render :partial => '/shared/cops/cop_missing_lead_criteria', :locals => { :communication_on_progress => communication_on_progress }
 
   #results.tab_content
     %h3 Blueprint
@@ -29,7 +23,7 @@
   #next_steps.tab_content
     %h3 Blueprint
     - if communication_on_progress.missing_items? || communication_on_progress.lead_cop_is_incomplete?
-      %p== Please resubmit your COP or send your updated COP covering the following missing elements to #{mail_to 'lead@unglobalcompact.org'}.
+      %p== Please send an updated document or supplementary note covering the missing elements within the next 3 months or by <strong>#{dd_month_yyyy communication_on_progress.created_at + 3.months}</strong> to #{mail_to 'lead@unglobalcompact.org'}.
       %dl{:style => 'width: 100%;'}
         %dt Missing or<br />incomplete criteria
         %dd
