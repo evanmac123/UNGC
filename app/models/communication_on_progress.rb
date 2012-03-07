@@ -107,7 +107,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   named_scope :advanced, {
     :include => [ {:organization => [:country, :sector]} ],
-    :conditions => [ "differentiation = ?", 'advanced' ]
+    :conditions => [ "differentiation IN (?)", ['advanced','blueprint'] ]
   }
 
   named_scope :learner, {

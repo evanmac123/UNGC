@@ -29,6 +29,13 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal @organization_user.email, response.to.first
     end
 
+    should "send confirmation Blueprint email" do
+      response = CopMailer.deliver_confirmation_blueprint(@organization, @cop, @organization_user)
+      assert_equal "text/html", response.content_type
+      assert_equal "Global Compact LEAD - COP Status", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end
+
   end
 
   context "given an organization with a Local Network" do
