@@ -1,3 +1,10 @@
+h1. 2012-03-07
+
+* Fixed Caring for Climate partial so it can list organizations from any initiative
+* The partial can be called from any dynamic page such as /HowToParticipate/Lead/lead_participants.html
+* Just specify the initiative symbol as defined in Initiative::FILTER_TYPES
+* = render :partial => 'shared/organizations_for_initiative', :locals => {:initiative => :lead}
+
 h1. 2012-03-02
 
 * Revising COP reminder emails to insert 'Learner' message when @organization.last_cop_is_learner?
