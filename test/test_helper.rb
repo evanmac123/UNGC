@@ -154,6 +154,7 @@ class ActiveSupport::TestCase
     create_role(:name => 'Network Focal Point', :description => "value", :old_id => 5)
     create_role(:name => 'Network Representative', :description => "value", :old_id => 12)
     create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
+    create_role(:name => 'Monthly Report Recipient', :description => "value", :old_id => 16)
   end
 
   def create_cop(organization_id, options = {})

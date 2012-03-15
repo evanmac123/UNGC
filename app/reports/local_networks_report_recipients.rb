@@ -1,6 +1,6 @@
 class LocalNetworksReportRecipients < SimpleReport
   def records
-    Contact.network_report_recipients.all(:include => :local_network, :order => 'local_networks.name')
+    Contact.network_monthly_reports.all(:include => :local_network, :order => 'local_networks.name')
   end
 
   def headers

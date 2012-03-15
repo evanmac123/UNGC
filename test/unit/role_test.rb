@@ -52,10 +52,11 @@ class RoleTest < ActiveSupport::TestCase
       @roles = Role.visible_to(@network_contact)
     end
 
-    should "have focal, rep, report and general role options" do
+    should "have focal, rep, report, monthly report and general role options" do
       assert_same_elements [ Role.network_focal_point,
                              Role.network_representative,
                              Role.network_report_recipient,
+                             Role.network_monthly_report,
                              Role.general_contact ], @roles
 
     end
