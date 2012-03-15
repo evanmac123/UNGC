@@ -7,6 +7,8 @@
     %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
     %li <a href="#comments">Comments</a>
+    - if current_user.from_ungc? && Organization.peer_organizations(@organization).any?
+      %li==<a href="#peers">Peers (#{Organization.peer_organizations(@organization).count})</a>
     - if @organization.communication_on_progresses.any?
       %li <a href="#cops">COPs</a>
     - if @organization.case_stories.any?
@@ -90,6 +92,17 @@
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new_large', :title => 'New Comment'
     %ul.items= render @organization.comments
+
+  #peers.tab_content
+    %h2 Peers
+    %p.cop_description= describe_peer_organizations(@organization)
+    %table.dashboard_table#cops_dashboard_table
+      %tr
+        %th Name
+        %th Employees
+        %th Status
+        %th Actions
+      = render :partial => 'admin/organizations/peer_organization', :collection => Organization.peer_organizations(@organization)
 
   - if @organization.communication_on_progresses.any?
     #cops.tab_content
