@@ -41,6 +41,7 @@ class Contact < ActiveRecord::Base
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
   TYPE_NETWORK = :network
+  TYPE_NETWORK_GUEST = :network_guest
 
   # if they haven't logged in then we redirect them to their edit page to confirm their contact information
   MONTHS_SINCE_LOGIN = 6
@@ -220,6 +221,10 @@ class Contact < ActiveRecord::Base
     local_network_id?
   end
 
+  def from_network_guest?
+    organization_id? && organization.name == DEFAULTS[:local_network_guest_name]
+  end
+
   def from_rejected_organization?
     organization.try(:rejected?)
   end
@@ -239,6 +244,7 @@ class Contact < ActiveRecord::Base
   def user_type
     return TYPE_UNGC if from_ungc?
     return TYPE_NETWORK if from_network?
+    return TYPE_NETWORK_GUEST if from_network_guest?
     return TYPE_ORGANIZATION if from_organization?
   end
 

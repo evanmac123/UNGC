@@ -17,6 +17,17 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
 
+  context "given a Local Network guest" do
+    setup do
+      create_local_network_guest_organization
+    end
+
+    should "return proper type" do
+      assert_equal Contact::TYPE_NETWORK_GUEST, @local_network_guest_user.user_type
+      assert @local_network_guest_user.from_network_guest?
+    end
+  end
+
   context "given a all Local Network Managers" do
     setup do
       @local_network_managers = Contact.network_regional_managers

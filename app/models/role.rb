@@ -28,7 +28,8 @@ class Role < ActiveRecord::Base
     :network_representative    => 12,
     :network_report_recipient  => 13,
     :network_regional_manager  => 14,
-    :network_monthly_report    => 16
+    :network_monthly_report    => 16,
+    :network_guest_user        => 17
   }
 
   named_scope :visible_to, lambda { |user, current_user = nil|
@@ -55,6 +56,11 @@ class Role < ActiveRecord::Base
     elsif user.user_type == Contact::TYPE_NETWORK
       roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.network_monthly_report, Role.general_contact].collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
+
+    elsif user.user_type == Contact::TYPE_NETWORK_GUEST
+       roles_ids = [Role.network_guest_user].collect(&:id)
+       { :conditions => ['id in (?)', roles_ids.flatten] }
+
     else
       {}
     end
@@ -79,9 +85,13 @@ class Role < ActiveRecord::Base
   def self.network_regional_manager
     find :first, :conditions => ["old_id=?", FILTERS[:network_regional_manager]]
   end
-  
+
   def self.network_monthly_report
     find :first, :conditions => ["old_id=?", FILTERS[:network_monthly_report]]
+  end
+
+  def self.network_guest_user
+    find :first, :conditions => ["old_id=?", FILTERS[:network_guest_user]]
   end
 
   def self.ceo
@@ -105,6 +115,6 @@ class Role < ActiveRecord::Base
   end
 
   def self.login_roles
-    [Role.contact_point, Role.network_report_recipient, Role.network_focal_point]
+    [Role.contact_point, Role.network_report_recipient, Role.network_focal_point, Role.network_guest_user]
   end
 end

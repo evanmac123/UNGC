@@ -126,6 +126,14 @@ class ActiveSupport::TestCase
     return @staff_user
   end
 
+  def create_local_network_guest_organization
+    create_organization_type
+    create_country
+    @local_network_guest = create_organization(:name => 'Local Network Guests')
+    @local_network_guest_user = create_contact(:login           => 'guest',
+                                               :password        => 'password',
+                                               :organization_id => @local_network_guest.id)
+  end
 
   def create_expelled_organization
     create_organization_and_user
@@ -155,6 +163,7 @@ class ActiveSupport::TestCase
     create_role(:name => 'Network Representative', :description => "value", :old_id => 12)
     create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
     create_role(:name => 'Monthly Report Recipient', :description => "value", :old_id => 16)
+    create_role(:name => 'Local Network Guest', :description => "value", :old_id => 17)
   end
 
   def create_cop(organization_id, options = {})
