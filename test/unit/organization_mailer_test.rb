@@ -2,6 +2,7 @@ require 'test_helper'
 
 class OrganizationMailerTest < ActionMailer::TestCase
   def setup
+    create_roles
     create_ungc_organization_and_user
     create_organization_and_user
     create_organization_and_ceo
@@ -58,8 +59,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
     response = OrganizationMailer.deliver_in_review(@organization)
     assert_equal "text/html", response.content_type
     assert_equal "Your application to the Global Compact", response.subject
-    # FIXME: @organization_user is nil
-    # assert_equal @organization_user.email, response.to.first
+    assert_equal @organization_user.email, response.to.first
   end
 
   test "in review local network mailer is sent" do
