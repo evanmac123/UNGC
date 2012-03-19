@@ -9,6 +9,10 @@
     = link_to_current 'Browse Networks', admin_local_networks_path, (controller.is_a?(Admin::LocalNetworksController) && current_user.local_network != @local_network)
     = link_to_current 'Learning', admin_learning_path, controller.is_a?(Admin::LearningController)
 
+  - if logged_in? && current_user.from_network_guest?
+    = link_to_current 'Browse Networks', admin_local_networks_path, (controller.is_a?(Admin::LocalNetworksController) && current_user.local_network != @local_network)
+    = link_to_current 'Learning', admin_learning_path, controller.is_a?(Admin::LearningController)
+
   - if logged_in? && current_user.from_ungc?
     = link_to_current 'Organizations', pending_review_admin_organizations_path, controller.is_a?(Admin::OrganizationsController)
     = link_to_current 'Local Networks', admin_local_networks_path, controller.is_a?(Admin::LocalNetworksController) || controller.is_a?(Admin::LearningController)
