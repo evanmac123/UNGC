@@ -4,7 +4,7 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
     @local_network = create_local_network
-
+    create_local_network_guest_organization
     login_as @staff_user
   end
 
@@ -12,6 +12,7 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     get :index, {}
     assert_response :success
     assert_not_nil assigns(:local_networks)
+    assert_not_nil assigns(:local_network_guest)
   end
 
   test "should get new" do

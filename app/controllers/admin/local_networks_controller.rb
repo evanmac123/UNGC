@@ -6,6 +6,7 @@ class Admin::LocalNetworksController < AdminController
 
   def index
     @local_networks = LocalNetwork.all(:order => order_from_params, :include => :countries)
+    @local_network_guest = Organization.find_by_name(DEFAULTS[:local_network_guest_name])
   end
 
   def new
