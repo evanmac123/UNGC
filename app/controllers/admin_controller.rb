@@ -27,8 +27,10 @@ class AdminController < ApplicationController
     elsif current_user.from_network?
       @local_network = current_user.local_network
       @organizations = Organization.visible_to(current_user)
+
     elsif current_user.from_organization?
       @organization = current_user.organization
+
     end
     render :template => "admin/dashboard_#{current_user.user_type}.html.haml"
   end
@@ -36,7 +38,7 @@ class AdminController < ApplicationController
   def no_access_to_other_organizations
     if current_user.from_organization? and current_user.organization != @organization
       flash[:error] = "You do not have permission to access that resource."
-      redirect_to admin_organization_path current_user.organization.id
+      redirect_to dashboard_path
     end
   end
 
@@ -77,6 +79,8 @@ class AdminController < ApplicationController
       redirect_to dashboard_path
     end
   end
+
+  # Only allow access to the resource if belongs to the current user's organization or Local Network
 
   private
 

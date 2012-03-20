@@ -41,7 +41,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
                                         :organization_type_id => OrganizationType.first.id)
     login_as @user
     get :show, {:id => @organization.to_param}, as(@user)
-    assert_redirected_to admin_organization_path(@user.organization.id)
+    assert_redirected_to dashboard_path
     assert_equal "You do not have permission to access that resource.", flash[:error]
   end
 
