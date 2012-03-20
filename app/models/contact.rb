@@ -266,7 +266,7 @@ class Contact < ActiveRecord::Base
   end
 
   def needs_to_update_contact_info
-    unless from_ungc?
+    unless from_ungc? || from_network_guest?
       last_update = last_login_at || updated_at
       last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
     end
