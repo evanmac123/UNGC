@@ -1,0 +1,7 @@
+%tr
+  %td{:title => peer_organization.name}= peer_organization.name
+  %td= peer_organization.employees
+  %td= peer_organization.state.humanize
+  %td
+    %ul.actions
+      %li= link_to 'View details', admin_organization_path(peer_organization.id), :class => 'preview', :title => 'View details'
