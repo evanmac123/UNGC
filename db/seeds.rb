@@ -1,5 +1,7 @@
 puts "Seeding data..."
 
+# Create organization to contain Local Network Guest contacts
+
 country = Country.find_by_name("United States of America")
 country_id = country.nil? ? nil : country.id
 
@@ -16,6 +18,8 @@ params = { :name                 => DEFAULTS[:local_network_guest_name],
 
 Organization.destroy_all(params)
 organization = Organization.find_or_create_by_name(params)
+
+# Create Local Network Guest with login
 
 test_email = 'test.user@testing.com'
 params = { :organization_id => organization.id,
@@ -34,10 +38,9 @@ params = { :organization_id => organization.id,
 Contact.destroy_all(:email => test_email)
 contact = Contact.create(params)
 
+# Create Local Network Guest role
+
 params = { :name => 'Local Network Guest', :description => 'Resricted access to view Local Network information', :old_id => 17 }
 Role.destroy_all(params)
 role = Role.create(params)
-
 contact.roles << role
-
-role.errors.each { |e| puts e }

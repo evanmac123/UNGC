@@ -1,3 +1,14 @@
+h1. 2012-03-20
+
+* Created a default name for the organization to hold these contacts DEFAULTS[:local_network_guest_name] is 'Local Network Guests'
+* Local Network Guests should not be asked to update their contact info in Contact.needs_to_update_contact_info
+
+h1. 2012-03-16
+
+* Local Networks require a guest login who can view and search for information, but cannot edit information for any network
+* It was not possible to allow these people to be 'guests' of an existing Local Network, so a standalone organization and dashboard will be created
+* This will behave similarly to the UNGC organization, but with restricted access to viewing Local Networks
+
 h1. 2012-03-15
 
 * Added a new role 'Monthly Report Recipient' to for Local Network contacts who want to receive the Monthly Participant Reports, but not the auto-emails
