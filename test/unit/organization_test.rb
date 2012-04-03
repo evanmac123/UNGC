@@ -23,12 +23,12 @@ class OrganizationTest < ActiveSupport::TestCase
       @academic = create_organization_type(:name => 'Academic')
     end
 
-    should "set the organization type to micro enterprise when it has less than 10 employees" do
+    should "set the organization type to SME when it has less than 10 employees" do
       @organization = Organization.create(:name                 => 'Small Company',
                                           :employees            => 2,
                                           :organization_type_id => @companies.id)
-      assert_equal @micro_enterprise.id, @organization.organization_type_id
-      assert @organization.micro_enterprise?
+      assert_equal @sme.id, @organization.organization_type_id
+      assert !@organization.micro_enterprise?
     end
 
     should "set the organization type to SME when it has between 10 and 250 employees" do

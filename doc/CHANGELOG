@@ -1,3 +1,11 @@
+h1. 2012-04-02
+
+* It was decided that companies that were accepted with more than 10 employees should not be penalized if their number falls below 10
+* Micro enterprises are not allowed to participate in the Global Compact
+* If a company goes from 12 to 9 employees, their OrganizationType is changed to Micro Enterprise
+* This would effectively place them in a dormant state because they were not sent COP reminders, or evaluated with cop_status_updated.rb
+* Now, if a company's employee count falls below 10, they are still considered to be an SME
+
 h1. 2012-03-15
 
 * When reviewing new applications, the Participant Management team needs to know if the organization ha already applied
