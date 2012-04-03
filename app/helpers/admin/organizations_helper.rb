@@ -122,5 +122,11 @@ module Admin::OrganizationsHelper
       true
     end
   end
+  
+  def  alert_if_micro_enterprise(organization, current_user)
+    if current_user.from_ungc?
+      organization.company? && organization.employees < 10 ? 'red' : 'inherit'
+    end
+  end
 
 end
