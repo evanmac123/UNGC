@@ -27,4 +27,21 @@ class CopFile < ActiveRecord::Base
            :cop_with_stakeholders => 'cop_with_stakeholders',
            :web_cop               => 'web_cop',
            :support_statement     => 'support_statement'}
+  
+  # named_scope :all_files, joins(:table).where('table.field = ?', 'value')
+  
+  named_scope :all_files, {
+    :include => [ {:communication_on_progress => [:organization]}, :language ],
+    :conditions => ['language_id IS NOT NULL'],
+    :order => "cop_files.created_at DESC", 
+  }
+  
+  def language_name
+    language.try(:name)
+  end
+  
+  def differentiation_name
+    communication_on_progress.try(:differentiation_level)
+  end
+    
 end

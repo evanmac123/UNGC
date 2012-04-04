@@ -177,10 +177,26 @@ class CommunicationOnProgress < ActiveRecord::Base
     organization.try(:country).try(:name)
   end
 
+  def organization_id
+    organization.try :id || ''
+  end
+
   def organization_name
     organization.try :name || ''
   end
 
+  def organization_joined_on
+    organization.try :joined_on || ''
+  end
+  
+  def organization_type
+    organization.try :organization_type_name || ''
+  end
+  
+  def organization_cop_state
+    organization.try :cop_state || ''
+  end
+  
   def sector_name
     organization.sector.try(:name) || ''
   end
