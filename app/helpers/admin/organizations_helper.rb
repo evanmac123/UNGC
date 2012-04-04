@@ -108,10 +108,24 @@ module Admin::OrganizationsHelper
 
   end
 
+  def describe_peer_organizations(organization)
+    if organization.company?
+      "Companies from #{organization.country_name} in the #{organization.sector_name} sector."
+    else
+       "#{organization.organization_type_name} organizations from #{organization.country_name}"
+    end
+  end
+
   # if an organization is still under review, then they should be able to change their letter
   def can_edit_letter?(organization)
     unless organization.new_record? || organization.approved? && current_user.from_organization?
       true
+    end
+  end
+  
+  def  alert_if_micro_enterprise(organization, current_user)
+    if current_user.from_ungc?
+      organization.company? && organization.employees < 10 ? 'red' : 'inherit'
     end
   end
 

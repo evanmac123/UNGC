@@ -266,6 +266,18 @@ class Organization < ActiveRecord::Base
     { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date] }
   }
 
+  named_scope :peer_organizations, lambda { |organization|
+    conditions = ["country_id = ? AND sector_id = ? AND organizations.id != ?", organization.country_id, organization.sector_id, organization.id]
+    unless organization.company?
+      conditions = ["country_id = ? AND organization_type_id = ? AND organizations.id != ?", organization.country_id, organization.organization_type_id, organization.id]
+    end
+    {
+      :include    => [:country, :sector],
+      :conditions => conditions,
+      :order      => "organizations.name ASC"
+    }
+  }
+
   def set_replied_to(current_user)
     if current_user.from_organization?
       self.replied_to = false
@@ -686,9 +698,7 @@ class Organization < ActiveRecord::Base
       # we don't make assumptions if there is no employees information
       return if self.employees.nil?
       if self.business_entity?
-        if self.employees < 10
-          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
-        elsif self.employees < 250
+        if self.employees < 250
           self.organization_type_id = OrganizationType.try(:sme).try(:id)
         elsif self.employees >= 250
           self.organization_type_id = OrganizationType.try(:company).try(:id)

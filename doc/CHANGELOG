@@ -1,3 +1,11 @@
+h1. 2012-04-02
+
+* It was decided that companies that were accepted with more than 10 employees should not be penalized if their number falls below 10
+* Micro enterprises are not allowed to participate in the Global Compact
+* If a company goes from 12 to 9 employees, their OrganizationType is changed to Micro Enterprise
+* This would effectively place them in a dormant state because they were not sent COP reminders, or evaluated with cop_status_updated.rb
+* Now, if a company's employee count falls below 10, they are still considered to be an SME
+
 h1. 2012-03-20
 
 * Created a default name for the organization to hold these contacts DEFAULTS[:local_network_guest_name] is 'Local Network Guests'
@@ -12,6 +20,11 @@ h1. 2012-03-16
 h1. 2012-03-15
 
 * Added a new role 'Monthly Report Recipient' to for Local Network contacts who want to receive the Monthly Participant Reports, but not the auto-emails
+
+* When reviewing new applications, the Participant Management team needs to know if the organization ha already applied
+* We currently use Sphinx to find organizations with similar names, but on occasion, some organizations with similar names are not identified
+* A new tab was added in each Organization's profile called 'Peers' which lists organizations from the same country and sector, or the same organization type if they are a non-business
+* The scope Organization.peer_organizations(organization) should be updated if the matching organizations are not helpful to staff
 
 h1. 2012-03-07
 
@@ -442,7 +455,7 @@ h1. 2010-05-28
 h1. 2010-05-10
 
 * remove auto rejection email for micro enterprise applications
-* adding new rejection email for
+* adding new rejection email for that is triggered by admin user
 
 h1. 2010-04-26
 
