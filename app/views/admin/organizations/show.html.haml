@@ -46,7 +46,7 @@
       %dt Sector:
       %dd= @organization.sector_name
       %dt Employees:
-      %dd= @organization.employees
+      %dd{:style => "color: #{alert_if_micro_enterprise(@organization, current_user)};"}= @organization.employees
       %dt Country:
       %dd= @organization.country_name
       - unless @organization.url.blank?

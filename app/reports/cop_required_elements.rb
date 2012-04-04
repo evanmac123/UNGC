@@ -6,27 +6,27 @@ class CopRequiredElements < SimpleReport
   end
 
   def headers
-    [ 'Participant Name',
-      'Participant Country',
-      'Participant ID',
-      'Web link to COP',
-      'COP ID',
-      'Title',
-      'Format',
-      'Includes CEO Statement of Continued Support',
-      'References Human Rights',
-      'References Labour',
-      'References Environment',
-      'References Anti-Corruption',
-      'Includes Measurement of Outcomes',
-      'Advanced Questionnaire',
-      'Meets 24 Advanced Criteria',
-      'Method of Sharing COP',
-      'Coverage starts on',
-      'Coverage ends on',
-      'Differentiation Level',
-      'Created at',
-      'Updated at'
+    [ 'participant_name',
+      'country',
+      'organization_id',
+      'cop_web_link',
+      'id',
+      'title',
+      'format',
+      'include_continued_support_statement',
+      'references_human_rights',
+      'references_labour',
+      'references_environment',
+      'references_anti_corruption',
+      'include_measurement',
+      'additional_questions',
+      'meets_advanced_criteria',
+      'method_shared',
+      'starts_on',
+      'ends_on',
+      'differentiation',
+      'created_at',
+      'updated_at'
     ]
   end
 

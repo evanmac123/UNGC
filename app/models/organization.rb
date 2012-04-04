@@ -698,9 +698,7 @@ class Organization < ActiveRecord::Base
       # we don't make assumptions if there is no employees information
       return if self.employees.nil?
       if self.business_entity?
-        if self.employees < 10
-          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
-        elsif self.employees < 250
+        if self.employees < 250
           self.organization_type_id = OrganizationType.try(:sme).try(:id)
         elsif self.employees >= 250
           self.organization_type_id = OrganizationType.try(:company).try(:id)
