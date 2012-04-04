@@ -7,26 +7,26 @@ class CopsWithDifferentiation < SimpleReport
   end
 
   def headers
-    [ 'Participant Name',
-      'Organization Type',
-      'Country',
-      'COP ID',
-      'Organization ID',
-      'Title',
-      'Created at',
-      'Updated at',
-      'Format',
-      'Includes Continued Support Statement',
-      'Includes Measurement',
-      'References Human Rights',
-      'References Labour',
-      'References Environment',
-      'References Anti-Corruption',
-      'Meets Advanced Criteria',
-      'Completed Advanced COP',
-      'Coverage starts on',
-      'Coverage ends on',
-      'Differentiation Level'
+    [ 'participant_name',
+      'organization_type',
+      'country',
+      'id',
+      'organization_id',
+      'title',
+      'created_at',
+      'updated_at',
+      'format',
+      'include_continued_support_statement',
+      'include_measurement',
+      'references_human_rights',
+      'references_labour',
+      'references_environment',
+      'references_anti_corruption',
+      'meets_advanced_criteria',
+      'additional_questions',
+      'starts_on',
+      'ends_on',
+      'differentiation'
     ]
   end
 
