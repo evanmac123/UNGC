@@ -5,13 +5,28 @@
         %img{ :src => "/images/logo.png", :alt => "United Nations Global Compact" }
     #languages
       %ul
-        %li.arabic=     link_to '', '/Languages/arabic/'
-        %li.chinese=    link_to '', '/Languages/chinese/'
-        %li.french=     link_to '', '/Languages/french/'
-        %li.russian=    link_to '', '/Languages/russian/'
-        %li.spanish=    link_to '', '/Languages/spanish/'
-        %li.german=     link_to '', '/Languages/german/'
-        %li.portuguese= link_to '', '/Languages/portuguese/'
+        %li
+          %a{ :href => "/Languages/arabic/index.html" }
+            &#x639;&#x631;&#x628;&#x64A;
+        %li
+          %a{ :href => "/Languages/chinese/index.html" }
+            &#x4E2D;&#x6587;
+        %li
+          %a{ :href => "/Languages/french/index.html" }
+            Fran&ccedil;ais
+        %li
+          %a{ :href => "/Languages/russian/index.html" }
+            &#x420;&#x443;&#x441;&#x441;&#x43A;&#x438;&#x439;
+        %li
+          %a{ :href => "/Languages/spanish/index.html" }
+            Espa&ntilde;ol
+        %li
+          %a{ :href => "/Languages/german/index.html" }
+            Deutsch
+        %li
+          %a{ :href => "/Languages/portuguese/index.html" }
+            Portugu&ecirc;s
+
     #search
       %form{ :name => "search", :action => "/search", :method => "get" }
         %input.search_box{ :name => "keyword", :type => "text" }
