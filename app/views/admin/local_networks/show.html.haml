@@ -21,7 +21,8 @@
   - if current_user_can_edit_network?
     #contacts.tab_content
       %ul#contacts_tools{:class => "tools inline"}
-        %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
+        - staff_only do
+          %li= link_to 'New contact', new_admin_local_network_contact_path(@local_network.id), :class => 'new_user_large', :title => 'New Contact'
 
       %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @local_network.contacts
 
