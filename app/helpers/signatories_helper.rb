@@ -43,6 +43,15 @@ module SignatoriesHelper
     end
   end
 
+  def link_to_latest_cop(organization)
+    latest_cop = organization.last_approved_cop
+    if latest_cop
+      link_to latest_cop.created_at.year, cop_link(latest_cop)
+    else
+      ''
+    end
+  end
+
   def signatories(filter_type=nil)
     @signatories ||= {}
     unless @signatories[filter_type]
