@@ -35,6 +35,14 @@ class CopMailer < ActionMailer::Base
     body :organization => organization, :cop => cop, :user => user
   end
 
+  def confirmation_non_business(organization, cop, user)
+    from 'cop@unglobalcompact.org'
+    subject "UN Global Compact - COP Published"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+
   def cop_due_in_90_days(organization)
     from EMAIL_SENDER
     cc organization.network_report_recipients.collect(&:email_recipient)

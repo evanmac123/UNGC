@@ -38,6 +38,20 @@ class CopMailerTest < ActionMailer::TestCase
 
   end
 
+  context "given a COP from a Non Business" do
+    setup do
+      create_non_business_organization_and_user
+      @cop = create_cop(@organization.id)
+    end
+
+    should "send confirmation Non Business email" do
+      response = CopMailer.deliver_confirmation_non_business(@organization, @cop, @organization_user)
+      assert_equal "text/html", response.content_type
+      assert_equal "UN Global Compact - COP Published", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end
+  end
+
   context "given an organization with a Local Network" do
     setup do
       create_organization_and_user

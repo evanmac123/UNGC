@@ -188,15 +188,15 @@ class CommunicationOnProgress < ActiveRecord::Base
   def organization_joined_on
     organization.try :joined_on || ''
   end
-  
+
   def organization_type
     organization.try :organization_type_name || ''
   end
-  
+
   def organization_cop_state
     organization.try :cop_state || ''
   end
-  
+
   def sector_name
     organization.sector.try(:name) || ''
   end
@@ -492,6 +492,14 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def organization_business_entity?
     organization.business_entity?
+  end
+
+  def confirmation_email
+    if organization.business_entity?
+      differentiation_level
+    else
+      'non_business'
+    end
   end
 
   def readable_error_messages

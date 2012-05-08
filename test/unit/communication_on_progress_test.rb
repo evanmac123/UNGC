@@ -85,6 +85,17 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
   end
 
+  context "given a COP from a non-business" do
+    setup do
+      create_non_business_organization_and_user
+      @cop = pending_review(@organization)
+    end
+
+    should "set the email template to the non-business version" do
+      assert_equal 'non_business', @cop.confirmation_email
+    end
+  end
+
   # context "given a COP in draft mode" do
   #   setup do
   #     create_organization_and_user
