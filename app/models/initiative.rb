@@ -17,9 +17,10 @@ class Initiative < ActiveRecord::Base
   default_scope :order => 'name'
 
   FILTER_TYPES = {
-    :climate      => 2,
-    :human_rights => 4,
-    :lead         => 19
+    :climate        => 2,
+    :human_rights   => 4,
+    :lead           => 19,
+    :business_peace => 22
   }
 
   named_scope :for_filter, lambda { |filter|
