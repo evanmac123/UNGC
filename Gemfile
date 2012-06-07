@@ -21,10 +21,12 @@ gem "thinking-sphinx", "1.3.14"
 group :development do
   gem "sqlite3-ruby", "1.2.5"
   gem "after_commit", "1.0.5"
+  gem "noexec", "0.1.0"
 end
 
 group :test do
   gem "shoulda", "2.10.3"
+  gem "noexec", "0.1.0"
 end
 
 group :production do
