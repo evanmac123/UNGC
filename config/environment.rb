@@ -12,17 +12,6 @@ RAILS_GEM_VERSION = '2.3.5' unless defined? RAILS_GEM_VERSION
 require File.join(File.dirname(__FILE__), 'boot')
 
 Rails::Initializer.run do |config|
-  config.gem 'thoughtbot-paperclip', :lib => 'paperclip', :source => 'http://gems.github.com'
-  config.gem 'will_paginate', :version => '~> 2.3.11', :source => 'http://gemcutter.org'
-  config.gem 'jackdempsey-acts_as_commentable', :lib => 'acts_as_commentable', :source => "http://gems.github.com"
-  config.gem 'thinking-sphinx', :lib => 'thinking_sphinx', :version => '1.3.14'
-  config.gem 'spreadsheet', :version => '0.6.5.9', :lib => nil
-  config.gem 'hpricot', :version => '~> 0.8.1'
-
-  # config.gem 'mysql2', :version => "0.2.6"
-  config.gem 'money'
-  config.gem 'haml'
-  config.gem 'hoptoad_notifier'
   config.time_zone = 'UTC'
 
   config.active_record.observers = :logo_comment_observer, :comment_observer
