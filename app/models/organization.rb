@@ -612,9 +612,11 @@ class Organization < ActiveRecord::Base
     if communication_on_progresses.approved.count > 0
 
       # Determine status based on level of latest COP
-      if communication_on_progresses.approved.first.is_advanced_level?
+      if last_approved_cop.is_blueprint_level?
         'Global Compact Advanced'
-      elsif communication_on_progresses.approved.first.is_intermediate_level?
+      elsif last_approved_cop.is_advanced_level?
+        'Global Compact Advanced'
+      elsif last_approved_cop.is_intermediate_level?
         'Global Compact Active'
       else
         'Global Compact Learner'
