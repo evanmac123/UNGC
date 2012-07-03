@@ -1,7 +1,7 @@
 require 'csv'
 
 class SimpleReport
-  include ActionView::Helpers::TagHelper
+  include ActionView::Helpers
 
   def initialize(options={})
     @options = options
@@ -12,6 +12,26 @@ class SimpleReport
       content_tag(:li, row(r).join(","))
     end
     content_tag :ul, buffer.join
+  end
+
+  def render_table_headers
+    html = ''
+    headers.collect do |header|
+      html += content_tag(:th, header)
+    end
+    html
+  end
+
+  def render_table_data
+    html = ''
+    records.collect do |r|
+      cells = ''
+      row(r).each do |cell|
+        cells += content_tag(:td, cell)
+      end
+      html += content_tag(:tr, cells)
+    end
+    html
   end
 
   def render_xls

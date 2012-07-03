@@ -428,7 +428,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def lead_cop_is_incomplete?
-    questions_missing_answers.any? || questions_not_fully_covered('lead_un_goals').any? || questions_not_fully_covered('lead_gc').any?
+    is_blueprint_level? &&
+      questions_missing_answers.any? ||
+      questions_not_fully_covered('lead_un_goals').any? ||
+      questions_not_fully_covered('lead_gc').any?
   end
 
   def evaluated_for_differentiation?

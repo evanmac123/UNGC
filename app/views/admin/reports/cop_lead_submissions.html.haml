@@ -1,0 +1,9 @@
+%h2 LEAD Companies - Latest COP Submission
+
+%p
+  %ul{:class => "tools inline"}
+    %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+
+%table.dashboard_table
+  %tr= @report.render_table_headers
+  = @report.render_table_data
