@@ -94,6 +94,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "cop_file_languages_#{date_as_filename}.xls")
   end
 
+  def cop_lead_submissions
+    @report = CopLeadSubmissions.new
+    render_formatter(filename: "cop_lead_submissions_#{date_as_filename}.xls")
+  end
+
   def networks
     @regions = Country.regions
     @region = params[:region] || @regions.first.region

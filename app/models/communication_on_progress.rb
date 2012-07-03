@@ -188,15 +188,15 @@ class CommunicationOnProgress < ActiveRecord::Base
   def organization_joined_on
     organization.try :joined_on || ''
   end
-  
+
   def organization_type
     organization.try :organization_type_name || ''
   end
-  
+
   def organization_cop_state
     organization.try :cop_state || ''
   end
-  
+
   def sector_name
     organization.sector.try(:name) || ''
   end
@@ -428,7 +428,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def lead_cop_is_incomplete?
-    questions_missing_answers.any? || questions_not_fully_covered('lead_un_goals').any? || questions_not_fully_covered('lead_gc').any?
+    is_blueprint_level? &&
+      questions_missing_answers.any? ||
+      questions_not_fully_covered('lead_un_goals').any? ||
+      questions_not_fully_covered('lead_gc').any?
   end
 
   def evaluated_for_differentiation?
