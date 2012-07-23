@@ -129,15 +129,14 @@ body.supply_chain     #inner_head { background: url(/images/banner_supply_chain.
 #nav ul li ul.login li { width: 90px; }
 
 #content_bg { background: #f2f2f2 url(/images/gradient.jpg) left top repeat-x; border-bottom: 1px solid #ebebeb; display: block; height: inherit; width: 1000px; margin: 0 auto; }
-
 h1 { font-size: 18px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: normal; }
 h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: normal; color: #00546E; }
-
 #content_home { height: auto; width: 1000px; margin: 0 auto; position: relative; height: auto; min-height: 710px; }
 #box1 { position: absolute; top: 15px; left: 40px; width: 611px; height: 165px; background: url(/images/box1_bg.jpg) top left no-repeat; border: 1px solid #c8c8c8;}
 #box1_content { position: relative; }
 #box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
 #box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
+#box1 p#secretary_general { position: absolute; top: 128px; left: 30px; font-family: sans-serif; }
 #box1 div.readmore { position: absolute; top: 125px; right: 22px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: right; }
 #box1 div.readmore div { padding: 7px 0 0 0; }
 #box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
