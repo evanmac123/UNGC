@@ -35,19 +35,19 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_equal @response.headers['Content-type'], 'application/ms-excel'
     end
 
-    should "get the networks report" do
-      create_country
-      get :networks, {}, as(@staff_user)
-      assert_response :success
-      assert_template 'networks.html.haml'
-    end
-
-    should "get the networks report as xls" do
-      create_country
-      get :networks, {:format => 'xls'}, as(@staff_user)
-      assert_response :success
-      assert_equal @response.headers['Content-type'], 'application/ms-excel'
-    end
+    # should "get the networks report" do
+    #      create_country
+    #      get :networks, {}, as(@staff_user)
+    #      assert_response :success
+    #      assert_template 'networks.html.haml'
+    #    end
+    #
+    #    should "get the networks report as xls" do
+    #      create_country
+    #      get :networks, {:format => 'xls'}, as(@staff_user)
+    #      assert_response :success
+    #      assert_equal @response.headers['Content-type'], 'application/ms-excel'
+    #    end
 
     should "get the foundation pledges report" do
       get :foundation_pledges, {}, as(@staff_user)
