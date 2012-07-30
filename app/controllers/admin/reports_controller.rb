@@ -121,10 +121,11 @@ class Admin::ReportsController < AdminController
 
   private
     def render_formatter(options={})
+
       respond_to do |format|
         format.html
-        format.xls  { send_data @report.render_xls, :type     => 'application/ms-excel',
-                                                    :filename => options[:filename] }
+        format.xls  { send_data @report.render_output, :type     => 'application/ms-excel',
+                                                       :filename => options[:filename] }
       end
     end
 

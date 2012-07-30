@@ -7,6 +7,11 @@ class SimpleReport
     @options = options
   end
 
+  # by default render_xls unless overrided with render_xls_in_batches
+  def render_output
+    self.render_xls
+  end
+
   def render_html
     buffer = records.collect do |r|
       content_tag(:li, row(r).join(","))
@@ -14,31 +19,20 @@ class SimpleReport
     content_tag :ul, buffer.join
   end
 
-  def render_table_headers
-    html = ''
-    headers.collect do |header|
-      html += content_tag(:th, header)
-    end
-    html
-  end
-
-  def render_table_data
-    html = ''
-    records.collect do |r|
-      cells = ''
-      row(r).each do |cell|
-        cells += content_tag(:td, cell)
-      end
-      html += content_tag(:tr, cells)
-    end
-    html
-  end
-
   def render_xls
     buffer = CSV.generate_line(headers, :col_sep => "\t")
     CSV.generate(buffer, :col_sep => "\t") do |csv|
       records.each do |r|
         csv << row(r)
+      end
+    end
+  end
+
+  def render_xls_in_batches
+    buffer = CSV.generate_line(headers, :col_sep => "\t")
+    CSV.generate(buffer, :col_sep => "\t") do |csv|
+      records.find_in_batches do |record|
+        record.each {|r| csv << row(r) }
       end
     end
   end

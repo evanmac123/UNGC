@@ -69,10 +69,46 @@ class Contact < ActiveRecord::Base
   before_update  :do_not_allow_last_contact_point_to_uncheck_role
   before_update  :do_not_allow_last_ceo_to_uncheck_role
 
-
   # used for checkbox in sign up form
   # /app/views/signup/step5.html.haml
   attr_accessor :foundation_contact
+
+  named_scope :for_mail_merge, lambda { |cop_states|
+   {
+    :include => :organization,
+    :select => "contacts.*,
+                org_country.name AS organization_country,
+                o.joined_on,
+                t.name AS organization_type_name,
+                o.cop_state,
+                s.name as sector_name,
+                o.employees,
+                o.is_ft_500,
+                CASE country.region
+                  WHEN 'africa'      THEN 'Africa'
+                  WHEN 'americas'    THEN 'Americas'
+                  WHEN 'asia'        THEN 'Asia'
+                  WHEN 'australasia' THEN 'Australasia'
+                  WHEN 'europe'      THEN 'Europe'
+                  WHEN 'mena'        THEN 'MENA'
+                END AS region_name,
+                r.name as role_name,
+                country.name AS country_name",
+
+    :joins => "JOIN organizations o ON contacts.organization_id = o.id
+               JOIN countries country ON contacts.country_id = country.id
+               JOIN countries org_country ON o.country_id = org_country.id
+               JOIN organization_types t ON o.organization_type_id = t.id
+               JOIN sectors s ON o.sector_id = s.id
+               LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = contacts.id
+               RIGHT OUTER JOIN roles r ON r.id = contacts_roles.role_id",
+
+    :conditions => ["o.cop_state IN (?) AND
+                     o.participant = 1 AND
+                     t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
+                     contacts_roles.role_id IN (2,3)", cop_states]
+    }
+  }
 
   named_scope :financial_contacts, lambda {
     contact_point_id = Role.financial_contact.try(:id)

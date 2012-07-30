@@ -5,6 +5,10 @@ class CopRequiredElements < SimpleReport
     CommunicationOnProgress.new_policy(:include => [ :organization, { :organization => :country } ])
   end
 
+  def render_output
+    self.render_xls_in_batches
+  end
+
   def headers
     [ 'participant_name',
       'country',

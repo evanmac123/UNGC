@@ -1,9 +1,11 @@
 class CopsWithDifferentiation < SimpleReport
 
   def records
-    CommunicationOnProgress.since_year(2011).all(:include => [ :organization,
-                                                           { :organization => :country,
-                                                             :organization => :organization_type } ])
+    CommunicationOnProgress.since_year(2011)
+  end
+
+  def render_output
+    self.render_xls_in_batches
   end
 
   def headers
