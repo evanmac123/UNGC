@@ -124,8 +124,9 @@ class Admin::ReportsController < AdminController
 
       respond_to do |format|
         format.html
-        format.xls  { send_data @report.render_output, :type     => 'application/ms-excel',
+        format.xls  { send_file @report.render_output, :type     => 'application/ms-excel',
                                                        :filename => options[:filename] }
+
       end
     end
 

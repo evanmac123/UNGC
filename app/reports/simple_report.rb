@@ -1,4 +1,5 @@
 require 'csv'
+require 'tempfile'
 
 class SimpleReport
   include ActionView::Helpers
@@ -20,21 +21,25 @@ class SimpleReport
   end
 
   def render_xls
-    buffer = CSV.generate_line(headers, :col_sep => "\t")
-    CSV.generate(buffer, :col_sep => "\t") do |csv|
-      records.each do |r|
-        csv << row(r)
+    file = Tempfile.new('xls')
+    CSV.open(file.path, 'w+', :col_sep => "\t") do |line|
+      line << headers
+      records.each do |record|
+        line << row(record)
       end
     end
+    file
   end
 
   def render_xls_in_batches
-    buffer = CSV.generate_line(headers, :col_sep => "\t")
-    CSV.generate(buffer, :col_sep => "\t") do |csv|
+    file = Tempfile.new('xls')
+    CSV.open(file.path, 'w+', :col_sep => "\t") do |line|
+      line << headers
       records.find_in_batches do |record|
-        record.each {|r| csv << row(r) }
+        record.each {|r| line << row(r) }
       end
     end
+    file
   end
 
 end
