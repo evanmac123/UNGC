@@ -96,6 +96,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   default_scope :order => 'created_at DESC'
 
+  named_scope :all_cops,   {:include => [ :organization, { :organization => :country } ]}
   named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
   named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
 
@@ -118,6 +119,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
 
   named_scope :since_year, lambda { |year| {
+    :include => [ :organization, { :organization => :country,
+                                   :organization => :organization_type } ],
     :conditions => ["created_at >= ?", Date.new(year, 01, 01) ]
     }
   }

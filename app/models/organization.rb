@@ -169,6 +169,40 @@ class Organization < ActiveRecord::Base
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
 
+  named_scope :participants_with_cop_info, {
+    :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
+                 :conditions => 'participant = true',
+                 :select => 'organizations.*, C.*',
+                 :joins => "LEFT JOIN (
+                      SELECT
+                        organization_id,
+                        MAX(created_at) AS latest_cop,
+                        COUNT(id) AS cop_count
+                      FROM
+                        communication_on_progresses
+                      WHERE
+                        state = 'approved'
+                      GROUP BY
+                         organization_id) as C ON organizations.id = C.organization_id"
+    }
+
+ named_scope :delisted, {
+   :include => [:country, :sector, :organization_type, :removal_reason],
+   :select => 'organizations.*, C.*',
+   :joins => "LEFT JOIN (
+              SELECT
+                organization_id,
+                MAX(created_at) AS latest_cop,
+                COUNT(id) AS cop_count
+              FROM
+                communication_on_progresses
+              WHERE
+                state = 'approved'
+              GROUP BY
+                 organization_id) as C ON organizations.id = C.organization_id",
+    :conditions => "organizations.cop_state NOT IN ('active','noncommunicating')"
+ }
+
   named_scope :companies_and_smes, {
     :include => :organization_type,
     :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ]
@@ -235,7 +269,8 @@ class Organization < ActiveRecord::Base
   }
 
   named_scope :listed,
-    { :conditions => "organizations.stock_symbol IS NOT NULL" }
+    { :include => [:country, :exchange],
+      :conditions => "organizations.stock_symbol IS NOT NULL" }
 
   named_scope :without_contacts,
     { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }

@@ -2,7 +2,11 @@ include ActionController::UrlWriter
 class AllCops < SimpleReport
 
   def records
-    CommunicationOnProgress.all(:include => [ :organization, { :organization => :country } ])
+    CommunicationOnProgress.all_cops
+  end
+
+  def render_output
+    self.render_xls_in_batches
   end
 
   def headers

@@ -7,6 +7,11 @@ class GroupedReport
     @options = options
   end
 
+  # determines whether report calls render_xls or render_xls_in_batches
+   def render_output
+     self.render_xls
+   end
+
   def render_html
     buffer = ''
     records.each_with_index do |dataset, i|

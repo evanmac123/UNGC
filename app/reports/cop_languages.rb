@@ -4,17 +4,9 @@ class CopLanguages < SimpleReport
     CopFile.all_files
   end
 
-  # participant_name
-  # organization_id
-  # country
-  # Joined on
-  # Organization Type
-  # COP Status
-  # differentiation
-  # cop_id
-  # created_at
-  # updated_at
-  # language
+  def render_output
+    self.render_xls_in_batches
+  end
 
   def headers
     [ 'participant_name',

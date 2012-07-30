@@ -1,4 +1,5 @@
 class ApprovedLogoRequestsReport < SimpleReport
+
   def records
     LogoRequest.approved_between(@options[:month].to_i, @options[:year].to_i)
   end
