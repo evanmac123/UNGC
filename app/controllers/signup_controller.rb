@@ -63,9 +63,11 @@ class SignupController < ApplicationController
   # POST from pledge form
   # ask for financial contact if pledge was made
   def step5
+    # FIXME: values are not being copied from @contact if validation fails at any point
+    @financial_contact.address = 'n/a'
+    @financial_contact.city = 'n/a'
     @organization.attributes = params[:organization]
     redirect_to organization_step6_path unless @organization.pledge_amount.to_i > 0
-    set_default_values
   end
 
   # POST from ceo or financial contact form

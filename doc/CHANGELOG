@@ -1,3 +1,10 @@
+h1. 2012-08-01
+
+* The signup form is not copying over the default contact information if validation fails
+* To save people time, we populate the address information based on the previous contact's data
+* If the form is submitted without all required fields, then those fields are not copied over to the next contact (CEO or Financial Contact)
+* A temporary fix was to set the Financial Contacts's information to 'n/a' since they don't have to provide address information, although the Contact model requires it
+
 h1. 2012-07-31
 
 * The Reports were updated to use find_in_batches and create a temporary file before sending to the browser
