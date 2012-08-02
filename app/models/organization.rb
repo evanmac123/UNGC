@@ -52,7 +52,7 @@ class Organization < ActiveRecord::Base
   validates_uniqueness_of :name, :message => "has already been used by another organization"
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
-                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
+                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(([0-9]{1,6})?\/.*)?$)/ix),
                        :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                        :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
