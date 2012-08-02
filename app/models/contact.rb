@@ -52,7 +52,7 @@ class Contact < ActiveRecord::Base
   validates_uniqueness_of :login, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
   validates_uniqueness_of :email, :on => :create
   validates_format_of   :email,
-                        :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/,
+                        :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
                         :message => "is not a valid email address"
   belongs_to :country
   belongs_to :organization
