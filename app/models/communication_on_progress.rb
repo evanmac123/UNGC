@@ -501,11 +501,21 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def confirmation_email
-    if organization.business_entity?
-      differentiation_level
+    if organization_business_entity?
+
+      if organization.double_learner?
+        'double_learner'
+      else
+        differentiation_level
+      end
+
     else
       'non_business'
     end
+  end
+
+  def latest?
+    self == organization.communication_on_progresses.first
   end
 
   def readable_error_messages

@@ -328,6 +328,12 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def local_network_name
+    if country.try(:local_network)
+      country.local_network.name
+    end
+  end
+
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
@@ -462,6 +468,13 @@ class Organization < ActiveRecord::Base
 
   def last_cop_is_learner?
     last_approved_cop && last_approved_cop.learner?
+  end
+
+  # last two COPs were Learner
+  def double_learner?
+    if last_cop_is_learner? && communication_on_progresses.approved.count > 1
+      communication_on_progresses[1].learner?
+    end
   end
 
   def rejected?

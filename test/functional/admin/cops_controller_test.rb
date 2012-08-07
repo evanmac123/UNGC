@@ -160,7 +160,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given an existing cop" do
     setup do
-      create_cop_and_login_as_user
+      create_cop_with_options
+      login_as @organization_user
     end
 
     should "be able to see the cop details" do
@@ -186,7 +187,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a COP submitted between 2010-01-01 and 2011-01-29" do
     setup do
-      create_cop_and_login_as_user :created_at => Date.parse('31-12-2010')
+      create_cop_with_options :created_at => Date.parse('31-12-2010')
+      login_as @organization_user
     end
     should "show the new style template" do
       get :show, :organization_id => @organization.id,
@@ -197,7 +199,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a Grace Letter" do
     setup do
-      create_cop_and_login_as_user(:type => 'grace')
+      create_cop_with_options(:type => 'grace')
+      login_as @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
@@ -212,22 +215,37 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given a COP on the Learner Platform" do
     setup do
       # if any item is missing, then the COP puts the participant on the Learner Platform
-      create_cop_and_login_as_user(:include_measurement => false)
+      create_cop_with_options(:include_measurement => false)
+      login_as @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
 
-    should "display active partial" do
+    should "display learner partial" do
       assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
       assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => 'show_learner_style'
     end
+  end
 
+  context "given two Learner COPs in a row" do
+    setup do
+      create_organization_and_user
+      @organization.approve!
+      @first_cop  = create_cop(@organization.id, { :references_environment  => false })
+      @second_cop = create_cop(@organization.id, { :references_human_rights => false })
+    end
+
+    should "call correct email templates" do
+      assert @organization.double_learner?
+      assert_equal @second_cop.confirmation_email,'double_learner'
+    end
   end
 
   context "given a GC Active COP" do
     setup do
-      create_cop_and_login_as_user
+      create_cop_with_options
+      login_as @organization_user
     end
 
     should "display active partial" do
@@ -241,7 +259,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a GC Advanced COP" do
     setup do
-      create_cop_and_login_as_user({:meets_advanced_criteria => true, :type => 'advanced'})
+      create_cop_with_options({:meets_advanced_criteria => true, :type => 'advanced'})
+      login_as @organization_user
     end
 
     should "display advanced partial" do
@@ -255,7 +274,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a GC Advanced COP that did not qualify" do
     setup do
-      create_cop_and_login_as_user({:meets_advanced_criteria => false, :type => 'advanced'})
+      create_cop_with_options({:meets_advanced_criteria => false, :type => 'advanced'})
+      login_as @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
@@ -273,14 +293,10 @@ class Admin::CopsControllerTest < ActionController::TestCase
   end
 
   context "given a COP submitted that is not a Grace Letter" do
-      setup do
-        create_organization_and_user
-        @organization.approve!
-        create_principle_areas
-        create_language
-        login_as @organization_user
-        get :new, :organization_id => @organization.id, :type_of_cop => 'intermediate'
-      end
+    setup do
+      create_cop_with_options
+      login_as @organization_user
+    end
 
     should "send a confirmation email" do
       assert_emails(1) do
@@ -304,7 +320,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   private
 
-    def create_cop_and_login_as_user(cop_options = {})
+    def create_cop_with_options(cop_options = {})
       # let's assume an Active COP where all criteria have been met
       defaults = {
         :references_human_rights             => true,
@@ -319,7 +335,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @organization.approve!
       create_principle_areas
       @cop = create_cop(@organization.id, defaults.merge(cop_options))
-      login_as @organization_user
     end
 
 
