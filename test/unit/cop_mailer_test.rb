@@ -38,6 +38,42 @@ class CopMailerTest < ActionMailer::TestCase
 
   end
 
+  context "given a COP from a Non Business" do
+    setup do
+      create_non_business_organization_and_user
+      @cop = create_cop(@organization.id)
+    end
+
+    should "send confirmation Non Business email" do
+      response = CopMailer.deliver_confirmation_non_business(@organization, @cop, @organization_user)
+      assert_equal "text/html", response.content_type
+      assert_equal "UN Global Compact - COP Published", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end
+  end
+
+  context "given two Learner COPs in a row" do
+    setup do
+      create_organization_and_user
+      @first_cop  = create_cop(@organization.id, { :references_environment  => false })
+      @second_cop = create_cop(@organization.id, { :references_human_rights => false })
+    end
+
+    should "send double Learner alert" do
+      assert @first_cop.learner?
+      assert @organization.double_learner?
+
+      response = CopMailer.send("deliver_confirmation_#{@second_cop.confirmation_email}",
+                                @organization,
+                                @second_cop,
+                                @organization_user)
+
+      assert_equal "text/html", response.content_type
+      assert_equal "UN Global Compact Status - Consecutive Learner COPs", response.subject
+      assert_equal @organization_user.email, response.to.first
+    end
+  end
+
   context "given an organization with a Local Network" do
     setup do
       create_organization_and_user

@@ -79,6 +79,7 @@ class ActiveSupport::TestCase
   end
 
   def create_non_business_organization_and_user(state=nil)
+    create_non_business_organization_type
     create_roles
     create_organization_type(:name => 'Academic')
     create_country

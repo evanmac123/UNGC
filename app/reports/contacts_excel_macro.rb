@@ -1,49 +1,14 @@
 class ContactsExcelMacro < SimpleReport
 
   def records
-      Contact.find_by_sql("SELECT
-      o.id AS organization_id,
-      c.id AS contact_id,
-      o.name AS organization_name,
-      org_country.name AS organization_country,
-      o.joined_on,
-      t.name AS organization_type,
-      o.cop_state,
-      s.name AS sector_name,
-      o.employees,
-      o.is_ft_500,
-      c.prefix,
-      c.first_name,
-      c.last_name,
-      c.job_title,
-      c.email,
-      c.address,
-      c.address_more,
-      c.city,
-      c.state,
-      c.postal_code,
-      country.name AS country_name,
-      country.region AS region_name,
-      r.name AS role_name,
-      c.phone,
-      c.fax,
-      c.login,
-      c.password
-      FROM
-      contacts c
-      JOIN organizations o ON c.organization_id = o.id
-      JOIN countries country ON c.country_id = country.id
-      JOIN countries org_country ON o.country_id = org_country.id
-      JOIN organization_types t ON o.organization_type_id = t.id
-      JOIN sectors s ON o.sector_id = s.id
-      LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = c.id
-      RIGHT OUTER JOIN roles r ON r.id = contacts_roles.role_id
-      WHERE o.cop_state IN ('active','noncommunicating','delisted') AND
-      o.participant = 1 AND
-      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
-      contacts_roles.role_id IN (2,3)
-      ORDER BY o.id"
-      )
+    cop_states = [ Organization::COP_STATE_ACTIVE,
+                   Organization::COP_STATE_NONCOMMUNICATING,
+                   Organization::COP_STATE_DELISTED ]
+    Contact.for_mail_merge(cop_states)
+  end
+
+  def render_output
+    self.render_xls_in_batches
   end
 
   def headers
@@ -89,7 +54,7 @@ class ContactsExcelMacro < SimpleReport
     record.state,
     record.postal_code,
     record.country_name,
-    record.organization_type,
+    record.organization_type_name,
     record.sector_name,
     record.role_name,
     record.phone,

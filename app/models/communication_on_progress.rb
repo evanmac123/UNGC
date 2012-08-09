@@ -96,6 +96,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   default_scope :order => 'created_at DESC'
 
+  named_scope :all_cops,   {:include => [ :organization, { :organization => :country } ]}
   named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
   named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
 
@@ -118,6 +119,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
 
   named_scope :since_year, lambda { |year| {
+    :include => [ :organization, { :organization => :country,
+                                   :organization => :organization_type } ],
     :conditions => ["created_at >= ?", Date.new(year, 01, 01) ]
     }
   }
@@ -188,15 +191,15 @@ class CommunicationOnProgress < ActiveRecord::Base
   def organization_joined_on
     organization.try :joined_on || ''
   end
-  
+
   def organization_type
     organization.try :organization_type_name || ''
   end
-  
+
   def organization_cop_state
     organization.try :cop_state || ''
   end
-  
+
   def sector_name
     organization.sector.try(:name) || ''
   end
@@ -428,7 +431,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def lead_cop_is_incomplete?
-    questions_missing_answers.any? || questions_not_fully_covered('lead_un_goals').any? || questions_not_fully_covered('lead_gc').any?
+    is_blueprint_level? &&
+      questions_missing_answers.any? ||
+      questions_not_fully_covered('lead_un_goals').any? ||
+      questions_not_fully_covered('lead_gc').any?
   end
 
   def evaluated_for_differentiation?
@@ -492,6 +498,24 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def organization_business_entity?
     organization.business_entity?
+  end
+
+  def confirmation_email
+    if organization_business_entity?
+
+      if organization.double_learner?
+        'double_learner'
+      else
+        differentiation_level
+      end
+
+    else
+      'non_business'
+    end
+  end
+
+  def latest?
+    self == organization.communication_on_progresses.first
   end
 
   def readable_error_messages

@@ -4,7 +4,7 @@
   Thank you for submitting your company's Communication on Progress (COP).
   == It is now #{link_to "publicly available", 'http://www.unglobalcompact.org' + cop_detail_path(@cop.id)} on the Global Compact website.
 
-%p== We would like to notify you that your COP is missing #{@cop.number_missing_items} of the required elements:
+%p== Your COP is missing <strong>#{@cop.number_missing_items}</strong> of the required elements:
 
 %ul
   - unless @cop.include_continued_support_statement?

@@ -46,14 +46,16 @@
         %li= link_to 'Arabic','/docs/communication_on_progress/templates/Basic/Basic_COP_AR.pdf'
         %li= link_to 'Chinese','/docs/communication_on_progress/templates/Basic/Basic_COP_ZH.pdf'
         %li= link_to 'English','/docs/communication_on_progress/templates/Basic/Basic_COP_EN.pdf'
-      %ul.bulleted{:style => 'float: left; margin-right: 100px;'}
         %li= link_to 'French','/docs/communication_on_progress/templates/Basic/Basic_COP_FR.pdf'
+      %ul.bulleted{:style => 'float: left; margin-right: 100px;'}
         %li= link_to 'German','/docs/communication_on_progress/templates/Basic/Basic_COP_DE.pdf'
         %li= link_to 'Japanese','/docs/communication_on_progress/templates/Basic/Basic_COP_JA.pdf'
-      %ul.bulleted{:style => 'float: left; margin-right: 100px; clear: right;'}
+        %li= link_to 'Korean','/docs/communication_on_progress/templates/Basic/Basic_COP_KR.pdf'
         %li= link_to 'Portuguese','/docs/communication_on_progress/templates/Basic/Basic_COP_PT.pdf'
+      %ul.bulleted{:style => 'float: left; margin-right: 100px; clear: right;'}
         %li= link_to 'Russian','/docs/communication_on_progress/templates/Basic/Basic_COP_RU.pdf'
         %li= link_to 'Spanish','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf'
+        %li= link_to 'Turkish','/docs/communication_on_progress/templates/Basic/Basic_COP_TR.pdf'
 
     %p.clear= link_to 'New Basic COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
 

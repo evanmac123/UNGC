@@ -64,7 +64,7 @@ class LogoRequest < ActiveRecord::Base
   named_scope :approved, :conditions => {:state => "approved"}
   named_scope :rejected, :conditions => {:state => "rejected"}
   named_scope :accepted, :conditions => {:state => "accepted"}
-  named_scope :approved_or_accepted, :conditions => "state in ('approved','accepted')"
+  named_scope :approved_or_accepted, :conditions => "logo_requests.state in ('approved','accepted')"
 
   named_scope :unreplied, :conditions => {:state => "in_review", :replied_to => false},
                           :joins => :logo_comments,

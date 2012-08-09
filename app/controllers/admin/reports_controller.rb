@@ -94,6 +94,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "cop_file_languages_#{date_as_filename}.xls")
   end
 
+  def cop_lead_submissions
+    @report = CopLeadSubmissions.new
+    render_formatter(filename: "cop_lead_submissions_#{date_as_filename}.xls")
+  end
+
   def networks
     @regions = Country.regions
     @region = params[:region] || @regions.first.region
@@ -118,8 +123,8 @@ class Admin::ReportsController < AdminController
     def render_formatter(options={})
       respond_to do |format|
         format.html
-        format.xls  { send_data @report.render_xls, :type     => 'application/ms-excel',
-                                                    :filename => options[:filename] }
+        format.xls  { send_file @report.render_output, :type     => 'application/ms-excel',
+                                                       :filename => options[:filename] }
       end
     end
 

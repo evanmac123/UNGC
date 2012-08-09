@@ -1,41 +1,11 @@
 class CopQuestionnaireAnswers < SimpleReport
 
   def records
-    CommunicationOnProgress.find_by_sql("
-    SELECT
-      a.id AS answer_id,
-      q.implementation,
-      q.grouping,
-      p.name AS issue_area,
-      a.cop_id,
-      o.id as organization_id,
-      q.id AS cop_question_id,
-      q.position AS question_position,
-      q.text AS criterion,
-      a.cop_attribute_id,
-      c.position AS best_practice_position,
-      c.text AS best_practice,
-      a.value,
-      (SELECT CASE a.value WHEN '1' THEN a.`cop_attribute_id` ELSE '' END) AS cop_attribute_id_covered,
-      cop.differentiation,
-      a.created_at
-    FROM
-      cop_answers a
-    JOIN
-      cop_attributes c ON c.id = a.cop_attribute_id
-    LEFT JOIN
-      cop_questions q ON q.id = c.cop_question_id
-    LEFT JOIN
-      communication_on_progresses cop ON a.cop_id = cop.id
-    LEFT JOIN
-      organizations o ON o.id = cop.organization_id
-    LEFT JOIN
-      principles p ON p.id = q.principle_area_id
-    WHERE
-      a.created_at >= '2011-01-31' AND
-      VALUE IS NOT NULL
-    ORDER BY
-      cop_id, q.position, a.created_at")
+    CopAnswer.cop_questionnaire_answers
+  end
+
+  def render_output
+    self.render_xls_in_batches
   end
 
   def headers
@@ -61,7 +31,7 @@ class CopQuestionnaireAnswers < SimpleReport
 
   def row(record)
     [
-    record.answer_id,
+    record.id,
     record.implementation,
     record.grouping,
     record.issue_area,

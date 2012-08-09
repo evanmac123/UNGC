@@ -52,7 +52,7 @@ class Organization < ActiveRecord::Base
   validates_uniqueness_of :name, :message => "has already been used by another organization"
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
-                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$)/ix),
+                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(([0-9]{1,6})?\/.*)?$)/ix),
                        :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                        :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
@@ -169,6 +169,40 @@ class Organization < ActiveRecord::Base
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
 
+  named_scope :participants_with_cop_info, {
+    :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
+                 :conditions => 'participant = true',
+                 :select => 'organizations.*, C.*',
+                 :joins => "LEFT JOIN (
+                      SELECT
+                        organization_id,
+                        MAX(created_at) AS latest_cop,
+                        COUNT(id) AS cop_count
+                      FROM
+                        communication_on_progresses
+                      WHERE
+                        state = 'approved'
+                      GROUP BY
+                         organization_id) as C ON organizations.id = C.organization_id"
+    }
+
+ named_scope :delisted, {
+   :include => [:country, :sector, :organization_type, :removal_reason],
+   :select => 'organizations.*, C.*',
+   :joins => "LEFT JOIN (
+              SELECT
+                organization_id,
+                MAX(created_at) AS latest_cop,
+                COUNT(id) AS cop_count
+              FROM
+                communication_on_progresses
+              WHERE
+                state = 'approved'
+              GROUP BY
+                 organization_id) as C ON organizations.id = C.organization_id",
+    :conditions => "organizations.cop_state NOT IN ('active','noncommunicating')"
+ }
+
   named_scope :companies_and_smes, {
     :include => :organization_type,
     :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ]
@@ -235,7 +269,8 @@ class Organization < ActiveRecord::Base
   }
 
   named_scope :listed,
-    { :conditions => "organizations.stock_symbol IS NOT NULL" }
+    { :include => [:country, :exchange],
+      :conditions => "organizations.stock_symbol IS NOT NULL" }
 
   named_scope :without_contacts,
     { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
@@ -290,6 +325,12 @@ class Organization < ActiveRecord::Base
   def local_network_country_code
     if country.try(:local_network)
       country.local_network.country_code
+    end
+  end
+
+  def local_network_name
+    if country.try(:local_network)
+      country.local_network.name
     end
   end
 
@@ -427,6 +468,13 @@ class Organization < ActiveRecord::Base
 
   def last_cop_is_learner?
     last_approved_cop && last_approved_cop.learner?
+  end
+
+  # last two COPs were Learner
+  def double_learner?
+    if last_cop_is_learner? && communication_on_progresses.approved.count > 1
+      communication_on_progresses[1].learner?
+    end
   end
 
   def rejected?
@@ -612,9 +660,11 @@ class Organization < ActiveRecord::Base
     if communication_on_progresses.approved.count > 0
 
       # Determine status based on level of latest COP
-      if communication_on_progresses.approved.first.is_advanced_level?
+      if last_approved_cop.is_blueprint_level?
         'Global Compact Advanced'
-      elsif communication_on_progresses.approved.first.is_intermediate_level?
+      elsif last_approved_cop.is_advanced_level?
+        'Global Compact Advanced'
+      elsif last_approved_cop.is_intermediate_level?
         'Global Compact Active'
       else
         'Global Compact Learner'

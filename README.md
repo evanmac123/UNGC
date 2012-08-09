@@ -66,9 +66,9 @@ If you are setting up this application for the first time in you machine, follow
 
 ## Search requires:
 - the Sphinx search engine, install version 0.9.9 from source:
-[](http://freelancing-god.github.com/ts/en/installing_sphinx.html)
+[Install Sphinx](http://freelancing-god.github.com/ts/en/installing_sphinx.html)
 - the Python library `pdfminer`, see this page for installation instructions:
-[](http://www.unixuser.org/~euske/python/pdfminer/index.html)
+[Install PDF Miner](http://www.unixuser.org/~euske/python/pdfminer/index.html)
 
 Make sure that `pdf2txt.py` is in the path, and it should be fine.
 

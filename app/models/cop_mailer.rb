@@ -19,6 +19,14 @@ class CopMailer < ActionMailer::Base
     body :organization => organization, :cop => cop, :user => user
   end
 
+  def confirmation_double_learner(organization, cop, user)
+    from 'cop@unglobalcompact.org'
+    subject "UN Global Compact Status - Consecutive Learner COPs"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+
   def confirmation_active(organization, cop, user)
     from 'cop@unglobalcompact.org'
     subject "UN Global Compact Status - GC Active"
@@ -30,6 +38,14 @@ class CopMailer < ActionMailer::Base
   def confirmation_advanced(organization, cop, user)
     from 'cop@unglobalcompact.org'
     subject "UN Global Compact Status - GC Advanced"
+    content_type "text/html"
+    recipients user.email_recipient
+    body :organization => organization, :cop => cop, :user => user
+  end
+
+  def confirmation_non_business(organization, cop, user)
+    from 'cop@unglobalcompact.org'
+    subject "UN Global Compact - COP Published"
     content_type "text/html"
     recipients user.email_recipient
     body :organization => organization, :cop => cop, :user => user

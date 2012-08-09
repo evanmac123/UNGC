@@ -35,6 +35,7 @@
     %li= link_to_report_xls 'Communication on Progress Export', :all_cops
     %li= link_to_report_xls 'Advanced Questionnaire Answers', :cop_questionnaire_answers
     %li= link_to_report_xls 'COP files received after 2010 with language', :cop_languages
+    %li= link_to_reports 'LEAD Companies - Latest COP Submission', :cop_lead_submissions
 
   %p
     %h3 Other Reports
@@ -42,7 +43,7 @@
   %ul.report_list
     / %li= link_to_report 'Networks Report', :networks
     %li= link_to_report_xls 'CEO Water Mandate Contacts', :initiative_contacts
-    %li= link_to_report 'Foundation Pledges', :foundation_pledges
-    %li= link_to_report 'Approved Logo Requests', :approved_logo_requests
+    %li= link_to_report_html 'Foundation Pledges', :foundation_pledges
+    %li= link_to_report_html 'Approved Logo Requests', :approved_logo_requests
 
 

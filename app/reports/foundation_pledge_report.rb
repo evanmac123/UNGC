@@ -1,6 +1,9 @@
 class FoundationPledgeReport < SimpleReport
+
+  @render_method = :render_xls
+
   def records
-    Organization.active.participants.companies_and_smes.joined_on(@options[:month].to_i, @options[:year].to_i).all(:order => 'joined_on')
+    Organization.active.participants.companies_and_smes.joined_on(@options[:month].to_i, @options[:year].to_i)
   end
 
   def headers
