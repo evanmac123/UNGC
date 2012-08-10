@@ -162,6 +162,17 @@ class LocalNetwork < ActiveRecord::Base
     selected
   end
 
+  def last_approved_mou_year
+    if mous.any?
+      year = mous.first.year.year.to_s
+      if mous.first.mou_type == 'in_review'
+        year += " (#{Mou::TYPES[:in_review]})"
+      else
+        year
+      end
+    end
+  end
+
   [:annual_meeting_appointments, :established_as_a_legal_entity].each do |m|
     define_method "sg_#{m}_attachment=" do |file|
       self.send "sg_#{m}_file=", UploadedFile.new(attachment: file, attachable: self)
