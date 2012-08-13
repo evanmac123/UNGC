@@ -1,5 +1,6 @@
 .DS_Store
 .rvmrc
+.vagrant
 config/database.yml
 config/development.sphinx.conf
 config/environments/development.rb
@@ -27,3 +28,4 @@ public/system/zips/**/*
 public/uploaded_files
 tmp/*
 tmp/**/*
+Vagrantfile
