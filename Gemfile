@@ -13,13 +13,14 @@ gem "paperclip", "2.3.1"
 gem "haml", "2.2.14"
 gem "acts_as_commentable", "2.0.2"
 gem "money", "2.1.5"
+gem "newrelic_rpm", "3.4.1"
 
 gem "spreadsheet", "0.6.5.9"
 
 gem "thinking-sphinx", "1.3.14"
 
 group :development do
-  gem "sqlite3-ruby", "1.2.5"
+  # gem "sqlite3-ruby", "1.2.5"
   gem "after_commit", "1.0.5"
   gem "noexec", "0.1.0"
 end
