@@ -1,8 +1,8 @@
 source :rubygems
 
-gem "rails", "2.3.5"
+gem "rails", "2.3.11"
 
-gem "rack", "1.0.1"
+gem "rack", "1.1.0"
 gem "mysql", "2.8.1"
 gem "facets", "2.7.0"
 gem "hpricot", "0.8.4"
