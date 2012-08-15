@@ -58,10 +58,7 @@ module Admin::CopsHelper
   end
 
   # Find the questions for a particular grouping. Options available are :principle and :year
-  # If a year is not specified explicitly, the year of the COP will be used. If the year of the COP
-  # is nil no filtering based on year will happen at all
   def cop_questions_for(cop, grouping, options={})
-    options[:year] ||= cop.start_year
     principle_area_id = options[:principle].nil? ? nil : PrincipleArea.send(options[:principle]).id
     find_conditions = { :principle_area_id => principle_area_id, :grouping => grouping.to_s }
     find_conditions.merge!(:year => options[:year]) if options[:year].present?
