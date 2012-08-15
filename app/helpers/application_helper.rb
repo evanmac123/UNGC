@@ -1,4 +1,3 @@
-# Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   def body_classes
     returning([]) { |classes|
@@ -70,10 +69,11 @@ module ApplicationHelper
   # swap key/value so the values and labels for the <select> options are in the correct order
   def select_options_from_hash(hash)
     reverse_hash = Hash.new
-    		hash.each {|key,value|
-    			reverse_hash[value] = key unless reverse_hash.has_key?(key)
-    		}
-  	return reverse_hash
+    hash.each {|key,value|
+      reverse_hash[value] = key unless reverse_hash.has_key?(key)
+    }
+
+    reverse_hash
   end
 
 end
