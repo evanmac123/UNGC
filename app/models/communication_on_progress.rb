@@ -151,12 +151,6 @@ class CommunicationOnProgress < ActiveRecord::Base
                   :all          => "d) Both b) and c)"
                  }
 
-  SIGNEE = {:ceo       => "Chief Executive Officer (CEO)",
-            :board     => "Chairperson or member of Board of Directors",
-            :executive => "Other senior executive",
-            :none      => "None of the above"
-            }
-
   LEVEL_DESCRIPTION = { :blueprint => "This COP qualifies for the Global Compact Advanced level",
                         :advanced  => "This COP qualifies for the Global Compact Advanced level",
                         :active    => "This COP qualifies for the Global Compact Active level",

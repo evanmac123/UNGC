@@ -1,3 +1,22 @@
+h1. 2012-08-20
+
+* Starting to *finally* clean up all of those unused COP columns
+* Answers to `include_ceo_letter` were transferred to `include_continued_support_statement` since it's the same question
+* That same column could have been used for the 2010+ COPs but this was not realized at the time
+* See the database export from *[DATE]* if you ever need to see what those values were
+* Those questions were only asked for about 2 months and nothing was done with the information in those columns anyway
+
+* The previous url1..3 columns where copied to cop_links with the same timestamps as the COP and the language set to 1: Unknown
+
+h1. 2012-08-15
+
+* removed "options[:year] ||= cop.start_year" in the cops_helpers.rb
+* start_year is no longer used an refers to the coverage dates of the COP
+* also, the cop questions that remain the same year-to-year do not need the year specified
+* Example: <pre>cop_questions_for @communication_on_progress, :lead_un_goals</pre>
+* Compared to: <pre>cop_questions_for @communication_on_progress, :verification, :year => current_year</pre>
+* also see entry for 2012-01-03
+
 h1. 2012-08-01
 
 * The signup form is not copying over the default contact information if validation fails
@@ -9,12 +28,12 @@ h1. 2012-07-31
 
 * The Reports were updated to use find_in_batches and create a temporary file before sending to the browser
 * The passengers were using excessive memory causing the server to run out of memory
-* Rails Machine had traced the problem to the records were being buffered in memory (for soem reports in the tens of thousands) before creating the export file
+* Rails Machine had traced the problem to the records were being buffered in memory (for some reports in the tens of thousands) before creating the export file
 * The method 'render_output' was added to simple_report.rb to call render_xls by default, but can be overridden in within each report if render_xls_in_batches is preferred, which is the case for reports returning more than 1000 records
 * Also, send_data was replaced with send_file by first saving all records in a temporary file
 * These changes are using less memory, but occasionally we are still seeing the process killed before the file downloads
 * We will also look into adding more options to the Reports so people can limit the number of records being downloaded by filtering
-* Rails Machine added a passenger memory monitor job to kill and processes going over 300MB, but are also recommending we increase memory from 3GB to 4GB
+* Rails Machine added a passenger memory monitor job to kill and processes going over 500MB, and will increase memory from 3GB to 4GB
 
 h1. 2012-05-03
 

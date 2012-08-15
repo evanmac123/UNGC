@@ -5,8 +5,8 @@
   %ul
     - communication_on_progress.cop_files.each do |cop_file|
       %li= link_to cop_file.attachment_file_name, cop_file.attachment.url
-    - communication_on_progress.urls.each do |url|
-      %li= link_to truncate(url, :length => 60), url
+    - communication_on_progress.cop_links.each do |link|
+      %li{:title => link.url}= link_to truncate(link.url, :length => 70), link.url
 
 - unless communication_on_progress.description.blank?
   %dt Description
