@@ -3,17 +3,19 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.8'
 
 gem 'mysql2'
-gem 'facets',               '~> 2.9.3'
+gem 'facets',               '~> 2.9.3', :require => false
 gem 'hpricot',              '0.8.4'
 gem 'json_pure',            '1.2.0'
 gem 'will_paginate',        '~> 3.0.3'
 gem 'paperclip',            '~> 2.3.1'
-gem 'haml',                 '~> 2.2.14'
+gem 'haml',                 '~> 3.1.7'
 gem 'acts_as_commentable',  '~> 3.0.1'
 gem 'money',                '~> 2.1.5'
 gem 'newrelic_rpm',         '~> 3.4.1'
 gem 'spreadsheet',          '0.6.5.9'
-gem 'thinking-sphinx',      '~> 1.3.14'
+gem 'thinking-sphinx',      '~> 2.0.10'
+gem 'state_machine',        '~> 1.1.2'
+gem 'custom_error_message',                    :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
