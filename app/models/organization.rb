@@ -426,7 +426,19 @@ class Organization < ActiveRecord::Base
   end
 
   def financial_contact_or_contact_point
-    self.contacts.financial_contacts.count > 0 ? self.contacts.financial_contacts.first : self.contacts.contact_points.first
+    contacts.financial_contacts.any? ? contacts.financial_contacts.first : contacts.contact_points.first
+  end
+
+  # if the contact person is also the financial contact, just return one contact
+  def financial_contact_and_contact_point
+    return_contacts = []
+    if contacts.financial_contacts.any?
+      return_contacts << contacts.financial_contacts.first
+      unless contacts.contact_points.first == contacts.financial_contacts.first
+        return_contacts << contacts.contact_points.first
+      end
+    end
+    return_contacts
   end
 
   def last_comment_date
