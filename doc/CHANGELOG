@@ -10,6 +10,8 @@ h1. 2012-08-20
 * That same column could have been used for the 2010+ COPs but this was not realized at the time
 * Many of those columns were for questions only asked for about 2 months. Nothing was done with that information anyway
 * See the database export from 2012-08-21 if you ever need to see what those values were
+* Those questions were only asked for about 2 months and nothing was done with the information in those columns anyway
+
 * The previous url1..3 columns where copied to cop_links with the same timestamps as the COP and the language set to 1: Unknown
 
 h1. 2012-08-15
