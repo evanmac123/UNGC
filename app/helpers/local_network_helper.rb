@@ -80,6 +80,14 @@ module LocalNetworkHelper
 
   end
 
+  def link_to_public_profile(local_network)
+    if local_network.country_code.present?
+      link_to local_network.name, "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
+    else
+      local_network.name
+    end
+  end
+
   # temporary participant reports until Local Networks can login
   # these should be removed
 
