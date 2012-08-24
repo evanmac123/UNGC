@@ -402,10 +402,6 @@ table.sortable thead tr th.headerSortDown {
   padding: 0 !important;
 }
 
-.related_documents {
-  clear: both;
-}
-
 .participant_data li {
   clear: both;
 }

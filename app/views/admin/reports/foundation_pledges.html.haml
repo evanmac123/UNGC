@@ -3,9 +3,29 @@
 %ul{:class => "tools inline"}
   %li= link_to 'Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
 
-- form_for admin_report_path(:action => :foundation_pledges), :html => {:method => :get} do |f|
-  = select_month_tag(@month)
-  = select_year_tag(@year)
-  = f.submit 'View'
+%p
+  - form_for admin_report_path(:action => :foundation_pledges), :html => {:method => :get} do |f|
+    = select_month_tag(@month)
+    = select_year_tag(@year)
+    = f.submit 'View'
 
-%div= @report.render_html
+%table.dashboard_table
+  %tr
+    %th Company
+    %th Country
+    %th Employees
+    %th Invoice ID
+    %th Pledge
+    %th Invoice Date
+    %th Actions
+  - @report.records.each do |org|
+    %tr
+      %td{:title => org.name}= org.name
+      %td= org.country_name
+      %td= org.employees
+      %td= org.invoice_id
+      %td= org.pledge_amount
+      %td= org.joined_on.strftime('%Y-%m-%d')
+      %td
+        %ul.actions
+          =link_to 'View Contacts', admin_organization_path(org.id, :tab => :contacts), :title => "View contacts for #{org.name}", :class => "users"

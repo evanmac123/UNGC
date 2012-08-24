@@ -132,7 +132,10 @@ Here's a list of tables/fields that should be safe to delete after the applicati
 case\_stories.status - using state  
 case\_stories.case\_date - using updated\_at  
 
-communication\_on\_progresses.facilitator - never used  
+communication\_on\_progresses.facilitator - never used
+communication\_on\_progresses.added\_on - using created_at
+communication\_on\_progresses.modified\_on - using updated_at
+
 communication\_on_progresses.status - using state  
 communication\_on\_progresses.start\_year - using starts\_on  
 communication\_on\_progresses.start\_month - using starts\_on  

@@ -1,10 +1,33 @@
 %h2 Approved logo requests
 
-- form_for admin_report_path(:action => :approved_logo_requests), :html => {:method => :get} do |f|
-  = select_month_tag(@month)
-  = select_year_tag(@year)
-  = f.submit 'View'
+%ul{:class => "tools inline"}
+  %li= link_to 'Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
 
-= link_to 'download', url_for(params.merge(:format => 'xls'))
+%p
+  - form_for admin_report_path(:action => :approved_logo_requests), :html => {:method => :get} do |f|
+    = select_month_tag(@month)
+    = select_year_tag(@year)
+    = f.submit 'View'
 
-%div= @report.render_html
+%table.dashboard_table
+  %tr
+    %th Request ID
+    %th Participant
+    %th Publication Type
+    %th Reviewer
+    %th Approval Date
+    %th State
+    %th Days to process
+    %th Actions
+  - @report.records.each do |record|
+    %tr
+      %td= record.id
+      %td{:title => record.organization.name}= truncate record.organization.name
+      %td= record.publication.name
+      %td= record.reviewer.name
+      %td= record.approved_on
+      %td= record.state.titleize
+      %td= record.days_to_process
+      %td
+        %ul.actions
+          %li= link_to 'View Details', admin_organization_logo_request_path(record.organization.id, record), :title => "View logo request details", :class => "preview"

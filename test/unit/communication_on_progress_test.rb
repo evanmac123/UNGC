@@ -29,10 +29,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
         cop = create_communication_on_progress(:organization_id    => @organization.id,
                                                :title              => 'Our COP',
                                                :format             => 'standalone',
-                                               # :web_based          => false,
-                                               :parent_company_cop => false,
                                                :include_continued_support_statement => true,
-                                               :support_statement_signee            => 'ceo',
                                                :references_human_rights             => true,
                                                :references_labour                   => true,
                                                :references_environment              => true,
@@ -50,12 +47,9 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "be valid when a file is attached" do
       assert_difference 'CommunicationOnProgress.count' do
         cop = create_communication_on_progress(:organization_id                     => @organization.id,
-                                              :title                                => 'Our COP',
+                                               :title                               => 'Our COP',
                                                :format                              => 'standalone',
-                                               # :web_based                         => false,
-                                               :parent_company_cop                  => false,
                                                :include_continued_support_statement => true,
-                                               :support_statement_signee            => 'ceo',
                                                :references_human_rights             => true,
                                                :references_labour                   => true,
                                                :references_environment              => true,
@@ -236,7 +230,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
      end
 
   end
-  #
+
   # context "given a rejected COP" do
   #   setup do
   #     create_organization_and_user
@@ -247,44 +241,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   #   should "not be editable" do
   #     assert !@cop.editable?
   #   end
-  # end
-  #
-  # context "given a COP from a parent company" do
-  #   setup do
-  #     create_organization_and_user
-  #     create_language
-  #     @cop = @organization.communication_on_progresses.new(:format             => 'standalone',
-  #                                                          :web_based          => true,
-  #                                                          :parent_company_cop => true,
-  #                                                          :cop_links_attributes => {
-  #                                                            "new_link"=> {:attachment_type => "cop",
-  #                                                                          :url             => "http://my-cop-online.com",
-  #                                                                          :language_id     => Language.first.id}
-  #                                                           })
-  #   end
-  #
-  #   should "be approved if COP covers subsidiary efforts" do
-  #     @cop.parent_cop_cover_subsidiary = true
-  #     assert @cop.save
-  #     assert @cop.reload.approved?
-  #   end
-  #
-  #   should "be approved if COP doesn't cover subsidiary efforts" do
-  #     @cop.parent_cop_cover_subsidiary = false
-  #     assert @cop.save
-  #     assert @cop.reload.approved?
-  #   end
-  # end
-
-  # context "given a COP with its period ending in 2009" do
-  #   setup do
-  #     create_organization_and_user
-  #     @cop = @organization.communication_on_progresses.new({:ends_on => '2009-12-31'})
-  #     @cop.save
-  #   end
-  #     should "title should be Communication on Progress 2009" do
-  #       assert_equal "2009 Communication on Progress", @cop.title
-  #     end
   # end
 
   context "given a COP created in 2008" do

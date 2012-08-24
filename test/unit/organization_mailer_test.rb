@@ -86,7 +86,8 @@ class OrganizationMailerTest < ActionMailer::TestCase
     response = OrganizationMailer.deliver_foundation_invoice(@organization)
     assert_equal "text/html", response.content_type
     assert_equal "[Invoice] The Foundation for the Global Compact", response.subject
-    assert_equal @financial_contact.email, response.to.first
+    assert_contains response.to, @financial_contact.email
+    assert_contains response.to, @organization_user.email
   end
 
   test "foundation reminder mailer is sent" do
