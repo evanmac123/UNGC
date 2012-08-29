@@ -26,7 +26,7 @@ To all Contact Points for
 %p== #{link_to 'Submitting a Grace Letter: A Step-by-Step Guide (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/Grace_Letter_Step_by_Step_Guide.pdf'}
 
 - if @organization.last_cop_is_learner?
-  %p== As previously indicated, your company is currently in the Learner Platform due to your COP's omission of one or more required elements. To see which elements your company is missing, please #{link_to 'access your COP', 'http://www.unglobalcompact.org' + cop_detail_path(@organization.last_cop)}.
+  %p== As previously indicated, your company is currently on the Learner Platform due to your COP's omission of one or more required elements. To see which elements your company is missing, please #{link_to 'access your COP', 'http://www.unglobalcompact.org' + cop_detail_path(@organization.last_approved_cop)}.
 
 %p All COPs must meet all content criteria listed below. If you fail to include all THREE elements, the COP will not be considered in compliance with the GC Active level.
 
