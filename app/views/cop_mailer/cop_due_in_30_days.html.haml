@@ -20,7 +20,7 @@ To all Contact Points for
 %p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website. If a company fails to meet its submission deadline, it will be listed as "non-communicating" on the list of participants and the company's #{link_to 'individual Global Compact page', 'http://www.unglobalcompact.org/participant/'+@organization.id.to_s}.
 
 - if @organization.last_cop_is_learner?
-  %p== As previously indicated, your company is currently in the Learner Platform due to your COP's omission of one or more required elements. To see which elements your company is missing, please #{link_to 'access your COP', 'http://www.unglobalcompact.org' + cop_detail_path(@organization.last_cop)}.
+  %p== As previously indicated, your company is currently on the Learner Platform due to your COP's omission of one or more required elements. To see which elements your company is missing, please #{link_to 'access your COP', 'http://www.unglobalcompact.org' + cop_detail_path(@organization.last_approved_cop)}.
 
 %p All COPs must meet all content criteria listed below. If you fail to include all THREE elements, the COP will not be considered in compliance with the GC Active level.
 
