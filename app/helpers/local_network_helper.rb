@@ -82,9 +82,13 @@ module LocalNetworkHelper
 
   def link_to_public_profile(local_network)
     if local_network.country_code.present?
-      link_to local_network.name, "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
-    else
-      local_network.name
+      path = "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
+      page = Page.find_by_path_and_approval path, 'approved'
+      unless page.nil?
+        link_to local_network.name, page.path
+      else
+        local_network.name
+      end
     end
   end
 
