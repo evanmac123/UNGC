@@ -169,22 +169,23 @@ class Organization < ActiveRecord::Base
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
 
-  named_scope :participants_with_cop_info, {
+  named_scope :participants_with_cop_info, lambda { |org_scope = 1| {
     :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
-                 :conditions => 'participant = true',
+                 :conditions => "participant = true AND #{org_scope}",
                  :select => 'organizations.*, C.*',
                  :joins => "LEFT JOIN (
-                      SELECT
-                        organization_id,
-                        MAX(created_at) AS latest_cop,
-                        COUNT(id) AS cop_count
-                      FROM
-                        communication_on_progresses
-                      WHERE
-                        state = 'approved'
-                      GROUP BY
-                         organization_id) as C ON organizations.id = C.organization_id"
+                            SELECT
+                              organization_id,
+                              MAX(created_at) AS latest_cop,
+                              COUNT(id) AS cop_count
+                            FROM
+                              communication_on_progresses
+                            WHERE
+                              state = 'approved'
+                            GROUP BY
+                               organization_id) as C ON organizations.id = C.organization_id"
     }
+  }
 
  named_scope :delisted, {
    :include => [:country, :sector, :organization_type, :removal_reason],

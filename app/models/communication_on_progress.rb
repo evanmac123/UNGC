@@ -97,6 +97,13 @@ class CommunicationOnProgress < ActiveRecord::Base
   default_scope :order => 'created_at DESC'
 
   named_scope :all_cops,   {:include => [ :organization, { :organization => :country } ]}
+
+  named_scope :local_networks_all_cops, lambda { |org_scope| {
+    :include => [ :organization, { :organization => :country } ],
+    :conditions => org_scope
+    }
+  }
+
   named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
   named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
 

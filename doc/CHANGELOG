@@ -1,3 +1,10 @@
+h1. 2012-08-30
+
+* Created Reports section for Local Networks
+* These are similar to Reports for staff, but are scoped to organizations within the Local Network's countries
+* The method 'sql_for_organization_scope' in simple_report.rb is passed into various model scopes to limit results to those organizations, contacts, COPs etc. that belong to organizations of a particular country
+* Since we have to customize the reports for Local Networks in most cases, separate reports and scopes are used
+
 h1. 2012-08-23
 
 * Some Financial Contacts are receiving invoices without being informed that the Contact Point had made a pledge

@@ -1,0 +1,23 @@
+%h2 Reports
+
+%hr
+
+%dl.left_column
+
+  %h3 Participants, Contacts and COPs
+  %p Organization and contact information from Global Compact participants in your Local Network.
+
+  %ul.report_list
+    %li= link_to_report_xls 'Participant Breakdown', :local_network_participant_breakdown
+    %li= link_to_report_xls 'Contact Information', :local_network_participant_contacts
+    %li= link_to_report_xls 'Communication on Progress', :local_network_all_cops
+
+%dl.left_column
+
+  %h3 Local Networks
+  %p These reports contain data on other Local Networks, including Network Management and Knowledge Sharing activities.
+
+  %ul.report_list
+    %li= link_to_report_xls 'Network Management', :local_networks_management
+    %li= link_to_report_xls 'Events and Activities', :local_networks_events
+    %li= link_to_report_xls 'Knowledge Sharing Items', :local_networks_knowledge_sharing
