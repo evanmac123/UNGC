@@ -1,0 +1,12 @@
+%table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+  %thead
+    %tr
+      %th{:class => 'sort'} Name
+      %th{:class => 'sort'} Region
+      %th{:class => 'sort'} Category
+  %tbody
+    - for local_network in LocalNetwork.all(:order => :name)
+      %tr
+        %td{:title => local_network.name}= link_to_public_profile(local_network)
+        %td= local_network.region_name
+        %td= local_network.state.humanize
