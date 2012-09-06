@@ -1,3 +1,10 @@
+h1. 2012-09-04
+
+* We are introducing a new "Business and Peace" section for COPs, which will appear as part of the Advanced and LEAD questionnaires
+* Created a boolean (references_business_peace) similar to other issues areas to track if organization operates in high risk areas
+* If they answer yes, then the Business and Peace tab appears with the corresponding questions
+* Added another grouping area in cop_question.rb for Business and Peace questions
+
 h1. 2012-08-23
 
 * Some Financial Contacts are receiving invoices without being informed that the Contact Point had made a pledge
@@ -17,7 +24,7 @@ h1. 2012-08-20
 h1. 2012-08-15
 
 * removed "options[:year] ||= cop.start_year" in the cops_helpers.rb
-* start_year is no longer used an refers to the coverage dates of the COP
+* start_year is no longer used and referred to the coverage dates of the COP
 * also, the cop questions that remain the same year-to-year do not need the year specified
 * Example: <pre>cop_questions_for @communication_on_progress, :lead_un_goals</pre>
 * Compared to: <pre>cop_questions_for @communication_on_progress, :verification, :year => current_year</pre>

@@ -57,3 +57,8 @@
 - if communication_on_progress.cop_answers.by_group(:lead_gc).count > 0
   %dt Engaging with the<br /> UN Global Compact
   %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'lead_gc')
+
+- if communication_on_progress.cop_answers.by_group(:business_peace).count > 0
+  %dt
+    %span.business_peace Business and Peace
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'business_peace')

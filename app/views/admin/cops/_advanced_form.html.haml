@@ -10,6 +10,7 @@
   / Anti-Corruption Implementation (Anti-Corruption)
   / Value Chain Implementation (Value Chain)
   / Verification and Transparency (Verification)
+  / Business and Peace (Business and Peace)
 
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
@@ -30,6 +31,8 @@
     %li#value_chain_tab{:class => 'additional_questions'} <a href="#value_chain_additional_questions">&nbsp;&raquo;&nbsp;Value Chain</a>
 
     %li#verification_disclosure_tab{:class => 'additional_questions'} <a href="#verification_additional_questions">&nbsp;&raquo;&nbsp;Verification</a>
+
+    %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_business_peace?)} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
 
     %li#notable_tab{:style => css_display_style(@communication_on_progress.notable_program?)} <a href="#notable_questions">Notable Program</a>
 
@@ -91,6 +94,7 @@
 
           #include_continued_support_statement{:style => css_display_style(@submitted)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
+            = render :partial => 'cop_business_peace_question', :locals => {:form => form}
 
             %fieldset
               %legend
@@ -101,7 +105,7 @@
             %fieldset
               %fieldset
                 %legend
-                  %span How does your organisation share its COP with stakeholders?
+                  %span How does your organization share its COP with stakeholders?
                 - CommunicationOnProgress::METHOD.each do |key, value|
                   %label
                     = form.radio_button :method_shared, key
@@ -187,6 +191,12 @@
     %h3 Verification and Transparency
     %p For each of the following criteria, please check the best practices you have implemented and discussed in your COP.
     %fieldset= cop_questions_for @communication_on_progress, :verification, :year => current_year
+
+  %div.tab_content{:id => "business_peace_additional_questions"}
+    %h3
+      %span.business_peace Business and Peace
+    %p How does your company advance responsible business practices in high-risk and/or conflict-affected areas? For the following criterion, please check the best practices you have implemented and discussed in your COP.
+    %fieldset= cop_questions_for @communication_on_progress, :business_peace, :year => current_year
 
   #finish.tab_content
     %fieldset
