@@ -507,6 +507,7 @@ td.center {
 #main_content dt span.labour, span.labour { color: #52C6D8; }
 #main_content dt span.environment, span.environment { color: #688442; }
 #main_content dt span.anti_corruption, span.anti_corruption { color: #ED1C24; }
+span.business_peace { color: #453058; }
 
 #main_content dd:empty { min-height: 12px; }
 #main_content dd.indent { padding-left: 30px; }
