@@ -17,7 +17,7 @@ class LocalNetworksManagement < SimpleReport
       'Appointments made during Annual Meeting?',
       'Appointments made during Annual Meeting (file)',
       'Network Representative Appointed?',
-      'Steering Commitee Appointed?',
+      'Steering Committee Appointed?',
       'Contact Person Appointed?',
       'Established as a Legal Entity?',
       'Established as a Legal Entity (file)',
