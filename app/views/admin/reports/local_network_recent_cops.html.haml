@@ -1,0 +1,26 @@
+%h2 COPs submitted in the past 30 days
+
+- unless @report.records.any?
+  %p There were no COPs submitted during that time period
+- else
+
+  %p
+    %ul{:class => "tools inline"}
+      %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+
+  %table.dashboard_table
+    %tr
+      %th Participant
+      %th Received
+      %th Title
+      %th Differentiation
+      %th Actions
+    - @report.records.each do |cop|
+      %tr
+        %td{:title => cop.organization_name}= truncate(cop.organization_name, :length => 70)
+        %td= cop.created_at
+        %td{:title => cop.title}= truncate(cop.title)
+        %td= cop.differentiation_level_name
+        %td
+          %ul.actions
+            =popup_link_to 'View Details', cop_detail_path(cop), :title => "View COP Details", :class => "preview"

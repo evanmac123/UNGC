@@ -3,7 +3,6 @@
 %hr
 
 %dl.left_column
-
   %h3 Participants, Contacts and COPs
   %p Organization and contact information from Global Compact participants in your Local Network.
 
@@ -13,7 +12,19 @@
     %li= link_to_report_xls 'Communication on Progress', :local_network_all_cops
 
 %dl.left_column
+  %h3 Activity Reports
+  %p An overview of previous and upcoming participant and COP activity.
 
+  %ul.report_list
+    %li= link_to_report_html 'COPs submitted in the past 30 days', :local_network_recent_cops
+    %li= link_to_report_html 'Participants with a COP due in the next 30 days', :local_network_upcoming_cops
+    %li= link_to_report_xls 'Non-Communicating and at risk of being delisted in the next 30 days', :local_network_all_cops
+    %li= link_to_report_xls 'Non-Communicating in the past 30 days', :local_network_all_cops
+    %li= link_to_report_xls 'Delisted in the past 90 days', :local_network_all_cops
+    %li= link_to_report_xls 'Logo Requests approved in the past 30 days', :local_network_all_cops
+    %li= link_to_report_xls "Participants requesting withdrawal in #{current_year}", :local_network_all_cops
+
+%dl.left_column
   %h3 Local Networks
   %p These reports contain data on other Local Networks, including Network Management and Knowledge Sharing activities.
 

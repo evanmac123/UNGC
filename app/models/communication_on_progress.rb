@@ -94,13 +94,18 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   TYPES = %w{grace basic intermediate advanced lead}
 
-  default_scope :order => 'created_at DESC'
+  default_scope :order => 'communication_on_progresses.created_at DESC'
 
-  named_scope :all_cops,   {:include => [ :organization, { :organization => :country } ]}
+  named_scope :all_cops, {:include => [ :organization, { :organization => :country } ]}
 
   named_scope :local_networks_all_cops, lambda { |org_scope| {
     :include => [ :organization, { :organization => :country } ],
     :conditions => org_scope
+    }
+  }
+
+  named_scope :created_between, lambda { |start_date, end_date| {
+    :conditions => { :created_at => start_date..end_date }
     }
   }
 

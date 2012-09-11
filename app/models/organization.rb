@@ -246,7 +246,12 @@ class Organization < ActiveRecord::Base
     { :conditions => ["cop_state != ?", COP_STATE_DELISTED] }
 
   named_scope :with_cop_due_on, lambda { |date|
-    {:conditions => {:cop_due_on => date} }
+    { :conditions => {:cop_due_on => date} }
+  }
+
+  named_scope :with_cop_due_between, lambda { |start_date, end_date| {
+      :conditions => { :cop_due_on => start_date..end_date }
+    }
   }
 
   named_scope :noncommunicating,
