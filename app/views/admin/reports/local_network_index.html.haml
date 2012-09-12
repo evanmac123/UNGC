@@ -20,7 +20,7 @@
     %li= link_to_report_html 'Participants with a COP due in the next 30 days', :local_network_upcoming_cops
     %li= link_to_report_html 'Non-Communicating and at risk of being delisted in the next 30 days', :local_network_upcoming_delistings
     %li= link_to_report_html 'Non-Communicating in the past 30 days', :local_network_recently_noncommunicating
-    %li= link_to_report_xls 'Delisted in the past 90 days', :local_network_all_cops
+    %li= link_to_report_html 'Delisted in the past 90 days', :local_network_recently_delisted
     %li= link_to_report_xls 'Logo Requests approved in the past 30 days', :local_network_all_cops
     %li= link_to_report_xls "Participants requesting withdrawal in #{current_year}", :local_network_all_cops
 
