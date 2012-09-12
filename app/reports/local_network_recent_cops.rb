@@ -18,7 +18,7 @@ class LocalNetworkRecentCops < SimpleReport
 
   def row(record)
     [ record.organization_name,
-      record.created_at,
+      record.created_at.to_date,
       record.title,
       record.differentiation_level_name
     ]

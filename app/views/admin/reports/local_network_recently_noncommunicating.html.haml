@@ -1,0 +1,24 @@
+%h2 Non-Communicating in the past 30 days
+
+- unless @report.records.any?
+  %p No participants have become Non-Communicating in the past 30 days
+- else
+
+  %p
+    %ul{:class => "tools inline"}
+      %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+
+  %table.dashboard_table
+    %tr
+      %th Participant
+      %th Participant Since
+      %th COP past due date
+      %th Actions
+    - @report.records.each do |org|
+      %tr
+        %td{:title => org.name}= org.name
+        %td= org.joined_on
+        %td= org.cop_due_on
+        %td
+          %ul.actions
+            =popup_link_to 'View Details', participant_path(org), :title => "View participant details", :class => "preview"

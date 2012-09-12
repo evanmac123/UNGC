@@ -18,7 +18,7 @@
     - @report.records.each do |cop|
       %tr
         %td{:title => cop.organization_name}= truncate(cop.organization_name, :length => 70)
-        %td= cop.created_at
+        %td= cop.created_at.to_date
         %td{:title => cop.title}= truncate(cop.title)
         %td= cop.differentiation_level_name
         %td
