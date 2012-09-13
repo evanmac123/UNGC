@@ -429,13 +429,13 @@ class Organization < ActiveRecord::Base
     contacts.financial_contacts.any? ? contacts.financial_contacts.first : contacts.contact_points.first
   end
 
-  # if the contact person is also the financial contact, just return one contact
+  # if the contact person is also the financial contact, just return the one contact
   def financial_contact_and_contact_point
     return_contacts = []
+    return_contacts << contacts.contact_points.first
     if contacts.financial_contacts.any?
-      return_contacts << contacts.financial_contacts.first
-      unless contacts.contact_points.first == contacts.financial_contacts.first
-        return_contacts << contacts.contact_points.first
+      unless return_contacts.include?(contacts.financial_contacts.first)
+        return_contacts << contacts.financial_contacts.first
       end
     end
     return_contacts
