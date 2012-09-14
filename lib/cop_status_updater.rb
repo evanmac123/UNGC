@@ -22,10 +22,15 @@ class CopStatusUpdater
       organizations = Organization.businesses.participants.active.about_to_become_delisted
       organizations.each do |organization|
         organization.delist
-        log "Delist and email #{organization.id}:#{organization.name}"
-        CopMailer.deliver_delisting_today(organization)
+        begin
+          CopMailer.deliver_delisting_today(organization)
+          log "Delist and email #{organization.id}:#{organization.name}"
+        rescue
+          log "error", "Could not email #{organization.id}:#{organization.name}"
+        end
       end
     end
+
   end
 
 end
