@@ -39,7 +39,6 @@ class SignupController < ApplicationController
       session[:signup_contact] = @contact
       set_default_values
     end
-
     # business make a financial contribution (step 4), non-business upload their letter of commitment (step 6)
     @organization.attributes = params[:organization]
     @next_step = @organization.business_entity? ? organization_step4_path : organization_step6_path
@@ -63,9 +62,13 @@ class SignupController < ApplicationController
   # POST from pledge form
   # ask for financial contact if pledge was made
   def step5
-    # FIXME: values are not being copied from @contact if validation fails at any point
-    @financial_contact.address = 'n/a'
-    @financial_contact.city = 'n/a'
+    # Financial Contact fields not included in the form, but which default to the Contact Point's
+    @financial_contact.address = @contact.address
+    @financial_contact.address_more = @contact.address_more
+    @financial_contact.city = @contact.city
+    @financial_contact.state = @contact.state
+    @financial_contact.postal_code = @contact.postal_code
+    @financial_contact.country_id = @contact.country_id
     @organization.attributes = params[:organization]
     redirect_to organization_step6_path unless @organization.pledge_amount.to_i > 0
   end
@@ -148,15 +151,6 @@ class SignupController < ApplicationController
       @ceo.state = @contact.state unless @ceo.state
       @ceo.postal_code = @contact.postal_code unless @ceo.postal_code
       @ceo.country_id = @contact.country_id unless @ceo.country
-
-      # financial contact fields which default to contact
-      @financial_contact.fax = @contact.fax unless @financial_contact.fax
-      @financial_contact.address = @contact.address unless @financial_contact.address
-      @financial_contact.address_more = @contact.address_more unless @financial_contact.address_more
-      @financial_contact.city = @contact.city unless @financial_contact.city
-      @financial_contact.state = @contact.state unless @financial_contact.state
-      @financial_contact.postal_code = @contact.postal_code unless @financial_contact.postal_code
-      @financial_contact.country_id = @contact.country_id unless @financial_contact.country
     end
 
     # Makes sure the CEO and Contact point don't have the same email address
