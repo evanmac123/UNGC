@@ -15,7 +15,10 @@ gem 'newrelic_rpm',         '~> 3.4.1'
 gem 'spreadsheet',          '0.6.5.9'
 gem 'thinking-sphinx',      '~> 2.0.10'
 gem 'state_machine',        '~> 1.1.2'
-gem 'custom_error_message',                    :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
+gem 'acts_as_tree_rails3',  '~> 0.1.0'
+gem 'annotate',             '~> 2.5.0'
+gem 'fixture_replacement',  '~> 3.0.1'
+gem 'custom_error_message', :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
