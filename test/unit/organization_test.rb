@@ -193,36 +193,52 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
-    context "given an expelled company" do
+  context "given an organization" do
+    setup do
+      create_organization_and_user
+    end
+
+    should "return expected attributes with to_json" do
+      json = @organization.to_json
+      result = JSON.parse(json)
+      assert_equal ['id', 'name','sector_name', 'country_name', 'participant'].sort, result.keys.sort
+    end
+
+    should "return expected attributes with to_json with only option" do
+      json = @organization.to_json(:only => ['stock_symbol'])
+      result = JSON.parse(json)
+      assert_equal ['id', 'name','sector_name', 'country_name', 'participant', 'stock_symbol'].sort, result.keys.sort
+    end
+  end
+
+  context "given an expelled company" do
+    setup do
+      create_expelled_organization
+    end
+
+    should "not be able to submit a COP" do
+      assert !@organization.can_submit_cop?
+    end
+
+    context "and a staff member updates their Letter of Commitment" do
       setup do
-        create_expelled_organization
+       @organization.update_attribute :commitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
       end
 
-      should "not be able to submit a COP" do
-        assert !@organization.can_submit_cop?
+      should "be able to submit a COP" do
+       assert @organization.can_submit_cop?
+      end
+    end
+
+    context "and they are Non-Communicating" do
+      setup do
+       @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
       end
 
-      context "and a staff member updates their Letter of Commitment" do
-        setup do
-         @organization.update_attribute :commitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
-        end
-
-        should "be able to submit a COP" do
-         assert @organization.can_submit_cop?
-        end
+      should "be able to submit a COP" do
+       assert @organization.can_submit_cop?
       end
-
-      context "and they are Non-Communicating" do
-        setup do
-         @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
-        end
-
-        should "be able to submit a COP" do
-         assert @organization.can_submit_cop?
-        end
-      end
-
-
-     end
+    end
+  end
 
 end

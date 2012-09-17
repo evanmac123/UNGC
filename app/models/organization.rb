@@ -47,6 +47,7 @@
 
 class Organization < ActiveRecord::Base
   include ApprovalWorkflow
+  self.include_root_in_json = false
 
   validates_presence_of :name
   validates_uniqueness_of :name, :message => "has already been used by another organization"
@@ -312,6 +313,16 @@ class Organization < ActiveRecord::Base
       :order      => "organizations.name ASC"
     }
   }
+
+  def as_json(options={})
+    only = ['id', 'name', 'participant']
+    only += Array(options[:only]) if options[:only]
+
+    methods = ['sector_name', 'country_name']
+    methods += Array(options[:methods]) if options[:methods]
+
+    super(:only => only, :methods => methods)
+  end
 
   def set_replied_to(current_user)
     if current_user.from_organization?
