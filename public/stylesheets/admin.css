@@ -792,14 +792,16 @@ ul.report_list {
   width: 400px; }
   ul.report_list li {
     list-style: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #DDD;
     padding: 0.75em 10px;
     background-color: #fff;
     position: relative; }
     ul.report_list li.odd {
       background-color: #fff; }
     ul.report_list li:hover {
-      background-color: #fcfcff; }
+      background-color: #fffdee; }
+    ul.report_list li:last-child {
+      border-bottom: none; }
   ul.report_list a.xls, ul.report_list a.doc {
     position: absolute;
     right: 10px;
@@ -815,9 +817,7 @@ ul.report_list {
   ul.report_list a.xls {
     background: url('../images/icons/Accounts Payable_16x16.png'); }
   ul.report_list a.doc {
-    background: url('../images/icons/Folder (Closed)_16x16.png'); }
-    ul.report_list a.doc:hover {
-      background: url('../images/icons/Folder (Open)_16x16.png'); }
+    background: url('../images/icons/Excel_Table_16x16.png'); }
   ul.report_list a {
     color: #333333;
     text-decoration: none; }
