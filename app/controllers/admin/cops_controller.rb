@@ -42,7 +42,7 @@ class Admin::CopsController < AdminController
 
       unless @communication_on_progress.is_grace_letter?
         begin
-          CopMailer.send("deliver_confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_user)
+          CopMailer.send("confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_user).deliver
         rescue Exception => e
          flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
         end

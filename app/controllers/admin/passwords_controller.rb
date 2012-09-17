@@ -8,7 +8,7 @@ class Admin::PasswordsController < ApplicationController
       @contact.refresh_reset_password_token!
 
       begin
-        ContactMailer.deliver_reset_password(@contact)
+        ContactMailer.reset_password(@contact).deliver
       rescue Exception => e
        flash[:notice] = 'Sorry, we could not send the email due to a server error. Please try again.'
        redirect_to new_password_path
