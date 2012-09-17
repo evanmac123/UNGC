@@ -32,20 +32,13 @@ class Event < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :for_month_year, lambda { |month=nil, year=nil|
+  def self.for_month_year(month=nil, year=nil)
     today = Date.today
     start = Time.mktime( year || today.year, month || today.month, 1).to_date
     finish = (start.to_date >> 1) - 1
-    {
-      :conditions => [
-        "starts_on BETWEEN :start AND :finish",
-        {
-          :start  => start,
-          :finish => finish
-        }
-      ]
-    }
-  }
+
+    where("starts_on BETWEEN ? AND ?", start, finish)
+  end
 
   def selected_issues
     issues.map {|issue| issue.name }

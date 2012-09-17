@@ -23,8 +23,8 @@ class LogoComment < ActiveRecord::Base
   belongs_to :contact
 
   has_attached_file :attachment
-  named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
-  named_scope :without_attachment, :conditions => "attachment_file_name IS NULL"
+  scope :with_attachment, where("attachment_file_name IS NOT NULL")
+  scope :without_attachment, where("attachment_file_name IS NULL")
 
   attr_accessor :state_event
   before_save :add_default_body_to_approval_comment

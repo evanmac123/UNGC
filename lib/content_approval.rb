@@ -17,7 +17,7 @@ module ContentApproval
   def self.included(klass)
     klass.class_eval do
       belongs_to :approved_by, :class_name => 'Contact'
-      named_scope :approved, :conditions => {:approval => ContentApproval::STATES[:approved]}
+      scope :approved, where(:approval => ContentApproval::STATES[:approved])
       state_machine :approval, :initial => ContentApproval::STATES[:pending] do
         event(ContentApproval::EVENTS[:approve]) { transition :from => [ContentApproval::STATES[:pending], ContentApproval::STATES[:previously]],  :to => ContentApproval::STATES[:approved]   }
         # event(ContentApproval::EVENTS[:reject])  { transition :from => ContentApproval::STATES[:pending],  :to => ContentApproval::STATES[:rejected]   }

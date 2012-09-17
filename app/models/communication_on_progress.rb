@@ -1,4 +1,4 @@
-# == Schema Information
+s# == Schema Information
 #
 # Table name: communication_on_progresses
 #
@@ -81,26 +81,17 @@ class CommunicationOnProgress < ActiveRecord::Base
     }
   }
 
-  named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
-  named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
+  scope :new_policy, lambda { where("created_at >= ?", Date.new(2010, 1, 1)) }
+  scope :old_policy, lambda { where("created_at <= ?", Date.new(2009, 12, 31)) }
 
-  named_scope :notable, {
-    :include => [:score, {:organization => [:country]}],
-    :conditions => [ "cop_score_id = ?", CopScore.notable.try(:id) ],
-    :order => 'ends_on DESC'
+  scope :notable, lambda {
+    includes([:score, {:organization => [:country]}]).where("cop_scopre_id = ?", CopScore.notable.try(:id)).order("ends_on DESC")
   }
 
-  named_scope :advanced, {
-    :include => [ {:organization => [:country, :sector]} ],
-    :conditions => [ "differentiation IN (?)", ['advanced','blueprint'] ]
-  }
+  scope :advanced, where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}])
+  scope :learner, where("differentiation = ?", 'learner')
 
-  named_scope :learner, {
-    :include => [ {:organization => [:country, :sector]} ],
-    :conditions => [ "differentiation = ?", 'learner' ]
-  }
 
-  named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
 
   named_scope :since_year, lambda { |year| {
     :include => [ :organization, { :organization => :country,
@@ -110,11 +101,8 @@ class CommunicationOnProgress < ActiveRecord::Base
   }
 
   # feed contains daily COP submissions, without grace letters
-  named_scope :for_feed, {
-    :conditions => ["format != (?) AND created_at >= (?)", 'grace_letter', Date.today],
-    :order => "created_at DESC"
-  }
-
+  scope :for_feed, lambda { where("format != ? AND created_at >= ?", 'grace_letter', Date.today).order("created_at") }
+  
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :annual_report         => "Part of an annual (financial) report"

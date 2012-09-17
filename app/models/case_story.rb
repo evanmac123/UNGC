@@ -61,7 +61,7 @@ class CaseStory < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :unreplied, :conditions => {:replied_to => false}
+  scope :unreplied, where(:replied_to => false)
 
   def authors_for_display
     authors = [

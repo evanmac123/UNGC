@@ -32,7 +32,7 @@ class Country < ActiveRecord::Base
               :mena        => 'MENA'
             }
 
-  named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
+  scope :where_region, lambda {|region| where(:region => region) }
 
   def region_for_select_field
     region.try(:to_sym)

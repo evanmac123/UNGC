@@ -30,19 +30,15 @@ class Headline < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :published, { :conditions => ['approval = ?', 'approved']}
-  named_scope :limit, lambda { |limit| { :limit => limit } }
-  named_scope :descending, {:order => 'published_on DESC, approved_at DESC'}
-  named_scope :all_for_year, lambda { |year|
+  scope :published, where('approval = ?', 'approved')
+  scope :limit, lambda { |limit| where(:limit => limit) }
+  scope :descending, order('published_on DESC, approved_at DESC')
+
+  def self.all_for_year(year)
     starts = Time.mktime(year, 1, 1).to_date
     finish = (starts >> 12) - 1
-    {
-      :conditions => [
-        'published_on BETWEEN :starts AND :finish',
-        :starts => starts, :finish => finish
-      ]
-    }
-  }
+    where('published_on BETWEEN ? AND ?', starts, finish)
+  end
 
   def self.recent
     published.descending

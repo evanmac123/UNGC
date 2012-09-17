@@ -49,27 +49,14 @@ class Page < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :all_versions_of, lambda { |path|
+  scope :all_versions_of, lambda {
     return {} if path.blank?
-    {
-      :conditions => ["pages.path = ?", path],
-    }
-  }
-  named_scope :for_navigation, :conditions => {"display_in_navigation" => true}
-
-  named_scope :earlier_versions_than, lambda { |version_version_number|
-    {
-      :conditions => ["pages.version_number < ?", version_version_number],
-      :order => "pages.version_number DESC"
-    }
+    where("pages.path = ?", path)
   }
 
-  named_scope :later_versions_than, lambda { |version_version_number|
-    {
-      :conditions => ["pages.version_number > ?", version_version_number],
-      :order => "pages.version_number ASC"
-    }
-  }
+  scope :for_navigation, where("display_in_navigation" => true)
+  scope :earlier_versions_than, lambda { |version_number| where("pages.version_number < ?", version_number).order("pages.version_number DESC") }
+  scope :later_versions_than, lambda { |version_number| where("pages.version_number > ?", version_number).order("pages.version_number ASC") }
 
 
   def self.approved_for_path(path)

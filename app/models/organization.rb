@@ -160,11 +160,8 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  named_scope :active,
-    { :conditions => ["organizations.active = ?", true] }
-
-  named_scope :participants,
-    { :conditions => ["organizations.participant = ?", true] }
+  scope :active, where("organizations.active = ?", true)
+  scope :participants, where("organizations.participant = ?", true)
 
   named_scope :with_cop_info, {
     :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
@@ -187,125 +184,74 @@ class Organization < ActiveRecord::Base
    :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew }
   }
 
-  named_scope :companies_and_smes, {
-    :include => :organization_type,
-    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ]
-  }
+  scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
+  scope :businesses, lambda { where("organization_types.type_property = ?", OrganizationType::BUSINESS).includes(:organization_type) }
+  scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
+  
+  scope :for_initiative, lambda { |symbol| where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
+  scope :last_joined, order("joined_on DESC, name DESC")
+  scope :not_delisted, where("cop_state != ?", COP_STATE_DELISTED)
 
-  named_scope :businesses, {
-    :include    => :organization_type,
-    :conditions => ["organization_types.type_property = ?", OrganizationType::BUSINESS]
-  }
-
-  named_scope :by_type, lambda { |filter_type|
-    {
-      :include => :organization_type,
-      :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)]
-    }
-  }
-
-  named_scope :for_initiative, lambda { |symbol|
-    {
-      :include => :initiatives,
-      :conditions => ["initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id) ],
-      :order => "organizations.name ASC"
-    }
-  }
-
-  named_scope :last_joined, {
-    :order => "joined_on DESC, name DESC"
-  }
-
-  named_scope :with_cop_status, lambda { |filter_type|
-    if filter_type.is_a?(Array)
-      statuses = filter_type.map { |t| COP_STATES[t] }
-      {:conditions => ["cop_state IN (?)", statuses]}
-    else
-      {:conditions => ["cop_state = ?", COP_STATES[filter_type]]}
-    end
-  }
-
-  named_scope :not_delisted,
-    { :conditions => ["cop_state != ?", COP_STATE_DELISTED] }
-
-  named_scope :with_cop_due_on, lambda { |date|
-    { :conditions => {:cop_due_on => date} }
-  }
-
+  scope :with_cop_due_on, lambda { |date| where(:cop_due_on => date) }
   named_scope :with_cop_due_between, lambda { |start_date, end_date| {
       :conditions => { :cop_due_on => start_date..end_date }
     }
   }
-
   named_scope :delisted_between, lambda { |start_date, end_date| {
       :conditions => { :delisted_on => start_date..end_date }
     }
   }
 
-  named_scope :noncommunicating,
-    { :conditions => ["cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true],
-      :order => 'cop_due_on'
-    }
 
-  named_scope :expelled_for_failure_to_communicate_progress, {
-    :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING] ],
-    :order => 'delisted_on DESC'
+  scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
+
+  scope :expelled_for_failure_to_communicate_progress, where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
+
+  scope :listed, where("organizations.stock_symbol IS NOT NULL").includes([:country, :exchange])
+  scope :without_contacts, where("not exists(select * from contacts c where c.organization_id = organizations.id)")
+
+  scope :created_at, lambda { |month, year| where('created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
+  scope :joined_on, lambda { |month, year| where('joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
+
+  scope :with_pledge, where('pledge_amount > 0')
+  scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date) }
+
+  scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
+
+  def self.with_cop_status(filter_type)
+    if filter_type.is_a?(Array)
+      statuses = filter_type.map { |t| COP_STATES[t] }
+      where("cop_state IN (?)", statuses)
+    else
+      where("cop_state = ?", COP_STATES[filter_type])
+    end
   }
 
-  named_scope :visible_to, lambda { |user|
+  def self.visible_to(user)
     if user.user_type == Contact::TYPE_ORGANIZATION
-      { :conditions => ['id=?', user.organization_id] }
+      where('id=?', user.organization_id)
     elsif user.user_type == Contact::TYPE_NETWORK
-      { :conditions => ["country_id in (?)", user.local_network.country_ids] }
+      where("country_id in (?)", user.local_network.country_ids)
     else
       {}
     end
-  }
+  end
 
-  named_scope :listed,
-    { :include => [:country, :exchange],
-      :conditions => "organizations.stock_symbol IS NOT NULL" }
-
-  named_scope :without_contacts,
-    { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
-
-  named_scope :where_country_id, lambda {|id_or_array|
+  def self.where_country_id(id_or_array)
     if id_or_array.is_a?(Array)
-      { :conditions => ['country_id IN (?)', id_or_array] }
+      where('country_id IN (?)', id_or_array)
     else
-      { :conditions => {:country_id => id} }
+      where(:country_id => id)
     end
-  }
+  end
 
-  named_scope :created_at, lambda { |month, year|
-    { :conditions => ['created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
-  }
-
-  named_scope :joined_on, lambda { |month, year|
-    { :conditions => ['joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
-  }
-
-  named_scope :with_pledge, :conditions => 'pledge_amount > 0'
-
-  named_scope :about_to_become_noncommunicating, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date] }
-  }
-
-  named_scope :about_to_become_delisted, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date] }
-  }
-
-  named_scope :peer_organizations, lambda { |organization|
+  def self.peer_organizations(organization)
     conditions = ["country_id = ? AND sector_id = ? AND organizations.id != ?", organization.country_id, organization.sector_id, organization.id]
     unless organization.company?
       conditions = ["country_id = ? AND organization_type_id = ? AND organizations.id != ?", organization.country_id, organization.organization_type_id, organization.id]
     end
-    {
-      :include    => [:country, :sector],
-      :conditions => conditions,
-      :order      => "organizations.name ASC"
-    }
-  }
+    where(conditions).includes([:country, :sector]).order("organizations.name ASC")
+  end
 
   def as_json(options={})
     only = ['id', 'name', 'participant']
@@ -329,7 +275,6 @@ class Organization < ActiveRecord::Base
     elsif current_user.from_ungc?
       self.replied_to = true
     end
-
   end
 
   def local_network_country_code

@@ -120,92 +120,56 @@ class Contact < ActiveRecord::Base
 
   named_scope :participants_only, { :conditions => ["organizations.participant = ?", true] }
 
-  named_scope :financial_contacts, lambda {
+  def self.financial_contacts
     contact_point_id = Role.financial_contact.try(:id)
-    {
-      :include    => :roles,
-      :conditions => ["contacts_roles.role_id = ?", contact_point_id]
-    }
-  }
+    where("contacts_roles.role_id = ?", contact_point_id).includes(:roles)
+  end
 
-  named_scope :contact_points, lambda {
+  def self.contact_points
     contact_point_id = Role.contact_point.try(:id)
-    {
-      :include    => :roles,
-      :conditions => ["contacts_roles.role_id = ?", contact_point_id]
-    }
-  }
+    where("contacts_roles.role_id = ?", contact_point_id).includes(:roles)
+  end
 
-  named_scope :ceos, lambda {
+  def self.ceos
     ceo_id = Role.ceo.try(:id)
-    {
-      :include    => :roles,
-      :conditions => ["contacts_roles.role_id = ?", ceo_id]
-    }
-  }
+    where("contacts_roles.role_id = ?", ceo_id).includes(:roles)
+  end
 
-  named_scope :network_roles, lambda {
+  def self.network_roles
     roles = []
     roles << Role.network_focal_point
     roles << Role.network_representative
     roles << Role.network_report_recipient
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles],
-      :order      => "roles.name DESC"
-    }
-  }
 
-  named_scope :network_roles_public, lambda {
+    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+  end
+
+  def self.network_roles_public
     roles = []
     roles << Role.network_focal_point
     roles << Role.network_representative
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles],
-      :order      => "roles.name DESC"
-    }
-  }
+    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+  end
 
-  named_scope :network_contacts, lambda {
+  def self.network_contacts
     role = Role.network_focal_point
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role],
-      :order      => "roles.name DESC"
-    }
-  }
+    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+  end
 
-  named_scope :network_representatives, lambda {
+  def self.network_representatives
     role = Role.network_representative
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role],
-      :order      => "roles.name DESC"
-    }
-  }
+    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+  end
 
-  named_scope :network_report_recipients, lambda {
+  def self.network_report_recipients
     role = Role.network_report_recipient
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role]
-    }
-  }
+    where("contacts_roles.role_id IN (?)", roles).include(:roles)
+  end
 
-  named_scope :network_regional_managers, lambda {
+  def self.network_regional_managers
     role = Role.network_regional_manager
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role]
-    }
-  }
-
-  named_scope :for_country, lambda { |country|
-    {:conditions => {:country_id => country.id} }
-  }
-
-  named_scope :with_login, {:conditions => 'login IS NOT NULL'}
+    where("contacts_roles.role_id IN (?)", roles).include(:roles)
+  end
 
   define_index do
     indexes first_name, last_name, middle_name, email

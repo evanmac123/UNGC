@@ -23,9 +23,5 @@ class Initiative < ActiveRecord::Base
     :business_peace => 22
   }
 
-  named_scope :for_filter, lambda { |filter|
-    {
-      :conditions => [ "initiatives.id = ?", FILTER_TYPES[filter] ]
-    }
-  }
+  scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
 end

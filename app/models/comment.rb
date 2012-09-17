@@ -20,11 +20,12 @@
 class Comment < ActiveRecord::Base
   validates_presence_of :body, :unless => Proc.new { |c| ApprovalWorkflow::STAFF_EVENTS.include?(c.state_event) }
   belongs_to :commentable, :polymorphic => true
-  default_scope :order => 'updated_at DESC'
   belongs_to :contact
 
   has_attached_file :attachment
-  named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
+  
+  default_scope order('updated_at DESC')
+  scope :with_attachment, where("attachment_file_name IS NOT NULL")
 
   # copy email to local network if option is selected
   attr_accessor :copy_local_network

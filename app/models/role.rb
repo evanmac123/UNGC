@@ -33,40 +33,33 @@ class Role < ActiveRecord::Base
     :website_editor            => 'Website Editor'
   }
 
-  named_scope :visible_to, lambda { |user, current_user = nil|
+  def self.visible_to(user, current_user=nil)
     if user.user_type == Contact::TYPE_ORGANIZATION
       roles_ids = [Role.contact_point].collect(&:id)
-
       # give option to check Highlest Level Executive if no CEO has been assigned
       roles_ids << Role.ceo.id if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
-
       if current_user && current_user.from_ungc?
         roles_ids << Role.ceo.id
       end
-
       # only business organizations have a financial contact
       roles_ids << Role.financial_contact.id if user.organization.business_entity?
 
       # if the organization signed an initiative, then add the initiative's role, if available
-      roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
-      { :conditions => ['id in (?)', roles_ids.flatten] }
-
+      roles_ids << Role.where("initiative_id in (?)", user.organization.initiative_ids).all.collect(&:id)
+      where('id in (?)', roles_ids.flatten)
     elsif user.user_type == Contact::TYPE_UNGC
       roles_ids = [Role.ceo, Role.contact_point, Role.network_regional_manager, Role.website_editor].collect(&:id)
-      { :conditions => ['id in (?)', roles_ids.flatten] }
-
+      where('id in (?)', roles_ids.flatten)
     elsif user.user_type == Contact::TYPE_NETWORK
       roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
-      { :conditions => ['id in (?)', roles_ids.flatten] }
-
+      where('id in (?)', roles_ids.flatten)
     elsif user.user_type == Contact::TYPE_NETWORK_GUEST
        roles_ids = [Role.network_guest_user].collect(&:id)
-       { :conditions => ['id in (?)', roles_ids.flatten] }
-
+       where('id in (?)', roles_ids.flatten)
     else
       {}
     end
-  }
+  end
 
   # Local Network roles
 
