@@ -80,7 +80,7 @@ class Admin::ReportsController < AdminController
 
   def local_network_participant_contacts
     @report = LocalNetworkParticipantContacts.new(default_report_params)
-    render_formatter(filename: "participant_contacts_#{date_as_filename}.xls")
+    render_formatter(filename: "local_network_participant_contacts_#{date_as_filename}.xls")
   end
 
   def local_network_all_cops
