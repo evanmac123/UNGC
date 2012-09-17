@@ -113,6 +113,16 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "local_network_recently_delisted_#{date_as_filename}.xls")
   end
 
+  def local_network_recent_logo_requests
+    @report = LocalNetworkRecentLogoRequests.new(default_report_params)
+    render_formatter(filename: "local_network_recent_logo_requests_#{date_as_filename}.xls")
+  end
+
+  def local_network_participants_withdrawn
+    @report = LocalNetworkParticipantsWithdrawn.new(default_report_params)
+    render_formatter(filename: "local_network_participants_withdrawn_#{date_as_filename}.xls")
+  end
+
   def initiative_contacts
     @report = InitiativeContacts.new
     render_formatter(filename: "water_mandate_contacts_#{date_as_filename}.xls")

@@ -52,9 +52,9 @@ class Organization < ActiveRecord::Base
   validates_uniqueness_of :name, :message => "has already been used by another organization"
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
-                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(([0-9]{1,6})?\/.*)?$)/ix),
-                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
-                       :unless => Proc.new { |organization| organization.url.blank? }
+                      :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(([0-9]{1,6})?\/.*)?$)/ix),
+                      :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
+                      :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
   has_many :signings
   has_many :initiatives, :through => :signings
@@ -202,6 +202,11 @@ class Organization < ActiveRecord::Base
               GROUP BY
                  organization_id) as C ON organizations.id = C.organization_id",
     :conditions => "organizations.cop_state NOT IN ('active','noncommunicating')"
+ }
+
+ named_scope :withdrew, {
+   :include => :removal_reason,
+   :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew.id }
  }
 
   named_scope :companies_and_smes, {

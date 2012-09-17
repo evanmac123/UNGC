@@ -1,7 +1,13 @@
 class ApprovedLogoRequestsReport < SimpleReport
 
   def records
-    LogoRequest.approved_between(@options[:month].to_i, @options[:year].to_i)
+    year  = @options[:year].to_i
+    month = @options[:month].to_i
+
+    start_date = Date.new(year, month, 1)
+    end_date   = Date.new(year, month, 1).end_of_month
+
+    LogoRequest.approved_between(start_date, end_date)
   end
 
   def headers
