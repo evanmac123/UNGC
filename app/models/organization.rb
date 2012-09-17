@@ -189,6 +189,7 @@ class Organization < ActiveRecord::Base
 
  named_scope :delisted, {
    :include => [:country, :sector, :organization_type, :removal_reason],
+   :conditions => { :cop_state => COP_STATE_DELISTED },
    :select => 'organizations.*, C.*',
    :joins => "LEFT JOIN (
               SELECT
@@ -200,13 +201,12 @@ class Organization < ActiveRecord::Base
               WHERE
                 state = 'approved'
               GROUP BY
-                 organization_id) as C ON organizations.id = C.organization_id",
-    :conditions => "organizations.cop_state NOT IN ('active','noncommunicating')"
- }
+                 organization_id) as C ON organizations.id = C.organization_id"
+    }
 
  named_scope :withdrew, {
    :include => :removal_reason,
-   :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew.id }
+   :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew }
  }
 
   named_scope :companies_and_smes, {
