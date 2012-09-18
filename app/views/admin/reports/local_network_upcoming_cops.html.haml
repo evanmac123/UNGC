@@ -4,9 +4,9 @@
   %p There were no COPs submitted during that time period
 - else
 
-  / %p
-  /   %ul{:class => "tools inline"}
-  /     %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+  %p
+    %ul{:class => "tools inline"}
+      %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
 
   %table.dashboard_table
     %tr
