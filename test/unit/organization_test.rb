@@ -141,7 +141,6 @@ class OrganizationTest < ActiveSupport::TestCase
 
    end
 
-
   context "given a climate change initiative, some organization types and an org" do
     setup do
       @academia  = create_organization_type(:name => 'Academic')
@@ -189,36 +188,39 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
-    context "given an expelled company" do
+  context "given an expelled company" do
+    setup do
+      create_expelled_organization
+    end
+
+    should "not be able to submit a COP" do
+      assert !@organization.can_submit_cop?
+    end
+
+    context "and a staff member updates their Letter of Commitment" do
       setup do
-        create_expelled_organization
+        @organization.update_attribute :commitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
       end
 
-      should "not be able to submit a COP" do
-        assert !@organization.can_submit_cop?
+      should "be able to submit a COP" do
+        assert @organization.can_submit_cop?
       end
+    end
+  end
 
-      context "and a staff member updates their Letter of Commitment" do
-        setup do
-         @organization.update_attribute :commitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
-        end
+  context "and they are Non-Communicating" do
+    setup do
+      create_organization_and_user
+      @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
+    end
 
-        should "be able to submit a COP" do
-         assert @organization.can_submit_cop?
-        end
-      end
+    should "be able to submit a COP" do
+      assert @organization.can_submit_cop?
+    end
 
-      context "and they are Non-Communicating" do
-        setup do
-         @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
-        end
-
-        should "be able to submit a COP" do
-         assert @organization.can_submit_cop?
-        end
-      end
-
-
-     end
+    should "have a predicted delisting date one year later" do
+      assert_equal @organization.cop_due_on + 1.year, @organization.delisting_on
+    end
+  end
 
 end

@@ -656,6 +656,8 @@ class Organization < ActiveRecord::Base
         cop_due_on + 1.year unless cop_due_on.nil?
       when COP_STATE_ACTIVE
         cop_due_on + 2.year unless cop_due_on.nil?
+      when COP_STATE_DELISTED
+        nil
       else
         cop_due_on
     end
