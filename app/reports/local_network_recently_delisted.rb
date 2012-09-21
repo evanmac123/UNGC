@@ -1,7 +1,7 @@
 class LocalNetworkRecentlyDelisted < SimpleReport
 
   def records
-    Organization.participants_with_cop_info(sql_for_organization_scope)
+    Organization.visible_to(@options[:user])
       .with_cop_status(:delisted)
       .delisted_between(Date.today - 90.days, Date.today)
   end

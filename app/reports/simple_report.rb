@@ -42,14 +42,4 @@ class SimpleReport
     file
   end
 
-  protected
-
-  def sql_for_organization_scope(table_name=Organization.table_name)
-    if @options[:user].try(:from_network?)
-      Organization.send(:sanitize_sql_for_conditions, {:country_id => @options[:user].local_network.country_ids}, table_name)
-    else
-      "1"
-    end
-  end
-
 end

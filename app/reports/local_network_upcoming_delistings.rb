@@ -1,7 +1,7 @@
 class LocalNetworkUpcomingDelistings < SimpleReport
 
   def records
-    Organization.participants_with_cop_info(sql_for_organization_scope)
+    Organization.visible_to(@options[:user])
       .with_cop_status(:noncommunicating)
       .with_cop_due_between(Date.today - 1.year, Date.today - 1.year + 30.days)
   end

@@ -1,7 +1,7 @@
 class ParticipantBreakdownReport < SimpleReport
 
   def records
-    Organization.participants_with_cop_info
+    Organization.participants.with_cop_info
   end
 
   def render_output

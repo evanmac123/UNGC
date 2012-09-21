@@ -98,12 +98,6 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   named_scope :all_cops, {:include => [ :organization, { :organization => :country } ]}
 
-  named_scope :local_networks_all_cops, lambda { |org_scope| {
-    :include => [ :organization, { :organization => :country } ],
-    :conditions => org_scope
-    }
-  }
-
   named_scope :created_between, lambda { |start_date, end_date| {
     :conditions => { :created_at => start_date..end_date }
     }

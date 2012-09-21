@@ -1,7 +1,7 @@
 class LocalNetworkParticipantContacts < SimpleReport
 
   def records
-    Contact.for_local_network(sql_for_organization_scope)
+    Contact.visible_to(@options[:user]).participants_only.for_local_network
   end
 
   def render_output

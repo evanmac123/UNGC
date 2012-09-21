@@ -1,7 +1,7 @@
 class LocalNetworkDelistedParticipants < SimpleReport
 
   def records
-    Organization.visible_to(@options[:user]).delisted
+    Organization.visible_to(@options[:user]).with_cop_info.with_cop_status(:delisted)
   end
 
   def render_output

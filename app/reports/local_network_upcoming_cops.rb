@@ -1,7 +1,7 @@
 class LocalNetworkUpcomingCops < SimpleReport
 
   def records
-    Organization.participants_with_cop_info(sql_for_organization_scope).with_cop_due_between(Date.today, Date.today + 30.days)
+    Organization.visible_to(@options[:user]).with_cop_due_between(Date.today, Date.today + 30.days)
   end
 
   def render_output
@@ -17,10 +17,10 @@ class LocalNetworkUpcomingCops < SimpleReport
   end
 
   def row(record)
-    [ record.organization_name,
-      record.organization_name,
-      record.organization_name,
-      record.organization_name
+    [ record.name,
+      record.cop_state.humanize,
+      record.joined_on,
+      record.cop_due_on
     ]
   end
 

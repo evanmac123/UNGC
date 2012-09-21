@@ -1,7 +1,10 @@
 class LocalNetworkRecentCops < SimpleReport
 
   def records
-    CommunicationOnProgress.local_networks_all_cops(sql_for_organization_scope).created_between(30.days.ago, Date.today)
+    CommunicationOnProgress.visible_to(@options[:user])
+      .all_cops
+      .approved
+      .created_between(30.days.ago, Date.today)
   end
 
   def render_output

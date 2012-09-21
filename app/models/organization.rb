@@ -169,10 +169,9 @@ class Organization < ActiveRecord::Base
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
 
-  named_scope :participants_with_cop_info, lambda { |org_scope = 1| {
+  named_scope :with_cop_info, {
     :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
-                 :conditions => "participant = true AND #{org_scope}",
-                 :select => 'organizations.*, C.*',
+                 :select => 'organizations.*, c.*',
                  :joins => "LEFT JOIN (
                             SELECT
                               organization_id,
@@ -183,31 +182,13 @@ class Organization < ActiveRecord::Base
                             WHERE
                               state = 'approved'
                             GROUP BY
-                               organization_id) as C ON organizations.id = C.organization_id"
-    }
+                               organization_id ) as c ON organizations.id = c.organization_id"
   }
 
- named_scope :delisted, {
-   :include => [:country, :sector, :organization_type, :removal_reason],
-   :conditions => { :cop_state => COP_STATE_DELISTED },
-   :select => 'organizations.*, C.*',
-   :joins => "LEFT JOIN (
-              SELECT
-                organization_id,
-                MAX(created_at) AS latest_cop,
-                COUNT(id) AS cop_count
-              FROM
-                communication_on_progresses
-              WHERE
-                state = 'approved'
-              GROUP BY
-                 organization_id) as C ON organizations.id = C.organization_id"
-    }
-
- named_scope :withdrew, {
+  named_scope :withdrew, {
    :include => :removal_reason,
    :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew }
- }
+  }
 
   named_scope :companies_and_smes, {
     :include => :organization_type,

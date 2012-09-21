@@ -2,11 +2,11 @@ include ActionController::UrlWriter
 class LocalNetworkAllCops < SimpleReport
 
   def records
-    CommunicationOnProgress.local_networks_all_cops(sql_for_organization_scope)
+    CommunicationOnProgress.visible_to(@options[:user]).all_cops.approved
   end
 
   def render_output
-    self.render_xls_in_batches
+    self.render_xls
   end
 
   def headers

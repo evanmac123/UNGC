@@ -35,6 +35,7 @@
 require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
+  include VisibleTo
   include Authentication
   include Authentication::ByCookieToken
 
@@ -111,13 +112,12 @@ class Contact < ActiveRecord::Base
     }
   }
 
- named_scope :for_local_network, lambda { |org_scope| {
-   :include    => [:roles, {:organization => [:sector, :country, :organization_type]}, :country],
-   :conditions => ["organizations.participant = 1 AND
-                   contacts_roles.role_id IN (?) AND
-                   #{org_scope}", [Role.ceo, Role.contact_point]]
+   named_scope :for_local_network, {
+     :include    => [:roles, {:organization => [:sector, :country, :organization_type]}, :country],
+     :conditions => ["contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point]]
    }
- }
+
+  named_scope :participants_only, { :conditions => ["organizations.participant = ?", true] }
 
   named_scope :financial_contacts, lambda {
     contact_point_id = Role.financial_contact.try(:id)

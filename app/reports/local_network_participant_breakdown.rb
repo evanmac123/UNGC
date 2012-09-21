@@ -1,7 +1,7 @@
 class LocalNetworkParticipantBreakdown < SimpleReport
 
   def records
-    Organization.visible_to(@options[:user]).participants_with_cop_info
+    Organization.visible_to(@options[:user]).participants.with_cop_info
   end
 
   def render_output
