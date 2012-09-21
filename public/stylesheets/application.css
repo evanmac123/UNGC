@@ -107,6 +107,7 @@ body.supply_chain     #inner_head { background: url(/images/banner_supply_chain.
 #search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
 #search p { padding-top: 5px; font-size: 11px; color: #fff; }
 #search p label, #search p input {cursor: pointer;}
+#search fieldset { border: none; }
 #nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
@@ -142,12 +143,9 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8;}
-#box2:hover { border: 1px solid #999;}
-#box2 { background-image: url(/pics/un_images/banners/rio20_csf_banner_top.png); background-position: 0px 0px; }
 #box2_content { position: relative; }
-#box2_content a { width: 100%; height: 164px; display: block; }
 #box2 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
-#box2 p { position: absolute; top: 35px; left: 25px; font-size: 23px; font-weight: 900; line-height: 23px;}
+#box2 p { position: absolute; top: 32px; left: 25px; font-size: 23px; font-weight: 900; line-height: 26px;}
 #box2 span.value1 a { color: #F7931E; }
 #box2 span.value2 a { color: #4cc5d8; }
 #box2 span.value3 a { color: #6f843d; }
@@ -156,7 +154,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box2 div.more { position: absolute; top: 125px; right: 0px; width: 30px; height: 30px; background-color: #e5e5e5; }
 #box2 div.more a { width: 100%; height: 100%; display: block; color: #000; }
 #box2 div.more a:hover { text-decoration: underline; }
-#box2 div.more div { padding: 4px 0 0 10px;}
+#box2 div.more div { padding: 6px 0 0 11px;}
 #news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
 #news_content { position: relative; }
 #news h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
@@ -194,8 +192,6 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #news .morenews div { padding: 7px 6px 0 0; }
 
 #box4 { position: absolute; top: 192px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; width: 295px; max-height: 498px; min-height: 498px; }
-#box4 { background-image: url(/pics/un_images/banners/Rio20_CSF_logo_branch.png) no-repeat center top; }
-
 #box4 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
 #box4 div { font-size: 14px; font-weight: bold; padding: 13px; margin: 0 10px 0 10px; border-bottom: 1px solid #dfdfdf; background-color: #fff; }
 #box4 div a { display: block; width: 100%; height: 100%; }
@@ -216,27 +212,12 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box4 div.last { border-bottom: 0; }
 
 #box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; border: 4px solid #d9e2e5; background-position: -4px -5px; }
-#box5 {background-color: #fff;}
-/*#box5:hover, #box6:hover {border: 4px solid #C1C8CC}*/
-#box5 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
-#box5 p { position: absolute; top: 28px; left: 35px; font-size: 23px; font-weight: 900; line-height: 25px;}
-#box5 span.value1 a { color: #f79418; }
-#box5 span.value2 a { color: #4cc5d8; }
-#box5 span.value3 a { color: #6f843d; }
-#box5 span.value4 a { color: #ed141d; }
-#box5 span a:hover { color: #00546E; }
-#box5 div.more { position: absolute; top: 119px; right: 5px; width: 30px; height: 30px; background-color: #e5e5e5; }
-#box5 div.more a { width: 100%; height: 100%; display: block; color: #000; }
-#box5 div.more a:hover { text-decoration: underline; }
-#box5 div.more div { padding: 4px 0 0 10px;}
-#box5_content { position: relative; }
-
 #box5 { left: 40px; }
 #box6 { left: 357px; }
-#box6 h2 { padding: 15px 0 0 15px; }
-#box6 p { color: #777; font-size: 13px; font-weight: normal; line-height: 1.35em; padding: 15px 40px 0 15px; }
-#box6 a { color: #00546E; font-size: 12px; font-weight: bold; }
-#box6 a:hover { text-decoration: underline; }
+#box5 h2, #box6 h2 { padding: 15px 0 0 17px; }
+#box5 p, #box6 p { color: #777; font-size: 13px; font-weight: normal; line-height: 1.2em; padding: 15px 20px 0 17px; }
+#box5 a, #box6 a { color: #00546E; font-size: 12px; font-weight: bold; }
+#box5 a:hover, #box6 a:hover { text-decoration: underline; }
 
 #footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
 #footer_content { width: 1000px; margin: 0 auto; position: relative; }
@@ -462,11 +443,7 @@ td.center {
 
 /* Contact Us table*/
 #rightcontent .copy table.contacts { width: 100%; margin-bottom: 35px; }
-#rightcontent .copy table.contacts tr td {
-  border-bottom: 1px dotted #D1DADE;
-  padding: 0.25em;
-  white-space: nowrap;
-}
+#rightcontent .copy table.contacts tr td { border-bottom: 1px dotted #D1DADE; padding: 0.25em; white-space: nowrap; }
 #rightcontent .copy table.contacts tr td.initiative {font-size: 11px; text-indent: 0.5em;}
 #rightcontent .copy table.contacts tr td:first-child {width: 425px;}
 #rightcontent .copy table.contacts tr.section td, #rightcontent .copy table.contacts tr:last-child td {border: none;}
