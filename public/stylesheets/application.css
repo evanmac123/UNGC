@@ -103,8 +103,8 @@ body.supply_chain     #inner_head { background: url(/images/banner_supply_chain.
 #languages ul li { display: inline; margin-right: 5px; }
 #languages a {font-size: 11px; color: #CCC; }
 #languages a:hover { color: #FFF; }
-#search { position: absolute; top: 60px; left: 700px; }
-#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
+#search { position: absolute; top: 60px; left: 701px; width: auto; }
+#search .search_box { width: 210px; height: 2em; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
 #search p { padding-top: 5px; font-size: 11px; color: #fff; }
 #search p label, #search p input {cursor: pointer;}
 #search fieldset { border: none; }
