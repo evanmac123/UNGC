@@ -103,8 +103,8 @@ body.supply_chain     #inner_head { background: url(/images/banner_supply_chain.
 #languages ul li { display: inline; margin-right: 5px; }
 #languages a {font-size: 11px; color: #CCC; }
 #languages a:hover { color: #FFF; }
-#search { position: absolute; top: 60px; left: 700px; }
-#search .search_box { width: 210px; height: 20px; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
+#search { position: absolute; top: 60px; left: 701px; width: auto; }
+#search .search_box { width: 210px; height: 2em; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
 #search p { padding-top: 5px; font-size: 11px; color: #fff; }
 #search p label, #search p input {cursor: pointer;}
 #search fieldset { border: none; }
@@ -138,7 +138,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
 #box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
 #box1 p#secretary_general { position: absolute; top: 128px; left: 30px; font-family: sans-serif; }
-#box1 div.readmore { position: absolute; top: 125px; right: 22px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: right; }
+#box1 div.readmore { position: absolute; top: 112px; right: 22px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: right; }
 #box1 div.readmore div { padding: 7px 0 0 0; }
 #box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }

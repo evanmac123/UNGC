@@ -25,7 +25,7 @@
   #main_content fieldset input, #main_content fieldset select, #main_content fieldset textarea {
     color: #000;
     margin: 0 5px 0 25px;
-    width: 300px; 
+    width: 300px;
     font-family: "Helvetica Neue",Arial,Helvetica,sans-serif;
     font-size: 1em; }
   #main_content fieldset input[type='checkbox'] {
@@ -58,7 +58,7 @@
     #main_content fieldset.pledge input:hover, label:hover {
       cursor: pointer;
     }
-    
+
   #main_content fieldset.pledge input[type=radio] {
     clear: left;
     float: left;
@@ -74,7 +74,7 @@
     line-height: 1.2em;
     margin-bottom: 1em;
   }
-  
+
   #main_content fieldset.pledge label.highlight_suggested_amount {
     color: #00546E;
     font-weight: bold;
@@ -84,7 +84,7 @@
     clear: both;
     margin-bottom: 20px;
   }
-  
+
   #main_content #check_contact input[type=checkbox] {
     clear: left;
     float: left;
@@ -92,7 +92,7 @@
     margin: -1px 10px 0px 0px;
     font-weight: normal;
   }
-  
+
   #main_content #check_contact label {
    font-weight: normal;
   }
@@ -101,3 +101,8 @@
 #main_content .errorExplanation { color: #A00; }
 #main_content div.fieldWithErrors input {border: 1px dotted #A00;}
 
+#search { position: absolute; top: 36px; left: 682px; width: auto; }
+#search .search_box { width: 210px; height: 2em; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
+#search p { padding-top: 3px; font-size: 11px; color: #fff; }
+#search p label, #search p input {cursor: pointer;}
+#search fieldset { border: none; }
