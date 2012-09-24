@@ -106,10 +106,14 @@ class OrganizationTest < ActiveSupport::TestCase
       should "find a financial contact or default to a contact point" do
         create_organization_and_user
         @financial = create_contact(:organization_id => @organization.id,
-                                              :email           => 'email2@example.com',
-                                              :role_ids        => [Role.financial_contact.id])
+                                    :email           => 'email2@example.com',
+                                    :role_ids        => [Role.financial_contact.id])
+
         assert_equal @organization.contacts.contact_points.first, @organization_user
-        assert_equal @organization.contacts.financial_contacts.first,  @financial
+        assert_equal @organization.contacts.financial_contacts.first, @financial
+        assert @organization.financial_contact_and_contact_point.include?(@organization_user)
+        assert @organization.financial_contact_and_contact_point.include?(@financial)
+
         @organization.contacts.financial_contacts.first.destroy
         assert_equal @organization.contacts.financial_contacts.count,  0
         assert_equal @organization.financial_contact_or_contact_point, @organization_user
