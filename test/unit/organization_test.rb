@@ -212,17 +212,13 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
-  context "and they are Non-Communicating" do
+  context "given a Non-Communicating participant" do
     setup do
       create_organization_and_user
       @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
     end
 
-    should "be able to submit a COP" do
-      assert @organization.can_submit_cop?
-    end
-
-    should "have a predicted delisting date one year later" do
+    should "have a predicted delisting date one year after their COP due date" do
       assert_equal @organization.cop_due_on + 1.year, @organization.delisting_on
     end
   end

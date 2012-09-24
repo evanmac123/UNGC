@@ -631,16 +631,10 @@ class Organization < ActiveRecord::Base
   # predict delisting date based on current status and COP due date
   # only one year of non-communicating is assumed
   def delisting_on
-    return unless company?
-    case cop_state
-      when COP_STATE_NONCOMMUNICATING
-        cop_due_on + 1.year unless cop_due_on.nil?
-      when COP_STATE_ACTIVE
-        cop_due_on + 2.year unless cop_due_on.nil?
-      when COP_STATE_DELISTED
-        nil
-      else
-        cop_due_on
+    if cop_state == COP_STATE_DELISTED
+      nil
+    else
+      cop_due_on + 1.year unless cop_due_on.nil?
     end
   end
 
