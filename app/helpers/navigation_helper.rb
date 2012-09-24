@@ -2,9 +2,9 @@ module NavigationHelper
   def breadcrumbs
     unless @breadcrumbs
       @breadcrumbs = [ ['Home', '/'] ]
-      @breadcrumbs << [current_section.title, current_section.path] if current_section
-      @breadcrumbs << [@leftnav_selected.title, @leftnav_selected.path] if @leftnav_selected && current_section != @leftnav_selected
-      @breadcrumbs << [@subnav_selected.title, nil] if @subnav_selected
+      @breadcrumbs << [convert_to_entities(current_section.title), current_section.path] if current_section
+      @breadcrumbs << [convert_to_entities(@leftnav_selected.title), @leftnav_selected.path] if @leftnav_selected && current_section != @leftnav_selected
+      @breadcrumbs << [convert_to_entities(@subnav_selected.title), nil] if @subnav_selected
       @breadcrumbs.map { |b| link_to_unless suppress_link(b), b.first, b.last }.join(' / ')
     end
   end
@@ -88,7 +88,7 @@ module NavigationHelper
 
   def top_nav_bar(section_children_content='')
     sections.each do |section|
-      section_link = content_tag :a, section.name, :href => section.visible_children.first.path #link_to_first_child
+      section_link = content_tag :a, convert_to_entities(section.name), :href => section.visible_children.first.path #link_to_first_child
       children = section.visible_children.map do |child|
         child_link = content_tag :a, child.title, :href => child.path
         content_tag :li, child_link
@@ -98,5 +98,9 @@ module NavigationHelper
     end
     section_children_content << login_and_logout
     content_tag :ul, "\n" + section_children_content
+  end
+
+  def convert_to_entities(text)
+    text.gsub(/[&]/,"&amp;")
   end
 end
