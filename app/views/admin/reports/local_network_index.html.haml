@@ -24,12 +24,3 @@
     %li= link_to_report_html 'Delisted in the past 90 days', :local_network_recently_delisted
     %li= link_to_report_html "Participants requesting withdrawal in #{current_year}", :local_network_participants_withdrawn
     %li= link_to_report_html 'Logo Requests approved in the past 30 days', :local_network_recent_logo_requests
-
-%dl.left_column
-  %h3 Local Networks
-  %p These reports contain data on other Local Networks, including Network Management and Knowledge Sharing activities.
-
-  %ul.report_list
-    %li= link_to_report_xls 'Network Management', :local_networks_management
-    %li= link_to_report_xls 'Events and Activities', :local_networks_events
-    %li= link_to_report_xls 'Knowledge Sharing Items', :local_networks_knowledge_sharing
