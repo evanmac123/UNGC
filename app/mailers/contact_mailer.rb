@@ -1,5 +1,5 @@
 class ContactMailer < ActionMailer::Base
-  default :from => EMAIL_SENDER
+  default :from => UNGC::Application::EMAIL_SENDER
 
   def reset_password(contact)
     @contact = contact

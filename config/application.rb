@@ -61,6 +61,8 @@ module UNGC
 
     # From rails upgrade configuration task
     config.session_store = :active_record_store
+
+    EMAIL_SENDER = "info@unglobalcompact.org"
   end
 
   begin

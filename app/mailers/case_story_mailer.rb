@@ -1,5 +1,5 @@
 class CaseStoryMailer < ActionMailer::Base
-  default :from => EMAIL_SENDER
+  default :from => UNGC::Application::EMAIL_SENDER
 
   def in_review(case_story)
     @case_story = case_story

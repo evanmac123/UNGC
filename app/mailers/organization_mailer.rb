@@ -1,5 +1,5 @@
 class OrganizationMailer < ActionMailer::Base
-  default :from => EMAIL_SENDER
+  default :from => UNGC::Application::EMAIL_SENDER
 
   def submission_received(organization)
     @organization = organization
@@ -88,9 +88,9 @@ class OrganizationMailer < ActionMailer::Base
   end
 
   def reject_microenterprise_network(organization)
-    @organization => organization
-    @contact => organization.contacts.contact_points.first
-    @ceo => organization.contacts.ceos.first
+    @organization = organization
+    @contact      = organization.contacts.contact_points.first
+    @ceo          = organization.contacts.ceos.first
     mail \
       :to => organization.network_report_recipients.collect(&:email_recipient),
       :bcc => 'globalcompact@un.org',

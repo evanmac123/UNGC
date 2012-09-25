@@ -1,7 +1,7 @@
 class CopMailer < ActionMailer::Base
   helper :datetime
 
-  default :from => EMAIL_SENDER
+  default :from => UNGC::Application::EMAIL_SENDER
 
   def confirmation_blueprint(organization, cop, user)
     @organization = organization
@@ -20,7 +20,7 @@ class CopMailer < ActionMailer::Base
     @cop          = cop
     @user         = user
 
-    mail \ 
+    mail \
       :to      => user.email_recipient,
       :from    => 'cop@unglobalcompact.org',
       :subject => "UN Global Compact Status - 12 Month Learner Grace Period"
@@ -31,7 +31,7 @@ class CopMailer < ActionMailer::Base
     @cop          = cop
     @user         = user
 
-    mail \ 
+    mail \
       :to      => user.email_recipient,
       :from    => 'cop@unglobalcompact.org',
       :subject => "UN Global Compact Status - GC Active"
@@ -42,7 +42,7 @@ class CopMailer < ActionMailer::Base
     @cop          = cop
     @user         = user
 
-    mail \ 
+    mail \
       :to      => user.email_recipient,
       :from    => 'cop@unglobalcompact.org',
       :subject => "UN Global Compact Status - GC Advanced"
@@ -53,7 +53,7 @@ class CopMailer < ActionMailer::Base
     @cop          = cop
     @user         = user
 
-    mail \ 
+    mail \
       :to      => user.email_recipient,
       :from    => 'cop@unglobalcompact.org',
       :subject => "UN Global Compact - COP Published"
