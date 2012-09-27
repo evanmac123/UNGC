@@ -24,11 +24,22 @@ class OrganizationTest < ActiveSupport::TestCase
     end
 
     should "set the organization type to SME when it has less than 10 employees" do
-      @organization = Organization.create(:name                 => 'Small Company',
+      @organization = Organization.create(:name                 => 'Approed small Company',
                                           :employees            => 2,
-                                          :organization_type_id => @companies.id)
+                                          :organization_type_id => @companies.id,
+                                          :state                => ApprovalWorkflow::STATE_APPROVED)
       assert_equal @sme.id, @organization.organization_type_id
       assert !@organization.micro_enterprise?
+    end
+
+    should "set the organization type to Micro Enterprise when it has less than 10 employees
+            unless the organization is approved" do
+      @organization = Organization.create(:name                 => 'Small Company',
+                                          :employees            => 2,
+                                          :organization_type_id => @companies.id,
+                                          :state                => ApprovalWorkflow::STATE_PENDING_REVIEW)
+      assert @organization.micro_enterprise?
+
     end
 
     should "set the organization type to SME when it has between 10 and 250 employees" do
