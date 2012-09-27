@@ -4,6 +4,7 @@ class LocalNetworkParticipantsWithdrawn < SimpleReport
     Organization.visible_to(@options[:user])
       .withdrew
       .delisted_between(Date.new(Date.today.year,1,1), Date.today)
+      .all(:order => 'delisted_on DESC')
   end
 
   def headers
