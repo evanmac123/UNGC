@@ -28,7 +28,6 @@ class Role < ActiveRecord::Base
     :network_representative    => 12,
     :network_report_recipient  => 13,
     :network_regional_manager  => 14,
-    :network_monthly_report    => 16,
     :network_guest_user        => 17
   }
 
@@ -54,7 +53,7 @@ class Role < ActiveRecord::Base
       { :conditions => ['id in (?)', roles_ids.flatten] }
 
     elsif user.user_type == Contact::TYPE_NETWORK
-      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.network_monthly_report, Role.general_contact].collect(&:id)
+      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
 
     elsif user.user_type == Contact::TYPE_NETWORK_GUEST

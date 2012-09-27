@@ -1,3 +1,24 @@
+h1. 2012-09-26
+
+* Returned Micro Enterprise rule, so companies with less than 10 employees are labelled as micros
+* This does not apply to organizations that have already been approved (organization.state = 'approved')
+* Micros are not treated as participants, but we don't want to punish those that have dropped below 10 employees
+* Also, Participant Management wanted to still identify those organization's whose application was rejected for being a Micro Enterprise in the first place
+
+h1. 2012-09-17
+
+* Removed behaviour in Dashboard tables that lets a user select a default action by clicking anywhere on a row
+* This works well unless you want to open a particular action in a new window; the current window opens the action's link as well
+* If you click a link within the row, such as an organization's name and want that to open in a new window, the current window change as well
+* From now on, people will have to click on the specific action icon
+* If there is a way to prevent this by intercepting or unbinding the click, the original JavaScript is in commit: 976b0610a808379a0b268c23c8b6ef0010b2bd97
+
+h1. 2012-08-30
+
+* Created Reports section for Local Networks
+* These are similar to Reports for staff, but are scoped to organizations within the Local Network's countries with VisibleTo#visible_to(user)
+* Since we have to customize the reports for Local Networks in most cases, separate reports and scopes are used
+
 h1. 2012-08-23
 
 * Some Financial Contacts are receiving invoices without being informed that the Contact Point had made a pledge

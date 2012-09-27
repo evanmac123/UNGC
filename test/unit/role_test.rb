@@ -56,7 +56,6 @@ class RoleTest < ActiveSupport::TestCase
       assert_same_elements [ Role.network_focal_point,
                              Role.network_representative,
                              Role.network_report_recipient,
-                             Role.network_monthly_report,
                              Role.general_contact ], @roles
 
     end

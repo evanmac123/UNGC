@@ -542,27 +542,6 @@ $(document).ready(function() {
       }
     );
 
-    //set click action to anywhere in a table row to go to the url of the a.edit element in that row
-    //note: edited to use the td rather than tr in an attempt to remove click-action from header row
-    $('div#main_content table.dashboard_table tr td').addClass('pointer').click(
-      function(e) {
-        var parent_row = $(this).parent();
-        var editor_link = $('td a.edit, td a.preview', parent_row);
-        var has_edit = editor_link.length > 0;
-        if (has_edit)
-          document.location.href = editor_link.attr("href");
-      }
-    );
-
-    // Order matters: this section must come after the table-row-link code
-    // shouldn't go to the edit action if we clicked on another action icon
-    var links = $('div#main_content table.dashboard_table tr td a.edit')
-    if (links.length > 0) {
-      links.each( function(i) {
-        $(this).parents('td').removeClass('pointer').unbind('click');
-      })
-    }
-
   // tabbed content
     // mark first tab as selected by default
     $('div.tab_container ul.tab_nav a:first').addClass('selected');

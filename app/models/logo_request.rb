@@ -71,14 +71,12 @@ class LogoRequest < ActiveRecord::Base
                           :group => :logo_request_id,
                           :order => 'logo_comments.created_at DESC'
 
-  named_scope :approved_between, lambda { |month, year|
+  named_scope :approved_between, lambda { |start_date, end_date|
     {
-      :conditions => ["state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?",
-                      Date.new(year, month, 1), Date.new(year, month, 1).end_of_month],
+      :conditions => { :state => ['approved','accepted'], :approved_on => start_date.to_s..end_date.to_s },
       :order => "approved_on DESC"
     }
   }
-
 
   STATE_PENDING_REVIEW = 'pending_review'
   STATE_IN_REVIEW = 'in_review'

@@ -101,11 +101,13 @@ The application needs a cron job to update organizations' COP state - this needs
 
 # Adding a new Report
 Follow these steps while referring to existing reports:  
+For filenames, we usually named them same as the controller methods, but for Local Networks, you can choose a more friendly filename
 
-1. Add your report query to app/reports as a type of SimpleReport and assign the appropriate class name
+1. Add your report query file to app/reports as a type of SimpleReport and assign the appropriate class name
 2. Add corresponding method to controllers/admin/reports_controller.rb
 3. Optional: add a view for your report in app/views/admin/reports
 4. Add the report to the reports index screen app/views/admin/report/index.html.haml
+5. If you are adding a Local Network report, prepend all names with `local_network`
 
 # Adding a new section banner
 1. Save banner as PNG from Illustrator (use 10% opacity for logo when using blue background)
@@ -131,16 +133,6 @@ Here's a list of tables/fields that should be safe to delete after the applicati
 *.old\_id - only used by importer  
 case\_stories.status - using state  
 case\_stories.case\_date - using updated\_at  
-
-communication\_on\_progresses.facilitator - never used
-communication\_on\_progresses.added\_on - using created_at
-communication\_on\_progresses.modified\_on - using updated_at
-
-communication\_on_progresses.status - using state  
-communication\_on\_progresses.start\_year - using starts\_on  
-communication\_on\_progresses.start\_month - using starts\_on  
-communication\_on\_progresses.end\_year - using ends\_on  
-communication\_on\_progresses.end\_month - using ends\_on  
 
 country.manager\_id - used in transition, not used anymore  
 

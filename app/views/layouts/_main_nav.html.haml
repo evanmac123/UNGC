@@ -8,6 +8,7 @@
     = link_to_current 'Knowledge Sharing', knowledge_sharing_path(current_user.local_network), (current_user.local_network == @local_network && knowledge_sharing_tab?)
     = link_to_current 'Browse Networks', admin_local_networks_path, (controller.is_a?(Admin::LocalNetworksController) && current_user.local_network != @local_network)
     = link_to_current 'Learning', admin_learning_path, controller.is_a?(Admin::LearningController)
+    = link_to_current 'Reports', admin_reports_path, controller.is_a?(Admin::ReportsController)
 
   - if logged_in? && current_user.from_network_guest?
     = link_to_current 'Browse Networks', admin_local_networks_path, controller.is_a?(Admin::LocalNetworksController)

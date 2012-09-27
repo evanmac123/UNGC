@@ -35,6 +35,7 @@
 require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
+  include VisibleTo
   include Authentication
   include Authentication::ByCookieToken
 
@@ -107,9 +108,16 @@ class Contact < ActiveRecord::Base
     :conditions => ["o.cop_state IN (?) AND
                      o.participant = 1 AND
                      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
-                     contacts_roles.role_id IN (2,3)", cop_states]
+                     contacts_roles.role_id IN (?)", cop_states, [Role.ceo, Role.contact_point]]
     }
   }
+
+   named_scope :for_local_network, {
+     :include    => [:roles, {:organization => [:sector, :country, :organization_type]}, :country],
+     :conditions => ["contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point]]
+   }
+
+  named_scope :participants_only, { :conditions => ["organizations.participant = ?", true] }
 
   named_scope :financial_contacts, lambda {
     contact_point_id = Role.financial_contact.try(:id)
@@ -275,6 +283,10 @@ class Contact < ActiveRecord::Base
 
   def organization_name
     from_network? ? local_network.try(:name) : organization.try(:name)
+  end
+
+  def country_name
+    country.try(:name)
   end
 
   def user_type
