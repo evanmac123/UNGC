@@ -736,10 +736,9 @@ class Organization < ActiveRecord::Base
      valid_urls = [
        'http://www.jci.cc/media/en/presidentscorner/unglobalcompact',
        'http://www.jci.cc/media/es/presidentscorner/unglobalcompact',
-       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact',
-       'http://keesari.net/jci_test.html'
+       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact'
       ]
-      valid_urls.include?(url) ? true : false
+      valid_urls.include?(url)
   end
 
   private
@@ -757,12 +756,14 @@ class Organization < ActiveRecord::Base
     end
 
     def check_micro_enterprise_or_sme
-      # we don't make assumptions if there is no employees information
-      return if self.employees.nil?
-      if self.business_entity?
-        if self.employees < 250
+      # we don't make assumptions if there is no employee information
+      return if employees.nil?
+      if business_entity?
+        if employees < 10 && !approved?
+          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
+        elsif employees < 250
           self.organization_type_id = OrganizationType.try(:sme).try(:id)
-        elsif self.employees >= 250
+        elsif employees >= 250
           self.organization_type_id = OrganizationType.try(:company).try(:id)
         end
       end
