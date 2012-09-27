@@ -5,6 +5,7 @@ class LocalNetworkRecentCops < SimpleReport
       .all_cops
       .approved
       .created_between(30.days.ago, Date.today)
+      .all(:order => 'communication_on_progresses.created_at DESC')
   end
 
   def render_output

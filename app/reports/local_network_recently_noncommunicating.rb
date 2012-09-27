@@ -4,6 +4,7 @@ class LocalNetworkRecentlyNoncommunicating < SimpleReport
     Organization.visible_to(@options[:user])
       .with_cop_status(:noncommunicating)
       .with_cop_due_between(Date.today - 30.days, Date.today)
+      .all(:order => :cop_due_on)
   end
 
   def render_output

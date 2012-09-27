@@ -4,6 +4,7 @@ class LocalNetworkRecentlyDelisted < SimpleReport
     Organization.visible_to(@options[:user])
       .with_cop_status(:delisted)
       .delisted_between(Date.today - 90.days, Date.today)
+      .all(:order => 'delisted_on DESC')
   end
 
   def render_output
