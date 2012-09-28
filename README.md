@@ -130,18 +130,13 @@ Set `page.html_code` to the body class for the section you want the banner to ap
 # Fields to delete
 Here's a list of tables/fields that should be safe to delete after the application has been launched:
 
-*.old\_id - only used by importer  
+*.old\_id - only used by importer
+
+old\_id is still used in contacts.rb and test_helper.rb and should be changed to the id values
+
 case\_stories.status - using state  
 case\_stories.case\_date - using updated\_at  
-
 country.manager\_id - used in transition, not used anymore  
-
-logo\_requests.status - using state  
-logo\_requests.requested\_on - using created\_at  
-logo\_requests.status\_changed\_on - using updated\_at  
-
-organizations.local\_network - we have a new LocalNetwork model  
-
 pages.top\_level - only used by importer  
 
 # Server Backup
