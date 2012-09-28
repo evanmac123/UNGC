@@ -141,8 +141,6 @@ logo\_requests.requested\_on - using created\_at
 logo\_requests.status\_changed\_on - using updated\_at  
 
 organizations.local\_network - we have a new LocalNetwork model  
-organizations.added\_on - may want to transfer to created\_at  
-organizations.modified\_on - may want to transfer to updated\_at  
 
 pages.top\_level - only used by importer  
 
