@@ -18,17 +18,19 @@ class Role < ActiveRecord::Base
   belongs_to :initiative
   default_scope :order => 'roles.position, roles.initiative_id, roles.name'
 
+  before_update :check_for_filtered_name_change
+
   FILTERS = {
-    :ceo                       => 3,
-    :contact_point             => 4,
-    :general_contact           => 9,
-    :financial_contact         => 2,
-    :website_editor            => 15,
-    :network_focal_point       => 5,
-    :network_representative    => 12,
-    :network_report_recipient  => 13,
-    :network_regional_manager  => 14,
-    :network_guest_user        => 17
+    :ceo                       => 'Highest Level Executive',
+    :contact_point             => 'Contact Point',
+    :financial_contact         => 'Financial Contact',
+    :general_contact           => 'General Contact',
+    :network_focal_point       => 'Network Contact Person',
+    :network_guest_user        => 'Local Network Guest',
+    :network_regional_manager  => 'Local Network Manager',
+    :network_report_recipient  => 'Network Report Recipient',
+    :network_representative    => 'Network Representative',
+    :website_editor            => 'Website Editor'
   }
 
   named_scope :visible_to, lambda { |user, current_user = nil|
@@ -44,6 +46,7 @@ class Role < ActiveRecord::Base
 
       # only business organizations have a financial contact
       roles_ids << Role.financial_contact.id if user.organization.business_entity?
+
       # if the organization signed an initiative, then add the initiative's role, if available
       roles_ids << Role.all(:conditions => ["initiative_id in (?)", user.organization.initiative_ids]).collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
@@ -65,55 +68,67 @@ class Role < ActiveRecord::Base
     end
   }
 
-  def self.network_contacts
-    find :all, :conditions => ["old_id in (?)", [5,12,13]]
-  end
+  # Local Network roles
 
   def self.network_focal_point
-    find :first, :conditions => ["old_id=?", FILTERS[:network_focal_point]]
+    find :first, :conditions => { :name => FILTERS[:network_focal_point] }
   end
 
   def self.network_representative
-    find :first, :conditions => ["old_id=?", FILTERS[:network_representative]]
+    find :first, :conditions => { :name => FILTERS[:network_representative] }
   end
 
   def self.network_report_recipient
-    find :first, :conditions => ["old_id=?", FILTERS[:network_report_recipient]]
-  end
-
-  def self.network_regional_manager
-    find :first, :conditions => ["old_id=?", FILTERS[:network_regional_manager]]
-  end
-
-  def self.network_monthly_report
-    find :first, :conditions => ["old_id=?", FILTERS[:network_monthly_report]]
+    find :first, :conditions => { :name => FILTERS[:network_report_recipient] }
   end
 
   def self.network_guest_user
-    find :first, :conditions => ["old_id=?", FILTERS[:network_guest_user]]
+    find :first, :conditions => { :name => FILTERS[:network_guest_user] }
   end
 
+  def self.network_contacts
+    [Role.network_representative, Role.network_focal_point, Role.network_report_recipient]
+  end
+
+  # Participant organization roles
+
   def self.ceo
-    find :first, :conditions => ["old_id=?", FILTERS[:ceo]]
+    find :first, :conditions => { :name => FILTERS[:ceo] }
   end
 
   def self.contact_point
-    find :first, :conditions => ["old_id=?", FILTERS[:contact_point]]
+    find :first, :conditions => { :name => FILTERS[:contact_point] }
   end
 
   def self.general_contact
-    find :first, :conditions => ["old_id=?", FILTERS[:general_contact]]
+    find :first, :conditions => { :name => FILTERS[:general_contact] }
   end
 
   def self.financial_contact
-    find :first, :conditions => ["old_id=?", FILTERS[:financial_contact]]
+    find :first, :conditions => { :name => FILTERS[:financial_contact] }
   end
 
+  # Global Compact staff roles
+
   def self.website_editor
-    find :first, :conditions => ["old_id=?", FILTERS[:website_editor]]
+    find :first, :conditions => { :name => FILTERS[:website_editor] }
+  end
+
+  def self.network_regional_manager
+    find :first, :conditions => { :name => FILTERS[:network_regional_manager] }
   end
 
   def self.login_roles
     [Role.contact_point, Role.network_report_recipient, Role.network_focal_point, Role.network_guest_user]
   end
+
+  private
+
+  def check_for_filtered_name_change
+    if name_changed? && FILTERS.values.include?(name_was)
+      errors.add_to_base "You cannot change that Role name."
+      return false
+    end
+  end
+
 end

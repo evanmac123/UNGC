@@ -40,7 +40,7 @@ contact = Contact.create(params)
 
 # Create Local Network Guest role
 
-params = { :name => 'Local Network Guest', :description => 'Resricted access to view Local Network information', :old_id => 17 }
+params = { :name => 'Local Network Guest', :description => 'Resricted access to view Local Network information' }
 Role.destroy_all(params)
 role = Role.create(params)
 contact.roles << role

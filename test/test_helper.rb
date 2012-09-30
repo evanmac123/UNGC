@@ -154,17 +154,7 @@ class ActiveSupport::TestCase
   end
 
   def create_roles
-    create_role(:name => 'CEO', :description => "value",  :old_id => 3)
-    create_role(:name => 'Contact Point', :description => "value", :old_id => 4)
-    create_role(:name => 'General Contact', :description => "value", :old_id => 9)
-    create_role(:name => 'Financial Contact', :description => "value", :old_id => 2)
-    create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
-    create_role(:name => 'Website Editor', :description => "value", :old_id => 15)
-    create_role(:name => 'Network Focal Point', :description => "value", :old_id => 5)
-    create_role(:name => 'Network Representative', :description => "value", :old_id => 12)
-    create_role(:name => 'Network Report Recipient', :description => "value", :old_id => 13)
-    create_role(:name => 'Monthly Report Recipient', :description => "value", :old_id => 16)
-    create_role(:name => 'Local Network Guest', :description => "value", :old_id => 17)
+    Role::FILTERS.values.each {|name| create_role(:name => name, :description => "value")}
   end
 
   def create_cop(organization_id, options = {})
@@ -185,7 +175,8 @@ class ActiveSupport::TestCase
   end
 
   def create_initiatives
-    create_initiative(:id => 19, :name => 'Global Compact LEAD')
+    @lead_initiative    = create_initiative(:id => 19, :name => 'Global Compact LEAD')
+    @climate_initiative = create_initiative(:id => 2,  :name => 'Caring for Climate')
   end
 
 
