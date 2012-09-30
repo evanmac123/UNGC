@@ -3,25 +3,11 @@
 # Table name: communication_on_progresses
 #
 #  id                                  :integer(4)      not null, primary key
-#  identifier                          :string(255)
 #  organization_id                     :integer(4)
 #  title                               :string(255)
-#  related_document                    :string(255)
 #  email                               :string(255)
-#  start_year                          :integer(4)
-#  facilitator                         :string(255)
 #  job_title                           :string(255)
-#  start_month                         :integer(4)
-#  end_month                           :integer(4)
-#  url1                                :string(255)
-#  url2                                :string(255)
-#  url3                                :string(255)
-#  added_on                            :date
-#  modified_on                         :date
 #  contact_name                        :string(255)
-#  end_year                            :integer(4)
-#  status                              :integer(4)
-#  include_ceo_letter                  :boolean(1)
 #  include_actions                     :boolean(1)
 #  include_measurement                 :boolean(1)
 #  use_indicators                      :boolean(1)
@@ -39,16 +25,8 @@
 #  references_labour                   :boolean(1)
 #  references_environment              :boolean(1)
 #  references_anti_corruption          :boolean(1)
-#  replied_to                          :boolean(1)
-#  reviewer_id                         :integer(4)
-#  support_statement_signee            :string(255)
-#  parent_company_cop                  :boolean(1)
-#  parent_cop_cover_subsidiary         :boolean(1)
 #  meets_advanced_criteria             :boolean(1)
 #  additional_questions                :boolean(1)
-#  support_statement_explain_benefits  :boolean(1)
-#  missing_principle_explained         :boolean(1)
-#  is_shared_with_stakeholders         :boolean(1)
 #  starts_on                           :date
 #  ends_on                             :date
 #  method_shared                       :string(255)

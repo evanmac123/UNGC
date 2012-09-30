@@ -289,7 +289,7 @@ ul.nav_bar {
     #main_content dl.left_column {
       float: left; }
     #main_content dl.short dd {
-      width: 65px; }
+      width: 80px; }
     #main_content dl dt {
       width: 140px;
       padding: 10px 10px 10px 0;
@@ -311,6 +311,7 @@ ul.nav_bar {
       #main_content dl dt.first, #main_content dl dt.title {
         border: none; }
     #main_content dl dd {
+      white-space: nowrap;
       margin-left: 150px;
       padding: 10px 10px 10px 0;
       border-top: 1px solid #999; }

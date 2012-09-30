@@ -12,6 +12,24 @@ class RoleTest < ActiveSupport::TestCase
     @business_type = create_organization_type(:name => 'Company', :type_property => 2)
   end
 
+  context "given two Roles" do
+    setup do
+      create_roles
+      @role = create_role(:name => "New Role")
+      @defined_role = Role.website_editor
+    end
+
+    should "can change the new Role name" do
+      @role.name = "Changed Role"
+      assert @role.save
+    end
+
+    should "cannot change the defined Role name" do
+      @defined_role.name = "Changed Role"
+      assert !@defined_role.save
+    end
+  end
+
   context "given a non-business organization" do
     setup do
       setup_organizations_and_users
@@ -44,6 +62,20 @@ class RoleTest < ActiveSupport::TestCase
     should "have Financial Contact as a Role option" do
       assert_contains @roles, Role.financial_contact
     end
+
+    context "that has joined the Caring for Climate initiative" do
+      setup do
+        create_initiatives
+        @climate_role = create_role(:name => "Caring for Climate Contact", :initiative_id => @climate_initiative.id)
+        @climate_initiative.signings.create :signatory => @business
+        @roles = Role.visible_to(@business_contact)
+      end
+
+      should "have the Caring for Climate role" do
+        assert_contains @roles, Role.find_by_name(@climate_role.name)
+      end
+    end
+
   end
 
   context "given a Local Network" do

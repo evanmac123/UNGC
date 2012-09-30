@@ -20,7 +20,7 @@
     %th Actions
   - @report.records.each do |org|
     %tr
-      %td{:title => org.name}= org.name
+      %td{:title => org.name}= truncate(org.name, :length => 50)
       %td= org.country_name
       %td= org.employees
       %td= org.invoice_id

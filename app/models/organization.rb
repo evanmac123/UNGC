@@ -7,14 +7,11 @@
 #  name                           :string(255)
 #  organization_type_id           :integer(4)
 #  sector_id                      :integer(4)
-#  local_network                  :boolean(1)
 #  participant                    :boolean(1)
 #  employees                      :integer(4)
 #  url                            :string(255)
 #  created_at                     :datetime
 #  updated_at                     :datetime
-#  added_on                       :date
-#  modified_on                    :date
 #  joined_on                      :date
 #  delisted_on                    :date
 #  active                         :boolean(1)
@@ -160,8 +157,6 @@ class Organization < ActiveRecord::Base
       transition :from => :noncommunicating, :to => :active
     end
   end
-
-  named_scope :local_network, :conditions => ["local_network = ?", true]
 
   named_scope :active,
     { :conditions => ["organizations.active = ?", true] }

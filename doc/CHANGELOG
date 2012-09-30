@@ -1,3 +1,9 @@
+h1. 2012-09-29
+
+* No longer using old_id to identify specific Roles
+* We use the name instead, :ceo => 'Highest Level Executive'
+* If the Role name is included in one of the filtered types (Role::FILTERS), it cannot be changed
+
 h1. 2012-09-26
 
 * Returned Micro Enterprise rule, so companies with less than 10 employees are labelled as micros

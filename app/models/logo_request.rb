@@ -2,23 +2,20 @@
 #
 # Table name: logo_requests
 #
-#  id                :integer(4)      not null, primary key
-#  old_id            :integer(4)
-#  requested_on      :date
-#  status_changed_on :date
-#  publication_id    :integer(4)
-#  organization_id   :integer(4)
-#  contact_id        :integer(4)
-#  reviewer_id       :integer(4)
-#  replied_to        :boolean(1)
-#  purpose           :string(255)
-#  status            :string(255)
-#  accepted          :boolean(1)
-#  accepted_on       :date
-#  created_at        :datetime
-#  updated_at        :datetime
-#  state             :string(255)
-#  approved_on       :date
+#  id              :integer(4)      not null, primary key
+#  old_id          :integer(4)
+#  publication_id  :integer(4)
+#  organization_id :integer(4)
+#  contact_id      :integer(4)
+#  reviewer_id     :integer(4)
+#  replied_to      :boolean(1)
+#  purpose         :string(255)
+#  accepted        :boolean(1)
+#  accepted_on     :date
+#  created_at      :datetime
+#  updated_at      :datetime
+#  state           :string(255)
+#  approved_on     :date
 #
 
 class LogoRequest < ActiveRecord::Base
