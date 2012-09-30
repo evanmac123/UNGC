@@ -23,7 +23,7 @@
     %tr
       %td= record.id
       %td{:title => record.organization.name}= truncate record.organization.name
-      %td= record.publication.name
+      %td{:title => record.publication.name}= truncate record.publication.name
       %td= record.reviewer.name
       %td= record.approved_on
       %td= record.state.titleize
