@@ -369,7 +369,7 @@ ul.nav_bar
       float: left
     &.short
       dd
-        width: 65px
+        width: 80px
 
     dt
       width: 140px
@@ -393,6 +393,7 @@ ul.nav_bar
         border: none
 
     dd
+      white-space: nowrap
       margin-left: 150px
       padding: 10px 10px 10px 0
       border-top: 1px solid #999
@@ -1015,7 +1016,7 @@ ul.report_list
 
   li
     list-style: none
-    border-bottom: 1px solid #ccc
+    border-bottom: 1px solid #DDD
     padding: 0.75em 10px
     background-color: #fff
     position: relative
@@ -1024,7 +1025,10 @@ ul.report_list
       background-color: #fff
 
     &:hover
-      background-color= !light_blue
+      background-color= !light_yellow
+
+    &:last-child
+      border-bottom: none
 
   a.xls, a.doc
     position: absolute
@@ -1043,10 +1047,7 @@ ul.report_list
   a.xls
     background: url('../images/icons/Accounts Payable_16x16.png')
   a.doc
-    background: url('../images/icons/Folder (Closed)_16x16.png')
-    &:hover
-      background: url('../images/icons/Folder (Open)_16x16.png')
-
+    background: url('../images/icons/Excel_Table_16x16.png')
 
   a
     color= !dark_grey

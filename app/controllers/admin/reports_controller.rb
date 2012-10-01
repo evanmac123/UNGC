@@ -1,5 +1,9 @@
 class Admin::ReportsController < AdminController
 
+  def index
+    render current_user.from_network? ? 'local_network_index' : 'index'
+  end
+
   def delisted_participants
     @report = DelistedParticipants.new
     render_formatter(filename: "delisted_participants_#{date_as_filename}.xls")
@@ -69,6 +73,61 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "local_networks_events_#{date_as_filename}.xls")
   end
 
+  def local_network_participant_breakdown
+    @report = LocalNetworkParticipantBreakdown.new(default_report_params)
+    render_formatter(filename: "local_network_participant_breakdown_#{date_as_filename}.xls")
+  end
+
+  def local_network_participant_contacts
+    @report = LocalNetworkParticipantContacts.new(default_report_params)
+    render_formatter(filename: "local_network_participant_contacts_#{date_as_filename}.xls")
+  end
+
+  def local_network_delisted_participants
+    @report = LocalNetworkDelistedParticipants.new(default_report_params)
+    render_formatter(filename: "local_network_delisted_participants_#{date_as_filename}.xls")
+  end
+
+  def local_network_all_cops
+    @report = LocalNetworkAllCops.new(default_report_params)
+    render_formatter(filename: "local_network_all_cops_#{date_as_filename}.xls")
+  end
+
+  def local_network_recent_cops
+    @report = LocalNetworkRecentCops.new(default_report_params)
+    render_formatter(filename: "local_network_recent_cops_#{date_as_filename}.xls")
+  end
+
+  def local_network_upcoming_cops
+    @report = LocalNetworkUpcomingCops.new(default_report_params)
+    render_formatter(filename: "local_network_upcoming_cops_#{date_as_filename}.xls")
+  end
+
+  def local_network_upcoming_delistings
+    @report = LocalNetworkUpcomingDelistings.new(default_report_params)
+    render_formatter(filename: "local_network_upcoming_delistings_#{date_as_filename}.xls")
+  end
+
+  def local_network_recently_noncommunicating
+    @report = LocalNetworkRecentlyNoncommunicating.new(default_report_params)
+    render_formatter(filename: "local_network_recently_noncommunicating_#{date_as_filename}.xls")
+  end
+
+  def local_network_recently_delisted
+    @report = LocalNetworkRecentlyDelisted.new(default_report_params)
+    render_formatter(filename: "local_network_recently_delisted_#{date_as_filename}.xls")
+  end
+
+  def local_network_recent_logo_requests
+    @report = LocalNetworkRecentLogoRequests.new(default_report_params)
+    render_formatter(filename: "local_network_recent_logo_requests_#{date_as_filename}.xls")
+  end
+
+  def local_network_participants_withdrawn
+    @report = LocalNetworkParticipantsWithdrawn.new(default_report_params)
+    render_formatter(filename: "local_network_participants_withdrawn_#{date_as_filename}.xls")
+  end
+
   def initiative_contacts
     @report = InitiativeContacts.new
     render_formatter(filename: "water_mandate_contacts_#{date_as_filename}.xls")
@@ -119,17 +178,22 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "foundation_pledges_#{@year}_#{@month}.xls")
   end
 
-  private
-    def render_formatter(options={})
-      respond_to do |format|
-        format.html
-        format.xls  { send_file @report.render_output, :type     => 'application/ms-excel',
-                                                       :filename => options[:filename] }
-      end
-    end
+  def default_report_params
+    {:user => current_user}
+  end
 
-    def date_as_filename
-      Date.today.iso8601.gsub('-', '_')
+  private
+
+  def render_formatter(options={})
+    respond_to do |format|
+      format.html
+      format.xls  { send_file @report.render_output, :type     => 'application/ms-excel',
+                                                     :filename => options[:filename] }
     end
+  end
+
+  def date_as_filename
+    Date.today.iso8601.gsub('-', '_')
+  end
 
 end

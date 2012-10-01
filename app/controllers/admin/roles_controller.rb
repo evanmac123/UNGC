@@ -36,6 +36,7 @@ class Admin::RolesController < AdminController
   def destroy
     @role = Role.find(params[:id])
     @role.destroy
+    flash[:notice] = 'Role was deleted.'
     redirect_to(admin_roles_path)
   end
 end

@@ -35,6 +35,7 @@
 require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
+  include VisibleTo
   include Authentication
   include Authentication::ByCookieToken
 
@@ -107,9 +108,16 @@ class Contact < ActiveRecord::Base
     :conditions => ["o.cop_state IN (?) AND
                      o.participant = 1 AND
                      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
-                     contacts_roles.role_id IN (2,3)", cop_states]
+                     contacts_roles.role_id IN (?)", cop_states, [Role.ceo, Role.contact_point]]
     }
   }
+
+   named_scope :for_local_network, {
+     :include    => [:roles, {:organization => [:sector, :country, :organization_type]}, :country],
+     :conditions => ["contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point]]
+   }
+
+  named_scope :participants_only, { :conditions => ["organizations.participant = ?", true] }
 
   named_scope :financial_contacts, lambda {
     contact_point_id = Role.financial_contact.try(:id)
@@ -277,6 +285,10 @@ class Contact < ActiveRecord::Base
     from_network? ? local_network.try(:name) : organization.try(:name)
   end
 
+  def country_name
+    country.try(:name)
+  end
+
   def user_type
     return TYPE_UNGC if from_ungc?
     return TYPE_NETWORK if from_network?
@@ -302,7 +314,7 @@ class Contact < ActiveRecord::Base
   end
 
   def needs_to_update_contact_info
-    unless from_ungc? || from_network_guest?
+    if from_organization?
       last_update = last_login_at || updated_at
       last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
     end

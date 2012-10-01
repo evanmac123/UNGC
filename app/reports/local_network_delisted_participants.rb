@@ -1,11 +1,11 @@
-class DelistedParticipants < SimpleReport
+class LocalNetworkDelistedParticipants < SimpleReport
 
   def records
-    Organization.with_cop_info.with_cop_status(:delisted)
+    Organization.visible_to(@options[:user]).with_cop_info.with_cop_status(:delisted)
   end
 
   def render_output
-    self.render_xls_in_batches
+    self.render_xls
   end
 
   def headers
@@ -22,7 +22,6 @@ class DelistedParticipants < SimpleReport
       'Stock Code',
       'Exchange',
       'Country',
-      'Region',
       'Latest COP',
       'Number of COPs',
       'Reason for Removal'
@@ -35,18 +34,18 @@ class DelistedParticipants < SimpleReport
     record.employees,
     record.joined_on,
     record.joined_on.try(:year),
-    record.delisted_on,
-    record.organization_type.name,
+    record.delisted_on.try(:to_date),
+    record.organization_type_name,
     record.is_ft_500,
     record.sector_name,
     record.listing_status.try(:name),
     record.stock_symbol,
     record.exchange.try(:name),
-    record.country.name,
-    record.country.region_name,
+    record.country_name,
     record.latest_cop.try(:to_date),
     record.cop_count,
     record.removal_reason.try(:description)
   ]
   end
+
 end

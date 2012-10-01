@@ -109,15 +109,14 @@ module Admin::CopsHelper
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
 
-      # output += " <span style='color: red; font-weight: bold;'>" + question.grouping + "</span>"
       if question.cop_attributes.count > 1
         output = content_tag(:li, question.text, :class => 'question_group')
         output += answers.map{|a|
-          content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "selected_question") if a.value?
+          content_tag(:li, content_tag(:p, a.cop_attribute.text), {:id => a.cop_attribute.id, :class => "selected_question"}) if a.value?
         }.compact.join('')
         if params[:action] != 'feed'
           output += answers.map{|a|
-            content_tag(:li, content_tag(:p, a.cop_attribute.text), :class => "advanced_question") unless a.value.present? && a.value?
+            content_tag(:li, content_tag(:p, a.cop_attribute.text), {:id => a.cop_attribute.id, :class => "advanced_question"}) unless a.value.present? && a.value?
           }.compact.join('')
         end
       # Only one attribute so it's either a yes/no or text field answer

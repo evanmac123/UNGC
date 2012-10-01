@@ -15,7 +15,7 @@ context "given an organization user" do
     assert_equal "Welcome #{@contact.first_name}. You have been logged in.", flash[:notice]
   end
 
-  should "login and redirect to edit screen" do
+  should "login and redirect to edit screen if last login was over 6 months ago" do
     post :create, :login => 'login', :password => 'nexen'
     assert session[:user_id]
     assert_redirected_to edit_admin_organization_contact_path(@old_contact.organization.id, @old_contact, {:update => true})

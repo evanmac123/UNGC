@@ -1,0 +1,26 @@
+%h2 Logo Requests approved in the past 30 days
+
+- unless @report.records.any?
+  %p There were no Logo Requests approved in the past 30 days
+- else
+
+  %p
+    %ul{:class => "tools inline"}
+      %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+
+  %table.dashboard_table
+    %tr
+      %th Participant
+      %th Publication Type
+      %th Title / Purpose
+      %th Approval Date
+      %th Actions
+    - @report.records.each do |logo_request|
+      %tr
+        %td{:title => logo_request.organization.name}= truncate(logo_request.organization.name, :length => 70)
+        %td= logo_request.publication.name
+        %td= logo_request.purpose
+        %td= logo_request.approved_on.to_date
+        %td
+          %ul.actions
+            =popup_link_to 'View Details', participant_path(logo_request.organization), :title => "View participant details", :class => "preview"

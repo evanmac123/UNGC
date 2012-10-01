@@ -7,14 +7,11 @@
 #  name                           :string(255)
 #  organization_type_id           :integer(4)
 #  sector_id                      :integer(4)
-#  local_network                  :boolean(1)
 #  participant                    :boolean(1)
 #  employees                      :integer(4)
 #  url                            :string(255)
 #  created_at                     :datetime
 #  updated_at                     :datetime
-#  added_on                       :date
-#  modified_on                    :date
 #  joined_on                      :date
 #  delisted_on                    :date
 #  active                         :boolean(1)
@@ -52,9 +49,9 @@ class Organization < ActiveRecord::Base
   validates_uniqueness_of :name, :message => "has already been used by another organization"
   validates_numericality_of :employees, :only_integer => true, :message => "should only contain numbers. No commas or periods are required."
   validates_format_of :url,
-                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(([0-9]{1,6})?\/.*)?$)/ix),
-                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
-                       :unless => Proc.new { |organization| organization.url.blank? }
+                      :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(([0-9]{1,6})?\/.*)?$)/ix),
+                      :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
+                      :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
   has_many :signings
   has_many :initiatives, :through => :signings
@@ -161,47 +158,32 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  named_scope :local_network, :conditions => ["local_network = ?", true]
-
   named_scope :active,
     { :conditions => ["organizations.active = ?", true] }
 
   named_scope :participants,
     { :conditions => ["organizations.participant = ?", true] }
 
-  named_scope :participants_with_cop_info, {
+  named_scope :with_cop_info, {
     :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
-                 :conditions => 'participant = true',
-                 :select => 'organizations.*, C.*',
+                 :select => 'organizations.*, c.*',
                  :joins => "LEFT JOIN (
-                      SELECT
-                        organization_id,
-                        MAX(created_at) AS latest_cop,
-                        COUNT(id) AS cop_count
-                      FROM
-                        communication_on_progresses
-                      WHERE
-                        state = 'approved'
-                      GROUP BY
-                         organization_id) as C ON organizations.id = C.organization_id"
-    }
+                            SELECT
+                              organization_id,
+                              MAX(created_at) AS latest_cop,
+                              COUNT(id) AS cop_count
+                            FROM
+                              communication_on_progresses
+                            WHERE
+                              state = 'approved'
+                            GROUP BY
+                               organization_id ) as c ON organizations.id = c.organization_id"
+  }
 
- named_scope :delisted, {
-   :include => [:country, :sector, :organization_type, :removal_reason],
-   :select => 'organizations.*, C.*',
-   :joins => "LEFT JOIN (
-              SELECT
-                organization_id,
-                MAX(created_at) AS latest_cop,
-                COUNT(id) AS cop_count
-              FROM
-                communication_on_progresses
-              WHERE
-                state = 'approved'
-              GROUP BY
-                 organization_id) as C ON organizations.id = C.organization_id",
-    :conditions => "organizations.cop_state NOT IN ('active','noncommunicating')"
- }
+  named_scope :withdrew, {
+   :include => :removal_reason,
+   :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew }
+  }
 
   named_scope :companies_and_smes, {
     :include => :organization_type,
@@ -245,7 +227,17 @@ class Organization < ActiveRecord::Base
     { :conditions => ["cop_state != ?", COP_STATE_DELISTED] }
 
   named_scope :with_cop_due_on, lambda { |date|
-    {:conditions => {:cop_due_on => date} }
+    { :conditions => {:cop_due_on => date} }
+  }
+
+  named_scope :with_cop_due_between, lambda { |start_date, end_date| {
+      :conditions => { :cop_due_on => start_date..end_date }
+    }
+  }
+
+  named_scope :delisted_between, lambda { |start_date, end_date| {
+      :conditions => { :delisted_on => start_date..end_date }
+    }
   }
 
   named_scope :noncommunicating,
@@ -634,14 +626,10 @@ class Organization < ActiveRecord::Base
   # predict delisting date based on current status and COP due date
   # only one year of non-communicating is assumed
   def delisting_on
-    return unless company?
-    case cop_state
-      when COP_STATE_NONCOMMUNICATING
-        cop_due_on + 1.year unless cop_due_on.nil?
-      when COP_STATE_ACTIVE
-        cop_due_on + 2.year unless cop_due_on.nil?
-      else
-        cop_due_on
+    if cop_state == COP_STATE_DELISTED
+      nil
+    else
+      cop_due_on + 1.year unless cop_due_on.nil?
     end
   end
 
@@ -736,10 +724,9 @@ class Organization < ActiveRecord::Base
      valid_urls = [
        'http://www.jci.cc/media/en/presidentscorner/unglobalcompact',
        'http://www.jci.cc/media/es/presidentscorner/unglobalcompact',
-       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact',
-       'http://keesari.net/jci_test.html'
+       'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact'
       ]
-      valid_urls.include?(url) ? true : false
+      valid_urls.include?(url)
   end
 
   private
@@ -757,12 +744,14 @@ class Organization < ActiveRecord::Base
     end
 
     def check_micro_enterprise_or_sme
-      # we don't make assumptions if there is no employees information
-      return if self.employees.nil?
-      if self.business_entity?
-        if self.employees < 250
+      # we don't make assumptions if there is no employee information
+      return if employees.nil?
+      if business_entity?
+        if employees < 10 && !approved?
+          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
+        elsif employees < 250
           self.organization_type_id = OrganizationType.try(:sme).try(:id)
-        elsif self.employees >= 250
+        elsif employees >= 250
           self.organization_type_id = OrganizationType.try(:company).try(:id)
         end
       end

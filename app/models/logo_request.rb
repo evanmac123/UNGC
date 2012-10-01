@@ -2,23 +2,20 @@
 #
 # Table name: logo_requests
 #
-#  id                :integer(4)      not null, primary key
-#  old_id            :integer(4)
-#  requested_on      :date
-#  status_changed_on :date
-#  publication_id    :integer(4)
-#  organization_id   :integer(4)
-#  contact_id        :integer(4)
-#  reviewer_id       :integer(4)
-#  replied_to        :boolean(1)
-#  purpose           :string(255)
-#  status            :string(255)
-#  accepted          :boolean(1)
-#  accepted_on       :date
-#  created_at        :datetime
-#  updated_at        :datetime
-#  state             :string(255)
-#  approved_on       :date
+#  id              :integer(4)      not null, primary key
+#  old_id          :integer(4)
+#  publication_id  :integer(4)
+#  organization_id :integer(4)
+#  contact_id      :integer(4)
+#  reviewer_id     :integer(4)
+#  replied_to      :boolean(1)
+#  purpose         :string(255)
+#  accepted        :boolean(1)
+#  accepted_on     :date
+#  created_at      :datetime
+#  updated_at      :datetime
+#  state           :string(255)
+#  approved_on     :date
 #
 
 class LogoRequest < ActiveRecord::Base
@@ -71,14 +68,12 @@ class LogoRequest < ActiveRecord::Base
                           :group => :logo_request_id,
                           :order => 'logo_comments.created_at DESC'
 
-  named_scope :approved_between, lambda { |month, year|
+  named_scope :approved_between, lambda { |start_date, end_date|
     {
-      :conditions => ["state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?",
-                      Date.new(year, month, 1), Date.new(year, month, 1).end_of_month],
+      :conditions => { :state => ['approved','accepted'], :approved_on => start_date.to_s..end_date.to_s },
       :order => "approved_on DESC"
     }
   }
-
 
   STATE_PENDING_REVIEW = 'pending_review'
   STATE_IN_REVIEW = 'in_review'

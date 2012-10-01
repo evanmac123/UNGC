@@ -1,0 +1,26 @@
+%h2 At risk of being delisted in the next 30 days
+
+- unless @report.records.any?
+  %p There are no participants at risk of being delisted in the next 30 days
+- else
+
+  %p
+    %ul{:class => "tools inline"}
+      %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+
+  %table.dashboard_table
+    %tr
+      %th Participant
+      %th Participant Since
+      %th Number of COPs
+      %th Delisting Date
+      %th Actions
+    - @report.records.each do |org|
+      %tr
+        %td{:title => org.name}= org.name
+        %td= org.joined_on
+        %td= org.communication_on_progresses.approved.try(:count)
+        %td= org.delisting_on
+        %td
+          %ul.actions
+            =popup_link_to 'View Details', participant_path(org), :title => "View participant details", :class => "preview"

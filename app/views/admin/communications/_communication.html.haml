@@ -1,7 +1,7 @@
 %tr
-  %td= communication.type_name
+  %td.nowrap= communication.type_name
   %td= communication.title
-  %td= communication.date
+  %td.nowrap= communication.date
   %td= link_to_uploaded_file(communication.file)
   - if current_user_can_edit_network?
     %td
