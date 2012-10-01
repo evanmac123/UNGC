@@ -489,6 +489,14 @@ class Organization < ActiveRecord::Base
     communication_on_progresses.approved.first if communication_on_progresses.approved.any?
   end
 
+  def last_approved_cop_id
+    last_approved_cop.id if last_approved_cop
+  end
+
+  def last_approved_cop_year
+    last_approved_cop.created_at.year if last_approved_cop
+  end
+
   def last_cop_is_learner?
     last_approved_cop && last_approved_cop.learner?
   end
