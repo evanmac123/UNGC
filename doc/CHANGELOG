@@ -25,13 +25,13 @@ h1. 2012-09-04
 * Created a boolean (references_business_peace) similar to other issues areas to track if organization operates in high risk areas
 * If they answer yes, then the Business and Peace tab appears with the corresponding questions
 * Added another grouping area in cop_question.rb for Business and Peace questions
+* When evaluating Lead COP answers, these questions are excluded
 
 h1. 2012-08-30
 
 * Created Reports section for Local Networks
 * These are similar to Reports for staff, but are scoped to organizations within the Local Network's countries with VisibleTo#visible_to(user)
 * Since we have to customize the reports for Local Networks in most cases, separate reports and scopes are used
->>>>>>> master
 
 h1. 2012-08-23
 
@@ -76,8 +76,8 @@ h1. 2012-07-31
 
 * The Reports were updated to use find_in_batches and create a temporary file before sending to the browser
 * The passengers were using excessive memory causing the server to run out of memory
-* Rails Machine had traced the problem to the records were being buffered in memory (for some reports in the tens of thousands) before creating the export file
-* The method 'render_output' was added to simple_report.rb to call render_xls by default, but can be overridden in within each report if render_xls_in_batches is preferred, which is the case for reports returning more than 1000 records
+* Rails Machine had traced the problem to the records being buffered in memory (for some reports in the tens of thousands) before creating the export file
+* The method 'render_output' was added to simple_report.rb to call render_xls by default, but can be overridden within each report if render_xls_in_batches is preferred, which is the case for reports returning more than 1000 records
 * Also, send_data was replaced with send_file by first saving all records in a temporary file
 * These changes are using less memory, but occasionally we are still seeing the process killed before the file downloads
 * We will also look into adding more options to the Reports so people can limit the number of records being downloaded by filtering
