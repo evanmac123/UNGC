@@ -29,9 +29,11 @@ $("input[name='communication_on_progress[include_continued_support_statement]']"
 $("input[name='communication_on_progress[references_business_peace]']").click(function() {
   if ($("#communication_on_progress_references_business_peace_true").is(':checked')) {
     $("#business_peace_tab").slideDown();
+    showAndEnableTabbedSection("#business_peace_additional_questions");
   }
   else {
     $("#business_peace_tab").slideUp();
+    hideAndDisableTabbedSection("#business_peace_additional_questions");
   }
 })
 
@@ -48,6 +50,14 @@ $("input[name='communication_on_progress[method_shared]']").click(function() {
 $("#new_cop_file").click(function(){
   $('#cop_files').append(replace_ids(cop_file_form));
 });
+
+function hideAndDisableTabbedSection(div) {
+  $(div + " input, " + div + " select").attr("disabled", "disabled");
+}
+
+function showAndEnableTabbedSection(div) {
+  $(div + " input, " + div + " select").attr("disabled", "");
+}
 
 function hideAndDisableFormElements(div) {
   $(div).hide('slow');
