@@ -1,4 +1,4 @@
-// Q1 - Format
+// Format
 $("input[name='communication_on_progress[format]']").click(function() {
   if ($("#communication_on_progress_format_grace_letter").is(':checked')) {
     // grace letters only require a upload
@@ -20,74 +20,44 @@ $("input[name='communication_on_progress[format]']").click(function() {
   }
 })
 
-// function showCopFileOrLinks() {
-//   if ($("#communication_on_progress_web_based_true").is(':checked')) {
-//     showAndEnableFormElements("#web_cop_attachments");
-//     hideAndDisableFormElements("#cop_attachments");
-//     $("#text_b").show();
-//   } else {
-//     showAndEnableFormElements("#cop_attachments");
-//     hideAndDisableFormElements("#web_cop_attachments");
-//     $("#text_b").hide();
-//   }
-// }
-
-// Q2 - Web based
-$("input[name='communication_on_progress[web_based]']").click(function() {
-  showCopFileOrLinks();
+// A statement of continued support
+$("input[name='communication_on_progress[include_continued_support_statement]']").click(function() {
+  $("#include_continued_support_statement").fadeIn('slow');
 })
 
-// Q5 - A statement of continued support is required
-$("input[name='communication_on_progress[include_continued_support_statement]']").click(function() {
-  if ($("#communication_on_progress_include_continued_support_statement_true").is(':checked')) {
-    $("#include_continued_support_statement").fadeIn('slow');
-    $("#reject_cop").hide();
-    $("#text_d").hide();
+// Do you have operations in high-risk and/or conflict-affected areas?
+$("input[name='communication_on_progress[references_business_peace]']").click(function() {
+  if ($("#communication_on_progress_references_business_peace_true").is(':checked')) {
+    $("#business_peace_tab").slideDown();
+    showAndEnableTabbedSection("#business_peace_additional_questions");
   }
   else {
-    $("#include_continued_support_statement").fadeIn('slow');
-    $("#reject_cop").hide();
-    $("#text_d").hide();
+    $("#business_peace_tab").slideUp();
+    hideAndDisableTabbedSection("#business_peace_additional_questions");
   }
 })
 
-// Answered last required question, so show optional questions
+// Does your COP include a measurement of outcomes?
 $("input[name='communication_on_progress[include_measurement]']").click(function() {
   $("#method_shared_with_stakeholders").fadeIn('slow');
 })
 
-
-// Answered last required question, so show optional questions
+// Answered last required question, so show submit tab
 $("input[name='communication_on_progress[method_shared]']").click(function() {
-  $("#submit_tab").show();
-})
-
-
-// Q16 & Q17 - Additional questions
-$("input[class='additional_questions']").click(function() {
-  if ($("#communication_on_progress_additional_questions_true").is(':checked')) {
-    $(".tab_nav .additional_questions").show();
-    $("#text_m").show();
-    $("#text_p").hide();
-  }
-  else {
-    $(".tab_nav .additional_questions").hide();
-    $("#text_p").show();
-    $("#text_m").hide();
-  }
-  $("#submit_tab").show();
-
-})
-
-// Q17 - Notable program
-$("input[name='communication_on_progress[notable_program]']").click(function() {
-  // display the submit tab after a selection is made
-  $("#submit_tab").show();
+  $("#submit_tab").slideDown();
 })
 
 $("#new_cop_file").click(function(){
   $('#cop_files').append(replace_ids(cop_file_form));
 });
+
+function hideAndDisableTabbedSection(div) {
+  $(div + " input, " + div + " select").attr("disabled", "disabled");
+}
+
+function showAndEnableTabbedSection(div) {
+  $(div + " input, " + div + " select").attr("disabled", "");
+}
 
 function hideAndDisableFormElements(div) {
   $(div).hide('slow');

@@ -19,6 +19,14 @@ h1. 2012-09-17
 * From now on, people will have to click on the specific action icon
 * If there is a way to prevent this by intercepting or unbinding the click, the original JavaScript is in commit: 976b0610a808379a0b268c23c8b6ef0010b2bd97
 
+h1. 2012-09-04
+
+* We are introducing a new "Business and Peace" section for COPs, which will appear as part of the Advanced and LEAD questionnaires
+* Created a boolean (references_business_peace) similar to other issues areas to track if organization operates in high risk areas
+* If they answer yes, then the Business and Peace tab appears with the corresponding questions
+* Added another grouping area in cop_question.rb for Business and Peace questions
+* When evaluating Lead COP answers, these questions are excluded
+
 h1. 2012-08-30
 
 * Created Reports section for Local Networks
@@ -43,7 +51,7 @@ h1. 2012-08-20
 h1. 2012-08-15
 
 * removed "options[:year] ||= cop.start_year" in the cops_helpers.rb
-* start_year is no longer used an refers to the coverage dates of the COP
+* start_year is no longer used and referred to the coverage dates of the COP
 * also, the cop questions that remain the same year-to-year do not need the year specified
 * Example: <pre>cop_questions_for @communication_on_progress, :lead_un_goals</pre>
 * Compared to: <pre>cop_questions_for @communication_on_progress, :verification, :year => current_year</pre>
@@ -67,8 +75,8 @@ h1. 2012-07-31
 
 * The Reports were updated to use find_in_batches and create a temporary file before sending to the browser
 * The passengers were using excessive memory causing the server to run out of memory
-* Rails Machine had traced the problem to the records were being buffered in memory (for some reports in the tens of thousands) before creating the export file
-* The method 'render_output' was added to simple_report.rb to call render_xls by default, but can be overridden in within each report if render_xls_in_batches is preferred, which is the case for reports returning more than 1000 records
+* Rails Machine had traced the problem to the records being buffered in memory (for some reports in the tens of thousands) before creating the export file
+* The method 'render_output' was added to simple_report.rb to call render_xls by default, but can be overridden within each report if render_xls_in_batches is preferred, which is the case for reports returning more than 1000 records
 * Also, send_data was replaced with send_file by first saving all records in a temporary file
 * These changes are using less memory, but occasionally we are still seeing the process killed before the file downloads
 * We will also look into adding more options to the Reports so people can limit the number of records being downloaded by filtering

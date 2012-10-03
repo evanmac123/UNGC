@@ -41,7 +41,8 @@ class CopQuestion < ActiveRecord::Base
     'lead_un_goals'       => 'LEAD: UN Goals',
     'lead_gc'             => 'LEAD: Global Compact',
     'mandatory'           => 'Mandatory',
-    'notable'             => 'Notable'
+    'notable'             => 'Notable',
+    'business_peace'      => 'Business and Peace'
   }
 
   # for accessing particular grouping areas

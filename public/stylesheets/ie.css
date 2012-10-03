@@ -28,6 +28,9 @@ div.radio_button_group { margin: 15px 0 0 0; }
   margin: -5px 0px 0px 10px;
 }
 
+/* COP questionnaire results in Dashboard - checkmarks do not appear with fixed width */
+#main_content dd ul.questionnaire { width: auto; }
+
 /* Form fixes */
 #main_content div.fieldWithErrors input[type='text'] {border: 1px solid #F99;}
 #main_content div.fieldWithErrors input[type='radio'] {border-color: white;}

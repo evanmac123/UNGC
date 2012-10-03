@@ -24,7 +24,7 @@ class Principle < ActiveRecord::Base
                  :financial_markets    => "Financial Markets",
                  :business_development => "Business for Development",
                  :un_business          => "UN / Business Partnerships",
-                 :supply_chain         => "Supply Chain Sustainability",
+                 :supply_chain         => "Supply Chain Sustainability"
                 }
 
 

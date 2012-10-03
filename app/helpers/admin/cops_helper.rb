@@ -119,10 +119,10 @@ module Admin::CopsHelper
             content_tag(:li, content_tag(:p, a.cop_attribute.text), {:id => a.cop_attribute.id, :class => "advanced_question"}) unless a.value.present? && a.value?
           }.compact.join('')
         end
-
+      # Only one attribute so it's either a yes/no or text field answer
       else
         output = content_tag(:li, question.text, :class => 'question_group')
-        output += content_tag(:p, (answers.first.value? ? 'Yes' : 'No'), :style => 'font-weight: bold;' ) unless answers.first.text.present?
+        output += content_tag(:li, content_tag(:p, (answers.first.value? ? 'Yes' : 'No')), :class => answers.first.value? ? 'selected_question' : 'advanced_question') unless answers.first.text.present?
         output += content_tag(:p, answers.first.text) if answers.first.text.present?
       end
       content_tag :ul, output, :class => 'questionnaire'

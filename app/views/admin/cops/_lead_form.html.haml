@@ -11,6 +11,7 @@
   / Verification and Transparency (Verification)
   / UN Goals and Issues (UN Goals)
   / Engaging with the Global Compact (Global Compact)
+  / Business and Peace (Business and Peace)
 
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
@@ -33,6 +34,8 @@
     %li#un_goals_tab{:class => 'additional_questions'} <a href="#un_goals_additional_questions">&nbsp;&raquo;&nbsp;UN Goals</a>
 
     %li#global_compact_tab{:class => 'additional_questions'} <a href="#global_compact_additional_questions">&nbsp;&raquo;&nbsp;Global Compact</a>
+
+    %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_business_peace?)} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
 
     %li#submit_tab{:style => "#{css_display_style(@submitted)}"} <a id="submit_link" href="#finish">Submit your COP</a>
 
@@ -84,6 +87,7 @@
 
           #include_continued_support_statement{:style => css_display_style(@submitted)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
+            = render :partial => 'cop_business_peace_question', :locals => {:form => form}
 
             %fieldset
               %legend
@@ -94,7 +98,7 @@
             %fieldset
               %fieldset
                 %legend
-                  %span How does your organisation share its COP with stakeholders?
+                  %span How does your organization share its COP with stakeholders?
                 - CommunicationOnProgress::METHOD.each do |key, value|
                   %label
                     = form.radio_button :method_shared, key
@@ -158,6 +162,12 @@
     %h3 Engaging with the UN Global Compact
     = render :partial => 'admin/cops/texts/lead_reporting_rules.html.haml'
     %fieldset= cop_questions_for @communication_on_progress, :lead_gc
+
+  %div.tab_content{:id => "business_peace_additional_questions"}
+    %h3
+      %span.business_peace Business and Peace
+    %p How does your COP demonstrate that your company is advancing responsible business practices aligned with your commitment to the Global Compact in high-risk and/or conflict-affected areas?  These areas differ significantly from more stable operating environments and require companies to take into consideration additional factors. For the following criteria, please check the policies and practices described in your COP.
+    %fieldset= cop_questions_for @communication_on_progress, :business_peace, :year => current_year
 
   #finish.tab_content
     %fieldset

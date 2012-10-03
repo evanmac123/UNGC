@@ -375,14 +375,22 @@ class CommunicationOnProgress < ActiveRecord::Base
     if grouping
       CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", cop_attributes.collect(&:cop_question_id)])
     else
-      # don't include LEAD questions
       questions = []
-      cop_attributes.each do |a|
-        questions << a.cop_question unless Initiative.for_filter(:lead).include? a.cop_question.initiative
+      cop_attributes.each do |attribute|
+        # LEAD or Business and Peace question groups are not evaluated
+        questions << attribute.cop_question unless lead_or_business_and_peace_question(attribute)
       end
       questions
     end
 
+  end
+
+  def lead_or_business_and_peace_question(attribute)
+    if Initiative.for_filter(:lead).include? attribute.cop_question.initiative
+      true
+    elsif attribute.cop_question.grouping == 'business_peace'
+      true
+    end
   end
 
   # questions with no selected attributes

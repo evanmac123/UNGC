@@ -41,6 +41,8 @@
       :color=                     !environment
     &.anti_corruption
       :color=                     !anti_corruption
+    &.business_peace
+      :color=                     !business_peace
 
   dd
     &.indent
@@ -108,16 +110,21 @@
         :border                   none
 
     ul.questionnaire
+      :width                      500px
       :padding-bottom             20px
       li
         &.unselected_question, &.selected_question, &.advanced_question
           p
             :font-style           normal
+            :white-space          normal
+            :line-height          1.2em
             :color                #666
             :margin               3px 0
             :font-size            11px
         &.question_group
+          :line-height            1.3em
           :margin                 0px 0 5px 0
+          :white-space            normal
 
   // Basic Template
   div.principles
