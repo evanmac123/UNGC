@@ -41,6 +41,10 @@ class Comment < ActiveRecord::Base
    copy_local_network.to_i == 1 ? true : false
   end
 
+  def contact_name
+    contact.try(:name) || "Contact #{contact_id}"
+  end
+
   private
     def update_commentable_state
       if contact && contact.from_ungc?
