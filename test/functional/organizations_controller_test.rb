@@ -26,24 +26,15 @@ class OrganizationsControllerTest < ActionController::TestCase
 
         assert_equal Organization.per_page.to_s, @response.headers['Per-Page']
         assert_equal '1', @response.headers['Current-Page']
-        assert_equal '1', @response.headers['Total-Entries']
+        assert_equal '0', @response.headers['Total-Entries']
       end
 
-      should "return climate initiatives" do
+      should "return an empty response" do
         get :index, {}, :format => :json
 
         assert_response :success
         response = JSON.parse(@response.body)
-        assert_equal 1, response['organizations'].count
-      end
-
-      should "return default attributes" do
-        default_attributes = ['id', 'name','sector_name', 'country_name', 'participant']
-        get :index, {}, :format => :json
-
-        assert_response :success
-        response = JSON.parse(@response.body)
-        assert_equal default_attributes.sort, response['organizations'].first.keys.sort
+        assert_equal 0, response['organizations'].count
       end
     end
 
@@ -69,18 +60,27 @@ class OrganizationsControllerTest < ActionController::TestCase
           response = JSON.parse(@response.body)
           assert_equal 1, response['organizations'].count
         end
+
+        should "return default attributes" do
+          default_attributes = ['id', 'name','sector_name', 'country_name', 'participant']
+          get :index, {:initiative => 'climate'}, :format => :json
+
+          assert_response :success
+          response = JSON.parse(@response.body)
+          assert_equal default_attributes.sort, response['organizations'].first.keys.sort
+        end
       end
 
       context "with a page and per_page parameter" do
         should "return expected results" do
-          get :index, {:page => @page, :per_page => @per_page}, :format => :json
+          get :index, {:initiative => 'climate', :page => @page, :per_page => @per_page}, :format => :json
           assert_response :success
 
           assert_equal [], JSON.parse(@response.body)['organizations']
         end
 
         should "properly represent response headers" do
-          get :index, {:page => @page, :per_page => @per_page}, :format => :json
+          get :index, {:initiative => 'climate', :page => @page, :per_page => @per_page}, :format => :json
           assert_response :success
 
           assert_equal @per_page, @response.headers['Per-Page']
@@ -96,7 +96,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
         should "return expected attributes" do
           expected_attributes = @default_attributes.push("stock_symbol")
-          get :index, {:extras => "stock_symbol"}, :format => :json
+          get :index, {:initiative => 'climate', :extras => "stock_symbol"}, :format => :json
           assert_response :success
 
           response = JSON.parse(@response.body)
@@ -104,14 +104,14 @@ class OrganizationsControllerTest < ActionController::TestCase
         end
       end
 
-      context "with methods parameters" do
+      context "with extras parameters that are methods" do
         setup do
           @default_attributes = ['id', 'name','sector_name', 'country_name', 'participant']
         end
 
         should "return expected attributes" do
           expected_attributes = @default_attributes.push("local_network_name", "local_network_country_code")
-          get :index, {:methods => 'local_network_name,local_network_country_code'}, :format => :json
+          get :index, {:initiative => 'climate', :extras => 'local_network_name,local_network_country_code'}, :format => :json
           assert_response :success
 
           response = JSON.parse(@response.body)
@@ -119,7 +119,5 @@ class OrganizationsControllerTest < ActionController::TestCase
         end
       end
     end
-
   end
-
 end
