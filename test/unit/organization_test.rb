@@ -209,6 +209,12 @@ class OrganizationTest < ActiveSupport::TestCase
       result = JSON.parse(json)
       assert_equal ['id', 'name','sector_name', 'country_name', 'participant', 'stock_symbol'].sort, result.keys.sort
     end
+
+    should "properly interpret extras options as either only or method" do
+      json = @organization.to_json(:extras => ['stock_symbol', 'local_network_country_code'])
+      result = JSON.parse(json)
+      assert_equal ['id', 'name','sector_name', 'country_name', 'local_network_country_code', 'participant', 'stock_symbol'].sort, result.keys.sort
+    end
   end
 
   context "given an expelled company" do
