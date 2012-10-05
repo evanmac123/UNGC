@@ -321,8 +321,10 @@ class Organization < ActiveRecord::Base
     methods = ['sector_name', 'country_name']
     methods += Array(options[:methods]) if options[:methods]
 
-    options[:extras].each do |extra|
-      self.respond_to?(extra) ? methods << extra : only << extra
+    if options[:extras]
+      options[:extras].each do |extra|
+        self.respond_to?(extra) ? methods << extra : only << extra
+      end
     end
 
     super(:only => only, :methods => methods)
