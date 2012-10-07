@@ -1,9 +1,0 @@
-[submodule "vendor/plugins/state_machine"]
-	path = vendor/plugins/state_machine
-	url = git://github.com/pluginaweek/state_machine.git
-[submodule "vendor/plugins/custom-err-msg"]
-	path = vendor/plugins/custom-err-msg
-	url = git://github.com/gumayunov/custom-err-msg.git
-[submodule "vendor/plugins/nested_layouts"]
-	path = vendor/plugins/nested_layouts
-	url = git://github.com/jwigal/nested_layouts.git
