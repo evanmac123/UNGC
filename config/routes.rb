@@ -1,16 +1,27 @@
 UNGC::Application.routes.draw do
-  root => 'pages#view', :path => ["index.html"]
+  # Root
+  root :to => 'pages#view' #, :path => ["index.html"]
+
+  # Session routes
   match '/logout' => 'sessions#destroy', :as => :logout
-  match '/login' => 'sessions#new', :as => :login
+  match '/login'  => 'sessions#new', :as => :login
   resource :session
   resource :password
   match 'no_session' => 'signup#no_session', :as => :no_session
-  match '/admin/dashboard' => 'admin#dashboard', :as => :dashboard
-  match '/admin/parameters' => 'admin#parameters', :as => :parameters
-  match '/admin/cops/introduction' => 'admin/cops#introduction', :as => :cop_introduction
-  match 'admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing, :via => :get
-  match '{:controller=>"admin/pages"}' => '#index', :as => :with_options
-  match '/admin' => 'admin#dashboard', :as => :admin
+
+  # Backend routes
+  match '/admin'                    => 'admin#dashboard', :as => :admin
+  match '/admin/dashboard'          => 'admin#dashboard', :as => :dashboard
+  match '/admin/parameters'         => 'admin#parameters', :as => :parameters
+  match '/admin/cops/introduction'  => 'admin/cops#introduction', :as => :cop_introduction
+
+  match '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing, :via => :get
+
+  # These need to come before resources :pages
+  match '/admin/pages/:id/edit'   => 'admin/pages#edit', :as => :edit_page, :via => :get
+  match '/admin/page/:id.:format' => 'admin/pages#update', :as => :update_page, :via => :put
+  match '/admin/page/:id/edit'    => 'admin/pages#edit', :via => :post
+  match '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', :as => :find_page_by
 
   namespace :admin do
     resources :events do
@@ -101,32 +112,62 @@ UNGC::Application.routes.draw do
       end
     end
 
-    match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :filename => /.*/
-    match 'reports' => 'reports#index', :as => :reports
+    match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
+    
+    match 'reports'                 => 'reports#index', :as => :reports
     match 'reports/:action.:format' => 'reports#index', :as => :report
-    match '{:controller=>"learning"}' => '#index', :as => :with_options
+
+    match 'learning'         => 'learning#index', :as => :learning
+    match 'learning/:action' => 'learning'
   end
 
+  # Front-end routes
   match '/feeds/cops' => 'cops#feed', :format => 'atom'
-  match 'climate' => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
-  match 'watermandate' => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
-  match 'weps' => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
-  match 'networks' => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
-  match 'ungcweek' => 'pages#redirect_to_page', :page => '/NewsAndEvents/global_compact_week.html'
-  match 'rio_resources' => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
-  match 'leadlab' => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
-  match ':lead' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
+
+  match '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
+  match '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
+  match '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
+  match '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
+  match '/ungcweek'       => 'pages#redirect_to_page', :page => '/NewsAndEvents/global_compact_week.html'
+  match '/rio_resources'  => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
+  match '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
+  match ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
+
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
-  match '{:controller=>"participants"}' => '#index', :as => :with_options
+
+  match '/participants/search' => 'participants#search', :as => :participant_search
+  match '/participants/:navigation/:id' => 'partipants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
+  match '/participants/:id' => 'partipants#show', :as => :participant, :constraints => { :id => /.*/ }
+
+
   match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
   match 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
   match 'organizations/new/:org_type' => 'organizations#new'
-  match '{:controller=>"signup"}' => '#index', :as => :with_options
-  match '{:controller=>"case_stories"}' => '#index', :as => :with_options
-  match '{:controller=>"events"}' => '#index', :as => :with_options
-  match '{:controller=>"news"}' => '#index', :as => :with_options
+
+  # Signup
+  match '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :constraints => { :org_type => 'business' }
+  match '/HowToParticipate/Organization_Information.html' => 'signup#step1', :constraints => { :org_type => 'non_business' }
+  match '/signup/step1/:org_type'  => 'signup#step1', :as => :organization_step1
+  match '/signup/step2'            => 'signup#step2', :as => :organization_step2
+  match '/signup/step3'            => 'signup#step3', :as => :organization_step3
+  match '/signup/step4'            => 'signup#step4', :as => :organization_step4
+  match '/signup/step5'            => 'signup#step5', :as => :organization_step5
+  match '/signup/step6'            => 'signup#step6', :as => :organization_step6
+  match '/signup/step7'            => 'signup#step7', :as => :organization_step7
+
+  match '/case_story/:id' => 'case_stories#show', :as => 'case_story'
+
+  match '/events/:permalink' => 'events#show', :via => :get
+
+  # News
+  match '/news' => 'news#index', :as => :newest_headlines
+  match '/feeds/news' => 'news#index', :as => :newest_headlines, :format => 'atom'
+  match '/news/:year' => 'news#index', :as => :headline_year, :constraints => { :year => /\d{4}/ }
+  match '/news/:permalink' => 'news#show', :as => :headline, :via => :get
+
   match '/search' => 'search#index', :as => :search
-  match 'decorate/*path' => 'pages#decorate', :as => :decorate_page
-  match 'preview/*path' => 'pages#preview', :as => :preview_page
-  match '*path' => 'pages#view', :as => :view_page
+
+  match '/decorate/*path' => 'pages#decorate', :as => :decorate_page
+  match '/preview/*path' => 'pages#preview', :as => :preview_page
+  match '/*path' => 'pages#view', :as => :view_page
 end
