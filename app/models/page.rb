@@ -49,15 +49,13 @@ class Page < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  scope :all_versions_of, lambda {
-    return {} if path.blank?
-    where("pages.path = ?", path)
-  }
-
   scope :for_navigation, where("display_in_navigation" => true)
   scope :earlier_versions_than, lambda { |version_number| where("pages.version_number < ?", version_number).order("pages.version_number DESC") }
   scope :later_versions_than, lambda { |version_number| where("pages.version_number > ?", version_number).order("pages.version_number ASC") }
 
+  def self.all_versions_of(path)
+    where("pages.path = ?", path)
+  end
 
   def self.approved_for_path(path)
     approved.find_by_path path
