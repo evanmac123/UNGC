@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class RoleTest < ActiveSupport::TestCase
-  should_validate_presence_of :name, :description
-  should_belong_to :initiative
+  should validate_presence_of :name
+  should validate_presence_of :description
+  should belong_to :initiative
 
   def setup_organizations_and_users
     create_organization_and_user

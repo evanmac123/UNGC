@@ -1,10 +1,10 @@
 require 'test_helper'
 
 class CopQuestionTest < ActiveSupport::TestCase
-  should_validate_presence_of :text
-  should_have_many :cop_attributes
-  should_belong_to :principle_area
-  should_belong_to :initiative
+  should validate_presence_of :text
+  should have_many :cop_attributes
+  should belong_to :principle_area
+  should belong_to :initiative
 
   context "given an organization in no initiatives" do
     setup do

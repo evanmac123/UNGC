@@ -1,9 +1,10 @@
 require 'test_helper'
 
 class LogoCommentTest < ActiveSupport::TestCase
-  should_validate_presence_of :contact_id, :body
-  should_belong_to :logo_request
-  should_belong_to :contact
+  should validate_presence_of :contact_id
+  should validate_presence_of :body
+  should belong_to :logo_request
+  should belong_to :contact
 
   context "give a new logo request" do
     setup do

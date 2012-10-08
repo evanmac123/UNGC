@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ExchangeTest < ActiveSupport::TestCase
-  should_validate_presence_of :name, :code
-  should_belong_to :country
+  should validate_presence_of :name
+  should validate_presence_of :code
+  should belong_to :country
 end
