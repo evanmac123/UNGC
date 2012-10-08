@@ -16,6 +16,9 @@ class ActiveSupport::TestCase
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
 
+  # Explicitly load example data
+  FixtureReplacement.load_example_data
+
   def as(user)
     user.try(:id) ? {:user_id => user.id} : {}
   end
