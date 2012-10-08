@@ -1,3 +1,5 @@
+require 'ostruct'
+
 class LocalNetworkEventSearch < OpenStruct
   def results
     @results ||= perform_search

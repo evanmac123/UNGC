@@ -43,6 +43,7 @@
 #  replied_to                 :boolean(1)
 #  reviewer_id                :integer(4)
 #
+require 'ostruct'
 
 class CaseStory < ActiveRecord::Base
   include ApprovalWorkflow
