@@ -17,7 +17,7 @@ gem 'thinking-sphinx',      '~> 2.0.10'
 gem 'state_machine',        '~> 1.1.2'
 gem 'acts_as_tree_rails3',  '~> 0.1.0'
 gem 'annotate',             '~> 2.5.0'
-gem 'fixture_replacement',  '~> 3.0.1'
+gem 'fixture_replacement',  :git => 'git://github.com/smtlaissezfaire/fixturereplacement.git', :branch => 'master'
 gem 'custom_error_message', :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
 
 group :assets do
@@ -35,7 +35,7 @@ group :development do
 end
 
 group :test do
-  gem 'shoulda',        '~> 2.10.3'
+  gem "shoulda",          '~> 3.3.0'
 end
 
 group :production do
