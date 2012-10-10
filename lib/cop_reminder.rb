@@ -1,6 +1,6 @@
 class CopReminder
   def initialize
-    @logger = Logger.new(File.join(RAILS_ROOT, 'log', 'cop_reminder.log'))
+    @logger = Logger.new(File.join(Rails.root, 'log', 'cop_reminder.log'))
   end
 
   def notify_all

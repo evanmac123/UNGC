@@ -10,7 +10,7 @@ end
 class ImportTempTables
 
   def run
-    @data_folder = File.join(RAILS_ROOT, 'lib/un7_tables')
+    @data_folder = File.join(Rails.root, 'lib/un7_tables')
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
 
     CSV.foreach(file, :headers => :first_row) do |row|

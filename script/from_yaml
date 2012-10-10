@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
-require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+require File.dirname(__FILE__) + '/../config/environment' unless defined?(Rails.root)
 require 'pp'
 
 [Content, Navigation].each do |thing|
   puts "Clear #{thing.to_s}"
   thing.delete_all
   puts "Loading #{thing.to_s}"
-  stuff = YAML.load_file(Dir["#{RAILS_ROOT}/db/yaml/#{thing.to_s}.*.yml"].last)
+  stuff = YAML.load_file(Dir["#{Rails.root}/db/yaml/#{thing.to_s}.*.yml"].last)
   stuff.each do |item|
     puts " creating #{thing} ##{item['id']}"
     thing.create item

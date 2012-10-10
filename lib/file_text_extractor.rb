@@ -21,7 +21,7 @@ module FileTextExtractor
 
   def get_text_from_word(path)
     Rails.logger.info "Extracting text from Word: #{path.inspect}"
-    safe_get_text_command("#{RAILS_ROOT}/script/word_import", path)
+    safe_get_text_command("#{Rails.root}/script/word_import", path)
   end
 
   def safe_get_text_command(command, file)

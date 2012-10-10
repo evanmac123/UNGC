@@ -3,7 +3,7 @@ class CopStatusUpdater
   class << self
 
     def log (method="info", string)
-      @logger = Logger.new(File.join(RAILS_ROOT, 'log', 'cop_reminder.log'))
+      @logger = Logger.new(File.join(Rails.root, 'log', 'cop_reminder.log'))
       @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
     end
 
