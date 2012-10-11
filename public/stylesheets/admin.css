@@ -282,6 +282,8 @@ ul.nav_bar {
           background-image: url('../images/icons/Folder (Open)_16x16.png'); }
         #main_content table.dashboard_table ul.actions a.users {
           background-image: url('../images/icons/Users_16x16.png'); }
+        #main_content table.dashboard_table ul.actions a.organization {
+          background-image: url('../images/icons/Show_Organization_16x16.png'); }
   #main_content dl {
     margin-bottom: 2em;
     width: 45%;
@@ -311,7 +313,7 @@ ul.nav_bar {
       #main_content dl dt.first, #main_content dl dt.title {
         border: none; }
     #main_content dl dd {
-      white-space: nowrap;
+      white-space: normal;
       margin-left: 150px;
       padding: 10px 10px 10px 0;
       border-top: 1px solid #999; }
