@@ -16,8 +16,8 @@
     %th Actions
   - @report.records.each do |org|
     %tr
-      %td{:title => org.name}= link_to truncate(org.name), admin_organization_path(org.id)
-      %td= link_to truncate(org.last_approved_cop.title), admin_organization_communication_on_progress_path(org.id, org.last_approved_cop), :title => org.last_approved_cop.title
+      %td{:title => org.name}= truncate(org.name)
+      %td{:title => org.last_approved_cop.title}= truncate org.last_approved_cop.title
       %td= org.last_approved_cop.differentiation_level_name
       %td= !org.last_approved_cop.is_grace_letter? && org.last_approved_cop.missing_items? ? 'Yes': ''
       %td= org.last_approved_cop.lead_cop_is_incomplete? ? 'Yes': ''
@@ -25,4 +25,5 @@
       %td= org.cop_due_on.strftime('%Y-%m-%d')
       %td
         %ul.actions
-          =link_to 'View Details', admin_organization_communication_on_progress_path(org.id, org.last_approved_cop), :title => "View Details", :class => "preview"
+          %li=link_to 'View Details', admin_organization_path(org.id), :title => "View Organization Details", :class => "organization"
+          %li=link_to 'View Details', admin_organization_communication_on_progress_path(org.id, org.last_approved_cop), :title => "View COP Details", :class => "preview"

@@ -18,7 +18,14 @@ module Admin::LocalNetworksHelper
   end
 
   def participant_fees(local_network)
-    local_network.fees_participant ? "Member fees are required" : "Member fees are not required"
+    case local_network.fees_participant
+      when nil
+        "Not reported"
+      when true
+        "Member fees are required"
+      when false
+        "Member fees are not required"
+    end
   end
 
   def current_user_can_edit_network?
