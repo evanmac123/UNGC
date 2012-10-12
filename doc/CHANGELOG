@@ -1,3 +1,11 @@
+h1. 2012-10-12
+
+* There was rule change for evaluating LEAD COPs
+* For Blueprint criteria where cop_question.initiative is Global Compact Lead, companies only have to cover one best practice (cop_attribute) within each cop_question
+* This is the same rule applied for the Advanced question groups
+* Removed the method requiring all cop_attributes for a given cop_question to be covered since that rule no longer exists
+* Revised results screens and email to display question group
+
 h1. 2012-09-29
 
 * No longer using old_id to identify specific Roles
@@ -46,7 +54,6 @@ h1. 2012-08-20
 * Many of those columns were for questions only asked for about 2 months. Nothing was done with that information anyway
 * See the database export from 2012-08-21 if you ever need to see what those values were
 * Those questions were only asked for about 2 months and nothing was done with the information in those columns anyway
-
 * The previous url1..3 columns where copied to cop_links with the same timestamps as the COP and the language set to 1: Unknown
 
 h1. 2012-08-15

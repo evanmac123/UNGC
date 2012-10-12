@@ -266,7 +266,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_grace_letter?
-    # FIXME: self.format was throwing an exception
+    # self.format does not work since 'format' is a reserved keyword in MySQL
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
 
@@ -377,20 +377,12 @@ class CommunicationOnProgress < ActiveRecord::Base
     else
       questions = []
       cop_attributes.each do |attribute|
-        # LEAD or Business and Peace question groups are not evaluated
-        questions << attribute.cop_question unless lead_or_business_and_peace_question(attribute)
+        # Business and Peace question groups are not evaluated
+        questions << attribute.cop_question unless attribute.cop_question.grouping == 'business_peace'
       end
       questions
     end
 
-  end
-
-  def lead_or_business_and_peace_question(attribute)
-    if Initiative.for_filter(:lead).include? attribute.cop_question.initiative
-      true
-    elsif attribute.cop_question.grouping == 'business_peace'
-      true
-    end
   end
 
   # questions with no selected attributes
@@ -402,25 +394,9 @@ class CommunicationOnProgress < ActiveRecord::Base
     CopQuestion.find(missing)
   end
 
-  # questions that do not have all attributes selected
-  def questions_not_fully_covered(grouping = nil)
-    missing = []
-    answered_questions(grouping).each do |question|
-      missing << question.id if question.cop_attributes.count > number_question_attributes_covered(question.id)
-    end
-    CopQuestion.find(missing)
-  end
-
   # get specific cop_answers not answered for a particular COP Question group
   def missing_answers_for_group(grouping)
     cop_answers.not_covered_by_group(grouping)
-  end
-
-  def lead_cop_is_incomplete?
-    is_blueprint_level? &&
-      questions_missing_answers.any? ||
-      questions_not_fully_covered('lead_un_goals').any? ||
-      questions_not_fully_covered('lead_gc').any?
   end
 
   def evaluated_for_differentiation?
