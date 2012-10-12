@@ -8,7 +8,7 @@
     %h3 Blueprint
     %p Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website.
 
-    - if communication_on_progress.lead_cop_is_incomplete?
+    - if communication_on_progress.questions_missing_answers.any?
       %p We would like to inform you that, according to your self-assessment, your COP is missing the following elements required for LEAD companies:
       %dl{:style => 'width: 100%;'}
         %dt.first Missing or<br />incomplete criteria
@@ -22,7 +22,7 @@
       = render :partial => results_partial, :locals => { :communication_on_progress => communication_on_progress }
   #next_steps.tab_content
     %h3 Blueprint
-    - if communication_on_progress.missing_items? || communication_on_progress.lead_cop_is_incomplete?
+    - if communication_on_progress.missing_items? || communication_on_progress.questions_missing_answers.any?
       %p== Please send an updated document or supplementary note covering the missing elements within the next 3 months or by <strong>#{dd_month_yyyy communication_on_progress.created_at + 3.months}</strong> to #{mail_to 'lead@unglobalcompact.org'}.
       %dl{:style => 'width: 100%;'}
         %dt Missing or<br />incomplete criteria

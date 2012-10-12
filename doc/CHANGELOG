@@ -1,3 +1,11 @@
+h1. 2012-10-12
+
+* There was rule change for evaluating LEAD COPs
+* For Blueprint criteria where cop_question.initiative is Global Compact Lead, companies only have to cover one best practice (cop_attribute) within each cop_question
+* This is the same rule applied for the Advanced question groups
+* Removed the method requiring all cop_attributes for a given cop_question to be covered since that rule no longer exists
+* Revised results screens and email to display question group
+
 h1. 2012-09-29
 
 * No longer using old_id to identify specific Roles

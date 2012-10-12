@@ -1,6 +1,6 @@
 %p== Dear #{@user.name_with_title},
 
-- if @cop.missing_items? || @cop.lead_cop_is_incomplete?
+- if @cop.missing_items? || @cop.questions_missing_answers.any?
 
   %p== Thank you for submitting your company's Communication on Progress (COP) on implementing the <em>Blueprint for Corporate Sustainability Leadership</em>. It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website.
   %p We would like to notify you that your COP is missing the following required elements:

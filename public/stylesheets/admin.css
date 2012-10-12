@@ -1010,7 +1010,8 @@ ul.cop-question-year-filter li {
 #main_content dd ul.self_assessment {
   padding-left: 23px; }
   #main_content dd ul.self_assessment li {
-    border: none; }
+    border: none;
+    white-space: normal; }
 #main_content dd ul.questionnaire {
   width: 500px;
   padding-bottom: 20px; }
