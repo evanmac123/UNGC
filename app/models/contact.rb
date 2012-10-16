@@ -114,7 +114,8 @@ class Contact < ActiveRecord::Base
 
    named_scope :for_local_network, {
      :include    => [:roles, {:organization => [:sector, :country, :organization_type]}, :country],
-     :conditions => ["contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point]]
+     :conditions => ["contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point]],
+     :order      => "organizations.name"
    }
 
   named_scope :participants_only, { :conditions => ["organizations.participant = ?", true] }
