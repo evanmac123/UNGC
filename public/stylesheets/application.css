@@ -60,18 +60,8 @@ div.click_to_edit a:hover {
   background: url(/images/btn_next.gif) right center no-repeat;
 }
 
-.left {
-  display: block;
-  float: left;
-  width: 47%;
-}
-
-.right {
-  display: block;
-  float: right;
-  width: 47%;
-  text-align: right;
-}
+.left { display: block; float: left; width: 47%;}
+.right { display: block; float: right; width: 47%; text-align: right; }
 
 body                  #inner_head { background: url(/images/banner_default.png); }
 body.search_website   #inner_head { background: url(/images/banner_search_website.png); }
@@ -301,6 +291,11 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
 #rightcontent .copy ul { list-style: disc; margin: 0 0 10px 40px; }
 #rightcontent .copy ol li, #rightcontent .copy ul li { font-size: 12px; line-height: 19px; }
+
+#rightcontent .copy ul.links { list-style: none; margin: 10px 0 10px 0px; }
+#rightcontent .copy ul.links li { line-height: 2.2em; }
+#rightcontent .copy a.pdf { padding: 6px 0 0 25px; background: url('../pics/un_images/pdf.gif') no-repeat left center; }
+
 #rightcontent .highlight { float: right; width: 150px; margin: 0px 0px 15px 25px; border: 1px solid #ccc; padding: 0px 10px; }
 #rightcontent .highlight h1 { font-size: 14px; position: relative; top: 15px; left: 3px; }
 #rightcontent .highlight ul { list-style: none; margin-left: 0px; padding: 8px 0px 0px 0px; }
