@@ -3,8 +3,8 @@ module LocalNetworkHelper
   def local_network
     unless @local_network
       if params[:path].last && params[:path].last.is_a?(String)
-        country_code = params[:path].last.gsub(/\.html/, '')
-        @local_network = Country.find_by_code(country_code).local_network
+        @country_code = params[:path].last.gsub(/\.html/, '')
+        @local_network = Country.find_by_code(@country_code).local_network
       end
     end
     @local_network
@@ -54,30 +54,31 @@ module LocalNetworkHelper
   end
 
   def link_to_annuaL_report_if_file_exists
-    if local_network
-
-      # get country code from path
-      if params[:path].last && params[:path].last.is_a?(String)
-        country_code = params[:path].last.gsub(/\.html/, '')
-      end
-
+    unless local_network.nil?
       html = ''
-
-      [2010,2009].each do |year|
-        filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{country_code}_#{year}.pdf"
+      [2011,2010,2009].each do |year|
+        filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{@country_code}_#{year}.pdf"
         if FileTest.exists?("public/#{filename}")
-          html += content_tag :li, link_to("#{year} #{local_network.try(:name)} (pdf)", filename)
-        else
-          html += content_tag :li, "No report for #{year}"
+          html += content_tag :li, link_to("#{year} #{local_network.try(:name)} Report", filename, {:class => 'pdf'})
         end
       end
-
-     content_tag :ul, html
-
-    else
-      return nil
+     content_tag :ul, html, :class => 'links'
     end
+  end
 
+  def link_to_value_proposition_if_file_exists
+    unless local_network.nil?
+      html = ''
+      [2011].each do |year|
+        filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{@country_code}_VP.pdf"
+        if FileTest.exists?("public/#{filename}")
+          html += content_tag :li, link_to("#{local_network.try(:name)} - Value Proposition", filename, {:class => 'pdf'})
+        else
+          html += content_tag :li, "No document is available"
+        end
+      end
+     content_tag :ul, html, :class => 'links'
+    end
   end
 
   def link_to_public_profile(local_network)

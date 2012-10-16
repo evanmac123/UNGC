@@ -2,8 +2,15 @@
   %h3 Website
   =p_with_link_to_local_network
 
-%h3 Local Network Reports
-=link_to_annuaL_report_if_file_exists
+.left
+  %h3 Local Network Reports
+  =link_to_annuaL_report_if_file_exists
+
+.right{ :style => "text-align: left;" }
+  %h3 Benefits of Participation
+  =link_to_value_proposition_if_file_exists
+
+.clearfix
 
 %hr/
 
@@ -14,7 +21,7 @@
     - for contact in local_network_contacts do
       %p
         = formatted_local_network_contact_info(contact)
-  .right{ :style => "text-align: left" }
+  .right{ :style => "text-align: left;" }
     %h2
       Participant Information
     %p
