@@ -9,9 +9,19 @@
 
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
+    %li
+      %a{:href => "#all_networks"} All Networks
     - Country::REGIONS.each_pair do |key, value|
       %li
         %a{:href => "##{key}"}== #{value}
+
+  .tab_content{:id => 'all_networks'}
+    %table.dashboard_table
+      %tr
+        %th= sort_header 'Name',  field: 'name',  tab: 'all_networks'
+        %th= sort_header 'Stage', field: 'state', tab: 'all_networks'
+        %th.actions Actions
+      = render @local_networks
 
   - Country::REGIONS.each_pair do |key, value|
     .tab_content{:id => key}
