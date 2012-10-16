@@ -10,11 +10,25 @@ module Admin::LocalNetworksHelper
   end
 
   def legal_status(local_network)
-    local_network.sg_established_as_a_legal_entity ? "Established as legal entity" : "No legal status"
+    case local_network.sg_established_as_a_legal_entity
+      when nil
+        "Not reported"
+       when true
+         "Established as legal entity"
+       when false
+         "No legal status"
+    end
   end
 
   def subsidiary_participation(local_network)
-    local_network.membership_subsidiaries ? "Yes, in Local Network activities" : "None"
+    case local_network.membership_subsidiaries
+      when nil
+        "Not reported"
+       when true
+         "Yes, in Local Network activities"
+       when false
+         "None"
+    end
   end
 
   def participant_fees(local_network)
