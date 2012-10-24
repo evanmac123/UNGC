@@ -193,17 +193,6 @@ class Contact < ActiveRecord::Base
     }
   }
 
-  named_scope :network_monthly_reports, lambda {
-     roles = []
-      roles << Role.network_report_recipient
-      roles << Role.network_monthly_report
-      {
-        :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-        :conditions => ["contacts_roles.role_id IN (?)", roles],
-        :order      => "roles.name DESC"
-      }
-  }
-
   named_scope :network_regional_managers, lambda {
     role = Role.network_regional_manager
     {
