@@ -101,6 +101,6 @@ module NavigationHelper
   end
 
   def convert_to_entities(text)
-    text.gsub(/[&]/,"&amp;")
+    text.gsub(/[&]/,"&amp;") unless text == nil
   end
 end
