@@ -142,6 +142,7 @@ ActionController::Routing::Routes.draw do |map|
     :action => 'show',
     :requirements => { id: /\d+/ }
 
+  map.resources :organizations, :only => :index
   # shortcut for new organization
   map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
   map.with_options :controller => 'signup' do |signup|
