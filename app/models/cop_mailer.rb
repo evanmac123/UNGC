@@ -52,7 +52,7 @@ class CopMailer < ActionMailer::Base
   end
 
   def cop_due_in_90_days(organization)
-    from EMAIL_SENDER
+    from 'cop@unglobalcompact.org'
     cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact COP Deadline - 90 Days"
@@ -62,7 +62,7 @@ class CopMailer < ActionMailer::Base
   end
 
   def cop_due_in_30_days(organization)
-    from EMAIL_SENDER
+    from 'cop@unglobalcompact.org'
     bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact COP Deadline - 30 Days"
     content_type "text/html"
@@ -71,7 +71,7 @@ class CopMailer < ActionMailer::Base
   end
 
   def cop_due_today(organization)
-    from EMAIL_SENDER
+    from 'cop@unglobalcompact.org'
     cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact COP Deadline - Today"
@@ -81,7 +81,7 @@ class CopMailer < ActionMailer::Base
   end
 
   def delisting_in_90_days(organization)
-    from EMAIL_SENDER
+    from 'cop@unglobalcompact.org'
     cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact Expulsion in 3 months"
@@ -91,7 +91,7 @@ class CopMailer < ActionMailer::Base
   end
 
   def delisting_in_30_days(organization)
-    from EMAIL_SENDER
+    from 'cop@unglobalcompact.org'
     cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
     subject "Urgent - UN Global Compact Expulsion in 30 days"
@@ -101,7 +101,7 @@ class CopMailer < ActionMailer::Base
   end
 
   def delisting_today(organization)
-    from EMAIL_SENDER
+    from 'cop@unglobalcompact.org'
     cc organization.network_report_recipients.collect(&:email_recipient)
     bcc 'vkeesari@yahoo.com'
     subject "UN Global Compact Status - Expelled"
