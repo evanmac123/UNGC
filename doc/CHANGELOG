@@ -1,3 +1,10 @@
+h1. 2012-11-12
+
+* Added a JSON feed to return organizations signed onto the "Caring for Climate":http://caringforclimate.org/about/list-of-signatories/ initiative
+* Additional model attributes and methods can be requested through the 'extras' parameter
+* Ex: http://localhost:8080/organizations.json?initiative=climate&extras=stock_symbol,state
+* The Organizations controller assumes that an initiative will be requested. We may decide to open this up to allow any type of organization to be returned
+
 h1. 2012-10-12
 
 * There was rule change for evaluating LEAD COPs
