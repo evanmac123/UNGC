@@ -98,7 +98,7 @@ module ParticipantsHelper
   def nice_date_from_param(join_date)
     month, day, year = params[join_date].split('/')
     parsed_date = Date.parse([year,month,day].join('-'))
-    parsed_date.strftime("%e&nbsp;%B,&nbsp;%Y")
+    params[join_date].to_date.strftime("%e&nbsp;%B,&nbsp;%Y")
   end
 
   def searched_for
@@ -150,7 +150,7 @@ module ParticipantsHelper
         response << " of type #{organization_type.try(:name) || 'unknown'}" unless @searched_for[:organization_type_id].blank?
         response << " from #{countries_list}" unless @searched_for[:country_id].blank?
       else
-        response << pluralize(@results.total_entries, 'participant')
+        response << pluralize(@results.total_entries, 'organization')
       end
 
       response << " from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?

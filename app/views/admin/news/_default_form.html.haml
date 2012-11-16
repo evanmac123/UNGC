@@ -2,7 +2,7 @@
   %ol
     -# The order of class/label is important, see default_form_builder
     = default_form.text_field :title
+    = default_form.text_field :published_on, {class: 'datepicker iso-date'}, {label: "Published on"}
     = default_form.text_field :location
     = default_form.select :country_id, countries_for_select
-    = default_form.date_select :published_on, {:order => [:day, :month, :year]}, {:li_class => 'date', :label => 'Published on'}
-    = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Body" }
+    = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Body"}
