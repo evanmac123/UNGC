@@ -79,6 +79,7 @@ class Organization < ActiveRecord::Base
   before_save :check_micro_enterprise_or_sme
   before_save :set_non_business_sector
   before_save :set_initiative_signatory_sector
+  before_destroy :delete_contacts
 
   has_attached_file :commitment_letter
 
@@ -767,6 +768,13 @@ class Organization < ActiveRecord::Base
         elsif employees >= 250
           self.organization_type_id = OrganizationType.try(:company).try(:id)
         end
+      end
+    end
+
+    def delete_contacts
+      contacts.each do |c|
+        c.roles.delete_all
+        c.delete
       end
     end
 

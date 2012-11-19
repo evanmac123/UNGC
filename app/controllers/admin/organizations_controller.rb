@@ -54,8 +54,10 @@ class Admin::OrganizationsController < AdminController
   end
 
   def destroy
-    @organization.destroy
-    redirect_to( admin_organizations_path )
+    if @organization.destroy
+      flash[:notice] = 'Organization was deleted.'
+      redirect_to( admin_organizations_path )
+    end
   end
 
   # switch roles of CEO / Contact Point and transfer login

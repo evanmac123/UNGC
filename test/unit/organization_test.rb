@@ -15,6 +15,17 @@ class OrganizationTest < ActiveSupport::TestCase
   should_belong_to :exchange
   should_belong_to :country
 
+  context "given an existing organization with a contact and ceo" do
+    setup do
+      create_organization_and_ceo
+    end
+    should "delete both contacts when deleting organization" do
+       assert_difference "Contact.count", -2 do
+         @organization.destroy
+        end
+    end
+  end
+
   context "given a new organization" do
     setup do
       @companies = create_organization_type(:name => 'Company')
