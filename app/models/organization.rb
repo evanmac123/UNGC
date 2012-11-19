@@ -79,6 +79,7 @@ class Organization < ActiveRecord::Base
   before_save :check_micro_enterprise_or_sme
   before_save :set_non_business_sector
   before_save :set_initiative_signatory_sector
+  before_destroy :delete_contacts
 
   has_attached_file :commitment_letter
 
@@ -636,18 +637,6 @@ class Organization < ActiveRecord::Base
     self.update_attribute :cop_state, Organization::COP_STATE_DELISTED if self.participant?
   end
 
-  def delisted_on_string=(date_or_string)
-    if date_or_string.is_a?(String)
-      self.write_attribute(:delisted_on, Date.strptime(date_or_string, '%m/%d/%Y'))
-    elsif date_or_string.is_a?(Date)
-      self.write_attribute(:delisted_on, date_or_string)
-    end
-  end
-
-  def delisted_on_string
-    (delisted_on || Date.today).strftime('%m/%d/%Y')
-  end
-
   # predict delisting date based on current status and COP due date
   # only one year of non-communicating is assumed
   def delisting_on
@@ -779,6 +768,13 @@ class Organization < ActiveRecord::Base
         elsif employees >= 250
           self.organization_type_id = OrganizationType.try(:company).try(:id)
         end
+      end
+    end
+
+    def delete_contacts
+      contacts.each do |c|
+        c.roles.delete_all
+        c.delete
       end
     end
 

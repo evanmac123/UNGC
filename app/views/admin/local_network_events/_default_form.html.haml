@@ -19,7 +19,7 @@
       %legend General Information
       %ol
         = default_form.select      :event_type, options_for_select(select_options_from_hash(LocalNetworkEvent::TYPES), @submodel.event_type_for_select_field), :label => 'Type'
-        = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
+        = default_form.text_field  :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
         = default_form.text_field  :title, :label => 'Title'
         = default_form.text_area   :description, :label => 'Description'
 

@@ -12,6 +12,13 @@
           %li
             %label Country
             = select_tag :country, options_for_select(Country.all.map{|c| [c.name, c.id]}, ''), :multiple => true, :size => 6
+          %li
+            %label{:for => 'joined_after'} Accepted after
+            = text_field_tag :joined_after, nil, :class => 'datepicker iso-date'
+          %li
+            %label{:for => 'joined_before'} Accepted before
+            = text_field_tag :joined_before, nil, :class => 'datepicker iso-date'
+
       %fieldset
         %legend Type of Organization
         %ol
@@ -24,14 +31,5 @@
           %li
             = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
             %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}", :style => 'width: 150px'} Non-business
-
-      / %fieldset
-      /   %ol
-      /     %li
-      /       %label{:for => 'joined_after_year'} Participant since
-      /       = text_field_tag :published_on_string, nil, :class => 'datepicker'
-      /       = select_year(nil, {:start_year => 2000, :end_year => Date.today.year, :prefix => 'joined_after', :include_blank => true }, {:style => 'width: 60px'})
-      /       = select_month(nil, {:prefix => 'joined_after', :include_blank => true }, :style => 'width: 150px')
-      /       = select_day(nil, {:prefix => 'joined_after', :include_blank => true }, :style => 'width: 60px')
 
       = submit_tag 'Search', :class => 'button'

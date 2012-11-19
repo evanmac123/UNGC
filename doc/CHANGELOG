@@ -1,3 +1,8 @@
+h1. 2012-11-19
+
+* Added callback method to delete associated contacts and roles when an organization is deleted
+* This was necessary to bypass the destroy callback methods in the Contact model
+
 h1. 2012-11-12
 
 * Added a JSON feed to return organizations signed onto the "Caring for Climate":http://caringforclimate.org/about/list-of-signatories/ initiative

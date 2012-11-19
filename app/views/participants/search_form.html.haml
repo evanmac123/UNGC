@@ -24,12 +24,12 @@
           %dt
             %label.date{:for => :joined_after} between
           %dd
-          = text_field_tag :joined_after, nil, :class => 'datepicker', :size => 11
+          = text_field_tag :joined_after, nil, :class => 'datepicker iso-date', :size => 11
         %dl.left.dates
           %dt
             %label.date{:for => :joined_before, :style => 'margin-left: 20px;'} and
           %dd
-            = text_field_tag :joined_before, nil, :class => 'datepicker', :size => 11
+            = text_field_tag :joined_before, nil, :class => 'datepicker iso-date', :size => 11
 
     %fieldset
       %legend Participants

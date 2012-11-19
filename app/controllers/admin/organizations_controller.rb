@@ -54,8 +54,10 @@ class Admin::OrganizationsController < AdminController
   end
 
   def destroy
-    @organization.destroy
-    redirect_to( admin_organizations_path )
+    if @organization.destroy
+      flash[:notice] = 'Organization was deleted.'
+      redirect_to( admin_organizations_path )
+    end
   end
 
   # switch roles of CEO / Contact Point and transfer login
@@ -159,14 +161,13 @@ class Admin::OrganizationsController < AdminController
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]
-      # filter_options_for_joined_on(options)
+      filter_options_for_joined_on(options) if params[:joined_after].present? && params[:joined_before].present?
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
-      @searched_for = options[:with].merge(:keyword      => keyword)
-                                    # .merge(:joined_after => date_from_params(:joined_after))
+      @searched_for = options[:with].merge(:keyword => keyword)
       options.delete(:with) if options[:with] == {}
       #logger.info " ** Organizations search with options: #{options.inspect}"
-      @results = Organization.search keyword || '', options
+      @results = Organization.search keyword || nil, options
 
       if @results.total_entries > 0
         render :action => 'search_results'
@@ -204,13 +205,12 @@ class Admin::OrganizationsController < AdminController
 
     def filter_options_for_joined_on(options)
       if params[:joined_after]
-        options[:with].merge!(joined_on: date_from_params(:joined_after)..Time.now)
+        options[:with].merge!(joined_on: date_from_params(:joined_after)..date_from_params(:joined_before))
       end
     end
 
     def date_from_params(param_name)
-      Time.parse [params[param_name][:year],
-                    params[param_name][:month],
-                    params[param_name][:day]].join('-')
+      Time.parse params[param_name]
     end
+
 end

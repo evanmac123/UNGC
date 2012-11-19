@@ -5,7 +5,6 @@
   %td
     %ul.actions
       %li= link_to 'View', admin_organization_case_story_path(case_story.organization.id, case_story), :title => "View details", :class => "preview"
-      - organization_only do
-        %li= link_to 'Edit Details', edit_admin_organization_case_story_path(case_story.organization.id, case_story), :title => "Edit details", :class => "edit"
       - staff_only do
+        %li= link_to 'Edit Details', edit_admin_organization_case_story_path(case_story.organization.id, case_story), :title => "Edit details", :class => "edit"
         %li= link_to 'Delete', admin_organization_case_story_path(case_story.organization.id, case_story), :confirm => 'Are you sure?', :method => :delete, :title => "Delete entry", :class => 'delete'

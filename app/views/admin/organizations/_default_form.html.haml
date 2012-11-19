@@ -48,7 +48,7 @@
       %fieldset
         %legend Delisting Status
         %ol
-          = default_form.text_field :delisted_on_string, {class: 'datepicker'}, {:label => 'Date'}
+          = default_form.text_field :delisted_on, {class: 'datepicker iso-date'}, {:label => 'Date'}
           = default_form.select :removal_reason_id, RemovalReason.all.collect{|t| [t.description, t.id]}, {:label => 'Reason'}
 
     #non_comm_dialogue_only{:style => "#{css_display_style(@organization.non_comm_dialogue)}"}
