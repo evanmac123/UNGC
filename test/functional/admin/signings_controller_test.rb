@@ -34,6 +34,14 @@ class Admin::SigningsControllerTest < ActionController::TestCase
         assert_response :redirect
       end
     end
+
+    should "not add the same organization twice" do
+      assert_difference '@initiative.signings.count', 0 do
+        post :create, :initiative_id => @initiative.id,
+                      :signing       => {:organization_id => @organization.id,
+                                         :added_on        => Date.today}
+      end
+    end
   end
 
 end
