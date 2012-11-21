@@ -52,25 +52,25 @@ class LogoComment < ActiveRecord::Base
 
     def no_comment_on_approved_or_rejected_request
       if logo_request && (logo_request.approved? || logo_request.rejected?)
-        errors.add_to_base "cannot add comments to a #{logo_request.state} logo request"
+        errors.add :base, "cannot add comments to a #{logo_request.state} logo request"
       end
     end
 
     def approved_logos_selected_before_approving_request
       if state_event.to_s == LogoRequest::EVENT_APPROVE && logo_request.logo_files.empty?
-        errors.add_to_base "cannot add comment, unless approved logos have been selected"
+        errors.add :base, "cannot add comment, unless approved logos have been selected"
       end
     end
 
     def organization_user_cannot_approve_or_reject
       if state_event.to_s == LogoRequest::EVENT_APPROVE || state_event.to_s == LogoRequest::EVENT_REJECT
-        errors.add_to_base "cannot approve/reject comment, unless UNGC staff" unless contact.from_ungc?
+        errors.add :base, "cannot approve/reject comment, unless UNGC staff" unless contact.from_ungc?
       end
     end
 
     def first_comment_needs_a_file
       unless logo_request && logo_request.logo_comments.with_attachment.any?
-        errors.add_to_base "requires a PDF/Word file" unless attachment_file_name
+        errors.add :base, "requires a PDF/Word file" unless attachment_file_name
       end
     end
 

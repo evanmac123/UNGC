@@ -292,14 +292,14 @@ class Contact < ActiveRecord::Base
 
     def keep_at_least_one_ceo
       if self.is?(Role.ceo) && self.organization.contacts.ceos.count <= 1
-        errors.add_to_base "cannot delete CEO, at least 1 CEO should be kept at all times"
+        errors.add :base, "cannot delete CEO, at least 1 CEO should be kept at all times"
         return false
       end
     end
 
     def keep_at_least_one_contact_point
       if self.is?(Role.contact_point) && self.organization.contacts.contact_points.count <= 1
-        errors.add_to_base "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
+        errors.add :base, "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
         return false
       end
     end
@@ -307,7 +307,7 @@ class Contact < ActiveRecord::Base
     def do_not_allow_last_contact_point_to_uncheck_role
       if self.from_organization? && self.organization.participant && !self.is?(Role.contact_point) && self.organization.contacts.contact_points.count < 1
         self.roles << Role.contact_point
-        errors.add_to_base "There should be at least one Contact Point"
+        errors.add :base, "There should be at least one Contact Point"
         return false
       end
     end
@@ -315,7 +315,7 @@ class Contact < ActiveRecord::Base
     def do_not_allow_last_ceo_to_uncheck_role
       if self.from_organization? && self.organization.participant && !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
         self.roles << Role.ceo
-        errors.add_to_base "There should be at least one Highest Level Executive"
+        errors.add :base, "There should be at least one Highest Level Executive"
         return false
       end
     end

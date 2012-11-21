@@ -209,7 +209,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def can_be_edited?
     unless self.editable?
-      errors.add_to_base("You can no longer edit this COP. Please, submit a new one.")
+      errors.add :base,("You can no longer edit this COP. Please, submit a new one.")
     end
   end
 

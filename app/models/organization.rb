@@ -673,7 +673,7 @@ class Organization < ActiveRecord::Base
       ceo.roles.delete(Role.ceo)
       true
     else
-      self.errors.add_to_base("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
+      self.errors.add :base,("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
       false
     end
 

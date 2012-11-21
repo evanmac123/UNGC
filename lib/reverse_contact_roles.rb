@@ -10,7 +10,7 @@ class ReverseContactRoles
 
 
       if organization.contacts.ceos.count == 1 && organization.contacts.contact_points.count == 1
-        # self.errors.add_to_base("Sorry, the roles could not be reversed because there is more than one contact point or CEO")
+        # self.errors.add :base,("Sorry, the roles could not be reversed because there is more than one contact point or CEO")
         puts "Reversing roles"
 
         ceo = organization.contacts.ceos.first
