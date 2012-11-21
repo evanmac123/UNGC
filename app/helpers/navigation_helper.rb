@@ -92,12 +92,12 @@ module NavigationHelper
       children = section.visible_children.map do |child|
         child_link = content_tag :a, child.title, :href => child.path
         content_tag :li, child_link
-      end
-      insides = section_link + "\n" + content_tag(:ul, children.join("\n  ") + "\n", :class => 'children') + "\n"
-      section_children_content << content_tag(:li, insides, :id => section.html_code, :class => section.html_code) + "\n"
+      end.join('').html_safe
+      insides = [section_link, content_tag(:ul, children, :class => 'children')].join('').html_safe
+      section_children_content << content_tag(:li, insides, :id => section.html_code, :class => section.html_code)
     end
-    section_children_content << login_and_logout
-    content_tag :ul, "\n" + section_children_content
+    section_children_content << login_and_logout.html_safe
+    content_tag :ul, section_children_content.html_safe
   end
 
   def convert_to_entities(text)
