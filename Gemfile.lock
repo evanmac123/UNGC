@@ -42,7 +42,7 @@ GEM
     activesupport (3.2.8)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    acts_as_commentable (3.0.1)
+    acts_as_commentable (4.0.0)
     acts_as_tree_rails3 (0.1.0)
     airbrake (3.1.6)
       builder
@@ -191,7 +191,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  acts_as_commentable (~> 3.0.1)
+  acts_as_commentable (~> 4.0.0)
   acts_as_tree_rails3 (~> 0.1.0)
   airbrake (~> 3.1.6)
   annotate (~> 2.5.0)
