@@ -18,7 +18,7 @@
 class SearchableHelper
   include ActionView::Helpers
   # include ActionView::Helpers::UrlHelper
-  include ActionController::UrlWriter
+  include Rails.application.routes.url_helpers
   # include ActionView::Helpers::SanitizeHelper
   default_url_options[:host] = DEFAULTS[:url_host]
 end

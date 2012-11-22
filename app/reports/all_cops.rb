@@ -1,6 +1,5 @@
-include ActionController::UrlWriter
+include Rails.application.routes.url_helpers
 class AllCops < SimpleReport
-
   def records
     CommunicationOnProgress.all_cops
   end

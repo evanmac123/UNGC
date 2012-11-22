@@ -1,4 +1,4 @@
-include ActionController::UrlWriter
+include Rails.application.routes.url_helpers
 class CopRequiredElements < SimpleReport
 
   def records

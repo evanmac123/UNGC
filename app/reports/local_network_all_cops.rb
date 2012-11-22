@@ -1,4 +1,4 @@
-include ActionController::UrlWriter
+include Rails.application.routes.url_helpers
 class LocalNetworkAllCops < SimpleReport
 
   def records
