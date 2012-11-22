@@ -19,6 +19,7 @@ gem 'acts_as_tree_rails3',  '~> 0.1.0'
 gem 'annotate',             '~> 2.5.0'
 gem 'fixture_replacement',  :git => 'git://github.com/smtlaissezfaire/fixturereplacement.git', :branch => 'master'
 gem 'custom_error_message', :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
+gem 'airbrake',             '~> 3.1.6'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -40,7 +41,6 @@ end
 
 group :production do
   gem 'scout',            '5.5.4'
-  gem 'airbrake',         '~> 3.1.2'
   gem 'passenger',        '3.0.7'
 end
 
