@@ -28,11 +28,11 @@ class CopFile < ActiveRecord::Base
            :web_cop               => 'web_cop',
            :support_statement     => 'support_statement'}
 
-  named_scope :all_files, {
-    :include => [ {:communication_on_progress => [:organization]}, :language ],
-    :conditions => ['language_id IS NOT NULL'],
-    :order => "cop_files.created_at DESC",
-  }
+  def self.all_files
+    includes([{:communication_on_progress => [:organization]}, :language ])
+      .where(['language_id IS NOT NULL'])
+      .order("cop_files.created_at DESC")
+  end
 
   def language_name
     language.try(:name)

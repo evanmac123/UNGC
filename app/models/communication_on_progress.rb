@@ -1,4 +1,4 @@
-s# == Schema Information
+# == Schema Information
 #
 # Table name: communication_on_progresses
 #
@@ -74,32 +74,16 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   default_scope :order => 'communication_on_progresses.created_at DESC'
 
-  named_scope :all_cops, {:include => [ :organization, { :organization => :country } ]}
-
-  named_scope :created_between, lambda { |start_date, end_date| {
-    :conditions => { :created_at => start_date..end_date }
-    }
-  }
-
+  scope :all_cops, includes([:organization, {:organization => [:country]}])
+  scope :created_between, lambda { |start_date, end_date| where(created_at: start_date..end_date) }
   scope :new_policy, lambda { where("created_at >= ?", Date.new(2010, 1, 1)) }
   scope :old_policy, lambda { where("created_at <= ?", Date.new(2009, 12, 31)) }
-
   scope :notable, lambda {
-    includes([:score, {:organization => [:country]}]).where("cop_scopre_id = ?", CopScore.notable.try(:id)).order("ends_on DESC")
+    includes([:score, {:organization => [:country]}]).where("cop_score_id = ?", CopScore.notable.try(:id)).order("ends_on DESC")
   }
-
   scope :advanced, where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}])
   scope :learner, where("differentiation = ?", 'learner')
-
-
-
-  named_scope :since_year, lambda { |year| {
-    :include => [ :organization, { :organization => :country,
-                                   :organization => :organization_type } ],
-    :conditions => ["created_at >= ?", Date.new(year, 01, 01) ]
-    }
-  }
-
+  scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => :country, :organization => :organization_type}]) }
   # feed contains daily COP submissions, without grace letters
   scope :for_feed, lambda { where("format != ? AND created_at >= ?", 'grace_letter', Date.today).order("created_at") }
   

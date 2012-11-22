@@ -162,28 +162,7 @@ class Organization < ActiveRecord::Base
 
   scope :active, where("organizations.active = ?", true)
   scope :participants, where("organizations.participant = ?", true)
-
-  named_scope :with_cop_info, {
-    :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
-                 :select => 'organizations.*, c.*',
-                 :joins => "LEFT JOIN (
-                            SELECT
-                              organization_id,
-                              MAX(created_at) AS latest_cop,
-                              COUNT(id) AS cop_count
-                            FROM
-                              communication_on_progresses
-                            WHERE
-                              state = 'approved'
-                            GROUP BY
-                               organization_id ) as c ON organizations.id = c.organization_id"
-  }
-
-  named_scope :withdrew, {
-   :include => :removal_reason,
-   :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew }
-  }
-
+  scope :withdrew, where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew).includes(:removal_reason)
   scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :businesses, lambda { where("organization_types.type_property = ?", OrganizationType::BUSINESS).includes(:organization_type) }
   scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
@@ -192,16 +171,9 @@ class Organization < ActiveRecord::Base
   scope :last_joined, order("joined_on DESC, name DESC")
   scope :not_delisted, where("cop_state != ?", COP_STATE_DELISTED)
 
-  scope :with_cop_due_on, lambda { |date| where(:cop_due_on => date) }
-  named_scope :with_cop_due_between, lambda { |start_date, end_date| {
-      :conditions => { :cop_due_on => start_date..end_date }
-    }
-  }
-  named_scope :delisted_between, lambda { |start_date, end_date| {
-      :conditions => { :delisted_on => start_date..end_date }
-    }
-  }
-
+  scope :with_cop_due_on, lambda { |date| where(cop_due_on: date) }
+  scope :with_cop_due_between, lambda { |start_date, end_date| where(cop_due_on: start_date..end_date) }
+  scope :delisted_between, lambda { |start_date, end_date| where(delisted_on: start_date..end_date) }
 
   scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
 
@@ -215,7 +187,6 @@ class Organization < ActiveRecord::Base
 
   scope :with_pledge, where('pledge_amount > 0')
   scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date) }
-
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
   def self.with_cop_status(filter_type)
@@ -225,7 +196,24 @@ class Organization < ActiveRecord::Base
     else
       where("cop_state = ?", COP_STATES[filter_type])
     end
-  }
+  end
+
+  def self.with_cop_info
+    select("organizations.*, c.*")
+      .joins("LEFT JOIN (
+              SELECT
+                organization_id,
+                MAX(created_at) AS latest_cop,
+                COUNT(id) AS cop_count
+              FROM
+                communication_on_progresses
+              WHERE
+                state = 'approved'
+              GROUP BY
+                 organization_id ) as c ON organizations.id = c.organization_id")
+      .includes([:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses])
+  end
+
 
   def self.visible_to(user)
     if user.user_type == Contact::TYPE_ORGANIZATION

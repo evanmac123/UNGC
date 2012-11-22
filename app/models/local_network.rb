@@ -79,15 +79,8 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   default_scope :order => 'local_networks.name'
-  named_scope :where_region, lambda { |region| {
-    :include => :countries, :conditions => {'countries.region' => region.to_s}
-    }
-  }
-
-  named_scope :where_state, lambda { |state| {
-    :conditions => {:state => state.to_s}
-    }
-  }
+  scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
+  scope :where_state, lambda { |state| where(:state => state.to_s) }
 
   STATES = { :emerging => 'Emerging', :established => 'Established', :formal => 'Formal', :hub => 'Sustainability Hub' }
 
