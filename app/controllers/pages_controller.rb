@@ -59,12 +59,6 @@ class PagesController < ApplicationController
 
   def find_content_for_staff
     @page = Page.for_path(formatted_request_path)
-    @current_version = @page.find_version_number(params[:version]) if params[:version]
-    @current_version ||= @page.versions.last
-  end
-
-  def find_content_for_staff
-    @page = Page.for_path(formatted_request_path)
     @current_version = @page.versions.last
   end
 
