@@ -1,5 +1,5 @@
 %h2 New initiative
 
-- form_for @initiative, builder: DefaultFormBuilder, :url => admin_initiatives_path do |form|
+= form_for @initiative, builder: DefaultFormBuilder, :url => admin_initiatives_path do |form|
   = render :partial => form
   = form.submit 'Create', :class => 'button'

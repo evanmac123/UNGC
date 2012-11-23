@@ -1,6 +1,6 @@
 %h2 New comment
 
-- form_for(:logo_comment, builder:DefaultFormBuilder, url: admin_logo_request_logo_comments_path(@logo_request), :html => { :multipart => true }) do |form|
+= form_for(:logo_comment, builder:DefaultFormBuilder, url: admin_logo_request_logo_comments_path(@logo_request), :html => { :multipart => true }) do |form|
   %fieldset
     %ol
       = form.error_messages

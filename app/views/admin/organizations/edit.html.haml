@@ -1,6 +1,6 @@
 %h2 Editing organization
 
-- form_for(:organization, builder: DefaultFormBuilder, url: admin_organization_path(@organization.id), :html => {:method => :put, :multipart => true}) do |form|
+= form_for(:organization, builder: DefaultFormBuilder, url: admin_organization_path(@organization.id), :html => {:method => :put, :multipart => true}) do |form|
   = render :partial => form
 
   %ul{:class => "tools inline" :style => 'float: right;'}

@@ -1,6 +1,6 @@
 %h2 New headline
 
-- form_for @headline, url: admin_headlines_path, builder: DefaultFormBuilder do |form|
+= form_for @headline, url: admin_headlines_path, builder: DefaultFormBuilder do |form|
   = render form
   = form.submit 'Create headline', class: 'button'
 

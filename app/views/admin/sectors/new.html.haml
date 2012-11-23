@@ -1,5 +1,5 @@
 %h2 New sector
 
-- form_for @sector, builder: DefaultFormBuilder, url: admin_sectors_path do |form|
+= form_for @sector, builder: DefaultFormBuilder, url: admin_sectors_path do |form|
   = render :partial => form
   = form.submit 'Create', :class => 'button'

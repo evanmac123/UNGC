@@ -4,7 +4,7 @@
 - if @jci_referral
   %p Welcome, JCI Member.
 #main_content
-  - form_for(@organization, url: organization_step2_path) do |form|
+  = form_for(@organization, url: organization_step2_path, builder: ApplicationFormBuilder) do |form|
     = form.error_messages
     %fieldset
       %ol
