@@ -8,4 +8,4 @@
             - (@preview ? child.children : child.visible_children ).each do |sub|
               - if is_visible?(sub)
                 %li{:class => 'sub'}
-                  = link_to "&raquo;&nbsp;#{sub.title}", sub.path, :class => sub_selected?(sub) ? 'sub_selected' : ''
+                  = link_to "&raquo;&nbsp;#{sub.title}".html_safe, sub.path, :class => sub_selected?(sub) ? 'sub_selected' : ''

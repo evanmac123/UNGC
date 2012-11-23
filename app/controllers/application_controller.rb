@@ -21,8 +21,10 @@ class ApplicationController < ActionController::Base
 
   def formatted_request_path
     unless @formatted_request_path
-      @formatted_request_path = "/#{params[:path].join('/')}" if params[:path]
-      @formatted_request_path << '/index.html' if @formatted_request_path unless @formatted_request_path =~ /\.html$/
+      if params[:path]
+        @formatted_request_path = "/#{params[:path]}"
+        @formatted_request_path << '/index.html' unless @formatted_request_path =~ /\.html$/
+      end
       @formatted_request_path = @formatted_request_path.gsub('//', '/') if @formatted_request_path.respond_to?(:gsub)
     end
     @formatted_request_path

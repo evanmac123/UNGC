@@ -5,7 +5,7 @@ module NavigationHelper
       @breadcrumbs << [convert_to_entities(current_section.title), current_section.path] if current_section
       @breadcrumbs << [convert_to_entities(@leftnav_selected.title), @leftnav_selected.path] if @leftnav_selected && current_section != @leftnav_selected
       @breadcrumbs << [convert_to_entities(@subnav_selected.title), nil] if @subnav_selected
-      @breadcrumbs.map { |b| link_to_unless suppress_link(b), b.first, b.last }.join(' / ')
+      @breadcrumbs.map { |b| link_to_unless suppress_link(b), b.first, b.last }.join(' / ').html_safe
     end
   end
 

@@ -1,6 +1,6 @@
 UNGC::Application.routes.draw do
   # Root
-  root :to => 'pages#view' #, :path => ["index.html"]
+  root :to => 'pages#view', :path => "index.html"
 
   # Session routes
   match '/logout' => 'sessions#destroy', :as => :logout
@@ -167,7 +167,7 @@ UNGC::Application.routes.draw do
 
   match '/search' => 'search#index', :as => :search
 
-  match '/decorate/*path' => 'pages#decorate', :as => :decorate_page
-  match '/preview/*path' => 'pages#preview', :as => :preview_page
-  match '/*path' => 'pages#view', :as => :view_page
+  match '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false
+  match '/preview/*path'  => 'pages#preview',  :as => :preview_page,  :format => false
+  match '/*path'          => 'pages#view',     :as => :view_page,     :format => false
 end
