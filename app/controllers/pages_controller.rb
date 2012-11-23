@@ -2,9 +2,20 @@ class PagesController < ApplicationController
   helper %w{application case_stories cops datetime events local_network navigation news organizations pages participants search sessions signatories signup stakeholders} # needs to be explicit
   before_filter :soft_require_staff_user, :only => :decorate
   before_filter :require_staff_user, :only => :preview
-  before_filter :find_content, :except => [:decorate, :preview, :redirect_local_network, :redirect_to_page]
+  before_filter :find_content, :except => [:decorate, :preview, :redirect_local_network, :redirect_to_page, :home]
   before_filter :find_content_for_staff, :only => [:decorate, :preview]
   before_filter :page_is_editable, :only => [:preview, :view]
+
+  def home
+    if @page = Page.approved_for_path('/index.html')
+      @current_version = @page.find_version_number(params[:version]) if params[:version]
+      @current_version ||= active_version_of(@page)
+    end
+    render :text => 'Not Found', :status => 404 unless @page and @current_version
+
+    render :template => template, :layout => 'home'
+    cache_page response.body, @page.path unless @page.dynamic_content?
+  end
 
   def view
     render :template => template, :layout => determine_layout

@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_url
 
   def home_page?
-    current_url == root_path
+    current_url == root_path || formatted_request_path == "/index.html"
   end
   helper_method :home_page?
 

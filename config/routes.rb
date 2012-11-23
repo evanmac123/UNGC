@@ -1,6 +1,6 @@
 UNGC::Application.routes.draw do
   # Root
-  root :to => 'pages#view', :path => "index.html"
+  root :to => 'pages#home'
 
   # Session routes
   match '/logout' => 'sessions#destroy', :as => :logout
