@@ -6,6 +6,6 @@ class RemoveAddedOnFromOrganizations < ActiveRecord::Migration
 
   def self.down
     add_column :organizations, :modified_on, :date
-    add_column :organizations, :added_on, :date,
+    add_column :organizations, :added_on, :date
   end
 end
