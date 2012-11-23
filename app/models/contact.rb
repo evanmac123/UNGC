@@ -36,8 +36,8 @@ require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
   include VisibleTo
-  include Authentication
-  include Authentication::ByCookieToken
+  # include Authentication
+  # include Authentication::ByCookieToken
 
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
