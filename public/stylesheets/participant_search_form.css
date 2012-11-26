@@ -1,35 +1,124 @@
-div#participant_search fieldset {
-  padding: 1.4em;
-  margin: 0 0 1.5em 0;
-  border: 1px solid #ccc;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px; }
-div#participant_search legend {
-  font-weight: bold;
-  color: #14546f; }
-div#participant_search label {
-  font-weight: normal;
-  color: #14546f;
-  float: left;
-  width: 140px;
-  cursor: pointer; }
-  div#participant_search label.date {
-    margin: 0 0px 0 0; }
-div#participant_search input[type=text], div#participant_search select {
-  width: 275px;
-  border: 1px solid #bbb; }
-  div#participant_search input[type=text].datepicker {
-    width: auto; }
-div#participant_search input[type=radio], div#participant_search input[type=checkbox] {
-  float: left;
-  margin: 2px 10px 0 0; }
-div#participant_search dl.dates {
-  margin-right: 0; }
-div#participant_search dl dt {
-  padding-top: 0px;
-  float: left; }
-  div#participant_search dl dt.radio {
-    text-align: right; }
-div#participant_search dl dd {
-  clear: right; }
-div.ui-datepicker { font-size: 12.5px; }
+/*
+Syntax error: Invalid CSS after "-moz-border-radius": expected selector, was "= $border_radius"
+        on line 8 of /vagrant/public/stylesheets/sass/participant_search_form.sass
+
+3: div#participant_search
+4:   fieldset
+5:     padding: 1.4em
+6:     margin: 0 0 1.5em 0
+7:     border: 1px solid #ccc
+8:     -moz-border-radius= $border_radius
+9:     -webkit-border-radius= $border_radius
+10: 
+11:   legend
+12:     font-weight: bold
+13:     color: $dark_blue
+
+Backtrace:
+/vagrant/public/stylesheets/sass/participant_search_form.sass:8
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/scss/parser.rb:1010:in `expected'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/scss/parser.rb:956:in `expected'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/scss/static_parser.rb:19:in `parse_selector'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:232:in `visit_rule'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:37:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `map'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:238:in `visit_rule'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:37:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `map'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:238:in `visit_rule'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:37:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `block in visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `map'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:53:in `visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:27:in `block in visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:39:in `with_environment'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:26:in `visit_children'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:37:in `block in visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:47:in `visit_root'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/base.rb:37:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:18:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/visitors/perform.rb:7:in `visit'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/tree/root_node.rb:20:in `render'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/engine.rb:300:in `_render'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/engine.rb:248:in `block in render'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/util.rb:348:in `silence_sass_warnings'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/engine.rb:248:in `render'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/plugin/compiler.rb:340:in `update_stylesheet'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/plugin/compiler.rb:202:in `block in update_stylesheets'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/plugin/compiler.rb:200:in `each'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/plugin/compiler.rb:200:in `update_stylesheets'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/plugin.rb:81:in `update_stylesheets'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/plugin.rb:54:in `check_for_updates'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/sass-3.1.20/lib/sass/plugin/rack.rb:51:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/best_standards_support.rb:17:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/etag.rb:23:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/conditionalget.rb:25:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/head.rb:14:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/params_parser.rb:21:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/flash.rb:242:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/session/abstract/id.rb:205:in `context'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/session/abstract/id.rb:200:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/cookies.rb:339:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/activerecord-3.2.8/lib/active_record/query_cache.rb:64:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/activerecord-3.2.8/lib/active_record/connection_adapters/abstract/connection_pool.rb:473:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/activesupport-3.2.8/lib/active_support/callbacks.rb:405:in `_run__292139051__call__315756287__callbacks'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/activesupport-3.2.8/lib/active_support/callbacks.rb:405:in `__run_callback'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/activesupport-3.2.8/lib/active_support/callbacks.rb:385:in `_run_call_callbacks'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/activesupport-3.2.8/lib/active_support/callbacks.rb:81:in `run_callbacks'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/reloader.rb:65:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/remote_ip.rb:31:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/debug_exceptions.rb:16:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/show_exceptions.rb:56:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/rack/logger.rb:26:in `call_app'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/rack/logger.rb:16:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/request_id.rb:22:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/methodoverride.rb:21:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/runtime.rb:17:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/activesupport-3.2.8/lib/active_support/cache/strategy/local_cache.rb:72:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/lock.rb:15:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/actionpack-3.2.8/lib/action_dispatch/middleware/static.rb:62:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/airbrake-3.1.6/lib/airbrake/rack.rb:41:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/airbrake-3.1.6/lib/airbrake/user_informer.rb:12:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/engine.rb:479:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/application.rb:223:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/content_length.rb:14:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/rack/log_tailer.rb:17:in `call'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/thin-1.4.1/lib/thin/connection.rb:80:in `block in pre_process'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/thin-1.4.1/lib/thin/connection.rb:78:in `catch'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/thin-1.4.1/lib/thin/connection.rb:78:in `pre_process'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/thin-1.4.1/lib/thin/connection.rb:53:in `process'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/thin-1.4.1/lib/thin/connection.rb:38:in `receive_data'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/eventmachine-0.12.10/lib/eventmachine.rb:256:in `run_machine'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/eventmachine-0.12.10/lib/eventmachine.rb:256:in `run'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/thin-1.4.1/lib/thin/backends/base.rb:63:in `start'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/thin-1.4.1/lib/thin/server.rb:159:in `start'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/handler/thin.rb:13:in `run'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/rack-1.4.1/lib/rack/server.rb:265:in `start'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/commands/server.rb:70:in `start'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/commands.rb:55:in `block in <top (required)>'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/commands.rb:50:in `tap'
+/home/vagrant/.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/railties-3.2.8/lib/rails/commands.rb:50:in `<top (required)>'
+script/rails:6:in `require'
+script/rails:6:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Invalid CSS after \"-moz-border-radius\": expected selector, was \"= $border_radius\"\A         on line 8 of /vagrant/public/stylesheets/sass/participant_search_form.sass\A \A 3: div#participant_search\A 4:   fieldset\A 5:     padding: 1.4em\A 6:     margin: 0 0 1.5em 0\A 7:     border: 1px solid #ccc\A 8:     -moz-border-radius= $border_radius\A 9:     -webkit-border-radius= $border_radius\A 10: \A 11:   legend\A 12:     font-weight: bold\A 13:     color: $dark_blue"; }
