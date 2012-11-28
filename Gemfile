@@ -30,7 +30,6 @@ end
 gem 'jquery-rails'
 
 group :development do
-  gem 'sqlite3'
   # gem 'after_commit',   '1.0.5' #why is this only set in dev???
   gem 'thin'
 end
