@@ -117,6 +117,7 @@ UNGC::Application.routes.draw do
         post :agree
         get :download
       end
+    end
 
       resources :logo_comments
     end
