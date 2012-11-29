@@ -5,6 +5,6 @@
     %p== Before you download your approved logos, please review the #{popup_link_to 'Global Compact Logo Usage Policy', '/AboutTheGC/Global_Compact_Logo/GC_Logo_Policy.html', :target => '_blank'}. After reading the policy, you may click "I agree" to access the logo files.
     %p
       I,
-      %strong==#{current_user.name} of #{current_user.organization.name}
+      %strong==#{current_contact.name} of #{current_contact.organization.name}
       agree to abide by the terms and conditions set forth in the Global Compact Logo Usage Policy.
     %p{:style => 'text-align: center;'}= link_to 'I agree', agree_admin_organization_logo_request_path(@logo_request.organization_id, @logo_request), :method => :post

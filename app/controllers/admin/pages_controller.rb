@@ -59,7 +59,7 @@ class Admin::PagesController < AdminController
   end
 
   def approve
-    @page.as_user(current_user).approve!
+    @page.as_user(current_contact).approve!
     redirect_to :action => 'index'
   end
 
@@ -76,12 +76,12 @@ class Admin::PagesController < AdminController
   end
 
   def revoke
-    @page.as_user(current_user).revoke!
+    @page.as_user(current_contact).revoke!
     redirect_to :action => 'index'
   end
 
   def edit
-    @show_approve_button = true if current_user.is? Role.website_editor
+    @show_approve_button = true if current_contact.is? Role.website_editor
     @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     if request.xhr?
       render :json => {

@@ -1,6 +1,4 @@
 class ApplicationController < ActionController::Base
-  include AuthenticatedSystem
-
   before_filter :mailer_set_url_options
 
   helper 'datetime', 'navigation'
@@ -32,7 +30,7 @@ class ApplicationController < ActionController::Base
   helper_method :formatted_request_path
 
   def staff_user?
-    logged_in? && current_user.from_ungc?
+    current_contact && current_contact.from_ungc?
   end
   helper_method :staff_user?
 
@@ -40,6 +38,36 @@ class ApplicationController < ActionController::Base
     @is_editable_content
   end
   helper_method :editable_content?
+
+  def after_sign_in_path_for(contact)
+    if contact.from_rejected_organization?
+      sign_out contact
+      flash[:error] = "Sorry, your organization's application was rejected and can no longer be accessed."
+      new_contact_session_path
+    else
+      redirect_path = edit_or_dashboard_path(contact)
+      back_or_default_path(redirect_path)
+    end
+  end
+
+  def after_sign_out_path_for(contact)
+    new_contact_session_path
+  end
+
+  def back_or_default_path(default)
+    path = (session[:return_to] || default)
+    session[:return_to] = nil
+    path
+  end
+
+  def edit_or_dashboard_path(contact)
+    if contact.needs_to_update_contact_info
+      edit_admin_organization_contact_path(contact.organization.id, contact, {:update => true})
+    else
+      dashboard_path
+    end
+  end
+
 
 
   protected

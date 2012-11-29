@@ -1,5 +1,5 @@
 - @body_class = 'details'
-- unless current_user.local_network == @local_network
+- unless current_contact.local_network == @local_network
   %div.tab_switcher
     %ul.tab_switch
       %li=link_to 'Network Management', admin_local_network_path(@local_network), :class => "restrictions #{action_name != 'knowledge_sharing' ? ' selected' : ''}"
@@ -8,7 +8,7 @@
 
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %li <a href="#contacts">Contacts</a>
     %li <a href="#profile">Profile</a>
     %li <a href="#structure">Structure</a>
@@ -18,7 +18,7 @@
     %li <a href="#integrity_measures">Integrity Measures</a>
     %li <a href="#mous">Memorandum of Understanding</a>
 
-  - if current_user_can_edit_network?
+  - if current_contact_can_edit_network?
     #contacts.tab_content
       %ul#contacts_tools{:class => "tools inline"}
         - staff_only do
@@ -29,7 +29,7 @@
   #profile.tab_content
     %ul#tools{:class => "tools inline"}
       %li= link_to_public_profile(@local_network)
-      - if current_user_can_edit_network?
+      - if current_contact_can_edit_network?
         %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_page_large'
 
     %dl.left_column
@@ -49,7 +49,7 @@
       %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
 
   #structure.tab_content
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %ul#tools{:class => "tools inline"}
         %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :structure), :class => 'edit_large'
 
@@ -70,7 +70,7 @@
       %dd= link_to_uploaded_file(@local_network.sg_established_as_a_legal_entity_file)
 
   #governance.tab_content
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %ul#tools{:class => "tools inline"}
         %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :governance), :class => 'edit_large'
 
@@ -109,7 +109,7 @@
       %p= link_to_uploaded_file(@local_network.sg_annual_meeting_appointments_file)
 
   #membership.tab_content
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %ul#tools{:class => "tools inline"}
         %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :membership), :class => 'edit_large'
 
@@ -146,7 +146,7 @@
       %dd= @local_network.membership_labour_organizations
 
   #fees_contributions.tab_content
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %ul#tools{:class => "tools inline"}
         %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :fees_contributions), :class => 'edit_large'
 
@@ -177,7 +177,7 @@
       %dd= number_to_percentage(@local_network.fees_amount_voluntary_public, :precision => 0)
 
   #integrity_measures.tab_content
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %ul{:class => "tools inline"}
         %li= link_to 'New Policy', new_admin_local_network_integrity_measure_path(@local_network), :class => "new_large"
 
@@ -187,12 +187,12 @@
         %th Title
         %th Date
         %th Document
-        - if current_user_can_edit_network?
+        - if current_contact_can_edit_network?
           %th.actions Actions
       = render @local_network.integrity_measures
 
   #mous.tab_content
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %ul{:class => "tools inline"}
         %li= link_to 'New MOU', new_admin_local_network_mou_path(@local_network), :class => "new_large"
     %table.dashboard_table
@@ -201,6 +201,6 @@
         %th Received on
         %th Status
         %th Document
-        - if current_user_can_edit_network?
+        - if current_contact_can_edit_network?
           %th.actions Actions
       = render @local_network.mous

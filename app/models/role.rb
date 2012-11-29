@@ -33,12 +33,12 @@ class Role < ActiveRecord::Base
     :website_editor            => 'Website Editor'
   }
 
-  def self.visible_to(user, current_user=nil)
+  def self.visible_to(user, current_contact=nil)
     if user.user_type == Contact::TYPE_ORGANIZATION
       roles_ids = [Role.contact_point].collect(&:id)
       # give option to check Highlest Level Executive if no CEO has been assigned
       roles_ids << Role.ceo.id if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
-      if current_user && current_user.from_ungc?
+      if current_contact && current_contact.from_ungc?
         roles_ids << Role.ceo.id
       end
       # only business organizations have a financial contact

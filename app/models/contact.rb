@@ -35,9 +35,12 @@
 require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me
   include VisibleTo
-  # include Authentication
-  # include Authentication::ByCookieToken
 
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
@@ -63,7 +66,7 @@ class Contact < ActiveRecord::Base
   default_scope :order => 'contacts.first_name'
 
   # TODO LATER: remove plain text password at some point - attr_accessor :password
-  before_save :encrypt_password
+  # before_save :encrypt_password
 
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point
@@ -199,10 +202,6 @@ class Contact < ActiveRecord::Base
     (u && u.hashed_password == encrypted_password(password)) ? u : nil
   end
 
-  def set_last_login_at
-    self.update_attribute :last_login_at, Time.now
-  end
-
   def from_ungc?
     organization_id? && organization.name == DEFAULTS[:ungc_organization_name]
   end
@@ -265,7 +264,7 @@ class Contact < ActiveRecord::Base
 
   def needs_to_update_contact_info
     if from_organization?
-      last_update = last_login_at || updated_at
+      last_update = last_sign_in_at || updated_at
       last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
     end
   end
@@ -274,8 +273,8 @@ class Contact < ActiveRecord::Base
     self.update_attribute :email, "rejected.#{self.email}"
   end
 
-  def last_contact_or_ceo?(role, current_user)
-    if current_user.from_organization? && !new_record?
+  def last_contact_or_ceo?(role, current_contact)
+    if current_contact.from_organization? && !new_record?
       if role == Role.ceo
         return true if self.is?(Role.ceo) && organization.contacts.ceos.count == 1
       elsif role == Role.contact_point
@@ -283,6 +282,18 @@ class Contact < ActiveRecord::Base
       end
     end
   end
+
+  def valid_password?(password)
+    begin
+      super(password)
+    rescue BCrypt::Errors::InvalidHash
+      return false unless Contact.old_encrypted_password(password) == encrypted_password
+      logger.info "User #{email} is using the old password hashing method, updating attribute."
+      self.password = password
+      true
+    end
+  end
+  alias :devise_valid_password? :valid_password?
 
   private
 
@@ -316,7 +327,7 @@ class Contact < ActiveRecord::Base
       end
     end
 
-    def self.encrypted_password(password)
+    def self.old_encrypted_password(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
 end

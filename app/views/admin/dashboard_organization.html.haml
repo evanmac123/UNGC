@@ -10,7 +10,7 @@
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
+      %li= link_to text_for_edit_icon(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
 
     %dl.left_column
       %h3 Organization Details
@@ -67,7 +67,7 @@
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
-    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => current_user.organization.contacts
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => current_contact.organization.contacts
 
   - if @organization.pending_review? or @organization.in_review?
     %h3 Comments
@@ -80,7 +80,7 @@
       - if @organization.delisted?
         = render :partial => 'admin/cops/expelled_note'
       - else
-        = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new_large', :id => 'new_logo_request'
+        = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_contact.organization.id), :class => 'new_large', :id => 'new_logo_request'
       %table.dashboard_table#logos_dashboard_table
         %tr
           %th.last_updated Last updated on
@@ -88,9 +88,9 @@
           %th.status Status
           %th.age Days since last update
           %th.actions Actions
-        = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
+        = render :partial => 'admin/logo_requests/logo_request', :collection => current_contact.organization.logo_requests
     #case_stories.tab_content
-      / = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new_large', :id => 'new_case_story'
+      / = link_to 'New Case Story', new_admin_organization_case_story_path(current_contact.organization.id), :class => 'new_large', :id => 'new_case_story'
       %p We are no longer accepting Case Stories at this time.
       %table.dashboard_table#case_stories_dashboard_table
         %tr
@@ -98,7 +98,7 @@
           %th.title Title
           %th.status Status
           %th.actions Actions
-        = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories.find(:all, order: "updated_at DESC")
+        = render :partial => 'admin/case_stories/case_story', :collection => current_contact.organization.case_stories.find(:all, order: "updated_at DESC")
     #cops.tab_content
       - unless @organization.can_submit_cop?
         = render :partial => 'admin/cops/expelled_note'
@@ -111,4 +111,4 @@
           %th.title Title
           %th.status Status
           %th.actions Actions
-        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses.find(:all, order: "created_at DESC")
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_contact.organization.communication_on_progresses.find(:all, order: "created_at DESC")

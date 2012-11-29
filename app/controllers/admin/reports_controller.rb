@@ -1,7 +1,7 @@
 class Admin::ReportsController < AdminController
 
   def index
-    render current_user.from_network? ? 'local_network_index' : 'index'
+    render current_contact.from_network? ? 'local_network_index' : 'index'
   end
 
   def delisted_participants
@@ -179,7 +179,7 @@ class Admin::ReportsController < AdminController
   end
 
   def default_report_params
-    {:user => current_user}
+    {:user => current_contact}
   end
 
   private

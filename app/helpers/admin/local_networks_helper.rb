@@ -42,8 +42,8 @@ module Admin::LocalNetworksHelper
     end
   end
 
-  def current_user_can_edit_network?
-    current_user.from_ungc? || (current_user.local_network == @local_network)
+  def current_contact_can_edit_network?
+    current_contact.from_ungc? || (current_contact.local_network == @local_network)
   end
 
 end

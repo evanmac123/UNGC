@@ -1,6 +1,6 @@
 %h2 Local Networks
 
-- if current_user.from_ungc?
+- if current_contact.from_ungc?
   %ul{:class => "tools inline"}
     %li= link_to 'New Local Network', new_admin_local_network_path, :class => "new_large", :id => "new_local_network"
     %li= link_to 'Countries', admin_countries_path, :class => 'web_preview_large', :title => 'Listing of all countries'

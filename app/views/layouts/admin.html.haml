@@ -13,7 +13,7 @@
 
   %body{:class => (@body_class || "form")}
     .container
-      - if logged_in? and current_user.from_ungc?
+      - if current_contact and current_contact.from_ungc?
         %form#search{ :name => "search", :action => "/admin/organizations/search", :method => "get" }
           = hidden_field_tag 'commit', 'Search'
           %input.search_box{ :id => 'admin_search', :name => "keyword", :type => "text", :value => "Search organizations"}
@@ -25,7 +25,7 @@
 
       = render :partial => 'layouts/main_nav'
 
-      - if logged_in?
+      - if current_contact
         #session_info{:style => 'display: none;'}
           %h2
             %a{:href => '#', :class => 'slider'}
@@ -33,8 +33,8 @@
           %ul
             %li.logged_in_as
               You are logged in as: <br />
-              = link_to current_user.name, "#", :class => "username"
-              = link_to "[Log out]", logout_path, :method => :delete, :title => "Log out"
+              = link_to current_contact.name, "#", :class => "username"
+              = link_to "[Log out]", destroy_contact_session_path, :method => :delete, :title => "Log out"
 
       #main_content.span-24
         = flash_messages_for :error, :notice

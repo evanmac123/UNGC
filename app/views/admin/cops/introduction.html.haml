@@ -6,7 +6,7 @@
     %li <a href="#basic">Basic Template</a>
     %li <a href="#general">COP Submission</a>
     %li <a href="#advanced">Advanced Level</a>
-    - if current_user.submit_grace_letter?
+    - if current_contact.submit_grace_letter?
       %li <a href="#grace">Grace Letter</a>
 
   #introduction.tab_content
@@ -21,7 +21,7 @@
     %p{:class => 'cop_description'}
       %strong Advanced Level:
       Use this tab if your COP demonstrates a higher level of performance and disclosure and you would like to participate in the GC Advanced level.
-    - if current_user.submit_grace_letter?
+    - if current_contact.submit_grace_letter?
       %p{:class => 'cop_description'}
         %strong Grace Letter:
         == You can also submit a grace letter for a #{Organization::COP_GRACE_PERIOD} day extension to your COP deadline.
@@ -57,14 +57,14 @@
         %li= link_to 'Spanish','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf'
         %li= link_to 'Turkish','/docs/communication_on_progress/templates/Basic/Basic_COP_TR.pdf'
 
-    %p.clear= link_to 'New Basic COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
+    %p.clear= link_to 'New Basic COP', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
 
   #general.tab_content
     %h3 Publish a COP on the Global Compact Website
 
     %p{:class => 'cop_description'} Submit an electronic version of their COP (preferably a PDF file) and an optional link (URL) to the web page that contains their COP.
 
-    %p= link_to 'New COP Submission', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
+    %p= link_to 'New COP Submission', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
 
   #advanced.tab_content
     %h3 The Advanced Level
@@ -72,12 +72,12 @@
     %p{:class => 'cop_description'} A criterion is "met" if a business participant believes it has, in good faith, implemented best practices that are <strong><em>relevant</em></strong> for its context of operation. For each criterion, the Global Compact provides examples of commonly accepted best practices that companies are encouraged to implement to meet the criteria.
     %p{:class => 'cop_description'} Detailed results of the self-assessment and statistics on coverage of best practices will also be made public to encourage stakeholder vetting and extra-financial analysis.
 
-    %p= link_to 'Qualify your COP for the GC Advanced level', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
+    %p= link_to 'Qualify your COP for the GC Advanced level', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
 
-  - if current_user.submit_grace_letter?
+  - if current_contact.submit_grace_letter?
     #grace.tab_content
       %h3 Request a COP due date extension
 
       %p{:class => 'cop_description'}== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{Organization::COP_GRACE_PERIOD} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
 
-      %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'
+      %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'

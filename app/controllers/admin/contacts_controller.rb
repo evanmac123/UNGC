@@ -4,7 +4,7 @@ class Admin::ContactsController < AdminController
   def new
     @contact = @parent.contacts.new
     @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
-    @roles = Role.visible_to(@contact, current_user)
+    @roles = Role.visible_to(@contact, current_contact)
     @return_path = return_path
   end
 
@@ -23,7 +23,7 @@ class Admin::ContactsController < AdminController
 
   def edit
     @needs_to_update = params[:update]
-    @roles = Role.visible_to(@contact, current_user)
+    @roles = Role.visible_to(@contact, current_contact)
     @return_path = return_path
   end
 
@@ -55,7 +55,7 @@ class Admin::ContactsController < AdminController
   private
     def load_parent
       @parent = if params[:organization_id]
-                  Organization.visible_to(current_user).find params[:organization_id]
+                  Organization.visible_to(current_contact).find params[:organization_id]
                 elsif params[:local_network_id]
                   LocalNetwork.find params[:local_network_id]
                 end
@@ -82,7 +82,7 @@ class Admin::ContactsController < AdminController
     end
 
     def return_path
-      if current_user.from_ungc? || current_user.from_network?
+      if current_contact.from_ungc? || current_contact.from_network?
         contact_parent_path(@contact, [], [], :tab => :contacts)
       else
         dashboard_path(:tab => :contacts)

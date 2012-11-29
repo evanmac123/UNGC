@@ -45,12 +45,12 @@ class Admin::NewsController < AdminController
   end
 
   def approve
-    @headline.as_user(current_user).approve!
+    @headline.as_user(current_contact).approve!
     redirect_to :action => 'index'
   end
 
   def revoke
-    @headline.as_user(current_user).revoke!
+    @headline.as_user(current_contact).revoke!
     redirect_to :action => 'index'
   end
 

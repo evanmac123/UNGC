@@ -24,7 +24,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       assert_emails(1) do
         post :create, :email => @organization_user.email
         assert_not_nil flash[:notice]
-        assert_redirected_to login_path
+        assert_redirected_to new_contact_session_path
         assert_not_nil @organization_user.reload.reset_password_token
       end
     end
@@ -71,7 +71,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
         put :update, :id       => VALID_TOKEN,
                      :password => 'password',
                      :password_confirmation => 'password'
-        assert_redirected_to login_path
+        assert_redirected_to new_contact_session_path
         assert_not_nil flash[:notice]
         # plain passwords are still saved, so we can still check this:
         assert_equal 'password', @organization_user.reload.password

@@ -14,7 +14,7 @@ class Admin::PasswordsController < ApplicationController
        redirect_to new_password_path
       else
        flash[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'
-       redirect_to login_path
+       redirect_to new_contact_session_path
       end
 
     else
@@ -38,7 +38,7 @@ class Admin::PasswordsController < ApplicationController
       @contact.password = params[:password]
       @contact.save
       flash[:notice] = "Your password was successfully changed."
-      redirect_to login_path
+      redirect_to new_contact_session_path
     else
       flash.now[:error] = errors.join(" ")
       render :action => 'edit'

@@ -9,7 +9,7 @@ module ApplicationHelper
   end
 
   def flash_messages_for(*keys)
-    keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join
+    keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join.html_safe
   end
 
   def participant_search?(key)
@@ -17,19 +17,19 @@ module ApplicationHelper
   end
 
   def staff_only(&block)
-    yield if logged_in? && current_user.from_ungc?
+    yield if current_contact && current_contact.from_ungc?
   end
 
   def organization_only(&block)
-    yield if logged_in? && current_user.from_organization?
+    yield if current_contact && current_contact.from_organization?
   end
 
   def dashboard_view_only
-    yield if logged_in? && request.env['PATH_INFO'].include?('admin')
+    yield if current_contact && request.env['PATH_INFO'].include?('admin')
   end
 
   def is_staff
-    return logged_in? && current_user.from_ungc?
+    return current_contact && current_contact.from_ungc?
   end
 
   def link_to_attachment(object)

@@ -1,6 +1,6 @@
 %h2 Reset your password
 
-- if flash.now[:error]
+- if flash[:error]
   %h3 Why could you not find my username?
 
   %ul
@@ -17,7 +17,7 @@
 %p
   Please enter your email address below. You will receive an email with instructions on choosing a new password.
 
-- form_tag password_path do
+= form_tag password_path do
   %fieldset
     %ol
       %li

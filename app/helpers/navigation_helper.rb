@@ -73,10 +73,10 @@ module NavigationHelper
   end
 
   def login_and_logout
-    section_link = link_to('Login', login_path)
+    section_link = link_to('Login', new_contact_session_path)
     children = []
-    children << content_tag(:li, link_to('Reset Password', new_password_path)) unless logged_in?
-    children << content_tag(:li, link_to('Logout', logout_path)) if logged_in?
+    children << content_tag(:li, link_to('Reset Password', new_password_path)) unless current_contact
+    children << content_tag(:li, link_to('Logout', destroy_contact_session_path)) if current_contact
     insides = [section_link, content_tag(:ul, children.join('').html_safe, :class => 'children')]
     content_tag(:li, insides.join('').html_safe, :id => 'login', :class => 'login')
   end

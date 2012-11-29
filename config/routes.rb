@@ -2,12 +2,16 @@ UNGC::Application.routes.draw do
   # Root
   root :to => 'pages#home'
 
-  # Session routes
-  match '/logout' => 'sessions#destroy', :as => :logout
-  match '/login'  => 'sessions#new', :as => :login
-  resource :session
-  resource :password
-  match 'no_session' => 'signup#no_session', :as => :no_session
+  devise_for :contacts
+  devise_scope :contact do
+    post '/login'             => 'sessions#create',             :as => :contact_session
+    get  '/login'             => 'sessions#new',                :as => :new_contact_session
+    get  '/logout'            => 'sessions#destroy',            :as => :destroy_contact_session
+    post '/password'          => 'admin/passwords#create',      :as => :password
+    put  '/password'          => 'admin/passwords#update'
+    get  '/password/new'      => 'admin/passwords#new',         :as => :new_password
+    get  '/password/edit'     => 'admin/passwords#edit',        :as => :edit_password
+  end
 
   # Backend routes
   match '/admin'                    => 'admin#dashboard', :as => :admin
@@ -82,9 +86,7 @@ UNGC::Application.routes.draw do
           get :unreplied
           get :accepted
         end
-      end
 
-      resources :logo_requests do
         member do
           post :agree
           get :download
@@ -96,7 +98,21 @@ UNGC::Application.routes.draw do
     end
 
     resources :case_stories
-    resources :logo_requests
+    resources :logo_requests do
+      collection do
+        get :approved
+        get :rejected
+        get :pending_review
+        get :in_review
+        get :unreplied
+        get :accepted
+      end
+
+      member do
+        post :agree
+        get :download
+      end
+    end
     resources :communication_on_progresses
     resources :initiatives
     resources :contacts_roles

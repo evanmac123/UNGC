@@ -9,27 +9,27 @@ class SessionsControllerTest < ActionController::TestCase
 context "given an organization user" do
 
   should "login and redirect" do
-    post :create, :login => 'quentin', :password => 'monkey'
+    post :create, :username => 'quentin', :password => 'monkey'
     assert session[:user_id]
     assert_response :redirect
     assert_equal "Welcome #{@contact.first_name}. You have been logged in.", flash[:notice]
   end
 
   should "login and redirect to edit screen if last login was over 6 months ago" do
-    post :create, :login => 'login', :password => 'nexen'
+    post :create, :username => 'login', :password => 'nexen'
     assert session[:user_id]
     assert_redirected_to edit_admin_organization_contact_path(@old_contact.organization.id, @old_contact, {:update => true})
   end
 
   should 'not allow rejected applicants to login' do
     @organization.reject
-    post :create, :login => 'quentin', :password => 'monkey'
+    post :create, :username => 'quentin', :password => 'monkey'
     assert_equal "Sorry, your organization's application was rejected and can no longer be accessed.", flash[:error]
     assert_response :redirect
   end
 
   should 'fail login and not redirect' do
-    post :create, :login => 'quentin', :password => 'bad password'
+    post :create, :username => 'quentin', :password => 'bad password'
     assert_nil session[:user_id]
     assert_response :success
   end
@@ -43,13 +43,13 @@ context "given an organization user" do
 
   should 'remember me' do
     @request.cookies["auth_token"] = nil
-    post :create, :login => 'quentin', :password => 'monkey', :remember_me => "1"
+    post :create, :username => 'quentin', :password => 'monkey', :remember_me => "1"
     assert_not_nil @response.cookies["auth_token"]
   end
 
   should 'not remember me' do
     @request.cookies["auth_token"] = nil
-    post :create, :login => 'quentin', :password => 'monkey', :remember_me => "0"
+    post :create, :username => 'quentin', :password => 'monkey', :remember_me => "0"
     assert @response.cookies["auth_token"].blank?
   end
 
@@ -63,7 +63,7 @@ context "given an organization user" do
     @contact.remember_me
     @request.cookies["auth_token"] = cookie_for(:quentin)
     get :new
-    assert @controller.send(:logged_in?)
+    assert @controller.send(:current_contact)
   end
 
   should 'fail expired cookie login' do
@@ -71,14 +71,14 @@ context "given an organization user" do
     @contact.update_attribute :remember_token_expires_at, 5.minutes.ago
     @request.cookies["auth_token"] = cookie_for(:quentin)
     get :new
-    assert !@controller.send(:logged_in?)
+    assert !@controller.send(:current_contact)
   end
 
   should 'fail cookie login' do
     @contact.remember_me
     @request.cookies["auth_token"] = auth_token('invalid_auth_token')
     get :new
-    assert !@controller.send(:logged_in?)
+    assert !@controller.send(:current_contact)
   end
 
 end
@@ -89,7 +89,7 @@ end
       create_organization_and_ceo
       create_country
       @contact = create_contact(:organization_id => @organization.id,
-                                :login => 'quentin',
+                                :username => 'quentin',
                                 :password => 'monkey',
                                 :email => 'user@example.com',
                                 :remember_token_expires_at => 1.days.from_now.to_s,
@@ -97,10 +97,10 @@ end
                                 :role_ids => [Role.contact_point.id])
 
       @old_contact = create_contact(:organization_id => @organization.id,
-                                    :login => 'login',
+                                    :username => 'login',
                                     :password => 'nexen',
                                     :email => 'user2@example.com',
-                                    :last_login_at => 7.months.ago,
+                                    :last_signin_at => 7.months.ago,
                                     :role_ids => [Role.contact_point.id])
 
     end

@@ -26,11 +26,11 @@ module AdminHelper
   end
 
   def possibly_link_to_organization
-    link_to 'Organization details', admin_organization_path(current_user.organization.id) if logged_in?
+    link_to 'Organization details', admin_organization_path(current_contact.organization.id) if current_contact
   end
 
   def possibly_link_to_edit_organization
-    link_to 'Edit your organization', edit_admin_organization_path(current_user.organization.id) if logged_in?
+    link_to 'Edit your organization', edit_admin_organization_path(current_contact.organization.id) if current_contact
   end
 
   def link_to_attached_file(object, file='attachment')

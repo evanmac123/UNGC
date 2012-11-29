@@ -54,14 +54,14 @@ class Admin::LogoRequestsController < AdminController
   end
 
   def show
-    if @logo_request.approved? && current_user.from_organization?
+    if @logo_request.approved? && current_contact.from_organization?
       render :template => 'admin/logo_requests/logo_terms.html.haml'
     end
   end
 
   def create
     @logo_request = @organization.logo_requests.new(params[:logo_request])
-    @logo_request.logo_comments.first.contact_id = current_user.id
+    @logo_request.logo_comments.first.contact_id = current_contact.id
 
     if @logo_request.save
       flash.now[:notice] = 'Thank you, your Logo Request was received.'
@@ -104,7 +104,7 @@ class Admin::LogoRequestsController < AdminController
 
   private
     def load_organization
-      @logo_request = LogoRequest.visible_to(current_user).find(params[:id]) if params[:id]
+      @logo_request = LogoRequest.visible_to(current_contact).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
     end
 

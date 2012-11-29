@@ -12,8 +12,8 @@ class PagesControllerTest < ActionController::TestCase
       create_simple_tree
       @home_page = @root
       @page      = @child2
-      # @page = create_page(:path => @child2.path, :content => String.random)
-      # @home_page = @root #create_page(:path => @root.path, :content => String.random)
+      # @page = create_page(:path => @child2.path, :content => FixtureReplacement.random_string)
+      # @home_page = @root #create_page(:path => @root.path, :content => FixtureReplacement.random_string)
     end
 
     context "view action" do

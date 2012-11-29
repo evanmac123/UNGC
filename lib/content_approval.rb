@@ -32,7 +32,7 @@ module ContentApproval
 
   def store_approved_data
     self.approved_at = Time.now
-    self.approved_by = @current_user if @current_user
+    self.approved_by = @current_contact if @current_contact
   end
 
   def destroy

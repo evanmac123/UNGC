@@ -1,7 +1,7 @@
 - if @needs_to_update
   %fieldset
     %h2 Information Update
-    - if current_user.from_organization?
+    - if current_contact.from_organization?
       %p{:class => 'cop_description'}== Please review and update your organization&rsquo;s contact information before proceeding. It is critical that your contact information is correct so that we are able to keep you informed about important news and events, including Communication on Progress deadlines. Thank you for helping us keep our records up to date.
 
 - else

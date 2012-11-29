@@ -1,11 +1,11 @@
 module Admin::OrganizationsHelper
   def organization_actions(organization)
     actions = []
-    unless current_user.from_organization?
+    unless current_contact.from_organization?
       actions << link_to('Network Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post, :confirm => "The Local Network in #{@organization.country_name} will be emailed.\n\nAre you sure you want to proceed?\n\n") if organization.can_network_review?
       actions << link_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), :method => :post) if organization.can_approve?
-      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this application?") if organization.can_reject?
-      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this Micro Enterprise?") if organization.can_reject?
+      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this application?") if organization.can_reject?
+      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this Micro Enterprise?") if organization.can_reject?
       actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
       if @organization.participant
         actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
@@ -42,9 +42,9 @@ module Admin::OrganizationsHelper
           status = organization.cop_state.humanize
         end
     elsif organization.in_review?
-      status = organization.review_status(current_user)
+      status = organization.review_status(current_contact)
     elsif organization.network_review?
-      status = current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
+      status = current_contact.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
     # if not approved then pending, in review, or rejected
     else
       status = organization.state.humanize
@@ -118,13 +118,13 @@ module Admin::OrganizationsHelper
 
   # if an organization is still under review, then they should be able to change their letter
   def can_edit_letter?(organization)
-    unless organization.new_record? || organization.approved? && current_user.from_organization?
+    unless organization.new_record? || organization.approved? && current_contact.from_organization?
       true
     end
   end
 
-  def  alert_if_micro_enterprise(organization, current_user)
-    if current_user.from_ungc?
+  def  alert_if_micro_enterprise(organization, current_contact)
+    if current_contact.from_ungc?
       organization.business_entity? && organization.employees < 10 ? 'red' : 'inherit'
     end
   end
