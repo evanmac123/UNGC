@@ -73,12 +73,12 @@ module Admin::OrganizationsHelper
   def display_id_type(organization)
     if organization.approved?
       if organization.participant?
-        'Participant ID:'
+        'Participant ID'
       else
-        'Organization ID:'
+        'Organization ID'
       end
     else
-      'Application ID:'
+      'Application ID'
     end
   end
 
