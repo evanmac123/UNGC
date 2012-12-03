@@ -29,41 +29,43 @@
       %h3 Organization Details
       %dt.first= display_id_type(@organization)
       %dd.first= @organization.id
-      %dt Status:
+      %dt Status
       %dd= display_status(@organization)
-      %dt Participant since:
+      %dt Participant since
       %dd= @organization.joined_on || 'n/a'
       - if @organization.company?
-        %dt COP Due Date:
+        %dt COP Due Date
         %dd= @organization.cop_due_on || 'n/a'
-      %dt Organization Type:
+      %dt Organization Type
       %dd= @organization.organization_type_name
       - if @organization.company?
-        %dt Ownership:
+        %dt Ownership
         %dd
           = @organization.is_ft_500 ? 'FT 500' : nil
           = @organization.listing_status_name
-      %dt Sector:
+        %dt Annual Revenue
+        %dd= @organization.revenue_description
+      %dt Sector
       %dd= @organization.sector_name
-      %dt Employees:
+      %dt Employees
       %dd{:style => "color: #{alert_if_micro_enterprise(@organization, current_contact)};"}= @organization.employees
-      %dt Country:
+      %dt Country
       %dd= @organization.country_name
       - unless @organization.url.blank?
-        %dt Website:
+        %dt Website
         %dd= link_to truncate(@organization.url, :length => 30), @organization.url
       - if @organization.commitment_letter?
-        %dt Letter of Commitment:
+        %dt Letter of Commitment
         %dd{:title => @organization.commitment_letter_file_name}= link_to truncate(@organization.commitment_letter_file_name, :length => 30), @organization.commitment_letter.url
 
     %dl.left_column
       %h3 Contact Information
-      %dt.first Highest Level Executive:
+      %dt.first Highest Level Executive
       - if @organization.contacts.ceos.count > 0
         %dd.first= render :partial => 'contact_overview', :collection => @organization.contacts.ceos
       - else
         %dd.first{:style => 'color: red'} Not assigned
-      %dt Contact Point:
+      %dt Contact Point
       - if @organization.contacts.contact_points.count > 0
         %dd= render :partial => 'contact_overview', :collection => @organization.contacts.contact_points
       - else
@@ -72,11 +74,11 @@
     -staff_only do
       %dl.left_column
         %h3 Local Network
-        %dt.first Status:
+        %dt.first Status
         %dd.first= local_network_detail(@organization, :state).titleize
-        %dt Name:
+        %dt Name
         %dd= local_network_detail(@organization, :name)
-        %dt Report Recipients:
+        %dt Report Recipients
         %dd
           - if @organization.network_report_recipients.count >= 1
             = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
