@@ -130,10 +130,10 @@ class Organization < ActiveRecord::Base
 
   # revenue and corresponding pledge amount
   REVENUE = {
-    'less than 25 million' => 500,
-    'between USD 25 million and 250 million' => 2500,
+    'less than USD 25 million'                  => 500,
+    'between USD 25 million and 250 million'    => 2500,
     'between USD 250 million and USD 1 billion' => 5000,
-    'USD 1 billion or more' => 10000
+    'USD 1 billion or more'                     => 10000
   }
 
   # identify why an organization is being reviewed
@@ -404,6 +404,10 @@ class Organization < ActiveRecord::Base
 
   def organization_type_name
     organization_type.try(:name)
+  end
+
+  def revenue_description
+    revenue ? REVENUE.key(revenue) : ''
   end
 
   def business_for_search
