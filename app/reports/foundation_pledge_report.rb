@@ -15,6 +15,8 @@ class FoundationPledgeReport < SimpleReport
       'Number of Employees',
       'Invoice ID',
       'Pledge',
+      'Suggested Pledge',
+      'Revenue',
       'Invoice Date']
   end
 
@@ -25,11 +27,13 @@ class FoundationPledgeReport < SimpleReport
       r.contacts.contact_points.first.try(:name),
       r.contacts.contact_points.first.try(:email),
       r.contacts.contact_points.first.try(:phone),
-      r.try(:name),
-      r.country.try(:name),
+      r.name,
+      r.country_name,
       r.employees,
       r.invoice_id,
       r.pledge_amount,
-      r.joined_on]
+      r.revenue,
+      r.revenue_description,
+      r.joined_on ]
   end
 end
