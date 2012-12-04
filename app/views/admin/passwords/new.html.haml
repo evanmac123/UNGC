@@ -17,11 +17,11 @@
 %p
   Please enter your email address below. You will receive an email with instructions on choosing a new password.
 
-= form_tag password_path do
+= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
   %fieldset
     %ol
       %li
-        = label_tag :email
-        = text_field_tag :email
+        = f.label :email
+        = f.text_field :email
 
-  = submit_tag 'Submit', :class => 'button'
+  = f.submit 'Submit', :class => 'button'

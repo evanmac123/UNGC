@@ -7,9 +7,9 @@ UNGC::Application.routes.draw do
     post '/login'             => 'sessions#create',             :as => :contact_session
     get  '/login'             => 'sessions#new',                :as => :new_contact_session
     get  '/logout'            => 'sessions#destroy',            :as => :destroy_contact_session
+    get  '/password/new'      => 'admin/passwords#new',         :as => :new_password
     post '/password'          => 'admin/passwords#create',      :as => :password
     put  '/password'          => 'admin/passwords#update'
-    get  '/password/new'      => 'admin/passwords#new',         :as => :new_password
     get  '/password/edit'     => 'admin/passwords#edit',        :as => :edit_password
   end
 
