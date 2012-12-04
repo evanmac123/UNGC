@@ -1,14 +1,13 @@
-class Admin::PasswordsController < ApplicationController
+class Admin::PasswordsController < DeviseController
   layout 'admin'
   helper 'Admin'
 
   def create
-    @contact = Contact.find_by_email params[:email] unless params[:email].blank?
-    if @contact && @contact.login.present?
-      @contact.refresh_reset_password_token!
-
+    email = params[:contact] && params[:contact][:email]
+    @contact = Contact.find_by_email(email) unless email.blank?
+    if @contact && @contact.username.present?
       begin
-        ContactMailer.reset_password(@contact).deliver
+        @contact.send_reset_password_instructions(parmas[:Contact])
       rescue Exception => e
        flash[:notice] = 'Sorry, we could not send the email due to a server error. Please try again.'
        redirect_to new_password_path
@@ -23,33 +22,4 @@ class Admin::PasswordsController < ApplicationController
     end
   end
 
-  def edit
-    @contact = Contact.find_by_reset_password_token params[:id]
-    unless @contact
-      flash[:error] = "Your password reset request has expired. Please re-enter your email to reset your password."
-      redirect_to new_password_path
-    end
-  end
-
-  def update
-    @contact = Contact.find_by_reset_password_token params[:id]
-    errors = validate_new_password
-    if errors.empty?
-      @contact.password = params[:password]
-      @contact.save
-      flash[:notice] = "Your password was successfully changed."
-      redirect_to new_contact_session_path
-    else
-      flash.now[:error] = errors.join(" ")
-      render :action => 'edit'
-    end
-  end
-
-  private
-    def validate_new_password
-      errors = []
-      errors << "Make sure the passwords you entered match." if params[:password] != params[:password_confirmation]
-      errors << "You cannot use a blank password." if params[:password].blank? || params[:password_confirmation].blank?
-      errors
-    end
 end

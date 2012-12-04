@@ -51,9 +51,9 @@ class Contact < ActiveRecord::Base
   MONTHS_SINCE_LOGIN = 6
 
   validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
-  validates_presence_of :login, :if => :can_login?
-  validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
-  validates_uniqueness_of :login, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
+  validates_presence_of :username, :if => :can_login?
+  validates_presence_of :password, :unless => Proc.new { |contact| contact.username.blank? }
+  validates_uniqueness_of :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
   validates_uniqueness_of :email, :on => :create
   validates_format_of   :email,
                         :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
@@ -256,10 +256,6 @@ class Contact < ActiveRecord::Base
   def encrypt_password
     return if password.blank?
     self.hashed_password = Contact.encrypted_password(password)
-  end
-
-  def refresh_reset_password_token!
-    self.update_attribute :reset_password_token, Digest::SHA1.hexdigest([login, Time.now].join)
   end
 
   def needs_to_update_contact_info
