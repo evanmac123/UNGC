@@ -62,7 +62,7 @@ module LocalNetworkHelper
           html += content_tag :li, link_to("#{year} #{local_network.try(:name)} Report", filename, {:class => 'pdf'})
         end
       end
-     content_tag :ul, html, :class => 'links'
+     html.present? ? (content_tag :ul, html, :class => 'links') : (content_tag :p, "No reports are available")
     end
   end
 
@@ -73,11 +73,9 @@ module LocalNetworkHelper
         filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{@country_code}_VP.pdf"
         if FileTest.exists?("public/#{filename}")
           html += content_tag :li, link_to("#{local_network.try(:name)} - Value Proposition", filename, {:class => 'pdf'})
-        else
-          html += content_tag :li, "No document is available"
         end
       end
-     content_tag :ul, html, :class => 'links'
+     html.present? ? (content_tag :ul, html, :class => 'links') : (content_tag :p, "No document is available")
     end
   end
 
