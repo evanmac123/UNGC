@@ -12,7 +12,6 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   include FixtureReplacement
   include ActionDispatch::TestProcess
-  include Devise::TestHelpers
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
@@ -189,4 +188,8 @@ class ActiveSupport::TestCase
     @lead_initiative    = create_initiative(:id => 19, :name => 'Global Compact LEAD')
     @climate_initiative = create_initiative(:id => 2,  :name => 'Caring for Climate')
   end
+end
+
+class ActionController::TestCase
+  include Devise::TestHelpers
 end
