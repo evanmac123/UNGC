@@ -27,7 +27,7 @@ module FixtureReplacement
     c.city = FixtureReplacement.random_string
     c.country_id = Country.first.id
     c.email = FixtureReplacement.random_string + '@example.com'
-    c.login = FixtureReplacement.random_string
+    c.username = FixtureReplacement.random_string
     c.password = FixtureReplacement.random_string
 	end
 

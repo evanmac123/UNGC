@@ -32,7 +32,7 @@ class CopReminder
       organizations.each do |org|
         log "Emailing organization #{org.id}:#{org.name}"
         begin
-          CopMailer.send(mailer, org)
+          CopMailer.send(mailer, org).deliver
           if network_mailer && org.network_report_recipients.any?
             log "Emailing local network"
             CopMailer.send(network_mailer, org).deliver
@@ -47,3 +47,4 @@ class CopReminder
       @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
     end
 end
+

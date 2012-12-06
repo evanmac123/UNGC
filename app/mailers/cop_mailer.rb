@@ -26,6 +26,17 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact Status - 12 Month Learner Grace Period"
   end
 
+   def confirmation_double_learner(organization, cop, user)
+    @organization = organization
+    @cop          = cop
+    @user         = user
+
+    mail \
+      :to      => user.email_recipient,
+      :from    => 'cop@unglobalcompact.org',
+      :subject => "UN Global Compact Status - Consecutive Learner COPs"
+  end
+
   def confirmation_active(organization, cop, user)
     @organization = organization
     @cop          = cop

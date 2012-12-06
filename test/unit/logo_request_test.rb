@@ -31,7 +31,7 @@ class LogoRequestTest < ActiveSupport::TestCase
       create_logo_file
       @logo_request.logo_files << LogoFile.first
       assert_difference '@logo_request.logo_comments.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                              :contact_id  => @staff_user.id,
                                              :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),

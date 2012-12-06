@@ -15,7 +15,7 @@ class SignupControllerTest < ActionController::TestCase
                   :city       => 'Toronto',
                   :country_id => Country.first.id,
                   :email      => 'michael@example.com',
-                  :login      => 'username',
+                  :username   => 'username',
                   :password   => 'password',
                   :role_ids   => [Role.contact_point.id]}
 
@@ -123,7 +123,7 @@ class SignupControllerTest < ActionController::TestCase
                                                        :employees            => 500)
       session[:signup_contact] = Contact.new(@signup_contact)
       session[:signup_ceo] = Contact.new(@signup_ceo)
-      assert_emails(1) do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
         assert_difference 'Organization.count' do
           assert_difference 'Contact.count', 2 do
             post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
@@ -142,7 +142,7 @@ class SignupControllerTest < ActionController::TestCase
       session[:signup_ceo] = Contact.new(@signup_ceo)
       session[:is_jci_referral] = true
 
-      assert_emails(2) do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
         post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
       end
       assert_response :success

@@ -50,27 +50,18 @@ class Headline < ActiveRecord::Base
 
   # Used to make a list of years, for the News Archive page - see pages_helper
   def self.years
-    case connection.adapter_name
-    when 'MySQL'
-      # select distinct(year(published_on)) as year from headlines order by year desc
-      select = 'distinct(year(published_on)) as year'
-    when 'SQLite'
-      select = "distinct(strftime('%Y', published_on)) as year"
-    else
-      logger.error " *** Headline.years: Unable to figure out DB: #{connection.adapter_name.inspect}"
-    end
-    find(:all, :select => select, :order => 'year desc').map { |y| y.year }
+    select("distinct(year(published_on)) as year").order('year desc').map {|y| y.year.to_s}
   end
 
   def before_approve!
-    self.write_attribute(:published_on, Date.today) if self.published_on.blank?
+    write_attribute(:published_on, Date.today) if self.published_on.blank?
   end
 
   def published_on_string=(date_or_string)
     if date_or_string.is_a?(String)
-      self.write_attribute(:published_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:published_on, Date.strptime(date_or_string, '%m/%d/%Y'))
     elsif date_or_string.is_a?(Date)
-      self.write_attribute(:published_on, date_or_string)
+      write_attribute(:published_on, date_or_string)
     end
   end
 

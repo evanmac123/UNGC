@@ -64,7 +64,7 @@
   %table
     %tr
       %td{:style => @row_style} Username:
-      %td= @contact.try(:login)
+      %td= @contact.try(:username)
     %tr
       %td{:style => @row_style} Password:
       %td= @contact.try(:password)

@@ -68,7 +68,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
       assert_difference 'Comment.count' do
         # FIXME: we expect *two* emails - one to the applicant, and one to the network (if the checkbox is checked)
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id    => @organization.id,
                         :commit             => Organization::EVENT_REVISE,
                         :comment            => { :body => 'Please revise your application.', :copy_local_network => '1' }
@@ -82,7 +82,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
     should "only email comment to application organization" do
       assert_difference 'Comment.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id    => @organization.id,
                         :commit             => Organization::EVENT_REVISE,
                         :comment            => { :body => 'Please revise your application.', :copy_local_network => '0' }
@@ -96,7 +96,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
     should "send email to Local Network when organization status is changed to Network Review" do
       assert_difference 'Comment.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id    => @organization.id,
                         :commit             => Organization::EVENT_NETWORK_REVIEW,
                         :comment            => { :body => 'Your application is under review by the Local Network in your country.'}
@@ -111,7 +111,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     should "approve the organization on approval comment" do
       assert_difference 'Comment.count' do
         # we expect two emails - approval and foundation invoice
-        assert_emails(2) do
+        assert_difference 'ActionMailer::Base.deliveries.size', 2 do
           post :create, :organization_id => @organization.id,
                         :commit          => Organization::EVENT_APPROVE,
                         :comment         => { :body => '' }
@@ -127,7 +127,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
     should "reject the organization on rejection comment" do
       assert_difference 'Comment.count' do
-        assert_emails(0) do
+        assert_no_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id => @organization.id,
                         :commit          => Organization::EVENT_REJECT,
                         :comment         => { :body => 'Rejected' }
@@ -142,7 +142,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     should "reject the micro enterprise organization on reject micro comment" do
       original_name = @organization.name
       assert_difference 'Comment.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id => @organization.id,
                         :commit          => Organization::EVENT_REJECT_MICRO,
                         :comment         => { :body => 'Rejected' }
@@ -151,7 +151,6 @@ class Admin::CommentsControllerTest < ActionController::TestCase
           assert_equal 'The Micro Enterprise application was rejected.', flash[:notice]
           assert @organization.reload.rejected?
           assert_equal "#{original_name} (rejected)", @organization.name
-
         end
       end
     end

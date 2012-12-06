@@ -35,7 +35,7 @@ group :development do
 end
 
 group :test do
-  gem "shoulda",          '~> 3.3.0'
+  gem "shoulda",          '~> 3.3.2'
 end
 
 group :production do

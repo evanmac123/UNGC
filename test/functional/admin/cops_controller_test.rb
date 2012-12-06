@@ -299,7 +299,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "send a confirmation email" do
-      assert_emails(1) do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create, :organization_id => @organization.id,
                       :communication_on_progress => {
                         :title                        => 'Our COP',

@@ -119,7 +119,7 @@ class Role < ActiveRecord::Base
 
   def check_for_filtered_name_change
     if name_changed? && FILTERS.values.include?(name_was)
-      errors.add_to_base "You cannot change that Role name."
+      errors.add :base, "You cannot change that Role name."
       return false
     end
   end

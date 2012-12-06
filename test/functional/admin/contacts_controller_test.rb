@@ -18,7 +18,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       :city       => 'Toronto',
       :country_id => Country.first.id,
       :email      => 'test@example.com',
-      :login      => 'test',
+      :username   => 'test',
       :password   => 'test'
     }
   end
@@ -63,7 +63,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     should "update contact for an organization" do
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
-                   :contact         => { :login    => 'aaa',
+                   :contact         => { :username    => 'aaa',
                                          :password => "password" }
 
       assert_equal 'aaa', @organization_user.reload.login
@@ -123,7 +123,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     should "update contact for a local network" do
       put :update, :local_network_id => @local_network.id,
                    :id               => @network_contact.to_param,
-                   :contact          => { :login    => 'aaa',
+                   :contact          => { :username    => 'aaa',
                                           :password => "password" }
 
       assert_equal 'aaa', @network_contact.reload.login
@@ -147,7 +147,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     should "redirect to the organization's path after updating its contact" do
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
-                   :contact         => { :login    => 'aaa',
+                   :contact         => { :username    => 'aaa',
                                          :password => "password" }
       assert_redirected_to admin_organization_path(@organization.id, :tab => :contacts)
     end

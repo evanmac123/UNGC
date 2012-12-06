@@ -11,7 +11,7 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   include FixtureReplacement
-  include AuthenticatedTestHelper
+  include ActionDispatch::TestProcess
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
@@ -127,7 +127,7 @@ class ActiveSupport::TestCase
     create_organization_type
     create_country
     @ungc = create_organization(:name => 'UNGC')
-    @staff_user = create_contact(:login           => 'staff',
+    @staff_user = create_contact(:username           => 'staff',
                                  :password        => 'password',
                                  :organization_id => @ungc.id)
   end
@@ -141,7 +141,7 @@ class ActiveSupport::TestCase
     create_organization_type
     create_country
     @local_network_guest = create_organization(:name => 'Local Network Guests')
-    @local_network_guest_user = create_contact(:login           => 'guest',
+    @local_network_guest_user = create_contact(:username           => 'guest',
                                                :password        => 'password',
                                                :organization_id => @local_network_guest.id)
   end
@@ -187,11 +187,5 @@ class ActiveSupport::TestCase
   def create_initiatives
     @lead_initiative    = create_initiative(:id => 19, :name => 'Global Compact LEAD')
     @climate_initiative = create_initiative(:id => 2,  :name => 'Caring for Climate')
-  end
-
-
-  def fixture_file_upload(path, mime_type = nil, binary = false)
-    fixture_path = ActionController::TestCase.send(:fixture_path) if ActionController::TestCase.respond_to?(:fixture_path)
-    ActionController::TestUploadedFile.new("#{fixture_path}#{path}", mime_type, binary)
   end
 end

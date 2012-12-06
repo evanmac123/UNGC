@@ -140,34 +140,34 @@ class Contact < ActiveRecord::Base
     roles << Role.network_representative
     roles << Role.network_report_recipient
 
-    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+    where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_roles_public
     roles = []
     roles << Role.network_focal_point
     roles << Role.network_representative
-    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+    where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_contacts
     role = Role.network_focal_point
-    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+    where("contacts_roles.role_id = ?", role).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_representatives
     role = Role.network_representative
-    where("contacts_roles.role_id IN (?)", roles).include(:roles).order("roles.name DESC")
+    where("contacts_roles.role_id = ?", role).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_report_recipients
     role = Role.network_report_recipient
-    where("contacts_roles.role_id IN (?)", roles).include(:roles)
+    where("contacts_roles.role_id = ?", role).includes(:roles)
   end
 
   def self.network_regional_managers
     role = Role.network_regional_manager
-    where("contacts_roles.role_id IN (?)", roles).include(:roles)
+    where("contacts_roles.role_id = ?", role).includes(:roles)
   end
 
   define_index do

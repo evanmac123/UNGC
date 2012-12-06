@@ -14,7 +14,7 @@ class LogoRequestMailer < ActionMailer::Base
     mail \
       :to => logo_request.contact.email_recipient,
       :bcc => 'gclogo@un.org',
-      :subject => "Your Global Compact Logo Request has been updated"
+      :subject => "Your Global Compact Logo Request has been accepted"
   end
 
   def rejected(logo_request)
@@ -22,6 +22,6 @@ class LogoRequestMailer < ActionMailer::Base
     mail \
       :to => logo_request.contact.email_recipient,
       :bcc => 'gclogo@un.org',
-      :subject => "Your Global Compact Logo Request has been updated"
+      :subject => "Global Compact Logo Request Status"
   end
 end

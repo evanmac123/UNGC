@@ -41,7 +41,7 @@ class OrganizationType < ActiveRecord::Base
     :signatory        => 'Initiative Signatory'
   }
 
-  def self.for_filter(filter_types)
+  def self.for_filter(*filter_types)
     if filter_types.is_a?(Array)
       filter_types.map! { |f| FILTERS[f] }
       where("name IN (?)", filter_types)
