@@ -90,6 +90,6 @@ class PagesController < ApplicationController
   end
 
   def template
-    "/pages/#{@current_version.try(:dynamic_content?) ? 'dynamic' : 'static'}.html.haml"
+    "/pages/#{@current_version.try(:dynamic_content?) ? 'dynamic' : 'static'}"
   end
 end

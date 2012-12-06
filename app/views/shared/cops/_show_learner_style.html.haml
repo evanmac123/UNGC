@@ -13,7 +13,7 @@
 
     %dl{:style => 'width: 85%;'}
       %dt.first Flagged items are missing
-      %dd.first{:style => 'padding-left: 50px;'}= render :partial => '/shared/cops/self_assessment.html.haml', :locals => { :communication_on_progress => communication_on_progress }
+      %dd.first{:style => 'padding-left: 50px;'}= render :partial => '/shared/cops/self_assessment', :locals => { :communication_on_progress => communication_on_progress }
 
   #results.tab_content
     %h3= differentiation_placement(communication_on_progress)

@@ -32,7 +32,7 @@ class AdminController < ApplicationController
       @organization = current_contact.organization
 
     end
-    render :template => "admin/dashboard_#{current_contact.user_type}.html.haml"
+    render :template => "admin/dashboard_#{current_contact.user_type}"
   end
 
   def no_access_to_other_organizations

@@ -55,7 +55,7 @@ class Admin::LogoRequestsController < AdminController
 
   def show
     if @logo_request.approved? && current_contact.from_organization?
-      render :template => 'admin/logo_requests/logo_terms.html.haml'
+      render :template => 'admin/logo_requests/logo_terms'
     end
   end
 
