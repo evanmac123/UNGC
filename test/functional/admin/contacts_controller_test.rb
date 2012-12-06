@@ -25,7 +25,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
 
   context "when logged in as an organization user" do
     setup do
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "display the 'new contact' form" do
@@ -85,7 +85,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   context "when logged in as UNGC staff user" do
     setup do
       create_local_network_with_report_recipient
-      login_as create_staff_user
+      sign_in create_staff_user
     end
 
     should "be able to assign the three organization roles when editing a contact" do
@@ -162,7 +162,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   context "when logged in as a Local Network" do
     setup do
       create_local_network_with_report_recipient
-       login_as @network_contact
+       sign_in @network_contact
     end
 
     should "redirect to dashboard contacts tab" do

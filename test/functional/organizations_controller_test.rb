@@ -6,9 +6,9 @@ class OrganizationsControllerTest < ActionController::TestCase
       @climate    = create_initiative(:id => 2, :name => 'Caring for Climate')
       @other_init = create_initiative(:id => 4, :name => 'Human Rights')
     end
+
     should "return an empty array if none exist" do
       get :index, {}, :format => :json
-      
       assert_response :success
       response = JSON.parse(@response.body)
       assert_equal [], response['organizations']

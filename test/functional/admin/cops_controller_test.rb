@@ -5,7 +5,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       create_principle_areas
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     context "creating a new cop" do
@@ -21,7 +21,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_organization_and_user
       @organization.approve!
       create_principle_areas
-      login_as @organization_user
+      sign_in @organization_user
     end
 
    context "with an Active status and within 90 day grace letter period" do
@@ -62,7 +62,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
        # state machine requires organization to be non-communicating first
        @organization.communication_late
        @organization.delist
-       login_as @organization_user
+       sign_in @organization_user
      end
      should "not see Grace Letter tab" do
        assert @organization.delisted?
@@ -97,7 +97,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     setup do
       create_non_business_organization_and_user('approved')
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "be redirected to intermediate COP template" do
@@ -117,7 +117,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "get the LEAD COP form" do
-      login_as @organization_user
+      sign_in @organization_user
       get :introduction
       assert_template "lead_introduction"
     end
@@ -130,7 +130,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @organization.approve!
       create_principle_areas
       create_language
-      login_as @organization_user
+      sign_in @organization_user
       get :new, :organization_id => @organization.id, :type_of_cop => 'basic'
       post :create, :organization_id => @organization.id,
                     :communication_on_progress => {
@@ -161,7 +161,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given an existing cop" do
     setup do
       create_cop_with_options
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "be able to see the cop details" do
@@ -188,7 +188,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given a COP submitted between 2010-01-01 and 2011-01-29" do
     setup do
       create_cop_with_options :created_at => Date.parse('31-12-2010')
-      login_as @organization_user
+      sign_in @organization_user
     end
     should "show the new style template" do
       get :show, :organization_id => @organization.id,
@@ -200,7 +200,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given a Grace Letter" do
     setup do
       create_cop_with_options(:type => 'grace')
-      login_as @organization_user
+      sign_in @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
@@ -216,7 +216,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       # if any item is missing, then the COP puts the participant on the Learner Platform
       create_cop_with_options(:include_measurement => false)
-      login_as @organization_user
+      sign_in @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
@@ -245,7 +245,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given a GC Active COP" do
     setup do
       create_cop_with_options
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "display active partial" do
@@ -260,7 +260,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given a GC Advanced COP" do
     setup do
       create_cop_with_options({:meets_advanced_criteria => true, :type => 'advanced'})
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "display advanced partial" do
@@ -275,7 +275,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given a GC Advanced COP that did not qualify" do
     setup do
       create_cop_with_options({:meets_advanced_criteria => false, :type => 'advanced'})
-      login_as @organization_user
+      sign_in @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
@@ -295,7 +295,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
   context "given a COP submitted that is not a Grace Letter" do
     setup do
       create_cop_with_options
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "send a confirmation email" do

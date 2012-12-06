@@ -5,7 +5,7 @@ class Admin::LogoFilesControllerTest < ActionController::TestCase
     @staff_user = create_staff_user
     @logo_file = create_logo_file
 
-    login_as @staff_user
+    sign_in @staff_user
   end
 
   test "should get index" do

@@ -6,7 +6,7 @@ class AdminControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       add_organization_data(@organization, @organization_user)
-      login_as create_staff_user
+      sign_in create_staff_user
     end
 
     should "get the dashboard page" do
@@ -22,7 +22,7 @@ class AdminControllerTest < ActionController::TestCase
       user = create_organization_and_user
       @organization.update_attribute :state, 'approved'
       add_organization_data(@organization, user)
-      login_as user
+      sign_in user
     end
 
     should "get the dashboard page" do
@@ -38,7 +38,7 @@ class AdminControllerTest < ActionController::TestCase
       create_comment(:commentable_id   => @organization.id,
                      :commentable_type => 'Organization',
                      :contact_id       => @organization_user.id)
-      login_as user
+      sign_in user
     end
 
     should "get the dashboard page" do
@@ -50,7 +50,7 @@ class AdminControllerTest < ActionController::TestCase
   context "given a local network contact" do
     setup do
       create_local_network_with_report_recipient
-      login_as @network_contact
+      sign_in @network_contact
     end
 
     should "get the dashboard page" do

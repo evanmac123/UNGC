@@ -5,7 +5,7 @@ class Admin::RolesControllerTest < ActionController::TestCase
     @staff_user = create_staff_user
     @role = create_role(:name => 'Staff', :description => 'Describes the role')
 
-    login_as @staff_user
+    sign_in @staff_user
   end
 
   test "should get index" do

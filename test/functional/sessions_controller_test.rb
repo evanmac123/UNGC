@@ -35,7 +35,7 @@ context "given an organization user" do
   end
 
   should 'logout' do
-    login_as :quentin
+    sign_in :quentin
     get :destroy
     assert_nil session[:user_id]
     assert_response :redirect
@@ -54,7 +54,7 @@ context "given an organization user" do
   end
 
   should 'delete token on logout' do
-    login_as :quentin
+    sign_in :quentin
     get :destroy
     assert @response.cookies["auth_token"].blank?
   end

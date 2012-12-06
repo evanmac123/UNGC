@@ -14,13 +14,13 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
   end
 
   test "should get new" do
-    login_as @contact
+    sign_in @contact
     get :new, :logo_request_id => @logo_request.id
     assert_response :success
   end
 
   test "should create logo comment" do
-    login_as @contact
+    sign_in @contact
     assert_difference('LogoComment.count') do
       post :create, :logo_request_id => @logo_request.id,
                     :logo_comment    => { :body       => "approve me, man",
@@ -39,7 +39,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
     end
 
     should "should set replied_to to false after a user updates" do
-      login_as @contact
+      sign_in @contact
       assert_difference('LogoComment.count') do
         post :create, :logo_request_id => @logo_request.id,
                       :logo_comment    => { :body       => "approve me, man",
@@ -51,7 +51,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
     end
 
     should "should set replied_to to true after a staff user updates" do
-      login_as @contact
+      sign_in @contact
       assert_difference('LogoComment.count') do
         post :create, :logo_request_id => @logo_request.id,
                       :logo_comment    => { :body       => "approve me, man",
@@ -62,7 +62,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
       assert_equal false, @logo_request.replied_to
 
 
-      login_as @staff_user
+      sign_in @staff_user
       assert_difference('LogoComment.count') do
         post :create, {:logo_request_id => @logo_request.id,
                        :logo_comment    => { :body => "revise, please" },

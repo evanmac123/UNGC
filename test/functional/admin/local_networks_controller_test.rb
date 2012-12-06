@@ -5,7 +5,7 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     @staff_user = create_staff_user
     @local_network = create_local_network
     create_local_network_guest_organization
-    login_as @staff_user
+    sign_in @staff_user
   end
 
   test "should get index" do
@@ -56,7 +56,7 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
   context "given a local network contact" do
     setup do
      create_local_network_with_report_recipient
-     login_as @network_contact
+     sign_in @network_contact
     end
 
     should "should get edit" do

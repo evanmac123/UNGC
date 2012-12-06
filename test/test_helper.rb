@@ -12,6 +12,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
   include FixtureReplacement
   include ActionDispatch::TestProcess
+  include Devise::TestHelpers
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false

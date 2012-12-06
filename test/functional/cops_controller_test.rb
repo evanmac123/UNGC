@@ -69,7 +69,7 @@ private
     create_organization_and_user
     @organization.approve!
     create_principle_areas
-    login_as @organization_user
+    sign_in @organization_user
   end
 
 end

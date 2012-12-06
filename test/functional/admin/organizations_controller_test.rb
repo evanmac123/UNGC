@@ -39,7 +39,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     @organization = Organization.create(:name                 => 'SME',
                                         :employees            => 50,
                                         :organization_type_id => OrganizationType.first.id)
-    login_as @user
+    sign_in @user
     get :show, {:id => @organization.to_param}, as(@user)
     assert_redirected_to dashboard_path
     assert_equal "You do not have permission to access that resource.", flash[:error]
@@ -94,7 +94,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
   end
 
   test "should redirect participants to main dashboard after updating" do
-    login_as @user
+    sign_in @user
     put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
     assert_redirected_to dashboard_path
   end
@@ -106,7 +106,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     end
 
     should "should set replied_to to false after a user updates" do
-      login_as @user
+      sign_in @user
       put :update, {:id => @organization.to_param, :organization => { }}, as(@user)
       @organization.reload
       assert_equal false, @organization.replied_to
@@ -114,7 +114,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     end
 
     should "should set replied_to to true after a staff user updates" do
-      login_as @staff_user
+      sign_in @staff_user
       put :update, {:id => @organization.to_param, :organization => { }}, as(@staff_user)
       @organization.reload
       assert_equal true, @organization.replied_to
@@ -122,7 +122,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     end
 
     should "not reverse roles without one CEO and Contact Point" do
-      login_as @staff_user
+      sign_in @staff_user
       get :reverse_roles, {:id => @organization.to_param}
       assert_equal 'Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.', flash[:error]
       assert_redirected_to admin_organization_path(@organization.id)
@@ -130,20 +130,20 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
     should "reverse roles" do
       create_organization_and_ceo
-      login_as @staff_user
+      sign_in @staff_user
       get :reverse_roles, {:id => @organization.to_param}
       assert_equal 'The CEO and Contact Point roles were reversed.', flash[:notice]
       assert_redirected_to admin_organization_path(@organization.id)
     end
 
     should "be able to edit Letter of Commitment" do
-      login_as @user
+      sign_in @user
       get :edit, {:id => @organization.to_param}, as(@staff_user)
       assert_select "input#organization_commitment_letter"
     end
 
     should "staff should see the fieldset for selecting why they are in review" do
-      # login_as @staff_user
+      # sign_in @staff_user
       # get :edit, {:id => @organization.to_param}, as(@staff_user)
       # assert_select "fieldset#review_reason"
     end
@@ -156,7 +156,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     end
 
     should "user should not see upload field for commitment letter" do
-      login_as @user
+      sign_in @user
       get :edit, {:id => @organization.to_param}, as(@user)
       assert_select "input#organization_commitment_letter", 0
     end
@@ -168,14 +168,14 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
      end
 
      should "applicant should not be able to edit" do
-       login_as @user
+       sign_in @user
        get :edit, {:id => @organization.id}, as(@user)
        assert_equal "We're sorry, your organization's application was not approved. No edits or comments can be made.", flash[:error]
        assert_redirected_to admin_organization_path(@user.organization.id)
      end
 
      should "staff should still be able to edit" do
-       login_as @staff_user
+       sign_in @staff_user
        get :edit, {:id => @organization.id}, as(@staff_user)
        assert_response :success
      end
@@ -187,7 +187,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
      end
 
      should "not be able to submit a COP" do
-       login_as @organization_user
+       sign_in @organization_user
        get :show, {:id => @organization.to_param}, as(@organization_user)
        # TODO need to check that the "New Communication on Progress" button is not displayed
        assert_response :success

@@ -5,7 +5,7 @@ class Admin::CountriesControllerTest < ActionController::TestCase
     @staff_user = create_staff_user
     @country = create_country
 
-    login_as @staff_user
+    sign_in @staff_user
   end
 
   test "should get index" do
