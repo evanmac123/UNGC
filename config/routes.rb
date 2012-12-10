@@ -202,4 +202,6 @@ UNGC::Application.routes.draw do
   match '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false
   match '/preview/*path'  => 'pages#preview',  :as => :preview_page,  :format => false
   match '/*path'          => 'pages#view',     :as => :view_page,     :format => false
+
+  mount Ckeditor::Engine => "/ckeditor"
 end
