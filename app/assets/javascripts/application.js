@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery-ui
 //= require admin
+//= require ckeditor/init
 //= require jquery.parsequery.min
 //= require tablesorter
 //= require jquery.tablesorter.pager
@@ -121,7 +122,6 @@ var Watcher = {
     if (!Watcher.included) {
       Watcher.included = true;
       include('/javascripts/page_editor.js');
-      include('/ckeditor/ckeditor.js');
     }
     if (response.content) {
       var possible_editor = $('#rightcontent .click_to_edit');

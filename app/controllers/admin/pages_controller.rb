@@ -162,7 +162,7 @@ class Admin::PagesController < AdminController
     end
 
     def ckeditor
-      (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
+      (@javascript ||= []) << 'page_editor'
     end
 
     def find_page

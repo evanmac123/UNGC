@@ -61,7 +61,7 @@ class Admin::NewsController < AdminController
     end
 
     def add_javascript
-      (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
+      (@javascript ||= []) << 'page_editor'
     end
 
     def order_from_params
