@@ -21,6 +21,7 @@ gem 'fixture_replacement',              :git => 'git://github.com/smtlaissezfair
 gem 'custom_error_message',             :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
 gem 'airbrake',             '~> 3.1.6'
 gem 'devise',               '~> 2.1.2'
+gem 'dynamic_form',         '1.0.0'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
