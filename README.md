@@ -112,7 +112,7 @@ For filenames, we usually named them same as the controller methods, but for Loc
 # Adding a new section banner
 1. Save banner as PNG from Illustrator (use 10% opacity for logo when using blue background)
 2. Note filename and add body class to application.css
-3. Ex: body.environment #inner_head { background: url(/images/banner_environment.png); }
+3. Ex: body.environment #inner_head { background: url(/assets/banner_environment.png); }
 4. For subsections, the class will be added after the previous classes in the body tag, so in the stylesheet, add the new class after the main section so it overrides the previous body class
 
 `<body class='development editable_page environment environment_climate'>`
@@ -120,9 +120,9 @@ For filenames, we usually named them same as the controller methods, but for Loc
 
 Example:
 
-`body.environment #inner_head { background: url(/images/banner_environment.png); }`
+`body.environment #inner_head { background: url(/assets/banner_environment.png); }`
 
-`body.environment_climate #inner_head { background: url(/images/banner_environment_climate.png); }`
+`body.environment_climate #inner_head { background: url(/assets/banner_environment_climate.png); }`
 
 
 Set `page.html_code` to the body class for the section you want the banner to appear in

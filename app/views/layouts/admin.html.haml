@@ -17,11 +17,11 @@
         %form#search{ :name => "search", :action => "/admin/organizations/search", :method => "get" }
           = hidden_field_tag 'commit', 'Search'
           %input.search_box{ :id => 'admin_search', :name => "keyword", :type => "text", :value => "Search organizations"}
-          %input.search_submit{ :name => "submit", :src => "/images/search_submit.png", :type => "image", :alt => "Search" }
+          %input.search_submit{ :name => "submit", :src => "/assets/search_submit.png", :type => "image", :alt => "Search" }
 
       %h1#page_header
         %a{:href => '/'}
-          %img{:src => '/images/logo.png', :style => 'margin-left: 2px; margin-top: 15px; margin-bottom: 15px;'}/
+          %img{:src => '/assets/logo.png', :style => 'margin-left: 2px; margin-top: 15px; margin-bottom: 15px;'}/
 
       = render :partial => 'layouts/main_nav'
 
