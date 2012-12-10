@@ -2,7 +2,7 @@
 #participant_search
   %h1 Participant Search
 
-  - form_tag nil, method: 'get' do
+  = form_tag nil, method: 'get' do
     = hidden_field_tag 'commit', 'Search'
     %fieldset
       %legend Name and Country

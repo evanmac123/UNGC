@@ -8,33 +8,33 @@ class Admin::LogoRequestsController < AdminController
       # use custom index view if defined
       render case method
         when 'pending_review'
-          @logo_requests = LogoRequest.pending_review.all(:include => :organization,
-                                                          :order   => order_from_params('created_at', 'DESC'))
+          @logo_requests = LogoRequest.pending_review.includes(:organization)
+                              .order(order_from_params('created_at', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           method
         when 'in_review'
-          @logo_requests = LogoRequest.in_review.all(:include => :organization,
-                                                     :order   => order_from_params('updated_at', 'DESC'))
+          @logo_requests = LogoRequest.in_review.includes(:organization)
+                              .order(order_from_params('updated_at', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           method
         when 'unreplied'
-          @logo_requests = LogoRequest.unreplied.all(:include => :organization,
-                                                     :order   => order_from_params('updated_at', 'DESC'))
+          @logo_requests = LogoRequest.unreplied.includes(:organization)
+                              .order(order_from_params('updated_at', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           @list_name = 'Updated Logo Requests'
           'in_review'
         when 'approved'
-          @logo_requests = LogoRequest.approved_or_accepted.all(:include => :organization,
-                                                    :order   => order_from_params('approved_on', 'DESC'))
+          @logo_requests = LogoRequest.approved_or_accepted.includes(:organization)
+                              .order(order_from_params('approved_on', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           method
         when 'rejected'
-          @logo_requests = LogoRequest.rejected.all(:include => :organization,
-                                                    :order   => order_from_params('updated_at', 'DESC'))
+          @logo_requests = LogoRequest.rejected.includes(:organization)
+                              .order(order_from_params('updated_at', 'DESC'))
                               .paginate(:page     => params[:page],
                                         :per_page => LogoRequest.per_page)
           method

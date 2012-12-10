@@ -31,7 +31,6 @@ class Headline < ActiveRecord::Base
   @@per_page = 15
 
   scope :published, where('approval = ?', 'approved')
-  scope :limit, lambda { |limit| where(:limit => limit) }
   scope :descending, order('published_on DESC, approved_at DESC')
 
   def self.all_for_year(year)

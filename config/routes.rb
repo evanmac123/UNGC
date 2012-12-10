@@ -12,6 +12,7 @@ UNGC::Application.routes.draw do
     get  '/password/new'      => 'admin/passwords#new',         :as => :new_password
     get  '/password/edit'     => 'admin/passwords#edit',        :as => :edit_password
   end
+  # TODO: registration?
 
   # Backend routes
   match '/admin'                    => 'admin#dashboard', :as => :admin
@@ -35,7 +36,7 @@ UNGC::Application.routes.draw do
       end
     end
 
-    resources :headlines do
+    resources :headlines, :controller => 'news' do
       member do
         post :approve
         post :revoke
@@ -95,9 +96,14 @@ UNGC::Application.routes.draw do
 
       resources :case_stories
       resources :communication_on_progresses
+      resources :comments
+      resources :contacts
     end
 
-    resources :case_stories
+    resources :case_stories do
+      resources :comments
+    end
+
     resources :logo_requests do
       collection do
         get :approved
@@ -112,6 +118,8 @@ UNGC::Application.routes.draw do
         post :agree
         get :download
       end
+
+      resources :logo_comments
     end
     resources :communication_on_progresses
     resources :initiatives
@@ -123,6 +131,12 @@ UNGC::Application.routes.draw do
     resources :cop_questions
 
     resources :local_networks do
+      resources :contacts
+      resources :awards
+      resources :mous
+      resources :meetings
+      resources :communications
+      resources :integrity_measures
       resources :local_network_events do
         resources :attachments
       end
@@ -130,12 +144,14 @@ UNGC::Application.routes.draw do
 
     match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
     
-    match 'reports'                 => 'reports#index', :as => :reports
-    match 'reports/:action.:format' => 'reports#index', :as => :report
+    match 'reports'          => 'reports#index', :as => :reports
+    match 'reports/:action'  => 'reports', :as => :report
 
     match 'learning'         => 'learning#index', :as => :learning
     match 'learning/:action' => 'learning'
   end
+
+  resources :organizations, :only => :index
 
   # Front-end routes
   match '/feeds/cops' => 'cops#feed', :format => 'atom'

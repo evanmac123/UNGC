@@ -11,7 +11,7 @@ module Admin::OrganizationsHelper
         actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
       end
     end
-    actions.join(" | ")
+    actions.join(" | ").html_safe
   end
 
   def text_for_edit_icon(user)
