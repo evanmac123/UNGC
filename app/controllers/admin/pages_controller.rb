@@ -6,10 +6,10 @@ class Admin::PagesController < AdminController
   cache_sweeper :page_sweeper, :only => [ :approve, :destroy ]
 
   def index
-    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
+    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js' << 'jquery.tree.js'
     respond_to do |wants|
       wants.html { }
-      wants.js   { }
+      wants.json { }
     end
   end
 
