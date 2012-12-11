@@ -13,7 +13,7 @@ class AdminControllerTest < ActionController::TestCase
       # now get the dashboard
       get :dashboard
       assert_response :success
-      assert_template 'admin/dashboard_ungc.html.haml'
+      assert_template 'admin/dashboard_ungc'
     end
   end
 
@@ -28,7 +28,7 @@ class AdminControllerTest < ActionController::TestCase
     should "get the dashboard page" do
       get :dashboard
       assert_response :success
-      assert_template 'admin/dashboard_organization.html.haml'
+      assert_template 'admin/dashboard_organization'
     end
   end
 
@@ -56,7 +56,7 @@ class AdminControllerTest < ActionController::TestCase
     should "get the dashboard page" do
       get :dashboard
       assert_response :success
-      assert_template 'admin/dashboard_network.html.haml'
+      assert_template 'admin/dashboard_network'
     end
   end
 

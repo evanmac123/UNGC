@@ -66,8 +66,7 @@ class Admin::LogoCommentsControllerTest < ActionController::TestCase
       assert_difference('LogoComment.count') do
         post :create, {:logo_request_id => @logo_request.id,
                        :logo_comment    => { :body => "revise, please" },
-                       :commit          => LogoRequest::EVENT_REVISE },
-                      as(@staff_user)
+                       :commit          => LogoRequest::EVENT_REVISE }
         end
       @logo_request.reload
       # FIXME - should be true. May not be posting as staff user

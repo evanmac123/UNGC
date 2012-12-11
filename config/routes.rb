@@ -12,7 +12,6 @@ UNGC::Application.routes.draw do
     get  '/password/new'      => 'admin/passwords#new',         :as => :new_password
     get  '/password/edit'     => 'admin/passwords#edit',        :as => :edit_password
   end
-  # TODO: registration?
 
   # Backend routes
   match '/admin'                    => 'admin#dashboard', :as => :admin
@@ -95,7 +94,7 @@ UNGC::Application.routes.draw do
       end
 
       resources :case_stories
-      resources :communication_on_progresses
+      resources :communication_on_progresses, :controller => 'cops'
       resources :comments
       resources :contacts
     end
@@ -121,7 +120,7 @@ UNGC::Application.routes.draw do
 
       resources :logo_comments
     end
-    resources :communication_on_progresses
+    resources :communication_on_progresses, :controller => 'cops'
     resources :initiatives
     resources :contacts_roles
     resources :roles

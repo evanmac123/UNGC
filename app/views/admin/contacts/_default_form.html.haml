@@ -26,6 +26,6 @@
         = label_tag "contact_role_ids_" + role.id.to_s, role.name, :class => 'checkbox_label'
         = content_tag :p, role.description || 'There is no description for this role', :class => 'check_box_label_description'
 %fieldset#login_information{:style => login_fieldset_style(@contact)}
-  %legend Login
-  = default_form.text_field :login, :label => 'Username'
+  %legend Username
+  = default_form.text_field :username, :label => 'Username'
   = default_form.password_field :password

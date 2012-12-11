@@ -66,7 +66,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                    :contact         => { :username    => 'aaa',
                                          :password => "password" }
 
-      assert_equal 'aaa', @organization_user.reload.login
+      assert_equal 'aaa', @organization_user.reload.username
 
       assert_redirected_to dashboard_path(:tab => :contacts)
     end

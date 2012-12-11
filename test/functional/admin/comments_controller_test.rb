@@ -33,14 +33,14 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
     should "not allow comments to be posted about a rejected application by user" do
       sign_in @organization_user
-      get :new, {:organization_id => @organization_user.organization.id}, as(@organization_user)
+      get :new, {:organization_id => @organization_user.organization.id}
       assert_equal "We're sorry, your organization's application was not approved. No edits or comments can be made.", flash[:error]
       assert_redirected_to admin_organization_path(@organization_user.organization.id)
     end
 
     should "allow comments to be posted about a rejected application by staff" do
       sign_in @staff_user
-      get :new, {:organization_id => @organization.id}, as(@staff_user)
+      get :new, {:organization_id => @organization.id}
       assert_response :success
     end
   end
@@ -59,7 +59,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     # should "not allow comments to be posted by a user if their organization is approved" do
     #   @organization.approve
     #   sign_in @organization_user
-    #   get :new, {:organization_id => @organization_user.organization.id}, as(@organization_user)
+    #   get :new, {:organization_id => @organization_user.organization.id}
     #   assert_equal "Your organization's application was approved. Comments are no longer being accepted.", flash[:notice]
     #   assert_redirected_to admin_organization_path(@organization_user.organization.id)
     # end

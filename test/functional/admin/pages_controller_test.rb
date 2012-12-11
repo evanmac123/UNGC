@@ -10,7 +10,8 @@ class Admin::PagesControllerTest < ActionController::TestCase
     context "successful edit action" do
       setup do
         # TODO: should be a staff user
-        xhr :get, :edit, {:id => @page.id}, as(@staff_user)
+        sign_in @staff_user
+        xhr :get, :edit, {:id => @page.id}
       end
 
       should "find page by id" do
@@ -31,8 +32,9 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
     context "edit a specific version" do
       setup do
+        sign_in @staff_user
         @version = @page.new_version :content => "<p>I am new.</p>"
-        xhr :get, :edit, {:id => @page.id, :version => @version.version_number}, as(@staff_user)
+        xhr :get, :edit, {:id => @page.id, :version => @version.version_number}
       end
 
       should "respond with that version's contents" do
@@ -43,13 +45,17 @@ class Admin::PagesControllerTest < ActionController::TestCase
     end
 
     context "bad edit action" do
+      setup do
+        sign_in @staff_user
+      end
+
       should "issue a 404 when page not found" do
-        xhr :get, :edit, {:id => 123456}, as(@staff_user)
+        xhr :get, :edit, {:id => 123456}
         assert_response 404
       end
 
       should "use the edit template when not XHR" do
-        get :edit, {:id => @page.id}, as(@staff_user)
+        get :edit, {:id => @page.id}
         assert_response 200
         assert_template 'admin/pages/edit'
       end
@@ -57,7 +63,8 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
     context "successful update via XHR" do
       setup do
-        xhr :put, :update, { :id => @page.id, :content => { :content => "<p>I am new.</p>" } }, as(@staff_user)
+        sign_in @staff_user
+        xhr :put, :update, { :id => @page.id, :content => { :content => "<p>I am new.</p>" } }
       end
 
       should "find content by id" do
@@ -79,7 +86,8 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
     context "successful update via POST (ie, Admin Edit)" do
       setup do
-        put :update, {:id => @page.id, :page => { :content => '<p>I am edited from the dashboard.</p>'} }, as(@staff_user)
+        sign_in @staff_user
+        put :update, {:id => @page.id, :page => { :content => '<p>I am edited from the dashboard.</p>'} }
       end
 
       should "find content by id" do
@@ -99,8 +107,9 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
     context "when updating and the version being edited is dynamic" do
       setup do
+        sign_in @staff_user
         @dynamic = create_approved_page :dynamic_content => true, :path => 'path/to/dynamic_page.html', :content => "<p>This is my page.</p>"
-        xhr :put, :update, { :id => @dynamic.id, :content => { :content => "<p>I am new.</p>" } }, as(@staff_user)
+        xhr :put, :update, { :id => @dynamic.id, :content => { :content => "<p>I am new.</p>" } }
       end
 
       should "create a new dynamic version" do
@@ -120,10 +129,11 @@ class Admin::PagesControllerTest < ActionController::TestCase
       @second = @first.new_version :content => 'Second'
       @third = @second.new_version :content => 'Third'
       @third.approve!
+      sign_in @staff_user
     end
 
     should "find latest version and redirect" do
-      get :find_by_path_and_redirect_to_latest, {:path => '/path/to/stuff.html'}, as(@staff_user)
+      get :find_by_path_and_redirect_to_latest, {:path => '/path/to/stuff.html'}
       assert_redirected_to( :action => :edit, :id => @third.id )
     end
   end

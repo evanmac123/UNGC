@@ -100,7 +100,7 @@ end
                                     :username => 'login',
                                     :password => 'nexen',
                                     :email => 'user2@example.com',
-                                    :last_signin_at => 7.months.ago,
+                                    :last_sign_in_at => 7.months.ago,
                                     :role_ids => [Role.contact_point.id])
 
     end

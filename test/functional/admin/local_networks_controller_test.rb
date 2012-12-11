@@ -68,7 +68,7 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
       get :edit, :id => @local_network.to_param, :section => 'membership'
       assert_equal 'membership', assigns(:section)
       assert_equal 'edit_membership', assigns(:form_partial)
-      assert_template :partial => 'edit_membership'
+      assert_template :partial => '_edit_membership'
       assert_response :success
     end
 
