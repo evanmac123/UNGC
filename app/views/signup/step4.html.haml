@@ -6,6 +6,6 @@
 %h2 Financial Commitment
 #main_content
 
-  = form_for(@organization, :url => organization_step5_path, :html => { :multipart => true }, builder: ApplicationFormBuilder) do |form|
+  = form_for(@organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
     = render :partial => 'pledge_form', :locals => {:form => form}
     = form.submit 'Next', :class => 'button'
