@@ -1,3 +1,17 @@
+h1. 2012-12-19
+
+* Contacts are able to delete themselves, even when pending_review or in_review
+* Added helper method to hide the delete button if their application has not been approved
+* Although there are before_update callbacks to prevent this, they can only be applied to participants
+* It caused tests to fail when trying to update contacts during the initial registration process
+
+* Here are the rules for organization contacts and their roles
+** There must always be at least one Highest Level Executive
+** There cannot be more than one Highest Level Executive
+** There must always be at least one Contact Point
+
+* The current solution is too complicated, relying on a combination of callbacks and conditionally hiding buttons to prevent deleting
+
 h1. 2012-11-19
 
 * Added callback method to delete associated contacts and roles when an organization is deleted
