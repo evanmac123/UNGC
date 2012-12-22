@@ -192,6 +192,16 @@ class Organization < ActiveRecord::Base
     :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ]
   }
 
+  named_scope :companies, {
+    :include => :organization_type,
+    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:companies) ]
+  }
+
+  named_scope :smes, {
+    :include => :organization_type,
+    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme) ]
+  }
+
   named_scope :businesses, {
     :include    => :organization_type,
     :conditions => ["organization_types.type_property = ?", OrganizationType::BUSINESS]
@@ -555,6 +565,10 @@ class Organization < ActiveRecord::Base
 
   def extend_cop_temporary_period
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
+  end
+
+  def extend_cop_due_date_by_one_year
+    self.update_attribute(:cop_due_on, cop_due_on + 1.year)
   end
 
   # COP's next due date is 1 year from current date
