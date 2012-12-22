@@ -1,0 +1,40 @@
+To all Contact Points for
+%strong== #{@organization.name}:
+
+%p== Our records show that your company has not submitted a #{link_to 'Communications on Progress (COP)', 'http://unglobalcompact.org/COP/' } by its two previous deadlines. Therefore, your company has exceeded the period in which a participant can remain within the initiative before facing expulsion and being listed in the #{link_to 'Expelled Participants', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html' } section in our public website.
+
+%p==With the purpose of supporting all SMEs in their sustainability efforts and encouraging your company to continue its engagement with the Global Compact, we will grant you an additional period to submit a COP according to the commitment companies acquire when joining the Global Compact. Your COP must be submitted by <strong>#{dd_month_yyyy @organization.cop_due_on + 1.year}</strong> to avoid being expelled from the initiative.
+
+%p To ensure that your next COP fulfills all requirements, we urge you to take advantage of relevant guidance developed by our office (listed below).
+
+%p In addition, Global Compact Local Networks can offer valuable support. With 101 networks in place, we encourage you to determine if there is a network in your country and how to become involved. Networks offer the best opportunity to engage on sustainability issues and receive support at the local level.
+
+%ul
+  %li= link_to local_network_name(@organization), 'http://www.unglobalcompact.org'+link_to_local_network(@organization)
+
+%p== We hope these resources will assist you in advancing your sustainability practices and preparing a communication that achieves the #{link_to 'GC Active', 'http://www.unglobalcompact.org/COP/differentiation/GCActive_level.html'} or #{link_to 'GC Advanced', 'http://www.unglobalcompact.org/COP/differentiation/GCAdvanced_level.html'} levels.
+
+%p Sincerely,
+
+%p
+  The COP Team
+  %br
+  United Nations Global Compact
+  %br
+  = mail_to 'cop@unglobalcompact.org'
+
+- @row_style = 'text-align: left; padding-bottom: 10px;'
+%table{:border => 0, :style => 'background-color: #EEEEFF; padding: 1em 2em;'}
+  %tr
+    %td
+      %h3{:style => 'color: #0A3A4B;'} COP Guidance
+  %tr
+    %td{:style => @row_style}= link_to 'Upcoming Webinars', 'http://www.unglobalcompact.org/NewsAndEvents/event_calendar/webinars.html'
+  %tr
+    %td{:style => @row_style}= link_to 'COP Guide - Basic', 'http://unglobalcompact.org/docs/communication_on_progress/Tools_and_Publications/COP_Basic_Guide.pdf'
+  %tr
+    %td{:style => @row_style}= link_to 'COP Guide - Comprehensive', 'http://www.unglobalcompact.org/docs/communication_on_progress/Tools_and_Publications/COP_Comprehensive_Guide.pdf'
+  %tr
+    %td{:style => @row_style}= link_to 'Step-by-Step COP Submission', 'http://www.unglobalcompact.org/docs/communication_on_progress/COP_Submission_Step_by_Step_Guide.pdf'
+  %tr
+    %td{:style => @row_style}= link_to 'Video on how to Submit a COP', 'http://www.unglobalcompact.org/COP/communicating_progress/how_to_submit_a_cop.html'
