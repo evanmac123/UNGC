@@ -84,13 +84,14 @@ class CommunicationOnProgress < ActiveRecord::Base
   scope :advanced, where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}])
   scope :learner, where("differentiation = ?", 'learner')
   scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => :country, :organization => :organization_type}]) }
-  scope :by_year, includes(:organization).order("communication_on_progresses.created_at DESC, organizations.name ASC")
   # feed contains daily COP submissions, without grace letters
   scope :for_feed, lambda { where("format != ? AND created_at >= ?", 'grace_letter', Date.today).order("created_at") }
+  scope :by_year, order("communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC")
 
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :annual_report         => "Part of an annual (financial) report"
+
            }
 
   # How the COP is shared
@@ -469,12 +470,12 @@ class CommunicationOnProgress < ActiveRecord::Base
     error_messages
   end
 
-  private
+    private
 
     def delete_associated_attributes
       self.cop_files.each {|file| file.destroy}
       self.cop_links.each {|link| link.destroy}
       self.cop_answers.each {|answer| answer.destroy}
     end
-
+    
 end

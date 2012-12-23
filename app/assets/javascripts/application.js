@@ -19,9 +19,6 @@
 //= require jquery.tablesorter.pager
 //= require_self
 //= require dashboard
-//= require urchin
-//= require google_analytics
-
 
 $.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
 
@@ -262,4 +259,3 @@ $(document).ready(function() {
     }
     $('#contact_form').toggle();
   });
-
