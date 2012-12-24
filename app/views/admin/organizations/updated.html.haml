@@ -17,7 +17,7 @@
       - @organizations.each do |organization|
         %tr
           %td=h organization.id
-          %td{:title => organization.name}=h truncate(organization.name, :length => 40)
+          %td{:title => organization.name}=h truncate(organization.name, :length => 30)
           %td
             =h organization.created_at
             %br/
