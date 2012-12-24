@@ -68,11 +68,12 @@ UNGC::Application.configure do
   config.action_mailer.default_url_options = { :host => 'www.unglobalcompact.org' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address        => "smtp.emailsrvr.com",
-    :port           => 25,
-    :domain         => "unglobalcompact.org",
-    :authentication => :login,
-    :user_name      => "info@unglobalcompact.org",
-    :password       => "ungcmail2010"
+    :enable_starttls_auto => true,
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => "unglobalcompact.org",
+    :authentication       => :login,
+    :user_name            => "info@unglobalcompact.org",
+    :password             => "ungcmail2010"
   }
 end
