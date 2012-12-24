@@ -1,6 +1,7 @@
 $dark_blue: #14546f
 $border_radius: 3px
 div#participant_search
+
   fieldset
     padding: 1.4em
     margin: 0 0 1.5em 0
@@ -13,30 +14,32 @@ div#participant_search
     color: $dark_blue
   label
     font-weight: normal
-    color: $dark_blue 
+    color: $dark_blue
     float: left
     width: 120px
     cursor: pointer
+    margin-top: 0
     &.date
       width: auto
       margin: 0 20px 0 0
-  
+
   input[type=text], select
     width: 275px
     border: 1px solid #bbb
     &.datepicker
       width: auto
-  
+
   input[type=radio], input[type=checkbox]
     float: left
     margin: 2px 10px 0 0
-  
+
   dl
     &.dates
       margin: 0
-      
+
     dt
       float: left
+      margin-top: -15px
       &.radio
         text-align: right
     dd
