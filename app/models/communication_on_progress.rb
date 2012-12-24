@@ -82,7 +82,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     includes([:score, {:organization => [:country]}]).where("cop_score_id = ?", CopScore.notable.try(:id)).order("ends_on DESC")
   }
   scope :advanced, where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}])
-  scope :learner, where("differentiation = ?", 'learner')
+  scope :learner, where("differentiation = ?", 'learner').includes([{:organization => [:country, :sector]}])
   scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => :country, :organization => :organization_type}]) }
   # feed contains daily COP submissions, without grace letters
   scope :for_feed, lambda { where("format != ? AND created_at >= ?", 'grace_letter', Date.today).order("created_at") }
