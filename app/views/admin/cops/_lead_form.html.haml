@@ -107,7 +107,7 @@
   %div.tab_content{:id => "strategy_additional_questions"}
     %h3 Strategy, Governance and Engagement
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :strategy, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :strategy, :year => 2012
 
   %div.tab_content{:id => "human_rights_additional_questions"}
     %h3
@@ -116,19 +116,19 @@
     %div.hint_toggle About this section...
     %div.hint_text{:style => 'display: none;'}
       %p.indent== Criteria and best practices under human rights implementation have been modified to reflect the Guiding Principles on Business and Human Rights: Implementing the United Nations "Protect, Respect and Remedy" Framework #{popup_link_to '(the Guiding Principles)','/Issues/human_rights/The_UN_SRSG_and_the_UN_Global_Compact.html'}.
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :human_rights, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :human_rights, :year => 2012
 
   %div.tab_content{:id => "labour_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('labour')}" } Labour Principles Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :labour, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :labour, :year => 2012
 
   %div.tab_content{:id => "environment_additional_questions"}
     %h3
       %span{:class => "#{issue_area_colour_for('environment')}" } Environmental Stewardship Implementation
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :environment, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :environment, :year => 2012
 
   %div.tab_content{:id => "anti_corruption_additional_questions"}
     %h3
@@ -137,7 +137,7 @@
     %div.hint_toggle About this section...
     %div.hint_text{:style => 'display: none;'}
       %p.indent== Criteria and best practices under Anti-Corruption implementation have been modified to reflect the #{link_to 'Anti-Corruption Reporting Guidance (pdf)','/docs/issues_doc/Anti-Corruption/UNGC_AntiCorruptionReporting.pdf'}. Best practices reflect specific reporting elements of the guidance, either Basic (numbers starting with B) or Desired (numbers starting with D).
-    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :anti_corruption, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :additional, :principle => :anti_corruption, :year => 2012
 
   %div.tab_content{:id => "value_chain_additional_questions"}
     %h3 Value Chain Implementation
@@ -146,12 +146,12 @@
     %div{:class => 'hint_text', :style => 'display: none;'}
       %p{:style => 'padding-left: 2em;'} The term 'value chain', for purposes of this self-assessment, refers to an organization's upstream business partners (including suppliers and subcontractors) and downstream business partners (e.g. for transport of finished products).
 
-    %fieldset= cop_questions_for @communication_on_progress, :value_chain, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :value_chain, :year => 2012
 
   %div.tab_content{:id => "verification_additional_questions"}
     %h3 Verification and Transparency
     = render :partial => 'admin/cops/texts/advanced_reporting_rules.html.haml'
-    %fieldset= cop_questions_for @communication_on_progress, :verification, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :verification, :year => 2012
 
   %div.tab_content{:id => "un_goals_additional_questions"}
     %h3 Taking Action in Support of Broader UN Goals and Issues
@@ -167,7 +167,7 @@
     %h3
       %span.business_peace Business and Peace
     %p How does your COP demonstrate that your company is advancing responsible business practices aligned with your commitment to the Global Compact in high-risk and/or conflict-affected areas?  These areas differ significantly from more stable operating environments and require companies to take into consideration additional factors. For the following criteria, please check the policies and practices described in your COP.
-    %fieldset= cop_questions_for @communication_on_progress, :business_peace, :year => current_year
+    %fieldset= cop_questions_for @communication_on_progress, :business_peace, :year => 2012
 
   #finish.tab_content
     %fieldset
