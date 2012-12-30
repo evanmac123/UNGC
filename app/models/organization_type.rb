@@ -55,23 +55,23 @@ class OrganizationType < ActiveRecord::Base
   end
 
   def self.micro_enterprise
-    first :conditions => {:name => FILTERS[:micro_enterprise]}
+    where(name: FILTERS[:micro_enterprise]).first
   end
 
   def self.sme
-    first :conditions => {:name => FILTERS[:sme]}
+    where(name: FILTERS[:sme]).first
   end
 
   def self.company
-    first :conditions => {:name => FILTERS[:companies]}
+    where(name: FILTERS[:companies]).first
   end
 
   def self.academic
-    first :conditions => {:name => FILTERS[:academia]}
+    where(name: FILTERS[:academia]).first
   end
 
   def self.signatory
-    first :conditions => {:name => FILTERS[:signatory]}
+    where(name: FILTERS[:signatory]).first
   end
 
 end

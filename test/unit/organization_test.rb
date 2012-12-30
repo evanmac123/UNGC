@@ -31,7 +31,7 @@ class OrganizationTest < ActiveSupport::TestCase
       @companies = create_organization_type(:name => 'Company')
       @micro_enterprise = create_organization_type(:name => 'Micro Enterprise')
       @sme = create_organization_type(:name => 'SME')
-      @academic = create_organization_type(:name => 'Academic')
+      @academic = create_non_business_organization_type
     end
 
     should "set the organization type to SME when it has less than 10 employees" do
