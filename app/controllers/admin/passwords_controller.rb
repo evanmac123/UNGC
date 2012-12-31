@@ -7,7 +7,7 @@ class Admin::PasswordsController < DeviseController
     @contact = Contact.find_by_email(email) unless email.blank?
     if @contact && @contact.username.present?
       begin
-        @contact.send_reset_password_instructions(parmas[:Contact])
+        ContactMailer.reset_password_instructions(@contact).deliver
       rescue Exception => e
        flash[:notice] = 'Sorry, we could not send the email due to a server error. Please try again.'
        redirect_to new_password_path

@@ -29,7 +29,7 @@ module Admin::OrganizationsHelper
   def initial_organization_state(organization)
     commands = ["$('.company_only').#{organization.company? ? 'show' : 'hide'}();"]
     commands << "$('.public_company_only').#{organization.public_company? ? 'show' : 'hide'}();"
-    commands.collect{|c| javascript_tag(c)}.join
+    commands.collect{|c| javascript_tag(c)}.join.html_safe
   end
 
   def display_status(organization)
@@ -95,14 +95,17 @@ module Admin::OrganizationsHelper
         list_items = ''
         matches.try(:each) do |match|
           unless match.id == organization.id
-            list_items += content_tag :li, link_to("#{match.id}: #{match.name}", admin_organization_path(match.id)), :title => "#{match.id}: #{match.name}"
+            list_items += content_tag :li,
+                                      link_to("#{match.id}: #{match.name}",
+                                      admin_organization_path(match.id)),
+                                      :title => "#{match.id}: #{match.name}"
           end
         end
       end
 
       unless list_items.blank?
         html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
-        html += content_tag :ul, list_items, :class => 'matching_list'
+        html += content_tag :ul, list_items.html_safe, :class => 'matching_list'
       end
     end
 

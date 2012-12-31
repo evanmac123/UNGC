@@ -8,11 +8,11 @@
       %tr
         %th= sort_header 'ID', field: 'id'
         %th= sort_header 'Name', field: 'name'
-        %th= sort_header 'Review<br />Reason', field: 'review_reason', direction: 'DESC'
-        %th= sort_header 'Submitted<br />on', field: 'created_at'
-        %th Last<br />comment
+        %th= sort_header 'Review<br />Reason'.html_safe, field: 'review_reason', direction: 'DESC'
+        %th= sort_header 'Submitted<br />on'.html_safe, field: 'created_at'
+        %th= "Last<br />comment".html_safe
         %th Comment<br />posted by
-        %th= sort_header 'Letter of<br />Commitment', field: 'commitment_letter_updated_at'
+        %th= sort_header 'Letter of<br />Commitment'.html_safe, field: 'commitment_letter_updated_at'
         %th Actions
 
       - @organizations.each do |organization|

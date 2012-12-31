@@ -61,7 +61,7 @@ class LocalNetworkParticipantContacts < SimpleReport
       record.phone,
       record.fax,
       record.roles.first.name,
-      record.login,
+      record.username,
       record.password
     ]
   end
