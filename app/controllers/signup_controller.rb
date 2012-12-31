@@ -53,10 +53,10 @@ class SignupController < ApplicationController
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
     # highlight amount by assigning CSS class
     @suggested_pledge_amount = {}
-    @suggested_pledge_amount[@organization.revenue.to_s] = 'highlight_suggested_amount'
+    @suggested_pledge_amount[@organization.revenue] = 'highlight_suggested_amount'
     # preselect radio button
     @checked_pledge_amount = {}
-    @checked_pledge_amount[@organization.revenue.to_s] = true
+    @checked_pledge_amount[@organization.revenue] = true
   end
 
   # POST from pledge form
