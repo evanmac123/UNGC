@@ -1,3 +1,9 @@
+h1. 2012-12-31
+
+* There are new pledge levels being introduced for 2013 based on organization.revenue
+* These are defined in Organization::REVENUE_LEVELS
+* Corresponding pledge amounts are now defined in Organization::PLEDGE_LEVELS
+
 h1. 2012-12-21
 
 * SMEs are being expelled at a high rate, so to reduce the loss, we are temporarily extending COP due dates for one year
