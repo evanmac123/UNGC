@@ -128,12 +128,21 @@ class Organization < ActiveRecord::Base
   COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
 
-  # revenue and corresponding pledge amount
-  REVENUE = {
-    'less than USD 25 million'                  => 500,
-    'between USD 25 million and 250 million'    => 2500,
-    'between USD 250 million and USD 1 billion' => 5000,
-    'USD 1 billion or more'                     => 10000
+  REVENUE_LEVELS = {
+    1 => 'less than USD 50 million',
+    2 => 'between USD 50 million and USD 250 million',
+    3 => 'between USD 250 million and USD 1 billion',
+    4 => 'between USD 1 billion and USD 10 billion',
+    5 => 'USD 10 billion or more'
+  }
+
+  # suggested pledge level corresponds to revenue level
+  PLEDGE_LEVELS = {
+    1 => 0,
+    2 => 5000,
+    3 => 10000,
+    4 => 15000,
+    5 => 15000
   }
 
   # identify why an organization is being reviewed
@@ -417,7 +426,11 @@ class Organization < ActiveRecord::Base
   end
 
   def revenue_description
-    revenue ? REVENUE.key(revenue) : ''
+    revenue ? REVENUE_LEVELS[revenue] : ''
+  end
+
+  def suggested_pledge
+    revenue ? PLEDGE_LEVELS[revenue] : ''
   end
 
   def business_for_search
