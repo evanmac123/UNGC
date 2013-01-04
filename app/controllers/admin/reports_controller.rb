@@ -63,6 +63,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "local_networks_contacts_#{date_as_filename}.xls")
   end
 
+  def local_networks_all_contacts
+    @report = LocalNetworksAllContacts.new
+    render_formatter(filename: "local_networks_all_contacts_#{date_as_filename}.xls")
+  end
+
   def local_networks_report_recipients
     @report = LocalNetworksReportRecipients.new
     render_formatter(filename: "local_networks_report_recipients_#{date_as_filename}.xls")
