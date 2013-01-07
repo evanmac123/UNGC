@@ -221,7 +221,7 @@ class Organization < ActiveRecord::Base
     elsif user.user_type == Contact::TYPE_NETWORK
       where("country_id in (?)", user.local_network.country_ids)
     else
-      []
+      self.scoped({})
     end
   end
 
