@@ -35,11 +35,10 @@
 require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me
+  # attr_accessible :email, :password, :password_confirmation, :remember_me
   include VisibleTo
 
   TYPE_UNGC = :ungc
@@ -50,14 +49,17 @@ class Contact < ActiveRecord::Base
   # if they haven't logged in then we redirect them to their edit page to confirm their contact information
   MONTHS_SINCE_LOGIN = 6
 
-  validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
-  validates_presence_of :username, :if => :can_login?
-  validates_presence_of :password, :unless => Proc.new { |contact| contact.username.blank? }
-  validates_uniqueness_of :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
-  validates_uniqueness_of :email, :on => :create
-  validates_format_of   :email,
-                        :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
-                        :message => "is not a valid email address"
+  validates_presence_of     :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
+  validates_presence_of     :username, :if => :can_login?
+  validates_presence_of     :password, :if => :password_required?
+  validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
+  validates_uniqueness_of   :email, :on => :create
+  validates_confirmation_of :password, :if => :password_required?
+  validates_length_of       :password, :within => Devise.password_length, :allow_blank => true
+  validates_format_of       :email,
+                              :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
+                              :message => "is not a valid email address"
+
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
@@ -196,12 +198,6 @@ class Contact < ActiveRecord::Base
     "#{full_name_with_title}\n#{job_title}\n#{email}\n#{phone}"
   end
 
-  def self.authenticate(login, password)
-    return nil if login.blank? || password.blank?
-    u = find_by_login(login.downcase)
-    (u && u.hashed_password == encrypted_password(password)) ? u : nil
-  end
-
   def from_ungc?
     organization_id? && organization.name == DEFAULTS[:ungc_organization_name]
   end
@@ -292,6 +288,10 @@ class Contact < ActiveRecord::Base
   alias :devise_valid_password? :valid_password?
 
   private
+
+    def password_required?
+      self.username.present?
+    end
 
     def keep_at_least_one_ceo
       if self.is?(Role.ceo) && self.organization.contacts.ceos.count <= 1
