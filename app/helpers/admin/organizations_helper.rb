@@ -2,11 +2,11 @@ module Admin::OrganizationsHelper
   def organization_actions(organization)
     actions = []
     unless current_contact.from_organization?
-      actions << link_to('Network Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post, :confirm => "The Local Network in #{@organization.country_name} will be emailed.\n\nAre you sure you want to proceed?\n\n") if organization.can_network_review?
-      actions << link_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), :method => :post) if organization.can_approve?
-      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this application?") if organization.can_reject?
-      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this Micro Enterprise?") if organization.can_reject?
-      actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
+      actions << button_to('Network Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post, :confirm => "The Local Network in #{@organization.country_name} will be emailed.\n\nAre you sure you want to proceed?\n\n", :class => "nobutton") if organization.can_network_review?
+      actions << button_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), {:method => :post, :class => "nobutton"}) if organization.can_approve?
+      actions << button_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this application?", :class => "nobutton") if organization.can_reject?
+      actions << button_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this Micro Enterprise?", :class => "nobutton") if organization.can_reject?
+      actions << button_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile', :class => "nobutton")
       if @organization.participant
         actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
       end
