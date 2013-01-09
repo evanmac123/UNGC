@@ -7,8 +7,6 @@
     = default_form.text_field :employees
 
     - staff_only do
-      - if @organization.company?
-        = default_form.date_select :cop_due_on, {:li_class => 'date', :label => 'COP Due Date'}
       = default_form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
 
     - if @organization.company?
