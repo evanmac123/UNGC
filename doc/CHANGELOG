@@ -69,6 +69,1273 @@ h1. 2012-12-31
 * These are defined in Organization::REVENUE_LEVELS
 * Corresponding pledge amounts are now defined in Organization::PLEDGE_LEVELS
 
+h1. 2012-12-27
+
+* We needed a way for our office to share information privately with Local Networks
+* We didn't want to create a new document type in the Dashboard, but instead we just create a private Page that's only accessible by Local Networks
+
+# Create a dynamic Page
+# Add link to front screen of Local Networks Dashboard
+# Add direct link to edit this page from the Staff Dashboard
+# This can be a table with a direct link to edit each page
+# Can also consider adding a direct publish link
+# Create pages within migration or script
+## create page group
+## then create pages within that group
+## These can be place holders, then we can populate the content
+
+h1. 2012-12-26
+
+* The Advanced and Blueprint COPs are being merged with the Advanced COP adopting the Blueprint reporting rules
+* Each criterion (cop_question) must have at least one best practice (cop_attribute) checked off
+
+h1. 2012-12-21
+
+* SMEs are being expelled at a high rate, so to reduce the loss, we are temporarily extending COP due dates for one year
+* Instead of receiving the expelled email, they receive a warning email
+* The process should be reversed by the end of 2013 in order to delisted those that have still not submitted a COP
+
+h1. 2012-12-19
+
+* Contacts are able to delete themselves, even when pending_review or in_review
+* Added helper method to hide the delete button if their application has not been approved
+* Although there are before_update callbacks to prevent this, they can only be applied to participants
+* It caused tests to fail when trying to update contacts during the initial registration process
+
+* Here are the rules for organization contacts and their roles
+** There must always be at least one Highest Level Executive
+** There cannot be more than one Highest Level Executive
+** There must always be at least one Contact Point
+
+* The current solution is too complicated, relying on a combination of callbacks and conditionally hiding buttons to prevent deleting
+
+h1. 2012-11-19
+
+* Added callback method to delete associated contacts and roles when an organization is deleted
+* This was necessary to bypass the destroy callback methods in the Contact model
+
+h1. 2012-11-12
+
+* Added a JSON feed to return organizations signed onto the "Caring for Climate":http://caringforclimate.org/about/list-of-signatories/ initiative
+* Additional model attributes and methods can be requested through the 'extras' parameter
+* Ex: http://localhost:8080/organizations.json?initiative=climate&extras=stock_symbol,state
+* The Organizations controller assumes that an initiative will be requested. We may decide to open this up to allow any type of organization to be returned
+
+h1. 2012-10-12
+
+* There was rule change for evaluating LEAD COPs
+* For Blueprint criteria where cop_question.initiative is Global Compact Lead, companies only have to cover one best practice (cop_attribute) within each cop_question
+* This is the same rule applied for the Advanced question groups
+* Removed the method requiring all cop_attributes for a given cop_question to be covered since that rule no longer exists
+* Revised results screens and email to display question group
+
+h1. 2012-09-29
+
+* No longer using old_id to identify specific Roles
+* We use the name instead, :ceo => 'Highest Level Executive'
+* If the Role name is included in one of the filtered types (Role::FILTERS), it cannot be changed
+
+h1. 2012-09-26
+
+* Returned Micro Enterprise rule, so companies with less than 10 employees are labelled as micros
+* This does not apply to organizations that have already been approved (organization.state = 'approved')
+* Micros are not treated as participants, but we don't want to punish those that have dropped below 10 employees
+* Also, Participant Management wanted to still identify those organization's whose application was rejected for being a Micro Enterprise in the first place
+
+h1. 2012-09-17
+
+* Removed behaviour in Dashboard tables that lets a user select a default action by clicking anywhere on a row
+* This works well unless you want to open a particular action in a new window; the current window opens the action's link as well
+* If you click a link within the row, such as an organization's name and want that to open in a new window, the current window change as well
+* From now on, people will have to click on the specific action icon
+* If there is a way to prevent this by intercepting or unbinding the click, the original JavaScript is in commit: 976b0610a808379a0b268c23c8b6ef0010b2bd97
+
+h1. 2012-09-04
+
+* We are introducing a new "Business and Peace" section for COPs, which will appear as part of the Advanced and LEAD questionnaires
+* Created a boolean (references_business_peace) similar to other issues areas to track if organization operates in high risk areas
+* If they answer yes, then the Business and Peace tab appears with the corresponding questions
+* Added another grouping area in cop_question.rb for Business and Peace questions
+* When evaluating Lead COP answers, these questions are excluded
+
+h1. 2012-08-30
+
+* Created Reports section for Local Networks
+* These are similar to Reports for staff, but are scoped to organizations within the Local Network's countries with VisibleTo#visible_to(user)
+* Since we have to customize the reports for Local Networks in most cases, separate reports and scopes are used
+
+h1. 2012-08-23
+
+* Some Financial Contacts are receiving invoices without being informed that the Contact Point had made a pledge
+* We are going to include the original contact point in the invoice email, so they can explain the invoice to the Financial Contact
+
+h1. 2012-08-20
+
+* Starting to *finally* clean up all of those unused COP columns
+* Answers to `include_ceo_letter` were transferred to `include_continued_support_statement` since it's the same question
+* That same column could have been used for the 2010+ COPs but this was not realized at the time
+* Many of those columns were for questions only asked for about 2 months. Nothing was done with that information anyway
+* See the database export from 2012-08-21 if you ever need to see what those values were
+* Those questions were only asked for about 2 months and nothing was done with the information in those columns anyway
+* The previous url1..3 columns where copied to cop_links with the same timestamps as the COP and the language set to 1: Unknown
+
+h1. 2012-08-15
+
+* removed "options[:year] ||= cop.start_year" in the cops_helpers.rb
+* start_year is no longer used and referred to the coverage dates of the COP
+* also, the cop questions that remain the same year-to-year do not need the year specified
+* Example: <pre>cop_questions_for @communication_on_progress, :lead_un_goals</pre>
+* Compared to: <pre>cop_questions_for @communication_on_progress, :verification, :year => current_year</pre>
+* also see entry for 2012-01-03
+
+h1. 2012-08-09
+
+* Dynamically list Local Network based on network state (Emering, Established, Formal)
+* Table is created in shared partial _local_network_listing.html.haml
+* Specify state with :partial => 'shared/local_network_listing', :locals => {:state => :emerging}
+* Three separate pages under 'Overview' will replace the current drop down list
+
+h1. 2012-08-01
+
+* The signup form is not copying over the default contact information if validation fails
+* To save people time, we populate the address information based on the previous contact's data
+* If the form is submitted without all required fields, then those fields are not copied over to the next contact (CEO or Financial Contact)
+* A temporary fix was to set the Financial Contacts's information to 'n/a' since they don't have to provide address information, although the Contact model requires it
+
+h1. 2012-07-31
+
+* The Reports were updated to use find_in_batches and create a temporary file before sending to the browser
+* The passengers were using excessive memory causing the server to run out of memory
+* Rails Machine had traced the problem to the records being buffered in memory (for some reports in the tens of thousands) before creating the export file
+* The method 'render_output' was added to simple_report.rb to call render_xls by default, but can be overridden within each report if render_xls_in_batches is preferred, which is the case for reports returning more than 1000 records
+* Also, send_data was replaced with send_file by first saving all records in a temporary file
+* These changes are using less memory, but occasionally we are still seeing the process killed before the file downloads
+* We will also look into adding more options to the Reports so people can limit the number of records being downloaded by filtering
+* Rails Machine added a passenger memory monitor job to kill and processes going over 500MB, and will increase memory from 3GB to 4GB
+
+h1. 2012-05-03
+
+* The Business and Peace Expert Group members are to be listed on the website along with a link to their latest COP
+* A new partial similar to that used by Caring for Climate and LEAD was created with the addition of a COP column
+* /Issues/conflict_prevention/expert_group_members.html
+
+h1. 2012-04-30
+
+* Hide "New Contact" button from Local Networks
+* The Local Networks team does not want other login accounts being created, other than the Network Contact and Representative
+* Although we will have to start allowing Network Report Recipients to login to access participant information
+* Will need to discuss whether they will just share the existing login account
+
+h1. 2012-04-02
+
+* It was decided that companies that were accepted with more than 10 employees should not be penalized if their number falls below 10
+* Micro enterprises are not allowed to participate in the Global Compact
+* If a company goes from 12 to 9 employees, their OrganizationType is changed to Micro Enterprise
+* This would effectively place them in a dormant state because they were not sent COP reminders, or evaluated with cop_status_updated.rb
+* Now, if a company's employee count falls below 10, they are still considered to be an SME
+
+h1. 2012-03-20
+
+* Created a default name for the organization to hold these contacts DEFAULTS[:local_network_guest_name] is 'Local Network Guests'
+* Local Network Guests should not be asked to update their contact info in Contact.needs_to_update_contact_info
+
+h1. 2012-03-16
+
+* Local Networks require a guest login who can view and search for information, but cannot edit information for any network
+* It was not possible to allow these people to be 'guests' of an existing Local Network, so a standalone organization and dashboard will be created
+* This will behave similarly to the UNGC organization, but with restricted access to viewing Local Networks
+
+h1. 2012-03-15
+
+* Added a new role 'Monthly Report Recipient' to for Local Network contacts who want to receive the Monthly Participant Reports, but not the auto-emails
+
+* When reviewing new applications, the Participant Management team needs to know if the organization ha already applied
+* We currently use Sphinx to find organizations with similar names, but on occasion, some organizations with similar names are not identified
+* A new tab was added in each Organization's profile called 'Peers' which lists organizations from the same country and sector, or the same organization type if they are a non-business
+* The scope Organization.peer_organizations(organization) should be updated if the matching organizations are not helpful to staff
+
+h1. 2012-03-07
+
+* Fixed Caring for Climate partial so it can list organizations from any initiative
+* The partial can be called from any dynamic page such as /HowToParticipate/Lead/lead_participants.html
+* Just specify the initiative symbol as defined in Initiative::FILTER_TYPES
+* = render :partial => 'shared/organizations_for_initiative', :locals => {:initiative => :lead}
+
+h1. 2012-03-02
+
+* Revising COP reminder emails to insert 'Learner' message when @organization.last_cop_is_learner?
+* We are also including links to translated PDF versions of the emails
+
+h1. 2012-02-17
+
+* Do not display differentiation level publicly in COPs from non-business
+* There are plans to make non-businesses submit COPs, which would require a different submission process to some extent
+* At that point we may need a different results screen as well
+
+h1. 2012-01-31
+
+* Adding new reports for Local Network Management, Events
+* Also separated the Report Recipients from the Representatives and Contact Persons
+
+h1. 2012-01-26
+
+* Create new field for Organization to label why their application status (organization.state) is 'in_review'
+* The In Review listing was getting long and the Participant Management team wanted a method to identify why these organizations were placed in review
+* When an organization is in review, a drop-down select appears when editing the organization so they can optionally select the reason
+
+h1. 2012-01-10
+
+* Remove ability to choose organization types from new organization form
+* In the past, it created confusion when non-participants were entered as Company or SME
+* Now organizations created through the form are assigned the 'Initiative Signatory' type
+* For now, the only reason to add a non-participant is to associate them with a particular initiative
+
+h1. 2012-01-09
+
+* Jamie @ Unspace found the issue with getting nested attributes to work
+* Normally, Rails controllers expect multiple nested attributes, but the :fields_for in the new organization form only creates one instance of a Signing
+* Since Rails expects an array of signings, the create method in organizations_controller removes the signatory parameter entirely
+* First the signing is removed and saved: signings = params[:organization].delete(:signings)
+* After the organization is saved, create the signing: @organization.signings.create!(signings)
+
+h1. 2012-01-06
+
+* Initiative Signatories can also have a sector
+* This complicates things somewhat because sectors were only intended for valid businesses (Companies and SMEs)
+* Valid businesses must have at least 10 employees, otherwise they are saved as a micro-enterprise
+* When creating a new organization, the number of employees defaults to 10
+* Although this is not a robust solution, the rule around micro-enterprises could change - that is they could be accepted as valid businesses even if they have less than 10 employees
+* For now the organization model will allow sectors to be saved for Initiative Signatories, or assign "Not Applicable" if no sector was selected
+
+h1. 2012-01-03
+
+* COP Questions can now be created and grouped by year
+* There is a helper method called from the COP form: cop_questions_for @communication_on_progress, :un_goals, :year => current_year
+* :year is an optional parameter. If left out, all questions with grouping :un_goals will be returned
+
+h1. 2012-01-04
+
+* Updated public listing of Caring for Climate participants at /Issues/Environment/Climate_Change/list_of_signatories.html
+* Since we list organizations of any type, many of the helper methods in signatories_helper.rb are no longer used
+* The helpers were also currently limited to Company and SME organization types, so that filtering has been removed
+* Plus, Caring for Climate is now accepting non-participants, so that means they can be an organization type other than Company or SME
+* Companies that are delisted will no longer by displayed publicly, however they will remain in the initiative unless they are transferred to the Delisted C4C list
+
+h1. 2011-12-30
+
+* Added basic support for creating organizations that are not participants
+* Increasingly initiatives like Caring for Climate are accepting non-participant signatories
+* These organizations must still be added as signatories to the Initiative without going through the normal signup process
+* A new Organization Type was created to identify these organizations: Initiative Signatory
+* When a new organization is created, this will be the default organization type
+
+h1. 2011-12-14
+
+* Added methods to COP model to determine how many CopAttributes were covered for each CopQuestion
+* If no attributes (best practices) were covered, then that question (criterion) is NOT considered to be covered
+* The company is notified is the missing criteria in the results screen views/shared/cops/_cop_questionnaire_evaluation.html.haml
+
+h1. 2011-12-09
+
+* use cop_detail_url(@cop) in COP mailer views to avoid entering the full URL
+
+h1. 2011-12-02
+
+* LEAD COPs should have their own set of confirmation emails
+* The actual differentiation level is yet to be determined, so we will use the following
+* learner_blueprint - for COPs that do not yet meet the requirements of a LEAD COP
+* blueprint - for COPs that do meet the requirements
+
+* a few defaults must be set for LEAD COPs, so they are treated as Advanced COPs with the questionnaire
+* Depending on the differentiation level of the COP, a specific email should be sent
+
+h1. 2011-11-29
+
+* added signatory_of?(initiative) to Organization model to determine if it has signed onto an Initiative
+
+h1. 2011-11-26
+
+* adding the date and timezone to expelled email since some companies said they were within the deadline according to their time zone
+* if the time of the cron job ever changes, then the time should be updated in delisting_today.html.haml
+
+h1. 2011-10-17
+
+* added TYPE to Local Network MOUs to allow staff to change the status from 'In Review' to 'Accepted'
+
+h1. 2011-10-24
+
+* Applicants were not receiving their 'rejected micro enterprise' emails because I had changed their email address upon rejection (see 2011-08-29)
+* Combined renaming the organization name and contact emails into a single method, which is called from comment_observer.rb so they're renamed after the message is sent
+* I'd prefer to keep the comment observer clean, so there may be a better place for this method call
+
+h1. 2011-09-30
+
+* Every participant must have no more than one CEO and at least one Contact Point
+* The Contact form does not allow the last CEO or Contact Point to change that role checkbox value
+* see last_contact_or_ceo?(role, current_user) in contact.rb
+
+h1. 2011-09-29
+
+* Expelled participants cannot submit Logo Requests
+
+h1. 2011-09-15
+
+* adding confirmation emails for COP submissions
+* sent to Contact who is logged in
+* a different email is sent depending on the Differentiation level
+
+* To gracefully handle SMTP errors when sending email, I placed the ActionMailer delivery methods inside a begin/rescue block
+* Currently being used for password resets and signup confirmations
+
+h1. 2011-08-29
+
+* when an application is rejected, rename the email addresses user@mail.com --> rejected.user@mail.com
+* if they reapply, then they can use the same address
+
+h1. 2011-08-28
+
+* made sure that the last Contact Point cannot be unchecked
+* the rules may have to be modified as we start to add non-Participant organizations and contacts
+* we need to make sure that organizations only have one contact assigned the Highest Level Executive role
+* this rule needs to be enforced without affecting the signup process
+* so we do not show the roles in the form for CEO if the organization already has a CEO
+* staff can still assign CEOs at anytime
+
+h1. 2011-08-16
+
+* instead of having separate views for Local Networks and staff, we're going to create a single view
+* Networks have their own Dashboard and can switch between Network Management and Knowledge Sharing
+* but switching between the two sections of a Local Networks profile will need to be supported within the staff dashboard
+* there are some styles created in admin.sass to allow staff to edit various from a single screen Network Management sections
+* if these styles are not useful, then they can be removed: .click_to_edit, .edit_small, h3.button_label
+
+h1. 2011-08-12
+
+* testing local_network_importer on staging
+* be sure to install this gem before deploying
+* sudo gem install spreadsheet --version 0.6.5.7
+
+h1. 2011-08-02
+
+* adding a new date field to Organizations to record when a company becomes Non-Communicating for failure to engage in dialogue
+* If a participant does not respond to the Global Compact Office three months after being contacted, this date should be manually set
+* attr_accessor :non_comm_dialogue checks to see if this date is present
+* in the organization edit form, there is a checkbox for :non_comm_dialogue which the user can select
+* a field then appears so they can set the correct date
+* unselecting the checkbox will clear the date fields
+
+h1. 2011-07-28
+
+* deploying Phase I of Local Networks Dashboard
+* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* then update search index to remove 'GC Networks' from search
+
+* launched new COP results screen
+* any participant who submitted a COP between the last COP mass-mailing on 30 June, 2011 would not have been informed of their status
+
+h1. 2011-07-21
+
+* extended COP results styles so we can access them in div.copy, where the page content is rendered
+
+h1. 2011-07-17
+
+* there are now a number of partials for displaying COPs depending on the view: Dashboard, public, feed
+* the different partials populate the content for the dt and dd
+* TODO the correct partial is determined in the two COP controllers, but this should be moved to the model in the case of further changes or customization for viewing COP results
+* views/shared/cops:
+
+*_cop_info_header* - title, publish date, period covered
+*_cop_questionnaire_results* - lists the COP question attributes and responses with a green check for 'Yes'
+*_feed* - calls the new, basic, or legacy partials for displaying COP content in the atom feed
+*_self_assessment* - Yes/No response to the 6 required COP criteria (only Yes responses are included in feed)
+*_show_active_style* - Dashboard only view
+*_show_advanced_style* - Dashboard only view
+*_show_basic_style* - results of Basic template COP. These COPs do not include files or links so we only show the results of their open text responses
+*_show_differentiation_style* - for COPs submitted within the Differentiation Program
+*_show_differentiation_style_public* - we need to include the cop_info_header in the public version
+*_show_grace_style* - Grace Letters have the same Dashboard and public view
+*_show_learner_style* - Dashboard only view
+*_show_legacy_style* - for COPs submitted before 2010
+*_show_new_style* - for COPs submitted in 2010, but before the Differentiation Program (also used by the feed)
+
+h1. 2011-07-12
+
+* move COP differentiation results into its own partial
+* remove unused results from 'new' style COP
+* 'new' means any COP submitted in 2010, until the Differentiation Program was launched in February 2011
+
+h1. 2011-07-06
+
+* when testing the COP controller, pass in COP options to override defaults
+* necessary when testing the different types of COPs and templates
+* if someone completes the Basic COP template and report a at the Learner level, are the correct partials being used?
+* that's what needs to be tested
+
+h1. 2011-07-03
+
+* creating a new COP results screen to better inform participants of their Differentiation Level
+* will need to use a number of partials since the information displayed will vary across the different types of COPs
+
+h1. 2011-06-28
+
+* to better alert participants that they are on the Learner Platform, we now indicate which required items in the COP are missing
+* reused check/flag styles from the questionnaire
+* also display an alert on the dashboard/public views
+
+h1. 2011-06-22
+
+* assign Network Managers to countries
+* some commands are only running in the console
+* ./script/runner 'AssignNetworkRoles.new.run'
+
+h1. 2011-06-02
+
+* redirect users who try to login to a rejected organization
+* this was causing some confusion as organizations that were eventually accepted were logging into the wrong account
+
+h1. 2011-06-01
+
+* save @contact.contact_info in @cop.contact_name
+* Normally asked for all Advanced COPs, but we save the information for other COPs
+
+h1. 2011-05-12
+
+* list Advanced COPs in /COP/analyzing_progress/advanced_cops.html
+
+h1. 2011-05-10
+
+* now saving differentiation level in COP record, instead of calculating
+* the requirements could change, so it's better to save the current level for each COP
+
+h1. 2011-04-22
+
+* Ask contacts to review and update their information if they haven't logged in for 6 months
+* redirect them to edit screen, or send them on their way to the dashboard
+
+h1. 2011-04-13
+
+* split COP status change and COP reminder emails into separate cron jobs because the reminder job seemed to be stalling
+
+h1. 2011-04-12
+
+* add new roles for Website Editor (for controlling publishing rights) and Local Network Manager
+
+h1. 2011-04-06
+
+* Updated text in auto emails
+* Copy Local Network (Network Report Recipient) instead of sending a separate email
+
+# COP due in 90 days (cc)
+# COP due in 30 days
+# COP due today (cc)
+# Expelled in 90 days
+# Expelled in 30 days (cc)
+# Expelled today (cc)
+
+h1. 2011-03-26
+
+* Companies that are expelled cannot submit a COP
+* They must email a new Letter of Commitment to Participant Management, who will review and upload the file
+* Once the file is uploaded, the option to submit a COP will appear in their dashboard
+* The date of rejoining is then set when the next COP is submitted
+
+h1. 2011-03-22
+
+* don't allow existing participants to change their Letter of Commitment
+* this is to prevent expelled companies from signing on again
+* organizations in review can still do this
+
+h1. 2011-03-19
+
+* add text area to advanced COP to capture best practices not included in the questionnaire
+* reusing the _description_ column to record answer
+
+h1. 2011-03-17
+
+* Grace Letter period rules were adjusted to allow companies to submit a Grace Letter at anytime
+* 90 days will be added to the COP due date
+* It won't have any effect if they've gone beyond their 90 day grace period, but it would delay their delisting
+* You can't submit two grace letters in a row
+
+h1. 2011-03-05
+
+* Case Story submissions are now disabled by not displaying the 'new' button
+
+h1. 2011-02-24
+
+* Differentiation levels were launched to assigned labels based on the results of the self-assessment in the COP
+* The levels are assigned to both COPs and companies, however the companies level is based on the latest COP
+* The Organization and COP models contain methods for determining these levels
+* In the views, the labels are conditionally displayed based on the type and status of the participant
+* For example, non-business and expelled participants do not have their differentiation level displayed
+
+h1. 2011-02-21
+
+* added a new dynamic page for listing 'expelled' participants
+* we changed the name from delisted to expelled on most public pages, but the code will still contain many references to delisted
+
+h1. 2011-01-17
+
+* we're tracking referrals for new participants from JCI (Junior Chamber International) members
+* they're linking directly to the business participant signup page
+* using session variables to track this information
+* auto email is sent to JCI when someone completes the signup form
+
+h1. 2011-01-10
+
+* in addition to grouping COP questions, we want to tag questions in order to evaluate how the principles are being implemented
+* adding an 'implementation' field to the CopQuestion model to categorize each question under one of four categories of implementation:
+
+# Policy
+# Process
+# Monitoring
+# Performance
+
+* we can then group and evaluate the coverage of each implementation category
+* added grouping select options to CopQuestion model instead of asking staff to type in the grouping name
+
+* when creating a new COP, non-business goes straight to the Intermediate COP, instead of the COP introduction screen
+* only business participants should be able to choose the type of COP
+
+h1. 2011-01-06
+
+* added ability to delete COPs from within the Dashboard
+* :dependent => :destroy was not deleting the associated models, so a :before_destroy method was added to the COP model
+
+h1. 2010-12-27
+
+* a number of online registrations were being completed with the CEO entered as a Contact Point and vice versa
+* after making the change in the database, a user function was created to make this change
+
+* for pending organizations, we like to know if there are possible duplicate applications being submitted
+* we run a search on all organization names when listing pending organizations
+* but if Sphinx is indexing, we get an error, so I added "if ThinkingSphinx.sphinx_running?" before calling Organization.search
+
+h1. 2010-12-10
+
+* added PRME message at end of sign up process to encourage PRME participants to be Global Compact participants and vice versa
+
+h1. 2010-12-09
+
+* Change rules for Grace Period. It's now 90 days from the COP due date, not 90 days from the day the Grace Letter is submitted
+* Non-Communicating companies that submit a Grace Letter stay Non-Communicating
+* Delisted companies do not see the Grace Letter option
+
+h1. 2010-12-01
+
+* added descriptions for roles since participants were not sure which one to use
+* General Contact is being phased out - it's not displayed as an option, although current General Contacts will not be deleted or have their role changed
+
+h1. 2010-10-19
+
+* Advanced Programme was launched Oct 11, 2010
+* participants could answer the additional voluntary questions prior to this date
+* however, those submitting after Oct 11 are considered to be participating in the programme
+* created is_advanced_programme? method for COP to determine this
+
+h1. 2010-08-25
+
+* using hidden fields to pass Basic COP information, such as the format and principles covered
+* their value will depend on whether the question is answered
+
+h1. 2010-08-10
+
+* COP scoring now only takes the number of questions at time of submission, instead of getting all of the questions.
+* It's possible that new questions will be added, so we don't want previous submissions to have lower scores as a result
+
+h1. 2010-08-02
+
+* Creating a Basic COP that allows text entry instead of the multiple choice format
+* Should be easier for less advanced ESG reports to submit a COP
+
+h1. 2010-07-20
+
+* removed question in COP form that asks if the COP is a file or web-based
+* now a file is required and the web link is optional
+
+h1. 2010-06-28
+
+* TODO call javascript to show/hide publicly traded company options after JQuery is loaded
+
+h1. 2010-06-14
+
+* don't allow organization with existing names to be saved
+* TODO should_validate_uniqueness_of :name in OrganizationTest
+
+h1. 2010-06-10
+
+* added other tabs to dashboard organization view
+* transfer case story dates to updated_to
+* UPDATE case_stories SET updated_at = CONCAT_WS(' ', case_date, '12:00:00') WHERE case_date IS NOT NULL
+
+h1. 2010-06-09
+
+* script/runner -e production TransferCopDates.new
+* transferred all COP coverage dates, can now remove unused columns
+
+h1. 2010-05-28
+
+* copy old COP date fields to single fields
+* cop.starts_on = Date.new(y=cop.start_year,m=cop.start_month,d=1).to_s
+* cop.ends_on = Date.new(y=cop.end_year,m=cop.end_month,d=1).to_s
+* delete old date coverage functions from cop model
+
+h1. 2010-05-10
+
+* remove auto rejection email for micro enterprise applications
+* adding new rejection email for that is triggered by admin user
+
+h1. 2010-04-26
+
+* create new section in COP
+* copy the following tables from staging to production:
+# cop_questions
+# cop_attributes
+
+* add organization mailer to local network when comment is posted by participanth1. 2012-12-27
+
+* We needed a way for our office to share information privately with Local Networks
+* We didn't want to create a new document type in the Dashboard, but instead we just create a private Page that's only accessible by Local Networks
+
+# Create a dynamic Page
+# Add link to front screen of Local Networks Dashboard
+# Add direct link to edit this page from the Staff Dashboard
+# This can be a table with a direct link to edit each page
+# Can also consider adding a direct publish link
+# Create pages within migration or script
+### create page group
+### then create pages within that group
+### These can be place holders, then we can populate the content
+
+h1. 2012-12-26
+
+* The Advanced and Blueprint COPs are being merged with the Advanced COP adopting the Blueprint reporting rules
+* Each criterion (cop_question) must have at least one best practice (cop_attribute) checked off
+
+h1. 2012-12-21
+
+* SMEs are being expelled at a high rate, so to reduce the loss, we are temporarily extending COP due dates for one year
+* Instead of receiving the expelled email, they receive a warning email
+* The process should be reversed by the end of 2013 in order to delisted those that have still not submitted a COP
+
+h1. 2012-12-19
+
+* Contacts are able to delete themselves, even when pending_review or in_review
+* Added helper method to hide the delete button if their application has not been approved
+* Although there are before_update callbacks to prevent this, they can only be applied to participants
+* It caused tests to fail when trying to update contacts during the initial registration process
+
+* Here are the rules for organization contacts and their roles
+** There must always be at least one Highest Level Executive
+** There cannot be more than one Highest Level Executive
+** There must always be at least one Contact Point
+
+* The current solution is too complicated, relying on a combination of callbacks and conditionally hiding buttons to prevent deleting
+
+h1. 2012-11-19
+
+* Added callback method to delete associated contacts and roles when an organization is deleted
+* This was necessary to bypass the destroy callback methods in the Contact model
+
+h1. 2012-11-12
+
+* Added a JSON feed to return organizations signed onto the "Caring for Climate":http://caringforclimate.org/about/list-of-signatories/ initiative
+* Additional model attributes and methods can be requested through the 'extras' parameter
+* Ex: http://localhost:8080/organizations.json?initiative=climate&extras=stock_symbol,state
+* The Organizations controller assumes that an initiative will be requested. We may decide to open this up to allow any type of organization to be returned
+
+h1. 2012-10-12
+
+* There was rule change for evaluating LEAD COPs
+* For Blueprint criteria where cop_question.initiative is Global Compact Lead, companies only have to cover one best practice (cop_attribute) within each cop_question
+* This is the same rule applied for the Advanced question groups
+* Removed the method requiring all cop_attributes for a given cop_question to be covered since that rule no longer exists
+* Revised results screens and email to display question group
+
+h1. 2012-09-29
+
+* No longer using old_id to identify specific Roles
+* We use the name instead, :ceo => 'Highest Level Executive'
+* If the Role name is included in one of the filtered types (Role::FILTERS), it cannot be changed
+
+h1. 2012-09-26
+
+* Returned Micro Enterprise rule, so companies with less than 10 employees are labelled as micros
+* This does not apply to organizations that have already been approved (organization.state = 'approved')
+* Micros are not treated as participants, but we don't want to punish those that have dropped below 10 employees
+* Also, Participant Management wanted to still identify those organization's whose application was rejected for being a Micro Enterprise in the first place
+
+h1. 2012-09-17
+
+* Removed behaviour in Dashboard tables that lets a user select a default action by clicking anywhere on a row
+* This works well unless you want to open a particular action in a new window; the current window opens the action's link as well
+* If you click a link within the row, such as an organization's name and want that to open in a new window, the current window change as well
+* From now on, people will have to click on the specific action icon
+* If there is a way to prevent this by intercepting or unbinding the click, the original JavaScript is in commit: 976b0610a808379a0b268c23c8b6ef0010b2bd97
+
+h1. 2012-09-04
+
+* We are introducing a new "Business and Peace" section for COPs, which will appear as part of the Advanced and LEAD questionnaires
+* Created a boolean (references_business_peace) similar to other issues areas to track if organization operates in high risk areas
+* If they answer yes, then the Business and Peace tab appears with the corresponding questions
+* Added another grouping area in cop_question.rb for Business and Peace questions
+* When evaluating Lead COP answers, these questions are excluded
+
+h1. 2012-08-30
+
+* Created Reports section for Local Networks
+* These are similar to Reports for staff, but are scoped to organizations within the Local Network's countries with VisibleTo#visible_to(user)
+* Since we have to customize the reports for Local Networks in most cases, separate reports and scopes are used
+
+h1. 2012-08-23
+
+* Some Financial Contacts are receiving invoices without being informed that the Contact Point had made a pledge
+* We are going to include the original contact point in the invoice email, so they can explain the invoice to the Financial Contact
+
+h1. 2012-08-20
+
+* Starting to *finally* clean up all of those unused COP columns
+* Answers to `include_ceo_letter` were transferred to `include_continued_support_statement` since it's the same question
+* That same column could have been used for the 2010+ COPs but this was not realized at the time
+* Many of those columns were for questions only asked for about 2 months. Nothing was done with that information anyway
+* See the database export from 2012-08-21 if you ever need to see what those values were
+* Those questions were only asked for about 2 months and nothing was done with the information in those columns anyway
+* The previous url1..3 columns where copied to cop_links with the same timestamps as the COP and the language set to 1: Unknown
+
+h1. 2012-08-15
+
+* removed "options[:year] ||= cop.start_year" in the cops_helpers.rb
+* start_year is no longer used and referred to the coverage dates of the COP
+* also, the cop questions that remain the same year-to-year do not need the year specified
+* Example: <pre>cop_questions_for @communication_on_progress, :lead_un_goals</pre>
+* Compared to: <pre>cop_questions_for @communication_on_progress, :verification, :year => current_year</pre>
+* also see entry for 2012-01-03
+
+h1. 2012-08-09
+
+* Dynamically list Local Network based on network state (Emering, Established, Formal)
+* Table is created in shared partial _local_network_listing.html.haml
+* Specify state with :partial => 'shared/local_network_listing', :locals => {:state => :emerging}
+* Three separate pages under 'Overview' will replace the current drop down list
+
+h1. 2012-08-01
+
+* The signup form is not copying over the default contact information if validation fails
+* To save people time, we populate the address information based on the previous contact's data
+* If the form is submitted without all required fields, then those fields are not copied over to the next contact (CEO or Financial Contact)
+* A temporary fix was to set the Financial Contacts's information to 'n/a' since they don't have to provide address information, although the Contact model requires it
+
+h1. 2012-07-31
+
+* The Reports were updated to use find_in_batches and create a temporary file before sending to the browser
+* The passengers were using excessive memory causing the server to run out of memory
+* Rails Machine had traced the problem to the records being buffered in memory (for some reports in the tens of thousands) before creating the export file
+* The method 'render_output' was added to simple_report.rb to call render_xls by default, but can be overridden within each report if render_xls_in_batches is preferred, which is the case for reports returning more than 1000 records
+* Also, send_data was replaced with send_file by first saving all records in a temporary file
+* These changes are using less memory, but occasionally we are still seeing the process killed before the file downloads
+* We will also look into adding more options to the Reports so people can limit the number of records being downloaded by filtering
+* Rails Machine added a passenger memory monitor job to kill and processes going over 500MB, and will increase memory from 3GB to 4GB
+
+h1. 2012-05-03
+
+* The Business and Peace Expert Group members are to be listed on the website along with a link to their latest COP
+* A new partial similar to that used by Caring for Climate and LEAD was created with the addition of a COP column
+* /Issues/conflict_prevention/expert_group_members.html
+
+h1. 2012-04-30
+
+* Hide "New Contact" button from Local Networks
+* The Local Networks team does not want other login accounts being created, other than the Network Contact and Representative
+* Although we will have to start allowing Network Report Recipients to login to access participant information
+* Will need to discuss whether they will just share the existing login account
+
+h1. 2012-04-02
+
+* It was decided that companies that were accepted with more than 10 employees should not be penalized if their number falls below 10
+* Micro enterprises are not allowed to participate in the Global Compact
+* If a company goes from 12 to 9 employees, their OrganizationType is changed to Micro Enterprise
+* This would effectively place them in a dormant state because they were not sent COP reminders, or evaluated with cop_status_updated.rb
+* Now, if a company's employee count falls below 10, they are still considered to be an SME
+
+h1. 2012-03-20
+
+* Created a default name for the organization to hold these contacts DEFAULTS[:local_network_guest_name] is 'Local Network Guests'
+* Local Network Guests should not be asked to update their contact info in Contact.needs_to_update_contact_info
+
+h1. 2012-03-16
+
+* Local Networks require a guest login who can view and search for information, but cannot edit information for any network
+* It was not possible to allow these people to be 'guests' of an existing Local Network, so a standalone organization and dashboard will be created
+* This will behave similarly to the UNGC organization, but with restricted access to viewing Local Networks
+
+h1. 2012-03-15
+
+* Added a new role 'Monthly Report Recipient' to for Local Network contacts who want to receive the Monthly Participant Reports, but not the auto-emails
+
+* When reviewing new applications, the Participant Management team needs to know if the organization ha already applied
+* We currently use Sphinx to find organizations with similar names, but on occasion, some organizations with similar names are not identified
+* A new tab was added in each Organization's profile called 'Peers' which lists organizations from the same country and sector, or the same organization type if they are a non-business
+* The scope Organization.peer_organizations(organization) should be updated if the matching organizations are not helpful to staff
+
+h1. 2012-03-07
+
+* Fixed Caring for Climate partial so it can list organizations from any initiative
+* The partial can be called from any dynamic page such as /HowToParticipate/Lead/lead_participants.html
+* Just specify the initiative symbol as defined in Initiative::FILTER_TYPES
+* = render :partial => 'shared/organizations_for_initiative', :locals => {:initiative => :lead}
+
+h1. 2012-03-02
+
+* Revising COP reminder emails to insert 'Learner' message when @organization.last_cop_is_learner?
+* We are also including links to translated PDF versions of the emails
+
+h1. 2012-02-17
+
+* Do not display differentiation level publicly in COPs from non-business
+* There are plans to make non-businesses submit COPs, which would require a different submission process to some extent
+* At that point we may need a different results screen as well
+
+h1. 2012-01-31
+
+* Adding new reports for Local Network Management, Events
+* Also separated the Report Recipients from the Representatives and Contact Persons
+
+h1. 2012-01-26
+
+* Create new field for Organization to label why their application status (organization.state) is 'in_review'
+* The In Review listing was getting long and the Participant Management team wanted a method to identify why these organizations were placed in review
+* When an organization is in review, a drop-down select appears when editing the organization so they can optionally select the reason
+
+h1. 2012-01-10
+
+* Remove ability to choose organization types from new organization form
+* In the past, it created confusion when non-participants were entered as Company or SME
+* Now organizations created through the form are assigned the 'Initiative Signatory' type
+* For now, the only reason to add a non-participant is to associate them with a particular initiative
+
+h1. 2012-01-09
+
+* Jamie @ Unspace found the issue with getting nested attributes to work
+* Normally, Rails controllers expect multiple nested attributes, but the :fields_for in the new organization form only creates one instance of a Signing
+* Since Rails expects an array of signings, the create method in organizations_controller removes the signatory parameter entirely
+* First the signing is removed and saved: signings = params[:organization].delete(:signings)
+* After the organization is saved, create the signing: @organization.signings.create!(signings)
+
+h1. 2012-01-06
+
+* Initiative Signatories can also have a sector
+* This complicates things somewhat because sectors were only intended for valid businesses (Companies and SMEs)
+* Valid businesses must have at least 10 employees, otherwise they are saved as a micro-enterprise
+* When creating a new organization, the number of employees defaults to 10
+* Although this is not a robust solution, the rule around micro-enterprises could change - that is they could be accepted as valid businesses even if they have less than 10 employees
+* For now the organization model will allow sectors to be saved for Initiative Signatories, or assign "Not Applicable" if no sector was selected
+
+h1. 2012-01-03
+
+* COP Questions can now be created and grouped by year
+* There is a helper method called from the COP form: cop_questions_for @communication_on_progress, :un_goals, :year => current_year
+* :year is an optional parameter. If left out, all questions with grouping :un_goals will be returned
+
+h1. 2012-01-04
+
+* Updated public listing of Caring for Climate participants at /Issues/Environment/Climate_Change/list_of_signatories.html
+* Since we list organizations of any type, many of the helper methods in signatories_helper.rb are no longer used
+* The helpers were also currently limited to Company and SME organization types, so that filtering has been removed
+* Plus, Caring for Climate is now accepting non-participants, so that means they can be an organization type other than Company or SME
+* Companies that are delisted will no longer by displayed publicly, however they will remain in the initiative unless they are transferred to the Delisted C4C list
+
+h1. 2011-12-30
+
+* Added basic support for creating organizations that are not participants
+* Increasingly initiatives like Caring for Climate are accepting non-participant signatories
+* These organizations must still be added as signatories to the Initiative without going through the normal signup process
+* A new Organization Type was created to identify these organizations: Initiative Signatory
+* When a new organization is created, this will be the default organization type
+
+h1. 2011-12-14
+
+* Added methods to COP model to determine how many CopAttributes were covered for each CopQuestion
+* If no attributes (best practices) were covered, then that question (criterion) is NOT considered to be covered
+* The company is notified is the missing criteria in the results screen views/shared/cops/_cop_questionnaire_evaluation.html.haml
+
+h1. 2011-12-09
+
+* use cop_detail_url(@cop) in COP mailer views to avoid entering the full URL
+
+h1. 2011-12-02
+
+* LEAD COPs should have their own set of confirmation emails
+* The actual differentiation level is yet to be determined, so we will use the following
+* learner_blueprint - for COPs that do not yet meet the requirements of a LEAD COP
+* blueprint - for COPs that do meet the requirements
+
+* a few defaults must be set for LEAD COPs, so they are treated as Advanced COPs with the questionnaire
+* Depending on the differentiation level of the COP, a specific email should be sent
+
+h1. 2011-11-29
+
+* added signatory_of?(initiative) to Organization model to determine if it has signed onto an Initiative
+
+h1. 2011-11-26
+
+* adding the date and timezone to expelled email since some companies said they were within the deadline according to their time zone
+* if the time of the cron job ever changes, then the time should be updated in delisting_today.html.haml
+
+h1. 2011-10-17
+
+* added TYPE to Local Network MOUs to allow staff to change the status from 'In Review' to 'Accepted'
+
+h1. 2011-10-24
+
+* Applicants were not receiving their 'rejected micro enterprise' emails because I had changed their email address upon rejection (see 2011-08-29)
+* Combined renaming the organization name and contact emails into a single method, which is called from comment_observer.rb so they're renamed after the message is sent
+* I'd prefer to keep the comment observer clean, so there may be a better place for this method call
+
+h1. 2011-09-30
+
+* Every participant must have no more than one CEO and at least one Contact Point
+* The Contact form does not allow the last CEO or Contact Point to change that role checkbox value
+* see last_contact_or_ceo?(role, current_user) in contact.rb
+
+h1. 2011-09-29
+
+* Expelled participants cannot submit Logo Requests
+
+h1. 2011-09-15
+
+* adding confirmation emails for COP submissions
+* sent to Contact who is logged in
+* a different email is sent depending on the Differentiation level
+
+* To gracefully handle SMTP errors when sending email, I placed the ActionMailer delivery methods inside a begin/rescue block
+* Currently being used for password resets and signup confirmations
+
+h1. 2011-08-29
+
+* when an application is rejected, rename the email addresses user@mail.com --> rejected.user@mail.com
+* if they reapply, then they can use the same address
+
+h1. 2011-08-28
+
+* made sure that the last Contact Point cannot be unchecked
+* the rules may have to be modified as we start to add non-Participant organizations and contacts
+* we need to make sure that organizations only have one contact assigned the Highest Level Executive role
+* this rule needs to be enforced without affecting the signup process
+* so we do not show the roles in the form for CEO if the organization already has a CEO
+* staff can still assign CEOs at anytime
+
+h1. 2011-08-16
+
+* instead of having separate views for Local Networks and staff, we're going to create a single view
+* Networks have their own Dashboard and can switch between Network Management and Knowledge Sharing
+* but switching between the two sections of a Local Networks profile will need to be supported within the staff dashboard
+* there are some styles created in admin.sass to allow staff to edit various from a single screen Network Management sections
+* if these styles are not useful, then they can be removed: .click_to_edit, .edit_small, h3.button_label
+
+h1. 2011-08-12
+
+* testing local_network_importer on staging
+* be sure to install this gem before deploying
+* sudo gem install spreadsheet --version 0.6.5.7
+
+h1. 2011-08-02
+
+* adding a new date field to Organizations to record when a company becomes Non-Communicating for failure to engage in dialogue
+* If a participant does not respond to the Global Compact Office three months after being contacted, this date should be manually set
+* attr_accessor :non_comm_dialogue checks to see if this date is present
+* in the organization edit form, there is a checkbox for :non_comm_dialogue which the user can select
+* a field then appears so they can set the correct date
+* unselecting the checkbox will clear the date fields
+
+h1. 2011-07-28
+
+* deploying Phase I of Local Networks Dashboard
+* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* then update search index to remove 'GC Networks' from search
+
+* launched new COP results screen
+* any participant who submitted a COP between the last COP mass-mailing on 30 June, 2011 would not have been informed of their status
+
+h1. 2011-07-21
+
+* extended COP results styles so we can access them in div.copy, where the page content is rendered
+
+h1. 2011-07-17
+
+* there are now a number of partials for displaying COPs depending on the view: Dashboard, public, feed
+* the different partials populate the content for the dt and dd
+* TODO the correct partial is determined in the two COP controllers, but this should be moved to the model in the case of further changes or customization for viewing COP results
+* views/shared/cops:
+
+*_cop_info_header* - title, publish date, period covered
+*_cop_questionnaire_results* - lists the COP question attributes and responses with a green check for 'Yes'
+*_feed* - calls the new, basic, or legacy partials for displaying COP content in the atom feed
+*_self_assessment* - Yes/No response to the 6 required COP criteria (only Yes responses are included in feed)
+*_show_active_style* - Dashboard only view
+*_show_advanced_style* - Dashboard only view
+*_show_basic_style* - results of Basic template COP. These COPs do not include files or links so we only show the results of their open text responses
+*_show_differentiation_style* - for COPs submitted within the Differentiation Program
+*_show_differentiation_style_public* - we need to include the cop_info_header in the public version
+*_show_grace_style* - Grace Letters have the same Dashboard and public view
+*_show_learner_style* - Dashboard only view
+*_show_legacy_style* - for COPs submitted before 2010
+*_show_new_style* - for COPs submitted in 2010, but before the Differentiation Program (also used by the feed)
+
+h1. 2011-07-12
+
+* move COP differentiation results into its own partial
+* remove unused results from 'new' style COP
+* 'new' means any COP submitted in 2010, until the Differentiation Program was launched in February 2011
+
+h1. 2011-07-06
+
+* when testing the COP controller, pass in COP options to override defaults
+* necessary when testing the different types of COPs and templates
+* if someone completes the Basic COP template and report a at the Learner level, are the correct partials being used?
+* that's what needs to be tested
+
+h1. 2011-07-03
+
+* creating a new COP results screen to better inform participants of their Differentiation Level
+* will need to use a number of partials since the information displayed will vary across the different types of COPs
+
+h1. 2011-06-28
+
+* to better alert participants that they are on the Learner Platform, we now indicate which required items in the COP are missing
+* reused check/flag styles from the questionnaire
+* also display an alert on the dashboard/public views
+
+h1. 2011-06-22
+
+* assign Network Managers to countries
+* some commands are only running in the console
+* ./script/runner 'AssignNetworkRoles.new.run'
+
+h1. 2011-06-02
+
+* redirect users who try to login to a rejected organization
+* this was causing some confusion as organizations that were eventually accepted were logging into the wrong account
+
+h1. 2011-06-01
+
+* save @contact.contact_info in @cop.contact_name
+* Normally asked for all Advanced COPs, but we save the information for other COPs
+
+h1. 2011-05-12
+
+* list Advanced COPs in /COP/analyzing_progress/advanced_cops.html
+
+h1. 2011-05-10
+
+* now saving differentiation level in COP record, instead of calculating
+* the requirements could change, so it's better to save the current level for each COP
+
+h1. 2011-04-22
+
+* Ask contacts to review and update their information if they haven't logged in for 6 months
+* redirect them to edit screen, or send them on their way to the dashboard
+
+h1. 2011-04-13
+
+* split COP status change and COP reminder emails into separate cron jobs because the reminder job seemed to be stalling
+
+h1. 2011-04-12
+
+* add new roles for Website Editor (for controlling publishing rights) and Local Network Manager
+
+h1. 2011-04-06
+
+* Updated text in auto emails
+* Copy Local Network (Network Report Recipient) instead of sending a separate email
+
+# COP due in 90 days (cc)
+# COP due in 30 days
+# COP due today (cc)
+# Expelled in 90 days
+# Expelled in 30 days (cc)
+# Expelled today (cc)
+
+h1. 2011-03-26
+
+* Companies that are expelled cannot submit a COP
+* They must email a new Letter of Commitment to Participant Management, who will review and upload the file
+* Once the file is uploaded, the option to submit a COP will appear in their dashboard
+* The date of rejoining is then set when the next COP is submitted
+
+h1. 2011-03-22
+
+* don't allow existing participants to change their Letter of Commitment
+* this is to prevent expelled companies from signing on again
+* organizations in review can still do this
+
+h1. 2011-03-19
+
+* add text area to advanced COP to capture best practices not included in the questionnaire
+* reusing the _description_ column to record answer
+
+h1. 2011-03-17
+
+* Grace Letter period rules were adjusted to allow companies to submit a Grace Letter at anytime
+* 90 days will be added to the COP due date
+* It won't have any effect if they've gone beyond their 90 day grace period, but it would delay their delisting
+* You can't submit two grace letters in a row
+
+h1. 2011-03-05
+
+* Case Story submissions are now disabled by not displaying the 'new' button
+
+h1. 2011-02-24
+
+* Differentiation levels were launched to assigned labels based on the results of the self-assessment in the COP
+* The levels are assigned to both COPs and companies, however the companies level is based on the latest COP
+* The Organization and COP models contain methods for determining these levels
+* In the views, the labels are conditionally displayed based on the type and status of the participant
+* For example, non-business and expelled participants do not have their differentiation level displayed
+
+h1. 2011-02-21
+
+* added a new dynamic page for listing 'expelled' participants
+* we changed the name from delisted to expelled on most public pages, but the code will still contain many references to delisted
+
+h1. 2011-01-17
+
+* we're tracking referrals for new participants from JCI (Junior Chamber International) members
+* they're linking directly to the business participant signup page
+* using session variables to track this information
+* auto email is sent to JCI when someone completes the signup form
+
+h1. 2011-01-10
+
+* in addition to grouping COP questions, we want to tag questions in order to evaluate how the principles are being implemented
+* adding an 'implementation' field to the CopQuestion model to categorize each question under one of four categories of implementation:
+
+# Policy
+# Process
+# Monitoring
+# Performance
+
+* we can then group and evaluate the coverage of each implementation category
+* added grouping select options to CopQuestion model instead of asking staff to type in the grouping name
+
+* when creating a new COP, non-business goes straight to the Intermediate COP, instead of the COP introduction screen
+* only business participants should be able to choose the type of COP
+
+h1. 2011-01-06
+
+* added ability to delete COPs from within the Dashboard
+* :dependent => :destroy was not deleting the associated models, so a :before_destroy method was added to the COP model
+
+h1. 2010-12-27
+
+* a number of online registrations were being completed with the CEO entered as a Contact Point and vice versa
+* after making the change in the database, a user function was created to make this change
+
+* for pending organizations, we like to know if there are possible duplicate applications being submitted
+* we run a search on all organization names when listing pending organizations
+* but if Sphinx is indexing, we get an error, so I added "if ThinkingSphinx.sphinx_running?" before calling Organization.search
+
+h1. 2010-12-10
+
+* added PRME message at end of sign up process to encourage PRME participants to be Global Compact participants and vice versa
+
+h1. 2010-12-09
+
+* Change rules for Grace Period. It's now 90 days from the COP due date, not 90 days from the day the Grace Letter is submitted
+* Non-Communicating companies that submit a Grace Letter stay Non-Communicating
+* Delisted companies do not see the Grace Letter option
+
+h1. 2010-12-01
+
+* added descriptions for roles since participants were not sure which one to use
+* General Contact is being phased out - it's not displayed as an option, although current General Contacts will not be deleted or have their role changed
+
+h1. 2010-10-19
+
+* Advanced Programme was launched Oct 11, 2010
+* participants could answer the additional voluntary questions prior to this date
+* however, those submitting after Oct 11 are considered to be participating in the programme
+* created is_advanced_programme? method for COP to determine this
+
+h1. 2010-08-25
+
+* using hidden fields to pass Basic COP information, such as the format and principles covered
+* their value will depend on whether the question is answered
+
+h1. 2010-08-10
+
+* COP scoring now only takes the number of questions at time of submission, instead of getting all of the questions.
+* It's possible that new questions will be added, so we don't want previous submissions to have lower scores as a result
+
+h1. 2010-08-02
+
+* Creating a Basic COP that allows text entry instead of the multiple choice format
+* Should be easier for less advanced ESG reports to submit a COP
+
+h1. 2010-07-20
+
+* removed question in COP form that asks if the COP is a file or web-based
+* now a file is required and the web link is optional
+
+h1. 2010-06-28
+
+* TODO call javascript to show/hide publicly traded company options after JQuery is loaded
+
+h1. 2010-06-14
+
+* don't allow organization with existing names to be saved
+* TODO should_validate_uniqueness_of :name in OrganizationTest
+
+h1. 2010-06-10
+
+* added other tabs to dashboard organization view
+* transfer case story dates to updated_to
+* UPDATE case_stories SET updated_at = CONCAT_WS(' ', case_date, '12:00:00') WHERE case_date IS NOT NULL
+
+h1. 2010-06-09
+
+* script/runner -e production TransferCopDates.new
+* transferred all COP coverage dates, can now remove unused columns
+
+h1. 2010-05-28
+
+* copy old COP date fields to single fields
+* cop.starts_on = Date.new(y=cop.start_year,m=cop.start_month,d=1).to_s
+* cop.ends_on = Date.new(y=cop.end_year,m=cop.end_month,d=1).to_s
+* delete old date coverage functions from cop model
+
+h1. 2010-05-10
+
+* remove auto rejection email for micro enterprise applications
+* adding new rejection email for that is triggered by admin user
+
+h1. 2010-04-26
+
+* create new section in COP
+* copy the following tables from staging to production:
+# cop_questions
+# cop_attributes
+
+* add organization mailer to local network when comment is posted by participanth1. 2012-12-27
+
+* We needed a way for our office to share information privately with Local Networks
+* We didn't want to create a new document type in the Dashboard, but instead we just create a private Page that's only accessible by Local Networks
+
+# Create a dynamic Page
+# Add link to front screen of Local Networks Dashboard
+# Add direct link to edit this page from the Staff Dashboard
+# This can be a table with a direct link to edit each page
+# Can also consider adding a direct publish link
+# Create pages within migration or script
+### create page group
+### then create pages within that group
+### These can be place holders, then we can populate the content
+
+h1. 2012-12-26
+
+* The Advanced and Blueprint COPs are being merged with the Advanced COP adopting the Blueprint reporting rules
+* Each criterion (cop_question) must have at least one best practice (cop_attribute) checked off
+>>>>>>> Stashed changes
+
 h1. 2012-12-21
 
 * SMEs are being expelled at a high rate, so to reduce the loss, we are temporarily extending COP due dates for one year
