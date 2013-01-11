@@ -30,6 +30,8 @@ class PageGroup < ActiveRecord::Base
     :order      => "page_groups.position ASC",
     :conditions => ["page_groups.display_in_navigation = ?", true]
 
+  default_scope :order => "page_groups.position ASC"
+
   before_create :derive_position
   after_destroy :destroy_children
 
