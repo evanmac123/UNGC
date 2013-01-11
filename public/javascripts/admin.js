@@ -115,10 +115,11 @@ var Page = {
   finishedSaving: function(response) {
     if (Page.editMode) {
       var url = window.location.pathname;
-      var id = response.page.id;
+      var id = response.id;
       url = url.replace(/\/\d+\/edit/, '/'+id+'/edit');
       window.location.href = url;
     } else {
+      console.log("not using edit mode");
       Page.updateNode(response); // needs to happen before Page.selected is cleared
       Page.initialize(Page.selected);
       $('#pageArea').removeClass('loading');
@@ -248,11 +249,11 @@ var Page = {
   updateNode: function(response) {
     var node = $(Page.selected);
     var child = node.children('a');
-    var status = response.page.approval;
-    node.attr({id: 'page_'+response.page.id});
+    var status = response.approval;
+    node.attr({id: 'page_'+response.id});
     var href = child.attr('href');
-    child.attr({href: href.replace(/\d+/, response.page.id)});
-    $.tree.focused().rename(node, response.page.title);
+    child.attr({href: href.replace(/\d+/, response.id)});
+    $.tree.focused().rename(node, response.title);
     if (status == 'pending')
       child.addClass('pending');
     else if (status == 'approved')
