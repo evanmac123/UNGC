@@ -35,6 +35,7 @@ class Comment < ActiveRecord::Base
   after_create :update_commentable_replied_to_and_reviewer_id
 
   validate :no_comment_on_approved_or_rejected_commentable
+  validate :no_comment_on_network_review_commentable
   validate :organization_user_cannot_approve_or_reject
 
   def copy_local_network?
@@ -54,7 +55,13 @@ class Comment < ActiveRecord::Base
 
     def no_comment_on_approved_or_rejected_commentable
       if commentable && (commentable.approved? || commentable.rejected?)
-        errors.add_to_base "cannot add comments to a #{commentable.state} model"
+        errors.add_to_base "Sorry, you cannot add comments to a #{commentable.state} model"
+      end
+    end
+
+    def no_comment_on_network_review_commentable
+      if commentable && commentable.network_review? && contact.from_ungc?
+        errors.add_to_base "Sorry, you cannot add comments while the application is under #{commentable.state.titleize}"
       end
     end
 
@@ -85,4 +92,12 @@ class Comment < ActiveRecord::Base
         self.body = 'Your application could not be accepted.'
       end
     end
+
+    def readable_error_messages
+      error_messages = []
+      errors.each do |error|
+        error_messages << "Error is #{error}"
+      end
+    end
+
 end

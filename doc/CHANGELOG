@@ -1,3 +1,11 @@
+h1. 2013-01-14
+
+* Do not allow staff to post comments while an organization's state is in network_review
+* When the comment was posted, it triggered the network_review email with the standard message
+* We do plan to decouple the posting of comments from changing an organization's review state
+* The issue is in models/comment_observer.rb which sends an email with every staff comment:
+* when Organization::STATE_NETWORK_REVIEW then OrganizationMailer.deliver_network_review(comment.commentable)
+
 h1. 2012-12-31
 
 * There are new pledge levels being introduced for 2013 based on organization.revenue
