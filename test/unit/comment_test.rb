@@ -36,6 +36,15 @@ class CommentTest < ActiveSupport::TestCase
                                     :contact_id => @organization_user.id)
       assert_equal @organization.last_comment_author, @organization_user.name
     end
+
+    should "not allow staff to post comments if under network review" do
+      @organization.network_review
+      assert_difference 'Comment.count', 0 do
+        @organization.comments.create(:body => 'from organization',
+                                      :contact_id => @staff_user.id)
+      end
+    end
+
   end
 
 end
