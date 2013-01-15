@@ -92,7 +92,10 @@
 
   #comments.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new_large', :title => 'New Comment'
+      - if @organization.network_review? && current_user.from_ungc?
+        %h4 Staff cannot add comments for applications under Network Review
+      - else
+        %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new_large', :title => 'New Comment'
     %ul.items= render @organization.comments
 
   #peers.tab_content
