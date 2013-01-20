@@ -54,7 +54,7 @@
       vertical-align: bottom; }
 
   #main_content fieldset.pledge {
-    margin: 0 0 10px 0; }
+    margin: 0 0 0 0; }
     #main_content fieldset.pledge input:hover, label:hover {
       cursor: pointer;
     }
@@ -63,23 +63,38 @@
     clear: left;
     float: left;
     width: auto;
-    margin: -2px 15px 0px -30px; }
+    margin: 3px 15px 0px 5px; }
 
   #main_content fieldset.pledge label {
     display: block;
     float: left;
-    width: 500px;
+    width: auto;
     color: #666;
     font-weight: normal;
     line-height: 1.2em;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
   }
 
-  #main_content fieldset.pledge label.highlight_suggested_amount {
+  #main_content fieldset.pledge label.highlight_suggested_amount, #main_content fieldset.pledge table.pledge_amounts th {
+    text-align: left;
     color: #00546E;
     font-weight: bold;
   }
-
+    
+    #main_content fieldset.pledge table.pledge_amounts th {
+    padding-bottom: 15px;
+  }
+  
+  #main_content fieldset.pledge table.pledge_amounts td.revenue {
+    padding-right: 100px;
+  }
+    
+  #main_content p.note {
+    color: #666;
+    padding-top: 1em;
+  }
+  
   #main_content #check_contact {
     clear: both;
     margin-bottom: 20px;
