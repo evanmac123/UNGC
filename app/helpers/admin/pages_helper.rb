@@ -74,6 +74,15 @@ module Admin::PagesHelper
     link_to "#{title}", url #, class: object.path == '/index.html' ? 'clicked' : ''
   end
 
+  # depending on the user Role, return them to the appropriate page list
+  def link_back_to_page_list(user)
+    if user.is?(Role.website_editor)
+      link_to 'Pending Pages', dashboard_path(:tab => :pages), :class => 'edit_page_large'
+    elsif user.is?(Role.network_regional_manager)
+      link_to 'Local Networks > Resources', local_network_resources_path, :class => 'edit_page_large'
+    end
+  end
+
   def id_for(object)
     if object.is_a?(PageGroup)
       "section_#{object.id}"
