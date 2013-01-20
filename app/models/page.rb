@@ -71,6 +71,7 @@ class Page < ActiveRecord::Base
     }
   }
 
+  named_scope :local_network_pages, :conditions => "pages.path LIKE '/LocalNetworks/%'", :order => :position, :group => :path
 
   def self.approved_for_path(path)
     approved.find_by_path path
@@ -122,6 +123,10 @@ class Page < ActiveRecord::Base
 
   def active_version
     versions.approved.first
+  end
+
+  def latest_version
+    versions.last
   end
 
   # Children are attached to an approved parent, the tree needs to reflect their connection

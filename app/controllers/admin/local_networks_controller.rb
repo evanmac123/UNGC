@@ -56,6 +56,11 @@ class Admin::LocalNetworksController < AdminController
     redirect_to(admin_local_networks_path)
   end
 
+  def edit_resources
+    @pages = []
+    Page.local_network_pages.each{|p| @pages << p.latest_version}
+  end
+
   private
 
     def order_from_params

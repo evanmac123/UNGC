@@ -1,0 +1,19 @@
+%h2 Edit Resources
+
+%table.dashboard_table
+  %tr
+    %th Title
+    %th Last change
+    %th Status
+    %th Version
+    %th Actions
+    - @pages.each do |page|
+      %tr
+        %td= page.title
+        %td= page.updated_at
+        %td= page.approval.humanize
+        %td= page.version_number
+        %td
+          %ul.actions
+            %li= popup_link_to 'View on site', page.path, class: 'preview', title: 'View published version on site'
+            %li= link_to 'Edit page', edit_admin_page_path(page), class: 'edit', title: 'Edit page'

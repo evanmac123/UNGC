@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.cop_introduction '/admin/cops/introduction', :controller => 'admin/cops', :action => 'introduction'
 
   map.knowledge_sharing 'admin/local_networks/:id/knowledge_sharing', :controller => 'admin/local_networks', :action => 'knowledge_sharing', :conditions => { :method => :get }
+  map.local_network_resources 'admin/local_network_resources', :controller => 'admin/local_networks', :action => 'edit_resources'
 
   # These need to come before resources :pages
   map.with_options :controller => 'admin/pages' do |m|
