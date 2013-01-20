@@ -45,5 +45,10 @@ module Admin::LocalNetworksHelper
   def current_user_can_edit_network?
     current_user.from_ungc? || (current_user.local_network == @local_network)
   end
+  
+  def link_to_region_list(local_network)
+    html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region)
+    html += "&nbsp;&nbsp;&#x25BA;&nbsp;"
+  end
 
 end
