@@ -73,9 +73,9 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step4'
       assert_select 'h2', 'Financial Commitment'
       # four possible pledge amounts and one opt out
-      assert_select 'ol' do
+      assert_select 'table' do
         assert_select "input[type=radio]", 5
-        assert_select 'label', 5
+        assert_select 'label', 10
       end
     end
 
