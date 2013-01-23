@@ -103,13 +103,14 @@ ActionController::Routing::Routes.draw do |map|
 
   # some important URLs are just too long to type
   short_urls = {
-    'climate'       => '/Issues/Environment/Climate_Change/',
-    'watermandate'  => '/Issues/Environment/CEO_Water_Mandate/',
-    'weps'          => '/Issues/human_rights/equality_means_business.html',
-    'networks'      => '/NetworksAroundTheWorld/index.html',
-    'ungcweek'      => '/NewsAndEvents/global_compact_week.html',
-    'rio_resources' => '/docs/news_events/upcoming/RioCSF/html/resources.html',
-    'leadlab'       => 'http://leadlab.unglobalcompact.org/'
+    'climate'            => '/Issues/Environment/Climate_Change/',
+    'watermandate'       => '/Issues/Environment/CEO_Water_Mandate/',
+    'weps'               => '/Issues/human_rights/equality_means_business.html',
+    'networks'           => '/NetworksAroundTheWorld/index.html',
+    'ungcweek'           => '/NewsAndEvents/global_compact_week.html',
+    'rio_resources'      => '/docs/news_events/upcoming/RioCSF/html/resources.html',
+    'leadlab'            => 'http://leadlab.unglobalcompact.org/',
+    'LEADBoardProgramme' => '/docs/issues_doc/lead/board_programme/'
   }
 
   short_urls.each do |url, webpage|
