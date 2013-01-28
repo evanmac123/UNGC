@@ -256,6 +256,10 @@ class Contact < ActiveRecord::Base
     local_network_id?
   end
 
+  def belongs_to_network?(network)
+    local_network_id? && local_network == network
+  end
+
   def from_network_guest?
     organization_id? && organization.name == DEFAULTS[:local_network_guest_name]
   end

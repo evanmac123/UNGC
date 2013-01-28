@@ -2,13 +2,13 @@ body {
   background: #eee; }
 
 a {
-  color: #14546f;
+  color: #2993a5;
   text-decoration: none; }
   a:hover {
     color: #14546f;
     text-decoration: underline; }
   a:visited {
-    color: #14546f; }
+    color: #2993a5; }
 
 .container {
   background: #fff;
@@ -93,10 +93,11 @@ ul.nav_bar {
   position: relative; }
   #main_content p {
     line-height: 1.4em; }
-  #main_content ul.bulleted {
-    margin-left: 2em; }
-    #main_content ul.bulleted li {
-      line-height: 1.4em; }
+  #main_content ul.bulleted, #main_content ol.numbered {
+    margin: 0 0 2em 3em; }
+    #main_content ul.bulleted li, #main_content ol.numbered li {
+      list-style-type: decimal;
+      line-height: 1.5em; }
   #main_content h2 {
     margin-bottom: 1em;
     color: #14546f;
@@ -106,8 +107,21 @@ ul.nav_bar {
     font-weight: bold; }
     #main_content h3.button_label {
       margin-top: 3px; }
-  #main_content h4 {
-    color: #14546f; }
+  #main_content h4, #main_content a.dark_blue {
+    color: #14546f;
+    font-weight: bold; }
+    #main_content h4.social, #main_content a.dark_blue.social {
+      padding: 12px 0 10px 32px; }
+    #main_content h4.profile, #main_content a.dark_blue.profile {
+      background: transparent url('../images/icons/Web_UNGC_24x24.png') no-repeat 0px 5px; }
+    #main_content h4.website, #main_content a.dark_blue.website {
+      background: transparent url('../images/icons/Web_External_24x24.png') no-repeat 0px 5px; }
+    #main_content h4.facebook, #main_content a.dark_blue.facebook {
+      background: transparent url('../images/icons/Facebook_24x24.png') no-repeat 0px 5px; }
+    #main_content h4.twitter, #main_content a.dark_blue.twitter {
+      background: transparent url('../images/icons/Twitter_24x24.png') no-repeat 0px 5px; }
+    #main_content h4.linkedin, #main_content a.dark_blue.linkedin {
+      background: transparent url('../images/icons/LinkedIn_24x24.png') no-repeat 0px 5px; }
   #main_content a.new_large, #main_content a.edit_large, #main_content a.edit_small, #main_content a.new_page_large, #main_content div.new_page_large, #main_content a.info_large, #main_content div.hint_toggle, #main_content a.web_preview_large, #main_content a.delete_doc, #main_content a.new_user_large, #main_content a.new_headline_large, #main_content a.refresh_large, #main_content a.delete_large, #main_content a.cancel_large, #main_content a.edit_page_large, #main_content a.go_back_large, #main_content a.download_large, #main_content a.folder_large, #main_content a.search_large, #main_content a.new_org, #main_content a.zip_file_large, #main_content a.guest_large {
     display: block;
     height: 24px;
@@ -315,14 +329,27 @@ ul.nav_bar {
         border-top-style: dotted;
         font-weight: normal;
         padding: 10px 0 10px 20px; }
-      #main_content dl dt.first, #main_content dl dt.title {
+      #main_content dl dt.first, #main_content dl dt.title, #main_content dl dt.social {
         border: none; }
+      #main_content dl dt.social a {
+        padding: 10px 0 10px 32px;
+        font-weight: normal; }
+      #main_content dl dt.profile a {
+        background: transparent url('../images/icons/Web_UNGC_24x24.png') no-repeat 0px 5px; }
+      #main_content dl dt.website a {
+        background: transparent url('../images/icons/Web_External_24x24.png') no-repeat 0px 5px; }
+      #main_content dl dt.facebook a {
+        background: transparent url('../images/icons/Facebook_24x24.png') no-repeat 0px 5px; }
+      #main_content dl dt.twitter a {
+        background: transparent url('../images/icons/Twitter_24x24.png') no-repeat 0px 5px; }
+      #main_content dl dt.linkedin a {
+        background: transparent url('../images/icons/LinkedIn_24x24.png') no-repeat 0px 5px; }
     #main_content dl dd {
       white-space: normal;
       margin-left: 150px;
       padding: 10px 10px 10px 0;
       border-top: 1px solid #999; }
-      #main_content dl dd.first, #main_content dl dd.title {
+      #main_content dl dd.first, #main_content dl dd.title, #main_content dl dd.social {
         border: none; }
       #main_content dl dd.title {
         font-size: 130%; }
@@ -464,7 +491,7 @@ ul.nav_bar {
   .tab_container div.tab_content p.indent {
     padding-left: 2em; }
   .tab_container ul.tools {
-    border-bottom: 1px solid #999;
+    border-bottom: none;
     margin-bottom: 0.5em;
     padding-bottom: 0.5em; }
     .tab_container ul.tools li {
