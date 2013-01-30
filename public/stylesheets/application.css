@@ -281,7 +281,6 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy a { color: #2993A5; text-decoration: none; }
 #rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
 #rightcontent .copy a:visited { color: #00546E; }
-#rightcontent .copy a.rss {padding: 3px 0 3px 25px; background: url(/images/icons/RSS_16x16.png) no-repeat left center; }
 #rightcontent .copy h1 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 19px; font-weight: bold; margin-bottom: 15px; color: #00546E; line-height: 1.2; }
 #rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
@@ -296,7 +295,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy ul.links { list-style: none; margin: 10px 0 10px 0px; }
 #rightcontent .copy ul.links li { line-height: 2.2em; }
 #rightcontent .copy a.pdf { padding: 6px 0 0 25px; background: url('/pics/un_images/pdf.gif') no-repeat left center; }
-#rightcontent .copy a.register { padding: 5px 0 0 22px; background: url('/images/icons/Document_Edit_18x18.png') no-repeat left center; }
+#rightcontent .copy a.rss {padding: 3px 0 3px 25px; background: url('/images/icons/RSS_16x16.png') no-repeat left center; }
+#rightcontent .copy a.register { padding: 5px 0 0 24px; background: url('/images/icons/Document_Edit_18x18.png') no-repeat left center; }
 
 #rightcontent .highlight { float: right; width: 150px; margin: 0px 0px 15px 25px; border: 1px solid #ccc; padding: 0px 10px; }
 #rightcontent .highlight h1 { font-size: 14px; position: relative; top: 15px; left: 3px; }
