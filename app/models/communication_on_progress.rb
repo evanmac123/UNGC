@@ -90,6 +90,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     :order => 'ends_on DESC'
   }
 
+  named_scope :active, {
+    :include => [ {:organization => [:country, :sector]} ],
+    :conditions => [ "differentiation = ?", 'active' ]
+  }
+
   named_scope :advanced, {
     :include => [ {:organization => [:country, :sector]} ],
     :conditions => [ "differentiation IN (?)", ['advanced','blueprint'] ]
