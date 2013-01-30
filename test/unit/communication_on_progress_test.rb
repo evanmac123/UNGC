@@ -137,11 +137,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal @cop.title, 'Grace Letter'
     end
 
-    should "change the organization's COP state to Active" do
-      @organization.reload
-      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
-    end
-
     should "have an extra 90 days added to the current COP due date" do
       @organization.reload
       assert_equal (@old_cop_due_on + 90.days).to_date, @organization.cop_due_on.to_date
@@ -174,12 +169,12 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
     end
 
-    should "make the company Active if within grace period" do
+    should "keep the company Non-communicating even if within grace period" do
       @organization.update_attribute :cop_due_on, Date.today - 89.days
       @cop = pending_review(@organization, format: 'grace_letter')
       @cop.approve!
       @organization.reload
-      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+      assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
     end
 
   end
