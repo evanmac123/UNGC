@@ -128,7 +128,8 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   def region
-    country.region
+    country = Country.find_by_code(country_code)
+    country.try(:region)
   end
 
   def region_name
