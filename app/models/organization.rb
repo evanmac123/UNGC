@@ -54,6 +54,8 @@ class Organization < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
+  validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
+
   has_many :signings
   has_many :initiatives, :through => :signings
   has_many :contacts
@@ -655,14 +657,13 @@ class Organization < ActiveRecord::Base
   end
 
   def set_delisted_status
-    self.active = false
-    self.removal_reason = RemovalReason.delisted
-    self.delisted_on = Date.today
-    self.save
+    self.update_attribute :active, false
+    self.update_attribute :removal_reason, RemovalReason.delisted
+    self.update_attribute :delisted_on, Date.today
   end
 
   def set_manual_delisted_status
-    self.update_attribute :cop_state, Organization::COP_STATE_DELISTED if self.participant?
+    self.cop_state = Organization::COP_STATE_DELISTED if participant?
   end
 
   # predict delisting date based on current status and COP due date
@@ -769,6 +770,10 @@ class Organization < ActiveRecord::Base
        'http://www.jci.cc/media/fr/presidentscorner/unglobalcompact'
       ]
       valid_urls.include?(url)
+  end
+
+  def require_delisted_on?
+    active == false && cop_state == COP_STATE_DELISTED
   end
 
   private
