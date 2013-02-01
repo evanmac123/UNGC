@@ -15,8 +15,9 @@ class CopStatusUpdater
     end
 
     def move_active_organizations_to_noncommunicating
+      log "Running move_active_organizations_to_noncommunicating"
       organizations = Organization.businesses.participants.active.about_to_become_noncommunicating
-      organizations.each { |org| org.communication_late }
+      organizations.each { |org| org.communication_late; log "#{org.id}: #{org.name} is Non-Communicating" }
     end
 
     # this can be uncommented when we decide to treat Companies and SMEs the same way again
