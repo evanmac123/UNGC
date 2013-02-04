@@ -350,7 +350,10 @@ class Organization < ActiveRecord::Base
     elsif current_user.from_ungc?
       self.replied_to = true
     end
+  end
 
+  def set_last_modified_by(current_user)
+    update_attribute :last_modified_by_id, current_user.id
   end
 
   def local_network_country_code
