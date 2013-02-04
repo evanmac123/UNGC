@@ -35,12 +35,11 @@ class Admin::OrganizationsController < AdminController
 
   def update
     @organization.state = Organization::STATE_IN_REVIEW if @organization.state == Organization::STATE_PENDING_REVIEW
-    # when an application is in review, we record who made the last change
     @organization.set_replied_to(current_user) if Organization::STATE_IN_REVIEW
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
-    @organization.last_modified_by_id = current_user.id
 
     if @organization.update_attributes(params[:organization])
+      @organization.set_last_modified_by(current_user)
       flash[:notice] = 'Organization was successfully updated.'
       if current_user.from_ungc?
         redirect_to( admin_organization_path(@organization.id) )
