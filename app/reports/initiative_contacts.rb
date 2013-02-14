@@ -26,7 +26,7 @@ class InitiativeContacts < SimpleReport
     c.state,
     c.postal_code,
     country.name AS country_name,
-    country.region AS region_name
+    country.region AS region
     FROM
     contacts c
     LEFT JOIN organizations o ON c.organization_id = o.id
@@ -99,7 +99,7 @@ class InitiativeContacts < SimpleReport
     record.state,
     record.postal_code,
     record.country_name,
-    record.region_name
+    Country::REGIONS[record.region.to_sym]
   ]
   end
 

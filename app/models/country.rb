@@ -24,14 +24,15 @@ class Country < ActiveRecord::Base
 
   default_scope :order => 'countries.name'
 
-  REGIONS = { :africa      => 'Africa',
-              :americas    => 'Americas',
-              :asia        => 'Asia',
-              :australasia => 'Australasia',
-              :europe      => 'Europe',
-              :mena        => 'MENA'
+  REGIONS = { :africa           => 'Africa',
+              :asia             => 'Asia',
+              :europe           => 'Europe',
+              :latin_america    => 'Latin America and the Caribbean',
+              :mena             => 'MENA',
+              :northern_america => 'Northern America',
+              :oceania          => 'Oceania'
             }
-
+  
   named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
 
   def region_for_select_field
