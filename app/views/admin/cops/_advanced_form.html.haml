@@ -223,6 +223,19 @@
           = form.text_area :description, :class => 'cop_answer'
 
     %fieldset
+      #confirmation{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Confirmation
+          %p Before submitting this COP and the self-assessment, please confirm that your company meets all 24 criteria for the GC Advanced level and that the COP describes implementation of all criteria and relevant best practices selected in the self-assessment.
+
+          %p= true_or_false_field form, :meets_advanced_criteria
+          %br
+          %br
+          %p{:style => 'padding-top: 20px;'}
+            %em Note: The self-assessment will be made public on the Global Compact website, alongside the COP, to improve the searchability and analysis of the COPs and underlying performance. If you do not want the results to be publicly displayed, please do not proceed with this submission and use the regular COP submission process instead.
+
+    %fieldset
       #signature{:style => 'display: block'}
         %fieldset
           %legend
