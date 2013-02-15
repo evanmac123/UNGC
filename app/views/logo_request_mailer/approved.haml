@@ -12,6 +12,11 @@
   == To download the logo files for #{@logo_request.organization.name}, please login at the Global Compact website and visit the original logo submission:
   = link_to "#{admin_organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)}", admin_organization_logo_request_url(:organization_id => @logo_request.organization.id, :id => @logo_request.id)
 
+%p
+  %strong
+    Please note that in 2013 the Global Compact is introducing a new contributions policy requiring all business participants to make an annual contribution to the Foundation for the Global Compact in order to be a full participant in the initiative. Among other things, this means that only those business participants that have made their annual contribution will be eligible to request permission to use a Global Compact logo. This policy will be fully operational and strictly enforced starting in 2014. For more information on how to make an annual contribution, please visit
+    = link_to "www.globalcompactfoundation.org/donate.", "http://www.globalcompactfoundation.org/donate"
+
 %p Sincerely,
 
 %p The Global Compact Office
