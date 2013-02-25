@@ -1,7 +1,7 @@
 class OrganizationMailer < ActionMailer::Base
   def submission_received(organization)
     subject "Your Letter of Commitment to the Global Compact"
-    bcc ['globalcompact@un.org','vkeesari@yahoo.com']
+    bcc ['archive@unglobalcompact.org','vkeesari@yahoo.com']
     from EMAIL_SENDER
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -19,7 +19,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def in_review(organization)
     from EMAIL_SENDER
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "Your application to the Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -29,7 +29,7 @@ class OrganizationMailer < ActionMailer::Base
   def in_review_local_network(organization)
     from EMAIL_SENDER
     cc 'filipic@un.org'
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "#{organization.name}'s application to the Global Compact is under review"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
@@ -39,7 +39,7 @@ class OrganizationMailer < ActionMailer::Base
   def network_review(organization)
     from EMAIL_SENDER
     cc 'filipic@un.org'
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "#{organization.name} has submitted an application to the Global Compact"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
@@ -48,7 +48,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def approved_business(organization)
     from EMAIL_SENDER
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "Welcome to the United Nations Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -57,7 +57,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def approved_nonbusiness(organization)
     from EMAIL_SENDER
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "Welcome to the United Nations Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -66,7 +66,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def approved_local_network(organization)
     from EMAIL_SENDER
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "#{organization.name} has been accepted into the Global Compact"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
@@ -75,7 +75,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def reject_microenterprise(organization)
     from EMAIL_SENDER
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "Your Letter of Commitment to the Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
@@ -84,7 +84,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def reject_microenterprise_network(organization)
     from EMAIL_SENDER
-    bcc 'globalcompact@un.org'
+    bcc 'archive@unglobalcompact.org'
     subject "#{organization.name}'s application to the Global Compact has been declined"
     content_type "text/html"
     recipients organization.network_report_recipients.collect(&:email_recipient)
@@ -94,7 +94,7 @@ class OrganizationMailer < ActionMailer::Base
   def foundation_invoice(organization)
     from 'foundation@unglobalcompact.org'
     cc 'contributions@globalcompactfoundation.org'
-    bcc 'vkeesari@yahoo.com'
+    bcc ['archive@unglobalcompact.org','vkeesari@yahoo.com']
     subject "[Invoice] The Foundation for the Global Compact"
     content_type "text/html"
     recipients organization.financial_contact_and_contact_point.collect(&:email_recipient)
@@ -103,6 +103,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def foundation_reminder(organization)
     from 'foundation@unglobalcompact.org'
+    bcc 'archive@unglobalcompact.org'
     subject "A message from The Foundation for the Global Compact"
     content_type "text/html"
     recipients organization.contacts.contact_points.collect(&:email_recipient)
