@@ -341,18 +341,14 @@ class Contact < ActiveRecord::Base
     end
 
     def do_not_allow_last_contact_point_to_uncheck_role
-      if self.from_organization? && self.organization.participant && !self.is?(Role.contact_point) && self.organization.contacts.contact_points.count < 1
+      if self.from_organization? && self.organization.participant && self.organization.contacts.contact_points.count < 1
         self.roles << Role.contact_point
-        errors.add_to_base "There should be at least one Contact Point"
-        return false
       end
     end
 
     def do_not_allow_last_ceo_to_uncheck_role
       if self.from_organization? && self.organization.participant && !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
         self.roles << Role.ceo
-        errors.add_to_base "There should be at least one Highest Level Executive"
-        return false
       end
     end
 
