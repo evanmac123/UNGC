@@ -595,8 +595,11 @@ ul.nav_bar {
     overflow-y: auto; }
     #main_content fieldset textarea.cop_answer {
       margin-left: 0px;
-      width: 100%;
+      width: 98%;
       clear: both; }
+    #main_content fieldset textarea.cop_answer_textarea {
+      margin-top: 1em;
+      height: 4em; }
   #main_content fieldset fieldset {
     background: #fff;
     border: 1px solid #aaa; }
@@ -937,7 +940,8 @@ ul.cop-question-year-filter li {
   padding-left: 1em; }
   #main_content ol.cop_list li {
     font-size: 13px;
-    line-height: 2em; }
+    line-height: 1.2em;
+    margin-bottom: 1em; }
 #main_content div.hint_toggle {
   color: #14546f;
   font-weight: bold;
