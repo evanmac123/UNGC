@@ -4,18 +4,20 @@
   Thank you for submitting your Communication on Progress (COP). According to your self-assessment, your COP meets all minimum requirements and qualifies for the GC Active level.
   == Your COP and the self-assessment are now #{link_to "publicly available", 'http://www.unglobalcompact.org' + cop_detail_path(@cop)} on the Global Compact website.
 
-%p The Global Compact encourages GC Active participants to improve policy implementation and increase transparency in order to progress toward achieving GC Advanced status for the next reporting period.
+- if @cop.additional_questions && @cop.differentiation == 'active'
+  %p Although you attempted to submit a COP for the GC Advanced level, your COP is missing one or more required elements:
+  = render :partial => '/shared/cops/cop_missing_advanced_criteria', :locals => { :communication_on_progress => @cop }
 
-%p== The #{link_to 'GC Advanced', 'http://www.unglobalcompact.org/COP/differentiation/GCAdvanced_level.html'} level aims to create a higher standard for corporate sustainability performance and disclosure based on the Blueprint for Corporate Sustainability Leadership and the UN Global Compact Management Model.
+%p The Global Compact encourages participants with GC Active COPs to improve policy implementation and increase transparency in order to progress toward achieving GC Advanced status for the next COP.
+
+%p== The #{link_to 'GC Advanced', 'http://www.unglobalcompact.org/COP/differentiation/GCAdvanced_level.html'} level aims to create a higher standard for corporate sustainability performance and disclosure based on the #{link_to 'Blueprint for Corporate Sustainability Leadership', 'http://unglobalcompact.org/docs/news_events/8.1/Blueprint.pdf'} and the #{link_to 'UN Global Compact Management Model', 'http://www.unglobalcompact.org/docs/news_events/9.1_news_archives/2010_06_17/UN_Global_Compact_Management_Model.pdf'}.
 
 %p Companies have an opportunity to identify themselves as "GC Advanced" by demonstrating that they have adopted, and report on, policies and processes in the following areas:
 
 %ul
-  %li strategy, governance and engagement
+  %li Corporate Sustainability Governance & Leadership
+  %li Implementing the Ten Principles into Strategies & Operations in the areas of Human Rights, Labour, Environment, Anti-Corruption
   %li UN goals and issues
-  %li implementation of Global Compact principles
-  %li value chain implementation
-  %li verification and disclosure
 
 %p== We look forward to receiving your next COP by #{dd_month_yyyy Date.today + 1.year} and hope that you will consider participating at the GC Advanced level.
 

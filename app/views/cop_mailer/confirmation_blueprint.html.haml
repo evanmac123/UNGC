@@ -2,14 +2,14 @@
 
 - if @cop.missing_items? || @cop.questions_missing_answers.any?
 
-  %p== Thank you for submitting your company's Communication on Progress (COP) on implementing the <em>Blueprint for Corporate Sustainability Leadership</em>. It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website.
-  %p We would like to notify you that your COP is missing the following required elements:
-  = render :partial => '/shared/cops/cop_missing_lead_criteria', :locals => { :communication_on_progress => @cop }
-  %p== Please send an updated document or supplementary note covering the missing elements within the next 3 months or by <strong>#{dd_month_yyyy Date.today + 3.months}</strong> to #{mail_to 'lead@unglobalcompact.org'}.
+  %p== Thank you for submitting your company's Communication on Progress (COP). It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website.
+  %p We would like to notify you that your COP is missing the following elements to reach the GC Advanced level:
+  = render :partial => '/shared/cops/cop_missing_advanced_criteria', :locals => { :communication_on_progress => @cop }
+  %p== Upon joining Global Compact LEAD, you committed to submitting GC Advanced COPs. Please send an updated document or supplementary note covering the missing elements within the next 3 months or by <strong>#{dd_month_yyyy Date.today + 3.months}</strong> to #{mail_to 'lead@unglobalcompact.org'}.
 
 - else
 
-  %p== Thank you for submitting your company's Communication on Progress (COP) on implementing the <em>Blueprint for Corporate Sustainability Leadership</em>. It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website and you have met the COP requirement for LEAD companies.
+  %p== Thank you for submitting your company's GC Advanced Communication on Progress (COP). It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website and you have met the COP requirement for LEAD companies.
 
 %p Sincerely,
 %p
