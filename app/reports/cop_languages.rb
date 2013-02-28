@@ -30,7 +30,7 @@ class CopLanguages < SimpleReport
       record.communication_on_progress.organization_joined_on,
       record.communication_on_progress.organization_type,
       record.communication_on_progress.organization_cop_state,
-      record.communication_on_progress.differentiation_level,
+      record.communication_on_progress.differentiation,
       record.communication_on_progress.id,
       record.created_at.strftime('%Y-%m-%d %X'),
       record.updated_at.strftime('%Y-%m-%d %X'),

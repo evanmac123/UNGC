@@ -37,7 +37,7 @@ $("input[name='communication_on_progress[references_business_peace]']").click(fu
   }
 })
 
-// Does your COP include a measurement of outcomes?
+// Does your COP include qualitative and/or quantitative measurement of outcomes illustrating the degree to which targets/performance indicators were met?
 $("input[name='communication_on_progress[include_measurement]']").click(function() {
   $("#method_shared_with_stakeholders").fadeIn('slow');
 })
@@ -78,6 +78,35 @@ $('#cop_form').submit(function() {
 $("#cop_form input, #cop_form select, #cop_form textarea").change(function() {
   work_in_progress = true;
 })
+
+$(".open_question_toggle").change(function(){
+  var _this = this;
+  $(this).siblings('.label_text').children('.cop_answer_textarea').slideToggle(function() {
+    if (_this.checked) { $(this).focus() }
+  });
+  return false;
+});
+
+$(".cop_answer_textarea").click(function() { return false });
+
+$(".cop_answer_textarea").change(function() {
+  var parent_val = $(this).parent().siblings('.open_question_toggle');
+  if (parent_val.attr('checked') && this.value.length >= 255) {
+    alert("Sorry, you may only enter up to 255 characters.");
+  }
+});
+
+$(".cop_answer_textarea").blur(function() {
+  var _this = this;
+  setTimeout(function() {
+    var parent_val = $(_this).parent().siblings('.open_question_toggle');
+    if (parent_val.attr('checked') && !$.trim($(_this).val())) {
+      alert("This option requires a description of the best practice.");
+      parent_val.attr('checked', false);
+      $(_this).slideToggle();
+    }
+  }, 100);
+});
 
 $(document).ready(function() {
   // preselect Submit tab

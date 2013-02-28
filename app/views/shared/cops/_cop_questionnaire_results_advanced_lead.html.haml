@@ -1,0 +1,28 @@
+- if communication_on_progress.cop_answers.by_group(:strategy).count > 0
+  %dt Strategy, Governance <br /> and Engagement
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'strategy')
+
+- PrincipleArea::FILTERS.each_pair do |key, value|
+  - if (communication_on_progress.notable_program? || communication_on_progress.additional_questions?)
+    %a{:name => "#{key}"}
+    %dt
+      %span{:class => "#{issue_area_colour_for(value)}" }
+        = value
+    %dd.indent= show_cop_attributes(communication_on_progress, PrincipleArea.send(key).id, communication_on_progress.send("references_#{key}?"), 'additional')
+
+- if communication_on_progress.cop_answers.by_group(:un_goals).count > 0
+  %dt UN Goals and Issues
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'un_goals')
+
+- if communication_on_progress.cop_answers.by_group(:governance).count > 0
+  %dt Governance
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'governance')
+
+- if communication_on_progress.cop_answers.by_group(:value_chain).count > 0
+  %dt Value Chain <br /> Implementation
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'value_chain')
+
+- if communication_on_progress.cop_answers.by_group(:business_peace).count > 0
+  %dt
+    %span.business_peace Business and Peace
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'business_peace')
