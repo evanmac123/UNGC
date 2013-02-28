@@ -45,7 +45,7 @@ class LocalNetworkAllCops < SimpleReport
       record.meets_advanced_criteria ? 1:0,
       record.starts_on,
       record.ends_on,
-      record.created_at.present? ? record.differentiation_level : 'invalid COP record'
+      record.created_at.present? ? record.differentiation : 'invalid COP record'
     ]
   end
 

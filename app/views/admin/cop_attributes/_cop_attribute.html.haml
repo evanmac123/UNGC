@@ -13,6 +13,11 @@
       = label_tag("cop_question_cop_attributes_attributes_#{record}_position", 'Position')
       = text_field_tag("cop_question[cop_attributes_attributes][#{record}][position]", cop_attribute.position)
 
+    %li
+      = label_tag("cop_question_cop_attributes_attributes_#{record}_open", 'Open text response')
+      = hidden_field_tag("cop_question[cop_attributes_attributes][#{record}][open]", 0)
+      = check_box_tag("cop_question[cop_attributes_attributes][#{record}][open]", 1, cop_attribute.open?)
+
     - unless cop_attribute.new_record?
       = hidden_field_tag("cop_question[cop_attributes_attributes][#{record}][id]", cop_attribute.id)
       %li

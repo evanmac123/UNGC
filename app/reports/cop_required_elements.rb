@@ -53,7 +53,7 @@ class CopRequiredElements < SimpleReport
       record.method_shared,
       record.starts_on,
       record.ends_on,
-      record.created_at.present? ? record.differentiation_level : 'invalid COP record',
+      record.created_at.present? ? record.differentiation : 'invalid COP record',
       record.created_at.present? ? record.created_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
       record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record'
     ]

@@ -1,0 +1,24 @@
+%ul{:class => 'questionnaire'}
+  - if question.cop_attributes.count > 1
+    %li{:class => 'question_group'}
+      =question.text
+
+    - answers.each do |a|
+      - if a.value? || (a.value? && a.text.present?)
+        %li{:id => a.cop_attribute.id, :class => "selected_question"}
+          %p= a.cop_attribute.text
+          %p= truncate(a.text, :length => 255) if a.text.present?
+
+    - if params[:action] != 'feed'
+      - answers.each do |a|
+        - unless a.value? || (a.value? && a.text.present?)
+          %li{:id => a.cop_attribute.id, :class => "advanced_question"}
+            %p= a.cop_attribute.text
+  - else
+    %li{:class => 'question_group'}
+      =question.text
+    - if answers.first.text.present?
+      %p= answers.first.text
+    - else
+      %li{:class => answers.first.value? ? 'selected_question' : 'advanced_question'}
+        %p= answers.first.value? ? 'Yes' : 'No'
