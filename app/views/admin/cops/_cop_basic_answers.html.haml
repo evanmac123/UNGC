@@ -1,0 +1,13 @@
+%ul{:class => 'basic_question'}
+  %li{:class => 'question_group'}
+    = question.text
+    - answers.each do |a|
+      %li{:class => answers.first.text.present? ? 'question_text' : 'unselected_question'}
+        %p= a.cop_attribute.text
+
+  - if answers.first.text.present?
+    %li{:class => 'question_response'}
+      = simple_format(answers.first.text)
+  - else
+    %li{:class => 'question_response'}
+      No answer provided.

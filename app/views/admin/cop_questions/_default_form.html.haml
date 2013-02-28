@@ -17,6 +17,7 @@
     %ul{:class => 'bulleted'}
       %li Each attribute will be represented by a check box in the COP form. If you add a single attribute, then this will be a Yes/No question.
       %li You may add an optional hint or suggested topics for each question.
+      %li Open text response allows users to type a response in addition to selecting the attribute
       %li For Basic COP questions, a text field will appear below the question and hints.
     %hr
     #cop_attributes= render @cop_question.cop_attributes

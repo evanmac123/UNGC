@@ -52,11 +52,11 @@ module ApplicationHelper
   end
 
   def differentiation_placement(cop)
-    levels = { :learner => "Learner Platform &#x25BA;", :active => "GC Active &#x25BA;", :advanced => "GC Advanced" }
+    levels = { 'learner' => "Learner Platform &#x25BA;", 'active' => "GC Active &#x25BA;", 'advanced' => "GC Advanced" }
     html = ''
 
     levels.each do |key, value|
-      css_style = cop.differentiation_level == key ? '' : 'color: #aaa'
+      css_style = cop.differentiation_level_public == key ? '' : 'color: #aaa'
       html += content_tag :span, value + '&nbsp;', :style => css_style
     end
 
@@ -70,10 +70,10 @@ module ApplicationHelper
   # swap key/value so the values and labels for the <select> options are in the correct order
   def select_options_from_hash(hash)
     reverse_hash = Hash.new
-    		hash.each {|key,value|
-    			reverse_hash[value] = key unless reverse_hash.has_key?(key)
-    		}
-  	return reverse_hash
+    hash.each {|key,value|
+      reverse_hash[value] = key unless reverse_hash.has_key?(key)
+    }
+    return reverse_hash
   end
 
 end

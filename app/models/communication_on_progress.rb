@@ -31,6 +31,7 @@
 #  ends_on                             :date
 #  method_shared                       :string(255)
 #  differentiation                     :string(255)
+#  references_business_peace           :boolean(1)
 #
 
 class CommunicationOnProgress < ActiveRecord::Base
@@ -58,8 +59,8 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   before_create  :check_links
   before_save    :set_cop_defaults
-  before_save    :set_differentiation_level
   before_save    :can_be_edited?
+  after_create   :set_differentiation_level
   after_create   :draft_or_submit!
   before_destroy :delete_associated_attributes
 
@@ -147,7 +148,8 @@ class CommunicationOnProgress < ActiveRecord::Base
                       }
 
   START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
-  START_DATE_OF_LEAD_BLUEPRINT = Date.new(2012, 01, 01)
+  START_DATE_OF_LEAD_BLUEPRINT  = Date.new(2012, 01, 01)
+  START_DATE_OF_ADVANCED_LEAD   = Date.new(2013, 03, 01)
 
   def self.find_by_param(param)
     return nil if param.blank?
@@ -187,22 +189,36 @@ class CommunicationOnProgress < ActiveRecord::Base
     organization.sector.try(:name) || ''
   end
 
-  def urls
-    [url1, url2, url3].compact
-  end
-
   def year
     ends_on.strftime('%Y')
   end
 
   def init_cop_attributes
-    CopQuestion.questions_for(self.organization).each {|cop_question|
-      cop_question.cop_attributes.each {|cop_attribute|
-        self.cop_answers.build(:cop_attribute_id => cop_attribute.id,
-                               :value            => false,
-                               :text             => nil)
-        }
+    cop_questions.each do |cop_question|
+      cop_question.cop_attributes.each do |cop_attribute|
+        self.cop_answers.build \
+          :cop_attribute_id => cop_attribute.id,
+          :value            => false,
+          :text             => nil
+      end
+    end
+  end
+
+  def cop_questions
+    @questions ||= CopQuestion.questions_for(self.organization)
+  end
+
+  def cop_questions_for_grouping(grouping, options)
+    principle_area  = PrincipleArea.send(options[:principle]) if options[:principle]
+    conditions = {
+      :principle_area_id => principle_area.try(:id),
+      :grouping          => grouping.to_s,
+      :year              => options[:year]
     }
+
+    cop_questions.select do |question|
+      conditions.all? { |key, val| question.send(key) == val }
+    end
   end
 
   def set_cop_defaults
@@ -220,7 +236,6 @@ class CommunicationOnProgress < ActiveRecord::Base
         self.additional_questions = true
       when 'lead'
         self.additional_questions = true
-        self.meets_advanced_criteria = true
     end
   end
 
@@ -268,6 +283,11 @@ class CommunicationOnProgress < ActiveRecord::Base
   # However, participants could answer the additional voluntary questions prior to this date
   def is_test_phase_advanced_programme?
     additional_questions && created_at >= Date.new(2010, 10, 11) && created_at <= START_DATE_OF_DIFFERENTIATION
+  end
+
+  # Advanced and LEAD formats were combined in 2013
+  def is_advanced_lead?
+    created_at >= START_DATE_OF_ADVANCED_LEAD
   end
 
   def is_grace_letter?
@@ -382,8 +402,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     else
       questions = []
       cop_attributes.each do |attribute|
-        # Business and Peace question groups are not evaluated
-        questions << attribute.cop_question unless attribute.cop_question.grouping == 'business_peace'
+        # don't evaluate coverage of exempted groups
+        questions << attribute.cop_question unless CopQuestion::EXEMPTED_GROUPS.include? attribute.cop_question.grouping
       end
       questions
     end
@@ -421,8 +441,13 @@ class CommunicationOnProgress < ActiveRecord::Base
     issue_areas_covered.count == 4
   end
 
-  # those that have also self-declared themeselves as meeting the advanced critera (yes/no)
+  # for the COP to be Advanced, cop questions cannot have any missing cop_attributes
   def is_advanced_level?
+    if questions_missing_answers.any?
+      self.meets_advanced_criteria = false
+    else
+      self.meets_advanced_criteria = true
+    end
     is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
   end
 
@@ -446,6 +471,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
+  # blueprint refers to advanced COPs from LEAD companies and will is only used for internal purposes
+  def differentiation_level_public
+    differentiation == 'blueprint' ? 'advanced' : differentiation
+  end
+
   def learner?
     differentiation == 'learner'
   end
@@ -455,12 +485,12 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def differentiation_description
-    LEVEL_DESCRIPTION[differentiation_level]
+    LEVEL_DESCRIPTION[differentiation.to_sym]
   end
 
   # record level in case the criteria changes in the future
   def set_differentiation_level
-    self.differentiation = differentiation_level.try(:to_s)
+    update_attribute :differentiation, differentiation_level.to_s
   end
 
   def organization_business_entity?
@@ -473,7 +503,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       if organization.double_learner?
         'double_learner'
       else
-        differentiation_level
+        differentiation
       end
 
     else

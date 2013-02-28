@@ -1,0 +1,11 @@
+%label{:for => "communication_on_progress_cop_answers_attributes_#{answer_index}_value", :title => answer.cop_attribute.hint}
+  = hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", 0, :id => nil)
+  = check_box_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][value]", '1', answer.value, :class => 'open_question_toggle')
+
+  %span{:class => "label_text"}
+    = answer.cop_attribute.text
+    - if answer.cop_attribute.hint.present?
+      = image_tag('/images/icons/Info_11x11.png', :style => 'margin-bottom: -2px;', :title => answer.cop_attribute.hint)
+
+    = hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
+    = text_area_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][text]", answer.text, { :class => 'cop_answer cop_answer_textarea', :style => answer.value ? '' : 'display: none;', :maxlength => 255 })

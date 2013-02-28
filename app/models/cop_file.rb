@@ -39,7 +39,7 @@ class CopFile < ActiveRecord::Base
   end
 
   def differentiation_name
-    communication_on_progress.try(:differentiation_level)
+    communication_on_progress.try(:differentiation)
   end
 
 end
