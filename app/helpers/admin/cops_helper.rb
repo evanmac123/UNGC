@@ -39,7 +39,7 @@ module Admin::CopsHelper
 
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }
+      render :partial => 'admin/cops/cop_answers.html.haml', :locals => { :question => question, :answers => answers }
     end.join
   end
 
