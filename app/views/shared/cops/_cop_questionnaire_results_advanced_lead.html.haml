@@ -26,12 +26,3 @@
   %dt
     %span.business_peace Business and Peace
   %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'business_peace')
-
-- if communication_on_progress.is_advanced_lead? && communication_on_progress.description.present?
-  %dt Other Best Practices
-  %dd.indent
-    %ul.questionnaire
-      %li.question_group
-        Details on established or emerging best practices not included in the above criteria
-      %li.advanced_question
-        %p= simple_format communication_on_progress.description

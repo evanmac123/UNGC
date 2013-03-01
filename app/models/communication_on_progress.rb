@@ -149,7 +149,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
   START_DATE_OF_LEAD_BLUEPRINT  = Date.new(2012, 01, 01)
-  START_DATE_OF_ADVANCED_LEAD   = Date.new(2013, 01, 06)
+  START_DATE_OF_ADVANCED_LEAD   = Date.new(2013, 03, 01)
 
   def self.find_by_param(param)
     return nil if param.blank?
