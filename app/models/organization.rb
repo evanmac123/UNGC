@@ -431,6 +431,10 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name)
   end
 
+  def participant_manager_name
+    participant_manager.try(:name) || 'n/a'
+  end
+
   def revenue_description
     revenue ? REVENUE_LEVELS[revenue] : ''
   end

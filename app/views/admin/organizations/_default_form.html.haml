@@ -2,6 +2,8 @@
 %fieldset
   %legend Details
   %ol
+    - staff_only do
+      = default_form.collection_select :participant_manager_id, Contact.participant_managers, :id, :name, {:include_blank => true}, {:label => 'Relationship Manager'}
     = default_form.text_field :name
     = default_form.text_field :url, :label => 'Website'
     = default_form.text_field :employees
