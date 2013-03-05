@@ -68,6 +68,7 @@ class Organization < ActiveRecord::Base
   belongs_to :exchange
   belongs_to :country
   belongs_to :removal_reason
+  belongs_to :participant_manager, :class_name => 'Contact'
 
   attr_accessor :delisting_on
 

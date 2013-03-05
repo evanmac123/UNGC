@@ -16,6 +16,7 @@
 class Country < ActiveRecord::Base
   belongs_to :local_network
   belongs_to :manager, :class_name => 'Contact'
+  belongs_to :participant_manager, :class_name => 'Contact'
   has_and_belongs_to_many :case_stories
   has_and_belongs_to_many :communication_on_progresses
   has_many :organizations
@@ -32,7 +33,7 @@ class Country < ActiveRecord::Base
               :northern_america => 'Northern America',
               :oceania          => 'Oceania'
             }
-  
+
   named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
 
   def region_for_select_field
@@ -56,5 +57,10 @@ class Country < ActiveRecord::Base
   def regional_manager_name
     self.manager.try(:name) || ''
   end
+
+  def participant_manager_name
+    self.participant_manager.try(:name) || ''
+  end
+
 
 end
