@@ -30,7 +30,8 @@ class Role < ActiveRecord::Base
     :network_regional_manager  => 'Local Network Manager',
     :network_report_recipient  => 'Network Report Recipient',
     :network_representative    => 'Network Representative',
-    :website_editor            => 'Website Editor'
+    :website_editor            => 'Website Editor',
+    :participant_manager       => 'Participant Relationship Manager'
   }
 
   named_scope :visible_to, lambda { |user, current_user = nil|
@@ -52,7 +53,11 @@ class Role < ActiveRecord::Base
       { :conditions => ['id in (?)', roles_ids.flatten] }
 
     elsif user.user_type == Contact::TYPE_UNGC
-      roles_ids = [Role.ceo, Role.contact_point, Role.network_regional_manager, Role.website_editor].collect(&:id)
+      roles_ids = [Role.ceo,
+                   Role.contact_point,
+                   Role.network_regional_manager,
+                   Role.website_editor,
+                   Role.participant_manager].collect(&:id)
       { :conditions => ['id in (?)', roles_ids.flatten] }
 
     elsif user.user_type == Contact::TYPE_NETWORK
@@ -116,6 +121,10 @@ class Role < ActiveRecord::Base
 
   def self.network_regional_manager
     find :first, :conditions => { :name => FILTERS[:network_regional_manager] }
+  end
+
+  def self.participant_manager
+    find :first, :conditions => { :name => FILTERS[:participant_manager] }
   end
 
   def self.login_roles

@@ -194,6 +194,14 @@ class Contact < ActiveRecord::Base
     }
   }
 
+  named_scope :participant_managers, lambda {
+    role = Role.participant_manager
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", role]
+    }
+  }
+
   named_scope :for_country, lambda { |country|
     {:conditions => {:country_id => country.id} }
   }
