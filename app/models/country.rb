@@ -62,5 +62,4 @@ class Country < ActiveRecord::Base
     self.participant_manager.try(:name) || ''
   end
 
-
 end
