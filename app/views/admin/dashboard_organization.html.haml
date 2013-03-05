@@ -112,5 +112,6 @@
           %th.last_updated Published
           %th.title Title
           %th.status Status
+          %th.differentiation Differentiation
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses.find(:all, order: "created_at DESC")
