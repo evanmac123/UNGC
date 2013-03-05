@@ -13,6 +13,13 @@ h1. 2013-03-05
 
 h1. 2013-02-21
 
+* Companies that have submitted 2 learner COPs in a row will be made Non-Communicating and receive a warning email
+* But we cannot just count the number of COPs, it's the time between the last submitted COP and the current COP
+* Organization#double_learner_for_two_years? is checked after each COP submission
+* o.each {|org| doubles << org.id if org.double_learner_for_two_years?}
+
+h1. 2013-02-21
+
 * The Advanced and LEAD COPs are being merged into a single COP
 * We still maintain separate COP submission forms in case this changes in the future
 * COPs received from LEAD companies will be internally identified as 'blueprint' but will publicly be Advanced

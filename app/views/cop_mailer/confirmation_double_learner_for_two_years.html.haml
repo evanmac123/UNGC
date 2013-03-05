@@ -1,0 +1,51 @@
+%p== Dear #{@user.name_with_title},
+
+%p
+  Thank you for submitting your company's Communication on Progress (COP).
+  == It is now #{link_to "publicly available", cop_detail_url(@cop)} on the Global Compact website.
+
+%p== Your COP is missing <strong>#{@cop.number_missing_items}</strong> of the required elements:
+
+%ul
+  - unless @cop.include_continued_support_statement?
+    %li An explicit statement of continued support for the UN Global Compact and its ten principles
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    - unless @cop.send("references_#{key}?")
+      %li== Description of actions or relevant policies related to #{value}
+  - unless @cop.include_measurement?
+    %li A measurement of outcomes
+
+%p== Our records show that, <strong>for the past two years</strong>, your company's last two #{link_to 'Communications on Progress','http://unglobalcompact.org/COP/communicating_progress.html'} (COPs) have not met all the required elements. Therefore, your company has exceeded the one-time grace period (known as the #{link_to 'Learner Platform','http://unglobalcompact.org/COP/differentiation/the_learner_platform.html'}) provided for companies that do not meet all the requirements.
+
+%p== With the purpose of supporting your company in its sustainability efforts and encouraging you to continue your engagement with the Global Compact, we have decided to extend your grace period until your next COP deadline on #{dd_month_yyyy Date.today + 1.year}. To ensure that your next COP fulfills all requirements, we urge you to take advantage of relevant resources developed by our office (listed in the table below).
+
+%p In addition, Global Compact Local Networks can offer valuable support. With 101 networks in place, we encourage you to determine if there is a network in your country and how to become involved. Networks offer the best opportunity to engage on sustainability issues and receive support at the local level.
+
+%ul
+  %li= link_to local_network_name(@organization), 'http://www.unglobalcompact.org'+link_to_local_network(@organization)
+
+%p== We hope these resources will assist you in advancing your sustainability practices and preparing a communication that achieves the #{link_to 'GC Active', 'http://www.unglobalcompact.org/COP/differentiation/GCActive_level.html'} or #{link_to 'GC Advanced levels', 'http://unglobalcompact.org/COP/differentiation/GCAdvanced_level.html'}.
+
+%p Sincerely,
+%p
+  The COP Team
+  %br
+  United Nations Global Compact
+  %br
+  = mail_to 'cop@unglobalcompact.org'
+
+- @row_style = 'text-align: left; padding-bottom: 10px;'
+%table{:border => 0, :style => 'background-color: #EEEEFF; padding: 1em 2em;'}
+  %tr
+    %td
+      %h3{:style => 'color: #0A3A4B;'} COP Guidance
+  %tr
+    %td{:style => @row_style}= link_to 'Upcoming Webinars', 'http://www.unglobalcompact.org/NewsAndEvents/event_calendar/webinars.html'
+  %tr
+    %td{:style => @row_style}= link_to 'COP Guide - Basic', 'http://unglobalcompact.org/docs/communication_on_progress/Tools_and_Publications/COP_Basic_Guide.pdf'
+  %tr
+    %td{:style => @row_style}= link_to 'COP Guide - Comprehensive', 'http://www.unglobalcompact.org/docs/communication_on_progress/Tools_and_Publications/COP_Comprehensive_Guide.pdf'
+  %tr
+    %td{:style => @row_style}= link_to 'Step-by-Step COP Submission', 'http://www.unglobalcompact.org/docs/communication_on_progress/COP_Submission_Step_by_Step_Guide.pdf'
+  %tr
+    %td{:style => @row_style}= link_to 'Video on how to Submit a COP', 'http://www.unglobalcompact.org/COP/communicating_progress/how_to_submit_a_cop.html'

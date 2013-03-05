@@ -300,7 +300,7 @@ class Organization < ActiveRecord::Base
     if id_or_array.is_a?(Array)
       { :conditions => ['country_id IN (?)', id_or_array] }
     else
-      { :conditions => {:country_id => id} }
+      { :conditions => {:country_id => id_or_array} }
     end
   }
 
@@ -542,6 +542,30 @@ class Organization < ActiveRecord::Base
   def double_learner?
     if last_cop_is_learner? && communication_on_progresses.approved.count > 1
       communication_on_progresses[1].learner?
+    end
+  end
+
+  def double_learner_for_two_years?
+    # check for consecutive learner COPs
+    return false unless double_learner?
+
+    # gather learner COPs
+    cops = []
+    communication_on_progresses.approved.all(:order => 'created_at DESC').each do |cop|
+      next if cop.is_grace_letter? || cop.is_reporting_adjustment?
+      cops << cop if cop.learner?
+    end
+
+    # check if the total time between first and last COP is two years
+    first_cop   = cops.last
+    second_cop  = cops.first
+    months_between_cops = (first_cop.created_at.month - second_cop.created_at.month) + 12 * (first_cop.created_at.year - second_cop.created_at.year)
+    months_between_cops = months_between_cops.abs
+    if months_between_cops == 24
+      # same month, so compare date
+      first_cop.created_at.day <= second_cop.created_at.day
+    else
+      months_between_cops >= 24
     end
   end
 

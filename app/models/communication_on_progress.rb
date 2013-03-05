@@ -295,6 +295,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
 
+  def is_reporting_adjustment?
+    # to be completed with submission process
+  end
+
+
   def is_basic?
     is_new_format? && self.attributes['format'] == 'basic'
   end
@@ -502,6 +507,8 @@ class CommunicationOnProgress < ActiveRecord::Base
 
       if organization.double_learner?
         'double_learner'
+      elsif organization.double_learner_for_two_years?
+        'double_learner_for_two_years'
       else
         differentiation
       end
