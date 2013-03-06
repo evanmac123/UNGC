@@ -28,4 +28,4 @@
 %fieldset#login_information{:style => login_fieldset_style(@contact)}
   %legend Username
   = default_form.text_field :username, :label => 'Username'
-  = default_form.password_field :password
+  = default_form.password_field :password, :value => @contact.password
