@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.12'
 
 gem 'mysql2'
 gem 'facets',               '~> 2.9.3', :require => false
 gem 'hpricot',              '0.8.4'
 gem 'json_pure',            '1.2.0'
-gem 'will_paginate',        '~> 3.0.3'
+gem 'will_paginate',        '~> 3.0.4'
 gem 'paperclip',            '~> 2.3.1'
 gem 'haml',                 '~> 3.1.7'
 gem 'acts_as_commentable',  '~> 4.0.0'
