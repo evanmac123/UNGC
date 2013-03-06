@@ -299,4 +299,19 @@ class OrganizationTest < ActiveSupport::TestCase
     end
   end
 
+  context "given a new organization from Brazil" do
+    setup do
+      create_roles
+      @company = create_organization_type(:name => 'Company')
+      @country = create_country(:name => "Brazil" )
+      @participant_manager = create_contact
+      @participant_manager.roles << Role.participant_manager
+      @country = create_country(:participant_manager => @participant_manager)
+      @organization = create_organization(:organization_type_id => @company.id, :country_id => @country.id)
+    end
+    should "assign the Relationship Manager for Brazil" do
+      assert_equal @participant_manager, @organization.participant_manager
+    end
+  end
+
 end

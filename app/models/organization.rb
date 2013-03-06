@@ -79,6 +79,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, :signings
   acts_as_commentable
 
+  before_create :set_participant_manager
   before_save :check_micro_enterprise_or_sme
   before_save :set_non_business_sector
   before_save :set_initiative_signatory_sector
@@ -787,6 +788,12 @@ class Organization < ActiveRecord::Base
   end
 
   private
+
+    def set_participant_manager
+      if country && country.participant_manager
+        self.participant_manager_id = country.participant_manager.id
+      end
+    end
 
     def set_non_business_sector
       unless business_entity? || initiative_signatory?
