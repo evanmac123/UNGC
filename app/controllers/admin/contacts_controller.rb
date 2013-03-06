@@ -55,10 +55,10 @@ class Admin::ContactsController < AdminController
   private
     def load_parent
       @parent = if params[:organization_id]
-                  Organization.visible_to(current_contact).find params[:organization_id]
-                elsif params[:local_network_id]
-                  LocalNetwork.find params[:local_network_id]
-                end
+        Organization.visible_to(current_contact).find(params[:organization_id])
+      elsif params[:local_network_id]
+        LocalNetwork.find(params[:local_network_id])
+      end
 
       if params[:id]
         @contact = @parent.contacts.find params[:id]
