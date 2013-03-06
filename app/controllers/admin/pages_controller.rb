@@ -39,7 +39,7 @@ class Admin::PagesController < AdminController
     if @page.save
       respond_to do |wants|
         wants.html { flash[:notice] = "Page successfully created"; redirect_to :action => 'index' }
-        wants.js   { render :inline => @page.to_json }
+        wants.js   { render :inline => {:page => @page.to_json} }
       end
     else
       render :action => 'new'
@@ -85,9 +85,11 @@ class Admin::PagesController < AdminController
     @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     if request.xhr?
       render :json => {
-        :url => update_page_url(:format => 'js'),
-        :startupMode => @current_version.dynamic_content? ? 'source' : 'wysiwyg',
-        :content => @current_version.content
+        :page => {
+          :url => update_page_url(:format => 'js'),
+          :startupMode => @current_version.dynamic_content? ? 'source' : 'wysiwyg',
+          :content => @current_version.content
+        }
       }
       return
     end
@@ -136,7 +138,7 @@ class Admin::PagesController < AdminController
     if is_live_editor
       respond_to do |wants|
         wants.html { redirect_to view_page_url(:path => @version.to_path) } # redirect to regular page view
-        wants.js   { render :json => { :content => @version.content, :version => @version.version_number } }
+        wants.js   { render :json => { :page => {:content => @version.content, :version => @version.version_number} } }
       end
     else
       respond_to do |wants|
