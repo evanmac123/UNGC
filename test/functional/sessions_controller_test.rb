@@ -4,6 +4,7 @@ class SessionsControllerTest < ActionController::TestCase
   def setup
     create_roles
     create_test_users
+    request.env['devise.mapping'] = Devise.mappings[:contact]
   end
 
 context "given an organization user" do
@@ -35,33 +36,33 @@ context "given an organization user" do
   end
 
   should 'logout' do
-    sign_in :quentin
+    sign_in @contact
     get :destroy
     assert_nil session[:user_id]
     assert_response :redirect
   end
 
   should 'remember me' do
-    @request.cookies["auth_token"] = nil
+    @request.cookies["remember_contact_token"] = nil
     post :create, :username => 'quentin', :password => 'monkey', :remember_me => "1"
-    assert_not_nil @response.cookies["auth_token"]
+    assert_not_nil @response.cookies["remember_contact_token"]
   end
 
   should 'not remember me' do
-    @request.cookies["auth_token"] = nil
+    @request.cookies["remember_contact_token"] = nil
     post :create, :username => 'quentin', :password => 'monkey', :remember_me => "0"
-    assert @response.cookies["auth_token"].blank?
+    assert @response.cookies["remember_contact_token"].blank?
   end
 
   should 'delete token on logout' do
-    sign_in :quentin
+    sign_in @contact
     get :destroy
-    assert @response.cookies["auth_token"].blank?
+    assert @response.cookies["remember_contact_token"].blank?
   end
 
   should 'login with cookie' do
     @contact.remember_me
-    @request.cookies["auth_token"] = cookie_for(:quentin)
+    @request.cookies["remember_contact_token"] = cookie_for(:quentin)
     get :new
     assert @controller.send(:current_contact)
   end
@@ -69,14 +70,14 @@ context "given an organization user" do
   should 'fail expired cookie login' do
     @contact.remember_me
     @contact.update_attribute :remember_token_expires_at, 5.minutes.ago
-    @request.cookies["auth_token"] = cookie_for(:quentin)
+    @request.cookies["remember_contact_token"] = cookie_for(:quentin)
     get :new
     assert !@controller.send(:current_contact)
   end
 
   should 'fail cookie login' do
     @contact.remember_me
-    @request.cookies["auth_token"] = auth_token('invalid_auth_token')
+    @request.cookies["remember_contact_token"] = auth_token('invalid_auth_token')
     get :new
     assert !@controller.send(:current_contact)
   end
@@ -88,25 +89,28 @@ end
       create_organization_type
       create_organization_and_ceo
       create_country
-      @contact = create_contact(:organization_id => @organization.id,
-                                :username => 'quentin',
-                                :password => 'monkey',
-                                :email => 'user@example.com',
-                                :remember_token_expires_at => 1.days.from_now.to_s,
-                                :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb',
-                                :role_ids => [Role.contact_point.id])
+      @contact = create_contact(
+        :organization_id => @organization.id,
+        :username => 'quentin',
+        :password => 'monkey',
+        :email => 'user@example.com',
+        :remember_token_expires_at => 1.days.from_now.to_s,
+        :remember_token => '77de68daecd823babbb58edb1c8e14d7106e83bb',
+        :role_ids => [Role.contact_point.id]
+      )
 
-      @old_contact = create_contact(:organization_id => @organization.id,
-                                    :username => 'login',
-                                    :password => 'nexen',
-                                    :email => 'user2@example.com',
-                                    :last_sign_in_at => 7.months.ago,
-                                    :role_ids => [Role.contact_point.id])
-
+      @old_contact = create_contact(
+        :organization_id => @organization.id,
+        :username => 'login',
+        :password => 'nexen',
+        :email => 'user2@example.com',
+        :last_sign_in_at => 7.months.ago,
+        :role_ids => [Role.contact_point.id]
+      )
     end
 
     def auth_token(token)
-      CGI::Cookie.new('name' => 'auth_token', 'value' => token)
+      CGI::Cookie.new('name' => 'remember_contact_token', 'value' => token)
     end
 
     def cookie_for(user)
