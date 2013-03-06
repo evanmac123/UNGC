@@ -19,6 +19,12 @@
 //= require jquery.tablesorter.pager
 //= require_self
 //= require dashboard
+//= require page_editor
+
+$(document).ajaxSend(function(e, xhr, options) {
+ var token = $("meta[name='csrf-token']").attr("content");
+  xhr.setRequestHeader("X-CSRF-Token", token);
+});
 
 $.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
 
@@ -118,7 +124,7 @@ var Watcher = {
   decoratePage: function(response) {
     if (!Watcher.included) {
       Watcher.included = true;
-      include('/javascripts/page_editor.js');
+      // include('/javascripts/page_editor.js');
     }
     if (response.content) {
       var possible_editor = $('#rightcontent .click_to_edit');
