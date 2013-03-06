@@ -63,6 +63,7 @@ UNGC::Application.routes.draw do
     end
 
     resources :organizations do
+      resources :comments
       collection do
         get :approved
         get :rejected
@@ -95,7 +96,7 @@ UNGC::Application.routes.draw do
 
       resources :case_stories
       resources :communication_on_progresses, :controller => 'cops'
-      resources :comments
+
       resources :contacts
     end
 
@@ -143,7 +144,7 @@ UNGC::Application.routes.draw do
     end
 
     match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
-    
+
     match 'reports'          => 'reports#index', :as => :reports
     match 'reports/:action'  => 'reports', :as => :report
 
