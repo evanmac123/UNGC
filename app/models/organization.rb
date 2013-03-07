@@ -705,16 +705,18 @@ class Organization < ActiveRecord::Base
     # Company has submitted a COP
     if communication_on_progresses.approved.count > 0
 
-      # Determine status based on level of latest COP
-      if last_approved_cop.is_blueprint_level?
-        'Global Compact Advanced'
-      elsif last_approved_cop.is_advanced_level?
-        'Global Compact Advanced'
-      elsif last_approved_cop.is_intermediate_level?
-        'Global Compact Active'
-      else
-        'Global Compact Learner'
-      end
+      case last_approved_cop.differentiation
+        when 'blueprint'
+          'Global Compact Advanced'
+        when 'advanced'
+          'Global Compact Advanced'
+        when 'active'
+          'Global Compact Active'
+        when 'learner'
+          'Global Compact Active'
+        else
+          'not available'
+        end
 
     else
       'A Communication on Progress has not been submitted'
