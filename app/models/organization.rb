@@ -40,6 +40,7 @@
 #  rejoined_on                    :date
 #  non_comm_dialogue_on           :date
 #  review_reason                  :string(255)
+#  participant_manager_id         :integer(4)
 #
 
 class Organization < ActiveRecord::Base
@@ -433,7 +434,11 @@ class Organization < ActiveRecord::Base
   end
 
   def participant_manager_name
-    participant_manager.try(:name) || 'n/a'
+    participant_manager.try(:name) || ''
+  end
+
+  def participant_manager_email
+    participant_manager.try(:email) || ''
   end
 
   def revenue_description
