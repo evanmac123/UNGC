@@ -28,11 +28,11 @@
 
 - staff_only do
 
-  - if @organization.in_review?
+  - if @organization.can_approve?
     %fieldset#review_reason
-      %legend Review Status
+      %legend Review / Delay Status
       %ol
-        = default_form.select :review_reason, options_for_select(select_options_from_hash(Organization::REVIEW_REASONS), @organization.review_reason_to_sym), {:include_blank => true}, :label => 'Reason in review'
+        = default_form.select :review_reason, options_for_select(select_options_from_hash(Organization::REVIEW_REASONS), @organization.review_reason_to_sym), {:include_blank => true}, :label => 'Reason'
 
   - if @organization.participant
     %fieldset

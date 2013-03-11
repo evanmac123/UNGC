@@ -60,7 +60,7 @@ class Comment < ActiveRecord::Base
 
     def organization_user_cannot_approve_or_reject
       if ApprovalWorkflow::STAFF_EVENTS.include? state_event.to_s
-        errors.add_to_base "cannot approve/reject comment, unless UNGC staff" unless contact.from_ungc?
+        errors.add_to_base "cannot approve/reject comment unless you are Global Compact staff" unless contact.from_ungc?
       end
     end
 
@@ -74,6 +74,9 @@ class Comment < ActiveRecord::Base
     def add_default_body_to_comment
       if state_event.to_s == ApprovalWorkflow::EVENT_NETWORK_REVIEW && body.blank?
         self.body = 'Your application is under review by the Local Network in your country.'
+      end
+      if state_event.to_s == ApprovalWorkflow::EVENT_DELAY_REVIEW && body.blank?
+        self.body = 'Your application is under review by the Global Compact Office.'
       end
       if state_event.to_s == ApprovalWorkflow::EVENT_APPROVE && body.blank?
         self.body = 'Your application has been accepted.'

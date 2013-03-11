@@ -31,6 +31,8 @@ class Admin::CommentsController < AdminController
           return flash
         when Organization::EVENT_NETWORK_REVIEW
           'The application is now under review by the Local Network.'
+        when Organization::EVENT_DELAY_REVIEW
+          'The application is being reviewed.'
         when Organization::EVENT_REJECT
           'The application was rejected.'
         when Organization::EVENT_REJECT_MICRO

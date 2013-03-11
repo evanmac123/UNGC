@@ -1,3 +1,9 @@
+h1. 2013-03-11
+
+* Adding new state 'delay_review' to application review process in lib/approval_workflow.rb
+* Many applications were in held various review states for months, so we wanted a separate holding area to keep track of these
+* A comment is automatically created within the organization's profile; we will eventually decouple comments from changes in organizations
+
 h1. 2013-03-05
 
 * Reassigned countries into different regions, based on more accepted conventions:

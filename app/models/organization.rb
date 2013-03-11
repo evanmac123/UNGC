@@ -155,7 +155,10 @@ class Organization < ActiveRecord::Base
     :incomplete_signature => 'Incomplete - Signature from CEO',
     :integrity_measure    => 'Integrity Measure',
     :local_network        => 'Local Network followup',
-    :microenterprise      => 'Micro Enterprise - Verify Employees'
+    :microenterprise      => 'Micro Enterprise - Verify Employees',
+    :organization_type    => 'Organization Type',
+    :organization_name    => 'Organization Name',
+    :base_operations      => 'Base of Operations'
   }
 
   state_machine :cop_state, :initial => :active do
@@ -484,11 +487,11 @@ class Organization < ActiveRecord::Base
   end
 
   def last_comment_date
-    self.try(:comments).try(:last).try(:updated_at) || nil
+    self.try(:comments).try(:first).try(:updated_at) || nil
   end
 
   def last_comment_author
-    last_comment = self.try(:comments).try(:last)
+    last_comment = self.try(:comments).try(:first)
     last_comment ? last_comment.try(:contact).try(:name) : ''
   end
 
@@ -498,14 +501,6 @@ class Organization < ActiveRecord::Base
 
   def review_reason_to_sym
     review_reason.try(:to_sym)
-  end
-
-  def review_status(user)
-    if review_reason.present? && user.from_ungc?
-      "#{state.humanize} (#{review_reason_value})"
-    else
-      state.humanize
-    end
   end
 
   def to_param
@@ -649,6 +644,7 @@ class Organization < ActiveRecord::Base
 
   def set_network_review
     self.network_review_on = Date.today
+    self.review_reason = nil
     self.save
   end
 
