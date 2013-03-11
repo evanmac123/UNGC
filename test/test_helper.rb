@@ -127,6 +127,12 @@ class ActiveSupport::TestCase
     return @staff_user
   end
 
+  def create_participant_manager
+    @participant_manager = create_contact
+    @participant_manager.roles << Role.participant_manager
+    @participant_manager
+  end
+
   def create_local_network_guest_organization
     create_organization_type
     create_country

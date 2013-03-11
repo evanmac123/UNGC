@@ -86,14 +86,7 @@ class Contact < ActiveRecord::Base
                 s.name as sector_name,
                 o.employees,
                 o.is_ft_500,
-                CASE country.region
-                  WHEN 'africa'      THEN 'Africa'
-                  WHEN 'americas'    THEN 'Americas'
-                  WHEN 'asia'        THEN 'Asia'
-                  WHEN 'australasia' THEN 'Australasia'
-                  WHEN 'europe'      THEN 'Europe'
-                  WHEN 'mena'        THEN 'MENA'
-                END AS region_name,
+                country.region,
                 r.name as role_name,
                 country.name AS country_name",
 
@@ -195,6 +188,14 @@ class Contact < ActiveRecord::Base
 
   named_scope :network_regional_managers, lambda {
     role = Role.network_regional_manager
+    {
+      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
+      :conditions => ["contacts_roles.role_id IN (?)", role]
+    }
+  }
+
+  named_scope :participant_managers, lambda {
+    role = Role.participant_manager
     {
       :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
       :conditions => ["contacts_roles.role_id IN (?)", role]

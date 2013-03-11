@@ -55,6 +55,7 @@ ActionController::Routing::Routes.draw do |map|
                                                      :in_review      => :get,
                                                      :updated        => :get,
                                                      :network_review => :get,
+                                                     :delay_review   => :get,
                                                      :search         => :get },
                                     :member     => { :reverse_roles  => :get },
                                     :has_many   => [:contacts, :comments] do |organization|

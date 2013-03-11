@@ -8,6 +8,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
     create_financial_contact
     create_local_network_with_report_recipient
     @organization.country_id = @country.id
+    @organization.participant_manager = create_participant_manager
     @organization.comments.create(:contact_id => @staff_user.id,
                                   :body       => 'Lorem ipsum')
   end
@@ -31,6 +32,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
     assert_equal "text/html", response.content_type
     assert_equal "#{@organization.name} has submitted an application to the Global Compact", response.subject
     assert_equal @network_contact.email, response.to.first
+    assert_contains response.cc, @organization.participant_manager_email
   end
 
   test "non-business approved mailer is sent" do
@@ -58,7 +60,7 @@ class OrganizationMailerTest < ActionMailer::TestCase
     response = OrganizationMailer.deliver_in_review(@organization)
     assert_equal "text/html", response.content_type
     assert_equal "Your application to the Global Compact", response.subject
-    # assert_equal @organization_user.email, response.to.first
+    assert_equal @organization_user.email, response.to.first
   end
 
   test "in review local network mailer is sent" do
@@ -66,6 +68,8 @@ class OrganizationMailerTest < ActionMailer::TestCase
     assert_equal "text/html", response.content_type
     assert_equal "#{@organization.name}'s application to the Global Compact is under review", response.subject
     assert_equal @network_contact.email, response.to.first
+    assert_contains response.cc, @organization.participant_manager_email
+    assert_match(/Please feel free to contact #{@organization.participant_manager_name}/, response.encoded)
   end
 
   test "rejected mailer is sent" do

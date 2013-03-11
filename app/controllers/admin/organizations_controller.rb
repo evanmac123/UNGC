@@ -70,7 +70,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   # Define state-specific index methods
-  %w{approved rejected pending_review network_review in_review updated}.each do |method|
+  %w{approved rejected pending_review network_review delay_review in_review updated}.each do |method|
     define_method method do
       # use custom index view if defined
       render case method
@@ -96,6 +96,11 @@ class Admin::OrganizationsController < AdminController
                                         :per_page => Organization.per_page)
           method
         when 'network_review'
+          @organizations = Organization.send(method).all(:order => order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
+          method
+        when 'delay_review'
           @organizations = Organization.send(method).all(:order => order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)

@@ -141,6 +141,12 @@ class OrganizationTest < ActiveSupport::TestCase
         assert_equal @organization.financial_contact_or_contact_point, @organization_user
       end
 
+      should "reset review reason after changing state to network review" do
+        @organization.update_attribute :review_reason, 'organization_type'
+        @organization.network_review
+        assert_nil @organization.review_reason
+      end
+
       should "reverse contact and ceo roles if the information was incorrectly entered in the signup registration form" do
         create_organization_and_ceo
         assert @organization.reverse_roles
@@ -296,6 +302,20 @@ class OrganizationTest < ActiveSupport::TestCase
       should "be able to submit a COP" do
        assert @organization.can_submit_cop?
       end
+    end
+  end
+
+  context "given a new organization from Brazil" do
+    setup do
+      create_roles
+      @company = create_organization_type(:name => 'Company')
+      @country = create_country(:name => "Brazil" )
+      @participant_manager = create_participant_manager
+      @country = create_country(:participant_manager => @participant_manager)
+      @organization = create_organization(:organization_type_id => @company.id, :country_id => @country.id)
+    end
+    should "assign the Relationship Manager for Brazil" do
+      assert_equal @participant_manager, @organization.participant_manager
     end
   end
 

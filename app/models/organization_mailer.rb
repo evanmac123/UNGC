@@ -28,7 +28,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def in_review_local_network(organization)
     from EMAIL_SENDER
-    cc 'filipic@un.org'
+    cc organization.participant_manager_email
     bcc 'archive@unglobalcompact.org'
     subject "#{organization.name}'s application to the Global Compact is under review"
     content_type "text/html"
@@ -38,7 +38,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def network_review(organization)
     from EMAIL_SENDER
-    cc 'filipic@un.org'
+    cc organization.participant_manager_email
     bcc 'archive@unglobalcompact.org'
     subject "#{organization.name} has submitted an application to the Global Compact"
     content_type "text/html"

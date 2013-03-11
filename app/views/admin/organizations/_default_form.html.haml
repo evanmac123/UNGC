@@ -2,6 +2,8 @@
 %fieldset
   %legend Details
   %ol
+    - staff_only do
+      = default_form.collection_select :participant_manager_id, Contact.participant_managers, :id, :name, {:include_blank => true}, {:label => 'Relationship Manager'}
     = default_form.text_field :name
     = default_form.text_field :url, :label => 'Website'
     = default_form.text_field :employees
@@ -28,11 +30,11 @@
 
 - staff_only do
 
-  - if @organization.in_review?
+  - if @organization.can_approve?
     %fieldset#review_reason
-      %legend Review Status
+      %legend Review / Delay Status
       %ol
-        = default_form.select :review_reason, options_for_select(select_options_from_hash(Organization::REVIEW_REASONS), @organization.review_reason_to_sym), {:include_blank => true}, :label => 'Reason in review'
+        = default_form.select :review_reason, options_for_select(select_options_from_hash(Organization::REVIEW_REASONS), @organization.review_reason_to_sym), {:include_blank => true}, :label => 'Reason'
 
   - if @organization.participant
     %fieldset

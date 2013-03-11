@@ -40,6 +40,7 @@
 #  rejoined_on                    :date
 #  non_comm_dialogue_on           :date
 #  review_reason                  :string(255)
+#  participant_manager_id         :integer(4)
 #
 
 class Organization < ActiveRecord::Base
@@ -68,6 +69,7 @@ class Organization < ActiveRecord::Base
   belongs_to :exchange
   belongs_to :country
   belongs_to :removal_reason
+  belongs_to :participant_manager, :class_name => 'Contact'
 
   attr_accessor :delisting_on
 
@@ -78,6 +80,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, :signings
   acts_as_commentable
 
+  before_create :set_participant_manager
   before_save :check_micro_enterprise_or_sme
   before_save :set_non_business_sector
   before_save :set_initiative_signatory_sector
@@ -155,7 +158,10 @@ class Organization < ActiveRecord::Base
     :incomplete_signature => 'Incomplete - Signature from CEO',
     :integrity_measure    => 'Integrity Measure',
     :local_network        => 'Local Network followup',
-    :microenterprise      => 'Micro Enterprise - Verify Employees'
+    :microenterprise      => 'Micro Enterprise - Verify Employees',
+    :organization_type    => 'Organization Type',
+    :organization_name    => 'Organization Name',
+    :base_operations      => 'Base of Operations'
   }
 
   state_machine :cop_state, :initial => :active do
@@ -430,6 +436,14 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name)
   end
 
+  def participant_manager_name
+    participant_manager.try(:name) || ''
+  end
+
+  def participant_manager_email
+    participant_manager.try(:email) || ''
+  end
+
   def revenue_description
     revenue ? REVENUE_LEVELS[revenue] : ''
   end
@@ -484,11 +498,11 @@ class Organization < ActiveRecord::Base
   end
 
   def last_comment_date
-    self.try(:comments).try(:last).try(:updated_at) || nil
+    self.try(:comments).try(:first).try(:updated_at) || nil
   end
 
   def last_comment_author
-    last_comment = self.try(:comments).try(:last)
+    last_comment = self.try(:comments).try(:first)
     last_comment ? last_comment.try(:contact).try(:name) : ''
   end
 
@@ -498,14 +512,6 @@ class Organization < ActiveRecord::Base
 
   def review_reason_to_sym
     review_reason.try(:to_sym)
-  end
-
-  def review_status(user)
-    if review_reason.present? && user.from_ungc?
-      "#{state.humanize} (#{review_reason_value})"
-    else
-      state.humanize
-    end
   end
 
   def to_param
@@ -649,6 +655,7 @@ class Organization < ActiveRecord::Base
 
   def set_network_review
     self.network_review_on = Date.today
+    self.review_reason = nil
     self.save
   end
 
@@ -782,6 +789,12 @@ class Organization < ActiveRecord::Base
   end
 
   private
+
+    def set_participant_manager
+      if country && country.participant_manager
+        self.participant_manager_id = country.participant_manager.id
+      end
+    end
 
     def set_non_business_sector
       unless business_entity? || initiative_signatory?
