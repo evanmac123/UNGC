@@ -3,6 +3,7 @@ module Admin::OrganizationsHelper
     actions = []
     unless current_user.from_organization?
       actions << link_to('Network Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post, :confirm => "The Local Network in #{@organization.country_name} will be emailed.\n\nAre you sure you want to proceed?\n\n") if organization.can_network_review?
+      actions << link_to('Delay Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_DELAY_REVIEW), :method => :post, :confirm => "This application will be put on hold") if organization.can_delay_review?
       actions << link_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), :method => :post) if organization.can_approve?
       actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this application?") if organization.can_reject?
       actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this Micro Enterprise?") if organization.can_reject?
@@ -35,17 +36,20 @@ module Admin::OrganizationsHelper
   def display_status(organization)
 
     if organization.approved? && organization.participant?
+
       # they've been approved, but only participants have a COP state
-        if organization.delisted?
-          status = "#{organization.delisted_on} (Delisted)"
-        else
-          status = organization.cop_state.humanize
-        end
-    elsif organization.in_review?
-      status = organization.review_status(current_user)
+      if organization.delisted?
+        status = "#{organization.delisted_on} (Delisted)"
+      else
+        status = organization.cop_state.humanize
+      end
+
+    elsif organization.in_review? || organization.delay_review?
+      status = current_user.from_organization? ? 'Application is under review' : "#{organization.state.humanize} (#{organization.review_reason_value})"
+
     elsif organization.network_review?
-      status = current_user.from_organization? ? 'Your application is under review' : "Network Review: #{network_review_period(organization).downcase}"
-    # if not approved then pending, in review, or rejected
+      status = current_user.from_organization? ? 'Application is under review' : "Network Review: #{network_review_period(organization).downcase}"
+
     else
       status = organization.state.humanize
     end
