@@ -96,7 +96,7 @@ class Admin::OrganizationsController < AdminController
                                         :per_page => Organization.per_page)
           method
         when 'network_review'
-          @organizations = Organization.send(method).all(:order => order_from_params)
+          @organizations = Organization.send(method).all(:include => [:participant_manager], :order => order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
