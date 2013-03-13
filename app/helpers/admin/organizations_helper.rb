@@ -15,6 +15,14 @@ module Admin::OrganizationsHelper
     actions.join(" | ")
   end
 
+  def cancel_and_return(current_user)
+    if current_user.from_organization?
+      dashboard_path
+    else
+      admin_organization_path @organization.id
+    end
+  end
+
   def text_for_edit_icon(user)
     if user.from_organization?
       "Edit your organization's profile"
@@ -45,7 +53,8 @@ module Admin::OrganizationsHelper
       end
 
     elsif organization.in_review? || organization.delay_review?
-      status = current_user.from_organization? ? 'Application is under review' : "#{organization.state.humanize} (#{organization.review_reason_value})"
+      review_reason = " - #{organization.review_reason_value}" if organization.review_reason_value.present?
+      status = current_user.from_organization? ? 'Application is under review' : "#{organization.state.humanize}#{review_reason}"
 
     elsif organization.network_review?
       status = current_user.from_organization? ? 'Application is under review' : "Network Review: #{network_review_period(organization).downcase}"
