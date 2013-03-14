@@ -99,6 +99,10 @@ class LogoRequest < ActiveRecord::Base
     (self.approved_on.to_date - self.created_at.to_date).to_i
   end
 
+  def reviewer_name
+    reviewer.try(:name)
+  end
+
   private
     def set_approved_on
       update_attribute :approved_on, Date.today
