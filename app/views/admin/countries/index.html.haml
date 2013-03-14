@@ -6,7 +6,7 @@
     %th= sort_header 'Name', field: 'countries.name'
     %th= sort_header 'Local Network', field: 'local_networks.name'
     %th= sort_header 'Region', field: 'region'
-    %th Regional Manager
-    %th Relationship Manager
+    %th= sort_header 'Regional Manager', field: 'countries.manager_id'
+    %th= sort_header 'Relationship Manager', field: 'countries.participant_manager_id'
     %th.actions Actions
   = render @countries
