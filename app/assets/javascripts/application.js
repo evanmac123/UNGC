@@ -11,7 +11,8 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require jquery
-//= require jquery-ui
+//= require jquery_ujs
+//= require jquery.ui.all
 //= require admin
 //= require ckeditor/init
 //= require jquery.parsequery.min
