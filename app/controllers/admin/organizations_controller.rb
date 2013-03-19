@@ -6,7 +6,7 @@ class Admin::OrganizationsController < AdminController
   helper :participants
 
   def index
-    @organizations = Organization.all(:order => order_from_params)
+    @organizations = Organization.order(order_from_params)
                         .paginate(:page     => params[:page],
                                   :per_page => Organization.per_page)
   end
