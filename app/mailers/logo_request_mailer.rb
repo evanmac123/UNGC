@@ -1,11 +1,11 @@
 class LogoRequestMailer < ActionMailer::Base
-  default :from => 'logorequests@unglobalcompact.org'
+  default :from => 'logorequests@unglobalcompact.org',
+          :bcc  => 'archive@unglobalcompact.org'
 
   def in_review(logo_request)
     @logo_request = logo_request
     mail \
       :to => logo_request.contact.email_recipient,
-      :bcc => 'gclogo@un.org',
       :subject => "Your Global Compact Logo Request has been updated"
   end
 
@@ -13,7 +13,6 @@ class LogoRequestMailer < ActionMailer::Base
     @logo_request = logo_request
     mail \
       :to => logo_request.contact.email_recipient,
-      :bcc => 'gclogo@un.org',
       :subject => "Your Global Compact Logo Request has been accepted"
   end
 
@@ -21,7 +20,6 @@ class LogoRequestMailer < ActionMailer::Base
     @logo_request = logo_request
     mail \
       :to => logo_request.contact.email_recipient,
-      :bcc => 'gclogo@un.org',
       :subject => "Global Compact Logo Request Status"
   end
 end

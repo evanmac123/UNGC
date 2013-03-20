@@ -7,7 +7,7 @@ class CaseStoryMailer < ActionMailer::Base
   end
 
   def approved(case_story)
-    @case_story = case_story    
+    @case_story = case_story
     mail(:to => case_story.contact.email, :subject => "Your Global Compact Case Story has been accepted")
   end
 

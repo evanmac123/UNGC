@@ -9,7 +9,7 @@ class CopMailer < ActionMailer::Base
     @user         = user
 
     mail \
-      :to      => user.email_recipient, 
+      :to      => user.email_recipient,
       :from    => 'lead@unglobalcompact.org',
       :cc      => 'lead@unglobalcompact.org',
       :subject => "Global Compact LEAD - COP Status"
@@ -26,7 +26,7 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact Status - 12 Month Learner Grace Period"
   end
 
-   def confirmation_double_learner(organization, cop, user)
+  def confirmation_double_learner(organization, cop, user)
     @organization = organization
     @cop          = cop
     @user         = user
@@ -75,7 +75,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => 'vkeesari@yahoo.com',
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :subject => "UN Global Compact COP Deadline - 90 Days"
   end
 
@@ -83,7 +83,7 @@ class CopMailer < ActionMailer::Base
     @organization = organization
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
-      :bcc => 'vkeesari@yahoo.com',
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :subject => "UN Global Compact COP Deadline - 30 Days"
   end
 
@@ -92,7 +92,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => 'vkeesari@yahoo.com',
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :subject => "UN Global Compact COP Deadline - Today"
   end
 
@@ -101,7 +101,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => 'vkeesari@yahoo.com',
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :subject => "UN Global Compact Expulsion in 3 months"
   end
 
@@ -110,7 +110,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => 'vkeesari@yahoo.com',
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :subject => "Urgent - UN Global Compact Expulsion in 30 days"
   end
 
@@ -119,8 +119,16 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => 'vkeesari@yahoo.com',
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :subject => "UN Global Compact Status - Expelled"
+  end
+
+  def delisting_today_sme(organization)
+    @organization = organization
+    mail \
+      :to      => organization.contacts.contact_points.collect(&:email_recipient),
+      :bcc     => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :subject => "UN Global Compact Status - Important - Second consecutive COP deadline missed"
   end
 
 end
