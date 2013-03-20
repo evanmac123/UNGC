@@ -173,6 +173,19 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       get :edit, {:id => @organization.to_param}
       assert_select "input#organization_commitment_letter", 0
     end
+
+    should "require delisted on date when being manually delisting" do
+      login_as @staff_user
+      put :update, {:id => @organization.to_param, :organization => { :active => "0", :delisted_on => Date.today }}, as(@staff_user)
+      assert_redirected_to admin_organization_path(@organization.id)
+    end
+
+    should "require delisted on date when being manually delisting" do
+      login_as @staff_user
+      put :update, {:id => @organization.to_param, :organization => { :active => "0" }}, as(@staff_user)
+      assert :success
+    end
+
   end
 
   context "given a rejected organization" do

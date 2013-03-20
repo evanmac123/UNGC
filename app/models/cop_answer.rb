@@ -48,4 +48,8 @@ class CopAnswer < ActiveRecord::Base
     cop_attribute.text
   end
 
+  def open?
+    cop_attribute.open?
+  end
+
 end

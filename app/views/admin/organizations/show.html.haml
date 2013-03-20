@@ -31,6 +31,8 @@
       %dd.first= @organization.id
       %dt Status
       %dd= display_status(@organization)
+      %dt Relationship Manager
+      %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
       - if @organization.company?
@@ -92,7 +94,10 @@
 
   #comments.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new_large', :title => 'New Comment'
+      - if @organization.network_review? && current_contact.from_ungc?
+        %h4 Staff cannot add comments for applications under Network Review
+      - else
+        %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new_large', :title => 'New Comment'
     %ul.items= render @organization.comments
 
   #peers.tab_content

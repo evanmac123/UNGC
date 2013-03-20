@@ -18,6 +18,8 @@
       %dd.first= @organization.id
       %dt Status
       %dd= display_status(@organization)
+      %dt Relationship Manager
+      %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
       - if @organization.company?

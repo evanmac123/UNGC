@@ -11,15 +11,15 @@
         %th Country
         %th= sort_header 'Created', field: 'created_at', direction: 'DESC'
         %th= sort_header 'Latest activity', field: 'updated_at', direction: 'DESC'
-        %th Reviewer
+        %th= sort_header 'Relationship Manager', field: 'organizations.participant_manager_id'
         %th Actions
       - @logo_requests.each do |logo_request|
       - @latest_comment_date = comment_date(logo_request.logo_comments.first)
         %tr
           %td=h logo_request.id
-          %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name, :length => 30), admin_organization_path(logo_request.organization.id)
-          %td{:title => logo_request.purpose}= logo_request.purpose.blank? ? 'Not specified' : truncate(logo_request.purpose, :length => 20)
-          %td= logo_request.organization.try(:country_name)
+          %td.small{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name, :length => 30), admin_organization_path(logo_request.organization.id)
+          %td.small{:title => logo_request.purpose}= logo_request.purpose.blank? ? 'Not specified' : truncate(logo_request.purpose, :length => 20)
+          %td.small= logo_request.organization.try(:country_name)
           %td
             = logo_request.created_at
             %br/
@@ -28,7 +28,7 @@
             = @latest_comment_date
             %br/
             %span.small= display_days_ago(@latest_comment_date)
-          %td= Contact.find(logo_request.reviewer_id).try(:name)
+          %td= logo_request.organization.try(:participant_manager_name)
           %td
             %ul.actions
               %li

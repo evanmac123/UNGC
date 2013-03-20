@@ -1,3 +1,66 @@
+h1. 2013-03-11
+
+* Adding new state 'delay_review' to application review process in lib/approval_workflow.rb
+* Many applications were in held various review states for months, so we wanted a separate holding area to keep track of these
+* A comment is automatically created within the organization's profile; we will eventually decouple comments from changes in organizations
+
+h1. 2013-03-05
+
+* Reassigned countries into different regions, based on more accepted conventions:
+* Africa, Asia, Europe, Latin America and the Caribbean, MENA, Northern America, Oceania
+* Database queries were used to update the region columns in the countries and local_network_events tables
+* The cost/benefit of writing a reversible migration was considered, but if we have to rollback changes, then restoring from a saved table would be much faster
+
+h1. 2013-02-21
+
+* The Advanced and LEAD COPs are being merged into a single COP
+* We still maintain separate COP submission forms in case this changes in the future
+* COPs received from LEAD companies will be internally identified as 'blueprint' but will publicly be Advanced
+* The reporting coverage rules, where at least one best practice (cop_attribute) must be covered under each criterion (cop_question) now apply to all companies
+* COP attributes now have an cop_attribute.open attribute which allows users to also enter a text-based response when checking that attribute
+* Functions were added to cop_form.js to require a text response, limited to 255 characters to keep it inline with the other best practice text
+* The answers are saved in cop_answer.text, just like the Basic COP template answers
+
+h1. 2013-01-09
+
+* easier way to add/remove COP question groups for evaluating responses
+* CopQuestion::EXEMPTED_GROUPS = ['business_peace', 'mandatory']
+
+h1. 2013-01-07
+
+* Advanced and LEAD (Blueprint) criteria are being merged
+* While we expected the launch date to occur on the calendar year (2012-01-01) it did not work that way, so we just track these dates within the model:
+* START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
+  START_DATE_OF_LEAD_BLUEPRINT  = Date.new(2012, 01, 01)
+  START_DATE_OF_ADVANCED_LEAD   = Date.new(2013, 01, 06)
+* There also needs to be a versioning system for viewing COP result screens, since they are also likely to change year to year
+
+h1. 2012-12-31
+
+* There are new pledge levels being introduced for 2013 based on organization.revenue
+* These are defined in Organization::REVENUE_LEVELS
+* Corresponding pledge amounts are now defined in Organization::PLEDGE_LEVELS
+
+h1. 2012-12-21
+
+* SMEs are being expelled at a high rate, so to reduce the loss, we are temporarily extending COP due dates for one year
+* Instead of receiving the expelled email, they receive a warning email
+* The process should be reversed by the end of 2013 in order to delisted those that have still not submitted a COP
+
+h1. 2012-12-19
+
+* Contacts are able to delete themselves, even when pending_review or in_review
+* Added helper method to hide the delete button if their application has not been approved
+* Although there are before_update callbacks to prevent this, they can only be applied to participants
+* It caused tests to fail when trying to update contacts during the initial registration process
+
+* Here are the rules for organization contacts and their roles
+** There must always be at least one Highest Level Executive
+** There cannot be more than one Highest Level Executive
+** There must always be at least one Contact Point
+
+* The current solution is too complicated, relying on a combination of callbacks and conditionally hiding buttons to prevent deleting
+
 h1. 2012-11-19
 
 * Added callback method to delete associated contacts and roles when an organization is deleted

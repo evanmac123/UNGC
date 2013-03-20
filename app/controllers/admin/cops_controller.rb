@@ -36,19 +36,13 @@ class Admin::CopsController < AdminController
     @communication_on_progress.type = session[:cop_template]
     @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_contact.contact_info
 
+    @communication_on_progress.cop_answers.each do |answer|
+      answer.text = "" if answer.value == false && answer.text.present?
+    end
+
     if @communication_on_progress.save
       flash[:notice] = "The COP has been published on the Global Compact website"
       clear_session_template
-
-      unless @communication_on_progress.is_grace_letter?
-        begin
-          CopMailer.send("confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_contact).deliver
-        rescue Exception => e
-         flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
-        end
-      end
-
-      redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
     else
       # we want to preselect the submit tab
       @submitted = true
@@ -57,9 +51,20 @@ class Admin::CopsController < AdminController
         @cop_link_url = params[:communication_on_progress][:cop_links_attributes][:new_cop][:url] || ''
         @cop_link_language = params[:communication_on_progress][:cop_links_attributes][:new_cop][:language_id] || Language.for(:english).id
       end
-
       render :action => "new"
+      return
     end
+
+    unless @communication_on_progress.is_grace_letter?
+      begin
+        CopMailer.send("confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_contact).deliver
+      rescue Exception => e
+        flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
+      end
+    end
+
+    redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
+
   end
 
   def show

@@ -71,6 +71,7 @@ UNGC::Application.routes.draw do
         get :in_review
         get :updated
         get :network_review
+        get :delay_review
         get :search
       end
 
@@ -164,6 +165,7 @@ UNGC::Application.routes.draw do
   match '/ungcweek'       => 'pages#redirect_to_page', :page => '/NewsAndEvents/global_compact_week.html'
   match '/rio_resources'  => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
   match '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
+  match '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
   match ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
 
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network

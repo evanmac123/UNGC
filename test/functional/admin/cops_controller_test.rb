@@ -272,26 +272,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
   end
 
-  context "given a GC Advanced COP that did not qualify" do
-    setup do
-      create_cop_with_options({:meets_advanced_criteria => false, :type => 'advanced'})
-      sign_in @organization_user
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-    end
-
-    should "display active partial" do
-      assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
-      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
-      assert_template :partial => '_show_active_style'
-    end
-
-    should "show alert if COP is on Learner Platform" do
-      assert_select 'span#notice', 'Although you submitted an Advanced level COP, you did not confirm if the COP meets all 24 criteria, and therefore do not qualify for the GC Advanced level.'
-    end
-
-  end
-
   context "given a COP submitted that is not a Grace Letter" do
     setup do
       create_cop_with_options

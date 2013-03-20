@@ -91,14 +91,7 @@ class Contact < ActiveRecord::Base
                 s.name as sector_name,
                 o.employees,
                 o.is_ft_500,
-                CASE country.region
-                  WHEN 'africa'      THEN 'Africa'
-                  WHEN 'americas'    THEN 'Americas'
-                  WHEN 'asia'        THEN 'Asia'
-                  WHEN 'australasia' THEN 'Australasia'
-                  WHEN 'europe'      THEN 'Europe'
-                  WHEN 'mena'        THEN 'MENA'
-                END AS region_name,
+                country.region,
                 r.name as role_name,
                 country.name AS country_name")
       .includes(:organization)
@@ -171,6 +164,14 @@ class Contact < ActiveRecord::Base
     role = Role.network_regional_manager
     where("contacts_roles.role_id = ?", role).includes(:roles)
   end
+
+  def self.participant_managers
+    role = Role.participant_manager
+    where("contacts_roles.role_id = ?", role).includes(:roles)
+  end
+
+  scope :for_country, lambda { |country| where(:country_id => country.id) }
+  scope :with_login, where("username IS NOT NULL")
 
   define_index do
     indexes first_name, last_name, middle_name, email
@@ -308,7 +309,7 @@ class Contact < ActiveRecord::Base
     end
 
     def do_not_allow_last_contact_point_to_uncheck_role
-      if self.from_organization? && self.organization.participant && !self.is?(Role.contact_point) && self.organization.contacts.contact_points.count < 1
+      if self.from_organization? && self.organization.participant && self.organization.contacts.contact_points.count < 1
         self.roles << Role.contact_point
         errors.add :base, "There should be at least one Contact Point"
         return false

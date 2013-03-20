@@ -92,7 +92,8 @@
       %td{:style => @row_style} Email:
       %td= @contact.email
 
-%p Please feel free to contact Ms. Gordana Filipic at filipic@un.org in case you have further questions.
+- if @organization.participant_manager
+  %p== Please feel free to contact #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email} in case you have further questions.
 
 %p Sincerely,
 

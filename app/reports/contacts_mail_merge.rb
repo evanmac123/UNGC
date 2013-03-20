@@ -62,7 +62,7 @@ class ContactsMailMerge < SimpleReport
     record.state,
     record.postal_code,
     record.country_name,
-    record.region_name,
+    Country::REGIONS[record.region.to_sym],
     record.phone,
     record.fax,
     record.role_name,

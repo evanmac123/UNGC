@@ -40,6 +40,7 @@
 #  rejoined_on                    :date
 #  non_comm_dialogue_on           :date
 #  review_reason                  :string(255)
+#  participant_manager_id         :integer(4)
 #
 
 class Organization < ActiveRecord::Base
@@ -54,6 +55,8 @@ class Organization < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
+  validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
+
   has_many :signings
   has_many :initiatives, :through => :signings
   has_many :contacts
@@ -66,6 +69,7 @@ class Organization < ActiveRecord::Base
   belongs_to :exchange
   belongs_to :country
   belongs_to :removal_reason
+  belongs_to :participant_manager, :class_name => 'Contact'
 
   attr_accessor :delisting_on
 
@@ -76,6 +80,7 @@ class Organization < ActiveRecord::Base
   accepts_nested_attributes_for :contacts, :signings
   acts_as_commentable
 
+  before_create :set_participant_manager
   before_save :check_micro_enterprise_or_sme
   before_save :set_non_business_sector
   before_save :set_initiative_signatory_sector
@@ -128,12 +133,21 @@ class Organization < ActiveRecord::Base
   COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
 
-  # revenue and corresponding pledge amount
-  REVENUE = {
-    'less than USD 25 million'                  => 500,
-    'between USD 25 million and 250 million'    => 2500,
-    'between USD 250 million and USD 1 billion' => 5000,
-    'USD 1 billion or more'                     => 10000
+  REVENUE_LEVELS = {
+    1 => 'less than USD 50 million',
+    2 => 'between USD 50 million and USD 250 million',
+    3 => 'between USD 250 million and USD 1 billion',
+    4 => 'between USD 1 billion and USD 10 billion',
+    5 => 'USD 10 billion or more'
+  }
+
+  # suggested pledge level corresponds to revenue level
+  PLEDGE_LEVELS = {
+    1 => 0,
+    2 => 5000,
+    3 => 10000,
+    4 => 15000,
+    5 => 15000
   }
 
   # identify why an organization is being reviewed
@@ -144,7 +158,10 @@ class Organization < ActiveRecord::Base
     :incomplete_signature => 'Incomplete - Signature from CEO',
     :integrity_measure    => 'Integrity Measure',
     :local_network        => 'Local Network followup',
-    :microenterprise      => 'Micro Enterprise - Verify Employees'
+    :microenterprise      => 'Micro Enterprise - Verify Employees',
+    :organization_type    => 'Organization Type',
+    :organization_name    => 'Organization Name',
+    :base_operations      => 'Base of Operations'
   }
 
   state_machine :cop_state, :initial => :active do
@@ -164,6 +181,8 @@ class Organization < ActiveRecord::Base
   scope :participants, where("organizations.participant = ?", true)
   scope :withdrew, where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew).includes(:removal_reason)
   scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
+  scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
+  scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme)).includes(:organization_type) }
   scope :businesses, lambda { where("organization_types.type_property = ?", OrganizationType::BUSINESS).includes(:organization_type) }
   scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
   
@@ -265,6 +284,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def set_last_modified_by(current_user)
+    update_attribute :last_modified_by_id, current_user.id
+  end
+
   def local_network_country_code
     if country.try(:local_network)
       country.local_network.country_code
@@ -339,8 +362,20 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name)
   end
 
+  def participant_manager_name
+    participant_manager.try(:name) || ''
+  end
+
+  def participant_manager_email
+    participant_manager.try(:email) || ''
+  end
+
   def revenue_description
-    revenue ? REVENUE.key(revenue) : ''
+    revenue ? REVENUE_LEVELS[revenue] : ''
+  end
+
+  def suggested_pledge
+    revenue ? PLEDGE_LEVELS[revenue] : ''
   end
 
   def business_for_search
@@ -389,11 +424,11 @@ class Organization < ActiveRecord::Base
   end
 
   def last_comment_date
-    self.try(:comments).try(:last).try(:updated_at) || nil
+    self.try(:comments).try(:first).try(:updated_at) || nil
   end
 
   def last_comment_author
-    last_comment = self.try(:comments).try(:last)
+    last_comment = self.try(:comments).try(:first)
     last_comment ? last_comment.try(:contact).try(:name) : ''
   end
 
@@ -403,14 +438,6 @@ class Organization < ActiveRecord::Base
 
   def review_reason_to_sym
     review_reason.try(:to_sym)
-  end
-
-  def review_status(user)
-    if review_reason.present? && user.from_ungc?
-      "#{state.humanize} (#{review_reason_value})"
-    else
-      state.humanize
-    end
   end
 
   def to_param
@@ -479,15 +506,16 @@ class Organization < ActiveRecord::Base
 
   # Policy specifies 90 days, so we extend the current due date
   def extend_cop_grace_period
-    if (Date.today - cop_due_on).to_i < COP_GRACE_PERIOD
-      self.update_attribute :cop_state, COP_STATE_ACTIVE
-    end
     self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
     self.update_attribute :active, true
   end
 
   def extend_cop_temporary_period
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
+  end
+
+  def extend_cop_due_date_by_one_year
+    self.update_attribute(:cop_due_on, cop_due_on + 1.year)
   end
 
   # COP's next due date is 1 year from current date
@@ -553,6 +581,7 @@ class Organization < ActiveRecord::Base
 
   def set_network_review
     self.network_review_on = Date.today
+    self.review_reason = nil
     self.save
   end
 
@@ -564,14 +593,13 @@ class Organization < ActiveRecord::Base
   end
 
   def set_delisted_status
-    self.active = false
-    self.removal_reason = RemovalReason.delisted
-    self.delisted_on = Date.today
-    self.save
+    self.update_attribute :active, false
+    self.update_attribute :removal_reason, RemovalReason.delisted
+    self.update_attribute :delisted_on, Date.today
   end
 
   def set_manual_delisted_status
-    self.update_attribute :cop_state, Organization::COP_STATE_DELISTED if self.participant?
+    self.cop_state = Organization::COP_STATE_DELISTED if participant?
   end
 
   # predict delisting date based on current status and COP due date
@@ -610,16 +638,18 @@ class Organization < ActiveRecord::Base
     # Company has submitted a COP
     if communication_on_progresses.approved.count > 0
 
-      # Determine status based on level of latest COP
-      if last_approved_cop.is_blueprint_level?
-        'Global Compact Advanced'
-      elsif last_approved_cop.is_advanced_level?
-        'Global Compact Advanced'
-      elsif last_approved_cop.is_intermediate_level?
-        'Global Compact Active'
-      else
-        'Global Compact Learner'
-      end
+      case last_approved_cop.differentiation
+        when 'blueprint'
+          'Global Compact Advanced'
+        when 'advanced'
+          'Global Compact Advanced'
+        when 'active'
+          'Global Compact Active'
+        when 'learner'
+          'Global Compact Active'
+        else
+          'not available'
+        end
 
     else
       'A Communication on Progress has not been submitted'
@@ -680,7 +710,17 @@ class Organization < ActiveRecord::Base
       valid_urls.include?(url)
   end
 
+  def require_delisted_on?
+    active == false && cop_state == COP_STATE_DELISTED
+  end
+
   private
+
+    def set_participant_manager
+      if country && country.participant_manager
+        self.participant_manager_id = country.participant_manager.id
+      end
+    end
 
     def set_non_business_sector
       unless business_entity? || initiative_signatory?

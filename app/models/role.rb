@@ -30,7 +30,8 @@ class Role < ActiveRecord::Base
     :network_regional_manager  => 'Local Network Manager',
     :network_report_recipient  => 'Network Report Recipient',
     :network_representative    => 'Network Representative',
-    :website_editor            => 'Website Editor'
+    :website_editor            => 'Website Editor',
+    :participant_manager       => 'Participant Relationship Manager'
   }
 
   def self.visible_to(user, current_contact=nil)
@@ -48,7 +49,11 @@ class Role < ActiveRecord::Base
       roles_ids << Role.where("initiative_id in (?)", user.organization.initiative_ids).all.collect(&:id)
       where('id in (?)', roles_ids.flatten)
     elsif user.user_type == Contact::TYPE_UNGC
-      roles_ids = [Role.ceo, Role.contact_point, Role.network_regional_manager, Role.website_editor].collect(&:id)
+      roles_ids = [Role.ceo,
+                   Role.contact_point,
+                   Role.network_regional_manager,
+                   Role.website_editor,
+                   Role.participant_manager].collect(&:id)
       where('id in (?)', roles_ids.flatten)
     elsif user.user_type == Contact::TYPE_NETWORK
       roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
@@ -109,6 +114,10 @@ class Role < ActiveRecord::Base
 
   def self.network_regional_manager
     find :first, :conditions => { :name => FILTERS[:network_regional_manager] }
+  end
+
+  def self.participant_manager
+    find :first, :conditions => { :name => FILTERS[:participant_manager] }
   end
 
   def self.login_roles

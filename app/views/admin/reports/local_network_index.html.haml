@@ -24,3 +24,11 @@
     %li= link_to_report_html 'Delisted in the past 90 days', :local_network_recently_delisted
     %li= link_to_report_html "Participants requesting withdrawal in #{current_year}", :local_network_participants_withdrawn
     %li= link_to_report_html 'Logo Requests approved in the past 30 days', :local_network_recent_logo_requests
+
+%dl.left_column
+  %h3 Local Networks
+  %p Contact information and activity from other networks.
+
+  %ul.report_list
+    %li= link_to_report_xls 'Representatives and Contact Persons', :local_networks_all_contacts
+    %li= link_to_report_xls 'Events and Activities', :local_networks_events

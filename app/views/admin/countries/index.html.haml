@@ -4,9 +4,9 @@
 %table.dashboard_table#countries_table
   %tr
     %th= sort_header 'Name', field: 'countries.name'
-    / %th Local Network
     %th= sort_header 'Local Network', field: 'local_networks.name'
     %th= sort_header 'Region', field: 'region'
-    %th= sort_header 'Regional Manager', field: 'contacts.first_name'
+    %th= sort_header 'Regional Manager', field: 'countries.manager_id'
+    %th= sort_header 'Relationship Manager', field: 'countries.participant_manager_id'
     %th.actions Actions
   = render @countries

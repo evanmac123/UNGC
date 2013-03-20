@@ -1,0 +1,41 @@
+%h2 Organizations under Delay Review
+
+%div.tab_container
+  = render :partial => 'control_tabs'
+
+  %div.tab_content
+    %table.dashboard_table
+      %tr
+        %th= sort_header 'ID', field: 'id'
+        %th= sort_header 'Name', field: 'name', direction: 'ASC'
+        %th= sort_header 'Reason for Delay', field: 'review_reason', direction: 'DESC'
+        %th= sort_header 'Submitted on', field: 'created_at', direction: 'ASC'
+        %th Last<br />comment
+        %th Comment<br />posted by
+        %th Actions
+
+      - @organizations.each do |organization|
+        %tr
+          %td=h organization.id
+          %td.small{:title => organization.name}=h truncate(organization.name, :length => 30)
+          %td.small= organization.review_reason_value
+          %td
+            =h organization.created_at
+            %br/
+            %span.small= display_days_ago(organization.created_at)
+          %td
+            - if organization.last_comment_date
+              = organization.last_comment_date
+              %br/
+              %span.small= display_days_ago(organization.last_comment_date)
+          %td.small=h organization.last_comment_author
+          %td
+            %ul.actions
+              %li
+                = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
+              %li
+                = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
+              %li
+                = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+
+    = will_paginate @organizations

@@ -95,6 +95,8 @@ class ApplicationController < ActionController::Base
       DEFAULTS[:cop_noncommunicating_path]
     when 'notable'
       DEFAULTS[:cop_notable_path]
+    when 'active'
+      DEFAULTS[:cop_active_path]
     when 'advanced'
       DEFAULTS[:cop_advanced_path]
     when 'learner'

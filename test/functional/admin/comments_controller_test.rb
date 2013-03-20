@@ -47,7 +47,6 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
   context "given an existing organization" do
     setup do
-      create_organization_and_user
       create_organization_and_ceo
       create_financial_contact
       create_local_network_with_report_recipient
@@ -56,13 +55,13 @@ class Admin::CommentsControllerTest < ActionController::TestCase
       sign_in @staff_user
     end
 
-    # should "not allow comments to be posted by a user if their organization is approved" do
-    #   @organization.approve
-    #   sign_in @organization_user
-    #   get :new, {:organization_id => @organization_user.organization.id}
-    #   assert_equal "Your organization's application was approved. Comments are no longer being accepted.", flash[:notice]
-    #   assert_redirected_to admin_organization_path(@organization_user.organization.id)
-    # end
+    should "not allow comments to be posted by a user if their organization is approved" do
+      @organization.approve
+      sign_in @organization_user
+      get :new, {:organization_id => @organization_user.organization.id}, as(@organization_user)
+      assert_equal "Your organization's application was approved. Comments are no longer being accepted.", flash[:notice]
+      assert_redirected_to admin_organization_path(@organization_user.organization.id)
+    end
 
     should "also send email to the Local Network when posting a comment" do
 

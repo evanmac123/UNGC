@@ -138,11 +138,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal @cop.title, 'Grace Letter'
     end
 
-    should "change the organization's COP state to Active" do
-      @organization.reload
-      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
-    end
-
     should "have an extra 90 days added to the current COP due date" do
       @organization.reload
       assert_equal (@old_cop_due_on + 90.days).to_date, @organization.cop_due_on.to_date
@@ -175,12 +170,12 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
     end
 
-    should "make the company Active if within grace period" do
+    should "keep the company Non-communicating even if within grace period" do
       @organization.update_attribute :cop_due_on, Date.today - 89.days
       @cop = pending_review(@organization, format: 'grace_letter')
       @cop.approve!
       @organization.reload
-      assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+      assert_equal Organization::COP_STATE_NONCOMMUNICATING, @organization.cop_state
     end
 
   end
@@ -288,8 +283,9 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
   context "given a COP with additional questions" do
     setup do
       create_organization_and_user
-      @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
-      @cop.type = 'advanced'
+      @cop = @organization.communication_on_progresses.new( :title => 'Our COP',
+                                                            :ends_on => Date.today,
+                                                            :type => 'advanced' )
       # 6 required criteria to be considered Active
       @cop.update_attribute :include_continued_support_statement, true
       @cop.update_attribute :include_measurement, true
@@ -297,21 +293,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       @cop.update_attribute :references_human_rights, true
       @cop.update_attribute :references_anti_corruption, true
       @cop.update_attribute :references_environment, true
-    end
-
-    should "have default attributes set" do
-      assert @cop.additional_questions
-    end
-
-    should "be considered for the Advanced Programme if received after start date of programme" do
-      @cop.update_attribute :created_at, Date.new(2011, 01, 30)
-      assert @cop.is_advanced_programme?
-    end
-
-    should "not be considered for the Advanced Programme if received before start date of programme" do
-      @cop.update_attribute :created_at, Date.new(2010, 11, 8)
-      assert !@cop.is_advanced_programme?
-      assert @cop.is_test_phase_advanced_programme?
+      @cop.save
     end
 
     should "be considered Learner if they are missing one of the 6 criteria" do
@@ -319,17 +301,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal 'learner', @cop.differentiation
       assert @cop.learner?
       assert @organization.last_cop_is_learner?
-    end
-
-    should "be considered Active if all intermediate criteria are met" do
-      assert_equal true, @cop.is_intermediate_level?
-      assert_equal 'active', @cop.differentiation
-    end
-
-    should "be considered advanced if they self-declare" do
-      @cop.update_attribute :meets_advanced_criteria, true
-      assert_equal true, @cop.is_advanced_level?
-      assert_equal 'advanced', @cop.differentiation
     end
 
   end

@@ -1,5 +1,9 @@
 = default_form.error_messages :header_message => "Sorry, we could not save your logo request", :message => "The following fields must be completed:"
 
+- if @logo_request.from_company?
+  %fieldset
+    %p== Please note that in 2013 the Global Compact is introducing a new contributions policy requiring all business participants to make an annual contribution to the Foundation for the Global Compact in order to be a full participant in the initiative. Among other things, this means that only those business participants that have made their annual contribution will be eligible to request permission to use a Global Compact logo. This policy will be fully operational and strictly enforced starting in 2014. For more information on how to make an annual contribution, please visit #{link_to "www.globalcompactfoundation.org/donate.", "http://www.globalcompactfoundation.org/donate"}
+
 %h3 Instructions
 
 %ol

@@ -32,7 +32,7 @@ class FoundationPledgeReport < SimpleReport
       r.employees,
       r.invoice_id,
       r.pledge_amount,
-      r.revenue,
+      r.suggested_pledge,
       r.revenue_description,
       r.joined_on ]
   end

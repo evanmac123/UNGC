@@ -1,0 +1,21 @@
+%fieldset
+  %legend
+    %span= question.text
+  - if grouping == :basic
+    - attribute = question.cop_attributes.first
+    %p{:class => "question_text"}= attribute.text
+    - if attribute.hint
+      %div{:class => "hint_toggle"} Suggested topics...
+      %div{:class => "hint_text", :style => 'display: none;'}= attribute.hint
+    = hidden_field_tag("communication_on_progress[cop_answers_attributes][][cop_attribute_id]", attribute.id)
+    = text_area_tag("communication_on_progress[cop_answers_attributes][][text]", '', { :class => 'cop_answer' })
+  - else
+    - answers = advanced_cop_answers(question.cop_attributes)
+    - answers.each do |answer|
+      - locals = {:answer => answer, :answer_index => @communication_on_progress.cop_answers.index(answer)}
+      - if answers.count == 1 && !answer.open?
+        = render :partial => 'admin/cops/true_or_false_question', :locals => locals
+      - elsif answer.open?
+        = render :partial => 'admin/cops/open_cop_question', :locals => locals
+      - else
+        = render :partial => 'admin/cops/multiple_choice_cop_question', :locals => locals

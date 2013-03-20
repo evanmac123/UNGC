@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
   layout 'admin'
-  helper 'Admin', 'Admin/Organizations', 'Admin/LocalNetworks'
+  helper 'Admin', 'Admin/Contacts', 'Admin/Organizations', 'Admin/LocalNetworks'
   helper_method :contact_path, :contact_parent_path, :network_management_tab?, :knowledge_sharing_tab?
 
   before_filter :authenticate_contact!

@@ -3,7 +3,7 @@ class Admin::OrganizationsController < AdminController
   before_filter :load_organization_types, :only => :new
   before_filter :no_rejected_organizations_access, :only => :edit
   before_filter :no_access_to_other_organizations
-  helper :participants
+  helper :participants, 'admin/contacts'
 
   def index
     @organizations = Organization.order(order_from_params)
@@ -35,12 +35,11 @@ class Admin::OrganizationsController < AdminController
 
   def update
     @organization.state = Organization::STATE_IN_REVIEW if @organization.state == Organization::STATE_PENDING_REVIEW
-    # when an application is in review, we record who made the last change
     @organization.set_replied_to(current_contact) if Organization::STATE_IN_REVIEW
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
-    @organization.last_modified_by_id = current_contact.id
 
     if @organization.update_attributes(params[:organization])
+      @organization.set_last_modified_by(current_contact)
       flash[:notice] = 'Organization was successfully updated.'
       if current_contact.from_ungc?
         redirect_to( admin_organization_path(@organization.id) )
@@ -71,7 +70,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   # Define state-specific index methods
-  %w{approved rejected pending_review network_review in_review updated}.each do |method|
+  %w{approved rejected pending_review network_review delay_review in_review updated}.each do |method|
     define_method method do
       # use custom index view if defined
       render case method
@@ -99,7 +98,13 @@ class Admin::OrganizationsController < AdminController
                                         :per_page => Organization.per_page)
           method
         when 'network_review'
-          @organizations = Organization.send(method).order(order_from_params)
+          @organizations = Organization.send(method).includes(:participant_manager)
+                              .order(order_from_params)
+                              .paginate(:page     => params[:page],
+                                        :per_page => Organization.per_page)
+          method
+        when 'delay_review'
+          @organizations = Organization.send(method).all(:order => order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method

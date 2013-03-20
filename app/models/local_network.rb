@@ -120,6 +120,11 @@ class LocalNetwork < ActiveRecord::Base
     state.try(:to_sym)
   end
 
+  def region
+    country = Country.find_by_code(country_code)
+    country.try(:region)
+  end
+
   def region_name
     country = Country.find_by_code(country_code)
     Country::REGIONS[country.region.to_sym] unless country.nil?
