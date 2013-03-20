@@ -15,8 +15,8 @@ module Admin::OrganizationsHelper
     actions.join(" | ").html_safe
   end
 
-  def cancel_and_return(current_user)
-    if current_user.from_organization?
+  def cancel_and_return(current_contact)
+    if current_contact.from_organization?
       dashboard_path
     else
       admin_organization_path @organization.id

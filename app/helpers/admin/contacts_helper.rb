@@ -11,13 +11,13 @@ module Admin::ContactsHelper
     "role_for_login_fields" if Role.login_roles.include? role
   end
 
-  def current_user_can_delete(current_user, tabbed_contact)
-    return false if current_user == tabbed_contact
+  def current_contact_can_delete(current_contact, tabbed_contact)
+    return false if current_contact == tabbed_contact
 
-    return true if current_user.from_ungc? || current_user.from_network?
+    return true if current_contact.from_ungc? || current_contact.from_network?
 
-    if current_user.from_organization?
-      return current_user.organization.participant ? true : false
+    if current_contact.from_organization?
+      return current_contact.organization.participant ? true : false
     end
   end
 

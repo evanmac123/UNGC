@@ -185,7 +185,7 @@ class Organization < ActiveRecord::Base
   scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme)).includes(:organization_type) }
   scope :businesses, lambda { where("organization_types.type_property = ?", OrganizationType::BUSINESS).includes(:organization_type) }
   scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
-  
+
   scope :for_initiative, lambda { |symbol| where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
   scope :last_joined, order("joined_on DESC, name DESC")
   scope :not_delisted, where("cop_state != ?", COP_STATE_DELISTED)
@@ -276,16 +276,16 @@ class Organization < ActiveRecord::Base
     super(:only => only, :methods => methods)
   end
 
-  def set_replied_to(current_user)
-    if current_user.from_organization?
+  def set_replied_to(current_contact)
+    if current_contact.from_organization?
       self.replied_to = false
-    elsif current_user.from_ungc?
+    elsif current_contact.from_ungc?
       self.replied_to = true
     end
   end
 
-  def set_last_modified_by(current_user)
-    update_attribute :last_modified_by_id, current_user.id
+  def set_last_modified_by(current_contact)
+    update_attribute :last_modified_by_id, current_contact.id
   end
 
   def local_network_country_code
