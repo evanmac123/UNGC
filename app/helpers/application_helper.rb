@@ -51,14 +51,10 @@ module ApplicationHelper
 
   def differentiation_placement(cop)
     levels = { :learner => "Learner Platform &#x25BA;", :active => "GC Active &#x25BA;", :advanced => "GC Advanced" }
-    html = ''
-
-    levels.each do |key, value|
-      css_style = cop.differentiation_level == key ? '' : 'color: #aaa'
-      html += content_tag :span, value + '&nbsp;', :style => css_style
+    html = levels.map do |key, value|
+      content_tag :span, value.html_safe, :style => cop.differentiation_level == key ? '' : 'color: #aaa'
     end
-
-    html
+    html.join(' ').html_safe
   end
 
   def current_year
