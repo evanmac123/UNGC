@@ -13,7 +13,7 @@ gem 'acts_as_commentable',  '~> 4.0.0'
 gem 'money',                '~> 2.1.5'
 gem 'newrelic_rpm',         '~> 3.4.1'
 gem 'spreadsheet',          '0.6.5.9'
-gem 'thinking-sphinx',      '~> 2.0.10'
+gem "thinking-sphinx",      "~> 3.0.1"
 gem 'state_machine',        '~> 1.1.2'
 gem 'acts_as_tree_rails3',  '~> 0.1.0'
 gem 'annotate',             '~> 2.5.0'
