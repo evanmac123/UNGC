@@ -47,8 +47,4 @@ group :production do
   gem 'passenger',        '3.0.7'
 end
 
-group :development, :test do
-  gem 'noexec',         '0.1.0'
-end
-
 gem 'capistrano'

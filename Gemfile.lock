@@ -123,7 +123,6 @@ GEM
     net-ssh-gateway (1.1.0)
       net-ssh (>= 1.99.1)
     newrelic_rpm (3.4.1)
-    noexec (0.1.0)
     orm_adapter (0.4.0)
     paperclip (2.3.16)
       activerecord (>= 2.3.0)
@@ -235,7 +234,6 @@ DEPENDENCIES
   money (~> 2.1.5)
   mysql2
   newrelic_rpm (~> 3.4.1)
-  noexec (= 0.1.0)
   paperclip (~> 2.3.1)
   passenger (= 3.0.7)
   prototype-rails
