@@ -26,7 +26,7 @@ module FileTextExtractor
 
   def safe_get_text_command(command, file)
     begin
-      full_command = "#{command} #{file}"
+      full_command = "#{command} '#{file}'"
       pid          = nil
       text         = ""
 
