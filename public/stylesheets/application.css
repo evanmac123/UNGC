@@ -101,23 +101,22 @@ body.supply_chain     #inner_head { background: url(/images/banner_supply_chain.
 #nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
-#nav ul { list-style: none; position: absolute; top: 3px; left: 41px; height: 22px; z-index: 10; white-space: nowrap;}
+#nav ul { list-style: none; position: absolute; top: 3px; left: 20px; height: 22px; z-index: 10; white-space: nowrap;}
 #nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; }
 #nav ul li.aboutus { width: 55px; }
 #nav ul li.participate { width: 105px; }
-#nav ul li.communicating { width: 130px; }
+#nav ul li.communicating { width: 162px; }
 #nav ul li.participants { width: 160px; }
 #nav ul li.networks { width: 90px; }
 #nav ul li.issues { width: 38px; }
 #nav ul li.newsevents { width: 90px; }
 #nav ul li.login { width: 30px; border-right: 0; }
-#nav ul li.login ul li { width: 74px; border-right: 1px solid #999; }
+#nav ul li.login ul li { width: 70px; border-right: 1px solid #999; }
 #nav ul li a { font-size: 12px; font-weight: bold; color: #000; height: 28px; display: block; height: 100%; padding-top: 5px;}
 #nav ul li a:hover { color: #3a7a8e; }
 #nav ul li ul {list-style: none; position: relative; top: -2px; left: -13px; visibility: hidden; opacity: 0.95; white-space: normal;}
 #nav ul li ul li { display: block; float: none; background: #fff; width: 150px; height: auto; border-bottom: 1px solid #c8c8c8; padding: 2px 13px 2px 13px; position: relative; }
 #nav ul li ul li a { font-size: 11px; color: #222; }
-#nav ul li ul.login li { width: 90px; }
 
 #content_bg { background: #f2f2f2 url(/images/gradient.jpg) left top repeat-x; border-bottom: 1px solid #ebebeb; display: block; height: inherit; width: 1000px; margin: 0 auto; }
 h1 { font-size: 18px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: normal; }
@@ -195,9 +194,6 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box4 div.business_peace a { color: #453058; }
 #box4 div.financial a { color: #404850; }
 #box4 div.cop a { color: #FFD900; }
-#box4 div.rio { padding-left: 25px; background: url(/pics/un_images/banners/Rio20_CSF_logo_branch_mini.png) no-repeat 5px 5px; }
-#box4 div.rio:hover { background: none; }
-#box4 div.rio a { color: #21369A; }
 #box4 div.first { margin-top: 56px; }
 #box4 div.last { border-bottom: 0; }
 
@@ -295,6 +291,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy ul.links { list-style: none; margin: 10px 0 10px 0px; }
 #rightcontent .copy ul.links li { line-height: 2.2em; }
 #rightcontent .copy a.pdf { padding: 6px 0 0 25px; background: url('/pics/un_images/pdf.gif') no-repeat left center; }
+#rightcontent .copy a.web { padding: 6px 0 0 25px; background: url('/images/icons/Web_Document_18x18.png') no-repeat 2px center; }
+#rightcontent .copy a.htm { padding: 6px 0 0 25px; background: url('/images/icons/Internal_Web_Document_18x18.png') no-repeat left center; }
 #rightcontent .copy a.rss {padding: 3px 0 3px 25px; background: url('/images/icons/RSS_16x16.png') no-repeat left center; }
 #rightcontent .copy a.register { padding: 5px 0 0 24px; background: url('/images/icons/Document_Edit_18x18.png') no-repeat left center; }
 
