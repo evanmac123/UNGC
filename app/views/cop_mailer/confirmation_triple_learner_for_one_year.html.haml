@@ -1,0 +1,73 @@
+%p== Dear #{@user.name_with_title},
+
+%p Thank you for submitting your company's Communication on Progress (COP) and for the effort you have invested. Our records show that your company's last two Communications on Progress (COPs) have not met all the required elements and that your latest submission is the third consecutive incomplete COP.
+
+%p== Your #{link_to "latest COP", cop_detail_url(@cop)} is missing <strong>#{@cop.number_missing_items}</strong> of the required elements:
+
+%ul
+  - unless @cop.include_continued_support_statement?
+    %li An explicit statement of continued support for the UN Global Compact and its ten principles
+  - PrincipleArea::FILTERS.each_pair do |key, value|
+    - unless @cop.send("references_#{key}?")
+      %li== Description of actions or relevant policies related to #{value}
+  - unless @cop.include_measurement?
+    %li A measurement of outcomes
+
+%p Your company has exceeded the one-time 12-month Learner period that our policy allows for companies that do not meet the COP minimum requirements. As a result, your company is currently listed as "non-communicating" on the Global Compact website.
+%p For your next COP to be reflected at the GC Active level it must include:
+
+%ul
+  %li A statement by the chief executive of continued support for the Global Compact and renewed commitment to the initiative and its principles;
+  %li A description of practical actions the company has taken to implement the Global Compact principles in each of the four issue areas: Human Rights, Labour, Environment and Anti-Corruption; and
+  %li A measurement of outcomes (i.e. the degree to which targets/performance indicators were met)
+
+%p To ensure that your upcoming COP fulfills the minimum requirements, we urge you to take advantage of relevant resources developed by our office (listed in the table below) as well as published on the Global Compact website.
+
+- @row_style = 'text-align: left; padding-bottom: 10px;'
+%table{:border => 0, :style => 'background-color: #EEEEFF; padding: 1em 2em;'}
+  %tr
+    %td
+      %h3{:style => 'color: #0A3A4B;'} Resources
+  %tr
+    %td{:style => @row_style}
+      = link_to 'COP policy:', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'
+      Understand COP requirements
+  %tr
+    %td{:style => @row_style}
+      = link_to 'GC Active level:', 'http://www.unglobalcompact.org/COP/differentiation/GCActive_level.html'
+      Learn how to assure your COP meets the Active level
+  %tr
+    %td{:style => @row_style}
+      = link_to 'Local Networks:', 'http://www.unglobalcompact.org/NetworksAroundTheWorld/'
+      Find the Global Compact in your country
+  %tr
+    %td{:style => @row_style}
+      = link_to 'COP Webinars:', 'http://www.unglobalcompact.org/NewsAndEvents/event_calendar/webinars.html'
+      Join a monthly online event to learn how to complete and submit a COP
+  %tr
+    %td{:style => @row_style}
+      = link_to 'COP Guide - Basic:', 'http://www.unglobalcompact.org/docs/communication_on_progress/Tools_and_Publications/COP_Basic_Guide.pdf'
+      Learn how a COP can meet the most basic elements (pdf)
+  %tr
+    %td{:style => @row_style}
+      = link_to 'Step-by-Step COP Submission:', 'http://www.unglobalcompact.org/docs/communication_on_progress/COP_Submission_Step_by_Step_Guide.pdf'
+      Procedure for submitting a COP to the Global Compact website (pdf)
+  %tr
+    %td{:style => @row_style}
+      = link_to 'Video on how to Submit a COP:', 'http://www.unglobalcompact.org/COP/communicating_progress/how_to_submit_a_cop.html'
+      View the procedure for submitting a COP to the Global Compact website
+  %tr
+    %td{:style => @row_style}
+      = link_to 'Frequently Asked Questions', 'http://staging.unglobalcompact.org/COP/frequently_asked_questions.html'
+
+%p== If you have further questions on the COP policy or tools, please contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
+
+%p We look forward to the timely submission of your complete COP. Once again, please do not hesitate to contact us should you need any assistance. We are more than happy to support you!
+
+%p Sincerely,
+%p
+  The COP Team
+  %br
+  United Nations Global Compact
+  %br
+  = mail_to 'cop@unglobalcompact.org'
