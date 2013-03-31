@@ -2,6 +2,7 @@
   %td= communication_on_progress.created_at
   %td= communication_on_progress.title
   %td= communication_on_progress.state.humanize
+  %td= communication_on_progress.differentiation.humanize
   %td
     %ul.actions
       %li= link_to 'View Details', admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :title => "View details", :class => "preview"

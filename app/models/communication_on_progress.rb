@@ -295,6 +295,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
 
+  def is_reporting_adjustment?
+    # to be completed with submission process
+  end
+
+
   def is_basic?
     is_new_format? && self.attributes['format'] == 'basic'
   end
@@ -316,7 +321,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     if is_grace_letter?
       organization.extend_cop_grace_period
     else
-      organization.set_next_cop_due_date
+      organization.set_next_cop_due_date_and_cop_status
     end
   end
 
@@ -500,7 +505,9 @@ class CommunicationOnProgress < ActiveRecord::Base
   def confirmation_email
     if organization_business_entity?
 
-      if organization.double_learner?
+      if organization.triple_learner_for_one_year?
+        'triple_learner_for_one_year'
+      elsif organization.double_learner?
         'double_learner'
       else
         differentiation

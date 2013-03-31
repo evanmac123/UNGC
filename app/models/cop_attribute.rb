@@ -9,6 +9,7 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  hint            :text            default(""), not null
+#  open            :boolean(1)
 #
 
 class CopAttribute < ActiveRecord::Base
