@@ -321,7 +321,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     if is_grace_letter?
       organization.extend_cop_grace_period
     else
-      organization.set_next_cop_due_date
+      organization.set_next_cop_due_date_and_cop_status
     end
   end
 
@@ -505,10 +505,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   def confirmation_email
     if organization_business_entity?
 
-      if organization.double_learner?
+      if organization.triple_learner_for_one_year?
+        'triple_learner_for_one_year'
+      elsif organization.double_learner?
         'double_learner'
-      elsif organization.double_learner_for_two_years?
-        'double_learner_for_two_years'
       else
         differentiation
       end
