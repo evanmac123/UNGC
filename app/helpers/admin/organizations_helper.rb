@@ -3,7 +3,7 @@ module Admin::OrganizationsHelper
     actions = []
     unless current_contact.from_organization?
       actions << button_to('Network Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post, :confirm => "The Local Network in #{@organization.country_name} will be emailed.\n\nAre you sure you want to proceed?\n\n", :class => "nobutton") if organization.can_network_review?
-	  actions << button_to('Delay Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_DELAY_REVIEW), :method => :post, :confirm => "This application will be put on hold") if organization.can_delay_review?
+      actions << button_to('Delay Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_DELAY_REVIEW), :method => :post, :confirm => "This application will be put on hold", :class => "nobutton") if organization.can_delay_review?
       actions << button_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), {:method => :post, :class => "nobutton"}) if organization.can_approve?
       actions << button_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this application?", :class => "nobutton") if organization.can_reject?
       actions << button_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this Micro Enterprise?", :class => "nobutton") if organization.can_reject?
