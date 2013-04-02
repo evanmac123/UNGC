@@ -23,10 +23,10 @@ module LocalNetworkHelper
   end
 
   def formatted_local_network_contact_info(contact)
-    return '&nbsp;' unless contact
+    return '&nbsp;'.html_safe unless contact
     html =  "#{role_for contact}<br />#{contact.full_name_with_title}"
     html += "<br />#{link_to contact.email, "mailto:#{contact.email}"}" unless contact.is?(Role.network_representative)
-    html
+    html.html_safe
   end
 
   def p_with_link_to_participant_search
@@ -43,7 +43,7 @@ module LocalNetworkHelper
       #{link_to truncate(latest.name, :length => 45), participant_link(latest), :title => latest.name}<br />
       Accepted on #{latest.joined_on.day} #{latest.joined_on.strftime('%B, %Y')}
       EOF
-      content_tag :p, content
+      content_tag :p, content.html_safe
     end
   end
 

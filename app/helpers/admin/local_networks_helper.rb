@@ -1,6 +1,6 @@
 module Admin::LocalNetworksHelper
 
-  def link_to_public_profile(local_network)
+  def dashboard_link_to_public_profile(local_network)
     if local_network.country_code.present?
       link = "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
     else
@@ -45,10 +45,10 @@ module Admin::LocalNetworksHelper
   def current_contact_can_edit_network?
     current_contact.from_ungc? || (current_contact.local_network == @local_network)
   end
-  
+
   def link_to_region_list(local_network)
     html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region)
-    html += "&nbsp;&nbsp;&#x25BA;&nbsp;"
+    html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
   end
 
 end
