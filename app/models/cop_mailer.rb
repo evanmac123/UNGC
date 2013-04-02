@@ -29,6 +29,7 @@ class CopMailer < ActionMailer::Base
 
   def confirmation_triple_learner_for_one_year(organization, cop, user)
     from 'cop@unglobalcompact.org'
+    cc organization.participant_manager_email
     subject "UN Global Compact Status - Non-Communicating due to exceeded Learner Grace Period"
     content_type "text/html"
     recipients user.email_recipient
