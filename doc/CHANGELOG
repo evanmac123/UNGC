@@ -1,3 +1,9 @@
+h1. 2013-06-10
+
+* Changing the name of 'Public Company' to 'Publicly Listed', as this was causing some confusion with state owned companies
+* A number of references had to be changed since the exact name "Public Company" was hardcoded
+* TODO: this should be defined in the ListingStatus model
+
 h1. 2013-05-29
 
 * Added an email that informs the Global Compact Cities Programme when a new city is accepted as a participant
@@ -83,7 +89,7 @@ h1. 2013-03-30
 * Also, this has been complicated because the COP status (organization.cop_state) which normally indicates whether the organization has submitted their COP on time, is now being used to track an entirely different status
 * At the time of this entry, the total number of organization with this status is 13
 * To get a list of these tripled learner organizations:
-* triples = []; o = Organization.participants.active.businesses; o.each {|org| triples << org.id if org.triple_learner_for_one_year?}
+<pre>triples = []; o = Organization.participants.active.businesses; o.each {|org| triples << org.id if org.triple_learner_for_one_year?}</pre>
 
 h1. 2013-03-11
 
