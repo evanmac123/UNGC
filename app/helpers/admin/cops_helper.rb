@@ -10,9 +10,8 @@ module Admin::CopsHelper
   end
 
   def true_or_false_field(form, field, options={})
-    html = content_tag(:label, [form.radio_button(field, 'true', :class => options[:class]), options[:yes] || 'Yes'].join, {:class => options[:class]})
-    html += content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join, {:class => options[:class]})
-
+    html = content_tag(:label, [form.radio_button(field, 'true', :class => options[:class]), options[:yes] || 'Yes'].join.html_safe, {:class => options[:class]})
+    html += content_tag(:label, [form.radio_button(field, 'false', :class => options[:class]), options[:no] || 'No'].join.html_safe, {:class => options[:class]})
     html
   end
 
@@ -27,7 +26,7 @@ module Admin::CopsHelper
     questions = @communication_on_progress.cop_questions_for_grouping(grouping, options)
     questions.collect do |question|
       render :partial => 'admin/cops/cop_question', :locals => { :question => question, :grouping => grouping }
-    end.join
+    end.join.html_safe
   end
 
   # Used to display cop answers on the cop show page
@@ -39,8 +38,8 @@ module Admin::CopsHelper
 
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      render :partial => 'admin/cops/cop_answers.html.haml', :locals => { :question => question, :answers => answers }
-    end.join
+      render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }
+    end.join.html_safe
   end
 
   # basic cop answers
@@ -52,8 +51,8 @@ module Admin::CopsHelper
 
     questions.collect do |question|
       answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
-      render :partial => 'admin/cops/cop_basic_answers.html.haml', :locals => { :question => question, :answers => answers }
-    end.join
+      render :partial => 'admin/cops/cop_basic_answers', :locals => { :question => question, :answers => answers }
+    end.join.html_safe
   end
 
   def principle_area_display_value(cop, area)
@@ -66,7 +65,7 @@ module Admin::CopsHelper
     vars = []
     vars << "joined_after_july_09 = #{organization.joined_after_july_2009?}"
     vars << "participant_for_more_than_5_years = #{organization.participant_for_over_5_years?}"
-    vars.collect{|v| javascript_tag "var #{v};"}.join
+    vars.collect{|v| javascript_tag "var #{v};"}.join.html_safe
   end
 
   # we need to preselect the submission tab

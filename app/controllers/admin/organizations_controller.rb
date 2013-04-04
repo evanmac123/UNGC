@@ -104,7 +104,7 @@ class Admin::OrganizationsController < AdminController
                                         :per_page => Organization.per_page)
           method
         when 'delay_review'
-          @organizations = Organization.send(method).all(:order => order_from_params)
+          @organizations = Organization.send(method).order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method

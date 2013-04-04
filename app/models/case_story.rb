@@ -65,14 +65,10 @@ class CaseStory < ActiveRecord::Base
   scope :unreplied, where(:replied_to => false)
 
   def authors_for_display
-    authors = [
-      [author1, author1_email, author1_institution],
-      [author2, author2_email, author2_institution]
-    ]
-
-    authors.map do |details|
-      display_contact(*details) unless author1.blank?
-    end
+    authors = []
+    authors << [author1, author1_email, author1_institution] if author1.present?
+    authors << [author2, author2_email, author2_institution] if author2.present?
+    authors.map { |details| display_contact(*details) }
   end
 
   def category_name

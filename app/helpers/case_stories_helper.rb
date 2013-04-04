@@ -2,7 +2,8 @@ module CaseStoriesHelper
 
   def formatted_authors(authors)
     if authors.any?
-      authors.map { |author| content_tag :p, formatted_email_link_to(author) }.join("\n")
+      html = authors.map { |author| content_tag :p, formatted_email_link_to(author) }.join("<br />")
+      html.html_safe
     else
       'Unknown authors'
     end
@@ -10,8 +11,9 @@ module CaseStoriesHelper
 
   def formatted_email_link_to(formatted_contact)
     if formatted_contact
-      "#{formatted_contact.name}, #{formatted_contact.institution}<br />
+      html = "#{formatted_contact.name}<br /> #{formatted_contact.institution}<br />
       #{link_to_unless(formatted_contact.email.blank?, formatted_contact.email, "mailto:#{formatted_contact.email}")}"
+      html.html_safe
     else
       'None'
     end
@@ -26,14 +28,14 @@ module CaseStoriesHelper
           content_tag :li, link_to(object, object)
         end
       end
-      content_tag :ul, list.join("\n")
+      content_tag :ul, list.join("\n").html_safe
     end
   end
 
   def issues_addressed(issues)
     if issues.any?
       list = issues.map { |issue| content_tag :li, issue.name }
-      content_tag :ul, list.join("\n")
+      content_tag :ul, list.join("\n").html_safe
     end
   end
 end

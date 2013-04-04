@@ -32,8 +32,8 @@ div.radio_button_group { margin: 15px 0 0 0; }
 #main_content dd ul.questionnaire { width: auto; }
 
 /* Form fixes */
-#main_content div.fieldWithErrors input[type='text'] {border: 1px solid #F99;}
-#main_content div.fieldWithErrors input[type='radio'] {border-color: white;}
+#main_content div.field_with_errors input[type='text'] {border: 1px solid #EB7272;}
+#main_content div.field_with_errors input[type='radio'] {border-color: white;}
 #main_content fieldset ol li { margin: 5px; }
 #main_content fieldset input { margin: 0px; }
 #main_content fieldset input[type='text'], #main_content input[type='password'] { margin-left: 25px; }

@@ -30,7 +30,7 @@
 
   #profile.tab_content
     %ul#tools{:class => "tools inline"}
-      %li= link_to_public_profile(@local_network)
+      %li= dashboard_link_to_public_profile(@local_network)
       - if current_contact_can_edit_network?
         %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_page_large'
 

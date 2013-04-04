@@ -157,7 +157,7 @@ module ParticipantsHelper
     end
 
     response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
-    response
+    response.html_safe
   end
 
 end
