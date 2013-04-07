@@ -1,3 +1,13 @@
+h1. 2013-04-07
+
+* The 'Blueprint' differentiation has been merged with Advanced (see 2013-02-21)
+* COPs from LEAD companies where <pre>organization.signatory_of?(:lead)</pre> no longer default to Blueprint, but can be Learner, Active or Advanced
+* LEAD companies still receive the custom blueprint confirmation email, although the appropriate COP results screen partial (_show_[differentiation]_style.html.haml) will be used
+* Generating the list of COPs from LEAD companies in cop_lead_submissions.html.haml takes a long time since each COP is reevaluated
+* But now we can simple rely on the differentiation level, since the same rules apply to all companies
+* This change was not implemented since there are currently 10 companies that have submitted Blueprint COPs with missing criteria
+* Once those are dealt with, we can uncomment the the lines in cop_lead_submissions_html.haml and cop_lead_submissions.rb
+
 h1. 2013-03-30
 
 * Companies that have submitted 2 learner COPs in a row will be made Non-Communicating and receive a warning email
