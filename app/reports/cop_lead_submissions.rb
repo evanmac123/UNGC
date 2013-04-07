@@ -24,6 +24,7 @@ class CopLeadSubmissions < SimpleReport
       record.last_approved_cop.title,
       record.last_approved_cop.differentiation_level_name,
       !record.last_approved_cop.is_grace_letter? && record.last_approved_cop.missing_items? ? 'Yes': '',
+      # record.last_approved_cop.missing_lead_criteria? ? 'Yes' : '',
       record.last_approved_cop.questions_missing_answers.any? ? 'Yes': '',
       record.last_approved_cop.created_at.strftime('%Y-%m-%d'),
       record.cop_due_on.strftime('%Y-%m-%d') ]
