@@ -4,7 +4,7 @@
     %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
     - if home_page?
       %link{:href => 'http://feeds.unglobalcompact.org/UnitedNationsGlobalCompact-LatestNews', :rel => 'alternate', :title => 'United Nations Global Compact - Latest News', :type => 'application/atom+xml'}
-    %title= @title.html_safe || 'United Nations Global Compact'
+    %title= (@title || 'United Nations Global Compact').html_safe
     = stylesheet_link_tag 'application'
     - (@css || []).each do |file|
       = stylesheet_link_tag file
