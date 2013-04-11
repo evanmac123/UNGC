@@ -71,7 +71,9 @@ class Page < ActiveRecord::Base
     }
   }
 
-  named_scope :local_network_pages, :conditions => "pages.path LIKE '/LocalNetworks/%'", :order => :position, :group => :path
+  named_scope :local_network_training_guidance_material, :conditions => "pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'", :order => 'parent_id, position', :group => :path
+  named_scope :local_network_news_updates, :conditions => "pages.path LIKE '/LocalNetworksResources/news_updates/%'", :order => 'parent_id, position', :group => :path
+  named_scope :local_network_reports, :conditions => "pages.path LIKE '/LocalNetworksResources/reports/%'", :order => 'parent_id, position', :group => :path
 
   def self.approved_for_path(path)
     approved.find_by_path path

@@ -1,19 +1,32 @@
 %h2 Edit Resources
 
-%table.dashboard_table
-  %tr
-    %th Title
-    %th Last change
-    %th Status
-    %th Version
-    %th Actions
-    - @pages.each do |page|
-      %tr
-        %td= page.title
-        %td= page.updated_at
-        %td= page.approval.humanize
-        %td= page.version_number
-        %td
-          %ul.actions
-            %li= popup_link_to 'View on site', page.path, class: 'preview', title: 'View published version on site'
-            %li= link_to 'Edit page', edit_admin_page_path(page), class: 'edit', title: 'Edit page'
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li
+      %a{:href => '#local_network_training_guidance_material'} Training and Guidance Material
+    %li
+      %a{:href => '#local_network_news_updates'} News and Updates
+    %li
+      %a{:href => '#local_network_reports'} Reports
+
+  - @sections.each do |section|
+    %div{:id => section, :class => 'tab_content'}
+      %table.dashboard_table
+        %tr
+          %th Type
+          %th Title
+          %th Last change
+          %th Version
+          %th Status
+          %th Actions
+          - @pages[section].each do |page|
+            %tr
+              %td= section_or_page_icon(page)
+              %td= page.title
+              %td= page.updated_at
+              %td= page.version_number
+              %td{:title => page.approval.humanize }= pending_or_approved_icon(page.approval)
+              %td
+                %ul.actions
+                  %li= popup_link_to 'View on site', page.path, class: 'preview', title: 'View published version on site'
+                  %li= link_to 'Edit page', edit_admin_page_path(page), class: 'edit', title: 'Edit page'

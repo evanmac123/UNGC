@@ -1,3 +1,9 @@
+h1. 2013-04-08
+
+* Continuing to add the Dashboard accessible Local Network Resources pages
+* New Page scopes were added to gather the pages for each section and display them in separate tabs in the view
+* We display each section in its own Dashboard tab, which mimics the navigation on the website
+
 h1. 2013-04-07
 
 * The 'Blueprint' differentiation has been merged with Advanced (see 2013-02-21)

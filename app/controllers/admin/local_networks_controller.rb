@@ -57,8 +57,11 @@ class Admin::LocalNetworksController < AdminController
   end
 
   def edit_resources
-    @pages = []
-    Page.local_network_pages.each{|p| @pages << p.latest_version}
+    # scopes in Page model
+    @sections =  [ 'local_network_training_guidance_material', 'local_network_news_updates', 'local_network_reports' ]
+    @pages = {}
+    # latest version for each page returned in the scope
+    @sections.each { |section| @pages[section] = Page.send(section).map { |page| page.latest_version } }
   end
 
   private
