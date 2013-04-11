@@ -93,7 +93,7 @@ class OrganizationMailer < ActionMailer::Base
 
   def foundation_invoice(organization)
     from 'foundation@unglobalcompact.org'
-    cc 'contributions@globalcompactfoundation.org'
+    cc ['contributions@globalcompactfoundation.org', organization.participant_manager_email]
     bcc ['archive@unglobalcompact.org','vkeesari@yahoo.com']
     subject "[Invoice] The Foundation for the Global Compact"
     content_type "text/html"
