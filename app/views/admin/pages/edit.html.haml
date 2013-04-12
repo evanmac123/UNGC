@@ -1,5 +1,5 @@
 %p
-  = link_to 'Pending Pages', dashboard_path(:tab => :pages), :class => 'edit_page_large'
+  = link_back_to_page_list(current_user)
 #pageArea
   = render 'page_area'
 

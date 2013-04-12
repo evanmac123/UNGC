@@ -7,7 +7,7 @@
 
   #overview.tab_content
 
-    %dl.left_column{:style => 'width: 50%'}
+    %dl.left_column{:style => 'width: 425px;'}
       %h3 Welcome to the Dashboard
 
       %p Manage and share information about your Local Network with the Global Compact Office and learn about the activities of other networks.
@@ -22,3 +22,13 @@
       %dd Find events and activities shared by other Networks
       %dt Reports
       %dd Excel files of participant, COP and Local Network data
+
+    / %dl.left_column{:style => 'width: 1%; height: 300px; border-left: 1px solid #EEE;'}
+    /
+    / %dl.left_column{:style => 'width: 40%;'}
+    /   %h3 Latest Resources
+    /
+    /   %p Useful tools and resources from the Global Compact Office.
+    /
+    /   %ul{:class => "tools inline" :style => 'border: none;'}
+    /     %li= popup_link_to 'Access Resources', '/LocalNetworksResources/training_guidance_material/index.html', :class => 'web_preview_large', :title => 'Local Network Resources'

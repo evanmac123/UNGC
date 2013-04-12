@@ -5,6 +5,7 @@
     %li= link_to 'New Local Network', new_admin_local_network_path, :class => "new_large", :id => "new_local_network"
     %li= link_to 'Countries', admin_countries_path, :class => 'web_preview_large', :title => 'Listing of all countries'
     %li= link_to 'Guest Access', admin_organization_path(@local_network_guest, :tab => :contacts), :class => 'guest_large', :title => 'Guest access to Local Network Dashboard'
+    %li= link_to 'Resources', local_network_resources_path, :class => 'edit_page_large', :title => 'Edit Local Networks Resources'
     %li= link_to 'Find Events', admin_learning_path, :class => 'search_large', :title => 'Find events'
 
 %div{:class => "tab_container top_tabs"}

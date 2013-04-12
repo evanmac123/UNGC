@@ -70,6 +70,7 @@ body.communicating    #inner_head { background: url(/images/banner_cop.png); }
 body.issues           #inner_head { background: url(/images/banner_issues.png); }
 body.newsevents       #inner_head { background: url(/images/banner_newsandevents.png); }
 body.networks         #inner_head { background: url(/images/banner_local_networks.png); }
+body.networks_rsrc    #inner_head { background: url(/images/banner_networks_rsrc.png); }
 body.participants     #inner_head { background: url(/images/banner_participantsandstakeholders.png); }
 body.participate      #inner_head { background: url(/images/banner_howtoparticipate.png); }
 body.participate_lead #inner_head { background: url(/images/banner_participate_lead.png); }
