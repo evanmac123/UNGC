@@ -58,6 +58,7 @@ class LocalNetwork < ActiveRecord::Base
   has_many :mous, :class_name => 'Mou'
   has_many :meetings
   has_many :communications
+  has_many :announcements
 
   belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'

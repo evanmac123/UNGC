@@ -1,0 +1,9 @@
+%tr
+  %td
+    %ul.issues_covered
+      %li{:class => "#{Principle::TYPE_NAMES.key(announcement_view.principle_name)} labeled"}= announcement_view.principle_name
+  %td= announcement_view.local_network_name
+  %td= announcement_view.local_network_region_name
+  %td= announcement_view.title
+  %td{:style => 'width: 200px;'}= announcement_view.description
+  %td= announcement_view.date

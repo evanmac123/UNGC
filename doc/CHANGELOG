@@ -1,3 +1,10 @@
+h1. 2013-04-15
+
+* Local Networks to submit announcements for upcoming events
+* These are not meant to be like local_networks_events, just the basic time, place and location
+* After the event Local Networks are still expected to submit a proper event with files etc.
+* Created new CSS style to display issue area colour next to issue name: ul.issues_covered
+
 h1. 2013-04-08
 
 * Continuing to add the Dashboard accessible Local Network Resources pages

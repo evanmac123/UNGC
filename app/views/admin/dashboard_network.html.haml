@@ -3,7 +3,8 @@
 %h3= @local_network.name
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    %li <a href="#overview">Overview</a>
+    %li= link_to 'Overview', '#overview'
+    %li= link_to "Announcements #{announcement_count}", '#announcements'
 
   #overview.tab_content
 
@@ -32,3 +33,16 @@
     /
     /   %ul{:class => "tools inline" :style => 'border: none;'}
     /     %li= popup_link_to 'Access Resources', '/LocalNetworksResources/training_guidance_material/index.html', :class => 'web_preview_large', :title => 'Local Network Resources'
+
+  #announcements.tab_content
+    %h3 Upcoming events and activities from Local Networks
+    %table.dashboard_table
+      %tr
+        %th Issue Area
+        %th Local Network
+        %th Region
+        %th Title
+        %th Description
+        %th Date
+      = render :partial => 'admin/announcements/announcement_view', :collection => @announcements
+

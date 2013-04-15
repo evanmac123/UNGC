@@ -1,0 +1,12 @@
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@submodel)
+
+%fieldset
+  %ol
+    = default_form.select     :principle_id, Principle.all_types.map { |p| [p.name, p.id] }, :label => 'Issue Area'
+    = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
+    = default_form.text_field :title
+    = default_form.text_area  :description
+
+
+

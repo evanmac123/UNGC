@@ -1,0 +1,10 @@
+%tr
+  %td= announcement.principle_name
+  %td= announcement.title
+  %td{:style => 'width: 500px;'}= announcement.description
+  %td= announcement.date
+  - if current_user_can_edit_network?
+    %td
+      %ul.actions
+        %li= link_to 'Edit', edit_submodel_path(announcement), :class => 'edit', :title => 'Edit announcement details'
+        %li= link_to 'Delete', submodel_path(announcement), :confirm => 'Are you sure you want to delete this announcement?', :method => :delete, :class => 'delete', :title => 'Delete announcement'

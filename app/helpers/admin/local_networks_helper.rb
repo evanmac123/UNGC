@@ -67,4 +67,7 @@ module Admin::LocalNetworksHelper
     end
   end
 
+  def announcement_count
+    @announcements.count > 0 ? "(#{@announcements.count})" : ''
+  end
 end

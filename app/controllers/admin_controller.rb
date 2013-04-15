@@ -27,6 +27,7 @@ class AdminController < ApplicationController
     elsif current_user.from_network?
       @local_network = current_user.local_network
       @organizations = Organization.visible_to(current_user)
+      @announcements = Announcement.all
 
     elsif current_user.from_organization?
       @organization = current_user.organization

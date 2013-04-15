@@ -13,8 +13,6 @@
 #  attachment_content_type :string(255)
 #  attachment_file_size    :integer(4)
 #  attachment_updated_at   :datetime
-#  contact_type            :string(255)
-#  internal                :boolean(1)
 #
 
 class Comment < ActiveRecord::Base
