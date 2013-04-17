@@ -317,6 +317,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       @organization.reload
       assert_equal true, @organization.active
       assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
+      assert_equal Date.today, @organization.rejoined_on
     end
   end
 
