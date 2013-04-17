@@ -186,7 +186,10 @@ ul.nav_bar {
     text-indent: 20px; }
     #main_content dd.issue_list ul.issues_covered li.none {
       text-indent: 0px; }
-  #main_content ul.issues_covered li.general, #main_content dd.issue_list ul.issues_covered li.general {
+  #main_content ul.issues_covered li.labeled, #main_content dd.issue_list ul.issues_covered li.labeled {
+    background-position: left center;
+    padding-left: 20px; }
+  #main_content ul.issues_covered li.global_compact, #main_content dd.issue_list ul.issues_covered li.global_compact {
     background-image: url('../images/icons/issue_icon_un_business.png'); }
   #main_content ul.issues_covered li.human_rights, #main_content dd.issue_list ul.issues_covered li.human_rights {
     background-image: url('../images/icons/issue_icon_human_rights.png'); }
@@ -206,9 +209,6 @@ ul.nav_bar {
     background-image: url('../images/icons/issue_icon_un_business.png'); }
   #main_content ul.issues_covered li.supply_chain, #main_content dd.issue_list ul.issues_covered li.supply_chain {
     background-image: url('../images/icons/issue_icon_supply_chain.png'); }
-  #main_content ul.issues_covered li.labeled, #main_content dd.issue_list ul.issues_covered li.labeled {
-    background-position: left center;
-    padding-left: 20px; }
   #main_content table.dashboard_table {
     width: 100%;
     margin-bottom: 0; }
