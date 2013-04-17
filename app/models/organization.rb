@@ -173,7 +173,7 @@ class Organization < ActiveRecord::Base
       transition :from => :noncommunicating, :to => :delisted
     end
     event :communication_received do
-      transition :from => :noncommunicating, :to => :active
+      transition :from => [:noncommunicating, :delisted], :to => :active
     end
   end
 
