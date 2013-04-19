@@ -74,6 +74,33 @@ class CopMailerTest < ActionMailer::TestCase
     end
   end
 
+  context "given three Learner COPs in a row over a one-year period" do
+     setup do
+       create_organization_and_user
+       @organization.participant_manager = create_participant_manager
+       @first_cop  = create_cop(@organization.id, { :references_environment  => false })
+       @second_cop = create_cop(@organization.id, { :references_human_rights => false })
+       @third_cop  = create_cop(@organization.id, { :references_labour => false })
+       @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
+       @second_cop.update_attribute :created_at, Date.new(2011,04,01)
+       @third_cop.update_attribute  :created_at, Date.new(2012,03,02)
+     end
+
+     should "send triple Learner alert and copy Participant Manager" do
+       assert @organization.triple_learner_for_one_year?
+
+       response = CopMailer.send("deliver_confirmation_#{@third_cop.confirmation_email}",
+                                 @organization,
+                                 @third_cop,
+                                 @organization_user)
+
+       assert_equal "text/html", response.content_type
+       assert_equal "UN Global Compact Status - Non-Communicating due to exceeded Learner Grace Period", response.subject
+       assert_equal @organization_user.email, response.to.first
+       assert_contains response.cc, @organization.participant_manager_email
+     end
+   end
+
   context "given an organization with a Local Network" do
     setup do
       create_organization_and_user

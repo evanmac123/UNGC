@@ -1,4 +1,4 @@
-# == Schema Information
+	# == Schema Information
 #
 # Table name: communication_on_progresses
 #
@@ -264,6 +264,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
 
+  def is_reporting_adjustment?
+    # to be completed with submission process
+  end
+
+
   def is_basic?
     is_new_format? && self.attributes['format'] == 'basic'
   end
@@ -285,7 +290,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     if is_grace_letter?
       organization.extend_cop_grace_period
     else
-      organization.set_next_cop_due_date
+      organization.set_next_cop_due_date_and_cop_status
     end
   end
 
@@ -427,9 +432,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def differentiation_level
-    if is_blueprint_level?
-      :blueprint
-    elsif is_advanced_level?
+    if is_advanced_level?
       :advanced
     elsif is_intermediate_level?
       :active
@@ -447,6 +450,20 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def learner?
     differentiation == 'learner'
+  end
+
+  def advanced?
+    differentiation == 'advanced'
+  end
+
+  def blueprint?
+    differentiation == 'blueprint'
+  end
+
+  def missing_lead_criteria?
+    unless is_grace_letter? || is_reporting_adjustment?
+      !['advanced','blueprint'].include?(differentiation)
+    end
   end
 
   def differentiation_level_name
@@ -469,8 +486,12 @@ class CommunicationOnProgress < ActiveRecord::Base
   def confirmation_email
     if organization_business_entity?
 
-      if organization.double_learner?
+      if organization.triple_learner_for_one_year?
+        'triple_learner_for_one_year'
+      elsif organization.double_learner?
         'double_learner'
+      elsif organization.signatory_of?(:lead)
+        'blueprint'
       else
         differentiation
       end

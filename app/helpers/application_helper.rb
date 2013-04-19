@@ -50,9 +50,9 @@ module ApplicationHelper
   end
 
   def differentiation_placement(cop)
-    levels = { :learner => "Learner Platform &#x25BA;", :active => "GC Active &#x25BA;", :advanced => "GC Advanced" }
+    levels = { 'learner' => "Learner Platform &#x25BA;", 'active' => "GC Active &#x25BA;", 'advanced' => "GC Advanced" }
     html = levels.map do |key, value|
-      content_tag :span, value.html_safe, :style => cop.differentiation_level == key ? '' : 'color: #aaa'
+      content_tag :span, value.html_safe, :style => cop.differentiation_level_public == key ? '' : 'color: #aaa'
     end
     html.join(' ').html_safe
   end

@@ -102,7 +102,7 @@ class OrganizationMailer < ActionMailer::Base
     @contact = organization.financial_contact_or_contact_point
     mail \
       :to => organization.financial_contact_or_contact_point.email_recipient,
-      :cc => 'contributions@globalcompactfoundation.org',
+      :cc => ['contributions@globalcompactfoundation.org', organization.participant_manager_email],
       :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :from => 'foundation@unglobalcompact.org',
       :subject => "[Invoice] The Foundation for the Global Compact"

@@ -85,6 +85,7 @@ body.communicating    #inner_head { background: url(/assets/banner_cop.png); }
 body.issues           #inner_head { background: url(/assets/banner_issues.png); }
 body.newsevents       #inner_head { background: url(/assets/banner_newsandevents.png); }
 body.networks         #inner_head { background: url(/assets/banner_local_networks.png); }
+body.networks_rsrc    #inner_head { background: url(/assets/banner_networks_rsrc.png); }
 body.participants     #inner_head { background: url(/assets/banner_participantsandstakeholders.png); }
 body.participate      #inner_head { background: url(/assets/banner_howtoparticipate.png); }
 body.participate_lead #inner_head { background: url(/assets/banner_participate_lead.png); }
@@ -116,23 +117,22 @@ body.supply_chain     #inner_head { background: url(/assets/banner_supply_chain.
 #nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
-#nav ul { list-style: none; position: absolute; top: 3px; left: 41px; height: 22px; z-index: 10; white-space: nowrap;}
+#nav ul { list-style: none; position: absolute; top: 3px; left: 20px; height: 22px; z-index: 10; white-space: nowrap;}
 #nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; }
 #nav ul li.aboutus { width: 55px; }
 #nav ul li.participate { width: 105px; }
-#nav ul li.communicating { width: 130px; }
+#nav ul li.communicating { width: 162px; }
 #nav ul li.participants { width: 160px; }
 #nav ul li.networks { width: 90px; }
 #nav ul li.issues { width: 38px; }
 #nav ul li.newsevents { width: 90px; }
 #nav ul li.login { width: 30px; border-right: 0; }
-#nav ul li.login ul li { width: 74px; border-right: 1px solid #999; }
+#nav ul li.login ul li { width: 70px; border-right: 1px solid #999; }
 #nav ul li a { font-size: 12px; font-weight: bold; color: #000; height: 28px; display: block; height: 100%; padding-top: 5px;}
 #nav ul li a:hover { color: #3a7a8e; }
 #nav ul li ul {list-style: none; position: relative; top: -2px; left: -13px; visibility: hidden; opacity: 0.95; white-space: normal;}
 #nav ul li ul li { display: block; float: none; background: #fff; width: 150px; height: auto; border-bottom: 1px solid #c8c8c8; padding: 2px 13px 2px 13px; position: relative; }
 #nav ul li ul li a { font-size: 11px; color: #222; }
-#nav ul li ul.login li { width: 90px; }
 
 #content_bg { background: #f2f2f2 url(/assets/gradient.jpg) left top repeat-x; border-bottom: 1px solid #ebebeb; display: block; height: inherit; width: 1000px; margin: 0 auto; }
 h1 { font-size: 18px; font-family: Georgia, "Times New Roman", Times, serif; font-weight: normal; }
@@ -148,6 +148,12 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8;}
+#box2:hover { border: 1px solid #999;}
+#box2 { background-image: url(/pics/un_images/banners/leaders_summit_2013.png); background-position: 0px 0px; }
+#box2_content { position: relative; }
+#box2_content a { width: 100%; height: 164px; display: block; }
+/*
+#box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8;}
 #box2_content { position: relative; }
 #box2 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
 #box2 p { position: absolute; top: 32px; left: 25px; font-size: 23px; font-weight: 900; line-height: 26px;}
@@ -160,6 +166,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box2 div.more a { width: 100%; height: 100%; display: block; color: #000; }
 #box2 div.more a:hover { text-decoration: underline; }
 #box2 div.more div { padding: 6px 0 0 11px;}
+*/
 #news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
 #news_content { position: relative; }
 #news h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
@@ -210,9 +217,6 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box4 div.business_peace a { color: #453058; }
 #box4 div.financial a { color: #404850; }
 #box4 div.cop a { color: #FFD900; }
-#box4 div.rio { padding-left: 25px; background: url(/pics/un_images/banners/Rio20_CSF_logo_branch_mini.png) no-repeat 5px 5px; }
-#box4 div.rio:hover { background: none; }
-#box4 div.rio a { color: #21369A; }
 #box4 div.first { margin-top: 56px; }
 #box4 div.last { border-bottom: 0; }
 
@@ -296,7 +300,6 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy a { color: #2993A5; text-decoration: none; }
 #rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
 #rightcontent .copy a:visited { color: #00546E; }
-#rightcontent .copy a.rss {padding: 3px 0 3px 25px; background: url(/assets/icons/RSS_16x16.png) no-repeat left center; }
 #rightcontent .copy h1 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 19px; font-weight: bold; margin-bottom: 15px; color: #00546E; line-height: 1.2; }
 #rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
@@ -311,6 +314,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy ul.links { list-style: none; margin: 10px 0 10px 0px; }
 #rightcontent .copy ul.links li { line-height: 2.2em; }
 #rightcontent .copy a.pdf { padding: 6px 0 0 25px; background: url('/pics/un_images/pdf.gif') no-repeat left center; }
+#rightcontent .copy a.web { padding: 6px 0 0 25px; background: url('/assets/icons/Web_Document_18x18.png') no-repeat 2px center; }
+#rightcontent .copy a.htm { padding: 6px 0 0 25px; background: url('/assets/icons/Internal_Web_Document_18x18.png') no-repeat left center; }
 #rightcontent .copy a.rss {padding: 3px 0 3px 25px; background: url('/assets/icons/RSS_16x16.png') no-repeat left center; }
 #rightcontent .copy a.register { padding: 5px 0 0 24px; background: url('/assets/icons/Document_Edit_18x18.png') no-repeat left center; }
 

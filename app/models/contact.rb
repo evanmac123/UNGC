@@ -170,6 +170,7 @@ class Contact < ActiveRecord::Base
     where("contacts_roles.role_id = ?", role).includes(:roles)
   end
 
+
   scope :for_country, lambda { |country| where(:country_id => country.id) }
   scope :with_login, where("username IS NOT NULL")
 

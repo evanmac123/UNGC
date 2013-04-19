@@ -18,8 +18,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given an approved organization user" do
     setup do
-      create_organization_and_user
-      @organization.approve!
+      create_approved_organization_and_user
       create_principle_areas
       sign_in @organization_user
     end
@@ -160,6 +159,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given an existing cop" do
     setup do
+      create_approved_organization_and_user
       create_cop_with_options
       sign_in @organization_user
     end
@@ -187,6 +187,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a COP submitted between 2010-01-01 and 2011-01-29" do
     setup do
+      create_approved_organization_and_user
       create_cop_with_options :created_at => Date.parse('31-12-2010')
       sign_in @organization_user
     end
@@ -199,6 +200,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a Grace Letter" do
     setup do
+      create_approved_organization_and_user
       create_cop_with_options(:type => 'grace')
       sign_in @organization_user
       get :show, :organization_id => @organization.id,
@@ -214,6 +216,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a COP on the Learner Platform" do
     setup do
+      create_approved_organization_and_user
       # if any item is missing, then the COP puts the participant on the Learner Platform
       create_cop_with_options(:include_measurement => false)
       sign_in @organization_user
@@ -244,6 +247,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a GC Active COP" do
     setup do
+      create_approved_organization_and_user
       create_cop_with_options
       sign_in @organization_user
     end
@@ -259,6 +263,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a GC Advanced COP" do
     setup do
+      create_approved_organization_and_user
       create_cop_with_options({:meets_advanced_criteria => true, :type => 'advanced'})
       sign_in @organization_user
     end
@@ -274,6 +279,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   context "given a COP submitted that is not a Grace Letter" do
     setup do
+      create_approved_organization_and_user
       create_cop_with_options
       sign_in @organization_user
     end
@@ -297,12 +303,63 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   end
 
+  context "given a company that has submitted three Learner COPs" do
+    setup do
+      create_approved_organization_and_user
+      @first_cop  = create_cop_with_options({:title => 'First COP', :include_continued_support_statement => false})
+      @second_cop = create_cop_with_options({:title => 'Second COP', :references_environment => false})
+      @third_cop  = create_cop_with_options({:title => 'Third COP', :include_measurement => false})
+    end
+
+    should "should identify if time passed between COPs is one or more years" do
+      @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
+      @second_cop.update_attribute :created_at, Date.new(2011,04,01)
+      @third_cop.update_attribute  :created_at, Date.new(2012,03,02)
+      assert @organization.triple_learner_for_one_year?
+    end
+
+    should "not identify them as triple_learner_for_one_year if less than one year" do
+      @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
+      @second_cop.update_attribute :created_at, Date.new(2011,04,01)
+      @third_cop.update_attribute  :created_at, Date.new(2011,05,01)
+      assert !@organization.triple_learner_for_one_year?
+    end
+
+    should "not identify them as triple_learner_for_one_year if the exact deadline has not been exceeded" do
+      @first_cop.update_attribute  :created_at, Date.new(2011,03,02)
+      @second_cop.update_attribute :created_at, Date.new(2011,04,02)
+      @third_cop.update_attribute  :created_at, Date.new(2012,03,01)
+      assert !@organization.triple_learner_for_one_year?
+    end
+  end
+
+  context "given two non-consecutive Learner COPs" do
+    setup do
+      create_approved_organization_and_user
+      @first_cop  = create_cop_with_options({:include_continued_support_statement => false})
+      @second_cop = create_cop_with_options
+      @third_cop = create_cop_with_options({:include_measurement => false})
+      @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
+      @second_cop.update_attribute :created_at, Date.new(2012,03,01)
+      @third_cop.update_attribute  :created_at, Date.new(2013,03,01)
+      login_as @organization_user
+    end
+    should "not identify them as triple_learner_for_one_year" do
+      assert !@organization.triple_learner_for_one_year?
+    end
+  end
 
   private
+
+  def create_approved_organization_and_user
+    create_organization_and_user
+    @organization.approve!
+  end
 
     def create_cop_with_options(cop_options = {})
       # let's assume an Active COP where all criteria have been met
       defaults = {
+        :title                               => "COP Title",
         :references_human_rights             => true,
         :references_labour                   => true,
         :references_environment              => true,
@@ -311,8 +368,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
         :include_continued_support_statement => true
       }
 
-      create_organization_and_user
-      @organization.approve!
       create_principle_areas
       @cop = create_cop(@organization.id, defaults.merge(cop_options))
     end

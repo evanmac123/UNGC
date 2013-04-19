@@ -2,15 +2,16 @@
 #
 # Table name: countries
 #
-#  id               :integer(4)      not null, primary key
-#  code             :string(255)
-#  name             :string(255)
-#  region           :string(255)
-#  network_type     :integer(4)
-#  created_at       :datetime
-#  updated_at       :datetime
-#  manager_id       :integer(4)
-#  local_network_id :integer(4)
+#  id                     :integer(4)      not null, primary key
+#  code                   :string(255)
+#  name                   :string(255)
+#  region                 :string(255)
+#  network_type           :integer(4)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  manager_id             :integer(4)
+#  local_network_id       :integer(4)
+#  participant_manager_id :integer(4)
 #
 
 class Country < ActiveRecord::Base

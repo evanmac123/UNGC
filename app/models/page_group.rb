@@ -27,6 +27,8 @@ class PageGroup < ActiveRecord::Base
 
   scope :for_navigation, includes(:visible_children).where("page_groups.display_in_navigation = ?", true).order("page_groups.position ASC")
 
+  default_scope :order => "page_groups.position ASC"
+
   before_create :derive_position
   after_destroy :destroy_children
 

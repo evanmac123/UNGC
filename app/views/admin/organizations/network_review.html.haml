@@ -8,7 +8,7 @@
       %tr
         %th= sort_header 'ID', field: 'id'
         %th= sort_header 'Name', field: 'name', direction: 'ASC'
-        %th= sort_header 'Review Reason', field: 'review_reason', direction: 'DESC'
+        %th= sort_header 'Review<br />Reason', field: 'review_reason', direction: 'DESC'
         %th= sort_header 'Submitted on', field: 'created_at'
         %th= sort_header 'Review time', field: 'network_review_on', direction: 'DESC'
         %th Updated by
@@ -18,15 +18,15 @@
       - @organizations.each do |organization|
         %tr
           %td=h organization.id
-          %td.small{:title => organization.name}=h truncate(organization.name, :length => 20)
+          %td.small{:title => organization.name}=h truncate(organization.name, :length => 40)
           %td.small= organization.review_reason_value
           %td
             =h organization.created_at
             %br/
             %span.small= display_days_ago(organization.created_at)
-          %td.small= network_review_period(organization)
-          %td.small=h organization.last_modified_by_full_name
-          %td.small=h organization.participant_manager_name
+          %td= network_review_period(organization)
+          %td=h organization.last_modified_by_full_name
+          %td=h organization.participant_manager_name
           %td
             %ul.actions
               %li

@@ -5,8 +5,7 @@
     %li <a href="#next_steps">Next Steps</a>
 
   #differentiation.tab_content
-    - unless communication_on_progress.missing_items? || communication_on_progress.questions_missing_answers.any?
-      %h3= differentiation_placement(communication_on_progress)
+    %h3= differentiation_placement(communication_on_progress)
     %p
       Thank you for submitting your company's Communication on Progress (COP). It is now publicly available on the Global Compact website.
 
@@ -20,8 +19,7 @@
         According to your self-assessment, your COP has qualified for the <strong>GC Advanced level</strong>. GC Advanced COPs will be publicly recognized on the Global Compact website with detailed results of the self-assessment and statistics on coverage of best practices for the COP.
 
   #results.tab_content
-    - unless communication_on_progress.missing_items? || communication_on_progress.questions_missing_answers.any?
-      %h3= differentiation_placement(communication_on_progress)
+    %h3= differentiation_placement(communication_on_progress)
     %dl{:style => 'width: 100%;'}
       = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
       = render :partial => results_partial, :locals => { :communication_on_progress => communication_on_progress }

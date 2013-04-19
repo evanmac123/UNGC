@@ -267,4 +267,3 @@ $(document).ready(function() {
     }
     $('#contact_form').toggle();
   });
-

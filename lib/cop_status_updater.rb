@@ -64,4 +64,5 @@ class CopStatusUpdater
     end
 
   end # class << self
+
 end # class CopStatusUpdater

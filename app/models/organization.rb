@@ -173,7 +173,7 @@ class Organization < ActiveRecord::Base
       transition :from => :noncommunicating, :to => :delisted
     end
     event :communication_received do
-      transition :from => :noncommunicating, :to => :active
+      transition :from => [:noncommunicating, :delisted], :to => :active
     end
   end
 
@@ -248,7 +248,7 @@ class Organization < ActiveRecord::Base
     if id_or_array.is_a?(Array)
       where('country_id IN (?)', id_or_array)
     else
-      where(:country_id => id)
+      where(:country_id => id_or_array)
     end
   end
 
@@ -471,6 +471,34 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def triple_learner_for_one_year?
+
+    return false if communication_on_progresses.approved.count < 3
+
+    return false unless communication_on_progresses[0].learner? &&
+                        communication_on_progresses[1].learner? &&
+                        communication_on_progresses[2].learner?
+
+    # gather learner COPs
+    cops = []
+    communication_on_progresses.approved.all(:order => 'created_at DESC').each do |cop|
+      next if cop.is_grace_letter? || cop.is_reporting_adjustment?
+      cops << cop if cop.learner?
+    end
+
+    # check if the total time between first and last COP is two years
+    first_cop   = cops.last
+    second_cop  = cops.first
+    months_between_cops = (first_cop.created_at.month - second_cop.created_at.month) + 12 * (first_cop.created_at.year - second_cop.created_at.year)
+    months_between_cops = months_between_cops.abs
+    if months_between_cops == 12
+      # same month, so compare date
+      first_cop.created_at.day <= second_cop.created_at.day
+    else
+      months_between_cops >= 12
+    end
+  end
+
   def rejected?
     state == ApprovalWorkflow::STATE_REJECTED
   end
@@ -519,13 +547,13 @@ class Organization < ActiveRecord::Base
   end
 
   # COP's next due date is 1 year from current date
-  # Organization's participant and cop status are now 'active'
-  def set_next_cop_due_date
+  # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
+  def set_next_cop_due_date_and_cop_status
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
     self.update_attribute :cop_due_on, 1.year.from_now
-    self.update_attribute :cop_state, COP_STATE_ACTIVE
     self.update_attribute :active, true
+    self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
   end
 
   def can_submit_grace_letter?
@@ -557,7 +585,7 @@ class Organization < ActiveRecord::Base
   end
 
   def set_approved_fields
-    set_next_cop_due_date
+    set_next_cop_due_date_and_cop_status
     set_approved_on
   end
 
@@ -646,7 +674,7 @@ class Organization < ActiveRecord::Base
         when 'active'
           'Global Compact Active'
         when 'learner'
-          'Global Compact Active'
+          'Global Compact Learner'
         else
           'not available'
         end
