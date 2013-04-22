@@ -36,6 +36,7 @@ gem 'prototype-rails'
 
 group :development do
   gem 'thin'
+  gem 'rails-dev-tweaks'
 end
 
 group :test do
