@@ -5,7 +5,6 @@ class AdminController < ApplicationController
 
   before_filter :authenticate_contact!
   before_filter :redirect_non_approved_organizations, :only => :dashboard
-  before_filter :add_admin_js
 
   def dashboard
     if current_contact.from_ungc?
