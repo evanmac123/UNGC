@@ -56,7 +56,7 @@ function hideAndDisableTabbedSection(div) {
 }
 
 function showAndEnableTabbedSection(div) {
-  $(div + " input, " + div + " select").attr("disabled", "");
+  $(div + " input, " + div + " select").removeAttr("disabled");
 }
 
 function hideAndDisableFormElements(div) {
@@ -66,7 +66,7 @@ function hideAndDisableFormElements(div) {
 
 function showAndEnableFormElements(div) {
   $(div).fadeIn('slow');
-  $(div + " input, " + div + " select").attr("disabled", "");
+  $(div + " input, " + div + " select").removeAttr("disabled");
 }
 
 $('#cop_form').submit(function() {
