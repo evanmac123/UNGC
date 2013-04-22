@@ -2,7 +2,7 @@ class Admin::CountriesController < AdminController
   before_filter :no_organization_or_local_network_access
 
   def index
-    @countries = Country.all(:order => order_from_params, :include => [:manager, :participant_manager, :local_network])
+    @countries = Country.unscoped.includes([:manager, :participant_manager, :local_network]).order(order_from_params)
   end
 
   def new
@@ -41,8 +41,8 @@ class Admin::CountriesController < AdminController
 
   private
 
-    def order_from_params
-      @order = [params[:sort_field] || 'countries.name', params[:sort_direction] || 'ASC'].join(' ')
-    end
+  def order_from_params
+    @order = [params[:sort_field] || 'countries.name', params[:sort_direction] || 'ASC'].join(' ')
+  end
 
 end
