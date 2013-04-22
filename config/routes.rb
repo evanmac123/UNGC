@@ -141,7 +141,7 @@ UNGC::Application.routes.draw do
       resources :communications
       resources :integrity_measures
       resources :local_network_events do
-        resources :attachments
+        resources :attachments, :controller => 'local_network_event_attachments'
       end
     end
 
