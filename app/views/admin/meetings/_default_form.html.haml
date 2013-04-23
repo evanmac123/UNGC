@@ -8,6 +8,6 @@
       %dd.first= link_to_uploaded_file(@submodel.file)
 
   %ol
-    = default_form.select :meeting_type, options_for_select(select_options_from_hash(Meeting::TYPES), @submodel.meeting_type_for_select_field), :label => 'Type'
+    = default_form.select :meeting_type, options_for_select(Meeting::TYPES.invert, @submodel.meeting_type_for_select_field), :label => 'Type'
     = default_form.text_field :date, {class: 'datepicker iso-date', value: @submodel.date || Date.today}, {:label => 'Date'}
     = default_form.file_field :file, {:label => 'Supporting Document'}

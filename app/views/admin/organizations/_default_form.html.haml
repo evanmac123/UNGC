@@ -17,7 +17,6 @@
       = default_form.text_field :stock_symbol, :li_class => 'public_company_only'
       = default_form.check_box :is_ft_500, :label => 'FT 500', :li_class => 'public_company_only'
       = default_form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id), :li_class => 'company_only'
-      = default_form.select :revenue, options_for_select(select_options_from_hash(Organization::REVENUE_LEVELS)), {:include_blank => true}, {:label => 'Annual Sales / Revenues'}
 
     = default_form.collection_select :country_id, Country.all, :id, :name
   - if can_edit_letter? @organization
@@ -35,7 +34,7 @@
     %fieldset#review_reason
       %legend Review / Delay Status
       %ol
-        = default_form.select :review_reason, options_for_select(select_options_from_hash(Organization::REVIEW_REASONS), @organization.review_reason_to_sym), {:include_blank => true}, :label => 'Reason'
+        = default_form.select :review_reason, options_for_select(Organization::REVIEW_REASONS.invert, @organization.review_reason_to_sym), {:include_blank => true}, :label => 'Reason'
 
   - if @organization.participant
     %fieldset
