@@ -82,7 +82,7 @@ ActionController::Routing::Routes.draw do |map|
     admin.resources :countries
     admin.resources :logo_files
     admin.resources :cop_questions
-    admin.resources :local_networks, :has_many => [:contacts, :awards, :mous, :meetings, :communications, :integrity_measures] do |local_network|
+    admin.resources :local_networks, :has_many => [:contacts, :awards, :mous, :meetings, :communications, :integrity_measures, :announcements, :annual_reports] do |local_network|
       local_network.resources :local_network_events do |event|
         event.resources :attachments, :controller => 'local_network_event_attachments'
       end

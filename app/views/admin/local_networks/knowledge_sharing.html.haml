@@ -10,10 +10,26 @@
 
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
+    %li <a href="#announcements">Announcements</a>
     %li <a href="#local_network_events">Events and Activities</a>
     %li <a href="#meetings">Meetings</a>
     %li <a href="#communications">Communications</a>
     %li <a href="#awards">Awards</a>
+
+  #announcements.tab_content
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Announcement', new_admin_local_network_announcement_path(@local_network), :class => "new_large"
+
+    %table.dashboard_table
+      %tr
+        %th Issue Area
+        %th Title
+        %th Description
+        %th Date
+        - if current_user_can_edit_network?
+          %th.actions Actions
+      = render @local_network.announcements
 
   #local_network_events.tab_content
     - if current_user_can_edit_network?

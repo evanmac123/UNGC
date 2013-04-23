@@ -1,0 +1,18 @@
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@submodel)
+
+%fieldset
+  %legend Report Checklist
+  %ol.checkbox_list
+    = default_form.check_box :future_plans, {:li_class => 'checkbox', :label => 'Activity Plan'}
+    = default_form.check_box :activities,   {:li_class => 'checkbox', :label => 'Description of past events'}
+    = default_form.check_box :financials,   {:li_class => 'checkbox', :label => 'Financial Report'}
+
+%fieldset
+  %ol
+    = default_form.date_select :year, {:order => [:year]}, {:label => 'Year'}
+    = default_form.file_field :file,  {:label => 'Supporting Document'}
+    - unless @submodel.new_record?
+      %dl{:style => 'width: auto;'}
+        %dt.first{:style=> 'width: 165px;'} Current file
+        %dd.first= link_to_uploaded_file(@submodel.file)
