@@ -9,10 +9,12 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require jquery.ui.all
- *= require participant_search_form
  *= require jquery-ui-1.7.2.custom
  *= require_self
  *= require undohtml
+ *= require forms
+ *= require application_form
+ *= require participant_search_form
  */
 
 body { background-color: #fff; font-family: Helvetica, Arial, sans-serif; }

@@ -242,9 +242,9 @@ $(document).ready(function() {
     $('.for_business_only').fadeOut('slow');
   }
 
-  $('form #business_only').click( showBusinessOnly );
-  $('form #stakeholders_only').click( showStakeholdersOnly );
-  $('form #hide_business_and_stakeholders').click( hideBusinessAndStakeholders );
+  $('form #business_only').live('click', showBusinessOnly);
+  $('form #stakeholders_only').live('click', showStakeholdersOnly);
+  $('form #hide_business_and_stakeholders').live('click', hideBusinessAndStakeholders);
   $("#listing_status_id").change(function() {
     selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
     if (selected_listing_status == "Public Company") {

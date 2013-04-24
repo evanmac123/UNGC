@@ -8,9 +8,9 @@
     = stylesheet_link_tag 'admin'
     /[if IE]
       = stylesheet_link_tag 'ie'
-    - (@css || []).each do |file|
-      = stylesheet_link_tag file
     = stylesheet_link_tag 'print', :media => 'print'
+
+    = javascript_include_tag 'application'
 
   %body{:class => (@body_class || "form")}
     .container
@@ -44,10 +44,6 @@
       #footer.span-24
         &nbsp;
 
-    = javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery?
-    = javascript_include_tag 'application'
-    - (@javascript || []).uniq.each do |file|
-      = javascript_include_tag file
     - postscript = yield :postscript
     - if postscript
       = postscript

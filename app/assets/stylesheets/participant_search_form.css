@@ -6,7 +6,8 @@ div#participant_search fieldset {
   -webkit-border-radius: 3px; }
 div#participant_search legend {
   font-weight: bold;
-  color: #14546f; }
+  color: #14546f;
+  font-size: 1em; }
 div#participant_search label {
   font-weight: normal;
   color: #14546f;
@@ -14,7 +15,11 @@ div#participant_search label {
   width: 140px;
   cursor: pointer; }
   div#participant_search label.date {
-    margin: 0 0px 0 0; }
+    margin: 0 0 0 0; }
+div#participant_search input {
+  top: 0;
+  margin: 0 0 0 0;
+}
 div#participant_search input[type=text], div#participant_search select {
   width: 275px;
   border: 1px solid #bbb; }
