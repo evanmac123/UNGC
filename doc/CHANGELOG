@@ -1,3 +1,15 @@
+h1. 2013-04-24
+
+* Adding the ability to edit Organization.revenue
+* Organization::REVENUE_LEVELS changed in 2013, but where possible the revenue was transferred to the new level
+<pre>
+Previous level                                  New level
+less than USD 25 million                     => less than USD 50 million
+between USD 25 million and 250 million blank => blank - company must reselect
+between USD 250 million and USD 1 billion    => between USD 250 million and USD 1 billion
+USD 1 billion or more                        => blank - company must reselect
+</pre>
+
 h1. 2013-04-17
 
 * Adding 'Global Compact' as a general issue area to the Principle model
