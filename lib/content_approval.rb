@@ -35,13 +35,6 @@ module ContentApproval
     self.approved_by = @current_contact if @current_contact
   end
 
-  def destroy
-    delete! # use the state machine
-    if respond_to?(:children)
-      (children || []).each { |child| child.destroy }
-    end
-  end
-
   # For convenience
   def revoked?
     previously?
