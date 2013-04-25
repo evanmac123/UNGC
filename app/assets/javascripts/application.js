@@ -16,8 +16,10 @@
 //= require admin
 //= require ckeditor/init
 //= require jquery.parsequery.min
-//= require tablesorter
+//= require jquery.tablesorter.min
 //= require jquery.tablesorter.pager
+//= require jquery.jeditable.mini
+//= require jquery.tree.min
 //= require_self
 //= require dashboard
 //= require page_editor
@@ -217,7 +219,7 @@ $(document).ready(function() {
     $(this).bind('mouseout', function() { makeChildrenInvisible(this.className) } );
   } );
 
-  $('select.autolink').change(function(e) {
+  $('select.autolink').live('change', function(e) {
     var select = $(e.target);
     var go = select.val();
     var anchor = window.location.hash;
@@ -245,7 +247,7 @@ $(document).ready(function() {
   $('form #business_only').live('click', showBusinessOnly);
   $('form #stakeholders_only').live('click', showStakeholdersOnly);
   $('form #hide_business_and_stakeholders').live('click', hideBusinessAndStakeholders);
-  $("#listing_status_id").change(function() {
+  $("#listing_status_id").live('change', function() {
     selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
     if (selected_listing_status == "Public Company") {
       $('.public_company_only').show();
@@ -255,13 +257,13 @@ $(document).ready(function() {
   })
 
   // hide and show sections for FAQs, titles and descriptions etc.
-  $(".hint_toggle").click(function(){
+  $(".hint_toggle").live('click', function(){
     $(this).next(".hint_text").slideToggle();
     $(this).toggleClass('selected');
   });
 
   // called from views/signup/step5.html.haml
-  $("#contact_foundation_contact").click(function() {
+  $("#contact_foundation_contact").live('click', function() {
     if ($('#errorExplanation').length > 0) {
       $('#errorExplanation').toggle();
     }

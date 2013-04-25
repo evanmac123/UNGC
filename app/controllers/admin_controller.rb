@@ -9,17 +9,20 @@ class AdminController < ApplicationController
   def dashboard
     if current_contact.from_ungc?
       pending_states = [Organization::STATE_PENDING_REVIEW, Organization::STATE_IN_REVIEW]
-      @pending_organizations = Organization.paginate(:conditions => ['state in (?)', pending_states],
-                                                     :order      => 'updated_at DESC',
-                                                     :page       => params[:organizations_page])
-      @pending_logo_requests = LogoRequest.paginate(:conditions => ['state in (?)', pending_states],
-                                                    :order      => 'updated_at DESC',
-                                                    :page       => params[:logo_requests_page],
-                                                    :include    => :organization)
-      @pending_case_stories = CaseStory.paginate(:conditions => ['state in (?)', pending_states],
-                                                 :order      => 'updated_at DESC',
-                                                 :page       => params[:case_stories_page],
-                                                 :include    => :organization)
+      @pending_organizations = Organization.paginate(
+        :conditions => ['state in (?)', pending_states],
+        :order      => 'updated_at DESC',
+        :page       => params[:organizations_page])
+      @pending_logo_requests = LogoRequest.paginate(
+        :conditions => ['state in (?)', pending_states],
+        :order      => 'updated_at DESC',
+        :page       => params[:logo_requests_page],
+        :include    => :organization)
+      @pending_case_stories = CaseStory.paginate(
+        :conditions => ['state in (?)', pending_states],
+        :order      => 'updated_at DESC',
+        :page       => params[:case_stories_page],
+        :include    => :organization)
       @pending_cops = CommunicationOnProgress.for_feed.paginate(:page => params[:cops_page])
       @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
                                                               :page  => params[:pages_page])
@@ -116,21 +119,17 @@ class AdminController < ApplicationController
     send(method_name, *arguments)
   end
 
-    def add_admin_js
-      (@javascript ||= []) << 'admin'
+  def redirect_non_approved_organizations
+    if current_contact.from_organization? and !current_contact.organization.approved?
+      redirect_to admin_organization_path current_contact.organization.id
     end
+  end
 
-    def redirect_non_approved_organizations
-      if current_contact.from_organization? and !current_contact.organization.approved?
-        redirect_to admin_organization_path current_contact.organization.id
-      end
-    end
+  def network_management_tab?
+    false
+  end
 
-    def network_management_tab?
-      false
-    end
-
-    def knowledge_sharing_tab?
-      false
-    end
+  def knowledge_sharing_tab?
+    false
+  end
 end

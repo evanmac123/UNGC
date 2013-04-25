@@ -1,9 +1,6 @@
 %h1 Participant Search
 
-= stylesheet_link_tag '/javascripts/tablesorter/addons/pager/jquery.tablesorter.pager.css'
-
 - if @results.any?
-
   %p
     == There #{@results.total_entries > 1 ?  'are' : 'is only'} #{searched_for}.
 

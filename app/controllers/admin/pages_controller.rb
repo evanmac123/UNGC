@@ -6,7 +6,6 @@ class Admin::PagesController < AdminController
   cache_sweeper :page_sweeper, :only => [ :approve, :destroy ]
 
   def index
-    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js' << 'jquery.tree.js'
     respond_to do |wants|
       wants.html { }
       wants.json { }
@@ -82,7 +81,6 @@ class Admin::PagesController < AdminController
 
   def edit
     @show_approve_button = true if current_contact.is? Role.website_editor
-    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     if request.xhr?
       render :json => {
         :page => {
