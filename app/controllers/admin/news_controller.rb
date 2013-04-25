@@ -3,7 +3,6 @@ class Admin::NewsController < AdminController
   before_filter :no_organization_or_local_network_access
   before_filter :find_headline,
     :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
-  before_filter :add_javascript, :only => [:create, :edit, :new, :update]
 
   def index
     @paged_headlines ||= Headline.paginate(:page  => params[:page],
@@ -60,9 +59,6 @@ class Admin::NewsController < AdminController
       redirect_to :action => 'index' unless @headline
     end
 
-    def add_javascript
-      (@javascript ||= []) << 'page_editor'
-    end
 
     def order_from_params
       @order = [params[:sort_field] || 'published_on', params[:sort_direction] || 'DESC'].join(' ')
