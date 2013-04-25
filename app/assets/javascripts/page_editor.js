@@ -114,6 +114,8 @@ var Editor = {
   }
 }
 
-if ($('.replace_with_editor').length == 1) {
-	replace_with_editor();
-}
+$(document).ready(function() {
+  if ($('.replace_with_editor').length == 1) {
+  	replace_with_editor();
+  }
+});
