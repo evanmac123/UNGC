@@ -20,7 +20,7 @@ UNGC::Application.routes.draw do
   match '/admin/cops/introduction'  => 'admin/cops#introduction', :as => :cop_introduction
 
   match '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing, :via => :get
-  match '/admin/local_network_resources', :controller => 'admin/local_networks#edit_resources', :as => :local_network_resources, :via => :get
+  match '/admin/local_network_resources' => 'admin/local_networks#edit_resources', :as => :local_network_resources, :via => :get
 
   # These need to come before resources :pages
   match '/admin/pages/:id/edit'   => 'admin/pages#edit', :as => :edit_page, :via => :get
