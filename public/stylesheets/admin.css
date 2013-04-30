@@ -999,7 +999,7 @@ ul.cop-question-year-filter li {
 #main_content span.business_peace {
   color: #453058; }
 #main_content dd.indent {
-  padding-left: 30px; }
+  padding-left: 18px; }
 #main_content dd:empty {
   min-height: 12px; }
 #main_content dd ul {
@@ -1046,7 +1046,7 @@ ul.cop-question-year-filter li {
   list-style-type: circle;
   list-style-image: url(/images/unchecked.png); }
 #main_content dd ul.self_assessment {
-  padding-left: 23px; }
+  padding-left: 18px; }
   #main_content dd ul.self_assessment li {
     border: none;
     white-space: normal; }
