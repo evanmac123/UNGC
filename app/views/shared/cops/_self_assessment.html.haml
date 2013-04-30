@@ -10,7 +10,7 @@
       Includes a measurement of outcomes
     - if communication_on_progress.evaluated_for_differentiation? && communication_on_progress.additional_questions? && communication_on_progress.meets_advanced_criteria
       %li{:class => select_answer_class(communication_on_progress.meets_advanced_criteria) }
-        Meets all 24 criteria for the GC Advanced level
+        Meets all criteria for the GC Advanced level
 - else
 
   %ul.questionnaire
@@ -22,4 +22,4 @@
   - if communication_on_progress.include_measurement?
     %li Includes a measurement of outcomes
   - if communication_on_progress.evaluated_for_differentiation? && communication_on_progress.additional_questions? && communication_on_progress.meets_advanced_criteria
-    %li Meets all 24 criteria for the GC Advanced level
+    %li Meets all criteria for the GC Advanced level
