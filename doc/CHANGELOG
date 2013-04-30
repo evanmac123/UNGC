@@ -1,3 +1,9 @@
+h1. 2013-04-30
+
+* We are hiding the coverage bars for Advanced COPs going forward since they no longer serve any useful purpose
+* Originally, the best practices under the four issue areas were exactly the same, so it made sense to have a direct visual comparison
+* Now that the best practices (cop_attributes) are different for each issue area, they are not qualitatively or quantitatively the same
+
 h1. 2013-04-24
 
 * Adding the ability to edit Organization.revenue
