@@ -490,7 +490,7 @@ td.center {
 span.business_peace { color: #453058; }
 
 #main_content dd:empty { min-height: 12px; }
-#main_content dd.indent { padding-left: 30px; }
+#main_content dd.indent { padding-left: 23px; }
 
 #main_content dd ul li, .copy dd ul li {
   margin: 10px 0 0 5px;

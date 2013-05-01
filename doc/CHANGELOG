@@ -1,3 +1,21 @@
+h1. 2013-04-30
+
+* We are hiding the coverage bars for Advanced COPs going forward since they no longer serve any useful purpose
+* Originally, the best practices under the four issue areas were exactly the same, so it made sense to have a direct visual comparison
+* Now that the best practices (cop_attributes) are different for each issue area, they are not qualitatively or quantitatively the same
+
+h1. 2013-04-24
+
+* Adding the ability to edit Organization.revenue
+* Organization::REVENUE_LEVELS changed in 2013, but where possible the revenue was transferred to the new level
+<pre>
+Previous level                                  New level
+less than USD 25 million                     => less than USD 50 million
+between USD 25 million and 250 million blank => blank - company must reselect
+between USD 250 million and USD 1 billion    => between USD 250 million and USD 1 billion
+USD 1 billion or more                        => blank - company must reselect
+</pre>
+
 h1. 2013-04-17
 
 * Adding 'Global Compact' as a general issue area to the Principle model

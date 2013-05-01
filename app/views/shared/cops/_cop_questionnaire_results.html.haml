@@ -1,27 +1,3 @@
-%dt
-  Issue Area Coverage
-  %br
-  (self-assessed)
-%dd
-  %ul.self_assessment
-    %li
-      %div.issue_coverage
-        - PrincipleArea::FILTERS.each_pair do |key, value|
-          - percent = percent_issue_area_coverage(communication_on_progress, key)
-          - if percent > 0
-            %span{:class => "#{issue_area_colour_for(value)}" }
-              %strong= value
-            %a{:href => "##{key}", :style => "text-decoration: none;"}
-              %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "#{show_issue_area_coverage(communication_on_progress, key)}"}
-                %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
-                  %div{:class => 'ui-progressbar-text'}
-                    == #{percent}%
-
-    - PrincipleArea::FILTERS.each_pair do |key, value|
-      - percent = percent_issue_area_coverage(communication_on_progress, key)
-      - if percent < 1
-        %li{:class => select_answer_class(false) }== No reported coverage for #{value}
-
 - if communication_on_progress.is_advanced_lead?
   - if communication_on_progress.cop_answers.by_group(:verification).count > 0
     %dt Verification<br />and Transparency
@@ -34,4 +10,28 @@
   = render :partial => '/shared/cops/cop_questionnaire_results_advanced_lead.html.haml', :locals => { :communication_on_progress => communication_on_progress }
 
 - else
+  %dt
+    Issue Area Coverage
+    %br
+    (self-assessed)
+  %dd
+    %ul.self_assessment
+      %li
+        %div.issue_coverage
+          - PrincipleArea::FILTERS.each_pair do |key, value|
+            - percent = percent_issue_area_coverage(communication_on_progress, key)
+            - if percent > 0
+              %span{:class => "#{issue_area_colour_for(value)}" }
+                %strong= value
+              %a{:href => "##{key}", :style => "text-decoration: none;"}
+                %div{:class => 'ui-progressbar ui-widget ui-widget-content ui-corner-all', :title => "#{show_issue_area_coverage(communication_on_progress, key)}"}
+                  %div{:style => "width: #{percent}%;", :class => "ui-progressbar-value ui-widget-header ui-corner-left ui-widget-header-#{issue_area_colour_for(value)}"}
+                    %div{:class => 'ui-progressbar-text'}
+                      == #{percent}%
+
+      - PrincipleArea::FILTERS.each_pair do |key, value|
+        - percent = percent_issue_area_coverage(communication_on_progress, key)
+        - if percent < 1
+          %li{:class => select_answer_class(false) }== No reported coverage for #{value}
+
   = render :partial => '/shared/cops/cop_questionnaire_results_advanced_blueprint.html.haml', :locals => { :communication_on_progress => communication_on_progress }
