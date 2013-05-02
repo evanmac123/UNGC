@@ -27,7 +27,8 @@ class LocalNetworkParticipantBreakdown < SimpleReport
       'Stock Code',
       'Exchange',
       'Expelled on',
-      'Readmitted on'
+      'Readmitted on',
+      'Member of Local Network'
     ]
   end
 
@@ -50,7 +51,8 @@ class LocalNetworkParticipantBreakdown < SimpleReport
     record.stock_symbol,
     record.exchange.try(:name),
     record.delisted_on.try(:to_date),
-    record.rejoined_on.try(:to_date)
+    record.rejoined_on.try(:to_date),
+    record.is_local_network_member
   ]
   end
 end
