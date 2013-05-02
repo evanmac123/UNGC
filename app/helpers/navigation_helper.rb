@@ -82,18 +82,20 @@ module NavigationHelper
   end
 
   def sections
-    @sections ||= PageGroup.for_navigation #.find(:all)
+    @sections ||= PageGroup.for_navigation
   end
 
   def top_nav_bar(section_children_content='')
     sections.each do |section|
-      section_link = content_tag(:a, convert_to_entities(section.name).html_safe, :href => section.visible_children.first.path) #link_to_first_child
-      children = section.visible_children.map do |child|
-        child_link = content_tag :a, child.title, :href => child.path
-        content_tag :li, child_link
-      end.join('').html_safe
-      insides = [section_link, content_tag(:ul, children, :class => 'children')].join('').html_safe
-      section_children_content << content_tag(:li, insides, :id => section.html_code, :class => section.html_code)
+      if section.visible_children.present?
+        section_link = content_tag(:a, convert_to_entities(section.name).html_safe, :href => section.visible_children.first.path) #link_to_first_child
+        children = section.visible_children.map do |child|
+          child_link = content_tag :a, child.title, :href => child.path
+          content_tag :li, child_link
+        end.join('').html_safe
+        insides = [section_link, content_tag(:ul, children, :class => 'children')].join('').html_safe
+        section_children_content << content_tag(:li, insides, :id => section.html_code, :class => section.html_code)
+      end
     end
     section_children_content << login_and_logout
     content_tag :ul, section_children_content.html_safe
