@@ -38,7 +38,7 @@ class Admin::PagesController < AdminController
     if @page.save
       respond_to do |wants|
         wants.html { flash[:notice] = "Page successfully created"; redirect_to :action => 'index' }
-        wants.js   { render :inline => {:page => @page.to_json} }
+        wants.js   { render json: @page }
       end
     else
       render :action => 'new'
