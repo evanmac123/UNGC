@@ -1,3 +1,10 @@
+h1. 2013-05-02
+
+* We need to urgently track which organizations are members of their Local Networks
+* Until networks can directly edit participant profiles, we will ask them to edit the participant breakdown report
+* If they return the spreadsheet, the is_local_network_member field can then be updated
+* The responses for is_local_network_member will need to be transferred to the new join table, since organizations can be members of more than one network
+
 h1. 2013-04-30
 
 * We are hiding the coverage bars for Advanced COPs going forward since they no longer serve any useful purpose

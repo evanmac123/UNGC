@@ -99,6 +99,18 @@ module Admin::OrganizationsHelper
     organization.country.try(:local_network) ? organization.country.try(:local_network).try(detail) : 'Unknown'
   end
 
+  def local_network_membership
+    # TODO: should be replaced with @organization.local_networks.any? when implemented
+    case @organization.is_local_network_member
+      when true
+        'Member'
+      when false
+        'Not a member'
+      else
+        'Unknown'
+    end
+  end
+
   # display organizations with similar names
   def duplicate_application(organization)
     if ThinkingSphinx.sphinx_running?
