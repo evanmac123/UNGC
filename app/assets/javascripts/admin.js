@@ -115,7 +115,7 @@ var Page = {
   finishedSaving: function(response) {
     if (Page.editMode) {
       var url = window.location.pathname;
-      var id = response.id;
+      var id = response.page.id;
       url = url.replace(/\/\d+\/edit/, '/'+id+'/edit');
       window.location.href = url;
     } else {

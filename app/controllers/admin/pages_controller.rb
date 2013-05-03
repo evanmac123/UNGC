@@ -3,7 +3,7 @@ class Admin::PagesController < AdminController
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:index, :new, :create, :edit, :update]
 
-  cache_sweeper :page_sweeper, :only => [ :approve, :destroy ]
+  cache_sweeper :page_sweeper, :only => [:approve, :destroy]
 
   def index
     respond_to do |wants|
