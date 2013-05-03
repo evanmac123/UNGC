@@ -206,7 +206,7 @@ $(document).ready(function() {
       dataType: 'json',
       success: function(json) {
         Editor.doneLoading();
-        Editor.create(json);
+        Editor.create(json.page);
       }
     });
     return false;

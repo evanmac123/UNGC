@@ -68,7 +68,7 @@ var Editor = {
       url: form.attr('action'),
       dataType: 'json',
       data: formData,
-      success: function(data) { Editor.postSave(data); }
+      success: function(data) { Editor.postSave(data.page); }
     };
     jQuery.ajax(ajaxOptions);
     return false;
