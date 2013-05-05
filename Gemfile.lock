@@ -60,7 +60,7 @@ GEM
       net-sftp (>= 2.0.0)
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
-    ckeditor (3.7.3)
+    ckeditor (4.0.4)
       mime-types
       orm_adapter
     cocaine (0.2.1)
@@ -109,7 +109,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     metaclass (0.0.1)
-    mime-types (1.21)
+    mime-types (1.23)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
     money (2.1.5)
@@ -222,7 +222,7 @@ DEPENDENCIES
   airbrake (~> 3.1.6)
   annotate (~> 2.5.0)
   capistrano
-  ckeditor (~> 3.7.3)
+  ckeditor (~> 4.0.4)
   coffee-rails (~> 3.2.1)
   custom_error_message!
   devise (~> 2.1.2)
