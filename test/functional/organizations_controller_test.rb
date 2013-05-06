@@ -8,7 +8,7 @@ class OrganizationsControllerTest < ActionController::TestCase
     end
 
     should "return an empty array if none exist" do
-      get :index, {}, :format => :json
+      get :index, :format => :json
       assert_response :success
       response = JSON.parse(@response.body)
       assert_equal [], response['organizations']
@@ -21,7 +21,7 @@ class OrganizationsControllerTest < ActionController::TestCase
       end
 
       should "properly represent response headers" do
-        get :index, {}, :format => :json
+        get :index, :format => :json
         assert_response :success
 
         assert_equal Organization.per_page.to_s, @response.headers['Per-Page']
@@ -30,7 +30,7 @@ class OrganizationsControllerTest < ActionController::TestCase
       end
 
       should "return an empty response" do
-        get :index, {}, :format => :json
+        get :index, :format => :json
 
         assert_response :success
         response = JSON.parse(@response.body)
@@ -54,7 +54,7 @@ class OrganizationsControllerTest < ActionController::TestCase
         end
 
         should "return related initiatives" do
-          get :index, {:initiative => 'human_rights'}, :format => :json
+          get :index, :initiative => 'human_rights', :format => :json
 
           assert_response :success
           response = JSON.parse(@response.body)
@@ -63,7 +63,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
         should "return default attributes" do
           default_attributes = ['id', 'name','sector_name', 'country_name', 'participant']
-          get :index, {:initiative => 'climate'}, :format => :json
+          get :index, :initiative => 'climate', :format => :json
 
           assert_response :success
           response = JSON.parse(@response.body)
@@ -73,14 +73,14 @@ class OrganizationsControllerTest < ActionController::TestCase
 
       context "with a page and per_page parameter" do
         should "return expected results" do
-          get :index, {:initiative => 'climate', :page => @page, :per_page => @per_page}, :format => :json
+          get :index, :initiative => 'climate', :page => @page, :per_page => @per_page, :format => :json
           assert_response :success
 
           assert_equal [], JSON.parse(@response.body)['organizations']
         end
 
         should "properly represent response headers" do
-          get :index, {:initiative => 'climate', :page => @page, :per_page => @per_page}, :format => :json
+          get :index, :initiative => 'climate', :page => @page, :per_page => @per_page, :format => :json
           assert_response :success
 
           assert_equal @per_page, @response.headers['Per-Page']
@@ -96,7 +96,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
         should "return expected attributes" do
           expected_attributes = @default_attributes.push("stock_symbol")
-          get :index, {:initiative => 'climate', :extras => "stock_symbol"}, :format => :json
+          get :index, :initiative => 'climate', :extras => "stock_symbol", :format => :json
           assert_response :success
 
           response = JSON.parse(@response.body)
@@ -111,7 +111,7 @@ class OrganizationsControllerTest < ActionController::TestCase
 
         should "return expected attributes" do
           expected_attributes = @default_attributes.push("local_network_name", "local_network_country_code")
-          get :index, {:initiative => 'climate', :extras => 'local_network_name,local_network_country_code'}, :format => :json
+          get :index, :initiative => 'climate', :extras => 'local_network_name,local_network_country_code', :format => :json
           assert_response :success
 
           response = JSON.parse(@response.body)
