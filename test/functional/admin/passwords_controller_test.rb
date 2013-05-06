@@ -38,7 +38,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
                                           :email           => 'finance@example.com',
                                           :role_ids        => [Role.financial_contact.id])
       @financial_contact.roles.delete(Role.contact_point)
-      @financial_contact.login, @financial_contact.password = nil
+      @financial_contact.username, @financial_contact.password = nil
       @financial_contact.save
     end
 

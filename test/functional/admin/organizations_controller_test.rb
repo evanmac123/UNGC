@@ -175,13 +175,13 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     end
 
     should "require delisted on date when being manually delisting" do
-      login_as @staff_user
+      sign_in @staff_user
       put :update, {:id => @organization.to_param, :organization => { :active => "0", :delisted_on => Date.today }}, as(@staff_user)
       assert_redirected_to admin_organization_path(@organization.id)
     end
 
     should "require delisted on date when being manually delisting" do
-      login_as @staff_user
+      sign_in @staff_user
       put :update, {:id => @organization.to_param, :organization => { :active => "0" }}, as(@staff_user)
       assert :success
     end

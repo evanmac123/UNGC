@@ -342,7 +342,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
       @second_cop.update_attribute :created_at, Date.new(2012,03,01)
       @third_cop.update_attribute  :created_at, Date.new(2013,03,01)
-      login_as @organization_user
+      sign_in @organization_user
     end
     should "not identify them as triple_learner_for_one_year" do
       assert !@organization.triple_learner_for_one_year?
