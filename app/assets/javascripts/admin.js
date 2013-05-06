@@ -120,7 +120,7 @@ var Page = {
       window.location.href = url;
     } else {
       console.log("not using edit mode");
-      Page.updateNode(response); // needs to happen before Page.selected is cleared
+      Page.updateNode(response.page); // needs to happen before Page.selected is cleared
       Page.initialize(Page.selected);
       $('#pageArea').removeClass('loading');
     }
