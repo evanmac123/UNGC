@@ -89,12 +89,12 @@ class CopMailerTest < ActionMailer::TestCase
      should "send triple Learner alert and copy Participant Manager" do
        assert @organization.triple_learner_for_one_year?
 
-       response = CopMailer.send("deliver_confirmation_#{@third_cop.confirmation_email}",
+       response = CopMailer.send("confirmation_#{@third_cop.confirmation_email}",
                                  @organization,
                                  @third_cop,
-                                 @organization_user)
+                                 @organization_user).deliver
 
-       assert_equal "text/html", response.content_type
+       assert_equal "text/html; charset=UTF-8", response.content_type
        assert_equal "UN Global Compact Status - Non-Communicating due to exceeded Learner Grace Period", response.subject
        assert_equal @organization_user.email, response.to.first
        assert_contains response.cc, @organization.participant_manager_email
