@@ -43,8 +43,8 @@ class CopMailer < ActionMailer::Base
     @user         = user
 
     mail \
-      :to      => user.email_recipient
-      :from    => 'cop@unglobalcompact.org'
+      :to      => user.email_recipient,
+      :from    => 'cop@unglobalcompact.org',
       :subject => "UN Global Compact Status - Non-Communicating due to exceeded Learner Grace Period"
   end
 
