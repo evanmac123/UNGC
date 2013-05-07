@@ -210,7 +210,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def can_be_edited?
     unless self.editable?
-      errors.add :base,("You can no longer edit this COP. Please, submit a new one.")
+      errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
     end
   end
 
@@ -507,9 +507,9 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-      case error
-        when 'cop_files.attachment'
+    errors.each do |attribute|
+      case attribute.to_s
+        when 'cop_files.attachment_file_name'
           error_messages << 'Choose a file to upload'
         when 'cop_files.language'
           error_messages << 'Select a language for each file'

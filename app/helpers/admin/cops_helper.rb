@@ -110,7 +110,7 @@ module Admin::CopsHelper
 
   def display_errors_for_cop(cop)
      error_messages = cop.readable_error_messages.map { |error| content_tag :li, error }
-     content_tag :ol, error_messages.join
+     content_tag :ol, error_messages.join.html_safe
   end
 
   def select_answer_class(item)
