@@ -111,7 +111,7 @@ module AdminHelper
 
   def display_readable_errors(object)
      error_messages = object.readable_error_messages.map { |error| content_tag :li, error }
-     content_tag :ul, error_messages.join
+     content_tag :ul, error_messages.join.html_safe
   end
 
   def popup_link_to(text, url, options={})

@@ -32,11 +32,11 @@ class Meeting < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-      case error
-        when 'date'
+    errors.each do |attribute|
+      case attribute
+        when :date
           error_messages << 'Select a date'
-        when 'file'
+        when :file
           error_messages << 'Choose a file to upload'
        end
     end
