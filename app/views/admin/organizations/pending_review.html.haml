@@ -9,6 +9,7 @@
         %th= sort_header 'ID', field: 'id'
         %th= sort_header 'Name', field: 'name'
         %th= sort_header 'Submitted on', field: 'created_at'
+        %th= sort_header 'Relationship Manager', field: 'contacts.first_name', direction: 'ASC'
         %th Status
         %th Actions
 
@@ -22,6 +23,7 @@
             =h organization.created_at
             %br/
             %span.small= display_days_ago(organization.created_at)
+          %td=h organization.participant_manager_name
           %td=h organization.state.humanize
           %td
             %ul.actions
