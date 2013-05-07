@@ -80,7 +80,7 @@ class Admin::OrganizationsController < AdminController
                                         :per_page => Organization.per_page)
           method
         when 'pending_review'
-          @organizations = Organization.send(method).all(:order => order_from_params)
+          @organizations = Organization.send(method).all(:include => [:participant_manager], :order => order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           flash.now[:error] = "Notice: the search index is being updated. Matching organization names are not being listed. Please check again in a few minutes."  unless ThinkingSphinx.sphinx_running?
