@@ -21,6 +21,7 @@
 //= require jquery.jeditable.mini
 //= require jquery.tree.min
 //= require_self
+//= require cop_form
 //= require dashboard
 //= require page_editor
 
