@@ -20,7 +20,7 @@ gem 'annotate',             '~> 2.5.0'
 gem 'fixture_replacement',              :git => 'git://github.com/smtlaissezfaire/fixturereplacement.git', :branch => 'master'
 gem 'custom_error_message',             :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
 gem 'airbrake',             '~> 3.1.6'
-gem 'devise',               '~> 2.1.2'
+gem 'devise',               '~> 2.2.4'
 gem 'dynamic_form',         '1.0.0'
 
 group :assets do
