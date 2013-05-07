@@ -185,14 +185,13 @@ class LocalNetwork < ActiveRecord::Base
   def readable_error_messages
     error_messages = []
     fee_error_messages = ''
-    errors.each do |error|
-
-      if NUMERIC.include?(error.to_sym)
+    errors.each do |attribute|
+      if NUMERIC.include?(attribute)
         fee_error_messages = 'Please use whole numbers without decimals or commas'
       end
 
-      case error
-        when 'url'
+      case attribute
+        when :url
           error_messages << 'Please provide a website address in the format http://organization.org'
         end
     end
