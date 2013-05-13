@@ -76,8 +76,10 @@
     -staff_only do
       %dl.left_column
         %h3 Local Network
-        %dt.first Status
-        %dd.first= local_network_detail(@organization, :state).titleize
+        %dt.first Membership Status
+        %dd.first= local_network_membership
+        %dt Network Status
+        %dd= local_network_detail(@organization, :state).titleize
         %dt Name
         %dd= local_network_detail(@organization, :name)
         %dt Report Recipients

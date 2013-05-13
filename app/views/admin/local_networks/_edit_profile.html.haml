@@ -1,7 +1,53 @@
-%h2 Editing Website Address
+%h2 Editing Online Profile
 - if default_form.error_messages.present?
   %div{:class => 'flash error'}= display_readable_errors(@local_network)
-%fieldset
-  %legend Website Address
-  %p A link to your website will appear in your Local Network's public profile. Please enter an address in the format http://organization.org
-  = default_form.text_field :url, :label => 'Address'
+
+%p Create your Local Network's online profile by sharing links and usernames for your website and social media.
+
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#profile">Profile</a>
+    %li <a href="#social_media">Creating usernames</a>
+
+  #profile.tab_content
+    %fieldset
+      %legend Website address
+      %p A link to your website will appear in your Local Network's public profile. Please enter an address in the format http://organization.org
+      %ol= default_form.text_field :url, :label => 'Enter full address'
+
+    %fieldset
+      %legend Facebook username
+      %ol= default_form.text_field :facebook, :label => 'http://facebook.com/'
+
+    %fieldset
+      %legend Twitter username
+      %ol= default_form.text_field :twitter, :label => 'http://twitter.com/'
+
+    %fieldset
+      %legend LinkedIn username
+      %ol= default_form.text_field :linkedin, :label => 'http://linkedin.com/in/'
+
+  #social_media.tab_content
+    %h4.social.facebook Facebook
+    %p== For setting or retrieving your username refer Facebook's guide on #{popup_link_to 'Your Facebook Address.', 'http://www.facebook.com/help/329992603752372/'}
+    %ol.numbered
+      %li Click the 'gear' icon at the top right of any Facebook page and choose <strong>Account Settings</strong>
+      %li Click General in the left-hand column
+      %li Look for the setting <strong>Username</strong> and click <strong>Edit</strong> to the far right
+      %li Type your new username in the open field and click <strong>Save Changes</strong>
+
+    %h4.social.twitter Twitter
+    %p== Refer to Twitter's guide on #{popup_link_to 'How to Change Your Username', 'https://support.twitter.com/articles/14609-how-to-change-your-username'}, or follow these steps:
+    %ol.numbered
+      %li Log in to Twitter.com and visit your account settings pages from the dropdown menu in the top right corner.
+      %li On your account settings page, change the username listed in your username field.
+      %li If the username is taken, you'll be prompted to choose another one.
+      %li Click Save changes at the bottom of the page.
+
+    %h4.social.linkedin LinkedIn
+    %p== Change the username for your LinkedIn account through your #{popup_link_to 'Public Profile', 'http://learn.linkedin.com/profiles/#public_profile'}, or follow these steps:
+    %ol.numbered
+      %li Go to <strong>Settings</strong> and click "Edit your public profile".
+      %li In the "Your public profile URL" box on the right, click the "Customize your public profile URL" link.
+      %li Type the last part of your new custom URL in the text box.
+      %li Click Set <strong>Custom URL</strong>.

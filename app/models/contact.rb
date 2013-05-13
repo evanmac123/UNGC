@@ -212,6 +212,10 @@ class Contact < ActiveRecord::Base
     local_network_id?
   end
 
+  def belongs_to_network?(network)
+    local_network_id? && local_network == network
+  end
+
   def from_network_guest?
     organization_id? && organization.name == DEFAULTS[:local_network_guest_name]
   end
@@ -312,16 +316,12 @@ class Contact < ActiveRecord::Base
     def do_not_allow_last_contact_point_to_uncheck_role
       if self.from_organization? && self.organization.participant && self.organization.contacts.contact_points.count < 1
         self.roles << Role.contact_point
-        errors.add :base, "There should be at least one Contact Point"
-        return false
       end
     end
 
     def do_not_allow_last_ceo_to_uncheck_role
       if self.from_organization? && self.organization.participant && !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
         self.roles << Role.ceo
-        errors.add :base, "There should be at least one Highest Level Executive"
-        return false
       end
     end
 

@@ -161,7 +161,10 @@ class Organization < ActiveRecord::Base
     :microenterprise      => 'Micro Enterprise - Verify Employees',
     :organization_type    => 'Organization Type',
     :organization_name    => 'Organization Name',
-    :base_operations      => 'Base of Operations'
+    :base_operations      => 'Base of Operations',
+    :ngo_verification     => 'NGO Verification',
+    :purpose_activity     => 'Purpose & Activities',
+    :logo_misuse          => 'Logo Misuse'
   }
 
   state_machine :cop_state, :initial => :active do

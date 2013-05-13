@@ -1,3 +1,50 @@
+h1. 2013-05-02
+
+* We need to urgently track which organizations are members of their Local Networks
+* Until networks can directly edit participant profiles, we will ask them to edit the participant breakdown report
+* If they return the spreadsheet, the is_local_network_member field can then be updated
+* The responses for is_local_network_member will need to be transferred to the new join table, since organizations can be members of more than one network
+
+h1. 2013-04-30
+
+* We are hiding the coverage bars for Advanced COPs going forward since they no longer serve any useful purpose
+* Originally, the best practices under the four issue areas were exactly the same, so it made sense to have a direct visual comparison
+* Now that the best practices (cop_attributes) are different for each issue area, they are not qualitatively or quantitatively the same
+
+h1. 2013-04-24
+
+* Adding the ability to edit Organization.revenue
+* Organization::REVENUE_LEVELS changed in 2013, but where possible the revenue was transferred to the new level
+<pre>
+Previous level                                  New level
+less than USD 25 million                     => less than USD 50 million
+between USD 25 million and 250 million blank => blank - company must reselect
+between USD 250 million and USD 1 billion    => between USD 250 million and USD 1 billion
+USD 1 billion or more                        => blank - company must reselect
+</pre>
+
+h1. 2013-04-17
+
+* Adding 'Global Compact' as a general issue area to the Principle model
+* For Local Network events, people are simply checking every single issue when they gave a general Global Compact event
+* This makes searching less useful when you search for 'Labour' and you get a list of general events that don't specifically cover that topic
+* We will remap Local Network events that have every issue selected as 'Global Compact'
+
+h1. 2013-04-15
+
+* Local Networks to submit announcements for upcoming events
+* These are not meant to be like local_networks_events, just the basic time, place and location
+* After the event Local Networks are still expected to submit a proper event with files etc.
+* Created new CSS style to display issue area colour next to issue name: ul.issues_covered
+
+h1. 2013-04-11
+
+* Creating new Annual Report model for Local Networks, a type of yearly COP for networks
+* These work like the other submodels of Local Networks (mous, communications, meetings, integrity_measures, awards)
+* Move all Communications with type 'Annual Report' to this model
+<pre>Communication.find(:all, :conditions => {:communication_type => 'annual_report' })</pre>
+* Then remove that type from Communications
+
 h1. 2013-04-08
 
 * Continuing to add the Dashboard accessible Local Network Resources pages

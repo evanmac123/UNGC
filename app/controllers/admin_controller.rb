@@ -29,6 +29,7 @@ class AdminController < ApplicationController
     elsif current_contact.from_network?
       @local_network = current_contact.local_network
       @organizations = Organization.visible_to(current_contact)
+      @announcements = Announcement.all
 
     elsif current_contact.from_organization?
       @organization = current_contact.organization

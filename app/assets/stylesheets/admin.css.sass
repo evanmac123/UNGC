@@ -15,6 +15,7 @@ $anti_corruption: #ED1C24
 $business_peace: #453058
 $dark_blue: #14546f
 $light_blue: #FCFCFF
+$link_text = #2993A5
 $dark_grey: #333
 $medium_grey: #666
 $light_grey: #f2f2f2
@@ -25,13 +26,13 @@ body
   background: #eee
 
 a
-  color: $dark_blue
+  color= $link_text
   text-decoration: none
   &:hover
     color: $dark_blue
     text-decoration: underline
   &:visited
-    color: $dark_blue
+    color= $link_text
 
 .container
   background: #fff
@@ -67,7 +68,6 @@ ul.inline
   li
     list-style: none
     float: left
-
   a
     display: block
 
@@ -145,10 +145,11 @@ ul.nav_bar
   p
     line-height: 1.4em
 
-  ul.bulleted
-    margin-left: 2em
+  ul.bulleted, ol.numbered
+    margin: 0 0 2em 3em
     li
-      line-height: 1.4em
+      list-style-type: decimal
+      line-height: 1.5em
 
   h2
     margin-bottom: 1em
@@ -161,8 +162,21 @@ ul.nav_bar
     &.button_label
       margin-top: 3px
 
-  h4
-    color: $dark_blue
+  h4, a.dark_blue
+    color = $dark_blue
+    font-weight: bold
+    &.social
+      padding: 12px 0 10px 32px
+    &.profile
+      background: transparent url('../assets/icons/Web_UNGC_24x24.png') no-repeat 0px 5px
+    &.website
+      background: transparent url('../assets/icons/Web_External_24x24.png') no-repeat 0px 5px
+    &.facebook
+      background: transparent url('../assets/icons/Facebook_24x24.png') no-repeat 0px 5px
+    &.twitter
+      background: transparent url('../assets/icons/Twitter_24x24.png') no-repeat 0px 5px
+    &.linkedin
+      background: transparent url('../assets/icons/LinkedIn_24x24.png') no-repeat 0px 5px
 
   a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large, a.folder_large, a.search_large, a.new_org, a.zip_file_large, a.guest_large
     display: block
@@ -270,6 +284,11 @@ ul.nav_bar
         &.none
           text-indent: 0px
   ul.issues_covered, dd.issue_list ul.issues_covered
+    li.labeled
+      background-position: left center
+      padding-left: 20px
+    li.global_compact
+      background-image: url('../assets/icons/issue_icon_un_business.png')
     li.human_rights
       background-image: url('../assets/icons/issue_icon_human_rights.png')
     li.labour
@@ -419,15 +438,28 @@ ul.nav_bar
         border-top-style: dotted
         font-weight: normal
         padding: 10px 0 10px 20px
-      &.first, &.title
+      &.first, &.title, &.social
         border: none
+      &.social a
+        padding: 10px 0 10px 32px
+        font-weight: normal
+      &.profile a
+        background: transparent url('../assets/icons/Web_UNGC_24x24.png') no-repeat 0px 5px
+      &.website a
+        background: transparent url('../assets/icons/Web_External_24x24.png') no-repeat 0px 5px
+      &.facebook a
+        background: transparent url('../assets/icons/Facebook_24x24.png') no-repeat 0px 5px
+      &.twitter a
+        background: transparent url('../assets/icons/Twitter_24x24.png') no-repeat 0px 5px
+      &.linkedin a
+        background: transparent url('../assets/icons/LinkedIn_24x24.png') no-repeat 0px 5px
 
     dd
       white-space: normal
       margin-left: 150px
       padding: 10px 10px 10px 0
       border-top: 1px solid #999
-      &.first, &.title
+      &.first, &.title, &.social
         border: none
       &.title
         font-size: 130%
@@ -606,7 +638,7 @@ ul.nav_bar
       padding-left: 2em
 
   ul.tools
-    border-bottom: 1px solid #999
+    border-bottom: none
     margin-bottom: 0.5em
     padding-bottom: 0.5em
 
@@ -800,7 +832,7 @@ ul.nav_bar
       p.question_text
         margin-top: 1em
 
-      // divs for COP form text
+      // divs for form text
       div.hint_toggle
         color: $dark_blue
         font-weight: bold

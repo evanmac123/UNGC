@@ -17,7 +17,7 @@ class RemovalReason < ActiveRecord::Base
      :not_applicable   => 'Not applicable',
      :requested        => 'Participant requested withdrawal',
      :dialogue         => 'Failure to engage in dialogue',
-     :blacklisted      => 'Removed due to Blacklisting'
+     :blacklisted      => 'Removed due to suspension or removal from the UN vendor list'
   }
 
   def self.for_filter(filter_types)

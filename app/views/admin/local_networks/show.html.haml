@@ -19,6 +19,7 @@
     %li <a href="#fees_contributions">Fees</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
     %li <a href="#mous">Memorandum of Understanding</a>
+    %li <a href="#annual_reports">Annual Reports</a>
 
   - if current_contact_can_edit_network?
     #contacts.tab_content
@@ -30,25 +31,30 @@
 
   #profile.tab_content
     %ul#tools{:class => "tools inline"}
-      %li= dashboard_link_to_public_profile(@local_network)
       - if current_contact_can_edit_network?
-        %li= link_to 'Edit Website Address', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_page_large'
+        %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_large'
+    - unless current_user.belongs_to_network?(@local_network)
+      %dl.left_column
+        %h3 Status
+        %dt.first Local Network
+        %dd.first= @local_network.name
+        %dt Development Stage
+        %dd= @local_network.humanize_state
+
+      %dl.left_column
+        %h3 Contacts
+        %dt.first Representative
+        %dd.first= render :partial => 'contact_overview', :collection => @local_network.contacts.network_representatives
+        %dt Contact Person
+        %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
 
     %dl.left_column
-      %h3 Profile
-      %dt.first Local Network
-      %dd.first= @local_network.name
-      %dt Development Stage
-      %dd= @local_network.humanize_state
-      %dt Website Address
-      %dd= @local_network.url.present? ? link_to(@local_network.url, @local_network.url) : 'Not provided'
-
-    %dl.left_column
-      %h3 Contacts
-      %dt.first Representative
-      %dd.first= render :partial => 'contact_overview', :collection => @local_network.contacts.network_representatives
-      %dt Contact Person
-      %dd= render :partial => 'contact_overview', :collection => @local_network.contacts.network_contacts
+      %h3 Online
+      = link_to_social_media @local_network, 'profile',  'Public profile on the Global Compact website'
+      = link_to_social_media @local_network, 'website',  @local_network.url
+      = link_to_social_media @local_network, 'facebook', 'Facebook'
+      = link_to_social_media @local_network, 'twitter',  'Twitter'
+      = link_to_social_media @local_network, 'linkedin', 'LinkedIn'
 
   #structure.tab_content
     - if current_contact_can_edit_network?
@@ -206,3 +212,17 @@
         - if current_contact_can_edit_network?
           %th.actions Actions
       = render @local_network.mous
+
+  #annual_reports.tab_content
+    - if current_contact_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Annual Report', new_admin_local_network_annual_report_path(@local_network), :class => "new_large"
+    %table.dashboard_table
+      %tr
+        %th Year
+        %th Received on
+        %th Document
+        - if current_user_can_edit_network?
+          %th.actions Actions
+      = render @local_network.annual_reports
+

@@ -9,14 +9,14 @@
 #  updated_at :datetime
 #  type       :string(255)
 #  parent_id  :integer(4)
-#
 
 class Principle < ActiveRecord::Base
   validates_presence_of :name
   has_and_belongs_to_many :communication_on_progresses
   acts_as_tree
 
-  TYPE_NAMES = { :human_rights         => "Human Rights",
+  TYPE_NAMES = { :global_compact       => "Global Compact",
+                 :human_rights         => "Human Rights",
                  :labour               => "Labour",
                  :environment          => "Environment",
                  :anti_corruption      => "Anti-Corruption",

@@ -17,6 +17,7 @@ class ParticipantBreakdownReport < SimpleReport
       'Company Name',
       'Sector',
       'Number of Employees',
+      'Revenue',
       'FT500',
       'Region',
       'COP Status',
@@ -31,7 +32,8 @@ class ParticipantBreakdownReport < SimpleReport
       'Stock Code',
       'Exchange',
       'Expelled on',
-      'Readmitted on'
+      'Readmitted on',
+      'Member of Local Network'
     ]
   end
 
@@ -44,6 +46,7 @@ class ParticipantBreakdownReport < SimpleReport
     record.name,
     record.sector_name,
     record.employees,
+    record.revenue_description,
     record.is_ft_500,
     record.region_name,
     record.cop_state.titleize,
@@ -58,7 +61,8 @@ class ParticipantBreakdownReport < SimpleReport
     record.stock_symbol,
     record.exchange.try(:name),
     record.delisted_on.try(:to_date),
-    record.rejoined_on.try(:to_date)
+    record.rejoined_on.try(:to_date),
+    record.is_local_network_member
   ]
   end
 end

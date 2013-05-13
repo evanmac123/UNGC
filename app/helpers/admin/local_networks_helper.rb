@@ -6,7 +6,18 @@ module Admin::LocalNetworksHelper
     else
       link = "/NetworksAroundTheWorld/"
     end
-    popup_link_to 'View', link , {:title => "Public profile on the Global Compact website", :class => 'web_preview_large'}
+  end
+
+  def link_to_social_media(local_network, link, title)
+    if link == 'profile'
+      url = popup_link_to 'Global Compact Profile', link_to_public_profile(local_network)
+    elsif link == 'website'
+      url = popup_link_to 'Local Network Website', local_network.url if local_network.url.present?
+    elsif local_network.send(link.to_s).send("present?")
+      param = link == 'linkedin' ? 'in/' : '' # linkedin.com/in/username
+      url = popup_link_to local_network.send(link.to_s), "http://#{link}.com/#{param}" + local_network.send(link.to_s)
+    end
+    content_tag(:dt, url, :class => "social #{link.to_s}", :title => title) if url
   end
 
   def legal_status(local_network)
@@ -67,4 +78,28 @@ module Admin::LocalNetworksHelper
     end
   end
 
+  def link_to_region_list(local_network)
+    html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region), :class => 'dark_blue'
+    html += "&nbsp;&nbsp;&#x25BA;&nbsp;"
+  end
+
+  def section_or_page_icon(page)
+    if page.parent_id.present?
+      image_tag "icons/Document_24x24.png", :title => "Page"
+    else
+      image_tag "icons/Folder (Open)_24x24.png", :title => "Section"
+    end
+  end
+
+  def pending_or_approved_icon(page)
+    if page == 'pending'
+      image_tag "icons/Document_Edit_18x18.png"
+    else
+      image_tag "icons/Rate (Thumbs Up)_16x16.png"
+    end
+  end
+
+  def announcement_count
+    @announcements.count > 0 ? "(#{@announcements.count})" : ''
+  end
 end

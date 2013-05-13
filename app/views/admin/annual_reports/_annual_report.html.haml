@@ -1,0 +1,10 @@
+%tr
+  %td= annual_report.year.year
+  %td= annual_report.created_at
+  %td= link_to_uploaded_file(annual_report.file)
+  - if current_user_can_edit_network?
+    %td
+      %ul.actions
+        %li= link_to 'Edit', edit_submodel_path(annual_report), :class => 'edit', :title => 'Edit Annual Report details'
+        %li= link_to 'Delete', submodel_path(annual_report), :confirm => 'Are you sure you want to delete this Annual Report?', :method => :delete, :class => 'delete', :title => 'Delete Annual Report'
+

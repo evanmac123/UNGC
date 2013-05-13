@@ -3,7 +3,7 @@ To all Contact Points for
 
 %p== Our records show that your company has not submitted a #{link_to 'Communications on Progress (COP)', 'http://unglobalcompact.org/COP/' } by its two previous deadlines. Therefore, your company has exceeded the period in which a participant can remain within the initiative before facing expulsion and being listed in the #{link_to 'Expelled Participants', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html' } section in our public website.
 
-%p==With the purpose of supporting all SMEs in their sustainability efforts and encouraging your company to continue its engagement with the Global Compact, we will grant you an additional period to submit a COP according to the commitment companies acquire when joining the Global Compact. Your COP must be submitted by <strong>#{dd_month_yyyy @organization.cop_due_on + 1.year}</strong> to avoid being expelled from the initiative.
+%p==With the purpose of supporting all SMEs in their sustainability efforts and encouraging your company to continue its engagement with the Global Compact, we will grant you an additional period to submit a COP according to the commitment companies acquire when joining the Global Compact. Your COP should have been submitted by <strong>#{dd_month_yyyy @organization.cop_due_on - 1.year}</strong> and the expulsion should have taken place on <strong>#{dd_month_yyyy @organization.cop_due_on}</strong>. To avoid being expelled from the initiative, please submit your COP at your earliest convenience.
 
 %p To ensure that your next COP fulfills all requirements, we urge you to take advantage of relevant guidance developed by our office (listed below).
 
