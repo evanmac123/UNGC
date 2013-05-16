@@ -9,10 +9,10 @@
       %th Annual contribution
     %tr
       %td.revenue
-        = form.radio_button :pledge_amount, 0, { :checked => @checked_pledge_amount[1], :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_0", "Less than USD 50 million", :class => @suggested_pledge_amount[1]
+        = form.radio_button :pledge_amount, 100, { :checked => @checked_pledge_amount[1], :class => 'fixed_pledge' }
+        = label_tag "organization_pledge_amount_100", "Less than USD 50 million", :class => @suggested_pledge_amount[1]
       %td
-        = label_tag "organization_pledge_amount_0", "Any amount *", :class => @suggested_pledge_amount[1]
+        = form.select :pledge_amount, Organization::MINIMUM_PLEDGE_LEVELS.invert, {}, :disabled => !@checked_pledge_amount[1]
     %tr
       %td.revenue
         = form.radio_button :pledge_amount, 5000, { :checked => @checked_pledge_amount[2], :class => 'fixed_pledge' }
@@ -37,5 +37,3 @@
         = label_tag "organization_pledge_amount_15000_1", "USD 10 billion or more", :class => @suggested_pledge_amount[5]
       %td
         = label_tag "organization_pledge_amount_15000_1", "USD 15,000+", :class => @suggested_pledge_amount[5]
-
-%p.note * You will receive an invoice to complete payment
