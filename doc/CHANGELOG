@@ -1,3 +1,9 @@
+h1. 2013-05-16
+
+* During the application process, companies were selecting the 'Any amount' option and not following up with a contribution after they received the invoice / reminder
+* That option was replaced with a select menu with predefined amounts from Organization::MINIMUM_PLEDGE_LEVELS
+* The minimum for Organization.pledge_amount is now USD 100
+
 h1. 2013-05-02
 
 * We need to urgently track which organizations are members of their Local Networks
