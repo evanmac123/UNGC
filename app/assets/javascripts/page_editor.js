@@ -31,7 +31,6 @@ function replace_with_editor(){
      resize_minWidth: 300,
      resize_maxWidth: 600,
   });
-  $('#cke_headline_description').css('margin-left', '175px');
 }
 
 // Mostly used on front-end, click-to-edit areas
