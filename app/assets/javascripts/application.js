@@ -245,6 +245,13 @@ $(document).ready(function() {
     $(this).toggleClass('selected');
   });
 
+  // called from views/signup/pledge_form.html.haml
+  // disable select if amount is chosen
+  $('.fixed_pledge').click(function() {
+    result = (this.id != 'organization_pledge_amount_100')
+    $("#organization_pledge_amount").attr('disabled', result);
+  });
+
   // called from views/signup/step5.html.haml
   $("#contact_foundation_contact").live('click', function() {
     if ($('#errorExplanation').length > 0) {
@@ -252,7 +259,6 @@ $(document).ready(function() {
     }
     $('#contact_form').toggle();
   });
-
   $('a[data-popup]').live('click', function(e) {
       window.open(this.href, 'newWindow', 'left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1');
       e.preventDefault();

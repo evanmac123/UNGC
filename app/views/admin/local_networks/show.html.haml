@@ -222,6 +222,17 @@
         %th Year
         %th Received on
         %th Document
+          %th.actions Actions
+
+  #annual_reports.tab_content
+    - if current_user_can_edit_network?
+      %ul{:class => "tools inline"}
+        %li= link_to 'New Annual Report', new_admin_local_network_annual_report_path(@local_network), :class => "new_large"
+    %table.dashboard_table
+      %tr
+        %th Year
+        %th Received on
+        %th Document
         - if current_user_can_edit_network?
           %th.actions Actions
       = render @local_network.annual_reports

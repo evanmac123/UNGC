@@ -143,11 +143,22 @@ class Organization < ActiveRecord::Base
 
   # suggested pledge level corresponds to revenue level
   PLEDGE_LEVELS = {
-    1 => 0,
+    1 => 100,
     2 => 5000,
     3 => 10000,
     4 => 15000,
     5 => 15000
+  }
+
+  MINIMUM_PLEDGE_LEVELS = {
+    100  => 'USD 100',
+    250  => 'USD 250',
+    500  => 'USD 500',
+    1000 => 'USD 1000',
+    2000 => 'USD 2000',
+    2500 => 'USD 2500',
+    3000 => 'USD 3000',
+    4000 => 'USD 4000'
   }
 
   # identify why an organization is being reviewed
