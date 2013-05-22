@@ -33,7 +33,7 @@
     %ul#tools{:class => "tools inline"}
       - if current_contact_can_edit_network?
         %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :profile), :class => 'edit_large'
-    - unless current_user.belongs_to_network?(@local_network)
+    - unless current_contact.belongs_to_network?(@local_network)
       %dl.left_column
         %h3 Status
         %dt.first Local Network
@@ -222,18 +222,6 @@
         %th Year
         %th Received on
         %th Document
-          %th.actions Actions
-
-  #annual_reports.tab_content
-    - if current_user_can_edit_network?
-      %ul{:class => "tools inline"}
-        %li= link_to 'New Annual Report', new_admin_local_network_annual_report_path(@local_network), :class => "new_large"
-    %table.dashboard_table
-      %tr
-        %th Year
-        %th Received on
-        %th Document
-        - if current_user_can_edit_network?
+        - if current_contact_can_edit_network?
           %th.actions Actions
       = render @local_network.annual_reports
-

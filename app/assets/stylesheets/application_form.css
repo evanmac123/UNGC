@@ -1,4 +1,4 @@
- #main_content input.button {
+#main_content input.button {
   margin: 10px 0 0 520px;
   clear: both;
 }
@@ -92,7 +92,6 @@
     color: #00546E;
     font-weight: bold;
   }
-    
 
     #main_content fieldset.pledge table.pledge_amounts th {
     padding-bottom: 15px;
@@ -100,11 +99,6 @@
 
   #main_content fieldset.pledge table.pledge_amounts td.revenue {
     padding-right: 100px;
-  }
-
-  #main_content p.note {
-    color: #666;
-    padding-top: 1em;
   }
 
   #main_content #check_contact {
@@ -126,7 +120,7 @@
 
 /* Error for flash messages */
 #main_content .errorExplanation { color: #A00; }
-#main_content div.field_with_errors input {border: 1px solid #EB7272;}
+#main_content div.fieldWithErrors input {border: 1px dotted #A00;}
 
 #search { position: absolute; top: 36px; left: 682px; width: auto; }
 #search .search_box { width: 210px; height: 2em; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}

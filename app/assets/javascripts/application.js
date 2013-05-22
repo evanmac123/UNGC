@@ -247,7 +247,7 @@ $(document).ready(function() {
 
   // called from views/signup/pledge_form.html.haml
   // disable select if amount is chosen
-  $('.fixed_pledge').click(function() {
+  $('.fixed_pledge').live('click', function() {
     result = (this.id != 'organization_pledge_amount_100')
     $("#organization_pledge_amount").attr('disabled', result);
   });
