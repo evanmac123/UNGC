@@ -1,6 +1,6 @@
 %h2 Reset your password
 
-- if flash[:error]
+- if flash[:error] || flash[:alert]
   %h3 Why could you not find my username?
 
   %ul
@@ -22,6 +22,6 @@
     %ol
       %li
         = f.label :email
-        = f.text_field :email
+        = f.email_field :email, :autofocus => true
 
   = f.submit 'Submit', :class => 'button'
