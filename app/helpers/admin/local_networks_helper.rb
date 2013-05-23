@@ -80,7 +80,7 @@ module Admin::LocalNetworksHelper
 
   def link_to_region_list(local_network)
     html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region), :class => 'dark_blue'
-    html += "&nbsp;&nbsp;&#x25BA;&nbsp;"
+    html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
   end
 
   def section_or_page_icon(page)
