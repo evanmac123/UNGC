@@ -1,6 +1,6 @@
-%h2 Login
 = devise_error_messages!
-= flash_messages_for :alert, :notice
+
+%h2 Login
 
 = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
   %fieldset

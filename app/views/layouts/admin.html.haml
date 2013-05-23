@@ -39,7 +39,7 @@
               = link_to "[Log out]", destroy_contact_session_path, :method => :delete, :title => "Log out"
 
       #main_content.span-24
-        = flash_messages_for :error, :notice
+        = flash_messages_for :error, :notice, :alert
         = yield
 
       #footer.span-24
