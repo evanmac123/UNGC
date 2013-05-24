@@ -1,3 +1,5 @@
+require 'ckeditor'
+
 UNGC::Application.routes.draw do
   # Root
   root :to => 'pages#home'
