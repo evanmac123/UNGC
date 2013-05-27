@@ -254,8 +254,8 @@ $(document).ready(function() {
 
   // called from views/signup/step5.html.haml
   $("#contact_foundation_contact").live('click', function() {
-    if ($('#errorExplanation').length > 0) {
-      $('#errorExplanation').toggle();
+    if ($('#error_explanation').length > 0) {
+      $('#error_explanation').toggle();
     }
     $('#contact_form').toggle();
   });

@@ -119,8 +119,8 @@
   }
 
 /* Error for flash messages */
-#main_content .errorExplanation { color: #A00; }
-#main_content div.fieldWithErrors input {border: 1px dotted #A00;}
+#main_content .error_explanation { color: #A00; }
+#main_content div.field_with_errors input {border: 1px dotted #A00;}
 
 #search { position: absolute; top: 36px; left: 682px; width: auto; }
 #search .search_box { width: 210px; height: 2em; background-color: #fff; border: 1px solid #000; margin-right: 10px; opacity: 0.80; -moz-opacity: 0.80; filter:alpha(opacity=80);}
