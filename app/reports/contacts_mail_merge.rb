@@ -67,7 +67,7 @@ class ContactsMailMerge < SimpleReport
     record.fax,
     record.role_name,
     record.username,
-    record.password
+    record.plaintext_password
   ]
   end
 

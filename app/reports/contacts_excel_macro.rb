@@ -62,7 +62,7 @@ class ContactsExcelMacro < SimpleReport
     record.cop_state,
     record.fax,
     record.username,
-    record.password,
+    record.plaintext_password,
     record.employees
   ]
   end

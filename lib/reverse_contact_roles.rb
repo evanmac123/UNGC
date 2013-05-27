@@ -32,14 +32,14 @@ class ReverseContactRoles
 
         # copy passwords
         ceo.encrypted_password = contact.encrypted_password
-        ceo.password = contact.password
+        ceo.plaintext_password = contact.plaintext_password
         ceo.save
 
         # remove username/password from former contact
         contact.roles.delete(Role.contact_point)
         contact.username = nil
         contact.encrypted_password = nil
-        contact.password = nil
+        contact.plaintext_password = nil
         contact.save
 
         # the contact person should now be CEO

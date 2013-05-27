@@ -89,7 +89,7 @@ class ImportTempTables
       # generate login and password for Contact Point
       if row["ROLE_ID"].to_i == 4
         c.username = "#{row["ID"]}ungc"
-        c.password = "ungc#{row["ID"]}"
+        c.plaintext_password = "ungc#{row["ID"]}"
       end
 
       # don't add if organization has been approved and is now an active participant

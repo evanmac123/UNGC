@@ -62,7 +62,7 @@ class LocalNetworkParticipantContacts < SimpleReport
       record.fax,
       record.roles.first.name,
       record.username,
-      record.password
+      record.plaintext_password
     ]
   end
 
