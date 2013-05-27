@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
   end
 
   def edit_or_dashboard_path(contact)
-    if contact.needs_to_update_contact_info
+    if @update_contact_info
       edit_admin_organization_contact_path(contact.organization.id, contact, {:update => true})
     else
       dashboard_path

@@ -260,7 +260,7 @@ class Contact < ActiveRecord::Base
     self.hashed_password = Contact.encrypted_password(password)
   end
 
-  def needs_to_update_contact_info
+  def needs_to_update_contact_info?
     if from_organization?
       last_update = last_sign_in_at || updated_at
       last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
