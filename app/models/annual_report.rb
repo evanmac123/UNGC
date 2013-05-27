@@ -26,7 +26,7 @@ class AnnualReport < ActiveRecord::Base
     error_messages = []
     errors.each do |error|
       case error
-        when 'file'
+        when :file
           error_messages << 'Choose a file to upload'
        end
     end
