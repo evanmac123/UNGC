@@ -5,7 +5,7 @@
 %div.hint_text{:style => 'display: none;'}
   %p Each established Local Network is required to submit an Annual Report to the Global Compact Office.
 
-- form_for @submodel, builder: DefaultFormBuilder, :url => submodels_path, :html => {:multipart => true} do |form|
+= form_for @submodel, builder: DefaultFormBuilder, :url => submodels_path, :html => {:multipart => true} do |form|
   = render :partial => form
   %ul{:class => "tools inline" :style => 'float: right;'}
     %li= link_to 'Cancel', admin_local_network_path(@local_network, :tab => @tab), :class => 'cancel_large'
