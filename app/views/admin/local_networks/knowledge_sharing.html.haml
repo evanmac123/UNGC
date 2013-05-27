@@ -17,7 +17,7 @@
     %li <a href="#awards">Awards</a>
 
   #announcements.tab_content
-    - if current_user_can_edit_network?
+    - if current_contact_can_edit_network?
       %ul{:class => "tools inline"}
         %li= link_to 'New Announcement', new_admin_local_network_announcement_path(@local_network), :class => "new_large"
 
@@ -27,7 +27,7 @@
         %th Title
         %th Description
         %th Date
-        - if current_user_can_edit_network?
+        - if current_contact_can_edit_network?
           %th.actions Actions
       = render @local_network.announcements
 
