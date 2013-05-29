@@ -414,8 +414,12 @@ class Organization < ActiveRecord::Base
   end
 
   def academic?
-     organization_type.try(:name) == 'Academic'
-   end
+    organization_type.try(:name) == 'Academic'
+  end
+
+  def city?
+    organization_type.try(:name) == 'City'
+  end
 
   def listing_status_name
     listing_status.try(:name) || 'Unknown'
