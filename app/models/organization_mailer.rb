@@ -73,6 +73,15 @@ class OrganizationMailer < ActionMailer::Base
     body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
   end
 
+  def approved_city(organization)
+    from EMAIL_SENDER
+    bcc 'archive@unglobalcompact.org'
+    subject "#{organization.name} has been accepted into the Global Compact"
+    content_type "text/html"
+    recipients ['elizabethryan@citiesprogramme.org']
+    body :organization => organization, :contact => organization.contacts.contact_points.first, :ceo => organization.contacts.ceos.first
+  end
+
   def reject_microenterprise(organization)
     from EMAIL_SENDER
     bcc 'archive@unglobalcompact.org'
