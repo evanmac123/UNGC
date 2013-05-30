@@ -37,8 +37,6 @@ require 'digest/sha1'
 class Contact < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable
 
-  # Setup accessible (or protected) attributes for your model
-  # attr_accessible :email, :password, :password_confirmation, :remember_me
   include VisibleTo
 
   TYPE_UNGC = :ungc
@@ -256,7 +254,7 @@ class Contact < ActiveRecord::Base
   end
 
   def encrypt_password
-    return if password.blank?
+    return if plaintext_password.blank?
     self.hashed_password = Contact.encrypted_password(password)
   end
 
@@ -278,6 +276,15 @@ class Contact < ActiveRecord::Base
       elsif role == Role.contact_point
         return true if self.is?(Role.contact_point) && organization.contacts.contact_points.count == 1
       end
+    end
+  end
+
+  # Overrides Devise::Models::DatabaseAuthenticatable
+  def password=(new_password)
+    @password = new_password
+    if @password.present?
+      self.plaintext_password = @password
+      self.encrypted_password = password_digest(@password)
     end
   end
 

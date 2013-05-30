@@ -67,6 +67,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                                          :password => "password" }
 
       assert_equal 'aaa', @organization_user.reload.username
+      assert_equal 'password', @organization_user.reload.plaintext_password
 
       assert_redirected_to dashboard_path(:tab => :contacts)
     end
@@ -126,7 +127,8 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                    :contact          => { :username    => 'aaa',
                                           :password => "password" }
 
-      assert_equal 'aaa', @network_contact.reload.login
+      assert_equal 'aaa', @network_contact.reload.username
+      assert_equal 'password', @network_contact.reload.plaintext_password
 
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
@@ -149,6 +151,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
                    :id              => @organization_user.to_param,
                    :contact         => { :username    => 'aaa',
                                          :password => "password" }
+
       assert_redirected_to admin_organization_path(@organization.id, :tab => :contacts)
     end
 
