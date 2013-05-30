@@ -52,7 +52,7 @@ class LocalNetworksContacts < SimpleReport
       r.is?(Role.network_focal_point) ? 1:0,
       r.is?(Role.network_representative) ? 1:0,
       r.try(:username),
-      r.try(:password),
+      r.try(:plaintext_password),
       r.try(:local_network).try(:name) || 'Unknown',
       r.try(:local_network).try(:state).try(:humanize) || 'None',
       r.try(:local_network).try(:countries).map(&:code).join(','),
