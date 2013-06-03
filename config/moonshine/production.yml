@@ -8,5 +8,8 @@
   :min_instances: 6
   :pool_idle_time: 0
 
+:scout:
+  :agent_key: KnvHOr7ncTokxsZ0PGEcpDSXWoI4cvZweyVIHAdS
+
 :webdav:
   :domain: webdav.unglobalcompact.org
