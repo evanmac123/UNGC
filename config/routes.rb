@@ -9,10 +9,10 @@ UNGC::Application.routes.draw do
     post    '/login'             => 'sessions#create',             :as => :contact_session
     get     '/login'             => 'sessions#new',                :as => :new_contact_session
     delete  '/logout'            => 'sessions#destroy',            :as => :destroy_contact_session
-    get     '/password/new'      => 'admin/passwords#new',         :as => :new_password
-    post    '/password'          => 'admin/passwords#create',      :as => :password
+    get     '/password/new'      => 'admin/passwords#new',         :as => :new_contact_password
+    post    '/password'          => 'admin/passwords#create',      :as => :contact_password
     put     '/password'          => 'admin/passwords#update'
-    get     '/password/edit'     => 'admin/passwords#edit',        :as => :edit_password
+    get     '/password/edit'     => 'admin/passwords#edit',        :as => :edit_contact_password
   end
 
   # Backend routes
