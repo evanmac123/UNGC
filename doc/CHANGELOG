@@ -1,3 +1,10 @@
+h1. 2013-06-11
+
+* Adding ISIN to Organization
+* "International Securities Identification Numbers":http://www.isin.org/ uniquely identify a security as a 12-character alpha-numerical code
+* A company's shares can be traded on different exchanges with different stock codes, but the ISIN is unique
+* This information is required for all new organizations where listing_status == "Publicly Listed"
+
 h1. 2013-06-10
 
 * Changing the name of 'Public Company' to 'Publicly Listed', as this was causing some confusion with state owned companies

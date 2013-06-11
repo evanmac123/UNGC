@@ -55,6 +55,8 @@ class Organization < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
+  validates_presence_of :isin, :on => :create, :if => Proc.new { |organization| organization.public_company? }
+  validates_length_of   :isin, :is => 12, :message => "must be 12 characters", :if => Proc.new { |organization| organization.isin.present? }
   validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
 
   has_many :signings
