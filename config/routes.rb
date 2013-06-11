@@ -6,13 +6,13 @@ UNGC::Application.routes.draw do
 
   devise_for :contacts
   devise_scope :contact do
-    post '/login'             => 'sessions#create',             :as => :contact_session
-    get  '/login'             => 'sessions#new',                :as => :new_contact_session
-    get  '/logout'            => 'sessions#destroy',            :as => :destroy_contact_session
-    get  '/password/new'      => 'admin/passwords#new',         :as => :new_password
-    post '/password'          => 'admin/passwords#create',      :as => :password
-    put  '/password'          => 'admin/passwords#update'
-    get  '/password/edit'     => 'admin/passwords#edit',        :as => :edit_password
+    post    '/login'             => 'sessions#create',             :as => :contact_session
+    get     '/login'             => 'sessions#new',                :as => :new_contact_session
+    delete  '/logout'            => 'sessions#destroy',            :as => :destroy_contact_session
+    get     '/password/new'      => 'admin/passwords#new',         :as => :new_password
+    post    '/password'          => 'admin/passwords#create',      :as => :password
+    put     '/password'          => 'admin/passwords#update'
+    get     '/password/edit'     => 'admin/passwords#edit',        :as => :edit_password
   end
 
   # Backend routes

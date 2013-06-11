@@ -42,8 +42,8 @@ module ApplicationHelper
     "display: #{show ? 'block' : 'none'}"
   end
 
-  def link_to_current(name, url, current)
-    link = link_to name, url
+  def link_to_current(name, url, current, opts={})
+    link = link_to name, url, opts
     li_options = {}
     li_options[:class] = 'current' if current
     content_tag :li, link, li_options

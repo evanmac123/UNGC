@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(contact)
     if contact.from_rejected_organization?
       sign_out contact
+      flash[:notice] = nil
       flash[:error] = "Sorry, your organization's application was rejected and can no longer be accessed."
       new_contact_session_path
     else

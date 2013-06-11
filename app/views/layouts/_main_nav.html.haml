@@ -26,4 +26,4 @@
     /= link_to_current 'Parameters', parameters_path, action_name == 'parameters'
 
   - if current_contact
-    = link_to_current 'Logout', destroy_contact_session_path, action_name == 'logout'
+    = link_to_current 'Logout', destroy_contact_session_path, action_name == 'logout', :method => :delete
