@@ -214,37 +214,27 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box5 a:hover, #box6 a:hover { text-decoration: underline; }
 
 #footer { height: 110px; width: 996px; background-color: #fff; position: relative; border: 1px solid #dadada; margin: 0 auto; margin-bottom: 10px; border-top: none;}
-#footer_content { width: 1000px; margin: 0 auto; position: relative; }
-
-#logos { position: absolute; top: 35px; left: 52px; }
-#logos ul { background: url(/images/footer_logos.png) top left no-repeat; background-position: 0px -1px; width: 553px; height: 42px; list-style: none; position: relative;}
-#logos ul li { display: inline; position: absolute; top: -5px; height: 40px; }
-#logos ul li a { width: 100%; height: 100%; display: block; opacity: 0.6; background: #fff; }
-#logos ul li a:hover { opacity: 0; background: none; }
-#logos ul li.logo1 { left: 0px; width: 40px; }
-#logos ul li.logo2 { left: 45px; width: 40px; }
-#logos ul li.logo3 { left: 93px; width: 40px; }
-#logos ul li.logo4 { left: 140px; width: 40px; }
-#logos ul li.logo5 { left: 193px; width: 20px; }
-#logos ul li.logo6 { left: 222px; width: 40px; }
-
-#footer_nav { position: absolute; left: 40px; top: 80px; }
-#footer_nav li { display: inline; border-right: 1px solid #999; padding: 0px 3px 0px 5px; margin: 0; }
+#footer_logos { position: absolute; top: 35px; left: 50px; }
+#footer_logos ul li { display: inline; position: absolute; top: 10px; }
+#footer_logos ul li a { width: 100%; height: 100%; display: block; }
+#footer_logos ul li.gcf { top: 0; height: 36px; width: 136px; background: url(/images/partner_logo_3.png) no-repeat; opacity: 0.4; }
+#footer_logos ul li.gcf:hover { background-position: -136px; opacity: 1; }
+#footer_logos ul li.gri { top: 7px; left: 195px; height: 26px; width: 66px; background: url(/images/partner_logo_4.png) no-repeat; opacity: 0.3; }
+#footer_logos ul li.gri:hover { background-position: -67px; opacity: 1;}
+#footer_logos ul li.prme { top: 9px; left: 325px; height: 22px; width: 83px; background: url(/images/partner_logo_2.png) no-repeat; opacity: 0.2; }
+#footer_logos ul li.prme:hover { background-position: -84px; opacity: 1;}
+#footer_logos ul li.pri { top: 9px; left: 475px; height: 22px; width: 63px; background: url(/images/partner_logo_1.png) no-repeat; opacity: 0.25; }
+#footer_logos ul li.pri:hover { background-position: -65px; opacity: 1;}
+#footer_logos ul li.psi { top: 4px; left: 605px; height: 28px; width: 80px; background: url(/images/partner_logo_6.png) no-repeat; opacity: 0.25; }
+#footer_logos ul li.psi:hover { background-position: -81px; opacity: 1; }
+#footer_logos ul li.city { top: 1px; left: 755px; height: 35px; width: 133px; background: url(/images/partner_logo_5.png) no-repeat; opacity: 0.4; }
+#footer_logos ul li.city:hover { background-position: -133px; opacity: 1; }
+#footer_links {display: block; padding-bottom: 20px; width: 996px; margin: 0 auto; }
+#footer_nav { width: 300px; margin: auto; }
+#footer_nav li { display: inline; border-right: 1px solid #DDD; padding: 0 3px 0 5px; }
 #footer_nav li.last { border: 0; }
-#footer_nav li a { font-size: 11px; color: #999;}
+#footer_nav li a { font-size: 11px; color: #AAA; }
 #footer_nav li a:hover { color: #555; text-decoration: underline; }
-
-#partner_logos { position: absolute; top: 35px; left: 400px; }
-#partner_logos ul li { display: inline; position: absolute; top: 10px; }
-#partner_logos ul li a { width: 100%; height: 100%; display: block; }
-#partner_logos ul li.gri { height: 26px; top: 7px; width: 66px; background: url(/images/partner_logo_4.png) no-repeat; opacity: 0.3;}
-#partner_logos ul li.gri:hover { background-position: -67px; opacity: 1;}
-#partner_logos ul li.pri { left: 130px; height: 22px; width: 63px; background: url(/images/partner_logo_1.png) no-repeat; opacity: 0.3;}
-#partner_logos ul li.pri:hover { background-position: -65px; opacity: 1;}
-#partner_logos ul li.prme { left: 263px; height: 22px; width: 83px; background: url(/images/partner_logo_2.png) no-repeat; opacity: 0.25;}
-#partner_logos ul li.prme:hover { background-position: -84px; opacity: 1;}
-#partner_logos ul li.gcf { left: 415px; top: -1px; height: 36px; width: 136px; background: url(/images/partner_logo_3.png) no-repeat; opacity: 0.5;}
-#partner_logos ul li.gcf:hover { background-position: -136px; opacity: 1;}
 
 /**** inner ****/
 #content_inner { display: block; width: 1000px; margin: 0 auto; position: relative; }

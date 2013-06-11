@@ -55,6 +55,8 @@ class Organization < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
+  validates_presence_of :isin, :on => :create, :if => Proc.new { |organization| organization.public_company? }
+  validates_length_of   :isin, :is => 12, :message => "must be 12 characters", :if => Proc.new { |organization| organization.isin.present? }
   validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
 
   has_many :signings
@@ -414,15 +416,19 @@ class Organization < ActiveRecord::Base
   end
 
   def academic?
-     organization_type.try(:name) == 'Academic'
-   end
+    organization_type.try(:name) == 'Academic'
+  end
+
+  def city?
+    organization_type.try(:name) == 'City'
+  end
 
   def listing_status_name
     listing_status.try(:name) || 'Unknown'
   end
 
   def public_company?
-    listing_status.try(:name) == 'Public Company'
+    listing_status.try(:name) == 'Publicly Listed'
   end
 
   def micro_enterprise?
@@ -512,12 +518,11 @@ class Organization < ActiveRecord::Base
   end
 
   def last_comment_date
-    self.try(:comments).try(:first).try(:updated_at) || nil
+    comments.last.updated_at if comments.any?
   end
 
   def last_comment_author
-    last_comment = self.try(:comments).try(:first)
-    last_comment ? last_comment.try(:contact).try(:name) : ''
+    comments.last.contact.name if comments.any?
   end
 
   def review_reason_value

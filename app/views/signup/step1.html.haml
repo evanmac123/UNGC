@@ -35,6 +35,9 @@
           %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
             = form.label :stock_symbol
             = form.text_field :stock_symbol
+          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+            = form.label :isin, "ISIN"
+            = form.text_field :isin
           %li
             = form.label :sector_id
             = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)

@@ -15,6 +15,7 @@
       = default_form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}, :li_class => 'company_only', :label => 'Ownership'
       = default_form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, {:include_blank => true}, :li_class => 'public_company_only'
       = default_form.text_field :stock_symbol, :li_class => 'public_company_only'
+      = default_form.text_field :isin, :label => 'ISIN', :li_class => 'public_company_only'
       = default_form.check_box :is_ft_500, :label => 'FT 500', :li_class => 'public_company_only'
       = default_form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id), :li_class => 'company_only'
       = default_form.select :revenue, options_for_select(Organization::REVENUE_LEVELS.invert), {:include_blank => @organization.revenue.blank?}, :li_class => 'company_only'
