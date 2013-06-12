@@ -704,24 +704,10 @@ class Organization < ActiveRecord::Base
       ceo = self.contacts.ceos.first
       contact = self.contacts.contact_points.first
 
-      # save ceo login first since we have to change it before reassigning it to the contact point
-      # logins must be unique
-      ceo_username = contact.username
-
-      # make current ceo a contact point
+      ceo.username = contact.username
       ceo.roles << Role.contact_point
-
-      # logins must be unique, so change the current contact's login
-      contact.username = contact.id
-      contact.save
-
-      # copy original login
-      ceo.username = ceo_username
-
-      # copy passwords
       ceo.encrypted_password = contact.encrypted_password
       ceo.plaintext_password = contact.plaintext_password
-      ceo.save
 
       # remove login/password from former contact
       contact.roles.delete(Role.contact_point)
@@ -729,6 +715,9 @@ class Organization < ActiveRecord::Base
       contact.encrypted_password = nil
       contact.plaintext_password = nil
       contact.save
+
+      # save ceo after contact to avoid username collision
+      ceo.save
 
       # the contact person should now be CEO
       contact.roles << Role.ceo
