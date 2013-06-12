@@ -1,2 +1,2 @@
-- @title = @current_version.title.html_safe
-= @current_version.content.html_safe
+- @title = @current_version.title.try(:html_safe)
+= @current_version.content.try(:html_safe)
