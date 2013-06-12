@@ -145,6 +145,7 @@ UNGC::Application.routes.draw do
       resources :local_network_events do
         resources :attachments, :controller => 'local_network_event_attachments'
       end
+      resources :annual_reports
     end
 
     match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
