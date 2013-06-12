@@ -127,7 +127,9 @@ UNGC::Application.routes.draw do
     end
 
     resources :communication_on_progresses, :controller => 'cops'
-    resources :initiatives
+    resources :initiatives do
+      resources :signings
+    end
     resources :contacts_roles
     resources :roles
     resources :sectors
