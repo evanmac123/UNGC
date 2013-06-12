@@ -53,7 +53,7 @@ class Contact < ActiveRecord::Base
   validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
   validates_uniqueness_of   :email, :on => :create
   validates_confirmation_of :password, :if => :password_required?
-  validates_length_of       :password, :within => Devise.password_length, :allow_blank => true
+  validates_length_of       :password, :within => Devise.password_length, :if => :password_required?
   validates_format_of       :email,
                               :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
                               :message => "is not a valid email address"
@@ -303,7 +303,9 @@ class Contact < ActiveRecord::Base
   private
 
     def password_required?
-      self.username.present?
+      return false unless username.present?
+      return true if reset_password_token.present? && reset_password_period_valid?
+      (!persisted? || !password.nil? || !password_confirmation.nil?)
     end
 
     def keep_at_least_one_ceo

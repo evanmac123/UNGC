@@ -28,6 +28,10 @@ class Admin::ContactsController < AdminController
   end
 
   def update
+    if params[:contact] && params[:contact][:password].try(:empty?)
+      params[:contact].delete('password')
+    end
+
     @return_path = return_path
     if @contact.update_attributes(params[:contact])
       flash[:notice] = 'Contact was successfully updated.'
