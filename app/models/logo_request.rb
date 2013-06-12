@@ -60,10 +60,8 @@ class LogoRequest < ActiveRecord::Base
   scope :in_review, where(:state => "in_review", :replied_to => true).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC')
   scope :unreplied, where(:state => "in_review", :replied_to => false).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC')
 
-  def self.approved_between(month, year)
-    start = Date.new(year, month, 1)
-    finish = Date.new(year, month, 1).end_of_month
-    where("state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?", start, finish).order("approved_on DESC")
+  def self.approved_between(start_date, end_date)
+    where("state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?", start_date, end_date).order("approved_on DESC")
   end
 
   STATE_PENDING_REVIEW = 'pending_review'
