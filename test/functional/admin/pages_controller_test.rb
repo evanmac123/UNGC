@@ -21,12 +21,12 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
       should "respond with JSON" do
         json = ActiveSupport::JSON.decode @response.body
-        assert_same_elements %w{url content startupMode}, json.keys
+        assert_same_elements %w{url content startupMode}, json['page'].keys
         assert_same_elements [
           update_page_url(:id => @page.id, :format => 'js'),
           'wysiwyg',
           @page.content
-        ], json.values
+        ], json['page'].values
       end
     end
 
@@ -39,7 +39,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
       should "respond with that version's contents" do
         json = ActiveSupport::JSON.decode @response.body
-        content = json['content']
+        content = json['page']['content']
         assert_equal "<p>I am new.</p>", content
       end
     end
@@ -79,7 +79,7 @@ class Admin::PagesControllerTest < ActionController::TestCase
 
       should "respond with JSON" do
         json = ActiveSupport::JSON.decode @response.body
-        expected = {'content' => "<p>I am new.</p>", 'version' => 2}
+        expected = {'page' => {'content' => "<p>I am new.</p>", 'version' => 2}}
         assert_equal expected, json
       end
     end
