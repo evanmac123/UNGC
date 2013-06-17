@@ -492,7 +492,7 @@ h1. 2011-08-02
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
-* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* first deploy, then run rails runner 'AssignNetworkRoles.new.run' -e production
 * then update search index to remove 'GC Networks' from search
 
 * launched new COP results screen
@@ -551,7 +551,7 @@ h1. 2011-06-22
 
 * assign Network Managers to countries
 * some commands are only running in the console
-* ./script/runner 'AssignNetworkRoles.new.run'
+* rails runner 'AssignNetworkRoles.new.run'
 
 h1. 2011-06-02
 
@@ -1115,7 +1115,7 @@ h1. 2011-08-02
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
-* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* first deploy, then run rails runner 'AssignNetworkRoles.new.run' -e production
 * then update search index to remove 'GC Networks' from search
 
 * launched new COP results screen
@@ -1174,7 +1174,7 @@ h1. 2011-06-22
 
 * assign Network Managers to countries
 * some commands are only running in the console
-* ./script/runner 'AssignNetworkRoles.new.run'
+* rails runner 'AssignNetworkRoles.new.run'
 
 h1. 2011-06-02
 
@@ -1739,7 +1739,7 @@ h1. 2011-08-02
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
-* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* first deploy, then run rails runner 'AssignNetworkRoles.new.run' -e production
 * then update search index to remove 'GC Networks' from search
 
 * launched new COP results screen
@@ -1798,7 +1798,7 @@ h1. 2011-06-22
 
 * assign Network Managers to countries
 * some commands are only running in the console
-* ./script/runner 'AssignNetworkRoles.new.run'
+* rails runner 'AssignNetworkRoles.new.run'
 
 h1. 2011-06-02
 

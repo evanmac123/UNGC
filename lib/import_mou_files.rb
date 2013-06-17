@@ -1,10 +1,10 @@
-# ./script/runner 'ImportMouFiles.new.run' /path_to/file /path_to_mous -e production
+# rails runner 'ImportMouFiles.new.run' /path_to/file /path_to_mous -e production
 require 'csv'
 
 class ImportMouFiles
   def run
 
-  abort "Usage: ./script/runner 'AssignNetworkLogins.new.run' /path_to/file -e production" unless ARGV.any?
+  abort "Usage: rails runner 'AssignNetworkLogins.new.run' /path_to/file -e production" unless ARGV.any?
   file = ARGV.first
   path = ARGV.second
 

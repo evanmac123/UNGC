@@ -1,10 +1,10 @@
-# ./script/runner 'AssignNetworkLogins.new.run' /path_to/file -e production
+# rails runner 'AssignNetworkLogins.new.run' /path_to/file -e production
 require 'csv'
 
 class AssignNetworkLogins
   def run
 
-  abort "Usage: ./script/runner 'AssignNetworkLogins.new.run' /path_to/file -e production" unless ARGV.any?
+  abort "Usage: rails runner 'AssignNetworkLogins.new.run' /path_to/file -e production" unless ARGV.any?
   file = ARGV.first
 
   if FileTest.exists?(file)

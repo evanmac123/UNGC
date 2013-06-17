@@ -1,4 +1,4 @@
-# ./script/runner 'ReverseContactRoles.new.for_organization(12345)'
+# rails runner 'ReverseContactRoles.new.for_organization(12345)'
 # accepts the organization ID and reverses the Contact Point and CEO roles
 # copies over the username information which was incorrectly assigned to the CEO
 

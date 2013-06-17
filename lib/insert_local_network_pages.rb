@@ -1,4 +1,4 @@
-# ./script/runner 'InsertLocalNetworkPages.new.run' -e production
+# rails runner 'InsertLocalNetworkPages.new.run' -e production
 
 class InsertLocalNetworkPages
   def run
