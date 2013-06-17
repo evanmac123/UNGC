@@ -54,7 +54,7 @@ class OrganizationMailer < ActionMailer::Base
     @organization = organization
     @contact      = organization.contacts.contact_points.first
     mail \
-      :to => organization.network_report_recipients.collect(&:email_recipient),
+      :to => organization.contacts.contact_points.collect(&:email_recipient),
       :bcc => 'archive@unglobalcompact.org',
       :subject => "Welcome to the United Nations Global Compact"
   end
@@ -112,9 +112,9 @@ class OrganizationMailer < ActionMailer::Base
     @organization = organization
     @contact = organization.financial_contact_or_contact_point
     mail \
-      :to => organization.financial_contact_or_contact_point.email_recipient,
+      :to => organization.financial_contact_and_contact_point.collect(&:email_recipient),
       :cc => ['contributions@globalcompactfoundation.org', organization.participant_manager_email],
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org','vkeesari@yahoo.com'],
       :from => 'foundation@unglobalcompact.org',
       :subject => "[Invoice] The Foundation for the Global Compact"
   end

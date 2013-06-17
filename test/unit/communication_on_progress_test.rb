@@ -284,8 +284,9 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     setup do
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new( :title => 'Our COP',
-                                                            :ends_on => Date.today,
-                                                            :type => 'advanced' )
+                                                            :ends_on => Date.today)
+      @cop.type = 'advanced'
+
       # 6 required criteria to be considered Active
       @cop.update_attribute :include_continued_support_statement, true
       @cop.update_attribute :include_measurement, true
