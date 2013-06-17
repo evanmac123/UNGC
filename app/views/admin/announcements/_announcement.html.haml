@@ -3,7 +3,7 @@
   %td= announcement.title
   %td{:style => 'width: 500px;'}= announcement.description
   %td= announcement.date
-  - if current_user_can_edit_network?
+  - if current_contact_can_edit_network?
     %td
       %ul.actions
         %li= link_to 'Edit', edit_submodel_path(announcement), :class => 'edit', :title => 'Edit announcement details'
