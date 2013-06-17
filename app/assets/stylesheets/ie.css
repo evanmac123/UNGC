@@ -1,12 +1,8 @@
 #nav_bg .transparency { filter:alpha(opacity=75); zoom: 1; }
 #nav ul ul li { filter:alpha(opacity=95); }
 #footer_nav li { padding: 0 1px 0 4px; }
-
-#logos ul li a { filter:alpha(opacity=50); background: #fff; }
-#logos ul li a:hover {filter:alpha(opacity=0); background: #fff; }
-
-#partner_logos ul li { filter:alpha(opacity=30); }
-#partner_logos ul li:hover { filter:alpha(opacity=100); }
+#footer_logos ul li { filter:alpha(opacity=30); }
+#footer_logos ul li:hover { filter:alpha(opacity=100); }
 
 #rightcontent .bookmarks { float: right; position: relative; margin: 5px 10px -15px 0px;}
 /* fix JQuery datepicker */

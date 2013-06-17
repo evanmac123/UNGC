@@ -17,7 +17,8 @@ class FoundationPledgeReport < SimpleReport
       'Pledge',
       'Suggested Pledge',
       'Revenue',
-      'Invoice Date']
+      'Invoice Date',
+      'Relationship Manager']
   end
 
   def row(r)
@@ -34,6 +35,7 @@ class FoundationPledgeReport < SimpleReport
       r.pledge_amount,
       r.suggested_pledge,
       r.revenue_description,
-      r.joined_on ]
+      r.joined_on,
+      r.participant_manager_name ]
   end
 end

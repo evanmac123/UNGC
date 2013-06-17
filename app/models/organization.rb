@@ -340,8 +340,12 @@ class Organization < ActiveRecord::Base
   end
 
   def academic?
-     organization_type.try(:name) == 'Academic'
-   end
+    organization_type.try(:name) == 'Academic'
+  end
+
+  def city?
+    organization_type.try(:name) == 'City'
+  end
 
   def listing_status_name
     listing_status.try(:name) || 'Unknown'
@@ -438,12 +442,11 @@ class Organization < ActiveRecord::Base
   end
 
   def last_comment_date
-    self.try(:comments).try(:first).try(:updated_at) || nil
+    comments.last.updated_at if comments.any?
   end
 
   def last_comment_author
-    last_comment = self.try(:comments).try(:first)
-    last_comment ? last_comment.try(:contact).try(:name) : ''
+    comments.last.contact.name if comments.any?
   end
 
   def review_reason_value

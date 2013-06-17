@@ -31,6 +31,8 @@ class PageGroup < ActiveRecord::Base
 
   default_scope :order => "page_groups.position ASC"
 
+  default_scope :order => "page_groups.position ASC"
+
   before_create :derive_position
   after_destroy :destroy_children
 

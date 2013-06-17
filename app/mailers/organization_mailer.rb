@@ -78,6 +78,17 @@ class OrganizationMailer < ActionMailer::Base
       :subject => "#{organization.name} has been accepted into the Global Compact"
   end
 
+  def approved_city(organization)
+    @organization = organization
+    @contact      = organization.contacts.contact_points.first
+    @ceo          = organization.contacts.ceos.first
+
+    mail \
+      :to => ['elizabethryan@citiesprogramme.org'],
+      :bcc => 'archive@unglobalcompact.org',
+      :subject => "#{organization.name} has been accepted into the Global Compact"
+  end
+
   def reject_microenterprise(organization)
     @organization = organization
     @contact = organization.contacts.contact_points.first

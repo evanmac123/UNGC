@@ -56,6 +56,13 @@ class OrganizationMailerTest < ActionMailer::TestCase
     assert_equal @network_contact.email, response.to.first
   end
 
+  test "approved mailer to Cities Programme is sent" do
+    response = OrganizationMailer.approved_city(@organization).deliver
+    assert_equal "text/html", response.content_type
+    assert_equal "#{@organization.name} has been accepted into the Global Compact", response.subject
+    assert_equal 'elizabethryan@citiesprogramme.org', response.to.first
+  end
+
   test "in review mailer is sent" do
     response = OrganizationMailer.in_review(@organization).deliver
     assert_equal "text/html; charset=UTF-8", response.content_type

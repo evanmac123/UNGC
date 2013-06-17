@@ -66,5 +66,9 @@ class CommentObserver < ActiveRecord::Observer
         OrganizationMailer.approved_local_network(organization).deliver
       end
 
+      if organization.city?
+        OrganizationMailer.approved_city(organization).deliver
+      end
+
     end
 end
