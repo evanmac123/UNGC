@@ -25,6 +25,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :sphinx
   recipe :nodejs
   recipe :webdav
+  recipe :ssh
 
   on_stage(:production) do
     recipe :cron_tasks
