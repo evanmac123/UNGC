@@ -34,6 +34,8 @@ class Admin::ContactsController < AdminController
 
     @return_path = return_path
     if @contact.update_attributes(params[:contact])
+      sign_in(@contact, :bypass => true) if @contact == current_contact
+
       flash[:notice] = 'Contact was successfully updated.'
       redirect_to return_path
     else
