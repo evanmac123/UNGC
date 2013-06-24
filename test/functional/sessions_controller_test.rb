@@ -32,7 +32,7 @@ context "given an organization user" do
 
   should 'fail login and not redirect' do
     post :create, :contact => {:username => 'quentin', :password => 'bad password'}
-    assert_match /username or password was incorrect/, flash[:alert]
+    assert_match /Invalid email or password/, flash[:alert]
     assert !@controller.contact_signed_in?
     assert_response :success
   end
