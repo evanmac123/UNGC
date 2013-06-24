@@ -1,3 +1,7 @@
+/*
+ *= require_self
+*/
+
 #nav_bg .transparency { filter:alpha(opacity=75); zoom: 1; }
 #nav ul ul li { filter:alpha(opacity=95); }
 #footer_nav li { padding: 0 1px 0 4px; }

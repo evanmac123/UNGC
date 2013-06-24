@@ -15,8 +15,6 @@
  *= require forms
  *= require application_form
  *= require participant_search_form
- *= require print
- *= require ie
  */
 
 body { background-color: #fff; font-family: Helvetica, Arial, sans-serif; }
