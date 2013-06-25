@@ -1,3 +1,12 @@
+h1. 2013-06-25
+
+* After being accepted, the CEO is mailed a package containing information about the Global Compact
+* It includes a Welcome Letter and publications for getting started as a new participant
+* Preparing paper packages is time consuming, creates postage costs and is not good for the environment
+* A "Digital Welcome Package" is being created to deliver the same material online
+* Added boolean 'welcome_package' to contacts to indicate whether a paper package should be mailed to the CEO
+* When completing the online application form, they select a checkbox to indicate if they would like a paper package
+
 h1. 2013-05-29
 
 * Added an email that informs the Global Compact Cities Programme when a new city is accepted as a participant
