@@ -749,6 +749,10 @@ class Organization < ActiveRecord::Base
     active == false && cop_state == COP_STATE_DELISTED
   end
 
+  def welcome_package?
+    contacts.ceos.first.try(:welcome_package)
+  end
+
   private
 
     def set_participant_manager

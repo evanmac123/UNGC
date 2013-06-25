@@ -75,6 +75,11 @@
 
     -staff_only do
       %dl.left_column
+        %h3 Welcome Package
+        %dt.first Requested?
+        %dd.first= @organization.welcome_package? ? 'Yes' : 'No'
+
+      %dl.left_column
         %h3 Local Network
         %dt.first Membership Status
         %dd.first= local_network_membership
