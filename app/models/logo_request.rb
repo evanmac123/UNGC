@@ -2,15 +2,15 @@
 #
 # Table name: logo_requests
 #
-#  id              :integer(4)      not null, primary key
-#  old_id          :integer(4)
-#  publication_id  :integer(4)
-#  organization_id :integer(4)
-#  contact_id      :integer(4)
-#  reviewer_id     :integer(4)
-#  replied_to      :boolean(1)
+#  id              :integer          not null, primary key
+#  old_id          :integer
+#  publication_id  :integer
+#  organization_id :integer
+#  contact_id      :integer
+#  reviewer_id     :integer
+#  replied_to      :boolean
 #  purpose         :string(255)
-#  accepted        :boolean(1)
+#  accepted        :boolean
 #  accepted_on     :date
 #  created_at      :datetime
 #  updated_at      :datetime

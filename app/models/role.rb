@@ -2,14 +2,14 @@
 #
 # Table name: roles
 #
-#  id            :integer(4)      not null, primary key
+#  id            :integer          not null, primary key
 #  name          :string(255)
-#  old_id        :integer(4)
+#  old_id        :integer
 #  created_at    :datetime
 #  updated_at    :datetime
-#  initiative_id :integer(4)
+#  initiative_id :integer
 #  description   :string(255)
-#  position      :integer(4)
+#  position      :integer
 #
 
 class Role < ActiveRecord::Base

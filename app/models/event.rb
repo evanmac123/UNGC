@@ -2,20 +2,20 @@
 #
 # Table name: events
 #
-#  id             :integer(4)      not null, primary key
+#  id             :integer          not null, primary key
 #  title          :string(255)
 #  description    :text
 #  starts_on      :date
 #  ends_on        :date
 #  location       :text
-#  country_id     :integer(4)
+#  country_id     :integer
 #  urls           :text
-#  created_by_id  :integer(4)
-#  updated_by_id  :integer(4)
+#  created_by_id  :integer
+#  updated_by_id  :integer
 #  created_at     :datetime
 #  updated_at     :datetime
 #  approved_at    :datetime
-#  approved_by_id :integer(4)
+#  approved_by_id :integer
 #  approval       :string(255)
 #
 

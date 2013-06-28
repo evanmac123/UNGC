@@ -2,17 +2,17 @@
 #
 # Table name: logo_comments
 #
-#  id                      :integer(4)      not null, primary key
+#  id                      :integer          not null, primary key
 #  added_on                :date
-#  old_id                  :integer(4)
-#  logo_request_id         :integer(4)
-#  contact_id              :integer(4)
+#  old_id                  :integer
+#  logo_request_id         :integer
+#  contact_id              :integer
 #  body                    :text
 #  created_at              :datetime
 #  updated_at              :datetime
 #  attachment_file_name    :string(255)
 #  attachment_content_type :string(255)
-#  attachment_file_size    :integer(4)
+#  attachment_file_size    :integer
 #  attachment_updated_at   :datetime
 #
 

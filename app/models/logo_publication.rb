@@ -2,11 +2,11 @@
 #
 # Table name: logo_publications
 #
-#  id            :integer(4)      not null, primary key
+#  id            :integer          not null, primary key
 #  name          :string(255)
-#  old_id        :integer(4)
-#  parent_id     :integer(4)
-#  display_order :integer(4)
+#  old_id        :integer
+#  parent_id     :integer
+#  display_order :integer
 #  created_at    :datetime
 #  updated_at    :datetime
 #

@@ -2,6 +2,52 @@
 #
 # Table name: case_stories
 #
+#  id                         :integer          not null, primary key
+#  identifier                 :string(255)
+#  organization_id            :integer
+#  title                      :string(255)
+#  case_date                  :date
+#  url1                       :string(255)
+#  url2                       :string(255)
+#  url3                       :string(255)
+#  author1                    :string(255)
+#  author1_institution        :string(255)
+#  author1_email              :string(255)
+#  author2                    :string(255)
+#  author2_institution        :string(255)
+#  author2_email              :string(255)
+#  reviewer1                  :string(255)
+#  reviewer1_institution      :string(255)
+#  reviewer1_email            :string(255)
+#  reviewer2                  :string(255)
+#  reviewer2_institution      :string(255)
+#  reviewer2_email            :string(255)
+#  uploaded                   :boolean
+#  contact1                   :string(255)
+#  contact1_email             :string(255)
+#  contact2                   :string(255)
+#  contact2_email             :string(255)
+#  status                     :integer
+#  extension                  :string(255)
+#  created_at                 :datetime
+#  updated_at                 :datetime
+#  is_partnership_project     :boolean
+#  is_internalization_project :boolean
+#  state                      :string(255)
+#  attachment_file_name       :string(255)
+#  attachment_content_type    :string(255)
+#  attachment_file_size       :integer
+#  attachment_updated_at      :datetime
+#  contact_id                 :integer
+#  description                :text
+#  replied_to                 :boolean
+#  reviewer_id                :integer
+#
+
+# == Schema Information
+#
+# Table name: case_stories
+#
 #  id                         :integer(4)      not null, primary key
 #  identifier                 :string(255)
 #  organization_id            :integer(4)

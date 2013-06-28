@@ -2,13 +2,13 @@
 #
 # Table name: page_groups
 #
-#  id                    :integer(4)      not null, primary key
+#  id                    :integer          not null, primary key
 #  name                  :string(255)
-#  display_in_navigation :boolean(1)
+#  display_in_navigation :boolean
 #  html_code             :string(255)
 #  created_at            :datetime
 #  updated_at            :datetime
-#  position              :integer(4)
+#  position              :integer
 #  path_stub             :string(255)
 #
 

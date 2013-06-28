@@ -2,13 +2,14 @@
 #
 # Table name: principles
 #
-#  id         :integer(4)      not null, primary key
+#  id         :integer          not null, primary key
 #  name       :string(255)
-#  old_id     :integer(4)
+#  old_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
 #  type       :string(255)
-#  parent_id  :integer(4)
+#  parent_id  :integer
+#
 
 class Principle < ActiveRecord::Base
   validates_presence_of :name

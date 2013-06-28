@@ -2,25 +2,25 @@
 #
 # Table name: pages
 #
-#  id                    :integer(4)      not null, primary key
+#  id                    :integer          not null, primary key
 #  path                  :string(255)
 #  title                 :string(255)
 #  html_code             :string(255)
 #  content               :text
-#  parent_id             :integer(4)
-#  position              :integer(4)
-#  display_in_navigation :boolean(1)
+#  parent_id             :integer
+#  position              :integer
+#  display_in_navigation :boolean
 #  approved_at           :datetime
-#  approved_by_id        :integer(4)
-#  created_by_id         :integer(4)
-#  updated_by_id         :integer(4)
-#  dynamic_content       :boolean(1)
-#  version_number        :integer(4)
+#  approved_by_id        :integer
+#  created_by_id         :integer
+#  updated_by_id         :integer
+#  dynamic_content       :boolean
+#  version_number        :integer
 #  created_at            :datetime
 #  updated_at            :datetime
-#  group_id              :integer(4)
+#  group_id              :integer
 #  approval              :string(255)
-#  top_level             :boolean(1)
+#  top_level             :boolean
 #  change_path           :string(255)
 #
 

@@ -2,13 +2,13 @@
 #
 # Table name: cop_answers
 #
-#  id               :integer(4)      not null, primary key
-#  cop_id           :integer(4)
-#  cop_attribute_id :integer(4)
-#  value            :boolean(1)
+#  id               :integer          not null, primary key
+#  cop_id           :integer
+#  cop_attribute_id :integer
+#  value            :boolean
 #  created_at       :datetime
 #  updated_at       :datetime
-#  text             :text            default(""), not null
+#  text             :text             default(""), not null
 #
 
 class CopAnswer < ActiveRecord::Base

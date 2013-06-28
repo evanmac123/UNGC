@@ -2,12 +2,12 @@
 #
 # Table name: annual_reports
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
 #  year             :date
-#  future_plans     :boolean(1)
-#  activities       :boolean(1)
-#  financials       :boolean(1)
+#  future_plans     :boolean
+#  activities       :boolean
+#  financials       :boolean
 #  created_at       :datetime
 #  updated_at       :datetime
 #

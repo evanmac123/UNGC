@@ -2,8 +2,9 @@
 #
 # Table name: announcements
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
+#  principle_id     :integer
 #  title            :string(255)
 #  description      :string(255)
 #  date             :date

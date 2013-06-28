@@ -2,45 +2,46 @@
 #
 # Table name: organizations
 #
-#  id                             :integer(4)      not null, primary key
-#  old_id                         :integer(4)
+#  id                             :integer          not null, primary key
+#  old_id                         :integer
 #  name                           :string(255)
-#  organization_type_id           :integer(4)
-#  sector_id                      :integer(4)
-#  participant                    :boolean(1)
-#  employees                      :integer(4)
+#  organization_type_id           :integer
+#  sector_id                      :integer
+#  participant                    :boolean
+#  employees                      :integer
 #  url                            :string(255)
 #  created_at                     :datetime
 #  updated_at                     :datetime
 #  joined_on                      :date
 #  delisted_on                    :date
-#  active                         :boolean(1)
-#  country_id                     :integer(4)
+#  active                         :boolean
+#  country_id                     :integer
 #  stock_symbol                   :string(255)
-#  removal_reason_id              :integer(4)
-#  last_modified_by_id            :integer(4)
+#  removal_reason_id              :integer
+#  last_modified_by_id            :integer
 #  state                          :string(255)
-#  exchange_id                    :integer(4)
-#  listing_status_id              :integer(4)
-#  is_ft_500                      :boolean(1)
+#  exchange_id                    :integer
+#  listing_status_id              :integer
+#  is_ft_500                      :boolean
 #  cop_due_on                     :date
 #  inactive_on                    :date
 #  commitment_letter_file_name    :string(255)
 #  commitment_letter_content_type :string(255)
-#  commitment_letter_file_size    :integer(4)
+#  commitment_letter_file_size    :integer
 #  commitment_letter_updated_at   :datetime
-#  pledge_amount                  :integer(4)
+#  pledge_amount                  :integer
 #  cop_state                      :string(255)
-#  replied_to                     :boolean(1)
-#  reviewer_id                    :integer(4)
+#  replied_to                     :boolean
+#  reviewer_id                    :integer
 #  bhr_url                        :string(255)
 #  rejected_on                    :date
 #  network_review_on              :date
-#  revenue                        :integer(4)
+#  revenue                        :integer
 #  rejoined_on                    :date
 #  non_comm_dialogue_on           :date
 #  review_reason                  :string(255)
-#  participant_manager_id         :integer(4)
+#  participant_manager_id         :integer
+#  is_local_network_member        :boolean
 #
 
 class Organization < ActiveRecord::Base
