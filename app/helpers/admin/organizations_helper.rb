@@ -157,4 +157,17 @@ module Admin::OrganizationsHelper
     end
   end
 
+  def link_to_getting_started
+    case @organization.organization_type
+      when OrganizationType.academic
+        "Academic"
+      when OrganizationType.city
+        "City"
+      when OrganizationType.company
+        "Business"
+      when OrganizationType.non_business
+        "NonBusiness"
+    end
+  end
+
 end
