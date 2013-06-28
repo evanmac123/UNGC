@@ -55,8 +55,6 @@ class Organization < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
-  validates_presence_of :isin, :on => :create, :if => Proc.new { |organization| organization.public_company? }
-  validates_length_of   :isin, :is => 12, :message => "must be 12 characters", :if => Proc.new { |organization| organization.isin.present? }
   validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
 
   has_many :signings
@@ -193,162 +191,88 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  named_scope :active,
-    { :conditions => ["organizations.active = ?", true] }
+  scope :active, where("organizations.active = ?", true)
+  scope :participants, where("organizations.participant = ?", true)
+  scope :withdrew, where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew).includes(:removal_reason)
+  scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
+  scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
+  scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme)).includes(:organization_type) }
+  scope :businesses, lambda { where("organization_types.type_property = ?", OrganizationType::BUSINESS).includes(:organization_type) }
+  scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
 
-  named_scope :participants,
-    { :conditions => ["organizations.participant = ?", true] }
+  scope :for_initiative, lambda { |symbol| where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
+  scope :last_joined, order("joined_on DESC, name DESC")
+  scope :not_delisted, where("cop_state != ?", COP_STATE_DELISTED)
 
-  named_scope :with_cop_info, {
-    :include => [:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses],
-                 :select => 'organizations.*, c.*',
-                 :joins => "LEFT JOIN (
-                            SELECT
-                              organization_id,
-                              MAX(created_at) AS latest_cop,
-                              COUNT(id) AS cop_count
-                            FROM
-                              communication_on_progresses
-                            WHERE
-                              state = 'approved'
-                            GROUP BY
-                               organization_id ) as c ON organizations.id = c.organization_id"
-  }
+  scope :with_cop_due_on, lambda { |date| where(cop_due_on: date) }
+  scope :with_cop_due_between, lambda { |start_date, end_date| where(cop_due_on: start_date..end_date) }
+  scope :delisted_between, lambda { |start_date, end_date| where(delisted_on: start_date..end_date) }
 
-  named_scope :withdrew, {
-   :include => :removal_reason,
-   :conditions => {:cop_state => COP_STATE_DELISTED, :removal_reason_id => RemovalReason.withdrew }
-  }
+  scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
 
-  named_scope :companies_and_smes, {
-    :include => :organization_type,
-    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies) ]
-  }
+  scope :expelled_for_failure_to_communicate_progress, where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
 
-  named_scope :companies, {
-    :include => :organization_type,
-    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:companies) ]
-  }
+  scope :listed, where("organizations.stock_symbol IS NOT NULL").includes([:country, :exchange])
+  scope :without_contacts, where("not exists(select * from contacts c where c.organization_id = organizations.id)")
 
-  named_scope :smes, {
-    :include => :organization_type,
-    :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(:sme) ]
-  }
+  scope :created_at, lambda { |month, year| where('created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
+  scope :joined_on, lambda { |month, year| where('joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
 
-  named_scope :businesses, {
-    :include    => :organization_type,
-    :conditions => ["organization_types.type_property = ?", OrganizationType::BUSINESS]
-  }
+  scope :with_pledge, where('pledge_amount > 0')
+  scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date) }
+  scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
-  named_scope :by_type, lambda { |filter_type|
-    {
-      :include => :organization_type,
-      :conditions => ["organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)]
-    }
-  }
-
-  named_scope :for_initiative, lambda { |symbol|
-    {
-      :include => :initiatives,
-      :conditions => ["initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id) ],
-      :order => "organizations.name ASC"
-    }
-  }
-
-  named_scope :last_joined, {
-    :order => "joined_on DESC, name DESC"
-  }
-
-  named_scope :with_cop_status, lambda { |filter_type|
+  def self.with_cop_status(filter_type)
     if filter_type.is_a?(Array)
       statuses = filter_type.map { |t| COP_STATES[t] }
-      {:conditions => ["cop_state IN (?)", statuses]}
+      where("cop_state IN (?)", statuses)
     else
-      {:conditions => ["cop_state = ?", COP_STATES[filter_type]]}
+      where("cop_state = ?", COP_STATES[filter_type])
     end
-  }
+  end
 
-  named_scope :not_delisted,
-    { :conditions => ["cop_state != ?", COP_STATE_DELISTED] }
+  def self.with_cop_info
+    select("organizations.*, c.*")
+      .joins("LEFT JOIN (
+              SELECT
+                organization_id,
+                MAX(created_at) AS latest_cop,
+                COUNT(id) AS cop_count
+              FROM
+                communication_on_progresses
+              WHERE
+                state = 'approved'
+              GROUP BY
+                 organization_id ) as c ON organizations.id = c.organization_id")
+      .includes([:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses])
+  end
 
-  named_scope :with_cop_due_on, lambda { |date|
-    { :conditions => {:cop_due_on => date} }
-  }
 
-  named_scope :with_cop_due_between, lambda { |start_date, end_date| {
-      :conditions => { :cop_due_on => start_date..end_date }
-    }
-  }
-
-  named_scope :delisted_between, lambda { |start_date, end_date| {
-      :conditions => { :delisted_on => start_date..end_date }
-    }
-  }
-
-  named_scope :noncommunicating,
-    { :conditions => ["cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true],
-      :order => 'cop_due_on'
-    }
-
-  named_scope :expelled_for_failure_to_communicate_progress, {
-    :conditions => ["organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING] ],
-    :order => 'delisted_on DESC'
-  }
-
-  named_scope :visible_to, lambda { |user|
+  def self.visible_to(user)
     if user.user_type == Contact::TYPE_ORGANIZATION
-      { :conditions => ['id=?', user.organization_id] }
+      where('id=?', user.organization_id)
     elsif user.user_type == Contact::TYPE_NETWORK
-      { :conditions => ["country_id in (?)", user.local_network.country_ids] }
+      where("country_id in (?)", user.local_network.country_ids)
     else
-      {}
+      self.scoped({})
     end
-  }
+  end
 
-  named_scope :listed,
-    { :include => [:country, :exchange],
-      :conditions => "organizations.stock_symbol IS NOT NULL" }
-
-  named_scope :without_contacts,
-    { :conditions => "not exists(select * from contacts c where c.organization_id = organizations.id)" }
-
-  named_scope :where_country_id, lambda {|id_or_array|
+  def self.where_country_id(id_or_array)
     if id_or_array.is_a?(Array)
-      { :conditions => ['country_id IN (?)', id_or_array] }
+      where('country_id IN (?)', id_or_array)
     else
-      { :conditions => {:country_id => id_or_array} }
+      where(:country_id => id_or_array)
     end
-  }
+  end
 
-  named_scope :created_at, lambda { |month, year|
-    { :conditions => ['created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
-  }
-
-  named_scope :joined_on, lambda { |month, year|
-    { :conditions => ['joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month] }
-  }
-
-  named_scope :with_pledge, :conditions => 'pledge_amount > 0'
-
-  named_scope :about_to_become_noncommunicating, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date] }
-  }
-
-  named_scope :about_to_become_delisted, lambda {
-    { conditions: ["cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date] }
-  }
-
-  named_scope :peer_organizations, lambda { |organization|
+  def self.peer_organizations(organization)
     conditions = ["country_id = ? AND sector_id = ? AND organizations.id != ?", organization.country_id, organization.sector_id, organization.id]
     unless organization.company?
       conditions = ["country_id = ? AND organization_type_id = ? AND organizations.id != ?", organization.country_id, organization.organization_type_id, organization.id]
     end
-    {
-      :include    => [:country, :sector],
-      :conditions => conditions,
-      :order      => "organizations.name ASC"
-    }
-  }
+    where(conditions).includes([:country, :sector]).order("organizations.name ASC")
+  end
 
   def as_json(options={})
     only = ['id', 'name', 'participant']
@@ -366,16 +290,16 @@ class Organization < ActiveRecord::Base
     super(:only => only, :methods => methods)
   end
 
-  def set_replied_to(current_user)
-    if current_user.from_organization?
+  def set_replied_to(current_contact)
+    if current_contact.from_organization?
       self.replied_to = false
-    elsif current_user.from_ungc?
+    elsif current_contact.from_ungc?
       self.replied_to = true
     end
   end
 
-  def set_last_modified_by(current_user)
-    update_attribute :last_modified_by_id, current_user.id
+  def set_last_modified_by(current_contact)
+    update_attribute :last_modified_by_id, current_contact.id
   end
 
   def local_network_country_code
@@ -428,7 +352,7 @@ class Organization < ActiveRecord::Base
   end
 
   def public_company?
-    listing_status.try(:name) == 'Publicly Listed'
+    listing_status.try(:name) == 'Public Company'
   end
 
   def micro_enterprise?
@@ -694,7 +618,7 @@ class Organization < ActiveRecord::Base
     self.save
   end
 
-  # called after OrganizationMailer.deliver_reject_microenterprise
+  # called after OrganizationMailer.reject_microenterprise
   def set_rejected_names
     self.update_attribute :name, name + ' (rejected)'
     self.contacts.each {|c| c.rejected_organization_email}
@@ -783,31 +707,20 @@ class Organization < ActiveRecord::Base
       ceo = self.contacts.ceos.first
       contact = self.contacts.contact_points.first
 
-      # save ceo login first since we have to change it before reassigning it to the contact point
-      # logins must be unique
-      ceo_login = contact.login
-
-      # make current ceo a contact point
+      ceo.username = contact.username
       ceo.roles << Role.contact_point
-
-      # logins must be unique, so change the current contact's login
-      contact.login = contact.id
-      contact.save
-
-      # copy original login
-      ceo.login = ceo_login
-
-      # copy passwords
-      ceo.hashed_password = contact.hashed_password
-      ceo.password = contact.password
-      ceo.save
+      ceo.encrypted_password = contact.encrypted_password
+      ceo.plaintext_password = contact.plaintext_password
 
       # remove login/password from former contact
       contact.roles.delete(Role.contact_point)
-      contact.login = nil
-      contact.hashed_password = nil
-      contact.password = nil
+      contact.username = nil
+      contact.encrypted_password = nil
+      contact.plaintext_password = nil
       contact.save
+
+      # save ceo after contact to avoid username collision
+      ceo.save
 
       # the contact person should now be CEO
       contact.roles << Role.ceo
@@ -816,7 +729,7 @@ class Organization < ActiveRecord::Base
       ceo.roles.delete(Role.ceo)
       true
     else
-      self.errors.add_to_base("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
+      self.errors.add :base,("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
       false
     end
 

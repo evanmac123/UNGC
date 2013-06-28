@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class CommentTest < ActiveSupport::TestCase
-  should_belong_to :commentable
-  should_belong_to :contact
+  should belong_to :commentable
+  should belong_to :contact
 
   context 'given an existing commentable' do
     setup do

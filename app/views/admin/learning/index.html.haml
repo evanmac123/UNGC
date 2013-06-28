@@ -1,21 +1,38 @@
 %h2 Find Events
 
-- form_for @search, :url => {:action => 'search'}, :html => {:method => 'get'}, :builder => DefaultFormBuilder do |form|
+= form_tag({:action => 'search'}, :method => 'get', :class => 'edit_local_network_event_search', :id => 'edit_local_network_event_search') do
 
   %fieldset{:style => "width: 50%;"}
     %ol
-      = form.text_field :fulltext,                                            :label => 'Search Terms'
-      = form.text_field :start_date,       {:class => 'datepicker iso-date'}, :label => 'Start Date'
-      = form.text_field :end_date,         {:class => 'datepicker iso-date'}, :label => 'End Date'
-      = form.select     :event_type,       event_type_options,                :label => 'Type of Event'
-      = form.select     :principle_id,     issue_area_options,                :label => 'Issue Area'
-      = form.select     :region,           region_options,                    :label => 'Region'
-      = form.select     :local_network_id, local_network_options,             :label => 'Local Network'
+      %li
+        = label_tag :local_network_event_search_fulltext, "Search Terms"
+        = text_field_tag 'local_network_event_search[fulltext]', @search.fulltext, :id => 'local_network_event_search_fulltext', :size => 30
 
+      %li
+        = label_tag :local_network_event_search_start_date, "Start Date"
+        = text_field_tag 'local_network_event_search[start_date]', @search.start_date, :class => 'datepicker iso-date', :id => 'local_network_event_search_start_date'
+
+      %li
+        = label_tag :local_network_event_search_end_date, "End Date"
+        = text_field_tag 'local_network_event_search[end_date]', @search.end_date, :class => 'datepicker iso-date', :id => 'local_network_event_search_end_date'
+
+      %li
+        = label_tag :local_network_event_search_event_type, "Type of Event"
+        = select_tag 'local_network_event_search[event_type]', options_for_select(event_type_options, @search.event_type), :id => 'local_network_event_search_event_type'
+
+      %li
+        = label_tag :local_network_event_search_principle_id, "Issue Area"
+        = select_tag 'local_network_event_search[principle_id]', options_for_select(issue_area_options, @search.principle_id), :id => 'local_network_event_search_principle_id'
+
+      %li
+        = label_tag :local_network_event_search_region, "Region"
+        = select_tag 'local_network_event_search[region]', options_for_select(region_options, @search.region), :id => 'local_network_event_search_region'
+
+      %li
+        = label_tag :local_network_event_search_local_network_id, "Local Network"
+        = select_tag 'local_network_event_search[local_network_id]', options_for_select(local_network_options, @search.local_network_id), :id => 'local_network_event_search_local_network_id'
   /[if IE]
     %p
-
-  = form.submit 'Search'
+  = submit_tag 'Search', :id => 'local_network_event_search_submit'
 
 = local_network_region_js
-

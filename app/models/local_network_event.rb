@@ -78,7 +78,7 @@ class LocalNetworkEvent < ActiveRecord::Base
   end
 
   def must_have_attachment
-    errors.add(:file) if attachments.empty?
+    errors.add(:attachments) if attachments.empty?
   end
 
   def set_indexed_fields
@@ -132,24 +132,24 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-         case error
-           when 'title'
-             error_messages << 'Enter a title'
-           when 'description'
-             error_messages << 'Enter a description'
-           when 'event_type'
-             error_messages << 'Select an event type'
-           when 'num_participants'
-             error_messages << 'Stakeholders > Enter the number of attendees at the event. Letters or other symbols cannot be entered.'
-           when 'gc_participant_percentage'
-             error_messages << 'Stakeholders > Enter a number between 0 and 100 indicating the approximate percentage of Global Compact participants.'
-           when 'date'
-             error_messages << 'Select a date'
-           when 'file'
-             error_messages << 'Files > Select a file to upload'
-          end
-       end
+    errors.each do |attribute|
+     case attribute
+       when :title
+         error_messages << 'Enter a title'
+       when :description
+         error_messages << 'Enter a description'
+       when :event_type
+         error_messages << 'Select an event type'
+       when :num_participants
+         error_messages << 'Stakeholders > Enter the number of attendees at the event. Letters or other symbols cannot be entered.'
+       when :gc_participant_percentage
+         error_messages << 'Stakeholders > Enter a number between 0 and 100 indicating the approximate percentage of Global Compact participants.'
+       when :date
+         error_messages << 'Select a date'
+       when :attachments
+         error_messages << 'Files > Select a file to upload'
+      end
+    end
     error_messages
   end
 

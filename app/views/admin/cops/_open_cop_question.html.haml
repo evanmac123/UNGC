@@ -5,7 +5,6 @@
   %span{:class => "label_text"}
     = answer.cop_attribute.text
     - if answer.cop_attribute.hint.present?
-      = image_tag('/images/icons/Info_11x11.png', :style => 'margin-bottom: -2px;', :title => answer.cop_attribute.hint)
-
+      = image_tag('icons/Info_11x11.png', :style => 'margin-bottom: -2px;', :title => answer.cop_attribute.hint)
     = hidden_field_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][cop_attribute_id]", answer.cop_attribute_id)
     = text_area_tag("communication_on_progress[cop_answers_attributes][#{answer_index}][text]", answer.text, { :class => 'cop_answer cop_answer_textarea', :style => answer.value ? '' : 'display: none;', :maxlength => 255 })

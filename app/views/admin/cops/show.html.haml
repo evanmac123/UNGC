@@ -1,5 +1,5 @@
 - @body_class = 'details'
-- @return_path = current_user.from_organization? ? dashboard_path(:tab => :cops) : admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
+- @return_path = current_contact.from_organization? ? dashboard_path(:tab => :cops) : admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
 
 %h2 Communication on Progress Details
 

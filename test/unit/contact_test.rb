@@ -1,10 +1,12 @@
 require 'test_helper'
 
 class ContactTest < ActiveSupport::TestCase
-  should_validate_presence_of :first_name, :last_name, :email
-  should_belong_to :organization
-  should_belong_to :local_network
-  should_belong_to :country
+  should validate_presence_of :first_name
+  should validate_presence_of :last_name
+  should validate_presence_of :email
+  should belong_to :organization
+  should belong_to :local_network
+  should belong_to :country
 
   context "given a ungc user" do
     setup do

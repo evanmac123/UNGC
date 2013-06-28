@@ -8,12 +8,12 @@ class NewsController < ApplicationController
       @year = params[:year].try(:to_i) || Date.today.year
       @headlines = Headline.for_year(@year)
     else
-      @headlines = Headline.published.find(:all, :order => "published_on DESC", :limit => 9)
+      @headlines = Headline.published.order("published_on DESC").limit(9).all
     end
   end
 
   def feed
-    @headlines = Headline.find(:all, :order => "published_on DESC", :limit => 9)
+    @headlines = Headline.order("published_on DESC").limit(9).all
     respond_to do |format|
       format.atom { render :layout => false }
     end

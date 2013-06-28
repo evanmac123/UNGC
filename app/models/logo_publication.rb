@@ -16,5 +16,5 @@ class LogoPublication < ActiveRecord::Base
   acts_as_tree
 
   default_scope :order => 'name'
-  named_scope :top_level, :conditions => 'parent_id IS NULL'
+  scope :top_level, where('parent_id IS NULL')
 end

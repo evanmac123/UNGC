@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+  ServerName <%= configuration[:webdav][:domain] %>
+  DocumentRoot /srv/unglobalcompact/shared/public
+
+  <Directory /srv/unglobalcompact/shared/public/pics>
+    DAV On
+    AuthType Basic
+    AuthName "webdav"
+    AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
+    Require valid-user
+  </Directory>
+
+  <Directory /srv/unglobalcompact/shared/public/docs>
+    DAV On
+    AuthType Basic
+    AuthName "webdav"
+    AuthUserFile /srv/unglobalcompact/shared/config/passwd.dav
+    Require valid-user
+  </Directory>
+</VirtualHost>

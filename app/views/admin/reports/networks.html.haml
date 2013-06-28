@@ -1,6 +1,6 @@
 %h2 Network Reports
 
-- form_for admin_report_path(:action => :networks), :html => {:method => :get} do |f|
+= form_for admin_report_path(:action => :networks), :html => {:method => :get} do |f|
   = select_tag :region, options_for_select(@regions.collect{|r| [r.region, r.region]}, @region)
   = select_tag :country, options_for_select(@countries.collect{|c| [c.name, c.name]}, @country)
   = f.submit 'View'

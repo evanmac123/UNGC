@@ -49,31 +49,16 @@ class Page < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :all_versions_of, lambda { |path|
-    return {} if path.blank?
-    {
-      :conditions => ["pages.path = ?", path],
-    }
-  }
-  named_scope :for_navigation, :conditions => {"display_in_navigation" => true}
+  scope :for_navigation, where("display_in_navigation" => true)
+  scope :earlier_versions_than, lambda { |version_number| where("pages.version_number < ?", version_number).order("pages.version_number DESC") }
+  scope :later_versions_than, lambda { |version_number| where("pages.version_number > ?", version_number).order("pages.version_number ASC") }
+  scope :local_network_training_guidance_material, where("pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'").order('parent_id, position').group(:path)
+  scope :local_network_news_updates, where("pages.path LIKE '/LocalNetworksResources/news_updates/%'").order('parent_id, position').group(:path)
+  scope :local_network_reports, where("pages.path LIKE '/LocalNetworksResources/reports/%'").order('parent_id, position').group(:path)
 
-  named_scope :earlier_versions_than, lambda { |version_version_number|
-    {
-      :conditions => ["pages.version_number < ?", version_version_number],
-      :order => "pages.version_number DESC"
-    }
-  }
-
-  named_scope :later_versions_than, lambda { |version_version_number|
-    {
-      :conditions => ["pages.version_number > ?", version_version_number],
-      :order => "pages.version_number ASC"
-    }
-  }
-
-  named_scope :local_network_training_guidance_material, :conditions => "pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'", :order => 'parent_id, position', :group => :path
-  named_scope :local_network_news_updates, :conditions => "pages.path LIKE '/LocalNetworksResources/news_updates/%'", :order => 'parent_id, position', :group => :path
-  named_scope :local_network_reports, :conditions => "pages.path LIKE '/LocalNetworksResources/reports/%'", :order => 'parent_id, position', :group => :path
+  def self.all_versions_of(path)
+    where("pages.path = ?", path)
+  end
 
   def self.approved_for_path(path)
     approved.find_by_path path

@@ -15,23 +15,12 @@ class CopAnswer < ActiveRecord::Base
   belongs_to :communication_on_progress, :foreign_key => :cop_id
   belongs_to :cop_attribute
 
-  named_scope :by_group, lambda { |group|
-    {
-     :include => :cop_attribute,
-     :conditions => ["cop_attributes.cop_question_id IN (?)", CopQuestion.group_by(group).map(&:id)]
-    }
-  }
+  scope :by_group, lambda { |group| where("cop_attributes.cop_question_id IN (?)", CopQuestion.group_by(group).map(&:id)).includes(:cop_attribute) }
 
-  named_scope :not_covered_by_group, lambda { |group|
-    {
-     :include => :cop_attribute,
-     :conditions => ["cop_attributes.cop_question_id IN (?) AND value = 0", CopQuestion.group_by(group).map(&:id)]
-    }
-  }
+  scope :not_covered_by_group, lambda { |group| where("cop_attributes.cop_question_id IN (?) AND value = 0", CopQuestion.group_by(group).map(&:id)).includes(:cop_attribute) }
 
-  named_scope :cop_questionnaire_answers, {
-
-    :select => "cop_answers.id,
+  def self.cop_questionnaire_answers
+    select("cop_answers.id,
                 q.implementation,
                 q.grouping,
                 p.name AS issue_area,
@@ -46,17 +35,14 @@ class CopAnswer < ActiveRecord::Base
                 cop_answers.value,
                 (SELECT CASE cop_answers.value WHEN '1' THEN cop_attribute_id ELSE '' END) AS cop_attribute_id_covered,
                 cop.differentiation,
-                cop_answers.created_at",
-
-    :joins => "JOIN cop_attributes c ON c.id = cop_answers.cop_attribute_id
+                cop_answers.created_at")
+      .joins("JOIN cop_attributes c ON c.id = cop_answers.cop_attribute_id
                LEFT JOIN cop_questions q ON q.id = c.cop_question_id
                LEFT JOIN communication_on_progresses cop ON cop_answers.cop_id = cop.id
                LEFT JOIN organizations o ON o.id = cop.organization_id
-               LEFT JOIN principles p ON p.id = q.principle_area_id",
-
-    :conditions => "cop_answers.created_at >= '2011-01-31' AND cop_answers.value IS NOT NULL"
-  }
-
+               LEFT JOIN principles p ON p.id = q.principle_area_id")
+      .where("cop_answers.created_at >= '2011-01-31' AND cop_answers.value IS NOT NULL")
+  end
 
   def cop_attribute_text
     cop_attribute.text

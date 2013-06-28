@@ -17,7 +17,7 @@ module ContentApproval
   def self.included(klass)
     klass.class_eval do
       belongs_to :approved_by, :class_name => 'Contact'
-      named_scope :approved, :conditions => {:approval => ContentApproval::STATES[:approved]}
+      scope :approved, where(:approval => ContentApproval::STATES[:approved])
       state_machine :approval, :initial => ContentApproval::STATES[:pending] do
         event(ContentApproval::EVENTS[:approve]) { transition :from => [ContentApproval::STATES[:pending], ContentApproval::STATES[:previously]],  :to => ContentApproval::STATES[:approved]   }
         # event(ContentApproval::EVENTS[:reject])  { transition :from => ContentApproval::STATES[:pending],  :to => ContentApproval::STATES[:rejected]   }
@@ -32,14 +32,7 @@ module ContentApproval
 
   def store_approved_data
     self.approved_at = Time.now
-    self.approved_by = @current_user if @current_user
-  end
-
-  def destroy
-    delete! # use the state machine
-    if respond_to?(:children)
-      (children || []).each { |child| child.destroy }
-    end
+    self.approved_by = @current_contact if @current_contact
   end
 
   # For convenience

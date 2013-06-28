@@ -54,10 +54,10 @@
   %table
     %tr
       %td{:style => @row_style} Username:
-      %td= @contact.login
+      %td= @contact.username
     %tr
       %td{:style => @row_style} Password:
-      %td= @contact.password
+      %td= @contact.plaintext_password
 
 %p
   %strong Contact Point Information

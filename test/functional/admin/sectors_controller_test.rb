@@ -5,7 +5,7 @@ class Admin::SectorsControllerTest < ActionController::TestCase
     @staff_user = create_staff_user
     @sector = create_sector
 
-    login_as @staff_user
+    sign_in @staff_user
   end
 
   test "should get index" do

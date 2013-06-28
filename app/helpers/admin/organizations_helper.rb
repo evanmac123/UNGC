@@ -1,22 +1,22 @@
 module Admin::OrganizationsHelper
   def organization_actions(organization)
     actions = []
-    unless current_user.from_organization?
-      actions << link_to('Network Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post, :confirm => "The Local Network in #{@organization.country_name} will be emailed.\n\nAre you sure you want to proceed?\n\n") if organization.can_network_review?
-      actions << link_to('Delay Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_DELAY_REVIEW), :method => :post, :confirm => "This application will be put on hold") if organization.can_delay_review?
-      actions << link_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), :method => :post) if organization.can_approve?
-      actions << link_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this application?") if organization.can_reject?
-      actions << link_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_user.first_name}, are you sure you want to reject this Micro Enterprise?") if organization.can_reject?
-      actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
+    unless current_contact.from_organization?
+      actions << button_to('Network Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_NETWORK_REVIEW), :method => :post, :confirm => "The Local Network in #{@organization.country_name} will be emailed.\n\nAre you sure you want to proceed?\n\n", :class => "nobutton") if organization.can_network_review?
+      actions << button_to('Delay Review', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_DELAY_REVIEW), :method => :post, :confirm => "This application will be put on hold", :class => "nobutton") if organization.can_delay_review?
+      actions << button_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), {:method => :post, :class => "nobutton"}) if organization.can_approve?
+      actions << button_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this application?", :class => "nobutton") if organization.can_reject?
+      actions << button_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this Micro Enterprise?", :class => "nobutton") if organization.can_reject?
+      actions << button_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile', :class => "nobutton")
       if @organization.participant
         actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
       end
     end
-    actions.join(" | ")
+    actions.join(" | ").html_safe
   end
 
-  def cancel_and_return(current_user)
-    if current_user.from_organization?
+  def cancel_and_return(current_contact)
+    if current_contact.from_organization?
       dashboard_path
     else
       admin_organization_path @organization.id
@@ -38,7 +38,7 @@ module Admin::OrganizationsHelper
   def initial_organization_state(organization)
     commands = ["$('.company_only').#{organization.company? ? 'show' : 'hide'}();"]
     commands << "$('.public_company_only').#{organization.public_company? ? 'show' : 'hide'}();"
-    commands.collect{|c| javascript_tag(c)}.join
+    commands.collect{|c| javascript_tag(c)}.join.html_safe
   end
 
   def display_status(organization)
@@ -54,10 +54,10 @@ module Admin::OrganizationsHelper
 
     elsif organization.in_review? || organization.delay_review?
       review_reason = " - #{organization.review_reason_value}" if organization.review_reason_value.present?
-      status = current_user.from_organization? ? 'Application is under review' : "#{organization.state.humanize}#{review_reason}"
+      status = current_contact.from_organization? ? 'Application is under review' : "#{organization.state.humanize}#{review_reason}"
 
     elsif organization.network_review?
-      status = current_user.from_organization? ? 'Application is under review' : "Network Review: #{network_review_period(organization).downcase}"
+      status = current_contact.from_organization? ? 'Application is under review' : "Network Review: #{network_review_period(organization).downcase}"
 
     else
       status = organization.state.humanize
@@ -120,14 +120,17 @@ module Admin::OrganizationsHelper
         list_items = ''
         matches.try(:each) do |match|
           unless match.id == organization.id
-            list_items += content_tag :li, link_to("#{match.id}: #{match.name}", admin_organization_path(match.id)), :title => "#{match.id}: #{match.name}"
+            list_items += content_tag :li,
+                                      link_to("#{match.id}: #{match.name}",
+                                      admin_organization_path(match.id)),
+                                      :title => "#{match.id}: #{match.name}"
           end
         end
       end
 
       unless list_items.blank?
         html = content_tag :span, 'We found organizations with similar names:', :style => 'color: green; display: block; margin: 3px 0px;'
-        html += content_tag :ul, list_items, :class => 'matching_list'
+        html += content_tag :ul, list_items.html_safe, :class => 'matching_list'
       end
     end
 
@@ -143,13 +146,13 @@ module Admin::OrganizationsHelper
 
   # if an organization is still under review, then they should be able to change their letter
   def can_edit_letter?(organization)
-    unless organization.new_record? || organization.approved? && current_user.from_organization?
+    unless organization.new_record? || organization.approved? && current_contact.from_organization?
       true
     end
   end
 
-  def alert_if_micro_enterprise(organization, current_user)
-    if current_user.from_ungc?
+  def  alert_if_micro_enterprise(organization, current_contact)
+    if current_contact.from_ungc?
       organization.business_entity? && organization.employees < 10 ? 'red' : 'inherit'
     end
   end

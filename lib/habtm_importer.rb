@@ -64,7 +64,7 @@ class HabtmImporter
 
   private
     def setup(options)
-      @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
+      @data_folder = options[:folder] || File.join(Rails.root, 'lib/un7_tables')
       @silent = options[:silent] || false
       if options[:files]
         @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]

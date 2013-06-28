@@ -1,9 +1,6 @@
 %h1 Participant Search
 
-= stylesheet_link_tag '/javascripts/tablesorter/addons/pager/jquery.tablesorter.pager.css'
-
 - if @results.any?
-
   %p
     == There #{@results.total_entries > 1 ?  'are' : 'is only'} #{searched_for}.
 
@@ -52,7 +49,7 @@
     = will_paginate @results, :anchor => 'paged_results'
   %h5
     If
-    %img{ :src => "/images/icon_alert.gif" }
+    %img{ :src => "/assets/icon_alert.gif" }
     appears next to the company's name, the company is Non-communicating for failing to submit a Communication on Progress by the relevant deadline.  If no such icon appears, the company is currently an Active participant.
 
 - else

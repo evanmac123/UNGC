@@ -43,6 +43,7 @@
 #  replied_to                 :boolean(1)
 #  reviewer_id                :integer(4)
 #
+require 'ostruct'
 
 class CaseStory < ActiveRecord::Base
   include ApprovalWorkflow
@@ -61,17 +62,13 @@ class CaseStory < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :unreplied, :conditions => {:replied_to => false}
+  scope :unreplied, where(:replied_to => false)
 
   def authors_for_display
-    authors = [
-      [author1, author1_email, author1_institution],
-      [author2, author2_email, author2_institution]
-    ]
-
-    authors.map do |details|
-      display_contact(*details) unless author1.blank?
-    end
+    authors = []
+    authors << [author1, author1_email, author1_institution] if author1.present?
+    authors << [author2, author2_email, author2_institution] if author2.present?
+    authors.map { |details| display_contact(*details) }
   end
 
   def category_name

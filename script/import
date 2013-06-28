@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
-require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+require File.dirname(__FILE__) + '/../config/environment' unless defined?(Rails.root)
 require 'hpricot'
 require 'pp'
 require 'facets'
@@ -33,7 +33,7 @@ MOVED_PAGES = {
 }
 
 # Points to the unglobalcompact directory of the CMS export
-root = "#{RAILS_ROOT}/vendor/open_cms_export/unglobalcompact/"
+root = "#{Rails.root}/vendor/open_cms_export/unglobalcompact/"
 
 Page.delete_all; PageGroup.delete_all # reset to 0
 parse_language_nav(root)              # Language pages have their own navigation that isn't well integrated

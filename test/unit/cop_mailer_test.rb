@@ -9,29 +9,29 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "send confirmation Learner email" do
-      response = CopMailer.deliver_confirmation_learner(@organization, @cop, @organization_user)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.confirmation_learner(@organization, @cop, @organization_user).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Status - 12 Month Learner Grace Period", response.subject
       assert_equal @organization_user.email, response.to.first
     end
 
     should "send confirmation Active email" do
-      response = CopMailer.deliver_confirmation_active(@organization, @cop, @organization_user)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.confirmation_active(@organization, @cop, @organization_user).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Status - GC Active", response.subject
       assert_equal @organization_user.email, response.to.first
     end
 
     should "send confirmation Advanced email" do
-      response = CopMailer.deliver_confirmation_advanced(@organization, @cop, @organization_user)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.confirmation_advanced(@organization, @cop, @organization_user).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Status - GC Advanced", response.subject
       assert_equal @organization_user.email, response.to.first
     end
 
     should "send confirmation Blueprint email" do
-      response = CopMailer.deliver_confirmation_blueprint(@organization, @cop, @organization_user)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.confirmation_blueprint(@organization, @cop, @organization_user).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "Global Compact LEAD - COP Status", response.subject
       assert_equal @organization_user.email, response.to.first
     end
@@ -45,8 +45,8 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "send confirmation Non Business email" do
-      response = CopMailer.deliver_confirmation_non_business(@organization, @cop, @organization_user)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.confirmation_non_business(@organization, @cop, @organization_user).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact - COP Published", response.subject
       assert_equal @organization_user.email, response.to.first
     end
@@ -63,12 +63,12 @@ class CopMailerTest < ActionMailer::TestCase
       assert @first_cop.learner?
       assert @organization.double_learner?
 
-      response = CopMailer.send("deliver_confirmation_#{@second_cop.confirmation_email}",
+      response = CopMailer.send("confirmation_#{@second_cop.confirmation_email}",
                                 @organization,
                                 @second_cop,
-                                @organization_user)
+                                @organization_user).deliver
 
-      assert_equal "text/html", response.content_type
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Status - Consecutive Learner COPs", response.subject
       assert_equal @organization_user.email, response.to.first
     end
@@ -89,12 +89,12 @@ class CopMailerTest < ActionMailer::TestCase
      should "send triple Learner alert and copy Participant Manager" do
        assert @organization.triple_learner_for_one_year?
 
-       response = CopMailer.send("deliver_confirmation_#{@third_cop.confirmation_email}",
+       response = CopMailer.send("confirmation_#{@third_cop.confirmation_email}",
                                  @organization,
                                  @third_cop,
-                                 @organization_user)
+                                 @organization_user).deliver
 
-       assert_equal "text/html", response.content_type
+       assert_equal "text/html; charset=UTF-8", response.content_type
        assert_equal "UN Global Compact Status - Non-Communicating due to exceeded Learner Grace Period", response.subject
        assert_equal @organization_user.email, response.to.first
        assert_contains response.cc, @organization.participant_manager_email
@@ -110,16 +110,16 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send 90 days reminder" do
-      response = CopMailer.deliver_cop_due_in_90_days(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.cop_due_in_90_days(@organization)
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - 90 Days", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
 
     should "be able to send 30 days reminder" do
-      response = CopMailer.deliver_cop_due_in_30_days(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.cop_due_in_30_days(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - 30 Days", response.subject
       # assert_equal @organization_user.try(:email), response.to.first
       # do not send to Local Network
@@ -127,8 +127,8 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send today's reminder" do
-      response = CopMailer.deliver_cop_due_today(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.cop_due_today(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - Today", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
@@ -143,27 +143,27 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send notice of delisting in 3 months" do
-      response = CopMailer.deliver_delisting_in_90_days(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.delisting_in_90_days(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Expulsion in 3 months", response.subject
       assert_equal @organization_user.email, response.to.first
-      assert_equal nil, response.cc
+      assert_equal [], response.cc
     end
 
     should "be able to send 30 days until delisting" do
-      response = CopMailer.deliver_delisting_in_30_days(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.delisting_in_30_days(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "Urgent - UN Global Compact Expulsion in 30 days", response.subject
       assert_equal @organization_user.email, response.to.first
-      assert_equal nil, response.cc
+      assert_equal [], response.cc
     end
 
     should "be able to send notice of delisting today" do
-      response = CopMailer.deliver_delisting_today(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.delisting_today(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Status - Expelled", response.subject
       assert_equal @organization_user.email, response.to.first
-      assert_equal nil, response.cc
+      assert_equal [], response.cc
     end
   end
 
@@ -177,24 +177,24 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send notice of delisting in 3 months" do
-      response = CopMailer.deliver_delisting_in_90_days(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.delisting_in_90_days(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Expulsion in 3 months", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
 
     should "copy Local Network on 30 days until delisting" do
-      response = CopMailer.deliver_delisting_in_30_days(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.delisting_in_30_days(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "Urgent - UN Global Compact Expulsion in 30 days", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
 
     should "be able to send notice of delisting today" do
-      response = CopMailer.deliver_delisting_today(@organization)
-      assert_equal "text/html", response.content_type
+      response = CopMailer.delisting_today(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact Status - Expelled", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first

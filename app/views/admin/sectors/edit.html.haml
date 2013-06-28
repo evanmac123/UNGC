@@ -1,5 +1,5 @@
 %h2 Editing sector
 
-- form_for @sector, builder: DefaultFormBuilder, url: admin_sector_path(@sector) do |form|
+= form_for @sector, builder: DefaultFormBuilder, url: admin_sector_path(@sector) do |form|
   = render :partial => form
   = form.submit 'Save changes', :class => 'button'

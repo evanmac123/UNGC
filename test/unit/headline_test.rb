@@ -2,7 +2,7 @@
 require 'test_helper'
 
 class HeadlineTest < ActiveSupport::TestCase
-  should_belong_to :country
+  should belong_to :country
 
   context "given an headline with a strange title" do
     setup do
@@ -16,7 +16,7 @@ class HeadlineTest < ActiveSupport::TestCase
 
   context "given a headline being read in an Atom feed" do
     setup do
-      @headline = Headline.new :title => String.random, :description => "<p>First paragraph</p><p>Second paragraph</p>"
+      @headline = Headline.new :title => FixtureReplacement.random_string, :description => "<p>First paragraph</p><p>Second paragraph</p>"
     end
     should "use first paragraph as teaser" do
       assert_equal @headline.teaser, "First paragraph"
@@ -25,7 +25,7 @@ class HeadlineTest < ActiveSupport::TestCase
 
   context "given a new headline" do
     setup do
-      @headline = Headline.new :title => String.random
+      @headline = Headline.new :title => FixtureReplacement.random_string
       assert @headline.save
     end
 
@@ -51,7 +51,7 @@ class HeadlineTest < ActiveSupport::TestCase
   context "given a headline with a fixed published date" do
     setup do
       fixed_date = (Date.today << 1).strftime('%m/%d/%Y')
-      @headline = Headline.new :title => String.random, :published_on_string => fixed_date
+      @headline = Headline.new :title => FixtureReplacement.random_string, :published_on_string => fixed_date
       assert @headline.save
       @headline.reload
     end

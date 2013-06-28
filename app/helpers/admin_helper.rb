@@ -26,11 +26,11 @@ module AdminHelper
   end
 
   def possibly_link_to_organization
-    link_to 'Organization details', admin_organization_path(current_user.organization.id) if logged_in?
+    link_to 'Organization details', admin_organization_path(current_contact.organization.id) if current_contact
   end
 
   def possibly_link_to_edit_organization
-    link_to 'Edit your organization', edit_admin_organization_path(current_user.organization.id) if logged_in?
+    link_to 'Edit your organization', edit_admin_organization_path(current_contact.organization.id) if current_contact
   end
 
   def link_to_attached_file(object, file='attachment')
@@ -111,11 +111,11 @@ module AdminHelper
 
   def display_readable_errors(object)
      error_messages = object.readable_error_messages.map { |error| content_tag :li, error }
-     content_tag :ul, error_messages.join
+     content_tag :ul, error_messages.join.html_safe
   end
 
   def popup_link_to(text, url, options={})
-    link_to text, url, {:popup => ['left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1'], :title => options[:title], :class => options[:class]}
+    link_to text.html_safe, url, :title => options[:title], :class => options[:class], :data => {'popup' => true}
   end
 
 

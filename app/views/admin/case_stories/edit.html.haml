@@ -1,5 +1,5 @@
 %h2 Edit case story
 
-- form_for(:case_story, builder: DefaultFormBuilder, url: admin_organization_case_story_path(@organization.id, @case_story), :html => { :multipart => true, :method => :put }) do |form|
+= form_for(:case_story, builder: DefaultFormBuilder, url: admin_organization_case_story_path(@organization.id, @case_story), :html => { :multipart => true, :method => :put }) do |form|
   = render :partial => form
   = form.submit 'Save', :class => 'button'

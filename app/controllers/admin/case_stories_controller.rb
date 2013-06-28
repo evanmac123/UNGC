@@ -8,7 +8,7 @@ class Admin::CaseStoriesController < AdminController
 
   def create
     @case_story = @organization.case_stories.new(params[:case_story])
-    @case_story.contact_id = current_user.id
+    @case_story.contact_id = current_contact.id
 
     if @case_story.save
       flash[:notice] = 'Case Story was successfully created.'
@@ -30,7 +30,7 @@ class Admin::CaseStoriesController < AdminController
 
   private
     def load_organization
-      @case_story = CaseStory.visible_to(current_user).find(params[:id]) if params[:id]
+      @case_story = CaseStory.visible_to(current_contact).find(params[:id]) if params[:id]
       if params[:organization_id] =~ /\A[0-9]+\Z/ # it's all numbers
         @organization = Organization.find_by_id(params[:organization_id])
       else

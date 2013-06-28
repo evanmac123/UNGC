@@ -1,0 +1,12 @@
+:domain: unglobalcompact.org
+
+:domain_aliases:
+  - www.unglobalcompact.org
+
+:passenger:
+  :max_pool_size: 6
+  :min_instances: 6
+  :pool_idle_time: 0
+
+:webdav:
+  :domain: webdav.unglobalcompact.org

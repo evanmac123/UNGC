@@ -18,11 +18,12 @@
 class Comment < ActiveRecord::Base
   validates_presence_of :body, :unless => Proc.new { |c| ApprovalWorkflow::STAFF_EVENTS.include?(c.state_event) }
   belongs_to :commentable, :polymorphic => true
-  default_scope :order => 'updated_at DESC'
   belongs_to :contact
 
   has_attached_file :attachment
-  named_scope :with_attachment, :conditions => "attachment_file_name IS NOT NULL"
+  
+  default_scope order('updated_at DESC')
+  scope :with_attachment, where("attachment_file_name IS NOT NULL")
 
   # copy email to local network if option is selected
   attr_accessor :copy_local_network
@@ -52,13 +53,13 @@ class Comment < ActiveRecord::Base
 
     def no_comment_on_approved_or_rejected_commentable
       if commentable && (commentable.approved? || commentable.rejected?)
-        errors.add_to_base "cannot add comments to a #{commentable.state} model"
+        errors.add :base, "cannot add comments to a #{commentable.state} model"
       end
     end
 
     def organization_user_cannot_approve_or_reject
       if ApprovalWorkflow::STAFF_EVENTS.include? state_event.to_s
-        errors.add_to_base "cannot approve/reject comment unless you are Global Compact staff" unless contact.from_ungc?
+        errors.add :base, "cannot approve/reject comment, unless you are Global Compact staff" unless contact.from_ungc?
       end
     end
 

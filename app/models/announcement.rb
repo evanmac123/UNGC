@@ -30,11 +30,11 @@ class Announcement < ActiveRecord::Base
     error_messages = []
     errors.each do |error|
       case error
-        when 'file'
+        when :file
           error_messages << 'Choose a file to upload'
-        when 'title'
+        when :title
           error_messages << 'Title is required'
-        when 'description'
+        when :description
           error_messages << 'Provide a brief description for the event'
       end
     end

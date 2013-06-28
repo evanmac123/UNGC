@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Admin::PagesHelper
   def dynamic_json(page)
     hash = {1 => 'Dynamically generated', 0 => 'Standard'}

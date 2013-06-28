@@ -46,7 +46,7 @@
 
         %p{:title => "Additional information on the best practice will appear here."}
           Note: Throughout the self-assessment, best practices marked with
-          = image_tag "/images/icons/Info_11x11.png", :height => 11, :width => 11, :style => 'position: relative; top: 1px;';
+          = image_tag "icons/Info_11x11.png", :height => 11, :width => 11, :style => 'position: relative; top: 1px;';
           indicate additional information is available for that item.
 
     = render :partial => 'cop_title_field', :locals => {:form => form}
@@ -219,7 +219,7 @@
           %legend
             %span Contact Information
           %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
-          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name || current_user.contact_info
+          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name || current_contact.contact_info
 
     = render :partial => 'submit_cop'
     %br

@@ -75,51 +75,20 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   default_scope :order => 'communication_on_progresses.created_at DESC'
 
-  named_scope :all_cops, {:include => [ :organization, { :organization => :country } ]}
-
-  named_scope :created_between, lambda { |start_date, end_date| {
-    :conditions => { :created_at => start_date..end_date }
-    }
+  scope :all_cops, includes([:organization, {:organization => [:country]}])
+  scope :created_between, lambda { |start_date, end_date| where(created_at: start_date..end_date) }
+  scope :new_policy, lambda { where("created_at >= ?", Date.new(2010, 1, 1)) }
+  scope :old_policy, lambda { where("created_at <= ?", Date.new(2009, 12, 31)) }
+  scope :notable, lambda {
+    includes([:score, {:organization => [:country]}]).where("cop_score_id = ?", CopScore.notable.try(:id)).order("ends_on DESC")
   }
-
-  named_scope :new_policy, {:conditions => ["created_at >= ?", Date.new(2010, 1, 1) ]}
-  named_scope :old_policy, {:conditions => ["created_at <= ?", Date.new(2009, 12, 31) ]}
-
-  named_scope :notable, {
-    :include => [:score, {:organization => [:country]}],
-    :conditions => [ "cop_score_id = ?", CopScore.notable.try(:id) ],
-    :order => 'ends_on DESC'
-  }
-
-  named_scope :active, {
-    :include => [ {:organization => [:country, :sector]} ],
-    :conditions => [ "differentiation = ?", 'active' ]
-  }
-
-  named_scope :advanced, {
-    :include => [ {:organization => [:country, :sector]} ],
-    :conditions => [ "differentiation IN (?)", ['advanced','blueprint'] ]
-  }
-
-  named_scope :learner, {
-    :include => [ {:organization => [:country, :sector]} ],
-    :conditions => [ "differentiation = ?", 'learner' ]
-  }
-
-  named_scope :by_year, { :order => "communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC" }
-
-  named_scope :since_year, lambda { |year| {
-    :include => [ :organization, { :organization => :country,
-                                   :organization => :organization_type } ],
-    :conditions => ["created_at >= ?", Date.new(year, 01, 01) ]
-    }
-  }
-
+  scope :active,   where("differentiation = ?", 'active').includes([{:organization => [:country, :sector]}])
+  scope :advanced, where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}])
+  scope :learner, where("differentiation = ?", 'learner').includes([{:organization => [:country, :sector]}])
+  scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => :country, :organization => :organization_type}]) }
   # feed contains daily COP submissions, without grace letters
-  named_scope :for_feed, {
-    :conditions => ["format != (?) AND created_at >= (?)", 'grace_letter', Date.today],
-    :order => "created_at DESC"
-  }
+  scope :for_feed, lambda { where("format != ? AND created_at >= ?", 'grace_letter', Date.today).order("created_at") }
+  scope :by_year, order("communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC")
 
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
@@ -241,7 +210,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def can_be_edited?
     unless self.editable?
-      errors.add_to_base("You can no longer edit this COP. Please, submit a new one.")
+      errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
     end
   end
 
@@ -538,9 +507,9 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-      case error
-        when 'cop_files.attachment'
+    errors.each do |attribute|
+      case attribute.to_s
+        when 'cop_files.attachment_file_name'
           error_messages << 'Choose a file to upload'
         when 'cop_files.language'
           error_messages << 'Select a language for each file'

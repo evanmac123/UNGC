@@ -25,10 +25,13 @@ class PageGroup < ActiveRecord::Base
     :conditions  => {:approval => 'approved', :parent_id => nil},
     :order       => "position ASC"
 
-  named_scope :for_navigation,
-    :include    => :visible_children,
-    :order      => "page_groups.position ASC",
-    :conditions => ["page_groups.display_in_navigation = ?", true]
+  scope :for_navigation, includes(:visible_children).where("page_groups.display_in_navigation = ?", true).order("page_groups.position ASC")
+
+  default_scope :order => "page_groups.position ASC"
+
+  default_scope :order => "page_groups.position ASC"
+
+  default_scope :order => "page_groups.position ASC"
 
   default_scope :order => "page_groups.position ASC"
 

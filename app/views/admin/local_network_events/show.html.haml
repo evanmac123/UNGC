@@ -1,7 +1,7 @@
 %h2 Local Network Event
 
 %ul{:class => "tools inline"}
-  - if current_user.from_ungc? or (current_user.from_network? and current_user.local_network == @submodel.local_network)
+  - if current_contact.from_ungc? or (current_contact.from_network? and current_contact.local_network == @submodel.local_network)
     %li= link_to 'Edit', edit_admin_local_network_local_network_event_path(@submodel.local_network, @submodel), :class => 'edit_large', :title => 'Edit details'
 
 

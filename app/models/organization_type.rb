@@ -18,10 +18,10 @@ class OrganizationType < ActiveRecord::Base
   PARTICIPANT = [1,2]
   ALL_ORGANIZATIONS = [0,1,2]
 
-  named_scope :non_business, :conditions => ['type_property=?', NON_BUSINESS]
-  named_scope :business, :conditions => ['type_property=?', BUSINESS]
-  named_scope :participants, :conditions => ['type_property in (?)', PARTICIPANT]
-  named_scope :staff_types, :conditions => ["type_property in (?)", ALL_ORGANIZATIONS]
+  scope :non_business, where('type_property=?', NON_BUSINESS)
+  scope :business, where('type_property=?', BUSINESS)
+  scope :participants, where('type_property in (?)', PARTICIPANT)
+  scope :staff_types, where("type_property in (?)", ALL_ORGANIZATIONS)
 
   FILTERS = {
     :academia         => 'Academic',
@@ -41,37 +41,37 @@ class OrganizationType < ActiveRecord::Base
     :signatory        => 'Initiative Signatory'
   }
 
-  named_scope :for_filter, lambda { |*filter_types|
+  def self.for_filter(*filter_types)
     if filter_types.is_a?(Array)
       filter_types.map! { |f| FILTERS[f] }
-      {:conditions => ["name IN (?)", filter_types]}
+      where("name IN (?)", filter_types)
     else
-      {:conditions => ["name = ?", FILTERS[filter_types]]}
+      where("name = ?", FILTERS[filter_types])
     end
-  }
+  end    
 
   def business?
     type_property == BUSINESS
   end
 
   def self.micro_enterprise
-    first :conditions => {:name => FILTERS[:micro_enterprise]}
+    where(name: FILTERS[:micro_enterprise]).first
   end
 
   def self.sme
-    first :conditions => {:name => FILTERS[:sme]}
+    where(name: FILTERS[:sme]).first
   end
 
   def self.company
-    first :conditions => {:name => FILTERS[:companies]}
+    where(name: FILTERS[:companies]).first
   end
 
   def self.academic
-    first :conditions => {:name => FILTERS[:academia]}
+    where(name: FILTERS[:academia]).first
   end
 
   def self.signatory
-    first :conditions => {:name => FILTERS[:signatory]}
+    where(name: FILTERS[:signatory]).first
   end
 
 end

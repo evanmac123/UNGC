@@ -51,29 +51,18 @@ class LogoRequest < ActiveRecord::Base
     end
   end
 
-  named_scope :pending_review, :conditions => {:state => "pending_review"}
+  scope :pending_review, where(:state => "pending_review")
+  scope :approved, where(:state => "approved")
+  scope :rejected, where(:state => "rejected")
+  scope :accepted, where(:state => "accepted")
+  scope :approved_or_accepted, where("state in ('approved','accepted')")
 
-  named_scope :in_review, :conditions => {:state => "in_review", :replied_to => true},
-                          :joins => :logo_comments,
-                          :group => :logo_request_id,
-                          :order => 'logo_comments.created_at DESC'
+  scope :in_review, where(:state => "in_review", :replied_to => true).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC')
+  scope :unreplied, where(:state => "in_review", :replied_to => false).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC')
 
-  named_scope :approved, :conditions => {:state => "approved"}
-  named_scope :rejected, :conditions => {:state => "rejected"}
-  named_scope :accepted, :conditions => {:state => "accepted"}
-  named_scope :approved_or_accepted, :conditions => "logo_requests.state in ('approved','accepted')"
-
-  named_scope :unreplied, :conditions => {:state => "in_review", :replied_to => false},
-                          :joins => :logo_comments,
-                          :group => :logo_request_id,
-                          :order => 'logo_comments.created_at DESC'
-
-  named_scope :approved_between, lambda { |start_date, end_date|
-    {
-      :conditions => { :state => ['approved','accepted'], :approved_on => start_date.to_s..end_date.to_s },
-      :order => "approved_on DESC"
-    }
-  }
+  def self.approved_between(start_date, end_date)
+    where("state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?", start_date, end_date).order("approved_on DESC")
+  end
 
   STATE_PENDING_REVIEW = 'pending_review'
   STATE_IN_REVIEW = 'in_review'

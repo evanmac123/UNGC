@@ -14,11 +14,11 @@
 
 %p
   %strong Username:
-  = @contact.try(:login)
+  = @contact.try(:username)
   %br/
   %strong Password:
   Please use the password you entered in the application form. If you have forgotten your password,
-  = link_to 'please click here to select a new one.', new_password_url
+  = link_to 'please click here to select a new one.', new_contact_password_url
 
 %p
   %strong Latest Comment:

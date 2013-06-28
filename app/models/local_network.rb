@@ -81,15 +81,8 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   default_scope :order => 'local_networks.name'
-  named_scope :where_region, lambda { |region| {
-    :include => :countries, :conditions => {'countries.region' => region.to_s}
-    }
-  }
-
-  named_scope :where_state, lambda { |state| {
-    :conditions => {:state => state.to_s}
-    }
-  }
+  scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
+  scope :where_state, lambda { |state| where(:state => state.to_s) }
 
   STATES = { :emerging => 'Emerging', :established => 'Established', :formal => 'Formal', :hub => 'Sustainability Hub' }
 
@@ -194,14 +187,13 @@ class LocalNetwork < ActiveRecord::Base
   def readable_error_messages
     error_messages = []
     fee_error_messages = ''
-    errors.each do |error|
-
-      if NUMERIC.include?(error.to_sym)
+    errors.each do |attribute|
+      if NUMERIC.include?(attribute)
         fee_error_messages = 'Please use whole numbers without decimals or commas'
       end
 
-      case error
-        when 'url'
+      case attribute
+        when :url
           error_messages << 'Please provide a website address in the format http://organization.org'
         end
     end

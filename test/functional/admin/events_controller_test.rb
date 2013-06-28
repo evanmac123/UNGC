@@ -4,13 +4,14 @@ class Admin::EventsControllerTest < ActionController::TestCase
   context "given a staff user" do
     setup do
       @staff_user = create_staff_user
+      sign_in @staff_user
     end
 
     context "creating a new event" do
       setup do
         @attributes = new_event(:title => 'This is my event', :starts_on => (Date.today - 5), :ends_on => Date.today).attributes
         assert_difference 'Event.count', 1 do
-          put :create, {:event => @attributes}, as(@staff_user)
+          put :create, {:event => @attributes}
         end
         @event = Event.find_by_title('This is my event')
       end
@@ -27,7 +28,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
       context "then approve it" do
         setup do
           assert_no_difference 'Event.count' do
-            post :approve, {:id => @event.id}, as(@staff_user)
+            post :approve, {:id => @event.id}
           end
           @event.reload
         end
@@ -41,7 +42,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
         context "but then revoke it" do
           setup do
             assert_no_difference 'Event.count' do
-              post :revoke, {:id => @event.id}, as(@staff_user)
+              post :revoke, {:id => @event.id}
             end
             @event.reload
           end
@@ -62,7 +63,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
       should "update" do
         assert_no_difference 'Event.count' do
-          post :update, {:id => @event.id, :event => @event.attributes.merge(:title => 'Event changed!')}, as(@staff_user)
+          post :update, {:id => @event.id, :event => @event.attributes.merge(:title => 'Event changed!')}
         end
         assert_equal 'Event changed!', Event.find(@event.id).title
         assert_redirected_to_index

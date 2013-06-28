@@ -102,66 +102,62 @@ module ParticipantsHelper
   end
 
   def searched_for
+    response = ''
 
-    returning('') do |response|
-
-      # Business search criteria
-      if @searched_for[:business] == OrganizationType::BUSINESS
-
-        # describe type of ownership
-        ownership = ''
-        if @searched_for[:listing_status_id].present?
-
-          ownership = case ListingStatus.find(@searched_for[:listing_status_id]).name.downcase
-            when 'publicly listed'
-              # all FT500 companies are publicly traded
-              @searched_for[:is_ft_500] ? 'FT 500' : 'publicly listed'
-            when 'private company'
-              'privately held'
-            when 'state-owned'
-              'state-owned'
-            when 'subsidiary'
-              'subsidiary'
-            else
-              ownership = ''
-          end
+    # Business search criteria
+    if @searched_for[:business] == OrganizationType::BUSINESS
+      # describe type of ownership
+      ownership = ''
+      if @searched_for[:listing_status_id].present?
+        ownership = case ListingStatus.find(@searched_for[:listing_status_id]).name.downcase
+          when 'public company'
+            # all FT500 companies are publicly traded
+            @searched_for[:is_ft_500] ? 'FT 500' : 'publicly-traded'
+          when 'private company'
+            'privately held'
+          when 'state-owned'
+            'state-owned'
+          when 'subsidiary'
+            'subsidiary'
+          else
+            ownership = ''
         end
+      end
 
-        response << pluralize(@results.total_entries, ownership + ' business participant')
-        response << " from #{countries_list}" unless @searched_for[:country_id].blank?
+      response << pluralize(@results.total_entries, ownership + ' business participant')
+      response << " from #{countries_list}" unless @searched_for[:country_id].blank?
 
-        if @searched_for[:sector_id].blank?
-          response << ' in all sectors'
-        else
-          response << " in the #{Sector.find(@searched_for[:sector_id]).name} sector"
-        end
-
-        case @searched_for[:cop_state]
-          when Organization::COP_STATES[:active].to_crc32
-            response << ', with an Active COP status'
-          when Organization::COP_STATES[:noncommunicating].to_crc32
-            response << ', with a non-communicating COP status'
-        end
-
-      # Non-business search criteria
-      elsif @searched_for[:business] == OrganizationType::NON_BUSINESS
-        organization_type = OrganizationType.find_by_id(@searched_for[:organization_type_id])
-        response << pluralize(@results.total_entries, 'non-business participant')
-        response << " of type #{organization_type.try(:name) || 'unknown'}" unless @searched_for[:organization_type_id].blank?
-        response << " from #{countries_list}" unless @searched_for[:country_id].blank?
+      if @searched_for[:sector_id].blank?
+        response << ' in all sectors'
       else
-        response << pluralize(@results.total_entries, 'organization')
+        response << " in the #{Sector.find(@searched_for[:sector_id]).name} sector"
       end
 
-      response << " from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?
-
-      if @searched_for[:joined_on]
-        response << " who were accepted between #{nice_date_from_param(:joined_after)} and #{nice_date_from_param(:joined_before)}"
+      case @searched_for[:cop_state]
+        when Organization::COP_STATES[:active].to_crc32
+          response << ', with an Active COP status'
+        when Organization::COP_STATES[:noncommunicating].to_crc32
+          response << ', with a non-communicating COP status'
       end
 
-      response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
-
+    # Non-business search criteria
+    elsif @searched_for[:business] == OrganizationType::NON_BUSINESS
+      organization_type = OrganizationType.find_by_id(@searched_for[:organization_type_id])
+      response << pluralize(@results.total_entries, 'non-business participant')
+      response << " of type #{organization_type.try(:name) || 'unknown'}" unless @searched_for[:organization_type_id].blank?
+      response << " from #{countries_list}" unless @searched_for[:country_id].blank?
+    else
+      response << pluralize(@results.total_entries, 'participant')
     end
+
+    response << " from #{countries_list}" unless @searched_for[:country_id].blank? || !@searched_for[:business].blank?
+
+    if @searched_for[:joined_on]
+      response << " who were accepted between #{nice_date_from_param(:joined_after)} and #{nice_date_from_param(:joined_before)}"
+    end
+
+    response << " matching '#{@searched_for[:keyword]}'" unless @searched_for[:keyword].blank?
+    response.html_safe
   end
 
 end

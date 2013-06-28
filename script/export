@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 ENV['RAILS_ENV'] = ARGV.first || ENV['RAILS_ENV'] || 'development'  
-require File.dirname(__FILE__) + '/../config/environment' unless defined?(RAILS_ROOT)
+require File.dirname(__FILE__) + '/../config/environment' unless defined?(Rails.root)
 
 [Content, Navigation].each do |thing|
   puts "Exporting #{thing.to_s}..."
   yaml = thing.all.map { |t| t.attributes }.to_yaml
   puts " saving..."
-  File.open("#{RAILS_ROOT}/db/yaml/#{thing.to_s}.#{Time.now.to_i}.yml", 'w+') do |file|
+  File.open("#{Rails.root}/db/yaml/#{thing.to_s}.#{Time.now.to_i}.yml", 'w+') do |file|
     file.puts yaml
   end
   puts " done."

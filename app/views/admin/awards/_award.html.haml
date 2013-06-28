@@ -3,7 +3,7 @@
   %td= award.title
   %td= award.date
   %td= link_to_uploaded_file(award.file)
-  - if current_user_can_edit_network?
+  - if current_contact_can_edit_network?
     %td
       %ul.actions
         %li= link_to 'Edit', edit_submodel_path(award), :class => 'edit', :title => 'Edit award details'

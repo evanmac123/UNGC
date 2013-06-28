@@ -10,7 +10,7 @@ end
 class ImportTempTables
 
   def run
-    @data_folder = File.join(RAILS_ROOT, 'lib/un7_tables')
+    @data_folder = File.join(Rails.root, 'lib/un7_tables')
     file = File.join(@data_folder, "R01_ORGANIZATION_TEMP.csv")
 
     CSV.foreach(file, :headers => :first_row) do |row|
@@ -88,8 +88,8 @@ class ImportTempTables
 
       # generate login and password for Contact Point
       if row["ROLE_ID"].to_i == 4
-        c.login = "#{row["ID"]}ungc"
-        c.password = "ungc#{row["ID"]}"
+        c.username = "#{row["ID"]}ungc"
+        c.plaintext_password = "ungc#{row["ID"]}"
       end
 
       # don't add if organization has been approved and is now an active participant
