@@ -382,11 +382,15 @@ class Organization < ActiveRecord::Base
   end
 
   def participant_manager_name
-    participant_manager.try(:name) || ''
+    participant_manager.try(:full_name_with_title) || ''
   end
 
   def participant_manager_email
     participant_manager.try(:email) || ''
+  end
+
+  def participant_manager_phone
+    participant_manager.try(:phone) || ''
   end
 
   def revenue_description
