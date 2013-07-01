@@ -1,5 +1,5 @@
 class Admin::OrganizationsController < AdminController
-  before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject, :reverse_roles]
+  before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject, :reverse_roles, :show_welcome_letter]
   before_filter :load_organization_types, :only => :new
   before_filter :no_rejected_organizations_access, :only => :edit
   before_filter :no_access_to_other_organizations
@@ -67,6 +67,10 @@ class Admin::OrganizationsController < AdminController
       flash[:error] = @organization.errors.full_messages.to_sentence
     end
     redirect_to admin_organization_path(@organization.id)
+  end
+
+  def show_welcome_letter
+    render :partial => 'welcome_letter_' + @organization.organization_type_name_for_custom_links, :layout => "welcome_letter"
   end
 
   # Define state-specific index methods

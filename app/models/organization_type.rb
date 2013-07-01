@@ -54,10 +54,6 @@ class OrganizationType < ActiveRecord::Base
     type_property == BUSINESS
   end
 
-  def self.non_business
-    type_property == NON_BUSINESS
-  end
-
   def self.micro_enterprise
     where(name: FILTERS[:micro_enterprise]).first
   end

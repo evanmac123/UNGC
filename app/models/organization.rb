@@ -341,11 +341,23 @@ class Organization < ActiveRecord::Base
   end
 
   def academic?
-    organization_type.try(:name) == 'Academic'
+    organization_type == OrganizationType.academic
   end
 
   def city?
-    organization_type.try(:name) == 'City'
+    organization_type == OrganizationType.city
+  end
+
+  def organization_type_name_for_custom_links
+    if company?
+      'business'
+    elsif academic?
+      'academic'
+    elsif city?
+      'city'
+    else
+      'non_business'
+    end
   end
 
   def listing_status_name

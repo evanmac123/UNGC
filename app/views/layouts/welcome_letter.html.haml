@@ -1,0 +1,22 @@
+!!! Strict
+%html{:xmlns => "http://www.w3.org/1999/xhtml", :"xml:lang" => "en", :lang => "en"}
+  %head
+    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
+    %meta{'http-equiv' => 'X-UA-Compatible', :content => 'IE=EmulateIE7'}/
+    %title= "United Nations Global Compact - Welcome Letter"
+    = stylesheet_link_tag 'reset', 'grid', 'typography', 'welcome_letter'
+    = stylesheet_link_tag 'welcome_letter', :media => 'print'
+
+  %body{:class => (@body_class || "form")}
+    %p.letterhead
+    %p.center.address EMAIL: GLOBALCOMPACT@UN.ORG TEL: +1 212 963 1490
+    %p.right= dd_month_yyyy @organization.joined_on
+    %p== Dear #{@organization.contacts.ceos.first.name_with_title},
+    #content= yield
+    #closing
+      %p.yours Yours sincerely,
+      %p.signature
+      %p.title
+        Georg Kell<br />
+        Executive Director<br />
+        UN Global Compact Office

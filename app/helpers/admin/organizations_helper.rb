@@ -158,6 +158,7 @@ module Admin::OrganizationsHelper
   end
 
   def link_to_getting_started
+    organization_type_name_for_custom_links.camelize
     case @organization.organization_type
       when OrganizationType.academic
         "Academic"
