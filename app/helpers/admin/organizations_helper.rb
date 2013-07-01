@@ -158,16 +158,13 @@ module Admin::OrganizationsHelper
   end
 
   def link_to_getting_started
-    organization_type_name_for_custom_links.camelize
-    case @organization.organization_type
-      when OrganizationType.academic
-        "Academic"
-      when OrganizationType.city
-        "City"
-      when OrganizationType.company
-        "Business"
-      when OrganizationType.non_business
-        "NonBusiness"
+    "/GettingStarted#{@organization.organization_type_name_for_custom_links.camelize}/introduction.html"
+  end
+
+  def link_to_local_network_welcome_letter_if_exists
+    filename = "/docs/networks_around_world_doc/communication/welcome_letters/local_network_welcome_letter_#{@organization.local_network_country_code}.pdf"
+    if FileTest.exists?("public/#{filename}")
+      link_to "Welcome Letter from your Local Network", filename, :class => 'pdf'
     end
   end
 
