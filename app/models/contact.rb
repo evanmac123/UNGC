@@ -56,7 +56,7 @@ class Contact < ActiveRecord::Base
   validates_presence_of     :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
   validates_presence_of     :username, :if => :can_login?
   validates_presence_of     :plaintext_password, :if => :password_required?
-  validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
+  validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true
   validates_uniqueness_of   :email, :on => :create
   validates_confirmation_of :password, :if => :password_required?
   validates_length_of       :password, :within => Devise.password_length, :if => :password_required?
