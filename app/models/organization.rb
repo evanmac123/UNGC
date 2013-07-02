@@ -341,11 +341,23 @@ class Organization < ActiveRecord::Base
   end
 
   def academic?
-    organization_type.try(:name) == 'Academic'
+    organization_type == OrganizationType.academic
   end
 
   def city?
-    organization_type.try(:name) == 'City'
+    organization_type == OrganizationType.city
+  end
+
+  def organization_type_name_for_custom_links
+    if company?
+      'business'
+    elsif academic?
+      'academic'
+    elsif city?
+      'city'
+    else
+      'non_business'
+    end
   end
 
   def listing_status_name
@@ -382,11 +394,15 @@ class Organization < ActiveRecord::Base
   end
 
   def participant_manager_name
-    participant_manager.try(:name) || ''
+    participant_manager.try(:full_name_with_title) || ''
   end
 
   def participant_manager_email
     participant_manager.try(:email) || ''
+  end
+
+  def participant_manager_phone
+    participant_manager.try(:phone) || ''
   end
 
   def revenue_description
@@ -747,6 +763,10 @@ class Organization < ActiveRecord::Base
 
   def require_delisted_on?
     active == false && cop_state == COP_STATE_DELISTED
+  end
+
+  def welcome_package?
+    contacts.ceos.first.try(:welcome_package)
   end
 
   private

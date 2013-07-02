@@ -92,6 +92,10 @@ body.networks_rsrc    #inner_head { background: url(/assets/banner_networks_rsrc
 body.participants     #inner_head { background: url(/assets/banner_participantsandstakeholders.png); }
 body.participate      #inner_head { background: url(/assets/banner_howtoparticipate.png); }
 body.participate_lead #inner_head { background: url(/assets/banner_participate_lead.png); }
+body.getting_started_academic #inner_head { background: url(/assets/banner_getting_started_academic.png); }
+body.getting_started_business #inner_head { background: url(/assets/banner_getting_started_business.png); }
+body.getting_started_city     #inner_head { background: url(/assets/banner_getting_started_city.png); }
+body.getting_started_non_biz  #inner_head { background: url(/assets/banner_getting_started_non_biz.png); }
 body.anti_corruption  #inner_head { background: url(/assets/banner_anti_corruption.png); }
 body.business_peace   #inner_head { background: url(/assets/banner_business_peace.png); }
 body.environment      #inner_head { background: url(/assets/banner_environment.png); }
