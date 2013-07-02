@@ -62,6 +62,10 @@ class OrganizationType < ActiveRecord::Base
     where(name: FILTERS[:sme]).first
   end
 
+  def self.city
+    first :conditions => {:name => FILTERS[:city]}
+  end
+
   def self.company
     where(name: FILTERS[:companies]).first
   end

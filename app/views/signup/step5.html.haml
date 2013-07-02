@@ -15,5 +15,5 @@
       = form.check_box :foundation_contact
       = label_tag :contact_foundation_contact, "The invoice should be sent to the Primary Contact Point"
     = form.error_messages
-    = render :partial => 'contact_form', :locals => {:form => form, :account_info => false, :contact_type => 'Financial Contact', :financial_contact => true}
+    = render :partial => 'contact_form', :locals => {:form => form, :account_info => false, :contact_type => 'Financial Contact', :financial_contact => true, :welcome_package => false}
     = form.submit 'Next', :class => 'button'

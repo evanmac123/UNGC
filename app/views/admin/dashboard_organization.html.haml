@@ -2,6 +2,7 @@
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
+    %li <a href="#getting_started">Getting Started</a>
     %li <a href="#contacts">Contacts</a>
     %li <a href="#logos">Logo Requests</a>
     - if @organization.case_stories.any?
@@ -65,6 +66,25 @@
             = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
           - else
             == There is no Network Report Recipient for #{@organization.country_name}
+
+  #getting_started.tab_content
+    %dl.left_column{:style => 'width: 100%;'}
+      %dt.first Documents
+      %dd.first
+        %ul.document_list
+          %li= popup_link_to 'Welcome Package', link_to_getting_started, :class => 'web'
+          %li= popup_link_to 'Welcome Letter from the Executive Director of the Global Compact', show_welcome_letter_admin_organization_path(@organization.id), :class => 'doc'
+          %li= link_to_local_network_welcome_letter_if_exists
+
+      %dt Relationship Manager
+      %dd
+        %p
+          = @organization.participant_manager_name
+          <br />
+          = link_to @organization.participant_manager_email, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
+          <br />
+          = @organization.participant_manager_phone
+        %p The Relationship Management team aims to enhance participant engagement by supporting and guiding participants through the broad landscape of initiatives, partnerships, resources and tools offered by the Global Compact. Additionally, they are able to support any technical queries that your organization may have. Please feel free to contact your Relationship Manager with any questions or concerns that you may have regarding your participation in the Global Compact.
 
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}

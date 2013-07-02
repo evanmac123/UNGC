@@ -80,6 +80,7 @@ UNGC::Application.routes.draw do
 
       member do
         get :reverse_roles
+        get :show_welcome_letter
       end
 
       resources :logo_requests do

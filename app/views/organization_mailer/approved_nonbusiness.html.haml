@@ -64,20 +64,18 @@
 
 = link_to 'UN Global Compact Monthly Bulletin','http://www.unglobalcompact.org/NewsAndEvents/UNGC_bulletin/'
 
+%p
+  %strong Getting Started
+
+%p== Your welcome package is now available online and can be accessed from your #{link_to 'participant dashboard', dashboard_url}. Please refer to its contents to better understanding the Global Compact, its requirements for participants, and how your company can get started. You can also view and print your official welcome letter, signed by Georg Kell, Executive Director of the Global Compact.
+
+- if @organization.welcome_package?
+  %p As requested, a paper welcome letter and information package will also be sent to your organization's top executive via mail. Please allow 3 to 6 weeks for delivery.
+
 %p Again, thank you for joining the UN Global Compact. We are eager to hear your ideas and experiences, and encourage you to share your views with us. We stand ready to support your efforts to embrace the Ten Principles and contribute to a more sustainable and inclusive global economy. Should you have any queries, please contact us at globalcompact@un.org.
 
 %p Sincerely,
 
 %p The Global Compact Office
 
-United Nations Global Compact
-%br/
-Two United Nations Plaza
-%br/
-New York, NY 10017
-%br/
-Email: globalcompact@un.org
-%br/
-Website:
-%a{:href => "http://www.unglobalcompact.org/"}
-  www.unglobalcompact.org
+%p= render :partial => '/shared/ungc_signature'

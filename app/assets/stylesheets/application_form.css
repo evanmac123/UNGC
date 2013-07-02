@@ -93,7 +93,7 @@
     font-weight: bold;
   }
 
-    #main_content fieldset.pledge table.pledge_amounts th {
+  #main_content fieldset.pledge table.pledge_amounts th {
     padding-bottom: 15px;
   }
 
@@ -116,6 +116,7 @@
 
   #main_content #check_contact label {
    font-weight: normal;
+   width: 90%;
   }
 
 /* Error for flash messages */
