@@ -2,14 +2,14 @@
 #
 # Table name: cop_attributes
 #
-#  id              :integer(4)      not null, primary key
-#  cop_question_id :integer(4)
+#  id              :integer          not null, primary key
+#  cop_question_id :integer
 #  text            :string(255)
-#  position        :integer(4)
+#  position        :integer
 #  created_at      :datetime
 #  updated_at      :datetime
-#  hint            :text            default(""), not null
-#  open            :boolean(1)
+#  hint            :text             default(""), not null
+#  open            :boolean          default(FALSE)
 #
 
 class CopAttribute < ActiveRecord::Base

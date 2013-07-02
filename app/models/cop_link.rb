@@ -2,13 +2,13 @@
 #
 # Table name: cop_links
 #
-#  id              :integer(4)      not null, primary key
-#  cop_id          :integer(4)
+#  id              :integer          not null, primary key
+#  cop_id          :integer
 #  url             :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
 #  attachment_type :string(255)
-#  language_id     :integer(4)
+#  language_id     :integer
 #
 
 class CopLink < ActiveRecord::Base

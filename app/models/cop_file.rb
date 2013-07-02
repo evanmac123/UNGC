@@ -2,16 +2,16 @@
 #
 # Table name: cop_files
 #
-#  id                      :integer(4)      not null, primary key
-#  cop_id                  :integer(4)
+#  id                      :integer          not null, primary key
+#  cop_id                  :integer
 #  attachment_file_name    :string(255)
 #  attachment_content_type :string(255)
-#  attachment_file_size    :integer(4)
+#  attachment_file_size    :integer
 #  attachment_updated_at   :datetime
 #  created_at              :datetime
 #  updated_at              :datetime
 #  attachment_type         :string(255)
-#  language_id             :integer(4)
+#  language_id             :integer
 #
 
 class CopFile < ActiveRecord::Base

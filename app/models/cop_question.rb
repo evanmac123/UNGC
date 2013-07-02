@@ -2,16 +2,16 @@
 #
 # Table name: cop_questions
 #
-#  id                :integer(4)      not null, primary key
-#  principle_area_id :integer(4)
+#  id                :integer          not null, primary key
+#  principle_area_id :integer
 #  text              :string(255)
-#  position          :integer(4)
+#  position          :integer
 #  created_at        :datetime
 #  updated_at        :datetime
-#  initiative_id     :integer(4)
+#  initiative_id     :integer
 #  grouping          :string(255)
 #  implementation    :string(255)
-#  year              :integer(4)
+#  year              :integer
 #
 
 class CopQuestion < ActiveRecord::Base

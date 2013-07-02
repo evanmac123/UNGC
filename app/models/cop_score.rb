@@ -2,9 +2,9 @@
 #
 # Table name: cop_scores
 #
-#  id          :integer(4)      not null, primary key
+#  id          :integer          not null, primary key
 #  description :string(255)
-#  old_id      :integer(4)
+#  old_id      :integer
 #  created_at  :datetime
 #  updated_at  :datetime
 #

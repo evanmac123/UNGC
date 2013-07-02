@@ -2,9 +2,9 @@
 #
 # Table name: listing_statuses
 #
-#  id         :integer(4)      not null, primary key
+#  id         :integer          not null, primary key
 #  name       :string(255)
-#  old_id     :integer(4)
+#  old_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
 #

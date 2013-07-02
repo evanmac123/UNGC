@@ -2,36 +2,36 @@
 #
 # Table name: communication_on_progresses
 #
-#  id                                  :integer(4)      not null, primary key
-#  organization_id                     :integer(4)
+#  id                                  :integer          not null, primary key
+#  organization_id                     :integer
 #  title                               :string(255)
 #  email                               :string(255)
 #  job_title                           :string(255)
 #  contact_name                        :string(255)
-#  include_actions                     :boolean(1)
-#  include_measurement                 :boolean(1)
-#  use_indicators                      :boolean(1)
-#  cop_score_id                        :integer(4)
-#  use_gri                             :boolean(1)
-#  has_certification                   :boolean(1)
-#  notable_program                     :boolean(1)
+#  include_actions                     :boolean
+#  include_measurement                 :boolean
+#  use_indicators                      :boolean
+#  cop_score_id                        :integer
+#  use_gri                             :boolean
+#  has_certification                   :boolean
+#  notable_program                     :boolean
 #  created_at                          :datetime
 #  updated_at                          :datetime
 #  description                         :text
 #  state                               :string(255)
-#  include_continued_support_statement :boolean(1)
+#  include_continued_support_statement :boolean
 #  format                              :string(255)
-#  references_human_rights             :boolean(1)
-#  references_labour                   :boolean(1)
-#  references_environment              :boolean(1)
-#  references_anti_corruption          :boolean(1)
-#  meets_advanced_criteria             :boolean(1)
-#  additional_questions                :boolean(1)
+#  references_human_rights             :boolean
+#  references_labour                   :boolean
+#  references_environment              :boolean
+#  references_anti_corruption          :boolean
+#  meets_advanced_criteria             :boolean
+#  additional_questions                :boolean
 #  starts_on                           :date
 #  ends_on                             :date
 #  method_shared                       :string(255)
 #  differentiation                     :string(255)
-#  references_business_peace           :boolean(1)
+#  references_business_peace           :boolean
 #
 
 class CommunicationOnProgress < ActiveRecord::Base

@@ -2,9 +2,9 @@
 #
 # Table name: organization_types
 #
-#  id            :integer(4)      not null, primary key
+#  id            :integer          not null, primary key
 #  name          :string(255)
-#  type_property :integer(4)
+#  type_property :integer
 #  created_at    :datetime
 #  updated_at    :datetime
 #

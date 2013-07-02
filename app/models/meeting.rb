@@ -2,8 +2,8 @@
 #
 # Table name: meetings
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
 #  meeting_type     :string(255)
 #  date             :date
 #  created_at       :datetime

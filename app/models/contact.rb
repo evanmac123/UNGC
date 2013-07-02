@@ -2,8 +2,8 @@
 #
 # Table name: contacts
 #
-#  id                        :integer(4)      not null, primary key
-#  old_id                    :integer(4)
+#  id                        :integer          not null, primary key
+#  old_id                    :integer
 #  first_name                :string(255)
 #  middle_name               :string(255)
 #  last_name                 :string(255)
@@ -13,23 +13,29 @@
 #  phone                     :string(255)
 #  mobile                    :string(255)
 #  fax                       :string(255)
-#  organization_id           :integer(4)
+#  organization_id           :integer
 #  address                   :string(255)
 #  city                      :string(255)
 #  state                     :string(255)
 #  postal_code               :string(255)
-#  country_id                :integer(4)
-#  login                     :string(255)
+#  country_id                :integer
+#  username                  :string(255)
 #  address_more              :string(255)
 #  created_at                :datetime
 #  updated_at                :datetime
 #  remember_token_expires_at :datetime
 #  remember_token            :string(255)
-#  local_network_id          :integer(4)
-#  hashed_password           :string(255)
-#  password                  :string(255)
+#  local_network_id          :integer
+#  encrypted_password        :string(255)
+#  plaintext_password        :string(255)
 #  reset_password_token      :string(255)
-#  last_login_at             :datetime
+#  last_sign_in_at           :datetime
+#  reset_password_sent_at    :datetime
+#  remember_created_at       :datetime
+#  sign_in_count             :integer          default(0)
+#  current_sign_in_at        :datetime
+#  current_sign_in_ip        :string(255)
+#  last_sign_in_ip           :string(255)
 #
 
 require 'digest/sha1'
@@ -50,7 +56,7 @@ class Contact < ActiveRecord::Base
   validates_presence_of     :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
   validates_presence_of     :username, :if => :can_login?
   validates_presence_of     :plaintext_password, :if => :password_required?
-  validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
+  validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true
   validates_uniqueness_of   :email, :on => :create
   validates_confirmation_of :password, :if => :password_required?
   validates_length_of       :password, :within => Devise.password_length, :if => :password_required?

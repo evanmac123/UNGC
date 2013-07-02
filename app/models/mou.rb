@@ -2,8 +2,8 @@
 #
 # Table name: mous
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
 #  year             :date
 #  created_at       :datetime
 #  updated_at       :datetime

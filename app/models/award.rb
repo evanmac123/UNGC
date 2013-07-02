@@ -2,8 +2,8 @@
 #
 # Table name: awards
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
 #  title            :string(255)
 #  description      :text
 #  award_type       :string(255)
