@@ -7,7 +7,7 @@ def delete_useless_pages
 end
 
 def lookup_section_paths
-  PageGroup.find(:all).each do |group|
+  PageGroup.all.each do |group|
     first_child = group.children.first
     path = first_child.path.split('/').reject { |s| s == '' }.first
     group.update_attribute :path_stub, path

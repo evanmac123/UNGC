@@ -6,7 +6,7 @@ module StakeholdersHelper
       @stakeholders[filter_type] = if filter_type
         Organization.participants.by_type(filter_type).all(:order => :name)
       else
-        Organization.find(:all)
+        Organization.all
       end
     end
     @stakeholders[filter_type]
