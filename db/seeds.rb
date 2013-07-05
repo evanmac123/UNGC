@@ -43,7 +43,7 @@ params = {
   :address         => 'n/a',
   :city            => 'n/a',
   :country_id      => organization.country_id,
-  :login           => 'gclnguest',
+  :username        => 'gclnguest',
   :password        => 'gclnguest'
 }
 

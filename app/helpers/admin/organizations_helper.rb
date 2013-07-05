@@ -7,7 +7,7 @@ module Admin::OrganizationsHelper
       actions << button_to('Approve', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_APPROVE), {:method => :post, :class => "nobutton"}) if organization.can_approve?
       actions << button_to('Reject', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this application?", :class => "nobutton") if organization.can_reject?
       actions << button_to('Reject Micro', admin_organization_comments_path(@organization.id, :commit => ApprovalWorkflow::EVENT_REJECT_MICRO), :method => :post, :confirm => "#{current_contact.first_name}, are you sure you want to reject this Micro Enterprise?", :class => "nobutton") if organization.can_reject?
-      actions << button_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile', :class => "nobutton")
+      actions << link_to('Edit', edit_admin_organization_path(@organization.id), :title => 'Edit Profile')
       if @organization.participant
         actions << link_to('Public profile', participant_path(@organization.id), :title => 'View public profile on website')
       end
