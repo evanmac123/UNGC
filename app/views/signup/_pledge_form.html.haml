@@ -37,3 +37,8 @@
         = label_tag "organization_pledge_amount_15000_1", "USD 10 billion or more", :class => @suggested_pledge_amount[5]
       %td
         = label_tag "organization_pledge_amount_15000_1", "USD 15,000+", :class => @suggested_pledge_amount[5]
+      - if @checked_pledge_amount[1]
+        %tr
+          %td.no_contribution{:colspan => 2}
+            = form.radio_button :pledge_amount, 0, { :id => 'organization_pledge_amount_15000_0', :checked => false, :class => 'fixed_pledge' }
+            = label_tag "organization_pledge_amount_15000_0", "Our company has elected not to make a contribution to the Foundation for the Global Compact at this time"

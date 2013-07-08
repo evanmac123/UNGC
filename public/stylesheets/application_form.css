@@ -101,6 +101,10 @@
     padding-right: 100px;
   }
 
+  #main_content fieldset.pledge table.pledge_amounts td.no_contribution label {
+    width: 90%;
+  }
+
   #main_content #check_contact {
     clear: both;
     margin-bottom: 20px;
