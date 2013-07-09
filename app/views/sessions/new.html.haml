@@ -1,3 +1,11 @@
+- unless flash[:error]
+
+  %div{:style => 'width: 550px; margin: 20px auto;'}
+
+    = image_tag("/pics/un_images/july_14_date.png", :alt => 'July 14', :height => 65, :width => 65, :style => 'float: left; margin-right: 25px;')
+
+    %p{:style => 'width: 100%;'} Please be aware that we will be performing scheduled maintenance on Sunday, July 14th, starting at 9:00 AM EDT (1:00 PM UTC) and lasting approximately 1 to 2 hours. During this time, access to the Dashboard will not be available. We appreciate your participation in the Global Compact and apologize for any inconvenience.
+
 %h2 Login
 
 - form_tag session_path do
