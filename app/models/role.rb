@@ -69,19 +69,19 @@ class Role < ActiveRecord::Base
   # Local Network roles
 
   def self.network_focal_point
-    find :first, :conditions => { :name => FILTERS[:network_focal_point] }
+    where(:name => FILTERS[:network_focal_point]).first
   end
 
   def self.network_representative
-    find :first, :conditions => { :name => FILTERS[:network_representative] }
+    where(:name => FILTERS[:network_representative]).first
   end
 
   def self.network_report_recipient
-    find :first, :conditions => { :name => FILTERS[:network_report_recipient] }
+    where(:name => FILTERS[:network_report_recipient]).first
   end
 
   def self.network_guest_user
-    find :first, :conditions => { :name => FILTERS[:network_guest_user] }
+    where(:name => FILTERS[:network_guest_user]).first
   end
 
   def self.network_contacts
@@ -91,33 +91,33 @@ class Role < ActiveRecord::Base
   # Participant organization roles
 
   def self.ceo
-    find :first, :conditions => { :name => FILTERS[:ceo] }
+    where(:name => FILTERS[:ceo]).first
   end
 
   def self.contact_point
-    find :first, :conditions => { :name => FILTERS[:contact_point] }
+    where(:name => FILTERS[:contact_point]).first
   end
 
   def self.general_contact
-    find :first, :conditions => { :name => FILTERS[:general_contact] }
+    where(:name => FILTERS[:general_contact]).first
   end
 
   def self.financial_contact
-    find :first, :conditions => { :name => FILTERS[:financial_contact] }
+    where(:name => FILTERS[:financial_contact]).first
   end
 
   # Global Compact staff roles
 
   def self.website_editor
-    find :first, :conditions => { :name => FILTERS[:website_editor] }
+    where(:name => FILTERS[:website_editor]).first
   end
 
   def self.network_regional_manager
-    find :first, :conditions => { :name => FILTERS[:network_regional_manager] }
+    where(:name => FILTERS[:network_regional_manager]).first
   end
 
   def self.participant_manager
-    find :first, :conditions => { :name => FILTERS[:participant_manager] }
+    where(:name => FILTERS[:participant_manager]).first
   end
 
   def self.login_roles
