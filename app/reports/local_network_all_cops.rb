@@ -1,4 +1,3 @@
-include ActionController::UrlWriter
 class LocalNetworkAllCops < SimpleReport
 
   def records

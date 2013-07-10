@@ -2,16 +2,16 @@
 #
 # Table name: countries
 #
-#  id                     :integer(4)      not null, primary key
+#  id                     :integer          not null, primary key
 #  code                   :string(255)
 #  name                   :string(255)
 #  region                 :string(255)
-#  network_type           :integer(4)
+#  network_type           :integer
 #  created_at             :datetime
 #  updated_at             :datetime
-#  manager_id             :integer(4)
-#  local_network_id       :integer(4)
-#  participant_manager_id :integer(4)
+#  manager_id             :integer
+#  local_network_id       :integer
+#  participant_manager_id :integer
 #
 
 class Country < ActiveRecord::Base
@@ -35,7 +35,7 @@ class Country < ActiveRecord::Base
               :oceania          => 'Oceania'
             }
 
-  named_scope :where_region, lambda {|region| {:conditions => {:region => region}} }
+  scope :where_region, lambda {|region| where(:region => region) }
 
   def region_for_select_field
     region.try(:to_sym)

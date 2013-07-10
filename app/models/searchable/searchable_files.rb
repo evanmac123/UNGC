@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Searchable::SearchableFiles
 
   def timestamps_from(system_path_to_file)

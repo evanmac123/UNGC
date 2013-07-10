@@ -1,4 +1,4 @@
-# ./script/runner 'NoContacts.new'
+# rails runner 'NoContacts.new'
 
 class NoContacts
 

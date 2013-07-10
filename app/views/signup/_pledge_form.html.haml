@@ -16,19 +16,19 @@
     %tr
       %td.revenue
         = form.radio_button :pledge_amount, 5000, { :checked => @checked_pledge_amount[2], :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_5000", "Between USD 50 million &ndash; USD 250 million", :class => @suggested_pledge_amount[2]
+        = label_tag "organization_pledge_amount_5000", "Between USD 50 million &ndash; USD 250 million".html_safe, :class => @suggested_pledge_amount[2]
       %td
         = label_tag "organization_pledge_amount_5000", "USD 5,000", :class => @suggested_pledge_amount[2]
     %tr
       %td.revenue
         = form.radio_button :pledge_amount, 10000, { :checked => @checked_pledge_amount[3], :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_10000", "Between USD 250 million &ndash; USD 1 billion", :class => @suggested_pledge_amount[3]
+        = label_tag "organization_pledge_amount_10000", "Between USD 250 million &ndash; USD 1 billion".html_safe, :class => @suggested_pledge_amount[3]
       %td
         = label_tag "organization_pledge_amount_10000", "USD 10,000", :class => @suggested_pledge_amount[3]
     %tr
       %td.revenue
         = form.radio_button :pledge_amount, 15000, { :checked => @checked_pledge_amount[4], :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_15000", "Between USD 1 billion &ndash; USD 10 billion", :class => @suggested_pledge_amount[4]
+        = label_tag "organization_pledge_amount_15000", "Between USD 1 billion &ndash; USD 10 billion".html_safe, :class => @suggested_pledge_amount[4]
       %td
         = label_tag "organization_pledge_amount_15000", "USD 15,000", :class => @suggested_pledge_amount[4]
     %tr

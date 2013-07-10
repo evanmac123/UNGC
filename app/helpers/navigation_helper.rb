@@ -5,7 +5,7 @@ module NavigationHelper
       @breadcrumbs << [convert_to_entities(current_section.title), current_section.path] if current_section
       @breadcrumbs << [convert_to_entities(@leftnav_selected.title), @leftnav_selected.path] if @leftnav_selected && current_section != @leftnav_selected
       @breadcrumbs << [convert_to_entities(@subnav_selected.title), nil] if @subnav_selected
-      @breadcrumbs.map { |b| link_to_unless suppress_link(b), b.first, b.last }.join(' / ')
+      @breadcrumbs.map { |b| link_to_unless suppress_link(b), b.first, b.last }.join(' / ').html_safe
     end
   end
 
@@ -73,34 +73,35 @@ module NavigationHelper
   end
 
   def login_and_logout
-    section_link = link_to('Login', login_path)
+    section_link = link_to('Login', new_contact_session_path)
     children = []
-    children << content_tag(:li, link_to('Reset Password', new_password_path)) unless logged_in?
-    children << content_tag(:li, link_to('Logout', logout_path)) if logged_in?
-    insides = section_link + "\n" + content_tag(:ul, children.join("\n  ") + "\n", :class => 'children') + "\n"
-    content_tag(:li, insides, :id => 'login', :class => 'login') + "\n"
-    # content_tag(:li, , :class => 'login')
+    children << content_tag(:li, link_to('Reset Password', new_contact_password_path)) unless current_contact
+    children << content_tag(:li, link_to('Logout', destroy_contact_session_path, :method => :delete)) if current_contact
+    insides = [section_link, content_tag(:ul, children.join('').html_safe, :class => 'children')]
+    content_tag(:li, insides.join('').html_safe, :id => 'login', :class => 'login')
   end
 
   def sections
-    @sections ||= PageGroup.for_navigation #.find(:all)
+    @sections ||= PageGroup.for_navigation
   end
 
   def top_nav_bar(section_children_content='')
     sections.each do |section|
-      section_link = content_tag :a, convert_to_entities(section.name), :href => section.visible_children.first.path #link_to_first_child
-      children = section.visible_children.map do |child|
-        child_link = content_tag :a, child.title, :href => child.path
-        content_tag :li, child_link
+      if section.visible_children.present?
+        section_link = content_tag(:a, convert_to_entities(section.name).html_safe, :href => section.visible_children.first.path) #link_to_first_child
+        children = section.visible_children.map do |child|
+          child_link = content_tag :a, child.title, :href => child.path
+          content_tag :li, child_link
+        end.join('').html_safe
+        insides = [section_link, content_tag(:ul, children, :class => 'children')].join('').html_safe
+        section_children_content << content_tag(:li, insides, :id => section.html_code, :class => section.html_code)
       end
-      insides = section_link + "\n" + content_tag(:ul, children.join("\n  ") + "\n", :class => 'children') + "\n"
-      section_children_content << content_tag(:li, insides, :id => section.html_code, :class => section.html_code) + "\n"
     end
     section_children_content << login_and_logout
-    content_tag :ul, "\n" + section_children_content
+    content_tag :ul, section_children_content.html_safe
   end
 
   def convert_to_entities(text)
-    text.gsub(/[&]/,"&amp;") unless text == nil
+    text.gsub(/[&]/,"&amp;").html_safe unless text == nil
   end
 end

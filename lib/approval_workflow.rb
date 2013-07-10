@@ -60,14 +60,14 @@ module ApprovalWorkflow
         end
       end
 
-      named_scope :pending_review, :conditions => {:state => STATE_PENDING_REVIEW}
-      named_scope :in_review, :conditions => {:state => STATE_IN_REVIEW, :replied_to => true}
-      named_scope :network_review, :conditions => {:state => STATE_NETWORK_REVIEW}
-      named_scope :delay_review, :conditions => {:state => STATE_DELAY_REVIEW}
-      named_scope :approved, :conditions => {:state => STATE_APPROVED}
-      named_scope :rejected, :conditions => {:state => STATE_REJECTED}
-      named_scope :reject_micro, :conditions => {:state => STATE_REJECTED_MICRO}
-      named_scope :unreplied, :conditions => {:state => STATE_IN_REVIEW, :replied_to => false}
+      scope :pending_review, where(:state => STATE_PENDING_REVIEW)
+      scope :in_review, where(:state => STATE_IN_REVIEW, :replied_to => true)
+      scope :network_review, where(:state => STATE_NETWORK_REVIEW)
+      scope :delay_review, where(:state => STATE_DELAY_REVIEW)
+      scope :approved, where(:state => STATE_APPROVED)
+      scope :rejected, where(:state => STATE_REJECTED)
+      scope :reject_micro, where(:state => STATE_REJECTED_MICRO)
+      scope :unreplied, where(:state => STATE_IN_REVIEW, :replied_to => false)
     end
   end
 end

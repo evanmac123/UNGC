@@ -7,27 +7,31 @@ class PagesControllerTest < ActionController::TestCase
     assert_match /\A\s*\Z/, @response.body
   end
 
+  def setup
+    request.env['devise.mapping'] = Devise.mappings[:contact]
+  end
+
   context "given a simple tree and some content" do
     setup do
       create_simple_tree
       @home_page = @root
       @page      = @child2
-      # @page = create_page(:path => @child2.path, :content => String.random)
-      # @home_page = @root #create_page(:path => @root.path, :content => String.random)
+      # @page = create_page(:path => @child2.path, :content => FixtureReplacement.random_string)
+      # @home_page = @root #create_page(:path => @root.path, :content => FixtureReplacement.random_string)
     end
 
     context "view action" do
       should "find home page" do
         get :view, :path => ['index.html']
         assert_equal @home_page, assigns(:page)
-        assert_layout 'home'
+        assert_template 'layouts/home'
         assert_response :success
       end
 
       should "find content via path" do
         get :view, :path => @page.to_path
         assert_equal @page, assigns(:page)
-        assert_layout 'application'
+        assert_template 'layouts/application'
         assert_response :success
       end
 
@@ -38,14 +42,14 @@ class PagesControllerTest < ActionController::TestCase
 
       should "render using standard, static template" do
         get :view, :path => @page.to_path
-        assert_template 'pages/static.html.haml'
+        assert_template 'pages/static'
       end
     end
 
     context "decorate action" do
       context "when logged-in staff" do
         setup do
-          @user = create_staff_user
+          sign_in create_staff_user
         end
 
         should "blank response when not an XHR" do
@@ -54,7 +58,7 @@ class PagesControllerTest < ActionController::TestCase
         end
 
         should "find content via path" do
-          xhr :get, :decorate, {:path => @page.to_path}, {:user_id => @user.id}
+          xhr :get, :decorate, {:path => @page.to_path}
           assert_equal @page, assigns(:page)
           assert_response :success
 
@@ -71,7 +75,7 @@ class PagesControllerTest < ActionController::TestCase
         context "when requesting with specific version" do
           setup do
             @version2 = @page.new_version :content => "<p>I am new here.</p>"
-            xhr :get, :decorate, {:path => @page.to_path, :version => @version2.version_number}, {:user_id => @user.id}
+            xhr :get, :decorate, {:path => @page.to_path, :version => @version2.version_number}
           end
 
           should "find content via path" do
@@ -85,8 +89,8 @@ class PagesControllerTest < ActionController::TestCase
 
       context "when logged-in but not staff" do
         setup do
-          @user = create_organization_and_user
-          get :decorate, {:path => @page.to_path}, {:user_id => @user.id}
+          sign_in create_organization_and_user
+          get :decorate, {:path => @page.to_path}
         end
 
         should "get blank response" do

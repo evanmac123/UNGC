@@ -3,13 +3,12 @@ class Admin::PagesController < AdminController
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
   before_filter :ckeditor, :only => [:index, :new, :create, :edit, :update]
 
-  cache_sweeper :page_sweeper, :only => [ :approve, :destroy ]
+  cache_sweeper :page_sweeper, :only => [:approve, :destroy]
 
   def index
-    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
     respond_to do |wants|
       wants.html { }
-      wants.js   { }
+      wants.json { }
     end
   end
 
@@ -39,7 +38,7 @@ class Admin::PagesController < AdminController
     if @page.save
       respond_to do |wants|
         wants.html { flash[:notice] = "Page successfully created"; redirect_to :action => 'index' }
-        wants.js   { render :inline => @page.to_json }
+        wants.js   { render json: @page }
       end
     else
       render :action => 'new'
@@ -47,9 +46,9 @@ class Admin::PagesController < AdminController
   end
 
   def create_folder
-    folder = PageGroup.create name: params[:name]
-    respond_to do |wants|
-      wants.js { render json: folder }
+    folder = PageGroup.create(name: params[:name])
+    respond_to do |format|
+      format.js { render json: folder }
     end
   end
 
@@ -59,7 +58,7 @@ class Admin::PagesController < AdminController
   end
 
   def approve
-    @page.as_user(current_user).approve!
+    @page.as_user(current_contact).approve!
     redirect_to :action => 'index'
   end
 
@@ -76,18 +75,19 @@ class Admin::PagesController < AdminController
   end
 
   def revoke
-    @page.as_user(current_user).revoke!
+    @page.as_user(current_contact).revoke!
     redirect_to :action => 'index'
   end
 
   def edit
-    @show_approve_button = true if current_user.is? Role.website_editor
-    @javascript = (@javascript || []) << 'admin.js' << 'jquery.jeditable.mini.js'
+    @show_approve_button = true if current_contact.is? Role.website_editor
     if request.xhr?
       render :json => {
-        :url => update_page_url(:format => 'js'),
-        :startupMode => @current_version.dynamic_content? ? 'source' : 'wysiwyg',
-        :content => @current_version.content
+        :page => {
+          :url => update_page_url(:format => 'js'),
+          :startupMode => @current_version.dynamic_content? ? 'source' : 'wysiwyg',
+          :content => @current_version.content
+        }
       }
       return
     end
@@ -136,7 +136,7 @@ class Admin::PagesController < AdminController
     if is_live_editor
       respond_to do |wants|
         wants.html { redirect_to view_page_url(:path => @version.to_path) } # redirect to regular page view
-        wants.js   { render :json => { :content => @version.content, :version => @version.version_number } }
+        wants.js   { render :json => { :page => {:content => @version.content, :version => @version.version_number} } }
       end
     else
       respond_to do |wants|
@@ -162,7 +162,7 @@ class Admin::PagesController < AdminController
     end
 
     def ckeditor
-      (@javascript ||= []) << '/ckeditor/ckeditor' << 'page_editor'
+      (@javascript ||= []) << 'page_editor'
     end
 
     def find_page

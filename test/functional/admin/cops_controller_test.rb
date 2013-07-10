@@ -5,7 +5,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       create_principle_areas
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     context "creating a new cop" do
@@ -20,7 +20,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_principle_areas
-      login_as @organization_user
+      sign_in @organization_user
     end
 
    context "with an Active status and within 90 day grace letter period" do
@@ -61,7 +61,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
        # state machine requires organization to be non-communicating first
        @organization.communication_late
        @organization.delist
-       login_as @organization_user
+       sign_in @organization_user
      end
      should "not see Grace Letter tab" do
        assert @organization.delisted?
@@ -96,7 +96,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     setup do
       create_non_business_organization_and_user('approved')
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "be redirected to intermediate COP template" do
@@ -116,7 +116,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "get the LEAD COP form" do
-      login_as @organization_user
+      sign_in @organization_user
       get :introduction
       assert_template "lead_introduction"
     end
@@ -129,7 +129,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @organization.approve!
       create_principle_areas
       create_language
-      login_as @organization_user
+      sign_in @organization_user
       get :new, :organization_id => @organization.id, :type_of_cop => 'basic'
       post :create, :organization_id => @organization.id,
                     :communication_on_progress => {
@@ -161,7 +161,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_cop_with_options
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "be able to see the cop details" do
@@ -189,12 +189,12 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_cop_with_options :created_at => Date.parse('31-12-2010')
-      login_as @organization_user
+      sign_in @organization_user
     end
     should "show the new style template" do
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
-     assert_template :partial => 'show_new_style'
+     assert_template :partial => '_show_new_style'
     end
   end
 
@@ -202,14 +202,14 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_cop_with_options(:type => 'grace')
-      login_as @organization_user
+      sign_in @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
 
     should "view with the Grace Letter partial" do
       assert_equal '/shared/cops/show_grace_style', assigns(:cop_partial)
-      assert_template :partial => 'show_grace_style'
+      assert_template :partial => '_show_grace_style'
     end
 
   end
@@ -219,7 +219,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_approved_organization_and_user
       # if any item is missing, then the COP puts the participant on the Learner Platform
       create_cop_with_options(:include_measurement => false)
-      login_as @organization_user
+      sign_in @organization_user
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
     end
@@ -227,7 +227,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "display learner partial" do
       assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
       assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
-      assert_template :partial => 'show_learner_style'
+      assert_template :partial => '_show_learner_style'
     end
   end
 
@@ -249,7 +249,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_cop_with_options
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "display active partial" do
@@ -257,7 +257,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
                  :id              => @cop.id
       assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
       assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
-      assert_template :partial => 'show_active_style'
+      assert_template :partial => '_show_active_style'
     end
   end
 
@@ -265,7 +265,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_cop_with_options({:meets_advanced_criteria => true, :type => 'advanced'})
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "display advanced partial" do
@@ -273,7 +273,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
                  :id              => @cop.id
       assert_equal assigns(:cop_partial), '/shared/cops/show_advanced_style'
       assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
-      assert_template :partial => 'show_advanced_style'
+      assert_template :partial => '_show_advanced_style'
     end
   end
 
@@ -281,11 +281,11 @@ class Admin::CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_cop_with_options
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "send a confirmation email" do
-      assert_emails(1) do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create, :organization_id => @organization.id,
                       :communication_on_progress => {
                         :title                        => 'Our COP',
@@ -342,7 +342,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
       @second_cop.update_attribute :created_at, Date.new(2012,03,01)
       @third_cop.update_attribute  :created_at, Date.new(2013,03,01)
-      login_as @organization_user
+      sign_in @organization_user
     end
     should "not identify them as triple_learner_for_one_year" do
       assert !@organization.triple_learner_for_one_year?

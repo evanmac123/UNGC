@@ -2,20 +2,20 @@
 #
 # Table name: events
 #
-#  id             :integer(4)      not null, primary key
+#  id             :integer          not null, primary key
 #  title          :string(255)
 #  description    :text
 #  starts_on      :date
 #  ends_on        :date
 #  location       :text
-#  country_id     :integer(4)
+#  country_id     :integer
 #  urls           :text
-#  created_by_id  :integer(4)
-#  updated_by_id  :integer(4)
+#  created_by_id  :integer
+#  updated_by_id  :integer
 #  created_at     :datetime
 #  updated_at     :datetime
 #  approved_at    :datetime
-#  approved_by_id :integer(4)
+#  approved_by_id :integer
 #  approval       :string(255)
 #
 
@@ -32,20 +32,13 @@ class Event < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :for_month_year, lambda { |month=nil, year=nil|
+  def self.for_month_year(month=nil, year=nil)
     today = Date.today
     start = Time.mktime( year || today.year, month || today.month, 1).to_date
     finish = (start.to_date >> 1) - 1
-    {
-      :conditions => [
-        "starts_on BETWEEN :start AND :finish",
-        {
-          :start  => start,
-          :finish => finish
-        }
-      ]
-    }
-  }
+
+    where("starts_on BETWEEN ? AND ?", start, finish)
+  end
 
   def selected_issues
     issues.map {|issue| issue.name }
@@ -72,9 +65,9 @@ class Event < ActiveRecord::Base
 
   def ends_on_string=(date_or_string)
     if date_or_string.is_a?(String)
-      self.write_attribute(:ends_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:ends_on, Date.strptime(date_or_string, '%m/%d/%Y'))
     elsif date_or_string.is_a?(Date)
-      self.write_attribute(:ends_on, date_or_string)
+      write_attribute(:ends_on, date_or_string)
     end
   end
 
@@ -84,9 +77,9 @@ class Event < ActiveRecord::Base
 
   def starts_on_string=(date_or_string)
     if date_or_string.is_a?(String)
-      self.write_attribute(:starts_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:starts_on, Date.strptime(date_or_string, '%m/%d/%Y'))
     elsif date_or_string.is_a?(Date)
-      self.write_attribute(:starts_on, date_or_string)
+      write_attribute(:starts_on, date_or_string)
     end
   end
 

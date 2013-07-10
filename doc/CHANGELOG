@@ -3,6 +3,20 @@ h1. 2013-07-08
 * Reinstated option to not require a pledge during the application process
 * See entry from 2013-05-16
 
+h1. 2013-07-01
+
+* For Local Networks that would also like to share Welcome Letters, a link in the "Getting Started" section is now included
+* The PDF should be named local_network_welcome_letter_[COUNTRY ISO CODE].pdf and uploaded to /docs/networks_around_world_doc/communication/welcome_letters/
+
+h1. 2013-06-25
+
+* After being accepted, the CEO is mailed a package containing information about the Global Compact
+* It includes a Welcome Letter and publications for getting started as a new participant
+* Preparing paper packages is time consuming, creates postage costs and is not good for the environment
+* A "Digital Welcome Package" is being created to deliver the same material online
+* Added boolean 'welcome_package' to contacts to indicate whether a paper package should be mailed to the CEO
+* When completing the online application form, they select a checkbox to indicate if they would like a paper package
+
 h1. 2013-05-29
 
 * Added an email that informs the Global Compact Cities Programme when a new city is accepted as a participant
@@ -497,7 +511,7 @@ h1. 2011-08-02
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
-* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* first deploy, then run rails runner 'AssignNetworkRoles.new.run' -e production
 * then update search index to remove 'GC Networks' from search
 
 * launched new COP results screen
@@ -556,7 +570,7 @@ h1. 2011-06-22
 
 * assign Network Managers to countries
 * some commands are only running in the console
-* ./script/runner 'AssignNetworkRoles.new.run'
+* rails runner 'AssignNetworkRoles.new.run'
 
 h1. 2011-06-02
 
@@ -1120,7 +1134,7 @@ h1. 2011-08-02
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
-* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* first deploy, then run rails runner 'AssignNetworkRoles.new.run' -e production
 * then update search index to remove 'GC Networks' from search
 
 * launched new COP results screen
@@ -1179,7 +1193,7 @@ h1. 2011-06-22
 
 * assign Network Managers to countries
 * some commands are only running in the console
-* ./script/runner 'AssignNetworkRoles.new.run'
+* rails runner 'AssignNetworkRoles.new.run'
 
 h1. 2011-06-02
 
@@ -1744,7 +1758,7 @@ h1. 2011-08-02
 h1. 2011-07-28
 
 * deploying Phase I of Local Networks Dashboard
-* first deploy, then run ./script/runner 'AssignNetworkRoles.new.run' -e production
+* first deploy, then run rails runner 'AssignNetworkRoles.new.run' -e production
 * then update search index to remove 'GC Networks' from search
 
 * launched new COP results screen
@@ -1803,7 +1817,7 @@ h1. 2011-06-22
 
 * assign Network Managers to countries
 * some commands are only running in the console
-* ./script/runner 'AssignNetworkRoles.new.run'
+* rails runner 'AssignNetworkRoles.new.run'
 
 h1. 2011-06-02
 

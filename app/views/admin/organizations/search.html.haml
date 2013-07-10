@@ -2,7 +2,7 @@
 %div.tab_container
   = render :partial => 'control_tabs'
   %div.tab_content
-    - form_tag nil, method: 'get' do
+    = form_tag nil, method: 'get' do
       = hidden_field_tag 'commit', 'Search'
       %fieldset
         %ol

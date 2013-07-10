@@ -1,11 +1,13 @@
 require 'test_helper'
 
 class LogoRequestTest < ActiveSupport::TestCase
-  should_validate_presence_of :organization_id, :publication_id, :purpose
-  should_belong_to :organization
-  should_belong_to :contact
-  should_belong_to :publication
-  should_have_many :logo_comments
+  should validate_presence_of :organization_id
+  should validate_presence_of :publication_id
+  should validate_presence_of :purpose
+  should belong_to :organization
+  should belong_to :contact
+  should belong_to :publication
+  should have_many :logo_comments
 
   context "given a new logo request" do
     setup do
@@ -29,7 +31,7 @@ class LogoRequestTest < ActiveSupport::TestCase
       create_logo_file
       @logo_request.logo_files << LogoFile.first
       assert_difference '@logo_request.logo_comments.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                              :contact_id  => @staff_user.id,
                                              :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),

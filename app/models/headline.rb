@@ -2,17 +2,17 @@
 #
 # Table name: headlines
 #
-#  id             :integer(4)      not null, primary key
+#  id             :integer          not null, primary key
 #  title          :string(255)
 #  description    :text
 #  location       :string(255)
 #  published_on   :date
-#  created_by_id  :integer(4)
-#  updated_by_id  :integer(4)
+#  created_by_id  :integer
+#  updated_by_id  :integer
 #  approval       :string(255)
 #  approved_at    :datetime
-#  approved_by_id :integer(4)
-#  country_id     :integer(4)
+#  approved_by_id :integer
+#  country_id     :integer
 #  created_at     :datetime
 #  updated_at     :datetime
 #
@@ -30,19 +30,14 @@ class Headline < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :published, { :conditions => ['approval = ?', 'approved']}
-  named_scope :limit, lambda { |limit| { :limit => limit } }
-  named_scope :descending, {:order => 'published_on DESC, approved_at DESC'}
-  named_scope :all_for_year, lambda { |year|
+  scope :published, where('approval = ?', 'approved')
+  scope :descending, order('published_on DESC, approved_at DESC')
+
+  def self.all_for_year(year)
     starts = Time.mktime(year, 1, 1).to_date
     finish = (starts >> 12) - 1
-    {
-      :conditions => [
-        'published_on BETWEEN :starts AND :finish',
-        :starts => starts, :finish => finish
-      ]
-    }
-  }
+    where('published_on BETWEEN ? AND ?', starts, finish)
+  end
 
   def self.recent
     published.descending
@@ -54,27 +49,18 @@ class Headline < ActiveRecord::Base
 
   # Used to make a list of years, for the News Archive page - see pages_helper
   def self.years
-    case connection.adapter_name
-    when 'MySQL'
-      # select distinct(year(published_on)) as year from headlines order by year desc
-      select = 'distinct(year(published_on)) as year'
-    when 'SQLite'
-      select = "distinct(strftime('%Y', published_on)) as year"
-    else
-      logger.error " *** Headline.years: Unable to figure out DB: #{connection.adapter_name.inspect}"
-    end
-    find(:all, :select => select, :order => 'year desc').map { |y| y.year }
+    select("distinct(year(published_on)) as year").order('year desc').map {|y| y.year.to_s}
   end
 
   def before_approve!
-    self.write_attribute(:published_on, Date.today) if self.published_on.blank?
+    write_attribute(:published_on, Date.today) if self.published_on.blank?
   end
 
   def published_on_string=(date_or_string)
     if date_or_string.is_a?(String)
-      self.write_attribute(:published_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:published_on, Date.strptime(date_or_string, '%m/%d/%Y'))
     elsif date_or_string.is_a?(Date)
-      self.write_attribute(:published_on, date_or_string)
+      write_attribute(:published_on, date_or_string)
     end
   end
 

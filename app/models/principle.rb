@@ -2,13 +2,14 @@
 #
 # Table name: principles
 #
-#  id         :integer(4)      not null, primary key
+#  id         :integer          not null, primary key
 #  name       :string(255)
-#  old_id     :integer(4)
+#  old_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
 #  type       :string(255)
-#  parent_id  :integer(4)
+#  parent_id  :integer
+#
 
 class Principle < ActiveRecord::Base
   validates_presence_of :name
@@ -28,14 +29,14 @@ class Principle < ActiveRecord::Base
                 }
 
 
-  named_scope :by_types, lambda { |filter_type|
-     if filter_type.is_a?(Array)
-       types = filter_type.map { |t| TYPE_NAMES[t] }
-       {:conditions => ["name IN (?)", types]}
-     else
-       {:conditions => ["name = ?", TYPE_NAMES[filter_type]]}
-     end
-   }
+  def self.by_types(filter_type)
+   if filter_type.is_a?(Array)
+     types = filter_type.map { |t| TYPE_NAMES[t] }
+     where("name IN (?)", types)
+   else
+     where("name = ?", TYPE_NAMES[filter_type])
+   end
+  end
 
   def self.all_types
     types = []

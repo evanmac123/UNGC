@@ -1,6 +1,6 @@
 module Admin::LocalNetworksHelper
 
-  def link_to_public_profile(local_network)
+  def dashboard_link_to_public_profile(local_network)
     if local_network.country_code.present?
       link = "/NetworksAroundTheWorld/local_network_sheet/#{local_network.country_code}.html"
     else
@@ -53,13 +53,57 @@ module Admin::LocalNetworksHelper
     end
   end
 
-  def current_user_can_edit_network?
-    current_user.from_ungc? || (current_user.local_network == @local_network)
+  def current_contact_can_edit_network?
+    current_contact.from_ungc? || (current_contact.local_network == @local_network)
+  end
+
+  def link_to_region_list(local_network)
+    html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region)
+    html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
+  end
+
+  def section_or_page_icon(page)
+    if page.parent_id.present?
+      image_tag "icons/Document_24x24.png", :title => "Page"
+    else
+      image_tag "icons/Folder (Open)_24x24.png", :title => "Section"
+    end
+  end
+
+  def pending_or_approved_icon(page)
+    if page == 'pending'
+      image_tag "icons/Document_Edit_18x18.png"
+    else
+      image_tag "icons/Rate (Thumbs Up)_16x16.png"
+    end
   end
 
   def link_to_region_list(local_network)
     html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region), :class => 'dark_blue'
-    html += "&nbsp;&nbsp;&#x25BA;&nbsp;"
+    html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
+  end
+
+  def section_or_page_icon(page)
+    if page.parent_id.present?
+      image_tag "icons/Document_24x24.png", :title => "Page"
+    else
+      image_tag "icons/Folder (Open)_24x24.png", :title => "Section"
+    end
+  end
+
+  def pending_or_approved_icon(page)
+    if page == 'pending'
+      image_tag "icons/Document_Edit_18x18.png"
+    else
+      image_tag "icons/Rate (Thumbs Up)_16x16.png"
+    end
+  end
+
+  def announcement_count
+    @announcements.count > 0 ? "(#{@announcements.count})" : ''
+  end
+    html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region)
+    html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
   end
 
   def section_or_page_icon(page)

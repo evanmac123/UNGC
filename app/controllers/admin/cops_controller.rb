@@ -9,11 +9,11 @@ class Admin::CopsController < AdminController
   def introduction
     # non-business organizations can submit a COP, but they do not get a choice, so redirect them to the General (intermediate) COP
     # but we still want Global Compact Staff and Networks to choose the type of COP
-    if current_user.from_organization? && !current_user.organization.company?
-      redirect_to new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'intermediate')
+    if current_contact.from_organization? && !current_contact.organization.company?
+      redirect_to new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'intermediate')
     end
 
-    if current_user.organization.signatory_of?(:lead)
+    if current_contact.organization.signatory_of?(:lead)
       render 'lead_introduction'
     end
 
@@ -34,7 +34,7 @@ class Admin::CopsController < AdminController
   def create
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
     @communication_on_progress.type = session[:cop_template]
-    @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_user.contact_info
+    @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_contact.contact_info
 
     @communication_on_progress.cop_answers.each do |answer|
       answer.text = "" if answer.value == false && answer.text.present?
@@ -57,9 +57,9 @@ class Admin::CopsController < AdminController
 
     unless @communication_on_progress.is_grace_letter?
       begin
-        CopMailer.send("deliver_confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_user)
+        CopMailer.send("confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_contact).deliver
       rescue Exception => e
-       flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
+        flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
       end
     end
 
@@ -120,7 +120,7 @@ class Admin::CopsController < AdminController
     end
 
     def load_organization
-      @communication_on_progress = CommunicationOnProgress.visible_to(current_user).find(params[:id]) if params[:id]
+      @communication_on_progress = CommunicationOnProgress.visible_to(current_contact).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
     end
 

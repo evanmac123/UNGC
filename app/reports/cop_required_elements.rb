@@ -1,4 +1,3 @@
-include ActionController::UrlWriter
 class CopRequiredElements < SimpleReport
 
   def records

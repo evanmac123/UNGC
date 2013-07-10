@@ -12,7 +12,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       @logo_request = create_logo_request(:organization_id => @organization.id,
                                           :contact_id      => @contact.id,
                                           :publication_id  => @publication.id)
-      login_as @contact
+      sign_in @contact
     end
 
     should "not get new form" do
@@ -33,7 +33,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       @logo_request = create_logo_request(:organization_id => @organization.id,
                                           :contact_id      => @contact.id,
                                           :publication_id  => @publication.id)
-      login_as @contact
+      sign_in @contact
     end
 
     should "get new form" do
@@ -71,7 +71,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
     setup do
       create_approved_logo_request
       @organization.approve!
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "show a logo request page" do
@@ -100,7 +100,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       create_approved_logo_request
       @organization.approve!
       @logo_request.accept
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "allow download of logo" do

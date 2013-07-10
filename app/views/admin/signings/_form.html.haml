@@ -1,4 +1,4 @@
-- form_for @signing = @initiative.signings.new(:added_on => Date.today), builder: DefaultFormBuilder, :url => admin_initiative_signings_path(@initiative) do |form|
+= form_for @signing = @initiative.signings.new(:added_on => Date.today), builder: DefaultFormBuilder, :url => admin_initiative_signings_path(@initiative) do |form|
   %fieldset{:style => 'width: 50%;'}
     %ol
       %li= form.collection_select :organization_id, Organization.all(:order => :name), :id, :name

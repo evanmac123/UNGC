@@ -1,17 +1,15 @@
-# Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   def body_classes
-    returning([]) { |classes|
-      classes << 'editable_page' if editable_content? # TODO: Editable by the current user?
-      classes << current_section.html_code if current_section
-      classes << @leftnav_selected.html_code if @leftnav_selected.try(:html_code)
-      classes << @subnav_selected.html_code if @subnav_selected.try(:html_code)
-      classes
-    }.join(' ')
+    classes = []
+    classes << 'editable_page' if editable_content? # TODO: Editable by the current user?
+    classes << current_section.html_code if current_section
+    classes << @leftnav_selected.html_code if @leftnav_selected.try(:html_code)
+    classes << @subnav_selected.html_code if @subnav_selected.try(:html_code)
+    classes.join(' ')
   end
 
   def flash_messages_for(*keys)
-    keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join
+    keys.collect { |k| content_tag(:div, flash[k], :class => "flash #{k}") if flash[k] }.join.html_safe
   end
 
   def participant_search?(key)
@@ -19,19 +17,19 @@ module ApplicationHelper
   end
 
   def staff_only(&block)
-    yield if logged_in? && current_user.from_ungc?
+    yield if current_contact && current_contact.from_ungc?
   end
 
   def organization_only(&block)
-    yield if logged_in? && current_user.from_organization?
+    yield if current_contact && current_contact.from_organization?
   end
 
   def dashboard_view_only
-    yield if logged_in? && request.env['PATH_INFO'].include?('admin')
+    yield if current_contact && request.env['PATH_INFO'].include?('admin')
   end
 
   def is_staff
-    return logged_in? && current_user.from_ungc?
+    return current_contact && current_contact.from_ungc?
   end
 
   def link_to_attachment(object)
@@ -44,8 +42,8 @@ module ApplicationHelper
     "display: #{show ? 'block' : 'none'}"
   end
 
-  def link_to_current(name, url, current)
-    link = link_to name, url
+  def link_to_current(name, url, current, opts={})
+    link = link_to name, url, opts
     li_options = {}
     li_options[:class] = 'current' if current
     content_tag :li, link, li_options
@@ -53,14 +51,10 @@ module ApplicationHelper
 
   def differentiation_placement(cop)
     levels = { 'learner' => "Learner Platform &#x25BA;", 'active' => "GC Active &#x25BA;", 'advanced' => "GC Advanced" }
-    html = ''
-
-    levels.each do |key, value|
-      css_style = cop.differentiation_level_public == key ? '' : 'color: #aaa'
-      html += content_tag :span, value + '&nbsp;', :style => css_style
+    html = levels.map do |key, value|
+      content_tag :span, value.html_safe, :style => cop.differentiation_level_public == key ? '' : 'color: #aaa'
     end
-
-    html
+    html.join(' ').html_safe
   end
 
   def current_year

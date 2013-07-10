@@ -1,13 +1,23 @@
 ENV["RAILS_ENV"] = "test"
-require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
-require 'test_help'
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
 
 class ActiveSupport::TestCase
+  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
+  #
+  # Note: You'll currently still have to declare fixtures explicitly in integration tests
+  # -- they do not yet inherit this setting
+  fixtures :all
+
+  # Add more helper methods to be used by all tests here...
   include FixtureReplacement
-  include AuthenticatedTestHelper
+  include ActionDispatch::TestProcess
 
   self.use_transactional_fixtures = true
   self.use_instantiated_fixtures  = false
+
+  # Explicitly load example data
+  FixtureReplacement.load_example_data
 
   def as(user)
     user.try(:id) ? {:user_id => user.id} : {}
@@ -117,7 +127,7 @@ class ActiveSupport::TestCase
     create_organization_type
     create_country
     @ungc = create_organization(:name => 'UNGC')
-    @staff_user = create_contact(:login           => 'staff',
+    @staff_user = create_contact(:username           => 'staff',
                                  :password        => 'password',
                                  :organization_id => @ungc.id)
   end
@@ -137,7 +147,7 @@ class ActiveSupport::TestCase
     create_organization_type
     create_country
     @local_network_guest = create_organization(:name => 'Local Network Guests')
-    @local_network_guest_user = create_contact(:login           => 'guest',
+    @local_network_guest_user = create_contact(:username           => 'guest',
                                                :password        => 'password',
                                                :organization_id => @local_network_guest.id)
   end
@@ -184,10 +194,8 @@ class ActiveSupport::TestCase
     @lead_initiative    = create_initiative(:id => 19, :name => 'Global Compact LEAD')
     @climate_initiative = create_initiative(:id => 2,  :name => 'Caring for Climate')
   end
+end
 
-
-  def fixture_file_upload(path, mime_type = nil, binary = false)
-    fixture_path = ActionController::TestCase.send(:fixture_path) if ActionController::TestCase.respond_to?(:fixture_path)
-    ActionController::TestUploadedFile.new("#{fixture_path}#{path}", mime_type, binary)
-  end
+class ActionController::TestCase
+  include Devise::TestHelpers
 end

@@ -7,7 +7,7 @@
     %li <a href="#overview">Overview</a>
     %li <a href="#contacts">Contacts</a>
     %li <a href="#comments">Comments</a>
-    - if current_user.from_ungc? && Organization.peer_organizations(@organization).any?
+    - if current_contact.from_ungc? && Organization.peer_organizations(@organization).any?
       %li==<a href="#peers">Peers (#{Organization.peer_organizations(@organization).count})</a>
     - if @organization.communication_on_progresses.any?
       %li <a href="#cops">COPs</a>
@@ -15,12 +15,12 @@
       %li <a href="#case_stories">Case Stories</a>
     - if @organization.logo_requests.any?
       %li <a href="#logo_requests">Logo Requests</a>
-    - if @organization.initiatives.any? and current_user.from_ungc?
+    - if @organization.initiatives.any? and current_contact.from_ungc?
       %li <a href="#initiatives">Engagement</a>
 
   #overview.tab_content
     %ul{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large'
+      %li= link_to text_for_edit_icon(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large'
       - staff_only do
         - unless @organization.approved?
           %li{:style => 'margin-left: 362px;'}= link_to 'Reverse roles', reverse_roles_admin_organization_path(@organization.id), :class => 'refresh_large', :title => 'Switch the CEO and Contact Point roles, and transfer login information.'
@@ -50,7 +50,7 @@
       %dt Sector
       %dd= @organization.sector_name
       %dt Employees
-      %dd{:style => "color: #{alert_if_micro_enterprise(@organization, current_user)};"}= @organization.employees
+      %dd{:style => "color: #{alert_if_micro_enterprise(@organization, current_contact)};"}= @organization.employees
       %dt Country
       %dd= @organization.country_name
       - unless @organization.url.blank?
@@ -75,6 +75,11 @@
 
     -staff_only do
       %dl.left_column
+        %h3 Welcome Package
+        %dt.first Requested?
+        %dd.first= @organization.welcome_package? ? 'Yes' : 'No'
+
+      %dl.left_column
         %h3 Local Network
         %dt.first Membership Status
         %dd.first= local_network_membership
@@ -96,7 +101,7 @@
 
   #comments.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      - if @organization.network_review? && current_user.from_ungc?
+      - if @organization.network_review? && current_contact.from_ungc?
         %h4 Staff cannot add comments for applications under Network Review
       - else
         %li= link_to 'New Comment', new_admin_organization_comment_path(@organization.id), :class => 'new_large', :title => 'New Comment'

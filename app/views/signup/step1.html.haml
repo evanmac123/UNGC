@@ -1,10 +1,9 @@
-- @css = ['forms', 'application_form']
 %h1== #{signup_type} Organization Application
 %h2 About your organization
 - if @jci_referral
   %p Welcome, JCI Member.
 #main_content
-  - form_for(@organization, url: organization_step2_path) do |form|
+  = form_for(@organization, url: organization_step2_path) do |form|
     = form.error_messages
     %fieldset
       %ol

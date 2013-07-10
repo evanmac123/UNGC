@@ -2,9 +2,9 @@
 #
 # Table name: initiatives
 #
-#  id         :integer(4)      not null, primary key
+#  id         :integer          not null, primary key
 #  name       :string(255)
-#  old_id     :integer(4)
+#  old_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -23,9 +23,5 @@ class Initiative < ActiveRecord::Base
     :business_peace => 22
   }
 
-  named_scope :for_filter, lambda { |filter|
-    {
-      :conditions => [ "initiatives.id = ?", FILTER_TYPES[filter] ]
-    }
-  }
+  scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
 end

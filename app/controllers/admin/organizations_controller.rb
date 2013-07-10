@@ -1,12 +1,12 @@
 class Admin::OrganizationsController < AdminController
-  before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject, :reverse_roles]
+  before_filter :load_organization, :only => [:show, :edit, :update, :destroy, :approve, :reject, :reverse_roles, :show_welcome_letter]
   before_filter :load_organization_types, :only => :new
   before_filter :no_rejected_organizations_access, :only => :edit
   before_filter :no_access_to_other_organizations
   helper :participants, 'admin/contacts'
 
   def index
-    @organizations = Organization.all(:order => order_from_params)
+    @organizations = Organization.order(order_from_params)
                         .paginate(:page     => params[:page],
                                   :per_page => Organization.per_page)
   end
@@ -35,15 +35,15 @@ class Admin::OrganizationsController < AdminController
 
   def update
     @organization.state = Organization::STATE_IN_REVIEW if @organization.state == Organization::STATE_PENDING_REVIEW
-    @organization.set_replied_to(current_user) if Organization::STATE_IN_REVIEW
+    @organization.set_replied_to(current_contact) if Organization::STATE_IN_REVIEW
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
 
     if @organization.update_attributes(params[:organization])
-      @organization.set_last_modified_by(current_user)
+      @organization.set_last_modified_by(current_contact)
       flash[:notice] = 'Organization was successfully updated.'
-      if current_user.from_ungc?
+      if current_contact.from_ungc?
         redirect_to( admin_organization_path(@organization.id) )
-      elsif current_user.from_organization?
+      elsif current_contact.from_organization?
         redirect_to( dashboard_path )
       end
     else
@@ -69,49 +69,58 @@ class Admin::OrganizationsController < AdminController
     redirect_to admin_organization_path(@organization.id)
   end
 
+  def show_welcome_letter
+    render "admin/organizations/welcome_letter_#{@organization.organization_type_name_for_custom_links}" , :layout => "welcome_letter", :layout => "welcome_letter"
+  end
+
   # Define state-specific index methods
   %w{approved rejected pending_review network_review delay_review in_review updated}.each do |method|
     define_method method do
       # use custom index view if defined
       render case method
         when 'approved'
-          @organizations = Organization.send(method).participants.all(:order => order_from_params)
+          @organizations = Organization.send(method).participants.order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
         when 'pending_review'
-          @organizations = Organization.send(method).all(:include => [:participant_manager], :order => order_from_params)
+          @organizations = Organization.send(method).includes(:participant_manager)
+                              .order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           flash.now[:error] = "Notice: the search index is being updated. Matching organization names are not being listed. Please check again in a few minutes."  unless ThinkingSphinx.sphinx_running?
           method
         when 'in_review'
-          @organizations = Organization.send(method).all(:include => [:comments], :order => order_from_params)
+          @organizations = Organization.send(method).includes(:comments)
+                              .order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
         when 'updated'
-          @organizations = Organization.unreplied.all(:include => [:comments], :order => order_from_params)
+          @organizations = Organization.unreplied.includes(:comments)
+                              .order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
         when 'network_review'
-          @organizations = Organization.send(method).all(:include => [:participant_manager], :order => order_from_params)
+          @organizations = Organization.send(method).includes(:participant_manager)
+                              .order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
         when 'delay_review'
-          @organizations = Organization.send(method).all(:include => [:comments], :order => order_from_params)
+          @organizations = Organization.send(method).includes(:comments)
+                              .order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
         when 'rejected'
-          @organizations = Organization.send(method).all(:order => order_from_params)
+          @organizations = Organization.send(method).order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           method
         else
-          @organizations = Organization.send(method).all(:order => order_from_params)
+          @organizations = Organization.send(method).order(order_from_params)
                               .paginate(:page     => params[:page],
                                         :per_page => Organization.per_page)
           'index'

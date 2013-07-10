@@ -1,5 +1,5 @@
 %h2 Edit initiative
 
-- form_for @initiative, builder: DefaultFormBuilder, url: admin_initiative_path(@initiative) do |form|
+= form_for @initiative, builder: DefaultFormBuilder, url: admin_initiative_path(@initiative) do |form|
   = render :partial => form
   = form.submit 'Save changes', :class => 'button'

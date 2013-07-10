@@ -4,7 +4,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
   context "given an existing case story" do
     setup do
       create_new_case_story
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "be able to get new comment form" do
@@ -32,15 +32,15 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     end
 
     should "not allow comments to be posted about a rejected application by user" do
-      login_as @organization_user
-      get :new, {:organization_id => @organization_user.organization.id}, as(@organization_user)
+      sign_in @organization_user
+      get :new, {:organization_id => @organization_user.organization.id}
       assert_equal "We're sorry, your organization's application was not approved. No edits or comments can be made.", flash[:error]
       assert_redirected_to admin_organization_path(@organization_user.organization.id)
     end
 
     should "allow comments to be posted about a rejected application by staff" do
-      login_as @staff_user
-      get :new, {:organization_id => @organization.id}, as(@staff_user)
+      sign_in @staff_user
+      get :new, {:organization_id => @organization.id}
       assert_response :success
     end
   end
@@ -52,13 +52,13 @@ class Admin::CommentsControllerTest < ActionController::TestCase
       create_local_network_with_report_recipient
       create_ungc_organization_and_user
       @organization.country_id = @local_network.country_ids.first
-      login_as @staff_user
+      sign_in @staff_user
     end
 
     should "not allow comments to be posted by a user if their organization is approved" do
       @organization.approve
-      login_as @organization_user
-      get :new, {:organization_id => @organization_user.organization.id}, as(@organization_user)
+      sign_in @organization_user
+      get :new, {:organization_id => @organization_user.organization.id}
       assert_equal "Your organization's application was approved. Comments are no longer being accepted.", flash[:notice]
       assert_redirected_to admin_organization_path(@organization_user.organization.id)
     end
@@ -67,7 +67,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
       assert_difference 'Comment.count' do
         # FIXME: we expect *two* emails - one to the applicant, and one to the network (if the checkbox is checked)
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id    => @organization.id,
                         :commit             => Organization::EVENT_REVISE,
                         :comment            => { :body => 'Please revise your application.', :copy_local_network => '1' }
@@ -81,7 +81,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
     should "only email comment to application organization" do
       assert_difference 'Comment.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id    => @organization.id,
                         :commit             => Organization::EVENT_REVISE,
                         :comment            => { :body => 'Please revise your application.', :copy_local_network => '0' }
@@ -95,7 +95,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
     should "send email to Local Network when organization status is changed to Network Review" do
       assert_difference 'Comment.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id    => @organization.id,
                         :commit             => Organization::EVENT_NETWORK_REVIEW,
                         :comment            => { :body => 'Your application is under review by the Local Network in your country.'}
@@ -110,7 +110,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     should "approve the organization on approval comment" do
       assert_difference 'Comment.count' do
         # we expect two emails - approval and foundation invoice
-        assert_emails(2) do
+        assert_difference 'ActionMailer::Base.deliveries.size', 2 do
           post :create, :organization_id => @organization.id,
                         :commit          => Organization::EVENT_APPROVE,
                         :comment         => { :body => '' }
@@ -126,7 +126,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
 
     should "reject the organization on rejection comment" do
       assert_difference 'Comment.count' do
-        assert_emails(0) do
+        assert_no_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id => @organization.id,
                         :commit          => Organization::EVENT_REJECT,
                         :comment         => { :body => 'Rejected' }
@@ -141,7 +141,7 @@ class Admin::CommentsControllerTest < ActionController::TestCase
     should "reject the micro enterprise organization on reject micro comment" do
       original_name = @organization.name
       assert_difference 'Comment.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           post :create, :organization_id => @organization.id,
                         :commit          => Organization::EVENT_REJECT_MICRO,
                         :comment         => { :body => 'Rejected' }
@@ -150,7 +150,6 @@ class Admin::CommentsControllerTest < ActionController::TestCase
           assert_equal 'The Micro Enterprise application was rejected.', flash[:notice]
           assert @organization.reload.rejected?
           assert_equal "#{original_name} (rejected)", @organization.name
-
         end
       end
     end

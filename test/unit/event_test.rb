@@ -2,9 +2,9 @@
 require 'test_helper'
 
 class EventTest < ActiveSupport::TestCase
-  should_validate_presence_of :title, :message => "^Please provide a title"
-  should_belong_to :country
-  should_have_many :attachments
+  should validate_presence_of(:title).with_message("^Please provide a title")
+  should belong_to :country
+  should have_many :attachments
 
   context "given an event with a strange title" do
     setup do
@@ -74,7 +74,7 @@ class EventTest < ActiveSupport::TestCase
 
   context "given a new event" do
     setup do
-      @event = Event.new :title => String.random
+      @event = Event.new :title => FixtureReplacement.random_string
       assert @event.save
     end
 

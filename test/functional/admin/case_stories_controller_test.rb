@@ -4,7 +4,7 @@ class Admin::CaseStoriesControllerTest < ActionController::TestCase
   context "given a pending organization" do
     setup do
       create_organization_and_user
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "not be able to get new case story form" do
@@ -17,7 +17,7 @@ class Admin::CaseStoriesControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       @organization.approve!
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "be able to get new case story form" do
@@ -38,7 +38,7 @@ class Admin::CaseStoriesControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       @organization.approve!
-      login_as @organization_user
+      sign_in @organization_user
       @case_story = create_case_story(:organization_id => @organization.id)
     end
 

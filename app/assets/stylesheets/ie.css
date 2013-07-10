@@ -1,0 +1,63 @@
+/*
+ *= require_self
+*/
+
+#nav_bg .transparency { filter:alpha(opacity=75); zoom: 1; }
+#nav ul ul li { filter:alpha(opacity=95); }
+#footer_nav li { padding: 0 1px 0 4px; }
+#footer_logos ul li { filter:alpha(opacity=30); }
+#footer_logos ul li:hover { filter:alpha(opacity=100); }
+
+#rightcontent .bookmarks { float: right; position: relative; margin: 5px 10px -15px 0px;}
+/* fix JQuery datepicker */
+div.ui-datepicker .ui-datepicker-title { font-size: 11px; text-align: left;}
+div.ui-datepicker select.ui-datepicker-year { float: right; position: relative; top: -38px;}
+
+/* wrap text in form legend for COPs */
+#main_content fieldset legend { margin-bottom: 15px; }
+#main_content fieldset legend span { white-space:normal; float: left; }
+
+/* participant search */
+div.radio_button_group { margin: 15px 0 0 0; }
+
+/* cop form generated from admin.sass */
+#main_content fieldset fieldset span.label_text {
+  display: block;
+  position: relative;
+  line-height: 1.3em;
+  margin: -5px 0px 0px 10px;
+}
+
+/* COP questionnaire results in Dashboard - checkmarks do not appear with fixed width */
+#main_content dd ul.questionnaire { width: auto; }
+
+/* Form fixes */
+#main_content div.field_with_errors input[type='text'] {border: 1px solid #EB7272;}
+#main_content div.field_with_errors input[type='radio'] {border-color: white;}
+#main_content fieldset ol li { margin: 5px; }
+#main_content fieldset input { margin: 0px; }
+#main_content fieldset input[type='text'], #main_content input[type='password'] { margin-left: 25px; }
+#main_content fieldset ol.radio_button_list { clear: both; height: auto; }
+#main_content fieldset ol.radio_button_list li { margin: -10px; padding: 0;}
+#main_content ul.tools, #main_content ul.inline {clear: both;}
+
+/* FT500 Checkbox in organization profile */
+#main_content fieldset input[type='checkbox']#organization_is_ft_500 {display: inline; right: 710px; top: -2px; float: right;}
+
+/*radio button*/
+#main_content fieldset ol.radio_button_list li.radio_button { clear: both;  padding: 5px 0; }
+#main_content fieldset ol.radio_button_list li.radio_button input[type='radio'] { margin-top: -3px; }
+#main_content fieldset ol.checkbox_list { clear: both; }
+
+/* Local Networks form fixes */
+#main_content .ie_fix dt.title, #main_content .ie_fix dd.title { margin-bottom: -18px; }
+#main_content fieldset.governance { float: none; }
+#main_content fieldset.governance ol.radio_button_list li { margin-top: -10px; }
+#main_content fieldset.governance { height: 130px; }
+
+/* Dashboard document list */
+ul.document_list li a { padding: 5px 0 5px 0; }
+
+/*Social Media Icons*/
+.copy ul.icons li {display: inline; padding-right: 8px; height: 32px; width: 32px; float: left; list-style: none; }
+.copy ul.icons li + li {display: inline; padding-top: 8px; height: 60px; width: 215px; float: left; }

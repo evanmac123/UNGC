@@ -1,7 +1,1 @@
-role :app, "unglobalcompact.railsmachina.com"
-role :web, "unglobalcompact.railsmachina.com"
-role :db,  "unglobalcompact.railsmachina.com", :primary => true
-
-set :branch, "production"
-
-after "deploy:update", "newrelic:notice_deployment"
+server 'ungc.managedmachine.com', :web, :app, :db, :god, :sphinx, :primary => true

@@ -2,18 +2,18 @@ require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
   # FIXME create object first
-  # should_validate_uniqueness_of :name
-  should_validate_presence_of :name
-  should_have_many :contacts
-  should_have_many :logo_requests
-  should_have_many :case_stories
-  should_have_many :communication_on_progresses
-  should_have_many :comments
-  should_belong_to :sector
-  should_belong_to :organization_type
-  should_belong_to :listing_status
-  should_belong_to :exchange
-  should_belong_to :country
+  # should validate_uniqueness_of :name
+  should validate_presence_of :name
+  should have_many :contacts
+  should have_many :logo_requests
+  should have_many :case_stories
+  should have_many :communication_on_progresses
+  should have_many :comments
+  should belong_to :sector
+  should belong_to :organization_type
+  should belong_to :listing_status
+  should belong_to :exchange
+  should belong_to :country
 
   context "given an existing organization with a contact and ceo" do
     setup do
@@ -31,7 +31,7 @@ class OrganizationTest < ActiveSupport::TestCase
       @companies = create_organization_type(:name => 'Company')
       @micro_enterprise = create_organization_type(:name => 'Micro Enterprise')
       @sme = create_organization_type(:name => 'SME')
-      @academic = create_organization_type(:name => 'Academic')
+      @academic = create_non_business_organization_type
     end
 
     should "set the organization type to SME when it has less than 10 employees" do

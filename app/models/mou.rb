@@ -2,8 +2,8 @@
 #
 # Table name: mous
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
 #  year             :date
 #  created_at       :datetime
 #  updated_at       :datetime
@@ -34,9 +34,9 @@ class Mou < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-      case error
-        when 'file'
+    errors.each do |attribute|
+      case attribute
+        when :file
           error_messages << 'Choose a file to upload'
        end
     end
@@ -48,6 +48,4 @@ class Mou < ActiveRecord::Base
     def set_type
       self.mou_type = 'in_review' unless mou_type.present?
     end
-
 end
-

@@ -1,3 +1,11 @@
+# This file should contain all the record creation needed to seed the database with its default values.
+# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
+#
+# Examples:
+#
+#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
+#   Mayor.create(name: 'Emanuel', city: cities.first)
+
 puts "Seeding data..."
 
 # Create organization to contain Local Network Guest contacts
@@ -8,13 +16,15 @@ country_id = country.nil? ? nil : country.id
 organization_type = OrganizationType.find_by_name("NGO Global")
 organization_type_id = organization_type.nil? ? nil : organization_type.id
 
-params = { :name                 => DEFAULTS[:local_network_guest_name],
-           :employees            => 0,
-           :country_id           => country_id,
-           :organization_type_id => organization_type_id,
-           :participant          => false,
-           :active               => false,
-           :state                => Organization::STATE_APPROVED }
+params = {
+  :name                 => DEFAULTS[:local_network_guest_name],
+  :employees            => 0,
+  :country_id           => country_id,
+  :organization_type_id => organization_type_id,
+  :participant          => false,
+  :active               => false,
+  :state                => Organization::STATE_APPROVED
+}
 
 Organization.destroy_all(params)
 organization = Organization.find_or_create_by_name(params)
@@ -22,18 +32,20 @@ organization = Organization.find_or_create_by_name(params)
 # Create Local Network Guest with login
 
 test_email = 'test.user@testing.com'
-params = { :organization_id => organization.id,
-           :prefix          => 'Local Network',
-           :first_name      => 'Guest',
-           :last_name       => 'User',
-           :email           =>  test_email,
-           :job_title       => 'Guest User',
-           :phone           => 'n/a',
-           :address         => 'n/a',
-           :city            => 'n/a',
-           :country_id      => organization.country_id,
-           :login           => 'gclnguest',
-           :password        => 'gclnguest' }
+params = {
+  :organization_id => organization.id,
+  :prefix          => 'Local Network',
+  :first_name      => 'Guest',
+  :last_name       => 'User',
+  :email           =>  test_email,
+  :job_title       => 'Guest User',
+  :phone           => 'n/a',
+  :address         => 'n/a',
+  :city            => 'n/a',
+  :country_id      => organization.country_id,
+  :username        => 'gclnguest',
+  :password        => 'gclnguest'
+}
 
 Contact.destroy_all(:email => test_email)
 contact = Contact.create(params)

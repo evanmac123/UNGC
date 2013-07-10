@@ -43,15 +43,27 @@
           = form.label :country_id
           = form.collection_select :country_id, Country.all, :id, :name
 
-  - if account_info
+  - if welcome_package
+    %fieldset
+      %legend Welcome Package
+      %p New participants will receive immediate access to a digital welcome package containing materials for better understanding the Global Compact, its requirements for participants, and how organizations can get started.
 
+      %p A hard copy version of the welcome package can be provided upon request and will take 6 to 8 weeks (or more) to arrive at the mailing address provided.
+
+      %p In consideration of the environment, we encourage participants to access the digital package.
+
+      #check_contact
+        = form.check_box :welcome_package
+        = label_tag :contact_welcome_package, "A welcome package in hard copy format should be sent to the Highest Level Executive's mailing address"
+
+  - if account_info
     %fieldset
       %legend Login information
       %p Please create a username and password. You will need this login to update or check the status of your application.
       %ol
         %li
-          = form.label :login, "Username"
-          = form.text_field :login
+          = form.label :username, "Username"
+          = form.text_field :username
         %li
           = form.label :password
-          = form.password_field :password
+          = form.password_field :password, :value => @contact.plaintext_password

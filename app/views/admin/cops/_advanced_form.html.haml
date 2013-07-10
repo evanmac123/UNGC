@@ -45,7 +45,7 @@
 
         %p{:title => "Additional information on the best practice will appear here."}
           Note: Throughout the self-assessment, best practices marked with
-          = image_tag "/images/icons/Info_11x11.png", :height => 11, :width => 11, :style => 'position: relative; top: 1px;';
+          = image_tag "icons/Info_11x11.png", :height => 11, :width => 11, :style => 'position: relative; top: 1px;';
           indicate additional information is available for that item.
 
     = render :partial => 'cop_title_field', :locals => {:form => form}
@@ -181,7 +181,7 @@
           %li Water Security and Sanitation
           %li Employment and Decent Working Conditions
           %li Anti-Corruption
-      %p{:style => 'display: block; clear both; margin-left: 2em;'}
+      %p{:style => 'display: block; clear: both; margin-left: 2em;'}
         For a list of further Global Issues that are relevant to the work of the UN as well as business, please refer to
         = popup_link_to 'business.un.org','http://business.un.org/en/browse/global_issues'
     %fieldset= render_cop_questions_for :un_goals, :year => 2013
@@ -218,7 +218,7 @@
           %legend
             %span Contact Information
           %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
-          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name || current_user.contact_info
+          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name || current_contact.contact_info
 
     = render :partial => 'submit_cop'
     %br

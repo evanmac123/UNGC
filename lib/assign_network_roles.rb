@@ -1,4 +1,4 @@
-# ./script/runner 'AssignNetworkRoles.new.run' -e production
+# rails runner 'AssignNetworkRoles.new.run' -e production
 
 class AssignNetworkRoles
   def run

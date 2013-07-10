@@ -1,9 +1,10 @@
 require 'test_helper'
 
 class LogoCommentTest < ActiveSupport::TestCase
-  should_validate_presence_of :contact_id, :body
-  should_belong_to :logo_request
-  should_belong_to :contact
+  should validate_presence_of :contact_id
+  should validate_presence_of :body
+  should belong_to :logo_request
+  should belong_to :contact
 
   context "give a new logo request" do
     setup do
@@ -21,7 +22,7 @@ class LogoCommentTest < ActiveSupport::TestCase
 
     should "go to 'in review' state with a comment" do
       assert_difference '@logo_request.logo_comments.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                              :contact_id  => @staff_user.id,
                                              :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
@@ -44,7 +45,7 @@ class LogoCommentTest < ActiveSupport::TestCase
 
     should "go to approved state after approval comment" do
       assert_difference '@logo_request.logo_comments.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                              :contact_id  => @staff_user.id,
                                              :state_event => LogoRequest::EVENT_APPROVE)
@@ -55,7 +56,7 @@ class LogoCommentTest < ActiveSupport::TestCase
 
     should "set a default body to an approval comment" do
       assert_difference '@logo_request.logo_comments.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           logo_comment = @logo_request.logo_comments.create(:contact_id  => @staff_user.id,
                                                             :state_event => LogoRequest::EVENT_APPROVE)
           assert_equal 'Your logo request has been approved.', logo_comment.reload.body
@@ -65,7 +66,7 @@ class LogoCommentTest < ActiveSupport::TestCase
 
     should "go to rejected state after negative comment" do
       assert_difference '@logo_request.logo_comments.count' do
-        assert_emails(1) do
+        assert_difference 'ActionMailer::Base.deliveries.size' do
           @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                              :contact_id  => @staff_user.id,
                                              :state_event => LogoRequest::EVENT_REJECT)
@@ -76,7 +77,7 @@ class LogoCommentTest < ActiveSupport::TestCase
 
     should "not go to approved/rejected state after comment from organization" do
       assert_no_difference '@logo_request.logo_comments.count' do
-        assert_emails(0) do
+        assert_no_difference 'ActionMailer::Base.deliveries.size' do
           @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                              :contact_id  => @organization_user.id,
                                              :state_event => LogoRequest::EVENT_APPROVE)
@@ -93,7 +94,7 @@ class LogoCommentTest < ActiveSupport::TestCase
 
     should "not accept new comments" do
       assert_no_difference '@logo_request.logo_comments.count' do
-        assert_emails(0) do
+        assert_no_difference 'ActionMailer::Base.deliveries.size' do
           @logo_request.logo_comments.create(:body        => 'lorem ipsum',
                                              :contact_id  => @organization_user.id,
                                              :attachment  => fixture_file_upload('files/untitled.pdf', 'application/pdf'),

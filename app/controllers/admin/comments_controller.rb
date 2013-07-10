@@ -11,7 +11,7 @@ class Admin::CommentsController < AdminController
   def create
     @comment = @commentable.comments.new(params[:comment])
     @comment.state_event = params[:commit].downcase
-    @comment.contact_id = current_user.id
+    @comment.contact_id = current_contact.id
 
     if @comment.save
       flash[:notice] = set_flash_notice_text(@commentable, @comment)

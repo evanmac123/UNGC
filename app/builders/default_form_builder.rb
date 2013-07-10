@@ -11,9 +11,9 @@ class DefaultFormBuilder < ActionView::Helpers::FormBuilder
       #wrap with a li and place labels after checkboxes and radio buttons
 
       if name == :check_box || name == :radio_button
-        @template.content_tag(:li, [super(field, *args), label].join(''), :class => options[:li_class])
+        @template.content_tag(:li, [super(field, *args), label].join('').html_safe, :class => options[:li_class])
       else
-        @template.content_tag(:li, [label, super(field, *args)].join(''), :class => options[:li_class])
+        @template.content_tag(:li, [label, super(field, *args)].join('').html_safe, :class => options[:li_class])
       end
 
     end

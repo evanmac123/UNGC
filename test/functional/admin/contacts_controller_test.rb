@@ -18,14 +18,14 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       :city       => 'Toronto',
       :country_id => Country.first.id,
       :email      => 'test@example.com',
-      :login      => 'test',
+      :username   => 'test',
       :password   => 'test'
     }
   end
 
   context "when logged in as an organization user" do
     setup do
-      login_as @organization_user
+      sign_in @organization_user
     end
 
     should "display the 'new contact' form" do
@@ -63,10 +63,11 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     should "update contact for an organization" do
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
-                   :contact         => { :login    => 'aaa',
+                   :contact         => { :username    => 'aaa',
                                          :password => "password" }
 
-      assert_equal 'aaa', @organization_user.reload.login
+      assert_equal 'aaa', @organization_user.reload.username
+      assert_equal 'password', @organization_user.reload.plaintext_password
 
       assert_redirected_to dashboard_path(:tab => :contacts)
     end
@@ -85,7 +86,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   context "when logged in as UNGC staff user" do
     setup do
       create_local_network_with_report_recipient
-      login_as create_staff_user
+      sign_in create_staff_user
     end
 
     should "be able to assign the three organization roles when editing a contact" do
@@ -123,10 +124,11 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     should "update contact for a local network" do
       put :update, :local_network_id => @local_network.id,
                    :id               => @network_contact.to_param,
-                   :contact          => { :login    => 'aaa',
+                   :contact          => { :username    => 'aaa',
                                           :password => "password" }
 
-      assert_equal 'aaa', @network_contact.reload.login
+      assert_equal 'aaa', @network_contact.reload.username
+      assert_equal 'password', @network_contact.reload.plaintext_password
 
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
@@ -147,8 +149,9 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     should "redirect to the organization's path after updating its contact" do
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
-                   :contact         => { :login    => 'aaa',
+                   :contact         => { :username    => 'aaa',
                                          :password => "password" }
+
       assert_redirected_to admin_organization_path(@organization.id, :tab => :contacts)
     end
 
@@ -162,7 +165,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
   context "when logged in as a Local Network" do
     setup do
       create_local_network_with_report_recipient
-       login_as @network_contact
+       sign_in @network_contact
     end
 
     should "redirect to dashboard contacts tab" do
