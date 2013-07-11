@@ -42,20 +42,20 @@
 
     %p.cop_description
       Translations of the template are currently available in the following languages:
-      %ul.bulleted{:style => 'float: left; margin-right: 100px;'}
-        %li= link_to 'Arabic','/docs/communication_on_progress/templates/Basic/Basic_COP_AR.pdf'
-        %li= link_to 'Chinese','/docs/communication_on_progress/templates/Basic/Basic_COP_ZH.pdf'
-        %li= link_to 'English','/docs/communication_on_progress/templates/Basic/Basic_COP_EN.pdf'
-        %li= link_to 'French','/docs/communication_on_progress/templates/Basic/Basic_COP_FR.pdf'
-      %ul.bulleted{:style => 'float: left; margin-right: 100px;'}
-        %li= link_to 'German','/docs/communication_on_progress/templates/Basic/Basic_COP_DE.pdf'
-        %li= link_to 'Japanese','/docs/communication_on_progress/templates/Basic/Basic_COP_JA.pdf'
-        %li= link_to 'Korean','/docs/communication_on_progress/templates/Basic/Basic_COP_KR.pdf'
-        %li= link_to 'Portuguese','/docs/communication_on_progress/templates/Basic/Basic_COP_PT.pdf'
-      %ul.bulleted{:style => 'float: left; margin-right: 100px; clear: right;'}
-        %li= link_to 'Russian','/docs/communication_on_progress/templates/Basic/Basic_COP_RU.pdf'
-        %li= link_to 'Spanish','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf'
-        %li= link_to 'Turkish','/docs/communication_on_progress/templates/Basic/Basic_COP_TR.pdf'
+    %ul{:style => 'float: left; margin-right: 100px;'}
+      %li= link_to 'Arabic','/docs/communication_on_progress/templates/Basic/Basic_COP_AR.pdf'
+      %li= link_to 'Chinese','/docs/communication_on_progress/templates/Basic/Basic_COP_ZH.pdf'
+      %li= link_to 'English','/docs/communication_on_progress/templates/Basic/Basic_COP_EN.pdf'
+      %li= link_to 'French','/docs/communication_on_progress/templates/Basic/Basic_COP_FR.pdf'
+    %ul{:style => 'float: left; margin-right: 100px;'}
+      %li= link_to 'German','/docs/communication_on_progress/templates/Basic/Basic_COP_DE.pdf'
+      %li= link_to 'Japanese','/docs/communication_on_progress/templates/Basic/Basic_COP_JA.pdf'
+      %li= link_to 'Korean','/docs/communication_on_progress/templates/Basic/Basic_COP_KR.pdf'
+      %li= link_to 'Portuguese','/docs/communication_on_progress/templates/Basic/Basic_COP_PT.pdf'
+    %ul{:style => 'float: left; margin-right: 100px; clear: right;'}
+      %li= link_to 'Russian','/docs/communication_on_progress/templates/Basic/Basic_COP_RU.pdf'
+      %li= link_to 'Spanish','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf'
+      %li= link_to 'Turkish','/docs/communication_on_progress/templates/Basic/Basic_COP_TR.pdf'
 
     %p.clear= link_to 'New Basic COP', new_admin_organization_communication_on_progress_path(current_user.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
 
@@ -72,7 +72,7 @@
     %p.cop_description For each criterion, the Global Compact provides a list of commonly accepted best practices that companies are encouraged to implement to fulfill the criteria.  A criterion is "fulfilled" in one of three ways:
     %ol.cop_list
       %li If the COP describes best practices from the list that are <strong><em>relevant</em></strong> for the business participant's context of operation
-      %li If the COP describes other emerging or established best practices outside the list of commonly accepted best practices 
+      %li If the COP describes other emerging or established best practices outside the list of commonly accepted best practices
       %li If the COP does not address the criterion but explains the reason for omission (e.g., criterion deemed immaterial, legal prohibitions, privacy, competitive advantage).
     %p.cop_description Detailed results of the self-assessment and statistics on coverage of best practices will also be made public to encourage stakeholder vetting and extra-financial analysis.
 
