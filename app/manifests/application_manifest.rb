@@ -25,6 +25,101 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :sphinx
   recipe :nodejs
   recipe :webdav
+  recipe :ssh
+
+  on_stage(:production) do
+    recipe :cron_tasks
+    recipe :jungle_disk
+    recipe :scout
+  end
+
+  def cron_tasks
+     cron 'cop_state',
+       :command => '/srv/unglobalcompact/current/script/cron/cop_state',
+       :user => 'rails',
+       :hour => 1,
+       :minute => 0,
+       :ensure => :present
+
+     cron 'cop_reminder',
+       :command => '/srv/unglobalcompact/current/script/cron/cop_reminder',
+       :user => 'rails',
+       :hour => 1,
+       :minute => 10,
+       :ensure => :present
+
+     cron 'sphinx_index',
+       :command => '/srv/unglobalcompact/current/script/cron/sphinx_index',
+       :user => 'rails',
+       :minute => 40,
+       :ensure => :present
+
+     cron 'start_mysqldump',
+       :command => '/srv/unglobalcompact/current/script/cron/start_mysqldump',
+       :user => 'rails',
+       :hour => 5,
+       :minute => 0,
+       :ensure => :present
+
+    cron 'stop_sphinx',
+      :command => '/srv/unglobalcompact/current/script/cron/stop_sphinx',
+      :user => 'rails',
+      :hour => 6,
+      :minute => 5,
+      :ensure => :present
+
+    cron 'searchable',
+      :command => '/srv/unglobalcompact/current/script/cron/searchable',
+      :user => 'rails',
+      :hour => 6,
+      :minute => 11,
+      :ensure => :present
+
+    cron 'sphinx_rebuild',
+      :command => '/srv/unglobalcompact/current/script/cron/sphinx_rebuild',
+      :user => 'rails',
+      :hour => 6,
+      :minute => 55,
+      :ensure => :present
+
+  end
+
+  def jungle_disk
+    deb_file = 'junglediskserver_316-0_amd64.deb'
+    url = "https://downloads.jungledisk.com/jungledisk/#{deb_file}"
+
+    exec 'download jungle_disk',
+      :cwd => '/tmp',
+      :command => "wget #{url}",
+      :require => package('wget'),
+      :creates => "/tmp/#{deb_file}"
+
+    package 'junglediskserver',
+      :provider => :dpkg,
+      :ensure => :installed,
+      :source => "/tmp/#{deb_file}",
+      :require => exec('download jungle_disk')
+
+    file '/etc/jungledisk/junglediskserver-license.xml',
+      :ensure => :present,
+      :owner => 'root',
+      :notify => service('junglediskserver'),
+      :content => template(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'junglediskserver-license.xml'), binding),
+      :require => package('junglediskserver')
+
+    file '/etc/jungledisk/junglediskserver-settings.xml',
+      :ensure => :present,
+      :owner => 'root',
+      :notify => service('junglediskserver'),
+      :content => template(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'junglediskserver-settings.xml'), binding),
+      :require => package('junglediskserver')
+
+    service 'junglediskserver',
+      :provider => :init,
+      :enable => true,
+      :ensure => :running,
+      :require => package('junglediskserver')
+  end
 
   # Add your application's custom requirements here
   def application_packages

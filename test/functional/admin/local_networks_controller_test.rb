@@ -59,12 +59,12 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
      sign_in @network_contact
     end
 
-    should "should get edit" do
+    should "get edit" do
       get :edit, :id => @local_network.to_param
       assert_response :success
     end
 
-    should "should get edit for a specific section" do
+    should "get edit for a specific section" do
       get :edit, :id => @local_network.to_param, :section => 'membership'
       assert_equal 'membership', assigns(:section)
       assert_equal 'edit_membership', assigns(:form_partial)

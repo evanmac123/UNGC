@@ -11,10 +11,13 @@ class PagesController < ApplicationController
       @current_version = @page.find_version_number(params[:version]) if params[:version]
       @current_version ||= active_version_of(@page)
     end
-    render :text => 'Not Found', :status => 404 unless @page and @current_version
 
-    render :template => template, :layout => 'home'
-    cache_page response.body, @page.path unless @page.dynamic_content?
+    if @page and @current_version
+      render :template => template, :layout => 'home'
+      cache_page response.body, @page.path unless @page.dynamic_content?
+    else
+      render :text => 'Not Found', :status => 404
+    end
   end
 
   def view

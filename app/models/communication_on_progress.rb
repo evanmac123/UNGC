@@ -126,7 +126,7 @@ class CommunicationOnProgress < ActiveRecord::Base
       find_by_id param.to_i
     else
       param = CGI.unescape param
-      find :first, :conditions => ["title = ?", param]
+      where("title = ?", param).first
     end
   end
 
