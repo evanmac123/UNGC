@@ -5,7 +5,7 @@
     %meta{'http-equiv' => 'X-UA-Compatible', :content => 'IE=EmulateIE7'}/
     %title= @title || "United Nations Global Compact | #{controller.controller_name.titleize} | #{controller.action_name.titleize}"
     = csrf_meta_tag
-    = stylesheet_link_tag 'admin'
+    = stylesheet_link_tag 'admin', 'themes/apple/style'
     /[if IE]
       = stylesheet_link_tag 'ie'
     = stylesheet_link_tag 'print', :media => 'print'
