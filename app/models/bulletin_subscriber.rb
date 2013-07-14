@@ -2,7 +2,7 @@
 #
 # Table name: bulletin_subscribers
 #
-#  id                :integer(4)      not null, primary key
+#  id                :integer          not null, primary key
 #  first_name        :string(255)
 #  last_name         :string(255)
 #  organization_name :string(255)

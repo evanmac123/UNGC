@@ -1,8 +1,4 @@
-<%# workaround for two tree view plugin issues %>
-<script type="text/javascript" charset="utf-8" src='/javascripts/jquery.tree.js'></script>
-<% if true %>
 <script>
-
 $(function () { 
 	$("#tree").tree({
      ui: {
@@ -12,18 +8,18 @@ $(function () {
 		data : { 
 			type : "json",
 			opts : {
-				url : "/admin/pages.js"
+				url : "/admin/pages.json"
 			}
 		},
 		types: {
 		  'page': {
 		    'icon': {
-		      'image': '/images/page_white.png'
+		      'image': '/assets/page_white.png'
 		    }
 		  },
 		  'section': {
 		    'icon': {
-		      'image': '/images/folder.png'
+		      'image': '/assets/folder.png'
 		    }
 		  }
 		},
@@ -54,7 +50,4 @@ $(function () {
      }
 	});
 });
-
-
 </script>
-<% end %>

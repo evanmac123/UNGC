@@ -4,7 +4,7 @@ class Admin::ContactsController < AdminController
   def new
     @contact = @parent.contacts.new
     @contact.country_id = @parent.country_id if @parent.respond_to?(:country_id)
-    @roles = Role.visible_to(@contact, current_user)
+    @roles = Role.visible_to(@contact, current_contact)
     @return_path = return_path
   end
 
@@ -23,13 +23,19 @@ class Admin::ContactsController < AdminController
 
   def edit
     @needs_to_update = params[:update]
-    @roles = Role.visible_to(@contact, current_user)
+    @roles = Role.visible_to(@contact, current_contact)
     @return_path = return_path
   end
 
   def update
+    if params[:contact] && params[:contact][:password].try(:empty?)
+      params[:contact].delete('password')
+    end
+
     @return_path = return_path
     if @contact.update_attributes(params[:contact])
+      sign_in(@contact, :bypass => true) if @contact == current_contact
+
       flash[:notice] = 'Contact was successfully updated.'
       redirect_to return_path
     else
@@ -55,10 +61,10 @@ class Admin::ContactsController < AdminController
   private
     def load_parent
       @parent = if params[:organization_id]
-                  Organization.visible_to(current_user).find params[:organization_id]
-                elsif params[:local_network_id]
-                  LocalNetwork.find params[:local_network_id]
-                end
+        Organization.visible_to(current_contact).find(params[:organization_id])
+      elsif params[:local_network_id]
+        LocalNetwork.find(params[:local_network_id])
+      end
 
       if params[:id]
         @contact = @parent.contacts.find params[:id]
@@ -82,7 +88,7 @@ class Admin::ContactsController < AdminController
     end
 
     def return_path
-      if current_user.from_ungc? || current_user.from_network?
+      if current_contact.from_ungc? || current_contact.from_network?
         contact_parent_path(@contact, [], [], :tab => :contacts)
       else
         dashboard_path(:tab => :contacts)

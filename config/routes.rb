@@ -1,181 +1,219 @@
-ActionController::Routing::Routes.draw do |map|
+require 'ckeditor'
+
+UNGC::Application.routes.draw do
   # Root
-  map.root :controller => 'pages', :action => 'view', :path => ['index.html']
+  root :to => 'pages#home'
 
-  # Session routes
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
-  map.login '/login', :controller => 'sessions', :action => 'new'
-  map.resource :session
-  map.resource :password, :controller => 'admin/passwords'
-  map.no_session 'no_session', :controller => 'signup', :action => 'no_session'
-
-  # Back-end routes
-  map.dashboard '/admin/dashboard', :controller => 'admin', :action => 'dashboard'
-  map.parameters '/admin/parameters', :controller => 'admin', :action => 'parameters'
-  map.cop_introduction '/admin/cops/introduction', :controller => 'admin/cops', :action => 'introduction'
-
-  map.knowledge_sharing 'admin/local_networks/:id/knowledge_sharing', :controller => 'admin/local_networks', :action => 'knowledge_sharing', :conditions => { :method => :get }
-  map.local_network_resources 'admin/local_network_resources', :controller => 'admin/local_networks', :action => 'edit_resources'
-
-  # These need to come before resources :pages
-  map.with_options :controller => 'admin/pages' do |m|
-    m.edit_page 'admin/pages/:id/edit', :action => 'edit', :conditions => { :method => :get }
-    m.update_page 'admin/page/:id.:format', :action => 'update', :conditions => { :method => :put }
-    m.connect 'admin/page/:id/edit', :action => 'update', :conditions => { :method => :post }
-    m.find_page_by 'admin/pages/find', :action => 'find_by_path_and_redirect_to_latest'
+  devise_for :contacts
+  devise_scope :contact do
+    post    '/login'             => 'sessions#create',             :as => :contact_session
+    get     '/login'             => 'sessions#new',                :as => :new_contact_session
+    delete  '/logout'            => 'sessions#destroy',            :as => :destroy_contact_session
+    get     '/password/new'      => 'admin/passwords#new',         :as => :new_contact_password
+    post    '/password'          => 'admin/passwords#create',      :as => :contact_password
+    put     '/password'          => 'admin/passwords#update'
+    get     '/password/edit'     => 'admin/passwords#edit',        :as => :edit_contact_password
   end
 
-  map.admin '/admin', :controller => 'admin', :action => 'dashboard'
-  map.namespace :admin do |admin|
+  # Backend routes
+  match '/admin'                    => 'admin#dashboard', :as => :admin
+  match '/admin/dashboard'          => 'admin#dashboard', :as => :dashboard
+  match '/admin/parameters'         => 'admin#parameters', :as => :parameters
+  match '/admin/cops/introduction'  => 'admin/cops#introduction', :as => :cop_introduction
 
-    admin.resources :events, :member => {
-      :approve => :post,
-      :revoke => :post
-    }
-    admin.resources :headlines,
-      :controller => 'news',
-      :member => {
-        :approve => :post,
-        :revoke => :post
-      }
-    admin.resources :pages,
-      :member => {
-        :approve => :put,
-        :check   => :put,
-        :rename  => :post,
-      },
-      :collection => {
-        :pending   => :get,
-        :save_tree => :post,
-        :create_folder => :post
-      }
-    admin.resources :contacts, :collection => {:search => :get}
-    admin.resources :organizations, :collection => { :approved       => :get,
-                                                     :rejected       => :get,
-                                                     :pending_review => :get,
-                                                     :in_review      => :get,
-                                                     :updated        => :get,
-                                                     :network_review => :get,
-                                                     :delay_review   => :get,
-                                                     :search         => :get },
-                                    :member     => { :reverse_roles  => :get },
-                                    :has_many   => [:contacts, :comments] do |organization|
-    admin.resources :logo_requests, :collection => { :approved       => :get,
-                                                     :rejected       => :get,
-                                                     :pending_review => :get,
-                                                     :in_review      => :get,
-                                                     :unreplied      => :get,
-                                                     :accepted       => :get},
-                                    :has_many => :logo_comments
-      organization.resources :logo_requests, :member => {:agree => :post, :download => :get}
-      organization.resources :case_stories
-      organization.resources :communication_on_progresses, :controller => 'cops'
-    end
+  match '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing, :via => :get
+  match '/admin/local_network_resources' => 'admin/local_networks#edit_resources', :as => :local_network_resources, :via => :get
 
-    admin.resources :case_stories, :has_many => :comments
-    admin.resources :logo_requests, :has_many => :logo_comments
-    admin.resources :communication_on_progresses, :has_many => :comments
-    admin.resources :initiatives, :has_many => :signings
-    admin.resources :contacts_roles
-    admin.resources :roles
-    admin.resources :sectors
-    admin.resources :countries
-    admin.resources :logo_files
-    admin.resources :cop_questions
-    admin.resources :local_networks, :has_many => [:contacts, :awards, :mous, :meetings, :communications, :integrity_measures, :announcements, :annual_reports] do |local_network|
-      local_network.resources :local_network_events do |event|
-        event.resources :attachments, :controller => 'local_network_event_attachments'
+  # These need to come before resources :pages
+  match '/admin/pages/:id/edit'   => 'admin/pages#edit', :as => :edit_page, :via => :get
+  match '/admin/page/:id.:format' => 'admin/pages#update', :as => :update_page, :via => :put
+  match '/admin/page/:id/edit'    => 'admin/pages#edit', :via => :post
+  match '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', :as => :find_page_by
+
+  namespace :admin do
+    resources :events do
+      member do
+        post :approve
+        post :revoke
       end
     end
 
-    admin.uploaded_file '/uploaded_files/:id/:filename', :controller => 'uploaded_files', :action => 'show', :filename => /.*/
-
-    admin.reports 'reports', :controller => 'reports', :action => 'index'
-    admin.report 'reports/:action.:format', :controller => 'reports'
-
-    admin.with_options :controller => 'learning' do |learning|
-      learning.learning 'learning', :action => 'index'
-      learning.connect 'learning/:action'
+    resources :headlines, :controller => 'news' do
+      member do
+        post :approve
+        post :revoke
+      end
     end
+
+    resources :pages do
+      collection do
+        get :pending
+        post :save_tree
+        post :create_folder
+      end
+
+      member do
+        put :approve
+        put :check
+        post :rename
+      end
+    end
+
+    resources :contacts do
+      collection do
+        get :search
+      end
+    end
+
+    resources :organizations do
+      resources :comments
+      collection do
+        get :approved
+        get :rejected
+        get :pending_review
+        get :in_review
+        get :updated
+        get :network_review
+        get :delay_review
+        get :search
+      end
+
+      member do
+        get :reverse_roles
+        get :show_welcome_letter
+      end
+
+      resources :logo_requests do
+        collection do
+          get :approved
+          get :rejected
+          get :pending_review
+          get :in_review
+          get :unreplied
+          get :accepted
+        end
+
+        member do
+          post :agree
+          get :download
+        end
+      end
+
+      resources :case_stories
+      resources :communication_on_progresses, :controller => 'cops'
+
+      resources :contacts
+    end
+
+    resources :case_stories do
+      resources :comments
+    end
+
+    resources :logo_requests do
+      collection do
+        get :approved
+        get :rejected
+        get :pending_review
+        get :in_review
+        get :unreplied
+        get :accepted
+      end
+
+      member do
+        post :agree
+        get :download
+      end
+
+      resources :logo_comments
+    end
+
+    resources :communication_on_progresses, :controller => 'cops'
+    resources :initiatives do
+      resources :signings
+    end
+    resources :contacts_roles
+    resources :roles
+    resources :sectors
+    resources :countries
+    resources :logo_files
+    resources :cop_questions
+
+    resources :local_networks do
+      resources :contacts
+      resources :awards
+      resources :mous
+      resources :meetings
+      resources :communications
+      resources :integrity_measures
+      resources :annual_reports
+      resources :announcements
+      resources :local_network_events do
+        resources :attachments, :controller => 'local_network_event_attachments'
+      end
+      resources :annual_reports
+    end
+
+    match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
+
+    match 'reports'          => 'reports#index', :as => :reports
+    match 'reports/:action'  => 'reports', :as => :report
+
+    match 'learning'         => 'learning#index', :as => :learning
+    match 'learning/:action' => 'learning'
   end
+
+  resources :organizations, :only => :index
 
   # Front-end routes
+  match '/feeds/cops' => 'cops#feed', :format => 'atom'
 
-  map.connect '/feeds/cops', :controller => 'cops', :action => 'feed', :format => 'atom'
+  match '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
+  match '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
+  match '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
+  match '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
+  match '/ungcweek'       => 'pages#redirect_to_page', :page => '/NewsAndEvents/global_compact_week.html'
+  match '/rio_resources'  => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
+  match '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
+  match '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
+  match ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
 
-  # some important URLs are just too long to type
-  short_urls = {
-    'climate'            => '/Issues/Environment/Climate_Change/',
-    'watermandate'       => '/Issues/Environment/CEO_Water_Mandate/',
-    'weps'               => '/Issues/human_rights/equality_means_business.html',
-    'networks'           => '/NetworksAroundTheWorld/index.html',
-    'ungcweek'           => '/NewsAndEvents/global_compact_week.html',
-    'rio_resources'      => '/docs/news_events/upcoming/RioCSF/html/resources.html',
-    'leadlab'            => 'http://leadlab.unglobalcompact.org/',
-    'LEADBoardProgramme' => '/docs/issues_doc/lead/board_programme/'
-  }
+  match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
-  short_urls.each do |url, webpage|
-    map.connect url, :controller => 'pages', :action => :redirect_to_page, :page => webpage
-  end
+  match '/participants/search' => 'participants#search', :as => :participant_search
+  match '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
+  match '/participants/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
 
-  # handle any case for Lead
-  map.connect ':lead', :controller => 'pages', :action => :redirect_to_page, :page => '/HowToParticipate/Lead/', :requirements => { :lead => /lead/i }
 
-  map.redirect_local_network '/NetworksAroundTheWorld/display.html',
-    :controller => 'pages',
-    :action => 'redirect_local_network'
+  match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
+  match 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
+  match 'organizations/new/:org_type' => 'organizations#new'
 
-  map.with_options :controller => 'participants' do |m|
-    m.participant_search 'participants/search', :action => 'search'
+  # Signup
+  match '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :constraints => { :org_type => 'business' }
+  match '/HowToParticipate/Organization_Information.html' => 'signup#step1', :constraints => { :org_type => 'non_business' }
+  match '/signup/step1/:org_type'  => 'signup#step1', :as => :organization_step1
+  match '/signup/step2'            => 'signup#step2', :as => :organization_step2
+  match '/signup/step3'            => 'signup#step3', :as => :organization_step3
+  match '/signup/step4'            => 'signup#step4', :as => :organization_step4
+  match '/signup/step5'            => 'signup#step5', :as => :organization_step5
+  match '/signup/step6'            => 'signup#step6', :as => :organization_step6
+  match '/signup/step7'            => 'signup#step7', :as => :organization_step7
 
-    # Needs to catch dots in the org id
-    m.with_options :action => 'show', :requirements => { :id => /.*/ } do |n|
-      n.participant_with_nav 'participants/:navigation/:id'
-      n.participant 'participant/:id'
-    end
-  end
+  match '/case_story/:id' => 'case_stories#show', :as => 'case_story'
 
-  map.cop_detail_with_nav 'COPs/:navigation/:id',
-    :controller => 'cops',
-    :action => 'show',
-    :requirements => { id: /\d+/ }
-  map.cop_detail 'COPs/detail/:id',
-    :controller => 'cops',
-    :action => 'show',
-    :requirements => { id: /\d+/ }
+  match '/events/:permalink' => 'events#show', :via => :get
 
-  map.resources :organizations, :only => :index
-  # shortcut for new organization
-  map.connect 'organizations/new/:org_type', :controller => 'organizations', :action => 'new'
-  map.with_options :controller => 'signup' do |signup|
-    signup.connect '/HowToParticipate/Business_Organization_Information.html', :action => 'step1', :org_type => 'business'
-    signup.connect '/HowToParticipate/Organization_Information.html', :action => 'step1', :org_type => 'non_business'
-    signup.organization_step1 'signup/step1/:org_type', :action => 'step1'
-    signup.organization_step2 'signup/step2',           :action => 'step2'
-    signup.organization_step3 'signup/step3',           :action => 'step3'
-    signup.organization_step4 'signup/step4',           :action => 'step4'
-    signup.organization_step5 'signup/step5',           :action => 'step5'
-    signup.organization_step6 'signup/step6',           :action => 'step6'
-    signup.organization_step7 'signup/step7',           :action => 'step7'
-  end
+  # News
+  match '/news' => 'news#index', :as => :newest_headlines
+  match '/feeds/news' => 'news#index', :as => :newest_headlines, :format => 'atom'
+  match '/news/:year' => 'news#index', :as => :headline_year, :constraints => { :year => /\d{4}/ }
+  match '/news/:permalink' => 'news#show', :as => :headline, :via => :get
 
-  map.with_options :controller => 'case_stories' do |m|
-    m.case_story 'case_story/:id', :action => :show
-  end
-  map.with_options :controller => 'events' do |m|
-    m.event '/events/:permalink', :action => :show, :conditions => { :method => :get }
-  end
-  map.with_options :controller => 'news' do |m|
-    m.newest_headlines '/news', :action => :index
-    m.newest_headlines '/feeds/news/', :action => :index, :format => 'atom'
-    m.headline_year '/news/:year', :action => :index, :requirements => { :year => /\d{4}/ }
-    m.headline '/news/:permalink', :action => :show, :conditions => { :method => :get }
-  end
+  match '/search' => 'search#index', :as => :search
 
-  map.search '/search', :controller => 'search', :action => 'index'
+  match '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false
+  match '/preview/*path'  => 'pages#preview',  :as => :preview_page,  :format => false
+  match '/*path'          => 'pages#view',     :as => :view_page,     :format => false
 
-  map.decorate_page 'decorate/*path', :controller => 'pages', :action => 'decorate'
-  map.preview_page 'preview/*path', :controller => 'pages', :action => 'preview'
-  map.view_page '*path', :controller => 'pages', :action => 'view'
+  mount Ckeditor::Engine => "/ckeditor"
 end

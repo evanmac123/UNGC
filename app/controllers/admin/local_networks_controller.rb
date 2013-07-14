@@ -5,7 +5,7 @@ class Admin::LocalNetworksController < AdminController
   helper Admin::LocalNetworkSubmodelHelper
 
   def index
-    @local_networks = LocalNetwork.all(:order => order_from_params, :include => :countries)
+    @local_networks = LocalNetwork.unscoped.order(order_from_params).includes(:countries)
     @local_network_guest = Organization.find_by_name(DEFAULTS[:local_network_guest_name])
   end
 
@@ -45,9 +45,7 @@ class Admin::LocalNetworksController < AdminController
     end
   end
 
-  def knowledge_sharing
-
-  end
+  def knowledge_sharing; end
 
   def destroy
     @local_network = LocalNetwork.find(params[:id])
@@ -66,20 +64,20 @@ class Admin::LocalNetworksController < AdminController
 
   private
 
-    def order_from_params
-      @order = [params[:sort_field] || 'local_networks.name', params[:sort_direction] || 'ASC'].join(' ')
-    end
+  def order_from_params
+    @order = [params[:sort_field] || 'local_networks.name', params[:sort_direction] || 'ASC'].join(' ')
+  end
 
-    def load_local_network
-      @local_network = LocalNetwork.find(params[:id])
-    end
+  def load_local_network
+    @local_network = LocalNetwork.find(params[:id])
+  end
 
-    def network_management_tab?
-      !knowledge_sharing_tab?
-    end
+  def network_management_tab?
+    !knowledge_sharing_tab?
+  end
 
-    def knowledge_sharing_tab?
-      action_name == 'knowledge_sharing'
-    end
+  def knowledge_sharing_tab?
+    action_name == 'knowledge_sharing'
+  end
 
 end

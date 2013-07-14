@@ -2,8 +2,8 @@
 #
 # Table name: contacts
 #
-#  id                        :integer(4)      not null, primary key
-#  old_id                    :integer(4)
+#  id                        :integer          not null, primary key
+#  old_id                    :integer
 #  first_name                :string(255)
 #  middle_name               :string(255)
 #  last_name                 :string(255)
@@ -13,31 +13,37 @@
 #  phone                     :string(255)
 #  mobile                    :string(255)
 #  fax                       :string(255)
-#  organization_id           :integer(4)
+#  organization_id           :integer
 #  address                   :string(255)
 #  city                      :string(255)
 #  state                     :string(255)
 #  postal_code               :string(255)
-#  country_id                :integer(4)
-#  login                     :string(255)
+#  country_id                :integer
+#  username                  :string(255)
 #  address_more              :string(255)
 #  created_at                :datetime
 #  updated_at                :datetime
 #  remember_token_expires_at :datetime
 #  remember_token            :string(255)
-#  local_network_id          :integer(4)
-#  hashed_password           :string(255)
-#  password                  :string(255)
+#  local_network_id          :integer
+#  encrypted_password        :string(255)
+#  plaintext_password        :string(255)
 #  reset_password_token      :string(255)
-#  last_login_at             :datetime
+#  last_sign_in_at           :datetime
+#  reset_password_sent_at    :datetime
+#  remember_created_at       :datetime
+#  sign_in_count             :integer          default(0)
+#  current_sign_in_at        :datetime
+#  current_sign_in_ip        :string(255)
+#  last_sign_in_ip           :string(255)
 #
 
 require 'digest/sha1'
 
 class Contact < ActiveRecord::Base
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable
+
   include VisibleTo
-  include Authentication
-  include Authentication::ByCookieToken
 
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
@@ -47,14 +53,17 @@ class Contact < ActiveRecord::Base
   # if they haven't logged in then we redirect them to their edit page to confirm their contact information
   MONTHS_SINCE_LOGIN = 6
 
-  validates_presence_of :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
-  validates_presence_of :login, :if => :can_login?
-  validates_presence_of :password, :unless => Proc.new { |contact| contact.login.blank? }
-  validates_uniqueness_of :login, :allow_nil => true, :case_sensitive => false, :allow_blank => true, :message => "with the same username already exists"
-  validates_uniqueness_of :email, :on => :create
-  validates_format_of   :email,
-                        :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
-                        :message => "is not a valid email address"
+  validates_presence_of     :prefix, :first_name, :last_name, :job_title, :email, :phone, :address, :city, :country_id
+  validates_presence_of     :username, :if => :can_login?
+  validates_presence_of     :plaintext_password, :if => :password_required?
+  validates_uniqueness_of   :username, :allow_nil => true, :case_sensitive => false, :allow_blank => true
+  validates_uniqueness_of   :email, :on => :create
+  validates_confirmation_of :password, :if => :password_required?
+  validates_length_of       :password, :within => Devise.password_length, :if => :password_required?
+  validates_format_of       :email,
+                              :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
+                              :message => "is not a valid email address"
+
   belongs_to :country
   belongs_to :organization
   belongs_to :local_network
@@ -63,7 +72,7 @@ class Contact < ActiveRecord::Base
   default_scope :order => 'contacts.first_name'
 
   # TODO LATER: remove plain text password at some point - attr_accessor :password
-  before_save :encrypt_password
+  # before_save :encrypt_password
 
   before_destroy :keep_at_least_one_ceo
   before_destroy :keep_at_least_one_contact_point
@@ -75,10 +84,10 @@ class Contact < ActiveRecord::Base
   # /app/views/signup/step5.html.haml
   attr_accessor :foundation_contact
 
-  named_scope :for_mail_merge, lambda { |cop_states|
-   {
-    :include => :organization,
-    :select => "contacts.*,
+  scope :participants_only, where(["organizations.participant = ?", true])
+
+  def self.for_mail_merge(cop_states)
+    select("contacts.*,
                 org_country.name AS organization_country,
                 o.joined_on,
                 t.name AS organization_type_name,
@@ -88,125 +97,86 @@ class Contact < ActiveRecord::Base
                 o.is_ft_500,
                 country.region,
                 r.name as role_name,
-                country.name AS country_name",
-
-    :joins => "JOIN organizations o ON contacts.organization_id = o.id
+                country.name AS country_name")
+      .includes(:organization)
+      .joins("JOIN organizations o ON contacts.organization_id = o.id
                JOIN countries country ON contacts.country_id = country.id
                JOIN countries org_country ON o.country_id = org_country.id
                JOIN organization_types t ON o.organization_type_id = t.id
                JOIN sectors s ON o.sector_id = s.id
                LEFT OUTER JOIN contacts_roles ON contacts_roles.contact_id = contacts.id
-               RIGHT OUTER JOIN roles r ON r.id = contacts_roles.role_id",
-
-    :conditions => ["o.cop_state IN (?) AND
+               RIGHT OUTER JOIN roles r ON r.id = contacts_roles.role_id")
+      .where("o.cop_state IN (?) AND
                      o.participant = 1 AND
                      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
-                     contacts_roles.role_id IN (?)", cop_states, [Role.ceo, Role.contact_point]]
-    }
-  }
+                     contacts_roles.role_id IN (?)", cop_states, [Role.ceo, Role.contact_point])
+  end
 
-   named_scope :for_local_network, {
-     :include    => [:roles, {:organization => [:sector, :country, :organization_type]}, :country],
-     :conditions => ["contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point]],
-     :order      => "organizations.name"
-   }
+  def self.for_local_network
+    includes([:roles, {:organization => [:sector, :country, :organization_type]}, :country])
+      .where("contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point])
+      .order("organizations.name")
+  end
 
-  named_scope :participants_only, { :conditions => ["organizations.participant = ?", true] }
-
-  named_scope :financial_contacts, lambda {
+  def self.financial_contacts
     contact_point_id = Role.financial_contact.try(:id)
-    {
-      :include    => :roles,
-      :conditions => ["contacts_roles.role_id = ?", contact_point_id]
-    }
-  }
+    where("contacts_roles.role_id = ?", contact_point_id).includes(:roles)
+  end
 
-  named_scope :contact_points, lambda {
+  def self.contact_points
     contact_point_id = Role.contact_point.try(:id)
-    {
-      :include    => :roles,
-      :conditions => ["contacts_roles.role_id = ?", contact_point_id]
-    }
-  }
+    where("contacts_roles.role_id = ?", contact_point_id).includes(:roles)
+  end
 
-  named_scope :ceos, lambda {
+  def self.ceos
     ceo_id = Role.ceo.try(:id)
-    {
-      :include    => :roles,
-      :conditions => ["contacts_roles.role_id = ?", ceo_id]
-    }
-  }
+    where("contacts_roles.role_id = ?", ceo_id).includes(:roles)
+  end
 
-  named_scope :network_roles, lambda {
+  def self.network_roles
     roles = []
     roles << Role.network_focal_point
     roles << Role.network_representative
     roles << Role.network_report_recipient
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles],
-      :order      => "roles.name DESC"
-    }
-  }
 
-  named_scope :network_roles_public, lambda {
+    where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
+  end
+
+  def self.network_roles_public
     roles = []
     roles << Role.network_focal_point
     roles << Role.network_representative
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", roles],
-      :order      => "roles.name DESC"
-    }
-  }
+    where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
+  end
 
-  named_scope :network_contacts, lambda {
+  def self.network_contacts
     role = Role.network_focal_point
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role],
-      :order      => "roles.name DESC"
-    }
-  }
+    where("contacts_roles.role_id = ?", role).includes(:roles).order("roles.name DESC")
+  end
 
-  named_scope :network_representatives, lambda {
+  def self.network_representatives
     role = Role.network_representative
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role],
-      :order      => "roles.name DESC"
-    }
-  }
+    where("contacts_roles.role_id = ?", role).includes(:roles).order("roles.name DESC")
+  end
 
-  named_scope :network_report_recipients, lambda {
+  def self.network_report_recipients
     role = Role.network_report_recipient
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role]
-    }
-  }
+    where("contacts_roles.role_id = ?", role).includes(:roles)
+  end
 
-  named_scope :network_regional_managers, lambda {
+  def self.network_regional_managers
     role = Role.network_regional_manager
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role]
-    }
-  }
+    where("contacts_roles.role_id = ?", role).includes(:roles)
+  end
 
-  named_scope :participant_managers, lambda {
+  def self.participant_managers
     role = Role.participant_manager
-    {
-      :include    => :roles, # "contacts_roles on contacts.id = contacts_roles.contact_id",
-      :conditions => ["contacts_roles.role_id IN (?)", role]
-    }
-  }
+    where("contacts_roles.role_id = ?", role).includes(:roles)
+  end
 
-  named_scope :for_country, lambda { |country|
-    {:conditions => {:country_id => country.id} }
-  }
 
-  named_scope :with_login, {:conditions => 'login IS NOT NULL'}
+  scope :for_country, lambda { |country| where(:country_id => country.id) }
+  scope :with_login, where("username IS NOT NULL")
 
   define_index do
     indexes first_name, last_name, middle_name, email
@@ -232,16 +202,6 @@ class Contact < ActiveRecord::Base
 
   def contact_info
     "#{full_name_with_title}\n#{job_title}\n#{email}\n#{phone}"
-  end
-
-  def self.authenticate(login, password)
-    return nil if login.blank? || password.blank?
-    u = find_by_login(login.downcase)
-    (u && u.hashed_password == encrypted_password(password)) ? u : nil
-  end
-
-  def set_last_login_at
-    self.update_attribute :last_login_at, Time.now
   end
 
   def from_ungc?
@@ -300,17 +260,13 @@ class Contact < ActiveRecord::Base
   end
 
   def encrypt_password
-    return if password.blank?
+    return if plaintext_password.blank?
     self.hashed_password = Contact.encrypted_password(password)
   end
 
-  def refresh_reset_password_token!
-    self.update_attribute :reset_password_token, Digest::SHA1.hexdigest([login, Time.now].join)
-  end
-
-  def needs_to_update_contact_info
+  def needs_to_update_contact_info?
     if from_organization?
-      last_update = last_login_at || updated_at
+      last_update = last_sign_in_at || updated_at
       last_update < (Date.today - Contact::MONTHS_SINCE_LOGIN.months)
     end
   end
@@ -319,8 +275,8 @@ class Contact < ActiveRecord::Base
     self.update_attribute :email, "rejected.#{self.email}"
   end
 
-  def last_contact_or_ceo?(role, current_user)
-    if current_user.from_organization? && !new_record?
+  def last_contact_or_ceo?(role, current_contact)
+    if current_contact.from_organization? && !new_record?
       if role == Role.ceo
         return true if self.is?(Role.ceo) && organization.contacts.ceos.count == 1
       elsif role == Role.contact_point
@@ -329,18 +285,45 @@ class Contact < ActiveRecord::Base
     end
   end
 
+  # Overrides Devise::Models::DatabaseAuthenticatable
+  def password=(new_password)
+    @password = new_password
+    if @password.present?
+      self.plaintext_password = @password
+      self.encrypted_password = password_digest(@password)
+    end
+  end
+
+  def valid_password?(password)
+    begin
+      super(password)
+    rescue BCrypt::Errors::InvalidHash
+      return false unless Contact.old_encrypted_password(password) == encrypted_password
+      logger.info "User #{email} is using the old password hashing method, updating attribute."
+      self.password = password
+      true
+    end
+  end
+  alias :devise_valid_password? :valid_password?
+
   private
+
+    def password_required?
+      return false unless username.present?
+      return true if reset_password_token.present? && reset_password_period_valid?
+      (!persisted? || !password.nil? || !password_confirmation.nil?)
+    end
 
     def keep_at_least_one_ceo
       if self.is?(Role.ceo) && self.organization.contacts.ceos.count <= 1
-        errors.add_to_base "cannot delete CEO, at least 1 CEO should be kept at all times"
+        errors.add :base, "cannot delete CEO, at least 1 CEO should be kept at all times"
         return false
       end
     end
 
     def keep_at_least_one_contact_point
       if self.is?(Role.contact_point) && self.organization.contacts.contact_points.count <= 1
-        errors.add_to_base "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
+        errors.add :base, "cannot delete Contact Point, at least 1 Contact Point should be kept at all times"
         return false
       end
     end
@@ -357,7 +340,7 @@ class Contact < ActiveRecord::Base
       end
     end
 
-    def self.encrypted_password(password)
+    def self.old_encrypted_password(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
 end

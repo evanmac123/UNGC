@@ -1,10 +1,10 @@
-# ./script/runner 'AssignNetworkLogins.new.run' /path_to/file -e production
+# rails runner 'AssignNetworkLogins.new.run' /path_to/file -e production
 require 'csv'
 
 class AssignNetworkLogins
   def run
 
-  abort "Usage: ./script/runner 'AssignNetworkLogins.new.run' /path_to/file -e production" unless ARGV.any?
+  abort "Usage: rails runner 'AssignNetworkLogins.new.run' /path_to/file -e production" unless ARGV.any?
   file = ARGV.first
 
   if FileTest.exists?(file)
@@ -19,7 +19,7 @@ class AssignNetworkLogins
 
       c.each do |contact|
         if contact.from_network? && !contact.from_organization?
-          if contact.update_attributes( :login => row["username"], :password => 'gcln' + contact.id.to_s )
+          if contact.update_attributes( :username => row["username"], :password => 'gcln' + contact.id.to_s )
             puts "#{contact.email}\t#{contact.login}\t#{contact.password}\t#{row["name"]}\t#{contact.organization_name}\tSuccess"
           end
         else

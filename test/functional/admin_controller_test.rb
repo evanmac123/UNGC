@@ -6,14 +6,14 @@ class AdminControllerTest < ActionController::TestCase
     setup do
       create_organization_and_user
       add_organization_data(@organization, @organization_user)
-      login_as create_staff_user
+      sign_in create_staff_user
     end
 
     should "get the dashboard page" do
       # now get the dashboard
       get :dashboard
       assert_response :success
-      assert_template 'admin/dashboard_ungc.html.haml'
+      assert_template 'admin/dashboard_ungc'
     end
   end
 
@@ -22,13 +22,13 @@ class AdminControllerTest < ActionController::TestCase
       user = create_organization_and_user
       @organization.update_attribute :state, 'approved'
       add_organization_data(@organization, user)
-      login_as user
+      sign_in user
     end
 
     should "get the dashboard page" do
       get :dashboard
       assert_response :success
-      assert_template 'admin/dashboard_organization.html.haml'
+      assert_template 'admin/dashboard_organization'
     end
   end
 
@@ -38,7 +38,7 @@ class AdminControllerTest < ActionController::TestCase
       create_comment(:commentable_id   => @organization.id,
                      :commentable_type => 'Organization',
                      :contact_id       => @organization_user.id)
-      login_as user
+      sign_in user
     end
 
     should "get the dashboard page" do
@@ -50,13 +50,13 @@ class AdminControllerTest < ActionController::TestCase
   context "given a local network contact" do
     setup do
       create_local_network_with_report_recipient
-      login_as @network_contact
+      sign_in @network_contact
     end
 
     should "get the dashboard page" do
       get :dashboard
       assert_response :success
-      assert_template 'admin/dashboard_network.html.haml'
+      assert_template 'admin/dashboard_network'
     end
   end
 

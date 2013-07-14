@@ -1,7 +1,7 @@
 - @title = @headline.title
 %div.news
   %h1= @headline.title
-  %div= @headline.description
+  %div= @headline.description.html_safe
   <div style="position: absolute; top: 10px; left: 528px; width: 100px;" class="addthis_toolbox addthis_default_style">
   <a class="addthis_button_facebook"></a>
   <a style="margin-left: 6px;" class="addthis_button_twitter"></a>

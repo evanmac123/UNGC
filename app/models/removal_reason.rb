@@ -2,9 +2,9 @@
 #
 # Table name: removal_reasons
 #
-#  id          :integer(4)      not null, primary key
+#  id          :integer          not null, primary key
 #  description :string(255)
-#  old_id      :integer(4)
+#  old_id      :integer
 #  created_at  :datetime
 #  updated_at  :datetime
 #
@@ -20,25 +20,25 @@ class RemovalReason < ActiveRecord::Base
      :blacklisted      => 'Removed due to suspension or removal from the UN vendor list'
   }
 
-  named_scope :for_filter, lambda { |*filter_types|
-     if filter_types.is_a?(Array)
-       filter_types.map! { |f| FILTERS[f] }
-       {:conditions => ["description IN (?)", filter_types]}
-     else
-       {:conditions => ["description = ?", FILTERS[filter_types]]}
-     end
-   }
+  def self.for_filter(filter_types)
+    if filter_types.is_a?(Array)
+      filter_types.map! { |f| FILTERS[f] }
+      where("description IN (?)", filter_types)
+    else
+      where("description = ?", FILTERS[filter_types])
+    end
+  end
 
-   def self.delisted
-     first :conditions => { :description => FILTERS[:delisted] }
-   end
+  def self.delisted
+    where(:description => FILTERS[:delisted]).first
+  end
 
-   def self.blacklisted
-     first :conditions => { :description => FILTERS[:blacklisted] }
-   end
+  def self.blacklisted
+    where(:description => FILTERS[:blacklisted]).first
+  end
 
-   def self.withdrew
-     first :conditions => { :description => FILTERS[:requested] }
-   end
+  def self.withdrew
+    where(:description => FILTERS[:requested]).first
+  end
 
 end

@@ -2,28 +2,28 @@
 #
 # Table name: local_network_events
 #
-#  id                               :integer(4)      not null, primary key
-#  local_network_id                 :integer(4)
+#  id                               :integer          not null, primary key
+#  local_network_id                 :integer
 #  title                            :string(255)
 #  description                      :text
 #  date                             :date
 #  event_type                       :string(255)
-#  num_participants                 :integer(4)
-#  gc_participant_percentage        :integer(4)
-#  stakeholder_company              :boolean(1)
-#  stakeholder_sme                  :boolean(1)
-#  stakeholder_business_association :boolean(1)
-#  stakeholder_labour               :boolean(1)
-#  stakeholder_un_agency            :boolean(1)
-#  stakeholder_ngo                  :boolean(1)
-#  stakeholder_foundation           :boolean(1)
-#  stakeholder_academic             :boolean(1)
-#  stakeholder_government           :boolean(1)
-#  stakeholder_media                :boolean(1)
-#  stakeholder_others               :boolean(1)
+#  num_participants                 :integer
+#  gc_participant_percentage        :integer
+#  stakeholder_company              :boolean
+#  stakeholder_sme                  :boolean
+#  stakeholder_business_association :boolean
+#  stakeholder_labour               :boolean
+#  stakeholder_un_agency            :boolean
+#  stakeholder_ngo                  :boolean
+#  stakeholder_foundation           :boolean
+#  stakeholder_academic             :boolean
+#  stakeholder_government           :boolean
+#  stakeholder_media                :boolean
+#  stakeholder_others               :boolean
 #  created_at                       :datetime
 #  updated_at                       :datetime
-#  country_id                       :integer(4)
+#  country_id                       :integer
 #  region                           :string(255)
 #  file_content                     :text
 #
@@ -78,7 +78,7 @@ class LocalNetworkEvent < ActiveRecord::Base
   end
 
   def must_have_attachment
-    errors.add(:file) if attachments.empty?
+    errors.add(:attachments) if attachments.empty?
   end
 
   def set_indexed_fields
@@ -132,24 +132,24 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-         case error
-           when 'title'
-             error_messages << 'Enter a title'
-           when 'description'
-             error_messages << 'Enter a description'
-           when 'event_type'
-             error_messages << 'Select an event type'
-           when 'num_participants'
-             error_messages << 'Stakeholders > Enter the number of attendees at the event. Letters or other symbols cannot be entered.'
-           when 'gc_participant_percentage'
-             error_messages << 'Stakeholders > Enter a number between 0 and 100 indicating the approximate percentage of Global Compact participants.'
-           when 'date'
-             error_messages << 'Select a date'
-           when 'file'
-             error_messages << 'Files > Select a file to upload'
-          end
-       end
+    errors.each do |attribute|
+     case attribute
+       when :title
+         error_messages << 'Enter a title'
+       when :description
+         error_messages << 'Enter a description'
+       when :event_type
+         error_messages << 'Select an event type'
+       when :num_participants
+         error_messages << 'Stakeholders > Enter the number of attendees at the event. Letters or other symbols cannot be entered.'
+       when :gc_participant_percentage
+         error_messages << 'Stakeholders > Enter a number between 0 and 100 indicating the approximate percentage of Global Compact participants.'
+       when :date
+         error_messages << 'Select a date'
+       when :attachments
+         error_messages << 'Files > Select a file to upload'
+      end
+    end
     error_messages
   end
 

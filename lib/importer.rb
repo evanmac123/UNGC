@@ -122,7 +122,7 @@ class Importer
   # :files - indicates what files you want to import, defaults to all
   # :habtm - runs the HabtmImporter after Importer if set to true
   def setup(options={})
-    @data_folder = options[:folder] || File.join(RAILS_ROOT, 'lib/un7_tables')
+    @data_folder = options[:folder] || File.join(Rails.root, 'lib/un7_tables')
     @silent = options[:silent] || false
     if options[:files]
       @files = options[:files].is_a?(Array) ? options[:files] : [options[:files]]
@@ -164,7 +164,7 @@ class Importer
 
     def no_observers
       # We don't want observers to be called on import
-      unless RAILS_ENV == 'test'
+      unless Rails.env == 'test'
         # if we delete observers when running test, other tests fail
         Organization.delete_observers
         LogoComment.delete_observers

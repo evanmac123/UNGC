@@ -1,6 +1,4 @@
-include ActionController::UrlWriter
 class AllCops < SimpleReport
-
   def records
     CommunicationOnProgress.all_cops
   end

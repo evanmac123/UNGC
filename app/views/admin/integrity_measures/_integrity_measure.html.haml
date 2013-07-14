@@ -3,7 +3,7 @@
   %td= integrity_measure.title
   %td= integrity_measure.date
   %td= link_to_uploaded_file(integrity_measure.file)
-  - if current_user_can_edit_network?
+  - if current_contact_can_edit_network?
     %td
       %ul.actions
         %li= link_to 'Edit', edit_submodel_path(integrity_measure), :class => 'edit', :title => 'Edit policy details'

@@ -6,41 +6,46 @@ class SignupControllerTest < ActionController::TestCase
       create_roles
       create_organization_type
       create_country
-      @signup_contact = {:first_name => 'Michael',
-                  :last_name  => 'Smith',
-                  :prefix     => 'Mr',
-                  :job_title  => 'Job Title',
-                  :phone      => '+1 416 1234567',
-                  :address    => '123 Example Ave',
-                  :city       => 'Toronto',
-                  :country_id => Country.first.id,
-                  :email      => 'michael@example.com',
-                  :login      => 'username',
-                  :password   => 'password',
-                  :role_ids   => [Role.contact_point.id]}
+      @signup_contact = {
+        :first_name => 'Michael',
+        :last_name  => 'Smith',
+        :prefix     => 'Mr',
+        :job_title  => 'Job Title',
+        :phone      => '+1 416 1234567',
+        :address    => '123 Example Ave',
+        :city       => 'Toronto',
+        :country_id => Country.first.id,
+        :email      => 'michael@example.com',
+        :username   => 'username',
+        :password   => 'password',
+        :role_ids   => [Role.contact_point.id]
+      }
 
-      @signup_ceo = {:first_name => 'CEO',
-              :last_name  => 'Smith',
-              :prefix     => 'Mr',
-              :job_title  => 'CEO',
-              :phone      => '+1 416 1234567',
-              :address    => '123 Example Ave',
-              :city       => 'Toronto',
-              :country_id => Country.first.id,
-              :email      => 'smith@example.com',
-              :role_ids   => [Role.ceo.id]}
+      @signup_ceo = {
+        :first_name => 'CEO',
+        :last_name  => 'Smith',
+        :prefix     => 'Mr',
+        :job_title  => 'CEO',
+        :phone      => '+1 416 1234567',
+        :address    => '123 Example Ave',
+        :city       => 'Toronto',
+        :country_id => Country.first.id,
+        :email      => 'smith@example.com',
+        :role_ids   => [Role.ceo.id]
+      }
 
-      @financial_contact = {:first_name => 'Michael',
-                            :last_name  => 'Smith',
-                            :prefix     => 'Mr',
-                            :job_title  => 'Accountant',
-                            :phone      => '+1 416 1234567',
-                            :address    => '123 Example Ave',
-                            :city       => 'Toronto',
-                            :country_id => Country.first.id,
-                            :email      => 'michael@example.com',
-                            :role_ids   => [Role.financial_contact.id]}
-
+      @financial_contact = {
+        :first_name => 'Michael',
+        :last_name  => 'Smith',
+        :prefix     => 'Mr',
+        :job_title  => 'Accountant',
+        :phone      => '+1 416 1234567',
+        :address    => '123 Example Ave',
+        :city       => 'Toronto',
+        :country_id => Country.first.id,
+        :email      => 'michael@example.com',
+        :role_ids   => [Role.financial_contact.id]
+      }
     end
 
     should "get the first step page" do
@@ -123,7 +128,7 @@ class SignupControllerTest < ActionController::TestCase
                                                        :employees            => 500)
       session[:signup_contact] = Contact.new(@signup_contact)
       session[:signup_ceo] = Contact.new(@signup_ceo)
-      assert_emails(1) do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
         assert_difference 'Organization.count' do
           assert_difference 'Contact.count', 2 do
             post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
@@ -142,7 +147,7 @@ class SignupControllerTest < ActionController::TestCase
       session[:signup_ceo] = Contact.new(@signup_ceo)
       session[:is_jci_referral] = true
 
-      assert_emails(2) do
+      assert_difference 'ActionMailer::Base.deliveries.size', 2 do
         post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
       end
       assert_response :success

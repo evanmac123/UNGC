@@ -2,25 +2,25 @@
 #
 # Table name: pages
 #
-#  id                    :integer(4)      not null, primary key
+#  id                    :integer          not null, primary key
 #  path                  :string(255)
 #  title                 :string(255)
 #  html_code             :string(255)
 #  content               :text
-#  parent_id             :integer(4)
-#  position              :integer(4)
-#  display_in_navigation :boolean(1)
+#  parent_id             :integer
+#  position              :integer
+#  display_in_navigation :boolean
 #  approved_at           :datetime
-#  approved_by_id        :integer(4)
-#  created_by_id         :integer(4)
-#  updated_by_id         :integer(4)
-#  dynamic_content       :boolean(1)
-#  version_number        :integer(4)
+#  approved_by_id        :integer
+#  created_by_id         :integer
+#  updated_by_id         :integer
+#  dynamic_content       :boolean
+#  version_number        :integer
 #  created_at            :datetime
 #  updated_at            :datetime
-#  group_id              :integer(4)
+#  group_id              :integer
 #  approval              :string(255)
-#  top_level             :boolean(1)
+#  top_level             :boolean
 #  change_path           :string(255)
 #
 
@@ -49,31 +49,16 @@ class Page < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  named_scope :all_versions_of, lambda { |path|
-    return {} if path.blank?
-    {
-      :conditions => ["pages.path = ?", path],
-    }
-  }
-  named_scope :for_navigation, :conditions => {"display_in_navigation" => true}
+  scope :for_navigation, where("display_in_navigation" => true)
+  scope :earlier_versions_than, lambda { |version_number| where("pages.version_number < ?", version_number).order("pages.version_number DESC") }
+  scope :later_versions_than, lambda { |version_number| where("pages.version_number > ?", version_number).order("pages.version_number ASC") }
+  scope :local_network_training_guidance_material, where("pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'").order('parent_id, position').group(:path)
+  scope :local_network_news_updates, where("pages.path LIKE '/LocalNetworksResources/news_updates/%'").order('parent_id, position').group(:path)
+  scope :local_network_reports, where("pages.path LIKE '/LocalNetworksResources/reports/%'").order('parent_id, position').group(:path)
 
-  named_scope :earlier_versions_than, lambda { |version_version_number|
-    {
-      :conditions => ["pages.version_number < ?", version_version_number],
-      :order => "pages.version_number DESC"
-    }
-  }
-
-  named_scope :later_versions_than, lambda { |version_version_number|
-    {
-      :conditions => ["pages.version_number > ?", version_version_number],
-      :order => "pages.version_number ASC"
-    }
-  }
-
-  named_scope :local_network_training_guidance_material, :conditions => "pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'", :order => 'parent_id, position', :group => :path
-  named_scope :local_network_news_updates, :conditions => "pages.path LIKE '/LocalNetworksResources/news_updates/%'", :order => 'parent_id, position', :group => :path
-  named_scope :local_network_reports, :conditions => "pages.path LIKE '/LocalNetworksResources/reports/%'", :order => 'parent_id, position', :group => :path
+  def self.all_versions_of(path)
+    where("pages.path = ?", path)
+  end
 
   def self.approved_for_path(path)
     approved.find_by_path path

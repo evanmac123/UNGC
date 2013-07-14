@@ -44,12 +44,12 @@ class Admin::EventsController < AdminController
   end
 
   def approve
-    @event.as_user(current_user).approve!
+    @event.as_user(current_contact).approve!
     redirect_to :action => 'index'
   end
 
   def revoke
-    @event.as_user(current_user).revoke!
+    @event.as_user(current_contact).revoke!
     redirect_to :action => 'index'
   end
 

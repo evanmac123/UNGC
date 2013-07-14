@@ -2,16 +2,16 @@
 #
 # Table name: cop_questions
 #
-#  id                :integer(4)      not null, primary key
-#  principle_area_id :integer(4)
+#  id                :integer          not null, primary key
+#  principle_area_id :integer
 #  text              :string(255)
-#  position          :integer(4)
+#  position          :integer
 #  created_at        :datetime
 #  updated_at        :datetime
-#  initiative_id     :integer(4)
+#  initiative_id     :integer
 #  grouping          :string(255)
 #  implementation    :string(255)
-#  year              :integer(4)
+#  year              :integer
 #
 
 class CopQuestion < ActiveRecord::Base
@@ -56,15 +56,10 @@ class CopQuestion < ActiveRecord::Base
   IMPLEMENTATION_AREAS =  ['policy', 'process', 'monitoring', 'performance']
 
   default_scope :order => 'cop_questions.position'
-  named_scope :general, :conditions => "initiative_id IS NULL"
-  named_scope :initiative_questions_for, lambda { |organization|
-    { :conditions => ['initiative_id IN (?)', organization.initiative_ids] }
-  }
-  named_scope :questions_for, lambda { |organization|
-    { :conditions => ['(initiative_id IS NULL) OR (initiative_id IN (?))', organization.initiative_ids] }
-  }
-  named_scope :group_by, lambda { |group|
-    { :conditions => ['grouping =?', group.to_s] }
-  }
+  scope :general, where("initiative_id IS NULL")
+  scope :initiative_questions_for, lambda { |organization| where('initiative_id IN (?)', organization.initiative_ids) }
+
+  scope :questions_for, lambda { |organization| where('(initiative_id IS NULL) OR (initiative_id IN (?))', organization.initiative_ids) }
+  scope :group_by, lambda { |group| where('grouping = ?', group.to_s) }
 
 end

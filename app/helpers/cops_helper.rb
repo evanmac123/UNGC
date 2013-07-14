@@ -3,7 +3,7 @@ module CopsHelper
     if condition
       image_tag 'checked.png'
     else
-      '&nbsp;'
+      '&nbsp;'.html_safe
     end
   end
 

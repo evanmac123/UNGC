@@ -2,49 +2,52 @@
 #
 # Table name: local_networks
 #
-#  id                                                  :integer(4)      not null, primary key
+#  id                                                  :integer          not null, primary key
 #  name                                                :string(255)
-#  manager_id                                          :integer(4)
+#  manager_id                                          :integer
 #  url                                                 :string(255)
 #  state                                               :string(255)
 #  created_at                                          :datetime
 #  updated_at                                          :datetime
 #  sg_global_compact_launch_date                       :date
 #  sg_local_network_launch_date                        :date
-#  sg_annual_meeting_appointments                      :boolean(1)
-#  sg_annual_meeting_appointments_file_id              :integer(4)
-#  sg_selected_appointees_local_network_representative :boolean(1)
-#  sg_selected_appointees_steering_committee           :boolean(1)
-#  sg_selected_appointees_contact_point                :boolean(1)
-#  sg_established_as_a_legal_entity                    :boolean(1)
-#  sg_established_as_a_legal_entity_file_id            :integer(4)
-#  membership_subsidiaries                             :boolean(1)
-#  membership_companies                                :integer(4)
-#  membership_sme                                      :integer(4)
-#  membership_micro_enterprise                         :integer(4)
-#  membership_business_organizations                   :integer(4)
-#  membership_csr_organizations                        :integer(4)
-#  membership_labour_organizations                     :integer(4)
-#  membership_civil_societies                          :integer(4)
-#  membership_academic_institutions                    :integer(4)
-#  membership_government                               :integer(4)
-#  membership_other                                    :integer(4)
-#  fees_participant                                    :boolean(1)
-#  fees_amount_company                                 :integer(4)
-#  fees_amount_sme                                     :integer(4)
-#  fees_amount_other_organization                      :integer(4)
-#  fees_amount_participant                             :integer(4)
-#  fees_amount_voluntary_private                       :integer(4)
-#  fees_amount_voluntary_public                        :integer(4)
-#  stakeholder_company                                 :boolean(1)
-#  stakeholder_sme                                     :boolean(1)
-#  stakeholder_business_association                    :boolean(1)
-#  stakeholder_labour                                  :boolean(1)
-#  stakeholder_un_agency                               :boolean(1)
-#  stakeholder_ngo                                     :boolean(1)
-#  stakeholder_foundation                              :boolean(1)
-#  stakeholder_academic                                :boolean(1)
-#  stakeholder_government                              :boolean(1)
+#  sg_annual_meeting_appointments                      :boolean
+#  sg_annual_meeting_appointments_file_id              :integer
+#  sg_selected_appointees_local_network_representative :boolean
+#  sg_selected_appointees_steering_committee           :boolean
+#  sg_selected_appointees_contact_point                :boolean
+#  sg_established_as_a_legal_entity                    :boolean
+#  sg_established_as_a_legal_entity_file_id            :integer
+#  membership_subsidiaries                             :boolean
+#  membership_companies                                :integer
+#  membership_sme                                      :integer
+#  membership_micro_enterprise                         :integer
+#  membership_business_organizations                   :integer
+#  membership_csr_organizations                        :integer
+#  membership_labour_organizations                     :integer
+#  membership_civil_societies                          :integer
+#  membership_academic_institutions                    :integer
+#  membership_government                               :integer
+#  membership_other                                    :integer
+#  fees_participant                                    :boolean
+#  fees_amount_company                                 :integer
+#  fees_amount_sme                                     :integer
+#  fees_amount_other_organization                      :integer
+#  fees_amount_participant                             :integer
+#  fees_amount_voluntary_private                       :integer
+#  fees_amount_voluntary_public                        :integer
+#  stakeholder_company                                 :boolean
+#  stakeholder_sme                                     :boolean
+#  stakeholder_business_association                    :boolean
+#  stakeholder_labour                                  :boolean
+#  stakeholder_un_agency                               :boolean
+#  stakeholder_ngo                                     :boolean
+#  stakeholder_foundation                              :boolean
+#  stakeholder_academic                                :boolean
+#  stakeholder_government                              :boolean
+#  twitter                                             :string(255)
+#  facebook                                            :string(255)
+#  linkedin                                            :string(255)
 #
 
 class LocalNetwork < ActiveRecord::Base
@@ -81,15 +84,8 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   default_scope :order => 'local_networks.name'
-  named_scope :where_region, lambda { |region| {
-    :include => :countries, :conditions => {'countries.region' => region.to_s}
-    }
-  }
-
-  named_scope :where_state, lambda { |state| {
-    :conditions => {:state => state.to_s}
-    }
-  }
+  scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
+  scope :where_state, lambda { |state| where(:state => state.to_s) }
 
   STATES = { :emerging => 'Emerging', :established => 'Established', :formal => 'Formal', :hub => 'Sustainability Hub' }
 
@@ -194,14 +190,13 @@ class LocalNetwork < ActiveRecord::Base
   def readable_error_messages
     error_messages = []
     fee_error_messages = ''
-    errors.each do |error|
-
-      if NUMERIC.include?(error.to_sym)
+    errors.each do |attribute|
+      if NUMERIC.include?(attribute)
         fee_error_messages = 'Please use whole numbers without decimals or commas'
       end
 
-      case error
-        when 'url'
+      case attribute
+        when :url
           error_messages << 'Please provide a website address in the format http://organization.org'
         end
     end

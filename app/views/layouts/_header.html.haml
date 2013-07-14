@@ -2,7 +2,7 @@
   #header_content
     #logo
       %a{ :href => "/index.html", :title => "United Nations Global Compact" }
-        %img{ :src => "/images/logo.png", :alt => "United Nations Global Compact" }
+        %img{ :src => "/assets/logo.png", :alt => "United Nations Global Compact" }
     #languages
       %ul
         %li
@@ -31,7 +31,7 @@
       %form{ :action => "/search", :method => "get" }
         %fieldset
           %input.search_box{ :name => "keyword", :type => "text" }
-          %input.search_submit{ :name => "submit", :src => "/images/search_submit.png", :type => "image", :alt => "Search" }
+          %input.search_submit{ :name => "submit", :src => "/assets/search_submit.png", :type => "image", :alt => "Search" }
           %p
             %input#search_radio1{ :checked => "checked", :name => "target", :type => "radio", :value => "" }
             %label{ :for => "search_radio1", :style => 'margin-right: 10px;' } Search website

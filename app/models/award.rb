@@ -2,8 +2,8 @@
 #
 # Table name: awards
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
 #  title            :string(255)
 #  description      :text
 #  award_type       :string(255)
@@ -37,19 +37,18 @@ class Award < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-      case error
-        when 'date'
+    errors.each do |attribute|
+      case attribute
+        when :date
           error_messages << 'Select a date'
-        when 'title'
+        when :title
           error_messages << 'Enter a title'
-        when 'description'
+        when :description
           error_messages << 'Enter a description'
-        when 'file'
+        when :file
           error_messages << 'Choose a file to upload'
        end
     end
     error_messages
   end
-
 end

@@ -1,2 +1,2 @@
 #!/bin/sh
-cd /srv/unglobalcompact/current && ./script/runner -e production "CopStatusUpdater.update_all"
+cd /srv/unglobalcompact/current && rails runner -e production "CopStatusUpdater.update_all"

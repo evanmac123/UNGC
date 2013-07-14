@@ -14,65 +14,65 @@ class OrganizationMailerTest < ActionMailer::TestCase
   end
 
   test "submission mailer is sent" do
-    response = OrganizationMailer.deliver_submission_received(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.submission_received(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "Your Letter of Commitment to the Global Compact", response.subject
     assert_equal @organization_user.email, response.to.first
   end
 
   test "submission mailer is sent to JCI" do
-    response = OrganizationMailer.deliver_submission_jci_referral_received(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.submission_jci_referral_received(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "New Global Compact referral", response.subject
     assert_equal "externalrelations@jci.cc", response.to.first
   end
 
   test "network review mailer sent" do
-    response = OrganizationMailer.deliver_network_review(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.network_review(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "#{@organization.name} has submitted an application to the Global Compact", response.subject
     assert_equal @network_contact.email, response.to.first
     assert_contains response.cc, @organization.participant_manager_email
   end
 
   test "non-business approved mailer is sent" do
-    response = OrganizationMailer.deliver_approved_nonbusiness(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.approved_nonbusiness(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "Welcome to the United Nations Global Compact", response.subject
     assert_equal @organization_user.email, response.to.first
   end
 
   test "business approved mailer is sent" do
-    response = OrganizationMailer.deliver_approved_business(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.approved_business(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "Welcome to the United Nations Global Compact", response.subject
     assert_equal @organization_user.email, response.to.first
   end
 
   test "approved mailer to local network is sent" do
-    response = OrganizationMailer.deliver_approved_local_network(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.approved_local_network(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "#{@organization.name} has been accepted into the Global Compact", response.subject
     assert_equal @network_contact.email, response.to.first
   end
 
   test "approved mailer to Cities Programme is sent" do
-    response = OrganizationMailer.deliver_approved_city(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.approved_city(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "#{@organization.name} has been accepted into the Global Compact", response.subject
     assert_equal 'elizabethryan@citiesprogramme.org', response.to.first
   end
 
   test "in review mailer is sent" do
-    response = OrganizationMailer.deliver_in_review(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.in_review(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "Your application to the Global Compact", response.subject
     assert_equal @organization_user.email, response.to.first
   end
 
   test "in review local network mailer is sent" do
-    response = OrganizationMailer.deliver_in_review_local_network(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.in_review_local_network(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "#{@organization.name}'s application to the Global Compact is under review", response.subject
     assert_equal @network_contact.email, response.to.first
     assert_contains response.cc, @organization.participant_manager_email
@@ -80,30 +80,30 @@ class OrganizationMailerTest < ActionMailer::TestCase
   end
 
   test "rejected mailer is sent" do
-    response = OrganizationMailer.deliver_reject_microenterprise(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.reject_microenterprise(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "Your Letter of Commitment to the Global Compact", response.subject
     assert_equal @organization_user.email, response.to.first
   end
 
-  test "micro entrprise rejected mailer is sent to the local network" do
-    response = OrganizationMailer.deliver_reject_microenterprise_network(@organization)
-    assert_equal "text/html", response.content_type
+  test "micro enterprise rejected mailer is sent to the local network" do
+    response = OrganizationMailer.reject_microenterprise_network(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "#{@organization.name}'s application to the Global Compact has been declined", response.subject
     assert_equal @network_contact.email, response.to.first
   end
 
   test "foundation invoice is sent" do
-    response = OrganizationMailer.deliver_foundation_invoice(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.foundation_invoice(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "[Invoice] The Foundation for the Global Compact", response.subject
     assert_contains response.to, @financial_contact.email
     assert_contains response.to, @organization_user.email
   end
 
   test "foundation reminder mailer is sent" do
-    response = OrganizationMailer.deliver_foundation_reminder(@organization)
-    assert_equal "text/html", response.content_type
+    response = OrganizationMailer.foundation_reminder(@organization).deliver
+    assert_equal "text/html; charset=UTF-8", response.content_type
     assert_equal "A message from The Foundation for the Global Compact", response.subject
     assert_equal @organization_user.email, response.to.first
   end

@@ -10,15 +10,15 @@ module TrackCurrentUser
   end
 
   def set_created_by
-    self.created_by ||= @current_user if @current_user
+    self.created_by ||= @current_contact if @current_contact
   end
 
   def set_updated_by
-    self.updated_by ||= @current_user if @current_user
+    self.updated_by ||= @current_contact if @current_contact
   end
 
   def as_user(user)
-    @current_user = user
+    @current_contact = user
     self # makes chaining possible
   end
 end

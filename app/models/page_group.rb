@@ -2,13 +2,13 @@
 #
 # Table name: page_groups
 #
-#  id                    :integer(4)      not null, primary key
+#  id                    :integer          not null, primary key
 #  name                  :string(255)
-#  display_in_navigation :boolean(1)
+#  display_in_navigation :boolean
 #  html_code             :string(255)
 #  created_at            :datetime
 #  updated_at            :datetime
-#  position              :integer(4)
+#  position              :integer
 #  path_stub             :string(255)
 #
 
@@ -25,10 +25,13 @@ class PageGroup < ActiveRecord::Base
     :conditions  => {:approval => 'approved', :parent_id => nil},
     :order       => "position ASC"
 
-  named_scope :for_navigation,
-    :include    => :visible_children,
-    :order      => "page_groups.position ASC",
-    :conditions => ["page_groups.display_in_navigation = ?", true]
+  scope :for_navigation, includes(:visible_children).where("page_groups.display_in_navigation = ?", true).order("page_groups.position ASC")
+
+  default_scope :order => "page_groups.position ASC"
+
+  default_scope :order => "page_groups.position ASC"
+
+  default_scope :order => "page_groups.position ASC"
 
   default_scope :order => "page_groups.position ASC"
 

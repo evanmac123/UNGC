@@ -2,8 +2,9 @@
 #
 # Table name: announcements
 #
-#  id               :integer(4)      not null, primary key
-#  local_network_id :integer(4)
+#  id               :integer          not null, primary key
+#  local_network_id :integer
+#  principle_id     :integer
 #  title            :string(255)
 #  description      :string(255)
 #  date             :date
@@ -30,11 +31,11 @@ class Announcement < ActiveRecord::Base
     error_messages = []
     errors.each do |error|
       case error
-        when 'file'
+        when :file
           error_messages << 'Choose a file to upload'
-        when 'title'
+        when :title
           error_messages << 'Title is required'
-        when 'description'
+        when :description
           error_messages << 'Provide a brief description for the event'
       end
     end

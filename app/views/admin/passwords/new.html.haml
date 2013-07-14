@@ -1,6 +1,6 @@
 %h2 Reset your password
 
-- if flash.now[:error]
+- if flash[:error] || flash[:alert]
   %h3 Why could you not find my username?
 
   %ul
@@ -17,11 +17,11 @@
 %p
   Please enter your email address below. You will receive an email with instructions on choosing a new password.
 
-- form_tag password_path do
+= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
   %fieldset
     %ol
       %li
-        = label_tag :email
-        = text_field_tag :email
+        = f.label :email
+        = f.email_field :email, :autofocus => true
 
-  = submit_tag 'Submit', :class => 'button'
+  = f.submit 'Submit', :class => 'button'

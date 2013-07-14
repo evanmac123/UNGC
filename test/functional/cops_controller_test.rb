@@ -8,7 +8,7 @@ class CopsControllerTest < ActionController::TestCase
     end
 
     should "display the atom feed" do
-      assert_template 'cops/feed.atom.builder'
+      assert_template 'cops/feed'
     end
   end
 
@@ -21,7 +21,7 @@ class CopsControllerTest < ActionController::TestCase
     should "display the legacy style" do
       get :show, :id => @cop.id
       assert_equal true, @cop.is_legacy_format?
-      assert_template :partial => 'show_legacy_style'
+      assert_template :partial => '_show_legacy_style'
     end
   end
 
@@ -34,7 +34,7 @@ class CopsControllerTest < ActionController::TestCase
     should "display the new style" do
       get :show, :id => @cop.id
       assert_equal true, @cop.is_new_format?
-      assert_template :partial => 'show_new_style'
+      assert_template :partial => '_show_new_style'
     end
   end
 
@@ -47,7 +47,7 @@ class CopsControllerTest < ActionController::TestCase
     should "display the differentation style for the public" do
       get :show, :id => @cop.id
       assert_equal true, @cop.is_differentiation_program?
-      assert_template :partial => 'show_differentiation_style_public'
+      assert_template :partial => '_show_differentiation_style_public'
     end
   end
 
@@ -69,7 +69,7 @@ private
     create_organization_and_user
     @organization.approve!
     create_principle_areas
-    login_as @organization_user
+    sign_in @organization_user
   end
 
 end

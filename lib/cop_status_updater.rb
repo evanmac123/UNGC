@@ -1,9 +1,8 @@
 class CopStatusUpdater
-
   class << self
 
     def log (method="info", string)
-      @logger = Logger.new(File.join(RAILS_ROOT, 'log', 'cop_reminder.log'))
+      @logger = Logger.new(File.join(Rails.root, 'log', 'cop_reminder.log'))
       @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
     end
 
@@ -28,7 +27,7 @@ class CopStatusUpdater
     #   organizations.each do |organization|
     #     organization.delist
     #     begin
-    #       CopMailer.deliver_delisting_today(organization)
+    #       CopMailer.delisting_today(organization).deliver
     #       log "Delist and email #{organization.id}:#{organization.name}"
     #     rescue
     #       log "error", "Could not email #{organization.id}:#{organization.name}"
@@ -42,7 +41,7 @@ class CopStatusUpdater
       organizations.each do |organization|
         organization.delist
         begin
-          CopMailer.deliver_delisting_today(organization)
+          CopMailer.delisting_today(organization).deliver
           log "Delist and email #{organization.id}:#{organization.name}"
         rescue
           log "error", "Could not email #{organization.id}:#{organization.name}"
@@ -56,7 +55,7 @@ class CopStatusUpdater
       organizations.each do |organization|
         organization.extend_cop_due_date_by_one_year
         begin
-          CopMailer.deliver_delisting_today_sme(organization)
+          CopMailer.delisting_today_sme(organization).deliver
           log "Extend and email #{organization.id}:#{organization.name}"
         rescue
           log "error", "Could not email #{organization.id}:#{organization.name}"

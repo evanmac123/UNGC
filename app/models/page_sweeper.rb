@@ -7,7 +7,7 @@ class PageSweeper < ActionController::Caching::Sweeper
       unless page.path.nil?
         expire_page(page.path)
         # FIXME for some reason, only a file delete is clearing the cache
-        FileUtils.rm(File.join(RAILS_ROOT, 'public', page.path), :force => true)
+        FileUtils.rm(File.join(Rails.root, 'public', page.path), :force => true)
       end
     end
   end

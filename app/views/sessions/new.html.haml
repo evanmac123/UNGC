@@ -1,6 +1,6 @@
 / %h2 Login
 
-- form_tag session_path do
+= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
   %fieldset
     %div{:style => 'width: 650px; margin-top: 30px; margin-bottom: 30px; margin-left: 173px;'}
       = image_tag("/pics/un_images/july_14_date.png", :alt => 'July 14', :height => 65, :width => 65, :style => 'float: left; margin-right: 30px; margin-bottom: 0px;')

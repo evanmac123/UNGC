@@ -1,5 +1,5 @@
 %h2 New logo file
 
-- form_for @logo_file, builder: DefaultFormBuilder, url: admin_logo_files_path, html: {multipart: true} do |form|
+= form_for @logo_file, builder: DefaultFormBuilder, url: admin_logo_files_path, html: {multipart: true} do |form|
   = render :partial => form
   = form.submit 'Create', :class => 'button'

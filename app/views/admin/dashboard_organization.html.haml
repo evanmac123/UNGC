@@ -2,6 +2,7 @@
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
+    %li <a href="#getting_started">Getting Started</a>
     %li <a href="#contacts">Contacts</a>
     %li <a href="#logos">Logo Requests</a>
     - if @organization.case_stories.any?
@@ -10,7 +11,7 @@
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
-      %li= link_to text_for_edit_icon(current_user), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
+      %li= link_to text_for_edit_icon(current_contact), edit_admin_organization_path(@organization.id), :class => 'edit_large', :title => "Edit profile"
 
     %dl.left_column
       %h3 Organization Details
@@ -66,10 +67,29 @@
           - else
             == There is no Network Report Recipient for #{@organization.country_name}
 
+  #getting_started.tab_content
+    %dl.left_column{:style => 'width: 100%;'}
+      %dt.first Documents
+      %dd.first
+        %ul.document_list
+          %li= popup_link_to 'Welcome Package', link_to_getting_started, :class => 'web'
+          %li= popup_link_to 'Welcome Letter from the Executive Director of the Global Compact', show_welcome_letter_admin_organization_path(@organization.id), :class => 'doc'
+          %li= link_to_local_network_welcome_letter_if_exists
+
+      %dt Relationship Manager
+      %dd
+        %p
+          = @organization.participant_manager_name
+          <br />
+          = link_to @organization.participant_manager_email, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
+          <br />
+          = @organization.participant_manager_phone
+        %p The Relationship Management team aims to enhance participant engagement by supporting and guiding participants through the broad landscape of initiatives, partnerships, resources and tools offered by the Global Compact. Additionally, they are able to support any technical queries that your organization may have. Please feel free to contact your Relationship Manager with any questions or concerns that you may have regarding your participation in the Global Compact.
+
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
-    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => current_user.organization.contacts
+    %ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => current_contact.organization.contacts
 
   - if @organization.pending_review? or @organization.in_review?
     %h3 Comments
@@ -82,7 +102,7 @@
       - if @organization.delisted?
         = render :partial => 'admin/cops/expelled_note'
       - else
-        = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_user.organization.id), :class => 'new_large', :id => 'new_logo_request'
+        = link_to 'New Logo Request', new_admin_organization_logo_request_path(current_contact.organization.id), :class => 'new_large', :id => 'new_logo_request'
       %table.dashboard_table#logos_dashboard_table
         %tr
           %th.last_updated Last updated on
@@ -90,9 +110,9 @@
           %th.status Status
           %th.age Days since last update
           %th.actions Actions
-        = render :partial => 'admin/logo_requests/logo_request', :collection => current_user.organization.logo_requests
+        = render :partial => 'admin/logo_requests/logo_request', :collection => current_contact.organization.logo_requests
     #case_stories.tab_content
-      / = link_to 'New Case Story', new_admin_organization_case_story_path(current_user.organization.id), :class => 'new_large', :id => 'new_case_story'
+      / = link_to 'New Case Story', new_admin_organization_case_story_path(current_contact.organization.id), :class => 'new_large', :id => 'new_case_story'
       %p We are no longer accepting Case Stories at this time.
       %table.dashboard_table#case_stories_dashboard_table
         %tr
@@ -100,7 +120,7 @@
           %th.title Title
           %th.status Status
           %th.actions Actions
-        = render :partial => 'admin/case_stories/case_story', :collection => current_user.organization.case_stories.find(:all, order: "updated_at DESC")
+        = render :partial => 'admin/case_stories/case_story', :collection => current_contact.organization.case_stories.find(:all, order: "updated_at DESC")
     #cops.tab_content
       - unless @organization.can_submit_cop?
         = render :partial => 'admin/cops/expelled_note'
@@ -114,4 +134,4 @@
           %th.status Status
           %th.differentiation Differentiation
           %th.actions Actions
-        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_user.organization.communication_on_progresses.find(:all, order: "created_at DESC")
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_contact.organization.communication_on_progresses.find(:all, order: "created_at DESC")

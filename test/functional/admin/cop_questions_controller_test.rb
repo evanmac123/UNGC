@@ -6,7 +6,7 @@ class Admin::CopQuestionsControllerTest < ActionController::TestCase
     create_principle_area
     @cop_question = create_cop_question
 
-    login_as @staff_user
+    sign_in @staff_user
   end
 
   test "should get index" do

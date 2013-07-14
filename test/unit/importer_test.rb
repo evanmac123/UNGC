@@ -8,7 +8,7 @@ class ImporterTest < ActiveSupport::TestCase
   #
   #   should "run without throwing exceptions" do
   #     assert_nothing_raised do
-  #       @importer.run(:folder    => File.join(RAILS_ROOT, 'test/fixtures/un7_tables'),
+  #       @importer.run(:folder    => File.join(Rails.root, 'test/fixtures/un7_tables'),
   #                     :silent    => true,
   #                     :run_habtm => false)
   #       @importer.delete_all
@@ -20,7 +20,7 @@ class ImporterTest < ActiveSupport::TestCase
   #   end
   #
   #   should "properly set the pledge_amount field" do
-  #     @importer.run(:folder    => File.join(RAILS_ROOT, 'test/fixtures/un7_tables'),
+  #     @importer.run(:folder    => File.join(Rails.root, 'test/fixtures/un7_tables'),
   #                   :files     => [:sector, :organization_type, :organization],
   #                   :silent    => true)
   #     # ORG with id = 4 has a non-null pledge
@@ -37,7 +37,7 @@ class ImporterTest < ActiveSupport::TestCase
   #
   #   should "run without throwing exceptions" do
   #     assert_nothing_raised do
-  #       @importer.run(:folder => File.join(RAILS_ROOT, 'test/fixtures/un7_tables'),
+  #       @importer.run(:folder => File.join(Rails.root, 'test/fixtures/un7_tables'),
   #                     :silent => true)
   #     end
   #   end

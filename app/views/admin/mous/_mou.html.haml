@@ -3,7 +3,7 @@
   %td= mou.created_at
   %td= mou.type_name
   %td= link_to_uploaded_file(mou.file)
-  - if current_user_can_edit_network?
+  - if current_contact_can_edit_network?
     %td
       %ul.actions
         %li= link_to 'Edit', edit_submodel_path(mou), :class => 'edit', :title => 'Edit MOU details'

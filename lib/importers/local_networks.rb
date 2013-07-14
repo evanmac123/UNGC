@@ -1,6 +1,6 @@
 require "importers/excel_importer"
 
-Dir[RAILS_ROOT + "/lib/importers/local_networks/**/*.rb"].each do |path|
+Dir[Rails.root + "/lib/importers/local_networks/**/*.rb"].each do |path|
   require path
 end
 

@@ -2,8 +2,8 @@
 #
 # Table name: communications
 #
-#  id                 :integer(4)      not null, primary key
-#  local_network_id   :integer(4)
+#  id                 :integer          not null, primary key
+#  local_network_id   :integer
 #  title              :string(255)
 #  communication_type :string(255)
 #  date               :date
@@ -35,13 +35,13 @@ class Communication < ActiveRecord::Base
 
   def readable_error_messages
     error_messages = []
-    errors.each do |error|
-      case error
-        when 'title'
+    errors.each do |attribute|
+      case attribute
+        when :title
           error_messages << 'Enter a title'
-        when 'date'
+        when :date
           error_messages << 'Select a date'
-        when 'file'
+        when :file
           error_messages << 'Choose a file to upload'
        end
     end

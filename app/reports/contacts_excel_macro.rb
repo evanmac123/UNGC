@@ -61,8 +61,8 @@ class ContactsExcelMacro < SimpleReport
     record.is_ft_500,
     record.cop_state,
     record.fax,
-    record.login,
-    record.password,
+    record.username,
+    record.plaintext_password,
     record.employees
   ]
   end

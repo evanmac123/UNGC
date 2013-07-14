@@ -1,0 +1,84 @@
+@import 'reset', 'grid', 'typography'
+
+@media screen
+  body
+    background: #fff
+    width: 7.5in
+    margin: 1in auto
+    border: 1px solid #666
+    padding: 1in
+
+p, li
+  font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif
+  font-size: 12pt
+  width: 7.5in
+  line-height: 1.2em
+  text-align: justify
+  &.right
+    text-align:  right
+  &.center
+    text-align:  center
+  &.address
+    font-size: 75%
+    margin-top: -3.75em
+  &.letterhead
+    width: 612px
+    height: 87px
+    margin: 0 auto 2em auto
+    background: url('/assets/backgrounds/welcome_letter_header.png')
+    background-size: 612px 87px
+    background-repeat: no-repeat
+  &.addressee
+    display: none
+
+li
+  margin-bottom: 1em
+  padding-left: 0.4in
+  width: 95%
+
+#content
+  p
+    text-indent: 0.5in
+    &.addressee
+      text-indent: 0
+
+#closing
+  p.yours
+    padding-top: 1em
+    width: 2in
+    position: relative
+    left: 5in
+  p.signature
+    position: relative
+    left: 4.5in
+    width: 200px
+    height: 151px
+    background: url('/assets/backgrounds/kell_signature.png')
+    background-size: 200px 151px
+    background-repeat: no-repeat
+  p.title
+    position: relative
+    text-align: center
+    left: 1.75in
+
+@media print
+  body
+    width: 8in
+    margin: 1in
+    margin-left: 1in
+    padding-right: 0.5in
+    padding-left: 0
+    border: none
+    p, li
+      font-size: 13pt
+      &.addressee
+        display: block
+        page-break-after: always
+      &.letterhead
+        margin-left: 0.6in
+      &.new_page
+        margin-top:  1in
+    li
+      margin-bottom: 1em
+      padding-left: 0.4in
+      width: 88%

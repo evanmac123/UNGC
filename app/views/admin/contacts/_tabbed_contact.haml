@@ -4,7 +4,7 @@
 
     %ul{:class => "post_tools inline"}
       %li= link_to '', edit_contact_path(tabbed_contact), :class => 'edit', :title => 'Edit details'
-      - if current_user_can_delete(current_user, tabbed_contact)
+      - if current_contact_can_delete(current_contact, tabbed_contact)
         %li= link_to '', contact_path(tabbed_contact), :confirm => 'Are you sure you want to delete this contact?', :method => :delete, :class => 'delete', :title => 'Delete contact'
 
   %div.body
@@ -17,7 +17,7 @@
 
       %dt Email:
       %dd
-        - if current_user.from_ungc?
+        - if current_contact.from_ungc?
           = mail_to(tabbed_contact.email,tabbed_contact.email, :body => "Dear #{tabbed_contact.prefix} #{tabbed_contact.last_name},")
         - else
           = mail_to(tabbed_contact.email,tabbed_contact.email)

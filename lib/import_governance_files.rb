@@ -1,10 +1,10 @@
-# ./script/runner 'ImportGovernanceFiles.new.run' /path_to/file /path_to_files -e production
+# rails runner 'ImportGovernanceFiles.new.run' /path_to/file /path_to_files -e production
 require 'csv'
 
 class ImportGovernanceFiles
   def run
 
-  abort "Usage: ./script/runner 'ImportGovernanceFiles.new.run' /path_to/file -e production" unless ARGV.any?
+  abort "Usage: rails runner 'ImportGovernanceFiles.new.run' /path_to/file -e production" unless ARGV.any?
   file = ARGV.first
   path = ARGV.second
 

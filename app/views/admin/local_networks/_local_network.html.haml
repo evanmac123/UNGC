@@ -4,5 +4,5 @@
   %td
     %ul.actions
       %li= link_to 'View', admin_local_network_path(local_network), :class => "preview", :title => "View Local Network"
-      - if current_user.from_ungc?
+      - if current_contact.from_ungc?
         %li= link_to 'Edit', edit_admin_local_network_path(local_network), :class => 'edit', :title => 'Edit details'

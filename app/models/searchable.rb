@@ -2,7 +2,7 @@
 #
 # Table name: searchables
 #
-#  id                :integer(4)      not null, primary key
+#  id                :integer          not null, primary key
 #  title             :string(255)
 #  content           :text
 #  url               :string(255)
@@ -10,15 +10,13 @@
 #  last_indexed_at   :datetime
 #  created_at        :datetime
 #  updated_at        :datetime
-#  delta             :boolean(1)      default(TRUE), not null
+#  delta             :boolean          default(TRUE), not null
 #  object_created_at :datetime
 #  object_updated_at :datetime
 #
 
 class SearchableHelper
   include ActionView::Helpers
-  # include ActionView::Helpers::UrlHelper
-  include ActionController::UrlWriter
   # include ActionView::Helpers::SanitizeHelper
   default_url_options[:host] = DEFAULTS[:url_host]
 end

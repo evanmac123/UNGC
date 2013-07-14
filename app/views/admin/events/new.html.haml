@@ -1,5 +1,5 @@
 %h2 New event
 
-- form_for @event, builder: DefaultFormBuilder, :url => admin_events_path do |form|
+= form_for @event, builder: DefaultFormBuilder, :url => admin_events_path do |form|
   = render :partial => form
   = form.submit 'Create', :class => 'button'

@@ -4,7 +4,7 @@
   %li= link_to 'Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
 
 %p
-  - form_for admin_report_path(:action => :foundation_pledges), :html => {:method => :get} do |f|
+  = form_for admin_report_path(:action => :foundation_pledges), :html => {:method => :get} do |f|
     = select_month_tag(@month)
     = select_year_tag(@year)
     = f.submit 'View'

@@ -2,10 +2,10 @@
 #
 # Table name: signings
 #
-#  id              :integer(4)      not null, primary key
-#  old_id          :integer(4)
-#  initiative_id   :integer(4)
-#  organization_id :integer(4)
+#  id              :integer          not null, primary key
+#  old_id          :integer
+#  initiative_id   :integer
+#  organization_id :integer
 #  added_on        :date
 #  created_at      :datetime
 #  updated_at      :datetime

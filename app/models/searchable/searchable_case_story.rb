@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Searchable::SearchableCaseStory
   def index_case_story(case_story)
     if case_story.approved?

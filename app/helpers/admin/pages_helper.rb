@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Admin::PagesHelper
   def dynamic_json(page)
     hash = {1 => 'Dynamically generated', 0 => 'Standard'}
@@ -25,8 +27,8 @@ module Admin::PagesHelper
     end
   end
 
-  def sections
-    homes_children = Page.approved.find(:all, conditions: { parent_id: nil, group_id: nil }, order: 'position ASC')
+  def page_sections
+    homes_children = Page.approved.where(parent_id: nil, group_id: nil).order('position ASC').all
     @home = OpenStruct.new(id: 'home', title: 'Home', leaves: {nil => homes_children})
     [@home] + PageGroup.all
   end
