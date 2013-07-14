@@ -5,7 +5,7 @@ class Admin::PasswordsController < Devise::PasswordsController
   def create
     self.resource = resource_class.find_by_email(resource_params[:email])
 
-    if resource && @contact.username.present?
+    if resource && resource.username.present?
       resource_class.send_reset_password_instructions(resource_params)
       if successfully_sent?(resource)
         flash[:notice] = 'Thank you. We have sent you an email with instructions on resetting your password.'
