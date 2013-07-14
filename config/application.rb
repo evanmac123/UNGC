@@ -68,6 +68,9 @@ module UNGC
     # From rails upgrade configuration task
     config.session_store = :active_record_store
 
+    # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+    config.assets.precompile += %w(admin.css ie.css print.css google_analytics.js welcome_letter.css themes/apple/style.css)
+
     EMAIL_SENDER = "info@unglobalcompact.org"
   end
 
