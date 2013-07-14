@@ -61,7 +61,6 @@
 
 # The entries in shared_children are created in #{application}/shared
 :shared_children:
-- system
 - log
 - pids
 - tmp
