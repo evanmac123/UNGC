@@ -181,7 +181,7 @@ UNGC::Application.routes.draw do
 
   match '/participants/search' => 'participants#search', :as => :participant_search
   match '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
-  match '/participants/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
+  match '/participant/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
 
 
   match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
