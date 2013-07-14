@@ -1,21 +1,21 @@
-/ %h2 Login
+- flash.keep(:alert)
+- flash.keep(:error)
+= devise_error_messages!
+
+%h2 Login
 
 = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
   %fieldset
-    %div{:style => 'width: 650px; margin-top: 30px; margin-bottom: 30px; margin-left: 173px;'}
-      = image_tag("/pics/un_images/july_14_date.png", :alt => 'July 14', :height => 65, :width => 65, :style => 'float: left; margin-right: 30px; margin-bottom: 0px;')
-      %h3 Scheduled Maintenance
-      %p{:style => 'width: 100%;'} Please be aware that we are performing scheduled maintenance on Sunday, July 14th, starting at 9:00 AM EDT (1:00 PM UTC) and lasting approximately 1 to 2 hours. During this time, access to the Dashboard will not be available. We appreciate your participation in the Global Compact and apologize for any inconvenience.
-  /   %ol
-  /     %li
-  /       = label_tag :login, 'Username'
-  /       = text_field_tag :login
-  /     %li
-  /       = label_tag :password, 'Password'
-  /       = password_field_tag :password
-  /     %li
-  /       = label_tag 'remember_me', 'Remember me'
-  /       = check_box_tag 'remember_me', '1', @remember_me
-  /
-  / = submit_tag 'Login', :class => 'button'
-  / %h3= link_to 'Forgot your username or password?', new_password_path
+    %ol
+      %li
+        = f.label :username
+        = f.text_field :username
+      %li
+        = f.label :password
+        = f.password_field :password
+      %li
+        = f.label :remember_me
+        = f.check_box :remember_me
+
+  = f.submit 'Login', :class => 'button'
+  %h3= link_to 'Forgot your username or password?', new_contact_password_path
