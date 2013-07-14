@@ -1,47 +1,53 @@
-%h1== #{signup_type} Organization Application
-%h2 About your organization
-- if @jci_referral
-  %p Welcome, JCI Member.
-#main_content
-  = form_for(@organization, url: organization_step2_path) do |form|
-    = form.error_messages
-    %fieldset
-      %ol
-        %li
-          = form.label :name, "Organization name"
-          = form.text_field :name
-        %li
-          = form.label :url, "Website"
-          = form.text_field :url
-        %li
-          = form.label :employees, "Employees"
-          = form.text_field :employees, {:label => "Number of employees"}
-        - if @organization_types.first.type_property == OrganizationType::NON_BUSINESS
-          %li
-            = form.label :organization_type_id, "Type"
-            = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
-        - if @organization_types.first.type_property == OrganizationType::BUSINESS
-          = hidden_field :organization, :organization_type_id, :value => OrganizationType.try(:company).try(:id)
-          %li
-            = form.label :listing_status_id, "Ownership"
-            = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
-            = form.label :is_ft_500, "FT 500"
-            = form.check_box :is_ft_500
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
-            = form.label :exchange_id, "Exchange"
-            = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, :include_blank => true
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
-            = form.label :stock_symbol
-            = form.text_field :stock_symbol
-          %li
-            = form.label :sector_id
-            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
-          %li
-            = form.label :revenue, "Annual Sales / Revenues"
-            = form.select :revenue, options_for_select(Organization::REVENUE_LEVELS.invert)
-        %li
-          = form.label :country_id
-          = form.collection_select :country_id, Country.all, :id, :name
+%div{:style => 'width: 100%; margin: 10px auto;'}
 
-    = form.submit 'Next', :class => 'button'
+  = image_tag("/pics/un_images/july_14_date.png", :alt => 'July 14', :height => 65, :width => 65, :style => 'float: left; margin-right: 30px; margin-bottom: 50px;')
+  %h2 Scheduled Maintenance
+  %p{:style => 'width: 100%;'} We are performing scheduled maintenance on Sunday, July 14th, starting at 9:00 AM EDT (1:00 PM UTC) and lasting approximately 1 to 2 hours. New applications will be accepted immediately after the maintenance period ends. We appreciate your interest in the Global Compact and apologize for any inconvenience.
+
+/ %h1== #{signup_type} Organization Application
+/ %h2 About your organization
+/ - if @jci_referral
+/   %p Welcome, JCI Member.
+/ #main_content
+/   = form_for(@organization, url: organization_step2_path) do |form|
+/     = form.error_messages
+/     %fieldset
+/       %ol
+/         %li
+/           = form.label :name, "Organization name"
+/           = form.text_field :name
+/         %li
+/           = form.label :url, "Website"
+/           = form.text_field :url
+/         %li
+/           = form.label :employees, "Employees"
+/           = form.text_field :employees, {:label => "Number of employees"}
+/         - if @organization_types.first.type_property == OrganizationType::NON_BUSINESS
+/           %li
+/             = form.label :organization_type_id, "Type"
+/             = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
+/         - if @organization_types.first.type_property == OrganizationType::BUSINESS
+/           = hidden_field :organization, :organization_type_id, :value => OrganizationType.try(:company).try(:id)
+/           %li
+/             = form.label :listing_status_id, "Ownership"
+/             = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
+/           %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+/             = form.label :is_ft_500, "FT 500"
+/             = form.check_box :is_ft_500
+/           %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+/             = form.label :exchange_id, "Exchange"
+/             = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, :include_blank => true
+/           %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+/             = form.label :stock_symbol
+/             = form.text_field :stock_symbol
+/           %li
+/             = form.label :sector_id
+/             = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
+/           %li
+/             = form.label :revenue, "Annual Sales / Revenues"
+/             = form.select :revenue, options_for_select(Organization::REVENUE_LEVELS.invert)
+/         %li
+/           = form.label :country_id
+/           = form.collection_select :country_id, Country.all, :id, :name
+
+/     = form.submit 'Next', :class => 'button'
