@@ -61,4 +61,13 @@ module ApplicationHelper
     Time.now.strftime('%Y').to_i
   end
 
+  # Allows you to call a partial with a different format
+  def with_format(format, &block)
+    old_formats = formats
+    self.formats = [format]
+    block.call
+    self.formats = old_formats
+    nil
+  end
+
 end
