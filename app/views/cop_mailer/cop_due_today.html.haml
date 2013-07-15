@@ -1,16 +1,16 @@
 %p{:style => 'text-align: center;'}
   - if @organization.last_cop_is_learner?
-    = link_to 'Ce message en Fran&ccedil;ais', 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_learner_fr.pdf'
+    = link_to 'Ce message en Fran&ccedil;ais'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_learner_fr.pdf'
     |
-    = link_to 'Este mensaje en Espa&ntilde;ol', 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_learner_es.pdf'
+    = link_to 'Este mensaje en Espa&ntilde;ol'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_learner_es.pdf'
     |
-    = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;', 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_learner_ch.pdf'
+    = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_learner_ch.pdf'
   - else
-    = link_to 'Ce message en Fran&ccedil;ais', 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_active_fr.pdf'
+    = link_to 'Ce message en Fran&ccedil;ais'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_active_fr.pdf'
     |
-    = link_to 'Este mensaje en Espa&ntilde;ol', 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_active_es.pdf'
+    = link_to 'Este mensaje en Espa&ntilde;ol'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_active_es.pdf'
     |
-    = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;', 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_active_ch.pdf'
+    = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_today_active_ch.pdf'
 
 To all Contact Points for
 %strong== #{@organization.name}:
