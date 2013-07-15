@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8" ?>                                                                                 
-<configuration>                                                                                                         
-<LicenseConfig>                                                                                                         
-<licenseKey>78B742FDX4BB4XE3</licenseKey>                                                                               
-<proxyServer>                                                                                                           
-<enabled>0</enabled>                                                                                                    
-<proxyServer></proxyServer>                                                                                             
-<userName></userName>                                                                                                   
-<password></password>                                                                                                   
-</proxyServer>                                                                                                          
-</LicenseConfig>                                                                                                        
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+<LicenseConfig>
+<licenseKey>EFEDA3CX8657486A</licenseKey>
+<proxyServer>
+<enabled>0</enabled>
+<proxyServer></proxyServer>
+<userName></userName>
+<password></password>
+</proxyServer>
+</LicenseConfig>
 </configuration>

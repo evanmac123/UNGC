@@ -108,7 +108,7 @@ module Sphinx
       ].join(' && '),
       :cwd => '/tmp',
       :require => package('wget'),
-      :unless => "test -f /usr/local/bin/searchd && test #{configuration[:sphinx][:version]} = `searchd --help | grep Sphinx | awk '{print $2}' | awk -F- '{print $1}'`"
+      :unless => "test -f /usr/local/bin/searchd && test #{configuration[:sphinx][:version]} = `searchd --help | grep #{configuration[:sphinx][:version]} | awk '{print $2}' | awk -F- '{print $1}'`"
 
     postrotate = configuration[:rails_logrotate][:postrotate] || "touch #{configuration[:deploy_to]}/current/tmp/restart.txt"
     configure(:rails_logrotate => {
