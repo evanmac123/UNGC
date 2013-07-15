@@ -17,7 +17,7 @@
 %p
   Please enter your email address below. You will receive an email with instructions on choosing a new password.
 
-= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f|
+= form_for(resource, :as => resource_name, :url => contact_password_path, :html => { :method => :post }) do |f|
   %fieldset
     %ol
       %li
