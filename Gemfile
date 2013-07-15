@@ -38,6 +38,7 @@ gem 'prototype-rails'
 group :development do
   gem 'thin'
   gem 'rails-dev-tweaks'
+  gem 'debugger'
 end
 
 group :test do
