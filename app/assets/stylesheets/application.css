@@ -147,7 +147,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #content_home { height: auto; width: 1000px; margin: 0 auto; position: relative; height: auto; min-height: 710px; }
 #box1 { position: absolute; top: 15px; left: 40px; width: 611px; height: 165px; background: url(/assets/box1_bg.jpg) top left no-repeat; border: 1px solid #c8c8c8;}
 #box1_content { position: relative; }
-#box1 h1 { position: absolute; top: 20px; left: 25px; color: #fff; }
+#box1 h1 { font-size: 18px; position: absolute; top: 20px; left: 25px; color: #fff; }
 #box1 p { position: absolute; top: 55px; left: 25px; font-family: Georgia, "Times New Roman", Times, serif; font-size: 13px; color: #fff; line-height: 20px; width: 580px; }
 #box1 p#secretary_general { position: absolute; top: 128px; left: 30px; font-family: sans-serif; }
 #box1 div.readmore { position: absolute; top: 112px; right: 22px; width: 160px; height: 30px; font-size: 12px; font-weight: bold; text-align: right; }
@@ -176,7 +176,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 */
 #news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
 #news_content { position: relative; }
-#news h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
+#news h1 { font-size: 18px; position: absolute; top: 20px; left: 25px; color: #00546E; }
 #news .news_list { width: 570px; padding: 48px 0px 50px 20px; position: relative; }
 #news .blue { background-color: #FFF}
 #news .news_item { position: relative; color: #666; font-size: 11px; display: block; padding: 4px 10px 6px 0; border-bottom: 1px dotted #DDD;}
@@ -211,7 +211,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #news .morenews div { padding: 7px 6px 0 0; }
 
 #box4 { position: absolute; top: 192px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; width: 295px; max-height: 498px; min-height: 498px; }
-#box4 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
+#box4 h1 { font-size: 18px; position: absolute; top: 20px; left: 25px; color: #00546E; }
 #box4 div { font-size: 14px; font-weight: bold; padding: 13px; margin: 0 10px 0 10px; border-bottom: 1px solid #dfdfdf; background-color: #fff; }
 #box4 div a { display: block; width: 100%; height: 100%; }
 #box4 div.ungc a { color: #00546E; }

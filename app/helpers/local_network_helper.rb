@@ -62,7 +62,7 @@ module LocalNetworkHelper
           html += content_tag :li, link_to("#{year} #{local_network.try(:name)} Report", filename, {:class => 'pdf'})
         end
       end
-     html.present? ? (content_tag :ul, html, :class => 'links') : (content_tag :p, "No reports are available")
+     html.present? ? (content_tag :ul, html.html_safe, :class => 'links') : (content_tag :p, "No reports are available")
     end
   end
 
@@ -75,7 +75,7 @@ module LocalNetworkHelper
           html += content_tag :li, link_to("#{local_network.try(:name)} - Value Proposition", filename, {:class => 'pdf'})
         end
       end
-     html.present? ? (content_tag :ul, html, :class => 'links') : (content_tag :p, "No document is available")
+     html.present? ? (content_tag :ul, html.html_safe, :class => 'links') : (content_tag :p, "No document is available")
     end
   end
 

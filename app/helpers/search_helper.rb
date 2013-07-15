@@ -8,7 +8,7 @@ module SearchHelper
     response.gsub!('&amp;nbsp;', ' ')
     response.gsub!(/&amp;gt(;)?/, '>')
     response.gsub!(/&amp;(n|m)dash;/, '-')
-    response
+    response.html_safe
   end
 
   def pretty_facet_label(key)
