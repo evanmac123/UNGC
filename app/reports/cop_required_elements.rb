@@ -1,7 +1,7 @@
 class CopRequiredElements < SimpleReport
 
   def records
-    CommunicationOnProgress.new_policy(:include => [ :organization, { :organization => :country } ])
+    CommunicationOnProgress.since_year(2010)
   end
 
   def render_output
@@ -37,7 +37,7 @@ class CopRequiredElements < SimpleReport
     [ record.organization.try(:name),
       record.organization.try(:country_name),
       record.organization_id,
-      cop_detail_url(record.id, :host => 'www.unglobalcompact.org'),
+      "http://#{DEFAULTS[:url_host]}/COPs/detail/#{record.id}",
       record.id,
       record.title,
       record.format,
