@@ -8,11 +8,10 @@ atom_feed(:url => "http://#{request.host}/feeds/cops/") do |feed|
       entry.author do |author|
         author.name(cop.organization.name.to_s)
       end
-      entry.content(render(:partial => '/shared/cops/feed', :locals => { :communication_on_progress => cop, :feed => true }, :format => :html), :type => 'html')
+      content = with_format 'html' do
+        render :partial => '/shared/cops/feed', :locals => { :communication_on_progress => cop, :feed => true }
+      end
+      entry.content(content, :type => 'html')
     end
   end
-end
-
-def content_for_cop(cop)
-  
 end
