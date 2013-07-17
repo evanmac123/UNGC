@@ -23,6 +23,8 @@ class Announcement < ActiveRecord::Base
 
   default_scope :order => :date
 
+  scope :upcoming, lambda { where("date >= ?", Date.today) }
+
   def self.local_network_model_type
     :knowledge_sharing
   end
