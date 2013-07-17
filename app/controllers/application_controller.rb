@@ -59,9 +59,7 @@ class ApplicationController < ActionController::Base
   end
 
   def back_or_default_path(default)
-    path = (session[:return_to] || default)
-    session[:return_to] = nil
-    path
+    stored_location_for(:contact) || default
   end
 
   def edit_or_dashboard_path(contact)
