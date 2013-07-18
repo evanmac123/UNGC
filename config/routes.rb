@@ -189,8 +189,8 @@ UNGC::Application.routes.draw do
   match 'organizations/new/:org_type' => 'organizations#new'
 
   # Signup
-  match '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :constraints => { :org_type => 'business' }
-  match '/HowToParticipate/Organization_Information.html' => 'signup#step1', :constraints => { :org_type => 'non_business' }
+  match '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
+  match '/HowToParticipate/Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"non_business" }
   match '/signup/step1/:org_type'  => 'signup#step1', :as => :organization_step1
   match '/signup/step2'            => 'signup#step2', :as => :organization_step2
   match '/signup/step3'            => 'signup#step3', :as => :organization_step3
