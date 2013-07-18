@@ -9,6 +9,6 @@ class CaseStoriesController < ApplicationController
     end
 
     def default_navigation
-      DEFAULTS[:case_story_path]
+      DEFAULTS[:participant_search_path]
     end
 end
