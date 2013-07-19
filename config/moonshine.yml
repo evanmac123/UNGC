@@ -99,6 +99,13 @@
     :address: 127.0.0.1
     :mem_limit: 256M
 
+:denyhosts:
+  :allow:
+    - 'ALL : 127.0.0.1     # localhost'
+    - 'ALL : 64.22.127.201 # Rails Machine'
+    - 'ALL : 64.22.127.245 # Rails Machine'
+    - 'ALL : 64.22.127.26  # Rails Machine'
+
 :ssh:
   :authorized_keys:
     railsmachine:
