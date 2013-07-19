@@ -144,3 +144,21 @@ To upgrade current version of JungleDisk
 
 Server should start, if not:
 `sudo /usr/local/bin/junglediskserver`
+
+
+# Testing
+run the test suite with
+
+    rake test
+
+use spork for faster testing during development:
+
+    #start spork
+    spork
+
+    #launch your test with
+    testdrb -Itest test/path/to/test_file.rb
+
+    # run many tests
+    testdrb -Itest test/unit/*
+

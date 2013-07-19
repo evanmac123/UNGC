@@ -43,6 +43,8 @@ end
 
 group :test do
   gem "shoulda",      "~> 3.4.0"
+  gem "spork-rails"
+  gem "spork-testunit"
 end
 
 group :production do
