@@ -26,6 +26,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :nodejs
   recipe :webdav
   recipe :ssh
+  recipe :denyhosts
 
   on_stage(:production) do
     recipe :cron_tasks
