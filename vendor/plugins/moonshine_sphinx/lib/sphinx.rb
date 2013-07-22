@@ -97,11 +97,13 @@ module Sphinx
 
     package 'wget', :ensure => :installed
 
+# http://sphinxsearch.com/files/sphinx-2.0.8-release.tar.gz
+
     exec 'sphinx',
       :command => [
-        "wget http://sphinxsearch.com/files/sphinx-#{configuration[:sphinx][:version]}.tar.gz",
-        "tar xzf sphinx-#{configuration[:sphinx][:version]}.tar.gz",
-        "cd sphinx-#{configuration[:sphinx][:version]}",
+        "wget http://sphinxsearch.com/files/sphinx-#{configuration[:sphinx][:version]}-release.tar.gz",
+        "tar xzf sphinx-#{configuration[:sphinx][:version]}-release.tar.gz",
+        "cd sphinx-#{configuration[:sphinx][:version]}-release",
         './configure',
         'make',
         'make install'
