@@ -23,4 +23,15 @@ module Admin::ReportsHelper
     select_tag :year, options_for_select((Date.today.year-5..Date.today.year).collect {|y| y.to_s}, selected.to_s)
   end
 
+  def boolean_reponse(response)
+    case response
+      when nil
+        ""
+       when true
+         "Yes"
+       when false
+         "No"
+    end
+  end
+
 end
