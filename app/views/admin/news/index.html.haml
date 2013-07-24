@@ -1,6 +1,6 @@
 %h2 News headlines
 
-%p= link_to 'New headline', new_admin_headline_path, :class => 'new_headline_large', :id => 'new_headline'
+%p= link_to 'New headline', new_admin_headline_path, class: 'new_headline_large', id: 'new_headline'
 
 - if paged_headlines.any?
   %table.dashboard_table
@@ -11,14 +11,14 @@
       %th.actions Actions
     - for headline in paged_headlines do
       %tr
-        %td{:title => headline.title}= link_to truncate(headline.title, :length => 90), edit_admin_headline_path(headline)
+        %td{title: headline.title}= link_to truncate(headline.title, length: 90), edit_admin_headline_path(headline)
         %td= headline.published_on || headline.approval
         %td= headline.full_location
         %td
           %ul.actions
-            %li= link_to 'Approve', approve_admin_headline_path(headline), :class => 'approve link_to_post' if headline.can_approve?
-            %li= link_to 'Revoke', revoke_admin_headline_path(headline), :class => 'revoke link_to_post' if headline.can_revoke?
+            %li= link_to 'Approve', approve_admin_headline_path(headline), class: 'approve', method: :post if headline.can_approve?
+            %li= link_to 'Revoke', revoke_admin_headline_path(headline), class: 'revoke', method: :post if headline.can_revoke?
             %li= link_to 'Edit', edit_admin_headline_path(headline), class: 'edit', title: 'Edit details'
-            %li= link_to 'Delete', admin_headline_path(headline), class: 'delete link_to_destroy', :confirmation => 'Are you sure you want to delete this headline?'
+            %li= link_to 'Delete', admin_headline_path(headline), class: 'delete', confirm: 'Are you sure you want to delete this headline?', method: :delete, title:'Delete entry'
 
 = will_paginate paged_headlines
