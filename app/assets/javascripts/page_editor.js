@@ -49,7 +49,6 @@ var Editor = {
     $(contentDiv).after('<form id="fancyEditor" action="'+json.url+'" method="post"></form>');
     editorForm = $('#fancyEditor')
     editorForm.append('<input type="hidden" name="_method" value="put" />');
-    editorForm.append('<input type="hidden" name="authenticity_token" value="'+AUTH_TOKEN+'" />');
     editorForm.append('<textarea id="replaceMe" name="content[content]"></textarea>');
 
     Editor.editor = startEditor('replaceMe');
