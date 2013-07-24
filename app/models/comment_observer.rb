@@ -70,9 +70,5 @@ class CommentObserver < ActiveRecord::Observer
         OrganizationMailer.approved_city(organization).deliver
       end
 
-      if organization.city?
-        OrganizationMailer.deliver_approved_city(organization)
-      end
-
     end
 end
