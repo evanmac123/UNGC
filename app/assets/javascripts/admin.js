@@ -5,40 +5,6 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-function makePostLink (event) {
-  event.preventDefault();
-  var target = event.target;
-  var message = $(target).attr('confirmation');
-  // message is optional - may not require confirmation
-  if ( (message == undefined) || confirm(message) ) {
-    $('<form method="post" action="' + this.href + '" />')
-        .append('<input type="hidden" name="_method" value="post" />')
-        .append('<input type="hidden" name="authenticity_token" value="' + AUTH_TOKEN + '" />')
-        .appendTo('body')
-        .submit();
-  }
-
-  return false;
-}
-
-function makeDestroyLink (event) {
-  event.preventDefault();
-  var target = event.target;
-  var message = $(target).attr('confirmation');
-  // message is mandatory - we need to confirm before we delete
-  if (message == '')
-    message = "Are you sure you want to delete this?";
-  if ( confirm(message) ) {
-    $('<form method="post" action="' + this.href.replace('/delete', '') + '" />')
-        .append('<input type="hidden" name="_method" value="delete" />')
-        .append('<input type="hidden" name="authenticity_token" value="' + AUTH_TOKEN + '" />')
-        .appendTo('body')
-        .submit();
-  }
-
-  return false;
-}
-
 // Really only used when creating new folders
 var Folder = {
   rename: function(element, tree) {
@@ -469,10 +435,6 @@ function setEditable() {
 
 
 $(function() {
-  // Used generically, as an alternative to Rails broken helpers
-  $('a.link_to_post').live('click', makePostLink );
-  $('a.link_to_destroy').live( 'click', makeDestroyLink );
-
   // Wire up the buttons for the treeview
   $('a#save_tree').live('click', Treeview.save );
   $('a#new_section').live('click', Treeview.newSection );

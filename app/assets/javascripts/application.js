@@ -25,9 +25,10 @@
 //= require dashboard
 //= require page_editor
 
-$(document).ajaxSend(function(e, xhr, options) {
- var token = $("meta[name='csrf-token']").attr("content");
-  xhr.setRequestHeader("X-CSRF-Token", token);
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
 });
 
 $.datepicker.setDefaults({ changeYear: true, duration: 'slow' });

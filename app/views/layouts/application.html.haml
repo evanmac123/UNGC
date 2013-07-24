@@ -2,6 +2,7 @@
 %html{:xmlns => "http://www.w3.org/1999/xhtml", :"xml:lang" => "en", :lang => "en"}
   %head
     %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
+    = csrf_meta_tag
     - if home_page?
       %link{:href => 'http://feeds.unglobalcompact.org/UnitedNationsGlobalCompact-LatestNews', :rel => 'alternate', :title => 'United Nations Global Compact - Latest News', :type => 'application/atom+xml'}
     %title= (@title || 'United Nations Global Compact').html_safe
@@ -10,7 +11,6 @@
     /[if IE]
       = stylesheet_link_tag 'ie'
 
-    = javascript_tag "var AUTH_TOKEN = '#{form_authenticity_token}';" if protect_against_forgery?
     = javascript_include_tag 'application'
     - if Rails.env.production?
       = javascript_include_tag 'google_analytics'
