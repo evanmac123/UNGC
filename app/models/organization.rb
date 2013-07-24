@@ -459,11 +459,11 @@ class Organization < ActiveRecord::Base
   end
 
   def last_comment_date
-    comments.last.updated_at if comments.any?
+    comments.first.updated_at if comments.any?
   end
 
   def last_comment_author
-    comments.last.contact.name if comments.any?
+    comments.first.contact.name if comments.any?
   end
 
   def review_reason_value
