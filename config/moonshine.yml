@@ -92,7 +92,7 @@
   :innodb_buffer_pool_size: 128M
 
 :sphinx:
-  :version: 2.0.8-release
+  :version: 2.0.8
   :index_cron:
     :minute: 35
   :extra:
