@@ -38,14 +38,14 @@ class ApplicationManifest < Moonshine::Manifest::Rails
      cron 'cop_state',
        :command => '/srv/unglobalcompact/current/script/cron/cop_state',
        :user => 'rails',
-       :hour => 1,
+       :hour => 23,
        :minute => 0,
        :ensure => :present
 
      cron 'cop_reminder',
        :command => '/srv/unglobalcompact/current/script/cron/cop_reminder',
        :user => 'rails',
-       :hour => 1,
+       :hour => 23,
        :minute => 10,
        :ensure => :present
 
