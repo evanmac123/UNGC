@@ -3,6 +3,7 @@ require 'tempfile'
 
 class SimpleReport
   include ActionView::Helpers
+  include Admin::ReportsHelper
 
   def initialize(options={})
     @options = options

@@ -163,6 +163,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "cop_lead_submissions_#{date_as_filename}.xls")
   end
 
+  def cop_water_mandate_submissions
+    @report = CopWaterMandateSubmissions.new
+    render_formatter(filename: "cop_water_mandate_submissions_#{date_as_filename}.xls")
+  end
+
   def networks
     @regions = Country.regions
     @region = params[:region] || @regions.first.region

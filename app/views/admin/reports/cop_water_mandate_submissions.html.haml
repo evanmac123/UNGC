@@ -1,0 +1,38 @@
+%h2 CEO Water Mandate Companies - Latest COP Submission
+
+%p
+  %ul{:class => "tools inline"}
+    %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+
+%table.dashboard_table
+  %tr
+    %th Participant Name
+    %th COP Title
+    %th Covers<br />COP-Water?
+    %th Submitted On
+    %th COP Status
+    %th Next COP Due
+    %th Actions
+  - @report.records.each do |org|
+    %tr
+    - if org.last_approved_cop
+      %td{:title => org.name}= truncate(org.name)
+      %td{:title => org.last_approved_cop.title}= truncate org.last_approved_cop.title
+      %td= boolean_reponse(org.last_approved_cop.references_water_mandate)
+      %td= org.last_approved_cop.created_at.strftime('%Y-%m-%d')
+      %td= org.cop_state.humanize
+      %td= org.cop_due_on.strftime('%Y-%m-%d')
+      %td
+        %ul.actions
+          %li=link_to 'View Details', admin_organization_path(org.id), :title => "View Organization Details", :class => "organization"
+          %li=link_to 'View Details', admin_organization_communication_on_progress_path(org.id, org.last_approved_cop), :title => "View COP Details", :class => "preview"
+    - else
+      %td{:title => org.name}= truncate(org.name)
+      %td
+      %td
+      %td
+      %td= org.cop_state.humanize
+      %td= org.cop_due_on.strftime('%Y-%m-%d')
+      %td
+        %ul.actions
+          %li=link_to 'View Details', admin_organization_path(org.id), :title => "View Organization Details", :class => "organization"

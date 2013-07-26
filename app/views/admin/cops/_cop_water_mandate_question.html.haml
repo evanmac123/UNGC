@@ -1,0 +1,5 @@
+- if @organization.signatory_of?(:water_mandate)
+  %fieldset
+    %legend
+      %span Does this report fulfill your company's annual Communication on Progress - Water requirements and explicitly affirm its ongoing commitment to the CEO Water Mandate?
+    = true_or_false_field(form, :references_water_mandate, :class => 'score')
