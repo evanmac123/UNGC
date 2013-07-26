@@ -2,6 +2,11 @@ h1. 2013-07-25
 
 * Delisting time was changed to 23:00 UTC since companies in the Americas were being delisted a few hours before the actual @Organization.cop_due_on@ date
 
+h1. 2013-07-22
+
+* Similar to Business and Peace [2012-09-04], we are allowing companies that have signed the CEO Water Mandate @organization.signatory_of?(:water_mandate) to indicate whether their COP covers the reporting requirements for that initiative
+* For the Water Mandate team to track these COPs, a report similar to the one developed for LEAD company COPs has been created
+
 h1. 2013-07-08
 
 * Reinstated option to not require a pledge during the application process

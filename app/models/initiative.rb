@@ -17,6 +17,7 @@ class Initiative < ActiveRecord::Base
   default_scope :order => 'name'
 
   FILTER_TYPES = {
+    :water_mandate  => 1,
     :climate        => 2,
     :human_rights   => 4,
     :lead           => 19,
