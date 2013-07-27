@@ -4,6 +4,9 @@
 
 require File.expand_path('../config/application', __FILE__)
 
+# Silence deprecation notices caused by Moonshine plugins
+::ActiveSupport::Deprecation.silenced = true
+
 UNGC::Application.load_tasks
 
 # Sphinx tasks?
