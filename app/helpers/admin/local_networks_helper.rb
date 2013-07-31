@@ -10,7 +10,7 @@ module Admin::LocalNetworksHelper
 
   def link_to_social_media(local_network, link, title)
     if link == 'profile'
-      url = popup_link_to 'Global Compact Profile', link_to_public_profile(local_network)
+      url = popup_link_to 'Global Compact Profile', dashboard_link_to_public_profile(local_network)
     elsif link == 'website'
       url = popup_link_to 'Local Network Website', local_network.url if local_network.url.present?
     elsif local_network.send(link.to_s).send("present?")
