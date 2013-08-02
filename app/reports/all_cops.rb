@@ -45,7 +45,7 @@ class AllCops < SimpleReport
   def row(record)
   [ record.organization.try(:name),
     record.organization.try(:country_name),
-    cop_detail_url(record.id, :host => 'www.unglobalcompact.org'),
+    'http://www.unglobalcompact.org/COPs/detail/' + record.id.to_s,
     record.id,
     record.organization_id,
     record.title,
