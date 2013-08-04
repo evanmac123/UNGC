@@ -2,7 +2,12 @@
 #
 # To ban all spiders from the entire site uncomment the next two lines:
 User-Agent: *
-Disallow: /Cops
+Disallow: /COP/analyzing_progress/
+Disallow: /Cops/
+Disallow: /docs/
+Disallow: /news/
+Disallow: /participant/
+Disallow: /participants/
 Disallow: /participants/search
 Disallow: /search
 Crawl-delay: 3
