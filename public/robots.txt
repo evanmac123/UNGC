@@ -6,6 +6,7 @@ Disallow: /COP/analyzing_progress/
 Disallow: /Cops/
 Disallow: /docs/
 Disallow: /news/
+Disallow: /participant/
 Disallow: /participants/
 Disallow: /participants/search
 Disallow: /search
