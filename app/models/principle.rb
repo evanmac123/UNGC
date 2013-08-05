@@ -14,6 +14,7 @@
 class Principle < ActiveRecord::Base
   validates_presence_of :name
   has_and_belongs_to_many :communication_on_progresses
+  has_and_belongs_to_many :resources
   acts_as_tree
 
   TYPE_NAMES = { :global_compact       => "Global Compact",
