@@ -1,4 +1,5 @@
 class Resource < ActiveRecord::Base
+  validates_presence_of :title, :description
 
   include ContentApproval
 

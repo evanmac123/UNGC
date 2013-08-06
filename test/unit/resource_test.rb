@@ -4,6 +4,8 @@ class ResourceTest < ActiveSupport::TestCase
   should have_and_belong_to_many :principles
   should have_and_belong_to_many :authors
   should have_many :resource_links
+  should validate_presence_of :title
+  should validate_presence_of :description
 
   context "resource creation" do
     setup do
