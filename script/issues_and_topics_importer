@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+path = ARGV.first
+
+if path.nil?
+  puts "no path given"
+  exit -1
+end
+
+require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
+require "importers/issues_and_topics_importer"
+
+Importers::IssuesAndTopicsImporter::Base.new(path).run
