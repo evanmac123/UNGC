@@ -1,40 +1,26 @@
 require 'test_helper'
 require './lib/importers/tools_and_resources'
 
-class Sheet
-  def initialize(sheet=[])
-    @sheet = sheet.unshift(header_row)
-  end
-
-  def header_row
-    %w(resource_id title year description image_url ISBN)
-  end
-
-  def each(skip, &block)
-    @sheet.drop(skip).each(&block)
-  end
-end
-
 class ToolsAndResourcesTest < ActiveSupport::TestCase
 
   setup do
-    @importer = Importers::ToolsAndResourcesImporter.new('fake')
+    @importer = Importers::ToolsAndResourcesImporter.new('test/fixtures/files/tools_and_resources.xls')
   end
 
   context "When importing resources" do
 
+    setup do
+      @importer.import_resources @importer.worksheet('resources')
+    end
+
     should "not import the header row" do
-      sheet = Sheet.new [[1, 't', 2012.0, 'd', 'i', 'is']]
-      @importer.import_resources(sheet)
-      assert_equal 1, Resource.count, "should not have imported the header."
+      assert_equal 4, Resource.count, "should not have imported the header."
     end
 
     context "with normal values" do
 
       setup do
-        sheet = Sheet.new [[11, 'title1', 2012.0, 'description1', 'image_url1', 'isbn1']]
-        @importer.import_resources(sheet)
-        @resource = Resource.find(11)
+        @resource = Resource.find(1)
       end
 
       should "create resources" do
@@ -42,11 +28,11 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
       end
 
       should "import id" do
-        assert_equal 11, @resource.id
+        assert_equal 1, @resource.id
       end
 
       should "import title" do
-        assert_equal 'title1', @resource.title
+        assert_equal 'Publications from the Office', @resource.title
       end
 
       should "import year" do
@@ -54,23 +40,21 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
       end
 
       should "import description" do
-        assert_equal 'description1', @resource.description
+        assert_equal 'As the first publication', @resource.description
       end
 
       should "import image_url" do
-        assert_equal 'image_url1', @resource.image_url
+        assert_equal 'http://www.unglobalcompact.org/pics/example.png', @resource.image_url
       end
 
       should "import isbn" do
-        assert_equal "isbn1", @resource.isbn
+        assert_equal "ISBN1234", @resource.isbn
       end
     end
 
     context "with n/a values" do
       setup do
-        sheet = Sheet.new [[22, 'title2', 'n/a', 'n/a', 'n/a', '']]
-        @importer.import_resources(sheet)
-        @na = Resource.find(22)
+        @na = Resource.find(55)
       end
 
       should "not import n/a as a year" do
@@ -82,92 +66,52 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
       end
     end
 
-    context "empty values" do
-      setup do
-        sheet = Sheet.new [[33, 'title3', '', 'description3', '']]
-        @importer.import_resources(sheet)
-        @empty = Resource.find(33)
-      end
-
-      should "not import empty year" do
-        assert_nil @empty.year
-      end
-
-      should "not import empty images" do
-        assert_nil @empty.image_url
-      end
-    end
-
     should "import 'ongoing' as the year of import" do
-      sheet = Sheet.new [[44, 'title4', 'ongoing', 'n/a', 'n/a', '']]
-      @importer.import_resources(sheet)
-      assert_equal Time.now.year, Resource.find(44).year.year
+      assert_equal Time.now.year, Resource.find(5).year.year
     end
 
-    context "nil and missing values" do
-      setup do
-        sheet = Sheet.new [[55, 'title5', nil, 'description5']]
-        @importer.import_resources(sheet)
-        @nil = Resource.find(55)
-      end
-
-      should "not import nil year" do
-        assert_nil @nil.year
-      end
-
-      should "not import nil image_url" do
-        assert_nil @nil.image_url
-      end
-
-      should "not import nil isbn" do
-        assert_nil @nil.isbn
-      end
-    end
   end
 
   context "When importing links" do
 
     setup do
-      @language = create_language(name:"English")
-      @resource = create_resource
-      sheet = Sheet.new [[
-        @resource.id,
-        'res_title',
-        'url1',
-        'title1',
-        @language.name,
-        'web'
-      ]]
-      @importer.import_resources_links(sheet)
-      @link = @resource.resource_links.find_by_url('url1')
+      # setup some languages
+      @arabic = create_language(name:"Arabic")
+      @english = create_language(name:"English")
+
+      # import some resources
+      @importer.import_resources @importer.worksheet('resources')
+
+      @resource = Resource.find(2)
+
+      link_sheet = @importer.worksheet('resources_links')
+      @importer.import_resources_links(link_sheet)
+      @link = @resource.resource_links.find_by_resource_id(2)
     end
 
     should "not import the header row" do
-      assert_equal 1, ResourceLink.count, "should not have imported the header."
-    end
-
-    should "create a link" do
-      assert_not_nil @link
+      # there should only be 3 valid rows, excluding the header
+      assert_equal 3, ResourceLink.count, "should not have imported the header."
     end
 
     should "import resource_id" do
-      assert_equal @resource.id, @link.resource_id
+      assert_equal 2, @link.resource_id
     end
 
     should "import url" do
-      assert_equal "url1", @link.url
+      assert_equal "http://www.ohchr.org/Documents/Publications/GuidingPrinciplesBusinessHR_EN.pdf", @link.url
     end
 
     should "import title" do
-      assert_equal "title1", @link.title
+      assert_equal "Guiding Principles on Business and Human Rights", @link.title
     end
 
     should "import link_type" do
-      assert_equal "web", @link.link_type
+      assert_equal "pdf", @link.link_type
     end
 
     should "import language_id" do
-      assert_equal @language.id, @link.language_id
+      assert_equal @english.id, @link.language_id
     end
 
     should "be associated with a resource" do
@@ -179,25 +123,30 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
   context "When importing authors" do
 
     setup do
-      sheet = Sheet.new [[123, "bob barker", "PIR"]]
-      @importer.import_authors(sheet)
-      @author = Author.find(123)
+      author_sheet = @importer.worksheet('authors')
+      @importer.import_authors(author_sheet)
+      @deloitte = Author.find(3)
+      @oxfam = Author.find(8)
     end
 
     should "not import the header row" do
-      assert_equal 1, Author.count, "should not have imported the header."
+      assert_equal 2, Author.count, "should not have imported the header."
     end
 
     should "import id" do
-      assert_equal 123, @author.id
+      assert_equal 3, @deloitte.id
     end
 
     should "import full name" do
-      assert_equal "bob barker", @author.full_name
+      assert_equal "Deloitte", @deloitte.full_name
     end
 
     should "import acronym" do
-      assert_equal "PIR", @author.acronym
+      assert_equal "OHCHR", @deloitte.acronym
+    end
+
+    should "allow empty acronym" do
+      assert_nil @oxfam.acronym
     end
 
   end
@@ -205,18 +154,27 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
   context "When importing authors/resources" do
 
     setup do
-      @author = create_author(id:123)
-      @resource = create_resource(id:456)
-      sheet = Sheet.new([[@resource.id, "title", @author.id]])
+      @importer.import_resources @importer.worksheet('resources')
+      @importer.import_authors @importer.worksheet('authors')
+
+      sheet = @importer.worksheet('resources_authors')
       @importer.import_resources_authors(sheet)
+
+      @deloitte = Author.find(3)
+      @publications = Resource.find(1)
+      @guiding_principles = Resource.find(2)
     end
 
-    should "associate an author with a resource" do
-      assert @author.resources.include?(@resource)
+    should "associate a resource with an author" do
+      assert @guiding_principles.authors.include?(@deloitte)
     end
 
-    should "assicate a resource with an author" do
-      assert @resource.authors.include?(@author)
+    should "associate resources by vlookup" do
+      assert @deloitte.resources.include?(@publications)
+    end
+
+    should "associate resources by numeric id" do
+      assert @deloitte.resources.include?(@guiding_principles)
     end
   end
 

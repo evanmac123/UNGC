@@ -1,7 +1,17 @@
 require_relative "./excel_importer"
 
 module Importers
-  class InvalidLanguage < StandardError; end
+
+  class InvalidLanguage < StandardError
+    def initialize(language)
+      super
+      @language = language
+    end
+    def to_s
+      "Invalid language: #{@language}"
+    end
+  end
+
   class ToolsAndResourcesImporter
     attr_reader :path
 
@@ -38,9 +48,13 @@ module Importers
 
     def import_resources_links(sheet)
       each_row(sheet) do |row|
-        attrs = ResourceLinkAttrs.new(*row)
-        resource = Resource.find(attrs.resource_id)
-        resource.resource_links.create!(attrs.to_h)
+        begin
+          attrs = ResourceLinkAttrs.new(*row)
+          resource = Resource.find(attrs.resource_id)
+          resource.resource_links.create!(attrs.to_h)
+        rescue => e
+          puts "Error: #{e}"
+        end
       end
     end
 
@@ -72,10 +86,14 @@ module Importers
     ResourceAttrs = Struct.new(:id, :title, :year_f, :description, :image_url_s, :isbn) do
 
       def year
-        if year_f.kind_of?(Float) && year_f > 0
-          Time.new(year_f)
-        elsif year_f == 'ongoing'
-          Time.new
+        begin
+          if year_f == 'ongoing'
+            Time.new
+          elsif year_f > 0
+            Time.new(year_f)
+          end
+        rescue
+          nil
         end
       end
 
@@ -129,7 +147,16 @@ module Importers
       end
     end
 
-    AuthorResourceAttrs = Struct.new(:resource_id, :resource_title, :author_id) do
+    AuthorResourceAttrs = Struct.new(:resource_id_or_formula, :resource_title, :author_id, :author_name) do
+
+      def resource_id
+        if resource_id_or_formula.respond_to?(:value)
+          resource_id_or_formula.value
+        else
+          resource_id_or_formula
+        end
+      end
+
       def to_h
         {
           resource_id: resource_id,
