@@ -24,15 +24,16 @@ gem 'devise',               '~> 2.2.4'
 gem 'dynamic_form',         '1.0.0'
 
 group :assets do
-  gem 'jquery-rails'
-  gem 'jquery-ui-rails'
-  gem 'prototype-rails'
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier',     '>= 1.0.3'
   gem 'ckeditor',     '~> 4.0.4'
   gem 'turbo-sprockets-rails3'
 end
+
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'prototype-rails'
 
 group :development do
   gem 'thin'
