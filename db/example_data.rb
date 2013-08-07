@@ -152,4 +152,12 @@ module FixtureReplacement
   attributes_for :signing do |s|
     s.added_on = Date.today
   end
+
+  attributes_for :resource do |r|
+    r.title = FixtureReplacement.random_string
+    r.description = FixtureReplacement.random_string
+  end
+
+  attributes_for :author do |a|
+  end
 end

@@ -15,6 +15,17 @@ class Sheet
   end
 end
 
+# TODO move to fixture
+# def create_resource(attrs={})
+  # defaults = {title:'resource', description:'description'}
+  # Resource.create! attrs.merge(defaults.merge(attrs))
+# end
+
+# def create_author(attrs={})
+#   defaults = {}#title:'resource', description:'description'}
+#   Author.create! attrs.merge(defaults.merge(attrs))
+# end
+
 class ToolsAndResourcesTest < ActiveSupport::TestCase
 
   setup do
@@ -126,12 +137,98 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
   end
 
   context "When importing links" do
+
+    setup do
+      @language = create_language(name:"English")
+      @resource = create_resource
+      sheet = Sheet.new [[
+        @resource.id,
+        'res_title',
+        'url1',
+        'title1',
+        @language.name,
+        'web'
+      ]]
+      @importer.import_resources_links(sheet)
+      @link = @resource.resource_links.find_by_url('url1')
+    end
+
+    should "not import the header row" do
+      assert_equal 1, ResourceLink.count, "should not have imported the header."
+    end
+
+    should "create a link" do
+      assert_not_nil @link
+    end
+
+    should "import resource_id" do
+      assert_equal @resource.id, @link.resource_id
+    end
+
+    should "import url" do
+      assert_equal "url1", @link.url
+    end
+
+    should "import title" do
+      assert_equal "title1", @link.title
+    end
+
+    should "import link_type" do
+      assert_equal "web", @link.link_type
+    end
+
+    should "import language_id" do
+      assert_equal @language.id, @link.language_id
+    end
+
+    should "be associated with a resource" do
+      assert @resource.resource_links.include?(@link)
+      assert_equal @link.resource, @resource
+    end
   end
 
   context "When importing authors" do
+
+    setup do
+      sheet = Sheet.new [[123, "bob barker", "PIR"]]
+      @importer.import_authors(sheet)
+      @author = Author.find(123)
+    end
+
+    should "not import the header row" do
+      assert_equal 1, Author.count, "should not have imported the header."
+    end
+
+    should "import id" do
+      assert_equal 123, @author.id
+    end
+
+    should "import full name" do
+      assert_equal "bob barker", @author.full_name
+    end
+
+    should "import acronym" do
+      assert_equal "PIR", @author.acronym
+    end
+
   end
 
   context "When importing authors/resources" do
+
+    setup do
+      @author = create_author(id: 123)
+      @resource = create_resource(id: 456)
+      sheet = Sheet.new([[@resource.id, "title", @author.id]])
+      @importer.import_resources_authors(sheet)
+    end
+
+    should "associate an author with a resource" do
+      assert @author.resources.include?(@resource)
+    end
+
+    should "assicate a resource with an author" do
+      assert @resource.authors.include?(@author)
+    end
   end
 
 end

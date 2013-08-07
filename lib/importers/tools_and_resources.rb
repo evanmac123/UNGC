@@ -14,7 +14,7 @@ module Importers
     end
 
     def workbook
-      @workbook ||= Spreadsheet.open(@path)
+      @workbook ||= Spreadsheet.open(path)
     end
 
     def worksheet(name)
@@ -40,8 +40,7 @@ module Importers
       each_row(sheet) do |row|
         attrs = ResourceLinkAttrs.new(*row)
         resource = Resource.find(attrs.resource_id)
-        link = resource.links.find_or_create_by_id(attrs.id)
-        link.update_attributes(attrs.to_h)
+        resource.resource_links.create!(attrs.to_h)
       end
     end
 
@@ -59,7 +58,7 @@ module Importers
         author = Author.find(attrs.author_id)
         resource = Resource.find(attrs.resource_id)
         unless author.resources.include?(resource)
-          author.resouces << resource
+          author.resources << resource
         end
       end
     end
@@ -98,11 +97,12 @@ module Importers
       end
     end
 
-    ResourceLinkAttrs = Struct.new(:resource_id_f, :resource_title, :url, :title, :language_s, :type) do
+    ResourceLinkAttrs = Struct.new(:resource_id, :resource_title, :url, :title, :language_s, :type) do
+
       def language_id
         language = Language.where(name: language_s).first
         if language.nil?
-          raise InvalidLanguage language_s
+          raise InvalidLanguage.new(language_s)
         else
           language.id
         end
@@ -113,27 +113,27 @@ module Importers
           url: url,
           title: title,
           link_type: type,
-          resource_id: resource_id_f.to_i,
+          resource_id: resource_id,
           language_id: language_id,
         }
       end
     end
 
-    AuthorAttrs = Struct.new(:author_id, :full_name, :acronym) do
+    AuthorAttrs = Struct.new(:id, :full_name, :acronym) do
       def to_h
         {
-          id: author_id.to_i,
+          id: id,
           full_name: full_name,
           acronym: acronym,
         }
       end
     end
 
-    AuthorResourceAttrs = Struct.new(:resource_id_f, :resource_title, :author_id_f) do
+    AuthorResourceAttrs = Struct.new(:resource_id, :resource_title, :author_id) do
       def to_h
         {
-          resource_id: resource_id_f.to_i,
-          author_id: author_id_f.to_i,
+          resource_id: resource_id,
+          author_id: author_id,
         }
       end
     end
