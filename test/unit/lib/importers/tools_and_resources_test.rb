@@ -216,8 +216,8 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
   context "When importing authors/resources" do
 
     setup do
-      @author = create_author(id: 123)
-      @resource = create_resource(id: 456)
+      @author = create_author(id:123)
+      @resource = create_resource(id:456)
       sheet = Sheet.new([[@resource.id, "title", @author.id]])
       @importer.import_resources_authors(sheet)
     end
@@ -228,6 +228,14 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
 
     should "assicate a resource with an author" do
       assert @resource.authors.include?(@author)
+    end
+  end
+
+  context "Destroying" do
+    should "destroy depedent links" do
+      link = create_resource_link
+      link.resource.destroy
+      assert_equal 0, ResourceLink.count
     end
   end
 

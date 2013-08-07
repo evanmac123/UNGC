@@ -160,4 +160,11 @@ module FixtureReplacement
 
   attributes_for :author do |a|
   end
+
+  attributes_for :resource_link do |l|
+    l.resource = Resource.first || create_resource
+    l.language = Language.first || create_language
+    l.title = FixtureReplacement.random_string
+    l.link_type = ResourceLink::TYPES.keys.shuffle.first.to_s
+  end
 end
