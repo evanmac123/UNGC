@@ -15,17 +15,6 @@ class Sheet
   end
 end
 
-# TODO move to fixture
-# def create_resource(attrs={})
-  # defaults = {title:'resource', description:'description'}
-  # Resource.create! attrs.merge(defaults.merge(attrs))
-# end
-
-# def create_author(attrs={})
-#   defaults = {}#title:'resource', description:'description'}
-#   Author.create! attrs.merge(defaults.merge(attrs))
-# end
-
 class ToolsAndResourcesTest < ActiveSupport::TestCase
 
   setup do
