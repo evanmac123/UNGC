@@ -1,6 +1,8 @@
-class Admin::ResourcesController < ApplicationController
+class Admin::ResourcesController < AdminController
 
   def index
+    @resources = Resource.order(order_from_params).paginate(:page     => params[:page],
+                                  :per_page => Organization.per_page)
   end
 
   def show
@@ -21,5 +23,9 @@ class Admin::ResourcesController < ApplicationController
   def destroy
   end
 
+  private
+    def order_from_params
+      @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')
+    end
 
 end

@@ -1,0 +1,29 @@
+%h2 Resources
+
+
+%table.dashboard_table
+  %tr
+    %th= sort_header 'ID', field: 'id'
+    %th= sort_header 'Title', field: 'title'
+    %th= sort_header 'Year', field: 'year'
+    %th Status
+    %th Actions
+
+  - @resources.each do |resource|
+    %tr
+      %td= resource.id
+      %td{:title => resource.title}
+        = truncate(resource.title, :length => 40)
+      %td
+        = resource.year
+      %td=h organization.state.humanize
+      %td
+        -#%ul.actions
+          %li
+            = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
+          %li
+            = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
+          %li
+            = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+
+= will_paginate @resources
