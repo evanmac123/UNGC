@@ -1,0 +1,39 @@
+- @body_class = 'details'
+%h2= truncate(@resource.title, :length => 60)
+
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li <a href="#overview">Overview</a>
+    %li <a href="#contacts">Contacts</a>
+
+  #overview.tab_content
+    %ul{:class => "tools inline"}
+      %li= link_to "Edit", edit_admin_resource_path(@resource.id), :class => 'edit_large'
+
+    %dl.left_column
+      %h3 Resource Details
+      %dt.first Title
+      %dd.first= @resource.title
+      %dt Year
+      %dd= @resource.year.year rescue nil
+      %dt Status
+      %dd=h @resource.approval.humanize
+      %dt Description
+      %dd=@resource.description
+      %dt Image
+      %dd= image_tag @resource.image_url
+      - if @resource.isbn?
+        %dt Isbn
+        %dd= @resource.isbn
+      - if @resource.approved?
+        %dt Published at
+        %dt= @resource.published_on
+
+    -#%dl.left_column
+      %h3 Contact Information
+
+  #contacts.tab_content
+    -#%ul#contacts_tools{:class => "tools inline"}
+      %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
+    -#%ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
+
