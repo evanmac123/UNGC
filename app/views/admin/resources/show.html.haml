@@ -21,7 +21,8 @@
       %dt Description
       %dd=@resource.description
       %dt Image
-      %dd= image_tag @resource.image_url
+      - if @resource.image_url?
+        %dd= image_tag @resource.image_url
       - if @resource.isbn?
         %dt Isbn
         %dd= @resource.isbn
@@ -36,4 +37,6 @@
     -#%ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
     -#%ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
+
+= link_to "Back", admin_resources_path
 
