@@ -161,7 +161,11 @@ UNGC::Application.routes.draw do
     match 'learning'         => 'learning#index', :as => :learning
     match 'learning/:action' => 'learning'
 
-    resources :resources
+    resources :resources do
+      member do
+        post :approve
+      end
+    end
   end
 
   resources :organizations, :only => :index

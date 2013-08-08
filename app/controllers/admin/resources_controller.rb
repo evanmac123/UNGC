@@ -32,7 +32,20 @@ class Admin::ResourcesController < AdminController
     redirect_to admin_resources_url, notice: 'Resource destroyed.'
   end
 
+  def approve
+    if allowed_to_approve
+      @resource.approve!
+      redirect_to admin_resources_url, notice:'Resource approved'
+    else
+      redirect_to admin_resources_url, notice:'Failed to approve resource.'
+    end
+  end
+
   private
+
+  def allowed_to_approve
+    @resource.can_approve? && current_contact.is?(Role.website_editor)
+  end
 
   def order_from_params
     @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')

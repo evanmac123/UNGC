@@ -2,10 +2,28 @@ require 'test_helper'
 
 class Admin::ResourcesControllerTest < ActionController::TestCase
 
+  def create_website_editor
+    create_roles
+    user = create_staff_user
+    user.roles << Role.website_editor
+    user
+  end
+
   context "When not signed in." do
     should "not have access" do
       get :index
       assert_response 302
+    end
+  end
+
+  context "When signed in as a website editor." do
+    should "approve the resource" do
+      sign_in create_website_editor
+      resource = create_resource
+      post :approve, id:resource
+      assert_redirected_to action: :index
+      resource.reload
+      assert resource.approved?
     end
   end
 
@@ -54,6 +72,14 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       delete :destroy, id:resource
       assert_redirected_to action: :index
       assert_equal 0, Resource.count
+    end
+
+    should "not be able to approve a resource" do
+      resource = create_resource
+      post :approve, id:resource
+
+      resource.reload
+      refute resource.approved?
     end
 
     context "with valid attributes" do
