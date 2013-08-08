@@ -64,13 +64,13 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
         assert_equal 1, Resource.count
       end
 
-      should "update and redirect to the index" do
+      should "update and redirect to show" do
         resource = create_resource
         params = valid_resource_attributes
 
         put :update, id:resource, resource:params
 
-        assert_redirected_to action: :index
+        assert_redirected_to action: :show
         resource.reload
         assert_equal params['title'], resource.title
       end

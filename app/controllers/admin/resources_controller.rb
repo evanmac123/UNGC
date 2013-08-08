@@ -21,7 +21,7 @@ class Admin::ResourcesController < AdminController
 
   def update
     if @resource.update_attributes(params[:resource])
-      redirect_to admin_resources_url, notice: 'Resource updated.'
+      redirect_to [:admin, @resource], notice: 'Resource updated.'
     else
       render action: 'edit'
     end
