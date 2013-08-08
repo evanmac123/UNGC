@@ -9,6 +9,8 @@
   #overview.tab_content
     %ul{:class => "tools inline"}
       %li= link_to "Edit", edit_admin_resource_path(@resource.id), :class => 'edit_large'
+    - if current_contact.is?(Role.website_editor)
+      %li= link_to "Approve", approve_admin_resource_path(@resource.id), :class => 'approve', :method => :put, :title => "Approve Resource"
 
     %dl.left_column
       %h3 Resource Details
@@ -20,8 +22,8 @@
       %dd=h @resource.approval.humanize
       %dt Description
       %dd=@resource.description
-      %dt Image
       - if @resource.image_url?
+        %dt Image
         %dd= image_tag @resource.image_url
       - if @resource.isbn?
         %dt Isbn
@@ -39,4 +41,3 @@
     -#%ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
 
 = link_to "Back", admin_resources_path
-
