@@ -1,0 +1,28 @@
+- if default_form.error_messages.present?
+  %h3 Sorry, the event was not saved. Please provide all required information:
+  %div{:class => 'flash error'}
+    %ul
+      - @resource.errors.full_messages.each do |e|
+        %li= e
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li
+      %a{:href => '#general'} General
+    %li
+      %a{:href => '#issues'} Issue Areas
+    %li
+      %a{:href => '#stakeholders'} Stakeholders
+    %li
+      %a{:href => '#files'} Files
+
+
+  #general.tab_content
+    %fieldset
+      %legend General Information
+      %ol
+        = default_form.text_field  :title, :label => 'Title'
+        = default_form.text_area   :description, :label => 'Description'
+        = default_form.text_field  :year, :label => 'Year'
+        = default_form.text_field  :isbn, :label => 'Isbn'
+        = default_form.text_field  :image_url, :label => 'Image Url'
