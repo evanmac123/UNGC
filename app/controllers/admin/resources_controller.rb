@@ -9,15 +9,6 @@ class Admin::ResourcesController < AdminController
                 per_page:Resource.per_page)
   end
 
-  def show
-  end
-
-  def new
-  end
-
-  def edit
-  end
-
   def create
     @resource = Resource.new(params[:resource])
     if @resource.save
