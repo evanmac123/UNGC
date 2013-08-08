@@ -16,4 +16,13 @@ class RoutingTest < ActionController::IntegrationTest
     end
   end
 
+  context "Resource routing" do
+    should "route to index" do
+      assert_routing "/admin/resources", {
+        controller: 'admin/resources',
+        action: 'index',
+      }
+    end
+  end
+
 end
