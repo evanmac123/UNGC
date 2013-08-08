@@ -65,7 +65,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
 
       should "render edit action" do
         resource = create_resource
-        put :update, id:resource, resource:{}
+        put :update, id:resource, resource:{title: nil}
         assert_template :edit
       end
     end
