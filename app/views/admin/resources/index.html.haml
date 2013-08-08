@@ -15,15 +15,15 @@
       %td{:title => resource.title}
         = truncate(resource.title, :length => 40)
       %td
-        = resource.year
-      %td=h organization.state.humanize
+        = resource.year.year rescue nil
+      %td=h resource.approval.humanize
       %td
-        -#%ul.actions
+        %ul.actions
           %li
-            = link_to 'Show', admin_organization_path(organization.id), :class => "preview", :title => "Show"
+            = link_to 'Show', admin_resource_path(resource.id), :class => "preview", :title => "Show"
           %li
-            = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
+            = link_to 'Edit', edit_admin_resource_path(resource.id), :class => "edit", :title => "Edit"
           %li
-            = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+            = link_to 'Destroy', admin_resource_path(resource.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
 = will_paginate @resources

@@ -1,8 +1,7 @@
 class Admin::ResourcesController < AdminController
 
   def index
-    @resources = Resource.order(order_from_params).paginate(:page     => params[:page],
-                                  :per_page => Organization.per_page)
+    @resources = Resource.order(order_from_params).paginate(:page     => params[:page], :per_page => Resource.per_page)
   end
 
   def show
