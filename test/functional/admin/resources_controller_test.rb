@@ -35,6 +35,13 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       assert_not_nil assigns(:resource)
     end
 
+    should "delete" do
+      resource = create_resource
+      delete :destroy, id:resource
+      assert_redirected_to action: :index
+      assert_equal 0, Resource.count
+    end
+
     context "with valid attributes" do
 
       should "create and redirect to the index" do

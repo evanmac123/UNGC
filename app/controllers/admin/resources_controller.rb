@@ -36,6 +36,8 @@ class Admin::ResourcesController < AdminController
   end
 
   def destroy
+    @resource.destroy
+    redirect_to admin_resources_url, notice: 'Resource destroyed.'
   end
 
   private
