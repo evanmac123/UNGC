@@ -2,11 +2,25 @@ require 'test_helper'
 
 class Admin::ResourcesControllerTest < ActionController::TestCase
 
-  context "When signed in as an admin" do
+  context "When not signed in." do
+    should "not have access" do
+      get :index
+      assert_response 302
+    end
+  end
+
+  context "When signed in, but not from the UNGC" do
+    should "not have access" do
+      sign_in create_organization_and_user
+      get :index
+      assert_response 302
+    end
+  end
+
+  context "When signed in as a member of the UNGC" do
 
     setup do
-      @admin = create_staff_user
-      sign_in @admin
+      sign_in create_staff_user
     end
 
     should "get index" do

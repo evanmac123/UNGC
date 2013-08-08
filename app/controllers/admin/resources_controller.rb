@@ -1,5 +1,6 @@
 class Admin::ResourcesController < AdminController
 
+  before_filter :no_organization_or_local_network_access
   before_filter :load_resource, except: [:index, :create]
 
   def index
