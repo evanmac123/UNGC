@@ -125,6 +125,7 @@ UNGC::Application.routes.draw do
       end
 
       resources :logo_comments
+      resources :resources
     end
 
     resources :communication_on_progresses, :controller => 'cops'
