@@ -19,6 +19,10 @@ class Admin::ResourcesController < AdminController
     end
   end
 
+  def edit
+    @topics = Principle.where('reference is not null')
+  end
+
   def update
     if @resource.update_attributes(params[:resource])
       redirect_to [:admin, @resource], notice: 'Resource updated.'

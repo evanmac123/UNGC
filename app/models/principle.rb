@@ -51,6 +51,10 @@ class Principle < ActiveRecord::Base
     Principle.find_by_name(TYPE_NAMES[type])
   end
 
+  def self.by_reference(reference)
+    Principle.find_by_reference(reference)
+  end
+
   def self.principles_for_issue_area(area)
     PrincipleArea.area_for(PrincipleArea::FILTERS[area]).children
   end

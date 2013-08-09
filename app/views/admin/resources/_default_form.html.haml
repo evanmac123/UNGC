@@ -26,3 +26,56 @@
         = default_form.text_field  :year, :label => 'Year'
         = default_form.text_field  :isbn, :label => 'Isbn'
         = default_form.text_field  :image_url, :label => 'Image Url'
+
+  #issues.tab_content
+    %fieldset
+      %legend Topics
+      %ol.checkbox_list
+        %li.checkbox
+          = render :partial => 'principle_checkbox', :locals => {:reference => :global_compact}
+        %li.checkbox
+          = render :partial => 'principle_checkbox', :locals => {:reference => :human_rights}
+          %ol.checkbox_list
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :women_gender}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :childrens_rights}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :indigenous_peoples}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :persons_disabilities}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :human_trafficking}
+
+        %li.checkbox
+          = render :partial => 'principle_checkbox', :locals => {:reference => :labour}
+          %ol.checkbox_list
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :child_labour}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :forced_labour}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :migrant_workers}
+
+        %li.checkbox
+          = render :partial => 'principle_checkbox', :locals => {:reference => :environment}
+          %ol.checkbox_list
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :climate_change}
+            %ol.checkbox_list
+              %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :climate_mitigation}
+              %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :climate_adaptation}
+              %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :climate_finance}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :water_sustainability}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :energy}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :biodiversity}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :environmental_stewardship}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :green_industry}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :anti_corruption}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :business_peace}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :financial_markets}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :suppy_chain}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :partnerships}
+        %li.checkbox
+          = render :partial => 'principle_checkbox', :locals => {:reference => :development}
+          %ol.checkbox_list
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :education}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :mdgs}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :post_2015}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :social_enterprise}
+            %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :agriculture}
+
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :management_education}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :cop}
+        %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :local_networks}
