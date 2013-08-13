@@ -10,12 +10,9 @@
     %li
       %a{:href => '#general'} General
     %li
-      %a{:href => '#issues'} Issue Areas
+      %a{:href => '#topics'} Topics
     %li
-      %a{:href => '#stakeholders'} Stakeholders
-    %li
-      %a{:href => '#files'} Files
-
+      %a{:href => '#authors'} Authors
 
   #general.tab_content
     %fieldset
@@ -27,7 +24,7 @@
         = default_form.text_field  :isbn, :label => 'Isbn'
         = default_form.text_field  :image_url, :label => 'Image Url'
 
-  #issues.tab_content
+  #topics.tab_content
     %fieldset
       %legend Topics
       %ol.checkbox_list
@@ -79,3 +76,14 @@
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :management_education}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :cop}
         %li.checkbox= render :partial => 'principle_checkbox', :locals => {:reference => :local_networks}
+
+  - authors = Author.scoped.map {|a| [a.full_name, a.id]}
+  #authors.tab_content
+    %fieldset
+      %legend Authors
+      %script#author_template{type:'text/x-jquery-tmpl'}
+        = render partial:'author_row', locals:{authors:authors, author_id:nil}
+      %table.author_table
+        - @resource.authors.each do |author|
+          = render partial:'author_row', locals:{authors:authors, author_id:author.id}
+      = button_tag('Add Author...', id:'add_author')
