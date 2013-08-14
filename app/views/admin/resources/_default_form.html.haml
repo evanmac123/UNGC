@@ -108,5 +108,5 @@
             %td= link.link_type_title
             %td
               = link_to('edit', edit_admin_resource_resource_link_path(link.resource, link))
-              = link_to('delete', admin_resource_resource_link_path(link.resource, link), method:'delete')
+              = link_to('delete', admin_resource_resource_link_path(link.resource, link), method:'delete', class:'delete_link')
       = link_to 'New link...', new_admin_resource_resource_link_path(@resource)

@@ -30,7 +30,9 @@ class Admin::ResourceLinksController < AdminController
 
   def destroy
     @link.destroy
-    redirect_to edit_admin_resource_url(@resource), notice: 'Link deleted.'
+    respond_to do |format|
+      format.json { render json: {message: 'Link deleted.'}, status: :no_content }
+    end
   end
 
   private
