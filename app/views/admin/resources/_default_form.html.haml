@@ -13,6 +13,8 @@
       %a{:href => '#topics'} Topics
     %li
       %a{:href => '#authors'} Authors
+    %li
+      %a{:href => '#links'} Links
 
   #general.tab_content
     %fieldset
@@ -87,3 +89,22 @@
         - @resource.authors.each do |author|
           = render partial:'author_row', locals:{authors:authors, author_id:author.id}
       = button_tag('Add Author...', id:'add_author')
+
+  - types = ResourceLink::TYPES.map {|k, v| [v, k]}
+  - languages = Language.scoped.map {|l| [l.name, l.id]}
+  #links.tab_content
+    %fieldset
+      %legend Links
+      %script#link_template{type:'text/x-jquery-tmpl'}
+        = render partial:'link_row', locals:{languages:languages, types:types, link:nil}
+      %table.link_table
+        %tr
+          %th Title
+          %th Url
+          %th Language
+          %th Type
+          %th Actions
+        - @resource.resource_links.each do |link, i|
+          = render partial:'link_row', locals:{languages:languages, types:types, link:link}
+      = button_tag('Add Link...', id:'add_link')
+
