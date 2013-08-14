@@ -86,7 +86,7 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
 
       link_sheet = @importer.worksheet('resources_links')
       @importer.import_resources_links(link_sheet)
-      @link = @resource.resource_links.find_by_resource_id(2)
+      @link = @resource.links.find_by_resource_id(2)
     end
 
     should "not import the header row" do

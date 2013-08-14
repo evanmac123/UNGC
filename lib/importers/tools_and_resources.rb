@@ -51,7 +51,7 @@ module Importers
         begin
           attrs = ResourceLinkAttrs.new(*row)
           resource = Resource.find(attrs.resource_id)
-          resource.resource_links.create!(attrs.to_h)
+          resource.links.create!(attrs.to_h)
         rescue => e
           puts "Error: #{e}"
         end
