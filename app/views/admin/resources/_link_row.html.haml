@@ -1,6 +1,0 @@
-%tr
-  %td= text_field_tag "resource[resource_links][][url]", link.try(:url), style:'width: 15em;'
-  %td= text_field_tag "resource[resource_links][][title]", link.try(:title), style:'width: 15em;'
-  %td= select_tag     "resource[resource_links][][language_id]", options_for_select(languages, link.try(:language_id)), style:'width: 7em;'
-  %td= select_tag     "resource[resource_links][][link_type]", options_for_select(types, link.try(:link_type)), style:'width: 5em;'
-  %td= button_tag     'x', class:'remove_link'
