@@ -106,6 +106,14 @@
     - 'ALL : 64.22.127.245 # Rails Machine'
     - 'ALL : 64.22.127.26  # Rails Machine'
 
+:resolv:
+  :nameservers:
+    - 127.0.0.1
+    - 8.8.8.8
+    - 8.8.4.4
+    - 208.67.222.222
+    - 208.67.220.220
+
 :ssh:
   :authorized_keys:
     railsmachine:

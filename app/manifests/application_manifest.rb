@@ -1,5 +1,6 @@
 require "#{File.dirname(__FILE__)}/../../vendor/plugins/moonshine/lib/moonshine.rb"
 class ApplicationManifest < Moonshine::Manifest::Rails
+  include Moonshine::Dnsmasq
   # The majority of your configuration should be in <tt>config/moonshine.yml</tt>
   # If necessary, you may provide extra configuration directly in this class
   # using the configure method. The hash passed to the configure method is deep
@@ -27,6 +28,8 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :webdav
   recipe :ssh
   recipe :denyhosts
+  recipe :dnsmasq
+  recipe :resolv_conf
 
   on_stage(:production) do
     recipe :cron_tasks

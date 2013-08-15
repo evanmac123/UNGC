@@ -1,0 +1,13 @@
+listen-address = <%= listen_address %>
+cache-size = <%= cache_size %> # The number of domain lookups to cache.
+all-servers # Sends every DNS request to all servers and returns the first response.
+
+<% 
+if configuration[:dnsmasq] && configuration[:dnsmasq][:records] 
+  configuration[:dnsmasq][:records].each do |h,i|
+%>
+address=/<%= h %>/<%= i %>
+<%
+  end
+end
+%>
