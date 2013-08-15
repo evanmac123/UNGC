@@ -16,9 +16,9 @@ module Importers
       def init_model(row)
         name = get_value(row,"name")
         id = get_integer(row,"id")
-        p = Principle.find_or_initialize_by_name(name)
-        @cache[id] = p
-        p
+        t = Topic.find_or_initialize_by_name(name)
+        @cache[id] = t
+        t
       end
 
       def update_model(m,row)
