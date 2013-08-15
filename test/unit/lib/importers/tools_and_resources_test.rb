@@ -1,5 +1,5 @@
 require 'test_helper'
-require './lib/importers/tools_and_resources'
+require './lib/importers/tools_and_resources_importer'
 
 class ToolsAndResourcesTest < ActiveSupport::TestCase
 
@@ -115,7 +115,7 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
     end
 
     should "be associated with a resource" do
-      assert @resource.resource_links.include?(@link)
+      assert @resource.links.include?(@link)
       assert_equal @link.resource, @resource
     end
   end

@@ -13,10 +13,11 @@ module Importers
   end
 
   class ToolsAndResourcesImporter
-    attr_reader :path
+    attr_reader :path, :errors
 
     def initialize(path)
       @path = path
+      @errors = []
     end
 
     def self.import(path)
@@ -36,6 +37,7 @@ module Importers
       import_resources_links(worksheet('resources_links'))
       import_authors(worksheet('authors'))
       import_resources_authors(worksheet('resources_authors'))
+      errors
     end
 
     def import_resources(sheet)
@@ -53,7 +55,7 @@ module Importers
           resource = Resource.find(attrs.resource_id)
           resource.links.create!(attrs.to_h)
         rescue => e
-          puts "Error: #{e}"
+          @errors << e
         end
       end
     end
