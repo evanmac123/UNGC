@@ -2,6 +2,7 @@ class Admin::ResourcesController < AdminController
 
   before_filter :no_organization_or_local_network_access
   before_filter :load_resource, except: [:index, :create]
+  before_filter :load_form_resources, only: [:new, :edit, :create, :update]
 
   def index
     @resources = Resource
@@ -10,14 +11,13 @@ class Admin::ResourcesController < AdminController
                 per_page:Resource.per_page)
   end
 
+  def show
+  end
+
   def new
-    @topics = Topic.roots
-    @authors = Author.scoped
   end
 
   def edit
-    @topics = Topic.roots
-    @authors = Author.scoped
   end
 
   def create
@@ -67,6 +67,11 @@ class Admin::ResourcesController < AdminController
     else
       @resource = Resource.new
     end
+  end
+
+  def load_form_resources
+    @topics = Topic.roots
+    @authors = Author.scoped
   end
 
 end
