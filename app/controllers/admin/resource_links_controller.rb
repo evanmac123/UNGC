@@ -46,8 +46,8 @@ class Admin::ResourceLinksController < AdminController
   end
 
   def load_select_menu_resources
-    @link_types = ResourceLink::TYPES.map {|k,v| [v,k]}
-    @languages = Language.scoped.map {|l| [l.name, l.id]}
+    @link_types = ResourceLink::TYPES
+    @languages = Language.order(:name)
   end
 
 end

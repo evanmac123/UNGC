@@ -10,6 +10,16 @@ class Admin::ResourcesController < AdminController
                 per_page:Resource.per_page)
   end
 
+  def new
+    @topics = Topic.roots
+    @authors = Author.scoped
+  end
+
+  def edit
+    @topics = Topic.roots
+    @authors = Author.scoped
+  end
+
   def create
     @resource = Resource.new(params[:resource])
     if @resource.save
@@ -17,10 +27,6 @@ class Admin::ResourcesController < AdminController
     else
       render action: 'new'
     end
-  end
-
-  def edit
-    @topics = Principle.where('reference is not null')
   end
 
   def update

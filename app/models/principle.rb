@@ -14,7 +14,6 @@
 class Principle < ActiveRecord::Base
   validates_presence_of :name
   has_and_belongs_to_many :communication_on_progresses
-  has_and_belongs_to_many :resources
   acts_as_tree
 
   TYPE_NAMES = { :global_compact       => "Global Compact",
@@ -49,10 +48,6 @@ class Principle < ActiveRecord::Base
 
   def self.by_type(type)
     Principle.find_by_name(TYPE_NAMES[type])
-  end
-
-  def self.by_reference(reference)
-    Principle.find_by_reference(reference)
   end
 
   def self.principles_for_issue_area(area)

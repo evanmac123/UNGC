@@ -4,7 +4,7 @@
   %p= f.label :url
   %p= f.text_field :url
   %p= f.label :language
-  %p= f.select(:language_id, @languages)
+  %p= f.collection_select(:language_id, @languages, :id, :name, include_blank:true)
   %p= f.label :type
-  %p= f.select(:link_type, @link_types)
+  %p= f.collection_select(:link_type, @link_types, :first, :last, include_blank:true)
   %p= f.submit 'Save changes'
