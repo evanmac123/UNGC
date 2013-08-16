@@ -14,9 +14,10 @@ function startEditor(replaceMe) {
 		startupMode: startup,
     dialog_magnetDistance: 5,
     resize_minWidth: 300,
-    resize_maxWidth: 600,
+    resize_maxWidth: 600
   });
   editor.config.protectedSource.push( /<\%=?.*\%>/gm);
+  editor.config.allowedContent = true;
   return editor;
 };
 
@@ -29,7 +30,7 @@ function replace_with_editor(){
  		 startupMode: 'wysiwyg',
      dialog_magnetDistance: 5,
      resize_minWidth: 300,
-     resize_maxWidth: 600,
+     resize_maxWidth: 600
   });
 }
 
