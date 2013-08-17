@@ -1,6 +1,5 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, :except => :introduction
-  before_filter :add_cop_form_js, :except => [:introduction, :show]
   before_filter :no_unapproved_organizations_access
   before_filter :set_session_template, :only => :new
   before_filter :only_editable_cops_go_to_edit, :only => :edit
@@ -122,10 +121,6 @@ class Admin::CopsController < AdminController
     def load_organization
       @communication_on_progress = CommunicationOnProgress.visible_to(current_contact).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
-    end
-
-    def add_cop_form_js
-      (@javascript ||= []) << 'cop_form'
     end
 
     def only_editable_cops_go_to_edit
