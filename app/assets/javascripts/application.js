@@ -25,12 +25,6 @@
 //= require dashboard
 //= require page_editor
 
-$.ajaxSetup({
-  headers: {
-    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-  }
-});
-
 $.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
 
 var EditorToolbar = [

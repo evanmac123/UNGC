@@ -11,7 +11,7 @@ end
 
 module UNGC
   class Application < Rails::Application
-    
+
   # don't attempt to auto-require the moonshine manifests into the rails env
   config.paths['app/manifests'] = 'app/manifests'
   config.paths['app/manifests'].skip_eager_load!
@@ -70,6 +70,9 @@ module UNGC
 
     # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
     config.assets.precompile += %w(admin.css ie.css print.css google_analytics.js welcome_letter.css themes/apple/style.css)
+
+    # Disable IP Spoof check
+    config.action_dispatch.ip_spoofing_check = false
 
     EMAIL_SENDER = "info@unglobalcompact.org"
   end
