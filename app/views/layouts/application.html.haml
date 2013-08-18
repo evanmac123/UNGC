@@ -2,7 +2,7 @@
 %html{:xmlns => "http://www.w3.org/1999/xhtml", :"xml:lang" => "en", :lang => "en"}
   %head
     %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}/
-    = csrf_meta_tags
+    = csrf_meta_tags unless cached_page?
     - if home_page?
       %link{:href => 'http://feeds.unglobalcompact.org/UnitedNationsGlobalCompact-LatestNews', :rel => 'alternate', :title => 'United Nations Global Compact - Latest News', :type => 'application/atom+xml'}
     %title= (@title || 'United Nations Global Compact').html_safe
