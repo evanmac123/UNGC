@@ -121,6 +121,10 @@ var Watcher = {
     }
   },
   decoratePage: function(response) {
+    if (response.csrf_token) {
+      $('head').append('<meta content="authenticity_token" name="csrf-param" />');
+      $('head').append('<meta content="'+response.csrf_token+'" name="csrf-token" />');
+    }
     if (!Watcher.included) {
       Watcher.included = true;
     }
