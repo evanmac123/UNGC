@@ -123,43 +123,22 @@ var Watcher = {
   decoratePage: function(response) {
     if (!Watcher.included) {
       Watcher.included = true;
-      // include('/javascripts/page_editor.js');
-      // include('/ckeditor/ckeditor.js');
     }
     if (response.content) {
       var possible_editor = $('#rightcontent .click_to_edit');
-      if (possible_editor.size() > 0)
-        possible_editor.remove();
-        // $('#rightcontent .click_to_edit').replaceWith(response.editor);
-      // else
+      if (possible_editor.size() > 0) { possible_editor.remove(); }
       $('#rightcontent').prepend(response.editor);
       $('#rightcontent .copy').html(response.content);
     } else {
       $('#rightcontent').prepend(response.editor);
     }
   }
-}
-
-$(function() {
-
-  if ($('table.sortable').size() > 0)
-      $('table.sortable').tablesorter({widgets: ['zebra']});
-
-  // if ($('table.sortable').size() > 0) {
-  //   $('table.sortable').tablesorter({widgets: ['zebra']});
-  //   $('table.sortable')
-  //    .tablesorter({
-  //      widthFixed: true,
-  //      widgets: ['zebra']})
-  //        .tablesorterPager({
-  //      container: $(".pager"),
-  //      positionFixed: false,
-  //      size: 20
-  //    });
-  // }
-});
+};
 
 $(document).ready(function() {
+  if ($('table.sortable').size() > 0) {
+    $('table.sortable').tablesorter({widgets: ['zebra']});
+  }
 
   $('.sort.server').click(function() {
 
