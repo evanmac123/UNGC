@@ -70,4 +70,7 @@ module ApplicationHelper
     content
   end
 
+  def cached_page?
+    @page && !@page.dynamic_content?
+  end
 end
