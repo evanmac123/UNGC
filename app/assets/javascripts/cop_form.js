@@ -92,9 +92,9 @@ $(document).ready(function() {
   $(".open_question_toggle").change(function(){
     var _this = this;
     $(this).siblings('.label_text').children('.cop_answer_textarea').slideToggle(function() {
-      if (_this.checked) { $(this).focus() }
+      if (_this.checked) { $(this).focus(); }
     });
-    return false;
+    return true;
   });
 
   $(".cop_answer_textarea").click(function() { return false });
