@@ -28,6 +28,7 @@ class PagesController < ApplicationController
   def decorate
     json_to_render = {'editor' => render_to_string(:partial => 'editor')}
     json_to_render['content'] = render_to_string(:template => template, :layout => false) if params[:version]
+    json_to_render['csrf_token'] = form_authenticity_token
     render :json => json_to_render
   end
 
