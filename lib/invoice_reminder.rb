@@ -8,15 +8,8 @@ class InvoiceReminder
 
     @organizations.each do |organization|
       begin
-        if organization.pledge_amount.to_i > 0
-          log "Emailing organization #{org.id}:#{org.name} with foundation invoice"
-          p mailer = OrganizationMailer.foundation_invoice(organization)
-          mailer.deliver
-        else
-          log "Emailing organization #{org.id}:#{org.name} with foundation reminder"
-          p mailer = OrganizationMailer.foundation_reminder(organization)
-          mailer.deliver
-        end
+        log "Emailing organization #{organization.id}:#{organization.name}"
+        invoice_mailer_for(organization).deliver
       rescue
         log :error, "Could not send email: #{$!}"
       end
@@ -24,6 +17,14 @@ class InvoiceReminder
   end
 
   private
+    def invoice_mailer_for(organization)
+      if organization.pledge_amount.to_i > 0
+        OrganizationMailer.foundation_invoice(organization)
+      else
+        OrganizationMailer.foundation_reminder(organization)
+      end
+    end
+
     def log (method="info", string)
       @logger.send method.to_sym, "#{Time.now.strftime "%Y-%m-%d %H:%M:%S"} : #{string}"
     end
