@@ -34,7 +34,7 @@ class Admin::ResourcesController < AdminController
   def update
     @resource_form = ResourceForm.new(Resource.find(params[:id]))
     if @resource_form.submit(params[:resource])
-      redirect_to [:admin, @resource_form], notice: 'Resource updated.'
+      redirect_to [:admin, @resource_form.resource], notice: 'Resource updated.'
     else
       render action: 'edit'
     end

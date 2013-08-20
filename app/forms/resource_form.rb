@@ -16,6 +16,7 @@ class ResourceForm
   end
 
   validates_presence_of :title, :description
+  validate :validate_links
   # TODO validate year format
   # TODO validate image_url format
   # TODO validate isbn format?
@@ -35,33 +36,47 @@ class ResourceForm
     @resource ||= Resource.new
   end
 
-  def submit(params)
-    resource.attributes = params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
-    resource.link
-    if valid?
-      resource.save!
-      persist_links(params[:links])
-    else
-      false
+  def validate_links
+    resource.links.map do |link|
+      if link.valid?
+        true
+      else
+        link.errors.each do |k,v|
+          errors.add "link_#{k}", v
+        end
+        false
+      end
+    end.all?
+  end
+
+
+  def add_links(links=[])
+    if links
+      links_valid = links.map do |link|
+        l = resource.links.find_or_initialize_by_id(link[:id])
+        l.attributes = link.slice(:title, :url, :link_type, :language_id)
+      end
     end
   end
 
-  private
 
-  def persist_links(links=[])
-    # remove old links
-    current_link_ids = links.map { |l| l[:id].to_i }
-    resource.links.where('id NOT IN (?)', current_link_ids).destroy_all
+  def submit(params)
+    resource.attributes = params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
 
-    # create new links and update existing ones
-    links.all? do |link|
-      l = resource.links.find_or_initialize_by_id(link[:id])
-      unless l.update_attributes(link.slice(:title, :url, :link_type, :language_id))
-        l.errors.each do |k,v|
-          errors.add "link_#{k}", v
-        end
+    add_links(params[:links])
+
+    if valid?
+
+      if params[:links]
+        current_link_ids = params[:links].map { |l| l[:id].to_i }
+        resource.links.where('id NOT IN (?)', current_link_ids).destroy_all
       end
-      l.valid?
+
+      resource.save!
+
+      true
+    else
+      false
     end
   end
 
