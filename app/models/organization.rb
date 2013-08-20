@@ -223,6 +223,8 @@ class Organization < ActiveRecord::Base
   scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date) }
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
+  scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 1.day.ago.beginning_of_day, 1.day.ago.end_of_day)}
+
   def self.with_cop_status(filter_type)
     if filter_type.is_a?(Array)
       statuses = filter_type.map { |t| COP_STATES[t] }
