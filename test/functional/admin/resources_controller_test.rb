@@ -117,6 +117,19 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       end
     end
 
+
+    context "adding a resource with links" do
+      should "create and redirect to the index" do
+        post :create, resource:valid_resource_attributes, resource_links: [
+          {id: nil, title: "test", url: 'http://cwwwwer', language_id: 1, link_type: 'pdf'},
+          {id: nil, title: "test2", url: 'http://wer', language_id: 12, link_type: 'pdf'}
+        ]
+        assert_redirected_to action: :index
+        assert_equal 1, Resource.count
+        assert_equal 2, ResourceLink.count
+      end
+    end
+
   end
 
 end
