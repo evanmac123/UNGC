@@ -9,7 +9,7 @@ class ResourceTest < ActiveSupport::TestCase
 
   context "resource creation" do
     setup do
-      @resource = Resource.create title: "resource title 1", description: "present", image_url: "http://www.google.it", year: "2001"
+      @resource = create_resource
     end
 
     should "create a resource and set it to the pending state" do
@@ -20,7 +20,32 @@ class ResourceTest < ActiveSupport::TestCase
       @resource.approve!
       assert_equal ContentApproval::STATES[:approved], @resource.approval
     end
+  end
+
+  context "Principles counts" do
+
+    setup do
+      @labour, @energy, @education = %w(Labour Energy Education).map do |name|
+        create_principle(name:name, reference:name.downcase)
+      end
+      @resource = create_resource(principles:[@labour, @education])
+    end
+
+    should "calculate the principles count on create" do
+      assert_equal 2, @resource.principles.count
+    end
+
+    should "increment the principles count when a topic is added." do
+      @resource.principles << @energy
+      assert_equal 3, @resource.principles_count
+    end
+
+    should "decrement the principles count when a topic is removed." do
+      @resource.principles.destroy(@education)
+      assert_equal 1, @resource.principles_count
+    end
 
   end
+
 
 end
