@@ -49,21 +49,16 @@ class ResourceForm
     end.all?
   end
 
-
-  def add_links(links=[])
-    if links
-      links_valid = links.map do |link|
-        l = resource.links.find_or_initialize_by_id(link[:id])
-        l.attributes = link.slice(:title, :url, :link_type, :language_id)
-      end
-    end
-  end
-
-
   def submit(params)
     resource.attributes = params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
 
-    add_links(params[:links])
+    if params[:links]
+      new_links = params[:links].map do |link|
+        l = resource.links.find_or_initialize_by_id(link[:id])
+        l.attributes = link.slice(:title, :url, :link_type, :language_id)
+        l
+      end
+    end
 
     if valid?
 
@@ -73,6 +68,10 @@ class ResourceForm
       end
 
       resource.save!
+
+      if params[:links]
+        new_links.map &:save
+      end
 
       true
     else
