@@ -6,6 +6,7 @@
     %th= sort_header 'ID', field: 'id'
     %th= sort_header 'Title', field: 'title'
     %th= sort_header 'Year', field: 'year'
+    %th= sort_header 'Issue Tags', field: 'principles_count'
     %th Status
     %th Actions
 
@@ -16,6 +17,8 @@
         = truncate(resource.title, :length => 40)
       %td
         = resource.year.year rescue nil
+      %td
+        = resource.principles_count
       %td=h resource.approval.humanize
       %td
         %ul.actions
