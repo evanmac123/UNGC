@@ -37,12 +37,14 @@ class Admin::ResourcesController < AdminController
   def update
     if @resource.update_attributes(params[:resource])
 
-      ids = params[:resource_links].map { |l| l[:id] }
-      @resource.links.where('id NOT IN (?)',ids).destroy_all if ids.any?
+      if params[:resource_links]
+        ids = params[:resource_links].map { |l| l[:id].to_i }
+        @resource.links.where('id NOT IN (?)',ids).destroy_all
 
-      params[:resource_links] && params[:resource_links].each do |link|
-        l = @resource.links.find_or_initialize_by_id(link[:id])
-        l.update_attributes(link.slice(:title, :url, :link_type, :language_id))
+        params[:resource_links].each do |link|
+          l = @resource.links.find_or_initialize_by_id(link[:id])
+          l.update_attributes(link.slice(:title, :url, :link_type, :language_id))
+        end
       end
 
       redirect_to [:admin, @resource], notice: 'Resource updated.'

@@ -121,12 +121,27 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
     context "adding a resource with links" do
       should "create and redirect to the index" do
         post :create, resource:valid_resource_attributes, resource_links: [
-          {id: nil, title: "test", url: 'http://cwwwwer', language_id: 1, link_type: 'pdf'},
-          {id: nil, title: "test2", url: 'http://wer', language_id: 12, link_type: 'pdf'}
+          {id: nil, title: "test", url: 'http://url1.com', language_id: 1, link_type: 'pdf'},
+          {id: nil, title: "test2", url: 'http://url2.com', language_id: 12, link_type: 'pdf'}
         ]
         assert_redirected_to action: :index
-        assert_equal 1, Resource.count
         assert_equal 2, ResourceLink.count
+      end
+    end
+
+    context "edit a resource with links" do
+      should "edit the links for a resource" do
+        resource = create_resource
+        id1 = resource.links.create({title: "test", url: 'http://url1.com', language_id: 1, link_type: 'pdf'})
+        id2 = resource.links.create({title: "test2", url: 'http://url2.com', language_id: 1, link_type: 'pdf'})
+
+        put :update, id: resource, resource:valid_resource_attributes, resource_links: [
+          {title: "test3", url: 'http://url3.com', language_id: 3, link_type: 'pdf'},
+          {id: id2, title: "test2 2", url: 'http://url2.com', language_id: 1, link_type: 'pdf'},
+          {title: "test4", url: 'http://url4.com', language_id: 1, link_type: 'pdf'}
+        ]
+        assert_redirected_to action: :show
+        assert_equal 3, ResourceLink.count
       end
     end
 
