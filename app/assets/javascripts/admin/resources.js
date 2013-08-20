@@ -4,7 +4,7 @@ $(function() {
     // authors
     var addAuthorButton = $('#add_author'),
         authorTable = $('.author_table')
-        template = $('#author_template').html();
+        authorTemplate = $('#author_template').html();
 
     authorTable.on('click', function(ev) {
       var target = $(ev.target)
@@ -16,28 +16,25 @@ $(function() {
 
     addAuthorButton.on('click', function(ev) {
       ev.preventDefault();
-      authorTable.append(template);
+      authorTable.append(authorTemplate);
     });
 
     // links
-    var linkTable = $('.link_table');
+    var addLinkButton = $('#add_link'),
+        linkTable = $('.link_table'),
+        linkTemplate = $('#link_template').html();
+
     linkTable.on('click', function(ev) {
       var target = $(ev.target)
-      if(target.attr('class') === 'delete_link') {
+      if(target.attr('class') === 'remove_link') {
         ev.preventDefault();
-
-        $.ajax({
-          url: target.attr('href') + '.json',
-          dataType: 'json',
-          type: 'delete',
-          success: function() {
-            target.parents('tr').remove();
-          }
-        });
-
-        return false;
+        target.parents('tr').remove();
       }
     })
 
+    addLinkButton.on('click', function(ev) {
+      ev.preventDefault()
+      linkTable.append(linkTemplate);
+    });
   }
 })

@@ -162,7 +162,6 @@ UNGC::Application.routes.draw do
     match 'learning/:action' => 'learning'
 
     resources :resources do
-      resources :resource_links, except:[:index, :show]
       member do
         post :approve
       end

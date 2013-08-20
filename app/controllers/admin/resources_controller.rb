@@ -72,6 +72,8 @@ class Admin::ResourcesController < AdminController
   def load_form_resources
     @topics = Principle.topics_menu
     @authors = Author.scoped
+    @languages = Language.scoped
+    @types = ResourceLink::TYPES
   end
 
 end

@@ -13,8 +13,4 @@ class ResourceLink < ActiveRecord::Base
 
   validates :link_type, :inclusion => { :in => TYPES.keys.to_s, :message => "%{value} is not a valid link_type value" }
 
-  def link_type_title
-    TYPES[link_type.to_sym]
-  end
-
 end
