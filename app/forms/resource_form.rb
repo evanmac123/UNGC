@@ -3,7 +3,9 @@ class ResourceForm
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  def initialize(resource=nil)
+  attr_reader :resource, :params
+
+  def initialize(resource=Resource.new)
     @resource = resource
   end
 
@@ -32,50 +34,45 @@ class ResourceForm
            :links,
            to: :resource
 
-  def resource
-    @resource ||= Resource.new
+  def submit(params={})
+    @params = params
+    resource.attributes = @params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
+
+    if valid?
+      remove_old_links
+      resource.save!
+      updated_links.map(&:save!)
+      true
+    else
+      false
+    end
   end
 
+  private
+
   def validate_links
-    resource.links.map do |link|
+    updated_links.map do |link|
       if link.valid?
         true
       else
-        link.errors.each do |k,v|
-          errors.add "link_#{k}", v
+        link.errors.each do |field, message|
+          errors.add "link_#{field}", message
         end
         false
       end
     end.all?
   end
 
-  def submit(params)
-    resource.attributes = params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
+  def remove_old_links
+    current_ids = updated_links.map { |l| l.id.to_i }
+    resource.links.where('id NOT IN (?)', current_ids).destroy_all
+  end
 
-    if params[:links]
-      new_links = params[:links].map do |link|
-        l = resource.links.find_or_initialize_by_id(link[:id])
-        l.attributes = link.slice(:title, :url, :link_type, :language_id)
-        l
-      end
-    end
-
-    if valid?
-
-      if params[:links]
-        current_link_ids = params[:links].map { |l| l[:id].to_i }
-        resource.links.where('id NOT IN (?)', current_link_ids).destroy_all
-      end
-
-      resource.save!
-
-      if params[:links]
-        new_links.map &:save
-      end
-
-      true
-    else
-      false
+  def updated_links
+    @updated_links ||= params.fetch(:links, []).map do |link|
+      l = resource.links.find_or_initialize_by_id(link[:id])
+      l.attributes = link.slice(:title, :url, :link_type, :language_id)
+      l
     end
   end
 
