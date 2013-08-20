@@ -1,8 +1,4 @@
 class ResourceUpdater
-  extend ActiveModel::Naming
-  include ActiveModel::Conversion
-  include ActiveModel::Validations
-
   attr_reader :resource, :params
 
   def initialize(params={}, resource=Resource.new)
@@ -10,35 +6,17 @@ class ResourceUpdater
     @params = params
   end
 
-  def persisted?
-    false
-  end
-
-  def self.model_name
-    ActiveModel::Name.new(self, nil, "Resource")
-  end
-
-  validates_presence_of :title, :description
-  validate :validate_links
-  # TODO validate year format
-  # TODO validate image_url format
-  # TODO validate isbn format?
-
-  delegate :title,
-           :description,
-           :year,
-           :isbn,
-           :image_url,
-           :principle_ids,
-           :authors,
-           :authors_ids,
-           :links,
-           to: :resource
-
   def submit
     resource.attributes = @params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
 
-    if valid?
+    # we need to call the validations for both
+    # the resource and the links in order to populate the error messages
+    # and loading the links into the resource object if the validation fails
+    # TODO: possibly the FormObject approach was better because of this?
+    resource.valid?
+    validate_links
+
+    if resource.errors.empty?
       remove_old_links
       resource.save!
       updated_links.map(&:save!)
@@ -56,7 +34,7 @@ class ResourceUpdater
         true
       else
         link.errors.each do |field, message|
-          errors.add "link_#{field}", message
+          resource.errors.add "link_#{field}", message
         end
         false
       end
