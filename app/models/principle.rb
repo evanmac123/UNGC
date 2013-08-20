@@ -55,8 +55,12 @@ class Principle < ActiveRecord::Base
     PrincipleArea.area_for(PrincipleArea::FILTERS[area]).children
   end
 
-  def self.topics
-    where('reference is not null')
+  def self.topics_menu
+    topics = {}
+    Principle.where('reference is not null').each do |topic|
+      topics[topic.reference.to_sym] = topic
+    end
+    topics
   end
 
 end

@@ -1,7 +1,0 @@
-%ol.checkbox_list
-  - topics.each do |topic|
-    %li.checkbox
-      = check_box_tag 'resource[principle_ids][]', topic.id, @resource.principle_ids.include?(topic.id), id:"resource_checkbox_#{topic.id}"
-      - topic_name = if topic.children.empty? then topic.name else "#{topic.name} - General" end
-      %label{style:'width: auto;', for:"resource_checkbox_#{topic.id}"}= topic_name
-      = render('topics', topics:topic.children) unless topic.children.empty?
