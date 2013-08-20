@@ -4,7 +4,7 @@ class Admin::ResourcesController < AdminController
   before_filter :load_form_resources, only: [:new, :edit, :create, :update]
 
   def index
-    @resources = Resource.select("resources.*, count(principles_resources.principle_id) as principles_count").joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id").group('resources.id')
+    @resources = Resource.with_principles_count
       .order(order_from_params)
       .paginate(page:params[:page],
                 per_page:Resource.per_page)

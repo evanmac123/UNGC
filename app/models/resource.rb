@@ -8,4 +8,10 @@ class Resource < ActiveRecord::Base
   has_and_belongs_to_many :principles
   has_and_belongs_to_many :authors
   has_many :links, dependent: :destroy, class_name: 'ResourceLink'
+
+  def self.with_principles_count
+    select("resources.*, count(principles_resources.principle_id) as principles_count")
+    .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
+    .group('resources.id')
+  end
 end
