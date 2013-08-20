@@ -1,4 +1,6 @@
 class Resource < ActiveRecord::Base
+  attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids
+
   validates_presence_of :title, :description
 
   include ContentApproval

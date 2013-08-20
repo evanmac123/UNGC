@@ -2,7 +2,7 @@
   %h3 Sorry, the event was not saved. Please provide all required information:
   %div{:class => 'flash error'}
     %ul
-      - @resource.errors.full_messages.each do |e|
+      - @resource_form.errors.full_messages.each do |e|
         %li= e
 
 %div{:class => "tab_container left_tabs"}
@@ -37,7 +37,7 @@
       %script#author_template{type:'text/x-jquery-tmpl'}
         = render 'author_row', authors:@authors, author_id:nil
       %table.author_table
-        - @resource.authors.each do |author|
+        - @resource_form.authors.each do |author|
           = render 'author_row', authors:@authors, author_id:author.id
       = button_tag('Add Author...', id:'add_author')
 
@@ -53,6 +53,6 @@
           %th Language
           %th Type
           %th Actions
-        - @resource.links.each do |link, i|
+        - @resource_form.links.each do |link, i|
           = render 'link_row', types:@types, languages:@languages, link:link
       = link_to 'New link...', '#', id:'add_link'
