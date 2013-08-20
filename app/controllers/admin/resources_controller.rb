@@ -70,7 +70,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def load_form_resources
-    @topics = Topic.roots
+    @topics = Principle.topics.roots
     @authors = Author.scoped
   end
 

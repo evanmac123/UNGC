@@ -55,4 +55,8 @@ class Principle < ActiveRecord::Base
     PrincipleArea.area_for(PrincipleArea::FILTERS[area]).children
   end
 
+  def self.topics
+    where('reference is not null')
+  end
+
 end
