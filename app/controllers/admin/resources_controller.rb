@@ -15,26 +15,28 @@ class Admin::ResourcesController < AdminController
   end
 
   def new
-    @resource_form = ResourceForm.new
+    @resource = Resource.new
   end
 
   def edit
-    @resource_form = ResourceForm.new(Resource.find(params[:id]))
+    @resource = Resource.find(params[:id])
   end
 
   def create
-    @resource_form = ResourceForm.new
-    if @resource_form.submit(params[:resource])
+    updater = ResourceUpdater.new(params[:resource])
+    if updater.submit
       redirect_to admin_resources_url, notice: 'Resource created.'
     else
+      @resource = updater.resource
       render action: 'new'
     end
   end
 
   def update
-    @resource_form = ResourceForm.new(Resource.find(params[:id]))
-    if @resource_form.submit(params[:resource])
-      redirect_to [:admin, @resource_form.resource], notice: 'Resource updated.'
+    @resource = Resource.find(params[:id])
+    updater = ResourceUpdater.new(params[:resource], @resource)
+    if updater.submit
+      redirect_to [:admin, @resource], notice: 'Resource updated.'
     else
       render action: 'edit'
     end

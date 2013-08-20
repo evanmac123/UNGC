@@ -1,6 +1,6 @@
 %h2 New Resource
 
-= form_for [:admin, @resource_form], builder: DefaultFormBuilder, :html => {:multipart => true} do |form|
+= form_for [:admin, @resource], builder: DefaultFormBuilder, :html => {:multipart => true} do |form|
   = render :partial => form
 
   %ul{:class => "tools inline", :style => 'float: right;'}

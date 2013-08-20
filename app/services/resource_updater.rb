@@ -1,12 +1,13 @@
-class ResourceForm
+class ResourceUpdater
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
   attr_reader :resource, :params
 
-  def initialize(resource=Resource.new)
+  def initialize(params={}, resource=Resource.new)
     @resource = resource
+    @params = params
   end
 
   def persisted?
@@ -34,8 +35,7 @@ class ResourceForm
            :links,
            to: :resource
 
-  def submit(params={})
-    @params = params
+  def submit
     resource.attributes = @params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
 
     if valid?

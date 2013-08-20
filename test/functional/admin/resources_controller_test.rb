@@ -57,14 +57,14 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
     should "get new" do
       get :new
       assert_response :success
-      assert_not_nil assigns(:resource_form)
+      assert_not_nil assigns(:resource)
     end
 
     should "get edit" do
       resource = create_resource
       get :edit, id:resource
       assert_response :success
-      assert_not_nil assigns(:resource_form)
+      assert_not_nil assigns(:resource)
     end
 
     should "delete" do

@@ -1,10 +1,10 @@
 %h2
   Edit Resource
-  =truncate(@resource_form.title, :length => 60)
+  =truncate(@resource.title, :length => 60)
 
-= form_for @resource_form, builder: DefaultFormBuilder, :url => admin_resource_path(@resource_form.resource), method:'put', :html => {:multipart => true} do |form|
+= form_for @resource, builder: DefaultFormBuilder, :url => admin_resource_path(@resource), :html => {:multipart => true} do |form|
   = render :partial => form
 
   %ul{:class => "tools inline", :style => 'float: right;'}
-    %li= link_to 'Cancel', admin_resource_path(@resource_form.resource), :class => 'cancel_large'
+    %li= link_to 'Cancel', admin_resource_path(@resource), :class => 'cancel_large'
     %li= form.submit 'Update', :class => 'button'
