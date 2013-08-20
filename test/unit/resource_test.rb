@@ -32,17 +32,17 @@ class ResourceTest < ActiveSupport::TestCase
     end
 
     should "calculate the principles count on create" do
-      assert_equal 2, @resource.principles.count
+      assert_equal 2, Resource.with_principles_count.find(@resource.id).principles_count
     end
 
     should "increment the principles count when a topic is added." do
       @resource.principles << @energy
-      assert_equal 3, @resource.principles_count
+      assert_equal 3, Resource.with_principles_count.find(@resource.id).principles_count
     end
 
     should "decrement the principles count when a topic is removed." do
       @resource.principles.destroy(@education)
-      assert_equal 1, @resource.principles_count
+      assert_equal 1, Resource.with_principles_count.find(@resource.id).principles_count
     end
 
   end
