@@ -1,0 +1,16 @@
+%h3= @resource.title
+%p= @resource.description
+
+%h4 Links
+%ul
+  - @resource.links.each do |link|
+    %li= render link
+%h4 Authors
+%ul
+  - @resource.authors.each do |author|
+    %li= render author
+%h4 Topics
+%ul
+  - @resource.principles.each do |topic|
+    %li= render topic
+

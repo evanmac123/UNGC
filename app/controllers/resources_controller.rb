@@ -2,6 +2,10 @@ FakePage = Struct.new(:html_code, :title, :path)
 
 class ResourcesController < ApplicationController
 
+  def show
+    @resource = Resource.find(params[:id])
+  end
+
   def search
     @leftnav_selected = FakePage.new('resources','About Us','resources')
     @subnav_selected = FakePage.new('search','Tools And Resources','search')
