@@ -1,87 +1,26 @@
-#participant_search
-  %h1 Participant Search
+#resources_search
+  %h1 Find Resources
 
-  = form_tag nil, method: 'get' do
+  = form_tag nil, method: 'get', class: 'resources_search' do
     = hidden_field_tag 'commit', 'Search'
     %fieldset
-      %legend Name and Country
+      %legend Search
       %dl
         %dt
-          %label Name
+          %label Keywords
         %dd
           = text_field_tag :keyword
       %dl
         %dt
-          %label Country
+          %label Language
         %dd
-          = select_tag :country, countries_for_select, :multiple => true, :size => 6
+          = select_tag :language, languages_for_select
+      %dl
+        %dt
+          %label Authors
+        %dd
+          = select_tag(:author, options_from_collection_for_select(Author.all, 'id', 'full_name'), multiple: true)
 
-    %fieldset
-      %legend Acceptance Date
-      %div.radio_button_group
-        %dl.left.dates
-          %dt
-            %label.date{:for => :joined_after} between
-          %dd
-          = text_field_tag :joined_after, nil, :class => 'datepicker iso-date', :size => 11
-        %dl.left.dates
-          %dt
-            %label.date{:for => :joined_before, :style => 'margin-left: 20px;'} and
-          %dd
-            = text_field_tag :joined_before, nil, :class => 'datepicker iso-date', :size => 11
 
-    %fieldset
-      %legend Participants
-      %div.radio_button_group
-        #hide_business_and_stakeholders
-          = radio_button_tag :business_type, :all, true
-          %label{:for => 'business_type_all'} All
-
-        #business_only{:title => 'More search options are available'}
-          = radio_button_tag :business_type, OrganizationType::BUSINESS
-          %label{:for => "business_type_#{OrganizationType::BUSINESS}", :style => 'margin-right: 30px;'} Business...
-
-        #stakeholders_only{:title => 'More search options are available'}
-          = radio_button_tag :business_type, OrganizationType::NON_BUSINESS
-          %label{:for => "business_type_#{OrganizationType::NON_BUSINESS}"} Non-business...
-
-    %div.for_business_only{:style => 'display: none;'}
-      %fieldset
-        %legend Sector and Ownership
-
-        %dl
-          %dt
-            %label{:for => 'sector_id'} Sector
-          %dd
-            = select_tag :sector_id, sectors_for_select
-        %dl
-          %dt
-            %label{:for => 'listing_status_id'} Ownership
-          %dd
-            = select_tag :listing_status_id, ownership_types_for_select
-
-        %div.public_company_only{:style => 'display: none;'}
-          %dl
-            %dt
-              %label{:for => 'is_ft_500'} &nbsp;
-            %dd
-              = check_box_tag 'is_ft_500'
-              %label{:for => 'is_ft_500'} Listed in FT 500
-
-      %fieldset
-        %legend Communication on Progress Status
-        %div.radio_button_group
-          = radio_button_tag :cop_status, :all, true
-          %label{:for => 'cop_status_all'} Any
-          = radio_button_tag :cop_status, Organization::COP_STATES[:active]
-          %label{:for => 'cop_status_active'} Active
-          = radio_button_tag :cop_status, Organization::COP_STATES[:noncommunicating]
-          %label{:for => 'cop_status_noncommunicating'} Non-Communicating
-
-    %div.for_stakeholders_only{:style => 'display: none;'}
-      %fieldset
-        %legend Non-business Participants
-        %label Organization type
-        = select_tag :organization_type_id, organization_types_for_select
 
     %p{:style => 'text-align: right; display: block;'}= submit_tag 'Search'

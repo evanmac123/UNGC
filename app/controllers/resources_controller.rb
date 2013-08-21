@@ -1,6 +1,10 @@
+FakePage = Struct.new(:html_code, :title, :path)
+
 class ResourcesController < ApplicationController
 
   def search
+    @leftnav_selected = FakePage.new('resources','About Us','resources')
+    @subnav_selected = FakePage.new('search','Tools And Resources','search')
     if params[:keyword].blank?
       show_search_form
     else
@@ -16,7 +20,7 @@ class ResourcesController < ApplicationController
     end
 
     def show_search_form
-      render :action => 'search_form'
+      render :action => 'search_form', layout: 'fullscreen'
     end
 
     def get_search_results
