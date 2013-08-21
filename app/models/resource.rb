@@ -18,6 +18,7 @@ class Resource < ActiveRecord::Base
   define_index do
     indexes :title, :sortable => true
     indexes :description, :sortable => true
+    indexes :approval
     has authors(:id),     :as => :authors_ids, :facet => true
     has principles(:id),     :as => :principle_ids, :facet => true
     #has link(:id), :as => :link_ids, :facet => true
@@ -25,5 +26,11 @@ class Resource < ActiveRecord::Base
     set_property :enable_star => true
     set_property :min_prefix_len => 4
   end
+
+  sphinx_scope(:approved_for_search) {
+    {
+      conditions: { approval: "approved"}
+    }
+  }
 
 end
