@@ -40,6 +40,8 @@ class ResourcesController < ApplicationController
 
       filter_options_for_topics(options) if params[:topic].present?
 
+      filter_options_for_language(options) if params[:language].present?
+
       keyword = params[:keyword].force_encoding("UTF-8") if params[:keyword].present?
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
@@ -59,4 +61,7 @@ class ResourcesController < ApplicationController
       options[:with].merge!(principle_ids: params[:topic][:principle_ids].map { |i| i.to_i })
     end
 
+    def filter_options_for_language(options)
+      options[:with].merge!(language_id: params[:language].to_i)
+    end
 end
