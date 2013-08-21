@@ -19,6 +19,8 @@ class Resource < ActiveRecord::Base
     indexes :title, :sortable => true
     indexes :description, :sortable => true
     indexes :approval
+    indexes links.title, :as => "link_title", :sortable => true
+
     has authors(:id),     :as => :authors_ids, :facet => true
     has principles(:id),     :as => :principle_ids, :facet => true
     has links.language(:id), :as => :language_id
