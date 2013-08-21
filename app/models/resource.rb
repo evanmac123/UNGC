@@ -18,12 +18,13 @@ class Resource < ActiveRecord::Base
   define_index do
     indexes :title, :sortable => true
     indexes :description, :sortable => true
-    indexes :approval
     indexes links.title, :as => "link_title", :sortable => true
 
     has authors(:id),     :as => :authors_ids, :facet => true
     has principles(:id),     :as => :principle_ids, :facet => true
     has links.language(:id), :as => :language_id
+
+    where "approval = 'approved'"
 
     #has link(:id), :as => :link_ids, :facet => true
     # TODO index link titles
@@ -31,10 +32,5 @@ class Resource < ActiveRecord::Base
     set_property :min_prefix_len => 4
   end
 
-  sphinx_scope(:approved_for_search) {
-    {
-      conditions: { approval: "approved"}
-    }
-  }
 
 end

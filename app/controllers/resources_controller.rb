@@ -53,7 +53,7 @@ class ResourcesController < ApplicationController
       options.delete(:with) if options[:with] == {}
       logger.info " ** Resource search with options: #{options.inspect}"
 
-      @results = Resource.approved_for_search.search keyword || '', options
+      @results = Resource.search keyword || '', options
       raise Riddle::ConnectionError unless @results && @results.total_entries
     end
 
