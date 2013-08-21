@@ -22,7 +22,10 @@
       %ol
         = default_form.text_field  :title, :label => 'Title'
         = default_form.text_area   :description, :label => 'Description'
-        = default_form.date_select :year, {:order => [:year], :start_year => Time.now.year, :end_year => Time.now.year - 25}, {:label => 'Year'}
+        = default_form.date_select :year, { :order => [:year],
+                                            :start_year => Time.now.year,
+                                            :end_year => Time.now.year - 25 },
+                                          {:label => 'Year'}
         = default_form.text_field  :isbn, :label => 'Isbn'
         = default_form.text_field  :image_url, :label => 'Image Url'
 
