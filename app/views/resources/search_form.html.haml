@@ -19,7 +19,7 @@
         %dt
           %label Authors
         %dd
-          = select_tag(:author, options_from_collection_for_select(Author.all, 'id', 'full_name'), multiple: true)
+          = select_tag(:author, options_from_collection_for_select(@authors, 'id', 'full_name'), multiple: true)
 
 
 

@@ -6,6 +6,7 @@ class ResourcesController < ApplicationController
     @leftnav_selected = FakePage.new('resources','About Us','resources')
     @subnav_selected = FakePage.new('search','Tools And Resources','search')
     if params[:keyword].blank?
+      @authors = Author.scoped
       show_search_form
     else
       results_for_search
