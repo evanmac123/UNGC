@@ -14,4 +14,13 @@ class Resource < ActiveRecord::Base
     .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
     .group('resources.id')
   end
+
+  define_index do
+    indexes :title, :sortable => true
+    indexes :description, :sortable => true
+    # TODO index link titles
+    set_property :enable_star => true
+    set_property :min_prefix_len => 4
+  end
+
 end
