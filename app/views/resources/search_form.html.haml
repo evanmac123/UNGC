@@ -14,7 +14,7 @@
         %dt
           %label Language
         %dd
-          = select_tag :language, languages_for_select
+          = select_tag :language, languages_for_select, include_blank: true
       %dl
         %dt
           %label Authors
@@ -23,7 +23,7 @@
 
     %fieldset
       %legend Search by Topic
-      = render '/shared/topics_menu', prefix: 'resource', topics: @topics, topics_ids: @topics_ids
+      = render '/shared/topics_menu', prefix: 'resource', topics: @topics, topics_ids: @topic_ids
 
 
 

@@ -5,7 +5,7 @@ class ResourcesController < ApplicationController
   def search
     @leftnav_selected = FakePage.new('resources','About Us','resources')
     @subnav_selected = FakePage.new('search','Tools And Resources','search')
-    if params[:keyword].blank?
+    if params[:commit].blank?
       @authors = Author.scoped
       @topics = Principle.topics_menu
       @topic_ids = []
@@ -36,6 +36,8 @@ class ResourcesController < ApplicationController
       options[:per_page] = 100 if options[:per_page] > 100
       options[:with] ||= {}
 
+      filter_options_for_author(options) if params[:author]
+
       keyword = params[:keyword].force_encoding("UTF-8") if params[:keyword].present?
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
@@ -45,6 +47,10 @@ class ResourcesController < ApplicationController
 
       @results = Resource.search keyword || '', options
       raise Riddle::ConnectionError unless @results && @results.total_entries
+    end
+
+    def filter_options_for_author(options)
+      options[:with].merge!(authors_ids: params[:author].map { |i| i.to_i })
     end
 
 end
