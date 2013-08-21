@@ -18,9 +18,6 @@ class Resource < ActiveRecord::Base
   define_index do
     indexes :title, :sortable => true
     indexes :description, :sortable => true
-    has language(:id), :as => :language_id, :facet => true
-    has author(:id), :as => :author_id, :facet => true
-    has link(:id), :as => :link_ids, :facet => true
     # TODO index link titles
     set_property :enable_star => true
     set_property :min_prefix_len => 4
