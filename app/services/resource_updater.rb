@@ -7,16 +7,10 @@ class ResourceUpdater
   end
 
   def submit
-    resource.attributes = @params.slice(:title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids)
+    resource.attributes = params.slice(:title, :description, :isbn, :image_url, :principle_ids, :author_ids)
+    resource.year = year if has_year?
 
-    # we need to call the validations for both
-    # the resource and the links in order to populate the error messages
-    # and loading the links into the resource object if the validation fails
-    # TODO: possibly the FormObject approach was better because of this?
-    resource.valid?
-    validate_links
-
-    if resource.errors.empty?
+    if valid?
       remove_old_links
       resource.save!
       updated_links.map(&:save!)
@@ -27,6 +21,23 @@ class ResourceUpdater
   end
 
   private
+
+  def valid?
+    # we need to call the validations for both
+    # the resource and the links in order to populate the error messages
+    # and load the links into the resource object if the validation fails
+    resource.valid?
+    validate_links
+    resource.errors.empty?
+  end
+
+  def has_year?
+    params.has_key?('year(1i)')
+  end
+
+  def year
+    Time.new(params['year(1i)'].to_i).beginning_of_year
+  end
 
   def validate_links
     updated_links.map do |link|

@@ -82,6 +82,10 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       refute resource.approved?
     end
 
+    should "save the year as a date." do
+
+    end
+
     context "with valid attributes" do
 
       should "create and redirect to the index" do
