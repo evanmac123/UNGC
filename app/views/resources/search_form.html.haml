@@ -4,7 +4,7 @@
   = form_tag nil, method: 'get', class: 'resources_search' do
     = hidden_field_tag 'commit', 'Search'
     %fieldset
-      %legend Search
+      %legend Main Search
       %dl
         %dt
           %label Keywords
@@ -20,6 +20,10 @@
           %label Authors
         %dd
           = select_tag(:author, options_from_collection_for_select(@authors, 'id', 'full_name'), multiple: true)
+
+    %fieldset
+      %legend Search by Topic
+      = render '/shared/topics_menu', prefix: 'resource', topics: @topics, topics_ids: @topics_ids
 
 
 

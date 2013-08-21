@@ -32,7 +32,7 @@
   #topics.tab_content
     %fieldset
       %legend Topics
-      = render 'topics_menu', topics: @topics
+      = render '/shared/topics_menu', prefix: 'resource', topics: @topics, topics_ids: @resource.principle_ids
 
   #authors.tab_content
     %fieldset

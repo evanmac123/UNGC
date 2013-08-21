@@ -1,3 +1,0 @@
-- if topic
-  = check_box_tag 'resource[principle_ids][]', topic.id, @resource.principle_ids.include?(topic.id), :id => "resource_checkbox_#{topic.id}"
-  %label{:style => 'width: auto;', :for => "resource_checkbox_#{topic.id}"}= topic.name
