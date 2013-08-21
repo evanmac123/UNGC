@@ -3,7 +3,7 @@ FakePage = Struct.new(:html_code, :title, :path)
 class ResourcesController < ApplicationController
 
   def show
-    @resource = Resource.find(params[:id])
+    @resource = Resource.approved.find(params[:id])
   end
 
   def search
