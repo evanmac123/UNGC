@@ -36,7 +36,9 @@ class ResourcesController < ApplicationController
       options[:per_page] = 100 if options[:per_page] > 100
       options[:with] ||= {}
 
-      filter_options_for_author(options) if params[:author]
+      filter_options_for_author(options) if params[:author].present?
+
+      filter_options_for_topics(options) if params[:topic].present?
 
       keyword = params[:keyword].force_encoding("UTF-8") if params[:keyword].present?
 
@@ -51,6 +53,10 @@ class ResourcesController < ApplicationController
 
     def filter_options_for_author(options)
       options[:with].merge!(authors_ids: params[:author].map { |i| i.to_i })
+    end
+
+    def filter_options_for_topics(options)
+      options[:with].merge!(principle_ids: params[:topic][:principle_ids].map { |i| i.to_i })
     end
 
 end

@@ -19,6 +19,7 @@ class Resource < ActiveRecord::Base
     indexes :title, :sortable => true
     indexes :description, :sortable => true
     has authors(:id),     :as => :authors_ids, :facet => true
+    has principles(:id),     :as => :principle_ids, :facet => true
     #has link(:id), :as => :link_ids, :facet => true
     # TODO index link titles
     set_property :enable_star => true
