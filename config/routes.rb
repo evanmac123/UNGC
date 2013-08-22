@@ -201,7 +201,7 @@ UNGC::Application.routes.draw do
 
   match '/case_story/:id' => 'case_stories#show', :as => 'case_story'
 
-  match '/events/:permalink' => 'events#show', :via => :get
+  match '/events/:permalink' => 'events#show', :via => :get, :as => :event
 
   # News
   match '/news' => 'news#index', :as => :newest_headlines
