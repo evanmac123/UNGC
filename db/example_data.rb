@@ -48,8 +48,14 @@ module FixtureReplacement
     c.code = FixtureReplacement.random_string
 	end
 
-  attributes_for :event do |a|
-    a.title = FixtureReplacement.random_string
+  attributes_for :event do |e|
+    e.title = FixtureReplacement.random_string
+  end
+
+  attributes_for :searchable_event, class:Event do |e|
+    e.title = FixtureReplacement.random_string
+    e.location = FixtureReplacement.random_string
+    e.description = FixtureReplacement.random_string
   end
 
   attributes_for :exchange do |a|
