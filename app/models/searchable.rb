@@ -37,7 +37,7 @@ class Searchable < ActiveRecord::Base
   extend SearchablePage
   extend SearchableCommunicationOnProgress
   extend SearchableResource
- 
+
   define_index do
     indexes title
     indexes content

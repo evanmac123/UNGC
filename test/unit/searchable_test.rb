@@ -24,8 +24,111 @@ class SearchableTest < ActiveSupport::TestCase
         assert_same_elements [@page4.title, @page3.title], newish.map(&:title)
       end
     end
+  end
 
+  context "Indexing Events" do
 
+    setup do
+      @unapproved = create_searchable_event
+      @approved = create_searchable_event
+      @approved.approve!
+      Searchable.index_events
+      @searchable = Searchable.first
+    end
+
+    should "include approved events" do
+      assert_contains Searchable.scoped.map(&:title), @approved.title
+    end
+
+    should "not include unapproved events" do
+      assert_does_not_contain Searchable.scoped.map(&:title), @unapproved.title
+    end
+
+    should "include title" do
+      assert_equal @approved.title, @searchable.title
+    end
+
+    should "include location" do
+      assert_match Regexp.new(@approved.location), @searchable.content
+    end
+
+    should "include the url to an event" do
+      assert_match /^\/events\//, @searchable.url
+    end
+
+    should "have an event document_type" do
+      assert_equal "Event", @searchable.document_type
+    end
+  end
+
+  context "Indexing Headlines" do
+    setup do
+      create_headline.approve!
+      Searchable.index_headlines
+      @searchable = Searchable.first
+    end
+
+    should "have indexed the headline" do
+      assert_not_nil @searchable
+    end
+
+    should "have the correct document_type" do
+      assert_equal 'Headline', @searchable.document_type
+    end
+  end
+
+  context "Indexing Organizations" do
+    setup do
+      create_organization(
+        organization_type:create_organization_type,
+        active:true,
+        participant:true,
+      ).approve!
+      Searchable.index_organizations
+      @searchable = Searchable.first
+    end
+
+    should "have indexed the organization" do
+      assert_not_nil @searchable
+    end
+
+    should "have the correct document_type" do
+      assert_equal 'Participant', @searchable.document_type
+    end
+  end
+
+  context "Indexing Communications_on_progress" do
+    setup do
+      type = create_organization_type
+      organization = create_organization(organization_type:type)
+      create_communication_on_progress(organization:organization)
+      Searchable.index_communications_on_progress
+      @searchable = Searchable.first
+    end
+
+    should "have indexed the communication_on_progress" do
+      assert_not_nil @searchable
+    end
+
+    should "have the correct document_type" do
+      assert_equal 'CommunicationOnProgress', @searchable.document_type
+    end
+  end
+
+  context "Indexing Resources" do
+    setup do
+      create_resource.approve!
+      Searchable.index_resources
+      @searchable = Searchable.first
+    end
+
+    should "have indexed the resource" do
+      assert_not_nil @searchable
+    end
+
+    should "have the correct document_type" do
+      assert_equal 'Resource', @searchable.document_type
+    end
   end
 
 end

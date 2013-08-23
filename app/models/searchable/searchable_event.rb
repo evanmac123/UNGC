@@ -2,9 +2,9 @@ module Searchable::SearchableEvent
 
   def index_event(event)
     title = event.title
-    content = event.location + "\n" +
-      event.country.try(:name) +
-      with_helper {strip_tags(event.description)}
+    country = event.country.try(:name)
+    description = with_helper {strip_tags(event.description)}
+    content = "#{event.location}\n#{country}#{description}"
     url = with_helper { event_path(event) }
     import 'Event', url: url, title: title, content: content, object: event
   end
