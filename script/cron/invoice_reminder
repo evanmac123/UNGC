@@ -1,0 +1,2 @@
+#!/bin/sh
+cd /srv/unglobalcompact/current && bundle exec rails runner -e production "InvoiceReminder.new.deliver_all"
