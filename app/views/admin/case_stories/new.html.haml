@@ -1,5 +1,5 @@
 %h2 New case story
 
-= form_for(:case_story, builder: DefaultFormBuilder, url: admin_organization_case_stories_path(@organization.id), :html => { :multipart => true }) do |form|
-  = render :partial => form
-  = form.submit 'Save', :class => 'button'
+= form_for(:case_story, builder: DefaultFormBuilder, url: admin_organization_case_stories_path(@organization.id), html: {multipart: true, novalidate: "novalidate"}) do |form|
+  = render partial: form
+  = form.submit 'Save', class: 'button'
