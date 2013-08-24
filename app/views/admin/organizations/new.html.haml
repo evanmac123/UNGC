@@ -1,7 +1,7 @@
 %h2 New non-participant organization
 
-= form_for(:organization, builder: DefaultFormBuilder, url: admin_organizations_path) do |f|
-  = render :partial => "new_signatory_form", :locals => {:default_form => f}
-  %ul{:class => "tools inline", :style => 'float: right;'}
-    %li= link_to 'Cancel', admin_initiatives_url, :class => 'cancel_large'
-    %li= f.submit 'Create', :class => 'button'
+= form_for(:organization, builder: DefaultFormBuilder, url: admin_organizations_path, html: {novalidate: "novalidate"}) do |f|
+  = render partial: "new_signatory_form", locals: {default_form: f}
+  %ul{class: "tools inline", style: 'float: right;'}
+    %li= link_to 'Cancel', admin_initiatives_url, class: 'cancel_large'
+    %li= f.submit 'Create', class: 'button'
