@@ -20,23 +20,22 @@ class CommentObserver < ActiveRecord::Observer
 
   private
 
-  def email_rejected_organization(comment)
-    organization = comment.commentable
+    def email_rejected_organization(comment)
+      organization = comment.commentable
 
-    # only email rejection notice for micro enterprise applications
-    if comment.state_event == Organization::EVENT_REJECT_MICRO
-      OrganizationMailer.reject_microenterprise(organization).deliver
+      # only email rejection notice for micro enterprise applications
+      if comment.state_event == Organization::EVENT_REJECT_MICRO
+        OrganizationMailer.reject_microenterprise(organization).deliver
 
-      if organization.network_report_recipients.count > 0
-        OrganizationMailer.reject_microenterprise_network(organization).deliver
+        if organization.network_report_recipients.count > 0
+          OrganizationMailer.reject_microenterprise_network(organization).deliver
+        end
+
       end
 
+      # kept the original names in the email
+      organization.set_rejected_names
     end
-
-    # kept the original names in the email
-    organization.set_rejected_names
-
-  end
 
     def email_in_review_organization(comment)
       organization = comment.commentable
@@ -50,14 +49,6 @@ class CommentObserver < ActiveRecord::Observer
     def email_approved_organization(organization)
       if organization.business_entity?
         OrganizationMailer.approved_business(organization).deliver
-
-        # emails sent from Foundation to business participants only
-        if organization.pledge_amount.to_i > 0
-          OrganizationMailer.foundation_invoice(organization).deliver
-        else
-          OrganizationMailer.foundation_reminder(organization).deliver
-        end
-
       else
         OrganizationMailer.approved_nonbusiness(organization).deliver
       end
