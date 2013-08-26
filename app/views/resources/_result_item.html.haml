@@ -1,0 +1,15 @@
+- unless result.image_url.blank?
+  = image_tag(result.image_url, title: result.title)
+%h3
+  = link_to result.title, resource_path(result)
+%p
+  = result.description
+%p
+  (
+  - if result.authors.any?
+    = result.authors.map(&:full_name).join('/ ') + ","
+  - unless result.year.blank?
+    = result.year.year
+  )
+%p
+  = link_to "View", resource_path(result)

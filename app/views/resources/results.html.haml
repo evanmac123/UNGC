@@ -15,10 +15,8 @@
       = per_page_select([10,25,50,75,100])
       = resource_sort_by
 
-  %ol
+  %ul
   - @results.each do |result|
     %li
-      = link_to result.title, resource_path(result)
-      = result.year
-
+      = render :partial => "result_item", locals: { :result => result }
   = will_paginate @results
