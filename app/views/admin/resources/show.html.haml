@@ -4,7 +4,7 @@
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
-    %li <a href="#contacts">Contacts</a>
+    %li <a href="#links">Links</a>
 
   #overview.tab_content.resources-show
     %ul{:class => "tools inline"}
@@ -31,13 +31,33 @@
       - if @resource.approved?
         %dt Published at
         %dt= @resource.published_on
+    %dl.left_column
+      %h3 Authors
+      - @resource.authors.each do |a|
+        = a.full_name
+      %h3 Topics
+      - @resource.principles.each do |topic|
+        = topic.name
 
-    -#%dl.left_column
-      %h3 Contact Information
 
-  #contacts.tab_content
-    -#%ul#contacts_tools{:class => "tools inline"}
-      %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
-    -#%ul.items= render :partial => "admin/contacts/tabbed_contact", :collection => @organization.contacts
+  #links.tab_content
+    %table.dashboard_table
+      %tr
+        %th Title
+        %th URL
+        %th Language
+        %th Type
+
+      - @resource.links.each do |link|
+        %tr
+          %td
+            = link.title
+          %td
+            = link.url
+          %td
+            = link.language.name
+          %td
+            = ResourceLink::TYPES[link.link_type.to_sym]
+            %span.icon{:class => "#{link.link_type}"}
 
 = link_to "Back", admin_resources_path
