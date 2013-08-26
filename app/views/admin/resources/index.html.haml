@@ -1,7 +1,9 @@
 %h2 Resources
 
-= link_to 'New Resource', new_admin_resource_path, :title => "New Resource"
-%table.dashboard_table
+%ul.tools.inline
+  %li= link_to 'New Resource', new_admin_resource_path, :title => "New Resource", class: 'new_large'
+
+%table.dashboard_table.resource-index-table
   %tr
     %th= sort_header 'ID', field: 'id'
     %th= sort_header 'Title', field: 'title'
@@ -30,4 +32,6 @@
             = link_to 'Destroy', admin_resource_path(resource.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
 = will_paginate @resources
-= link_to 'New Resource', new_admin_resource_path, :title => "New Resource"
+
+%ul.tools.inline
+  %li= link_to 'New Resource', new_admin_resource_path, :title => "New Resource", class: 'new_large'

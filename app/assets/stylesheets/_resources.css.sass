@@ -24,7 +24,7 @@
       margin: 0 0 -3px 23px
       .expanded-list
         margin: 0 0 0 23px
-        padding-top: 0
+        padding-top: 4px
     .toggle
       position: absolute
       left: 0
@@ -39,9 +39,9 @@
       font-size: 11px
       color: #666
       cursor: pointer
-      &.expand
+      &.expand:before
         content: '+'
-      &.collapse
+      &.collapse:before
         content: '-'
 
 
@@ -130,3 +130,6 @@
     &.ppt
       background-image: url('../assets/icons/resources/ppt.png')
 
+
+.resource-index-table
+  margin: 10px 0 15px !important

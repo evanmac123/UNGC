@@ -64,4 +64,4 @@
             %span.icon{:class => "#{link.link_type}"}
             = ResourceLink::TYPES[link.link_type.to_sym]
 
-= link_to "Back", admin_resources_path
+= link_to raw("&larr; Back"), admin_resources_path
