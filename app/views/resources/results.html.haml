@@ -12,7 +12,7 @@
       = link_to "New Search", resources_search_path
       = link_to "Refine Search", resources_search_path(:keyword => params[:keyword], language: params[:language], :author => params[:author], :topic => params[:topic])
     %div.right
-      = per_page_select
+      = per_page_select([10,25,50,75,100])
 
   %ol
   - @results.each do |result|
