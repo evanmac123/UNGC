@@ -1,0 +1,89 @@
+
+=p
+  outline:                    1px solid red !important
+
+
+.resources-list
+  margin-left: 10px !important
+  li
+    overflow: hidden
+    padding: 5px 0
+    margin: 0
+    position: relative
+  input
+    float: left
+    margin: 0 10px 0 20px !important
+  label
+    margin-top: 4px
+.expanded-list
+  clear: both
+  padding-top: 5px
+  margin: 0 0 -3px 23px
+  .expanded-list
+    margin: 0 0 0 23px
+    padding-top: 4px
+.toggle
+  position: absolute
+  left: 0
+  top: 8px
+  background-color: darken(white, 5%)
+  border: 1px solid #ccc
+  border-radius: 3px
+  width: 11px
+  height: 11px
+  text-align: center
+  line-height: 9px
+  font-size: 11px
+  color: #666
+  cursor: pointer
+  &.expand:before
+    content: '+'
+  &.collapse:before
+    content: '-'
+
+
+.resources-main
+  dt
+    padding-top: 7px
+  input, select
+    padding: 3px 5px
+  select
+    width: 492px
+  input
+    width: 482px
+
+
+#author_chosen
+  .chosen-choices, .chosen-results
+    margin-left: 0 !important
+  .chosen-drop
+    margin-top: -9px
+  .chosen-choices li
+    float: none !important
+    margin: 3px 5px !important
+  .search-choice-close
+    top: 7px
+  .search-field
+    width: 492px
+
+
+.resource-toggle-views
+  overflow: hidden
+  text-align: center
+  margin: 5px 0 15px
+  button
+    border: 1px solid #ccc
+    background: darken(white, 10%)
+    display: inline-block
+    padding: 8px 15px
+    margin: 0 -1px
+    font-size: 12px
+    font-weight: bold
+    position: relative
+    cursor: pointer
+    &.browse
+      border-radius: 3px 0 0 3px
+    &.search
+      border-radius: 0 3px 3px 0
+      border-left: 0
+      left: -2px

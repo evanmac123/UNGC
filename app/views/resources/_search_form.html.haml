@@ -3,7 +3,7 @@
 
   = form_tag nil, method: 'get', class: 'resources_search' do
     = hidden_field_tag 'commit', 'Search'
-    %fieldset
+    %fieldset.resources-main
       %legend Main Search
       %dl
         %dt
@@ -25,7 +25,4 @@
       %legend Search by Topic
       = render '/shared/topics_menu', prefix: 'topic', topics: @topics, topics_ids: @topic_ids
 
-
-
     %p{:style => 'text-align: right; display: block;'}= submit_tag 'Search'
-

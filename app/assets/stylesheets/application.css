@@ -612,3 +612,22 @@ table.summaryBenefits td.title {
 table.summaryBenefits td.rowTitle {
   text-align: left;
 }
+
+
+#rightcontent.fullscreen {
+  width: auto;
+  left: 0;
+}
+
+#rightcontent.fullscreen .path {
+  width: auto;
+}
+
+
+#rightcontent.fullscreen .copy {
+  width: auto;
+  padding: 15px 30px 0;
+}
+
+
+@import 'public-resources'

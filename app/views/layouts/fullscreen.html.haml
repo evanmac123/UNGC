@@ -6,7 +6,7 @@
     - if home_page?
       %link{:href => 'http://feeds.unglobalcompact.org/UnitedNationsGlobalCompact-LatestNews', :rel => 'alternate', :title => 'United Nations Global Compact - Latest News', :type => 'application/atom+xml'}
     %title= (@title || 'United Nations Global Compact').html_safe
-    = stylesheet_link_tag 'application'
+    = stylesheet_link_tag 'application', 'public-resources'
     = stylesheet_link_tag 'print', :media => 'print'
     /[if IE]
       = stylesheet_link_tag 'ie'
@@ -22,7 +22,7 @@
       #content_inner
         = render :partial => 'layouts/inner_head'
         #inner_body
-          #rightcontent
+          #rightcontent.fullscreen
             .path
               %p= breadcrumbs
             .copy
