@@ -2,6 +2,8 @@ FakePage = Struct.new(:html_code, :title, :path)
 
 class ResourcesController < ApplicationController
 
+  layout 'fullscreen'
+
   def show
     @resource = Resource.approved.find(params[:id])
   end
@@ -23,11 +25,11 @@ class ResourcesController < ApplicationController
 
     def results_for_search
       get_search_results
-      render :action => 'results', layout: 'fullscreen'
+      render :action => 'results'
     end
 
     def show_search_form
-      render :action => 'index', layout: 'fullscreen'
+      render :action => 'index'
     end
 
     def get_search_results
