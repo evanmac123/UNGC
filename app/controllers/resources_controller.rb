@@ -23,11 +23,11 @@ class ResourcesController < ApplicationController
 
     def results_for_search
       get_search_results
-      render :action => 'index'
+      render :action => 'results', layout: 'fullscreen'
     end
 
     def show_search_form
-      render :action => 'search_form', layout: 'fullscreen'
+      render :action => 'index', layout: 'fullscreen'
     end
 
     def get_search_results

@@ -1,0 +1,14 @@
+#resources_results
+  %h1
+    Search Results
+
+  There
+  = @results.total_count == 1 ? 'is' : 'are'
+  = pluralize(@results.total_count, "resource")
+  -# TODO add topics description
+
+  %ol
+  - @results.each do |result|
+    %li= link_to result.title, resource_path(result)
+
+  = will_paginate @results
