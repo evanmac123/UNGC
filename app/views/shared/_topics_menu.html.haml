@@ -5,9 +5,9 @@
     %li
       = principle_checkbox(prefix, topics[:global_compact], topics_ids)
     %li
-      %span.toggle.expand +
+      %span.toggle.collapse
       = principle_checkbox(prefix, topics[:human_rights], topics_ids)
-      %ol.expanded-list
+      %ol.expanded-list{:style => "display:none"}
         %li= principle_checkbox(prefix, topics[:women_gender], topics_ids)
         %li= principle_checkbox(prefix, topics[:childrens_rights], topics_ids)
         %li= principle_checkbox(prefix, topics[:indigenous_peoples], topics_ids)
@@ -15,23 +15,24 @@
         %li= principle_checkbox(prefix, topics[:human_trafficking], topics_ids)
 
     %li
-      %span.toggle.collapse &ndash;
+      %span.toggle.collapse
       = principle_checkbox(prefix, topics[:labour], topics_ids)
-      %ol.expanded-list
+      %ol.expanded-list{:style => "display:none"}
         %li= principle_checkbox(prefix, topics[:child_labour], topics_ids)
         %li= principle_checkbox(prefix, topics[:forced_labour], topics_ids)
         %li= principle_checkbox(prefix, topics[:migrant_workers], topics_ids)
 
     %li
+      %span.toggle.collapse
       = principle_checkbox(prefix, topics[:environment], topics_ids)
-      %ol.expanded-list
+      %ol.expanded-list{:style => "display:none"}
         %li
-          %span.toggle.expand +
+          %span.toggle.collapse
           = principle_checkbox(prefix, topics[:climate_change], topics_ids)
-        %ol.expanded-list
-          %li= principle_checkbox(prefix, topics[:climate_mitigation], topics_ids)
-          %li= principle_checkbox(prefix, topics[:climate_adaptation], topics_ids)
-          %li= principle_checkbox(prefix, topics[:climate_finance], topics_ids)
+          %ol.expanded-list{:style => "display:none"}
+            %li= principle_checkbox(prefix, topics[:climate_mitigation], topics_ids)
+            %li= principle_checkbox(prefix, topics[:climate_adaptation], topics_ids)
+            %li= principle_checkbox(prefix, topics[:climate_finance], topics_ids)
         %li= principle_checkbox(prefix, topics[:water_sustainability], topics_ids)
         %li= principle_checkbox(prefix, topics[:energy], topics_ids)
         %li= principle_checkbox(prefix, topics[:biodiversity], topics_ids)
@@ -43,9 +44,9 @@
     %li= principle_checkbox(prefix, topics[:suppy_chain], topics_ids)
     %li= principle_checkbox(prefix, topics[:partnerships], topics_ids)
     %li
-      %span.toggle.expand +
+      %span.toggle.collapse
       = principle_checkbox(prefix, topics[:development], topics_ids)
-      %ol.expanded-list
+      %ol.expanded-list{:style => "display:none"}
         %li= principle_checkbox(prefix, topics[:education], topics_ids)
         %li= principle_checkbox(prefix, topics[:mdgs], topics_ids)
         %li= principle_checkbox(prefix, topics[:post_2015], topics_ids)
