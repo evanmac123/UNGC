@@ -34,7 +34,8 @@ class ResourcesController < ApplicationController
       options = {
         per_page: (params[:per_page] || 10).to_i,
         page: (params[:page] || 1).to_i,
-        star: true
+        star: true,
+        order: (params[:order] || 'title asc')
       }
 
       options[:per_page] = 100 if options[:per_page] > 100
