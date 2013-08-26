@@ -1,0 +1,91 @@
+// =============================================================================
+// ADMIN > RESOURCES
+// =============================================================================
+
+=p
+  outline:                    1px solid red !important
+
+
+
+#main_content fieldset
+  .admin-resources
+    .resources-list
+      //margin-left: 20px
+      li
+        overflow: hidden
+        padding: 5px 0
+        margin: 0
+        position: relative
+      input
+        float: left
+        margin: 0 10px 0 20px !important
+      label
+        margin-top: 4px
+    .expanded-list
+      clear: both
+      padding-top: 5px
+      margin: 0 0 -3px 23px
+      .expanded-list
+        margin: 0 0 0 23px
+        padding-top: 0
+    .toggle
+      position: absolute
+      left: 0
+      top: 8px
+      background-color: darken(white, 5%)
+      border: 1px solid #ccc
+      border-radius: 3px
+      width: 11px
+      height: 11px
+      text-align: center
+      line-height: 9px
+      font-size: 11px
+      color: #666
+      cursor: pointer
+
+
+  .author_table
+    select
+      margin-left: 0
+      width: 695px
+    .remove_author
+      background: transparent url('../assets/icons/Delete_24x24.png') no-repeat center center
+      width: 24px
+      height: 24px
+      margin: 0 auto
+      border: 0
+      cursor: pointer
+      display: block
+      position: relative
+      top: 7px
+
+
+.link_table
+  width: 750px
+  td, th
+    text-align: left
+  input, textarea, select
+    width: auto !important
+    margin: 0 !important
+  tbody td:last-child
+    text-align: center
+
+
+.resources-show
+  .approve
+    background: url('../assets/icons/Rate (Thumbs Up)_24x24.png') no-repeat left top
+    display: block
+    height: 24px
+    padding: 5px 0 0 30px
+    text-align: left
+    color: $dark_blue
+    text-decoration: none
+    opacity: 0.85
+    font-weight: bold
+    margin-right: 25px
+    &:hover
+      opacity: 1
+      text-decoration: underline
+      cursor: pointer
+  dl.left_column img
+    max-width: 250px

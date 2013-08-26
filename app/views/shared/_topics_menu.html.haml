@@ -1,49 +1,57 @@
-%ol.checkbox_list
-  %li.checkbox
-    = principle_checkbox(prefix, topics[:global_compact], topics_ids)
-  %li.checkbox
-    = principle_checkbox(prefix, topics[:human_rights], topics_ids)
-    %ol.checkbox_list
-      %li.checkbox= principle_checkbox(prefix, topics[:women_gender], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:childrens_rights], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:indigenous_peoples], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:persons_disabilities], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:human_trafficking], topics_ids)
 
-  %li.checkbox
-    = principle_checkbox(prefix, topics[:labour], topics_ids)
-    %ol.checkbox_list
-      %li.checkbox= principle_checkbox(prefix, topics[:child_labour], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:forced_labour], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:migrant_workers], topics_ids)
+.admin-resources
 
-  %li.checkbox
-    = principle_checkbox(prefix, topics[:environment], topics_ids)
-    %ol.checkbox_list
-      %li.checkbox= principle_checkbox(prefix, topics[:climate_change], topics_ids)
-      %ol.checkbox_list
-        %li.checkbox= principle_checkbox(prefix, topics[:climate_mitigation], topics_ids)
-        %li.checkbox= principle_checkbox(prefix, topics[:climate_adaptation], topics_ids)
-        %li.checkbox= principle_checkbox(prefix, topics[:climate_finance], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:water_sustainability], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:energy], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:biodiversity], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:environmental_stewardship], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:green_industry], topics_ids)
-  %li.checkbox= principle_checkbox(prefix, topics[:anti_corruption], topics_ids)
-  %li.checkbox= principle_checkbox(prefix, topics[:business_peace], topics_ids)
-  %li.checkbox= principle_checkbox(prefix, topics[:financial_markets], topics_ids)
-  %li.checkbox= principle_checkbox(prefix, topics[:suppy_chain], topics_ids)
-  %li.checkbox= principle_checkbox(prefix, topics[:partnerships], topics_ids)
-  %li.checkbox
-    = principle_checkbox(prefix, topics[:development], topics_ids)
-    %ol.checkbox_list
-      %li.checkbox= principle_checkbox(prefix, topics[:education], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:mdgs], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:post_2015], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:social_enterprise], topics_ids)
-      %li.checkbox= principle_checkbox(prefix, topics[:agriculture], topics_ids)
+  %ol.resources-list
+    %li
+      = principle_checkbox(prefix, topics[:global_compact], topics_ids)
+    %li
+      %span.toggle.expand +
+      = principle_checkbox(prefix, topics[:human_rights], topics_ids)
+      %ol.expanded-list
+        %li= principle_checkbox(prefix, topics[:women_gender], topics_ids)
+        %li= principle_checkbox(prefix, topics[:childrens_rights], topics_ids)
+        %li= principle_checkbox(prefix, topics[:indigenous_peoples], topics_ids)
+        %li= principle_checkbox(prefix, topics[:persons_disabilities], topics_ids)
+        %li= principle_checkbox(prefix, topics[:human_trafficking], topics_ids)
 
-  %li.checkbox= principle_checkbox(prefix, topics[:management_education], topics_ids)
-  %li.checkbox= principle_checkbox(prefix, topics[:cop], topics_ids)
-  %li.checkbox= principle_checkbox(prefix, topics[:local_networks], topics_ids)
+    %li
+      %span.toggle.collapse &ndash;
+      = principle_checkbox(prefix, topics[:labour], topics_ids)
+      %ol.expanded-list
+        %li= principle_checkbox(prefix, topics[:child_labour], topics_ids)
+        %li= principle_checkbox(prefix, topics[:forced_labour], topics_ids)
+        %li= principle_checkbox(prefix, topics[:migrant_workers], topics_ids)
+
+    %li
+      = principle_checkbox(prefix, topics[:environment], topics_ids)
+      %ol.expanded-list
+        %li
+          %span.toggle.expand +
+          = principle_checkbox(prefix, topics[:climate_change], topics_ids)
+        %ol.expanded-list
+          %li= principle_checkbox(prefix, topics[:climate_mitigation], topics_ids)
+          %li= principle_checkbox(prefix, topics[:climate_adaptation], topics_ids)
+          %li= principle_checkbox(prefix, topics[:climate_finance], topics_ids)
+        %li= principle_checkbox(prefix, topics[:water_sustainability], topics_ids)
+        %li= principle_checkbox(prefix, topics[:energy], topics_ids)
+        %li= principle_checkbox(prefix, topics[:biodiversity], topics_ids)
+        %li= principle_checkbox(prefix, topics[:environmental_stewardship], topics_ids)
+        %li= principle_checkbox(prefix, topics[:green_industry], topics_ids)
+    %li= principle_checkbox(prefix, topics[:anti_corruption], topics_ids)
+    %li= principle_checkbox(prefix, topics[:business_peace], topics_ids)
+    %li= principle_checkbox(prefix, topics[:financial_markets], topics_ids)
+    %li= principle_checkbox(prefix, topics[:suppy_chain], topics_ids)
+    %li= principle_checkbox(prefix, topics[:partnerships], topics_ids)
+    %li
+      %span.toggle.expand +
+      = principle_checkbox(prefix, topics[:development], topics_ids)
+      %ol.expanded-list
+        %li= principle_checkbox(prefix, topics[:education], topics_ids)
+        %li= principle_checkbox(prefix, topics[:mdgs], topics_ids)
+        %li= principle_checkbox(prefix, topics[:post_2015], topics_ids)
+        %li= principle_checkbox(prefix, topics[:social_enterprise], topics_ids)
+        %li= principle_checkbox(prefix, topics[:agriculture], topics_ids)
+
+    %li= principle_checkbox(prefix, topics[:management_education], topics_ids)
+    %li= principle_checkbox(prefix, topics[:cop], topics_ids)
+    %li= principle_checkbox(prefix, topics[:local_networks], topics_ids)
