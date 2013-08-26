@@ -1,6 +1,6 @@
 %h2 Resources
 
-
+= link_to 'New Resource', new_admin_resource_path, :title => "New Resource"
 %table.dashboard_table
   %tr
     %th= sort_header 'ID', field: 'id'
@@ -30,3 +30,4 @@
             = link_to 'Destroy', admin_resource_path(resource.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
 = will_paginate @resources
+= link_to 'New Resource', new_admin_resource_path, :title => "New Resource"
