@@ -144,3 +144,16 @@ To upgrade current version of JungleDisk
 
 Server should start, if not:
 `sudo /usr/local/bin/junglediskserver`
+
+
+# Topics and Issues specifications
+see the PDF in https://www.pivotaltracker.com/s/projects/26398/stories/55183454
+rake import_issues_and_topics[path]
+
+# Importer for Principles
+see the xls file at https://www.pivotaltracker.com/story/show/54544620
+rake import_tools_and_resources[path]
+
+
+# Importer for resources
+see the xls file at https://www.pivotaltracker.com/s/projects/26398/stories/54530528
