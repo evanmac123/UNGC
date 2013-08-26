@@ -12,7 +12,7 @@ class ResourcesController < ApplicationController
     if params[:commit].blank?
       @authors = Author.scoped
       @topics = Principle.topics_menu
-      @topic_ids = []
+      @topic_ids = params[:topic][:principle_ids].map(&:to_i) rescue []
       show_search_form
     else
       results_for_search

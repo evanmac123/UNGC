@@ -7,6 +7,13 @@
   = pluralize(@results.total_count, "resource")
   -# TODO add topics description
 
+  %div.clearfix
+    %div.left
+      = link_to "New Search", resources_search_path
+      = link_to "Refine Search", resources_search_path(:keyword => params[:keyword], language: params[:language], :author => params[:author], :topic => params[:topic])
+    %div.right
+      = per_page_select
+
   %ol
   - @results.each do |result|
     %li= link_to result.title, resource_path(result)
