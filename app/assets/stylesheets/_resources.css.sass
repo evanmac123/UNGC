@@ -5,12 +5,9 @@
 =p
   outline:                    1px solid red !important
 
-
-
 #main_content fieldset
   .admin-resources
     .resources-list
-      //margin-left: 20px
       li
         overflow: hidden
         padding: 5px 0
@@ -42,6 +39,10 @@
       font-size: 11px
       color: #666
       cursor: pointer
+      &.expand
+        content: '+'
+      &.collapse
+        content: '-'
 
 
   .author_table
@@ -87,5 +88,45 @@
       opacity: 1
       text-decoration: underline
       cursor: pointer
-  dl.left_column img
-    max-width: 250px
+  dl.left_column
+    ol
+      padding-bottom: 10px
+      li
+        margin-bottom: 8px
+    img
+      max-width: 260px
+    + dl.left_column
+      margin-left: 30px
+
+  .resource-table
+    td
+      line-height: 1.4
+      vertical-align: top !important
+  .url
+    &, span
+      max-width: 300px
+    span
+      display: inline-block
+      word-wrap: break-word
+  .title
+    max-width: 300px
+  .icon
+    display: inline-block
+    width: 16px
+    height: 16px
+    background-repeat: no-repeat
+    background-position: 0 0
+    margin-right: 5px
+    position: relative
+    top: 3px
+    &.web
+      background-image: url('../assets/icons/resources/web.png')
+    &.doc
+      background-image: url('../assets/icons/resources/doc.png')
+    &.pdf
+      background-image: url('../assets/icons/resources/pdf.png')
+    &.mp3
+      background-image: url('../assets/icons/resources/mp3.png')
+    &.ppt
+      background-image: url('../assets/icons/resources/ppt.png')
+
