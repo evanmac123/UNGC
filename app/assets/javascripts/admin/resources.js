@@ -26,7 +26,7 @@ $(function() {
 
     linkTable.on('click', function(ev) {
       var target = $(ev.target)
-      if(target.attr('class') === 'remove_link') {
+      if(target.hasClass('remove_link')) {
         ev.preventDefault();
         target.parents('tr').remove();
       }
