@@ -9,7 +9,7 @@
     %th= sort_header 'Title', field: 'title'
     %th= sort_header 'Year', field: 'year'
     %th= sort_header 'Issue Tags', field: 'principles_count'
-    %th Status
+    %th= sort_header 'Status', field: 'approval'
     %th Actions
 
   - @resources.each do |resource|
@@ -32,6 +32,3 @@
             = link_to 'Destroy', admin_resource_path(resource.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
 
 = will_paginate @resources
-
-%ul.tools.inline
-  %li= link_to 'New Resource', new_admin_resource_path, :title => "New Resource", class: 'new_large'
