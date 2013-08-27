@@ -1,23 +1,36 @@
-- unless @resource.image_url.blank?
-  = image_tag(@resource.image_url, title: @resource.title)
-%h3= @resource.title
-%p= @resource.description
+.resource-show-img
+  - unless @resource.image_url.blank?
+    = image_tag(@resource.image_url, title: @resource.title)
 
-%h4 Topics
-%ul
-  - @resource.principles.each do |topic|
-    %li
-      = link_to topic.name, resources_search_path(commit: "search", topic: {principle_ids: [topic.id]})
-%h4 Authors
-%ul
-  - @resource.authors.each do |author|
-    %li
-      = link_to author.full_name, resources_search_path(commit: "search", author: [author.id])
+.resource-show-body
+  %h3= @resource.title
+  %p= @resource.description
 
-%h4 Year
-= @resource.year.year
 
-%h4 Links
-%ul
-  - @resource.links.each do |link|
-    %li= render link
+  .resource-show-details
+    %dl
+      %dt Topics
+      %dd
+        %ul
+          - @resource.principles.each do |topic|
+            %li
+              = link_to topic.name, resources_search_path(commit: "search", topic: {principle_ids: [topic.id]})
+
+    %dl
+      %dt Authors
+      %dd
+        %ul
+          - @resource.authors.each do |author|
+            %li
+              = link_to author.full_name, resources_search_path(commit: "search", author: [author.id])
+    %dl
+      %dt Year
+      %dd
+        = @resource.year.year
+
+    %dl
+      %dt Links
+      %dd
+        %ul
+          - @resource.links.each do |link|
+            %li= render link
