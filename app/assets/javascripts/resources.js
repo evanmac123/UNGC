@@ -5,7 +5,7 @@ $(document).ready(function() {
   }
 
   // deal with the topics tree
-  var hideResourceList = function(el){
+  var hideTopicsList = function(el){
     var ol = $(el).siblings('ol')
     ol.toggle();
     $(el).removeClass('collapse','expand');
@@ -16,7 +16,7 @@ $(document).ready(function() {
     }
   }
 
-  var showResourceList = function(el){
+  var showTopicsList = function(el){
     var ol = $(el).siblings('ol')
     ol.show();
     $(el).removeClass('expand');
@@ -24,14 +24,14 @@ $(document).ready(function() {
   }
 
 
-  $('ol.resources-list input[checked]').each(function(i,e){
+  $('ol.topics-list input[checked]').each(function(i,e){
     $(e).parents('ol.expanded-list').parent().children('span').each(function(j,o){
-      showResourceList(o);
+      showTopicsList(o);
     })
   });
 
-  $('ol.resources-list .toggle').on('click', function(e){
-    hideResourceList(this);
+  $('ol.topics-list .toggle').on('click', function(e){
+    hideTopicsList(this);
   });
 
 });
