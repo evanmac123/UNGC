@@ -4,7 +4,6 @@
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li <a href="#overview">Overview</a>
-    %li <a href="#links">Links</a>
 
   #overview.tab_content.resources-show
     %ul{:class => "tools inline"}
@@ -26,15 +25,15 @@
       %dd=h @resource.approval.humanize
       %dt Description
       %dd=@resource.description
-      - if @resource.image_url?
-        %dt Image
-        %dd= image_tag @resource.image_url
       - if @resource.isbn?
         %dt Isbn
         %dd= @resource.isbn
       - if @resource.approved?
         %dt Published at
-        %dt= @resource.published_on
+        %dt= @resource.approved_at
+      - if @resource.image_url?
+        %dt Image
+        %dd= image_tag @resource.image_url
 
     %dl.left_column
       %h3 Authors
@@ -48,24 +47,13 @@
           %li= topic.name
 
 
-  #links.tab_content.resources-show
-    %table.dashboard_table.resource-table
-      %tr
-        %th Title
-        %th URL
-        %th Language
-        %th Type
-
-      - @resource.links.each do |link|
-        %tr
-          %td.title
-            = link.title
-          %td.url
-            %span= link.url
-          %td
-            = link.language.name
-          %td
+    %dl.left_column
+      %h3 Links
+      %ol
+        - @resource.links.each do |link|
+          %li
             %span.icon{:class => "#{link.link_type}"}
-            = ResourceLink::TYPES[link.link_type.to_sym]
+            = link_to link.title, link.url, target: '_blank'
+            = link.language.name
 
 = link_to raw("&larr; Back"), admin_resources_path
