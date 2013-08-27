@@ -91,7 +91,7 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
 
     should "not import the header row" do
       # there should only be 3 valid rows, excluding the header
-      assert_equal 3, ResourceLink.count, "should not have imported the header."
+      assert_equal 4, ResourceLink.count, "should not have imported the header."
     end
 
     should "import resource_id" do
