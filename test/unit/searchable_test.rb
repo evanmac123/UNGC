@@ -115,7 +115,6 @@ class SearchableTest < ActiveSupport::TestCase
     end
   end
 
-=begin
   context "Indexing Resources" do
     setup do
       create_resource.approve!
@@ -131,6 +130,5 @@ class SearchableTest < ActiveSupport::TestCase
       assert_equal 'Resource', @searchable.document_type
     end
   end
-=end
 
 end
