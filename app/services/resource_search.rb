@@ -22,11 +22,12 @@ class ResourceSearch < OpenStruct
 
     filter_options_for_language(options) if language.present?
 
-    keyword = params[:keyword].force_encoding("UTF-8") if keyword
+    key = keyword.force_encoding("UTF-8") if keyword.present?
 
     options.delete(:with) if options[:with] == {}
 
-    @results = Resource.search keyword || '', options
+
+    @results = Resource.search key || '', options
     raise Riddle::ConnectionError unless @results && @results.total_entries
     @results
   end
