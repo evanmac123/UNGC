@@ -19,7 +19,6 @@ class Resource < ActiveRecord::Base
     indexes :title, :sortable => true
     indexes :description, :sortable => true
     indexes :year, :sortable => true
-    indexes :isbn, :sortable => true
     indexes links.title, :as => "link_title", :sortable => true
 
     has authors(:id),     :as => :authors_ids, :facet => true
