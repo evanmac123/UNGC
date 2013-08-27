@@ -30,7 +30,7 @@
         %dd= @resource.isbn
       - if @resource.approved?
         %dt Published at
-        %dt= @resource.approved_at
+        %dd= @resource.approved_at
       - if @resource.image_url?
         %dt Image
         %dd= image_tag @resource.image_url
@@ -46,14 +46,15 @@
         - @resource.principles.each do |topic|
           %li= topic.name
 
-
-    %dl.left_column
       %h3 Links
-      %ol
+      %ol.admin-resource-links
         - @resource.links.each do |link|
           %li
             %span.icon{:class => "#{link.link_type}"}
             = link_to link.title, link.url, target: '_blank'
             = link.language.name
+
+
+
 
 = link_to raw("&larr; Back"), admin_resources_path

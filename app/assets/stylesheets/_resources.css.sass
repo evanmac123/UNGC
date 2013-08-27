@@ -77,8 +77,8 @@
 
 
 .resources-show
-  .approve
-    background: url('../assets/icons/Rate (Thumbs Up)_24x24.png') no-repeat left top
+
+  .approve, .revoke
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -92,6 +92,11 @@
       opacity: 1
       text-decoration: underline
       cursor: pointer
+  .approve
+    background: url('../assets/icons/Rate (Thumbs Up)_24x24.png') no-repeat left top
+  .revoke
+    background: url('../assets/icons/Rate (Thumbs Down)_24x24.png') no-repeat left top
+
   dl.left_column
     ol
       padding-bottom: 10px
@@ -137,3 +142,13 @@
 
 .resource-index-table
   margin: 10px 0 15px !important
+
+
+.admin-resource-links
+  .icon
+    float: left
+    margin-right: 8px
+    top: 0
+  a
+    overflow: hidden
+
