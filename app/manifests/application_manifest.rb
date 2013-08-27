@@ -52,6 +52,13 @@ class ApplicationManifest < Moonshine::Manifest::Rails
        :minute => 10,
        :ensure => :present
 
+     cron 'invoice_reminder',
+       :command => '/srv/unglobalcompact/current/script/cron/invoice_reminder',
+       :user => 'rails',
+       :hour => 1,
+       :minute => 0,
+       :ensure => :present
+
      cron 'sphinx_index',
        :command => '/srv/unglobalcompact/current/script/cron/sphinx_index',
        :user => 'rails',
@@ -85,7 +92,6 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :hour => 6,
       :minute => 55,
       :ensure => :present
-
   end
 
   def jungle_disk
