@@ -10,7 +10,11 @@
     %ul{:class => "tools inline"}
       %li= link_to "Edit", edit_admin_resource_path(@resource.id), :class => 'edit_large'
       - if current_contact.is?(Role.website_editor)
-        %li= link_to "Approve", approve_admin_resource_path(@resource.id), :class => 'approve', :method => :post, :title => "Approve Resource"
+        -if @resource.can_approve?
+          %li= link_to "Approve", approve_admin_resource_path(@resource.id), :class => 'approve', :method => :post, :title => "Approve Resource"
+        -if @resource.can_revoke?
+          %li= link_to "Revoke", revoke_admin_resource_path(@resource.id), :class => 'revoke', :method => :post, :title => "Revoke Resource"
+
 
     %dl.left_column
       %h3 Resource Details

@@ -25,6 +25,17 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       resource.reload
       assert resource.approved?
     end
+
+    should "revoke the resource" do
+      sign_in create_website_editor
+      resource = create_resource
+      resource.approve!
+      post :revoke, id:resource
+      assert_redirected_to action: :index
+      resource.reload
+      assert resource.revoked?
+    end
+
   end
 
   context "When signed in, but not from the UNGC" do
@@ -80,6 +91,15 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
 
       resource.reload
       refute resource.approved?
+    end
+
+    should "not be able to revoke a resource" do
+      resource = create_resource
+      resource.approve!
+      post :revoke, id:resource
+
+      resource.reload
+      refute resource.revoked?
     end
 
     should "save the year as a date." do

@@ -58,10 +58,24 @@ class Admin::ResourcesController < AdminController
     end
   end
 
+  def revoke
+    @resource = Resource.find(params[:id])
+    if allowed_to_revoke
+      @resource.revoke!
+      redirect_to admin_resources_url, notice:'Resource revoked'
+    else
+      redirect_to admin_resources_url, notice:'Failed to revoke resource.'
+    end
+  end
+
   private
 
   def allowed_to_approve
     @resource.can_approve? && current_contact.is?(Role.website_editor)
+  end
+
+  def allowed_to_revoke
+    @resource.can_revoke? && current_contact.is?(Role.website_editor)
   end
 
   def order_from_params

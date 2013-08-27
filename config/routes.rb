@@ -164,6 +164,7 @@ UNGC::Application.routes.draw do
     resources :resources do
       member do
         post :approve
+        post :revoke
       end
     end
   end
