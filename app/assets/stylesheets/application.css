@@ -16,6 +16,7 @@
  *= require application_form
  *= require participant_search_form
  *= require chosen
+ *= require ./public-resources
  */
 
 body { background-color: #fff; font-family: Helvetica, Arial, sans-serif; }
@@ -629,6 +630,3 @@ table.summaryBenefits td.rowTitle {
   width: auto;
   padding: 15px 30px 0;
 }
-
-
-@import 'public-resources'
