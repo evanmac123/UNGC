@@ -14,6 +14,9 @@ class Resource < ActiveRecord::Base
     .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
     .group('resources.id')
   end
+  
+  cattr_reader :per_page
+  @@per_page = 400
 
   define_index do
     indexes :title, :sortable => true
