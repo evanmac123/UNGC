@@ -1,13 +1,11 @@
 - @body_class = 'details'
-%h3
-  = link_to "Resources", admin_resources_path, :class => 'dark_blue'
-  &#x25BA; View Resource
 
-%div{:class => "tab_container top_tabs"}
-  %ul.tab_nav
-    %li <a href="#overview">Overview</a>
+.resources-show-container
+  %h3
+    = link_to "Resources", admin_resources_path, :class => 'dark_blue'
+    &#x25BA; View Resource
 
-  #overview.tab_content.resources-show
+  .resources-show
     %ul{:class => "tools inline"}
       %li= link_to "Edit", edit_admin_resource_path(@resource.id), :class => 'edit_large'
       - if current_contact.is?(Role.website_editor)
@@ -45,7 +43,7 @@
             %li= topic.name
       %dt Links
       %dd
-        %ul.document_list
+        %ul.document_list.resources-link-list
           - @resource.links.each do |link|
             %li
               = link_to truncate(link.title, length: 60), link.url, target: '_blank', title: link.title, class: "#{link.link_type}"

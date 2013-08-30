@@ -177,7 +177,10 @@ ul.nav_bar
     &.linkedin
       background: transparent url('../assets/icons/LinkedIn_24x24.png') no-repeat 0px 5px
 
-  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large, a.folder_large, a.search_large, a.new_org, a.zip_file_large, a.guest_large
+  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large,
+  div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large,
+  a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large,
+  a.folder_large, a.search_large, a.new_org, a.zip_file_large, a.guest_large, button.new_large
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -193,8 +196,12 @@ ul.nav_bar
       text-decoration: underline
       cursor: pointer
 
-  a.new_large
+  a.new_large, button.new_large
     background: url('../assets/icons/Add_24x24.png') no-repeat top left
+
+  button.new_large
+    border: 0
+    padding-top: 0
 
   a.edit_large
     background: url('../assets/icons/Edit_24x24.png') no-repeat top left
@@ -339,6 +346,7 @@ ul.nav_bar
         background: transparent no-repeat
         color: $medium_grey
         display: block
+        white-space: nowrap
 
         &:hover
           color: $dark_grey
@@ -359,7 +367,7 @@ ul.nav_bar
 
     td
       border-bottom: 1px solid #ccc
-      vertical-align: mileft_columnle
+      vertical-align: middle
       padding:
         top: 6px
         bottom: 3px

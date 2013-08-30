@@ -9,8 +9,8 @@
     %th= sort_header 'Title', field: 'title'
     %th= sort_header 'Year', field: 'year'
     %th= sort_header 'Issue Tags', field: 'principles_count'
-    %th= sort_header 'Status', field: 'approval'
-    %th Actions
+    %th.status-cell= sort_header 'Status', field: 'approval'
+    %th.action-cell Actions
 
   - @resources.each do |resource|
     %tr
@@ -21,8 +21,8 @@
         = resource.year.year rescue nil
       %td
         = resource.principles_count
-      %td=h approval_name(resource)
-      %td
+      %td.status-cell=h approval_name(resource)
+      %td.action-cell
         %ul.actions
           %li
             = link_to 'Show', admin_resource_path(resource.id), :class => "preview", :title => "Show"

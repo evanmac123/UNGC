@@ -42,7 +42,7 @@
       %table.author_table
         - @resource.authors.each do |author|
           = render 'author_row', authors:@authors, author_id:author.id
-      = button_tag('Add Author...', id:'add_author')
+      = button_tag('Add Author...', id:'add_author', class: 'new_large')
 
   #links.tab_content
     %fieldset
