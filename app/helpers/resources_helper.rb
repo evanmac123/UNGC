@@ -18,7 +18,7 @@ module ResourcesHelper
     when 'pending'
       'Pending review'
     when 'approved'
-      "Approved on #{@resource.approved_at}"
+      "Approved on #{resource.approved_at}"
     when 'previously'
       'Revoked'
     else
