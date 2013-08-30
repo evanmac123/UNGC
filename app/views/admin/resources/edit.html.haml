@@ -1,6 +1,6 @@
-%h2
-  Edit Resource
-  =truncate(@resource.title, :length => 60)
+%h3
+  = link_to "Resources", admin_resources_path, :class => 'dark_blue'
+  &#x25BA; Edit Resource
 
 = form_for @resource, builder: DefaultFormBuilder, :url => admin_resource_path(@resource), :html => {:multipart => true} do |form|
   = render :partial => form

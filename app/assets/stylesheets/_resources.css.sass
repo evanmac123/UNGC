@@ -98,14 +98,16 @@
     background: url('../assets/icons/Rate (Thumbs Down)_24x24.png') no-repeat left top
 
   dl.left_column
-    ol
-      padding-bottom: 10px
-      li
-        margin-bottom: 8px
-    img
-      max-width: 260px
-    + dl.left_column
-      margin-left: 30px
+    width: 70% !important
+    dd
+      ol
+        padding-bottom: 10px
+        li
+          margin-bottom: 8px
+      img
+        max-width: 260px
+      + dl.left_column
+        margin-left: 30px
 
   .resource-table
     td
@@ -119,36 +121,14 @@
       word-wrap: break-word
   .title
     max-width: 300px
-  .icon
-    display: inline-block
-    width: 16px
-    height: 16px
-    background-repeat: no-repeat
-    background-position: 0 0
-    margin-right: 5px
-    position: relative
-    top: 3px
-    &.web
-      background-image: url('../assets/icons/resources/web.png')
-    &.doc
-      background-image: url('../assets/icons/resources/doc.png')
-    &.pdf
-      background-image: url('../assets/icons/resources/pdf.png')
-    &.mp3
-      background-image: url('../assets/icons/resources/mp3.png')
-    &.ppt
-      background-image: url('../assets/icons/resources/ppt.png')
 
+  ul.document_list li
+    a
+      float: left
+      padding-bottom: 10px
+    span.language
+      margin-top: 9px
+      float: right
 
 .resource-index-table
   margin: 10px 0 15px !important
-
-
-.admin-resource-links
-  .icon
-    float: left
-    margin-right: 8px
-    top: 0
-  a
-    overflow: hidden
-

@@ -16,12 +16,12 @@
     %tr
       %td= resource.id
       %td{:title => resource.title}
-        = truncate(resource.title, :length => 40)
+        = truncate(resource.title, :length => 90)
       %td
         = resource.year.year rescue nil
       %td
         = resource.principles_count
-      %td=h resource.approval.humanize
+      %td=h approval_name(resource)
       %td
         %ul.actions
           %li

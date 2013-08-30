@@ -26,8 +26,8 @@
                                             :start_year => Time.now.year,
                                             :end_year => Time.now.year - 25 },
                                           {:label => 'Year'}
-        = default_form.text_field  :isbn, :label => 'Isbn'
-        = default_form.text_field  :image_url, :label => 'Image Url'
+        = default_form.text_field  :isbn, :label => 'ISBN'
+        = default_form.text_field  :image_url, :label => 'Image URL'
 
   #topics.tab_content
     %fieldset
@@ -52,10 +52,10 @@
       %table.link_table
         %tr
           %th Title
-          %th Url
+          %th URL
           %th Language
           %th Type
-          %th Actions
+          %th &nbsp;
         - @resource.links.each do |link, i|
           = render 'link_row', types:@types, languages:@languages, link:link
-      = link_to 'New link...', '#', id:'add_link'
+      = link_to 'New link...', '#', id:'add_link', :class => 'new_large'
