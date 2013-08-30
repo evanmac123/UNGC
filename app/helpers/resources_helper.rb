@@ -12,7 +12,7 @@ module ResourcesHelper
     selected = url_for(params.merge(:order => params[:order]))
     select_tag :per_page, options_for_select(options, :selected => selected), :class => 'autolink'
   end
-  
+
   def approval_name(resource)
     case resource.approval
     when 'pending'
@@ -25,5 +25,5 @@ module ResourcesHelper
       'Unknown'
     end
   end
-  
+
 end
