@@ -51,6 +51,7 @@ class Admin::ResourcesController < AdminController
   def approve
     @resource = Resource.find(params[:id])
     if allowed_to_approve
+      @resource.approved_by_id = current_contact.id
       @resource.approve!
       redirect_to admin_resources_url, notice:'Resource approved'
     else
