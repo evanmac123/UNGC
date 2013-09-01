@@ -18,12 +18,16 @@ module ResourcesHelper
     when 'pending'
       'Pending review'
     when 'approved'
-      "Approved on #{resource.approved_at}"
+      'Approved'
     when 'previously'
       'Revoked'
     else
       'Unknown'
     end
   end
-
+  
+  def approver_name(resource)
+    Contact.find(resource.approved_by_id).first_name rescue 'Unknown'
+  end
+  
 end
