@@ -13,12 +13,12 @@
         %dt
           %label Language
         %dd
-          = select_tag 'resource_search[language]', languages_for_select(@search.language), include_blank: true
+          = select_tag 'resource_search[language]', languages_for_select(@search.language), include_blank: true, multiple: true
       %dl
         %dt
           %label Authors
         %dd
-          = select_tag('resource_search[author]', options_from_collection_for_select(@authors, 'id', 'full_name',selected: @search.author), multiple: true)
+          = select_tag 'resource_search[author]', options_from_collection_for_select(@authors, 'id', 'full_name',selected: @search.author), multiple: true
 
     %fieldset
       %legend Search by Topic

@@ -47,6 +47,6 @@ class ResourceSearch < OpenStruct
     end
 
     def filter_options_for_language(options)
-      options[:with].merge!(language_id: language.to_i)
+      options[:with].merge!(language_ids: language.map { |i| i.to_i })
     end
 end
