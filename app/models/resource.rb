@@ -36,5 +36,4 @@ class Resource < ActiveRecord::Base
     set_property :min_prefix_len => 4
   end
 
-
 end

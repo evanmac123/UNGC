@@ -1,0 +1,15 @@
+%h1 Featured
+
+%ul#featured
+- @featured.featured.each do |f|
+  = render partial: 'featured_resource', locals: { resource: f }
+
+%h2 Global Compact
+%ul#global_compact
+- @featured.global_compact.each do |f|
+  = render partial: 'featured_resource', locals: { resource: f }
+
+%h2 Human Rights
+%ul#human_rights
+- @featured.human_rights.each do |f|
+  = render partial: 'featured_resource', locals: { resource: f }

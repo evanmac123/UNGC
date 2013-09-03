@@ -15,6 +15,8 @@ class ResourcesController < ApplicationController
   def search
     @leftnav_selected = FakePage.new('resources','About Us','resources')
     @subnav_selected = FakePage.new('tools_resources','Tools And Resources','search')
+
+    @featured = ResourceFeatured.new
     if params[:commit].blank?
       @authors = Author.scoped
       @topics = Principle.topics_menu
