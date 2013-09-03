@@ -193,6 +193,7 @@ UNGC::Application.routes.draw do
   # Resources
   match '/resources/search' => 'resources#search', :as => :resources_search
   get '/resources/:id' => 'resources#show', :as => :resource
+  get '/resources' => 'resources#index', :as => :resources
 
   match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
   match 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
