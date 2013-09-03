@@ -6,6 +6,7 @@ class ResourcesController < ApplicationController
 
   def show
     @resource = Resource.approved.find(params[:id])
+    @resource.increment_views if @resource
   end
 
   def index
