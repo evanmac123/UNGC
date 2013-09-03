@@ -24,9 +24,10 @@ $(document).ready(function() {
   if($('form.resources_search').length === 1) {
 
     var query = $.parseQuery();
-    console.log(query)
     if (query.tab === "search") {
       showSearch();
+    } else {
+      showFeatured();
     }
 
     $('.browse').on('click',function(e){
