@@ -66,27 +66,44 @@
   .search-field
     width: 492px
 
+#resource_search_language_chosen
+  width: 504px !important
+
+.resources_search
+  dd > input
+    margin-top: 13px
+  #resource_search_author_chosen, #resource_search_language_chosen
+    margin-top: 4px
+
+
 
 .resource-toggle-views
   overflow: hidden
   text-align: center
   margin: 5px 0 15px
+  font-size: 0
   button
     border: 1px solid #ccc
     background: darken(white, 10%)
     display: inline-block
     padding: 8px 15px
-    margin: 0 -1px
     font-size: 12px
-    font-weight: bold
+    font-weight: normal
     position: relative
     cursor: pointer
+    text-align: center
+    width: 105px
+    &, &:hover
+      outline: 0 !important
     &.browse
       border-radius: 3px 0 0 3px
     &.search
       border-radius: 0 3px 3px 0
       border-left: 0
-      left: -2px
+    &.active
+      color: #00546E
+      font-weight: bold
+      background-color: darken(white, 4%)
 
 
 .results-tools
