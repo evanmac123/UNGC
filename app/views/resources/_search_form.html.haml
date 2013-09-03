@@ -18,7 +18,7 @@
         %dt
           %label Authors
         %dd
-          = select_tag('resource_search[author]', options_from_collection_for_select(@authors, 'id', 'full_name',selected: @search.author), multiple: true, id: "author")
+          = select_tag('resource_search[author]', options_from_collection_for_select(@authors, 'id', 'full_name',selected: @search.author), multiple: true)
 
     %fieldset
       %legend Search by Topic

@@ -1,7 +1,8 @@
 $(document).ready(function() {
   // enable chosen for the search form
   if ($('form.resources_search').length == 1) {
-    $('#author').chosen();
+    $('#resource_search_language').chosen();
+    $('#resource_search_author').chosen();
   }
 
   // deal with the topics tree
