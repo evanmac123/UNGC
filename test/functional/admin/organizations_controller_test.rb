@@ -155,6 +155,12 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_select "input#organization_commitment_letter"
     end
 
+    should "not see Country select" do
+      sign_in @user
+      get :edit, {:id => @organization.to_param}
+      assert_select "select#organization_country_id", 0
+    end
+
     should "staff should see the fieldset for selecting why they are in review" do
       # sign_in @staff_user
       # get :edit, {:id => @organization.to_param}
