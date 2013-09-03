@@ -1,6 +1,7 @@
 module ResourcesHelper
   def languages_for_select(selected_language=nil)
-    options_for_select(Language.all.map { |c| [c.name, c.id] }, selected: selected_language)
+    languages = ResourceLink.includes(:language).select(:language_id).map{ |c| [c.language.name, c.language_id] }.uniq
+    options_for_select(languages, selected: selected_language)
   end
 
   def resource_sort_by
