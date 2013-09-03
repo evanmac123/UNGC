@@ -1,15 +1,28 @@
 %h1 Featured
 
-%ul#featured
-- @featured.featured.each do |f|
-  = render partial: 'featured_resource', locals: { resource: f }
+.display_shelf-section.ungc
+  .display_shelf-header
+    = link_to 'view all', '', class: 'view-all'
+    %h3 Featured Resources
 
-%h2 Global Compact
-%ul#global_compact
-- @featured.global_compact.each do |f|
-  = render partial: 'featured_resource', locals: { resource: f }
+  %ul.display_shelf
+    - @featured.featured.each do |f|
+      = render partial: 'featured_resource', locals: { resource: f }
 
-%h2 Human Rights
-%ul#human_rights
-- @featured.human_rights.each do |f|
-  = render partial: 'featured_resource', locals: { resource: f }
+.display_shelf-section.ungc
+  .display_shelf-header
+    = link_to 'view all', '', class: 'view-all'
+    %h3 Global Compact
+
+  %ul.display_shelf
+    - @featured.global_compact.each do |f|
+      = render partial: 'featured_resource', locals: { resource: f }
+
+.display_shelf-section.human_rights
+  .display_shelf-header
+    = link_to 'view all', '', class: 'view-all'
+    %h3 Human Rights
+
+  %ul.display_shelf
+    - @featured.human_rights.each do |f|
+      = render partial: 'featured_resource', locals: { resource: f }
