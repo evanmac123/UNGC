@@ -6,7 +6,7 @@ class ResourcesController < ApplicationController
 
   def show
     @resource = Resource.approved.find(params[:id])
-    @resource.increment_views if @resource
+    @resource.increment_views! if @resource
   end
 
   def index
@@ -30,6 +30,13 @@ class ResourcesController < ApplicationController
       @search.order = params[:order]
       @results = @search.get_search_results
       render :action => 'results'
+    end
+  end
+
+  def link_views
+    ResourceLink.find(params[:resource_link_id]).increment_views!
+    respond_to do |format|
+      format.js { render nothing: true }
     end
   end
 end

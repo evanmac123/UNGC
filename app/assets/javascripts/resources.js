@@ -21,28 +21,6 @@ $(document).ready(function() {
     enableChosen();
   }
 
-  if($('form.resources_search').length === 1) {
-
-    var query = $.parseQuery();
-    if (query.tab === "search") {
-      showSearch();
-    } else {
-      showFeatured();
-    }
-
-    $('.browse').on('click',function(e){
-      e.preventDefault();
-      showFeatured();
-    });
-
-    $('.search').on('click',function(e){
-      e.preventDefault();
-      showSearch();
-    });
-
-  };
-
-
   // deal with the topics tree
   var hideTopicsList = function(el){
     var ol = $(el).siblings('ol')
@@ -72,5 +50,39 @@ $(document).ready(function() {
   $('ol.topics-list .toggle').on('click', function(e){
     hideTopicsList(this);
   });
+
+  if($('form.resources_search').length === 1) {
+
+    var query = $.parseQuery();
+    if (query.tab === "search") {
+      showSearch();
+    } else {
+      showFeatured();
+    }
+
+    $('.browse').on('click',function(e){
+      e.preventDefault();
+      showFeatured();
+    });
+
+    $('.search').on('click',function(e){
+      e.preventDefault();
+      showSearch();
+    });
+
+  }
+
+  if($('.resource-show-details').length === 1) {
+    $('.resource_link').on('click',function(e){
+      var id = $(this).data('resource-link-id');
+
+      $.ajax({
+        url: '/resources/link_views',
+        type: 'POST',
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: { resource_link_id: id }
+      });
+    });
+  }
 
 });
