@@ -1,6 +1,12 @@
+h1. 2013-09-03
+
+* Do not allow participants to change their country
+* Relationship Managers are assigned by country, so they should review and make this change manually
+
 h1. 2013-08-20
 
 * Delay invoice email or pledge reminder to organization by 1 day after joining. This delivery call was moved from the CommentObserver to a cron task. Cron task runs at 1AM daily.
+* The Relationship Managers did not want the invoice to be sent at the exact same time as the welcome email
 
 h1. 2013-07-25
 
