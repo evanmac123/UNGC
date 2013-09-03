@@ -13,7 +13,7 @@ class ResourcesController < ApplicationController
   end
 
   def search
-    @leftnav_selected = FakePage.new('resources','About Us','resources')
+    @leftnav_selected = FakePage.new('resources','About Us','search')
     @subnav_selected = FakePage.new('tools_resources','Tools And Resources','search')
 
     @featured = ResourceFeatured.new
