@@ -15,6 +15,8 @@
  *= require forms
  *= require application_form
  *= require participant_search_form
+ *= require chosen
+ *= require ./public-resources
  */
 
 body { background-color: #fff; font-family: Helvetica, Arial, sans-serif; }
@@ -108,6 +110,7 @@ body.websiteinfo      #inner_head { background: url(/assets/banner_websiteinfo.p
 body.environment_c4c  #inner_head { background: url(/assets/banner_environment_c4c.png); }
 body.environment_ceo  #inner_head { background: url(/assets/banner_environment_ceo.png); }
 body.supply_chain     #inner_head { background: url(/assets/banner_supply_chain.png); }
+body.tools_resources  #inner_head { background: url(/assets/banner_tools_resources.png); }
 
 #header_content { margin: 0 auto; width: 1000px; position: relative; }
 #logo { position: absolute; top: 30px; left: 45px; }
@@ -610,4 +613,20 @@ table.summaryBenefits td.title {
 
 table.summaryBenefits td.rowTitle {
   text-align: left;
+}
+
+
+#rightcontent.fullscreen {
+  width: auto;
+  left: 0;
+}
+
+#rightcontent.fullscreen .path {
+  width: auto;
+}
+
+
+#rightcontent.fullscreen .copy {
+  width: auto;
+  padding: 15px 30px 0;
 }

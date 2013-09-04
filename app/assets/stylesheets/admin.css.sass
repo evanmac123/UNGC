@@ -177,7 +177,10 @@ ul.nav_bar
     &.linkedin
       background: transparent url('../assets/icons/LinkedIn_24x24.png') no-repeat 0px 5px
 
-  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large, div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large, a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large, a.folder_large, a.search_large, a.new_org, a.zip_file_large, a.guest_large
+  a.new_large, a.edit_large, a.edit_small, a.new_page_large, div.new_page_large, a.info_large,
+  div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large,
+  a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large,
+  a.folder_large, a.search_large, a.new_org, a.zip_file_large, a.guest_large, button.new_large
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -193,8 +196,12 @@ ul.nav_bar
       text-decoration: underline
       cursor: pointer
 
-  a.new_large
+  a.new_large, button.new_large
     background: url('../assets/icons/Add_24x24.png') no-repeat top left
+
+  button.new_large
+    border: 0
+    padding-top: 0
 
   a.edit_large
     background: url('../assets/icons/Edit_24x24.png') no-repeat top left
@@ -339,6 +346,7 @@ ul.nav_bar
         background: transparent no-repeat
         color: $medium_grey
         display: block
+        white-space: nowrap
 
         &:hover
           color: $dark_grey
@@ -458,6 +466,7 @@ ul.nav_bar
       margin-left: 150px
       padding: 10px 10px 10px 0
       border-top: 1px solid #999
+      line-height: 1.3em
       &.first, &.title, &.social
         border: none
       &.title
@@ -486,10 +495,13 @@ ul.nav_bar
           background-image: url('../assets/icons/doc_jpg.png')
         &.pdf
           background-image: url('../assets/icons/doc_pdf.png')
-        &.word
+        &.word, &.doc
           background-image: url('../assets/icons/doc_word.png')
         &.web
           background-image: url('../assets/icons/Web Browser_24x24.png')
+        &.mp3
+          background-image: url('../assets/icons/resources/mp3.png')
+
 
 .container > .sidebar
   background: $light_blue
@@ -1250,3 +1262,4 @@ ul.cop-question-year-filter
       font-weight: bold
 
 @import 'cops'
+@import 'resources'

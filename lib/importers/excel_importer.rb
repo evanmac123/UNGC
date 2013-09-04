@@ -38,7 +38,7 @@ module Importers
 
             all_models.each do |model|
               if model.changed?
-                if model.save(false)
+                if model.save({validate: false})
                   report(row, model, "updated", :green, true)
                 else
                   report(row, model, "failed to save", :red, false)
@@ -56,7 +56,7 @@ module Importers
 
     def get_value(row, column_name)
       if index = @column_names.index(column_name)
-        value = row[index].strip
+        value = row[index].to_s.strip
         return nil if value.empty?
 
         return value unless block_given?

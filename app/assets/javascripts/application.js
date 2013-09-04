@@ -20,10 +20,12 @@
 //= require jquery.tablesorter.pager
 //= require jquery.jeditable.mini
 //= require jquery.tree.min
+//= require chosen.jquery.min
 //= require_self
 //= require cop_form
 //= require dashboard
 //= require page_editor
+//= require resources
 
 $.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
 

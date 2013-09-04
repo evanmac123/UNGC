@@ -1,0 +1,5 @@
+class Topic < Principle
+
+
+
+end

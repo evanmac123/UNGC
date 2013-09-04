@@ -1,0 +1,10 @@
+
+.resource-toggle-views
+  %button.browse Browse
+  %button.search Search
+
+#resources_featured
+  %h1 Featured
+
+#resources_search{:class => "#{ @results ? 'hidden' : ''}" }
+  = render :partial => 'search_form'

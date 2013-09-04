@@ -1,0 +1,210 @@
+
+=p
+  outline:                    1px solid red !important
+
+
+.topics-list
+  margin-left: 10px !important
+  li
+    overflow: hidden
+    padding: 5px 0
+    margin: 0
+    position: relative
+  input
+    float: left
+    margin: 0 10px 0 20px !important
+  label
+    margin-top: 4px
+.expanded-list
+  clear: both
+  padding-top: 5px
+  margin: 0 0 -3px 23px
+  .expanded-list
+    margin: 0 0 0 23px
+    padding-top: 4px
+.toggle
+  position: absolute
+  left: 0
+  top: 8px
+  background-color: darken(white, 5%)
+  border: 1px solid #ccc
+  border-radius: 3px
+  width: 11px
+  height: 11px
+  text-align: center
+  line-height: 9px
+  font-size: 11px
+  color: #666
+  cursor: pointer
+  &.expand:before
+    content: '+'
+  &.collapse:before
+    content: '-'
+
+
+.resources-main
+  dt
+    padding-top: 7px
+  input, select
+    padding: 3px 5px
+  select
+    width: 492px
+  input
+    width: 482px
+
+
+#author_chosen
+  .chosen-choices, .chosen-results
+    margin-left: 0 !important
+  .chosen-drop
+    margin-top: -9px
+  .chosen-choices li
+    float: none !important
+    margin: 3px 5px !important
+  .search-choice-close
+    top: 7px
+  .search-field
+    width: 492px
+
+
+.resource-toggle-views
+  overflow: hidden
+  text-align: center
+  margin: 5px 0 15px
+  button
+    border: 1px solid #ccc
+    background: darken(white, 10%)
+    display: inline-block
+    padding: 8px 15px
+    margin: 0 -1px
+    font-size: 12px
+    font-weight: bold
+    position: relative
+    cursor: pointer
+    &.browse
+      border-radius: 3px 0 0 3px
+    &.search
+      border-radius: 0 3px 3px 0
+      border-left: 0
+      left: -2px
+
+
+.results-tools
+  list-style: none !important
+  margin: 0 !important
+  li
+    float: left
+
+
+.results-actions
+  float: left
+  padding-top: 2px
+  li
+    margin-right: 15px
+
+.results-filter
+  float: right
+  li
+    margin-left: 15px
+
+
+.resource-results
+  clear: both
+  padding-top: 30px
+  margin: 0 !important
+  list-style: none !important
+  > li
+    border-top: 1px solid darken(white, 5%)
+    padding: 20px 0
+    overflow: hidden
+
+.button
+  border: 1px solid #ccc
+  background: darken(white, 10%)
+  display: inline-block
+  padding: 6px 8px 3px
+  line-height: 1
+  font-weight: bold
+  position: relative
+  cursor: pointer
+  color: #666 !important
+  border-radius: 3px
+  &:hover
+    text-decoration: none !important
+
+.resource-result-body
+  overflow: hidden
+  h3
+    margin: 0 0 10px !important
+  .detail
+    color: #666
+    &:before
+      content: '('
+    &:after
+      content: ')'
+
+
+.resource-result-img,
+.resource-show-img
+  float: left
+  background-color: darken(white, 2.5%)
+  margin-right: 25px
+  box-shadow: inset 0 3px 10px -3px rgba(black,0.2)
+  border: 1px solid darken(white, 8%)
+  img
+    display: block
+
+.resource-result-img
+  min-height: 50px
+  &, img
+    width: 77px
+
+.resource-show-img
+  min-height: 100px
+  margin-top: 18px
+  &, img
+    width: 231px
+
+.resource-show-body
+  overflow: hidden
+  h3
+    margin-bottom: 10px !important
+    font-size: 18px !important
+
+.resource-show-details
+  dt, dd
+    min-height: 19px
+  dd
+    overflow: hidden
+    padding-top: 12px
+  p
+    line-height: 19px !important
+  ul, li, p, a
+    margin: 0 !important
+  ul, p, a
+    padding: 0 !important
+  li
+    padding-top: 5px !important
+    &:first-child
+      padding-top: 0 !important
+  .resource_link
+    height: 16px
+    background-repeat: no-repeat !important
+    background-position: 0 0 !important
+    padding-left: 25px !important
+    line-height: 16px
+    display: block
+    position: relative
+    top: 1px
+    &.web
+      background-image: url('../assets/icons/resources/web.png') !important
+    &.doc
+      background-image: url('../assets/icons/resources/doc.png') !important
+    &.pdf
+      background-image: url('../assets/icons/resources/pdf.png') !important
+    &.mp3
+      background-image: url('../assets/icons/resources/mp3.png') !important
+    &.ppt
+      background-image: url('../assets/icons/resources/ppt.png') !important
+
+

@@ -160,6 +160,13 @@ UNGC::Application.routes.draw do
 
     match 'learning'         => 'learning#index', :as => :learning
     match 'learning/:action' => 'learning'
+
+    resources :resources do
+      member do
+        post :approve
+        post :revoke
+      end
+    end
   end
 
   resources :organizations, :only => :index
@@ -183,6 +190,9 @@ UNGC::Application.routes.draw do
   match '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
   match '/participant/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
 
+  # Resources
+  #match '/resources/search' => 'resources#search', :as => :resources_search
+  #get '/resources/:id' => 'resources#show', :as => :resource
 
   match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
   match 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
