@@ -1,12 +1,10 @@
 - @body_class = 'details'
 
 .resources-show-container
-  %h3
-    = link_to "Resources", admin_resources_path, :class => 'dark_blue'
-    &#x25BA; View Resource
 
   .resources-show
     %ul{:class => "tools inline"}
+      %li= link_to 'Resources', admin_resources_path, :class => 'go_back_large'
       %li= link_to "Edit", edit_admin_resource_path(@resource.id), :class => 'edit_large'
       - if current_contact.is?(Role.website_editor)
         -if @resource.can_approve?
@@ -48,4 +46,3 @@
             %li
               = link_to truncate(link.title, length: 60), link.url, target: '_blank', title: link.title, class: "#{link.link_type}"
               %span.language= link.language.name
-
