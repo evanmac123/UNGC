@@ -48,8 +48,14 @@ module FixtureReplacement
     c.code = FixtureReplacement.random_string
 	end
 
-  attributes_for :event do |a|
-    a.title = FixtureReplacement.random_string
+  attributes_for :event do |e|
+    e.title = FixtureReplacement.random_string
+  end
+
+  attributes_for :searchable_event, class:Event do |e|
+    e.title = FixtureReplacement.random_string
+    e.location = FixtureReplacement.random_string
+    e.description = FixtureReplacement.random_string
   end
 
   attributes_for :exchange do |a|
@@ -151,5 +157,20 @@ module FixtureReplacement
 
   attributes_for :signing do |s|
     s.added_on = Date.today
+  end
+
+  attributes_for :resource do |r|
+    r.title = FixtureReplacement.random_string
+    r.description = FixtureReplacement.random_string
+  end
+
+  attributes_for :author do |a|
+  end
+
+  attributes_for :resource_link do |l|
+    l.resource = Resource.first || create_resource
+    l.language = Language.first || create_language
+    l.title = FixtureReplacement.random_string
+    l.link_type = ResourceLink::TYPES.keys.shuffle.first.to_s
   end
 end

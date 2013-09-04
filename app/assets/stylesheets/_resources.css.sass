@@ -1,0 +1,153 @@
+// =============================================================================
+// ADMIN > RESOURCES
+// =============================================================================
+
+// simple debug mixin
+=p
+  outline:                    1px solid red !important
+
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+#main_content fieldset
+  .topics-tree
+    .topics-list
+      li
+        overflow: hidden
+        padding: 5px 0
+        margin: 0
+        position: relative
+      input
+        float: left
+        margin: 0 10px 0 20px !important
+      label
+        margin-top: 4px
+    .expanded-list
+      clear: both
+      padding-top: 5px
+      margin: 0 0 -3px 23px
+      .expanded-list
+        margin: 0 0 0 23px
+        padding-top: 4px
+    .toggle
+      position: absolute
+      left: 0
+      top: 8px
+      background-color: darken(white, 5%)
+      border: 1px solid #ccc
+      border-radius: 3px
+      width: 11px
+      height: 11px
+      text-align: center
+      line-height: 9px
+      font-size: 11px
+      color: #666
+      cursor: pointer
+      &.expand:before
+        content: '+'
+      &.collapse:before
+        content: '-'
+
+
+  .author_table
+    select
+      margin-left: 0
+      width: 615px
+    .remove_author
+      background: transparent url('../assets/icons/Delete_24x24.png') no-repeat center left
+      padding-left: 26px
+      height: 24px
+      font-size: 12px
+      margin: 0 auto
+      border: 0
+      cursor: pointer
+      left: -20px
+      display: block
+      position: relative
+      top: 7px
+      font-weight: 700
+      color: #14546F
+
+
+.link_table
+  width: 750px
+  td, th
+    text-align: left
+  input, textarea, select
+    width: auto !important
+    margin: 0 !important
+  tbody td:last-child
+    text-align: center
+
+
+.resources-show
+
+  .approve, .revoke
+    display: block
+    height: 24px
+    padding: 5px 0 0 30px
+    text-align: left
+    color: $dark_blue
+    text-decoration: none
+    opacity: 0.85
+    font-weight: bold
+    margin-right: 25px
+    &:hover
+      opacity: 1
+      text-decoration: underline
+      cursor: pointer
+  .approve
+    background: url('../assets/icons/Rate (Thumbs Up)_24x24.png') no-repeat left top
+  .revoke
+    background: url('../assets/icons/Rate (Thumbs Down)_24x24.png') no-repeat left top
+
+  dl.left_column
+    width: 70% !important
+    dd
+      ol
+        padding-bottom: 10px
+        li
+          margin-bottom: 8px
+      img
+        max-width: 260px
+        border: 1px solid $light_grey
+      + dl.left_column
+        margin-left: 30px
+
+  .resource-table
+    td
+      line-height: 1.4
+      vertical-align: top !important
+  .url
+    &, span
+      max-width: 300px
+    span
+      display: inline-block
+      word-wrap: break-word
+  .title
+    max-width: 300px
+
+  ul.document_list li
+    a
+      float: left
+      padding-bottom: 10px
+    span.language
+      margin-top: 9px
+      float: right
+
+.resource-index-table
+  margin: 10px 0 15px !important
+  .status-cell
+    width: 170px
+  .action-cell
+    width: 62px
+
+
+.resources-show-container
+  padding-left: 20px
+  overflow: auto
+
+
+.resources-link-list
+  li
+    overflow: hidden

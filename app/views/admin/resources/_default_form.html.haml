@@ -1,0 +1,61 @@
+- if default_form.error_messages.present?
+  %h3 Sorry, the Resource was not saved. Please provide all required information:
+  %div{:class => 'flash error'}
+    %ul
+      - @resource.errors.full_messages.each do |e|
+        %li= e
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li
+      %a{:href => '#general'} General
+    %li
+      %a{:href => '#topics'} Topics
+    %li
+      %a{:href => '#authors'} Authors
+    %li
+      %a{:href => '#links'} Links
+
+  #general.tab_content
+    %fieldset
+      %legend General Information
+      %ol
+        = default_form.text_field  :title, :label => 'Title'
+        = default_form.text_area   :description, :label => 'Description'
+        = default_form.date_select :year, { :order => [:year],
+                                            :start_year => Time.now.year,
+                                            :end_year => Time.now.year - 25 },
+                                          {:label => 'Year'}
+        = default_form.text_field  :isbn, :label => 'ISBN'
+        = default_form.text_field  :image_url, :label => 'Image URL'
+
+  #topics.tab_content
+    %fieldset
+      %legend Topics
+      = render '/shared/topics_menu', prefix: 'resource', topics: @topics, topics_ids: @resource.principle_ids
+
+  #authors.tab_content
+    %fieldset
+      %legend Authors
+      %script#author_template{type:'text/x-jquery-tmpl'}
+        = render 'author_row', authors:@authors, author_id:nil
+      %table.author_table
+        - @resource.authors.each do |author|
+          = render 'author_row', authors:@authors, author_id:author.id
+      = button_tag('Add Author...', id:'add_author', class: 'new_large')
+
+  #links.tab_content
+    %fieldset
+      %legend Links
+      %script#link_template{type:'text/x-jquery-tmpl'}
+        = render 'link_row', types:@types, languages:@languages, link:ResourceLink.new
+      %table.link_table
+        %tr
+          %th Title
+          %th URL
+          %th Language
+          %th Type
+          %th &nbsp;
+        - @resource.links.each do |link, i|
+          = render 'link_row', types:@types, languages:@languages, link:link
+      = link_to 'New link...', '#', id:'add_link', :class => 'new_large'

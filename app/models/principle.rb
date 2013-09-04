@@ -14,6 +14,7 @@
 class Principle < ActiveRecord::Base
   validates_presence_of :name
   has_and_belongs_to_many :communication_on_progresses
+  has_and_belongs_to_many :resources
   acts_as_tree
 
   TYPE_NAMES = { :global_compact       => "Global Compact",
@@ -52,6 +53,14 @@ class Principle < ActiveRecord::Base
 
   def self.principles_for_issue_area(area)
     PrincipleArea.area_for(PrincipleArea::FILTERS[area]).children
+  end
+
+  def self.topics_menu
+    topics = {}
+    Principle.where('reference is not null').each do |topic|
+      topics[topic.reference.to_sym] = topic
+    end
+    topics
   end
 
 end

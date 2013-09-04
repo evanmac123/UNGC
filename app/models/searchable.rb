@@ -36,11 +36,12 @@ class Searchable < ActiveRecord::Base
   extend SearchableOrganization
   extend SearchablePage
   extend SearchableCommunicationOnProgress
+  extend SearchableResource
 
   define_index do
     indexes title
     indexes content
-    has document_type, :facet => true
+    has document_type, :as => :document_type, :facet => true
     has url, last_indexed_at
     set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
     set_property :field_weights => {"title" => 100}
@@ -68,6 +69,8 @@ class Searchable < ActiveRecord::Base
       searchable
     end
 
+    # The intent here appears to be that this method is called manually once at
+    # install time to seed the Searchables table. See index_new_or_updated.
     def index_all
       index_pages
       index_events
@@ -75,8 +78,11 @@ class Searchable < ActiveRecord::Base
       index_case_stories
       index_organizations
       index_communications_on_progress
+      index_resources
     end
 
+    # This method is called by cron to periodically update the searchables.
+    # See scripts/cron/searchable
     def index_new_or_updated
       max = find(:all, select: 'MAX(last_indexed_at) as max').first.try(:max)
       raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
@@ -86,6 +92,7 @@ class Searchable < ActiveRecord::Base
       index_case_stories_since(max)
       index_organizations_since(max)
       index_communications_on_progress_since(max)
+      index_resources_since(max)
     end
 
     def new_or_updated_since(time)

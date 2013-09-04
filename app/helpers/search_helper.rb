@@ -18,7 +18,8 @@ module SearchHelper
       'Event' => 'Events',
       'Headline' => 'News',
       'Participant' => 'Participants',
-      'Page' => 'Pages'
+      'Page' => 'Pages',
+      'Resource' => 'Resources',
     }[key]
   end
 end

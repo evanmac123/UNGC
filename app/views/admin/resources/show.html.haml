@@ -1,0 +1,51 @@
+- @body_class = 'details'
+
+.resources-show-container
+  %h3
+    = link_to "Resources", admin_resources_path, :class => 'dark_blue'
+    &#x25BA; View Resource
+
+  .resources-show
+    %ul{:class => "tools inline"}
+      %li= link_to "Edit", edit_admin_resource_path(@resource.id), :class => 'edit_large'
+      - if current_contact.is?(Role.website_editor)
+        -if @resource.can_approve?
+          %li= link_to "Approve", approve_admin_resource_path(@resource.id), :class => 'approve', :method => :post, :title => "Approve resource for public view"
+        -if @resource.can_revoke?
+          %li= link_to "Revoke", revoke_admin_resource_path(@resource.id), :class => 'revoke', :method => :post, :title => "Revoke resource from public view"
+
+    %dl.left_column
+      %dt.first Title
+      %dd.first= @resource.title
+      %dt Year
+      %dd= @resource.year.year rescue nil
+      %dt Status
+      %dd= approval_name(@resource)
+      - if @resource.image_url?
+        %dt Preview
+        %dd= image_tag @resource.image_url
+      %dt Description
+      %dd= @resource.description
+      - if @resource.isbn?
+        %dt ISBN
+        %dd= @resource.isbn
+      %dt Authors
+      %dd
+        %ul.document_list
+          = "No authors selected" unless @resource.authors.any?
+          - @resource.authors.each do |a|
+            %li= a.full_name
+      %dt Topics
+      %dd
+        %ul.document_list
+          = "No topics selected" unless @resource.principles.any?
+          - @resource.principles.each do |topic|
+            %li= topic.name
+      %dt Links
+      %dd
+        %ul.document_list.resources-link-list
+          - @resource.links.each do |link|
+            %li
+              = link_to truncate(link.title, length: 60), link.url, target: '_blank', title: link.title, class: "#{link.link_type}"
+              %span.language= link.language.name
+
