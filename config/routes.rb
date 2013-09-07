@@ -174,15 +174,17 @@ UNGC::Application.routes.draw do
   # Front-end routes
   match '/feeds/cops' => 'cops#feed', :format => 'atom'
 
+  # Alias redirects
   match '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
   match '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
   match '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
   match '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
-  match '/ungcweek'       => 'pages#redirect_to_page', :page => '/NewsAndEvents/global_compact_week.html'
   match '/rio_resources'  => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
   match '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
   match '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
   match ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
+  match '/app'             => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
+  match '/businesspartnershiphub' => 'pages#redirect_to_page', :page => '/docs/news_events/Summit_2013/QuickMobile/businesspartnershiphub.html'
 
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
