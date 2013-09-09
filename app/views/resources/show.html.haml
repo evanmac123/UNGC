@@ -7,8 +7,7 @@
   %h3= @resource.title
   %p
     = @resource.description
-    - unless @resource.year.blank?
-      = @resource.year.year
+    = "(#{@resource.year.year})" unless @resource.year.blank?
 
 
   .resource-show-details
