@@ -10,7 +10,7 @@ class ResourceSearch < OpenStruct
       per_page: (per_page || 10).to_i,
       page: (page || 1).to_i,
       star: true,
-      order: (order || 'title asc')
+      order: (order || 'year desc')
     }
 
     options[:per_page] = 100 if options[:per_page] > 100
