@@ -7,6 +7,9 @@ class ResourcesController < ApplicationController
   def show
     @resource = Resource.approved.find(params[:id])
     @resource.increment_views! if @resource
+    @current_section = FakePage.new('resources','About Us','/AboutTheGC')
+    @leftnav_selected = FakePage.new('tools_resources','Tools And Resources','search')
+    @subnav_selected = FakePage.new('tools_resources',@resource.title,'search')
   end
 
   def index
