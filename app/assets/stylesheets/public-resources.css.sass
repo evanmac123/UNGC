@@ -114,8 +114,6 @@
   list-style: none !important
   > li
     border-top: 1px solid darken(white, 5%)
-    padding: 20px 0
-    overflow: hidden
 
 .button
   border: 1px solid #ccc
@@ -130,10 +128,25 @@
   border-radius: 3px
   &:hover
     text-decoration: none !important
+@media screen and (-webkit-min-device-pixel-ratio:0)
+  .button
+    padding-bottom: 5px
+
+
+.resouce-block-link
+  display: block
+  padding: 20px 0
+  overflow: hidden
+  &:hover
+    text-decoration: none !important
+    //border-bottom: 0
+    background-color: darken(white, 3%)
+  p
+    color: black
 
 .resource-result-body
   overflow: hidden
-  h3
+  h4
     margin: 0 0 10px !important
   .detail
     color: #666
@@ -184,6 +197,7 @@
     padding: 0 !important
   li
     padding-top: 5px !important
+    border-bottom: 0 !important
     &:first-child
       padding-top: 0 !important
   .resource_link

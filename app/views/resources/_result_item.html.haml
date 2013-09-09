@@ -1,4 +1,4 @@
-%a{href: "#{resource_path(result)}"}
+%a.resouce-block-link{href: "#{resource_path(result)}"}
   .resource-result-img
     - unless result.image_url.blank?
       = image_tag(result.image_url, title: result.title)
