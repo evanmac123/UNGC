@@ -4,7 +4,10 @@
 
 .resource-show-body
   %h3= @resource.title
-  %p= @resource.description
+  %p
+    = @resource.description
+    - unless @resource.year.blank?
+      = @resource.year.year
 
 
   .resource-show-details
@@ -23,10 +26,6 @@
           - @resource.authors.each do |author|
             %li
               = link_to author.full_name, resources_search_path(commit: "search", resource_search: {author: [author.id]})
-    %dl
-      %dt Year
-      %dd
-        = @resource.year.year
 
     %dl
       %dt Links
