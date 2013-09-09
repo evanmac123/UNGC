@@ -9,7 +9,7 @@ password: `airbrakeungc`
 
 ## NewRelic RPM
 URL: `https://rpm.newrelic.com`
-user: `@unspace.ca`
+user: `ungc@unspace.ca`
 password: `newrelic`
 
 ## App
