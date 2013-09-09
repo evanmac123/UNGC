@@ -2,45 +2,20 @@
 =p
   outline:                    1px solid red !important
 
+@import 'topics-list'
 
-.topics-list
-  margin-left: 10px !important
-  li
-    overflow: hidden
-    padding: 5px 0
-    margin: 0
-    position: relative
-  input
-    float: left
-    margin: 0 10px 0 20px !important
+#resources_featured,
+#resources_search
+  &.hidden
+    display: none
+
+#resources_search
+  legend, label
+    color: #14546f
+  legend
+    font-size: 1em
   label
-    margin-top: 4px
-.expanded-list
-  clear: both
-  padding-top: 5px
-  margin: 0 0 -3px 23px
-  .expanded-list
-    margin: 0 0 0 23px
-    padding-top: 4px
-.toggle
-  position: absolute
-  left: 0
-  top: 8px
-  background-color: darken(white, 5%)
-  border: 1px solid #ccc
-  border-radius: 3px
-  width: 11px
-  height: 11px
-  text-align: center
-  line-height: 9px
-  font-size: 11px
-  color: #666
-  cursor: pointer
-  &.expand:before
-    content: '+'
-  &.collapse:before
-    content: '-'
-
+    font-weight: normal
 
 .resources-main
   dt
@@ -52,8 +27,8 @@
   input
     width: 482px
 
-
-#resource_search_author_chosen, #resource_search_language_chosen
+#resource_search_author_chosen,
+#resource_search_language_chosen
   .chosen-choices, .chosen-results
     margin-left: 0 !important
   .chosen-drop
@@ -69,13 +44,20 @@
 #resource_search_language_chosen
   width: 504px !important
 
+
+#resource_search_keyword
+  width: 482px !important
+  padding: 8px 10px
+  margin-top: 5px
+  font-size: 11px
+
+
 .resources_search
   dd > input
     margin-top: 13px
-  #resource_search_author_chosen, #resource_search_language_chosen
+  #resource_search_author_chosen,
+  #resource_search_language_chosen
     margin-top: 4px
-
-
 
 .resource-toggle-views
   overflow: hidden
@@ -84,7 +66,7 @@
   font-size: 0
   button
     border: 1px solid #ccc
-    background: darken(white, 10%)
+    background: darken(white, 4%)
     display: inline-block
     padding: 8px 15px
     font-size: 12px
@@ -93,6 +75,7 @@
     cursor: pointer
     text-align: center
     width: 105px
+    color: #00546E
     &, &:hover
       outline: 0 !important
     &.browse
@@ -101,9 +84,8 @@
       border-radius: 0 3px 3px 0
       border-left: 0
     &.active
-      color: #00546E
-      font-weight: bold
-      background-color: darken(white, 4%)
+      color: black
+      background-color: darken(white, 10%)
 
 
 .results-tools
@@ -403,9 +385,7 @@
         &:after
           border-left-color: darken(#FFD900, 10%)
 
-#resources_featured.hidden
-  display: none
 
-#resources_search.hidden
-  display: none
+
+
 

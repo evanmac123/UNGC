@@ -7,48 +7,13 @@
   outline:                    1px solid red !important
 
 
+.topics-tree .topics-list .expanded-list
+  padding-top: 8px !important
+
 // -----------------------------------------------------------------------------
+// INDEX VIEW
 // -----------------------------------------------------------------------------
 #main_content fieldset
-  .topics-tree
-    .topics-list
-      li
-        overflow: hidden
-        padding: 5px 0
-        margin: 0
-        position: relative
-      input
-        float: left
-        margin: 0 10px 0 20px !important
-      label
-        margin-top: 4px
-    .expanded-list
-      clear: both
-      padding-top: 5px
-      margin: 0 0 -3px 23px
-      .expanded-list
-        margin: 0 0 0 23px
-        padding-top: 4px
-    .toggle
-      position: absolute
-      left: 0
-      top: 8px
-      background-color: darken(white, 5%)
-      border: 1px solid #ccc
-      border-radius: 3px
-      width: 11px
-      height: 11px
-      text-align: center
-      line-height: 9px
-      font-size: 11px
-      color: #666
-      cursor: pointer
-      &.expand:before
-        content: '+'
-      &.collapse:before
-        content: '-'
-
-
   .author_table
     select
       margin-left: 0
@@ -69,6 +34,8 @@
       color: #14546F
 
 
+
+
 .link_table
   width: 750px
   td, th
@@ -79,27 +46,18 @@
   tbody td:last-child
     text-align: center
 
+.resource-index-table
+  margin: 10px 0 15px !important
+  .status-cell
+    width: 170px
+  .action-cell
+    width: 66px
 
+
+// -----------------------------------------------------------------------------
+// SHOW VIEW
+// -----------------------------------------------------------------------------
 .resources-show
-
-  .approve, .revoke
-    display: block
-    height: 24px
-    padding: 5px 0 0 30px
-    text-align: left
-    color: $dark_blue
-    text-decoration: none
-    opacity: 0.85
-    font-weight: bold
-    margin-right: 25px
-    &:hover
-      opacity: 1
-      text-decoration: underline
-      cursor: pointer
-  .approve
-    background: url('../assets/icons/Rate (Thumbs Up)_24x24.png') no-repeat left top
-  .revoke
-    background: url('../assets/icons/Rate (Thumbs Down)_24x24.png') no-repeat left top
 
   dl.left_column
     margin-top: 20px
@@ -136,22 +94,9 @@
       margin-top: 9px
       float: right
 
-.resource-index-table
-  margin: 10px 0 15px !important
-  .status-cell
-    width: 170px
-  .action-cell
-    width: 62px
-
-
 .resources-show-container
   padding-left: 20px
   overflow: auto
 
-
-.resources-link-list
-  li
-    overflow: hidden
-
-
-
+.resources-link-list li
+  overflow: hidden

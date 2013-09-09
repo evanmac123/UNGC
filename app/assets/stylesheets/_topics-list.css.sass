@@ -1,0 +1,44 @@
+.topics-tree .topics-list
+  margin-left: 10px !important
+  li
+    overflow: hidden
+    padding: 5px 0
+    margin: 0 !important
+    position: relative
+  input
+    float: left
+    margin: 0 10px 0 20px !important
+  label
+    margin-top: 4px
+
+  .expanded-list
+    clear: both
+    padding-top: 5px !important
+    margin: 0 0 0 23px !important
+    .expanded-list
+      margin: 0 0 0 23px
+      padding-top: 4px
+
+  .toggle
+    position: absolute
+    left: 0
+    top: 8px
+    background-color: darken(white, 5%)
+    border: 1px solid #ccc
+    border-radius: 3px
+    width: 11px
+    height: 11px
+    text-align: center
+    line-height: 9px
+    font-size: 11px
+    color: #666
+    cursor: pointer
+    &.expand:before
+      content: '+'
+    &.collapse:before
+      content: '-'
+
+// hack for webkit browsers
+@media screen and (-webkit-min-device-pixel-ratio:0)
+  .topics-tree .topics-list .toggle
+    top: 7px
