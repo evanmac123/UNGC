@@ -28,6 +28,7 @@
                                           {:label => 'Year'}
         = default_form.text_field  :isbn, :label => 'ISBN'
         = default_form.text_field  :image_url, :label => 'Image URL'
+        = default_form.file_field  :image, :label => 'Image Upload', accept: 'image/png,image/gif,image/jpeg'
 
   #topics.tab_content
     %fieldset

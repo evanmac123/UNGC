@@ -17,9 +17,12 @@
 #
 
 class Resource < ActiveRecord::Base
-  attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids
+  attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids, :image
+  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" },
+    :url => "/system/:class/:attachment/:id/:style/:filename"
 
   validates_presence_of :title, :description
+  #validates_attachment_content_type :image, content_type: /image/
 
   include ContentApproval
 
