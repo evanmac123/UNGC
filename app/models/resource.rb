@@ -18,7 +18,14 @@
 
 class Resource < ActiveRecord::Base
   attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids, :image
-  has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" },
+  has_attached_file :image, :styles => {
+      :show => "213x275>",
+      :'show@2x' => "425x550>",
+      :featured => "141x183>",
+      :'featured@2x' => "282x366>",
+      :result => "85x110>",
+      :'result@2x' => "170x220>"
+    },
     :url => "/system/:class/:attachment/:id/:style/:filename"
 
   validates_presence_of :title, :description
@@ -68,6 +75,14 @@ class Resource < ActiveRecord::Base
 
   def approval_name
     STATES[approval.to_sym]
+  end
+
+  def cover_image(size, options={})
+    if options[:retina]
+      image.exists? ? image.url(size.to_s + '@2x') : image_url
+    else
+      image.exists? ? image.url(size) : image_url
+    end
   end
 
 end
