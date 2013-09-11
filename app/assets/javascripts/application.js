@@ -27,6 +27,7 @@
 //= require page_editor
 //= require resources
 //= require organization_signup
+//= require retina
 
 $.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
 
