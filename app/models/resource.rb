@@ -77,7 +77,7 @@ class Resource < ActiveRecord::Base
     STATES[approval.to_sym]
   end
 
-  def cover_image(size, options={})
+  def cover_image(size = nil, options={})
     if options[:retina]
       image.exists? ? image.url(size.to_s + '@2x') : image_url
     else
