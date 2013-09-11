@@ -2,6 +2,19 @@
 =p
   outline:                    1px solid red !important
 
+// =media-retina
+//   @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 192dpi)
+//     @content
+
+// .retina-image
+//   +media-retina
+//     background-position: 0 0
+//     background-repeat: no-repeat
+//     min-height: auto !important
+//     box-shadow: none !important
+//     img
+//       visibility: hidden !important
+
 @import 'topics-list'
 
 #resources_featured,
@@ -139,7 +152,6 @@
   overflow: hidden
   &:hover
     text-decoration: none !important
-    //border-bottom: 0
     background-color: darken(white, 3%)
   p
     color: black
@@ -165,17 +177,19 @@
   border: 1px solid darken(white, 8%)
   img
     display: block
+    max-width: 100%
 
 .resource-result-img
-  min-height: 50px
+  height: 110px
   &, img
-    width: 77px
+    width: 85px
 
 .resource-show-img
-  min-height: 100px
   margin-top: 18px
+  height: 275px
   &, img
-    width: 231px
+    width: 213px
+
 
 .resource-show-body
   overflow: hidden
@@ -272,10 +286,10 @@
     height: 183px
     overflow: hidden
     background-color: darken(white, 3%)
+    &, img
+      width: 141px
     img
-      min-width: 100%
       margin: 0 auto
-
 
 .display_shelf-section
   &.ungc
