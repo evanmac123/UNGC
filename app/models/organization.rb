@@ -103,7 +103,9 @@ class Organization < ActiveRecord::Base
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
 
-  has_attached_file :commitment_letter
+  has_attached_file :commitment_letter,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
 
   cattr_reader :per_page
   @@per_page = 100

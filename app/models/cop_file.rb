@@ -19,7 +19,9 @@ class CopFile < ActiveRecord::Base
   belongs_to :communication_on_progress, :foreign_key => :cop_id
   belongs_to :language
 
-  has_attached_file :attachment
+  has_attached_file :attachment,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
   validates_attachment_presence :attachment
 
   TYPES = {:grace_letter          => 'grace_letter',
