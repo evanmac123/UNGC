@@ -379,6 +379,11 @@ class Organization < ActiveRecord::Base
     initiative ? initiative_ids.include?(initiative.id) : false
   end
 
+  def contributor_for_year?(year)
+    initiative = Initiative.contributor_for_year(year).first
+    initiative ? initiative_ids.include?(initiative.id) : false
+  end
+
   def country_name
     country.try(:name)
   end
@@ -562,6 +567,11 @@ class Organization < ActiveRecord::Base
 
   def participant_for_over_5_years?
     joined_on < 5.years.ago.to_date
+  end
+
+  # Participants were eligible to contribute starting in 2006
+  def initial_contribution_year
+    joined_on.year > 2006 ? joined_on.year : 2006
   end
 
   def participant_for_less_than_years(years)

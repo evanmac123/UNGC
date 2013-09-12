@@ -1,130 +1,123 @@
 - @title = @participant.name
-%h1 Participant Information
-%h2= @participant.name
+%h1= @participant.name
 
-%ul.nolist.participant_data.striped
-
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong
-        - if @participant.was_expelled? && @participant.active
-          Initial Participation
-        - else
-          Participant since
-    .right= yyyy_mm_dd @participant.joined_on
-
+%dl
+  %dt
+    - if @participant.was_expelled? && @participant.active
+      Initial Participation
+    - else
+      Participant since
+  %dd
+    %ul
+      %li= yyyy_mm_dd @participant.joined_on
   - if @participant.was_expelled? && @participant.active
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong Expelled
-      .right= yyyy_mm_dd @participant.delisted_on
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong Readmitted
-      .right= yyyy_mm_dd @participant.rejoined_on
-
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong= display_participant_status_title(@participant)
-    .right= display_participant_status(@participant)
+    %dt Expelled
+    %dd
+      %ul
+        %li= yyyy_mm_dd @participant.delisted_on
+    %dt Readmitted
+    %dd
+      %ul
+        %li= yyyy_mm_dd @participant.rejoined_on
+  %dt= display_participant_status_title(@participant)
+  %dd
+    %ul
+      %li
+        = display_participant_status(@participant)
+  - if @participant.business_entity?
+    %dt= display_cop_status_title(@participant)
+    %dd
+      %ul
+        %li
+          = display_cop_status(@participant)
 
   - if @participant.delisted?
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong= display_delisted_description(@participant)
-      .right= @participant.try(:removal_reason).try(:description)
+    %dt= display_delisted_description(@participant)
+    %dd
+      %ul
+        %li= @participant.removal_reason.description rescue "Unknown"
 
-  - elsif @participant.company? && @participant.participant_has_submitted_differentiation_cop
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong Differentiation Level
-      .right= @participant.status_name
+  - elsif @participant.business_entity? && @participant.participant_has_submitted_differentiation_cop
+    %dt Differentiation Level
+    %dd
+      %ul
+        %li= @participant.status_name
 
+  %dt Country
+  %dd
+    %ul
+      %li= @participant.country_name
 
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong Country
-    .right= @participant.country_name
+  %dt Employees
+  %dd
+    %ul
+      %li= @participant.employees
 
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong Employees
-    .right= @participant.employees
-
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong Organization Type
-    .right
-      = @participant.is_ft_500 ? 'FT 500' : nil
-      = @participant.organization_type_name
+  %dt Organization Type
+  %dd
+    %ul
+      %li
+        = @participant.is_ft_500 ? 'FT 500' : nil
+        = @participant.organization_type_name
 
   - if @participant.business_entity?
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong Ownership
-      .right= @participant.listing_status_name
+    %dt Ownership
+    %dd
+      %ul
+        %li
+          = @participant.listing_status_name
+    %dt Sector
+    %dd
+      %ul
+        %li= @participant.sector_name
 
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong Sector
-      .right= @participant.sector_name
+  - if @participant.commitment_letter_file_name.present?
+    %dt Letter of Commitment
+    %dd
+      %ul
+        %li
+          = link_to truncate(@participant.commitment_letter_file_name, :length => 60), @participant.commitment_letter.url, :title => @participant.commitment_letter_file_name
 
-  - unless @participant.commitment_letter_file_name.blank?
-    %li{:class=>"clearfix #{cycle('even', 'odd')}",:title=>@participant.commitment_letter_file_name}
-      .left
-        %strong Letter of Commitment
-      .right= link_to truncate(@participant.commitment_letter_file_name), @participant.commitment_letter.url
+  %dt Website
+  %dd
+    %ul
+      %li= @participant.url.blank? ? 'No address provided' : link_to(@participant.url, @participant.url)
 
-  %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-    .left
-      %strong Website
-    .right= @participant.url.blank? ? 'No address provided' : link_to(@participant.url, @participant.url)
+  - if @participant.stock_symbol.present? && @participant.exchange.present?
+    %dt Financial Information
+    %dd
+      %ul
+        %li
+          = link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]
+          |
+          = link_to 'Yahoo! Finance', "http://finance.yahoo.com/q?s=%s%s" % [@participant.stock_symbol, ('.' + @participant.exchange.secondary_code unless @participant.exchange.secondary_code.blank?)]
 
-  - unless @participant.stock_symbol.blank? || @participant.exchange.blank?
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong Financial Information
-      .right
-        = link_to 'Google Finance', "http://finance.google.com/finance?q=%s:%s" % [@participant.exchange.code, @participant.stock_symbol]
-        |
-        = link_to 'Yahoo! Finance', "http://finance.yahoo.com/q?s=%s%s" % [@participant.stock_symbol, ('.' + @participant.exchange.secondary_code unless @participant.exchange.secondary_code.blank?)]
-
-  - unless @participant.bhr_url.blank?
-    %li{:class=>"clearfix #{cycle('even', 'odd')}"}
-      .left
-        %strong{:style=>'white-space: nowrap;'} Non-Financial Information:
-      .right= link_to 'Business and Human Rights Resource Centre', 'http://www.business-humanrights.org/Categories/Individualcompanies/' + @participant.bhr_url
-
-- if @participant.noncommunicating? && @participant.cop_due_on < Date.today
-  %h3 Participant Status
-  %p== #{@participant.name} was required to communicate on progress by #{yyyy_mm_dd(@participant.cop_due_on)}. Their COP is now #{days_cop_overdue(@participant)} overdue.
-
-- if @participant.business_entity? && @participant.active?
-  %h3 Next Communication on Progress
-  %p== #{@participant.name} is required to communicate on progress by #{yyyy_mm_dd(@participant.cop_due_on)}.
-
+  - if @participant.bhr_url.present?
+    %dt Non-Financial Information
+    %dd
+      %ul
+        %li= link_to 'Business and Human Rights Resource Centre', 'http://www.business-humanrights.org/Categories/Individualcompanies/' + @participant.bhr_url
 
 - if @participant.communication_on_progresses.new_policy.approved.any?
-  .cop_links
-    %h3 Communication on Progress
+  %br/
+  %h2 Communication on Progress
 
   %table.cop_links{:cellspacing => 0, :cellpadding => 0}
     %thead
       %tr
         %th Communication
-        %th CEO Statement
-        %th Issue Areas Covered
-        %th Measurement of Outcome
+        %th CEO<br />Statement
+        %th Issue Areas<br />Covered
+        %th Measurement<br />of Outcomes
     %tbody
       - for cop in @participant.communication_on_progresses.new_policy.approved do
         %tr{:title => cop.title}
-          %td= link_to truncate(cop.title, :length => 30), cop_link(cop, params[:navigation])
+          %td= link_to truncate(cop.title, :length => 40), cop_link(cop, params[:navigation])
           %td.center= check_if cop.include_continued_support_statement?
           %td.center== #{cop.score} / 4
           %td.center= check_if cop.include_measurement?
 
 - if @participant.communication_on_progresses.old_policy.approved.any?
-  .cop_links
   %h3 Communication on Progress (pre-2010)
 
   %table.cop_links{:cellspacing=>0, :cellpadding=>0}
@@ -133,17 +126,17 @@
         %th{:rowspan=>2} Submission Date
         %th{:rowspan=>2} Time Period Covered
         %th{:rowspan=>2} Communication Title
-        %th{:colspan=>3} COP Elements
+        %th.center{:colspan=>3} COP Elements
       %tr
         %th.check 1
         %th.check 2
         %th.check 3
     %tbody
-      - for cop in  @participant.communication_on_progresses.old_policy.approved do
+      - for cop in @participant.communication_on_progresses.old_policy.approved do
         %tr{:title => cop.title}
           %td.center= yyyy_mm_dd cop.created_at
           %td.center= date_range cop
-          %td= link_to truncate(cop.title, :length => 30), cop_link(cop, params[:navigation])
+          %td= link_to truncate(cop.title, :length => 20), cop_link(cop, params[:navigation])
           %td.center= check_if cop.include_continued_support_statement?
           %td.center= check_if cop.include_actions?
           %td.center= check_if cop.include_measurement?
@@ -154,8 +147,15 @@
     %li Description of practical actions taken to implement the Global Compact principles
     %li Measurement of outcomes or expected outcomes
 
-- if @participant.communication_on_progresses.approved.any?
-  %p Note: Responsibility for the content of participants' Communication on Progress and any other public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
+- if @participant.business_entity?
+  %h2{style: 'padding-top: 2em;'} Annual contributions to the Foundation for the Global Compact
+
+  %table.cop_links{:cellspacing=>0, :cellpadding=>0}
+    %thead
+      %tr
+        %th Year
+        %th Annual contribution received
+    %tbody=contribution_years(@participant)
 
 - if @participant.case_stories.approved.any?
   .case_stories
