@@ -1,3 +1,13 @@
+h1. 2013-09-12
+
+* We are listing the years which companies have contributed to the Foundation
+* This is an interim step until we create a proper Contribution model
+* We track contributors for each year by referring to the Initiative's name: "#{year} Foundation Contributors"
+* The method Organization#contributor_for_year?(year) checks if the organization is included in the contribution initiative for that year
+* The Foundation was established in 2006, so that's the earliest they can contribute, even if they joined in 2004
+* In the participants public profile, we then count down from the current year to the first eligible contribution year
+* Reformat participant show views by removing using the dl style
+
 h1. 2013-09-03
 
 * Do not allow participants to change their country
