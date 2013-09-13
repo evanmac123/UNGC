@@ -9,7 +9,7 @@
     %th= sort_header 'Title', field: 'title'
     %th= sort_header 'Year', field: 'year'
     %th= sort_header 'Topics', field: 'principles_count'
-    %th.status-cell= sort_header 'Status', field: 'approval'
+    %th.status-cell= sort_header 'Status', field: 'approved_at'
     %th.action-cell Actions
 
   - @resources.each do |resource|
