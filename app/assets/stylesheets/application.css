@@ -389,57 +389,36 @@ table.sortable thead tr th.headerSortDown {
   padding-left: 16px !important;
 }
 
-.nolist {
-  list-style: none;
-  margin: 0 0 1em 0 !important;
-  padding: 0 !important;
-}
-
-.nolist li {
-  list-style: none;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.participant_data li {
-  clear: both;
-}
-
-.participant_data .left {
-  width: 12em;
-  padding: 0.2em 1em;
-}
-
-.participant_data .right {
-  text-align: left;
-  float: left;
-  padding: 0.2em 1em;
-  width: auto;
-}
-
 table.cop_links {
   padding: 0;
-  margin: 0 0 1em 0;
+  margin: 0 0 3em 0;
   width: 100%;
 }
 
 .cop_links td,
 .cop_links th {
+  text-align: left;
+  line-height: 1.2em;
   margin: 0;
-  padding: 0.1em 0.33em;
-  border-bottom: 1px solid black;
+  padding: 0.75em 0em;
+  border-bottom: 1px solid #ccc;
+}
+
+.cop_links tr:last-child td {
+  border: none;
 }
 
 .cop_links th {
+  color: #00546E;
   vertical-align: bottom;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid #ccc;
 }
 
 .cop_links .check {
   width: 18px;
 }
 
-td.center {
+.center {
   text-align: center;
 }
 
@@ -476,12 +455,12 @@ td.center {
   font-weight: bold;
   padding-top: 12px;
   white-space: nowrap;
-  width: 100px;
+  width: 120px;
 }
 
 #main_content dd, .copy dd {
   border-top: 1px solid #ccc;
-  margin-left: 100px;
+  margin-left: 120px;
 }
 
 #main_content dt:first-child, .copy dt:first-child, #main_content dt:first-child + dd, .copy dt:first-child + dd {
@@ -578,44 +557,6 @@ span.business_peace { color: #453058; }
 .copy ul.icons li img { margin: 0px 10px 0 0; float: left; }
 .copy ul.icons li + li { padding-top: 8px; height: 50px; width: 260px;}
 
-/*table for Rio+20 Sponsorship */
-
-table.summaryBenefits {
-  border: none;
-  line-height: 115%;
-  font-size: 11px;
-  text-align: center;
-}
-
-table.summaryBenefits td {
-  padding: 8px 5px;
-  border-bottom: 1px solid #999;
-  }
-
-table.summaryBenefits tr.last td {border: none;}
-
-table.summaryBenefits tr.headerRow th, table.summaryBenefits tr:hover.headerRow th {
-  background-color: #00546E;
-  color: #FFF;
-  padding: 5px 10px;
-  font-size: 10px;
-  font-weight: bold;
-  line-height: 1.3em;
-}
-table.summaryBenefits td.sectionTitle { border: none; background-color: #EEE; font-size: 10px; font-weight: bold; color: #000; }
-
-table.summaryBenefits td.title {
-  font-size: 12px;
-  text-align: center;
-  color: #FFF;
-  background-color: #004860;
-}
-
-table.summaryBenefits td.rowTitle {
-  text-align: left;
-}
-
-
 #rightcontent.fullscreen {
   width: auto;
   left: 0;
@@ -624,7 +565,6 @@ table.summaryBenefits td.rowTitle {
 #rightcontent.fullscreen .path {
   width: auto;
 }
-
 
 #rightcontent.fullscreen .copy {
   width: auto;

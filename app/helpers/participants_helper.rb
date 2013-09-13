@@ -30,19 +30,39 @@ module ParticipantsHelper
   end
 
   def display_participant_status(organization)
-
     if organization.non_comm_dialogue_on.present?
-      return "#{yyyy_mm_dd organization.non_comm_dialogue_on} - for failure to engage in dialogue"
+      "#{yyyy_mm_dd organization.non_comm_dialogue_on} - for failure to engage in dialogue"
     end
 
-    case organization.cop_state
-      when Organization::COP_STATE_NONCOMMUNICATING
-        'Non-Communicating'
-      when Organization::COP_STATE_DELISTED
-        yyyy_mm_dd(organization.delisted_on)
-      else
-        organization.cop_state.humanize
+    if organization.cop_state == Organization::COP_STATE_ACTIVE
+      status = 'Active'
     end
+
+    if organization.cop_state == Organization::COP_STATE_NONCOMMUNICATING
+      status = 'Non-Communicating'
+    end
+
+    if organization.cop_state == Organization::COP_STATE_DELISTED
+      status = yyyy_mm_dd organization.delisted_on
+    end
+
+    status.html_safe
+  end
+
+  def display_cop_status_title(organization)
+    organization.cop_due_on < Date.today ? "COP deadline passed" : "Next COP due"
+  end
+
+  def display_cop_status(organization)
+    status = yyyy_mm_dd organization.cop_due_on
+
+    if organization.cop_state == Organization::COP_STATE_NONCOMMUNICATING
+      if organization.cop_due_on < Date.today
+        status = "#{yyyy_mm_dd(@participant.cop_due_on)} (#{days_cop_overdue(organization)} overdue)"
+      end
+    end
+
+    status.html_safe
   end
 
   def display_delisted_description(organization)
@@ -56,6 +76,15 @@ module ParticipantsHelper
 
   def days_cop_overdue(organization)
     distance_of_time_in_words(Date.today, organization.cop_due_on)
+  end
+
+  def contribution_years(organization)
+    html = ""
+    Date.today.year.downto(organization.initial_contribution_year) do |year|
+      contributed = organization.contributor_for_year?(year)
+      html += render :partial => 'contribution', :locals => { :year => year, :contributed => contributed }
+    end
+    html.html_safe
   end
 
   def countries_list
