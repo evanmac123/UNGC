@@ -1,4 +1,4 @@
-- @title = 'UNGC | ' + @resource.title
+- @title = 'Resource | ' + @resource.title
 .resource-show-img
   - unless @resource.image_url.blank?
     = image_tag(@resource.image_url, title: @resource.title)
@@ -35,4 +35,4 @@
         %dd
           %ul
             - @resource.links.each do |link|
-              %li= render link
+              %li.link= render link

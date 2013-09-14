@@ -54,7 +54,7 @@
   .search-field
     width: 492px
 
-#resource_search_language_chosen
+#resource_search_language_chosen, #resource_search_author_chosen
   width: 504px !important
 
 
@@ -162,11 +162,6 @@
     margin: 0 0 10px !important
   .detail
     color: #666
-    &:before
-      content: '('
-    &:after
-      content: ')'
-
 
 .resource-result-img,
 .resource-show-img
@@ -180,9 +175,9 @@
     max-width: 100%
 
 .resource-result-img
-  height: 110px
+  height: 168px
   &, img
-    width: 85px
+    width: 130px
 
 .resource-show-img
   margin-top: 18px
@@ -201,7 +196,6 @@
   dt, dd
     min-height: 19px
   dd
-    overflow: hidden
     padding-top: 12px
   p
     line-height: 19px !important
@@ -210,9 +204,10 @@
   ul, p, a
     padding: 0 !important
   li
-    padding-top: 5px !important
+    padding: 3px 0 !important
     border-bottom: 0 !important
-    padding-bottom: 5px !important
+    &.link
+      padding: 6px 0 !important
     &:first-child
       padding-top: 0 !important
   .resource_link
@@ -235,20 +230,16 @@
     &.ppt
       background-image: url('../assets/icons/resources/ppt.png') !important
 
-
-
-
-
 .display_shelf-header
-  border-bottom: 3px solid
-  padding-bottom: 3px
+  border-bottom: 1px solid
+  padding-bottom: 13px
   margin-bottom: 20px
   &, h3
     overflow: hidden
   .view-all
     float: right
     margin-right: -3px
-    margin-top: 1px
+    margin-top: 5px
     &:after
       display: inline-block
       width: 0
@@ -292,6 +283,9 @@
       margin: 0 auto
 
 .display_shelf-section
+  &.display_shelf-header
+    border-width: 1px
+
   &.ungc
     .display_shelf-header
       border-bottom-color: #00546E

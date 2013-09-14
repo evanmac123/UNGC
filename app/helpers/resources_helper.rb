@@ -5,11 +5,10 @@ module ResourcesHelper
   end
 
   def resource_sort_by
-    # ['Number of results per page', 10, 25, 50, 100]
     options = [
-      ["sort by Year (latest)", url_for(params.merge(:order => "year desc"))],
-      ["sort by Year (earliest)", url_for(params.merge(:order => "year asc"))],
-      ["sort by title", url_for(params.merge(:order => "title asc"))]
+      ["Sort by Year", url_for(params.merge(:order => "year desc"))],
+      # ["Sort by Year (oldest)", url_for(params.merge(:order => "year asc"))],
+      ["Sort by Title", url_for(params.merge(:order => "title asc"))]
     ]
     selected = url_for(params.merge(:order => params[:order]))
     select_tag :per_page, options_for_select(options, :selected => selected), :class => 'autolink'
@@ -33,7 +32,7 @@ module ResourcesHelper
   end
 
   def link_to_all_resources(reference)
-    link_to 'VIEW ALL', resources_search_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all'
+    link_to 'View All', resources_search_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all'
   end
 
 end

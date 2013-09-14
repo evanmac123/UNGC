@@ -33,7 +33,7 @@ class ResourceSearch < OpenStruct
   end
 
   def topic_ids
-      @topic_ids = topic[:principle_ids].map(&:to_i) rescue []
+    @topic_ids = topic[:principle_ids].map(&:to_i) rescue []
   end
 
   private

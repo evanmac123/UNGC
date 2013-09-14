@@ -9,10 +9,6 @@
     %p
       = result.description
 
-    %p.detail><
+    %p.detail
       - if result.authors.any?
-        = result.authors.map{|a| a.acronym || a.full_name }.join('/ ')
-        - unless result.year.blank?
-          ,
-      - unless result.year.blank?
-        = result.year.year
+        == #{result.authors.map{|a| a.acronym || a.full_name }.join(' / ')}, #{result.year.year}

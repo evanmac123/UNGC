@@ -1,7 +1,7 @@
 #resources_search
   = form_tag nil, method: 'get', class: 'resources_search' do
     %fieldset
-      %legend Main Search
+      %legend Details
       %dl
         %dt
           %label Keywords
@@ -19,7 +19,7 @@
           = select_tag 'resource_search[author]', options_from_collection_for_select(@authors, 'id', 'full_name',selected: @search.author), multiple: true, "data-placeholder" => "Find resources from selected authors"
 
     %fieldset
-      %legend Search by Topic
+      %legend Topics
       = render '/shared/topics_menu', prefix: 'resource_search[topic]', topics: @topics, topics_ids: @search.topic_ids
 
     %p{:style => 'text-align: right; display: block;'}= submit_tag 'Search'
