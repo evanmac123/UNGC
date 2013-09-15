@@ -24,7 +24,7 @@
     %ul
       %li
         = display_participant_status(@participant)
-  - if @participant.business_entity?
+  - if @participant.business_entity? && @participant.cop_due_on.present?
     %dt= display_cop_status_title(@participant)
     %dd
       %ul
