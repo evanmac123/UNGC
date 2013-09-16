@@ -22,7 +22,7 @@ class ResourcesController < ApplicationController
 
     @featured = ResourceFeatured.new
     if params[:commit].blank?
-      @authors = Author.scoped
+      @authors = Author.for_approved_resources
       @topics = Principle.topics_menu
       @search = ResourceSearch.new params[:resource_search]
       render :action => 'index'
