@@ -1,18 +1,24 @@
 class ResourceFeatured
 
-  def featured
-    find 1,2,3,4,5
+  def leaders_summit
+    find 441,371,451,381,391
+  end
+
+  def leaders_summit2
+    find 461,401,411,421,421
   end
 
   def global_compact
-    find 6,7,8,9,10
+    find 229,231,241,240,312
   end
 
   def human_rights
-    find 11,12,13,14,15
   end
 
   def labour
+  end
+
+  def summit
   end
 
   def environment
