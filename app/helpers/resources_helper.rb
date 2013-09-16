@@ -33,7 +33,7 @@ module ResourcesHelper
   end
 
   def link_to_all_resources(reference)
-    link_to 'View All', resources_search_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all'
+    link_to 'View All', resources_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all'
   end
 
 end

@@ -9,9 +9,9 @@
 
   %ul.results-tools.results-actions
     %li
-      = link_to "New Search", resources_search_path(tab: 'search'), class: 'button'
+      = link_to "New Search", resources_path(tab: 'search'), class: 'button'
     %li
-      = link_to "Refine Search", resources_search_path(tab: 'search', resource_search: params[:resource_search]), class: 'button'
+      = link_to "Refine Search", resources_path(tab: 'search', resource_search: params[:resource_search]), class: 'button'
   %ul.results-tools.results-filter
     %li
       = per_page_select([10,25,50,75,100])

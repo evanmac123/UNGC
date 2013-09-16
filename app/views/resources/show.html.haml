@@ -18,7 +18,7 @@
           %ul
             - @resource.principles.each do |topic|
               %li
-                = link_to topic.name, resources_search_path(commit: "search", resource_search: {topic: {principle_ids: [topic.id]}})
+                = link_to topic.name, resources_path(commit: "search", resource_search: {topic: {principle_ids: [topic.id]}})
 
     - if @resource.authors.any?
       %dl
@@ -27,7 +27,7 @@
           %ul
             - @resource.authors.each do |author|
               %li
-                = link_to author.full_name, resources_search_path(commit: "search", resource_search: {author: [author.id]})
+                = link_to author.full_name, resources_path(commit: "search", resource_search: {author: [author.id]})
 
     - if @resource.links.any?
       %dl
