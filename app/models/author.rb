@@ -3,6 +3,6 @@ class Author < ActiveRecord::Base
   default_scope order(:full_name)
 
   def self.for_approved_resources
-    Author.joins(:resources).where("resources.approval='approved'")
+    Author.joins(:resources).where("resources.approval='approved'").group('authors.id')
   end
 end
