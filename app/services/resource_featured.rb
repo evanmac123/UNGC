@@ -44,7 +44,8 @@ class ResourceFeatured
 
 private
   def find(*ids)
-    Resource.find ids
+    resources = Resource.find ids
+    ids.collect { |id| resources.detect {|x| x.id == id} }
   end
 
 end
