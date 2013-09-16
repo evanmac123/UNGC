@@ -1,6 +1,7 @@
 module ResourcesHelper
+
   def languages_for_select(selected_language=nil)
-    languages = ResourceLink.includes(:language).select(:language_id).map{ |c| [c.language.name, c.language_id] }.uniq
+    languages = ResourceLink.includes(:language).joins(:resource).where("resources.approval='approved'").select(:language_id).map{ |c| [c.language.name, c.language_id] }.uniq
     options_for_select(languages, selected: selected_language)
   end
 
