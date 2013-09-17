@@ -1,11 +1,10 @@
-- @title = 'Resources | Search Results'
+- @title = 'Tools and Resources | Search Results'
 #resources_results
-  %h1 Search Results
 
-  %p
+  %p.result_description
     There
     = @results.total_count == 1 ? 'is' : 'are'
-    = pluralize(@results.total_count, "resource")
+    = pluralize(@results.total_count, "resource") + @results_description
 
   %ul.results-tools.results-actions
     %li

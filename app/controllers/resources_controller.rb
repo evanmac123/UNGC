@@ -28,6 +28,7 @@ class ResourcesController < ApplicationController
       @search.per_page = params[:per_page]
       @search.order = params[:order]
       @results = @search.get_search_results
+      @results_description = @search.results_description
       render :action => 'results'
     end
   end
