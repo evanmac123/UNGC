@@ -5,7 +5,7 @@ class ResourceFeatured
   end
 
   def leaders_summit2
-    find 461,401,411,421,421
+    find 461,401,411,421,491
   end
 
   def global_compact
