@@ -188,16 +188,13 @@ UNGC::Application.routes.draw do
   match '/HR_Resources'   => 'pages#redirect_to_page', :page => '/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf'
   match '/SABP'           => 'pages#redirect_to_page', :page => '/Issues/partnerships/sustainable_agriculture_business_principles.html'
   match '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
+  match '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
 
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
   match '/participants/search' => 'participants#search', :as => :participant_search
   match '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
   match '/participant/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
-
-  # Resources
-  #match '/resources/search' => 'resources#search', :as => :resources_search
-  #get '/resources/:id' => 'resources#show', :as => :resource
 
   match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
   match 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
