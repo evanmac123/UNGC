@@ -184,7 +184,7 @@ UNGC::Application.routes.draw do
   match '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
   match ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
   match '/app'             => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
-  match '/businesspartnershiphub' => 'pages#redirect_to_page', :page => '/docs/news_events/Summit_2013/QuickMobile/businesspartnershiphub.html'
+  match '/businesspartnershiphub' => 'pages#redirect_to_page', :page => 'http://businesspartnershiphub.org/'
   match '/HR_Resources'   => 'pages#redirect_to_page', :page => '/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf'
   match '/SABP'           => 'pages#redirect_to_page', :page => '/Issues/partnerships/sustainable_agriculture_business_principles.html'
   match '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
