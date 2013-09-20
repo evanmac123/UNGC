@@ -3,5 +3,5 @@
     .image
       = image_tag resource.image_url if resource.image_url
     %h5.title
-      = resource.title.truncate(45)
+      = truncate(resource.title, length: 46, separator: ' ')
 
