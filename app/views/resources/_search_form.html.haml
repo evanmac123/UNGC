@@ -1,9 +1,7 @@
 #resources_search
-  %h1 Find Resources
-
   = form_tag nil, method: 'get', class: 'resources_search' do
     %fieldset
-      %legend Main Search
+      %legend Details
       %dl
         %dt
           %label Keywords
@@ -11,17 +9,17 @@
           = text_field_tag 'resource_search[keyword]', @search.keyword
       %dl
         %dt
-          %label Language
+          %label Languages
         %dd
-          = select_tag 'resource_search[language]', languages_for_select(@search.language), include_blank: true
+          = select_tag 'resource_search[language]', languages_for_select(@search.language), include_blank: true, multiple: true, "data-placeholder" => "Find resources in selected languages"
       %dl
         %dt
           %label Authors
         %dd
-          = select_tag('resource_search[author]', options_from_collection_for_select(@authors, 'id', 'full_name',selected: @search.author), multiple: true, id: "author")
+          = select_tag 'resource_search[author]', options_from_collection_for_select(@authors, 'id', 'full_name',selected: @search.author), multiple: true, "data-placeholder" => "Find resources from selected authors"
 
     %fieldset
-      %legend Search by Topic
+      %legend Topics
       = render '/shared/topics_menu', prefix: 'resource_search[topic]', topics: @topics, topics_ids: @search.topic_ids
 
     %p{:style => 'text-align: right; display: block;'}= submit_tag 'Search'

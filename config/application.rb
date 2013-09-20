@@ -69,7 +69,7 @@ module UNGC
     config.session_store = :active_record_store
 
     # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-    config.assets.precompile += %w(admin.css ie.css print.css google_analytics.js welcome_letter.css themes/apple/style.css)
+    config.assets.precompile += %w(admin.css ie.css print.css google_analytics.js welcome_letter.css themes/apple/style.css public-resources.css)
 
     # Disable IP Spoof check
     config.action_dispatch.ip_spoofing_check = false
