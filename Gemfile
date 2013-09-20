@@ -22,6 +22,8 @@ gem 'custom_error_message',             :git => 'git://github.com/jeremydurham/c
 gem 'airbrake',             '~> 3.1.6'
 gem 'devise',               '~> 2.2.4'
 gem 'dynamic_form',         '1.0.0'
+gem 'sass',                 '~> 3.2.9'
+
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

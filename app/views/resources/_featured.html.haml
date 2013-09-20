@@ -1,0 +1,18 @@
+.display_shelf-section.ungc
+  .display_shelf-header
+    / = link_to_all_resources 'global_compact'
+    %h3 Leaders Summit 2013: New Resources
+  %ul.display_shelf
+    - @featured.leaders_summit.each do |f|
+      = render f
+  %ul.display_shelf
+    - @featured.leaders_summit2.each do |f|
+      = render f
+
+.display_shelf-section.ungc
+  .display_shelf-header
+    / = link_to_all_resources 'global_compact'
+    %h3 Key Global Compact Resources
+  %ul.display_shelf
+    - @featured.global_compact.each do |f|
+      = render f

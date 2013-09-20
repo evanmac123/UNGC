@@ -1,10 +1,10 @@
-
+- @title = 'Tools and Resources'
 .resource-toggle-views
   %button.browse Browse
   %button.search Search
 
 #resources_featured
-  %h1 Featured
+  = render :partial => 'featured'
 
-#resources_search{:class => "#{ @results ? 'hidden' : ''}" }
+#resources_search
   = render :partial => 'search_form'

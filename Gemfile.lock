@@ -177,7 +177,7 @@ GEM
       rubinius-core-api
     rubinius-core-api (0.0.1)
     ruby-ole (1.2.11.4)
-    sass (3.1.20)
+    sass (3.2.10)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -253,6 +253,7 @@ DEPENDENCIES
   prototype-rails
   rails (= 3.2.13)
   rails-dev-tweaks
+  sass (~> 3.2.9)
   sass-rails (~> 3.2.3)
   scout (= 5.5.4)
   shoulda (~> 3.4.0)

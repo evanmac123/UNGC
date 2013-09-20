@@ -1,17 +1,14 @@
-.resource-result-img
-  - unless result.image_url.blank?
-    = image_tag(result.image_url, title: result.title)
+%a.resouce-block-link{href: "#{resource_path(result)}"}
+  .resource-result-img
+    - unless result.image_url.blank?
+      = image_tag(result.image_url, title: result.title)
 
-.resource-result-body
-  %h3
-    = link_to result.title, resource_path(result)
-  %p
-    = result.description
+  .resource-result-body
+    %h4
+      = result.title
+    %p
+      = result.description
 
-  %p.detail><
-    - if result.authors.any?
-      = result.authors.map(&:full_name).join('/ ') + ","
-    - unless result.year.blank?
-      = result.year.year
-
-  = link_to "View", resource_path(result), class: 'button'
+    %p.detail
+      - if result.authors.any?
+        == #{result.authors.map{|a| a.acronym || a.full_name }.join(' / ')}, #{result.year.year}

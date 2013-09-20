@@ -14,7 +14,7 @@ class Resource < ActiveRecord::Base
     .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
     .group('resources.id')
   end
-  
+
   cattr_reader :per_page
   @@per_page = 400
 
@@ -26,7 +26,7 @@ class Resource < ActiveRecord::Base
 
     has authors(:id),     :as => :authors_ids, :facet => true
     has principles(:id),     :as => :principle_ids, :facet => true
-    has links.language(:id), :as => :language_id
+    has links.language(:id), :as => :language_ids, facet: true
 
     where "approval = 'approved'"
 
@@ -36,5 +36,8 @@ class Resource < ActiveRecord::Base
     set_property :min_prefix_len => 4
   end
 
+  def increment_views!
+    self.increment! :views
+  end
 
 end

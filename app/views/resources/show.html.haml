@@ -1,36 +1,38 @@
+- @title = 'Tools and Resources | ' + @resource.title
 .resource-show-img
   - unless @resource.image_url.blank?
     = image_tag(@resource.image_url, title: @resource.title)
 
 .resource-show-body
   %h3= @resource.title
-  %p= @resource.description
+  %p
+    = @resource.description
+    = "(#{@resource.year.year})" unless @resource.year.blank?
 
 
   .resource-show-details
-    %dl
-      %dt Topics
-      %dd
-        %ul
-          - @resource.principles.each do |topic|
-            %li
-              = link_to topic.name, resources_search_path(commit: "search", resource_search: {topic: {principle_ids: [topic.id]}})
+    - if @resource.principles.any?
+      %dl
+        %dt Topics
+        %dd
+          %ul
+            - @resource.principles.each do |topic|
+              %li
+                = link_to topic.name, resources_path(commit: "search", resource_search: {topic: {principle_ids: [topic.id]}})
 
-    %dl
-      %dt Authors
-      %dd
-        %ul
-          - @resource.authors.each do |author|
-            %li
-              = link_to author.full_name, resources_search_path(commit: "search", resource_search: {author: [author.id]})
-    %dl
-      %dt Year
-      %dd
-        = @resource.year.year
+    - if @resource.authors.any?
+      %dl
+        %dt Authors
+        %dd
+          %ul
+            - @resource.authors.each do |author|
+              %li
+                = link_to author.full_name, resources_path(commit: "search", resource_search: {author: [author.id]})
 
-    %dl
-      %dt Links
-      %dd
-        %ul
-          - @resource.links.each do |link|
-            %li= render link
+    - if @resource.links.any?
+      %dl
+        %dt Links
+        %dd
+          %ul
+            - @resource.links.each do |link|
+              %li.link= render link

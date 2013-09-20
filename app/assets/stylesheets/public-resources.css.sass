@@ -2,45 +2,33 @@
 =p
   outline:                    1px solid red !important
 
+// =media-retina
+//   @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 192dpi)
+//     @content
 
-.topics-list
-  margin-left: 10px !important
-  li
-    overflow: hidden
-    padding: 5px 0
-    margin: 0
-    position: relative
-  input
-    float: left
-    margin: 0 10px 0 20px !important
+// .retina-image
+//   +media-retina
+//     background-position: 0 0
+//     background-repeat: no-repeat
+//     min-height: auto !important
+//     box-shadow: none !important
+//     img
+//       visibility: hidden !important
+
+@import 'topics-list'
+
+#resources_featured,
+#resources_search
+  &.hidden
+    display: none
+
+#resources_search
+  legend, label
+    color: #14546f
+  legend
+    font-size: 1em
   label
-    margin-top: 4px
-.expanded-list
-  clear: both
-  padding-top: 5px
-  margin: 0 0 -3px 23px
-  .expanded-list
-    margin: 0 0 0 23px
-    padding-top: 4px
-.toggle
-  position: absolute
-  left: 0
-  top: 8px
-  background-color: darken(white, 5%)
-  border: 1px solid #ccc
-  border-radius: 3px
-  width: 11px
-  height: 11px
-  text-align: center
-  line-height: 9px
-  font-size: 11px
-  color: #666
-  cursor: pointer
-  &.expand:before
-    content: '+'
-  &.collapse:before
-    content: '-'
-
+    font-weight: normal
 
 .resources-main
   dt
@@ -52,8 +40,8 @@
   input
     width: 482px
 
-
-#author_chosen
+#resource_search_author_chosen,
+#resource_search_language_chosen
   .chosen-choices, .chosen-results
     margin-left: 0 !important
   .chosen-drop
@@ -66,27 +54,55 @@
   .search-field
     width: 492px
 
+#resource_search_language_chosen, #resource_search_author_chosen
+  width: 504px !important
+
+#resource_search_keyword
+  width: 482px !important
+  padding: 8px 10px
+  margin-top: 5px
+  font-size: 11px
+
+#resources_results
+  p
+    &.result_description
+      font-size: 14px
+      margin-bottom: 1.5em
+
+.resources_search
+  dd > input
+    margin-top: 13px
+  #resource_search_author_chosen,
+  #resource_search_language_chosen
+    margin-top: 4px
 
 .resource-toggle-views
   overflow: hidden
   text-align: center
   margin: 5px 0 15px
+  font-size: 0
   button
     border: 1px solid #ccc
-    background: darken(white, 10%)
+    background: darken(white, 4%)
     display: inline-block
     padding: 8px 15px
-    margin: 0 -1px
     font-size: 12px
-    font-weight: bold
+    font-weight: normal
     position: relative
     cursor: pointer
+    text-align: center
+    width: 105px
+    color: #00546E
+    &, &:hover
+      outline: 0 !important
     &.browse
       border-radius: 3px 0 0 3px
     &.search
       border-radius: 0 3px 3px 0
       border-left: 0
-      left: -2px
+    &.active
+      color: black
+      background-color: darken(white, 10%)
 
 
 .results-tools
@@ -115,8 +131,6 @@
   list-style: none !important
   > li
     border-top: 1px solid darken(white, 5%)
-    padding: 20px 0
-    overflow: hidden
 
 .button
   border: 1px solid #ccc
@@ -131,39 +145,50 @@
   border-radius: 3px
   &:hover
     text-decoration: none !important
+@media screen and (-webkit-min-device-pixel-ratio:0)
+  .button
+    padding-bottom: 5px
+
+
+.resouce-block-link
+  display: block
+  padding: 20px 0
+  overflow: hidden
+  &:hover
+    text-decoration: none !important
+    background-color: darken(white, 3%)
+  p
+    color: black
 
 .resource-result-body
   overflow: hidden
-  h3
+  h4
     margin: 0 0 10px !important
   .detail
     color: #666
-    &:before
-      content: '('
-    &:after
-      content: ')'
-
 
 .resource-result-img,
 .resource-show-img
   float: left
   background-color: darken(white, 2.5%)
-  margin-right: 25px
+  margin-right: 40px
   box-shadow: inset 0 3px 10px -3px rgba(black,0.2)
   border: 1px solid darken(white, 8%)
   img
     display: block
+    max-width: 100%
 
 .resource-result-img
-  min-height: 50px
+  height: 169px
   &, img
-    width: 77px
+    width: 130px
 
 .resource-show-img
-  min-height: 100px
   margin-top: 18px
+  height: 277px
   &, img
-    width: 231px
+    width: 213px
+
 
 .resource-show-body
   overflow: hidden
@@ -175,7 +200,6 @@
   dt, dd
     min-height: 19px
   dd
-    overflow: hidden
     padding-top: 12px
   p
     line-height: 19px !important
@@ -184,7 +208,10 @@
   ul, p, a
     padding: 0 !important
   li
-    padding-top: 5px !important
+    padding: 3px 0 !important
+    border-bottom: 0 !important
+    &.link
+      padding: 6px 0 !important
     &:first-child
       padding-top: 0 !important
   .resource_link
@@ -206,5 +233,196 @@
       background-image: url('../assets/icons/resources/mp3.png') !important
     &.ppt
       background-image: url('../assets/icons/resources/ppt.png') !important
+
+.display_shelf-header
+  border-bottom: 1px solid
+  padding-bottom: 13px
+  margin-bottom: 20px
+  &, h3
+    overflow: hidden
+  .view-all
+    float: right
+    margin-right: -3px
+    margin-top: 5px
+    &:after
+      display: inline-block
+      width: 0
+      content: ''
+      position: relative
+      height: 0
+      top: 1px
+      border: 5px solid transparent
+      margin-left: 5px
+  h3
+    margin: 0 !important
+    font-size: 16px !important
+
+.display_shelf
+  margin: 0 !important
+  padding: 0 0 40px !important
+  list-style: none !important
+  overflow: hidden
+  .resource
+    float: left
+    margin-left: 37px
+    &:first-child
+      margin-left: 0
+    a
+      &, h5
+        color: #00546E !important
+      &:hover, &:hover h5
+        color: black !important
+  .image, .resource
+    width: 141px
+  .title
+    font-size: 11px !important
+    padding-top: 5px
+  .image
+    border: 1px solid #ccc
+    height: 183px
+    overflow: hidden
+    background-color: darken(white, 3%)
+    &, img
+      width: 141px
+    img
+      margin: 0 auto
+
+.display_shelf-section
+  margin-top: 30px
+  &.display_shelf-header
+    border-width: 1px
+
+  &.ungc
+    .display_shelf-header
+      border-bottom-color: #00546E
+      h3, .view-all
+        color: #00546E !important
+    .view-all
+      &:after
+        border-left-color: #00546E
+      &:hover
+        color: darken(#00546E, 10%) !important
+        &:after
+          border-left-color: darken(#00546E, 10%)
+
+  &.human_rights
+    .display_shelf-header
+      border-bottom-color: #F7931E
+      h3, .view-all
+        color: #F7931E !important
+    .view-all
+      &:after
+        border-left-color: #F7931E
+      &:hover
+        color: darken(#F7931E, 10%) !important
+        &:after
+          border-left-color: darken(#F7931E, 10%)
+
+  &.labour
+    .display_shelf-header
+      border-bottom-color: #52C6D8
+      h3, .view-all
+        color: #52C6D8 !important
+    .view-all
+      &:after
+        border-left-color: #52C6D8
+      &:hover
+        color: darken(#52C6D8, 10%) !important
+        &:after
+          border-left-color: darken(#52C6D8, 10%)
+
+  &.environment
+    .display_shelf-header
+      border-bottom-color: #688442
+      h3, .view-all
+        color: #688442 !important
+    .view-all
+      &:after
+        border-left-color: #688442
+      &:hover
+        color: darken(#688442, 10%) !important
+        &:after
+          border-left-color: darken(#688442, 10%)
+
+  &.anticorruption
+    .display_shelf-header
+      border-bottom-color: #ED1C24
+      h3, .view-all
+        color: #ED1C24 !important
+    .view-all
+      &:after
+        border-left-color: #ED1C24
+      &:hover
+        color: darken(#ED1C24, 10%) !important
+        &:after
+          border-left-color: darken(#ED1C24, 10%)
+
+  &.partnerships
+    .display_shelf-header
+      border-bottom-color: #CADB2A
+      h3, .view-all
+        color: #CADB2A !important
+    .view-all
+      &:after
+        border-left-color: #CADB2A
+      &:hover
+        color: darken(#CADB2A, 10%) !important
+        &:after
+          border-left-color: darken(#CADB2A, 10%)
+
+  &.networks
+    .display_shelf-header
+      border-bottom-color: #710000
+      h3, .view-all
+        color: #710000 !important
+    .view-all
+      &:after
+        border-left-color: #710000
+      &:hover
+        color: darken(#710000, 10%) !important
+        &:after
+          border-left-color: darken(#710000, 10%)
+
+  &.business_peace
+    .display_shelf-header
+      border-bottom-color: #453058
+      h3, .view-all
+        color: #453058 !important
+    .view-all
+      &:after
+        border-left-color: #453058
+      &:hover
+        color: darken(#453058, 10%) !important
+        &:after
+          border-left-color: darken(#453058, 10%)
+
+  &.financial
+    .display_shelf-header
+      border-bottom-color: #404850
+      h3, .view-all
+        color: #404850 !important
+    .view-all
+      &:after
+        border-left-color: #404850
+      &:hover
+        color: darken(#404850, 10%) !important
+        &:after
+          border-left-color: darken(#404850, 10%)
+
+  &.cop
+    .display_shelf-header
+      border-bottom-color: #FFD900
+      h3, .view-all
+        color: #FFD900 !important
+    .view-all
+      &:after
+        border-left-color: #FFD900
+      &:hover
+        color: darken(#FFD900, 10%) !important
+        &:after
+          border-left-color: darken(#FFD900, 10%)
+
+
+
 
 
