@@ -183,10 +183,10 @@ UNGC::Application.routes.draw do
   match '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
   match '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
   match ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
-  match '/app'             => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
+  match '/app'            => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
   match '/businesspartnershiphub' => 'pages#redirect_to_page', :page => 'http://businesspartnershiphub.org/'
   match '/HR_Resources'   => 'pages#redirect_to_page', :page => '/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf'
-  match '/SABP'           => 'pages#redirect_to_page', :page => '/Issues/partnerships/sustainable_agriculture_business_principles.html'
+  match ':sabp'           => 'pages#redirect_to_page', :page => '/Issues/partnerships/sustainable_agriculture_business_principles.html', :constraints => { :sabp => /sabp/i }
   match '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
   match '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
 
