@@ -1,0 +1,31 @@
+%p
+%a{:name => 'paged_results'}
+
+%div.clearfix
+  %div.left
+    %h4
+      Total number of non-communicating participants:
+      = count_all_orgs(:noncommunicating)
+
+  %div.right= per_page_select
+
+%p &nbsp;
+
+%table{:class => 'striped sortable', :width => '100%', :cellpadding => '0', :cellspacing => '0'}
+  %thead
+    %tr
+      %th{:class => 'sort'} Participant
+      %th{:class => 'sort'} Sector
+      %th{:class => 'sort'} Country
+      %th{:class => 'sort'} Participant since
+      %th{:class => 'sort'} COP Deadline
+  %tbody
+    - for organization in paged_organizations(:noncommunicating)
+      %tr
+        %td{:title => organization.name}= link_to truncate(organization.name, :length => 20), participant_link(organization, :noncommunicating)
+        %td{:title => organization.sector_name}= truncate(organization.sector_name, :length => 20)
+        %td{:title => organization.country_name}= truncate(organization.country_name, :length => 20)
+        %td= yyyy_mm_dd organization.joined_on
+        %td= yyyy_mm_dd organization.noncommed_on
+
+= paginate_orgs(:noncommunicating, :anchor => 'paged_results')
