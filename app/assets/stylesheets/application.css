@@ -80,8 +80,8 @@ div.click_to_edit a:hover {
   background: url(/assets/btn_next.gif) right center no-repeat;
 }
 
-.left { display: block; float: left; width: 47%;}
-.right { display: block; float: right; width: 47%; text-align: right; }
+.left { display: block; float: left; }
+.right { display: block; float: right; text-align: right; }
 
 body                  #inner_head { background: url(/assets/banner_default.png); }
 body.search_website   #inner_head { background: url(/assets/banner_search_website.png); }
@@ -264,15 +264,13 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 /**** inner ****/
 #content_inner { display: block; width: 1000px; margin: 0 auto; position: relative; }
 #content_inner h1.title { font-size: 20px; font-weight: bold; color: #FFF; text-transform: uppercase; font-family: Arial, Helvetica, sans-serif; }
-#inner_head { width: 920px; height: 62px; margin: 0px 30px 15px 30px; position: relative; top: 15px; }
-#inner_head.fullscreen { margin: 0 auto 15px; }
+#inner_head { width: 920px; height: 62px; margin: 0 auto 15px; position: relative; top: 15px; }
 #inner_head h1 { position: absolute; top: 20px; left: 20px; }
 #inner_head p a { color: #FFF; font-size: 11px; margin-left: 17px; }
 #inner_head p a:hover { text-decoration: underline; }
 #inner_head p.print { position: absolute; top: 25px; left: 790px; background: url(/assets/print_icon.png) 1px 1px no-repeat; }
 #inner_head p.send { position: absolute; top: 25px; left: 855px; background: url(/assets/email_icon.png) 1px 2px no-repeat; }
-#inner_body { display: block; height: 100%; width: 920px; position: relative; left: 30px;  }
-#inner_body.fullscreen{ left: 0; margin: auto;}
+#inner_body { display: block; height: 100%; width: 920px; position: relative; left: 0; margin: auto; }
 #leftnav { width: 270px; position: absolute; top: 15px; left: 0px; background-color: #fff; border: 1px solid #dadada; }
 #leftnav ul { list-style: none; }
 #leftnav ul li { width: 264px; height: 30px; background-color: #f2f2f2; margin: 2px 3px 2px 3px; }
@@ -283,7 +281,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #leftnav ul li.sub { height: auto; background-color: #e5eef0; }
 #leftnav ul li.sub a { font-size: 11px; font-weight: normal; color: #00546E; padding: 6px 10px 6px 30px; text-indent: -9px; }
 #leftnav ul li.sub a.sub_selected { font-weight: bold; }
-#rightcontent { min-height: 500px; height: auto !important; height: 500px; position: relative; top: 15px; left: 285px; width: 635px; background-color: #fff; border: 1px solid #dadada; margin-bottom: 35px; }
+#rightcontent { min-height: 500px; height: auto !important; height: 500px; position: relative; top: 15px; left: 285px; width: 633px; background-color: #fff; border: 1px solid #dadada; margin-bottom: 35px; }
 #rightcontent .path { height: auto; width: 635px; padding-bottom: 7px; border-bottom: 1px solid #d9d9d9; }
 #rightcontent .path p { font-size: 11px; color: #a6a6a6; padding: 14px 0 0 30px; }
 #rightcontent .path a { color: #a6a6a6; }
@@ -306,6 +304,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
 #rightcontent .copy h4 { font-size: 13px; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
+#rightcontent .left h4 { line-height: 0; margin-top: 13px; }
 #rightcontent .copy .news h4 { font-size: 13px; font-style: italic; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
 #rightcontent .copy h5 { font-size: 9px; font-weight: normal; margin: 5px 0 5px 0; color: #000; line-height: 1.3em;}
 #rightcontent .copy .highlight_box { padding: 10px 10px; margin: 5px 0px; width: auto; height: auto; background-color: #e5eef0; }
