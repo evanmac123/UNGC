@@ -9,7 +9,7 @@ class Admin::CopsController < AdminController
     # non-business organizations can submit a COP, but they do not get a choice, so redirect them to the General (intermediate) COP
     # but we still want Global Compact Staff and Networks to choose the type of COP
     if current_contact.from_organization? && !current_contact.organization.company?
-      redirect_to new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'intermediate')
+      render 'non_business_introduction'
     end
 
     if current_contact.organization.signatory_of?(:lead)
