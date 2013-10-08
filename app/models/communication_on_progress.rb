@@ -191,44 +191,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
-  def set_cop_defaults
-    self.additional_questions = false
-    case self.type
-      when 'grace'
-        self.format = CopFile::TYPES[:grace_letter]
-        self.title = 'Grace Letter'
-        # normally they can choose the coverage dates, but for grace letters it matches the grace period
-        self.starts_on = self.organization.cop_due_on
-        self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
-      when 'basic'
-        self.format = 'basic'
-      when 'advanced'
-        self.additional_questions = true
-      when 'lead'
-        self.additional_questions = true
-    end
-  end
-
-  def can_be_edited?
-    unless self.editable?
-      errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
-    end
-  end
-
-  # move COP to draft state
-  def draft_or_submit!
-    return true unless initial? # tests might setup COPs with state pre-set
-    if self.is_draft
-      save_as_draft!
-      organization.extend_cop_temporary_period
-    else
-      if can_submit?
-        submit!
-        approve
-      end
-    end
-  end
-
   def is_legacy_format?
     created_at <= Date.new(2009, 12, 31)
   end
@@ -295,13 +257,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
-  # javascript will normally hide the link field if it's blank,
-  # but IE7 was not cooperating, so we double check
-  def check_links
-    self.cop_links.each do |link|
-      link.destroy if link.url.blank?
-    end
-  end
 
   # Calculate COP score based on answers to Q7
   def score
@@ -475,11 +430,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     LEVEL_DESCRIPTION[differentiation.to_sym]
   end
 
-  # record level in case the criteria changes in the future
-  def set_differentiation_level
-    update_attribute :differentiation, differentiation_level.to_s
-  end
-
   def organization_business_entity?
     organization.business_entity?
   end
@@ -524,6 +474,57 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   private
+
+    # javascript will normally hide the link field if it's blank,
+    # but IE7 was not cooperating, so we double check
+    def check_links
+      self.cop_links.each do |link|
+        link.destroy if link.url.blank?
+      end
+    end
+
+    def set_cop_defaults
+      self.additional_questions = false
+      case self.type
+        when 'grace'
+          self.format = CopFile::TYPES[:grace_letter]
+          self.title = 'Grace Letter'
+          # normally they can choose the coverage dates, but for grace letters it matches the grace period
+          self.starts_on = self.organization.cop_due_on
+          self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
+        when 'basic'
+          self.format = 'basic'
+        when 'advanced'
+          self.additional_questions = true
+        when 'lead'
+          self.additional_questions = true
+      end
+    end
+
+    def can_be_edited?
+      unless self.editable?
+        errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
+      end
+    end
+
+    # record level in case the criteria changes in the future
+    def set_differentiation_level
+      update_attribute :differentiation, differentiation_level.to_s
+    end
+
+    # move COP to draft state
+    def draft_or_submit!
+      return true unless initial? # tests might setup COPs with state pre-set
+      if self.is_draft
+        save_as_draft!
+        organization.extend_cop_temporary_period
+      else
+        if can_submit?
+          submit!
+          approve
+        end
+      end
+    end
 
     def delete_associated_attributes
       self.cop_files.each {|file| file.destroy}
