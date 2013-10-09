@@ -47,6 +47,7 @@ class Admin::OrganizationsController < AdminController
         redirect_to( dashboard_path )
       end
     else
+      flash[:error] = @organization.errors.full_messages.to_sentence
       @organization_types = OrganizationType.staff_types
       render :action => "edit"
     end
