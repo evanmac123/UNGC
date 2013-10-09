@@ -32,6 +32,7 @@
 #  method_shared                       :string(255)
 #  differentiation                     :string(255)
 #  references_business_peace           :boolean
+#  references_water_mandate            :boolean
 #
 
 class CommunicationOnProgress < ActiveRecord::Base

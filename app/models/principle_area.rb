@@ -9,6 +9,7 @@
 #  updated_at :datetime
 #  type       :string(255)
 #  parent_id  :integer
+#  reference  :string(255)
 #
 
 class PrincipleArea < Principle
