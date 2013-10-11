@@ -3,7 +3,8 @@
 - if @jci_referral
   %p Welcome, JCI Member.
 #main_content
-  = form_for(@organization, url: organization_step2_path) do |form|
+  = form_for(@os.organization, url: organization_step2_path) do |form|
+    = hidden_field_tag :org_type, @os.org_type
     = form.error_messages
     %fieldset
       %ol
@@ -16,11 +17,11 @@
         %li
           = form.label :employees, "Employees"
           = form.text_field :employees, {:label => "Number of employees"}
-        - if @organization_types.first.type_property == OrganizationType::NON_BUSINESS
+        - if @os.non_business?
           %li
             = form.label :organization_type_id, "Type"
             = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
-        - if @organization_types.first.type_property == OrganizationType::BUSINESS
+        - if @os.business?
           = hidden_field :organization, :organization_type_id, :value => OrganizationType.try(:company).try(:id)
           %li
             = form.label :listing_status_id, "Ownership"

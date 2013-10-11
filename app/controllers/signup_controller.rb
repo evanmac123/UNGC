@@ -1,6 +1,6 @@
 class SignupController < ApplicationController
   before_filter :determine_navigation
-  before_filter :load_objects
+  #before_filter :load_objects
 
   BUSINESS_PARAM = 'business'
   NONBUSINESS_PARAM = 'non_business'
@@ -14,6 +14,12 @@ class SignupController < ApplicationController
       session[:is_jci_referral] = true
       @jci_referral = true
     end
+  end
+
+  def step1
+    @os = session[:os] || OrganizationSignup.new(params[:org_type])
+    @organization_types = OrganizationType.send @os.org_type
+    session[:os] = nil
   end
 
   # POST from organization form
@@ -31,6 +37,18 @@ class SignupController < ApplicationController
 
   end
 
+  def step2
+    @os = session[:os] || OrganizationSignup.new(params[:org_type])
+
+    @os.step2(params[:organization])
+
+    session[:os] = @os
+
+    unless @os.organization.valid?
+      redirect_to organization_step1_path(:org_type => @os.org_type)
+    end
+  end
+
   # POST from contact form
   # shows ceo form
   def step3
@@ -44,6 +62,21 @@ class SignupController < ApplicationController
     @next_step = @organization.business_entity? ? organization_step4_path : organization_step6_path
 
     redirect_to organization_step2_path unless @contact.valid?
+  end
+
+  def step3
+    @os = session[:os]
+
+    @os.step3(params[:contact])
+
+    session[:os] = @os
+
+    @next_step = @os.business? ? organization_step4_path : organization_step6_path
+
+
+    unless @os.primary_contact.valid?
+      redirect_to organization_step2_path
+    end
   end
 
   # POST from ceo form
@@ -86,6 +119,18 @@ class SignupController < ApplicationController
     redirect_to organization_step3_path unless @ceo.valid? and unique_emails?
   end
 
+  def step6
+    @os = session[:os]
+
+    @os.step6(params[:contact])
+
+    session[:os] = @os
+
+    unless @os.ceo.valid? and @os.unique_emails?
+      redirect_to organization_step3_path
+    end
+  end
+
   # POST from commitment letter form
   # shows thank you page
   def step7
@@ -116,6 +161,21 @@ class SignupController < ApplicationController
       clean_session
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
+      redirect_to organization_step6_path
+    end
+  end
+
+
+  def step7
+    @os = session[:os]
+
+    @os.step7(params[:organization])
+
+
+    if @os.organization.valid? && @os.organization.commitment_letter?
+      raise "ADD SAVE ACTIONS"
+    else
+      flash[:error] = "Please upload your Letter of Commitment. #{@os.organization.errors.full_messages.to_sentence}"
       redirect_to organization_step6_path
     end
   end

@@ -2,7 +2,7 @@
 %h2 Primary Contact Point
 %p The main point of contact between your organization and the Global Compact Office. After your application is reviewed and accepted, this person will receive regular email including the UN Global Compact Monthly Bulletin, Communication on Progress deadlines (for business participants) as well as updates on news and events.
 #main_content
-  = form_for(@contact, url: organization_step3_path) do |form|
+  = form_for(@os.primary_contact, url: organization_step3_path) do |form|
     = form.error_messages
     = render :partial => 'contact_form', :locals => {:form => form, :account_info => true, :contact_type => 'Primary Contact Point', :financial_contact => false, :welcome_package => false}
     = form.submit 'Next', :class => 'button'
