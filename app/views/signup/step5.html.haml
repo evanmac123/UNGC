@@ -7,10 +7,10 @@
 
   %p
     Thank you for your contribution. An invoice for
-    %strong== USD #{@organization.pledge_amount}
+    %strong== USD #{@os.organization.pledge_amount}
     will be emailed after your company's application has been reviewed and accepted. Please provide a Financial Contact to receive the invoice. Please note that the contribution should be made to the Foundation for the Global Compact within 30 days of receiving the invoice.
 
-  = form_for(@financial_contact, :url => organization_step6_path) do |form|
+  = form_for(@os.financial_contact, :url => organization_step6_path) do |form|
     #check_contact
       = form.check_box :foundation_contact
       = label_tag :contact_foundation_contact, "The invoice should be sent to the Primary Contact Point"

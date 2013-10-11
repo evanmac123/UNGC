@@ -26,18 +26,18 @@
           %li
             = form.label :listing_status_id, "Ownership"
             = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+          %li.public_company_only{:style => "display:#{@os.organization.public_company? ? 'block' : 'none'}"}
             = form.label :is_ft_500, "FT 500"
             = form.check_box :is_ft_500
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+          %li.public_company_only{:style => "display:#{@os.organization.public_company? ? 'block' : 'none'}"}
             = form.label :exchange_id, "Exchange"
             = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, :include_blank => true
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+          %li.public_company_only{:style => "display:#{@os.organization.public_company? ? 'block' : 'none'}"}
             = form.label :stock_symbol
             = form.text_field :stock_symbol
           %li
             = form.label :sector_id
-            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
+            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @os.organization.sector_id)
           %li
             = form.label :revenue, "Annual Sales / Revenues"
             = form.select :revenue, options_for_select(Organization::REVENUE_LEVELS.invert)

@@ -92,6 +92,25 @@ class SignupController < ApplicationController
     @checked_pledge_amount[@organization.revenue] = true
   end
 
+  def step4
+    @os = session[:os]
+
+    @os.step4(params[:contact])
+
+    session[:os] = @os
+
+    unless @os.ceo.valid? and @os.unique_emails?
+      redirect_to organization_step3_path
+    end
+
+    # highlight amount by assigning CSS class
+    @suggested_pledge_amount = {}
+    @suggested_pledge_amount[@os.organization.revenue] = 'highlight_suggested_amount'
+    # preselect radio button
+    @checked_pledge_amount = {}
+    @checked_pledge_amount[@os.organization.revenue] = true
+  end
+
   # POST from pledge form
   # ask for financial contact if pledge was made
   def step5
@@ -104,6 +123,18 @@ class SignupController < ApplicationController
     @financial_contact.country_id = @contact.country_id
     @organization.attributes = params[:organization]
     redirect_to organization_step6_path unless @organization.pledge_amount.to_i > 0
+  end
+
+  def step5
+    @os = session[:os]
+
+    @os.step5(params[:organization])
+
+    session[:os] = @os
+
+    unless @os.organization.pledge_amount.to_i > 0
+      redirect_to organization_step6_path
+    end
   end
 
   # POST from ceo or financial contact form
@@ -122,10 +153,22 @@ class SignupController < ApplicationController
   def step6
     @os = session[:os]
 
-    @os.step6(params[:contact])
+    # coming from 3 or 5 but not 7
+    if params[:contact]
+      @os.step6(params[:contact])
+    end
 
     session[:os] = @os
 
+    # coming from step5
+    if @os.organization.pledge_amount.to_i > 0
+      unless @os.financial_contact.valid? || @os.primary_contact.is?(Role.financial_contact)
+        redirect_to organization_step5_path
+      end
+    end
+
+
+    # coming from step3
     unless @os.ceo.valid? and @os.unique_emails?
       redirect_to organization_step3_path
     end
@@ -173,7 +216,10 @@ class SignupController < ApplicationController
 
 
     if @os.organization.valid? && @os.organization.commitment_letter?
+      raise @os.inspect.to_s
       raise "ADD SAVE ACTIONS"
+      raise "ADD EMAIL"
+      raise "CLEAN SESSOIN"
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@os.organization.errors.full_messages.to_sentence}"
       redirect_to organization_step6_path

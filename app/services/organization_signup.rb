@@ -31,6 +31,13 @@ class OrganizationSignup
     @ceo
   end
 
+  def financial_contact
+    return @financial_contact if @financial_contact
+    @financial_contact = Contact.new
+    @financial_contact.role_ids = Role.financial_contact.id
+    @financial_contact
+  end
+
   def step2(par)
     organization.attributes = par
   end
@@ -49,11 +56,33 @@ class OrganizationSignup
   end
 
   def step6(par)
-    ceo.attributes = par
+    if organization.pledge_amount.to_i > 0
+      if par[:foundation_contact].to_i == 1
+        primary_contact.roles << Role.financial_contact
+      else
+        financial_contact.attributes = par
+      end
+    else
+      ceo.attributes = par
+    end
   end
 
   def step7(par)
     organization.attributes = par
+  end
+
+  def step4(par)
+    ceo.attributes = par
+  end
+
+  def step5(par)
+    organization.attributes = par
+    financial_contact.address = primary_contact.address
+    financial_contact.address_more = primary_contact.address_more
+    financial_contact.city = primary_contact.city
+    financial_contact.state = primary_contact.state
+    financial_contact.postal_code = primary_contact.postal_code
+    financial_contact.country_id = primary_contact.country_id
   end
 
   # Makes sure the CEO and Contact point don't have the same email address
