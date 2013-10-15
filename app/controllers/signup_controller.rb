@@ -23,7 +23,7 @@ class SignupController < ApplicationController
   def step2
     load_session
 
-    @os.step2(params[:organization])
+    @os.set_organization_attributes(params[:organization])
 
     session[:os] = @os
 
@@ -37,7 +37,7 @@ class SignupController < ApplicationController
   def step3
     load_session
 
-    @os.step3(params[:contact])
+    @os.set_primary_contact_attributes_and_prepare_ceo(params[:contact])
 
     session[:os] = @os
 

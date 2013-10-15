@@ -29,11 +29,11 @@ class OrganizationSignup
     @financial_contact ||= Contact.new_financial_contact
   end
 
-  def step2(par)
+  def set_organization_attributes(par)
     organization.attributes = par
   end
 
-  def step3(par)
+  def set_primary_contact_attributes_and_prepare_ceo(par)
     primary_contact.attributes = par
     # ceo contact fields which default to contact
     ceo.phone = primary_contact.phone unless ceo.phone

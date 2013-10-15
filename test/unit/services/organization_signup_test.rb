@@ -31,4 +31,30 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
   end
+
+  context "signup process" do
+    setup do
+      @os = OrganizationSignup.new('business')
+    end
+
+    should "set organization attributes" do
+      par = { name: 'foo' }
+      @os.set_organization_attributes(par)
+      assert_equal @os.organization.name, 'foo'
+    end
+
+    should "set primary contact" do
+      create_roles
+      par = { first_name: 'foo' }
+      @os.set_primary_contact_attributes_and_prepare_ceo(par)
+      assert_equal @os.primary_contact.first_name, 'foo'
+    end
+
+    should "clone primary contact to ceo" do
+      create_roles
+      par = { phone: '3442342344' }
+      @os.set_primary_contact_attributes_and_prepare_ceo(par)
+      assert_equal @os.ceo.phone, '3442342344'
+    end
+  end
 end
