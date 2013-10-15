@@ -56,5 +56,21 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.set_primary_contact_attributes_and_prepare_ceo(par)
       assert_equal @os.ceo.phone, '3442342344'
     end
+
+    should "set ceo" do
+      create_roles
+      par = { first_name: 'foo' }
+      @os.set_ceo_attributes(par)
+      assert_equal @os.ceo.first_name, 'foo'
+    end
+
+    should "clone primary contact to financial contact" do
+      create_roles
+      par = { city: 'nowheresville' }
+      @os.set_primary_contact_attributes_and_prepare_ceo(par)
+      @os.prepare_financial_contact
+      assert_equal @os.financial_contact.city, 'nowheresville'
+    end
+
   end
 end

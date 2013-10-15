@@ -46,6 +46,10 @@ class OrganizationSignup
     ceo.country_id = primary_contact.country_id unless ceo.country
   end
 
+  def set_ceo_attributes(par)
+    ceo.attributes = par
+  end
+
   def step6(par)
     if organization.pledge_amount.to_i > 0
       if par[:foundation_contact].to_i == 1
@@ -62,12 +66,7 @@ class OrganizationSignup
     organization.attributes = par
   end
 
-  def step4(par)
-    ceo.attributes = par
-  end
-
-  def step5(par)
-    organization.attributes = par
+  def prepare_financial_contact
     financial_contact.address = primary_contact.address
     financial_contact.address_more = primary_contact.address_more
     financial_contact.city = primary_contact.city
