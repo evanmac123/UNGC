@@ -7,8 +7,9 @@ class SignupController < ApplicationController
   # shows organization form
   def step1
     load_session
-    @os ||= OrganizationSignup.new(params[:org_type])
+
     @organization_types = OrganizationType.send @os.org_type
+
     session[:os] = nil
 
     if @os.organization.jci_referral? request.env["HTTP_REFERER"]
@@ -21,7 +22,6 @@ class SignupController < ApplicationController
   # shows contact form
   def step2
     load_session
-    @os ||= OrganizationSignup.new(params[:org_type])
 
     @os.step2(params[:organization])
 
@@ -165,8 +165,9 @@ class SignupController < ApplicationController
   private
 
     def load_session
-      @os = session[:os]
+      @os = session[:os] || OrganizationSignup.new(params[:org_type])
     end
+
     def default_navigation
       DEFAULTS[:signup_form_path]
     end

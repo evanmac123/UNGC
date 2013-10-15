@@ -18,24 +18,15 @@ class OrganizationSignup
   end
 
   def primary_contact
-    return @primary_contact if @primary_contact
-    @primary_contact = Contact.new
-    @primary_contact.role_ids = Role.contact_point.id
-    @primary_contact
+    @primary_contact ||= Contact.new_contact_point
   end
 
   def ceo
-    return @ceo if @ceo
-    @ceo = Contact.new
-    @ceo.role_ids = Role.ceo.id
-    @ceo
+    @ceo ||= Contact.new_ceo
   end
 
   def financial_contact
-    return @financial_contact if @financial_contact
-    @financial_contact = Contact.new
-    @financial_contact.role_ids = Role.financial_contact.id
-    @financial_contact
+    @financial_contact ||= Contact.new_financial_contact
   end
 
   def step2(par)
