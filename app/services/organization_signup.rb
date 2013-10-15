@@ -58,10 +58,6 @@ class OrganizationSignup
     end
   end
 
-  def step7(par)
-    organization.attributes = par
-  end
-
   def prepare_financial_contact
     financial_contact.address = primary_contact.address
     financial_contact.address_more = primary_contact.address_more

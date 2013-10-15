@@ -109,51 +109,38 @@ class SignupController < ApplicationController
   # POST from commitment letter form
   # shows thank you page
   def step7
-    @organization.attributes = params[:organization]
-    if @organization.valid? && @organization.commitment_letter?
+    load_session
+
+    @os.set_organization_attributes(params[:organization])
+
+    if @os.organization.valid? && @os.organization.commitment_letter?
       # save all records
-      @organization.save
-      @contact.save
-      @ceo.save
-      @organization.contacts << @contact
-      @organization.contacts << @ceo
+      @os.organization.save
+      @os.primary_contact.save
+      @os.ceo.save
+      @os.organization.contacts << @os.primary_contact
+      @os.organization.contacts << @os.ceo
 
       # add financial contact if a pledge was made and the existing contact has not been assigned that role
-      unless @organization.pledge_amount.blank? and @contact.is?(Role.financial_contact)
-        @financial_contact.save
-        @organization.contacts << @financial_contact
+      unless @os.organization.pledge_amount.blank? and @os.primary_contact.is?(Role.financial_contact)
+        @os.financial_contact.save
+        @os.organization.contacts << @os.financial_contact
       end
 
+
+      session[:os] = nil
+      session[:is_jci_referral] = nil
       begin
-        OrganizationMailer.submission_received(@organization).deliver
+        OrganizationMailer.submission_received(@os.organization).deliver
         if session[:is_jci_referral]
-          OrganizationMailer.submission_jci_referral_received(@organization).deliver
+          OrganizationMailer.submission_jci_referral_received(@os.organization).deliver
         end
       rescue Exception => e
        flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
       end
-
-      clean_session
-    else
-      flash[:error] = "Please upload your Letter of Commitment. #{@organization.errors.full_messages.to_sentence}"
-      redirect_to organization_step6_path
-    end
-  end
-
-
-  def step7
-    load_session
-
-    @os.step7(params[:organization])
-
-
-    if @os.organization.valid? && @os.organization.commitment_letter?
-      raise @os.inspect.to_s
-      raise "ADD SAVE ACTIONS"
-      raise "ADD EMAIL"
-      raise "CLEAN SESSOIN"
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@os.organization.errors.full_messages.to_sentence}"
+      @os.organization.commitment_letter = nil
       redirect_to organization_step6_path
     end
   end
