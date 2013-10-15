@@ -89,20 +89,17 @@ class SignupController < ApplicationController
   def step6
     load_session
 
-    # coming from 3 or 5 but not 7
-    # XXX fix this
-    if params[:contact]
-      @os.step6(params[:contact])
-    end
-
-    session[:os] = @os
-
     # coming from step5
     # XXX could this bi @os.business??
     if @os.organization.pledge_amount.to_i > 0
+      @os.set_financial_contact_attributes(par)
+      session[:os] = @os
       unless @os.financial_contact.valid? || @os.primary_contact.is?(Role.financial_contact)
         redirect_to organization_step5_path
       end
+    else
+      @os.set_ceo_attributes(par[:contact])
+      session[:os] = @os
     end
 
     # coming from step3

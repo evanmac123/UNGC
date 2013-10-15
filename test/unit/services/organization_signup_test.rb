@@ -72,5 +72,19 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       assert_equal @os.financial_contact.city, 'nowheresville'
     end
 
+    should "set financial contact attributes" do
+      create_roles
+      par = { city: 'nowheresville' }
+      @os.set_financial_contact_attributes(par)
+      assert_equal @os.financial_contact.city, 'nowheresville'
+    end
+
+    should "set primary contact as financial contact" do
+      create_roles
+      par = { foundation_contact: 1 }
+      @os.set_financial_contact_attributes(par)
+      assert @os.primary_contact.is? Role.financial_contact
+    end
+
   end
 end

@@ -50,15 +50,11 @@ class OrganizationSignup
     ceo.attributes = par
   end
 
-  def step6(par)
-    if organization.pledge_amount.to_i > 0
-      if par[:foundation_contact].to_i == 1
-        primary_contact.roles << Role.financial_contact
-      else
-        financial_contact.attributes = par
-      end
+  def set_financial_contact_attributes(par)
+    if par[:foundation_contact].to_i == 1
+      primary_contact.roles << Role.financial_contact
     else
-      ceo.attributes = par
+      financial_contact.attributes = par
     end
   end
 
