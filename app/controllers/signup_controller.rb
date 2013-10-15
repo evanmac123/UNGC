@@ -89,22 +89,20 @@ class SignupController < ApplicationController
   def step6
     load_session
 
-    # coming from step5
-    # XXX could this bi @os.business??
+    # coming from step5, organization is gonna give a pledge
     if @os.organization.pledge_amount.to_i > 0
-      @os.set_financial_contact_attributes(par)
+      @os.set_financial_contact_attributes(params[:contact]) if params[:contact]
       session[:os] = @os
       unless @os.financial_contact.valid? || @os.primary_contact.is?(Role.financial_contact)
         redirect_to organization_step5_path
       end
+    # coming from step3 or 4
     else
-      @os.set_ceo_attributes(par[:contact])
+      @os.set_ceo_attributes(params[:contact]) if params[:contact]
       session[:os] = @os
-    end
-
-    # coming from step3
-    unless @os.ceo.valid? and @os.unique_emails?
-      redirect_to organization_step3_path
+      unless @os.ceo.valid? and @os.unique_emails?
+        redirect_to organization_step3_path
+      end
     end
   end
 
