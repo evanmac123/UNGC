@@ -42,6 +42,8 @@
 #  review_reason                  :string(255)
 #  participant_manager_id         :integer
 #  is_local_network_member        :boolean
+#  is_landmine                    :boolean
+#  is_tobacco                     :boolean
 #
 
 class Organization < ActiveRecord::Base
