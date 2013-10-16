@@ -14,6 +14,7 @@ class OrganizationTest < ActiveSupport::TestCase
   should belong_to :listing_status
   should belong_to :exchange
   should belong_to :country
+  should have_one  :non_business_organization_registration
 
   context "given an existing organization with a contact and ceo" do
     setup do

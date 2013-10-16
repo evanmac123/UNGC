@@ -74,6 +74,8 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
   belongs_to :participant_manager, :class_name => 'Contact'
 
+  has_one :non_business_organization_registration
+
   attr_accessor :delisting_on
 
   # if the date is set, then the participant
