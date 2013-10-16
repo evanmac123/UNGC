@@ -21,8 +21,11 @@ class OrganizationSignup
     organization.attributes = par
   end
 
-  def set_primary_contact_attributes_and_prepare_ceo(par)
+  def set_primary_contact_attributes(par)
     primary_contact.attributes = par
+  end
+
+  def prepare_ceo
     # ceo contact fields which default to contact
     ceo.phone = primary_contact.phone unless ceo.phone
     ceo.fax = primary_contact.fax unless ceo.fax

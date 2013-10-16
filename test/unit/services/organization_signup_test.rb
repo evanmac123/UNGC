@@ -49,13 +49,14 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
     should "set primary contact" do
       par = { first_name: 'foo' }
-      @os.set_primary_contact_attributes_and_prepare_ceo(par)
+      @os.set_primary_contact_attributes(par)
       assert_equal @os.primary_contact.first_name, 'foo'
     end
 
     should "clone primary contact to ceo" do
       par = { phone: '3442342344' }
-      @os.set_primary_contact_attributes_and_prepare_ceo(par)
+      @os.set_primary_contact_attributes(par)
+      @os.prepare_ceo
       assert_equal @os.ceo.phone, '3442342344'
     end
 
@@ -67,7 +68,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
     should "clone primary contact to financial contact" do
       par = { city: 'nowheresville' }
-      @os.set_primary_contact_attributes_and_prepare_ceo(par)
+      @os.set_primary_contact_attributes(par)
       @os.prepare_financial_contact
       assert_equal @os.financial_contact.city, 'nowheresville'
     end

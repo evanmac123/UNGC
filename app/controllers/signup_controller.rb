@@ -31,7 +31,8 @@ class SignupController < ApplicationController
   # POST from contact form
   # shows ceo form
   def step3
-    @os.set_primary_contact_attributes_and_prepare_ceo(params[:contact])
+    @os.set_primary_contact_attributes(params[:contact])
+    @os.prepare_ceo
 
     store_organization_signup
 
