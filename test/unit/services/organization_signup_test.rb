@@ -2,38 +2,42 @@ require 'test_helper'
 
 class OrganizationSignupTest < ActiveSupport::TestCase
   context "has sane defaults" do
-    setup do
-      @os = OrganizationSignup.new('business')
-    end
-
     should "have an organization type" do
+      create_roles
+      @os = OrganizationSignup.new('business')
       assert_equal @os.business?, true
       assert_equal @os.non_business?, false
     end
 
     should "have an organization" do
+      create_roles
+      @os = OrganizationSignup.new('business')
       assert_equal @os.organization.class, Organization
     end
 
     should "have a primary_contact" do
+      create_roles
       Contact.expects(:new_contact_point).once
-      @os.primary_contact
+      @os = OrganizationSignup.new('business')
     end
 
     should "have a ceo" do
+      create_roles
       Contact.expects(:new_ceo).once
-      @os.ceo
+      @os = OrganizationSignup.new('business')
     end
 
     should "have a financial contact" do
+      create_roles
       Contact.expects(:new_financial_contact).once
-      @os.financial_contact
+      @os = OrganizationSignup.new('business')
     end
 
   end
 
   context "signup process" do
     setup do
+      create_roles
       @os = OrganizationSignup.new('business')
     end
 
@@ -44,28 +48,24 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
     should "set primary contact" do
-      create_roles
       par = { first_name: 'foo' }
       @os.set_primary_contact_attributes_and_prepare_ceo(par)
       assert_equal @os.primary_contact.first_name, 'foo'
     end
 
     should "clone primary contact to ceo" do
-      create_roles
       par = { phone: '3442342344' }
       @os.set_primary_contact_attributes_and_prepare_ceo(par)
       assert_equal @os.ceo.phone, '3442342344'
     end
 
     should "set ceo" do
-      create_roles
       par = { first_name: 'foo' }
       @os.set_ceo_attributes(par)
       assert_equal @os.ceo.first_name, 'foo'
     end
 
     should "clone primary contact to financial contact" do
-      create_roles
       par = { city: 'nowheresville' }
       @os.set_primary_contact_attributes_and_prepare_ceo(par)
       @os.prepare_financial_contact
@@ -73,14 +73,12 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
     should "set financial contact attributes" do
-      create_roles
       par = { city: 'nowheresville' }
       @os.set_financial_contact_attributes(par)
       assert_equal @os.financial_contact.city, 'nowheresville'
     end
 
     should "set primary contact as financial contact" do
-      create_roles
       par = { foundation_contact: 1 }
       @os.set_financial_contact_attributes(par)
       assert @os.primary_contact.is? Role.financial_contact

@@ -1,8 +1,12 @@
 class OrganizationSignup
-  attr_reader :org_type
+  attr_reader :org_type, :organization, :primary_contact, :ceo, :financial_contact
 
   def initialize(org_type)
     @org_type = org_type
+    @organization = Organization.new
+    @primary_contact = Contact.new_contact_point
+    @ceo = Contact.new_ceo
+    @financial_contact = Contact.new_financial_contact
   end
 
   def business?
@@ -11,22 +15,6 @@ class OrganizationSignup
 
   def non_business?
     org_type == 'non_business'
-  end
-
-  def organization
-    @organization ||= Organization.new
-  end
-
-  def primary_contact
-    @primary_contact ||= Contact.new_contact_point
-  end
-
-  def ceo
-    @ceo ||= Contact.new_ceo
-  end
-
-  def financial_contact
-    @financial_contact ||= Contact.new_financial_contact
   end
 
   def set_organization_attributes(par)
