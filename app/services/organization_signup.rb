@@ -64,4 +64,20 @@ class OrganizationSignup
     ceo.errors.add :email, "cannot be the same as the Contact Point" unless unique
     return unique
   end
+
+  def save
+    # save all records
+    organization.save
+    primary_contact.save
+    ceo.save
+    organization.contacts << primary_contact
+    organization.contacts << ceo
+
+    # add financial contact if a pledge was made and the existing contact has not been assigned that role
+    if !organization.pledge_amount.blank? && !primary_contact.is?(Role.financial_contact)
+      financial_contact.save
+      organization.contacts << financial_contact
+    end
+  end
+
 end

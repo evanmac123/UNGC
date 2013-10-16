@@ -101,19 +101,7 @@ class SignupController < ApplicationController
     @os.set_organization_attributes(params[:organization])
 
     if @os.organization.valid? && @os.organization.commitment_letter?
-      # save all records
-      @os.organization.save
-      @os.primary_contact.save
-      @os.ceo.save
-      @os.organization.contacts << @os.primary_contact
-      @os.organization.contacts << @os.ceo
-
-      # add financial contact if a pledge was made and the existing contact has not been assigned that role
-      unless @os.organization.pledge_amount.blank? and @os.primary_contact.is?(Role.financial_contact)
-        @os.financial_contact.save
-        @os.organization.contacts << @os.financial_contact
-      end
-
+      @os.save
 
       clear_organization_signup
       session[:is_jci_referral] = nil

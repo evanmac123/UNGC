@@ -85,5 +85,21 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       assert @os.primary_contact.is? Role.financial_contact
     end
 
+    should "persist the organization and the contacts" do
+      @os.organization.expects(:save).once
+      @os.primary_contact.expects(:save).once
+      @os.ceo.expects(:save).once
+      @os.save
+    end
+
+    should "persist organization, contacts and the financial contact" do
+      @os.organization.pledge_amount = 1000
+      @os.organization.expects(:save).once
+      @os.primary_contact.expects(:save).once
+      @os.ceo.expects(:save).once
+      @os.financial_contact.expects(:save).once
+      @os.save
+    end
+
   end
 end
