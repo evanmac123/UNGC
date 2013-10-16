@@ -1,16 +1,14 @@
 class SignupController < ApplicationController
-  before_filter :determine_navigation
+  before_filter :determine_navigation, :load_organization_signup
 
   BUSINESS_PARAM = 'business'
   NONBUSINESS_PARAM = 'non_business'
 
   # shows organization form
   def step1
-    load_session
-
     @organization_types = OrganizationType.send @os.org_type
 
-    session[:os] = nil
+    clear_organization_signup
 
     if @os.organization.jci_referral? request.env["HTTP_REFERER"]
       session[:is_jci_referral] = true
@@ -21,11 +19,9 @@ class SignupController < ApplicationController
   # POST from organization form
   # shows contact form
   def step2
-    load_session
-
     @os.set_organization_attributes(params[:organization])
 
-    session[:os] = @os
+    store_organization_signup
 
     unless @os.organization.valid?
       redirect_to organization_step1_path(:org_type => @os.org_type)
@@ -35,11 +31,9 @@ class SignupController < ApplicationController
   # POST from contact form
   # shows ceo form
   def step3
-    load_session
-
     @os.set_primary_contact_attributes_and_prepare_ceo(params[:contact])
 
-    session[:os] = @os
+    store_organization_signup
 
     @next_step = @os.business? ? organization_step4_path : organization_step6_path
 
@@ -51,11 +45,9 @@ class SignupController < ApplicationController
   # POST from ceo form
   # pledge form if business organization
   def step4
-    load_session
-
     @os.set_ceo_attributes(params[:contact])
 
-    session[:os] = @os
+    store_organization_signup
 
     unless @os.ceo.valid? and @os.unique_emails?
       redirect_to organization_step3_path
@@ -72,12 +64,10 @@ class SignupController < ApplicationController
   # POST from pledge form
   # ask for financial contact if pledge was made
   def step5
-    load_session
-
     @os.set_organization_attributes(params[:organization])
     @os.prepare_financial_contact
 
-    session[:os] = @os
+    store_organization_signup
 
     unless @os.organization.pledge_amount.to_i > 0
       redirect_to organization_step6_path
@@ -87,19 +77,17 @@ class SignupController < ApplicationController
   # POST from ceo or financial contact form
   # shows commitment letter form
   def step6
-    load_session
-
     # coming from step5, organization is gonna give a pledge
     if @os.organization.pledge_amount.to_i > 0
       @os.set_financial_contact_attributes(params[:contact]) if params[:contact]
-      session[:os] = @os
+      store_organization_signup
       unless @os.financial_contact.valid? || @os.primary_contact.is?(Role.financial_contact)
         redirect_to organization_step5_path
       end
     # coming from step3 or 4
     else
       @os.set_ceo_attributes(params[:contact]) if params[:contact]
-      session[:os] = @os
+      store_organization_signup
       unless @os.ceo.valid? and @os.unique_emails?
         redirect_to organization_step3_path
       end
@@ -109,8 +97,6 @@ class SignupController < ApplicationController
   # POST from commitment letter form
   # shows thank you page
   def step7
-    load_session
-
     @os.set_organization_attributes(params[:organization])
 
     if @os.organization.valid? && @os.organization.commitment_letter?
@@ -128,7 +114,7 @@ class SignupController < ApplicationController
       end
 
 
-      session[:os] = nil
+      clear_organization_signup
       session[:is_jci_referral] = nil
       begin
         OrganizationMailer.submission_received(@os.organization).deliver
@@ -147,8 +133,16 @@ class SignupController < ApplicationController
 
   private
 
-    def load_session
+    def load_organization_signup
       @os = session[:os] || OrganizationSignup.new(params[:org_type])
+    end
+
+    def store_organization_signup
+      session[:os] = @os
+    end
+
+    def clear_organization_signup
+      session[:os] = nil
     end
 
     def default_navigation
