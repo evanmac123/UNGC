@@ -74,10 +74,6 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
   belongs_to :participant_manager, :class_name => 'Contact'
 
-
-  # this should be the other way around (has_one) but we want to use the polymorphic...
-  belongs_to :organization_detail, polymorphic: true
-
   attr_accessor :delisting_on
 
   # if the date is set, then the participant
@@ -785,17 +781,6 @@ class Organization < ActiveRecord::Base
 
   def welcome_package?
     contacts.ceos.first.try(:welcome_package)
-  end
-
-  def non_business?
-    organization_type.non_business?
-  end
-
-  def build_organization_detail(params={})
-    params.merge(organization: self)
-    if non_business?
-      NonBusinessOrganizationDetail.new params
-    end
   end
 
   private
