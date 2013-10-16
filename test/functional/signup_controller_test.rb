@@ -125,11 +125,13 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "get the seventh step page after submitting letter of commitment" do
-      session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
+      @os = session[:os] = OrganizationSignup.new('non_business')
+      @os.set_organization_attributes(:name                 => 'City University',
                                                        :organization_type_id => OrganizationType.first.id,
-                                                       :employees            => 500)
-      session[:signup_contact] = Contact.new(@signup_contact)
-      session[:signup_ceo] = Contact.new(@signup_ceo)
+                                                       :employees            => 50)
+      @os.set_primary_contact_attributes(@signup_contact)
+      @os.set_ceo_attributes(@signup_ceo)
+
       assert_difference 'ActionMailer::Base.deliveries.size' do
         assert_difference 'Organization.count' do
           assert_difference 'Contact.count', 2 do
@@ -142,11 +144,12 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "send an email to JCI if the applicant was a referral from their website" do
-      session[:signup_organization] = Organization.new(:name                 => 'JCI Member',
+      @os = session[:os] = OrganizationSignup.new('non_business')
+      @os.set_organization_attributes(:name                 => 'City University',
                                                        :organization_type_id => OrganizationType.first.id,
-                                                       :employees            => 500)
-      session[:signup_contact] = Contact.new(@signup_contact)
-      session[:signup_ceo] = Contact.new(@signup_ceo)
+                                                       :employees            => 50)
+      @os.set_primary_contact_attributes(@signup_contact)
+      @os.set_ceo_attributes(@signup_ceo)
       session[:is_jci_referral] = true
 
       assert_difference 'ActionMailer::Base.deliveries.size', 2 do
@@ -158,11 +161,13 @@ class SignupControllerTest < ActionController::TestCase
 
     should "see the PRME invitation on the seventh step page if they are an Academic organization" do
       @academic = create_organization_type(:name => 'Academic', :type_property => 1)
-      session[:signup_organization] = Organization.new(:name                 => 'City University',
+      @os = session[:os] = OrganizationSignup.new('non_business')
+      @os.set_organization_attributes(:name                 => 'City University',
                                                        :organization_type_id => @academic.id,
                                                        :employees            => 50)
-      session[:signup_contact] = Contact.new(@signup_contact)
-      session[:signup_ceo] = Contact.new(@signup_ceo)
+      @os.set_primary_contact_attributes(@signup_contact)
+      @os.set_ceo_attributes(@signup_ceo)
+
       post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
       assert_response :success
       assert_template 'step7'

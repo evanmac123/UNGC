@@ -103,16 +103,10 @@ class SignupController < ApplicationController
     if @os.organization.valid? && @os.organization.commitment_letter?
       @os.save
 
+      send_mail
+
       clear_organization_signup
       session[:is_jci_referral] = nil
-      begin
-        OrganizationMailer.submission_received(@os.organization).deliver
-        if session[:is_jci_referral]
-          OrganizationMailer.submission_jci_referral_received(@os.organization).deliver
-        end
-      rescue Exception => e
-       flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
-      end
     else
       flash[:error] = "Please upload your Letter of Commitment. #{@os.organization.errors.full_messages.to_sentence}"
       @os.organization.commitment_letter = nil
@@ -138,4 +132,14 @@ class SignupController < ApplicationController
       DEFAULTS[:signup_form_path]
     end
 
+    def send_mail
+      begin
+        OrganizationMailer.submission_received(@os.organization).deliver
+        if session[:is_jci_referral]
+          OrganizationMailer.submission_jci_referral_received(@os.organization).deliver
+        end
+      rescue Exception => e
+       flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
+      end
+    end
 end
