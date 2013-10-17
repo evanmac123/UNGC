@@ -15,6 +15,9 @@ class OrganizationTest < ActiveSupport::TestCase
   should belong_to :exchange
   should belong_to :country
   should have_one  :non_business_organization_registration
+  should have_one  :legal_status
+  should have_one  :recommitment_letter
+  should have_one  :withdrawal_letter
 
   context "given an existing organization with a contact and ceo" do
     setup do

@@ -76,6 +76,18 @@ class Organization < ActiveRecord::Base
 
   has_one :non_business_organization_registration
 
+  ORGANIZATION_FILE_TYPES = { :commitment_letter => 'commitment_letter', # this has to be migrated first
+                              :recommitment_letter => 'recommitment_letter',
+                              :withdrawal_letter => 'withdrawal_letter',
+                              :legal_status => 'legal_status' }
+
+  has_one :legal_status, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:legal_status]}, :dependent => :destroy
+  has_one :recommitment_letter, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:recommitment_letter]}, :dependent => :destroy
+  has_one :withdrawal_letter, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:withdrawal_letter]}, :dependent => :destroy
+
   attr_accessor :delisting_on
 
   # if the date is set, then the participant
