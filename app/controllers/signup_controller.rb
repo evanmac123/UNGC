@@ -7,7 +7,7 @@ class SignupController < ApplicationController
   # shows organization form
   def step1
     # XXX fix this
-    @organization_types = OrganizationType.send (@os.org_type || params[:org_type])
+    @organization_types = OrganizationType.send(@os.org_type || params[:org_type])
 
     clear_organization_signup
 
