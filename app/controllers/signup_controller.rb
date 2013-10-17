@@ -6,7 +6,8 @@ class SignupController < ApplicationController
 
   # shows organization form
   def step1
-    @organization_types = OrganizationType.send @os.org_type
+    # XXX fix this
+    @organization_types = OrganizationType.send (@os.org_type || params[:org_type])
 
     clear_organization_signup
 
@@ -19,11 +20,11 @@ class SignupController < ApplicationController
   # POST from organization form
   # shows contact form
   def step2
-    @os.set_organization_attributes(params[:organization])
+    @os.set_organization_attributes(params[:organization], params[:non_business_organization_registration])
 
     store_organization_signup
 
-    unless @os.organization.valid?
+    if !@os.organization.valid?
       redirect_to organization_step1_path(:org_type => @os.org_type)
     end
   end
@@ -100,7 +101,7 @@ class SignupController < ApplicationController
   def step7
     @os.set_organization_attributes(params[:organization])
 
-    if @os.organization.valid? && @os.organization.commitment_letter?
+    if @os.valid_organization? && @os.organization.commitment_letter?
       @os.save
 
       send_mail
@@ -108,7 +109,10 @@ class SignupController < ApplicationController
       clear_organization_signup
       session[:is_jci_referral] = nil
     else
-      flash[:error] = "Please upload your Letter of Commitment. #{@os.organization.errors.full_messages.to_sentence}"
+      if !@os.organization.commitment_letter?
+        message = "Please upload your Letter of Commitment."
+      end
+      flash[:error] = message + "#{@os.organization.errors.full_messages.to_sentence}, #{@os.registration.errors.full_messages.to_sentence}"
       @os.organization.commitment_letter = nil
       redirect_to organization_step6_path
     end

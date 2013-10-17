@@ -101,5 +101,24 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.save
     end
 
+    should "save non business organization details" do
+      @os = OrganizationSignup.new('non_business')
+      @os.registration.mission_statement = "A"
+      @os.organization.expects(:save).once
+      @os.primary_contact.expects(:save).once
+      @os.ceo.expects(:save).once
+      @os.registration.expects(:save).once
+      @os.save
+    end
+
+    should "save non business organization details only for non business organizations" do
+      @os.registration.mission_statement = "A"
+      @os.organization.expects(:save).once
+      @os.primary_contact.expects(:save).once
+      @os.ceo.expects(:save).once
+      @os.registration.expects(:save).never
+      @os.save
+    end
+
   end
 end

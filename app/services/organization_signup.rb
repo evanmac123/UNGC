@@ -1,9 +1,10 @@
 class OrganizationSignup
-  attr_reader :org_type, :organization, :primary_contact, :ceo, :financial_contact
+  attr_reader :org_type, :organization, :registration, :primary_contact, :ceo, :financial_contact
 
   def initialize(org_type)
     @org_type = org_type
     @organization = Organization.new
+    @registration = @organization.build_non_business_organization_registration
     @primary_contact = Contact.new_contact_point
     @ceo = Contact.new_ceo
     @financial_contact = Contact.new_financial_contact
@@ -17,8 +18,9 @@ class OrganizationSignup
     org_type == 'non_business'
   end
 
-  def set_organization_attributes(par)
-    organization.attributes = par
+  def set_organization_attributes(org, reg=nil)
+    organization.attributes = org
+    registration.attributes = reg
   end
 
   def set_primary_contact_attributes(par)
@@ -65,6 +67,10 @@ class OrganizationSignup
     return unique
   end
 
+  def valid_organization?
+    organization.valid? && (business? || registration.valid?)
+  end
+
   def save
     # save all records
     organization.save
@@ -72,6 +78,10 @@ class OrganizationSignup
     ceo.save
     organization.contacts << primary_contact
     organization.contacts << ceo
+
+    if non_business?
+      registration.save
+    end
 
     # add financial contact if a pledge was made and the existing contact has not been assigned that role
     if !organization.pledge_amount.blank? && !primary_contact.is?(Role.financial_contact)

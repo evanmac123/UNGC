@@ -12,7 +12,7 @@
 #
 
 class NonBusinessOrganizationRegistration < ActiveRecord::Base
-  validates :mission_statement, length: { maximum: 1000 }
+  validates :mission_statement, length: { minimum: 1, maximum: 1000 }
 
   belongs_to :organization
 end

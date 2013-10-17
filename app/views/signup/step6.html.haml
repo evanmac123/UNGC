@@ -9,4 +9,9 @@
 
   = form_for(@os.organization, :url => organization_step7_path, :html => { :multipart => true }) do |form|
     %p= form.file_field :commitment_letter, { :label => ' ' }
+    - if @os.non_business?
+      %p
+        = fields_for :non_business_organization_registration, @os.registration do |fields|
+          = fields.label :mission_statement
+          = fields.text_area :mission_statement
     = form.submit 'Submit', :class => 'button'
