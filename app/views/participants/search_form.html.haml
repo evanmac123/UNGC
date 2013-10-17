@@ -19,16 +19,14 @@
     %fieldset
       %legend Acceptance Date
       %div.radio_button_group
-        %dl.left.dates
+        %dl.dates.left{:style => 'margin-right: 80px;'}
           %dt
-            %label.date{:for => :joined_after} between
-          %dd
-          = text_field_tag :joined_after, nil, :class => 'datepicker iso-date', :size => 11
-        %dl.left.dates
+            %label.date.left{:for => :joined_after} Starting on
+          %dd= text_field_tag :joined_after, nil, :class => 'datepicker iso-date', :size => 11
+        %dl.dates.left
           %dt
-            %label.date{:for => :joined_before, :style => 'margin-left: 20px;'} and
-          %dd
-            = text_field_tag :joined_before, nil, :class => 'datepicker iso-date', :size => 11
+            %label.date{:for => :joined_before}  Ending on
+          %dd= text_field_tag :joined_before, nil, :class => 'datepicker iso-date', :size => 11
 
     %fieldset
       %legend Participants
