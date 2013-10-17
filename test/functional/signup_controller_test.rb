@@ -126,9 +126,10 @@ class SignupControllerTest < ActionController::TestCase
 
     should "get the seventh step page after submitting letter of commitment" do
       @os = session[:os] = OrganizationSignup.new('non_business')
-      @os.set_organization_attributes(:name                 => 'City University',
-                                                       :organization_type_id => OrganizationType.first.id,
-                                                       :employees            => 50)
+      @os.set_organization_attributes({:name                 => 'City University',
+                                       :organization_type_id => OrganizationType.first.id,
+                                       :employees            => 50},
+                                       {:mission_statement   => "A"})
       @os.set_primary_contact_attributes(@signup_contact)
       @os.set_ceo_attributes(@signup_ceo)
 
@@ -145,9 +146,10 @@ class SignupControllerTest < ActionController::TestCase
 
     should "send an email to JCI if the applicant was a referral from their website" do
       @os = session[:os] = OrganizationSignup.new('non_business')
-      @os.set_organization_attributes(:name                 => 'City University',
-                                                       :organization_type_id => OrganizationType.first.id,
-                                                       :employees            => 50)
+      @os.set_organization_attributes({:name                 => 'City University',
+                                       :organization_type_id => OrganizationType.first.id,
+                                       :employees            => 50},
+                                       {:mission_statement   => "A"})
       @os.set_primary_contact_attributes(@signup_contact)
       @os.set_ceo_attributes(@signup_ceo)
       session[:is_jci_referral] = true
@@ -162,9 +164,10 @@ class SignupControllerTest < ActionController::TestCase
     should "see the PRME invitation on the seventh step page if they are an Academic organization" do
       @academic = create_organization_type(:name => 'Academic', :type_property => 1)
       @os = session[:os] = OrganizationSignup.new('non_business')
-      @os.set_organization_attributes(:name                 => 'City University',
-                                                       :organization_type_id => @academic.id,
-                                                       :employees            => 50)
+      @os.set_organization_attributes({:name                 => 'City University',
+                                       :organization_type_id => @academic.id,
+                                       :employees            => 50},
+                                       {:mission_statement   => "A"})
       @os.set_primary_contact_attributes(@signup_contact)
       @os.set_ceo_attributes(@signup_ceo)
 
