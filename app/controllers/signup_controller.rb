@@ -99,7 +99,7 @@ class SignupController < ApplicationController
   # POST from commitment letter form
   # shows thank you page
   def step7
-    @os.set_organization_attributes(params[:organization])
+    @os.set_organization_attributes(params[:organization], params[:non_business_organization_registration])
 
     if @os.valid_organization? && @os.organization.commitment_letter?
       @os.save
@@ -109,6 +109,7 @@ class SignupController < ApplicationController
       clear_organization_signup
       session[:is_jci_referral] = nil
     else
+      message = ''
       if !@os.organization.commitment_letter?
         message = "Please upload your Letter of Commitment."
       end
