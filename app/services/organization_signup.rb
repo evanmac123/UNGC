@@ -84,11 +84,11 @@ class OrganizationSignup
       if @legal_status_id.blank?
         organization.errors.add :legal_status, "can't be blank"
       end
+    end
 
-      if complete
-        if !organization.commitment_letter?
-          organization.errors.add :commitment_letter, "Please upload your Letter of Commitment."
-        end
+    if complete
+      if !organization.commitment_letter?
+        organization.errors.add :commitment_letter, "Please upload your Letter of Commitment."
       end
     end
     !organization.errors.any?
@@ -126,6 +126,8 @@ class OrganizationSignup
 
     if non_business?
       registration.save
+    else
+      @registration = nil
     end
 
     # add financial contact if a pledge was made and the existing contact has not been assigned that role
