@@ -121,4 +121,24 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
   end
+
+  context "validates properly" do
+    setup do
+      create_roles
+      @os = OrganizationSignup.new('non_business')
+    end
+
+    should "validate registration partially" do
+      assert !@os.valid_registration?, "should be invalid"
+      @os.registration.number = "bla"
+      assert @os.valid_registration?, "should be valid"
+    end
+
+    should "validate registration completely" do
+      @os.registration.number = "bla"
+      assert !@os.valid_registration?(true), "should be invalid"
+      @os.registration.mission_statement = "test"
+      assert @os.valid_registration?, "should be valid"
+    end
+  end
 end

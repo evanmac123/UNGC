@@ -15,13 +15,4 @@ require 'test_helper'
 
 class NonBusinessOrganizationRegistrationTest < ActiveSupport::TestCase
   should belong_to :organization
-
-  should "limit length of mission statement" do
-    statement = "A" * 1001
-    reg = NonBusinessOrganizationRegistration.new(mission_statement: statement)
-    assert !reg.valid?
-    reg = NonBusinessOrganizationRegistration.new(mission_statement: "hi")
-    reg.valid?
-    assert reg.valid?
-  end
 end

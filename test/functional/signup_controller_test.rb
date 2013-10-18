@@ -128,8 +128,10 @@ class SignupControllerTest < ActionController::TestCase
       @os = session[:os] = OrganizationSignup.new('non_business')
       @os.set_organization_attributes({:name                 => 'City University',
                                        :organization_type_id => OrganizationType.first.id,
-                                       :employees            => 50},
-                                       {:mission_statement   => "A"})
+                                       :employees            => 50,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
+                                       {:number              => "test",
+                                        :mission_statement   => "A"})
       @os.set_primary_contact_attributes(@signup_contact)
       @os.set_ceo_attributes(@signup_ceo)
 
@@ -148,8 +150,10 @@ class SignupControllerTest < ActionController::TestCase
       @os = session[:os] = OrganizationSignup.new('non_business')
       @os.set_organization_attributes({:name                 => 'City University',
                                        :organization_type_id => OrganizationType.first.id,
-                                       :employees            => 50},
-                                       {:mission_statement   => "A"})
+                                       :employees            => 50,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
+                                       {:number              => "test",
+                                        :mission_statement   => "A"})
       @os.set_primary_contact_attributes(@signup_contact)
       @os.set_ceo_attributes(@signup_ceo)
       session[:is_jci_referral] = true
@@ -166,8 +170,10 @@ class SignupControllerTest < ActionController::TestCase
       @os = session[:os] = OrganizationSignup.new('non_business')
       @os.set_organization_attributes({:name                 => 'City University',
                                        :organization_type_id => @academic.id,
-                                       :employees            => 50},
-                                       {:mission_statement   => "A"})
+                                       :employees            => 50,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
+                                       {:number              => "test",
+                                        :mission_statement   => "A"})
       @os.set_primary_contact_attributes(@signup_contact)
       @os.set_ceo_attributes(@signup_ceo)
 

@@ -24,7 +24,7 @@ class SignupController < ApplicationController
 
     store_organization_signup
 
-    if !@os.organization.valid?
+    if !@os.valid_organization? || !@os.valid_registration?
       redirect_to organization_step1_path(:org_type => @os.org_type)
     end
   end
@@ -101,7 +101,7 @@ class SignupController < ApplicationController
   def step7
     @os.set_organization_attributes(params[:organization], params[:non_business_organization_registration])
 
-    if @os.valid_organization? && @os.organization.commitment_letter?
+    if @os.valid_organization?(true) && @os.valid_registration?(true)
       @os.save
 
       send_mail
@@ -109,11 +109,6 @@ class SignupController < ApplicationController
       clear_organization_signup
       session[:is_jci_referral] = nil
     else
-      message = ''
-      if !@os.organization.commitment_letter?
-        message = "Please upload your Letter of Commitment."
-      end
-      flash[:error] = message + "#{@os.organization.errors.full_messages.to_sentence}, #{@os.registration.errors.full_messages.to_sentence}"
       @os.organization.commitment_letter = nil
       redirect_to organization_step6_path
     end

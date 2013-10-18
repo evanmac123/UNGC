@@ -59,5 +59,8 @@
             %li
               = fields.label :number
               = fields.text_field :number
+          %li
+            = form.label :legal_status
+            = form.file_field :legal_status, { :label => ' ' }
 
     = form.submit 'Next', :class => 'button'

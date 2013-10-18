@@ -18,7 +18,18 @@ class OrganizationSignup
     org_type == 'non_business'
   end
 
+  def set_legal_status(org)
+    if org && org[:legal_status]
+      lg = UploadedFile.new attachable_type: 'Organization', attachable_key: Organization::ORGANIZATION_FILE_TYPES[:legal_status]
+      lg.attachment = org[:legal_status]
+      lg.save!
+      @legal_status_id = lg.id
+      org.delete(:legal_status)
+    end
+  end
+
   def set_organization_attributes(org, reg=nil)
+    set_legal_status(org)
     organization.attributes = org
     registration.attributes = reg
   end
@@ -29,12 +40,12 @@ class OrganizationSignup
 
   def prepare_ceo
     # ceo contact fields which default to contact
-    ceo.phone = primary_contact.phone unless ceo.phone
+    ceo.phone = primary_contact.phone if ceo.phone.blank?
     ceo.fax = primary_contact.fax unless ceo.fax
-    ceo.address = primary_contact.address unless ceo.address
+    ceo.address = primary_contact.address if ceo.address.blank?
     ceo.address_more = primary_contact.address_more unless ceo.address_more
-    ceo.city = primary_contact.city unless ceo.city
-    ceo.state = primary_contact.state unless ceo.state
+    ceo.city = primary_contact.city if ceo.city.blank?
+    ceo.state = primary_contact.state if ceo.state
     ceo.postal_code = primary_contact.postal_code unless ceo.postal_code
     ceo.country_id = primary_contact.country_id unless ceo.country
   end
@@ -67,12 +78,46 @@ class OrganizationSignup
     return unique
   end
 
-  def valid_organization?
-    organization.valid? && (business? || registration.valid?)
+  def valid_organization?(complete=false)
+    organization.valid?
+    if non_business?
+      if @legal_status_id.blank?
+        organization.errors.add :legal_status, "can't be blank"
+      end
+
+      if complete
+        if !organization.commitment_letter?
+          organization.errors.add :commitment_letter, "Please upload your Letter of Commitment."
+        end
+      end
+    end
+    !organization.errors.any?
+  end
+
+  def valid_registration?(complete=false)
+    registration.valid?
+    if non_business?
+      if registration.number.blank?
+        registration.errors.add :number, "can't be empty"
+      end
+
+      if complete
+        if registration.mission_statement.blank?
+          registration.errors.add :mission_statement, "can't be empty"
+        elsif registration.mission_statement.length > 1000
+          registration.errors.add :mission_statement, "has to be less that 1000 characters"
+        end
+      end
+    end
+    !registration.errors.any?
   end
 
   def save
     # save all records
+    if @legal_status_id
+      organization.legal_status = UploadedFile.find(@legal_status_id)
+    end
+
     organization.save
     primary_contact.save
     ceo.save
