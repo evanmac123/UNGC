@@ -21,7 +21,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       sign_in create_website_editor
       resource = create_resource
       post :approve, id:resource
-      assert_redirected_to action: :index
+      assert_redirected_to action: :show
       resource.reload
       assert resource.approved?
     end
@@ -31,7 +31,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       resource = create_resource
       resource.approve!
       post :revoke, id:resource
-      assert_redirected_to action: :index
+      assert_redirected_to action: :show
       resource.reload
       assert resource.revoked?
     end
