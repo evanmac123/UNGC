@@ -1,3 +1,11 @@
+h1. 2013-10-21
+
+* For the new Communication on Engagement, we need to display questions for the organization depending on their OrganizationType
+* Because we have Global and Local types for Business Associations, Labour and NGOs, we need a solution for identifying their non-business organization type
+* Organization#non_business_type can be called to return the non-business type: academic, business_association, city, labour, ngo
+* These will then be used to create a CopQuestion group based on the same type
+* The method runs several queries and should be refactored
+
 h1. 2013-09-12
 
 * We are listing the years which companies have contributed to the Foundation

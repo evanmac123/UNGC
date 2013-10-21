@@ -62,7 +62,7 @@ class OrganizationType < ActiveRecord::Base
   end
 
   def self.city
-    first :conditions => {:name => FILTERS[:city]}
+    where(name: FILTERS[:city]).first
   end
 
   def self.company
@@ -75,6 +75,18 @@ class OrganizationType < ActiveRecord::Base
 
   def self.signatory
     where(name: FILTERS[:signatory]).first
+  end
+
+  def self.business_association
+    for_filter(:business_global, :business_local)
+  end
+
+  def self.labour
+    for_filter(:labour_global, :labour_local)
+  end
+
+  def self.ngo
+    for_filter(:civil_global, :civil_local)
   end
 
 end

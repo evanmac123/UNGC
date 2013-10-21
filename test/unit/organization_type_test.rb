@@ -5,11 +5,13 @@ class OrganizationTypeTest < ActiveSupport::TestCase
 
   context "filtering by type" do
     setup do
-      @academia  = create_organization_type(:name => 'Academic', :type_property => 1 )
-      @public    = create_organization_type(:name => 'Public Sector Organization', :type_property => 1)
-      @companies = create_organization_type(:name => 'Company', :type_property => 2)
-      @sme       = create_organization_type(:name => 'SME', :type_property => 2)
-      @micro     = create_organization_type(:name => 'Micro Enterprise', :type_property => 2)
+      @academia      = create_organization_type(:name => 'Academic', :type_property => 1 )
+      @public        = create_organization_type(:name => 'Public Sector Organization', :type_property => 1)
+      @companies     = create_organization_type(:name => 'Company', :type_property => 2)
+      @sme           = create_organization_type(:name => 'SME', :type_property => 2)
+      @micro         = create_organization_type(:name => 'Micro Enterprise', :type_property => 2)
+      @labour_global = create_organization_type(:name => 'Labour Global', :type_property => 1)
+      @labour_local  = create_organization_type(:name => 'Labour Local', :type_property => 1)
     end
 
     should "find Academics when filtering for :academia" do
@@ -32,12 +34,16 @@ class OrganizationTypeTest < ActiveSupport::TestCase
       assert_same_elements [@companies, @sme], OrganizationType.for_filter(:companies, :sme)
     end
 
-    should "find Busines, Non Business and Micro Enterprise using named scope for staff" do
-      assert_same_elements [@academia, @public, @companies, @sme, @micro], OrganizationType.staff_types
+    should "find all organization types when using named scope for staff" do
+      assert_same_elements [@academia, @public, @companies, @sme, @micro, @labour_global, @labour_local], OrganizationType.staff_types
     end
 
     should "find company, sme, and micro enterprise when filtering for business" do
       assert_same_elements [@companies, @sme, @micro], OrganizationType.business
+    end
+
+    should "find global and local types when filtering for labour" do
+      assert_same_elements [@labour_global, @labour_local], OrganizationType.labour
     end
 
   end

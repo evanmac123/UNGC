@@ -352,6 +352,18 @@ class Organization < ActiveRecord::Base
     organization_type == OrganizationType.city
   end
 
+  def labour?
+    OrganizationType.labour.include? organization_type
+  end
+
+  def ngo?
+    OrganizationType.ngo.include? organization_type
+  end
+
+  def business_association?
+    OrganizationType.business_association.include? organization_type
+  end
+
   def organization_type_name_for_custom_links
     if company?
       'business'
@@ -361,6 +373,22 @@ class Organization < ActiveRecord::Base
       'city'
     else
       'non_business'
+    end
+  end
+
+  def non_business_type
+    if academic?
+      'acedemic'
+    elsif city?
+      'city'
+    elsif labour?
+      'labour'
+    elsif ngo?
+      'ngo'
+    elsif business_association?
+      'business_association'
+    else
+      raise 'Invalid non business organization type'
     end
   end
 
@@ -489,6 +517,14 @@ class Organization < ActiveRecord::Base
     string = "#{id}-#{string}"
     string = string.gsub(/-+/, '-')
     string = CGI.escape(string)
+  end
+
+  def cop_name
+    company? ? "Communication on Progress" : "Communication on Engagement"
+  end
+
+  def cop_acronym
+    company? ? "COP" : "COE"
   end
 
   def last_approved_cop
