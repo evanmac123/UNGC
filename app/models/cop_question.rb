@@ -31,18 +31,24 @@ class CopQuestion < ActiveRecord::Base
   # optionally group questions so they can be displayed together
   # basic is used for Basic COP where the responses are in text format
   GROUPING_AREAS = {
-    'additional'          => 'Additional',
-    'basic'               => 'Basic Template',
-    'strategy'            => 'Strategy, Governance and Engagement',
-    'un_goals'            => 'UN Goals and Issues',
-    'value_chain'         => 'Value Chain Implementation',
-    'verification'        => 'Verification and Transparency',
-    'governance'          => 'Governance',
-    'lead_un_goals'       => 'LEAD: UN Goals',
-    'lead_gc'             => 'LEAD: Global Compact',
-    'mandatory'           => 'Mandatory',
-    'notable'             => 'Notable',
-    'business_peace'      => 'Business and Peace'
+    'additional'           => 'Additional',
+    'basic'                => 'Basic Template',
+    'strategy'             => 'Strategy, Governance and Engagement',
+    'un_goals'             => 'UN Goals and Issues',
+    'value_chain'          => 'Value Chain Implementation',
+    'verification'         => 'Verification and Transparency',
+    'governance'           => 'Governance',
+    'lead_un_goals'        => 'LEAD: UN Goals',
+    'lead_gc'              => 'LEAD: Global Compact',
+    'mandatory'            => 'Mandatory',
+    'notable'              => 'Notable',
+    'business_peace'       => 'Business and Peace',
+    'academic'             => 'Non-Business: Academic',
+    'business_association' => 'Non-Business: Business Association',
+    'city'                 => 'Non-Business: City',
+    'labour'               => 'Non-Business: Labour',
+    'ngo'                  => 'Non-Business: NGO',
+    'public'               => 'Non-Business: Public Sector Organization'
   }
 
   # for accessing particular grouping areas
