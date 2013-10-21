@@ -31,7 +31,6 @@ class OrganizationType < ActiveRecord::Base
     :civil_local      => 'NGO Local',
     :city             => 'City',
     :foundation       => 'Foundation',
-    :gc_networks      => 'GC Networks',
     :labour_global    => 'Labour Global',
     :labour_local     => 'Labour Local',
     :public           => 'Public Sector Organization',
@@ -48,7 +47,7 @@ class OrganizationType < ActiveRecord::Base
     else
       where("name = ?", FILTERS[filter_types])
     end
-  end    
+  end
 
   def business?
     type_property == BUSINESS
