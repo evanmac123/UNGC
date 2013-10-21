@@ -53,9 +53,9 @@ class Admin::ResourcesController < AdminController
     if allowed_to_approve
       @resource.approved_by_id = current_contact.id
       @resource.approve!
-      redirect_to admin_resources_url, notice:'Resource approved'
+      redirect_to [:admin, @resource], notice: 'Resource approved.'
     else
-      redirect_to admin_resources_url, notice:'Failed to approve resource.'
+      redirect_to [:admin, @resource], notice: 'Failed to approve resource.'
     end
   end
 
@@ -63,9 +63,9 @@ class Admin::ResourcesController < AdminController
     @resource = Resource.find(params[:id])
     if allowed_to_revoke
       @resource.revoke!
-      redirect_to admin_resources_url, notice:'Resource revoked'
+      redirect_to [:admin, @resource], notice: 'Resource revoked'
     else
-      redirect_to admin_resources_url, notice:'Failed to revoke resource.'
+      redirect_to [:admin, @resource], notice: 'Failed to revoke resource.'
     end
   end
 
@@ -80,7 +80,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def order_from_params
-    @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')
+    @order = [params[:sort_field] || 'approved_at', params[:sort_direction] || 'ASC'].join(' ')
   end
 
   def load_form_resources

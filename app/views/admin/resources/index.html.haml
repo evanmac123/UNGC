@@ -16,7 +16,11 @@
     %tr
       %td= resource.id
       %td.nowrap{:title => resource.title}
-        = truncate(resource.title, :length => 90)
+        %h5{style: 'margin-bottom: 0;'}= truncate(resource.title, :length => 90)
+        - unless resource.approved?
+          %ul{style: 'margin: 0.35em 0 0 0; line-height: 1.5em; list-style:none; color: #444;'}
+            - resource.authors.each do |a|
+              %li= a.full_name
       %td
         = resource.year.year rescue nil
       %td
