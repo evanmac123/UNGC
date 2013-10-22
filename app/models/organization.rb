@@ -358,12 +358,32 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name) == 'SME'
   end
 
+  def non_business?
+    organization_type.non_business?
+  end
+
   def academic?
     organization_type == OrganizationType.academic
   end
 
   def city?
     organization_type == OrganizationType.city
+  end
+
+  def labour?
+    OrganizationType.labour.include? organization_type
+  end
+
+  def ngo?
+    OrganizationType.ngo.include? organization_type
+  end
+
+  def business_association?
+    OrganizationType.business_association.include? organization_type
+  end
+
+  def public_sector?
+    organization_type == OrganizationType.public_sector
   end
 
   def organization_type_name_for_custom_links

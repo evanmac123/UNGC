@@ -54,6 +54,10 @@ class OrganizationType < ActiveRecord::Base
     type_property == BUSINESS
   end
 
+  def non_business?
+    type_property == NON_BUSINESS
+  end
+
   def self.micro_enterprise
     where(name: FILTERS[:micro_enterprise]).first
   end
@@ -76,6 +80,22 @@ class OrganizationType < ActiveRecord::Base
 
   def self.signatory
     where(name: FILTERS[:signatory]).first
+  end
+
+  def self.business_association
+    for_filter(:business_global, :business_local)
+  end
+
+  def self.labour
+    for_filter(:labour_global, :labour_local)
+  end
+
+  def self.ngo
+    for_filter(:civil_global, :civil_local)
+  end
+
+  def self.public_sector
+    where(name: FILTERS[:public]).first
   end
 
 end
