@@ -27,7 +27,7 @@
         = resource.principles_count
       %td.status-cell
         = h approval_name(resource)
-        - if resource.approved?
+        - if resource.approved? || resource.revoked?
           %br/
           %span.small
             = "#{resource.approved_at} by #{approver_name(resource)}"
