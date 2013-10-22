@@ -88,7 +88,7 @@ class OrganizationSignup
 
     if complete
       if !organization.commitment_letter?
-        organization.errors.add :commitment_letter, "Please upload your Letter of Commitment."
+        organization.errors.add :commitment_letter, "Please upload."
       end
     end
     !organization.errors.any?

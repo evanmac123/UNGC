@@ -140,5 +140,22 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.registration.mission_statement = "test"
       assert @os.valid_registration?, "should be valid"
     end
+
+    should "validate organization partially" do
+      assert !@os.valid_organization?, "should be invalid"
+      @os.set_organization_attributes({:name                 => 'City University',
+                                       :employees            => 50,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')})
+      assert @os.valid_organization?, "should be valid"
+    end
+
+    should "validate organization completely" do
+      @os.set_organization_attributes({:name                 => 'City University',
+                                       :employees            => 50,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')})
+      assert !@os.valid_organization?(true), "should be invalid"
+      @os.organization.commitment_letter = fixture_file_upload('files/untitled.pdf', 'application/pdf')
+      assert @os.valid_organization?(true), "should be valid"
+    end
   end
 end
