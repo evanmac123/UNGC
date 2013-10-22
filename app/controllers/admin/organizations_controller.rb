@@ -38,6 +38,7 @@ class Admin::OrganizationsController < AdminController
     @organization.set_replied_to(current_contact) if Organization::STATE_IN_REVIEW
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
 
+    save_documents(params[:organization])
     if @organization.update_attributes(params[:organization])
       save_non_business_organization_registration(params[:non_business_organization_registration])
       @organization.set_last_modified_by(current_contact)
@@ -50,6 +51,21 @@ class Admin::OrganizationsController < AdminController
     else
       @organization_types = OrganizationType.staff_types
       render :action => "edit"
+    end
+  end
+
+  def save_documents(par)
+    if par[:legal_status]
+      @organization.build_legal_status(attachment: par[:legal_status])
+      par.delete(:legal_status)
+    end
+    if par[:recommitment_letter]
+      @organization.build_recommitment_letter(attachment: par[:recommitment_letter])
+      par.delete(:recommitment_letter)
+    end
+    if par[:withdrawal_letter]
+      @organization.build_withdrawal_letter(attachment: par[:withdrawal_letter])
+      par.delete(:withdrawal_letter)
     end
   end
 
