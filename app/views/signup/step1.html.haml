@@ -49,7 +49,7 @@
           = fields_for :non_business_organization_registration, @os.registration do |fields|
             %li
               = fields.label :date
-              = fields.text_field :date
+              = fields.text_field :date, :class => 'datepicker iso-date', :size => 11
             %li
               = fields.label :place
               = fields.text_field :place
