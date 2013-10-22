@@ -39,6 +39,7 @@ class Admin::OrganizationsController < AdminController
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
 
     if @organization.update_attributes(params[:organization])
+      save_non_business_organization_registration(params[:non_business_organization_registration])
       @organization.set_last_modified_by(current_contact)
       flash[:notice] = 'Organization was successfully updated.'
       if current_contact.from_ungc?
@@ -224,6 +225,16 @@ class Admin::OrganizationsController < AdminController
 
     def date_from_params(param_name)
       Time.parse params[param_name]
+    end
+
+    def save_non_business_organization_registration(par)
+      return if par.blank?
+      if @organization.non_business_organization_registration
+        @organization.non_business_organization_registration.attributes = par
+      else
+        @organization.build_non_business_organization_registration(par)
+      end
+      @organization.non_business_organization_registration.save
     end
 
 end
