@@ -54,21 +54,6 @@ class Admin::OrganizationsController < AdminController
     end
   end
 
-  def save_documents(par)
-    if par[:legal_status]
-      @organization.build_legal_status(attachment: par[:legal_status])
-      par.delete(:legal_status)
-    end
-    if par[:recommitment_letter]
-      @organization.build_recommitment_letter(attachment: par[:recommitment_letter])
-      par.delete(:recommitment_letter)
-    end
-    if par[:withdrawal_letter]
-      @organization.build_withdrawal_letter(attachment: par[:withdrawal_letter])
-      par.delete(:withdrawal_letter)
-    end
-  end
-
   def destroy
     if @organization.destroy
       flash[:notice] = 'Organization was deleted.'
@@ -243,6 +228,7 @@ class Admin::OrganizationsController < AdminController
       Time.parse params[param_name]
     end
 
+    # TODO move this into service object like OrganizationUpdater
     def save_non_business_organization_registration(par)
       return if par.blank?
       if @organization.non_business_organization_registration
@@ -253,4 +239,19 @@ class Admin::OrganizationsController < AdminController
       @organization.non_business_organization_registration.save
     end
 
+    # TODO move this into service object like OrganizationUpdater
+    def save_documents(par)
+      if par[:legal_status]
+        @organization.build_legal_status(attachment: par[:legal_status])
+        par.delete(:legal_status)
+      end
+      if par[:recommitment_letter]
+        @organization.build_recommitment_letter(attachment: par[:recommitment_letter])
+        par.delete(:recommitment_letter)
+      end
+      if par[:withdrawal_letter]
+        @organization.build_withdrawal_letter(attachment: par[:withdrawal_letter])
+        par.delete(:withdrawal_letter)
+      end
+    end
 end
