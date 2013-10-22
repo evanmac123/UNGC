@@ -344,6 +344,10 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name) == 'SME'
   end
 
+  def non_business?
+    organization_type.non_business?
+  end
+
   def academic?
     organization_type == OrganizationType.academic
   end
@@ -362,6 +366,10 @@ class Organization < ActiveRecord::Base
 
   def business_association?
     OrganizationType.business_association.include? organization_type
+  end
+
+  def public_sector?
+    organization_type == OrganizationType.public_sector
   end
 
   def organization_type_name_for_custom_links
