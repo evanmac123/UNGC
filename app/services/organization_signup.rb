@@ -2,7 +2,7 @@ class OrganizationSignup
   attr_reader :org_type, :organization, :registration, :primary_contact, :ceo, :financial_contact
 
   def initialize(org_type)
-    @org_type = org_type
+    @org_type = org_type || 'business'
     @organization = Organization.new
     @registration = @organization.build_non_business_organization_registration
     @primary_contact = Contact.new_contact_point
