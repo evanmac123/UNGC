@@ -76,31 +76,31 @@
     - if can_edit_letter? @organization
       %li
         %label{:style => 'margin-right: 25px;'} Letter of Commitment
+        = file_field_tag "organization[commitment_letter]"
         - if @organization.commitment_letter?
           = link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
         - else
           The Letter of Commitment has not been uploaded
-        = file_field_tag "organization[commitment_letter]"
     %li
       %label{:style => 'margin-right: 25px;'} Legal Status
+      = file_field_tag "organization[legal_status]"
       - if @organization.legal_status
         = link_to @organization.legal_status.attachment_file_name, @organization.legal_status.attachment.url
       - else
         Legal Status has not been uploaded
-      = file_field_tag "organization[legal_status]"
     %li
       %label{:style => 'margin-right: 25px;'} Letter of Recommitment
+      = file_field_tag "organization[recommitment_letter]"
       - if @organization.recommitment_letter
         = link_to @organization.recommitment_letter.attachment_file_name, @organization.recommitment_letter.attachment.url
       - else
         Letter of Recommitment has not been uploaded
-      = file_field_tag "organization[recommitment_letter]"
     %li
       %label{:style => 'margin-right: 25px;'} Withdrawal Letter
+      = file_field_tag "organization[withdrawal_letter]"
       - if @organization.withdrawal_letter
         = link_to @organization.withdrawal_letter.attachment_file_name, @organization.withdrawal_letter.attachment.url
       - else
         Withdrawal Letter has not been uploaded
-      = file_field_tag "organization[withdrawal_letter]"
 
 = initial_organization_state @organization
