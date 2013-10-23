@@ -39,7 +39,7 @@ class SignupController < ApplicationController
 
     @next_step = @signup.business? ? organization_step4_path : organization_step6_path
 
-    unless @signup.primary_contact.valid?
+    unless @signup.valid_primary_contact?
       redirect_to organization_step2_path
     end
   end
@@ -51,7 +51,7 @@ class SignupController < ApplicationController
 
     store_organization_signup
 
-    unless @signup.ceo.valid? and @signup.unique_emails?
+    unless @signup.valid_ceo?
       redirect_to organization_step3_path
     end
 
@@ -71,7 +71,7 @@ class SignupController < ApplicationController
 
     store_organization_signup
 
-    unless @signup.organization.pledge_amount.to_i > 0
+    unless @signup.has_pledge?
       redirect_to organization_step6_path
     end
   end
@@ -80,7 +80,7 @@ class SignupController < ApplicationController
   # shows commitment letter form
   def step6
     # coming from step5, organization is gonna give a pledge
-    if @signup.organization.pledge_amount.to_i > 0
+    if @signup.has_pledge?
       @signup.set_financial_contact_attributes(params[:contact]) if params[:contact]
       store_organization_signup
       unless @signup.financial_contact.valid? || @signup.primary_contact.is?(Role.financial_contact)
@@ -90,7 +90,7 @@ class SignupController < ApplicationController
     else
       @signup.set_ceo_attributes(params[:contact]) if params[:contact]
       store_organization_signup
-      unless @signup.ceo.valid? and @signup.unique_emails?
+      unless @signup.valid_ceo?
         redirect_to organization_step3_path
       end
     end

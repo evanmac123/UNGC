@@ -112,6 +112,18 @@ class OrganizationSignup
     !registration.errors.any?
   end
 
+  def valid_primary_contact?
+    primary_contact.valid?
+  end
+
+  def valid_ceo?
+    ceo.valid? && unique_emails?
+  end
+
+  def has_pledge?
+    organization.pledge_amount.to_i > 0
+  end
+
   def save
     # save all records
     if @legal_status_id
