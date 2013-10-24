@@ -21,7 +21,7 @@ class CopQuestion < ActiveRecord::Base
   YEAR_RANGE = FIRST_YEAR..LAST_YEAR
 
   validates_presence_of :text, :grouping
-  has_many :cop_attributes
+  has_many :cop_attributes, :dependent => :destroy
   belongs_to :principle_area
   belongs_to :initiative
 
