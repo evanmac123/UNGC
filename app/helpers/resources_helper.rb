@@ -14,7 +14,7 @@ module ResourcesHelper
     selected = url_for(params.merge(:order => params[:order]))
     select_tag :per_page, options_for_select(options, :selected => selected), :class => 'autolink'
   end
-  
+
   def approval_name(resource)
     case resource.approval
     when 'pending'
@@ -33,7 +33,7 @@ module ResourcesHelper
   end
 
   def link_to_all_resources(reference)
-    link_to 'View All', resources_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all'
+    link_to 'View All Resources', resources_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all-resources'
   end
-  
+
 end

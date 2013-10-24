@@ -286,6 +286,43 @@
       width: 141px
     img
       margin: 0 auto
+  &.embedded-shelf
+    margin-left: -54px !important
+    .resource
+      margin-left: 54px
+      margin-bottom: 30px
+#rightcontent .copy ul.embedded-shelf
+  margin-bottom: -50px !important
+
+a.view-all-resources
+  display: inline-block
+  text-align: center
+  margin-bottom: 30px
+  border: 1px solid darken(#f0f0f0, 10%)
+  border-radius: 6px
+  padding: 13px 35px 11px 20px
+  line-height: 1
+  position: relative
+  background-color: #fefefe
+  background-image: -moz-linear-gradient(top,  #fefefe 0%, #f8f8f8 34%, #f9f9f9 39%, #f6f6f6 43%, #f7f7f7 48%, #f5f5f5 50%, #f2f2f2 73%, #efefef 77%, #ececec 100%)
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(34%,#f8f8f8), color-stop(39%,#f9f9f9), color-stop(43%,#f6f6f6), color-stop(48%,#f7f7f7), color-stop(50%,#f5f5f5), color-stop(73%,#f2f2f2), color-stop(77%,#efefef), color-stop(100%,#ececec))
+  background-image: -webkit-linear-gradient(top,  #fefefe 0%,#f8f8f8 34%,#f9f9f9 39%,#f6f6f6 43%,#f7f7f7 48%,#f5f5f5 50%,#f2f2f2 73%,#efefef 77%,#ececec 100%)
+  background-image: -o-linear-gradient(top,  #fefefe 0%,#f8f8f8 34%,#f9f9f9 39%,#f6f6f6 43%,#f7f7f7 48%,#f5f5f5 50%,#f2f2f2 73%,#efefef 77%,#ececec 100%)
+  background-image: -ms-linear-gradient(top,  #fefefe 0%,#f8f8f8 34%,#f9f9f9 39%,#f6f6f6 43%,#f7f7f7 48%,#f5f5f5 50%,#f2f2f2 73%,#efefef 77%,#ececec 100%)
+  background-image: linear-gradient(to bottom,  #fefefe 0%,#f8f8f8 34%,#f9f9f9 39%,#f6f6f6 43%,#f7f7f7 48%,#f5f5f5 50%,#f2f2f2 73%,#efefef 77%,#ececec 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#ececec',GradientType=0 )
+  margin-left: 215px
+  &, &:hover
+    text-decoration: none !important
+    color: #004b5c !important
+  &:hover
+    background-color: white
+    background-image: none
+  &:after
+    content: '\25BA'
+    position: absolute
+    right: 15px
+    top: 14px
 
 .display_shelf-section
   margin-top: 30px

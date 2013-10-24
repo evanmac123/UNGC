@@ -1,7 +1,6 @@
-%ul.display_shelf
+%ul.display_shelf.embedded-shelf
   - Resource.find(ids).each do |r|
-    %li.resource
-      = render partial: 'resources/resource', object: r
+    = render partial: 'resources/resource', object: r
 - if local_assigns[:category]
   = link_to_all_resources category
 
