@@ -2,6 +2,7 @@
   - Resource.find(ids).each do |r|
     %li.resource
       = render partial: 'resources/resource', object: r
-= link_to_all_resources category
+- if local_assigns[:category]
+  = link_to_all_resources category
 
 
