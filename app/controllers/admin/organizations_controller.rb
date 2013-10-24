@@ -3,6 +3,7 @@ class Admin::OrganizationsController < AdminController
   before_filter :load_organization_types, :only => :new
   before_filter :no_rejected_organizations_access, :only => :edit
   before_filter :no_access_to_other_organizations
+  before_filter :fetch_registration, only: [:edit, :update]
   helper :participants, 'admin/contacts'
 
   def index
@@ -231,12 +232,7 @@ class Admin::OrganizationsController < AdminController
     # TODO move this into service object like OrganizationUpdater
     def save_non_business_organization_registration(par)
       return if par.blank?
-      if @organization.non_business_organization_registration
-        @organization.non_business_organization_registration.attributes = par
-      else
-        @organization.build_non_business_organization_registration(par)
-      end
-      @organization.non_business_organization_registration.save
+      @organization.non_business_organization_registration.update_attributes par
     end
 
     # TODO move this into service object like OrganizationUpdater
@@ -254,4 +250,12 @@ class Admin::OrganizationsController < AdminController
         par.delete(:withdrawal_letter)
       end
     end
+
+    # TODO move this into service object like OrganizationUpdater
+    def fetch_registration
+      if @organization.non_business?
+        @organization.non_business_organization_registration || @organization.build_non_business_organization_registration
+      end
+    end
+
 end

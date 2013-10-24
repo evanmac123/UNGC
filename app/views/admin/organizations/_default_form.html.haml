@@ -52,23 +52,26 @@
         %ol
           = default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
 
-  - if @organization.non_business? && @organization.non_business_organization_registration
-    %fieldset
-      %legend Non Business Organization
-      = fields_for @organization.non_business_organization_registration do |fields|
-        %ol
-          %li
-            = fields.label :date, "Date of Registration"
-            = fields.text_field :date, :class => 'datepicker iso-date', :size => 11
-          %li
-            = fields.label :place, "City / Town"
-            = fields.text_field :place
-          %li
-            = fields.label :authority, "Public Authority"
-            = fields.text_field :authority
-          %li
-            = fields.label :number, "Registration number"
-            = fields.text_field :number
+- if @organization.non_business?
+  %fieldset
+    %legend Non Business Organization
+    = fields_for @organization.non_business_organization_registration do |fields|
+      %ol
+        %li
+          = fields.label :date, "Date of Registration"
+          = fields.text_field :date, :class => 'datepicker iso-date', :size => 11
+        %li
+          = fields.label :place, "City / Town"
+          = fields.text_field :place
+        %li
+          = fields.label :authority, "Public Authority"
+          = fields.text_field :authority
+        %li
+          = fields.label :number, "Registration number"
+          = fields.text_field :number
+        %li
+          = fields.label :mission_statement, "Mission statement"
+          = fields.text_area :mission_statement
 
 %fieldset
   %legend Documents
