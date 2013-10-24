@@ -40,8 +40,7 @@ class Admin::OrganizationsController < AdminController
     @organization.set_manual_delisted_status if params[:organization][:active] == '0'
 
     save_documents(params[:organization])
-    if @organization.update_attributes(params[:organization])
-      save_non_business_organization_registration(params[:non_business_organization_registration])
+    if @organization.update_attributes(params[:organization]) && save_non_business_organization_registration(params[:non_business_organization_registration])
       @organization.set_last_modified_by(current_contact)
       flash[:notice] = 'Organization was successfully updated.'
       if current_contact.from_ungc?
@@ -231,8 +230,11 @@ class Admin::OrganizationsController < AdminController
 
     # TODO move this into service object like OrganizationUpdater
     def save_non_business_organization_registration(par)
-      return if par.blank?
-      @organization.non_business_organization_registration.update_attributes par
+      if @organization.non_business?
+        @organization.non_business_organization_registration.update_attributes par
+      else
+        true
+      end
     end
 
     # TODO move this into service object like OrganizationUpdater

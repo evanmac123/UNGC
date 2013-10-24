@@ -230,4 +230,24 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
    end
 
+  context "given a non business organization" do
+
+    setup do
+      @user = create_non_business_organization_and_user
+    end
+
+    should "update non business organization registration" do
+      sign_in @user
+      put :update, {:id => @organization.to_param, non_business_organization_registration: {number: "test"}, :organization => {  }}
+      assert_equal @organization.non_business_organization_registration.number, "test"
+    end
+
+    should "reject non business organization registration" do
+      sign_in @user
+      put :update, {:id => @organization.to_param, non_business_organization_registration: {mission_statement: "test statement"}, :organization => {  }}
+      assert_template "admin/organizations/edit"
+    end
+
+  end
+
 end

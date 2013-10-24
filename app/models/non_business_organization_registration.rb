@@ -13,4 +13,8 @@
 
 class NonBusinessOrganizationRegistration < ActiveRecord::Base
   belongs_to :organization
+
+  validates :number, presence: true, if: Proc.new { organization.created_at >  START_DATE_OF_NON_BUSINESS }
+
+  START_DATE_OF_NON_BUSINESS = Date.new(2013, 10, 10)
 end
