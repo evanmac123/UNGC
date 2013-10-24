@@ -8,8 +8,8 @@ class Admin::CopsController < AdminController
   def introduction
     # non-business organizations can submit a COP, but they do not get a choice, so redirect them to the General (intermediate) COP
     # but we still want Global Compact Staff and Networks to choose the type of COP
-    if current_contact.from_organization? && !current_contact.organization.company?
-      redirect_to new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'intermediate')
+    if current_contact.from_organization? && current_contact.organization.non_business?
+      redirect_to new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'non_business')
     end
 
     if current_contact.organization.signatory_of?(:lead)
@@ -25,6 +25,7 @@ class Admin::CopsController < AdminController
 
     @communication_on_progress = @organization.communication_on_progresses.new
     @communication_on_progress.init_cop_attributes
+    @communication_on_progress.title = @organization.cop_name
     @cop_link_language = Language.for(:english).try(:id)
     @cop_file_language = Language.for(:english).try(:id)
     @submitted = false
@@ -82,6 +83,8 @@ class Admin::CopsController < AdminController
       @cop_partial = '/shared/cops/show_grace_style'
     elsif @communication_on_progress.is_basic?
       @cop_partial = '/shared/cops/show_basic_style'
+    elsif @communication_on_progress.is_non_business_format?
+      @cop_partial = '/shared/cops/show_non_business_style'
     elsif @communication_on_progress.is_new_format?
       @cop_partial = '/shared/cops/show_new_style'
     elsif @communication_on_progress.is_legacy_format?

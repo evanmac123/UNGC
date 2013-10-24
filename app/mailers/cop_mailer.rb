@@ -79,7 +79,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to      => user.email_recipient,
       :from    => 'cop@unglobalcompact.org',
-      :subject => "UN Global Compact - COP Published"
+      :subject => "UN Global Compact - COE Published"
   end
 
   def cop_due_in_90_days(organization)

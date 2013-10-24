@@ -1,0 +1,77 @@
+- if form.error_messages.present?
+  %h3== Please correct the following before submitting your COE:
+  %div{:class => 'flash error'}= display_errors_for_cop(@communication_on_progress)
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li <a id="basic_link" href="#basic">General Information</a>
+    %li#submit_tab{:style => css_display_style(@submitted)} <a id="submit_link" href="#finish">Submit your COP</a>
+
+  #basic.tab_content
+
+    = render :partial => 'cop_title_field', :locals => {:form => form, :current_year => current_year}
+
+    %fieldset
+      %fieldset
+        %legend
+          %span The Communication on Engagement is in the following format:
+        - CommunicationOnProgress::COE_FORMAT.each do |key, value|
+          %label
+            = form.radio_button :format, key
+            = value
+
+      #non_grace_letter_fields{:style => css_display_style(@submitted)}
+        #own_company_questions{:style => 'display: block'}
+          %fieldset
+            %legend
+              %span What is the time period covered by your COE?
+            %ul.date_select
+              %li Start date
+              = form.date_select :starts_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year, :default => {:year => current_year-1} }
+            %ul.date_select
+              %li End date
+              = form.date_select :ends_on, {:order => [:month, :year], :start_year => 2000, :end_year => current_year}
+
+          %fieldset
+            %legend
+              %span Does your COE contain a statement by the chief executive or equivalent expressing continued support for the Global Compact and renewing the participant's ongoing commitment to the initiative and its principles?
+            = true_or_false_field(form, :include_continued_support_statement)
+
+          #include_continued_support_statement{:style => css_display_style(@submitted)}
+            = render_cop_questions_for @organization.non_business_type, :year => 2013
+
+            %fieldset
+              %legend
+                %span Does your COE include qualitative and/or quantitative measurement of outcomes illustrating the degree to which targets/performance indicators were met?
+              = true_or_false_field(form, :include_measurement, :class => 'score')
+
+          #method_shared_with_stakeholders{:style => css_display_style(@submitted)}
+            %fieldset
+              %fieldset
+                %legend
+                  %span How does your organization share its COE with stakeholders?
+                - CommunicationOnProgress::COE_METHOD.each do |key, value|
+                  %label
+                    = form.radio_button :method_shared, key
+                    = value
+
+  #finish.tab_content
+    %fieldset
+      #cop_attachments{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Required: upload the COE as a PDF file
+          = text_partial('b')
+          = render :partial => 'cop_files_form', :locals => {:language_id => @cop_file_language}
+
+      #web_cop_attachments{:style => 'display: block'}
+        %fieldset
+          %legend
+            %span Optional: provide a link to your web-based COE. The link should be in the format 'http://company.com'
+          = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop], :language_id => @cop_link_language, :url => @cop_link_url)}
+
+    = render :partial => 'submit_cop'
+
+= organization_javascript_vars @organization
+= javascript_tag "var work_in_progress = false;"
+= form_submitted?(@submitted)

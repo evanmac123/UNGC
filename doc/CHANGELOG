@@ -1,3 +1,11 @@
+h1. 2013-10-24
+
+* The new COE form has been added based on the current method handling different types of COPs
+* The CopController determines which edit and show views to use
+* There is no introductory screen for non-business, but this will need to be added to Admin::CopsController#introduction
+* The COE start date needs to be uncommented before going to production CommunicationOnProgress::START_DATE_OF_NON_BUSINESS_COE
+* Methods of distinguishing the COP / COE label are in the Organization model, with many of the text references being replaced
+
 h1. 2013-10-21
 
 * For the new Communication on Engagement, we need to display questions for the organization depending on their OrganizationType

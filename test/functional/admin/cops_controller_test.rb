@@ -99,9 +99,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
       sign_in @organization_user
     end
 
-    should "be redirected to intermediate COP template" do
+    should "be redirected to non_business COP template" do
       get :introduction
-      assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'intermediate')
+      assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'non_business')
     end
 
   end

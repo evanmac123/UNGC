@@ -100,7 +100,7 @@
 
 - if @participant.communication_on_progresses.new_policy.approved.any?
   %br/
-  %h2 Communication on Progress
+  %h2= @participant.cop_name
 
   %table.cop_links{:cellspacing => 0, :cellpadding => 0}
     %thead
