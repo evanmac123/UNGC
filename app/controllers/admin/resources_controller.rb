@@ -80,7 +80,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def order_from_params
-    @order = [params[:sort_field] || 'approval', params[:sort_direction] || 'ASC'].join(' ')
+    @order = [params[:sort_field] || 'updated_at', params[:sort_direction] || 'DESC'].join(' ')
   end
 
   def load_form_resources
