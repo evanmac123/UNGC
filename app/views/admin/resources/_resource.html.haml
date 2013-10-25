@@ -1,0 +1,26 @@
+%tr
+  %td= resource.id
+  %td.nowrap{:title => resource.title}
+    %h5{style: 'margin-bottom: 0;'}= truncate(resource.title, :length => 80)
+    - if resource.pending?
+      %ul{style: 'margin: 0.35em 0 0 0; line-height: 1.5em; list-style:none; color: #444;'}
+        - resource.authors.each do |a|
+          %li= a.full_name
+  %td
+    = resource.year.year rescue nil
+  %td
+    = resource.principles.count
+  %td.status-cell
+    %span.small
+      = status_date(resource)
+      - unless resource.pending?        
+        == by #{approver_name(resource)}
+
+  %td.action-cell.nowrap
+    %ul.actions
+      %li
+        = link_to 'Show', admin_resource_path(resource.id), :class => "preview", :title => "Show"
+      %li
+        = link_to 'Edit', edit_admin_resource_path(resource.id), :class => "edit", :title => "Edit"
+      %li
+        = link_to 'Destroy', admin_resource_path(resource.id), :class => "delete", :title => "Delete", :method => :delete, :confirm => 'Are you sure you want to delete this Resource?'

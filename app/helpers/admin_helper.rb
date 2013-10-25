@@ -73,7 +73,7 @@ module AdminHelper
   def sort_header(label, options={})
     if @order.nil? || @order.split(' ').first != options[:field]
       # this is the default direction
-      direction = options[:direction] || 'ASC'
+      direction = options[:direction] || 'DESC'
     else
       # current field, so let's invert the direction
       direction = (@order.split(' ').last == 'ASC') ? 'DESC' : 'ASC'
