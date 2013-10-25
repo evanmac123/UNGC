@@ -238,7 +238,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
     should "update non business organization registration" do
       sign_in @user
-      put :update, {:id => @organization.to_param, non_business_organization_registration: {number: "test"}, :organization => {  }}
+      put :update, {:id => @organization.to_param, non_business_organization_registration: {number: "test", mission_statement: "test state"}, :organization => {  }}
       assert_equal @organization.non_business_organization_registration.number, "test"
     end
 
