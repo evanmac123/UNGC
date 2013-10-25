@@ -95,18 +95,15 @@ class OrganizationSignup
   end
 
   def valid_registration?(complete=false)
-    registration.valid?
+    registration.errors.clear
     if non_business?
+
       if registration.number.blank?
         registration.errors.add :number, "can't be empty"
       end
 
       if complete
-        if registration.mission_statement.blank?
-          registration.errors.add :mission_statement, "can't be empty"
-        elsif registration.mission_statement.length > 1000
-          registration.errors.add :mission_statement, "has to be less that 1000 characters"
-        end
+        registration.valid?
       end
     end
     !registration.errors.any?

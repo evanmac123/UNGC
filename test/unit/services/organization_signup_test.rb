@@ -138,7 +138,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.registration.number = "bla"
       assert !@os.valid_registration?(true), "should be invalid"
       @os.registration.mission_statement = "test"
-      assert @os.valid_registration?, "should be valid"
+      assert @os.valid_registration?(true), "should be valid"
     end
 
     should "validate organization partially" do
