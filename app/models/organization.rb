@@ -817,6 +817,10 @@ class Organization < ActiveRecord::Base
     contacts.ceos.first.try(:welcome_package)
   end
 
+  def build_attachment(type, attachment)
+    self.send "build_#{type}", attachment: attachment
+  end
+
   private
 
     def set_participant_manager

@@ -39,17 +39,9 @@ class OrganizationUpdater
     end
 
     def save_documents(par)
-      if par[:legal_status]
-        organization.build_legal_status(attachment: par[:legal_status])
-        par.delete(:legal_status)
-      end
-      if par[:recommitment_letter]
-        organization.build_recommitment_letter(attachment: par[:recommitment_letter])
-        par.delete(:recommitment_letter)
-      end
-      if par[:withdrawal_letter]
-        organization.build_withdrawal_letter(attachment: par[:withdrawal_letter])
-        par.delete(:withdrawal_letter)
+      [:legal_status, :recommitment_letter, :withdrawal_letter].each do |type|
+        organization.build_attachment(type, par[type]) if par[type]
       end
     end
+
 end
