@@ -9,9 +9,8 @@ class OrganizationUpdater
   end
 
   def update
-    organization.state = Organization::STATE_IN_REVIEW if organization.state == Organization::STATE_PENDING_REVIEW
-    organization.set_replied_to(contact) if Organization::STATE_IN_REVIEW
-    organization.set_manual_delisted_status if params[:organization][:active] == '0'
+    update_state
+    update_contact
 
     save_documents(params[:organization])
 
@@ -21,6 +20,15 @@ class OrganizationUpdater
   end
 
   private
+
+    def update_contact
+      organization.set_replied_to(contact) if Organization::STATE_IN_REVIEW
+    end
+
+    def update_state
+      organization.state = Organization::STATE_IN_REVIEW if organization.state == Organization::STATE_PENDING_REVIEW
+      organization.set_manual_delisted_status if params[:organization][:active] == '0'
+    end
 
     def save_registration(par)
       if organization.non_business?
