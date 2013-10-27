@@ -12,8 +12,6 @@ class OrganizationUpdater
     update_state
     update_contact
 
-    save_documents(params[:organization])
-
     organization.update_attributes(params[:organization]) &&
       save_registration(params[:non_business_organization_registration]) &&
       organization.set_last_modified_by(contact)
@@ -35,12 +33,6 @@ class OrganizationUpdater
         organization.non_business_organization_registration.update_attributes par
       else
         true
-      end
-    end
-
-    def save_documents(par)
-      [:legal_status, :recommitment_letter, :withdrawal_letter].each do |type|
-        organization.build_attachment(type, par[type]) if par[type]
       end
     end
 

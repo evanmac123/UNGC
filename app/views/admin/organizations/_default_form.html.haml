@@ -86,21 +86,21 @@
         The Letter of Commitment has not been uploaded
   %li
     %label{:style => 'margin-right: 25px;'} Legal Status
-    = file_field_tag "organization[legal_status]"
+    = file_field_tag "organization[legal_status_file]"
     - if @organization.legal_status
       = link_to @organization.legal_status.attachment_file_name, @organization.legal_status.attachment.url
     - else
       Legal Status has not been uploaded
   %li
     %label{:style => 'margin-right: 25px;'} Letter of Recommitment
-    = file_field_tag "organization[recommitment_letter]"
+    = file_field_tag "organization[recommitment_letter_file]"
     - if @organization.recommitment_letter
       = link_to @organization.recommitment_letter.attachment_file_name, @organization.recommitment_letter.attachment.url
     - else
       Letter of Recommitment has not been uploaded
   %li
     %label{:style => 'margin-right: 25px;'} Withdrawal Letter
-    = file_field_tag "organization[withdrawal_letter]"
+    = file_field_tag "organization[withdrawal_letter_file]"
     - if @organization.withdrawal_letter
       = link_to @organization.withdrawal_letter.attachment_file_name, @organization.withdrawal_letter.attachment.url
     - else
