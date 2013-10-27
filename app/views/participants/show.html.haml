@@ -163,3 +163,28 @@
     %ul
     - for case_story in @participant.case_stories.approved do
       %li= link_to case_story.title, case_story_path(case_story.id)
+
+- if @participant.non_business? && @participant.non_business_organization_registration
+  %dl
+    - reg = @participant.non_business_organization_registration
+    %h3 Non Business Details
+    %dt.first Date of Registration
+    %dd.first
+      %ul
+        %li= reg.date
+    %dt City / Town
+    %dd
+      %ul
+        %li= reg.place
+    %dt Public Authority
+    %dd
+      %ul
+        %li= reg.authority
+    %dt Registration number
+    %dd
+      %ul
+        %li= reg.number
+    %dt Mission statemet
+    %dd
+      %ul
+        %li= reg.mission_statement
