@@ -54,20 +54,18 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
 
-  attr_accessor :is_draft
-  attr_accessor :policy_exempted
-  attr_accessor :type
-
   before_create  :check_links
   before_save    :set_cop_defaults
   before_save    :can_be_edited?
   after_create   :set_differentiation_level
-  after_create   :draft_or_submit!
+  after_create   :set_approved_state
   before_destroy :delete_associated_attributes
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
+
+  attr_accessor :type
 
   cattr_reader :per_page
   @@per_page = 15
@@ -236,14 +234,15 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_new_format? && self.attributes['format'] == 'basic'
   end
 
-  # Indicated whether this COP is editable
+  # TODO use the new pre-pending state here
   def editable?
-    # TODO use the new pre-pending state here
-    return true if self.new_record?
-    if self.pending_review?
-      self.created_at + 30.days >= Time.now
-    elsif self.in_review?
-      self.created_at + 90.days >= Time.now
+    case
+    when new_record?
+      true
+    when pending_review?
+      created_at + 30.days >= Time.now
+    when in_review?
+      created_at + 90.days >= Time.now
     else
       false
     end
@@ -436,7 +435,6 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def confirmation_email
     if organization_business_entity?
-
       if organization.triple_learner_for_one_year?
         'triple_learner_for_one_year'
       elsif organization.double_learner?
@@ -446,7 +444,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       else
         differentiation
       end
-
     else
       'non_business'
     end
@@ -485,13 +482,13 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     def set_cop_defaults
       self.additional_questions = false
-      case self.type
+      case type
         when 'grace'
           self.format = CopFile::TYPES[:grace_letter]
           self.title = 'Grace Letter'
           # normally they can choose the coverage dates, but for grace letters it matches the grace period
-          self.starts_on = self.organization.cop_due_on
-          self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
+          self.starts_on = organization.cop_due_on
+          self.ends_on = organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
         when 'basic'
           self.format = 'basic'
         when 'advanced'
@@ -502,7 +499,7 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
 
     def can_be_edited?
-      unless self.editable?
+      unless editable?
         errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
       end
     end
@@ -512,24 +509,16 @@ class CommunicationOnProgress < ActiveRecord::Base
       update_attribute :differentiation, differentiation_level.to_s
     end
 
-    # move COP to draft state
-    def draft_or_submit!
-      return true unless initial? # tests might setup COPs with state pre-set
-      if self.is_draft
-        save_as_draft!
-        organization.extend_cop_temporary_period
-      else
-        if can_submit?
-          submit!
-          approve
-        end
-      end
+    # set approved state for all COPs
+    def set_approved_state
+      update_attribute(:state, "approved")
+      set_approved_fields
     end
 
     def delete_associated_attributes
-      self.cop_files.each {|file| file.destroy}
-      self.cop_links.each {|link| link.destroy}
-      self.cop_answers.each {|answer| answer.destroy}
+      cop_files.each {|file| file.destroy}
+      cop_links.each {|link| link.destroy}
+      cop_answers.each {|answer| answer.destroy}
     end
 
 end
