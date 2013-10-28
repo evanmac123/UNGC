@@ -32,6 +32,7 @@ class OrganizationSignup
     set_legal_status(org)
     organization.attributes = org
     registration.attributes = reg
+    primary_contact.country_id = organization.country_id
   end
 
   def set_primary_contact_attributes(par)

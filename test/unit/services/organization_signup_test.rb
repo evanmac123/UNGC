@@ -38,13 +38,16 @@ class OrganizationSignupTest < ActiveSupport::TestCase
   context "signup process" do
     setup do
       create_roles
+      create_country
       @os = OrganizationSignup.new('business')
     end
 
     should "set organization attributes" do
       par = { name: 'foo' }
+      @os.organization.country = Country.first
       @os.set_organization_attributes(par)
       assert_equal @os.organization.name, 'foo'
+      assert_equal @os.primary_contact.country, @os.organization.country
     end
 
     should "set primary contact" do
