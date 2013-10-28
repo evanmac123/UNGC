@@ -41,7 +41,7 @@ class Admin::CopsController < AdminController
     end
 
     if @communication_on_progress.save
-      flash[:notice] = "The COP has been published on the Global Compact website"
+      flash[:notice] = "The communication has been published on the Global Compact website"
       clear_session_template
     else
       # we want to preselect the submit tab
@@ -104,7 +104,7 @@ class Admin::CopsController < AdminController
   def destroy
     org_id = @communication_on_progress.organization.id
     if @communication_on_progress.destroy
-      flash[:notice] = 'The COP was deleted'
+      flash[:notice] = 'The communication was deleted'
     else
       flash[:error] =  @communication_on_progress.errors.full_messages.to_sentence
     end
