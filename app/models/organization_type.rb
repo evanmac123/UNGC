@@ -90,7 +90,7 @@ class OrganizationType < ActiveRecord::Base
   end
 
   def self.ngo
-    for_filter(:civil_global, :civil_local)
+    for_filter(:civil_global, :civil_local, :foundation)
   end
 
   def self.public_sector

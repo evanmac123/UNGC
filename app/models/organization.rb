@@ -386,7 +386,7 @@ class Organization < ActiveRecord::Base
 
   def non_business_type
     if academic?
-      'acedemic'
+      'academic'
     elsif city?
       'city'
     elsif labour?
@@ -395,8 +395,10 @@ class Organization < ActiveRecord::Base
       'ngo'
     elsif business_association?
       'business_association'
+    elsif public_sector?
+      'public'
     else
-      raise 'Invalid non business organization type'
+      raise 'Invalid non-business organization type'
     end
   end
 
