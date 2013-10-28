@@ -46,7 +46,7 @@ class OrganizationSignup
     ceo.address = primary_contact.address if ceo.address.blank?
     ceo.address_more = primary_contact.address_more unless ceo.address_more
     ceo.city = primary_contact.city if ceo.city.blank?
-    ceo.state = primary_contact.state if ceo.state
+    ceo.state = primary_contact.state unless ceo.state
     ceo.postal_code = primary_contact.postal_code unless ceo.postal_code
     ceo.country_id = primary_contact.country_id unless ceo.country
   end
