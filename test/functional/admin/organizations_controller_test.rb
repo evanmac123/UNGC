@@ -244,7 +244,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
     should "reject non business organization registration" do
       sign_in @user
-      put :update, {:id => @organization.to_param, non_business_organization_registration: {mission_statement: "test statement"}, :organization => {  }}
+      put :update, {:id => @organization.to_param, non_business_organization_registration: {}, :organization => {  }}
       assert_template "admin/organizations/edit"
     end
 
