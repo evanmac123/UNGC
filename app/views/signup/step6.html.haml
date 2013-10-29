@@ -14,6 +14,8 @@
       .mission-statement-wrapper
         %p
           = fields_for :non_business_organization_registration, @signup.registration do |fields|
+            - unless @signup.registration.valid?
+              A mission statement is required and cannot exceed 1000 characters.
             = fields.label :mission_statement
             = fields.text_area :mission_statement
     = form.submit 'Submit', :class => 'button'
