@@ -141,7 +141,7 @@ class OrganizationSignup
     end
 
     # add financial contact if a pledge was made and the existing contact has not been assigned that role
-    if !organization.pledge_amount.blank? && !primary_contact.is?(Role.financial_contact)
+    if has_pledge? && !primary_contact.is?(Role.financial_contact)
       financial_contact.save
       organization.contacts << financial_contact
     end
