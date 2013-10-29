@@ -98,9 +98,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
       sign_in @organization_user
     end
 
-    should "render the non-business introduction page" do
+    should "be redirected to non_business COP template" do
       get :introduction
-      assert_template "non_business_introduction"
+      assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'non_business')
     end
   end
 

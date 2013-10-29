@@ -344,12 +344,32 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name) == 'SME'
   end
 
+  def non_business?
+    organization_type.non_business?
+  end
+
   def academic?
     organization_type == OrganizationType.academic
   end
 
   def city?
     organization_type == OrganizationType.city
+  end
+
+  def labour?
+    OrganizationType.labour.include? organization_type
+  end
+
+  def ngo?
+    OrganizationType.ngo.include? organization_type
+  end
+
+  def business_association?
+    OrganizationType.business_association.include? organization_type
+  end
+
+  def public_sector?
+    organization_type == OrganizationType.public_sector
   end
 
   def organization_type_name_for_custom_links
@@ -361,6 +381,24 @@ class Organization < ActiveRecord::Base
       'city'
     else
       'non_business'
+    end
+  end
+
+  def non_business_type
+    if academic?
+      'academic'
+    elsif city?
+      'city'
+    elsif labour?
+      'labour'
+    elsif ngo?
+      'ngo'
+    elsif business_association?
+      'business_association'
+    elsif public_sector?
+      'public'
+    else
+      raise 'Invalid non-business organization type'
     end
   end
 
@@ -491,6 +529,14 @@ class Organization < ActiveRecord::Base
     string = CGI.escape(string)
   end
 
+  def cop_name
+    company? ? "Communication on Progress" : "Communication on Engagement"
+  end
+
+  def cop_acronym
+    company? ? "COP" : "COE"
+  end
+
   def last_approved_cop
     communication_on_progresses.approved.first if communication_on_progresses.approved.any?
   end
@@ -594,11 +640,12 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, cop_due_on + 1.year)
   end
 
-  # COP's next due date is 1 year from current date
+  # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
   def set_next_cop_due_date_and_cop_status
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
+    # TODO: set next COP 2.year.from_now for non-business
     self.update_attribute :cop_due_on, 1.year.from_now
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE

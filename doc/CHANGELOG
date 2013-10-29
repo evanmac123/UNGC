@@ -1,3 +1,19 @@
+h1. 2013-10-24
+
+* The new COE form has been added based on the current method handling different types of COPs
+* The CopController determines which edit and show views to use
+* There is no introductory screen for non-business, but this will need to be added to Admin::CopsController#introduction
+* The COE start date needs to be uncommented before going to production CommunicationOnProgress::START_DATE_OF_NON_BUSINESS_COE
+* Methods of distinguishing the COP / COE label are in the Organization model, with many of the text references being replaced
+
+h1. 2013-10-21
+
+* For the new Communication on Engagement, we need to display questions for the organization depending on their OrganizationType
+* Because we have Global and Local types for Business Associations, Labour and NGOs, we need a solution for identifying their non-business organization type
+* Organization#non_business_type can be called to return the non-business type: academic, business_association, city, labour, ngo
+* These will then be used to create a CopQuestion group based on the same type
+* The method runs several queries and should be refactored
+
 h1. 2013-09-12
 
 * We are listing the years which companies have contributed to the Foundation

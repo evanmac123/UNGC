@@ -99,7 +99,7 @@ class SearchableTest < ActiveSupport::TestCase
 
   context "Indexing Communications_on_progress" do
     setup do
-      type = create_organization_type
+      type = create_organization_type(name: 'Company', type_property: OrganizationType::BUSINESS)
       organization = create_organization(organization_type: type)
       create_communication_on_progress(organization: organization)
       Searchable.index_communications_on_progress

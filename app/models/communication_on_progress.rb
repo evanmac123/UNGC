@@ -70,7 +70,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  TYPES = %w{grace basic intermediate advanced lead}
+  TYPES = %w{grace basic intermediate advanced lead non_business}
 
   default_scope :order => 'communication_on_progresses.created_at DESC'
 
@@ -92,8 +92,12 @@ class CommunicationOnProgress < ActiveRecord::Base
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :annual_report         => "Part of an annual (financial) report"
-
            }
+
+  COE_FORMAT = {:standalone        => "Stand alone document",
+                :financial_report  => "Part of an annual (financial) report",
+                :other_report      => "Part of another type of report"
+               }
 
   # How the COP is shared
   METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
@@ -102,10 +106,18 @@ class CommunicationOnProgress < ActiveRecord::Base
             :all          => "d) Both b) and c)"
            }
 
+  # How the COP is shared
+  COE_METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
+                :all_access   => "b) COE is easily accessible to all interested parties (e.g. via its website)",
+                :stakeholders => "c) COE is actively distributed to all key stakeholders (e.g. investors, employees, beneficiaries, local community)",
+                :all          => "d) Both b) and c)"
+          }
+
+
   # Basic COP templates have other options for sharing their COP
   BASIC_METHOD = {:gc_website   => "a) On the UN Global Compact website only",
                   :all_access   => "b) COP will be made easily accessible to all interested parties on company website",
-                  :stakeholders => "c) COP will be actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
+                  :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employers, consumers, local community)",
                   :all          => "d) Both b) and c)"
                  }
 
@@ -115,9 +127,12 @@ class CommunicationOnProgress < ActiveRecord::Base
                         :learner   => "This COP places the participant on the Global Compact Learner Platform"
                       }
 
-  START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
-  START_DATE_OF_LEAD_BLUEPRINT  = Date.new(2012, 01, 01)
-  START_DATE_OF_ADVANCED_LEAD   = Date.new(2013, 03, 01)
+  START_DATE_OF_DIFFERENTIATION  = Date.new(2011, 01, 29)
+  START_DATE_OF_LEAD_BLUEPRINT   = Date.new(2012, 01, 01)
+  START_DATE_OF_ADVANCED_LEAD    = Date.new(2013, 03, 01)
+  START_DATE_OF_NON_BUSINESS_COE = Date.new(2013, 01, 01)
+  # TODO: use this date before deploying to production
+  # START_DATE_OF_NON_BUSINESS_COE = Date.new(2013, 10, 31)
 
   def self.find_by_param(param)
     return nil if param.blank?
@@ -229,6 +244,9 @@ class CommunicationOnProgress < ActiveRecord::Base
     # to be completed with submission process
   end
 
+  def is_non_business_format?
+    created_at >= START_DATE_OF_NON_BUSINESS_COE && organization.non_business?
+  end
 
   def is_basic?
     is_new_format? && self.attributes['format'] == 'basic'
@@ -354,7 +372,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def evaluated_for_differentiation?
-    if is_grace_letter?
+    if is_grace_letter? || is_non_business_format?
       false
     else
       new_record? || created_at > START_DATE_OF_DIFFERENTIATION

@@ -47,7 +47,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "send confirmation Non Business email" do
       response = CopMailer.confirmation_non_business(@organization, @cop, @organization_user).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact - COP Published", response.subject
+      assert_equal "UN Global Compact - COE Published", response.subject
       assert_equal @organization_user.email, response.to.first
     end
   end
