@@ -141,6 +141,7 @@ class SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({:name                 => 'City University',
                                        :organization_type_id => OrganizationType.first.id,
                                        :employees            => 50,
+                                       :country_id           => Country.first.id,
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
                                        {:number              => "test",
                                         :mission_statement   => "A"})
@@ -163,6 +164,7 @@ class SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({:name                 => 'City University',
                                        :organization_type_id => OrganizationType.first.id,
                                        :employees            => 50,
+                                       :country_id           => Country.first.id,
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
                                        {:number              => "test",
                                         :mission_statement   => "A"})
