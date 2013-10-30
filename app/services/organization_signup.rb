@@ -99,7 +99,7 @@ class OrganizationSignup
     registration.errors.clear
     if non_business?
 
-      if registration.number.blank?
+      if @registration.number.blank? && @legal_status_id.blank?
         registration.errors.add :number, "can't be empty"
       end
 

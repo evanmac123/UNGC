@@ -169,5 +169,13 @@ class OrganizationSignupTest < ActiveSupport::TestCase
                                       {:number               => 10})
       assert @os.valid_organization?, "should be valid"
     end
+
+    should "validate presence of registration.number only if legal status is blank" do
+      assert !@os.valid_organization?, "should be invalid"
+      @os.set_organization_attributes({:name                 => 'City University',
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                       :employees            => 50})
+      assert @os.valid_organization?, "should be valid"
+    end
   end
 end
