@@ -33,13 +33,14 @@ class SignupController < ApplicationController
   # shows ceo form
   def step3
     @signup.set_primary_contact_attributes(params[:contact])
-    @signup.prepare_ceo
 
     store_organization_signup
 
     @next_step = @signup.business? ? organization_step4_path : organization_step6_path
 
-    unless @signup.valid_primary_contact?
+    if @signup.valid_primary_contact?
+      @signup.prepare_ceo
+    else
       redirect_to organization_step2_path
     end
   end
