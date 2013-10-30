@@ -161,5 +161,13 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.organization.commitment_letter = fixture_file_upload('files/untitled.pdf', 'application/pdf')
       assert @os.valid_organization?(true), "should be valid"
     end
+
+    should "validate presence of legal status only if registration.number is blank" do
+      assert !@os.valid_organization?, "should be invalid"
+      @os.set_organization_attributes({:name                 => 'City University',
+                                       :employees            => 50},
+                                      {:number               => 10})
+      assert @os.valid_organization?, "should be valid"
+    end
   end
 end

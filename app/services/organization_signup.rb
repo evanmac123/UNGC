@@ -82,7 +82,7 @@ class OrganizationSignup
   def valid_organization?(complete=false)
     organization.valid?
     if non_business?
-      if @legal_status_id.blank?
+      if @legal_status_id.blank? && @registration.number.blank?
         organization.errors.add :legal_status, "can't be blank"
       end
     end
