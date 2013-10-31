@@ -35,7 +35,7 @@ class InsertCopQuestions
     attributes = [
       "Attracting new participants to the UN Global Compact through their outreach efforts and awareness raising",
       "Organizing learning and dialogue events, workshops and training for their members on the UN Global Compact and specific topics relevant to corporate sustainability",
-      "Providing their expertise and/or the voice of their members to Global Compact working groups and special initiatives.",
+      "Providing their expertise and / or the voice of their members to Global Compact working groups and special initiatives.",
       "Engaging their members in collective action efforts on Global Compact-related issues",
       "Hosting the secretariat for a Global Compact Local Network",
       "Host the secretariat for Global Compact Local Networks"
@@ -46,17 +46,22 @@ class InsertCopQuestions
     # Cities #
 
     question = CopQuestion.create(
-      text: "The COE contains a description of the practical actions that the organization has taken to support the Global Compact and to engage with the initiative.",
+      text: "The COE contains a description of the practical actions that the city has taken to support the Global Compact and to engage with the initiative.",
       position: 1,
       grouping: 'city',
       year: 2013
     )
 
     attributes = [
-      "Signatory City",
-      "Reporting City",
-      "Innovating City"
-      ]
+      "Implementing and promoting the ten principles of the UN Global Compact in the management and administration of the city or region",
+      "Supporting businesses and other stakeholders in establishing or implementing sustainability initiatives that are transparent and beneficial to the city, region and / or greater community",
+      "Having a dedicated sustainability plan or a holistic city / regional plan that incorporates the ecological, economic, political, and cultural dimensions of the region's sustainability",
+      "Acknowledging its participation in the Global Compact publicly and promoting the initiative and the ten principles within its sphere of influence",
+      "Engaging in Global Compact Local Network activities",
+      "Utilizing assessment tools and methodologies developed by the Global Compact Cities Programme, and sharing knowledge and innovations developed with the use of these tools in the form of dedicated publications or annual reporting",
+      "Engaging at the Leader level of the Global Compact Cities Programme",
+      "Engaging at the Innovating Level - undertaking a multi-year project to address a complex or seemingly intractable issue(s) within the city or region, which is supported by leaders across business, civil society and Government"
+    ]
 
     add_attributes(question, attributes)
 
