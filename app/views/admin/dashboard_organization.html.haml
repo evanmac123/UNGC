@@ -1,13 +1,13 @@
 - @title = 'Dashboard Overview'
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
-    %li <a href="#overview">Overview</a>
-    %li <a href="#getting_started">Getting Started</a>
-    %li <a href="#contacts">Contacts</a>
-    %li <a href="#logos">Logo Requests</a>
+    %li= link_to 'Overview', '#overview'
+    %li= link_to 'Getting Started', '#getting_started'
+    %li= link_to 'Contacts', '#contacts'
+    %li= link_to 'Logo Requests', '#logos'
     - if @organization.case_stories.any?
-      %li <a href="#case_stories">Case Stories</a>
-    %li <a href="#cops">COPs</a>
+      %li= link_to 'Case Stories', '#case_stories'
+    %li= link_to @organization.cop_acronym.pluralize, '#cops'
 
   #overview.tab_content
     %ul#contacts_tools{:class => "tools inline"}
@@ -23,9 +23,8 @@
       %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
-      - if @organization.company?
-        %dt COP Due Date
-        %dd= @organization.cop_due_on || 'n/a'
+      %dt== #{@organization.cop_acronym} Due Date
+      %dd= @organization.cop_due_on || 'n/a'
       %dt Organization Type
       %dd= @organization.organization_type_name
       - if @organization.company?
@@ -112,8 +111,7 @@
           %th.actions Actions
         = render :partial => 'admin/logo_requests/logo_request', :collection => current_contact.organization.logo_requests
     #case_stories.tab_content
-      / = link_to 'New Case Story', new_admin_organization_case_story_path(current_contact.organization.id), :class => 'new_large', :id => 'new_case_story'
-      %p We are no longer accepting Case Stories at this time.
+      %p We are no longer accepting Case Stories.
       %table.dashboard_table#case_stories_dashboard_table
         %tr
           %th.last_udpated Updated on
@@ -125,13 +123,14 @@
       - unless @organization.can_submit_cop?
         = render :partial => 'admin/cops/expelled_note'
       - else
-        = link_to 'New Communication on Progress', cop_introduction_path, :class => 'new_large', :id => 'new_COP'
+        = link_to "New #{@organization.cop_name}", cop_introduction_path, :class => 'new_large', :id => 'new_COP'
 
       %table.dashboard_table#cops_dashboard_table
         %tr
           %th.last_updated Published
           %th.title Title
           %th.status Status
-          %th.differentiation Differentiation
+          - if @organization.business_entity?
+            %th.differentiation Differentiation
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => current_contact.organization.communication_on_progresses.find(:all, order: "created_at DESC")

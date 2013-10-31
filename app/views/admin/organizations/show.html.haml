@@ -10,7 +10,7 @@
     - if current_contact.from_ungc? && Organization.peer_organizations(@organization).any?
       %li==<a href="#peers">Peers (#{Organization.peer_organizations(@organization).count})</a>
     - if @organization.communication_on_progresses.any?
-      %li <a href="#cops">COPs</a>
+      %li== <a href="#cops">#{@organization.cop_acronym}s</a>
     - if @organization.case_stories.any?
       %li <a href="#case_stories">Case Stories</a>
     - if @organization.logo_requests.any?
@@ -35,9 +35,8 @@
       %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
-      - if @organization.company?
-        %dt COP Due Date
-        %dd= @organization.cop_due_on || 'n/a'
+      %dt== #{@organization.cop_acronym} Due Date
+      %dd= @organization.cop_due_on || 'n/a'
       %dt Organization Type
       %dd= @organization.organization_type_name
       - if @organization.company?
@@ -59,7 +58,13 @@
       - if @organization.commitment_letter?
         %dt Letter of Commitment
         %dd{:title => @organization.commitment_letter_file_name}= link_to truncate(@organization.commitment_letter_file_name, :length => 30), @organization.commitment_letter.url
-
+      - if @organization.recommitment_letter
+        %dt Recommitment Letter
+        %dd{:title => @organization.recommitment_letter.attachment_file_name}= link_to truncate(@organization.recommitment_letter.attachment_file_name), @organization.recommitment_letter.attachment.url
+      - if @organization.withdrawal_letter
+        %dt Withdrawal Letter
+        %dd{:title => @organization.withdrawal_letter.attachment_file_name}= link_to truncate(@organization.withdrawal_letter.attachment_file_name), @organization.withdrawal_letter.attachment.url
+        
     %dl.left_column
       %h3 Contact Information
       %dt.first Highest Level Executive
@@ -94,6 +99,24 @@
           - else
             == There is no Network Report Recipient for #{@organization.country_name}
 
+    - if @organization.non_business? && @organization.non_business_organization_registration      
+      %dl.left_column
+        %h3 Legal Status
+        - reg = @organization.non_business_organization_registration
+        %dt.first Date of Registration
+        %dd.first= reg.date
+        %dt Place of Registration
+        %dd= reg.place
+        %dt Public Authority
+        %dd= reg.authority
+        %dt Registration number
+        %dd= reg.number
+        - if @organization.legal_status
+          %dt Proof of Legal Status
+          %dd{:title => @organization.legal_status.attachment_file_name}= link_to truncate(@organization.legal_status.attachment_file_name), @organization.legal_status.attachment.url
+        %dt Mission Statement
+        %dd= reg.mission_statement        
+
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
       %li= link_to 'New contact', new_admin_organization_contact_path(@organization.id), :class => 'new_user_large', :title => 'New Contact'
@@ -120,13 +143,14 @@
 
   - if @organization.communication_on_progresses.any?
     #cops.tab_content
-      %h2 Communication on Progress
+      %h2= @organization.cop_name
       %table.dashboard_table#cops_dashboard_table
         %tr
           %th.last_updated Published
           %th.title Title
           %th.status Status
-          %th.status Differentiation
+          - if @organization.company?
+            %th.status Differentiation
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.find(:all, order: "created_at DESC")
 

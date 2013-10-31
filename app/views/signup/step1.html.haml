@@ -3,7 +3,8 @@
 - if @jci_referral
   %p Welcome, JCI Member.
 #main_content
-  = form_for(@organization, url: organization_step2_path) do |form|
+  = form_for(@signup.organization, url: organization_step2_path) do |form|
+    = hidden_field_tag :org_type, @signup.org_type
     = form.error_messages
     %fieldset
       %ol
@@ -16,32 +17,60 @@
         %li
           = form.label :employees, "Employees"
           = form.text_field :employees, {:label => "Number of employees"}
-        - if @organization_types.first.type_property == OrganizationType::NON_BUSINESS
+        - if @signup.non_business?
           %li
             = form.label :organization_type_id, "Type"
             = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}
-        - if @organization_types.first.type_property == OrganizationType::BUSINESS
+        - if @signup.business?
           = hidden_field :organization, :organization_type_id, :value => OrganizationType.try(:company).try(:id)
           %li
             = form.label :listing_status_id, "Ownership"
             = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+          %li.public_company_only{:style => "display:#{@signup.organization.public_company? ? 'block' : 'none'}"}
             = form.label :is_ft_500, "FT 500"
             = form.check_box :is_ft_500
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+          %li.public_company_only{:style => "display:#{@signup.organization.public_company? ? 'block' : 'none'}"}
             = form.label :exchange_id, "Exchange"
             = form.select :exchange_id, Exchange.all.collect{|t| [t.name, t.id]}, :include_blank => true
-          %li.public_company_only{:style => "display:#{@organization.public_company? ? 'block' : 'none'}"}
+          %li.public_company_only{:style => "display:#{@signup.organization.public_company? ? 'block' : 'none'}"}
             = form.label :stock_symbol
             = form.text_field :stock_symbol
           %li
             = form.label :sector_id
-            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id)
+            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @signup.organization.sector_id)
           %li
             = form.label :revenue, "Annual Sales / Revenues"
-            = form.select :revenue, options_for_select(Organization::REVENUE_LEVELS.invert)
+            = form.select :revenue, Organization::REVENUE_LEVELS.collect{|key,value| [value,key]}
         %li
           = form.label :country_id
           = form.collection_select :country_id, Country.all, :id, :name
+
+        - if @signup.non_business?
+          %li
+            %h3 Legal Status
+          %li
+            %p Your organization must be a legal entity in the country / state where it is based in order to become a UN Global Compact participant. In order to confirm legal status, you must provide your organizationʼs registration, incorporation, license, certification or similar number provided by a government or government agency, and the place of registration / incorporation.
+          %li
+            %h3 Registration / incorporation details
+          = fields_for :non_business_organization_registration, @signup.registration do |fields|
+            %li
+              = fields.label :date, "Date of Registration"
+              = fields.text_field :date, :class => 'datepicker iso-date', :size => 11
+            %li
+              = fields.label :place, "Place of Registration"
+              = fields.text_field :place
+            %li
+              = fields.label :authority, "Public Authority"
+              = fields.text_field :authority
+            %li
+              = fields.label :number, "Registration number"
+              = fields.text_field :number
+          %li.legal-status
+            %p If a Registration Number is not available, please upload a proof of legal status:
+          %li.legal-status
+            = form.label :legal_status, "Proof of legal status"
+            = form.file_field :legal_status, { :label => ' ' }
+          %li.legal-status
+            %p Please provide a copy of your organization’s founding documents (e.g. constitution, memorandum and articles of association, trust deed, Act of Parliament under which the organization is constituted etc.), together with a list of names of individuals on your organization’s governing body, board or similar and other senior office holders.
 
     = form.submit 'Next', :class => 'button'

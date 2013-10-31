@@ -14,6 +14,10 @@ class OrganizationTest < ActiveSupport::TestCase
   should belong_to :listing_status
   should belong_to :exchange
   should belong_to :country
+  should have_one  :non_business_organization_registration
+  should have_one  :legal_status
+  should have_one  :recommitment_letter
+  should have_one  :withdrawal_letter
 
   context "given an existing organization with a contact and ceo" do
     setup do
@@ -91,6 +95,19 @@ class OrganizationTest < ActiveSupport::TestCase
         assert_equal OrganizationType.signatory, @organization.organization_type
       end
     end
+    
+    context "that is a non-business participant" do
+      setup do
+        @organization = Organization.create(:name => "University",
+                                            :employees => 5,
+                                            :organization_type_id => @academic.id)
+        @organization.approve
+      end
+      
+      should "assign initial cop_due_on two years later" do
+        assert_equal 2.year.from_now.to_date, @organization.cop_due_on.to_date
+      end
+    end
 
     should "set sector when it is a signatory" do
       @sector = create_sector(:name => "Media")
@@ -110,7 +127,9 @@ class OrganizationTest < ActiveSupport::TestCase
 
     context "approving its participation" do
       setup do
-        @organization = Organization.create(:name => 'Company', :employees => 100)
+        @organization = Organization.create(:name => 'Company',
+                                            :employees => 100,
+                                            :organization_type_id => OrganizationType.company.id)
       end
 
       should "update approval related fields" do

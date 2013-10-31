@@ -70,7 +70,11 @@ class SignupControllerTest < ActionController::TestCase
 
     # pledge form
     should "as a business should get the fourth step page after posting ceo contact details" do
-      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
+      @signup = session[:signup] = OrganizationSignup.new('business')
+      @signup.set_organization_attributes({:name => 'ACME inc',
+                                           :organization_type_id => OrganizationType.first.id,
+                                           :revenue => 2500})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc',
                                                                       :organization_type_id => OrganizationType.first.id,
                                                                       :revenue => 2500)
       post :step4, :contact => @signup_ceo
@@ -85,15 +89,23 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     # upload letter of commitment
-    should "as a non-business should get the sixth step page after posting ceo contact details" do
-      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc',
-                                                                      :organization_type_id => @non_business_organization_type)
-      post :step4, :contact => @signup_ceo
-      assert_redirected_to organization_step6_path
+    should "as a non-business the next_step for the ceo form should be step6" do
+      create_non_business_organization_type
+      @signup = session[:signup] = OrganizationSignup.new('non_business')
+      @signup.set_organization_attributes({:name => 'ACME inc',
+                                           :organization_type_id => @non_business_organization_type.id})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type.id)
+      post :step3, :contact => @signup_contact
+      assert_template 'step3'
+      assert_equal organization_step6_path, assigns(:next_step)
     end
 
     should "as a business should get the fifth step page after selecting a contribution amount" do
-      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
+      @signup = session[:signup] = OrganizationSignup.new('business')
+      @signup.set_organization_attributes({:name => 'ACME inc',
+                                           :organization_type_id => OrganizationType.first.id,
+                                           :revenue => 2500})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
       post :step5, :organization => {:pledge_amount => 2500}
       assert_response :success
       assert_template 'step5'
@@ -101,20 +113,19 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "as a business should get the sixth step page if they don't select a contribution amount" do
-      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id, :pledge_amount => 0)
+      @signup = session[:signup] = OrganizationSignup.new('business')
+      @signup.set_organization_attributes({:name => 'ACME inc',
+                                           :organization_type_id => OrganizationType.first.id,
+                                           :pledge_amount => 0})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id, :pledge_amount => 0)
       post :step5
       assert_redirected_to organization_step6_path
     end
 
-    should "as a non-business should get the sixth step page after posting ceo contact details" do
-      create_non_business_organization_type
-      @organization, session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type)
-      post :step6, :contact => @signup_ceo
-      assert_response :success
-      assert_template 'step6'
-    end
-
     should "get the sixth step page after posting ceo contact details" do
+      @signup = session[:signup] = OrganizationSignup.new('business')
+      @signup.set_organization_attributes({:name => 'ACME inc',
+                                           :organization_type_id => OrganizationType.first.id})
       session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
                                                        :organization_type_id => OrganizationType.first.id)
       post :step6, :contact => @signup_ceo
@@ -122,12 +133,29 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step6'
     end
 
+    should "as a non-business should get the sixth step page after posting ceo contact details" do
+      create_non_business_organization_type
+      @signup = session[:signup] = OrganizationSignup.new('non_business')
+      @signup.set_organization_attributes({:name => 'ACME inc',
+                                           :organization_type_id => @non_business_organization_type.id})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type.id)
+      post :step6, :contact => @signup_ceo
+      assert_response :success
+      assert_template 'step6'
+    end
+
     should "get the seventh step page after submitting letter of commitment" do
-      session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
-                                                       :organization_type_id => OrganizationType.first.id,
-                                                       :employees            => 500)
-      session[:signup_contact] = Contact.new(@signup_contact)
-      session[:signup_ceo] = Contact.new(@signup_ceo)
+      @signup = session[:signup] = OrganizationSignup.new('non_business')
+      @signup.set_organization_attributes({:name                 => 'City University',
+                                       :organization_type_id => OrganizationType.first.id,
+                                       :employees            => 50,
+                                       :country_id           => Country.first.id,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
+                                       {:number              => "test",
+                                        :mission_statement   => "A"})
+      @signup.set_primary_contact_attributes(@signup_contact)
+      @signup.set_ceo_attributes(@signup_ceo)
+
       assert_difference 'ActionMailer::Base.deliveries.size' do
         assert_difference 'Organization.count' do
           assert_difference 'Contact.count', 2 do
@@ -140,11 +168,16 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "send an email to JCI if the applicant was a referral from their website" do
-      session[:signup_organization] = Organization.new(:name                 => 'JCI Member',
-                                                       :organization_type_id => OrganizationType.first.id,
-                                                       :employees            => 500)
-      session[:signup_contact] = Contact.new(@signup_contact)
-      session[:signup_ceo] = Contact.new(@signup_ceo)
+      @signup = session[:signup] = OrganizationSignup.new('non_business')
+      @signup.set_organization_attributes({:name                 => 'City University',
+                                       :organization_type_id => OrganizationType.first.id,
+                                       :employees            => 50,
+                                       :country_id           => Country.first.id,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
+                                       {:number              => "test",
+                                        :mission_statement   => "A"})
+      @signup.set_primary_contact_attributes(@signup_contact)
+      @signup.set_ceo_attributes(@signup_ceo)
       session[:is_jci_referral] = true
 
       assert_difference 'ActionMailer::Base.deliveries.size', 2 do
@@ -156,11 +189,17 @@ class SignupControllerTest < ActionController::TestCase
 
     should "see the PRME invitation on the seventh step page if they are an Academic organization" do
       @academic = create_organization_type(:name => 'Academic', :type_property => 1)
-      session[:signup_organization] = Organization.new(:name                 => 'City University',
-                                                       :organization_type_id => @academic.id,
-                                                       :employees            => 50)
-      session[:signup_contact] = Contact.new(@signup_contact)
-      session[:signup_ceo] = Contact.new(@signup_ceo)
+      @signup = session[:signup] = OrganizationSignup.new('non_business')
+      @signup.set_organization_attributes({:name                 => 'City University',
+                                       :organization_type_id => @academic.id,
+                                       :employees            => 50,
+                                       :country_id           => Country.first.id,
+                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
+                                       {:number              => "test",
+                                        :mission_statement   => "A"})
+      @signup.set_primary_contact_attributes(@signup_contact)
+      @signup.set_ceo_attributes(@signup_ceo)
+
       post :step7, :organization => {:commitment_letter => fixture_file_upload('files/untitled.pdf', 'application/pdf')}
       assert_response :success
       assert_template 'step7'

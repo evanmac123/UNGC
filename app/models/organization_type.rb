@@ -31,7 +31,6 @@ class OrganizationType < ActiveRecord::Base
     :civil_local      => 'NGO Local',
     :city             => 'City',
     :foundation       => 'Foundation',
-    :gc_networks      => 'GC Networks',
     :labour_global    => 'Labour Global',
     :labour_local     => 'Labour Local',
     :public           => 'Public Sector Organization',
@@ -48,10 +47,14 @@ class OrganizationType < ActiveRecord::Base
     else
       where("name = ?", FILTERS[filter_types])
     end
-  end    
+  end
 
   def business?
     type_property == BUSINESS
+  end
+
+  def non_business?
+    type_property == NON_BUSINESS
   end
 
   def self.micro_enterprise
@@ -63,7 +66,7 @@ class OrganizationType < ActiveRecord::Base
   end
 
   def self.city
-    first :conditions => {:name => FILTERS[:city]}
+    where(name: FILTERS[:city]).first
   end
 
   def self.company
@@ -76,6 +79,23 @@ class OrganizationType < ActiveRecord::Base
 
   def self.signatory
     where(name: FILTERS[:signatory]).first
+  end
+
+  def self.business_association
+    for_filter(:business_global, :business_local)
+  end
+
+  def self.labour
+    for_filter(:labour_global, :labour_local)
+  end
+
+  def self.ngo
+    for_filter(:civil_global, :civil_local)
+    for_filter(:civil_global, :civil_local, :foundation)
+  end
+
+  def self.public_sector
+    where(name: FILTERS[:public]).first
   end
 
 end
