@@ -130,9 +130,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   START_DATE_OF_DIFFERENTIATION  = Date.new(2011, 01, 29)
   START_DATE_OF_LEAD_BLUEPRINT   = Date.new(2012, 01, 01)
   START_DATE_OF_ADVANCED_LEAD    = Date.new(2013, 03, 01)
-  START_DATE_OF_NON_BUSINESS_COE = Date.new(2013, 01, 01)
-  # TODO: use this date before deploying to production
-  # START_DATE_OF_NON_BUSINESS_COE = Date.new(2013, 10, 31)
+  START_DATE_OF_NON_BUSINESS_COE = Date.new(2013, 10, 31)
 
   def self.find_by_param(param)
     return nil if param.blank?
