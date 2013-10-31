@@ -2,7 +2,10 @@
 
 %p== Welcome to the United Nations Global Compact. We are pleased to inform you that #{@organization.name} has been added to our register of participants: #{link_to 'http://unglobalcompact.org/participant/'+@organization.id.to_s, 'http://unglobalcompact.org/participant/'+@organization.id.to_s}
 
-%p Thank you for joining our corporate responsibility initiative - the world's largest with over 8,000 business and non-business participants in 135 countries. An official welcome letter and information package will be sent to your organization's top executive via mail. Please allow 3 to 6 weeks for delivery.
+%p
+  Thank you for joining our corporate responsibility initiative - the world's largest with  nearly 12,000 business and non-business participants in 140 countries. 
+  - if @organization.welcome_package?
+    An official welcome letter and information package will be sent to your organization's top executive via mail. Please allow 3 to 6 weeks for delivery.
 
 %p This email provides an overview of your organization's commitment to the UN Global Compact and helpful information related to engagement in our initiative.
 
@@ -14,7 +17,8 @@
 %ul
   %li Support the Ten Principles of the UN Global Compact with respect to human rights, labour, environment and anti-corruption;
   %li Advance these principles within your sphere of influence, and make a clear statement of this commitment to your stakeholders and the general public;
-  %li Take part in the activities of the UN Global Compact, for example: participate in Local Networks; join specialized initiatives and workstreams; engage in partnership projects; and review Communications on Progress posted by participating companies.
+  %li== Take part in the activities of the UN Global Compact #{link_to 'according to your type of organization', 'http://www.unglobalcompact.org/HowToParticipate/non_business_participation.html'}; and
+  %li Communicate every two years with your stakeholders on your engagement in the Global Compact and your efforts to support the ten principles, and post this Communication on Engagement (COE) on the UN Global Compact website. Failure to post a COE every two years will result in loss of an "active" status in the UN Global Compact, and eventual removal from the initiative.
 
 %p
   %strong Guidance Materials
@@ -41,10 +45,9 @@
 %p
   %strong Local Networks
 
-%p We encourage your organization to engage in Global Compact Local Networks, which can be found in over 80 countries. Within a local context, these networks provide opportunities for participants to improve understanding and share experiences on the Ten Principles and partnerships, as well as how to report on progress in these areas. Collective action campaigns and government policy dialogues are also organized through the Local Networks. More information can be found in the "Local Networks" section of our website:
+%p We encourage your organization to engage in Global Compact Local Networks, which can be found in over 100 countries. Within a local context, these networks provide opportunities for participants to improve understanding and share experiences on the Ten Principles and partnerships, as well as how to report on progress in these areas. Collective action campaigns and government policy dialogues are also organized through the Local Networks. More information can be found in the "Local Networks" section of our website:
 
 = link_to 'Global Compact Local Networks','http://www.unglobalcompact.org/NetworksAroundTheWorld/'
-/ TODO insert Local Network Focal Point contact details, if they exist
 
 %p
   %strong Use of UN Global Compact Logo
@@ -67,10 +70,7 @@
 %p
   %strong Getting Started
 
-%p== Your welcome package is now available online and can be accessed from your #{link_to 'participant dashboard', dashboard_url}. Please refer to its contents to better understanding the Global Compact, its requirements for participants, and how your company can get started. You can also view and print your official welcome letter, signed by Georg Kell, Executive Director of the Global Compact.
-
-- if @organization.welcome_package?
-  %p As requested, a paper welcome letter and information package will also be sent to your organization's top executive via mail. Please allow 3 to 6 weeks for delivery.
+%p== Your welcome package is now available online and can be accessed from your #{link_to 'participant dashboard', dashboard_url}. Please refer to its contents to better understand the Global Compact, its requirements for participants, and how your company can get started. You can also view and print your official welcome letter, signed by Georg Kell, Executive Director of the Global Compact.
 
 %p Again, thank you for joining the UN Global Compact. We are eager to hear your ideas and experiences, and encourage you to share your views with us. We stand ready to support your efforts to embrace the Ten Principles and contribute to a more sustainable and inclusive global economy. Should you have any queries, please contact us at globalcompact@un.org.
 

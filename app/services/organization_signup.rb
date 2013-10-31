@@ -89,7 +89,7 @@ class OrganizationSignup
 
     if complete
       if !organization.commitment_letter?
-        organization.errors.add :commitment_letter, "Please upload."
+        organization.errors.add :commitment_letter, "must be uploaded"
       end
     end
     !organization.errors.any?
@@ -100,7 +100,7 @@ class OrganizationSignup
     if non_business?
 
       if @registration.number.blank? && @legal_status_id.blank?
-        registration.errors.add :number, "can't be empty"
+        registration.errors.add :number, "can't be blank"
       end
 
       if complete

@@ -9,8 +9,6 @@
     %fieldset
       %ol
         %li
-          %h3 Organization details
-        %li
           = form.label :name, "Organization name"
           = form.text_field :name
         %li
@@ -59,7 +57,7 @@
               = fields.label :date, "Date of Registration"
               = fields.text_field :date, :class => 'datepicker iso-date', :size => 11
             %li
-              = fields.label :place, "City / Town"
+              = fields.label :place, "Place of Registration"
               = fields.text_field :place
             %li
               = fields.label :authority, "Public Authority"
@@ -67,8 +65,12 @@
             %li
               = fields.label :number, "Registration number"
               = fields.text_field :number
+            %li
+              %p If a Registration Number is not available, please upload a proof of legal status:
           %li
             = form.label :legal_status, "Proof of legal status"
             = form.file_field :legal_status, { :label => ' ' }
+          %li
+            %p Please provide a copy of your organization’s founding documents (e.g. constitution, memorandum and articles of association, trust deed, Act of Parliament under which the organization is constituted etc.), together with a list of names of individuals on your organization’s governing body, board or similar and other senior office holders.
 
     = form.submit 'Next', :class => 'button'
