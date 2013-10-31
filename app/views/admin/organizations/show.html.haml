@@ -10,7 +10,7 @@
     - if current_contact.from_ungc? && Organization.peer_organizations(@organization).any?
       %li==<a href="#peers">Peers (#{Organization.peer_organizations(@organization).count})</a>
     - if @organization.communication_on_progresses.any?
-      %li <a href="#cops">COPs</a>
+      %li== <a href="#cops">#{@organization.cop_acronym}s</a>
     - if @organization.case_stories.any?
       %li <a href="#case_stories">Case Stories</a>
     - if @organization.logo_requests.any?
@@ -35,9 +35,8 @@
       %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
-      - if @organization.company?
-        %dt COP Due Date
-        %dd= @organization.cop_due_on || 'n/a'
+      %dt== #{@organization.cop_acronym} Due Date
+      %dd= @organization.cop_due_on || 'n/a'
       %dt Organization Type
       %dd= @organization.organization_type_name
       - if @organization.company?
@@ -144,13 +143,14 @@
 
   - if @organization.communication_on_progresses.any?
     #cops.tab_content
-      %h2 Communication on Progress
+      %h2= @organization.cop_name
       %table.dashboard_table#cops_dashboard_table
         %tr
           %th.last_updated Published
           %th.title Title
           %th.status Status
-          %th.status Differentiation
+          - if @organization.company?
+            %th.status Differentiation
           %th.actions Actions
         = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.find(:all, order: "created_at DESC")
 

@@ -54,25 +54,23 @@ class CommunicationOnProgress < ActiveRecord::Base
   has_many :cop_links, :foreign_key => :cop_id
   acts_as_commentable
 
-  attr_accessor :is_draft
-  attr_accessor :policy_exempted
-  attr_accessor :type
-
   before_create  :check_links
   before_save    :set_cop_defaults
   before_save    :can_be_edited?
   after_create   :set_differentiation_level
-  after_create   :draft_or_submit!
+  after_create   :set_approved_state
   before_destroy :delete_associated_attributes
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
 
+  attr_accessor :type
+
   cattr_reader :per_page
   @@per_page = 15
 
-  TYPES = %w{grace basic intermediate advanced lead}
+  TYPES = %w{grace basic intermediate advanced lead non_business}
 
   default_scope :order => 'communication_on_progresses.created_at DESC'
 
@@ -94,8 +92,12 @@ class CommunicationOnProgress < ActiveRecord::Base
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :annual_report         => "Part of an annual (financial) report"
-
            }
+
+  COE_FORMAT = {:standalone        => "Stand alone document",
+                :financial_report  => "Part of an annual (financial) report",
+                :other_report      => "Part of another type of report"
+               }
 
   # How the COP is shared
   METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
@@ -104,10 +106,18 @@ class CommunicationOnProgress < ActiveRecord::Base
             :all          => "d) Both b) and c)"
            }
 
+  # How the COP is shared
+  COE_METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
+                :all_access   => "b) COE is easily accessible to all interested parties (e.g. via its website)",
+                :stakeholders => "c) COE is actively distributed to all key stakeholders (e.g. investors, employees, beneficiaries, local community)",
+                :all          => "d) Both b) and c)"
+          }
+
+
   # Basic COP templates have other options for sharing their COP
   BASIC_METHOD = {:gc_website   => "a) On the UN Global Compact website only",
                   :all_access   => "b) COP will be made easily accessible to all interested parties on company website",
-                  :stakeholders => "c) COP will be actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
+                  :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employers, consumers, local community)",
                   :all          => "d) Both b) and c)"
                  }
 
@@ -117,9 +127,10 @@ class CommunicationOnProgress < ActiveRecord::Base
                         :learner   => "This COP places the participant on the Global Compact Learner Platform"
                       }
 
-  START_DATE_OF_DIFFERENTIATION = Date.new(2011, 01, 29)
-  START_DATE_OF_LEAD_BLUEPRINT  = Date.new(2012, 01, 01)
-  START_DATE_OF_ADVANCED_LEAD   = Date.new(2013, 03, 01)
+  START_DATE_OF_DIFFERENTIATION  = Date.new(2011, 01, 29)
+  START_DATE_OF_LEAD_BLUEPRINT   = Date.new(2012, 01, 01)
+  START_DATE_OF_ADVANCED_LEAD    = Date.new(2013, 03, 01)
+  START_DATE_OF_NON_BUSINESS_COE = Date.new(2013, 10, 31)
 
   def self.find_by_param(param)
     return nil if param.blank?
@@ -191,44 +202,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
-  def set_cop_defaults
-    self.additional_questions = false
-    case self.type
-      when 'grace'
-        self.format = CopFile::TYPES[:grace_letter]
-        self.title = 'Grace Letter'
-        # normally they can choose the coverage dates, but for grace letters it matches the grace period
-        self.starts_on = self.organization.cop_due_on
-        self.ends_on = self.organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
-      when 'basic'
-        self.format = 'basic'
-      when 'advanced'
-        self.additional_questions = true
-      when 'lead'
-        self.additional_questions = true
-    end
-  end
-
-  def can_be_edited?
-    unless self.editable?
-      errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
-    end
-  end
-
-  # move COP to draft state
-  def draft_or_submit!
-    return true unless initial? # tests might setup COPs with state pre-set
-    if self.is_draft
-      save_as_draft!
-      organization.extend_cop_temporary_period
-    else
-      if can_submit?
-        submit!
-        approve
-      end
-    end
-  end
-
   def is_legacy_format?
     created_at <= Date.new(2009, 12, 31)
   end
@@ -269,19 +242,23 @@ class CommunicationOnProgress < ActiveRecord::Base
     # to be completed with submission process
   end
 
+  def is_non_business_format?
+    created_at >= START_DATE_OF_NON_BUSINESS_COE && organization.non_business?
+  end
 
   def is_basic?
     is_new_format? && self.attributes['format'] == 'basic'
   end
 
-  # Indicated whether this COP is editable
+  # TODO use the new pre-pending state here
   def editable?
-    # TODO use the new pre-pending state here
-    return true if self.new_record?
-    if self.pending_review?
-      self.created_at + 30.days >= Time.now
-    elsif self.in_review?
-      self.created_at + 90.days >= Time.now
+    case
+    when new_record?
+      true
+    when pending_review?
+      created_at + 30.days >= Time.now
+    when in_review?
+      created_at + 90.days >= Time.now
     else
       false
     end
@@ -295,13 +272,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
-  # javascript will normally hide the link field if it's blank,
-  # but IE7 was not cooperating, so we double check
-  def check_links
-    self.cop_links.each do |link|
-      link.destroy if link.url.blank?
-    end
-  end
 
   # Calculate COP score based on answers to Q7
   def score
@@ -400,7 +370,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def evaluated_for_differentiation?
-    if is_grace_letter?
+    if is_grace_letter? || is_non_business_format?
       false
     else
       new_record? || created_at > START_DATE_OF_DIFFERENTIATION
@@ -475,18 +445,12 @@ class CommunicationOnProgress < ActiveRecord::Base
     LEVEL_DESCRIPTION[differentiation.to_sym]
   end
 
-  # record level in case the criteria changes in the future
-  def set_differentiation_level
-    update_attribute :differentiation, differentiation_level.to_s
-  end
-
   def organization_business_entity?
     organization.business_entity?
   end
 
   def confirmation_email
     if organization_business_entity?
-
       if organization.triple_learner_for_one_year?
         'triple_learner_for_one_year'
       elsif organization.double_learner?
@@ -496,7 +460,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       else
         differentiation
       end
-
     else
       'non_business'
     end
@@ -525,10 +488,53 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   private
 
+    # javascript will normally hide the link field if it's blank,
+    # but IE7 was not cooperating, so we double check
+    def check_links
+      self.cop_links.each do |link|
+        link.destroy if link.url.blank?
+      end
+    end
+
+    def set_cop_defaults
+      self.additional_questions = false
+      case type
+        when 'grace'
+          self.format = CopFile::TYPES[:grace_letter]
+          self.title = 'Grace Letter'
+          # normally they can choose the coverage dates, but for grace letters it matches the grace period
+          self.starts_on = organization.cop_due_on
+          self.ends_on = organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
+        when 'basic'
+          self.format = 'basic'
+        when 'advanced'
+          self.additional_questions = true
+        when 'lead'
+          self.additional_questions = true
+      end
+    end
+
+    def can_be_edited?
+      unless editable?
+        errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
+      end
+    end
+
+    # record level in case the criteria changes in the future
+    def set_differentiation_level
+      update_attribute :differentiation, differentiation_level.to_s
+    end
+
+    # set approved state for all COPs
+    def set_approved_state
+      update_attribute(:state, "approved")
+      set_approved_fields
+    end
+
     def delete_associated_attributes
-      self.cop_files.each {|file| file.destroy}
-      self.cop_links.each {|link| link.destroy}
-      self.cop_answers.each {|answer| answer.destroy}
+      cop_files.each {|file| file.destroy}
+      cop_links.each {|link| link.destroy}
+      cop_answers.each {|answer| answer.destroy}
     end
 
 end

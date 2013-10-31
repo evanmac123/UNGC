@@ -50,7 +50,7 @@ module ParticipantsHelper
   end
 
   def display_cop_status_title(organization)
-    organization.cop_due_on < Date.today ? "COP deadline passed" : "Next COP due"
+    organization.cop_due_on < Date.today ? "#{organization.cop_acronym} deadline passed" : "Next #{organization.cop_acronym} due"
   end
 
   def display_cop_status(organization)

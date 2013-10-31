@@ -47,7 +47,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "send confirmation Non Business email" do
       response = CopMailer.confirmation_non_business(@organization, @cop, @organization_user).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact - COP Published", response.subject
+      assert_equal "UN Global Compact - COE Published", response.subject
       assert_equal @organization_user.email, response.to.first
     end
   end
@@ -200,22 +200,4 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal @network_contact.email, response.cc.first
     end
   end
-
-  # context "given a non-communicating SME" do
-  #   setup do
-  #     create_organization_and_user
-  #     @organization.approve
-  #     @organization.update_attribute(:cop_due_on, Date.today - 1.day)
-  #   end
-  #
-  #   should "receive a one year extension on their COP" do
-  #     @original_cop_due_on = @organization.cop_due_on
-  #     assert_equal @organization.organization_type, OrganizationType.sme
-  #     puts @organization.cop_due_on
-  #     CopStatusUpdater.update_all
-  #     puts @organization.cop_due_on
-  #     assert_equal @organization.cop_due_on, @original_cop_due_on + 1.year
-  #   end
-  # end
-
 end

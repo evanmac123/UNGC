@@ -93,17 +93,15 @@ class Admin::CopsControllerTest < ActionController::TestCase
   end
 
   context "given a non-business submitting a COP" do
-
     setup do
       create_non_business_organization_and_user('approved')
       sign_in @organization_user
     end
 
-    should "be redirected to intermediate COP template" do
+    should "be redirected to non_business COP template" do
       get :introduction
-      assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'intermediate')
+      assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'non_business')
     end
-
   end
 
   context "given a company that is a signatory of LEAD" do

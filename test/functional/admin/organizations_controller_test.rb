@@ -174,24 +174,33 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       @organization.approve
     end
 
-    should "user should not see upload field for commitment letter" do
-      sign_in @user
-      get :edit, {:id => @organization.to_param}
-      assert_select "input#organization_commitment_letter", 0
+    context "as user" do
+      setup do
+        sign_in @user
+      end
+
+      should "user should not see upload field for commitment letter" do
+        get :edit, {:id => @organization.to_param}
+        assert_select "input#organization_commitment_letter", 0
+      end
     end
 
-    should "require delisted on date when being manually delisting" do
-      sign_in @staff_user
-      put :update, {:id => @organization.to_param, :organization => { :active => "0", :delisted_on => Date.today }}, as(@staff_user)
-      assert_redirected_to admin_organization_path(@organization.id)
-    end
+    context "as staff user" do
+      setup do
+        sign_in @staff_user
+      end
 
-    should "require delisted on date when being manually delisting" do
-      sign_in @staff_user
-      put :update, {:id => @organization.to_param, :organization => { :active => "0" }}, as(@staff_user)
-      assert :success
-    end
+      should "succeed and require delisted on date when being manually delisted" do
+        put :update, {:id => @organization.to_param, :organization => { :active => "0", :delisted_on => Date.today }}
+        assert_redirected_to admin_organization_path(@organization.id)
+      end
 
+      should "fail when being manually delisted and delisted_on date is not provided" do
+        put :update, {:id => @organization.to_param, :organization => { :active => "0" }}
+        assert_template "edit"
+        assert_equal "Delisted on can't be blank", flash[:error]
+      end
+    end
   end
 
   context "given a rejected organization" do

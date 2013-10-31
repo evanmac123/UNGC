@@ -18,6 +18,8 @@ class CopsController < ApplicationController
       @cop_partial = '/shared/cops/show_grace_style'
     elsif @communication_on_progress.is_basic?
       @cop_partial = '/shared/cops/show_basic_style'
+    elsif @communication_on_progress.is_non_business_format?
+      @cop_partial = '/shared/cops/show_non_business_style'
     elsif @communication_on_progress.is_new_format?
       @cop_partial = '/shared/cops/show_new_style'
     elsif @communication_on_progress.is_legacy_format?

@@ -149,6 +149,8 @@ class Organization < ActiveRecord::Base
 
   COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
+  NEXT_BUSINESS_COP_YEAR = 1
+  NEXT_NON_BUSINESS_COP_YEAR = 2
 
   REVENUE_LEVELS = {
     1 => 'less than USD 50 million',
@@ -398,6 +400,24 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def non_business_type
+    if academic?
+      'academic'
+    elsif city?
+      'city'
+    elsif labour?
+      'labour'
+    elsif ngo?
+      'ngo'
+    elsif business_association?
+      'business_association'
+    elsif public_sector?
+      'public'
+    else
+      raise 'Invalid non-business organization type'
+    end
+  end
+
   def listing_status_name
     listing_status.try(:name) || 'Unknown'
   end
@@ -525,6 +545,14 @@ class Organization < ActiveRecord::Base
     string = CGI.escape(string)
   end
 
+  def cop_name
+    company? ? "Communication on Progress" : "Communication on Engagement"
+  end
+
+  def cop_acronym
+    company? ? "COP" : "COE"
+  end
+
   def last_approved_cop
     communication_on_progresses.approved.first if communication_on_progresses.approved.any?
   end
@@ -614,6 +642,10 @@ class Organization < ActiveRecord::Base
     joined_on.to_time.years_since(years) >= Time.now
   end
 
+  def years_until_next_cop_due
+    company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+  end
+
   # Policy specifies 90 days, so we extend the current due date
   def extend_cop_grace_period
     self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
@@ -628,12 +660,12 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, cop_due_on + 1.year)
   end
 
-  # COP's next due date is 1 year from current date
+  # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
   def set_next_cop_due_date_and_cop_status
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
-    self.update_attribute :cop_due_on, 1.year.from_now
+    self.update_attribute :cop_due_on, years_until_next_cop_due.year.from_now
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
   end
@@ -718,7 +750,7 @@ class Organization < ActiveRecord::Base
     if cop_state == COP_STATE_DELISTED
       nil
     else
-      cop_due_on + 1.year unless cop_due_on.nil?
+      cop_due_on + years_until_next_cop_due.year unless cop_due_on.nil?
     end
   end
 

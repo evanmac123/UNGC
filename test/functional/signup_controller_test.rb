@@ -74,6 +74,9 @@ class SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({:name => 'ACME inc',
                                            :organization_type_id => OrganizationType.first.id,
                                            :revenue => 2500})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc',
+                                                                      :organization_type_id => OrganizationType.first.id,
+                                                                      :revenue => 2500)
       post :step4, :contact => @signup_ceo
       assert_response :success
       assert_template 'step4'
@@ -91,7 +94,7 @@ class SignupControllerTest < ActionController::TestCase
       @signup = session[:signup] = OrganizationSignup.new('non_business')
       @signup.set_organization_attributes({:name => 'ACME inc',
                                            :organization_type_id => @non_business_organization_type.id})
-
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type.id)
       post :step3, :contact => @signup_contact
       assert_template 'step3'
       assert_equal organization_step6_path, assigns(:next_step)
@@ -102,6 +105,7 @@ class SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({:name => 'ACME inc',
                                            :organization_type_id => OrganizationType.first.id,
                                            :revenue => 2500})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id)
       post :step5, :organization => {:pledge_amount => 2500}
       assert_response :success
       assert_template 'step5'
@@ -113,6 +117,7 @@ class SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({:name => 'ACME inc',
                                            :organization_type_id => OrganizationType.first.id,
                                            :pledge_amount => 0})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => OrganizationType.first.id, :pledge_amount => 0)
       post :step5
       assert_redirected_to organization_step6_path
     end
@@ -121,6 +126,8 @@ class SignupControllerTest < ActionController::TestCase
       @signup = session[:signup] = OrganizationSignup.new('business')
       @signup.set_organization_attributes({:name => 'ACME inc',
                                            :organization_type_id => OrganizationType.first.id})
+      session[:signup_organization] = Organization.new(:name                 => 'ACME inc',
+                                                       :organization_type_id => OrganizationType.first.id)
       post :step6, :contact => @signup_ceo
       assert_response :success
       assert_template 'step6'
@@ -131,6 +138,7 @@ class SignupControllerTest < ActionController::TestCase
       @signup = session[:signup] = OrganizationSignup.new('non_business')
       @signup.set_organization_attributes({:name => 'ACME inc',
                                            :organization_type_id => @non_business_organization_type.id})
+      @organization = session[:signup_organization] = Organization.new(:name => 'ACME inc', :organization_type_id => @non_business_organization_type.id)
       post :step6, :contact => @signup_ceo
       assert_response :success
       assert_template 'step6'
