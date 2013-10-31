@@ -1,16 +1,16 @@
 $(function(){
   var hidden = false;
   function emptyNumber(){
-    return $('#non_business_organization_registration_number').val().trim() === "";
+    return $.trim($('#non_business_organization_registration_number').val()) === "";
   }
   function emptyStatus(){
-    return $('#organization_legal_status').val().trim() === "";
+    return $.trim($('#organization_legal_status').val()) === "";
   }
   function noErrors(){
     return $('#errorExplanation').length === 0;
   }
   function showLegalStatus(){
-    $('.legal-status').show();
+    $('.legal-status').show('fade');
     hidden = false;
   }
   function hideLegalStatus(){
