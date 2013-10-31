@@ -23,9 +23,8 @@
       %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
       %dd= @organization.joined_on || 'n/a'
-      - if @organization.company?
-        %dt COP Due Date
-        %dd= @organization.cop_due_on || 'n/a'
+      %dt== #{@organization.cop_acronym} Due Date
+      %dd= @organization.cop_due_on || 'n/a'
       %dt Organization Type
       %dd= @organization.organization_type_name
       - if @organization.company?

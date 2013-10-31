@@ -2,6 +2,11 @@
 %h1= @participant.name
 
 %dl
+  %dt= display_participant_status_title(@participant)
+  %dd
+    %ul
+      %li
+        = display_participant_status(@participant)
   %dt
     - if @participant.was_expelled? && @participant.active
       Initial Participation
@@ -19,12 +24,7 @@
     %dd
       %ul
         %li= yyyy_mm_dd @participant.rejoined_on
-  %dt= display_participant_status_title(@participant)
-  %dd
-    %ul
-      %li
-        = display_participant_status(@participant)
-  - if @participant.business_entity? && @participant.cop_due_on.present?
+  - if @participant.cop_due_on.present?
     %dt= display_cop_status_title(@participant)
     %dd
       %ul
@@ -106,15 +106,17 @@
     %thead
       %tr
         %th Communication
-        %th CEO<br />Statement
-        %th Issue Areas<br />Covered
+        %th Statement<br />of Support
+        - if @participant.business_entity?
+          %th Issue Areas<br />Covered
         %th Measurement<br />of Outcomes
     %tbody
       - for cop in @participant.communication_on_progresses.new_policy.approved do
         %tr{:title => cop.title}
           %td= link_to truncate(cop.title, :length => 40), cop_link(cop, params[:navigation])
           %td.center= check_if cop.include_continued_support_statement?
-          %td.center== #{cop.score} / 4
+          - if @participant.business_entity?
+            %td.center== #{cop.score} / 4
           %td.center= check_if cop.include_measurement?
 
 - if @participant.communication_on_progresses.old_policy.approved.any?
