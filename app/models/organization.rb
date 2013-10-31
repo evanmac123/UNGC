@@ -135,6 +135,8 @@ class Organization < ActiveRecord::Base
 
   COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
+  NEXT_BUSINESS_COP_YEAR = 1
+  NEXT_NON_BUSINESS_COP_YEAR = 2
 
   REVENUE_LEVELS = {
     1 => 'less than USD 50 million',
@@ -626,6 +628,10 @@ class Organization < ActiveRecord::Base
     joined_on.to_time.years_since(years) >= Time.now
   end
 
+  def years_until_next_cop_due
+    company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+  end
+
   # Policy specifies 90 days, so we extend the current due date
   def extend_cop_grace_period
     self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
@@ -645,8 +651,7 @@ class Organization < ActiveRecord::Base
   def set_next_cop_due_date_and_cop_status
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
-    # TODO: set next COP 2.year.from_now for non-business
-    self.update_attribute :cop_due_on, 1.year.from_now
+    self.update_attribute :cop_due_on, years_until_next_cop_due.year.from_now
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
   end
@@ -731,7 +736,7 @@ class Organization < ActiveRecord::Base
     if cop_state == COP_STATE_DELISTED
       nil
     else
-      cop_due_on + 1.year unless cop_due_on.nil?
+      cop_due_on + years_until_next_cop_due.year unless cop_due_on.nil?
     end
   end
 

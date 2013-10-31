@@ -93,6 +93,13 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "set the email template to the non-business version" do
       assert_equal 'non_business', @cop.confirmation_email
     end
+    
+    should "change the organization's due date two years after it is approved" do
+      @cop.approve
+      @organization.reload
+      assert_equal 2.year.from_now.to_date, @organization.cop_due_on
+    end
+    
   end
 
   context "given a COP that is a grace letter" do
