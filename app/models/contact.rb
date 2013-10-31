@@ -305,7 +305,20 @@ class Contact < ActiveRecord::Base
       true
     end
   end
+
   alias :devise_valid_password? :valid_password?
+
+  def self.new_contact_point
+    new roles: [Role.contact_point]
+  end
+
+  def self.new_financial_contact
+    new roles: [Role.financial_contact]
+  end
+
+  def self.new_ceo
+    new roles: [Role.ceo]
+  end
 
   private
 

@@ -21,14 +21,6 @@
 
     - staff_only do
       = default_form.collection_select :country_id, Country.all, :id, :name
-  - if can_edit_letter? @organization
-    %label{:style => 'margin-right: 25px;'} Letter of Commitment
-    - if @organization.commitment_letter?
-      %li= link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
-      = default_form.file_field :commitment_letter, {:label => 'Replace file'}
-    - else
-      The Letter of Commitment has not been uploaded
-      = default_form.file_field :commitment_letter, {:label => 'Upload file'}
 
 - staff_only do
 
@@ -60,5 +52,61 @@
         %ol
           = default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
 
+- if @organization.non_business?
+  %fieldset
+    %legend Legal Status
+    = fields_for @organization.non_business_organization_registration do |fields|
+      %ol
+        %li
+          = fields.label :date, "Date of Registration"
+          = fields.text_field :date, :class => 'datepicker iso-date', :size => 11
+        %li
+          = fields.label :place, "Place of Registration"
+          = fields.text_field :place
+        %li
+          = fields.label :authority, "Public Authority"
+          = fields.text_field :authority
+        %li
+          = fields.label :number, "Registration number"
+          = fields.text_field :number
+        %li
+          = fields.label :mission_statement, "Mission statement"
+          = fields.text_area :mission_statement
+
+- if can_edit_letter? @organization
+  %fieldset
+    %legend Documents
+    %ol
+      %li
+        %label{:style => 'margin-right: 20px;'} Letter of Commitment
+        = file_field_tag "organization[commitment_letter]"
+        - if @organization.commitment_letter?
+          = link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
+        - else
+          no file uploaded
+      - if @organization.non_business?
+        %li
+          %label{:style => 'margin-right: 20px;'} Legal Status
+          = file_field_tag "organization[legal_status_file]"
+          - if @organization.legal_status
+            = link_to @organization.legal_status.attachment_file_name, @organization.legal_status.attachment.url
+          - else
+            no file uploaded
+
+    -staff_only do
+      %li
+        %label{:style => 'margin-right: 20px;'} Letter of Recommitment
+        = file_field_tag "organization[recommitment_letter_file]"
+        - if @organization.recommitment_letter
+          = link_to @organization.recommitment_letter.attachment_file_name, @organization.recommitment_letter.attachment.url
+        - else
+          no file uploaded
+      %li
+        %label{:style => 'margin-right: 20px;'} Withdrawal Letter
+        = file_field_tag "organization[withdrawal_letter_file]"
+        - if @organization.withdrawal_letter
+          = link_to @organization.withdrawal_letter.attachment_file_name, @organization.withdrawal_letter.attachment.url
+        - else
+          no file uploaded
 
 = initial_organization_state @organization

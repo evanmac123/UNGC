@@ -115,4 +115,25 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
 
+  context "contact creation helper methods" do
+    setup do
+      create_roles
+    end
+
+    should "create a contact point" do
+      @cp = Contact.new_contact_point
+      assert @cp.roles.include? Role.contact_point
+    end
+
+    should "create a financial contact" do
+      @cp = Contact.new_financial_contact
+      assert @cp.roles.include? Role.financial_contact
+    end
+
+    should "create a ceo" do
+      @cp = Contact.new_ceo
+      assert @cp.roles.include? Role.ceo
+    end
+  end
+
 end

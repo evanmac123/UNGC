@@ -1,6 +1,7 @@
 #main_content input.button {
-  margin: 10px 0 0 520px;
+  margin: 10px 0 15px 520px;
   clear: both;
+  padding: 5px;
 }
 #main_content fieldset {
   background-color: #fff;
@@ -17,6 +18,11 @@
   #main_content fieldset li {
     list-style: none;
     margin: 0 0 1em -1em; }
+  #main_content fieldset li p {
+    line-height: 1.6em;
+    color: #333;
+    width: 490px;
+  }
   #main_content fieldset label {
     color: #14546f;
     display: block;
@@ -37,6 +43,7 @@
     width: 305px; }
   #main_content fieldset textarea {
     height: 100px;
+    width: 500px;
     overflow-y: auto; }
   #main_content fieldset fieldset {
     background: #fff; }
@@ -122,9 +129,9 @@
    font-weight: normal;
    width: 90%;
   }
-
+  
 /* Error for flash messages */
-#main_content .error_explanation { color: #A00; }
+#main_content .errorExplanation { color: #A00; }
 #main_content div.field_with_errors input {border: 1px dotted #A00;}
 
 #search { position: absolute; top: 36px; left: 682px; width: auto; }

@@ -59,7 +59,13 @@
       - if @organization.commitment_letter?
         %dt Letter of Commitment
         %dd{:title => @organization.commitment_letter_file_name}= link_to truncate(@organization.commitment_letter_file_name, :length => 30), @organization.commitment_letter.url
-
+      - if @organization.recommitment_letter
+        %dt Recommitment Letter
+        %dd{:title => @organization.recommitment_letter.attachment_file_name}= link_to truncate(@organization.recommitment_letter.attachment_file_name), @organization.recommitment_letter.attachment.url
+      - if @organization.withdrawal_letter
+        %dt Withdrawal Letter
+        %dd{:title => @organization.withdrawal_letter.attachment_file_name}= link_to truncate(@organization.withdrawal_letter.attachment_file_name), @organization.withdrawal_letter.attachment.url
+        
     %dl.left_column
       %h3 Contact Information
       %dt.first Highest Level Executive
@@ -93,6 +99,24 @@
             = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
           - else
             == There is no Network Report Recipient for #{@organization.country_name}
+
+    - if @organization.non_business? && @organization.non_business_organization_registration      
+      %dl.left_column
+        %h3 Legal Status
+        - reg = @organization.non_business_organization_registration
+        %dt.first Date of Registration
+        %dd.first= reg.date
+        %dt Place of Registration
+        %dd= reg.place
+        %dt Public Authority
+        %dd= reg.authority
+        %dt Registration number
+        %dd= reg.number
+        - if @organization.legal_status
+          %dt Proof of Legal Status
+          %dd{:title => @organization.legal_status.attachment_file_name}= link_to truncate(@organization.legal_status.attachment_file_name), @organization.legal_status.attachment.url
+        %dt Mission Statement
+        %dd= reg.mission_statement        
 
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}

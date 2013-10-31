@@ -74,6 +74,20 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
   belongs_to :participant_manager, :class_name => 'Contact'
 
+  has_one :non_business_organization_registration
+
+  ORGANIZATION_FILE_TYPES = { :commitment_letter => 'commitment_letter', # this has to be migrated first
+                              :recommitment_letter => 'recommitment_letter',
+                              :withdrawal_letter => 'withdrawal_letter',
+                              :legal_status => 'legal_status' }
+
+  has_one :legal_status, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:legal_status]}, :dependent => :destroy
+  has_one :recommitment_letter, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:recommitment_letter]}, :dependent => :destroy
+  has_one :withdrawal_letter, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:withdrawal_letter]}, :dependent => :destroy
+
   attr_accessor :delisting_on
 
   # if the date is set, then the participant
@@ -344,12 +358,32 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name) == 'SME'
   end
 
+  def non_business?
+    organization_type.non_business?
+  end
+
   def academic?
     organization_type == OrganizationType.academic
   end
 
   def city?
     organization_type == OrganizationType.city
+  end
+
+  def labour?
+    OrganizationType.labour.include? organization_type
+  end
+
+  def ngo?
+    OrganizationType.ngo.include? organization_type
+  end
+
+  def business_association?
+    OrganizationType.business_association.include? organization_type
+  end
+
+  def public_sector?
+    organization_type == OrganizationType.public_sector
   end
 
   def organization_type_name_for_custom_links
@@ -731,6 +765,12 @@ class Organization < ActiveRecord::Base
       'A Communication on Progress has not been submitted'
     end
   end
+  
+  def mission_statement?
+    if non_business?
+      non_business_organization_registration && non_business_organization_registration.mission_statement.present?
+    end
+  end
 
   def reverse_roles
 
@@ -781,6 +821,22 @@ class Organization < ActiveRecord::Base
 
   def welcome_package?
     contacts.ceos.first.try(:welcome_package)
+  end
+
+  # create methods linke :legal_status_file and :legal_status_file=
+  # so we can set the attachment in the organization object
+  [:legal_status, :recommitment_letter, :withdrawal_letter].each do |type|
+
+    name = "#{type}_file="
+    define_method name do |attachment|
+      self.send "build_#{type}", attachment: attachment
+    end
+
+    name = "#{type}_file"
+    define_method name do
+      self.send "#{type}.attachment"
+    end
+
   end
 
   private
