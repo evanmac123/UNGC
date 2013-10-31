@@ -65,12 +65,12 @@
             %li
               = fields.label :number, "Registration number"
               = fields.text_field :number
-            %li
-              %p If a Registration Number is not available, please upload a proof of legal status:
-          %li
+          %li.legal-status
+            %p If a Registration Number is not available, please upload a proof of legal status:
+          %li.legal-status
             = form.label :legal_status, "Proof of legal status"
             = form.file_field :legal_status, { :label => ' ' }
-          %li
+          %li.legal-status
             %p Please provide a copy of your organization’s founding documents (e.g. constitution, memorandum and articles of association, trust deed, Act of Parliament under which the organization is constituted etc.), together with a list of names of individuals on your organization’s governing body, board or similar and other senior office holders.
 
     = form.submit 'Next', :class => 'button'
