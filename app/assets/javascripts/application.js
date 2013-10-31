@@ -239,6 +239,14 @@ $(document).ready(function() {
     }
     $('#contact_form').toggle();
   });
+  
+  // called from signup/step6.html.haml and /admin/organizations/_default_form.html.haml
+  $("#non_business_organization_registration_mission_statement").change(function() {
+    if (this.value.length >= 1000) {
+      alert("Sorry, the Mission Statement must be less than 1000 characters.");
+    }
+  });
+  
   $('a[data-popup]').live('click', function(e) {
       window.open(this.href, 'newWindow', 'left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1');
       e.preventDefault();
