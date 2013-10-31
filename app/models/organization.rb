@@ -765,6 +765,12 @@ class Organization < ActiveRecord::Base
       'A Communication on Progress has not been submitted'
     end
   end
+  
+  def mission_statement?
+    if non_business?
+      non_business_organization_registration && non_business_organization_registration.mission_statement.present?
+    end
+  end
 
   def reverse_roles
 

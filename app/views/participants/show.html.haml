@@ -98,7 +98,7 @@
       %ul
         %li= link_to 'Business and Human Rights Resource Centre', 'http://www.business-humanrights.org/Categories/Individualcompanies/' + @participant.bhr_url
 
-  - if @participant.non_business? && @participant.non_business_organization_registration.mission_statement.present?
+  - if @participant.mission_statement?
     %dt Mission Statement
     %dd
       %ul
