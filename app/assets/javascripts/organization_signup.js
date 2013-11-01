@@ -25,7 +25,7 @@ $(function(){
     }
   });
 
-  if(noErrors()){
+  if(noErrors() || !emptyNumber()){
     hideLegalStatus();
   }
 
