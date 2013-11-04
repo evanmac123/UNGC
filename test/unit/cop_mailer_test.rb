@@ -121,15 +121,13 @@ class CopMailerTest < ActionMailer::TestCase
       response = CopMailer.cop_due_in_30_days(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
       assert_equal "UN Global Compact COP Deadline - 30 Days", response.subject
-      # assert_equal @organization_user.try(:email), response.to.first
-      # do not send to Local Network
-      assert_equal nil, response.cc
+      assert_equal @network_contact.email, response.cc.first
     end
 
     should "be able to send today's reminder" do
       response = CopMailer.cop_due_today(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact COP Deadline - Today", response.subject
+      assert_equal "UN Global Compact COP Deadline - #{@organization.cop_due_on.strftime('%e %B, %Y')} 23:00 UTC", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
@@ -145,7 +143,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "be able to send notice of delisting in 3 months" do
       response = CopMailer.delisting_in_90_days(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact Expulsion in 3 months", response.subject
+      assert_equal "#{@organization.name} at risk of expulsion from UN Global Compact - 3 months", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal [], response.cc
     end
@@ -153,7 +151,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "be able to send 30 days until delisting" do
       response = CopMailer.delisting_in_30_days(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "Urgent - UN Global Compact Expulsion in 30 days", response.subject
+      assert_equal "#{@organization.name} at risk of expulsion from UN Global Compact - 1 month", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal [], response.cc
     end
@@ -161,7 +159,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "be able to send notice of delisting today" do
       response = CopMailer.delisting_today(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact Status - Expelled", response.subject
+      assert_equal "#{@organization.name} expelled from the UN Global Compact", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal [], response.cc
     end
@@ -179,7 +177,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "be able to send notice of delisting in 3 months" do
       response = CopMailer.delisting_in_90_days(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact Expulsion in 3 months", response.subject
+      assert_equal "#{@organization.name} at risk of expulsion from UN Global Compact - 3 months", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
@@ -187,7 +185,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "copy Local Network on 30 days until delisting" do
       response = CopMailer.delisting_in_30_days(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "Urgent - UN Global Compact Expulsion in 30 days", response.subject
+      assert_equal "#{@organization.name} at risk of expulsion from UN Global Compact - 1 month", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
@@ -195,7 +193,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "be able to send notice of delisting today" do
       response = CopMailer.delisting_today(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact Status - Expelled", response.subject
+      assert_equal "#{@organization.name} expelled from the UN Global Compact", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end

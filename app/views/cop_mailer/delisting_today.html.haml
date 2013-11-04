@@ -1,23 +1,23 @@
-To all Contact Points for
-%strong== #{@organization.name}:
+%p{:style => 'text-align: center;'}
+  = link_to 'Ce message en Fran&ccedil;ais'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_today_fr.pdf'
+  |
+  = link_to 'Este mensaje en Espa&ntilde;ol'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_today_es.pdf'
+  |
+  = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_today_ch.pdf'
 
-%p== We regret to inform you that your company was expelled from the Global Compact for failure to submit a Communication on Progress (COP) by #{dd_month_yyyy Date.today} 23:00 UTC.
+Dear Contact Points for
+%strong== #{@organization.name},
 
-%p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website.
-
-%p== When a company fails to meet its submission deadline, it will be listed in the #{link_to '"non-communicating" list of participants', 'http://www.unglobalcompact.org/'+DEFAULTS[:cop_noncommunicating_path]} and the company's #{link_to 'public profile', 'http://www.unglobalcompact.org/participant/'+@organization.id.to_s}. Companies that remain non-communicating for more than a year will be expelled from the initiative.
-
-%p== Should you need any guidance on preparing or submitting your COP, we offer a wide range of #{link_to 'COP tools and publications', 'http://www.unglobalcompact.org/COP/communicating_progress.html'} on the Global Compact website.
-
-%p== Note: All COPs must be submitted online by #{link_to 'logging into the Global Compact website', dashboard_url}. If you do not have your login information, you may #{link_to 'retrieve your username and select a new password', new_contact_password_url}.
+%p== We regret to inform you that today your company has been expelled from the United Nations Global Compact for failure to submit a Communication on Progress (COP). Your company missed its communication deadline on #{dd_month_yyyy @organization.cop_due_on} and it remained as a "Non-communicating" participant for one year without submitting a COP. Per our COP policy, companies are expelled from the initiative for failure to communicate on progress.
 
 %p
-  == If you wish to reverse your expelled status and rejoin the Global Compact, please contact our Participant Management team at #{mail_to 'participants@unglobalcompact.org'}.
+  == If you wish to rejoin the UN Global Compact please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} by email at #{mail_to @organization.participant_manager_email.to_s}.
   - if @organization.network_report_recipients.any?
-    == Additionally, your Local Network Contact Person in #{@organization.country_name} has been copied on this email.
+    == You may also contact your Local Network Contact Person in #{@organization.country_name}, who has been copied on this email.
 
 %p Sincerely,
 
-%p The Global Compact Office
-
-= render :partial => '/shared/ungc_signature'
+%p
+  Transparency and Disclosure Team
+  %br/
+  = render :partial => '/shared/ungc_signature'
