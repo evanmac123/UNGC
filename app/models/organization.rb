@@ -343,6 +343,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def network_report_recipient_name
+    network_report_recipients.first.full_name_with_title
+  end
+
   def self.find_by_param(param)
     return nil if param.blank?
     # param = CGI.unescape param
@@ -797,7 +801,7 @@ class Organization < ActiveRecord::Base
       'A Communication on Progress has not been submitted'
     end
   end
-  
+
   def mission_statement?
     if non_business?
       non_business_organization_registration && non_business_organization_registration.mission_statement.present?

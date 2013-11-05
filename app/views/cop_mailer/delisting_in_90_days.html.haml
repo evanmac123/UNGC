@@ -1,30 +1,28 @@
-To all Contact Points for
-%strong== #{@organization.name}:
+%p{:style => 'text-align: center;'}
+  = link_to 'Ce message en Fran&ccedil;ais'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_90_days_fr.pdf'
+  |
+  = link_to 'Este mensaje en Espa&ntilde;ol'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_90_days_es.pdf'
+  |
+  = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_90_days_ch.pdf'
 
-%p== Your company is currently listed as "non-communicating" on the Global Compact website and will be expelled from the initiative if it fails to submit a Communication on Progress by #{dd_month_yyyy Date.today + 90.days} 23:00 UTC.
+Dear Contact Points for
+%strong== #{@organization.name},
 
-%p== The Global Compact #{link_to 'COP policy', 'http://www.unglobalcompact.org/COP/communicating_progress/cop_policy.html'} requires companies to communicate progress annually with stakeholders on their implementation of the 10 principles and to publish their Communication on Progress (COP) on the Global Compact website.
+%p==This message is regarding the potential expulsion of #{@organization.name} from the UN Global Compact for failing to submit a Communication on Progress (COP).  Please submit your company's COP on our website by #{dd_month_yyyy @organization.delisting_on} to avoid being expelled from the initiative and appearing under #{link_to 'Expelled Participants', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html'} on our website and in our next press release announcing the names of expelled companies.
 
-%p== When a company fails to meet its submission deadline, it will be listed in the #{link_to '"non-communicating" list of participants', 'http://www.unglobalcompact.org/'+DEFAULTS[:cop_noncommunicating_path]} and the company's #{link_to 'public profile', 'http://www.unglobalcompact.org/participant/'+@organization.id.to_s}. Companies that remain non-communicating for more than a year will be expelled from the initiative.
-
-%p== Should you need any guidance on preparing or submitting your COP, we offer a wide range of #{link_to 'COP tools and publications', 'http://www.unglobalcompact.org/COP/communicating_progress.html'} on the Global Compact website.
-
-%p== Note: All COPs must be submitted online by #{link_to 'logging into the Global Compact website', dashboard_url}. If you do not have your login information, you may #{link_to 'retrieve your username and select a new password', new_contact_password_url}.
+%p==For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COP. In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
 
 %p
-  If you require additional time to submit your COP, you may obtain a
-  %strong grace period
-  == of 90 days from the COP deadline by submitting a letter with a reasonable explanation on the Global Compact website. #{link_to 'Submitting a Grace Letter: A Step-by-Step Guide (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/Grace_Letter_Step_by_Step_Guide.pdf'}
+  ==If you have any questions related to your COP or to any other aspect of your participation in the UN Global Compact, please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} via phone at #{@organization.participant_manager_phone} or email at #{mail_to @organization.participant_manager_email.to_s}.
 
-%p== If you have further questions on the COP policy or tools, please consult the #{link_to 'FAQs', 'http://unglobalcompact.org/COP/frequently_asked_questions.html'} or contact the COP team at #{mail_to 'cop@unglobalcompact.org'}.
-
-- if @organization.network_report_recipients.any?
-  %p== Additionally, your Local Network Contact Person in #{@organization.country_name} has been copied on this email.
-
-%p We look forward to the timely submission of your COP.
+  - if @organization.network_report_recipients.any?
+    == Additionally, your Local Network contact point, #{@organization.network_report_recipient_name} in #{@organization.country_name}, copied on this email, would be happy to provide you with further support and information.
 
 %p Sincerely,
 
-%p The Global Compact Office
+%p
+  Transparency and Disclosure Team
+  %br/
+  = render :partial => '/shared/ungc_signature'
 
-= render :partial => '/shared/ungc_signature'
+= render :partial => '/shared/cops/cop_resources_for_email.html.haml'
