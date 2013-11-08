@@ -99,8 +99,20 @@ class OrganizationSignup
     registration.errors.clear
     if non_business?
 
-      if @registration.number.blank? && @legal_status_id.blank?
+      if registration.number.blank? && @legal_status_id.blank?
         registration.errors.add :number, "can't be blank"
+      end
+
+      if registration.place.blank?
+        registration.errors.add :place, "can't be blank"
+      end
+
+      if registration.authority.blank?
+        registration.errors.add :authority, "can't be blank"
+      end
+
+      if registration.date.blank?
+        registration.errors.add :date, "can't be blank"
       end
 
       if complete
