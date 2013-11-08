@@ -14,7 +14,16 @@
 class NonBusinessOrganizationRegistration < ActiveRecord::Base
   belongs_to :organization
 
-  validates :mission_statement, length: { in: 1..1000 }, if: Proc.new { organization.nil? || organization.created_at >= START_DATE_OF_NON_BUSINESS }
+  validates :date, presence: true, if: :needs_validation?
+  validates :place, presence: true, if: :needs_validation?
+  validates :authority, presence: true, if: :needs_validation?
+  validates :mission_statement, length: { in: 1..1000 }, if: :needs_validation?
 
   START_DATE_OF_NON_BUSINESS = Date.new(2013, 10, 31)
+
+  private
+
+    def needs_validation?
+      return organization.nil? || organization.created_at >= START_DATE_OF_NON_BUSINESS
+    end
 end

@@ -35,11 +35,12 @@ class Admin::OrganizationsController < AdminController
   end
 
   def update
-    if OrganizationUpdater.new(@organization, current_contact, params).update
+    org_updater = OrganizationUpdater.new(@organization, current_contact, params)
+    if org_updater.update
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to_dashboard
     else
-      flash[:error] = @organization.errors.full_messages.to_sentence
+      flash[:error] = org_updater.error_message
       @organization_types = OrganizationType.staff_types
       render :action => "edit"
     end
