@@ -859,18 +859,13 @@ class Organization < ActiveRecord::Base
     contacts.ceos.first.try(:welcome_package)
   end
 
-  # create methods linke :legal_status_file and :legal_status_file=
+  # create methods like :legal_status_file=
   # so we can set the attachment in the organization object
   [:legal_status, :recommitment_letter, :withdrawal_letter].each do |type|
 
     name = "#{type}_file="
     define_method name do |attachment|
       self.send "build_#{type}", attachment: attachment
-    end
-
-    name = "#{type}_file"
-    define_method name do
-      self.send "#{type}.attachment"
     end
 
   end

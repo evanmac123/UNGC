@@ -18,10 +18,17 @@ class NonBusinessOrganizationRegistration < ActiveRecord::Base
   validates :place, presence: true, if: :needs_validation?
   validates :authority, presence: true, if: :needs_validation?
   validates :mission_statement, length: { in: 1..1000 }, if: :needs_validation?
+  validate  :number_presence, if: :needs_validation?
 
   START_DATE_OF_NON_BUSINESS = Date.new(2013, 10, 31)
 
   private
+
+    def number_presence
+      if (organization.nil? || !organization.legal_status) && number.blank?
+        errors.add :number, "can't be blank"
+      end
+    end
 
     def needs_validation?
       return organization.nil? || organization.created_at >= START_DATE_OF_NON_BUSINESS
