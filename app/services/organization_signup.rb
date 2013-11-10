@@ -104,7 +104,7 @@ class OrganizationSignup
       end
 
       if registration.place.blank?
-        registration.errors.add :place, "can't be blank"
+        registration.errors.add :place, "of Registration can't be blank"
       end
 
       if registration.authority.blank?
@@ -112,7 +112,7 @@ class OrganizationSignup
       end
 
       if registration.date.blank?
-        registration.errors.add :date, "can't be blank"
+        registration.errors.add :date, "of Registration can't be blank"
       end
 
       if complete
