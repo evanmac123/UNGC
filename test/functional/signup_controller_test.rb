@@ -152,6 +152,9 @@ class SignupControllerTest < ActionController::TestCase
                                        :country_id           => Country.first.id,
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
                                        {:number              => "test",
+                                        :date => "12/3/2013",
+                                        :place => "bla",
+                                        :authority => "bla",
                                         :mission_statement   => "A"})
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
@@ -175,6 +178,9 @@ class SignupControllerTest < ActionController::TestCase
                                        :country_id           => Country.first.id,
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
                                        {:number              => "test",
+                                        :date => "12/3/2013",
+                                        :place => "bla",
+                                        :authority => "bla",
                                         :mission_statement   => "A"})
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
@@ -196,6 +202,9 @@ class SignupControllerTest < ActionController::TestCase
                                        :country_id           => Country.first.id,
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')},
                                        {:number              => "test",
+                                        :date => "12/3/2013",
+                                        :place => "bla",
+                                        :authority => "bla",
                                         :mission_statement   => "A"})
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)

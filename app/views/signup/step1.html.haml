@@ -48,7 +48,7 @@
 #main_content
   = form_for(@signup.organization, url: organization_step2_path) do |form|
     = hidden_field_tag :org_type, @signup.org_type
-    = form.error_messages
+    = error_messages_for @signup.organization, @signup.registration
     %fieldset
       %ol
         %li

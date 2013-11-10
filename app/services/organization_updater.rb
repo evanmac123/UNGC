@@ -17,6 +17,14 @@ class OrganizationUpdater
       organization.set_last_modified_by(contact)
   end
 
+  def error_message
+    message = organization.errors.full_messages.to_sentence
+    if organization.non_business?
+      message += organization.non_business_organization_registration.errors.full_messages.to_sentence
+    end
+    message
+  end
+
   private
 
     def update_contact

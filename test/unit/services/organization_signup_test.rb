@@ -135,11 +135,17 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     should "validate registration partially" do
       assert !@os.valid_registration?, "should be invalid"
       @os.registration.number = "bla"
+      @os.registration.date = "12/3/2013"
+      @os.registration.place = "bla"
+      @os.registration.authority = "bla"
       assert @os.valid_registration?, "should be valid"
     end
 
     should "validate registration completely" do
       @os.registration.number = "bla"
+      @os.registration.date = "12/3/2013"
+      @os.registration.place = "bla"
+      @os.registration.authority = "bla"
       assert !@os.valid_registration?(true), "should be invalid"
       @os.registration.mission_statement = "test"
       assert @os.valid_registration?(true), "should be valid"
