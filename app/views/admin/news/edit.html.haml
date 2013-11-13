@@ -2,6 +2,6 @@
 
 = form_for @headline, url: admin_headline_path(@headline), builder: DefaultFormBuilder do |form|
   = render form
-  = form.submit 'Save changes', class: 'button'
-
-= link_to 'Back', admin_headlines_path
+  %ul{class: "tools inline", style: 'float: right;'}
+    %li= link_to 'Cancel', admin_headlines_path, class: 'cancel_large'
+    %li= form.submit 'Save changes', class: 'button', style: 'float: right;'
