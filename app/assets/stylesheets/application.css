@@ -127,21 +127,21 @@ body.tools_resources  #inner_head { background: url(/assets/banner_tools_resourc
 #nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
-#nav ul { list-style: none; position: absolute; top: 3px; left: 20px; height: 22px; z-index: 10; white-space: nowrap;}
-#nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; }
-#nav ul li.aboutus { width: 55px; }
-#nav ul li.participate { width: 105px; }
-#nav ul li.communicating { width: 162px; }
-#nav ul li.participants { width: 160px; }
-#nav ul li.networks { width: 90px; }
-#nav ul li.issues { width: 38px; }
-#nav ul li.newsevents { width: 90px; }
-#nav ul li.login { width: 30px; border-right: 0; }
-#nav ul li.login ul li { width: 70px; border-right: 1px solid #999; }
+#nav ul { list-style: none; position: absolute; top: 3px; left: 40px; height: 22px; z-index: 10; white-space: nowrap;}
+#nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; text-align: center; }
+#nav ul li.aboutus { width: 60px; }
+#nav ul li.participate { width: 112px; }
+#nav ul li.communicating { width: 72px; }
+#nav ul li.participants { width: 172px; }
+#nav ul li.networks { width: 102px; }
+#nav ul li.issues { width: 52px; }
+#nav ul li.newsevents { width: 102px; }
+#nav ul li.login { width: 42px; border-right: 0; }
+#nav ul li.login ul li { width: 72px; border-right: 1px solid #999; }
 #nav ul li a { font-size: 12px; font-weight: bold; color: #000; height: 28px; display: block; height: 100%; padding-top: 5px;}
 #nav ul li a:hover { color: #3a7a8e; }
 #nav ul li ul {list-style: none; position: relative; top: -2px; left: -13px; visibility: hidden; opacity: 0.95; white-space: normal;}
-#nav ul li ul li { display: block; float: none; background: #fff; width: 150px; height: auto; border-bottom: 1px solid #c8c8c8; padding: 2px 13px 2px 13px; position: relative; }
+#nav ul li ul li { text-align: left; display: block; float: none; background: #fff; width: 150px; height: auto; border-bottom: 1px solid #c8c8c8; padding: 2px 13px 2px 13px; position: relative; }
 #nav ul li ul li a { font-size: 11px; color: #222; }
 
 #content_bg { background: #f2f2f2 url(/assets/gradient.jpg) left top repeat-x; border-bottom: 1px solid #ebebeb; display: block; height: inherit; width: 1000px; margin: 0 auto; }
