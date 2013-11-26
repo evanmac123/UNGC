@@ -184,6 +184,7 @@ class Organization < ActiveRecord::Base
   REVIEW_REASONS = {
     :duplicate            => 'Duplicate',
     :incomplete_cop       => 'Incomplete - Missing COP Statement',
+    :incomplete_coe       => 'Incomplete - Missing COE Statement',
     :incomplete_format    => 'Incomplete - Incorrect Format',
     :incomplete_signature => 'Incomplete - Signature from CEO',
     :integrity_measure    => 'Integrity Measure',
