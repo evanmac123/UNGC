@@ -81,32 +81,20 @@
         %label{:style => 'margin-right: 20px;'} Letter of Commitment
         = file_field_tag "organization[commitment_letter]"
         - if @organization.commitment_letter?
-          = link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
+          = link_to truncate(@organization.commitment_letter_file_name, :length => 80), @organization.commitment_letter.url, {:title => @organization.commitment_letter_file_name}
         - else
           no file uploaded
       - if @organization.non_business?
         %li
           %label{:style => 'margin-right: 20px;'} Legal Status
-          = file_field_tag "organization[legal_status_file]"
-          - if @organization.legal_status
-            = link_to @organization.legal_status.attachment_file_name, @organization.legal_status.attachment.url
-          - else
-            no file uploaded
+          = link_to_document(@organization, 'legal_status')
 
     -staff_only do
       %li
         %label{:style => 'margin-right: 20px;'} Letter of Recommitment
-        = file_field_tag "organization[recommitment_letter_file]"
-        - if @organization.recommitment_letter
-          = link_to @organization.recommitment_letter.attachment_file_name, @organization.recommitment_letter.attachment.url
-        - else
-          no file uploaded
+        = link_to_document(@organization, 'recommitment_letter')
       %li
         %label{:style => 'margin-right: 20px;'} Withdrawal Letter
-        = file_field_tag "organization[withdrawal_letter_file]"
-        - if @organization.withdrawal_letter
-          = link_to @organization.withdrawal_letter.attachment_file_name, @organization.withdrawal_letter.attachment.url
-        - else
-          no file uploaded
+        = link_to_document(@organization, 'withdrawal_letter')
 
 = initial_organization_state @organization

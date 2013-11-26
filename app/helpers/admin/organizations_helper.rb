@@ -168,4 +168,15 @@ module Admin::OrganizationsHelper
     end
   end
 
+  def link_to_document(organization, document)
+    html = ''
+    html = file_field_tag "organization[#{document}_file]"
+      if organization.send("#{document}")
+        html += link_to truncate(@organization.send("#{document}").attachment_file_name, :length => 90), @organization.send("#{document}").attachment.url, {:title => @organization.send("#{document}").attachment_file_name}
+      else
+        html += "no file uploaded"
+    end
+    html.html_safe
+  end
+
 end
