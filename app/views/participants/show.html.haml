@@ -2,11 +2,18 @@
 %h1= @participant.name
 
 %dl
-  %dt= display_participant_status_title(@participant)
+  %dt Status
   %dd
     %ul
       %li
         = display_participant_status(@participant)
+
+  - if @participant.delisted?
+    %dt= display_delisted_description(@participant)
+    %dd
+      %ul
+        %li= @participant.removal_reason.description rescue "Unknown"
+
   %dt
     - if @participant.was_expelled? && @participant.active
       Initial Participation
@@ -15,27 +22,24 @@
   %dd
     %ul
       %li= yyyy_mm_dd @participant.joined_on
-  - if @participant.was_expelled? && @participant.active
-    %dt Expelled
+
+  - if @participant.was_expelled? || @participant.delisted?
+    %dt= display_delisted_title(@participant)
     %dd
       %ul
         %li= yyyy_mm_dd @participant.delisted_on
+
+  - if @participant.was_expelled? && @participant.active
     %dt Readmitted
     %dd
       %ul
         %li= yyyy_mm_dd @participant.rejoined_on
-  - if @participant.cop_due_on.present?
+
+  - if @participant.cop_due_on.present? && !@participant.delisted?
     %dt= display_cop_status_title(@participant)
     %dd
       %ul
-        %li
-          = display_cop_status(@participant)
-
-  - if @participant.delisted?
-    %dt= display_delisted_description(@participant)
-    %dd
-      %ul
-        %li= @participant.removal_reason.description rescue "Unknown"
+        %li= display_cop_status(@participant)
 
   - elsif @participant.business_entity? && @participant.participant_has_submitted_differentiation_cop
     %dt Differentiation Level
