@@ -23,14 +23,8 @@
     %ul
       %li= yyyy_mm_dd @participant.joined_on
 
-  - if @participant.delisted?
-    %dt Delisted on
-    %dd
-      %ul
-        %li= yyyy_mm_dd @participant.delisted_on
-
-  - if @participant.was_expelled?
-    %dt Expelled on
+  - if @participant.was_expelled? || @participant.delisted?
+    %dt= display_delisted_title(@participant)
     %dd
       %ul
         %li= yyyy_mm_dd @participant.delisted_on
