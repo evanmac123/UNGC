@@ -12,6 +12,7 @@
 #  attachment_content_type        :string(255)
 #  attachment_updated_at          :datetime
 #  attachment_unmodified_filename :string(255)
+#  attachable_key                 :string(255)
 #
 
 Paperclip.interpolates(:attachable_type) { |attachment, style|
