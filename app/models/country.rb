@@ -6,7 +6,6 @@
 #  code                   :string(255)
 #  name                   :string(255)
 #  region                 :string(255)
-#  network_type           :integer
 #  created_at             :datetime
 #  updated_at             :datetime
 #  manager_id             :integer

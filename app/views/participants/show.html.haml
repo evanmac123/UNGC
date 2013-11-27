@@ -41,7 +41,7 @@
       %ul
         %li= display_cop_status(@participant)
 
-  - elsif @participant.business_entity? && @participant.participant_has_submitted_differentiation_cop
+  - if @participant.business_entity? && @participant.participant_has_submitted_differentiation_cop
     %dt Differentiation Level
     %dd
       %ul
