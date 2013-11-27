@@ -1,4 +1,4 @@
-= default_form.error_messages
+= error_messages_for @organization, @organization.non_business_organization_registration
 %fieldset
   %legend Details
   %ol
@@ -17,18 +17,10 @@
       = default_form.text_field :stock_symbol, :li_class => 'public_company_only'
       = default_form.check_box :is_ft_500, :label => 'FT 500', :li_class => 'public_company_only'
       = default_form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @organization.sector_id), :li_class => 'company_only'
-      = default_form.select :revenue, options_for_select(Organization::REVENUE_LEVELS.invert), {:include_blank => @organization.revenue.blank?}, :li_class => 'company_only'
+      = default_form.select :revenue, Organization::REVENUE_LEVELS.collect{|key,value| [value,key]}, {:include_blank => @organization.revenue.blank?}, :li_class => 'company_only'
 
     - staff_only do
       = default_form.collection_select :country_id, Country.all, :id, :name
-  - if can_edit_letter? @organization
-    %label{:style => 'margin-right: 25px;'} Letter of Commitment
-    - if @organization.commitment_letter?
-      %li= link_to @organization.commitment_letter_file_name, @organization.commitment_letter.url
-      = default_form.file_field :commitment_letter, {:label => 'Replace file'}
-    - else
-      The Letter of Commitment has not been uploaded
-      = default_form.file_field :commitment_letter, {:label => 'Upload file'}
 
 - staff_only do
 
@@ -60,5 +52,49 @@
         %ol
           = default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
 
+- if @organization.non_business?
+  %fieldset
+    %legend Legal Status
+    = fields_for @organization.non_business_organization_registration do |fields|
+      %ol
+        %li
+          = fields.label :date, "Date of Registration"
+          = fields.text_field :date, :class => 'datepicker iso-date', :size => 11
+        %li
+          = fields.label :place, "Place of Registration"
+          = fields.text_field :place
+        %li
+          = fields.label :authority, "Public Authority"
+          = fields.text_field :authority
+        %li
+          = fields.label :number, "Registration number"
+          = fields.text_field :number
+        %li
+          = fields.label :mission_statement, "Mission statement"
+          = fields.text_area :mission_statement
+
+- if can_edit_letter? @organization
+  %fieldset
+    %legend Documents
+    %ol
+      %li
+        %label{:style => 'margin-right: 20px;'} Letter of Commitment
+        = file_field_tag "organization[commitment_letter]"
+        - if @organization.commitment_letter?
+          = link_to truncate(@organization.commitment_letter_file_name, :length => 80), @organization.commitment_letter.url, {:title => @organization.commitment_letter_file_name}
+        - else
+          no file uploaded
+      - if @organization.non_business?
+        %li
+          %label{:style => 'margin-right: 20px;'} Legal Status
+          = link_to_document(@organization, 'legal_status')
+
+    -staff_only do
+      %li
+        %label{:style => 'margin-right: 20px;'} Letter of Recommitment
+        = link_to_document(@organization, 'recommitment_letter')
+      %li
+        %label{:style => 'margin-right: 20px;'} Withdrawal Letter
+        = link_to_document(@organization, 'withdrawal_letter')
 
 = initial_organization_state @organization

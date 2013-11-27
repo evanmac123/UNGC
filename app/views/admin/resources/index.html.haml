@@ -3,40 +3,21 @@
 %ul.tools.inline
   %li= link_to 'New Resource', new_admin_resource_path, :title => "New Resource", class: 'new_large'
 
-%table.dashboard_table.resource-index-table
-  %tr
-    %th= sort_header 'ID', field: 'id'
-    %th= sort_header 'Title', field: 'title'
-    %th= sort_header 'Year', field: 'year'
-    %th= sort_header 'Topics', field: 'principles_count'
-    %th.status-cell= sort_header 'Status', field: 'approved_at'
-    %th.action-cell Actions
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li
+    - Resource::STATES.each do |key, value|
+      %li
+        %a{:href => "##{key}"}== #{value} (#{Resource.send("#{key}").count})
 
-  - @resources.each do |resource|
-    %tr
-      %td= resource.id
-      %td.nowrap{:title => resource.title}
-        %h5{style: 'margin-bottom: 0;'}= truncate(resource.title, :length => 90)
-        - unless resource.approved?
-          %ul{style: 'margin: 0.35em 0 0 0; line-height: 1.5em; list-style:none; color: #444;'}
-            - resource.authors.each do |a|
-              %li= a.full_name
-      %td
-        = resource.year.year rescue nil
-      %td
-        = resource.principles_count
-      %td.status-cell
-        = h approval_name(resource)
-        - if resource.approved? || resource.revoked?
-          %br/
-          %span.small
-            = "#{resource.approved_at} by #{approver_name(resource)}"
-
-      %td.action-cell.nowrap
-        %ul.actions
-          %li
-            = link_to 'Show', admin_resource_path(resource.id), :class => "preview", :title => "Show"
-          %li
-            = link_to 'Edit', edit_admin_resource_path(resource.id), :class => "edit", :title => "Edit"
-          %li
-            = link_to 'Destroy', admin_resource_path(resource.id), :class => "delete", :title => "Delete", :method => :delete, :confirm => 'Are you sure you want to delete this Resource?'
+  - Resource::STATES.keys.each do |value|
+    .tab_content{:id => value}
+      %table.dashboard_table
+        %tr
+        %th= sort_header 'ID', field: 'id', tab: value
+        %th= sort_header 'Title', field: 'title', tab: value
+        %th= sort_header 'Year', field: 'year', tab: value
+        %th= sort_header 'Topics', field: 'principles_count', tab: value
+        %th.status-cell= sort_header 'Updated', field: resource_sort_field(value), tab: value
+        %th.action-cell Actions
+        = render @resources.find_all{ |item| item.approval == value.to_s }

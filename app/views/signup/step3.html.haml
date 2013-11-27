@@ -3,7 +3,7 @@
 %p The Highest Level Executive (Chief Executive Officer or equivalent) signs the Letter of Commitment for your organization. After your application is reviewed and accepted, this person will receive official documents such as policy updates, reports, and invitations to special events via postal mail.
 %p
 #main_content
-  = form_for(@ceo, :url => @next_step) do |form|
+  = form_for(@signup.ceo, :url => @next_step) do |form|
     = form.error_messages
     = render :partial => 'contact_form', :locals => { :form => form, :account_info => false, :contact_type => 'Highest Level Executive', :financial_contact => false, :welcome_package => true }
     = form.submit 'Next', :class => 'button'

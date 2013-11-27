@@ -74,6 +74,20 @@ class Organization < ActiveRecord::Base
   belongs_to :removal_reason
   belongs_to :participant_manager, :class_name => 'Contact'
 
+  has_one :non_business_organization_registration
+
+  ORGANIZATION_FILE_TYPES = { :commitment_letter => 'commitment_letter', # this has to be migrated first
+                              :recommitment_letter => 'recommitment_letter',
+                              :withdrawal_letter => 'withdrawal_letter',
+                              :legal_status => 'legal_status' }
+
+  has_one :legal_status, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:legal_status]}, :dependent => :destroy
+  has_one :recommitment_letter, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:recommitment_letter]}, :dependent => :destroy
+  has_one :withdrawal_letter, :class_name => 'UploadedFile', :as => 'attachable',
+            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:withdrawal_letter]}, :dependent => :destroy
+
   attr_accessor :delisting_on
 
   # if the date is set, then the participant
@@ -135,6 +149,8 @@ class Organization < ActiveRecord::Base
 
   COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
+  NEXT_BUSINESS_COP_YEAR = 1
+  NEXT_NON_BUSINESS_COP_YEAR = 2
 
   REVENUE_LEVELS = {
     1 => 'less than USD 50 million',
@@ -168,6 +184,7 @@ class Organization < ActiveRecord::Base
   REVIEW_REASONS = {
     :duplicate            => 'Duplicate',
     :incomplete_cop       => 'Incomplete - Missing COP Statement',
+    :incomplete_coe       => 'Incomplete - Missing COE Statement',
     :incomplete_format    => 'Incomplete - Incorrect Format',
     :incomplete_signature => 'Incomplete - Signature from CEO',
     :integrity_measure    => 'Integrity Measure',
@@ -327,6 +344,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def network_report_recipient_name
+    network_report_recipients.first.full_name_with_title
+  end
+
   def self.find_by_param(param)
     return nil if param.blank?
     # param = CGI.unescape param
@@ -344,12 +365,32 @@ class Organization < ActiveRecord::Base
     organization_type.try(:name) == 'SME'
   end
 
+  def non_business?
+    organization_type.non_business?
+  end
+
   def academic?
     organization_type == OrganizationType.academic
   end
 
   def city?
     organization_type == OrganizationType.city
+  end
+
+  def labour?
+    OrganizationType.labour.include? organization_type
+  end
+
+  def ngo?
+    OrganizationType.ngo.include? organization_type
+  end
+
+  def business_association?
+    OrganizationType.business_association.include? organization_type
+  end
+
+  def public_sector?
+    organization_type == OrganizationType.public_sector
   end
 
   def organization_type_name_for_custom_links
@@ -361,6 +402,24 @@ class Organization < ActiveRecord::Base
       'city'
     else
       'non_business'
+    end
+  end
+
+  def non_business_type
+    if academic?
+      'academic'
+    elsif city?
+      'city'
+    elsif labour?
+      'labour'
+    elsif ngo?
+      'ngo'
+    elsif business_association?
+      'business_association'
+    elsif public_sector?
+      'public'
+    else
+      raise 'Invalid non-business organization type'
     end
   end
 
@@ -491,6 +550,14 @@ class Organization < ActiveRecord::Base
     string = CGI.escape(string)
   end
 
+  def cop_name
+    company? ? "Communication on Progress" : "Communication on Engagement"
+  end
+
+  def cop_acronym
+    company? ? "COP" : "COE"
+  end
+
   def last_approved_cop
     communication_on_progresses.approved.first if communication_on_progresses.approved.any?
   end
@@ -580,6 +647,10 @@ class Organization < ActiveRecord::Base
     joined_on.to_time.years_since(years) >= Time.now
   end
 
+  def years_until_next_cop_due
+    company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
+  end
+
   # Policy specifies 90 days, so we extend the current due date
   def extend_cop_grace_period
     self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
@@ -594,12 +665,12 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, cop_due_on + 1.year)
   end
 
-  # COP's next due date is 1 year from current date
+  # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
   def set_next_cop_due_date_and_cop_status
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
-    self.update_attribute :cop_due_on, 1.year.from_now
+    self.update_attribute :cop_due_on, years_until_next_cop_due.year.from_now
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
   end
@@ -684,7 +755,7 @@ class Organization < ActiveRecord::Base
     if cop_state == COP_STATE_DELISTED
       nil
     else
-      cop_due_on + 1.year unless cop_due_on.nil?
+      cop_due_on + years_until_next_cop_due.year unless cop_due_on.nil?
     end
   end
 
@@ -729,6 +800,12 @@ class Organization < ActiveRecord::Base
 
     else
       'A Communication on Progress has not been submitted'
+    end
+  end
+
+  def mission_statement?
+    if non_business?
+      non_business_organization_registration && non_business_organization_registration.mission_statement.present?
     end
   end
 
@@ -781,6 +858,22 @@ class Organization < ActiveRecord::Base
 
   def welcome_package?
     contacts.ceos.first.try(:welcome_package)
+  end
+
+  # create methods linke :legal_status_file and :legal_status_file=
+  # so we can set the attachment in the organization object
+  [:legal_status, :recommitment_letter, :withdrawal_letter].each do |type|
+
+    name = "#{type}_file="
+    define_method name do |attachment|
+      self.send "build_#{type}", attachment: attachment
+    end
+
+    name = "#{type}_file"
+    define_method name do
+      self.send "#{type}.attachment"
+    end
+
   end
 
   private

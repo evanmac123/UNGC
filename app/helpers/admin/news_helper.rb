@@ -7,7 +7,4 @@ module Admin::NewsHelper
     "#{yyyy_mm_dd(headline.starts_on)} - #{yyyy_mm_dd(headline.ends_on)}"
   end
 
-  def countries_for_select
-    [''] + Country.find(:all, :order => 'name ASC').map { |c| [c.name, c.id] }
-  end
 end

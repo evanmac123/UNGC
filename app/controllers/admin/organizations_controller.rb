@@ -3,6 +3,7 @@ class Admin::OrganizationsController < AdminController
   before_filter :load_organization_types, :only => :new
   before_filter :no_rejected_organizations_access, :only => :edit
   before_filter :no_access_to_other_organizations
+  before_filter :fetch_registration, only: [:edit, :update]
   helper :participants, 'admin/contacts'
 
   def index
@@ -34,19 +35,12 @@ class Admin::OrganizationsController < AdminController
   end
 
   def update
-    @organization.state = Organization::STATE_IN_REVIEW if @organization.state == Organization::STATE_PENDING_REVIEW
-    @organization.set_replied_to(current_contact) if Organization::STATE_IN_REVIEW
-    @organization.set_manual_delisted_status if params[:organization][:active] == '0'
-
-    if @organization.update_attributes(params[:organization])
-      @organization.set_last_modified_by(current_contact)
+    org_updater = OrganizationUpdater.new(@organization, current_contact, params)
+    if org_updater.update
       flash[:notice] = 'Organization was successfully updated.'
-      if current_contact.from_ungc?
-        redirect_to( admin_organization_path(@organization.id) )
-      elsif current_contact.from_organization?
-        redirect_to( dashboard_path )
-      end
+      redirect_to_dashboard
     else
+      flash[:error] = org_updater.error_message
       @organization_types = OrganizationType.staff_types
       render :action => "edit"
     end
@@ -226,4 +220,17 @@ class Admin::OrganizationsController < AdminController
       Time.parse params[param_name]
     end
 
+    def fetch_registration
+      if @organization.non_business?
+        @organization.non_business_organization_registration || @organization.build_non_business_organization_registration
+      end
+    end
+
+    def redirect_to_dashboard
+      if current_contact.from_ungc?
+        redirect_to( admin_organization_path(@organization.id) )
+      elsif current_contact.from_organization?
+        redirect_to( dashboard_path )
+      end
+    end
 end

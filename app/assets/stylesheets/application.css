@@ -127,21 +127,21 @@ body.tools_resources  #inner_head { background: url(/assets/banner_tools_resourc
 #nav_bg { width: 1000px; height: 28px; position: relative; top: 132px; left: 0px; z-index: 5; margin: 0 auto; }
 #nav_bg .transparency { width: 1000px; height: 28px; position: absolute; top: 0px; left: 0px; opacity: 0.65; background-color: #fff; }
 #nav { margin: 0 auto 0 auto; position: relative; width: 1000px; height: 30px; }
-#nav ul { list-style: none; position: absolute; top: 3px; left: 20px; height: 22px; z-index: 10; white-space: nowrap;}
-#nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; }
-#nav ul li.aboutus { width: 55px; }
-#nav ul li.participate { width: 105px; }
-#nav ul li.communicating { width: 162px; }
-#nav ul li.participants { width: 160px; }
-#nav ul li.networks { width: 90px; }
-#nav ul li.issues { width: 38px; }
-#nav ul li.newsevents { width: 90px; }
-#nav ul li.login { width: 30px; border-right: 0; }
-#nav ul li.login ul li { width: 70px; border-right: 1px solid #999; }
+#nav ul { list-style: none; position: absolute; top: 3px; left: 40px; height: 22px; z-index: 10; white-space: nowrap;}
+#nav ul li { border-right: 1px solid #999; display: block; float: left; padding: 0 13px 0 13px; height: 22px; text-align: center; }
+#nav ul li.aboutus { width: 60px; }
+#nav ul li.participate { width: 112px; }
+#nav ul li.communicating { width: 72px; }
+#nav ul li.participants { width: 172px; }
+#nav ul li.networks { width: 102px; }
+#nav ul li.issues { width: 52px; }
+#nav ul li.newsevents { width: 102px; }
+#nav ul li.login { width: 42px; border-right: 0; }
+#nav ul li.login ul li { width: 72px; border-right: 1px solid #999; }
 #nav ul li a { font-size: 12px; font-weight: bold; color: #000; height: 28px; display: block; height: 100%; padding-top: 5px;}
 #nav ul li a:hover { color: #3a7a8e; }
 #nav ul li ul {list-style: none; position: relative; top: -2px; left: -13px; visibility: hidden; opacity: 0.95; white-space: normal;}
-#nav ul li ul li { display: block; float: none; background: #fff; width: 150px; height: auto; border-bottom: 1px solid #c8c8c8; padding: 2px 13px 2px 13px; position: relative; }
+#nav ul li ul li { text-align: left; display: block; float: none; background: #fff; width: 150px; height: auto; border-bottom: 1px solid #c8c8c8; padding: 2px 13px 2px 13px; position: relative; }
 #nav ul li ul li a { font-size: 11px; color: #222; }
 
 #content_bg { background: #f2f2f2 url(/assets/gradient.jpg) left top repeat-x; border-bottom: 1px solid #ebebeb; display: block; height: inherit; width: 1000px; margin: 0 auto; }
@@ -242,20 +242,18 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #footer_logos { position: absolute; top: 35px; left: 50px; }
 #footer_logos ul li { display: inline; position: absolute; top: 10px; }
 #footer_logos ul li a { width: 100%; height: 100%; display: block; }
-#footer_logos ul li.gcf { top: 0; height: 36px; width: 136px; background: url(/assets/partner_logo_3.png) no-repeat; opacity: 0.4; }
+#footer_logos ul li.gcf { top: 0; left: 10px; height: 36px; width: 136px; background: url(/assets/partner_logo_3.png) no-repeat; opacity: 0.4; }
 #footer_logos ul li.gcf:hover { background-position: -136px; opacity: 1; }
-#footer_logos ul li.gri { top: 7px; left: 195px; height: 26px; width: 66px; background: url(/assets/partner_logo_4.png) no-repeat; opacity: 0.3; }
+#footer_logos ul li.gri { top: 7px; left: 242px; height: 26px; width: 66px; background: url(/assets/partner_logo_4.png) no-repeat; opacity: 0.3; }
 #footer_logos ul li.gri:hover { background-position: -67px; opacity: 1;}
-#footer_logos ul li.prme { top: 9px; left: 325px; height: 22px; width: 83px; background: url(/assets/partner_logo_2.png) no-repeat; opacity: 0.2; }
+#footer_logos ul li.prme { top: 9px; left: 405px; height: 22px; width: 83px; background: url(/assets/partner_logo_2.png) no-repeat; opacity: 0.2; }
 #footer_logos ul li.prme:hover { background-position: -84px; opacity: 1;}
-#footer_logos ul li.pri { top: 9px; left: 475px; height: 22px; width: 63px; background: url(/assets/partner_logo_1.png) no-repeat; opacity: 0.25; }
+#footer_logos ul li.pri { top: 9px; left: 598px; height: 22px; width: 63px; background: url(/assets/partner_logo_1.png) no-repeat; opacity: 0.25; }
 #footer_logos ul li.pri:hover { background-position: -65px; opacity: 1;}
-#footer_logos ul li.psi { top: 4px; left: 605px; height: 28px; width: 80px; background: url(/assets/partner_logo_6.png) no-repeat; opacity: 0.25; }
-#footer_logos ul li.psi:hover { background-position: -81px; opacity: 1; }
 #footer_logos ul li.city { top: 1px; left: 755px; height: 35px; width: 133px; background: url(/assets/partner_logo_5.png) no-repeat; opacity: 0.4; }
 #footer_logos ul li.city:hover { background-position: -133px; opacity: 1; }
 #footer_links {display: block; padding-bottom: 20px; width: 996px; margin: 0 auto; }
-#footer_nav { width: 300px; margin: auto; }
+#footer_nav { width: 295px; margin: auto; }
 #footer_nav li { display: inline; border-right: 1px solid #DDD; padding: 0 3px 0 5px; }
 #footer_nav li.last { border: 0; }
 #footer_nav li a { font-size: 11px; color: #AAA; }

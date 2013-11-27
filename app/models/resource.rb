@@ -27,6 +27,11 @@ class Resource < ActiveRecord::Base
   has_and_belongs_to_many :authors
   has_many :links, dependent: :destroy, class_name: 'ResourceLink'
 
+  STATES = { pending:    'Pending Review',
+             approved:   'Approved',
+             previously: 'Archived'
+           }
+
   def self.with_principles_count
     select("resources.*, count(principles_resources.principle_id) as principles_count")
     .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
@@ -56,6 +61,10 @@ class Resource < ActiveRecord::Base
 
   def increment_views!
     self.increment! :views
+  end
+
+  def approval_name
+    STATES[approval.to_sym]
   end
 
 end

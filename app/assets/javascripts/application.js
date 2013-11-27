@@ -26,6 +26,7 @@
 //= require dashboard
 //= require page_editor
 //= require resources
+//= require organization_signup
 
 $.datepicker.setDefaults({ changeYear: true, duration: 'slow' });
 
@@ -239,6 +240,7 @@ $(document).ready(function() {
     }
     $('#contact_form').toggle();
   });
+
   $('a[data-popup]').live('click', function(e) {
       window.open(this.href, 'newWindow', 'left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1');
       e.preventDefault();

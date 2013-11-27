@@ -1,7 +1,7 @@
 module DatetimeHelper
 
   def m_yyyy(date)
-    date ? date.strftime('%%s/%Y') % date.month.to_s : '&nbsp;'
+    date ? date.strftime('%B %Y') : '&nbsp;'
   end
 
   def yyyy_mm_dd(date)

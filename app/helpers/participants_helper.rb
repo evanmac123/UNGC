@@ -11,7 +11,7 @@ module ParticipantsHelper
     end
   end
 
-  def display_participant_status_title(organization)
+  def display_participant_status(organization)
 
     if organization.non_comm_dialogue_on.present?
       return "Non-Communicating"
@@ -19,38 +19,18 @@ module ParticipantsHelper
 
     case organization.cop_state
       when Organization::COP_STATE_DELISTED
-        if organization.removal_reason == RemovalReason.delisted
-        'Expelled on'
+        organization.removal_reason == RemovalReason.delisted ? 'Expelled' : 'Delisted'
+      when Organization::COP_STATE_ACTIVE
+        'Active'
+      when Organization::COP_STATE_NONCOMMUNICATING
+        'Non-Communicating'
       else
-        'Delisted on'
-      end
-      else
-        'Status'
+      "Unknown"
     end
-  end
-
-  def display_participant_status(organization)
-    if organization.non_comm_dialogue_on.present?
-      "#{yyyy_mm_dd organization.non_comm_dialogue_on} - for failure to engage in dialogue"
-    end
-
-    if organization.cop_state == Organization::COP_STATE_ACTIVE
-      status = 'Active'
-    end
-
-    if organization.cop_state == Organization::COP_STATE_NONCOMMUNICATING
-      status = 'Non-Communicating'
-    end
-
-    if organization.cop_state == Organization::COP_STATE_DELISTED
-      status = yyyy_mm_dd organization.delisted_on
-    end
-
-    status.html_safe
   end
 
   def display_cop_status_title(organization)
-    organization.cop_due_on < Date.today ? "COP deadline passed" : "Next COP due"
+    organization.cop_due_on < Date.today ? "#{organization.cop_acronym} deadline passed" : "Next #{organization.cop_acronym} due"
   end
 
   def display_cop_status(organization)
@@ -58,24 +38,19 @@ module ParticipantsHelper
 
     if organization.cop_state == Organization::COP_STATE_NONCOMMUNICATING
       if organization.cop_due_on < Date.today
-        status = "#{yyyy_mm_dd(@participant.cop_due_on)} (#{days_cop_overdue(organization)} overdue)"
+        status = yyyy_mm_dd(@participant.cop_due_on)
       end
     end
 
     status.html_safe
   end
 
-  def display_delisted_description(organization)
-    if organization.removal_reason == RemovalReason.delisted
-      'Reason for expulsion'
-    else
-      'Reason for delisting'
-    end
-
+  def display_delisted_title(organization)
+    organization.removal_reason == RemovalReason.delisted ? 'Expelled on' : 'Delisted on'
   end
 
-  def days_cop_overdue(organization)
-    distance_of_time_in_words(Date.today, organization.cop_due_on)
+  def display_delisted_description(organization)
+    organization.removal_reason == RemovalReason.delisted ? 'Reason for expulsion' : 'Reason for delisting'
   end
 
   def contribution_years(organization)

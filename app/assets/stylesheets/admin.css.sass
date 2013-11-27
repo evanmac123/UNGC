@@ -408,8 +408,10 @@ ul.nav_bar
         width: 16px
         height: 16px
         text-indent: -9999px
+        margin-right: 0
+        padding: 0
         &.approve
-          background: url('../assets/icons/Rate (Thumbs Up)_16x16.png')
+          background-image: url('../assets/icons/Rate (Thumbs Up)_16x16.png')
         &.edit
           background-image: url('../assets/icons/Edit_16x16.png')
         &.delete
@@ -957,7 +959,7 @@ ul.nav_bar
     -moz-border-radius-topright: $border_radius
     -webkit-border-radius-topleft: $border_radius
     -webkit-border-radius-topright: $border_radius
-    background: url('../assets/backgrounds/toolbar_bg.png') repeat-x #d2d2d2
+    background: url('../assets/backgrounds/toolbar_bg.png') repeat-x left bottom #EFEFEF
     padding: 0
     border: 0
     margin: 0
@@ -1015,8 +1017,10 @@ ul.nav_bar
         background: url('../assets/icons/eye.png') no-repeat center top
       &.approve
         background: url('../assets/icons/Rate (Thumbs Up)_24x24.png') no-repeat center top
+        padding-left: 0
       &.revoke
         background: url('../assets/icons/Rate (Thumbs Down)_24x24.png') no-repeat center top
+        padding-left: 0
       &.delete
         background: url('../assets/icons/Delete_24x24.png') no-repeat center top
       &.dynamic_content
