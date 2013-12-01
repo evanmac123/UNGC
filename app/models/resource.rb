@@ -19,12 +19,12 @@
 class Resource < ActiveRecord::Base
   attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids, :image
   has_attached_file :image, :styles => {
-      :show => "213x275>",
-      :'show@2x' => "425x550>",
+      :show => "213x277>",
+      :'show@2x' => "425x554>",
       :featured => "141x183>",
       :'featured@2x' => "282x366>",
-      :result => "85x110>",
-      :'result@2x' => "170x220>"
+      :result => "130x169>",
+      :'result@2x' => "260x338>"
     },
     :url => "/system/:class/:attachment/:id/:style/:filename"
 
