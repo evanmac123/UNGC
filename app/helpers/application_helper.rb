@@ -77,8 +77,7 @@ module ApplicationHelper
   def retina_image(model, size, options={})
     options[:data] ||= {}
     options[:data].merge!(:at2x => model.cover_image(size, retina: true))
-    path = model.cover_image(size)
-    image_tag model.cover_image(size), options unless path.blank?
+    image_tag model.cover_image(size), options
   end
 
 end

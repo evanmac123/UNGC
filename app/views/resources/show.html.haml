@@ -1,6 +1,7 @@
 - @title = 'Tools and Resources | ' + @resource.title
-.resource-show-img
-  = retina_image @resource, :show, title: @resource.title
+- if @resource.cover_image.present?
+  .resource-show-img
+    = retina_image @resource, :show, title: @resource.title
 
 .resource-show-body
   %h3= @resource.title
