@@ -1,7 +1,7 @@
 %a.resouce-block-link{href: "#{resource_path(result)}"}
-  .resource-result-img
-    - unless result.image_url.blank?
-      = image_tag(result.image_url, title: result.title)
+  - if result.cover_image.present?
+    .resource-result-img
+      = retina_image result, :result, title: result.title
 
   .resource-result-body
     %h4

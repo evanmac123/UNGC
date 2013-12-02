@@ -19,9 +19,9 @@
       %dd= @resource.year.year rescue nil
       %dt Status
       %dd= @resource.approval_name
-      - if @resource.image_url?
+      - if @resource.cover_image.present?
         %dt Preview
-        %dd= image_tag @resource.image_url
+        %dd= retina_image @resource, :featured
       %dt Description
       %dd= @resource.description
       - if @resource.isbn?

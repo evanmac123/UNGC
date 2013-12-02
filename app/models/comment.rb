@@ -20,8 +20,10 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, :polymorphic => true
   belongs_to :contact
 
-  has_attached_file :attachment
-  
+  has_attached_file :attachment,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
+
   default_scope order('updated_at DESC')
   scope :with_attachment, where("attachment_file_name IS NOT NULL")
 
