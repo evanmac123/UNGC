@@ -19,7 +19,7 @@
       %dd= @resource.year.year rescue nil
       %dt Status
       %dd= @resource.approval_name
-      - unless @resource.cover_image.blank?
+      - if @resource.cover_image.present?
         %dt Preview
         %dd= retina_image @resource, :featured
       %dt Description
