@@ -2,17 +2,14 @@ class BusinessOrganizationSignup < OrganizationSignup
   attr_reader :financial_contact
 
   def post_initialize
+    @organization = Organization.new organization_type: OrganizationType.sme
     @ceo = Contact.new_ceo
     @financial_contact = Contact.new_financial_contact
   end
 
-  def business?
-    true
-  end
-
-  def non_business?
-    false
-  end
+  def business?; true; end
+  def non_business?; false; end
+  def org_type; 'non_business'; end
 
   def types
     OrganizationType.business

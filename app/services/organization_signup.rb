@@ -74,6 +74,10 @@ class OrganizationSignup
     ceo.valid? && unique_emails?
   end
 
+  def has_pledge?
+    false
+  end
+
   def save
     before_save
 

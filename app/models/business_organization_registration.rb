@@ -11,5 +11,8 @@ class BusinessOrganizationRegistration < OpenStruct
   def error_message
     ""
   end
+
+  def to_model
+  end
 end
 

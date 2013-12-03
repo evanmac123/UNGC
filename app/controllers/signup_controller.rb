@@ -67,7 +67,7 @@ class SignupController < ApplicationController
   # POST from pledge form
   # ask for financial contact if pledge was made
   def step5
-    @signup.set_organization_attributes(params[:organization])
+    @signup.set_organization_attributes(params)
     @signup.prepare_financial_contact
 
     store_organization_signup
@@ -102,7 +102,7 @@ class SignupController < ApplicationController
   def step7
     @signup.set_organization_attributes(params)
 
-    if @signup.valid_organization?(true) && @signup.valid_registration?(true)
+    if @signup.complete_valid?
       @signup.save
 
       send_mail
@@ -118,8 +118,7 @@ class SignupController < ApplicationController
   private
 
     def load_organization_signup
-      #@signup = session[:signup] || OrganizationSignup.new(params[:org_type])
-      @signup = session.fetch(:signup) do
+      @signup = session.fetch("signup") do
         if params[:org_type] == NONBUSINESS_PARAM
           NonBusinessOrganizationSignup.new
         else
@@ -141,13 +140,11 @@ class SignupController < ApplicationController
     end
 
     def send_mail
-      begin
-        OrganizationMailer.submission_received(@signup.organization).deliver
-        if session[:is_jci_referral]
-          OrganizationMailer.submission_jci_referral_received(@signup.organization).deliver
-        end
-      rescue Exception => e
-       flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
+      OrganizationMailer.submission_received(@signup.organization).deliver
+      if session[:is_jci_referral]
+        OrganizationMailer.submission_jci_referral_received(@signup.organization).deliver
       end
+    #rescue Exception => e
+    #  flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
     end
 end
