@@ -12,9 +12,9 @@ class NonBusinessOrganizationSignup < OrganizationSignup
   def non_business?; true; end
 
   def set_organization_attributes(par)
-    super #XXX
     set_legal_status(par[:organization])
     registration.attributes = par[:non_business_organization_registration]
+    super #XXX
   end
 
 

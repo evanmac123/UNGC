@@ -16,7 +16,6 @@ class OrganizationSignup
   end
 
   def set_organization_attributes(par)
-    puts par[:organization]
     organization.attributes = par[:organization]
     primary_contact.country_id = organization.country_id
   end
@@ -36,10 +35,12 @@ class OrganizationSignup
   end
 
   def complete_valid_organization?
+    organization.valid?
     if !organization.commitment_letter?
       organization.errors.add :commitment_letter, "must be uploaded"
     end
-    valid_organization?
+    local_valid_organization?
+    !organization.errors.any?
   end
 
   def local_valid_organization?
