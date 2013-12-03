@@ -405,7 +405,7 @@ class Organization < ActiveRecord::Base
 
   def company?
     organization_type.try(:name) == 'Company' ||
-    organization_type.try(:name) == 'SME'
+      organization_type.try(:name) == 'SME'
   end
 
   def non_business?
@@ -465,10 +465,8 @@ class Organization < ActiveRecord::Base
       'ngo'
     elsif business_association?
       'business_association'
-    elsif public_sector?
-      'public'
     else
-      raise 'Invalid non-business organization type'
+      raise 'Invalid non business organization type'
     end
   end
 
@@ -881,7 +879,6 @@ class Organization < ActiveRecord::Base
   end
 
   def reverse_roles
-
     if self.contacts.ceos.count == 1 && self.contacts.contact_points.count == 1
       ceo = self.contacts.ceos.first
       contact = self.contacts.contact_points.first
@@ -911,7 +908,6 @@ class Organization < ActiveRecord::Base
       self.errors.add :base,("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
       false
     end
-
   end
 
   def jci_referral?(url)
@@ -983,12 +979,12 @@ class Organization < ActiveRecord::Base
       # we don't make assumptions if there is no employee information
       return if employees.nil?
       if business_entity?
-        if employees < 10 && !approved?
-          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
+        self.organization_type_id = if employees < 10 && !approved?
+          OrganizationType.try(:micro_enterprise).try(:id)
         elsif employees < 250
-          self.organization_type_id = OrganizationType.try(:sme).try(:id)
+          OrganizationType.try(:sme).try(:id)
         elsif employees >= 250
-          self.organization_type_id = OrganizationType.try(:company).try(:id)
+          OrganizationType.try(:company).try(:id)
         end
       end
     end

@@ -4,27 +4,9 @@ class CopsController < ApplicationController
   before_filter :find_cop, :except => [:feed]
 
   def show
-    if @communication_on_progress.evaluated_for_differentiation?
-      @cop_partial = "/shared/cops/show_differentiation_style_public"
-
-      # Basic COP template has its own partial to display text responses
-      if @communication_on_progress.is_basic?
-        @results_partial = '/shared/cops/show_basic_style'
-      else
-        @results_partial = '/shared/cops/show_differentiation_style'
-      end
-
-    elsif @communication_on_progress.is_grace_letter?
-      @cop_partial = '/shared/cops/show_grace_style'
-    elsif @communication_on_progress.is_basic?
-      @cop_partial = '/shared/cops/show_basic_style'
-    elsif @communication_on_progress.is_non_business_format?
-      @cop_partial = '/shared/cops/show_non_business_style'
-    elsif @communication_on_progress.is_new_format?
-      @cop_partial = '/shared/cops/show_new_style'
-    elsif @communication_on_progress.is_legacy_format?
-      @cop_partial = '/shared/cops/show_legacy_style'
-    end
+    presenter = Cop::Presenter.new(@communication_on_progress)
+    @cop_partial = presenter.show_partial
+    @results_partial = presenter.results_partial
   end
 
   def feed
@@ -33,6 +15,7 @@ class CopsController < ApplicationController
     else
       @cops_for_feed = CommunicationOnProgress.for_feed
     end
+
     respond_to do |format|
       format.atom { render :layout => false }
     end
