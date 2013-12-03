@@ -5,7 +5,10 @@ module VisibleTo
         if user.user_type == Contact::TYPE_ORGANIZATION
           where('organization_id=?', user.organization_id)
         elsif user.user_type == Contact::TYPE_NETWORK
-          where("organizations.country_id IN (?)", user.local_network.country_ids).includes(:organization)
+          { :conditions => ["organizations.country_id in (?)", user.local_network.country_ids],
+            :include    => :organization }
+        elsif user.user_type == Contact::TYPE_UNGC && user.is?(Role.participant_manager)
+          { :conditions => ['participant_manager_id=?', user.id] }
         else
           {}
         end
