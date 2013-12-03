@@ -12,5 +12,6 @@
 
 .main_content
   #status_box
-    %dl{:style => 'width: 90%;'}= render :partial => @cop_partial, :locals => {:results_partial => @results_partial, :communication_on_progress => @communication_on_progress }
+    %dl{style: 'width: 90%;'}
+      = render partial: @cop_partial, locals: { results_partial: @results_partial, communication_on_progress: @communication_on_progress }
   = action_links(@communication_on_progress)
