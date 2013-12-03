@@ -21,9 +21,14 @@ class NonBusinessOrganizationRegistration < ActiveRecord::Base
 
   START_DATE_OF_NON_BUSINESS = Date.new(2013, 10, 31)
 
+  def error_message
+    errors.full_messages.to_sentence
+  end
+
   private
 
     def needs_validation?
       return organization.nil? || organization.created_at >= START_DATE_OF_NON_BUSINESS
     end
+
 end

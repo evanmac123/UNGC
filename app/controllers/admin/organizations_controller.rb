@@ -221,9 +221,7 @@ class Admin::OrganizationsController < AdminController
     end
 
     def fetch_registration
-      if @organization.non_business?
-        @organization.non_business_organization_registration || @organization.build_non_business_organization_registration
-      end
+      @organization.registration
     end
 
     def redirect_to_dashboard

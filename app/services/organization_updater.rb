@@ -18,11 +18,7 @@ class OrganizationUpdater
   end
 
   def error_message
-    message = organization.errors.full_messages.to_sentence
-    if organization.non_business?
-      message += organization.non_business_organization_registration.errors.full_messages.to_sentence
-    end
-    message
+    organization.error_message + organization.registration.error_message
   end
 
   private
@@ -37,11 +33,7 @@ class OrganizationUpdater
     end
 
     def save_registration(par)
-      if organization.non_business?
-        organization.non_business_organization_registration.update_attributes par
-      else
-        true
-      end
+      organization.registration.update_attributes par
     end
 
 end

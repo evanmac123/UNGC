@@ -885,6 +885,18 @@ class Organization < ActiveRecord::Base
 
   end
 
+  def registration
+    if non_business?
+      non_business_organization_registration || build_non_business_organization_registration
+    else
+      BusinessOrganizationRegistration.new
+    end
+  end
+
+  def error_message
+    errors.full_messages.to_sentence
+  end
+
   private
 
     def set_participant_manager
