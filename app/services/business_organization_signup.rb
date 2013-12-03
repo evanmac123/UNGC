@@ -9,7 +9,7 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def business?; true; end
   def non_business?; false; end
-  def org_type; 'non_business'; end
+  def org_type; 'business'; end
 
   def types
     OrganizationType.business

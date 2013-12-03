@@ -19,6 +19,9 @@ class NonBusinessOrganizationSignup < OrganizationSignup
     super #XXX
   end
 
+  def types
+    OrganizationType.non_business
+  end
 
   def local_valid_organization?
     if @legal_status_id.blank? && registration.number.blank?

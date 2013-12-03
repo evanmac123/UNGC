@@ -64,6 +64,13 @@ class SignupControllerTest < ActionController::TestCase
       assert_template 'step2'
     end
 
+    should "be redirected to step 1 if data is not valid" do
+      post :step2, :organization => {:name      => 'ACME inc',
+                                     :url       => 'http://www.example.com',
+                                     :organization_type_id => OrganizationType.sme}
+      assert_redirected_to organization_step1_path({org_type: 'business'})
+    end
+
     should "get the third step page after posting contact details" do
       post :step3, :contact => @signup_contact
       assert_response :success
