@@ -144,7 +144,7 @@ class SignupController < ApplicationController
       if session[:is_jci_referral]
         OrganizationMailer.submission_jci_referral_received(@signup.organization).deliver
       end
-    #rescue Exception => e
-    #  flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
+    rescue Exception
+      flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
     end
 end
