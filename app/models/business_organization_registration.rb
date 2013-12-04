@@ -1,11 +1,4 @@
-class BusinessOrganizationRegistration
-  include Virtus.model
-
-  attribute :date, DateTime
-  attribute :place, String
-  attribute :authority, String
-  attribute :number, String
-  attribute :mission_statement, String
+class BusinessOrganizationRegistration < OpenStruct
 
   def self.model_name
     NonBusinessOrganizationRegistration.model_name
