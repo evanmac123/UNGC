@@ -700,8 +700,7 @@ class Organization < ActiveRecord::Base
 
     if was_expelled?
       # if a new Letter of Commitment was uploaded, then they can submit a COP
-      recommitment_letter && recommitment_letter.updated_at > delisted_on ? true : false
-      # commitment_letter_updated_at.present? && commitment_letter_updated_at > delisted_on ? true : false
+      recommitment_letter && recommitment_letter.updated_at > delisted_on
     end
 
   end
