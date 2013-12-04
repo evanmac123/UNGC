@@ -250,7 +250,8 @@ class OrganizationTest < ActiveSupport::TestCase
 
     context "and a staff member updates their Letter of Commitment" do
       setup do
-        @organization.update_attribute :recommitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
+        @organization.recommitment_letter_file = fixture_file_upload('files/untitled.pdf', 'application/pdf')
+        @organization.save
       end
 
       should "be able to submit a COP" do
