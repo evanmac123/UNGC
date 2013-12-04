@@ -95,7 +95,7 @@ class OrganizationTest < ActiveSupport::TestCase
         assert_equal OrganizationType.signatory, @organization.organization_type
       end
     end
-    
+
     context "that is a non-business participant" do
       setup do
         @organization = Organization.create(:name => "University",
@@ -103,7 +103,7 @@ class OrganizationTest < ActiveSupport::TestCase
                                             :organization_type_id => @academic.id)
         @organization.approve
       end
-      
+
       should "assign initial cop_due_on two years later" do
         assert_equal 2.year.from_now.to_date, @organization.cop_due_on.to_date
       end
@@ -250,7 +250,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
     context "and a staff member updates their Letter of Commitment" do
       setup do
-        @organization.update_attribute :commitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
+        @organization.update_attribute :recommitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
       end
 
       should "be able to submit a COP" do
@@ -268,6 +268,11 @@ class OrganizationTest < ActiveSupport::TestCase
     should "have a predicted delisting date one year after their COP due date" do
       assert_equal @organization.cop_due_on + 1.year, @organization.delisting_on
     end
+
+    should "be able to submit a COP" do
+      assert @organization.can_submit_cop?
+    end
+
   end
 
   context "given an organization" do
@@ -291,36 +296,6 @@ class OrganizationTest < ActiveSupport::TestCase
       json = @organization.to_json(:extras => ['stock_symbol', 'local_network_country_code'])
       result = JSON.parse(json)
       assert_equal ['id', 'name','sector_name', 'country_name', 'local_network_country_code', 'participant', 'stock_symbol'].sort, result.keys.sort
-    end
-  end
-
-  context "given an expelled company" do
-    setup do
-      create_expelled_organization
-    end
-
-    should "not be able to submit a COP" do
-      assert !@organization.can_submit_cop?
-    end
-
-    context "and a staff member updates their Letter of Commitment" do
-      setup do
-       @organization.update_attribute :commitment_letter, fixture_file_upload('files/untitled.pdf', 'application/pdf')
-      end
-
-      should "be able to submit a COP" do
-       assert @organization.can_submit_cop?
-      end
-    end
-
-    context "and they are Non-Communicating" do
-      setup do
-       @organization.update_attribute :cop_state, Organization::COP_STATE_NONCOMMUNICATING
-      end
-
-      should "be able to submit a COP" do
-       assert @organization.can_submit_cop?
-      end
     end
   end
 
