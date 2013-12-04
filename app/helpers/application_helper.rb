@@ -73,4 +73,11 @@ module ApplicationHelper
   def cached_page?
     @page && !@page.dynamic_content?
   end
+
+  def retina_image(model, size, options={})
+    options[:data] ||= {}
+    options[:data].merge!(:at2x => model.cover_image(size, retina: true))
+    image_tag model.cover_image(size), options
+  end
+
 end

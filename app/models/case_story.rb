@@ -103,7 +103,9 @@ class CaseStory < ActiveRecord::Base
 
   delegate :name, :to => :organization, :prefix => true
   acts_as_commentable
-  has_attached_file :attachment
+  has_attached_file :attachment,
+    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
+    :url => "/system/:attachment/:id/:style/:filename"
 
   cattr_reader :per_page
   @@per_page = 15

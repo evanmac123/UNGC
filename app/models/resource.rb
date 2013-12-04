@@ -17,9 +17,19 @@
 #
 
 class Resource < ActiveRecord::Base
-  attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids
+  attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids, :image
+  has_attached_file :image, :styles => {
+      :show => "213x277>",
+      :'show@2x' => "425x554>",
+      :featured => "141x183>",
+      :'featured@2x' => "282x366>",
+      :result => "130x169>",
+      :'result@2x' => "260x338>"
+    },
+    :url => "/system/:class/:attachment/:id/:style/:filename"
 
   validates_presence_of :title, :description
+  #validates_attachment_content_type :image, content_type: /image/
 
   include ContentApproval
 
@@ -65,6 +75,14 @@ class Resource < ActiveRecord::Base
 
   def approval_name
     STATES[approval.to_sym]
+  end
+
+  def cover_image(size = nil, options={})
+    if options[:retina]
+      image.exists? ? image.url(size.to_s + '@2x') : image_url
+    else
+      image.exists? ? image.url(size) : image_url
+    end
   end
 
 end

@@ -17,7 +17,6 @@ class IntegrityMeasure < ActiveRecord::Base
 
   include HasFile
   belongs_to :local_network
-  has_one :attachment, :class_name => 'UploadedFile', :as => :attachable
 
   validates_presence_of :date, :title, :description
 

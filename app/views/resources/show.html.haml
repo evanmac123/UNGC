@@ -1,7 +1,7 @@
 - @title = 'Tools and Resources | ' + @resource.title
-.resource-show-img
-  - unless @resource.image_url.blank?
-    = image_tag(@resource.image_url, title: @resource.title)
+- if @resource.cover_image.present?
+  .resource-show-img
+    = retina_image @resource, :show, title: @resource.title
 
 .resource-show-body
   %h3= @resource.title
