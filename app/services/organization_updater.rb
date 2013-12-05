@@ -24,7 +24,7 @@ class OrganizationUpdater
   private
 
     def update_contact
-      organization.set_replied_to(contact) if organizatin.state == Organization::STATE_IN_REVIEW
+      organization.set_replied_to(contact) if organization.state == Organization::STATE_IN_REVIEW
     end
 
     def update_state

@@ -6,7 +6,8 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
 
       organization = OpenStruct.new(
         registration: BusinessOrganizationRegistration.new,
-        error_message: 'test error'
+        error_message: 'test error',
+        state: Organization::STATE_IN_REVIEW
       )
       contact = OpenStruct.new
       params = {
