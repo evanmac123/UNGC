@@ -83,6 +83,13 @@ module Admin::LocalNetworksHelper
     html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
   end
 
+  def section_title(page)
+    # rename the Page scope to get the path name
+    page = page.gsub /local_network_/, ''
+    p = Page.where(path: "/LocalNetworksResources/#{page}/index.html", approval: 'approved').first
+    p.title if p
+  end
+
   def section_or_page_icon(page)
     if page.parent_id.present?
       image_tag "icons/Document_24x24.png", :title => "Page"
