@@ -275,10 +275,13 @@ class Organization < ActiveRecord::Base
   def self.visible_to(user)
     if user.user_type == Contact::TYPE_ORGANIZATION
       where('id=?', user.organization_id)
-    elsif user.user_type == Contact::TYPE_NETWORK
+    elsif user.user_type == Contact::TYPE_NETWORK || user.user_type == Contact::TYPE_NETWORK_GUEST
       where("country_id in (?)", user.local_network.country_ids)
-    else
+    elsif user.user_type == Contact::TYPE_UNGC
       self.scoped({})
+    else
+      # TODO improve this when we port to rails 4
+      where('1=2')
     end
   end
 
