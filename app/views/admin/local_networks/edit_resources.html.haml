@@ -2,12 +2,8 @@
 
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
-    %li
-      %a{:href => '#local_network_training_guidance_material'} Training and Guidance Material
-    %li
-      %a{:href => '#local_network_news_updates'} News and Updates
-    %li
-      %a{:href => '#local_network_reports'} Reports
+    - @sections.each do |section|
+      %li= link_to section_title(section), "##{section}"
 
   - @sections.each do |section|
     %div{:id => section, :class => 'tab_content'}
