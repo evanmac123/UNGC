@@ -52,7 +52,10 @@ class Page < ActiveRecord::Base
   scope :for_navigation, where("display_in_navigation" => true)
   scope :earlier_versions_than, lambda { |version_number| where("pages.version_number < ?", version_number).order("pages.version_number DESC") }
   scope :later_versions_than, lambda { |version_number| where("pages.version_number > ?", version_number).order("pages.version_number ASC") }
+
+  # Local Network pages loaded by Admin::LocalNetworksController#edit_resources
   scope :local_network_training_guidance_material, where("pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'").order('parent_id, position').group(:path)
+  scope :local_network_issue_specific_guidance, where("pages.path LIKE '/LocalNetworksResources/issue_specific_guidance/%'").order('parent_id, position').group(:path)
   scope :local_network_news_updates, where("pages.path LIKE '/LocalNetworksResources/news_updates/%'").order('parent_id, position').group(:path)
   scope :local_network_reports, where("pages.path LIKE '/LocalNetworksResources/reports/%'").order('parent_id, position').group(:path)
 
