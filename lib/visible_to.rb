@@ -8,7 +8,8 @@ module VisibleTo
           { :conditions => ["organizations.country_id in (?)", user.local_network.country_ids],
             :include    => :organization }
         elsif user.user_type == Contact::TYPE_UNGC && user.is?(Role.participant_manager)
-          { :conditions => ['participant_manager_id=?', user.id] }
+          # { :conditions => ['organizations.participant_manager_id=?', user.id],
+          #   :include    => :organization }
         else
           {}
         end
