@@ -69,7 +69,7 @@ class Admin::CopsController < AdminController
 
   def show
     presenter = Cop::Presenter.new(@communication_on_progress)
-    @cop_partial = presenter.show_partial
+    @cop_partial = presenter.show_admin_partial
     @results_partial = presenter.results_partial
 
     if @cop_partial.nil?
