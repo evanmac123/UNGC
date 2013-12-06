@@ -271,7 +271,11 @@ class Organization < ActiveRecord::Base
       .includes([:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses])
   end
 
-
+  # scopes the organization depending on the user_type
+  # contacts that belong to an organization should only see their organization
+  # contacts from a local network should see all the organizations in their network
+  # contacts from UNGC should see every organization
+  # no organizations should be seen otherwise,
   def self.visible_to(user)
     if user.user_type == Contact::TYPE_ORGANIZATION
       where('id=?', user.organization_id)
