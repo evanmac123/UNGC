@@ -68,14 +68,10 @@ class Admin::CopsController < AdminController
   end
 
   def show
-    presenter = Cop::Presenter.new(@communication_on_progress)
-    @cop_partial = presenter.show_admin_partial
-    @results_partial = presenter.results_partial
-
-    if @cop_partial.nil?
-      flash[:error] = "Sorry, we could not determine the COP type."
-      redirect_to admin_organization_path(org_id, :tab => :cops)
-    end
+    @communication = Cop::Presenter.new(@communication_on_progress, current_contact)
+  rescue Cop::PresenterNotFoundError
+    flash[:error] = "Sorry, we could not determine the COP type."
+    redirect_to admin_organization_path(org_id, :tab => :cops)
   end
 
   def update

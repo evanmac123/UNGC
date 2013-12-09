@@ -33,8 +33,37 @@ module Cop
              :can_approve?,
              :can_reject?,
              to: :cop
+    # used by _show_active_style
+    delegate :additional_questions,
+             to: :cop
 
-    def initialize(cop, current_contact)
+    # used by _show_new_style
+    delegate :is_test_phase_advanced_programme?,
+             to: :cop
+
+    # used by _self_assessment
+    delegate :meets_advanced_criteria,
+             to: :cop
+
+    # used by _show_differentiation_style
+    delegate :issue_areas_covered,
+             to: :cop
+
+    # used by _cop_questionnaire_results
+    delegate :is_advanced_lead?,
+             :cop_answers,
+             :notable_program?,
+             to: :cop
+    # used by _cop_questionnaire_results_advanced_lead
+    delegate :cop_attributes,
+             to: :cop
+
+    # used by _show_advanced_style
+    delegate :questions_missing_answers,
+             to: :cop
+
+    # current_contact can be nil in /cops_controller
+    def initialize(cop, current_contact=nil)
       @cop = cop
       @current_contact = current_contact
     end
@@ -75,6 +104,8 @@ module Cop
       html.join(' ').html_safe
     end
 
+    # seems like differentiation can be one of
+    # ["learner", "active", "", "advanced", nil, "blueprint"]
     def admin_partial
       if cop.evaluated_for_differentiation?
         "/shared/cops/show_#{cop.differentiation}_style"
@@ -114,6 +145,8 @@ module Cop
           '/shared/cops/show_new_style'
         elsif cop.is_legacy_format?
           '/shared/cops/show_legacy_style'
+        else
+          raise PresenterNotFoundError
         end
       end
 
