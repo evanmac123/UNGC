@@ -40,7 +40,7 @@ class Admin::OrganizationsController < AdminController
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to_dashboard
     else
-      flash[:error] = org_updater.error_message
+      flash[:error] = 'There was an error updating the Organization.'
       @organization_types = OrganizationType.staff_types
       render :action => "edit"
     end
@@ -221,9 +221,7 @@ class Admin::OrganizationsController < AdminController
     end
 
     def fetch_registration
-      if @organization.non_business?
-        @organization.non_business_organization_registration || @organization.build_non_business_organization_registration
-      end
+      @organization.registration
     end
 
     def redirect_to_dashboard
