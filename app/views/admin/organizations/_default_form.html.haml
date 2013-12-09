@@ -84,6 +84,9 @@
         %dl.noborder{:style => 'width: 75%;'}
           %dt Letter of Commitment
           %dd The initial letter of commitment uploaded during the online registration process. The applicant may be asked to make revisions to the letter.
+          - if @organization.non_business?
+            %dt Legal Status
+            %dd Non-Business applicants must provide a registration number or upload a proof of legal status during the online registration process.
           %dt Letter of Recommitment
           %dd When a participant has been expelled and is reapplying to the Global Compact, a document must be uploaded after the expulsion date to reactivate the COP submission process.
           %dt Letter of Withdrawal
