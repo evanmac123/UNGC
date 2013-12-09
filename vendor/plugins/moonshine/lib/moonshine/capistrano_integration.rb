@@ -135,7 +135,16 @@ module Moonshine
             upload moonshine_yml_path.to_s, '/tmp/moonshine.yml'
             upload File.join(File.dirname(__FILE__), '..', 'moonshine_setup_manifest.rb'), '/tmp/moonshine_setup_manifest.rb'
 
-            sudo 'shadow_puppet /tmp/moonshine_setup_manifest.rb'
+            if fetch(:stage)
+              shadow_puppet_line = "DEPLOY_STAGE=#{fetch(:stage)} "
+            else
+              shadow_puppet_line = ""
+            end
+
+            shadow_puppet_line << "shadow_puppet /tmp/moonshine_setup_manifest.rb"
+
+
+            sudo shadow_puppet_line
             sudo 'rm /tmp/moonshine_setup_manifest.rb'
             sudo 'rm /tmp/moonshine.yml'
           end
@@ -352,7 +361,7 @@ module Moonshine
             if (dirs + links).any?
               mkdir_command = "mkdir -p " + dirs.uniq.map {|dir| "'#{latest_release}/#{dir}'"}.join(" ")
               ln_commands = links.map {|l| "(#{l})"}.join(" && ")
-              
+
               run "#{mkdir_command} && #{ln_commands}"
             end
           end
@@ -444,12 +453,19 @@ module Moonshine
 
         namespace :ruby do
 
-          desc 'Forces a reinstall of Ruby and restarts Apache/Passenger'
+          desc <<-DESC
+      Forces a reinstall of Ruby and restarts Apache/Passenger'
+      The gems installed with bundler have been removed.
+      You must perform a deploy to reinstall these gems with 'bundle install'.
+    DESC
           task :upgrade do
             install
             sudo 'gem pristine --all'
+            sudo "rm -rf #{shared_path}/bundle/*"
             passenger.compile
             apache.restart
+            puts "The gems installed with bundler have been removed."
+            puts "You must perform a deploy to reinstall these gems with 'bundle install'."
           end
 
           desc 'Install Ruby + Rubygems'
@@ -543,7 +559,7 @@ module Moonshine
 
           task :src193 do
             remove_ruby_from_apt
-            pv = "1.9.3-p392"
+            pv = "1.9.3-p484"
             p = "ruby-#{pv}"
             run [
               'cd /tmp',
@@ -559,8 +575,17 @@ module Moonshine
           end
 
           task :src193falcon do
+            src193railsexpress
+          end
+
+          task :src193railsexpress do
+            set :ruby_patches_path, rails_root.join('vendor', 'plugins', 'moonshine', 'patches')
+            if ruby_patches_path.exist?
+              run 'mkdir -p /tmp/moonshine'
+              upload ruby_patches_path.to_s, "/tmp/moonshine/patches", :via => :scp, :recursive => true
+            end
             remove_ruby_from_apt
-            pv = "1.9.3-p327"
+            pv = "1.9.3-p484"
             p = "ruby-#{pv}"
             run [
               'sudo apt-get install autoconf libyaml-dev -y || true',
@@ -570,7 +595,22 @@ module Moonshine
               "wget -q http://ftp.ruby-lang.org/pub/ruby/1.9/#{p}.tar.gz",
               "tar zxvf #{p}.tar.gz",
               "cd /tmp/#{p}",
-              "curl https://raw.github.com/gist/4136373/falcon-gc.diff | patch -p1",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/01-fix-make-clean.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/02-railsbench-gc.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/03-display-more-detailed-stack-trace.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/04-fork-support-for-gc-logging.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/05-track-live-dataset-size.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/06-webrick_204_304_keep_alive_fix.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/07-export-a-few-more-symbols-for-ruby-prof.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/08-thread-variables.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/09-faster-loading.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/10-falcon-st-opt.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/11-falcon-sparse-array.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/12-falcon-array-queue.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/13-railsbench-gc-fixes.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/14-show-full-backtrace-on-stack-overflow.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/15-configurable-fiber-stack-sizes.patch",
+              "patch -p1 </tmp/moonshine/patches/ruby/1.9.3/p484/railsexpress/16-backport-psych-20.patch",
               'export CFLAGS="-march=core2 -O2 -pipe -fomit-frame-pointer"',
               "./configure --prefix=/usr",
               "make",
@@ -593,7 +633,7 @@ module Moonshine
 
           task :install_deps do
             aptget.update
-            sudo 'apt-get install -q -y build-essential zlib1g-dev libssl-dev libreadline5-dev wget'
+            sudo 'apt-get install -q -y build-essential zlib1g-dev libssl-dev libreadline-dev wget'
             if fetch(:ruby) ==  'src193'
               sudo 'apt-get install -q -y libyaml-dev'
             end
@@ -603,7 +643,7 @@ module Moonshine
             sudo 'gem install rake --no-rdoc --no-ri'
             sudo 'gem install i18n --no-rdoc --no-ri' # workaround for missing activesupport-3.0.2 dep on i18n
 
-            shadow_puppet_version = fetch(:shadow_puppet_version, '~> 0.6.1')
+            shadow_puppet_version = fetch(:shadow_puppet_version, '~> 0.6.4')
             sudo "gem install shadow_puppet --no-rdoc --no-ri --version '#{shadow_puppet_version}'"
             if rails_root.join('Gemfile').exist?
               bundler_version = fetch(:bundler_version, '1.1.3')
@@ -689,14 +729,14 @@ IMPORTANT: keep these files in a safe place (ie check into version control)
               MESSAGE
             else
               already_has_ssl_configuration = moonshine_yml[:ssl]
-              
+
               where_to_paste = if already_has_ssl_configuration
                                  "the :ssl section of config/moonshine.yml"
                                else
                                  "config/moonshine.yml"
                                end
 
-    
+
               domain_template = if csr[:domain]
                                   csr[:domain]
                                 else
@@ -704,7 +744,7 @@ IMPORTANT: keep these files in a safe place (ie check into version control)
                                   "#{domain} # FIXME update with correct domain. Do not include www at beginning. Add `*.` at the beginning for wildcard}"
                                 end
               puts <<-ERROR
-Not enough details to generate a CSR! Copy & paste the following into #{where_to_paste}, and rerun `cap ssl:create`: 
+Not enough details to generate a CSR! Copy & paste the following into #{where_to_paste}, and rerun `cap ssl:create`:
 
 #{':ssl:' unless already_has_ssl_configuration}
   :csr:
@@ -716,7 +756,7 @@ Not enough details to generate a CSR! Copy & paste the following into #{where_to
     :domain: #{domain_template}
 ERROR
               exit 1
-              
+
             end
           end
         end

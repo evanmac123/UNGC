@@ -124,9 +124,19 @@ module Moonshine::Manifest::Rails::Rails
       bundle_install_options = [
          '--deployment',
          "--path #{configuration[:deploy_to]}/shared/bundle",
-         "--without '#{bundle_install_without_groups}'",
-         '--binstubs'
+         "--without '#{bundle_install_without_groups}'"
       ]
+      
+      unless configuration[:bundler][:disable_binstubs]
+        bundle_install_options << '--binstubs'
+      end
+      
+      exec 'accept github key',
+        :command => 'ssh git@github.com -o StrictHostKeyChecking=no || true',
+        :before => exec('bundle install'),
+        :user => configuration[:user],
+        :unless => 'ssh-keygen -F github.com | grep github.com'
+      
       exec 'bundle install',
         :command => "bundle install #{bundle_install_options.join(' ')}",
         :cwd => rails_root,
@@ -190,6 +200,7 @@ module Moonshine::Manifest::Rails::Rails
       :mode => '775'
     file "#{rails_root}/public/assets",
       :ensure => "#{configuration[:deploy_to]}/shared/assets",
+      :owner => configuration[:user],
       :require => file("#{configuration[:deploy_to]}/shared/assets")
     rake 'assets:precompile',
       :require => [file("#{rails_root}/public/assets"), exec('rails_gems')]
@@ -232,7 +243,7 @@ module Moonshine::Manifest::Rails::Rails
     hash.merge!(:alias => options[:alias]) if options[:alias]
     #fixup the version required
     exact_dep = Gem::Dependency.new(name, options[:version] || '>0')
-    matches = Gem.source_index.search(exact_dep)
+    matches = Gem::Specification.find_all_by_name(name) # Gem.source_index.search(exact_dep)
     installed_spec = matches.first
     if installed_spec
       if options[:version]
