@@ -206,7 +206,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "view with the Grace Letter partial" do
-      assert_equal '/shared/cops/show_grace_style', assigns(:cop_partial)
       assert_template :partial => '_show_grace_style'
     end
 
@@ -223,8 +222,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "display learner partial" do
-      assert_equal assigns(:cop_partial), '/shared/cops/show_learner_style'
-      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => '_show_learner_style'
     end
   end
@@ -253,8 +250,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "display active partial" do
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_equal assigns(:cop_partial), '/shared/cops/show_active_style'
-      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => '_show_active_style'
     end
   end
@@ -269,8 +264,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "display advanced partial" do
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_equal assigns(:cop_partial), '/shared/cops/show_advanced_style'
-      assert_equal assigns(:results_partial), '/shared/cops/show_differentiation_style'
       assert_template :partial => '_show_advanced_style'
     end
   end
