@@ -76,6 +76,20 @@
 - if can_edit_letter? @organization
   %fieldset
     %legend Documents
+
+    -staff_only do
+      %div.hint_toggle
+        About these documents...
+      %div.hint_text{:style => 'display: none;'}
+        %dl.noborder{:style => 'width: 75%;'}
+          %dt Letter of Commitment
+          %dd The initial letter of commitment uploaded during the online registration process. The applicant may be asked to make revisions to the letter.
+          %dt Letter of Recommitment
+          %dd When a participant has been expelled and is reapplying to the Global Compact, a document must be uploaded after the expulsion date to reactivate the COP submission process.
+          %dt Letter of Withdrawal
+          %dd When a participant voluntarily ends their participation, a letter formally requesting withdrawal should be provided.
+        %hr
+
     %ol
       %li
         %label{:style => 'margin-right: 20px;'} Letter of Commitment
@@ -86,6 +100,7 @@
           no file uploaded
       - if @organization.non_business?
         %li
+          Letter of Commitment from the Highest Level Executive
           %label{:style => 'margin-right: 20px;'} Legal Status
           = link_to_document(@organization, 'legal_status')
 
@@ -94,7 +109,7 @@
         %label{:style => 'margin-right: 20px;'} Letter of Recommitment
         = link_to_document(@organization, 'recommitment_letter')
       %li
-        %label{:style => 'margin-right: 20px;'} Withdrawal Letter
+        %label{:style => 'margin-right: 20px;'} Letter of Withdrawal
         = link_to_document(@organization, 'withdrawal_letter')
 
 = initial_organization_state @organization
