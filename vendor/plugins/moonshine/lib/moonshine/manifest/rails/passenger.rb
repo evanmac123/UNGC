@@ -1,6 +1,6 @@
 module Moonshine::Manifest::Rails::Passenger
 
-  BLESSED_VERSION = '3.0.17'
+  BLESSED_VERSION = '4.0.10'
 
   # Install the passenger gem
   def passenger_gem
@@ -8,17 +8,53 @@ module Moonshine::Manifest::Rails::Passenger
     package 'libcurl4-openssl-dev', :ensure => :installed
     
     if configuration[:passenger][:enterprise]
-      package "passenger",
-        :provider => :gem, 
-        :ensure => :absent
+      exec 'remove passenger',
+        :command => 'gem uninstall passenger --all',
+        :onlyif => "gem list | grep 'passenger '"
 
-      raise "Passenger Enterprise enabled, but no gemfile specified. Update config/moonshine.yml with :gemfile for :passenger and try again" unless configuration[:passenger][:gemfile]
+      if configuration[:passenger][:download_token] or configuration[:passenger][:order_reference]
+        if configuration[:passenger][:download_token]
+          download_token = configuration[:passenger][:download_token]
+          source_url = "https://download:#{download_token}@www.phusionpassenger.com/enterprise_gems/"
+        elsif configuration[:passenger][:order_reference]
+          order_reference = configuration[:passenger][:order_reference]
+          order_password = configuration[:passenger][:order_password]
+          source_url = "https://#{order_reference}:#{order_password}@www.phusionpassenger.com/enterprise_gems/"
+          puts "WARNING: Phusion has deprecated using ORDER REFERENCE/ORDER PASSWORD for authentication to their gem server."
+          puts "Please set the :passenger: => :download_token: setting in your moonshine.yml before December 1, 2013."
+        end
 
-      exec 'install passenger-enterprise-server gem',
-        :command => "gem install #{configuration[:passenger][:gemfile]}",
-        :unless => "gem list | grep passenger-enterprise-server | grep #{configuration[:passenger][:version]}",
-        :cwd => rails_root, 
-        :require => [ package('libcurl4-openssl-dev'), package('passenger')]
+        exec 'configure passenger enterprise gem source',
+          :command => "gem source --add #{source_url}",
+          :unless => "gem source | grep '#{source_url}'"
+
+        if configuration[:passenger][:version].nil? || configuration[:passenger][:version] == :latest
+          package 'passenger',
+            :name => 'passenger-enterprise-server',
+            :ensure => BLESSED_VERSION,
+            :provider => :gem,
+            :require => [ package('libcurl4-openssl-dev'), exec('remove passenger'), exec('configure passenger enterprise gem source') ]
+        elsif configuration[:passenger][:version]
+          package 'passenger',
+            :name => 'passenger-enterprise-server',
+            :ensure => configuration[:passenger][:version],
+            :provider => :gem,
+            :require => [ package('libcurl4-openssl-dev'), exec('remove passenger'), exec('configure passenger enterprise gem source') ]
+        end
+      else
+        raise "Passenger Enterprise enabled, but no gemfile specified. Update config/moonshine.yml with :gemfile for :passenger and try again" unless configuration[:passenger][:gemfile]
+
+        package "remove passenger",
+          :name => "passenger",
+          :provider => :gem,
+          :ensure => :absent
+
+        exec 'install passenger-enterprise-server gem',
+          :command => "gem install #{configuration[:passenger][:gemfile]}",
+          :unless => "gem list | grep passenger-enterprise-server | grep #{configuration[:passenger][:version]}",
+          :cwd => rails_root,
+          :require => [ package('libcurl4-openssl-dev'), exec('remove passenger')]
+      end
 
       file '/etc/passenger-enterprise-license',
         :ensure => :present,
@@ -63,7 +99,7 @@ module Moonshine::Manifest::Rails::Passenger
       :unless => [
         "ls `passenger-config --root`/#{passenger_lib_dir}/apache2/mod_passenger.so",
         "ls `passenger-config --root`/#{passenger_lib_dir}/ruby/ruby-*/passenger_native_support.so",
-        "ls `passenger-config --root`/agents/PassengerLoggingAgent"
+        "ls `passenger-config --root`/#{passenger_agents_dir}/PassengerLoggingAgent"
         ].join(" && "),
       :require => [
         package("passenger"),
@@ -79,17 +115,17 @@ module Moonshine::Manifest::Rails::Passenger
       :ensure => :present,
       :content => load_template,
       :require => [exec("build_passenger")],
-      :notify => service("apache2"),
+      :notify => apache_notifies,
       :alias => "passenger_load"
 
     file '/etc/apache2/mods-available/passenger.conf',
       :ensure => :present,
       :content => template(File.join(File.dirname(__FILE__), 'templates', 'passenger.conf.erb')),
       :require => [exec("build_passenger")],
-      :notify => service("apache2"),
+      :notify => apache_notifies,
       :alias => "passenger_conf"
 
-    a2enmod 'headers', :notify => service('apache2')
+    a2enmod 'headers', :notify => apache_notifies
 
     a2enmod 'passenger', :require => [exec("build_passenger"), file("passenger_conf"), file("passenger_load"), exec('a2enmod headers')]
   end
@@ -100,7 +136,7 @@ module Moonshine::Manifest::Rails::Passenger
     file "/etc/apache2/sites-available/#{configuration[:application]}",
       :ensure => :present,
       :content => template(File.join(File.dirname(__FILE__), 'templates', 'passenger.vhost.erb')),
-      :notify => service("apache2"),
+      :notify => apache_notifies,
       :alias => "passenger_vhost",
       :require => exec("a2enmod passenger")
 
@@ -141,10 +177,20 @@ private
   end
 
   def passenger_lib_dir
-    if (passenger_major_version >= 3 && passenger_minor_version >= 9) || passenger_major_version >=4
+    if (passenger_major_version > 4) || (passenger_major_version == 4 && passenger_minor_version > 0) || (passenger_major_version == 4 && passenger_minor_version == 0 && passenger_patch_version >= 6 )
+      'buildout'
+    elsif (passenger_major_version == 3 && passenger_minor_version >= 9) || (passenger_major_version == 4 && passenger_minor_version == 0 && passenger_patch_version <= 5 )
       'libout'
     else
       'ext'
+    end
+  end
+
+  def passenger_agents_dir
+    if (passenger_major_version > 4) || (passenger_major_version == 4 && passenger_minor_version > 0) || (passenger_major_version == 4 && passenger_minor_version == 0 && passenger_patch_version >= 6 )
+      "#{passenger_lib_dir}/agents"
+    else
+      'agents'
     end
   end
 

@@ -27,6 +27,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :nodejs
   recipe :webdav
   recipe :ssh
+  recipe :ssh_config
   recipe :denyhosts
   recipe :dnsmasq
   recipe :resolv_conf
@@ -172,6 +173,13 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :notify => service('apache2')
 
     a2ensite 'webdav'
+  end
+
+  def ssh_config
+    file '/etc/ssh/ssh_config',
+      :mode => '644',
+      :content => template('ssh_config', binding),
+      :require => package('ssh')
   end
 
 end

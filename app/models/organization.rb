@@ -271,14 +271,21 @@ class Organization < ActiveRecord::Base
       .includes([:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses])
   end
 
-
+  # scopes the organization depending on the user_type
+  # contacts that belong to an organization should only see their organization
+  # contacts from a local network should see all the organizations in their network
+  # contacts from UNGC should see every organization
+  # no organizations should be seen otherwise,
   def self.visible_to(user)
     if user.user_type == Contact::TYPE_ORGANIZATION
       where('id=?', user.organization_id)
-    elsif user.user_type == Contact::TYPE_NETWORK
+    elsif user.user_type == Contact::TYPE_NETWORK || user.user_type == Contact::TYPE_NETWORK_GUEST
       where("country_id in (?)", user.local_network.country_ids)
-    else
+    elsif user.user_type == Contact::TYPE_UNGC
       self.scoped({})
+    else
+      # TODO improve this when we port to rails 4
+      where('1=2')
     end
   end
 
@@ -876,6 +883,18 @@ class Organization < ActiveRecord::Base
       self.send "#{type}.attachment"
     end
 
+  end
+
+  def registration
+    if non_business?
+      non_business_organization_registration || build_non_business_organization_registration
+    else
+      BusinessOrganizationRegistration.new
+    end
+  end
+
+  def error_message
+    errors.full_messages.to_sentence
   end
 
   private
