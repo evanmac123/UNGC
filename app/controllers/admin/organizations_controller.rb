@@ -40,7 +40,6 @@ class Admin::OrganizationsController < AdminController
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to_dashboard
     else
-      flash[:error] = 'There was an error updating the Organization.'
       @organization_types = OrganizationType.staff_types
       render :action => "edit"
     end
