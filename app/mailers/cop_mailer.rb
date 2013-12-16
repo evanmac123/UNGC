@@ -145,4 +145,13 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact Status - Important - Second consecutive COP deadline missed"
   end
 
+  def delisting_today_sme_final(organization)
+    @organization = organization
+    mail \
+      :to => organization.contacts.contact_points.collect(&:email_recipient),
+      :cc => organization.network_report_recipients.collect(&:email_recipient),
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :subject => "#{@organization.name} was expelled from the UN Global Compact"
+  end
+
 end

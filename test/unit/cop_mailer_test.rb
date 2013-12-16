@@ -198,4 +198,29 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal @network_contact.email, response.cc.first
     end
   end
+
+  context "given a non-communicating organization that is an SME"
+    setup do
+      sme = create_organization_type(:name => 'SME')
+      create_organization_and_user
+      @organization.communication_late
+      @organization.update_attribute :organization_type_id, sme.id
+    end
+    should "be able to send first notice of delisting today" do
+      response = CopMailer.delisting_today_sme(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
+      assert_equal "UN Global Compact Status - Important - Second consecutive COP deadline missed", response.subject
+    end
+
+    context "and misses their third consecutive deadline" do
+      setup do
+        @organization.update_attribute :cop_due_on, @organization.cop_due_on + 1.year
+      end
+      should "be able to send the final delisting notice" do
+        response = CopMailer.delisting_today_sme_final(@organization).deliver
+        assert_equal "text/html; charset=UTF-8", response.content_type
+        assert_equal "#{@organization.name} was expelled from the UN Global Compact", response.subject
+      end
+  end
+
 end
