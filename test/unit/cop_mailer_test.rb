@@ -199,7 +199,7 @@ class CopMailerTest < ActionMailer::TestCase
     end
   end
 
-  context "given a non-communicating organization that is an SME"
+  context "given a non-communicating organization that is an SME" do
     setup do
       sme = create_organization_type(:name => 'SME')
       create_organization_and_user
@@ -221,6 +221,7 @@ class CopMailerTest < ActionMailer::TestCase
         assert_equal "text/html; charset=UTF-8", response.content_type
         assert_equal "#{@organization.name} was expelled from the UN Global Compact", response.subject
       end
+    end
   end
 
 end

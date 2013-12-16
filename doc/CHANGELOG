@@ -8,6 +8,8 @@ h1. 2013-12-11
 * Since the extension for SMEs works the same way, it made sense to save this date in the same column
 * We can then use that date to determine when they should be delisted: 1 year after
 * The chained scope Organization.smes.about_to_end_sme_extension is called to finally delist these companies
+* Reminder emails are being reused, but the dates have to be adjusted since the extended cop_due_on is now the delisting date for SMEs
+* A helper method determines which date to use @CopMailerHelper::delisting_on(org)@
 
 h1. 2013-12-03
 
