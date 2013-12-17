@@ -294,6 +294,25 @@ class Admin::CopsControllerTest < ActionController::TestCase
         assert_template :partial => '_show_advanced_style'
       end
     end
+
+    context "given a blueprint COP" do
+      setup do
+        create_approved_organization_and_user
+        create_cop_with_options({
+          meets_advanced_criteria: true,
+          type: 'advanced'
+        })
+        @cop.update_attributes differentiation: 'blueprint'
+        sign_in @organization_user
+      end
+
+      should "display advanced partial" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+        assert_template :partial => '_show_blueprint_style'
+      end
+    end
+
   end
 
 
