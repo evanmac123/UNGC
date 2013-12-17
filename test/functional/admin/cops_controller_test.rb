@@ -330,10 +330,39 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
     end
 
+    context "given a differentiation COP" do
+      setup do
+      end
+
+      should "display advanced partial" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+        assert_template :partial => '_show_differentiation_style'
+      end
+    end
+
+    context "given a differentiation style COP" do
+      setup do
+      end
+
+      should "display advanced partial" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+        assert_template :partial => '_show_differentiation_style_public'
+      end
+    end
+
+    context "given a non_business style COP" do
+      setup do
+      end
+
+      should "display advanced partial" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+        assert_template :partial => '_show_non_business_style'
+      end
+    end
   end
-
-
-
 
   context "given two Learner COPs in a row" do
     setup do
