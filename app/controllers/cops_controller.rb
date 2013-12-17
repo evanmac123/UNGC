@@ -4,7 +4,7 @@ class CopsController < ApplicationController
   before_filter :find_cop, :except => [:feed]
 
   def show
-    presenter = Cop::Presenter.new(@communication_on_progress)
+    presenter = Cop::Presenter.create(@communication_on_progress)
     @cop_partial = presenter.show_partial
     @results_partial = presenter.results_partial
   end

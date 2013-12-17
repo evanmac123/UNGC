@@ -58,7 +58,7 @@ class Admin::CopsController < AdminController
     unless @communication_on_progress.is_grace_letter?
       begin
         CopMailer.send("confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_contact).deliver
-      rescue Exception => e
+      rescue Exception
         flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
       end
     end
@@ -68,10 +68,10 @@ class Admin::CopsController < AdminController
   end
 
   def show
-    @communication = Cop::Presenter.new(@communication_on_progress, current_contact)
+    @communication = Cop::AdminPresenter.create(@communication_on_progress, current_contact)
   rescue Cop::PresenterNotFoundError
     flash[:error] = "Sorry, we could not determine the COP type."
-    redirect_to admin_organization_path(org_id, :tab => :cops)
+    redirect_to admin_organization_path(@communication_on_progress.organization, :tab => :cops)
   end
 
   def update
@@ -86,7 +86,7 @@ class Admin::CopsController < AdminController
     else
       flash[:error] =  @communication_on_progress.errors.full_messages.to_sentence
     end
-   redirect_to admin_organization_path(org_id, :tab => :cops)
+    redirect_to admin_organization_path(org_id, :tab => :cops)
   end
 
   private
