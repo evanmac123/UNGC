@@ -104,6 +104,7 @@ class ContactTest < ActiveSupport::TestCase
 
   context "given an organization with 1 contact point and CEO" do
     setup do
+      create_roles
       create_organization_and_ceo
       @old_email = @organization_user.email
       assert @organization.reject
