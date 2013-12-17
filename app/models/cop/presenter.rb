@@ -8,8 +8,6 @@ module Cop
     attr_reader :cop, :current_contact
 
     delegate :id,
-             :number_missing_items,
-             :latest?,
              :include_continued_support_statement?,
              :references_human_rights?,
              :references_labour?,
@@ -33,6 +31,15 @@ module Cop
              :can_approve?,
              :can_reject?,
              to: :cop
+
+    # used by _show_learner_style.html.haml
+    delegate :number_missing_items,
+             :latest?
+             :triple_learner_for_one_year?,
+             :double_learner?,
+             :created_at,
+             to: :cop
+
     # used by _show_active_style
     delegate :additional_questions,
              to: :cop
@@ -54,6 +61,7 @@ module Cop
              :cop_answers,
              :notable_program?,
              to: :cop
+
     # used by _cop_questionnaire_results_advanced_lead
     delegate :cop_attributes,
              to: :cop
@@ -115,6 +123,8 @@ module Cop
     end
 
     def show_partial
+
+    raise "OMG WTF IS HAPPENING FUCK ZEUS"
       if cop.evaluated_for_differentiation?
         "/shared/cops/show_differentiation_style_public"
       else
