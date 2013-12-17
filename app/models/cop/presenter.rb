@@ -28,6 +28,8 @@ module Cop
              :include_measurement?,
              :is_advanced_programme?,
              :additional_questions?,
+             :can_approve?,
+             :can_reject?,
              to: :cop
 
     def self.create(cop, current_contact = nil)
@@ -73,6 +75,11 @@ module Cop
         admin_organization_path(cop.organization, tab: :cops)
       end
     end
+
+    def delete_path
+      admin_organization_communication_on_progress_path(cop.organization, cop.id)
+    end
+
 
     # seems like differentiation can be one of
     # ["learner", "active", "", "advanced", nil, "blueprint"]
@@ -140,6 +147,11 @@ module Cop
   end
 
   class LegacyFormatPresenter < Presenter
+    delegate :description,
+             :principles,
+             :languages,
+             to: :cop
+
   end
 
   class NewStylePresenter < Presenter
@@ -183,17 +195,11 @@ module Cop
   class LearnerStylePresenter < AdminPresenter
     delegate :id,
              :number_missing_items,
-             :can_approve?,
-             :can_reject?,
              :latest?,
              to: :cop
 
     def triple_learner_for_one_year?
       cop.organization.triple_learner_for_one_year?
-    end
-
-    def delete_path
-      admin_organization_communication_on_progress_path(cop.organization, cop.id)
     end
 
     def double_learner?

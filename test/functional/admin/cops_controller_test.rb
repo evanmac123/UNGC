@@ -180,7 +180,34 @@ class Admin::CopsControllerTest < ActionController::TestCase
                    :communication_on_progress => {}
       assert_response :redirect
     end
+  end
 
+  context "given an existing cop and a staff user" do
+    setup do
+      create_approved_organization_and_user
+      create_cop_with_options
+      create_staff_user
+      sign_in @staff_user
+    end
+
+    should "be able to see the cop details" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_response :success
+    end
+
+    should "not be able to edit the cop" do
+      get :edit, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops')
+    end
+
+    should "be able to update the cop" do
+      put :update, :organization_id => @organization.id,
+                   :id              => @cop.id,
+                   :communication_on_progress => {}
+      assert_response :redirect
+    end
   end
 
   context "given a COP submitted between 2010-01-01 and 2011-01-29" do
@@ -193,6 +220,19 @@ class Admin::CopsControllerTest < ActionController::TestCase
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
      assert_template :partial => '_show_new_style'
+    end
+  end
+
+  context "given a COP submitted before 2010-01-01" do
+    setup do
+      create_approved_organization_and_user
+      create_cop_with_options :created_at => Date.parse('31-12-2008')
+      sign_in @organization_user
+    end
+    should "show the legacy style template" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+     assert_template :partial => '_show_legacy_style'
     end
   end
 
