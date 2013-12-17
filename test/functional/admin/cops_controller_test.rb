@@ -210,61 +210,94 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
   end
 
-  context "given a COP submitted between 2010-01-01 and 2011-01-29" do
-    setup do
-      create_approved_organization_and_user
-      create_cop_with_options :created_at => Date.parse('31-12-2010')
-      sign_in @organization_user
+  context "show action" do
+
+    context "given a COP submitted before 2010-01-01" do
+      setup do
+        create_approved_organization_and_user
+        create_cop_with_options :created_at => Date.parse('31-12-2008')
+        sign_in @organization_user
+      end
+      should "show the legacy style template" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+       assert_template :partial => '_show_legacy_style'
+      end
     end
-    should "show the new style template" do
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-     assert_template :partial => '_show_new_style'
+
+    context "given a COP submitted between 2010-01-01 and 2011-01-29" do
+      setup do
+        create_approved_organization_and_user
+        create_cop_with_options :created_at => Date.parse('31-12-2010')
+        sign_in @organization_user
+      end
+      should "show the new style template" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+       assert_template :partial => '_show_new_style'
+      end
+    end
+
+    context "given a Grace Letter" do
+      setup do
+        create_approved_organization_and_user
+        create_cop_with_options(:type => 'grace')
+        sign_in @organization_user
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+      end
+
+      should "view with the Grace Letter partial" do
+        assert_template :partial => '_show_grace_style'
+      end
+    end
+
+    context "given a COP on the Learner Platform" do
+      setup do
+        create_approved_organization_and_user
+        # if any item is missing, then the COP puts the participant on the Learner Platform
+        create_cop_with_options(:include_measurement => false)
+        sign_in @organization_user
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+      end
+
+      should "display learner partial" do
+        assert_template :partial => '_show_learner_style'
+      end
+    end
+
+    context "given a GC Active COP" do
+      setup do
+        create_approved_organization_and_user
+        create_cop_with_options
+        sign_in @organization_user
+      end
+
+      should "display active partial" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+        assert_template :partial => '_show_active_style'
+      end
+    end
+
+    context "given a GC Advanced COP" do
+      setup do
+        create_approved_organization_and_user
+        create_cop_with_options({:meets_advanced_criteria => true, :type => 'advanced'})
+        sign_in @organization_user
+      end
+
+      should "display advanced partial" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+        assert_template :partial => '_show_advanced_style'
+      end
     end
   end
 
-  context "given a COP submitted before 2010-01-01" do
-    setup do
-      create_approved_organization_and_user
-      create_cop_with_options :created_at => Date.parse('31-12-2008')
-      sign_in @organization_user
-    end
-    should "show the legacy style template" do
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-     assert_template :partial => '_show_legacy_style'
-    end
-  end
 
-  context "given a Grace Letter" do
-    setup do
-      create_approved_organization_and_user
-      create_cop_with_options(:type => 'grace')
-      sign_in @organization_user
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-    end
 
-    should "view with the Grace Letter partial" do
-      assert_template :partial => '_show_grace_style'
-    end
-
-  end
-
-  context "given a COP on the Learner Platform" do
-    setup do
-      create_approved_organization_and_user
-      # if any item is missing, then the COP puts the participant on the Learner Platform
-      create_cop_with_options(:include_measurement => false)
-      sign_in @organization_user
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-    end
-
-    should "display learner partial" do
-      assert_template :partial => '_show_learner_style'
-    end
-  end
 
   context "given two Learner COPs in a row" do
     setup do
@@ -277,34 +310,6 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "call correct email templates" do
       assert @organization.double_learner?
       assert_equal @second_cop.confirmation_email,'double_learner'
-    end
-  end
-
-  context "given a GC Active COP" do
-    setup do
-      create_approved_organization_and_user
-      create_cop_with_options
-      sign_in @organization_user
-    end
-
-    should "display active partial" do
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-      assert_template :partial => '_show_active_style'
-    end
-  end
-
-  context "given a GC Advanced COP" do
-    setup do
-      create_approved_organization_and_user
-      create_cop_with_options({:meets_advanced_criteria => true, :type => 'advanced'})
-      sign_in @organization_user
-    end
-
-    should "display advanced partial" do
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-      assert_template :partial => '_show_advanced_style'
     end
   end
 
