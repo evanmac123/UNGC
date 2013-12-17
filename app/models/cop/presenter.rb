@@ -213,6 +213,17 @@ module Cop
       end
       html.join(' ').html_safe
     end
+  end
 
+  class BlueprintStylePresenter < AdminPresenter
+    delegate :missing_items?,
+             :questions_missing_answers,
+             :meets_advanced_criteria,
+             :issue_areas_covered,
+             :is_advanced_lead?,
+             :cop_answers,
+             :notable_program?,
+             :cop_attributes,
+             to: :cop
   end
 end
