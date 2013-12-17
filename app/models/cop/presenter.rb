@@ -226,4 +226,9 @@ module Cop
              :cop_attributes,
              to: :cop
   end
+
+  class BasicStylePresenter < AdminPresenter
+    delegate :cop_attributes,
+             to: :cop
+  end
 end
