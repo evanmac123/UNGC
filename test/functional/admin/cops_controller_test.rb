@@ -313,6 +313,23 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
     end
 
+    context "given a basic COP" do
+      setup do
+        create_approved_organization_and_user
+        create_cop_with_options({
+          type: 'basic',
+          created_at: Date.new(2011, 01, 10)
+        })
+        sign_in @organization_user
+      end
+
+      should "display advanced partial" do
+        get :show, :organization_id => @organization.id,
+                   :id              => @cop.id
+        assert_template :partial => '_show_basic_style'
+      end
+    end
+
   end
 
 
