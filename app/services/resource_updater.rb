@@ -7,7 +7,7 @@ class ResourceUpdater
   end
 
   def submit
-    resource.attributes = params.slice(:title, :description, :isbn, :image_url, :principle_ids, :author_ids, :image)
+    resource.attributes = params.slice(:title, :description, :isbn, :principle_ids, :author_ids, :image)
     resource.year = year if has_year?
 
     if valid?
