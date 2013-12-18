@@ -6,7 +6,6 @@
 #  title          :string(255)
 #  description    :text
 #  year           :date
-#  image_url      :string(255)
 #  isbn           :string(255)
 #  approval       :string(255)
 #  approved_at    :datetime
@@ -17,7 +16,7 @@
 #
 
 class Resource < ActiveRecord::Base
-  attr_accessible :title, :description, :year, :isbn, :image_url, :principle_ids, :author_ids, :image
+  attr_accessible :title, :description, :year, :isbn, :principle_ids, :author_ids, :image
   has_attached_file :image, :styles => {
       :show => "213x277>",
       :'show@2x' => "425x554>",
@@ -79,9 +78,9 @@ class Resource < ActiveRecord::Base
 
   def cover_image(size = nil, options={})
     if options[:retina]
-      image.exists? ? image.url(size.to_s + '@2x') : image_url
+      image.url(size.to_s + '@2x')
     else
-      image.exists? ? image.url(size) : image_url
+      image.url(size)
     end
   end
 
