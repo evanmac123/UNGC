@@ -31,7 +31,7 @@
         - if @resource.image.present?
           %label Preview
           .resource-img-preview
-            = retina_image @resource, :show, title: @resource.title
+            = retina_image @resource, :featured, title: @resource.title
 
   #topics.tab_content
     %fieldset
