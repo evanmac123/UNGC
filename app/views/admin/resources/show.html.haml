@@ -21,7 +21,9 @@
       %dd= @resource.approval_name
       - if @resource.image.present?
         %dt Preview
-        %dd= retina_image @resource, :featured
+        %dd
+          .resource-img-preview
+            = retina_image @resource, :featured
       %dt Description
       %dd= @resource.description
       - if @resource.isbn?
