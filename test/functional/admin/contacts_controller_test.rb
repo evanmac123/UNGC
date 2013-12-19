@@ -96,6 +96,7 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       assert_response :success
       assert_same_elements [ Role.contact_point,
                              Role.financial_contact,
+                             Role.survey_contact,
                              Role.ceo], assigns(:roles)
     end
 

@@ -111,7 +111,6 @@ module Importers
           title: title,
           year: year,
           description: description,
-          image_url: image_url,
           isbn: isbn,
         }
       end

@@ -30,6 +30,7 @@ class Role < ActiveRecord::Base
     :network_regional_manager  => 'Local Network Manager',
     :network_report_recipient  => 'Network Report Recipient',
     :network_representative    => 'Network Representative',
+    :survey_contact            => 'Annual Survey Contact',
     :website_editor            => 'Website Editor',
     :participant_manager       => 'Participant Relationship Manager'
   }
@@ -39,9 +40,13 @@ class Role < ActiveRecord::Base
       roles_ids = [Role.contact_point].collect(&:id)
       # give option to check Highlest Level Executive if no CEO has been assigned
       roles_ids << Role.ceo.id if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
+
+      # only editable by Global Compact staff
       if current_contact && current_contact.from_ungc?
         roles_ids << Role.ceo.id
+        roles_ids << Role.survey_contact.id
       end
+
       # only business organizations have a financial contact
       roles_ids << Role.financial_contact.id if user.organization.business_entity?
 
@@ -104,6 +109,10 @@ class Role < ActiveRecord::Base
 
   def self.financial_contact
     where(:name => FILTERS[:financial_contact]).first
+  end
+
+  def self.survey_contact
+    where(:name => FILTERS[:survey_contact]).first
   end
 
   # Global Compact staff roles

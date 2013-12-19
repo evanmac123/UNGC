@@ -43,10 +43,6 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
         assert_equal 'As the first publication', @resource.description
       end
 
-      should "import image_url" do
-        assert_equal 'http://www.unglobalcompact.org/pics/example.png', @resource.image_url
-      end
-
       should "import isbn" do
         assert_equal "ISBN1234", @resource.isbn
       end
@@ -59,10 +55,6 @@ class ToolsAndResourcesTest < ActiveSupport::TestCase
 
       should "not import n/a as a year" do
         assert_nil @na.year
-      end
-
-      should "not import n/a images" do
-        assert_nil @na.image_url
       end
     end
 
