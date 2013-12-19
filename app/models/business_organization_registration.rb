@@ -13,6 +13,12 @@ class BusinessOrganizationRegistration < OpenStruct
   end
 
   def to_model
+    self
   end
+
+  def errors
+    []
+  end
+
 end
 
