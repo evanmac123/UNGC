@@ -17,15 +17,13 @@ class Admin::OrganizationsController < AdminController
   end
 
   def create
-    signings = params[:organization].delete(:signings)
-    @organization = Organization.new(params[:organization])
-    @organization.set_non_participant_fields
+    org_updater = OrganizationUpdater.new(params)
 
-    if @organization.save
-      @organization.signings.create!(signings)
+    if org_updater.create_signatory_organization
       flash[:notice] = 'Organization was successfully created.'
-      redirect_to( admin_organization_path(@organization.id) )
+      redirect_to( admin_organization_path(org_updater.organization.id) )
     else
+      @organization = org_updater.organization
       render :action => "new"
     end
   end
@@ -35,8 +33,8 @@ class Admin::OrganizationsController < AdminController
   end
 
   def update
-    org_updater = OrganizationUpdater.new(@organization, current_contact, params)
-    if org_updater.update
+    org_updater = OrganizationUpdater.new(params)
+    if org_updater.update(@organization, current_contact)
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to_dashboard
     else

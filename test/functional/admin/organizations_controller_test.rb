@@ -18,53 +18,55 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     sign_in @staff_user
     get :new, {}
     assert_response :success
-    assert_template :partial => '_new_signatory_form'
+    assert_template partial: '_new_signatory_form'
   end
 
   test "should create organization" do
     sign_in @staff_user
+    sector = create_sector
     assert_difference('Organization.count') do
-      post :create, {:organization => {:name                 => 'Unspace',
-                                       :organization_type_id => OrganizationType.first.id,
-                                       :employees            => 500,
-                                       :country_id           => @country.id}}
+      post :create, {organization: {name: 'Unspace',
+                                       organization_type_id: OrganizationType.first.id,
+                                       sector_id: sector.id,
+                                       employees: 500,
+                                       country_id: @country.id}}
     end
 
-    assert_redirected_to admin_organization_path(assigns(:organization).id)
+    assert_response :redirect
   end
 
   test "should show organization" do
     sign_in @user
-    get :show, {:id => @organization.to_param}
+    get :show, {id: @organization.to_param}
     assert_response :success
   end
 
   test "should not show other organizations to user" do
-    @organization = Organization.create(:name                 => 'SME',
-                                        :employees            => 50,
-                                        :organization_type_id => OrganizationType.first.id)
+    @organization = Organization.create(name: 'SME',
+                                        employees: 50,
+                                        organization_type_id: OrganizationType.first.id)
     sign_in @user
-    get :show, {:id => @organization.to_param}
+    get :show, {id: @organization.to_param}
     assert_redirected_to dashboard_path
     assert_equal "You do not have permission to access that resource.", flash[:error]
   end
 
   test "should get edit" do
     sign_in @staff_user
-    get :edit, {:id => @organization.to_param}
+    get :edit, {id: @organization.to_param}
     assert_response :success
   end
 
   test "staff should update organization and redirect to organization show view" do
     sign_in @staff_user
-    put :update, {:id => @organization.to_param, :organization => { }}
+    put :update, {id: @organization.to_param, organization: { }}
     assert_redirected_to admin_organization_path(assigns(:organization).id)
   end
 
   test "should destroy organization" do
     sign_in @user
     assert_difference('Organization.count', -1) do
-      delete :destroy, {:id => @organization.to_param}
+      delete :destroy, {id: @organization.to_param}
     end
 
     assert_redirected_to admin_organizations_path
@@ -108,7 +110,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
   test "should redirect participants to main dashboard after updating" do
     sign_in @user
-    put :update, {:id => @organization.to_param, :organization => { }}
+    put :update, {id: @organization.to_param, organization: { }}
     assert_redirected_to dashboard_path
   end
 
@@ -120,7 +122,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
     should "should set replied_to to false after a user updates" do
       sign_in @user
-      put :update, {:id => @organization.to_param, :organization => { }}
+      put :update, {id: @organization.to_param, organization: { }}
       @organization.reload
       assert_equal false, @organization.replied_to
       assert_redirected_to dashboard_path
@@ -128,7 +130,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
     should "should set replied_to to true after a staff user updates" do
       sign_in @staff_user
-      put :update, {:id => @organization.to_param, :organization => { }}
+      put :update, {id: @organization.to_param, organization: { }}
       @organization.reload
       assert_equal true, @organization.replied_to
       assert_redirected_to admin_organization_path(@organization.id)
@@ -136,7 +138,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
     should "not reverse roles without one CEO and Contact Point" do
       sign_in @staff_user
-      get :reverse_roles, {:id => @organization.to_param}
+      get :reverse_roles, {id: @organization.to_param}
       assert_equal 'Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.', flash[:error]
       assert_redirected_to admin_organization_path(@organization.id)
     end
@@ -144,26 +146,26 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
     should "reverse roles" do
       create_organization_and_ceo
       sign_in @staff_user
-      get :reverse_roles, {:id => @organization.to_param}
+      get :reverse_roles, {id: @organization.to_param}
       assert_equal 'The CEO and Contact Point roles were reversed.', flash[:notice]
       assert_redirected_to admin_organization_path(@organization.id)
     end
 
     should "be able to edit Letter of Commitment" do
       sign_in @user
-      get :edit, {:id => @organization.to_param}
+      get :edit, {id: @organization.to_param}
       assert_select "input#organization_commitment_letter"
     end
 
     should "not see Country select" do
       sign_in @user
-      get :edit, {:id => @organization.to_param}
+      get :edit, {id: @organization.to_param}
       assert_select "select#organization_country_id", 0
     end
 
     should "staff should see the fieldset for selecting why they are in review" do
       # sign_in @staff_user
-      # get :edit, {:id => @organization.to_param}
+      # get :edit, {id: @organization.to_param}
       # assert_select "fieldset#review_reason"
     end
 
@@ -180,7 +182,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       end
 
       should "user should not see upload field for commitment letter" do
-        get :edit, {:id => @organization.to_param}
+        get :edit, {id: @organization.to_param}
         assert_select "input#organization_commitment_letter", 0
       end
     end
@@ -191,12 +193,12 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       end
 
       should "succeed and require delisted on date when being manually delisted" do
-        put :update, {:id => @organization.to_param, :organization => { :active => "0", :delisted_on => Date.today }}
+        put :update, {id: @organization.to_param, organization: { active: "0", delisted_on: Date.today }}
         assert_redirected_to admin_organization_path(@organization.id)
       end
 
       should "fail when being manually delisted and delisted_on date is not provided" do
-        put :update, {:id => @organization.to_param, :organization => { :active => "0" }}
+        put :update, {id: @organization.to_param, organization: { active: "0" }}
         assert_template "edit"
         assert_equal "There was an error updating the Organization.", flash[:error]
       end
@@ -210,14 +212,14 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
      should "applicant should not be able to edit" do
        sign_in @user
-       get :edit, {:id => @organization.id}
+       get :edit, {id: @organization.id}
        assert_equal "We're sorry, your organization's application was not approved. No edits or comments can be made.", flash[:error]
        assert_redirected_to admin_organization_path(@user.organization.id)
      end
 
      should "staff should still be able to edit" do
        sign_in @staff_user
-       get :edit, {:id => @organization.id}
+       get :edit, {id: @organization.id}
        assert_response :success
      end
    end
@@ -229,7 +231,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
      should "not be able to submit a COP" do
        sign_in @organization_user
-       get :show, {:id => @organization.to_param}
+       get :show, {id: @organization.to_param}
        # TODO need to check that the "New Communication on Progress" button is not displayed
        assert_response :success
        assert_select 'div' do
@@ -247,18 +249,18 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
 
     should "update non business organization registration" do
       sign_in @user
-      put :update, {:id => @organization.to_param, :organization => {  },
-                                       non_business_organization_registration: {:number              => "test",
-                                        :date => "12/3/2013",
-                                        :place => "bla",
-                                        :authority => "bla",
-                                        :mission_statement   => "A"}}
+      put :update, {id: @organization.to_param, organization: {  },
+                                       non_business_organization_registration: {number: "test",
+                                        date: "12/3/2013",
+                                        place: "bla",
+                                        authority: "bla",
+                                        mission_statement: "A"}}
       assert_equal @organization.non_business_organization_registration.number, "test"
     end
 
     should "reject non business organization registration" do
       sign_in @user
-      put :update, {:id => @organization.to_param, non_business_organization_registration: {}, :organization => {  }}
+      put :update, {id: @organization.to_param, non_business_organization_registration: {}, organization: {  }}
       assert_template "admin/organizations/edit"
     end
 

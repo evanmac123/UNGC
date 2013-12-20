@@ -2,13 +2,27 @@ class OrganizationUpdater
 
   attr_reader :organization, :params, :contact
 
-  def initialize(organization, contact, params)
-    @organization = organization
-    @contact = contact
+  def initialize(params)
     @params = params
   end
 
-  def update
+  def create_signatory_organization
+    signings = params[:organization].delete(:signings)
+    @organization = Organization.new(params[:organization])
+    organization.set_non_participant_fields
+
+    if valid? && organization.save
+      # XXX this seems to be optional
+      organization.signings.create!(signings)
+      return true
+    end
+
+    false
+  end
+
+  def update(organization, contact)
+    @organization = organization
+    @contact = contact
     update_state
     update_contact
 
@@ -34,6 +48,23 @@ class OrganizationUpdater
 
     def save_registration(par)
       organization.registration.update_attributes par
+    end
+
+    def valid?
+      organization.valid?
+      validate_country
+      validate_sector
+      return true unless organization.errors.any?
+    end
+
+    def validate_country
+      return true if organization.country.present?
+      organization.errors.add :country_id, "can't be blank"
+    end
+
+    def validate_sector
+      return true if organization.sector.present?
+      organization.errors.add :sector_id, "can't be blank"
     end
 
 end
