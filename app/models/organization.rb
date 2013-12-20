@@ -805,7 +805,7 @@ class Organization < ActiveRecord::Base
           'Global Compact Learner'
         else
           'not available'
-        end
+      end
 
     else
       'A Communication on Progress has not been submitted'

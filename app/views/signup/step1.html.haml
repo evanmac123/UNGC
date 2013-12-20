@@ -25,7 +25,7 @@
           = hidden_field :organization, :organization_type_id, :value => OrganizationType.try(:company).try(:id)
           %li
             = form.label :listing_status_id, "Ownership"
-            = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}
+            = form.select :listing_status_id, ListingStatus.all.collect{|t| [t.name, t.id]}, {include_blank: 'Please Select'}
           %li.public_company_only{:style => "display:#{@signup.organization.public_company? ? 'block' : 'none'}"}
             = form.label :is_ft_500, "FT 500"
             = form.check_box :is_ft_500
@@ -37,7 +37,7 @@
             = form.text_field :stock_symbol
           %li
             = form.label :sector_id
-            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @signup.organization.sector_id)
+            = form.select :sector_id, option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name, @signup.organization.sector_id), {include_blank: 'Please Select'}
           %li
             = form.label :revenue, "Annual Sales / Revenues"
             = form.select :revenue, Organization::REVENUE_LEVELS.collect{|key,value| [value,key]}
