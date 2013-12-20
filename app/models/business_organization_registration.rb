@@ -1,4 +1,5 @@
 class BusinessOrganizationRegistration < OpenStruct
+  extend ActiveModel::Naming
 
   def self.model_name
     NonBusinessOrganizationRegistration.model_name
@@ -17,7 +18,7 @@ class BusinessOrganizationRegistration < OpenStruct
   end
 
   def errors
-    []
+    ActiveModel::Errors.new(self)
   end
 
 end
