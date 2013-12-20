@@ -30,6 +30,8 @@ class OrganizationSignup
 
   def valid_organization?
     organization.valid?
+    validate_country
+    validate_type
     local_valid_organization?
     !organization.errors.any?
   end
@@ -101,6 +103,16 @@ class OrganizationSignup
       unique = (ceo.email.try(:downcase) != primary_contact.email.try(:downcase))
       ceo.errors.add :email, "cannot be the same as the Contact Point" unless unique
       return unique
+    end
+
+    def validate_country
+      return if organization.country.present?
+      organization.errors.add :country_id, "can't be blank"
+    end
+
+    def validate_type
+      return if organization.organization_type.present?
+      organization.errors.add :organization_type, "can't be blank"
     end
 
 end

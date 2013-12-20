@@ -43,5 +43,21 @@ class BusinessOrganizationSignup < OrganizationSignup
       organization.contacts << financial_contact
     end
   end
+
+  def local_valid_organization?
+    validate_sector
+    validate_listing_status
+  end
+
+  private
+    def validate_sector
+      return if organization.sector.present?
+      organization.errors.add :sector_id, "can't be blank"
+    end
+
+    def validate_listing_status
+      return if organization.listing_status.present?
+      organization.errors.add :listing_status_id, "can't be blank"
+    end
 end
 

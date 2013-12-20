@@ -76,7 +76,8 @@ module FixtureReplacement
     l.name = FixtureReplacement.random_string
 	end
 
-  attributes_for :listing_status do |a|
+  attributes_for :listing_status do |l|
+    l.name = FixtureReplacement.random_string
 	end
 
   attributes_for :local_network do |l|

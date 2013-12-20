@@ -118,11 +118,36 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
   end
 
-  context "validates OrganizationSignup" do
+  context "validates Business OrganizationSignup" do
     setup do
       create_roles
-      create_organization_type(name: 'SME', type_property: 2 )
+      create_organization_type(
+        name: 'SME',
+        type_property: 2,
+      )
       @os = BusinessOrganizationSignup.new
+    end
+
+    should "not be valid" do
+      @os.set_organization_attributes(organization: {name: 'business',
+                                                     employees:            50
+                                                    }
+                                     )
+      assert_equal @os.valid?, false
+    end
+
+    should "be valid" do
+      country = create_country
+      sector = create_sector
+      listing_status = create_listing_status
+      @os.set_organization_attributes(organization: {name: 'business',
+                                                     employees:            50,
+                                                     country:            country,
+                                                     sector:             sector,
+                                                     listing_status:     listing_status
+                                                    }
+                                     )
+      assert @os.valid?
     end
   end
 
@@ -130,6 +155,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     setup do
       create_roles
       create_organization_type(name: 'Academic', type_property: 1 )
+      @country = create_country
       @os = NonBusinessOrganizationSignup.new
     end
 
@@ -154,9 +180,10 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
     should "validate organization partially" do
       assert !@os.valid_organization?, "should be invalid"
-      @os.set_organization_attributes(organization: {:name                 => 'City University',
-                                       :employees            => 50,
-                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')})
+      @os.set_organization_attributes(organization: {name: 'City University',
+                                       employees: 50,
+                                       country: @country,
+                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf')})
       assert @os.valid_organization?, "should be valid"
     end
 
@@ -172,18 +199,20 @@ class OrganizationSignupTest < ActiveSupport::TestCase
 
     should "validate presence of legal status only if registration.number is blank" do
       assert !@os.valid_organization?, "should be invalid"
-      @os.set_organization_attributes(organization: {:name                 => 'City University',
-                                       :employees            => 50},
-                                      non_business_organization_registration: {:number               => 10})
+      @os.set_organization_attributes(organization: {name: 'City University',
+                                       country: @country,
+                                       employees: 50},
+                                      non_business_organization_registration: {number: 10})
       assert @os.valid_organization?, "should be valid"
 
     end
 
     should "validate presence of registration.number only if legal status is blank" do
       assert !@os.valid_organization?, "should be invalid"
-      @os.set_organization_attributes(organization: {:name                 => 'City University',
-                                       :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
-                                       :employees            => 50})
+      @os.set_organization_attributes(organization: {name: 'City University',
+                                       country: @country,
+                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf'),
+                                       employees: 50})
       assert @os.valid_organization?, "should be valid"
     end
   end
