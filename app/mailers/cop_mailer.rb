@@ -140,6 +140,7 @@ class CopMailer < ActionMailer::Base
     @organization = organization
     mail \
       :to      => organization.contacts.contact_points.collect(&:email_recipient),
+      :cc      => organization.network_report_recipients.collect(&:email_recipient),
       :bcc     => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
       :subject => "UN Global Compact Status - Important - Second consecutive COP deadline missed"
   end
