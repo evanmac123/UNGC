@@ -1,5 +1,5 @@
 %a.resouce-block-link{href: "#{resource_path(result)}"}
-  - if result.cover_image.present?
+  - if result.image.present?
     .resource-result-img
       = retina_image result, :result, title: result.title
 

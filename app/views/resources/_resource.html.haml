@@ -1,6 +1,6 @@
 %li.resource
   %a{href: resource_path(resource), title: resource.title}
-    - if resource.cover_image.present?
+    - if resource.image.present?
       .image
         = retina_image resource, :featured
 
