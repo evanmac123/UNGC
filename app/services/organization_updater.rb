@@ -57,6 +57,7 @@ class OrganizationUpdater
       organization.valid?
       validate_country
       validate_sector unless organization.non_business?
+      validate_listing_status unless organization.non_business?
       return true unless organization.errors.any?
     end
 
@@ -68,6 +69,11 @@ class OrganizationUpdater
     def validate_sector
       return true if organization.sector.present?
       organization.errors.add :sector_id, "can't be blank"
+    end
+
+    def validate_listing_status
+      return if organization.listing_status.present?
+      organization.errors.add :listing_status_id, "can't be blank"
     end
 
 end

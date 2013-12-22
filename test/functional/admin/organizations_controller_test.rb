@@ -24,10 +24,12 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
   test "should create organization" do
     sign_in @staff_user
     sector = create_sector
+    listing_status = create_listing_status
     assert_difference('Organization.count') do
       post :create, {organization: {name: 'Unspace',
                                        organization_type_id: OrganizationType.first.id,
                                        sector_id: sector.id,
+                                       listing_status_id: listing_status.id,
                                        employees: 500,
                                        country_id: @country.id}}
     end

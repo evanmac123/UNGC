@@ -106,10 +106,12 @@ class ActiveSupport::TestCase
     create_organization_type(name: 'SME')
     create_country
     sector = create_sector
+    listing_status = create_listing_status
     @organization = create_organization(employees: 50,
                                         organization_type_id: OrganizationType.sme.id,
                                         country: Country.first,
                                         sector: sector,
+                                        listing_status: listing_status,
                                         cop_due_on: Date.today + 1.year)
     @organization.approve! if state == 'approved'
     @organization_user = create_contact(organization_id: @organization.id,
