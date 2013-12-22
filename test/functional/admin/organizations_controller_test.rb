@@ -198,7 +198,6 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       should "fail when being manually delisted and delisted_on date is not provided" do
         put :update, {:id => @organization.to_param, :organization => { :active => "0" }}
         assert_template "edit"
-        assert_equal "There was an error updating the Organization.", flash[:error]
       end
     end
   end
