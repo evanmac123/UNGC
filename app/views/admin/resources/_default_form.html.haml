@@ -28,9 +28,10 @@
                                           {:label => 'Year'}
         = default_form.text_field  :isbn, :label => 'ISBN'
         = default_form.file_field  :image, :label => 'Image Upload', accept: 'image/png,image/gif,image/jpeg'
-        - if @resource.cover_image.present?
+        - if @resource.image.present?
           %label Preview
-          = retina_image @resource, :show, title: @resource.title
+          .resource-img-preview
+            = retina_image @resource, :featured, title: @resource.title
 
   #topics.tab_content
     %fieldset
