@@ -246,8 +246,7 @@ class Organization < ActiveRecord::Base
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
   # combine with :sme scope to list SMEs who have been given a 1 year extension after becoming non-communicating
-  scope :about_to_end_sme_extension, lambda { where("cop_state=? AND inactive_on > '2012-12-01' AND inactive_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
-  scope :about_to_end_sme_extension, lambda { where("cop_state=? AND inactive_on > '2012-12-01' AND inactive_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
+  scope :about_to_end_sme_extension, lambda { where("cop_state=? AND inactive_on > '2012-12-21' AND inactive_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 1.day.ago.beginning_of_day, 1.day.ago.end_of_day)}
 
