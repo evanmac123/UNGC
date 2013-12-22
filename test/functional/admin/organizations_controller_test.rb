@@ -255,7 +255,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
                                         place: "bla",
                                         authority: "bla",
                                         mission_statement: "A"}}
-      assert_equal @organization.non_business_organization_registration.number, "test"
+      assert_equal @organization.registration.number, "test"
     end
 
     should "reject non business organization registration" do

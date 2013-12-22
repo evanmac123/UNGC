@@ -23,6 +23,9 @@ class OrganizationUpdater
   def update(organization, contact)
     @organization = organization
     @contact = contact
+
+    return false unless valid?
+
     update_state
     update_contact
 
@@ -53,7 +56,7 @@ class OrganizationUpdater
     def valid?
       organization.valid?
       validate_country
-      validate_sector
+      validate_sector unless organization.non_business?
       return true unless organization.errors.any?
     end
 
