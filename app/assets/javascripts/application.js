@@ -214,12 +214,12 @@ $(document).ready(function() {
   $('form #hide_business_and_stakeholders').on('click', hideBusinessAndStakeholders);
   $("#listing_status_id").on('change', function() {
     selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
-    if (selected_listing_status == "Public Company") {
+    if (selected_listing_status === "Public Company") {
       $('.public_company_only').show();
     } else {
       $('.public_company_only').hide();
     }
-  })
+  });
 
   // hide and show sections for FAQs, titles and descriptions etc.
   $(".hint_toggle").on('click', function(){
