@@ -1,3 +1,16 @@
+h1. 2013-12-11
+
+* A decision was made to continue the 1 year extension given to all SMEs after their delisting date
+* Following the entry from 2012-12-21, SMEs will now be delisted after the one-year extension: Organization#extend_cop_due_date_by_one_year
+* The SME is then delisted 1 year after that date
+* To keep track of when SMEs entered into the 'moratorium', we use Organization.inactive_on
+* Previously, inactive_on was used to record when the participant entered the 'inactive' COP state which is no longer used
+* Since the extension for SMEs works the same way, it made sense to save this date in the same column
+* We can then use that date to determine when they should be delisted: 1 year after
+* The chained scope Organization.smes.about_to_end_sme_extension is called to finally delist these companies
+* Reminder emails are being reused, but the dates have to be adjusted since the extended cop_due_on is now the delisting date for SMEs
+* A helper method determines which date to use @CopMailerHelper::delisting_on(org)@
+
 h1. 2013-12-03
 
 * Image previews for Resources can be uploaded with the form

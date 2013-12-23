@@ -8,7 +8,7 @@
 Dear Contact Points for
 %strong== #{@organization.name},
 
-%p==This message is regarding the potential expulsion of #{@organization.name} from the UN Global Compact for failing to submit a Communication on Progress (COP).  Please submit your company's COP on our website by #{dd_month_yyyy @organization.delisting_on} to avoid being expelled from the initiative and appearing under #{link_to 'Expelled Participants', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html'} on our website and in our next press release announcing the names of expelled companies.
+%p==This message is regarding the potential expulsion of #{@organization.name} from the UN Global Compact for failing to submit a Communication on Progress (COP).  Please submit your company's COP on our website by #{dd_month_yyyy delisting_on(@organization)} to avoid being expelled from the initiative and appearing under #{link_to 'Expelled Participants', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html'} on our website and in our next press release announcing the names of expelled companies.
 
 %p==For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COP. In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
 

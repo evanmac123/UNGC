@@ -16,4 +16,10 @@ module CopMailerHelper
     end
   end
 
+  # Due to the SME moratorium, we use the extended cop_due_on date for SMEs
+  # Companies will conitinue to use the date determined by Organization#delisting_on
+  def delisting_on(org)
+    org.organization_type == OrganizationType.sme ? org.cop_due_on : org.delisting_on
+  end
+
 end

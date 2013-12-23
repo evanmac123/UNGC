@@ -4,6 +4,7 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a submitted COP" do
     setup do
+      create_roles
       create_organization_and_user
       @cop = create_cop(@organization.id)
     end
@@ -40,6 +41,7 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a COP from a Non Business" do
     setup do
+      create_roles
       create_non_business_organization_and_user
       @cop = create_cop(@organization.id)
     end
@@ -76,6 +78,7 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given three Learner COPs in a row over a one-year period" do
      setup do
+       create_roles
        create_organization_and_user
        @organization.participant_manager = create_participant_manager
        @first_cop  = create_cop(@organization.id, { :references_environment  => false })
@@ -103,6 +106,7 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given an organization with a Local Network" do
     setup do
+      create_roles
       create_organization_and_user
       create_ungc_organization_and_user
       create_local_network_with_report_recipient
@@ -135,6 +139,7 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a non-communicating organization with no Local Network" do
     setup do
+      create_roles
       create_organization_and_user
       @organization.communication_late
       create_ungc_organization_and_user
@@ -167,6 +172,7 @@ class CopMailerTest < ActionMailer::TestCase
 
   context "given a non-communicating organization with a Local Network" do
     setup do
+      create_roles
       create_organization_and_user
       create_ungc_organization_and_user
       create_local_network_with_report_recipient
@@ -198,4 +204,31 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal @network_contact.email, response.cc.first
     end
   end
+
+  context "given a non-communicating organization that is an SME" do
+    setup do
+      create_roles
+      sme = create_organization_type(:name => 'SME')
+      create_organization_and_user
+      @organization.communication_late
+      @organization.update_attribute :organization_type_id, sme.id
+    end
+    should "be able to send first notice of delisting today" do
+      response = CopMailer.delisting_today_sme(@organization).deliver
+      assert_equal "text/html; charset=UTF-8", response.content_type
+      assert_equal "UN Global Compact Status - Important - Second consecutive COP deadline missed", response.subject
+    end
+
+    context "and misses their third consecutive deadline" do
+      setup do
+        @organization.update_attribute :cop_due_on, @organization.cop_due_on + 1.year
+      end
+      should "be able to send the final delisting notice" do
+        response = CopMailer.delisting_today_sme_final(@organization).deliver
+        assert_equal "text/html; charset=UTF-8", response.content_type
+        assert_equal "#{@organization.name} was expelled from the UN Global Compact", response.subject
+      end
+    end
+  end
+
 end
