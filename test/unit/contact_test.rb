@@ -86,6 +86,7 @@ class ContactTest < ActiveSupport::TestCase
   context "given an organization with 1 contact point and 1 CEO" do
     setup do
       create_organization_and_ceo
+      create_roles
       @organization.approve
     end
 

@@ -169,8 +169,12 @@ class ActiveSupport::TestCase
                                       :role_ids         => [Role.network_report_recipient.id])
   end
 
+  def find_or_create_role(args={})
+    Role.where(name: args[:name]).first || create_role(args)
+  end
+
   def create_roles
-    Role::FILTERS.values.each {|name| create_role(:name => name, :description => "value")}
+    Role::FILTERS.values.each {|name| find_or_create_role(:name => name, :description => "value")}
   end
 
   def create_cop(organization_id, options = {})

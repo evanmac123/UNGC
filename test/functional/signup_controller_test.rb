@@ -194,7 +194,7 @@ class SignupControllerTest < ActionController::TestCase
     end
 
     should "see the PRME invitation on the seventh step page if they are an Academic organization" do
-      @academic = create_organization_type(:name => 'Academic', :type_property => 1)
+      @academic = OrganizationType.where(name: 'Academic').first
       @signup = session[:signup] = NonBusinessOrganizationSignup.new
       @signup.set_organization_attributes(organization: {:name                 => 'City University',
                                        :organization_type_id => @academic.id,
