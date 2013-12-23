@@ -180,7 +180,7 @@ $(document).ready(function() {
 
   // $(".tablesorter").tablesorter({widgets: ['zebra']});
 
-  $('a.edit_content').live('click', function(event) {
+  $('a.edit_content').on('click', function(event) {
     // jQuery.get(event.target.href, [], null, 'script');
     Editor.loading();
     jQuery.ajax({
@@ -200,7 +200,7 @@ $(document).ready(function() {
     $(this).bind('mouseout', function() { makeChildrenInvisible(this.className) } );
   } );
 
-  $('select.autolink').live('change', function(e) {
+  $('select.autolink').on('change', function(e) {
     var select = $(e.target);
     var go = select.val();
     var anchor = window.location.hash;
@@ -209,40 +209,40 @@ $(document).ready(function() {
     }
   });
 
-  $('form #business_only').live('click', showBusinessOnly);
-  $('form #stakeholders_only').live('click', showStakeholdersOnly);
-  $('form #hide_business_and_stakeholders').live('click', hideBusinessAndStakeholders);
-  $("#listing_status_id").live('change', function() {
+  $('form #business_only').on('click', showBusinessOnly);
+  $('form #stakeholders_only').on('click', showStakeholdersOnly);
+  $('form #hide_business_and_stakeholders').on('click', hideBusinessAndStakeholders);
+  $("#listing_status_id").on('change', function() {
     selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
-    if (selected_listing_status == "Public Company") {
+    if (selected_listing_status === "Public Company") {
       $('.public_company_only').show();
     } else {
       $('.public_company_only').hide();
     }
-  })
+  });
 
   // hide and show sections for FAQs, titles and descriptions etc.
-  $(".hint_toggle").live('click', function(){
+  $(".hint_toggle").on('click', function(){
     $(this).next(".hint_text").slideToggle();
     $(this).toggleClass('selected');
   });
 
   // called from views/signup/pledge_form.html.haml
   // disable select if amount is chosen
-  $('.fixed_pledge').live('click', function() {
+  $('.fixed_pledge').on('click', function() {
     result = (this.id != 'organization_pledge_amount_100')
     $("#organization_pledge_amount").attr('disabled', result);
   });
 
   // called from views/signup/step5.html.haml
-  $("#contact_foundation_contact").live('click', function() {
+  $("#contact_foundation_contact").on('click', function() {
     if ($('#error_explanation').length > 0) {
       $('#error_explanation').toggle();
     }
     $('#contact_form').toggle();
   });
 
-  $('a[data-popup]').live('click', function(e) {
+  $('a[data-popup]').on('click', function(e) {
       window.open(this.href, 'newWindow', 'left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1');
       e.preventDefault();
    });

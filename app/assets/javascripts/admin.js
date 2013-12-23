@@ -439,16 +439,16 @@ function setEditable() {
 
 $(function() {
   // Wire up the buttons for the treeview
-  $('a#save_tree').live('click', Treeview.save );
-  $('a#new_section').live('click', Treeview.newSection );
-  $('a#new_page').live('click', Treeview.newPage );
-  $('a#delete_page').live('click', Treeview.markDeleted );
-  $('a.save_page').live('click', Page.saveChanges );
-  $('a.approve_page').live('click', Page.approveAndSave );
-  $('a#visibility_page').live('click', Treeview.changeVisibility );
-  $('.dynamic_when_clicked > input').live('click', Page.toggleDynamicContent );
+  $('a#save_tree').on('click', Treeview.save );
+  $('a#new_section').on('click', Treeview.newSection );
+  $('a#new_page').on('click', Treeview.newPage );
+  $('a#delete_page').on('click', Treeview.markDeleted );
+  $('a.save_page').on('click', Page.saveChanges );
+  $('a.approve_page').on('click', Page.approveAndSave );
+  $('a#visibility_page').on('click', Treeview.changeVisibility );
+  $('.dynamic_when_clicked > input').on('click', Page.toggleDynamicContent );
 
-  $('.disabled a, a.disabled').unbind('click').live('click', function(e) { e.preventDefault(); });
+  $('.disabled a, a.disabled').unbind('click').on('click', function(e) { e.preventDefault(); });
 
   if ($('.datepicker').length > 0) {
     $('.datepicker').not('.iso-date').datepicker({ showAnim: 'slide' });

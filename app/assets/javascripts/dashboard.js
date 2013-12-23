@@ -5,7 +5,7 @@ $(document).ready(function() {
     if (org_type === "Company" || org_type === "SME") {
       $('.company_only').show('slow');
       $('.organization_registration').hide();
-    } else {
+    } else if (org_type !== ""){
       $('.company_only').hide('slow');
       $('.public_company_only').hide('slow');
       $('.organization_registration').fadeIn();

@@ -379,7 +379,13 @@ class Organization < ActiveRecord::Base
   end
 
   def non_business?
-    organization_type.non_business?
+    # oddly enough there are cases when type is not set
+    organization_type.try(:non_business?)
+  end
+
+  def business?
+    # oddly enough there are cases when type is not set
+    organization_type.try(:business?)
   end
 
   def academic?
@@ -812,7 +818,7 @@ class Organization < ActiveRecord::Base
           'Global Compact Learner'
         else
           'not available'
-        end
+      end
 
     else
       'A Communication on Progress has not been submitted'
@@ -896,7 +902,7 @@ class Organization < ActiveRecord::Base
     if non_business?
       non_business_organization_registration || build_non_business_organization_registration
     else
-      BusinessOrganizationRegistration.new
+      @business_organization_registration ||= BusinessOrganizationRegistration.new
     end
   end
 
