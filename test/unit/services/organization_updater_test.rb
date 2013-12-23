@@ -72,7 +72,7 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
     end
 
     should "save" do
-      assert @u.create_signatory_organization
+      @u.create_signatory_organization
     end
   end
 end

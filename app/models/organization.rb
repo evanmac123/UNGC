@@ -379,6 +379,11 @@ class Organization < ActiveRecord::Base
     organization_type.try(:non_business?)
   end
 
+  def business?
+    # oddly enough there are cases when type is not set
+    organization_type.try(:business?)
+  end
+
   def academic?
     organization_type == OrganizationType.academic
   end

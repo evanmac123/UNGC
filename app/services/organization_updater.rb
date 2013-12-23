@@ -57,7 +57,7 @@ class OrganizationUpdater
       organization.valid?
       validate_country
       validate_sector unless organization.non_business?
-      validate_listing_status unless organization.non_business?
+      validate_listing_status if organization.business?
       return true unless organization.errors.any?
     end
 
