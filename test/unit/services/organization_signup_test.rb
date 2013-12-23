@@ -4,33 +4,33 @@ class OrganizationSignupTest < ActiveSupport::TestCase
   context "has sane defaults" do
     should "have an organization type" do
       create_roles
-      @os = OrganizationSignup.new('business')
+      @os = BusinessOrganizationSignup.new
       assert_equal @os.business?, true
       assert_equal @os.non_business?, false
     end
 
     should "have an organization" do
       create_roles
-      @os = OrganizationSignup.new('business')
+      @os = BusinessOrganizationSignup.new
       assert_equal @os.organization.class, Organization
     end
 
     should "have a primary_contact" do
       create_roles
       Contact.expects(:new_contact_point).once
-      @os = OrganizationSignup.new('business')
+      @os = BusinessOrganizationSignup.new
     end
 
     should "have a ceo" do
       create_roles
       Contact.expects(:new_ceo).once
-      @os = OrganizationSignup.new('business')
+      @os = BusinessOrganizationSignup.new
     end
 
     should "have a financial contact" do
       create_roles
       Contact.expects(:new_financial_contact).once
-      @os = OrganizationSignup.new('business')
+      @os = BusinessOrganizationSignup.new
     end
 
   end
@@ -40,11 +40,11 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       create_roles
       create_country
       create_country
-      @os = OrganizationSignup.new('business')
+      @os = BusinessOrganizationSignup.new
     end
 
     should "set organization attributes" do
-      par = { name: 'foo' }
+      par = {organization: { name: 'foo' }}
       @os.organization.country = Country.last
       @os.set_organization_attributes(par)
       assert_equal @os.organization.name, 'foo'
@@ -106,7 +106,8 @@ class OrganizationSignupTest < ActiveSupport::TestCase
     end
 
     should "save non business organization details" do
-      @os = OrganizationSignup.new('non_business')
+      create_organization_type(name: 'Academic', type_property: 1 )
+      @os = NonBusinessOrganizationSignup.new
       @os.registration.mission_statement = "A"
       @os.organization.expects(:save).once
       @os.primary_contact.expects(:save).once
@@ -115,21 +116,21 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.save
     end
 
-    should "save non business organization details only for non business organizations" do
-      @os.registration.mission_statement = "A"
-      @os.organization.expects(:save).once
-      @os.primary_contact.expects(:save).once
-      @os.ceo.expects(:save).once
-      @os.registration.expects(:save).never
-      @os.save
-    end
-
   end
 
-  context "validates properly" do
+  context "validates OrganizationSignup" do
     setup do
       create_roles
-      @os = OrganizationSignup.new('non_business')
+      create_organization_type(name: 'SME', type_property: 2 )
+      @os = BusinessOrganizationSignup.new
+    end
+  end
+
+  context "validates NonBusinessOrganizationSignup" do
+    setup do
+      create_roles
+      create_organization_type(name: 'Academic', type_property: 1 )
+      @os = NonBusinessOrganizationSignup.new
     end
 
     should "validate registration partially" do
@@ -146,39 +147,41 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.registration.date = "12/3/2013"
       @os.registration.place = "bla"
       @os.registration.authority = "bla"
-      assert !@os.valid_registration?(true), "should be invalid"
+      assert !@os.complete_valid_registration?, "should be invalid"
       @os.registration.mission_statement = "test"
-      assert @os.valid_registration?(true), "should be valid"
+      assert @os.complete_valid_registration?, "should be valid"
     end
 
     should "validate organization partially" do
       assert !@os.valid_organization?, "should be invalid"
-      @os.set_organization_attributes({:name                 => 'City University',
+      @os.set_organization_attributes(organization: {:name                 => 'City University',
                                        :employees            => 50,
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')})
       assert @os.valid_organization?, "should be valid"
     end
 
     should "validate organization completely" do
-      @os.set_organization_attributes({:name                 => 'City University',
+      @os.set_organization_attributes(organization: {:name                 => 'City University',
                                        :employees            => 50,
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf')})
-      assert !@os.valid_organization?(true), "should be invalid"
+      assert !@os.complete_valid_organization?, "should be invalid"
       @os.organization.commitment_letter = fixture_file_upload('files/untitled.pdf', 'application/pdf')
-      assert @os.valid_organization?(true), "should be valid"
+      assert @os.complete_valid_organization?, "should be valid"
+
     end
 
     should "validate presence of legal status only if registration.number is blank" do
       assert !@os.valid_organization?, "should be invalid"
-      @os.set_organization_attributes({:name                 => 'City University',
+      @os.set_organization_attributes(organization: {:name                 => 'City University',
                                        :employees            => 50},
-                                      {:number               => 10})
+                                      non_business_organization_registration: {:number               => 10})
       assert @os.valid_organization?, "should be valid"
+
     end
 
     should "validate presence of registration.number only if legal status is blank" do
       assert !@os.valid_organization?, "should be invalid"
-      @os.set_organization_attributes({:name                 => 'City University',
+      @os.set_organization_attributes(organization: {:name                 => 'City University',
                                        :legal_status         => fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                        :employees            => 50})
       assert @os.valid_organization?, "should be valid"
