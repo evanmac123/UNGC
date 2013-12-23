@@ -1,0 +1,23 @@
+%p{:style => 'text-align: center;'}
+  = link_to 'Ce message en Fran&ccedil;ais'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_today_fr.pdf'
+  |
+  = link_to 'Este mensaje en Espa&ntilde;ol'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_today_es.pdf'
+  |
+  = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_today_ch.pdf'
+
+Dear Contact Points for
+%strong== #{@organization.name},
+
+%p== We regret to inform you that today your company has been expelled from the United Nations Global Compact for failure to submit a Communication on Progress (COP). Your company missed its communication deadline on #{dd_month_yyyy @organization.cop_due_on - 1.year} and it remained as a "Non-communicating" participant for one year without submitting a COP. Per our COP policy, companies are expelled from the initiative for failure to communicate on progress.
+
+%p
+  == If you wish to rejoin the UN Global Compact please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} by email at #{mail_to @organization.participant_manager_email.to_s}.
+  - if @organization.network_report_recipients.any?
+    == You may also contact your Local Network Contact Person in #{@organization.country_name}, who has been copied on this email.
+
+%p Sincerely,
+
+%p
+  Transparency and Disclosure Team
+  %br/
+  = render :partial => '/shared/ungc_signature'

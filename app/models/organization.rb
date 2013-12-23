@@ -227,6 +227,7 @@ class Organization < ActiveRecord::Base
   scope :not_delisted, where("cop_state != ?", COP_STATE_DELISTED)
 
   scope :with_cop_due_on, lambda { |date| where(cop_due_on: date) }
+  scope :with_inactive_on, lambda { |date| where(inactive_on: date) }
   scope :with_cop_due_between, lambda { |start_date, end_date| where(cop_due_on: start_date..end_date) }
   scope :delisted_between, lambda { |start_date, end_date| where(delisted_on: start_date..end_date) }
 
@@ -243,6 +244,9 @@ class Organization < ActiveRecord::Base
   scope :with_pledge, where('pledge_amount > 0')
   scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date) }
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
+
+  # combine with :sme scope to list SMEs who have been given a 1 year extension after becoming non-communicating
+  scope :about_to_end_sme_extension, lambda { where("cop_state=? AND inactive_on > '2012-12-21' AND inactive_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 1.day.ago.beginning_of_day, 1.day.ago.end_of_day)}
 
@@ -670,8 +674,11 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
   end
 
-  def extend_cop_due_date_by_one_year
+  # a 1 year extension is given to SMEs when they are about to be delisted
+  # we then delist them 1 year after the inactive_on date
+  def extend_sme_cop_due_on_and_set_inactive_on
     self.update_attribute(:cop_due_on, cop_due_on + 1.year)
+    self.update_attribute(:inactive_on, Date.today)
   end
 
   # COP's next due date is 1 year from current date, 2 years for non-business
