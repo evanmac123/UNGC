@@ -47,6 +47,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   def local_valid_organization?
     validate_sector
     validate_listing_status
+    validate_revenue
   end
 
   private
@@ -58,6 +59,11 @@ class BusinessOrganizationSignup < OrganizationSignup
     def validate_listing_status
       return if organization.listing_status.present?
       organization.errors.add :listing_status_id, "can't be blank"
+    end
+
+    def validate_revenue
+      return if organization.revenue.present?
+      organization.errors.add :revenue, "can't be blank"
     end
 end
 

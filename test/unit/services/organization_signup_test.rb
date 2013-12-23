@@ -144,7 +144,8 @@ class OrganizationSignupTest < ActiveSupport::TestCase
                                                      employees:            50,
                                                      country:            country,
                                                      sector:             sector,
-                                                     listing_status:     listing_status
+                                                     listing_status:     listing_status,
+                                                     revenue:     2
                                                     }
                                      )
       assert @os.valid?
