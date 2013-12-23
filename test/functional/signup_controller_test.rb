@@ -65,6 +65,7 @@ class SignupControllerTest < ActionController::TestCase
                                      country_id: @country.id,
                                      sector_id: @sector.id,
                                      listing_status_id: @listing_status.id,
+                                     revenue: Organization::REVENUE_LEVELS.keys.first,
                                      organization_type_id: OrganizationType.first.id}
       assert_response :success
       assert_template 'step2'
