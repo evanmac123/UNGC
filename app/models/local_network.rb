@@ -48,6 +48,7 @@
 #  twitter                                             :string(255)
 #  facebook                                            :string(255)
 #  linkedin                                            :string(255)
+#  funding_model                                       :string(255)
 #
 
 class LocalNetwork < ActiveRecord::Base
@@ -89,6 +90,8 @@ class LocalNetwork < ActiveRecord::Base
 
   STATES = { :emerging => 'Emerging', :established => 'Established', :formal => 'Formal', :hub => 'Sustainability Hub' }
 
+  FUNDING_MODELS = { :collaborative => 'Collaborative', :independent => 'Independant' }
+
   # To link to public profiles, we associate the two regional networks with their host countries
   # Ex: NetworksAroundTheWorld/local_network_sheet/AE.html
   REGION_COUNTRY = { 'Gulf States' => 'AE', 'Nordic Network' => 'DK' }
@@ -123,6 +126,10 @@ class LocalNetwork < ActiveRecord::Base
 
   def state_for_select_field
     state.try(:to_sym)
+  end
+
+  def funding_model_for_select_field
+    funding_model.try(:to_sym)
   end
 
   def region

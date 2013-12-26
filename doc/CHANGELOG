@@ -1,3 +1,15 @@
+h1. 2013-12-26
+
+* A new funding model means that some Local Networks will be engaging in collaborative fundraising with the Foundation
+* We need to track which Local Networks are following the collaborative or independent funding model
+* This will be a staff user editable attribute of all Local Networks
+
+h1. 2013-12-26
+
+* New organization forms / controller check for presence of required fields, but the Organization model does not
+* Previously, select options had a default option, but many were not choosing their appropriate Country, Revenue, etc.
+* Instead we added a blank option and required a selection to be made
+
 h1. 2013-12-03
 
 * Image previews for Resources can be uploaded with the form
