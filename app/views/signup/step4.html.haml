@@ -6,5 +6,5 @@
 #main_content
 
   = form_for(@signup.organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
-    = render :partial => 'pledge_form', :locals => {:form => form}
+    = render :partial => @signup.pledge_form_type, :locals => {:form => form}
     = form.submit 'Next', :class => 'button'

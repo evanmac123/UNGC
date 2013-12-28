@@ -158,21 +158,38 @@ class Organization < ActiveRecord::Base
     1 => 'less than USD 50 million',
     2 => 'between USD 50 million and USD 250 million',
     3 => 'between USD 250 million and USD 1 billion',
-    4 => 'between USD 1 billion and USD 10 billion',
-    5 => 'USD 10 billion or more'
+    4 => 'between USD 1 billion and USD 5 billion',
+    5 => 'USD 5 billion or more'
   }
 
-  # suggested pledge level corresponds to revenue level
-  PLEDGE_LEVELS = {
-    1 => 100,
+  # Suggested pledge levels for funding models correspond to the revenue level
+  # These are hard coded into the pledge form and are included here for reference
+  # They may not need to be part of the model and we may be able to remove them
+
+  INDEPENDENT_PLEDGE_LEVELS = {
+    1 => 250,
     2 => 5000,
     3 => 10000,
     4 => 15000,
     5 => 15000
   }
 
-  MINIMUM_PLEDGE_LEVELS = {
-    100  => 'USD 100',
+  COLLABORATIVE_PLEDGE_LEVELS = {
+    1 => 250,
+    2 => 2500,
+    3 => 5000,
+    4 => 10000,
+    5 => 15000
+  }
+
+  INDEPENDENT_MINIMUM_PLEDGE_LEVELS = {
+    250  => 'USD 250',
+    500  => 'USD 500',
+    1000 => 'USD 1000',
+    2000 => 'USD 2000'
+  }
+
+  COLLABORATIVE_MINIMUM_PLEDGE_LEVELS = {
     250  => 'USD 250',
     500  => 'USD 500',
     1000 => 'USD 1000',
@@ -494,6 +511,10 @@ class Organization < ActiveRecord::Base
 
   def suggested_pledge
     revenue ? PLEDGE_LEVELS[revenue] : ''
+  end
+
+  def collaborative_funding_model?
+    country.try(:local_network).try(:funding_model) == 'collaborative'
   end
 
   def business_for_search

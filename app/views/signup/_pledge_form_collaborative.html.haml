@@ -1,4 +1,10 @@
-%p All companies are asked to make a regular annual contribution to support the work of the UN Global Compact Office. This revenue is critical to the development of value-maximizing programmes, projects and resources for the benefit of all participating companies. These contributions are received, administered and distributed through the Foundation for the Global Compact - a non-profit 501(c)(3) - and are therefore tax deductible in many jurisdictions. We have highlighted the amount of your annual contribution.
+%p All companies are strongly encouraged to make a regular voluntary annual contribution to support the work of the UN Global Compact Office. This revenue is critical to the development of value-maximizing programmes, projects and resources for the benefit of all participants and stakeholders. Financial contributions from the business sector provide vital support to the Global Compact and our work to drive the global corporate sustainability movement forward.
+
+%p These contributions are received, administered and distributed through the Foundation for the Global Compact &ndash; a US-based non-profit 501(c)(3) &ndash; and are therefore tax deductible in many jurisdictions. Based on your reported annual sales/revenue, we have highlighted the suggested amount of your voluntary annual contribution.
+
+%p In addition, companies are urged to engage in and provide financial support to Global Compact Local Networks in countries where they operate. Supporting the Global Compact at both the global and local level is the best approach for ensuring that corporate sustainability principles take root in companies, markets and communities in every country.
+
+%p &nbsp;
 
 %fieldset.pledge
   %legend Annual contribution
@@ -12,7 +18,7 @@
         = form.radio_button :pledge_amount, 100, { :checked => @checked_pledge_amount[1], :class => 'fixed_pledge' }
         = label_tag "organization_pledge_amount_100", "Less than USD 50 million", :class => @suggested_pledge_amount[1]
       %td
-        = form.select :pledge_amount, Organization::MINIMUM_PLEDGE_LEVELS.invert, {}, :disabled => !@checked_pledge_amount[1]
+        = form.select :pledge_amount, Organization::COLLABORATIVE_MINIMUM_PLEDGE_LEVELS.invert, {}, :disabled => !@checked_pledge_amount[1]
     %tr
       %td.revenue
         = form.radio_button :pledge_amount, 5000, { :checked => @checked_pledge_amount[2], :class => 'fixed_pledge' }

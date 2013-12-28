@@ -80,6 +80,11 @@ class OrganizationSignup
     false
   end
 
+  # checks the organization's country and Local Network to display correct pledge form
+  def pledge_form_type
+    organization.collaborative_funding_model? ? 'pledge_form_collaborative' : 'pledge_form_independent'
+  end
+
   def save
     before_save
 
