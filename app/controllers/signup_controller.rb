@@ -59,9 +59,6 @@ class SignupController < ApplicationController
     # highlight amount by assigning CSS class
     @suggested_pledge_amount = {}
     @suggested_pledge_amount[@signup.organization.revenue] = 'highlight_suggested_amount'
-    # preselect radio button
-    @checked_pledge_amount = {}
-    @checked_pledge_amount[@signup.organization.revenue] = true
   end
 
   # POST from pledge form
