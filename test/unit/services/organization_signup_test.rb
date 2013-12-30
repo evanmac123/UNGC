@@ -150,6 +150,17 @@ class OrganizationSignupTest < ActiveSupport::TestCase
                                      )
       assert @os.valid?
     end
+
+    should "validate presence of pledge or no pledge reason" do
+      @os.set_organization_attributes(organization: {pledge_amount: 0})
+      refute @os.organization.errors.any?
+      refute @os.pledge_complete?
+      @os.set_organization_attributes(organization: {no_pledge_reason: ""})
+      refute @os.pledge_complete?
+      @os.set_organization_attributes(organization: {no_pledge_reason: "no pledge"})
+      assert @os.pledge_complete?
+      assert @os.organization.errors.any?
+    end
   end
 
   context "validates NonBusinessOrganizationSignup" do

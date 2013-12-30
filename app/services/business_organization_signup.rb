@@ -36,6 +36,20 @@ class BusinessOrganizationSignup < OrganizationSignup
     organization.pledge_amount.to_i > 0
   end
 
+  def pledge_complete?
+    if organization.pledge_amount.to_i == 0 && organization.no_pledge_reason.blank?
+      organization.errors.add :no_pledge_reason, "must be selected"
+      return false
+    else
+      return true
+    end
+  end
+
+  # checks the organization's country and Local Network to display correct pledge form
+  def pledge_form_type
+    organization.collaborative_funding_model? ? 'pledge_form_collaborative' : 'pledge_form_independent'
+  end
+
   def after_save
     # add financial contact if a pledge was made and the existing contact has not been assigned that role
     if has_pledge? && !primary_contact.is?(Role.financial_contact)
