@@ -48,15 +48,6 @@ class OrganizationSignup
   def local_valid_organization?
   end
 
-  def pledge_complete?
-    if organization.pledge_amount.to_i == 0 && organization.no_pledge_reason.blank?
-      organization.errors.add :no_pledge_reason, "must be selected"
-      return false
-    else
-      return true
-    end
-  end
-
   def set_primary_contact_attributes(par)
     primary_contact.attributes = par
   end
@@ -87,11 +78,6 @@ class OrganizationSignup
 
   def has_pledge?
     false
-  end
-
-  # checks the organization's country and Local Network to display correct pledge form
-  def pledge_form_type
-    organization.collaborative_funding_model? ? 'pledge_form_collaborative' : 'pledge_form_independent'
   end
 
   def save
