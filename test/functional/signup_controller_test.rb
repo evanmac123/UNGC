@@ -121,10 +121,11 @@ class SignupControllerTest < ActionController::TestCase
 
     should "as a business should get the fifth step page after selecting a contribution amount" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
-      @signup.set_organization_attributes({name: 'ACME inc',
+      @signup.set_organization_attributes(organization: {name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id,
                                            revenue: 2500})
-      post :step5
+
+      post :step5, organization: {pledge_amount: 2000}
       assert_response :success
       assert_template 'step5'
       assert_select 'h2', 'Financial Contact'
@@ -132,7 +133,7 @@ class SignupControllerTest < ActionController::TestCase
 
     should "as a business should get the sixth step page if they don't select a contribution amount" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
-      @signup.set_organization_attributes({name: 'ACME inc',
+      @signup.set_organization_attributes(organization: {name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id,
                                            pledge_amount: 0,
                                            no_pledge_reason: 'budget'
@@ -143,10 +144,8 @@ class SignupControllerTest < ActionController::TestCase
 
     should "as a business should be redirected to 4 step page if they don't select a reason for not pledging" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
-      @signup.set_organization_attributes({name: 'ACME inc',
+      @signup.set_organization_attributes(organization: {name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id,
-                                           pledge_amount: 0,
-                                           no_pledge_reason: ''
                                            })
       post :step5, organization: {pledge_amount: 0}
       assert_redirected_to organization_step4_path

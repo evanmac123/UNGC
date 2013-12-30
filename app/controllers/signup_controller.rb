@@ -72,14 +72,10 @@ class SignupController < ApplicationController
 
     store_organization_signup
 
-    unless @signup.has_pledge?
-      redirect_to organization_step6_path
-      return true
-    end
-
-    unless @signup.pledge_complete?
+    if !@signup.pledge_complete?
       redirect_to organization_step4_path
-      return true
+    elsif !@signup.has_pledge?
+      redirect_to organization_step6_path
     end
 
   end
