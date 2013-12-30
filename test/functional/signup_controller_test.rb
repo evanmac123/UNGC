@@ -101,7 +101,7 @@ class SignupControllerTest < ActionController::TestCase
       # assert_equal 'pledge_form_collaborative', @signup.pledge_form_type
       # assert_template partial: '_pledge_form_collaborative', count: 1
       assert_select 'h2', 'Financial Commitment'
-      # four possible pledge amounts and one opt-out
+      # five possible pledge amounts and one opt-out
       assert_select 'table' do
         assert_select "input[type=radio]", 6
         assert_select 'label', 10
@@ -124,7 +124,7 @@ class SignupControllerTest < ActionController::TestCase
       @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id,
                                            revenue: 2500})
-      post :step5, organization: {pledge_amount: 2500}
+      post :step5
       assert_response :success
       assert_template 'step5'
       assert_select 'h2', 'Financial Contact'
@@ -134,9 +134,22 @@ class SignupControllerTest < ActionController::TestCase
       @signup = session[:signup] = BusinessOrganizationSignup.new
       @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id,
-                                           pledge_amount: 0})
-      post :step5
+                                           pledge_amount: 0,
+                                           no_pledge_reason: 'budget'
+                                           })
+      post :step5, organization: {pledge_amount: 0}
       assert_redirected_to organization_step6_path
+    end
+
+    should "as a business should be redirected to 4 step page if they don't select a reason for not pledging" do
+      @signup = session[:signup] = BusinessOrganizationSignup.new
+      @signup.set_organization_attributes({name: 'ACME inc',
+                                           organization_type_id: OrganizationType.first.id,
+                                           pledge_amount: 0,
+                                           no_pledge_reason: ''
+                                           })
+      post :step5, organization: {pledge_amount: 0}
+      assert_redirected_to organization_step4_path
     end
 
     should "get the sixth step page after posting ceo contact details" do

@@ -74,13 +74,20 @@ class SignupController < ApplicationController
 
     unless @signup.has_pledge?
       redirect_to organization_step6_path
+      return true
     end
+
+    unless @signup.pledge_complete?
+      redirect_to organization_step4_path
+      return true
+    end
+
   end
 
   # POST from ceo or financial contact form
   # shows commitment letter form
   def step6
-    # coming from step5, organization is gonna give a pledge
+    # coming from step5, organization has selected a pledge amount
     if @signup.has_pledge?
       @signup.set_financial_contact_attributes(params[:contact]) if params[:contact]
       store_organization_signup

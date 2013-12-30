@@ -109,7 +109,17 @@
   }
 
   #main_content fieldset.pledge table.pledge_amounts td.no_contribution label {
-    width: 90%;
+    width: 500px;
+  }
+
+  @-moz-document url-prefix() {
+    #main_content fieldset.pledge table.pledge_amounts td.no_contribution label{ width: 497px; }
+  }
+
+  #main_content fieldset.pledge table.pledge_amounts td.no_contribution #organization_no_pledge_reason {
+    width: 480px;
+    margin-left: 40px;
+    display: none;
   }
 
   #main_content #check_contact {

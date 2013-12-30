@@ -48,6 +48,15 @@ class OrganizationSignup
   def local_valid_organization?
   end
 
+  def pledge_complete?
+    if organization.pledge_amount.to_i == 0 && organization.no_pledge_reason.blank?
+      organization.errors.add :no_pledge_reason, "must be selected"
+      return false
+    else
+      return true
+    end
+  end
+
   def set_primary_contact_attributes(par)
     primary_contact.attributes = par
   end
