@@ -1,5 +1,10 @@
 h1. 2013-12-28
 
+* If a company decides not to pledge, then they are asked to select a reason for opting out
+* Reasons can be edited in Organization::NO_PLEDGE_REASONS
+
+h1. 2013-12-28
+
 * Separating signup pledge for into independent and collaborative versions
 * Introductory language and pledge values are different for each
 * The version displayed is determined by the Country selected in the organization details and whether there is a corresponding Local Network

@@ -199,22 +199,33 @@ class Organization < ActiveRecord::Base
     4000 => 'USD 4000'
   }
 
+  # identify why an organization has opted out of pledging during signup
+  NO_PLEDGE_REASONS = {
+    budget:        'We have not budgeted for a contribution this year',
+    financial:     'We are facing financial difficulties',
+    state_owned:   'We are a state-owned entity and we are prevented from making donations',
+    international: 'We cannot make international payments',
+    benefits:      'We would like to see the benefits of participating before making a contribution',
+    local_network: 'We are significant contributors to one or more Global Compact Local Networks'
+  }
+
+
   # identify why an organization is being reviewed
   REVIEW_REASONS = {
-    :duplicate            => 'Duplicate',
-    :incomplete_cop       => 'Incomplete - Missing COP Statement',
-    :incomplete_coe       => 'Incomplete - Missing COE Statement',
-    :incomplete_format    => 'Incomplete - Incorrect Format',
-    :incomplete_signature => 'Incomplete - Signature from CEO',
-    :integrity_measure    => 'Integrity Measure',
-    :local_network        => 'Local Network followup',
-    :microenterprise      => 'Micro Enterprise - Verify Employees',
-    :organization_type    => 'Organization Type',
-    :organization_name    => 'Organization Name',
-    :base_operations      => 'Base of Operations',
-    :ngo_verification     => 'NGO Verification',
-    :purpose_activity     => 'Purpose & Activities',
-    :logo_misuse          => 'Logo Misuse'
+    duplicate:            'Duplicate',
+    incomplete_cop:       'Incomplete - Missing COP Statement',
+    incomplete_coe:       'Incomplete - Missing COE Statement',
+    incomplete_format:    'Incomplete - Incorrect Format',
+    incomplete_signature: 'Incomplete - Signature from CEO',
+    integrity_measure:    'Integrity Measure',
+    local_network:        'Local Network followup',
+    microenterprise:      'Micro Enterprise - Verify Employees',
+    organization_type:    'Organization Type',
+    organization_name:    'Organization Name',
+    base_operations:      'Base of Operations',
+    ngo_verification:     'NGO Verification',
+    purpose_activity:     'Purpose & Activities',
+    logo_misuse:          'Logo Misuse'
   }
 
   state_machine :cop_state, :initial => :active do
