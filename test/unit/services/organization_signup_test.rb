@@ -157,9 +157,16 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       refute @os.pledge_complete?
       @os.set_organization_attributes(organization: {no_pledge_reason: ""})
       refute @os.pledge_complete?
+      assert @os.organization.errors.any?
       @os.set_organization_attributes(organization: {no_pledge_reason: "no pledge"})
       assert @os.pledge_complete?
-      assert @os.organization.errors.any?
+      refute @os.organization.errors.any?
+    end
+
+    should "assign default for pledge amount" do
+      assert @os.organization.pledge_amount.blank?
+      @os.set_organization_attributes(organization: {revenue: 2})
+      refute @os.organization.pledge_amount.blank?
     end
   end
 
