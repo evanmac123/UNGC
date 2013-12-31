@@ -134,11 +134,9 @@ class SignupControllerTest < ActionController::TestCase
     should "as a business should get the sixth step page if they don't select a contribution amount" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
       @signup.set_organization_attributes(organization: {name: 'ACME inc',
-                                           organization_type_id: OrganizationType.first.id,
-                                           pledge_amount: 0,
-                                           no_pledge_reason: 'budget'
+                                           organization_type_id: OrganizationType.first.id
                                            })
-      post :step5, organization: {pledge_amount: 0}
+      post :step5, organization: {pledge_amount: 0, no_pledge_reason: 'budget'}
       assert_redirected_to organization_step6_path
     end
 
