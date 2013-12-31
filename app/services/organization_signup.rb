@@ -112,7 +112,7 @@ class OrganizationSignup
 
     def validate_type
       return if organization.organization_type.present?
-      organization.errors.add :organization_type, "can't be blank"
+      organization.errors.add :organization_type_id, "can't be blank"
     end
 
 end

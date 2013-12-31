@@ -6,9 +6,6 @@ class SignupController < ApplicationController
 
   # shows organization form
   def step1
-    # XXX fix this
-    @organization_types = @signup.types
-
     clear_organization_signup
 
     if @signup.organization.jci_referral? request.env["HTTP_REFERER"]

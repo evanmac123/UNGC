@@ -155,7 +155,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
   context "validates NonBusinessOrganizationSignup" do
     setup do
       create_roles
-      create_organization_type(name: 'Academic', type_property: 1 )
+      @type = create_organization_type(name: 'Academic', type_property: 1 )
       @country = create_country
       @os = NonBusinessOrganizationSignup.new
     end
@@ -184,8 +184,10 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       @os.set_organization_attributes(organization: {name: 'City University',
                                        employees: 50,
                                        country: @country,
+                                       organization_type: @type,
                                        legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf')})
       assert @os.valid_organization?, "should be valid"
+
     end
 
     should "validate organization completely" do
@@ -202,6 +204,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       assert !@os.valid_organization?, "should be invalid"
       @os.set_organization_attributes(organization: {name: 'City University',
                                        country: @country,
+                                       organization_type: @type,
                                        employees: 50},
                                       non_business_organization_registration: {number: 10})
       assert @os.valid_organization?, "should be valid"
@@ -212,6 +215,7 @@ class OrganizationSignupTest < ActiveSupport::TestCase
       assert !@os.valid_organization?, "should be invalid"
       @os.set_organization_attributes(organization: {name: 'City University',
                                        country: @country,
+                                       organization_type: @type,
                                        legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf'),
                                        employees: 50})
       assert @os.valid_organization?, "should be valid"
