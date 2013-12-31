@@ -64,7 +64,7 @@
       - if @organization.withdrawal_letter
         %dt Withdrawal Letter
         %dd{:title => @organization.withdrawal_letter.attachment_file_name}= link_to truncate(@organization.withdrawal_letter.attachment_file_name), @organization.withdrawal_letter.attachment.url
-        
+
     %dl.left_column
       %h3 Contact Information
       %dt.first Highest Level Executive
@@ -84,6 +84,18 @@
         %dt.first Requested?
         %dd.first= @organization.welcome_package? ? 'Yes' : 'No'
 
+      - if @organization.company?
+        %dl.left_column
+          %h3 Foundation Contribution
+          %dt.first Suggested amount
+          %dd.first= number_to_currency(@organization.suggested_pledge, :unit => "$") if @organization.revenue.present?
+          %dt Pledge received
+          %dd
+            - if @organization.pledge_amount.to_i == 0 && @organization.no_pledge_reason.present?
+              = "None. #{@organization.no_pledge_reason_value}."
+            - else
+              = number_to_currency(@organization.pledge_amount, :unit => "$")
+
       %dl.left_column
         %h3 Local Network
         %dt.first Membership Status
@@ -99,7 +111,7 @@
           - else
             == There is no Network Report Recipient for #{@organization.country_name}
 
-    - if @organization.non_business? && @organization.non_business_organization_registration      
+    - if @organization.non_business? && @organization.non_business_organization_registration
       %dl.left_column
         %h3 Legal Status
         - reg = @organization.non_business_organization_registration
@@ -115,7 +127,7 @@
           %dt Proof of Legal Status
           %dd{:title => @organization.legal_status.attachment_file_name}= link_to truncate(@organization.legal_status.attachment_file_name), @organization.legal_status.attachment.url
         %dt Mission Statement
-        %dd= reg.mission_statement        
+        %dd= reg.mission_statement
 
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}

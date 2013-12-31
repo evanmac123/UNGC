@@ -1,10 +1,9 @@
 %h1== #{signup_type} Organization Application
 
-= flash_messages_for :error
-
 %h2 Financial Commitment
 #main_content
 
   = form_for(@signup.organization, :url => organization_step5_path, :html => { :multipart => true }) do |form|
-    = render :partial => 'pledge_form', :locals => {:form => form}
+    = form.error_messages(header_message: false, message: false)
+    = render :partial => @signup.pledge_form_type, :locals => {:form => form}
     = form.submit 'Next', :class => 'button'

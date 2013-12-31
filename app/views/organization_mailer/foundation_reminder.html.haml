@@ -1,4 +1,4 @@
-== Dear #{@contact.name_with_title},
+%p== Dear #{@contact.name_with_title},
 
 %p== First, we wish to congratulate #{@organization.name} on becoming an official participant in the UN Global Compact. Your endorsement is a strong demonstration of your company's leadership and vision in advancing the tenets of corporate sustainability and the principles of the UN Global Compact.
 
@@ -16,29 +16,29 @@
       Suggested Contribution
   %tr
     %td{:align => 'right'}
-      USD 10 billion or more
+      USD 5 billion or more
     %td
       USD 15,000+
   %tr
     %td{:align => 'right'}
-      USD 1 billion and USD 10 billion
+      USD 1 billion and USD 5 billion
     %td
-      USD 15,000
+      USD 10,000 - 15,000
   %tr
     %td{:align => 'right'}
       USD 250 million and USD 1 billion
     %td
-      USD 10,000
+      USD 5,000 - 10,000
   %tr
     %td{:align => 'right'}
       USD 50 million and USD 250 million
     %td
-      USD 5000
+      USD 2,500 - 5,000
   %tr
     %td{:align => 'right'}
       less than USD 50 million
     %td
-      Any financial contribution
+      USD 250 (suggested minimum)
 
 %p==The following link will take you to the online donation page of the Foundation's website where you can make your contribution by credit card: http://globalcompactfoundation.org/donate/?invoice=#{@organization.invoice_id}
 
