@@ -18,6 +18,7 @@ class OrganizationSignup
   def set_organization_attributes(par)
     organization.attributes = par[:organization]
     primary_contact.country_id = organization.country_id
+    local_set_organization_attributes
   end
 
   def valid?
@@ -43,9 +44,6 @@ class OrganizationSignup
     end
     local_valid_organization?
     !organization.errors.any?
-  end
-
-  def local_valid_organization?
   end
 
   def set_primary_contact_attributes(par)
@@ -93,8 +91,12 @@ class OrganizationSignup
   end
 
 
+  # these are hook methods that can be implemented by the subclasses
   def before_save; end
   def after_save; end
+  def local_valid_organization?; end
+  def local_set_organization_attributes; end
+
 
   private
 
@@ -112,7 +114,7 @@ class OrganizationSignup
 
     def validate_type
       return if organization.organization_type.present?
-      organization.errors.add :organization_type, "can't be blank"
+      organization.errors.add :organization_type_id, "can't be blank"
     end
 
 end

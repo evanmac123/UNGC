@@ -40,6 +40,9 @@ div.radio_button_group { margin: 15px 0 0 0; }
 #main_content fieldset ol.radio_button_list { clear: both; height: auto; }
 #main_content fieldset ol.radio_button_list li { margin: -10px; padding: 0;}
 #main_content ul.tools, #main_content ul.inline {clear: both;}
+#main_content fieldset.pledge table.pledge_amounts td.revenue{ padding-right: 80px; }
+#main_content fieldset.pledge table.pledge_amounts td.no_contribution label{width:485px;}
+#main_content fieldset.pledge table.pledge_amounts td.no_contribution #organization_no_pledge_reason{width:485px;margin-left:40px;display:none;}
 
 /* FT500 Checkbox in organization profile */
 #main_content fieldset input[type='checkbox']#organization_is_ft_500 {display: inline; right: 710px; top: -2px; float: right;}

@@ -1,3 +1,29 @@
+h1. 2013-12-28
+
+* If a company decides not to pledge, then they are asked to select a reason for opting out
+* Reasons can be edited in Organization::NO_PLEDGE_REASONS
+
+h1. 2013-12-28
+
+* Separating signup pledge for into independent and collaborative versions
+* Introductory language and pledge values are different for each
+* The version displayed is determined by the Country selected in the organization details and whether there is a corresponding Local Network
+* The LocalNetwork#funding_model value is checked to display the appropriate pledge form
+
+h1. 2013-12-26
+
+* A new funding model means that some Local Networks will be engaging in collaborative fundraising with the Foundation
+* We need to track which Local Networks are following the collaborative or independent funding model
+* This will be a staff user editable attribute of all Local Networks
+
+* Highest revenue levels have changed from 10B to 5B
+
+h1. 2013-12-26
+
+* New organization forms / controller check for presence of required fields, but the Organization model does not
+* Previously, select options had a default option, but many were not choosing their appropriate Country, Revenue, etc.
+* Instead we added a blank option and required a selection to be made
+
 h1. 2013-12-11
 
 * A decision was made to continue the 1 year extension given to all SMEs after their delisting date

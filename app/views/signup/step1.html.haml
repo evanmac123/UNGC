@@ -5,7 +5,7 @@
 #main_content
   = form_for(@signup.organization, url: organization_step2_path) do |form|
     = hidden_field_tag :org_type, @signup.org_type
-    = error_messages_for @signup.organization, @signup.organization.registration
+    = error_messages_for @signup.organization, @signup.organization.registration, { header_message: false }
     %fieldset
       %ol
         %li
@@ -20,7 +20,7 @@
         - if @signup.non_business?
           %li
             = form.label :organization_type_id, "Type"
-            = form.select :organization_type_id, @organization_types.collect{|t| [t.name, t.id]}, {include_blank: true}
+            = form.select :organization_type_id, @signup.types.collect{|t| [t.name, t.id]}, {include_blank: true}
         - if @signup.business?
           = hidden_field :organization, :organization_type_id, :value => OrganizationType.try(:company).try(:id)
           %li

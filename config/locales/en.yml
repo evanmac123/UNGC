@@ -3,3 +3,11 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      organization:
+        listing_status_id: "Ownership"
+        name: "Organization name"
+        no_pledge_reason: "A reason for not making a contribution"
+        revenue: "Annual Sales / Revenues"
+        url: "Website"

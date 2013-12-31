@@ -6,9 +6,6 @@ class SignupController < ApplicationController
 
   # shows organization form
   def step1
-    # XXX fix this
-    @organization_types = @signup.types
-
     clear_organization_signup
 
     if @signup.organization.jci_referral? request.env["HTTP_REFERER"]
@@ -59,9 +56,6 @@ class SignupController < ApplicationController
     # highlight amount by assigning CSS class
     @suggested_pledge_amount = {}
     @suggested_pledge_amount[@signup.organization.revenue] = 'highlight_suggested_amount'
-    # preselect radio button
-    @checked_pledge_amount = {}
-    @checked_pledge_amount[@signup.organization.revenue] = true
   end
 
   # POST from pledge form
@@ -72,15 +66,18 @@ class SignupController < ApplicationController
 
     store_organization_signup
 
-    unless @signup.has_pledge?
+    if !@signup.pledge_complete?
+      redirect_to organization_step4_path
+    elsif !@signup.has_pledge?
       redirect_to organization_step6_path
     end
+
   end
 
   # POST from ceo or financial contact form
   # shows commitment letter form
   def step6
-    # coming from step5, organization is gonna give a pledge
+    # coming from step5, organization has selected a pledge amount
     if @signup.has_pledge?
       @signup.set_financial_contact_attributes(params[:contact]) if params[:contact]
       store_organization_signup

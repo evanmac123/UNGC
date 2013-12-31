@@ -49,5 +49,29 @@ $(function(){
     }
   });
 
+  // called from views/signup/pledge_form_*.html.haml
+  // disable select if amount is chosen
+  $('.fixed_pledge').on('click', function() {
+    var result = (this.id !== 'organization_pledge_amount_250');
+    $("#organization_pledge_amount").attr('disabled', result);
+  });
+
+  // called from views/signup/pledge_form_*.html.haml
+  // hide select unless a pledge value is chosen
+
+  function togglePledgeReason(){
+    if ($("#organization_pledge_amount_0").is(':checked')) {
+      $("#organization_no_pledge_reason").show();
+    } else {
+      $("#organization_no_pledge_reason").hide();
+    }
+  }
+
+  togglePledgeReason();
+
+  $('.fixed_pledge').on('click', function() {
+    togglePledgeReason();
+  });
+
 });
 

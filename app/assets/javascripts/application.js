@@ -227,13 +227,6 @@ $(document).ready(function() {
     $(this).toggleClass('selected');
   });
 
-  // called from views/signup/pledge_form.html.haml
-  // disable select if amount is chosen
-  $('.fixed_pledge').on('click', function() {
-    result = (this.id != 'organization_pledge_amount_100')
-    $("#organization_pledge_amount").attr('disabled', result);
-  });
-
   // called from views/signup/step5.html.haml
   $("#contact_foundation_contact").on('click', function() {
     if ($('#error_explanation').length > 0) {

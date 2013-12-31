@@ -2,10 +2,9 @@ class NonBusinessOrganizationSignup < OrganizationSignup
   attr_reader :registration, :financial_contact
 
   def post_initialize
-    # XXX setting OrganizationType is a HACK
-    @organization = Organization.new organization_type: OrganizationType.academic
+    @organization = Organization.new
     @legal_status_id = nil
-    @registration = @organization.registration
+    @registration = @organization.build_non_business_organization_registration
     @ceo = Contact.new_ceo
   end
 
