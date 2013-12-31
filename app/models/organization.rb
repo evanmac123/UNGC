@@ -523,7 +523,15 @@ class Organization < ActiveRecord::Base
   end
 
   def suggested_pledge
-    revenue ? PLEDGE_LEVELS[revenue] : ''
+    if collaborative_funding_model?
+      revenue ? COLLABORATIVE_PLEDGE_LEVELS[revenue] : ''
+    else
+      revenue ? INDEPENDENT_PLEDGE_LEVELS[revenue] : ''
+    end
+  end
+
+  def no_pledge_reason_value
+    NO_PLEDGE_REASONS[no_pledge_reason.to_sym] if no_pledge_reason.present?
   end
 
   def collaborative_funding_model?
