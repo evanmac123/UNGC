@@ -57,7 +57,7 @@ class Organization < ActiveRecord::Base
                             :if => Proc.new { |organization| organization.pledge_amount.present? }
   validates_format_of :url,
                       :with => (/(^$)|(^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}(([0-9]{1,6})?\/.*)?$)/ix),
-                      :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
+                      :message => "address is invalid. Please enter one address in the format http://website.com/",
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
   validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
