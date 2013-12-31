@@ -7,42 +7,42 @@
 %fieldset.pledge
   %legend Annual contribution
 
-  %table.pledge_amounts{:cellpadding => 0, :cellspacing => 0, :summary => "Contribution amounts"}
+  %table.pledge_amounts{cellpadding: 0, cellspacing: 0, summary: "Contribution amounts"}
     %tr
       %th Annual sales/revenue
       %th Annual contribution
     %tr
       %td.revenue
-        = form.radio_button :pledge_amount, 100, { :checked => (form.object.pledge_amount == 250), :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_100", "Less than USD 50 million", :class => @suggested_pledge_amount[1]
+        = form.radio_button :pledge_amount, 250, { checked: (form.object.pledge_amount == 250), class: 'fixed_pledge' }
+        = label_tag "organization_pledge_amount_250", "Less than USD 50 million", class: @suggested_pledge_amount[1]
       %td
-        = form.select :pledge_amount, Organization::INDEPENDENT_MINIMUM_PLEDGE_LEVELS.invert, {}, :disabled => !(form.object.pledge_amount == 250)
+        = form.select :pledge_amount, Organization::INDEPENDENT_MINIMUM_PLEDGE_LEVELS.invert, {}, disabled: !(form.object.pledge_amount == 250)
     %tr
       %td.revenue
-        = form.radio_button :pledge_amount, 2500, { :checked => (form.object.pledge_amount == 250), :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_2500", "Between USD 50 million &ndash; USD 250 million".html_safe, :class => @suggested_pledge_amount[2]
+        = form.radio_button :pledge_amount, 5000, { checked: (form.object.pledge_amount == 5000), class: 'fixed_pledge' }
+        = label_tag "organization_pledge_amount_5000", "Between USD 50 million &ndash; USD 250 million".html_safe, class: @suggested_pledge_amount[2]
       %td
-        = label_tag "organization_pledge_amount_2500", "USD 2,500", :class => @suggested_pledge_amount[2]
+        = label_tag "organization_pledge_amount_5000", "USD 5,000", class: @suggested_pledge_amount[2]
     %tr
       %td.revenue
-        = form.radio_button :pledge_amount, 5000, { :checked => (form.object.pledge_amount == 250), :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_5000", "Between USD 250 million &ndash; USD 1 billion".html_safe, :class => @suggested_pledge_amount[3]
+        = form.radio_button :pledge_amount, 10000, { checked: (form.object.pledge_amount == 10000), class: 'fixed_pledge' }
+        = label_tag "organization_pledge_amount_10000", "Between USD 250 million &ndash; USD 1 billion".html_safe, class: @suggested_pledge_amount[3]
       %td
-        = label_tag "organization_pledge_amount_5000", "USD 5,000", :class => @suggested_pledge_amount[3]
+        = label_tag "organization_pledge_amount_10000", "USD 10,000", class: @suggested_pledge_amount[3]
     %tr
       %td.revenue
-        = form.radio_button :pledge_amount, 10000, { :checked => (form.object.pledge_amount == 250), :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_10000", "Between USD 1 billion &ndash; USD 5 billion".html_safe, :class => @suggested_pledge_amount[4]
+        = form.radio_button :pledge_amount, 15000, { checked: (form.object.pledge_amount == 15000), class: 'fixed_pledge' }
+        = label_tag "organization_pledge_amount_15000", "Between USD 1 billion &ndash; USD 5 billion".html_safe, class: @suggested_pledge_amount[4]
       %td
-        = label_tag "organization_pledge_amount_10000", "USD 10,000", :class => @suggested_pledge_amount[4]
+        = label_tag "organization_pledge_amount_15000", "USD 15,000", class: @suggested_pledge_amount[4]
     %tr
       %td.revenue
-        = form.radio_button :pledge_amount, 15000, { :id => 'organization_pledge_amount_15000_1', :checked => (form.object.pledge_amount == 250), :class => 'fixed_pledge' }
-        = label_tag "organization_pledge_amount_15000_1", "USD 5 billion or more", :class => @suggested_pledge_amount[5]
+        = form.radio_button :pledge_amount, 15000, { id: 'organization_pledge_amount_15000_1', checked: (form.object.pledge_amount == 15000), class: 'fixed_pledge' }
+        = label_tag "organization_pledge_amount_15000_1", "USD 5 billion or more", class: @suggested_pledge_amount[5]
       %td
-        = label_tag "organization_pledge_amount_15000_1", "USD 15,000+", :class => @suggested_pledge_amount[5]
+        = label_tag "organization_pledge_amount_15000_1", "USD 15,000+", class: @suggested_pledge_amount[5]
     %tr
-      %td.no_contribution{:colspan => 2}
-        = form.radio_button :pledge_amount, 0, { :id => 'organization_pledge_amount_0', :checked => false, :class => 'fixed_pledge' }
+      %td.no_contribution{colspan: 2}
+        = form.radio_button :pledge_amount, 0, { checked: (form.object.pledge_amount == 0), class: 'fixed_pledge' }
         = label_tag "organization_pledge_amount_0", "Our company has elected not to make a contribution at this time"
-        = form.select :no_pledge_reason, options_for_select(Organization::NO_PLEDGE_REASONS.invert), {:include_blank => 'Select a reason...'}, :label => 'Select'
+        = form.select :no_pledge_reason, options_for_select(Organization::NO_PLEDGE_REASONS.invert), {include_blank: 'Select a reason...'}, label: 'Select'
