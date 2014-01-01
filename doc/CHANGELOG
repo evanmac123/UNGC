@@ -1,3 +1,9 @@
+h1. 2014-01-01
+
+* There was a problem with duplicate COP reminders being sent to SMEs
+* No need to send them a separate reminder since they've been given a 1 year extension on their cop_due_on
+* They will continue to receive the notifications along with other noncommunicating SMEs
+
 h1. 2013-12-28
 
 * If a company decides not to pledge, then they are asked to select a reason for opting out

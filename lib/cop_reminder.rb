@@ -13,18 +13,12 @@ class CopReminder
     log "Running notify_cop_due_in_90_days"
     notify_cop_due_on Organization.businesses.participants.with_cop_status(:active).with_cop_due_on(90.days.from_now.to_date), :cop_due_in_90_days
     notify_cop_due_on Organization.businesses.participants.with_cop_status(:noncommunicating).with_cop_due_on(90.days.from_now.to_date - 1.year), :delisting_in_90_days
-
-    # can be removed if SME moratorium is discontinued
-    notify_cop_due_on Organization.smes.participants.with_cop_status(:noncommunicating).with_inactive_on(90.days.from_now.to_date - 1.year), :delisting_in_90_days
   end
 
   def notify_cop_due_in_30_days
     log "Running notify_cop_due_in_30_days"
     notify_cop_due_on Organization.businesses.participants.with_cop_status(:active).with_cop_due_on(30.days.from_now.to_date), :cop_due_in_30_days
     notify_cop_due_on Organization.businesses.participants.with_cop_status(:noncommunicating).with_cop_due_on(30.days.from_now.to_date - 1.year), :delisting_in_30_days
-
-    # can be removed if SME moratorium is discontinued
-    notify_cop_due_on Organization.smes.participants.with_cop_status(:noncommunicating).with_inactive_on(30.days.from_now.to_date - 1.year), :delisting_in_30_days
   end
 
   def notify_cop_due_today
