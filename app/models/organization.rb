@@ -488,8 +488,15 @@ class Organization < ActiveRecord::Base
   end
 
   def contributor_for_year?(year)
-    initiative = Initiative.contributor_for_year(year).first
-    initiative ? initiative_ids.include?(initiative.id) : false
+    if year.is_a?(Array)
+      initiatives = Initiative.contributor_for_years(year)
+      contribution_years = []
+      initiatives.each { |i| contribution_years << i.id if initiative_ids.include?(i.id) }
+      contribution_years.any?
+    else
+      initiative = Initiative.contributor_for_years(year).first
+      initiative ? initiative_ids.include?(initiative.id) : false
+    end
   end
 
   def country_name
