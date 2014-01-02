@@ -4,7 +4,9 @@ class CopsController < ApplicationController
   before_filter :find_cop, :except => [:feed]
 
   def show
-    presenter = Cop::Presenter.create(@communication_on_progress)
+    # eventually we'll have to choose to show
+    # COP, COE, Grace Letter, Adjustment Cycle
+    presenter = CopPresenter.new(@communication_on_progress, current_contact)
     @cop_partial = presenter.show_partial
     @results_partial = presenter.results_partial
   end
