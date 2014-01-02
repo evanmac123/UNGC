@@ -25,5 +25,13 @@ class Initiative < ActiveRecord::Base
   }
 
   scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
-  scope :contributor_for_year, lambda { |year| where("initiatives.name = ?", "#{year} Foundation Contributors") }
+
+  def self.contributor_for_years(year)
+    if year.is_a?(Array)
+     where("initiatives.name IN (?)", year.map {|y| "#{y} Foundation Contributors"})
+    else
+     where("initiatives.name = ?", "#{year} Foundation Contributors")
+    end
+  end
+
 end
