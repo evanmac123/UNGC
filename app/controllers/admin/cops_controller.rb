@@ -68,8 +68,8 @@ class Admin::CopsController < AdminController
   end
 
   def show
-    @communication = Cop::AdminPresenter.create(@communication_on_progress, current_contact)
-  rescue Cop::PresenterNotFoundError
+    @communication = CopPresenter.new(@communication_on_progress, current_contact)
+  rescue InvalidCopTypeError
     flash[:error] = "Sorry, we could not determine the COP type."
     redirect_to admin_organization_path(@communication_on_progress.organization, :tab => :cops)
   end
