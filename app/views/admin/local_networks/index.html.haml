@@ -22,6 +22,7 @@
       %tr
         %th= sort_header 'Name',  field: 'name',  tab: 'all_networks'
         %th= sort_header 'Stage', field: 'state', tab: 'all_networks'
+        %th= sort_header 'Funding Model', field: 'funding_model', tab: 'all_networks'
         %th.actions Actions
       = render @local_networks
 
@@ -31,5 +32,6 @@
         %tr
           %th= sort_header 'Name',  field: 'name',  tab: key
           %th= sort_header 'Stage', field: 'state', tab: key
+          %th= sort_header 'Funding Model', field: 'funding_model', tab: key
           %th.actions Actions
         = render @local_networks.find_all{ |item| item.region_name == value }

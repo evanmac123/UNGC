@@ -4,4 +4,4 @@
     = default_form.text_field :name
     = default_form.text_field :url, :label => 'Website'
     = default_form.select :state, options_for_select(LocalNetwork::STATES.invert, @local_network.state_for_select_field), :label => 'Development Stage'
-    = default_form.select :funding_model, options_for_select(LocalNetwork::FUNDING_MODELS.invert, @local_network.funding_model_for_select_field), {:include_blank => true}, :label => 'Funding Model'
+    = default_form.select :funding_model, options_for_select(LocalNetwork::FUNDING_MODELS.invert, @local_network.funding_model_for_select_field), :label => 'Funding Model'
