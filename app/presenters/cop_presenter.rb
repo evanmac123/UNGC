@@ -28,7 +28,6 @@ class CopPresenter
            :include_measurement?,
            :is_advanced_lead?,
            :is_advanced_programme?,
-           :is_grace_letter?,
            :is_test_phase_advanced_programme?,
            :issue_areas_covered,
            :issue_area_coverage,
@@ -47,6 +46,14 @@ class CopPresenter
            :references_labour?,
            :starts_on,
            to: :cop
+
+  def self.create(cop, contact)
+    if cop.is_grace_letter?
+      GraceLetterPresenter.new(cop, contact)
+    else
+      CopPresenter.new(cop, contact)
+    end
+  end
 
   def initialize(cop, current_contact)
     @cop = cop
@@ -122,12 +129,12 @@ class CopPresenter
     html.join(' ').html_safe
   end
 
+  class InvalidCopTypeError < StandardError; end
+
   private
 
     def partial
-      if cop.is_grace_letter?
-        '/shared/cops/show_grace_style'
-      elsif cop.is_basic?
+      if cop.is_basic?
         '/shared/cops/show_basic_style'
       elsif cop.is_non_business_format?
         '/shared/cops/show_non_business_style'
@@ -142,4 +149,3 @@ class CopPresenter
 
 end
 
-class InvalidCopTypeError < StandardError; end
