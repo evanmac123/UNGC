@@ -37,7 +37,9 @@ module Admin::LogoRequestsHelper
   end
   
   def contribution_received?(logo_request)
-    logo_request.organization.contributor_for_year?([current_year, current_year - 1]) ? image_tag('checked.png', height: '11', width: '11') : ''
+    if logo_request.organization.company?
+      logo_request.organization.contributor_for_year?([current_year, current_year - 1]) ? '' : image_tag('unchecked.png', height: '15', width: '15')
+    end
   end
 
 end

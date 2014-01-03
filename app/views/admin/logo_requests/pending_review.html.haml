@@ -9,8 +9,8 @@
         %th ID
         %th= sort_header 'Organization', field: 'organizations.name'
         %th= sort_header 'Received', field: 'created_at'
-        %th= sort_header 'Relationship Manager', field: 'organizations.participant_manager_id'
-        %th Contributor
+        %th= sort_header 'Relationship<br />Manager'.html_safe, field: 'organizations.participant_manager_id'
+        %th Missing<br />contribution
         %th Latest activity
         %th Actions
       - @logo_requests.each do |logo_request|
