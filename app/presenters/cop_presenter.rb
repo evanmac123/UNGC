@@ -128,8 +128,6 @@ class CopPresenter
     def partial
       if cop.is_basic?
         '/shared/cops/show_basic_style'
-      elsif cop.is_non_business_format?
-        '/shared/cops/show_non_business_style'
       elsif cop.is_new_format?
         '/shared/cops/show_new_style'
       elsif cop.is_legacy_format?

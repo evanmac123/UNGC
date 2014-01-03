@@ -15,7 +15,7 @@
       %fieldset
         %legend
           %span The Communication on Engagement is in the following format:
-        - CommunicationOnProgress::COE_FORMAT.each do |key, value|
+        - CoePresenter::Formats.each do |key, value|
           %label
             = form.radio_button :format, key
             = value
