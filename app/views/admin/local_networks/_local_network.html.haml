@@ -1,7 +1,8 @@
 %tr
   %td= local_network.name
   %td= local_network.humanize_state
-  %td= local_network.funding_model.humanize
+  - if current_contact.from_ungc?
+    %td= local_network.funding_model.humanize
   %td
     %ul.actions
       %li= link_to 'View', admin_local_network_path(local_network), :class => "preview", :title => "View Local Network"
