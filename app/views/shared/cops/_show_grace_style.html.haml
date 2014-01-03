@@ -7,7 +7,7 @@
   %dt Files
   %dd
     %ul
-      - for cop_file in communication_on_progress.cop_files
+      - communication_on_progress.cop_files.each do |cop_file|
         %li
           = link_to truncate(cop_file.attachment_file_name, :length => 60), cop_file.attachment.url
           == (#{cop_file.language.name})

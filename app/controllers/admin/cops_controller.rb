@@ -68,8 +68,12 @@ class Admin::CopsController < AdminController
   end
 
   def show
-    @communication = CopPresenter.new(@communication_on_progress, current_contact)
-  rescue InvalidCopTypeError
+    if @communication_on_progress.is_grace_letter?
+      @communication = GraceLetterPresenter.new(@communication_on_progress, current_contact)
+    else
+      @communication = CopPresenter.new(@communication_on_progress, current_contact)
+    end
+  rescue CopPresenter::InvalidCopTypeError
     flash[:error] = "Sorry, we could not determine the COP type."
     redirect_to admin_organization_path(@communication_on_progress.organization, :tab => :cops)
   end
