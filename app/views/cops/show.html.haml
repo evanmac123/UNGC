@@ -1,13 +1,13 @@
--@title = "#{@communication_on_progress.organization_name} &ndash; #{@communication_on_progress.title}"
-%h1= @communication_on_progress.title || "Communication on Progress"
+-@title = "#{@communication.organization_name} &ndash; #{@communication.title}"
+%h1= @communication.title || "Communication on Progress"
 
 #main_content
   %dl
     %dt Participant
     %dd
       %ul
-        %li= link_to @communication_on_progress.organization_name, participant_link(@communication_on_progress.organization, params[:navigation])
-    = render :partial => @cop_partial, :locals => {:results_partial => @results_partial, :communication_on_progress => @communication_on_progress }
+        %li= link_to @communication.organization_name, participant_link(@communication.id, params[:navigation])
+    = render :partial => @communication.show_partial, :locals => {:results_partial => @communication.results_partial, :communication_on_progress => @communication }
 
   .note
     %p{:style => 'margin-top: 2em; font-size: 10px; line-height: 1.5em;'} Note: Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.

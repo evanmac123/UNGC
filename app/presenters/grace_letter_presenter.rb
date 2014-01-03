@@ -34,6 +34,10 @@ class GraceLetterPresenter
     cop.organization.cop_acronym
   end
 
+  def organization_name
+    cop.organization.name
+  end
+
   def return_path
     if current_contact.from_organization?
       dashboard_path(tab: :cops)

@@ -60,8 +60,8 @@ class CopPresenter
     cop.organization.cop_acronym
   end
 
-  def non_business_type
-    cop.organization.non_business_type
+  def organization_name
+    cop.organization.name
   end
 
   def return_path
