@@ -7,8 +7,8 @@
     - staff_only do
       %dt.first Participant Status
       %dd.first= display_status(@logo_request.organization)
-      %dt== Funding Status
-      %dd= @logo_request.organization.contributor_for_year?([current_year, current_year - 1]) ? 'Contribution received' : "No contribution received for #{current_year - 1} - #{current_year}"
+      %dt Funding Status
+      %dd= contribution_status(@logo_request)
     %dt Country
     %dd= @logo_request.organization.try(:country_name)
     %dt Purpose
