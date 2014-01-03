@@ -7,6 +7,8 @@
     - staff_only do
       %dt.first Participant Status
       %dd.first= display_status(@logo_request.organization)
+      %dt Funding Status
+      %dd= contribution_status(@logo_request)
     %dt Country
     %dd= @logo_request.organization.try(:country_name)
     %dt Purpose

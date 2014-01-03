@@ -3,9 +3,9 @@ module Admin::LogoRequestsHelper
     logo_comment.added_on ? logo_comment.added_on : logo_comment.created_at
   end
 
-  def contact_name(logo_request_object)
-    if logo_request_object.try(:contact).try(:name)
-      logo_request_object.contact.name
+  def contact_name(logo_request)
+    if logo_request.try(:contact).try(:name)
+      logo_request.contact.name
     else
       content_tag :span, "Contact deleted", :style => 'color: red;'
     end
@@ -30,6 +30,14 @@ module Admin::LogoRequestsHelper
       when LogoRequest::STATE_ACCEPTED
         link_to "Return to #{logo_request.state} requests", accepted_admin_logo_requests_path
     end
+  end
+  
+  def contribution_status(logo_request)
+    logo_request.organization.contributor_for_year?([current_year, current_year - 1]) ? 'Contribution received' : "No contribution received for #{current_year - 1} - #{current_year}"
+  end
+  
+  def contribution_received?(logo_request)
+    logo_request.organization.contributor_for_year?([current_year, current_year - 1]) ? image_tag('checked.png', height: '11', width: '11') : ''
   end
 
 end

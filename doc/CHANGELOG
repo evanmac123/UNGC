@@ -1,3 +1,10 @@
+h1. 2014-01-02
+
+* The new funding model requires companies submitting a Logo Request to make a contribution within the last year
+* A solution was developed to list the years a company had contributed on its public profile
+* Since contribution years are tracked as Initiatives, we check if the company has a Signing for those contribution years
+* Organization#contributor_for_year? was updated to check for multiple years since we have to consider the current and past year
+
 h1. 2014-01-01
 
 * There was a problem with duplicate COP reminders being sent to SMEs
