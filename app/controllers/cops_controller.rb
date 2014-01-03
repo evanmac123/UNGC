@@ -4,7 +4,7 @@ class CopsController < ApplicationController
   before_filter :find_cop, :except => [:feed]
 
   def show
-    @communication = CopPresenter.create(@communication_on_progress, current_contact)
+    @communication = CommunicationPresenter.create(@communication_on_progress, current_contact)
   end
 
   def feed
@@ -18,7 +18,6 @@ class CopsController < ApplicationController
       format.atom { render :layout => false }
     end
   end
-
 
   private
 
