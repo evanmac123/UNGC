@@ -451,28 +451,4 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
   end
 
-  private
-
-  def create_approved_organization_and_user
-    create_organization_and_user
-    @organization.approve!
-  end
-
-    def create_cop_with_options(cop_options = {})
-      # let's assume an Active COP where all criteria have been met
-      defaults = {
-        :title                               => "COP Title",
-        :references_human_rights             => true,
-        :references_labour                   => true,
-        :references_environment              => true,
-        :references_anti_corruption          => true,
-        :include_measurement                 => true,
-        :include_continued_support_statement => true
-      }
-
-      create_principle_areas
-      @cop = create_cop(@organization.id, defaults.merge(cop_options))
-    end
-
-
 end

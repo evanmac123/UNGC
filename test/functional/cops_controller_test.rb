@@ -70,13 +70,25 @@ class CopsControllerTest < ActionController::TestCase
         type: 'basic',
         created_at: CommunicationOnProgress::START_DATE_OF_DIFFERENTIATION + 1.day,
       })
-      sign_in @organization_user
     end
 
     should "display public differentiation style partial" do
       get :show, :organization_id => @organization.id,
                  :id              => @cop.id
       assert_template :partial => '_show_differentiation_style_public'
+    end
+  end
+
+  context "given a Grace Letter" do
+    setup do
+      create_approved_organization_and_user
+      create_cop_with_options(type: 'grace')
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+    end
+
+    should "show the public Grace Letter partial" do
+      assert_template :partial => '_show_grace_style'
     end
   end
 
