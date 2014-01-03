@@ -94,11 +94,6 @@ class CommunicationOnProgress < ActiveRecord::Base
             :annual_report         => "Part of an annual (financial) report"
            }
 
-  COE_FORMAT = {:standalone        => "Stand alone document",
-                :financial_report  => "Part of an annual (financial) report",
-                :other_report      => "Part of another type of report"
-               }
-
   # How the COP is shared
   METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
             :all_access   => "b) COP is easily accessible to all interested parties (e.g. via its website)",
