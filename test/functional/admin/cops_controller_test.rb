@@ -306,7 +306,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
         sign_in @organization_user
       end
 
-      should "display advanced partial" do
+      should "display blueprint partial" do
         get :show, :organization_id => @organization.id,
                    :id              => @cop.id
         assert_template :partial => '_show_blueprint_style'
@@ -323,7 +323,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
         sign_in @organization_user
       end
 
-      should "display advanced partial" do
+      should "display basic partial" do
         get :show, :organization_id => @organization.id,
                    :id              => @cop.id
         assert_template :partial => '_show_basic_style'
@@ -332,28 +332,29 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     context "given a differentiation COP" do
       setup do
+        create_approved_organization_and_user
+        create_cop_with_options({
+          type: 'advanced',
+          created_at: CommunicationOnProgress::START_DATE_OF_DIFFERENTIATION + 1.day,
+        })
+        sign_in @organization_user
       end
 
-      should "display advanced partial" do
+      should "display differentiation style partial" do
         get :show, :organization_id => @organization.id,
                    :id              => @cop.id
         assert_template :partial => '_show_differentiation_style'
       end
     end
 
-    context "given a differentiation style COP" do
-      setup do
-      end
-
-      should "display advanced partial" do
-        get :show, :organization_id => @organization.id,
-                   :id              => @cop.id
-        assert_template :partial => '_show_differentiation_style_public'
-      end
-    end
-
     context "given a non_business style COP" do
       setup do
+        create_non_business_organization_and_user('approved')
+        create_cop_with_options({
+          type: 'non_business',
+          created_at: CommunicationOnProgress::START_DATE_OF_NON_BUSINESS_COE,
+        })
+        sign_in @organization_user
       end
 
       should "display advanced partial" do

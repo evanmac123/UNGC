@@ -31,6 +31,7 @@ class CopPresenter
            :is_grace_letter?,
            :is_test_phase_advanced_programme?,
            :issue_areas_covered,
+           :issue_area_coverage,
            :languages,
            :latest?,
            :meets_advanced_criteria,
@@ -58,6 +59,10 @@ class CopPresenter
 
   def acronym
     cop.organization.cop_acronym
+  end
+
+  def non_business_type
+    cop.organization.non_business_type
   end
 
   def return_path
