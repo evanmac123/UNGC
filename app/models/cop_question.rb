@@ -56,7 +56,7 @@ class CopQuestion < ActiveRecord::Base
   LEAD_GROUPS     = ['lead_un_goals', 'lead_gc']
 
   # at least one cop_attribute must be covered per cop_question, unless the grouping area is exempted
-  EXEMPTED_GROUPS = ['business_peace, mandatory']
+  EXEMPTED_GROUPS = ['business_peace', 'mandatory']
 
   # can optionally select the implementation area the question covers
   IMPLEMENTATION_AREAS =  ['policy', 'process', 'monitoring', 'performance']
