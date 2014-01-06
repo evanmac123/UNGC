@@ -16,8 +16,6 @@ class CoePresenter
            :created_at,
            :starts_on,
            :ends_on,
-           :cop_files,
-           :cop_links,
            :include_continued_support_statement?,
            :include_measurement?,
            :cop_attributes,
