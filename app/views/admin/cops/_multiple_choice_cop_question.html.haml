@@ -6,4 +6,4 @@
   %span{:class => "label_text"}
     = answer.cop_attribute.text
     - if answer.cop_attribute.hint.present?
-      = image_tag('icons/Info_11x11.png', :style => 'margin-bottom: -2px;', :title => answer.cop_attribute.hint)
+      = image_tag('icons/Info_11x11.png', :class => 'hint_icon', :title => answer.cop_attribute.hint)
