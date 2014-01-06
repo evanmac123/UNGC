@@ -1,4 +1,4 @@
 %h2= @organization.cop_name
 
 = form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization.id), html: {multipart: true, id: 'cop_form', novalidate: "novalidate"  }) do |form|
-  = render :partial => "#{session[:cop_template]}_form", :locals => { :form => form }
+  = render :partial => "#{@communication_on_progress.type}_form", :locals => { :form => form }
