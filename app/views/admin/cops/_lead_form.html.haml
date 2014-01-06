@@ -45,10 +45,8 @@
         %p If you cannot confirm that your COP fulfills every criterion, the COP will be published but will not meet the minimum criteria for LEAD. An email will be sent to the LEAD team notifying that an incomplete COP has been submitted. You will then have 3 months to resubmit. However, the results of the self-assessment will be made public on the Global Compact website, alongside the COP, to improve the analysis of the COPs and underlying performance.
 
         %p{:title => "Additional information on the best practice will appear here."}
-          Note: Throughout the self-assessment, best practices marked with
-          = image_tag "icons/Info_11x11.png", :height => 11, :width => 11, :style => 'position: relative; top: 1px;';
-          indicate additional information is available for that item.
-
+          == Note: Throughout the self-assessment, best practices marked with #{image_tag "icons/Info_11x11.png", :height => 11, :width => 11, :style => 'position: relative; top: 1px; right: 0px; padding: 0; margin:0;'} indicate additional information is available for that item.
+	  
     = render :partial => 'cop_title_field', :locals => {:form => form}
 
     %fieldset
