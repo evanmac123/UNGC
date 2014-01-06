@@ -3,6 +3,9 @@ class GraceLetterPresenter
   include ActionView::Helpers::TagHelper
 
   attr_reader :cop, :current_contact
+
+  Partial = '/shared/cops/show_grace_style'
+
   delegate :id,
            :created_at,
            :starts_on,
@@ -16,11 +19,11 @@ class GraceLetterPresenter
   end
 
   def admin_partial
-    partial
+    Partial
   end
 
   def show_partial
-    partial
+    Partial
   end
 
   def results_partial
@@ -38,6 +41,14 @@ class GraceLetterPresenter
     cop.organization.name
   end
 
+  def has_files?
+    files.any?
+  end
+
+  def files
+    cop.cop_files
+  end
+
   def return_path
     if current_contact.from_organization?
       dashboard_path(tab: :cops)
@@ -46,8 +57,4 @@ class GraceLetterPresenter
     end
   end
 
-  private
-    def partial
-      '/shared/cops/show_grace_style'
-    end
 end

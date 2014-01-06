@@ -26,10 +26,9 @@ class CoePresenter
     @contact = contact
   end
 
-  def non_business_type
-    coe.organization.non_business_type
-  end
-
+  # we should remove these methods
+  # in favour of letting the view decide which partials to show
+  # that may not be possible due to the still very complex COP presenter
   def show_partial
     Partial
   end
@@ -42,7 +41,39 @@ class CoePresenter
     Partial
   end
 
+  # ideally this would be refactored out to views with simple models
+  # but it's too risky atm
+  def render_questions_and_answers
+    questions.collect do |question|
+      answers = coe.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
+      render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }
+    end.join.html_safe
+  end
+
+  # should be moved to a service object? we're doing extensive quries
+  def questions
+    coeQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+  end
+
+  # more quries for questions
+  def attributes
+    coe.cop_attributes.all(:conditions => {:cop_questions => {
+                                              :principle_area_id => nil,
+                                              :grouping => non_business_type}
+                                            },
+                                        :include    => :cop_question,
+                                        :order      => 'cop_attributes.position ASC')
+  end
+
+  # supports questions
+  def non_business_type
+    coe.organization.non_business_type
+  end
+
+  # view concerns
+
   def title
+    # we could also use coe.title as it is set by the controller to be org.cop_name
     coe.organization.cop_name
   end
 
@@ -54,12 +85,14 @@ class CoePresenter
     Formats[coe.format.try(:to_sym)] || 'Unknown'
   end
 
+  # model concerns
+
   def has_links?
-    coe.cop_links.any?
+    links.any?
   end
 
   def has_files?
-    coe.cop_files.any?
+    files.any?
   end
 
   def links
@@ -70,6 +103,8 @@ class CoePresenter
     coe.cop_files
   end
 
+  # moving this into the presenter may be too far,
+  # perhaps it could move back out to the view, or to a helper.
   def return_path
     if contact.from_organization?
       dashboard_path(tab: :cops)
