@@ -14,10 +14,10 @@
 class NonBusinessOrganizationRegistration < ActiveRecord::Base
   belongs_to :organization
 
-  validates :date, presence: true, if: :needs_validation?
-  validates :place, presence: true, if: :needs_validation?
-  validates :authority, presence: true, if: :needs_validation?
-  validates :mission_statement, length: { in: 1..1000 }, if: :needs_validation?
+
+  validate do |record|
+    NonBusinessRegistrationCompleteValidator.new(record).validate if needs_validation?
+  end
 
   START_DATE_OF_NON_BUSINESS = Date.new(2013, 10, 31)
 
