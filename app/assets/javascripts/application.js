@@ -44,10 +44,25 @@ var EditorToolbar = [
   ['Outdent','Indent','NumberedList','BulletedList']
 ];
 
+// public participant search controls
+function showBusinessOnly (argument) {
+  $('.for_stakeholders_only').fadeOut('slow');
+  $('.for_business_only').fadeIn('slow');
+}
+
+function showStakeholdersOnly (argument) {
+  $('.for_business_only').fadeOut('slow');
+  $('.for_stakeholders_only').fadeIn('slow');
+}
+
+function hideBusinessAndStakeholders (argument) {
+  $('.for_stakeholders_only').fadeOut('slow');
+  $('.for_business_only').fadeOut('slow');
+}
 
 function makeChildrenVisible (id) {
   var parent = $("#"+id);
-  var children = parent.children('ul')
+  var children = parent.children('ul');
   if (children[0])
     children[0].style.visibility = 'visible';
 }
@@ -63,16 +78,16 @@ function include(path_to_file) {
 
 function makeChildrenInvisible (id) {
   var parent = $("#"+id);
-  var children = parent.children('ul')
+  var children = parent.children('ul');
   if (children[0])
     children[0].style.visibility = 'hidden';
 }
 
 function versionNumberAnchor() {
   if (window.location.href.match(/\#/)) {
-    var anchor = window.location.href.split('#')[1]
+    var anchor = window.location.href.split('#')[1];
     if (anchor) {
-      var version_match = anchor.match(/version_([0-9]+)/)
+      var version_match = anchor.match(/version_([0-9]+)/);
       if (version_match) {
         return version_match[1];
       }
@@ -180,7 +195,7 @@ $(document).ready(function() {
 
   // $(".tablesorter").tablesorter({widgets: ['zebra']});
 
-  $('a.edit_content').live('click', function(event) {
+  $('body').on('click','a.edit_content', function(event) {
     // jQuery.get(event.target.href, [], null, 'script');
     Editor.loading();
     jQuery.ajax({
@@ -200,19 +215,19 @@ $(document).ready(function() {
     $(this).bind('mouseout', function() { makeChildrenInvisible(this.className) } );
   } );
 
-  $('select.autolink').live('change', function(e) {
+  $('body').on('change','select.autolink', function(e) {
     var select = $(e.target);
     var go = select.val();
     var anchor = window.location.hash;
-    if (go != '') {
+    if (go !== '') {
       window.location = go.replace(/\&amp;/, '&') + anchor;
     }
   });
 
-  $('form #business_only').live('click', showBusinessOnly);
-  $('form #stakeholders_only').live('click', showStakeholdersOnly);
-  $('form #hide_business_and_stakeholders').live('click', hideBusinessAndStakeholders);
-  $("#listing_status_id").live('change', function() {
+  $('body').on('click', 'form #business_only', showBusinessOnly);
+  $('body').on('click', 'form #stakeholders_only', showStakeholdersOnly);
+  $('body').on('click', 'form #hide_business_and_stakeholders', hideBusinessAndStakeholders);
+  $('body').on('change', '#listing_status_id', function() {
     selected_listing_status = jQuery.trim($("#listing_status_id option:selected").text());
     if (selected_listing_status === "Public Company") {
       $('.public_company_only').show();
@@ -222,37 +237,22 @@ $(document).ready(function() {
   });
 
   // hide and show sections for FAQs, titles and descriptions etc.
-  $("#rightcontent").on('click', ".hint_toggle", function(){
+  $("body").on('click', ".hint_toggle", function(){
     $(this).next(".hint_text").slideToggle();
     $(this).toggleClass('selected');
   });
 
   // called from views/signup/step5.html.haml
-  $("#contact_foundation_contact").live('click', function() {
+  $("body").on("click", "#contact_foundation_contact", function() {
     if ($('#error_explanation').length > 0) {
       $('#error_explanation').toggle();
     }
     $('#contact_form').toggle();
   });
 
-  $('a[data-popup]').live('click', function(e) {
+  $("body").on('click', 'a[data-popup]', function(e) {
       window.open(this.href, 'newWindow', 'left=50,top=50,height=600,width=1024,resizable=1,scrollbars=1');
       e.preventDefault();
    });
 });
 
-// public participant search controls
-function showBusinessOnly (argument) {
-  $('.for_stakeholders_only').fadeOut('slow')
-  $('.for_business_only').fadeIn('slow');
-}
-
-function showStakeholdersOnly (argument) {
-  $('.for_business_only').fadeOut('slow');
-  $('.for_stakeholders_only').fadeIn('slow');
-}
-
-function hideBusinessAndStakeholders (argument) {
-  $('.for_stakeholders_only').fadeOut('slow');
-  $('.for_business_only').fadeOut('slow');
-}
