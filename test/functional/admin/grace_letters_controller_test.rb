@@ -11,8 +11,10 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
     end
 
     should "view with the Grace Letter partial" do
-      assert_template :partial => '_show_grace_style'
+      assert assigns(@grace_letter)
     end
   end
+
+  #TODO test with user from_uncg?!!!
 
 end

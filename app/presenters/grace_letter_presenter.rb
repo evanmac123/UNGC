@@ -4,41 +4,19 @@ class GraceLetterPresenter
 
   attr_reader :cop, :current_contact
 
-  Partial = '/shared/cops/show_grace_style'
-
   delegate :id,
            :created_at,
            :starts_on,
            :ends_on,
            :cop_files,
+           :organization,
+           :can_approve?,
+           :can_reject?,
            to: :cop
 
   def initialize(cop, current_contact)
     @cop = cop
     @current_contact = current_contact
-  end
-
-  def admin_partial
-    Partial
-  end
-
-  def show_partial
-    Partial
-  end
-
-  def results_partial
-  end
-
-  def title
-    cop.organization.cop_name
-  end
-
-  def acronym
-    cop.organization.cop_acronym
-  end
-
-  def organization_name
-    cop.organization.name
   end
 
   def has_files?

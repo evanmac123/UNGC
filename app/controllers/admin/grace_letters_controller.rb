@@ -7,10 +7,7 @@ class Admin::GraceLettersController < AdminController
   end
 
   def new
-    @letter = @organization.communication_on_progresses.new
-    @letter.init_cop_attributes
-    @letter.title = @organization.cop_name
-    @letter.type = 'grace'
+    @grace_letter = @organization.communication_on_progresses.new
 
     # TODO move these to a form object? not needed for a grace letter?
     @cop_link_language = Language.for(:english).try(:id)
@@ -30,7 +27,6 @@ class Admin::GraceLettersController < AdminController
 
   def create
     @letter = @organization.communication_on_progresses.new(params[:grace_letter])
-    @letter.type = 'grace'
 
     if @letter.save
       # TODO add a more appropriate message
