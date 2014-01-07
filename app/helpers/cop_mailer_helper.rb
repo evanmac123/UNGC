@@ -25,5 +25,13 @@ module CopMailerHelper
       org.inactive_on.present? ? org.inactive_on + 1.year : org.delisting_on
     end
   end
+  
+  def link_to_letter_of_commitment_if_available(org)
+    if org.commitment_letter?
+      link_to 'Letter of Commitment', 'http://unglobalcompact.org' + org.commitment_letter.url
+    else
+      "Letter of Commitment"
+    end
+  end
 
 end
