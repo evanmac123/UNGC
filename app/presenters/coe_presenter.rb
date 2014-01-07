@@ -52,7 +52,7 @@ class CoePresenter
 
   # should be moved to a service object? we're doing extensive quries
   def questions
-    coeQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
+    CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
   end
 
   # more quries for questions

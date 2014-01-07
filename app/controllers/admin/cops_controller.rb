@@ -1,7 +1,8 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, except: :introduction
+  before_filter :set_session_template, only: :new
   before_filter :no_unapproved_organizations_access
-  before_filter :ensure_valid_type, only: [:new, :edit, :create, :update]
+  before_filter :ensure_valid_type, only: :new
   helper :datetime
 
   def introduction
@@ -18,13 +19,6 @@ class Admin::CopsController < AdminController
     end
   end
 
-  def grace_letter
-    # TODO move to it's own controller
-    @grace_letter = @organization.communication_on_progresses.new
-    @grace_letter.type = 'grace_letter'
-    render :grace_letter
-  end
-
   def coe
     # TODO move to it's own controller
     @coe = @organization.communication_on_progresses.new
@@ -36,7 +30,7 @@ class Admin::CopsController < AdminController
     @communication_on_progress = @organization.communication_on_progresses.new
     @communication_on_progress.init_cop_attributes
     @communication_on_progress.title = @organization.cop_name
-    @communication_on_progress.type = params.fetch(:type_of_cop)
+    @communication_on_progress.type = type_of_cop
 
     # TODO move these to a form object?
     @cop_link_language = Language.for(:english).try(:id)
@@ -66,7 +60,7 @@ class Admin::CopsController < AdminController
 
     if @communication_on_progress.save
       flash[:notice] = "The communication has been published on the Global Compact website"
-      # clear_session_template # remove
+      clear_session_template
 
       # TODO move this to a service object?
       # is a form object AND a service overkill? feels like it.
@@ -120,13 +114,17 @@ class Admin::CopsController < AdminController
   private
 
     # remove
-    # def set_session_template
-    #   session[:cop_template] = params[:type_of_cop]
-    # end
+    def set_session_template
+      session[:cop_template] = params[:type_of_cop]
+    end
 
-    # def clear_session_template
-    #   session[:cop_template] = nil
-    # end
+    def clear_session_template
+      session[:cop_template] = nil
+    end
+
+    def type_of_cop
+      session[:cop_template]
+    end
 
     def load_organization
       # load_organization also seems to load cop... hehe
@@ -135,7 +133,7 @@ class Admin::CopsController < AdminController
     end
 
     def ensure_valid_type
-      unless CommunicationOnProgress::TYPES.include?(params[:type_of_cop])
+      unless CommunicationOnProgress::TYPES.include?(type_of_cop)
         redirect_to cop_introduction_path
       end
     end

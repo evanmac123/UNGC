@@ -1,9 +1,9 @@
-class Admin::GraceLettersController < ApplicationController
+class Admin::GraceLettersController < AdminController
   before_filter :load_letter_and_organization
   before_filter :no_unapproved_organizations_access
 
   def show
-    @grace_letter = GraceLetterPresenter(@letter, current_contact)
+    @grace_letter = GraceLetterPresenter.new(@letter, current_contact)
   end
 
   def new
