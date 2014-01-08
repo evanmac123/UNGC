@@ -109,6 +109,15 @@ class CopMailer < ActionMailer::Base
       :subject => "UN Global Compact COP Deadline - #{@organization.cop_due_on.strftime('%e %B, %Y')} 23:00 UTC"
   end
 
+  def cop_due_yesterday(organization)
+    @organization = organization
+    mail \
+      :to => organization.contacts.contact_points.collect(&:email_recipient),
+      :cc => organization.network_report_recipients.collect(&:email_recipient),
+      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :subject => "UN Global Compact COP Deadline - Non-Communicating COP Status"
+  end
+
   def delisting_in_90_days(organization)
     @organization = organization
     mail \

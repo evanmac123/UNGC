@@ -7,6 +7,7 @@ class CopReminder
     notify_cop_due_in_90_days
     notify_cop_due_in_30_days
     notify_cop_due_today
+    notify_cop_due_yesterday
   end
 
   def notify_cop_due_in_90_days
@@ -25,7 +26,12 @@ class CopReminder
     log "Running notify_cop_due_today"
     notify_cop_due_on Organization.businesses.participants.with_cop_status(:active).with_cop_due_on(Date.today), :cop_due_today
   end
-
+  
+  def notify_cop_due_yesterday
+    log "Running notify_cop_due_yesterday"
+    notify_cop_due_on Organization.businesses.participants.with_cop_status(:noncommunicating).with_cop_due_on(Date.today.to_date - 1.day), :cop_due_yesterday
+  end
+  
   private
   # a separate email for Local Networks is no longer used
     def notify_cop_due_on (organizations, mailer, network_mailer = nil)

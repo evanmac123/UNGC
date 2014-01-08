@@ -1,0 +1,28 @@
+%p{:style => 'text-align: center;'}
+  = link_to 'Ce message en Fran&ccedil;ais'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_yesterday_noncommunicating_fr.pdf'
+  |
+  = link_to 'Este mensaje en Espa&ntilde;ol'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_yesterday_noncommunicating_es.pdf'
+  |
+  = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_due_yesterday_noncommunicating_cn.pdf'
+
+Dear Contact Points for
+%strong== #{@organization.name},
+
+%p As of today, your company is listed as "Non-communicating" on the UN Global Compact website for failure to submit a COP by the deadline. After a one-year “Non-communicating” period, a company will be automatically expelled from the UN Global Compact. To regain your company’s “Active” status, you will need to submit your COP through our website. 
+
+%p== For your reference, at the end of this email you will find a list of resources that can help you in drafting and submitting your company’s COP. In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
+
+%p
+  == If you have any questions related to your COP or to any other aspect of your participation in the UN Global Compact, please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email.to_s}.
+
+  - if @organization.network_report_recipients.any?
+    == Additionally, your Local Network in #{@organization.country_name}, copied on this email, would be happy to provide you with further support and information.
+
+%p Sincerely,
+
+%p
+  Transparency and Disclosure Team
+  %br/
+  = render :partial => '/shared/ungc_signature'
+
+= render :partial => '/shared/cops/cop_resources_for_email.html.haml'
