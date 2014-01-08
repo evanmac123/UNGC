@@ -79,19 +79,6 @@ class CopsControllerTest < ActionController::TestCase
     end
   end
 
-  context "given a Grace Letter" do
-    setup do
-      create_approved_organization_and_user
-      create_cop_with_options(type: 'grace')
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
-    end
-
-    should "show the public Grace Letter partial" do
-      assert_template :partial => '_show_grace_style'
-    end
-  end
-
 private
 
   def setup_organization

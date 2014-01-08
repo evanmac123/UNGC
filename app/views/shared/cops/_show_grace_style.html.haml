@@ -1,13 +1,13 @@
-= render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
+= render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => grace_letter }
 %dt Grace Letter
 %dd
   %ul
-    %li== COP due date was extended until #{yyyy_mm_dd communication_on_progress.ends_on}
-- if communication_on_progress.has_files?
+    %li== COP due date was extended until #{yyyy_mm_dd grace_letter.ends_on}
+- if grace_letter.has_files?
   %dt Files
   %dd
     %ul
-      - communication_on_progress.files.each do |file|
+      - grace_letter.files.each do |file|
         %li
           = link_to truncate(file.attachment_file_name, :length => 60), file.attachment.url
           == (#{file.language.name})

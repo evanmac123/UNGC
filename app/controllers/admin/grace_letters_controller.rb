@@ -10,7 +10,6 @@ class Admin::GraceLettersController < AdminController
     @grace_letter = @organization.communication_on_progresses.new
 
     # TODO move these to a form object? not needed for a grace letter?
-    @cop_link_language = Language.for(:english).try(:id)
     @cop_file_language = Language.for(:english).try(:id)
 
     # used to preselect the tab, move to form object?

@@ -10,4 +10,4 @@
     = render :partial => @communication.show_partial, :locals => {:results_partial => @communication.results_partial, :communication_on_progress => @communication }
 
   .note
-    %p{:style => 'margin-top: 2em; font-size: 10px; line-height: 1.5em;'} Note: Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office.
+    %p{:style => 'margin-top: 2em; font-size: 10px; line-height: 1.5em;'}= t(:communication_disclaimer)

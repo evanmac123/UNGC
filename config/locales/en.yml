@@ -11,3 +11,10 @@ en:
         no_pledge_reason: "A reason for not making a contribution"
         revenue: "Annual Sales / Revenues"
         url: "Website"
+
+  communication_disclaimer: "Note: Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Office."
+  admin:
+    confirm_delete_grace_letter: "All grace letter files will be permanently removed. Are you sure you want to delete this grace letter?"
+    delete_grace_letter: "Delete grace letter and remove all files"
+    confirm_cop_delete: "All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?"
+    delete_cop: "Delete COP and remove all answers, files and links"

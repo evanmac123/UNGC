@@ -7,22 +7,10 @@
   %li= link_to "Back to COPs", @grace_letter.return_path, :class => 'go_back_large'
   %li= link_to 'Public version', cop_detail_path(@grace_letter.id), :class => 'web_preview_large'
   - staff_only do
-    %li= link_to 'Delete COP', admin_organization_grace_letter_path(@grace_letter.organization, @grace_letter.id), :method => :delete, :class => 'delete_large', :confirm => 'All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?', :title => 'Delete COP and remove all answers, files and links'
+    %li= link_to 'Delete Grace Letter', admin_organization_grace_letter_path(@grace_letter.organization, @grace_letter.id), method: :delete, :class => 'delete_large', confirm: "#{t('admin.confirm_delete_grace_letter')}", title: "#{t('admin.delete_grace_letter')}"
 
 .main_content
   #status_box
     %dl{style: 'width: 90%;'}
-      = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => @grace_letter }
-      %dt Grace Letter
-      %dd
-        %ul
-          %li== COP due date was extended until #{yyyy_mm_dd @grace_letter.ends_on}
-      - if @grace_letter.has_files?
-        %dt Files
-        %dd
-          %ul
-            - @grace_letter.files.each do |file|
-              %li
-                = link_to truncate(file.attachment_file_name, :length => 60), file.attachment.url
-                == (#{file.language.name})
+      = render partial: 'shared/cops/show_grace_style', locals: { grace_letter: @grace_letter }
       = action_links(@grace_letter)
