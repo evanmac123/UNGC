@@ -6,12 +6,11 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
       create_approved_organization_and_user
       create_cop_with_options(:type => 'grace')
       sign_in @organization_user
-      get :show, :organization_id => @organization.id,
-                 :id              => @cop.id
     end
 
-    should "view with the Grace Letter partial" do
-      assert assigns(@grace_letter)
+    should "show" do
+      get :show, organization_id: @organization.id, id: @cop.id
+      assert assigns(:grace_letter)
     end
   end
 

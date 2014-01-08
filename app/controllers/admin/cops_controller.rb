@@ -43,14 +43,14 @@ class Admin::CopsController < AdminController
   def edit
     unless @communication_on_progress.editable?
       flash[:notice] = "You cannot edit this COP"
-      redirect_to admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
+      redirect_to admin_organization_url(@communication_on_progress.organization.id, :tab => :cops)
     end
   end
 
   def create
     # TODO move type_of_cop to a hidden field in the form object
     @communication_on_progress = @organization.communication_on_progresses.new(params[:communication_on_progress])
-    @communication_on_progress.type = session[:cop_template]
+    @communication_on_progress.type = type_of_cop
     @communication_on_progress.contact_name = params[:communication_on_progress][:contact_name] || current_contact.contact_info
 
     # TODO move this to a view concern on the way out?
@@ -64,22 +64,22 @@ class Admin::CopsController < AdminController
 
       # TODO move this to a service object?
       # is a form object AND a service overkill? feels like it.
-      unless @communication_on_progress.is_grace_letter?
-        begin
-          CopMailer.send("confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_contact).deliver
-        rescue Exception
-          flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
-        end
+      begin
+        CopMailer.send("confirmation_#{@communication_on_progress.confirmation_email}", @organization, @communication_on_progress, current_contact).deliver
+      rescue Exception
+        flash[:error] = 'Sorry, we could not send the confirmation email due to a server error.'
       end
-      redirect_to admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress)
+
+      redirect_to admin_organization_communication_on_progress_url(@communication_on_progress.organization.id, @communication_on_progress)
     else
+
       # we want to preselect the submit tab
       # move to form object
       @submitted = true
       # web links are not included with Basic COPs and Grace Letters
-      # TODO moving grace letters out to it's own controlller solves one part of this problem.
+
       # as for basic COPs... i'll punt for the moment.
-      unless @communication_on_progress.type == 'basic' || @communication_on_progress.type == 'grace'
+      unless @communication_on_progress.type == 'basic'
         @cop_link_url = params[:communication_on_progress][:cop_links_attributes][:new_cop][:url] || ''
         @cop_link_language = params[:communication_on_progress][:cop_links_attributes][:new_cop][:language_id] || Language.for(:english).id
       end
@@ -88,8 +88,6 @@ class Admin::CopsController < AdminController
   end
 
   def show
-    # by moving grace letters, coe and cycle adjustments out to their own controllers
-    # we can remove some of the complexity of the CopPresenter hierarchy.
     @communication = CommunicationPresenter.create(@communication_on_progress, current_contact)
   rescue CopPresenter::InvalidCopTypeError
     flash[:error] = "Sorry, we could not determine the COP type."
@@ -98,7 +96,7 @@ class Admin::CopsController < AdminController
 
   def update
     @communication_on_progress.update_attributes(params[:communication_on_progress])
-    redirect_to admin_organization_communication_on_progress_path(@organization.id, @communication_on_progress)
+    redirect_to admin_organization_communication_on_progress_url(@organization.id, @communication_on_progress)
   end
 
   def destroy
@@ -106,9 +104,9 @@ class Admin::CopsController < AdminController
     if @communication_on_progress.destroy
       flash[:notice] = 'The communication was deleted'
     else
-      flash[:error] =  @communication_on_progress.errors.full_messages.to_sentence
+      flash[:error] = @communication_on_progress.errors.full_messages.to_sentence
     end
-    redirect_to admin_organization_path(org_id, :tab => :cops)
+    redirect_to admin_organization_url(org_id, :tab => :cops)
   end
 
   private
@@ -127,14 +125,13 @@ class Admin::CopsController < AdminController
     end
 
     def load_organization
-      # load_organization also seems to load cop... hehe
       @communication_on_progress = CommunicationOnProgress.visible_to(current_contact).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
     end
 
     def ensure_valid_type
       unless CommunicationOnProgress::TYPES.include?(type_of_cop)
-        redirect_to cop_introduction_path
+        redirect_to cop_introduction_url
       end
     end
 end

@@ -7,7 +7,7 @@
   %li= link_to "Back to #{@communication.acronym}s", @communication.return_path, :class => 'go_back_large'
   %li= link_to 'Public version', cop_detail_path(@communication.id), :class => 'web_preview_large'
   - staff_only do
-    %li= link_to 'Delete COP', @communication.delete_path, :method => :delete, :class => 'delete_large', :confirm => 'All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?', :title => 'Delete COP and remove all answers, files and links'
+    %li= link_to 'Delete COP', @communication.delete_path, :method => :delete, :class => 'delete_large', :confirm => "#{t('admin.confirm_cop_delete')}", :title => "#{t('admin.delete_cop')}"
 
 .main_content
   #status_box
