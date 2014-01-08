@@ -5,7 +5,7 @@
 %ul{:class => "tools inline"}
 
   %li= link_to "Back to COPs", @grace_letter.return_path, :class => 'go_back_large'
-  %li= link_to 'Public version', cop_detail_path(@grace_letter.id), :class => 'web_preview_large'
+  %li= link_to 'Public version', grace_letter_path(@grace_letter.id), :class => 'web_preview_large'
   - staff_only do
     %li= link_to 'Delete Grace Letter', admin_organization_grace_letter_path(@grace_letter.organization, @grace_letter.id), method: :delete, :class => 'delete_large', confirm: "#{t('admin.confirm_delete_grace_letter')}", title: "#{t('admin.delete_grace_letter')}"
 
