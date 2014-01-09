@@ -17,7 +17,7 @@ Dear Contact Points for
 %p For your convenience, at the end of this email, you will find a list of tools and resources that can help you in drafting and submitting your COP.
 
 %p
-  ==Please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} via phone at #{@organization.participant_manager_phone} or email at #{mail_to @organization.participant_manager_email.to_s} to provide you with further clarification.
+  ==Please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email.to_s} to provide you with further clarification.
 
   - if @organization.network_report_recipients.any?
     == Your Local Network contact point, #{@organization.network_report_recipient_name} would also be happy to answer any questions or provide you with assistance.
