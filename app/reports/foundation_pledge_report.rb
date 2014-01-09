@@ -16,6 +16,7 @@ class FoundationPledgeReport < SimpleReport
       'Invoice ID',
       'Pledge',
       'Suggested Pledge',
+      'Reason for not pledging',
       'Revenue',
       'Invoice Date',
       'Relationship Manager']
@@ -34,6 +35,7 @@ class FoundationPledgeReport < SimpleReport
       r.invoice_id,
       r.pledge_amount,
       r.suggested_pledge,
+      r.no_pledge_reason_value,
       r.revenue_description,
       r.joined_on,
       r.participant_manager_name ]
