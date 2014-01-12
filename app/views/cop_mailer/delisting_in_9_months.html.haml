@@ -1,0 +1,30 @@
+%p{:style => 'text-align: center;'}
+  = link_to 'Ce message en Fran&ccedil;ais'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_9_months_fr.pdf'
+  |
+  = link_to 'Este mensaje en Espa&ntilde;ol'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_9_months_es.pdf'
+  |
+  = link_to '&#x4FE1;&#x4EF6;&#x4E2D;&#x6587;'.html_safe, 'http://www.unglobalcompact.org/docs/communication_on_progress/translations/cop_delisted_9_months_cn.pdf'
+
+Dear Contact Points for
+%strong== #{@organization.name},
+
+%p==#{@organization.name} is in danger of being removed from the UN Global Compact’s list of active participants on #{dd_month_yyyy delisting_on(@organization)} for failing to submit its annual Communication on Progress (COP).
+
+%p==As you know, when joining the UN Global Compact, companies make a commitment to issue an annual COP, a public disclosure to stakeholders on progress made in implementing the UN Global Compact ten principles. To remain a UN Global Compact participant, #{@organization.name} must submit an updated COP by #{dd_month_yyyy delisting_on(@organization)}. This will prevent your company from being publicly listed on our website as an #{link_to 'expelled participant', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html'} due to lack of communication and in our next press release announcing the names of expelled companies.
+
+%p== For your reference, at the end of this email, you will find a list of resources that can help you in drafting and submitting your COP. In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
+
+%p
+  ==Please do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email.to_s} with any questions you might have on your COP submission or your participation in the Global Compact.
+
+  - if @organization.network_report_recipients.any?
+    == Your Local Network contact point, #{@organization.network_report_recipient_name} in #{@organization.country_name}, would also be happy to answer any questions or provide you with assistance.
+
+%p Sincerely,
+
+%p
+  Transparency and Disclosure Team
+  %br/
+  = render :partial => '/shared/ungc_signature'
+
+= render :partial => '/shared/cops/cop_resources_for_email.html.haml'
