@@ -35,6 +35,18 @@ class CopReminderTest < ActiveSupport::TestCase
                                                    :participant          => true,
                                                    :organization_type_id => @business_organization_type.id)
       @non_communicating_org.communication_late
+      
+      # adding organization about to be expelled in 9 months
+      create_organization(:cop_due_on           => 9.months.from_now.to_date - 1.year,
+                          :participant          => true,
+                          :cop_state            => Organization::COP_STATE_NONCOMMUNICATING,
+                          :organization_type_id => @business_organization_type.id)
+
+      # adding organization about to be expelled in 7 days
+      create_organization(:cop_due_on           => 7.days.from_now.to_date - 1.year,
+                          :participant          => true,
+                          :cop_state            => Organization::COP_STATE_NONCOMMUNICATING,
+                          :organization_type_id => @business_organization_type.id)      
 
       # adding organizations that shouldn't be notified
       create_organization(:cop_due_on => 45.days.from_now.to_date)
@@ -61,20 +73,32 @@ class CopReminderTest < ActiveSupport::TestCase
       end
     end
 
+    should "send email to the 1 organization about to be expelled in 7 days" do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        @reminder.notify_cop_due_in_7_days
+      end
+    end
+
     should "send email to the 1 organization with COP due in 30 days" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         @reminder.notify_cop_due_in_30_days
       end
-    end
+    end    
 
     should "send email to 1 active organization with COP due in 90 days, and 1 non-communicating organization about to be expelled in 90 days" do
       assert_difference 'ActionMailer::Base.deliveries.size', 2 do
         @reminder.notify_cop_due_in_90_days
       end
     end
+    
+    should "send email to the 1 organization about to be expelled in 9 months" do
+      assert_difference 'ActionMailer::Base.deliveries.size' do
+        @reminder.notify_cop_due_in_9_months
+      end
+    end
 
-    should "send email to the 5 organizations when notifying all" do
-      assert_difference 'ActionMailer::Base.deliveries.size', 5 do
+    should "send email to the 7 organizations when notifying all" do
+      assert_difference 'ActionMailer::Base.deliveries.size', 7 do
         @reminder.notify_all
       end
     end
