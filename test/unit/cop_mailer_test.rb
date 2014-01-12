@@ -216,7 +216,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "be able to send notice of delisting in 1 week" do
       response = CopMailer.delisting_in_7_days(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "#{@organization.name} at risk of expulsion from UN Global Compact - 9 months", response.subject
+      assert_equal "#{@organization.name} at risk of expulsion from UN Global Compact - 1 week", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end

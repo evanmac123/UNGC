@@ -89,7 +89,7 @@
           %h3 Foundation Contribution
           %dt.first Suggested amount
           %dd.first= number_to_currency(@organization.suggested_pledge, :unit => "$") if @organization.revenue.present?
-          %dt Pledge received
+          %dt Pledge made
           %dd
             - if @organization.pledge_amount.to_i == 0 && @organization.no_pledge_reason.present?
               = "None. #{@organization.no_pledge_reason_value}."
