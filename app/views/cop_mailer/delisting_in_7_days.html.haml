@@ -8,7 +8,7 @@
 Dear Contact Points for
 %strong== #{@organization.name},
 
-%p== Please note that #{@organization.name} continues to be in danger of being expelled from the United Nations Global Compact due to failure to communicate on progress.  We would like to remind you of the pledge you made in your [Letter of Commitment] to report on progress on an annual basis.
+%p== Please note that #{@organization.name} continues to be in danger of being expelled from the United Nations Global Compact due to failure to communicate on progress.  We would like to remind you of the pledge you made in your #{link_to_letter_of_commitment_if_available(@organization)} to report on progress on an annual basis.
 
 %p== We urge you to submit your company’s COP though our website by #{dd_month_yyyy delisting_on(@organization)}. Expelled companies will be removed from our list of participants and will be listed as #{link_to 'Expelled Participants', 'http://www.unglobalcompact.org/COP/analyzing_progress/expelled_participants.html'} on our website and in our next press release announcing the names of expelled companies. 
 
@@ -16,10 +16,10 @@ Dear Contact Points for
 
 %p==In case you have forgotten your password, please use the #{link_to 'Forgot your username or password', 'http://unglobalcompact.org/password/new'} link to request a new one.
 
-%p==Your company can also choose to voluntarily withdraw [link] before being expelled from the UN Global Compact to ensure that your company’s name does not appear in the expelled list and in the press release. Please reply to this message to let us know how you would like to proceed, and do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email.to_s} with any questions.
+%p==Your company can also choose to #{link_to 'voluntarily withdraw', 'http://www.unglobalcompact.org/docs/how_to_participate_doc/Withdrawal_sample_letter.pdf'} before being expelled from the UN Global Compact to ensure that your company’s name does not appear in the expelled list and in the press release. Please reply to this message to let us know how you would like to proceed, and do not hesitate to contact your Relationship Manager, #{@organization.participant_manager_name} at #{mail_to @organization.participant_manager_email.to_s} with any questions.
 
 %p We hope you will continue your participation in our global movement and we strongly believe that our collective action will yield sustainable and positive impact.
-
+rt
 %p Sincerely,
 
 %p
