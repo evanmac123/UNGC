@@ -205,7 +205,6 @@ UNGC::Application.routes.draw do
   match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
   match 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
   match 'organizations/new/:org_type' => 'organizations#new'
-  resources :grace_letters, only: :show
 
   # Signup
   match '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
