@@ -21,5 +21,9 @@ class BusinessOrganizationRegistration < OpenStruct
     ActiveModel::Errors.new(self)
   end
 
+  def save
+    true
+  end
+
 end
 

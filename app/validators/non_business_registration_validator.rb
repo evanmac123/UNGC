@@ -11,19 +11,12 @@ class NonBusinessRegistrationValidator
   end
 
   def validate_callbacks
-    validate_legal_status
     validate_place
     validate_authority
     validate_date
   end
 
   private
-
-    def validate_legal_status
-      if @legal_status_id.blank? && registration.number.blank?
-        registration.errors.add :number, "can't be blank"
-      end
-    end
 
     def validate_place
       if registration.place.blank?

@@ -17,13 +17,13 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
     end
 
     should "update" do
-      @organization.expects(:update_attributes).once.returns(true)
-      @organization.registration.expects(:update_attributes).once.returns(true)
+      @organization.expects(:save).once.returns(true)
+      @organization.registration.expects(:save).once.returns(true)
 
       # TODO investigate these
       @organization.expects(:set_replied_to).once
       @organization.expects(:set_last_modified_by).once
-      # TODO test update_state
+
       @u.update(@organization, @organization_user)
     end
   end
