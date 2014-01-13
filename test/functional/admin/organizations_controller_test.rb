@@ -279,6 +279,18 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_template "admin/organizations/edit"
     end
 
+    should "reject non business organization registration that has no number or legal status" do
+      sign_in @user
+      put :update, {id: @organization.to_param, organization: {
+                                       },
+                                       non_business_organization_registration: {
+                                        date: "12/3/2013",
+                                        place: "bla",
+                                        authority: "bla",
+                                        mission_statement: "A"}}
+      assert_template "admin/organizations/edit"
+    end
+
   end
 
 end
