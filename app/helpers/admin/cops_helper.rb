@@ -117,4 +117,20 @@ module Admin::CopsHelper
     # we reuse the classes from the questionnaire
     item ? 'selected_question' : 'unselected_question'
   end
+
+  def edit_admin_cop_path(cop)
+    if cop.is_grace_letter?
+      edit_admin_organization_grace_letter_path(cop.organization.id, cop)
+    else
+      edit_admin_organization_communication_on_progress_path(cop.organization.id, cop)
+    end
+  end
+
+  def admin_cop_path(cop)
+    if cop.is_grace_letter?
+      admin_organization_grace_letter_path(cop.organization.id, cop)
+    else
+      admin_organization_communication_on_progress_path(cop.organization.id, cop)
+    end
+  end
 end
