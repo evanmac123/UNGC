@@ -7,10 +7,8 @@ class Admin::GraceLettersController < AdminController
   end
 
   def new
-    @grace_letter = @organization.communication_on_progresses.new
-
-    # TODO move these to a form object? not needed for a grace letter?
-    @cop_file_language = Language.for(:english).try(:id)
+    letter = @organization.communication_on_progresses.new
+    @grace_letter = GraceLetterForm.new(letter)
 
     # used to preselect the tab, move to form object?
     # can we delete this?
@@ -25,12 +23,14 @@ class Admin::GraceLettersController < AdminController
   end
 
   def create
-    @letter = @organization.communication_on_progresses.new(params[:grace_letter])
+    puts params.to_json
+    letter = @organization.communication_on_progresses.new(params[:grace_letter])
+    @grace_letter = GraceLetterForm.new(letter)
 
-    if @letter.save
+    if @grace_letter.save
       # TODO add a more appropriate message
       flash[:notice] = "The grace letter has been published on the Global Compact website"
-      redirect_to admin_organization_grace_letters_url(@organization.id, @letter)
+      redirect_to admin_organization_grace_letters_url(@organization.id, letter)
     else
       # we want to preselect the submit tab
       # move to form object
@@ -49,7 +49,7 @@ class Admin::GraceLettersController < AdminController
     if @letter.destroy
       flash[:notice] = 'The grace letter was deleted'
     else
-      flash[:error] =  @letter.errors.full_messages.to_sentence
+      flash[:error] = @letter.errors.full_messages.to_sentence
     end
     redirect_to admin_organization_url(org_id, :tab => :cops)
   end

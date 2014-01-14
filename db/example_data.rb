@@ -175,4 +175,18 @@ module FixtureReplacement
     l.title = FixtureReplacement.random_string
     l.link_type = ResourceLink::TYPES.keys.shuffle.first.to_s
   end
+
+  attributes_for :cop_file do |c|
+    language = new_language
+
+    c.language = language
+    c.attachment_file_name = FixtureReplacement.random_string
+    c.attachment_type = language
+  end
+
+  attributes_for :grace_letter, class:CommunicationOnProgress do |g|
+    g.organization = Organization.first
+    g.title = FixtureReplacement.random_string
+    g.cop_files = [new_cop_file]
+  end
 end
