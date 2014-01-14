@@ -22,6 +22,7 @@ class GraceLetterPresenter
   def has_files?
     files.any?
   end
+  alias_method :has_file?, :has_files?
 
   def files
     cop.cop_files
