@@ -1,38 +1,32 @@
-class GraceLetterForm < GraceLetterPresenter
-  # extend ActiveModel::Naming
-  # include ActiveModel::Conversion
+class GraceLetterForm
+  extend ActiveModel::Naming
+  include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_reader :grace_letter
+  attr_reader :organization, :grace_letter, :presenter, :params
 
-  delegate :organization_id, to: :grace_letter
+  delegate  :id,
+            :title,
+            :organization_id,
+            :errors,
+            to: :grace_letter
+  delegate  :grace_period,
+            :due_on,
+            :language_id,
+            :cop_file,
+            to: :presenter
 
-  validates :organization_id, presence: true
-  validates :files, length: {minimum: 1}
-  accepts_nested_attributes_for :cop_files, :allow_destroy => true
-
-  def initialize(grace_letter)
-    @grace_letter = grace_letter
+  def initialize(organization, params={})
+    @organization = organization
+    @params = params
   end
 
-  def grace_period
-    Organization::COP_GRACE_PERIOD
+  def grace_letter
+    @grace_letter ||= GraceLetter.new(organization: organization)
   end
 
-  def due_on
-    (organization.cop_due_on + grace_period).to_date
-  end
-
-  def language_id
-    @language_id ||= Language.for(:english).try(:id)
-  end
-
-  def cop_type
-    CopFile::TYPES[:grace_letter]
-  end
-
-  def cop_file
-    files.first || CopFile.new(:attachment_type => cop_type)
+  def presenter
+    @presenter ||= GraceLetterPresenter.new(grace_letter, nil)
   end
 
   def persisted?
@@ -40,22 +34,8 @@ class GraceLetterForm < GraceLetterPresenter
   end
 
   def save
-    if valid?
-      persist!
-      true
-    else
-      false
-    end
+    grace_letter.attributes = params.merge(organization:organization)
+    grace_letter.save
   end
-
-  private
-
-    def cop
-      grace_letter
-    end
-
-    def persist!
-      raise "meow"
-    end
 
 end

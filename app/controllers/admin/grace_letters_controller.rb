@@ -7,8 +7,7 @@ class Admin::GraceLettersController < AdminController
   end
 
   def new
-    letter = @organization.communication_on_progresses.new
-    @grace_letter = GraceLetterForm.new(letter)
+    @grace_letter = GraceLetterForm.new(@organization)
 
     # used to preselect the tab, move to form object?
     # can we delete this?
@@ -23,14 +22,11 @@ class Admin::GraceLettersController < AdminController
   end
 
   def create
-    puts params.to_json
-    letter = @organization.communication_on_progresses.new(params[:grace_letter])
-    @grace_letter = GraceLetterForm.new(letter)
-
+    @grace_letter = GraceLetterForm.new(@organization, params[:communication_on_progress])
     if @grace_letter.save
       # TODO add a more appropriate message
       flash[:notice] = "The grace letter has been published on the Global Compact website"
-      redirect_to admin_organization_grace_letters_url(@organization.id, letter)
+      redirect_to admin_organization_grace_letter_url(@organization.id, @grace_letter.id)
     else
       # we want to preselect the submit tab
       # move to form object

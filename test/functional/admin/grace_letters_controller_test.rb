@@ -31,21 +31,15 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
     context "with valid attributes" do
       setup do
-        @attrs = valid_grace_letter_attributes.merge("id" => 123)
+        @attrs = valid_grace_letter_attributes
+          .merge(cop_files_attributes:[valid_cop_file_attributes])
       end
 
       should "create a new grace letter" do
-        cop = create_grace_letter
-        # puts cop.attributes.to_s
-
-        attrs = valid_grace_letter_attributes.merge(cop_file_attributes: valid_cop_file_attributes)
-        post :create, organization_id: @organization.id, grace_letter: attrs
-        # g = CommunicationOnProgress.create! valid_grace_letter_attributes
-        # p = GraceLetterForm.new(g)
-        # puts valid_grace_letter_attributes
-        # assert p.valid?, Array(p.errors).join("\n")
-
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, @attrs['id'])
+        post :create, organization_id: @organization.id, communication_on_progress: @attrs
+        grace_letter = assigns(:grace_letter)
+        assert_not_nil grace_letter
+        assert_redirected_to admin_organization_grace_letter_url(@organization.id, grace_letter.id)
       end
     end
 
