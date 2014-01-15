@@ -104,6 +104,16 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   end
 
-  #TODO test with user from_uncg?!!!
+  context "Destroy" do
+    should "destroy the grace letter" do
+      grace_letter = create_grace_letter
+
+      assert_difference('CommunicationOnProgress.count', -1) do
+        delete :destroy, organization_id: @organization.id,
+                         id: grace_letter.to_param
+      end
+      assert_redirected_to admin_organization_url(@organization.id, tab: :cops)
+    end
+  end
 
 end
