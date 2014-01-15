@@ -41,7 +41,9 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
           title: 'new_title',
           cop_files_attributes: [valid_cop_file_attributes]
         )
-        put :update, organization_id: @organization.id, communication_on_progress: attrs
+        put :update,  id: @editable.id,
+                      organization_id: @organization.id,
+                      communication_on_progress: attrs
         grace_letter = assigns(:grace_letter)
 
         assert grace_letter.valid?, "expected grace_letter to be valid."
@@ -50,23 +52,22 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
     end
 
-    context "When the grace letter is not editable" do
+    context "a grace letter that is not editable" do
       should "redirect away from edit" do
-        get :edit, organization_id: @organization.id, id: @not_editable.id
+        get :edit, id: @not_editable.id,   organization_id: @organization.id
 
-        assert_nil assigns(:grace_letter)
-        assert_response 500 # obviously wrong
+        refute @not_editable.editable?
+        assert_redirected_to admin_organization_url(@organization.id, tab: :cops)
       end
 
-      should "not update the grace letter" do
-        attrs = @editable.attributes.merge(
-          title: 'new_title',
-          cop_files_attributes: [valid_cop_file_attributes]
-        )
-        put :update, organization_id: @organization.id, communication_on_progress: attrs
+      should "redirect away" do
+        attrs = @not_editable.attributes.merge(cop_files_attributes: [valid_cop_file_attributes])
+        put :update,  id: @not_editable.id,
+                      organization_id: @organization.id,
+                      communication_on_progress: attrs
         grace_letter = assigns(:grace_letter)
 
-        assert grace_letter.valid?, "expected grace_letter to be valid."
+        assert grace_letter.valid?, "expected grace letter to be valid. : #{Array(grace_letter.errors).join("\n")}"
         assert_redirected_to admin_organization_grace_letter_url(@organization.id, grace_letter.id)
       end
     end

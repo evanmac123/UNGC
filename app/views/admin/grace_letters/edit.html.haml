@@ -1,0 +1,4 @@
+%h2 Grace Letter
+
+= form_for(@grace_letter, as: 'communication_on_progress', url: admin_organization_grace_letter_path(@organization.id, @grace_letter.id), html: {multipart: true, id: 'cop_form', method: :put }) do |form|
+  = render 'form', form:form
