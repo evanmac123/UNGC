@@ -22,6 +22,7 @@ class GraceLetterPresenter
   def has_files?
     files.any?
   end
+  alias_method :has_file?, :has_files?
 
   def files
     cop.cop_files
@@ -29,6 +30,26 @@ class GraceLetterPresenter
 
   def organization_name
     organization.name
+  end
+
+  def cop_file
+    files.first || CopFile.new(attachment_type: cop_type)
+  end
+
+  def due_on
+    (organization.cop_due_on + grace_period).to_date
+  end
+
+  def grace_period
+    Organization::COP_GRACE_PERIOD
+  end
+
+  def language_id
+    @language_id ||= Language.for(:english).try(:id)
+  end
+
+  def cop_type
+    CopFile::TYPES[:grace_letter]
   end
 
   def return_path
@@ -40,3 +61,5 @@ class GraceLetterPresenter
   end
 
 end
+
+

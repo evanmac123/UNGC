@@ -7,41 +7,49 @@ class Admin::GraceLettersController < AdminController
   end
 
   def new
-    @grace_letter = @organization.communication_on_progresses.new
+    @grace_letter = GraceLetterForm.new(organization: @organization)
 
-    # TODO move these to a form object? not needed for a grace letter?
-    @cop_file_language = Language.for(:english).try(:id)
-
-    # used to preselect the tab, move to form object?
-    # can we delete this?
-    @submitted = false
+    unless @grace_letter.can_submit?
+      flash[:notice] = "You cannot submit a grace letter"
+      redirect_to admin_organization_url(@organization.id, tab: :cops)
+    end
   end
 
   def edit
-    unless @letter.editable?
+    @grace_letter = GraceLetterForm.new(organization: @organization, grace_letter: @letter)
+
+    unless @grace_letter.editable?
       flash[:notice] = "You cannot edit this grace letter"
-      redirect_to admin_organization_url(@organization.id, :tab => :cops)
+      redirect_to admin_organization_url(@organization.id, tab: :cops)
     end
   end
 
   def create
-    @letter = @organization.communication_on_progresses.new(params[:grace_letter])
+    @grace_letter = GraceLetterForm.new(
+      organization: @organization,
+      params: params[:communication_on_progress]
+    )
 
-    if @letter.save
-      # TODO add a more appropriate message
+    if @grace_letter.save
       flash[:notice] = "The grace letter has been published on the Global Compact website"
-      redirect_to admin_organization_grace_letters_url(@organization.id, @letter)
+      redirect_to admin_organization_grace_letter_url(@organization.id, @grace_letter.id)
     else
-      # we want to preselect the submit tab
-      # move to form object
-      @submitted = true # is this still needed?
       render :new
     end
   end
 
   def update
-    @letter.update_attributes(params[:grace_letter])
-    redirect_to admin_organization_grace_letters_url(@organization.id, @letter)
+    @grace_letter = GraceLetterForm.new(
+      organization: @organization,
+      grace_letter: @letter,
+      params: params[:communication_on_progress]
+    )
+
+    if @grace_letter.save
+      redirect_to admin_organization_grace_letter_url(@organization.id, @grace_letter.id)
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -49,9 +57,9 @@ class Admin::GraceLettersController < AdminController
     if @letter.destroy
       flash[:notice] = 'The grace letter was deleted'
     else
-      flash[:error] =  @letter.errors.full_messages.to_sentence
+      flash[:error] = @letter.errors.full_messages.to_sentence
     end
-    redirect_to admin_organization_url(org_id, :tab => :cops)
+    redirect_to admin_organization_url(org_id, tab: :cops)
   end
 
   private
