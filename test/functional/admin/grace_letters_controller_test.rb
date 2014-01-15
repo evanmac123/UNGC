@@ -7,6 +7,12 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
     sign_in @organization_user
   end
 
+  should "show" do
+    get :show, organization_id: @organization.id, id: create_grace_letter.id
+
+    assert assigns(:grace_letter)
+  end
+
   should "new" do
     get :new, organization_id: @organization.id
     grace_letter = assigns(:grace_letter)
@@ -14,30 +20,23 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
     assert_not_nil grace_letter
   end
 
-  context "given a Grace Letter" do
+  context "Editing" do
     setup do
       @editable = create_grace_letter
       @editable.update_attribute(:state, ApprovalWorkflow::STATE_PENDING_REVIEW)
       @not_editable = create_grace_letter
     end
 
-    should "show" do
-      get :show, organization_id: @organization.id, id: @editable.id
+    context "a grace letter that is still editable" do
 
-      assert assigns(:grace_letter)
-    end
-
-    context "the grace letter is still editable" do
-
-      should "edit" do
-        assert @editable.editable?, "it should be editable."
+      should "show the edit form" do
         get :edit, organization_id: @organization.id, id: @editable.id
 
         assert_not_nil assigns(:grace_letter)
         assert_template :edit
       end
 
-      should "update" do
+      should "update the grace letter" do
         attrs = @editable.attributes.merge(
           title: 'new_title',
           cop_files_attributes: [valid_cop_file_attributes]
@@ -51,11 +50,26 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
     end
 
-    # context "the grace letter is not editable" do
-    #   should "not edit" do
-    #     assert false, "pending"
-    #   end
-    # end
+    context "When the grace letter is not editable" do
+      should "redirect away from edit" do
+        get :edit, organization_id: @organization.id, id: @not_editable.id
+
+        assert_nil assigns(:grace_letter)
+        assert_response 500 # obviously wrong
+      end
+
+      should "not update the grace letter" do
+        attrs = @editable.attributes.merge(
+          title: 'new_title',
+          cop_files_attributes: [valid_cop_file_attributes]
+        )
+        put :update, organization_id: @organization.id, communication_on_progress: attrs
+        grace_letter = assigns(:grace_letter)
+
+        assert grace_letter.valid?, "expected grace_letter to be valid."
+        assert_redirected_to admin_organization_grace_letter_url(@organization.id, grace_letter.id)
+      end
+    end
 
   end
 
