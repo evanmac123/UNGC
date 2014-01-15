@@ -717,12 +717,6 @@ class Organization < ActiveRecord::Base
     company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
   end
 
-  # Policy specifies 90 days, so we extend the current due date
-  def extend_cop_grace_period
-    self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
-    self.update_attribute :active, true
-  end
-
   def extend_cop_temporary_period
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
   end

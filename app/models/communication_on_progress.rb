@@ -233,8 +233,9 @@ class CommunicationOnProgress < ActiveRecord::Base
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
 
-  def is_reporting_adjustment?
-    # to be completed with submission process
+  def is_reporting_cycle_adjustment?
+    # TOOD to be completed with submission process
+    false
   end
 
   def is_non_business_format?
@@ -260,9 +261,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def set_approved_fields
-    if is_grace_letter?
-      organization.extend_cop_grace_period
-    else
+    if !is_grace_letter? && !is_reporting_cycle_adjustment?
       organization.set_next_cop_due_date_and_cop_status
     end
   end
@@ -494,12 +493,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     def set_cop_defaults
       self.additional_questions = false
       case type
-        when 'grace'
-          self.format = CopFile::TYPES[:grace_letter]
-          self.title = 'Grace Letter'
-          # normally they can choose the coverage dates, but for grace letters it matches the grace period
-          self.starts_on = organization.cop_due_on
-          self.ends_on = organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
         when 'basic'
           self.format = 'basic'
         when 'advanced'

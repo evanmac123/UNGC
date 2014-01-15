@@ -39,8 +39,8 @@ class GraceLetterForm
   end
 
   def save
-    grace_letter.attributes = params.merge(organization:organization)
-    valid? && grace_letter.save
+    grace_letter.attributes = grace_letter_attributes
+    valid? && grace_letter.save && extend_cop_due_date
   end
 
   def verify_has_one_file
@@ -55,5 +55,28 @@ class GraceLetterForm
     end
   end
   alias_method :can_submit?, :verify_elligible_to_submit
+
+  private
+
+    def grace_letter_attributes
+      params.merge({
+        organization: organization,
+        starts_on: organization.cop_due_on,
+        ends_on: new_due_date
+      })
+    end
+
+    def new_due_date
+      organization.cop_due_on + grace_period
+    end
+
+    def grace_period
+      Organization::COP_GRACE_PERIOD.days
+    end
+
+    # Policy specifies 90 days, so we extend the current due date
+    def extend_cop_due_date
+      organization.update_attributes cop_due_on: new_due_date, active: true
+    end
 
 end
