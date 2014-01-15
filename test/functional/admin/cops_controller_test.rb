@@ -75,7 +75,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     context "given a new cop" do
 
-      %w{basic intermediate advanced lead grace}.each do |cop_type|
+      %w{basic intermediate advanced lead}.each do |cop_type|
         should "get the #{cop_type} cop form" do
           get :new, :organization_id => @organization.id, :type_of_cop => cop_type
           assert_response :success
