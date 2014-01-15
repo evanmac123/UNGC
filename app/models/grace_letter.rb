@@ -7,10 +7,19 @@ class GraceLetter
     CommunicationOnProgress.new(DEFAULTS.merge(params))
   end
 
+  def self.find(id)
+    grace_letters.find(id)
+  end
+
   private
 
+    def self.grace_letters
+      CommunicationOnProgress.where(format:GRACE_LETTER)
+    end
+
+    GRACE_LETTER = CopFile::TYPES[:grace_letter]
     DEFAULTS = {
-      format: CopFile::TYPES[:grace_letter],
+      format: GRACE_LETTER,
       title: 'Grace Letter',
     }
 
