@@ -1,0 +1,20 @@
+-if form.error_messages.present?
+  %div{:class => 'flash error'}
+    Please select a PDF file for upload.
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li <a href="#reporting_cycle_adjustments">Reporting Cycle Adjustment</a>
+  #reporting_cycle_adjustments.tab_content
+    %fieldset
+      %fieldset
+        %legend
+          %span Reporting Period
+          TODO add date selector here
+
+      %fieldset
+        %legend
+          %span Please upload your "Reporting Cycle Adjustment" as a PDF file
+        = render 'admin/cops/cop_file', cop_file: @cycle_adjustment.cop_file, record: 0, language_id: @cycle_adjustment.language_id
+
+    = form.hidden_field :title, value: 'Reporting Cycle Adjustment'
+    = submit_tag 'Submit', :class => "button", id: "finish"

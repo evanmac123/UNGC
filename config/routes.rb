@@ -102,6 +102,7 @@ UNGC::Application.routes.draw do
       resources :case_stories
       resources :communication_on_progresses, :controller => 'cops'
       resources :grace_letters, except: :index
+      resources :reporting_cycle_adjustments, except: :index
 
       resources :contacts
     end

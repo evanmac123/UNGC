@@ -215,4 +215,9 @@ module FixtureReplacement
     g.title = 'Grace Letter'
     g.format = CopFile::TYPES[:grace_letter]
   end
+
+  attributes_for :reporting_cycle_adjustment, class:CommunicationOnProgress do |g|
+    g.organization = Organization.first
+    g.title = FixtureReplacement.random_string
+  end
 end

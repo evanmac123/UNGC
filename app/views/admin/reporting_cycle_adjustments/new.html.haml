@@ -1,0 +1,4 @@
+%h2 Reporting Cycle Adjustment
+
+= form_for(@cycle_adjustment, as: 'communication_on_progress', url: admin_organization_reporting_cycle_adjustments_path(@organization.id), html: {multipart: true, id: 'cop_form', novalidate: "novalidate"  }) do |form|
+  = render 'form', form:form
