@@ -7,6 +7,14 @@ class GraceLetter
     CommunicationOnProgress.new(DEFAULTS.merge(params))
   end
 
+  def self.create(params={})
+    CommunicationOnProgress.create(DEFAULTS.merge(params))
+  end
+
+  def self.create!(params={})
+    CommunicationOnProgress.create!(DEFAULTS.merge(params))
+  end
+
   def self.find(id)
     grace_letters.find(id)
   end

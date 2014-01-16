@@ -230,7 +230,8 @@ class Contact < ActiveRecord::Base
   end
 
   def submit_grace_letter?
-    self.organization.can_submit_grace_letter?
+    # TODO move this to a presenter for views that depend on it.
+    GraceLetterApplication.eligible?(self, self.organization)
   end
 
   def organization_delisted_on

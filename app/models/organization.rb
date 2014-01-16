@@ -151,7 +151,6 @@ class Organization < ActiveRecord::Base
     :delisted => COP_STATE_DELISTED
   }
 
-  COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
   NEXT_BUSINESS_COP_YEAR = 1
   NEXT_NON_BUSINESS_COP_YEAR = 2
@@ -736,22 +735,6 @@ class Organization < ActiveRecord::Base
     self.update_attribute :cop_due_on, years_until_next_cop_due.year.from_now
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
-  end
-
-  def can_submit_grace_letter?
-
-    # companies cannot submit two grace letters in a row
-    if communication_on_progresses.approved.any?
-      if communication_on_progresses.approved.first.is_grace_letter?
-        return false
-      end
-    end
-
-    if delisted?
-      return false
-    end
-
-    return true
   end
 
   def can_submit_cop?

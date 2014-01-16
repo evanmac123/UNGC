@@ -22,7 +22,7 @@
     - if current_contact.submit_grace_letter?
       %p.cop_description
         %strong Grace Letter:
-        == You can also submit a grace letter for a #{Organization::COP_GRACE_PERIOD} day extension to your COP deadline.
+        == You can also submit a grace letter for a #{GraceLetterApplication::GRACE_DAYS} day extension to your COP deadline.
     - else
       %p.cop_description
         %strong Grace Letter:
@@ -39,6 +39,6 @@
     #grace.tab_content
       %h3 Request a COP due date extension
 
-      %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{Organization::COP_GRACE_PERIOD} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
+      %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{GraceLetterApplication::GRACE_DAYS} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
 
       %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'

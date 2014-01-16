@@ -41,7 +41,7 @@ class GraceLetterPresenter
   end
 
   def grace_period
-    Organization::COP_GRACE_PERIOD
+    GraceLetterApplication::GRACE_DAYS
   end
 
   def language_id
