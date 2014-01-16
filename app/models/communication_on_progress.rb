@@ -473,6 +473,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     error_messages = []
     errors.each do |attribute|
       case attribute.to_s
+        when 'cop_files.attachment'
+          error_messages << 'Choose a file to upload'
         when 'cop_files.attachment_file_name'
           error_messages << 'Choose a file to upload'
         when 'cop_files.language'
@@ -481,7 +483,7 @@ class CommunicationOnProgress < ActiveRecord::Base
           error_messages << 'Please make sure your link begins with \'http://\''
         when 'cop_links.language'
           error_messages << 'Select a language for each link'
-       end
+      end
     end
     error_messages
   end
