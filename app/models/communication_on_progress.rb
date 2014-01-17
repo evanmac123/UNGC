@@ -425,6 +425,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     differentiation == 'blueprint'
   end
 
+  def is_reporting_adjustment?
+    false # for now.
+  end
+
   def missing_lead_criteria?
     unless is_grace_letter? || is_reporting_adjustment?
       !['advanced','blueprint'].include?(differentiation)

@@ -184,6 +184,6 @@ module FixtureReplacement
 
   attributes_for :grace_letter, class:CommunicationOnProgress do |g|
     g.organization = Organization.first
-    g.title = FixtureReplacement.random_string
+    g.title = 'Grace Letter'
   end
 end

@@ -12,6 +12,7 @@ class GraceLetterPresenter
            :organization,
            :can_approve?,
            :can_reject?,
+           :title,
            to: :cop
 
   def initialize(cop, current_contact)
@@ -50,6 +51,13 @@ class GraceLetterPresenter
 
   def cop_type
     CopFile::TYPES[:grace_letter]
+  end
+
+  def show_partial
+    '/shared/cops/show_grace_style'
+  end
+
+  def results_partial
   end
 
   def return_path

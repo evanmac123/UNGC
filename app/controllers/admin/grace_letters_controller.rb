@@ -7,46 +7,37 @@ class Admin::GraceLettersController < AdminController
   end
 
   def new
-    @grace_letter = GraceLetterForm.new(organization: @organization)
-
-    unless @grace_letter.can_submit?
+    if GraceLetterApplication.eligible?(@organization)
+      @form = GraceLetterForm.new(@organization)
+    else
       flash[:notice] = "You cannot submit a grace letter"
       redirect_to admin_organization_url(@organization.id, tab: :cops)
     end
   end
 
   def edit
-    @grace_letter = GraceLetterForm.new(organization: @organization, grace_letter: @letter)
-
-    unless @grace_letter.editable?
+    if @letter.editable?
+      @form = GraceLetterForm.new(@organization, @letter)
+    else
       flash[:notice] = "You cannot edit this grace letter"
       redirect_to admin_organization_url(@organization.id, tab: :cops)
     end
   end
 
   def create
-    @grace_letter = GraceLetterForm.new(
-      organization: @organization,
-      params: params[:communication_on_progress]
-    )
-
-    if @grace_letter.save
+    @form = GraceLetterForm.new(@organization)
+    if @form.submit(grace_letter_params)
       flash[:notice] = "The grace letter has been published on the Global Compact website"
-      redirect_to admin_organization_grace_letter_url(@organization.id, @grace_letter.id)
+      redirect_to admin_organization_grace_letter_url(@organization.id, @form.grace_letter)
     else
       render :new
     end
   end
 
   def update
-    @grace_letter = GraceLetterForm.new(
-      organization: @organization,
-      grace_letter: @letter,
-      params: params[:communication_on_progress]
-    )
-
-    if @grace_letter.save
-      redirect_to admin_organization_grace_letter_url(@organization.id, @grace_letter.id)
+    @form = GraceLetterForm.new(@organization, @letter)
+    if @form.submit(grace_letter_params)
+      redirect_to admin_organization_grace_letter_url(@organization.id, @form.grace_letter)
     else
       render :edit
     end
@@ -67,5 +58,9 @@ class Admin::GraceLettersController < AdminController
     def load_letter_and_organization
       @letter = CommunicationOnProgress.visible_to(current_contact).find(params[:id]) if params[:id]
       @organization = Organization.find params[:organization_id]
+    end
+
+    def grace_letter_params
+      params[:communication_on_progress]
     end
 end

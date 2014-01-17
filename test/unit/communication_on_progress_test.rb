@@ -93,20 +93,19 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "set the email template to the non-business version" do
       assert_equal 'non_business', @cop.confirmation_email
     end
-    
+
     should "change the organization's due date two years after it is approved" do
       @cop.approve
       @organization.reload
       assert_equal 2.year.from_now.to_date, @organization.cop_due_on
     end
-    
+
   end
 
   context "given a COP that is a grace letter" do
     setup do
       create_organization_and_user('approved')
       @organization.communication_late
-      @old_cop_due_on = @organization.cop_due_on
       @cop = generate_cop(@organization, format: 'grace_letter', :title => 'Grace Letter')
       @cop.type = 'grace'
       @cop.save
@@ -121,15 +120,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "have the title 'Grace Letter'" do
       assert_equal @cop.title, 'Grace Letter'
     end
-
-    should "have an extra 90 days added to the current COP due date" do
-      assert_equal (@old_cop_due_on + 90.days).to_date, @organization.cop_due_on.to_date
-    end
-
-    should "set the coverage dates from today until 90 days from now" do
-      assert_equal @organization.cop_due_on.to_date, @cop.starts_on
-      assert_equal (@organization.cop_due_on + 90.days).to_date, @cop.ends_on
-     end
 
     should "not be evaluated for differentiation" do
       assert_equal '', @cop.differentiation_level

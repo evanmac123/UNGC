@@ -15,9 +15,9 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   should "new" do
     get :new, organization_id: @organization.id
-    grace_letter = assigns(:grace_letter)
+    form = assigns(:form)
 
-    assert_not_nil grace_letter
+    assert_not_nil form
   end
 
   context "Editing" do
@@ -32,7 +32,7 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
       should "show the edit form" do
         get :edit, organization_id: @organization.id, id: @editable.id
 
-        assert_not_nil assigns(:grace_letter)
+        assert_not_nil assigns(:form)
         assert_template :edit
       end
 
@@ -44,10 +44,10 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
         put :update,  id: @editable.id,
                       organization_id: @organization.id,
                       communication_on_progress: attrs
-        grace_letter = assigns(:grace_letter)
+        form = assigns(:form)
 
-        assert grace_letter.valid?, "expected grace_letter to be valid."
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, grace_letter.id)
+        assert form.valid?, "expected grace_letter to be valid."
+        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.id)
       end
 
     end
@@ -65,10 +65,10 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
         put :update,  id: @not_editable.id,
                       organization_id: @organization.id,
                       communication_on_progress: attrs
-        grace_letter = assigns(:grace_letter)
+        form = assigns(:form)
 
-        assert grace_letter.valid?, "expected grace letter to be valid. : #{Array(grace_letter.errors).join("\n")}"
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, grace_letter.id)
+        assert form.valid?, "expected grace letter to be valid. : #{Array(form.errors).join("\n")}"
+        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.id)
       end
     end
 
@@ -83,10 +83,10 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
       should "create a new grace letter" do
         post :create, organization_id: @organization.id, communication_on_progress: @attrs
-        grace_letter = assigns(:grace_letter)
+        form = assigns(:form)
 
-        assert grace_letter.valid?, "expected grace_letter to be valid."
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, grace_letter.id)
+        assert form.valid?, "expected form to be valid."
+        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.id)
       end
     end
 
