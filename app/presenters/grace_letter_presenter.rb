@@ -34,7 +34,7 @@ class GraceLetterPresenter
   end
 
   def cop_file
-    files.first || CopFile.new(attachment_type: cop_type)
+    @cop_file ||= files.first || CopFile.new(attachment_type: cop_type)
   end
 
   def due_on

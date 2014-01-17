@@ -178,7 +178,6 @@ module FixtureReplacement
 
   attributes_for :cop_file do |c|
     c.language = create_language
-    c.attachment_file_name = FixtureReplacement.random_string
     c.attachment_type = CopFile::TYPES[:cop]
   end
 

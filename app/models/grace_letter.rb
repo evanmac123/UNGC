@@ -3,6 +3,8 @@ class GraceLetter
   # this class is currently just a collection of class methods to consolidate grace
   # letter concerns. This may become it's own active record class in the future.
 
+  TYPE = CopFile::TYPES[:grace_letter]
+
   def self.new(params={})
     CommunicationOnProgress.new(DEFAULTS.merge(params))
   end
@@ -22,12 +24,11 @@ class GraceLetter
   private
 
     def self.grace_letters
-      CommunicationOnProgress.where(format:GRACE_LETTER)
+      CommunicationOnProgress.where(format:TYPE)
     end
 
-    GRACE_LETTER = CopFile::TYPES[:grace_letter]
     DEFAULTS = {
-      format: GRACE_LETTER,
+      format: TYPE,
       title: 'Grace Letter',
     }
 

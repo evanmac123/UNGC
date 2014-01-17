@@ -10,7 +10,7 @@ class GraceLetterFormTest < ActiveSupport::TestCase
     context "when a grace letter is submitted" do
       setup do
         @form = GraceLetterForm.new(@organization)
-        @params = valid_grace_letter_attributes.merge(cop_files_attributes: [valid_cop_file_attributes])
+        @params = cop_file_attributes
       end
 
       should "save" do

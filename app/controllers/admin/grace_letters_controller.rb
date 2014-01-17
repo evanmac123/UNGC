@@ -61,6 +61,6 @@ class Admin::GraceLettersController < AdminController
     end
 
     def grace_letter_params
-      params[:communication_on_progress]
+      params[:grace_letter]
     end
 end

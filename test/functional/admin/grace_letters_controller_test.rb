@@ -37,13 +37,9 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
       end
 
       should "update the grace letter" do
-        attrs = @editable.attributes.merge(
-          title: 'new_title',
-          cop_files_attributes: [valid_cop_file_attributes]
-        )
         put :update,  id: @editable.id,
                       organization_id: @organization.id,
-                      communication_on_progress: attrs
+                      grace_letter: cop_file_attributes
         form = assigns(:form)
 
         assert form.valid?, "expected grace_letter to be valid."
@@ -61,10 +57,9 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
       end
 
       should "redirect away" do
-        attrs = @not_editable.attributes.merge(cop_files_attributes: [valid_cop_file_attributes])
         put :update,  id: @not_editable.id,
                       organization_id: @organization.id,
-                      communication_on_progress: attrs
+                      grace_letter: cop_file_attributes
         form = assigns(:form)
 
         assert form.valid?, "expected grace letter to be valid. : #{Array(form.errors).join("\n")}"
@@ -76,13 +71,9 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   context "create" do
     context "with valid attributes" do
-      setup do
-        @attrs = valid_grace_letter_attributes
-          .merge(cop_files_attributes:[valid_cop_file_attributes])
-      end
 
       should "create a new grace letter" do
-        post :create, organization_id: @organization.id, communication_on_progress: @attrs
+        post :create, organization_id: @organization.id, grace_letter: cop_file_attributes
         form = assigns(:form)
 
         assert form.valid?, "expected form to be valid."
@@ -91,12 +82,8 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
     end
 
     context "with invalid attributes" do
-      setup do
-        @attrs = valid_grace_letter_attributes
-      end
-
       should "show the new form" do
-        post :create, organization_id: @organization.id, communication_on_progress: @attrs
+        post :create, organization_id: @organization.id, grace_letter: {}
 
         assert_template :new
       end

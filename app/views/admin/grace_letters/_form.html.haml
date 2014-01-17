@@ -17,7 +17,14 @@
       %fieldset
         %legend
           %span Please upload your "Grace Letter" as a PDF file
-        = render 'admin/cops/cop_file', cop_file: @form.cop_file, record: 0, language_id: @form.language_id
+        %ol
+          %li
+            = form.label :language
+            = form.select :language_id, options_from_collection_for_select(Language.all, :id, :name, @form.language_id)
+            = form.file_field :attachment
+            - if @form.has_file?
+              %br
+              Current file:
+              = link_to @form.cop_file.attachment_file_name, @form.cop_file.attachment.url
 
-    = form.hidden_field :title, value: 'Grace Letter'
-    = submit_tag 'Submit', :class => "button", id: "finish"
+    = form.submit 'Submit', :class => "button", id: "finish"

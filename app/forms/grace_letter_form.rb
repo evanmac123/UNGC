@@ -3,47 +3,71 @@ class GraceLetterForm
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_reader :organization
-
-  delegate  :id,
-            :title,
-            :organization_id,
-            :grace_period,
-            :due_on,
-            :language_id,
-            :cop_file,
-            to: :presenter
+  attr_reader :organization, :cop_file, :grace_letter
 
   delegate  :attachment,
             :attachment_type,
+            :language_id,
             to: :cop_file
 
   validates :attachment, presence: true
   validates :attachment_type, presence: true
   validates :language_id, presence: true
 
-  def initialize(organization, grace_letter=nil, contact=nil)
+  def initialize(organization, grace_letter=nil)
     @organization = organization
-    @grace_letter = grace_letter
-    @contact = contact
+    @grace_letter = grace_letter || GraceLetter.new(organization: organization)
   end
 
-  def grace_letter
-    @grace_letter ||= application.grace_letter
+  def grace_period
+    GraceLetterApplication::GRACE_DAYS
   end
 
-  def presenter
-    @presenter ||= GraceLetterPresenter.new(grace_letter, @contact)
+  def due_on
+    (organization.cop_due_on + grace_period.days).to_date
   end
 
-  def application
-    @application ||= GraceLetterApplication.new(organization)
+  def cop_file
+    @cop_file ||= grace_letter.files.first || grace_letter.files.build(attachment_type: GraceLetter::TYPE)
+  end
+
+  def attachment_file_name
+    cop_file.attachment_file_name
+  end
+
+  def attachment_url
+    cop_file.attachment.url
+  end
+
+  def language
+    @language ||= @cop_file.language || Language.for(:english)
+  end
+
+  def language_id
+    language.id
+  end
+
+  def has_file?
+    grace_letter.cop_files.any?
   end
 
   def submit(params)
-    grace_letter.attributes = grace_letter.attributes.merge(params)
-    application.grace_letter = grace_letter
-    valid? && application.submit(cop_file)
+    cop_file.language_id = params[:language_id]
+    cop_file.attachment = params[:attachment]
+
+    if valid
+      application = GraceLetterApplication.new(organization)
+      application.submit(cop_file)
+    end
+  end
+
+  def update(params)
+    # you can change the cop file attachment
+    # you can change the cop file language.
+
+    cop_file.language_id = params[:language_id]
+    cop_file.attachment = params[:attachment] if params.has_key?(:attachment)
+    valid? && cop_file.save
   end
 
   def persisted?

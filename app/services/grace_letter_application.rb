@@ -56,6 +56,7 @@ class GraceLetterApplication
       grace_letter.starts_on = organization.cop_due_on
       grace_letter.ends_on = extended_due_date
       grace_letter.cop_files = [cop_file]
+      cop_file.save!
       grace_letter.save!
     end
 
