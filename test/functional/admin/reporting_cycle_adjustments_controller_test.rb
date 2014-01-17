@@ -22,7 +22,10 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
     context "with valid attributes" do
       setup do
         @attrs = valid_reporting_cycle_adjustment_attributes
-          .merge(cop_files_attributes:[valid_cop_file_attributes])
+          .merge({
+            ends_on: Date.today + 11.months,
+            cop_files_attributes:[valid_cop_file_attributes]
+          })
       end
 
       should "create a new reporting cycle adjustment" do

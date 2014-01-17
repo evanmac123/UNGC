@@ -1,6 +1,5 @@
--if form.error_messages.present?
-  %div{:class => 'flash error'}
-    Please select a PDF file for upload.
+= error_messages_for @cycle_adjustment, { header_message: false }
+
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#reporting_cycle_adjustments">Reporting Cycle Adjustment</a>
@@ -9,7 +8,13 @@
       %fieldset
         %legend
           %span Reporting Period
-          TODO add date selector here
+        %ol
+          %li
+            = form.label :starts_on, "Starts on date (disabled)"
+            = form.text_field :starts_on, :class => 'datepicker iso-date', :size => 11, disabled: true
+          %li
+            = form.label :ends_on, "Ends on date"
+            = form.text_field :ends_on, :class => 'datepicker iso-date', :size => 11
 
       %fieldset
         %legend
