@@ -54,7 +54,7 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
     context "a grace letter that is not editable" do
       should "redirect away from edit" do
-        get :edit, id: @not_editable.id,   organization_id: @organization.id
+        get :edit, id: @not_editable.id, organization_id: @organization.id
 
         refute @not_editable.editable?
         assert_redirected_to admin_organization_url(@organization.id, tab: :cops)

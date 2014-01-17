@@ -46,7 +46,7 @@ class GraceLetterPresenter
   end
 
   def language_id
-    @language_id ||= Language.for(:english).try(:id)
+    @language_id ||= cop_file.try(:language).try(:id) || Language.for(:english).try(:id)
   end
 
   def cop_type

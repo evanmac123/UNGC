@@ -1,6 +1,6 @@
--if form.error_messages.present?
+-if @form.errors.any?
   %div{:class => 'flash error'}
-    Please select a PDF file for upload.
+    = error_messages_for @form, { header_message: false }
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#grace">Grace Letter</a>

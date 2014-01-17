@@ -8,15 +8,19 @@ class GraceLetterForm
   delegate  :id,
             :title,
             :organization_id,
-            :errors,
-            to: :grace_letter
-  delegate  :grace_period,
+            :grace_period,
             :due_on,
             :language_id,
             :cop_file,
             to: :presenter
 
-  validate :verify_has_one_file
+  delegate  :attachment,
+            :attachment_type,
+            to: :cop_file
+
+  validates :attachment, presence: true
+  validates :attachment_type, presence: true
+  validates :language_id, presence: true
 
   def initialize(organization, grace_letter=nil, contact=nil)
     @organization = organization
@@ -39,14 +43,7 @@ class GraceLetterForm
   def submit(params)
     grace_letter.attributes = grace_letter.attributes.merge(params)
     application.grace_letter = grace_letter
-    valid? && application.submit(grace_letter.cop_files.first)
-  end
-
-  def verify_has_one_file
-    # this is wrong.
-    unless presenter.has_file?
-      errors.add :grace_letter, 'Please select a PDF file for upload.'
-    end
+    valid? && application.submit(cop_file)
   end
 
   def persisted?
