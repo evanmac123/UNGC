@@ -133,6 +133,14 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "water_mandate_contacts_#{date_as_filename}.xls")
   end
 
+  def initiative_organizations
+    @selected_initiatives = params[:initiatives] || []
+    @selected_initiatives = Initiative.for_select.map(&:id) if params[:all_initiatives]
+    
+    @report = InitiativeOrganizations.new(initiatives: @selected_initiatives)
+    render_formatter(filename: "organizations_in_initiatives_#{date_as_filename}.xls")
+  end
+
   def cop_questionnaire_answers
     @report = CopQuestionnaireAnswers.new
     render_formatter(filename: "cop_questionnaire_answers_#{date_as_filename}.xls")
