@@ -8,6 +8,14 @@ class InitiativeOrganizations < SimpleReport
     end
   end
   
+  def organization_count
+    records.map(&:organization_id).uniq.count
+  end
+  
+  def initiative_count
+    records.map(&:initiative_id).uniq.count
+  end
+  
   def headers
     [
     'organization_id',

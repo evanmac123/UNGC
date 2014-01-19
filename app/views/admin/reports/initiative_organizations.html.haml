@@ -2,7 +2,7 @@
 
 %ul.tools.inline
   - if @selected_initiatives.any?
-    %li= link_to "Download Excel with #{@report.records.count} initiatives", url_for(params.merge(:format => 'xls')), :class => 'download_large'
+    %li= link_to "Download Excel with #{pluralize(@report.organization_count, 'organization')} in #{pluralize(@report.initiative_count, 'initiative')}", url_for(params.merge(:format => 'xls')), :class => 'download_large'
   - else
     %li= link_to "Download Excel with all initiatives", url_for(:all_initiatives => true, :format => 'xls'), :class => 'download_large'
 
