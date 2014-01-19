@@ -18,9 +18,10 @@ class InitiativeOrganizations < SimpleReport
   
   def headers
     [
-    'organization_id',
-    'organization_name',
-    'initiative_name'
+    'Organization ID',
+    'Organization name',
+    'Initiative name',
+    'Signed initiatve on'
   ]
   end
 
@@ -28,7 +29,8 @@ class InitiativeOrganizations < SimpleReport
   [
     record.organization.id,
     record.organization.name,
-    record.initiative.name
+    record.initiative.name,
+    record.added_on
   ]
   end
 
