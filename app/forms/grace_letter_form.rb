@@ -61,9 +61,6 @@ class GraceLetterForm
   end
 
   def update(params)
-    # you can change the cop file attachment
-    # you can change the cop file language.
-
     cop_file.language_id = params[:language_id]
     cop_file.attachment = params[:attachment] if params.has_key?(:attachment)
     valid? && cop_file.save
