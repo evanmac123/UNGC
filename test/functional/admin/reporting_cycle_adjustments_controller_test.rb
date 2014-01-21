@@ -48,6 +48,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
         assert_template :new
       end
     end
+
   end
 
   context "Editing" do

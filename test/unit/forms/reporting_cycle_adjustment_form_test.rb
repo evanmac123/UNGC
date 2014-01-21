@@ -51,27 +51,34 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
 
     # move me to ReportingCycleAdjustmentApplication
     # ApplicationForReportingCycleAdjustment?
-    should "be invalid without a cop file" do
-      assert false
-    end
+    context "validations" do
+      setup do
+        @form = ReportingCycleAdjustmentForm.new(@organization)
+        @params = cop_file_attributes.merge(ends_on: Date.today + 1.month)
+      end
 
-    should "be invalid without an ends on date" do
-      assert false
-    end
+      should "be invalid without a cop file" do
+        assert false
+      end
 
-    should "be invalid with end date over 11 months from the original due date" do
-      assert false
-    end
+      should "be invalid without an ends on date" do
+        assert false
+      end
 
-    should "be invalid with and end date before today" do
-      assert false
-    end
+      should "be invalid with end date over 11 months from the original due date" do
+        assert false
+      end
 
-    should "only be allowed once" do
-    end
+      should "be invalid with and end date before today" do
+        assert false
+      end
 
-    should "be invalid for a delisted organization" do
-      assert false
+      should "only be allowed once" do
+      end
+
+      should "be invalid for a delisted organization" do
+        assert false
+      end
     end
 
   end

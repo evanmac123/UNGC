@@ -13,5 +13,9 @@ class ReportingCycleAdjustment
     CommunicationOnProgress.new(DEFAULTS.merge(params))
   end
 
+  def self.has_submitted?(organization)
+    organization.cops.where(format: TYPE).count > 0
+  end
+
 end
 

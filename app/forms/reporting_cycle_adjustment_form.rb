@@ -35,20 +35,17 @@ class ReportingCycleAdjustmentForm
   def submit(params)
     cop_file.language_id = params[:language_id]
     cop_file.attachment = params[:attachment]
-    reporting_cycle_adjustment.starts_on = Date.today
-    reporting_cycle_adjustment.ends_on = params[:ends_on]
 
     if valid?
-      reporting_cycle_adjustment.save!
-      organization.cop_due_on = reporting_cycle_adjustment.ends_on
-      organization.save
+      ReportingCycleAdjustmentApplication.new(organization).submit(reporting_cycle_adjustment, params[:ends_on])
     end
   end
 
   private
 
     def validate_ends_on_date
-      if reporting_cycle_adjustment.ends_on.blank? || reporting_cycle_adjustment.ends_on > Date.today + 11.months || reporting_cycle_adjustment.ends_on < Date.today
+      ends_on = params[:ends_on]
+      if ends_on.blank? || ends_on > Date.today + ReportingCycleAdjustmentApplication::MAX_MONTHS.months || ends_on < Date.today
         errors.add :reporting_cycle_adjustment, 'End date should be within 11 months from today'
       end
     end
