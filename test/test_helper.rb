@@ -226,7 +226,7 @@ class ActiveSupport::TestCase
   end
 
   def cop_file_attributes
-    valid_cop_file_attributes.merge(attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf'))
+    HashWithIndifferentAccess.new(valid_cop_file_attributes.merge(attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')))
   end
 
 end

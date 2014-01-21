@@ -8,13 +8,12 @@ class GraceLetterApplication
     new(organization).valid?
   end
 
-  def self.submit_for(organization, cop_file)
-    new(organization).submit(cop_file)
+  def self.submit_for(organization, grace_letter)
+    new(organization).submit(grace_letter)
   end
 
   def initialize(organization)
     @organization = organization
-    @grace_letter = GraceLetter.new(organization: organization)
   end
 
   def valid?
@@ -25,9 +24,9 @@ class GraceLetterApplication
     organization.cop_due_on + GRACE_DAYS.days
   end
 
-  def submit(cop_file)
+  def submit(grace_letter)
     if valid?
-      save(cop_file) && update_due_date
+      save(grace_letter) && update_due_date
     else
       false
     end
@@ -52,11 +51,9 @@ class GraceLetterApplication
       end
     end
 
-    def save(cop_file)
+    def save(grace_letter)
       grace_letter.starts_on = organization.cop_due_on
       grace_letter.ends_on = extended_due_date
-      grace_letter.cop_files = [cop_file]
-      cop_file.save!
       grace_letter.save!
     end
 

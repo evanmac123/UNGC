@@ -28,7 +28,7 @@ class GraceLetterForm
   end
 
   def cop_file
-    @cop_file ||= grace_letter.files.first || grace_letter.files.build(attachment_type: GraceLetter::TYPE)
+    @cop_file ||= grace_letter.cop_files.first || grace_letter.cop_files.build(attachment_type: GraceLetter::TYPE)
   end
 
   def attachment_file_name
@@ -55,8 +55,8 @@ class GraceLetterForm
     cop_file.language_id = params[:language_id]
     cop_file.attachment = params[:attachment]
 
-    if valid
-      GraceLetterApplication.submit_for(organization)
+    if valid?
+      GraceLetterApplication.submit_for(organization, grace_letter)
     end
   end
 

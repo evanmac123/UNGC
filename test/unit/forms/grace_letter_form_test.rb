@@ -5,6 +5,7 @@ class GraceLetterFormTest < ActiveSupport::TestCase
   context "given an existing organization and a user" do
     setup do
       create_organization_and_user
+      create_language(name: "English")
     end
 
     context "when a grace letter is submitted" do
@@ -19,6 +20,12 @@ class GraceLetterFormTest < ActiveSupport::TestCase
 
       should "create a grace letter" do
         assert_difference('CommunicationOnProgress.count', 1) do
+          @form.submit(@params)
+        end
+      end
+
+      should "create a cop file" do
+        assert_difference('CopFile.count', 1) do
           @form.submit(@params)
         end
       end
