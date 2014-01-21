@@ -8,7 +8,7 @@ class GraceLetterApplication
     new(organization).valid?
   end
 
-  def self.submit(organization, cop_file)
+  def self.submit_for(organization, cop_file)
     new(organization).submit(cop_file)
   end
 

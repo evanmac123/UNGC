@@ -56,8 +56,7 @@ class GraceLetterForm
     cop_file.attachment = params[:attachment]
 
     if valid
-      application = GraceLetterApplication.new(organization)
-      application.submit(cop_file)
+      GraceLetterApplication.submit_for(organization)
     end
   end
 
