@@ -5,44 +5,52 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
   context "given an existing organization and a user" do
     setup do
       create_organization_and_user
+      create_language(name: "English")
     end
 
-    context "when a grace letter is submitted" do
+    context "when a reporting cycle adjustment is submitted" do
       setup do
-        @form = ReportingCycleAdjustmentForm.new(
-          organization: @organization,
-          params: valid_reporting_cycle_adjustment_attributes.merge(
-            ends_on: Date.today + 1.month,
-            cop_files_attributes: [valid_cop_file_attributes])
-          )
+        @form = ReportingCycleAdjustmentForm.new(@organization)
+        @params = cop_file_attributes.merge(ends_on: Date.today + 1.month)
+      end
+
+      should "save" do
+        assert @form.submit(@params), "failed to save"
       end
 
       should "create a reporting cycle adjustment" do
         assert_difference('CommunicationOnProgress.count', 1) do
-          @form.save
+          @form.submit(@params)
+        end
+      end
+
+      should "create a cop file" do
+        assert_difference('CopFile.count', 1) do
+          @form.submit(@params)
         end
       end
 
       should "extend organization due date" do
-        date = @organization.cop_due_on
-        @form.save
-        assert_equal date + 1.month, @organization.cop_due_on.to_date
+        @form.submit(@params)
+        assert_equal Date.today + 1.month, @organization.cop_due_on.to_date
       end
 
       should "set reporting cycle adjustment start_on" do
         date = Date.today #TODO Venu: shouldn't this be @organization.cop_due_on?
-        @form.save
+        @form.submit(@params)
         assert_equal date, @form.reporting_cycle_adjustment.starts_on.to_date
       end
 
       should "set reporting cycle adjustment ends_on" do
         date = Date.today #TODO Venu: shouldn't this be @organization.cop_due_on?
-        @form.save
+        @form.submit(@params)
         assert_equal date + 1.month, @form.reporting_cycle_adjustment.ends_on.to_date
       end
 
     end
 
+    # move me to ReportingCycleAdjustmentApplication
+    # ApplicationForReportingCycleAdjustment?
     should "be invalid without a cop file" do
       assert false
     end
@@ -51,19 +59,18 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       assert false
     end
 
-    should "be invalid without end date over 11 months" do
+    should "be invalid with end date over 11 months from the original due date" do
       assert false
     end
 
-    should "be invalid without end date before today" do
+    should "be invalid with and end date before today" do
       assert false
     end
 
-    should "not submit 2 in a row" do
-      assert false
+    should "only be allowed once" do
     end
 
-    should "not submit for delisted organization" do
+    should "be invalid for a delisted organization" do
       assert false
     end
 

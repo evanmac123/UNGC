@@ -3,32 +3,22 @@ class ReportingCycleAdjustmentForm
   include ActiveModel::Conversion
   include ActiveModel::Validations
 
-  attr_reader :organization, :presenter, :params, :reporting_cycle_adjustment
+  attr_reader :organization, :cop_file, :reporting_cycle_adjustment
 
-  delegate :cop_file,
+  delegate :attachment,
+           :attachment_type,
            :language_id,
-           :ends_on,
-           to: :presenter
-
-  delegate  :id,
-            to: :reporting_cycle_adjustment
+           to: :cop_file
 
   validate :validate_ends_on_date
-  validate :verify_has_one_file
+  validates :attachment, presence: true
+  validates :attachment_type, presence: true
+  validates :language_id, presence: true
 
-  def initialize(args={})
-    @organization = args.fetch(:organization)
-    @params = args.fetch(:params, {})
-  end
-
-  def reporting_cycle_adjustment
+  def initialize(organization)
+    @organization = organization
     @reporting_cycle_adjustment ||= ReportingCycleAdjustment.new(organization: organization)
   end
-
-  def presenter
-    @presenter ||= ReportingCycleAdjustmentPresenter.new(reporting_cycle_adjustment, nil)
-  end
-
 
   def starts_on
     Date.today
@@ -38,22 +28,28 @@ class ReportingCycleAdjustmentForm
     true # TODO
   end
 
-  def save
-    reporting_cycle_adjustment.attributes = reporting_cycle_adjustment_attributes
-    valid? && reporting_cycle_adjustment.save #TODO organizaiton.cop_due_date extension
+  def cop_file
+    @cop_file ||= reporting_cycle_adjustment.cop_files.first || reporting_cycle_adjustment.cop_files.build(attachment_type: ReportingCycleAdjustment::TYPE)
+  end
+
+  def submit(params)
+    cop_file.language_id = params[:language_id]
+    cop_file.attachment = params[:attachment]
+    reporting_cycle_adjustment.starts_on = Date.today
+    reporting_cycle_adjustment.ends_on = params[:ends_on]
+
+    if valid?
+      reporting_cycle_adjustment.save!
+      organization.cop_due_on = reporting_cycle_adjustment.ends_on
+      organization.save
+    end
   end
 
   private
 
     def validate_ends_on_date
-      if presenter.ends_on.blank? || presenter.ends_on > Date.today + 11.months || presenter.ends_on < Date.today
+      if reporting_cycle_adjustment.ends_on.blank? || reporting_cycle_adjustment.ends_on > Date.today + 11.months || reporting_cycle_adjustment.ends_on < Date.today
         errors.add :reporting_cycle_adjustment, 'End date should be within 11 months from today'
-      end
-    end
-
-    def verify_has_one_file
-      unless presenter.has_file?
-        errors.add :reporting_cycle_adjustment, 'Please select a PDF file for upload.'
       end
     end
 

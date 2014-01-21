@@ -219,5 +219,6 @@ module FixtureReplacement
   attributes_for :reporting_cycle_adjustment, class:CommunicationOnProgress do |g|
     g.organization = Organization.first
     g.title = FixtureReplacement.random_string
+    g.format = CopFile::TYPES[:reporting_cycle_adjustment]
   end
 end
