@@ -184,5 +184,6 @@ module FixtureReplacement
   attributes_for :grace_letter, class:CommunicationOnProgress do |g|
     g.organization = Organization.first
     g.title = 'Grace Letter'
+    g.format = CopFile::TYPES[:grace_letter]
   end
 end

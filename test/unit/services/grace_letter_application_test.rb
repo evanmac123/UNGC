@@ -12,10 +12,10 @@ class GraceLetterApplicationTest < ActiveSupport::TestCase
     context "when a grace letter is applied for it" do
 
       setup do
+        @grace_letter = new_grace_letter
         @application = GraceLetterApplication.new(@organization)
         @old_cop_due_on_date = @organization.cop_due_on.to_date
-        @application.submit(create_cop_file)
-        @grace_letter = @application.grace_letter
+        @application.submit(@grace_letter)
       end
 
       should "create an instance of communication on progress" do
@@ -25,10 +25,6 @@ class GraceLetterApplicationTest < ActiveSupport::TestCase
 
       should "create a grace letter" do
         assert @grace_letter.is_grace_letter?, [Array(@grace_letter.errors).join, @grace_letter.attributes.to_json].join
-      end
-
-      should "have a cop file" do
-        assert_equal 1, @grace_letter.cop_files.count
       end
 
       should "have the title 'Grace Letter'" do
@@ -76,7 +72,7 @@ class GraceLetterApplicationTest < ActiveSupport::TestCase
 
     context "the last submission was a grace letter" do
       setup do
-        GraceLetterApplication.submit(@organization, create_cop_file)
+        GraceLetterApplication.submit_for(@organization, create_grace_letter)
         @application = GraceLetterApplication.new(@organization)
       end
 

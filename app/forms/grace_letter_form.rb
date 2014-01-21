@@ -40,7 +40,7 @@ class GraceLetterForm
   end
 
   def language
-    @language ||= @cop_file.language || Language.for(:english)
+    @language ||= cop_file.language || Language.for(:english)
   end
 
   def language_id

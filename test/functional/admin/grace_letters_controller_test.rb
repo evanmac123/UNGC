@@ -4,6 +4,7 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   setup do
     create_approved_organization_and_user
+    create_language(name: "English")
     sign_in @organization_user
   end
 
@@ -22,49 +23,28 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
 
   context "Editing" do
     setup do
-      @editable = create_grace_letter
-      @editable.update_attribute(:state, ApprovalWorkflow::STATE_PENDING_REVIEW)
-      @not_editable = create_grace_letter
+      @grace_letter = create_grace_letter
     end
 
-    context "a grace letter that is still editable" do
+    context "a grace letter that is still grace_letter" do
 
       should "show the edit form" do
-        get :edit, organization_id: @organization.id, id: @editable.id
+        get :edit, organization_id: @organization.id, id: @grace_letter.id
 
         assert_not_nil assigns(:form)
         assert_template :edit
       end
 
       should "update the grace letter" do
-        put :update,  id: @editable.id,
+        put :update,  id: @grace_letter.id,
                       organization_id: @organization.id,
                       grace_letter: cop_file_attributes
         form = assigns(:form)
 
         assert form.valid?, "expected grace_letter to be valid."
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.id)
+        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.grace_letter)
       end
 
-    end
-
-    context "a grace letter that is not editable" do
-      should "redirect away from edit" do
-        get :edit, id: @not_editable.id, organization_id: @organization.id
-
-        refute @not_editable.editable?
-        assert_redirected_to admin_organization_url(@organization.id, tab: :cops)
-      end
-
-      should "redirect away" do
-        put :update,  id: @not_editable.id,
-                      organization_id: @organization.id,
-                      grace_letter: cop_file_attributes
-        form = assigns(:form)
-
-        assert form.valid?, "expected grace letter to be valid. : #{Array(form.errors).join("\n")}"
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.id)
-      end
     end
 
   end
@@ -77,7 +57,7 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
         form = assigns(:form)
 
         assert form.valid?, "expected form to be valid."
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.id)
+        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.grace_letter)
       end
     end
 

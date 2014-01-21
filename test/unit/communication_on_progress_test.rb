@@ -162,8 +162,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                               :state => ApprovalWorkflow::STATE_APPROVED)
     end
 
-    should "not be editable" do
-      assert !@cop.editable?
+    should "be editable" do
+      assert @cop.editable?
     end
 
     should "have a file attached" do

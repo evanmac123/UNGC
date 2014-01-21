@@ -36,7 +36,7 @@ class Admin::GraceLettersController < AdminController
 
   def update
     @form = GraceLetterForm.new(@organization, @letter)
-    if @form.submit(grace_letter_params)
+    if @form.update(grace_letter_params)
       redirect_to admin_organization_grace_letter_url(@organization.id, @form.grace_letter)
     else
       render :edit

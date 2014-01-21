@@ -246,18 +246,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_new_format? && self.attributes['format'] == 'basic'
   end
 
-  # TODO use the new pre-pending state here
+  # XXX remove this method
+  # editing is always enabled now
   def editable?
-    case
-    when new_record?
-      true
-    when pending_review?
-      created_at + 30.days >= Time.now
-    when in_review?
-      created_at + 90.days >= Time.now
-    else
-      false
-    end
+    true
   end
 
   def set_approved_fields

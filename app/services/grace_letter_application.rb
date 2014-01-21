@@ -33,7 +33,7 @@ class GraceLetterApplication
   end
 
   def errors
-    @error ||= []
+    @errors ||= []
   end
 
   private
