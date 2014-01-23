@@ -30,7 +30,7 @@
       %dt.first= display_id_type(@organization)
       %dd.first= @organization.id
       %dt Status
-      %dd= display_status(@organization)
+      %dd= display_status(@organization).html_safe
       %dt Relationship Manager
       %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
