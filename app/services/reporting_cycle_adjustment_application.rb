@@ -8,8 +8,8 @@ class ReportingCycleAdjustmentApplication
     new(organization).valid?
   end
 
-  def self.submit_for(organization, reporting_cycle_adjustment)
-    new(organization).submit(reporting_cycle_adjustment)
+  def self.submit_for(organization, reporting_cycle_adjustment, due_date)
+    new(organization).submit(reporting_cycle_adjustment, due_date)
   end
 
   def initialize(organization)
@@ -22,7 +22,7 @@ class ReportingCycleAdjustmentApplication
 
   def submit(reporting_cycle_adjustment, due_date)
     if valid?
-      save(reporting_cycle_adjustment, due_date) && update_organization_due_date
+      save(reporting_cycle_adjustment, due_date) && update_organization_due_date(reporting_cycle_adjustment)
     else
       false
     end
@@ -42,7 +42,7 @@ class ReportingCycleAdjustmentApplication
 
     def already_submitted?
       if ReportingCycleAdjustment.has_submitted?(organization)
-        errors << "Cannot submit more that one reporting cycle adjustment"
+        errors << "Cannot submit more than one reporting cycle adjustment"
       end
     end
 
@@ -52,7 +52,7 @@ class ReportingCycleAdjustmentApplication
       reporting_cycle_adjustment.save!
     end
 
-    def update_organization_due_date
+    def update_organization_due_date(reporting_cycle_adjustment)
       organization.update_attributes!(cop_due_on: reporting_cycle_adjustment.ends_on, active: true)
     end
 

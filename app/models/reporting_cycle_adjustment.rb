@@ -14,7 +14,7 @@ class ReportingCycleAdjustment
   end
 
   def self.has_submitted?(organization)
-    organization.cops.where(format: TYPE).count > 0
+    organization.communication_on_progresses.where(format: TYPE).count > 0
   end
 
 end

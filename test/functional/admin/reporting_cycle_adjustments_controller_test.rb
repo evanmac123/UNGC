@@ -1,8 +1,18 @@
 require 'test_helper'
 
 class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCase
+
+  def reporting_cycle_adjustment_attributes
+    {
+      language_id: Language.first,
+      ends_on: Date.today + 10.months,
+      attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')
+    }
+  end
+
   setup do
     create_approved_organization_and_user
+    create_language(name: "English")
     sign_in @organization_user
   end
 
@@ -15,25 +25,22 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
   should "new" do
     get :new, organization_id: @organization.id
 
-    assert_not_nil assigns(:cycle_adjustment)
+    assert_not_nil assigns(:form)
   end
 
   context "Create" do
     context "with valid attributes" do
       setup do
-        @attrs = valid_reporting_cycle_adjustment_attributes
-          .merge({
-            ends_on: Date.today + 11.months,
-            cop_files_attributes:[valid_cop_file_attributes]
-          })
+        @attrs = reporting_cycle_adjustment_attributes
       end
 
       should "create a new reporting cycle adjustment" do
-        post :create, organization_id: @organization.id, communication_on_progress: @attrs
-        cycle_adjustment = assigns(:cycle_adjustment)
+        post :create, organization_id: @organization.id, reporting_cycle_adjustment: @attrs
+        form = assigns(:form)
 
-        assert cycle_adjustment.valid?, "expected reporting cycle adjustment to be valid."
-        assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, cycle_adjustment.id)
+
+        assert form.valid?, "expected reporting cycle adjustment to be valid."
+        assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, form.reporting_cycle_adjustment)
       end
     end
 
@@ -43,7 +50,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
       end
 
       should "show the new form" do
-        post :create, organization_id: @organization.id, communication_on_progress: @attrs
+        post :create, organization_id: @organization.id, reporting_cycle_adjustment: @attrs
 
         assert_template :new
       end
@@ -52,6 +59,31 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
   end
 
   context "Editing" do
-    # TODO
+    setup do
+      @reporting_cycle_adjustment = create_reporting_cycle_adjustment(ends_on: Date.today+1.month)
+
+    end
+
+    context "update reporting_cycle_adjustment" do
+
+      should "show the edit form" do
+        get :edit, organization_id: @organization.id, id: @reporting_cycle_adjustment.id
+
+        assert_not_nil assigns(:form)
+        assert_template :edit
+      end
+
+      should "update the reporting_cycle_adjustment" do
+        put :update,  id: @reporting_cycle_adjustment.id,
+                      organization_id: @organization.id,
+                      reporting_cycle_adjustment: reporting_cycle_adjustment_attributes
+        form = assigns(:form)
+
+        assert form.valid?, "expected reporting_cycle_adjustment to be valid."
+        assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, form.reporting_cycle_adjustment)
+      end
+
+    end
+
   end
 end

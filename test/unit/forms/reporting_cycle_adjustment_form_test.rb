@@ -49,6 +49,43 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
 
     end
 
+    context "when a reporting_cycle_adjustment is updated" do
+      setup do
+        @ends_on = Date.today + 2.months
+        @form = ReportingCycleAdjustmentForm.new(@organization)
+        @form.submit(cop_file_attributes.merge({
+          ends_on: @ends_on
+        }))
+      end
+
+
+      should "set a new language" do
+        l = create_language
+        @form.update({language_id: l.id})
+        assert_equal l, @form.cop_file.language
+      end
+
+      should "set a new attachment" do
+        attr = {attachment: fixture_file_upload('files/untitled.jpg')}
+        @form.update(attr)
+        assert_equal attr[:attachment].original_filename, @form.cop_file.attachment_file_name
+      end
+
+      should "remove the old attachment" do
+        attr = {attachment: fixture_file_upload('files/untitled.jpg')}
+        @form.update(attr)
+        assert_equal 1, @form.reporting_cycle_adjustment.cop_files.count
+      end
+
+      should "not change the organization.cop_due_date" do
+        due_date = @form.organization.cop_due_on
+        attr = {attachment: fixture_file_upload('files/untitled.jpg')}
+        @form.update(attr)
+        assert_equal due_date, @form.organization.cop_due_on
+      end
+
+    end
+
     # move me to ReportingCycleAdjustmentApplication
     # ApplicationForReportingCycleAdjustment?
     context "validations" do
@@ -58,26 +95,22 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       end
 
       should "be invalid without a cop file" do
-        assert false
+        refute @form.submit({
+          language_id: Language.first.id,
+          ends_on: Date.today + 1.month
+        })
       end
 
       should "be invalid without an ends on date" do
-        assert false
+        refute @form.submit(cop_file_attributes)
       end
 
       should "be invalid with end date over 11 months from the original due date" do
-        assert false
+        refute @form.submit(cop_file_attributes.merge(ends_on: Date.today + 12.month))
       end
 
       should "be invalid with and end date before today" do
-        assert false
-      end
-
-      should "only be allowed once" do
-      end
-
-      should "be invalid for a delisted organization" do
-        assert false
+        refute @form.submit(cop_file_attributes.merge(ends_on: Date.today - 1.month))
       end
     end
 

@@ -26,6 +26,7 @@ class CopFile < ActiveRecord::Base
   validates_attachment_presence :attachment
 
   TYPES = {:grace_letter          => 'grace_letter',
+           :reporting_cycle_adjustment => 'reporting_cycle_adjustment',
            :cop                   => 'cop',
            :cop_with_stakeholders => 'cop_with_stakeholders',
            :web_cop               => 'web_cop',

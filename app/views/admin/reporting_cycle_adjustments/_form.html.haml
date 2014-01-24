@@ -1,4 +1,4 @@
-= error_messages_for @cycle_adjustment, { header_message: false }
+= error_messages_for @form, { header_message: false }
 
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
@@ -19,7 +19,7 @@
       %fieldset
         %legend
           %span Please upload your "Reporting Cycle Adjustment" as a PDF file
-        = render 'admin/cops/cop_file', cop_file: @cycle_adjustment.cop_file, record: 0, language_id: @cycle_adjustment.language_id
+        = render 'admin/cops/cop_file', cop_file: @form.cop_file, record: 0, language_id: @form.language_id
 
     = form.hidden_field :title, value: 'Reporting Cycle Adjustment'
     = submit_tag 'Submit', :class => "button", id: "finish"

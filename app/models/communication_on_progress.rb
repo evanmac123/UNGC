@@ -199,8 +199,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_reporting_cycle_adjustment?
-    # TOOD to be completed with submission process
-    false
+    self.attributes['format'] == CopFile::TYPES[:reporting_cycle_adjustment]
   end
 
   def is_non_business_format?
