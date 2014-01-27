@@ -14,12 +14,22 @@
             = form.text_field :starts_on, :class => 'datepicker iso-date', :size => 11, disabled: true
           %li
             = form.label :ends_on, "Ends on date"
-            = form.text_field :ends_on, :class => 'datepicker iso-date', :size => 11
+            = form.text_field :ends_on, :class => 'datepicker iso-date', :size => 11, disabled: !@form.new_record?
 
       %fieldset
         %legend
           %span Please upload your "Reporting Cycle Adjustment" as a PDF file
-        = render 'admin/cops/cop_file', cop_file: @form.cop_file, record: 0, language_id: @form.language_id
+        %ol
+          %li
+            = form.label :language
+            = form.select :language_id, options_from_collection_for_select(Language.all, :id, :name, @form.language_id)
+            = form.file_field :attachment
+            - if @form.has_file?
+              %br
+              - if @form.cop_file.attachment?
+                Current file:
+                = link_to @form.cop_file.attachment_file_name, @form.cop_file.attachment.url
+
 
     = form.hidden_field :title, value: 'Reporting Cycle Adjustment'
     = submit_tag 'Submit', :class => "button", id: "finish"

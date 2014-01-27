@@ -121,6 +121,8 @@ module Admin::CopsHelper
   def edit_admin_cop_path(cop)
     if cop.is_grace_letter?
       edit_admin_organization_grace_letter_path(cop.organization.id, cop)
+    elsif cop.is_reporting_cycle_adjustment?
+      edit_admin_organization_reporting_cycle_adjustment_path(cop.organization.id, cop)
     else
       edit_admin_organization_communication_on_progress_path(cop.organization.id, cop)
     end

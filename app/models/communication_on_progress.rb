@@ -320,7 +320,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def evaluated_for_differentiation?
-    if is_grace_letter? || is_non_business_format?
+    if is_grace_letter? || is_non_business_format? || is_reporting_cycle_adjustment?
       false
     else
       new_record? || created_at > START_DATE_OF_DIFFERENTIATION
@@ -381,12 +381,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     differentiation == 'blueprint'
   end
 
-  def is_reporting_adjustment?
-    false # for now.
-  end
-
   def missing_lead_criteria?
-    unless is_grace_letter? || is_reporting_adjustment?
+    unless is_grace_letter? || is_reporting_cycle_adjustment?
       !['advanced','blueprint'].include?(differentiation)
     end
   end

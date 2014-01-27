@@ -657,7 +657,7 @@ class Organization < ActiveRecord::Base
     # gather learner COPs
     cops = []
     communication_on_progresses.approved.all(:order => 'created_at DESC').each do |cop|
-      next if cop.is_grace_letter? || cop.is_reporting_adjustment?
+      next if cop.is_grace_letter? || cop.is_reporting_cycle_adjustment?
       cops << cop if cop.learner?
     end
 

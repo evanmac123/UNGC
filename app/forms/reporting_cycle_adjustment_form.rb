@@ -28,6 +28,14 @@ class ReportingCycleAdjustmentForm
     @cop_file ||= reporting_cycle_adjustment.cop_files.first || reporting_cycle_adjustment.cop_files.build(attachment_type: ReportingCycleAdjustment::TYPE)
   end
 
+  def has_file?
+    reporting_cycle_adjustment.cop_files.any?
+  end
+
+  def new_record?
+    reporting_cycle_adjustment.new_record?
+  end
+
   def submit(params)
     cop_file.language_id = params[:language_id]
     cop_file.attachment = params[:attachment]
@@ -36,6 +44,10 @@ class ReportingCycleAdjustmentForm
     if valid?
       ReportingCycleAdjustmentApplication.submit_for(organization, reporting_cycle_adjustment, ends_on)
     end
+  end
+
+  def ends_on
+    @ends_on ||= reporting_cycle_adjustment.ends_on
   end
 
   def update(params)
@@ -49,7 +61,7 @@ class ReportingCycleAdjustmentForm
 
     def validate_ends_on_date
       if ends_on.blank? || ends_on > Date.today + ReportingCycleAdjustmentApplication::MAX_MONTHS.months || ends_on < Date.today
-        errors.add :reporting_cycle_adjustment, 'End date should be within 11 months from today'
+        errors.add :ends_on, 'date should be within 11 months from today'
       end
     end
 end
