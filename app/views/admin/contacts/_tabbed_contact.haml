@@ -9,34 +9,34 @@
 
   %div.body
     %dl#contact_data_left.contact_data
-      %dt{:style => 'border: 0;'} Job Title:
+      %dt{:style => 'border: 0;'} Job Title
       %dd{:style => 'border: 0;'}= tabbed_contact.job_title.blank? ? 'n/a' : tabbed_contact.job_title
 
-      %dt Roles:
+      %dt Roles
       %dd= render :partial => 'admin/contacts/role', :collection => tabbed_contact.roles
 
-      %dt Email:
+      %dt Email
       %dd
         - if current_contact.from_ungc?
           = mail_to(tabbed_contact.email,tabbed_contact.email, :body => "Dear #{tabbed_contact.prefix} #{tabbed_contact.last_name},")
         - else
           = mail_to(tabbed_contact.email,tabbed_contact.email)
 
-      %dt Telephone:
+      %dt Telephone
       %dd= tabbed_contact.phone.blank? ? 'n/a' : tabbed_contact.phone
 
     %dl#contact_data_right.contact_data
-      %dt{:style => 'border: 0;'} Country:
+      %dt{:style => 'border: 0;'} Country
       %dd{:style => 'border: 0;'}= tabbed_contact.country.try(:name)
 
-      %dt Address:
+      %dt Address
       %dd= tabbed_contact.address.blank? ? 'n/a' : tabbed_contact.address
 
-      %dt City:
+      %dt City
       %dd= tabbed_contact.city.blank? ? 'n/a' : tabbed_contact.city
 
-      %dt State:
+      %dt State
       %dd= tabbed_contact.state.blank? ? 'n/a' : tabbed_contact.state
 
-      %dt Postal Code:
+      %dt Postal Code
       %dd= tabbed_contact.postal_code.blank? ? 'n/a' : tabbed_contact.postal_code
