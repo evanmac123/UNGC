@@ -25,17 +25,7 @@ class CopForm
   end
 
   def self.determine_cop_type(cop)
-    if cop.is_non_business_format?
-      :non_business
-    elsif cop.is_advanced_lead?
-      :lead
-    elsif cop.is_advanced_level?
-      :advanced
-    elsif cop.is_intermediate_level?
-      :intermediate
-    else
-      :basic
-    end
+    cop.cop_type || :advanced
   end
 
   def self.forms_for_type(type)
