@@ -380,7 +380,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "send a confirmation email" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create, :organization_id => @organization.id,
-                      :type_of_cop => 'intermediate',
+                      :type_of_cop => 'basic',
                       :communication_on_progress => {
                         :title                        => 'Our COP',
                         :references_human_rights      => true,
