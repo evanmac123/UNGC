@@ -128,10 +128,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_principle_areas
       create_language
       sign_in @organization_user
-      get :new, :organization_id => @organization.id, :type_of_cop => 'basic'
       post :create, :organization_id => @organization.id,
-                    :type_of_cop => :basic,
                     :communication_on_progress => {
+                      :cop_type => :basic,
                       :title                        => 'Our COP',
                       :references_human_rights      => true,
                       :references_labour            => true,
@@ -156,10 +155,12 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
   end
 
-  context "given an existing cop" do
+  context "given an existing cop and an organization user" do
     setup do
       create_approved_organization_and_user
-      create_cop_with_options
+      create_cop_with_options({
+        cop_type: 'basic'
+      })
       sign_in @organization_user
     end
 
@@ -174,21 +175,23 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops'), "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
+      assert_redirected_to dashboard_path, "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
     end
 
-    should "be able to update the cop" do
+    should "not be able to update the cop" do
       put :update, :organization_id => @organization.id,
                    :id              => @cop.id,
                    :communication_on_progress => {}
-      assert_response :redirect
+      assert_redirected_to dashboard_path, "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
     end
   end
 
   context "given an existing cop and a staff user" do
     setup do
       create_approved_organization_and_user
-      create_cop_with_options
+      create_cop_with_options({
+        cop_type: 'basic'
+      })
       create_staff_user
       sign_in @staff_user
     end
@@ -199,12 +202,10 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    # these tests fail as all cops are currently editable.
-    # we need to clarify the intent and implementation of editable?
-    should "not be able to edit the cop" do
+    should "be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops'), "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
+      assert_response :success
     end
 
     should "be able to update the cop" do
@@ -275,7 +276,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     context "given a GC Advanced COP" do
       setup do
         create_approved_organization_and_user
-        create_cop_with_options({:meets_advanced_criteria => true, :type => 'advanced'})
+        create_cop_with_options({:meets_advanced_criteria => true, :cop_type => 'advanced'})
         sign_in @organization_user
       end
 
@@ -291,7 +292,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
         create_approved_organization_and_user
         create_cop_with_options({
           meets_advanced_criteria: true,
-          type: 'advanced'
+          cop_type: 'advanced'
         })
         @cop.update_attributes differentiation: 'blueprint'
         sign_in @organization_user
@@ -308,7 +309,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       setup do
         create_approved_organization_and_user
         create_cop_with_options({
-          type: 'basic',
+          cop_type: 'basic',
           created_at: Date.new(2011, 01, 10)
         })
         sign_in @organization_user
@@ -325,7 +326,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       setup do
         create_approved_organization_and_user
         create_cop_with_options({
-          type: 'advanced',
+          cop_type: 'advanced',
           created_at: CommunicationOnProgress::START_DATE_OF_DIFFERENTIATION + 1.day,
         })
         sign_in @organization_user
@@ -342,7 +343,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       setup do
         create_non_business_organization_and_user('approved')
         create_cop_with_options({
-          type: 'non_business',
+          cop_type: 'non_business',
           created_at: CommunicationOnProgress::START_DATE_OF_NON_BUSINESS_COE,
         })
         sign_in @organization_user
@@ -380,8 +381,8 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "send a confirmation email" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create, :organization_id => @organization.id,
-                      :type_of_cop => 'basic',
                       :communication_on_progress => {
+                        :cop_type => 'basic',
                         :title                        => 'Our COP',
                         :references_human_rights      => true,
                         :references_labour            => true,

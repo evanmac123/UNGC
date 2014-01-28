@@ -1,6 +1,7 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, except: :introduction
   before_filter :no_unapproved_organizations_access
+  before_filter :no_organization_or_local_network_access, only: [:edit, :update]
   before_filter :ensure_valid_type, only: :new
   helper :datetime
 

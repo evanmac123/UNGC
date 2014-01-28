@@ -67,7 +67,7 @@ class CopsControllerTest < ActionController::TestCase
     setup do
       create_approved_organization_and_user
       create_cop_with_options({
-        type: 'basic',
+        cop_type: 'basic',
         created_at: CommunicationOnProgress::START_DATE_OF_DIFFERENTIATION + 1.day,
       })
     end

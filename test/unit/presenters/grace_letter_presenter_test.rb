@@ -4,7 +4,7 @@ class GraceLettersPresenterTest < ActionController::TestCase
 
   setup do
     create_approved_organization_and_user
-    grace_letter = create_cop_with_options(type: 'grace')
+    grace_letter = create_cop_with_options(cop_type: 'grace')
     @it = GraceLetterPresenter.new(grace_letter, @organization_user)
   end
 

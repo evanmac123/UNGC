@@ -127,12 +127,11 @@ class ActiveSupport::TestCase
   def create_approved_organization_and_user
       create_organization_and_user
       @organization.approve!
-    end
+  end
 
   def create_cop_with_options(cop_options = {})
     defaults = {
       :title                               => "COP Title",
-      :cop_type                            => 'basic',
       :references_human_rights             => true,
       :references_labour                   => true,
       :references_environment              => true,
