@@ -1,6 +1,6 @@
 - @body_class = 'details'
 
-%h2== Communication On Progress Details
+%h2 Grace Letter Details
 
 %ul{:class => "tools inline"}
 
@@ -12,5 +12,5 @@
 .main_content
   #status_box
     %dl{style: 'width: 90%;'}
-      = render partial: 'shared/cops/show_grace_style', locals: { grace_letter: @grace_letter }
+      = render partial: 'shared/cops/show_grace_style', locals: { communication_on_progress: @grace_letter }
       = action_links(@grace_letter)

@@ -4,7 +4,7 @@
   %ul
     %li== COP due date was extended until #{yyyy_mm_dd communication_on_progress.ends_on}
 - if communication_on_progress.has_file?
-  %dt Files
+  %dt File
   %dd
     %ul
       - communication_on_progress.files.each do |file|

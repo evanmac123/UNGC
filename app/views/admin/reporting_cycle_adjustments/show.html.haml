@@ -12,17 +12,5 @@
 .main_content
   #status_box
     %dl{style: 'width: 90%;'}
-      = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => @cycle_adjustment }
-      %dt Reporting Cycle Ajustment
-      %dd
-        %ul
-          %li== COP due date was extended until #{yyyy_mm_dd @cycle_adjustment.ends_on}
-      - if @cycle_adjustment.has_file?
-        %dt File
-        %dd
-          %ul
-            - @cycle_adjustment.files.each do |file|
-              %li
-                = link_to truncate(file.attachment_file_name, :length => 60), file.attachment.url
-                == (#{file.language.name})
-      =action_links(@cycle_adjustment)
+      = render partial: 'shared/cops/show_reporting_style', locals: { communication_on_progress: @cycle_adjustment }
+      = action_links(@cycle_adjustment)
