@@ -24,7 +24,7 @@ class CopFormTest < ActiveSupport::TestCase
     @french = create_language(name:'French')
   end
 
-  %w(basic intermediate advanced lead non_business).each do |type|
+  %w(basic intermediate advanced non_business).each do |type|
     context "When a new #{type} form is created" do
 
       setup do
