@@ -17,9 +17,6 @@ class Admin::CopsController < AdminController
 
   def show
     @communication = CommunicationPresenter.create(@cop, current_contact)
-  rescue => e
-    flash[:error] = "Sorry, we could not determine the COP type."
-    redirect_to admin_organization_path(@cop.organization, tab: :cops)
   end
 
   def new
