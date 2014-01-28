@@ -201,9 +201,14 @@ class CopFormTest < ActiveSupport::TestCase
   context "When editing a form" do
 
     setup do
+      @attrs = valid_cop_attrs(@organization)
       new_form = CopForm.new_form(@organization, 'advanced', @organization_user.contact_info)
-      new_form.submit valid_cop_attrs(@organization)
+      new_form.submit @attrs
       @form = CopForm.edit_form(new_form.cop, @organization_user.contact_info)
+    end
+
+    should "have the title it was saved with" do
+      assert_equal @attrs.fetch(:title), @form.title
     end
 
   end

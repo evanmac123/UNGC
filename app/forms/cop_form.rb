@@ -76,7 +76,7 @@ class CopForm
 
   def initialize(cop, type, contact_name)
     @cop = cop
-    @cop.title = organization.cop_name
+    @cop.title ||= organization.cop_name
     @cop.cop_type = type
     @contact_name = contact_name
     @submitted = false
