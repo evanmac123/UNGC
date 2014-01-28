@@ -65,7 +65,7 @@ class CopForm
             :is_grace_letter?, # required by _form
             :include_measurement,
             :method_shared,
-            :type,
+            :cop_type,
             :format,
             :cop_files,
             :cop_questions,
@@ -77,7 +77,7 @@ class CopForm
   def initialize(cop, type, contact_name)
     @cop = cop
     @cop.title = organization.cop_name
-    @cop.type = type
+    @cop.cop_type = type
     @contact_name = contact_name
     @submitted = false
   end
@@ -125,7 +125,7 @@ class CopForm
   end
 
   def partial
-    "#{type}_form"
+    "#{cop.cop_type}_form"
   end
 
   def clear_answer_text_from_unselected_answers

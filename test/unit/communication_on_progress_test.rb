@@ -107,7 +107,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_organization_and_user('approved')
       @organization.communication_late
       @cop = generate_cop(@organization, format: 'grace_letter', :title => 'Grace Letter')
-      @cop.type = 'grace'
+      @cop.cop_type = 'grace'
       @cop.save
       @cop.reload
       @organization.reload
@@ -208,7 +208,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       @cop_question = create_cop_question
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
-      @cop.type = 'basic'
+      @cop.cop_type = 'basic'
       @cop.save
     end
 
@@ -224,7 +224,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new( :title => 'Our COP',
                                                             :ends_on => Date.today)
-      @cop.type = 'advanced'
+      @cop.cop_type = 'advanced'
 
       # 6 required criteria to be considered Active
       @cop.update_attribute :include_continued_support_statement, true

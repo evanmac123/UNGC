@@ -65,8 +65,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
 
-  attr_accessor :type
-
   cattr_reader :per_page
   @@per_page = 15
 
@@ -455,7 +453,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     def set_cop_defaults
       self.additional_questions = false
-      case type
+      case cop_type
         when 'basic'
           self.format = 'basic'
         when 'advanced'

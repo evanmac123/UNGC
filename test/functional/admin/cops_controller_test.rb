@@ -41,7 +41,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
      setup do
        @organization.update_attribute :cop_due_on, Date.today - 75.days
        @cop = create_communication_on_progress(organization: @organization, format: 'grace_letter')
-       @cop.type = 'grace'
+       @cop.cop_type = 'grace'
        @cop.save
        @organization.reload
    end

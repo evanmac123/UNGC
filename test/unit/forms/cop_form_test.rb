@@ -44,7 +44,7 @@ class CopFormTest < ActiveSupport::TestCase
       end
 
       should "set the cop type" do
-        assert_equal type, @form.type
+        assert_equal type, @form.cop_type
       end
 
       should "have a contact name" do

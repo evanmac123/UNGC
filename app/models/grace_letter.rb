@@ -30,6 +30,7 @@ class GraceLetter
     DEFAULTS = {
       format: TYPE,
       title: 'Grace Letter',
+      cop_type: 'grace'
     }
 
 end
