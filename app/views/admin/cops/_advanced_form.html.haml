@@ -1,6 +1,7 @@
-- if form.error_messages.present?
+-if @communication_on_progress.errors.any?
   %h3 Please correct the following before submitting your COP:
-  %div{:class => 'flash error'}= display_errors_for_cop(@communication_on_progress)
+  %div{:class => 'flash error'}
+    = error_messages_for @communication_on_progress, header_message: false
 
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
@@ -22,7 +23,7 @@
 
     %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_business_peace?)} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
 
-    %li#submit_tab{:style => "#{css_display_style(@submitted)}"} <a id="submit_link" href="#finish">Submit your COP</a>
+    %li#submit_tab{:style => "#{css_display_style(@communication_on_progress.submitted?)}"} <a id="submit_link" href="#finish">Submit your COP</a>
 
   #basic.tab_content
     %div.principles
@@ -52,12 +53,12 @@
       %fieldset
         %legend
           %span The Communication on Progress is in the following format:
-        - CommunicationOnProgress::FORMAT.each do |key, value|
+        - @communication_on_progress.formats.each do |key, value|
           %label
             = form.radio_button :format, key
             = value
 
-      #non_grace_letter_fields{:style => "#{css_display_style(@submitted)}"}
+      #non_grace_letter_fields{:style => "#{css_display_style(@communication_on_progress.submitted?)}"}
 
         #own_company_questions{:style => 'display: block'}
           %fieldset
@@ -75,7 +76,7 @@
               %span Does your COP contain a statement by the CEO (or equivalent) expressing continued support for the Global Compact and renewing your company's ongoing commitment to the initiative and its principles?
             = true_or_false_field(form, :include_continued_support_statement)
 
-          #include_continued_support_statement{:style => css_display_style(@submitted)}
+          #include_continued_support_statement{:style => css_display_style(@communication_on_progress.submitted?)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
             = render :partial => 'cop_business_peace_question', :locals => {:form => form}
             = render :partial => 'cop_water_mandate_question', :locals => {:form => form}
@@ -85,12 +86,12 @@
                 %span Does your COP include qualitative and/or quantitative measurement of outcomes illustrating the degree to which targets/performance indicators were met?
               = true_or_false_field(form, :include_measurement, :class => 'score')
 
-          #method_shared_with_stakeholders{:style => css_display_style(@submitted)}
+          #method_shared_with_stakeholders{:style => css_display_style(@communication_on_progress.submitted?)}
             %fieldset
               %fieldset
                 %legend
                   %span How does your organization share its COP with stakeholders?
-                - CommunicationOnProgress::METHOD.each do |key, value|
+                - @communication_on_progress.methods.each do |key, value|
                   %label
                     = form.radio_button :method_shared, key
                     = value
@@ -203,21 +204,21 @@
           %legend
             %span Required: upload the COP as a PDF file
           = text_partial('b')
-          = render :partial => 'cop_files_form', :locals => {:language_id => @cop_file_language}
+          = render :partial => 'cop_files_form'
 
     %fieldset
       #web_cop_attachments{:style => 'display: block'}
         %fieldset
           %legend
             %span Optional: provide a link to your web-based COP. The link should be in the format 'http://www.company.com/'
-          = render :partial => 'cop_link', :locals => {:cop_link => CopLink.new(:attachment_type => CopFile::TYPES[:cop], :language_id => @cop_link_language, :url => @cop_link_url)}
+          = render :partial => 'cop_link', :locals => {:cop_link => @communication_on_progress.new_link}
 
       #signature{:style => 'display: block'}
         %fieldset
           %legend
             %span Contact Information
           %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
-          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name || current_contact.contact_info
+          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name
 
     = render :partial => 'submit_cop'
     %br
@@ -225,4 +226,4 @@
 
 = organization_javascript_vars @organization
 = javascript_tag "var work_in_progress = false;"
-= form_submitted?(@submitted)
+= form_submitted?(@communication_on_progress.submitted?)

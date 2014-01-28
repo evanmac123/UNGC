@@ -4,11 +4,11 @@ class CoePresenter
 
   Partial = '/shared/cops/show_non_business_style'
 
-  Formats = {
+  FORMATS = {
     :standalone        => "Stand alone document",
     :financial_report  => "Part of an annual (financial) report",
     :other_report      => "Part of another type of report"
-  }
+  }.freeze
 
   attr_reader :coe, :contact
 
@@ -82,7 +82,7 @@ class CoePresenter
   end
 
   def format
-    Formats[coe.format.try(:to_sym)] || 'Unknown'
+    FORMATS[coe.format.try(:to_sym)] || 'Unknown'
   end
 
   # model concerns

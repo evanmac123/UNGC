@@ -130,6 +130,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       sign_in @organization_user
       get :new, :organization_id => @organization.id, :type_of_cop => 'basic'
       post :create, :organization_id => @organization.id,
+                    :type_of_cop => :basic,
                     :communication_on_progress => {
                       :title                        => 'Our COP',
                       :references_human_rights      => true,
@@ -168,10 +169,12 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    # these tests fail as all cops are currently editable.
+    # we need to clarify the intent and implementation of editable?
     should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops')
+      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops'), "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
     end
 
     should "be able to update the cop" do
@@ -196,10 +199,12 @@ class Admin::CopsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
+    # these tests fail as all cops are currently editable.
+    # we need to clarify the intent and implementation of editable?
     should "not be able to edit the cop" do
       get :edit, :organization_id => @organization.id,
                  :id              => @cop.id
-      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops')
+      assert_redirected_to admin_organization_path(@organization.id, :tab => 'cops'), "all cops are editable at the moment. see tests/implementation and clarifiy intent with venu."
     end
 
     should "be able to update the cop" do
@@ -375,6 +380,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "send a confirmation email" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create, :organization_id => @organization.id,
+                      :type_of_cop => 'intermediate',
                       :communication_on_progress => {
                         :title                        => 'Our COP',
                         :references_human_rights      => true,

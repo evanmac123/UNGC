@@ -94,28 +94,6 @@ class CommunicationOnProgress < ActiveRecord::Base
             :annual_report         => "Part of an annual (financial) report"
            }
 
-  # How the COP is shared
-  METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
-            :all_access   => "b) COP is easily accessible to all interested parties (e.g. via its website)",
-            :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
-            :all          => "d) Both b) and c)"
-           }
-
-  # How the COP is shared
-  COE_METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
-                :all_access   => "b) COE is easily accessible to all interested parties (e.g. via its website)",
-                :stakeholders => "c) COE is actively distributed to all key stakeholders (e.g. investors, employees, beneficiaries, local community)",
-                :all          => "d) Both b) and c)"
-          }
-
-
-  # Basic COP templates have other options for sharing their COP
-  BASIC_METHOD = {:gc_website   => "a) On the UN Global Compact website only",
-                  :all_access   => "b) COP will be made easily accessible to all interested parties on company website",
-                  :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employers, consumers, local community)",
-                  :all          => "d) Both b) and c)"
-                 }
-
   LEVEL_DESCRIPTION = { :blueprint => "This COP qualifies for the Global Compact Advanced level",
                         :advanced  => "This COP qualifies for the Global Compact Advanced level",
                         :active    => "This COP qualifies for the Global Compact Active level",
@@ -167,17 +145,6 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def year
     ends_on.strftime('%Y')
-  end
-
-  def init_cop_attributes
-    cop_questions.each do |cop_question|
-      cop_question.cop_attributes.each do |cop_attribute|
-        self.cop_answers.build \
-          :cop_attribute_id => cop_attribute.id,
-          :value            => false,
-          :text             => nil
-      end
-    end
   end
 
   def cop_questions

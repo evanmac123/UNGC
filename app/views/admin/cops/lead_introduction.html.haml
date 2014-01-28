@@ -20,8 +20,8 @@
 
     %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{GraceLetterApplication::GRACE_DAYS} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
 
-    - if current_contact.submit_grace_letter?
-      %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'
+    - if GraceLetterApplication.eligible?(current_contact.organization)
+      %p= link_to 'New Grace Letter', new_admin_organization_grace_letter_path(current_contact.organization.id), :class => 'new_page_large'
     - else
       %p.cop_description
         %strong This option is not available because you have already submitted a Grace Letter.

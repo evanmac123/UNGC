@@ -34,7 +34,7 @@ class GraceLetterPresenter
   end
 
   def cop_file
-    @cop_file ||= files.first || CopFile.new(attachment_type: cop_type)
+    @cop_file ||= files.first || new_cop_file
   end
 
   def due_on
@@ -46,7 +46,7 @@ class GraceLetterPresenter
   end
 
   def language_id
-    @language_id ||= cop_file.try(:language).try(:id) || Language.for(:english).try(:id)
+    @language_id ||= cop_file.language_id
   end
 
   def cop_type
@@ -68,6 +68,14 @@ class GraceLetterPresenter
     end
   end
 
+  private
+
+    def new_cop_file
+      CopFile.new(attachment_type: cop_type, language_id: default_language_id)
+    end
+
+    def default_language_id
+      Language.for(:english).try(:id)
+    end
+
 end
-
-

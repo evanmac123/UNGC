@@ -10,7 +10,7 @@ class Admin::GraceLettersController < AdminController
     if GraceLetterApplication.eligible?(@organization)
       @form = GraceLetterForm.new(@organization)
     else
-      flash[:notice] = "You cannot submit a grace letter"
+      flash[:notice] = "You cannot submit a grace letter at this time"
       redirect_to admin_organization_url(@organization.id, tab: :cops)
     end
   end

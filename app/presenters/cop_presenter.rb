@@ -121,8 +121,6 @@ class CopPresenter
     html.join(' ').html_safe
   end
 
-  class InvalidCopTypeError < StandardError; end
-
   private
 
     def partial
@@ -132,10 +130,7 @@ class CopPresenter
         '/shared/cops/show_new_style'
       elsif cop.is_legacy_format?
         '/shared/cops/show_legacy_style'
-      else
-        raise InvalidCopTypeError
       end
     end
 
 end
-

@@ -15,6 +15,31 @@ module FixtureReplacement
     cop.starts_on = Date.today - 1.year
     cop.ends_on = Date.today
     cop.title = FixtureReplacement.random_string
+    cop.organization_id = Organization.first.id
+    cop.email = FixtureReplacement.random_string
+    cop.job_title = FixtureReplacement.random_string
+    cop.contact_name = FixtureReplacement.random_string
+    cop.include_actions = false
+    cop.include_measurement = true
+    cop.use_indicators = false
+    cop.cop_score_id = new_cop_score.id
+    cop.use_gri = true
+    cop.has_certification = false
+    cop.notable_program = true
+    cop.description = FixtureReplacement.random_string
+    cop.state = 'approved'
+    cop.include_continued_support_statement = false
+    cop.format = FixtureReplacement.random_string
+    cop.references_human_rights = true
+    cop.references_labour = false
+    cop.references_environment = true
+    cop.references_anti_corruption = false
+    cop.meets_advanced_criteria = true
+    cop.additional_questions = false
+    cop.method_shared = FixtureReplacement.random_string
+    cop.differentiation = FixtureReplacement.random_string
+    cop.references_business_peace = true
+    cop.references_water_mandate = false
   end
 
   attributes_for :contact do |c|
@@ -37,6 +62,10 @@ module FixtureReplacement
     q.principle_area_id = PrincipleArea.first.id
     q.grouping = 'additional'
     q.position = 1
+  end
+
+  attributes_for :cop_attribute do |a|
+    a.text  = FixtureReplacement.random_string
   end
 
   attributes_for :cop_score do |a|

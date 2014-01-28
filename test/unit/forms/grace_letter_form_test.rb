@@ -5,7 +5,25 @@ class GraceLetterFormTest < ActiveSupport::TestCase
   context "given an existing organization and a user" do
     setup do
       create_organization_and_user
-      create_language(name: "English")
+      @english = create_language(name: "English")
+    end
+
+    context "when the form is created" do
+
+      setup do
+        @form = GraceLetterForm.new(@organization)
+      end
+
+      should "have a default language" do
+        assert_equal @english.id, @form.cop_file.language_id
+        assert_equal @english.id, @form.language_id
+      end
+
+      should "have a new cop file by default" do
+        assert_instance_of CopFile, @form.cop_file
+        assert @form.cop_file.new_record?, "cop_file should not be saved."
+      end
+
     end
 
     context "when a grace letter is submitted" do
@@ -83,5 +101,6 @@ class GraceLetterFormTest < ActiveSupport::TestCase
       end
 
     end
+
   end
 end

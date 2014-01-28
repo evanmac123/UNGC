@@ -28,7 +28,7 @@ class GraceLetterForm
   end
 
   def cop_file
-    @cop_file ||= grace_letter.cop_files.first || grace_letter.cop_files.build(attachment_type: GraceLetter::TYPE)
+    @cop_file ||= grace_letter.cop_files.first || create_cop_file
   end
 
   def attachment_file_name
@@ -39,12 +39,8 @@ class GraceLetterForm
     cop_file.attachment.url
   end
 
-  def language
-    @language ||= cop_file.language || Language.for(:english)
-  end
-
   def language_id
-    language.id
+    cop_file.language_id
   end
 
   def has_file?
@@ -69,5 +65,11 @@ class GraceLetterForm
   def persisted?
     false
   end
+
+  private
+
+    def create_cop_file
+      grace_letter.cop_files.build(attachment_type: GraceLetter::TYPE)
+    end
 
 end
