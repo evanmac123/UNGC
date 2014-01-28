@@ -8,6 +8,8 @@
     %li <a href="#advanced">Advanced Level</a>
     - if current_contact.submit_grace_letter?
       %li <a href="#grace">Grace Letter</a>
+    - if current_contact.submit_reporting_cycle_adjustment?
+      %li <a href="#reporting">Reporting Cycle Adjustment</a>
 
   #introduction.tab_content
     %p{:class => 'cop_description', :style => 'margin-top: 10px;'}
@@ -85,3 +87,11 @@
       %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{GraceLetterApplication::GRACE_DAYS} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
 
       %p= link_to 'New Grace Letter', new_admin_organization_grace_letter_path(current_contact.organization.id), :class => 'new_page_large'
+
+  - if current_contact.submit_reporting_cycle_adjustment?
+    #reporting.tab_content
+      %h3 Request a COP due date extension ONE TIME
+
+      %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant  Reporting Cycle adjustment change
+
+      %p= link_to 'New Reporting Cycle Adjustment', new_admin_organization_reporting_cycle_adjustment_path(current_contact.organization.id), :class => 'new_page_large'

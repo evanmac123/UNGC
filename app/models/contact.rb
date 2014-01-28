@@ -234,6 +234,11 @@ class Contact < ActiveRecord::Base
     GraceLetterApplication.eligible?(self.organization)
   end
 
+  def submit_reporting_cycle_adjustment?
+    # TODO move this to a presenter for views that depend on it.
+    ReportingCycleAdjustmentApplication.eligible?(self.organization)
+  end
+
   def organization_delisted_on
     self.organization.delisted_on
   end
