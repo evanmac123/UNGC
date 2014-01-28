@@ -19,4 +19,16 @@ class BasicCopForm < CopForm
     Principle.principles_for_issue_area(key)
   end
 
+  def cop_file
+    nil # basic cop forms don't have a cop_file.
+  end
+
+  def valid?
+    cop.valid?
+  end
+
+  def errors
+    cop.errors
+  end
+
 end

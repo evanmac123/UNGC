@@ -152,7 +152,8 @@ class CopFormTest < ActiveSupport::TestCase
         end
 
         should "not be valid" do
-          refute @result
+          # basic forms are valid without a cop file.
+          refute @result unless type == 'basic'
         end
 
         should "remember link language" do
@@ -164,7 +165,7 @@ class CopFormTest < ActiveSupport::TestCase
         end
 
         should "not save the communication on progress" do
-          refute @invalid_form.cop.persisted?
+          refute @invalid_form.cop.persisted? unless type == 'basic'
         end
 
         should "be submitted" do
@@ -185,6 +186,14 @@ class CopFormTest < ActiveSupport::TestCase
 
     should "have filters" do
       refute @form.filters.empty?
+    end
+
+    should "not have a cop file" do
+      assert_nil @form.cop_file
+    end
+
+    should "be valid" do
+      assert @form.valid?
     end
 
   end
