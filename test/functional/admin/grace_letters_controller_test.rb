@@ -26,23 +26,47 @@ class Admin::GraceLettersControllerTest < ActionController::TestCase
       @grace_letter = create_grace_letter
     end
 
-    context "a grace letter that is still grace_letter" do
-
-      should "show the edit form" do
-        get :edit, organization_id: @organization.id, id: @grace_letter.id
-
-        assert_not_nil assigns(:form)
-        assert_template :edit
+    context "as a staff user" do
+      setup do
+        create_staff_user
+        sign_in @staff_user
       end
 
-      should "update the grace letter" do
-        put :update,  id: @grace_letter.id,
-                      organization_id: @organization.id,
-                      grace_letter: cop_file_attributes
-        form = assigns(:form)
+      context "a grace letter that is still grace_letter" do
+        should "show the edit form" do
+          get :edit, organization_id: @organization.id, id: @grace_letter.id
 
-        assert form.valid?, "expected grace_letter to be valid."
-        assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.grace_letter)
+          assert_not_nil assigns(:form)
+          assert_template :edit
+        end
+
+        should "update the grace letter" do
+          put :update,  id: @grace_letter.id,
+                        organization_id: @organization.id,
+                        grace_letter: cop_file_attributes
+          form = assigns(:form)
+
+          assert form.valid?, "expected grace_letter to be valid."
+          assert_redirected_to admin_organization_grace_letter_url(@organization.id, form.grace_letter)
+        end
+      end
+
+    end
+
+    context "as an organization user" do
+      context "a grace letter that is still grace_letter" do
+        should "show the edit form" do
+          get :edit, organization_id: @organization.id, id: @grace_letter.id
+
+          assert_redirected_to dashboard_path
+        end
+
+        should "update the grace letter" do
+          put :update,  id: @grace_letter.id,
+                        organization_id: @organization.id,
+                        grace_letter: cop_file_attributes
+          assert_redirected_to dashboard_path
+        end
       end
 
     end

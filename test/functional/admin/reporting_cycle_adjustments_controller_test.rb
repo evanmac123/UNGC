@@ -64,26 +64,45 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
 
     end
 
-    context "update reporting_cycle_adjustment" do
+    context "as a staff user" do
+      setup do
+        create_staff_user
+        sign_in @staff_user
+      end
 
+      context "update reporting_cycle_adjustment" do
+
+        should "show the edit form" do
+          get :edit, organization_id: @organization.id, id: @reporting_cycle_adjustment.id
+
+          assert_not_nil assigns(:form)
+          assert_template :edit
+        end
+
+        should "update the reporting_cycle_adjustment" do
+          put :update,  id: @reporting_cycle_adjustment.id,
+                        organization_id: @organization.id,
+                        reporting_cycle_adjustment: reporting_cycle_adjustment_attributes
+          form = assigns(:form)
+
+          assert form.valid?, "expected reporting_cycle_adjustment to be valid."
+          assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, form.reporting_cycle_adjustment)
+        end
+      end
+    end
+
+    context "as an organization user" do
       should "show the edit form" do
         get :edit, organization_id: @organization.id, id: @reporting_cycle_adjustment.id
-
-        assert_not_nil assigns(:form)
-        assert_template :edit
+        assert_redirected_to dashboard_path
       end
 
       should "update the reporting_cycle_adjustment" do
         put :update,  id: @reporting_cycle_adjustment.id,
                       organization_id: @organization.id,
                       reporting_cycle_adjustment: reporting_cycle_adjustment_attributes
-        form = assigns(:form)
-
-        assert form.valid?, "expected reporting_cycle_adjustment to be valid."
-        assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, form.reporting_cycle_adjustment)
+        assert_redirected_to dashboard_path
       end
-
     end
-
   end
 end

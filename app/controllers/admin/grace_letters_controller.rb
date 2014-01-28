@@ -1,6 +1,7 @@
 class Admin::GraceLettersController < AdminController
   before_filter :load_letter_and_organization
   before_filter :no_unapproved_organizations_access
+  before_filter :no_organization_or_local_network_access, only: [:edit, :update]
 
   def show
     @grace_letter = GraceLetterPresenter.new(@letter, current_contact)

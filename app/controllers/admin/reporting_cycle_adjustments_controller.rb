@@ -1,5 +1,6 @@
 class Admin::ReportingCycleAdjustmentsController < AdminController
   before_filter :load_adjustment_and_organization
+  before_filter :no_organization_or_local_network_access, only: [:edit, :update]
 
   def show
     @cycle_adjustment = ReportingCycleAdjustmentPresenter.new(@adjustment, current_contact)
