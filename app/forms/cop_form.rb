@@ -107,14 +107,28 @@ class CopForm
   end
 
   def submit(params)
-    cop.assign_attributes(params)
+    cop.attributes = params
     cop.contact_name = contact_name
     remember_link_params(params)
     @submitted = true
     clear_answer_text_from_unselected_answers
-    cop_file.valid? && cop.save
+    valid? && cop.save
   end
   alias_method :update, :submit
+
+  def valid?
+    cop.valid? && cop_file.valid?
+  end
+
+  def errors
+    cop.cop_files.each do |file|
+      next if file.valid?
+      file.errors.full_messages.each do |message|
+        cop.errors.add_to_base message
+      end
+    end
+    cop.errors
+  end
 
   def organization
     @cop.organization
