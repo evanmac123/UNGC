@@ -12,6 +12,7 @@ class ReportingCycleAdjustmentPresenter
            :organization,
            :can_approve?,
            :can_reject?,
+           :title,
            to: :cop
 
   def initialize(cop, current_contact)
@@ -49,6 +50,13 @@ class ReportingCycleAdjustmentPresenter
     else
       admin_organization_path(cop.organization, tab: :cops)
     end
+  end
+
+  def show_partial
+    '/shared/cops/show_reporting_style'
+  end
+
+  def results_partial
   end
 
 end

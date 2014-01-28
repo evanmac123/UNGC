@@ -4,6 +4,8 @@ class CommunicationPresenter
     presenter_class = case
     when cop.is_grace_letter?
       GraceLetterPresenter
+    when cop.is_reporting_cycle_adjustment?
+      ReportingCycleAdjustmentPresenter
     when cop.is_non_business_format?
       CoePresenter
     else
