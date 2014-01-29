@@ -134,8 +134,12 @@ class Admin::ReportsController < AdminController
   end
 
   def initiative_organizations
-    @selected_initiatives = params[:initiatives] || []
-    @selected_initiatives = Initiative.for_select.map(&:id) if params[:all_initiatives]
+
+    if params[:all_initiatives]
+      @selected_initiatives = Initiative.for_select.map(&:id) 
+    else
+      @selected_initiatives = params[:initiatives] || []
+    end
     
     @report = InitiativeOrganizations.new(initiatives: @selected_initiatives)
     render_formatter(filename: "organizations_in_initiatives_#{date_as_filename}.xls")
