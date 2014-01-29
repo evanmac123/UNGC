@@ -97,7 +97,7 @@ class CopForm
   end
 
   def submit(params)
-    cop.attributes = params
+    cop.assign_attributes(params)
     cop.contact_name = contact_name
     remember_link_params(params)
     @submitted = true
@@ -114,7 +114,7 @@ class CopForm
     cop.cop_files.each do |file|
       next if file.valid?
       file.errors.full_messages.each do |message|
-        cop.errors.add_to_base message
+        cop.errors.add :cop_files, message
       end
     end
     cop.errors
