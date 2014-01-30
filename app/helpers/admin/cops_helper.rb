@@ -23,7 +23,6 @@ module Admin::CopsHelper
   end
 
   def render_cop_questions_for(grouping, options={})
-    principle_area_id  = PrincipleArea.send(options[:principle]) if options[:principle]
     questions = @communication_on_progress.cop_questions_for_grouping(grouping, options)
     questions.collect do |question|
       render :partial => 'admin/cops/cop_question', :locals => { :question => question, :grouping => grouping }

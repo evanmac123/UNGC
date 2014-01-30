@@ -201,14 +201,83 @@ class CopFormTest < ActiveSupport::TestCase
   context "When editing a form" do
 
     setup do
-      @attrs = valid_cop_attrs(@organization)
-      new_form = CopForm.new_form(@organization, 'advanced', @organization_user.contact_info)
-      new_form.submit @attrs
-      @form = CopForm.edit_form(new_form.cop, @organization_user.contact_info)
+      # given an existing cop
+      @old_cop = create_communication_on_progress
+      assert_equal :learner, @old_cop.differentiation_level
+      assert_not_nil @old_cop.created_at
+
+      # and we submit some new changes
+      @attrs = valid_cop_attrs(@organization, {
+        include_actions: true,
+        use_indicators: true,
+        has_certification: true,
+        include_continued_support_statement: true,
+        references_labour: true,
+        references_anti_corruption: true,
+        additional_questions: true,
+        references_water_mandate: true,
+        include_measurement: true,
+        use_gri: true,
+        notable_program: true,
+        references_human_rights: true,
+        references_environment: true,
+        meets_advanced_criteria: true,
+        references_business_peace: true,
+        starts_on: Date.today - 1.year + 1.day,
+        ends_on: Date.today + 1.day,
+      })
+      @attrs.delete(:created_at)
+      @attrs.delete(:updated_at)
+
+      form = CopForm.edit_form(@old_cop, @organization_user.contact_info)
+      assert form.submit @attrs
+
+      # load the edit cop up.
+      @cop = CommunicationOnProgress.find(form.id)
+      assert_not_nil @cop.created_at
     end
 
-    should "have the title it was saved with" do
-      assert_equal @attrs.fetch(:title), @form.title
+    %w(
+      organization_id
+      title
+      email
+      job_title
+      contact_name
+      include_actions
+      include_measurement
+      use_indicators
+      cop_score_id
+      use_gri
+      has_certification
+      notable_program
+      created_at
+      updated_at
+      description
+      state
+      include_continued_support_statement
+      format
+      references_human_rights
+      references_labour
+      references_environment
+      references_anti_corruption
+      meets_advanced_criteria
+      additional_questions
+      starts_on
+      ends_on
+      method_shared
+      differentiation
+      references_business_peace
+      references_water_mandate
+      created_at
+    ).each do |f|
+      field = f.to_sym
+      should "have the new #{field}" do
+        assert_equal @attrs[field], @cop.public_send(field)
+      end
+    end
+
+    should "have be upgraded to active differentiation" do
+      assert_equal :active, @cop.differentiation_level
     end
 
   end
