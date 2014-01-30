@@ -32,7 +32,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
        get :introduction
        assert_response :success
        assert_select 'ul.tab_nav' do
-         assert_select 'li:last-child', 'Grace Letter'
+         assert_select 'li', 'Grace Letter'
        end
      end
    end
@@ -49,7 +49,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
        get :introduction
        assert_response :success
        assert_select 'ul.tab_nav' do
-         assert_select 'li:last-child', 'Advanced Level'
+         assert_select 'li:last-child', 'Reporting Cycle Adjustment'
        end
      end
    end
@@ -100,7 +100,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
 
     should "be redirected to non_business COP template" do
       get :introduction
-      assert_redirected_to new_admin_organization_communication_on_progress_path(:organization_id => @organization.id, :type_of_cop => 'non_business')
+      assert_template :non_business_introduction
     end
   end
 
