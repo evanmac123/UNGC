@@ -250,8 +250,6 @@ class CopFormTest < ActiveSupport::TestCase
       use_gri
       has_certification
       notable_program
-      created_at
-      updated_at
       description
       state
       include_continued_support_statement
@@ -261,14 +259,12 @@ class CopFormTest < ActiveSupport::TestCase
       references_environment
       references_anti_corruption
       meets_advanced_criteria
-      additional_questions
       starts_on
       ends_on
       method_shared
       differentiation
       references_business_peace
       references_water_mandate
-      created_at
     ).each do |f|
       field = f.to_sym
       should "have the new #{field}" do
