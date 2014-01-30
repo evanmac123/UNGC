@@ -24,8 +24,18 @@ class CopForm
     form
   end
 
+  # Maybe we should add this logic into a migration
+  # and write the cop_type information for existing cops
   def self.determine_cop_type(cop)
-    cop.cop_type || :advanced
+    if cop.cop_type
+       cop_type
+    elsif cop.additional_questions
+      :advanced
+    elsif cop.cop_files.any?
+      :intermediate
+    else
+      :basic
+    end
   end
 
   def self.forms_for_type(type)
