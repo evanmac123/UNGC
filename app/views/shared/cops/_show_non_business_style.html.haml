@@ -33,4 +33,7 @@
       Includes a measurement of outcomes
 
 %dt Actions
-%dd.indent= communication_on_progress.render_questions_and_answers
+%dd.indent
+  - communication_on_progress.questions.collect do |question|
+    - answers = communication_on_progress.coe.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
+    = render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }

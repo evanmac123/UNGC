@@ -28,7 +28,7 @@ class CopForm
   # and write the cop_type information for existing cops
   def self.determine_cop_type(cop)
     if cop.cop_type
-       cop_type
+       cop.cop_type
     elsif cop.additional_questions
       :advanced
     elsif cop.cop_files.any?

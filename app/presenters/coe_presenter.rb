@@ -18,6 +18,8 @@ class CoePresenter
            :ends_on,
            :include_continued_support_statement?,
            :include_measurement?,
+           :can_approve?,
+           :can_reject?,
            :cop_attributes,
            to: :coe
 
@@ -111,6 +113,10 @@ class CoePresenter
     else
       admin_organization_path(coe.organization, tab: :cops)
     end
+  end
+
+  def delete_path
+    admin_organization_communication_on_progress_path(coe.organization, coe.id)
   end
 
 end
