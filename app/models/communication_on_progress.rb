@@ -456,6 +456,7 @@ class CommunicationOnProgress < ActiveRecord::Base
         when 'lead'
           self.additional_questions = true
       end
+      self.published_on ||= Time.now.to_date
     end
 
     def can_be_edited?
