@@ -734,11 +734,12 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
   end
 
-  # a 1 year extension is given to SMEs when they are about to be delisted
-  # we then delist them 1 year after the inactive_on date
+  # A 1 year extension is given to SMEs when they are about to be delisted
+  # Record the date on which the extennsion begins so we can 
+  # then delist them 1 year after the inactive_on date
   def extend_sme_cop_due_on_and_set_inactive_on
     self.update_attribute(:cop_due_on, cop_due_on + 1.year)
-    self.update_attribute(:inactive_on, Date.today)
+    self.update_attribute(:inactive_on, cop_due_on)
   end
 
   # COP's next due date is 1 year from current date, 2 years for non-business
