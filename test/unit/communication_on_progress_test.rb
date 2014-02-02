@@ -159,6 +159,24 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
+  
+  context "Given a non-communicating SME submitting a grace letter while under the moratorium" do
+    setup do
+      create_organization_and_user
+      @organization.update_attribute :organization_type_id, OrganizationType.sme.id
+      # misses first COP deadline
+      @organization.communication_late
+      # misses COP deadline again
+      @organization.extend_sme_cop_due_on_and_set_inactive_on
+    end
+
+    should "also extend the moratorium period" do
+      @cop = generate_cop(@organization, format: 'grace_letter')
+      assert_equal @organization.cop_due_on, @organization.inactive_on
+    end
+
+  end
+  
 
   context "given an approved COP" do
     setup do
