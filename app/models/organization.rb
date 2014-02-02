@@ -710,7 +710,7 @@ class Organization < ActiveRecord::Base
   def initial_contribution_year
     joined_on.year > 2006 ? joined_on.year : 2006
   end
-
+  
   def participant_for_less_than_years(years)
     joined_on.to_time.years_since(years) >= Time.now
   end
@@ -723,6 +723,11 @@ class Organization < ActiveRecord::Base
   def extend_cop_grace_period
     self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
     self.update_attribute :active, true
+
+    # For SMEs in moratorium have that date extended as well
+    if inactive_on.present? && inactive_on >= CommunicationOnProgress::START_DATE_OF_SME_MORATORIUM
+      self.update_attribute :inactive_on, (self.inactive_on + COP_GRACE_PERIOD.days)
+    end
   end
 
   def extend_cop_temporary_period
