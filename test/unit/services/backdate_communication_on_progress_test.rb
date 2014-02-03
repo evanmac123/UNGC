@@ -11,15 +11,15 @@ class BackdateCommunicationOnProgressTest < ActiveSupport::TestCase
       @late = @due_date  + 1.month
 
       create_organization_and_user
-      @organization.update_attribute(:cop_due_on, @due_date)
-      @organization.communication_late!
-      @organization.save!
     end
 
     context "with a late communication on progress" do
 
       setup do
         @cop = create_communication_on_progress starts_on: @late, organization: @organization
+        @organization.update_attribute(:cop_due_on, @due_date)
+        @organization.communication_late!
+        @organization.save!
       end
 
       context "when it is backdated" do
@@ -47,24 +47,30 @@ class BackdateCommunicationOnProgressTest < ActiveSupport::TestCase
     context "with 2 late communications" do
 
       setup do
-        @earlier = create_communication_on_progress title: 'earlier', starts_on: @late, ends_on: @late + 1.year - 1.day, organization: @organization
-        @later = create_communication_on_progress title: 'later', starts_on: @late + 1.year, ends_on: @late + 1.year - 1.day, organization: @organization
+        @earlier = create_communication_on_progress title: 'earlier', starts_on: @late, organization: @organization
+        @earlier.update_attribute :created_at, @late
+
+        @even_more_late = @late + 1.year
+        @later = create_communication_on_progress title: 'later', starts_on: @even_more_late, organization: @organization
+        @later.update_attribute :created_at, @even_more_late
+
+        @organization.update_attribute(:cop_due_on, @due_date)
         @organization.communication_late!
+        @organization.save!
       end
 
       context "when the earlier communication is backdated" do
 
         setup do
+          assert BackdateCommunicationOnProgress.backdate(@earlier, @on_time)
         end
 
         should "still be a non communicating organization" do
           assert_equal 'noncommunicating', @organization.cop_state
-          BackdateCommunicationOnProgress.backdate(@earlier, @on_time)
-          assert_equal 'noncommunicating', @organization.cop_state
         end
 
         should "still have the same cop due date" do
-          assert_equal @due_date, @organization.cop_due_on
+          assert_equal @due_date, @organization.cop_due_on.to_date
         end
 
         should "have a published on date set to the back date" do
