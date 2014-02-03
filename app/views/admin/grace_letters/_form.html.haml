@@ -27,4 +27,5 @@
               Current file:
               = link_to @form.cop_file.attachment_file_name, @form.cop_file.attachment.url
 
+    = submit_tag 'Reset', :type => 'reset', class: 'cancel_large'
     = form.submit 'Submit', :class => "button", id: "finish"

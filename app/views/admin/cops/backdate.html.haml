@@ -15,4 +15,5 @@
               = label :published_on, "Published on date"
               = text_field_tag :published_on, @cop.published_on, :class => 'datepicker iso-date', :size => 11
 
-      = submit_tag 'Submit', :class => "button", id: "finish"
+      = submit_tag 'Reset', :type => 'reset', class: 'cancel_large'
+      = submit_tag 'Submit', :class => 'button', id: 'finish'
