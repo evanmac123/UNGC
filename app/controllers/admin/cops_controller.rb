@@ -1,7 +1,7 @@
 class Admin::CopsController < AdminController
   before_filter :load_organization, except: :introduction
   before_filter :no_unapproved_organizations_access
-  before_filter :no_organization_or_local_network_access, only: [:edit, :update]
+  before_filter :no_organization_or_local_network_access, only: [:edit, :update, :backdate, :do_backdate]
   before_filter :ensure_valid_type, only: :new
   helper :datetime
 
@@ -59,6 +59,19 @@ class Admin::CopsController < AdminController
       flash[:error] = @cop.errors.full_messages.to_sentence
     end
     redirect_to admin_organization_url(org_id, tab: :cops)
+  end
+
+  def backdate
+  end
+
+  def do_backdate
+    published_on = Time.new(params[:published_on]).to_date
+    if BackdateCommunicationOnProgress.backdate(@cop, published_on)
+      redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop)
+    else
+      flash[:error] = 'Sorry, we could not update the published_on date.'
+      render :backdate
+    end
   end
 
   private

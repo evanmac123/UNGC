@@ -729,10 +729,10 @@ class Organization < ActiveRecord::Base
 
   # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
-  def set_next_cop_due_date_and_cop_status
+  def set_next_cop_due_date_and_cop_status(date= nil)
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
-    self.update_attribute :cop_due_on, years_until_next_cop_due.year.from_now
+    self.update_attribute :cop_due_on, (date || years_until_next_cop_due.year.from_now)
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
   end

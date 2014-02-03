@@ -444,4 +444,39 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
   end
 
+  context "given an existing COP and a staff user" do
+    setup do
+      @due_date = Date.new(2012, 1, 1)
+      @on_time = @due_date - 1.month
+      @late = @due_date  + 1.month
+
+      create_approved_organization_and_user
+      create_cop_with_options({
+        cop_type: 'basic',
+        created_at: @due_date - 1.year,
+        organization: @organization
+      })
+      @organization.update_attribute(:cop_due_on, @due_date)
+      @organization.communication_late!
+      @organization.save!
+
+      create_staff_user
+      sign_in @staff_user
+    end
+
+    should "be able to edit the published_at date" do
+      get :backdate, :organization_id => @organization.id,
+                     :id              => @cop.id
+      assert_template :backdate
+    end
+
+    should "be able to set a new published_at date" do
+      post :do_backdate, :organization_id => @organization.id,
+                         :id              => @cop.id,
+                         :published_on    => @on_time
+      assert_redirected_to admin_organization_communication_on_progress_path(:organization_id => @organization.id, :id => @cop.id)
+    end
+
+  end
+
 end
