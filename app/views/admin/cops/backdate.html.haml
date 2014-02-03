@@ -1,10 +1,11 @@
-%h2 Backdate Communication On Progress
+%h2= "Backdate #{@cop.title}"
 
 = form_tag do_backdate_admin_organization_communication_on_progress_path(@organization, @cop) do
 
-  %div{:class => "tab_container left_tabs"}
+  %div{:class => 'tab_container left_tabs'}
     %ul.tab_nav
-      %li <a href="#communication_on_progress">Communication On Progress</a>
+      %li
+        %a{:href => '#communication_on_progress'}= @cop.title
     #communication_on_progress.tab_content
       %fieldset
         %fieldset
@@ -12,7 +13,7 @@
             %span Published on Date
           %ol
             %li
-              = label :published_on, "Published on date"
+              = label :published_on, 'Published on date'
               = text_field_tag :published_on, @cop.published_on, :class => 'datepicker iso-date', :size => 11
 
       = submit_tag 'Reset', :type => 'reset', class: 'cancel_large'
