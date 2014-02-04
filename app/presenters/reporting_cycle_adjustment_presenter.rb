@@ -5,7 +5,7 @@ class ReportingCycleAdjustmentPresenter
   attr_reader :cop, :current_contact
 
   delegate :id,
-           :created_at,
+           :published_on,
            :starts_on,
            :ends_on,
            :cop_files,

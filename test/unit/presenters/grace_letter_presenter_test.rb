@@ -8,8 +8,8 @@ class GraceLettersPresenterTest < ActionController::TestCase
     @it = GraceLetterPresenter.new(grace_letter, @organization_user)
   end
 
-  should "have a created_at date" do
-    assert_not_nil @it.created_at
+  should "have a published_on date" do
+    assert_not_nil @it.published_on
   end
 
   should "have a start date" do

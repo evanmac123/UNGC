@@ -26,7 +26,7 @@
 
   #next_steps.tab_content
     - if communication_on_progress.missing_items? || communication_on_progress.questions_missing_answers.any?
-      %p== Please send an updated document or supplementary note covering the missing elements within the next 3 months or by <strong>#{dd_month_yyyy communication_on_progress.created_at + 3.months}</strong> to #{mail_to 'lead@unglobalcompact.org'}.
+      %p== Please send an updated document or supplementary note covering the missing elements within the next 3 months or by <strong>#{dd_month_yyyy communication_on_progress.published_on + 3.months}</strong> to #{mail_to 'lead@unglobalcompact.org'}.
       %dl{:style => 'width: 100%;'}
         %dt.first Missing or<br />incomplete criteria
         %dd.first

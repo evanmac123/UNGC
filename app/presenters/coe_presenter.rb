@@ -13,7 +13,7 @@ class CoePresenter
   attr_reader :coe, :contact
 
   delegate :id,
-           :created_at,
+           :published_on,
            :starts_on,
            :ends_on,
            :include_continued_support_statement?,

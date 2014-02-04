@@ -24,6 +24,6 @@
         %td{:title => cop.organization_name}= truncate(cop.organization_name, :length => 40)
         %td{:title => cop.sector_name}= truncate(cop.sector_name, :length => 30)
         %td{:title => cop.country_name}= truncate(cop.country_name, :length => 15)
-        %td= link_to cop.created_at.year, cop_link(cop, :active)
+        %td= link_to cop.published_on.year, cop_link(cop, :active)
 
 = paginate_cops(:active, {:anchor => 'paged_results'})
