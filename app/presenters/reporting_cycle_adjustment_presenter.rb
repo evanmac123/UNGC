@@ -12,6 +12,9 @@ class ReportingCycleAdjustmentPresenter
            :organization,
            :can_approve?,
            :can_reject?,
+           :is_grace_letter?,
+           :is_reporting_cycle_adjustment?,
+           :organization,
            :title,
            to: :cop
 

@@ -21,6 +21,9 @@ class CoePresenter
            :can_approve?,
            :can_reject?,
            :cop_attributes,
+           :is_grace_letter?,
+           :is_reporting_cycle_adjustment?,
+           :organization,
            to: :coe
 
   def initialize(coe, contact)

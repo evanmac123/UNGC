@@ -45,6 +45,9 @@ class CopPresenter
            :references_human_rights?,
            :references_labour?,
            :starts_on,
+           :is_grace_letter?,
+           :is_reporting_cycle_adjustment?,
+           :organization,
            to: :cop
 
   def initialize(cop, current_contact)
