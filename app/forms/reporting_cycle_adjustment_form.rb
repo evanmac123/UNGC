@@ -2,8 +2,10 @@ class ReportingCycleAdjustmentForm
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
+  include Rails.application.routes.url_helpers
 
   attr_reader :organization, :cop_file, :reporting_cycle_adjustment, :ends_on
+  attr_accessor :edit
 
   delegate :attachment,
            :attachment_type,
@@ -55,6 +57,14 @@ class ReportingCycleAdjustmentForm
     cop_file.attachment = params[:attachment] if params.has_key?(:attachment)
     @ends_on = reporting_cycle_adjustment.ends_on
     valid? && cop_file.save
+  end
+
+  def return_url
+    if edit
+      admin_organization_reporting_cycle_adjustment_path(organization.id, reporting_cycle_adjustment.id)
+    else
+      cop_introduction_path
+    end
   end
 
   private

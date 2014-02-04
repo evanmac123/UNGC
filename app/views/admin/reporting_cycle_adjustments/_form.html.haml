@@ -32,4 +32,5 @@
 
 
     = form.hidden_field :title, value: 'Reporting Cycle Adjustment'
+    = link_to 'Cancel', @form.return_url, class: 'cancel_large'
     = submit_tag 'Submit', :class => "button", id: "finish"

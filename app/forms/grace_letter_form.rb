@@ -2,8 +2,10 @@ class GraceLetterForm
   extend ActiveModel::Naming
   include ActiveModel::Conversion
   include ActiveModel::Validations
+  include Rails.application.routes.url_helpers
 
   attr_reader :organization, :cop_file, :grace_letter
+  attr_accessor :edit
 
   delegate  :attachment,
             :attachment_type,
@@ -60,6 +62,14 @@ class GraceLetterForm
     cop_file.language_id = params[:language_id]
     cop_file.attachment = params[:attachment] if params.has_key?(:attachment)
     valid? && cop_file.save
+  end
+
+  def return_url
+    if edit
+      admin_organization_grace_letter_path(organization.id, grace_letter.id)
+    else
+      cop_introduction_path
+    end
   end
 
   def persisted?

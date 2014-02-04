@@ -28,6 +28,7 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
   def edit
     if @adjustment.editable? #always true ATM
       @form = ReportingCycleAdjustmentForm.new(@organization, @adjustment)
+      @form.edit = true
     else
       flash[:notice] = "You cannot edit this reporting cycle adjustment"
       redirect_to admin_organization_url(@organization.id, tab: :cops)

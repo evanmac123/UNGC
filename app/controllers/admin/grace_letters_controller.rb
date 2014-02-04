@@ -19,6 +19,7 @@ class Admin::GraceLettersController < AdminController
   def edit
     if @letter.editable?
       @form = GraceLetterForm.new(@organization, @letter)
+      @form.edit = true
     else
       flash[:notice] = "You cannot edit this grace letter"
       redirect_to admin_organization_url(@organization.id, tab: :cops)

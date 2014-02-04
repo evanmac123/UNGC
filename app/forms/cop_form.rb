@@ -1,6 +1,7 @@
 class CopForm
   extend ActiveModel::Naming
   include ActiveModel::Conversion
+  include Rails.application.routes.url_helpers
 
   METHODS = {
     :gc_website   => "a) Through the UN Global Compact website only",
@@ -21,6 +22,7 @@ class CopForm
     cop_form_class = forms_for_type(type)
     form = cop_form_class.new(cop, type, contact_name)
     form.submitted = true
+    form.edit = true
     form
   end
 
@@ -51,7 +53,7 @@ class CopForm
   end
 
   attr_reader :cop
-  attr_accessor :submitted
+  attr_accessor :submitted, :edit
 
   delegate  :id,
             :title,
@@ -180,6 +182,14 @@ class CopForm
 
   def persisted?
     false
+  end
+
+  def return_url
+    if edit
+      admin_organization_communication_on_progress_path(cop.organization.id, cop.id)
+    else
+      cop_introduction_path
+    end
   end
 
   alias_method :submitted?, :submitted
