@@ -1,3 +1,13 @@
+h1. 2014-02-14
+
+* Added a new report for initiatives
+* One of the requested columns was the latest contribution year
+* See entry from 2013-09-12 for a description of the current solution for tracking contribution years
+* The method Organization#latest_contribution_year loops through each possible contribution year
+* It then returns that last year the organization contributed
+* However, if no contribution was made, an array of the possible contribution years is returned
+* The solution is inelegant, but returns the correct result
+
 h1. 2014-01-01
 
 * There was a problem with duplicate COP reminders being sent to SMEs

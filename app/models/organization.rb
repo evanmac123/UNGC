@@ -703,7 +703,23 @@ class Organization < ActiveRecord::Base
   def initial_contribution_year
     joined_on.year > 2006 ? joined_on.year : 2006
   end
-
+  
+  # TODO update when Contribution model is created
+  def latest_contribution_year
+    if participant?
+      years = (initial_contribution_year..Time.now.year).to_a.reverse
+      match = nil
+      years.each do |year|
+        if contributor_for_year?(year)
+          # FIXME if there were no matches, then an array of years was being returned
+          match = year
+          break
+        end
+      end
+      match
+    end
+  end
+  
   def participant_for_less_than_years(years)
     joined_on.to_time.years_since(years) >= Time.now
   end

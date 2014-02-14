@@ -29,7 +29,13 @@ class InitiativeOrganizations < SimpleReport
       'Employees',
       'FT500',
       'Sector',
-      'Country'
+      'Country',
+      'Region',
+      'Revenue',
+      'Last Contribution Year',
+      'COP Status',
+      'COP Differentiation'
+      
     ]
   end
 
@@ -45,7 +51,12 @@ class InitiativeOrganizations < SimpleReport
     record.organization.employees,
     record.organization.is_ft_500 ? 1:0,
     record.organization.sector_name,
-    record.organization.country_name
+    record.organization.country_name,
+    record.organization.region_name,
+    record.organization.revenue_description,
+    record.organization.latest_contribution_year,
+    record.organization.cop_state.titleize,
+    record.organization.status_name
   ]
   end
 
