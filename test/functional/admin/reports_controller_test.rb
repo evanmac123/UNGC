@@ -109,6 +109,25 @@ class Admin::ReportsControllerTest < ActionController::TestCase
       assert_response :success
       assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
     end
+    
+    context "given the initiatives report" do
+      setup do
+        @organization       = create_organization
+        @organization2      = create_organization
+        @climate_initiative = create_initiative(:name => 'Caring for Climate')
+        @water_initiative   = create_initiative(:name => 'CEO Water Mandate')
+        @peace_initiative   = create_initiative(:name => 'Business for Peace')
+        @climate_initiative.signings.create [ { :signatory => @organization },
+                                             { :signatory => @organization2 } ]
+      end
+      
+      should "task" do
+        get :initiative_organizations, { :initiatives => [@climate_initiative.id] }
+        assert_not_nil assigns(:report)
+        assert_not_nil assigns(:selected_initiatives)
+      end
+      
+    end
 
   end
 end
