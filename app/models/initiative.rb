@@ -34,4 +34,6 @@ class Initiative < ActiveRecord::Base
     end
   end
 
+  scope :contributor_for_year, lambda { |year| where("initiatives.name = ?", "#{year} Foundation Contributors") }
+  scope :for_select, where("initiatives.name NOT LIKE '%Foundation Contributors'")
 end
