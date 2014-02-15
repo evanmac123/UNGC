@@ -849,37 +849,11 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  def status_name
-
-    # Non-businesses are not assigned these labels
-    unless company?
-      return cop_state.humanize
-    end
-
-    # New company that has not submitted a COP within their first year, or within two years is they joined after July 2009
-    if  (participant_for_less_than_years(1) && communication_on_progresses.count == 0) ||
-        (!joined_after_july_2009? && participant_for_less_than_years(2) && communication_on_progresses.count == 0)
-      return 'New'
-    end
-
-    # Company has submitted a COP
+  def differentiation_level
     if communication_on_progresses.approved.count > 0
-
-      case last_approved_cop.differentiation
-        when 'blueprint'
-          'Global Compact Advanced'
-        when 'advanced'
-          'Global Compact Advanced'
-        when 'active'
-          'Global Compact Active'
-        when 'learner'
-          'Global Compact Learner'
-        else
-          'not available'
+      if last_approved_cop.evaluated_for_differentiation?
+        'GC ' + last_approved_cop.differentiation_level_public.titleize
       end
-
-    else
-      'A Communication on Progress has not been submitted'
     end
   end
 

@@ -56,7 +56,7 @@ class InitiativeOrganizations < SimpleReport
     record.organization.revenue_description,
     record.organization.latest_contribution_year,
     record.organization.cop_state.titleize,
-    record.organization.status_name
+    record.organization.differentiation_level
   ]
   end
 
