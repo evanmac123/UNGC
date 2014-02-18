@@ -210,10 +210,10 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_new_format? && self.attributes['format'] == 'basic'
   end
 
-  # XXX remove this method
-  # editing is always enabled now
+  # XXX move this to policy object
+  # cops are always editable unless they have the legacy_format
   def editable?
-    true
+    is_new_format?
   end
 
   def set_approved_fields

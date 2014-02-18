@@ -44,6 +44,13 @@ class Admin::CopsController < AdminController
 
   def update
     @communication_on_progress = create_edit_cop_form(@cop)
+
+    # XXX the check for editable should be done in a policy object and probably in the before filter
+    unless @cop.editable?
+      redirect_to admin_organization_url(@cop.organization, tab: :cops)
+      return
+    end
+
     if @communication_on_progress.update(cop_params)
       redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop)
     else

@@ -214,6 +214,21 @@ class Admin::CopsControllerTest < ActionController::TestCase
                    :communication_on_progress => {}
       assert_response :redirect
     end
+
+    should "not be able to edit a cop that uses the legacy format" do
+      create_cop_with_options :created_at => Date.parse('31-12-2008')
+      get :edit, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_redirected_to admin_organization_url(@organization, tab: :cops), "cops with legacy format are not editable"
+    end
+
+    should "not be able to update a cop that uses the legacy format" do
+      create_cop_with_options :created_at => Date.parse('31-12-2008')
+      put :update, :organization_id => @organization.id,
+                   :id              => @cop.id,
+                   :communication_on_progress => {}
+      assert_redirected_to admin_organization_url(@organization, tab: :cops), "cops with legacy format are not editable"
+    end
   end
 
   context "show action" do
