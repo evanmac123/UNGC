@@ -464,19 +464,25 @@ class Admin::CopsControllerTest < ActionController::TestCase
       sign_in @staff_user
     end
 
-    should "be able to edit the published_at date" do
+    should "be able to edit the published_on date" do
       get :backdate, :organization_id => @organization.id,
                      :id              => @cop.id
       assert_template :backdate
     end
 
-    should "be able to set a new published_at date" do
+    should "be able to set a new published_on date" do
       post :do_backdate, :organization_id => @organization.id,
                          :id              => @cop.id,
                          :published_on    => @on_time
       assert_redirected_to admin_organization_communication_on_progress_path(:organization_id => @organization.id, :id => @cop.id)
     end
 
+    should "be able to parse and set correctly a new published_on date" do
+      post :do_backdate, :organization_id => @organization.id,
+                         :id              => @cop.id,
+                         :published_on    => @on_time
+      assert_equal @cop.reload.published_on, @on_time
+    end
   end
 
 end

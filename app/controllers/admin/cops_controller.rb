@@ -65,7 +65,7 @@ class Admin::CopsController < AdminController
   end
 
   def do_backdate
-    published_on = Time.new(params[:published_on]).to_date
+    published_on = Time.parse(params[:published_on]).to_date
     if BackdateCommunicationOnProgress.backdate(@cop, published_on)
       redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop)
     else
