@@ -6,7 +6,7 @@
     %dt Participant
     %dd
       %ul
-        %li= link_to @communication.organization_name, participant_link(@communication.id, params[:navigation])
+        %li= link_to @communication.organization_name, participant_link(@communication.organization.id, params[:navigation])
     = render :partial => @communication.show_partial, :locals => {:results_partial => @communication.results_partial, :communication_on_progress => @communication }
 
   .note
