@@ -82,6 +82,10 @@ class CoePresenter
     coe.organization.cop_name
   end
 
+  def organization_name
+    coe.organization.name
+  end
+
   def acronym
     coe.organization.cop_acronym
   end
