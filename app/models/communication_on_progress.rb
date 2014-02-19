@@ -456,7 +456,6 @@ class CommunicationOnProgress < ActiveRecord::Base
         when 'lead'
           self.additional_questions = true
       end
-      self.published_on ||= Time.now.to_date
     end
 
     def can_be_edited?
@@ -472,7 +471,9 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     # set approved state for all COPs
     def set_approved_state
-      update_attribute(:state, "approved")
+      self.published_on ||= Time.now.to_date
+      self.state = "approved"
+      self.save
       set_approved_fields
     end
 
