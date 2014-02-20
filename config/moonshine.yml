@@ -91,6 +91,7 @@
 # - vendor/plugins/moonshine/lib/moonshine/manifest/rails/templates/moonshine.cnf.erb
 :mysql:
   :innodb_buffer_pool_size: 128M
+  :max_connections: 100
 
 :sphinx:
   :version: 2.0.8
