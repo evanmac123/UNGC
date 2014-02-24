@@ -13,6 +13,7 @@ class CoePresenter
   attr_reader :coe, :contact
 
   delegate :id,
+           :title,
            :published_on,
            :starts_on,
            :ends_on,
@@ -76,11 +77,6 @@ class CoePresenter
   end
 
   # view concerns
-
-  def title
-    # we could also use coe.title as it is set by the controller to be org.cop_name
-    coe.organization.cop_name
-  end
 
   def organization_name
     coe.organization.name

@@ -24,6 +24,7 @@ class CopPresenter
            :evaluated_for_differentiation?,
            :format,
            :id,
+           :title,
            :include_continued_support_statement?,
            :include_measurement?,
            :is_advanced_lead?,
@@ -53,10 +54,6 @@ class CopPresenter
   def initialize(cop, current_contact)
     @cop = cop
     @current_contact = current_contact
-  end
-
-  def title
-    cop.organization.cop_name
   end
 
   def acronym
