@@ -436,6 +436,12 @@ class CommunicationOnProgress < ActiveRecord::Base
     error_messages
   end
 
+  def uploaded_attachments=(attribute_array)
+    attribute_array.each do |attrs|
+      self.cop_files.build(attrs.merge(attachment_type: CopFile::TYPES[:cop]))
+    end
+  end
+
   private
 
     # javascript will normally hide the link field if it's blank,

@@ -8,10 +8,6 @@ class Admin::AttachmentsController < AdminController
     render '/admin/attachments/index', :layout => 'admin'
   end
 
-  def new
-    render '/admin/attachments/new', :layout => 'admin'
-  end
-
   def create
     if params[:uploaded_attachments].is_a?(Array)
       @submodel.uploaded_attachments = params[:uploaded_attachments]
@@ -24,7 +20,7 @@ class Admin::AttachmentsController < AdminController
   end
 
   def destroy
-    attachment = @submodel.attachments.find(params[:id])
+    attachment = attachments.find(params[:id])
     attachment.destroy
     redirect_to(attachments_path)
   end

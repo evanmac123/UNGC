@@ -84,6 +84,7 @@ class CopForm
             :cop_answers,
             :errors,
             :readable_error_messages,
+            :new_record?,
             to: :cop
 
   def initialize(cop, type, contact_name)
