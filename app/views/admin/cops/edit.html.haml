@@ -1,5 +1,3 @@
 %h2= "Edit #{@communication_on_progress.title}"
 
-= form_for(:communication_on_progress, url: @communication_on_progress.return_url, html: { multipart: true, id: 'cop_form', method: :put }) do |form|
-  = render partial: @communication_on_progress.partial, locals: { form: form }
-  = form.hidden_field :cop_type
+=render partial: "edit_#{current_contact.user_type}"

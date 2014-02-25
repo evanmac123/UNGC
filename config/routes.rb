@@ -101,6 +101,7 @@ UNGC::Application.routes.draw do
 
       resources :case_stories
       resources :communication_on_progresses, :controller => 'cops' do
+        resources :files, :controller => 'cop_files', only: [:index, :new, :create, :destroy]
         member do
           get  :backdate
           post :do_backdate

@@ -11,5 +11,5 @@
     %th Uploaded
     %th Actions
   - attachments.each do |a|
-    = render :partial => '/admin/attachments/attachment', :object => a
+    = render partial: 'attachment', :object => a
 
