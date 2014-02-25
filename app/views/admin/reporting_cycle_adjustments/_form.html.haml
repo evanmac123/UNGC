@@ -7,7 +7,7 @@
     %fieldset
       %fieldset
         %legend
-          %span Reporting Period
+          %span Select your new reporting deadline
         %ol
           %li
             = form.label :starts_on, "Starts on date (disabled)"
@@ -32,5 +32,7 @@
 
 
     = form.hidden_field :title, value: 'Reporting Cycle Adjustment'
-    = link_to 'Cancel', @form.return_url, class: 'cancel_large'
-    = submit_tag 'Submit', :class => "button", id: "finish"
+
+    %ul.tools.inline{:style => 'float: right;'}
+      %li= link_to 'Cancel', @form.return_url, class: 'cancel_large'
+      %li= submit_tag 'Submit', :class => "button", id: "finish"
