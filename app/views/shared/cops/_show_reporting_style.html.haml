@@ -1,8 +1,8 @@
 = render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
-%dt Reporting Cycle Adjustment
+%dt Adjustment
 %dd
   %ul
-    %li== COP due date was extended until #{yyyy_mm_dd communication_on_progress.ends_on}
+    %li== Reporting deadline was changed to #{yyyy_mm_dd communication_on_progress.ends_on}
 - if communication_on_progress.has_file?
   %dt File
   %dd

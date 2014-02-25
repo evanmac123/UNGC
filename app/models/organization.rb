@@ -841,7 +841,7 @@ class Organization < ActiveRecord::Base
         when 'learner'
           'Global Compact Learner'
         else
-          'not available'
+          'Not applicable for latest communication'
       end
 
     else
