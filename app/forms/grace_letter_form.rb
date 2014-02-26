@@ -46,7 +46,7 @@ class GraceLetterForm
   end
 
   def has_file?
-    grace_letter.cop_files.any?
+    cop_file.attachment?
   end
 
   def submit(params)

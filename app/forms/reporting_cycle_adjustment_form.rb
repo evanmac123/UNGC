@@ -31,7 +31,7 @@ class ReportingCycleAdjustmentForm
   end
 
   def has_file?
-    reporting_cycle_adjustment.cop_files.any?
+    cop_file.attachment?
   end
 
   def new_record?
