@@ -1,5 +1,6 @@
-= error_messages_for @form, { header_message: false }
-
+-if @form.errors.any?
+  %div{:class => 'flash error'}
+    = error_messages_for @form, { header_message: false }
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a href="#reporting_cycle_adjustments">Reporting Cycle Adjustment</a>
