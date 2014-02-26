@@ -10,11 +10,8 @@
           %span Select your new reporting deadline
         %ol
           %li
-            = form.label :starts_on, "Starts on date (disabled)"
-            = form.text_field :starts_on, :class => 'datepicker iso-date', :size => 11, disabled: true
-          %li
             = form.label :ends_on, "Ends on date"
-            = form.text_field :ends_on, :class => 'datepicker iso-date', :size => 11, disabled: !@form.new_record?
+            = form.date_select :ends_on, {order: [:month, :year, :day], start_year: 2000, end_year: current_year + 1, default: {year: @form.default_ends_on.year, month: @form.default_ends_on.month, day: @form.default_ends_on.day }}
 
       %fieldset
         %legend
