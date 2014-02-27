@@ -117,7 +117,10 @@ class CopForm
     clear_answer_text_from_unselected_answers
     valid? && cop.save
   end
-  alias_method :update, :submit
+
+  def update(params)
+    submit(params) && cop.set_differentiation_level
+  end
 
   def valid?
     cop.valid? && cop_file.valid?

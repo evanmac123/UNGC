@@ -442,6 +442,11 @@ class CommunicationOnProgress < ActiveRecord::Base
     end
   end
 
+  # record level in case the criteria changes in the future
+  def set_differentiation_level
+    update_attribute :differentiation, differentiation_level.to_s
+  end
+
   private
 
     # javascript will normally hide the link field if it's blank,
@@ -468,11 +473,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       unless editable?
         errors.add :base, ("You can no longer edit this COP. Please, submit a new one.")
       end
-    end
-
-    # record level in case the criteria changes in the future
-    def set_differentiation_level
-      update_attribute :differentiation, differentiation_level.to_s
     end
 
     # set approved state for all COPs
