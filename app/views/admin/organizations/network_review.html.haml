@@ -8,7 +8,7 @@
       %tr
         %th= sort_header 'ID', field: 'id'
         %th= sort_header 'Name', field: 'name', direction: 'ASC'
-        %th= sort_header 'Review<br />Reason', field: 'review_reason', direction: 'DESC'
+        %th= sort_header 'Review<br />Reason'.html_safe, field: 'review_reason', direction: 'DESC'
         %th= sort_header 'Submitted on', field: 'created_at'
         %th= sort_header 'Review time', field: 'network_review_on', direction: 'DESC'
         %th Updated by

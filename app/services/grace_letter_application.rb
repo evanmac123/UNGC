@@ -52,13 +52,24 @@ class GraceLetterApplication
     end
 
     def save(grace_letter)
-      grace_letter.starts_on = organization.cop_due_on
-      grace_letter.ends_on = extended_due_date
-      grace_letter.save!
+      grace_letter.assign_attributes({
+        starts_on: organization.cop_due_on,
+        ends_on: extended_due_date
+      })
+      grace_letter.save
     end
 
     def update_due_date
-      organization.update_attributes!(cop_due_on: extended_due_date, active: true)
+      organization.assign_attributes({
+        cop_due_on: extended_due_date,
+        active: true
+      })
+
+      if organization.sme_in_moratorium?
+        organization.inactive_on += GRACE_DAYS.days
+      end
+
+      organization.save
     end
 
 end

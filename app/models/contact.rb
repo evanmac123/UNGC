@@ -62,7 +62,7 @@ class Contact < ActiveRecord::Base
   validates_confirmation_of :password, :if => :password_required?
   validates_length_of       :password, :within => Devise.password_length, :if => :password_required?
   validates_format_of       :email,
-                              :with => /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
+                              :with => /^[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}$/,
                               :message => "is not a valid email address"
 
   belongs_to :country

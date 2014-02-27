@@ -102,6 +102,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   START_DATE_OF_LEAD_BLUEPRINT   = Date.new(2012, 01, 01)
   START_DATE_OF_ADVANCED_LEAD    = Date.new(2013, 03, 01)
   START_DATE_OF_NON_BUSINESS_COE = Date.new(2013, 10, 31)
+  START_DATE_OF_SME_MORATORIUM   = Date.new(2012, 12, 21)
 
   def self.find_by_param(param)
     return nil if param.blank?
@@ -423,6 +424,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     error_messages = []
     errors.each do |attribute|
       case attribute.to_s
+        when 'cop_files.attachment'
+          error_messages << 'Choose a file to upload'
         when 'cop_files.attachment_file_name'
           error_messages << 'Choose a file to upload'
         when 'cop_files.language'
@@ -431,7 +434,7 @@ class CommunicationOnProgress < ActiveRecord::Base
           error_messages << 'Please make sure your link begins with \'http://\''
         when 'cop_links.language'
           error_messages << 'Select a language for each link'
-       end
+      end
     end
     error_messages
   end

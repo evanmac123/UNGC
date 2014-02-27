@@ -1,0 +1,22 @@
+%h2 Initiative Organizations
+
+%ul.tools.inline
+  - if @selected_initiatives.any?
+    %li= link_to "Download Excel with #{pluralize(@report.organization_count, 'organization')} in #{pluralize(@report.initiative_count, 'initiative')}", url_for(params.merge(:format => 'xls')), :class => 'download_large'
+  - else
+    %li= link_to "Download Excel with all initiatives", url_for(:all_initiatives => true, :format => 'xls'), :class => 'download_large'
+
+%p
+  = form_for admin_report_path(:action => :initiative_organizations), :html => {:method => :get} do |form|
+    %fieldset
+      %legend Initiatives and activities
+      - Initiative.for_select.in_groups_of(Initiative.for_select.count / 3, false) do |inititiative_group|
+        %ol.checkbox_list.column
+          - for initiative in inititiative_group
+            %li
+              = check_box_tag "initiatives[]", initiative.id, @selected_initiatives.include?(initiative.id.to_s), { id: "initiatives_#{initiative.id}", class: "label_right" }
+              = label_tag "initiatives_#{initiative.id}", initiative.name, class: 'checkbox_label normal'
+
+    %ul.tools.inline
+      %li= form.submit "Create Excel with selections", class: 'new_large', style: 'margin-right: 25px;'
+      %li= link_to 'Clear selections', admin_report_path(:action => :initiative_organizations), :class => 'cancel_large'

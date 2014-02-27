@@ -91,6 +91,7 @@
 # - vendor/plugins/moonshine/lib/moonshine/manifest/rails/templates/moonshine.cnf.erb
 :mysql:
   :innodb_buffer_pool_size: 128M
+  :max_connections: 100
 
 :sphinx:
   :version: 2.0.8
@@ -129,3 +130,6 @@
     ronnie:
       :type: ssh-rsa
       :key: AAAAB3NzaC1yc2EAAAADAQABAAABAQC4wcdbKZV3KOfO7pGPrmYIXTI+gnoSQWR0mcoX7qjZdXqsIiHvhO2JwpfHbDAiLFkiFcfnrxfmqnmokZz+gp2eHWv7KN0eJbjZT1gBID4oz6LwaDhbpluhQ10q+TJPMBFp1rUPDW+tkMEdzpaIYF/c7NQYpVo3LlB3Kf6Rrp9TAlW4FD4jhG0zp9UfobA4AmZ51prkLDqlvnV44IbvQO/f3cGkhkwuIfwZmf0TfdvXUq/SFxT7gjU5MaaUOswNGrXNTVZzF5GMrYtpOeEZttUuN2uKf0f4CZIO4N3zvW3sBzdPwV7JMb0Uu14pDk+jQpNjnD4BJEUNf6b3jBoHQPyp
+    bmoss:
+      :type: ssh-rsa
+      :key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDQZQ6q3/w/sVYWov8KdF1DUTgLKPF17ghbX0/G6wsZg4kP2cIk6WjDf2FoogsZymt5iWnxPzrzrh+oRseqhoSqm+jOPkvZRn6xEQo/KHvgVD2oRzBAluoCGRvJ6y4+6DNNdN4CfBJgKC/UyiHz1NQWD+0tl6cACiXTiBz++Pysl0TMGDNFyFCCJ17MeeI1HGjuQVZUwA95wZknUkaBacq9U7BemAdgivuHNvea+OwTOVZgtu3O5rwMrOlfO/nKhhbYEanj/4w28UKGoYbMPPu5kot5taAckEuWKnDdKYNqNIOdtc/BywJ+BRy7iBVWipSDDkYceAU0KdSE6/kkNyDv

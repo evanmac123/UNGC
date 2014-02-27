@@ -1,3 +1,19 @@
+h1. 2014-02-14
+
+* Added a new report for initiatives
+* One of the requested columns was the latest contribution year
+* See entry from 2013-09-12 for a description of the current solution for tracking contribution years
+* The method Organization#latest_contribution_year loops through each possible contribution year
+* It then returns that last year the organization contributed
+* However, if no contribution was made, an array of the possible contribution years is returned
+* The solution is inelegant, but returns the correct result
+
+h1. 2014-02-02
+
+* It was decided that if an SME under moratorium submits a Grace Letter, then they should have their moratorium period extended as well
+* Organization#extend_cop_grace_period will check if the Grace Letter is from an SME under moratorium and extend the inactive_on date as well
+* See entries from 2013-12-11 and 2012-12-21
+
 h1. 2014-01-02
 
 * The new funding model requires companies submitting a Logo Request to make a contribution within the last year
@@ -639,7 +655,6 @@ h1. 2011-07-17
 
 * there are now a number of partials for displaying COPs depending on the view: Dashboard, public, feed
 * the different partials populate the content for the dt and dd
-* TODO the correct partial is determined in the two COP controllers, but this should be moved to the model in the case of further changes or customization for viewing COP results
 * views/shared/cops:
 
 *_cop_info_header* - title, publish date, period covered

@@ -708,6 +708,22 @@ class Organization < ActiveRecord::Base
     joined_on.year > 2006 ? joined_on.year : 2006
   end
 
+  # TODO update when Contribution model is created
+  def latest_contribution_year
+    if participant?
+      years = (initial_contribution_year..Time.now.year).to_a.reverse
+      match = nil
+      years.each do |year|
+        if contributor_for_year?(year)
+          # FIXME if there were no matches, then an array of years was being returned
+          match = year
+          break
+        end
+      end
+      match
+    end
+  end
+
   def participant_for_less_than_years(years)
     joined_on.to_time.years_since(years) >= Time.now
   end
@@ -720,11 +736,12 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
   end
 
-  # a 1 year extension is given to SMEs when they are about to be delisted
-  # we then delist them 1 year after the inactive_on date
+  # A 1 year extension is given to SMEs when they are about to be delisted
+  # Record the date on which the extennsion begins so we can
+  # then delist them 1 year after the inactive_on date
   def extend_sme_cop_due_on_and_set_inactive_on
     self.update_attribute(:cop_due_on, cop_due_on + 1.year)
-    self.update_attribute(:inactive_on, Date.today)
+    self.update_attribute(:inactive_on, cop_due_on)
   end
 
   # COP's next due date is 1 year from current date, 2 years for non-business
@@ -815,37 +832,11 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  def status_name
-
-    # Non-businesses are not assigned these labels
-    unless company?
-      return cop_state.humanize
-    end
-
-    # New company that has not submitted a COP within their first year, or within two years is they joined after July 2009
-    if  (participant_for_less_than_years(1) && communication_on_progresses.count == 0) ||
-        (!joined_after_july_2009? && participant_for_less_than_years(2) && communication_on_progresses.count == 0)
-      return 'New'
-    end
-
-    # Company has submitted a COP
+  def differentiation_level
     if communication_on_progresses.approved.count > 0
-
-      case last_approved_cop.differentiation
-        when 'blueprint'
-          'Global Compact Advanced'
-        when 'advanced'
-          'Global Compact Advanced'
-        when 'active'
-          'Global Compact Active'
-        when 'learner'
-          'Global Compact Learner'
-        else
-          'Not applicable for latest communication'
+      if last_approved_cop.evaluated_for_differentiation?
+        'GC ' + last_approved_cop.differentiation_level_public.titleize
       end
-
-    else
-      'A Communication on Progress has not been submitted'
     end
   end
 
@@ -930,6 +921,10 @@ class Organization < ActiveRecord::Base
 
   def error_message
     errors.full_messages.to_sentence
+  end
+
+  def sme_in_moratorium?
+    inactive_on.present? && inactive_on >= CommunicationOnProgress::START_DATE_OF_SME_MORATORIUM
   end
 
   private

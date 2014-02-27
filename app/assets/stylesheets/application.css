@@ -157,12 +157,16 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box1 div.readmore div { padding: 7px 0 0 0; }
 #box1 div.readmore div, #box1 div.readmore div a { color: #fff; }
 #box1 div.readmore div a:hover { text-decoration: underline; }
+
+/* Use for banners */
+/*
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8;}
 #box2:hover { border: 1px solid #999;}
 #box2 { background-image: url(/pics/un_images/banners/leaders_summit_2013.png); background-position: 0px 0px; }
 #box2_content { position: relative; }
 #box2_content a { width: 100%; height: 164px; display: block; }
-/*
+*/
+
 #box2 { width: 295px; height: 164px; position: absolute; top: 15px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8;}
 #box2_content { position: relative; }
 #box2 h1 { position: absolute; top: 20px; left: 25px; color: #00546E; }
@@ -176,7 +180,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #box2 div.more a { width: 100%; height: 100%; display: block; color: #000; }
 #box2 div.more a:hover { text-decoration: underline; }
 #box2 div.more div { padding: 6px 0 0 11px;}
-*/
+
 #news { position: absolute; top: 192px; left: 40px; width: 611px; height: 316px; background-color: #fff; border: 1px solid #c8c8c8; }
 #news_content { position: relative; }
 #news h1 { font-size: 18px; position: absolute; top: 20px; left: 25px; color: #00546E; }

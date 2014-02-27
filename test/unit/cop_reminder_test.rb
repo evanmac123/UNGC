@@ -9,7 +9,7 @@ class CopReminderTest < ActiveSupport::TestCase
       @non_business_organization_type = create_organization_type(:name => 'Academic', :type_property => OrganizationType::NON_BUSINESS)
 
       # adding organizations with COP due today, in 30 days and in 90 days, and one day ago
-      create_organization(:cop_due_on           => Date.today,
+      create_organization(:cop_due_on           => Date.today + 1.day,
                           :participant          => true,
                           :cop_state            => Organization::COP_STATE_ACTIVE,
                           :organization_type_id => @sme_organization_type.id)
