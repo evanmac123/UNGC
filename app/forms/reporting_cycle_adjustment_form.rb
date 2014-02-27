@@ -82,7 +82,10 @@ class ReportingCycleAdjustmentForm
     end
 
     def parse_ends_on(params)
-      Date.civil(params["ends_on(1i)"].to_i, params["ends_on(2i)"].to_i, params["ends_on(3i)"].to_i)
+      # unpack rails date ends_on(1i), ends_on(2i), ends_on(3i)...
+      keys = 3.times.map {|i| "ends_on(#{i+1}i)"}
+      year, month, day = params.slice(*keys).values.map(&:to_i)
+      Date.civil(year, month, day) if [year, month, day].all? &:present?
     end
 end
 

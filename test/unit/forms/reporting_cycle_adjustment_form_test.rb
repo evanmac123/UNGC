@@ -2,6 +2,14 @@ require 'test_helper'
 
 class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
 
+  def to_date_params(date)
+    {
+      "ends_on(1i)" => date.year,
+      "ends_on(2i)" => date.month,
+      "ends_on(3i)" => date.day,
+    }
+  end
+
   context "given an existing organization and a user" do
     setup do
       create_organization_and_user
@@ -11,7 +19,7 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
     context "when a reporting cycle adjustment is submitted" do
       setup do
         @form = ReportingCycleAdjustmentForm.new(@organization)
-        @params = cop_file_attributes.merge(ends_on: Date.today + 1.month)
+        @params = cop_file_attributes.merge(to_date_params(Date.today + 1.month))
       end
 
       should "save" do
@@ -50,12 +58,11 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
     end
 
     context "when a reporting_cycle_adjustment is updated" do
+
       setup do
         @ends_on = Date.today + 2.months
         @form = ReportingCycleAdjustmentForm.new(@organization)
-        @form.submit(cop_file_attributes.merge({
-          ends_on: @ends_on
-        }))
+        @form.submit(cop_file_attributes.merge(to_date_params(@ends_on)))
       end
 
 
@@ -91,14 +98,12 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
     context "validations" do
       setup do
         @form = ReportingCycleAdjustmentForm.new(@organization)
-        @params = cop_file_attributes.merge(ends_on: Date.today + 1.month)
+        @params = cop_file_attributes.merge(to_date_params(Date.today + 1.month))
       end
 
       should "be invalid without a cop file" do
-        refute @form.submit({
-          language_id: Language.first.id,
-          ends_on: Date.today + 1.month
-        })
+        params = {language_id: Language.first.id}.merge(to_date_params(Date.today + 1.month))
+        refute @form.submit(params)
       end
 
       should "be invalid without an ends on date" do
@@ -106,11 +111,11 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       end
 
       should "be invalid with end date over 11 months from the original due date" do
-        refute @form.submit(cop_file_attributes.merge(ends_on: Date.today + 12.month))
+        refute @form.submit(cop_file_attributes.merge(to_date_params(Date.today + 12.month)))
       end
 
       should "be invalid with and end date before today" do
-        refute @form.submit(cop_file_attributes.merge(ends_on: Date.today - 1.month))
+        refute @form.submit(cop_file_attributes.merge(to_date_params(Date.today - 1.month)))
       end
     end
 

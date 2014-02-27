@@ -2,12 +2,19 @@ require 'test_helper'
 
 class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCase
 
+  def to_date_params(date)
+    {
+      "ends_on(1i)" => date.year,
+      "ends_on(2i)" => date.month,
+      "ends_on(3i)" => date.day,
+    }
+  end
+
   def reporting_cycle_adjustment_attributes
     {
       language_id: Language.first,
-      ends_on: Date.today + 10.months,
       attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')
-    }
+    }.merge(to_date_params(Date.today + 10.months))
   end
 
   setup do
@@ -37,7 +44,6 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
       should "create a new reporting cycle adjustment" do
         post :create, organization_id: @organization.id, reporting_cycle_adjustment: @attrs
         form = assigns(:form)
-
 
         assert form.valid?, "expected reporting cycle adjustment to be valid."
         assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, form.reporting_cycle_adjustment)
