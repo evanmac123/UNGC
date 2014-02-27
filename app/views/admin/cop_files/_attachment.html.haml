@@ -1,5 +1,6 @@
 %tr
   %td= link_to_attached_file(attachment)
+  %td= attachment.language.name
   %td= number_to_human_size(attachment.attachment_file_size)
   %td= dd_month_yyyy attachment.updated_at
   %td
