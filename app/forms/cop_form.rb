@@ -172,6 +172,18 @@ class CopForm
     @link_url || ''
   end
 
+  def has_links?
+    cop.cop_links.any?
+  end
+
+  def links
+    cop.cop_links
+  end
+
+  def languages
+    Language.scoped
+  end
+
   def contact_name
     cop.contact_name || @contact_name
   end
@@ -202,8 +214,9 @@ class CopForm
 
     def remember_link_params(params)
       # remember the language and url the user selected in case of an new, but invalid submission
-      if params.has_key?(:cop_links_attributes)
-        new_cop = params[:cop_links_attributes][:new_cop]
+      link_attrs = params[:cop_links_attributes]
+      if link_attrs.is_a?(Hash)
+        new_cop = link_attrs[:new_cop]
         if new_cop
           @link_language = new_cop[:language_id]
           @link_url = new_cop[:url]

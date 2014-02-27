@@ -2,9 +2,11 @@
   %div{:class => "tab_container left_tabs"}
     %ul.tab_nav
       %li
-        %a{:href => '#general'} General
+        %a{href: '#general'} General
       %li
-        %a{:href => '#files'} Files
+        %a{href: '#files'} Files
+      %li
+        %a{href: '#links'} Links
 
     #general.tab_content
       %fieldset
@@ -56,6 +58,20 @@
               %li No files uploaded
             - @communication_on_progress.cop_files.each do |cop_file|
               %li= link_to_attached_file(cop_file, file='attachment')
+
+    #links.tab_content
+      %fieldset
+        %legend Links
+        %script#link_template{type:'text/x-jquery-tmpl'}
+          = render 'link_row', types:@types, languages:@communication_on_progress.languages, link: @communication_on_progress.new_link
+        %table.link_table
+          %tr
+            %th URL
+            %th Language
+            %th &nbsp;
+          - @communication_on_progress.links.each do |link|
+            = render 'link_row', link:link, languages:@communication_on_progress.languages
+        = link_to 'New link...', '#', id:'add_link', :class => 'new_large'
 
     %ul{class: "tools inline", style: 'float: right;'}
       %li= form.submit 'Update', class: 'button'

@@ -1,0 +1,6 @@
+%tr
+  %td= text_field_tag 'communication_on_progress[cop_links_attributes][][url]', link.url
+  %td= select_tag 'communication_on_progress[cop_links_attributes][][language_id]', options_from_collection_for_select(languages, :id, :name, link.language.try(:id))
+  %td
+    = link_to 'Delete'.html_safe, '#', class:'remove_link delete_large'
+    = hidden_field_tag  'communication_on_progress[cop_links_attributes][][id]', link.id
