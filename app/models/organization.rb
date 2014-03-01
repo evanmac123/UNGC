@@ -245,7 +245,7 @@ class Organization < ActiveRecord::Base
 
   scope :active, where("organizations.active = ?", true)
   scope :participants, where("organizations.participant = ?", true)
-  scope :withdrew, where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew).includes(:removal_reason)
+
   scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
   scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme)).includes(:organization_type) }
@@ -262,8 +262,6 @@ class Organization < ActiveRecord::Base
   scope :delisted_between, lambda { |start_date, end_date| where(delisted_on: start_date..end_date) }
 
   scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
-
-  scope :expelled_for_failure_to_communicate_progress, where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
 
   scope :listed, where("organizations.stock_symbol IS NOT NULL").includes([:country, :exchange])
   scope :without_contacts, where("not exists(select * from contacts c where c.organization_id = organizations.id)")
@@ -303,6 +301,14 @@ class Organization < ActiveRecord::Base
               GROUP BY
                  organization_id ) as c ON organizations.id = c.organization_id")
       .includes([:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses])
+  end
+
+  def self.withdrew
+    where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
+  end
+
+  def self.expelled_for_failure_to_communicate_progress
+    where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
   end
 
   # scopes the organization depending on the user_type
