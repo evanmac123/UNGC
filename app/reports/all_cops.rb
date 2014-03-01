@@ -14,9 +14,7 @@ class AllCops < SimpleReport
       'id',
       'organization_id',
       'title',
-      'email',
-      'job_title',
-      'contact_name',
+      'contact_info',
       'include_actions',
       'include_measurement',
       'use_indicators',
@@ -49,9 +47,7 @@ class AllCops < SimpleReport
     record.id,
     record.organization_id,
     record.title,
-    record.email,
-    record.job_title,
-    record.contact_name.present? ? record.contact_name.gsub(/\r\n?/, ' ') : nil,
+    single_line(record.contact_info),
     record.include_actions ? 1:0,
     record.include_measurement ? 1:0,
     record.use_indicators ? 1:0,
@@ -75,6 +71,14 @@ class AllCops < SimpleReport
     record.ends_on,
     record.created_at.present? ? record.differentiation : 'invalid COP record'
   ]
+  end
+
+  private
+
+  def single_line(contact_info)
+    if contact_info
+      gsub(/\r\n?/, ' ')
+    end
   end
 
 end

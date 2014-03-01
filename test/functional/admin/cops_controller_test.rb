@@ -150,7 +150,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "make sure the contact information has been saved" do
-      assert_equal @organization_user.contact_info, assigns(:communication_on_progress).contact_name
+      assert_equal @organization_user.contact_info, assigns(:communication_on_progress).contact_info
     end
 
   end

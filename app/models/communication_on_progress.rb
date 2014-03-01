@@ -5,9 +5,7 @@
 #  id                                  :integer          not null, primary key
 #  organization_id                     :integer
 #  title                               :string(255)
-#  email                               :string(255)
-#  job_title                           :string(255)
-#  contact_name                        :string(255)
+#  contact_info                        :string(255)
 #  include_actions                     :boolean
 #  include_measurement                 :boolean
 #  use_indicators                      :boolean

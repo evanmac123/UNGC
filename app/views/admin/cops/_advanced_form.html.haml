@@ -218,7 +218,7 @@
           %legend
             %span Contact Information
           %p Optional: To facilitate stakeholder engagement, you may publish the contact information of a representative from your company.
-          = form.text_area :contact_name, :class => 'cop_answer', :value => @communication_on_progress.contact_name
+          = form.text_area :contact_info, :class => 'cop_answer', :value => @communication_on_progress.contact_info
 
     = render :partial => 'submit_cop'
     %br

@@ -48,7 +48,7 @@ class CopFormTest < ActiveSupport::TestCase
       end
 
       should "have a contact name" do
-        assert_equal @organization_user.contact_info, @form.contact_name
+        assert_equal @organization_user.contact_info, @form.contact_info
       end
 
       should "not be submitted" do
@@ -241,40 +241,38 @@ class CopFormTest < ActiveSupport::TestCase
         assert_not_nil @cop.created_at
       end
 
-      %w(
-        organization_id
-        title
-        email
-        job_title
-        contact_name
-        include_actions
-        include_measurement
-        use_indicators
-        cop_score_id
-        use_gri
-        has_certification
-        notable_program
-        description
-        state
-        include_continued_support_statement
-        format
-        references_human_rights
-        references_labour
-        references_environment
-        references_anti_corruption
-        meets_advanced_criteria
-        starts_on
-        ends_on
-        method_shared
-        differentiation
-        references_business_peace
-        references_water_mandate
-      ).each do |f|
-        field = f.to_sym
-        should "have the new #{field}" do
-          assert_equal @attrs[field], @cop.public_send(field)
-        end
+    %w(
+      organization_id
+      title
+      contact_info
+      include_actions
+      include_measurement
+      use_indicators
+      cop_score_id
+      use_gri
+      has_certification
+      notable_program
+      description
+      state
+      include_continued_support_statement
+      format
+      references_human_rights
+      references_labour
+      references_environment
+      references_anti_corruption
+      meets_advanced_criteria
+      starts_on
+      ends_on
+      method_shared
+      differentiation
+      references_business_peace
+      references_water_mandate
+    ).each do |f|
+      field = f.to_sym
+      should "have the new #{field}" do
+        assert_equal @attrs[field], @cop.public_send(field)
       end
+    end
 
       should "be upgraded to active differentiation" do
         assert_equal :active, @cop.differentiation_level
