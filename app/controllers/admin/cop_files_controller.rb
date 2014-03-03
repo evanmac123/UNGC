@@ -17,7 +17,7 @@ class Admin::CopFilesController < Admin::AttachmentsController
   end
 
   def cancel_string
-    "Back to #{@submodel.title} Details"
+    "Back to #{@organization.cop_acronym} details"
   end
 
   def cancel_path

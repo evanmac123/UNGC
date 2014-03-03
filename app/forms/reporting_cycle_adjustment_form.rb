@@ -74,10 +74,10 @@ class ReportingCycleAdjustmentForm
   end
 
   private
-
+  
     def validate_ends_on_date
       if ends_on.blank? || ends_on > Date.today + ReportingCycleAdjustmentApplication::MAX_MONTHS.months || ends_on < Date.today
-        errors.add :ends_on, 'date should be within 11 months from today'
+        errors.add :ends_on, "can be extended up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months"
       end
     end
 

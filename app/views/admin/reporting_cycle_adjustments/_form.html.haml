@@ -9,10 +9,9 @@
       %fieldset
         %legend
           %span Select your new reporting deadline
-        %ol
-          %li
-            = form.label :ends_on, "Ends on date"
-            = form.date_select :ends_on, {order: [:month, :year, :day], start_year: 2000, end_year: current_year + 1, default: {year: @form.default_ends_on.year, month: @form.default_ends_on.month, day: @form.default_ends_on.day }}
+        %p Your current deadline is #{dd_month_yyyy @organization.cop_due_on}. You may adjust your deadline up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months, or until <strong>#{dd_month_yyyy @organization.cop_due_on + ReportingCycleAdjustmentApplication::MAX_MONTHS.months}</strong>.
+        %ul.date_select
+          %li= form.date_select :ends_on, {order: [:day, :month, :year], start_year: 2000, end_year: current_year + 1, default: {year: @form.default_ends_on.year, month: @form.default_ends_on.month, day: @form.default_ends_on.day }}
 
       %fieldset
         %legend

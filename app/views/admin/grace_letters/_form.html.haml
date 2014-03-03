@@ -27,5 +27,6 @@
               Current file:
               = link_to @form.cop_file.attachment_file_name, @form.cop_file.attachment.url
 
-    = link_to 'Cancel', @form.return_url, class: 'cancel_large'
-    = form.submit 'Submit', :class => "button", id: "finish"
+    %ul.tools.inline{:style => 'float: right;'}
+      %li= link_to 'Cancel', @form.return_url, class: 'cancel_large'
+      %li= submit_tag 'Submit', :class => "button", id: "finish"

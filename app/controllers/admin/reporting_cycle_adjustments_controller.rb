@@ -10,7 +10,7 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
     if ReportingCycleAdjustmentApplication.eligible?(@organization)
       @form = ReportingCycleAdjustmentForm.new(@organization)
     else
-      flash[:notice] = "You cannot submit a reporting cycle adjustment"
+      flash[:notice] = "You can only submit one reporting cycle adjustment"
       redirect_to admin_organization_url(@organization.id, tab: :cops)
     end
   end
