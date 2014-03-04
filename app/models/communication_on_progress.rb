@@ -339,12 +339,9 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   # for the COP to be Advanced, cop questions cannot have any missing cop_attributes
   def is_advanced_level?
-    if questions_missing_answers.any?
-      self.meets_advanced_criteria = false
-    else
-      self.meets_advanced_criteria = true
-    end
-    is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
+    # a cop meets advanced criteria if it has additional questions and none of them are missing
+    self.meets_advanced_criteria = additional_questions && questions_missing_answers.none?
+    is_advanced_programme? && is_intermediate_level? && self.meets_advanced_criteria
   end
 
   def is_blueprint_level?

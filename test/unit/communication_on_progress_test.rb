@@ -279,4 +279,15 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
   end
 
+  context "given a COP. By default it " do
+    setup do
+      create_organization_and_user
+      @cop = create_communication_on_progress
+    end
+
+    should "not meet advanced criteria" do
+      refute @cop.meets_advanced_criteria
+    end
+  end
+
 end
