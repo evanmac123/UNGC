@@ -214,7 +214,7 @@ class CopForm
   protected
 
     def remove_deleted_links(params)
-      link_attrs = params.fetch(:cop_links_attributes)
+      link_attrs = params[:cop_links_attributes]
       if link_attrs.is_a?(Array)
         links.where('id NOT IN (?)', link_attrs.map {|a| a[:id]}).destroy_all
       end
