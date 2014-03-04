@@ -149,7 +149,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
-  
+
   context "Given a non-communicating SME submitting a grace letter while under the moratorium" do
     setup do
       create_organization_and_user
@@ -166,7 +166,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
-  
+
 
   context "given an approved COP" do
     setup do

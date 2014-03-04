@@ -212,7 +212,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       put :update, :organization_id => @organization.id,
                    :id              => @cop.id,
                    :communication_on_progress => {}
-      assert_response :redirect
+      assert_redirected_to admin_organization_communication_on_progress_url(@organization.id, @cop.id)
     end
 
     should "not be able to edit a cop that uses the legacy format" do
@@ -229,6 +229,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
                    :communication_on_progress => {}
       assert_redirected_to admin_organization_url(@organization, tab: :cops), "cops with legacy format are not editable"
     end
+
   end
 
   context "show action" do

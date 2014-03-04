@@ -27,7 +27,7 @@ class Admin::CopsController < AdminController
       @communication_on_progress = create_edit_cop_form(@cop)
     else
       flash[:notice] = "You cannot edit this COP"
-      redirect_to admin_organization_url(@cop.organization, tab: :cops)
+      redirect_to admin_organization_url(@cop.organization.id, tab: :cops)
     end
   end
 
