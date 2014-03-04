@@ -1,3 +1,8 @@
+-if @communication_on_progress.errors.any?
+  %h3 Please correct the following before submitting your COP:
+  %div{:class => 'flash error'}
+    = error_messages_for @communication_on_progress, header_message: false
+
 = form_for(:communication_on_progress, url: admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress.cop), html: {id:'cop_form', method: :put}) do |form|
   %div{:class => "tab_container left_tabs"}
     %ul.tab_nav
