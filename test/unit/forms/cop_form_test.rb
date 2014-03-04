@@ -229,51 +229,94 @@ class CopFormTest < ActiveSupport::TestCase
       @attrs.delete(:created_at)
       @attrs.delete(:updated_at)
 
-      form = CopForm.edit_form(@old_cop, @organization_user.contact_info)
-      assert form.submit @attrs
-
-      # load the edit cop up.
-      @cop = CommunicationOnProgress.find(form.id)
-      assert_not_nil @cop.created_at
+      @form = CopForm.edit_form(@old_cop, @organization_user.contact_info)
     end
 
-    %w(
-      organization_id
-      title
-      email
-      job_title
-      contact_name
-      include_actions
-      include_measurement
-      use_indicators
-      cop_score_id
-      use_gri
-      has_certification
-      notable_program
-      description
-      state
-      include_continued_support_statement
-      format
-      references_human_rights
-      references_labour
-      references_environment
-      references_anti_corruption
-      meets_advanced_criteria
-      starts_on
-      ends_on
-      method_shared
-      differentiation
-      references_business_peace
-      references_water_mandate
-    ).each do |f|
-      field = f.to_sym
-      should "have the new #{field}" do
-        assert_equal @attrs[field], @cop.public_send(field)
+    context "basic fields" do
+
+      setup do
+        assert @form.submit @attrs
+        # load the edit cop up.
+        @cop = CommunicationOnProgress.find(@form.id)
+        assert_not_nil @cop.created_at
+      end
+
+      %w(
+        organization_id
+        title
+        email
+        job_title
+        contact_name
+        include_actions
+        include_measurement
+        use_indicators
+        cop_score_id
+        use_gri
+        has_certification
+        notable_program
+        description
+        state
+        include_continued_support_statement
+        format
+        references_human_rights
+        references_labour
+        references_environment
+        references_anti_corruption
+        meets_advanced_criteria
+        starts_on
+        ends_on
+        method_shared
+        differentiation
+        references_business_peace
+        references_water_mandate
+      ).each do |f|
+        field = f.to_sym
+        should "have the new #{field}" do
+          assert_equal @attrs[field], @cop.public_send(field)
+        end
+      end
+
+      should "be upgraded to active differentiation" do
+        assert_equal :active, @cop.differentiation_level
       end
     end
 
-    should "have be upgraded to active differentiation" do
-      assert_equal :active, @cop.differentiation_level
+    context "adding a link" do
+
+      setup do
+        @attrs[:cop_links_attributes] = [valid_cop_link_attributes, valid_cop_link_attributes]
+        assert @form.update(@attrs), @form.errors.full_messages.to_sentence
+        @cop = CommunicationOnProgress.find(@form.id)
+      end
+
+      should "add a link" do
+        assert_equal 2, @cop.cop_links.count
+      end
+
+    end
+
+    context "deleting a link" do
+      setup do
+        @link1_attrs = valid_cop_link_attributes
+        @link2_attrs = valid_cop_link_attributes
+        @old_cop.cop_links.create! @link1_attrs
+        @old_cop.cop_links.create! @link2_attrs
+
+        assert_equal 2, @old_cop.cop_links.count
+        @attrs = valid_cop_attrs(@organization)
+        @attrs.delete(:created_at)
+        @attrs.delete(:updated_at)
+        @attrs[:cop_links_attributes] = [@old_cop.cop_links.first.attributes]
+
+        assert @form.update(@attrs), @form.errors.full_messages.to_sentence
+        @cop = CommunicationOnProgress.find(@form.id)
+      end
+
+      should "delete a link" do
+        assert_equal @link1_attrs['url'], @cop.cop_links.first.url
+        assert_equal 1, @cop.cop_links.count
+      end
+
     end
 
   end

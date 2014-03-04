@@ -112,6 +112,7 @@ class CopForm
   def submit(params)
     cop.assign_attributes(params)
     cop.contact_name = contact_name
+    remove_deleted_links(params)
     remember_link_params(params)
     @submitted = true
     clear_answer_text_from_unselected_answers
@@ -211,6 +212,13 @@ class CopForm
   alias_method :submitted?, :submitted
 
   protected
+
+    def remove_deleted_links(params)
+      link_attrs = params.fetch(:cop_links_attributes)
+      if link_attrs.is_a?(Array)
+        links.where('id NOT IN (?)', link_attrs.map {|a| a[:id]}).destroy_all
+      end
+    end
 
     def remember_link_params(params)
       # remember the language and url the user selected in case of an new, but invalid submission

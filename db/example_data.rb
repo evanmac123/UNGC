@@ -64,6 +64,13 @@ module FixtureReplacement
     q.position = 1
   end
 
+  attributes_for :cop_link do |l|
+    l.attachment_type = CopFile::TYPES[:cop]
+    l.url = "http://#{FixtureReplacement.random_string}.org"
+    l.language = create_language
+    l.communication_on_progress = new_communication_on_progress
+  end
+
   attributes_for :cop_attribute do |a|
     a.text  = FixtureReplacement.random_string
   end
