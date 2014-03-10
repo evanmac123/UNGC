@@ -101,7 +101,7 @@ class Organization < ActiveRecord::Base
 
   before_create :set_participant_manager
   before_save :check_micro_enterprise_or_sme
-  before_save :set_non_business_sector
+  before_save :set_non_business_sector_and_listing_status
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
 
@@ -492,7 +492,7 @@ class Organization < ActiveRecord::Base
   end
 
   def listing_status_name
-    listing_status.try(:name) || 'Unknown'
+    listing_status.try(:name)
   end
 
   def public_company?
@@ -982,9 +982,10 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def set_non_business_sector
+    def set_non_business_sector_and_listing_status
       unless business_entity? || initiative_signatory?
         self.sector = Sector.not_applicable
+        self.listing_status = ListingStatus.not_applicable
       end
     end
 
