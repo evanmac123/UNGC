@@ -14,6 +14,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "participant_breakdown_#{date_as_filename}.xls")
   end
 
+  def participant_applications
+    @report = ParticipantApplications.new
+    render_formatter(filename: "participant_applications_#{date_as_filename}.xls")
+  end
+
   def contacts_mail_merge
     @report = ContactsMailMerge.new
     render_formatter(filename: "contacts_mail_merge_#{date_as_filename}.xls")
