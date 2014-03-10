@@ -101,7 +101,7 @@ class Organization < ActiveRecord::Base
 
   before_create :set_participant_manager
   before_save :check_micro_enterprise_or_sme
-  before_save :set_non_business_sector
+  before_save :set_non_business_sector_and_listing_status
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
 
@@ -245,7 +245,6 @@ class Organization < ActiveRecord::Base
 
   scope :active, where("organizations.active = ?", true)
   scope :participants, where("organizations.participant = ?", true)
-
   scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
   scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme)).includes(:organization_type) }
@@ -344,6 +343,12 @@ class Organization < ActiveRecord::Base
     end
     where(conditions).includes([:country, :sector]).order("organizations.name ASC")
   end
+  
+  def self.applications_under_review
+    where("organizations.state NOT IN (?)", [ApprovalWorkflow::STATE_APPROVED,
+                                             ApprovalWorkflow::STATE_REJECTED,
+                                             ApprovalWorkflow::STATE_REJECTED_MICRO ])
+  end
 
   def as_json(options={})
     only = ['id', 'name', 'participant']
@@ -366,6 +371,14 @@ class Organization < ActiveRecord::Base
       self.replied_to = false
     elsif current_contact.from_ungc?
       self.replied_to = true
+    end
+  end
+  
+  def review_status_name
+    if state == ApprovalWorkflow::STATE_IN_REVIEW && replied_to == false
+      'Updated'
+    else
+      state.humanize
     end
   end
 
@@ -479,7 +492,7 @@ class Organization < ActiveRecord::Base
   end
 
   def listing_status_name
-    listing_status.try(:name) || 'Unknown'
+    listing_status.try(:name)
   end
 
   def public_company?
@@ -969,9 +982,10 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def set_non_business_sector
+    def set_non_business_sector_and_listing_status
       unless business_entity? || initiative_signatory?
         self.sector = Sector.not_applicable
+        self.listing_status = ListingStatus.not_applicable
       end
     end
 
