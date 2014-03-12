@@ -11,11 +11,11 @@ class Admin::AttachmentsController < AdminController
         redirect_to(attachments_path)
       else
         flash[:error] = @submodel.errors.full_messages.to_sentence
-        render '/admin/attachments/new', :layout => 'admin'
+        render :new
       end
     else
       flash.now[:error] = 'Please select at least one file to upload.'
-      render '/admin/attachments/new', :layout => 'admin'
+      render :new
     end
   end
 

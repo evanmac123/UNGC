@@ -1,6 +1,6 @@
 %h3 Add Files
 %h4= @submodel.title
-= form_for :uploaded_attachments, url: upload_attachment_path do |form|
+= form_tag upload_attachment_path, :multipart => true do
   %fieldset.file_inputs
     %ol
       %li
