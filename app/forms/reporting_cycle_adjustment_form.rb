@@ -4,7 +4,7 @@ class ReportingCycleAdjustmentForm
   include ActiveModel::Validations
   include Rails.application.routes.url_helpers
 
-  ERROR_KEY = 'Reporting deadline'
+  ERROR_KEY = 'New deadline'
 
   attr_reader :organization, :cop_file, :reporting_cycle_adjustment, :ends_on
   attr_accessor :edit
@@ -78,7 +78,7 @@ class ReportingCycleAdjustmentForm
       if @ends_on.blank?
         errors.add ERROR_KEY, 'must be given.'
       elsif @ends_on > organization.cop_due_on + ReportingCycleAdjustmentApplication::MAX_MONTHS.months
-        errors.add ERROR_KEY, "can only be extended up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months"
+        errors.add ERROR_KEY, "can be extended up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months"
       elsif @ends_on < Date.today
         errors.add ERROR_KEY, 'cannot be in the past'
       end
