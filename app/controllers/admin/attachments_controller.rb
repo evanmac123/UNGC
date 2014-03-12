@@ -7,8 +7,12 @@ class Admin::AttachmentsController < AdminController
   def create
     if params[:uploaded_attachments].is_a?(Array)
       @submodel.uploaded_attachments = params[:uploaded_attachments]
-      @submodel.save!
-      redirect_to(attachments_path)
+      if @submodel.save
+        redirect_to(attachments_path)
+      else
+        flash[:error] = @submodel.errors.full_messages.to_sentence
+        render '/admin/attachments/new', :layout => 'admin'
+      end
     else
       flash.now[:error] = 'Please select at least one file to upload.'
       render '/admin/attachments/new', :layout => 'admin'
