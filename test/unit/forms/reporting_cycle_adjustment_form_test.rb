@@ -111,7 +111,8 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       end
 
       should "be invalid with end date over 11 months from the original due date" do
-        refute @form.submit(cop_file_attributes.merge(to_date_params(Date.today + 12.month)))
+        reporting_deadline = to_date_params(@organization.cop_due_on + 12.month)
+        refute @form.submit(cop_file_attributes.merge(reporting_deadline))
       end
 
       should "be invalid with and end date before today" do

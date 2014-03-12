@@ -4,6 +4,8 @@ class ReportingCycleAdjustmentForm
   include ActiveModel::Validations
   include Rails.application.routes.url_helpers
 
+  ERROR_KEY = 'Reporting deadline'
+
   attr_reader :organization, :cop_file, :reporting_cycle_adjustment, :ends_on
   attr_accessor :edit
 
@@ -42,10 +44,7 @@ class ReportingCycleAdjustmentForm
     cop_file.language_id = params[:language_id]
     cop_file.attachment = params[:attachment]
 
-    date_from_form = parse_ends_on(params)
-    @ends_on = date_from_form if date_from_form.present?
-
-    if valid?
+    if parse_ends_on(params) && valid?
       ReportingCycleAdjustmentApplication.submit_for(organization, reporting_cycle_adjustment, ends_on)
     end
   end
@@ -55,7 +54,7 @@ class ReportingCycleAdjustmentForm
   end
 
   def default_ends_on
-    @default_ends_on ||= starts_on + 11.months
+    @default_ends_on ||= starts_on + ReportingCycleAdjustmentApplication::MAX_MONTHS.months
   end
 
   def update(params)
@@ -74,10 +73,14 @@ class ReportingCycleAdjustmentForm
   end
 
   private
-  
+
     def validate_ends_on_date
-      if ends_on.blank? || ends_on > Date.today + ReportingCycleAdjustmentApplication::MAX_MONTHS.months || ends_on < Date.today
-        errors.add :ends_on, "can be extended up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months"
+      if @ends_on.blank?
+        errors.add ERROR_KEY, 'must be given.'
+      elsif @ends_on > organization.cop_due_on + ReportingCycleAdjustmentApplication::MAX_MONTHS.months
+        errors.add ERROR_KEY, "can only be extended up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months"
+      elsif @ends_on < Date.today
+        errors.add ERROR_KEY, 'cannot be in the past'
       end
     end
 
@@ -85,7 +88,14 @@ class ReportingCycleAdjustmentForm
       # unpack rails date ends_on(1i), ends_on(2i), ends_on(3i)...
       keys = 3.times.map {|i| "ends_on(#{i+1}i)"}
       year, month, day = params.slice(*keys).values.map(&:to_i)
-      Date.civil(year, month, day) if [year, month, day].all? &:present?
+      if [year, month, day].all? &:present?
+        @ends_on = Date.civil(year, month, day)
+      end
+
+      # either we parsed and set a date, or there wasn't one to parse
+      true
+    rescue ArgumentError
+      errors.add ERROR_KEY, 'has an invalid date/month combination.'
+      false
     end
 end
-
