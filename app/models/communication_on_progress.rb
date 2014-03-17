@@ -179,7 +179,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_differentiation_program?
-    created_at >= START_DATE_OF_DIFFERENTIATION && !is_grace_letter?
+    created_at >= START_DATE_OF_DIFFERENTIATION && !is_grace_letter? && !is_reporting_cycle_adjustment?
   end
 
   # Test phase of Advanced Programme was launched Oct 11, 2010
