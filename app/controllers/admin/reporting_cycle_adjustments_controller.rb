@@ -44,6 +44,15 @@ class Admin::ReportingCycleAdjustmentsController < AdminController
     end
   end
 
+  def destroy
+    org_id = @adjustment.organization.id
+    if @adjustment.destroy
+      flash[:notice] = 'The reporting cycle adjustment was deleted'
+    else
+      flash[:error] = @adjustment.errors.full_messages.to_sentence
+    end
+    redirect_to admin_organization_url(org_id, tab: :cops)
+  end
 
   private
     def load_adjustment_and_organization
