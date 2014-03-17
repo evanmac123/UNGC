@@ -1,5 +1,5 @@
 %h2= @communication_on_progress.title
 
-= form_for(:communication_on_progress, url: @communication_on_progress.return_url, html: {multipart: true, id: 'cop_form', novalidate: "novalidate"  }) do |form|
+= form_for(:communication_on_progress, url: admin_organization_communication_on_progresses_path(@organization.id), html: {multipart: true, id: 'cop_form', novalidate: "novalidate" }) do |form|
   = render partial: @communication_on_progress.partial, locals: { form: form }
   = form.hidden_field :cop_type
