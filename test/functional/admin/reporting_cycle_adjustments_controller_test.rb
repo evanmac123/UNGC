@@ -111,4 +111,17 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
       end
     end
   end
+
+  context "Destroy" do
+    should "destroy the reporting cycle adjustment" do
+      reporting_cycle_adjustment = create_reporting_cycle_adjustment
+
+      assert_difference('CommunicationOnProgress.count', -1) do
+        delete :destroy, organization_id: @organization.id,
+                         id: reporting_cycle_adjustment.to_param
+      end
+      assert_redirected_to admin_organization_url(@organization.id, tab: :cops)
+    end
+  end
+
 end

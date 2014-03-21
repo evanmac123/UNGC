@@ -21,12 +21,6 @@
             = form.label :language
             = form.select :language_id, options_from_collection_for_select(Language.all, :id, :name, @form.language_id)
             = form.file_field :attachment
-            - if @form.has_file?
-              %br
-              - if @form.cop_file.attachment?
-                Current file:
-                = link_to @form.cop_file.attachment_file_name, @form.cop_file.attachment.url
-
 
     = form.hidden_field :title, value: 'Reporting Cycle Adjustment'
 

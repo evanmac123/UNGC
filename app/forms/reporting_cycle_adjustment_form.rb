@@ -32,10 +32,6 @@ class ReportingCycleAdjustmentForm
     @cop_file ||= reporting_cycle_adjustment.cop_files.first || reporting_cycle_adjustment.cop_files.build(attachment_type: ReportingCycleAdjustment::TYPE)
   end
 
-  def has_file?
-    cop_file.attachment?
-  end
-
   def new_record?
     reporting_cycle_adjustment.new_record?
   end
