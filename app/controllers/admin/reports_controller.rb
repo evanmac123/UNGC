@@ -113,6 +113,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "local_network_upcoming_delistings_#{date_as_filename}.xls")
   end
 
+  def local_network_upcoming_sme_delistings
+    @report = LocalNetworkUpcomingSmeDelistings.new(default_report_params)
+    render_formatter(filename: "local_network_upcoming_sme_delistings_#{date_as_filename}.xls")
+  end
+
   def local_network_recently_noncommunicating
     @report = LocalNetworkRecentlyNoncommunicating.new(default_report_params)
     render_formatter(filename: "local_network_recently_noncommunicating_#{date_as_filename}.xls")
