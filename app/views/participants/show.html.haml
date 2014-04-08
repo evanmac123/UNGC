@@ -162,12 +162,13 @@
 - if @participant.business_entity?
   %h2{style: 'padding-top: 2em;'} Annual contributions to the Foundation for the Global Compact
 
-  %table.cop_links{:cellspacing=>0, :cellpadding=>0}
-    %thead
-      %tr
-        %th Year
-        %th Annual contribution received
-    %tbody=contribution_years(@participant)
+  %a{name: "contributions"}
+    %table.cop_links{:cellspacing=>0, :cellpadding=>0}
+      %thead
+        %tr
+          %th Year
+          %th Annual contribution received
+      %tbody=contribution_years(@participant)
 
 - if @participant.case_stories.approved.any?
   .case_stories
