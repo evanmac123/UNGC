@@ -31,6 +31,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :denyhosts
   recipe :dnsmasq
   recipe :resolv_conf
+  recipe :passenger_monitor
 
   on_stage(:production) do
     recipe :cron_tasks
