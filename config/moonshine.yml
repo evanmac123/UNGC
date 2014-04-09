@@ -85,6 +85,7 @@
 
 :passenger_monitor:
   :memory: 400
+  :pattern: RackApp
 
 # MySQL-specific options. Refer to the following templates for details about
 # what values are used:
