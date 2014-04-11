@@ -1,10 +1,7 @@
-class LocalNetworkUpcomingDelistings < SimpleReport
+class LocalNetworkUpcomingSmeDelistings < SimpleReport
 
   def records
-    Organization.visible_to(@options[:user])
-      .with_cop_status(:noncommunicating)
-      .with_cop_due_between(Date.today - 1.year, Date.today - 1.year + 90.days)
-      .all(:order => :cop_due_on)
+    Organization.smes.visible_to(@options[:user]).under_moratorium.all(:order => :cop_due_on)
   end
 
   def render_output
