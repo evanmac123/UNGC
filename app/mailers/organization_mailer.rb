@@ -6,7 +6,7 @@ class OrganizationMailer < ActionMailer::Base
     @contact      = organization.contacts.contact_points.first
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
-      :bcc => ['archive@unglobalcompact.org','vkeesari@yahoo.com'],
+      :bcc => 'archive@unglobalcompact.org',
       :subject => "Your Letter of Commitment to the Global Compact"
   end
 
