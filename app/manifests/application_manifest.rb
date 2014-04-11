@@ -119,13 +119,6 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :content => template(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'junglediskserver-license.xml'), binding),
       :require => package('junglediskserver')
 
-    file '/etc/jungledisk/junglediskserver-settings.xml',
-      :ensure => :present,
-      :owner => 'root',
-      :notify => service('junglediskserver'),
-      :content => template(File.join(File.dirname(__FILE__), '..', '..', 'templates', 'junglediskserver-settings.xml'), binding),
-      :require => package('junglediskserver')
-
     service 'junglediskserver',
       :provider => :init,
       :enable => true,
