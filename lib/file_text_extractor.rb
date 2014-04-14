@@ -7,10 +7,15 @@ module FileTextExtractor
   module_function
 
   def extract(model)
-    if model.attachment_content_type =~ /^application\/.*pdf$/
-      get_text_from_pdf(model.attachment.path)
-    elsif model.attachment_content_type =~ /\b(doc|msword)\b/
-      get_text_from_word(model.attachment.path)
+    type = model.attachment_content_type
+    path = model.attachment.path
+
+    if type =~ /^application\/.*pdf$/
+      get_text_from_pdf(path)
+    elsif type =~ /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
+      get_text_from_docx(path)
+    elsif type =~ /\b(doc|msword)\b/
+      get_text_from_word(path)
     end
   end
 
@@ -22,6 +27,11 @@ module FileTextExtractor
   def get_text_from_word(path)
     Rails.logger.info "Extracting text from Word: #{path.inspect}"
     safe_get_text_command("#{Rails.root}/script/word_import", path)
+  end
+
+  def get_text_from_docx(path)
+    Rails.logger.info "Extracting text from Word (New Format): #{path.inspect}"
+    safe_get_text_command("#{Rails.root}/script/docx_import", path)
   end
 
   def safe_get_text_command(command, file)
