@@ -10,17 +10,17 @@ class CopForm
     :all          => "d) Both b) and c)"
   }.freeze
 
-  def self.new_form(organization, type, contact_name)
+  def self.new_form(organization, type, contact_info)
     raise "cop type is nil, must specify a copy type." unless type
     cop = organization.communication_on_progresses.new
     cop_form_class = forms_for_type(type)
-    cop_form_class.new(cop, type, contact_name)
+    cop_form_class.new(cop, type, contact_info)
   end
 
-  def self.edit_form(cop, contact_name)
+  def self.edit_form(cop, contact_info)
     type = determine_cop_type(cop)
     cop_form_class = forms_for_type(type)
-    form = cop_form_class.new(cop, type, contact_name)
+    form = cop_form_class.new(cop, type, contact_info)
     form.submitted = true
     form.edit = true
     form
@@ -87,11 +87,11 @@ class CopForm
             :new_record?,
             to: :cop
 
-  def initialize(cop, type, contact_name)
+  def initialize(cop, type, contact_info)
     @cop = cop
     @cop.title ||= organization.cop_name
     @cop.cop_type = type
-    @contact_name = contact_name
+    @contact_info = contact_info
     @submitted = false
   end
 
@@ -111,7 +111,7 @@ class CopForm
 
   def submit(params)
     cop.assign_attributes(params)
-    cop.contact_name = contact_name
+    cop.contact_info ||= contact_info
     remove_deleted_links(params)
     remember_link_params(params)
     @submitted = true
@@ -185,8 +185,8 @@ class CopForm
     Language.scoped
   end
 
-  def contact_name
-    cop.contact_name || @contact_name
+  def contact_info
+    cop.contact_info || @contact_info
   end
 
   def formats

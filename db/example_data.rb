@@ -16,9 +16,7 @@ module FixtureReplacement
     cop.ends_on = Date.today
     cop.title = FixtureReplacement.random_string
     cop.organization_id = Organization.first.id
-    cop.email = FixtureReplacement.random_string
-    cop.job_title = FixtureReplacement.random_string
-    cop.contact_name = FixtureReplacement.random_string
+    cop.contact_info = FixtureReplacement.random_string
     cop.include_actions = false
     cop.include_measurement = true
     cop.use_indicators = false

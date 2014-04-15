@@ -84,7 +84,7 @@ class Admin::CopsController < AdminController
   private
 
     def create_edit_cop_form(cop)
-      CopForm.edit_form(cop, current_contact)
+      CopForm.edit_form(cop, current_contact.contact_info)
     end
 
     def send_cop_submission_confirmation_email(cop)
