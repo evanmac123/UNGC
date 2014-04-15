@@ -14,6 +14,7 @@ class LocalNetworkRecentlyNoncommunicating < SimpleReport
   def headers
     [ 'Participant',
       'Participant Since',
+      'Number of COPs',
       'COP past due date'
     ]
   end
@@ -21,6 +22,7 @@ class LocalNetworkRecentlyNoncommunicating < SimpleReport
   def row(record)
     [ record.name,
       record.joined_on,
+      record.communication_on_progresses.approved.try(:count),
       record.cop_due_on
     ]
   end
