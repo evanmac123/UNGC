@@ -398,10 +398,24 @@ class Organization < ActiveRecord::Base
       country.local_network.name
     end
   end
+  
+  def local_network_url
+    if country.try(:local_network)
+      country.local_network.url
+    end
+  end
 
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
+    else
+      []
+    end
+  end
+  
+  def network_contact_person
+    if self.country.try(:local_network)
+      self.country.local_network.contacts.network_contacts.first
     else
       []
     end

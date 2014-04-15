@@ -52,20 +52,16 @@
       %dt Contact Point
       %dd= render :partial => 'admin/organizations/contact_overview', :collection => @organization.contacts.contact_points
 
-    -staff_only do
+    - if @organization.local_network_name.present?
       %dl.left_column
-        %h3 Local Network
-        %dt.first Status
-        %dd.first= local_network_detail(@organization, :state).titleize
-        %dt Name:
-        %dd= local_network_detail(@organization, :name)
-        %dt Report Recipients
-        %dd
-          - if @organization.network_report_recipients.count >= 1
-            = render :partial => 'admin/contacts/network_report_recipient', :collection => @organization.network_report_recipients
-          - else
-            == There is no Network Report Recipient for #{@organization.country_name}
-
+        %h3 Local Network #{@organization.local_network_name}
+        %dt.first Contact Person
+        %dd.first
+          = mail_to @organization.network_contact_person.email, @organization.network_contact_person.full_name_with_title
+        - if @organization.local_network_url.present?
+          %dt Website
+          %dd= popup_link_to @organization.local_network_url, @organization.local_network_url
+          
   #getting_started.tab_content
     %dl.left_column{:style => 'width: 100%;'}
       %dt.first Documents
