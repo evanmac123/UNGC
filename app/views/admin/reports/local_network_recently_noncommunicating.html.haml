@@ -12,12 +12,14 @@
     %tr
       %th Participant
       %th Participant Since
+      %th Number of COPs
       %th COP past due date
       %th Actions
     - @report.records.each do |org|
       %tr
         %td{:title => org.name}= org.name
         %td= org.joined_on
+        %td= org.communication_on_progresses.approved.try(:count)
         %td= org.cop_due_on
         %td
           %ul.actions
