@@ -83,8 +83,8 @@ class Searchable < ActiveRecord::Base
 
     # This method is called by cron to periodically update the searchables.
     # See scripts/cron/searchable
-    def index_new_or_updated
-      max = find(:all, select: 'MAX(last_indexed_at) as max').first.try(:max)
+    def index_new_or_updated(since = nil)
+      max = since || find(:all, select: 'MAX(last_indexed_at) as max').first.try(:max)
       raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
       index_pages_since(max)
       index_events_since(max)

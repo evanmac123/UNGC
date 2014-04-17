@@ -43,5 +43,10 @@ module ResourcesHelper
   def link_to_all_resources(reference)
     link_to 'View All Resources', resources_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all-resources'
   end
+  
+  def find_resources(ids)
+    resources = Resource.find ids
+    ids.collect { |id| resources.detect {|x| x.id == id} }
+  end
 
 end
