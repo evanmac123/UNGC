@@ -33,6 +33,8 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :resolv_conf
   recipe :passenger_monitor
 
+  recipe :pdfminer
+
   on_stage(:production) do
     recipe :cron_tasks
     recipe :jungle_disk
@@ -131,6 +133,8 @@ class ApplicationManifest < Moonshine::Manifest::Rails
     # If you've already told Moonshine about a package required by a gem with
     # :apt_gems in <tt>moonshine.yml</tt> you do not need to include it here.
     # package 'some_native_package', :ensure => :installed
+    package 'default-jre-headless', :ensure => :installed
+    package 'python', :ensure => :installed
 
     # some_rake_task = "/usr/bin/rake -f #{configuration[:deploy_to]}/current/Rakefile custom:task RAILS_ENV=#{ENV['RAILS_ENV']}"
     # cron 'custom:task', :command => some_rake_task, :user => configuration[:user], :minute => 0, :hour => 0
@@ -174,6 +178,19 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :mode => '644',
       :content => template('ssh_config', binding),
       :require => package('ssh')
+  end
+
+  def pdfminer
+    exec 'download pdfminer',
+      :command => 'git clone https://github.com/euske/pdfminer.git',
+      :cwd => '/usr/local/src',
+      :creates => '/usr/local/src/pdfminer'
+
+    exec 'install pdfminer',
+      :command => 'make cmap && sudo python setup.py install',
+      :cwd => '/usr/local/src/pdfminer',
+      :creates => '/usr/local/bin/pdf2txt.py',
+      :require => [exec('download pdfminer'), package('python')]
   end
 
 end
