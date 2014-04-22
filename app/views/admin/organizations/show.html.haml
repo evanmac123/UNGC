@@ -78,6 +78,17 @@
       - else
         %dd{:style => 'color: red'} Not assigned
 
+    
+    - if current_contact.from_organization? && @organization.local_network_name.present?
+      %dl.left_column
+        %h3 Local Network #{@organization.local_network_name}
+        %p Please contact your Local Network with any questions or concerns regarding your application to the Global Compact.
+        %dt.first Contact Person
+        %dd.first
+          = mail_to @organization.network_contact_person.email, @organization.network_contact_person.full_name_with_title
+        %dt Profile
+        %dd= popup_link_to "Local Network #{@organization.local_network.name}", dashboard_link_to_public_profile(@organization.local_network)
+
     -staff_only do
       %dl.left_column
         %h3 Welcome Package

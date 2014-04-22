@@ -1,4 +1,5 @@
 - @title = 'Dashboard Overview'
+%h2= @organization.name
 %div{:class => "tab_container top_tabs"}
   %ul.tab_nav
     %li= link_to 'Overview', '#overview'
@@ -55,12 +56,12 @@
     - if @organization.local_network_name.present?
       %dl.left_column
         %h3 Local Network #{@organization.local_network_name}
+        %p Please contact your Local Network with any questions or concerns regarding your participation in the Global Compact.
         %dt.first Contact Person
         %dd.first
           = mail_to @organization.network_contact_person.email, @organization.network_contact_person.full_name_with_title
-        - if @organization.local_network_url.present?
-          %dt Website
-          %dd= popup_link_to @organization.local_network_url, @organization.local_network_url
+          %dt Profile
+          %dd= popup_link_to "Local Network #{@organization.local_network.name}", dashboard_link_to_public_profile(@organization.local_network)
           
   #getting_started.tab_content
     %dl.left_column{:style => 'width: 100%;'}
@@ -75,11 +76,26 @@
       %dd
         %p
           = @organization.participant_manager_name
-          <br />
+          %br/
           = link_to @organization.participant_manager_email, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
-          <br />
+          %br/
           = @organization.participant_manager_phone
         %p The Relationship Management team aims to enhance participant engagement by supporting and guiding participants through the broad landscape of initiatives, partnerships, resources and tools offered by the Global Compact. Additionally, they are able to support any technical queries that your organization may have. Please feel free to contact your Relationship Manager with any questions or concerns that you may have regarding your participation in the Global Compact.
+
+      - if @organization.local_network_name.present?
+        %dt
+          Local Network
+          %br/
+          Contact Person
+        %dd
+          %p
+            = @organization.network_contact_person.full_name_with_title
+            %br/
+            = mail_to @organization.network_contact_person.email
+          %p Local Networks help facilitate the progress of companies (both local firms and subsidiaries of foreign corporations) engaged in the Global Compact, while creating opportunities for multi-stakeholder engagement and collective action. Local Networks deepen the learning experience for participants through their own activities and events and promote action in support of broader UN goals. Please contact your Local Network for support and information on engagement opportunities in your country and region.
+          - if @organization.local_network_url.present?
+            %ul.document_list
+              %li= popup_link_to "Local Network #{@organization.local_network.name}", dashboard_link_to_public_profile(@organization.local_network), :class => 'web'
 
   #contacts.tab_content
     %ul#contacts_tools{:class => "tools inline"}
