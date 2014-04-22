@@ -387,6 +387,10 @@ class Organization < ActiveRecord::Base
     update_attribute :last_modified_by_id, current_contact.id
   end
 
+  def local_network
+    country.try(:local_network)
+  end
+
   def local_network_country_code
     if country.try(:local_network)
       country.local_network.country_code
