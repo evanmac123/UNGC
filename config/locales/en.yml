@@ -16,7 +16,7 @@ en:
   admin:
     confirm_delete_grace_letter: "All grace letter files will be permanently removed. Are you sure you want to delete this grace letter?"
     delete_grace_letter: "Delete grace letter and remove all files"
-    confirm_delete_cycle_adjustment: "Are you sure you want to delete this Reporting Cycle Adjustment?"
+    confirm_delete_cycle_adjustment: "Are you sure you want to delete this Reporting Cycle Adjustment? The adjusted reporting deadline will not be changed."
     delete_cycle_adjustment: "Delete Reporting Cycle Adjustment"
     confirm_delete_COP: "All answers, files and links will be permanently removed. Are you sure you want to delete this COP?"
     confirm_delete_COE: "All answers, files and links will be permanently removed. Are you sure you want to delete this COE?"
