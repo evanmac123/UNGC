@@ -317,6 +317,41 @@ class CopFormTest < ActiveSupport::TestCase
 
     end
 
+    context "deleting all the links" do
+      setup do
+        @old_cop.cop_links.create! valid_cop_link_attributes
+        @old_cop.cop_links.create! valid_cop_link_attributes
+
+        assert_equal 2, @old_cop.cop_links.count
+        @attrs = valid_cop_attrs(@organization)
+        @attrs.delete(:created_at)
+        @attrs.delete(:updated_at)
+        @attrs[:cop_links_attributes] = []
+
+        assert @form.update(@attrs), @form.errors.full_messages.to_sentence
+        @cop = CommunicationOnProgress.find(@form.id)
+      end
+
+      should "delete all the links" do
+        assert_equal 0, @cop.cop_links.count
+      end
+
+    end
+
+    should "delete all the links when no links are supplied" do
+      @old_cop.cop_links.create! valid_cop_link_attributes
+
+      attrs = valid_cop_attrs(@organization)
+      attrs.delete(:created_at)
+      attrs.delete(:updated_at)
+      attrs.delete(:cop_links_attributes)
+
+      assert @form.update(attrs), @form.errors.full_messages.to_sentence
+      cop = CommunicationOnProgress.find(@form.id)
+
+      assert_equal 0, cop.cop_links.count
+    end
+
   end
 
 end
