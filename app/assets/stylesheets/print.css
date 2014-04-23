@@ -19,12 +19,12 @@ body {
 /* COP Questionnaire */
 #main_content dd ul li.selected_question {
   list-style-type: disc;
-  list-style-image: url(/images/checked.png);
+  list-style-image: url(/assets/checked.png);
 }
 
 #main_content dd ul li.advanced_question, dd ul li.unselected_question {
   list-style-type: circle;
-  list-style-image: url(/images/unchecked.png);
+  list-style-image: url(/assets/unchecked.png);
 }
 
 #main_content dd ul.basic_question li.question_group, #main_content dd ul.questionnaire li.question_group {
