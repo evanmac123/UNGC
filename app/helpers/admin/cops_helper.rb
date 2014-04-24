@@ -117,4 +117,9 @@ module Admin::CopsHelper
     # we reuse the classes from the questionnaire
     item ? 'selected_question' : 'unselected_question'
   end
+  
+  def show_business_for_peace(cop)
+    cop.references_business_peace? || cop.organization.signatory_of?(:business4peace)
+  end
+  
 end

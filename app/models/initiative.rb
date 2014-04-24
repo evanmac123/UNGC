@@ -21,7 +21,8 @@ class Initiative < ActiveRecord::Base
     :climate        => 2,
     :human_rights   => 4,
     :lead           => 19,
-    :business_peace => 22
+    :business_peace => 22, # Expert group
+    :business4peace => 51  # Signatories
   }
 
   scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
