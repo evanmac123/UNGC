@@ -453,6 +453,7 @@ $(function() {
   if ($('.datepicker').length > 0) {
     $('.datepicker').not('.iso-date').datepicker({ showAnim: 'slide' });
     $('.datepicker').filter('.iso-date').datepicker({ showAnim: 'slide', dateFormat: 'yy-mm-dd' });
+    $('#participant_search .datepicker').datepicker("option", "yearRange", "2000:+0");
   }
 
 });
