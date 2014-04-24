@@ -101,7 +101,7 @@ class Organization < ActiveRecord::Base
 
   before_create :set_participant_manager
   before_save :check_micro_enterprise_or_sme
-  before_save :set_non_business_sector
+  before_save :set_non_business_sector_and_listing_status
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
 
@@ -244,7 +244,6 @@ class Organization < ActiveRecord::Base
 
   scope :active, where("organizations.active = ?", true)
   scope :participants, where("organizations.participant = ?", true)
-  scope :withdrew, where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew).includes(:removal_reason)
   scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
   scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme)).includes(:organization_type) }
@@ -262,8 +261,6 @@ class Organization < ActiveRecord::Base
 
   scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
 
-  scope :expelled_for_failure_to_communicate_progress, where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
-
   scope :listed, where("organizations.stock_symbol IS NOT NULL").includes([:country, :exchange])
   scope :without_contacts, where("not exists(select * from contacts c where c.organization_id = organizations.id)")
 
@@ -276,6 +273,7 @@ class Organization < ActiveRecord::Base
 
   # combine with :sme scope to list SMEs who have been given a 1 year extension after becoming non-communicating
   scope :about_to_end_sme_extension, lambda { where("cop_state=? AND inactive_on=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
+  scope :under_moratorium, lambda { where("cop_state=? AND inactive_on >= '2012-12-21'", COP_STATE_NONCOMMUNICATING) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 1.day.ago.beginning_of_day, 1.day.ago.end_of_day)}
 
@@ -302,6 +300,14 @@ class Organization < ActiveRecord::Base
               GROUP BY
                  organization_id ) as c ON organizations.id = c.organization_id")
       .includes([:organization_type, :country, :exchange, :listing_status, :sector, :communication_on_progresses])
+  end
+
+  def self.withdrew
+    where(:cop_state => COP_STATE_DELISTED).where(removal_reason_id: RemovalReason.withdrew.id).includes(:removal_reason)
+  end
+
+  def self.expelled_for_failure_to_communicate_progress
+    where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
   end
 
   # scopes the organization depending on the user_type
@@ -337,6 +343,12 @@ class Organization < ActiveRecord::Base
     end
     where(conditions).includes([:country, :sector]).order("organizations.name ASC")
   end
+  
+  def self.applications_under_review
+    where("organizations.state NOT IN (?)", [ApprovalWorkflow::STATE_APPROVED,
+                                             ApprovalWorkflow::STATE_REJECTED,
+                                             ApprovalWorkflow::STATE_REJECTED_MICRO ])
+  end
 
   def as_json(options={})
     only = ['id', 'name', 'participant']
@@ -361,9 +373,21 @@ class Organization < ActiveRecord::Base
       self.replied_to = true
     end
   end
+  
+  def review_status_name
+    if state == ApprovalWorkflow::STATE_IN_REVIEW && replied_to == false
+      'Updated'
+    else
+      state.humanize
+    end
+  end
 
   def set_last_modified_by(current_contact)
     update_attribute :last_modified_by_id, current_contact.id
+  end
+
+  def local_network
+    country.try(:local_network)
   end
 
   def local_network_country_code
@@ -377,10 +401,24 @@ class Organization < ActiveRecord::Base
       country.local_network.name
     end
   end
+  
+  def local_network_url
+    if country.try(:local_network)
+      country.local_network.url
+    end
+  end
 
   def network_report_recipients
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
+    else
+      []
+    end
+  end
+  
+  def network_contact_person
+    if self.country.try(:local_network)
+      self.country.local_network.contacts.network_contacts.first
     else
       []
     end
@@ -470,7 +508,7 @@ class Organization < ActiveRecord::Base
   end
 
   def listing_status_name
-    listing_status.try(:name) || 'Unknown'
+    listing_status.try(:name)
   end
 
   def public_company?
@@ -935,9 +973,10 @@ class Organization < ActiveRecord::Base
       end
     end
 
-    def set_non_business_sector
+    def set_non_business_sector_and_listing_status
       unless business_entity? || initiative_signatory?
         self.sector = Sector.not_applicable
+        self.listing_status = ListingStatus.not_applicable
       end
     end
 

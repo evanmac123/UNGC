@@ -1,3 +1,4 @@
 #!/bin/bash
-javac -cp poi-3.5-FINAL-20090928.jar:poi-scratchpad-3.5-FINAL-20090928.jar:. org/unglobalcompact/search/PptReader.java
-javac -cp poi-3.5-FINAL-20090928.jar:poi-scratchpad-3.5-FINAL-20090928.jar:. org/unglobalcompact/search/WordReader.java
+javac -cp poi-3.10-FINAL-20140208.jar:poi-scratchpad-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/PptReader.java
+javac -cp poi-3.10-FINAL-20140208.jar:poi-scratchpad-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/WordReader.java
+javac -cp poi-3.10-FINAL-20140208.jar:poi-ooxml-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/DocxReader.java

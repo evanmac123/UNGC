@@ -2,8 +2,12 @@
 
 .tab_container
   = render :partial => 'control_tabs'
-
+  
   .tab_content
+    %p.small
+      - updated = Signing.latest_contribution_update
+      Contribution data was last updated on
+      #{updated.strftime '%d-%b-%Y at %I:%M %p'} UTC.
     %table.dashboard_table
       %tr
         %th ID

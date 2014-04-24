@@ -1,15 +1,16 @@
 class ResourceFeatured
+  include ResourcesHelper
 
   def leaders_summit
-    find 441,371,451,381,391
+    find_resources [441,371,451,381,391]
   end
 
   def leaders_summit2
-    find 461,401,411,421,491
+    find_resources [461,401,411,421,491]
   end
 
   def global_compact
-    find 229,231,241,240,312
+    find_resources [229,231,241,240,312]
   end
 
   def human_rights
@@ -40,12 +41,6 @@ class ResourceFeatured
   end
 
   def communication_on_progress
-  end
-
-private
-  def find(*ids)
-    resources = Resource.find ids
-    ids.collect { |id| resources.detect {|x| x.id == id} }
   end
 
 end

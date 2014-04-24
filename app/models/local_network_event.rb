@@ -87,8 +87,12 @@ class LocalNetworkEvent < ActiveRecord::Base
     self.attributes = {
       :country_id   => country.id,
       :region       => country.region,
-      :file_content => attachments.map { |uploaded_file| FileTextExtractor.extract(uploaded_file) }.join("\n")
     }
+    extract_attachment_content
+  end
+
+  def extract_attachment_content
+    self.file_content = attachments.map { |uploaded_file| FileTextExtractor.extract(uploaded_file) }.join("\n")
   end
 
   def update_indexed_fields

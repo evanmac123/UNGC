@@ -11,5 +11,13 @@
 
 class ListingStatus < ActiveRecord::Base
   validates_presence_of :name
-  default_scope :conditions => "name != 'Not applicable'"
+
+  def self.not_applicable
+    find_by_name("Not Applicable")
+  end
+
+  def self.applicable
+    where("name <> 'Not Applicable'")
+  end
+
 end

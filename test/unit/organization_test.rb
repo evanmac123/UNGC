@@ -71,15 +71,19 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal @companies.id, @organization.organization_type_id
     end
 
-    should "set sector to 'not applicable' when it is a non-business" do
+    should "set sector and listing_status to 'not applicable' when it is a non-business" do
       @non_business = create_organization_type(:name => 'Foundation', :type_property => 1)
       @sector = create_sector(:name => "Media")
+      @listing_status = create_listing_status(:name => "Private Company")
       @sector_not_applicable = create_sector(:name => "Not Applicable")
+      @listing_not_applicable = create_listing_status(:name => "Not Applicable")
       @organization = Organization.create(:name => "Foundation",
                                           :employees => 5,
                                           :organization_type_id => @non_business.id,
-                                          :sector => @sector )
+                                          :sector => @sector,
+                                          :listing_status => @listing_status)
       assert_equal @sector_not_applicable, @organization.sector
+      assert_equal @listing_not_applicable, @organization.listing_status
     end
 
     context "when creating a non-participant" do
