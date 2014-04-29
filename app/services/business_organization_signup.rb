@@ -69,6 +69,10 @@ class BusinessOrganizationSignup < OrganizationSignup
     validate_revenue
   end
 
+  def listing_status_options
+    ListingStatus.applicable.collect {|t| [t.name, t.id]}
+  end
+
   private
     def validate_sector
       return if organization.sector.present?
