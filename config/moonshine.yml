@@ -134,3 +134,7 @@
     bmoss:
       :type: ssh-rsa
       :key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDQZQ6q3/w/sVYWov8KdF1DUTgLKPF17ghbX0/G6wsZg4kP2cIk6WjDf2FoogsZymt5iWnxPzrzrh+oRseqhoSqm+jOPkvZRn6xEQo/KHvgVD2oRzBAluoCGRvJ6y4+6DNNdN4CfBJgKC/UyiHz1NQWD+0tl6cACiXTiBz++Pysl0TMGDNFyFCCJ17MeeI1HGjuQVZUwA95wZknUkaBacq9U7BemAdgivuHNvea+OwTOVZgtu3O5rwMrOlfO/nKhhbYEanj/4w28UKGoYbMPPu5kot5taAckEuWKnDdKYNqNIOdtc/BywJ+BRy7iBVWipSDDkYceAU0KdSE6/kkNyDv
+    bchin:
+      :type: ssh-rsa
+      :key: AAAAB3NzaC1yc2EAAAABJQAAAQEAjoNwQ/8l6wHYirNiYJ57LHvzSthmCDeJm+j+u1YDiIZNMA0tAudBKUfdSvPsnUtQnSB6gpzmqPX5DzazFarppIwyTR13YaN0sWV7JCD97Dpy8VZrzrhatfQaQPXexB9UH1Jn7M1Ug8nEtQckaTK1w0gg4CcwN/R9U9dk96/YYie2c43hVtX1m4tQlnQ624Fk60XgVCfmegfpmwo165bV9wdSiQSF2uJ9eYPU8TVm1andCG7jURDJIVBTZcsCN5pbEcFH1aT3HC+dBdWAHvjLF76RND/Y4stVBcfDbiOi8aSLchs6oTwWFfEx6fjSzvcDdUhwQd/eabGd7gRezKirMw==
+      
