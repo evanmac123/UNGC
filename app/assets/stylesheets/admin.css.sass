@@ -225,9 +225,13 @@ ul.nav_bar
     background: url('../assets/icons/Minus_Button_24x24.png') no-repeat top left
 
   a.delete_doc
-    display: inline
-    padding: 5px 0 10px 30px
-    background: url('../assets/icons/Document (Remove)_24x24.png') no-repeat top left
+    display: inline-block
+    padding: 0
+    background: url("../assets/icons/Document (Remove)_24x24.png") no-repeat top left
+    width: 24px
+    margin-bottom: -10px
+    zoom: 1
+    *display: inline
 
   a.new_user_large
     background: url('../assets/icons/User (Add)_24x24.png') no-repeat top left
@@ -924,7 +928,7 @@ ul.nav_bar
         line-height: 1.3em
         left: 25px
         top: -11px
-	
+
         img.hint_icon
           margin: 0 0 -1px 2px
           padding: 0
