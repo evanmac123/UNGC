@@ -1,19 +1,23 @@
 function hideAndDisableTabbedSection(div) {
-  $(div + " input, " + div + " select").attr("disabled", "disabled");
+  formElementsFor(div).attr("disabled", "disabled");
 }
 
 function showAndEnableTabbedSection(div) {
-  $(div + " input, " + div + " select").removeAttr("disabled");
+  formElementsFor(div).removeAttr("disabled");
 }
 
 function hideAndDisableFormElements(div) {
   $(div).hide('slow');
-  $(div + " input, " + div + " select").attr("disabled", "disabled");
+  formElementsFor(div).attr("disabled", "disabled");
 }
 
 function showAndEnableFormElements(div) {
   $(div).fadeIn('slow');
-  $(div + " input, " + div + " select").removeAttr("disabled");
+  formElementsFor(div).removeAttr("disabled");
+}
+
+function formElementsFor(div) {
+  return $(div + " input, " + div + " select, " + div + " textarea")
 }
 
 $(document).ready(function() {
