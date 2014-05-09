@@ -8,8 +8,8 @@
   %li= link_to 'Public version', cop_detail_path(@communication.id), :class => 'web_preview_large'
   - staff_only do
     %li= link_to "Edit #{@communication.acronym}", edit_admin_cop_path(@communication), :class => 'edit_large', :title => "#{t('admin.edit_' + @communication.acronym)}"
+    %li= link_to "Backdate #{@communication.acronym}", backdate_admin_organization_communication_on_progress_path(@organization, @communication.id), :class => 'backdate'
     %li= link_to "Delete #{@communication.acronym}", @communication.delete_path, :method => :delete, :class => 'delete_large', :confirm => "#{t('admin.confirm_delete_' + @communication.acronym)}", :title => "#{t('admin.delete_' + @communication.acronym)}"
-    %li= link_to "Backdate #{@communication.acronym}", backdate_admin_organization_communication_on_progress_path(@organization, @communication.id), :class => 'web_preview_large'
 
 .main_content
   #status_box
