@@ -21,7 +21,8 @@ class Admin::CopFilesController < Admin::AttachmentsController
   end
 
   def cancel_path
-    edit_admin_organization_communication_on_progress_path(@organization.id, @submodel.id, tab: :files)
+    admin_organization_communication_on_progress_path(@organization.id, @submodel, tab: 'results')
+    # edit_admin_organization_communication_on_progress_path(@organization.id, @submodel.id, tab: :files)
   end
 
   def attachments
