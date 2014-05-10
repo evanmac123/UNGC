@@ -52,7 +52,7 @@ class Admin::CopsController < AdminController
     end
 
     if @communication_on_progress.update(cop_params)
-      redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: 'results')
+      redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)
     else
       render :edit
     end
@@ -74,9 +74,10 @@ class Admin::CopsController < AdminController
   def do_backdate
     published_on = Time.parse(params[:published_on]).to_date
     if BackdateCommunicationOnProgress.backdate(@cop, published_on)
-      redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop)
+      flash[:notice] = 'The communication was backdated'
+      redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)
     else
-      flash[:error] = 'Sorry, we could not update the published_on date.'
+      flash[:error] = 'Sorry, we could not backdate the communication'
       render :backdate
     end
   end
