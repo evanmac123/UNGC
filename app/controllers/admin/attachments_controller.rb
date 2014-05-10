@@ -10,7 +10,7 @@ class Admin::AttachmentsController < AdminController
       if @submodel.save
         redirect_to(attachments_path)
       else
-        flash[:error] = @submodel.errors.full_messages.to_sentence
+        flash[:error] = 'Please select a file to upload.'
         render :new
       end
     else
