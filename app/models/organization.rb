@@ -670,7 +670,7 @@ class Organization < ActiveRecord::Base
   end
 
   def last_approved_cop_year
-    last_approved_cop.created_at.year if last_approved_cop
+    last_approved_cop.published_on.year if last_approved_cop
   end
 
   def last_cop_is_learner?
@@ -694,7 +694,7 @@ class Organization < ActiveRecord::Base
 
     # gather learner COPs
     cops = []
-    communication_on_progresses.approved.all(:order => 'created_at DESC').each do |cop|
+    communication_on_progresses.approved.all(:order => 'published_on DESC').each do |cop|
       next if cop.is_grace_letter? || cop.is_reporting_cycle_adjustment?
       cops << cop if cop.learner?
     end
@@ -702,11 +702,11 @@ class Organization < ActiveRecord::Base
     # check if the total time between first and last COP is two years
     first_cop   = cops.last
     second_cop  = cops.first
-    months_between_cops = (first_cop.created_at.month - second_cop.created_at.month) + 12 * (first_cop.created_at.year - second_cop.created_at.year)
+    months_between_cops = (first_cop.published_on.month - second_cop.published_on.month) + 12 * (first_cop.published_on.year - second_cop.published_on.year)
     months_between_cops = months_between_cops.abs
     if months_between_cops == 12
       # same month, so compare date
-      first_cop.created_at.day <= second_cop.created_at.day
+      first_cop.published_on.day <= second_cop.published_on.day
     else
       months_between_cops >= 12
     end

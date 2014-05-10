@@ -19,7 +19,7 @@
       %td{:title => org.name}= truncate(org.name)
       %td{:title => org.last_approved_cop.title}= truncate org.last_approved_cop.title
       %td= boolean_reponse(org.last_approved_cop.references_water_mandate)
-      %td= org.last_approved_cop.created_at.strftime('%Y-%m-%d')
+      %td= org.last_approved_cop.published_on.strftime('%Y-%m-%d')
       %td= org.cop_state.humanize
       %td= org.cop_due_on.strftime('%Y-%m-%d')
       %td

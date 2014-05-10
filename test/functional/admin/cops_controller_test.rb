@@ -423,23 +423,23 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "should identify if time passed between COPs is one or more years" do
-      @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
-      @second_cop.update_attribute :created_at, Date.new(2011,04,01)
-      @third_cop.update_attribute  :created_at, Date.new(2012,03,02)
+      @first_cop.update_attribute  :published_on, Date.new(2011,03,01)
+      @second_cop.update_attribute :published_on, Date.new(2011,04,01)
+      @third_cop.update_attribute  :published_on, Date.new(2012,03,02)
       assert @organization.triple_learner_for_one_year?
     end
 
     should "not identify them as triple_learner_for_one_year if less than one year" do
-      @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
-      @second_cop.update_attribute :created_at, Date.new(2011,04,01)
-      @third_cop.update_attribute  :created_at, Date.new(2011,05,01)
+      @first_cop.update_attribute  :published_on, Date.new(2011,03,01)
+      @second_cop.update_attribute :published_on, Date.new(2011,04,01)
+      @third_cop.update_attribute  :published_on, Date.new(2011,05,01)
       assert !@organization.triple_learner_for_one_year?
     end
 
     should "not identify them as triple_learner_for_one_year if the exact deadline has not been exceeded" do
-      @first_cop.update_attribute  :created_at, Date.new(2011,03,02)
-      @second_cop.update_attribute :created_at, Date.new(2011,04,02)
-      @third_cop.update_attribute  :created_at, Date.new(2012,03,01)
+      @first_cop.update_attribute  :published_on, Date.new(2011,03,02)
+      @second_cop.update_attribute :published_on, Date.new(2011,04,02)
+      @third_cop.update_attribute  :published_on, Date.new(2012,03,01)
       assert !@organization.triple_learner_for_one_year?
     end
   end
@@ -450,9 +450,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
       @first_cop  = create_cop_with_options({:include_continued_support_statement => false})
       @second_cop = create_cop_with_options
       @third_cop = create_cop_with_options({:include_measurement => false})
-      @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
-      @second_cop.update_attribute :created_at, Date.new(2012,03,01)
-      @third_cop.update_attribute  :created_at, Date.new(2013,03,01)
+      @first_cop.update_attribute  :published_on, Date.new(2011,03,01)
+      @second_cop.update_attribute :published_on, Date.new(2012,03,01)
+      @third_cop.update_attribute  :published_on, Date.new(2013,03,01)
       sign_in @organization_user
     end
     should "not identify them as triple_learner_for_one_year" do
@@ -469,7 +469,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
       create_approved_organization_and_user
       create_cop_with_options({
         cop_type: 'basic',
-        created_at: @due_date - 1.year,
+        published_on: @due_date - 1.year,
         organization: @organization
       })
       @organization.update_attribute(:cop_due_on, @due_date)

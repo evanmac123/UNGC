@@ -24,6 +24,7 @@ class AllCops < SimpleReport
       'notable_program',
       'created_at',
       'updated_at',
+      'published_on',
       'state',
       'include_continued_support_statement',
       'format',
@@ -57,6 +58,7 @@ class AllCops < SimpleReport
     record.notable_program ? 1:0,
     record.created_at.present? ? record.created_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
     record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
+    record.published_on,
     record.state,
     record.include_continued_support_statement ? 1:0,
     record.format,
@@ -76,9 +78,7 @@ class AllCops < SimpleReport
   private
 
   def single_line(contact_info)
-    if contact_info
-      gsub(/\r\n?/, ' ')
-    end
+    contact_info.gsub(/\r\n?/, ' ') if contact_info
   end
 
 end
