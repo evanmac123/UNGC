@@ -9,14 +9,15 @@
       %fieldset
         %legend
           %span Grace Period
-        By submitting a Grace Letter, your COP due date will be extended by
-        %strong== #{@form.grace_period} days.
-        Your COP must be received by
-        %strong==  #{yyyy_mm_dd @form.due_on}.
+        %p
+          By submitting a Grace Letter, your reporting deadline will be extended by
+          %strong== #{@form.grace_period} days.
+          == Your next #{@form.organization_cop_acronym} must be received by
+          %strong==  #{yyyy_mm_dd @form.due_on}.
 
       %fieldset
         %legend
-          %span Please upload your "Grace Letter" as a PDF file
+          %span Please upload your Grace Letter as a PDF file
         %ol
           %li
             = form.label :language

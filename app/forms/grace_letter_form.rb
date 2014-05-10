@@ -24,6 +24,10 @@ class GraceLetterForm
   def grace_period
     GraceLetterApplication::GRACE_DAYS
   end
+  
+  def organization_cop_acronym
+    @organization.cop_acronym
+  end
 
   def due_on
     (organization.cop_due_on + grace_period.days).to_date

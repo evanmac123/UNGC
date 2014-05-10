@@ -4,8 +4,10 @@
   %ul.tab_nav
     %li <a href="#introduction">Introduction</a>
     %li <a href="#coe">COE Submission</a>
-    %li <a href="#grace">Grace Letter</a>
-    %li <a href="#reporting">Reporting Cycle Adjustment</a>
+    - if current_contact.submit_grace_letter?
+      %li <a href="#grace">Grace Letter</a>
+    - if current_contact.submit_reporting_cycle_adjustment?
+      %li <a href="#reporting">Reporting Cycle Adjustment</a>
 
   #introduction.tab_content
     %p{:class => 'cop_description', :style => 'margin-top: 10px;'}
@@ -13,12 +15,22 @@
       %p.cop_description
         %strong COE Submission:
         Submit an electronic version of your COE and answer questions on its content.
-      %p.cop_description
-        %strong Grace Letter:
-        ==You can also submit a grace letter for a #{GraceLetterApplication::GRACE_DAYS} day extension to your COE deadline.
-      %p.cop_description
-        %strong Reporting Cycle Adjustment:
-        You may submit a one-time deferral of up to 11 months to align your COE deadline with your organization's reporting cycle.
+      - if current_contact.submit_grace_letter?
+        %p.cop_description
+          %strong Grace Letter:
+          == You can also submit a grace letter for a #{GraceLetterApplication::GRACE_DAYS} day extension to your COP deadline.
+      - else
+        %p.cop_description
+          %strong Grace Letter:
+          == This option is not available because you have already submitted a Grace Letter.
+      - if current_contact.submit_reporting_cycle_adjustment?
+        %p.cop_description
+          %strong Reporting Cycle Adjustment:
+          == Submit a one-time deferral of up to 11 months to align your COP deadline with your company's reporting cycle.
+      - else
+        %p.cop_description
+          %strong Reporting Cycle Adjustment:
+          == This option is not available because you have already submitted a Reporting Cycle Adjustment.
 
   #coe.tab_content
     %h3 Publish a COE on the Global Compact Website
@@ -35,10 +47,6 @@
 
       %p= link_to 'New Grace Letter', new_admin_organization_grace_letter_path(current_contact.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'
       
-  - else
-    %p.cop_description
-      %strong This option is not available because you have already submitted a Grace Letter.
-
   #reporting.tab_content
     %h3 Request a reporting cycle adjustment
     %p.cop_description== You may submit a one-time deferral of up to 11 months to align your COE deadline with your organization's reporting cycle.
