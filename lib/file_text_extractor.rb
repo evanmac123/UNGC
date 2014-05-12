@@ -1,21 +1,23 @@
 require 'timeout'
 require 'tempfile'
 
-module FileTextExtractor
-  PROCESS_TIMEOUT = 20
+class FileTextExtractor
+  @timeout = 20
+  class << self
+    attr_accessor :timeout
+  end
 
-  module_function
-
-  def extract(model)
+  def self.extract(model)
     type = model.attachment_content_type
     path = model.attachment.path
 
+    extractor = FileTextExtractor.new
     if type =~ /^application\/.*pdf$/
-      get_text_from_pdf(path)
+      extractor.get_text_from_pdf(path)
     elsif type =~ /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
-      get_text_from_docx(path)
+      extractor.get_text_from_docx(path)
     elsif type =~ /\b(doc|msword)\b/
-      get_text_from_word(path)
+      extractor.get_text_from_word(path)
     end
   end
 
@@ -34,6 +36,8 @@ module FileTextExtractor
     safe_get_text_command("#{Rails.root}/script/docx_import", path)
   end
 
+  private
+
   def safe_get_text_command(command, file)
     begin
       full_command = "#{command} '#{file}'"
@@ -41,12 +45,12 @@ module FileTextExtractor
       text         = ""
 
       if File.exists?(file)
-        output = Timeout.timeout(PROCESS_TIMEOUT) do
+        output = Timeout.timeout(timeout) do
           Tempfile.open("FileTextExtractor.out") do |out|
             Tempfile.open("FileTextExtractor.err") do |err|
               Rails.logger.info "Spawning #{full_command.inspect}, redirecting stdout to #{out.path}, stderr to #{err.path}"
 
-              pid = Process.spawn(full_command, :out => out.path, :err => err.path)
+              pid = Process.spawn(full_command, :out => out.path, :err => err.path, :pgroup => true)
               Process.wait(pid)
 
               unless $?.success?
@@ -63,12 +67,23 @@ module FileTextExtractor
       else
         Rails.logger.error "File does not exist: #{file.inspect}"
       end
-    rescue StandardError => e
-      Process.kill(9, pid) if pid
+    rescue => e
       Rails.logger.error "Unable to execute #{full_command.inspect} because of #{e.class.name}: #{e.message}"
+      if pid
+        # kill the process group that was created for this task
+        # detach from the pid as we don't care about the result
+        pgid = Process.getpgid(pid)
+        Process.kill(-9,pgid)
+        Process.detach(pid)
+      end
     ensure
       return text
     end
   end
+
+  def timeout
+    self.class.timeout
+  end
+
 end
 
