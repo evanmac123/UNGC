@@ -52,6 +52,7 @@ class Admin::CopsController < AdminController
     end
 
     if @communication_on_progress.update(cop_params)
+      flash[:notice] = "The communication was updated"
       redirect_to admin_organization_communication_on_progress_url(@organization.id, @cop, tab: :results)
     else
       render :edit
