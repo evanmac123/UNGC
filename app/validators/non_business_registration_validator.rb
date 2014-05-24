@@ -11,9 +11,9 @@ class NonBusinessRegistrationValidator
   end
 
   def validate_callbacks
+    validate_date
     validate_place
     validate_authority
-    validate_date
   end
 
   private
