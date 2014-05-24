@@ -84,9 +84,9 @@ class CopMailerTest < ActionMailer::TestCase
        @first_cop  = create_cop(@organization.id, { :references_environment  => false })
        @second_cop = create_cop(@organization.id, { :references_human_rights => false })
        @third_cop  = create_cop(@organization.id, { :references_labour => false })
-       @first_cop.update_attribute  :created_at, Date.new(2011,03,01)
-       @second_cop.update_attribute :created_at, Date.new(2011,04,01)
-       @third_cop.update_attribute  :created_at, Date.new(2012,03,02)
+       @first_cop.update_attribute  :published_on, Date.new(2011,03,01)
+       @second_cop.update_attribute :published_on, Date.new(2011,04,01)
+       @third_cop.update_attribute  :published_on, Date.new(2012,03,02)
      end
 
      should "send triple Learner alert and copy Participant Manager" do

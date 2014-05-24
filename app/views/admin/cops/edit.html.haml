@@ -1,6 +1,3 @@
-%h2 Edit COP
+%h2= "Edit #{@communication_on_progress.organization.cop_acronym}"
 
-= form_for(:communication_on_progress, url: admin_organization_communication_on_progress_path(@organization.id, @communication_on_progress), :html => { :multipart => true, :id => 'cop_form', :method => :put }) do |form|
-  = render :partial => form
-  %p
-    = form.submit 'Save'
+=render partial: "edit_#{current_contact.user_type}"

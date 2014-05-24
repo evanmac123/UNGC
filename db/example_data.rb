@@ -15,6 +15,29 @@ module FixtureReplacement
     cop.starts_on = Date.today - 1.year
     cop.ends_on = Date.today
     cop.title = FixtureReplacement.random_string
+    cop.organization_id = Organization.first.id
+    cop.contact_info = FixtureReplacement.random_string
+    cop.include_actions = false
+    cop.include_measurement = true
+    cop.use_indicators = false
+    cop.cop_score_id = new_cop_score.id
+    cop.use_gri = true
+    cop.has_certification = false
+    cop.notable_program = true
+    cop.description = FixtureReplacement.random_string
+    cop.state = 'approved'
+    cop.include_continued_support_statement = false
+    cop.format = FixtureReplacement.random_string
+    cop.references_human_rights = true
+    cop.references_labour = false
+    cop.references_environment = true
+    cop.references_anti_corruption = false
+    cop.meets_advanced_criteria = true
+    cop.additional_questions = false
+    cop.method_shared = FixtureReplacement.random_string
+    cop.differentiation = FixtureReplacement.random_string
+    cop.references_business_peace = true
+    cop.references_water_mandate = false
   end
 
   attributes_for :contact do |c|
@@ -37,6 +60,17 @@ module FixtureReplacement
     q.principle_area_id = PrincipleArea.first.id
     q.grouping = 'additional'
     q.position = 1
+  end
+
+  attributes_for :cop_link do |l|
+    l.attachment_type = CopFile::TYPES[:cop]
+    l.url = "http://#{FixtureReplacement.random_string}.org"
+    l.language = create_language
+    l.communication_on_progress = new_communication_on_progress
+  end
+
+  attributes_for :cop_attribute do |a|
+    a.text  = FixtureReplacement.random_string
   end
 
   attributes_for :cop_score do |a|
@@ -174,5 +208,22 @@ module FixtureReplacement
     l.language = Language.first || create_language
     l.title = FixtureReplacement.random_string
     l.link_type = ResourceLink::TYPES.keys.shuffle.first.to_s
+  end
+
+  attributes_for :cop_file do |c|
+    c.language = create_language
+    c.attachment_type = CopFile::TYPES[:cop]
+  end
+
+  attributes_for :grace_letter, class:CommunicationOnProgress do |g|
+    g.organization = Organization.first
+    g.title = 'Grace Letter'
+    g.format = CopFile::TYPES[:grace_letter]
+  end
+
+  attributes_for :reporting_cycle_adjustment, class:CommunicationOnProgress do |g|
+    g.organization = Organization.first
+    g.title = 'Reporting Cycle Adjustment'
+    g.format = CopFile::TYPES[:reporting_cycle_adjustment]
   end
 end

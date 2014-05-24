@@ -27,26 +27,28 @@ $(document).ready(function() {
     }
   });
 
-  // used to set delisting date/reason when Active is unchecked
-  $("#organization_active").change(function() {
-    if ($("#organization_active").is(':checked')) {
-      $("#delisted_only").hide();
-      $('#organization_delisted_on').attr('value', '');
-      $("#organization_removal_reason_id option[value='1']").attr('selected', 'selected');
+  // /app/views/admin/organizations/_default_form.html.haml
+  
+  // used to set delisting date/reason when Delisted is manually selected
+  $("input[id^=organization_cop_state_]").change(function() {
+    if ($("#organization_cop_state_delisted").is(':checked')) {
+      $("#delisted_only").show('slow');
     }
     else {
-      $("#delisted_only").toggle();
+      $("#delisted_only").hide('slow');
+      $('#organization_delisted_on').attr('value', '');
+      $("#organization_removal_reason_id option[value='1']").attr('selected', 'selected');
     }
   });
 
   // used when 'No Dialogue' is set
   $("#organization_non_comm_dialogue").change(function() {
     if ($("#organization_non_comm_dialogue").is(':checked')) {
-      $("#non_comm_dialogue_only").show();
+      $("#non_comm_dialogue_only").show('slow');
     }
     else {
-      $("select[id^=organization_non_comm_dialogue_on_]").val($("select[id^=organization_non_comm_dialogue_on_] option:first").val());
-      $("#non_comm_dialogue_only").toggle();
+      $('#organization_non_comm_dialogue_on').attr('value', '');
+      $("#non_comm_dialogue_only").hide('slow');
     }
   });
 

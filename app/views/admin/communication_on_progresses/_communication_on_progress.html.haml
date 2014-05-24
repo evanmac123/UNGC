@@ -1,14 +1,11 @@
 %tr
-  %td= communication_on_progress.created_at
+  %td= communication_on_progress.published_on
   %td= communication_on_progress.title
   %td= communication_on_progress.state.humanize
   - if communication_on_progress.organization.business_entity?
     %td= communication_on_progress.differentiation_level_name
   %td
     %ul.actions
-      %li= link_to 'View Details', admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :title => "View details", :class => "preview"
-      - organization_only do
-        - if communication_on_progress.editable?
-          %li= link_to 'Edit Details', edit_admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :title => "Edit details", :class => "edit"
+      %li= link_to 'View Details', admin_cop_path(communication_on_progress), :title => "View details", :class => "preview"
       - staff_only do
-        %li= link_to 'Edit Details', edit_admin_organization_communication_on_progress_path(communication_on_progress.organization.id, communication_on_progress), :title => "Edit details", :class => "edit"
+        %li= link_to 'Edit Details', edit_admin_cop_path(communication_on_progress), :title => "Edit details", :class => "edit"

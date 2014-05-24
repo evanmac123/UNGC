@@ -1,16 +1,19 @@
 - @body_class = 'details'
-- @return_path = current_contact.from_organization? ? dashboard_path(:tab => :cops) : admin_organization_path(@communication_on_progress.organization.id, :tab => :cops)
 
-%h2== #{@communication_on_progress.organization.cop_name} Details
+%h2== #{@communication.title} Details
 
 %ul{:class => "tools inline"}
 
-  %li= link_to "Back to #{@communication_on_progress.organization.cop_acronym}s", @return_path, :class => 'go_back_large'
-  %li= link_to 'Public version', cop_detail_path(@communication_on_progress.id), :class => 'web_preview_large'
-  - staff_only do
-    %li= link_to 'Delete COP', admin_organization_communication_on_progress_path(@communication_on_progress.organization.id, @communication_on_progress), :method => :delete, :class => 'delete_large', :confirm => 'All COP answers, files and links will be permanently removed. Are you sure you want to delete this COP?', :title => 'Delete COP and remove all answers, files and links'
+  %li= link_to "Back to #{@communication.acronym}s", @communication.return_path, :class => 'go_back_large'
+  %li= link_to 'Public version', cop_detail_path(@communication.id), :class => 'web_preview_large'
+  - participant_manager_only do
+    %li= link_to "Edit #{@communication.acronym}", edit_admin_cop_path(@communication), :class => 'edit_large', :title => "#{t('admin.edit_' + @communication.acronym)}"
+    %li= link_to 'Manage Files', admin_organization_communication_on_progress_files_path(@communication.organization.id, @communication.id), :class => "folder_large"
+    %li= link_to "Backdate #{@communication.acronym}", backdate_admin_organization_communication_on_progress_path(@organization, @communication.id), :class => 'backdate'
+    %li= link_to "Delete #{@communication.acronym}", @communication.delete_path, :method => :delete, :class => 'delete_large', :confirm => "#{t('admin.confirm_delete_' + @communication.acronym)}", :title => "#{t('admin.delete_' + @communication.acronym)}"
 
 .main_content
   #status_box
-    %dl{:style => 'width: 90%;'}= render :partial => @cop_partial, :locals => {:results_partial => @results_partial, :communication_on_progress => @communication_on_progress }
-  = action_links(@communication_on_progress)
+    %dl{style: 'width: 90%;'}
+      = render partial: @communication.admin_partial, locals: { results_partial: @communication.results_partial, communication_on_progress: @communication }
+  = action_links(@communication)

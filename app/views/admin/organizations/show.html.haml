@@ -164,7 +164,7 @@
           - if @organization.company?
             %th.status Differentiation
           %th.actions Actions
-        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.find(:all, order: "created_at DESC")
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.find(:all, order: "published_on DESC")
 
   - if @organization.case_stories.any?
     #case_stories.tab_content

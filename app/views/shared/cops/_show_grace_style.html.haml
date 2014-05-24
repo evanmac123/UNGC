@@ -3,11 +3,11 @@
 %dd
   %ul
     %li== COP due date was extended until #{yyyy_mm_dd communication_on_progress.ends_on}
-- if communication_on_progress.cop_files.any?
+- if communication_on_progress.has_files?
   %dt Files
   %dd
     %ul
-      - for cop_file in communication_on_progress.cop_files
+      - communication_on_progress.files.each do |file|
         %li
-          = link_to truncate(cop_file.attachment_file_name, :length => 60), cop_file.attachment.url
-          == (#{cop_file.language.name})
+          = link_to truncate(file.attachment_file_name, :length => 60), file.attachment.url
+          == (#{file.language.name})

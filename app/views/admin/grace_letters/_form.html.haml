@@ -1,0 +1,33 @@
+-if @form.errors.any?
+  %div{:class => 'flash error'}
+    = error_messages_for @form, { header_message: false }
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li <a href="#grace">Grace Letter</a>
+  #grace.tab_content
+    %fieldset
+      %fieldset
+        %legend
+          %span Grace Period
+        %p
+          By submitting a Grace Letter, your reporting deadline will be extended by
+          %strong== #{@form.grace_period} days.
+          == Your next #{@form.organization_cop_acronym} must be received by
+          %strong==  #{yyyy_mm_dd @form.due_on}.
+
+      %fieldset
+        %legend
+          %span Please upload your Grace Letter as a PDF file
+        %ol
+          %li
+            = form.label :language
+            = form.select :language_id, options_from_collection_for_select(Language.all, :id, :name, @form.language_id)
+            = form.file_field :attachment
+            - if @form.has_file?
+              %br
+              Current file:
+              = link_to @form.cop_file.attachment_file_name, @form.cop_file.attachment.url
+
+    %ul.tools.inline{:style => 'float: right;'}
+      %li= link_to 'Cancel', @form.return_url, class: 'cancel_large'
+      %li= submit_tag 'Submit', :class => "button", id: "finish"

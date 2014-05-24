@@ -29,7 +29,8 @@ class CopRequiredElements < SimpleReport
       'ends_on',
       'differentiation',
       'created_at',
-      'updated_at'
+      'updated_at',
+      'published_on'
     ]
   end
 
@@ -54,7 +55,8 @@ class CopRequiredElements < SimpleReport
       record.ends_on,
       record.created_at.present? ? record.differentiation : 'invalid COP record',
       record.created_at.present? ? record.created_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
-      record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record'
+      record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
+      record.published_on
     ]
   end
 

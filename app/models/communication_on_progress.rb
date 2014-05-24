@@ -5,9 +5,7 @@
 #  id                                  :integer          not null, primary key
 #  organization_id                     :integer
 #  title                               :string(255)
-#  email                               :string(255)
-#  job_title                           :string(255)
-#  contact_name                        :string(255)
+#  contact_info                        :string(255)
 #  include_actions                     :boolean
 #  include_measurement                 :boolean
 #  use_indicators                      :boolean
@@ -65,8 +63,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
   accepts_nested_attributes_for :cop_links, :allow_destroy => true
 
-  attr_accessor :type
-
   cattr_reader :per_page
   @@per_page = 15
 
@@ -75,7 +71,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   default_scope :order => 'communication_on_progresses.created_at DESC'
 
   scope :all_cops, includes([:organization, {:organization => [:country]}])
-  scope :created_between, lambda { |start_date, end_date| where(created_at: start_date..end_date) }
+  scope :published_between, lambda { |start_date, end_date| where(published_on: start_date..end_date) }
   scope :new_policy, lambda { where("created_at >= ?", Date.new(2010, 1, 1)) }
   scope :old_policy, lambda { where("created_at <= ?", Date.new(2009, 12, 31)) }
   scope :notable, lambda {
@@ -85,41 +81,14 @@ class CommunicationOnProgress < ActiveRecord::Base
   scope :advanced, where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}])
   scope :learner, where("differentiation = ?", 'learner').includes([{:organization => [:country, :sector]}])
   scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => :country, :organization => :organization_type}]) }
-  # feed contains daily COP submissions, without grace letters
-  scope :for_feed, lambda { where("format != ? AND created_at >= ?", 'grace_letter', Date.today).order("created_at") }
+  # feed contains daily COP submissions, without grace letters or reporting adjustments
+  scope :for_feed, lambda { where("format NOT IN (?) AND published_on >= ?", ['grace_letter','reporting_cycle_adjustment'], Date.today).order("published_on") }
   scope :by_year, order("communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC")
 
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",
             :annual_report         => "Part of an annual (financial) report"
            }
-
-  COE_FORMAT = {:standalone        => "Stand alone document",
-                :financial_report  => "Part of an annual (financial) report",
-                :other_report      => "Part of another type of report"
-               }
-
-  # How the COP is shared
-  METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
-            :all_access   => "b) COP is easily accessible to all interested parties (e.g. via its website)",
-            :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employees, consumers, local community)",
-            :all          => "d) Both b) and c)"
-           }
-
-  # How the COP is shared
-  COE_METHOD = {:gc_website   => "a) Through the UN Global Compact website only",
-                :all_access   => "b) COE is easily accessible to all interested parties (e.g. via its website)",
-                :stakeholders => "c) COE is actively distributed to all key stakeholders (e.g. investors, employees, beneficiaries, local community)",
-                :all          => "d) Both b) and c)"
-          }
-
-
-  # Basic COP templates have other options for sharing their COP
-  BASIC_METHOD = {:gc_website   => "a) On the UN Global Compact website only",
-                  :all_access   => "b) COP will be made easily accessible to all interested parties on company website",
-                  :stakeholders => "c) COP is actively distributed to all key stakeholders (e.g. investors, employers, consumers, local community)",
-                  :all          => "d) Both b) and c)"
-                 }
 
   LEVEL_DESCRIPTION = { :blueprint => "This COP qualifies for the Global Compact Advanced level",
                         :advanced  => "This COP qualifies for the Global Compact Advanced level",
@@ -175,17 +144,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     ends_on.strftime('%Y')
   end
 
-  def init_cop_attributes
-    cop_questions.each do |cop_question|
-      cop_question.cop_attributes.each do |cop_attribute|
-        self.cop_answers.build \
-          :cop_attribute_id => cop_attribute.id,
-          :value            => false,
-          :text             => nil
-      end
-    end
-  end
-
   def cop_questions
     @questions ||= CopQuestion.questions_for(self.organization)
   end
@@ -219,7 +177,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def is_differentiation_program?
-    created_at >= START_DATE_OF_DIFFERENTIATION && !is_grace_letter?
+    created_at >= START_DATE_OF_DIFFERENTIATION && !is_grace_letter? && !is_reporting_cycle_adjustment?
   end
 
   # Test phase of Advanced Programme was launched Oct 11, 2010
@@ -239,8 +197,8 @@ class CommunicationOnProgress < ActiveRecord::Base
     self.attributes['format'] == CopFile::TYPES[:grace_letter]
   end
 
-  def is_reporting_adjustment?
-    # to be completed with submission process
+  def is_reporting_cycle_adjustment?
+    self.attributes['format'] == CopFile::TYPES[:reporting_cycle_adjustment]
   end
 
   def is_non_business_format?
@@ -251,24 +209,14 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_new_format? && self.attributes['format'] == 'basic'
   end
 
-  # TODO use the new pre-pending state here
+  # XXX move this to policy object
+  # cops are always editable unless they have the legacy_format
   def editable?
-    case
-    when new_record?
-      true
-    when pending_review?
-      created_at + 30.days >= Time.now
-    when in_review?
-      created_at + 90.days >= Time.now
-    else
-      false
-    end
+    is_new_format?
   end
 
   def set_approved_fields
-    if is_grace_letter?
-      organization.extend_cop_grace_period
-    else
+    if !is_grace_letter? && !is_reporting_cycle_adjustment?
       organization.set_next_cop_due_date_and_cop_status
     end
   end
@@ -371,7 +319,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def evaluated_for_differentiation?
-    if is_grace_letter? || is_non_business_format?
+    if is_grace_letter? || is_non_business_format? || is_reporting_cycle_adjustment?
       false
     else
       new_record? || created_at > START_DATE_OF_DIFFERENTIATION
@@ -389,12 +337,9 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   # for the COP to be Advanced, cop questions cannot have any missing cop_attributes
   def is_advanced_level?
-    if questions_missing_answers.any?
-      self.meets_advanced_criteria = false
-    else
-      self.meets_advanced_criteria = true
-    end
-    is_advanced_programme? && is_intermediate_level? && meets_advanced_criteria
+    # a cop meets advanced criteria if it has additional questions and none of them are missing
+    self.meets_advanced_criteria = additional_questions && questions_missing_answers.none?
+    is_advanced_programme? && is_intermediate_level? && self.meets_advanced_criteria
   end
 
   def is_blueprint_level?
@@ -433,7 +378,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   end
 
   def missing_lead_criteria?
-    unless is_grace_letter? || is_reporting_adjustment?
+    unless is_grace_letter? || is_reporting_cycle_adjustment?
       !['advanced','blueprint'].include?(differentiation)
     end
   end
@@ -489,6 +434,17 @@ class CommunicationOnProgress < ActiveRecord::Base
     error_messages
   end
 
+  def uploaded_attachments=(attribute_array)
+    attribute_array.each do |attrs|
+      self.cop_files.build(attrs.merge(attachment_type: CopFile::TYPES[:cop]))
+    end
+  end
+
+  # record level in case the criteria changes in the future
+  def set_differentiation_level
+    update_attribute :differentiation, differentiation_level.to_s
+  end
+
   private
 
     # javascript will normally hide the link field if it's blank,
@@ -501,13 +457,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
     def set_cop_defaults
       self.additional_questions = false
-      case type
-        when 'grace'
-          self.format = CopFile::TYPES[:grace_letter]
-          self.title = 'Grace Letter'
-          # normally they can choose the coverage dates, but for grace letters it matches the grace period
-          self.starts_on = organization.cop_due_on
-          self.ends_on = organization.cop_due_on + Organization::COP_GRACE_PERIOD.days
+      case cop_type
         when 'basic'
           self.format = 'basic'
         when 'advanced'
@@ -523,14 +473,11 @@ class CommunicationOnProgress < ActiveRecord::Base
       end
     end
 
-    # record level in case the criteria changes in the future
-    def set_differentiation_level
-      update_attribute :differentiation, differentiation_level.to_s
-    end
-
     # set approved state for all COPs
     def set_approved_state
-      update_attribute(:state, "approved")
+      self.published_on ||= Time.now.to_date
+      self.state = "approved"
+      self.save
       set_approved_fields
     end
 

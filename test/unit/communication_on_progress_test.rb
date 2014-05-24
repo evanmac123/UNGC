@@ -93,22 +93,21 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "set the email template to the non-business version" do
       assert_equal 'non_business', @cop.confirmation_email
     end
-    
+
     should "change the organization's due date two years after it is approved" do
       @cop.approve
       @organization.reload
       assert_equal 2.year.from_now.to_date, @organization.cop_due_on
     end
-    
+
   end
 
   context "given a COP that is a grace letter" do
     setup do
       create_organization_and_user('approved')
       @organization.communication_late
-      @old_cop_due_on = @organization.cop_due_on
       @cop = generate_cop(@organization, format: 'grace_letter', :title => 'Grace Letter')
-      @cop.type = 'grace'
+      @cop.cop_type = 'grace'
       @cop.save
       @cop.reload
       @organization.reload
@@ -121,15 +120,6 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     should "have the title 'Grace Letter'" do
       assert_equal @cop.title, 'Grace Letter'
     end
-
-    should "have an extra 90 days added to the current COP due date" do
-      assert_equal (@old_cop_due_on + 90.days).to_date, @organization.cop_due_on.to_date
-    end
-
-    should "set the coverage dates from today until 90 days from now" do
-      assert_equal @organization.cop_due_on.to_date, @cop.starts_on
-      assert_equal (@organization.cop_due_on + 90.days).to_date, @cop.ends_on
-     end
 
     should "not be evaluated for differentiation" do
       assert_equal '', @cop.differentiation_level
@@ -159,7 +149,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
-  
+
   context "Given a non-communicating SME submitting a grace letter while under the moratorium" do
     setup do
       create_organization_and_user
@@ -176,7 +166,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
     end
 
   end
-  
+
 
   context "given an approved COP" do
     setup do
@@ -190,8 +180,8 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
                                               :state => ApprovalWorkflow::STATE_APPROVED)
     end
 
-    should "not be editable" do
-      assert !@cop.editable?
+    should "be editable" do
+      assert @cop.editable?
     end
 
     should "have a file attached" do
@@ -236,7 +226,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       @cop_question = create_cop_question
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new(:title => 'Our COP', :ends_on => Date.today)
-      @cop.type = 'basic'
+      @cop.cop_type = 'basic'
       @cop.save
     end
 
@@ -252,7 +242,7 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       create_organization_and_user
       @cop = @organization.communication_on_progresses.new( :title => 'Our COP',
                                                             :ends_on => Date.today)
-      @cop.type = 'advanced'
+      @cop.cop_type = 'advanced'
 
       # 6 required criteria to be considered Active
       @cop.update_attribute :include_continued_support_statement, true
@@ -286,6 +276,17 @@ class CommunicationOnProgressTest < ActiveSupport::TestCase
       assert_equal true, @organization.active
       assert_equal Organization::COP_STATE_ACTIVE, @organization.cop_state
       assert_equal Date.today, @organization.rejoined_on
+    end
+  end
+
+  context "given a COP. By default it " do
+    setup do
+      create_organization_and_user
+      @cop = create_communication_on_progress
+    end
+
+    should "not meet advanced criteria" do
+      refute @cop.meets_advanced_criteria
     end
   end
 

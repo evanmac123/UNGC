@@ -1,0 +1,16 @@
+- @body_class = 'details'
+
+%h2== Reporting Cycle Adjustment Details
+
+%ul{:class => "tools inline"}
+
+  %li= link_to "Back to COPs", @cycle_adjustment.return_path, :class => 'go_back_large'
+  %li= link_to 'Public version', cop_detail_path(@cycle_adjustment.id), :class => 'web_preview_large'
+  - staff_only do
+    %li= link_to 'Delete Reporting Cycle Adjustment', admin_organization_reporting_cycle_adjustment_path(@cycle_adjustment.organization, @cycle_adjustment.id), method: :delete, :class => 'delete_large', confirm: "#{t('admin.confirm_delete_cycle_adjustment')}", title: "#{t('admin.delete_cycle_adjustment')}"
+
+.main_content
+  #status_box
+    %dl{style: 'width: 90%;'}
+      = render partial: 'shared/cops/show_reporting_style', locals: { communication_on_progress: @cycle_adjustment }
+      = action_links(@cycle_adjustment)

@@ -100,7 +100,16 @@ UNGC::Application.routes.draw do
       end
 
       resources :case_stories
-      resources :communication_on_progresses, :controller => 'cops'
+      resources :communication_on_progresses, :controller => 'cops' do
+        resources :files, :controller => 'cop_files', only: [:index, :new, :create, :destroy]
+        member do
+          get  :backdate
+          post :do_backdate
+        end
+      end
+
+      resources :grace_letters, except: :index
+      resources :reporting_cycle_adjustments, except: :index
 
       resources :contacts
     end

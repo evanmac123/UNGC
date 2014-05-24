@@ -5,7 +5,7 @@
   %ol
     %li
       = label_tag("communication_on_progress_cop_files_attributes_attributes_#{record}_language_id", 'Language')
-      = select_tag("communication_on_progress[cop_files_attributes][#{record}][language_id]", options_from_collection_for_select(Language.all, 'id', 'name', language_id))
+      = select_tag("communication_on_progress[cop_files_attributes][#{record}][language_id]", options_from_collection_for_select(Language.all, 'id', 'name', cop_file.language_id))
 
       = file_field_tag("communication_on_progress[cop_files_attributes][#{record}][attachment]")
       - unless record == 0

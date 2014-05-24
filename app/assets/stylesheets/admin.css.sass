@@ -181,7 +181,7 @@ ul.nav_bar
   div.hint_toggle, a.web_preview_large, a.delete_doc, a.new_user_large, a.new_headline_large,
   a.refresh_large, a.delete_large, a.cancel_large, a.edit_page_large, a.go_back_large, a.download_large,
   a.folder_large, a.search_large, a.new_org, a.zip_file_large, a.guest_large, button.new_large,
-  .approve, .revoke
+  .approve, .revoke, a.backdate
     display: block
     height: 24px
     padding: 5px 0 0 30px
@@ -280,6 +280,8 @@ ul.nav_bar
   .revoke
     background: url('../assets/icons/Rate (Thumbs Down)_24x24.png') no-repeat left top
 
+  .backdate
+    background: url('../assets/icons/Date_Previous_24x24.png') no-repeat left top
 
 
   // icons for issues areas in search results admin/learning/search.html.haml and event show page
@@ -939,13 +941,12 @@ ul.nav_bar
       // new COP submission
       ul.date_select
         float: left
-        margin-top: 10px
-        margin-right: 25px
+        margin: 10px 25px 0 0
         list-style: none
         li
           font-weight: bold
         select
-          width: 90px
+          width: 100px
 
     .numeric_inputs
       li
