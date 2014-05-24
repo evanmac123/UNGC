@@ -29,9 +29,9 @@ class OrganizationUpdater
     update_state
     update_contact
 
-    organization.update_attributes(params[:organization]) &&
-      save_registration(params[:non_business_organization_registration]) &&
-      organization.set_last_modified_by(contact)
+    organization.attributes = params[:organization]
+    organization.registration.attributes = params[:non_business_organization_registration]
+    organization.save && organization.registration.save && organization.set_last_modified_by(contact)
   end
 
   def error_message

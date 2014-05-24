@@ -32,34 +32,16 @@ class NonBusinessOrganizationSignup < OrganizationSignup
     super && valid_registration?
   end
 
+  def valid_registration?
+    NonBusinessRegistrationPartialValidator.new(registration, @legal_status_id).validate
+  end
+
   def complete_valid?
     super && complete_valid_registration?
   end
 
-  def valid_registration?
-    registration.errors.clear
-
-    if @legal_status_id.blank? && registration.number.blank?
-      registration.errors.add :number, "can't be blank"
-    end
-
-    if registration.place.blank?
-      registration.errors.add :place, "of Registration can't be blank"
-    end
-
-    if registration.authority.blank?
-      registration.errors.add :authority, "can't be blank"
-    end
-
-    if registration.date.blank?
-      registration.errors.add :date, "of Registration can't be blank"
-    end
-
-    !registration.errors.any?
-  end
-
   def complete_valid_registration?
-    registration.valid?
+    NonBusinessRegistrationCompleteValidator.new(registration).validate
   end
 
   def before_save
