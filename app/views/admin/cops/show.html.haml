@@ -6,7 +6,7 @@
 
   %li= link_to "Back to #{@communication.acronym}s", @communication.return_path, :class => 'go_back_large'
   %li= link_to 'Public version', cop_detail_path(@communication.id), :class => 'web_preview_large'
-  - staff_only do
+  - participant_manager_only do
     %li= link_to "Edit #{@communication.acronym}", edit_admin_cop_path(@communication), :class => 'edit_large', :title => "#{t('admin.edit_' + @communication.acronym)}"
     %li= link_to 'Manage Files', admin_organization_communication_on_progress_files_path(@communication.organization.id, @communication.id), :class => "folder_large"
     %li= link_to "Backdate #{@communication.acronym}", backdate_admin_organization_communication_on_progress_path(@organization, @communication.id), :class => 'backdate'
