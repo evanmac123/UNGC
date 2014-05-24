@@ -21,7 +21,7 @@
       %td= org.last_approved_cop.differentiation_level_name
       %td= !org.last_approved_cop.is_grace_letter? && org.last_approved_cop.missing_items? ? 'Yes' : ''
       %td= org.last_approved_cop.missing_lead_criteria? ? 'Yes' : ''
-      %td= org.last_approved_cop.created_at.strftime('%Y-%m-%d')
+      %td= org.last_approved_cop.published_on.strftime('%Y-%m-%d')
       %td= org.cop_due_on.strftime('%Y-%m-%d')
       %td
         %ul.actions

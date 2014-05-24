@@ -63,6 +63,22 @@ class CopsControllerTest < ActionController::TestCase
     end
   end
 
+  context "given a differentiation style COP" do
+    setup do
+      create_approved_organization_and_user
+      create_cop_with_options({
+        cop_type: 'basic',
+        created_at: CommunicationOnProgress::START_DATE_OF_DIFFERENTIATION + 1.day,
+      })
+    end
+
+    should "display public differentiation style partial" do
+      get :show, :organization_id => @organization.id,
+                 :id              => @cop.id
+      assert_template :partial => '_show_differentiation_style_public'
+    end
+  end
+
 private
 
   def setup_organization

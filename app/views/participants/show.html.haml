@@ -146,7 +146,7 @@
     %tbody
       - for cop in @participant.communication_on_progresses.old_policy.approved do
         %tr{:title => cop.title}
-          %td.center= yyyy_mm_dd cop.created_at
+          %td.center= yyyy_mm_dd cop.published_on
           %td.center= date_range cop
           %td= link_to truncate(cop.title, :length => 20), cop_link(cop, params[:navigation])
           %td.center= check_if cop.include_continued_support_statement?

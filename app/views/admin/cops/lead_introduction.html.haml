@@ -3,25 +3,32 @@
 %div{:class => "tab_container top_tabs", :style => 'width: 60%;'}
   %ul.tab_nav
     %li <a href="#introduction">Introduction</a>
-    - if current_contact.submit_grace_letter?
-      %li <a href="#grace">Grace Letter</a>
+    %li <a href="#grace">Grace Letter</a>
+    %li <a href="#reporting">Reporting Cycle Adjustment</a>
 
   #introduction.tab_content
-    %p
+    %h3 Reporting Requirements
     %p.cop_description As a participant in Global Compact LEAD, you have committed to communicate progress on implementing the 'Blueprint for Corporate Sustainability Leadership' at the GC Advanced level.
     %p.cop_description
       Please click the link below to Publish your COP.
-      - if current_contact.submit_grace_letter?
-        Select the "Grace Letter" tab if you need to submit a grace letter for a 90 day extension to your COP deadline.
     %p= link_to 'Publish your COP', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'lead'), :class => 'new_page_large'
 
   #grace.tab_content
     %h3 Request a COP due date extension
 
-    %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{Organization::COP_GRACE_PERIOD} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
+    %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{GraceLetterApplication::GRACE_DAYS} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
 
-    - if current_contact.submit_grace_letter?
-      %p= link_to 'New Grace Letter', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'grace'), :class => 'new_page_large'
+    - if GraceLetterApplication.eligible?(current_contact.organization)
+      %p= link_to 'New Grace Letter', new_admin_organization_grace_letter_path(current_contact.organization.id), :class => 'new_page_large'
     - else
       %p.cop_description
         %strong This option is not available because you have already submitted a Grace Letter.
+
+  #reporting.tab_content
+    %h3 Request a reporting cycle adjustment
+    %p.cop_description You may submit a one-time deferral of up to 11 months to align your COP deadline with your company's reporting cycle.
+    - if current_contact.submit_reporting_cycle_adjustment?
+      %p= link_to 'New Reporting Cycle Adjustment', new_admin_organization_reporting_cycle_adjustment_path(current_contact.organization.id), :class => 'new_page_large'
+    - else
+      %p.cop_description
+        %strong This option is not available because you have already submitted a Reporting Cycle Adjustment.

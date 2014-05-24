@@ -45,6 +45,7 @@ end
 
 group :test do
   gem "shoulda",      "~> 3.4.0"
+  gem 'debugger'
 end
 
 group :production do

@@ -14,9 +14,7 @@ class AllCops < SimpleReport
       'id',
       'organization_id',
       'title',
-      'email',
-      'job_title',
-      'contact_name',
+      'contact_info',
       'include_actions',
       'include_measurement',
       'use_indicators',
@@ -26,6 +24,7 @@ class AllCops < SimpleReport
       'notable_program',
       'created_at',
       'updated_at',
+      'published_on',
       'state',
       'include_continued_support_statement',
       'format',
@@ -49,9 +48,7 @@ class AllCops < SimpleReport
     record.id,
     record.organization_id,
     record.title,
-    record.email,
-    record.job_title,
-    record.contact_name.present? ? record.contact_name.gsub(/\r\n?/, ' ') : nil,
+    single_line(record.contact_info),
     record.include_actions ? 1:0,
     record.include_measurement ? 1:0,
     record.use_indicators ? 1:0,
@@ -61,6 +58,7 @@ class AllCops < SimpleReport
     record.notable_program ? 1:0,
     record.created_at.present? ? record.created_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
     record.updated_at.present? ? record.updated_at.strftime('%Y-%m-%d %X') : 'invalid COP record',
+    record.published_on,
     record.state,
     record.include_continued_support_statement ? 1:0,
     record.format,
@@ -75,6 +73,12 @@ class AllCops < SimpleReport
     record.ends_on,
     record.created_at.present? ? record.differentiation : 'invalid COP record'
   ]
+  end
+
+  private
+
+  def single_line(contact_info)
+    contact_info.gsub(/\r\n?/, ' ') if contact_info
   end
 
 end

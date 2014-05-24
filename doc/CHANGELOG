@@ -1,3 +1,8 @@
+h1. 2014-05-24
+
+* Added ApplicationHelper#participant_manager_only to limit functions to Relationship Managers
+* Only they can change the COP state, however the field will default to Active even for applications in review, as defined in `state_machine :cop_state, :initial => :active`
+
 h1. 2014-02-14
 
 * Added a new report for initiatives
