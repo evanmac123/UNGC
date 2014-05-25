@@ -502,6 +502,8 @@ class Organization < ActiveRecord::Base
       'ngo'
     elsif business_association?
       'business_association'
+    elsif public_sector?
+      'public'
     else
       raise 'Invalid non business organization type'
     end
