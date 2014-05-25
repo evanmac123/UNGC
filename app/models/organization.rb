@@ -850,6 +850,7 @@ class Organization < ActiveRecord::Base
 
   def set_manual_delisted_status
     self.cop_state = Organization::COP_STATE_DELISTED if participant?
+    self.active = false if participant?
   end
 
   # predict delisting date based on current status and COP due date

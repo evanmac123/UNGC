@@ -200,7 +200,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       end
 
       should "fail when being manually delisted and delisted_on date is not provided" do
-        put :update, {id: @organization.to_param, organization: { active: "0" }}
+        put :update, {id: @organization.to_param, organization: { cop_state: Organization::COP_STATE_DELISTED }}
         assert_template "edit"
       end
     end

@@ -33,11 +33,10 @@
   - if @organization.participant
     %fieldset
       %legend= @organization.cop_name
-      %ol
-      %ol.radio_button_list
+      %ol.radio_button_list.no_indent
         %li= default_form.radio_button :cop_state, :active, {:li_class => 'radio_button', :label => 'Active', :label_for => :organization_cop_state_active}
         %li= default_form.radio_button :cop_state, :noncommunicating, {:li_class => 'radio_button', :label => 'Non-Communcating', :label_for => :organization_cop_state_noncommunicating}
-        %li= default_form.radio_button :cop_state, :delisted, {:li_class => 'radio_button', :label => 'Delisted', :label_for => :organization_cop_state_delisted}
+        %li= default_form.radio_button :cop_state, :delisted, {:li_class => 'radio_button', :label => 'Delisted...', :label_for => :organization_cop_state_delisted}
   
     #delisted_only{:style => "#{css_display_style(@organization.cop_state == Organization::COP_STATE_DELISTED)}"}
       %fieldset
@@ -48,9 +47,9 @@
 
     %fieldset
       %legend Participant Status
-      %ol.checkbox_list
+      %ol.checkbox_list.no_indent
         = default_form.check_box :participant, {:li_class => 'checkbox', :label => 'Participant'}
-        = default_form.check_box :non_comm_dialogue, {:li_class => 'checkbox', :label => 'No Dialogue'}
+        = default_form.check_box :non_comm_dialogue, {:li_class => 'checkbox', :label => 'No Dialogue...'}
 
     #non_comm_dialogue_only{:style => "#{css_display_style(@organization.non_comm_dialogue)}"}
       %fieldset
