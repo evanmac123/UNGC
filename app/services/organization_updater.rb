@@ -46,7 +46,7 @@ class OrganizationUpdater
 
     def update_state
       organization.state = Organization::STATE_IN_REVIEW if organization.state == Organization::STATE_PENDING_REVIEW
-      organization.set_manual_delisted_status if params[:organization][:active] == '0'
+      organization.set_manual_delisted_status if params[:organization][:cop_state] == Organization::COP_STATE_DELISTED
     end
 
     def save_registration(par)
