@@ -67,6 +67,8 @@ class CopForm
             :references_anti_corruption,
             :references_business_peace,
             :references_business_peace?,
+            :references_water_mandate,
+            :references_water_mandate?,
             :references_human_rights?, # required by _form
             :additional_questions, # required by _form
             :additional_questions?, # required by _form
