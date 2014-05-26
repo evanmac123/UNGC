@@ -36,6 +36,10 @@ class GraceLetterPresenter
     organization.name
   end
 
+  def acronym
+    organization.cop_acronym
+  end
+
   def cop_file
     @cop_file ||= files.first || new_cop_file
   end
