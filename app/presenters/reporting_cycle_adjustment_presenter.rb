@@ -34,6 +34,10 @@ class ReportingCycleAdjustmentPresenter
   def organization_name
     organization.name
   end
+  
+  def acronym
+    organization.cop_acronym
+  end
 
   def cop_file
     files.first || CopFile.new(attachment_type: cop_type)
