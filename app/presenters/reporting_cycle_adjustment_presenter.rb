@@ -30,7 +30,11 @@ class ReportingCycleAdjustmentPresenter
   def files
     cop.cop_files
   end
-
+  
+  def admin_partial
+    Partial
+  end
+  
   def organization_name
     organization.name
   end
