@@ -32,10 +32,6 @@ class GraceLetterPresenter
     cop.cop_files
   end
 
-  def admin_partial
-    Partial
-  end
-
   def organization_name
     organization.name
   end
@@ -67,6 +63,8 @@ class GraceLetterPresenter
   def show_partial
     '/shared/cops/show_grace_style'
   end
+
+  alias_method :admin_partial, :show_partial
 
   def results_partial
   end

@@ -30,15 +30,12 @@ class ReportingCycleAdjustmentPresenter
   def files
     cop.cop_files
   end
-  
-  def admin_partial
-    Partial
-  end
-  
+
+
   def organization_name
     organization.name
   end
-  
+
   def acronym
     organization.cop_acronym
   end
@@ -66,6 +63,8 @@ class ReportingCycleAdjustmentPresenter
   def show_partial
     '/shared/cops/show_reporting_style'
   end
+
+  alias_method :admin_partial, :show_partial
 
   def results_partial
   end
