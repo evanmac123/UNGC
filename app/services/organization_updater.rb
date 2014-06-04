@@ -29,9 +29,9 @@ class OrganizationUpdater
     update_state
     update_contact
 
-    organization.update_attributes(params[:organization]) &&
-      save_registration(params[:non_business_organization_registration]) &&
-      organization.set_last_modified_by(contact)
+    organization.attributes = params[:organization]
+    organization.registration.attributes = params[:non_business_organization_registration]
+    organization.save && organization.registration.save && organization.set_last_modified_by(contact)
   end
 
   def error_message
@@ -46,7 +46,7 @@ class OrganizationUpdater
 
     def update_state
       organization.state = Organization::STATE_IN_REVIEW if organization.state == Organization::STATE_PENDING_REVIEW
-      organization.set_manual_delisted_status if params[:organization][:active] == '0'
+      organization.set_manual_delisted_status if params[:organization][:cop_state] == Organization::COP_STATE_DELISTED
     end
 
     def save_registration(par)

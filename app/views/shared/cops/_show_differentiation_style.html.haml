@@ -15,11 +15,10 @@
           = link_to truncate(cop_link.url, :length => 50), cop_link.url
           == (#{cop_link.language.name})
 
-- unless communication_on_progress.is_grace_letter?
-  %dt Format
-  %dd
-    %ul
-      %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
+%dt Format
+%dd
+  %ul
+    %li= CommunicationOnProgress::FORMAT[communication_on_progress.format.try(:to_sym)] || 'Unknown'
 
 - if communication_on_progress.evaluated_for_differentiation?
   - if communication_on_progress.organization_business_entity?

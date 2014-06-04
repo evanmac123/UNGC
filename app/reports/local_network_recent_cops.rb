@@ -4,8 +4,8 @@ class LocalNetworkRecentCops < SimpleReport
     CommunicationOnProgress.visible_to(@options[:user])
       .all_cops
       .approved
-      .created_between(30.days.ago, Date.today)
-      .all(:order => 'communication_on_progresses.created_at DESC')
+      .published_between(30.days.ago, Date.today)
+      .all(:order => 'communication_on_progresses.published_on DESC')
   end
 
   def render_output
@@ -14,7 +14,7 @@ class LocalNetworkRecentCops < SimpleReport
 
   def headers
     [ 'Participant Name',
-      'Received',
+      'Published',
       'Title',
       'Differentiation'
     ]
@@ -22,7 +22,7 @@ class LocalNetworkRecentCops < SimpleReport
 
   def row(record)
     [ record.organization_name,
-      record.created_at.to_date,
+      record.published_on.to_date,
       record.title,
       record.differentiation_level_name
     ]

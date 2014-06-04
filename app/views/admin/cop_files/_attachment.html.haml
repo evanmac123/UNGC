@@ -1,0 +1,9 @@
+%tr
+  %td= link_to_attached_file(attachment)
+  %td= attachment.language.name
+  %td= number_to_human_size(attachment.attachment_file_size)
+  %td= dd_month_yyyy attachment.updated_at
+  %td
+    %ul.actions
+      %li= link_to 'Delete', admin_organization_communication_on_progress_file_path(@organization.id, @submodel.id, attachment.id), :confirm => 'Are you sure you want to delete this file?', :method => :delete, :class => 'delete', :title => 'Delete file'
+

@@ -1,10 +1,10 @@
-- new_cop_file_code = escape_javascript(render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop]), :record => 'NEW_RECORD', :language_id => Language.for(:english).try(:id)})
+- new_cop_file_code = escape_javascript(render :partial => 'cop_file', :locals => {:cop_file => @communication_on_progress.cop_file, :record => 'NEW_RECORD'})
 = javascript_tag("var cop_file_form = \"#{new_cop_file_code}\"")
 
 #cop_files
-  - unless @submitted
-    = render :partial => 'cop_file', :locals => {:cop_file => CopFile.new(:attachment_type => CopFile::TYPES[:cop]), :record => 0, :language_id => Language.for(:english).try(:id)}
+  - unless @communication_on_progress.submitted?
+    = render :partial => 'cop_file', :locals => {:cop_file => @communication_on_progress.cop_file, :record => 0}
   - @communication_on_progress.cop_files.each_with_index do |cop_file, i|
-    - @language_id = @communication_on_progress.cop_files[i].language.id
-    = render :partial => 'cop_file', :locals => {:cop_file => cop_file, :record => i, :language_id => @language_id}
+    -# @language_id = @communication_on_progress.cop_files[i].language.id
+    = render :partial => 'cop_file', :locals => {:cop_file => cop_file, :record => i}
 %div{:id => 'new_cop_file', :class => 'new_page_large'} Additional PDF file

@@ -1,0 +1,13 @@
+= render :partial => '/shared/cops/cop_info_header', :locals => { :communication_on_progress => communication_on_progress }
+%dt Adjustment
+%dd
+  %ul
+    %li== Reporting deadline was changed to #{yyyy_mm_dd communication_on_progress.ends_on}
+- if communication_on_progress.has_file?
+  %dt File
+  %dd
+    %ul
+      - communication_on_progress.files.each do |file|
+        %li
+          = link_to truncate(file.attachment_file_name, :length => 60), file.attachment.url
+          == (#{file.language.name})

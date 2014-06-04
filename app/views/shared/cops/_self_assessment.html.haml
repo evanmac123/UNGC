@@ -4,7 +4,7 @@
     %li{:class => select_answer_class(communication_on_progress.include_continued_support_statement?) }
       Includes an explicit statement of continued support for the UN Global Compact and its ten principles
     - PrincipleArea::FILTERS.each_pair do |key, value|
-      %li{:class => select_answer_class(communication_on_progress.send("references_#{key}?")) }
+      %li{:class => select_answer_class(communication_on_progress.public_send("references_#{key}?")) }
         == Description of actions or relevant policies related to #{value}
     %li{:class => select_answer_class(communication_on_progress.include_measurement?) }
       Includes a measurement of outcomes
@@ -17,7 +17,7 @@
   - if communication_on_progress.include_continued_support_statement?
     %li Includes an explicit statement of continued support for the UN Global Compact and its ten principles
     - PrincipleArea::FILTERS.each_pair do |key, value|
-      - if communication_on_progress.send("references_#{key}?")
+      - if communication_on_progress.public_send("references_#{key}?")
         %li== Description of actions or relevant policies related to #{value}
   - if communication_on_progress.include_measurement?
     %li Includes a measurement of outcomes

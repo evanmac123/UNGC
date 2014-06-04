@@ -1,1 +1,3 @@
-= submit_tag 'Submit', class: "button", id: "finish", confirm: "#{@organization.cop_acronym}s are immediately published and made available to the public on the Global Compact website. Please carefully review your #{@organization.cop_acronym} before submitting. Your answers cannot be modified after submission."
+%ul{class: "tools inline", style: 'float: right;'}
+  %li= link_to 'Cancel', @communication_on_progress.return_url, class: 'cancel_large'
+  %li= submit_tag 'Submit', class: "button", id: "finish", confirm: "#{@organization.cop_acronym}s are immediately published and made available to the public on the Global Compact website. Please carefully review your #{@organization.cop_acronym} before submitting. Your answers cannot be modified after submission."

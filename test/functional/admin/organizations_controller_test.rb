@@ -200,7 +200,7 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       end
 
       should "fail when being manually delisted and delisted_on date is not provided" do
-        put :update, {id: @organization.to_param, organization: { active: "0" }}
+        put :update, {id: @organization.to_param, organization: { cop_state: Organization::COP_STATE_DELISTED }}
         assert_template "edit"
       end
     end
@@ -259,9 +259,35 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_equal @organization.registration.number, "test"
     end
 
+    should "update non business organization registration without requiring a number if legal status is provided" do
+      sign_in @user
+      put :update, {id: @organization.to_param, organization: {
+                                        legal_status_file: fixture_file_upload('files/untitled.pdf', 'application/pdf')
+                                       },
+                                       non_business_organization_registration: {
+                                        date: "12/3/2013",
+                                        place: "bla",
+                                        authority: "bla",
+                                        mission_statement: "A"}}
+      refute @organization.legal_status.blank?
+      assert_redirected_to dashboard_path
+    end
+
     should "reject non business organization registration" do
       sign_in @user
       put :update, {id: @organization.to_param, non_business_organization_registration: {}, organization: {  }}
+      assert_template "admin/organizations/edit"
+    end
+
+    should "reject non business organization registration that has no number or legal status" do
+      sign_in @user
+      put :update, {id: @organization.to_param, organization: {
+                                       },
+                                       non_business_organization_registration: {
+                                        date: "12/3/2013",
+                                        place: "bla",
+                                        authority: "bla",
+                                        mission_statement: "A"}}
       assert_template "admin/organizations/edit"
     end
 

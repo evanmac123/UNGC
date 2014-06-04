@@ -23,7 +23,6 @@ module Admin::CopsHelper
   end
 
   def render_cop_questions_for(grouping, options={})
-    principle_area_id  = PrincipleArea.send(options[:principle]) if options[:principle]
     questions = @communication_on_progress.cop_questions_for_grouping(grouping, options)
     questions.collect do |question|
       render :partial => 'admin/cops/cop_question', :locals => { :question => question, :grouping => grouping }
@@ -117,9 +116,29 @@ module Admin::CopsHelper
     # we reuse the classes from the questionnaire
     item ? 'selected_question' : 'unselected_question'
   end
-  
+
   def show_business_for_peace(cop)
     cop.references_business_peace? || cop.organization.signatory_of?(:business4peace)
   end
-  
+
+  def edit_admin_cop_path(cop)
+    if cop.is_grace_letter?
+      edit_admin_organization_grace_letter_path(cop.organization.id, cop.id)
+    elsif cop.is_reporting_cycle_adjustment?
+      edit_admin_organization_reporting_cycle_adjustment_path(cop.organization.id, cop.id)
+    else
+      edit_admin_organization_communication_on_progress_path(cop.organization.id, cop.id)
+    end
+  end
+
+  def admin_cop_path(cop)
+    if cop.is_grace_letter?
+      admin_organization_grace_letter_path(cop.organization.id, cop)
+    elsif cop.is_reporting_cycle_adjustment?
+      admin_organization_reporting_cycle_adjustment_path(cop.organization.id, cop)
+    else
+      admin_organization_communication_on_progress_path(cop.organization.id, cop)
+    end
+  end
+
 end

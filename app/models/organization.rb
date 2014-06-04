@@ -151,7 +151,6 @@ class Organization < ActiveRecord::Base
     :delisted => COP_STATE_DELISTED
   }
 
-  COP_GRACE_PERIOD = 90
   COP_TEMPORARY_PERIOD = 90
   NEXT_BUSINESS_COP_YEAR = 1
   NEXT_NON_BUSINESS_COP_YEAR = 2
@@ -443,7 +442,7 @@ class Organization < ActiveRecord::Base
 
   def company?
     organization_type.try(:name) == 'Company' ||
-    organization_type.try(:name) == 'SME'
+      organization_type.try(:name) == 'SME'
   end
 
   def non_business?
@@ -506,7 +505,7 @@ class Organization < ActiveRecord::Base
     elsif public_sector?
       'public'
     else
-      raise 'Invalid non-business organization type'
+      raise 'Invalid non business organization type'
     end
   end
 
@@ -673,7 +672,7 @@ class Organization < ActiveRecord::Base
   end
 
   def last_approved_cop_year
-    last_approved_cop.created_at.year if last_approved_cop
+    last_approved_cop.published_on.year if last_approved_cop
   end
 
   def last_cop_is_learner?
@@ -697,19 +696,19 @@ class Organization < ActiveRecord::Base
 
     # gather learner COPs
     cops = []
-    communication_on_progresses.approved.all(:order => 'created_at DESC').each do |cop|
-      next if cop.is_grace_letter? || cop.is_reporting_adjustment?
+    communication_on_progresses.approved.all(:order => 'published_on DESC').each do |cop|
+      next if cop.is_grace_letter? || cop.is_reporting_cycle_adjustment?
       cops << cop if cop.learner?
     end
 
     # check if the total time between first and last COP is two years
     first_cop   = cops.last
     second_cop  = cops.first
-    months_between_cops = (first_cop.created_at.month - second_cop.created_at.month) + 12 * (first_cop.created_at.year - second_cop.created_at.year)
+    months_between_cops = (first_cop.published_on.month - second_cop.published_on.month) + 12 * (first_cop.published_on.year - second_cop.published_on.year)
     months_between_cops = months_between_cops.abs
     if months_between_cops == 12
       # same month, so compare date
-      first_cop.created_at.day <= second_cop.created_at.day
+      first_cop.published_on.day <= second_cop.published_on.day
     else
       months_between_cops >= 12
     end
@@ -748,7 +747,7 @@ class Organization < ActiveRecord::Base
   def initial_contribution_year
     joined_on.year > 2006 ? joined_on.year : 2006
   end
-  
+
   # TODO update when Contribution model is created
   def latest_contribution_year
     if participant?
@@ -764,7 +763,7 @@ class Organization < ActiveRecord::Base
       match
     end
   end
-  
+
   def participant_for_less_than_years(years)
     joined_on.to_time.years_since(years) >= Time.now
   end
@@ -773,23 +772,12 @@ class Organization < ActiveRecord::Base
     company? ? NEXT_BUSINESS_COP_YEAR : NEXT_NON_BUSINESS_COP_YEAR
   end
 
-  # Policy specifies 90 days, so we extend the current due date
-  def extend_cop_grace_period
-    self.update_attribute :cop_due_on, (self.cop_due_on + COP_GRACE_PERIOD.days)
-    self.update_attribute :active, true
-
-    # For SMEs in moratorium have that date extended as well
-    if inactive_on.present? && inactive_on >= CommunicationOnProgress::START_DATE_OF_SME_MORATORIUM
-      self.update_attribute :inactive_on, (self.inactive_on + COP_GRACE_PERIOD.days)
-    end
-  end
-
   def extend_cop_temporary_period
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
   end
 
   # A 1 year extension is given to SMEs when they are about to be delisted
-  # Record the date on which the extennsion begins so we can 
+  # Record the date on which the extennsion begins so we can
   # then delist them 1 year after the inactive_on date
   def extend_sme_cop_due_on_and_set_inactive_on
     self.update_attribute(:cop_due_on, cop_due_on + 1.year)
@@ -798,28 +786,12 @@ class Organization < ActiveRecord::Base
 
   # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
-  def set_next_cop_due_date_and_cop_status
+  def set_next_cop_due_date_and_cop_status(date= nil)
     self.update_attribute :rejoined_on, Date.today if delisted?
     self.communication_received
-    self.update_attribute :cop_due_on, years_until_next_cop_due.year.from_now
+    self.update_attribute :cop_due_on, (date || years_until_next_cop_due.year.from_now)
     self.update_attribute :active, true
     self.update_attribute :cop_state, triple_learner_for_one_year? ? COP_STATE_NONCOMMUNICATING : COP_STATE_ACTIVE
-  end
-
-  def can_submit_grace_letter?
-
-    # companies cannot submit two grace letters in a row
-    if communication_on_progresses.approved.any?
-      if communication_on_progresses.approved.first.is_grace_letter?
-        return false
-      end
-    end
-
-    if delisted?
-      return false
-    end
-
-    return true
   end
 
   def can_submit_cop?
@@ -878,6 +850,7 @@ class Organization < ActiveRecord::Base
 
   def set_manual_delisted_status
     self.cop_state = Organization::COP_STATE_DELISTED if participant?
+    self.active = false if participant?
   end
 
   # predict delisting date based on current status and COP due date
@@ -915,7 +888,6 @@ class Organization < ActiveRecord::Base
   end
 
   def reverse_roles
-
     if self.contacts.ceos.count == 1 && self.contacts.contact_points.count == 1
       ceo = self.contacts.ceos.first
       contact = self.contacts.contact_points.first
@@ -945,7 +917,6 @@ class Organization < ActiveRecord::Base
       self.errors.add :base,("Sorry, the roles could not be reversed. There can only be one Contact Point and one CEO to reverse roles.")
       false
     end
-
   end
 
   def jci_referral?(url)
@@ -993,6 +964,10 @@ class Organization < ActiveRecord::Base
     errors.full_messages.to_sentence
   end
 
+  def sme_in_moratorium?
+    inactive_on.present? && inactive_on >= CommunicationOnProgress::START_DATE_OF_SME_MORATORIUM
+  end
+
   private
 
     def set_participant_manager
@@ -1018,12 +993,12 @@ class Organization < ActiveRecord::Base
       # we don't make assumptions if there is no employee information
       return if employees.nil?
       if business_entity?
-        if employees < 10 && !approved?
-          self.organization_type_id = OrganizationType.try(:micro_enterprise).try(:id)
+        self.organization_type_id = if employees < 10 && !approved?
+          OrganizationType.try(:micro_enterprise).try(:id)
         elsif employees < 250
-          self.organization_type_id = OrganizationType.try(:sme).try(:id)
+          OrganizationType.try(:sme).try(:id)
         elsif employees >= 250
-          self.organization_type_id = OrganizationType.try(:company).try(:id)
+          OrganizationType.try(:company).try(:id)
         end
       end
     end

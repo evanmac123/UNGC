@@ -32,12 +32,12 @@
 
   - if @organization.participant
     %fieldset
-      %legend Participant Status
-      %ol
-        = default_form.check_box :participant, :label => 'Participant'
-        = default_form.check_box :active, :label => 'Active'
-        = default_form.check_box :non_comm_dialogue, :label => 'No Dialogue'
-
+      %legend= @organization.cop_name
+      %ol.radio_button_list.no_indent
+        %li= default_form.radio_button :cop_state, :active, {:li_class => 'radio_button', :label => 'Active', :label_for => :organization_cop_state_active}
+        %li= default_form.radio_button :cop_state, :noncommunicating, {:li_class => 'radio_button', :label => 'Non-Communcating', :label_for => :organization_cop_state_noncommunicating}
+        %li= default_form.radio_button :cop_state, :delisted, {:li_class => 'radio_button', :label => 'Delisted...', :label_for => :organization_cop_state_delisted}
+  
     #delisted_only{:style => "#{css_display_style(@organization.cop_state == Organization::COP_STATE_DELISTED)}"}
       %fieldset
         %legend Delisting Status
@@ -45,12 +45,19 @@
           = default_form.text_field :delisted_on, {class: 'datepicker iso-date'}, {:label => 'Date'}
           = default_form.select :removal_reason_id, RemovalReason.all.collect{|t| [t.description, t.id]}, {:label => 'Reason'}
 
+    %fieldset
+      %legend Participant Status
+      %ol.checkbox_list.no_indent
+        = default_form.check_box :participant, {:li_class => 'checkbox', :label => 'Participant'}
+        = default_form.check_box :non_comm_dialogue, {:li_class => 'checkbox', :label => 'No Dialogue...'}
+
     #non_comm_dialogue_only{:style => "#{css_display_style(@organization.non_comm_dialogue)}"}
       %fieldset
         %legend Failure to Engage in Dialogue
         %p Select the date on which the participant became Non-Communicating for failing to engage in dialogue.
         %ol
-          = default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
+          = default_form.text_field :non_comm_dialogue_on, {class: 'datepicker iso-date'}, {:label => 'Non-Communicating'}
+          /= default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
 
 - if @organization.non_business? && @organization.non_business_organization_registration
   %fieldset.organization_registration

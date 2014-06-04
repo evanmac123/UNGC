@@ -19,6 +19,7 @@ class CopLanguages < SimpleReport
       'cop_id',
       'created_at',
       'updated_at',
+      'published_on',
       'language'
       ]
   end
@@ -34,6 +35,7 @@ class CopLanguages < SimpleReport
       record.communication_on_progress.id,
       record.created_at.strftime('%Y-%m-%d %X'),
       record.updated_at.strftime('%Y-%m-%d %X'),
+      record.published_on,
       record.language_name
     ]
   end

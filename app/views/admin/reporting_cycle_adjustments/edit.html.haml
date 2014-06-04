@@ -1,0 +1,4 @@
+%h2 Edit Reporting Cycle Adjustment
+
+= form_for(@form, as: :reporting_cycle_adjustment, url: admin_organization_reporting_cycle_adjustment_path(@organization.id, @form.reporting_cycle_adjustment), html: {multipart: true, id: 'cop_form', method: :put }) do |form|
+  = render 'form', form:form

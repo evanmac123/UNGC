@@ -6,9 +6,13 @@ task :reindex_uploaded_files, [:cutoff] => [:environment] do |t, args|
 
   cutoff = Time.parse(args[:cutoff])
 
+  original_timeout = FileTextExtractor.timeout
   begin
     puts 'stopping sphinx'
     system 'stop_sphinx'
+
+    # disable the timeout
+    FileTextExtractor.timeout = 0
 
     puts 'updating searchables'
     Searchable.index_new_or_updated(cutoff)
@@ -24,6 +28,7 @@ task :reindex_uploaded_files, [:cutoff] => [:environment] do |t, args|
   ensure
     puts 'rebuilding sphinx indexes'
     system 'sphinx_rebuild'
+    FileTextExtractor.timeout = original_timeout
   end
 
 end
