@@ -297,13 +297,13 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy .hint_toggle .hint_title { font-weight: bold; }
 #rightcontent .copy .hint_toggle .hint_description { margin-top: 0.5em; line-height: 1.3em; }
 #rightcontent .copy .selected { background: url('/assets/icons/arrow_down_16X16.png') 5px 5px no-repeat; }
-#rightcontent .copy .hint_text { display: none; padding: 10px 30px 10px 30px; }
+#rightcontent .copy .hint_text { display: none; padding: 0px 30px 10px 30px; margin-top: 0px; }
 #rightcontent .copy p { margin-bottom: 10px; }
 #rightcontent .copy a { color: #2993A5; text-decoration: none; }
 #rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
 #rightcontent .copy a:visited { color: #00546E; }
 #rightcontent .copy h1 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 19px; font-weight: bold; margin-bottom: 15px; color: #00546E; line-height: 1.2; }
-#rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-top: 15px; margin-bottom: 15px; }
+#rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-bottom: 5px;	margin-top: 25px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
 #rightcontent .copy h4 { font-size: 13px; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
 #rightcontent .left h4 { line-height: 0; margin-top: 13px; }
@@ -312,21 +312,22 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy .highlight_box { padding: 10px 10px; margin: 5px 0px; width: auto; height: auto; background-color: #e5eef0; }
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
 #rightcontent .copy ul { list-style: disc; margin: 0 0 10px 40px; }
-#rightcontent .copy ol li, #rightcontent .copy ul li { font-size: 12px; line-height: 19px; }
+#rightcontent .copy ol li, #rightcontent .copy ul li { font-size: 12px; line-height: 19px; margin-bottom: 8px; }
+#rightcontent .copy ol li, #rightcontent .copy ul li:last-child {	margin-bottom: 0px; }
+
+/* Used in Local Network Resources */
+#rightcontent .copy ul.resource {	margin: 0px 0px 0px 5px; list-style-type: none; }
+#rightcontent .copy ul.resource li { margin-bottom: 5px; }
 
 #rightcontent .copy ul.links { list-style: none; margin: 10px 0 10px 0px; }
 #rightcontent .copy ul.links li { line-height: 2.2em; }
 #rightcontent .copy a.pdf { padding: 6px 0 0 25px; background: url('/pics/un_images/pdf.gif') no-repeat left center; }
 #rightcontent .copy a.web { padding: 6px 0 0 25px; background: url('/assets/icons/Web_Document_18x18.png') no-repeat 2px center; }
 #rightcontent .copy a.htm { padding: 6px 0 0 25px; background: url('/assets/icons/Internal_Web_Document_18x18.png') no-repeat left center; }
+#rightcontent .copy a.ppt { padding: 6px 0 0 25px; background: url('/assets/icons/doc_ppt.png') no-repeat left center; background-size: 18px; }
 #rightcontent .copy a.rss {padding: 3px 0 3px 25px; background: url('/assets/icons/RSS_16x16.png') no-repeat left center; }
 #rightcontent .copy a.register { padding: 5px 0 0 24px; background: url('/assets/icons/Document_Edit_18x18.png') no-repeat left center; }
 
-#rightcontent .highlight { float: right; width: 150px; margin: 0px 0px 15px 25px; border: 1px solid #ccc; padding: 0px 10px; }
-#rightcontent .highlight h1 { font-size: 14px; position: relative; top: 15px; left: 3px; }
-#rightcontent .highlight ul { list-style: none; margin-left: 0px; padding: 8px 0px 0px 0px; }
-#rightcontent .highlight ul li { font-size: 80%; padding: 3px; border-bottom: 1px solid #ddd; line-height: 1.5em;}
-#rightcontent .highlight ul li:last-child { border: none;}
 #rightcontent .blue { background-color: #E5EEF0; }
 
 /* Participant Tables */
