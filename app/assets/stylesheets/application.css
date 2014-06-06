@@ -303,7 +303,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy a:hover { text-decoration: underline; color: #52C6D8; }
 #rightcontent .copy a:visited { color: #00546E; }
 #rightcontent .copy h1 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 19px; font-weight: bold; margin-bottom: 15px; color: #00546E; line-height: 1.2; }
-#rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-bottom: 5px;	margin-top: 25px; }
+#rightcontent .copy h2 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 16px; font-weight: bold; margin-bottom: 8px;	margin-top: 25px; }
 #rightcontent .copy h3 { font-family: Georgia, "Times New Roman", Times, serif; font-size: 14px; font-weight: bold; margin: 18px 0 5px 0; color: #00546E; }
 #rightcontent .copy h4 { font-size: 13px; font-weight: bold; line-height: 1.2; margin: 18px 0 15px 0; color: #00546E; }
 #rightcontent .left h4 { line-height: 0; margin-top: 13px; }
@@ -313,7 +313,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy ol { list-style: decimal; margin: 0 0 10px 40px; }
 #rightcontent .copy ul { list-style: disc; margin: 0 0 10px 40px; }
 #rightcontent .copy ol li, #rightcontent .copy ul li { font-size: 12px; line-height: 19px; margin-bottom: 8px; }
-#rightcontent .copy ol li, #rightcontent .copy ul li:last-child {	margin-bottom: 0px; }
+#rightcontent .copy ul li:last-child { margin-bottom: 0px; }
 
 /* Used in Local Network Resources */
 #rightcontent .copy ul.resource {	margin: 0px 0px 0px 5px; list-style-type: none; }

@@ -4,6 +4,6 @@
 %p
 #main_content
   = form_for(@signup.ceo, :url => @next_step) do |form|
-    = form.error_messages
+    = form.error_messages header_message: false
     = render :partial => 'contact_form', :locals => { :form => form, :account_info => false, :contact_type => 'Highest Level Executive', :financial_contact => false, :welcome_package => true }
     = form.submit 'Next', :class => 'button'
