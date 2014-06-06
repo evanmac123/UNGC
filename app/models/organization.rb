@@ -268,7 +268,7 @@ class Organization < ActiveRecord::Base
   scope :joined_on, lambda { |month, year| where('joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
 
   scope :with_pledge, where('pledge_amount > 0')
-  scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, 1.day.ago.to_date) }
+  scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.today) }
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
   # combine with :sme scope to list SMEs who have been given a 1 year extension after becoming non-communicating
