@@ -4,7 +4,7 @@
 
 #main_content
   = form_for(@signup.organization, :url => organization_step7_path, :html => { :multipart => true }) do |form|
-    = form.error_messages
+    = form.error_messages header_message: false
     %fieldset
       %legend Letter of Commitment
 

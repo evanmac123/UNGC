@@ -244,9 +244,7 @@ $(document).ready(function() {
 
   // called from views/signup/step5.html.haml
   $("body").on("click", "#contact_foundation_contact", function() {
-    if ($('#error_explanation').length > 0) {
-      $('#error_explanation').toggle();
-    }
+    $('#errorExplanation').toggle();
     $('#contact_form').toggle();
   });
 
