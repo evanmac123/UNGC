@@ -31,6 +31,9 @@
       %dd.first= @organization.id
       %dt Status
       %dd= display_status(@organization).html_safe
+      - if @organization.delisted?
+        %dt= display_delisted_description(@organization)
+        %dd= @organization.removal_reason.description rescue "Unknown"
       %dt Relationship Manager
       %dd= link_to @organization.participant_manager_name, "mailto:#{@organization.participant_manager_email}?subject=#{@organization.name}%20(ID: #{@organization.id})"
       %dt Participant since
