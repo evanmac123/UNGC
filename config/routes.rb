@@ -198,7 +198,7 @@ UNGC::Application.routes.draw do
   match ':sabp'           => 'pages#redirect_to_page', :page => '/Issues/partnerships/sustainable_agriculture_business_principles.html', :constraints => { :sabp => /sabp/i }
   match '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
   match '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
-  match '/docs/news_events/2012_CSF/Rio_CSF_Overview_Outcomes.pdf' => 'pages#redirect_to_page', :page => 'http://weprinciples.org'
+  match ':fundraisingtoolkit' => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf', :constraints => { :fundraisingtoolkit => /fundraisingtoolkit/i }
 
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
