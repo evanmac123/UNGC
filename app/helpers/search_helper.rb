@@ -16,10 +16,15 @@ module SearchHelper
       'CaseStory' => 'Case Stories',
       'CommunicationOnProgress' => 'COPs',
       'Event' => 'Events',
-      'Headline' => 'News',
+      'Headline' => 'News items',
       'Participant' => 'Participants',
-      'Page' => 'Pages',
-      'Resource' => 'Resources',
+      'Page' => 'Web pages',
+      'Resource' => 'Tools and Resources',
     }[key]
   end
+  
+  def results_description(params)
+    params[:document_type].present? ? pretty_facet_label(params[:document_type]) : "Search results"
+  end
+  
 end
