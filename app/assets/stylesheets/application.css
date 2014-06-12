@@ -325,9 +325,13 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #rightcontent .copy a.web { padding: 6px 0 0 25px; background: url('/assets/icons/Web_Document_18x18.png') no-repeat 2px center; }
 #rightcontent .copy a.htm { padding: 6px 0 0 25px; background: url('/assets/icons/Internal_Web_Document_18x18.png') no-repeat left center; }
 #rightcontent .copy a.ppt { padding: 6px 0 0 25px; background: url('/assets/icons/doc_ppt.png') no-repeat left center; background-size: 18px; }
-#rightcontent .copy a.rss {padding: 3px 0 3px 25px; background: url('/assets/icons/RSS_16x16.png') no-repeat left center; }
+#rightcontent .copy a.rss { padding: 3px 0 3px 25px; background: url('/assets/icons/RSS_16x16.png') no-repeat left center; }
 #rightcontent .copy a.register { padding: 5px 0 0 24px; background: url('/assets/icons/Document_Edit_18x18.png') no-repeat left center; }
 
+#rightcontent .copy ul.search_facets { margin: 0 0 10px 0; padding-bottom: 20px; border-bottom: 1px solid #DDD;}
+#rightcontent .copy ul.search_facets li { list-style-type: none; line-height: 1em; }
+#rightcontent .copy ul.search_facets li a.facet_selected { padding: 4px 0 2px 25px; background: url('/assets/icons/Folder (Open)_16x16.png') no-repeat left center; font-weight: bold; }
+#rightcontent .copy ul.search_facets li a.facet_unselected { padding: 4px 0 2px 25px; background: url('/assets/icons/Folder (Closed)_16x16.png') no-repeat left center; } }
 #rightcontent .blue { background-color: #E5EEF0; }
 
 /* Participant Tables */
