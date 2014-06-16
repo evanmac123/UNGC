@@ -16,7 +16,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
         @headline = Headline.find_by_title('This is my headline')
       end
 
-      should "create the event" do
+      should "create the headline" do
         assert_redirected_to_index
         assert @headline
       end
