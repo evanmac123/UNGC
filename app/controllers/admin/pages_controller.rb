@@ -73,6 +73,7 @@ class Admin::PagesController < AdminController
     end
   end
 
+  # FIXME there is no route to this action.
   def revoke
     @page.as_user(current_contact).revoke!
     redirect_to :action => 'index'

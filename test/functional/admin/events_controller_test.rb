@@ -39,8 +39,15 @@ class Admin::EventsControllerTest < ActionController::TestCase
           assert_contains Event.approved, @event
         end
 
+        should "be updated_by the staff member" do
+          assert_equal @staff_user.id, @event.updated_by_id
+        end
+
         context "but then revoke it" do
           setup do
+            # clear updated_by_id so we're sure it gets set.
+            @event.update_attribute :updated_by_id, nil
+
             assert_no_difference 'Event.count' do
               post :revoke, {:id => @event.id}
             end
@@ -52,6 +59,11 @@ class Admin::EventsControllerTest < ActionController::TestCase
             assert @event.revoked?
             assert_does_not_contain Event.approved, @event
           end
+
+          should "be updated_by the staff member" do
+            assert_equal @staff_user.id, @event.updated_by_id
+          end
+
         end
       end
     end
