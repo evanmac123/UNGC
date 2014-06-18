@@ -166,4 +166,19 @@ class PagesControllerTest < ActionController::TestCase
     end
 
   end
+
+  context "cache paths" do
+
+    should 'cache the approved version at /index.html' do
+      page = create_page(path: '/index.html', approval: 'approved')
+      assert_equal '/index.html', page.cache_path
+    end
+
+    should 'cache the pending version at /index.html-pending' do
+      page = create_page(path: '/index.html', approval: 'pending',)
+      assert_equal '/index.html-pending', page.cache_path
+    end
+
+  end
+
 end

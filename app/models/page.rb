@@ -325,4 +325,12 @@ class Page < ActiveRecord::Base
     wants_to and can
   end
 
+  def cache_path
+    if approved?
+      self.path
+    else
+      "#{self.path}-#{self.approval}"
+    end
+  end
+
 end
