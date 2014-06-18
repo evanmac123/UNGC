@@ -3,7 +3,7 @@ class PagesController < ApplicationController
   before_filter :soft_require_staff_user, :only => :decorate
   before_filter :require_staff_user, :only => :preview
   before_filter :find_content, :except => [:decorate, :preview, :redirect_local_network, :redirect_to_page, :home]
-  before_filter :find_content_for_staff, :only => [:decorate, :preview]
+  before_filter :find_content_for_staff, :only => [:decorate]
   before_filter :page_is_editable, :only => [:preview, :view]
 
   def home
@@ -33,6 +33,8 @@ class PagesController < ApplicationController
   end
 
   def preview
+    @page = Page.preview_for(formatted_request_path)
+    @current_version = @page.versions.last
     @preview = true
     @current_version.content ||= '<p>[No content]</p>'
     view

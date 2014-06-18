@@ -71,6 +71,10 @@ class Page < ActiveRecord::Base
     find_by_path path, :include => :children
   end
 
+  def self.preview_for(path)
+    where(path:path).order('version_number desc').first
+  end
+
   def self.find_navigation_for(path)
     return nil if path.blank?
     possible = approved.for_navigation.find_by_path(path, :include => :children) #, :include => :children
