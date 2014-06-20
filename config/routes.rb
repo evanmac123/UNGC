@@ -199,6 +199,7 @@ UNGC::Application.routes.draw do
   match '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
   match '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
   match '/FundraisingToolkit' => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf'
+  match '/anti-corruption' => 'pages#redirect_to_page', :page => '/Issues/transparency_anticorruption/call_to_action_post2015.html'
   
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
