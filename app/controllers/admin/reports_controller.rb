@@ -143,6 +143,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "water_mandate_contacts_#{date_as_filename}.xls")
   end
 
+  def initiative_contacts2
+    @report = InitiativeContacts2.new
+    render_formatter(filename: "care_for_climate_contacts_#{date_as_filename}.xls")
+  end
+
   def initiative_organizations
 
     if params[:all_initiatives]
