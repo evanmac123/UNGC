@@ -211,28 +211,37 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #news .social ul li.news { background-position: -105px -21px; left: 118px; width: 20px; }
 #news .social ul li.news:hover { background-position: -105px 1px; }
 
-#news .morenews { position: absolute; top: 280px; right: 13px; width: 280px; height: 30px; }
+#news .morenews { position: absolute; top: 281px; right: 11px; width: 280px; height: 30px;}
 #news .morenews { font-size: 12px; color: #00546E; text-align: right; }
 #news .morenews a { font-size: 12px; color: #00546E; text-align: right; font-weight: bold; }
 #news .morenews a:hover { text-decoration: underline; }
 #news .morenews div { padding: 7px 6px 0 0; }
 
 #box4 { position: absolute; top: 192px; right: 40px; background-color: #fff; border: 1px solid #c8c8c8; width: 295px; max-height: 498px; min-height: 498px; }
-#box4 h1 { font-size: 18px; position: absolute; top: 20px; left: 25px; color: #00546E; }
-#box4 div { font-size: 14px; font-weight: bold; line-height: 1.25em; padding: 9px 10px 9px 10px; margin: 0px 20px 0 20px; border-bottom: 1px solid #dfdfdf; background-color: #fff; }
-#box4 div a { display: block; width: 100%; height: 100%; }
-#box4 div.ungc a { color: #00546E; }
-#box4 div.human_rights a { color: #F7931E; }
-#box4 div.labour a { color: #52C6D8; }
-#box4 div.environment a { color: #688442; }
-#box4 div.anticorruption a { color: #ED1C24; }
-#box4 div.partnerships a { color: #CADB2A; }
-#box4 div.networks a { color: #710000; }
-#box4 div.business_peace a { color: #453058; }
-#box4 div.financial a { color: #404850; }
-#box4 div.cop a { color: #FFD900; }
-#box4 div.first { margin-top: 56px; }
-#box4 div.last { border-bottom: 0; }
+#box4 h1 { font-size: 18px; margin: 20px 0px 10px 25px; color: #00546E; }
+#box4 a { display: block; text-decoration: none; font-size: 14px; font-weight: bold; line-height: 1.2em; padding: 10px; margin: 0px 20px 0px 20px; border-bottom: 1px solid #dfdfdf; background-color: #fff; }
+#box4 a:hover { text-decoration: none; color: #fff !important; }
+#box4 a.ungc { color: #00546E; }
+#box4 a.ungc:hover { background: #00546E; }
+#box4 a.human_rights { color: #F7931E; }
+#box4 a.human_rights:hover { background: #F7931E; }
+#box4 a.labour { color: #52C6D8; }
+#box4 a.labour:hover { background: #52C6D8; }
+#box4 a.environment { color: #688442; }
+#box4 a.environment:hover { background: #688442; }
+#box4 a.anti_corruption { color: #ED1C24; }
+#box4 a.anti_corruption:hover { background: #ED1C24; }
+#box4 a.partnerships { color: #CADB2A; }
+#box4 a.partnerships:hover { background: #CADB2A; }
+#box4 a.networks { color: #710000; }
+#box4 a.networks:hover { background: #710000; }
+#box4 a.business_peace { color: #453058; }
+#box4 a.business_peace:hover { background: #453058; }
+#box4 a.financial { color: #404850; }
+#box4 a.financial:hover { background: #404850; }
+#box4 a.cop { color: #FFD900; }
+#box4 a.cop:hover { background: #FFD900; }
+#box4 a.last { border-bottom: 0; }
 
 #box5, #box6 { position: absolute; top: 530px; width: 288px; height: 154px; border: 4px solid #d9e2e5; background-position: -4px -5px; }
 #box5 { left: 40px; }
@@ -272,8 +281,8 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #inner_head p a:hover { text-decoration: underline; }
 #inner_head p.print { position: absolute; top: 25px; left: 790px; background: url(/assets/print_icon.png) 1px 1px no-repeat; }
 #inner_head p.send { position: absolute; top: 25px; left: 855px; background: url(/assets/email_icon.png) 1px 2px no-repeat; }
-#inner_body { display: block; height: 100%; width: 920px; position: relative; left: 0; margin: auto; }
-#leftnav { width: 270px; position: absolute; top: 15px; left: 0px; background-color: #fff; border: 1px solid #dadada; }
+#inner_body { display: block; height: 100%; width: 920px; position: relative; left: 0; margin: auto; overflow: hidden; }
+#leftnav { width: 270px; float: left; background-color: #fff; border: 1px solid #dadada; margin: 13px 0px 20px 0px; }
 #leftnav ul { list-style: none; }
 #leftnav ul li { width: 264px; height: 30px; background-color: #f2f2f2; margin: 2px 3px 2px 3px; }
 #leftnav ul li a { font-size: 12px; color: #666; display: block; padding: 9px 0 0 16px; }
@@ -283,7 +292,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #leftnav ul li.sub { height: auto; background-color: #e5eef0; }
 #leftnav ul li.sub a { font-size: 11px; font-weight: normal; color: #00546E; padding: 6px 10px 6px 30px; text-indent: -9px; }
 #leftnav ul li.sub a.sub_selected { font-weight: bold; }
-#rightcontent { min-height: 500px; height: auto !important; height: 500px; position: relative; top: 15px; left: 285px; width: 633px; background-color: #fff; border: 1px solid #dadada; margin-bottom: 35px; }
+#rightcontent { min-height: 500px; height: auto !important; float: left; width: 633px; background-color: #fff; border: 1px solid #dadada; margin: 13px 0px 35px 13px; }
 #rightcontent .path { height: auto; width: 635px; padding-bottom: 7px; border-bottom: 1px solid #d9d9d9; }
 #rightcontent .path p { font-size: 11px; color: #a6a6a6; padding: 14px 0 0 30px; }
 #rightcontent .path a { color: #a6a6a6; }
