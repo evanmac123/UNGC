@@ -107,4 +107,78 @@ class PagesControllerTest < ActionController::TestCase
 
     end
   end
+
+  context "given several version of the index path" do
+
+    setup do
+      # to match a real bug, the first version will have dynamic_content == nil
+      create_page(
+        path:             '/index.html',
+        content:          '<p>This is my page1.</p>',
+        approval:         'previously',
+        dynamic_content:  nil
+      )
+
+      # a 2nd page is approved
+      @approved = create_page(
+        path:             '/index.html',
+        content:          '<p>This is my page2.</p>',
+        approval:         'approved',
+        dynamic_content:  true
+      )
+    end
+
+    should "view the approved version" do
+      get :view, :path => 'index.html'
+      page = assigns(:page)
+
+      assert_equal @approved.id, page.id
+      assert page.approved?, 'expected page to be approved'
+      assert page.dynamic_content?, 'expected page to be dynamic'
+    end
+
+    context "previewing a pending version" do
+      setup do
+        sign_in create_staff_user
+        @preview_page = create_page(
+          path:             '/index.html',
+          content:          '<p>page4</p>',
+          approval:         'pending',
+          dynamic_content:  true
+        )
+
+        get :preview, :path => 'index.html'
+        @rendered_page = assigns(:page)
+      end
+
+      should "preview the correct version" do
+        assert_equal @preview_page.id, @rendered_page.id
+      end
+
+      should "be pending still" do
+        refute @rendered_page.approved?
+      end
+
+      should "be dynamic" do
+        assert @rendered_page.dynamic_content?
+      end
+
+    end
+
+  end
+
+  context "cache paths" do
+
+    should 'cache the approved version at /index.html' do
+      page = create_page(path: '/index.html', approval: 'approved')
+      assert_equal '/index.html', page.cache_path
+    end
+
+    should 'cache the pending version at /index.html-pending' do
+      page = create_page(path: '/index.html', approval: 'pending',)
+      assert_equal '/index.html-pending', page.cache_path
+    end
+
+  end
+
 end

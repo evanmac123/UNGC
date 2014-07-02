@@ -1,1 +1,1 @@
-%p= link_to "#{truncate(resource_link.title, length: 65)} (#{resource_link.language.name})", resource_link.url, class: "resource_link #{resource_link.link_type}", target: "_blank", data: {resource_link_id: resource_link.id.to_s}, title: resource_link.title
+%p= link_to "#{truncate(resource_link.title, length: 45)} (#{resource_link.language.name})", resource_link.url, class: "resource_link #{resource_link.link_type}", target: "_blank", data: {resource_link_id: resource_link.id.to_s}, title: resource_link.title

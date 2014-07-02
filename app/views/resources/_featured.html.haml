@@ -1,18 +1,106 @@
-.display_shelf-section.ungc
+.display_shelf-section.global_compact
   .display_shelf-header
     / = link_to_all_resources 'global_compact'
-    %h3 Leaders Summit 2013: New Resources
+    %h3 New Resources
   %ul.display_shelf
-    - @featured.leaders_summit.each do |f|
+    - @featured.new_resources.each do |f|
       = render f
   %ul.display_shelf
-    - @featured.leaders_summit2.each do |f|
+    - @featured.new_resources_2.each do |f|
       = render f
 
-.display_shelf-section.ungc
+.display_shelf-section.global_compact
   .display_shelf-header
-    / = link_to_all_resources 'global_compact'
+    = link_to_all_resources_from_display_shelf 'global_compact'
     %h3 Key Global Compact Resources
   %ul.display_shelf
     - @featured.global_compact.each do |f|
+      = render f
+
+.display_shelf-section.cop
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'cop'
+    %h3 Reporting
+  %ul.display_shelf
+    - @featured.cop.each do |f|
+      = render f
+
+.display_shelf-section.local_networks
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'local_networks'
+    %h3 Local Networks
+  %ul.display_shelf
+    - @featured.local_networks.each do |f|
+      = render f
+
+.display_shelf-section.human_rights
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'human_rights'
+    %h3 Human Rights
+  %ul.display_shelf
+    - @featured.human_rights.each do |f|
+      = render f
+
+.display_shelf-section.labour
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'labour'
+    %h3 Labour
+  %ul.display_shelf
+    - @featured.labour.each do |f|
+      = render f
+
+.display_shelf-section.environment
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'environment'
+    %h3 Environment
+  %ul.display_shelf
+    - @featured.environment.each do |f|
+      = render f
+
+.display_shelf-section.anti_corruption
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'anti_corruption'
+    %h3 Anti-Corruption
+  %ul.display_shelf
+    - @featured.anti_corruption.each do |f|
+      = render f
+
+.display_shelf-section.business_peace
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'business_peace'
+    %h3 Business and Peace
+  %ul.display_shelf
+    - @featured.business_peace.each do |f|
+      = render f
+
+.display_shelf-section.development
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'development'
+    %h3 Development
+  %ul.display_shelf
+    - @featured.development.each do |f|
+      = render f
+
+.display_shelf-section.financial_markets
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'financial_markets'
+    %h3 Financial Markets
+  %ul.display_shelf
+    - @featured.financial_markets.each do |f|
+      = render f
+
+.display_shelf-section.global_compact
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'partnerships'
+    %h3 Partnerships
+  %ul.display_shelf
+    - @featured.partnerships.each do |f|
+      = render f
+
+.display_shelf-section.global_compact
+  .display_shelf-header
+    = link_to_all_resources_from_display_shelf 'supply_chain'
+    %h3 Supply Chain Sustainability
+  %ul.display_shelf
+    - @featured.supply_chain.each do |f|
       = render f

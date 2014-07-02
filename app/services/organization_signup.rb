@@ -31,8 +31,8 @@ class OrganizationSignup
 
   def valid_organization?
     organization.valid?
-    validate_country
     validate_type
+    validate_country
     local_valid_organization?
     !organization.errors.any?
   end
@@ -109,12 +109,12 @@ class OrganizationSignup
 
     def validate_country
       return if organization.country.present?
-      organization.errors.add :country_id, "can't be blank"
+      organization.errors.add :country_id, "must be selected"
     end
 
     def validate_type
       return if organization.organization_type.present?
-      organization.errors.add :organization_type_id, "can't be blank"
+      organization.errors.add :organization_type_id, "must be selected"
     end
 
 end

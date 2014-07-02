@@ -1,5 +1,5 @@
 module TrackCurrentUser
-  def included(klass)
+  def self.included(klass)
     klass.class_eval do
       before_create :set_created_by
       before_update :set_updated_by

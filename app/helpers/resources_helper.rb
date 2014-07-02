@@ -40,10 +40,14 @@ module ResourcesHelper
     status == :approved ? 'approved_at' : 'updated_at'
   end
 
-  def link_to_all_resources(reference)
-    link_to 'View All Resources', resources_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all-resources'
+  def link_to_all_resources_from_display_shelf(reference)
+    link_to 'View All', resources_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all'
   end
   
+  def link_to_all_resources(reference)
+    link_to 'View more resources', resources_path(commit: 'search', resource_search: { topic: {principle_ids: [Principle.find_by_reference(reference)]}}), class: 'view-all-resources'
+  end
+    
   def find_resources(ids)
     resources = Resource.find ids
     ids.collect { |id| resources.detect {|x| x.id == id} }

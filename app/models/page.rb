@@ -71,6 +71,10 @@ class Page < ActiveRecord::Base
     find_by_path path, :include => :children
   end
 
+  def self.preview_for(path)
+    where(path:path).order('version_number desc').first
+  end
+
   def self.find_navigation_for(path)
     return nil if path.blank?
     possible = approved.for_navigation.find_by_path(path, :include => :children) #, :include => :children
@@ -319,6 +323,14 @@ class Page < ActiveRecord::Base
     return true unless wants_to
     can      = !pages_exist_with_new_path?(new_path)
     wants_to and can
+  end
+
+  def cache_path
+    if approved?
+      self.path
+    else
+      "#{self.path}-#{self.approval}"
+    end
   end
 
 end

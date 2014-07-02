@@ -16,7 +16,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
         @headline = Headline.find_by_title('This is my headline')
       end
 
-      should "create the envet" do
+      should "create the headline" do
         assert_redirected_to_index
         assert @headline
       end
@@ -39,8 +39,15 @@ class Admin::NewsControllerTest < ActionController::TestCase
           assert_contains Headline.approved, @headline
         end
 
+        should "be updated_by the staff member" do
+          assert_equal @staff_user.id, @headline.updated_by_id
+        end
+
         context "but then revoke it" do
           setup do
+            # clear updated_by_id so we're sure it gets set.
+            @headline.update_attribute :updated_by_id, nil
+
             assert_no_difference 'Headline.count' do
               post :revoke, {:id => @headline.id}
             end
@@ -52,6 +59,11 @@ class Admin::NewsControllerTest < ActionController::TestCase
             assert @headline.revoked?
             assert_does_not_contain Headline.approved, @headline
           end
+
+          should "be updated_by the staff member" do
+            assert_equal @staff_user.id, @headline.updated_by_id
+          end
+
         end
       end
     end

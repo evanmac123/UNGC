@@ -138,4 +138,15 @@ class Admin::PagesControllerTest < ActionController::TestCase
     end
   end
 
+  should "tracks approvals" do
+    @staff_user = create_staff_user
+    sign_in @staff_user
+    page = create_page approval: 'pending'
+
+    post :approve, {:id => page.id}
+    page.reload
+
+    assert_equal @staff_user.id, page.updated_by_id
+  end
+
 end

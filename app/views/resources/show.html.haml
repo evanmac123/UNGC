@@ -13,7 +13,7 @@
   .resource-show-details
     - if @resource.principles.any?
       %dl
-        %dt Topics
+        %dt= "Topic".pluralize(@resource.principles.count)
         %dd
           %ul
             - @resource.principles.each do |topic|
@@ -22,7 +22,7 @@
 
     - if @resource.authors.any?
       %dl
-        %dt Authors
+        %dt= "Author".pluralize(@resource.authors.count)
         %dd
           %ul
             - @resource.authors.each do |author|
@@ -31,7 +31,7 @@
 
     - if @resource.links.any?
       %dl
-        %dt Links
+        %dt= "Link".pluralize(@resource.links.count)      
         %dd
           %ul
             - @resource.links.each do |link|
