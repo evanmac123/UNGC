@@ -150,7 +150,7 @@ class Admin::ReportsController < AdminController
 
   def initiative_contacts2
     @report = InitiativeContacts2.new
-    render_formatter(filename: "care_for_climate_contacts_#{date_as_filename}.xls")
+    render_formatter(filename: "caring_for_climate_contacts_#{date_as_filename}.xls")
   end
 
   def initiative_organizations

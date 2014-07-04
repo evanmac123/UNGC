@@ -51,7 +51,7 @@ class InitiativeContacts2 < SimpleReport
     'contact_id',
     'organization_name',
     'joined_on',
-    'signed_mandate_on',
+    'signed_c4c_on',
     'organization_type',
     'cop_state',
     'sector_name',
@@ -75,7 +75,7 @@ class InitiativeContacts2 < SimpleReport
   end
 
   def row(record)
-  [
+    [
     record.organization_id,
     record.contact_id,
     record.organization_name,
@@ -100,7 +100,7 @@ class InitiativeContacts2 < SimpleReport
     record.postal_code,
     record.country_name,
     Country::REGIONS[record.region.to_sym]
-  ]
+    ]
   end
 
 end
