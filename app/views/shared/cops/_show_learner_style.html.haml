@@ -10,9 +10,9 @@
     - if communication_on_progress.latest?
       - if communication_on_progress.triple_learner_for_one_year?
         %p Your company has exceeded the one-time 12-month Learner period that our policy allows for companies that do not meet the COP minimum requirements. As a result, your company is currently listed as "Non-Communicating" on the Global Compact website.
-      - elsif communication_on_progress.double_learner?
-        %p== Our records show that your company's last two Communications on Progress (COPs) have not met all the required elements. Therefore, your company has exceeded the one-time grace period (known as the Learner Platform) provided for companies that do not meet all the requirements. With the purpose of supporting your company in its sustainability efforts and encouraging you to continue your engagement with the Global Compact, we have decided to extend your grace period until your next COP deadline on  <strong>#{dd_month_yyyy(communication_on_progress.published_on + 1.year)}</strong>.
-        %p== To ensure that your next COP fulfills all requirements, we urge you to take advantage of relevant resources developed by our office, listed under #{link_to 'Next&nbsp;Steps', '?tab=next_steps' }.
+      - elsif communication_on_progress.organization.double_learner?
+        %p== Our records show that your company's last two Communications on Progress (COPs) have not met all the required elements. Therefore, your company has exceeded the one-time grace period (known as the Learner Platform) provided for companies that do not meet all the requirements. With the purpose of supporting your company in its sustainability efforts and encouraging you to continue your engagement with the Global Compact, we have decided to extend your grace period until your next COP deadline on  <strong>#{dd_month_yyyy(communication_on_progress.created_at + 1.year)}</strong>.
+        %p== To ensure that your next COP fulfills all requirements, we urge you to take advantage of relevant resources developed by our office, listed under #{link_to 'Next&nbsp;Steps'.html_safe, '?tab=next_steps' }.
 
     %dl{:style => 'width: 85%;'}
       %dt.first Flagged items are missing
@@ -39,8 +39,6 @@
         %th Resources
       %tr
         %td= link_to 'COP policy', '/COP/communicating_progress/cop_policy.html'
-      %tr
-        %td= link_to 'GC Active level', '/COP/differentiation/GCActive_level.html'
       %tr
         %td= link_to 'Local Networks', '/NetworksAroundTheWorld/'
       %tr

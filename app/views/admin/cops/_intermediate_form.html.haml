@@ -6,6 +6,7 @@
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav
     %li <a id="basic_link" href="#basic">General Information</a>
+    %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(show_business_for_peace(@communication_on_progress))} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
     %li#submit_tab{:style => css_display_style(@communication_on_progress.submitted?)} <a id="submit_link" href="#finish">Submit your COP</a>
 
   #basic.tab_content
@@ -40,6 +41,7 @@
 
           #include_continued_support_statement{:style => css_display_style(@communication_on_progress.submitted?)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
+            = render :partial => 'cop_business_peace_question', :locals => {:form => form, :cop => @communication_on_progress}
             = render :partial => 'cop_water_mandate_question', :locals => {:form => form}
 
             %fieldset
@@ -57,6 +59,8 @@
                     = form.radio_button :method_shared, key
                     = value
 
+  %div.tab_content{:id => "business_peace_additional_questions"}
+    = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
   #finish.tab_content
     %fieldset
       #cop_attachments{:style => 'display: block'}

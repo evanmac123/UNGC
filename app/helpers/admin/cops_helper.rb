@@ -117,6 +117,10 @@ module Admin::CopsHelper
     item ? 'selected_question' : 'unselected_question'
   end
 
+  def show_business_for_peace(cop)
+    cop.references_business_peace? || cop.organization.signatory_of?(:business4peace)
+  end
+
   def edit_admin_cop_path(cop)
     if cop.is_grace_letter?
       edit_admin_organization_grace_letter_path(cop.organization.id, cop.id)
@@ -136,4 +140,5 @@ module Admin::CopsHelper
       admin_organization_communication_on_progress_path(cop.organization.id, cop)
     end
   end
+
 end

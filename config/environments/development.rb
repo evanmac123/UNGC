@@ -46,8 +46,8 @@ UNGC::Application.configure do
   config.action_mailer.default_url_options = { :protocol => 'http', :host => '127.0.0.1', :port => 3000 }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => "localhost",
-    # :address => "172.16.22.1",
+    # :address => "localhost",
+    :address => "172.16.22.1",
     :port => 1025,
     :domain => "www.unglobalcompact.org"
   }

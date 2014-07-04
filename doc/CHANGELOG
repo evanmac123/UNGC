@@ -1,3 +1,10 @@
+h1. 2014-04-24
+
+* Custom COP process for Business for Peace
+* B4P signatories are all required to complete answer the :business_peace cop_question group
+* The tab in the submission form is optional for all Advanced COPs, but required for all B4P signatories whether they are submitting an Active or Advanced COP
+* Moved B4P questionnaire into partial since its now called from intermediate, advanced and lead COP submission forms
+
 h1. 2014-05-24
 
 * Added ApplicationHelper#participant_manager_only to limit functions to Relationship Managers

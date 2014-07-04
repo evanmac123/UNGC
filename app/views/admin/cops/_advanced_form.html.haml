@@ -21,7 +21,7 @@
 
     %li#governance_tab{:class => 'additional_questions'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
 
-    %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(@communication_on_progress.references_business_peace?)} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
+    %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(show_business_for_peace(@communication_on_progress))} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
 
     %li#submit_tab{:style => "#{css_display_style(@communication_on_progress.submitted?)}"} <a id="submit_link" href="#finish">Submit your COP</a>
 
@@ -78,7 +78,7 @@
 
           #include_continued_support_statement{:style => css_display_style(@communication_on_progress.submitted?)}
             = render :partial => 'cop_issue_areas_form', :locals => {:form => form}
-            = render :partial => 'cop_business_peace_question', :locals => {:form => form}
+            = render :partial => 'cop_business_peace_question', :locals => {:form => form, :cop => @communication_on_progress}
             = render :partial => 'cop_water_mandate_question', :locals => {:form => form}
 
             %fieldset
@@ -192,11 +192,7 @@
     %fieldset= render_cop_questions_for :governance, :year => 2013
 
   %div.tab_content{:id => "business_peace_additional_questions"}
-    %h3
-      %span{:class => "#{issue_area_colour_for('business_peace')}" } ANNEX: Business & Peace
-    %p How does your COP demonstrate that your company is advancing responsible business practices aligned with your commitment to the Global Compact in high-risk and/or conflict-affected areas?  These areas differ significantly from more stable operating environments and require companies to take into consideration additional factors. For the following criteria, please check the policies and practices described in your COP.
-    %fieldset= render_cop_questions_for :business_peace, :year => 2013
-
+    = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
   #finish.tab_content
     %fieldset
       #cop_attachments{:style => 'display: block'}
