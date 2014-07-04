@@ -34,6 +34,11 @@ class Admin::ReportsController < AdminController
     render_formatter(filename: "all_cops_#{date_as_filename}.xls")
   end
 
+  def all_logo_requests
+    @report = AllLogoRequests.new
+    render_formatter(filename: "all_logo_requests_#{date_as_filename}.xls")
+  end
+
   def approved_logo_requests
     @month = params[:month] || Date.today.month
     @year = params[:year] || Date.today.year
@@ -141,6 +146,11 @@ class Admin::ReportsController < AdminController
   def initiative_contacts
     @report = InitiativeContacts.new
     render_formatter(filename: "water_mandate_contacts_#{date_as_filename}.xls")
+  end
+
+  def initiative_contacts2
+    @report = InitiativeContacts2.new
+    render_formatter(filename: "caring_for_climate_contacts_#{date_as_filename}.xls")
   end
 
   def initiative_organizations
