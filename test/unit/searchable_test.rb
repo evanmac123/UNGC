@@ -79,11 +79,12 @@ class SearchableTest < ActiveSupport::TestCase
 
   context "Indexing Organizations" do
     setup do
-      create_organization(
+      @org = create_organization(
         organization_type:create_organization_type,
         active:true,
         participant:true,
-      ).approve!
+      )
+      @org.approve!
       Searchable.index_organizations
       @searchable = Searchable.first
     end
@@ -95,6 +96,14 @@ class SearchableTest < ActiveSupport::TestCase
     should "have the correct document_type" do
       assert_equal 'Participant', @searchable.document_type
     end
+
+    should "not add a new record after the organization is renamed" do
+      @org.update_attribute(:name, "new name")
+      assert_no_difference 'Searchable.count' do
+        Searchable.index_organizations
+      end
+    end
+
   end
 
   context "Indexing Communications_on_progress" do

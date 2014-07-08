@@ -2,7 +2,7 @@ module Searchable::SearchableOrganization
   def index_organization(organization)
     title   = organization.name
     content = ''
-    url     = with_helper { participant_path(organization) }
+    url     = with_helper { participant_path(organization.id) }
     import 'Participant', url: url, title: title, content: content, object: organization
   end
 
