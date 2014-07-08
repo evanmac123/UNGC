@@ -31,6 +31,8 @@ class Resource < ActiveRecord::Base
     },
     :url => "/system/:class/:attachment/:id/:style/:filename"
 
+  before_destroy :delete_searchable
+
   validates_presence_of :title, :description
   #validates_attachment_content_type :image, content_type: /image/
 
@@ -86,6 +88,10 @@ class Resource < ActiveRecord::Base
     else
       image.url(size)
     end
+  end
+
+  def delete_searchable
+    Searchable.remove_resource(self)
   end
 
 end

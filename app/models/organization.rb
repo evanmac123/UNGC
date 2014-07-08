@@ -104,6 +104,7 @@ class Organization < ActiveRecord::Base
   before_save :set_non_business_sector_and_listing_status
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
+  before_destroy :delete_searchable
 
   has_attached_file :commitment_letter,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
@@ -343,7 +344,7 @@ class Organization < ActiveRecord::Base
     end
     where(conditions).includes([:country, :sector]).order("organizations.name ASC")
   end
-  
+
   def self.applications_under_review
     where("organizations.state NOT IN (?)", [ApprovalWorkflow::STATE_APPROVED,
                                              ApprovalWorkflow::STATE_REJECTED,
@@ -373,7 +374,7 @@ class Organization < ActiveRecord::Base
       self.replied_to = true
     end
   end
-  
+
   def review_status_name
     if state == ApprovalWorkflow::STATE_IN_REVIEW && replied_to == false
       'Updated'
@@ -401,7 +402,7 @@ class Organization < ActiveRecord::Base
       country.local_network.name
     end
   end
-  
+
   def local_network_url
     if country.try(:local_network)
       country.local_network.url
@@ -415,7 +416,7 @@ class Organization < ActiveRecord::Base
       []
     end
   end
-  
+
   def network_contact_person
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_contacts.first
@@ -1008,6 +1009,10 @@ class Organization < ActiveRecord::Base
         c.roles.delete_all
         c.delete
       end
+    end
+
+    def delete_searchable
+      Searchable.remove_organization(self)
     end
 
 end

@@ -22,6 +22,9 @@ require 'hpricot'
 class Headline < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
+
+  before_destroy :delete_searchable
+
   permalink :date_for_permalink
   belongs_to :country
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
@@ -89,6 +92,10 @@ class Headline < ActiveRecord::Base
   # use first paragraph of news item as teaser
   def teaser
    (Hpricot(self.description)/'p').first.inner_html
+  end
+
+  def delete_searchable
+    Searchable.remove_headline(self)
   end
 
 end
