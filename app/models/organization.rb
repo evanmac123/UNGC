@@ -48,6 +48,8 @@
 
 class Organization < ActiveRecord::Base
   include ApprovalWorkflow
+  include Indexable
+
   self.include_root_in_json = false
 
   validates_presence_of :name
@@ -104,7 +106,7 @@ class Organization < ActiveRecord::Base
   before_save :set_non_business_sector_and_listing_status
   before_save :set_initiative_signatory_sector
   before_destroy :delete_contacts
-  before_destroy :delete_searchable
+
 
   has_attached_file :commitment_letter,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
@@ -1009,10 +1011,6 @@ class Organization < ActiveRecord::Base
         c.roles.delete_all
         c.delete
       end
-    end
-
-    def delete_searchable
-      Searchable.remove_organization(self)
     end
 
 end

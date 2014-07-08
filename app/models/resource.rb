@@ -20,6 +20,8 @@
 #
 
 class Resource < ActiveRecord::Base
+  include Indexable
+
   attr_accessible :title, :description, :year, :isbn, :principle_ids, :author_ids, :image
   has_attached_file :image, :styles => {
       :show => "213x277>",
@@ -30,8 +32,6 @@ class Resource < ActiveRecord::Base
       :'result@2x' => "260x338>"
     },
     :url => "/system/:class/:attachment/:id/:style/:filename"
-
-  before_destroy :delete_searchable
 
   validates_presence_of :title, :description
   #validates_attachment_content_type :image, content_type: /image/
@@ -88,10 +88,6 @@ class Resource < ActiveRecord::Base
     else
       image.url(size)
     end
-  end
-
-  def delete_searchable
-    Searchable.remove_resource(self)
   end
 
 end

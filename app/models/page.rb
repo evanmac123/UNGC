@@ -29,10 +29,10 @@ class Page < ActiveRecord::Base
 
   include ContentApproval
   include TrackCurrentUser
+  include Indexable
 
   before_create :increment_version_number
   before_create :derive_path
-  before_destroy :delete_searchable
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
   has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
@@ -332,10 +332,6 @@ class Page < ActiveRecord::Base
     else
       "#{self.path}-#{self.approval}"
     end
-  end
-
-  def delete_searchable
-    Searchable.remove_page(self)
   end
 
 end

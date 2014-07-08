@@ -36,6 +36,7 @@
 class CommunicationOnProgress < ActiveRecord::Base
   include VisibleTo
   include ApprovalWorkflow
+  include Indexable
 
   validates_presence_of :organization_id, :title
   validates_associated :cop_links
@@ -58,7 +59,6 @@ class CommunicationOnProgress < ActiveRecord::Base
   after_create   :set_differentiation_level
   after_create   :set_approved_state
   before_destroy :delete_associated_attributes
-  before_destroy :delete_searchable
 
   accepts_nested_attributes_for :cop_answers
   accepts_nested_attributes_for :cop_files, :allow_destroy => true
@@ -486,10 +486,6 @@ class CommunicationOnProgress < ActiveRecord::Base
       cop_files.each {|file| file.destroy}
       cop_links.each {|link| link.destroy}
       cop_answers.each {|answer| answer.destroy}
-    end
-
-    def delete_searchable
-      Searchable.remove_communication_on_progress(self)
     end
 
 end
