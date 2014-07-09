@@ -178,7 +178,7 @@ class ResourcePruner < Pruner
   end
 
   def generate_url(resource)
-    Searchable.with_helper { resource_url(resource) }
+    Searchable.with_helper { resource_path(resource) }
   end
 
   def document_type
