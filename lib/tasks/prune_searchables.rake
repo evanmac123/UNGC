@@ -154,6 +154,7 @@ class PagePruner < Pruner
     Page.approved
       .select([:id, :title, :content, :path])
       .where("title is not null and title <> ''")
+      .where("dynamic_content = 1")
       .reject { |page| strip_tags(page.content).blank? }
   end
 
