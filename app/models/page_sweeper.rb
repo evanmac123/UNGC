@@ -12,7 +12,7 @@ class PageSweeper < ActionController::Caching::Sweeper
     end
   end
 
-  def after_destroy(product)
+  def after_destroy(page)
     expire_page(page.path)
   end
 end
