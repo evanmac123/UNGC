@@ -43,25 +43,27 @@ class Pruner
   include Rails.application.routes.url_helpers
 
   def prune
-    puts document_type, ".oO -=-=-=-=-=-=-=- Oo."
-
-    puts "\tgetting approved #{document_type}s"
+    print "\tapproved... "
     approved_models = Hash[approved.map {|h| [generate_url(h), h.id] }]
+    puts approved_models.count
 
-    puts "\tfinding orphans"
+    print "\torphans... "
     orphaned = Searchable.where(document_type: document_type).where('url not in (?)', approved_models.keys)
-    orphaned.destroy_all
+    puts orphaned.count
+    #orphaned.destroy_all
 
-    puts "\tfinding indexed"
+    print "\tindexed... "
     indexed = Searchable.where(document_type: document_type).map(&:url)
+    puts indexed.count
 
-    puts "\tfinding unindexed"
+    print "\tunindexed... "
     unindexed = approved_models.reject { |url| indexed.include? url }
+    puts unindexed.count
 
-    puts "\tindexing missing #{document_type}s"
+    puts "\tindexing missing"
     unindexed.each do |url, id|
       puts "\t\tindexing #{url}"
-      index(id)
+      #index(id)
     end
   end
 
@@ -151,7 +153,7 @@ class PagePruner < Pruner
     Page.approved
       .select([:id, :title, :content, :path])
       .where("title is not null and title <> ''")
-      .where("dynamic_content <> 1")
+      .where("dynamic_content is null or dynamic_content = 0")
       .reject { |page| strip_tags(page.content).blank? }
   end
 
