@@ -50,10 +50,7 @@ class Pruner
 
     puts "\tfinding orphans"
     orphaned = Searchable.where(document_type: document_type).where('url not in (?)', approved_models.keys)
-    # orphaned.destroy_all
-
-    # TODO add counts for each stage
-    # look into pages and resources.
+    orphaned.destroy_all
 
     puts "\tfinding indexed"
     indexed = Searchable.where(document_type: document_type).map(&:url)
@@ -64,7 +61,7 @@ class Pruner
     puts "\tindexing missing #{document_type}s"
     unindexed.each do |url, id|
       puts "\t\tindexing #{url}"
-      # index(id)
+      index(id)
     end
   end
 
@@ -154,7 +151,7 @@ class PagePruner < Pruner
     Page.approved
       .select([:id, :title, :content, :path])
       .where("title is not null and title <> ''")
-      .where("dynamic_content = 1")
+      .where("dynamic_content <> 1")
       .reject { |page| strip_tags(page.content).blank? }
   end
 

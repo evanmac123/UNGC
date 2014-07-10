@@ -15,7 +15,7 @@ module Searchable::SearchableResource
   end
 
   def index_resources_since(time)
-  	indexable_resources.where(new_or_updated_since(time)).each { |r| index_resource r }
+    indexable_resources.where(new_or_updated_since(time)).each { |r| index_resource r }
   end
 
   def remove_resource(resource)
