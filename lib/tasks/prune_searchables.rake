@@ -43,6 +43,8 @@ class Pruner
   include Rails.application.routes.url_helpers
 
   def prune
+    puts document_type
+
     print "\tapproved... "
     approved_models = Hash[approved.map {|h| [generate_url(h), h.id] }]
     puts approved_models.count
@@ -50,7 +52,7 @@ class Pruner
     print "\torphans... "
     orphaned = Searchable.where(document_type: document_type).where('url not in (?)', approved_models.keys)
     puts orphaned.count
-    #orphaned.destroy_all
+    orphaned.destroy_all
 
     print "\tindexed... "
     indexed = Searchable.where(document_type: document_type).map(&:url)
@@ -63,7 +65,7 @@ class Pruner
     puts "\tindexing missing"
     unindexed.each do |url, id|
       puts "\t\tindexing #{url}"
-      #index(id)
+      index(id)
     end
   end
 
