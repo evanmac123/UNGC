@@ -15,6 +15,7 @@ class CopPresenter
            :cop_attributes,
            :cop_files,
            :cop_links,
+           :created_at,
            :published_on,
            :description,
            :differentiation,
