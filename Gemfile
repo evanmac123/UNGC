@@ -41,6 +41,7 @@ group :development do
   gem 'thin'
   gem 'rails-dev-tweaks'
   gem 'debugger'
+  gem 'spring'
 end
 
 group :test do
