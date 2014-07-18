@@ -7,12 +7,16 @@
   p.cop_description
     :font-size                    13px
     :line-height                  1.2em
-  ol.cop_list
-    :padding-left                   1em
+  .cop_list
+    :padding-left                 1em
     li
-      :font-size                    13px
-      :line-height                  1.2em
-      :margin-bottom                1em
+      :font-size                  13px
+      :line-height                1.2em
+      :margin-bottom              1em
+      &.checked
+        :padding-left             1em
+        :list-style-type          disc
+        :list-style-image         url(checked.png)
 
   div.hint_toggle
     color:                        $dark_blue
@@ -31,19 +35,19 @@
 
   dt
     :clear                        left
-    color:                       $dark_blue
+    color:                        $dark_blue
 
   span
     &.human_right
-      color:                     $human_right
+      color:                      $human_right
     &.labour
-      color:                     $labour
+      color:                      $labour
     &.environment
-      color:                     $environment
+      color:                      $environment
     &.anti_corruption
-      color:                     $anti_corruption
+      color:                      $anti_corruption
     &.business_peace
-      color:                     $business_peace
+      color:                      $business_peace
 
   dd
     &.indent
