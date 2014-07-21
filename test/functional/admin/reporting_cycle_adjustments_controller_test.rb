@@ -10,11 +10,11 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
     }
   end
 
-  def reporting_cycle_adjustment_attributes
+  def reporting_cycle_adjustment_attributes(organization = @organization)
     {
       language_id: Language.first,
       attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')
-    }.merge(to_date_params(Date.today + 10.months))
+    }.merge(to_date_params(organization.cop_due_on + 10.months))
   end
 
   setup do
@@ -45,7 +45,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
         post :create, organization_id: @organization.id, reporting_cycle_adjustment: @attrs
         form = assigns(:form)
 
-        assert form.valid?, "expected reporting cycle adjustment to be valid."
+        refute form.has_errors?, form.errors.full_messages.to_sentence
         assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, form.reporting_cycle_adjustment)
       end
     end
@@ -66,8 +66,9 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
 
   context "Editing" do
     setup do
-      @reporting_cycle_adjustment = create_reporting_cycle_adjustment(ends_on: Date.today+1.month)
-
+      @reporting_cycle_adjustment = create_reporting_cycle_adjustment(
+        ends_on: @organization.cop_due_on + 1.month
+      )
     end
 
     context "as a staff user" do
@@ -91,7 +92,7 @@ class Admin::ReportingCycleAdjustmentsControllerTest < ActionController::TestCas
                         reporting_cycle_adjustment: reporting_cycle_adjustment_attributes
           form = assigns(:form)
 
-          assert form.valid?, "expected reporting_cycle_adjustment to be valid."
+          refute form.has_errors?, form.errors.full_messages.to_sentence
           assert_redirected_to admin_organization_reporting_cycle_adjustment_url(@organization.id, form.reporting_cycle_adjustment)
         end
       end
