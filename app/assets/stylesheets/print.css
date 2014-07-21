@@ -24,7 +24,7 @@ body {
 
 #main_content dd ul li.advanced_question, dd ul li.unselected_question {
   list-style-type: circle;
-  list-style-image: url(/assets/unchecked.png);
+  list-style-image: none;
 }
 
 #main_content dd ul.basic_question li.question_group, #main_content dd ul.questionnaire li.question_group {
