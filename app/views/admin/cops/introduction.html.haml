@@ -2,10 +2,10 @@
 
 %div{:class => "tab_container top_tabs", :style => 'width: 80%;'}
   %ul.tab_nav
-    %li <a href="#introduction">Introduction</a>
+    %li <a href="#introduction">Instructions  </a>
     %li <a href="#basic">Basic Template</a>
-    %li <a href="#general">COP Submission</a>
-    %li <a href="#advanced">Advanced Level</a>
+    %li <a href="#general">GC Active COP</a>
+    %li <a href="#advanced">GC Advanced COP</a>
     - if current_contact.submit_grace_letter?
       %li <a href="#grace">Grace Letter</a>
     - if current_contact.submit_reporting_cycle_adjustment?
@@ -14,45 +14,32 @@
   #introduction.tab_content
     %p{:class => 'cop_description', :style => 'margin-top: 10px;'}
       %strong Please choose among the following options to publish your COP on the Global Compact website
-    %p.cop_description
-      %strong Basic Template:
-      If you are new to the Global Compact, this Template will help you create your first COP.
-      %p.cop_description
-        %strong COP Submission:
-        Use this tab if you have already created your COP, either integrated into your sustainability report or as a standalone report, and you are not aiming to qualify for the GC Advanced level.
-    %p.cop_description
-      %strong Advanced Level:
-      Use this tab if your COP demonstrates a higher level of performance and disclosure and you would like to participate in the GC Advanced level.
-    - if current_contact.submit_grace_letter?
-      %p.cop_description
-        %strong Grace Letter:
-        == You can also submit a grace letter for a #{GraceLetterApplication::GRACE_DAYS} day extension to your COP deadline.
-    - else
-      %p.cop_description
-        %strong Grace Letter:
-        == This option is not available because you have already submitted a Grace Letter.
-    - if current_contact.submit_reporting_cycle_adjustment?
-      %p.cop_description
-        %strong Reporting Cycle Adjustment:
-        == Submit a one-time deferral of up to 11 months to align your COP deadline with your company's reporting cycle.
-    - else
-      %p.cop_description
-        %strong Reporting Cycle Adjustment:
-        == This option is not available because you have already submitted a Reporting Cycle Adjustment.
-
+    
+    %dl.left_column{style: 'width: 100%;'}
+      %dt.first Basic Template
+      %dd.first If your company is new to sustainability reporting, this template will guide you in creating your COP.
+      %dt GC Active COP
+      %dd Your report fulfills the three minimum requirements for the GC Active level and you are not aiming to qualify for the GC Advanced level.
+      %dt GC Advanced COP
+      %dd Your COP meets the GC Active level requirements and the GC Advanced criteria.
+      %dt Grace Letter
+      %dd  
+        - if current_contact.submit_grace_letter?
+          == Request a #{GraceLetterApplication::GRACE_DAYS} day extension to your COP deadline. A letter explaining the reasons for the request must be uploaded.
+        - else
+          This option is not available because you have already submitted a Grace Letter.
+      %dt Reporting Cycle<br />Adjustment
+      %dd
+        - if current_contact.submit_reporting_cycle_adjustment?
+          Submit a one-time deferral of up to 11 months to align your COP deadline with your company's reporting cycle.
+        - else
+          This option is not available because you have already submitted a Reporting Cycle Adjustment.
 
   #basic.tab_content
-    %h3 Create your COP by following the Basic Template
+    %h3 Submit a Basic Template COP
 
-    %p.cop_description This template is designed to guide smaller and less experienced companies to communicate their progress by following simple steps and suggested topics using an easy to follow web-based template.
-
-    %p.cop_description
-      A COP created using the Basic COP Template will automatically be categorized in the GC Active level or place them on the Learner's platform, in accordance with the
-      = popup_link_to 'COP policy.','/COP/communicating_progress/cop_policy.html'
-      To qualify as GC Advanced, participants must submit their COP using the Advanced Level tab.
-
-    %p.cop_description
-      Translations of the template are currently available in the following languages:
+    %p.cop_description== Smaller and less experienced companies can complete this template to create their COP. Translations of the template are currently available in several languages. Please note that the COP submission can only be completed through the #{link_to 'web-based template', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic')}.
+    
     %ul{:style => 'float: left; margin-right: 100px;'}
       %li= link_to 'Arabic','/docs/communication_on_progress/templates/Basic/Basic_COP_AR.pdf'
       %li= link_to 'Chinese','/docs/communication_on_progress/templates/Basic/Basic_COP_ZH.pdf'
@@ -68,39 +55,38 @@
       %li= link_to 'Spanish','/docs/communication_on_progress/templates/Basic/Basic_COP_ES.pdf'
       %li= link_to 'Turkish','/docs/communication_on_progress/templates/Basic/Basic_COP_TR.pdf'
 
-    %p.clear= link_to 'New Basic COP', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
+    %p.clear= link_to 'Submit a Basic Template COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'basic'), :class => 'new_page_large'
 
   #general.tab_content
-    %h3 Publish a COP on the Global Compact Website
+    %h3 Submit a GC Active COP
 
-    %p.cop_description Submit an electronic version of your COP (preferably a PDF file) and an optional link (URL) to the web page that contains the COP.
+    %p.cop_description== A COP must contain the following three elements to meet the #{popup_link_to 'GC Active level requirements', '/COP/differentiation/GCActive_level.html'}:
+    
+    %ol.cop_list.checked
+      %li.checked CEO statement of continued support for the UN Global Compact and its ten principles
+      %li.checked Description of actions or relevant policies related to Human Rights, Labour, Environment and Anti-Corruption
+      %li.checked Measurement of outcomes
 
-    %p= link_to 'New COP Submission', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
+    %p.clear= link_to 'Submit a GC Active COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'intermediate'), :class => 'new_page_large'
 
   #advanced.tab_content
-    %h3 The Advanced Level
-    %p.cop_description To submit a COP that qualifies for the GC Advanced level, participants must fill out a self-assessment covering the content of their COP and describing how they meet the 21 GC Advanced criteria.
-    %p.cop_description For each criterion, the Global Compact provides a list of commonly accepted best practices that companies are encouraged to implement to fulfill the criteria.  A criterion is "fulfilled" in one of three ways:
-    %ol.cop_list
-      %li If the COP describes best practices from the list that are <strong><em>relevant</em></strong> for the business participant's context of operation
-      %li If the COP describes other emerging or established best practices outside the list of commonly accepted best practices
-      %li If the COP does not address the criterion but explains the reason for omission (e.g., criterion deemed immaterial, legal prohibitions, privacy, competitive advantage).
-    %p.cop_description Detailed results of the self-assessment and statistics on coverage of best practices will also be made public to encourage stakeholder vetting and extra-financial analysis.
+    %h3 Submit a GC Advanced COP
+    %p.cop_description== A COP must meet the #{ link_to '21 GC Advanced criteria (pdf)', 'http://www.unglobalcompact.org/docs/communication_on_progress/GC_Advanced_COP_selfassessment.pdf'} to achieve the the GC Advanced level. To meet a criterion, the COP must cover at least one of the listed best practices.
 
-    %p= link_to 'Qualify your COP for the GC Advanced level', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
+    %p= link_to 'Submit a GC Advanced COP here', new_admin_organization_communication_on_progress_path(current_contact.organization.id, :type_of_cop => 'advanced'), :class => 'new_page_large'
 
   - if current_contact.submit_grace_letter?
     #grace.tab_content
-      %h3 Request a COP due date extension
+      %h3 Submit a Grace Letter
 
-      %p.cop_description== In cases where companies foresee a delay in their communication, the Global Compact Office may grant a grace period of #{GraceLetterApplication::GRACE_DAYS} days if a reasonable explanation for the delay is posted on the Global Compact website, including an expected date of COP submission.
+      %p.cop_description== A grace letter can be submitted to request an additional #{GraceLetterApplication::GRACE_DAYS} days to the current COP deadline. #{link_to 'View a sample Grace Letter (pdf)', 'http://unglobalcompact.org/docs/communication_on_progress/templates/Sample_Grace_Letter.pdf'}
 
-      %p= link_to 'New Grace Letter', new_admin_organization_grace_letter_path(current_contact.organization.id), :class => 'new_page_large'
+      %p= link_to 'Submit a New Grace Letter here', new_admin_organization_grace_letter_path(current_contact.organization.id), :class => 'new_page_large'
 
   - if current_contact.submit_reporting_cycle_adjustment?
     #reporting.tab_content
-      %h3 Request a reporting cycle adjustment
+      %h3 Submit a Reporting Cycle Adjustment
 
-      %p.cop_description You may submit a one-time deferral of up to 11 months to align your COP deadline with your company's reporting cycle.
+      %p.cop_description== A one-time adjustment request of up to 11 months will align your COP deadline with your company's reporting cycle. #{link_to 'View a sample Reporting Cycle Adjustment (pdf)', 'http://unglobalcompact.org/docs/communication_on_progress/templates/Sample_Reporting_Cycle_Adjustment_Request.pdf'}
 
-      %p= link_to 'New Reporting Cycle Adjustment', new_admin_organization_reporting_cycle_adjustment_path(current_contact.organization.id), :class => 'new_page_large'
+      %p= link_to 'Submit a Reporting Cycle Adjustment here', new_admin_organization_reporting_cycle_adjustment_path(current_contact.organization.id), :class => 'new_page_large'

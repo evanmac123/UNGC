@@ -19,7 +19,8 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
     context "when a reporting cycle adjustment is submitted" do
       setup do
         @form = ReportingCycleAdjustmentForm.new(@organization)
-        @params = cop_file_attributes.merge(to_date_params(Date.today + 1.month))
+        @ends_on = @organization.cop_due_on + 1.month
+        @params = cop_file_attributes.merge(to_date_params(@ends_on))
       end
 
       should "save" do
@@ -40,11 +41,11 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
 
       should "extend organization due date" do
         @form.submit(@params)
-        assert_equal Date.today + 1.month, @organization.cop_due_on.to_date
+        assert_equal @ends_on, @organization.cop_due_on.to_date
       end
 
       should "set reporting cycle adjustment start_on" do
-        date = Date.today #TODO Venu: shouldn't this be @organization.cop_due_on?
+        date = Date.today
         @form.submit(@params)
         assert_equal date, @form.reporting_cycle_adjustment.starts_on.to_date
       end
@@ -52,7 +53,7 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       should "set reporting cycle adjustment ends_on" do
         date = Date.today #TODO Venu: shouldn't this be @organization.cop_due_on?
         @form.submit(@params)
-        assert_equal date + 1.month, @form.reporting_cycle_adjustment.ends_on.to_date
+        assert_equal @ends_on, @form.reporting_cycle_adjustment.ends_on.to_date
       end
 
     end
@@ -60,11 +61,10 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
     context "when a reporting_cycle_adjustment is updated" do
 
       setup do
-        @ends_on = Date.today + 2.months
+        @ends_on = @organization.cop_due_on + 2.months
         @form = ReportingCycleAdjustmentForm.new(@organization)
         @form.submit(cop_file_attributes.merge(to_date_params(@ends_on)))
       end
-
 
       should "set a new language" do
         l = create_language
@@ -115,8 +115,14 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
         refute @form.submit(cop_file_attributes.merge(reporting_deadline))
       end
 
-      should "be invalid with and end date before today" do
+      should "be invalid with an end date before today" do
         refute @form.submit(cop_file_attributes.merge(to_date_params(Date.today - 1.month)))
+      end
+
+      should "be invalid with an end date before the original cop due on date." do
+        slightly_in_the_future = @organization.cop_due_on - 1.day
+        assert slightly_in_the_future > Date.today
+        assert_equal false, @form.submit(cop_file_attributes.merge(to_date_params(slightly_in_the_future)))
       end
     end
 

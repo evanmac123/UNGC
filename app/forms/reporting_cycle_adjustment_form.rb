@@ -42,6 +42,8 @@ class ReportingCycleAdjustmentForm
 
     if parse_ends_on(params) && valid?
       ReportingCycleAdjustmentApplication.submit_for(organization, reporting_cycle_adjustment, ends_on)
+    else
+      false
     end
   end
 
@@ -68,6 +70,10 @@ class ReportingCycleAdjustmentForm
     end
   end
 
+  def has_errors?
+    errors.any?
+  end
+
   private
 
     def validate_ends_on_date
@@ -75,8 +81,10 @@ class ReportingCycleAdjustmentForm
         errors.add ERROR_KEY, 'must be given.'
       elsif @ends_on > organization.cop_due_on + ReportingCycleAdjustmentApplication::MAX_MONTHS.months
         errors.add ERROR_KEY, "can be extended up to #{ReportingCycleAdjustmentApplication::MAX_MONTHS} months"
-      elsif @ends_on < Date.today
-        errors.add ERROR_KEY, 'cannot be in the past'
+      elsif @ends_on <= organization.cop_due_on
+        errors.add ERROR_KEY, 'must be after your current deadline'
+      elsif @ends_on <= Date.today
+        errors.add ERROR_KEY, 'must be a future date'
       end
     end
 

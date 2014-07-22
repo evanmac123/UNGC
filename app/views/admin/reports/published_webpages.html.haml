@@ -1,0 +1,22 @@
+%h2 Published Webpages
+
+%p
+  %ul.tools.inline
+    %li= link_to 'Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+
+%table.dashboard_table
+  %tr
+    %th Page ID
+    %th Path
+    %th Title
+    %th Main Section
+    %th Parent Section
+    %th Last Update
+  - @report.records.each do |page|
+    %tr
+      %td= page.id
+      %td{:title => page.path}= truncate(page.path, :length => 30)
+      %td{:title => page.title}= truncate(page.title, :length => 30)
+      %td= page.section.try(:title)
+      %td= page.parent.try(:title)
+      %td= page.approved_at.to_date

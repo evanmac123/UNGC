@@ -214,6 +214,11 @@ class Admin::ReportsController < AdminController
                                          :year  => @year)
     render_formatter(filename: "foundation_pledges_#{@year}_#{@month}.xls")
   end
+  
+  def published_webpages
+    @report = PublishedWebpages.new
+    render_formatter(filename: "published_webpages_#{date_as_filename}.xls")
+  end
 
   def default_report_params
     {:user => current_contact}

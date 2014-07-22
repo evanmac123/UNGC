@@ -85,6 +85,7 @@ module Admin::PagesHelper
     end
   end
 
+  # TODO: this method is not called
   def id_for(object)
     if object.is_a?(PageGroup)
       "section_#{object.id}"

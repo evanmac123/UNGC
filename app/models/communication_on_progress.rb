@@ -36,6 +36,7 @@
 class CommunicationOnProgress < ActiveRecord::Base
   include VisibleTo
   include ApprovalWorkflow
+  include Indexable
 
   validates_presence_of :organization_id, :title
   validates_associated :cop_links

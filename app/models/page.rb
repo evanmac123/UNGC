@@ -29,6 +29,7 @@ class Page < ActiveRecord::Base
 
   include ContentApproval
   include TrackCurrentUser
+  include Indexable
 
   before_create :increment_version_number
   before_create :derive_path
