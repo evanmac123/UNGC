@@ -45,7 +45,7 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       end
 
       should "set reporting cycle adjustment start_on" do
-        date = Date.today #TODO Venu: shouldn't this be @organization.cop_due_on?
+        date = Date.today
         @form.submit(@params)
         assert_equal date, @form.reporting_cycle_adjustment.starts_on.to_date
       end

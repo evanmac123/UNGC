@@ -70,6 +70,10 @@ class ReportingCycleAdjustmentForm
     end
   end
 
+  def has_errors?
+    errors.any?
+  end
+
   private
 
     def validate_ends_on_date

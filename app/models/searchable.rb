@@ -105,6 +105,10 @@ class Searchable < ActiveRecord::Base
       end
       @helper.instance_eval(&block)
     end
+
+    def remove(document_type, url)
+      where(document_type: document_type, url: url).destroy_all
+    end
   end
 
   def set_indexed_at

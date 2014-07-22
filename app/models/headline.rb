@@ -22,6 +22,8 @@ require 'hpricot'
 class Headline < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
+  include Indexable
+
   permalink :date_for_permalink
   belongs_to :country
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
