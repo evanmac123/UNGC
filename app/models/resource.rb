@@ -20,6 +20,8 @@
 #
 
 class Resource < ActiveRecord::Base
+  include Indexable
+
   attr_accessible :title, :description, :year, :isbn, :principle_ids, :author_ids, :image
   has_attached_file :image, :styles => {
       :show => "213x277>",

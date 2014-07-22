@@ -23,6 +23,12 @@ class SearchableTest < ActiveSupport::TestCase
         newish = Searchable.find(:all, conditions: ["last_indexed_at > ?", @prev_max])
         assert_same_elements [@page4.title, @page3.title], newish.map(&:title)
       end
+
+      should "delete the searchable after the page is deleted" do
+        assert_difference 'Searchable.count', -1 do
+          @page2.destroy
+        end
+      end
     end
   end
 
@@ -59,11 +65,18 @@ class SearchableTest < ActiveSupport::TestCase
     should "have an event document_type" do
       assert_equal "Event", @searchable.document_type
     end
+
+    should "delete the searchable after the event is deleted" do
+      assert_difference 'Searchable.count', -1 do
+        @approved.destroy
+      end
+    end
   end
 
   context "Indexing Headlines" do
     setup do
-      create_headline.approve!
+      @headline = create_headline
+      @headline.approve!
       Searchable.index_headlines
       @searchable = Searchable.first
     end
@@ -75,15 +88,22 @@ class SearchableTest < ActiveSupport::TestCase
     should "have the correct document_type" do
       assert_equal 'Headline', @searchable.document_type
     end
+
+    should "delete the searchable after the headline is deleted" do
+      assert_difference 'Searchable.count', -1 do
+        @headline.destroy
+      end
+    end
   end
 
   context "Indexing Organizations" do
     setup do
-      create_organization(
+      @organization = create_organization(
         organization_type:create_organization_type,
         active:true,
         participant:true,
-      ).approve!
+      )
+      @organization.approve!
       Searchable.index_organizations
       @searchable = Searchable.first
     end
@@ -95,13 +115,27 @@ class SearchableTest < ActiveSupport::TestCase
     should "have the correct document_type" do
       assert_equal 'Participant', @searchable.document_type
     end
+
+    should "not add a new record after the organization is renamed" do
+      @organization.update_attribute(:name, "new name")
+      assert_no_difference 'Searchable.count' do
+        Searchable.index_organizations
+      end
+    end
+
+    should "delete the searchable after the organization is removed" do
+      assert_difference 'Searchable.count', -1 do
+        @organization.destroy
+      end
+    end
+
   end
 
   context "Indexing Communications_on_progress" do
     setup do
       type = create_organization_type(name: 'Company', type_property: OrganizationType::BUSINESS)
       organization = create_organization(organization_type: type)
-      create_communication_on_progress(organization: organization)
+      @cop = create_communication_on_progress(organization: organization)
       Searchable.index_communications_on_progress
       @searchable = Searchable.first
     end
@@ -113,11 +147,18 @@ class SearchableTest < ActiveSupport::TestCase
     should "have the correct document_type" do
       assert_equal 'CommunicationOnProgress', @searchable.document_type
     end
+
+    should "delete the searchable after the communications_on_progres is deleted" do
+      assert_difference 'Searchable.count', -1 do
+        @cop.destroy
+      end
+    end
   end
 
   context "Indexing Resources" do
     setup do
-      create_resource.approve!
+      @resource = create_resource
+      @resource.approve!
       Searchable.index_resources
       @searchable = Searchable.first
     end
@@ -128,6 +169,12 @@ class SearchableTest < ActiveSupport::TestCase
 
     should "have the correct document_type" do
       assert_equal 'Resource', @searchable.document_type
+    end
+
+    should "delete the searchable after the resource is deleted" do
+      assert_difference 'Searchable.count', -1 do
+        @resource.destroy
+      end
     end
   end
 

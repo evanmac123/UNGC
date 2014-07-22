@@ -22,6 +22,8 @@
 class Event < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
+  include Indexable
+
   belongs_to :country
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
   has_and_belongs_to_many :issues, :class_name => 'PrincipleArea', :join_table => :events_principles
