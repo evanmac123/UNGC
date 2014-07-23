@@ -87,7 +87,7 @@ module ParticipantsHelper
   end
 
   def ownership_types_for_select
-    ownership_types = ListingStatus.all
+    ownership_types = ListingStatus.applicable
     options_for_select [ ['Any type of ownership', 'all'] ] + ownership_types.map { |s| [s.name, s.id] }
 
   end
@@ -114,9 +114,9 @@ module ParticipantsHelper
       ownership = ''
       if @searched_for[:listing_status_id].present?
         ownership = case ListingStatus.find(@searched_for[:listing_status_id]).name.downcase
-          when 'public company'
+          when 'publicly listed'
             # all FT500 companies are publicly traded
-            @searched_for[:is_ft_500] ? 'FT 500' : 'publicly-traded'
+            @searched_for[:is_ft_500] ? 'FT 500' : 'publicly listed'
           when 'private company'
             'privately held'
           when 'state-owned'
