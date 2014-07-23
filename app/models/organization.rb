@@ -517,7 +517,7 @@ class Organization < ActiveRecord::Base
   end
 
   def public_company?
-    listing_status.try(:name) == 'Public Company'
+    listing_status.try(:name) == 'Publicly Listed'
   end
 
   def micro_enterprise?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140310192642) do
+ActiveRecord::Schema.define(:version => 20140723205650) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
