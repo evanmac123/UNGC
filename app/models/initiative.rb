@@ -17,12 +17,13 @@ class Initiative < ActiveRecord::Base
   default_scope :order => 'name'
 
   FILTER_TYPES = {
-    :water_mandate  => 1,
-    :climate        => 2,
-    :human_rights   => 4,
-    :lead           => 19,
-    :business_peace => 22, # Expert group
-    :business4peace => 51  # Signatories
+    :water_mandate  => 1,  # CEO Water Mandate
+    :climate        => 2,  # Caring For Climate
+    :human_rights   => 4,  # CEO Statement on Human Rights
+    :lead           => 19, # Global Compact Lead
+    :business_peace => 22, # Business for Peace - Expert group
+    :business4peace => 51, # Business for Peace - Signatories
+    :weps           => 25  # Women's Empowerment Principles
   }
 
   scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
