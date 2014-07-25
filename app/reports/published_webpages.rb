@@ -13,7 +13,7 @@ class PublishedWebpages < SimpleReport
       'Visible in Navigation?',
       'Order in Navigation',
       'Number of Versions',
-      'Last Updates on'
+      'Last Updated on'
     ]
   end
 
