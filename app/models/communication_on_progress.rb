@@ -151,10 +151,12 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def cop_questions_for_grouping(grouping, options)
     principle_area  = PrincipleArea.send(options[:principle]) if options[:principle]
+    initiative      = Initiative.for_filter(options[:initiative]).first if options[:initiative]
     conditions = {
       :principle_area_id => principle_area.try(:id),
       :grouping          => grouping.to_s,
-      :year              => options[:year]
+      :year              => options[:year],
+      :initiative_id     => initiative.try(:id)
     }
 
     cop_questions.select do |question|
