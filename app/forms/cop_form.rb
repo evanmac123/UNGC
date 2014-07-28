@@ -148,8 +148,8 @@ class CopForm
   end
 
   def clear_answer_text_from_unselected_answers
-    # my guess is that this is here to stop answers with user input
-    # from ending up int the database when the user unchecks the checkbox
+    # Prevent answers with no user input from ending up in
+    # the database when the checkbox is unselected
     cop.cop_answers.each do |answer|
       answer.text = "" if answer.value == false && answer.text.present?
     end
