@@ -1,0 +1,6 @@
+%h3
+  %span{:class => "#{issue_area_colour_for('human_rights')}" } Women's Empowerment
+%div.hint_toggle About sex-disaggregated data...
+%div.hint_text{:style => 'display: none;'}
+  %p== Refers to data that is collected and presented separately on women and men. It is quantitative statistical information on the differences and inequalities between men and women. #{popup_link_to 'See Women’s Empowerment Principle 7', 'http://weprinciples.org/Site/Principle7/'}.
+%fieldset= render_cop_questions_for :additional, :initiative => :weps, :year => 2014

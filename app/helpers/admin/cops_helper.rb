@@ -120,6 +120,10 @@ module Admin::CopsHelper
   def show_business_for_peace(cop)
     cop.references_business_peace? || cop.organization.signatory_of?(:business4peace)
   end
+  
+  def show_weps(cop)
+    cop.organization.signatory_of?(:weps)
+  end
 
   def edit_admin_cop_path(cop)
     if cop.is_grace_letter?

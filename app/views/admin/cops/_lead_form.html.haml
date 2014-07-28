@@ -22,6 +22,8 @@
     %li#governance_tab{:class => 'additional_questions'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
 
     %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(show_business_for_peace(@communication_on_progress))} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
+    
+    %li#weps_tab{:class => 'additional_questions', :style => css_display_style(show_weps(@communication_on_progress))} <a href="#weps_tab">&nbsp;&raquo;&nbsp;Women's Empowerment</a>
 
     %li#submit_tab{:style => "#{css_display_style(@communication_on_progress.submitted?)}"} <a id="submit_link" href="#finish">Submit your COP</a>
 
@@ -194,6 +196,8 @@
 
   %div.tab_content{:id => "business_peace_additional_questions"}
     = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
+  %div.tab_content{:id => "weps_tab"}
+    = render :partial => 'cop_weps_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}    
 
   #finish.tab_content
     %fieldset
