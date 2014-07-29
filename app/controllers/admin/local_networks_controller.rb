@@ -56,7 +56,8 @@ class Admin::LocalNetworksController < AdminController
 
   def edit_resources
     # scopes in Page model
-    @sections =  [ 'local_network_training_guidance_material',
+    @sections =  [ 'engagement_framework',
+                   'local_network_training_guidance_material',
                    'local_network_issue_specific_guidance',
                    'local_network_news_updates',
                    'local_network_reports' ]
