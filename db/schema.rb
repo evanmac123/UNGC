@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140723205650) do
+ActiveRecord::Schema.define(:version => 20140731163910) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
@@ -608,6 +608,7 @@ ActiveRecord::Schema.define(:version => 20140723205650) do
     t.boolean  "is_landmine"
     t.boolean  "is_tobacco"
     t.string   "no_pledge_reason"
+    t.string   "isin"
   end
 
   add_index "organizations", ["country_id"], :name => "index_organizations_on_country_id"

@@ -44,6 +44,7 @@
 #  is_local_network_member        :boolean
 #  is_landmine                    :boolean
 #  is_tobacco                     :boolean
+#  isin                           :string(255)
 #
 
 class Organization < ActiveRecord::Base
