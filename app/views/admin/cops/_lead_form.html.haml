@@ -194,10 +194,13 @@
     %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
     %fieldset= render_cop_questions_for :governance, :year => 2013
 
-  %div.tab_content{:id => "business_peace_additional_questions"}
-    = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
-  %div.tab_content{:id => "weps_tab"}
-    = render :partial => 'cop_weps_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}    
+  - if show_business_for_peace(@communication_on_progress)
+    %div.tab_content{:id => "business_peace_additional_questions"}
+      = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
+
+  - if show_weps(@communication_on_progress)
+    %div.tab_content{:id => "weps_tab"}
+      = render :partial => 'cop_weps_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
 
   #finish.tab_content
     %fieldset
