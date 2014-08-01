@@ -7,4 +7,4 @@
   :only: true
   :certificate_file: /etc/ssl/staging.unglobalcompact.org.crt
   :certificate_key_file: /etc/ssl/staging.unglobalcompact.org.key
-  :certificate_chain_file: /etc/ssl/STAGING.UNGLOBALCOMPACT.ORG.crt # TODO: update with actual NS CA certificate
+  :certificate_chain_file: /etc/ssl/staging.unglobalcompact.org.crt
