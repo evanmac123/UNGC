@@ -737,15 +737,6 @@ class Organization < ActiveRecord::Base
     delisted_on.present? && removal_reason == RemovalReason.delisted
   end
 
-  # Indicates if this organization uses the most recent COP rules
-  def joined_after_july_2009?
-    joined_on >= Date.new(2009,7,1)
-  end
-
-  def participant_for_over_5_years?
-    joined_on < 5.years.ago.to_date
-  end
-
   # Participants were eligible to contribute starting in 2006
   def initial_contribution_year
     joined_on.year > 2006 ? joined_on.year : 2006

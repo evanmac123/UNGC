@@ -59,15 +59,6 @@ module Admin::CopsHelper
     cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?") ? "block" : "none"
   end
 
-  # Outputs javascript variables that will indicate to cop_form.js
-  # how to calculate the COP score
-  def organization_javascript_vars(organization)
-    vars = []
-    vars << "joined_after_july_09 = #{organization.joined_after_july_2009?}"
-    vars << "participant_for_more_than_5_years = #{organization.participant_for_over_5_years?}"
-    vars.collect{|v| javascript_tag "var #{v};"}.join.html_safe
-  end
-
   # we need to preselect the submission tab
   def form_submitted?(form_submitted)
     javascript_tag "var submitted = #{form_submitted ? 1:0};"
