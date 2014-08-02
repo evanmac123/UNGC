@@ -151,12 +151,12 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   def cop_questions_for_grouping(grouping, options)
     principle_area  = PrincipleArea.send(options[:principle]) if options[:principle]
-    initiative      = Initiative.for_filter(options[:initiative]).first if options[:initiative]
+    initiative_id   = Initiative.id_by_filter(options[:initiative]) if options[:initiative]
     conditions = {
       :principle_area_id => principle_area.try(:id),
       :grouping          => grouping.to_s,
       :year              => options[:year],
-      :initiative_id     => initiative.try(:id)
+      :initiative_id     => initiative_id
     }
 
     cop_questions.select do |question|
@@ -299,8 +299,17 @@ class CommunicationOnProgress < ActiveRecord::Base
     else
       questions = []
       cop_attributes.each do |attribute|
-        # don't evaluate coverage of exempted groups
-        questions << attribute.cop_question unless CopQuestion::EXEMPTED_GROUPS.include? attribute.cop_question.grouping
+
+        # don't evaluate coverage of exempted groups and initiative questions
+        # TODO: create a scope to filter or method in CopQuestion to test for these conditions
+        if CopQuestion::EXEMPTED_GROUPS.include? attribute.cop_question.grouping
+          next  
+        elsif attribute.cop_question.initiative.present?
+          next
+        else 
+          questions << attribute.cop_question
+        end
+
       end
       questions
     end

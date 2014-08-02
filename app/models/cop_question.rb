@@ -63,9 +63,11 @@ class CopQuestion < ActiveRecord::Base
 
   default_scope :order => 'cop_questions.position'
   scope :general, where("initiative_id IS NULL")
+  
   scope :initiative_questions_for, lambda { |organization| where('initiative_id IN (?)', organization.initiative_ids) }
 
   scope :questions_for, lambda { |organization| where('(initiative_id IS NULL) OR (initiative_id IN (?))', organization.initiative_ids) }
   scope :group_by, lambda { |group| where('grouping = ?', group.to_s) }
+  scope :group_by_initiative, lambda { |initiative| where('initiative_id = ?',  Initiative.id_by_filter(initiative)) }
 
 end
