@@ -31,7 +31,7 @@ module Admin::CopsHelper
 
   # Used to display cop answers on the cop show page
   def show_cop_attributes(cop, principle, selected=false, grouping='additional', initiative=nil)
-    initiative_id = initiative ? Initiative.id_by_filter(options[:initiative]) : nil
+    initiative_id = initiative ? Initiative.id_by_filter(initiative) : nil
     attributes = cop.cop_attributes.all(:conditions => {:cop_questions => {:principle_area_id => principle, :grouping => grouping, :initiative_id => initiative_id }},
                                       :include    => :cop_question,
                                       :order      => 'cop_attributes.position ASC')
