@@ -3,12 +3,13 @@
 class InsertWepsCopQuestions
   def run
 
+    delete_questions
     weps_initiative_id = Initiative.for_filter(:weps).first.id
 
     # Question 1
 
     question = CopQuestion.create(
-      text: "The COP describes the following policies and practices related to supporting women's empowerment and advancing gender equality in the workplace",
+      text: "The COP describes policies and practices related to supporting women's empowerment and advancing gender equality in the workplace",
       position: 1,
       grouping: 'additional',
       initiative_id: weps_initiative_id,
@@ -35,7 +36,7 @@ class InsertWepsCopQuestions
     # Question 2
 
     question = CopQuestion.create(
-      text: "The COP describes the following policies and practices related to supporting women's empowerment and advancing gender equality in the marketplace",
+      text: "The COP describes policies and practices related to supporting women's empowerment and advancing gender equality in the marketplace",
       position: 2,
       grouping: 'additional',
       initiative_id: weps_initiative_id,
@@ -56,7 +57,7 @@ class InsertWepsCopQuestions
     # Question 3
 
     question = CopQuestion.create(
-      text: "The COP describes the following policies and practices related to supporting women's empowerment and advancing gender in the community",
+      text: "The COP describes policies and practices related to supporting women's empowerment and advancing gender equality in the community",
       position: 3,
       grouping: 'additional',
       initiative_id: weps_initiative_id,
@@ -77,7 +78,7 @@ class InsertWepsCopQuestions
     # Question 4
 
     question = CopQuestion.create(
-      text: "The COP contains or refers to sex-disaggregated data on the following topics",
+      text: "The COP contains or refers to sex-disaggregated data",
       position: 4,
       grouping: 'additional',
       initiative_id: weps_initiative_id,
