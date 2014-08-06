@@ -7,9 +7,21 @@
   :max_pool_size: 6
   :min_instances: 6
   :pool_idle_time: 0
+  # :vhost_extra: |
+  #   RewriteEngine On
+  #   RewriteCond %{HTTP_HOST} ^unglobalcompact.org
+  #   RewriteRule (.*) https://www.unglobalcompact.org/%1 [R=301,L]
 
 :scout:
   :agent_key: KnvHOr7ncTokxsZ0PGEcpDSXWoI4cvZweyVIHAdS
 
 :webdav:
   :domain: webdav.unglobalcompact.org
+
+# :ssl:
+#   :only: true
+#   :certificate_file: /etc/ssl/www.unglobalcompact.org.crt
+#   :certificate_key_file: /etc/ssl/www.unglobalcompact.org.key
+#   :certificate_chain_file: /etc/ssl/network_solutions.crt
+
+# TODO: update with actual NS CA certificate

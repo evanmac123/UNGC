@@ -54,10 +54,6 @@ class SearchableTest < ActiveSupport::TestCase
       assert_equal @approved.title, @searchable.title
     end
 
-    should "include location" do
-      assert_match Regexp.new(@approved.location), @searchable.content
-    end
-
     should "include the url to an event" do
       assert_match /^\/events\//, @searchable.url
     end
