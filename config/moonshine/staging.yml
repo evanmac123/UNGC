@@ -3,6 +3,9 @@
 :webdav:
   :domain: webdav-staging.unglobalcompact.org
 
+:passenger:
+  :max_pool_size: 1
+
 :ssl:
   :only: true
   :certificate_file: /etc/ssl/staging.unglobalcompact.org.crt

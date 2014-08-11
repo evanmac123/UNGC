@@ -44,6 +44,7 @@
 #  is_local_network_member        :boolean
 #  is_landmine                    :boolean
 #  is_tobacco                     :boolean
+#  isin                           :string(255)
 #
 
 class Organization < ActiveRecord::Base
@@ -63,6 +64,7 @@ class Organization < ActiveRecord::Base
                       :unless => Proc.new { |organization| organization.url.blank? }
   validates_presence_of :stock_symbol, :if => Proc.new { |organization| organization.public_company? }
   validates_presence_of :delisted_on,  :if => Proc.new { |organization| organization.require_delisted_on? }, :on => :update
+  validates :isin, length: { is: 12 }, :unless => Proc.new { |organization| organization.isin.blank? }
 
   has_many :signings
   has_many :initiatives, :through => :signings
