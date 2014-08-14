@@ -96,11 +96,14 @@
 
 :sphinx:
   :version: 2.0.8
-  :index_cron:
-    :minute: 35
+  :index_cron: false # A custom cron job using nice is setup in the sphinx_cron recipe
+  :index_on_deploy: false
   :extra:
     :address: 127.0.0.1
     :mem_limit: 256M
+    :sql_ranged_throttle: 1000
+    :max_iops: 20
+    :max_iosize: 8192
 
 :denyhosts:
   :allow:
