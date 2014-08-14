@@ -64,6 +64,7 @@ class LocalNetwork < ActiveRecord::Base
   has_many :communications
   has_many :announcements
   has_many :annual_reports
+  has_one  :contribution_levels_info
 
   belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
@@ -209,6 +210,13 @@ class LocalNetwork < ActiveRecord::Base
     end
 
     fee_error_messages.present? ? error_messages << fee_error_messages : error_messages
+  end
+
+  def contribution_levels
+    if contribution_levels_info.nil?
+      self.contribution_levels_info = ContributionLevelsInfo.new(local_network_id: self.id)
+    end
+    self.contribution_levels_info
   end
 
 end
