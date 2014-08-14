@@ -206,7 +206,7 @@ class LocalNetwork < ActiveRecord::Base
       case attribute
         when :url
           error_messages << 'Please provide a website address in the format http://organization.org'
-        end
+      end
     end
 
     fee_error_messages.present? ? error_messages << fee_error_messages : error_messages
@@ -220,3 +220,4 @@ class LocalNetwork < ActiveRecord::Base
   end
 
 end
+

@@ -74,6 +74,9 @@ module UNGC
     # Disable IP Spoof check
     config.action_dispatch.ip_spoofing_check = false
 
+    # http://stackoverflow.com/a/20381730
+    config.i18n.enforce_available_locales = true
+
     EMAIL_SENDER = "info@unglobalcompact.org"
   end
 
