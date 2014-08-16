@@ -1,4 +1,4 @@
-//= require ./admin/resources
+//= require_tree ./admin/
 //= require_self
 
 // Array Remove - By John Resig (MIT Licensed)
@@ -581,17 +581,17 @@ $(document).ready(function() {
       var e         = $(this),
           inputList = e.find('ol'),
           button    = $("<div class='new_page_large align'>Choose another file to upload...</div>");
-   
+
       if (inputList.length) {
         button.click(function() {
           var lastLi = inputList.find('li:last');
-   
+
           lastLi
             .clone()
             .html(lastLi.html())
             .appendTo(inputList);
         });
-   
+
         button.appendTo(e);
       }
     });

@@ -21,3 +21,18 @@
     = default_form.text_field :fees_amount_participant, {:class => 'short'}, :label => 'Member Fees'
     = default_form.text_field :fees_amount_voluntary_private, {:class => 'short'}, :label => 'Private Voluntary'
     = default_form.text_field :fees_amount_voluntary_public, {:class => 'short'}, :label => 'Public Voluntary'
+
+%fieldset.contribution_levels
+  - levels = @local_network.contribution_levels
+  %legend Enter the contribution level and corresponding amount
+  %script#contribution-level-template{type:'text/x-jquery-tmpl'}
+    = render 'admin/contribution_levels/field', level: ContributionLevel.new
+  %table#contribution-levels-table
+    %thead
+      %tr
+        %th.level-description= levels.level_description
+        %th.amount-description= levels.amount_description
+    %tbody
+      - levels.each do |level|
+        = render 'admin/contribution_levels/field', level: level
+  = button_tag('New Level', id:'add-contribution-level', class: 'new_large')

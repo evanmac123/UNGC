@@ -1,0 +1,8 @@
+- prefix = 'local_network[contribution_levels]'
+%tr
+  = fields_for "#{prefix}[]", level do |f|
+    %td= text_field_tag "#{prefix}[][description]", level.description
+    %td= text_field_tag "#{prefix}[][amount]", level.amount
+    %td
+      = link_to "Delete", "#", class:"remove delete_large"
+      = hidden_field_tag "#{prefix}[][id]", level.id

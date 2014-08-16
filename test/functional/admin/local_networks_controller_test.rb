@@ -99,4 +99,25 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
 
   end
 
+  should "handle contribution level attributes" do
+    existing = @local_network.contribution_levels.add(
+      description:'existing',
+      amount:'$5')
+    deleted = @local_network.contribution_levels.add(
+      description:'deleted',
+      amount:'$15')
+    @local_network.save!
+
+    post :update, id: @local_network.id, local_network: {
+      contribution_levels: [
+        {id: existing.id, description: 'updated'},
+        {id: deleted.id, _destroy: '1'},
+        {description:'new', amount:'$20'},
+      ]
+    }
+
+    levels = @local_network.reload.contribution_levels.reload
+    assert_equal %w(updated new), levels.map(&:description)
+  end
+
 end

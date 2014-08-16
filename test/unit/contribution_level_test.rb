@@ -6,10 +6,10 @@ class ContributionLevelTest < ActiveSupport::TestCase
 
   setup do
     @level_params = [
-      description: "Supérieur à EUR 5 Milliards", amount: "€ 15,000+",
-      description: "De EUR 1 Milliard à 5 Milliards", amount: "€ 15,000",
-      description: "De EUR 250 Millions à 1 Milliard", amount: "€ 10,000",
-      description: "De EUR 50 Millions à 250 million", amount: "€ 5,000",
+      {description: "Supérieur à EUR 5 Milliards", amount: "€ 15,000+"},
+      {description: "De EUR 1 Milliard à 5 Milliards", amount: "€ 15,000"},
+      {description: "De EUR 250 Millions à 1 Milliard", amount: "€ 10,000"},
+      {description: "De EUR 50 Millions à 250 million", amount: "€ 5,000"},
     ]
 
     network = create_local_network
@@ -43,6 +43,10 @@ class ContributionLevelTest < ActiveSupport::TestCase
   end
 
   context "levels" do
+
+    should "have 4 levels" do
+      assert_equal 4, @levels.count
+    end
 
     should "have descriptions" do
       descriptions = @level_params.map {|l| l[:description]}

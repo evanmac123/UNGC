@@ -3,7 +3,9 @@ class ContributionLevelsInfo < ActiveRecord::Base
 
   belongs_to :local_network
   has_many :contribution_levels
-  attr_accessible :amount_description, :level_description, :local_network_id
+  attr_accessible :amount_description, :level_description, :local_network_id, :contribution_levels_attributes
+
+  accepts_nested_attributes_for :contribution_levels, allow_destroy: true
 
   validates :local_network_id, presence: true
 
@@ -13,8 +15,7 @@ class ContributionLevelsInfo < ActiveRecord::Base
       return
     end
 
-    level = ContributionLevel.new(args.merge(contribution_levels_info_id: self.id))
-    contribution_levels << level
+    contribution_levels.build(args)
   end
 
   def each(&block)

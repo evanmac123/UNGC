@@ -75,6 +75,8 @@ class LocalNetwork < ActiveRecord::Base
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
 
+  accepts_nested_attributes_for :contribution_levels_info
+
   NUMERIC =  [:membership_companies, :membership_sme, :membership_micro_enterprise,
               :membership_business_organizations, :membership_csr_organizations, :membership_labour_organizations,
               :membership_civil_societies, :membership_academic_institutions, :membership_government, :membership_other,
