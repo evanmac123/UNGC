@@ -23,55 +23,55 @@ class Admin::CopsControllerTest < ActionController::TestCase
       sign_in @organization_user
     end
 
-   context "with an Active status and within 90 day grace letter period" do
-     setup do
-       @organization.update_attribute :cop_due_on, Date.today - 75.days
-       @organization.reload
-     end
-     should "see Grace Letter tab" do
-       get :introduction
-       assert_response :success
-       assert_select 'ul.tab_nav' do
-         assert_select 'li', 'Grace Letter'
-       end
-     end
-   end
+    context "with an Active status and within 90 day grace letter period" do
+      setup do
+        @organization.update_attribute :cop_due_on, Date.today - 75.days
+        @organization.reload
+      end
+      should "see Grace Letter tab" do
+        get :introduction
+        assert_response :success
+        assert_select 'ul.tab_nav' do
+          assert_select 'li', 'Grace Letter'
+        end
+      end
+    end
 
-   context "who has already submitted a grace letter" do
-     setup do
-       @organization.update_attribute :cop_due_on, Date.today - 75.days
-       @cop = create_communication_on_progress(organization: @organization, format: 'grace_letter')
-       @cop.cop_type = 'grace'
-       @cop.save
-       @organization.reload
-   end
-     should "should not see Grace Letter tab" do
-       get :introduction
-       assert_response :success
-       assert_select 'ul.tab_nav' do
-         assert_select 'li:last-child', 'Reporting Cycle Adjustment'
-       end
-     end
-   end
+    context "who has already submitted a grace letter" do
+      setup do
+        @organization.update_attribute :cop_due_on, Date.today - 75.days
+        @cop = create_communication_on_progress(organization: @organization, format: 'grace_letter')
+        @cop.cop_type = 'grace'
+        @cop.save
+        @organization.reload
+      end
+      should "should not see Grace Letter tab" do
+        get :introduction
+        assert_response :success
+        assert_select 'ul.tab_nav' do
+          assert_select 'li:last-child', 'Reporting Cycle Adjustment'
+        end
+      end
+    end
 
-   context "with a Delisted status" do
-     setup do
-       create_organization_and_user
-       @organization.approve!
-       # state machine requires organization to be non-communicating first
-       @organization.communication_late
-       @organization.delist
-       sign_in @organization_user
-     end
-     should "not see Grace Letter tab" do
-       assert @organization.delisted?
-       get :introduction
-       assert_response :success
-       assert_select 'ul.tab_nav' do
-         assert_select 'li:last-child', 'GC Advanced COP'
-       end
-     end
-   end
+    context "with a Delisted status" do
+      setup do
+        create_organization_and_user
+        @organization.approve!
+        # state machine requires organization to be non-communicating first
+        @organization.communication_late
+        @organization.delist
+        sign_in @organization_user
+      end
+      should "not see Grace Letter tab" do
+        assert @organization.delisted?
+        get :introduction
+        assert_response :success
+        assert_select 'ul.tab_nav' do
+          assert_select 'li:last-child', 'GC Advanced COP'
+        end
+      end
+    end
 
     context "given a new cop" do
 
@@ -144,9 +144,9 @@ class Admin::CopsControllerTest < ActionController::TestCase
     end
 
     should "confirm the format" do
-       assert_redirected_to admin_organization_communication_on_progress_path(:organization_id => @organization.id,
-                                                                              :id => assigns(:communication_on_progress).id)
-       assert_equal 'basic', assigns(:communication_on_progress).format
+      assert_redirected_to admin_organization_communication_on_progress_path(:organization_id => @organization.id,
+                                                                             :id => assigns(:communication_on_progress).id)
+      assert_equal 'basic', assigns(:communication_on_progress).format
     end
 
     should "make sure the contact information has been saved" do
