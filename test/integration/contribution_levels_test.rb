@@ -24,7 +24,7 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
 
   should "show the level description" do
     description = find(".level-description").text
-    assert_equal 'Levels', description
+    assert_equal 'Level', description
   end
 
   should "show the amount description" do
@@ -33,13 +33,13 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
   end
 
   should "show edit boxes for description" do
-    descriptions = all("input[name='local_network[contribution_levels][][description]']")
+    descriptions = all_contribution_levels('description')
     assert_equal 2, descriptions.count
     assert_equal %w(level1 level2), descriptions.map(&:value)
   end
 
   should "show edit boxes for amount" do
-    amounts = all("input[name='local_network[contribution_levels][][amount]']")
+    amounts = all_contribution_levels('amount')
     assert_equal 2, amounts.count
     assert_equal %w($10,000 $20,000), amounts.map(&:value)
   end
@@ -57,6 +57,11 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
     levels = @network.contribution_levels
     assert_equal %w(level1 level2), levels.map(&:description)
     assert_equal %w($10,000 $20,000), levels.map(&:amount)
+  end
+
+  def all_contribution_levels(field)
+    name = "local_network[contribution_levels_info_attributes][contribution_levels_attributes][]#{field}"
+    all("input[name='#{name}']")
   end
 
 end

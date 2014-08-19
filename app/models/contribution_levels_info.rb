@@ -22,4 +22,8 @@ class ContributionLevelsInfo < ActiveRecord::Base
     contribution_levels.each(&block)
   end
 
+  def empty?
+    contribution_levels.empty? && amount_description.nil? && level_description.nil?
+  end
+
 end

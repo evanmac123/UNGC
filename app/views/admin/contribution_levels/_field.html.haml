@@ -1,8 +1,6 @@
-- prefix = 'local_network[contribution_levels]'
+- prefix = 'local_network[contribution_levels_info_attributes][contribution_levels_attributes][]'
 %tr
-  = fields_for "#{prefix}[]", level do |f|
-    %td= text_field_tag "#{prefix}[][description]", level.description
-    %td= text_field_tag "#{prefix}[][amount]", level.amount
-    %td
-      = link_to "Delete", "#", class:"remove delete_large"
-      = hidden_field_tag "#{prefix}[][id]", level.id
+  %td= text_field_tag "#{prefix}description", level.description
+  %td= text_field_tag "#{prefix}amount", level.amount
+  %td= hidden_field_tag "#{prefix}id", level.id
+  %td= check_box_tag "#{prefix}_destroy" if level.persisted?

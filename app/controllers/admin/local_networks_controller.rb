@@ -37,7 +37,7 @@ class Admin::LocalNetworksController < AdminController
     @local_network = LocalNetwork.find(params[:id])
     @section ||= params[:section]
     @form_partial = @section ? 'edit_' + @section : 'default_form'
-    if update_local_network(@local_network)
+    if @local_network.update_attributes(params[:local_network])
       flash[:notice] = 'Local Network was successfully updated.'
       redirect_to admin_local_network_path(@local_network.id, :tab => @section)
     else
@@ -82,20 +82,6 @@ class Admin::LocalNetworksController < AdminController
 
   def knowledge_sharing_tab?
     action_name == 'knowledge_sharing'
-  end
-
-  def update_local_network(local_network)
-    attrs = params[:local_network]
-    if attrs.has_key? :contribution_levels
-      # arrange the attributes so accepts_nested_attributes_for will
-      # do the right thing
-      contribution_levels = attrs.delete(:contribution_levels)
-      attrs[:contribution_levels_info_attributes] = {
-        id: local_network.contribution_levels.id,
-        contribution_levels_attributes: contribution_levels
-      }
-    end
-    local_network.update_attributes(attrs)
   end
 
 end
