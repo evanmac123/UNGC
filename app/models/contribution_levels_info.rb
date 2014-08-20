@@ -5,7 +5,9 @@ class ContributionLevelsInfo < ActiveRecord::Base
   has_many :contribution_levels
   attr_accessible :amount_description, :level_description, :local_network_id, :contribution_levels_attributes
 
-  accepts_nested_attributes_for :contribution_levels, allow_destroy: true
+  accepts_nested_attributes_for :contribution_levels,
+    allow_destroy: true,
+    reject_if: proc { |attributes| attributes['description'].blank? || attributes['amount'].blank? }
 
   validates :local_network_id, presence: true
 

@@ -32,11 +32,15 @@
     %table#contribution-levels-table
       %tr
         %td.level-description
-          = levels_fields.text_field :level_description, label: 'Level'
+          = levels_fields.text_field :level_description, label: 'Level Description'
         %td.amount-description
-          = levels_fields.text_field :amount_description, label: 'Amount'
+          = levels_fields.text_field :amount_description, label: 'Amount Description'
         %td
-          %label.delete delete
+      %tr
+        %td= levels_fields.label 'Description'
+        %td= levels_fields.label 'Amount'
+        %td= levels_fields.label 'Delete'
       - levels.each do |level|
         = render 'admin/contribution_levels/field', level: level
+      = render 'admin/contribution_levels/field', level: ContributionLevel.new
     = button_tag('New Level', id:'add-contribution-level', class: 'new_large')

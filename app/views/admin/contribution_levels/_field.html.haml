@@ -1,6 +1,7 @@
 - prefix = 'local_network[contribution_levels_info_attributes][contribution_levels_attributes][]'
 %tr
-  %td= text_field_tag "#{prefix}description", level.description
+  %td
+    = hidden_field_tag "#{prefix}id", level.id
+    = text_field_tag "#{prefix}description", level.description
   %td= text_field_tag "#{prefix}amount", level.amount
-  %td= hidden_field_tag "#{prefix}id", level.id
-  %td= check_box_tag "#{prefix}_destroy" if level.persisted?
+  %td= check_box_tag "#{prefix}_destroy"
