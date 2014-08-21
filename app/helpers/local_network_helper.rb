@@ -23,10 +23,11 @@ module LocalNetworkHelper
   end
 
   def formatted_local_network_contact_info(contact)
-    return '&nbsp;'.html_safe unless contact
-    html =  "#{role_for contact}<br />#{contact.full_name_with_title}"
-    html += "<br />#{link_to contact.email, "mailto:#{contact.email}"}" unless contact.is?(Role.network_representative)
-    html.html_safe
+    if contact
+      html =  "#{role_for contact}<br />#{contact.full_name_with_title}"
+      html += "<br />#{link_to contact.email, "mailto:#{contact.email}"}" unless contact.is?(Role.network_representative)
+      html.html_safe
+    end
   end
 
   def p_with_link_to_participant_search
@@ -40,7 +41,7 @@ module LocalNetworkHelper
     if local_network && latest = local_network.latest_participant
       content = <<-EOF
       Latest Participant:<br />
-      #{link_to truncate(latest.name, :length => 45), participant_link(latest), :title => latest.name}<br />
+      #{link_to latest.name, participant_link(latest), :title => latest.name}<br />
       Accepted on #{latest.joined_on.day} #{latest.joined_on.strftime('%B, %Y')}
       EOF
       content_tag :p, content.html_safe
