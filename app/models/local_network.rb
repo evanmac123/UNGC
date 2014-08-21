@@ -94,7 +94,7 @@ class LocalNetwork < ActiveRecord::Base
 
   # To link to public profiles, we associate the two regional networks with their host countries
   # Ex: NetworksAroundTheWorld/local_network_sheet/AE.html
-  REGION_COUNTRY = { 'Gulf States' => 'AE', 'Nordic Network' => 'DK' }
+  REGION_COUNTRY = { 'Gulf States' => 'AE', 'Nordic Countries' => 'DK' }
 
   STAKEHOLDERS = {
     :stakeholder_company              => 'Companies',
