@@ -25,7 +25,7 @@
 %fieldset.contribution_levels
   %legend Enter the contribution level and corresponding amount
   - levels = @local_network.contribution_levels
-  = default_form.fields_for 'contribution_levels_info_attributes', levels do |levels_fields|
+  = default_form.fields_for 'contribution_levels', levels do |levels_fields|
     = levels_fields.hidden_field :id
     %script#contribution-level-template{type:'text/x-jquery-tmpl'}
       = render 'admin/contribution_levels/field', level: ContributionLevel.new

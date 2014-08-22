@@ -1,7 +1,7 @@
-- prefix = 'local_network[contribution_levels_info_attributes][contribution_levels_attributes][]'
+- prefix = 'local_network[contribution_levels][levels][]'
 %tr
   %td
     = hidden_field_tag "#{prefix}id", level.id
     = text_field_tag "#{prefix}description", level.description
   %td= text_field_tag "#{prefix}amount", level.amount
-  %td= check_box_tag "#{prefix}_destroy"
+  %td= link_to 'Delete', '#', class: 'remove delete_large'

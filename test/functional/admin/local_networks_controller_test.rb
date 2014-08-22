@@ -109,11 +109,10 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     @local_network.save!
 
     post :update, id: @local_network.id, local_network: {
-      contribution_levels_info_attributes: {
+      contribution_levels: {
         id: @local_network.contribution_levels.id,
-        contribution_levels_attributes: [
-          {id: existing.id, description: 'updated'},
-          {id: deleted.id, _destroy: '1'},
+        levels: [
+          existing.attributes.merge(description: 'updated'),
           {description:'new', amount:'$20'},
         ]
       }

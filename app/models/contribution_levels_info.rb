@@ -2,12 +2,8 @@ class ContributionLevelsInfo < ActiveRecord::Base
   include Enumerable
 
   belongs_to :local_network
-  has_many :contribution_levels
-  attr_accessible :amount_description, :level_description, :local_network_id, :contribution_levels_attributes
-
-  accepts_nested_attributes_for :contribution_levels,
-    allow_destroy: true,
-    reject_if: proc { |attributes| attributes['description'].blank? || attributes['amount'].blank? }
+  has_many :levels, class_name: 'ContributionLevel'
+  attr_accessible :amount_description, :level_description, :local_network_id
 
   validates :local_network_id, presence: true
 
@@ -17,15 +13,15 @@ class ContributionLevelsInfo < ActiveRecord::Base
       return
     end
 
-    contribution_levels.build(args)
+    levels.build(args)
   end
 
   def each(&block)
-    contribution_levels.each(&block)
+    levels.each(&block)
   end
 
   def empty?
-    contribution_levels.empty? && amount_description.nil? && level_description.nil?
+    levels.empty? && amount_description.nil? && level_description.nil?
   end
 
 end
