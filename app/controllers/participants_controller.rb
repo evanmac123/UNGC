@@ -66,7 +66,7 @@ class ParticipantsController < ApplicationController
       filter_options_for_country(options) if params[:country]
       filter_options_for_joined_on(options) if params[:joined_after] && params[:joined_before]
       filter_options_for_business_type(options) if params[:business_type]
-      filter_options_for_sector(options) if params[:sector_id]
+      filter_options_for_sector(options)
       filter_options_for_listing_status(options) if params[:listing_status_id]
       filter_options_for_is_ft_500(options) if params[:is_ft_500]
 
@@ -107,7 +107,7 @@ class ParticipantsController < ApplicationController
     end
 
     def filter_options_for_sector(options)
-      options[:with].merge!(sector_id: params[:sector_id].to_i) if params[:sector_id] != 'all'
+      options[:with].merge!(sector_id: params[:sector_id].to_i) if params[:sector_id].present?
     end
 
     def filter_options_for_listing_status(options)
