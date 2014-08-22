@@ -16,7 +16,26 @@ class ParticipantsController < ApplicationController
 
   private
     def default_navigation
-      DEFAULTS[:participant_search_path]
+      case params[:navigation]
+      when 'inactive'
+        DEFAULTS[:cop_inactives_path]
+      when 'noncommunicating'
+        DEFAULTS[:cop_noncommunicating_path]
+      when 'notable'
+        DEFAULTS[:cop_notable_path]
+      when 'active'
+        DEFAULTS[:cop_active_path]
+      when 'advanced'
+        DEFAULTS[:cop_advanced_path]
+      when 'learner'
+        DEFAULTS[:cop_learner_path]
+      when 'expelled'
+        DEFAULTS[:cop_expelled_path]
+      when 'lead'
+        DEFAULTS[:participant_lead_path]
+      else
+        DEFAULTS[:participant_search_path]
+      end
     end
 
     def find_participant

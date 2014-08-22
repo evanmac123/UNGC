@@ -87,27 +87,7 @@ class ApplicationController < ActionController::Base
 
   # For Rails actions that we want to "appear" as if they were part of the navigation tree
   def determine_navigation
-    @formatted_request_path = default_navigation and return if params[:navigation].blank?
-    @formatted_request_path = case params[:navigation]
-    when 'inactive'
-      DEFAULTS[:cop_inactives_path]
-    when 'noncommunicating'
-      DEFAULTS[:cop_noncommunicating_path]
-    when 'notable'
-      DEFAULTS[:cop_notable_path]
-    when 'active'
-      DEFAULTS[:cop_active_path]
-    when 'advanced'
-      DEFAULTS[:cop_advanced_path]
-    when 'learner'
-      DEFAULTS[:cop_learner_path]
-    when 'expelled'
-      DEFAULTS[:cop_expelled_path]
-    when 'lead'
-      DEFAULTS[:participant_lead_path]
-    else
-      default_navigation
-    end
+    @formatted_request_path = default_navigation
   end
 
   def default_navigation # override in other controllers
