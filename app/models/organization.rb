@@ -266,7 +266,7 @@ class Organization < ActiveRecord::Base
 
   scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
 
-  scope :listed, where("organizations.stock_symbol IS NOT NULL").includes([:country, :exchange])
+  scope :listed, where("organizations.listing_status_id = 3").includes([:country, :exchange, :sector])
   scope :without_contacts, where("not exists(select * from contacts c where c.organization_id = organizations.id)")
 
   scope :created_at, lambda { |month, year| where('created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
