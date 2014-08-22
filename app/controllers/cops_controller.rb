@@ -1,10 +1,13 @@
 class CopsController < ApplicationController
   helper :cops, :pages, 'admin/cops'
-  before_filter :determine_navigation
-  before_filter :find_cop, :except => [:feed]
 
   def show
-    @communication = CommunicationPresenter.create(@communication_on_progress, current_contact)
+    if load_communication_on_progress
+      determine_navigation
+      @communication = CommunicationPresenter.create(@communication_on_progress, current_contact)
+    else
+      redirect_to DEFAULTS[:cop_path] # FIXME: Should redirect to search?
+    end
   end
 
   def feed
@@ -17,10 +20,8 @@ class CopsController < ApplicationController
 
   private
 
-    def find_cop
-      @communication_on_progress = find_cop_by_id unless params[:id].blank?
-      @communication_on_progress = find_cop_by_cop_and_org unless @communication_on_progress
-      redirect_to DEFAULTS[:cop_path] unless @communication_on_progress # FIXME: Should redirect to search?
+    def load_communication_on_progress
+      @communication_on_progress = find_cop_by_id || find_cop_by_cop_and_org
     end
 
     def find_cop_by_id
@@ -30,6 +31,10 @@ class CopsController < ApplicationController
     def find_cop_by_cop_and_org
       @organization = Organization.find_by_param(params[:organization])
       @organization.communication_on_progresses.find_by_param(params[:cop]) if @organization
+    end
+
+    def default_navigation
+      DEFAULTS["cop_#{@communication_on_progress.differentiation}_path".to_sym]
     end
 
 end
