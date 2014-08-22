@@ -729,6 +729,8 @@ ActiveRecord::Schema.define(:version => 20140821212751) do
     t.datetime "object_updated_at"
   end
 
+  add_index "searchables", ["id", "delta"], :name => "index_searchables_on_id_and_delta"
+
   create_table "sectors", :force => true do |t|
     t.string   "name"
     t.integer  "old_id"
