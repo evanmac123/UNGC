@@ -10,6 +10,7 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
     @levels = @network.contribution_levels
     @levels.level_description = 'Levels'
     @levels.amount_description = 'Amount'
+    @levels.pledge_description = 'Pledge Description'
     @levels.add(description: 'level1', amount: '$10,000')
     @levels.add(description: 'level2', amount: '$20,000')
     @levels.save!
@@ -34,12 +35,12 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
 
   should "show edit boxes for description" do
     descriptions = all_contribution_levels('description')
-    assert_equal ['level1', 'level2', nil], descriptions.map(&:value)
+    assert_equal ['level1', 'level2'], descriptions.map(&:value)
   end
 
   should "show edit boxes for amount" do
     amounts = all_contribution_levels('amount')
-    assert_equal ['$10,000', '$20,000', nil], amounts.map(&:value)
+    assert_equal ['$10,000', '$20,000'], amounts.map(&:value)
   end
 
   should "round trip contribution levels" do

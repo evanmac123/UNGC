@@ -59,7 +59,7 @@ class LocalNetworkUpdate
   end
 
   def description_params
-    @description_params ||= @params.fetch(:contribution_levels).slice(:level_description, :amount_description)
+    @description_params ||= @params.fetch(:contribution_levels).slice(:level_description, :amount_description, :pledge_description, :payment_description, :contact_description, :additional_description)
   end
 
   def levels_params
