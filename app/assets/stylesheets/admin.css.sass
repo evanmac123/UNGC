@@ -283,6 +283,8 @@ ul.nav_bar
   .backdate
     background: url('../assets/icons/Date_Previous_24x24.png') no-repeat left top
 
+  #pledges_invoicing_display
+    width: 60%
 
   // icons for issues areas in search results admin/learning/search.html.haml and event show page
   ul.issues_covered, dd.issue_list ul.issues_covered
@@ -437,7 +439,7 @@ ul.nav_bar
     margin-bottom: 2em
     width: 45%
     margin-right: 30px
-    &.left_column
+    &.left_column, &.contribution_levels
       float: left
     &.short
       dd
@@ -492,6 +494,22 @@ ul.nav_bar
         border: none
       &.title
         font-size: 130%
+
+    &.contribution_levels
+      width: 75%
+      margin-top: -20px
+      dt
+        width: 40%
+      dd
+        width: auto
+      dt,dd
+        font-weight: normal
+        color: #000
+        &.title
+          border: none
+          font-weight: bold
+          color: $dark_blue
+          font-size: 100%
 
   ul.document_list, ul.stakeholders, ul.issues_covered
     &.no_indent
@@ -763,9 +781,22 @@ ul.nav_bar
   fieldset
     background-color: $light_blue
     border: 1px solid #aaa
+
     // Local Network fieldset styling
     &.governance
       height: 90px
+
+    textarea
+      &.pledges_invoicing
+        width: 60%
+
+    table#contribution-levels-table
+      td
+        input
+          margin: 0
+        &.description
+          input
+            margin-top: 12px
 
     legend
       color: #888

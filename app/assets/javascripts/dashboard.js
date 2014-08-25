@@ -69,7 +69,15 @@ $(document).ready(function() {
   $("#admin_search").blur(function() {
     $('#admin_search').attr('value', 'Search organizations');
   });
-});
+
+  // called from /app/views/admin/local_networks/_edit_pledges_invoicing.html.haml
+  $("textarea.pledges_invoicing").change(function() {
+    if (this.value.length >= 450) {
+      alert("Sorry, this text must be less than 450 characters.");
+    }
+  });
+
+}); // end $(document).ready(function()
 
 var replace_ids = function(s){
   var new_id = new Date().getTime();
