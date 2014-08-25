@@ -2,16 +2,14 @@
 - if default_form.error_messages.present?
   %div{:class => 'flash error'}= display_readable_errors(@local_network)
 
-- levels = @local_network.contribution_levels
-= default_form.fields_for 'contribution_levels', levels do |levels_fields|    
-  = levels_fields.hidden_field :id
+= default_form.fields_for 'contribution_levels_info' do |form|    
 
   %fieldset.contribution_levels
-    %legend Message from the Local Network
-    = levels_fields.text_area :pledge_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Pledge message'
+    %legend Message from Local Network
+    = form.text_area :pledge_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Pledge message'
   
   %fieldset.contribution_levels
     %legend Enter the contribution level and corresponding amount      
-    = levels_fields.text_area :payment_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Payment instructions'
-    = levels_fields.text_area :contact_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Contact or address'
-    = levels_fields.text_area :additional_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Additional information'
+    = form.text_area :payment_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Payment instructions'
+    = form.text_area :contact_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Contact or address'
+    = form.text_area :additional_description, { class: 'pledges_invoicing', maxlength: 450 }, label: 'Additional information'
