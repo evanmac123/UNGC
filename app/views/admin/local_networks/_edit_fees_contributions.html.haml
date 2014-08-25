@@ -5,8 +5,8 @@
   %legend Member Fees
   %p Are members required to pay fees?
   %ol.radio_button_list
-    %li= default_form.radio_button :fees_participant, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_fees_participant_true}
-    %li= default_form.radio_button :fees_participant, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_fees_participant_false}
+    = default_form.radio_button :fees_participant, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_fees_participant_true}
+    = default_form.radio_button :fees_participant, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_fees_participant_false}
 
 %fieldset{:style => 'width: 425px; height: 100px; float: right;'}
   %legend Financing of Total Budget (%)
@@ -18,15 +18,15 @@
 %fieldset.contribution_levels
   %legend Enter the contribution level and corresponding amount
   - levels = @local_network.contribution_levels
-  = default_form.fields_for 'contribution_levels', levels do |levels_fields|
+  = default_form.fields_for 'contribution_levels', levels do |levels_fields|    
     = levels_fields.hidden_field :id
     %script#contribution-level-template{type:'text/x-jquery-tmpl'}
       = render 'admin/contribution_levels/field', level: ContributionLevel.new
     %table#contribution-levels-table
       %tr
-        %td.level-description
+        %td.description
           = levels_fields.text_field :level_description, label: 'Level Description'
-        %td.amount-description
+        %td.description
           = levels_fields.text_field :amount_description, label: 'Amount Description'
         %td
       %tr
