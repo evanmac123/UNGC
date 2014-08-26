@@ -83,7 +83,7 @@ module ParticipantsHelper
 
   def sectors_for_select
     sectors = Sector.participant_search_options
-    options_for_select [ ['All sectors', 'all'] ] + sectors.map { |s| [s.name, s.id] }
+    option_groups_from_collection_for_select(Sector.top_level, :children, :name, :id, :name)
   end
 
   def ownership_types_for_select

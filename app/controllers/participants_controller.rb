@@ -16,7 +16,26 @@ class ParticipantsController < ApplicationController
 
   private
     def default_navigation
-      DEFAULTS[:participant_search_path]
+      case params[:navigation]
+      when 'inactive'
+        DEFAULTS[:cop_inactives_path]
+      when 'noncommunicating'
+        DEFAULTS[:cop_noncommunicating_path]
+      when 'notable'
+        DEFAULTS[:cop_notable_path]
+      when 'active'
+        DEFAULTS[:cop_active_path]
+      when 'advanced'
+        DEFAULTS[:cop_advanced_path]
+      when 'learner'
+        DEFAULTS[:cop_learner_path]
+      when 'expelled'
+        DEFAULTS[:cop_expelled_path]
+      when 'lead'
+        DEFAULTS[:participant_lead_path]
+      else
+        DEFAULTS[:participant_search_path]
+      end
     end
 
     def find_participant
@@ -47,7 +66,7 @@ class ParticipantsController < ApplicationController
       filter_options_for_country(options) if params[:country]
       filter_options_for_joined_on(options) if params[:joined_after] && params[:joined_before]
       filter_options_for_business_type(options) if params[:business_type]
-      filter_options_for_sector(options) if params[:sector_id]
+      filter_options_for_sector(options)
       filter_options_for_listing_status(options) if params[:listing_status_id]
       filter_options_for_is_ft_500(options) if params[:is_ft_500]
 
@@ -88,7 +107,7 @@ class ParticipantsController < ApplicationController
     end
 
     def filter_options_for_sector(options)
-      options[:with].merge!(sector_id: params[:sector_id].to_i) if params[:sector_id] != 'all'
+      options[:with].merge!(sector_id: params[:sector_id].to_i) if params[:sector_id].present?
     end
 
     def filter_options_for_listing_status(options)
