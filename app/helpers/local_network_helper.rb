@@ -54,19 +54,6 @@ module LocalNetworkHelper
     possible.try(:first).try(:name)
   end
 
-  def link_to_annuaL_report_if_file_exists
-    unless local_network.nil?
-      html = ''
-      [2011,2010,2009].each do |year|
-        filename = "/docs/networks_around_world_doc/communication/network_reports/#{year}/#{@country_code}_#{year}.pdf"
-        if FileTest.exists?("public/#{filename}")
-          html += content_tag :li, link_to("#{year} #{local_network.try(:name)} Report", filename, {:class => 'pdf'})
-        end
-      end
-     html.present? ? (content_tag :ul, html.html_safe, :class => 'links') : (content_tag :p, "No reports are available")
-    end
-  end
-
   def link_to_value_proposition_if_file_exists
     unless local_network.nil?
       html = ''
