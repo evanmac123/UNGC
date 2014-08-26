@@ -2,7 +2,7 @@
 - if default_form.error_messages.present?
   %div{:class => 'flash error'}= display_readable_errors(@local_network)
 
-= default_form.fields_for 'contribution_levels_info' do |form|    
+= default_form.fields_for 'contribution_levels_info' do |form|
 
   %fieldset.contribution_levels
     %legend Message from Local Network
