@@ -24,9 +24,9 @@
       = render 'admin/contribution_levels/field', level: ContributionLevel.new
     %table#contribution-levels-table
       %tr
-        %td.description
+        %td#level-description.description
           = levels_fields.text_field :level_description, label: 'Level Description'
-        %td.description
+        %td#amount-description.description
           = levels_fields.text_field :amount_description, label: 'Amount Description'
         %td
       %tr

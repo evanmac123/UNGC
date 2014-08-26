@@ -24,12 +24,12 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
   end
 
   should "show the level description" do
-    description = find(".level-description").text
+    description = find("#level-description").text
     assert_equal 'Level Description', description
   end
 
   should "show the amount description" do
-    description = find(".amount-description").text
+    description = find("#amount-description").text
     assert_equal 'Amount Description', description
   end
 
