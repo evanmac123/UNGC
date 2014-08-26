@@ -451,6 +451,34 @@ module Moonshine
           set :noop, true
         end
 
+        desc "tells shadow_puppet to ignore failed Puppet tasks so that a failed Puppet task won't cause a rollback"
+        task :nopuppetrollback do
+          set :nopuppetrollback, true
+        end
+
+        namespace :libyaml do
+          desc "Install libyaml from source."
+          task :install do
+            remove_libyaml_from_apt
+            pv = "0.1.5"
+            p = "yaml-#{pv}"
+            run [
+              'cd /tmp',
+              "sudo rm -rf #{p}* || true",
+              "wget -q http://assets.railsmachine.com/libs/#{p}.tar.gz",
+              "tar xzf #{p}.tar.gz",
+              "cd /tmp/#{p}",
+              './configure --prefix=/usr',
+              'make',
+              'sudo make install'
+            ].join(' && ')
+          end
+
+          task :remove_libyaml_from_apt do
+            sudo 'apt-get remove -q -y ^.*libyaml.* || true'
+          end
+        end
+
         namespace :ruby do
 
           desc <<-DESC
