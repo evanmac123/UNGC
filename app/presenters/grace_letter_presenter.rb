@@ -16,6 +16,7 @@ class GraceLetterPresenter
            :is_reporting_cycle_adjustment?,
            :organization,
            :title,
+           :differentiation,
            to: :cop
 
   def initialize(cop, current_contact)
