@@ -266,7 +266,7 @@ class Organization < ActiveRecord::Base
 
   scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
 
-  scope :listed, where("organizations.listing_status_id = 3").includes([:country, :exchange, :sector])
+  scope :listed, where("organizations.listing_status_id = ?", ListingStatus.publicly_listed).includes([:country, :exchange, :sector])
   scope :without_contacts, where("not exists(select * from contacts c where c.organization_id = organizations.id)")
 
   scope :created_at, lambda { |month, year| where('created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
@@ -281,6 +281,7 @@ class Organization < ActiveRecord::Base
   scope :under_moratorium, lambda { where("cop_state=? AND inactive_on >= '2012-12-21'", COP_STATE_NONCOMMUNICATING) }
 
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 1.day.ago.beginning_of_day, 1.day.ago.end_of_day)}
+
 
   def self.with_cop_status(filter_type)
     if filter_type.is_a?(Array)
