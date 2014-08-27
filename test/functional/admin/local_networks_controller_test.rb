@@ -122,4 +122,10 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     assert_equal %w(updated new), levels.map(&:description)
   end
 
+  should "edit local networks" do
+    put :update, :id => @local_network.to_param, :local_network => {"membership_companies"=>"9999"}, :section => 'membership'
+    @local_network.reload
+    assert_equal 9999, @local_network.membership_companies
+  end
+
 end

@@ -7,11 +7,12 @@ class LocalNetworkUpdate
   def initialize(local_network, params)
     @local_network = local_network
     @params = params
+    @contribution_levels_params = @params.delete(:contribution_levels)
   end
 
   def update
     LocalNetwork.transaction do
-      @local_network.update_attributes!(@local_network_params)
+      @local_network.update_attributes!(@params)
       update_contribution_levels if has_contribution_level_params?
     end
     @local_network
@@ -55,15 +56,20 @@ class LocalNetworkUpdate
   end
 
   def has_contribution_level_params?
-    @params.has_key? :contribution_levels
+    @contribution_levels_params.present?
   end
 
   def description_params
-    @description_params ||= @params.fetch(:contribution_levels).slice(:level_description, :amount_description, :pledge_description, :payment_description, :contact_description, :additional_description)
+    @description_params ||= @contribution_levels_params.slice(:level_description,
+                                                              :amount_description,
+                                                              :pledge_description,
+                                                              :payment_description,
+                                                              :contact_description,
+                                                              :additional_description)
   end
 
   def levels_params
-    @levels_params ||= @params.fetch(:contribution_levels).fetch(:levels, [])
+    @levels_params ||= @contribution_levels_params.fetch(:levels, [])
   end
 
   def contribution_levels
