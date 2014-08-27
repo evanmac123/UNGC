@@ -33,8 +33,4 @@ class CopsController < ApplicationController
       @organization.communication_on_progresses.find_by_param(params[:cop]) if @organization
     end
 
-    def default_navigation
-      DEFAULTS["cop_#{@communication_on_progress.differentiation}_path".to_sym]
-    end
-
 end
