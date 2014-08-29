@@ -194,17 +194,21 @@
   
     #pledges_invoicing_display
     
-      %h4 Message from Local Network
-      %p= simple_format levels.pledge_description
+      - if levels.pledge_description.present?
+        %h4 Contribution Message
+        %p= simple_format levels.pledge_description
 
-      %h4 Invoice Instructions
-      %p= simple_format levels.payment_description
+      - if levels.payment_description.present?
+        %h4 Invoice Instructions
+        %p= simple_format levels.payment_description
 
-      %h4 Contact / Address Information
-      %p= simple_format levels.contact_description
+      - if levels.contact_description.present?
+        %h4 Contact / Address Information
+        %p= simple_format levels.contact_description
 
-      %h4 Additional Information
-      %p= simple_format levels.additional_description
+      - if levels.additional_description.present?
+        %h4 Additional Information
+        %p= simple_format levels.additional_description
   
   #integrity_measures.tab_content
     - if current_contact_can_edit_network?

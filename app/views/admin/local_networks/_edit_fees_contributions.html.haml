@@ -16,7 +16,7 @@
     = default_form.text_field :fees_amount_voluntary_public, {:class => 'short'}, :label => 'Public Voluntary'
 
 %fieldset.contribution_levels
-  %legend Enter the contribution level and corresponding amount
+  %legend Contribution/fee level(s) and corresponding amount(s)
   - levels = @local_network.contribution_levels
   = default_form.fields_for 'contribution_levels', levels do |levels_fields|
     = levels_fields.hidden_field :id
@@ -25,13 +25,27 @@
     %table#contribution-levels-table
       %tr
         %td#level-description.description
-          = levels_fields.text_field :level_description, label: 'Level Description'
+          %dl
+            %dt Level Description
+            %dd
+              %em For example, "Annual sales/revenue or "Number of employees"
+          = levels_fields.text_field :level_description
         %td#amount-description.description
-          = levels_fields.text_field :amount_description, label: 'Amount Description'
+          %dl
+            %dt Amount Description
+            %dd
+              %em For example, "Annual contribution" or "Required membership fee"
+          = levels_fields.text_field :amount_description
         %td
       %tr
-        %td= levels_fields.label 'Description'
-        %td= levels_fields.label 'Amount'
+        %td#level-description.description
+          %dl
+            %dt Level
+            %dd Enter the range for each level
+        %td#level-description.description
+          %dl
+            %dt Amount
+            %dd Enter the amount for each level
         %td &nbsp;
       - levels.each do |level|
         = render 'admin/contribution_levels/field', level: level

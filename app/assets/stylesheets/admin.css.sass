@@ -186,7 +186,7 @@ ul.nav_bar
     height: 24px
     padding: 5px 0 0 30px
     text-align: left
-    color: $dark_blue
+    color: $dark_blue  
     text-decoration: none
     opacity: 0.85
     font-weight: bold
@@ -495,6 +495,7 @@ ul.nav_bar
       &.title
         font-size: 130%
 
+    // views/admin/local_networks/show.html.haml:184
     &.contribution_levels
       width: 75%
       margin-top: -20px
@@ -786,17 +787,38 @@ ul.nav_bar
     &.governance
       height: 90px
 
+    &.contribution_levels
+      p
+        margin-left: 175px
+        width: 70%
+        color: #666
+
     textarea
       &.pledges_invoicing
-        width: 60%
+        width: 70%
 
     table#contribution-levels-table
       td
         input
           margin: 0
         &.description
+          dl
+            width: auto
+            margin: 0
+            dt
+              margin: 0 0 0.5em 0
+              padding: 0
+              float: none
+              border: none
+            dd
+              margin: 0
+              padding: 0
+              border: none
+              color: #666
           input
             margin-top: 12px
+          label
+            display: none
 
     legend
       color: #888
