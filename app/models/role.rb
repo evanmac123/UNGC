@@ -79,6 +79,7 @@ class Role < ActiveRecord::Base
   end
 
   # Local Network roles
+  scope :contact_points, lambda { where(name: FILTERS[:contact_point]) }
 
   scope :network_focal_points, -> { where(name: FILTERS[:network_focal_point]) }
   def self.network_focal_point

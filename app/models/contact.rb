@@ -102,6 +102,7 @@ class Contact < ActiveRecord::Base
 
   scope :participants_only, lambda { where(["organizations.participant = ?", true]) }
   scope :ungc_staff, lambda { joins(:organization).where(:'organizations.name' => DEFAULTS[:ungc_organization_name]) }
+  scope :contact_points, lambda { joins(:roles).merge(Role.contact_points).includes(:roles) }
 
   # Attempt to find a user by its email. If a record is found, send new
   # password instructions to it. If user is not found, returns a new user
@@ -121,10 +122,6 @@ class Contact < ActiveRecord::Base
 
   def self.financial_contacts
     joins(:roles).merge(Role.financial_contacts).includes(:roles)
-  end
-
-  def self.contact_points
-    joins(:roles).merge(Role.contact_points).includes(:roles)
   end
 
   def self.ceos
