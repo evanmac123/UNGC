@@ -61,13 +61,15 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
 
     should "update contact for an organization" do
+      old_password = @organization_user.encrypted_password
       put :update, :organization_id => @organization.id,
                    :id              => @organization_user.to_param,
                    :contact         => { :username    => 'aaa',
                                          :password => "password" }
 
-      assert_equal 'aaa', @organization_user.reload.username
-      assert_equal 'password', @organization_user.reload.plaintext_password
+      @organization_user.reload
+      assert_equal 'aaa', @organization_user.username
+      assert_not_equal old_password, @organization_user.encrypted_password
 
       assert_redirected_to dashboard_path(:tab => :contacts)
     end
@@ -124,13 +126,15 @@ class Admin::ContactsControllerTest < ActionController::TestCase
     end
 
     should "update contact for a local network" do
+      old_password = @network_contact.encrypted_password
       put :update, :local_network_id => @local_network.id,
                    :id               => @network_contact.to_param,
                    :contact          => { :username    => 'aaa',
                                           :password => "password" }
 
-      assert_equal 'aaa', @network_contact.reload.username
-      assert_equal 'password', @network_contact.reload.plaintext_password
+      @network_contact.reload
+      assert_equal 'aaa', @network_contact.username
+      assert_not_equal old_password, @network_contact.encrypted_password
 
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end

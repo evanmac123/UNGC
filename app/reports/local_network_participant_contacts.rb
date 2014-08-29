@@ -35,7 +35,6 @@ class LocalNetworkParticipantContacts < SimpleReport
       'Fax',
       'Role',
       'Username',
-      'Password'
     ]
   end
 
@@ -65,7 +64,6 @@ class LocalNetworkParticipantContacts < SimpleReport
       record.fax,
       record.roles.first.name,
       record.username,
-      record.plaintext_password
     ]
   end
 
