@@ -67,6 +67,12 @@ class Admin::ContactsController < AdminController
     end
   end
 
+  def sign_in_as
+    target_account = Contact.find(params[:contact_id])
+    sign_in target_account
+    redirect_to dashboard_path
+  end
+
   private
     def load_parent
       @parent = if params[:organization_id]

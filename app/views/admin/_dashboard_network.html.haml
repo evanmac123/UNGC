@@ -11,6 +11,11 @@
     %dl.left_column{:style => 'width: 425px;'}
       %h3 Welcome to the Dashboard
 
+      %ul
+        - @contact_points.each do |contact|
+          %li= link_to "Sign in as #{contact.organization.name}",
+                  admin_contact_sign_in_as_path(contact.id)
+
       %p Manage and share information about your Local Network with the Global Compact Office and learn about the activities of other networks.
 
       %dt.first Network Management

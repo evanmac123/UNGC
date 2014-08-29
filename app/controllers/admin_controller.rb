@@ -21,12 +21,24 @@ class AdminController < ApplicationController
       @local_network = current_contact.local_network
       @organizations = Organization.visible_to(current_contact)
       @announcements = Announcement.upcoming
+      @contact_points = sign_in_as_contacts_for(@organizations)
 
     elsif current_contact.from_organization?
       @organization = current_contact.organization
 
     end
     render :template => "admin/dashboard_#{current_contact.user_type}"
+  end
+
+  def sign_in_as_contacts_for(organizations)
+    if current_contact.is? Role.network_report_recipient
+      Contact.contact_points
+        .joins(:organization)
+        .includes(:organization)
+        .merge(organizations)
+    else
+      Contact.where('1=2') # TODO replace with none in rails4
+    end
   end
 
   def no_access_to_other_organizations

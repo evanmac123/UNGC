@@ -43,6 +43,7 @@ UNGC::Application.routes.draw do
     end
 
     resources :contacts do
+      get '/sign_in_as' => 'contacts#sign_in_as', as: :sign_in_as
       collection do
         get :search
       end
