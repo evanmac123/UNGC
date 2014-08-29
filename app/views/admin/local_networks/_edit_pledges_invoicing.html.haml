@@ -1,0 +1,18 @@
+%h2 Editing Contribution Text
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@local_network)
+
+= default_form.fields_for 'contribution_levels_info' do |form|
+
+  %fieldset.contribution_levels
+    %p Provide a concise message to encourage participants to contribute to your Local Network.  For example, you may wish to give a brief overview of your Network's value proposition (maximum 500 characters).
+    = form.text_area :pledge_description, { class: 'pledges_invoicing maxlength', maxlength: 500}, label: 'Contribution message'
+  
+  %fieldset.contribution_levels
+    %legend Custom invoice details
+    %p Describe payment options, including payments by credit card or wire transfers, if applicable.
+    = form.text_area :payment_description, { class: 'pledges_invoicing' }, label: 'Payment instructions'
+    %p Contact, telephone and address information for mailing payments or contacting your Local Network regarding contributions.
+    = form.text_area :contact_description, { class: 'pledges_invoicing' }, label: 'Contact or address'
+    %p Additional information regarding payments including legal or tax information related to contributions (maximum 500 characters).
+    = form.text_area :additional_description, { class: 'pledges_invoicing maxlength', maxlength: 500 }, label: 'Additional information'
