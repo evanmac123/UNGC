@@ -90,6 +90,25 @@ class Admin::CopsControllerTest < ActionController::TestCase
       end
     end
 
+    context "validation messages" do
+
+      should 'show validation errors for missing cop files' do
+        language = create_language
+        cop_params = {
+          "cop_files_attributes" => { "0" => { "attachment_type" => "cop", "language_id" => language.id } },
+          "cop_type" => "intermediate"
+        }
+
+        post :create, organization_id: @organization.id, communication_on_progress: cop_params
+        cop = assigns(:communication_on_progress)
+
+        assert_equal false, cop.persisted?
+        assert_equal "Cop files is invalid and Cop files attachment can't be blank",
+                     cop.errors.full_messages.to_sentence
+      end
+
+    end
+
   end
 
   context "given a non-business submitting a COP" do

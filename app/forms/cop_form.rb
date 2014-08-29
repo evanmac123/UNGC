@@ -129,16 +129,6 @@ class CopForm
     cop.valid? && cop_file.valid?
   end
 
-  def errors
-    cop.cop_files.each do |file|
-      next if file.valid?
-      file.errors.full_messages.each do |message|
-        cop.errors.add :cop_files, message
-      end
-    end
-    cop.errors
-  end
-
   def organization
     @cop.organization
   end
