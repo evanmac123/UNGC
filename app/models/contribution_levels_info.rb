@@ -43,7 +43,7 @@ class ContributionLevelsInfo < ActiveRecord::Base
   end
 
   def empty?
-    levels.empty? && amount_description.nil? && level_description.nil?
+    levels.empty? && amount_description.blank? && level_description.blank?
   end
 
 end
