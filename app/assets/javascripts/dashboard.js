@@ -71,9 +71,9 @@ $(document).ready(function() {
   });
 
   // called from /app/views/admin/local_networks/_edit_pledges_invoicing.html.haml
-  $("textarea.pledges_invoicing").change(function() {
-    if (this.value.length >= 450) {
-      alert("Sorry, this text must be less than 450 characters.");
+  $('.pledges_invoicing.maxlength').change(function() {
+    if (this.value.length >= 500) {
+      alert("Sorry, this text must be less than 500 characters.");
     }
   });
 
