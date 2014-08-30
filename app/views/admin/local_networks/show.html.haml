@@ -17,8 +17,9 @@
     %li <a href="#governance">Governance</a>
     %li <a href="#membership">Membership</a>
     %li <a href="#fees_contributions">Fees</a>
+    %li <a href="#pledges_invoicing">Pledges and Invoices</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
-    %li <a href="#mous">Memorandum of Understanding</a>
+    %li <a href="#mous">MOUs</a>
     %li <a href="#annual_reports">Annual Reports</a>
 
   - if current_contact_can_edit_network?
@@ -164,16 +165,6 @@
       %dt.first= participant_fees(@local_network)
       %dd.first &nbsp;
 
-    %dl.left_column.short{:style => 'width: 275px; margin-right: 20px;'}
-      %dt.title Annual Amount in U.S. Dollars
-      %dd.title &nbsp;
-      %dt.first Company
-      %dd.first= number_to_currency(@local_network.fees_amount_company, :unit => "$")
-      %dt SME
-      %dd= number_to_currency(@local_network.fees_amount_sme, :unit => "$")
-      %dt Other
-      %dd= number_to_currency(@local_network.fees_amount_other_organization, :unit => "$")
-
     %dl.left_column.short{:style => 'width: 275px;'}
       %dt.title Financing of Total Budget
       %dd.title &nbsp;
@@ -184,6 +175,41 @@
       %dt Public Voluntary
       %dd= number_to_percentage(@local_network.fees_amount_voluntary_public, :precision => 0)
 
+    - levels = @local_network.contribution_levels
+    - unless levels.empty?
+      .clear
+        %dl.left_column
+          %dt.title Contribution Levels
+          %dd.title &nbsp;
+        %dl.contribution_levels
+          %dt.title= levels.level_description
+          %dd.title= levels.amount_description
+          - levels.each do |l|
+            %dt= l.description
+            %dd= l.amount
+
+  #pledges_invoicing.tab_content
+    %ul#tools{:class => "tools inline"}
+      %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :pledges_invoicing), :class => 'edit_large'
+  
+    #pledges_invoicing_display
+    
+      - if levels.pledge_description.present?
+        %h4 Contribution Message
+        %p= simple_format levels.pledge_description
+
+      - if levels.payment_description.present?
+        %h4 Invoice Instructions
+        %p= simple_format levels.payment_description
+
+      - if levels.contact_description.present?
+        %h4 Contact / Address Information
+        %p= simple_format levels.contact_description
+
+      - if levels.additional_description.present?
+        %h4 Additional Information
+        %p= simple_format levels.additional_description
+  
   #integrity_measures.tab_content
     - if current_contact_can_edit_network?
       %ul{:class => "tools inline"}

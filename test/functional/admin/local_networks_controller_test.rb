@@ -99,4 +99,33 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
 
   end
 
+  should "handle contribution level attributes" do
+    existing = @local_network.contribution_levels.add(
+      description:'existing',
+      amount:'$5')
+    deleted = @local_network.contribution_levels.add(
+      description:'deleted',
+      amount:'$15')
+    @local_network.save!
+
+    post :update, id: @local_network.id, local_network: {
+      contribution_levels: {
+        id: @local_network.contribution_levels.id,
+        levels: [
+          existing.attributes.merge(description: 'updated'),
+          {description:'new', amount:'$20'},
+        ]
+      }
+    }
+
+    levels = @local_network.reload.contribution_levels.reload
+    assert_equal %w(updated new), levels.map(&:description)
+  end
+
+  should "edit local networks" do
+    put :update, :id => @local_network.to_param, :local_network => {"membership_companies"=>"9999"}, :section => 'membership'
+    @local_network.reload
+    assert_equal 9999, @local_network.membership_companies
+  end
+
 end

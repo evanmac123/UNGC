@@ -39,13 +39,15 @@ gem 'prototype-rails'
 
 group :development do
   gem 'thin'
-  gem 'rails-dev-tweaks'
-  gem 'debugger'
   gem 'spring'
 end
 
 group :test do
   gem "shoulda",      "~> 3.4.0"
+  gem 'capybara'
+end
+
+group :development, :test do
   gem 'debugger'
 end
 

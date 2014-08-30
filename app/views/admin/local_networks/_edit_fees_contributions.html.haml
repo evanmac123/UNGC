@@ -1,23 +1,54 @@
 %h2 Editing Fees and Contributions
 - if default_form.error_messages.present?
   %div{:class => 'flash error'}= display_readable_errors(@local_network)
-%fieldset{:style => 'width: 250px; height: 100px; float: left; margin-right: 45px;'}
+%fieldset{:style => 'width: 425px; height: 100px; float: left;'}
   %legend Member Fees
   %p Are members required to pay fees?
   %ol.radio_button_list
-    %li= default_form.radio_button :fees_participant, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_fees_participant_true}
-    %li= default_form.radio_button :fees_participant, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_fees_participant_false}
+    = default_form.radio_button :fees_participant, true, {:li_class => 'radio_button', :label => 'Yes', :label_for => :local_network_fees_participant_true}
+    = default_form.radio_button :fees_participant, false, {:li_class => 'radio_button', :label => 'No', :label_for => :local_network_fees_participant_false}
 
-%fieldset{:style => 'width: 250px; height: 100px; float: left; margin-right: 45px;'}
-  %legend Annual Amount in U.S. Dollars
-  %ol
-    = default_form.text_field :fees_amount_company, {:class => 'short'}, :label => 'Company'
-    = default_form.text_field :fees_amount_sme, {:class => 'short'}, :label => 'SME'
-    = default_form.text_field :fees_amount_other_organization, {:class => 'short'}, :label => 'Other'
-
-%fieldset{:style => 'width: 250px; height: 100px; float: left; clear: right;'}
+%fieldset{:style => 'width: 425px; height: 100px; float: right;'}
   %legend Financing of Total Budget (%)
   %ol
     = default_form.text_field :fees_amount_participant, {:class => 'short'}, :label => 'Member Fees'
     = default_form.text_field :fees_amount_voluntary_private, {:class => 'short'}, :label => 'Private Voluntary'
     = default_form.text_field :fees_amount_voluntary_public, {:class => 'short'}, :label => 'Public Voluntary'
+
+%fieldset.contribution_levels
+  %legend Contribution/fee level(s) and corresponding amount(s)
+  - levels = @local_network.contribution_levels
+  = default_form.fields_for 'contribution_levels', levels do |levels_fields|
+    = levels_fields.hidden_field :id
+    %script#contribution-level-template{type:'text/x-jquery-tmpl'}
+      = render 'admin/contribution_levels/field', level: ContributionLevel.new
+    %table#contribution-levels-table
+      %tr
+        %td.description
+          %dl
+            %dt#level-description Level Description
+            %dd
+              %em For example, "Annual sales/revenue or "Number of employees"
+          = levels_fields.text_field :level_description
+        %td.description
+          %dl
+            %dt#amount-description Amount Description
+            %dd
+              %em For example, "Annual contribution" or "Required membership fee"
+          = levels_fields.text_field :amount_description
+        %td
+      %tr
+        %td.description
+          %dl
+            %dt Level
+            %dd Enter the range for each level
+        %td.description
+          %dl
+            %dt Amount
+            %dd Enter the amount for each level
+        %td &nbsp;
+      - levels.each do |level|
+        = render 'admin/contribution_levels/field', level: level
+      - unless levels.any?
+        = render 'admin/contribution_levels/field', level: ContributionLevel.new
+    = button_tag('New Level', id:'add-contribution-level', class: 'new_large')

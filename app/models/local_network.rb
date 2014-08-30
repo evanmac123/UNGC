@@ -64,6 +64,7 @@ class LocalNetwork < ActiveRecord::Base
   has_many :communications
   has_many :announcements
   has_many :annual_reports
+  has_one  :contribution_levels_info
 
   belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
@@ -73,6 +74,8 @@ class LocalNetwork < ActiveRecord::Base
                       :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
+
+  accepts_nested_attributes_for :contribution_levels_info
 
   NUMERIC =  [:membership_companies, :membership_sme, :membership_micro_enterprise,
               :membership_business_organizations, :membership_csr_organizations, :membership_labour_organizations,
@@ -205,10 +208,18 @@ class LocalNetwork < ActiveRecord::Base
       case attribute
         when :url
           error_messages << 'Please provide a website address in the format http://organization.org'
-        end
+      end
     end
 
     fee_error_messages.present? ? error_messages << fee_error_messages : error_messages
   end
 
+  def contribution_levels
+    if contribution_levels_info.nil?
+      self.contribution_levels_info = ContributionLevelsInfo.new(local_network_id: self.id)
+    end
+    self.contribution_levels_info
+  end
+
 end
+
