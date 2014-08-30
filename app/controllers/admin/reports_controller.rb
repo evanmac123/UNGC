@@ -1,7 +1,15 @@
 class Admin::ReportsController < AdminController
 
   def index
-    render current_contact.from_network? ? 'local_network_index' : 'index'
+    local_network = current_contact.local_network
+    render case
+      when local_network.nil?
+        :index
+      when local_network.regional_center?
+        :regional_center_index
+      else
+        :local_network_index
+      end
   end
 
   def delisted_participants
