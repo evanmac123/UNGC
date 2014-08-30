@@ -11,7 +11,7 @@
 #  manager_id             :integer
 #  local_network_id       :integer
 #  participant_manager_id :integer
-#
+#  regional_center_id     :integer
 
 class Country < ActiveRecord::Base
   belongs_to :local_network

@@ -91,7 +91,12 @@ class LocalNetwork < ActiveRecord::Base
   scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
   scope :where_state, lambda { |state| where(:state => state.to_s) }
 
-  STATES = { :emerging => 'Emerging', :established => 'Established', :formal => 'Formal', :hub => 'Sustainability Hub' }
+  STATES = {
+    :emerging => 'Emerging',
+    :established => 'Established',
+    :formal => 'Formal',
+    :regional_center => 'Regional Center'
+  }
 
   FUNDING_MODELS = { :collaborative => 'Collaborative', :independent => 'Independant' }
 
@@ -140,32 +145,36 @@ class LocalNetwork < ActiveRecord::Base
     country.try(:region)
   end
 
-  def region_name
-    country = Country.find_by_code(country_code)
-    Country::REGIONS[country.region.to_sym] unless country.nil?
+  def regional_center?
+    state == 'regional_center'
   end
 
-  def country_code
-    # if more than one country, it's a regional network, so lookup the host country
-    if countries.count > 1
-      REGION_COUNTRY[name]
-    elsif countries.count == 1
-      countries.first.code
+  def region_name
+    if country.present?
+      Country::REGIONS[country.region.to_sym]
     else
-      ''
+      name
     end
   end
 
+  def country_code
+    country.try(:code) || ''
+  end
+
   def country
-    if countries.count > 1
-      Country.find_by_code(REGION_COUNTRY[name])
-    elsif countries.count == 1
+    case countries.count
+    when 0
+      Country.find_by_regional_center_id(self.id)
+    when 1
       countries.first
+    else
+      # if more than one country, it's a regional network, so lookup the host country
+      countries.find_by_code(REGION_COUNTRY[name])
     end
   end
 
   def country_id
-    country.id
+    country.try(:id)
   end
 
   def country_name

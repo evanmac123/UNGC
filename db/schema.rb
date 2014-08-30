@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140911204025) do
+ActiveRecord::Schema.define(:version => 20140829201756) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
@@ -56,21 +56,6 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "campaigns", :force => true do |t|
-    t.string   "campaign_id",                      :null => false
-    t.string   "name",                             :null => false
-    t.date     "start_date"
-    t.date     "end_date"
-    t.integer  "initiative_id"
-    t.boolean  "is_deleted",    :default => false, :null => false
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-  end
-
-  add_index "campaigns", ["campaign_id"], :name => "index_campaigns_on_campaign_id", :unique => true
-  add_index "campaigns", ["initiative_id"], :name => "index_campaigns_on_initiative_id"
-  add_index "campaigns", ["name"], :name => "index_campaigns_on_name", :unique => true
 
   create_table "case_stories", :force => true do |t|
     t.string   "identifier"
