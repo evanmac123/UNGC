@@ -20,7 +20,7 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
 
   should "have a legend" do
     legend = find ".contribution_levels legend"
-    assert_equal 'Enter the contribution level and corresponding amount', legend.text
+    assert_equal 'Contribution/fee level(s) and corresponding amount(s)', legend.text
   end
 
   should "show the level description" do
