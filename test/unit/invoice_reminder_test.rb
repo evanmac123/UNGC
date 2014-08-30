@@ -19,7 +19,7 @@ class InvoiceReminderTest < ActiveSupport::TestCase
 
       # eligible for reminder email
       @org1 = create_organization(
-        joined_on: 1.day.ago,
+        joined_on: 2.day.ago,
         pledge_amount: 0,
         participant: true,
         organization_type_id: @business_type.id
@@ -31,7 +31,7 @@ class InvoiceReminderTest < ActiveSupport::TestCase
 
       # eligible for invoice email
       @org2 = create_organization(
-        joined_on: 1.day.ago,
+        joined_on: 2.day.ago,
         pledge_amount: 500,
         participant: true,
         organization_type_id: @business_type.id
