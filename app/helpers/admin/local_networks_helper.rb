@@ -57,11 +57,6 @@ module Admin::LocalNetworksHelper
     current_contact.from_ungc? || (current_contact.local_network == @local_network)
   end
 
-  def link_to_region_list(local_network)
-    html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region)
-    html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
-  end
-
   def section_or_page_icon(page)
     if page.parent_id.present?
       image_tag "icons/Document_24x24.png", :title => "Page"
@@ -79,7 +74,7 @@ module Admin::LocalNetworksHelper
   end
 
   def link_to_region_list(local_network)
-    html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region), :class => 'dark_blue'
+    html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region)
     html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
   end
 

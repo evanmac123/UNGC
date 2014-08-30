@@ -164,11 +164,11 @@ class Admin::ReportsController < AdminController
   def initiative_organizations
 
     if params[:all_initiatives]
-      @selected_initiatives = Initiative.for_select.map(&:id) 
+      @selected_initiatives = Initiative.for_select.map(&:id)
     else
       @selected_initiatives = params[:initiatives] || []
     end
-    
+
     @report = InitiativeOrganizations.new(initiatives: @selected_initiatives)
     render_formatter(filename: "organizations_in_initiatives_#{date_as_filename}.xls")
   end
@@ -222,7 +222,7 @@ class Admin::ReportsController < AdminController
                                          :year  => @year)
     render_formatter(filename: "foundation_pledges_#{@year}_#{@month}.xls")
   end
-  
+
   def published_webpages
     @report = PublishedWebpages.new
     render_formatter(filename: "published_webpages_#{date_as_filename}.xls")
