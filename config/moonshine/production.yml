@@ -22,4 +22,4 @@
   :vhost_extra: |
     RewriteEngine On
     RewriteCond %{HTTP_HOST} ^unglobalcompact.org
-    RewriteRule (.*) https://www.unglobalcompact.org/%1 [R=301,L]
+    RewriteRule (.*) https://www.unglobalcompact.org%{REQUEST_URI} [R=301,L]
