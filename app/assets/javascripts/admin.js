@@ -454,6 +454,7 @@ $(function() {
     $('.datepicker').not('.iso-date').datepicker({ showAnim: 'slide' });
     $('.datepicker').filter('.iso-date').datepicker({ showAnim: 'slide', dateFormat: 'yy-mm-dd' });
     $('#participant_search .datepicker').datepicker("option", "yearRange", "2000:+0");
+    $('.datepicker.iso-date.registration').datepicker("option", "yearRange", "1900:+0");
   }
 
 });
