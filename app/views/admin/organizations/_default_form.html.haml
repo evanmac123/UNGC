@@ -58,7 +58,6 @@
         %p Select the date on which the participant became Non-Communicating for failing to engage in dialogue.
         %ol
           = default_form.text_field :non_comm_dialogue_on, {class: 'datepicker iso-date'}, {:label => 'Non-Communicating'}
-          /= default_form.date_select :non_comm_dialogue_on, {:include_blank => true}, { :li_class => 'date', :label => 'Non-Communicating'}
 
 - if @organization.non_business? && @organization.non_business_organization_registration
   %fieldset.organization_registration
