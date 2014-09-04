@@ -90,6 +90,7 @@ class LocalNetwork < ActiveRecord::Base
   default_scope :order => 'local_networks.name'
   scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
   scope :where_state, lambda { |state| where(:state => state.to_s) }
+  scope :regional_centers, lambda { where(state: STATES[:regional_center]) }
 
   STATES = {
     :emerging => 'Emerging',
