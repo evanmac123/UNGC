@@ -20,4 +20,9 @@ class ListingStatus < ActiveRecord::Base
     where("name <> 'Not Applicable'")
   end
 
+  def self.publicly_listed
+    find_by_name("Publicly Listed")
+  end
+
+
 end
