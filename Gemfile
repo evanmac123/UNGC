@@ -5,7 +5,7 @@ gem 'rails', '3.2.17'
 gem 'mysql2'
 gem 'facets',               '~> 2.9.3', :require => false
 gem 'hpricot',              '0.8.4'
-gem 'json_pure',            '1.2.0'
+gem 'json_pure',            '1.8.1'
 gem 'will_paginate',        '~> 3.0.4'
 gem 'paperclip',            '~> 3.5.1'
 gem 'haml',                 '~> 3.1.7'
@@ -23,6 +23,7 @@ gem 'airbrake',             '~> 3.1.6'
 gem 'devise',               '~> 2.2.4'
 gem 'dynamic_form',         '1.0.0'
 gem 'sass',                 '~> 3.2.9'
+gem 'skylight'
 
 
 group :assets do
