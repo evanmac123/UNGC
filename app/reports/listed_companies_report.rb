@@ -1,7 +1,7 @@
 class ListedCompaniesReport < SimpleReport
 
   def records
-    Organization.listed
+    Organization.participants.listed
   end
 
   def render_output
@@ -17,7 +17,7 @@ class ListedCompaniesReport < SimpleReport
       'Exchange Code',
       'Reuters Code',
       'ISO 10383 Code',
-      'Active?',
+      'COP Status',
       'Sector'
     ]
   end
@@ -31,7 +31,7 @@ class ListedCompaniesReport < SimpleReport
       record.exchange.try(:code),
       record.exchange.try(:secondary_code),
       record.exchange.try(:terciary_code),
-      record.active,
+      record.cop_state.titleize,
       record.sector_name
     ]
   end
