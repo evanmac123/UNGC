@@ -35,10 +35,13 @@ class CopsController < ApplicationController
     end
 
     def redirect_mismatched_differentiation_urls
-      if params[:navigation].present? &&
-          @communication_on_progress.differentiation.present? &&
-          params[:navigation] != @communication_on_progress.differentiation
-        redirect_to cop_detail_with_nav_url(@communication_on_progress.differentiation, @communication_on_progress.id)
+      nav = params[:navigation]
+      differentiation = @communication_on_progress.differentiation
+      if nav.present? &&
+          differentiation.present? &&
+          nav != differentiation
+        redirect_to cop_detail_with_nav_url(differentiation, @communication_on_progress.id),
+          status: :moved_permanently
       end
     end
 
