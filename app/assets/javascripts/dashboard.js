@@ -61,15 +61,6 @@ $(document).ready(function() {
     }
   });
 
-  // search
-  $("#admin_search").focus(function() {
-    $('#admin_search').attr('value', '');
-  });
-
-  $("#admin_search").blur(function() {
-    $('#admin_search').attr('value', 'Search organizations');
-  });
-
   // called from /app/views/admin/local_networks/_edit_pledges_invoicing.html.haml
   $('.pledges_invoicing.maxlength').change(function() {
     if (this.value.length >= 500) {
