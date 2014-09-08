@@ -79,6 +79,21 @@ class CopsControllerTest < ActionController::TestCase
     end
   end
 
+  context "with navigation parameter" do
+    setup do
+      create_approved_organization_and_user
+    end
+
+    %w(learner active advanced).each do |level|
+      should "redirect if the navigation doesn't match #{level}" do
+        @cop = create_cop_with_differentiation(level)
+        get :show, id: @cop.id, organization_id: @organization.id, navigation: 'noncommunicating'
+        assert_redirected_to cop_detail_with_nav_url(level, @cop.id)
+      end
+    end
+
+  end
+
 private
 
   def setup_organization
@@ -86,6 +101,14 @@ private
     @organization.approve!
     create_principle_areas
     sign_in @organization_user
+  end
+
+  def create_cop_with_differentiation(differentiation_level)
+    cop = create_cop(@organization.id)
+    cop.update_attribute(:differentiation, differentiation_level)
+    cop.save!
+    assert_equal cop.differentiation, differentiation_level
+    cop
   end
 
 end
