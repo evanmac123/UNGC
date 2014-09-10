@@ -10,6 +10,7 @@ class LocalNetworkParticipantContacts < SimpleReport
 
   def headers
     [ 'Participant ID',
+      'Contact ID',
       'Participant Name',
       'Participant Country',
       'Joined on',
@@ -39,6 +40,7 @@ class LocalNetworkParticipantContacts < SimpleReport
 
   def row(record)
     [ record.organization.id,
+      record.id,
       record.organization_name,
       record.organization.country_name,
       record.organization.joined_on,
