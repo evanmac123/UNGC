@@ -7,15 +7,21 @@ class VisibleToTest < ActiveSupport::TestCase
 
     @france = create_country region: 'europe'
     @germany = create_country region: 'europe'
+    @brazil = create_country region: 'latin_america'
+    @colombia = create_country region: 'latin_america'
 
     @french_org = create_organization country: @france
     @german_org = create_organization country: @germany
+    @brazilian_org = create_organization country: @brazil
+    @colombian_org = create_organization country: @colombia
   end
 
   context "COPs" do
     setup do
       @french_cop = create_cop @french_org.id
       @german_cop = create_cop @german_org.id
+      @brazilian_cop = create_cop @brazilian_org.id
+      @colombian_cop = create_cop @colombian_org.id
     end
 
     should "only be from the same organization as an organization contact" do
@@ -41,6 +47,22 @@ class VisibleToTest < ActiveSupport::TestCase
       refute visible.include? @german_cop
     end
 
+    should "only be from the same country as the regional center that a regional center contact belongs to" do
+      regional_center = create_local_network(state: :regional_center)
+
+      @brazil.update_attribute(:regional_center, regional_center)
+      @colombia.update_attribute(:regional_center, regional_center)
+
+      contact = create_contact(local_network: regional_center)
+
+      visible = CommunicationOnProgress.visible_to contact
+
+      assert visible.include? @brazilian_cop
+      assert visible.include? @colombian_cop
+      refute visible.include? @french_cop
+      refute visible.include? @german_cop
+    end
+
     should "include all for ungc contacts" do
       contact = create_ungc_contact
 
@@ -62,7 +84,6 @@ class VisibleToTest < ActiveSupport::TestCase
 
   context "Organizations" do
 
-
     should "only be the contact's organization" do
       contact = create_organization_contact
 
@@ -83,6 +104,22 @@ class VisibleToTest < ActiveSupport::TestCase
       refute visible.include? @german_org
     end
 
+    should "only be from the same country as the regional center that a regional center contact belongs to" do
+      regional_center = create_local_network(state: :regional_center)
+
+      @brazil.update_attribute(:regional_center, regional_center)
+      @colombia.update_attribute(:regional_center, regional_center)
+
+      contact = create_contact(local_network: regional_center)
+
+      visible = Organization.visible_to contact
+
+      assert visible.include? @brazilian_org
+      assert visible.include? @colombian_org
+      refute visible.include? @french_org
+      refute visible.include? @german_org
+    end
+
     should "include all for ungc contacts" do
       contact = create_ungc_contact
 
@@ -99,7 +136,6 @@ class VisibleToTest < ActiveSupport::TestCase
 
       assert_equal 0, visible.count
     end
-
   end
 
   private

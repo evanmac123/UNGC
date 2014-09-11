@@ -13,6 +13,9 @@ module VisibleTo
           where('organization_id=?', user.organization_id)
         when Contact::TYPE_NETWORK || Contact::TYPE_NETWORK_GUEST
           includes(:organization).where("organizations.country_id in (?)", user.local_network.country_ids)
+        when Contact::TYPE_REGIONAL
+          countries_in_same_region = user.local_network.regional_center_countries.map(&:id)
+          includes(:organization).where("organizations.country_id in (?)", countries_in_same_region)
         when Contact::TYPE_UNGC
           {}
         else

@@ -146,8 +146,12 @@ class LocalNetwork < ActiveRecord::Base
     country.try(:region)
   end
 
+  def regional_center_countries
+    Country.where(regional_center_id: self.id)
+  end
+
   def regional_center?
-    state == 'regional_center'
+    state.to_s == 'regional_center'
   end
 
   def region_name
