@@ -316,17 +316,18 @@ class Organization < ActiveRecord::Base
     where("organizations.removal_reason_id = ? AND active = ? AND cop_state NOT IN (?)", RemovalReason.for_filter(:delisted).map(&:id), false, [COP_STATE_ACTIVE, COP_STATE_NONCOMMUNICATING]).order('delisted_on DESC')
   end
 
-  # scopes the organization depending on the user_type
-  # contacts that belong to an organization should only see their organization
-  # contacts from a local network should see all the organizations in their network
+  # scopes the organization depending on user_type
+  # contacts that belong to an organization should only see organizations that share that organization
+  # contacts from a local network should see all the organizations in the same country as their network
   # contacts from UNGC should see every organization
-  # no organizations should be seen otherwise,
+  # no organization should be seen otherwise
   def self.visible_to(user)
-    if user.user_type == Contact::TYPE_ORGANIZATION
+    case user.user_type
+    when Contact::TYPE_ORGANIZATION
       where('id=?', user.organization_id)
-    elsif user.user_type == Contact::TYPE_NETWORK || user.user_type == Contact::TYPE_NETWORK_GUEST
+    when Contact::TYPE_NETWORK || Contact::TYPE_NETWORK_GUEST
       where("country_id in (?)", user.local_network.country_ids)
-    elsif user.user_type == Contact::TYPE_UNGC
+    when Contact::TYPE_UNGC
       self.scoped({})
     else
       # TODO improve this when we port to rails 4

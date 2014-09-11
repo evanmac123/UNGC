@@ -2,18 +2,18 @@ module VisibleTo
   # XXX turn this into an extend and remove the class_eval
   def self.included(klass)
     klass.class_eval do
-      # scopes the organization depending on the user_type
-      # contacts that belong to an organization should only see their organization
-      # contacts from a local network should see all the organizations in their network
-      # contacts from UNGC should see every organization
-      # no organizations should be seen otherwise,
+      # scopes the model depending on user_type
+      # contacts that belong to an organization should only see models that share that organization
+      # contacts from a local network should see all the models in the same country as their network
+      # contacts from UNGC should see every model
+      # no model should be seen otherwise
       scope :visible_to, lambda { |user|
-        if user.user_type == Contact::TYPE_ORGANIZATION
+        case user.user_type
+        when Contact::TYPE_ORGANIZATION
           where('organization_id=?', user.organization_id)
-        elsif user.user_type == Contact::TYPE_NETWORK || user.user_type == Contact::TYPE_NETWORK_GUEST
-          { :conditions => ["organizations.country_id in (?)", user.local_network.country_ids],
-            :include    => :organization }
-        elsif user.user_type == Contact::TYPE_UNGC
+        when Contact::TYPE_NETWORK || Contact::TYPE_NETWORK_GUEST
+          includes(:organization).where("organizations.country_id in (?)", user.local_network.country_ids)
+        when Contact::TYPE_UNGC
           {}
         else
           # should return no organizations.
