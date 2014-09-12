@@ -5,8 +5,15 @@
 = default_form.fields_for 'contribution_levels_info' do |form|
 
   %fieldset.contribution_levels
-    %p Provide a concise message to encourage participants to contribute to your Local Network.  For example, you may wish to give a brief overview of your Network's value proposition (maximum 500 characters).
+    %p Provide a concise message to encourage participants to contribute to your Local Network. For example, you may wish to give a brief overview of your Network's value proposition (maximum 500 characters).
     = form.text_area :pledge_description, { class: 'pledges_invoicing maxlength', maxlength: 500}, label: 'Contribution message'
+
+    - unless @local_network.contribution_levels.pledge_description_continued.present?
+      = link_to 'Optional additional text...', '#', class: 'new_large', id: 'add_pledge_description_continued'
+    %div.show_field_target{style: show_pledge_description?(@local_network)}
+      %br/
+      %p If you need additional space to share your Network's value proposition, you may continue your message. An additional 500 characters is available.
+      = form.text_area :pledge_description_continued, { class: 'pledges_invoicing maxlength', maxlength: 500}, label: 'Additional text'
   
   %fieldset.contribution_levels
     %legend Custom invoice details

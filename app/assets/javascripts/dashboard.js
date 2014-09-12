@@ -67,7 +67,12 @@ $(document).ready(function() {
       alert("Sorry, this text must be less than 500 characters.");
     }
   });
+  
+  $('#add_pledge_description_continued').click(function() {
+    $(this).next(".show_field_target").slideToggle();
+  });
 
+  
 }); // end $(document).ready(function()
 
 var replace_ids = function(s){

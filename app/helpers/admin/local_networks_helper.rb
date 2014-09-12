@@ -109,4 +109,9 @@ module Admin::LocalNetworksHelper
   def announcement_count
     @announcements.count > 0 ? "(#{@announcements.count})" : ''
   end
+  
+  def show_pledge_description?(local_network)
+    local_network.contribution_levels.pledge_description_continued.present? ? 'display: block;' : 'display: none;'
+  end
+  
 end

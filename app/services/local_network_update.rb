@@ -63,6 +63,7 @@ class LocalNetworkUpdate
     @description_params ||= @contribution_levels_params.slice(:level_description,
                                                               :amount_description,
                                                               :pledge_description,
+                                                              :pledge_description_continued,
                                                               :payment_description,
                                                               :contact_description,
                                                               :additional_description)
