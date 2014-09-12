@@ -36,7 +36,8 @@ class Role < ActiveRecord::Base
   }
 
   def self.visible_to(user, current_contact=nil)
-    if user.user_type == Contact::TYPE_ORGANIZATION
+    case user.user_type
+    when Contact::TYPE_ORGANIZATION
       roles_ids = [Role.contact_point].collect(&:id)
       # give option to check Highlest Level Executive if no CEO has been assigned
       roles_ids << Role.ceo.id if user.is?(Role.ceo) || user.organization.contacts.ceos.count <= 0
@@ -53,19 +54,19 @@ class Role < ActiveRecord::Base
       # if the organization signed an initiative, then add the initiative's role, if available
       roles_ids << Role.where("initiative_id in (?)", user.organization.initiative_ids).all.collect(&:id)
       where('id in (?)', roles_ids.flatten)
-    elsif user.user_type == Contact::TYPE_UNGC
+    when Contact::TYPE_UNGC
       roles_ids = [Role.ceo,
                    Role.contact_point,
                    Role.network_regional_manager,
                    Role.website_editor,
                    Role.participant_manager].collect(&:id)
       where('id in (?)', roles_ids.flatten)
-    elsif user.user_type == Contact::TYPE_NETWORK
+    when Contact::TYPE_NETWORK
       roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
       where('id in (?)', roles_ids.flatten)
-    elsif user.user_type == Contact::TYPE_NETWORK_GUEST
-       roles_ids = [Role.network_guest_user].collect(&:id)
-       where('id in (?)', roles_ids.flatten)
+    when Contact::TYPE_NETWORK_GUEST
+      roles_ids = [Role.network_guest_user].collect(&:id)
+      where('id in (?)', roles_ids.flatten)
     else
       {}
     end
