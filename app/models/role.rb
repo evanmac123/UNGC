@@ -67,6 +67,9 @@ class Role < ActiveRecord::Base
     when Contact::TYPE_NETWORK_GUEST
       roles_ids = [Role.network_guest_user].collect(&:id)
       where('id in (?)', roles_ids.flatten)
+    when Contact::TYPE_REGIONAL
+      roles_ids = [Role.network_focal_point, Role.network_representative, Role.network_report_recipient, Role.general_contact].collect(&:id)
+      where('id in (?)', roles_ids.flatten)
     else
       where('1=2') # TODO replace with none in rails4
     end
