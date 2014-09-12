@@ -23,6 +23,7 @@ class ContributionLevelsInfo < ActiveRecord::Base
                   :level_description,
                   :local_network_id,
                   :pledge_description,
+                  :pledge_description_continued,
                   :payment_description,
                   :contact_description,
                   :additional_description
@@ -44,6 +45,14 @@ class ContributionLevelsInfo < ActiveRecord::Base
 
   def empty?
     levels.empty? && amount_description.blank? && level_description.blank?
+  end
+  
+  def no_description_completed?
+   pledge_description.blank? &&
+   pledge_description_continued.blank? &&
+   payment_description.blank? &&
+   contact_description.blank? &&
+   additional_description.blank?
   end
 
 end
