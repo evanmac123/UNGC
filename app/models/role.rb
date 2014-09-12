@@ -68,7 +68,7 @@ class Role < ActiveRecord::Base
       roles_ids = [Role.network_guest_user].collect(&:id)
       where('id in (?)', roles_ids.flatten)
     else
-      {}
+      where('1=2') # TODO replace with none in rails4
     end
   end
 
