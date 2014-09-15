@@ -261,7 +261,7 @@ h2 { font-size: 16px; font-family: Georgia, "Times New Roman", Times, serif; fon
 #footer_logos ul li.gri:hover { background-position: -67px; opacity: 1;}
 #footer_logos ul li.prme { top: 9px; left: 405px; height: 22px; width: 83px; background: url(/assets/partner_logo_2.png) no-repeat; opacity: 0.2; }
 #footer_logos ul li.prme:hover { background-position: -84px; opacity: 1;}
-#footer_logos ul li.pri { top: 9px; left: 573px; height: 22px; width: 110px; background: url(/assets/partner_logo_1.png) no-repeat;}
+#footer_logos ul li.pri { top: 8px; left: 573px; height: 22px; width: 110px; background: url(/assets/partner_logo_1.png) no-repeat;}
 #footer_logos ul li.pri:hover { background-position: -110px;}
 #footer_logos ul li.city { top: 1px; left: 755px; height: 35px; width: 133px; background: url(/assets/partner_logo_5.png) no-repeat; opacity: 0.4; }
 #footer_logos ul li.city:hover { background-position: -133px; opacity: 1; }
