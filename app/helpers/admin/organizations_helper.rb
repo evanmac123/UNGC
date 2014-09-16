@@ -110,6 +110,11 @@ module Admin::OrganizationsHelper
         'Unknown'
     end
   end
+  
+  # Called from dashboard_organization.html.haml to determine whether these profile sections shoud be displayed
+  def local_network_and_contact_exists?
+    @organization.local_network_name.present? && @organization.network_contact_person.present?
+  end
 
   # display organizations with similar names
   def duplicate_application(organization)
