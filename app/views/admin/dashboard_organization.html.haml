@@ -53,7 +53,7 @@
       %dt Contact Point
       %dd= render :partial => 'admin/organizations/contact_overview', :collection => @organization.contacts.contact_points
 
-    - if @organization.local_network_name.present?
+    - if local_network_and_contact_exists?
       %dl.left_column
         %h3 Local Network #{@organization.local_network_name}
         %p Please contact your Local Network with any questions or concerns regarding your participation in the Global Compact.
@@ -82,7 +82,7 @@
           = @organization.participant_manager_phone
         %p The Relationship Management team aims to enhance participant engagement by supporting and guiding participants through the broad landscape of initiatives, partnerships, resources and tools offered by the Global Compact. Additionally, they are able to support any technical queries that your organization may have. Please feel free to contact your Relationship Manager with any questions or concerns that you may have regarding your participation in the Global Compact.
 
-      - if @organization.local_network_name.present?
+      - if local_network_and_contact_exists?
         %dt
           Local Network
           %br/
