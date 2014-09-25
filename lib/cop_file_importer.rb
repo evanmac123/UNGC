@@ -35,7 +35,6 @@ class CopFileImporter
     cop_dir = '/home/rails/ungc/uploaded/cops_xml/'
     # cop_dir = '/Users/Shared/Downloads/cops_xml/'
     real_files = Dir.new(cop_dir).entries
-    converter = Iconv.new("UTF-8", "iso8859-1")
     count = 0
     puts "*** Found #{real_files.count} COP files"
     real_files.each do |f|
@@ -45,7 +44,8 @@ class CopFileImporter
 
         if cop.description.blank?
           puts "Found COP #{cop.id}: #{cop.title}"
-          description = converter.iconv (Hpricot(open(cop_dir + f))/'description').inner_html
+          description_iso8859 = (Hpricot(open(cop_dir + f))/'description').inner_html
+          description = description_iso8859.encode('UTF-8')
           count += 1 if !description.blank?
           cop.update_attribute :description, description.strip
         end
