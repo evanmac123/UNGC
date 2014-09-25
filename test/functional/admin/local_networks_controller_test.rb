@@ -128,4 +128,15 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     assert_equal 9999, @local_network.membership_companies
   end
 
+  should "handle validation errors" do
+    put :update, id: @local_network.to_param, local_network: {
+      fees_amount_participant: "100",
+      fees_amount_voluntary_private: "99.3", # should be integers
+      fees_amount_voluntary_public: "0.7", # should be integers
+      fees_participant: "true"
+    }
+    assert_match /Fees amount voluntary private must be an integer/, response.body
+    assert_match /Fees amount voluntary public must be an integer/, response.body
+  end
+
 end
