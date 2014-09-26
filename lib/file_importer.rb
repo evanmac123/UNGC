@@ -82,10 +82,7 @@ class FileImporter
             # there's a single element
             description = (doc/'description').inner_text
             unless description.encoding.name == 'UTF-8'
-              encoding = description.encoding.name == 'ASCII-8BIT' ? 'ISO-8859-1' : description.encoding.name
-              # puts "Trying to convert from #{encoding} to UTF8"
-              converter = Iconv.new('UTF-8', encoding)
-              description = converter.iconv(description)
+              description = description.encode('UTF-8')
             end
             case_story.description = description
           rescue Encoding::CompatibilityError => e
@@ -110,12 +107,12 @@ class FileImporter
     require 'facets'
     # puts "*** Importing from cop_xml data..."
     real_files = Dir[path || DEFAULTS[:path_to_cop_xml]]
-    converter = Iconv.new("UTF-8", "iso8859-1")
     real_files.each do |f|
       short = (f - '.xml').split('/').last
       # puts "Working with file #{short}:"
       if cop = CommunicationOnProgress.find_by_identifier(short)
-        description = converter.iconv (Hpricot(open(f))/'description').inner_html
+        description_iso8859 = (Hpricot(open(f))/'description').inner_html
+        description = description_iso8859.encode('UTF-8')
         cop.update_attribute :description, description.strip
       else
         # puts "  *** Error: Can't find the COP"

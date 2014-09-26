@@ -12,10 +12,13 @@ class LocalNetworkUpdate
 
   def update
     LocalNetwork.transaction do
-      @local_network.update_attributes!(@params)
-      update_contribution_levels if has_contribution_level_params?
+      if @local_network.update_attributes(@params)
+        if has_contribution_level_params?
+          update_contribution_levels
+        end
+        @local_network
+      end
     end
-    @local_network
   end
 
   private

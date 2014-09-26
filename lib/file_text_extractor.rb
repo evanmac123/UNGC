@@ -63,7 +63,7 @@ class FileTextExtractor
           end
         end
 
-        text = Iconv.conv('utf-8//IGNORE', 'utf-8', output.force_encoding('UTF-8'))
+        text = output.force_encoding('UTF-8').encode("UTF-8", :invalid => :replace, :undef => :replace, :replace => "?")
       else
         Rails.logger.error "File does not exist: #{file.inspect}"
       end

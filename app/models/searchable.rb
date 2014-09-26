@@ -52,8 +52,7 @@ class Searchable < ActiveRecord::Base
 
   class << self
     def convert_to_utf8(text)
-      converter = Iconv.new('UTF-8', text.encoding.name)
-      converter.iconv(text)
+      text.encode('UTF-8')
     end
 
     def faceted_search(document_type, keyword, options={})
