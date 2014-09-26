@@ -1,2 +1,2 @@
 #!/bin/sh
-cd /srv/unglobalcompact/current && rake RAILS_ENV=production ts:stop
+cd /srv/unglobalcompact/current && bundle exec rake RAILS_ENV=production ts:stop
