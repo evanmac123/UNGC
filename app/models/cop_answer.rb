@@ -16,7 +16,7 @@ class CopAnswer < ActiveRecord::Base
   belongs_to :cop_attribute
 
   scope :by_group, lambda { |group| where("cop_attributes.cop_question_id IN (?)", CopQuestion.group_by(group).map(&:id)).includes(:cop_attribute) }
-
+  scope :by_initiative, lambda { |initiative| where("cop_attributes.cop_question_id IN (?)", CopQuestion.group_by_initiative(initiative).map(&:id)).includes(:cop_attribute) }
   scope :not_covered_by_group, lambda { |group| where("cop_attributes.cop_question_id IN (?) AND value = 0", CopQuestion.group_by(group).map(&:id)).includes(:cop_attribute) }
 
   def self.cop_questionnaire_answers

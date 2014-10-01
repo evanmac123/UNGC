@@ -30,10 +30,11 @@ module Admin::CopsHelper
   end
 
   # Used to display cop answers on the cop show page
-  def show_cop_attributes(cop, principle, selected=false, grouping='additional')
-    attributes = cop.cop_attributes.all(:conditions => {:cop_questions => {:principle_area_id => principle, :grouping => grouping}},
-                                        :include    => :cop_question,
-                                        :order      => 'cop_attributes.position ASC')
+  def show_cop_attributes(cop, principle, selected=false, grouping='additional', initiative=nil)
+    initiative_id = initiative ? Initiative.id_by_filter(initiative) : nil
+    attributes = cop.cop_attributes.all(:conditions => {:cop_questions => {:principle_area_id => principle, :grouping => grouping, :initiative_id => initiative_id }},
+                                      :include    => :cop_question,
+                                      :order      => 'cop_attributes.position ASC')
     questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
 
     questions.collect do |question|
@@ -57,15 +58,6 @@ module Admin::CopsHelper
 
   def principle_area_display_value(cop, area)
     cop.send("references_#{area}?") || cop.send("concrete_#{area}_activities?") ? "block" : "none"
-  end
-
-  # Outputs javascript variables that will indicate to cop_form.js
-  # how to calculate the COP score
-  def organization_javascript_vars(organization)
-    vars = []
-    vars << "joined_after_july_09 = #{organization.joined_after_july_2009?}"
-    vars << "participant_for_more_than_5_years = #{organization.participant_for_over_5_years?}"
-    vars.collect{|v| javascript_tag "var #{v};"}.join.html_safe
   end
 
   # we need to preselect the submission tab
@@ -119,6 +111,10 @@ module Admin::CopsHelper
 
   def show_business_for_peace(cop)
     cop.references_business_peace? || cop.organization.signatory_of?(:business4peace)
+  end
+  
+  def show_weps(cop)
+    cop.organization.signatory_of?(:weps)
   end
 
   def edit_admin_cop_path(cop)

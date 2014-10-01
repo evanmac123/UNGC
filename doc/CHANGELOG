@@ -1,3 +1,10 @@
+h1. 2014-07-25
+
+* We are now going to be adding more COP questions for specific initiatives like Business for Peace
+* Added an optional parameter to CommunicationOnProgress.cop_questions_for_grouping(grouping, options) to retrieve cop_questions for a particular Initiative id
+* Similarly added optional initiative parameter to admin/cops_helper show_cop_attributes(cop, principle, selected=false, grouping='additional', initiative=nil)
+* The approach for gathering cop_questions should be rethought since there are multiple attributes are used to determine which questions to include
+
 h1. 2014-04-24
 
 * Custom COP process for Business for Peace
