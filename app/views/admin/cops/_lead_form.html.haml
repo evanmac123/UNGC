@@ -22,6 +22,8 @@
     %li#governance_tab{:class => 'additional_questions'} <a href="#governance_additional_questions">&nbsp;&raquo;&nbsp;Governance</a>
 
     %li#business_peace_tab{:class => 'additional_questions', :style => css_display_style(show_business_for_peace(@communication_on_progress))} <a href="#business_peace_additional_questions">&nbsp;&raquo;&nbsp;Business&nbsp&amp;&nbspPeace</a>
+    
+    %li#weps_tab{:class => 'additional_questions', :style => css_display_style(show_weps(@communication_on_progress))} <a href="#weps_tab">&nbsp;&raquo;&nbsp;Women's Empowerment</a>
 
     %li#submit_tab{:style => "#{css_display_style(@communication_on_progress.submitted?)}"} <a id="submit_link" href="#finish">Submit your COP</a>
 
@@ -192,8 +194,13 @@
     %p For the following criterion, please check the best practices you have implemented and discussed in your COP.
     %fieldset= render_cop_questions_for :governance, :year => 2013
 
+  / - if show_business_for_peace(@communication_on_progress)
   %div.tab_content{:id => "business_peace_additional_questions"}
     = render :partial => 'cop_business_peace_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
+
+  - if show_weps(@communication_on_progress)
+    %div.tab_content{:id => "weps_tab"}
+      = render :partial => 'cop_weps_questionnaire', :locals => {:form => form, :cop => @communication_on_progress}
 
   #finish.tab_content
     %fieldset
@@ -222,6 +229,5 @@
     %br
     %br
 
-= organization_javascript_vars @communication_on_progress.organization
 = javascript_tag "var work_in_progress = false;"
 = form_submitted?(@communication_on_progress.submitted?)

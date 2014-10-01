@@ -41,3 +41,8 @@
 
 - if communication_on_progress.is_advanced_programme? && communication_on_progress.issue_areas_covered.count > 0
   = render :partial => '/shared/cops/cop_questionnaire_results', :locals => { :communication_on_progress => communication_on_progress }
+
+- if communication_on_progress.cop_answers.by_initiative(:weps).count > 0
+  %dt
+    %span.human_right Women's Empowerment
+  %dd.indent= show_cop_attributes(communication_on_progress, nil, nil, 'additional', :weps)
