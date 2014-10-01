@@ -17,7 +17,7 @@
     %li <a href="#governance">Governance</a>
     %li <a href="#membership">Membership</a>
     %li <a href="#fees_contributions">Fees</a>
-    %li <a href="#pledges_invoicing">Pledges and Invoices</a>
+    %li <a href="#contribution_descriptions">Pledges and Invoices</a>
     %li <a href="#integrity_measures">Integrity Measures</a>
     %li <a href="#mous">MOUs</a>
     %li <a href="#annual_reports">Annual Reports</a>
@@ -188,34 +188,35 @@
             %dt= l.description
             %dd= l.amount
 
-  #pledges_invoicing.tab_content
+  #contribution_descriptions.tab_content
     %ul#tools{:class => "tools inline"}
-      - unless levels.no_description_completed?
-        %li= link_to 'Edit', edit_admin_local_network_path(@local_network.id, :section => :pledges_invoicing), :class => 'edit_large'
+      - descriptions = @local_network.contribution_description
+      - if descriptions.present?
+        %li= link_to 'Edit', edit_admin_local_network_contribution_description_path(@local_network), :class => 'edit_large'
       - else
-        %li= link_to 'Add custom contribution text', edit_admin_local_network_path(@local_network.id, :section => :pledges_invoicing), :class => 'new_large'
+        %li= link_to 'Add custom contribution text', new_admin_local_network_contribution_description_path(@local_network.id), :class => 'new_large'
   
     #pledges_invoicing_display
     
-      - if levels.no_description_completed?
+      - if descriptions.no_description_completed?
         %p This section has not been completed.
     
-      - if levels.pledge_description.present?
+      - if descriptions.pledge.present?
         %h4 Contribution Message
-        = simple_format levels.pledge_description
-        = simple_format levels.pledge_description_continued
+        = simple_format descriptions.pledge
+        = simple_format descriptions.pledge_continued
 
-      - if levels.payment_description.present?
+      - if descriptions.payment.present?
         %h4 Invoice Instructions
-        = simple_format levels.payment_description
+        = simple_format descriptions.payment
 
-      - if levels.contact_description.present?
+      - if descriptions.contact.present?
         %h4 Contact / Address Information
-        = simple_format levels.contact_description
+        = simple_format descriptions.contact
 
-      - if levels.additional_description.present?
+      - if descriptions.additional.present?
         %h4 Additional Information
-        = simple_format levels.additional_description
+        = simple_format descriptions.additional
   
   #integrity_measures.tab_content
     - if current_contact_can_edit_network?

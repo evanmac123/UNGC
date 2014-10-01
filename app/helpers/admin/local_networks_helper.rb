@@ -111,7 +111,7 @@ module Admin::LocalNetworksHelper
   end
   
   def show_pledge_description?(local_network)
-    local_network.contribution_levels.pledge_description_continued.present? ? 'display: block;' : 'display: none;'
+    local_network.contribution_description.pledge_continued.present? ? 'display: block;' : 'display: none;'
   end
   
 end

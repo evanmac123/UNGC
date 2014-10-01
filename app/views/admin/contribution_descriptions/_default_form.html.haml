@@ -1,0 +1,22 @@
+- if default_form.error_messages.present?
+  %div{:class => 'flash error'}= display_readable_errors(@local_network)
+
+%fieldset.contribution_levels
+  %p Provide a concise message to encourage participants to contribute to your Local Network. For example, you may wish to give a brief overview of your Network's value proposition (maximum 500 characters).
+  = default_form.text_area :pledge, { class: 'pledges_invoicing maxlength', maxlength: 500}, label: 'Contribution message'
+
+  - unless @local_network.contribution_description.pledge_continued.present?
+    = link_to 'Optional additional text...', '#', class: 'new_large', id: 'add_pledge_continued'
+  %div.show_field_target{style: show_pledge_description?(@local_network)}
+    %br/
+    %p If you need additional space to share your Network's value proposition, you may continue your message. An additional 500 characters is available.
+    = default_form.text_area :pledge_continued, { class: 'pledges_invoicing maxlength', maxlength: 500}, label: 'Additional text'
+
+%fieldset.contribution_levels
+  %legend Custom invoice details
+  %p Describe payment options, including payments by credit card or wire transfers, if applicable.
+  = default_form.text_area :payment, { class: 'pledges_invoicing' }, label: 'Payment instructions'
+  %p Contact, telephone and address information for mailing payments or contacting your Local Network regarding contributions.
+  = default_form.text_area :contact, { class: 'pledges_invoicing' }, label: 'Contact or address'
+  %p Additional information regarding payments including legal or tax information related to contributions (maximum 500 characters).
+  = default_form.text_area :additional, { class: 'pledges_invoicing maxlength', maxlength: 500 }, label: 'Additional information'

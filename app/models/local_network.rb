@@ -65,6 +65,7 @@ class LocalNetwork < ActiveRecord::Base
   has_many :announcements
   has_many :annual_reports
   has_one  :contribution_levels_info
+  has_one  :contribution_description
 
   belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
