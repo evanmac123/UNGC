@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140911204025) do
+ActiveRecord::Schema.define(:version => 20141001204104) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
@@ -120,8 +120,11 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
+    t.string   "audience",                :default => "anyone"
+    t.string   "context",                 :default => ""
   end
 
+  add_index "comments", ["audience"], :name => "index_comments_on_audience"
   add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
   add_index "comments", ["commentable_type"], :name => "index_comments_on_commentable_type"
   add_index "comments", ["contact_id"], :name => "index_comments_on_contact_id"
@@ -230,6 +233,19 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.integer "role_id"
   end
 
+  create_table "contribution_descriptions", :force => true do |t|
+    t.integer  "local_network_id", :null => false
+    t.text     "pledge"
+    t.text     "pledge_continued"
+    t.text     "payment"
+    t.text     "contact"
+    t.text     "additional"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "contribution_descriptions", ["local_network_id"], :name => "index_contribution_descriptions_on_local_network_id"
+
   create_table "contribution_levels", :force => true do |t|
     t.integer  "contribution_levels_info_id", :null => false
     t.string   "description",                 :null => false
@@ -244,13 +260,8 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.integer  "local_network_id"
     t.string   "level_description"
     t.string   "amount_description"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
-    t.text     "pledge_description"
-    t.text     "payment_description"
-    t.text     "contact_description"
-    t.text     "additional_description"
-    t.text     "pledge_description_continued"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "contribution_levels_infos", ["local_network_id"], :name => "index_contribution_levels_infos_on_local_network_id"
@@ -768,8 +779,8 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
   create_table "sessions", :force => true do |t|
     t.string   "session_id", :null => false
     t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
