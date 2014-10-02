@@ -57,21 +57,6 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.datetime "updated_at"
   end
 
-  create_table "campaigns", :force => true do |t|
-    t.string   "campaign_id",                      :null => false
-    t.string   "name",                             :null => false
-    t.date     "start_date"
-    t.date     "end_date"
-    t.integer  "initiative_id"
-    t.boolean  "is_deleted",    :default => false, :null => false
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-  end
-
-  add_index "campaigns", ["campaign_id"], :name => "index_campaigns_on_campaign_id", :unique => true
-  add_index "campaigns", ["initiative_id"], :name => "index_campaigns_on_initiative_id"
-  add_index "campaigns", ["name"], :name => "index_campaigns_on_name", :unique => true
-
   create_table "case_stories", :force => true do |t|
     t.string   "identifier"
     t.integer  "organization_id"
@@ -270,25 +255,6 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
 
   add_index "contribution_levels_infos", ["local_network_id"], :name => "index_contribution_levels_infos_on_local_network_id"
 
-  create_table "contributions", :force => true do |t|
-    t.string   "contribution_id",                       :null => false
-    t.string   "invoice_code"
-    t.integer  "raw_amount"
-    t.integer  "recognition_amount"
-    t.date     "date",                                  :null => false
-    t.string   "stage",                                 :null => false
-    t.string   "payment_type"
-    t.integer  "organization_id",                       :null => false
-    t.string   "campaign_id"
-    t.boolean  "is_deleted",         :default => false, :null => false
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-  end
-
-  add_index "contributions", ["campaign_id"], :name => "index_contributions_on_campaign_id"
-  add_index "contributions", ["contribution_id"], :name => "index_contributions_on_contribution_id", :unique => true
-  add_index "contributions", ["organization_id"], :name => "index_contributions_on_organization_id"
-
   create_table "cop_answers", :force => true do |t|
     t.integer  "cop_id"
     t.integer  "cop_attribute_id"
@@ -363,7 +329,6 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.integer  "manager_id"
     t.integer  "local_network_id"
     t.integer  "participant_manager_id"
-    t.integer  "regional_center_id"
   end
 
   add_index "countries", ["participant_manager_id"], :name => "index_countries_on_participant_manager_id"
