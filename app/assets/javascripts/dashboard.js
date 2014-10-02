@@ -68,7 +68,8 @@ $(document).ready(function() {
     }
   });
 
-  $('#add_pledge_continued').click(function() {
+  $('#add_pledge_continued').click(function(e) {
+    e.preventDefault();
     $(this).next(".show_field_target").slideToggle();
   });
 
