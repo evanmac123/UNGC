@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140829201756) do
+ActiveRecord::Schema.define(:version => 20140911204025) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
@@ -329,6 +329,7 @@ ActiveRecord::Schema.define(:version => 20140829201756) do
     t.integer  "manager_id"
     t.integer  "local_network_id"
     t.integer  "participant_manager_id"
+    t.integer  "regional_center_id"
   end
 
   add_index "countries", ["participant_manager_id"], :name => "index_countries_on_participant_manager_id"
