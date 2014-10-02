@@ -191,16 +191,16 @@
   #contribution_descriptions.tab_content
     %ul#tools{:class => "tools inline"}
       - descriptions = @local_network.contribution_description
-      - if descriptions.present?
-        %li= link_to 'Edit', edit_admin_local_network_contribution_description_path(@local_network), :class => 'edit_large'
-      - else
+      - if descriptions.empty?
         %li= link_to 'Add custom contribution text', new_admin_local_network_contribution_description_path(@local_network.id), :class => 'new_large'
-  
+      - else
+        %li= link_to 'Edit', edit_admin_local_network_contribution_description_path(@local_network), :class => 'edit_large'
+
     #pledges_invoicing_display
-    
-      - if descriptions.no_description_completed?
+
+      - if descriptions.empty?
         %p This section has not been completed.
-    
+
       - if descriptions.pledge.present?
         %h4 Contribution Message
         = simple_format descriptions.pledge
@@ -217,7 +217,7 @@
       - if descriptions.additional.present?
         %h4 Additional Information
         = simple_format descriptions.additional
-  
+
   #integrity_measures.tab_content
     - if current_contact_can_edit_network?
       %ul{:class => "tools inline"}

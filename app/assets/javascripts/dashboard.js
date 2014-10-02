@@ -28,7 +28,7 @@ $(document).ready(function() {
   });
 
   // /app/views/admin/organizations/_default_form.html.haml
-  
+
   // used to set delisting date/reason when Delisted is manually selected
   $("input[id^=organization_cop_state_]").change(function() {
     if ($("#organization_cop_state_delisted").is(':checked')) {
@@ -61,18 +61,18 @@ $(document).ready(function() {
     }
   });
 
-  // called from /app/views/admin/local_networks/_edit_pledges_invoicing.html.haml
-  $('.pledges_invoicing.maxlength').change(function() {
+  // called from /app/views/admin/contribution_descriptions/_default_form.html.haml
+  $('.contribution_descriptions.maxlength').change(function() {
     if (this.value.length >= 500) {
       alert("Sorry, this text must be less than 500 characters.");
     }
   });
-  
-  $('#add_pledge_description_continued').click(function() {
+
+  $('#add_pledge_continued').click(function() {
     $(this).next(".show_field_target").slideToggle();
   });
 
-  
+
 }); // end $(document).ready(function()
 
 var replace_ids = function(s){
