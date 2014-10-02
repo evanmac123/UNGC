@@ -222,5 +222,9 @@ class LocalNetwork < ActiveRecord::Base
     self.contribution_levels_info
   end
 
+  def contribution_description
+    super || ContributionDescription.new(local_network_id: self.id)
+  end
+
 end
 
