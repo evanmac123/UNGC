@@ -1,7 +1,7 @@
 class MoveContributionDescriptions < ActiveRecord::Migration
   def up
     ContributionLevelsInfo.find_each do |info|
-      ContributionDescription.create!(
+      desc = ContributionDescription.new(
         pledge: info.pledge_description,
         pledge_continued: info.pledge_description_continued,
         payment: info.payment_description,
@@ -9,6 +9,10 @@ class MoveContributionDescriptions < ActiveRecord::Migration
         additional: info.additional_description,
         local_network_id: info.local_network_id
       )
+
+      # some of the fields in production are already too long
+      # so we'll save them as is.
+      desc.save(validate: false)
     end
   end
 
