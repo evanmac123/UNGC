@@ -17,10 +17,6 @@ class ContributionLevelTest < ActiveSupport::TestCase
 
     @levels.level_description = 'Annual sales/revenue'
     @levels.amount_description = 'Annual contribution'
-    @levels.pledge_description = 'Pledge Description'
-    @levels.payment_description = 'Payment Description'
-    @levels.contact_description = 'Contact Description'
-    @levels.additional_description = 'Additional Description'
 
     @level_params.each do |attrs|
       @levels.add(attrs)
@@ -45,13 +41,6 @@ class ContributionLevelTest < ActiveSupport::TestCase
   should "have a contribution amount description" do
     assert_equal 'Annual contribution', @levels.amount_description
   end
-
-  should "have other contribution descriptions" do
-    assert_equal 'Pledge Description', @levels.pledge_description
-    assert_equal 'Payment Description', @levels.payment_description
-    assert_equal 'Contact Description', @levels.contact_description
-    assert_equal 'Additional Description', @levels.additional_description
-  end  
 
   context "levels" do
 
