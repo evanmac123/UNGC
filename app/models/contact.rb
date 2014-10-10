@@ -198,7 +198,9 @@ class Contact < ActiveRecord::Base
   end
 
   def email_recipient
-    "#{name} <#{email}>"
+    address = Mail::Address.new email.dup
+    address.display_name = name.dup
+    address.format
   end
 
   def contact_info

@@ -138,4 +138,18 @@ class ContactTest < ActiveSupport::TestCase
     end
   end
 
+  should 'escape the display name in email_recipient' do
+    contact = create_contact(
+      first_name: "Anita",
+      middle_name: "Marie",
+      last_name: "Dobrzelecki, RN, BSN",
+      prefix: "Ms",
+      job_title: "President and CEO",
+      email: "service@iamcleanenergy.us",
+      country_id: create_country.id
+    )
+    expected = '"Anita Dobrzelecki, RN, BSN" <service@iamcleanenergy.us>'
+    assert_equal expected, contact.email_recipient
+  end
+
 end
