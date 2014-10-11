@@ -1,4 +1,7 @@
-= error_messages_for @organization, @organization.non_business_organization_registration
+- if @organization.non_business_organization_registration.present?
+  = error_messages_for @organization, @organization.non_business_organization_registration
+- else
+  = error_messages_for @organization
 %fieldset
   %legend Details
   %ol
@@ -38,7 +41,7 @@
         %li= default_form.radio_button :cop_state, :active, {:li_class => 'radio_button', :label => 'Active', :label_for => :organization_cop_state_active}
         %li= default_form.radio_button :cop_state, :noncommunicating, {:li_class => 'radio_button', :label => 'Non-Communcating', :label_for => :organization_cop_state_noncommunicating}
         %li= default_form.radio_button :cop_state, :delisted, {:li_class => 'radio_button', :label => 'Delisted...', :label_for => :organization_cop_state_delisted}
-  
+
     #delisted_only{:style => "#{css_display_style(@organization.cop_state == Organization::COP_STATE_DELISTED)}"}
       %fieldset
         %legend Delisting Status
@@ -108,7 +111,7 @@
           = link_to truncate(@organization.commitment_letter_file_name, :length => 80), @organization.commitment_letter.url, {:title => @organization.commitment_letter_file_name}
         - else
           no file uploaded
-      - if @organization.non_business? && @organization.non_business_organization_registration    
+      - if @organization.non_business? && @organization.non_business_organization_registration
         %li.organization_registration
           %label{:style => 'margin-right: 20px;'} Legal Status
           = link_to_document(@organization, 'legal_status')
