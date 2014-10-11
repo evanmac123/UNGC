@@ -28,6 +28,9 @@ $(document).ready(function() {
     $('#text_b').show();
     $('#submit_link').addClass("selected");
     $('#basic_link').removeClass("selected");
+  } else {
+    // first load
+    hideAndDisableTabbedSection("#business_peace_additional_questions");
   }
 
   // Format
