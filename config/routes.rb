@@ -1,8 +1,12 @@
 require 'ckeditor'
+require 'sidekiq/web'
 
 UNGC::Application.routes.draw do
   # Root
   root :to => 'pages#home'
+
+
+  mount Sidekiq::Web => '/sidekiq'
 
   devise_for :contacts
   devise_scope :contact do

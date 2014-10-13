@@ -12,6 +12,16 @@ class Admin::ReportsController < AdminController
       end
   end
 
+  def report_status
+    status = ReportStatus.find(params[:report_id])
+    render json: status
+  end
+
+  def download
+    status = ReportStatus.find(params[:report_id])
+    send_file status.path, filename: status.filename
+  end
+
   def delisted_participants
     @report = DelistedParticipants.new
     render_formatter(filename: "delisted_participants_#{date_as_filename}.xls")
@@ -237,7 +247,11 @@ class Admin::ReportsController < AdminController
   def render_formatter(options={})
     respond_to do |format|
       format.html
-      format.xls  { send_file @report.render_output, :filename => options[:filename] }
+      format.xls {
+        filename = options.fetch(:filename)
+        status = ReportWorker.render_report(@report, filename)
+        render json: status
+      }
     end
   end
 
