@@ -19,12 +19,14 @@ gem 'acts_as_tree_rails3',  '~> 0.1.0'
 gem 'annotate',             '~> 2.5.0'
 gem 'fixture_replacement',              :git => 'git://github.com/smtlaissezfaire/fixturereplacement.git', :branch => 'master'
 gem 'custom_error_message',             :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
-gem 'airbrake',             '~> 3.1.6'
+gem 'airbrake',             '3.2.1'
 gem 'devise',               '~> 2.2.4'
 gem 'dynamic_form',         '1.0.0'
 gem 'sass',                 '~> 3.2.9'
 gem 'skylight'
 
+gem 'sidekiq',              '~> 2.17.0'
+gem 'sinatra',              '>= 1.3.0', :require => nil
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
