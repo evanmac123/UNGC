@@ -12,13 +12,13 @@ class Admin::ReportsController < AdminController
       end
   end
 
-  def report_status
-    status = ReportStatus.find(params[:report_id])
+  def status
+    status = ReportStatus.find(params[:id])
     render json: status
   end
 
   def download
-    status = ReportStatus.find(params[:report_id])
+    status = ReportStatus.find(params[:id])
     send_file status.path, filename: status.filename
   end
 

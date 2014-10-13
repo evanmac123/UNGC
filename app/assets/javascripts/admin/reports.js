@@ -19,8 +19,7 @@ $(function() {
 
   function pollReport(id) {
     var request = $.ajax({
-      // TODO fix/remove query param
-      url: "/admin/reports/report_status?report_id=" + id,
+      url: "/admin/reports/status/" + id,
       method: 'GET',
       dataType: 'json'
     });
@@ -47,8 +46,6 @@ $(function() {
     var $el = $('.report-complete');
     var $link = $('#report-url');
 
-    // don't use query param.
-    $link.attr('href', '/admin/reports/download?report_id=' + report.id);
     $el.fadeIn();
   }
 })
