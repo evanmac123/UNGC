@@ -5,17 +5,19 @@ $(function() {
   var BUILDING_REPORT = 0;
   var REPORT_COMPLETE = 1;
 
+  var dialog = $("#dialog-message");
+  var $progress = $('.report-progress');
+  var $complete = $('.report-complete');
+
   $("a[data-remote]").on("ajax:success", function(e, response) {
     var report = JSON.parse(response).report_status;
-    if(report.status === BUILDING_REPORT) {
-      $('.report-progress').fadeIn();
-      pollReport(report.id);
-    } else {
-      onReportCompleted(report);
-    }
-  });
 
-  // TODO handle failure
+    $complete.hide();
+    $progress.show();
+    dialog.dialog("option", "title", "Generating report");
+    dialog.dialog("open");
+    pollReport(report.id);
+  });
 
   function pollReport(id) {
     var request = $.ajax({
@@ -32,7 +34,6 @@ $(function() {
           pollReport(report.id);
         }, pollingInterval);
       } else {
-        $('.report-progress').fadeOut();
         onReportCompleted(report);
       }
     }, function(error) {
@@ -41,11 +42,24 @@ $(function() {
   }
 
   function onReportCompleted(report) {
-    console.log('onReportCompleted');
+    dialog.dialog("option", "title", "Report complete");
 
-    var $el = $('.report-complete');
-    var $link = $('#report-url');
+    var $link = $('.report-url');
+    $link.attr('href', '/admin/reports/download/' + report.id);
+    $link.text(report.filename);
 
-    $el.fadeIn();
+    $progress.hide();
+    $complete.show();
   }
+
+  $("#dialog-message").dialog({
+    modal: true,
+    autoOpen: false,
+    buttons: {
+      Cancel: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  });
+
 })
