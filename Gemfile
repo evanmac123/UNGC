@@ -24,9 +24,8 @@ gem 'devise',               '~> 2.2.4'
 gem 'dynamic_form',         '1.0.0'
 gem 'sass',                 '~> 3.2.9'
 gem 'skylight'
-
 gem 'sidekiq',              '~> 2.17.0'
-gem 'sinatra',              '>= 1.3.0', :require => nil
+gem 'foreman'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

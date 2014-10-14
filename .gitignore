@@ -28,3 +28,4 @@
 /public/uploaded_files
 /tmp
 /Vagrantfile
+/.env

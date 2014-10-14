@@ -60,7 +60,7 @@ If you are setting up this application for the first time in you machine, follow
 `rake db:create`
 `rake db:migrate`
 `rake db:seed`
-`rails server`
+`foreman start`
 
 ## Search requires:
 - the Sphinx search engine, install version 0.9.9 from source:
