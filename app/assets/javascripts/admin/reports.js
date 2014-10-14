@@ -1,6 +1,6 @@
 $(function() {
 
-  var pollingInterval = 1 * 1000; // ms
+  var pollingInterval = 3 * 1000; // ms
   var reportTimer;
   var BUILDING_REPORT = 0;
   var REPORT_COMPLETE = 1;
@@ -28,13 +28,18 @@ $(function() {
 
     request.then(function(response) {
       var report = response.report_status;
-      if(report.status === BUILDING_REPORT) {
-        // keep checking
-        reportTimer = setTimeout(function() {
-          pollReport(report.id);
-        }, pollingInterval);
-      } else {
-        onReportCompleted(report);
+      switch(report.status) {
+        case BUILDING_REPORT:
+          // keep checking
+          reportTimer = setTimeout(function() {
+            pollReport(report.id);
+          }, pollingInterval);
+          break;
+        case REPORT_COMPLETE:
+          onReportCompleted(report);
+          break
+        default
+          throw "Unexpected report status: " + report.status;
       }
     }, function(error) {
       alert("failed", arguments);
