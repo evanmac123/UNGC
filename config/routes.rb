@@ -1,8 +1,10 @@
 require 'ckeditor'
+require 'sidekiq/web'
 
 UNGC::Application.routes.draw do
   # Root
   root :to => 'pages#home'
+  mount Sidekiq::Web => '/sidekiq'
 
   devise_for :contacts
   devise_scope :contact do
@@ -167,7 +169,7 @@ UNGC::Application.routes.draw do
 
     match 'reports'               => 'reports#index',     :as => :reports
     match 'reports/status/:id'    => 'reports#status',    :as => :report_status
-    match 'reports/download/:id'  => 'reports#download',  :as => :report_download
+    match 'reports/show/:id'      => 'reports#show',      :as => :report_show
     match 'reports/:action'       => 'reports',           :as => :report
 
     match 'learning'         => 'learning#index', :as => :learning

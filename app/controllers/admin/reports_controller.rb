@@ -12,16 +12,6 @@ class Admin::ReportsController < AdminController
       end
   end
 
-  def status
-    status = ReportStatus.find(params[:id])
-    render json: status
-  end
-
-  def download
-    status = ReportStatus.find(params[:id])
-    send_file status.path, filename: status.filename
-  end
-
   def delisted_participants
     @report = DelistedParticipants.new
     render_formatter(filename: "delisted_participants_#{date_as_filename}.xls")
@@ -61,9 +51,8 @@ class Admin::ReportsController < AdminController
     @month = params[:month] || Date.today.month
     @year = params[:year] || Date.today.year
 
-    @report = ApprovedLogoRequestsReport.new(:month => @month,
-                                             :year  => @year)
-    render_formatter(filename: "approved_logo_requests_#{date_as_filename}.xls")
+    @report = ApprovedLogoRequestsReport.new(month: @month, year: @year)
+    generate_report
   end
 
   def listed_companies
@@ -157,8 +146,10 @@ class Admin::ReportsController < AdminController
   end
 
   def local_network_participants_withdrawn
-    @report = LocalNetworkParticipantsWithdrawn.new(default_report_params)
-    render_formatter(filename: "local_network_participants_withdrawn_#{date_as_filename}.xls")
+    # @status = ReportWorker.local_network_participants_withdrawn(filename)
+    # # @report = LocalNetworkParticipantsWithdrawn.new(default_report_params)
+    # render_formatter(filename: "local_network_participants_withdrawn_#{date_as_filename}.xls")
+    generate_report(:LocalNetworkParticipantsWithdrawn, current_contact.id)
   end
 
   def initiative_contacts
@@ -242,7 +233,38 @@ class Admin::ReportsController < AdminController
     {:user => current_contact}
   end
 
+  def show
+    status = ReportStatus.find(params[:id])
+    respond_to do |format|
+      format.html {
+        @report = status.contents
+        render status.template_name
+      }
+      format.xls  { send_file status.path, filename: status.filename  }
+    end
+  end
+
+  def status
+    status = ReportStatus.find(params[:id])
+    render json: status
+  end
+
+  def download
+    status = ReportStatus.find(params[:id])
+    send_file status.path, filename: status.filename
+  end
+
   private
+
+  def generate_report
+    respond_to do |format|
+      format.html
+      format.xls  {
+        status = ReportWorker.generate_xls(@report)
+        render json: status
+      }
+    end
+  end
 
   def render_formatter(options={})
     respond_to do |format|

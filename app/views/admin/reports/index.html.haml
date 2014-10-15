@@ -7,14 +7,6 @@
   %p
     %h3 Participant Management
 
-  #dialog-message{title: "Report complete"}
-    .report-progress
-      Please wait while we generate your report
-    .report-complete{style:'display: none;'}
-      %p
-        Your report is ready. Download it here:
-        %a.report-url
-
   %ul.report_list
     %li= link_to_report_xls 'Participant Breakdown', :participant_breakdown
     %li= link_to_report_xls 'Contacts for Mail Merge', :contacts_mail_merge
@@ -60,3 +52,4 @@
     %li= link_to_report_xls 'All Logo Requests', :all_logo_requests
     %li= link_to_reports 'Published Web Pages', :published_webpages
 
+= render partial: 'report_modal'

@@ -19,6 +19,11 @@ UNGC::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
 
+  config.action_dispatch.rack_cache = {
+    metastore:   'redis://localhost:6379/1/metastore',
+    entitystore: 'redis://localhost:6379/1/entitystore'
+  }
+
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
 
@@ -26,7 +31,7 @@ UNGC::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   config.active_record.auto_explain_threshold_in_seconds = 0.5
 
-  # Use image assets from production when missing from development 
+  # Use image assets from production when missing from development
   # config.action_controller.asset_host = Proc.new { |source|
   #   if source =~ /\b(.png|.jpg|.gif)\b/i
   #     "http://unglobalcompact.org"

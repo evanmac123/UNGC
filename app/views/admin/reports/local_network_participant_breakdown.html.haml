@@ -3,3 +3,5 @@
 = link_to 'download', url_for(params.merge(:format => 'xls'))
 
 %div= @report.render_html
+
+= render partial: 'report_modal'

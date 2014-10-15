@@ -9,13 +9,17 @@ $(function() {
   var $progress = $('.report-progress');
   var $complete = $('.report-complete');
 
-  $("a[data-remote]").on("ajax:success", function(e, response) {
-    var report = JSON.parse(response).report_status;
-
+  function showModal() {
     $complete.hide();
     $progress.show();
     dialog.dialog("option", "title", "Generating report");
     dialog.dialog("open");
+  }
+
+  // start polling reports kicked off by clicking a remote link
+  $("a[data-remote]").on("ajax:success", function(e, response) {
+    showModal();
+    var report = JSON.parse(response).report_status;
     pollReport(report.id);
   });
 
@@ -38,7 +42,7 @@ $(function() {
         case REPORT_COMPLETE:
           onReportCompleted(report);
           break
-        default
+        default:
           throw "Unexpected report status: " + report.status;
       }
     }, function(error) {
@@ -46,11 +50,15 @@ $(function() {
     });
   }
 
+  function showUrl(report) {
+    return '/admin/reports/show/' + report.id + '.' + report.format;
+  }
+
   function onReportCompleted(report) {
     dialog.dialog("option", "title", "Report complete");
 
     var $link = $('.report-url');
-    $link.attr('href', '/admin/reports/download/' + report.id);
+    $link.attr('href', showUrl(report));
     $link.text(report.filename);
 
     $progress.hide();
@@ -66,5 +74,13 @@ $(function() {
       }
     }
   });
+
+  // start polling reports
+  var $reportToLoad = $('*[data-report_id]').first();
+  if($reportToLoad.length > 0) {
+    showModal();
+    var id = $reportToLoad.data('report_id');
+    pollReport(id);
+  }
 
 })
