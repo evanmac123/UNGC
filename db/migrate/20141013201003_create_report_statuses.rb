@@ -5,6 +5,7 @@ class CreateReportStatuses < ActiveRecord::Migration
       t.string :filename
       t.string :path
       t.string :error_message
+      t.string :format
 
       t.timestamps
     end
