@@ -12,11 +12,12 @@ class FileTextExtractor
     path = model.attachment.path
 
     extractor = FileTextExtractor.new
-    if type =~ /^application\/.*pdf$/
+    case
+    when type =~ /^application\/.*pdf$/
       extractor.get_text_from_pdf(path)
-    elsif type =~ /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
+    when type =~ /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
       extractor.get_text_from_docx(path)
-    elsif type =~ /\b(doc|msword)\b/
+    when type =~ /\b(doc|msword)\b/
       extractor.get_text_from_word(path)
     end
   end
