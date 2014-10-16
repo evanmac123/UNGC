@@ -43,17 +43,19 @@ class LocalNetworkUpdate
   end
 
   def updated_levels
-    @updated_levels ||= levels_params.map do |params|
+    @updated_levels ||= levels_params.each_with_index.map do |params, index|
       id = params[:id]
       description = params[:description]
       amount = params[:amount]
 
       next if description.blank? || amount.blank?
 
-      contribution_level = levels.find_or_initialize_by_id(params[:id])
-      contribution_level.id = id
-      contribution_level.description = description
-      contribution_level.amount = amount
+      contribution_level = levels.find_or_initialize_by_id(id)
+      contribution_level.assign_attributes(
+        description: description,
+        amount: amount,
+        order: index
+      )
       contribution_level
     end.compact
   end

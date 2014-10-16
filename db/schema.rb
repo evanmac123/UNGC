@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140911204025) do
+ActiveRecord::Schema.define(:version => 20141016171831) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
@@ -236,9 +236,11 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.string   "amount",                      :null => false
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+    t.integer  "order"
   end
 
   add_index "contribution_levels", ["contribution_levels_info_id"], :name => "index_contribution_levels_on_contribution_levels_info_id"
+  add_index "contribution_levels", ["order"], :name => "index_contribution_levels_on_order"
 
   create_table "contribution_levels_infos", :force => true do |t|
     t.integer  "local_network_id"
