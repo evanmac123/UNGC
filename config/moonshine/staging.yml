@@ -11,3 +11,4 @@
   :certificate_file: /etc/ssl/staging.unglobalcompact.org.crt
   :certificate_key_file: /etc/ssl/staging.unglobalcompact.org.key
   :certificate_chain_file: /etc/ssl/staging.unglobalcompact.org.crt
+  :protocol: All -SSLv2 -SSLv3
