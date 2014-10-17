@@ -1,10 +1,7 @@
 class ReportWorker
   include Sidekiq::Worker
 
-  def self.generate_xls(report)
-    today = Date.today.iso8601.gsub('-', '_')
-    report_name = report.class.name.underscore.gsub(/_report\z/,'')
-    filename = "#{report_name}_#{today}.xls"
+  def self.generate_xls(report, filename)
     status = ReportStatus.create!(
       filename: filename,
       format: 'xls',
