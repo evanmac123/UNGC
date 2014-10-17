@@ -86,51 +86,51 @@ class Admin::ReportsController < AdminController
   end
 
   def local_network_participant_breakdown
-    render_report(LocalNetworkParticipantBreakdown.new(user))
+    render_report(LocalNetworkParticipantBreakdown.new(contact_id))
   end
 
   def local_network_participant_contacts
-    render_report(LocalNetworkParticipantContacts.new(user))
+    render_report(LocalNetworkParticipantContacts.new(contact_id))
   end
 
   def local_network_delisted_participants
-    render_report(LocalNetworkDelistedParticipants.new(user))
+    render_report(LocalNetworkDelistedParticipants.new(contact_id))
   end
 
   def local_network_all_cops
-    render_report(LocalNetworkAllCops.new(user))
+    render_report(LocalNetworkAllCops.new(contact_id))
   end
 
   def local_network_recent_cops
-    render_report(LocalNetworkRecentCops.new(user))
+    render_report(LocalNetworkRecentCops.new(contact_id))
   end
 
   def local_network_upcoming_cops
-    render_report(LocalNetworkUpcomingCops.new(user))
+    render_report(LocalNetworkUpcomingCops.new(contact_id))
   end
 
   def local_network_upcoming_delistings
-    render_report(LocalNetworkUpcomingDelistings.new(user))
+    render_report(LocalNetworkUpcomingDelistings.new(contact_id))
   end
 
   def local_network_upcoming_sme_delistings
-    render_report(LocalNetworkUpcomingSmeDelistings.new(user))
+    render_report(LocalNetworkUpcomingSmeDelistings.new(contact_id))
   end
 
   def local_network_recently_noncommunicating
-    render_report(LocalNetworkRecentlyNoncommunicating.new(user))
+    render_report(LocalNetworkRecentlyNoncommunicating.new(contact_id))
   end
 
   def local_network_recently_delisted
-    render_report(LocalNetworkRecentlyDelisted.new(user))
+    render_report(LocalNetworkRecentlyDelisted.new(contact_id))
   end
 
   def local_network_recent_logo_requests
-    render_report(LocalNetworkRecentLogoRequests.new(user))
+    render_report(LocalNetworkRecentLogoRequests.new(contact_id))
   end
 
   def local_network_participants_withdrawn
-    render_report(LocalNetworkParticipantsWithdrawn.new(user))
+    render_report(LocalNetworkParticipantsWithdrawn.new(contact_id))
   end
 
   def initiative_contacts
@@ -201,7 +201,7 @@ class Admin::ReportsController < AdminController
 
   private
 
-  def user
+  def contact_id
     {contact_id:  current_contact.id}
   end
 
