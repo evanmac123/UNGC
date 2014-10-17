@@ -4,14 +4,18 @@ $(function() {
   var reportTimer;
   var BUILDING_REPORT = 0;
   var REPORT_COMPLETE = 1;
+  var REPORT_ERROR = 2;
 
   var dialog = $("#dialog-message");
-  var $progress = $('.report-progress');
-  var $complete = $('.report-complete');
+
+  function showMessage(status) {
+    var selector = '.report-' + status;
+    $('.message', dialog).hide();
+    $(selector, dialog).show();
+  }
 
   function showModal() {
-    $complete.hide();
-    $progress.show();
+    showMessage('progress');
     dialog.dialog("option", "title", "Generating report");
     dialog.dialog("open");
   }
@@ -41,12 +45,15 @@ $(function() {
           break;
         case REPORT_COMPLETE:
           onReportCompleted(report);
-          break
+          break;
+        case REPORT_ERROR:
+          onReportError();
+          break;
         default:
           throw "Unexpected report status: " + report.status;
       }
     }, function(error) {
-      alert("failed", arguments);
+      onReportError();
     });
   }
 
@@ -55,22 +62,27 @@ $(function() {
   }
 
   function onReportCompleted(report) {
-    dialog.dialog("option", "title", "Report complete");
-
     var $link = $('.report-url');
     $link.attr('href', downloadUrl(report));
     $link.text(report.filename);
 
-    $progress.hide();
-    $complete.show();
+    dialog.dialog("option", "title", "Report complete");
+    showMessage('complete');
+    dialog.dialog("open");
+  }
+
+  function onReportError() {
+    dialog.dialog("option", "title", "Failed");
+    showMessage('error');
+    dialog.dialog("open");
   }
 
   $("#dialog-message").dialog({
     modal: true,
     autoOpen: false,
     buttons: {
-      Cancel: function() {
-        $( this ).dialog( "close" );
+      Close: function() {
+        $(this).dialog( "close" );
       }
     }
   });
