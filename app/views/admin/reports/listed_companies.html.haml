@@ -1,6 +1,6 @@
   %h2 Listed companies
 
-= link_to 'download', url_for(params.merge(:format => 'xls'))
+= link_to_download_report
 
 %div= @report.render_html
 
