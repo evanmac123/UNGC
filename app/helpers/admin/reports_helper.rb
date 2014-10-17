@@ -15,7 +15,7 @@ module Admin::ReportsHelper
      link_to(text, admin_report_path(:action => action, :format => 'xls'), remote: true, :class => 'xls')].join(' ').html_safe
   end
 
-  def link_to_download_report(options)
+  def link_to_download_report(options = {})
     format = options.fetch(:format) { 'xls' }
     text   = options.fetch(:text)   { 'Download Excel file' }
     url    = options.fetch(:url)    { url_for(params.merge(format: format)) }
