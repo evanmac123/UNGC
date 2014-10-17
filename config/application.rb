@@ -78,8 +78,6 @@ module UNGC
     config.i18n.enforce_available_locales = true
 
     EMAIL_SENDER = "info@unglobalcompact.org"
-
-    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 90.minutes }
   end
 
   begin

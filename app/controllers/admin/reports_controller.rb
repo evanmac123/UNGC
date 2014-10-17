@@ -238,10 +238,6 @@ class Admin::ReportsController < AdminController
 
   private
 
-  def date_as_filename
-    Date.today.iso8601.gsub('-', '_')
-  end
-
   def contact_id
     {contact_id:  current_contact.id}
   end
@@ -254,6 +250,10 @@ class Admin::ReportsController < AdminController
         render json: status
       }
     end
+  end
+
+  def date_as_filename
+    Date.today.iso8601.gsub('-', '_')
   end
 
 end

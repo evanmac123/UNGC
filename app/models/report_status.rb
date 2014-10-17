@@ -17,12 +17,4 @@ class ReportStatus < ActiveRecord::Base
     save!
   end
 
-  def contents
-    File.open(path).read
-  end
-
-  def template_name
-    filename
-  end
-
 end
