@@ -26,9 +26,6 @@ gem 'sass',                 '~> 3.2.9'
 gem 'skylight'
 gem 'sidekiq',              '~> 2.17.0'
 gem 'foreman'
-gem 'redis-rails
-
-gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
