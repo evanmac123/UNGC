@@ -1,7 +1,8 @@
 class LocalNetworkUpcomingSmeDelistings < SimpleReport
 
   def records
-    Organization.smes.visible_to(@options[:user]).under_moratorium.all(:order => :cop_due_on)
+    contact = Contact.find(@options.fetch(:contact_id))
+    Organization.smes.visible_to(contact).under_moratorium.all(:order => :cop_due_on)
   end
 
   def render_output
