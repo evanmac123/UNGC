@@ -50,15 +50,15 @@ $(function() {
     });
   }
 
-  function showUrl(report) {
-    return '/admin/reports/show/' + report.id + '.' + report.format;
+  function downloadUrl(report) {
+    return '/admin/reports/download/' + report.id + '.' + report.format;
   }
 
   function onReportCompleted(report) {
     dialog.dialog("option", "title", "Report complete");
 
     var $link = $('.report-url');
-    $link.attr('href', showUrl(report));
+    $link.attr('href', downloadUrl(report));
     $link.text(report.filename);
 
     $progress.hide();

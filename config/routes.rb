@@ -169,7 +169,7 @@ UNGC::Application.routes.draw do
 
     match 'reports'               => 'reports#index',     :as => :reports
     match 'reports/status/:id'    => 'reports#status',    :as => :report_status
-    match 'reports/show/:id'      => 'reports#show',      :as => :report_show
+    match 'reports/download/:id'  => 'reports#download',  :as => :report_download
     match 'reports/:action'       => 'reports',           :as => :report
 
     match 'learning'         => 'learning#index', :as => :learning
