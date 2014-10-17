@@ -18,17 +18,7 @@ class ReportWorker
     report = class_name.constantize.new(options)
 
     status = ReportStatus.find(status_id)
-    format = status.format.to_s
-    output = case format
-    when 'html'
-      report.render_html_to_file
-    when 'xls'
-      report.render_output
-    else
-      raise "Unknown format: #{format}"
-    end
-
-    status.complete!(output)
+    status.complete!(report.render_output)
   rescue => e
     status.failed!(e)
     raise e

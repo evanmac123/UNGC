@@ -12,238 +12,6 @@ class Admin::ReportsController < AdminController
       end
   end
 
-  def delisted_participants
-    @report = DelistedParticipants.new
-    render_formatter(filename: "delisted_participants_#{date_as_filename}.xls")
-  end
-
-  def participant_breakdown
-    @report = ParticipantBreakdownReport.new
-    render_formatter(filename: "participant_breakdown_#{date_as_filename}.xls")
-  end
-
-  def participant_applications
-    @report = ParticipantApplications.new
-    render_formatter(filename: "participant_applications_#{date_as_filename}.xls")
-  end
-
-  def contacts_mail_merge
-    @report = ContactsMailMerge.new
-    render_formatter(filename: "contacts_mail_merge_#{date_as_filename}.xls")
-  end
-
-  def contacts_excel_macro
-    @report = ContactsExcelMacro.new
-    render_formatter(filename: "contacts_excel_macro_#{date_as_filename}.xls")
-  end
-
-  def all_cops
-    @report = AllCops.new
-    render_formatter(filename: "all_cops_#{date_as_filename}.xls")
-  end
-
-  def all_logo_requests
-    @report = AllLogoRequests.new
-    render_formatter(filename: "all_logo_requests_#{date_as_filename}.xls")
-  end
-
-  def approved_logo_requests
-    @month = params[:month] || Date.today.month
-    @year = params[:year] || Date.today.year
-
-    @report = ApprovedLogoRequestsReport.new(month: @month, year: @year)
-    generate_report
-  end
-
-  def listed_companies
-    @report = ListedCompaniesReport.new
-    render_formatter(filename: "listed_companies_#{date_as_filename}.xls")
-  end
-
-  def local_networks_management
-    @report = LocalNetworksManagement.new
-    render_formatter(filename: "local_networks_management_#{date_as_filename}.xls")
-  end
-
-  def local_networks_knowledge_sharing
-    @report = LocalNetworksKnowledgeSharing.new
-    render_formatter(filename: "local_networks_knowledge_sharing_#{date_as_filename}.xls")
-  end
-
-  def local_networks_contacts
-    @report = LocalNetworksContacts.new
-    render_formatter(filename: "local_networks_contacts_#{date_as_filename}.xls")
-  end
-
-  def local_networks_all_contacts
-    @report = LocalNetworksAllContacts.new
-    render_formatter(filename: "local_networks_all_contacts_#{date_as_filename}.xls")
-  end
-
-  def local_networks_report_recipients
-    @report = LocalNetworksReportRecipients.new
-    render_formatter(filename: "local_networks_report_recipients_#{date_as_filename}.xls")
-  end
-
-  def local_networks_events
-    @report = LocalNetworksEvents.new
-    render_formatter(filename: "local_networks_events_#{date_as_filename}.xls")
-  end
-
-  def local_network_participant_breakdown
-    @report = LocalNetworkParticipantBreakdown.new(default_report_params)
-    render_formatter(filename: "local_network_participant_breakdown_#{date_as_filename}.xls")
-  end
-
-  def local_network_participant_contacts
-    @report = LocalNetworkParticipantContacts.new(default_report_params)
-    render_formatter(filename: "local_network_participant_contacts_#{date_as_filename}.xls")
-  end
-
-  def local_network_delisted_participants
-    @report = LocalNetworkDelistedParticipants.new(default_report_params)
-    render_formatter(filename: "local_network_delisted_participants_#{date_as_filename}.xls")
-  end
-
-  def local_network_all_cops
-    @report = LocalNetworkAllCops.new(default_report_params)
-    render_formatter(filename: "local_network_all_cops_#{date_as_filename}.xls")
-  end
-
-  def local_network_recent_cops
-    @report = LocalNetworkRecentCops.new(default_report_params)
-    render_formatter(filename: "local_network_recent_cops_#{date_as_filename}.xls")
-  end
-
-  def local_network_upcoming_cops
-    @report = LocalNetworkUpcomingCops.new(default_report_params)
-    render_formatter(filename: "local_network_upcoming_cops_#{date_as_filename}.xls")
-  end
-
-  def local_network_upcoming_delistings
-    @report = LocalNetworkUpcomingDelistings.new(default_report_params)
-    render_formatter(filename: "local_network_upcoming_delistings_#{date_as_filename}.xls")
-  end
-
-  def local_network_upcoming_sme_delistings
-    @report = LocalNetworkUpcomingSmeDelistings.new(default_report_params)
-    render_formatter(filename: "local_network_upcoming_sme_delistings_#{date_as_filename}.xls")
-  end
-
-  def local_network_recently_noncommunicating
-    @report = LocalNetworkRecentlyNoncommunicating.new(default_report_params)
-    render_formatter(filename: "local_network_recently_noncommunicating_#{date_as_filename}.xls")
-  end
-
-  def local_network_recently_delisted
-    @report = LocalNetworkRecentlyDelisted.new(default_report_params)
-    render_formatter(filename: "local_network_recently_delisted_#{date_as_filename}.xls")
-  end
-
-  def local_network_recent_logo_requests
-    @report = LocalNetworkRecentLogoRequests.new(default_report_params)
-    render_formatter(filename: "local_network_recent_logo_requests_#{date_as_filename}.xls")
-  end
-
-  def local_network_participants_withdrawn
-    # @status = ReportWorker.local_network_participants_withdrawn(filename)
-    # # @report = LocalNetworkParticipantsWithdrawn.new(default_report_params)
-    # render_formatter(filename: "local_network_participants_withdrawn_#{date_as_filename}.xls")
-    generate_report(:LocalNetworkParticipantsWithdrawn, current_contact.id)
-  end
-
-  def initiative_contacts
-    @report = InitiativeContacts.new
-    render_formatter(filename: "water_mandate_contacts_#{date_as_filename}.xls")
-  end
-
-  def initiative_contacts2
-    @report = InitiativeContacts2.new
-    render_formatter(filename: "caring_for_climate_contacts_#{date_as_filename}.xls")
-  end
-
-  def initiative_organizations
-
-    if params[:all_initiatives]
-      @selected_initiatives = Initiative.for_select.map(&:id)
-    else
-      @selected_initiatives = params[:initiatives] || []
-    end
-
-    @report = InitiativeOrganizations.new(initiatives: @selected_initiatives)
-    render_formatter(filename: "organizations_in_initiatives_#{date_as_filename}.xls")
-  end
-
-  def cop_questionnaire_answers
-    @report = CopQuestionnaireAnswers.new
-    render_formatter(filename: "cop_questionnaire_answers_#{date_as_filename}.xls")
-  end
-
-  def cop_required_elements
-    @report = CopRequiredElements.new
-    render_formatter(filename: "cop_required_elements_#{date_as_filename}.xls")
-  end
-
-  def cops_with_differentiation
-    @report = CopsWithDifferentiation.new
-    render_formatter(filename: "cops_with_differentiation_#{date_as_filename}.xls")
-  end
-
-  def cop_languages
-    @report = CopLanguages.new
-    render_formatter(filename: "cop_file_languages_#{date_as_filename}.xls")
-  end
-
-  def cop_lead_submissions
-    @report = CopLeadSubmissions.new
-    render_formatter(filename: "cop_lead_submissions_#{date_as_filename}.xls")
-  end
-
-  def cop_water_mandate_submissions
-    @report = CopWaterMandateSubmissions.new
-    render_formatter(filename: "cop_water_mandate_submissions_#{date_as_filename}.xls")
-  end
-
-  def networks
-    @regions = Country.regions
-    @region = params[:region] || @regions.first.region
-    @countries = Country.where_region @region
-    @country = params[:country]
-
-    @report = NetworksReport.new(:region  => @region,
-                                 :country => @country)
-    render_formatter(filename: "networks_report_#{date_as_filename}.xls")
-  end
-
-  def foundation_pledges
-    @month = params[:month] || Date.today.month
-    @year = params[:year] || Date.today.year
-
-    @report = FoundationPledgeReport.new(:month => @month,
-                                         :year  => @year)
-    render_formatter(filename: "foundation_pledges_#{@year}_#{@month}.xls")
-  end
-
-  def published_webpages
-    @report = PublishedWebpages.new
-    render_formatter(filename: "published_webpages_#{date_as_filename}.xls")
-  end
-
-  def default_report_params
-    {:user => current_contact}
-  end
-
-  def show
-    status = ReportStatus.find(params[:id])
-    respond_to do |format|
-      format.html {
-        @report = status.contents
-        render status.template_name
-      }
-      format.xls  { send_file status.path, filename: status.filename  }
-    end
-  end
-
   def status
     status = ReportStatus.find(params[:id])
     render json: status
@@ -254,9 +22,191 @@ class Admin::ReportsController < AdminController
     send_file status.path, filename: status.filename
   end
 
+  def delisted_participants
+    render_report(DelistedParticipants.new)
+  end
+
+  def participant_breakdown
+    render_report(ParticipantBreakdownReport.new)
+  end
+
+  def participant_applications
+    render_report(ParticipantApplications.new)
+  end
+
+  def contacts_mail_merge
+    render_report(ContactsMailMerge.new)
+  end
+
+  def contacts_excel_macro
+    render_report(ContactsExcelMacro.new)
+  end
+
+  def all_cops
+    render_report(AllCops.new)
+  end
+
+  def all_logo_requests
+    render_report(AllLogoRequests.new)
+  end
+
+  def approved_logo_requests
+    @month = params[:month] || Date.today.month
+    @year = params[:year] || Date.today.year
+
+    render_report(ApprovedLogoRequestsReport.new(month: @month, year: @year))
+  end
+
+  def listed_companies
+    render_report(ListedCompaniesReport.new)
+  end
+
+  def local_networks_management
+    render_report(LocalNetworksManagement.new)
+  end
+
+  def local_networks_knowledge_sharing
+    render_report(LocalNetworksKnowledgeSharing.new)
+  end
+
+  def local_networks_contacts
+    render_report(LocalNetworksContacts.new)
+  end
+
+  def local_networks_all_contacts
+    render_report(LocalNetworksAllContacts.new)
+  end
+
+  def local_networks_report_recipients
+    render_report(LocalNetworksReportRecipients.new)
+  end
+
+  def local_networks_events
+    render_report(LocalNetworksEvents.new)
+  end
+
+  def local_network_participant_breakdown
+    render_report(LocalNetworkParticipantBreakdown.new(user))
+  end
+
+  def local_network_participant_contacts
+    render_report(LocalNetworkParticipantContacts.new(user))
+  end
+
+  def local_network_delisted_participants
+    render_report(LocalNetworkDelistedParticipants.new(user))
+  end
+
+  def local_network_all_cops
+    render_report(LocalNetworkAllCops.new(user))
+  end
+
+  def local_network_recent_cops
+    render_report(LocalNetworkRecentCops.new(user))
+  end
+
+  def local_network_upcoming_cops
+    render_report(LocalNetworkUpcomingCops.new(user))
+  end
+
+  def local_network_upcoming_delistings
+    render_report(LocalNetworkUpcomingDelistings.new(user))
+  end
+
+  def local_network_upcoming_sme_delistings
+    render_report(LocalNetworkUpcomingSmeDelistings.new(user))
+  end
+
+  def local_network_recently_noncommunicating
+    render_report(LocalNetworkRecentlyNoncommunicating.new(user))
+  end
+
+  def local_network_recently_delisted
+    render_report(LocalNetworkRecentlyDelisted.new(user))
+  end
+
+  def local_network_recent_logo_requests
+    render_report(LocalNetworkRecentLogoRequests.new(user))
+  end
+
+  def local_network_participants_withdrawn
+    render_report(LocalNetworkParticipantsWithdrawn.new(user))
+  end
+
+  def initiative_contacts
+    render_report(InitiativeContacts.new)
+  end
+
+  def initiative_contacts2
+    render_report(InitiativeContacts2.new)
+  end
+
+  def initiative_organizations
+    if params[:all_initiatives]
+      @selected_initiatives = Initiative.for_select.map(&:id)
+    else
+      @selected_initiatives = params[:initiatives] || []
+    end
+
+    render_report(InitiativeOrganizations.new(initiatives: @selected_initiatives))
+  end
+
+  def cop_questionnaire_answers
+    render_report(CopQuestionnaireAnswers.new)
+  end
+
+  def cop_required_elements
+    render_report(CopRequiredElements.new)
+  end
+
+  def cops_with_differentiation
+    render_report(CopsWithDifferentiation.new)
+  end
+
+  def cop_languages
+    render_report(CopLanguages.new)
+  end
+
+  def cop_lead_submissions
+    render_report(CopLeadSubmissions.new)
+  end
+
+  def cop_water_mandate_submissions
+    render_report(CopWaterMandateSubmissions.new)
+  end
+
+  def networks
+    @regions = Country.regions
+    @region = params[:region] || @regions.first.region
+    @countries = Country.where_region @region
+    @country = params[:country]
+
+    report = NetworksReport.new(:region  => @region,
+                                :country => @country)
+    render_report(report)
+  end
+
+  def foundation_pledges
+    @month = params[:month] || Date.today.month
+    @year = params[:year] || Date.today.year
+
+    report = FoundationPledgeReport.new(:month => @month,
+                                         :year  => @year)
+    render_report(report)
+  end
+
+  def published_webpages
+    render_report(PublishedWebpages.new)
+  end
+
   private
 
-  def generate_report
+  def user
+    {contact_id:  current_contact.id}
+  end
+
+  def render_report(report)
+    @report = report
     respond_to do |format|
       format.html
       format.xls  {
@@ -264,21 +214,6 @@ class Admin::ReportsController < AdminController
         render json: status
       }
     end
-  end
-
-  def render_formatter(options={})
-    respond_to do |format|
-      format.html
-      format.xls {
-        filename = options.fetch(:filename)
-        status = ReportWorker.render_report(@report, filename)
-        render json: status
-      }
-    end
-  end
-
-  def date_as_filename
-    Date.today.iso8601.gsub('-', '_')
   end
 
 end

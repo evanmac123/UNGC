@@ -21,14 +21,6 @@ class SimpleReport
     content_tag :ul, buffer.join
   end
 
-  def render_html_to_file
-    file = Tempfile.new('html')
-    File.open(file.path, 'w+') do |file|
-      file.write(render_html)
-    end
-    file
-  end
-
   def render_xls
     file = Tempfile.new('xls')
     CSV.open(file.path, 'w+', :col_sep => "\t") do |line|
