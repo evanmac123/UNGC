@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140911204025) do
+ActiveRecord::Schema.define(:version => 20141016171831) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
@@ -56,21 +56,6 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "campaigns", :force => true do |t|
-    t.string   "campaign_id",                      :null => false
-    t.string   "name",                             :null => false
-    t.date     "start_date"
-    t.date     "end_date"
-    t.integer  "initiative_id"
-    t.boolean  "is_deleted",    :default => false, :null => false
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
-  end
-
-  add_index "campaigns", ["campaign_id"], :name => "index_campaigns_on_campaign_id", :unique => true
-  add_index "campaigns", ["initiative_id"], :name => "index_campaigns_on_initiative_id"
-  add_index "campaigns", ["name"], :name => "index_campaigns_on_name", :unique => true
 
   create_table "case_stories", :force => true do |t|
     t.string   "identifier"
@@ -245,49 +230,40 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.integer "role_id"
   end
 
+  create_table "contribution_descriptions", :force => true do |t|
+    t.integer  "local_network_id", :null => false
+    t.text     "pledge"
+    t.text     "pledge_continued"
+    t.text     "payment"
+    t.text     "contact"
+    t.text     "additional"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "contribution_descriptions", ["local_network_id"], :name => "index_contribution_descriptions_on_local_network_id"
+
   create_table "contribution_levels", :force => true do |t|
     t.integer  "contribution_levels_info_id", :null => false
     t.string   "description",                 :null => false
     t.string   "amount",                      :null => false
     t.datetime "created_at",                  :null => false
     t.datetime "updated_at",                  :null => false
+    t.integer  "order"
   end
 
   add_index "contribution_levels", ["contribution_levels_info_id"], :name => "index_contribution_levels_on_contribution_levels_info_id"
+  add_index "contribution_levels", ["order"], :name => "index_contribution_levels_on_order"
 
   create_table "contribution_levels_infos", :force => true do |t|
     t.integer  "local_network_id"
     t.string   "level_description"
     t.string   "amount_description"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
-    t.text     "pledge_description"
-    t.text     "payment_description"
-    t.text     "contact_description"
-    t.text     "additional_description"
-    t.text     "pledge_description_continued"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "contribution_levels_infos", ["local_network_id"], :name => "index_contribution_levels_infos_on_local_network_id"
-
-  create_table "contributions", :force => true do |t|
-    t.string   "contribution_id",                       :null => false
-    t.string   "invoice_code"
-    t.integer  "raw_amount"
-    t.integer  "recognition_amount"
-    t.date     "date",                                  :null => false
-    t.string   "stage",                                 :null => false
-    t.string   "payment_type"
-    t.integer  "organization_id",                       :null => false
-    t.string   "campaign_id"
-    t.boolean  "is_deleted",         :default => false, :null => false
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-  end
-
-  add_index "contributions", ["campaign_id"], :name => "index_contributions_on_campaign_id"
-  add_index "contributions", ["contribution_id"], :name => "index_contributions_on_contribution_id", :unique => true
-  add_index "contributions", ["organization_id"], :name => "index_contributions_on_organization_id"
 
   create_table "cop_answers", :force => true do |t|
     t.integer  "cop_id"
@@ -363,7 +339,6 @@ ActiveRecord::Schema.define(:version => 20140911204025) do
     t.integer  "manager_id"
     t.integer  "local_network_id"
     t.integer  "participant_manager_id"
-    t.integer  "regional_center_id"
   end
 
   add_index "countries", ["participant_manager_id"], :name => "index_countries_on_participant_manager_id"

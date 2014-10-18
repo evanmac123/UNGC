@@ -38,3 +38,7 @@ production:
 staging:
   test: thing
   <<: *universal
+
+preview:
+  test: thing
+  <<: *universal

@@ -12,12 +12,15 @@ class FileTextExtractor
     path = model.attachment.path
 
     extractor = FileTextExtractor.new
-    if type =~ /^application\/.*pdf$/
+    case
+    when type =~ /^application\/.*pdf$/
       extractor.get_text_from_pdf(path)
-    elsif type =~ /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
+    when type =~ /application\/vnd\.openxmlformats-officedocument\.wordprocessingml\.document/
       extractor.get_text_from_docx(path)
-    elsif type =~ /\b(doc|msword)\b/
+    when type =~ /\b(doc|msword)\b/
       extractor.get_text_from_word(path)
+    when type == 'application/vnd.ms-powerpoint'
+      extractor.get_text_from_ppt(path)
     end
   end
 
@@ -34,6 +37,11 @@ class FileTextExtractor
   def get_text_from_docx(path)
     Rails.logger.info "Extracting text from Word (New Format): #{path.inspect}"
     safe_get_text_command("#{Rails.root}/script/docx_import", path)
+  end
+
+  def get_text_from_ppt(path)
+    Rails.logger.info "Extracting text from Powerpoint: #{path.inspect}"
+    safe_get_text_command("#{Rails.root}/script/ppt_import", path)
   end
 
   private

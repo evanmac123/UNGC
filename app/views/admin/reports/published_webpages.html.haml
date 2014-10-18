@@ -17,6 +17,6 @@
       %td= page.id
       %td{:title => page.path}= truncate(page.path, :length => 30)
       %td{:title => page.title}= truncate(page.title, :length => 30)
-      %td= page.section.try(:title)
-      %td= page.parent.try(:title)
+      %td= page.main_section
+      %td= page.parent_section
       %td= page.approved_at.to_date

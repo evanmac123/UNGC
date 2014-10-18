@@ -1,0 +1,7 @@
+:domain: preview.ungc.managedmachine.com
+
+:webdav:
+  :domain: webdav-staging.unglobalcompact.org
+
+:passenger:
+  :max_pool_size: 1
