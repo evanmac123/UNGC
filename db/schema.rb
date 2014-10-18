@@ -230,6 +230,19 @@ ActiveRecord::Schema.define(:version => 20141016171831) do
     t.integer "role_id"
   end
 
+  create_table "contribution_descriptions", :force => true do |t|
+    t.integer  "local_network_id", :null => false
+    t.text     "pledge"
+    t.text     "pledge_continued"
+    t.text     "payment"
+    t.text     "contact"
+    t.text     "additional"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "contribution_descriptions", ["local_network_id"], :name => "index_contribution_descriptions_on_local_network_id"
+
   create_table "contribution_levels", :force => true do |t|
     t.integer  "contribution_levels_info_id", :null => false
     t.string   "description",                 :null => false
@@ -246,13 +259,8 @@ ActiveRecord::Schema.define(:version => 20141016171831) do
     t.integer  "local_network_id"
     t.string   "level_description"
     t.string   "amount_description"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
-    t.text     "pledge_description"
-    t.text     "payment_description"
-    t.text     "contact_description"
-    t.text     "additional_description"
-    t.text     "pledge_description_continued"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   add_index "contribution_levels_infos", ["local_network_id"], :name => "index_contribution_levels_infos_on_local_network_id"

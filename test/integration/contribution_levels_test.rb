@@ -10,7 +10,6 @@ class ContributionLevelsTest < ActionDispatch::IntegrationTest
     @levels = @network.contribution_levels
     @levels.level_description = 'Levels'
     @levels.amount_description = 'Amount'
-    @levels.pledge_description = 'Pledge Description'
     @levels.add(description: 'level1', amount: '$10,000')
     @levels.add(description: 'level2', amount: '$20,000')
     @levels.save!
