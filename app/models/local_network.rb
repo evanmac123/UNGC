@@ -4,7 +4,6 @@
 #
 #  id                                                  :integer          not null, primary key
 #  name                                                :string(255)
-#  manager_id                                          :integer
 #  url                                                 :string(255)
 #  state                                               :string(255)
 #  created_at                                          :datetime

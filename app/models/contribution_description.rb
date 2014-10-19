@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: contribution_descriptions
+#
+#  id               :integer          not null, primary key
+#  local_network_id :integer          not null
+#  pledge           :text
+#  pledge_continued :text
+#  payment          :text
+#  contact          :text
+#  additional       :text
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+
 class ContributionDescription < ActiveRecord::Base
   belongs_to :local_network
   attr_accessible :pledge, :pledge_continued, :payment,
