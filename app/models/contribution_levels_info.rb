@@ -2,16 +2,12 @@
 #
 # Table name: contribution_levels_infos
 #
-#  id                     :integer          not null, primary key
-#  local_network_id       :integer
-#  level_description      :string(255)
-#  amount_description     :string(255)
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  pledge_description     :string(255)
-#  payment_description    :string(255)
-#  contact_description    :string(255)
-#  additional_description :string(255)
+#  id                 :integer          not null, primary key
+#  local_network_id   :integer
+#  level_description  :string(255)
+#  amount_description :string(255)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
 #
 
 class ContributionLevelsInfo < ActiveRecord::Base

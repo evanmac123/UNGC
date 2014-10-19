@@ -31,6 +31,8 @@
 #  differentiation                     :string(255)
 #  references_business_peace           :boolean
 #  references_water_mandate            :boolean
+#  cop_type                            :string(255)
+#  published_on                        :date
 #
 
 class CommunicationOnProgress < ActiveRecord::Base

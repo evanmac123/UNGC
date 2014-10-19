@@ -44,6 +44,7 @@
 #  is_local_network_member        :boolean
 #  is_landmine                    :boolean
 #  is_tobacco                     :boolean
+#  no_pledge_reason               :string(255)
 #  isin                           :string(255)
 #
 

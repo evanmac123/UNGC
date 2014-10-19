@@ -1,3 +1,12 @@
+h1. 2014-10-18
+
+* Collecting suggested contribution levels from Local Networks which will eventually appear in the online pledge form
+* Three new models have been added:
+* contribution_description: text descriptions used for online pledge form and offline invoicing
+* contribution_level_info: table header titles for Local Networks contribution levels
+* contribution_level: Local Networks contribution levels
+* Update actions are handled by services/local_network_update.rb
+
 h1. 2014-07-25
 
 * We are now going to be adding more COP questions for specific initiatives like Business for Peace
@@ -63,7 +72,6 @@ h1. 2013-12-26
 * A new funding model means that some Local Networks will be engaging in collaborative fundraising with the Foundation
 * We need to track which Local Networks are following the collaborative or independent funding model
 * This will be a staff user editable attribute of all Local Networks
-
 * Highest revenue levels have changed from 10B to 5B
 
 h1. 2013-12-26
