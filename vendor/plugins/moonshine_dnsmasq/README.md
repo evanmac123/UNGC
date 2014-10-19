@@ -26,3 +26,6 @@ You'll also need to change your resolv.conf and add the following line to the to
 <pre><code>nameserver 127.0.0.1</code></pre>
 
 And that's it!
+
+***
+Unless otherwise specified, all content copyright &copy; 2014, [Rails Machine, LLC](http://railsmachine.com)

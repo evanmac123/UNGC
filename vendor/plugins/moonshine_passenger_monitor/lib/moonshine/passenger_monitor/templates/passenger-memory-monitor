@@ -8,6 +8,9 @@ end
 
 require 'phusion_passenger/platform_info'
 require 'phusion_passenger/admin_tools/memory_stats'
+require 'phusion_passenger/admin_tools/server_instance'
+require 'timeout'
+require 'rexml/document'
 
 include PhusionPassenger
 
@@ -19,12 +22,20 @@ def kill_passenger_process(pid, cmd, reason)
   
   puts "#{time} - Passenger #{pid} #{reason}."
   
-  command = "kill -9 #{pid}"
-  puts "#{command} # for: #{cmd}"
-  system(command)
+  puts "Killing passenger process: #{cmd}"
+  begin
+    Process.kill('TERM', pid.to_i) rescue nil
+    Timeout::timeout(<%= options[:wait] || 5 %>) do
+      begin
+        sleep 1
+      end while !!(`ps -p #{pid}`.match pid.to_s)
+    end
+  rescue Timeout::Error
+    Process.kill('KILL', pid.to_i) rescue nil
+  end
 end
 
-rack_processes = stats.passenger_processes.select { |p| p.name =~ /<%= options[:pattern] %>/ }
+rack_processes = stats.passenger_processes.select { |p| p.name =~ /<%= options[:pattern].gsub(/\//, '\/') %>/ }
 
 # kill abandoned passenger processes
 time = Time.now.strftime('%m/%d/%Y - %I:%M%p')
@@ -52,5 +63,23 @@ rack_processes.each do |process|
   if (memory_in_mb) > limit
     reason = "exceeded the #{limit}MB limit with #{memory_in_mb}MB."
     kill_passenger_process(process.pid, process.name, reason)
+  end
+end
+
+# kill passenger processes stuck shutting down
+time = Time.now.strftime('%m/%d/%Y - %I:%M%p')
+puts "#{time} Checking for passenger processes stuck while shutting down"
+
+server = PhusionPassenger::AdminTools::ServerInstance.list.first
+client = server.connect(:role => :passenger_status)
+doc = REXML::Document.new(client.pool_xml)
+
+doc.elements.each("info/supergroups/supergroup/group") do |group_xml|
+  group_xml.elements.each("processes/process") do |process_xml|
+    if process_xml.elements["enabled"].text == "DETACHED"
+      pid = process_xml.elements["pid"].text.to_i
+      cmd = process_xml.elements["command"].text
+      kill_passenger_process(pid, cmd, "stuck while shutting down")
+    end
   end
 end
