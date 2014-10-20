@@ -30,17 +30,6 @@ class AdminController < ApplicationController
     render :template => "admin/dashboard_#{current_contact.user_type}"
   end
 
-  def sign_in_as_contacts_for(organizations)
-    if current_contact.is? Role.network_report_recipient
-      Contact.contact_points
-        .joins(:organization)
-        .includes(:organization)
-        .merge(organizations)
-    else
-      Contact.where('1=2') # TODO replace with none in rails4
-    end
-  end
-
   def no_access_to_other_organizations
     if current_contact.from_organization? and current_contact.organization != @organization
       flash[:error] = "You do not have permission to access that resource."
@@ -134,4 +123,16 @@ class AdminController < ApplicationController
   def knowledge_sharing_tab?
     false
   end
+
+  def sign_in_as_contacts_for(organizations)
+    if current_contact.can_sign_in_as_contact_point?
+      Contact.contact_points
+        .joins(:organization)
+        .includes(:organization)
+        .merge(organizations)
+    else
+      Contact.where('1=2') # TODO replace with none in rails4
+    end
+  end
+
 end

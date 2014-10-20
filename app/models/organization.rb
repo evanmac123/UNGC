@@ -405,7 +405,7 @@ class Organization < ActiveRecord::Base
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_report_recipients
     else
-      []
+      [] # TODO none in rails4
     end
   end
 
@@ -413,7 +413,7 @@ class Organization < ActiveRecord::Base
     if self.country.try(:local_network)
       self.country.local_network.contacts.network_contacts.first
     else
-      []
+      [] # TODO none in rails4
     end
   end
 

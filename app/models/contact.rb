@@ -320,6 +320,10 @@ class Contact < ActiveRecord::Base
     new roles: [Role.ceo]
   end
 
+  def can_sign_in_as_contact_point?
+    self.is?(Role.network_report_recipient)
+  end
+
   private
 
     def password_required?
