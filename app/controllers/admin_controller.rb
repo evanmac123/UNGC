@@ -130,6 +130,10 @@ class AdminController < ApplicationController
         .joins(:organization)
         .includes(:organization)
         .merge(organizations)
+        .paginate(
+          page: params[:contact_points_page],
+          per_page: 100
+        )
     else
       Contact.where('1=2') # TODO replace with none in rails4
     end

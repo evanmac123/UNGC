@@ -54,7 +54,14 @@
 
   #sign_in_as_participants.tab_content
     %h3 Sign in as contact points for these Organizations in your Local Network
-    %ul
+    %table.dashboard_table
+      %tr
+        %th Contact
+        %th Organization
+        %th Status
       - @contact_points.each do |contact|
-        %li= link_to contact.organization.name,
-                admin_contact_sign_in_as_path(contact.id)
+        %tr
+          %td= link_to contact.full_name_with_title, admin_contact_sign_in_as_path(contact.id)
+          %td= contact.organization.name
+          %td= contact.organization.state
+      = will_paginate @contact_points, param_name: 'contact_points_page', params: {tab: 'sign_in_as_participants'}
