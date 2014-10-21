@@ -62,8 +62,13 @@
   %strong Login information:
 
 %p
-  You may login as this contact here:
-  = link_to @contact.full_name_with_title, admin_contact_sign_in_as_path(@contact.id)
+  %table
+    %tr
+      %td{:style => @row_style} Username:
+      %td= @contact.username
+    %tr
+      %td{:style => @row_style} Password:
+      %td= @contact.plaintext_password
 
 %p
   %strong Contact Point Information
