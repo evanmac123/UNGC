@@ -19,8 +19,12 @@ class FileTextExtractor
       extractor.get_text_from_docx(path)
     when type =~ /\b(doc|msword)\b/
       extractor.get_text_from_word(path)
-    when type == 'application/vnd.ms-powerpoint'
+    when type =~ /application\/vnd\.openxmlformats-officedocument\.presentationml\.presentation/
+      extractor.get_text_from_pptx(path)
+    when type =~ /application\/vnd\.ms-powerpoint/
       extractor.get_text_from_ppt(path)
+    else
+      raise "Unknown content-type: #{type}"
     end
   end
 
@@ -42,6 +46,11 @@ class FileTextExtractor
   def get_text_from_ppt(path)
     Rails.logger.info "Extracting text from Powerpoint: #{path.inspect}"
     safe_get_text_command("#{Rails.root}/script/ppt_import", path)
+  end
+
+  def get_text_from_pptx(path)
+    Rails.logger.info "Extracting text from Powerpoint (New Format): #{path.inspect}"
+    safe_get_text_command("#{Rails.root}/script/pptx_import", path)
   end
 
   private
