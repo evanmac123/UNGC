@@ -1,11 +1,6 @@
 %h2 New Contribution Text
 
-- if @submodel.new_record?
-  - form_path = submodels_path
--else
-  - form_path = submodel_path(@submodel)
-
-= form_for @submodel, builder: DefaultFormBuilder, url: form_path do |form|
+= form_for @submodel, builder: DefaultFormBuilder, url: submodels_path do |form|
   = render partial: form
   %ul{class: "tools inline", style: 'float: right;'}
     %li= link_to 'Cancel', admin_local_network_path(@local_network, tab: @tab), class: 'cancel_large'
