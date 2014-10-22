@@ -22,6 +22,7 @@ class ContributionDescription < ActiveRecord::Base
   validates :pledge,            length: { maximum: 500 }
   validates :pledge_continued,  length: { maximum: 500 }
   validates :additional,        length: { maximum: 500 }
+  validate :at_least_one_field
 
   def empty?
     [
@@ -41,6 +42,14 @@ class ContributionDescription < ActiveRecord::Base
 
   def readable_error_messages
     errors.full_messages
+  end
+
+  private
+
+  def at_least_one_field
+    if empty?
+      errors[:base] << "Please fill out at least one field"
+    end
   end
 
 end
