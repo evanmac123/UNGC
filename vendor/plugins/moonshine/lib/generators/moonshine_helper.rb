@@ -33,6 +33,10 @@ module MoonshineGeneratorHelpers
         'src192'
       when "1.9.3"
         'src193'
+      when "2.0.0"
+        'src200'
+      when /^2.1/
+        'src21'
       else
       end
     end

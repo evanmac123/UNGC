@@ -36,14 +36,14 @@ module Moonshine::Manifest::Rails::Apache
       []
     end
   end
-  
+
   def apache_service_restart
     if configuration[:apache][:restart_on_change]
-      '/etc/init.d/apache2 restart'
+      '/usr/sbin/apache2ctl -t && /etc/init.d/apache2 restart'
     elsif configuration[:apache][:reload_on_change]
-      '/etc/init.d/apache2 reload'
+      '/usr/sbin/apache2ctl -t && /etc/init.d/apache2 reload'
     else
-      '/etc/init.d/apache2 restart'
+      '/usr/sbin/apache2ctl -t && /etc/init.d/apache2 restart'
     end
   end
 
@@ -67,7 +67,7 @@ module Moonshine::Manifest::Rails::Apache
 
     if configuration[:apache][:users].present?
       file htpasswd, :ensure => :file, :owner => configuration[:user], :mode => '644'
-      
+
       configuration[:apache][:users].each do |user,pass|
         exec "htpasswd #{user}",
           :command => "htpasswd -b #{htpasswd} #{user} #{pass}",
@@ -114,7 +114,7 @@ STATUS
       :require => exec('a2enmod status'),
       :content => status,
       :notify => apache_notifies
-      
+
     recipe :apache_logrotate
   end
 
@@ -123,7 +123,7 @@ STATUS
 
     logrotate_options = configuration[:apache][:logrotate] || {}
     logrotate_options[:frequency] ||= 'daily'
-    logrotate_options[:count] ||= '365'
+    logrotate_options[:count] ||= '7'
     logrotate "/var/log/apache2/*.log",
       :logrotated_file => 'apache2',
       :options => [
@@ -136,7 +136,7 @@ STATUS
         'create 640 root adm',
         'sharedscripts',
         'copytruncate'
-      ], 
+      ],
       :postrotate => 'true'
   end
 
@@ -148,7 +148,7 @@ private
   def a2ensite(site, options = {})
     exec("a2ensite #{site}", {
         :command => "/usr/sbin/a2ensite #{site}",
-        :unless => "ls /etc/apache2/sites-enabled/#{site}",
+        :unless => "ls /etc/apache2/sites-enabled/#{site}#{ '.conf' if ubuntu_trusty? }",
         :require => package("apache2-mpm-worker"),
         :notify => apache_notifies
       }.merge(options)
@@ -161,7 +161,7 @@ private
   def a2dissite(site, options = {})
     exec("a2dissite #{site}", {
         :command => "/usr/sbin/a2dissite #{site}",
-        :onlyif => "ls /etc/apache2/sites-enabled/#{site}",
+        :onlyif => "ls /etc/apache2/sites-enabled/#{site}#{ '.conf' if ubuntu_trusty? }",
         :require => package("apache2-mpm-worker"),
         :notify => apache_notifies
       }.merge(options)
@@ -193,5 +193,5 @@ private
       }.merge(options)
     )
   end
-  
+
 end

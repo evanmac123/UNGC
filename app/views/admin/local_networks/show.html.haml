@@ -189,34 +189,7 @@
             %dd= l.amount
 
   #contribution_descriptions.tab_content
-    %ul#tools{:class => "tools inline"}
-      - descriptions = @local_network.contribution_description
-      - if descriptions.empty?
-        %li= link_to 'Add custom contribution text', new_admin_local_network_contribution_description_path(@local_network.id), :class => 'new_large'
-      - else
-        %li= link_to 'Edit', edit_admin_local_network_contribution_description_path(@local_network), :class => 'edit_large'
-
-    #pledges_invoicing_display
-
-      - if descriptions.empty?
-        %p This section has not been completed.
-
-      - if descriptions.pledge.present?
-        %h4 Contribution Message
-        = simple_format descriptions.pledge
-        = simple_format descriptions.pledge_continued
-
-      - if descriptions.payment.present?
-        %h4 Invoice Instructions
-        = simple_format descriptions.payment
-
-      - if descriptions.contact.present?
-        %h4 Contact / Address Information
-        = simple_format descriptions.contact
-
-      - if descriptions.additional.present?
-        %h4 Additional Information
-        = simple_format descriptions.additional
+    = render @local_network.contribution_description || ContributionDescription.new
 
   #integrity_measures.tab_content
     - if current_contact_can_edit_network?
