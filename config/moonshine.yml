@@ -13,7 +13,7 @@
 # * src192
 # * src193
 :ruby: src21
-:rake_version: 10.0.3
+:rake_version: 10.1.0
 # Name of your application. Should be something with only alphanumerics, hypens
 # and underscores.
 :application: unglobalcompact
