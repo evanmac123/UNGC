@@ -24,7 +24,7 @@ class FileTextExtractor
     when type =~ /application\/vnd\.ms-powerpoint/
       extractor.get_text_from_ppt(path)
     else
-      raise "Unknown content-type: #{type}"
+      Rails.logger.error "Unknown content-type: #{type}"
     end
   end
 
