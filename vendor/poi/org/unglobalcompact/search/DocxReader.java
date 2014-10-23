@@ -11,7 +11,7 @@ public class DocxReader {
 
   public static void main(String[] args) throws Exception {
     if (args.length < 1) {
-      System.out.println("Usage: java org.unglobalcompact.search.WordXmlReader <file>");
+      System.out.println("Usage: java org.unglobalcompact.search.DocxReader <file>");
       return;
     }
 
