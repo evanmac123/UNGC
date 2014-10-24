@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141022193643) do
+ActiveRecord::Schema.define(:version => 20141024015900) do
 
   create_table "announcements", :force => true do |t|
     t.integer  "local_network_id"
@@ -229,6 +229,9 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer "contact_id"
     t.integer "role_id"
   end
+
+  add_index "contacts_roles", ["contact_id"], :name => "index_contacts_roles_on_contact_id"
+  add_index "contacts_roles", ["role_id"], :name => "index_contacts_roles_on_role_id"
 
   create_table "contribution_descriptions", :force => true do |t|
     t.integer  "local_network_id", :null => false
