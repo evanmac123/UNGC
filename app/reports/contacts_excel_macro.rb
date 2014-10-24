@@ -4,7 +4,7 @@ class ContactsExcelMacro < SimpleReport
     cop_states = [ Organization::COP_STATE_ACTIVE,
                    Organization::COP_STATE_NONCOMMUNICATING,
                    Organization::COP_STATE_DELISTED ]
-    Contact.for_mail_merge(cop_states)
+    ContactsForMailMerge.new(cop_states)
   end
 
   def render_output
