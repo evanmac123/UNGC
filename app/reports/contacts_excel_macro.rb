@@ -41,7 +41,10 @@ class ContactsExcelMacro < SimpleReport
 
   def row(record)
   [ record.joined_on,
-    record.organization_name,
+    record.organization_name(
+      local_network_name: record.network_name,
+      organization_name: record.org_name
+    ),
     record.organization_country,
     record.prefix,
     record.first_name,
@@ -53,7 +56,7 @@ class ContactsExcelMacro < SimpleReport
     record.city,
     record.state,
     record.postal_code,
-    record.country_name,
+    record.country_name_for_mail_merge,
     record.organization_type_name,
     record.sector_name,
     record.role_name,
