@@ -44,7 +44,10 @@ class ContactsMailMerge < SimpleReport
   def row(record)
   [ record.organization_id,
     record.id,
-    record.organization_name, # FIXME
+    record.organization_name(
+      local_network_name: record.network_name,
+      organization_name: record.org_name
+    ),
     record.organization_country,
     record.joined_on,
     record.organization_type_name,

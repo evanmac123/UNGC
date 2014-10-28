@@ -1,14 +1,13 @@
 class ContactsForMailMerge < SimpleDelegator
 
   def initialize(cop_states)
-    @cop_states = cop_states
-    super(relation)
+    super(relation(cop_states))
   end
 
   private
 
-  def relation
-    @relation ||= Contact.select("contacts.id,
+  def relation(cop_states)
+    Contact.select("contacts.id,
                 contacts.prefix,
                 contacts.first_name,
                 contacts.last_name,
@@ -23,17 +22,19 @@ class ContactsForMailMerge < SimpleDelegator
                 contacts.fax,
                 contacts.username,
                 contacts.plaintext_password,
+                contacts.organization_id,
+                contacts.welcome_package,
                 org_country.name AS organization_country,
                 o.joined_on,
-                t.name AS organization_type_name,
                 o.cop_state,
-                s.name as sector_name,
                 o.employees,
                 o.is_ft_500,
-                l.name as network_name,
                 o.name as org_name,
-                country.region,
+                t.name AS organization_type_name,
+                s.name as sector_name,
+                l.name as network_name,
                 r.name as role_name,
+                country.region,
                 country.name AS country_name_for_mail_merge")
       .joins("JOIN organizations o ON contacts.organization_id = o.id
                JOIN countries country ON contacts.country_id = country.id
@@ -46,7 +47,7 @@ class ContactsForMailMerge < SimpleDelegator
       .where("o.cop_state IN (?) AND
                      o.participant = 1 AND
                      t.name NOT IN ('Media Organization', 'GC Networks', 'Mailing List') AND
-                     contacts_roles.role_id IN (?)", @cop_states, [Role.ceo, Role.contact_point])
+                     contacts_roles.role_id IN (?)", cop_states, [Role.ceo, Role.contact_point])
   end
 
 end
