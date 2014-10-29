@@ -277,6 +277,19 @@ class Contact < ActiveRecord::Base
     end
   end
 
+  # TODO remove once encrypted_passwords are moved over to bcrypt
+  def valid_password?(password)
+    begin
+      super(password)
+    rescue BCrypt::Errors::InvalidHash
+      return false unless Contact.old_encrypted_password(password) == encrypted_password
+      logger.info "User #{email} is using the old password hashing method, updating attribute."
+      self.password = password
+      true
+    end
+  end
+  alias :devise_valid_password? :valid_password?
+
   def self.new_contact_point
     new roles: [Role.contact_point]
   end
@@ -325,5 +338,10 @@ class Contact < ActiveRecord::Base
       if self.from_organization? && self.organization.participant && !self.is?(Role.ceo) && self.organization.contacts.ceos.count < 1
         self.roles << Role.ceo
       end
+    end
+
+    # TODO remove once encrypted_passwords are moved over to bcrypt
+    def self.old_encrypted_password(password)
+      Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
 end
