@@ -59,7 +59,6 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       end
 
       should "change the password" do
-        old_password = @organization_user.encrypted_password
         put :update, :contact => {
           :reset_password_token   => @reset_token,
           :password               => 'password',
@@ -71,7 +70,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
         contact = @organization_user.reload
         assert_not_nil contact.encrypted_password
-        assert_not_equal old_password, contact.encrypted_password
+        assert contact.valid_password? 'password'
       end
 
       should "not change the password with different passwords" do
