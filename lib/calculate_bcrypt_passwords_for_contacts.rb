@@ -1,4 +1,4 @@
-# bin/rails r 'CalculateBcryptPasswordsForContacts.new.run' -e production
+# nice -19 bin/rails r 'CalculateBcryptPasswordsForContacts.new.run' -e production
 
 class CalculateBcryptPasswordsForContacts
   def run
