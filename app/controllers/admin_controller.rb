@@ -125,7 +125,7 @@ class AdminController < ApplicationController
   end
 
   def sign_in_as_contacts_for(organizations)
-    if current_contact.can_sign_in_as_contact_point?
+    if current_contact.can_sign_in_as_contact_points?
       Contact.contact_points
         .where("organizations.state <> 'rejected'")
         .joins(:organization)

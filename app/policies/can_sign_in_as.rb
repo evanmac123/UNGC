@@ -16,7 +16,7 @@ class CanSignInAs
   private
 
   def from_authorized_account
-    @current.can_sign_in_as_contact_point?
+    @current.can_sign_in_as_contact_points?
   end
 
   def to_contact_point
