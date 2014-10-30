@@ -1,5 +1,5 @@
 class Admin::ContactsController < AdminController
-  before_filter :load_parent, :except => :search
+  before_filter :load_parent, except: [:search, :sign_in_as]
 
   def new
     @contact = @parent.contacts.new
@@ -68,9 +68,15 @@ class Admin::ContactsController < AdminController
   end
 
   def sign_in_as
-    target_account = Contact.find(params[:contact_id])
-    sign_in target_account
-    redirect_to dashboard_path
+    target = Contact.find(params.fetch(:id))
+
+    if CanSignInAs.contact(current_contact, target)
+      sign_in target
+      redirect_to dashboard_path
+    else
+      redirect_to dashboard_url(tab: 'sign_in_as_contact_point'),
+                    notice: 'Unauthorized'
+    end
   end
 
   private

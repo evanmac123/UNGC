@@ -176,6 +176,52 @@ class Admin::ContactsControllerTest < ActionController::TestCase
       put :update, :local_network_id => @local_network.id, :id => @network_contact.to_param
       assert_redirected_to admin_local_network_path(@local_network.id, :tab => :contacts)
     end
+  end
+
+  context "signing in a contact point" do
+
+    should 'be allowed for Network Report Recipients of the same network' do
+      contact       = create_contact_role Role.network_report_recipient
+      contact_point = create_contact_role Role.contact_point
+
+      sign_in contact
+      post :sign_in_as, id: contact_point
+
+      assert_nil flash[:notice]
+      assert_redirected_to dashboard_url
+    end
+
+    should 'not be allowed for Network Report Recipients from another network' do
+      country = create_country(local_network: create_local_network)
+      org_in_other_network = create_organization(country: country)
+      contact                      = create_contact_role Role.network_report_recipient
+      contact_point_from_other_org = create_contact_role Role.contact_point, org_in_other_network
+
+      sign_in contact
+      post :sign_in_as, id: contact_point_from_other_org
+
+      assert_equal 'Unauthorized', flash[:notice]
+      assert_redirected_to dashboard_url(tab: 'sign_in_as_contact_point')
+    end
+
+    should 'not sign in roles other than contact point' do
+      contact = create_contact_role Role.network_report_recipient
+      ceo     = create_contact_role Role.ceo
+
+      sign_in contact
+      post :sign_in_as, id: ceo
+
+      assert_equal 'Unauthorized', flash[:notice]
+      assert_redirected_to dashboard_url(tab: 'sign_in_as_contact_point')
+    end
+
+    def create_contact_role(role, organization = nil)
+      organization ||= @organization
+      create_contact \
+        organization: organization,
+        roles: [role],
+        local_network: organization.local_network
+    end
 
   end
 end
