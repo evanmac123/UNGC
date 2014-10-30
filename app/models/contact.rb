@@ -282,10 +282,18 @@ class Contact < ActiveRecord::Base
     begin
       super(password)
     rescue BCrypt::Errors::InvalidHash
-      return false unless Contact.old_encrypted_password(password) == encrypted_password
-      logger.info "User #{email} is using the old password hashing method, updating attribute."
-      self.password = password
-      true
+      # encrypted_password doesn't contain a BCrypt hash
+      # this is because it is still using the old SHA1 hash
+      # try to authenticate the user with the old digest
+      if Contact.old_password_digest(password) == encrypted_password
+        # the old digest worked, set the password in hopes that this
+        # contact is saved, thereby moving to BCrypt.
+        logger.info "User #{email} is using the old password hashing method, updating attribute."
+        self.password = password
+        true
+      else
+        false
+      end
     end
   end
   alias :devise_valid_password? :valid_password?
@@ -341,7 +349,7 @@ class Contact < ActiveRecord::Base
     end
 
     # TODO remove once encrypted_passwords are moved over to bcrypt
-    def self.old_encrypted_password(password)
+    def self.old_password_digest(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
     end
 end
