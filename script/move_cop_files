@@ -1,13 +1,13 @@
 #!/bin/sh
 
 cd public/system/attachments
-mkdir 2014
+mkdir cop_2014
 
 for d in `ls`; do
   if [ "$d" -gt "90000" ]
   then
     echo $d
-    mv $d 2014
+    mv $d cop_2014
   fi
 done
 
