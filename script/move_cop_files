@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cd public/system/attachments
+mkdir SLOT_1
+
+for d in `ls`; do
+  if [ "$d" -gt "90000" ]
+  then
+    echo $d
+    mv $d SLOT_1
+  fi
+done
+
+echo "INFO: ignore the failures messages"
