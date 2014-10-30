@@ -16,7 +16,7 @@
 Paperclip.interpolates :cop_file_id do |attachment, style|
     id = attachment.instance.id
     if id > 90000
-      "SLOT_1/" + id
+      "SLOT_1/#{id}"
     else
       id
     end
