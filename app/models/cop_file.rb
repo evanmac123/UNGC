@@ -13,6 +13,14 @@
 #  attachment_type         :string(255)
 #  language_id             :integer
 #
+Paperclip.interpolates :cop_file_id do |attachment, style|
+    id = attachment.instance.id
+    if id > 90000
+      "cop_#{attachment.instance.created_at.year}/#{id}"
+    else
+      id
+    end
+end
 
 class CopFile < ActiveRecord::Base
   validates_presence_of :attachment_type, :language
@@ -21,8 +29,8 @@ class CopFile < ActiveRecord::Base
   after_initialize :initialize_defaults
 
   has_attached_file :attachment,
-    :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
-    :url => "/system/:attachment/:id/:style/:filename"
+    :path => ":rails_root/public/system/:attachment/:cop_file_id/:style/:filename",
+    :url => "/system/:attachment/:cop_file_id/:style/:filename"
   validates_attachment_presence :attachment
 
   TYPES = {:grace_letter          => 'grace_letter',
