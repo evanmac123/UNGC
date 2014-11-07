@@ -181,6 +181,11 @@ UNGC::Application.routes.draw do
 
   resources :organizations, :only => :index
 
+  # Salesforce webook routes
+  namespace :salesforce, defaults: { format: 'json' } do
+    post '/sync' => 'api#sync'
+  end
+
   # Front-end routes
   match '/feeds/cops' => 'cops#feed', :format => 'atom'
 
@@ -196,14 +201,14 @@ UNGC::Application.routes.draw do
   match '/app'            => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
   match '/businesspartnershiphub' => 'pages#redirect_to_page', :page => 'http://businesspartnershiphub.org/'
   match '/HR_Resources'   => 'pages#redirect_to_page', :page => '/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf'
-  match ':sabp'           => 'pages#redirect_to_page', :page => '/Issues/partnerships/sustainable_agriculture_business_principles.html', :constraints => { :sabp => /sabp/i }
+  match ':sabprinciples'  => 'pages#redirect_to_page', :page => '/Issues/Environment/food_agriculture_business_principles.html', :constraints => { :sabprinciples => /sabprinciples/i }
   match '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
   match '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
   match '/FundraisingToolkit' => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf'
   match '/anti-corruption' => 'pages#redirect_to_page', :page => '/Issues/transparency_anticorruption/call_to_action_post2015.html'
   match '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
   match '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
-  
+
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
   match '/participants/search' => 'participants#search', :as => :participant_search
