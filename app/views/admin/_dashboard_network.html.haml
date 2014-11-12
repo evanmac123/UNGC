@@ -1,0 +1,52 @@
+- @title = 'Dashboard Overview'
+- @body_class = 'details'
+%h3= @local_network.name
+%div{:class => "tab_container top_tabs"}
+  %ul.tab_nav
+    %li= link_to 'Overview', '#overview'
+    %li= link_to "Announcements #{announcement_count}", '#announcements'
+
+  #overview.tab_content
+
+    %dl.left_column{:style => 'width: 425px;'}
+      %h3 Welcome to the Dashboard
+
+      %p Manage and share information about your Local Network with the Global Compact Office and learn about the activities of other networks.
+
+      %dt.first Network Management
+      %dd.first Create and update your Local Network's profile
+      %dt Knowledge Sharing
+      %dd Publish and share your events and activities
+      %dt Browse Networks
+      %dd View other Local Network profiles by Region
+      %dt Learning
+      %dd Find events and activities shared by other Networks
+      %dt Reports
+      %dd Excel files of participant, COP and Local Network data
+
+    %dl.left_column{:style => 'width: 1%; height: 300px; border-left: 1px solid #EEE;'}
+
+    %dl.left_column{:style => 'width: 40%;'}
+      %h3 Getting Started
+
+      %p A step-by-step guide to using the Dashboard and Knowledge Sharing System.
+
+      %ul.document_list.no_indent
+        %li= link_to 'The KSS Manual Explanatory Note', '/docs/networks_around_world_doc/resources/dashboard/KSS_Manual.pdf', :class => 'pdf', :title => 'The KSS Manual Explanatory Note'
+
+      %p Resources, guidance material, news and updates from the&nbsp;Global&nbsp;Compact&nbsp;Office.
+
+      %ul.document_list.no_indent
+        %li= popup_link_to 'Local Network Resources', '/LocalNetworksResources/training_guidance_material/index.html', :class => 'web', :title => 'Local Network Resources'
+
+  #announcements.tab_content
+    %h3 Upcoming events and activities from Local Networks
+    %table.dashboard_table
+      %tr
+        %th Issue Area
+        %th Local Network
+        %th Region
+        %th Title
+        %th Description
+        %th Date
+      = render :partial => 'admin/announcements/announcement_view', :collection => @announcements

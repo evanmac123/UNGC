@@ -11,10 +11,11 @@
 #  manager_id             :integer
 #  local_network_id       :integer
 #  participant_manager_id :integer
-#
+#  regional_center_id     :integer
 
 class Country < ActiveRecord::Base
   belongs_to :local_network
+  belongs_to :regional_center, :class_name => 'LocalNetwork'
   belongs_to :manager, :class_name => 'Contact'
   belongs_to :participant_manager, :class_name => 'Contact'
   has_and_belongs_to_many :case_stories
