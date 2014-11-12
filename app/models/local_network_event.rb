@@ -82,7 +82,7 @@ class LocalNetworkEvent < ActiveRecord::Base
   end
 
   def set_indexed_fields
-    country = local_network.countries.first
+    country = local_network.country
 
     self.attributes = {
       :country_id   => country.id,

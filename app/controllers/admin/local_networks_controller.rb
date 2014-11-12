@@ -1,5 +1,5 @@
 class Admin::LocalNetworksController < AdminController
-  before_filter :load_local_network, :only => [:show, :edit, :destroy, :knowledge_sharing]
+  before_filter :load_local_network, :only => [:show, :edit, :update, :destroy, :knowledge_sharing]
   before_filter :no_access_to_other_local_networks, :except => [:index, :show, :knowledge_sharing, :update]
 
   helper Admin::LocalNetworkSubmodelHelper
@@ -13,12 +13,9 @@ class Admin::LocalNetworksController < AdminController
     @local_network = LocalNetwork.new(:state => LocalNetwork::STATES[:emerging])
   end
 
-  def show
-    @local_network = LocalNetwork.find(params[:id])
-  end
+  def show; end
 
   def edit
-    @local_network = LocalNetwork.find(params[:id])
     @section ||= params[:section]
     @form_partial = @section ? 'edit_' + @section : 'default_form'
   end
@@ -34,7 +31,6 @@ class Admin::LocalNetworksController < AdminController
   end
 
   def update
-    @local_network = LocalNetwork.find(params[:id])
     @section ||= params[:section]
     @form_partial = @section ? 'edit_' + @section : 'default_form'
     if LocalNetworkUpdate.update(@local_network, params[:local_network])
@@ -48,7 +44,6 @@ class Admin::LocalNetworksController < AdminController
   def knowledge_sharing; end
 
   def destroy
-    @local_network = LocalNetwork.find(params[:id])
     @local_network.destroy
     flash[:notice] = 'Local Network was deleted.'
     redirect_to(admin_local_networks_path)
