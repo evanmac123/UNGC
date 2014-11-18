@@ -42,8 +42,14 @@ GIT: `sudo apt-get install git`
 `rvm 2.1.3 --default` this will make the downloaded 2.1.3 the default in your computer
 `cap staging ruby:upgrade` this will upgrade the version of ruby on the staging machine
 
-# Redis
+## Redis
 UNGC uses redis 2.6+ for background jobs and soon as a session store. Sidekiq is used to interface with redis from the ruby side and runs alongside rails.  To enable working with this in development, use the `foreman` gem to start both rails and sidekiq. Specific instructions follow below.
+
+## Installing Redis
+`sudo apt-get install python-software-properties`
+`sudo add-apt-repository ppa:chris-lea/redis-server`
+`sudo apt-get update`
+`sudo apt-get install redis-server`
 
 OR
 
