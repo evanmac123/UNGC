@@ -33,6 +33,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :dnsmasq
   recipe :resolv_conf
   recipe :passenger_monitor
+  recipe :redis
 
   recipe :pdfminer
 
