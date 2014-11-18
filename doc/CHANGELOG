@@ -1,5 +1,9 @@
 h1. 2014-11-18
 
+* Reports now run as background jobs outside of the rails process. This frees up rails to continue handling requests while large, slow reports are generated.  The Sidekiq gem and a Redis server are used to manage these background jobs.
+
+h1. 2014-11-18
+
 * Transition to ruby 2.1. This should improve speed and memory footprint. 1.9.3 was no longer recieving security updates so this will allow us to benefit from those once again. Finally more and more gems require ruby 2, and rails itself will soon as well.
 
 * Added redis 2.6.17 to moonshine
