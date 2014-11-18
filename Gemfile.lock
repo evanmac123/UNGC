@@ -44,7 +44,7 @@ GEM
       multi_json (~> 1.0)
     acts_as_commentable (4.0.0)
     acts_as_tree_rails3 (0.1.0)
-    airbrake (3.2.1)
+    airbrake (4.1.0)
       builder
       multi_json
     annotate (2.5.0)
@@ -254,7 +254,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_commentable (~> 4.0.0)
   acts_as_tree_rails3 (~> 0.1.0)
-  airbrake (= 3.2.1)
+  airbrake (~> 4.1.0)
   annotate (~> 2.5.0)
   byebug
   capistrano
