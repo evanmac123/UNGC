@@ -339,6 +339,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer  "manager_id"
     t.integer  "local_network_id"
     t.integer  "participant_manager_id"
+    t.integer  "regional_center_id"
   end
 
   add_index "countries", ["participant_manager_id"], :name => "index_countries_on_participant_manager_id"
