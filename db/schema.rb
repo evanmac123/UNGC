@@ -9,11 +9,11 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141022193643) do
+ActiveRecord::Schema.define(version: 20141022193643) do
 
-  create_table "announcements", :force => true do |t|
+  create_table "announcements", force: true do |t|
     t.integer  "local_network_id"
     t.integer  "principle_id"
     t.string   "title"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "annual_reports", :force => true do |t|
+  create_table "annual_reports", force: true do |t|
     t.integer  "local_network_id"
     t.date     "year"
     t.boolean  "future_plans"
@@ -33,21 +33,21 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "authors", :force => true do |t|
+  create_table "authors", force: true do |t|
     t.string   "full_name"
     t.string   "acronym"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table "authors_resources", :id => false, :force => true do |t|
+  create_table "authors_resources", id: false, force: true do |t|
     t.integer  "author_id"
     t.integer  "resource_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
-  create_table "awards", :force => true do |t|
+  create_table "awards", force: true do |t|
     t.integer  "local_network_id"
     t.string   "title"
     t.text     "description"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "case_stories", :force => true do |t|
+  create_table "case_stories", force: true do |t|
     t.string   "identifier"
     t.integer  "organization_id"
     t.string   "title"
@@ -99,17 +99,17 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer  "reviewer_id"
   end
 
-  create_table "case_stories_countries", :id => false, :force => true do |t|
+  create_table "case_stories_countries", id: false, force: true do |t|
     t.integer "case_story_id"
     t.integer "country_id"
   end
 
-  create_table "case_stories_principles", :id => false, :force => true do |t|
+  create_table "case_stories_principles", id: false, force: true do |t|
     t.integer "case_story_id"
     t.integer "principle_id"
   end
 
-  create_table "comments", :force => true do |t|
+  create_table "comments", force: true do |t|
     t.text     "body"
     t.integer  "commentable_id"
     t.string   "commentable_type"
@@ -122,11 +122,11 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "attachment_updated_at"
   end
 
-  add_index "comments", ["commentable_id"], :name => "index_comments_on_commentable_id"
-  add_index "comments", ["commentable_type"], :name => "index_comments_on_commentable_type"
-  add_index "comments", ["contact_id"], :name => "index_comments_on_contact_id"
+  add_index "comments", ["commentable_id"], name: "index_comments_on_commentable_id", using: :btree
+  add_index "comments", ["commentable_type"], name: "index_comments_on_commentable_type", using: :btree
+  add_index "comments", ["contact_id"], name: "index_comments_on_contact_id", using: :btree
 
-  create_table "communication_on_progresses", :force => true do |t|
+  create_table "communication_on_progresses", force: true do |t|
     t.integer  "organization_id"
     t.string   "title"
     t.string   "contact_info"
@@ -159,34 +159,34 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.date     "published_on"
   end
 
-  add_index "communication_on_progresses", ["created_at"], :name => "index_communication_on_progresses_on_created_at"
-  add_index "communication_on_progresses", ["differentiation"], :name => "index_communication_on_progresses_on_differentiation"
-  add_index "communication_on_progresses", ["organization_id"], :name => "index_communication_on_progresses_on_organization_id"
-  add_index "communication_on_progresses", ["state"], :name => "index_communication_on_progresses_on_state"
+  add_index "communication_on_progresses", ["created_at"], name: "index_communication_on_progresses_on_created_at", using: :btree
+  add_index "communication_on_progresses", ["differentiation"], name: "index_communication_on_progresses_on_differentiation", using: :btree
+  add_index "communication_on_progresses", ["organization_id"], name: "index_communication_on_progresses_on_organization_id", using: :btree
+  add_index "communication_on_progresses", ["state"], name: "index_communication_on_progresses_on_state", using: :btree
 
-  create_table "communication_on_progresses_countries", :id => false, :force => true do |t|
+  create_table "communication_on_progresses_countries", id: false, force: true do |t|
     t.integer "communication_on_progress_id"
     t.integer "country_id"
   end
 
-  create_table "communication_on_progresses_languages", :id => false, :force => true do |t|
+  create_table "communication_on_progresses_languages", id: false, force: true do |t|
     t.integer "communication_on_progress_id"
     t.integer "language_id"
   end
 
-  create_table "communication_on_progresses_principles", :id => false, :force => true do |t|
+  create_table "communication_on_progresses_principles", id: false, force: true do |t|
     t.integer "communication_on_progress_id"
     t.integer "principle_id"
   end
 
-  create_table "communications", :force => true do |t|
+  create_table "communications", force: true do |t|
     t.integer "local_network_id"
     t.string  "title"
     t.string  "communication_type"
     t.date    "date"
   end
 
-  create_table "contacts", :force => true do |t|
+  create_table "contacts", force: true do |t|
     t.integer  "old_id"
     t.string   "first_name"
     t.string   "middle_name"
@@ -216,79 +216,79 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "last_sign_in_at"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",             :default => 0
+    t.integer  "sign_in_count",             default: 0
     t.datetime "current_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.boolean  "welcome_package"
   end
 
-  add_index "contacts", ["organization_id"], :name => "index_contacts_on_organization_id"
+  add_index "contacts", ["organization_id"], name: "index_contacts_on_organization_id", using: :btree
 
-  create_table "contacts_roles", :id => false, :force => true do |t|
+  create_table "contacts_roles", id: false, force: true do |t|
     t.integer "contact_id"
     t.integer "role_id"
   end
 
-  create_table "contribution_descriptions", :force => true do |t|
-    t.integer  "local_network_id", :null => false
+  create_table "contribution_descriptions", force: true do |t|
+    t.integer  "local_network_id", null: false
     t.text     "pledge"
     t.text     "pledge_continued"
     t.text     "payment"
     t.text     "contact"
     t.text     "additional"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
-  add_index "contribution_descriptions", ["local_network_id"], :name => "index_contribution_descriptions_on_local_network_id"
+  add_index "contribution_descriptions", ["local_network_id"], name: "index_contribution_descriptions_on_local_network_id", using: :btree
 
-  create_table "contribution_levels", :force => true do |t|
-    t.integer  "contribution_levels_info_id", :null => false
-    t.string   "description",                 :null => false
-    t.string   "amount",                      :null => false
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
+  create_table "contribution_levels", force: true do |t|
+    t.integer  "contribution_levels_info_id", null: false
+    t.string   "description",                 null: false
+    t.string   "amount",                      null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
     t.integer  "order"
   end
 
-  add_index "contribution_levels", ["contribution_levels_info_id"], :name => "index_contribution_levels_on_contribution_levels_info_id"
-  add_index "contribution_levels", ["order"], :name => "index_contribution_levels_on_order"
+  add_index "contribution_levels", ["contribution_levels_info_id"], name: "index_contribution_levels_on_contribution_levels_info_id", using: :btree
+  add_index "contribution_levels", ["order"], name: "index_contribution_levels_on_order", using: :btree
 
-  create_table "contribution_levels_infos", :force => true do |t|
+  create_table "contribution_levels_infos", force: true do |t|
     t.integer  "local_network_id"
     t.string   "level_description"
     t.string   "amount_description"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
-  add_index "contribution_levels_infos", ["local_network_id"], :name => "index_contribution_levels_infos_on_local_network_id"
+  add_index "contribution_levels_infos", ["local_network_id"], name: "index_contribution_levels_infos_on_local_network_id", using: :btree
 
-  create_table "cop_answers", :force => true do |t|
+  create_table "cop_answers", force: true do |t|
     t.integer  "cop_id"
     t.integer  "cop_attribute_id"
     t.boolean  "value"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "text",             :null => false
+    t.text     "text",             null: false
   end
 
-  add_index "cop_answers", ["cop_id"], :name => "index_cop_answers_on_cop_id"
+  add_index "cop_answers", ["cop_id"], name: "index_cop_answers_on_cop_id", using: :btree
 
-  create_table "cop_attributes", :force => true do |t|
+  create_table "cop_attributes", force: true do |t|
     t.integer  "cop_question_id"
     t.string   "text"
     t.integer  "position"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "hint",                               :null => false
-    t.boolean  "open",            :default => false
+    t.text     "hint",                            null: false
+    t.boolean  "open",            default: false
   end
 
-  add_index "cop_attributes", ["cop_question_id", "position"], :name => "index_cop_attributes_on_cop_question_id_and_position"
+  add_index "cop_attributes", ["cop_question_id", "position"], name: "index_cop_attributes_on_cop_question_id_and_position", using: :btree
 
-  create_table "cop_files", :force => true do |t|
+  create_table "cop_files", force: true do |t|
     t.integer  "cop_id"
     t.string   "attachment_file_name"
     t.string   "attachment_content_type"
@@ -300,7 +300,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer  "language_id"
   end
 
-  create_table "cop_links", :force => true do |t|
+  create_table "cop_links", force: true do |t|
     t.integer  "cop_id"
     t.string   "url"
     t.datetime "created_at"
@@ -309,7 +309,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer  "language_id"
   end
 
-  create_table "cop_questions", :force => true do |t|
+  create_table "cop_questions", force: true do |t|
     t.integer  "principle_area_id"
     t.string   "text"
     t.integer  "position"
@@ -321,16 +321,16 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer  "year"
   end
 
-  add_index "cop_questions", ["principle_area_id", "position"], :name => "index_cop_questions_on_principle_area_id_and_position"
+  add_index "cop_questions", ["principle_area_id", "position"], name: "index_cop_questions_on_principle_area_id_and_position", using: :btree
 
-  create_table "cop_scores", :force => true do |t|
+  create_table "cop_scores", force: true do |t|
     t.string   "description"
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "countries", :force => true do |t|
+  create_table "countries", force: true do |t|
     t.string   "code"
     t.string   "name"
     t.string   "region"
@@ -342,9 +342,9 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer  "regional_center_id"
   end
 
-  add_index "countries", ["participant_manager_id"], :name => "index_countries_on_participant_manager_id"
+  add_index "countries", ["participant_manager_id"], name: "index_countries_on_participant_manager_id", using: :btree
 
-  create_table "events", :force => true do |t|
+  create_table "events", force: true do |t|
     t.string   "title"
     t.text     "description"
     t.date     "starts_on"
@@ -361,12 +361,12 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "approval"
   end
 
-  create_table "events_principles", :id => false, :force => true do |t|
+  create_table "events_principles", id: false, force: true do |t|
     t.integer "event_id"
     t.integer "principle_area_id"
   end
 
-  create_table "exchanges", :force => true do |t|
+  create_table "exchanges", force: true do |t|
     t.string   "code"
     t.string   "name"
     t.string   "secondary_code"
@@ -376,7 +376,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "headlines", :force => true do |t|
+  create_table "headlines", force: true do |t|
     t.string   "title"
     t.text     "description"
     t.string   "location"
@@ -391,17 +391,17 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  add_index "headlines", ["approval"], :name => "index_headlines_on_approval"
-  add_index "headlines", ["published_on"], :name => "index_headlines_on_published_on"
+  add_index "headlines", ["approval"], name: "index_headlines_on_approval", using: :btree
+  add_index "headlines", ["published_on"], name: "index_headlines_on_published_on", using: :btree
 
-  create_table "initiatives", :force => true do |t|
+  create_table "initiatives", force: true do |t|
     t.string   "name"
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "integrity_measures", :force => true do |t|
+  create_table "integrity_measures", force: true do |t|
     t.integer "local_network_id"
     t.string  "title"
     t.string  "policy_type"
@@ -409,21 +409,21 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.date    "date"
   end
 
-  create_table "languages", :force => true do |t|
+  create_table "languages", force: true do |t|
     t.string   "name"
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "listing_statuses", :force => true do |t|
+  create_table "listing_statuses", force: true do |t|
     t.string   "name"
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "local_network_events", :force => true do |t|
+  create_table "local_network_events", force: true do |t|
     t.integer  "local_network_id"
     t.string   "title"
     t.text     "description"
@@ -449,15 +449,15 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.text     "file_content"
   end
 
-  create_table "local_network_events_principles", :id => false, :force => true do |t|
+  create_table "local_network_events_principles", id: false, force: true do |t|
     t.integer "local_network_event_id"
     t.integer "principle_id"
   end
 
-  add_index "local_network_events_principles", ["local_network_event_id"], :name => "index_local_network_events_principles_on_local_network_event_id"
-  add_index "local_network_events_principles", ["principle_id"], :name => "index_local_network_events_principles_on_principle_id"
+  add_index "local_network_events_principles", ["local_network_event_id"], name: "index_local_network_events_principles_on_local_network_event_id", using: :btree
+  add_index "local_network_events_principles", ["principle_id"], name: "index_local_network_events_principles_on_principle_id", using: :btree
 
-  create_table "local_networks", :force => true do |t|
+  create_table "local_networks", force: true do |t|
     t.string   "name"
     t.string   "url"
     t.string   "state"
@@ -505,7 +505,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "funding_model"
   end
 
-  create_table "logo_comments", :force => true do |t|
+  create_table "logo_comments", force: true do |t|
     t.date     "added_on"
     t.integer  "old_id"
     t.integer  "logo_request_id"
@@ -519,7 +519,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "attachment_updated_at"
   end
 
-  create_table "logo_files", :force => true do |t|
+  create_table "logo_files", force: true do |t|
     t.string   "name"
     t.string   "description"
     t.integer  "old_id"
@@ -537,12 +537,12 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "preview_updated_at"
   end
 
-  create_table "logo_files_logo_requests", :id => false, :force => true do |t|
+  create_table "logo_files_logo_requests", id: false, force: true do |t|
     t.integer "logo_file_id"
     t.integer "logo_request_id"
   end
 
-  create_table "logo_publications", :force => true do |t|
+  create_table "logo_publications", force: true do |t|
     t.string   "name"
     t.integer  "old_id"
     t.integer  "parent_id"
@@ -551,7 +551,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "logo_requests", :force => true do |t|
+  create_table "logo_requests", force: true do |t|
     t.integer  "old_id"
     t.integer  "publication_id"
     t.integer  "organization_id"
@@ -567,7 +567,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.date     "approved_on"
   end
 
-  create_table "meetings", :force => true do |t|
+  create_table "meetings", force: true do |t|
     t.integer  "local_network_id"
     t.string   "meeting_type"
     t.date     "date"
@@ -575,7 +575,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "mous", :force => true do |t|
+  create_table "mous", force: true do |t|
     t.integer  "local_network_id"
     t.date     "year"
     t.datetime "created_at"
@@ -583,7 +583,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "mou_type"
   end
 
-  create_table "non_business_organization_registrations", :force => true do |t|
+  create_table "non_business_organization_registrations", force: true do |t|
     t.date    "date"
     t.string  "place"
     t.string  "authority"
@@ -592,16 +592,16 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer "organization_id"
   end
 
-  add_index "non_business_organization_registrations", ["organization_id"], :name => "index_non_business_organization_registrations_on_organization_id"
+  add_index "non_business_organization_registrations", ["organization_id"], name: "index_non_business_organization_registrations_on_organization_id", using: :btree
 
-  create_table "organization_types", :force => true do |t|
+  create_table "organization_types", force: true do |t|
     t.string   "name"
     t.integer  "type_property"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "organizations", :force => true do |t|
+  create_table "organizations", force: true do |t|
     t.integer  "old_id"
     t.string   "name"
     t.integer  "organization_type_id"
@@ -647,12 +647,12 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "isin"
   end
 
-  add_index "organizations", ["country_id"], :name => "index_organizations_on_country_id"
-  add_index "organizations", ["participant", "id"], :name => "index_organizations_on_participant_and_id"
-  add_index "organizations", ["participant"], :name => "index_organizations_on_participant"
-  add_index "organizations", ["participant_manager_id"], :name => "index_organizations_on_participant_manager_id"
+  add_index "organizations", ["country_id"], name: "index_organizations_on_country_id", using: :btree
+  add_index "organizations", ["participant", "id"], name: "index_organizations_on_participant_and_id", using: :btree
+  add_index "organizations", ["participant"], name: "index_organizations_on_participant", using: :btree
+  add_index "organizations", ["participant_manager_id"], name: "index_organizations_on_participant_manager_id", using: :btree
 
-  create_table "page_groups", :force => true do |t|
+  create_table "page_groups", force: true do |t|
     t.string   "name"
     t.boolean  "display_in_navigation"
     t.string   "html_code"
@@ -662,7 +662,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "path_stub"
   end
 
-  create_table "pages", :force => true do |t|
+  create_table "pages", force: true do |t|
     t.string   "path"
     t.string   "title"
     t.string   "html_code"
@@ -684,13 +684,13 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "change_path"
   end
 
-  add_index "pages", ["approval"], :name => "index_pages_on_approval"
-  add_index "pages", ["group_id"], :name => "index_pages_on_group_id"
-  add_index "pages", ["parent_id"], :name => "index_pages_on_parent_id"
-  add_index "pages", ["path"], :name => "index_pages_on_path"
-  add_index "pages", ["version_number"], :name => "index_pages_on_version_number"
+  add_index "pages", ["approval"], name: "index_pages_on_approval", using: :btree
+  add_index "pages", ["group_id"], name: "index_pages_on_group_id", using: :btree
+  add_index "pages", ["parent_id"], name: "index_pages_on_parent_id", using: :btree
+  add_index "pages", ["path"], name: "index_pages_on_path", using: :btree
+  add_index "pages", ["version_number"], name: "index_pages_on_version_number", using: :btree
 
-  create_table "principles", :force => true do |t|
+  create_table "principles", force: true do |t|
     t.string   "name"
     t.integer  "old_id"
     t.datetime "created_at"
@@ -700,32 +700,32 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "reference"
   end
 
-  create_table "principles_resources", :id => false, :force => true do |t|
+  create_table "principles_resources", id: false, force: true do |t|
     t.integer  "principle_id"
     t.integer  "resource_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
-  create_table "removal_reasons", :force => true do |t|
+  create_table "removal_reasons", force: true do |t|
     t.string   "description"
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "resource_links", :force => true do |t|
+  create_table "resource_links", force: true do |t|
     t.string   "url"
     t.string   "title"
     t.string   "link_type"
     t.integer  "resource_id"
     t.integer  "language_id"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
-    t.integer  "views",       :default => 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "views",       default: 0
   end
 
-  create_table "resources", :force => true do |t|
+  create_table "resources", force: true do |t|
     t.string   "title"
     t.text     "description"
     t.date     "year"
@@ -733,16 +733,16 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.string   "approval"
     t.datetime "approved_at"
     t.integer  "approved_by_id"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
-    t.integer  "views",              :default => 0
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "views",              default: 0
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
   end
 
-  create_table "roles", :force => true do |t|
+  create_table "roles", force: true do |t|
     t.string   "name"
     t.integer  "old_id"
     t.datetime "created_at"
@@ -752,7 +752,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.integer  "position"
   end
 
-  create_table "searchables", :force => true do |t|
+  create_table "searchables", force: true do |t|
     t.string   "title"
     t.text     "content"
     t.string   "url"
@@ -760,14 +760,14 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "last_indexed_at"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "delta",             :default => true, :null => false
+    t.boolean  "delta",             default: true, null: false
     t.datetime "object_created_at"
     t.datetime "object_updated_at"
   end
 
-  add_index "searchables", ["id", "delta"], :name => "index_searchables_on_id_and_delta"
+  add_index "searchables", ["id", "delta"], name: "index_searchables_on_id_and_delta", using: :btree
 
-  create_table "sectors", :force => true do |t|
+  create_table "sectors", force: true do |t|
     t.string   "name"
     t.integer  "old_id"
     t.string   "icb_number"
@@ -776,17 +776,17 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "sessions", :force => true do |t|
-    t.string   "session_id", :null => false
+  create_table "sessions", force: true do |t|
+    t.string   "session_id", null: false
     t.text     "data"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "sessions", ["session_id"], :name => "index_sessions_on_session_id"
-  add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at", using: :btree
 
-  create_table "signings", :force => true do |t|
+  create_table "signings", force: true do |t|
     t.integer  "old_id"
     t.integer  "initiative_id"
     t.integer  "organization_id"
@@ -795,7 +795,7 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
-  create_table "uploaded_files", :force => true do |t|
+  create_table "uploaded_files", force: true do |t|
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.datetime "created_at"

@@ -11,7 +11,7 @@ class SearchableTest < ActiveSupport::TestCase
 
     context "and changes are made" do
       setup do
-        assert @prev_max = Searchable.find(:all, select: "MAX(last_indexed_at) as max").first.try(:max)
+        assert @prev_max = Searchable.maximum(:last_indexed_at)
         sleep(2) { donothing = true; justwaiting = "for the timestamps to be sufficiently different" }
         @page4 = create_page title: 'Page 4 here'
         @page3.title = "I am new"
@@ -20,7 +20,7 @@ class SearchableTest < ActiveSupport::TestCase
 
       should "only index new or updated pages" do
         Searchable.index_new_or_updated
-        newish = Searchable.find(:all, conditions: ["last_indexed_at > ?", @prev_max])
+        newish = Searchable.where("last_indexed_at > ?", @prev_max)
         assert_same_elements [@page4.title, @page3.title], newish.map(&:title)
       end
 
@@ -43,11 +43,11 @@ class SearchableTest < ActiveSupport::TestCase
     end
 
     should "include approved events" do
-      assert_contains Searchable.scoped.map(&:title), @approved.title
+      assert_contains Searchable.all.map(&:title), @approved.title
     end
 
     should "not include unapproved events" do
-      assert_does_not_contain Searchable.scoped.map(&:title), @unapproved.title
+      assert_does_not_contain Searchable.all.map(&:title), @unapproved.title
     end
 
     should "include title" do

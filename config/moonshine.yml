@@ -58,6 +58,7 @@
 
 :shared_config:
   - config/database.yml
+  - config/secrets.yml
   - config/passwd.dav
 
 # The entries in shared_children are created in #{application}/shared

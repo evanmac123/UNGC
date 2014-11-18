@@ -118,7 +118,7 @@ module Admin::OrganizationsHelper
 
   # display organizations with similar names
   def duplicate_application(organization)
-    if ThinkingSphinx.sphinx_running?
+    if Search.running?
 
       matches = Organization.search organization.name, :retry_stale => true, :stat => true
       if matches.count > 0

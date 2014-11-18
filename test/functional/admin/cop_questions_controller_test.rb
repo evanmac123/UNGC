@@ -47,4 +47,30 @@ class Admin::CopQuestionsControllerTest < ActionController::TestCase
 
     assert_redirected_to admin_cop_questions_path
   end
+
+  context "question filtering" do
+    setup do
+      @question_2010 = create_cop_question year: 2010
+      @question_2014 = create_cop_question year: 2014
+    end
+
+    should "show all when no year param is given" do
+      get :index
+      questions = assigns(:cop_questions)
+      assert_equal [@cop_question, @question_2010, @question_2014], questions
+    end
+
+    should "show question without a value for year when 'no_year' is given" do
+      get :index, year: 'no_year'
+      questions = assigns(:cop_questions)
+      assert_equal [@cop_question], questions
+    end
+
+    should "should questions for a given year when a year is given" do
+      get :index, year: 2010
+      questions = assigns(:cop_questions)
+      assert_equal [@question_2010], questions
+    end
+
+  end
 end

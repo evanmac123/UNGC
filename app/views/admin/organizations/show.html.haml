@@ -167,7 +167,7 @@
           - if @organization.company?
             %th.status Differentiation
           %th.actions Actions
-        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.find(:all, order: "published_on DESC")
+        = render :partial => 'admin/communication_on_progresses/communication_on_progress', :collection => @organization.communication_on_progresses.order("published_on DESC")
 
   - if @organization.case_stories.any?
     #case_stories.tab_content
@@ -178,7 +178,7 @@
           %th.title Title
           %th.status Status
           %th.actions Actions
-        = render :partial => 'admin/case_stories/case_story', :collection => @organization.case_stories.find(:all, order: "created_at DESC")
+        = render :partial => 'admin/case_stories/case_story', :collection => @organization.case_stories.order("created_at DESC")
 
   - if @organization.logo_requests.any?
     #logo_requests.tab_content
@@ -190,7 +190,7 @@
           %th.status Status
           %th.age Days since last update
           %th.actions Actions
-        = render :partial => 'admin/logo_requests/logo_request', :collection => @organization.logo_requests.find(:all, order: "created_at DESC")
+        = render :partial => 'admin/logo_requests/logo_request', :collection => @organization.logo_requests.order("created_at DESC")
 
   - if @organization.initiatives.any?
     #initiatives.tab_content
@@ -200,4 +200,4 @@
           %th.title Initiative / Activity
           %th.title Since
           %th.actions Actions
-        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.find(:all, order: "added_on DESC")
+        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.order("added_on DESC")

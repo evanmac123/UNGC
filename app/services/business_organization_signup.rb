@@ -2,14 +2,10 @@ class BusinessOrganizationSignup < OrganizationSignup
   attr_reader :financial_contact
 
   def post_initialize
+    @org_type = 'business'
     @organization = Organization.new organization_type: OrganizationType.sme
-    @ceo = Contact.new_ceo
     @financial_contact = Contact.new_financial_contact
   end
-
-  def business?; true; end
-  def non_business?; false; end
-  def org_type; 'business'; end
 
   def types
     OrganizationType.business
@@ -32,7 +28,7 @@ class BusinessOrganizationSignup < OrganizationSignup
     financial_contact.country_id = primary_contact.country_id
   end
 
-  def has_pledge?
+  def require_pledge?
     organization.pledge_amount.to_i > 0
   end
 
@@ -51,13 +47,14 @@ class BusinessOrganizationSignup < OrganizationSignup
     organization.collaborative_funding_model? ? 'pledge_form_collaborative' : 'pledge_form_independent'
   end
 
-  def local_set_organization_attributes
+  def set_organization_attributes(params)
+    super
     organization.pledge_amount ||= Organization::COLLABORATIVE_PLEDGE_LEVELS[organization.revenue]
   end
 
   def after_save
     # add financial contact if a pledge was made and the existing contact has not been assigned that role
-    if has_pledge? && !primary_contact.is?(Role.financial_contact)
+    if require_pledge? && !primary_contact.is?(Role.financial_contact)
       financial_contact.save
       organization.contacts << financial_contact
     end

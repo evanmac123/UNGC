@@ -25,8 +25,8 @@ class LogoComment < ActiveRecord::Base
   has_attached_file :attachment,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
-  scope :with_attachment, where("attachment_file_name IS NOT NULL")
-  scope :without_attachment, where("attachment_file_name IS NULL")
+  scope :with_attachment, -> { where("attachment_file_name IS NOT NULL") }
+  scope :without_attachment, -> { where("attachment_file_name IS NULL") }
 
   attr_accessor :state_event
   before_save :add_default_body_to_approval_comment

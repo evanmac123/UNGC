@@ -15,10 +15,6 @@ class ContributionLevelsInfo < ActiveRecord::Base
 
   belongs_to :local_network
   has_many :levels, class_name: 'ContributionLevel'
-  attr_accessible :amount_description,
-                  :level_description,
-                  :local_network_id
-
   validates :local_network_id, presence: true
 
   def add(args)

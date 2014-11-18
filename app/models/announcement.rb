@@ -21,7 +21,7 @@ class Announcement < ActiveRecord::Base
   delegate :name, :to => :principle, :prefix => true
   delegate :name, :region_name, :to => :local_network, :prefix => true
 
-  default_scope :order => :date
+  default_scope { order(:date) }
 
   scope :upcoming, lambda { where("date >= ?", Date.today) }
 

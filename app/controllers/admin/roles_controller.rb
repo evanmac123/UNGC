@@ -14,7 +14,7 @@ class Admin::RolesController < AdminController
   end
 
   def create
-    @role = Role.new(params[:role])
+    @role = Role.new(role_params)
     if @role.save
       flash[:notice] = 'Role was successfully created.'
       redirect_to(admin_roles_path)
@@ -38,5 +38,16 @@ class Admin::RolesController < AdminController
     @role.destroy
     flash[:notice] = 'Role was deleted.'
     redirect_to(admin_roles_path)
+  end
+
+  private
+
+  def role_params
+    params.require(:role).permit(
+      :name,
+      :initiative_id,
+      :description,
+      :position
+    )
   end
 end

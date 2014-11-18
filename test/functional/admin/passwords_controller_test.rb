@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class Admin::PasswordsControllerTest < ActionController::TestCase
-  VALID_TOKEN = 'this_is_a_token'
   INVALID_TOKEN = 'NOT_A_TOKEN'
 
   def setup
@@ -57,18 +56,17 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
     context "with a token" do
       setup do
-        @organization_user.update_attribute :reset_password_token, VALID_TOKEN
-        @organization_user.update_attribute :reset_password_sent_at, Time.now
+        @reset_token = @organization_user.send_reset_password_instructions
       end
 
       should "get to the edit page with a valid token" do
-        get :edit, :reset_password_token => VALID_TOKEN
+        get :edit, :reset_password_token => @reset_token
         assert_response :success
       end
 
       should "change the password" do
         put :update, :contact => {
-          :reset_password_token   => VALID_TOKEN,
+          :reset_password_token   => @reset_token,
           :password               => 'password',
           :password_confirmation  => 'password'
         }
@@ -81,7 +79,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
       should "not change the password with different passwords" do
         put :update, :contact => {
-          :reset_password_token   => VALID_TOKEN,
+          :reset_password_token   => @reset_token,
           :password               => 'password_1',
           :password_confirmation  => 'password_2'
         }
@@ -92,7 +90,7 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
       should "not change the password with a blank password" do
         put :update, :contact => {
-          :reset_password_token   => VALID_TOKEN,
+          :reset_password_token   => @reset_token,
           :password               => '',
           :password_confirmation  => ''
         }

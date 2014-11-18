@@ -5,16 +5,16 @@ class Admin::NewsController < AdminController
     :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
 
   def index
-    @paged_headlines ||= Headline.paginate(:page  => params[:page],
-                                           :order => order_from_params)
+    @paged_headlines ||= Headline.paginate(page: params[:page])
+                                 .order(order_from_params)
   end
 
   def new
-    @headline = Headline.new params[:headline]
+    @headline = Headline.new headline_params
   end
 
   def create
-    @headline = Headline.new params[:headline]
+    @headline = Headline.new headline_params
     if @headline.save
       flash[:notice] = "Headline successfully created"
       redirect_to :action => 'index'
@@ -27,7 +27,7 @@ class Admin::NewsController < AdminController
   end
 
   def update
-    if @headline.update_attributes(params[:headline])
+    if @headline.update_attributes(headline_params)
       flash[:notice] = "Changes have been saved"
       redirect_to :action => 'index'
     else
@@ -62,5 +62,15 @@ class Admin::NewsController < AdminController
 
     def order_from_params
       @order = [params[:sort_field] || 'published_on', params[:sort_direction] || 'DESC'].join(' ')
+    end
+
+    def headline_params
+      params.require(:headline).permit(
+        :title,
+        :published_on,
+        :location,
+        :country_id,
+        :description
+      )
     end
 end

@@ -22,7 +22,7 @@ module Searchable::SearchableCommunicationOnProgress
   end
 
   def index_communications_on_progress_since(time)
-    CommunicationOnProgress.approved.find(:all, conditions: new_or_updated_since(time)).each { |cop| index_communication_on_progress cop }
+    CommunicationOnProgress.approved.where(new_or_updated_since(time)).each { |cop| index_communication_on_progress cop }
   end
 
   def remove_communication_on_progress(cop)

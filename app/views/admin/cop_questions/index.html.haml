@@ -18,7 +18,7 @@
     %th Implementation
     %th Question
     %th.actions Actions
-  - for cop_question in @cop_questions
+  - @cop_questions.each do |cop_question|
     %tr
       %td= cop_question.id
       %td= cop_question.year

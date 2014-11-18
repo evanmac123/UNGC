@@ -28,7 +28,7 @@ class NonBusinessOrganizationRegistration < ActiveRecord::Base
   private
 
     def needs_validation?
-      return organization.nil? || organization.created_at >= START_DATE_OF_NON_BUSINESS
+      return organization.nil? || !organization.persisted? || organization.created_at >= START_DATE_OF_NON_BUSINESS
     end
 
 end

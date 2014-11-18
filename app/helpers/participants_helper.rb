@@ -1,3 +1,5 @@
+require 'zlib'
+
 module ParticipantsHelper
   def countries_for_select
     options_for_select Country.all.map { |c| [c.name, c.id] }
@@ -140,9 +142,9 @@ module ParticipantsHelper
       end
 
       case @searched_for[:cop_state]
-        when Organization::COP_STATES[:active].to_crc32
+        when Zlib.crc32(Organization::COP_STATES[:active])
           response << ', with an Active COP status'
-        when Organization::COP_STATES[:noncommunicating].to_crc32
+        when Zlib.crc32(Organization::COP_STATES[:noncommunicating])
           response << ', with a non-communicating COP status'
       end
 

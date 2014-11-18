@@ -59,7 +59,10 @@ module ImporterHooks
   end
 
   def get_local_network_organizations
-    OrganizationType.for_filter(:gc_networks).first.organizations.find(:all, :conditions => ["local_network = ? AND name LIKE ?", true, 'GC Network - %'])
+    OrganizationType.for_filter(:gc_networks)
+      .first
+      .organizations
+      .where("local_network = ? AND name LIKE ?", true, 'GC Network - %')
   end
 
   def assign_roles
@@ -145,9 +148,9 @@ module ImporterHooks
     organization.country.update_attribute :local_network_id, local_net.id
     countries = []
     if local_net.name =~ /Gulf States/
-      countries = Country.find(:all, :conditions => ["name IN (?)", gulf_states])
+      countries = Country.where("name IN (?)", gulf_states)
     elsif local_net.name =~ /Nordic/
-      countries = Country.find(:all, :conditions => ["name IN (?)", nordic_countries])
+      countries = Country.where("name IN (?)", nordic_countries)
     end
     countries.each do |country|
       country.update_attribute :local_network_id, local_net.id

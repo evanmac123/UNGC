@@ -8,7 +8,7 @@ module Importers
       def init_model(row)
         get_local_network(row) do |local_network|
           get_value(row, "Event Title") do |title|
-            title.present? && local_network.events.find_or_initialize_by_title(title)
+            title.present? && local_network.events.find_or_initialize_by(title: title)
           end
         end
       end

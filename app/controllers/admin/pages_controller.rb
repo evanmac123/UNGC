@@ -2,8 +2,6 @@ class Admin::PagesController < AdminController
   before_filter :no_organization_or_local_network_access
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
 
-  cache_sweeper :page_sweeper, :only => [:approve, :destroy]
-
   def index
     respond_to do |wants|
       wants.html { }
@@ -102,11 +100,8 @@ class Admin::PagesController < AdminController
   end
 
   def update
-    is_live_editor = !!params[:content]
-    key = is_live_editor ? :content : :page
-    changes = params[key]
     begin
-      @version = @page.update_pending_or_new_version(changes)
+      @version = @page.update_pending_or_new_version(content_params)
     rescue Page::PathCollision => e
       update_failed(:forbidden, is_live_editor)
     rescue Exception => e
@@ -168,4 +163,31 @@ class Admin::PagesController < AdminController
         render :text => 'Not Found', :status => 404
       end
     end
+
+    def is_live_editor
+      @is_live_editor ||= params.has_key?(:content)
+    end
+
+    def content_params
+      content = if is_live_editor
+        params.require(:content)
+      else
+        params.require(:page)
+      end
+      content.permit(
+        :path,
+        :title,
+        :html_code,
+        :content,
+        :parent_id,
+        :position,
+        :display_in_navigation,
+        :dynamic_content,
+        :version_number,
+        :group_id,
+        :top_level,
+        :change_path,
+      )
+    end
+
 end

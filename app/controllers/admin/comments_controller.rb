@@ -9,7 +9,7 @@ class Admin::CommentsController < AdminController
   end
 
   def create
-    @comment = @commentable.comments.new(params[:comment])
+    @comment = @commentable.comments.new(comment_params)
     @comment.state_event = params[:commit].downcase
     @comment.contact_id = current_contact.id
 
@@ -68,4 +68,16 @@ class Admin::CommentsController < AdminController
         raise "Polymorphic comment wasn't aware of #{commentable.inspect}".inspect
       end
     end
+
+    def comment_params
+      params.require(:comment).permit(
+        :body,
+        :attachment_file_name,
+        :attachment_content_type,
+        :attachment_file_size,
+        :attachment_updated_at,
+        :copy_local_network
+      )
+    end
+
 end

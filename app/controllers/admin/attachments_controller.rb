@@ -5,8 +5,8 @@ class Admin::AttachmentsController < AdminController
     :attachments, :attachments_path, :new_attachment_path, :upload_attachment_path, :attachment_path
 
   def create
-    if params[:uploaded_attachments].is_a?(Array)
-      @submodel.uploaded_attachments = params[:uploaded_attachments]
+    if attachments_params.is_a?(Array)
+      @submodel.uploaded_attachments = attachments_params
       if @submodel.save
         redirect_to(attachments_path)
       else

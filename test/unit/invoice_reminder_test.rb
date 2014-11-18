@@ -66,10 +66,13 @@ class InvoiceReminderTest < ActiveSupport::TestCase
     end
 
     should "send appropriate mail to each organization" do
-      OrganizationMailer.expects(:foundation_invoice).once
-      OrganizationMailer.expects(:foundation_reminder).once
+      assert_difference 'ActionMailer::Base.deliveries.size', +2 do
+        @reminder.deliver_all
+      end
 
-      @reminder.deliver_all
+      reminder_email, invoice_email = ActionMailer::Base.deliveries[-2, 2]
+      assert_equal "[Invoice] The Foundation for the Global Compact", invoice_email.subject
+      assert_equal "A message from The Foundation for the Global Compact", reminder_email.subject
     end
 
     should "send email to all qualifying organizations" do

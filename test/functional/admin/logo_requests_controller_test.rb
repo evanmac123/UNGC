@@ -109,5 +109,64 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
                      :logo_file_id    => LogoFile.first.id
       assert_response :success
     end
+
+    should "allow updates" do
+      patch :update, :id              => @logo_request.id,
+                     :organization_id => @logo_request.organization.id,
+                     :logo_request    => { :purpose => 'New Purpose' },
+                     :commit          => "Save logos"
+      assert_redirected_to new_admin_logo_request_logo_comment_path(@logo_request)
+      @logo_request.reload
+      assert_equal 'New Purpose', @logo_request.purpose
+
+    end
+
   end
+
+  context "approval actions" do
+    setup do
+      create_organization_and_user
+      @organization.approve!
+      sign_in @organization_user
+      @requests = stub(includes: stub(order: stub(paginate: stub(each: [], total_pages: 0))))
+    end
+
+    should "get approved requests" do
+      LogoRequest.expects(:approved_or_accepted).returns(@requests)
+      get :approved
+      assert_response :success
+    end
+
+    should "get rejected requests" do
+      LogoRequest.expects(:rejected).returns(@requests)
+      get :rejected
+      assert_response :success
+    end
+
+    should "get pending_review requests" do
+      LogoRequest.expects(:pending_review).returns(@requests)
+      Signing.expects(:latest_contribution_update).returns(Time.now)
+      get :pending_review
+      assert_response :success
+    end
+
+    should "get in_review requests" do
+      LogoRequest.expects(:in_review).returns(@requests)
+      get :in_review
+      assert_response :success
+    end
+
+    should "get unreplied requests" do
+      LogoRequest.expects(:unreplied).returns(@requests)
+      get :unreplied
+      assert_response :success
+      assert_template :in_review
+    end
+  end
+
+  should "show the index" do
+    sign_in create_staff_user
+    get :index
+  end
+
 end

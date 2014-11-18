@@ -13,27 +13,21 @@
 #
 
 class PageGroup < ActiveRecord::Base
-  has_many :children, :class_name => 'Page', :foreign_key => :group_id, :conditions => {:parent_id => nil}
+  has_many :children, -> { where parent_id: nil }, :class_name => 'Page', :foreign_key => :group_id
   has_many :visible_children,
+    -> { where(approval: 'approved', display_in_navigation: true, parent_id: nil)
+        .order('position ASC') },
     :class_name  => 'Page',
-    :foreign_key => :group_id,
-    :conditions  => {:approval => 'approved', :display_in_navigation => true, :parent_id => nil},
-    :order       => "position ASC"
+    :foreign_key => :group_id
   has_many :approved_children,
+    -> { where(approval: 'approved', parent_id: nil)
+        .order('position ASC') },
     :class_name  => 'Page',
-    :foreign_key => :group_id,
-    :conditions  => {:approval => 'approved', :parent_id => nil},
-    :order       => "position ASC"
+    :foreign_key => :group_id
 
-  scope :for_navigation, includes(:visible_children).where("page_groups.display_in_navigation = ?", true).order("page_groups.position ASC")
+  scope :for_navigation, -> { includes(:visible_children).where("page_groups.display_in_navigation = ?", true).order("page_groups.position ASC") }
 
-  default_scope :order => "page_groups.position ASC"
-
-  default_scope :order => "page_groups.position ASC"
-
-  default_scope :order => "page_groups.position ASC"
-
-  default_scope :order => "page_groups.position ASC"
+  default_scope { order('page_groups.position ASC') }
 
   before_create :derive_position
   after_destroy :destroy_children

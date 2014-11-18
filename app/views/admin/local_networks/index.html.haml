@@ -27,13 +27,13 @@
         %th.actions Actions
       = render @local_networks
 
-  - Country::REGIONS.each_pair do |key, value|
-    .tab_content{:id => key}
+  - @networks_by_region.each_pair do |region, countries|
+    .tab_content{:id => region}
       %table.dashboard_table
         %tr
-          %th= sort_header 'Name',  field: 'name',  tab: key
-          %th= sort_header 'Stage', field: 'state', tab: key
+          %th= sort_header 'Name',  field: 'name',  tab: region
+          %th= sort_header 'Stage', field: 'state', tab: region
           - if current_contact.from_ungc?
-            %th= sort_header 'Funding Model', field: 'funding_model', tab: key
+            %th= sort_header 'Funding Model', field: 'funding_model', tab: region
           %th.actions Actions
-        = render @local_networks.find_all{ |item| item.region_name == value }
+        = render countries.map(&:local_network)

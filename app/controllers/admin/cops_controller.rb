@@ -32,7 +32,7 @@ class Admin::CopsController < AdminController
   end
 
   def create
-    @communication_on_progress = CopForm.new_form(@organization, cop_params[:cop_type], current_contact.contact_info)
+    @communication_on_progress = CopForm.new_form(@organization, cop_params.fetch(:cop_type), current_contact.contact_info)
     if @communication_on_progress.submit(cop_params)
       flash[:notice] = "The communication has been published on the Global Compact website"
       send_cop_submission_confirmation_email(@communication_on_progress.cop)
@@ -102,7 +102,18 @@ class Admin::CopsController < AdminController
     end
 
     def cop_params
-      params[:communication_on_progress]
+      params.require(:communication_on_progress).permit(
+        :cop_type,
+        :title,
+        :references_human_rights,
+        :references_labour,
+        :references_environment,
+        :references_anti_corruption,
+        :include_measurement,
+        :starts_on,
+        :ends_on,
+        :differentiation
+      )
     end
 
     def load_organization

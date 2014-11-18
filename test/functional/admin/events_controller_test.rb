@@ -81,6 +81,30 @@ class Admin::EventsControllerTest < ActionController::TestCase
         assert_redirected_to_index
       end
     end
+
+    context "basic actions" do
+      setup do
+        @event = create_event
+      end
+
+      should "#index" do
+        get :index
+      end
+
+      should "#new" do
+        # not sure why we need to pass params to new
+        get :new, event: valid_event_attributes
+      end
+
+      should "#show" do
+        get :show, id: @event.id
+      end
+
+      should "#destroy" do
+        get :destroy, id: @event.id
+      end
+
+    end
   end
 
 

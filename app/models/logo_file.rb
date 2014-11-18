@@ -22,7 +22,7 @@
 
 class LogoFile < ActiveRecord::Base
   validates_presence_of :name, :thumbnail
-  has_and_belongs_to_many :logo_requests
+  has_and_belongs_to_many :logo_requests, join_table: :logo_files_logo_requests
 
   has_attached_file :zip,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",

@@ -8,12 +8,12 @@ class ResourceLinkTest < ActiveSupport::TestCase
 
     should "create a valid resource link" do
       resource_link = ResourceLink.new title: "resource title 1", link_type: "pdf"
-      assert resource_link.valid?
+      assert resource_link.valid?, resource_link.errors.full_messages.to_sentence
     end
 
     should "not create an invalid resource link" do
       resource_link = ResourceLink.new title: "resource title 1", link_type: ResourceLink::TYPES[:pdf]
-      assert !resource_link.valid?
+      refute resource_link.valid?, resource_link.errors.full_messages.to_sentence
     end
 
   end

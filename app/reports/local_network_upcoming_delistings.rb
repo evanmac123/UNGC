@@ -1,10 +1,14 @@
 class LocalNetworkUpcomingDelistings < SimpleReport
 
   def records
-    Organization.active.visible_to(@options[:user])
+    # organization is not eagerly loaded once we get this user
+    # including this rather blunt kludge until the background reports branch is merged
+    user = Contact.includes(:organization).find(@options.fetch(:user).id)
+
+    Organization.active.visible_to(user)
       .with_cop_status(:noncommunicating)
       .with_cop_due_between(Date.today - 1.year, Date.today - 1.year + 90.days)
-      .all(:order => :cop_due_on)
+      .order(:cop_due_on)
   end
 
   def render_output

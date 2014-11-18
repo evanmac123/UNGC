@@ -12,8 +12,6 @@
 #
 
 class ContributionLevel < ActiveRecord::Base
-  attr_accessible :amount, :description, :contribution_levels_info_id, :order
-
   belongs_to :contribution_levels_info
 
   validates :amount, presence: true

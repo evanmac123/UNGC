@@ -60,22 +60,9 @@ class LocalNetworkEvent < ActiveRecord::Base
   validates_numericality_of :gc_participant_percentage, :only_integer => true, :less_than_or_equal_to => 100, :allow_blank => true
   validate :must_have_attachment
 
-  default_scope :order => 'date DESC'
+  default_scope { order('date DESC') }
 
   before_save :set_indexed_fields, :if => :new_record?
-
-  define_index do
-    indexes title
-    indexes description
-    indexes file_content
-
-    has date
-    has local_network_id
-    has country_id
-    has 'CRC32(event_type)', :as => :event_type_crc, :type => :integer
-    has 'CRC32(region)',     :as => :region_crc,     :type => :integer
-    has principles(:id),     :as => :principle_ids
-  end
 
   def must_have_attachment
     errors.add(:attachments) if attachments.empty?

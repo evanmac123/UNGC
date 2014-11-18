@@ -35,42 +35,46 @@ class Page < ActiveRecord::Base
   before_create :derive_path
 
   belongs_to :section, :class_name => 'PageGroup', :foreign_key => :group_id
-  has_many :children, :order => "position ASC", :class_name => 'Page', :foreign_key => :parent_id
+  has_many :children, -> { order('position ASC') }, :class_name => 'Page', :foreign_key => :parent_id
   has_many :visible_children,
-    :order       => "position ASC",
+    -> {
+      where(display_in_navigation: true, approval: 'approved')
+        .order('position ASC')
+    },
     :class_name  => 'Page',
-    :foreign_key => :parent_id,
-    :conditions  => {:display_in_navigation => true, approval: 'approved'}
+    :foreign_key => :parent_id
   has_many :approved_children,
-    :order       => 'position ASC',
+    -> {
+      where(approval: 'approved')
+        .order('position ASC')
+    },
     :class_name  => 'Page',
-    :foreign_key => :parent_id,
-    :conditions  => { approval: 'approved' }
+    :foreign_key => :parent_id
 
   cattr_reader :per_page
   @@per_page = 15
 
-  scope :for_navigation, where("display_in_navigation" => true)
+  scope :for_navigation, lambda { where("display_in_navigation" => true) }
   scope :earlier_versions_than, lambda { |version_number| where("pages.version_number < ?", version_number).order("pages.version_number DESC") }
   scope :later_versions_than, lambda { |version_number| where("pages.version_number > ?", version_number).order("pages.version_number ASC") }
 
   # Local Network pages loaded by Admin::LocalNetworksController#edit_resources
-  scope :engagement_framework, where("pages.path LIKE '/LocalNetworksResources/engagement_framework/%'").order('parent_id, position').group(:path)
-  scope :local_network_training_guidance_material, where("pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'").order('parent_id, position').group(:path)
-  scope :local_network_issue_specific_guidance, where("pages.path LIKE '/LocalNetworksResources/issue_specific_guidance/%'").order('parent_id, position').group(:path)
-  scope :local_network_news_updates, where("pages.path LIKE '/LocalNetworksResources/news_updates/%'").order('parent_id, position').group(:path)
-  scope :local_network_reports, where("pages.path LIKE '/LocalNetworksResources/reports/%'").order('parent_id, position').group(:path)
+  scope :engagement_framework, -> { where("pages.path LIKE '/LocalNetworksResources/engagement_framework/%'").order('parent_id, position').group(:path) }
+  scope :local_network_training_guidance_material, -> { where("pages.path LIKE '/LocalNetworksResources/training_guidance_material/%'").order('parent_id, position').group(:path) }
+  scope :local_network_issue_specific_guidance, -> { where("pages.path LIKE '/LocalNetworksResources/issue_specific_guidance/%'").order('parent_id, position').group(:path) }
+  scope :local_network_news_updates, -> { where("pages.path LIKE '/LocalNetworksResources/news_updates/%'").order('parent_id, position').group(:path) }
+  scope :local_network_reports, -> { where("pages.path LIKE '/LocalNetworksResources/reports/%'").order('parent_id, position').group(:path) }
 
   def self.all_versions_of(path)
     where("pages.path = ?", path)
   end
 
   def self.approved_for_path(path)
-    approved.find_by_path path
+    approved.find_by(path: path)
   end
 
   def self.for_path(path)
-    find_by_path path, :include => :children
+    includes(:children).find_by(path:path)
   end
 
   def self.preview_for(path)
@@ -79,7 +83,7 @@ class Page < ActiveRecord::Base
 
   def self.find_navigation_for(path)
     return nil if path.blank?
-    possible = approved.for_navigation.find_by_path(path, :include => :children) #, :include => :children
+    possible = approved.for_navigation.includes(:children).find_by(path: path)
     possible = find_parent_directory(path) unless possible # it couldn't be found, but maybe it's inside a "directory"
     possible
   end
@@ -90,14 +94,11 @@ class Page < ActiveRecord::Base
     times_to_try = array.size - 1 # not the first empty element
     times_to_try.times do
       array.pop
-      possible = approved.for_navigation.find_by_path(array.join('/') + '/index.html', :include => :children) #
+      index_path = array.join('/') + '/index.html'
+      possible = approved.for_navigation.includes(:children).find_by(path: index_path)
       return possible if possible
     end
     nil
-  end
-
-  def self.find_for_section(path)
-    find :all, :conditions => "path REGEXP '^#{path}[^/]+\.html", :group => 'path'
   end
 
   def self.find_leaves_for(group_id)
@@ -146,13 +147,11 @@ class Page < ActiveRecord::Base
       end
     end
     if change_path
-      self.class.update_all "pages.path = '%s'" % change_path, { id: (all_versions - [self]).map(&:id) }
+      all_other_versions = (all_versions - [self]).map(&:id)
+      self.class.where(id: all_other_versions).update_all("pages.path = '%s'" % change_path)
       self.path = change_path
       self.change_path = nil
     end
-    # if previous = all_versions.with_approval('approved')
-    #   self.class.update_all "pages.approval = '%s'" % STATES[:previously], { id: (previous).map(&:id) }
-    # end
   end
 
   def derive_path
@@ -325,14 +324,6 @@ class Page < ActiveRecord::Base
     return true unless wants_to
     can      = !pages_exist_with_new_path?(new_path)
     wants_to and can
-  end
-
-  def cache_path
-    if approved?
-      self.path
-    else
-      "#{self.path}-#{self.approval}"
-    end
   end
 
 end

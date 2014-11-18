@@ -17,5 +17,5 @@ class CopAttribute < ActiveRecord::Base
   belongs_to :cop_question
   has_many :cop_answers
 
-  default_scope :order => 'cop_attributes.position'
+  default_scope { order('cop_attributes.position') }
 end

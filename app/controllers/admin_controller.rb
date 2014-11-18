@@ -9,23 +9,19 @@ class AdminController < ApplicationController
   def dashboard
     if current_contact.from_ungc?
       pending_states = [Organization::STATE_PENDING_REVIEW, Organization::STATE_IN_REVIEW]
-      @pending_organizations = Organization.paginate(
-        :conditions => ['state in (?)', pending_states],
-        :order      => 'updated_at DESC',
-        :page       => params[:organizations_page])
-      @pending_logo_requests = LogoRequest.paginate(
-        :conditions => ['state in (?)', pending_states],
-        :order      => 'updated_at DESC',
-        :page       => params[:logo_requests_page],
-        :include    => :organization)
-      @pending_case_stories = CaseStory.paginate(
-        :conditions => ['state in (?)', pending_states],
-        :order      => 'updated_at DESC',
-        :page       => params[:case_stories_page],
-        :include    => :organization)
-      @pending_cops = CommunicationOnProgress.for_feed.paginate(:page => params[:cops_page])
-      @pending_pages = Page.with_approval('pending').paginate(:order => 'updated_at DESC',
-                                                              :page  => params[:pages_page])
+      @pending_organizations = Organization.where('state in (?)', pending_states)
+        .paginate(page: params[:organizations_page])
+        .order('updated_at DESC')
+      @pending_logo_requests = LogoRequest.where('state in (?)', pending_states)
+        .includes(:organization)
+        .paginate(page: params[:logo_requests_page])
+        .order('updated_at DESC')
+      @pending_case_stories = CaseStory.where('state in (?)', pending_states)
+        .includes(:organization)
+        .paginate(page: params[:case_stories_page])
+        .order('updated_at DESC')
+      @pending_cops = CommunicationOnProgress.for_feed.paginate(page: params[:cops_page])
+      @pending_pages = Page.with_approval('pending').paginate(page: params[:pages_page]).order('updated_at DESC')
     elsif current_contact.from_network? || current_contact.from_regional_center?
       @local_network = current_contact.local_network
       @organizations = Organization.visible_to(current_contact)

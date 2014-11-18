@@ -9,7 +9,7 @@ class Admin::ContactsController < AdminController
   end
 
   def create
-    @contact = @parent.contacts.new(params[:contact])
+    @contact = @parent.contacts.new(contact_params)
     @roles = Role.visible_to(@contact)
     @return_path = return_path
 
@@ -28,12 +28,12 @@ class Admin::ContactsController < AdminController
   end
 
   def update
-    if params[:contact] && params[:contact][:password].try(:empty?)
-      params[:contact].delete('password')
+    if contact_params && contact_params[:password].try(:empty?)
+      contact_params.delete('password')
     end
 
     @return_path = return_path
-    if @contact.update_attributes(params[:contact])
+    if @contact.update_attributes(contact_params)
       sign_in(@contact, :bypass => true) if @contact == current_contact
 
       flash[:notice] = 'Contact was successfully updated.'
@@ -97,6 +97,27 @@ class Admin::ContactsController < AdminController
 
     def network_management_tab?
       true
+    end
+
+    def contact_params
+      params.fetch(:contact, {}).permit(
+        :prefix,
+        :first_name,
+        :middle_name,
+        :last_name,
+        :job_title,
+        :email,
+        :phone,
+        :fax,
+        :address,
+        :address_more,
+        :city,
+        :state,
+        :postal_code,
+        :country_id,
+        :username,
+        :password,
+      )
     end
 
 end

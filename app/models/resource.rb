@@ -22,7 +22,6 @@
 class Resource < ActiveRecord::Base
   include Indexable
 
-  attr_accessible :title, :description, :year, :isbn, :principle_ids, :author_ids, :image
   has_attached_file :image, :styles => {
       :show => "213x277>",
       :'show@2x' => "425x554>",
@@ -41,6 +40,7 @@ class Resource < ActiveRecord::Base
   has_and_belongs_to_many :principles
   has_and_belongs_to_many :authors
   has_many :links, dependent: :destroy, class_name: 'ResourceLink'
+  has_many :languages, through: :links
 
   STATES = { pending:    'Pending Review',
              approved:   'Approved',
@@ -55,24 +55,6 @@ class Resource < ActiveRecord::Base
 
   cattr_reader :per_page
   @@per_page = 400
-
-  define_index do
-    indexes :title, :sortable => true
-    indexes :description, :sortable => true
-    indexes :year, :sortable => true
-    indexes links.title, :as => "link_title", :sortable => true
-
-    has authors(:id),     :as => :authors_ids, :facet => true
-    has principles(:id),     :as => :principle_ids, :facet => true
-    has links.language(:id), :as => :language_ids, facet: true
-
-    where "approval = 'approved'"
-
-    #has link(:id), :as => :link_ids, :facet => true
-    # TODO index link titles
-    set_property :enable_star => true
-    set_property :min_prefix_len => 4
-  end
 
   def increment_views!
     self.increment! :views

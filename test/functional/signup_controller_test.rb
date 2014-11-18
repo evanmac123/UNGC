@@ -112,7 +112,7 @@ class SignupControllerTest < ActionController::TestCase
     should "as a non-business the next_step for the ceo form should be step6" do
       create_non_business_organization_type
       @signup = session[:signup] = NonBusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'ACME inc',
+      @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: @non_business_organization_type.id})
       post :step3, contact: @signup_contact
       assert_template 'step3'
@@ -121,7 +121,7 @@ class SignupControllerTest < ActionController::TestCase
 
     should "as a business should get the fifth step page after selecting a contribution amount" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'ACME inc',
+      @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id,
                                            revenue: 2500})
 
@@ -133,25 +133,23 @@ class SignupControllerTest < ActionController::TestCase
 
     should "as a business should get the sixth step page if they don't select a contribution amount" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'ACME inc',
-                                           organization_type_id: OrganizationType.first.id
-                                           })
+      @signup.set_organization_attributes({name: 'ACME inc',
+                                           organization_type_id: OrganizationType.first.id})
       post :step5, organization: {pledge_amount: 0, no_pledge_reason: 'budget'}
       assert_redirected_to organization_step6_path
     end
 
     should "as a business should be redirected to 4 step page if they don't select a reason for not pledging" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'ACME inc',
-                                           organization_type_id: OrganizationType.first.id,
-                                           })
+      @signup.set_organization_attributes({name: 'ACME inc',
+                                           organization_type_id: OrganizationType.first.id})
       post :step5, organization: {pledge_amount: 0}
       assert_redirected_to organization_step4_path
     end
 
     should "get the sixth step page after posting ceo contact details" do
       @signup = session[:signup] = BusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'ACME inc',
+      @signup.set_organization_attributes({name: 'ACME inc',
                                            organization_type_id: OrganizationType.first.id})
       post :step6, contact: @signup_ceo
       assert_response :success
@@ -170,16 +168,16 @@ class SignupControllerTest < ActionController::TestCase
 
     should "get the seventh step page after submitting letter of commitment" do
       @signup = session[:signup] = NonBusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'City University',
+      @signup.set_organization_attributes(name: 'City University',
                                        organization_type_id: OrganizationType.first.id,
                                        employees: 50,
                                        country_id: Country.first.id,
-                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf')},
-                                       non_business_organization_registration: {number: "test",
+                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf'))
+      @signup.set_registration_attributes(number: "test",
                                         date: "12/3/2013",
                                         place: "bla",
                                         authority: "bla",
-                                        mission_statement: "A"})
+                                        mission_statement: "A")
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
 
@@ -196,16 +194,16 @@ class SignupControllerTest < ActionController::TestCase
 
     should "send an email to JCI if the applicant was a referral from their website" do
       @signup = session[:signup] = NonBusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'City University',
+      @signup.set_organization_attributes(name: 'City University',
                                        organization_type_id: OrganizationType.first.id,
                                        employees: 50,
                                        country_id: Country.first.id,
-                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf')},
-                                       non_business_organization_registration: {number: "test",
+                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf'))
+      @signup.set_registration_attributes(number: "test",
                                         date: "12/3/2013",
                                         place: "bla",
                                         authority: "bla",
-                                        mission_statement: "A"})
+                                        mission_statement: "A")
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
       session[:is_jci_referral] = true
@@ -220,16 +218,16 @@ class SignupControllerTest < ActionController::TestCase
     should "see the PRME invitation on the seventh step page if they are an Academic organization" do
       @academic = OrganizationType.where(name: 'Academic').first
       @signup = session[:signup] = NonBusinessOrganizationSignup.new
-      @signup.set_organization_attributes(organization: {name: 'City University',
+      @signup.set_organization_attributes(name: 'City University',
                                        organization_type_id: @academic.id,
                                        employees: 50,
                                        country_id: Country.first.id,
-                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf')},
-                                       non_business_organization_registration: {number: "test",
+                                       legal_status: fixture_file_upload('files/untitled.pdf', 'application/pdf'))
+      @signup.set_registration_attributes(number: "test",
                                         date: "12/3/2013",
                                         place: "bla",
                                         authority: "bla",
-                                        mission_statement: "A"})
+                                        mission_statement: "A")
       @signup.set_primary_contact_attributes(@signup_contact)
       @signup.set_ceo_attributes(@signup_ceo)
 

@@ -81,5 +81,22 @@ class Admin::NewsControllerTest < ActionController::TestCase
         assert_redirected_to_index
       end
     end
+
+    context "basic controller actions" do
+
+      should "#index" do
+        get :index
+      end
+
+      should "#new" do
+        get :new, headline: valid_headline_attributes
+      end
+
+      should "#destroy" do
+        delete :destroy, id: create_headline
+      end
+
+    end
+
   end
 end

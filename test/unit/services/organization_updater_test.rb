@@ -7,13 +7,7 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
       sector = create_sector
       create_organization_and_user
       @organization.update_attributes(country: country, sector: sector)
-      params = {
-        organization: {
-        },
-        non_business_organization_registration: {
-        }
-      }
-      @u = OrganizationUpdater.new(params)
+      @u = OrganizationUpdater.new({}, {})
     end
 
     should "update" do
@@ -33,17 +27,13 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
       country = create_country
       create_non_business_organization_and_user
       @organization.update_attributes(country: country)
-      params = {
-        organization: {
-        },
-        non_business_organization_registration: {
-          date: "2013-10-10",
-          place: "here",
-          authority: "un",
-          mission_statement: "mission"
-        }
+      registration_params = {
+        date: "2013-10-10",
+        place: "here",
+        authority: "un",
+        mission_statement: "mission"
       }
-      @u = OrganizationUpdater.new(params)
+      @u = OrganizationUpdater.new({}, registration_params)
     end
 
     should "update" do
@@ -56,19 +46,17 @@ class OrganizationUpdaterTest < ActiveSupport::TestCase
     setup do
       country = create_country
       sector = create_sector
-      params = {
-        organization: {
-          country_id: country.id,
-          name: "test org",
-          employees: 10,
-          sector_id: sector.id,
-          signings: {initiative_id: 7,
-                     added_on: "2013-12-17"}
-        },
-        non_business_organization_registration: {
+      organization_params = {
+        country_id: country.id,
+        name: "test org",
+        employees: 10,
+        sector_id: sector.id,
+        signings: {
+          initiative_id: 7,
+          added_on: "2013-12-17"
         }
       }
-      @u = OrganizationUpdater.new(params)
+      @u = OrganizationUpdater.new(organization_params, {})
     end
 
     should "save" do

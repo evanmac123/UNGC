@@ -8,7 +8,7 @@ class Admin::OrganizationsController < AdminController
 
   def index
     @organizations = Organization.order(order_from_params)
-                        .paginate(:page     => params[:page],
+                        .paginate(:page     => page,
                                   :per_page => Organization.per_page)
   end
 
@@ -17,7 +17,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def create
-    org_updater = OrganizationUpdater.new(params)
+    org_updater = OrganizationUpdater.new(organization_params, registration_params)
 
     if org_updater.create_signatory_organization
       flash[:notice] = 'Organization was successfully created.'
@@ -33,7 +33,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def update
-    org_updater = OrganizationUpdater.new(params)
+    org_updater = OrganizationUpdater.new(organization_params, registration_params)
     if org_updater.update(@organization, current_contact)
       flash[:notice] = 'Organization was successfully updated.'
       redirect_to_dashboard
@@ -71,48 +71,50 @@ class Admin::OrganizationsController < AdminController
       render case method
         when 'approved'
           @organizations = Organization.send(method).participants.order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
           method
         when 'pending_review'
           @organizations = Organization.send(method).includes(:participant_manager)
                               .order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
-          flash.now[:error] = "Notice: the search index is being updated. Matching organization names are not being listed. Please check again in a few minutes."  unless ThinkingSphinx.sphinx_running?
+          unless Search.running?
+            flash.now[:error] = "Notice: the search index is being updated. Matching organization names are not being listed. Please check again in a few minutes."
+          end
           method
         when 'in_review'
           @organizations = Organization.send(method).includes(:comments)
                               .order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
           method
         when 'updated'
           @organizations = Organization.unreplied.includes(:comments)
                               .order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
           method
         when 'network_review'
           @organizations = Organization.send(method).includes(:participant_manager)
                               .order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
           method
         when 'delay_review'
           @organizations = Organization.send(method).includes(:comments)
                               .order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
           method
         when 'rejected'
           @organizations = Organization.send(method).order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
           method
         else
           @organizations = Organization.send(method).order(order_from_params)
-                              .paginate(:page     => params[:page],
+                              .paginate(:page     => page,
                                         :per_page => Organization.per_page)
           'index'
       end
@@ -138,10 +140,10 @@ class Admin::OrganizationsController < AdminController
 
   private
     def load_organization
-      if params[:id] =~ /\A[0-9]+\Z/ # it's all numbers
-        @organization = Organization.find_by_id(params[:id])
+      if organization_id =~ /\A[0-9]+\Z/ # it's all numbers
+        @organization = Organization.find_by_id(organization_id)
       else
-        @organization = Organization.find_by_param(params[:id])
+        @organization = Organization.find_by_param(organization_id)
       end
     end
 
@@ -160,7 +162,7 @@ class Admin::OrganizationsController < AdminController
     def display_search_results
       keyword = params[:keyword].force_encoding("UTF-8")
       options = {per_page: (params[:per_page] || 15).to_i,
-                 page: params[:page],
+                 page: page,
                  star: true}
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
@@ -228,4 +230,27 @@ class Admin::OrganizationsController < AdminController
         redirect_to( dashboard_path )
       end
     end
+
+    def page
+      params[:page]
+    end
+
+    def organization_id
+      params[:id]
+    end
+
+    def organization_params
+      params.fetch(:organization, {}).permit!
+    end
+
+    def registration_params
+      params.fetch(:non_business_organization_registration, {}).permit(
+        :date,
+        :place,
+        :authority,
+        :number,
+        :mission_statement
+      )
+    end
+
 end

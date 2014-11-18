@@ -31,4 +31,8 @@ class Admin::LocalNetworkEventAttachmentsController < Admin::AttachmentsControll
   def knowledge_sharing_tab?
     true
   end
+
+  def attachments_params
+    params.fetch(:uploaded_attachments, [])
+  end
 end

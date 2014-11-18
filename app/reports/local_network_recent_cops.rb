@@ -5,7 +5,7 @@ class LocalNetworkRecentCops < SimpleReport
       .all_cops
       .approved
       .published_between(30.days.ago, Date.today)
-      .all(:order => 'communication_on_progresses.published_on DESC')
+      .order('communication_on_progresses.published_on DESC')
   end
 
   def render_output

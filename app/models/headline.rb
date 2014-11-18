@@ -32,8 +32,8 @@ class Headline < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  scope :published, where('approval = ?', 'approved')
-  scope :descending, order('published_on DESC, approved_at DESC')
+  scope :published, -> { where('approval = ?', 'approved') }
+  scope :descending, -> { order('published_on DESC, approved_at DESC') }
 
   def self.all_for_year(year)
     starts = Time.mktime(year, 1, 1).to_date

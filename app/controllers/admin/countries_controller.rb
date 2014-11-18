@@ -14,7 +14,7 @@ class Admin::CountriesController < AdminController
   end
 
   def create
-    @country = Country.new(params[:country])
+    @country = Country.new(country_params)
     if @country.save
       flash[:notice] = 'Country was successfully created.'
       redirect_to(admin_countries_path)
@@ -43,6 +43,17 @@ class Admin::CountriesController < AdminController
 
   def order_from_params
     @order = [params[:sort_field] || 'countries.name', params[:sort_direction] || 'ASC'].join(' ')
+  end
+
+  def country_params
+    params.require(:country).permit(
+      :code,
+      :name,
+      :region,
+      :manager_id,
+      :local_network_id,
+      :participant_manager_id
+    )
   end
 
 end

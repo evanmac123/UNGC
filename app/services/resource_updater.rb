@@ -59,7 +59,7 @@ class ResourceUpdater
 
   def updated_links
     @updated_links ||= params.fetch(:links, []).map do |link|
-      l = resource.links.find_or_initialize_by_id(link[:id])
+      l = resource.links.find_or_initialize_by(id: link[:id])
       l.attributes = link.slice(:title, :url, :link_type, :language_id)
       l
     end

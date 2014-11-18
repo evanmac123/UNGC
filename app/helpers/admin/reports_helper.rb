@@ -34,4 +34,13 @@ module Admin::ReportsHelper
     end
   end
 
+  def group_initiatives_by(initiatives, n)
+    group_size = Initiative.for_select.count / 3
+    if group_size == 0
+      return []
+    else
+      initiatives.in_groups_of(group_size, false)
+    end
+  end
+
 end

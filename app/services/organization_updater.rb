@@ -1,14 +1,15 @@
 class OrganizationUpdater
 
-  attr_reader :organization, :params, :contact
+  attr_reader :organization, :organization_params, :registration_params, :contact
 
-  def initialize(params)
-    @params = params
+  def initialize(organization_params, registration_params)
+    @organization_params = organization_params
+    @registration_params = registration_params
   end
 
   def create_signatory_organization
-    signings = params[:organization].delete(:signings)
-    @organization = Organization.new(params[:organization])
+    signings = organization_params.delete(:signings)
+    @organization = Organization.new(organization_params)
     organization.set_non_participant_fields
 
     if valid? && organization.save
@@ -29,9 +30,10 @@ class OrganizationUpdater
     update_state
     update_contact
 
-    organization.attributes = params[:organization]
-    organization.registration.attributes = params[:non_business_organization_registration]
-    organization.save && organization.registration.save && organization.set_last_modified_by(contact)
+    registration = organization.registration
+    organization.attributes = organization_params
+    registration.attributes = registration_params
+    organization.save && registration.save && organization.set_last_modified_by(contact)
   end
 
   def error_message
@@ -46,7 +48,7 @@ class OrganizationUpdater
 
     def update_state
       organization.state = Organization::STATE_IN_REVIEW if organization.state == Organization::STATE_PENDING_REVIEW
-      organization.set_manual_delisted_status if params[:organization][:cop_state] == Organization::COP_STATE_DELISTED
+      organization.set_manual_delisted_status if organization_params[:cop_state] == Organization::COP_STATE_DELISTED
     end
 
     def save_registration(par)

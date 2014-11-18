@@ -14,7 +14,12 @@ class CopFormTest < ActiveSupport::TestCase
       }
     }
     file_params = {cop_files_attributes: {"0" => cop_file_attributes}}
-    HashWithIndifferentAccess.new cop_attrs.merge(params).merge(link_params).merge(file_params)
+    attrs = cop_attrs.merge(params)
+      .merge(link_params)
+      .merge(file_params)
+      .with_indifferent_access
+    attrs.delete(:id)
+    attrs
   end
 
   setup do

@@ -12,16 +12,14 @@ module VisibleTo
         when Contact::TYPE_ORGANIZATION
           where('organization_id=?', user.organization_id)
         when Contact::TYPE_NETWORK || Contact::TYPE_NETWORK_GUEST
-          includes(:organization).where("organizations.country_id in (?)", user.local_network.country_ids)
+          joins(:organization).where("organizations.country_id in (?)", user.local_network.country_ids)
         when Contact::TYPE_REGIONAL
           countries_in_same_region = user.local_network.regional_center_countries.map(&:id)
-          includes(:organization).where("organizations.country_id in (?)", countries_in_same_region)
+          joins(:organization).where("organizations.country_id in (?)", countries_in_same_region)
         when Contact::TYPE_UNGC
-          {}
+          all
         else
-          # should return no organizations.
-          # TODO improve this when we port to rails 4
-          where('1=2')
+          none
         end
       }
     end

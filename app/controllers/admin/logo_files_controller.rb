@@ -14,7 +14,7 @@ class Admin::LogoFilesController < AdminController
   end
 
   def create
-    @logo_file = LogoFile.new(params[:logo_file])
+    @logo_file = LogoFile.new(file_params)
     if @logo_file.save
       flash[:notice] = 'Logo File was successfully created.'
       redirect_to(admin_logo_files_path)
@@ -25,7 +25,7 @@ class Admin::LogoFilesController < AdminController
 
   def update
     @logo_file = LogoFile.find(params[:id])
-    if @logo_file.update_attributes(params[:logo_file])
+    if @logo_file.update_attributes(file_params)
       flash[:notice] = 'Logo File was successfully updated.'
       redirect_to(admin_logo_files_path)
     else
@@ -38,4 +38,18 @@ class Admin::LogoFilesController < AdminController
     @logo_file.destroy
     redirect_to(admin_logo_files_path)
   end
+
+  private
+
+  def file_params
+    params.fetch(:logo_file, {}).permit(
+      :name,
+      :description,
+      :thumbnail,
+      :file,
+      :zip,
+      :preview
+    )
+  end
+
 end

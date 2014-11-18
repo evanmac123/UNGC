@@ -4,31 +4,31 @@ UNGC::Application.routes.draw do
   # Root
   root :to => 'pages#home'
 
-  devise_for :contacts
-  devise_scope :contact do
-    post    '/login'             => 'sessions#create',             :as => :contact_session
-    get     '/login'             => 'sessions#new',                :as => :new_contact_session
-    delete  '/logout'            => 'sessions#destroy',            :as => :destroy_contact_session
-    get     '/password/new'      => 'admin/passwords#new',         :as => :new_contact_password
-    post    '/password'          => 'admin/passwords#create',      :as => :contact_password
-    put     '/password'          => 'admin/passwords#update'
-    get     '/password/edit'     => 'admin/passwords#edit',        :as => :edit_contact_password
-  end
+  devise_for :contacts,
+    path: '/',
+    path_names: {
+      sign_in: 'login',
+      sign_out: 'logout'
+    },
+    controllers: {
+      sessions: "sessions",
+      passwords: 'admin/passwords'
+    }
 
   # Backend routes
-  match '/admin'                    => 'admin#dashboard', :as => :admin
-  match '/admin/dashboard'          => 'admin#dashboard', :as => :dashboard
-  match '/admin/parameters'         => 'admin#parameters', :as => :parameters
-  match '/admin/cops/introduction'  => 'admin/cops#introduction', :as => :cop_introduction
+  get '/admin'                    => 'admin#dashboard', :as => :admin
+  get '/admin/dashboard'          => 'admin#dashboard', :as => :dashboard
+  get '/admin/parameters'         => 'admin#parameters', :as => :parameters
+  get '/admin/cops/introduction'  => 'admin/cops#introduction', :as => :cop_introduction
 
-  match '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing, :via => :get
-  match '/admin/local_network_resources' => 'admin/local_networks#edit_resources', :as => :local_network_resources, :via => :get
+  get '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing
+  get '/admin/local_network_resources' => 'admin/local_networks#edit_resources', :as => :local_network_resources
 
   # These need to come before resources :pages
-  match '/admin/pages/:id/edit'   => 'admin/pages#edit', :as => :edit_page, :via => :get
-  match '/admin/page/:id.:format' => 'admin/pages#update', :as => :update_page, :via => :put
-  match '/admin/page/:id/edit'    => 'admin/pages#edit', :via => :post
-  match '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', :as => :find_page_by
+  get '/admin/pages/:id/edit'   => 'admin/pages#edit', :as => :edit_page
+  put '/admin/page/:id.:format' => 'admin/pages#update', :as => :update_page
+  post '/admin/page/:id/edit'    => 'admin/pages#edit'
+  get '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', :as => :find_page_by
 
   namespace :admin do
     resources :events do
@@ -149,27 +149,27 @@ UNGC::Application.routes.draw do
 
     resources :local_networks do
       resources :contacts
-      resources :awards
-      resources :mous
-      resources :meetings
-      resources :communications
+      resources :awards, except: [:index, :show]
+      resources :mous, except: [:index, :show]
+      resources :meetings, except: [:index, :show]
+      resources :communications, except: [:index, :show]
       resources :integrity_measures
-      resources :annual_reports
-      resources :announcements
-      resources :local_network_events do
-        resources :attachments, :controller => 'local_network_event_attachments'
+      resources :annual_reports, except: [:index, :show]
+      resources :announcements, except: [:index, :show]
+      resources :local_network_events, except: [:index] do
+        resources :attachments, :controller => 'local_network_event_attachments', except: [:show, :edit, :update]
       end
       resources :annual_reports
       resources :contribution_descriptions
     end
 
-    match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
+    get '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
 
-    match 'reports'          => 'reports#index', :as => :reports
-    match 'reports/:action'  => 'reports', :as => :report
+    get 'reports'          => 'reports#index', :as => :reports
+    get 'reports/:action'  => 'reports', :as => :report
 
-    match 'learning'         => 'learning#index', :as => :learning
-    match 'learning/:action' => 'learning'
+    get 'learning'         => 'learning#index', :as => :learning
+    get 'learning/:action' => 'learning'
 
     resources :resources do
       member do
@@ -187,70 +187,69 @@ UNGC::Application.routes.draw do
   end
 
   # Front-end routes
-  match '/feeds/cops' => 'cops#feed', :format => 'atom'
+  get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
   # Alias redirects
-  match '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
-  match '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
-  match '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
-  match '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
-  match '/rio_resources'  => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
-  match '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
-  match '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
-  match ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
-  match '/app'            => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
-  match '/businesspartnershiphub' => 'pages#redirect_to_page', :page => 'http://businesspartnershiphub.org/'
-  match '/HR_Resources'   => 'pages#redirect_to_page', :page => '/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf'
-  match ':fabprinciples'  => 'pages#redirect_to_page', :page => '/Issues/Environment/food_agriculture_business_principles.html', :constraints => { :fabprinciples => /fabprinciples/i }
-  match '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
-  match '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
-  match '/FundraisingToolkit' => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf'
-  match '/anti-corruption' => 'pages#redirect_to_page', :page => '/Issues/transparency_anticorruption/call_to_action_post2015.html'
-  match '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
-  match '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
-  match ':leadsymposiumonline' => 'pages#redirect_to_page', :page => 'http://un.banks-sadler.com', :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
+  get '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
+  get '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
+  get '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
+  get '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
+  get '/rio_resources'  => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/RioCSF/html/resources.html'
+  get '/leadlab'        => 'pages#redirect_to_page', :page => 'http://leadlab.unglobalcompact.org/'
+  get '/LEADBoardProgramme' => 'pages#redirect_to_page', :page => '/docs/issues_doc/lead/board_programme/'
+  get ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
+  get '/app'            => 'pages#redirect_to_page', :page => 'http://ungcevents.quickmobile.mobi/'
+  get '/businesspartnershiphub' => 'pages#redirect_to_page', :page => 'http://businesspartnershiphub.org/'
+  get '/HR_Resources'   => 'pages#redirect_to_page', :page => '/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf'
+  get ':fabprinciples'           => 'pages#redirect_to_page', :page => '/Issues/Environment/food_agriculture_business_principles.html', :constraints => { :fabprinciples => /fabprinciples/i }
+  get '/ActionFair'     => 'pages#redirect_to_page', :page => '/docs/news_events/upcoming/ActionFairSources.pdf'
+  get '/lnw'            => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/google_earth/'
+  get '/FundraisingToolkit' => 'pages#redirect_to_page', :page => '/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf'
+  get '/anti-corruption' => 'pages#redirect_to_page', :page => '/Issues/transparency_anticorruption/call_to_action_post2015.html'
+  get '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
+  get '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
+  get ':leadsymposiumonline' => 'pages#redirect_to_page', :page => 'http://un.banks-sadler.com', :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
+  get '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
-  match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
-
-  match '/participants/search' => 'participants#search', :as => :participant_search
-  match '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
-  match '/participant/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
+  get '/participants/search' => 'participants#search', :as => :participant_search
+  get '/participants/:navigation/:id' => 'participants#show', :as => :participant_with_nav, :constraints => { :id => /.*/ }
+  get '/participant/:id' => 'participants#show', :as => :participant, :constraints => { :id => /.*/ }
 
   # Resources
   get '/resources/:id' => 'resources#show', :as => :resource
   post '/resources/link_views' => 'resources#link_views', :as => :resources_link_view
-  match '/resources' => 'resources#index', :as => :resources
+  get '/resources' => 'resources#index', :as => :resources
 
-  match 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
-  match 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
-  match 'organizations/new/:org_type' => 'organizations#new'
+  get 'COPs/:navigation/:id' => 'cops#show', :as => :cop_detail_with_nav, :constraints => { :id => /\d+/ }
+  get 'COPs/detail/:id' => 'cops#show', :as => :cop_detail, :constraints => { :id => /\d+/ }
+  get 'organizations/new/:org_type' => 'organizations#new'
 
   # Signup
-  match '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
-  match '/HowToParticipate/Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"non_business" }
-  match '/signup/step1/:org_type'  => 'signup#step1', :as => :organization_step1
-  match '/signup/step2'            => 'signup#step2', :as => :organization_step2
-  match '/signup/step3'            => 'signup#step3', :as => :organization_step3
-  match '/signup/step4'            => 'signup#step4', :as => :organization_step4
-  match '/signup/step5'            => 'signup#step5', :as => :organization_step5
-  match '/signup/step6'            => 'signup#step6', :as => :organization_step6
-  match '/signup/step7'            => 'signup#step7', :as => :organization_step7
+  get '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
+  get '/HowToParticipate/Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"non_business" }
+  get '/signup/step1/:org_type'  => 'signup#step1', :as => :organization_step1
+  get '/signup/step2'            => 'signup#step2', :as => :organization_step2
+  get '/signup/step3'            => 'signup#step3', :as => :organization_step3
+  get '/signup/step4'            => 'signup#step4', :as => :organization_step4
+  get '/signup/step5'            => 'signup#step5', :as => :organization_step5
+  get '/signup/step6'            => 'signup#step6', :as => :organization_step6
+  get '/signup/step7'            => 'signup#step7', :as => :organization_step7
 
-  match '/case_story/:id' => 'case_stories#show', :as => 'case_story'
+  get '/case_story/:id' => 'case_stories#show', :as => 'case_story'
 
-  match '/events/:permalink' => 'events#show', :via => :get, :as => :event
+  get '/events/:permalink' => 'events#show', :as => :event
 
   # News
-  match '/news' => 'news#index', :as => :newest_headlines
-  match '/feeds/news' => 'news#index', :as => :newest_headlines, :format => 'atom'
-  match '/news/:year' => 'news#index', :as => :headline_year, :constraints => { :year => /\d{4}/ }
-  match '/news/:permalink' => 'news#show', :as => :headline, :via => :get
+  get '/news' => 'news#index', :as => :newest_headlines
+  get '/feeds/news' => 'news#index', :format => 'atom'
+  get '/news/:year' => 'news#index', :as => :headline_year, :constraints => { :year => /\d{4}/ }
+  get '/news/:permalink' => 'news#show', :as => :headline
 
-  match '/search' => 'search#index', :as => :search
+  get '/search' => 'search#index', :as => :search
 
-  match '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false
-  match '/preview/*path'  => 'pages#preview',  :as => :preview_page,  :format => false
-  match '/*path'          => 'pages#view',     :as => :view_page,     :format => false
+  get '/decorate/*path' => 'pages#decorate', :as => :decorate_page, :format => false
+  get '/preview/*path'  => 'pages#preview',  :as => :preview_page,  :format => false
+  get '/*path'          => 'pages#view',     :as => :view_page,     :format => false
 
   mount Ckeditor::Engine => "/ckeditor"
 end

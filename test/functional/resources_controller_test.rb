@@ -31,4 +31,35 @@ class ResourcesControllerTest < ActionController::TestCase
       assert_equal @resource_link.views, 1
     end
   end
+
+  test "#index" do
+    resource = create_resource
+    ResourceFeatured.any_instance.stubs(find_resources: [resource])
+    get :index
+  end
+
+  test "#index with search terms" do
+    search = mock('search')
+    ResourceSearch.stubs(new: search)
+
+    search.expects(:page=, 5)
+    search.expects(:per_page=, 6)
+    search.expects(:order=, 'foo')
+    search.expects(:get_search_results).returns(stub(total_count: 1, total_pages: 1, each: stub(:[])))
+    search.expects(:results_description).returns('description')
+
+    get :index, commit: 'Search',
+      page: 5,
+      per_page: 6,
+      order: 'foo',
+      resource_search: {
+        keyword: 'lasers',
+        language: [1],
+        author: [2],
+        topic: {
+          principle_ids: [3,4]
+        }
+      }
+  end
+
 end

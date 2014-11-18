@@ -1,8 +1,10 @@
 require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+
+  test "#show" do
+    event = create_event
+    get :show, permalink: event
   end
+
 end

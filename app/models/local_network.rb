@@ -71,7 +71,7 @@ class LocalNetwork < ActiveRecord::Base
   belongs_to :sg_established_as_a_legal_entity_file, :class_name => 'UploadedFile'
 
   validates_format_of :url,
-                      :with => /^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/ix,
+                      :with => /\A(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix,
                       :message => "for website is invalid. Please enter one address in the format http://unglobalcompact.org/",
                       :unless => Proc.new { |local_network| local_network.url.blank? }
 
@@ -87,7 +87,7 @@ class LocalNetwork < ActiveRecord::Base
     validates_numericality_of attribute, :only_integer => true, :allow_blank => true
   end
 
-  default_scope :order => 'local_networks.name'
+  default_scope { order('local_networks.name') }
   scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
   scope :where_state, lambda { |state| where(:state => state.to_s) }
   scope :regional_centers, lambda { where(state: :regional_center) }

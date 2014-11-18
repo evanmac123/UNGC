@@ -1,7 +1,8 @@
 -if @communication_on_progress.errors.any?
   %h3 Please correct the following before submitting your COP:
   %div{:class => 'flash error'}
-    = error_messages_for @communication_on_progress, header_message: false
+    - @communication_on_progress.errors.full_messages.each do |msg|
+      %li= msg
 
 %div{:class => "tab_container left_tabs"}
   %ul.tab_nav

@@ -10,20 +10,20 @@ module Importers
           models = {}
 
           if get_yesno(row, "Policies on Network Involvement In Communication on Progress")
-            models[:cop] = local_network.integrity_measures.find_or_initialize_by_policy_type("cop")
+            models[:cop] = local_network.integrity_measures.find_or_initialize_by(policy_type: "cop")
           end
 
           if get_yesno(row, "Does The Network have a Specific Logo Policy?")
-            models[:logo] = local_network.integrity_measures.find_or_initialize_by_policy_type("logo")
+            models[:logo] = local_network.integrity_measures.find_or_initialize_by(policy_type: "logo")
           end
 
           if get_yesno(row, "Does GCLN Have A Policy On Dialogue Facilitation?")
-            models[:dialogue] = local_network.integrity_measures.find_or_initialize_by_policy_type("dialogue")
+            models[:dialogue] = local_network.integrity_measures.find_or_initialize_by(policy_type: "dialogue")
           end
 
           if get_yesno(row, "Has Network Been Involved In Awards/ Recognition Mechanism")
             if date = get_date(row, "Award Date", :middle)
-              models[:award] = local_network.awards.find_or_initialize_by_date(date)
+              models[:award] = local_network.awards.find_or_initialize_by(date: date)
             end
           end
 

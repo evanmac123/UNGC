@@ -103,7 +103,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
         cop = assigns(:communication_on_progress)
 
         assert_equal false, cop.persisted?
-        assert_equal "Cop files is invalid and Cop files attachment can't be blank",
+        assert_equal "Language can't be blank and Attachment can't be blank",
                      cop.errors.full_messages.to_sentence
       end
 
@@ -230,7 +230,7 @@ class Admin::CopsControllerTest < ActionController::TestCase
     should "be able to update the cop" do
       put :update, :organization_id => @organization.id,
                    :id              => @cop.id,
-                   :communication_on_progress => {}
+                   :communication_on_progress => {cop_type: :basic}
       assert_redirected_to admin_organization_communication_on_progress_url(@organization.id, @cop.id, tab: :results)
     end
 

@@ -51,14 +51,14 @@ module ApprovalWorkflow
         end
       end
 
-      scope :pending_review, where(:state => STATE_PENDING_REVIEW)
-      scope :in_review, where(:state => STATE_IN_REVIEW, :replied_to => true)
-      scope :network_review, where(:state => STATE_NETWORK_REVIEW)
-      scope :delay_review, where(:state => STATE_DELAY_REVIEW)
-      scope :approved, where(:state => STATE_APPROVED)
-      scope :rejected, where(:state => STATE_REJECTED)
-      scope :reject_micro, where(:state => STATE_REJECTED_MICRO)
-      scope :unreplied, where(:state => STATE_IN_REVIEW, :replied_to => false)
+      scope :pending_review, -> { where(:state => STATE_PENDING_REVIEW) }
+      scope :in_review, -> { where(:state => STATE_IN_REVIEW, :replied_to => true) }
+      scope :network_review, -> { where(:state => STATE_NETWORK_REVIEW) }
+      scope :delay_review, -> { where(:state => STATE_DELAY_REVIEW) }
+      scope :approved, -> { where(:state => STATE_APPROVED) }
+      scope :rejected, -> { where(:state => STATE_REJECTED) }
+      scope :reject_micro, -> { where(:state => STATE_REJECTED_MICRO) }
+      scope :unreplied, -> { where(:state => STATE_IN_REVIEW, :replied_to => false) }
     end
   end
 end

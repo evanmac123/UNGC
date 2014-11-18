@@ -63,7 +63,7 @@ class Contact < ActiveRecord::Base
   validates_confirmation_of :password, :if => :password_required?
   validates_length_of       :password, :within => Devise.password_length, :if => :password_required?
   validates_format_of       :email,
-                              :with => /^[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}$/,
+                              :with => /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}\z/,
                               :message => "is not a valid email address"
 
   belongs_to :country
@@ -71,7 +71,7 @@ class Contact < ActiveRecord::Base
   belongs_to :local_network
   has_and_belongs_to_many :roles, :join_table => "contacts_roles"
 
-  default_scope :order => 'contacts.first_name'
+  default_scope { order('contacts.first_name') }
 
   # TODO LATER: remove plain text password at some point - attr_accessor :password
   # before_save :encrypt_password
@@ -86,7 +86,7 @@ class Contact < ActiveRecord::Base
   # /app/views/signup/step5.html.haml
   attr_accessor :foundation_contact
 
-  scope :participants_only, where(["organizations.participant = ?", true])
+  scope :participants_only, lambda { where(["organizations.participant = ?", true]) }
 
   def self.for_mail_merge(cop_states)
     select("contacts.*,
@@ -121,18 +121,15 @@ class Contact < ActiveRecord::Base
   end
 
   def self.financial_contacts
-    contact_point_id = Role.financial_contact.try(:id)
-    where("contacts_roles.role_id = ?", contact_point_id).includes(:roles)
+    joins(:roles).merge(Role.financial_contacts).includes(:roles)
   end
 
   def self.contact_points
-    contact_point_id = Role.contact_point.try(:id)
-    where("contacts_roles.role_id = ?", contact_point_id).includes(:roles)
+    joins(:roles).merge(Role.contact_points).includes(:roles)
   end
 
   def self.ceos
-    ceo_id = Role.ceo.try(:id)
-    where("contacts_roles.role_id = ?", ceo_id).includes(:roles)
+    joins(:roles).merge(Role.ceos).includes(:roles)
   end
 
   def self.network_roles
@@ -141,50 +138,38 @@ class Contact < ActiveRecord::Base
     roles << Role.network_representative
     roles << Role.network_report_recipient
 
-    where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
+    joins(:roles).where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_roles_public
     roles = []
     roles << Role.network_focal_point
     roles << Role.network_representative
-    where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
+    joins(:roles).where("contacts_roles.role_id IN (?)", roles).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_contacts
-    role = Role.network_focal_point
-    where("contacts_roles.role_id = ?", role).includes(:roles).order("roles.name DESC")
+    joins(:roles).merge(Role.network_focal_points).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_representatives
-    role = Role.network_representative
-    where("contacts_roles.role_id = ?", role).includes(:roles).order("roles.name DESC")
+    joins(:roles).merge(Role.network_representatives).includes(:roles).order("roles.name DESC")
   end
 
   def self.network_report_recipients
-    role = Role.network_report_recipient
-    where("contacts_roles.role_id = ?", role).includes(:roles)
+    joins(:roles).merge(Role.network_report_recipients).includes(:roles)
   end
 
   def self.network_regional_managers
-    role = Role.network_regional_manager
-    where("contacts_roles.role_id = ?", role).includes(:roles)
+    joins(:roles).merge(Role.network_regional_managers).includes(:roles)
   end
 
   def self.participant_managers
-    role = Role.participant_manager
-    where("contacts_roles.role_id = ?", role).includes(:roles)
+    joins(:roles).merge(Role.participant_managers).includes(:roles)
   end
-
 
   scope :for_country, lambda { |country| where(:country_id => country.id) }
-  scope :with_login, where("username IS NOT NULL")
-
-  define_index do
-    indexes first_name, last_name, middle_name, email
-    set_property :enable_star => true
-    set_property :min_prefix_len => 4
-  end
+  scope :with_login, lambda { where("username IS NOT NULL") }
 
   def name
     [first_name, last_name].join(' ')

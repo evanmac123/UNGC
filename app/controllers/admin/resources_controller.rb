@@ -5,9 +5,9 @@ class Admin::ResourcesController < AdminController
 
   def index
     @resources = Resource.with_principles_count
-      .order(order_from_params)
       .paginate(page:params[:page],
                 per_page:Resource.per_page)
+      .order(order_from_params)
   end
 
   def show
@@ -23,7 +23,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def create
-    updater = ResourceUpdater.new(params[:resource])
+    updater = ResourceUpdater.new(resource_params)
     if updater.submit
       redirect_to admin_resources_url, notice: 'Resource created.'
     else
@@ -34,7 +34,7 @@ class Admin::ResourcesController < AdminController
 
   def update
     @resource = Resource.find(params[:id])
-    updater = ResourceUpdater.new(params[:resource], @resource)
+    updater = ResourceUpdater.new(resource_params, @resource)
     if updater.submit
       redirect_to [:admin, @resource], notice: 'Resource updated.'
     else
@@ -85,9 +85,22 @@ class Admin::ResourcesController < AdminController
 
   def load_form_resources
     @topics = Principle.topics_menu
-    @authors = Author.scoped
-    @languages = Language.scoped
+    @authors = Author.all
+    @languages = Language.all
     @types = ResourceLink::TYPES
+  end
+
+  def resource_params
+    params.fetch(:resource, {}).permit(
+      :title,
+      :description,
+      :isbn,
+      :principle_ids,
+      :author_ids,
+      :image,
+      :year,
+      :links => [:id, :title, :url, :link_type, :language_id]
+    )
   end
 
 end
