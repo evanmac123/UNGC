@@ -109,6 +109,9 @@
   :version: 2.6.17
   :arch: amd64
 
+:sidekiq:
+  :workers: 2
+
 :denyhosts:
   :allow:
     - 'ALL : 127.0.0.1     # localhost'
