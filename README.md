@@ -37,12 +37,13 @@ Once you have the database dump import it into your development database using:
 ## Get the essentials
 GIT: `sudo apt-get install git`
 
-## Make sure you run Ruby 1.9.3!
+## Make sure you run Ruby 2.1.3!
 [RVM](http://rvm.beginrescueend.com/) - makes installing multiple Ruby versions extremely easy.
 `bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )`
-`rvm install 1.9.3`
-`rvm use 1.9.3` this will download and install ruby 1.9.3
-`rvm 1.9.3 --default` this will make the downloaded 1.9.3 the default in your computer
+`rvm install 2.1.3`
+`rvm use 2.1.3` this will download and install ruby 2.1.3
+`rvm 2.1.3 --default` this will make the downloaded 2.1.3 the default in your computer
+`cap staging ruby:upgrade` this will upgrade the version of ruby on the staging machine
 
 OR
 
@@ -72,8 +73,10 @@ Make sure that `pdf2txt.py` is in the path, and it should be fine.
 Done :)
 
 # Debugger
-[Using debugger](http://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debugger-gem)
-place `debugger` at your breakpoint and press 'c' to continue execution
+the traditional ruby debugger `debugger` no longer works with Ruby 2.x. We now use byebug (https://rubygems.org/gems/byebug).
+byebug should work like the debugger in every other way.
+[Using byebug]
+place `byebug` at your breakpoint and press 'c' to continue execution
 
 # Controlling Sphinx
 `rake ts:rebuild RAILS_ENV=production`
