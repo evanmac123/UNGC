@@ -209,6 +209,7 @@ UNGC::Application.routes.draw do
   match '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
   match '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
   match ':leadsymposiumonline' => 'pages#redirect_to_page', :page => 'http://un.banks-sadler.com', :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
+  match ':boardprogramme' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/board_programme.html', :constraints => { :boardprogramme => /boardprogramme/i }
 
   match '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
