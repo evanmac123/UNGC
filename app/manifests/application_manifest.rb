@@ -124,7 +124,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
 
     package 'junglediskserver',
       :provider => :dpkg,
-      :ensure => '316-0',
+      :ensure => :installed,
       :source => "/tmp/#{deb_file}",
       :require => exec('download jungle_disk')
 
