@@ -10,6 +10,7 @@ class LocalNetworkAllCops < SimpleReport
 
   def headers
     [ 'participant_name',
+      'cop_status',
       'organization_type',
       'country',
       'title',
@@ -30,6 +31,7 @@ class LocalNetworkAllCops < SimpleReport
 
   def row(record)
     [ record.organization.try(:name),
+      record.organization.try(:cop_state),
       record.organization.organization_type_name,
       record.organization.country_name,
       record.title,
