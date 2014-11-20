@@ -10,6 +10,7 @@ class CopsWithDifferentiation < SimpleReport
 
   def headers
     [ 'participant_name',
+      'cop_status',
       'organization_type',
       'country',
       'id',
@@ -35,6 +36,7 @@ class CopsWithDifferentiation < SimpleReport
 
   def row(record)
     [ record.organization.name,
+      record.organization.cop_state,
       record.organization.organization_type_name,
       record.organization.country_name,
       record.id,
