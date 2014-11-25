@@ -56,7 +56,8 @@ module ParticipantsHelper
   def contribution_years(organization)
     html = ""
     # Start at the current year, otherwise start from the year they were delisted
-    start_year = organization.delisted? ? organization.delisted_on.year : Date.today.year + 1
+    # We will switch to a different method for tracking contributions in 2015, so the year is hardcoded for now
+    start_year = organization.delisted? ? organization.delisted_on.year : 2015
     start_year.downto(organization.initial_contribution_year) do |year|
       contributed = organization.contributor_for_year?(year)
       html += render :partial => 'contribution', :locals => { :year => year, :contributed => contributed }
