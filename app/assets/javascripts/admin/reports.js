@@ -64,12 +64,17 @@ $(function() {
   function onReportCompleted(report) {
     var $link = $('.report-url');
     $link.attr('href', downloadUrl(report));
-    $link.text(report.filename);
+    $link.text("Download");
 
     dialog.dialog("option", "title", "Report complete");
     showMessage('complete');
     dialog.dialog("open");
   }
+
+  $('.report-url').on('click', function() {
+    dialog.dialog("close");
+    return true;
+  });
 
   function onReportError() {
     dialog.dialog("option", "title", "Failed");
@@ -80,11 +85,15 @@ $(function() {
   $("#dialog-message").dialog({
     modal: true,
     autoOpen: false,
+    dialogClass: "report-dialog",
+    draggable: false,
+    closeOnEscape: false/*,
     buttons: {
       Close: function() {
         $(this).dialog( "close" );
       }
     }
+    */
   });
 
   // start polling reports
@@ -95,4 +104,4 @@ $(function() {
     pollReport(id);
   }
 
-})
+});

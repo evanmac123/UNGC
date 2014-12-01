@@ -2,10 +2,17 @@
   .report-progress.message
     %p
       Please wait while we generate your report
+    %p
+      = image_tag('indicator.white.gif')
   .report-complete.message{style: 'display: none;'}
     %p
-      Your report is ready. Download it here:
-      %a.report-url
+      Your report is ready.
+    %p
+      %a.report-url.new-large
+        Download
   .report-error.message{stlye: 'display: none;'}
     %p
       Sorry, but we failed to generate your report.
+    %p
+      %a.report-url.new-large
+        Close
