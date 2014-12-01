@@ -277,10 +277,6 @@ class Organization < ActiveRecord::Base
   scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.today) }
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
-  # combine with :sme scope to list SMEs who have been given a 1 year extension after becoming non-communicating
-  scope :about_to_end_sme_extension, lambda { where("cop_state=? AND inactive_on=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
-  scope :under_moratorium, lambda { where("cop_state=? AND inactive_on >= '2012-12-21'", COP_STATE_NONCOMMUNICATING) }
-
   scope :ready_for_invoice, lambda {where("joined_on >= ? AND joined_on <= ?", 2.days.ago.beginning_of_day, 2.days.ago.end_of_day)}
 
 
@@ -778,14 +774,6 @@ class Organization < ActiveRecord::Base
     self.update_attribute(:cop_due_on, COP_TEMPORARY_PERIOD.days.from_now)
   end
 
-  # A 1 year extension is given to SMEs when they are about to be delisted
-  # Record the date on which the extennsion begins so we can
-  # then delist them 1 year after the inactive_on date
-  def extend_sme_cop_due_on_and_set_inactive_on
-    self.update_attribute(:cop_due_on, cop_due_on + 1.year)
-    self.update_attribute(:inactive_on, cop_due_on)
-  end
-
   # COP's next due date is 1 year from current date, 2 years for non-business
   # Organization's participant and cop status are now 'active', unless they submit a series of Learner COPs
   def set_next_cop_due_date_and_cop_status(date= nil)
@@ -964,10 +952,6 @@ class Organization < ActiveRecord::Base
 
   def error_message
     errors.full_messages.to_sentence
-  end
-
-  def sme_in_moratorium?
-    inactive_on.present? && inactive_on >= CommunicationOnProgress::START_DATE_OF_SME_MORATORIUM
   end
 
   private
