@@ -15,10 +15,14 @@ class ReportWorker
     report = class_name.constantize.new(options)
 
     status = ReportStatus.find(status_id)
-    status.complete!(report.render_output)
+    file = report.render_output
+    status.complete!(file)
   rescue => e
     status.failed!(e)
     raise e
+  ensure
+    ReportSweeper.sweep(status) if status
+    file.close if file
   end
 
 end
