@@ -16,7 +16,6 @@ $(function() {
 
   function showModal() {
     showMessage('progress');
-    dialog.dialog("option", "title", "Generating report");
     dialog.dialog("open");
   }
 
@@ -64,9 +63,7 @@ $(function() {
   function onReportCompleted(report) {
     var $link = $('.report-url');
     $link.attr('href', downloadUrl(report));
-    $link.text("Download");
 
-    dialog.dialog("option", "title", "Report complete");
     showMessage('complete');
     dialog.dialog("open");
   }
@@ -77,7 +74,6 @@ $(function() {
   });
 
   function onReportError() {
-    dialog.dialog("option", "title", "Failed");
     showMessage('error');
     dialog.dialog("open");
   }
@@ -87,6 +83,9 @@ $(function() {
     autoOpen: false,
     dialogClass: "report-dialog",
     draggable: false,
+    resizable: false,
+    minHeight: 92,
+    minWidth: 310,
     closeOnEscape: false/*,
     buttons: {
       Close: function() {
