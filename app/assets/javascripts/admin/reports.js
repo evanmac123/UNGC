@@ -60,9 +60,16 @@ $(function() {
     return '/admin/reports/download/' + report.id + '.' + report.format;
   }
 
+  function reportDuration(report) {
+    var time = moment(report.updated_at).subtract(moment(report.created_at));
+    return time.format("mm:ss");
+  }
+
   function onReportCompleted(report) {
     var $link = $('.report-url');
     $link.attr('href', downloadUrl(report));
+    var $duration = $('.report-duration');
+    $duration.text(reportDuration(report));
 
     showMessage('complete');
     dialog.dialog("open");
