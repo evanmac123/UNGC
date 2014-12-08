@@ -62,7 +62,7 @@ $(function() {
 
   function reportDuration(report) {
     var time = moment(report.updated_at).subtract(moment(report.created_at));
-    return time.format("mm:ss");
+    return moment.duration(time).humanize();
   }
 
   function onReportCompleted(report) {
