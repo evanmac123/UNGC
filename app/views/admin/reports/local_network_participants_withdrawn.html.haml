@@ -6,7 +6,7 @@
 
   %p
     %ul{:class => "tools inline"}
-      %li= link_to 'Download Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+      %li= link_to_download_report
 
   %table.dashboard_table
     %tr
@@ -22,3 +22,5 @@
         %td
           %ul.actions
             =popup_link_to 'View Details', participant_path(org), :title => "View participant details", :class => "preview"
+
+= render partial: 'report_modal'

@@ -10,9 +10,17 @@ module Admin::ReportsHelper
      link_to('xls', admin_report_path(:action => action, :format => 'xls'), :class => 'xls')].join(' ').html_safe
    end
 
-  def link_to_report_xls(text,action)
-    [link_to(text, admin_report_path(:action => action, :format => 'xls')),
-     link_to(text, admin_report_path(:action => action, :format => 'xls'), :class => 'xls')].join(' ').html_safe
+  def link_to_report_xls(text, action)
+    [link_to(text, admin_report_path(:action => action, :format => 'xls'), remote: true),
+     link_to(text, admin_report_path(:action => action, :format => 'xls'), remote: true, :class => 'xls')].join(' ').html_safe
+  end
+
+  def link_to_download_report(options = {})
+    format = options.fetch(:format) { 'xls' }
+    text   = options.fetch(:text)   { 'Download Excel file' }
+    url    = options.fetch(:url)    { url_for(params.merge(format: format)) }
+
+    link_to text, url, remote: true, :class => 'download_large'
   end
 
   def select_month_tag(selected)

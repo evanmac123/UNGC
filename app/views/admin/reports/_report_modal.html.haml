@@ -1,0 +1,19 @@
+#dialog-message
+  .report-progress.message
+    %p
+      Please wait while we generate your report
+    %p.spinner
+      = image_tag('indicator.white.gif')
+  .report-complete.message{style: 'display: none;'}
+    %a.report-url.download-large
+      Download Report
+    %p.spinner
+      Time Elapsed:
+      %span.report-duration
+
+  .report-error.message{stlye: 'display: none;'}
+    %p
+      Sorry, but we failed to generate your report.
+    %p
+      %a.report-url.new-large
+        Close

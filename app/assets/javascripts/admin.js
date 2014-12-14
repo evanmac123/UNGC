@@ -1,4 +1,5 @@
 //= require_tree ./admin/
+//= require moment
 //= require_self
 
 // Array Remove - By John Resig (MIT Licensed)
