@@ -4,8 +4,8 @@ namespace :god do
   like 'god reload' - http://github.com/eric/god/commits/god-reload
   DESC
   task :restart, :roles => :god do
-    sudo 'stop god || true'
-    sudo 'start god'
+    sudo 'god terminate || true'
+    sudo 'god -c /etc/god/god.conf'
     sleep 5
   end
 
@@ -21,3 +21,4 @@ namespace :god do
 
 end
 after 'deploy:restart', 'god:restart'
+after 'god:restart', 'god:status'

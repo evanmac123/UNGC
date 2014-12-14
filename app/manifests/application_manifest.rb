@@ -34,6 +34,7 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :resolv_conf
   recipe :passenger_monitor
   recipe :redis
+  recipe :sidekiq
 
   recipe :pdfminer
 

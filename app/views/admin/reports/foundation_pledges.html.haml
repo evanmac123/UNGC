@@ -1,7 +1,7 @@
 %h2 Foundation Pledges
 
 %ul{:class => "tools inline"}
-  %li= link_to 'Excel file', url_for(params.merge(:format => 'xls')), :class => 'download_large'
+  %li= link_to_download_report
 
 %p
   = form_for admin_report_path(:action => :foundation_pledges), :html => {:method => :get} do |f|
@@ -29,3 +29,5 @@
       %td
         %ul.actions
           =link_to 'View Contacts', admin_organization_path(org.id, :tab => :contacts), :title => "View contacts for #{org.name}", :class => "users"
+
+= render partial: 'report_modal'

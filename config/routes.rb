@@ -165,8 +165,10 @@ UNGC::Application.routes.draw do
 
     match '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
 
-    match 'reports'          => 'reports#index', :as => :reports
-    match 'reports/:action'  => 'reports', :as => :report
+    match 'reports'               => 'reports#index',     :as => :reports
+    match 'reports/status/:id'    => 'reports#status',    :as => :report_status
+    match 'reports/download/:id'  => 'reports#download',  :as => :report_download
+    match 'reports/:action'       => 'reports',           :as => :report
 
     match 'learning'         => 'learning#index', :as => :learning
     match 'learning/:action' => 'learning'

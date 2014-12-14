@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class Admin::ReportsControllerTest < ActionController::TestCase
+
   context "given a staff user" do
     setup do
       @staff_user = create_staff_user
@@ -21,7 +22,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     should "get the approved logo request report as xls" do
       get :approved_logo_requests, {:format => 'xls'}
       assert_response :success
-      assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
+      assert_excel_content_type
     end
 
     should "get the listed companies report" do
@@ -33,7 +34,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     should "get the listed companies report as xls" do
       get :listed_companies, {:format => 'xls'}
       assert_response :success
-      assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
+      assert_excel_content_type
     end
 
     # should "get the networks report" do
@@ -47,7 +48,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     #      create_country
     #      get :networks, {:format => 'xls'}
     #      assert_response :success
-    #      assert_equal @response.headers['Content-Type'], 'application/vnd.ms-excel'
+    #      assert_equal @response.headers['Content-Type'], xls_mime_type
     #    end
 
     should "get the foundation pledges report" do
@@ -59,7 +60,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     should "get the foundation pledges report as xls" do
       get :foundation_pledges, {:format => 'xls'}
       assert_response :success
-      assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
+      assert_excel_content_type
     end
 
     should "get the participant breakdown report" do
@@ -71,7 +72,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     should "get the participant breakdown report as xls" do
       get :participant_breakdown, {:format => 'xls'}
       assert_response :success
-      assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
+      assert_excel_content_type
     end
 
     should "get the contacts for mail merge report" do
@@ -83,7 +84,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     should "get the contacts for mail merge report as xls" do
       get :contacts_mail_merge, {:format => 'xls'}
       assert_response :success
-      assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
+      assert_excel_content_type
     end
 
     should "get the local networks contacts report" do
@@ -95,7 +96,7 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     should "get the local networks contacts report as xls" do
       get :local_networks_contacts, {:format => 'xls'}
       assert_response :success
-      assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
+      assert_excel_content_type
     end
 
     should "get the cop report" do
@@ -107,9 +108,9 @@ class Admin::ReportsControllerTest < ActionController::TestCase
     should "get the cop as xls" do
       get :all_cops, {:format => 'xls'}
       assert_response :success
-      assert_equal 'application/vnd.ms-excel', @response.headers['Content-Type']
+      assert_excel_content_type
     end
-    
+
     context "given the initiatives report" do
       setup do
         @organization       = create_organization
@@ -120,14 +121,19 @@ class Admin::ReportsControllerTest < ActionController::TestCase
         @climate_initiative.signings.create [ { :signatory => @organization },
                                              { :signatory => @organization2 } ]
       end
-      
+
       should "task" do
         get :initiative_organizations, { :initiatives => [@climate_initiative.id] }
         assert_not_nil assigns(:report)
         assert_not_nil assigns(:selected_initiatives)
       end
-      
+
     end
 
   end
+
+  def assert_excel_content_type
+    assert_equal 'application/vnd.ms-excel; charset=utf-8', @response.headers['Content-Type']
+  end
+
 end

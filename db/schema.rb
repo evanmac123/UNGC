@@ -714,6 +714,16 @@ ActiveRecord::Schema.define(:version => 20141022193643) do
     t.datetime "updated_at"
   end
 
+  create_table "report_statuses", :force => true do |t|
+    t.integer  "status",        :default => 0, :null => false
+    t.string   "filename"
+    t.string   "path"
+    t.string   "error_message"
+    t.string   "format"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+  end
+
   create_table "resource_links", :force => true do |t|
     t.string   "url"
     t.string   "title"

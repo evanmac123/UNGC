@@ -1,7 +1,8 @@
 class LocalNetworkRecentlyDelisted < SimpleReport
 
   def records
-    Organization.visible_to(@options[:user])
+    contact = Contact.find(@options.fetch(:contact_id))
+    Organization.visible_to(contact)
       .with_cop_status(:delisted)
       .delisted_between(Date.today - 90.days, Date.today)
       .all(:order => 'delisted_on DESC')
