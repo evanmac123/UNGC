@@ -105,6 +105,10 @@
     :max_iops: 20
     :max_iosize: 8192
 
+:redis:
+  :version: 2.6.17
+  :arch: amd64
+
 :denyhosts:
   :allow:
     - 'ALL : 127.0.0.1     # localhost'
