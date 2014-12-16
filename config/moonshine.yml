@@ -119,6 +119,9 @@
     - 'ALL : 64.22.127.245 # Rails Machine'
     - 'ALL : 64.22.127.26  # Rails Machine'
 
+:sysctl:
+  vm.overcommit_memory: 1
+
 :resolv:
   :nameservers:
     - 127.0.0.1
