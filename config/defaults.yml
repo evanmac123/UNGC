@@ -48,7 +48,7 @@ production:
     :token: '81bW76kr40hz5XmfkPH3TiIw'
     :client_id: '3MVG9FS3IyroMOh4XgXDsHvL1ThrQWh1cSOiefSjIhvkjFohp1wkvDZNxpmrWOqB91amIItoj06Fgdjf59AAP'
     :client_secret: '7058664805928495003'
-    :callback_url: 'https://unglobalcompact.org/salesforce/sync'
+    :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
   <<: *universal
 
 staging:
