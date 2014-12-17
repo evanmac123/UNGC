@@ -73,6 +73,7 @@ class Organization < ActiveRecord::Base
   has_many :logo_requests
   has_many :case_stories, :order => 'case_stories.updated_at ASC'
   has_many :communication_on_progresses
+  has_many :contributions
   belongs_to :sector
   belongs_to :organization_type
   belongs_to :listing_status

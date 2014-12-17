@@ -1,0 +1,7 @@
+%tr
+  %td= contribution.invoice_id
+  %td= contribution.campaign_name
+  %td= contribution.date
+  %td= number_to_currency(contribution.amount, unit: "$")
+  %td= contribution.payment_type
+  %td= contribution.stage

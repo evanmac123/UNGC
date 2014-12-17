@@ -59,3 +59,4 @@ group :production do
 end
 
 gem 'capistrano'
+gem 'databasedotcom'
