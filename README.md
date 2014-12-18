@@ -92,20 +92,13 @@ mysql -u root -e CREATE DATABASE unglobalcompact CHARACTER SET utf8 COLLATE utf8
 
 ### Credentials
 
-#### Accounts
-
-| Service | Username | Password |
-|---------|----------|----------|
-| [Airbrake](https://unspaceungc.airbrake.io/) | keesari@unglobalcompact.org | airbrakeungc |
-| [New Relic](https://login.newrelic.com/) | ungc@unspace.ca | newrelic |
-
-#### App
+You can log into the app as an Organization or Admin user using the following
+accounts:
 
 | Role | Username | Password |
 |------|----------|----------|
 | Organization User | ungc341 | FE2EC4C8 |
 | Admin User | keesari | compact2 |
-
 
 ### Search
 
@@ -251,3 +244,13 @@ Server should start, if not, run:
 ```
 sudo /usr/local/bin/junglediskserver
 ```
+
+## Accounts & Services
+
+These are the credentials to some external services used by the project for
+monitoring and reporting:
+
+| Service | Username | Password |
+|---------|----------|----------|
+| [Airbrake](https://unspaceungc.airbrake.io/) | keesari@unglobalcompact.org | airbrakeungc |
+| [New Relic](https://login.newrelic.com/) | ungc@unspace.ca | newrelic |
