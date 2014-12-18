@@ -3,7 +3,7 @@
 Welcome to the UNGC project, it was started in the summer of 2009 and is
 currently maintained by:
 
-* [Venu Keesari](https://github.com/vkeesari) -- _**lead**_
+* [Venu Keesari](https://github.com/vkeesari) &ndash; _**lead**_
 * [Mattia Gheda](https://github.com/ghedamat)
 * [Ben Moss](https://github.com/drteeth)
 
@@ -91,8 +91,8 @@ to those services as if they were running directly on your host computer.
 
 Once you have successfully provisioned a development VM using Vagrant or
 whatever method you choose, you'll want to create a database and load it with
-active data. From within your development VM `vagrant ssh` use the following
-steps to prepare the Rails application for development:
+active data. Use the following steps to prepare the Rails application for
+development:
 
 1. Copy `config/database.yml.sample` to `config/database.yml`
 2. Create a `tmp/pids` folder: `mkdir -p tmp/pids`
