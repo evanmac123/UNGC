@@ -18,28 +18,28 @@ application. We use Vagrant to manage the VM and provide a clean terminal-based
 development workflow, provisioning of the VM is automated. Use the following
 steps to get up and running:
 
+> Vagrant can be used with VMware Fusion (Mac) and VMware Workstation
+> (Windows), visit the [Vagrant website](https://www.vagrantup.com/vmware) for
+> more information.
+
 1. Download the latest version of VirtualBox for your machine [here](https://www.virtualbox.org/wiki/Downloads)
 2. Download the latest version of Vagrant for your machine [here](https://www.vagrantup.com/downloads.html)
 3. Install a Git client like GitHub for [Windows](https://windows.github.com) or [Mac](https://mac.github.com)
-4. Clone the repository onto your computer
-  - Terminal: `git clone git@github.com/unspace/UNGC.git`
-  - GitHub:
+4. Clone the repository onto your computer: `git clone git@github.com/unspace/ungc.git`
 5. Copy the `Vagrantfile.example` file to `Vagrant`, you can modify this file
    for your specific needs, however, it should work without any modifications.
-6. Open the project in your Terminal
-  - Mac/Linux: `cd /The/Place/That/I/Cloned/The/UNCG/Repo`
-  - Windows: `dir C:\The\Place\That\I\Cloned\The\UNGC\Repo`
+6. Open the project in your Terminal: `cd /the/place/where/i/cloned/ungc`
 7. Run `vagrant up` to create the development environment
 8. Run `vagrant reload` to refresh the newly created development VM
 
 If Vagrant complains about being unable to mount the filesystem, or that the
 Guest Additions are not up to date. You will have to update them, if you're
 using VirtualBox, you can install the `vagrant-vbguest` plugin which will keep
-them syncronized automatically, run `vagrant plugin install vagrant-vbguest`,
+them synchronized automatically, run `vagrant plugin install vagrant-vbguest`,
 then try running `vagrant reload` again. If you're using VMware, you can update
-the guest additions by following the Ubuntu Server directions in
+the guest additions by following the **Ubuntu Server** directions in
 [this](http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1022525)
-article.
+VMware support article.
 
 Once you've completed the above steps, you've successfully created a development
 VM for working on the UNGC project. At this point you can log-in to the
@@ -55,11 +55,37 @@ for interacting with the VM:
 * `vagrant ssh` for logging in to a running VM
 
 Use the `vagrant help` command for more information about the above commands and
-for a list of all available commands.
+for a list of all available commands. You can also destroy the development VM at
+any time using the `vagrant destroy` command, but this will also destroy any
+data in the VM as well requiring you to reset the database again (see Database
+below).
 
-> Vagrant can also be used with VMware Fusion (Mac) and VMware Workstation
-> (Windows), visit the [Vagrant website](https://www.vagrantup.com/vmware) for
-> more information.
+### VM Performance
+
+It's important to note that the default performance for your development VM may
+be unacceptable, you can change the number of virtual CPU cores and memory that
+your VM will use from your Vagrantfile. If you're using VirtualBox uncomment and
+change the settings under `config.vm.provider 'virtualbox'`, for VMware change
+them under `config.vm.provider 'vmware_fusion'`. How much memory and how many
+CPUs you should be using will depend on your host machine specs and your
+utilization of RAM and CPU on your host machine. A general rule of thumb is
+1/8<sup>th</sup> of your total RAM and as many CPUs as you have cores on your
+host.
+
+> UNGC likes RAM, 2048 MB is an ideal setting if you have the available memory.
+
+File IO latency can also be quite poor when using VirtualBox out-of-the-box
+(no pun intended). If you're using a host machine that supports NFS like OS X,
+you can enable it based off of the instructions in the Vagrantfile.
+
+### Connecting to Services in the VM
+
+It is possible to directly connect to services running inside of the VM. You
+can use tools such as [Sequel Pro](http://www.sequelpro.com/) and
+[MySQL Workbench](http://dev.mysql.com/downloads/workbench/). The default
+Vagrantfile forwards the ports for Redis, MySQL, and Rails (5000 in our case) to
+your host machine as the same port number, this means you can seamlessly connect
+to those services as if they were running directly on your host computer.
 
 ## Development
 
@@ -69,11 +95,20 @@ active data. From within your development VM `vagrant ssh` use the following
 steps to prepare the Rails application for development:
 
 1. Copy `config/database.yml.sample` to `config/database.yml`
-2. Run `bundle` to download and install all Ruby dependencies
-3. Ask [@ghedamat](https://github.com/ghedamat) or [@vkeesari](https://github.com/vkeesari) to add your Public Key to the production and staging servers
-4. Run `rake db:reset_from_snapshot` to create the development and test databases defined in `config/database.yml` and seed them with data
+2. Create a `tmp/pids` folder: `mkdir -p tmp/pids`
+3. Log in to the VM, run `vagrant ssh` from within the project directory
+4. Run `bundle` to download and install all Ruby dependencies
+5. Ask [@ghedamat](https://github.com/ghedamat) or [@vkeesari](https://github.com/vkeesari) to add your Public Key to the production and staging servers
+6. Run `rake db:reset_from_snapshot` to create the development and test databases defined in `config/database.yml` and seed them with data
+7. Run `foreman start` to run the project
 
-You're now ready to work on the UNGC project!
+You're now ready to work on the UNGC project! From this point forward, you will
+use `vagrant up`, `vagrant halt`, `vagrant ssh` to start, stop, and log-in to
+the VM from within the project directory on your host machine.
+
+You can edit the project source files from your favorite text editor on your
+host machine, the project directory is mounted in the `/vagrant` folder of the
+VM.
 
 ### Database
 
@@ -82,12 +117,18 @@ You can reset your development database at any time by running the
 need to get your public SSH key added to the `~/.ssh/authorized_keys` file for
 the `rails` user on `www.unglobalcompact.org`.
 
-It's important to note that your local database must be using UTF-8 encoding. If
-you're using the default `database.yml` file this should be the case, otherwise
-you can force your database to the correct encoding with the following command:
+It's important to note that your local database must be using UTF-8 encoding, if
+you're using the default `database.yml` file this will be the case. Otherwise
+ensure that your `database.yml` contains the proper `encoding` and `collation`
+values like this:
 
-```
-mysql -u root -e CREATE DATABASE unglobalcompact CHARACTER SET utf8 COLLATE utf8_general_ci;
+```yaml
+development:
+  adapter: mysql2
+  database: myungcdb_development
+  username: root
+  encoding: utf8
+  collation: utf8_general_ci
 ```
 
 ### Credentials
