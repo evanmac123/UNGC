@@ -78,7 +78,7 @@ File IO latency can also be quite poor when using VirtualBox out-of-the-box
 (no pun intended). If you're using a host machine that supports NFS like OS X,
 you can enable it based off of the instructions in the Vagrantfile.
 
-### Connecting to Services in the VM
+### Connecting to Services Running in the VM
 
 It is possible to directly connect to services running inside of the VM. You
 can use tools such as [Sequel Pro](http://www.sequelpro.com/) and
