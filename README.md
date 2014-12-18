@@ -160,17 +160,17 @@ these are the available commands for deploying the application:
 You can see a list of all supported Capistrano tasks by running `cap -T` from
 within the project directory.
 
-### Cron Jobs
+### Scheduled Jobs
 
-The application requires a daily scheduled job to notify organizations of their
-COP submission deadline:
+The application requires a daily scheduled cron job to notify organizations of
+their COP submission deadline:
 
 ```
 rails runner 'CopReminder.new.notify_all' RAILS_ENV=production
 ```
 
-The application also requires a daily scheduled job to update organizations'
-COP state:
+The application also requires a daily scheduled cron job to update
+organizations' COP state:
 
 ```
 rails runner 'CopStatusUpdater.new.update_all' RAILS_ENV=production
@@ -224,20 +224,17 @@ body.environment_climate #inner_head { background: url(/assets/banner_environmen
 Set `page.html_code` to the body class for the section you want the banner to
 appear in.
 
-### Fields to delete
+### Fields To Delete
 
 Here's a list of tables/fields that should be safe to delete after the
 application has been launched:
 
-`*.old_id` - only used by importer
-
-`old_id` is still used in contacts.rb and test_helper.rb and should be changed
-to the id values
-
-`case_stories.status` - using state
-`case_stories.case_date` - using `updated_at`
-`country.manager_id` - used in transition, not used anymore
-`pages.top_level` - only used by importer
+* `*.old_id` - only used by importer
+* `old_id` is still used in contacts.rb and test_helper.rb and should be changed to the id values
+* `case_stories.status` - using state
+* `case_stories.case_date` - using `updated_at`
+* `country.manager_id` - used in transition, not used anymore
+* `pages.top_level` - only used by importer
 
 ### Backups
 
