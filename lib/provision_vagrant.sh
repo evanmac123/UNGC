@@ -84,6 +84,9 @@ install-sphinx() {
 
 install-pdfminer() {
   apt-get -qq -y install python-pdfminer pdfminer-data
+
+  # Alias pdf2txt to pdf2txt.py to support existing integrations in the project
+  ln -s /usr/bin/pdf2txt /usr/bin/pdf2txt.py
 }
 
 install-imagemagick() {
@@ -94,7 +97,6 @@ VAGRANT_DATA_DIR="/vagrant"
 
 install-vagrant-profile() {
   tee -a /home/vagrant/.profile <<EOT
-alias pdf2txt.py="pdf2txt"
 alias be="bundle exec"
 alias r="bin/rails"
 alias f="bundle exec foreman"
