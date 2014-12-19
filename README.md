@@ -32,12 +32,13 @@ steps to get up and running:
 7. Run `vagrant up` to create the development environment
 8. Run `vagrant reload` to refresh the newly created development VM
 
-If Vagrant complains about being unable to mount the filesystem, or that the
-Guest Additions are not up to date. You will have to update them, if you're
-using VirtualBox, you can install the `vagrant-vbguest` plugin which will keep
-them synchronized automatically, run `vagrant plugin install vagrant-vbguest`,
-then try running `vagrant reload` again. If you're using VMware, you can update
-the guest additions by following the **Ubuntu Server** directions in
+If Vagrant complains about being unable to mount the filesystem, the HGFS kernel
+module fails to load, or that the Guest Additions are not up to date. You will
+have to update them, if you're using VirtualBox, you can install the
+`vagrant-vbguest` plugin which will keep them synchronized automatically, run
+`vagrant plugin install vagrant-vbguest`, then try running `vagrant reload`
+again. If you're using VMware, you can update the guest additions by following
+the **Ubuntu Server** directions in
 [this](http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1022525)
 VMware support article.
 
