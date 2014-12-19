@@ -33,12 +33,12 @@ module Admin::LogoRequestsHelper
   end
   
   def contribution_status(logo_request)
-    logo_request.organization.contributor_for_year?([current_year, current_year - 1]) ? 'Contribution received' : "No contribution received for #{current_year - 1} - #{current_year}"
+    logo_request.organization.contributor_for_year?([2015, 2014]) ? 'Contribution received' : "No contribution received for 2015 - 2014"
   end
   
   def contribution_received?(logo_request)
     if logo_request.organization.company?
-      logo_request.organization.contributor_for_year?([current_year, current_year - 1]) ? '' : image_tag('unchecked.png', height: '15', width: '15')
+      logo_request.organization.contributor_for_year?([2015, 2014]) ? '' : image_tag('unchecked.png', height: '15', width: '15')
     end
   end
 

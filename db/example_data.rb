@@ -275,4 +275,16 @@ module FixtureReplacement
   attributes_for :mou do |m|
   end
 
+  attributes_for :campaign do |c|
+    c.campaign_id = FixtureReplacement.random_string(15)
+    c.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :contribution do |c|
+    c.id = FixtureReplacement.random_string(16)
+    c.date = Date.today - rand(999).days
+    c.stage = FixtureReplacement.random_string
+    c.organization_id = Organization.first.id
+    c.contribution_id = 'test'
+  end
 end

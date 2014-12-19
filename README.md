@@ -22,15 +22,12 @@ Admin user / pass:
 # Data Migration
 The data from the current production database can be imported by taking a dump of the production database using
 the mysqldump command. You'll need to get access to the machine running the production application. This can be done by
-SSHing to rails@unglobalcompact.railsmachina.com. You will need to get your public SSH key added to the `~/.ssh/authorized_keys`
-file for the rails user on `unglobalcompact.railsmachina.com`. Once you have access use the `mysqldump` command to get a
-snapshot of the current production database.  Copy this file to your machine using `scp`.
+SSHing to rails@unglobalcompact.org. You will need to get your public SSH key added to the `~/.ssh/authorized_keys`
+file for the rails user on `unglobalcompact.org`. Once you have access use the `rake db:reset_from_snapshot` command to get a
+snapshot of the current production database.  This will copy this file to your machine using `scp` for you.
 
 Make sure your database is using the correct encoding:
 `mysql -u root -e CREATE DATABASE unglobalcompact CHARACTER SET utf8 COLLATE utf8_general_ci;`
-
-Once you have the database dump import it into your development database using:
-`mysql -D <database> < production_dumpfile.sql`
 
 # Application setup
 
@@ -44,6 +41,15 @@ GIT: `sudo apt-get install git`
 `rvm use 2.1.3` this will download and install ruby 2.1.3
 `rvm 2.1.3 --default` this will make the downloaded 2.1.3 the default in your computer
 `cap staging ruby:upgrade` this will upgrade the version of ruby on the staging machine
+
+## Redis
+UNGC uses redis 2.6+ for background jobs and soon as a session store. Sidekiq is used to interface with redis from the ruby side and runs alongside rails.  To enable working with this in development, use the `foreman` gem to start both rails and sidekiq. Specific instructions follow below.
+
+## Installing Redis
+`sudo apt-get install python-software-properties`
+`sudo add-apt-repository ppa:chris-lea/redis-server`
+`sudo apt-get update`
+`sudo apt-get install redis-server`
 
 OR
 
@@ -60,7 +66,7 @@ If you are setting up this application for the first time in you machine, follow
 `rake db:create`
 `rake db:migrate`
 `rake db:seed`
-`rails server`
+`foreman start`
 
 ## Search requires:
 - the Sphinx search engine, install version 0.9.9 from source:

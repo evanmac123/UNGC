@@ -15,6 +15,8 @@
       %li <a href="#case_stories">Case Stories</a>
     - if @organization.logo_requests.any?
       %li <a href="#logo_requests">Logo Requests</a>
+    -# if @organization.contributions.any? and current_contact.from_ungc?
+      %li <a href="#contributions">Contributions</a>
     - if @organization.initiatives.any? and current_contact.from_ungc?
       %li <a href="#initiatives">Engagement</a>
 
@@ -200,4 +202,17 @@
           %th.title Initiative / Activity
           %th.title Since
           %th.actions Actions
-        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.order("added_on DESC")
+        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.find(:all, order: "added_on DESC")
+
+  -# if @organization.contributions.any?
+    #contributions.tab_content
+      %h2 Contributions
+      %table.dashboard_table#contributions_dashboard_table
+        %tr
+          %th.title Invoice
+          %th.title Purpose
+          %th.title Posted
+          %th.title Amount
+          %th.title Payment Type
+          %th.title Status
+        = render :partial => 'admin/organizations/contribution', :collection => @organization.contributions.visible_in_dashboard

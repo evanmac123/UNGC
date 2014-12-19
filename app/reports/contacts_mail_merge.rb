@@ -2,7 +2,7 @@ class ContactsMailMerge < SimpleReport
 
   def records
     cop_states = [ Organization::COP_STATE_ACTIVE, Organization::COP_STATE_NONCOMMUNICATING ]
-    Contact.for_mail_merge(cop_states)
+    ContactsForMailMerge.new(cop_states)
   end
 
   def render_output
@@ -44,7 +44,10 @@ class ContactsMailMerge < SimpleReport
   def row(record)
   [ record.organization_id,
     record.id,
-    record.organization_name,
+    record.organization_name(
+      local_network_name: record.network_name,
+      organization_name: record.org_name
+    ),
     record.organization_country,
     record.joined_on,
     record.organization_type_name,
@@ -62,7 +65,7 @@ class ContactsMailMerge < SimpleReport
     record.city,
     record.state,
     record.postal_code,
-    record.country_name,
+    record.country_name_for_mail_merge,
     Country::REGIONS[record.region.to_sym],
     record.phone,
     record.fax,

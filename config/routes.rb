@@ -165,8 +165,10 @@ UNGC::Application.routes.draw do
 
     get '/uploaded_files/:id/:filename' => 'uploaded_files#show', :as => :uploaded_file, :constraints => { :filename => /.*/ }
 
-    get 'reports'          => 'reports#index', :as => :reports
-    get 'reports/:action'  => 'reports', :as => :report
+    get 'reports'              => 'reports#index',     :as => :reports
+    get 'reports/status/:id'   => 'reports#status',    :as => :report_status
+    get 'reports/download/:id' => 'reports#download',  :as => :report_download
+    get 'reports/:action'      => 'reports',           :as => :report
 
     get 'learning'         => 'learning#index', :as => :learning
     get 'learning/:action' => 'learning'
@@ -209,6 +211,8 @@ UNGC::Application.routes.draw do
   get '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
   get '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
   get ':leadsymposiumonline' => 'pages#redirect_to_page', :page => 'http://un.banks-sadler.com', :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
+  get ':boardprogramme' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/board_programme.html', :constraints => { :boardprogramme => /boardprogramme/i }
+
   get '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
   get '/participants/search' => 'participants#search', :as => :participant_search

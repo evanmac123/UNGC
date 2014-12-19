@@ -1,7 +1,8 @@
 class LocalNetworkRecentCops < SimpleReport
 
   def records
-    CommunicationOnProgress.visible_to(@options[:user])
+    user = Contact.find(@options.fetch(:user))
+    CommunicationOnProgress.visible_to(user)
       .all_cops
       .approved
       .published_between(30.days.ago, Date.today)

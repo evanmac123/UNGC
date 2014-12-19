@@ -10,6 +10,7 @@ class CopRequiredElements < SimpleReport
 
   def headers
     [ 'participant_name',
+      'cop_status',
       'country',
       'organization_id',
       'cop_web_link',
@@ -36,6 +37,7 @@ class CopRequiredElements < SimpleReport
 
   def row(record)
     [ record.organization.try(:name),
+      record.organization.try(:cop_state),
       record.organization.try(:country_name),
       record.organization_id,
       "http://#{DEFAULTS[:url_host]}/COPs/detail/#{record.id}",

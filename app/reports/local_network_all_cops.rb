@@ -1,7 +1,8 @@
 class LocalNetworkAllCops < SimpleReport
 
   def records
-    CommunicationOnProgress.visible_to(@options[:user]).all_cops.approved
+    user = Contact.find(@options.fetch(:user))
+    CommunicationOnProgress.visible_to(user).all_cops.approved
   end
 
   def render_output
@@ -10,6 +11,7 @@ class LocalNetworkAllCops < SimpleReport
 
   def headers
     [ 'participant_name',
+      'cop_status',
       'organization_type',
       'country',
       'title',
@@ -30,6 +32,7 @@ class LocalNetworkAllCops < SimpleReport
 
   def row(record)
     [ record.organization.try(:name),
+      record.organization.try(:cop_state),
       record.organization.organization_type_name,
       record.organization.country_name,
       record.title,

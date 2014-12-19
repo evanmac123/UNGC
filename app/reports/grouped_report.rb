@@ -41,6 +41,13 @@ class GroupedReport
       end
       buffer << CSV.generate_line([nil], :col_sep => "\t")
     end
-    return buffer
+
+    # TODO refactor the buffer away and write directly to the file.
+    file = Tempfile.new('xls')
+    File.open(file.path, 'w+') do |file|
+      file.write(buffer)
+    end
+
+    file
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141022193643) do
+ActiveRecord::Schema.define(version: 20141024015900) do
 
   create_table "announcements", force: true do |t|
     t.integer  "local_network_id"
@@ -56,6 +56,20 @@ ActiveRecord::Schema.define(version: 20141022193643) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "campaigns", force: true do |t|
+    t.string   "campaign_id",                   null: false
+    t.string   "name",                          null: false
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "initiative_id"
+    t.boolean  "is_deleted",    default: false, null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "campaigns", ["campaign_id"], name: "index_campaigns_on_campaign_id", unique: true, using: :btree
+  add_index "campaigns", ["initiative_id"], name: "index_campaigns_on_initiative_id", using: :btree
 
   create_table "case_stories", force: true do |t|
     t.string   "identifier"
@@ -230,6 +244,9 @@ ActiveRecord::Schema.define(version: 20141022193643) do
     t.integer "role_id"
   end
 
+  add_index "contacts_roles", ["contact_id"], name: "index_contacts_roles_on_contact_id", using: :btree
+  add_index "contacts_roles", ["role_id"], name: "index_contacts_roles_on_role_id", using: :btree
+
   create_table "contribution_descriptions", force: true do |t|
     t.integer  "local_network_id", null: false
     t.text     "pledge"
@@ -264,6 +281,25 @@ ActiveRecord::Schema.define(version: 20141022193643) do
   end
 
   add_index "contribution_levels_infos", ["local_network_id"], name: "index_contribution_levels_infos_on_local_network_id", using: :btree
+
+  create_table "contributions", force: true do |t|
+    t.string   "contribution_id",                    null: false
+    t.string   "invoice_code"
+    t.integer  "raw_amount"
+    t.integer  "recognition_amount"
+    t.date     "date",                               null: false
+    t.string   "stage",                              null: false
+    t.string   "payment_type"
+    t.integer  "organization_id",                    null: false
+    t.string   "campaign_id"
+    t.boolean  "is_deleted",         default: false, null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "contributions", ["campaign_id"], name: "index_contributions_on_campaign_id", using: :btree
+  add_index "contributions", ["contribution_id"], name: "index_contributions_on_contribution_id", unique: true, using: :btree
+  add_index "contributions", ["organization_id"], name: "index_contributions_on_organization_id", using: :btree
 
   create_table "cop_answers", force: true do |t|
     t.integer  "cop_id"
@@ -712,6 +748,16 @@ ActiveRecord::Schema.define(version: 20141022193643) do
     t.integer  "old_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "report_statuses", force: true do |t|
+    t.integer  "status",        default: 0, null: false
+    t.string   "filename"
+    t.string   "path"
+    t.string   "error_message"
+    t.string   "format"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "resource_links", force: true do |t|

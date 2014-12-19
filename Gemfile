@@ -19,7 +19,7 @@ gem 'acts_as_tree',         '~> 2.0.0'
 gem 'annotate',             '~> 2.5.0'
 gem 'fixture_replacement',              :git => 'git://github.com/smtlaissezfaire/fixturereplacement.git', :branch => 'master'
 gem 'custom_error_message',             :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
-gem 'airbrake',             '~> 3.1.6'
+gem 'airbrake',             '~> 4.1.0'
 gem 'devise',               '~> 3.3.0'
 gem 'dynamic_form',         '1.0.0'
 gem 'sass',                 '~> 3.2.9'
@@ -29,6 +29,8 @@ gem 'sass-rails',           '~> 4.0.3'
 gem 'coffee-rails',         '~> 4.0.0'
 gem 'uglifier',             '>= 1.3.0'
 gem 'ckeditor',             '~> 4.0.4'
+gem 'sidekiq',              '~> 2.17.0'
+gem 'foreman'
 
 # for upgrading to rails 4+, need to be removed eventually.
 gem 'activerecord-session_store'
@@ -62,3 +64,4 @@ end
 
 gem 'capistrano'
 gem 'plugger' # supports moonshine plugin on rails4
+gem 'databasedotcom'
