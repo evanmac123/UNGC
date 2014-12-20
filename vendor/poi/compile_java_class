@@ -1,5 +1,6 @@
 #!/bin/bash
-javac -cp poi-3.10-FINAL-20140208.jar:poi-scratchpad-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/PptReader.java
-javac -cp poi-3.10-FINAL-20140208.jar:poi-ooxml-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/PptxReader.java
-javac -cp poi-3.10-FINAL-20140208.jar:poi-scratchpad-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/WordReader.java
-javac -cp poi-3.10-FINAL-20140208.jar:poi-ooxml-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/DocxReader.java
+echo "*** Warning, these sources need to be complied to run on jdk 1.6, if they are compiled with java7+, they will fail in production"
+javac -Xbootclasspath:/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar -source 1.6 -target 1.6 -cp poi-3.10-FINAL-20140208.jar:poi-scratchpad-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/PptReader.java
+javac -Xbootclasspath:/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar -source 1.6 -target 1.6 -cp poi-3.10-FINAL-20140208.jar:poi-ooxml-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/PptxReader.java
+javac -Xbootclasspath:/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar -source 1.6 -target 1.6 -cp poi-3.10-FINAL-20140208.jar:poi-scratchpad-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/WordReader.java
+javac -Xbootclasspath:/System/Library/Frameworks/JavaVM.framework/Classes/classes.jar -source 1.6 -target 1.6 -cp poi-3.10-FINAL-20140208.jar:poi-ooxml-3.10-FINAL-20140208.jar:. org/unglobalcompact/search/DocxReader.java
