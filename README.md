@@ -26,7 +26,7 @@ steps to get up and running:
 2. Download the latest version of Vagrant for your machine [here](https://www.vagrantup.com/downloads.html)
 3. Install a Git client like GitHub for [Windows](https://windows.github.com) or [Mac](https://mac.github.com)
 4. Clone the repository onto your computer: `git clone git@github.com/unspace/ungc.git`
-5. Copy the `Vagrantfile.example` file to `Vagrant`, you can modify this file
+5. Copy the `Vagrantfile.example` file to `Vagrantfile`, you can modify this file
    for your specific needs, however, it should work without any modifications.
 6. Open the project in your Terminal: `cd /the/place/where/i/cloned/ungc`
 7. Run `vagrant up` to create the development environment
