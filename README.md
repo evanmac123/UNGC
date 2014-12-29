@@ -97,6 +97,17 @@ whatever method you choose, you'll want to create a database and load it with
 active data. Use the following steps to prepare the Rails application for
 development:
 
+> **SSH Agent Forwarding**
+>
+> In order to boostrap your development database, or deploy, you'll have to add
+> your SSH keys to the VM, you can do this by adding your ssh agent to your
+> host using `ssh-add`, Vagrant is already set up to forward your agent into the
+> VM. If you're using Windows as a host agent forwarding is unacceptably
+> complicated and unreliable, an alternative approach that works every time
+> is to just copy the keys into the VM. Copy `.ssh/id_rsa` and `.ssh/id_rsa.pub`
+> from your home directory into the `~/.ssh` directory in your VM, and be
+> sure to set the correct permissions on the key files `chmod 0600 id_rsa*`.
+
 1. Copy `config/database.yml.sample` to `config/database.yml`
 2. Create a `tmp/pids` folder: `mkdir -p tmp/pids`
 3. Log in to the VM, run `vagrant ssh` from within the project directory
