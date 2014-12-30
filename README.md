@@ -28,7 +28,7 @@ steps to get up and running:
 4. Mac: Open Terminal, Windows: Open Git Bash (Start > All Programs > Git > Git Bash)
 5. Change into the directory where you keep your projects: `cd /Users/me/Projects`
 6. Clone the repository onto your computer: `git clone git@github.com:unspace/UNGC.git`
-7. Change into the project directory: `cd ungc`
+7. Change into the project directory: `cd UNGC`
 8. Copy the `Vagrantfile.example` file to `Vagrantfile`, you can modify this file
    for your specific needs later: `cp Vagrantfile.example Vagrantfile`
 9. Run `vagrant up` to create the development environment
@@ -108,13 +108,14 @@ development:
 > from your home directory into the `~/.ssh` directory in your VM, and be
 > sure to set the correct permissions on the key files `chmod 0600 id_rsa*`.
 
-1. Copy `config/database.yml.sample` to `config/database.yml`
+1. Create a `database.yml`: `cp config/database.yml.sample config/database.yml`
 2. Create a `tmp/pids` folder: `mkdir -p tmp/pids`
 3. Log in to the VM, run `vagrant ssh` from within the project directory
 4. Run `bundle` to download and install all Ruby dependencies
 5. Ask [@ghedamat](https://github.com/ghedamat) or [@vkeesari](https://github.com/vkeesari) to add your Public Key to the production and staging servers
 6. Run `rake db:reset_from_snapshot` to create the development and test databases defined in `config/database.yml` and seed them with data
-7. Run `foreman start` to run the project
+7. Run `rake ts:rebuild`
+8. Run `foreman start` to run the project
 
 You're now ready to work on the UNGC project! From this point forward, you will
 use `vagrant up`, `vagrant halt`, `vagrant ssh` to start, stop, and log-in to
@@ -170,7 +171,7 @@ by default in the Vagrant development VM.
 commands:**
 
 ```
-rake ts:rebuild RAILS_ENV=production
+rake ts:rebuild
 rake ts:start
 ```
 
