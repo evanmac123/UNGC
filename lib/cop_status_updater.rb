@@ -8,10 +8,8 @@ class CopStatusUpdater
 
     def update_all
       move_active_organizations_to_noncommunicating
-      # move_noncommunicating_organizations_to_delisted
+      move_noncommunicating_organizations_to_delisted
       move_noncommunicating_companies_to_delisted
-      move_noncommunicating_smes_to_delisted
-      extend_cop_date_for_noncommunicating_smes
     end
 
     def move_active_organizations_to_noncommunicating
@@ -20,25 +18,9 @@ class CopStatusUpdater
       organizations.each { |org| org.communication_late; log "#{org.id}: #{org.name} is Non-Communicating" }
     end
 
-    # this can be uncommented when we decide to treat Companies and SMEs the same way again
-
-    # def move_noncommunicating_organizations_to_delisted
-    #   log "Running move_noncommunicating_organizations_to_delisted"
-    #   organizations = Organization.businesses.participants.active.about_to_become_delisted
-    #   organizations.each do |organization|
-    #     organization.delist
-    #     begin
-    #       CopMailer.delisting_today(organization).deliver
-    #       log "Delist and email #{organization.id}:#{organization.name}"
-    #     rescue
-    #       log "error", "Could not email #{organization.id}:#{organization.name}"
-    #     end
-    #   end
-    # end
-
-    def move_noncommunicating_companies_to_delisted
-      log "Running move_noncommunicating_companies_to_delisted"
-      organizations = Organization.companies.participants.active.about_to_become_delisted
+    def move_noncommunicating_organizations_to_delisted
+      log "Running move_noncommunicating_organizations_to_delisted"
+      organizations = Organization.businesses.participants.active.about_to_become_delisted
       organizations.each do |organization|
         organization.delist
         begin
@@ -50,28 +32,14 @@ class CopStatusUpdater
       end
     end
 
-    def move_noncommunicating_smes_to_delisted
-      log "Running move_noncommunicating_smes_to_delisted"
-      organizations = Organization.smes.participants.active.about_to_end_sme_extension
+    def move_noncommunicating_companies_to_delisted
+      log "Running move_noncommunicating_companies_to_delisted"
+      organizations = Organization.companies.participants.active.about_to_become_delisted
       organizations.each do |organization|
         organization.delist
         begin
-          CopMailer.delisting_today_sme_final(organization).deliver
+          CopMailer.delisting_today(organization).deliver
           log "Delist and email #{organization.id}:#{organization.name}"
-        rescue
-          log "error", "Could not email #{organization.id}:#{organization.name}"
-        end
-      end
-    end
-
-    def extend_cop_date_for_noncommunicating_smes
-      log "Running extend_cop_date_for_noncommunicating_smes"
-      organizations = Organization.smes.participants.active.about_to_become_delisted
-      organizations.each do |organization|
-        organization.extend_sme_cop_due_on_and_set_inactive_on
-        begin
-          CopMailer.delisting_today_sme(organization).deliver
-          log "Extend and email #{organization.id}:#{organization.name}"
         rescue
           log "error", "Could not email #{organization.id}:#{organization.name}"
         end

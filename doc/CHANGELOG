@@ -1,3 +1,8 @@
+h1. 2014-12-01
+
+* The SME morotorium is going to end on 2014-12-31
+* This means SMEs will be treated like other business participants
+
 h1. 2014-11-18
 
 * Reports now run as background jobs outside of the rails process. This frees up rails to continue handling requests while large, slow reports are generated.  The Sidekiq gem and a Redis server are used to manage these background jobs.

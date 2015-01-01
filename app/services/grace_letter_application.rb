@@ -65,10 +65,6 @@ class GraceLetterApplication
         active: true
       })
 
-      if organization.sme_in_moratorium?
-        organization.inactive_on += GRACE_DAYS.days
-      end
-
       organization.save
     end
 
