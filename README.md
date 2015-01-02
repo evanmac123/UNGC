@@ -1,112 +1,248 @@
 # United Nations Global Compact
 
-# Accounts
+Welcome to the UNGC project, it was started in the summer of 2009 and is
+currently maintained by:
 
-## Airbrake
-`https://unspaceungc.airbrake.io/`
-user: `keesari@unglobalcompact.org`
-password: `airbrakeungc`
+* [Venu Keesari](https://github.com/vkeesari) &ndash; _**lead**_
+* [Mattia Gheda](https://github.com/ghedamat)
+* [Ben Moss](https://github.com/drteeth)
 
-## NewRelic RPM
-URL: `https://rpm.newrelic.com`
-user: `ungc@unspace.ca`
-password: `newrelic`
+_A full list of contributors can be found
+[here](https://github.com/unspace/UNGC/graphs/contributors)._
 
-## App
-Organization user / pass:
-`ungc341` / `FE2EC4C8`
+## Provisioning
 
-Admin user / pass:
-`keesari` / `compact2`
+If you are new to the project, you'll need to create an environment with the
+necessary tools and dependencies installed before being able to run the
+application. We use Vagrant to manage the VM and provide a clean terminal-based
+development workflow, provisioning of the VM is automated. Use the following
+steps to get up and running:
 
-# Data Migration
-The data from the current production database can be imported by taking a dump of the production database using
-the mysqldump command. You'll need to get access to the machine running the production application. This can be done by
-SSHing to rails@unglobalcompact.org. You will need to get your public SSH key added to the `~/.ssh/authorized_keys`
-file for the rails user on `unglobalcompact.org`. Once you have access use the `rake db:reset_from_snapshot` command to get a
-snapshot of the current production database.  This will copy this file to your machine using `scp` for you.
+> Vagrant can be used with VMware Fusion (Mac) and VMware Workstation
+> (Windows), visit the [Vagrant website](https://www.vagrantup.com/vmware) for
+> more information.
 
-Make sure your database is using the correct encoding:
-`mysql -u root -e CREATE DATABASE unglobalcompact CHARACTER SET utf8 COLLATE utf8_general_ci;`
+1. Download the latest version of VirtualBox for your machine [here](https://www.virtualbox.org/wiki/Downloads)
+2. Download the latest version of Vagrant for your machine [here](https://www.vagrantup.com/downloads.html)
+3. Install a Git client ([Windows](http://git-scm.com/download/win) or [Mac](http://git-scm.com/download/mac))
+4. Mac: Open Terminal, Windows: Open Git Bash (Start > All Programs > Git > Git Bash)
+5. Change into the directory where you keep your projects: `cd /Users/me/Projects`
+6. Clone the repository onto your computer: `git clone git@github.com:unspace/UNGC.git`
+7. Change into the project directory: `cd UNGC`
+8. Copy the `Vagrantfile.example` file to `Vagrantfile`, you can modify this file
+   for your specific needs later: `cp Vagrantfile.example Vagrantfile`
+9. Run `vagrant up` to create the development environment
+10. Run `vagrant reload` to refresh the newly created development VM
 
-# Application setup
+If Vagrant complains about being unable to mount the filesystem, the HGFS kernel
+module fails to load, or that the Guest Additions are not up to date. You will
+have to update them, if you're using VirtualBox, you can install the
+`vagrant-vbguest` plugin which will keep them synchronized automatically, run
+`vagrant plugin install vagrant-vbguest`, then try running `vagrant reload`
+again. If you're using VMware, you can update the guest additions by following
+the **Ubuntu Server** directions in
+[this](http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1022525)
+VMware support article.
 
-## Get the essentials
-GIT: `sudo apt-get install git`
+Once you've completed the above steps, you've successfully created a development
+VM for working on the UNGC project. At this point you can log-in to the
+development VM using the `vagrant ssh` command from within the project directory.
 
-## Make sure you run Ruby 2.1.3!
-[RVM](http://rvm.beginrescueend.com/) - makes installing multiple Ruby versions extremely easy.
-`bash < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer )`
-`rvm install 2.1.3`
-`rvm use 2.1.3` this will download and install ruby 2.1.3
-`rvm 2.1.3 --default` this will make the downloaded 2.1.3 the default in your computer
-`cap staging ruby:upgrade` this will upgrade the version of ruby on the staging machine
+You can now use the following commands from within the UNGC project directory
+for interacting with the VM:
 
-## Redis
-UNGC uses redis 2.6+ for background jobs and soon as a session store. Sidekiq is used to interface with redis from the ruby side and runs alongside rails.  To enable working with this in development, use the `foreman` gem to start both rails and sidekiq. Specific instructions follow below.
+* `vagrant halt` for shutting down the VM
+* `vagrant up` for starting the VM
+* `vagrant suspend` for suspending the VM state
+* `vagrant resume` for resuming a suspended VM
+* `vagrant ssh` for logging in to a running VM
 
-## Installing Redis
-`sudo apt-get install python-software-properties`
-`sudo add-apt-repository ppa:chris-lea/redis-server`
-`sudo apt-get update`
-`sudo apt-get install redis-server`
+Use the `vagrant help` command for more information about the above commands and
+for a list of all available commands. You can also destroy the development VM at
+any time using the `vagrant destroy` command, but this will also destroy any
+data in the VM as well requiring you to reset the database again (see Database
+below).
 
-OR
+### VM Performance
 
-[rbenv](htpt://https://github.com/sstephenson/rbenv) - another option for managing multiple Rubies
+It's important to note that the default performance for your development VM may
+be unacceptable, you can change the number of virtual CPU cores and memory that
+your VM will use from your Vagrantfile. If you're using VirtualBox uncomment and
+change the settings under `config.vm.provider 'virtualbox'`, for VMware change
+them under `config.vm.provider 'vmware_fusion'`. How much memory and how many
+CPUs you should be using will depend on your host machine specs and your
+utilization of RAM and CPU on your host machine. A general rule of thumb is
+1/8<sup>th</sup> of your total RAM and as many CPUs as you have cores on your
+host.
 
-At this point, you get new executables for `gem`, `irb` and `ruby`, and have to install all gems again.
-Make sure you never run the `sudo` command before installing any of the gems.
+> UNGC likes RAM, 2048 MB is an ideal setting if you have the available memory.
 
-If you are setting up this application for the first time in you machine, follow the steps below:
+File IO latency can also be quite poor when using VirtualBox out-of-the-box
+(no pun intended). If you're using a host machine that supports NFS like OS X,
+you can enable it based off of the instructions in the Vagrantfile.
 
-`cp config/database.yml.sample config/database.yml`
-`gem install bundler`
-`bundle`
-`rake db:create`
-`rake db:migrate`
-`rake db:seed`
-`foreman start`
+### Connecting to Services Running in the VM
 
-## Search requires:
-- the Sphinx search engine, install version 0.9.9 from source:
-[Install Sphinx](http://freelancing-god.github.com/ts/en/installing_sphinx.html)
-- the Python library `pdfminer`, see this page for installation instructions:
-[Install PDF Miner](http://www.unixuser.org/~euske/python/pdfminer/index.html)
+It is possible to directly connect to services running inside of the VM. You
+can use tools such as [Sequel Pro](http://www.sequelpro.com/) and
+[MySQL Workbench](http://dev.mysql.com/downloads/workbench/). The default
+Vagrantfile forwards the ports for Redis, MySQL, and Rails (5000 in our case) to
+your host machine as the same port number, this means you can seamlessly connect
+to those services as if they were running directly on your host computer.
 
-Make sure that `pdf2txt.py` is in the path, and it should be fine.
+## Development
 
-Done :)
+Once you have successfully provisioned a development VM using Vagrant or
+whatever method you choose, you'll want to create a database and load it with
+active data. Use the following steps to prepare the Rails application for
+development:
 
-# Debugger
-the traditional ruby debugger `debugger` no longer works with Ruby 2.x. We now use byebug (https://rubygems.org/gems/byebug).
-byebug should work like the debugger in every other way.
-[Using byebug]
-place `byebug` at your breakpoint and press 'c' to continue execution
+> **SSH Agent Forwarding**
+>
+> In order to boostrap your development database, or deploy, you'll have to add
+> your SSH keys to the VM, you can do this by adding your ssh agent to your
+> host using `ssh-add`, Vagrant is already set up to forward your agent into the
+> VM. If you're using Windows as a host agent forwarding is unacceptably
+> complicated and unreliable, an alternative approach that works every time
+> is to just copy the keys into the VM. Copy `.ssh/id_rsa` and `.ssh/id_rsa.pub`
+> from your home directory into the `~/.ssh` directory in your VM, and be
+> sure to set the correct permissions on the key files `chmod 0600 id_rsa*`.
 
-# Controlling Sphinx
-`rake ts:rebuild RAILS_ENV=production`
-`rake ts:start`
+1. Create a `database.yml`: `cp config/database.yml.sample config/database.yml`
+2. Create a `tmp/pids` folder: `mkdir -p tmp/pids`
+3. Log in to the VM, run `vagrant ssh` from within the project directory
+4. Run `bundle` to download and install all Ruby dependencies
+5. Ask [@ghedamat](https://github.com/ghedamat) or [@vkeesari](https://github.com/vkeesari) to add your Public Key to the production and staging servers
+6. Run `rake db:reset_from_snapshot` to create the development and test databases defined in `config/database.yml` and seed them with data
+7. Run `rake ts:rebuild`
+8. Run `foreman start` to run the project
 
-# Deploy with Capistrano
+You're now ready to work on the UNGC project! From this point forward, you will
+use `vagrant up`, `vagrant halt`, `vagrant ssh` to start, stop, and log-in to
+the VM from within the project directory on your host machine.
 
-`cap -T` -- list out the available tasks
-`cap preview deploy`  -- deploys from the preview branch
-`cap staging deploy`  -- deploys from the staging branch
-`cap production deploy`  -- deploys from production branch
+You can edit the project source files from your favorite text editor on your
+host machine, the project directory is mounted in the `/vagrant` folder of the
+VM.
 
-# Cron Jobs
-The application needs a cron job to notify organizations of their COP submission deadline - this needs to run daily.
-`rails runner 'CopReminder.new.notify_all' RAILS_ENV=production`
+### Database
 
-The application needs a cron job to update organizations' COP state - this needs to run daily.
-`rails runner 'CopStatusUpdater.new.update_all' RAILS_ENV=production`
+You can reset your development database at any time by running the
+`rake db:reset_from_snapshot` task from within the project directory. You will
+need to get your public SSH key added to the `~/.ssh/authorized_keys` file for
+the `rails` user on `www.unglobalcompact.org`.
 
-# COP Maintenance
-`cop.cop_links.create(:url => 'http://www.ahkbrasil.com/', :attachment_type => 'cop', :language_id => 19)`
-`cop.cop_files.create(:attachment => File.new('/home/rails/ungc/uploaded/cops/COP.pdf'), :attachment_type => CopFile::TYPES[:cop], :language_id => 4)`
+It's important to note that your local database must be using UTF-8 encoding, if
+you're using the default `database.yml` file this will be the case. Otherwise
+ensure that your `database.yml` contains the proper `encoding` and `collation`
+values like this:
 
-# Adding a new Report
+```yaml
+development:
+  adapter: mysql2
+  database: myungcdb_development
+  username: root
+  encoding: utf8
+  collation: utf8_general_ci
+```
+
+### Credentials
+
+You can log into the app as an Organization or Admin user using the following
+accounts:
+
+| Role | Username | Password |
+|------|----------|----------|
+| Organization User | ungc341 | FE2EC4C8 |
+| Admin User | keesari | compact2 |
+
+### Search
+
+UNGC uses Sphinx for search, it's installed by default in the Vagrant
+development VM. If you'd prefer to install Sphinx manually you can follow
+[these](http://freelancing-god.github.com/ts/en/installing_sphinx.html)
+instructions.
+
+UNGC also uses a library called [PDFMiner](http://euske.github.io/pdfminer/index.html)
+for extracting text from PDF documents for use in searches. It is also installed
+by default in the Vagrant development VM.
+
+**In order to rebuild indexes and run the search service, use the following
+commands:**
+
+```
+rake ts:rebuild
+rake ts:start
+```
+
+### Debugging
+
+We use [Byebug](https://github.com/deivid-rodriguez/byebug) for debugging since
+the traditional `debugger` gem does not support Ruby 2. To use the Byebug
+debugger, place `byebug` where you'd like to set a breakpoint, you can use the
+`C` key to continue execution:
+
+```ruby
+def organization_type_name_for_custom_links
+  byebug # execution will stop here and open the debugger
+  if company?
+    'business'
+  elsif academic?
+    'academic'
+  elsif city?
+    'city'
+  else
+    'non_business'
+  end
+end
+```
+
+## Deployment
+
+UNGC is deployed using [Capistrano](https://github.com/capistrano/capistrano),
+these are the available commands for deploying the application:
+
+* `cap preview deploy` --- deploys from the preview branch
+* `cap staging deploy` --- deploys from the staging branch
+* `cap production deploy` --- deploys from production branch
+
+You can see a list of all supported Capistrano tasks by running `cap -T` from
+within the project directory.
+
+### Scheduled Jobs
+
+The application requires a daily scheduled cron job to notify organizations of
+their COP submission deadline:
+
+```
+rails runner 'CopReminder.new.notify_all' RAILS_ENV=production
+```
+
+The application also requires a daily scheduled cron job to update
+organizations' COP state:
+
+```
+rails runner 'CopStatusUpdater.new.update_all' RAILS_ENV=production
+```
+
+## Maintenance
+
+### Updating COPs
+
+Add a link to a COP:
+
+```ruby
+cop.cop_links.create(:url => 'http://www.ahkbrasil.com/', :attachment_type => 'cop', :language_id => 19)
+```
+
+Add a file to a COP:
+
+```ruby
+cop.cop_files.create(:attachment => File.new('/home/rails/ungc/uploaded/cops/COP.pdf'), :attachment_type => CopFile::TYPES[:cop], :language_id => 4)
+```
+
+### Adding Reports
+
 Follow these steps while referring to existing reports:
 For filenames, we usually named them same as the controller methods, but for Local Networks, you can choose a more friendly filename
 
@@ -116,41 +252,61 @@ For filenames, we usually named them same as the controller methods, but for Loc
 4. Add the report to the reports index screen app/views/admin/report/index.html.haml
 5. If you are adding a Local Network report, prepend all names with `local_network`
 
-# Adding a new section banner
+### Adding A Section Banner
+
 1. Save banner as PNG from Illustrator (use 10% opacity for logo when using blue background)
 2. Note filename and add body class to application.css
 3. Ex: body.environment #inner_head { background: url(/assets/banner_environment.png); }
 4. For subsections, the class will be added after the previous classes in the body tag, so in the stylesheet, add the new class after the main section so it overrides the previous body class
 
-`<body class="development editable_page environment environment_climate">`
-
+```html
+<body class="development editable_page environment environment_climate">
+```
 
 Example:
 
-`body.environment #inner_head { background: url(/assets/banner_environment.png); }`
+```css
+body.environment #inner_head { background: url(/assets/banner_environment.png); }
+body.environment_climate #inner_head { background: url(/assets/banner_environment_climate.png); }
+```
 
-`body.environment_climate #inner_head { background: url(/assets/banner_environment_climate.png); }`
+Set `page.html_code` to the body class for the section you want the banner to
+appear in.
 
+### Fields To Delete
 
-Set `page.html_code` to the body class for the section you want the banner to appear in
+Here's a list of tables/fields that should be safe to delete after the
+application has been launched:
 
-# Fields to delete
-Here's a list of tables/fields that should be safe to delete after the application has been launched:
+* `*.old_id` - only used by importer
+* `old_id` is still used in contacts.rb and test_helper.rb and should be changed to the id values
+* `case_stories.status` - using state
+* `case_stories.case_date` - using `updated_at`
+* `country.manager_id` - used in transition, not used anymore
+* `pages.top_level` - only used by importer
 
-*.old\_id - only used by importer
+### Backups
 
-old\_id is still used in contacts.rb and test_helper.rb and should be changed to the id values
+To upgrade current version of JungleDisk:
 
-case\_stories.status - using state
-case\_stories.case\_date - using updated\_at
-country.manager\_id - used in transition, not used anymore
-pages.top\_level - only used by importer
+```
+sudo kill 'current process id'
+curl -O http://downloads.jungledisk.com/jungledisk/junglediskserver_308-0_amd64.deb
+sudo dpkg -i junglediskserver_308-0_amd64.deb
+```
 
-# Server Backup
-To upgrade current version of JungleDisk
-`sudo kill 'current process id'`
-`curl -O http://downloads.jungledisk.com/jungledisk/junglediskserver_308-0_amd64.deb`
-`sudo dpkg -i junglediskserver_308-0_amd64.deb`
+Server should start, if not, run:
 
-Server should start, if not:
-`sudo /usr/local/bin/junglediskserver`
+```
+sudo /usr/local/bin/junglediskserver
+```
+
+## Accounts & Services
+
+These are the credentials to some external services used by the project for
+monitoring and reporting:
+
+| Service | Username | Password |
+|---------|----------|----------|
+| [Airbrake](https://unspaceungc.airbrake.io/) | keesari@unglobalcompact.org | airbrakeungc |
+| [New Relic](https://login.newrelic.com/) | ungc@unspace.ca | newrelic |
