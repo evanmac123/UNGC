@@ -79,8 +79,6 @@ class AdminController < ApplicationController
     end
   end
 
-  # Only allow access to the resource if belongs to the current user's organization or Local Network
-
   private
 
   def contact_path(contact, params={})

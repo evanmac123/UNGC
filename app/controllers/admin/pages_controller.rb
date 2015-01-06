@@ -1,5 +1,6 @@
 class Admin::PagesController < AdminController
   before_filter :no_organization_or_local_network_access
+  before_filter :only_website_editors, :only => :index
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
 
   def index
@@ -152,6 +153,14 @@ class Admin::PagesController < AdminController
   end
 
   private
+
+  def only_website_editors
+    unless current_contact.is? Role.website_editor
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path
+    end
+  end
+  
     def approve_after_update
       @version.approve! if @version.can_approve?
     end
