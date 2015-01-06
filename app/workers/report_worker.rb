@@ -12,15 +12,9 @@ class ReportWorker
 
   def perform(status_id, class_name, opts)
     options = (opts || {}).with_indifferent_access
-
-    STDOUT.puts(options.inspect)
-
     report  = class_name.constantize.new(options)
-
-    STDOUT.puts(report.inspect)
-
-    status = ReportStatus.find(status_id)
-    file = report.render_output
+    status  = ReportStatus.find(status_id)
+    file    = report.render_output
     status.complete!(file)
   rescue => e
     status.failed!(e) if status
