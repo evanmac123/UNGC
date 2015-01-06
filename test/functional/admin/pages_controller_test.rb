@@ -3,13 +3,26 @@ require 'test_helper'
 class Admin::PagesControllerTest < ActionController::TestCase
   context "given a page" do
     setup do
+      create_roles
       @staff_user = create_staff_user
       @page = create_approved_page :path => '/path/to/page.html', :content => "<p>This is my page.</p>"
     end
 
+    should "redirect regular staff member from index" do
+      sign_in @staff_user
+      get :index
+      assert_redirected_to dashboard_path
+    end
+    
+    should "allow staff member / web editor to view site index" do
+      @staff_user.roles << Role.website_editor
+      sign_in @staff_user
+      get :index
+      assert_response :success
+    end
+
     context "successful edit action" do
       setup do
-        # TODO: should be a staff user
         sign_in @staff_user
         xhr :get, :edit, {:id => @page.id}
       end
