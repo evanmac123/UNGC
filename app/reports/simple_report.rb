@@ -5,6 +5,8 @@ class SimpleReport
   include ActionView::Helpers
   include Admin::ReportsHelper
 
+  attr_reader :options
+
   def initialize(options={})
     @options = options
   end

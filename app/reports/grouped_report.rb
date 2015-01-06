@@ -3,6 +3,8 @@ require 'csv'
 class GroupedReport
   include ActionView::Helpers::TagHelper
 
+  attr_reader :options
+
   def initialize(options={})
     @options = options
   end

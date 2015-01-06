@@ -6,19 +6,24 @@ class ReportWorker
       filename: filename,
       format: 'xls',
     )
-    perform_async(status.id, report.class.name, report)
+    perform_async(status.id, report.class.name, report.options)
     status
   end
 
-  def perform(status_id, class_name, args)
-    options = args.fetch('options').with_indifferent_access
-    report = class_name.constantize.new(options)
+  def perform(status_id, class_name, opts)
+    options = (opts || {}).with_indifferent_access
+
+    STDOUT.puts(options.inspect)
+
+    report  = class_name.constantize.new(options)
+
+    STDOUT.puts(report.inspect)
 
     status = ReportStatus.find(status_id)
     file = report.render_output
     status.complete!(file)
   rescue => e
-    status.failed!(e)
+    status.failed!(e) if status
     raise e
   ensure
     ReportSweeper.sweep(status) if status
