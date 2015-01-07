@@ -119,10 +119,11 @@ module Admin::OrganizationsHelper
   # display organizations with similar names
   def duplicate_application(organization)
     if Search.running?
+      matches = Organization.search(Riddle.escape(organization.name), :retry_stale => true, :stat => true)
 
-      matches = Organization.search organization.name, :retry_stale => true, :stat => true
       if matches.count > 0
         list_items = ''
+
         matches.try(:each) do |match|
           unless match.id == organization.id
             list_items += content_tag :li,
@@ -138,7 +139,6 @@ module Admin::OrganizationsHelper
         html += content_tag :ul, list_items.html_safe, :class => 'matching_list'
       end
     end
-
   end
 
   def describe_peer_organizations(organization)
