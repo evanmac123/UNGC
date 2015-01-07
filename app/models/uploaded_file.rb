@@ -27,6 +27,8 @@ class UploadedFile < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:attachable_type/:id/:style/:filename",
     :url => "/system/:attachment/:attachable_type/:id/:style/:filename"
 
+  do_not_validate_attachment_file_type :attachment
+
   alias_method :original_attachment=, :attachment=
 
   after_save    :update_indexed_fields_on_parent

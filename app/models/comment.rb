@@ -24,6 +24,8 @@ class Comment < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
 
+  do_not_validate_attachment_file_type :attachment
+
   default_scope { order('updated_at DESC') }
   scope :with_attachment, lambda { where("attachment_file_name IS NOT NULL") }
 

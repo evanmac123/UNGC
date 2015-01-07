@@ -106,6 +106,7 @@ class CaseStory < ActiveRecord::Base
   has_attached_file :attachment,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
+  do_not_validate_attachment_file_type :attachment
 
   cattr_reader :per_page
   @@per_page = 15

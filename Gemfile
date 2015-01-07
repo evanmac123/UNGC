@@ -6,7 +6,7 @@ gem 'mysql2',               '~> 0.3.17'
 gem 'facets',               '~> 3.0.0', require: false
 gem 'hpricot',              '0.8.6'
 gem 'will_paginate',        '~> 3.0.7'
-gem 'paperclip',            '~> 3.5.1'
+gem 'paperclip',            '~> 4.2.1'
 gem 'haml',                 '~> 4.0.6'
 gem 'acts_as_commentable',  '~> 4.0.2'
 gem 'money',                '~> 2.1.5'

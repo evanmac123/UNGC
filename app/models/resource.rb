@@ -33,7 +33,7 @@ class Resource < ActiveRecord::Base
     :url => "/system/:class/:attachment/:id/:style/:filename"
 
   validates_presence_of :title, :description
-  #validates_attachment_content_type :image, content_type: /image/
+  do_not_validate_attachment_file_type :image
 
   include ContentApproval
 

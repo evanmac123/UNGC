@@ -27,7 +27,12 @@ class LogoFile < ActiveRecord::Base
   has_attached_file :zip,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
+
+  do_not_validate_attachment_file_type :zip
+
   has_attached_file :preview,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
+
+  do_not_validate_attachment_file_type :preview
 end

@@ -120,6 +120,7 @@ class Organization < ActiveRecord::Base
   has_attached_file :commitment_letter,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
+  do_not_validate_attachment_file_type :commitment_letter
 
   cattr_reader :per_page
   @@per_page = 100

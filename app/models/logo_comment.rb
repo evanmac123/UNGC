@@ -25,6 +25,8 @@ class LogoComment < ActiveRecord::Base
   has_attached_file :attachment,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
+  do_not_validate_attachment_file_type :attachment
+
   scope :with_attachment, -> { where("attachment_file_name IS NOT NULL") }
   scope :without_attachment, -> { where("attachment_file_name IS NULL") }
 

@@ -188,7 +188,7 @@ GEM
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
-    paperclip (3.5.4)
+    paperclip (4.2.1)
       activemodel (>= 3.0.0)
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
@@ -339,7 +339,7 @@ DEPENDENCIES
   money (~> 2.1.5)
   mysql2 (~> 0.3.17)
   newrelic_rpm (~> 3.9.9.275)
-  paperclip (~> 3.5.1)
+  paperclip (~> 4.2.1)
   passenger (= 3.0.21)
   plugger
   quiet_assets
