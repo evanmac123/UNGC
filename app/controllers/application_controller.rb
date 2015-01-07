@@ -5,10 +5,10 @@ class ApplicationController < ActionController::Base
   before_filter :mailer_set_url_options
 
   helper 'datetime', 'navigation'
-  protect_from_forgery
 
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
 
   def current_url
     url_for :only_path => true

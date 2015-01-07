@@ -86,7 +86,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => :country, :organization => :organization_type}]) }
   # feed contains daily COP submissions, without grace letters or reporting adjustments
   scope :for_feed, lambda { where("format NOT IN (?) AND published_on >= ?", ['grace_letter','reporting_cycle_adjustment'], Date.today).order("published_on") }
-  scope :by_year, order("communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC")
+  scope :by_year, lambda { order("communication_on_progresses.created_at DESC, sectors.name ASC, organizations.name ASC") }
 
   FORMAT = {:standalone            => "Stand alone document",
             :sustainability_report => "Part of a sustainability or corporate (social) responsibility report",

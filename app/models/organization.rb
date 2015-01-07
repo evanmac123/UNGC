@@ -243,7 +243,7 @@ class Organization < ActiveRecord::Base
   scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
 
   scope :for_initiative, lambda { |symbol| joins(:initiatives).where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
-  scope :last_joined, order("joined_on DESC, name DESC")
+  scope :last_joined, lambda { order("joined_on DESC, name DESC") }
   scope :not_delisted, lambda { where("cop_state != ?", COP_STATE_DELISTED) }
 
   scope :with_cop_due_on, lambda { |date| where(cop_due_on: date) }

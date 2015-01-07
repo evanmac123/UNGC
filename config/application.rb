@@ -4,15 +4,16 @@ require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
+
 Bundler.require(*Rails.groups)
 
 module UNGC
   class Application < Rails::Application
+    EMAIL_SENDER = "info@unglobalcompact.org"
 
-  # don't attempt to auto-require the moonshine manifests into the rails env
-  config.paths['app/manifests'] = 'app/manifests'
-  config.paths['app/manifests'].skip_eager_load!
-
+    # don't attempt to auto-require the moonshine manifests into the rails env
+    config.paths['app/manifests'] = 'app/manifests'
+    config.paths['app/manifests'].skip_eager_load!
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -25,20 +26,6 @@ module UNGC
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
 
-    # Activate observers that should always be running.
-    config.active_record.observers = :logo_comment_observer, :comment_observer
-
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    config.time_zone = 'UTC'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-
-    # Configure the default encoding used in templates for Ruby 1.9.
-    config.encoding = "utf-8"
-
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 
@@ -50,26 +37,16 @@ module UNGC
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
 
-    # Enable the asset pipeline
-    config.assets.enabled = true
-
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
-
-    # From rails upgrade configuration task
-    config.session_store = :active_record_store
-
-    # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-    config.assets.precompile += %w(admin.css ie.css print.css google_analytics.js welcome_letter.css themes/apple/style.css public-resources.css)
-
     # Disable IP Spoof check
     config.action_dispatch.ip_spoofing_check = false
 
     # http://stackoverflow.com/a/20381730
     config.i18n.enforce_available_locales = true
 
-    EMAIL_SENDER = "info@unglobalcompact.org"
-  end
+    # Activate observers that should always be running.
+    config.active_record.observers = :logo_comment_observer, :comment_observer
 
-  StateMachine::Machine.ignore_method_conflicts = true
+    # Do not swallow errors in after_commit/after_rollback callbacks.
+    config.active_record.raise_in_transactional_callbacks = true
+  end
 end

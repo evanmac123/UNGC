@@ -39,7 +39,7 @@ class SearchController < ApplicationController
 
     def show_search_form
       # @facets = Searchable.count > 0 ? Searchable.facets : []
-      render 'form'
+      render file: 'form'
     end
 
 end

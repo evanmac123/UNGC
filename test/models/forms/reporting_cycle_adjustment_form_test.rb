@@ -73,21 +73,21 @@ class ReportingCycleAdjustmentFormTest < ActiveSupport::TestCase
       end
 
       should "set a new attachment" do
-        attr = {attachment: fixture_file_upload('files/untitled.jpg')}
-        @form.update(attr)
-        assert_equal attr[:attachment].original_filename, @form.cop_file.attachment_file_name
+        att = {attachment: fixture_file_upload('files/untitled.jpg')}
+        @form.update(att)
+        assert_equal att[:attachment].original_filename, @form.cop_file.attachment_file_name
       end
 
       should "remove the old attachment" do
-        attr = {attachment: fixture_file_upload('files/untitled.jpg')}
-        @form.update(attr)
+        att = {attachment: fixture_file_upload('files/untitled.jpg')}
+        @form.update(att)
         assert_equal 1, @form.reporting_cycle_adjustment.cop_files.count
       end
 
       should "not change the organization.cop_due_date" do
         due_date = @form.organization.cop_due_on
-        attr = {attachment: fixture_file_upload('files/untitled.jpg')}
-        @form.update(attr)
+        att = {attachment: fixture_file_upload('files/untitled.jpg')}
+        @form.update(att)
         assert_equal due_date, @form.organization.cop_due_on
       end
 

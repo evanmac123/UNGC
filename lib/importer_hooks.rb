@@ -419,7 +419,7 @@ module ImporterHooks
                                     :text              => record.third,
                                     :initiative_id     => record.fourth,
                                     :position          => record.fifth)
-      record.sixth.each_with_index do |attribute, i|
+      record[5].each_with_index do |attribute, i|
         question.cop_attributes.create(:text => attribute, :position => i)
       end
     end

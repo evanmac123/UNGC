@@ -61,7 +61,7 @@ class Admin::OrganizationsController < AdminController
   end
 
   def show_welcome_letter
-    render "admin/organizations/welcome_letter_#{@organization.organization_type_name_for_custom_links}" , :layout => "welcome_letter", :layout => "welcome_letter"
+    render file: "admin/organizations/welcome_letter_#{@organization.organization_type_name_for_custom_links}" , :layout => "welcome_letter"
   end
 
   # Define state-specific index methods

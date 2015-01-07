@@ -3,6 +3,6 @@ class Campaign < ActiveRecord::Base
 
   has_many :contributions
 
-  validate :campaign_id, presence: true
-  validate :name, presence: true
+  validates :campaign_id, presence: true
+  validates :name, presence: true
 end
