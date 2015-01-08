@@ -70,6 +70,8 @@ class Admin::CommentsController < AdminController
     end
 
     def comment_params
+      return {} unless params[:comment]
+
       params.require(:comment).permit(
         :body,
         :attachment_file_name,
