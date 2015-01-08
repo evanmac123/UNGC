@@ -33,7 +33,7 @@ gem 'ckeditor',             '~> 4.0.4'
 gem 'sidekiq',              '~> 2.17.0'
 gem 'foreman'
 
-gem 'capistrano'
+gem 'capistrano',           '~> 2.15.5'
 gem 'plugger' # supports moonshine plugin on rails4
 gem 'databasedotcom'
 
