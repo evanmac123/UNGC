@@ -145,7 +145,6 @@ GEM
     eventmachine (1.0.4)
     execjs (2.2.2)
     facets (3.0.0)
-    fastthread (1.0.7)
     foreman (0.77.0)
       dotenv (~> 1.0.2)
       thor (~> 0.19.1)
@@ -193,9 +192,8 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (~> 0.5.3)
       mime-types
-    passenger (3.0.21)
-      daemon_controller (>= 1.0.0)
-      fastthread (>= 1.0.1)
+    passenger (4.0.57)
+      daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
     plugger (0.0.4)
@@ -340,7 +338,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.17)
   newrelic_rpm (~> 3.9.9.275)
   paperclip (~> 4.2.1)
-  passenger (= 3.0.21)
+  passenger (~> 4.0.57)
   plugger
   quiet_assets
   rails (= 4.2.0)
