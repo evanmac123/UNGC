@@ -9,6 +9,6 @@ module Admin::EventsHelper
   end
 
   def countries_for_select
-    Country.order(:name).map { |c| [c.name, c.id] }
+    Country.data_for_select
   end
 end

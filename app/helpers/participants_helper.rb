@@ -2,7 +2,7 @@ require 'zlib'
 
 module ParticipantsHelper
   def countries_for_select
-    options_for_select Country.all.map { |c| [c.name, c.id] }
+    options_for_select Country.data_for_select
   end
 
   def iconize(org)
