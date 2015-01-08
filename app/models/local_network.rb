@@ -66,7 +66,7 @@ class LocalNetwork < ActiveRecord::Base
   has_one  :contribution_levels_info
   has_one  :contribution_description
 
-  belongs_to :manager, :class_name => "Contact"
+  # belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
   belongs_to :sg_established_as_a_legal_entity_file, :class_name => 'UploadedFile'
 
