@@ -2,7 +2,7 @@
   - if contribution_description.new_record?
     %li= link_to 'Add custom contribution text', new_admin_local_network_contribution_description_path(@local_network.id), :class => 'new_large'
   - else
-    %li= link_to 'Edit', edit_admin_local_network_contribution_description_path(@local_network), :class => 'edit_large'
+    %li= link_to 'Edit', edit_admin_local_network_contribution_description_path(@local_network, contribution_description), :class => 'edit_large'
 
 #pledges_invoicing_display
 
