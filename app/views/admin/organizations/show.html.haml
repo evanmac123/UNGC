@@ -202,7 +202,7 @@
           %th.title Initiative / Activity
           %th.title Since
           %th.actions Actions
-        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.find(:all, order: "added_on DESC")
+        = render :partial => 'admin/initiatives/signing', :collection => @organization.signings.order("added_on DESC").load
 
   -# if @organization.contributions.any?
     #contributions.tab_content
