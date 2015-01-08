@@ -160,43 +160,43 @@ class Admin::PagesController < AdminController
       redirect_to dashboard_path
     end
   end
-  
-    def approve_after_update
-      @version.approve! if @version.can_approve?
-    end
 
-    def find_page
-      if @page = Page.find_by_id(params[:id])
-        @current_version = params[:version].blank? ? @page.active_version : @page.find_version_number(params[:version])
-      else
-        render :text => 'Not Found', :status => 404
-      end
-    end
+  def approve_after_update
+    @version.approve! if @version.can_approve?
+  end
 
-    def is_live_editor
-      @is_live_editor ||= params.has_key?(:content)
+  def find_page
+    if @page = Page.find_by_id(params[:id])
+      @current_version = params[:version].blank? ? @page.active_version : @page.find_version_number(params[:version])
+    else
+      render :text => 'Not Found', :status => 404
     end
+  end
 
-    def content_params
-      content = if is_live_editor
-        params.require(:content)
-      else
-        params.require(:page)
-      end
-      content.permit(
-        :path,
-        :title,
-        :html_code,
-        :content,
-        :parent_id,
-        :position,
-        :display_in_navigation,
-        :dynamic_content,
-        :version_number,
-        :group_id,
-        :top_level,
-        :change_path,
-      )
+  def is_live_editor
+    @is_live_editor ||= params.has_key?(:content)
+  end
+
+  def content_params
+    content = if is_live_editor
+      params.require(:content)
+    else
+      params.require(:page)
     end
+    content.permit(
+      :path,
+      :title,
+      :html_code,
+      :content,
+      :parent_id,
+      :position,
+      :display_in_navigation,
+      :dynamic_content,
+      :version_number,
+      :group_id,
+      :top_level,
+      :change_path,
+    )
+  end
 
 end

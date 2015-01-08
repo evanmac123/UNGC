@@ -1,4 +1,13 @@
 GIT
+  remote: git://github.com/amatsuda/jquery-rjs.git
+  revision: 33e0fc1c0b25cf88948673c7d561ca6ff2db77ad
+  ref: master
+  specs:
+    jquery-rjs (0.1.1)
+      jquery-rails
+      rails (>= 3.2)
+
+GIT
   remote: git://github.com/jeremydurham/custom-err-msg.git
   revision: 3a8ec9dddc7a5b0aab7c69a6060596de300c68f4
   ref: master
@@ -331,6 +340,7 @@ DEPENDENCIES
   haml (~> 4.0.6)
   hpricot (= 0.8.6)
   jquery-rails
+  jquery-rjs!
   jquery-ui-rails
   minitest
   mocha (~> 1.1.0)
