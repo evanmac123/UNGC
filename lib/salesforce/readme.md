@@ -7,8 +7,8 @@ rake salesforce_import[./path/to/salesforce/csv/files]
 ```
 
 ### Setup salesforce triggers to keep the ungc site in sync.
-'Triggers' must be install in Salesforce to update the ungc database when a campaign on contribution changes.
-We need to run a script to install those triggers and supporting classes and we need Salesforce API access to do that.
+'Triggers' must be install in Salesforce to update the ungc database when a campaign or contribution changes.
+We need to run a script to install those triggers and supporting classes. We need Salesforce API access to do that.
 
 #### update config/defaults.yml with the require info to access the API
 ```yaml
