@@ -33,6 +33,11 @@ class LocalNetworksAllContacts < SimpleReport
   end
 
   def row(r)
+    c = nil
+    countries = r.try(:local_network).try(:countries)
+    if countries
+      c = countries.map(&:code).join(',')
+    end
     [ r.try(:id),
       r.try(:local_network_id),
       r.try(:prefix),
@@ -53,9 +58,9 @@ class LocalNetworksAllContacts < SimpleReport
       r.is?(Role.network_representative) ? 1:0,
       r.try(:local_network).try(:name) || 'Unknown',
       r.try(:local_network).try(:state).try(:humanize) || 'None',
-      r.try(:local_network).try(:countries).map(&:code).join(','),
+      c,
       r.try(:local_network).try(:country).try(:name),
-      r.try(:local_network).region_name
+      r.try(:local_network).try(:region_name)
     ]
   end
 end
