@@ -25,7 +25,7 @@ class LocalNetworkEventSearch < OpenStruct
     end
 
     if event_type.present?
-      filters[:event_type_crc] = event_type.to_crc32
+      filters[:event_type_crc] = Zlib.crc32(event_type)
     end
 
     if principle_id.present?
@@ -33,7 +33,7 @@ class LocalNetworkEventSearch < OpenStruct
     end
 
     if region.present?
-      filters[:region_crc] = region.to_crc32
+      filters[:region_crc] = Zlib.crc32(region)
     end
 
     if local_network_id.present?

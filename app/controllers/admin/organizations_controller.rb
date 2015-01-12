@@ -203,7 +203,7 @@ class Admin::OrganizationsController < AdminController
       if business_type_selected == OrganizationType::BUSINESS
         cop_status = params[:cop_status]
         skip_cop_status = cop_status.blank? || cop_status == 'all'
-        options[:with].merge!(cop_state: cop_status.to_crc32) unless skip_cop_status
+        options[:with].merge!(cop_state: Zlib.crc32(cop_status)) unless skip_cop_status
       elsif business_type_selected == OrganizationType::NON_BUSINESS
         options[:with].merge!(organization_type_id: params[:organization_type_id].to_i) unless params[:organization_type_id].blank?
       end
