@@ -75,7 +75,6 @@ class SignupController < ApplicationController
     else
       # render step5 form
     end
-
   end
 
   # POST from ceo or financial contact form
@@ -180,6 +179,7 @@ class SignupController < ApplicationController
 
     def contact_params
       params.require(:contact).permit(
+        :foundation_contact,
         :prefix,
         :first_name,
         :middle_name,
@@ -200,11 +200,17 @@ class SignupController < ApplicationController
     end
 
     def pledge_params
-      params.require(:organization).permit(:pledge_amount, :no_pledge_reason)
+      params.require(:organization).permit(
+        :pledge_amount,
+        :no_pledge_reason
+      )
     end
 
     def commitment_letter_params
-      params.require(:organization).permit(:commitment_letter, :mission_statement)
+      params.require(:organization).permit(
+        :commitment_letter,
+        :mission_statement
+      )
     end
 
 end
