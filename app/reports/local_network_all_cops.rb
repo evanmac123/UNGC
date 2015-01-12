@@ -1,7 +1,7 @@
 class LocalNetworkAllCops < SimpleReport
 
   def records
-    user = Contact.find(@options.fetch(:user))
+    user = Contact.find(@options[:contact_id])
     CommunicationOnProgress.visible_to(user).all_cops.approved
   end
 

@@ -1,7 +1,7 @@
 class LocalNetworkParticipantsWithdrawn < SimpleReport
 
   def records
-    user = Contact.find(@options.fetch(:user))
+    user = Contact.find(@options[:contact_id])
     Organization.visible_to(user)
       .withdrew
       .delisted_between(Date.new(Date.today.year,1,1), Date.today)

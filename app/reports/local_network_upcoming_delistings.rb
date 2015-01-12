@@ -3,7 +3,7 @@ class LocalNetworkUpcomingDelistings < SimpleReport
   def records
     # organization is not eagerly loaded once we get this user
     # including this rather blunt kludge until the background reports branch is merged
-    user = Contact.includes(:organization).find(@options.fetch(:user).id)
+    user = Contact.includes(:organization).find(@options[:contact_id])
 
     Organization.active.visible_to(user)
       .with_cop_status(:noncommunicating)
