@@ -16,8 +16,9 @@ GIT
 
 GIT
   remote: git://github.com/pat/thinking-sphinx.git
-  revision: 87928c9298111818c9dd42e8c7faebfc8ae41c0b
-  ref: 87928c92
+  revision: f71dc81178018e67a4e66a340099b6e4b7e97394
+  ref: f71dc8117
+  branch: develop
   specs:
     thinking-sphinx (3.1.2)
       activerecord (>= 3.1.0)
@@ -173,7 +174,7 @@ GEM
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (5.0.3)
       railties (>= 3.2.16)
-    json (1.8.1)
+    json (1.8.2)
     loofah (2.0.1)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -193,7 +194,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
       net-ssh (>= 2.6.5)
-    net-ssh (2.9.1)
+    net-ssh (2.9.2)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
     newrelic_rpm (3.9.9.275)
@@ -213,7 +214,7 @@ GEM
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.0)
-    rack-test (0.6.2)
+    rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.0)
       actionmailer (= 4.2.0)
@@ -302,7 +303,7 @@ GEM
     timers (1.1.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (2.6.1)
+    uglifier (2.7.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     warden (1.2.3)

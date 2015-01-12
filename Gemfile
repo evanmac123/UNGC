@@ -12,7 +12,7 @@ gem 'acts_as_commentable',  '~> 4.0.2'
 gem 'money',                '~> 2.1.5'
 gem 'newrelic_rpm',         '~> 3.9.9.275'
 gem 'spreadsheet',          '0.6.5.9'
-gem 'thinking-sphinx',      '~> 3.1.2', github: 'pat/thinking-sphinx', ref: '87928c92' # https://github.com/pat/thinking-sphinx/issues/867
+gem 'thinking-sphinx',      '~> 3.1.2', github: 'pat/thinking-sphinx', branch: 'develop', ref: 'f71dc8117' # https://github.com/pat/thinking-sphinx/issues/867
 gem 'state_machine',                    github: 'seuros/state_machine', ref: 'master'
 gem 'acts_as_tree',         '~> 2.0.0'
 gem 'annotate',             '~> 2.5.0'
