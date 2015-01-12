@@ -60,7 +60,7 @@ class LocalNetworksAllContacts < SimpleReport
       r.try(:local_network).try(:state).try(:humanize) || 'None',
       c,
       r.try(:local_network).try(:country).try(:name),
-      r.try(:local_network).region_name
+      r.try(:local_network).try(:region_name)
     ]
   end
 end
