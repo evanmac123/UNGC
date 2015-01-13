@@ -70,7 +70,7 @@
     clear: left;
     float: left;
     width: auto;
-    margin: 3px 15px 0px 5px;
+    margin: 4px 5px 0px 5px;
   }
 
   #main_content fieldset.pledge select {
@@ -112,13 +112,9 @@
     width: 500px;
   }
 
-  @-moz-document url-prefix() {
-    #main_content fieldset.pledge table.pledge_amounts td.no_contribution label{ width: 497px; }
-  }
-
   #main_content fieldset.pledge table.pledge_amounts td.no_contribution #organization_no_pledge_reason {
-    width: 480px;
-    margin-left: 40px;
+    width: auto;
+    margin-left: 35px;
     display: none;
   }
 
