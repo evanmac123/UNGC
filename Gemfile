@@ -54,6 +54,8 @@ group :test do
 end
 
 group :development, :test do
+  gem 'awesome_print', require: 'ap'
+  gem 'pry-rails'
   gem 'quiet_assets'
   gem 'byebug'
   gem 'web-console', '~> 2.0'

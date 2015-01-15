@@ -93,6 +93,7 @@ GEM
     annotate (2.5.0)
       rake
     arel (6.0.0)
+    awesome_print (1.6.1)
     bcrypt (3.1.9)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -122,6 +123,7 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.5)
       climate_control (>= 0.0.3, < 1.0)
+    coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -180,6 +182,7 @@ GEM
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     metaclass (0.0.4)
+    method_source (0.8.2)
     middleware (0.1.0)
     mime-types (2.4.3)
     mini_portile (0.6.2)
@@ -211,6 +214,12 @@ GEM
       rack
       rake (>= 0.8.1)
     plugger (0.0.4)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.2)
+      pry (>= 0.9.10)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.0)
@@ -326,6 +335,7 @@ DEPENDENCIES
   acts_as_tree (~> 2.0.0)
   airbrake (~> 4.1.0)
   annotate (~> 2.5.0)
+  awesome_print
   byebug
   capistrano (~> 2.15.5)
   capybara
@@ -351,6 +361,7 @@ DEPENDENCIES
   paperclip (~> 4.2.1)
   passenger (~> 4.0.57)
   plugger
+  pry-rails
   quiet_assets
   rails (= 4.2.0)
   rails-observers
