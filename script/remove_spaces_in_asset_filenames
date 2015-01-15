@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+
+root       = File.dirname(File.expand_path(__FILE__ + '/..'))
+assets_dir = File.join(root, 'app', 'assets')
+images_dir = File.join(assets_dir, 'images')
+css_dir    = File.join(assets_dir, 'stylesheets')
+rename_map = {}
+
+css_files = Dir[css_dir + '/**/*']
+
+image_files = Dir[images_dir + '/**/*'].select do |img|
+  img.include?(' ')
+end
+
+puts
+puts "Rename image files with spaces:\n\n"
+image_files.each do |file|
+  new_file = file.gsub(' ', '_')
+  old_name = File.basename(file)
+  new_name = File.basename(new_file)
+  rename_map[old_name] = new_name
+  puts "-> #{file}\n   #{new_file}"
+  FileUtils.mv(file, new_file, noop: true)
+end
+
+# CSS files are small, so we can load them into memory, if we were dealing with
+# very large files this approach wouldn't work.
+puts
+puts "Replace references in CSS:\n\n"
+css_files.each do |css|
+  puts "-> #{css}"
+
+  content = File.read(css)
+
+  rename_map.each_pair do |old_name, new_name|
+    content.gsub!(old_name, new_name)
+  end
+
+  File.open(css, 'w') { |f| f.puts(content) }
+end
+
+puts "---"
