@@ -20,8 +20,10 @@ image_files.each do |file|
   old_name = File.basename(file)
   new_name = File.basename(new_file)
   rename_map[old_name] = new_name
+
   puts "-> #{file}\n   #{new_file}"
-  FileUtils.mv(file, new_file, noop: true)
+
+  FileUtils.mv(file, new_file)
 end
 
 # CSS files are small, so we can load them into memory, if we were dealing with
