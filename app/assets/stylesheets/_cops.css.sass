@@ -16,7 +16,7 @@
       &.checked
         :padding-left             1em
         :list-style-type          disc
-        :list-style-image         url(checked.png)
+        :list-style-image         asset-url('checked.png')
 
   div.hint_toggle
     color:                        $dark_blue
@@ -103,11 +103,11 @@
 
         &.selected_question
           :list-style-type        disc
-          :list-style-image       url(checked.png)
+          :list-style-image       asset-url('checked.png')
 
         &.unselected_question
           :list-style-type        circle
-          :list-style-image       url(unchecked.png)
+          :list-style-image       asset-url('unchecked.png')
 
     ul.self_assessment
       :padding-left               18px
