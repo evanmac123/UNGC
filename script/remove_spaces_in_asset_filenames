@@ -10,13 +10,13 @@ rename_map = {}
 css_files = Dir[css_dir + '/**/*']
 
 image_files = Dir[images_dir + '/**/*'].select do |img|
-  img.include?(' ')
+  img =~ /\(|\)| /
 end
 
 puts
-puts "Rename image files with spaces:\n\n"
+puts "Rename image files with spaces and parens:\n\n"
 image_files.each do |file|
-  new_file = file.gsub(' ', '_')
+  new_file = file.gsub(' ', '_').gsub(/\(|\)/, '')
   old_name = File.basename(file)
   new_name = File.basename(new_file)
   rename_map[old_name] = new_name
