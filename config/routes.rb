@@ -229,15 +229,15 @@ UNGC::Application.routes.draw do
   get 'organizations/new/:org_type' => 'organizations#new'
 
   # Signup
-  get  '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
-  get  '/HowToParticipate/Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"non_business" }
-  get  '/signup/step1/:org_type'  => 'signup#step1', :as => :organization_step1
-  post '/signup/step2'            => 'signup#step2', :as => :organization_step2
-  post '/signup/step3'            => 'signup#step3', :as => :organization_step3
-  post '/signup/step4'            => 'signup#step4', :as => :organization_step4
-  post '/signup/step5'            => 'signup#step5', :as => :organization_step5
-  post '/signup/step6'            => 'signup#step6', :as => :organization_step6
-  post '/signup/step7'            => 'signup#step7', :as => :organization_step7
+  get   '/HowToParticipate/Business_Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"business" }
+  get   '/HowToParticipate/Organization_Information.html' => 'signup#step1', :defaults => { :org_type =>"non_business" }
+  get   '/signup/step1/:org_type'  => 'signup#step1', :as => :organization_step1
+  match '/signup/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
+  match '/signup/step3'            => 'signup#step3', :as => :organization_step3, via: [:get, :post]
+  match '/signup/step4'            => 'signup#step4', :as => :organization_step4, via: [:get, :post]
+  match '/signup/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
+  match '/signup/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
+  post  '/signup/step7'            => 'signup#step7', :as => :organization_step7
 
   get '/case_story/:id' => 'case_stories#show', :as => 'case_story'
 

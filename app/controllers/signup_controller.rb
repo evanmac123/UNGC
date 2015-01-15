@@ -17,10 +17,12 @@ class SignupController < ApplicationController
   # POST from organization form
   # shows contact form
   def step2
-    @signup.set_organization_attributes(organization_params)
-    @signup.set_registration_attributes(registration_params)
+    if request.post?
+      @signup.set_organization_attributes(organization_params)
+      @signup.set_registration_attributes(registration_params)
 
-    store_organization_signup
+      store_organization_signup
+    end
 
     if !@signup.valid?
       redirect_to organization_step1_path(:org_type => @signup.org_type)
@@ -30,9 +32,10 @@ class SignupController < ApplicationController
   # POST from contact form
   # shows ceo form
   def step3
-    @signup.set_primary_contact_attributes(contact_params)
-
-    store_organization_signup
+    if request.post?
+      @signup.set_primary_contact_attributes(contact_params)
+      store_organization_signup
+    end
 
     @next_step = @signup.business? ? organization_step4_path : organization_step6_path
 
@@ -46,9 +49,10 @@ class SignupController < ApplicationController
   # POST from ceo form
   # pledge form if business organization
   def step4
-    @signup.set_ceo_attributes(contact_params)
-
-    store_organization_signup
+    if request.post?
+      @signup.set_ceo_attributes(contact_params)
+      store_organization_signup
+    end
 
     unless @signup.valid_ceo?
       redirect_to organization_step3_path
@@ -62,10 +66,12 @@ class SignupController < ApplicationController
   # POST from pledge form
   # ask for financial contact if pledge was made
   def step5
-    @signup.set_pledge_attributes(pledge_params)
-    @signup.prepare_financial_contact
+    if request.post?
+      @signup.set_pledge_attributes(pledge_params)
+      @signup.prepare_financial_contact
 
-    store_organization_signup
+      store_organization_signup
+    end
 
     case
     when @signup.pledge_incomplete?
@@ -82,15 +88,21 @@ class SignupController < ApplicationController
   def step6
     # coming from step5, organization has selected a pledge amount
     if @signup.require_pledge?
-      @signup.set_financial_contact_attributes(contact_params) if contact_params
-      store_organization_signup
+      if request.post?
+        @signup.set_financial_contact_attributes(contact_params) if contact_params
+        store_organization_signup
+      end
+
       if !@signup.financial_contact.valid? || !@signup.primary_contact.is?(Role.financial_contact)
         redirect_to organization_step5_path
       end
     # coming from step3 or 4
     else
-      @signup.set_ceo_attributes(contact_params) if contact_params
-      store_organization_signup
+      if request.post?
+        @signup.set_ceo_attributes(contact_params) if contact_params
+        store_organization_signup
+      end
+
       unless @signup.valid_ceo?
         redirect_to organization_step3_path
       end
