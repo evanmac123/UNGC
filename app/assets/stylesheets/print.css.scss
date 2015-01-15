@@ -19,7 +19,7 @@ body {
 /* COP Questionnaire */
 #main_content dd ul li.selected_question {
   list-style-type: disc;
-  list-style-image: url(/assets/checked.png);
+  list-style-image: asset-url('checked.png');
 }
 
 #main_content dd ul li.advanced_question, dd ul li.unselected_question {
