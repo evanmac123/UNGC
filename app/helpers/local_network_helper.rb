@@ -49,7 +49,6 @@ module LocalNetworkHelper
   end
 
   def role_for(contact)
-    return 'Global Compact Coordinator' if local_network.manager == contact
     possible = contact.roles.select { |r| Role.network_contacts.include?(r) }
     possible.try(:first).try(:name)
   end

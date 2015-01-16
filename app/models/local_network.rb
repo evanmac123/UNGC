@@ -66,7 +66,6 @@ class LocalNetwork < ActiveRecord::Base
   has_one  :contribution_levels_info
   has_one  :contribution_description
 
-  # belongs_to :manager, :class_name => "Contact"
   belongs_to :sg_annual_meeting_appointments_file, :class_name => 'UploadedFile'
   belongs_to :sg_established_as_a_legal_entity_file, :class_name => 'UploadedFile'
 
@@ -118,11 +117,11 @@ class LocalNetwork < ActiveRecord::Base
   }
 
   def latest_participant
-    participants.find(:first, :order => 'joined_on DESC')
+    participants.order(joined_on: :desc).first
   end
 
   def public_network_contacts
-    contacts.network_roles_public + [manager]
+    contacts.network_roles_public
   end
 
   def participants
