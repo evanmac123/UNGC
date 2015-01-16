@@ -56,7 +56,7 @@ class Admin::AttachmentsController < AdminController
   end
 
   def attachment_path(attachment, p={})
-    attachments_path({:action => :show, :id => attachment.to_param}.merge(p))
+    attachments_path({:action => :destroy, :id => attachment.to_param}.merge(p))
   end
 end
 
