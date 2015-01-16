@@ -19,23 +19,29 @@ class Admin::LocalNetworkEventsController < Admin::LocalNetworkSubmodelControlle
   end
 
   def submodel_params
-    event_params = params.require(:local_network_event).permit(
-      :title,
-      :description,
+    params.require(:local_network_event).permit(
       :event_type,
       :date,
+      :title,
+      :description,
+      :stakeholder_company,
+      :stakeholder_sme,
+      :stakeholder_labour,
+      :stakeholder_business_association,
+      :stakeholder_ngo,
+      :stakeholder_academic,
+      :stakeholder_foundation,
+      :stakeholder_government,
+      :stakeholder_media,
+      :stakeholder_un_agency,
       :num_participants,
       :gc_participant_percentage,
-      :attachments => [:attachment, :attachable_type]
+      principle_ids: [],
+      uploaded_attachments: [
+        :attachment,
+        :attachable_type
+      ]
     )
-
-    # the controller expects attachments to be an array of UploadedFiles, not params
-    # TODO convert this to nested_attributes or specialize the create method
-    event_params[:attachments] = event_params[:attachments].map do |attachment_params|
-      UploadedFile.new(attachment_params)
-    end
-
-    event_params
   end
 end
 
