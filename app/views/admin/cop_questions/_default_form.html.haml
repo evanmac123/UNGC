@@ -5,9 +5,9 @@
   %ol
     = default_form.select :year, CopQuestion::YEAR_RANGE, { :selected => @cop_question.year, :include_blank => true }, { :label => 'Year' }
     = default_form.select :grouping, CopQuestion::GROUPING_AREAS.invert, :include_blank => true, :label => "Grouping area"
-    = default_form.collection_select :principle_area_id, PrincipleArea.all, :id, :name, {:include_blank => true}, {}
-    = default_form.select :implementation, CopQuestion::IMPLEMENTATION_AREAS.collect {|a| [a.humanize, a]}, {:include_blank => true}, {:label => "Implementation area" }
-    = default_form.collection_select :initiative_id, Initiative.all, :id, :name, {:include_blank => true}, {}
+    = default_form.select :principle_area_id, PrincipleArea.all.map { |pa| [pa.name, pa.id] }, include_blank: true
+    = default_form.select :implementation, CopQuestion::IMPLEMENTATION_AREAS.map { |a| [a.humanize, a] }, include_blank: true, :label => "Implementation area"
+    = default_form.select :initiative_id, Initiative.all.map { |i| [i.name, i.id] }, include_blank: true
     = default_form.text_area :text
     = default_form.text_field :position
 

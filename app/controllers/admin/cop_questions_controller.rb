@@ -26,7 +26,7 @@ class Admin::CopQuestionsController < AdminController
   end
 
   def update
-    if @cop_question.update_attributes(params[:cop_question])
+    if @cop_question.update_attributes(question_params)
       flash[:notice] = 'COP Question was successfully updated.'
       redirect_to admin_cop_questions_path(:year => session[:year_filter])
     else
@@ -63,13 +63,20 @@ class Admin::CopQuestionsController < AdminController
 
   def question_params
     params.require(:cop_question).permit(
+      :year,
+      :grouping,
       :principle_area_id,
+      :implementation,
+      :initiative_id,
       :text,
       :position,
-      :initiative_id,
-      :grouping,
-      :implementation,
-      :year,
+      cop_attributes_attributes: [
+        :id,
+        :text,
+        :hint,
+        :position,
+        :open
+      ]
     )
   end
 
