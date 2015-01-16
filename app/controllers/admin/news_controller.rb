@@ -65,6 +65,8 @@ class Admin::NewsController < AdminController
     end
 
     def headline_params
+      return {} if params[:headline].blank?
+
       params.require(:headline).permit(
         :title,
         :published_on,
