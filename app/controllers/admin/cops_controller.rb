@@ -110,9 +110,19 @@ class Admin::CopsController < AdminController
         :references_environment,
         :references_anti_corruption,
         :include_measurement,
+        :include_continued_support_statement,
         :starts_on,
         :ends_on,
-        :differentiation
+        :differentiation,
+        :format,
+        :method_shared,
+        cop_links_attributes: [
+          :url,
+          :language_id,
+          :id,
+          :attachment_type,
+          :_destroy
+        ]
       )
     end
 
