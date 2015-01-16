@@ -20,5 +20,6 @@
       %li Open text response allows users to type a response in addition to selecting the attribute
       %li For Basic COP questions, a text field will appear below the question and hints.
     %hr
-    #cop_attributes= render @cop_question.cop_attributes
+    #cop_attributes
+      = render @cop_question.cop_attributes
     = link_to "New attribute", "#", :onclick => "$('#cop_attributes').append(replace_ids(cop_attribute_form)); return false;", :class => 'new_large'
