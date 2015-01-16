@@ -29,7 +29,7 @@ gem 'jquery-rjs',                       github: 'amatsuda/jquery-rjs', ref: 'mas
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'uglifier',             '~> 2.7.0'
-gem 'ckeditor',             '~> 4.0.4'
+gem 'ckeditor',             '4.1.1'
 gem 'sidekiq',              '~> 2.17.0'
 gem 'foreman'
 
