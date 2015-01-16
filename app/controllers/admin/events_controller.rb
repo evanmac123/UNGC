@@ -63,11 +63,13 @@ class Admin::EventsController < AdminController
     end
 
     def event_params
+      return {} unless params[:event].present?
+
       params.require(:event).permit(
         :title,
         :description,
-        :starts_on,
-        :ends_on,
+        :starts_on_string,
+        :ends_on_string,
         :location,
         :country_id,
         :urls,
