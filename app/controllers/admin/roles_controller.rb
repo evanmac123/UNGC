@@ -25,7 +25,7 @@ class Admin::RolesController < AdminController
 
   def update
     @role = Role.find(params[:id])
-    if @role.update_attributes(params[:role])
+    if @role.update_attributes(role_params)
       flash[:notice] = 'Role was successfully updated.'
       redirect_to(admin_roles_path)
     else
