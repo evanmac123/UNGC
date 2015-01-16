@@ -141,8 +141,8 @@ UNGC::Application.routes.draw do
       resources :signings
     end
     resources :contacts_roles
-    resources :roles
     resources :sectors
+    resources :roles, except: [:show]
     resources :countries
     resources :logo_files
     resources :cop_questions
