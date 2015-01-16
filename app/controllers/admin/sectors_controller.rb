@@ -25,7 +25,7 @@ class Admin::SectorsController < AdminController
 
   def update
     @sector = Sector.find(params[:id])
-    if @sector.update_attributes(params[:sector])
+    if @sector.update_attributes(sector_params)
       flash[:notice] = 'Sector was successfully updated.'
       redirect_to(admin_sectors_path)
     else
