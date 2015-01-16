@@ -117,6 +117,7 @@ class Admin::ContactsController < AdminController
         :country_id,
         :username,
         :password,
+        role_ids: []
       )
     end
 
