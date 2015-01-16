@@ -95,11 +95,17 @@ class Admin::ResourcesController < AdminController
       :title,
       :description,
       :isbn,
-      :principle_ids,
-      :author_ids,
       :image,
       :year,
-      :links => [:id, :title, :url, :link_type, :language_id]
+      principle_ids: [],
+      author_ids: [],
+      links: [
+        :id,
+        :title,
+        :url,
+        :link_type,
+        :language_id
+      ]
     )
   end
 
