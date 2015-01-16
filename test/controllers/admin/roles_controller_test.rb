@@ -33,7 +33,7 @@ class Admin::RolesControllerTest < ActionController::TestCase
   end
 
   test "should update role" do
-    put :update, :id => @role.to_param, :role => { }
+    put :update, :id => @role.to_param, :role => { name: 'test' }
     assert_redirected_to admin_roles_path
   end
 

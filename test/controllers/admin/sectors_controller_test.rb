@@ -33,7 +33,7 @@ class Admin::SectorsControllerTest < ActionController::TestCase
   end
 
   test "should update sector" do
-    put :update, :id => @sector.to_param, :sector => { }
+    put :update, :id => @sector.to_param, :sector => { name: 'test' }
     assert_redirected_to admin_sectors_path
   end
 
