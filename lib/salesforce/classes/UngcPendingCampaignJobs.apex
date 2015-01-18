@@ -17,6 +17,7 @@ public class UngcPendingCampaignJobs extends UngcPendingJob {
       this.syncs = [
         SELECT  Campaign__c,
                 Type__c,
+                DeletedId__c,
                 Campaign__r.Name,
                 Campaign__r.StartDate,
                 Campaign__r.EndDate,
