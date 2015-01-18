@@ -93,6 +93,7 @@
 :mysql:
   :innodb_buffer_pool_size: 128M
   :max_connections: 100
+  :max_allowed_packet: 64M
 
 :sphinx:
   :version: 2.0.8
