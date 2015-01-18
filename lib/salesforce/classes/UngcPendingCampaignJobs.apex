@@ -21,8 +21,7 @@ public class UngcPendingCampaignJobs extends UngcPendingJob {
                 Campaign__r.Name,
                 Campaign__r.StartDate,
                 Campaign__r.EndDate,
-                Campaign__r.IsDeleted,
-                DeletedId__c
+                Campaign__r.IsDeleted
         FROM    UNGCSync__c
         WHERE   Type__c = :CAMPAIGN_UPSERT
         OR      Type__c = :CAMPAIGN_DELETE
