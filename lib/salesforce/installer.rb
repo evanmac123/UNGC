@@ -75,6 +75,7 @@ class SalesforceInstaller
       "UngcPendingOpportunityJobs",
       "UngcPendingJobs",
       "UngcSync",
+      "UngcSyncTests",
     ].each do |file|
       path = Pathname.new("lib/salesforce/classes/#{file}.apex")
       name = path.basename.sub_ext('').to_s.camelize
