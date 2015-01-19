@@ -25,7 +25,7 @@
         - if current_contact.from_ungc?
           %th= sort_header 'Funding Model', field: 'funding_model', tab: 'all_networks'
         %th.actions Actions
-      = render @local_networks
+      = render_local_network_list_for_user(current_contact)
 
   - Country::REGIONS.each_pair do |key, value|
     .tab_content{:id => key}

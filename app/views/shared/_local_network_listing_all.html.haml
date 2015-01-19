@@ -5,7 +5,7 @@
       %th{:class => 'sort'} Region
       %th{:class => 'sort'} Category
   %tbody
-    - for local_network in LocalNetwork.all(:order => :name)
+    - for local_network in LocalNetwork.active_networks.no_regional_centers.all(:order => :name)
       %tr
         %td{:title => local_network.name}= link_to_public_profile(local_network)
         %td= local_network.region_name
