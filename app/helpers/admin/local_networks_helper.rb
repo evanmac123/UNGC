@@ -77,6 +77,14 @@ module Admin::LocalNetworksHelper
     html = link_to local_network.region_name, admin_local_networks_path(:tab => local_network.region)
     html += "&nbsp;&nbsp;&#x25BA;&nbsp;".html_safe
   end
+  
+  def render_local_network_list_for_user(current_contact)
+    if current_contact.from_ungc?
+      render @local_networks
+    else 
+      render @local_networks.active_networks
+    end
+  end
 
   def section_title(page)
     # rename the Page scope to get the path name

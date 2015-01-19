@@ -17,11 +17,11 @@ public class UngcPendingCampaignJobs extends UngcPendingJob {
       this.syncs = [
         SELECT  Campaign__c,
                 Type__c,
+                DeletedId__c,
                 Campaign__r.Name,
                 Campaign__r.StartDate,
                 Campaign__r.EndDate,
-                Campaign__r.IsDeleted,
-                DeletedId__c
+                Campaign__r.IsDeleted
         FROM    UNGCSync__c
         WHERE   Type__c = :CAMPAIGN_UPSERT
         OR      Type__c = :CAMPAIGN_DELETE

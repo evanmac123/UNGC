@@ -12,7 +12,7 @@ module Admin::LearningHelper
   end
 
   def local_network_options
-    [['All', '']] + LocalNetwork.all.map { |n| [n.name, n.id.to_s] }
+    [['All', '']] + LocalNetwork.active_networks.all.map { |n| [n.name, n.id.to_s] }
   end
 
   def refine_search_button

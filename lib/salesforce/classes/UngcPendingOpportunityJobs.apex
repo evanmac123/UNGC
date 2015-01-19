@@ -17,6 +17,7 @@ public class UngcPendingOpportunityJobs extends UngcPendingJob {
       this.syncs = [
         SELECT  Opportunity__c,
                 Type__c,
+                DeletedId__c,
                 Opportunity__r.Account.AccountNumber,
                 Opportunity__r.CampaignId,
                 Opportunity__r.Invoice_Code__c,
