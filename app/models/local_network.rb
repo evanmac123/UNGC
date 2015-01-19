@@ -90,9 +90,8 @@ class LocalNetwork < ActiveRecord::Base
   scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
   scope :where_state, lambda { |state| where(:state => state.to_s) }
   scope :regional_centers, lambda { where(state: :regional_center) }
-  # TODO use Rails 4 where.not syntax: where.not(state: :inactive)
-  scope :no_regional_centers, lambda { where('state != ?', 'regional_center') }
-  scope :active_networks, lambda { where('state != ?', 'inactive') }
+  scope :no_regional_centers, lambda { where.not(state: 'regional_center') }
+  scope :active_networks, lambda { where.not(state: 'inactive') }
 
   STATES = {
     :emerging        => 'Emerging',

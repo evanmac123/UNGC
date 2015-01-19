@@ -1,6 +1,6 @@
 class LocalNetworksAllContacts < SimpleReport
   def records
-    Contact.network_roles_public.includes(:country).joins("JOIN local_networks ON local_networks.id = contacts.local_network_id").where("local_networks.state != 'inactive'")
+    Contact.network_roles_public.includes(:country).joins("JOIN local_networks ON local_networks.id = contacts.local_network_id").where.not('local_networks.state' => 'inactive')
   end
 
   def headers
