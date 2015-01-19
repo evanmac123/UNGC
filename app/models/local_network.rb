@@ -91,11 +91,15 @@ class LocalNetwork < ActiveRecord::Base
   scope :where_region, lambda { |region| where('countries.region' => region.to_s).includes(:countries) }
   scope :where_state, lambda { |state| where(:state => state.to_s) }
   scope :regional_centers, lambda { where(state: :regional_center) }
+  # TODO use Rails 4 where.not syntax: where.not(state: :inactive)
+  scope :no_regional_centers, lambda { where('state != ?', 'regional_center') }
+  scope :active_networks, lambda { where('state != ?', 'inactive') }
 
   STATES = {
-    :emerging => 'Emerging',
-    :established => 'Established',
-    :formal => 'Formal',
+    :emerging        => 'Emerging',
+    :established     => 'Established',
+    :formal          => 'Formal',
+    :inactive        => 'Inactive',
     :regional_center => 'Regional Center'
   }
 
@@ -103,7 +107,7 @@ class LocalNetwork < ActiveRecord::Base
 
   # To link to public profiles, we associate the two regional networks with their host countries
   # Ex: NetworksAroundTheWorld/local_network_sheet/AE.html
-  REGION_COUNTRY = { 'Gulf States' => 'AE', 'Nordic Countries' => 'DK' }
+  REGION_COUNTRY = { 'Nordic Countries' => 'DK' }
 
   STAKEHOLDERS = {
     :stakeholder_company              => 'Companies',

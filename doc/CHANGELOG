@@ -1,6 +1,15 @@
+h1. 2015-01-15
+
+* The Gulf States Network, one of only two regional Local Networks has been disbanded. We had to change the visibility of this network without completely deleting it
+* A new :inactive category was added to LocalNetwork::STATES. Any future networks that are disbanded can be changed to this state
+* We use the LocalNetwork.active_networks scope to filter out inactive Local Networks. The scope was applied to various views where we don't want inactive Local Networks to be seen
+* We also exclude these networks from the local_networks_all_contacts.rb report, so other Local Networks cannot see contacts from inactive networks
+* You can still find Local Network Events through the Event search (LearningController), which will list events from inactive networks
+* The state will be manually changed after deploying this update for the above to take effect
+
 h1. 2014-12-01
 
-* The SME morotorium is going to end on 2014-12-31
+* The SME moratorium is going to end on 2014-12-31
 * This means SMEs will be treated like other business participants
 
 h1. 2014-11-18
@@ -9,7 +18,7 @@ h1. 2014-11-18
 
 h1. 2014-11-18
 
-* Transition to ruby 2.1. This should improve speed and memory footprint. 1.9.3 was no longer recieving security updates so this will allow us to benefit from those once again. Finally more and more gems require ruby 2, and rails itself will soon as well.
+* Transition to ruby 2.1. This should improve speed and memory footprint. 1.9.3 was no longer receiving security updates so this will allow us to benefit from those once again. Finally more and more gems require ruby 2, and rails itself will soon as well.
 
 * Added redis 2.6.17 to moonshine
 
