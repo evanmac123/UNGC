@@ -94,6 +94,9 @@
   :innodb_buffer_pool_size: 128M
   :max_connections: 100
   :max_allowed_packet: 64M
+  :extra: |
+    net_read_timeout = 300
+    net_write_timeout = 300
 
 :sphinx:
   :version: 2.0.8
