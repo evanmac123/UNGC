@@ -116,6 +116,10 @@ class Admin::CopsController < AdminController
         :differentiation,
         :format,
         :method_shared,
+        cop_answers_attributes: [
+          :cop_attribute_id,
+          :text
+        ],
         cop_links_attributes: [
           :url,
           :language_id,

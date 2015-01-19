@@ -36,7 +36,7 @@ class Admin::CopQuestionsControllerTest < ActionController::TestCase
   end
 
   test "should update COP question" do
-    put :update, :id => @cop_question.to_param, :cop_question => { }
+    put :update, :id => @cop_question.to_param, :cop_question => { text: 'test' }
     assert_redirected_to admin_cop_questions_path
   end
 
