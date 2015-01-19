@@ -95,8 +95,8 @@
   :max_connections: 100
   :max_allowed_packet: 64M
   :extra: |
-    net_read_timeout = 300
-    net_write_timeout = 300
+    net_read_timeout = 1000
+    net_write_timeout = 1000
 
 :sphinx:
   :version: 2.0.8
@@ -105,7 +105,7 @@
   :extra:
     :address: 127.0.0.1
     :mem_limit: 256M
-    :sql_ranged_throttle: 1000
+    :sql_ranged_throttle: 100
     :max_iops: 20
     :max_iosize: 8192
 
