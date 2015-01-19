@@ -116,6 +116,7 @@ class Admin::LogoRequestsController < AdminController
         :contact_id,
         :purpose,
         :publication_id,
+        :logo_file_ids => [],
         :logo_comments_attributes => [:id, :_destroy, :body, :attachment])
     end
 
