@@ -41,9 +41,9 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
 
     should "not get an email even when posting a valid email address" do
       assert_no_difference 'ActionMailer::Base.deliveries.size' do
-        post :create, :contact => {:email => @financial_contact.email}
-        assert_response :success
-        assert_not_nil flash[:error]
+        post :create, :contact => { :email => @financial_contact.email }
+        assert_response :redirect
+        assert_not_nil flash[:notice]
       end
     end
 

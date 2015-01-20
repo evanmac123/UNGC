@@ -93,6 +93,16 @@ class Contact < ActiveRecord::Base
 
   scope :participants_only, lambda { where(["organizations.participant = ?", true]) }
 
+  # Attempt to find a user by its email. If a record is found, send new
+  # password instructions to it. If user is not found, returns a new user
+  # with an email not found error.
+  # Attributes must contain the user's email
+  def self.send_reset_password_instructions(attributes={})
+    recoverable = find_or_initialize_with_errors(reset_password_keys, attributes, :not_found)
+    recoverable.send_reset_password_instructions if recoverable.persisted? && recoverable.username.present?
+    recoverable
+  end
+
   def self.for_local_network
     includes([:roles, {:organization => [:sector, :country, :organization_type]}, :country])
       .where("contacts_roles.role_id IN (?)", [Role.ceo, Role.contact_point])
