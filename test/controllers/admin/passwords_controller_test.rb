@@ -17,12 +17,6 @@ class Admin::PasswordsControllerTest < ActionController::TestCase
       assert_response :success
     end
 
-    should "get an error when posting invalid email address" do
-      post :create, :contact => {:email => 'invalid@example.com'}
-      assert_response :success
-      assert_not_nil flash[:error]
-    end
-
     should "get an email when posting a valid email address" do
       assert_difference 'ActionMailer::Base.deliveries.size' do
         post :create, :contact => {:email => @organization_user.email}
