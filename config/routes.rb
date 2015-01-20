@@ -11,7 +11,7 @@ UNGC::Application.routes.draw do
       sign_out: 'logout'
     },
     controllers: {
-      sessions: "sessions",
+      sessions: 'sessions',
       passwords: 'admin/passwords'
     }
 

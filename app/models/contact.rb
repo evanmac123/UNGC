@@ -44,7 +44,12 @@ require 'digest/sha1'
 class Contact < ActiveRecord::Base
   include VisibleTo
 
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable
+  devise \
+    :database_authenticatable,
+    :registerable,
+    :recoverable,
+    :rememberable,
+    :trackable
 
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
