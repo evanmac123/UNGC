@@ -141,7 +141,7 @@ class CopForm
     # Prevent answers with no user input from ending up in
     # the database when the checkbox is unselected
     cop.cop_answers.each do |answer|
-      answer.text = "" if answer.value == false && answer.text.present?
+      answer.text = "" if (answer.value == false && answer.text.present?) || answer.text.blank?
     end
   end
 

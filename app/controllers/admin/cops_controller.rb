@@ -116,16 +116,29 @@ class Admin::CopsController < AdminController
         :differentiation,
         :format,
         :method_shared,
+        cop_files_attributes: [
+          :attachment_type,
+          :language_id,
+          :attachment
+        ],
         cop_answers_attributes: [
           :cop_attribute_id,
-          :text
+          :text,
+          :value
         ],
         cop_links_attributes: [
           :url,
           :language_id,
           :id,
           :attachment_type,
-          :_destroy
+          :_destroy,
+          {
+            new_cop: [
+              :attachment_type,
+              :language_id,
+              :url
+            ]
+          }
         ]
       )
     end
