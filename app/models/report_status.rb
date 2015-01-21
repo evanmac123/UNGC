@@ -3,8 +3,8 @@ class ReportStatus < ActiveRecord::Base
   COMPLETED = 1
   FAILED = 2
 
-  def complete!(file)
-    self.path = file.path
+  def complete!(file_path)
+    self.path = file_path
     self.status = COMPLETED
     save!
   end

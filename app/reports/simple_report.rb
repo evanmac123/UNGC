@@ -1,9 +1,12 @@
 require 'csv'
-require 'tempfile'
+require 'securerandom'
+require 'fileutils'
 
 class SimpleReport
   include ActionView::Helpers
   include Admin::ReportsHelper
+
+  TMPDIR = '/tmp/ungc-reports'
 
   attr_reader :options
 
@@ -24,25 +27,37 @@ class SimpleReport
   end
 
   def render_xls
-    file = Tempfile.new('xls')
-    CSV.open(file.path, 'w+', :col_sep => "\t") do |line|
+    path = fetch_scratch_file
+    CSV.open(path, 'w+', :col_sep => "\t") do |line|
       line << headers
       records.each do |record|
         line << row(record)
       end
     end
-    file
+    path
   end
 
   def render_xls_in_batches
-    file = Tempfile.new('xls')
-    CSV.open(file.path, 'w+', :col_sep => "\t") do |line|
+    path = fetch_scratch_file
+    CSV.open(path, 'w+', :col_sep => "\t") do |line|
       line << headers
       records.find_in_batches do |record|
         record.each {|r| line << row(r) }
       end
     end
-    file
+    path
+  end
+
+  protected
+
+  def fetch_scratch_file
+    @file ||= begin
+      f = File.join(TMPDIR, "#{SecureRandom.hex}.csv")
+      FileUtils.mkdir_p(TMPDIR)
+      FileUtils.touch(f)
+      FileUtils.chmod(0700, f)
+      f
+    end
   end
 
 end
