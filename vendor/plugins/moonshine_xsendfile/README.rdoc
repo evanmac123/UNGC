@@ -1,0 +1,17 @@
+= Moonshine_Xsendfile
+
+=== A plugin for Moonshine[http://github.com/railsmachine/moonshine]
+
+A plugin for installing and managing mod_xsendfile[https://tn123.org/mod_xsendfile/] for Apache.
+
+=== Instructions
+
+* <tt>script/plugin install git://github.com/railsmachine/moonshine_xsendfile.git</tt>
+* Configure settings. At the very least, you usually want to be able to xsend files from the rails_root:
+    configure :xsendfile => {:x_send_file_path => rails_root}
+* Include the recipe in your Moonshine manifest
+    recipe :xsendfile
+
+=== Copyright
+
+Unless otherwise specified, all content copyright (C) 2014, Rails Machine
