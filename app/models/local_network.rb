@@ -159,11 +159,7 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   def region_name
-    if country.present?
-      Country::REGIONS[country.region.to_sym]
-    else
-      name
-    end
+    Country::REGIONS[country.region.to_sym] if country.present?
   end
 
   def country_code
@@ -187,7 +183,7 @@ class LocalNetwork < ActiveRecord::Base
   end
 
   def country_name
-    country.name
+    country.try(:name)
   end
 
   def stakeholders_involved_in_governance
