@@ -74,10 +74,6 @@ GEM
       activemodel (= 4.2.0)
       activesupport (= 4.2.0)
       arel (~> 6.0)
-    activerecord-session_store (0.1.0)
-      actionpack (>= 4.0.0, < 5)
-      activerecord (>= 4.0.0, < 5)
-      railties (>= 4.0.0, < 5)
     activesupport (4.2.0)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
@@ -132,7 +128,7 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     columnize (0.9.0)
-    connection_pool (2.1.0)
+    connection_pool (2.1.1)
     daemon_controller (1.2.0)
     daemons (1.1.9)
     databasedotcom (1.3.2)
@@ -186,7 +182,7 @@ GEM
     middleware (0.1.0)
     mime-types (2.4.3)
     mini_portile (0.6.2)
-    minitest (5.5.0)
+    minitest (5.5.1)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     money (2.1.5)
@@ -255,11 +251,14 @@ GEM
     redis (3.2.0)
     redis-namespace (1.5.1)
       redis (~> 3.0, >= 3.0.4)
+    redis-session-store (0.8.0)
+      actionpack (>= 3, < 5)
+      redis
     responders (2.0.2)
       railties (>= 4.2.0.alpha, < 5)
     riddle (1.5.11)
     ruby-ole (1.2.11.8)
-    sass (3.4.9)
+    sass (3.4.10)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -330,7 +329,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-session_store
   acts_as_commentable (~> 4.0.2)
   acts_as_tree (~> 2.0.0)
   airbrake (~> 4.1.0)
@@ -365,6 +363,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.2.0)
   rails-observers
+  redis-session-store
   sass-rails (~> 5.0)
   scout (= 5.9.8)
   shoulda

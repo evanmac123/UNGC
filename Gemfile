@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.2.0'
 
+gem 'redis-session-store'
 gem 'mysql2',               '~> 0.3.17'
 gem 'facets',               '~> 3.0.0', require: false
 gem 'hpricot',              '0.8.6'
@@ -38,7 +39,6 @@ gem 'plugger' # supports moonshine plugin on rails4
 gem 'databasedotcom'
 
 # for upgrading to rails 4+, need to be removed eventually.
-gem 'activerecord-session_store'
 gem 'rails-observers'
 
 group :development do
