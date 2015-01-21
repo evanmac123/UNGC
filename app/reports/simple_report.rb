@@ -7,6 +7,7 @@ class SimpleReport
   include Admin::ReportsHelper
 
   TMPDIR = '/tmp/ungc-reports'
+  TMPMOD = 0644
 
   attr_reader :options
 
@@ -55,7 +56,7 @@ class SimpleReport
       f = File.join(TMPDIR, "#{SecureRandom.hex}.csv")
       FileUtils.mkdir_p(TMPDIR)
       FileUtils.touch(f)
-      FileUtils.chmod(0700, f)
+      FileUtils.chmod(TMPMOD, f)
       f
     end
   end
