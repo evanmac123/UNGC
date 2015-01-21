@@ -2,11 +2,11 @@ class ResourceFeatured
   include ResourcesHelper
 
   def new_resources
-    find_resources [881,308,461,451,891]
+    find_resources [1151, 1131, 1181, 1171, 1051]
   end
 
   def new_resources_2
-    find_resources [831,791,781,771,371]
+    find_resources [1101, 841, 791, 411, 781]
   end
 
   def global_compact
