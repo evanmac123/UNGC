@@ -36,13 +36,8 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :sysctl
   recipe :redis
   recipe :sidekiq
-
   recipe :pdfminer
-
   recipe :xsendfile
-  configure xsendfile: {
-    x_send_file_path: '/tmp'
-  }
 
   on_stage(:production) do
     recipe :cron_tasks
