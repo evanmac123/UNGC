@@ -1,8 +1,8 @@
 class LocalNetworksEvents < SimpleReport
 
   def records
-    LocalNetworkEvent.all
-      .select('local_network_id,
+    LocalNetworkEvent.all.
+      select('local_network_id,
         title,
         description,
         date,
@@ -22,10 +22,10 @@ class LocalNetworksEvents < SimpleReport
         stakeholder_others,
         local_network_events.created_at,
         local_network_events.updated_at,
-        local_network_events_principles.*')
-      .joins(:principles)
-      .includes(:local_network, { local_network: :countries })
-      .order('local_network_events.local_network_id, local_network_events.date DESC')
+        local_network_events_principles.*').
+      joins(:principles).
+      includes(:local_network, { local_network: :countries }, :principles).
+      order('local_network_events.local_network_id, local_network_events.date DESC')
   end
 
   def headers

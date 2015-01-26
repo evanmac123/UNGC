@@ -108,9 +108,9 @@
   :extra:
     :address: 127.0.0.1
     :mem_limit: 256M
-    :sql_ranged_throttle: 100
-    :max_iops: 20
-    :max_iosize: 8192
+    :sql_ranged_throttle: 1000
+    :max_iops: 250
+    :max_iosize: 32768
 
 :redis:
   :version: 2.6.17
