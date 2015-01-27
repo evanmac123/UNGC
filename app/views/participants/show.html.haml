@@ -167,7 +167,9 @@
       %tr
         %th Year
         %th Annual contribution received
-    %tbody=contribution_years(@participant)
+    %tbody
+      - @contribution_status.contribution_years.each do |c|
+        = render :partial => 'contribution', :locals => { :year => c[:year], :contributed => c[:contributed]}
 
 - if @participant.case_stories.approved.any?
   .case_stories
