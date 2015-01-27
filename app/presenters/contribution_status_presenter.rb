@@ -16,7 +16,6 @@ class ContributionStatusPresenter
     end
   end
 
-  private
 
   # if an organization is currently delisted we stop at the last listed year
   # if an organization has already contributed for next year we use that
@@ -52,6 +51,8 @@ class ContributionStatusPresenter
   def initial_contribution_year
     organization.joined_on.year > 2006 ? organization.joined_on.year : 2006
   end
+
+  private
 
   # used as proc object
   def get_year(s)
