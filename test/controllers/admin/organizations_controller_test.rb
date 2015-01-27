@@ -233,11 +233,11 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
      should "not be able to submit a COP" do
        sign_in @organization_user
        get :show, {id: @organization.to_param}
+
        # TODO need to check that the "New Communication on Progress" button is not displayed
        assert_response :success
-       assert_select 'div' do
-         assert_select 'div', 1
-       end
+
+       assert_select 'dt.delisted', 1
      end
 
    end
