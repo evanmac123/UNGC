@@ -15,9 +15,10 @@ class Admin::LocalNetworkEventsControllerTest < ActionController::TestCase
     end
 
     should "post => #create" do
-      assert_difference '@local_network.events.count', +1 do
-        post :create, local_network_id: @local_network, local_network_event: params
-      end
+      total = @local_network.events.count
+      post :create, local_network_id: @local_network, local_network_event: params
+      assert_response :success
+      assert (total + 1), @local_network.events.reload.count
     end
 
     should "get => #new" do
