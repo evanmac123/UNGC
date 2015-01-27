@@ -6,6 +6,7 @@ class ParticipantsController < ApplicationController
   before_filter :find_participant, :only => [:show]
 
   def show
+    @contribution_status = ContributionStatusPresenter.new(@participant)
   end
 
   def search
