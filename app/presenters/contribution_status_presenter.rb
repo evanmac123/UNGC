@@ -36,9 +36,11 @@ class ContributionStatusPresenter
     start_year.downto(initial_contribution_year)
   end
 
+  # :nocov:
   def campaigns
     @campaings ||= organization.contributions.includes(:campaign).map(&:campaign).uniq
   end
+  # :nocov:
 
   def contributed_years
     campaigns.map(&:name).map(&method(:get_year)).flatten.map(&:to_i)
