@@ -8,7 +8,7 @@ class FakeQuery
   end
 end
 
-class ContributionStatusPresenterTest < ActionController::TestCase
+class ContributionStatusTest < ActionController::TestCase
 
   context "given a non delisted organization that contributed since 2010" do
     setup do
@@ -18,7 +18,7 @@ class ContributionStatusPresenterTest < ActionController::TestCase
         delisted_on: nil,
         signatory_of?: false
       )
-      @p = ContributionStatusPresenter.new(org, FakeQuery)
+      @p = ContributionStatus.new(org, FakeQuery)
     end
 
     should "have the proper start_year" do
@@ -67,7 +67,7 @@ class ContributionStatusPresenterTest < ActionController::TestCase
         delisted_on: Date.parse("2012-12-01"),
         signatory_of?: false
       )
-      @p = ContributionStatusPresenter.new(org, FakeQuery)
+      @p = ContributionStatus.new(org, FakeQuery)
     end
 
     should "have the proper start_year" do
@@ -87,7 +87,7 @@ class ContributionStatusPresenterTest < ActionController::TestCase
         delisted_on: nil,
         signatory_of?: false
       )
-      @p = ContributionStatusPresenter.new(org, FakeQuery)
+      @p = ContributionStatus.new(org, FakeQuery)
       FakeQuery.any_instance.stubs(unique_campaigns: [stub(name: "2015 Annual Contributions"),
                            stub(name: "2016 Annual Contributions")])
     end
@@ -106,7 +106,7 @@ class ContributionStatusPresenterTest < ActionController::TestCase
       )
       org.expects(:signatory_of?).with(:lead).returns(true).at_least_once
 
-      @p = ContributionStatusPresenter.new(org, FakeQuery)
+      @p = ContributionStatus.new(org, FakeQuery)
       FakeQuery.any_instance.stubs(unique_campaigns: [stub(name: "LEAD 2015 Contributions"),
                            stub(name: "LEAD 2016 Contributions")])
     end
