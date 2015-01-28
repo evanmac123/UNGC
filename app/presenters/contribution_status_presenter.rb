@@ -2,10 +2,11 @@ class ContributionStatusPresenter
   YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) .*\z/
   YEAR_LEAD_REGEXP = /\ALEAD (?<year>\d\d\d\d).*\z/
 
-  attr_reader :organization
+  attr_reader :organization, :organizationCampaignsQuery
 
-  def initialize(organization)
+  def initialize(organization, organizationCampaignsQuery = OrganizationCampaignsQuery)
     @organization = organization
+    @organizationCampaignsQuery = organizationCampaignsQuery
   end
 
   # public api
@@ -41,7 +42,7 @@ class ContributionStatusPresenter
 
   def campaigns
     # TODO make sure we use only "posted" contributions
-    @campaings ||= organization.contributions.includes(:campaign).map(&:campaign).uniq
+    @campaigns ||= organizationCampaignsQuery.new(organization).unique_campaigns
   end
 
   def campaign_regexp
