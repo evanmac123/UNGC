@@ -20,11 +20,15 @@ class ContributionStatus
     end
   end
 
+  def can_submit_logo_request?
+    years = Array((current_year - 1)..(current_year + 1))
+    years.include?(latest_contributed_year)
+  end
 
   # if an organization is currently delisted we stop at the last listed year
   # if an organization has already contributed for next year we use that
   # otherwise we iterate starting from the current year
-  def start_year
+  def latest_annual_contribution_year
     if organization.delisted?
       return organization.delisted_on.year
     end
@@ -36,8 +40,12 @@ class ContributionStatus
     current_year
   end
 
+  def latest_contributed_year
+    contributed_years.last
+  end
+
   def contribution_years_range
-    start_year.downto(initial_contribution_year)
+    latest_annual_contribution_year.downto(initial_contribution_year)
   end
 
   def campaigns
@@ -55,7 +63,7 @@ class ContributionStatus
   def contributed_years
     campaigns.map do |c|
       c.name.match(campaign_regexp).try(:[], 1).try(:to_i)
-    end
+    end.sort
   end
 
   def contributor_for_year?(year)
