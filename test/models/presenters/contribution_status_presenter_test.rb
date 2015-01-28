@@ -7,7 +7,8 @@ class ContributionStatusPresenterTest < ActionController::TestCase
       org = stub(
         joined_on: Date.parse("2009-01-01"),
         delisted?: false,
-        delisted_on: nil
+        delisted_on: nil,
+        signatory_of?: false
       )
       @p = ContributionStatusPresenter.new(org)
       @p.stubs(campaigns: [])
@@ -56,7 +57,8 @@ class ContributionStatusPresenterTest < ActionController::TestCase
       org = stub(
         joined_on: Date.parse("2010-01-01"),
         delisted?: true,
-        delisted_on: Date.parse("2012-12-01")
+        delisted_on: Date.parse("2012-12-01"),
+        signatory_of?: false
       )
       @p = ContributionStatusPresenter.new(org)
       @p.stubs(campaigns: [])
@@ -76,7 +78,8 @@ class ContributionStatusPresenterTest < ActionController::TestCase
       org = stub(
         joined_on: Date.parse("2010-01-01"),
         delisted?: false,
-        delisted_on: nil
+        delisted_on: nil,
+        signatory_of?: false
       )
       @p = ContributionStatusPresenter.new(org)
       @p.stubs(campaigns: [stub(name: "2015 Annual Contributions"),

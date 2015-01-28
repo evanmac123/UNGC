@@ -1,5 +1,6 @@
 class ContributionStatusPresenter
-  YEAR_CAMPAIGN_REGEXP = /(?<year>\d\d\d\d) .*/
+  YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) .*\z/
+  YEAR_LEAD_REGEXP = /\ALEAD (?<year>\d\d\d\d).*\z/
 
   attr_reader :organization
 
@@ -38,16 +39,23 @@ class ContributionStatusPresenter
     start_year.downto(initial_contribution_year)
   end
 
-  # :nocov:
   def campaigns
+    # TODO make sure we use only "posted" contributions
     @campaings ||= organization.contributions.includes(:campaign).map(&:campaign).uniq
   end
-  # :nocov:
+
+  def campaign_regexp
+    if organization.signatory_of?(:lead)
+      YEAR_LEAD_REGEXP
+    else
+      YEAR_CAMPAIGN_REGEXP
+    end
+  end
 
   def contributed_years
     campaigns.map do |c|
       # TODO edit this to deal with lead organizations
-      c.name.match(YEAR_CAMPAIGN_REGEXP).try(:[], 1).try(:to_i)
+      c.name.match(campaign_regexp).try(:[], 1).try(:to_i)
     end
   end
 
