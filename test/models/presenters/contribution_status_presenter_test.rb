@@ -97,5 +97,28 @@ class ContributionStatusPresenterTest < ActionController::TestCase
     end
   end
 
+  context" given a LEAD organization" do
+    setup do
+      org = stub(
+        joined_on: Date.parse("2010-01-01"),
+        delisted?: false,
+        delisted_on: nil,
+      )
+      org.expects(:signatory_of?).with(:lead).returns(true).at_least_once
+
+      @p = ContributionStatusPresenter.new(org, FakeQuery)
+      FakeQuery.any_instance.stubs(unique_campaigns: [stub(name: "LEAD 2015 Contributions"),
+                           stub(name: "LEAD 2016 Contributions")])
+    end
+
+    should "have the proper start_year" do
+      assert_equal @p.start_year, 2016
+    end
+
+    should "list all the years the organization has contributed" do
+      assert_equal @p.contributed_years.to_set, [2015, 2016].to_set
+    end
+  end
+
 end
 

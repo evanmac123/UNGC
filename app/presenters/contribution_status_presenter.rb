@@ -41,7 +41,6 @@ class ContributionStatusPresenter
   end
 
   def campaigns
-    # TODO make sure we use only "posted" contributions
     @campaigns ||= organizationCampaignsQuery.new(organization).unique_campaigns
   end
 
@@ -55,7 +54,6 @@ class ContributionStatusPresenter
 
   def contributed_years
     campaigns.map do |c|
-      # TODO edit this to deal with lead organizations
       c.name.match(campaign_regexp).try(:[], 1).try(:to_i)
     end
   end
