@@ -1,4 +1,6 @@
 class ContributionStatusPresenter
+  YEAR_CAMPAIGN_REGEXP = /(?<year>\d\d\d\d) .*/
+
   attr_reader :organization
 
   def initialize(organization)
@@ -43,7 +45,10 @@ class ContributionStatusPresenter
   # :nocov:
 
   def contributed_years
-    campaigns.map(&:name).map(&method(:get_year)).flatten.map(&:to_i)
+    campaigns.map do |c|
+      # TODO edit this to deal with lead organizations
+      c.name.match(YEAR_CAMPAIGN_REGEXP).try(:[], 1).try(:to_i)
+    end
   end
 
   def contributor_for_year?(year)
@@ -55,12 +60,6 @@ class ContributionStatusPresenter
   end
 
   private
-
-  # used as proc object
-  def get_year(s)
-    # TODO edit this to deal with lead organizations
-    s.match(/(?<year>\d\d\d\d) .*/).try(:values_at, 1)
-  end
 
   def current_year
     Date.today.year
