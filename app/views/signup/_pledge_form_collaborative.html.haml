@@ -49,4 +49,3 @@
         = pledge_radio_button(form, 0)
         = label_tag "organization_pledge_amount_0", "Our company has elected not to make a contribution at this time"
         = form.select :no_pledge_reason, options_for_select(Organization::NO_PLEDGE_REASONS.invert), {include_blank: 'Select a reason...'}, label: 'Select'
-        

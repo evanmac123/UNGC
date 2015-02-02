@@ -2,6 +2,6 @@
 %fieldset
   %ol
     = default_form.text_field :name
-    = default_form.select :parent_id, Sector.top_level.map { |s| [s.name, s.id] }, include_blank: true
+    = default_form.select :parent_id, Sector.top_level.map { |s| [s.name, s.id] },{ include_blank: true }, { }
     = default_form.text_field :icb_number
 
