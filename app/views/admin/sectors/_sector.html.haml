@@ -5,4 +5,4 @@
   %td
     %ul.actions
       %li= link_to 'Edit', edit_admin_sector_path(sector), :class => 'edit', :title => 'Edit details'
-      %li= link_to 'Delete', admin_sector_path(sector), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
+      %li= link_to 'Delete', admin_sector_path(sector), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'delete', :title => 'Delete entry'

@@ -5,7 +5,7 @@
   %td= signing.organization.cop_state.humanize
   %td
     %ul.actions
-      %li= link_to 'Delete', admin_initiative_signing_path(signing.initiative, signing), :confirm => 'Are you sure?', :method => :delete, :class => 'delete'
+      %li= link_to 'Delete', admin_initiative_signing_path(signing.initiative, signing), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'delete'
       %li= link_to 'Contacts', '#', :onclick => "$('##{dom_id(signing.organization, "contacts")}').toggle(); return false;", :class => 'preview'
 
 %tr{:id => dom_id(signing.organization, "contacts"), :style => 'display: none'}

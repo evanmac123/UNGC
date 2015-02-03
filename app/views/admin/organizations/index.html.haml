@@ -23,6 +23,6 @@
               %li
                 = link_to 'Edit', edit_admin_organization_path(organization.id), :class => "edit", :title => "Edit"
               %li
-                = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :confirm => 'Are you sure?', :method => :delete
+                = link_to 'Destroy', admin_organization_path(organization.id), :class => "delete", :title => "Delete", :data => { :confirm => 'Are you sure?' }, :method => :delete
 
     = will_paginate @organizations
