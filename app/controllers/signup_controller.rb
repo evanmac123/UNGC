@@ -93,7 +93,7 @@ class SignupController < ApplicationController
         store_organization_signup
       end
 
-      if !@signup.financial_contact.valid? || !@signup.primary_contact.is?(Role.financial_contact)
+      if !@signup.financial_contact.valid? && !@signup.primary_contact.is?(Role.financial_contact)
         redirect_to organization_step5_path
       end
     # coming from step3 or 4
