@@ -10,7 +10,7 @@
       - if @logo_request.organization.company?
         %dt Funding Status
         %dd
-          = @contribution_status_presenter.contribution_status_message
+          = @logo_request.contribution_status_message
     %dt Country
     %dd= @logo_request.organization.try(:country_name)
     %dt Purpose

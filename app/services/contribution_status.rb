@@ -1,12 +1,12 @@
 class ContributionStatus
-  YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) .*\z/
+  YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) .*\z/ #FIXME with proper match
   YEAR_LEAD_REGEXP = /\ALEAD (?<year>\d\d\d\d).*\z/
 
-  attr_reader :organization, :organizationCampaignsQuery
+  attr_reader :organization, :campaigns
 
-  def initialize(organization, organizationCampaignsQuery = OrganizationCampaignsQuery)
+  def initialize(organization, campaigns)
     @organization = organization
-    @organizationCampaignsQuery = organizationCampaignsQuery
+    @campaigns = campaigns
   end
 
 
@@ -36,10 +36,6 @@ class ContributionStatus
 
   def contribution_years_range
     latest_annual_contribution_year.downto(initial_contribution_year)
-  end
-
-  def campaigns
-    @campaigns ||= organizationCampaignsQuery.new(organization).unique_campaigns
   end
 
   def campaign_regexp

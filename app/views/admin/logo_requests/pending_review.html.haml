@@ -26,8 +26,7 @@
           %td=h logo_request.created_at
           %td= logo_request.organization.try(:participant_manager_name)
           %td.center
-            - contribution_status = ContributionStatusPresenter.new(logo_request.organization)
-            - if !contribution_status.can_submit_logo_request?
+            - if logo_request.missing_contribution?
               = image_tag('unchecked.png', height: '15', width: '15')
           %td= display_days_ago(@latest_comment_date)
           %td

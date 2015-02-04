@@ -12,9 +12,11 @@ class Admin::LogoRequestsController < AdminController
   before_filter :no_unapproved_organizations_access
 
   def pending_review
-    @logo_requests = LogoRequest.pending_review.includes(:organization)
+    lrs = LogoRequest.pending_review.includes(:organization)
                         .order(sort_on('created_at'))
                         .paginate(pagination_params)
+    contribution_statuses = ContributionStatusQuery.for_organizations(lrs.map(&:organization))
+    @logo_requests = LogoRequestsPresenter.new(lrs, contribution_statuses)
   end
 
   def in_review
@@ -53,7 +55,8 @@ class Admin::LogoRequestsController < AdminController
   end
 
   def show
-    @contribution_status_presenter = ContributionStatusPresenter.new(@logo_request.organization)
+    contribution_status = ContributionStatusQuery.for_organization(@logo_request.organization)
+    @logo_request = LogoRequestPresenter.new(@logo_request, contribution_status)
     if @logo_request.approved? && current_contact.from_organization?
       render :template => 'admin/logo_requests/logo_terms'
     end
