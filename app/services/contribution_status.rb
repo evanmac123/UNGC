@@ -9,16 +9,6 @@ class ContributionStatus
     @organizationCampaignsQuery = organizationCampaignsQuery
   end
 
-  # public api
-  # returns array of {year: , contributed: } pairs
-  def contribution_years
-    contribution_years_range.inject([]) do |res, year|
-      res.push({
-        year: year,
-        contributed: contributor_for_year?(year)
-      })
-    end
-  end
 
   def can_submit_logo_request?
     years = Array((current_year - 1)..(current_year + 1))
@@ -63,7 +53,7 @@ class ContributionStatus
   def contributed_years
     campaigns.map do |c|
       c.name.match(campaign_regexp).try(:[], 1).try(:to_i)
-    end.sort
+    end.reject(&:nil?).sort
   end
 
   def contributor_for_year?(year)

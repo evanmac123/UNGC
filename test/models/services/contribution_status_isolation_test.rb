@@ -42,21 +42,6 @@ class ContributionStatusTest < ActionController::TestCase
       assert @p.contributor_for_year?(2013), "has contributed should be true"
       refute @p.contributor_for_year?(2010), "has contributed should be false"
     end
-
-    should "return the contribution years" do
-      FakeQuery.any_instance.stubs(unique_campaigns: [stub(name: "2010 Annual Contributions"),
-                           stub(name: "2009 Annual Contributions"),
-                           stub(name: "2013 Annual Contributions")])
-      assert_equal(@p.contribution_years, [
-        {year: 2015, contributed: false},
-        {year: 2014, contributed: false},
-        {year: 2013, contributed: true},
-        {year: 2012, contributed: false},
-        {year: 2011, contributed: false},
-        {year: 2010, contributed: true},
-        {year: 2009, contributed: true}
-      ])
-    end
   end
 
   context "given an organization delisted in 2013" do
@@ -117,6 +102,26 @@ class ContributionStatusTest < ActionController::TestCase
 
     should "list all the years the organization has contributed" do
       assert_equal @p.contributed_years.to_set, [2015, 2016].to_set
+    end
+  end
+
+  context "given a non delisted organization that contributed to campaigns that don't match the rule" do
+    setup do
+      org = stub(
+        joined_on: Date.parse("2009-01-01"),
+        delisted?: false,
+        delisted_on: nil,
+        signatory_of?: false
+      )
+      @p = ContributionStatus.new(org, FakeQuery)
+    end
+
+    should "list all the years the organization has contributed" do
+      FakeQuery.any_instance.stubs(unique_campaigns: [stub(name: "2010 Annual Contributions"),
+                           stub(name: "2009 Annual Contributions"),
+                           stub(name: "2013 Annual Contributions"),
+                           stub(name: "Other Contributions")])
+      assert_equal @p.contributed_years.to_set, [2010, 2009, 2013].to_set
     end
   end
 
