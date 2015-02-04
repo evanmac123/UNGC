@@ -178,11 +178,14 @@ class Admin::PagesController < AdminController
   end
 
   def content_params
-    content = if is_live_editor
-      params.require(:content)
+    if is_live_editor
+      content = params.require(:content)
+    elsif params[:page].present?
+      content = params.require(:page)
     else
-      params.require(:page)
+      return {}
     end
+
     content.permit(
       :path,
       :title,
