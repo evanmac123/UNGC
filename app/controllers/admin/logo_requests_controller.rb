@@ -53,6 +53,7 @@ class Admin::LogoRequestsController < AdminController
   end
 
   def show
+    @contribution_status_presenter = ContributionStatusPresenter.new(@logo_request.organization)
     if @logo_request.approved? && current_contact.from_organization?
       render :template => 'admin/logo_requests/logo_terms'
     end
