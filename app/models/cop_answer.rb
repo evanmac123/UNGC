@@ -26,6 +26,7 @@ class CopAnswer < ActiveRecord::Base
                 p.name AS issue_area,
                 cop_id,
                 o.id as organization_id,
+                o.name as organization_name,
                 q.id AS cop_question_id,
                 q.position AS question_position,
                 q.text AS criterion,
