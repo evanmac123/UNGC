@@ -1,6 +1,6 @@
 class ContributionStatusPresenter
-  def initialize(organization)
-    @contribution_status = ContributionStatus.new(organization)
+  def initialize(contribution_status)
+    @contribution_status = contribution_status
   end
 
   # public api

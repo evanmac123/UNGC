@@ -6,7 +6,8 @@ class ParticipantsController < ApplicationController
   before_filter :find_participant, :only => [:show]
 
   def show
-    @contribution_status = ContributionStatusPresenter.new(@participant)
+    contribution_status = ContributionStatusQuery.for_organization(@participant)
+    @contribution_status_presenter = ContributionStatusPresenter.new(contribution_status)
   end
 
   def search
