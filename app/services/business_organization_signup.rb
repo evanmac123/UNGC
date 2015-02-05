@@ -49,7 +49,11 @@ class BusinessOrganizationSignup < OrganizationSignup
 
   def set_organization_attributes(params)
     super
-    organization.pledge_amount ||= Organization::COLLABORATIVE_PLEDGE_LEVELS[organization.revenue]
+    if organization.collaborative_funding_model?
+      organization.pledge_amount ||= Organization::COLLABORATIVE_PLEDGE_LEVELS[organization.revenue]
+    else
+      organization.pledge_amount ||= Organization::INDEPENDENT_PLEDGE_LEVELS[organization.revenue]
+    end
   end
 
   def after_save
