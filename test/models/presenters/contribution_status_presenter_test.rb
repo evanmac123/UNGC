@@ -11,7 +11,8 @@ class ContributionStatusPresenterTest < ActionController::TestCase
     @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_past_year.id)
     @organization.contributions << create_contribution(raw_amount: 2500, stage: 'Posted', campaign_id: @campaign_last_year.id)
     @organization.update_attribute :joined_on, '2012-01-01'
-    @p = ContributionStatusPresenter.new(@organization)
+    cs = ContributionStatusQuery.for_organization(@organization)
+    @p = ContributionStatusPresenter.new(cs)
   end
 
 
