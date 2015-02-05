@@ -55,6 +55,7 @@ class BusinessOrganizationSignup < OrganizationSignup
   def after_save
     # add financial contact if a pledge was made and the existing contact has not been assigned that role
     if require_pledge? && !primary_contact.is?(Role.financial_contact)
+      financial_contact.roles.reload
       financial_contact.save
       organization.contacts << financial_contact
     end

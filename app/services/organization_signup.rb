@@ -105,7 +105,9 @@ class OrganizationSignup
     before_save
 
     organization.save
+    primary_contact.roles.reload
     primary_contact.save
+    ceo.roles.reload
     ceo.save
     organization.contacts << primary_contact
     organization.contacts << ceo
