@@ -105,8 +105,10 @@ class OrganizationSignup
     before_save
 
     organization.save
+    # fixes bug caused by storing signup and related objects in session (in rails4)
     primary_contact.roles.reload
     primary_contact.save
+    # fixes bug caused by storing signup and related objects in session (in rails4)
     ceo.roles.reload
     ceo.save
     organization.contacts << primary_contact
