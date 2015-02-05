@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ContributionStatusTest < ActionController::TestCase
+class ContributionStatusQueryTest < ActionController::TestCase
 
   setup do
     # We don't want to hard code years since these rules are year independent
@@ -9,7 +9,7 @@ class ContributionStatusTest < ActionController::TestCase
     @campaign_last_year = create_campaign(name: "#{Date.today.year - 1} Annual Contributions")
     @campaign_this_year = create_campaign(name: "#{Date.today.year} Annual Contributions")
     @campaign_next_year = create_campaign(name: "#{Date.today.year + 1} Annual Contributions")
-    @cs = ContributionStatus.new(@organization)
+    @cs = ContributionStatusQuery.for_organization(@organization)
   end
 
 
