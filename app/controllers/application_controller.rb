@@ -2,6 +2,8 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  rescue_from Riddle::ConnectionError, with: :search_offline
+
   before_filter :mailer_set_url_options
 
   helper 'datetime', 'navigation'
@@ -72,13 +74,8 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def rescue_action(exception)
-    case exception
-    when Riddle::ConnectionError
+  def search_offline
       render :template => '/search/offline' and return false
-    else
-      super
-    end
   end
 
   def mailer_set_url_options

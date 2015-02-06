@@ -67,12 +67,6 @@ class ApplicationManifest < Moonshine::Manifest::Rails
        :minute => 0,
        :ensure => :present
 
-     cron 'sphinx_index',
-       :command => '/srv/unglobalcompact/current/script/cron/sphinx_index',
-       :user => 'rails',
-       :minute => 40,
-       :ensure => :present
-
      cron 'start_mysqldump',
        :command => '/srv/unglobalcompact/current/script/cron/start_mysqldump',
        :user => 'rails',
@@ -80,25 +74,11 @@ class ApplicationManifest < Moonshine::Manifest::Rails
        :minute => 0,
        :ensure => :present
 
-    cron 'stop_sphinx',
-      :command => '/srv/unglobalcompact/current/script/cron/stop_sphinx',
-      :user => 'rails',
-      :hour => 6,
-      :minute => 5,
-      :ensure => :present
-
     cron 'searchable',
       :command => '/srv/unglobalcompact/current/script/cron/searchable',
       :user => 'rails',
       :hour => 6,
       :minute => 11,
-      :ensure => :present
-
-    cron 'sphinx_rebuild',
-      :command => '/srv/unglobalcompact/current/script/cron/sphinx_rebuild',
-      :user => 'rails',
-      :hour => 6,
-      :minute => 55,
       :ensure => :present
   end
 
