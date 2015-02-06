@@ -10,9 +10,9 @@
   = form_for admin_report_path(:action => :initiative_organizations), :html => {:method => :get} do |form|
     %fieldset
       %legend Initiatives and activities
-      - group_initiatives_by(Initiative.for_select, 3) do |group|
+      - Initiative.for_select.in_groups_of(Initiative.for_select.count / 3, false) do |inititiative_group|
         %ol.checkbox_list.column
-          - for initiative in group
+          - for initiative in inititiative_group
             %li
               = check_box_tag "initiatives[]", initiative.id, @selected_initiatives.include?(initiative.id.to_s), { id: "initiatives_#{initiative.id}", class: "label_right" }
               = label_tag "initiatives_#{initiative.id}", initiative.name, class: 'checkbox_label normal'
