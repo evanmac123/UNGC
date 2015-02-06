@@ -27,16 +27,6 @@ class Initiative < ActiveRecord::Base
   }
 
   scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
-  scope :for_select, lambda { where("initiatives.name NOT LIKE '%Foundation Contributors'") }
-  scope :contributor_for_year, lambda { |year| where("initiatives.name = ?", "#{year} Foundation Contributors") }
-
-  def self.contributor_for_years(year)
-    if year.is_a?(Array)
-     where("initiatives.name IN (?)", year.map {|y| "#{y} Foundation Contributors"})
-    else
-     where("initiatives.name = ?", "#{year} Foundation Contributors")
-    end
-  end
 
   def self.id_by_filter(filter_type)
     i = find_by_id FILTER_TYPES[filter_type]

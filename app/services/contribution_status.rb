@@ -1,5 +1,5 @@
 class ContributionStatus
-  YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) .*\z/ #FIXME with proper match
+  YEAR_CAMPAIGN_REGEXP = /\A(?<year>\d\d\d\d) Annual Contributions\z/
   YEAR_LEAD_REGEXP = /\ALEAD (?<year>\d\d\d\d).*\z/
 
   attr_reader :organization, :campaigns
