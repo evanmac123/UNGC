@@ -1,5 +1,16 @@
+# Query Object that given an organization or an array of organizations
+# returns ContributionStatuses for each organization
+#
+# the ContributionStatus is then used in LogoRequest(s) presenters and
+# ContributionStatusPresenter to display information related to an
+# organization and its contributions
 class ContributionStatusQuery
 
+  # returns an hash of the format
+  # {
+  #   organization.id => ContributionStatus for that organization,
+  #   organization2.id => ContributionStatus for that organization,
+  # }
   def self.for_organizations(organizations)
     a = {}
     c = campaigns(organizations)
