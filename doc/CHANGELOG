@@ -1,3 +1,8 @@
+h1. 2015-02-08
+
+* Adding new partial to list COEs from non-business organizations
+* Had to manually update communication_on_progresses.cop_type to 'non_business' for those COEs submitted before the major COP refactoring
+
 h1. 2015-01-15
 
 * The Gulf States Network, one of only two regional Local Networks has been disbanded. We had to change the visibility of this network without completely deleting it
@@ -19,7 +24,6 @@ h1. 2014-11-18
 h1. 2014-11-18
 
 * Transition to ruby 2.1. This should improve speed and memory footprint. 1.9.3 was no longer receiving security updates so this will allow us to benefit from those once again. Finally more and more gems require ruby 2, and rails itself will soon as well.
-
 * Added redis 2.6.17 to moonshine
 
 h1. 2014-10-18
@@ -30,6 +34,10 @@ h1. 2014-10-18
 * contribution_level_info: table header titles for Local Networks contribution levels
 * contribution_level: Local Networks contribution levels
 * Update actions are handled by services/local_network_update.rb
+
+h1. 2014-09-01
+
+* Large refactoring of COP MVC components to deal with multiple types of COPS and to allow COPs to be edited
 
 h1. 2014-07-25
 
