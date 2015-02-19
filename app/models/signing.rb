@@ -29,7 +29,9 @@ class Signing < ActiveRecord::Base
   # TODO: can be removed after the Contribution model is implemented
   def self.latest_contribution_update
     initiative_ids = Initiative.contributor_for_years([2013,2014]).map(&:id)
-    Signing.where('initiative_id in (?)', initiative_ids).maximum('updated_at')
+    latest = find_by_sql("SELECT MAX(updated_at) AS updated_at
+                          FROM `signings` WHERE `initiative_id` IN (#{initiative_ids.join(",")})").first
+    latest.updated_at
   end
 
 end

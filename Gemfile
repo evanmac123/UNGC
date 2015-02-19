@@ -42,6 +42,7 @@ gem 'databasedotcom'
 gem 'rails-observers'
 
 group :development do
+  gem 'rerun'
   gem 'thin'
 end
 
