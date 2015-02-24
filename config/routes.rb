@@ -15,6 +15,13 @@ UNGC::Application.routes.draw do
       passwords: 'admin/passwords'
     }
 
+  namespace :redesign do
+    namespace :admin do
+    end
+
+    get '/' => 'static#homepage', as: :root
+  end
+
   # Backend routes
   get '/admin'                    => 'admin#dashboard', :as => :admin
   get '/admin/dashboard'          => 'admin#dashboard', :as => :dashboard

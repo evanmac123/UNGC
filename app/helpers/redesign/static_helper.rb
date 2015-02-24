@@ -1,0 +1,2 @@
+module Redesign::StaticHelper
+end
