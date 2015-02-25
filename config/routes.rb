@@ -19,7 +19,7 @@ UNGC::Application.routes.draw do
     namespace :admin do
     end
 
-    get '/' => 'static#homepage', as: :root
+    get '/' => 'static#home', as: :root
   end
 
   # Backend routes

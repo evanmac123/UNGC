@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @page && @page[:title] || 'UNGC' %></title>
+    <%= stylesheet_link_tag 'redesign', media: 'all' %>
+    <%= javascript_include_tag 'redesign' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <%= link_to 'United Nations Global Compact', redesign_root_path %>
+      </h1>
+      <nav>
+        <ol>
+          <li><%= link_to 'About', '#' %></li>
+          <li><%= link_to 'News', '#' %></li>
+          <li><%= link_to 'Sign In', '#' %></li>
+          <li><%= link_to 'English', '#' %></li>
+          <li>Search: <input type="search"></li>
+        </ol>
+      </nav>
+    </header>
+    <hr>
+    <main>
+      <%= yield %>
+    </main>
+    <hr>
+    <footer>
+      <% if current_payload %>
+        <small>Last updated: <%= current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z') %></small>
+      <% end %>
+    </footer>
+  </body>
+</html>

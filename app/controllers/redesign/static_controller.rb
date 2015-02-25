@@ -1,6 +1,6 @@
-class Redesign::StaticController < ApplicationController
-  def homepage
-    content = Redesign::Page.lookup(:homepage, '/')
-    @page = Redesign::HomePage.new(content)
+class Redesign::StaticController < Redesign::ApplicationController
+  def home
+    set_current_container :home
+    @page = HomePage.new(current_container, current_payload_data)
   end
 end
