@@ -40,6 +40,7 @@ gem 'jquery-ui-rails'
 gem 'prototype-rails'
 
 group :development do
+  gem 'rerun'
   gem 'thin'
   gem 'spring'
 end
