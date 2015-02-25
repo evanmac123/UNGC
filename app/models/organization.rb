@@ -225,6 +225,7 @@ class Organization < ActiveRecord::Base
     incomplete_coe:       'Incomplete - Missing COE Statement',
     incomplete_format:    'Incomplete - Incorrect Format',
     incomplete_signature: 'Incomplete - Signature from CEO',
+    ceo_verification:     'CEO Verification',
     integrity_measure:    'Integrity Measure',
     local_network:        'Local Network followup',
     microenterprise:      'Micro Enterprise - Verify Employees',
