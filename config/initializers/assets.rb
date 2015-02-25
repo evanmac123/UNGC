@@ -17,4 +17,6 @@ Rails.application.config.assets.precompile += %w(
   welcome_letter.css
   themes/apple/style.css
   public-resources.css
+  redesign.css
+  redesign.js
 )

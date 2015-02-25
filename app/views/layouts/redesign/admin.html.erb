@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>UNGC Admin</title>
+    <%= stylesheet_link_tag 'redesign', media: 'all' %>
+    <%= javascript_include_tag 'redesign' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <%= link_to 'Admin', redesign_admin_root_path %>
+      </h1>
+      <nav>
+        <ol>
+          <li><%= link_to 'Dashboard', redesign_admin_root_path %></li>
+        </ol>
+      </nav>
+    </header>
+    <hr>
+    <main>
+<%= yield %>
+    </main>
+  </body>
+</html>

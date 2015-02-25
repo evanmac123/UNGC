@@ -17,6 +17,7 @@ UNGC::Application.routes.draw do
 
   namespace :redesign do
     namespace :admin do
+      get '/' => 'dashboard#show', as: :root
     end
 
     get '/' => 'static#home', as: :root
