@@ -32,7 +32,7 @@ class Admin::PagesController < AdminController
   end
 
   def create
-    @page = Page.new params[:page]
+    @page = Page.new page_params
     if @page.save
       respond_to do |wants|
         wants.html { flash[:notice] = "Page successfully created"; redirect_to :action => 'index' }
@@ -200,6 +200,10 @@ class Admin::PagesController < AdminController
       :top_level,
       :change_path,
     )
+  end
+
+  def page_params
+    params.require(:page).permit(:title, :derive_path_from, :position)
   end
 
 end
