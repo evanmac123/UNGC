@@ -46,6 +46,17 @@ class Resource < ActiveRecord::Base
              approved:   'Approved',
              previously: 'Archived'
            }
+  enum content_type: [ :academic_literature,
+                       :case_study,
+                       :data_visualization,
+                       :guidance,
+                       :link,
+                       :toolkit,
+                       :training,
+                       :un_global_compact_report,
+                       :meeting_report,
+                       :meeting_presentation,
+                       :webinar]
 
   def self.with_principles_count
     select("resources.*, count(principles_resources.principle_id) as principles_count")
