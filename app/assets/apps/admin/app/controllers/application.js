@@ -5,18 +5,18 @@ export default Ember.Controller.extend({
     {
       id: '1',
       rank: 100,
-      title: 'Flattuses',
+      title: 'Fruits',
       children: [
-        { id: '2', rank: 1000, title: 'Shart', children: [] },
-        { id: '3', rank: 2000, title: 'Toot', children: [] },
+        { id: '2', rank: 1000, title: 'Oranges', children: [] },
+        { id: '3', rank: 2000, title: 'Pears', children: [] },
         {
           id: '4',
           rank: 3000,
-          title: 'Fart',
+          title: 'Apples',
           children: [
-            { id: '5', rank: 10000, title: 'Intense', children: [] },
-            { id: '6', rank: 20000, title: 'Slo\'n\'Lo', children: [] },
-            { id: '7', rank: 30000, title: 'Silent', children: [] }
+            { id: '5', rank: 10000, title: 'Delicious', children: [] },
+            { id: '6', rank: 20000, title: 'Gala', children: [] },
+            { id: '7', rank: 30000, title: 'Honeycrisp', children: [] }
           ]
         }
       ]
@@ -24,9 +24,10 @@ export default Ember.Controller.extend({
     {
       id: '8',
       rank: 200,
-      title: 'About Us',
+      title: 'Vegetables',
       children: [
-        { id: '9', rank: 1000, title: 'Investors', children: [] }
+        { id: '9', rank: 1000, title: 'Cucumber', children: [] },
+        { id: '10', rank: 2000, title: 'Carrot', children: [] }
       ]
     }
   ]

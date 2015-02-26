@@ -1,5 +1,32 @@
-<h1>UNGC Admin</h1>
+<header class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="/redesign/admin/">UNGC Admin</a>
+      <nav class="nav-collapse collapse">
+        <ul class="nav">
+          <li class="active">
+            <a href="#">Sitemap</a>
+          </li>
+          <li>
+            <a href="#">About</a>
+          </li>
+          <li>
+            <a href="#">Contact</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
 
-{{tree/ui-tree nodes=model ns="admin-container-tree"}}
+<main class="container">
+  {{tree/x-tree
+    ns="admin-container-tree"
+    nodes=model}}
 
-{{outlet}}
+  {{outlet}}
+</main>
+
+<footer class="container">
+  <p>&copy; United Nations Global Compact</p>
+</footer>
