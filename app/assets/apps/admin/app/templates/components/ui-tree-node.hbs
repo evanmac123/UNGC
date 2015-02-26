@@ -1,0 +1,13 @@
+{{#if node.children}}
+  <button {{action "toggle"}}>
+    {{#if isOpen}}-{{else}}+{{/if}}
+  </button>
+{{/if}}
+
+<label>{{node.title}}</label>
+
+{{#if isOpen}}
+  {{#if node.children}}
+    {{ui-tree nodes=node.children}}
+  {{/if}}
+{{/if}}

@@ -1,25 +1,25 @@
+<%- cli_host = request.protocol + (ENV['CLI_HOST'] || "#{request.domain}:4200") -%>
 <!DOCTYPE html>
 <html>
   <head>
     <title>UNGC Admin</title>
-    <%= stylesheet_link_tag 'redesign', media: 'all' %>
-    <%= javascript_include_tag 'redesign' %>
+
+    <% if Rails.env.development? %>
+      <%= stylesheet_link_tag "#{cli_host}/assets/vendor.css" %>
+      <%= stylesheet_link_tag "#{cli_host}/assets/admin.css" %>
+    <% else %>
+      <%= stylesheet_link_tag 'redesign-admin' %>
+    <% end %>
+
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <header>
-      <h1>
-        <%= link_to 'Admin', redesign_admin_root_path %>
-      </h1>
-      <nav>
-        <ol>
-          <li><%= link_to 'Dashboard', redesign_admin_root_path %></li>
-        </ol>
-      </nav>
-    </header>
-    <hr>
-    <main>
 <%= yield %>
-    </main>
+    <% if Rails.env.development? %>
+      <%= javascript_include_tag "#{cli_host}/assets/vendor.js" %>
+      <%= javascript_include_tag "#{cli_host}/assets/admin.js" %>
+    <% else %>
+      <%= javascript_include_tag 'redesign-admin' %>
+    <% end %>
   </body>
 </html>

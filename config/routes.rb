@@ -16,9 +16,8 @@ UNGC::Application.routes.draw do
     }
 
   namespace :redesign do
-    namespace :admin do
-      get '/' => 'dashboard#show', as: :root
-    end
+    get '/admin'       => 'admin/index#ember', as: :admin_root
+    get '/admin/*path' => 'admin/index#ember'
 
     get '/' => 'static#home', as: :root
   end
