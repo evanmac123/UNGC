@@ -1,13 +1,17 @@
-{{#if node.children}}
-  <button {{action "toggle"}}>
-    {{#if isOpen}}-{{else}}+{{/if}}
-  </button>
-{{/if}}
+{{#tree/x-dropzone node=node position="inside"}}
+  {{#if node.children}}
+    <button {{action "toggle"}}>
+      {{#if isOpen}}-{{else}}+{{/if}}
+    </button>
+  {{/if}}
 
-<label>{{node.title}}</label>
+  {{#tree/x-dragzone node=node for=this}}
+    <label>{{node.title}}</label>
+  {{/tree/x-dragzone}}
+{{/tree/x-dropzone}}
 
 {{#if isOpen}}
   {{#if node.children}}
-    {{tree/x-tree nodes=node.children}}
+    {{tree/x-tree nodes=node.children subtree=true}}
   {{/if}}
 {{/if}}

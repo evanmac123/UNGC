@@ -4,8 +4,13 @@ var STORE_KEY_PREFIX  = 'ui-tree';
 var STORE_KEY_DEFAULT = 'nodestates';
 
 export default Ember.Component.extend({
-  tagName: 'li',
-  classNameBindings: 'isOpen:open:closed',
+  classNames: 'tree-x-node',
+  tree:       Ember.computed.reads('parentView.tree'),
+
+  classNameBindings: [
+    'isOpen:open:closed',
+    'isBeingDragged:being-dragged'
+  ],
 
   actions: {
     toggle: function() {

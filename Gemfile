@@ -41,6 +41,8 @@ gem 'databasedotcom'
 # for upgrading to rails 4+, need to be removed eventually.
 gem 'rails-observers'
 
+gem 'ranked-model',         '~> 0.4.0'
+
 group :development do
   gem 'rerun'
   gem 'thin'

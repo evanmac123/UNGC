@@ -1,3 +1,8 @@
 {{#each nodes as |node|}}
+  {{tree/x-dropzone node=node position="before"}}
   {{tree/x-node node=node}}
 {{/each}}
+
+{{#if nodes.lastObject}}
+  {{tree/x-dropzone node=nodes.lastObject position="after"}}
+{{/if}}
