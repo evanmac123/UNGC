@@ -1,22 +1,24 @@
-<header class="navbar navbar-inverse navbar-fixed-top">
-  <div class="navbar-inner">
+<header>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
-      <a class="brand" href="/redesign/admin/">UNGC Admin</a>
-      <nav class="nav-collapse collapse">
-        <ul class="nav">
-          <li class="active">
-            <a href="#">Sitemap</a>
+      <div class="navbar-header">
+        <a class="navbar-brand" href="/redesign/admin/">UNGC Admin</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          {{#link-to "sitemap" tagName="li"}}
+            {{#link-to "sitemap"}}Sitemap{{/link-to}}
+          {{/link-to}}
+          <li>
+            <a href="#">Stories</a>
           </li>
           <li>
-            <a href="#">About</a>
-          </li>
-          <li>
-            <a href="#">Contact</a>
+            <a href="#">Resources</a>
           </li>
         </ul>
-      </nav>
+      </div>
     </div>
-  </div>
+  </nav>
 </header>
 
 <main class="container">
