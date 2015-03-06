@@ -42,6 +42,9 @@ class Resource < ActiveRecord::Base
   has_many :links, dependent: :destroy, class_name: 'ResourceLink'
   has_many :languages, through: :links
 
+  has_many :taggings
+  has_many :sectors, through: :taggings
+
   STATES = { pending:    'Pending Review',
              approved:   'Approved',
              previously: 'Archived'

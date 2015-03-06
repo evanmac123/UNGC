@@ -11,11 +11,11 @@ class Tagging < ActiveRecord::Base
   belongs_to :headline
   belongs_to :organization
   belongs_to :redesign_container, class_name: "Redesign::Container"
+  belongs_to :resource
 
   # TODO replace the existing principles join tables with implementations here
   # belongs_to :communication_on_progress
   # belongs_to :event
-  # belongs_to :resource
 
   def domain
     author || principle || country || initiative || language || sector

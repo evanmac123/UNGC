@@ -2,11 +2,13 @@ ThinkingSphinx::Index.define :resource, with: :active_record do
   indexes :title,         sortable: true
   indexes :description,   sortable: true
   indexes :year,          sortable: true
-  indexes links.title,    sortable: true,   as: :link_title,
+  indexes links.title,    sortable: true,   as: :link_title
 
-  has authors(:id),       sortable: true,   as: :authors_ids
-  has principles(:id),    sortable: true,   as: :principle_ids
-  has languages(:id),     sortable: true,   as: :language_ids
+  has authors(:id),       facet: true,      as: :authors_ids
+  has principles(:id),    facet: true,      as: :principle_ids
+  has languages(:id),     facet: true,      as: :language_ids
+  has :content_type,      facet: true
+  has sectors(:id),       facet: true,      as: :sector_ids
 
   where "approval = 'approved'"
 
