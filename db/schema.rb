@@ -806,7 +806,10 @@ ActiveRecord::Schema.define(version: 20150305173036) do
     t.string   "image_content_type", limit: 255
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
+    t.integer  "content_type",       limit: 4
   end
+
+  add_index "resources", ["content_type"], name: "index_resources_on_content_type", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",          limit: 255

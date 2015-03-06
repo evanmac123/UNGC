@@ -11,15 +11,15 @@ class Admin::ResourcesController < AdminController
   end
 
   def show
-    @resource = Resource.find(params[:id])
+    @resource = ResourcePresenter.new(Resource.find(params[:id]))
   end
 
   def new
-    @resource = Resource.new
+    @resource = ResourcePresenter.new(Resource.new)
   end
 
   def edit
-    @resource = Resource.find(params[:id])
+    @resource = ResourcePresenter.new(Resource.find(params[:id]))
   end
 
   def create
@@ -97,6 +97,7 @@ class Admin::ResourcesController < AdminController
       :isbn,
       :image,
       :year,
+      :content_type,
       principle_ids: [],
       author_ids: [],
       links: [

@@ -28,6 +28,7 @@
                                           {:label => 'Year'}
         = default_form.text_field  :isbn, :label => 'ISBN'
         = default_form.file_field  :image, :label => 'Image Upload', accept: 'image/png,image/gif,image/jpeg'
+        = default_form.select :content_type,@resource.content_types_for_select, label: 'Content Type'
         - if @resource.image.present?
           %label Preview
           .resource-img-preview
