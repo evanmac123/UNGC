@@ -26,3 +26,18 @@ en:
     delete_COE: "Delete COE and remove all answers, files and links"
     edit_COP: "Edit COP"
     edit_COE: "Edit COE"
+
+  resources:
+    types:
+      academic_literature: 'Academic literature'
+      case_study: 'Case study'
+      data_visualization: 'Data visualization'
+      guidance: 'Guidance'
+      link: 'Link'
+      toolkit: 'Toolkit'
+      training: 'Training'
+      un_global_compact_report: 'UNGC report'
+      meeting_report: 'Meeting report'
+      meeting_presentation: 'Meeting presentation'
+      webinar: 'Webinar'
+

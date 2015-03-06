@@ -1,0 +1,15 @@
+= form_for @search, url: redesign_search_path do |f|
+  = f.label :author
+  = f.text_field :author
+  %p
+    = f.select :issue, @search.issue_options, prompt: 'Issue'
+  %p
+    = f.select :topic, @search.topic_options, prompt: 'Topic'
+  %p
+    = f.select :language, @search.language_options, prompt: 'Language'
+  %p
+    = f.select :sector, @search.sector_options, prompt: 'Sector'
+  %p
+    = f.select :type, @search.type_options, prompt: 'Type'
+  %p
+    = f.submit 'Search'

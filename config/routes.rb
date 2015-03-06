@@ -19,6 +19,11 @@ UNGC::Application.routes.draw do
     get '/admin'       => 'admin/index#ember', as: :admin_root
     get '/admin/*path' => 'admin/index#ember'
 
+    controller :resources do
+      get   '/search' => 'search#index'
+      post  '/search' => 'search#search'
+    end
+
     get '/' => 'static#home', as: :root
   end
 
