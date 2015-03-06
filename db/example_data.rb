@@ -287,4 +287,17 @@ module FixtureReplacement
     c.organization_id = Organization.first.id
     c.contribution_id = 'test'
   end
+
+
+  attributes_for :principle do |p|
+    p.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :topic do |t|
+    t.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :container, class: Redesign::Container do |c|
+    c.kind = :home
+  end
 end
