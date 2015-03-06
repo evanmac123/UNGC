@@ -5,6 +5,7 @@ namespace :redesign do
     fix_principles_with_invalid_types
     create_or_update_topics_taxonomy
     create_or_update_issue_taxonomy
+    split_issues_from_principles
   end
 
   private
@@ -118,6 +119,11 @@ namespace :redesign do
 
       topic.save!
     end
+  end
+
+  def split_issues_from_principles
+    non_principles = Principle.where(type: nil).where("name not like 'Principle %'")
+    non_principles.update_all(type: 'Issue')
   end
 
 end
