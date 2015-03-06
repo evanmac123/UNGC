@@ -1,19 +1,30 @@
 import Ember from 'ember';
 
-var STORE_KEY_PREFIX  = 'ui-tree';
-var STORE_KEY_DEFAULT = 'nodestates';
+const STORE_KEY_PREFIX  = 'ui-tree';
+const STORE_KEY_DEFAULT = 'nodestates';
 
 export default Ember.Component.extend({
   classNames: 'tree-x-node',
-  tree:       Ember.computed.reads('parentView.tree'),
+  isDraggable: true,
+
+  attributeBindings: [
+    'isDraggable:draggable'
+  ],
+
+  mightDropAbove:  Ember.computed.equal('mightDrop', 'above'),
+  mightDropBelow:  Ember.computed.equal('mightDrop', 'below'),
+  mightDropInside: Ember.computed.equal('mightDrop', 'inside'),
 
   classNameBindings: [
     'isOpen:open:closed',
-    'isBeingDragged:being-dragged'
+    'isBeingDragged:being-dragged',
+    'mightDropAbove',
+    'mightDropBelow',
+    'mightDropInside'
   ],
 
   actions: {
-    toggle: function() {
+    toggle() {
       if (this.get('isOpen')) {
         this.set('isOpen', false);
       } else {
@@ -21,14 +32,40 @@ export default Ember.Component.extend({
       }
 
       this.saveState();
+    },
+
+    mightDropNode(position) {
+      this.set('mightDrop', position);
+    },
+
+    wontDropNode() {
+      this.set('mightDrop', null);
+    },
+
+    droppedNode(event) {
+      this.set('mightDrop', null);
+      this.get('tree').send('move', event);
     }
   },
 
-  storeKey: function() {
-    return STORE_KEY_PREFIX + ':' + (this.get('ns') || STORE_KEY_DEFAULT);
-  }.property('ns'),
+  startedDragging: function(event) {
+    var nodeId = this.get('node.id');
 
-  saveState: function() {
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/x-node-id', nodeId);
+
+    this.set('isBeingDragged', true);
+  }.on('dragStart'),
+
+  stoppedDragging: function() {
+    this.set('isBeingDragged', false);
+  }.on('dragEnd'),
+
+  storeKey: Ember.computed('ns', function() {
+    return STORE_KEY_PREFIX + ':' + (this.get('ns') || STORE_KEY_DEFAULT);
+  }),
+
+  saveState() {
     var id    = this.get('node.id');
     var store = this.getStore();
 
@@ -57,7 +94,7 @@ export default Ember.Component.extend({
     }
   }.on('init'),
 
-  getStore: function() {
+  getStore() {
     var storeKey = this.get('storeKey');
     var json;
     var store;
@@ -75,7 +112,7 @@ export default Ember.Component.extend({
     return store;
   },
 
-  setStore: function(store) {
+  setStore(store) {
     var storeKey = this.get('storeKey');
 
     if (!localStorage) {

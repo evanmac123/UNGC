@@ -35,7 +35,7 @@ export default Ember.Route.extend({
     ];
   },
 
-  afterModel: function(model) {
+  afterModel(model) {
     var map = {};
 
     function addNode(node) {
@@ -51,19 +51,17 @@ export default Ember.Route.extend({
     this.set('nodeMap', map);
   },
 
-  findNode: function(id) {
+  findNode(id) {
     return this.get('nodeMap')[id];
   },
 
   actions: {
-    moveNodes: function(sourceNodeId, position, targetNodeId) {
+    moveNodes(sourceNodeId, position, targetNodeId) {
       var sourceNode = this.findNode(sourceNodeId);
       var targetNode = this.findNode(targetNodeId);
       var route      = this;
       var targetContainer;
       var targetIdx;
-
-      console.log(sourceNode.title);
 
       function getContainer(node) {
         if (node.parent_id) {

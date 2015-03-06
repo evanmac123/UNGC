@@ -6,16 +6,22 @@ body
   > div > main
     margin-top: 50px
 
-.tree-x-tree
+.tree-x-node
+  border: 2px solid transparent
+  border-style: solid none solid none
 
-.tree-x-node .tree-x-node
-  padding-left: 22px
-
-.tree-x-dropzone
-  &.drop-inline
-    display: block
-    background: rgba(black, 0.1)
-    height: 4px
-
-  &.active
+  &.might-drop-inside
     background: rgba(yellow, 0.5)
+  &.might-drop-above
+    border-top: 2px solid yellow
+  &.might-drop-below
+    border-bottom: 2px solid yellow
+  .tree-x-node
+    padding-left: 24px
+
+.node-label
+  line-height: 24px
+
+.node-label-toggle
+  display: inline-block
+  width: 24px

@@ -5,12 +5,10 @@ export default Ember.Component.extend({
 
   setTree: function() {
     if (this.get('subtree')) {
-      this.reopen({
-        tree: Ember.computed.reads('parentView.tree'),
-      });
-    } else {
-      this.set('tree', this);
+      return;
     }
+
+    this.set('tree', this);
   }.on('init'),
 
   actions: {
