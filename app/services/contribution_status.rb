@@ -11,6 +11,7 @@ class ContributionStatus
 
 
   def can_submit_logo_request?
+    return true if organization.non_business?
     years = Array((current_year - 1)..(current_year + 1))
     years.include?(latest_contributed_year)
   end

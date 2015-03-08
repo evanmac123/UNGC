@@ -1,6 +1,22 @@
 require 'test_helper'
 
 class ContributionStatusQueryTest < ActionController::TestCase
+  context "a single non business organization" do
+    setup do
+      # We don't want to hard code years since these rules are year independent
+      create_non_business_organization_and_user
+      @campaign_past_year = create_campaign(name: "#{Date.today.year - 2} Annual Contributions")
+      @campaign_last_year = create_campaign(name: "#{Date.today.year - 1} Annual Contributions")
+      @campaign_this_year = create_campaign(name: "#{Date.today.year} Annual Contributions")
+      @campaign_next_year = create_campaign(name: "#{Date.today.year + 1} Annual Contributions")
+      @cs = ContributionStatusQuery.for_organization(@organization)
+    end
+    context "An organization with no contributions" do
+      should "be allowed to submit a Logo Request" do
+        assert @cs.can_submit_logo_request?
+      end
+    end
+  end
 
   context "a single organization" do
     setup do
