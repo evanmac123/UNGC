@@ -40,7 +40,7 @@ class ContributionStatus
   end
 
   def campaign_regexp
-    if organization.signatory_of?(:lead)
+    if organization.signatory_of?(:lead) # for a lead organization look at BOTH possible entries
       Regexp.new(YEAR_LEAD_REGEXP.source + "|" +  YEAR_CAMPAIGN_REGEXP.source)
     else
       YEAR_CAMPAIGN_REGEXP
