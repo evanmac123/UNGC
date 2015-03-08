@@ -112,7 +112,9 @@ class SignupController < ApplicationController
   # POST from commitment letter form
   # shows thank you page
   def step7
-    @signup.set_commitment_letter_attributes(commitment_letter_params)
+    if params[:organization] && params[:organization][:commitment_letter]
+      @signup.set_commitment_letter_attributes(commitment_letter_params)
+    end
 
     if @signup.complete_valid?
       @signup.save
