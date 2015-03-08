@@ -177,7 +177,8 @@ class SignupController < ApplicationController
         :isin,
         :sector_id,
         :revenue,
-        :country_id
+        :country_id,
+        :legal_status
       )
     end
 
