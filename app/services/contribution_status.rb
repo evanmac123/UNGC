@@ -41,7 +41,7 @@ class ContributionStatus
 
   def campaign_regexp
     if organization.signatory_of?(:lead)
-      YEAR_LEAD_REGEXP
+      Regexp.new(YEAR_LEAD_REGEXP.source + "|" +  YEAR_CAMPAIGN_REGEXP.source)
     else
       YEAR_CAMPAIGN_REGEXP
     end
@@ -49,7 +49,7 @@ class ContributionStatus
 
   def contributed_years
     campaigns.map do |c|
-      c.name.match(campaign_regexp).try(:[], 1).try(:to_i)
+      c.name.match(campaign_regexp).try(:[], :year).try(:to_i)
     end.reject(&:nil?).sort
   end
 

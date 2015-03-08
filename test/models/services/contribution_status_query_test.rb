@@ -145,6 +145,22 @@ class ContributionStatusQueryTest < ActionController::TestCase
         assert @cs.can_submit_logo_request?
       end
     end
+
+    context "An organization signed onto Global Compact Lead this year and with a normal contribution the past year" do
+      setup do
+        create_initiatives
+        @campaign_lead_this_year = create_campaign(name: "LEAD #{Date.today.year}")
+        @lead = Initiative.for_filter(:lead).first
+        @lead.signings.create signatory: @organization
+        @organization.contributions << create_contribution(raw_amount: 65000, stage: 'Posted', campaign_id: @campaign_lead_this_year.id)
+        @organization.contributions << create_contribution(raw_amount: 5000, stage: 'Posted', campaign_id: @campaign_last_year.id)
+      end
+
+      should "have valid contribution for both years" do
+        assert @cs.contributor_for_year?(Date.today.year)
+        assert @cs.contributor_for_year?(Date.today.year - 1)
+      end
+    end
   end
 
   context "multiple organizations" do
