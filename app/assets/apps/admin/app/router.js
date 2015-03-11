@@ -7,7 +7,10 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('sitemap', { path: '/' });
+  this.resource('containers', { path: '/' }, function() {
+    this.route('new', { path: '/containers/new' });
+    this.route('edit', { path: '/containers/:container_id' });
+  });
 });
 
 export default Router;

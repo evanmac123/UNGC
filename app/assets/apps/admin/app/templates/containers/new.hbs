@@ -1,0 +1,19 @@
+<form {{action "create" on="submit"}} class="form-horizontal">
+  <fieldset>
+    <legend>New Container</legend>
+    <div class="form-group">
+      <label for="kind">Kind</label>
+      {{fast-select
+        items=pageForms
+        selected=model.pageForm
+        labelPath="label"
+        valuePath="id"
+        id="kind"}}
+    </div>
+  </fieldset>
+  <fieldset>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success">Create</button>
+    </div>
+  </fieldset>
+</form>

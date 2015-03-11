@@ -16,8 +16,14 @@ UNGC::Application.routes.draw do
     }
 
   namespace :redesign do
-    get '/admin'       => 'admin/index#ember', as: :admin_root
-    get '/admin/*path' => 'admin/index#ember'
+    namespace :admin do
+      namespace :api, format: :json do
+        resources :page_forms, only: [:index, :show]
+        resources :containers
+      end
+
+      get '/(*path)' => 'index#ember', as: :root, format: :html
+    end
 
     controller :resources do
       get   '/search' => 'search#index'
