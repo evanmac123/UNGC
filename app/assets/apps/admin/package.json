@@ -21,7 +21,7 @@
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.0",
     "broccoli-sass": "^0.2.2",
-    "ember-cli": "git://github.com/ember-cli/ember-cli.git#38ece1473ec4edc6e63175eaa007d008f9f1cd0a",
+    "ember-cli": "0.2.0",
     "ember-cli-babel": "^4.0.0",
     "ember-cli-app-version": "0.3.1",
     "ember-cli-content-security-policy": "0.3.0",
