@@ -1,11 +1,11 @@
-<form {{action "create" on="submit"}} class="form-horizontal">
+<form {{action "save" model.container on="submit"}} class="form-horizontal">
   <fieldset>
     <legend>New Page</legend>
     <div class="form-group">
       <label for="layout">Layout</label>
       {{fast-select
-        items=layouts
-        selected=model.layout
+        items=model.layouts
+        selected=model.container.layoutRecord
         labelPath="label"
         valuePath="id"
         id="layout"}}
