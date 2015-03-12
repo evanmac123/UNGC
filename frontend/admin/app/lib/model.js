@@ -1,21 +1,67 @@
 import Ember from 'ember';
+import transformKeys from 'admin/lib/transform-keys';
 
-var Model = Ember.Object.extend();
+function underscoreKeys(obj) {
+  return transformKeys(obj, (k) => k.underscore());
+}
+
+function camelizeKeys(obj) {
+  return transformKeys(obj, (k) => k.camelize());
+}
+
+var Model = Ember.Object.extend({
+  post: function() {
+    if (this.get('id')) {
+      throw 'can\'t post already created resource';
+    }
+
+    return Ember.$.ajax({
+      url: this.constructor.path,
+      type: 'POST',
+      dataType: 'json',
+      headers: { 'Content-Type': 'application/json' },
+      data: JSON.stringify({
+        data: this.asJSON()
+      })
+    }).then((res) => {
+      return res.data;
+    });
+  },
+
+  type: function() {
+    return this.constructor.type;
+  }.property(),
+
+  setPropertiesFromJSON: function(attrs) {
+    this.setProperties(camelizeKeys(attrs));
+  },
+
+  asJSON() {
+    return underscoreKeys(
+      this.constructor.attributes.reduce((attrs, attr) => {
+        var val = this.get(attr);
+
+        if (val !== undefined) {
+          attrs[attr] = val;
+        }
+
+        return attrs;
+      }, {
+        id:   this.get('id'),
+        type: this.constructor.type
+      })
+    );
+  }
+});
 
 Model.reopenClass({
   path: null,
+  type: null,
 
   materializeRecord(attrs) {
-    var key;
-    var value;
-    var obj = {};
-
-    for (key in attrs) {
-      value = attrs[key];
-      obj[key.camelize()] = value;
-    }
-
-    return this.create(obj);
+    var record = this.create();
+    record.setPropertiesFromJSON(attrs);
+    return record;
   },
 
   get(query) {

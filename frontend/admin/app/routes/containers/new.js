@@ -7,16 +7,22 @@ var RSVP = Ember.RSVP;
 export default Ember.Route.extend({
   model() {
     return RSVP.hash({
-      layouts: Layout.get()
-    }).then(function(props) {
-      props.container = Container.create();
-      return props;
+      layouts:   Layout.get(),
+      container: Container.create()
     });
   },
 
   actions: {
-    save(model) {
-      debugger;
+    save(container) {
+      return container.post().then(
+        function(model) {
+          console.log(model);
+        },
+
+        function(error) {
+          console.log(error);
+        }
+      );
     }
   }
 });
