@@ -60,9 +60,9 @@ module UNGC
     end
   end
 
-  class PageForm
-    def PageForm.inherited(page_form)
-      page_form.init_design!
+  class Layout
+    def Layout.inherited(layout)
+      layout.init_design!
     end
 
     def self.init_design!
@@ -74,7 +74,8 @@ module UNGC
     end
 
     def self.containers
-      ::Redesign::Container.where(kind: ::Redesign::Container.kinds[kind])
+      model = ::Redesign::Container
+      model.where(layout: model.layouts[layout])
     end
 
     def self.containers_count
@@ -97,11 +98,11 @@ module UNGC
       !has_many_containers?
     end
 
-    def self.kind(val = nil)
+    def self.layout(val = nil)
       if val
-        @kind = val.to_sym
+        @layout = val.to_sym
       else
-        @kind
+        @layout ||= to_s.demodulize.sub('Layout', '').underscore
       end
     end
 

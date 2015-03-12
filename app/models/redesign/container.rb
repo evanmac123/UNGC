@@ -1,5 +1,5 @@
 class Redesign::Container < ActiveRecord::Base
-  enum kind: [
+  enum layout: [
     :home
   ]
 
@@ -12,8 +12,8 @@ class Redesign::Container < ActiveRecord::Base
     '/' + raw.to_s.downcase.strip.sub(/\A\/|\Z\//, '')
   end
 
-  def self.lookup(kind, slug = '/')
-    where(kind: self.kinds[kind], slug: normalize_slug(slug)).
+  def self.lookup(layout, slug = '/')
+    where(layout: layouts[layout], slug: normalize_slug(slug)).
       includes(:public_payload, :draft_payload).
       first
   end

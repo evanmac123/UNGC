@@ -1,5 +1,5 @@
 class Redesign::Admin::IndexController < Redesign::Admin::AdminController
-  def ember
+  def frontend
     render text: '', layout: 'redesign/admin'
   end
 end

@@ -1,7 +1,6 @@
-class HomePageForm < UNGC::PageForm
+class HomeLayout < UNGC::Layout
   has_one_container!
 
-  kind  :home_page
   label 'Homepage'
 
   field :title, limit: 100

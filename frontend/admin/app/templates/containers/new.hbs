@@ -1,14 +1,14 @@
 <form {{action "create" on="submit"}} class="form-horizontal">
   <fieldset>
-    <legend>New Container</legend>
+    <legend>New Page</legend>
     <div class="form-group">
-      <label for="kind">Kind</label>
+      <label for="layout">Layout</label>
       {{fast-select
-        items=pageForms
-        selected=model.pageForm
+        items=layouts
+        selected=model.layout
         labelPath="label"
         valuePath="id"
-        id="kind"}}
+        id="layout"}}
     </div>
   </fieldset>
   <fieldset>

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import PageForm from 'admin/models/page-form';
+import Layout from 'admin/models/layout';
 
 var RSVP = Ember.RSVP;
 
@@ -12,7 +12,7 @@ export default Ember.Route.extend({
     var controller = this.controllerFor('containers.new');
 
     return RSVP.hash({
-      pageForms: PageForm.get()
+      layouts: Layout.get()
     }).then(function(props) {
       controller.setProperties(props);
     });

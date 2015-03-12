@@ -18,11 +18,11 @@ UNGC::Application.routes.draw do
   namespace :redesign do
     namespace :admin do
       namespace :api, format: :json do
-        resources :page_forms, only: [:index, :show]
+        resources :layouts, only: [:index, :show]
         resources :containers
       end
 
-      get '/(*path)' => 'index#ember', as: :root, format: :html
+      get '/(*path)' => 'index#frontend', as: :root, format: :html
     end
 
     controller :resources do

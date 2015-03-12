@@ -3,7 +3,7 @@ import Ember from 'ember';
 var Model = Ember.Object.extend();
 
 Model.reopenClass({
-  url: null,
+  path: null,
 
   materializeRecord(attrs) {
     var key;
@@ -27,12 +27,12 @@ Model.reopenClass({
     };
 
     if (type === 'object') {
-      opts.url  = this.url;
+      opts.url  = this.path;
       opts.data = query;
     } else if (type === 'string' || type === 'number') {
-      opts.url = '' + this.url + '/' + query;
+      opts.url = '' + this.path + '/' + query;
     } else {
-      opts.url = this.url;
+      opts.url = this.path;
     }
 
     return Ember.$.ajax(opts).then((res) => {

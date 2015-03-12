@@ -1,4 +1,4 @@
-class Redesign::Admin::ApiController < ApplicationController
+class Redesign::Admin::ApiController < Redesign::Admin::AdminController
   protect_from_forgery with: :null_session
 
   protected
