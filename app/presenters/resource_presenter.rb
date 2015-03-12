@@ -4,6 +4,10 @@ class ResourcePresenter < SimpleDelegator
   end
 
   def human_content_type
-    content_type.humanize.titleize
+    if content_type.present?
+      content_type.humanize.titleize
+    else
+      ''
+    end
   end
 end
