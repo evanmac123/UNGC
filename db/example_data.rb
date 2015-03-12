@@ -298,6 +298,6 @@ module FixtureReplacement
   end
 
   attributes_for :container, class: Redesign::Container do |c|
-    c.kind = :home
+    c.layout = :home
   end
 end

@@ -10,8 +10,8 @@ class Redesign::ApplicationController < ApplicationController
     @current_container
   end
 
-  def set_current_container(kind, slug = '/')
-    @current_container = Redesign::Container.lookup(kind, slug)
+  def set_current_container(layout, slug = '/')
+    @current_container = Redesign::Container.lookup(layout, slug)
   end
 
   def current_payload
