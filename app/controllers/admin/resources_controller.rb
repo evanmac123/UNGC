@@ -27,7 +27,7 @@ class Admin::ResourcesController < AdminController
     if updater.submit
       redirect_to admin_resources_url, notice: 'Resource created.'
     else
-      @resource = updater.resource
+      @resource = ResourcePresenter.new(updater.resource)
       render action: 'new'
     end
   end
@@ -38,6 +38,7 @@ class Admin::ResourcesController < AdminController
     if updater.submit
       redirect_to [:admin, @resource], notice: 'Resource updated.'
     else
+      @resource = ResourcePresenter.new(@resource)
       render action: 'edit'
     end
   end
