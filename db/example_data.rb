@@ -285,7 +285,7 @@ module FixtureReplacement
     c.date = Date.today - rand(999).days
     c.stage = FixtureReplacement.random_string
     c.organization_id = Organization.first.id
-    c.contribution_id = 'test'
+    c.contribution_id = FixtureReplacement.random_string(16)
   end
 
 

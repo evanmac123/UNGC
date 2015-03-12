@@ -15,6 +15,6 @@ class LogoPublication < ActiveRecord::Base
   validates_presence_of :name
   acts_as_tree
 
-  default_scope lambda { order(:name) }
+  default_scope lambda { order('display_order') }
   scope :top_level, lambda { where('parent_id IS NULL') }
 end

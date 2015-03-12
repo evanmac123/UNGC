@@ -5,6 +5,8 @@ class InitiativeContacts2 < SimpleReport
     SELECT DISTINCT
     o.id AS organization_id,
     c.id AS contact_id,
+    c.local_network_id,
+    c.country_id,
     o.name AS organization_name,
     o.joined_on,
     i.added_on AS signed_mandate_on,

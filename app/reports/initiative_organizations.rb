@@ -5,7 +5,7 @@ class InitiativeOrganizations < SimpleReport
     if @options[:initiatives]
       Signing.for_initiative_ids(@options[:initiatives]).joins(:organization => [join_tables] )
     else
-      Signing.for_initiative_ids(Initiative.for_select.map(&:id)).joins(:organization => [join_tables] )
+      Signing.for_initiative_ids(Initiative.map(&:id)).joins(:organization => [join_tables] )
     end
   end
   
