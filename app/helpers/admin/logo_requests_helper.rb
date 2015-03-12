@@ -31,15 +31,5 @@ module Admin::LogoRequestsHelper
         link_to "Return to #{logo_request.state} requests", accepted_admin_logo_requests_path
     end
   end
-  
-  def contribution_status(logo_request)
-    logo_request.organization.contributor_for_year?([2015, 2014]) ? 'Contribution received' : "No contribution received for 2015 - 2014"
-  end
-  
-  def contribution_received?(logo_request)
-    if logo_request.organization.company?
-      logo_request.organization.contributor_for_year?([2015, 2014]) ? '' : image_tag('unchecked.png', height: '15', width: '15')
-    end
-  end
 
 end

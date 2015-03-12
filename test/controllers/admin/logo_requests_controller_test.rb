@@ -128,7 +128,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
       create_organization_and_user
       @organization.approve!
       sign_in @organization_user
-      @requests = stub(includes: stub(order: stub(paginate: stub(each: [], total_pages: 0))))
+      @requests = stub(includes: stub(order: stub(paginate: stub(map: [], each: [], total_pages: 0))))
     end
 
     should "get approved requests" do
@@ -145,7 +145,7 @@ class Admin::LogoRequestsControllerTest < ActionController::TestCase
 
     should "get pending_review requests" do
       LogoRequest.expects(:pending_review).returns(@requests)
-      Signing.expects(:latest_contribution_update).returns(Time.now)
+      ContributionStatusQuery.expects(:for_organizations)
       get :pending_review
       assert_response :success
     end
