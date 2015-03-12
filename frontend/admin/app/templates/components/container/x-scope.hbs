@@ -1,0 +1,7 @@
+{{#if array}}
+  {{#each scopeData as |obj|}}
+    {{yield obj}}
+  {{/each}}
+{{else}}
+  {{yield scopeData}}
+{{/if}}

@@ -1,1 +1,30 @@
-<h2>New Homepage</h2>
+<h2>Homepage</h2>
+
+{{#container/x-scope data=model.container.data as |data|}}
+  <fieldset>
+    <legend>Hero</legend>
+    {{#container/x-scope key="hero" data=data as |d|}}
+      {{container/x-field key="image" type="image-upload" data=d}}
+      {{container/x-field key="theme" type="hero-theme-select" data=d}}
+      {{container/x-field key="title" type="string" array=true min=2 max=2 data=d}}
+      {{container/x-field key="blurb" type="string" data=d}}
+
+      {{#container/x-scope key="link" data=data as |dd|}}
+        {{container/x-field key="label" type="string" data=dd}}
+        {{container/x-field key="url" type="href" data=dd}}
+      {{/container/x-scope}}
+
+      {{container/x-field key="showIssuesNav" type="boolean" default=true data=d}}
+    {{/container/x-scope}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Stats</legend>
+    {{#container/x-scope tagName="ol" key="stats" array=true min=3 max=3 data=data as |d|}}
+      <li class="stats-group">
+        {{container/x-field key="value" type="string" data=d}}
+        {{container/x-field key="label" type="string" data=d}}
+      </li>
+    {{/container/x-scope}}
+  </fieldset>
+{{/container/x-scope}}

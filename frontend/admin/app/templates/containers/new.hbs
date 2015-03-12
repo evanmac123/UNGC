@@ -1,24 +1,27 @@
-<form {{action "save" model.container on="submit"}} class="form-horizontal">
-  <fieldset>
-    <legend>New Page</legend>
-    <div class="form-group">
-      <label for="layout">Layout</label>
-      {{fast-select
-        items=model.layouts
-        selected=model.container.layoutRecord
-        labelPath="label"
-        valuePath="id"
-        id="layout"}}
-    </div>
-  </fieldset>
+<section class="container">
+  <form {{action "save" model.container on="submit"}} class="form-horizontal">
+    <fieldset>
+      <legend>New Page</legend>
+      <div class="form-group">
+        <label for="layout" class="control-label">Layout</label>
+        {{fast-select
+          items=model.layouts
+          selected=model.container.layoutRecord
+          labelPath="label"
+          valuePath="id"
+          class="form-control"
+          id="layout"}}
+      </div>
+    </fieldset>
 
-  {{#if formTemplatePath}}
-    {{partial formTemplatePath}}
-  {{/if}}
+    {{#if formTemplatePath}}
+      {{partial formTemplatePath}}
+    {{/if}}
 
-  <fieldset>
-    <div class="form-group">
-      <button type="submit" class="btn btn-success">Create</button>
-    </div>
-  </fieldset>
-</form>
+    <fieldset>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">Create</button>
+      </div>
+    </fieldset>
+  </form>
+</section>
