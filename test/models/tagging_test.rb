@@ -2,8 +2,7 @@ require 'test_helper'
 
 class TaggingTest < ActiveSupport::TestCase
 
-  def initialize(*args)
-    super(*args)
+  setup do
     create_organization_type
     create_organization
   end
