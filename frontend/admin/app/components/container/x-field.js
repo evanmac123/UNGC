@@ -33,11 +33,11 @@ export default Ember.Component.extend({
     return `x-field-${Ember.generateGuid()}`;
   }.property(),
 
-  fieldTemplatePath: Ember.computed('type', function() {
+  fieldComponentName: Ember.computed('type', function() {
     var type = this.get('type');
 
     Ember.assert(`type "${type}" isn't in the list`, TYPES[type]);
 
-    return `components/container/x-field/${type}`;
+    return `container/fields/x-${type}`;
   })
 });

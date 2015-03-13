@@ -1,1 +1,5 @@
-{{partial fieldTemplatePath}}
+{{#if template}}
+  {{yield this}}
+{{else}}
+  {{component fieldComponentName field=this}}
+{{/if}}

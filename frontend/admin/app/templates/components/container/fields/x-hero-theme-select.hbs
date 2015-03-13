@@ -1,0 +1,12 @@
+<div class="form-group">
+  <label class="control-label col-sm-2" for={{uid}}>
+    {{field.label}}
+  </label>
+  <div class="col-sm-10">
+    {{fast-select
+      id=field.uid
+      items=items
+      selected=field.value
+      class="form-control"}}
+  </div>
+</div>
