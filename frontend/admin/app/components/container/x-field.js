@@ -29,7 +29,7 @@ export default Ember.Component.extend({
     this.set('label', titlecase(this.get('key')));
   }.on('init'),
 
-  controlUID: function() {
+  uid: function() {
     return `x-field-${Ember.generateGuid()}`;
   }.property(),
 

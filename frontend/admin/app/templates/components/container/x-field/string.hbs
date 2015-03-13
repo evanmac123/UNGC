@@ -1,4 +1,11 @@
 <div class="form-group">
-  <label for={{controlUID}}>{{label}}</label>
-  {{input id=controlUID type="text" value=value class="form-control"}}
+  <label class="control-label col-sm-2" for={{uid}}>{{label}}</label>
+  <div class="col-sm-10">
+    {{input
+      id=uid
+      type="text"
+      value=value
+      maxlength=limit
+      class="form-control"}}
+  </div>
 </div>
