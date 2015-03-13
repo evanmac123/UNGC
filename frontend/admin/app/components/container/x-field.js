@@ -6,6 +6,7 @@ const TYPES = {
   'boolean':           true,
   'image-upload':      true,
   'hero-theme-select': true,
+  'tile-color-select': true,
   'text':              true,
   'html':              true,
   'href':              true
@@ -16,9 +17,29 @@ export default Ember.Component.extend({
   label: null,
 
   connectValue: function() {
+    var defaultValue;
+    var value;
+
     this.reopen({
       value: Ember.computed.alias(`data.${this.get('key')}`)
     });
+
+    defaultValue = this.get('default');
+    value        = this.get('value');
+
+    if (!defaultValue) {
+      return;
+    }
+
+    if (!Ember.isNone(value)) {
+      return;
+    }
+
+    if (this.get('type') === 'boolean' && !defaultValue) {
+      defaultValue = false;
+    }
+
+    this.set('value', defaultValue);
   }.on('init'),
 
   initLabel: function() {
