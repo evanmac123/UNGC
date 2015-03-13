@@ -1,22 +1,53 @@
 class HomeLayout < UNGC::Layout
+  COLORS = %w[
+    light-blue
+    light-green
+    teal
+    green
+    orange
+    pastel-blue
+  ]
+
+  THEMES = %w[
+    light
+    dark
+  ]
+
   has_one_container!
 
   label 'Homepage'
+  layout :home
 
-  field :title, limit: 100
-  field :main_heading, limit: 100
-  field :main_text, limit: 500
-  field :main_button_caption, limit: 20
-  field :main_button_path
+  scope :hero do
+    field :image, type: :image_url
+    field :theme, type: :enum, values: THEMES, default: 'light'
+    field :title, type: :string, required: true
+    field :blurb, type: :string, array: true, min: 2, max: 2
 
-  has 5, :main_links do
-    field :label, limit: 20
-    field :path,  limit: 20
-    field :icon,  limit: 100
+    scope :link do
+      field :label, type: :string
+      field :url,   type: :href, required: ->(s) { s[:label].present? }
+    end
+
+    field :show_issues_nav, type: :boolean, default: true
   end
 
-  has 3, :stats do
-    field :number, limit: 16
-    field :label, limit: 30
+  scope :stats, array: true, min: 3, max: 3 do
+    field :value, type: :string
+    field :label, type: :string
+  end
+
+  scope :tiles, array: true, min: 3, max: 8 do
+    field :color,    type: :enum, values: COLORS, default: 'light-blue'
+    field :bg_image, type: :image_url
+    field :title,    type: :string
+
+    scope :link do
+      field :label, type: :string
+      field :url,   type: :href, required: ->(s) { s[:label].present? }
+    end
+
+    field :double_width,  type: :boolean
+    field :double_height, type: :boolean
   end
 end
