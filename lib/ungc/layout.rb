@@ -36,7 +36,7 @@ module UNGC
     end
 
     def self.max_containers
-      @max_containers ||= Infinity
+      @max_containers ||= Float::INFINITY
     end
 
     def self.has_many_containers?
@@ -52,8 +52,51 @@ module UNGC
       containers.count
     end
 
-    def initialize(data)
-      @root_scope = self.class.root_scope
+    attr_reader :data, :errors
+
+    def initialize(attrs = {})
+      @scope  = self.class.root_scope
+      @errors = []
+
+      load(attrs)
+    end
+
+    def load(attrs)
+      @attrs = attrs
+      @data  = {}
+      @errors.clear
+
+      load_scope(@scope, @attrs, @data)
+
+      self
+    end
+
+    def as_json(*args)
+      @data
+    end
+
+    private
+
+    def load_scope(scope, source, dest)
+      scope.slots.each_pair do |key, slot|
+        val = (source[key.to_s] || source[key.to_sym])
+
+        case slot
+        when UNGC::Field
+          dest[key] = slot.apply(val)
+        when UNGC::Scope
+          ctx       = slot.array? ? [] : {}
+          dest[key] = ctx
+
+          if val.is_a?(Array)
+            val.each { |v| ctx << load_scope(slot, v, {}) }
+          else
+            load_scope(slot, val, ctx)
+          end
+        end
+      end
+
+      dest
     end
   end
 
@@ -70,8 +113,16 @@ module UNGC
       end
     end
 
-    def root?
-      !@key
+    def array?
+      @opts[:array] ? true : false
+    end
+
+    def required?
+      @opts[:required] ? true : false
+    end
+
+    def optional?
+      !required?
     end
 
     def scope(key, opts = {}, &block)
@@ -86,6 +137,18 @@ module UNGC
   class Field
     def initialize(key, opts = {})
       @type = Type.lookup(opts[:type])
+    end
+
+    def required?
+      @opts[:required] ? true : false
+    end
+
+    def optional?
+      !required?
+    end
+
+    def apply(raw)
+      @type.apply(raw)
     end
   end
 
@@ -120,7 +183,7 @@ module UNGC
     end
 
     def bad!(msg)
-      raise UNGC::InvalidKeyError, msg
+      raise UNGC::InvalidValueError, msg
     end
 
     def apply(raw)
