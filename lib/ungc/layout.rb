@@ -71,6 +71,10 @@ module UNGC
       self
     end
 
+    def valid?
+      errors.empty?
+    end
+
     def as_json(*args)
       @data
     end
@@ -101,7 +105,7 @@ module UNGC
   end
 
   class Scope
-    attr_reader :slots, :key
+    attr_reader :slots, :key, :path
 
     def initialize(key = nil, opts = {}, &block)
       @key   = key
@@ -110,6 +114,18 @@ module UNGC
 
       if block_given?
         instance_exec(&block)
+      end
+    end
+
+    def parent
+      @opts[:parent]
+    end
+
+    def path
+      if @key
+        parent && parent.path ? "#{parent.path}.#{@key}" : @key.to_s
+      else
+        nil
       end
     end
 
@@ -209,8 +225,6 @@ module UNGC
         raw.blank? ? nil : raw.to_s
       end
     end
-
-    register :enum
 
     register :boolean do
       cast do |raw|
