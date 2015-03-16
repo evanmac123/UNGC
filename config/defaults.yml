@@ -44,8 +44,8 @@ production:
   salesforce:
     :host: 'na18.salesforce.com'
     :username: 'salesforce@unglobalcompact.org'
-    :password: '5@l3sf0rc3ungc'
-    :token: 'Pi3IiLeHKHjgqhxiZENpZ2jy1'
+    :password: '5@l35f0rc3ungc'
+    :token: 'FKyYPDzHNL4ETkE0w8dJh84b'
     :client_id: '3MVG9yZ.WNe6byQA3.eubyLjVXqbjVD.LVqC4SvP4zG6qovb77mwdCwgjK3mCXStC2TMqs17Q400NSGt6e.TK'
     :client_secret: '4153199578286720849'
     :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
