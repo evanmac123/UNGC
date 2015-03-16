@@ -22,11 +22,11 @@ class InitiativeOrganizations < SimpleReport
   end
 
   def organization_count
-    records.map(&:organization_id).uniq.count
+    records.map { |r| r.organization.id }.uniq.count
   end
 
   def initiative_count
-    records.map(&:initiative_id).uniq.count
+    records.map { |r| r.initiative.id }.uniq.count
   end
 
   def headers
