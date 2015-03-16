@@ -4,6 +4,7 @@
 /.vagrant
 /config/database.yml
 /config/development.sphinx.conf
+/config/secrets.yml
 /coverage.data
 /coverage/*
 /db/*.db
