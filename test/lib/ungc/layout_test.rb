@@ -13,7 +13,7 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
 
     should 'enforce a single container to be specified' do
       layout = extend_layout { has_one_container! }
-      assert !layout.has_many_containers?
+      refute layout.has_many_containers?
     end
 
     should 'have a label' do
@@ -96,30 +96,69 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
     error   = invalid.errors[0]
 
     assert valid.valid?
-    assert !invalid.valid?
+    refute invalid.valid?
 
     assert_equal :invalid, error[:code]
     assert_equal 'test', error[:path]
     assert_equal 'can not exceed 8 characters', error[:detail]
   end
 
-  should 'validate objects within arrays' do
+  should 'validate array containers' do
     layout = extend_layout do
-      scope :tests, array: true, size: 2 do
-        field :a, type: :string
+      scope :stuff do
+        scope :tests, array: true, size: 2 do
+          field :a, type: :string
+        end
       end
     end
 
-    valid    = layout.new(tests: [{ a: 'hi' }, { a: 'yo' }])
-    invalid1 = layout.new(tests: [{ a: 'hi' }])
-    invalid2 = layout.new(tests: nil)
-    invalid3 = layout.new(tests: [])
-    invalid4 = layout.new(tests: [{ a: 'hi' }, { a: 'bye' }, { a: 'yo' }])
+    valid    = layout.new(stuff: { tests: [{ a: 'hi' }, { a: 'yo' }] })
+    invalid1 = layout.new(stuff: { tests: [{ a: 'hi' }] })
+    invalid2 = layout.new(stuff: { tests: nil })
+    invalid3 = layout.new(stuff: { tests: [] })
+    invalid4 = layout.new(stuff: { tests: [{ a: 'hi' }, { a: 'bye' }, { a: 'yo' }] })
 
     assert valid.valid?, 'correct number of items is valid'
-    assert !invalid1.valid?, 'too few items is invalid'
-    assert !invalid2.valid?, 'no array is invalid'
-    assert !invalid3.valid?, 'an empty array is invalid'
-    assert !invalid4.valid?, 'too many items is invalid'
+    refute invalid1.valid?, 'too few items is invalid'
+    refute invalid2.valid?, 'no array is invalid'
+    refute invalid3.valid?, 'an empty array is invalid'
+    refute invalid4.valid?, 'too many items is invalid'
+
+    assert_equal 1, invalid1.errors.size
+    assert_equal 'stuff.tests', invalid1.errors[0][:path]
+  end
+
+  should 'validate fields of objects inside of array containers' do
+    layout = extend_layout do
+      scope :outside do
+        scope :insides, array: true do
+          field :a, type: :string, limit: 5
+          field :b, type: :string, enum: %w[a b c]
+          field :c, type: :boolean
+        end
+      end
+    end
+
+    valid = layout.new(
+      outside: {
+        insides: [
+          { a: 'hi', b: 'a', c: true },
+          { a: 'yo', b: 'b', c: false }
+        ]
+      }
+    )
+
+    invalid = layout.new(
+      outside: {
+        insides: [
+          { a: 'hi', b: 'a', c: true },
+          { a: 'hihihi', b: 'b', c: true}
+        ]
+      }
+    )
+
+    assert valid.valid?, 'correct payload is correct'
+    refute invalid.valid?, 'incorrect payload is incorrect'
+    assert_equal 'outside.insides.[1].a', invalid.errors[0][:path]
   end
 end
