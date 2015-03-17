@@ -72,15 +72,6 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
     assert_equal layout.as_json[:array][2][:value], 'neat'
   end
 
-  should 'validate max length of text fields' do
-    layout = extend_layout do
-      field :test, type: :string, limit: 10
-    end
-
-    assert layout.new(test: '12345678').valid?
-    assert !layout.new(test: '12345678910').valid?
-  end
-
   should 'compile path information for scopes' do
     layout = extend_layout do
       scope :plants do
@@ -93,5 +84,42 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
     scope = layout.root_scope
 
     assert_equal scope.slots[:plants].slots[:fruits].path, 'plants.fruits'
+  end
+
+  should 'validate max length of text fields' do
+    layout = extend_layout do
+      field :test, type: :string, limit: 8
+    end
+
+    valid   = layout.new(test: '12345678')
+    invalid = layout.new(test: '123456789')
+    error   = invalid.errors[0]
+
+    assert valid.valid?
+    assert !invalid.valid?
+
+    assert_equal :invalid, error[:code]
+    assert_equal 'test', error[:path]
+    assert_equal 'can not exceed 8 characters', error[:detail]
+  end
+
+  should 'validate objects within arrays' do
+    layout = extend_layout do
+      scope :tests, array: true, size: 2 do
+        field :a, type: :string
+      end
+    end
+
+    valid    = layout.new(tests: [{ a: 'hi' }, { a: 'yo' }])
+    invalid1 = layout.new(tests: [{ a: 'hi' }])
+    invalid2 = layout.new(tests: nil)
+    invalid3 = layout.new(tests: [])
+    invalid4 = layout.new(tests: [{ a: 'hi' }, { a: 'bye' }, { a: 'yo' }])
+
+    assert valid.valid?, 'correct number of items is valid'
+    assert !invalid1.valid?, 'too few items is invalid'
+    assert !invalid2.valid?, 'no array is invalid'
+    assert !invalid3.valid?, 'an empty array is invalid'
+    assert !invalid4.valid?, 'too many items is invalid'
   end
 end

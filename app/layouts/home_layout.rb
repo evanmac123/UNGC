@@ -32,12 +32,12 @@ class HomeLayout < UNGC::Layout
     field :show_issues_nav, type: :boolean, default: true
   end
 
-  scope :stats, array: true, min: 3, max: 3 do
+  scope :stats, array: true, size: 3 do
     field :value, type: :string, limit: 20
     field :label, type: :string, limit: 20
   end
 
-  scope :tiles, array: true, min: 3, max: 8 do
+  scope :tiles, array: true, size: 6 do
     field :color,    type: :enum, values: COLORS, default: 'light-blue'
     field :bg_image, type: :image_url
     field :title,    type: :string, limit: 100
