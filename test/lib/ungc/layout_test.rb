@@ -86,83 +86,83 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
     assert_equal scope.slots[:plants].slots[:fruits].path, 'plants.fruits'
   end
 
-  should 'validate max length of text fields' do
-    layout = extend_layout do
-      field :test, type: :string, limit: 8
-    end
-
-    valid   = layout.new(test: '12345678')
-    invalid = layout.new(test: '123456789')
-    error   = invalid.errors[0]
-
-    assert valid.valid?
-    refute invalid.valid?
-
-    assert_equal :invalid, error[:code]
-    assert_equal 'test', error[:path]
-    assert_equal 'can not exceed 8 characters', error[:detail]
-  end
-
-  should 'validate array containers' do
-    layout = extend_layout do
-      scope :stuff do
-        scope :tests, array: true, size: 2 do
-          field :a, type: :string
-        end
-      end
-    end
-
-    valid    = layout.new(stuff: { tests: [{ a: 'hi' }, { a: 'yo' }] })
-    invalid1 = layout.new(stuff: { tests: [{ a: 'hi' }] })
-    invalid2 = layout.new(stuff: { tests: nil })
-    invalid3 = layout.new(stuff: { tests: [] })
-    invalid4 = layout.new(stuff: { tests: [{ a: 'hi' }, { a: 'bye' }, { a: 'yo' }] })
-
-    assert valid.valid?, 'correct number of items is valid'
-    refute invalid1.valid?, 'too few items is invalid'
-    refute invalid2.valid?, 'no array is invalid'
-    refute invalid3.valid?, 'an empty array is invalid'
-    refute invalid4.valid?, 'too many items is invalid'
-
-    assert_equal 1, invalid1.errors.size
-    assert_equal 'stuff.tests', invalid1.errors[0][:path]
-  end
-
-  should 'validate fields of objects inside of array containers' do
-    layout = extend_layout do
-      scope :outside do
-        scope :insides, array: true do
-          field :a, type: :string, limit: 5
-          field :b, type: :string, enum: %w[a b c]
-          field :c, type: :boolean
-        end
-      end
-    end
-
-    valid = layout.new(
-      outside: {
-        insides: [
-          { a: 'hi', b: 'a', c: true },
-          { a: 'yo', b: 'b', c: false }
-        ]
-      }
-    )
-
-    invalid = layout.new(
-      outside: {
-        insides: [
-          { a: 'hi', b: 'a', c: true },
-          { a: 'hihihi', b: 'b', c: true}
-        ]
-      }
-    )
-
-    assert valid.valid?, 'correct payload is correct'
-    refute invalid.valid?, 'incorrect payload is incorrect'
-    assert_equal 'outside.insides.[1].a', invalid.errors[0][:path]
-  end
-
   context '(validations)' do
+    should 'validate max length of text fields' do
+      layout = extend_layout do
+        field :test, type: :string, limit: 8
+      end
+
+      valid   = layout.new(test: '12345678')
+      invalid = layout.new(test: '123456789')
+      error   = invalid.errors[0]
+
+      assert valid.valid?
+      refute invalid.valid?
+
+      assert_equal :invalid, error[:code]
+      assert_equal 'test', error[:path]
+      assert_equal 'can not exceed 8 characters', error[:detail]
+    end
+
+    should 'validate array containers' do
+      layout = extend_layout do
+        scope :stuff do
+          scope :tests, array: true, size: 2 do
+            field :a, type: :string
+          end
+        end
+      end
+
+      valid    = layout.new(stuff: { tests: [{ a: 'hi' }, { a: 'yo' }] })
+      invalid1 = layout.new(stuff: { tests: [{ a: 'hi' }] })
+      invalid2 = layout.new(stuff: { tests: nil })
+      invalid3 = layout.new(stuff: { tests: [] })
+      invalid4 = layout.new(stuff: { tests: [{ a: 'hi' }, { a: 'bye' }, { a: 'yo' }] })
+
+      assert valid.valid?, 'correct number of items is valid'
+      refute invalid1.valid?, 'too few items is invalid'
+      refute invalid2.valid?, 'no array is invalid'
+      refute invalid3.valid?, 'an empty array is invalid'
+      refute invalid4.valid?, 'too many items is invalid'
+
+      assert_equal 1, invalid1.errors.size
+      assert_equal 'stuff.tests', invalid1.errors[0][:path]
+    end
+
+    should 'validate fields of objects inside of array containers' do
+      layout = extend_layout do
+        scope :outside do
+          scope :insides, array: true do
+            field :a, type: :string, limit: 5
+            field :b, type: :string, enum: %w[a b c]
+            field :c, type: :boolean
+          end
+        end
+      end
+
+      valid = layout.new(
+        outside: {
+          insides: [
+            { a: 'hi', b: 'a', c: true },
+            { a: 'yo', b: 'b', c: false }
+          ]
+        }
+      )
+
+      invalid = layout.new(
+        outside: {
+          insides: [
+            { a: 'hi', b: 'a', c: true },
+            { a: 'hihihi', b: 'b', c: true}
+          ]
+        }
+      )
+
+      assert valid.valid?, 'correct payload is correct'
+      refute invalid.valid?, 'incorrect payload is incorrect'
+      assert_equal 'outside.insides.[1].a', invalid.errors[0][:path]
+    end
+
     should 'enforce required fields' do
       layout = extend_layout do
         field :need_me, type: :boolean, required: true
@@ -195,6 +195,18 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
 
       assert_equal 1, invalid.errors.size
       assert_equal 'must be in the list: a, b, c', invalid.errors[0][:detail]
+    end
+  end
+
+  context '(defaults)' do
+    should 'set default values in the case a value was excluded' do
+      layout = extend_layout do
+        field :test, type: :string, default: 'yo'
+      end
+
+      json = layout.new.as_json
+
+      assert_equal 'yo', json[:test]
     end
   end
 end

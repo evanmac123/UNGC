@@ -33,21 +33,21 @@ class HomeLayout < UNGC::Layout
   end
 
   scope :stats, array: true, size: 3 do
-    field :value, type: :string, limit: 20
-    field :label, type: :string, limit: 20
+    field :value, type: :string, limit: 20, required: true
+    field :label, type: :string, limit: 20, required: true
   end
 
   scope :tiles, array: true, size: 6 do
-    field :color,    type: :enum, values: COLORS, default: 'light-blue'
+    field :color,    type: :string, enum: COLORS, default: 'light-blue', required: true
     field :bg_image, type: :image_url
-    field :title,    type: :string, limit: 100
+    field :title,    type: :string, limit: 100, required: true
 
     scope :link do
       field :label, type: :string, limit: 25
-      field :url,   type: :href, required: ->(s) { s[:label].present? }
+      field :url,   type: :href
     end
 
-    field :double_width,  type: :boolean
-    field :double_height, type: :boolean
+    field :double_width,  type: :boolean, default: false
+    field :double_height, type: :boolean, default: false
   end
 end

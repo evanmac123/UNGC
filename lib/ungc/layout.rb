@@ -294,6 +294,7 @@ module UNGC
         @cast = block
       else
         val = @cast ? @cast.(raw, opts) : raw
+        val = opts[:default] if opts[:default] && val.nil?
         validate(val, opts)
         val
       end
