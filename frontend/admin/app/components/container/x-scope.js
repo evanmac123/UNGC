@@ -66,7 +66,7 @@ export default Ember.Component.extend({
     }
 
     if (!isArray) {
-      this.set(prop, {});
+      this.set(prop, Ember.Object.create());
       return;
     }
 
@@ -76,7 +76,7 @@ export default Ember.Component.extend({
 
     if (min) {
       for (i = 0; i < min; i++) {
-        ary.push({});
+        ary.push(Ember.Object.create());
       }
     }
 

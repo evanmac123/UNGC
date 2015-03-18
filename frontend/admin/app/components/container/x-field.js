@@ -35,7 +35,7 @@ export default Ember.Component.extend({
       return;
     }
 
-    if (this.get('type') === 'boolean' && !defaultValue) {
+    if (this.get('type') === 'boolean' && Ember.isNone(defaultValue)) {
       defaultValue = false;
     }
 

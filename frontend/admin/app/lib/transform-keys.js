@@ -1,23 +1,18 @@
-function transformKeys(obj, transform) {
-  var key;
-  var value;
-  var json = {};
+import Ember from 'ember';
 
-  for (key in obj) {
-    if (!obj.hasOwnProperty(key) || key === 'toString') {
-      continue;
-    }
+function transformKeys(src, transform) {
+  var type = Ember.typeOf(src);
 
-    if (typeof obj[key] === 'object') {
-      value = transformKeys(obj[key], transform);
-    } else {
-      value = obj[key];
-    }
-
-    json[transform(key)] = value;
+  if (type === 'array') {
+    return src.map((e) => transformKeys(e, transform));
+  } else if (type === 'instance' || type === 'object') {
+    return Ember.keys(src).reduce(function(obj, key) {
+      obj[transform(key)] = transformKeys(Ember.get(src, key), transform);
+      return obj;
+    }, {});
+  } else {
+    return src;
   }
-
-  return json;
 }
 
 export default transformKeys;

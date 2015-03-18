@@ -12,6 +12,11 @@ export default Ember.Route.extend({
     });
   },
 
+  afterModel(model) {
+    var layout = model.layouts.get('firstObject');
+    model.container.set('layoutRecord', layout);
+  },
+
   actions: {
     save(container) {
       return container.post().then(

@@ -9,6 +9,21 @@ function camelizeKeys(obj) {
   return transformKeys(obj, (k) => k.camelize());
 }
 
+function pojoize(src) {
+  var type = Ember.typeOf(src);
+
+  if (type === 'array') {
+    return src.map((e) => pojoize(e));
+  } else if (type === 'instance' || type === 'object') {
+    return Ember.keys(src).reduce(function(json, key) {
+      json[key] = pojoize(Ember.get(src, key));
+      return json;
+    }, {});
+  } else {
+    return src;
+  }
+}
+
 var Model = Ember.Object.extend({
   post: function() {
     if (this.get('id')) {
@@ -37,19 +52,25 @@ var Model = Ember.Object.extend({
   },
 
   asJSON() {
+    var json = {};
+    var id;
+
+    if (id = this.get('id')) {
+      json.id = id;
+    }
+
+    json.type = this.constructor.type;
+
     return underscoreKeys(
       this.constructor.attributes.reduce((attrs, attr) => {
         var val = this.get(attr);
 
         if (val !== undefined) {
-          attrs[attr] = val;
+          attrs[attr] = pojoize(val);
         }
 
         return attrs;
-      }, {
-        id:   this.get('id'),
-        type: this.constructor.type
-      })
+      }, json)
     );
   }
 });
