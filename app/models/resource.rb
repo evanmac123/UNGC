@@ -51,14 +51,12 @@ class Resource < ActiveRecord::Base
            }
   enum content_type: [ :academic_literature,
                        :case_study,
-                       :data_visualization,
                        :guidance,
-                       :link,
-                       :toolkit,
-                       :training,
-                       :report,
                        :meeting_report,
                        :newsletter,
+                       :report,
+                       :toolkit,
+                       :training,
                        :webinar]
 
   scope :update_required, lambda { where("content_type IS NULL") }
