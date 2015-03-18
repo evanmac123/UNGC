@@ -276,7 +276,7 @@ module UNGC
         return
       end
 
-      if opts[:required] && val.blank?
+      if opts[:required] && (val != false && val.blank?)
         bad! "must be provided"
       end
 
@@ -285,7 +285,7 @@ module UNGC
       end
 
       if opts[:enum] && !opts[:enum].include?(val)
-        bad! "must be in the list: #{enum.join(', ')}"
+        bad! "must be in the list: #{opts[:enum].join(', ')}"
       end
     end
 

@@ -161,4 +161,40 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
     refute invalid.valid?, 'incorrect payload is incorrect'
     assert_equal 'outside.insides.[1].a', invalid.errors[0][:path]
   end
+
+  context '(validations)' do
+    should 'enforce required fields' do
+      layout = extend_layout do
+        field :need_me, type: :boolean, required: true
+      end
+
+      valid   = layout.new(need_me: false)
+      invalid = layout.new(lole: true)
+
+      assert valid.valid?,   'payload with required param is valid'
+      refute invalid.valid?, 'payload without required param is invalid'
+
+      assert_equal 1, invalid.errors.size
+
+      error = invalid.errors[0]
+
+      assert_equal 'need_me', error[:path]
+      assert_equal 'must be provided', error[:detail]
+    end
+
+    should 'enforce enum fields' do
+      layout = extend_layout do
+        field :test, type: :string, enum: %w[a b c], required: true
+      end
+
+      valid   = layout.new(test: 'b')
+      invalid = layout.new(test: 'd')
+
+      assert valid.valid?
+      refute invalid.valid?
+
+      assert_equal 1, invalid.errors.size
+      assert_equal 'must be in the list: a, b, c', invalid.errors[0][:detail]
+    end
+  end
 end
