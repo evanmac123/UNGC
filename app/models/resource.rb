@@ -61,6 +61,8 @@ class Resource < ActiveRecord::Base
                        :meeting_presentation,
                        :webinar]
 
+  scope :update_required, lambda { where("content_type IS NULL") }
+
   def self.with_principles_count
     select("resources.*, count(principles_resources.principle_id) as principles_count")
     .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
