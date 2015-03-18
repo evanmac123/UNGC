@@ -56,9 +56,9 @@ class Resource < ActiveRecord::Base
                        :link,
                        :toolkit,
                        :training,
-                       :un_global_compact_report,
+                       :report,
                        :meeting_report,
-                       :meeting_presentation,
+                       :newsletter,
                        :webinar]
 
   scope :update_required, lambda { where("content_type IS NULL") }
