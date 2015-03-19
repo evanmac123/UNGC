@@ -1,0 +1,23 @@
++font-face("Flama Book", "Flama-Book", $file-formats: eot woff, $asset-pipeline: true)
++font-face("Flama Bold", "Flama-Bold", bold, $file-formats: eot woff, $asset-pipeline: true)
++font-face("Flama Condensed Bold", "FlamaCondensed-Bold", bold, $file-formats: eot woff, $asset-pipeline: true)
++font-face("Flama Condensed Medium", "FlamaCondensed-Medium", 500, $file-formats: eot woff, $asset-pipeline: true)
+
+$helvetica:               'Helvetica Neue', Helvetica, Arial, sans-serif
+$roboto:                  'Roboto', $helvetica
+$roboto-condensed:        'Roboto Condensed', $helvetica
+$flama-book:              'Flama Book', $roboto
+$flama-bold:              'Flama Bold', $roboto
+$flama-condensed-medium:  'Flama Condensed Medium', $roboto-condensed
+$flama-condensed-bold:    'Flama Condensed Bold', $roboto-condensed
+
+=font-smoothing($value)
+  @if $value == antialiased
+    -webkit-font-smoothing:   antialiased
+    -moz-osx-font-smoothing:  greyscale
+  @else if $value == none
+    -webkit-font-smoothing:   none
+    -moz-osx-font-smoothing:  none
+  @else
+    -webkit-font-smoothing:   subpixel-antialiased
+    -moz-osx-font-smoothing:  auto

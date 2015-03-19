@@ -1,0 +1,110 @@
+.resource-blocks
+  ul
+    list-style: none
+    padding: 0
+    +clearfix
+
+.resource-blocks-header
+  position: relative
+  padding: 0 0 .5em
+
+  h1
+    margin: 0 12% 0
+
+  .view-all
+    display: block
+    position: absolute
+    bottom: .7em
+    right: 5%
+    font:
+      size: 1.125em
+      family: $flama-bold
+    text-transform: uppercase
+    color: color('grey')
+
+    &:after
+      +fa-icon
+      content: $fa-var-play-circle
+      margin-left: .25em
+
+    &:hover,
+    &:active
+      color: color('teal')
+
+.resource-block
+  float: left
+  position: relative
+  width: 33.333%
+  padding: 33.333% 0 0
+  border: 1px solid white
+  margin: 0
+
+.resource-block-link
+  display: block
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  overflow: hidden
+  background: #eee
+  +transition-property(background-color color)
+  +transition-duration(150ms)
+
+  &.document
+    img
+      display: block
+      position: absolute
+      top: 10%
+      left: 0
+      right: 0
+      width: 80%
+      margin: auto
+      box-shadow: 0 1px 6px #bbb
+
+    h2
+      position: absolute
+      left: 0
+      right: 0
+      bottom: 0
+      padding: 1em 1.5em 1.2em
+      margin: 0
+      background:
+        color: rgba(black, .6)
+        blend-mode: multiply
+      color: white
+      font-size: 1.125em
+      line-height: 1.3
+      text:
+        shadow: 0 1px 2px black
+        overflow: ellipsis
+      overflow: hidden
+      +transition(background-color 150ms)
+
+  &:hover,
+  &:active
+    background: lighten(color('pastel-blue'), 20%)
+
+    h2
+      background-color: rgba(black, .9)
+
+  &:active
+    &,
+    h2
+      +transition-duration(0ms)
+
+.resource-block-tag
+  display: block
+  position: absolute
+  top: 2.5%
+  right: 0
+  background: rgba(black, .7)
+  color: white
+  padding: .25em 1em
+  font:
+    family: $flama-condensed-medium
+    weight: 500
+  text:
+    transform: uppercase
+    shadow: 0 1px 2px black
+  box-shadow: 0 0 5px white

@@ -1,0 +1,12 @@
+$gutter: .15625%;
+$column: (100% - ($gutter * 11)) / 12;
+
+
+@function columns($n) {
+  @if $n == 1 {
+    @return $column;
+  }
+  @else {
+    @return ($column * $n) + ($gutter * ($n - 1))
+  }
+};

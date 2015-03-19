@@ -1,0 +1,166 @@
+#hero
+  position: relative
+  padding: 14em 0 6em
+  background: lighten(color('pastel-blue'), 15%) url('/assets/images/hero/world.png') no-repeat
+    position: top center
+    size: cover
+  +font-smoothing(antialiased)
+
+  &.dark-theme
+    background-color: #111
+
+  &.light-theme
+    background-color: #ccc
+
+  &.has-nav
+    padding-bottom: 10em
+
+  *
+    position: relative
+    z-index: 2
+
+  &.custom-image
+    min-height: 40em
+    background-position: center center
+
+    &.dark-theme,
+    &.light-theme
+      &:before
+        display: block
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        right: 10%
+        bottom: 0
+        background: top left no-repeat
+          size: cover
+          blend-mode: screen
+        z-index: 1
+
+    &.dark-theme:before
+      +linear-gradient(90deg, rgba(black, .4) 40%, transparent, $fallback: transparent)
+
+    &.light-theme:before
+      +linear-gradient(90deg, rgba(white, .7) 40%, transparent, $fallback: transparent)
+
+  h1
+    margin: 0 0 .5em 12%
+    font-size: 2.626em
+    line-height: 1
+    color: white
+
+    span
+      display: inline-block
+      margin: 0 0 .025em
+      padding: 0 .25em .3em
+      background:
+        color: rgba(color('dark-teal'), .8)
+        blend-mode: multiply
+      vertical-align: middle
+
+      &:first-of-type
+        padding-top: .15em
+
+  .blurb
+    font-size: 1.125em
+    margin: 0 0 3em 12%
+    max-width: 580px
+
+  &.dark-theme .blurb
+    color: white
+
+  .button
+    margin-left: 12%
+    background: rgba(color('teal'), .8)
+
+    &:hover,
+    &:active
+      background: rgba(white, .8)
+
+
+#issues-nav
+  list-style: none
+  position: absolute
+  left: 0
+  right: 0
+  bottom: 0
+  padding: 0
+  margin: 0 auto
+  max-width: 1200px
+  text-align: center
+  font:
+    family: $flama-condensed-medium
+    size: 1.375em
+
+  li
+    display: block
+    float: left
+    margin: 0
+    padding: 0 1px
+    width: 20%
+
+    &:last-of-type
+      margin-right: 0
+
+  a
+    display: block
+    background:
+      color: rgba(color('dark-teal'), .7)
+      blend-mode: multiply
+    color: white
+    text-align: center
+    padding: 1em 0 .75em
+    white-space: nowrap
+    +transition-property(background-color color)
+    +transition-duration(150ms)
+
+    &:before
+      display: inline-block
+      position: relative
+      top: -0.1em
+      content: ''
+      background: center center no-repeat
+        size: contain
+      vertical-align: middle
+      margin: 0 .4em 0 0
+      +size(40px)
+
+    &:hover,
+    &:active
+      background: color('teal')
+
+    &:active
+      +transition-duration(0ms)
+
+  .human-rights:before
+    background-image: image_url('icons/human-rights.png')
+
+  .labour:before
+    background-image: image_url('icons/labour.png')
+
+  .environment:before
+    background-image: image_url('icons/environment.png')
+
+  .anti-corruption:before
+    background-image: image_url('icons/anti-corruption.png')
+
+  .strengthen-society:before
+    background-image: image_url('icons/strengthen-society.png')
+
+
+#section-nav
+  position: absolute
+  left: 7%
+  bottom: 0
+
+  .section-nav-trigger
+    background-color: rgba(color('teal'), .8)
+    &:after
+      +fa-icon
+      content: $fa-var-caret-down
+      margin-left: .5em
+
+    &:hover,
+    &:active
+      background-color: rgba(white, .8)

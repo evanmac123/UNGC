@@ -1,0 +1,92 @@
+*:focus
+  outline: none
+
+*, *:before, *:after
+  box-sizing: border-box
+  +transition-timing-function($material-swift)
+
+html,
+body
+  height: 100%
+
+body
+  margin: 0
+  padding: 0
+  background: #f3f3f3
+  color: color('dark-grey')
+  min-width: 300px
+
+abbr[title]
+  border-bottom: 0
+
+a,
+button,
+label,
+input[type='submit']
+  cursor: pointer
+  text-decoration: none
+
+a
+  color: color('light-blue')
+
+  &:hover,
+  &:active
+    color: color('teal')
+
+body,
+input,
+button,
+select,
+textarea
+  font: 400 16px/1.5 $roboto
+  @media only print
+    font-size: 12pt
+
+p,
+ul,
+ol,
+blockquote
+  margin:
+    top: 0
+    bottom: 1.5em
+
+  &:last-child
+    margin-bottom: 0
+
+ul,
+ol
+  padding: 0 0 0 1.25em
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+  font:
+    family: $flama-bold
+    weight: 900
+  +font-smoothing(antialiased)
+  &:first-child
+    margin-top: 0
+
+address
+  font-style: normal
+
+%wrapper
+  position: relative
+  margin: 0 auto
+  padding: 0
+  max-width: 1280px
+  +clearfix
+
+.wrapper
+  @extend %wrapper
+
+main
+  @extend %wrapper
+  z-index: 1
+  min-height: 50em
+  background: white
+  border: 1px solid #eee
+  box-sizing: content-box

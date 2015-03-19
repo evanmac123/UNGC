@@ -1,0 +1,132 @@
+.tiles-section
+  +font-smoothing(antialiased)
+  +clearfix
+  color: white
+
+  a
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    overflow: hidden
+    color: inherit
+    padding: 5% 7%
+
+  h1
+    font-size: 1.75em
+    line-height: 1.1
+    color: inherit
+    margin: 0 0 1em
+
+  p
+    color: inherit
+
+  .link-label
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 0
+    padding: 5% 7%
+    font:
+      family: $flama-bold
+      weight: bold
+      size: 1.5em
+
+    &:after
+      +fa-icon
+      content: $fa-var-play-circle
+      margin-left: .5em
+
+
+  .tile
+    position: relative
+    float: left
+    width: 16.666%
+    height: 0
+    padding: 16.666% 0 0
+    border: 1px solid white
+    margin: 0
+    background:
+      color: #f3f3f3
+      position: center center
+      repeat: no-repeat
+      size: cover
+
+    &.double-width
+      width: 33.333%
+      text-align: center
+
+    &.double-height
+      padding-top: 33.333%
+
+      .link-label
+        bottom: -1px
+
+    &.double-width.double-height
+      h1
+        font-size: 2.5em
+
+      .link-label
+        position: relative
+        padding: 0
+
+    &.color-light-green
+      background-color: color('light-green')
+
+      &.double-height
+        border-bottom-color: color('light-green')
+
+      .link-label
+        color: color('green')
+
+    &.color-teal
+      background-color: color('teal')
+
+      &.double-height
+        border-bottom-color: color('teal')
+
+      .link-label
+        color: color('light-teal')
+
+    &.color-orange
+      background-color: color('orange')
+
+      &.double-height
+        border-bottom-color: color('orange')
+
+      .link-label
+        color: color('dark-orange')
+
+    &.color-green
+      background-color: color('green')
+
+      &.double-height
+        border-bottom-color: color('green')
+
+      .link-label
+        color: color('light-orange')
+
+    &.color-pastel-blue
+      background-color: color('pastel-blue')
+
+      &.double-height
+        border-bottom-color: color('pastel-blue')
+
+      .link-label
+        color: color('light-blue')
+
+    &.color-light-blue
+      background-color: color('light-blue')
+
+      &.double-height
+        border-bottom-color: color('light-blue')
+
+      .link-label
+        color: color('pastel-blue')
+
+    a:hover,
+    a:active
+      .link-label
+        color: white

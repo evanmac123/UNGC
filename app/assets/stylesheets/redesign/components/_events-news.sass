@@ -1,0 +1,119 @@
+.events-news-section
+  padding: 5%
+  background: lighten(color('pastel-blue'), 20%)
+
+  .tab
+    position: relative
+    display: inline-block
+    font:
+      size: 1em
+      family: $flama-bold
+      weight: bold
+    text:
+      align: center
+      transform: uppercase
+    width: 30%
+    color: white
+    padding: .25em 0
+    border-radius: .5em .5em 0 0
+    margin: 0
+    vertical-align: top
+    +font-smoothing(antialiased)
+    +linear-gradient(color('light-grey') 60%, color('grey'))
+
+  .tab.active
+    background: color('dark-teal')
+
+  .date-location
+    background: rgba(black, .3)
+    color: white
+    padding: .5em 20px
+    font-family: $flama-book
+
+  p,
+  time,
+  address,
+  .tag
+    font-size: .875em
+
+  time,
+  address,
+  .tag
+    line-height: 1.2
+
+  .content
+    position: relative
+    background: white
+    border: 1px solid #ddd
+    +clearfix
+
+  .event
+    color: color('grey')
+
+    h1,
+    h2
+      color: color('light-blue')
+
+    h1
+      margin: 0 0 1em
+
+    h2
+      margin: .25em 0 0
+
+    &:hover,
+    &:active
+      color: color('teal')
+
+      h1,
+      h2
+        color: inherit
+
+      .date-location
+        background: rgba(color('dark-teal'), .3)
+
+
+  .featured-event,
+  .other-events,
+  .local-events
+    width: 30%
+    margin: 0
+    padding: 0 0 20px 20px
+
+    h1,
+    h2
+      font:
+        size: 1em
+      line-height: 1.2
+
+  .featured-event,
+  .other-events
+    float: left
+
+  .other-events,
+  .local-events
+    list-style: none
+
+    li
+      padding: 20px 0
+      border-bottom: 1px solid #ddd
+
+      &:last-of-type
+        border-bottom: 0
+
+  .local-events
+    float: right
+    padding-right: 20px
+
+  .thumbnail
+    padding-top: 40%
+    background:
+      position: center center
+      repeat: no-repeat
+      size: cover
+    margin: -1px 0 1em -21px
+
+  .events-section-footer
+    position: absolute
+    right: .5em
+    bottom: .5em
+    font-family: $flama-bold
