@@ -3,9 +3,9 @@ namespace :redesign do
   desc "Get the database ready for the redesign"
   task :prepare do
     fix_principles_with_invalid_types
-    create_or_update_topics_taxonomy
-    create_or_update_issue_taxonomy
-    split_issues_from_principles
+    # create_or_update_topics_taxonomy
+    # create_or_update_issue_taxonomy
+    # split_issues_from_principles
     add_explore_our_library
   end
 

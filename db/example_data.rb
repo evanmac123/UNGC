@@ -185,14 +185,6 @@ module FixtureReplacement
     a.name = FixtureReplacement.random_string
   end
 
-  attributes_for :issue do |i|
-    i.name = FixtureReplacement.random_string
-  end
-
-  attributes_for :topic do |t|
-    t.name = FixtureReplacement.random_string
-  end
-
   attributes_for :removal_reason do |a|
   end
 
@@ -296,9 +288,16 @@ module FixtureReplacement
     c.contribution_id = FixtureReplacement.random_string(16)
   end
 
-
   attributes_for :principle do |p|
     p.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :issue_area do |i|
+    i.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :issue do |i|
+    i.name = FixtureReplacement.random_string
   end
 
   attributes_for :topic do |t|
