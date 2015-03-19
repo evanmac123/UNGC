@@ -86,4 +86,13 @@ class Resource < ActiveRecord::Base
     end
   end
 
+  def self.search(*args)
+    results = super *args
+    if results && results.total_entries
+      results
+    else
+      raise Riddle::ConnectionError
+    end
+  end
+
 end

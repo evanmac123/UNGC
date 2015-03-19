@@ -26,9 +26,9 @@ UNGC::Application.routes.draw do
       get '/(*path)' => 'index#frontend', as: :root, format: :html
     end
 
-    controller :resources do
-      get   '/search' => 'search#index'
-      post  '/search' => 'search#search'
+    controller :library do
+      get '/our-library'        => :index,     as: :library
+      get '/our-library/search' => :search,    as: :library_search
     end
 
     get '/' => 'static#home', as: :root

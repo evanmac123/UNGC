@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150312011354) do
+ActiveRecord::Schema.define(version: 20150319151021) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -235,6 +235,10 @@ ActiveRecord::Schema.define(version: 20150312011354) do
     t.string   "current_sign_in_ip",        limit: 255
     t.string   "last_sign_in_ip",           limit: 255
     t.boolean  "welcome_package",           limit: 1
+    t.string   "image_file_name",           limit: 255
+    t.string   "image_content_type",        limit: 255
+    t.integer  "image_file_size",           limit: 4
+    t.datetime "image_updated_at"
   end
 
   add_index "contacts", ["organization_id"], name: "index_contacts_on_organization_id", using: :btree

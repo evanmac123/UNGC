@@ -1,0 +1,6 @@
+= render 'form'
+
+%h3 Featured:
+- @page.featured.each do |resource|
+  %p=# render '/resources/resource', resource: resource
+  %p= resource.title

@@ -1,0 +1,10 @@
+= render 'form'
+
+%h2 Results:
+= "#{@results.total_entries} results."
+- @results.each do |resource|
+  %p
+    %p=# render '/resources/resource', resource: resource
+    %p= resource.title
+
+= will_paginate @results

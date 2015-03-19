@@ -2,7 +2,8 @@ class Redesign::Container < ActiveRecord::Base
   attr_writer :initial_payload_data
 
   enum layout: [
-    :home
+    :home,
+    :landing
   ]
 
   belongs_to :public_payload, class_name: 'Redesign::Payload'
@@ -31,5 +32,13 @@ class Redesign::Container < ActiveRecord::Base
   def attach_initial_payload
     self.draft_payload = payloads.create!(data: @initial_payload_data || {})
     save!
+  end
+
+  def payload(draft = false)
+    if draft
+      draft_payload
+    else
+      public_payload
+    end
   end
 end
