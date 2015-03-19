@@ -33,6 +33,8 @@ gem 'uglifier',             '~> 2.7.0'
 gem 'ckeditor',             '4.1.1'
 gem 'sidekiq',              '~> 2.17.0'
 gem 'foreman'
+gem 'bourbon',              '~> 4.2.1'
+gem 'font-awesome-sass',    '~> 4.3.1'
 
 gem 'capistrano',           '~> 2.15.5'
 gem 'plugger' # supports moonshine plugin on rails4
