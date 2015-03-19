@@ -1,16 +1,25 @@
 <header id="main-header">
-  <% link_to '/', class: 'logo' do %>
+  <%= link_to '/', class: 'logo' do %>
     <h1><span>United Nations Global Compact</span></h1>
     <h2>Business as a Force for Good</h2>
   <% end %>
 
-  <nav><%- data.top_nav.each do |level, nav_items| -%>
-    <ul id='<%= level %>-navigation'>
-      <%- nav_items.each do |ni| -%>
-      <li><%= link_to ni.label, ni.url, class: active_link_class(ni.url) -%></li>
-      <%- end -%>
+  <nav>
+    <ul id='primary-navigation'>
+      <li><%= link_to 'What Is UN Global Compact?', '/' -%></li>
+      <li><%= link_to 'Participation', '/' -%></li>
+      <li><%= link_to 'Take Action', '/' -%></li>
+      <li><%= link_to 'Engage Locally', '/' -%></li>
+      <li><%= link_to 'Explore Our Library', '/' -%></li>
     </ul>
-  <%- end -%></nav>
+
+    <ul id='secondary-navigation'>
+      <li><%= link_to 'About', '/' -%></li>
+      <li><%= link_to 'News', '/' -%></li>
+      <li><%= link_to 'Sign In', '/' -%></li>
+      <li><%= link_to 'English', '/' -%></li>
+    </ul>
+  </nav>
 
   <form id='main-search'>
     <div id='main-search-filters'>
@@ -27,7 +36,7 @@
         <label for="search-filter-companies">Companies</label>
       </fieldset>
     </div>
-    <%= text_field_tag :search, placeholder: 'Search', class: 'search-field' -%>
+    <%= text_field_tag :search, nil, placeholder: 'Search', class: 'search-field' -%>
     <button type="submit" class='search-button'><span>Search</span></button>
   </form>
 </header>

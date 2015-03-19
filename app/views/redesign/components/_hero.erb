@@ -1,27 +1,31 @@
-<%- if hero_data = get_page_data['hero'] -%>
+<%- if hero_data = @page.hero -%>
 
-<header id='hero' style='<%= "background-image: url(#{hero_data.image});" if hero_data.image %>' class='<%= 'has-nav' if hero_data.show_issues_nav || hero_data.show_section_nav -%> <%= 'custom-image' if hero_data.image -%> <%= "#{hero_data.theme.parameterize}-theme" if hero_data.theme -%> page-section'>
+<header id='hero' style='<%= "background-image: url(#{hero_data[:image]});" if hero_data[:image] %>' class='<%= 'has-nav' if hero_data[:show_issues_nav] || hero_data[:show_section_nav] -%> <%= 'custom-image' if hero_data[:image] -%> <%= "#{hero_data[:theme].parameterize}-theme" if hero_data[:theme] -%> page-section'>
 
-  <%- if hero_data.title -%>
-    <h1><%- hero_data.title.each_with_index do |line, index| -%>
-      <%= "<br>" if index > 0 -%><span><%= line -%></span>
+  <%- if hero_data[:title] -%>
+    <h1><%- hero_data[:title].each do |key, value| -%>
+      <br><span><%= value -%></span>
     <%- end -%></h1>
   <%- end -%>
 
-  <%= "<p class='blurb'>#{hero_data.blurb}</p>" if hero_data.blurb %>
-
-  <%= link_to(hero_data.link[:label], hero_data.link[:url], class: 'button') if hero_data.link -%>
-
-  <%- if hero_data.show_issues_nav -%>
-  <ul id='issues-nav'>
-  <%- data.issues.each do |issue| -%>
-    <li><%= link_to issue.label, issue.url, class: issue.label.parameterize -%></li>
+  <%- if hero_data[:blurb] -%>
+  <p class='blurb'><%= hero_data[:blurb] -%></p>
   <%- end -%>
+
+  <%= link_to(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] -%>
+
+  <%- if hero_data[:show_issues_nav] -%>
+  <ul id='issues-nav'>
+    <li><%= link_to 'Human Rights'      , '', class: 'human-rights' %></li>
+    <li><%= link_to 'Labour'            , '', class: 'labour' %></li>
+    <li><%= link_to 'Environment'       , '', class: 'environment' %></li>
+    <li><%= link_to 'Anti-Corruption'   , '', class: 'anti-corruption' %></li>
+    <li><%= link_to 'Strengthen Society', '', class: 'strengthen-society' %></li>
   </ul>
   <%- end -%>
 
 
-  <%- if hero_data.show_section_nav -%>
+  <%- if hero_data[:show_section_nav] -%>
   <nav id='section-nav'>
     <button class='section-nav-trigger'>In this section</button>
   </nav>
