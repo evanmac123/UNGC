@@ -21,8 +21,13 @@ class HomeLayout < UNGC::Layout
   scope :hero do
     field :image, type: :image_url
     field :theme, type: :string, enum: THEMES, default: 'light'
-    field :title, type: :string, required: true, limit: 100
-    field :blurb, type: :string, array: true, limit: 100, min: 2, max: 2
+
+    scope :title do
+      field :title1, type: :string, limit: 50, required: true
+      field :title2, type: :string, limit: 50
+    end
+
+    field :blurb, type: :string, limit: 100, required: true
 
     scope :link do
       field :label, type: :string, limit: 30, required: true

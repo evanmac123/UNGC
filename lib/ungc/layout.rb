@@ -75,6 +75,10 @@ module UNGC
       errors.empty?
     end
 
+    def invalid?
+      !valid?
+    end
+
     def as_json(*args)
       @data
     end

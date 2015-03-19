@@ -1,14 +1,23 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  data:  null,
-  key:   null,
-  array: false,
+  data:      null,
+  key:       null,
+  array:     false,
+  min:       null,
+  max:       null,
+  size:      null,
   scopeData: null,
 
   canVary: function() {
-    var min = this.get('min');
-    var max = this.get('max');
+    var min  = this.get('min');
+    var max  = this.get('max');
+    var size = this.get('size');
+
+    if (size) {
+      min = size;
+      max = size;
+    }
 
     if (!min && !max) {
       return true;
@@ -19,7 +28,7 @@ export default Ember.Component.extend({
     }
 
     return false;
-  }.property('min', 'max'),
+  }.property('min', 'max', 'size'),
 
   canAdd: function() {
     var max    = this.get('max');
@@ -70,7 +79,7 @@ export default Ember.Component.extend({
       return;
     }
 
-    var min = this.get('min');
+    var min = this.get('min') || this.get('size');
     var ary = [];
     var i;
 

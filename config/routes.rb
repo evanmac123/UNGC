@@ -20,6 +20,7 @@ UNGC::Application.routes.draw do
       namespace :api, format: :json do
         resources :layouts, only: [:index, :show]
         resources :containers
+        resources :payloads
       end
 
       get '/(*path)' => 'index#frontend', as: :root, format: :html

@@ -1,4 +1,6 @@
 class Redesign::Container < ActiveRecord::Base
+  attr_writer :initial_payload_data
+
   enum layout: [
     :home
   ]
@@ -7,6 +9,8 @@ class Redesign::Container < ActiveRecord::Base
   belongs_to :draft_payload, class_name: 'Redesign::Payload'
 
   has_many :payloads, class_name: 'Redesign::Payload'
+
+  after_create :attach_initial_payload
 
   def self.normalize_slug(raw)
     '/' + raw.to_s.downcase.strip.sub(/\A\/|\Z\//, '')
@@ -20,5 +24,12 @@ class Redesign::Container < ActiveRecord::Base
 
   def slug=(raw)
     write_attribute :slug, Redesign::Container.normalize_slug(raw)
+  end
+
+  protected
+
+  def attach_initial_payload
+    self.draft_payload = payloads.create!(data: @initial_payload_data || {})
+    save!
   end
 end

@@ -9,4 +9,8 @@ class Redesign::Admin::ApiController < Redesign::Admin::AdminController
       serializer: nil
     }.merge(opts))
   end
+
+  def render_errors(errors, opts = {})
+    render_json({ errors: errors }, opts)
+  end
 end
