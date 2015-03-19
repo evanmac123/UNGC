@@ -52,8 +52,7 @@ class Contact < ActiveRecord::Base
     :trackable
 
   has_attached_file :image, :styles => {
-      :show => "213x277>",
-      :'show@2x' => "425x554>",
+      :show => "250x250>",
     },
     :url => "/system/:class/:attachment/:id/:style/:filename"
 
