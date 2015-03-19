@@ -31,6 +31,7 @@ UNGC::Application.routes.draw do
       get '/our-library/search' => :search,    as: :library_search
     end
 
+    get '/participation' => 'static#landing', as: :landing_page
     get '/' => 'static#home', as: :root
   end
 
