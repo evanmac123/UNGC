@@ -1,0 +1,32 @@
+<%- if hero_data = get_page_data['hero'] -%>
+
+<header id='hero' style='<%= "background-image: url(#{hero_data.image});" if hero_data.image %>' class='<%= 'has-nav' if hero_data.show_issues_nav || hero_data.show_section_nav -%> <%= 'custom-image' if hero_data.image -%> <%= "#{hero_data.theme.parameterize}-theme" if hero_data.theme -%> page-section'>
+
+  <%- if hero_data.title -%>
+    <h1><%- hero_data.title.each_with_index do |line, index| -%>
+      <%= "<br>" if index > 0 -%><span><%= line -%></span>
+    <%- end -%></h1>
+  <%- end -%>
+
+  <%= "<p class='blurb'>#{hero_data.blurb}</p>" if hero_data.blurb %>
+
+  <%= link_to(hero_data.link[:label], hero_data.link[:url], class: 'button') if hero_data.link -%>
+
+  <%- if hero_data.show_issues_nav -%>
+  <ul id='issues-nav'>
+  <%- data.issues.each do |issue| -%>
+    <li><%= link_to issue.label, issue.url, class: issue.label.parameterize -%></li>
+  <%- end -%>
+  </ul>
+  <%- end -%>
+
+
+  <%- if hero_data.show_section_nav -%>
+  <nav id='section-nav'>
+    <button class='section-nav-trigger'>In this section</button>
+  </nav>
+  <%- end -%>
+
+</header>
+
+<%- end -%>

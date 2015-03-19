@@ -1,0 +1,12 @@
+<%- if stats = get_page_data['stats'] -%>
+
+<section class='stats-section'>
+  <%- stats.each do |stat| -%>
+  <article class='stat'>
+    <h1><%= stat[:value] -%></h1>
+    <h2><%= stat[:label] -%></h2>
+  </article>
+  <%- end -%>
+</section>
+
+<%- end -%>

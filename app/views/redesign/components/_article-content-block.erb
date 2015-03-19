@@ -1,0 +1,45 @@
+<%- if article_blocks = get_page_data['article_blocks'] -%>
+<%- article_blocks.each do |ab| -%>
+<section class='article-content-block <%= "has-custom-bg" if ab.bg_image -%> <%= "align-#{ab.align}" if ab.align -%> <%= "#{ab.theme}-theme" if ab.theme -%>' style="<%= "background-image: url(#{ab.bg_image});" if ab.bg_image -%>">
+  <header class='article-header'>
+    <h1><%= ab.title -%></h1>
+  </header>
+
+  <article class='article-body'>
+    <%= ab.content %>
+  </article>
+
+  <%- if sws = ab['sidebar_widgets'] -%>
+  <aside class='article-sidebar'>
+    <%- sws.each do |sw| -%>
+    <%- if sw.type == "button" -%>
+    <%= link_to 'Newsletter Signup', '', class: 'button-widget widget' %>
+    <%- elsif sw.type == "image" -%>
+    <%= image_tag sw.src, alt: sw.alt, class: 'image-widget widget' %>
+    <%- else -%>
+    <article class='widget <%= "#{sw.type}-widget" -%>'>
+      <%- if sw.type == "contact" -%>
+      <h1>Contact</h1>
+      <%= image_tag(sw.photo) if sw.photo %>
+      <address>
+        <h2 class='name'><%= sw.name -%></h2>
+        <p  class='title'><%= sw.title -%></p>
+        <p  class='email'><%= mail_to sw.email -%></p>
+        <p  class='phone'><%= sw.phone -%></p>
+      </address>
+      <%- elsif sw.type == "links" -%>
+      <h1><%= sw.title -%></h1>
+      <ul>
+        <%- sw.links.each do |l| -%>
+        <li><%= link_to l.label, l.url -%></li>
+        <%- end -%>
+      </ul>
+      <%- end -%>
+    </article>
+    <%- end -%>
+    <%- end -%>
+  </aside>
+  <%- end -%>
+</section>
+<%- end -%>
+<%- end -%>
