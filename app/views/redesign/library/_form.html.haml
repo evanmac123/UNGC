@@ -1,0 +1,56 @@
+= form_for @search, as: :search, url: redesign_library_search_path, method: :get do |f|
+  %p
+    active filters:
+    .active-filters
+      - @search.active_filters.each do |filter|
+        = link_to "#{filter.name} X", '#', data: {"filter-id" => filter.id, "filter-type" => filter.type}
+
+  = f.label :keywords
+  = f.text_field :keywords
+
+  .section
+    .span Issues
+    .options
+      - @search.issue_options.each do |issue|
+        %p
+          %label.filter-option
+            = issue.name
+            = check_box_tag "search[issues][#{issue.id}]", 1, issue.active, {active: issue.active}
+
+  .section
+    Topics
+    .options
+      - @search.topic_options.each do |topic|
+        %p
+          %label.filter-option
+            = topic.name
+            = check_box_tag "search[topics][#{topic.id}]", 1, topic.active, {active: topic.active}
+  .section
+    Languages
+    .options
+      - @search.language_options.each do |language|
+        %p
+          %label.filter-option
+            = language.name
+            = check_box_tag "search[languages][#{language.id}]", 1, language.active, {active: language.active}
+
+  .section
+    Sectors
+    .options
+      - @search.sector_options.each do |group, sectors|
+        %p= group
+        - sectors.each do |sector|
+          %p
+            %label.filter-option
+              = sector.name
+              = check_box_tag "search[sectors][#{sector.id}]", 1, sector.active, {active: sector.active}
+
+  %p
+    = f.select :content_type, @search.type_options, {include_blank: 'Type'}, {id: :content_type}
+
+  %p
+    = f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: :sort_field}
+
+  %p
+    = f.submit 'Clear', type: 'reset'
+    = f.submit 'Search', id: 'our-library-search'

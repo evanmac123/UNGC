@@ -6,6 +6,27 @@ namespace :redesign do
     create_or_update_topics_taxonomy
     create_or_update_issue_taxonomy
     split_issues_from_principles
+    add_explore_our_library
+  end
+
+  desc "Randomly assign content_types to Resources"
+  task :randomize_content_types do
+    Resource.find_each do |resource|
+      resource.update_attribute :content_type, rand(3)
+    end
+  end
+
+  desc "Randomly assign sectors to Resources"
+  task :randomize_sectors do
+    sectors = [
+      "Oil Equipment, Services & Distribution",
+      "Chemicals",
+      "Forestry & Paper",
+    ].map {|name| Sector.find_by!(name: name)}
+
+    Resource.find_each do |resource|
+      Tagging.create! resource: resource, sector: sectors[rand(sectors.length)]
+    end
   end
 
   private
@@ -124,6 +145,15 @@ namespace :redesign do
   def split_issues_from_principles
     non_principles = Principle.where(type: nil).where("name not like 'Principle %'")
     non_principles.update_all(type: 'Issue')
+  end
+
+  def add_explore_our_library
+    featured_content = Resource.all.shuffle.take(5).map &:id
+    our_library = Redesign::Container.landing.where(slug: '/redesign/our-library').first_or_create!
+    if our_library.public_payload.nil?
+      our_library.public_payload = our_library.payloads.create! json_data: {featured: featured_content}.to_json
+      our_library.save!
+    end
   end
 
 end

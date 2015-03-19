@@ -1,6 +1,7 @@
 class Redesign::Container < ActiveRecord::Base
   enum layout: [
-    :home
+    :home,
+    :landing
   ]
 
   belongs_to :public_payload, class_name: 'Redesign::Payload'
@@ -20,5 +21,13 @@ class Redesign::Container < ActiveRecord::Base
 
   def slug=(raw)
     write_attribute :slug, Redesign::Container.normalize_slug(raw)
+  end
+
+  def payload(draft = false)
+    if draft
+      draft_payload
+    else
+      public_payload
+    end
   end
 end

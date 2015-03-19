@@ -185,6 +185,14 @@ module FixtureReplacement
     a.name = FixtureReplacement.random_string
   end
 
+  attributes_for :issue do |i|
+    i.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :topic do |t|
+    t.name = FixtureReplacement.random_string
+  end
+
   attributes_for :removal_reason do |a|
   end
 
@@ -299,5 +307,10 @@ module FixtureReplacement
 
   attributes_for :container, class: Redesign::Container do |c|
     c.layout = :home
+  end
+
+  attributes_for :payload, class: Redesign::Payload do |p|
+    p.container_id = new_container.id
+    p.json_data = '{}'
   end
 end
