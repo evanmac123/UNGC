@@ -1,5 +1,5 @@
 // UNGC icons Font
-@include font-face("ungc-icons", "ungc-icons", $file-formats: eot woff, $asset-pipeline: true);
+@include font-face("ungc-icons", "/assets/ungc-icons", $file-formats: eot woff);
 
 // Logos
 $logos: (
