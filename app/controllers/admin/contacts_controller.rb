@@ -116,6 +116,7 @@ class Admin::ContactsController < AdminController
         :postal_code,
         :country_id,
         :username,
+        :image,
         :password,
         role_ids: []
       )
