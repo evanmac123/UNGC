@@ -51,6 +51,14 @@ class Contact < ActiveRecord::Base
     :rememberable,
     :trackable
 
+  has_attached_file :image, :styles => {
+      :show => "213x277>",
+      :'show@2x' => "425x554>",
+    },
+    :url => "/system/:class/:attachment/:id/:style/:filename"
+
+  do_not_validate_attachment_file_type :image
+
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
   TYPE_NETWORK = :network
