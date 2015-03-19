@@ -166,3 +166,6 @@
     susana:
       :type: ssh-rsa
       :key: AAAAB3NzaC1yc2EAAAABJQAAAQEA1oqosK24VveG5GTBeHaL/oiWwTog+HU/RKnLqXE+q9GGmxVgiXPOx4RUr6JvSN7UaLLkNSshTz+8kRUWL/c7acWe5XFScPXnEv8JWIg4lXsvvocH7XEVzYXuog6x9x5pB9mRkxhSGWbnAUhfeQifQanQx5DvpAZgfV9UzHhs4UKz6fL+0ZbftEfFmGqNoQxdPkF3pr+gU/OUt71ezZ5Pm2wjk9wm2xy+jR3nUNvsLDw8fNoFitgCErb5C+la+IJFpbMDS0ope4pn4ux6ro2FKPM67RuZegKGqp/bLPoadDPqM/Ey48ckmZTNXSVxA1YsXgvfae1sk2vE7OeIvxYXxw==
+    jorge:
+      :type: ssh-rsa
+      :key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDk8TM5BIqwXXbKSsheQN/pmwp5YmWI/Ecgaq4nMLBdxSi1510K3cFGTkDnpyDhEy0vYm33+qnQHRSJyce5Qpo2deCn3Y81QxrYJPtX5NZh0jLwlp5vzj+pN9/hE+YPsruLDrjguT8V2Satkr+Th2Nncx4Yc4ybTFHsRpo5X7rREDHHqszf4L6cjLpy6r0ZKJrtkweGe+xaKJ7Gw20Wi/RpsoQGlRRWb+oEMOgAB6N4JKTNpWHAo7U5vfWaK7RO5/XRYAUVUSa8dCF042F8o6ikQ+VnQw398DwtUuLddrrMlXOJdnBZ7WNAFXTynPJmjJB2SufLvSqML6s+kud5zKlX
