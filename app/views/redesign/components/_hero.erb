@@ -4,12 +4,12 @@
 
   <%- if hero_data[:title] -%>
     <h1><%- hero_data[:title].each do |key, value| -%>
-      <br><span><%= value -%></span>
+      <br><span><%= value.html_safe -%></span>
     <%- end -%></h1>
   <%- end -%>
 
   <%- if hero_data[:blurb] -%>
-  <p class='blurb'><%= hero_data[:blurb] -%></p>
+  <p class='blurb'><%= hero_data[:blurb].html_safe -%></p>
   <%- end -%>
 
   <%= link_to(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] -%>
