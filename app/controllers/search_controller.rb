@@ -34,12 +34,13 @@ class SearchController < ApplicationController
       else
         @results = Searchable.search keyword, options
       end
+      @results.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
       @facets = @results && @results.any? ? Searchable.facets(keyword, star: true) : []
     end
 
     def show_search_form
       # @facets = Searchable.count > 0 ? Searchable.facets : []
-      render 'form'
+      render :form
     end
 
 end

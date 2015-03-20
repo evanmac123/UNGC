@@ -106,11 +106,12 @@ class CaseStory < ActiveRecord::Base
   has_attached_file :attachment,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
+  do_not_validate_attachment_file_type :attachment
 
   cattr_reader :per_page
   @@per_page = 15
 
-  scope :not_replied_to, where(:replied_to => false)
+  scope :not_replied_to, lambda { where(:replied_to => false) }
 
   def authors_for_display
     authors = []

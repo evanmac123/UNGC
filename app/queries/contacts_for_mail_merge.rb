@@ -24,6 +24,7 @@ class ContactsForMailMerge < SimpleDelegator
                 contacts.plaintext_password,
                 contacts.organization_id,
                 contacts.welcome_package,
+                contacts.local_network_id,
                 org_country.name AS organization_country,
                 o.joined_on,
                 o.cop_state,

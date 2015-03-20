@@ -14,8 +14,7 @@ class NonBusinessRegistrationCompleteValidator < NonBusinessRegistrationValidato
 
     def validate_legal_status
       return true if registration.organization.nil?
-      o = registration.organization.reload # HACK to go around rails sloppy relations
-      if o.legal_status.blank? && registration.number.blank?
+      if registration.organization.legal_status.blank? && registration.number.blank?
         registration.errors.add :number, "should be present or a legal status should be added"
       end
     end

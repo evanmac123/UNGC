@@ -15,7 +15,7 @@ module Searchable::SearchablePage
   end
 
   def index_pages_since(time)
-    Page.approved.find(:all, conditions: new_or_updated_since(time)).each { |page| index_page page }
+    Page.approved.where(new_or_updated_since(time)).each { |page| index_page page }
   end
 
   def remove_page(page)

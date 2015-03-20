@@ -24,7 +24,7 @@ class Country < ActiveRecord::Base
 
   validates_presence_of :name, :code, :region
 
-  default_scope :order => 'countries.name'
+  default_scope { order('countries.name') }
 
   REGIONS = { :africa           => 'Africa',
               :asia             => 'Asia',
@@ -37,14 +37,18 @@ class Country < ActiveRecord::Base
 
   scope :where_region, lambda {|region| where(:region => region) }
 
-  def region_for_select_field
-    region.try(:to_sym)
+  def self.regions
+    Country.group(:region)
+      .select(:region)
+      .order(:region)
   end
 
-  def self.regions
-    Country.find(:all, :select     => 'DISTINCT region',
-                       :conditions => 'region IS NOT NULL',
-                       :order      => 'region')
+  def self.data_for_select
+    Country.order(:name).map { |c| [c.name, c.id] }
+  end
+
+  def region_for_select_field
+    region.try(:to_sym)
   end
 
   def region_name

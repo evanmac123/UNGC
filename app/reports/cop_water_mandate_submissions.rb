@@ -1,7 +1,9 @@
 class CopWaterMandateSubmissions < SimpleReport
 
   def records
-    Organization.for_initiative(:water_mandate).participants.all( :include => [:communication_on_progresses] )
+    Organization.for_initiative(:water_mandate)
+                .participants
+                .includes(:communication_on_progresses)
   end
 
   def headers

@@ -46,11 +46,13 @@
 #  is_tobacco                     :boolean
 #  no_pledge_reason               :string(255)
 #  isin                           :string(255)
-#
+#  sector_id                      :integer
+#  country_id                     :integer
 
 class Organization < ActiveRecord::Base
   include ApprovalWorkflow
   include Indexable
+  include ThinkingSphinx::Scopes
 
   self.include_root_in_json = false
 
@@ -71,7 +73,7 @@ class Organization < ActiveRecord::Base
   has_many :initiatives, :through => :signings
   has_many :contacts
   has_many :logo_requests
-  has_many :case_stories, :order => 'case_stories.updated_at ASC'
+  has_many :case_stories, -> { order 'case_stories.updated_at ASC' }
   has_many :communication_on_progresses
   has_many :contributions
   belongs_to :sector
@@ -89,12 +91,15 @@ class Organization < ActiveRecord::Base
                               :withdrawal_letter => 'withdrawal_letter',
                               :legal_status => 'legal_status' }
 
-  has_one :legal_status, :class_name => 'UploadedFile', :as => 'attachable',
-            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:legal_status]}, :dependent => :destroy
-  has_one :recommitment_letter, :class_name => 'UploadedFile', :as => 'attachable',
-            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:recommitment_letter]}, :dependent => :destroy
-  has_one :withdrawal_letter, :class_name => 'UploadedFile', :as => 'attachable',
-            :conditions => {:attachable_key => ORGANIZATION_FILE_TYPES[:withdrawal_letter]}, :dependent => :destroy
+  has_one :legal_status, -> { where(attachable_key: ORGANIZATION_FILE_TYPES[:legal_status]) },
+    class_name: 'UploadedFile', as: 'attachable', dependent: :destroy
+
+  has_one :recommitment_letter, -> { where(attachable_key: ORGANIZATION_FILE_TYPES[:recommitment_letter]) },
+    class_name: 'UploadedFile', as: 'attachable', dependent: :destroy
+
+  has_one :withdrawal_letter, -> { where(attachable_key: ORGANIZATION_FILE_TYPES[:withdrawal_letter]) },
+    class_name: 'UploadedFile', as: 'attachable', dependent: :destroy
+
 
   attr_accessor :delisting_on
 
@@ -115,29 +120,10 @@ class Organization < ActiveRecord::Base
   has_attached_file :commitment_letter,
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
+  do_not_validate_attachment_file_type :commitment_letter
 
   cattr_reader :per_page
   @@per_page = 100
-
-  define_index do
-    indexes name, :sortable => true
-    has country(:id), :as => :country_id, :facet => true
-    has country(:name), :as => :country_name, :facet => true
-    has organization_type(:type_property), :as => :business, :facet => true
-    has organization_type(:id), :as => :organization_type_id, :facet => true
-    has sector(:id), :as => :sector_id, :facet => true
-    has sector(:name), :as => :sector_name, :facet => true
-    has listing_status(:id), :as => :listing_status_id, :facet => true
-    has listing_status(:name), :as => :listing_status_name, :facet => true
-    has "CRC32(cop_state)", :as => :cop_state, :type => :integer # NOTE: This used to have :facet => true, but it broke search in production, and *only* in production - I don't know why, but I do know that this fixes it
-    has joined_on, :facet => true
-    has delisted_on, :facet => true
-    has is_ft_500, :facet => true
-    has state, active, participant
-    # set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
-    set_property :enable_star => true
-    set_property :min_prefix_len => 4
-  end
 
   # We want to index all organizations, not just participant; so, this scope replaces the index clause below
   # where 'organizations.state = "approved" AND organizations.active = 1 AND organizations.participant = 1' #FIXME: possibly exclude delisted?
@@ -250,32 +236,32 @@ class Organization < ActiveRecord::Base
     end
   end
 
-  scope :active, where("organizations.active = ?", true)
-  scope :participants, where("organizations.participant = ?", true)
-  scope :companies_and_smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
+  scope :active, lambda { where("organizations.active = ?", true) }
+  scope :participants, lambda { where("organizations.participant = ?", true) }
+  scope :companies_and_smes, lambda { joins(:organization_type).merge(OrganizationType.for_filter(:sme, :companies)).includes(:organization_type) }
   scope :companies, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:companies)).includes(:organization_type) }
-  scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme)).includes(:organization_type) }
-  scope :businesses, lambda { where("organization_types.type_property = ?", OrganizationType::BUSINESS).includes(:organization_type) }
+  scope :smes, lambda { where("organization_type_id IN (?)", OrganizationType.for_filter(:sme).pluck(:id)).includes(:organization_type) }
+  scope :businesses, lambda { joins(:organization_type).where("organization_types.type_property = ?", OrganizationType::BUSINESS) }
   scope :by_type, lambda { |filter_type| where("organization_type_id IN (?)", OrganizationType.for_filter(filter_type).map(&:id)).includes(:organization_type) }
 
-  scope :for_initiative, lambda { |symbol| where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
-  scope :last_joined, order("joined_on DESC, name DESC")
-  scope :not_delisted, where("cop_state != ?", COP_STATE_DELISTED)
+  scope :for_initiative, lambda { |symbol| joins(:initiatives).where("initiatives.id IN (?)", Initiative.for_filter(symbol).map(&:id)).includes(:initiatives).order("organizations.name ASC") }
+  scope :last_joined, lambda { order("joined_on DESC, name DESC") }
+  scope :not_delisted, lambda { where("cop_state != ?", COP_STATE_DELISTED) }
 
   scope :with_cop_due_on, lambda { |date| where(cop_due_on: date) }
   scope :with_inactive_on, lambda { |date| where(inactive_on: date) }
   scope :with_cop_due_between, lambda { |start_date, end_date| where(cop_due_on: start_date..end_date) }
   scope :delisted_between, lambda { |start_date, end_date| where(delisted_on: start_date..end_date) }
 
-  scope :noncommunicating, where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on')
+  scope :noncommunicating, lambda { where("cop_state = ? AND active = ?", COP_STATE_NONCOMMUNICATING, true).order('cop_due_on') }
 
   scope :listed, lambda { where("organizations.listing_status_id = ?", ListingStatus.publicly_listed).includes([:country, :exchange, :sector]) }
-  scope :without_contacts, where("not exists(select * from contacts c where c.organization_id = organizations.id)")
+  scope :without_contacts, lambda { where("not exists(select * from contacts c where c.organization_id = organizations.id)") }
 
   scope :created_at, lambda { |month, year| where('created_at >= ? AND created_at <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
   scope :joined_on, lambda { |month, year| where('joined_on >= ? AND joined_on <= ?', Date.new(year, month, 1), Date.new(year, month, 1).end_of_month) }
 
-  scope :with_pledge, where('pledge_amount > 0')
+  scope :with_pledge, lambda { where('pledge_amount > 0') }
   scope :about_to_become_noncommunicating, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_ACTIVE, Date.today) }
   scope :about_to_become_delisted, lambda { where("cop_state=? AND cop_due_on<=?", COP_STATE_NONCOMMUNICATING, 1.year.ago.to_date) }
 
@@ -330,10 +316,9 @@ class Organization < ActiveRecord::Base
       countries_in_same_region = user.local_network.regional_center_countries.map(&:id)
       where("country_id in (?)", countries_in_same_region)
     when Contact::TYPE_UNGC
-      self.scoped({})
+      all
     else
-      # TODO improve this when we port to rails 4
-      where('1=2')
+      none
     end
   end
 
@@ -535,18 +520,6 @@ class Organization < ActiveRecord::Base
     initiative ? initiative_ids.include?(initiative.id) : false
   end
 
-  def contributor_for_year?(year)
-    if year.is_a?(Array)
-      initiatives = Initiative.contributor_for_years(year)
-      contribution_years = []
-      initiatives.each { |i| contribution_years << i.id if initiative_ids.include?(i.id) }
-      contribution_years.any?
-    else
-      initiative = Initiative.contributor_for_years(year).first
-      initiative ? initiative_ids.include?(initiative.id) : false
-    end
-  end
-
   def country_name
     country.try(:name)
   end
@@ -705,7 +678,7 @@ class Organization < ActiveRecord::Base
 
     # gather learner COPs
     cops = []
-    communication_on_progresses.approved.all(:order => 'published_on DESC').each do |cop|
+    communication_on_progresses.approved.order('published_on DESC').each do |cop|
       next if cop.is_grace_letter? || cop.is_reporting_cycle_adjustment?
       cops << cop if cop.learner?
     end
@@ -741,27 +714,6 @@ class Organization < ActiveRecord::Base
 
   def was_expelled?
     delisted_on.present? && removal_reason == RemovalReason.delisted
-  end
-
-  # Participants were eligible to contribute starting in 2006
-  def initial_contribution_year
-    joined_on.year > 2006 ? joined_on.year : 2006
-  end
-
-  # TODO update when Contribution model is created
-  def latest_contribution_year
-    if participant?
-      years = (initial_contribution_year..Time.now.year).to_a.reverse
-      match = nil
-      years.each do |year|
-        if contributor_for_year?(year)
-          # FIXME if there were no matches, then an array of years was being returned
-          match = year
-          break
-        end
-      end
-      match
-    end
   end
 
   def participant_for_less_than_years(years)

@@ -1,63 +1,69 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.17'
+gem 'rails', '4.2.0'
 
-gem 'mysql2'
-gem 'facets',               '~> 2.9.3', :require => false
-gem 'hpricot',              '0.8.4'
-gem 'json_pure',            '1.8.1'
-gem 'will_paginate',        '~> 3.0.4'
-gem 'paperclip',            '~> 3.5.1'
-gem 'haml',                 '~> 3.1.7'
-gem 'acts_as_commentable',  '~> 4.0.0'
+gem 'redis-session-store'
+gem 'mysql2',               '~> 0.3.17'
+gem 'facets',               '~> 3.0.0', require: false
+gem 'hpricot',              '0.8.6'
+gem 'will_paginate',        '~> 3.0.7'
+gem 'paperclip',            '~> 4.2.1'
+gem 'haml',                 '~> 4.0.6'
+gem 'acts_as_commentable',  '~> 4.0.2'
 gem 'money',                '~> 2.1.5'
-gem 'newrelic_rpm',         '~> 3.9.1.236'
+gem 'newrelic_rpm',         '~> 3.9.9.275'
 gem 'spreadsheet',          '0.6.5.9'
-gem 'thinking-sphinx',      '~> 2.0.10'
-gem 'state_machine',        '~> 1.1.2'
-gem 'acts_as_tree_rails3',  '~> 0.1.0'
+gem 'thinking-sphinx',      '~> 3.1.2', github: 'pat/thinking-sphinx', branch: 'develop', ref: 'f71dc8117' # https://github.com/pat/thinking-sphinx/issues/867
+gem 'state_machine',                    github: 'seuros/state_machine', ref: 'master'
+gem 'acts_as_tree',         '~> 2.0.0'
 gem 'annotate',             '~> 2.5.0'
-gem 'fixture_replacement',              :git => 'git://github.com/smtlaissezfaire/fixturereplacement.git', :branch => 'master'
-gem 'custom_error_message',             :git => 'git://github.com/jeremydurham/custom-err-msg.git', :branch => 'master'
+gem 'fixture_replacement',              github: 'smtlaissezfaire/fixturereplacement', ref: 'master'
+gem 'custom_error_message',             github: 'jeremydurham/custom-err-msg', ref: 'master'
 gem 'airbrake',             '~> 4.1.0'
-gem 'devise',               '~> 2.2.4'
-gem 'dynamic_form',         '1.0.0'
-gem 'sass',                 '~> 3.2.9'
+gem 'devise',               '~> 3.4.1'
+gem 'dynamic_form',         '~> 1.1.4'
 gem 'skylight'
+
+gem 'sass-rails',           '~> 5.0'
+gem 'coffee-rails',         '~> 4.1.0'
+gem 'jquery-rjs',                       github: 'amatsuda/jquery-rjs', ref: 'master'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'uglifier',             '~> 2.7.0'
+gem 'ckeditor',             '4.1.1'
 gem 'sidekiq',              '~> 2.17.0'
 gem 'foreman'
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier',     '>= 1.0.3'
-  gem 'ckeditor',     '~> 4.0.4'
-  gem 'turbo-sprockets-rails3'
-end
+gem 'capistrano',           '~> 2.15.5'
+gem 'plugger' # supports moonshine plugin on rails4
+gem 'databasedotcom'
 
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
-gem 'prototype-rails'
+# for upgrading to rails 4+, need to be removed eventually.
+gem 'rails-observers'
 
 group :development do
   gem 'rerun'
   gem 'thin'
-  gem 'spring'
 end
 
 group :test do
-  gem "shoulda",      "~> 3.4.0"
+  gem 'minitest'
+  gem 'shoulda'
   gem 'capybara'
+  gem 'simplecov', require: false
+  gem 'mocha', '~> 1.1.0'
 end
 
 group :development, :test do
+  gem 'awesome_print', require: 'ap'
+  gem 'pry-rails'
+  gem 'quiet_assets'
   gem 'byebug'
+  gem 'web-console', '~> 2.0'
+  gem 'spring'
 end
 
 group :production do
-  gem 'scout',            '5.5.4'
-  gem 'passenger',        '3.0.7'
+  gem 'scout',            '5.9.8'
+  gem 'passenger',        '~> 4.0.57'
 end
-
-gem 'capistrano'
-gem 'databasedotcom'

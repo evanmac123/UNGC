@@ -23,7 +23,7 @@ class PrincipleArea < Principle
   }
 
   def self.area_for(name)
-    first(:conditions => {:name => name})
+    find_by(name: name)
   end
 
   def self.method_missing(m, *args, &block)

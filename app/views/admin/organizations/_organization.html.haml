@@ -7,4 +7,4 @@
     %ul.actions
       %li= link_to 'View details', admin_organization_path(organization.id), :class => 'edit', :title => 'View/Edit details'
       - staff_only do
-        %li= link_to 'Delete', admin_organization_path(organization.id), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
+        %li= link_to 'Delete', admin_organization_path(organization.id), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'delete', :title => 'Delete entry'

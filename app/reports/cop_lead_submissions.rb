@@ -1,9 +1,10 @@
 class CopLeadSubmissions < SimpleReport
 
   def records
-    Organization.for_initiative(:lead).all( :include => [:communication_on_progresses],
-                                            :conditions => { :participant => true },
-                                            :order => "communication_on_progresses.published_on DESC"                                          )
+    Organization.for_initiative(:lead)
+                .includes(:communication_on_progresses)
+                .where(participant: true)
+                .order("communication_on_progresses.published_on DESC")
   end
 
   def headers

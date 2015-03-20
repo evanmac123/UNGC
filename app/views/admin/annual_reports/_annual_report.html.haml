@@ -6,5 +6,5 @@
     %td
       %ul.actions
         %li= link_to 'Edit', edit_submodel_path(annual_report), :class => 'edit', :title => 'Edit Annual Report details'
-        %li= link_to 'Delete', submodel_path(annual_report), :confirm => 'Are you sure you want to delete this Annual Report?', :method => :delete, :class => 'delete', :title => 'Delete Annual Report'
+        %li= link_to 'Delete', submodel_path(annual_report), :data => { :confirm => 'Are you sure you want to delete this Annual Report?' }, :method => :delete, :class => 'delete', :title => 'Delete Annual Report'
 

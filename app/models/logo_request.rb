@@ -26,8 +26,8 @@ class LogoRequest < ActiveRecord::Base
   belongs_to :contact
   belongs_to :reviewer, :class_name => "Contact"
   belongs_to :publication, :class_name => "LogoPublication"
-  has_many :logo_comments, :dependent => :delete_all, :order => 'logo_comments.created_at DESC'
-  has_and_belongs_to_many :logo_files
+  has_many :logo_comments, -> {order('logo_comments.created_at DESC')}, :dependent => :delete_all
+  has_and_belongs_to_many :logo_files, join_table: :logo_files_logo_requests
 
   accepts_nested_attributes_for :logo_comments
 
@@ -51,14 +51,14 @@ class LogoRequest < ActiveRecord::Base
     end
   end
 
-  scope :pending_review, where(:state => "pending_review")
-  scope :approved, where(:state => "approved")
-  scope :rejected, where(:state => "rejected")
-  scope :accepted, where(:state => "accepted")
-  scope :approved_or_accepted, where("logo_requests.state in ('approved','accepted')")
+  scope :pending_review, -> { where(:state => "pending_review") }
+  scope :approved, -> { where(:state => "approved") }
+  scope :rejected, -> { where(:state => "rejected") }
+  scope :accepted, -> { where(:state => "accepted") }
+  scope :approved_or_accepted, -> { where("logo_requests.state in ('approved','accepted')") }
 
-  scope :in_review, where(:state => "in_review", :replied_to => true).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC')
-  scope :unreplied, where(:state => "in_review", :replied_to => false).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC')
+  scope :in_review, -> { where(:state => "in_review", :replied_to => true).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC') }
+  scope :unreplied, -> { where(:state => "in_review", :replied_to => false).joins(:logo_comments).group(:logo_request_id).order('logo_comments.created_at DESC') }
 
   def self.approved_between(start_date, end_date)
     where("logo_requests.state in ('approved', 'accepted') AND approved_on >= ? AND approved_on <= ?", start_date, end_date).order("approved_on DESC")

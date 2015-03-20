@@ -6,4 +6,4 @@
   %td
     %ul.actions
       %li= link_to 'Edit', edit_admin_role_path(role), :class => 'edit', :title => 'Edit details'
-      %li= link_to 'Delete', admin_role_path(role), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
+      %li= link_to 'Delete', admin_role_path(role), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'delete', :title => 'Delete entry'

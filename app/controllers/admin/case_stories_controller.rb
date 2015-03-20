@@ -7,7 +7,7 @@ class Admin::CaseStoriesController < AdminController
   end
 
   def create
-    @case_story = @organization.case_stories.new(params[:case_story])
+    @case_story = @organization.case_stories.new(story_params)
     @case_story.contact_id = current_contact.id
 
     if @case_story.save
@@ -37,4 +37,31 @@ class Admin::CaseStoriesController < AdminController
         @organization = Organization.find_by_param(params[:organization_id])
       end
     end
+
+    def story_params
+      params.require(:case_story).permit(
+        :title,
+        :priciple_ids,
+        :principle_ids,
+        :style,
+        :is_internalization_project,
+        :is_partnership_project,
+        :country_ids,
+        :url1,
+        :url2,
+        :url3,
+        :description,
+        :attachment,
+        :author1,
+        :author1_email,
+        :author1_institution,
+        :author2,
+        :author2_email,
+        :author2_institution,
+        :contact1,
+        :contact1_email,
+        :contact2,
+        :contact2_email
+      )
+  end
 end

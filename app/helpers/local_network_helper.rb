@@ -49,7 +49,6 @@ module LocalNetworkHelper
   end
 
   def role_for(contact)
-    return 'Global Compact Coordinator' if local_network.manager == contact
     possible = contact.roles.select { |r| Role.network_contacts.include?(r) }
     possible.try(:first).try(:name)
   end
@@ -92,50 +91,80 @@ module LocalNetworkHelper
   end
 
   def organization_ids
-    Organization.where_country_id([country_id]).participants.collect {|o| o.id} || []
+    Organization.where_country_id(country_id).participants.collect {|o| o.id} || []
   end
 
   def cop_submitted_days_ago(days)
-    cops = CommunicationOnProgress.approved.find(:all,
-      :conditions => ['created_at BETWEEN (?) AND (?) AND organization_id in (?)',
-        (Date.today - days.day).to_s, (Date.today).to_s, organization_ids]
-    )
+    limit = (Date.today - days.day).to_s
+    today = (Date.today).to_s
+
+    CommunicationOnProgress.approved
+      .where('created_at BETWEEN (?) AND (?) AND organization_id in (?)', limit, today, organization_ids)
   end
 
   def cop_due_in_days(days)
-    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:active).find(
-      :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today).to_s, (Date.today + days.day).to_s]
-    )
+    limit = (Date.today + days.day).to_s
+    today = (Date.today).to_s
+
+    Organization.where_country_id(country_id)
+      .businesses.participants
+      .with_cop_status(:active)
+      .where('cop_due_on BETWEEN (?) AND (?)', today, limit)
   end
 
   def delisted_in_days(days)
-    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:noncommunicating).find(
-      :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today - 1.year).to_s, (Date.today - 1.year + days.day).to_s]
-    )
+    lower = (Date.today - 1.year).to_s
+    upper = (Date.today - 1.year + days.day).to_s
+
+    Organization.where_country_id(country_id)
+      .businesses
+      .participants
+      .with_cop_status(:noncommunicating)
+      .where('cop_due_on BETWEEN (?) AND (?)', lower, upper)
   end
 
   def participants_became_noncommunicating(days)
-    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:noncommunicating).find(
-      :all, :conditions => ['cop_due_on BETWEEN (?) AND (?)', (Date.today - days.day).to_s, (Date.today).to_s]
-    )
+    limit = (Date.today - days.day).to_s
+    today = (Date.today).to_s
+
+    Organization.where_country_id(country_id)
+      .businesses
+      .participants
+      .with_cop_status(:noncommunicating)
+      .where('cop_due_on BETWEEN (?) AND (?)', limit, today)
   end
 
   def participants_became_delisted(days)
-    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
-      :all, :conditions => [ 'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)',
-                            (Date.today - days.day).to_s, (Date.today).to_s, RemovalReason.delisted.id.to_i])
+    limit = (Date.today - days.day).to_s
+    today = (Date.today).to_s
+    delisted = RemovalReason.delisted.try(:id)
+
+    Organization.where_country_id(country_id)
+      .businesses
+      .participants
+      .with_cop_status(:delisted)
+      .where('delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)', limit, today, delisted)
   end
 
-  def participants_requesting_withdrawal()
-    Organization.where_country_id([country_id]).businesses.participants.with_cop_status(:delisted).find(
-      :all, :conditions => [ 'delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)', ("#{current_year}-01-01"), (Date.today).to_s, RemovalReason.withdrew.id.to_i])
+  def participants_requesting_withdrawal
+    # TODO this is broken and I don't think it's being used anymore.
+    # if you are feeling brave, delete it.
+    start_of_year = ("#{current_year}-01-01")
+    today = (Date.today).to_s
+    withdrawn = RemovalReason.withdrew.try(:id)
+
+    Organization.where_country_id(country_id)
+      .businesses
+      .participants
+      .with_cop_status(:delisted)
+      .where('delisted_on BETWEEN (?) AND (?) AND removal_reason_id = (?)', start_of_year, today, withdrawn)
   end
 
   def approved_logo_requests(days)
-    logo_requests = LogoRequest.approved.find(:all,
-      :conditions => ['approved_on BETWEEN (?) AND (?) AND organization_id in (?)',
-        (Date.today - days.day).to_s, (Date.today).to_s, organization_ids]
-    )
+    limit = (Date.today - days.day).to_s
+    today = (Date.today).to_s
+    LogoRequest.approved
+      .where('approved_on BETWEEN (?) AND (?) AND organization_id in (?)', limit, today, organization_ids)
   end
 
 end

@@ -32,26 +32,32 @@ module Admin::CopsHelper
   # Used to display cop answers on the cop show page
   def show_cop_attributes(cop, principle, selected=false, grouping='additional', initiative=nil)
     initiative_id = initiative ? Initiative.id_by_filter(initiative) : nil
-    attributes = cop.cop_attributes.all(:conditions => {:cop_questions => {:principle_area_id => principle, :grouping => grouping, :initiative_id => initiative_id }},
-                                      :include    => :cop_question,
-                                      :order      => 'cop_attributes.position ASC')
+    attributes = cop.cop_attributes
+                  .where(cop_questions: {:principle_area_id => principle, :grouping => grouping, initiative_id: initiative_id})
+                  .includes(:cop_question)
+                  .order('cop_attributes.position')
     questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
 
     questions.collect do |question|
-      answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
+      answers = cop.cop_answers
+                   .where('cop_attributes.cop_question_id=?', question.id)
+                   .joins(:cop_attribute)
       render :partial => 'admin/cops/cop_answers', :locals => { :question => question, :answers => answers }
     end.join.html_safe
   end
 
   # basic cop answers
   def show_basic_cop_attributes(cop, principle=nil, selected=false, grouping='basic')
-    attributes = cop.cop_attributes.all(:conditions => {:cop_questions => {:principle_area_id => principle, :grouping => grouping}},
-                                        :include    => :cop_question,
-                                        :order      => 'cop_attributes.position ASC')
+    attributes = cop.cop_attributes
+                  .where(cop_questions: {principle_area_id: principle, grouping: grouping})
+                  .includes(:cop_question)
+                  .order('cop_attributes.position ASC')
     questions = CopQuestion.find(attributes.collect &:cop_question_id).sort { |x,y| x.grouping <=> y.grouping }
 
     questions.collect do |question|
-      answers = cop.cop_answers.all(:conditions => ['cop_attributes.cop_question_id=?', question.id], :include => [:cop_attribute])
+      answers = cop.cop_answers
+                .where('cop_attributes.cop_question_id=?', question.id)
+                .joins(:cop_attribute)
       render :partial => 'admin/cops/cop_basic_answers', :locals => { :question => question, :answers => answers }
     end.join.html_safe
   end
@@ -112,7 +118,7 @@ module Admin::CopsHelper
   def show_business_for_peace(cop)
     cop.references_business_peace? || cop.organization.signatory_of?(:business4peace)
   end
-  
+
   def show_weps(cop)
     cop.organization.signatory_of?(:weps)
   end

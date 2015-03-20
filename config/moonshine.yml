@@ -27,7 +27,6 @@
 # Directory where application is deployed to
 :deploy_to: /srv/unglobalcompact
 
-
 # Domain aliases for application. One common use of this is for asset hosts.
 #:domain_aliases:
 #  - assets1.yourapp.com
@@ -56,8 +55,12 @@
 # Use :shared_config to copy directories straight from your local project
 # directory to the server: these are files that you don't have/want in scm.
 
+:xsendfile:
+  :x_send_file_path: /
+
 :shared_config:
   - config/database.yml
+  - config/secrets.yml
   - config/passwd.dav
 
 # The entries in shared_children are created in #{application}/shared
@@ -154,7 +157,7 @@
     bchin:
       :type: ssh-rsa
       :key: AAAAB3NzaC1yc2EAAAABJQAAAQEAjoNwQ/8l6wHYirNiYJ57LHvzSthmCDeJm+j+u1YDiIZNMA0tAudBKUfdSvPsnUtQnSB6gpzmqPX5DzazFarppIwyTR13YaN0sWV7JCD97Dpy8VZrzrhatfQaQPXexB9UH1Jn7M1Ug8nEtQckaTK1w0gg4CcwN/R9U9dk96/YYie2c43hVtX1m4tQlnQ624Fk60XgVCfmegfpmwo165bV9wdSiQSF2uJ9eYPU8TVm1andCG7jURDJIVBTZcsCN5pbEcFH1aT3HC+dBdWAHvjLF76RND/Y4stVBcfDbiOi8aSLchs6oTwWFfEx6fjSzvcDdUhwQd/eabGd7gRezKirMw==
-    bfchin:
+    bchinmac:
       :type: ssh-rsa
       :key: AAAAB3NzaC1yc2EAAAADAQABAAABAQC7d5BhKKMmeVMF42aBNFY2k7a5NVrr/nxR+h03ZFt6woT3DeSBnIz6FSmALpR7B5tqqg0LthSWeGxQGs+4JBzyJpBJKW9ntxYH1hi0h6G5LUwXzhv9G+liSUMSZKusqga5belT8QoHQMQq5/DYoKtEJgRNxbCNt8shTrBTwmy3bSFfWGSHk1T3U/+PSKskWxVpG2sckcM2Fm6B+uZp7RZZix2Er9MQ0icNPiC/WEdYbcIF2n9NFVkNsT1BIQcNaC4xAHNCiFb9gHi+XLwBm/CX9vp1QhIIhebfSp35neB+87Y2MD7MKTI4F9LF9+SL+WdGj6/lxFgJ/R2I6Pewfkp9
     marie:
@@ -166,3 +169,6 @@
     susana:
       :type: ssh-rsa
       :key: AAAAB3NzaC1yc2EAAAABJQAAAQEA1oqosK24VveG5GTBeHaL/oiWwTog+HU/RKnLqXE+q9GGmxVgiXPOx4RUr6JvSN7UaLLkNSshTz+8kRUWL/c7acWe5XFScPXnEv8JWIg4lXsvvocH7XEVzYXuog6x9x5pB9mRkxhSGWbnAUhfeQifQanQx5DvpAZgfV9UzHhs4UKz6fL+0ZbftEfFmGqNoQxdPkF3pr+gU/OUt71ezZ5Pm2wjk9wm2xy+jR3nUNvsLDw8fNoFitgCErb5C+la+IJFpbMDS0ope4pn4ux6ro2FKPM67RuZegKGqp/bLPoadDPqM/Ey48ckmZTNXSVxA1YsXgvfae1sk2vE7OeIvxYXxw==
+    jorge:
+      :type: ssh-rsa
+      :key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDk8TM5BIqwXXbKSsheQN/pmwp5YmWI/Ecgaq4nMLBdxSi1510K3cFGTkDnpyDhEy0vYm33+qnQHRSJyce5Qpo2deCn3Y81QxrYJPtX5NZh0jLwlp5vzj+pN9/hE+YPsruLDrjguT8V2Satkr+Th2Nncx4Yc4ybTFHsRpo5X7rREDHHqszf4L6cjLpy6r0ZKJrtkweGe+xaKJ7Gw20Wi/RpsoQGlRRWb+oEMOgAB6N4JKTNpWHAo7U5vfWaK7RO5/XRYAUVUSa8dCF042F8o6ikQ+VnQw398DwtUuLddrrMlXOJdnBZ7WNAFXTynPJmjJB2SufLvSqML6s+kud5zKlX

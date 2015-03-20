@@ -1,13 +1,17 @@
+require 'zlib'
+
 class ParticipantsController < ApplicationController
   helper :cops, :pages, 'admin/cops'
   before_filter :determine_navigation
   before_filter :find_participant, :only => [:show]
 
   def show
+    contribution_status = ContributionStatusQuery.for_organization(@participant)
+    @contribution_status_presenter = ContributionStatusPresenter.new(contribution_status)
   end
 
   def search
-    unless params[:commit].blank? # NOTE: keys off of the submit button - since keyword can be blank
+    if params[:commit].present? # NOTE: keys off of the submit button - since keyword can be blank
       results_for_search
     else
       show_search_form
@@ -81,7 +85,11 @@ class ParticipantsController < ApplicationController
       if business_type_selected == OrganizationType::BUSINESS
         cop_status = params[:cop_status]
         skip_cop_status = cop_status.blank? || cop_status == 'all'
-        options[:with].merge!(cop_state: cop_status.to_crc32) unless skip_cop_status
+        unless skip_cop_status
+          # http://pat.github.io/thinking-sphinx/common_issues.html#string_filters
+          state_hash = Zlib.crc32(cop_status)
+          options[:with].merge!(cop_state: state_hash)
+        end
       elsif business_type_selected == OrganizationType::NON_BUSINESS
         options[:with].merge!(organization_type_id: params[:organization_type_id].to_i) unless params[:organization_type_id].blank?
       end

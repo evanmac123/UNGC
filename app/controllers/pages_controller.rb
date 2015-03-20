@@ -14,7 +14,6 @@ class PagesController < ApplicationController
 
     if @page and @current_version
       render :template => template, :layout => 'home'
-      cache_page response.body, @page.cache_path unless @page.dynamic_content?
     else
       render :text => 'Not Found', :status => 404
     end
@@ -22,7 +21,6 @@ class PagesController < ApplicationController
 
   def view
     render :template => template, :layout => determine_layout
-    cache_page response.body, @page.cache_path unless @page.dynamic_content?
   end
 
   def decorate

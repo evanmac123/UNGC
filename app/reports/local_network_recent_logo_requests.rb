@@ -1,10 +1,10 @@
 class LocalNetworkRecentLogoRequests < SimpleReport
 
   def records
-    contact = Contact.find(@options.fetch(:contact_id))
-    LogoRequest.visible_to(contact)
+    user = Contact.find(@options[:contact_id])
+    LogoRequest.visible_to(user)
       .approved_between(30.days.ago.to_date, Date.today)
-      .all(:order => 'approved_on DESC')
+      .order('approved_on DESC')
   end
 
   def headers

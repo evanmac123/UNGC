@@ -1,8 +1,8 @@
 class LocalNetworkParticipantBreakdown < SimpleReport
 
   def records
-    contact = Contact.find(@options.fetch(:contact_id))
-    Organization.visible_to(contact).participants.with_cop_info
+    user = Contact.find(@options[:contact_id])
+    Organization.visible_to(user).participants.with_cop_info
   end
 
   def render_output

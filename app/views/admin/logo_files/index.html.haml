@@ -15,5 +15,5 @@
       %td
         %ul.actions
           %li= link_to 'Edit', edit_admin_logo_file_path(logo_file), :class => 'edit', :title => 'Edit details'
-          %li= link_to 'Delete', admin_logo_file_path(logo_file), :confirm => 'Are you sure?', :method => :delete, :class => 'delete', :title => 'Delete entry'
+          %li= link_to 'Delete', admin_logo_file_path(logo_file), :data => { :confirm => 'Are you sure?' }, :method => :delete, :class => 'delete', :title => 'Delete entry'
 

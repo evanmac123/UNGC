@@ -7,4 +7,4 @@
     %td
       %ul.actions
         %li= link_to 'Edit', edit_submodel_path(integrity_measure), :class => 'edit', :title => 'Edit policy details'
-        %li= link_to 'Delete', submodel_path(integrity_measure), :confirm => 'Are you sure you want to delete this policy?', :method => :delete, :class => 'delete', :title => 'Delete Policy'
+        %li= link_to 'Delete', submodel_path(integrity_measure), :data => { :confirm => 'Are you sure you want to delete this policy?' }, :method => :delete, :class => 'delete', :title => 'Delete Policy'

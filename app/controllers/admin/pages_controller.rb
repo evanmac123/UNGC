@@ -3,8 +3,6 @@ class Admin::PagesController < AdminController
   before_filter :only_website_editors, :only => :index
   before_filter :find_page, :only => [:approve, :check, :edit, :delete, :destroy, :rename, :revoke, :show, :update]
 
-  cache_sweeper :page_sweeper, :only => [:approve, :destroy]
-
   def index
     respond_to do |wants|
       wants.html { }
@@ -34,7 +32,7 @@ class Admin::PagesController < AdminController
   end
 
   def create
-    @page = Page.new params[:page]
+    @page = Page.new page_params
     if @page.save
       respond_to do |wants|
         wants.html { flash[:notice] = "Page successfully created"; redirect_to :action => 'index' }
@@ -103,11 +101,8 @@ class Admin::PagesController < AdminController
   end
 
   def update
-    is_live_editor = !!params[:content]
-    key = is_live_editor ? :content : :page
-    changes = params[key]
     begin
-      @version = @page.update_pending_or_new_version(changes)
+      @version = @page.update_pending_or_new_version(content_params)
     rescue Page::PathCollision => e
       update_failed(:forbidden, is_live_editor)
     rescue Exception => e
@@ -165,16 +160,50 @@ class Admin::PagesController < AdminController
       redirect_to dashboard_path
     end
   end
-  
-    def approve_after_update
-      @version.approve! if @version.can_approve?
+
+  def approve_after_update
+    @version.approve! if @version.can_approve?
+  end
+
+  def find_page
+    if @page = Page.find_by_id(params[:id])
+      @current_version = params[:version].blank? ? @page.active_version : @page.find_version_number(params[:version])
+    else
+      render :text => 'Not Found', :status => 404
+    end
+  end
+
+  def is_live_editor
+    @is_live_editor ||= params.has_key?(:content)
+  end
+
+  def content_params
+    if is_live_editor
+      content = params.require(:content)
+    elsif params[:page].present?
+      content = params.require(:page)
+    else
+      return {}
     end
 
-    def find_page
-      if @page = Page.find_by_id(params[:id])
-        @current_version = params[:version].blank? ? @page.active_version : @page.find_version_number(params[:version])
-      else
-        render :text => 'Not Found', :status => 404
-      end
-    end
+    content.permit(
+      :path,
+      :title,
+      :html_code,
+      :content,
+      :parent_id,
+      :position,
+      :display_in_navigation,
+      :dynamic_content,
+      :version_number,
+      :group_id,
+      :top_level,
+      :change_path,
+    )
+  end
+
+  def page_params
+    params.require(:page).permit(:title, :derive_path_from, :position)
+  end
+
 end

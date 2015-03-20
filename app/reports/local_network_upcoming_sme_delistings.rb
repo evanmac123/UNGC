@@ -1,8 +1,14 @@
 class LocalNetworkUpcomingSmeDelistings < SimpleReport
 
   def records
-    contact = Contact.find(@options.fetch(:contact_id))
-    Organization.smes.visible_to(contact).under_moratorium.all(:order => :cop_due_on)
+    # organization is not eagerly loaded once we get this user
+    # including this rather blunt kludge until the background reports branch is merged
+    user = Contact.includes(:organization).find(@options[:contact_id])
+
+    Organization.smes
+                .visible_to(user)
+                .under_moratorium
+                .order(:cop_due_on)
   end
 
   def render_output

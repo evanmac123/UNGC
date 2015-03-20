@@ -15,8 +15,6 @@
 
 class ContributionDescription < ActiveRecord::Base
   belongs_to :local_network
-  attr_accessible :pledge, :pledge_continued, :payment,
-                  :contact, :additional, :local_network_id
 
   validates :local_network_id,  presence: true
   validates :pledge,            length: { maximum: 500 }

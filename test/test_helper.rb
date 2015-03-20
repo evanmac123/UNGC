@@ -1,7 +1,11 @@
+require 'simplecov'
+SimpleCov.start
+
 ENV["RAILS_ENV"] = "test"
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
+require 'mocha/setup'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
@@ -230,6 +234,73 @@ class ActiveSupport::TestCase
     HashWithIndifferentAccess.new(valid_cop_file_attributes.merge(attachment: fixture_file_upload('files/untitled.pdf', 'application/pdf')))
   end
 
+  def create_annual_report(params = {})
+    super(valid_file_upload_attributes.merge(params))
+  end
+
+  def create_award(params = {})
+    super(valid_file_upload_attributes.merge(params))
+  end
+
+  def create_mou(params = {})
+    super(valid_file_upload_attributes.merge(params))
+  end
+
+  def create_meeting(params = {})
+    super(valid_file_upload_attributes.merge(params))
+  end
+
+  def valid_meeting_attributes(params = {})
+    super(params).merge(valid_file_upload_attributes)
+  end
+
+  def create_communication(params = {})
+    super(valid_file_upload_attributes.merge(params))
+  end
+
+  def valid_communication_attributes(params = {})
+    super(params).merge(valid_file_upload_attributes)
+  end
+
+  def create_integrity_measure(params = {})
+    super(valid_file_upload_attributes.merge(params))
+  end
+
+  def valid_integrity_measure_attributes(params = {})
+    super(params).merge(valid_file_upload_attributes)
+  end
+
+  def create_local_network_event(params = {})
+    defaults = {
+      attachments: [
+        UploadedFile.new(
+          attachment: create_file_upload,
+          attachable_type: "LocalNetworkEvent"
+        )
+      ]
+    }
+    super(defaults.merge(params))
+  end
+
+  def valid_local_network_event_attributes(params = {})
+    super(params).merge(
+      attachments: [
+        {
+          attachment: create_file_upload,
+          attachable_type: "LocalNetworkEvent"
+        }
+      ]
+    )
+  end
+
+  def create_file_upload
+    fixture_file_upload('files/untitled.pdf', 'application/pdf')
+  end
+
+  def valid_file_upload_attributes
+    {file: create_file_upload}
+  end
+
 end
 
 class ActionController::TestCase
@@ -241,3 +312,32 @@ class ActionDispatch::IntegrationTest
   include Warden::Test::Helpers
   Warden.test_mode!
 end
+
+module LocalNetworkSubmodelControllerHelper
+
+  def seeds
+    Principle.create! name: "Global Compact"
+    Principle.create! name: "Human Rights"
+    Principle.create! name: "Labour"
+    Principle.create! name: "Environment"
+    Principle.create! name: "Anti-Corruption"
+    Principle.create! name: 'Business and Peace'
+    Principle.create! name: "Financial Markets"
+    Principle.create! name: "Business for Development"
+    Principle.create! name: "UN / Business Partnerships"
+    Principle.create! name: "Supply Chain Sustainability"
+  end
+
+  def sign_in_as_local_network
+    @contact = create_local_network_with_report_recipient
+    sign_in @contact
+
+    assert @contact.from_network?
+    assert @contact.local_network == @local_network
+    refute @contact.from_organization?
+
+    seeds
+  end
+
+end
+

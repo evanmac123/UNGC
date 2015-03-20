@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class RoutingTest < ActionController::IntegrationTest
+class RoutingTest < ActionDispatch::IntegrationTest
 
   context "Content routing" do
     setup do

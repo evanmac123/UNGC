@@ -63,12 +63,10 @@ class CoePresenter
 
   # more quries for questions
   def attributes
-    coe.cop_attributes.all(:conditions => {:cop_questions => {
-                                              :principle_area_id => nil,
-                                              :grouping => non_business_type}
-                                            },
-                                        :include    => :cop_question,
-                                        :order      => 'cop_attributes.position ASC')
+    coe.cop_attributes
+      .includes(:cop_question)
+      .where(cop_questions: { principle_area_id: nil, grouping: non_business_type })
+      .order('cop_attributes.position ASC')
   end
 
   # supports questions

@@ -15,7 +15,7 @@ module Searchable::SearchableOrganization
   end
 
   def index_organizations_since(time)
-    indexable_organizations.find(:all, conditions: new_or_updated_since(time)).each { |o| index_organization o }
+    indexable_organizations.where(new_or_updated_since(time)).each { |o| index_organization o }
   end
 
   def remove_organization(organization)

@@ -1,5 +1,5 @@
 %h1 Search results
-- if @facets.any? && @facets[:document_type].size > 0
+-# if @facets.any? && @facets[:document_type].size > 0
   %ul.search_facets
     - @facets[:document_type].sort.map do |key, count|
       - unless key == 'Participant'

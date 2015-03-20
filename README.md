@@ -44,6 +44,24 @@ the **Ubuntu Server** directions in
 [this](http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1022525)
 VMware support article.
 
+**11. extra:**
+If you're using **VirtualBox on OSX** you can enable NFS file sharing for improved performance:
+edit your Vagrantfile and add just after the first few lines
+
+```
+config.vm.network "private_network", ip: "10.0.0.5"
+```
+
+then change this line
+```
+config.vm.synced_folder '.', '/vagrant'
+```
+
+to
+```
+config.vm.synced_folder '.', '/vagrant', nfs: true 
+```
+
 Once you've completed the above steps, you've successfully created a development
 VM for working on the UNGC project. At this point you can log-in to the
 development VM using the `vagrant ssh` command from within the project directory.
@@ -109,6 +127,7 @@ development:
 > sure to set the correct permissions on the key files `chmod 0600 id_rsa*`.
 
 1. Create a `database.yml`: `cp config/database.yml.sample config/database.yml`
+2. Create a `secrets.yml`: `cp config/secrets.yml.example config/secrets.yml`
 2. Create a `tmp/pids` folder: `mkdir -p tmp/pids`
 3. Log in to the VM, run `vagrant ssh` from within the project directory
 4. Run `bundle` to download and install all Ruby dependencies

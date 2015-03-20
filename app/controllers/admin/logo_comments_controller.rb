@@ -6,7 +6,7 @@ class Admin::LogoCommentsController < AdminController
   end
 
   def create
-    @logo_comment = @logo_request.logo_comments.new(params[:logo_comment])
+    @logo_comment = @logo_request.logo_comments.new(comment_params)
     @logo_comment.state_event = params[:commit].downcase
     @logo_comment.contact_id = current_contact.id
 
@@ -21,5 +21,9 @@ class Admin::LogoCommentsController < AdminController
   private
     def load_logo_request
       @logo_request = LogoRequest.find params[:logo_request_id]
+    end
+
+    def comment_params
+      params.require(:logo_comment).permit(:body, :attachment)
     end
 end

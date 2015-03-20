@@ -1,47 +1,48 @@
 class Admin::LogoRequestsController < AdminController
-  before_filter :load_organization, :only => [:new, :create, :show, :edit, :update, :destroy, :approve, :reject, :agree, :download]
+  before_filter :load_organization, :only => [
+    :new,
+    :create,
+    :show,
+    :edit,
+    :update,
+    :destroy,
+    :agree,
+    :download
+  ]
   before_filter :no_unapproved_organizations_access
 
-  # Define state-specific index methods
-  %w{pending_review in_review unreplied approved rejected}.each do |method|
-    define_method method do
-      # use custom index view if defined
-      render case method
-        when 'pending_review'
-          @logo_requests = LogoRequest.pending_review.includes(:organization)
-                              .order(order_from_params('created_at', 'DESC'))
-                              .paginate(:page     => params[:page],
-                                        :per_page => LogoRequest.per_page)
-          method
-        when 'in_review'
-          @logo_requests = LogoRequest.in_review.includes(:organization)
-                              .order(order_from_params('updated_at', 'DESC'))
-                              .paginate(:page     => params[:page],
-                                        :per_page => LogoRequest.per_page)
-          method
-        when 'unreplied'
-          @logo_requests = LogoRequest.unreplied.includes(:organization)
-                              .order(order_from_params('updated_at', 'DESC'))
-                              .paginate(:page     => params[:page],
-                                        :per_page => LogoRequest.per_page)
-          @list_name = 'Updated Logo Requests'
-          'in_review'
-        when 'approved'
-          @logo_requests = LogoRequest.approved_or_accepted.includes(:organization)
-                              .order(order_from_params('approved_on', 'DESC'))
-                              .paginate(:page     => params[:page],
-                                        :per_page => LogoRequest.per_page)
-          method
-        when 'rejected'
-          @logo_requests = LogoRequest.rejected.includes(:organization)
-                              .order(order_from_params('updated_at', 'DESC'))
-                              .paginate(:page     => params[:page],
-                                        :per_page => LogoRequest.per_page)
-          method
-        else
-          'index'
-      end
-    end
+  def pending_review
+    lrs = LogoRequest.pending_review.includes(:organization)
+                        .order(sort_on('created_at'))
+                        .paginate(pagination_params)
+    contribution_statuses = ContributionStatusQuery.for_organizations(lrs.map(&:organization))
+    @logo_requests = LogoRequestsPresenter.new(lrs, contribution_statuses)
+  end
+
+  def in_review
+    @logo_requests = LogoRequest.in_review.includes(:organization)
+                        .order(sort_on('updated_at'))
+                        .paginate(pagination_params)
+  end
+
+  def unreplied
+    @logo_requests = LogoRequest.unreplied.includes(:organization)
+                        .order(sort_on('updated_at'))
+                        .paginate(pagination_params)
+    @list_name = 'Updated Logo Requests'
+    render :in_review
+  end
+
+  def approved
+    @logo_requests = LogoRequest.approved_or_accepted.includes(:organization)
+                        .order(sort_on('approved_on'))
+                        .paginate(pagination_params)
+  end
+
+  def rejected
+    @logo_requests = LogoRequest.rejected.includes(:organization)
+                        .order(sort_on('updated_at'))
+                        .paginate(pagination_params)
   end
 
   def index
@@ -54,13 +55,15 @@ class Admin::LogoRequestsController < AdminController
   end
 
   def show
+    contribution_status = ContributionStatusQuery.for_organization(@logo_request.organization)
+    @logo_request = LogoRequestPresenter.new(@logo_request, contribution_status)
     if @logo_request.approved? && current_contact.from_organization?
       render :template => 'admin/logo_requests/logo_terms'
     end
   end
 
   def create
-    @logo_request = @organization.logo_requests.new(params[:logo_request])
+    @logo_request = @organization.logo_requests.new(request_params)
     @logo_request.logo_comments.first.contact_id = current_contact.id
 
     if @logo_request.save
@@ -72,7 +75,7 @@ class Admin::LogoRequestsController < AdminController
   end
 
   def update
-    @logo_request.update_attributes(params[:logo_request])
+    @logo_request.update_attributes(request_params)
     if params[:commit] == "Save logos"
       flash[:notice] = 'The approved logos have been saved. You may now approve the Logo Request.'
       redirect_to new_admin_logo_request_logo_comment_path(@logo_request)
@@ -94,7 +97,7 @@ class Admin::LogoRequestsController < AdminController
 
   def download
     if @logo_request.can_download_files?
-      logo_file = @logo_request.logo_files.first(:conditions => ['logo_file_id=?', params[:logo_file_id]])
+      logo_file = @logo_request.logo_files.find(params.require(:logo_file_id))
       send_file logo_file.zip.path, :type => 'application/x-zip-compressed'
     else
       flash[:error] = "Approved logo files must be downloaded within 7 days of accepting the Logo Policy."
@@ -108,7 +111,20 @@ class Admin::LogoRequestsController < AdminController
       @organization = Organization.find params[:organization_id]
     end
 
-    def order_from_params(field, direction)
+    def sort_on(field, direction = 'DESC')
       @order = [params[:sort_field] || field, params[:sort_direction] || direction].join(' ')
+    end
+
+    def request_params
+      params.require(:logo_request).permit(
+        :contact_id,
+        :purpose,
+        :publication_id,
+        :logo_file_ids => [],
+        :logo_comments_attributes => [:id, :_destroy, :body, :attachment])
+    end
+
+    def pagination_params
+      { page: params[:page], per_page: LogoRequest.per_page }
     end
 end

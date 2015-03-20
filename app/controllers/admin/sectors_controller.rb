@@ -14,7 +14,7 @@ class Admin::SectorsController < AdminController
   end
 
   def create
-    @sector = Sector.new(params[:sector])
+    @sector = Sector.new(sector_params)
     if @sector.save
       flash[:notice] = 'Sector was successfully created.'
       redirect_to(admin_sectors_path)
@@ -25,7 +25,7 @@ class Admin::SectorsController < AdminController
 
   def update
     @sector = Sector.find(params[:id])
-    if @sector.update_attributes(params[:sector])
+    if @sector.update_attributes(sector_params)
       flash[:notice] = 'Sector was successfully updated.'
       redirect_to(admin_sectors_path)
     else
@@ -37,5 +37,15 @@ class Admin::SectorsController < AdminController
     @sector = Sector.find(params[:id])
     @sector.destroy
     redirect_to(admin_sectors_path)
+  end
+
+  private
+
+  def sector_params
+    params.require(:sector).permit(
+      :name,
+      :icb_number,
+      :parent_id
+    )
   end
 end

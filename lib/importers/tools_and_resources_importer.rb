@@ -43,7 +43,7 @@ module Importers
     def import_resources(sheet)
       each_row(sheet) do |row|
         attrs = ResourceAttrs.new(*row)
-        resource = Resource.find_or_create_by_id(attrs.id)
+        resource = Resource.find_or_create_by(id: attrs.id)
         resource.update_attributes(attrs.to_h)
       end
     end
@@ -63,7 +63,7 @@ module Importers
     def import_authors(sheet)
       each_row(sheet) do |row|
         attrs = AuthorAttrs.new(*row)
-        author = Author.find_or_create_by_id(attrs.id)
+        author = Author.find_or_create_by(id: attrs.id)
         author.update_attributes(attrs.to_h)
       end
     end

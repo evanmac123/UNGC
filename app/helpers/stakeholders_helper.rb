@@ -4,9 +4,9 @@ module StakeholdersHelper
     @stakeholders ||= {}
     unless @stakeholders[filter_type]
       @stakeholders[filter_type] = if filter_type
-        Organization.participants.by_type(filter_type).includes(:country).all(:order => :name)
+        Organization.participants.by_type(filter_type).includes(:country).order(:name).load
       else
-        Organization.includes(:country).all
+        Organization.includes(:country).load
       end
     end
     @stakeholders[filter_type]

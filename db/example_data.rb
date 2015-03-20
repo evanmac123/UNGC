@@ -71,6 +71,11 @@ module FixtureReplacement
 
   attributes_for :cop_attribute do |a|
     a.text  = FixtureReplacement.random_string
+    a.hint  = FixtureReplacement.random_string
+  end
+
+  attributes_for :cop_answer do |a|
+    a.text  = FixtureReplacement.random_string
   end
 
   attributes_for :cop_score do |a|
@@ -97,6 +102,7 @@ module FixtureReplacement
 
   attributes_for :headline do |a|
     a.title = FixtureReplacement.random_string
+    a.published_on = Time.now
   end
 
   attributes_for :initiative do |a|
@@ -227,6 +233,48 @@ module FixtureReplacement
     g.format = CopFile::TYPES[:reporting_cycle_adjustment]
   end
 
+  attributes_for :communication do |c|
+    c.title = FixtureReplacement.random_string
+    c.date = Date.new(2010, 1, 1)
+  end
+
+  attributes_for :announcement do |a|
+    a.title = FixtureReplacement.random_string
+    a.description = FixtureReplacement.random_string
+    a.date = Date.new(2010, 1, 1)
+  end
+
+  attributes_for :annual_report do |a|
+  end
+
+  attributes_for :award do |a|
+    a.title = FixtureReplacement.random_string
+    a.description = FixtureReplacement.random_string
+    a.date = Date.new(2010, 1, 1)
+  end
+
+  attributes_for :integrity_measure do |i|
+    i.title = FixtureReplacement.random_string
+    i.description = FixtureReplacement.random_string
+    i.date = Date.new(2010, 1, 1)
+  end
+
+  attributes_for :local_network_event do |l|
+    l.title = FixtureReplacement.random_string
+    l.description = FixtureReplacement.random_string
+    l.event_type = FixtureReplacement.random_string
+    l.date = Date.new(2010, 1, 1)
+    l.num_participants = 10
+    l.gc_participant_percentage = 100
+  end
+
+  attributes_for :meeting do |m|
+    m.date = Date.new(2010, 1, 1)
+  end
+
+  attributes_for :mou do |m|
+  end
+
   attributes_for :campaign do |c|
     c.campaign_id = FixtureReplacement.random_string(15)
     c.name = FixtureReplacement.random_string
@@ -237,6 +285,6 @@ module FixtureReplacement
     c.date = Date.today - rand(999).days
     c.stage = FixtureReplacement.random_string
     c.organization_id = Organization.first.id
+    c.contribution_id = FixtureReplacement.random_string(16)
   end
-
 end

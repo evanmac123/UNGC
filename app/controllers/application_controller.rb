@@ -7,10 +7,10 @@ class ApplicationController < ActionController::Base
   before_filter :mailer_set_url_options
 
   helper 'datetime', 'navigation'
-  protect_from_forgery
 
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :exception
 
   def current_url
     url_for :only_path => true
@@ -24,8 +24,8 @@ class ApplicationController < ActionController::Base
 
   def formatted_request_path
     unless @formatted_request_path
-      if params[:path]
-        @formatted_request_path = "/#{params[:path]}"
+      if path_params
+        @formatted_request_path = "/#{path_params.join('/')}"
         @formatted_request_path << '/index.html' unless @formatted_request_path =~ /\.html$/
       end
       @formatted_request_path = @formatted_request_path.gsub('//', '/') if @formatted_request_path.respond_to?(:gsub)
@@ -121,5 +121,9 @@ class ApplicationController < ActionController::Base
     else
       redirect_to options
     end
+  end
+
+  def path_params
+    Array(params[:path])
   end
 end

@@ -32,6 +32,7 @@ class CopFile < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:cop_file_id/:style/:filename",
     :url => "/system/:attachment/:cop_file_id/:style/:filename"
   validates_attachment_presence :attachment
+  do_not_validate_attachment_file_type :attachment
 
   TYPES = {:grace_letter          => 'grace_letter',
            :reporting_cycle_adjustment => 'reporting_cycle_adjustment',

@@ -1,8 +1,8 @@
 class LocalNetworkParticipantContacts < SimpleReport
 
   def records
-    contact = Contact.find(@options.fetch(:contact_id))
-    Contact.visible_to(contact).participants_only.for_local_network
+    user = Contact.find(@options[:contact_id])
+    Contact.visible_to(user).joins(:contacts_roles).participants_only.for_local_network
   end
 
   def render_output
