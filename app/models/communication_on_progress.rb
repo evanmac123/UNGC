@@ -82,7 +82,7 @@ class CommunicationOnProgress < ActiveRecord::Base
   }
   scope :active,   lambda { where("differentiation = ?", 'active').includes([{:organization => [:country, :sector]}]) }
   scope :advanced, lambda { where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}]) }
-  scope :learner, lambda { where("differentiation = ?", 'learner').includes([{:organization => [:country, :sector]}]) }
+  scope :learner, lambda { where("differentiation = ?", 'learner').joins([{:organization => [:country, :sector]}]) }
   scope :coes, lambda { where("cop_type = ?", 'non_business').includes([{:organization => [:country, :sector]}]) }
   scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => [:country, :organization_type] }]) }
   # feed contains daily COP submissions, without grace letters or reporting adjustments
