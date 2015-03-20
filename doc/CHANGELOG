@@ -1,9 +1,15 @@
+h1. 2015-03-20
+
+* Went live with displaying contribution data synced from Salesforce
+* The Contributions tab is only displayed to contacts with the Relationship Manager role
+
 h1. 2015-02-08
 
 * Adding new partial to list COEs from non-business organizations
 * Had to manually update communication_on_progresses.cop_type to 'non_business' for those COEs submitted before the major COP refactoring
 
 h1. 2015-02-06
+
 * use SalesForce contribution data to calculate the contribution status for an organization
 * add a ContributionStatus query object to retrieve the contribution statuses for organizations
 * add LogoRequest(s) presenters to display LogoRequests data and contribution status data for a given organization
@@ -25,7 +31,7 @@ h1. 2014-12-01
 
 h1. 2014-11-18
 
-* Reports now run as background jobs outside of the rails process. This frees up rails to continue handling requests while large, slow reports are generated.  The Sidekiq gem and a Redis server are used to manage these background jobs.
+* Reports now run as background jobs outside of the rails process. This frees up rails to continue handling requests while large, slow reports are generated. The Sidekiq gem and a Redis server are used to manage these background jobs.
 
 h1. 2014-11-18
 

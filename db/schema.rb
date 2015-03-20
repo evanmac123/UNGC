@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024015900) do
+ActiveRecord::Schema.define(version: 20150320131239) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -751,13 +751,13 @@ ActiveRecord::Schema.define(version: 20141024015900) do
   end
 
   create_table "report_statuses", force: :cascade do |t|
-    t.integer  "status",        limit: 4,   default: 0, null: false
+    t.integer  "status",        limit: 4,     default: 0, null: false
     t.string   "filename",      limit: 255
     t.string   "path",          limit: 255
-    t.string   "error_message", limit: 255
+    t.text     "error_message", limit: 65535
     t.string   "format",        limit: 255
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "resource_links", force: :cascade do |t|
