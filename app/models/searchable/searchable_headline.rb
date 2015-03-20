@@ -13,7 +13,7 @@ module Searchable::SearchableHeadline
   end
 
   def index_headlines_since(time)
-    Headline.approved.find(:all, conditions: new_or_updated_since(time)).each { |h| index_headline h }
+    Headline.approved.where(new_or_updated_since(time)).each { |h| index_headline h }
   end
 
   def remove_headline(headline)

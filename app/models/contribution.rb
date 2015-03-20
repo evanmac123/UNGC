@@ -18,7 +18,11 @@
 #
 
 class Contribution < ActiveRecord::Base
-  set_primary_key :contribution_id
+
+  STAGE_POSTED = "Posted"
+
+  self.primary_key = :contribution_id
+
   belongs_to :organization
   belongs_to :campaign
 
@@ -29,6 +33,7 @@ class Contribution < ActiveRecord::Base
 
   scope :not_deleted, -> { where(is_deleted: false) }
   scope :visible_in_dashboard, -> { not_deleted.order('contributions.date DESC') }
+  scope :posted, -> { where("raw_amount > 0 AND stage = ?", STAGE_POSTED) }
 
   def amount
     recognition_amount || raw_amount

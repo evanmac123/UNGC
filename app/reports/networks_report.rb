@@ -1,7 +1,6 @@
 class NetworksReport < GroupedReport
   def records
-    [Organization.without_contacts.all(:limit => 5),
-      Organization.all(:limit => 5)]
+    [Organization.without_contacts.limit(5), Organization.limit(5)]
   end
 
   def titles

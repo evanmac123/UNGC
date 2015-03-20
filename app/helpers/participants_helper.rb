@@ -1,6 +1,8 @@
+require 'zlib'
+
 module ParticipantsHelper
   def countries_for_select
-    options_for_select Country.all.map { |c| [c.name, c.id] }
+    options_for_select Country.data_for_select
   end
 
   def iconize(org)
@@ -51,18 +53,6 @@ module ParticipantsHelper
 
   def display_delisted_description(organization)
     organization.removal_reason == RemovalReason.delisted ? 'Reason for expulsion' : 'Reason for delisting'
-  end
-
-  def contribution_years(organization)
-    html = ""
-    # Start at the current year, otherwise start from the year they were delisted
-    # We will switch to a different method for tracking contributions in 2015, so the year is hardcoded for now
-    start_year = organization.delisted? ? organization.delisted_on.year : 2015
-    start_year.downto(organization.initial_contribution_year) do |year|
-      contributed = organization.contributor_for_year?(year)
-      html += render :partial => 'contribution', :locals => { :year => year, :contributed => contributed }
-    end
-    html.html_safe
   end
 
   def countries_list
@@ -141,9 +131,9 @@ module ParticipantsHelper
       end
 
       case @searched_for[:cop_state]
-        when Organization::COP_STATES[:active].to_crc32
+        when Zlib.crc32(Organization::COP_STATES[:active])
           response << ', with an Active COP status'
-        when Organization::COP_STATES[:noncommunicating].to_crc32
+        when Zlib.crc32(Organization::COP_STATES[:noncommunicating])
           response << ', with a non-communicating COP status'
       end
 

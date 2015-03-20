@@ -5,10 +5,6 @@
 
   .tab_content
     %p.small
-      - updated = Signing.latest_contribution_update
-      - if updated.present?
-        Contribution data was last updated on
-        #{updated.strftime '%d-%b-%Y at %I:%M %p'} UTC.
     %table.dashboard_table
       %tr
         %th ID
@@ -25,7 +21,9 @@
           %td{:title => logo_request.organization.name}= link_to truncate(logo_request.organization.name, :length => 50), admin_organization_path(logo_request.organization.id)
           %td=h logo_request.created_at
           %td= logo_request.organization.try(:participant_manager_name)
-          %td.center= contribution_received?(logo_request)
+          %td.center
+            - if logo_request.missing_contribution?
+              = image_tag('unchecked.png', height: '15', width: '15')
           %td= display_days_ago(@latest_comment_date)
           %td
             %ul.actions

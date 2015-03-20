@@ -31,7 +31,7 @@ module Searchable::SearchableCaseStory
   end
 
   def index_case_stories_since(time)
-    CaseStory.approved.find(:all, conditions: new_or_updated_since(time)).each { |c| index_case_story c }
+    CaseStory.approved.where(new_or_updated_since(time)).each { |c| index_case_story c }
   end
 
 end

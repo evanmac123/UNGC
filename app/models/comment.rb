@@ -24,8 +24,10 @@ class Comment < ActiveRecord::Base
     :path => ":rails_root/public/system/:attachment/:id/:style/:filename",
     :url => "/system/:attachment/:id/:style/:filename"
 
-  default_scope order('updated_at DESC')
-  scope :with_attachment, where("attachment_file_name IS NOT NULL")
+  do_not_validate_attachment_file_type :attachment
+
+  default_scope { order('updated_at DESC') }
+  scope :with_attachment, lambda { where("attachment_file_name IS NOT NULL") }
 
   # copy email to local network if option is selected
   attr_accessor :copy_local_network

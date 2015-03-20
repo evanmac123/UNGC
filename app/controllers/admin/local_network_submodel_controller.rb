@@ -8,7 +8,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
   helper_method :submodel, :return_url
 
   def create
-    @submodel.attributes = params[submodel.name.underscore]
+    @submodel.attributes = submodel_params
 
     if @submodel.save
       flash[:notice] = "#{submodel.name.titleize} was successfully created."
@@ -19,7 +19,7 @@ class Admin::LocalNetworkSubmodelController < AdminController
   end
 
   def update
-    @submodel.attributes = params[submodel.name.underscore]
+    @submodel.attributes = submodel_params
 
     if @submodel.save
       flash[:notice] = "#{submodel.name.titleize} was successfully updated."
@@ -79,6 +79,10 @@ class Admin::LocalNetworkSubmodelController < AdminController
 
   def knowledge_sharing_tab?
     submodel.local_network_model_type == :knowledge_sharing
+  end
+
+  def submodel_params
+    params.require(submodel.name.underscore).permit!
   end
 
 end

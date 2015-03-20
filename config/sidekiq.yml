@@ -2,6 +2,9 @@
 :concurrency: 4
 :pidfile: tmp/pids/sidekiq.pid
 :logfile: ./log/sidekiq.log
+development:
+  :concurrency: 1
+  :logfile: null
 staging:
   :concurrency: 5
 production:

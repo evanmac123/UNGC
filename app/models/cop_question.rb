@@ -61,9 +61,8 @@ class CopQuestion < ActiveRecord::Base
   # can optionally select the implementation area the question covers
   IMPLEMENTATION_AREAS =  ['policy', 'process', 'monitoring', 'performance']
 
-  default_scope :order => 'cop_questions.position'
-  scope :general, where("initiative_id IS NULL")
-  
+  default_scope { order('cop_questions.position') }
+  scope :general, lambda { where("initiative_id IS NULL") }
   scope :initiative_questions_for, lambda { |organization| where('initiative_id IN (?)', organization.initiative_ids) }
 
   scope :questions_for, lambda { |organization| where('(initiative_id IS NULL) OR (initiative_id IN (?))', organization.initiative_ids) }

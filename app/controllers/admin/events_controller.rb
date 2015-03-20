@@ -5,16 +5,15 @@ class Admin::EventsController < AdminController
     :only => [:approve, :delete, :destroy, :edit, :revoke, :show, :update]
 
   def index
-    @paged_events ||= Event.paginate(:page  => params[:page],
-                                     :order => order_from_params)
+    @paged_events ||= Event.paginate(page: params[:page]).order(order_from_params)
   end
 
   def new
-    @event = Event.new params[:event]
+    @event = Event.new event_params
   end
 
   def create
-    @event = Event.new params[:event]
+    @event = Event.new event_params
     if @event.save
       flash[:notice] = "Event successfully created"
       redirect_to :action => 'index'
@@ -27,7 +26,7 @@ class Admin::EventsController < AdminController
   end
 
   def update
-    if @event.update_attributes(params[:event])
+    if @event.update_attributes(event_params)
       flash[:notice] = "Changes have been saved"
       redirect_to :action => 'index'
     else
@@ -61,5 +60,19 @@ class Admin::EventsController < AdminController
 
     def order_from_params
       @order = [params[:sort_field] || 'starts_on', params[:sort_direction] || 'ASC'].join(' ')
+    end
+
+    def event_params
+      return {} unless params[:event].present?
+
+      params.require(:event).permit(
+        :title,
+        :description,
+        :starts_on_string,
+        :ends_on_string,
+        :location,
+        :country_id,
+        :urls,
+      )
     end
 end

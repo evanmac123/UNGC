@@ -19,6 +19,6 @@
             %li= link_to 'Approve', approve_admin_headline_path(headline), class: 'approve', method: :post if headline.can_approve?
             %li= link_to 'Revoke', revoke_admin_headline_path(headline), class: 'revoke', method: :post if headline.can_revoke?
             %li= link_to 'Edit', edit_admin_headline_path(headline), class: 'edit', title: 'Edit details'
-            %li= link_to 'Delete', admin_headline_path(headline), class: 'delete', confirm: 'Are you sure you want to delete this headline?', method: :delete, title:'Delete entry'
+            %li= link_to 'Delete', admin_headline_path(headline), class: 'delete', data: { confirm: 'Are you sure you want to delete this headline?' }, method: :delete, title:'Delete entry'
 
 = will_paginate paged_headlines

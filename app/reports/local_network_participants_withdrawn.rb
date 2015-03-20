@@ -1,11 +1,11 @@
 class LocalNetworkParticipantsWithdrawn < SimpleReport
 
   def records
-    contact = Contact.find(@options.fetch(:contact_id))
-    Organization.visible_to(contact)
+    user = Contact.find(@options[:contact_id])
+    Organization.visible_to(user)
       .withdrew
       .delisted_between(Date.new(Date.today.year,1,1), Date.today)
-      .all(:order => 'delisted_on DESC')
+      .order('delisted_on DESC')
   end
 
   def headers

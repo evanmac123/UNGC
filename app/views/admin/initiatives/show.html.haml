@@ -1,7 +1,7 @@
 %h2== #{@initiative.name} (#{@initiative.signings.count})
 
 %ul.tools.inline
-  %li= link_to_function 'Add signatory', "$('#add_signatory').toggle()", :class => 'new_large'
+  %li= link_to 'Add signatory', '#', :onclick => "$('#add_signatory').toggle(); return false;", :class => 'new_large'
   %li= link_to 'Back to Initiatives', admin_initiatives_path, :class => 'go_back_large'
 %p
 #add_signatory{:style => 'display: none;'}

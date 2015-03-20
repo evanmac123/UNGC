@@ -16,7 +16,7 @@ class Role < ActiveRecord::Base
   validates_presence_of :name, :description
   has_and_belongs_to_many :contacts, :join_table => "contacts_roles"
   belongs_to :initiative
-  default_scope :order => 'roles.position, roles.initiative_id, roles.name'
+  default_scope { order('roles.position, roles.initiative_id, roles.name') }
 
   before_update :check_for_filtered_name_change
 
@@ -77,20 +77,24 @@ class Role < ActiveRecord::Base
 
   # Local Network roles
 
+  scope :network_focal_points, -> { where(name: FILTERS[:network_focal_point]) }
   def self.network_focal_point
-    where(:name => FILTERS[:network_focal_point]).first
+    network_focal_points.first
   end
 
+  scope :network_representatives, -> { where(name: FILTERS[:network_representative]) }
   def self.network_representative
-    where(:name => FILTERS[:network_representative]).first
+    network_representatives.first
   end
 
+  scope :network_report_recipients, -> { where(name: FILTERS[:network_report_recipient]) }
   def self.network_report_recipient
-    where(:name => FILTERS[:network_report_recipient]).first
+    network_report_recipients.first
   end
 
+  scope :network_guest_users, -> { where(name: FILTERS[:network_guest_user]) }
   def self.network_guest_user
-    where(:name => FILTERS[:network_guest_user]).first
+    network_guest_users.first
   end
 
   def self.network_contacts
@@ -99,38 +103,46 @@ class Role < ActiveRecord::Base
 
   # Participant organization roles
 
+  scope :ceos, -> { where(name: FILTERS[:ceo]) }
   def self.ceo
-    where(:name => FILTERS[:ceo]).first
+    ceos.first
   end
 
+  scope :contact_points, -> { where(name: FILTERS[:contact_point]) }
   def self.contact_point
-    where(:name => FILTERS[:contact_point]).first
+    contact_points.first
   end
 
+  scope :general_contacts, -> { where(name: FILTERS[:general_contact]) }
   def self.general_contact
-    where(:name => FILTERS[:general_contact]).first
+    general_contacts.first
   end
 
+  scope :financial_contacts, -> { where(name: FILTERS[:financial_contact]) }
   def self.financial_contact
-    where(:name => FILTERS[:financial_contact]).first
+    financial_contacts.first
   end
 
+  scope :survey_contacts, -> { where(name: FILTERS[:survey_contact]) }
   def self.survey_contact
-    where(:name => FILTERS[:survey_contact]).first
+    survey_contacts.first
   end
 
   # Global Compact staff roles
 
+  scope :website_editors, -> { where(name: FILTERS[:website_editor]) }
   def self.website_editor
-    where(:name => FILTERS[:website_editor]).first
+    website_editors.first
   end
 
+  scope :network_regional_managers, -> { where(name: FILTERS[:network_regional_manager]) }
   def self.network_regional_manager
-    where(:name => FILTERS[:network_regional_manager]).first
+    network_regional_managers.first
   end
 
+  scope :participant_managers, -> { where(name: FILTERS[:participant_manager]) }
   def self.participant_manager
-    where(:name => FILTERS[:participant_manager]).first
+    participant_managers.first
   end
 
   def self.login_roles

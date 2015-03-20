@@ -2,20 +2,19 @@ class NonBusinessOrganizationSignup < OrganizationSignup
   attr_reader :registration, :financial_contact
 
   def post_initialize
+    @org_type = 'non_business'
     @organization = Organization.new
     @legal_status_id = nil
     @registration = @organization.build_non_business_organization_registration
-    @ceo = Contact.new_ceo
   end
 
-  def business?; false; end
-  def non_business?; true; end
-  def org_type; 'non_business'; end
+  def set_organization_attributes(params)
+    set_legal_status(params)
+    super
+  end
 
-  def set_organization_attributes(par)
-    set_legal_status(par[:organization])
-    registration.attributes = par[:non_business_organization_registration]
-    super #XXX
+  def set_registration_attributes(params)
+    registration.attributes = params
   end
 
   def types
@@ -25,6 +24,14 @@ class NonBusinessOrganizationSignup < OrganizationSignup
   def local_valid_organization?
     if @legal_status_id.blank? && registration.number.blank?
       organization.errors.add :legal_status, "can't be blank"
+    end
+  end
+
+  def set_commitment_letter_attributes(params)
+    super
+    mission_statement = params[:mission_statement]
+    if mission_statement.present?
+      registration.mission_statement = mission_statement
     end
   end
 
@@ -65,4 +72,5 @@ class NonBusinessOrganizationSignup < OrganizationSignup
         org.delete(:legal_status)
       end
     end
+
 end

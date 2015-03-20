@@ -12,21 +12,18 @@ class NewsController < ApplicationController
     end
   end
 
-  def feed
-    @headlines = Headline.order("published_on DESC").limit(9).all
-    respond_to do |format|
-      format.atom { render :layout => false }
-    end
-  end
-
   def show
   end
 
   private
     def find_headline
-      @headline = Headline.published.find_by_id(params[:permalink].to_i)
-      redirect_back_or_to and return unless @headline
-      redirect_to(:permalink => @headline.to_param) unless @headline.to_param == params[:permalink]
+      id = headline_id_from_permalink
+      @headline = Headline.published.find_by_id(id)
+      if @headline.nil?
+        redirect_back_or_to('/')
+      elsif not_using_permalink_url
+        redirect_to headline_url(@headline)
+      end
     end
 
     def default_navigation
@@ -40,6 +37,16 @@ class NewsController < ApplicationController
     def show_archive?
       return true if action_name == 'index'
       @headline.published_on < (Date.today << 1) # older than one month
+    end
+
+    def not_using_permalink_url
+      @headline.to_param != params[:permalink]
+    end
+
+    def headline_id_from_permalink
+      # to_i will convert the leading id portion to an int
+      # or the whole thing it's just the id
+      params.fetch(:permalink).to_i
     end
 
     def year

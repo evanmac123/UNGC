@@ -27,7 +27,7 @@ class ResourceLink < ActiveRecord::Base
     :web => 'Website'
   }
 
-  validates :link_type, :inclusion => { :in => TYPES.keys.to_s, :message => "%{value} is not a valid link_type value" }
+  validates :link_type, :inclusion => {:in => TYPES.keys.map(&:to_s), :message => "%{value} is not a valid link_type value" }
 
   def increment_views!
     self.increment! :views

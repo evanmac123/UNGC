@@ -7,6 +7,13 @@ class Admin::LocalNetworksController < AdminController
   def index
     @local_networks = LocalNetwork.unscoped.order(order_from_params).includes(:countries)
     @local_network_guest = Organization.find_by_name(DEFAULTS[:local_network_guest_name])
+    @networks_by_region = Country.unscoped
+                                  .joins('left join local_networks on countries.local_network_id = local_networks.id')
+                                  .order(order_from_params)
+                                  .group('local_networks.name, countries.region')
+                                  .includes(:local_network)
+                                  .reject{|country| country.local_network_id.nil?}
+                                  .group_by(&:region)
   end
 
   def new
@@ -21,7 +28,7 @@ class Admin::LocalNetworksController < AdminController
   end
 
   def create
-    @local_network = LocalNetwork.new(params[:local_network])
+    @local_network = LocalNetwork.new(local_network_params)
     if @local_network.save
       flash[:notice] = 'Local Network was successfully created.'
       redirect_to(admin_local_networks_path)
@@ -33,7 +40,7 @@ class Admin::LocalNetworksController < AdminController
   def update
     @section ||= params[:section]
     @form_partial = @section ? 'edit_' + @section : 'default_form'
-    if LocalNetworkUpdate.update(@local_network, params[:local_network])
+    if LocalNetworkUpdate.update(@local_network, local_network_params)
       flash[:notice] = 'Local Network was successfully updated.'
       redirect_to admin_local_network_path(@local_network.id, :tab => @section)
     else
@@ -64,7 +71,9 @@ class Admin::LocalNetworksController < AdminController
   private
 
   def order_from_params
-    @order = [params[:sort_field] || 'local_networks.name', params[:sort_direction] || 'ASC'].join(' ')
+    direction = params.fetch(:sort_direction, 'ASC')
+    field     = params.fetch(:sort_field, 'name')
+    @order = "local_networks.#{field} #{direction}"
   end
 
   def load_local_network
@@ -77,6 +86,10 @@ class Admin::LocalNetworksController < AdminController
 
   def knowledge_sharing_tab?
     action_name == 'knowledge_sharing'
+  end
+
+  def local_network_params
+    params.fetch(:local_network, {}).permit!
   end
 
 end

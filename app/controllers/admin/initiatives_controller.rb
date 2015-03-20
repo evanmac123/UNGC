@@ -11,7 +11,7 @@ class Admin::InitiativesController < AdminController
   end
 
   def create
-    @initiative = Initiative.new(params[:initiative])
+    @initiative = Initiative.new(initiative_params)
 
     if @initiative.save
       flash[:notice] = 'Initiative created.'
@@ -22,7 +22,7 @@ class Admin::InitiativesController < AdminController
   end
 
   def update
-    @initiative.update_attributes(params[:initiative])
+    @initiative.update_attributes(initiative_params)
     redirect_to admin_initiatives_path
   end
 
@@ -32,12 +32,15 @@ class Admin::InitiativesController < AdminController
   end
 
   def show
-    # @signatories = @initiative.signings.all(:joins => 'JOIN organizations o ON o.id = signings.organization_id', :order => "o.cop_state, o.name")
-    @signatories = @initiative.signings.all(:joins => :organization, :order => "organizations.cop_state, organizations.name")
+    @signatories = @initiative.signings.joins(:organization).order("organizations.cop_state, organizations.name")
   end
 
   private
     def load_initiative
       @initiative = Initiative.find params[:id] if params[:id]
+    end
+
+    def initiative_params
+      params.require(:initiative).permit(:name)
     end
 end

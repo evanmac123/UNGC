@@ -38,25 +38,13 @@ class Searchable < ActiveRecord::Base
   extend SearchableCommunicationOnProgress
   extend SearchableResource
 
-  define_index do
-    indexes title
-    indexes content
-    has document_type, :as => :document_type, :facet => true
-    has url, last_indexed_at
-    set_property :delta => true # TODO: Switch this to :delayed once we have DJ working
-    set_property :field_weights => {"title" => 100}
-
-    set_property :enable_star => true
-    set_property :min_prefix_len => 4
-  end
-
   class << self
     def convert_to_utf8(text)
       text.encode('UTF-8')
     end
 
     def faceted_search(document_type, keyword, options={})
-      options.merge!({with: {document_type_facet: document_type.to_crc32 } })
+      options.merge!({with: {document_type_facet: Zlib.crc32(document_type) } })
       search keyword, options
     end
 
@@ -83,7 +71,7 @@ class Searchable < ActiveRecord::Base
     # This method is called by cron to periodically update the searchables.
     # See scripts/cron/searchable
     def index_new_or_updated(since = nil)
-      max = since || find(:all, select: 'MAX(last_indexed_at) as max').first.try(:max)
+      max = since || maximum(:last_indexed_at)
       raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
       index_pages_since(max)
       index_events_since(max)

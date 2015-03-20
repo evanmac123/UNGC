@@ -167,7 +167,7 @@ class Admin::ReportsController < AdminController
 
   def initiative_organizations
     if params[:all_initiatives]
-      @selected_initiatives = Initiative.for_select.map(&:id)
+      @selected_initiatives = Initiative.all.map(&:id)
     else
       @selected_initiatives = params[:initiatives] || []
     end

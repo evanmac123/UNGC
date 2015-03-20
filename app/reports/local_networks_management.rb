@@ -1,7 +1,7 @@
 class LocalNetworksManagement < SimpleReport
 
   def records
-    LocalNetwork.all(:include => [ :countries ])
+    LocalNetwork.includes(:countries)
   end
 
   def headers

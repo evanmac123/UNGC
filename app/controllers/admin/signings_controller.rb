@@ -3,7 +3,7 @@ class Admin::SigningsController < AdminController
   before_filter :load_initiative
 
   def create
-    @signing = @initiative.signings.new(params[:signing])
+    @signing = @initiative.signings.new(signing_params)
 
     if @signing.save
       flash[:notice] = 'Signatory added.'
@@ -24,5 +24,9 @@ class Admin::SigningsController < AdminController
   private
     def load_initiative
       @initiative = Initiative.find params[:initiative_id]
+    end
+
+    def signing_params
+      params.require(:signing).permit(:initiative_id, :organization_id, :added_on)
     end
 end

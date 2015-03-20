@@ -3,6 +3,7 @@
 /.rvmrc
 /.vagrant
 /config/database.yml
+/config/secrets.yml
 /config/development.sphinx.conf
 /config/secrets.yml
 /coverage.data

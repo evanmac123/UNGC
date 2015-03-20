@@ -18,7 +18,7 @@ class Mou < ActiveRecord::Base
 
   before_create :set_type
 
-  default_scope :order => 'year DESC'
+  default_scope { order('year DESC') }
 
   def self.local_network_model_type
     :network_management

@@ -16,5 +16,5 @@ class Exchange < ActiveRecord::Base
   validates_presence_of :name, :code
   belongs_to :country
 
-  default_scope :order => 'name'
+  default_scope { order(:name) }
 end

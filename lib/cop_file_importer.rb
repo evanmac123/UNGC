@@ -2,9 +2,8 @@ class CopFileImporter
   def run
     path = '/home/rails/ungc/uploaded/'
 
-    conditions = "identifier IS NOT NULL and related_document IS NOT NULL and related_document NOT LIKE '%COP.pdf'"
-
-    cops = CommunicationOnProgress.find(:all, :joins => 'left join cop_files on cop_files.cop_id = communication_on_progresses.id', :conditions =>  conditions)
+    cops = CommunicationOnProgress.joins('left join cop_files on cop_files.cop_id = communication_on_progresses.id').
+                                  .where("identifier IS NOT NULL and related_document IS NOT NULL and related_document NOT LIKE '%COP.pdf'")
     puts "Found #{cops.count} COPs\n"
     missing = 0
     found = 0

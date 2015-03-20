@@ -29,4 +29,8 @@ class Admin::CopFilesController < Admin::AttachmentsController
     @submodel.cop_files
   end
 
+  def attachments_params
+    params.fetch(:uploaded_attachments, [])
+  end
+
 end

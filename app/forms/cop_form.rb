@@ -84,7 +84,6 @@ class CopForm
             :cop_files,
             :cop_questions,
             :cop_answers,
-            :errors,
             :readable_error_messages,
             :new_record?,
             to: :cop
@@ -95,6 +94,7 @@ class CopForm
     @cop.cop_type = type
     @contact_info = contact_info
     @submitted = false
+    @errors = ActiveModel::Errors.new(self)
   end
 
   def build_cop_answers
@@ -141,7 +141,7 @@ class CopForm
     # Prevent answers with no user input from ending up in
     # the database when the checkbox is unselected
     cop.cop_answers.each do |answer|
-      answer.text = "" if answer.value == false && answer.text.present?
+      answer.text = "" if (answer.value == false && answer.text.present?) || answer.text.blank?
     end
   end
 
@@ -154,7 +154,24 @@ class CopForm
   end
 
   def cop_file
-    @cop_file ||= cop.cop_files.first || CopFile.cop
+    @cop_file ||= first_or_new_file
+  end
+
+  def errors
+    @errors.clear
+    cop.errors.each do |attribute, error|
+      @errors.add(attribute, error)
+    end
+    cop_files.each do |file|
+      file.errors.each do |attribute, error|
+        @errors.add(attribute, error)
+      end
+    end
+    @errors
+  end
+
+  def self.human_attribute_name(attribute, options)
+    options[:default]
   end
 
   def link_language
@@ -174,7 +191,7 @@ class CopForm
   end
 
   def languages
-    Language.scoped
+    Language.all
   end
 
   def contact_info
@@ -240,6 +257,15 @@ class CopForm
 
     def default_language_id
       Language.for(:english).try(:id)
+    end
+
+    def first_or_new_file
+      file = cop.cop_files.first
+      if file.nil?
+        file = CopFile.cop
+        cop.cop_files << file
+      end
+      file
     end
 
 end

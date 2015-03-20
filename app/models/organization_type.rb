@@ -18,10 +18,10 @@ class OrganizationType < ActiveRecord::Base
   PARTICIPANT = [1,2]
   ALL_ORGANIZATIONS = [0,1,2]
 
-  scope :non_business, where('type_property=?', NON_BUSINESS)
-  scope :business, where('type_property=?', BUSINESS)
-  scope :participants, where('type_property in (?)', PARTICIPANT)
-  scope :staff_types, where("type_property in (?)", ALL_ORGANIZATIONS)
+  scope :non_business, -> { where('type_property=?', NON_BUSINESS) }
+  scope :business, -> { where('type_property=?', BUSINESS) }
+  scope :participants, -> { where('type_property in (?)', PARTICIPANT) }
+  scope :staff_types, -> { where("type_property in (?)", ALL_ORGANIZATIONS) }
 
   FILTERS = {
     :academia         => 'Academic',
@@ -41,12 +41,8 @@ class OrganizationType < ActiveRecord::Base
   }
 
   def self.for_filter(*filter_types)
-    if filter_types.is_a?(Array)
-      filter_types.map! { |f| FILTERS[f] }
-      where("name IN (?)", filter_types)
-    else
-      where("name = ?", FILTERS[filter_types])
-    end
+    names = Array(filter_types).map { |f| FILTERS[f] }
+    where("organization_types.name IN (?)", names)
   end
 
   def business?

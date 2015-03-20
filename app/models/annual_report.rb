@@ -16,7 +16,7 @@ class AnnualReport < ActiveRecord::Base
   include HasFile
   belongs_to :local_network
 
-  default_scope :order => 'year DESC'
+  default_scope { order('year DESC') }
 
   def self.local_network_model_type
     :network_management

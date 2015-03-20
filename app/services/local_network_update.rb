@@ -50,7 +50,7 @@ class LocalNetworkUpdate
 
       next if description.blank? || amount.blank?
 
-      contribution_level = levels.find_or_initialize_by_id(id)
+      contribution_level = levels.find_or_initialize_by(id: id)
       contribution_level.assign_attributes(
         description: description,
         amount: amount,

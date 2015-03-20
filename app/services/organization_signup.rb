@@ -1,10 +1,11 @@
 class OrganizationSignup
   attr_reader :organization
-  attr_reader :primary_contact, :ceo
+  attr_reader :primary_contact, :ceo, :org_type
 
   def initialize
     @organization = Organization.new
     @primary_contact = Contact.new_contact_point
+    @ceo = Contact.new_ceo
     post_initialize
   end
 
@@ -15,10 +16,32 @@ class OrganizationSignup
     raise NotImplementedError
   end
 
-  def set_organization_attributes(par)
-    organization.attributes = par[:organization]
+  def business?; org_type == 'business' end
+  def non_business?; !business? end
+
+  def set_organization_attributes(params)
+    organization.attributes = params
     primary_contact.country_id = organization.country_id
-    local_set_organization_attributes
+  end
+
+  def set_registration_attributes(registration_params)
+    # no-op
+  end
+
+  def set_pledge_attributes(params)
+    organization.attributes = params.slice(:pledge_amount, :no_pledge_reason)
+  end
+
+  def set_commitment_letter_attributes(params)
+    organization.commitment_letter = params.fetch(:commitment_letter)
+  end
+
+  def pledge_complete?
+    raise NotImplementedError
+  end
+
+  def pledge_incomplete?
+    !pledge_complete?
   end
 
   def valid?
@@ -74,7 +97,7 @@ class OrganizationSignup
     ceo.valid? && unique_emails?
   end
 
-  def has_pledge?
+  def require_pledge?
     false
   end
 
@@ -82,7 +105,11 @@ class OrganizationSignup
     before_save
 
     organization.save
+    # fixes bug caused by storing signup and related objects in session (in rails4)
+    primary_contact.roles.reload
     primary_contact.save
+    # fixes bug caused by storing signup and related objects in session (in rails4)
+    ceo.roles.reload
     ceo.save
     organization.contacts << primary_contact
     organization.contacts << ceo
@@ -95,8 +122,6 @@ class OrganizationSignup
   def before_save; end
   def after_save; end
   def local_valid_organization?; end
-  def local_set_organization_attributes; end
-
 
   private
 

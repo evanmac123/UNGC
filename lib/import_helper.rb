@@ -308,7 +308,7 @@ def update_navigation_info(pages)
     end
   end
 
-  parent_ids = Page.find(:all, :conditions => ["parent_id is not null"]).map(&:parent_id).uniq.compact
+  parent_ids = Page.where("parent_id is not null").map(&:parent_id).uniq.compact
   parents = Page.find parent_ids
   parents.each do |parent|
     parent.children.each do |child|
