@@ -44,8 +44,8 @@ class Searchable < ActiveRecord::Base
     end
 
     def faceted_search(document_type, keyword, options={})
-      options.merge!({with: {document_type_facet: Zlib.crc32(document_type) } })
-      search keyword, options
+      matching_facets = self.facets(keyword, options)
+      matching_facets.for(document_type: document_type)
     end
 
     def import(document_type, options)
