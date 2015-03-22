@@ -80,10 +80,10 @@ class CommunicationOnProgress < ActiveRecord::Base
   scope :notable, lambda {
     includes([:score, {:organization => [:country]}]).where("cop_score_id = ?", CopScore.notable.try(:id)).order("ends_on DESC")
   }
-  scope :active,   lambda { where("differentiation = ?", 'active').includes([{:organization => [:country, :sector]}]) }
-  scope :advanced, lambda { where("differentiation IN (?)", ['advanced','blueprint']).includes([{:organization => [:country, :sector]}]) }
-  scope :learner, lambda { where("differentiation = ?", 'learner').includes([{:organization => [:country, :sector]}]) }
-  scope :coes, lambda { where("cop_type = ?", 'non_business').includes([{:organization => [:country, :sector]}]) }
+  scope :active,   lambda { where("differentiation = ?", 'active').joins([{:organization => [:country, :sector]}]) }
+  scope :advanced, lambda { where("differentiation IN (?)", ['advanced','blueprint']).joins([{:organization => [:country, :sector]}]) }
+  scope :learner, lambda { where("differentiation = ?", 'learner').joins([{:organization => [:country, :sector]}]) }
+  scope :coes, lambda { where("cop_type = ?", 'non_business').joins([{:organization => [:country, :sector]}]) }
   scope :since_year, lambda { |year| where("created_at >= ?", Date.new(year, 01, 01)).includes([ :organization, {:organization => [:country, :organization_type] }]) }
   # feed contains daily COP submissions, without grace letters or reporting adjustments
   scope :for_feed, lambda { where("format NOT IN (?) AND published_on >= ?", ['grace_letter','reporting_cycle_adjustment'], Date.today).order("published_on") }

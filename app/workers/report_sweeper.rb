@@ -8,7 +8,9 @@ class ReportSweeper
   def perform(status_id)
     status = ReportStatus.find(status_id)
 
-    if File.exist?(status.path)
+    return unless status
+
+    if status.path && File.exist?(status.path)
       File.unlink(status.path)
     end
 

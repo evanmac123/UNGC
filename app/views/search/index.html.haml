@@ -22,8 +22,8 @@
 - else
   %h3= "Sorry, there are no results for '#{h params[:keyword]}'"
   %p== Please try a new search. If you are looking for a specific organization, the #{link_to 'Participant Search', DEFAULTS[:participant_search_path]} is also available.
-  
+
   = form_tag nil, method: :get do
     = text_field_tag :keyword, params[:keyword]
     = submit_tag 'Search again'
-  
+
