@@ -17,17 +17,15 @@ export default Ember.Route.extend({
     model.container.set('layoutRecord', layout);
   },
 
-  actions: {
-    save(container) {
-      return container.post().then(
-        function(model) {
-          console.log(model);
-        },
+  renderTemplate() {
+    this.render('containers/form');
+  },
 
-        function(error) {
-          console.log(error);
-        }
-      );
+  actions: {
+    save(record) {
+      record.save().then(() => {
+        this.transitionToRoute('containers.edit', container);
+      });
     }
   }
 });

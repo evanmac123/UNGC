@@ -5,6 +5,11 @@ class ContainerSerializer < ApplicationSerializer
     h[:layout]            = object.layout
     h[:public_payload_id] = object.public_payload_id
     h[:draft_payload_id]  = object.draft_payload_id
+
+    if (payload = object.draft_payload)
+      h[:data] = payload.data
+    end
+
     h
   end
 end

@@ -25,29 +25,56 @@ function pojoize(src) {
 }
 
 var Model = Ember.Object.extend({
-  post: function() {
-    if (this.get('id')) {
-      throw 'can\'t post already created resource';
-    }
-
-    return Ember.$.ajax({
-      url: this.constructor.path,
-      type: 'POST',
-      dataType: 'json',
-      headers: { 'Content-Type': 'application/json' },
-      data: JSON.stringify({
-        data: this.asJSON()
-      })
-    }).then((res) => {
-      return res.data;
-    });
-  },
-
   type: function() {
     return this.constructor.type;
   }.property(),
 
-  setPropertiesFromJSON: function(attrs) {
+  post() {
+    if (this.get('id')) {
+      throw 'can\'t post already created resource';
+    }
+
+    return this.xhr({
+      type: 'POST',
+      data: this.asJSON()
+    }).then((res) => {
+      this.setPropertiesFromJSON(res.data);
+      return this;
+    });
+  },
+
+  patch() {
+    if (!this.get('id')) {
+      throw 'can\'t patch non-existant resource';
+    }
+
+    return this.xhr({
+      type: 'PATCH',
+      data: this.asJSON()
+    }).then(() => {
+      return this;
+    });
+  },
+
+  xhr(opts = {}) {
+    return Ember.$.ajax({
+      url: opts.url || `${this.constructor.path}/${this.get('id')}`,
+      type: opts.type,
+      dataType: 'json',
+      headers: { 'Content-Type': 'application/json' },
+      data: opts.data ? JSON.stringify({ data: opts.data }) : undefined
+    });
+  },
+
+  save() {
+    if (Ember.isNone(this.get('id'))) {
+      return this.post();
+    } else {
+      return this.patch();
+    }
+  },
+
+  setPropertiesFromJSON(attrs) {
     this.setProperties(camelizeKeys(attrs));
   },
 

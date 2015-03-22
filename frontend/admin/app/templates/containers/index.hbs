@@ -1,4 +1,21 @@
-{{tree/x-tree
+{{!tree/x-tree
   ns="admin-container-tree"
   nodes=model
   move="moveNodes"}}
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Layout</th>
+      <th>Slug</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |container|}}
+      {{#link-to "containers.edit" container tagName="tr"}}
+        <td>{{container.layout}}</td>
+        <td>{{container.slug}}</td>
+      {{/link-to}}
+    {{/each}}
+  </tbody>
+</table>

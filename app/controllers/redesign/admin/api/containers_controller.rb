@@ -1,38 +1,40 @@
 class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiController
   def create
-    layout = HomeLayout.new(data_params[:data])
-
-    if layout.valid?
-      data = layout.as_json
-    else
-      render_errors layout.errors, status: 422
-      return
-    end
+    return unless data = validate_layout_data!
 
     container = Redesign::Container.create(
-      slug:   data_params[:slug] || '/',
-      layout: data_params[:layout],
-      initial_payload_data: data
+      slug:   container_params[:slug] || '/',
+      layout: container_params[:layout],
+      data:   data
     )
 
     if container.valid?
-      render_json serialize(container), status: 202
+      render_json serialize(container), status: 200
     else
-      errors = []
+      render_container_errors(container)
+    end
+  end
 
-      container.errors.each do |field, messages|
-        messages.each do |msg|
-          errors << { type: 'invalid', path: 'field', detail: msg }
-        end
-      end
+  def update
+    return unless data = validate_layout_data!
 
-      render_errors(errors, status: 422)
+    container = Redesign::Container.find(params[:id])
+
+    if container.update(data: data)
+      render text: '', status: 204
+    else
+      render_container_errors(container)
     end
   end
 
   def show
     container = Redesign::Container.find(params[:id])
-    render json: serialize(container)
+    render json: { data: serialize(container) }
+  end
+
+  def index
+    containers = Redesign::Container.order(:layout, :slug).load
+    render json: { data: containers.map(&method(:serialize)) }
   end
 
   private
@@ -41,7 +43,45 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     ContainerSerializer.new(container).as_json
   end
 
-  def data_params
+  def render_container_errors(container)
+    errors = []
+
+    container.errors.each do |field, messages|
+      messages.each do |msg|
+        errors << { type: 'invalid', path: field, detail: msg }
+      end
+    end
+
+    render_errors(errors, status: 422)
+  end
+
+  def validate_layout_data!
+    if Redesign::Container.layouts[container_params[:layout]]
+      layout_class = "#{container_params[:layout]}_layout".classify.constantize
+    else
+      render_errors [{
+        path: 'layout',
+        detail: 'layout is unknown'
+      }], status: 404
+
+      return false
+    end
+
+    layout = layout_class.new(container_params[:data])
+
+    if layout.valid?
+      layout.as_json
+    else
+      render_errors layout.errors.map { |error|
+        error[:path] = "data.#{error[:path]}"
+        error
+      }, status: 422
+
+      return false
+    end
+  end
+
+  def container_params
     params.require(:data).permit!
   end
 end

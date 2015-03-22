@@ -1,8 +1,14 @@
 class ApplicationSerializer
-  attr_reader :object
+  attr_reader :object, :options
 
-  def initialize(object)
-    @object = object
+  def initialize(object, options = {})
+    @object  = object
+    @options = options
+    @include = (@options[:include] || []).map(&:to_sym)
+  end
+
+  def include?(link)
+    @include.include?(link.to_sym)
   end
 
   def attributes

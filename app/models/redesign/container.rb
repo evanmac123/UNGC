@@ -1,6 +1,4 @@
 class Redesign::Container < ActiveRecord::Base
-  attr_writer :initial_payload_data
-
   enum layout: [
     :home,
     :landing
@@ -11,7 +9,9 @@ class Redesign::Container < ActiveRecord::Base
 
   has_many :payloads, class_name: 'Redesign::Payload'
 
-  after_create :attach_initial_payload
+  after_save :update_draft_payload
+
+  validate :validate_draft_payload
 
   def self.normalize_slug(raw)
     '/' + raw.to_s.downcase.strip.sub(/\A\/|\Z\//, '')
@@ -27,11 +27,31 @@ class Redesign::Container < ActiveRecord::Base
     write_attribute :slug, Redesign::Container.normalize_slug(raw)
   end
 
+  def data=(raw_draft_data)
+    payload_data = "#{layout.to_s.classify}Layout".constantize.new(raw_draft_data)
+
+    if payload_data.valid?
+      @draft_payload_data = payload_data.as_json
+    else
+      @draft_payload_errors = payload_data.errors
+    end
+  end
+
   protected
 
-  def attach_initial_payload
-    self.draft_payload = payloads.create!(data: @initial_payload_data || {})
-    save!
+  def update_draft_payload
+    return true unless @draft_payload_data
+
+    if draft_payload
+      draft_payload.update(data: @draft_payload_data)
+    else
+      update(draft_payload: payloads.create!(data: @draft_payload_data))
+    end
+  end
+
+  def validate_draft_payload
+    return true unless @draft_payload_errors
+    errors.add :data, 'is not a valid payload'
   end
 
   def payload(draft = false)
