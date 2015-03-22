@@ -9,7 +9,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     )
 
     if container.valid?
-      render_json serialize(container), status: 200
+      render_json data: serialize(container), status: 200
     else
       render_container_errors(container)
     end
@@ -29,12 +29,12 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
 
   def show
     container = Redesign::Container.find(params[:id])
-    render json: { data: serialize(container) }
+    render_json data: serialize(container)
   end
 
   def index
     containers = Redesign::Container.order(:layout, :slug).load
-    render json: { data: containers.map(&method(:serialize)) }
+    render_json data: containers.map(&method(:serialize))
   end
 
   private
