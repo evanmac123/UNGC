@@ -11,20 +11,24 @@
   .section
     .span Issues
     .options
-      - @search.issue_options.each do |issue|
-        %p
-          %label.filter-option
-            = issue.name
-            = check_box_tag "search[issues][#{issue.id}]", 1, issue.active, {active: issue.active}
+      - @search.issue_options.each do |group, issues|
+        %p= group
+        - issues.each do |issue|
+          %p
+            %label.filter-option
+              = issue.name
+              = check_box_tag "search[issues][#{issue.id}]", 1, issue.active, {active: issue.active}
 
   .section
     Topics
     .options
-      - @search.topic_options.each do |topic|
-        %p
-          %label.filter-option
-            = topic.name
-            = check_box_tag "search[topics][#{topic.id}]", 1, topic.active, {active: topic.active}
+      - @search.topic_options.each do |group, topics|
+        %p= group
+        - topics.each do |topic|
+          %p
+            %label.filter-option
+              = topic.name
+              = check_box_tag "search[topics][#{topic.id}]", 1, topic.active, {active: topic.active}
   .section
     Languages
     .options
