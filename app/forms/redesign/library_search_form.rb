@@ -13,8 +13,8 @@ class Redesign::LibrarySearchForm
 
   Filter = Struct.new(:id, :type, :name, :active)
 
-  def initialize(page = 1, *args)
-    super(*args)
+  def initialize(page = 1, params = {})
+    super(params)
     @page = page
     @issues ||= {}
     @topics ||= {}

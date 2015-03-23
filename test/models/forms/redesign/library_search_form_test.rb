@@ -3,11 +3,38 @@ require 'test_helper'
 class LibrarySearchFormTest < ActiveSupport::TestCase
 
   setup do
+    # languages
+    @languages = ["English", "French"].map { |name| create_language name: name }
+    @selected_language = @languages.last
 
+    # sectors
+    @sectors = ["Sectors a", "Sectors b"].map do |group|
+      parent = create_sector name: group
+      3.times.map do |i|
+        create_sector(
+          name: "Child #{i}",
+          parent: parent,
+          icb_number: i
+        )
+      end
+    end
+    @selected_sector = @sectors.first.last
+
+    # search params
+    @search_params = search_params = {
+      sectors: {
+        @selected_sector.id => "1"
+      },
+      languages: {
+        @selected_language.id => "1"
+      }
+    }.deep_stringify_keys
   end
 
   should "maintain a list of active filters" do
-
+    form = Redesign::LibrarySearchForm.new 1, @search_params
+    assert_equal [:language, :sector], form.active_filters.map(&:type)
+    assert_equal [@selected_language.id, @selected_sector.id], form.active_filters.map(&:id)
   end
 
   context "Issue selector options" do
@@ -18,22 +45,27 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   end
 
   context "Language selector options" do
+
+    setup do
+      @form = Redesign::LibrarySearchForm.new 1, @search_params
+    end
+
+    should "have all the languages" do
+      expected = @languages.map &:id
+      actual = @form.language_options.map &:id
+      assert_equal expected, actual
+    end
+
+    should "have mark the selected one" do
+      assert @form.language_options.last.active
+    end
+
   end
 
   context "Sector selector options" do
 
     setup do
       @form = Redesign::LibrarySearchForm.new
-      @sectors = ["Group a", "Group b"].map do |group|
-        parent = create_sector name: group
-        3.times.map do |i|
-          create_sector(
-            name: "Child #{i}",
-            parent: parent,
-            icb_number: i
-          )
-        end
-      end
 
       @options = @form.sector_options
       @group_a = @options.first
@@ -41,10 +73,10 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
       @group_name = @group_a.first
       @filters = @group_a.last
-      @filter = @filters[1]
+      @filter = @filters[2]
 
       # the sector that should map to the filter
-      @sector = @sectors[0][1]
+      @sector = @sectors[0][2]
     end
 
     should "have 2 items" do
@@ -53,7 +85,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "be grouped by title" do
-      assert_equal "Group a", @group_name
+      assert_equal "Sectors a", @group_name
     end
 
     should "have 3 children" do
@@ -77,12 +109,8 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "selecting an option should make it active" do
-      search_params = {"sectors" => {
-        @sector.id.to_s => "1"
-      }}
-
-      form = Redesign::LibrarySearchForm.new 1, search_params
-      filter = form.sector_options[0][1][1]
+      form = Redesign::LibrarySearchForm.new 1, @search_params
+      filter = form.sector_options[0][1].last # group a, filters
       assert filter.active
     end
 
