@@ -46,7 +46,9 @@
     Sectors
     .options
       - @search.sector_options.each do |group, sectors|
-        %p= group
+        %label.filter-option
+          = group.name
+          = check_box_tag "search[sector_groups][#{group.id}]", 1, group.active, {active: group.active}
         - sectors.each do |sector|
           %p
             %label.filter-option

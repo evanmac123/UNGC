@@ -8,6 +8,7 @@ class Redesign::LibrarySearchForm
     :topic_groups,
     :topics,
     :languages,
+    :sector_groups,
     :sectors,
     :content_type,
     :sort_field,
@@ -23,6 +24,7 @@ class Redesign::LibrarySearchForm
     @topic_groups ||= {}
     @topics ||= {}
     @languages ||= {}
+    @sector_groups ||= {}
     @sectors ||= {}
     @keywords ||= ''
   end
@@ -38,17 +40,17 @@ class Redesign::LibrarySearchForm
       topics.select(&:active)
     end
 
+    sector_groups = sector_options.map(&:first).select(&:active)
     sectors = sector_options.flat_map do |group, sectors|
       sectors.select(&:active)
     end
 
     languages = language_options.select(&:active)
 
-    [issue_areas, issues, topic_groups, topics, languages, sectors].flatten
+    [issue_areas, issues, topic_groups, topics, languages, sector_groups, sectors].flatten
   end
 
   def issue_options
-    # grouped arrays [[name, [filters]], ...]
     @issue_options ||= Issue.where(type: nil)
       .includes(:issue_area)
       .select([:id, :issue_area_id, :name])
@@ -93,12 +95,14 @@ class Redesign::LibrarySearchForm
   end
 
   def sector_options
-    # grouped arrays [[name, [filters]], ...]
     @sector_options ||= Sector.where.not(parent_id:nil)
       .includes(:parent)
       .select([:id, :parent_id, :name])
       .group(:parent_id, :id)
-      .group_by { |s| s.parent.name }
+      .group_by do |sector|
+        parent = sector.parent
+        Filter.new(parent.id, :sector_group, parent.name, sector_groups.has_key?(parent.id.to_s))
+      end
       .map do |group_name, values|
         [group_name, values.map {|sector|
           Filter.new(sector.id, :sector, sector.name, sectors.has_key?(sector.id.to_s))
@@ -147,6 +151,11 @@ class Redesign::LibrarySearchForm
     language_ids = languages.keys.map &:to_i
     if language_ids.any?
       options[:language_ids] = language_ids
+    end
+
+    sector_group_ids = sector_groups.keys.map &:to_i
+    if sector_group_ids.any?
+      options[:sector_group_ids] = sector_group_ids
     end
 
     sector_ids = sectors.keys.map &:to_i

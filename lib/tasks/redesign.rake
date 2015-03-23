@@ -19,9 +19,9 @@ namespace :redesign do
   desc "Randomly assign sectors to Resources"
   task :randomize_sectors do
     sectors = [
-      "Oil Equipment, Services & Distribution",
-      "Chemicals",
-      "Forestry & Paper",
+      "Oil Equipment, Services & Distribution",   # Oil & Gas
+      "Chemicals",                                # Chemicals
+      "Forestry & Paper",                         # Basic Resources
     ].map {|name| Sector.find_by!(name: name)}
 
     Resource.find_each do |resource|

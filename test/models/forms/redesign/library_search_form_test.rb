@@ -13,10 +13,6 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     @select_topic_group = @topics.first
     @selected_topic = @topics.last.children.last
 
-    # languages
-    @languages = ["English", "French"].map { |name| create_language name: name }
-    @selected_language = @languages.last
-
     # sectors
     @sectors = ["Sectors a", "Sectors b"].map do |group|
       parent = create_sector name: group
@@ -28,16 +24,22 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
         )
       end
     end
+    @selected_sector_group = @sectors.last.first
     @selected_sector = @sectors.first.last
+
+    # languages
+    @languages = ["English", "French"].map { |name| create_language name: name }
+    @selected_language = @languages.last
 
     # search params
     @search_params = search_params = {
-      issue_areas:  { @selected_issue_area.id   => "1" },
-      issues:       { @selected_issue.id        => "1" },
-      topic_groups: { @select_topic_group.id    => "1" },
-      topics:       { @selected_topic.id        => "1" },
-      sectors:      { @selected_sector.id       => "1" },
-      languages:    { @selected_language.id     => "1" }
+      issue_areas:    { @selected_issue_area.id     => "1" },
+      issues:         { @selected_issue.id          => "1" },
+      topic_groups:   { @select_topic_group.id      => "1" },
+      topics:         { @selected_topic.id          => "1" },
+      sector_groups:  { @selected_sector_group.id   => "1" },
+      sectors:        { @selected_sector.id         => "1" },
+      languages:      { @selected_language.id       => "1" }
     }.deep_stringify_keys
   end
 
@@ -50,6 +52,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       :topic_group,
       :topic,
       :language,
+      :sector_group,
       :sector
     ], form.active_filters.map(&:type)
 
@@ -59,6 +62,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       @select_topic_group.id,
       @selected_topic.id,
       @selected_language.id,
+      @selected_sector_group.id,
       @selected_sector.id
     ], form.active_filters.map(&:id)
   end
@@ -166,7 +170,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       @group_a = @options.first
       @group_b = @options.last
 
-      @group_name = @group_a.first
+      @group = @group_a.first
       @filters = @group_a.last
       @filter = @filters[2]
 
@@ -180,7 +184,11 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "be grouped by title" do
-      assert_equal "Sectors a", @group_name
+      assert_equal "Sectors a", @group.name
+    end
+
+    should "have a selected group" do
+      assert @group_b.first.active
     end
 
     should "have 3 children" do
