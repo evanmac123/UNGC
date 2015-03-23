@@ -34,6 +34,7 @@ class Redesign::LibrarySearchForm
   end
 
   def issue_options
+    # grouped arrays [[name, [filters]], ...]
     @issue_options ||= Issue.all.map do |issue|
       Filter.new(
         issue.id, :issue,
@@ -58,6 +59,7 @@ class Redesign::LibrarySearchForm
   end
 
   def sector_options
+    # grouped arrays [[name, [filters]], ...]
     @sector_options ||= Sector.where.not(parent_id:nil)
       .includes(:parent)
       .select([:id, :parent_id, :name])
