@@ -29,6 +29,21 @@ namespace :redesign do
     end
   end
 
+  desc "Randomly assign issues to Resources"
+  task :randomize_issues do
+    issues = [
+      "Principle 1", # in Human Rights
+      "Principle 2", # in Human Rights
+      "Principle 3", # in Labour
+      "Principle 4", # in Labour
+    ].map {|name| Issue.find_by!(name: name)}
+
+    Resource.find_each do |resource|
+      issue = issues[rand(issues.length)]
+      Tagging.create! resource: resource, issue: issue
+    end
+  end
+
   private
 
   def fix_principles_with_invalid_types

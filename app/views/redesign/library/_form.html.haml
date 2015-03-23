@@ -11,8 +11,10 @@
   .section
     .span Issues
     .options
-      - @search.issue_options.each do |group, issues|
-        %p= group
+      - @search.issue_options.each do |issue_area, issues|
+        %label.filter-option
+          = issue_area.name
+          = check_box_tag "search[issue_areas][#{issue_area.id}]", 1, issue_area.active, {active: issue_area.active}
         - issues.each do |issue|
           %p
             %label.filter-option

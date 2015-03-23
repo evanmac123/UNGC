@@ -4,6 +4,7 @@ class Redesign::LibrarySearchForm
   attr_accessor \
     :keywords,
     :issues,
+    :issue_areas,
     :topics,
     :languages,
     :sectors,
@@ -17,6 +18,7 @@ class Redesign::LibrarySearchForm
     super(params)
     @page = page
     @issues ||= {}
+    @issue_areas ||= {}
     @topics ||= {}
     @languages ||= {}
     @sectors ||= {}
@@ -24,6 +26,7 @@ class Redesign::LibrarySearchForm
   end
 
   def active_filters
+    issue_areas = issue_options.map(&:first).select(&:active)
     issues = issue_options.flat_map do |group, issues|
       issues.select(&:active)
     end
@@ -38,7 +41,7 @@ class Redesign::LibrarySearchForm
 
     languages = language_options.select(&:active)
 
-    [issues, topics, languages, sectors].flatten
+    [issues, issue_areas, topics, languages, sectors].flatten
   end
 
   def issue_options
@@ -47,7 +50,10 @@ class Redesign::LibrarySearchForm
       .includes(:issue_area)
       .select([:id, :issue_area_id, :name])
       .group(:issue_area_id, :id)
-      .group_by { |i| i.issue_area.name }
+      .group_by do |issue|
+        area = issue.issue_area
+        Filter.new(area.id, :issue_area, area.name, issue_areas.has_key?(area.id.to_s))
+      end
       .map do |group_name, values|
         [group_name, values.map { |issue|
           Filter.new(
@@ -112,9 +118,19 @@ class Redesign::LibrarySearchForm
   def options
     options = {}
 
-    principle_ids = [issues.keys, topics.keys].flatten.map &:to_i
-    if principle_ids.any?
-      options[:principle_ids] = principle_ids
+    issue_ids = issues.keys.map &:to_i
+    if issue_ids.any?
+      options[:issue_ids] = issue_ids
+    end
+
+    issue_area_ids = issue_areas.keys.map &:to_i
+    if issue_area_ids.any?
+      options[:issue_area_ids] = issue_area_ids
+    end
+
+    topic_ids = topics.keys.map &:to_i
+    if topic_ids.any?
+      options[:topic_ids] = topic_ids
     end
 
     language_ids = languages.keys.map &:to_i
