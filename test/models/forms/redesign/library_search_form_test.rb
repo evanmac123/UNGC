@@ -5,10 +5,12 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   setup do
     # issues
     @issues = create_issue_hierarchy
+    @selected_issue_area = @issues.first
     @selected_issue = @issues.last.issues.last
 
     # topics
     @topics = create_topic_hierarchy
+    @select_topic_group = @topics.first
     @selected_topic = @topics.last.children.last
 
     # languages
@@ -30,10 +32,12 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     # search params
     @search_params = search_params = {
-      issues:     { @selected_issue.id    => "1" },
-      topics:     { @selected_topic.id    => "1" },
-      sectors:    { @selected_sector.id   => "1" },
-      languages:  { @selected_language.id => "1" }
+      issue_areas:  { @selected_issue_area.id   => "1" },
+      issues:       { @selected_issue.id        => "1" },
+      topic_groups: { @select_topic_group.id    => "1" },
+      topics:       { @selected_topic.id        => "1" },
+      sectors:      { @selected_sector.id       => "1" },
+      languages:    { @selected_language.id     => "1" }
     }.deep_stringify_keys
   end
 
@@ -41,14 +45,18 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     form = Redesign::LibrarySearchForm.new 1, @search_params
 
     assert_equal [
+      :issue_area,
       :issue,
+      :topic_group,
       :topic,
       :language,
       :sector
     ], form.active_filters.map(&:type)
 
     assert_equal [
+      @selected_issue_area.id,
       @selected_issue.id,
+      @select_topic_group.id,
       @selected_topic.id,
       @selected_language.id,
       @selected_sector.id
@@ -67,6 +75,11 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     should "have an issue area" do
       assert_equal "Issue B", @area.name
+    end
+
+    should "have a selected issue area" do
+      issue_area_a = @options.first.first
+      assert issue_area_a.active
     end
 
     should "have names" do
@@ -100,6 +113,11 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     should "have a topic group" do
       assert_equal "Topic B", @group.name
+    end
+
+    should "have a selected topic group" do
+      topic_group_a = @options.first.first
+      assert topic_group_a.active
     end
 
     should "have names" do
