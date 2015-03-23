@@ -61,12 +61,12 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       @form = Redesign::LibrarySearchForm.new 1, @search_params
       @options = @form.issue_options
 
-      @group_name = @options.last.first
+      @area = @options.last.first
       @filters = @options.last.last
     end
 
-    should "have a group name" do
-      assert_equal "Issue B", @group_name
+    should "have an issue area" do
+      assert_equal "Issue B", @area.name
     end
 
     should "have names" do
@@ -94,12 +94,12 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       @form = Redesign::LibrarySearchForm.new 1, @search_params
       @options = @form.topic_options
 
-      @group_name = @options.last.first
+      @group = @options.last.first
       @filters = @options.last.last
     end
 
-    should "have a group name" do
-      assert_equal "Topic B", @group_name
+    should "have a topic group" do
+      assert_equal "Topic B", @group.name
     end
 
     should "have names" do

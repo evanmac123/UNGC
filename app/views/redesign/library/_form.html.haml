@@ -25,7 +25,9 @@
     Topics
     .options
       - @search.topic_options.each do |group, topics|
-        %p= group
+        %label.filter-option
+          = group.name
+          = check_box_tag "search[topic_groups][#{group.id}]", 1, group.active, {active: group.active}
         - topics.each do |topic|
           %p
             %label.filter-option

@@ -44,6 +44,20 @@ namespace :redesign do
     end
   end
 
+  desc "Randomly assign topics to Resources"
+  task :randomize_topics do
+    topics = [
+      "Stock Markets",              # in Financial Markets
+      "Financing for Development",  # in Financial Markets
+      "UN-Business Partnerships",   # in Partnershipd
+    ].map {|name| Topic.find_by!(name: name)}
+
+    Resource.find_each do |resource|
+      topic = topics[rand(topics.length)]
+      Tagging.create! resource: resource, topic: topic
+    end
+  end
+
   private
 
   def fix_principles_with_invalid_types

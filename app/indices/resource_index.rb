@@ -11,6 +11,8 @@ ThinkingSphinx::Index.define :resource, with: :active_record do
   has sectors(:id),       facet: true,      as: :sector_ids
   has issues(:id),        facet: true,      as: :issue_ids
   has issue_areas(:id),   facet: true,      as: :issue_area_ids
+  has topics(:id),        facet: true,      as: :topic_ids
+  has topic_groups(:id),  facet: true,      as: :topic_group_ids
 
   where "approval = 'approved'"
 

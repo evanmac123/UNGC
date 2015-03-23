@@ -3,8 +3,9 @@ class Redesign::LibrarySearchForm
 
   attr_accessor \
     :keywords,
-    :issues,
     :issue_areas,
+    :issues,
+    :topic_groups,
     :topics,
     :languages,
     :sectors,
@@ -17,8 +18,9 @@ class Redesign::LibrarySearchForm
   def initialize(page = 1, params = {})
     super(params)
     @page = page
-    @issues ||= {}
     @issue_areas ||= {}
+    @issues ||= {}
+    @topic_groups ||= {}
     @topics ||= {}
     @languages ||= {}
     @sectors ||= {}
@@ -31,6 +33,7 @@ class Redesign::LibrarySearchForm
       issues.select(&:active)
     end
 
+    topic_groups = topic_options.map(&:first).select(&:active)
     topics = topic_options.flat_map do |group, topics|
       topics.select(&:active)
     end
@@ -41,7 +44,7 @@ class Redesign::LibrarySearchForm
 
     languages = language_options.select(&:active)
 
-    [issues, issue_areas, topics, languages, sectors].flatten
+    [issue_areas, issues, topic_groups, topics, languages, sectors].flatten
   end
 
   def issue_options
@@ -68,7 +71,10 @@ class Redesign::LibrarySearchForm
       .includes(:parent)
       .select([:id, :parent_id, :name])
       .group(:parent_id, :id)
-      .group_by { |t| t.parent.name }
+      .group_by do |topic|
+        parent = topic.parent
+        Filter.new(parent.id, :topic_group, parent.name, topic_groups.has_key?(parent.id.to_s))
+      end
       .map do |group_name, values|
         [group_name, values.map {|topic|
           Filter.new(
@@ -118,14 +124,19 @@ class Redesign::LibrarySearchForm
   def options
     options = {}
 
+    issue_area_ids = issue_areas.keys.map &:to_i
+    if issue_area_ids.any?
+      options[:issue_area_ids] = issue_area_ids
+    end
+
     issue_ids = issues.keys.map &:to_i
     if issue_ids.any?
       options[:issue_ids] = issue_ids
     end
 
-    issue_area_ids = issue_areas.keys.map &:to_i
-    if issue_area_ids.any?
-      options[:issue_area_ids] = issue_area_ids
+    topic_group_ids = topic_groups.keys.map &:to_i
+    if topic_group_ids.any?
+      options[:topic_group_ids] = topic_group_ids
     end
 
     topic_ids = topics.keys.map &:to_i
