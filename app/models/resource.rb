@@ -43,7 +43,9 @@ class Resource < ActiveRecord::Base
   has_many :languages, through: :links
 
   has_many :taggings
-  has_many :sectors, through: :taggings
+  has_many :sectors,      through: :taggings
+  has_many :issues,       through: :taggings
+  has_many :issue_areas,  through: :issues
 
   STATES = { pending:    'Pending Review',
              approved:   'Approved',
