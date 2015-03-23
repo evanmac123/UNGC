@@ -25,8 +25,13 @@ class Redesign::LibrarySearchForm
 
   def active_filters
     issues = issue_options.select(&:active)
-    topics = topic_options.select(&:active)
+
+    topics = topic_options.flat_map do |group, topics|
+      topics.select(&:active)
+    end
+
     languages = language_options.select(&:active)
+
     sectors = sector_options.flat_map do |group, sectors|
       sectors.select(&:active)
     end
@@ -43,10 +48,17 @@ class Redesign::LibrarySearchForm
   end
 
   def topic_options
-    @topic_options ||= Topic.all.map do |topic|
-      Filter.new(
-        topic.id, :topic,
-        topic.name, topics.has_key?(topic.id.to_s))
+    @topic_options ||= Topic.where.not(parent_id: nil)
+      .includes(:parent)
+      .select([:id, :parent_id, :name])
+      .group(:parent_id, :id)
+      .group_by { |t| t.parent.name }
+      .map do |group_name, values|
+        [group_name, values.map {|topic|
+          Filter.new(
+            topic.id, :topic,
+            topic.name, topics.has_key?(topic.id.to_s))
+        }]
     end
   end
 

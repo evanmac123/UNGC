@@ -3,6 +3,10 @@ require 'test_helper'
 class LibrarySearchFormTest < ActiveSupport::TestCase
 
   setup do
+    # topics
+    @topics = create_topic_hierarchy
+    @selected_topic = @topics.last.children.last
+
     # languages
     @languages = ["English", "French"].map { |name| create_language name: name }
     @selected_language = @languages.last
@@ -22,22 +26,58 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     # search params
     @search_params = search_params = {
-      sectors: {
-        @selected_sector.id => "1"
-      },
-      languages: {
-        @selected_language.id => "1"
-      }
+      topics:     { @selected_topic.id    => "1" },
+      sectors:    { @selected_sector.id   => "1" },
+      languages:  { @selected_language.id => "1" }
     }.deep_stringify_keys
   end
 
   should "maintain a list of active filters" do
     form = Redesign::LibrarySearchForm.new 1, @search_params
-    assert_equal [:language, :sector], form.active_filters.map(&:type)
-    assert_equal [@selected_language.id, @selected_sector.id], form.active_filters.map(&:id)
+
+    assert_equal [
+      :topic,
+      :language,
+      :sector
+    ], form.active_filters.map(&:type)
+
+    assert_equal [
+      @selected_topic.id,
+      @selected_language.id,
+      @selected_sector.id
+    ], form.active_filters.map(&:id)
   end
 
   context "Issue selector options" do
+
+    setup do
+      @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @options = @form.topic_options
+
+      @group_name = @options.last.first
+      @filters = @options.last.last
+    end
+
+    should "have a group name" do
+      assert_equal "Topic B", @group_name
+    end
+
+    should "have names" do
+      assert_equal ["Topic 4", "Topic 5", "Topic 6"], @filters.map(&:name)
+    end
+
+    should "have match the topic's ids" do
+      topic_b_child_ids = @topics.last.children.map(&:id)
+      assert_equal topic_b_child_ids, @filters.map(&:id)
+    end
+
+    should "have topic type" do
+      assert_equal [:topic], @filters.map(&:type).uniq
+    end
+
+    should "have active states" do
+      assert_equal [false, false, true], @filters.map(&:active)
+    end
 
   end
 

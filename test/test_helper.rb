@@ -301,6 +301,32 @@ class ActiveSupport::TestCase
     {file: create_file_upload}
   end
 
+  def create_topic_hierarchy(tree = nil)
+    if tree.nil?
+      # 1 level deep
+      tree = [
+        ["Topic A", [
+          "Topic 1",
+          "Topic 2",
+          "Topic 3",
+        ]],
+        ["Topic B", [
+          "Topic 4",
+          "Topic 5",
+          "Topic 6",
+        ]]
+      ]
+    end
+
+    tree.map do |parent_name, child_names|
+      parent = create_topic name: parent_name
+      child_names.map do |child_name|
+        parent.children << create_topic(name: child_name, parent: parent)
+      end
+      parent.tap {|p| p.save!}
+    end
+  end
+
 end
 
 class ActionController::TestCase
