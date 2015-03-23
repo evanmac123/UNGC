@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150312011354) do
+ActiveRecord::Schema.define(version: 20150320131239) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
