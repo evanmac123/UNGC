@@ -24,27 +24,37 @@ class Redesign::LibrarySearchForm
   end
 
   def active_filters
-    issues = issue_options.select(&:active)
+    issues = issue_options.flat_map do |group, issues|
+      issues.select(&:active)
+    end
 
     topics = topic_options.flat_map do |group, topics|
       topics.select(&:active)
     end
 
-    languages = language_options.select(&:active)
-
     sectors = sector_options.flat_map do |group, sectors|
       sectors.select(&:active)
     end
+
+    languages = language_options.select(&:active)
+
     [issues, topics, languages, sectors].flatten
   end
 
   def issue_options
     # grouped arrays [[name, [filters]], ...]
-    @issue_options ||= Issue.all.map do |issue|
-      Filter.new(
-        issue.id, :issue,
-        issue.name, issues.has_key?(issue.id.to_s))
-    end
+    @issue_options ||= Issue.where(type: nil)
+      .includes(:issue_area)
+      .select([:id, :issue_area_id, :name])
+      .group(:issue_area_id, :id)
+      .group_by { |i| i.issue_area.name }
+      .map do |group_name, values|
+        [group_name, values.map { |issue|
+          Filter.new(
+            issue.id, :issue,
+            issue.name, issues.has_key?(issue.id.to_s))
+        }]
+      end
   end
 
   def topic_options
@@ -59,7 +69,7 @@ class Redesign::LibrarySearchForm
             topic.id, :topic,
             topic.name, topics.has_key?(topic.id.to_s))
         }]
-    end
+      end
   end
 
   def language_options

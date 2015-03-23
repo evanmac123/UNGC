@@ -3,6 +3,10 @@ require 'test_helper'
 class LibrarySearchFormTest < ActiveSupport::TestCase
 
   setup do
+    # issues
+    @issues = create_issue_hierarchy
+    @selected_issue = @issues.last.issues.last
+
     # topics
     @topics = create_topic_hierarchy
     @selected_topic = @topics.last.children.last
@@ -26,6 +30,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     # search params
     @search_params = search_params = {
+      issues:     { @selected_issue.id    => "1" },
       topics:     { @selected_topic.id    => "1" },
       sectors:    { @selected_sector.id   => "1" },
       languages:  { @selected_language.id => "1" }
@@ -36,12 +41,14 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     form = Redesign::LibrarySearchForm.new 1, @search_params
 
     assert_equal [
+      :issue,
       :topic,
       :language,
       :sector
     ], form.active_filters.map(&:type)
 
     assert_equal [
+      @selected_issue.id,
       @selected_topic.id,
       @selected_language.id,
       @selected_sector.id
@@ -49,6 +56,39 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   end
 
   context "Issue selector options" do
+
+    setup do
+      @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @options = @form.issue_options
+
+      @group_name = @options.last.first
+      @filters = @options.last.last
+    end
+
+    should "have a group name" do
+      assert_equal "Issue B", @group_name
+    end
+
+    should "have names" do
+      assert_equal ["Issue 4", "Issue 5", "Issue 6"], @filters.map(&:name)
+    end
+
+    should "have match the issue's ids" do
+      issue_b_child_ids = @issues.last.issues.map(&:id)
+      assert_equal issue_b_child_ids, @filters.map(&:id)
+    end
+
+    should "have issue type" do
+      assert_equal [:issue], @filters.map(&:type).uniq
+    end
+
+    should "have active states" do
+      assert_equal [false, false, true], @filters.map(&:active)
+    end
+
+  end
+
+  context "Topics selector options" do
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
@@ -79,9 +119,6 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       assert_equal [false, false, true], @filters.map(&:active)
     end
 
-  end
-
-  context "Topic selector options" do
   end
 
   context "Language selector options" do

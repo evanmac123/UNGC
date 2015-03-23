@@ -301,9 +301,34 @@ class ActiveSupport::TestCase
     {file: create_file_upload}
   end
 
+  def create_issue_hierarchy(tree = nil)
+    if tree.nil?
+      tree = [
+        ["Issue A", [
+          "Issue 1",
+          "Issue 2",
+          "Issue 3",
+        ]],
+        ["Issue B", [
+          "Issue 4",
+          "Issue 5",
+          "Issue 6",
+        ]]
+      ]
+    end
+
+    tree.map do |parent_name, child_names|
+      issue_area = create_issue_area(name: parent_name)
+      child_names.map do |child_name|
+        create_issue(name: child_name, issue_area: issue_area)
+      end
+      issue_area
+    end
+
+  end
+
   def create_topic_hierarchy(tree = nil)
     if tree.nil?
-      # 1 level deep
       tree = [
         ["Topic A", [
           "Topic 1",
@@ -319,12 +344,13 @@ class ActiveSupport::TestCase
     end
 
     tree.map do |parent_name, child_names|
-      parent = create_topic name: parent_name
+      parent = create_topic(name: parent_name)
       child_names.map do |child_name|
         parent.children << create_topic(name: child_name, parent: parent)
       end
       parent.tap {|p| p.save!}
     end
+
   end
 
 end
