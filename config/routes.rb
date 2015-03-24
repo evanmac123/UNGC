@@ -31,17 +31,17 @@ UNGC::Application.routes.draw do
       get '/our-library/search' => :search,    as: :library_search
     end
 
-    get '/participation' => 'static#landing', as: :landing_page
-    get '/article' => 'static#article', as: :article
-    get '/about' => 'static#long_article', as: :long_article
-    get '/' => 'static#home', as: :root
+    get '/participation'      => 'static#landing',      as: :landing_page
+    get '/participation/join' => 'static#article',      as: :article
+    get '/about'              => 'static#long_article', as: :long_article
+    get '/'                   => 'static#home',         as: :root
   end
 
   # Backend routes
-  get '/admin'                    => 'admin#dashboard', :as => :admin
-  get '/admin/dashboard'          => 'admin#dashboard', :as => :dashboard
-  get '/admin/parameters'         => 'admin#parameters', :as => :parameters
-  get '/admin/cops/introduction'  => 'admin/cops#introduction', :as => :cop_introduction
+  get '/admin'                    => 'admin#dashboard',         as: :admin
+  get '/admin/dashboard'          => 'admin#dashboard',         as: :dashboard
+  get '/admin/parameters'         => 'admin#parameters',        as: :parameters
+  get '/admin/cops/introduction'  => 'admin/cops#introduction', as: :cop_introduction
 
   get '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing
   get '/admin/local_network_resources' => 'admin/local_networks#edit_resources', :as => :local_network_resources

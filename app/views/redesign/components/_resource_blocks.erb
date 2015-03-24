@@ -1,4 +1,4 @@
-<%- if resources = get_page_data['resources'] -%>
+<%- if resources = @page.resources -%>
 <section class='resource-blocks'>
   <header class='resource-blocks-header'>
     <h1>From Our Library</h1>
@@ -7,10 +7,10 @@
   <ul>
     <%- resources.each do |r| -%>
     <li class='resource-block'>
-      <% link_to r.url, class: "resource-block-link #{r.type.parameterize}" do %>
-        <%= image_tag "resources/resource_preview_#{r.id}.jpg" %>
-        <h2><%= r.title -%></h2>
-        <div class='resource-block-tag'><%= r.tag -%></div>
+      <%= link_to r[:url], class: "resource-block-link #{r[:type].parameterize}" do %>
+        <%= image_tag "//ungc.s3.amazonaws.com/resources/resource_preview_#{r[:id]}.jpg" %>
+        <h2><%= r[:title] -%></h2>
+        <div class='resource-block-tag'><%= r[:tag] -%></div>
       <% end %>
     </li>
     <%- end -%>

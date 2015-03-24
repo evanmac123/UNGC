@@ -10,7 +10,7 @@ class FakeLandingPage
       blurb: "Sustainability is important to everyone&rsquo;s business. Companies that embrace sustainability best practices often outperform the market and are leading the modernization of business practices globally.",
       link: {
         label: "Learn More",
-        url: "/participation/join/"
+        url: "/redesign/participation/join"
       }
     }
   end
