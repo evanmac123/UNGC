@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     {{#each model as |container|}}
-      {{#link-to "containers.edit" container tagName="tr"}}
+      {{#link-to "containers.edit" container.id tagName="tr"}}
         <td>{{container.layout}}</td>
         <td>{{container.slug}}</td>
       {{/link-to}}
