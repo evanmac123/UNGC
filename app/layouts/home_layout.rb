@@ -46,6 +46,7 @@ class HomeLayout < UNGC::Layout
     field :color,    type: :string, enum: COLORS, default: 'light-blue', required: true
     field :bg_image, type: :image_url
     field :title,    type: :string, limit: 100, required: true
+    field :blurb,    type: :string, limit: 150
 
     scope :link do
       field :label, type: :string, limit: 25
