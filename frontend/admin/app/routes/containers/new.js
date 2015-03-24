@@ -21,7 +21,7 @@ export default Ember.Route.extend({
 
   actions: {
     save(record) {
-      record.save().then(() => {
+      record.save().then((container) => {
         this.transitionToRoute('containers.edit', container);
       });
     }
