@@ -112,7 +112,7 @@ class SignupController < ApplicationController
   # POST from commitment letter form
   # shows thank you page
   def step7
-    if params[:organization] && params[:organization][:commitment_letter]
+    if commitment_letter_params[:commitment_letter]
       @signup.set_commitment_letter_attributes(commitment_letter_params)
     end
 
@@ -222,10 +222,9 @@ class SignupController < ApplicationController
     end
 
     def commitment_letter_params
-      params.require(:organization).permit(
-        :commitment_letter,
-        :mission_statement
-      )
+      organization_params = params.fetch(:organization, {}).permit(:commitment_letter)
+      non_business_params = params.fetch(:non_business_organization_registration, {})
+      organization_params.merge(non_business_params)
     end
 
 end
