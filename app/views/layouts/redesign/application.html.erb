@@ -15,11 +15,9 @@
     <main>
       <%= yield %>
     </main>
-    <hr>
-    <footer>
-      <% if current_payload %>
-        <small>Last updated: <%= current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z') %></small>
-      <% end %>
-    </footer>
+    <%= render 'redesign/components/main_footer' %>
+    <% if current_payload %>
+      <small>Last updated: <%= current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z') %></small>
+    <% end %>
   </body>
 </html>

@@ -1,0 +1,53 @@
+<%- if events = @page.events -%>
+
+<section class='events-news-section'>
+  <header class='tabs'>
+    <h1 class='tab events active'>Events</h1>
+    <%= link_to 'News', '', class: 'tab news' -%>
+  </header>
+
+  <div class='content'>
+    <article class='featured-event'>
+      <%= link_to events[:featured][:url], class: 'event' do -%>
+        <div class='thumbnail' style='background-image: url(<%= events[:featured][:thumbnail] -%>)'>
+          <div class='date-location'>
+            <time datetime="<%= Date.parse(events[:featured][:date]).strftime('%F') -%>"><%= events[:featured][:date] -%></time>
+            <address><%= events[:featured][:location] -%></address>
+          </div>
+        </div>
+
+        <h1><%= events[:featured][:title] -%></h1>
+
+        <p><%= events[:featured][:excerpt] -%></p>
+      <%- end -%>
+    </article>
+
+
+    <ul class='other-events'>
+      <%- events[:secondary].each do |e| -%>
+        <li><%= link_to e[:url], class: 'event' do -%>
+          <time datetime="<%= Date.parse(e[:date]).strftime('%F') -%>"><%= e[:date].html_safe -%></time>
+          <address><%= e[:location].html_safe -%></address>
+          <h2><%= e[:title].html_safe -%></h2>
+        <%- end -%></li>
+      <%- end -%>
+    </ul>
+
+    <ul class='local-events'>
+      <%- events[:local].each do |e| -%>
+        <li><%= link_to e[:url], class: 'event' do -%>
+          <div class='tag'>Local Network</div>
+          <time datetime="<%= Date.parse(e[:date]).strftime('%F') -%>"><%= e[:date].html_safe -%></time>
+          <address><%= e[:location].html_safe -%></address>
+          <h2><%= e[:title].html_safe -%></h2>
+        <%- end -%></li>
+      <%- end -%>
+    </ul>
+
+    <footer class='events-section-footer'>
+      View <%= link_to 'All Events', '' -%> | <%= link_to 'Local Events', '' -%>
+    </footer>
+  </div>
+</section>
+
+<%- end -%>

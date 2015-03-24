@@ -2,7 +2,7 @@ class FakeHomePage
 
   def hero
     {
-      image: "/assets/images/hero/clean-room.jpg",
+      image: "//ungc.s3.amazonaws.com/hero/clean-room.jpg",
       theme: "dark",
       title: {
         title1: "We believe business",
@@ -85,7 +85,7 @@ class FakeHomePage
       },
       {
         color: "pastel-blue",
-        title: "<img src='/assets/images/tiles/chat-bubbles.png'><br>It&rsquo;s a big job.",
+        title: "<img src='//ungc.s3.amazonaws.com/tiles/chat-bubbles.png'><br>It&rsquo;s a big job.",
         link: {
           url: "",
           label: "Find Partners"
@@ -103,7 +103,7 @@ class FakeHomePage
         date: "12 December 2014",
         location: "New York, NY, USA",
         excerpt: "Spotlights business strategies, experience, and challenges on increasing and enhancing job opportunities for women and expanding access to decent jobs.",
-        thumbnail: "/assets/images/womens-empowerment.jpg"
+        thumbnail: "//ungc.s3.amazonaws.com/womens-empowerment.jpg"
       },
       secondary: [
         {

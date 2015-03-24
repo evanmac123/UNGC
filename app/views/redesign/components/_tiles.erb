@@ -1,12 +1,12 @@
-<%- if tiles = get_page_data['tiles'] -%>
+<%- if tiles = @page.tiles -%>
 
 <section class='tiles-section'>
   <%- tiles.each do |tile| -%>
-  <article class='tile <%= "color-#{tile.color}" if tile.color -%> <%= 'double-width' if tile.double_width -%> <%= 'double-height' if tile.double_height -%>' style='<%= "background-image: url(/assets/images/#{tile.bg_image});" if tile.bg_image -%>'>
-    <% link_to tile.link.url do %>
-      <%= "<h1>#{tile.title}</h1>" if tile.title %>
-      <%= "<p>#{tile.blurb}</p>" if tile.blurb && tile.double_height && !tile.double_width %>
-      <%= "<span class='link-label'>#{tile.link.label}</span>" if tile.link.label %>
+  <article class='tile <%= "color-#{tile[:color]}" if tile[:color] -%> <%= 'double-width' if tile[:double_width] -%> <%= 'double-height' if tile[:double_height] -%>' style='<%= "background-image: url(//ungc.s3.amazonaws.com/#{tile[:bg_image]});" if tile[:bg_image] -%>'>
+    <%= link_to tile[:link][:url] do %>
+      <%= "<h1>#{tile[:title]}</h1>".html_safe if tile[:title] %>
+      <%= "<p>#{tile[:blurb]}</p>".html_safe if tile[:blurb] && tile[:double_height] && !tile[:double_width] %>
+      <%= "<span class='link-label'>#{tile[:link][:label]}</span>".html_safe if tile[:link][:label] %>
     <% end %>
   </article>
   <%- end -%>
