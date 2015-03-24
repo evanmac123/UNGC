@@ -14,18 +14,9 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     @selected_topic = @topics.last.children.last
 
     # sectors
-    @sectors = ["Sectors a", "Sectors b"].map do |group|
-      parent = create_sector name: group
-      3.times.map do |i|
-        create_sector(
-          name: "Child #{i}",
-          parent: parent,
-          icb_number: i
-        )
-      end
-    end
-    @selected_sector_group = @sectors.last.first
-    @selected_sector = @sectors.first.last
+    @sectors = create_sector_hierarchy
+    @selected_sector_group = @sectors.last
+    @selected_sector = @sectors.first.children.last
 
     # languages
     @languages = ["English", "French"].map { |name| create_language name: name }
@@ -164,7 +155,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
   context "Sector selector options" do
 
     setup do
-      @form = Redesign::LibrarySearchForm.new
+      @form = Redesign::LibrarySearchForm.new 1, @search_params
 
       @options = @form.sector_options
       @group_a = @options.first
@@ -172,10 +163,10 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
       @group = @group_a.first
       @filters = @group_a.last
-      @filter = @filters[2]
+      @filter = @filters.first
 
       # the sector that should map to the filter
-      @sector = @sectors[0][2]
+      @sector = @sectors.first.children.first
     end
 
     should "have 2 items" do
@@ -184,7 +175,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "be grouped by title" do
-      assert_equal "Sectors a", @group.name
+      assert_equal "Sector A", @group.name
     end
 
     should "have a selected group" do

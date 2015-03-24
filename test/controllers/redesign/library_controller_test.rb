@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class Redesign::LibraryControllerTest < ActionController::TestCase
+
+  setup do
+    Resource.stubs(search: stub(
+      total_entries: 0,
+      total_pages: 0,
+      each: stub()
+    ))
+  end
+
   context "index" do
 
     setup do
@@ -51,10 +60,14 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
   context "search" do
 
     setup do
-      @issue = create_issue
-      @topic = create_topic
+      @issues = create_issue_hierarchy
+      @topics = create_topic_hierarchy
+      @sectors = create_sector_hierarchy
+
       @language = create_language
-      @sector = create_sector parent: create_sector
+      @issue = @issues.last.issues.last
+      @topic = @topics.last.children.last
+      @sector = @sectors.last.children.last
 
       @search_params = {
         "issues" => {@issue.id => '1'},

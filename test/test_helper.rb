@@ -353,6 +353,33 @@ class ActiveSupport::TestCase
 
   end
 
+  def create_sector_hierarchy
+    tree = [
+        ["Sector A", [
+          "Sector 1",
+          "Sector 2",
+          "Sector 3",
+        ]],
+        ["Sector B", [
+          "Sector 4",
+          "Sector 5",
+          "Sector 6",
+        ]]
+      ]
+
+    tree.map do |group_name, child_names|
+      parent = create_sector name: group_name
+      child_names.each_with_index.map do |child_name, i|
+        create_sector(
+          name: child_name,
+          parent: parent,
+          icb_number: i
+        )
+      end
+      parent
+    end
+  end
+
 end
 
 class ActionController::TestCase
