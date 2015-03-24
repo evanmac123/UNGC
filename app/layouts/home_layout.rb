@@ -27,7 +27,7 @@ class HomeLayout < UNGC::Layout
       field :title2, type: :string, limit: 50
     end
 
-    field :blurb, type: :string, limit: 100, required: true
+    field :blurb, type: :string, limit: 200, required: true
 
     scope :link do
       field :label, type: :string, limit: 30, required: true
