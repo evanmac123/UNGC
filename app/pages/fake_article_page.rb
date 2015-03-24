@@ -1,12 +1,12 @@
 class FakeArticlePage
   def hero
     {
-      image: "/assets/images/hero/georg-kell.jpg",
+      image: "//ungc.s3.amazonaws.com/hero/georg-kell.jpg",
       theme: "dark",
-      title: [
-        "UN Global Compact &ndash;",
-        "15 Years of Sustainability Success"
-      ],
+      title: {
+        title1: "UN Global Compact &ndash;",
+        title2: "15 Years of Sustainability Success"
+      },
       show_section_nav: true
     }
   end
@@ -19,7 +19,7 @@ class FakeArticlePage
         sidebar_widgets: [
           {
             type: "image",
-            src: "sidebar/2.jpg",
+            src: "//ungc.s3.amazonaws.com/sidebar/2.jpg",
             alt: ""
           }
         ]
@@ -27,7 +27,7 @@ class FakeArticlePage
       {
         title: "Everyone Benefits from a Better World",
         align: "center",
-        bg_image: "/assets/images/hero/earth-at-night.jpg",
+        bg_image: "//ungc.s3.amazonaws.com/hero/earth-at-night.jpg",
         theme: "dark",
         content: "<p>Strong markets and strong societies go hand in hand. Even the most principled companies are challenged to thrive in communities marked by instability, to find skilled labour where adequate education is lacking, or to withstand disasters stemming from climate change. With the United Nations expected to launch a ground-breaking set of global sustainable development goals in 2015, business will have a newly relevant framework to guide their efforts towards society&hairsp;&mdash;&hairsp;representing a huge opportunity to drive sustainable business.</p><br><p><a href='' class='button light-green'>See how you can drive change</a></p>"
       },
@@ -37,7 +37,7 @@ class FakeArticlePage
         sidebar_widgets: [
           {
             type: "image",
-            src: "sidebar/4.jpg",
+            src: "//ungc.s3.amazonaws.com/sidebar/4.jpg",
             alt: ""
           }
         ]
