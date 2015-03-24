@@ -3,8 +3,8 @@ namespace :redesign do
   desc "Get the database ready for the redesign"
   task :prepare do
     fix_principles_with_invalid_types
-    create_or_update_topics_taxonomy
-    create_or_update_issue_taxonomy
+    create_topics
+    create_issues
     split_issues_from_principles
     add_explore_our_library
   end
@@ -19,13 +19,42 @@ namespace :redesign do
   desc "Randomly assign sectors to Resources"
   task :randomize_sectors do
     sectors = [
-      "Oil Equipment, Services & Distribution",
-      "Chemicals",
-      "Forestry & Paper",
+      "Oil Equipment, Services & Distribution",   # Oil & Gas
+      "Chemicals",                                # Chemicals
+      "Forestry & Paper",                         # Basic Resources
     ].map {|name| Sector.find_by!(name: name)}
 
     Resource.find_each do |resource|
       Tagging.create! resource: resource, sector: sectors[rand(sectors.length)]
+    end
+  end
+
+  desc "Randomly assign issues to Resources"
+  task :randomize_issues do
+    issues = [
+      "Principle 1", # in Human Rights
+      "Principle 2", # in Human Rights
+      "Principle 3", # in Labour
+      "Principle 4", # in Labour
+    ].map {|name| Issue.find_by!(name: name)}
+
+    Resource.find_each do |resource|
+      issue = issues[rand(issues.length)]
+      Tagging.create! resource: resource, issue: issue
+    end
+  end
+
+  desc "Randomly assign topics to Resources"
+  task :randomize_topics do
+    topics = [
+      "Stock Markets",              # in Financial Markets
+      "Financing for Development",  # in Financial Markets
+      "UN-Business Partnerships",   # in Partnershipd
+    ].map {|name| Topic.find_by!(name: name)}
+
+    Resource.find_each do |resource|
+      topic = topics[rand(topics.length)]
+      Tagging.create! resource: resource, topic: topic
     end
   end
 
@@ -35,106 +64,112 @@ namespace :redesign do
     Principle.where(type:'').update_all(type: nil)
   end
 
-  def create_or_update_issue_taxonomy
-    principles = {
-      "Human Rights" => [
-        "Principle 1 - Businesses should support and respect the protection of internationally proclaimed human rights",
-        "Principle 2 - Make sure that they are not complicit in human rights abuses",
+  def create_issues
+    areas = {
+      'Human Rights' => [
+        "Principle 1",
+        "Principle 2",
         "Children's Rights",
         "Human Trafficking",
         "Indigenous Peoples",
         "Persons with Disabilities",
-        "Women and Gender Equality",
+        "Women's Empowerment",
       ],
-      "Labour" => [
-        "Principle 3 - Businesses should uphold freedom of association & effective recognition of the right to collective bargaining",
-        "Principle 4 - The elimination of all forms of forced and compulsory labour",
-        "Principle 5 - The effective abolition of child labour",
-        "Principle 6 - Eliminate discrimination in respect of employment and occupation",
+      'Labour' => [
+        "Principle 3",
+        "Principle 4",
+        "Principle 5",
+        "Principle 6",
         "Child Labour",
         "Forced Labour",
         "Migrant Workers",
       ],
-      "Environment" => [
-        "Principle 7 - Businesses should support a precautionary approach to environmental challenges",
-        "Principle 8 - Undertake initiatives to promote greater environmental responsibility",
-        "Principle 9 - Encourage the development and diffusion of environmentally friendly technologies",
+      'Environment' => [
+        "Principle 7",
+        "Principle 8",
+        "Principle 9",
         "Climate Change",
-        "Water Sustainability ",
+        "Water",
         "Energy",
         "Biodiversity",
-        "Environmental Stewardship",
-        "Green Industry",
+        "Oceans",
         "Food and Agriculture",
       ],
-      "Anti-Corruption" => [
-        "Principle 10 - Businesses should work against all forms of corruption, including extortion and bribery"
+      'Anti-Corruption' => [
+        "Principle 10",
       ],
-      "Strengthening Society" => [
+      'Society' => [
+        "Sustainable Development Goals",
         "Peace",
         "Poverty",
-        "Education education ",
-        "Social Enterprise & Impact Investing",
-        "Rule of Law rule of law",
-      ]
+        "Education",
+        "Rule of Law",
+        "Health",
+        "Infrastructure",
+        "Cities/Urbanization",
+        "Social Enterprise",
+      ],
     }
 
-    principles.each do |name, children|
-      area = PrincipleArea.where(name: name).first_or_create!
-      area.parent_id = nil
-
-      children.each do |child_name|
-        child = Principle.where(name: child_name).first_or_create!
-        child.parent_id = area.id
-        child.type = nil
-        child.save!
+    areas.each do |area_name, issues|
+      area = IssueArea.where(name: area_name).first_or_create!
+      issues.each do |issue_name|
+        issue = Issue.where(name: issue_name).first_or_create!
+        issue.issue_area = area
+        issue.save!
       end
-
       area.save!
     end
   end
 
-  def create_or_update_topics_taxonomy
+  def create_topics
     topics = {
-      'Financial Markets' => [
-          'Stock Markets'
+      "Financial Markets" => [
+        "Responsible Investment",
+        "Stock Markets",
+        "Financing for Development",
       ],
-      'Supply Chain Sustainability' => [],
-      'Partnerships' => [
-          'UN / Business Partnerships'
+      "Supply Chain" => [
+
       ],
-      'Management' => [],
-      'Global Compact' => [],
-      'Local Networks' => [],
-      'Leadership' => [],
-      'UN Goals and Issues' => [
-          'Millennium Development Goals',
-          'Post-2015 Agenda',
-          'Sustainable Development Goals',
+      "Partnerships" => [
+        "UN-Business Partnerships",
       ],
-      'Government' => [],
-      'Reporting' => [
-          'Communication on Progress',
-          'Communication on Engagement',
-          'Financial Reporting',
-          'Integrated Reporting',
+      "Management" => [
+        "Board of Directors",
       ],
-      'Management Education' => [],
+      "Local Networks" => [
+
+      ],
+      "Leadership" => [
+
+      ],
+      "UN Goals and Issues" => [
+        "Millennium Development Goals",
+        "Post-2015 Agenda",
+        "Sustainable Development Goals",
+      ],
+      "Reporting" => [
+        "Communication on Progress",
+        "Communication on Engagement",
+        "Financial Reporting",
+        "Integrated Reporting",
+      ],
+      "Management Education" => [
+
+      ],
   }
 
     # make each existing principle into a top level topic
     # or create a new one.
-    topics.each do |name, children|
+    topics.each do |topic_name, children|
       # top level topics
-      topic = Principle.where(name: name).first_or_create!
-      topic.parent_id = nil
-      topic.type = 'Topic'
+      topic = Topic.where(name: topic_name).first_or_create!
 
       # one level of children
       children.each do |child_name|
-        child = Principle.where(name: child_name).first_or_create!
-        child.parent_id = topic.id
-        child.type = 'Topic'
+        child = Topic.where(name: child_name).first_or_create!
+        child.parent = topic
         child.save!
       end
 

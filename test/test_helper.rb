@@ -301,6 +301,85 @@ class ActiveSupport::TestCase
     {file: create_file_upload}
   end
 
+  def create_issue_hierarchy(tree = nil)
+    if tree.nil?
+      tree = [
+        ["Issue A", [
+          "Issue 1",
+          "Issue 2",
+          "Issue 3",
+        ]],
+        ["Issue B", [
+          "Issue 4",
+          "Issue 5",
+          "Issue 6",
+        ]]
+      ]
+    end
+
+    tree.map do |parent_name, child_names|
+      issue_area = create_issue_area(name: parent_name)
+      child_names.map do |child_name|
+        create_issue(name: child_name, issue_area: issue_area)
+      end
+      issue_area
+    end
+
+  end
+
+  def create_topic_hierarchy(tree = nil)
+    if tree.nil?
+      tree = [
+        ["Topic A", [
+          "Topic 1",
+          "Topic 2",
+          "Topic 3",
+        ]],
+        ["Topic B", [
+          "Topic 4",
+          "Topic 5",
+          "Topic 6",
+        ]]
+      ]
+    end
+
+    tree.map do |parent_name, child_names|
+      parent = create_topic(name: parent_name)
+      child_names.map do |child_name|
+        parent.children << create_topic(name: child_name, parent: parent)
+      end
+      parent.tap {|p| p.save!}
+    end
+
+  end
+
+  def create_sector_hierarchy
+    tree = [
+        ["Sector A", [
+          "Sector 1",
+          "Sector 2",
+          "Sector 3",
+        ]],
+        ["Sector B", [
+          "Sector 4",
+          "Sector 5",
+          "Sector 6",
+        ]]
+      ]
+
+    tree.map do |group_name, child_names|
+      parent = create_sector name: group_name
+      child_names.each_with_index.map do |child_name, i|
+        create_sector(
+          name: child_name,
+          parent: parent,
+          icb_number: i
+        )
+      end
+      parent
+    end
+  end
+
 end
 
 class ActionController::TestCase

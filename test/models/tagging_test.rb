@@ -46,7 +46,7 @@ class TaggingTest < ActiveSupport::TestCase
   should "tag headline with topic" do
     topic = create_topic
     headline = create_headline
-    tagging = Tagging.create! principle: topic, headline: headline
+    tagging = Tagging.create! topic: topic, headline: headline
     assert_not_nil tagging
     assert_equal tagging.domain, topic
     assert_equal tagging.subject, headline
@@ -55,7 +55,7 @@ class TaggingTest < ActiveSupport::TestCase
   should "tag organization with topic" do
     topic = create_topic
     organization = create_organization
-    tagging = Tagging.create! principle: topic, organization: organization
+    tagging = Tagging.create! topic: topic, organization: organization
     assert_not_nil tagging
     assert_equal tagging.domain, topic
     assert_equal tagging.subject, organization
@@ -64,7 +64,7 @@ class TaggingTest < ActiveSupport::TestCase
   should "tag redesign_container with topic" do
     topic = create_topic
     redesign_container = create_container
-    tagging = Tagging.create! principle: topic, redesign_container: redesign_container
+    tagging = Tagging.create! topic: topic, redesign_container: redesign_container
     assert_not_nil tagging
     assert_equal tagging.domain, topic
     assert_equal tagging.subject, redesign_container
@@ -73,9 +73,81 @@ class TaggingTest < ActiveSupport::TestCase
   should "tag container with topic" do
     topic = create_topic
     container = create_container
-    tagging = Tagging.create! principle: topic, redesign_container: container
+    tagging = Tagging.create! topic: topic, redesign_container: container
     assert_not_nil tagging
     assert_equal tagging.domain, topic
+    assert_equal tagging.subject, container
+  end
+
+  should "tag headline with issue" do
+    issue = create_issue
+    headline = create_headline
+    tagging = Tagging.create! issue: issue, headline: headline
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue
+    assert_equal tagging.subject, headline
+  end
+
+  should "tag organization with issue" do
+    issue = create_issue
+    organization = create_organization
+    tagging = Tagging.create! issue: issue, organization: organization
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue
+    assert_equal tagging.subject, organization
+  end
+
+  should "tag redesign_container with issue" do
+    issue = create_issue
+    redesign_container = create_container
+    tagging = Tagging.create! issue: issue, redesign_container: redesign_container
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue
+    assert_equal tagging.subject, redesign_container
+  end
+
+  should "tag container with issue" do
+    issue = create_issue
+    container = create_container
+    tagging = Tagging.create! issue: issue, redesign_container: container
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue
+    assert_equal tagging.subject, container
+  end
+
+  should "tag headline with issue_area" do
+    issue_area = create_issue_area
+    headline = create_headline
+    tagging = Tagging.create! issue: issue_area, headline: headline
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue_area
+    assert_equal tagging.subject, headline
+  end
+
+  should "tag organization with issue_area" do
+    issue_area = create_issue_area
+    organization = create_organization
+    tagging = Tagging.create! issue: issue_area, organization: organization
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue_area
+    assert_equal tagging.subject, organization
+  end
+
+  should "tag redesign_container with issue_area" do
+    issue_area = create_issue_area
+    redesign_container = create_container
+    tagging = Tagging.create! issue: issue_area, redesign_container: redesign_container
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue_area
+    assert_equal tagging.subject, redesign_container
+  end
+
+  should "tag container with issue_area" do
+    issue_area = create_issue_area
+    container = create_container
+    tagging = Tagging.create! issue: issue_area, redesign_container: container
+    assert_not_nil tagging
+    assert_equal tagging.domain, issue_area
     assert_equal tagging.subject, container
   end
 

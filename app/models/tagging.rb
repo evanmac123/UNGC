@@ -1,7 +1,9 @@
 class Tagging < ActiveRecord::Base
   # domains
   belongs_to :author
-  belongs_to :principle, polymorphic: true
+  belongs_to :principle
+  belongs_to :topic
+  belongs_to :issue
   belongs_to :country
   belongs_to :initiative
   belongs_to :language
@@ -18,7 +20,7 @@ class Tagging < ActiveRecord::Base
   # belongs_to :event
 
   def domain
-    author || principle || country || initiative || language || sector
+    author || principle || country || initiative || language || sector || topic || issue
   end
 
   def subject

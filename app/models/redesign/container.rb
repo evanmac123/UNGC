@@ -37,6 +37,14 @@ class Redesign::Container < ActiveRecord::Base
     end
   end
 
+  def payload(draft = false)
+    if draft
+      draft_payload
+    else
+      public_payload
+    end
+  end
+
   protected
 
   def update_draft_payload
@@ -54,11 +62,4 @@ class Redesign::Container < ActiveRecord::Base
     errors.add :data, 'is not a valid payload'
   end
 
-  def payload(draft = false)
-    if draft
-      draft_payload
-    else
-      public_payload
-    end
-  end
 end
