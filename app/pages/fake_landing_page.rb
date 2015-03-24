@@ -1,12 +1,12 @@
 class FakeLandingPage
   def hero
     {
-      image: "/assets/images/hero/woman-farmer.jpg",
+      image: "//ungc.s3.amazonaws.com/hero/woman-farmer.jpg",
       theme: "dark",
-      title: [
-        "The world is changing.",
-        "You need to keep pace."
-      ],
+      title: {
+        title1: "The world is changing.",
+        title2: "You need to keep pace."
+      },
       blurb: "Sustainability is important to everyone&rsquo;s business. Companies that embrace sustainability best practices often outperform the market and are leading the modernization of business practices globally.",
       link: {
         label: "Learn More",

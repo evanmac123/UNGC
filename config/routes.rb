@@ -33,7 +33,7 @@ UNGC::Application.routes.draw do
 
     get '/participation' => 'static#landing', as: :landing_page
     get '/article' => 'static#article', as: :article
-    get '/long_article' => 'static#long_article', as: :long_article
+    get '/about' => 'static#long_article', as: :long_article
     get '/' => 'static#home', as: :root
   end
 
