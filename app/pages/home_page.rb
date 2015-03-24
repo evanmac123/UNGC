@@ -1,22 +1,18 @@
-class HomePage
+class HomePage < FakeHomePage
   def initialize(container, payload_data)
     @container = container
     @data      = payload_data || {}
   end
 
-  def get(key)
-    @data[key.to_sym]
-  end; alias_method :[], :get
+  def hero
+    @data[:hero] || {}
+  end
 
-  def main_links
-    get(:main_links) || []
+  def tiles
+    @data[:tiles] || []
   end
 
   def stats
-    get(:stats) || []
-  end
-
-  def event
-    nil
+    @data[:stats] || []
   end
 end
