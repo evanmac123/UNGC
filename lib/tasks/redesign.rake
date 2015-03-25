@@ -32,10 +32,10 @@ namespace :redesign do
   desc "Randomly assign issues to Resources"
   task :randomize_issues do
     issues = [
-      "Principle 1", # in Human Rights
-      "Principle 2", # in Human Rights
-      "Principle 3", # in Labour
-      "Principle 4", # in Labour
+      "Principle 1", # in Social
+      "Principle 2", # in Social
+      "Principle 7", # in Environment
+      "Principle 8", # in Environment
     ].map {|name| Issue.find_by!(name: name)}
 
     Resource.find_each do |resource|
@@ -47,8 +47,8 @@ namespace :redesign do
   desc "Randomly assign topics to Resources"
   task :randomize_topics do
     topics = [
+      "Responsible Investment",     # in Financial Markets
       "Stock Markets",              # in Financial Markets
-      "Financing for Development",  # in Financial Markets
       "UN-Business Partnerships",   # in Partnerships
     ].map {|name| Topic.find_by!(name: name)}
 
@@ -66,48 +66,43 @@ namespace :redesign do
 
   def create_issues
     areas = {
-      'Human Rights' => [
+      'Social' => [
         "Principle 1",
-        "Principle 2",
-        "Children's Rights",
-        "Human Trafficking",
-        "Indigenous Peoples",
-        "Persons with Disabilities",
-        "Women's Empowerment",
-      ],
-      'Labour' => [
+        "Principle 2 ",
         "Principle 3",
-        "Principle 4",
-        "Principle 5",
+        "Principle 4 ",
+        "Principle 5 ",
         "Principle 6",
         "Child Labour",
+        "Children's Rights",
+        "Education",
         "Forced Labour",
+        "Health",
+        "Human Rights",
+        "Human Trafficking",
+        "Indigenous Peoples",
+        "Labour",
         "Migrant Workers",
+        "Persons with Disabilities",
+        "Poverty",
+        "Gender Equality",
+        "Women's Empowerment",
       ],
       'Environment' => [
         "Principle 7",
-        "Principle 8",
-        "Principle 9",
-        "Climate Change",
-        "Water",
-        "Energy",
+        "Principle 8 ",
+        "Principle 9 ",
         "Biodiversity",
-        "Oceans",
+        "Climate Change",
+        "Energy",
         "Food and Agriculture",
+        "Water",
       ],
-      'Anti-Corruption' => [
+      'Governance' => [
         "Principle 10",
-      ],
-      'Society' => [
-        "Sustainable Development Goals",
+        "Anti-Corruption",
         "Peace",
-        "Poverty",
-        "Education",
         "Rule of Law",
-        "Health",
-        "Infrastructure",
-        "Cities/Urbanization",
-        "Social Enterprise",
       ],
     }
 
@@ -127,16 +122,18 @@ namespace :redesign do
       "Financial Markets" => [
         "Responsible Investment",
         "Stock Markets",
-        "Financing for Development",
+        "Private Sustainability Finance",
       ],
       "Supply Chain" => [
 
       ],
       "Partnerships" => [
         "UN-Business Partnerships",
+        "Social Enterprise",
       ],
       "Management" => [
         "Board of Directors",
+        "General Counsel",
       ],
       "Local Networks" => [
 
