@@ -4,6 +4,6 @@
 = "#{@results.total_entries} results."
 - @results.each do |resource|
   %p
-    %p= render '/resources/resource', resource: resource
+    %p= render 'resource', resource: resource
 
 = will_paginate @results

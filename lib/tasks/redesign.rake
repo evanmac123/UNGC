@@ -49,7 +49,7 @@ namespace :redesign do
     topics = [
       "Stock Markets",              # in Financial Markets
       "Financing for Development",  # in Financial Markets
-      "UN-Business Partnerships",   # in Partnershipd
+      "UN-Business Partnerships",   # in Partnerships
     ].map {|name| Topic.find_by!(name: name)}
 
     Resource.find_each do |resource|
