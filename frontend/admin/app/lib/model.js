@@ -29,7 +29,7 @@ var Model = Ember.Object.extend({
     return this.constructor.type;
   }.property(),
 
-  post() {
+  postData() {
     if (this.get('id')) {
       throw 'can\'t post already created resource';
     }
@@ -38,21 +38,25 @@ var Model = Ember.Object.extend({
       type: 'POST',
       data: this.asJSON()
     }).then((res) => {
-      this.setPropertiesFromJSON(res.data);
-      return this;
+      return Ember.run(() => {
+        this.setPropertiesFromJSON(res.data);
+        return this;
+      });
     });
   },
 
-  patch() {
+  putData() {
     if (!this.get('id')) {
-      throw 'can\'t patch non-existant resource';
+      throw 'can\'t put non-existant resource';
     }
 
     return this.xhr({
-      type: 'PATCH',
+      type: 'PUT',
       data: this.asJSON()
     }).then(() => {
-      return this;
+      return Ember.run(() => {
+        return this;
+      });
     });
   },
 
@@ -67,10 +71,12 @@ var Model = Ember.Object.extend({
   },
 
   save() {
-    if (Ember.isNone(this.get('id'))) {
-      return this.post();
+    var id = this.get('id');
+
+    if (Ember.isNone(id)) {
+      return this.postData();
     } else {
-      return this.patch();
+      return this.putData();
     }
   },
 
@@ -130,13 +136,15 @@ Model.reopenClass({
     }
 
     return Ember.$.ajax(opts).then((res) => {
-      if (Ember.typeOf(res.data) === 'object') {
-        return this.materializeRecord(res.data);
-      } else if (Ember.typeOf(res.data) === 'array') {
-        return res.data.map((d) => this.materializeRecord(d));
-      } else {
-        return null;
-      }
+      return Ember.run(() => {
+        if (Ember.typeOf(res.data) === 'object') {
+          return this.materializeRecord(res.data);
+        } else if (Ember.typeOf(res.data) === 'array') {
+          return res.data.map((d) => this.materializeRecord(d));
+        } else {
+          return null;
+        }
+      });
     });
   }
 });
