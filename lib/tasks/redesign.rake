@@ -9,6 +9,18 @@ namespace :redesign do
     add_explore_our_library
   end
 
+  desc "Get your dev environment ready for redesign work"
+  task prepare_dev: [
+    :prepare,
+    :randomize_content_types,
+    :randomize_sectors,
+    :randomize_issues,
+    :randomize_topics
+    ] do
+      Searchable.index_resources
+      Rake::Task["ts:rebuild"].invoke
+  end
+
   desc "Randomly assign content_types to Resources"
   task :randomize_content_types do
     Resource.find_each do |resource|
