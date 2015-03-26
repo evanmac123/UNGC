@@ -1,4 +1,4 @@
-{{#container/x-form record=model.container submit="save" class="form-horizontal" as |form|}}
+<form class="form-horizontal">
   <fieldset>
     <legend>
       {{#if model.layouts}}
@@ -26,20 +26,30 @@
     {{/if}}
   </fieldset>
 
-  {{partial form.templatePathForLayout}}
+  {{partial "containers/_forms/home"}}
 
   <fieldset>
     <legend>Actions</legend>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-success">
+        <button class="btn btn-primary" {{action "saveDraft" model.container}}>
           {{#if model.layouts}}
             Create
           {{else}}
             Save
           {{/if}}
         </button>
+
+        {{#if model.container.id}}
+          <button class="btn btn-success" {{action "publish" model.container}}>
+            Publish
+          </button>
+        {{/if}}
       </div>
     </div>
   </fieldset>
-{{/container/x-form}}
+
+  <fieldset>
+    <legend>History</legend>
+  </fieldset>
+</form>

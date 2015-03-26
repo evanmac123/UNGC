@@ -14,7 +14,20 @@ var Container = Model.extend({
     }
 
     this.set('data', Ember.Object.create());
-  }.on('init')
+  }.on('init'),
+
+  publish() {
+    return this.save().then(() => {
+      return this.xhr({
+        type: 'POST',
+        url: this.get('resourcePath') + '/publish'
+      });
+    }).then((res) => {
+      return Ember.run(() => {
+        console.log(res);
+      });
+    });
+  }
 });
 
 Container.path = '/redesign/admin/api/containers';

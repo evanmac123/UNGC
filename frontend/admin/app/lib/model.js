@@ -29,6 +29,16 @@ var Model = Ember.Object.extend({
     return this.constructor.type;
   }.property(),
 
+  resourcePath: function() {
+    var id = this.get('id');
+
+    if (Ember.isNone(id)) {
+      return this.constructor.path;
+    } else {
+      return this.constructor.path + '/' + id;
+    }
+  }.property('id'),
+
   postData() {
     if (this.get('id')) {
       throw 'can\'t post already created resource';
@@ -62,7 +72,7 @@ var Model = Ember.Object.extend({
 
   xhr(opts = {}) {
     return Ember.$.ajax({
-      url: opts.url || `${this.constructor.path}/${this.get('id')}`,
+      url: opts.url || this.get('resourcePath'),
       type: opts.type,
       dataType: 'json',
       headers: { 'Content-Type': 'application/json' },

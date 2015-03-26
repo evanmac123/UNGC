@@ -13,8 +13,14 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    save(record) {
-      record.save();
+    saveDraft(container) {
+      container.save();
+    },
+
+    publish(container) {
+      container.publish().then((res) => {
+        console.log(res);
+      });
     }
   }
 });

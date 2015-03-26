@@ -27,6 +27,36 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     end
   end
 
+  def publish
+    container = Redesign::Container.
+      includes(:draft_payload, :public_payload).
+      find(params[:id])
+
+    draft     = container.draft_payload
+    published = container.public_payload
+
+    if !draft
+      render_errors [{
+        code: 'invalid',
+        detail: 'container needs a draft payload in order to be published'
+      }], status: 400
+      return
+    end
+
+    if published && draft && draft.json_data == published.json_data
+      render text: '', status: 204
+      return
+    end
+
+    container.transaction do
+      container.update!(
+        public_payload_id: draft.copy.id
+      )
+    end
+
+    render text: '', status: 204
+  end
+
   def show
     container = Redesign::Container.find(params[:id])
     render_json data: serialize(container)

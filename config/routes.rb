@@ -19,7 +19,9 @@ UNGC::Application.routes.draw do
     namespace :admin do
       namespace :api, format: :json do
         resources :layouts, only: [:index, :show]
-        resources :containers
+        resources :containers do
+          post :publish, on: :member
+        end
         resources :payloads
       end
 
