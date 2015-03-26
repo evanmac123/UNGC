@@ -19,6 +19,8 @@ class Redesign::ApplicationController < ApplicationController
 
     @current_payload ||= if draft?
       @current_container.draft_payload
+    elsif defined_payload?
+      @current_container.payloads.find(params[:payload])
     else
       @current_container.public_payload
     end
@@ -30,6 +32,10 @@ class Redesign::ApplicationController < ApplicationController
 
   def draft?
     staff? && params[:draft]
+  end
+
+  def defined_payload?
+    staff? && params[:payload]
   end
 
   def staff?

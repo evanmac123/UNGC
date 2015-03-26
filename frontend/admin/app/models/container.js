@@ -22,10 +22,6 @@ var Container = Model.extend({
         type: 'POST',
         url: this.get('resourcePath') + '/publish'
       });
-    }).then((res) => {
-      return Ember.run(() => {
-        console.log(res);
-      });
     });
   }
 });

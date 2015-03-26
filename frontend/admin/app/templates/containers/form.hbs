@@ -26,7 +26,9 @@
     {{/if}}
   </fieldset>
 
-  {{partial "containers/_forms/home"}}
+  {{#container/x-subform record=model.container as |form|}}
+    {{partial form.subformTemplatePath}}
+  {{/container/x-subform}}
 
   <fieldset>
     <legend>Actions</legend>
@@ -49,7 +51,21 @@
     </div>
   </fieldset>
 
-  <fieldset>
-    <legend>History</legend>
-  </fieldset>
+  {{#if model.payloads}}
+    <fieldset>
+      <legend>History</legend>
+      <table>
+        <tbody>
+          {{#each model.payloads as |payload|}}
+            <tr>
+              <td>{{payload.createdAt}}</td>
+              <td>
+                <a href="/redesign?payload={{payload.id}}">View</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </fieldset>
+  {{/if}}
 </form>

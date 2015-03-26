@@ -1,10 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: 'form',
-  record: null,
-
-  templatePathForLayout: function() {
+  subformTemplatePath: function() {
     var layout = this.get('record.layout');
 
     if (layout) {
@@ -13,10 +10,4 @@ export default Ember.Component.extend({
       return null;
     }
   }.property('record.layout'),
-
-  sendSubmitAction: function(event) {
-    event.preventDefault();
-    this.sendAction('submit', this.get('record'));
-    return false;
-  }.on('submit')
 });
