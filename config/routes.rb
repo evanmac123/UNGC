@@ -212,6 +212,7 @@ UNGC::Application.routes.draw do
   get '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
   get ':leadsymposiumonline' => 'pages#redirect_to_page', :page => 'http://un.banks-sadler.com', :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
   get ':boardprogramme' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/board_programme.html', :constraints => { :boardprogramme => /boardprogramme/i }
+  get ':gc15' => 'pages#redirect_to_page', :page => '/NewsAndEvents/global_compact_15.html', :constraints => { :gc15 => /gc15/i }
 
   get '/NetworksAroundTheWorld/display.html' => 'pages#redirect_local_network', :as => :redirect_local_network
 
