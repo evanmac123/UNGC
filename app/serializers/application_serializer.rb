@@ -1,10 +1,11 @@
 class ApplicationSerializer
-  attr_reader :object, :options
+  attr_reader :object, :options, :router
 
   def initialize(object, options = {})
     @object  = object
     @options = options
     @include = (@options[:include] || []).map(&:to_sym)
+    @router  = Rails.application.routes.url_helpers
   end
 
   def include?(link)

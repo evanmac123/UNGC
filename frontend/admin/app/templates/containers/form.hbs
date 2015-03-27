@@ -54,13 +54,18 @@
   {{#if model.payloads}}
     <fieldset>
       <legend>History</legend>
-      <table>
+      <table class="table table-striped">
         <tbody>
           {{#each model.payloads as |payload|}}
             <tr>
-              <td>{{payload.createdAt}}</td>
+              <td>{{ago payload.createdAt}}</td>
               <td>
-                <a href="/redesign?payload={{payload.id}}">View</a>
+                <a target="_blank" href="{{model.container.publicPath}}?payload={{payload.id}}">
+                  View
+                </a>
+              </td>
+              <td>
+                <button class="btn btn-default">Set As Draft</button>
               </td>
             </tr>
           {{/each}}

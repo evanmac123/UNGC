@@ -13,5 +13,9 @@
     "ember-qunit": "0.2.10",
     "ember-qunit-notifications": "0.0.7",
     "qunit": "~1.17.1"
+  },
+  "devDependencies": {
+    "moment": "~2.9.0",
+    "ember-cli-moment-shim": "~0.0.3"
   }
 }

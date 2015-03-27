@@ -10,6 +10,11 @@ class ContainerSerializer < ApplicationSerializer
       h[:data] = payload.data
     end
 
+    case
+    when object.home?
+      h[:public_path] = router.redesign_root_path
+    end
+
     h
   end
 end

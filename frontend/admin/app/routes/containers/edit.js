@@ -20,11 +20,23 @@ export default Ember.Route.extend({
     },
 
     publish(container) {
+      var payloads = this.get('controller.model.payloads');
+
       if (!confirm('Are you sure you want to publish this page?')) {
         return;
       }
 
-      container.publish();
+      container.publish().then(() => {
+        Payload.get({ container: container.get('id') }).then((records) => {
+          records.toArray().reverse().forEach((record) => {
+            if (payloads.findBy('id', record.get('id'))) {
+              return;
+            }
+
+            payloads.insertAt(0, record);
+          })
+        });
+      });
     }
   }
 });
