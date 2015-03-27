@@ -65,7 +65,9 @@
                 </a>
               </td>
               <td>
-                <button class="btn btn-default">Set As Draft</button>
+                <button class="btn btn-default" {{action "setDraftFromPayload" payload}}>
+                  Set As Draft
+                </button>
               </td>
             </tr>
           {{/each}}

@@ -19,8 +19,22 @@ export default Ember.Route.extend({
       container.save();
     },
 
+    setDraftFromPayload(payload) {
+      var container;
+
+      if (!confirm('This will discard the current draft and revert the from to this previously published version.')) {
+        return;
+      }
+
+      container = this.modelFor('containers.edit').container;
+
+      container.setPropertiesFromJSON({
+        data: payload.asJSON().data
+      });
+    },
+
     publish(container) {
-      var payloads = this.get('controller.model.payloads');
+      var payloads = this.modelFor('containers.edit').payloads;
 
       if (!confirm('Are you sure you want to publish this page?')) {
         return;
@@ -34,7 +48,7 @@ export default Ember.Route.extend({
             }
 
             payloads.insertAt(0, record);
-          })
+          });
         });
       });
     }
