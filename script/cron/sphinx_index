@@ -1,2 +1,2 @@
 #!/bin/sh
-cd /srv/unglobalcompact/current && bundle exec rake RAILS_ENV=production ts:in
+cd /srv/unglobalcompact/current && bundle exec rake RAILS_ENV=production ts:index

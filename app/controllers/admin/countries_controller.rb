@@ -25,7 +25,7 @@ class Admin::CountriesController < AdminController
 
   def update
     @country = Country.find(params[:id])
-    if @country.update_attributes(params[:country])
+    if @country.update_attributes(country_params)
       flash[:notice] = 'Country was successfully updated.'
       redirect_to(admin_countries_path)
     else
@@ -52,6 +52,7 @@ class Admin::CountriesController < AdminController
       :region,
       :manager_id,
       :local_network_id,
+      :regional_center_id,
       :participant_manager_id
     )
   end
