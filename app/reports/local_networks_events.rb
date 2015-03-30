@@ -24,7 +24,7 @@ class LocalNetworksEvents < SimpleReport
         local_network_events.updated_at,
         local_network_events_principles.*').
       joins(:principles).
-      includes(:local_network, { local_network: :countries }, :principles).
+      includes(:local_network, { local_network: :countries }).
       order('local_network_events.local_network_id, local_network_events.date DESC')
   end
 

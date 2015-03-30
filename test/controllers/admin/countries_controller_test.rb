@@ -35,7 +35,7 @@ class Admin::CountriesControllerTest < ActionController::TestCase
   end
 
   test "should update country" do
-    put :update, :id => @country.to_param, :country => { }
+    put :update, :id => @country.to_param, country: valid_country_attributes
     assert_redirected_to admin_countries_path
   end
 
