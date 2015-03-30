@@ -25,8 +25,8 @@ class NonBusinessRegistrationValidator
     end
 
     def validate_authority
-      if registration.authority.blank?
-        registration.errors.add :authority, "can't be blank"
+      if registration.authority.blank? || registration.authority.length > 255
+        registration.errors.add :authority, "should be between 1 and 255 characters"
       end
     end
 
