@@ -14,7 +14,6 @@
 class NonBusinessOrganizationRegistration < ActiveRecord::Base
   belongs_to :organization
 
-
   validate do |record|
     NonBusinessRegistrationCompleteValidator.new(record).validate if needs_validation?
   end

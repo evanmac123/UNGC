@@ -291,6 +291,19 @@ class Admin::OrganizationsControllerTest < ActionController::TestCase
       assert_template "admin/organizations/edit"
     end
 
+    should "reject non business organization registration that has an authority name too long" do
+      sign_in @user
+      put :update, {id: @organization.to_param, organization: {
+                                       },
+                                       non_business_organization_registration: {
+                                        date: "12/3/2013",
+                                        number: "test",
+                                        place: "bla",
+                                        authority: "bla"*100,
+                                        mission_statement: "A"}}
+      assert_template "admin/organizations/edit"
+    end
+
   end
 
 end
