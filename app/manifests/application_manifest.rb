@@ -85,14 +85,14 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   def sphinx_cron
     # Custom Sphinx cron job to add nice
     current_rails_root = "#{configuration[:deploy_to]}/current"
-    thinking_sphinx_index = "(date && cd #{current_rails_root} && RAILS_ENV=#{rails_env} nice -n19 bundle exec rake thinking_sphinx:index) >> #{current_rails_root}/log/cron-thinking_sphinx-index.log 2>&1"
+    thinking_sphinx_index = "(date && cd #{current_rails_root} && RAILS_ENV=#{rails_env} nice -n19 bundle exec rake ts:index) >> #{current_rails_root}/log/cron-thinking_sphinx-index.log 2>&1"
     cron_options = {
       :command => thinking_sphinx_index,
       :user => configuration[:user],
       :minute => 35
     }
 
-    cron "thinking_sphinx:index", cron_options
+    cron "ts:index", cron_options
   end
 
   def jungle_disk
