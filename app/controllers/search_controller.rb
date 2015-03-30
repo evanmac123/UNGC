@@ -32,7 +32,7 @@ class SearchController < ApplicationController
       if params[:document_type]
         @results = Searchable.faceted_search params[:document_type], keyword, options
       else
-        @results = Searchable.search keyword, options
+        @results = Searchable.search Riddle::Query.escape(keyword), options
       end
       @results.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
       @facets = @results && @results.any? ? Searchable.facets(keyword, star: true) : []

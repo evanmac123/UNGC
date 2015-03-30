@@ -8,9 +8,6 @@ task :reindex_uploaded_files, [:cutoff] => [:environment] do |t, args|
 
   original_timeout = FileTextExtractor.timeout
   begin
-    puts 'stopping sphinx'
-    system 'stop_sphinx'
-
     # disable the timeout
     FileTextExtractor.timeout = 0
 
@@ -26,8 +23,6 @@ task :reindex_uploaded_files, [:cutoff] => [:environment] do |t, args|
   rescue => e
     puts e
   ensure
-    puts 'rebuilding sphinx indexes'
-    system 'sphinx_rebuild'
     FileTextExtractor.timeout = original_timeout
   end
 

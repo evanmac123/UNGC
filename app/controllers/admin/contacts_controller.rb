@@ -82,7 +82,7 @@ class Admin::ContactsController < AdminController
 
       # store what we searched_for so that the helper can pick it apart and make a pretty label
       @searched_for = keyword
-      @results = Contact.search keyword, options
+      @results = Contact.search Riddle::Query.escape(keyword), options
       raise Riddle::ConnectionError unless @results && @results.total_entries
       render :action => 'search_results'
     end

@@ -110,7 +110,7 @@ module Admin::OrganizationsHelper
         'Unknown'
     end
   end
-  
+
   # Called from dashboard_organization.html.haml to determine whether these profile sections shoud be displayed
   def local_network_and_contact_exists?
     @organization.local_network_name.present? && @organization.network_contact_person.present?
@@ -119,7 +119,7 @@ module Admin::OrganizationsHelper
   # display organizations with similar names
   def duplicate_application(organization)
     if Search.running?
-      matches = Organization.search(Riddle.escape(organization.name), :retry_stale => true, :stat => true)
+      matches = Organization.search(Riddle::Query.escape(organization.name), :retry_stale => true, :stat => true)
 
       if matches.count > 0
         list_items = ''
