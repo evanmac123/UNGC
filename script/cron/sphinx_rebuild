@@ -1,2 +1,0 @@
-#!/bin/sh
-sudo god stop unglobalcompact-sphinx && cd /srv/unglobalcompact/current && bundle exec rake RAILS_ENV=production ts:index && sudo god start unglobalcompact-sphinx
