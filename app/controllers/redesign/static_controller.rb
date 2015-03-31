@@ -9,11 +9,11 @@ class Redesign::StaticController < Redesign::ApplicationController
     @page = FakeLandingPage.new
   end
 
-  def article
-    @page = FakeArticlePage.new
+  def highlight
+    @page = FakeHighlightPage.new
   end
 
-  def long_article
-    @page = FakeLongArticlePage.new
+  def article
+    @page = FakeArticlePage.new
   end
 end
