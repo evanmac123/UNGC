@@ -1,13 +1,38 @@
 import Ember from 'ember';
 
+var Scope = Ember.Object.extend({
+  parentScope: null,
+  errors: null,
+  path: null,
+  index: null,
+  data: null
+});
+
+function padArrayWithObjects(ary, size) {
+  var i, fill;
+
+  if (!size) {
+    return;
+  }
+
+  fill = (size - ary.length);
+
+  if (fill <= 0) {
+    return;
+  }
+
+  for (i = 0; i < fill; i++) {
+    ary.pushObject(Ember.Object.create());
+  }
+}
+
 export default Ember.Component.extend({
-  data:      null,
-  key:       null,
-  array:     false,
-  min:       null,
-  max:       null,
-  size:      null,
-  scopeData: null,
+  parent: null,
+  key:    null,
+  array:  false,
+  min:    null,
+  max:    null,
+  size:   null,
 
   canVary: function() {
     var min  = this.get('min');
@@ -32,7 +57,7 @@ export default Ember.Component.extend({
 
   canAdd: function() {
     var max    = this.get('max');
-    var length = this.get('scopeData.length');
+    var length = this.get('yieldValue.length');
 
     if (!max || !length) {
       return true;
@@ -43,7 +68,7 @@ export default Ember.Component.extend({
     }
 
     return false;
-  }.property('max', 'scopeData.length'),
+  }.property('max', 'yieldValue.length'),
 
   cantAdd: Ember.computed.not('canAdd'),
 
@@ -53,42 +78,91 @@ export default Ember.Component.extend({
         return;
       }
 
-      var data = this.get('scopeData');
+      var data = this.get('yieldValue');
 
       if (data && this.get('canAdd')) {
-        data.pushObject({});
+        data.pushObject(
+          this.generateScope({
+            data:  Ember.Object.create(),
+            index: data.length
+          })
+        );
       }
     }
   },
 
-  initData: function() {
-    var key     = this.get('key');
-    var isArray = this.get('array');
-    var prop    = key ? `data.${key}` : 'data';
+  generateScope(data, index) {
+    var key        = this.get('key');
+    var parent     = this.get('parent');
+    var parentPath = parent.get('path');
+    var source     = parent.get('data');
+    var errors     = parent.get('errors');
+    var path;
 
-    this.reopen({
-      scopeData: Ember.computed.alias(prop)
+    if (Ember.isNone(index)) {
+      path = parentPath ? `${parentPath}.${key}` : key;
+    } else {
+      path = parentPath ? `${parentPath}.${key}.[${index}]` : `${key}.[${index}]`;
+    }
+
+    return Scope.create({
+      errors: errors,
+      data: data,
+      path: path,
+      parentScope: parent
     });
+  },
 
-    if (this.get(prop)) {
-      return;
-    }
+  connectParent: function() {
+    var isArray    = this.get('array');
+    var errors     = this.get('errors');
+    var parentData = this.get('data');
+    var key        = this.get('key');
+    var parent     = this.get('parent');
+    var parentPath;
+    var source;
+    var data;
+    var yieldValue;
+    var min;
+    var fill;
 
-    if (!isArray) {
-      this.set(prop, Ember.Object.create());
-      return;
-    }
+    if (Ember.isNone(parent)) {
+      if (Ember.isNone(parentData) || Ember.isNone(errors)) {
+        throw 'unable to generate root scope without data and errors';
+      } else {
+        parent = Scope.create({
+          errors: errors,
+          data: parentData,
+          path: null,
+          parentScope: null
+        });
 
-    var min = this.get('min') || this.get('size');
-    var ary = [];
-    var i;
-
-    if (min) {
-      for (i = 0; i < min; i++) {
-        ary.push(Ember.Object.create());
+        this.set('parent', parent);
       }
+    } else if (Ember.isNone(key)) {
+      throw 'unable to generate scope from parent data without a key';
     }
 
-    this.set(prop, ary);
+    source = parent.get('data');
+
+    if (key && Ember.isNone(source.get(key))) {
+      source.set(key, isArray ? [] : Ember.Object.create());
+    }
+
+    data = key ? source.get(key) : source;
+
+    if (isArray) {
+      yieldValue = [];
+
+      padArrayWithObjects(data, this.get('min') || this.get('size'));
+
+      data.forEach((item, index) => {
+        yieldValue.pushObject(this.generateScope(item, index));
+      });
+    } else {
+      yieldValue = this.generateScope(data);
+    }
+
+    this.set('yieldValue', yieldValue);
   }.on('init')
 });

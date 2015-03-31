@@ -2,9 +2,10 @@
   {{#if canVary}}
     <button disabled={{cantAdd}} {{action "addElement"}}>Add</button>
   {{/if}}
-  {{#each scopeData as |obj|}}
-    {{yield obj this}}
+
+  {{#each yieldValue as |val|}}
+    {{yield val}}
   {{/each}}
 {{else}}
-  {{yield scopeData this}}
+  {{yield yieldValue}}
 {{/if}}

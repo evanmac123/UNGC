@@ -13,15 +13,33 @@ const TYPES = {
 };
 
 export default Ember.Component.extend({
-  scalar: true,
   label: null,
+  type:  null,
+  key:   null,
+  scope: null,
 
-  connectValue: function() {
+  uid: Ember.computed(function() {
+    return `x-field-${Ember.generateGuid()}`;
+  }),
+
+  fieldComponentName: Ember.computed('type', function() {
+    var type = this.get('type');
+    Ember.assert(`type "${type}" isn't in the list`, TYPES[type]);
+
+    return `container/fields/x-${type}`;
+  }),
+
+  initializeComponent: function() {
+    this._connectScope();
+    this._initLabel();
+  }.on('init'),
+
+  _connectScope() {
     var defaultValue;
     var value;
 
     this.reopen({
-      value: Ember.computed.alias(`data.${this.get('key')}`)
+      value: Ember.computed.alias(`scope.data.${this.get('key')}`)
     });
 
     defaultValue = this.get('default');
@@ -35,30 +53,18 @@ export default Ember.Component.extend({
       return;
     }
 
-    if (this.get('type') === 'boolean' && Ember.isNone(defaultValue)) {
+    if (('boolean' === this.get('type')) && Ember.isNone(defaultValue)) {
       defaultValue = false;
     }
 
     this.set('value', defaultValue);
-  }.on('init'),
+  },
 
-  initLabel: function() {
+  _initLabel() {
     if (this.get('label')) {
       return;
     }
 
     this.set('label', titlecase(this.get('key')));
-  }.on('init'),
-
-  uid: function() {
-    return `x-field-${Ember.generateGuid()}`;
-  }.property(),
-
-  fieldComponentName: Ember.computed('type', function() {
-    var type = this.get('type');
-
-    Ember.assert(`type "${type}" isn't in the list`, TYPES[type]);
-
-    return `container/fields/x-${type}`;
-  })
+  }
 });
