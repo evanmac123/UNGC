@@ -13,6 +13,8 @@ class ContainerSerializer < ApplicationSerializer
     case
     when object.home?
       h[:public_path] = router.redesign_root_path
+    when object.article?
+      h[:public_path] = router.redesign_article_path # XXX needs update
     end
 
     h
