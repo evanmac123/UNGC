@@ -25,6 +25,10 @@ function pojoize(src) {
 }
 
 var Model = Ember.Object.extend({
+  initializeErrorsArray: function() {
+    this.set('errors', []);
+  }.on('init'),
+
   type: function() {
     return this.constructor.type;
   }.property(),
@@ -102,7 +106,9 @@ var Model = Ember.Object.extend({
   },
 
   setErrorsFromJSON(errors) {
-    this.setProperties(camelizeKeys(errors));
+    var errors = this.get('errors');
+    errors.clear();
+    errors.pushObjects(camelizeKeys(errors).get('errors'));
   },
 
   asJSON() {

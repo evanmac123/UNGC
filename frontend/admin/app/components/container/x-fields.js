@@ -1,10 +1,8 @@
 import Ember from 'ember';
 
 var Scope = Ember.Object.extend({
-  parentScope: null,
   errors: null,
   path: null,
-  index: null,
   data: null
 });
 
@@ -27,7 +25,7 @@ function padArrayWithObjects(ary, size) {
 }
 
 export default Ember.Component.extend({
-  parent: null,
+  scope:  null,
   key:    null,
   array:  false,
   min:    null,
@@ -93,63 +91,37 @@ export default Ember.Component.extend({
 
   generateScope(data, index) {
     var key        = this.get('key');
-    var parent     = this.get('parent');
+    var parent     = this.get('scope');
     var parentPath = parent.get('path');
-    var source     = parent.get('data');
-    var errors     = parent.get('errors');
-    var path;
+    var rootPath   = parentPath ? `${parentPath}.` : '';
+    var myPath, fullPath;
 
     if (Ember.isNone(index)) {
-      path = parentPath ? `${parentPath}.${key}` : key;
+      myPath = key ? key : '';
     } else {
-      path = parentPath ? `${parentPath}.${key}.[${index}]` : `${key}.[${index}]`;
+      myPath = key ? `${key}.[${index}]` : `[${index}]`;
     }
 
+    fullPath = rootPath + myPath;
+
     return Scope.create({
-      errors: errors,
+      errors: parent.get('errors'),
       data: data,
-      path: path,
-      parentScope: parent
+      path: fullPath === '' ? null : fullPath
     });
   },
 
   connectParent: function() {
-    var isArray    = this.get('array');
-    var errors     = this.get('errors');
-    var parentData = this.get('data');
-    var key        = this.get('key');
-    var parent     = this.get('parent');
-    var parentPath;
-    var source;
-    var data;
-    var yieldValue;
-    var min;
-    var fill;
+    var isArray = this.get('array');
+    var key     = this.get('key');
+    var source  = this.get('scope.data');
+    var data, yieldValue;
 
-    if (Ember.isNone(parent)) {
-      if (Ember.isNone(parentData) || Ember.isNone(errors)) {
-        throw 'unable to generate root scope without data and errors';
-      } else {
-        parent = Scope.create({
-          errors: errors,
-          data: parentData,
-          path: null,
-          parentScope: null
-        });
-
-        this.set('parent', parent);
-      }
-    } else if (Ember.isNone(key)) {
-      throw 'unable to generate scope from parent data without a key';
+    if (key && Ember.isNone(Ember.get(source, key))) {
+      Ember.set(source, key, isArray ? [] : Ember.Object.create());
     }
 
-    source = parent.get('data');
-
-    if (key && Ember.isNone(source.get(key))) {
-      source.set(key, isArray ? [] : Ember.Object.create());
-    }
-
-    data = key ? source.get(key) : source;
+    data = key ? Ember.get(source, key) : source;
 
     if (isArray) {
       yieldValue = [];

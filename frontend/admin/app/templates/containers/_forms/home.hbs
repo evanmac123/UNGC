@@ -1,24 +1,24 @@
-{{#container/x-fields data=model.container.data errors=model.container.errors as |home|}}
+{{#container/x-fields scope=model.container as |home|}}
   <fieldset>
     <legend>Hero</legend>
-    {{#container/x-fields key="hero" parent=home as |hero|}}
+    {{#container/x-fields key="hero" scope=home as |hero|}}
       {{container/x-field key="image" type="string" scope=hero}}
       {{container/x-field key="theme" type="hero-theme-select" scope=hero}}
 
-      {{#container/x-fields key="title" parent=hero as |title|}}
+      {{#container/x-fields key="title" scope=hero as |title|}}
         {{container/x-field key="title1" type="string" limit=50 scope=title}}
         {{container/x-field key="title2" type="string" limit=50 scope=title}}
       {{/container/x-fields}}
 
       {{container/x-field key="blurb" type="string" scope=hero}}
-      {{container/macros/x-link key="link" parent=hero}}
+      {{container/macros/x-link key="link" scope=hero}}
       {{container/x-field key="showIssuesNav" label="Show issues nav" type="boolean" default=true scope=hero}}
     {{/container/x-fields}}
   </fieldset>
 
   <fieldset>
     <legend>Stats</legend>
-    {{#container/x-fields tagName="ol" key="stats" array=true size=3 parent=home as |stats|}}
+    {{#container/x-fields tagName="ol" key="stats" array=true size=3 scope=home as |stats|}}
       <li class="stat-group">
         {{container/x-field key="value" type="string" scope=stats}}
         {{container/x-field key="label" type="string" scope=stats}}
@@ -28,7 +28,7 @@
 
   <fieldset>
     <legend>Tiles</legend>
-    {{#container/x-fields tagName="ol" key="tiles" array=true size=6 parent=home as |tiles|}}
+    {{#container/x-fields tagName="ol" key="tiles" array=true size=6 scope=home as |tiles|}}
       <li class="tile-group">
         {{container/x-field key="color" type="tile-color-select" scope=tiles}}
         {{container/x-field key="bgImage" type="string" scope=tiles}}
