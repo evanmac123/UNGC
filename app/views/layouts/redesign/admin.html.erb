@@ -1,4 +1,4 @@
-<%- cli_host = request.protocol + (ENV['CLI_HOST'] || "#{request.domain}:4200") -%>
+<%- cli_host = request.protocol + (ENV['CLI_HOST'] || 'localhost:4200') -%>
 <!DOCTYPE html>
 <html>
   <head>
