@@ -29,8 +29,9 @@ class ArticleLayout < UNGC::Layout
     field :title, type: :string, limit: 50
 
     scope :links, array: true, max: 5 do
-      field :label, type: :string, limit: 20, required: true # XXX nested validation don't seem to work (might be ok)
+      field :label, type: :string, limit: 20, required: true
       field :url,   type: :href,   required: true
     end
   end
 end
+

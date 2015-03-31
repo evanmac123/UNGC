@@ -31,7 +31,7 @@
 
   <fieldset>
     <legend>Links</legend>
-    {{#container/x-fields key="links_block" data=data as |d|}}
+    {{#container/x-fields key="linksBlock" data=data as |d|}}
       {{container/x-field key="title" type="string" limit=50 data=d}}
       {{#container/x-fields tagName="ol" key="links" array=true max=5 data=d as |dd|}}
         <li class="stat-group">
