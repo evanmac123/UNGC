@@ -13,7 +13,7 @@ class ArticleLayout < UNGC::Layout
 
   scope :article_block do
     field :title,    type: :string, limit: 100, required: true
-    field :content,  type: :string
+    field :content,  type: :string, required: true
   end
 
   scope :contact_widget do
@@ -26,10 +26,10 @@ class ArticleLayout < UNGC::Layout
   end
 
   scope :links_block do
-    field :title, type: :string, limit: 50, required: true
+    field :title, type: :string, limit: 50
 
-    scope :links, array: true, size: 5 do
-      field :label, type: :string, limit: 20, required: true
+    scope :links, array: true, max: 5 do
+      field :label, type: :string, limit: 20, required: true # XXX nested validation don't seem to work (might be ok)
       field :url,   type: :href,   required: true
     end
   end
