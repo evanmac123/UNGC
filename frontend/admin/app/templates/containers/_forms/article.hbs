@@ -31,11 +31,14 @@
 
   <fieldset>
     <legend>Links</legend>
-    {{#container/x-fields tagName="ol" key="links" array=true size=5 data=data as |d|}}
-      <li class="stat-group">
-        {{container/x-field key="label" type="string" data=d}}
-        {{container/x-field key="url" type="href" data=d}}
-      </li>
+    {{#container/x-fields key="linksBlock" data=data as |d|}}
+      {{container/x-field key="title" type="string" limit=50 data=d}}
+      {{#container/x-fields tagName="ol" key="links" array=true max=5 data=d as |dd|}}
+        <li class="stat-group">
+          {{container/x-field key="label" type="string" data=dd}}
+          {{container/x-field key="url" type="href" data=dd}}
+        </li>
+      {{/container/x-fields}}
     {{/container/x-fields}}
   </fieldset>
 
