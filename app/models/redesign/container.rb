@@ -1,7 +1,8 @@
 class Redesign::Container < ActiveRecord::Base
   enum layout: [
     :home,
-    :landing
+    :landing,
+    :article,
   ]
 
   belongs_to :public_payload, class_name: 'Redesign::Payload'

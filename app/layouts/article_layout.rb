@@ -26,7 +26,7 @@ class ArticleLayout < UNGC::Layout
   end
 
   scope :links_block do
-    filed :title, type: :string, limit: 50, required: true
+    field :title, type: :string, limit: 50, required: true
 
     scope :links, array: true, size: 3 do
       field :label, type: :string, limit: 20, required: true
