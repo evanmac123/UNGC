@@ -18,6 +18,12 @@ export default Ember.Component.extend({
   key:   null,
   scope: null,
 
+  errors: Ember.computed.filter('scope.errors', function(err) {
+    return err.get('path') === this.get('path');
+  }),
+
+  hasErrors: Ember.computed.bool('errors.length'),
+
   uid: Ember.computed(function() {
     return `x-field-${Ember.generateGuid()}`;
   }),
@@ -37,6 +43,12 @@ export default Ember.Component.extend({
   _connectScope() {
     var defaultValue;
     var value;
+
+    this.set('path', [
+      'data',
+      this.get('scope.path'),
+      this.get('key')
+    ].join('.'));
 
     this.reopen({
       value: Ember.computed.alias(`scope.data.${this.get('key')}`)

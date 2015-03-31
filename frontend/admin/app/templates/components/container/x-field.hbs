@@ -2,4 +2,8 @@
   {{yield this}}
 {{else}}
   {{component fieldComponentName field=this}}
+
+  {{#if errors}}
+    {{errors.firstObject.detail}}
+  {{/if}}
 {{/if}}
