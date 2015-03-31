@@ -1,7 +1,8 @@
 class Redesign::Admin::Api::LayoutsController < Redesign::Admin::ApiController
   LAYOUTS = {
     home:  HomeLayout,
-    about: AboutLayout
+    about: AboutLayout,
+    article: ArticleLayout
   }
 
   def index

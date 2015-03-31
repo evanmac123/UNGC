@@ -16,7 +16,7 @@ export default Ember.Route.extend({
 
   actions: {
     saveDraft(container) {
-      container.save();
+      container.save().catch( () => {} );
     },
 
     setDraftFromPayload(payload) {

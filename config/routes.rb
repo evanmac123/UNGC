@@ -34,8 +34,8 @@ UNGC::Application.routes.draw do
     end
 
     get '/participation'      => 'static#landing',      as: :landing_page
-    get '/participation/join' => 'static#article',      as: :article
-    get '/about'              => 'static#long_article', as: :long_article
+    get '/participation/join' => 'static#highlight',    as: :highlight
+    get '/about'              => 'static#article',      as: :article
     get '/'                   => 'static#home',         as: :root
   end
 

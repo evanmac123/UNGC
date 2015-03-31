@@ -52,6 +52,11 @@ var Model = Ember.Object.extend({
         this.setPropertiesFromJSON(res.data);
         return this;
       });
+    }, (err) => {
+      if (err.status === 422) {
+        this.setErrorsFromJSON(err.responseJSON);
+        return Ember.RSVP.reject(this);
+      }
     });
   },
 
@@ -71,12 +76,14 @@ var Model = Ember.Object.extend({
   },
 
   xhr(opts = {}) {
-    return Ember.$.ajax({
-      url: opts.url || this.get('resourcePath'),
-      type: opts.type,
-      dataType: 'json',
-      headers: { 'Content-Type': 'application/json' },
-      data: opts.data ? JSON.stringify({ data: opts.data }) : undefined
+    return new Ember.RSVP.Promise( (resolve, reject) => {
+      Ember.$.ajax({
+        url: opts.url || this.get('resourcePath'),
+        type: opts.type,
+        dataType: 'json',
+        headers: { 'Content-Type': 'application/json' },
+        data: opts.data ? JSON.stringify({ data: opts.data }) : undefined
+      }).then( (data) => { resolve(data); }, (error) => { reject(error); });
     });
   },
 
@@ -92,6 +99,10 @@ var Model = Ember.Object.extend({
 
   setPropertiesFromJSON(attrs) {
     this.setProperties(camelizeKeys(attrs));
+  },
+
+  setErrorsFromJSON(errors) {
+    this.setProperties(camelizeKeys(errors));
   },
 
   asJSON() {
