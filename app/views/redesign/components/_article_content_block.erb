@@ -9,10 +9,6 @@
   </article>
 
   <aside class='article-sidebar'>
-    <%- if @page.call_to_action %>
-      <%= link_to @page.call_to_action[:label], @page.call_to_action[:url], class: 'button-widget widget' %>
-    <% end %>
-
     <%- if @page.contact_widget %>
       <%- ct = @page.contact_widget %>
       <article class='widget contact-widget'>
@@ -27,8 +23,13 @@
       </article>
     <% end %>
 
-    <%- if @page.links %>
-      <%- ln = @page.links %>
+    <%- if @page.call_to_action %>
+      <%= link_to @page.call_to_action[:label], @page.call_to_action[:url], class: 'button-widget widget' %>
+    <% end %>
+
+
+    <%- if @page.links_block %>
+      <%- ln = @page.links_block %>
       <article class='widget links-widget'>
         <h1><%= ln[:title] -%></h1>
         <ul>

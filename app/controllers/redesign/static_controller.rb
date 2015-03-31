@@ -14,6 +14,7 @@ class Redesign::StaticController < Redesign::ApplicationController
   end
 
   def article
-    @page = FakeArticlePage.new
+    set_current_container :article, '/about'
+    @page = ArticlePage.new(current_container, current_payload_data)
   end
 end
