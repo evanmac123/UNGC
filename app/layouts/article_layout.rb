@@ -28,10 +28,9 @@ class ArticleLayout < UNGC::Layout
   scope :links_block do
     field :title, type: :string, limit: 50, required: true
 
-    scope :links, array: true, size: 3 do
+    scope :links, array: true, size: 5 do
       field :label, type: :string, limit: 20, required: true
       field :url,   type: :href,   required: true
     end
   end
 end
-

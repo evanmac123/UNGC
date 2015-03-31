@@ -1,0 +1,43 @@
+{{#container/x-fields data=model.container.data as |data|}}
+  <fieldset>
+    <legend>Hero</legend>
+    {{#container/x-fields key="hero" data=data as |d|}}
+      {{#container/x-fields key="title" data=d as |dd|}}
+        {{container/x-field key="title1" type="string" limit=50 data=dd}}
+        {{container/x-field key="title2" type="string" limit=50 data=dd}}
+      {{/container/x-fields}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Article Content</legend>
+    {{#container/x-fields key="articleBlock" data=data as |d|}}
+      {{container/x-field key="title" type="string" limit=50 data=d}}
+      {{container/x-field key="content" type="string" limit=50 data=d}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Contact</legend>
+    {{#container/x-fields key="contactWidget" data=data as |d|}}
+      {{container/x-field key="contactId" type="string" limit=50 data=d}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Call to Action</legend>
+    {{container/macros/x-link key="callToAction" data=data}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Links</legend>
+    {{#container/x-fields tagName="ol" key="links" array=true size=5 data=data as |d|}}
+      <li class="stat-group">
+        {{container/x-field key="label" type="string" data=d}}
+        {{container/x-field key="url" type="href" data=d}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+
+
+{{/container/x-fields}}
