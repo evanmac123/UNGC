@@ -1,42 +1,42 @@
-{{#container/x-fields data=model.container.data as |data|}}
+{{#container/x-fields scope=model.container as |article|}}
   <fieldset>
     <legend>Hero</legend>
-    {{#container/x-fields key="hero" data=data as |d|}}
-      {{#container/x-fields key="title" data=d as |dd|}}
-        {{container/x-field key="title1" type="string" limit=50 data=dd}}
-        {{container/x-field key="title2" type="string" limit=50 data=dd}}
+    {{#container/x-fields key="hero" scope=article as |hero|}}
+      {{#container/x-fields key="title" scope=hero as |title|}}
+        {{container/x-field key="title1" type="string" limit=50 scope=title}}
+        {{container/x-field key="title2" type="string" limit=50 scope=title}}
       {{/container/x-fields}}
     {{/container/x-fields}}
   </fieldset>
 
   <fieldset>
     <legend>Article Content</legend>
-    {{#container/x-fields key="articleBlock" data=data as |d|}}
-      {{container/x-field key="title" type="string" limit=50 data=d}}
-      {{container/x-field key="content" type="string" limit=50 data=d}}
+    {{#container/x-fields key="articleBlock" scope=article as |articleBlock|}}
+      {{container/x-field key="title" type="string" limit=50 scope=articleBlock}}
+      {{container/x-field key="content" type="string" limit=50 scope=articleBlock}}
     {{/container/x-fields}}
   </fieldset>
 
   <fieldset>
     <legend>Contact</legend>
-    {{#container/x-fields key="contactWidget" data=data as |d|}}
-      {{container/x-field key="contactId" type="string" limit=50 data=d}}
+    {{#container/x-fields key="contactWidget" scope=article as |contactWidget|}}
+      {{container/x-field key="contactId" type="string" limit=50 scope=contactWidget}}
     {{/container/x-fields}}
   </fieldset>
 
   <fieldset>
     <legend>Call to Action</legend>
-    {{container/macros/x-link key="callToAction" data=data}}
+    {{container/macros/x-link key="callToAction" scope=article}}
   </fieldset>
 
   <fieldset>
     <legend>Links</legend>
-    {{#container/x-fields key="linksBlock" data=data as |d|}}
-      {{container/x-field key="title" type="string" limit=50 data=d}}
-      {{#container/x-fields tagName="ol" key="links" array=true max=5 data=d as |dd|}}
+    {{#container/x-fields key="linksBlock" scope=article as |linksBlock|}}
+      {{container/x-field key="title" type="string" limit=50 scope=linksBlock}}
+      {{#container/x-fields tagName="ol" key="links" array=true max=5 scope=linksBlock as |links|}}
         <li class="stat-group">
-          {{container/x-field key="label" type="string" data=dd}}
-          {{container/x-field key="url" type="href" data=dd}}
+          {{container/x-field key="label" type="string" scope=links}}
+          {{container/x-field key="url" type="href" scope=links}}
         </li>
       {{/container/x-fields}}
     {{/container/x-fields}}
