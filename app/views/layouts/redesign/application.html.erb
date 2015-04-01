@@ -12,12 +12,13 @@
   </head>
   <body>
     <%= render partial: 'redesign/components/main_header' %>
+
     <main>
       <%= yield %>
     </main>
+
     <%= render partial: 'redesign/components/main_footer' %>
-    <% if current_payload %>
-      <small>Last updated: <%= current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z') %></small>
-    <% end %>
+
+    <%= content_tag(:small, "Last updated: #{current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z')}") if current_payload %>
   </body>
 </html>
