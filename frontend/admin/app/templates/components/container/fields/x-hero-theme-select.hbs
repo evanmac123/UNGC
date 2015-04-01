@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group {{if field.hasErrors "has-error"}}">
   <label class="control-label col-sm-2" for={{uid}}>
     {{field.label}}
   </label>
@@ -10,4 +10,7 @@
       items=items
       value=field.value}}
   </div>
+  {{#if field.errors}}
+    <p class="col-sm-offset-2 help-block">{{field.errors.firstObject.detail}}</p>
+  {{/if}}
 </div>

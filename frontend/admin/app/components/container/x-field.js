@@ -18,8 +18,13 @@ export default Ember.Component.extend({
   key:   null,
   scope: null,
 
-  errors: Ember.computed.filter('scope.errors', function(err) {
-    return err.get('path') === this.get('path');
+  // TODO: LOL, of course we wish this worked.
+  // errors: Ember.computed.filter('scope.errors', function(err) {
+  //   return err.get('path') === this.get('path');
+  // }),
+
+  errors: Ember.computed('scope.errors.@each', 'path', function() {
+    return this.get('scope.errors').filterBy('path', this.get('path'));
   }),
 
   hasErrors: Ember.computed.bool('errors.length'),

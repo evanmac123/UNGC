@@ -51,17 +51,12 @@ var Model = Ember.Object.extend({
     return this.xhr({
       type: 'POST',
       data: this.asJSON()
-    }).then((res) => {
-      return Ember.run(() => {
+    }).then(
+      (res) => {
         this.setPropertiesFromJSON(res.data);
         return this;
-      });
-    }, (err) => {
-      if (err.status === 422) {
-        this.setErrorsFromJSON(err.responseJSON);
-        return Ember.RSVP.reject(this);
       }
-    });
+    );
   },
 
   putData() {
@@ -72,43 +67,67 @@ var Model = Ember.Object.extend({
     return this.xhr({
       type: 'PUT',
       data: this.asJSON()
-    }).then(() => {
-      return Ember.run(() => {
-        return this;
-      });
     });
   },
 
   xhr(opts = {}) {
-    return new Ember.RSVP.Promise( (resolve, reject) => {
+    return new Ember.RSVP.Promise((resolve, reject) => {
       Ember.$.ajax({
         url: opts.url || this.get('resourcePath'),
         type: opts.type,
         dataType: 'json',
         headers: { 'Content-Type': 'application/json' },
         data: opts.data ? JSON.stringify({ data: opts.data }) : undefined
-      }).then( (data) => { resolve(data); }, (error) => { reject(error); });
+      }).then(
+        (data) => {
+          return Ember.run(() => resolve(data));
+        },
+
+        (error) => {
+          return Ember.run(() => reject(error));
+        }
+      );
     });
   },
 
   save() {
     var id = this.get('id');
+    var promise;
+
+    this.get('errors').clear();
 
     if (Ember.isNone(id)) {
-      return this.postData();
+      promise = this.postData();
     } else {
-      return this.putData();
+      promise = this.putData();
     }
+
+    return promise.then(
+      (record) => {
+        return record;
+      },
+
+      (error) => {
+        if (error.status === 422) {
+          this.setErrorsFromJSON(error.responseJSON);
+          return Ember.RSVP.reject(this);
+        }
+      }
+    );
   },
 
   setPropertiesFromJSON(attrs) {
     this.setProperties(camelizeKeys(attrs));
   },
 
-  setErrorsFromJSON(errors) {
-    var errors = this.get('errors');
-    errors.clear();
-    errors.pushObjects(camelizeKeys(errors).get('errors'));
+  setErrorsFromJSON(jsonErrors) {
+    var errors = jsonErrors.errors.map((e) => {
+      e.path = e.path.split('.').map((p) => p.camelize()).join('.');
+      return camelizeKeys(e);
+    });
+
+    this.get('errors').clear();
+    this.get('errors').pushObjects(errors);
   },
 
   asJSON() {
