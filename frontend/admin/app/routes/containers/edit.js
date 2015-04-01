@@ -16,7 +16,11 @@ export default Ember.Route.extend({
 
   actions: {
     saveDraft(container) {
-      container.save().catch( () => {} );
+      container.save().then( () => {
+        Ember.get(this, 'flashMessages').success('Draft Saved!');
+      }).catch( () => {
+        Ember.get(this, 'flashMessages').danger('Validation Error!');
+      });
     },
 
     setDraftFromPayload(payload) {
