@@ -1,0 +1,11 @@
+<%- if widgets ||= nil -%>
+<aside class='article-sidebar'>
+  <%= render partial: 'redesign/components/widget_contact', locals: {contact: widgets[:contact]} if widgets[:contact] %>
+
+  <%= render partial: 'redesign/components/widget_call_to_action', locals: {call_to_action: widgets[:call_to_action]} if widgets[:call_to_action] %>
+
+  <%= render partial: 'redesign/components/widget_links_list', locals: {data: widgets[:links_list]} if widgets[:links_list] %>
+
+  <%= render partial: 'redesign/components/widget_image', locals: {image: widgets[:image]} if widgets[:image] %>
+</aside>
+<%- end -%>

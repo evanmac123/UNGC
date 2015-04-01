@@ -3,13 +3,16 @@ import titlecase from 'admin/lib/titlecase';
 
 const TYPES = {
   'string':            true,
+  'number':            true,
   'boolean':           true,
   'image-upload':      true,
   'hero-theme-select': true,
   'tile-color-select': true,
   'text':              true,
   'html':              true,
-  'href':              true
+  'href':              true,
+  'select2':           true,
+  'redactor':          true
 };
 
 export default Ember.Component.extend({

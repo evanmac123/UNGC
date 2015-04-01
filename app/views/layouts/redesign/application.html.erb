@@ -11,11 +11,11 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= render 'redesign/components/main_header' %>
+    <%= render partial: 'redesign/components/main_header' %>
     <main>
       <%= yield %>
     </main>
-    <%= render 'redesign/components/main_footer' %>
+    <%= render partial: 'redesign/components/main_footer' %>
     <% if current_payload %>
       <small>Last updated: <%= current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z') %></small>
     <% end %>

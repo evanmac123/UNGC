@@ -1,3 +1,6 @@
 <% provide :title, 'highlight | ' %>
-<%= render 'redesign/components/hero' %>
-<%= render 'redesign/components/article_content_blocks' %>
+<%= render partial: 'redesign/components/hero' %>
+
+<%- @page.article_blocks.each do |article| -%>
+<%= render partial: 'redesign/components/article_content_block', locals: {article: article} %>
+<%- end -%>

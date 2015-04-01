@@ -1,44 +1,13 @@
-<%- article = @page.article_block %>
+<%- if article ||= nil -%>
 <section class='article-content-block <%= "has-custom-bg" if article[:bg_image] -%> <%= "align-#{article[:align]}" if article[:align] -%> <%= "#{article[:theme]}-theme" if article[:theme] -%>' style="<%= "background-image: url(#{article[:bg_image]});" if article[:bg_image] -%>">
   <header class='article-header'>
-    <h1><%= article[:title] -%></h1>
+    <%= content_tag(:h1, article[:title]) if article[:title] %>
   </header>
 
   <article class='article-body'>
-    <%= (article[:content] || '').html_safe %>
+    <%= article[:content].html_safe if article[:content] %>
   </article>
 
-  <aside class='article-sidebar'>
-    <%- if @page.contact_widget %>
-      <%- ct = @page.contact_widget %>
-      <article class='widget contact-widget'>
-        <h1>Contact</h1>
-        <%= image_tag(ct[:photo]) if ct[:photo] %>
-        <address>
-          <h2 class='name'><%= ct[:name] -%></h2>
-          <p  class='title'><%= ct[:title] -%></p>
-          <p  class='email'><%= mail_to ct[:email] -%></p>
-          <p  class='phone'><%= ct[:phone] -%></p>
-        </address>
-      </article>
-    <% end %>
-
-    <%- if @page.call_to_action %>
-      <%= link_to @page.call_to_action[:label], @page.call_to_action[:url], class: 'button-widget widget' %>
-    <% end %>
-
-
-    <%- if @page.links_block %>
-      <%- ln = @page.links_block %>
-      <article class='widget links-widget'>
-        <h1><%= ln[:title] -%></h1>
-        <ul>
-          <%- (ln[:links] || []).each do |l| -%>
-          <li><%= link_to l[:label], l[:url] -%></li>
-          <%- end -%>
-        </ul>
-      </article>
-    <% end %>
-
-  </aside>
+  <%= render(partial: 'redesign/components/sidebar', locals: {widgets: article[:widgets]}) if article[:widgets] %>
 </section>
+<%- end -%>

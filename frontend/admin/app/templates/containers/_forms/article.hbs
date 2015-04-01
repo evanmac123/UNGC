@@ -13,27 +13,27 @@
     <legend>Article Content</legend>
     {{#container/x-fields key="articleBlock" scope=article as |articleBlock|}}
       {{container/x-field key="title" type="string" limit=50 scope=articleBlock}}
-      {{container/x-field key="content" type="string" limit=50 scope=articleBlock}}
+      {{container/x-field key="content" type="redactor" limit=50 scope=articleBlock}}
     {{/container/x-fields}}
   </fieldset>
 
   <fieldset>
     <legend>Contact</legend>
-    {{#container/x-fields key="contactWidget" scope=article as |contactWidget|}}
-      {{container/x-field key="contactId" type="string" limit=50 scope=contactWidget}}
+    {{#container/x-fields key="widgetContact" scope=article as |widgetContact|}}
+      {{container/macros/x-contact key="contactId" scope=widgetContact}}
     {{/container/x-fields}}
   </fieldset>
 
   <fieldset>
     <legend>Call to Action</legend>
-    {{container/macros/x-link key="callToAction" scope=article}}
+    {{container/macros/x-link key="widgetCallToAction" scope=article}}
   </fieldset>
 
   <fieldset>
     <legend>Links</legend>
-    {{#container/x-fields key="linksBlock" scope=article as |linksBlock|}}
-      {{container/x-field key="title" type="string" limit=50 scope=linksBlock}}
-      {{#container/x-fields tagName="ol" key="links" array=true max=5 scope=linksBlock as |links|}}
+    {{#container/x-fields key="widgetLinksList" scope=article as |widgetLinksList|}}
+      {{container/x-field key="title" type="string" limit=50 scope=widgetLinksList}}
+      {{#container/x-fields tagName="ol" key="links" array=true max=5 scope=widgetLinksList as |links|}}
         <li class="stat-group">
           {{container/x-field key="label" type="string" scope=links}}
           {{container/x-field key="url" type="href" scope=links}}

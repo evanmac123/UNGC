@@ -1,0 +1,10 @@
+<%- if data[:links] -%>
+<article class='widget widget-links-list'>
+  <%= content_tag(:h1, data[:title]) if data[:title] %>
+  <ul>
+    <%- data[:links].each do |l| -%>
+    <%= content_tag(:li, link_to(l[:label], l[:url])) if l[:label] && l[:url] %>
+    <%- end -%>
+  </ul>
+</article>
+<%- end -%>

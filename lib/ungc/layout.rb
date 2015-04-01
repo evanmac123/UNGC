@@ -291,6 +291,10 @@ module UNGC
       if opts[:enum] && !opts[:enum].include?(val)
         bad! "must be in the list: #{opts[:enum].join(', ')}"
       end
+
+      if opts[:type] == :number && !(val.is_a? Numeric)
+        bad! "must be a number"
+      end
     end
 
     def cast(raw = nil, opts = {}, &block)
@@ -311,6 +315,16 @@ module UNGC
     register :string do
       cast do |raw, opts|
         raw.blank? ? nil : raw.to_s.strip
+      end
+    end
+
+    register :number do
+      cast do |raw|
+        if raw =~ /\A[0-9]+\Z/
+          Integer(raw)
+        else
+          raw
+        end
       end
     end
 
