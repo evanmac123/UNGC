@@ -19,6 +19,9 @@ UNGC::Application.routes.draw do
     namespace :admin do
       namespace :api, format: :json do
         resources :layouts, only: [:index, :show]
+        resources :contacts, only: [:ungc] do
+          get :ungc, on: :collection
+        end
         resources :containers do
           post :publish, on: :member
         end
