@@ -54,6 +54,9 @@
         </a>
       </div>
     </div>
+    {{#each flashMessages.queue as |flash|}}
+      {{flash-message flash=flash}}
+    {{/each}}
   </fieldset>
 
   {{#if model.payloads}}

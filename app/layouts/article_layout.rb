@@ -17,7 +17,7 @@ class ArticleLayout < UNGC::Layout
   end
 
   scope :contact_widget do
-    field :contact_id, type: :string # XXX should be number
+    field :contact_id, type: :number
   end
 
   scope :call_to_action do

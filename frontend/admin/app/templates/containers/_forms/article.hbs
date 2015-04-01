@@ -13,14 +13,14 @@
     <legend>Article Content</legend>
     {{#container/x-fields key="articleBlock" scope=article as |articleBlock|}}
       {{container/x-field key="title" type="string" limit=50 scope=articleBlock}}
-      {{container/x-field key="content" type="string" limit=50 scope=articleBlock}}
+      {{container/x-field key="content" type="redactor" limit=50 scope=articleBlock}}
     {{/container/x-fields}}
   </fieldset>
 
   <fieldset>
     <legend>Contact</legend>
     {{#container/x-fields key="contactWidget" scope=article as |contactWidget|}}
-      {{container/x-field key="contactId" type="string" limit=50 scope=contactWidget}}
+      {{container/macros/x-contact key="contactId" scope=contactWidget}}
     {{/container/x-fields}}
   </fieldset>
 
