@@ -3,7 +3,7 @@
     {{field.label}}
   </label>
   <div class="col-sm-10">
-    {{#with items as |items|}}
+    {{#with field.items as |items|}}
       {{select-2
       content=items
       optionLabelPath="name"
