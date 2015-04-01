@@ -72,20 +72,21 @@ export default Ember.Component.extend({
 
   actions: {
     addElement() {
-      if (!this.get('array')) {
+      var isArray = this.get('array');
+      var canAdd  = this.get('canAdd');
+      var scopes = this.get('yieldValue');
+      var dataArray, newObject, newIndex;
+
+      if (!isArray || !scopes || !canAdd) {
         return;
       }
 
-      var data = this.get('yieldValue');
+      dataArray = this.get(`scope.data.${this.get('key')}`);
+      newObject = Ember.Object.create();
+      newIndex  = dataArray.length;
 
-      if (data && this.get('canAdd')) {
-        data.pushObject(
-          this.generateScope({
-            data:  Ember.Object.create(),
-            index: data.length
-          })
-        );
-      }
+      dataArray.pushObject(newObject);
+      scopes.pushObject(this.generateScope(newObject, newIndex));
     }
   },
 

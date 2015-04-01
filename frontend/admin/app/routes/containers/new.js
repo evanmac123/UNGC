@@ -24,6 +24,10 @@ export default Ember.Route.extend({
       record.save().then((container) => {
         this.transitionTo('containers.edit', container);
       }, () => { });
+    },
+
+    changedContainerLayout() {
+      this.modelFor('containers.new').container.set('data', Ember.Object.create());
     }
   }
 });

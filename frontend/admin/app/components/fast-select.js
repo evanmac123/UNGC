@@ -17,6 +17,7 @@ export default Ember.Component.extend({
     var self = this;
 
     this.$().on('change', function() {
+      self.sendAction('changed', this.value);
       set(self, 'value', this.value);
     });
   },
