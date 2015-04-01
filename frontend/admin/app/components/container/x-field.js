@@ -10,7 +10,8 @@ const TYPES = {
   'tile-color-select': true,
   'text':              true,
   'html':              true,
-  'href':              true
+  'href':              true,
+  'select2':           true
 };
 
 export default Ember.Component.extend({

@@ -1,5 +1,7 @@
 {{#if template}}
   {{yield this}}
+{{else if items}}
+  {{component fieldComponentName field=this items=items}}
 {{else}}
   {{component fieldComponentName field=this}}
 {{/if}}
