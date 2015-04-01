@@ -34,6 +34,10 @@ class Redesign::Container < ActiveRecord::Base
     write_attribute :slug, Redesign::Container.normalize_slug(raw)
   end
 
+  def path=(raw)
+    write_attribute :path, Redesign::Container.normalize_slug(raw)
+  end
+
   def data=(raw_draft_data)
     payload_data = "#{layout.to_s.classify}Layout".constantize.new(raw_draft_data)
 

@@ -26,7 +26,7 @@ class Redesign::StaticController < Redesign::ApplicationController
       current_payload_data
     )
 
-    render(current_container.layout.to_sym, layout: 'redesign/application')
+    render(current_container.layout.to_sym)
   end
 
   private
