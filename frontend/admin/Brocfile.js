@@ -18,6 +18,9 @@ var app = new EmberApp({
   }
 });
 
+
+app.import('vendor/redactor/redactor.js');
+app.import('vendor/redactor/redactor.css');
 // Use `app.import` to add additional libraries to the generated
 // output files.
 //

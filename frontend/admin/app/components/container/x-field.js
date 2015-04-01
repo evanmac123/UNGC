@@ -11,7 +11,8 @@ const TYPES = {
   'text':              true,
   'html':              true,
   'href':              true,
-  'select2':           true
+  'select2':           true,
+  'redactor':          true
 };
 
 export default Ember.Component.extend({

@@ -13,7 +13,8 @@
     "ember-qunit": "0.2.10",
     "ember-qunit-notifications": "0.0.7",
     "qunit": "~1.17.1",
-    "select2": "~3.5.2"
+    "select2": "~3.5.2",
+    "polyfills-pkg": "~0.1.2"
   },
   "devDependencies": {
     "moment": "~2.9.0",
