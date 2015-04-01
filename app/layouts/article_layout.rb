@@ -16,16 +16,16 @@ class ArticleLayout < UNGC::Layout
     field :content,  type: :string, required: true
   end
 
-  scope :contact_widget do
+  scope :widget_contact do
     field :contact_id, type: :number
   end
 
-  scope :call_to_action do
+  scope :widget_call_to_action do
     field :label, type: :string, limit: 50, required: true
     field :url,   type: :href,   required: true
   end
 
-  scope :links_block do
+  scope :widget_links_list do
     field :title, type: :string, limit: 50
 
     scope :links, array: true, max: 5 do
