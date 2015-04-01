@@ -320,6 +320,16 @@ Server should start, if not, run:
 sudo /usr/local/bin/junglediskserver
 ```
 
+### Updading indexes
+
+When a Sphinx index is changed (i.e. Searchable, Resources, Participant Search etc.) one should log in into the production server and run the task:
+
+```
+RAILS_ENV=production ts:rebuild_with_god
+```
+
+this will ensure that the new indexes are properly used.
+
 ## Accounts & Services
 
 These are the credentials to some external services used by the project for
@@ -327,5 +337,5 @@ monitoring and reporting:
 
 | Service | Username | Password |
 |---------|----------|----------|
-| [Airbrake](https://unspaceungc.airbrake.io/) | keesari@unglobalcompact.org | airbrakeungc |
+| [Airbrake](https://unspaceungc.airbrake.io/) | quintero@unglobalcompact.org | airbrakeungc |
 | [New Relic](https://login.newrelic.com/) | ungc@unspace.ca | newrelic |

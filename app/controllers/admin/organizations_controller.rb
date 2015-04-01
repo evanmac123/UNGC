@@ -173,7 +173,7 @@ class Admin::OrganizationsController < AdminController
       @searched_for = options[:with].merge(:keyword => keyword)
       options.delete(:with) if options[:with] == {}
       #logger.info " ** Organizations search with options: #{options.inspect}"
-      @results = Organization.search keyword || nil, options
+      @results = Organization.search Riddle::Query.escape(keyword) || nil, options
 
       if @results.total_entries > 0
         render :action => 'search_results'
