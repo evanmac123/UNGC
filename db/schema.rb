@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320131239) do
+ActiveRecord::Schema.define(version: 20150401183154) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -766,10 +766,12 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.integer  "draft_payload_id",    limit: 4
     t.datetime "created_at",                                    null: false
     t.datetime "updated_at",                                    null: false
+    t.string   "path",                limit: 255
   end
 
   add_index "redesign_containers", ["layout", "slug"], name: "index_redesign_containers_on_layout_and_slug", unique: true, using: :btree
   add_index "redesign_containers", ["parent_container_id"], name: "index_redesign_containers_on_parent_container_id", using: :btree
+  add_index "redesign_containers", ["path"], name: "index_redesign_containers_on_path", unique: true, using: :btree
 
   create_table "redesign_payloads", force: :cascade do |t|
     t.integer  "container_id", limit: 4,     null: false

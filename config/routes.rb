@@ -37,6 +37,7 @@ UNGC::Application.routes.draw do
     get '/participation/join' => 'static#highlight',    as: :highlight
     get '/about'              => 'static#article',      as: :article
     get '/'                   => 'static#home',         as: :root
+    get '*path'               => 'static#catch_all',    as: :catch_all
   end
 
   # Backend routes

@@ -10,7 +10,7 @@
     <%= javascript_include_tag 'redesign' %>
     <%= csrf_meta_tags %>
   </head>
-  <body class="<%= ENV["RAILS_ENV"] -%> <%= body_classes -%>">
+  <body>
     <%= render 'redesign/components/main_header' %>
     <main>
       <%= yield %>

@@ -10,6 +10,10 @@ class Redesign::ApplicationController < ApplicationController
     @current_container
   end
 
+  def set_current_container_by_path(path)
+    @current_container = Redesign::Container.by_path(path).first!
+  end
+
   def set_current_container(layout, slug = '/')
     @current_container = Redesign::Container.lookup(layout, slug)
   end

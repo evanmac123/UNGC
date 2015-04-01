@@ -14,14 +14,14 @@ class ArticlePage
 
   def contact_widget
     @data[:contact_widget] || {}
-    {
-      type: "contact",
-      photo: "//ungc.s3.amazonaws.com/people/walid-nagi.jpg",
-      name: "Mr. Walid Nagi",
-      title: "Head Local Networks",
-      email: "nagi@un.org",
-      phone: "+1-212-907-1331"
-    }
+    # {
+    #   type: "contact",
+    #   photo: "//ungc.s3.amazonaws.com/people/walid-nagi.jpg",
+    #   name: "Mr. Walid Nagi",
+    #   title: "Head Local Networks",
+    #   email: "nagi@un.org",
+    #   phone: "+1-212-907-1331"
+    # }
   end
 
   def call_to_action

@@ -1,2 +1,0 @@
-module Redesign::ApplicationHelper
-end

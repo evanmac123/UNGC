@@ -1,4 +1,6 @@
 class Redesign::Container < ActiveRecord::Base
+  LEADING_OR_TRAILING_SLASH = /\A\/|\/\Z/
+
   enum layout: [
     :home,
     :landing,
@@ -14,8 +16,12 @@ class Redesign::Container < ActiveRecord::Base
 
   validate :validate_draft_payload
 
+  scope :by_path, ->(path) {
+    where(path: Redesign::Container.normalize_slug(path))
+  }
+
   def self.normalize_slug(raw)
-    '/' + raw.to_s.downcase.strip.sub(/\A\/|\Z\//, '')
+    '/' + raw.to_s.downcase.strip.gsub(LEADING_OR_TRAILING_SLASH, '')
   end
 
   def self.lookup(layout, slug = '/')
