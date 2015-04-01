@@ -3,6 +3,7 @@ import titlecase from 'admin/lib/titlecase';
 
 const TYPES = {
   'string':            true,
+  'number':            true,
   'boolean':           true,
   'image-upload':      true,
   'hero-theme-select': true,
