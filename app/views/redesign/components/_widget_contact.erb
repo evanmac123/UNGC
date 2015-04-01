@@ -1,0 +1,10 @@
+<article class='widget widget-contact'>
+  <h1>Contact</h1>
+  <%= image_tag(data[:photo]) if data[:photo] %>
+  <address>
+    <%= content_tag(:h2, data[:name], class: 'name') if data[:name] %>
+    <%= content_tag(:p, data[:title], class: 'title') if data[:title] %>
+    <%= content_tag(:p, data[:email], class: 'email') if data[:email] %>
+    <%= content_tag(:p, data[:phone], class: 'phone') if data[:phone] %>
+  </address>
+</article>

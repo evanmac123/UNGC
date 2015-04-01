@@ -1,0 +1,35 @@
+.widget-contact
+  position: relative
+  padding: 6% 0
+  margin: 0 0 3em
+  +clearfix
+
+  &:before
+    content: ''
+    position: absolute
+    top: 0
+    left: -12%
+    right: -20%
+    bottom: 0
+    background: lighten(color('pastel-blue'), 22%)
+
+  *
+    position: relative
+
+  img
+    float: left
+    width: 125px
+    margin: 0 1em 1em 0
+
+  address
+    float: left
+
+    h2,
+    p
+      margin: 0 0 .5em
+
+    h2
+      font-size: 1em
+
+    p
+      font-size: .875em

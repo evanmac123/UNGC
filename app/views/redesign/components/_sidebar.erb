@@ -1,0 +1,9 @@
+<%- if widgets ||= nil -%>
+<aside class='article-sidebar'>
+  <%= render partial: 'redesign/components/widget_contact', locals: {data: widgets[:contact]} if widgets[:contact] %>
+
+  <%= render partial: 'redesign/components/widget_call_to_action', locals: {data: widgets[:call_to_action]} if widgets[:call_to_action] %>
+
+  <%= render partial: 'redesign/components/widget_links_list', locals: {data: widgets[:links_list]} if widgets[:links_list] %>
+</aside>
+<%- end -%>
