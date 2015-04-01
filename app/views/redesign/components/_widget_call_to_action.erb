@@ -1,3 +1,1 @@
-<%- if data[:label] && data[:url] -%>
-<%= link_to data[:label], data[:url], class: 'widget widget-call-to-action' %>
-<%- end -%>
+<%= link_to(call_to_action[:label], call_to_action[:url], class: 'widget widget-call-to-action') if call_to_action && call_to_action[:label] && call_to_action[:url] %>

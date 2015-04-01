@@ -1,4 +1,4 @@
-<%- if article = @page.article_block -%>
+<%- if article ||= nil -%>
 <section class='article-content-block <%= "has-custom-bg" if article[:bg_image] -%> <%= "align-#{article[:align]}" if article[:align] -%> <%= "#{article[:theme]}-theme" if article[:theme] -%>' style="<%= "background-image: url(#{article[:bg_image]});" if article[:bg_image] -%>">
   <header class='article-header'>
     <%= content_tag(:h1, article[:title]) if article[:title] %>
@@ -8,6 +8,6 @@
     <%= article[:content].html_safe if article[:content] %>
   </article>
 
-  <%= render partial: 'redesign/components/sidebar', locals: {widgets: {contact: @page.contact_widget, call_to_action: @page.call_to_action, links_list: @page.links_block}} %>
+  <%= render(partial: 'redesign/components/sidebar', locals: {widgets: article[:widgets]}) if article[:widgets] %>
 </section>
 <%- end -%>

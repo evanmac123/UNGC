@@ -16,13 +16,13 @@ class FakeHighlightPage
       {
         title: "Why Join UN Global Compact",
         content: "<p>The United Nations Global Compact challenged the business community to be a positive force for sustainable change. Business is uniquely positioned to create a more sustainable world since it touches every level of society.</p><p>We work with businesses in the areas of human rights, labour, environment, anti-corruption and society to transform our world. We&rsquo;re shaping a better, sustainable future. Join us and be part of it!</p>",
-        sidebar_widgets: [
-          {
+        widgets: {
+          image: {
             type: "image",
             src: "//ungc.s3.amazonaws.com/sidebar/2.jpg",
             alt: ""
           }
-        ]
+        }
       },
       {
         title: "Everyone Benefits from a Better World",
@@ -34,13 +34,13 @@ class FakeHighlightPage
       {
         title: "You Can Make a Difference",
         content: "<p>Global Compact participants are changing the world. They are leading the way with innovative solutions to address poverty, health, equality, education, environmental sustainability, food and peace. You can be part of it.</p><p>Over 8,000 companies and 4,000 non-business participants have already made the commitment to adopt more sustainable business practices. Sustainability is not just good for business; it&rsquo;s good for economies and societies everywhere.</p><p><a href='' class='button light-blue'>Join UN Global Compact now</a></p>",
-        sidebar_widgets: [
-          {
+        widgets: {
+          image: {
             type: "image",
             src: "//ungc.s3.amazonaws.com/sidebar/4.jpg",
             alt: ""
           }
-        ]
+        }
       }
     ]
   end

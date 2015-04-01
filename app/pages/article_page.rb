@@ -9,27 +9,31 @@ class ArticlePage
   end
 
   def article_block
-    @data[:article_block] || {}
+    article_block = @data[:article_block] || {}
+    article_block[:widgets] = widgets
+    article_block
   end
 
-  def contact_widget
-    @data[:contact_widget] || {}
-    {
-      type: "contact",
+  def widgets
+    widgets = {}
+
+    # CONTACT WIDGET | REAL
+    # widgets[:contact] = @data[:contact_widget] if @data[:contact_widget]
+
+    # CONTACT WIDGET | FAKE
+    widgets[:contact] = {
       photo: "//ungc.s3.amazonaws.com/people/walid-nagi.jpg",
       name: "Mr. Walid Nagi",
       title: "Head Local Networks",
       email: "nagi@un.org",
       phone: "+1-212-907-1331"
     }
-  end
 
-  def call_to_action
-    @data[:call_to_action] || {}
-  end
+    widgets[:call_to_action] = @data[:call_to_action] if @data[:call_to_action]
 
-  def links_block
-    @data[:links_block] || {}
+    widgets[:links_list] = @data[:links_block] if @data[:links_block]
+
+    widgets
   end
 
   def resources
