@@ -4,16 +4,6 @@
     <h1>From Our Library</h1>
     <%= link_to 'View All', '', class: 'view-all' %>
   </header>
-  <ul>
-    <%- resources.each do |r| -%>
-    <li class='resource-block'>
-      <%= link_to r[:url], class: "resource-block-link #{r[:type].parameterize}" do %>
-        <%= image_tag "//ungc.s3.amazonaws.com/resources/resource_preview_#{r[:id]}.jpg" %>
-        <h2><%= r[:title] -%></h2>
-        <div class='resource-block-tag'><%= r[:tag] -%></div>
-      <% end %>
-    </li>
-    <%- end -%>
-  </ul>
+  <%= render partial: 'redesign/components/resources_list', locals: {resources: resources} %>
 </section>
 <%- end -%>
