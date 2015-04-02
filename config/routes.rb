@@ -32,8 +32,9 @@ UNGC::Application.routes.draw do
     end
 
     controller :library do
-      get '/our-library'        => :index,     as: :library
-      get '/our-library/search' => :search,    as: :library_search
+      get '/our-library'            => :index,     as: :library
+      get '/our-library/:id'        => :show,     as: :library_resource
+      get '/our-library/search'     => :search,    as: :library_search
     end
 
     get '/participation'      => 'static#landing',      as: :landing_page

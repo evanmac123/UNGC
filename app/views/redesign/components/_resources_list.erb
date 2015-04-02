@@ -2,7 +2,7 @@
 <ul class='resources-list'>
   <%- resources.each do |r| -%>
   <li class='resource-block'>
-    <%= link_to redesign_library_path(r), class: "resource-block-link #{r.content_type.parameterize}" do %>
+    <%= link_to redesign_library_resource_path(r), class: "resource-block-link #{r.content_type.parameterize}" do %>
       <div class='resource-block-image' style='background-image: url(<%= "//unglobalcompact.org#{r.image.url}" -%>)'>
         <%= image_tag "//unglobalcompact.org#{r.image.url}" %>
       </div>
