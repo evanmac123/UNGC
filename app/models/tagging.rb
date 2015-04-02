@@ -24,7 +24,7 @@ class Tagging < ActiveRecord::Base
   end
 
   def subject
-    headline ||organization ||redesign_container
+    headline ||organization ||redesign_container || resource
   end
 
 end

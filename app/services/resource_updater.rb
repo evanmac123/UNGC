@@ -7,13 +7,27 @@ class ResourceUpdater
   end
 
   def submit
-    resource.attributes = params.slice(:title, :description, :isbn, :content_type, :principle_ids, :author_ids, :image)
-    resource.year = year if has_year?
+    resource.title          = params[:title]
+    resource.description    = params[:description]
+    resource.isbn           = params[:isbn]
+    resource.content_type   = params[:content_type]
+    resource.author_ids     = params[:author_ids]
+    resource.image          = params[:imag]
+    resource.year           = year if has_year?
+
+    resource.principles.where('id not in (?)', params[:principle_ids]).destroy_all
+    params[:principle_ids].each do |id|
+      resource.principles.where(id: id).first_or_create!
+    end
 
     if valid?
       remove_old_links
       resource.save!
       updated_links.map(&:save!)
+
+      topic_taggings
+      issue_taggings
+
       true
     else
       false
@@ -21,6 +35,22 @@ class ResourceUpdater
   end
 
   private
+
+  def topic_taggings
+    topic_ids = params.fetch(:topics, [])
+    resource.taggings.where('topic_id not in (?)', topic_ids).destroy_all
+    topic_ids.each do |id|
+      resource.taggings.where(topic_id: id).first_or_create!
+    end
+  end
+
+  def issue_taggings
+    ids = params.fetch(:issues, [])
+    resource.taggings.where('issue_id not in (?)', ids).destroy_all
+    ids.each do |id|
+      resource.taggings.where(issue_id: id).first_or_create!
+    end
+  end
 
   def valid?
     # we need to call the validations for both

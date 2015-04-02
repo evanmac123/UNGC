@@ -69,20 +69,15 @@ class Redesign::LibrarySearchForm
   end
 
   def topic_options
-    @topic_options ||= Topic.where.not(parent_id: nil)
-      .includes(:parent)
-      .select([:id, :parent_id, :name])
-      .group(:parent_id, :id)
-      .group_by do |topic|
-        parent = topic.parent
-        Filter.new(parent.id, :topic_group, parent.name, topic_groups.has_key?(parent.id.to_s))
-      end
-      .map do |group_name, values|
-        [group_name, values.map {|topic|
-          Filter.new(
-            topic.id, :topic,
-            topic.name, topics.has_key?(topic.id.to_s))
-        }]
+    @topic_options ||= Redesign::TopicHierarchy.new.map do |parent, children|
+        [
+          Filter.new(parent.id, :topic_group, parent.name, topic_groups.has_key?(parent.id.to_s)),
+          children.map { |topic|
+            Filter.new(
+              topic.id, :topic,
+              topic.name, topics.has_key?(topic.id.to_s))
+          }
+        ]
       end
   end
 

@@ -107,7 +107,9 @@ class Admin::ResourcesController < AdminController
         :url,
         :link_type,
         :language_id
-      ]
+      ],
+      topics: [],
+      issues: []
     )
   end
 
