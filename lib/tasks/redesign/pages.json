@@ -1,0 +1,763 @@
+{
+  "title": "UN Global Compact Home",
+  "template": "home",
+  "children": [
+    {
+      "title": "What is UN Global Compact?",
+      "template": "landing",
+      "children": [
+        {
+          "title": "Our Mission",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "Ten Principles",
+              "template": "article",
+              "children": [
+                {
+                  "title": "Principle 1",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 2",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 3",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 4",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 5",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 6",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 7",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 8",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 9",
+                  "template": "article"
+                },
+                {
+                  "title": "Principle 10",
+                  "template": "article"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Our Strategy",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "Sustainable Development Goals",
+              "template": "article"
+            }
+          ]
+        },
+        {
+          "title": "Our Commitment to You",
+          "template": "highlight"
+        },
+        {
+          "title": "Who’s Involved",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "Participant Directory",
+              "template": "directory"
+            }
+          ]
+        },
+        {
+          "title": "Our Focus",
+          "template": "landing",
+          "children": [
+            {
+              "title": "Environment",
+              "template": "issue"
+            },
+            {
+              "title": "Social",
+              "template": "issue"
+            },
+            {
+              "title": "Government",
+              "template": "issue"
+            },
+            {
+              "title": "All Issues",
+              "template": "tile_grid"
+            }
+          ]
+        },
+        {
+          "title": "Social",
+          "template": "issue",
+          "children": [
+            {
+              "title": "Human Rights",
+              "template": "issue"
+            },
+            {
+              "title": "People with Disabilities",
+              "template": "issue"
+            },
+            {
+              "title": "Labour",
+              "template": "issue"
+            },
+            {
+              "title": "Children’s Rights",
+              "template": "issue"
+            },
+            {
+              "title": "Gender Equality",
+              "template": "issue"
+            },
+            {
+              "title": "Women’s Empowerment",
+              "template": "issue"
+            },
+            {
+              "title": "Child Labour",
+              "template": "issue"
+            },
+            {
+              "title": "Indigenous Peoples",
+              "template": "issue"
+            },
+            {
+              "title": "Health",
+              "template": "issue"
+            },
+            {
+              "title": "Indigenous Peoples",
+              "template": "issue"
+            },
+            {
+              "title": "Migrant Workers",
+              "template": "issue"
+            },
+            {
+              "title": "Forced Labour",
+              "template": "issue"
+            },
+            {
+              "title": "Human Trafficking",
+              "template": "issue"
+            },
+            {
+              "title": "Poverty",
+              "template": "issue"
+            },
+            {
+              "title": "Education",
+              "template": "issue"
+            }
+          ]
+        },
+        {
+          "title": "Environment",
+          "template": "issue",
+          "children": [
+            {
+              "title": "Biodiversity",
+              "template": "issue"
+            },
+            {
+              "title": "Climate Change",
+              "template": "issue"
+            },
+            {
+              "title": "Water",
+              "template": "issue"
+            },
+            {
+              "title": "Energy",
+              "template": "issue"
+            },
+            {
+              "title": "Food & Agriculture",
+              "template": "issue"
+            }
+          ]
+        },
+        {
+          "title": "Governance",
+          "template": "issue",
+          "children": [
+            {
+              "title": "Anti-Corruption",
+              "template": "issue"
+            },
+            {
+              "title": "Peace",
+              "template": "issue"
+            },
+            {
+              "title": "Rule of Law",
+              "template": "issue"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Participation",
+      "template": "landing",
+      "children": [
+        {
+          "title": "How to Engage",
+          "template": "landing",
+          "children": [
+            {
+              "title": "Business",
+              "template": "article"
+            },
+            {
+              "title": "Cities",
+              "template": "article"
+            },
+            {
+              "title": "NGOs",
+              "template": "article"
+            },
+            {
+              "title": "Academic",
+              "template": "article"
+            },
+            {
+              "title": "Governments",
+              "template": "article"
+            },
+            {
+              "title": "Trade Associations",
+              "template": "article"
+            }
+          ]
+        },
+        {
+          "title": "Why Join",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "Who Can Join",
+              "template": "article"
+            },
+            {
+              "title": "What’s the Commitment Mean?",
+              "template": "highlight"
+            },
+            {
+              "title": "See How Others Benefit",
+              "template": "article"
+            },
+            {
+              "title": "Application Process",
+              "template": "article",
+              "children": [
+                {
+                  "title": "Business",
+                  "template": "article_form"
+                },
+                {
+                  "title": "Non-Business",
+                  "template": "article_form"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Report",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "COP",
+              "template": "article"
+            },
+            {
+              "title": "COE",
+              "template": "article"
+            },
+            {
+              "title": "Prepare Your Report",
+              "template": "article"
+            },
+            {
+              "title": "Submit Your Report",
+              "template": "article_form"
+            }
+          ]
+        },
+        {
+          "title": "Guidance for UN Global Compact Participants",
+          "template": "landing",
+          "children": [
+            {
+              "title": "Guide for Newcomers",
+              "template": "highlight"
+            },
+            {
+              "title": "Resources to Get You Started",
+              "template": "list"
+            },
+            {
+              "title": "Brand / Logo Guidelines",
+              "template": "article"
+            },
+            {
+              "title": "UN Policies",
+              "template": "article"
+            },
+            {
+              "title": "Welcome Materials",
+              "template": "list"
+            },
+            {
+              "title": "Intro to RM",
+              "template": "article"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Take Action",
+      "template": "landing",
+      "children": [
+        {
+          "title": "Leadership",
+          "template": "landing",
+          "children": [
+            {
+              "title": "Global Compact Lead",
+              "template": "article",
+              "children": [
+                {
+                  "title": "Membership Fees & Details",
+                  "template": "article"
+                },
+                {
+                  "title": "Apply",
+                  "template": "article_form"
+                }
+              ]
+            },
+            {
+              "title": "Events & Meetings",
+              "template": "article"
+            }
+          ]
+        },
+        {
+          "title": "Partnerships",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "UN-Business Partnerships",
+              "template": "article"
+            },
+            {
+              "title": "Social Enterprise",
+              "template": "article"
+            }
+          ]
+        },
+        {
+          "title": "Find Events",
+          "template": "event",
+          "children": [
+            {
+              "title": "Sponsorships",
+              "template": "article"
+            },
+            {
+              "title": "Annual Events",
+              "template": "article"
+            },
+            {
+              "title": "Individual Events",
+              "template": "event_detail",
+              "children": [
+                {
+                  "title": "Overview / Agenda",
+                  "template": "article"
+                },
+                {
+                  "title": "Schedule",
+                  "template": "article"
+                },
+                {
+                  "title": "Speakers",
+                  "template": "article"
+                },
+                {
+                  "title": "Attendees",
+                  "template": "article"
+                },
+                {
+                  "title": "Meetings Documents",
+                  "template": "article"
+                },
+                {
+                  "title": "Sponsorships",
+                  "template": "article"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "What You Can Do",
+          "template": "tile_grid",
+          "children": [
+            {
+              "title": "Business for Peace",
+              "template": "action_detail"
+            },
+            {
+              "title": "Caring for Climate",
+              "template": "action_detail"
+            },
+            {
+              "title": "CEO Water Mandate",
+              "template": "action_detail"
+            },
+            {
+              "title": "Child Labour Platform",
+              "template": "action_detail"
+            },
+            {
+              "title": "Children’s Rights & Business Principles",
+              "template": "action_detail"
+            },
+            {
+              "title": "Food & Agriculture Business Principles",
+              "template": "action_detail"
+            },
+            {
+              "title": "Women’s Empowerment Principles",
+              "template": "action_detail"
+            },
+            {
+              "title": "Financial Markets",
+              "template": "article"
+            },
+            {
+              "title": "Leadership",
+              "template": "article"
+            },
+            {
+              "title": "Management",
+              "template": "action_detail"
+            },
+            {
+              "title": "Management & Education",
+              "template": "action_detail"
+            },
+            {
+              "title": "Supply Chain Sustainability",
+              "template": "action_detail"
+            },
+            {
+              "title": "UN Goals & Issues",
+              "template": "article"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Engage Locally",
+      "template": "engage_locally",
+      "children": [
+        {
+          "title": "Regions",
+          "template": "regions",
+          "children": [
+            {
+              "title": "Africa",
+              "template": "ln_profile"
+            },
+            {
+              "title": "Asia",
+              "template": "ln_profile"
+            },
+            {
+              "title": "Europe",
+              "template": "ln_profile"
+            },
+            {
+              "title": "Latin America & Caribbean",
+              "template": "ln_profile"
+            },
+            {
+              "title": "MENA",
+              "template": "ln_profile"
+            },
+            {
+              "title": "North America",
+              "template": "ln_profile"
+            },
+            {
+              "title": "Oceana",
+              "template": "ln_profile"
+            }
+          ]
+        },
+        {
+          "title": "About Local Networks",
+          "template": "highlight"
+        },
+        {
+          "title": "Manage Your Local Network",
+          "template": "landing",
+          "children": [
+            {
+              "title": "Engagement Framework",
+              "template": "highlight"
+            },
+            {
+              "title": "Human Rights & Labour",
+              "template": "article"
+            },
+            {
+              "title": "Children’s Rights & Business Principles",
+              "template": "article"
+            },
+            {
+              "title": "Caring for Climate",
+              "template": "article"
+            },
+            {
+              "title": "CEO Water Mandate",
+              "template": "article"
+            },
+            {
+              "title": "Anti-Corruption",
+              "template": "article"
+            },
+            {
+              "title": "Business for Peace",
+              "template": "article"
+            },
+            {
+              "title": "Supply Chain Sustainability",
+              "template": "article"
+            }
+          ]
+        },
+        {
+          "title": "News & Updates",
+          "template": "article"
+        },
+        {
+          "title": "Training & Guidance Materials",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "Outreach",
+              "template": "article"
+            },
+            {
+              "title": "COP Training",
+              "template": "article"
+            },
+            {
+              "title": "Webinars",
+              "template": "tile_grid_or_list"
+            },
+            {
+              "title": "Partnerships",
+              "template": "article"
+            },
+            {
+              "title": "Fundraising Toolkits",
+              "template": "list"
+            }
+          ]
+        },
+        {
+          "title": "Reports",
+          "template": "highlight",
+          "children": [
+            {
+              "title": "Foundation for the Global Compact",
+              "template": "article"
+            },
+            {
+              "title": "Meetings Outcome Documents",
+              "template": "list"
+            },
+            {
+              "title": "Local Network Annual Reports",
+              "template": "list"
+            },
+            {
+              "title": "UN Global Compact Activity Reports",
+              "template": "list"
+            },
+            {
+              "title": "Local Network Advisory Group Documents",
+              "template": "list"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Explore Our Library",
+      "template": "library",
+      "children": [
+        {
+          "title": "Meeting Reports"
+        },
+        {
+          "title": "Global Compact Reports"
+        },
+        {
+          "title": "Guidance"
+        },
+        {
+          "title": "Case Studies"
+        },
+        {
+          "title": "Newsletters"
+        },
+        {
+          "title": "Training"
+        },
+        {
+          "title": "Presentations"
+        },
+        {
+          "title": "Webinars"
+        },
+        {
+          "title": "Data Visualization / Infographics"
+        },
+        {
+          "title": "Academic Literature"
+        },
+        {
+          "title": "External Links"
+        },
+        {
+          "title": "Toolkits"
+        },
+        {
+          "title": "Links"
+        }
+      ]
+    },
+    {
+      "title": "About",
+      "template": "landing",
+      "children": [
+        {
+          "title": "Board",
+          "template": "list"
+        },
+        {
+          "title": "Governance",
+          "template": "article"
+        },
+        {
+          "title": "How We are Financed",
+          "template": "article"
+        },
+        {
+          "title": "Government Support",
+          "template": "article"
+        },
+        {
+          "title": "UN Activities",
+          "template": "article"
+        },
+        {
+          "title": "Jobs & Internships",
+          "template": "list"
+        },
+        {
+          "title": "Contact Us (Form)",
+          "template": "article_form"
+        }
+      ]
+    },
+    {
+      "title": "News",
+      "template": "news",
+      "children": [
+        {
+          "title": "Press Releases",
+          "template": "pr_list"
+        },
+        {
+          "title": "In The Media",
+          "template": "tile_grid_or_list"
+        },
+        {
+          "title": "Speeches",
+          "template": "tile_grid_or_list"
+        },
+        {
+          "title": "Newsletters",
+          "template": "tile_grid_or_list"
+        }
+      ]
+    },
+    {
+      "title": "Search"
+    },
+    {
+      "title": "Languages"
+    },
+    {
+      "title": "Login"
+    },
+    {
+      "title": "Footer",
+      "children": [
+        {
+          "title": "UN Links"
+        },
+        {
+          "title": "Copyright",
+          "template": "article"
+        },
+        {
+          "title": "Privacy Policy",
+          "template": "article"
+        },
+        {
+          "title": "Contribute",
+          "template": "article"
+        },
+        {
+          "title": "Quick Links"
+        },
+        {
+          "title": "Follow Us (Social Media)"
+        },
+        {
+          "title": "Twitter Feed"
+        }
+      ]
+    }
+  ]
+}
