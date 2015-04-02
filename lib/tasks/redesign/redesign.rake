@@ -5,7 +5,6 @@ namespace :redesign do
     fix_principles_with_invalid_types
     create_topics
     create_issues
-    split_issues_from_principles
     add_explore_our_library
   end
 
@@ -18,7 +17,7 @@ namespace :redesign do
     :randomize_topics
     ] do
       Searchable.index_resources
-      Rake::Task["ts:rebuild"].invoke
+      Rake::Task["ts:index"].invoke
   end
 
   desc "Randomly assign content_types to Resources"
@@ -184,11 +183,6 @@ namespace :redesign do
 
       topic.save!
     end
-  end
-
-  def split_issues_from_principles
-    non_principles = Principle.where(type: nil).where("name not like 'Principle %'")
-    non_principles.update_all(type: 'Issue')
   end
 
   def add_explore_our_library
