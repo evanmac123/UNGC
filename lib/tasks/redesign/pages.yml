@@ -1,3 +1,8 @@
+# rules:
+# title     => wrap the text in double quotes "
+# template  => all lowercase with spaces replaced with _
+# nest items by indenting by 1 level
+
 title: "UN Global Compact Home", template: home
     title: "What is UN Global Compact?", template: landing
         title: "Our Mission", template: highlight
