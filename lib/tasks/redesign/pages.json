@@ -271,12 +271,10 @@
               "template": "article",
               "children": [
                 {
-                  "title": "Business",
-                  "template": "article_form"
+                  "title": "Business"
                 },
                 {
-                  "title": "Non-Business",
-                  "template": "article_form"
+                  "title": "Non-Business"
                 }
               ]
             }
@@ -299,8 +297,7 @@
               "template": "article"
             },
             {
-              "title": "Submit Your Report",
-              "template": "article_form"
+              "title": "Submit Your Report"
             }
           ]
         },
@@ -353,8 +350,7 @@
                   "template": "article"
                 },
                 {
-                  "title": "Apply",
-                  "template": "article_form"
+                  "title": "Apply"
                 }
               ]
             },
@@ -488,7 +484,7 @@
       "children": [
         {
           "title": "Regions",
-          "template": "regions",
+          "template": "landing",
           "children": [
             {
               "title": "Africa",
@@ -580,7 +576,7 @@
             },
             {
               "title": "Webinars",
-              "template": "tile_grid_or_list"
+              "template": "tile_grid"
             },
             {
               "title": "Partnerships",
@@ -694,8 +690,7 @@
           "template": "list"
         },
         {
-          "title": "Contact Us (Form)",
-          "template": "article_form"
+          "title": "Contact Us (Form)"
         }
       ]
     },
@@ -709,15 +704,15 @@
         },
         {
           "title": "In The Media",
-          "template": "tile_grid_or_list"
+          "template": "tile_grid"
         },
         {
           "title": "Speeches",
-          "template": "tile_grid_or_list"
+          "template": "tile_grid"
         },
         {
           "title": "Newsletters",
-          "template": "tile_grid_or_list"
+          "template": "tile_grid"
         }
       ]
     },
