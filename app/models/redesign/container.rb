@@ -5,6 +5,19 @@ class Redesign::Container < ActiveRecord::Base
     :home,
     :landing,
     :article,
+    :news,
+    :tile_grid,
+    :highlight,
+    :event,
+    :event_detail,
+    :issue,
+    :action_detail,
+    :ln_profile,
+    :list,
+    :pr_list,
+    :library,
+    :engage_locally,
+    :directory
   ]
 
   belongs_to :public_payload, class_name: 'Redesign::Payload'
