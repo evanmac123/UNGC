@@ -1,6 +1,7 @@
 {
   "title": "UN Global Compact Home",
   "template": "home",
+  "slug": "",
   "children": [
     {
       "title": "What is UN Global Compact?",
@@ -142,10 +143,6 @@
             },
             {
               "title": "Health",
-              "template": "issue"
-            },
-            {
-              "title": "Indigenous Peoples",
               "template": "issue"
             },
             {
@@ -526,35 +523,37 @@
           "children": [
             {
               "title": "Engagement Framework",
-              "template": "highlight"
-            },
-            {
-              "title": "Human Rights & Labour",
-              "template": "article"
-            },
-            {
-              "title": "Children’s Rights & Business Principles",
-              "template": "article"
-            },
-            {
-              "title": "Caring for Climate",
-              "template": "article"
-            },
-            {
-              "title": "CEO Water Mandate",
-              "template": "article"
-            },
-            {
-              "title": "Anti-Corruption",
-              "template": "article"
-            },
-            {
-              "title": "Business for Peace",
-              "template": "article"
-            },
-            {
-              "title": "Supply Chain Sustainability",
-              "template": "article"
+              "template": "highlight",
+              "children" : [
+                {
+                  "title": "Human Rights & Labour",
+                  "template": "article"
+                },
+                {
+                  "title": "Children’s Rights & Business Principles",
+                  "template": "article"
+                },
+                {
+                  "title": "Caring for Climate",
+                  "template": "article"
+                },
+                {
+                  "title": "CEO Water Mandate",
+                  "template": "article"
+                },
+                {
+                  "title": "Anti-Corruption",
+                  "template": "article"
+                },
+                {
+                  "title": "Business for Peace",
+                  "template": "article"
+                },
+                {
+                  "title": "Supply Chain Sustainability",
+                  "template": "article"
+                }
+              ]
             }
           ]
         },

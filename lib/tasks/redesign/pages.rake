@@ -1,6 +1,64 @@
 namespace :redesign do
 
-  desc "create the basic site map"
+  desc "create stub pages to fill out the site map"
+  task :create_sitemap do
+    Redesign::Container.delete_all
+    root = Node.new
+
+    ancestors = []
+    previous_depth = -1
+    previous_page = nil
+    output = visit page_data.first do |page, depth|
+      case
+      when depth > previous_depth && previous_page.present?
+        ancestors.push previous_page
+      when depth < previous_depth
+        (previous_depth - depth).times do
+          ancestors.pop
+        end
+      end
+
+      path = ancestors.map {|p|
+        scrub(p[:slug] || p[:title])
+      }
+      page_slug = scrub(page[:slug] || page[:title])
+      url = (path + [page_slug]).join("/")
+
+      page[:slug] = Redesign::Container.normalize_slug(page_slug)
+      page[:url] = url
+
+      previous_page = page
+      previous_depth = depth
+
+      if page[:template].present?
+        container = Redesign::Container.create!(
+          layout: page[:template],
+          slug: page[:url],
+          path: page[:url]
+        )
+
+        parent = ancestors.last
+        if parent.present?
+          container.parent_container_id = parent[:id]
+        end
+
+        page[:id] = container.id
+      end
+
+      puts page[:slug]
+      page
+    end
+
+    File.open('pages-with-slugs.json', 'w+') do |f|
+      f.write(output.to_json)
+    end
+  end
+
+  def scrub(input)
+    input.gsub(' ', '-').gsub(/[^a-z\d-]+/i, '').downcase.gsub('--', '-')
+  end
+
+  desc "show the basic site map"
   task :tree do
     walk page_data do |page, depth|
       title = page[:title]
@@ -48,13 +106,13 @@ namespace :redesign do
 
   def walk(pages, depth = 0, &block)
     pages.map do |page|
-      value = block.call(page, depth)
+      page = block.call(page, depth)
       child_values = if page.has_key? :children
         walk page[:children], depth+1, &block
       else
         []
       end
-      [value, child_values]
+      [page, child_values]
     end
   end
 
@@ -69,6 +127,18 @@ namespace :redesign do
       end
       node
     end
+  end
+
+  def visit(node, depth=0, &block)
+    return if node.nil?
+
+    node = block.call(node, depth)
+    if node.has_key? :children
+      node[:children].each_with_index do |child, i|
+        node[:children][i] = visit(child, depth + 1, &block)
+      end
+    end
+    node
   end
 
   def page_data
