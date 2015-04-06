@@ -20,12 +20,14 @@ class Redesign::Container < ActiveRecord::Base
     :directory
   ]
 
+  belongs_to :parent_container, class_name: 'Redesign::Container'
   belongs_to :public_payload, class_name: 'Redesign::Payload'
   belongs_to :draft_payload, class_name: 'Redesign::Payload'
 
   has_many :payloads, class_name: 'Redesign::Payload'
 
   after_save :update_draft_payload
+  after_save :cache_tree_depth_and_path
 
   validate :validate_draft_payload
 
@@ -67,6 +69,27 @@ class Redesign::Container < ActiveRecord::Base
     else
       public_payload
     end
+  end
+
+  def child_containers
+    Redesign::Container.where(parent_container_id: id)
+  end
+
+  def cache_tree_depth_and_path
+    ids       = []
+    container = self
+
+    while container
+      ids.insert(0, container.id)
+      container = container.parent_container
+    end
+
+    transaction do
+      update_column :tree_path, ids.join('.')
+      update_column :depth, (ids.size - 1)
+    end
+
+    child_containers.find_each(&:cache_tree_depth_and_path)
   end
 
   protected
