@@ -1,5 +1,3 @@
-require 'components/events_component'
-
 class HomePage
   def initialize(container, payload_data)
     @container = container
@@ -19,6 +17,6 @@ class HomePage
   end
 
   def events
-    EventsComponent.new(@data).data
+    Components::Events.new(@data).data
   end
 end

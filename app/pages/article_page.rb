@@ -1,7 +1,3 @@
-require 'components/contact_component'
-require 'components/resource_component'
-require 'components/events_component'
-
 class ArticlePage
   def initialize(container, payload_data)
     @container = container
@@ -21,7 +17,7 @@ class ArticlePage
   def widgets
     widgets = {}
 
-    widgets[:contact] = ContactComponent.new(@data).data
+    widgets[:contact] = Components::Contact.new(@data).data
 
     widgets[:call_to_action] = @data[:widget_call_to_action] if @data[:widget_call_to_action]
 
@@ -32,11 +28,11 @@ class ArticlePage
 
 
   def resources
-    ResourceComponent.new(@data).data
+    Components::Resources.new(@data).data
   end
 
   def events
-    EventsComponent.new(@data).data
+    Components::Events.new(@data).data
   end
 end
 

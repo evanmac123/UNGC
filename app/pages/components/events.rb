@@ -1,4 +1,4 @@
-class EventsComponent
+class Components::Events
   def initialize(data)
     @data = data
   end

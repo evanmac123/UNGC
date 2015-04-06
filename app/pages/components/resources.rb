@@ -1,4 +1,4 @@
-class ResourceComponent
+class Components::Resources
   def initialize(data)
     @data = data
   end

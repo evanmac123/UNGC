@@ -1,4 +1,4 @@
-class ContactComponent
+class Components::Contact
   def initialize(data)
     @data = data
   end
