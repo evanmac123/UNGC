@@ -5,8 +5,8 @@ class Redesign::StaticController < Redesign::ApplicationController
   end
 
   def landing
-    #set_current_container :landing
-    @page = FakeLandingPage.new
+    set_current_container :landing, '/participation'
+    @page = LandingPage.new(current_container, current_payload_data)
   end
 
   def highlight

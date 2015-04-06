@@ -15,6 +15,8 @@ class ContainerSerializer < ApplicationSerializer
       h[:public_path] = router.redesign_root_path
     when object.article?
       h[:public_path] = router.redesign_article_path # XXX needs update
+    when object.landing?
+      h[:public_path] = router.redesign_landing_page_path # XXX needs update
     end
 
     h

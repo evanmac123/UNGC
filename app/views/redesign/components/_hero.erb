@@ -4,7 +4,7 @@
 
   <%- if hero_data[:title] -%>
     <h1><%- hero_data[:title].each do |key, value| -%>
-      <br><span><%= value.html_safe -%></span>
+      <br><span><%= value.try(:html_safe) -%></span>
     <%- end -%></h1>
   <%- end -%>
 
