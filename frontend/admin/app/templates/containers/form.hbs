@@ -27,6 +27,10 @@
     {{/if}}
   </fieldset>
 
+  <fieldset>
+    <h2>Container url: {{model.container.publicPath}}</h2>
+  </fieldset>
+
   {{#container/x-subform record=model.container as |form|}}
     {{partial form.subformTemplatePath}}
   {{/container/x-subform}}

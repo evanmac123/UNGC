@@ -4,18 +4,8 @@ class Redesign::StaticController < Redesign::ApplicationController
     @page = HomePage.new(current_container, current_payload_data)
   end
 
-  def landing
-    set_current_container :landing, '/participation'
-    @page = LandingPage.new(current_container, current_payload_data)
-  end
-
   def highlight
     @page = FakeHighlightPage.new
-  end
-
-  def article
-    set_current_container :article, '/about'
-    @page = ArticlePage.new(current_container, current_payload_data)
   end
 
   def catch_all
