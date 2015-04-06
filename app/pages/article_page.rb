@@ -17,23 +17,26 @@ class ArticlePage
   def widgets
     widgets = {}
 
-    # CONTACT WIDGET | REAL
-    # widgets[:contact] = @data[:contact_widget] if @data[:contact_widget]
+    widgets[:contact] = contact
 
-    # CONTACT WIDGET | FAKE
-    widgets[:contact] = {
-      photo: "//ungc.s3.amazonaws.com/people/walid-nagi.jpg",
-      name: "Mr. Walid Nagi",
-      title: "Head Local Networks",
-      email: "nagi@un.org",
-      phone: "+1-212-907-1331"
-    }
+    widgets[:call_to_action] = @data[:widget_call_to_action] if @data[:widget_call_to_action]
 
-    widgets[:call_to_action] = @data[:call_to_action] if @data[:call_to_action]
-
-    widgets[:links_list] = @data[:links_block] if @data[:links_block]
+    widgets[:links_list] = @data[:widget_links_list] if @data[:widget_links_list]
 
     widgets
+  end
+
+  def contact
+    contact_id = @data[:widget_contact][:contact_id] if @data[:widget_contact]
+    return unless contact_id
+    contact = Contact.find(contact_id)
+    {
+      photo: contact.image.url,
+      name: contact.name,
+      title: contact.job_title,
+      email: contact.email,
+      phone: contact.phone
+    }
   end
 
   def resources
