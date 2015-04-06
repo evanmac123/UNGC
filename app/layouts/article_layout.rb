@@ -12,12 +12,6 @@ class ArticleLayout < UNGC::Layout
   layout :article
 
   scope :hero do
-    scope :title do
-      field :title1, type: :string, limit: 50, required: true
-      field :title2, type: :string, limit: 50
-    end
-  end
-  scope :hero do
     field :image, type: :image_url
     field :theme, type: :string, enum: THEMES, default: 'light'
 
