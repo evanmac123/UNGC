@@ -11,6 +11,8 @@ class ContainerSerializer < ApplicationSerializer
     end
 
     case
+    when object.path.present?
+      h[:public_path] = object.path
     when object.home?
       h[:public_path] = router.redesign_root_path
     when object.article?
