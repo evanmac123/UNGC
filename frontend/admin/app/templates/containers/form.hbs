@@ -28,7 +28,12 @@
   </fieldset>
 
   <fieldset>
-    <h2>Container url: {{model.container.publicPath}}</h2>
+    <h2>Container url:
+      <a href="/redesign{{model.container.publicPath}}" target="_blank">
+        {{model.container.publicPath}}
+      </a>
+    </h2>
+    <p>(last published version)</p>
   </fieldset>
 
   {{#container/x-subform record=model.container as |form|}}
