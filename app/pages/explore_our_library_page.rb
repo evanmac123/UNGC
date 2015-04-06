@@ -1,10 +1,4 @@
-class ExploreOurLibraryPage
-
-  def initialize(container, payload_data)
-    @container = container
-    @data      = payload_data || {}
-  end
-
+class ExploreOurLibraryPage < ContainerPage
   def featured
     resource_ids = @data[:featured] || []
     Resource.find resource_ids
