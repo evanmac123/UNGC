@@ -11,6 +11,7 @@
       {{/container/x-fields}}
 
       {{container/x-field key="blurb" type="string" scope=hero}}
+      {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=false scope=hero}}
     {{/container/x-fields}}
   </fieldset>
 
@@ -26,8 +27,8 @@
 
         {{#container/x-fields key="widgetImage" scope=article as |image|}}
           <b>Image Widget</b>
-          {{container/x-field key="alt" type="string" limit=50 scope=image}}
-          {{container/x-field key="src" type="href" limit=50 scope=image}}
+          {{container/x-field label="Image title" key="alt" type="string" limit=50 scope=image}}
+          {{container/x-field label="Image Url" key="src" type="href" limit=50 scope=image}}
         {{/container/x-fields}}
       </li>
     {{/container/x-fields}}
