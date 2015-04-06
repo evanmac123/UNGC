@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  field: null
+  // public api
+  field: null,
+  labelPath: null,
+  placeholder: null,
+  allowClear: false
 });
