@@ -1,9 +1,4 @@
-class ArticlePage
-  def initialize(container, payload_data)
-    @container = container
-    @data      = payload_data || {}
-  end
-
+class ArticlePage < ContainerPage
   def hero
     @data[:hero] || {}
   end

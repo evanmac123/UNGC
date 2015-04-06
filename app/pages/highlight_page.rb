@@ -1,9 +1,4 @@
-class HighlightPage
-  def initialize(container, payload_data)
-    @container = container
-    @data      = payload_data || {}
-  end
-
+class HighlightPage < ContainerPage
   def hero
     @data[:hero] || {}
   end

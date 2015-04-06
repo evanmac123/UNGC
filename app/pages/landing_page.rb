@@ -1,9 +1,4 @@
-class LandingPage
-  def initialize(container, payload_data)
-    @container = container
-    @data      = payload_data || {}
-  end
-
+class LandingPage < ContainerPage
   def hero
     @data[:hero] || {}
   end
