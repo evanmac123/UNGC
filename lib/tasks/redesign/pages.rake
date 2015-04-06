@@ -38,8 +38,9 @@ namespace :redesign do
         )
 
         parent = ancestors.last
+
         if parent.present?
-          container.parent_container_id = parent[:id]
+          container.update_column(:parent_container_id, parent[:id])
         end
 
         page[:id] = container.id
