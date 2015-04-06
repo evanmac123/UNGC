@@ -7,6 +7,7 @@ const TYPES = {
   'boolean':           true,
   'image-upload':      true,
   'hero-theme-select': true,
+  'article-align-select': true,
   'tile-color-select': true,
   'text':              true,
   'html':              true,

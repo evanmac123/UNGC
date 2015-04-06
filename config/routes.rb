@@ -38,7 +38,6 @@ UNGC::Application.routes.draw do
       get '/our-library/:id'        => :show,      as: :library_resource
     end
 
-    get '/participation/join' => 'static#highlight',    as: :highlight
     get '/'                   => 'static#home',         as: :root
     get '*path'               => 'static#catch_all',    as: :catch_all
   end
