@@ -112,6 +112,7 @@ var Model = Ember.Object.extend({
           this.setErrorsFromJSON(error.responseJSON);
           return Ember.RSVP.reject(this);
         }
+        throw error;
       }
     );
   },

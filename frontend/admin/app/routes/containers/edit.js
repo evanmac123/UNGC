@@ -18,8 +18,13 @@ export default Ember.Route.extend({
     saveDraft(container) {
       container.save().then( () => {
         Ember.get(this, 'flashMessages').success('Draft Saved!');
-      }).catch( () => {
-        Ember.get(this, 'flashMessages').danger('Validation Error!');
+      }, (error) => {
+        if (error.status) {
+          Ember.get(this, 'flashMessages').danger(error.statusText);
+          throw error.toString();
+        } else {
+          Ember.get(this, 'flashMessages').danger('Validation Error!');
+        }
       });
     },
 
