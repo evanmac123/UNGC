@@ -4,7 +4,9 @@ class Components::Resources
   end
 
   def data
-    ids = @data[:resources].map {|r| r[:resource_id] }
+    resources = @data[:resources]
+    return unless resources
+    ids = resources.map {|r| r[:resource_id] }
     Resource.find ids
   end
 end
