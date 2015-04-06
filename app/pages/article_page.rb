@@ -1,3 +1,6 @@
+require 'components/contact_component'
+require 'components/resource_component'
+
 class ArticlePage
   def initialize(container, payload_data)
     @container = container
@@ -17,7 +20,7 @@ class ArticlePage
   def widgets
     widgets = {}
 
-    widgets[:contact] = contact
+    widgets[:contact] = ContactComponent.new(@data).data
 
     widgets[:call_to_action] = @data[:widget_call_to_action] if @data[:widget_call_to_action]
 
@@ -26,22 +29,9 @@ class ArticlePage
     widgets
   end
 
-  def contact
-    contact_id = @data[:widget_contact][:contact_id] if @data[:widget_contact]
-    return unless contact_id
-    contact = Contact.find(contact_id)
-    {
-      photo: contact.image.url,
-      name: contact.name,
-      title: contact.job_title,
-      email: contact.email,
-      phone: contact.phone
-    }
-  end
 
   def resources
-    ids = @data[:resources].map {|r| r[:resource_id] }
-    Resource.find ids
+    ResourceComponent.new(@data).data
   end
 
   def events
