@@ -1,4 +1,5 @@
 class ArticleLayout < UNGC::Layout
+  extend UNGC::Layout::Macros
 
   THEMES = %w[
     none
@@ -10,6 +11,8 @@ class ArticleLayout < UNGC::Layout
 
   label 'Article'
   layout :article
+
+  has_meta_tags!
 
   scope :hero do
     field :image, type: :image_url

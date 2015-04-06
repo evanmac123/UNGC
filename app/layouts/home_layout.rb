@@ -1,4 +1,6 @@
 class HomeLayout < UNGC::Layout
+  extend UNGC::Layout::Macros
+
   COLORS = %w[
     light-blue
     light-green
@@ -19,10 +21,7 @@ class HomeLayout < UNGC::Layout
   label 'Homepage'
   layout :home
 
-  scope :meta_tags do
-    field :title, type: :string, required: true
-    field :description, type: :string
-  end
+  has_meta_tags!
 
   scope :hero do
     field :image, type: :image_url

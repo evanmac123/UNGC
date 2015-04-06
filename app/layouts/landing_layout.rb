@@ -1,4 +1,6 @@
 class LandingLayout < UNGC::Layout
+  extend UNGC::Layout::Macros
+
   COLORS = %w[
     light-blue
     light-green
@@ -18,6 +20,8 @@ class LandingLayout < UNGC::Layout
 
   label 'Landing'
   layout :landing
+
+  has_meta_tags!
 
   scope :hero do
     field :image, type: :image_url

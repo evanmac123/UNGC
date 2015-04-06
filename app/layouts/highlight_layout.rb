@@ -1,4 +1,5 @@
 class HighlightLayout < UNGC::Layout
+  extend UNGC::Layout::Macros
 
   THEMES = %w[
     none
@@ -16,6 +17,8 @@ class HighlightLayout < UNGC::Layout
 
   label 'Highlight'
   layout :highlight
+
+  has_meta_tags!
 
   scope :hero do
     field :image, type: :image_url

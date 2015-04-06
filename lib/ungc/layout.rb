@@ -3,6 +3,16 @@ module UNGC
   class InvalidFieldError < Error; end
 
   class Layout
+
+    module Macros
+      def has_meta_tags!
+        scope :meta_tags do
+          field :title, type: :string, required: true
+          field :description, type: :string
+        end
+      end
+    end
+
     def self.inherited(layout)
       layout.init_root_scope!
     end

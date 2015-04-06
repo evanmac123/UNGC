@@ -1,4 +1,6 @@
 {{#container/x-fields scope=model.container as |landing|}}
+  {{container/macros/x-metatags scope=landing}}
+
   <fieldset>
     <legend>Hero</legend>
     {{#container/x-fields key="hero" scope=landing as |hero|}}

@@ -1,4 +1,6 @@
 {{#container/x-fields scope=model.container as |highlight|}}
+  {{container/macros/x-metatags scope=highlight}}
+
   <fieldset>
     <legend>Hero</legend>
     {{#container/x-fields key="hero" scope=highlight as |hero|}}
