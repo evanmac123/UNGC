@@ -49,7 +49,7 @@
           </button>
         {{/if}}
 
-        <a target="_blank" href="{{model.container.publicPath}}?draft=1">
+        <a target="_blank" href="/redesign{{model.container.publicPath}}?draft=1">
           Preview
         </a>
       </div>
@@ -68,7 +68,7 @@
             <tr>
               <td>{{ago payload.createdAt}}</td>
               <td>
-                <a target="_blank" href="{{model.container.publicPath}}?payload={{payload.id}}">
+                <a target="_blank" href="/redesign{{model.container.publicPath}}?payload={{payload.id}}">
                   View
                 </a>
               </td>
