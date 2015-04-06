@@ -1,21 +1,21 @@
 $(function() {
 
   var $form = $("#new_search");
-  if($form.length < 1) { return; }
+  if ($form.length < 1) {return;}
 
   // hide all dropdown options
-  var allOptions = $form.find('.options');
+  var allOptions = $form.find('.library-filter-options-list');
   allOptions.hide();
 
   // show them on click
-  $(".section").on('click', function(ev) {
-    var options = $(this).find('.options');
+  $(".library-filter-options-group").on('click', function(ev) {
+    var options = $(this).find('.library-filter-options-list');
     allOptions.not(options).hide();
     options.toggle();
   });
 
   // submit form on filter selections
-  $('.filter-option').one('click', function(ev) {
+  $('.library-filter-option').one('click', function(ev) {
     ev.preventDefault();
     $(this).find('input').attr("checked", true);
     $form.submit();
@@ -27,7 +27,7 @@ $(function() {
   });
 
   // remove active filter buttons
-  $('.active-filters a').one('click', function(ev) {
+  $('.active-filters-list a').one('click', function(ev) {
     ev.preventDefault();
 
     var $removeButton = $(this);
@@ -37,7 +37,7 @@ $(function() {
     // uncheck the input associated with this filter id
     var filterSelector = "#search_" + filterType + "s_" + filterId;
     var $filter = $(filterSelector);
-    if($filter.length > 0) {
+    if ($filter.length > 0) {
       $filter.attr("checked", false);
       $removeButton.remove();
       $form.submit();

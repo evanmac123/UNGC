@@ -1,9 +1,0 @@
-= render 'form'
-
-%h2 Results:
-= "#{@results.total_entries} results."
-- @results.each do |resource|
-  %p
-    %p= render 'resource', resource: resource
-
-= will_paginate @results

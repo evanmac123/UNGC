@@ -1,0 +1,46 @@
+<%= form_for @search, as: :search, url: redesign_library_search_path, method: :get, html: {class: 'library-filters-form'} do |f| %>
+
+  <header>
+    <h1>Explore Our Library</h1>
+
+    <%= f.search_field :keywords, placeholder: 'Search', class: 'search-field' %>
+  </header>
+
+
+  <fieldset class='library-filter-options-group'>
+    <legend>Issues</legend>
+    <%= render 'redesign/components/library_filter_options_list', options: @search.issue_options, options_field: "search[issue_areas]", child_options_field: "search[issues]" %>
+  </fieldset>
+
+  <fieldset class='library-filter-options-group'>
+    <legend>Topics</legend>
+    <%= render 'redesign/components/library_filter_options_list', options: @search.topic_options, options_field: "search[topic_groups]", child_options_field: "search[topics]" %>
+  </fieldset>
+
+  <fieldset class='library-filter-options-group'>
+    <legend>Languages</legend>
+    <%= render 'redesign/components/library_filter_options_list', options: @search.language_options, options_field: "search[languages]" %>
+  </fieldset>
+
+  <fieldset class='library-filter-options-group'>
+    <legend>Sectors</legend>
+    <%= render 'redesign/components/library_filter_options_list', options: @search.sector_options, options_field: "search[sector_groups]", child_options_field: "search[sectors]" %>
+  </fieldset>
+
+  <%= f.select :content_type, @search.type_options, {include_blank: 'Type'}, {id: :content_type} %>
+
+  <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: :sort_field} %>
+
+  <%= f.submit 'Clear', type: 'reset' %>
+  <%= f.submit 'Search', id: 'our-library-search' %>
+
+  <fieldset class='library-active-filters-group'>
+    <legend>Active Filters:</legend>
+    <ol class='active-filters-list'>
+      <%- @search.active_filters.each do |filter| -%>
+      <li><%= link_to "#{filter.name} X", '#', data: {"filter-id" => filter.id, "filter-type" => filter.type} -%></li>
+      <%- end -%>
+    </ol>
+  </fieldset>
+
+<%- end -%>
