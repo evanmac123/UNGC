@@ -28,7 +28,7 @@
 
   <fieldset>
     <legend>Tiles</legend>
-    {{#container/x-fields tagName="ol" key="tiles" array=true size=6 scope=home as |tiles|}}
+    {{#container/x-fields tagName="ol" key="tiles" array=true min=3 max=6 scope=home as |tiles|}}
       <li class="tile-group">
         {{container/x-field key="color" type="tile-color-select" scope=tiles}}
         {{container/x-field key="bgImage" type="string" scope=tiles}}

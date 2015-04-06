@@ -43,7 +43,7 @@ class HomeLayout < UNGC::Layout
     field :label, type: :string, limit: 20, required: true
   end
 
-  scope :tiles, array: true, size: 6 do
+  scope :tiles, array: true, min: 3, max: 6 do
     field :color,    type: :string, enum: COLORS, default: 'light-blue', required: true
     field :bg_image, type: :image_url
     field :title,    type: :string, limit: 100, required: true
