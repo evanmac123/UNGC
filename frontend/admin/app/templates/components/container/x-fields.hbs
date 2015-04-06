@@ -1,6 +1,7 @@
 {{#if array}}
   {{#if canVary}}
     <button disabled={{cantAdd}} {{action "addElement"}}>Add</button>
+    <button disabled={{cantRemove}} {{action "removeElement"}}>Remove</button>
   {{/if}}
 
   {{#each yieldValue as |val|}}

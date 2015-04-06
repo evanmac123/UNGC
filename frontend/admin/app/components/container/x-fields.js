@@ -28,7 +28,7 @@ export default Ember.Component.extend({
   scope:  null,
   key:    null,
   array:  false,
-  min:    null,
+  min:    0,
   max:    null,
   size:   null,
 
@@ -70,6 +70,23 @@ export default Ember.Component.extend({
 
   cantAdd: Ember.computed.not('canAdd'),
 
+  canRemove: function() {
+    var min    = this.get('min');
+    var length = this.get('yieldValue.length');
+
+    if (!min || !length) {
+      return true;
+    }
+
+    if (length > min) {
+      return true;
+    }
+
+    return false;
+  }.property('min', 'yieldValue.length'),
+
+  cantRemove: Ember.computed.not('canRemove'),
+
   actions: {
     addElement() {
       var isArray = this.get('array');
@@ -87,6 +104,13 @@ export default Ember.Component.extend({
 
       dataArray.pushObject(newObject);
       scopes.pushObject(this.generateScope(newObject, newIndex));
+    },
+
+    removeElement() {
+      var scopes = this.get('yieldValue');
+      var dataArray = this.get(`scope.data.${this.get('key')}`);
+      dataArray.popObject();
+      scopes.popObject();
     }
   },
 
