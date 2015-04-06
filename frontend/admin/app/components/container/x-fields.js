@@ -112,23 +112,38 @@ export default Ember.Component.extend({
       var idx = scopes.indexOf(element);
       scopes.removeObject(element);
       dataArray.removeAt(idx);
+      this.indexScopes();
     }
   },
 
-  generateScope(data, index) {
+  indexScopes() {
+    var yieldValue = this.get('yieldValue');
+    if (this.get('array')) {
+      yieldValue.forEach( (scope, index) => {
+        var fullPath = this._getScopePath(index);
+        scope.set('path', fullPath);
+      });
+    }
+  },
+
+  _getScopePath(index) {
     var key        = this.get('key');
     var parent     = this.get('scope');
     var parentPath = parent.get('path');
     var rootPath   = parentPath ? `${parentPath}.` : '';
-    var myPath, fullPath;
+    var myPath;
 
     if (Ember.isNone(index)) {
       myPath = key ? key : '';
     } else {
       myPath = key ? `${key}.[${index}]` : `[${index}]`;
     }
+    return rootPath + myPath;
+  },
 
-    fullPath = rootPath + myPath;
+  generateScope(data, index) {
+    var parent     = this.get('scope');
+    var fullPath = this._getScopePath(index);
 
     return Scope.create({
       errors: parent.get('errors'),

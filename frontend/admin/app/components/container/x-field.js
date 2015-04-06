@@ -49,15 +49,23 @@ export default Ember.Component.extend({
     this._initLabel();
   }.on('init'),
 
-  _connectScope() {
-    var defaultValue;
-    var value;
-
+  _resetScope: function() {
     this.set('path', [
       'data',
       this.get('scope.path'),
       this.get('key')
     ].join('.'));
+  },
+
+  _resetScopeObserver: Ember.observer('scope.path', function() {
+    this._resetScope();
+  }),
+
+  _connectScope() {
+    var defaultValue;
+    var value;
+
+    this._resetScope();
 
     this.reopen({
       value: Ember.computed.alias(`scope.data.${this.get('key')}`)
