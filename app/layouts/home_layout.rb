@@ -9,6 +9,7 @@ class HomeLayout < UNGC::Layout
   ]
 
   THEMES = %w[
+    none
     light
     dark
   ]

@@ -1,4 +1,11 @@
 class ArticleLayout < UNGC::Layout
+
+  THEMES = %w[
+    none
+    light
+    dark
+  ]
+
   has_one_container!
 
   label 'Article'
@@ -9,6 +16,17 @@ class ArticleLayout < UNGC::Layout
       field :title1, type: :string, limit: 50, required: true
       field :title2, type: :string, limit: 50
     end
+  end
+  scope :hero do
+    field :image, type: :image_url
+    field :theme, type: :string, enum: THEMES, default: 'light'
+
+    scope :title do
+      field :title1, type: :string, limit: 50, required: true
+      field :title2, type: :string, limit: 50
+    end
+
+    field :blurb, type: :string, limit: 200, required: true
   end
 
   scope :article_block do
