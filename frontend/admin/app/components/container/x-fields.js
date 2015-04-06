@@ -106,11 +106,12 @@ export default Ember.Component.extend({
       scopes.pushObject(this.generateScope(newObject, newIndex));
     },
 
-    removeElement() {
+    removeElement(element) {
       var scopes = this.get('yieldValue');
       var dataArray = this.get(`scope.data.${this.get('key')}`);
-      dataArray.popObject();
-      scopes.popObject();
+      var idx = scopes.indexOf(element);
+      scopes.removeObject(element);
+      dataArray.removeAt(idx);
     }
   },
 
