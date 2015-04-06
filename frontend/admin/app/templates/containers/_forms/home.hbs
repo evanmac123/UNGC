@@ -1,5 +1,13 @@
 {{#container/x-fields scope=model.container as |home|}}
   <fieldset>
+    <legend>Meta Tags</legend>
+    {{#container/x-fields key="metaTags" scope=home as |metaTags|}}
+      {{container/x-field key="title" type="string" scope=metaTags}}
+      {{container/x-field key="description" type="string" scope=metaTags}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
     <legend>Hero</legend>
     {{#container/x-fields key="hero" scope=home as |hero|}}
       {{container/x-field key="image" type="string" scope=hero}}

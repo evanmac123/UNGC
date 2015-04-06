@@ -1,4 +1,5 @@
-<% provide :title, 'Home | ' %>
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
 <%= render partial: 'redesign/components/hero' %>
 <%= render partial: 'redesign/components/stats' %>
 <%= render partial: 'redesign/components/tiles' %>

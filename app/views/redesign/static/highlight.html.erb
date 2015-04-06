@@ -1,4 +1,5 @@
-<% provide :title, 'highlight | ' %>
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
 <%= render partial: 'redesign/components/hero' %>
 
 <%- @page.article_blocks.each do |article| -%>

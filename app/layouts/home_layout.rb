@@ -19,6 +19,11 @@ class HomeLayout < UNGC::Layout
   label 'Homepage'
   layout :home
 
+  scope :meta_tags do
+    field :title, type: :string, required: true
+    field :description, type: :string
+  end
+
   scope :hero do
     field :image, type: :image_url
     field :theme, type: :string, enum: THEMES, default: 'light'

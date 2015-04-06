@@ -1,4 +1,5 @@
-<% provide :title, 'article | ' %>
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
 <%= render partial: 'redesign/components/hero' %>
 <%= render partial: 'redesign/components/article_content_block', locals: {article: @page.article_block} %>
 <%= render partial: 'redesign/components/resource_blocks' %>
