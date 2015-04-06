@@ -6,9 +6,9 @@
     {{#with field.items as |items|}}
       {{select-2
       content=items
-      optionLabelPath="name"
+      optionLabelPath=field.labelPath
       optionValuePath="id"
-      placeholder="Choose a contact"
+      placeholder=field.placeholder
       value=field.value
       }}
     {{/with}}

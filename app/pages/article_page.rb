@@ -37,7 +37,8 @@ class ArticlePage
   end
 
   def resources
-    Resource.find [2, 51, 91]
+    ids = @data[:resources].map {|r| r[:resource_id] }
+    Resource.find ids
   end
 
   def events

@@ -33,5 +33,9 @@ class ArticleLayout < UNGC::Layout
       field :url,   type: :href,   required: true
     end
   end
+
+  scope :resources, array: true, size: 3 do
+    field :resource_id, type: :number, required: true
+  end
 end
 
