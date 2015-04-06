@@ -50,6 +50,10 @@ namespace :redesign do
       page
     end
 
+    Redesign::Container.
+      where(parent_container_id: nil).
+      find_each(&:cache_tree_depth_and_path)
+
     File.open('pages-with-slugs.json', 'w+') do |f|
       f.write(output.to_json)
     end
