@@ -7,14 +7,14 @@
   <thead>
     <tr>
       <th>Layout</th>
-      <th>Slug</th>
+      <th>Public Path</th>
     </tr>
   </thead>
   <tbody>
     {{#each model as |container|}}
       {{#link-to "containers.edit" container.id tagName="tr"}}
         <td>{{container.layout}}</td>
-        <td>{{container.slug}}</td>
+        <td>{{container.publicPath}}</td>
       {{/link-to}}
     {{/each}}
   </tbody>
