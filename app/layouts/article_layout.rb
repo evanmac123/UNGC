@@ -13,6 +13,7 @@ class ArticleLayout < UNGC::Layout
   layout :article
 
   has_meta_tags!
+  has_taggings!
 
   scope :hero do
     field :image, type: :image_url

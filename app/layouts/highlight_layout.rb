@@ -19,6 +19,7 @@ class HighlightLayout < UNGC::Layout
   layout :highlight
 
   has_meta_tags!
+  has_taggings!
 
   scope :hero do
     field :image, type: :image_url

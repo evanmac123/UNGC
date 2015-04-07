@@ -12,6 +12,14 @@ module UNGC
           field :thumbnail, type: :image_url, required: true
         end
       end
+
+      def has_taggings!
+        scope :taggings do
+          field :issues, type: :array
+          field :topics, type: :array
+          field :sectors, type: :array
+        end
+      end
     end
 
     def self.inherited(layout)
@@ -360,6 +368,12 @@ module UNGC
         when /f|false|no|0/i then false
         else nil
         end
+      end
+    end
+
+    register :array do
+      cast do |raw|
+        Array(raw)
       end
     end
   end

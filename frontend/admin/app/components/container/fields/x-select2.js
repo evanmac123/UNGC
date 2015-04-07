@@ -5,5 +5,6 @@ export default Ember.Component.extend({
   field: null,
   labelPath: null,
   placeholder: null,
-  allowClear: false
+  allowClear: false,
+  multiple: false
 });

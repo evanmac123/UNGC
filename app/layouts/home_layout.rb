@@ -22,6 +22,7 @@ class HomeLayout < UNGC::Layout
   layout :home
 
   has_meta_tags!
+  has_taggings!
 
   scope :hero do
     field :image, type: :image_url

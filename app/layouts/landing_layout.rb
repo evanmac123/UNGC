@@ -22,6 +22,7 @@ class LandingLayout < UNGC::Layout
   layout :landing
 
   has_meta_tags!
+  has_taggings!
 
   scope :hero do
     field :image, type: :image_url
