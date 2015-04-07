@@ -16,7 +16,7 @@ class ResourceUpdater
     resource.year           = year if has_year?
 
     resource.principles.where('id not in (?)', params[:principle_ids]).destroy_all
-    params[:principle_ids].each do |id|
+    Array(params[:principle_ids]).each do |id|
       resource.principles.where(id: id).first_or_create!
     end
 
