@@ -1,0 +1,35 @@
+<div class="sitemap-x-node-label">
+  <span class="node-expander">
+    {{#if node.hasDescendants}}
+      <button {{action "toggle"}} class="btn btn-sm btn-default">
+        {{if isOpen "-" "+"}}
+      </button>
+    {{/if}}
+  </span>
+
+  <span class="node-label">
+    {{#link-to "containers.edit" node.model.id}}{{!-- NOTE: We call .id here to force the route to load the model hook --}}
+      {{~node.model.publicPath~}}
+    {{/link-to}}
+
+    <span class="label label-default">{{node.model.layout}}</span>
+  </span>
+
+  <span class="node-actions">
+    <button class="btn btn-sm btn-success">Insert</button>
+    <a href="/redesign{{node.model.publicPath}}" target="_blank" class="btn btn-sm btn-primary">
+      View
+    </a>
+    <button class="btn btn-sm btn-warning">Move</button>
+  </span>
+</div>
+
+{{#if node.nodes}}
+  {{#if isOpen}}
+    <ul class="sitemap-x-node-subnodes">
+      {{#each node.nodes as |node|}}
+        {{sitemap/x-node tree=tree node=node isSubnode=true}}
+      {{/each}}
+    </ul>
+  {{/if}}
+{{/if}}

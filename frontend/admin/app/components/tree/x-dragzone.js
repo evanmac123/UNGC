@@ -12,7 +12,7 @@ export default Ember.Component.extend({
 
   didStartDragging: function(event) {
     var effect;
-    var nodeId = this.get('node.id');
+    var nodeId = this.get('node.modelId');
 
     if (effect = this.get('effect')) {
       event.dataTransfer.effectAllowed = effect;
