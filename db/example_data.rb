@@ -306,6 +306,7 @@ module FixtureReplacement
 
   attributes_for :container, class: Redesign::Container do |c|
     c.layout = :home
+    c.slug = FixtureReplacement.random_string
   end
 
   attributes_for :payload, class: Redesign::Payload do |p|

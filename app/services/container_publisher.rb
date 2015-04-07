@@ -28,11 +28,39 @@ class ContainerPublisher
     return true if no_changes?
 
     container.transaction do
-      container.update!(
-        public_payload_id: draft.copy.id
-      )
+      update_payload
+      update_tags
     end
 
     true
+  end
+
+  private
+
+  def update_payload
+    container.update!(
+      public_payload_id: draft.copy.id
+    )
+  end
+
+  def update_tags
+    # add any new tags and remove the old ones.
+    draft.tags.each do |type, ids|
+      tag_type = to_domain_type(type)
+      ids.each do |id|
+        params = {redesign_container_id: @container.id}
+        params[tag_type] = id
+        Tagging.where(params).first_or_create!
+      end
+
+      Tagging
+        .where(redesign_container_id: @container.id)
+        .where("#{tag_type}_id not in (?)", ids)
+        .destroy_all
+    end
+  end
+
+  def to_domain_type(input)
+    input.to_s.singularize.gsub(/[^a-z]/, '')
   end
 end

@@ -17,6 +17,10 @@ class Redesign::Payload < ActiveRecord::Base
     write_attribute :json_data, json
   end
 
+  def tags
+    data.fetch(:taggings, {})
+  end
+
   def copy
     Redesign::Payload.create!(
       container_id: container_id,
