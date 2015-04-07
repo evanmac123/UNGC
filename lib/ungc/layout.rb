@@ -9,6 +9,7 @@ module UNGC
         scope :meta_tags do
           field :title, type: :string, required: true
           field :description, type: :string
+          field :thumbnail, type: :image_url, required: true
         end
       end
     end
