@@ -19,7 +19,7 @@ $(function() {
     event.preventDefault();
     var $trigger  = $(event.currentTarget),
         $list     = $trigger.data('$list');
-    $filterLists.add($triggers).not([$trigger, $list]).removeClass('is-active');
+    $filterLists.add($triggers).not([event.currentTarget, $list.get(0)]).removeClass('is-active');
     $trigger.add($list).toggleClass('is-active');
   });
 
