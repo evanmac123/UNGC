@@ -3,11 +3,11 @@
   <header>
     <h1>Explore Our Library</h1>
 
-    <%= f.search_field :keywords, placeholder: 'Search', class: 'search-field' %>
+    <%= f.search_field :keywords, placeholder: 'Search', id: 'search-field' %>
   </header>
 
 
-  <section class='form-section'>
+  <fieldset class='filter-lists'>
     <button class='filter-options-list-trigger' data-filter='issue_areas'>Issues</button>
     <%= render 'redesign/components/filter_options_list', filter: 'issue_areas', child_filter: 'issues', options: @search.issue_options %>
 
@@ -19,22 +19,31 @@
 
     <button class='filter-options-list-trigger' data-filter='sector_groups'>Sectors</button>
     <%= render 'redesign/components/filter_options_list', filter: 'sector_groups', child_filter: 'sectors', options: @search.sector_options %>
-  </section>
+  </fieldset>
 
-  <%= f.select :content_type, @search.type_options, {include_blank: 'Type'}, {id: :content_type} %>
+  <fieldset class='sorting'>
+    <%= f.select :content_type, @search.type_options, {include_blank: 'Type'}, {id: 'filter-content-type'} %>
 
-  <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: :sort_field} %>
+    <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: 'filter-sort-order'} %>
 
-  <%= f.submit 'Clear', type: 'reset' %>
-  <%= f.submit 'Search', id: 'our-search' %>
+    <div class='reset-and-submit'>
+      <%= f.submit 'Clear', type: 'reset' %>
+      <%= f.submit 'Search', id: 'our-search' %>
+    </div>
+  </fieldset>
 
-  <fieldset class='active-filters-group'>
+  <%- if @search.active_filters.any? -%>
+  <fieldset class='active-filters'>
     <h2>Active Filters:</h2>
     <ol class='active-filters-list'>
       <%- @search.active_filters.each do |filter| -%>
-      <li><%= link_to "#{filter.name} X", '#', data: {"filter-id" => filter.id, "filter-type" => filter.type} -%></li>
+        <li class='active-filter'>
+          <span class='active-filter-name'><%= filter.name %></span>
+          <button class='remove-active-filter' data-filter-id="<%= filter.id -%>" data-filter-type="<%= filter.type -%>">&times;</button>
+        </li>
       <%- end -%>
     </ol>
   </fieldset>
+  <%- end -%>
 
 <%- end -%>

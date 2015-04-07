@@ -23,30 +23,28 @@ $(function() {
     $trigger.add($list).toggleClass('is-active');
   });
 
-  // submit form on filter selections
-  $('.filter-option input').one('change', function(ev) {
+  // Submit form on filter and option selections
+  $('.filter-option input[type=checkbox], #filter-content-type, #filter-sort-order').one('change', function() {
+    window.setTimeout(function() {
+      $triggers.add($filterLists).removeClass('is-active');
+    }, 100);
     $form.submit();
   });
 
-  // submit form on option selections
-  $('#content_type, #sort_field').one('change', function(ev) {
-    $form.submit();
-  });
+  // Remove active filter buttons
+  $('.remove-active-filter').one('click', function(event) {
+    event.preventDefault();
 
-  // remove active filter buttons
-  $('.active-filters-list a').one('click', function(ev) {
-    ev.preventDefault();
+    var $removeButton   = $(this),
+        filterId        = $removeButton.data('filter-id'),
+        filterType      = $removeButton.data('filter-type'),
+        filterSelector  = "#search_" + filterType + "s_" + filterId,
+        $filter         = $(filterSelector);
 
-    var $removeButton = $(this);
-    var filterId = $removeButton.data('filter-id');
-    var filterType = $removeButton.data('filter-type');
-
-    // uncheck the input associated with this filter id
-    var filterSelector = "#search_" + filterType + "s_" + filterId;
-    var $filter = $(filterSelector);
+    // Uncheck the input associated with this filter id
     if ($filter.length > 0) {
-      $filter.attr("checked", false);
-      $removeButton.remove();
+      $filter.prop("checked", false);
+      $removeButton.parent().addClass('removing');
       $form.submit();
     } else {
       console.log("failed to find", filterSelector);
@@ -56,9 +54,9 @@ $(function() {
   // clear the form
   var $reset = $form.find('input[type=reset]');
   $reset.on('click', function(ev) {
-    $('#search_author').val('');
-    $('input:checked').attr("checked", false);
-    $('#content_type').val(null);
+    $('#search_author').val(null);
+    $('input:checked').prop("checked", false);
+    $('#content-type').val(null);
     $form.submit();
   });
 
