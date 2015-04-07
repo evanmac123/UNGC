@@ -1,23 +1,30 @@
 $(function() {
-
   var $form = $("#new_search");
   if ($form.length < 1) {return;}
 
-  // hide all dropdown options
-  var allOptions = $form.find('.library-filter-options-list');
-  allOptions.hide();
+  // Cache relevant elements
+  var $triggers     = $form.find('.filter-options-list-trigger'),
+      $filterLists  = $triggers.siblings('.filter-options-list');
+
+  // Cache associated filter list as data attribute of trigger
+  $triggers.each(function(){
+    var $trigger = $(this);
+    $trigger.data('$list', $filterLists.filter(function(){
+      return $(this).data('filter') === $trigger.data('filter');
+    }));
+  });
 
   // show them on click
-  $(".library-filter-options-group").on('click', function(ev) {
-    var options = $(this).find('.library-filter-options-list');
-    allOptions.not(options).hide();
-    options.toggle();
+  $triggers.on('click', function(event) {
+    event.preventDefault();
+    var $trigger  = $(event.currentTarget),
+        $list     = $trigger.data('$list');
+    $filterLists.add($triggers).not([$trigger, $list]).removeClass('is-active');
+    $trigger.add($list).toggleClass('is-active');
   });
 
   // submit form on filter selections
-  $('.library-filter-option').one('click', function(ev) {
-    ev.preventDefault();
-    $(this).find('input').attr("checked", true);
+  $('.filter-option input').one('change', function(ev) {
     $form.submit();
   });
 

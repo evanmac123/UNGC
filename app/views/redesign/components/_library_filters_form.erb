@@ -7,35 +7,29 @@
   </header>
 
 
-  <fieldset class='library-filter-options-group'>
-    <legend>Issues</legend>
-    <%= render 'redesign/components/library_filter_options_list', options: @search.issue_options, options_field: "search[issue_areas]", child_options_field: "search[issues]" %>
-  </fieldset>
+  <section class='form-section'>
+    <button class='filter-options-list-trigger' data-filter='issue_areas'>Issues</button>
+    <%= render 'redesign/components/filter_options_list', filter: 'issue_areas', child_filter: 'issues', options: @search.issue_options %>
 
-  <fieldset class='library-filter-options-group'>
-    <legend>Topics</legend>
-    <%= render 'redesign/components/library_filter_options_list', options: @search.topic_options, options_field: "search[topic_groups]", child_options_field: "search[topics]" %>
-  </fieldset>
+    <button class='filter-options-list-trigger' data-filter='topic_groups'>Topics</button>
+    <%= render 'redesign/components/filter_options_list', filter: 'topic_groups', child_filter: 'topics', options: @search.topic_options %>
 
-  <fieldset class='library-filter-options-group'>
-    <legend>Languages</legend>
-    <%= render 'redesign/components/library_filter_options_list', options: @search.language_options, options_field: "search[languages]" %>
-  </fieldset>
+    <button class='filter-options-list-trigger' data-filter='languages'>Languages</button>
+    <%= render 'redesign/components/filter_options_list', filter: 'languages', options: @search.language_options %>
 
-  <fieldset class='library-filter-options-group'>
-    <legend>Sectors</legend>
-    <%= render 'redesign/components/library_filter_options_list', options: @search.sector_options, options_field: "search[sector_groups]", child_options_field: "search[sectors]" %>
-  </fieldset>
+    <button class='filter-options-list-trigger' data-filter='sector_groups'>Sectors</button>
+    <%= render 'redesign/components/filter_options_list', filter: 'sector_groups', child_filter: 'sectors', options: @search.sector_options %>
+  </section>
 
   <%= f.select :content_type, @search.type_options, {include_blank: 'Type'}, {id: :content_type} %>
 
   <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: :sort_field} %>
 
   <%= f.submit 'Clear', type: 'reset' %>
-  <%= f.submit 'Search', id: 'our-library-search' %>
+  <%= f.submit 'Search', id: 'our-search' %>
 
-  <fieldset class='library-active-filters-group'>
-    <legend>Active Filters:</legend>
+  <fieldset class='active-filters-group'>
+    <h2>Active Filters:</h2>
     <ol class='active-filters-list'>
       <%- @search.active_filters.each do |filter| -%>
       <li><%= link_to "#{filter.name} X", '#', data: {"filter-id" => filter.id, "filter-type" => filter.type} -%></li>

@@ -1,8 +1,10 @@
 .library-filters-form
   display: block
   padding: 10em 2em 3em
+  +font-smoothing(antialiased)
 
   header
+    margin: 0 0 1em
     +clearfix
 
     h1
@@ -15,3 +17,7 @@
 
   fieldset
     border: 0
+
+.form-section
+  position: relative
+  +clearfix
