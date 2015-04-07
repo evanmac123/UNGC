@@ -57,4 +57,29 @@ class Redesign::ContainerTest < ActiveSupport::TestCase
     assert_equal "#{container1.id}.#{container2.id}", container2.tree_path
     assert_equal 1, container2.depth
   end
+
+  should 'cache a count of its immediate child containers' do
+    container0 = create_container!
+
+    assert_equal 0, container0.child_containers_count
+
+    container1 = create_container!(parent_container_id: container0.id)
+    container0.reload
+
+    assert_equal 1, container0.child_containers_count
+    assert_equal 0, container1.child_containers_count
+
+    container2 = create_container!(parent_container_id: container1.id)
+    container0.reload
+    container1.reload
+
+    assert_equal 1, container0.child_containers_count
+    assert_equal 1, container1.child_containers_count
+    assert_equal 0, container2.child_containers_count
+
+    container2.destroy
+    container1.reload
+
+    assert_equal 0, container1.child_containers_count
+  end
 end

@@ -1,21 +1,7 @@
-{{!tree/x-tree
-  ns="admin-container-tree"
-  nodes=model
-  move="moveNodes"}}
+<div class="btn-group">
+  <button class="btn btn-success">Add Page</button>
+</div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Layout</th>
-      <th>Public Path</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each model as |container|}}
-      {{#link-to "containers.edit" container.id tagName="tr"}}
-        <td>{{container.layout}}</td>
-        <td>{{container.publicPath}}</td>
-      {{/link-to}}
-    {{/each}}
-  </tbody>
-</table>
+{{sitemap/x-tree
+  tree=model
+  move="moveNodes"}}

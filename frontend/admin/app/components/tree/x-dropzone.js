@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     this.get('tree').send('move',
       srcId,
       this.get('position'),
-      this.get('node.id')
+      this.get('node.modelId')
     );
   }.on('drop')
 });

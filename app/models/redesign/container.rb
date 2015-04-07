@@ -28,6 +28,8 @@ class Redesign::Container < ActiveRecord::Base
 
   after_save :update_draft_payload
   after_save :cache_tree_depth_and_path
+  after_save :recache_parent_container_child_containers_count
+  after_destroy :recache_parent_container_child_containers_count
 
   validate :validate_draft_payload
 
@@ -73,6 +75,19 @@ class Redesign::Container < ActiveRecord::Base
 
   def child_containers
     Redesign::Container.where(parent_container_id: id)
+  end
+
+  def branch_ids
+    tree_path.to_s.split(',').map(&:to_i)
+  end
+
+  def recache_parent_container_child_containers_count
+    return unless parent_container
+    parent_container.cache_child_containers_count
+  end
+
+  def cache_child_containers_count
+    update_column :child_containers_count, child_containers.count
   end
 
   def cache_tree_depth_and_path

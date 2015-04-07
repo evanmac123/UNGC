@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150406182323) do
+ActiveRecord::Schema.define(version: 20150407204338) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -759,16 +759,17 @@ ActiveRecord::Schema.define(version: 20150406182323) do
   end
 
   create_table "redesign_containers", force: :cascade do |t|
-    t.integer  "layout",              limit: 4,                 null: false
-    t.string   "slug",                limit: 255, default: "/", null: false
-    t.integer  "parent_container_id", limit: 4
-    t.integer  "public_payload_id",   limit: 4
-    t.integer  "draft_payload_id",    limit: 4
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.string   "path",                limit: 255
-    t.integer  "depth",               limit: 4,   default: 0,   null: false
-    t.string   "tree_path",           limit: 255, default: "",  null: false
+    t.integer  "layout",                 limit: 4,                 null: false
+    t.string   "slug",                   limit: 255, default: "/", null: false
+    t.integer  "parent_container_id",    limit: 4
+    t.integer  "public_payload_id",      limit: 4
+    t.integer  "draft_payload_id",       limit: 4
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.string   "path",                   limit: 255
+    t.integer  "depth",                  limit: 4,   default: 0,   null: false
+    t.string   "tree_path",              limit: 255, default: "",  null: false
+    t.integer  "child_containers_count", limit: 4,   default: 0,   null: false
   end
 
   add_index "redesign_containers", ["depth"], name: "index_redesign_containers_on_depth", using: :btree

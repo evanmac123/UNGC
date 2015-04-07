@@ -47,7 +47,7 @@ export default Ember.Component.extend({
 
     this.sendAction('drop', {
       sourceId: srcId,
-      destId: this.get('node.id'),
+      destId: this.get('node.modelId'),
       position: this.get('mightDrop')
     });
 

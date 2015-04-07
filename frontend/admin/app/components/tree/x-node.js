@@ -66,7 +66,7 @@ export default Ember.Component.extend({
   }),
 
   saveState() {
-    var id    = this.get('node.id');
+    var id    = this.get('node.modelId');
     var store = this.getStore();
 
     if (!id) {
@@ -81,7 +81,7 @@ export default Ember.Component.extend({
   },
 
   loadState: function() {
-    var id = this.get('node.id');
+    var id = this.get('node.modelId');
     var store = this.getStore();
     var state;
 
