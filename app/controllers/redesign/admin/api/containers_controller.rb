@@ -48,8 +48,17 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
   end
 
   def index
-    containers = Redesign::Container.order(:layout, :slug).load
-    render_json data: containers.map(&method(:serialize))
+    scope = Redesign::Container.order(:layout, :slug)
+
+    containers = if (val = (params[:depth] || params[:depths]))
+      scope.where(depth: val.split(',').map(&:to_i))
+    elsif (val = (params[:parent_container] || params[:parent_containers]))
+      scope.where(parent_container_id: val.split(',').map(&:to_i))
+    else
+      scope
+    end
+
+    render_json data: containers.load.map(&method(:serialize))
   end
 
   private
