@@ -23,11 +23,14 @@
 fieldset.filter-lists
   position: relative
   padding: 0 0 1em
-  border-bottom: 1px solid color('light-grey')
   +clearfix
 
 .reset-and-submit
   display: none
+
+.results-count
+  font-size: 1.25em
+  margin: .5em 0 0
 
 .sorting
   float: right
@@ -43,66 +46,3 @@ fieldset.filter-lists
 
   #filter-content-type
     margin-right: 5%
-
-fieldset.active-filters
-  float: left
-  width: 70%
-
-  h2,
-  .active-filters-list
-    display: inline-block
-    vertical-align: top
-
-  h2
-    width: 15%
-    padding: .75em 0 0
-    font-size: 1.125em
-
-  .active-filters-list
-    list-style: none
-    padding: 1em 0 0 .25em
-    width: 84%
-
-  .active-filter
-    display: inline-block
-    position: relative
-    padding: 0 0 0 .75em
-    margin: 0 .25em .5em 0
-    background-color: color('pastel-blue')
-    color: white
-    font-weight: 700
-    opacity: 1
-    +transition-property(background-color transform opacity)
-    +transition-duration(250ms)
-    +transform(scale3d(1, 1, 1))
-
-    &.removing
-      background-color: color('pastel-red')
-      opacity: 0
-      +transform(scale3d(0, 0, 0))
-
-    .active-filter-name,
-    .remove-active-filter
-      display: inline-block
-      font-size: inherit
-      border: 0
-      margin: 0
-      background-color: transparent
-      vertical-align: middle
-
-    .active-filter-name,
-      padding: 0
-      line-height: inherit
-
-    .remove-active-filter
-      padding: 0 .5em
-      line-height: 1.8em
-
-    &:hover .remove-active-filter
-      background-color: darken(color('pastel-blue'), 5%)
-
-    .remove-active-filter
-      &:hover,
-      &:active
-        background-color: color('pastel-red')
-        color: white

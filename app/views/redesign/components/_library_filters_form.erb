@@ -8,42 +8,28 @@
 
 
   <fieldset class='filter-lists'>
-    <button class='filter-options-list-trigger' data-filter='issue_areas'>Issues</button>
-    <%= render 'redesign/components/filter_options_list', filter: 'issue_areas', child_filter: 'issues', options: @search.issue_options %>
+    <%= render 'redesign/components/filter_options_list', label: 'Issues', filter: 'issue_areas', child_filter: 'issues', options: @search.issue_options %>
 
-    <button class='filter-options-list-trigger' data-filter='topic_groups'>Topics</button>
-    <%= render 'redesign/components/filter_options_list', filter: 'topic_groups', child_filter: 'topics', options: @search.topic_options %>
+    <%= render 'redesign/components/filter_options_list', label: 'Topics', filter: 'topic_groups', child_filter: 'topics', options: @search.topic_options %>
 
-    <button class='filter-options-list-trigger' data-filter='languages'>Languages</button>
-    <%= render 'redesign/components/filter_options_list', filter: 'languages', options: @search.language_options %>
+    <%= render 'redesign/components/filter_options_list', label: 'Languages', filter: 'languages', options: @search.language_options %>
 
-    <button class='filter-options-list-trigger' data-filter='sector_groups'>Sectors</button>
-    <%= render 'redesign/components/filter_options_list', filter: 'sector_groups', child_filter: 'sectors', options: @search.sector_options %>
+    <%= render 'redesign/components/filter_options_list', label: 'Sectors', filter: 'sector_groups', child_filter: 'sectors', options: @search.sector_options %>
   </fieldset>
+
+  <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters %>
+
 
   <fieldset class='sorting'>
-    <%= f.select :content_type, @search.type_options, {include_blank: 'Type'}, {id: 'filter-content-type'} %>
+      <%= f.select :content_type, @search.type_options, {include_blank: 'Type'}, {id: 'filter-content-type'} %>
 
-    <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: 'filter-sort-order'} %>
-
-    <div class='reset-and-submit'>
-      <%= f.submit 'Clear', type: 'reset' %>
-      <%= f.submit 'Search', id: 'our-search' %>
-    </div>
+      <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: 'filter-sort-order'} %>
   </fieldset>
 
-  <%- if @search.active_filters.any? -%>
-  <fieldset class='active-filters'>
-    <h2>Active Filters:</h2>
-    <ol class='active-filters-list'>
-      <%- @search.active_filters.each do |filter| -%>
-        <li class='active-filter'>
-          <span class='active-filter-name'><%= filter.name %></span>
-          <button class='remove-active-filter' data-filter-id="<%= filter.id -%>" data-filter-type="<%= filter.type -%>">&times;</button>
-        </li>
-      <%- end -%>
-    </ol>
-  </fieldset>
-  <%- end -%>
+  <div class='reset-and-submit'>
+    <%= f.submit 'Clear', type: 'reset' %>
+    <%= f.submit 'Search', id: 'our-search' %>
+  </div>
 
+  <%= content_tag(:p, "<strong>#{@results.total_entries}</strong> results".html_safe, class: 'results-count') if @results.any? %>
 <%- end -%>

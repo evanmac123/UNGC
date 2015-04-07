@@ -53,51 +53,56 @@
       +triangle(1.5em, rgba(color('dark-grey'), .975), up)
 
 .filter-options-list
+  position: relative
+  top: 0
+  padding: 0 0 0 1em
+  margin: 0
+  list-style: none
+  background-color: transparent
+
+  .filter-option
+    display: block
+    width: auto
+    padding: 0
+    overflow: hidden
+
+  input[type='checkbox']
+    position: absolute
+    top: -3em
+    left: -3em
+
+    &:checked + label
+      color: white
+      font-weight: 700
+
+.filter-parent-options-list
   display: none
   position: absolute
   top: 3.35em
   left: 0
   right: 0
+  padding: 1em
   background-color: rgba(color('dark-grey'), .975)
   color: color('light-grey')
-  list-style: none
-  padding: 1em
-  margin: 0
   z-index: 999
 
-  &.is-active,
-  .filter-options-list
+  &.is-active
     display: block
 
-  .filter-options-list
-    position: relative
-    top: 0
-    padding: 0 0 0 1em
-    background-color: transparent
-    z-index: 1
-
-  .filter-option
+  > .filter-option
     position: relative
     display: inline-block
     vertical-align: top
     width: 32%
-    overflow: hidden
     font:
       size: 1.25em
       weight: 500
     padding: 1em
 
-    input[type='checkbox']
-      position: absolute
-      top: -3em
-      left: -3em
+  &[data-filter='languages'] > .filter-option
+    width: 19%
+    font-size: 1em
 
-      &:checked + label
-        color: white
-        font-weight: 700
-
-    .filter-option
-      display: block
-      width: auto
-      font-size: .8em
-      padding: 0
+.filter-child-options-list
+  .filter-option
+    font-size: .8em

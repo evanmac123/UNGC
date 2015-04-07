@@ -1,8 +1,5 @@
 <%= render partial: 'redesign/components/library_filters_form' %>
 
-<h2>Results</h2>
-<%= "#{@results.total_entries} results." %>
-
 <%= render partial: 'redesign/components/resources_list', locals: {resources: @results} %>
 
 <%= will_paginate @results %>
