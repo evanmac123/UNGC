@@ -87,7 +87,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "UN Global Compact COP Deadline - 90 Days"
   end
 
@@ -96,7 +96,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "UN Global Compact COP Deadline - 30 Days"
   end
 
@@ -105,8 +105,8 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
-      :subject => "UN Global Compact COP Deadline - #{@organization.cop_due_on.strftime('-%e %B, %Y')} 23:00 UTC"
+      :bcc => ['archive@unglobalcompact.org'],
+      :subject => "UN Global Compact COP Deadline - #{@organization.cop_due_on.strftime('%e %B, %Y')} 23:00 UTC"
   end
 
   def cop_due_yesterday(organization)
@@ -114,7 +114,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "UN Global Compact COP Deadline - Non-Communicating COP Status"
   end
 
@@ -123,7 +123,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "#{@organization.name} at risk of expulsion from UN Global Compact - 9 months"
   end
 
@@ -132,7 +132,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "#{@organization.name} at risk of expulsion from UN Global Compact - 3 months"
   end
 
@@ -141,7 +141,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "#{@organization.name} at risk of expulsion from UN Global Compact - 1 month"
   end
   
@@ -150,7 +150,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "#{@organization.name} at risk of expulsion from UN Global Compact - 1 week"
   end
 
@@ -159,7 +159,7 @@ class CopMailer < ActionMailer::Base
     mail \
       :to => organization.contacts.contact_points.collect(&:email_recipient),
       :cc => organization.network_report_recipients.collect(&:email_recipient),
-      :bcc => ['vkeesari@yahoo.com', 'archive@unglobalcompact.org'],
+      :bcc => ['archive@unglobalcompact.org'],
       :subject => "#{@organization.name} expelled from the UN Global Compact"
   end
 
