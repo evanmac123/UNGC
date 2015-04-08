@@ -6,7 +6,8 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
     Resource.stubs(search: stub(
       total_entries: 0,
       total_pages: 0,
-      each: stub()
+      each: stub(),
+      any?: true
     ))
   end
 

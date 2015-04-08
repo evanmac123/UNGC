@@ -5,6 +5,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
     set_current_container :landing, '/redesign/our-library'
     @search = Redesign::LibrarySearchForm.new
     @page = ExploreOurLibraryPage.new(current_container, current_payload_data)
+    @results = []
   end
 
   def show
