@@ -59,27 +59,41 @@ class Redesign::ContainerTest < ActiveSupport::TestCase
   end
 
   should 'cache a count of its immediate child containers' do
-    container0 = create_container!
-
-    assert_equal 0, container0.child_containers_count
-
-    container1 = create_container!(parent_container_id: container0.id)
-    container0.reload
-
-    assert_equal 1, container0.child_containers_count
-    assert_equal 0, container1.child_containers_count
-
+    container1 = create_container!
     container2 = create_container!(parent_container_id: container1.id)
-    container0.reload
-    container1.reload
+    container3 = create_container!(parent_container_id: container2.id)
+    container4 = create_container!(parent_container_id: container3.id)
 
-    assert_equal 1, container0.child_containers_count
+    container1.reload
+    container2.reload
+    container3.reload
+    container4.reload
+
     assert_equal 1, container1.child_containers_count
-    assert_equal 0, container2.child_containers_count
+    assert_equal 1, container2.child_containers_count
+    assert_equal 1, container3.child_containers_count
+    assert_equal 0, container4.child_containers_count
 
-    container2.destroy
+    container4.update!(parent_container_id: container1.id)
+
     container1.reload
+    container2.reload
+    container3.reload
 
-    assert_equal 0, container1.child_containers_count
+    assert_equal 2, container1.child_containers_count
+    assert_equal 1, container2.child_containers_count
+    assert_equal 0, container3.child_containers_count
+    assert_equal 0, container4.child_containers_count
+
+    container2.destroy!
+
+    container1.reload
+    container3.reload
+    container4.reload
+
+    assert_equal container1.id, container3.parent_container_id
+    assert_equal 2, container1.child_containers_count
+    assert_equal 0, container3.child_containers_count
+    assert_equal 0, container4.child_containers_count
   end
 end

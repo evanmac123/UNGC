@@ -26,9 +26,14 @@ class Redesign::Container < ActiveRecord::Base
 
   has_many :payloads, class_name: 'Redesign::Payload'
 
+  before_save :schedule_notify_previous_parent_of_child_association_change
+
   after_save :update_draft_payload
   after_save :cache_tree_depth_and_path
   after_save :recache_parent_container_child_containers_count
+  after_save :notify_previous_parent_of_child_association_change
+
+  after_destroy :reassociate_child_containers_to_next_parent
   after_destroy :recache_parent_container_child_containers_count
 
   validate :validate_draft_payload
@@ -105,6 +110,24 @@ class Redesign::Container < ActiveRecord::Base
     end
 
     child_containers.find_each(&:cache_tree_depth_and_path)
+  end
+
+  def reassociate_child_containers_to_next_parent
+    child_containers.update_all(parent_container_id: parent_container_id)
+    true
+  end
+
+  def schedule_notify_previous_parent_of_child_association_change
+    return unless parent_container_id_changed?
+    return unless previous_parent_id = parent_container_id_was
+    @previous_parent = Redesign::Container.find(previous_parent_id)
+    true
+  end
+
+  def notify_previous_parent_of_child_association_change
+    return unless @previous_parent
+    @previous_parent.cache_child_containers_count
+    true
   end
 
   protected
