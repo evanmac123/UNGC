@@ -1,11 +1,10 @@
 class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiController
   def create
-    return unless data = validate_layout_data!
-
     container = Redesign::Container.create(
-      slug:   container_params[:slug] || '/',
       layout: container_params[:layout],
-      data:   data
+      slug:   container_params[:slug] || '/',
+      path:   container_params[:public_path],
+      parent_container_id: container_params[:parent_container_id]
     )
 
     if container.valid?

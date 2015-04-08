@@ -1,30 +1,8 @@
 <form class="form-horizontal">
   <fieldset>
     <legend>
-      {{#if model.layouts}}
-        Create Page
-      {{else}}
-        Edit Page
-      {{/if}}
+      Edit Page
     </legend>
-
-    {{#if model.layouts}}
-      <div class="form-group">
-        <label for="layout" class="control-label col-sm-2">
-          Layout
-        </label>
-        <div class="col-sm-10">
-          {{fast-select
-            items=model.layouts
-            selected=model.container.layoutRecord
-            labelPath="label"
-            valuePath="id"
-            class="form-control"
-            changed="changedContainerLayout"
-            id="layout"}}
-        </div>
-      </div>
-    {{/if}}
   </fieldset>
 
   <fieldset>
@@ -45,11 +23,7 @@
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button class="btn btn-primary" {{action "saveDraft" model.container}}>
-          {{#if model.layouts}}
-            Create
-          {{else}}
-            Save
-          {{/if}}
+          Save
         </button>
 
         {{#if model.container.id}}
@@ -63,6 +37,7 @@
         </a>
       </div>
     </div>
+
     {{#each flashMessages.queue as |flash|}}
       {{flash-message flash=flash}}
     {{/each}}

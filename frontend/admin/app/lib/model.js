@@ -43,14 +43,14 @@ var Model = Ember.Object.extend({
     }
   }.property('id'),
 
-  postData() {
+  postData(opts = {}) {
     if (this.get('id')) {
       throw 'can\'t post already created resource';
     }
 
     return this.xhr({
       type: 'POST',
-      data: this.asJSON()
+      data: this.asJSON(opts)
     }).then(
       (res) => {
         this.setPropertiesFromJSON(res.data);
@@ -59,14 +59,14 @@ var Model = Ember.Object.extend({
     );
   },
 
-  putData() {
+  putData(opts = {}) {
     if (!this.get('id')) {
       throw 'can\'t put non-existant resource';
     }
 
     return this.xhr({
       type: 'PUT',
-      data: this.asJSON()
+      data: this.asJSON(opts)
     });
   },
 
@@ -90,16 +90,16 @@ var Model = Ember.Object.extend({
     });
   },
 
-  save() {
+  save(opts = {}) {
     var id = this.get('id');
     var promise;
 
     this.get('errors').clear();
 
     if (Ember.isNone(id)) {
-      promise = this.postData();
+      promise = this.postData(opts);
     } else {
-      promise = this.putData();
+      promise = this.putData(opts);
     }
 
     return promise.then(
@@ -131,9 +131,10 @@ var Model = Ember.Object.extend({
     this.get('errors').pushObjects(errors);
   },
 
-  asJSON() {
+  asJSON(opts = {}) {
     var json = {};
     var id;
+    var without = opts.without || [];
 
     if (id = this.get('id')) {
       json.id = id;
@@ -145,7 +146,7 @@ var Model = Ember.Object.extend({
       this.constructor.attributes.reduce((attrs, attr) => {
         var val = this.get(attr);
 
-        if (val !== undefined) {
+        if (val !== undefined && !without.contains(attr)) {
           attrs[attr] = pojoize(val);
         }
 

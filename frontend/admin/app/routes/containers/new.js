@@ -3,31 +3,59 @@ import Layout from 'admin/models/layout';
 import Container from 'admin/models/container';
 
 export default Ember.Route.extend({
-  model() {
+  model(params) {
+    var tree = this.modelFor('containers.index');
+    var parent;
+
+    if ('root' === params.parent_container) {
+      parent = null;
+    } else if (tree) {
+      parent = tree.containerForId(params.parent_container);
+    } else {
+      parent = Container.get(params.parent_container);
+    }
+
     return Ember.RSVP.hash({
       layouts:   Layout.get(),
-      container: Container.create()
+      container: Container.create(),
+      parentContainer: parent
     });
   },
 
   afterModel(model) {
     var layout = model.layouts.get('firstObject');
     model.container.set('layoutRecord', layout);
+    model.container.set('slug', '/');
+
+    if (model.parentContainer) {
+      model.container.set('publicPath', model.parentContainer.get('publicPath') + '/');
+      model.container.set('parentContainerId', model.parentContainer.get('id'));
+    } else {
+      model.container.set('publicPath', '/');
+    }
   },
 
   renderTemplate() {
-    this.render('containers/form');
+    this.render('containers.new', {
+      into: 'containers',
+      outlet: 'newModal'
+    });
   },
 
   actions: {
-    saveDraft(record) {
-      record.save().then((container) => {
-        this.transitionTo('containers.edit', container);
-      }, () => { });
+    dismiss() {
+      this.disconnectOutlet({
+        outlet: 'newModal',
+        parentView: 'containers'
+      });
+
+      this.transitionTo('containers.index');
     },
 
-    changedContainerLayout() {
-      this.modelFor('containers.new').container.set('data', Ember.Object.create());
+    createContainer(record) {
+      record.save({ without: ['data'] }).then((container) => {
+        this.transitionTo('containers.edit', container.get('id'));
+      }, () => { });
     }
   }
 });

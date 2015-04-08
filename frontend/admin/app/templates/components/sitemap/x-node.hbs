@@ -16,19 +16,23 @@
   </span>
 
   <span class="node-actions">
-    <button class="btn btn-sm btn-success">Insert</button>
+    <button {{action "insert"}} class="btn btn-sm btn-success">
+      Insert
+    </button>
     <a href="/redesign{{node.model.publicPath}}" target="_blank" class="btn btn-sm btn-primary">
       View
     </a>
-    <button class="btn btn-sm btn-warning">Move</button>
+    <button class="btn btn-sm btn-warning">
+      Move
+    </button>
   </span>
 </div>
 
 {{#if node.nodes}}
   {{#if isOpen}}
     <ul class="sitemap-x-node-subnodes">
-      {{#each node.nodes as |node|}}
-        {{sitemap/x-node tree=tree node=node isSubnode=true}}
+      {{#each node.nodes as |n|}}
+        {{sitemap/x-node tree=tree node=n isSubnode=true insert="subinsert"}}
       {{/each}}
     </ul>
   {{/if}}

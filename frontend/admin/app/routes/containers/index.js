@@ -12,6 +12,14 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    addContainer(parentContainer) {
+      if (parentContainer) {
+        this.transitionTo('containers.new', parentContainer.get('id'));
+      } else {
+        this.transitionTo('containers.new', 'root');
+      }
+    },
+
     moveNodes(sourceNodeId, position, targetNodeId) {
       var sourceNode = this.findNode(sourceNodeId);
       var targetNode = this.findNode(targetNodeId);

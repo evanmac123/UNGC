@@ -30,8 +30,10 @@ Container.path = '/redesign/admin/api/containers';
 Container.type = 'container';
 Container.attributes = [
   'slug',
+  'publicPath',
   'layout',
-  'data'
+  'parentContainerId',
+  'data',
 ];
 
 export default Container;

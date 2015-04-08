@@ -28,6 +28,7 @@ export default Ember.Object.extend({
 
     node.set('model', container);
     node.set('hasDescendants', container.get('childContainersCount') > 0);
+    this.containersById[id] = container;
 
     if (parentId) {
       parentNode = this.nodeForContainerId(parentId);
@@ -35,6 +36,10 @@ export default Ember.Object.extend({
     } else {
       this.get('nodes').pushObject(node);
     }
+  },
+
+  containerForId(id) {
+    return this.containersById[id];
   },
 
   nodeForContainerId(id) {

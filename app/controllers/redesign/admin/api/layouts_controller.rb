@@ -1,9 +1,24 @@
 class Redesign::Admin::Api::LayoutsController < Redesign::Admin::ApiController
   LAYOUTS = {
-    home:  HomeLayout,
-    about: AboutLayout,
-    article: ArticleLayout
+    article:   ArticleLayout,
+    highlight: HighlightLayout,
+    home:      HomeLayout,
+    landing:   LandingLayout
   }
+
+  # TODO:
+  # :action_detail,
+  # :directory,
+  # :engage_locally,
+  # :event,
+  # :event_detail,
+  # :issue,
+  # :library,
+  # :list,
+  # :ln_profile,
+  # :news,
+  # :pr_list,
+  # :tile_grid,
 
   def index
     render_json data: LAYOUTS.values.map(&method(:serialize))

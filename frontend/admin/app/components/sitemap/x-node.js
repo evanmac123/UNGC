@@ -15,6 +15,15 @@ export default Ember.Component.extend({
       }
 
       this.saveState();
+    },
+
+    insert() {
+      this.sendAction('insert', this.get('node'));
+    },
+
+    // Because recursive rendering
+    subinsert(subnode) {
+      this.sendAction('insert', subnode);
     }
   },
 

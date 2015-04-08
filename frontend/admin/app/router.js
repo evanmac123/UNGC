@@ -8,7 +8,7 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.resource('containers', { path: '/' }, function() {
-    this.route('new', { path: '/containers/new' });
+    this.route('new', { path: '/containers/new/in/:parent_container' });
     this.route('edit', { path: '/containers/:container_id' });
   });
 });

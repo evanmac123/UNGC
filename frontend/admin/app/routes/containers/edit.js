@@ -10,20 +10,16 @@ export default Ember.Route.extend({
     });
   },
 
-  renderTemplate() {
-    this.render('containers/form');
-  },
-
   actions: {
     saveDraft(container) {
       container.save().then( () => {
-        Ember.get(this, 'flashMessages').success('Draft Saved!');
+        this.get('flashMessages').success('Draft Saved!');
       }, (error) => {
         if (error.status) {
-          Ember.get(this, 'flashMessages').danger(error.statusText);
+          this.get('flashMessages').danger(error.statusText);
           throw error.toString();
         } else {
-          Ember.get(this, 'flashMessages').danger('Validation Error!');
+          this.get('flashMessages').danger('Validation Error!');
         }
       });
     },
