@@ -19,7 +19,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     return unless data = validate_layout_data!
 
     container = Redesign::Container.find(params[:id])
-    if container.update(data)
+    if container.update(data: data)
       render text: '', status: 204
     else
       render_container_errors(container)
