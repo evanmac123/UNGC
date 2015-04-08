@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150407204338) do
+ActiveRecord::Schema.define(version: 20150408213152) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -941,6 +941,10 @@ ActiveRecord::Schema.define(version: 20150407204338) do
     t.datetime "attachment_updated_at"
     t.string   "attachment_unmodified_filename", limit: 255
     t.string   "attachable_key",                 limit: 255
+  end
+
+  create_table "uploaded_images", force: :cascade do |t|
+    t.string "url", limit: 255, null: false
   end
 
   add_foreign_key "issues", "issues", column: "issue_area_id"

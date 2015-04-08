@@ -27,6 +27,9 @@ UNGC::Application.routes.draw do
           get :issues, on: :collection
           get :sectors, on: :collection
         end
+        resources :images, only: [:create, :signed_url] do
+          post :signed_url, on: :collection
+        end
         resources :resources, only: [:index]
         resources :containers do
           post :publish, on: :member

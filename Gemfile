@@ -44,6 +44,7 @@ gem 'databasedotcom'
 gem 'rails-observers'
 
 gem 'ranked-model',         '~> 0.4.0'
+gem 'fog'
 
 group :development do
   gem 'rerun'
