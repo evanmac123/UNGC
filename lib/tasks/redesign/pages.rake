@@ -1,7 +1,7 @@
 namespace :redesign do
 
   desc "create stub pages to fill out the site map"
-  task :create_sitemap do
+  task create_sitemap: :environment do
     Redesign::Container.delete_all
     root = Node.new
 
