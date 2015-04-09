@@ -29,7 +29,6 @@ class Redesign::Container < ActiveRecord::Base
   before_save :schedule_notify_previous_parent_of_child_association_change
 
   after_save :update_draft_payload
-  after_save :cache_tree_depth_and_path
   after_save :recache_parent_container_child_containers_count
   after_save :notify_previous_parent_of_child_association_change
 
@@ -99,23 +98,6 @@ class Redesign::Container < ActiveRecord::Base
     update_column :child_containers_count, child_containers.count
   end
 
-  def cache_tree_depth_and_path
-    ids       = []
-    container = self
-
-    while container
-      ids.insert(0, container.id)
-      container = container.parent_container
-    end
-
-    transaction do
-      update_column :tree_path, ids.join('.')
-      update_column :depth, (ids.size - 1)
-    end
-
-    child_containers.find_each(&:cache_tree_depth_and_path)
-  end
-
   def reassociate_child_containers_to_next_parent
     child_containers.update_all(parent_container_id: parent_container_id)
     true
@@ -142,7 +124,7 @@ class Redesign::Container < ActiveRecord::Base
     if draft_payload
       draft_payload.update(data: @draft_payload_data)
     else
-      update(draft_payload: payloads.create!(data: @draft_payload_data))
+      update_column :draft_payload_id, payloads.create!(data: @draft_payload_data).id
     end
   end
 
@@ -150,5 +132,4 @@ class Redesign::Container < ActiveRecord::Base
     return true unless @draft_payload_errors
     errors.add :data, 'is not a valid payload'
   end
-
 end

@@ -16,6 +16,10 @@ export default Ember.Object.extend({
     return this.get('nodes.length') === 0 && this.get('hasDescendants');
   }),
 
+  addChild(node) {
+    this.get('nodes').addObject(node);
+  },
+
   load: function() {
     var promise;
     var tree = this.get('tree');

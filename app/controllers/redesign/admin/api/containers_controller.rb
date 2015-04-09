@@ -1,11 +1,6 @@
 class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiController
   def create
-    container = Redesign::Container.create(
-      layout: container_params[:layout],
-      slug:   container_params[:slug] || '/',
-      path:   container_params[:public_path],
-      parent_container_id: container_params[:parent_container_id]
-    )
+    container = Redesign::Container.create(container_create_params)
 
     if container.valid?
       render_json data: serialize(container), status: 200
@@ -15,11 +10,16 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
   end
 
   def update
-    return unless data = validate_layout_data!
+    update_params = container_update_params
+
+    if container_params[:data]
+      return unless data = validate_layout_data!
+      update_params[:data] = data
+    end
 
     container = Redesign::Container.find(params[:id])
 
-    if container.update(data: data)
+    if container.update(update_params)
       render text: '', status: 204
     else
       render_container_errors(container)
@@ -49,8 +49,8 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
   def index
     scope = Redesign::Container.order(:layout, :slug)
 
-    containers = if (val = (params[:depth] || params[:depths]))
-      scope.where(depth: val.split(',').map(&:to_i))
+    containers = if params[:root]
+      scope.where(parent_container_id: nil)
     elsif (val = (params[:parent_container] || params[:parent_containers]))
       scope.by_ids_with_descendants(val.split(',').map(&:to_i))
     else
@@ -79,6 +79,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
   end
 
   def validate_layout_data!
+
     if Redesign::Container.layouts[container_params[:layout]]
       layout_class = "#{container_params[:layout]}_layout".classify.constantize
     else
@@ -106,5 +107,28 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
 
   def container_params
     params.require(:data).permit!
+  end
+
+  def container_create_params
+    p = container_params
+
+    {
+      layout: p[:layout],
+      slug:   p[:slug] || '/',
+      path:   p[:public_path],
+      parent_container_id: p[:parent_container_id]
+    }
+  end
+
+  def container_update_params
+    h = {}
+    p = container_params
+
+    h[:slug] = p[:slug] if p[:slug].present?
+    h[:path] = p[:public_path] if p[:public_path].present?
+    h[:parent_container_id] = p[:parent_container_id] if p.key?(:parent_container_id)
+    h[:data] = p[:data] if p.key?(:data)
+
+    h
   end
 end

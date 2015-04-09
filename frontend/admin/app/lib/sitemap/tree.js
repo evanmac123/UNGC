@@ -39,7 +39,7 @@ export default Ember.Object.extend({
     if (ids.length) {
       promise = Container.get({ parent_containers: ids.join(',') });
     } else {
-      promise = Container.get({ depth: '0,1' });
+      promise = Container.get({ root: true });
     }
 
     promise.then((containers) => {
@@ -47,28 +47,28 @@ export default Ember.Object.extend({
     });
   },
 
-  reset() {
+  refresh() {
     this.get('nodes').clear();
     this.nodesByContainerId = {};
     this.load();
   },
 
   moveContainer(src, dest, pos) {
-    if ('above' === pos) {
-      dest.
-      sitemap.moveNodeAboveNode(src, dest);
-    } else if ('below' === pos) {
-      sitemap.moveNodeBelowNode(src, dest);
+    // TODO: If ordering is desired above/below become useful
+    if ('above' === pos || 'below' === pos) {
+      src.set('parentContainerId', dest.get('parentContainerId'));
     } else {
-      sitemap.moveNodeInsideNode(src, dest);
+      src.set('parentContainerId', dest.get('id'));
     }
+
+    src.save({ without: ['data'] }).then(() => this.refresh());
   },
 
   addContainer(container) {
     var id       = container.get('id');
     var parentId = container.get('parentContainerId');
     var node     = this.nodeForContainerId(id);
-    var parentNode;
+    var nodes, parentNode;
 
     node.set('model', container);
     node.set('tree', this);
@@ -77,9 +77,9 @@ export default Ember.Object.extend({
 
     if (parentId) {
       parentNode = this.nodeForContainerId(parentId);
-      parentNode.get('nodes').pushObject(node);
+      parentNode.addChild(node);
     } else {
-      this.get('nodes').pushObject(node);
+      this.get('nodes').addObject(node);
     }
   },
 

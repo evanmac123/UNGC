@@ -2,7 +2,6 @@ class ContainerSerializer < ApplicationSerializer
   def attributes
     h = super
     h[:slug]                   = object.slug || '/'
-    h[:depth]                  = object.depth
     h[:layout]                 = object.layout
     h[:parent_container_id]    = object.parent_container_id
     h[:public_payload_id]      = object.public_payload_id
