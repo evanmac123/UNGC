@@ -1,2 +1,17 @@
 #!/bin/sh
+
+# moved here from the original RM implementation (that was failing with error 'indexer not found')
+# XXX environment should be parametric
+#  def sphinx_cron
+#    # Custom Sphinx cron job to add nice
+#    current_rails_root = "#{configuration[:deploy_to]}/current"
+#    thinking_sphinx_index = "(date && cd #{current_rails_root} && RAILS_ENV=#{rails_env} nice -n19 bundle exec rake ts:index) >> #{current_rails_root}/log/cron-thinking_sphinx-index.log 2>&1"
+#    cron_options = {
+#      :command => thinking_sphinx_index,
+#      :user => configuration[:user],
+#      :minute => 35
+#    }
+#
+#    cron "ts:index", cron_options
+#  end
 (date && cd /srv/unglobalcompact/current && RAILS_ENV=production nice -n19 bundle exec rake ts:index) >> /srv/unglobalcompact/current/log/cron-thinking_sphinx-index.log 2>&1
