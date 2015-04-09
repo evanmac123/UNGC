@@ -52,31 +52,22 @@ class Redesign::LibrarySearchForm
   end
 
   def issue_options
-    @issue_options ||= Issue.where(type: nil)
-      .includes(:issue_area)
-      .select([:id, :issue_area_id, :name])
-      .group(:issue_area_id, :id)
-      .group_by do |issue|
-        area = issue.issue_area
-        Filter.new(area.id, :issue_area, area.name, issue_areas.has_key?(area.id.to_s))
-      end
-      .map do |group_name, values|
-        [group_name, values.map { |issue|
-          Filter.new(
-            issue.id, :issue,
-            issue.name, issues.has_key?(issue.id.to_s))
-        }]
+    @issue_options ||= Redesign::IssueTree.new.map do |area, children|
+      [
+        Filter.new(area.id, :issue_area, area.name, issue_areas.has_key?(area.id.to_s)),
+        children.map { |issue|
+          Filter.new(issue.id, :issue, issue.name, issues.has_key?(issue.id.to_s))
+        }
+      ]
       end
   end
 
   def topic_options
-    @topic_options ||= Redesign::TopicHierarchy.new.map do |parent, children|
+    @topic_options ||= Redesign::TopicTree.new.map do |parent, children|
         [
           Filter.new(parent.id, :topic_group, parent.name, topic_groups.has_key?(parent.id.to_s)),
           children.map { |topic|
-            Filter.new(
-              topic.id, :topic,
-              topic.name, topics.has_key?(topic.id.to_s))
+            Filter.new(topic.id, :topic, topic.name, topics.has_key?(topic.id.to_s))
           }
         ]
       end
@@ -91,19 +82,14 @@ class Redesign::LibrarySearchForm
   end
 
   def sector_options
-    @sector_options ||= Sector.where.not(parent_id:nil)
-      .includes(:parent)
-      .select([:id, :parent_id, :name])
-      .group(:parent_id, :id)
-      .group_by do |sector|
-        parent = sector.parent
-        Filter.new(parent.id, :sector_group, parent.name, sector_groups.has_key?(parent.id.to_s))
-      end
-      .map do |group_name, values|
-        [group_name, values.map {|sector|
+    @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
+      [
+        Filter.new(parent.id, :sector_group, parent.name, sector_groups.has_key?(parent.id.to_s)),
+        children.map { |sector|
           Filter.new(sector.id, :sector, sector.name, sectors.has_key?(sector.id.to_s))
-        }]
-      end
+        }
+      ]
+    end
   end
 
   def type_options
@@ -181,6 +167,17 @@ class Redesign::LibrarySearchForm
       star: true,
       with: options
     }
+  end
+
+  private
+
+  def foo(type, group, selected_groups, selected_children)
+    [
+      Filter.new(area.id, :issue_area, area.name, issue_areas.has_key?(area.id.to_s)),
+      children.map { |issue|
+        Filter.new(issue.id, :issue, issue.name, issues.has_key?(issue.id.to_s))
+      }
+    ]
   end
 
 end

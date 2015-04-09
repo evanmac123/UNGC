@@ -27,6 +27,7 @@ class ResourceUpdater
 
       topic_taggings
       issue_taggings
+      sector_taggings
 
       true
     else
@@ -49,6 +50,14 @@ class ResourceUpdater
     resource.taggings.where('issue_id not in (?)', ids).destroy_all
     ids.each do |id|
       resource.taggings.where(issue_id: id).first_or_create!
+    end
+  end
+
+  def sector_taggings
+    ids = params.fetch(:sectors, [])
+    resource.taggings.where('sector_id not in (?)', ids).destroy_all
+    ids.each do |id|
+      resource.taggings.where(sector_id: id).first_or_create!
     end
   end
 

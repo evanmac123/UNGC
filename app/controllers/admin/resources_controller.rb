@@ -11,7 +11,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def show
-    @resource = ResourcePresenter.new(Resource.find(params[:id]))
+    @resource = ResourcePresenter.new(find_resource(params[:id]))
   end
 
   def new
@@ -19,7 +19,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def edit
-    @resource = ResourcePresenter.new(Resource.find(params[:id]))
+    @resource = ResourcePresenter.new(find_resource(params[:id]))
   end
 
   def create
@@ -33,7 +33,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def update
-    @resource = Resource.find(params[:id])
+    @resource = find_resource(params[:id])
     updater = ResourceUpdater.new(resource_params, @resource)
     if updater.submit
       redirect_to [:admin, @resource], notice: 'Resource updated.'
@@ -44,13 +44,13 @@ class Admin::ResourcesController < AdminController
   end
 
   def destroy
-    @resource = Resource.find(params[:id])
+    @resource = find_resource(params[:id])
     @resource.destroy
     redirect_to admin_resources_url, notice: 'Resource destroyed.'
   end
 
   def approve
-    @resource = Resource.find(params[:id])
+    @resource = find_resource(params[:id])
     if allowed_to_approve
       @resource.approved_by_id = current_contact.id
       @resource.approve!
@@ -61,7 +61,7 @@ class Admin::ResourcesController < AdminController
   end
 
   def revoke
-    @resource = Resource.find(params[:id])
+    @resource = find_resource(params[:id])
     if allowed_to_revoke
       @resource.revoke!
       redirect_to [:admin, @resource], notice: 'Resource revoked'
@@ -109,8 +109,13 @@ class Admin::ResourcesController < AdminController
         :language_id
       ],
       topics: [],
-      issues: []
+      issues: [],
+      sectors: []
     )
+  end
+
+  def find_resource(id)
+    Resource.preload(taggings: [:topic, :issue, :sector]).find(id)
   end
 
 end

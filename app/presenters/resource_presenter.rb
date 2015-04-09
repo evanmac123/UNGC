@@ -1,4 +1,13 @@
 class ResourcePresenter < SimpleDelegator
+
+  # topics, issue and sectors all have N+1 issues here
+  # resource.sectors is not using the eager loading we've defined
+  # TODO find a fix.
+
+  def initialize(resource)
+    super(resource)#.includes(:taggings))
+  end
+
   def content_types_for_select
     Resource.content_types.keys.map {|k| [k.humanize.titleize, k]}
   end
@@ -12,23 +21,31 @@ class ResourcePresenter < SimpleDelegator
   end
 
   def topic_options
-    selected_ids = self.topics.pluck(:id)
-    Redesign::TopicHierarchy.new.map do |group, items|
-      [group, items.map { |topic|
-        selected = selected_ids.include?(topic.id)
-        Filter.new(topic,  selected)
-      }]
+    Redesign::TopicTree.new.map do |group, items|
+      add_selections(group, items, topics)
     end
   end
 
   def issue_options
-    selected_ids = self.issues.pluck(:id)
-    Redesign::IssueHierarchy.new.map do |group, items|
-      [group, items.map { |issue|
-        selected = selected_ids.include?(issue.id)
-        Filter.new(issue,  selected)
-      }]
+    Redesign::IssueTree.new.map do |group, items|
+      add_selections(group, items, issues)
     end
+  end
+
+  def sector_options
+    Redesign::SectorTree.new.map do |group, items|
+      add_selections(group, items, sectors)
+    end
+  end
+
+  private
+
+  def add_selections(group, items, selected)
+    selected_ids = selected.pluck(:id)
+    children = Array(items).map do |item|
+      Filter.new(item, selected_ids.include?(item.id))
+    end
+    [group, children]
   end
 
   Filter = Struct.new(:model, :selected?) do

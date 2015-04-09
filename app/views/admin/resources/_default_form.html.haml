@@ -19,6 +19,8 @@
       %a{:href => '#redesign_topics'} New Topics*
     %li
       %a{:href => '#redesign_issues'} Issues*
+    %li
+      %a{:href => '#redesign_sectors'} Sectors*
 
 
   #general.tab_content
@@ -89,3 +91,13 @@
           %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
             = check_box_tag 'resource[issues][]', issue.id, issue.selected?
             = issue.name
+
+  #redesign_sectors.tab_content
+    %fieldset
+      %legend Sectors
+      - @resource.sector_options.each do |group, sectors|
+        %p= group.name
+        - sectors.each do |sector|
+          %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+            = check_box_tag 'resource[sectors][]', sector.id, sector.selected?
+            = sector.name

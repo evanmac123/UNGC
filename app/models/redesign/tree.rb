@@ -1,13 +1,7 @@
-class Redesign::IssueHierarchy
+class Redesign::Tree
 
-  def initialize
-    @relation = Issue.where(type: nil)
-      .includes(:issue_area)
-      .select([:id, :issue_area_id, :name])
-      .group(:issue_area_id, :id)
-      .group_by do |issue|
-        issue.issue_area
-      end
+  def initialize(relation)
+    @relation = relation
   end
 
   def each(&block)
