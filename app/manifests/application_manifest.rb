@@ -80,6 +80,13 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :hour => 6,
       :minute => 11,
       :ensure => :present
+
+    cron 'sphinx_index',
+      :command => '/srv/unglobalcompact/current/script/cron/sphinx_index',
+      :user => 'rails',
+      :hour => '*',
+      :minute => 40,
+      :ensure => :present
   end
 
   def sphinx_cron
