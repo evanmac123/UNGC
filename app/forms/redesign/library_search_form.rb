@@ -12,7 +12,8 @@ class Redesign::LibrarySearchForm
     :sectors,
     :content_type,
     :sort_field,
-    :page
+    :page,
+    :per_page
 
   Filter = Struct.new(:id, :type, :name, :active)
 
@@ -175,7 +176,7 @@ class Redesign::LibrarySearchForm
 
     {
       page: self.page || 1,
-      per_page: 10,
+      per_page: self.per_page || 12,
       order: order,
       star: true,
       with: options
