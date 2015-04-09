@@ -16,8 +16,7 @@ class ParticipantSearch::Form
   end
 
   def execute
-    search_results = Organization.search(keywords, options)
-    search_results.map { |r| ParticipantSearch::Result.new(r) }
+    Organization.search(keywords, options)
   end
 
   private

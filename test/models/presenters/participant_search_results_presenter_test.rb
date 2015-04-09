@@ -25,9 +25,7 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
         employees: 23
       )
 
-      presenter = create_presenter(results: [
-        ParticipantSearch::Form::Result.new(organization)
-      ])
+      presenter = create_presenter(results: [organization])
 
       output = []
       block = -> (results) {
