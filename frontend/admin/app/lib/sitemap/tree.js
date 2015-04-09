@@ -54,13 +54,20 @@ export default Ember.Object.extend({
   },
 
   moveContainer(src, dest, pos) {
-    // TODO: If ordering is desired above/below become useful
+    var currentParentId = src.get('parentContainerId');
+    var newParentId;
+
     if ('above' === pos || 'below' === pos) {
-      src.set('parentContainerId', dest.get('parentContainerId'));
+      newParentId = dest.get('parentContainerId');
     } else {
-      src.set('parentContainerId', dest.get('id'));
+      newParentId = dest.get('id');
     }
 
+    if (currentParentId === newParentId) {
+      return;
+    }
+
+    src.set('parentContainerId', newParentId);
     src.save({ without: ['data'] }).then(() => this.refresh());
   },
 
