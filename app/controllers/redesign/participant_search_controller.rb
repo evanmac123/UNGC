@@ -2,24 +2,24 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
 
   def index
     set_current_container :highlight, '/participant-search'
-    @page = page
+    @page = create_page
     @search = ParticipantSearch::Presenter.new
   end
 
   def search
-    @page = page
-    search = ParticipantSearch::Form.new(search_params)
-    results = ParticipantSearch::Search.new(search).execute
-    @search = ParticipantSearch::ResultsPresenter.new(search, results)
+    @page = create_page
+    form = ParticipantSearch::Form.new(search_params)
+    results = ParticipantSearch::Search.new(form).execute
+    @search = ParticipantSearch::ResultsPresenter.new(form, results)
   end
 
   private
 
   def search_params
-    params.require(:search)
+    params.require(:search).permit(:organization_type)
   end
 
-  def page
+  def create_page
     ParticipantSearch::Page.new(current_container, current_payload_data)
   end
 
