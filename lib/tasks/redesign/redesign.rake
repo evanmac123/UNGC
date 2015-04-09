@@ -196,4 +196,17 @@ namespace :redesign do
     end
   end
 
+  def add_participant_search
+    container = Redesign::Container.article.where(
+      slug: '/participant-search',
+      path: '/participant-search'
+    ).first_or_create!
+
+    if container.public_payload.nil?
+      payload = container.payloads.create! json_data: {}.to_json
+      container.public_payload = payload
+      container.save!
+    end
+  end
+
 end

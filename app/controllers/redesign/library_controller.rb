@@ -1,5 +1,4 @@
 class Redesign::LibraryController < Redesign::ApplicationController
-  layout 'redesign/application'
 
   def index
     set_current_container :library, '/explore-our-library'
