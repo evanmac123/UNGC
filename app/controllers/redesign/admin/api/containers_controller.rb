@@ -52,7 +52,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     containers = if (val = (params[:depth] || params[:depths]))
       scope.where(depth: val.split(',').map(&:to_i))
     elsif (val = (params[:parent_container] || params[:parent_containers]))
-      scope.where(parent_container_id: val.split(',').map(&:to_i))
+      scope.by_ids_with_descendants(val.split(',').map(&:to_i))
     else
       scope
     end

@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const STORE_KEY = 'sitemap:';
+const STORE_KEY = 'sitemap';
 
 export default Ember.Component.extend({
   tagName: 'li',
@@ -17,7 +17,8 @@ export default Ember.Component.extend({
     'isBeingDragged:being-dragged',
     'mightDropAbove',
     'mightDropBelow',
-    'mightDropInside'
+    'mightDropInside',
+    'node.isLoading:loading'
   ],
 
   startedDragging: Ember.on('dragStart', function(event) {
@@ -39,6 +40,7 @@ export default Ember.Component.extend({
         this.set('isOpen', false);
       } else {
         this.set('isOpen', true);
+        this.send('loadContainer');
       }
 
       this.saveState();
@@ -63,7 +65,16 @@ export default Ember.Component.extend({
 
     onDroppedNode(event) {
       this.set('mightDrop', null);
+      this.sendAction('onMove', event);
+    },
+
+    loadContainer() {
+      this.loadContainer();
     }
+  },
+
+  loadContainer() {
+    this.get('node').load();
   },
 
   saveState() {

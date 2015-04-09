@@ -29,7 +29,11 @@
   {{#if isOpen}}
     <ul class="sitemap-x-node-subnodes">
       {{#each node.nodes as |n|}}
-        {{sitemap/x-node tree=tree node=n isSubnode=true insert="subinsert"}}
+        {{sitemap/x-node
+          tree=tree
+          node=n
+          insert="subinsert"
+          onMove="onDroppedNode"}}
       {{/each}}
     </ul>
   {{/if}}

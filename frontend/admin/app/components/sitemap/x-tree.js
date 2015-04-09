@@ -13,6 +13,10 @@ export default Ember.Component.extend({
       }
 
       this.sendAction('addContainer', parent);
+    },
+
+    nodeMoved(action) {
+      this.sendAction('moveContainer', action);
     }
   }
 });

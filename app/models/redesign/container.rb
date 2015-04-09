@@ -42,6 +42,10 @@ class Redesign::Container < ActiveRecord::Base
     where(path: Redesign::Container.normalize_slug(path))
   }
 
+  scope :by_ids_with_descendants, ->(ids) {
+    where(arel_table[:id].in(ids).or(arel_table[:parent_container_id].in(ids)))
+  }
+
   def self.normalize_slug(raw)
     '/' + raw.to_s.downcase.strip.gsub(LEADING_OR_TRAILING_SLASH, '')
   end

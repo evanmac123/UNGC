@@ -1,6 +1,6 @@
-import Ember from 'ember';
+import Ember     from 'ember';
 import Container from 'admin/models/container';
-import Sitemap from 'admin/lib/sitemap/tree';
+import Sitemap   from 'admin/lib/sitemap/tree';
 
 export default Ember.Route.extend({
   model: function() {
@@ -12,6 +12,14 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    moveContainer(action) {
+      var sitemap     = this.modelFor('containers.index');
+      var source      = sitemap.containerForId(action.sourceId);
+      var destination = sitemap.containerForId(action.destId);
+
+      sitemap.moveContainer(source, destination, action.position);
+    },
+
     addContainer(parentContainer) {
       if (parentContainer) {
         this.transitionTo('containers.new', parentContainer.get('id'));

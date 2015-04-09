@@ -3,21 +3,65 @@ import Container from 'admin/models/container';
 import Node from './node.js';
 
 export default Ember.Object.extend({
-  depth: 1,
-
   init() {
     this.set('nodes', []);
     this.nodesByContainerId = {};
     this.containersById = {};
   },
 
-  load() {
-    var depth = this.get('depth');
+  getPreloadContainerIds() {
+    var json, data;
+    var ids = [];
 
-    Container.get().then((containers) => {
-      containers.forEach((container) => this.addContainer(container));
-      this.incrementProperty('depth');
+    if (!window.localStorage) {
+      return [];
+    }
+
+    if (!(json = localStorage.getItem('sitemap'))) {
+      return [];
+    }
+
+    data = JSON.parse(json);
+
+    Ember.keys(data).forEach((id) => {
+      if (data[id].isOpen) {
+        ids.push(id);
+      }
     });
+
+    return ids;
+  },
+
+  load() {
+    var promise;
+    var ids = this.getPreloadContainerIds();
+
+    if (ids.length) {
+      promise = Container.get({ parent_containers: ids.join(',') });
+    } else {
+      promise = Container.get({ depth: '0,1' });
+    }
+
+    promise.then((containers) => {
+      containers.forEach((container) => this.addContainer(container));
+    });
+  },
+
+  reset() {
+    this.get('nodes').clear();
+    this.nodesByContainerId = {};
+    this.load();
+  },
+
+  moveContainer(src, dest, pos) {
+    if ('above' === pos) {
+      dest.
+      sitemap.moveNodeAboveNode(src, dest);
+    } else if ('below' === pos) {
+      sitemap.moveNodeBelowNode(src, dest);
+    } else {
+      sitemap.moveNodeInsideNode(src, dest);
+    }
   },
 
   addContainer(container) {
@@ -27,6 +71,7 @@ export default Ember.Object.extend({
     var parentNode;
 
     node.set('model', container);
+    node.set('tree', this);
     node.set('hasDescendants', container.get('childContainersCount') > 0);
     this.containersById[id] = container;
 

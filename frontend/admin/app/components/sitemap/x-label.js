@@ -43,7 +43,7 @@ export default Ember.Component.extend({
     var srcId = event.dataTransfer.getData('text/x-container-id');
 
     this.sendAction('onDrop', {
-      sourceId: srcId,
+      sourceId: parseInt(srcId, 10),
       destId: this.get('node.modelId'),
       position: this.get('mightDrop')
     });
