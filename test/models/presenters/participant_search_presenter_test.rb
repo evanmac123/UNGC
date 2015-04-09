@@ -12,7 +12,7 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
     @country_names = %w(Canada France Germany)
     @country_names.map { |name| create_country name: name }
 
-    @subject = Redesign::ParticipantSearchController::ParticipantSearch::Presenter.new
+    @subject = ParticipantSearch::Presenter.new
   end
 
   should "have organization_type_options" do

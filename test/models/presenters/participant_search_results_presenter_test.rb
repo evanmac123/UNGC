@@ -26,7 +26,7 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
       )
 
       presenter = create_presenter(results: [
-        Redesign::ParticipantSearchController::ParticipantSearch::Results::Result.new(organization)
+        ParticipantSearch::Form::Result.new(organization)
       ])
 
       output = []
@@ -55,7 +55,7 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
   def create_presenter(form: nil, results: nil)
     form ||= stub()
     results ||= stub()
-    Redesign::ParticipantSearchController::ParticipantSearch::ResultsPresenter.new(form, results)
+    ParticipantSearch::ResultsPresenter.new(form, results)
   end
 
 end

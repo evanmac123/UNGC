@@ -2,13 +2,6 @@ require 'test_helper'
 
 class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
 
-  # # sets the page
-  # # creates a presenter that responds to
-  #   blurb
-  #   various options
-  #   menu
-  #   search results
-
   context "the search form" do
 
     setup do
@@ -32,14 +25,14 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
   context "searching" do
 
     setup do
-      # stub out the search
-      Redesign::ParticipantSearchController::ParticipantSearch::Search
-        .any_instance
-        .stubs(execute: stub(
-          empty?: false,
-          any?: true,
-          each: []
-        ))
+      @args = {'organization_type' => '123'}
+
+      form = ParticipantSearch::Form.new(@args)
+      form.stubs(execute: [])
+
+      ParticipantSearch::Form.expects(:new)
+        .with(@args)
+        .returns(form)
     end
 
     should "assign a page" do
@@ -58,10 +51,6 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
     end
 
     should "create a search with the params provided" do
-      Redesign::ParticipantSearchController::ParticipantSearch::Form
-        .expects(:new)
-        .with('organization_type' => '123')
-        .returns(stub(organization_type: 123))
       search
     end
 
@@ -70,7 +59,7 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
   private
 
   def search
-    get :search, search: {organization_type: 123}
+    get :search, search: @args
   end
 
 end
