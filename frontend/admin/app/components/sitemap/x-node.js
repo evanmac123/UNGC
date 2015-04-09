@@ -5,8 +5,6 @@ const STORE_KEY = 'sitemap';
 export default Ember.Component.extend({
   tagName: 'li',
   classNames: 'sitemap-x-node',
-  isDraggable: true,
-  attributeBindings: 'isDraggable:draggable',
 
   mightDropAbove:  Ember.computed.equal('mightDrop', 'above'),
   mightDropBelow:  Ember.computed.equal('mightDrop', 'below'),
@@ -20,19 +18,6 @@ export default Ember.Component.extend({
     'mightDropInside',
     'node.isLoading:loading'
   ],
-
-  startedDragging: Ember.on('dragStart', function(event) {
-    var id = this.get('node.modelId');
-
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.setData('text/x-container-id', id);
-
-    this.set('isBeingDragged', true);
-  }),
-
-  stoppedDragging: Ember.on('dragEnd', function() {
-    this.set('isBeingDragged', false);
-  }),
 
   actions: {
     toggle() {

@@ -8,7 +8,12 @@ const INSIDE = 'inside';
 export default Ember.Component.extend({
   classNames: 'sitemap-x-label',
   isDroppable: true,
-  attributeBindings: 'isDroppable:droppable',
+  isDraggable: true,
+
+  attributeBindings: [
+    'isDroppable:droppable',
+    'isDraggable:draggable'
+  ],
 
   mightDropNode: Ember.on('dragOver', function(event) {
     var y         = event.originalEvent.y;
@@ -30,13 +35,13 @@ export default Ember.Component.extend({
       position = INSIDE;
     }
 
-    this.set('mightDrop', position);
+    this.set('mightDropPosition', position);
     this.sendAction('onDragOver', position);
   }),
 
   wontDropNode: Ember.on('dragLeave', function() {
-    this.set('mightDrop', null);
     this.sendAction('onDragLeave');
+    this.set('mightDropPosition', null);
   }),
 
   didDropNode: Ember.on('drop', function(event) {
@@ -45,9 +50,22 @@ export default Ember.Component.extend({
     this.sendAction('onDrop', {
       sourceId: parseInt(srcId, 10),
       destId: this.get('node.modelId'),
-      position: this.get('mightDrop')
+      position: this.get('mightDropPosition')
     });
 
-    this.set('mightDrop', null);
+    this.set('mightDropPosition', null);
+  }),
+
+  startedDragging: Ember.on('dragStart', function(event) {
+    var id = this.get('node.modelId');
+
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/x-container-id', id);
+
+    this.set('isBeingDragged', true);
+  }),
+
+  stoppedDragging: Ember.on('dragEnd', function() {
+    this.set('isBeingDragged', false);
   })
 });

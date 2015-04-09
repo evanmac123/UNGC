@@ -20,7 +20,7 @@ export default Ember.Object.extend({
     this.get('nodes').addObject(node);
   },
 
-  load: function() {
+  load() {
     var promise;
     var tree = this.get('tree');
 
