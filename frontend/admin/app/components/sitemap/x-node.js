@@ -4,7 +4,34 @@ const STORE_KEY = 'sitemap:';
 
 export default Ember.Component.extend({
   tagName: 'li',
-  className: 'sitemap-x-node',
+  classNames: 'sitemap-x-node',
+  isDraggable: true,
+  attributeBindings: 'isDraggable:draggable',
+
+  mightDropAbove:  Ember.computed.equal('mightDrop', 'above'),
+  mightDropBelow:  Ember.computed.equal('mightDrop', 'below'),
+  mightDropInside: Ember.computed.equal('mightDrop', 'inside'),
+
+  classNameBindings: [
+    'isOpen:open:closed',
+    'isBeingDragged:being-dragged',
+    'mightDropAbove',
+    'mightDropBelow',
+    'mightDropInside'
+  ],
+
+  startedDragging: Ember.on('dragStart', function(event) {
+    var id = this.get('node.modelId');
+
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/x-container-id', id);
+
+    this.set('isBeingDragged', true);
+  }),
+
+  stoppedDragging: Ember.on('dragEnd', function() {
+    this.set('isBeingDragged', false);
+  }),
 
   actions: {
     toggle() {
@@ -24,6 +51,18 @@ export default Ember.Component.extend({
     // Because recursive rendering
     subinsert(subnode) {
       this.sendAction('insert', subnode);
+    },
+
+    onMightDropNode(position) {
+      this.set('mightDrop', position);
+    },
+
+    onWontDropNode() {
+      this.set('mightDrop', null);
+    },
+
+    onDroppedNode(event) {
+      this.set('mightDrop', null);
     }
   },
 

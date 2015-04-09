@@ -1,4 +1,4 @@
-<div class="sitemap-x-node-label">
+{{#sitemap/x-label node=node onDragOver="onMightDropNode" onDragLeave="onWontDropNode" onDrop="onDroppedNode"}}
   <span class="node-expander">
     {{#if node.hasDescendants}}
       <button {{action "toggle"}} class="btn btn-sm btn-default">
@@ -17,16 +17,13 @@
 
   <span class="node-actions">
     <button {{action "insert"}} class="btn btn-sm btn-success">
-      Insert
+      Insert Page
     </button>
     <a href="/redesign{{node.model.publicPath}}" target="_blank" class="btn btn-sm btn-primary">
       View
     </a>
-    <button class="btn btn-sm btn-warning">
-      Move
-    </button>
   </span>
-</div>
+{{/sitemap/x-label}}
 
 {{#if node.nodes}}
   {{#if isOpen}}

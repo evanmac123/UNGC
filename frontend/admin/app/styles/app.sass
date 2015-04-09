@@ -6,25 +6,6 @@ body
   > div > main
     margin-top: 50px
 
-.tree-x-node
-  border: 2px solid transparent
-  border-style: solid none solid none
-
-  &.might-drop-inside
-    background: rgba(yellow, 0.5)
-  &.might-drop-above
-    border-top: 2px solid yellow
-  &.might-drop-below
-    border-bottom: 2px solid yellow
-  .tree-x-node
-    padding-left: 24px
-
-.node-label
-  line-height: 24px
-
-.node-label-toggle
-  display: inline-block
-  width: 24px
 
 .sitemap-x-tree
   margin: 0
@@ -44,7 +25,18 @@ body
     &:last-child
       border-bottom: none
 
-.sitemap-x-node-label
+.sitemap-x-node
+  border: 2px solid transparent
+  border-style: solid none solid none
+
+  &.might-drop-inside
+    background: rgba(yellow, 0.5)
+  &.might-drop-above
+    border-top: 2px solid yellow
+  &.might-drop-below
+    border-bottom: 2px solid yellow
+
+.sitemap-x-label
   border-bottom: 1px solid #eee
   line-height: 40px
   padding: 0 8px
@@ -53,7 +45,7 @@ body
   .node-actions
     opacity: 0
     float: right
-    transition: opacity 0s 0.5s ease-in
+    transition: opacity 0s 0.25s ease-in
 
   &:hover
     background-color: #f6f6f6
