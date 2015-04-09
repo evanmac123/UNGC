@@ -1,7 +1,7 @@
 namespace :redesign do
 
   desc "Get the database ready for the redesign"
-  task :prepare do
+  task prepare: :environment do
     fix_principles_with_invalid_types
     create_topics
     create_issues
