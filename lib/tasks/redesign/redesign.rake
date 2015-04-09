@@ -107,7 +107,7 @@ namespace :redesign do
         "Climate Change",
         "Energy",
         "Food and Agriculture",
-        "Water",
+        "Water and Sanitation",
       ],
       'Governance' => [
         "Principle 10",
