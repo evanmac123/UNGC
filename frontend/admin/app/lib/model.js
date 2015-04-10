@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import request from 'ic-ajax';
 import transformKeys from 'admin/lib/transform-keys';
 
 function underscoreKeys(obj) {
@@ -71,22 +72,12 @@ var Model = Ember.Object.extend({
   },
 
   xhr(opts = {}) {
-    return new Ember.RSVP.Promise((resolve, reject) => {
-      Ember.$.ajax({
-        url: opts.url || this.get('resourcePath'),
-        type: opts.type,
-        dataType: 'json',
-        headers: { 'Content-Type': 'application/json' },
-        data: opts.data ? JSON.stringify({ data: opts.data }) : undefined
-      }).then(
-        (data) => {
-          return Ember.run(() => resolve(data));
-        },
-
-        (error) => {
-          return Ember.run(() => reject(error));
-        }
-      );
+    return request({
+      url: opts.url || this.get('resourcePath'),
+      type: opts.type,
+      dataType: 'json',
+      headers: { 'Content-Type': 'application/json' },
+      data: opts.data ? JSON.stringify({ data: opts.data }) : undefined
     });
   },
 
@@ -183,16 +174,14 @@ Model.reopenClass({
       opts.url = this.path;
     }
 
-    return Ember.$.ajax(opts).then((res) => {
-      return Ember.run(() => {
-        if (Ember.typeOf(res.data) === 'object') {
-          return this.materializeRecord(res.data);
-        } else if (Ember.typeOf(res.data) === 'array') {
-          return res.data.map((d) => this.materializeRecord(d));
-        } else {
-          return null;
-        }
-      });
+    return request(opts).then((res) => {
+      if (Ember.typeOf(res.data) === 'object') {
+        return this.materializeRecord(res.data);
+      } else if (Ember.typeOf(res.data) === 'array') {
+        return res.data.map((d) => this.materializeRecord(d));
+      } else {
+        return null;
+      }
     });
   }
 });

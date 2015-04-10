@@ -21,26 +21,21 @@ export default Ember.Object.extend({
   },
 
   load() {
-    var promise;
     var tree = this.get('tree');
 
     if (!this.get('hasMore')) {
-      return;
+      return Ember.RSVP.resolve();
     }
 
     if (!this.get('model')) {
-      return;
+      return Ember.RSVP.resolve();
     }
 
-    promise = Container.get({
+    return Container.get({
       parent_container: this.get('modelId')
-    });
-
-    promise.then((containers) => {
+    }).then((containers) => {
       containers.forEach((container) => tree.addContainer(container));
-    });
-
-    promise.always(() => {
+    }).finally(() => {
       this.set('isLoading', false);
     });
   }

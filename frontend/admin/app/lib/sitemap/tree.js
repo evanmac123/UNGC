@@ -44,12 +44,15 @@ export default Ember.Object.extend({
     if (0 === currentParent.get('nodes.length')) {
       currentParent.set('hasDescendants', false);
     }
+    newParent.load().then( () => {
+      newParent.get('nodes').addObject(srcNode);
+      newParent.set('hasDescendants', true);
 
-    newParent.get('nodes').addObject(srcNode);
-    newParent.set('hasDescendants', true);
-
-    src.set('parentContainerId', newParentId);
-    src.save({ without: ['data'] });//.then(() => this.refresh());
+      src.set('parentContainerId', newParentId);
+      src.save({ without: ['data'] });//.then(() => this.refresh());
+    }).catch( (error) => {
+      console.log(error);
+    });
   },
 
   addContainer(container) {
