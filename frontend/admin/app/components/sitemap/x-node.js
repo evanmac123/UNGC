@@ -32,12 +32,12 @@ export default Ember.Component.extend({
     },
 
     insert() {
-      this.sendAction('insert', this.get('node'));
+      this.sendAction('onInsert', this.get('node'));
     },
 
     // Because recursive rendering
     subinsert(subnode) {
-      this.sendAction('insert', subnode);
+      this.sendAction('onInsert', subnode);
     },
 
     onMightDropNode(position) {

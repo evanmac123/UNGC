@@ -55,20 +55,33 @@ export default Ember.Object.extend({
 
   moveContainer(src, dest, pos) {
     var currentParentId = src.get('parentContainerId');
-    var newParentId;
+    var currentParent = this.nodeForContainerId(currentParentId);
+    var srcNode = this.nodeForContainerId(src.get('id'));
+    var newParentId, newParent;
 
     if ('above' === pos || 'below' === pos) {
       newParentId = dest.get('parentContainerId');
     } else {
-      newParentId = dest.get('id');
+      newParentId = dest.get('id') || null;
     }
 
     if (currentParentId === newParentId) {
       return;
     }
 
+    newParent = this.nodeForContainerId(newParentId);
+
+    currentParent.get('nodes').removeObject(srcNode);
+
+    if (0 === currentParent.get('nodes.length')) {
+      currentParent.set('hasDescendants', false);
+    }
+
+    newParent.get('nodes').addObject(srcNode);
+    newParent.set('hasDescendants', true);
+
     src.set('parentContainerId', newParentId);
-    src.save({ without: ['data'] }).then(() => this.refresh());
+    src.save({ without: ['data'] });//.then(() => this.refresh());
   },
 
   addContainer(container) {
