@@ -2,7 +2,7 @@
 
 <section class='tiles-section'>
   <%- tiles.each do |tile| -%>
-  <article class='tile <%= "color-#{tile[:color]}" if tile[:color] -%> <%= 'double-width' if tile[:double_width] -%> <%= 'double-height' if tile[:double_height] -%>' style='<%= "background-image: url(//ungc.s3.amazonaws.com/#{tile[:bg_image]});" if tile[:bg_image] -%>'>
+  <article class='tile <%= "color-#{tile[:color]}" if tile[:color] -%> <%= 'double-width' if tile[:double_width] -%> <%= 'double-height' if tile[:double_height] -%>' style='<%= "background-image: url(#{tile[:bg_image]});" if tile[:bg_image] -%>'>
     <%= link_to tile[:link][:url] do %>
       <%= "<h1>#{tile[:title]}</h1>".html_safe if tile[:title] %>
       <%= "<p>#{tile[:blurb]}</p>".html_safe if tile[:blurb] && tile[:double_height] && !tile[:double_width] %>
