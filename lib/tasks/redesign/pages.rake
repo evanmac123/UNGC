@@ -50,9 +50,9 @@ namespace :redesign do
       page
     end
 
-    Redesign::Container.
-      where(parent_container_id: nil).
-      find_each(&:cache_tree_depth_and_path)
+    #Redesign::Container.
+    #  where(parent_container_id: nil).
+    #  find_each(&:cache_tree_depth_and_path)
 
     Redesign::Container.
       find_each(&:cache_child_containers_count)
