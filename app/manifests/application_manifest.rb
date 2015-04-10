@@ -24,7 +24,6 @@ class ApplicationManifest < Moonshine::Manifest::Rails
   recipe :default_stack
   recipe :god
   recipe :sphinx
-  recipe :sphinx_cron
   recipe :nodejs
   recipe :webdav
   recipe :ssh
@@ -80,19 +79,13 @@ class ApplicationManifest < Moonshine::Manifest::Rails
       :hour => 6,
       :minute => 11,
       :ensure => :present
-  end
 
-  def sphinx_cron
-    # Custom Sphinx cron job to add nice
-    current_rails_root = "#{configuration[:deploy_to]}/current"
-    thinking_sphinx_index = "(date && cd #{current_rails_root} && RAILS_ENV=#{rails_env} nice -n19 bundle exec rake ts:index) >> #{current_rails_root}/log/cron-thinking_sphinx-index.log 2>&1"
-    cron_options = {
-      :command => thinking_sphinx_index,
-      :user => configuration[:user],
-      :minute => 35
-    }
-
-    cron "ts:index", cron_options
+    cron 'sphinx_index',
+      :command => '/srv/unglobalcompact/current/script/cron/sphinx_index',
+      :user => 'rails',
+      :hour => '*',
+      :minute => 40,
+      :ensure => :present
   end
 
   def jungle_disk

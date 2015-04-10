@@ -132,7 +132,7 @@ class CopMailerTest < ActionMailer::TestCase
     should "be able to send today's reminder" do
       response = CopMailer.cop_due_today(@organization).deliver
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact COP Deadline - #{@organization.cop_due_on.strftime('-%e %B, %Y')} 23:00 UTC", response.subject
+      assert_equal "UN Global Compact COP Deadline -#{@organization.cop_due_on.strftime('%e %B, %Y')} 23:00 UTC", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
