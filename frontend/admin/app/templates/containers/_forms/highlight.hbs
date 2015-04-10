@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Hero</legend>
     {{#container/x-fields key="hero" scope=highlight as |hero|}}
-      {{container/x-field key="image" type="string" scope=hero}}
+      {{container/x-field key="image" type="image-upload" scope=hero}}
       {{container/x-field key="theme" type="hero-theme-select" scope=hero}}
 
       {{#container/x-fields key="title" scope=hero as |title|}}
@@ -25,12 +25,12 @@
         {{container/x-field key="theme" type="hero-theme-select" scope=article}}
         {{container/x-field key="title" type="string" limit=50 scope=article}}
         {{container/x-field key="content" type="redactor" limit=50 scope=article}}
-        {{container/x-field key="bgImage" type="string" scope=article}}
+        {{container/x-field key="bgImage" type="image-upload" scope=article}}
 
         {{#container/x-fields key="widgetImage" scope=article as |image|}}
           <b>Image Widget</b>
           {{container/x-field label="Image title" key="alt" type="string" limit=50 scope=image}}
-          {{container/x-field label="Image Url" key="src" type="href" limit=50 scope=image}}
+          {{container/x-field label="Image Url" key="src" type="image-upload" scope=image}}
         {{/container/x-fields}}
       </li>
     {{/container/x-fields}}

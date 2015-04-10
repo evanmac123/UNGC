@@ -25,7 +25,7 @@ export default Ember.Component.extend({
     this.set("isSaving", true);
     promise.then(this.performUpload.bind(this)).then( () => {
       const url =  this.get('url');
-      this.set('field.value');
+      this.set('field.value', url);
       this.saveUploadedImage(url);
     }).catch( /* errorResponse */ () => {
       this.set('uploadError', 'Invalid file');

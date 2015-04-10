@@ -4,7 +4,7 @@
   <fieldset>
     <legend>Hero</legend>
     {{#container/x-fields key="hero" scope=article as |hero|}}
-      {{container/x-field key="image" type="string" scope=hero}}
+      {{container/x-field key="image" type="image-upload" scope=hero}}
       {{container/x-field key="theme" type="hero-theme-select" scope=hero}}
 
       {{#container/x-fields key="title" scope=hero as |title|}}
