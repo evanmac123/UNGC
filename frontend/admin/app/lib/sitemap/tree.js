@@ -9,40 +9,8 @@ export default Ember.Object.extend({
     this.containersById = {};
   },
 
-  getPreloadContainerIds() {
-    var json, data;
-    var ids = [];
-
-    if (!window.localStorage) {
-      return [];
-    }
-
-    if (!(json = localStorage.getItem('sitemap'))) {
-      return [];
-    }
-
-    data = JSON.parse(json);
-
-    Ember.keys(data).forEach((id) => {
-      if (data[id].isOpen) {
-        ids.push(id);
-      }
-    });
-
-    return ids;
-  },
-
   load() {
-    var promise;
-    var ids = this.getPreloadContainerIds();
-
-    if (ids.length) {
-      promise = Container.get({ parent_containers: ids.join(',') });
-    } else {
-      promise = Container.get({ root: true });
-    }
-
-    promise.then((containers) => {
+    Container.get({ root: true }).then((containers) => {
       containers.forEach((container) => this.addContainer(container));
     });
   },
