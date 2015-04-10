@@ -2,6 +2,7 @@ namespace :redesign do
 
   desc "create stub pages to fill out the site map"
   task create_sitemap: :environment do
+    Tagging.where.not(redesign_container_id: nil).delete_all
     Redesign::Container.delete_all
     root = Node.new
 
@@ -49,10 +50,6 @@ namespace :redesign do
       puts page[:slug]
       page
     end
-
-    #Redesign::Container.
-    #  where(parent_container_id: nil).
-    #  find_each(&:cache_tree_depth_and_path)
 
     Redesign::Container.
       find_each(&:cache_child_containers_count)
