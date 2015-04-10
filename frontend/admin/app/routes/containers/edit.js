@@ -15,7 +15,7 @@ export default Ember.Route.extend({
       container.save().then( () => {
         this.get('flashMessages').success('Draft Saved!');
       }, (error) => {
-        if (error.status) {
+        if (error.errorThrown) {
           this.get('flashMessages').danger(error.statusText);
           throw error.toString();
         } else {

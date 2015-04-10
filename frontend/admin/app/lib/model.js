@@ -99,8 +99,9 @@ var Model = Ember.Object.extend({
       },
 
       (error) => {
-        if (error.status === 422) {
-          this.setErrorsFromJSON(error.responseJSON);
+        const xhr = error.jqXHR;
+        if (xhr.status === 422) {
+          this.setErrorsFromJSON(xhr.responseJSON);
           return Ember.RSVP.reject(this);
         }
         throw error;
