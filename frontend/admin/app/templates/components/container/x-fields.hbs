@@ -2,12 +2,13 @@
   {{#if canVary}}
     <button class="btn btn-success" disabled={{cantAdd}} {{action "addElement"}}>Add</button>
   {{/if}}
+  <hr>
 
   {{#each yieldValue as |val|}}
-    {{yield val}}
     {{#if canVary}}
       <button class="btn btn-warning" disabled={{cantRemove}} {{action "removeElement" val}}>Remove</button>
     {{/if}}
+    {{yield val}}
   {{/each}}
 {{else}}
   {{yield yieldValue}}

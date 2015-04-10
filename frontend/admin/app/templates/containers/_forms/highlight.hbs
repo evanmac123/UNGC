@@ -18,9 +18,9 @@
   </fieldset>
 
   <fieldset>
-    <legend>highlight Content</legend>
-    {{#container/x-fields tagName="ol" key="articleBlocks" array=true min=1 max=3 scope=highlight as |article|}}
-      <li class="stat-group">
+    <legend>Highlight Content</legend>
+    {{#container/x-fields tagName="div" key="articleBlocks" array=true min=1 max=3 scope=highlight as |article|}}
+      <div class="stat-group">
         {{container/x-field key="align" type="article-align-select" scope=article}}
         {{container/x-field key="theme" type="hero-theme-select" scope=article}}
         {{container/x-field key="title" type="string" limit=50 scope=article}}
@@ -28,11 +28,14 @@
         {{container/x-field key="bgImage" type="image-upload" scope=article}}
 
         {{#container/x-fields key="widgetImage" scope=article as |image|}}
-          <b>Image Widget</b>
+          <div class="form-group">
+            <label class="control-label col-sm-2">Image Widget</label>
+          </div>
           {{container/x-field label="Image title" key="alt" type="string" limit=50 scope=image}}
           {{container/x-field label="Image Url" key="src" type="image-upload" scope=image}}
         {{/container/x-fields}}
-      </li>
+      </div>
+      <hr>
     {{/container/x-fields}}
   </fieldset>
 
