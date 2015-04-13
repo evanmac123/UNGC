@@ -186,7 +186,9 @@ namespace :redesign do
   end
 
   def add_explore_our_library
-    featured_content = Resource.all.shuffle.take(12).map(&:id)
+    featured_content = Resource.all.shuffle.take(12).map(&:id).map do |c|
+      {resource_id: c}
+    end
     our_library = Redesign::Container.library.where(path: '/explore-our-library', slug: '/explore-our-library').first_or_create!
     if our_library.public_payload.nil?
       our_library.public_payload = our_library.payloads.create! json_data: {featured: featured_content}.to_json
