@@ -24,36 +24,33 @@ title: "UN Global Compact Home", template: home
 		title: "Who’s Involved", template: highlight
 			title: "Participant Directory", template: directory
 		title: "Our Focus", template: landing
-			title: "Environment", template: issue
-			title: "Social", template: issue
-			title: "Government", template: issue
 			title: "All Issues", template: tile_grid
-		title: "Social", template: issue
-			title: "Human Rights", template: issue
-			title: "People with Disabilities", template: issue
-			title: "Labour", template: issue
-			title: "Children’s Rights", template: issue
-			title: "Gender Equality", template: issue
-			title: "Women’s Empowerment", template: issue
-			title: "Child Labour", template: issue
-			title: "Indigenous Peoples", template: issue
-			title: "Health", template: issue
-			title: "Indigenous Peoples", template: issue
-			title: "Migrant Workers", template: issue
-			title: "Forced Labour", template: issue
-			title: "Human Trafficking", template: issue
-			title: "Poverty", template: issue
-			title: "Education", template: issue
-		title: "Environment", template: issue
-			title: "Biodiversity", template: issue
-			title: "Climate Change", template: issue
-			title: "Water", template: issue
-			title: "Energy", template: issue
-			title: "Food & Agriculture", template: issue
-		title: "Governance", template: issue
-			title: "Anti-Corruption", template: issue
-			title: "Peace", template: issue
-			title: "Rule of Law", template: issue
+      title: "Social", template: issue
+        title: "Human Rights", template: issue
+        title: "People with Disabilities", template: issue
+        title: "Labour", template: issue
+        title: "Children’s Rights", template: issue
+        title: "Gender Equality", template: issue
+        title: "Women’s Empowerment", template: issue
+        title: "Child Labour", template: issue
+        title: "Indigenous Peoples", template: issue
+        title: "Health", template: issue
+        title: "Indigenous Peoples", template: issue
+        title: "Migrant Workers", template: issue
+        title: "Forced Labour", template: issue
+        title: "Human Trafficking", template: issue
+        title: "Poverty", template: issue
+        title: "Education", template: issue
+      title: "Environment", template: issue
+        title: "Biodiversity", template: issue
+        title: "Climate Change", template: issue
+        title: "Water", template: issue
+        title: "Energy", template: issue
+        title: "Food & Agriculture", template: issue
+      title: "Governance", template: issue
+        title: "Anti-Corruption", template: issue
+        title: "Peace", template: issue
+        title: "Rule of Law", template: issue
 	title: "Participation", template: landing
 		title: "How to Engage", template: landing
 			title: "Business", template: article
