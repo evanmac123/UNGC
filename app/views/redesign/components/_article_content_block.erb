@@ -6,6 +6,15 @@
 
   <article class='article-body'>
     <%= article[:content].html_safe if article[:content] %>
+
+    <%- if article[:call_to_action] %>
+      <p>
+      <a href="<%= article[:call_to_action][:url] %>" class="button <%= article[:call_to_action][:theme] %>">
+        <%= article[:call_to_action][:title] %>
+      </a>
+      </p>
+    <%- end -%>
+
   </article>
 
   <%= render(partial: 'redesign/components/sidebar', locals: {widgets: article[:widgets]}) if article[:widgets] %>

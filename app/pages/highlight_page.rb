@@ -10,8 +10,12 @@ class HighlightPage < ContainerPage
         content: article[:content],
         align: article[:align],
         bg_image: article[:bg_image],
-        theme: article[:theme]
+        theme: article[:theme],
       }
+      call_to_action = article[:call_to_action]
+      if call_to_action && call_to_action[:enabled]
+        data[:call_to_action] = call_to_action
+      end
       image = article[:widget_image]
       if image
         data[:widgets] = {
