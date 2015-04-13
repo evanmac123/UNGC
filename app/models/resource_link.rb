@@ -24,7 +24,8 @@ class ResourceLink < ActiveRecord::Base
     :mp3 => 'MP3 audio file',
     :pdf => 'PDF',
     :ppt => 'PowerPoint presentation',
-    :web => 'Website'
+    :web => 'Website',
+    :video => 'Video'
   }
 
   validates :link_type, :inclusion => {:in => TYPES.keys.map(&:to_s), :message => "%{value} is not a valid link_type value" }
