@@ -21,9 +21,23 @@ export default Ember.Object.extend({
     this.load();
   },
 
+  isDescendant(src, dest) {
+    var parentIds = [];
+    var parent = this.containerForId(dest.get('parentContainerId'));
+    while(parent) {
+      parentIds.push(parent.get('id'));
+      parent = this.containerForId(parent.get('parentContainerId'));
+    }
+    if (parentIds.indexOf(src.get('id')) !== -1) {
+      return true;
+    }
+    return false;
+  },
+
   moveContainer(src, dest, pos) {
     var currentParentId = src.get('parentContainerId');
     var currentParent = this.nodeForContainerId(currentParentId);
+    var currentId = src.get('id');
     var srcNode = this.nodeForContainerId(src.get('id'));
     var newParentId, newParent;
 
@@ -33,7 +47,19 @@ export default Ember.Object.extend({
       newParentId = dest.get('id') || null;
     }
 
+    // We need to make sure we're not trying to add the current page
+    // to one of its children
+    if (this.isDescendant(src, dest)) {
+      return;
+    }
+
+    // can't drag on the same parent
     if (currentParentId === newParentId) {
+      return;
+    }
+
+    // can't drag on itself
+    if (currentId === newParentId) {
       return;
     }
 
