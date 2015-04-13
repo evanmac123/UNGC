@@ -195,7 +195,7 @@
             },
             {
               "title": "All Issues",
-              "template": "tile_grid"
+              "template": "all_issue"
             }
           ]
         }

@@ -17,7 +17,8 @@ class Redesign::Container < ActiveRecord::Base
     :pr_list,
     :library,
     :engage_locally,
-    :directory
+    :directory,
+    :all_issue
   ]
 
   belongs_to :parent_container, class_name: 'Redesign::Container'

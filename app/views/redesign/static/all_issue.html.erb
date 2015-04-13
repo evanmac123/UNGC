@@ -1,0 +1,5 @@
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
+<% @page.issues.each do |issue| %>
+  <%= issue %>
+<% end %>
