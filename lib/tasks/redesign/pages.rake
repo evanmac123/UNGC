@@ -34,7 +34,7 @@ namespace :redesign do
       if page[:template].present?
         container = Redesign::Container.create!(
           layout: page[:template],
-          slug: page[:url],
+          slug: page[:slug],
           path: page[:url]
         )
 
