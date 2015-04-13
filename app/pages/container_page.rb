@@ -1,4 +1,6 @@
 class ContainerPage
+  attr_reader :data, :container
+
   def initialize(container, payload_data)
     @container = container
     @data      = payload_data || {}

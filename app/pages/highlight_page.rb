@@ -1,6 +1,11 @@
 class HighlightPage < ContainerPage
+
   def hero
     @data[:hero] || {}
+  end
+
+  def section_nav
+    Components::SectionNav.new(container)
   end
 
   def article_blocks

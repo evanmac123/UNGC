@@ -28,6 +28,12 @@
   <%- if hero_data[:show_section_nav] -%>
   <nav id='section-nav'>
     <button class='section-nav-trigger'>In this section</button>
+    <%- nav = @page.section_nav %>
+    <%= nav.parent.title %>
+    <%= nav.current.title %>
+    <% nav.children.each do |c| %>
+      <%= c.title %>
+    <% end %>
   </nav>
   <%- end -%>
 
