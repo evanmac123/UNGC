@@ -13,6 +13,15 @@ class HighlightLayout < UNGC::Layout
     right
   ]
 
+  COLORS = %w[
+    light-blue
+    light-green
+    teal
+    green
+    orange
+    pastel-blue
+  ]
+
   has_one_container!
 
   label 'Highlight'
@@ -43,6 +52,12 @@ class HighlightLayout < UNGC::Layout
     scope :widget_image do
       field :alt, type: :string, limit: 50
       field :src,   type: :href
+    end
+    scope :widget_call_to_action do
+      field :theme, type: :string, enum: COLORS, default: 'light-blue'
+      field :title, type: :string, limit: 50
+      field :url,   type: :href
+      field :show,  type: :boolean, default: false
     end
   end
 

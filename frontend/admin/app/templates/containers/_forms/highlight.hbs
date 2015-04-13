@@ -27,6 +27,16 @@
         {{container/x-field key="content" type="redactor" limit=50 scope=article}}
         {{container/x-field key="bgImage" type="image-upload" scope=article}}
 
+        {{#container/x-fields key="widgetCallToAction" scope=article as |callToAction|}}
+          <div class="form-group">
+            <label class="control-label col-sm-2">Call to Action</label>
+          </div>
+          {{container/x-field label="Theme" key="theme" type="tile-color-select" limit=50 scope=callToAction}}
+          {{container/x-field key="title" type="string" limit=50 scope=callToAction}}
+          {{container/x-field key="url" type="string" limit=50 scope=callToAction}}
+          {{container/x-field key="show" label="Enable" type="boolean" default=false scope=callToAction}}
+        {{/container/x-fields}}
+
         {{#container/x-fields key="widgetImage" scope=article as |image|}}
           <div class="form-group">
             <label class="control-label col-sm-2">Image Widget</label>
