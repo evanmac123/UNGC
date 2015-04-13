@@ -1,4 +1,4 @@
-class Components::CallToActions
+class Components::CallsToAction
   def initialize(data)
     @data = data
   end
