@@ -1,7 +1,7 @@
 class ExploreOurLibraryPage < ContainerPage
   def featured
-    resource_ids = @data[:featured] || []
-    Resource.find resource_ids
+    resource_ids = Array(@data[:featured]).map { |r| r[:resource_id] }
+    Resource.where('id IN (?)', resource_ids).order("field(id, #{resource_ids.join(',')})")
   end
 
   def [](key)

@@ -1,2 +1,4 @@
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
 <%= render partial: 'redesign/components/library_filters_form' %>
 <%= render partial: 'redesign/components/resources_list', locals: {resources: @page.featured} %>
