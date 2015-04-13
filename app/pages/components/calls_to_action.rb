@@ -4,6 +4,6 @@ class Components::CallsToAction
   end
 
   def data
-    @data[:widget_call_to_actions]
+    @data[:widget_calls_to_action]
   end
 end
