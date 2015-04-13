@@ -19,4 +19,6 @@ Rails.application.config.assets.precompile += %w(
   public-resources.css
   redesign.css
   redesign.js
+  redesign-admin.css
+  redesign-admin.js
 )
