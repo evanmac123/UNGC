@@ -8,27 +8,32 @@ class HighlightPage < ContainerPage
     Components::SectionNav.new(container)
   end
 
-  def article_blocks
-    @data[:article_blocks].map do |article|
+  def main_content_sections
+    @data[:article_blocks].map do |section|
       data = {
-        title: article[:title],
-        content: article[:content],
-        align: article[:align],
-        bg_image: article[:bg_image],
-        theme: article[:theme],
+        title: section[:title],
+        content: section[:content],
+        classes: section_classes(section),
+        styles: section_styles(section)
       }
-      call_to_action = article[:call_to_action]
-      if call_to_action && call_to_action[:enabled]
-        data[:call_to_action] = call_to_action
-      end
-      image = article[:widget_image]
-      if image
-        data[:widgets] = {
-          image: image
-        }
-        data[:widgets][:image][:type] = 'image'
-      end
+      cta = section[:call_to_action]
+      data[:call_to_action] = cta if cta && cta[:enabled]
+      data[:image] = section[:widget_image] if section[:widget_image]
       data
     end
+  end
+
+  private
+
+  def section_classes(section)
+    classes = []
+    classes << 'has-custom-bg' if section[:bg_image]
+    classes << "align-#{section[:align]}" if section[:align]
+    classes << "#{section[:theme]}-theme" if section[:theme]
+    classes.join(' ')
+  end
+
+  def section_styles(section)
+    section[:bg_image] ? "background-image: url(#{section[:bg_image]})" : ''
   end
 end

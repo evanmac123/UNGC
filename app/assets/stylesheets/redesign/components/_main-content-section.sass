@@ -1,4 +1,4 @@
-.article-content-block
+.main-content-section
   padding: 3em 0 4em
   +clearfix
 
@@ -12,7 +12,7 @@
   &.align-center
     text-align: center
 
-.article-header
+.main-content-header
   padding: 0 12% 1em
   clear: both
 
@@ -20,7 +20,7 @@
     font-size: 2.5em
     line-height: 1.2
 
-.article-body
+.main-content-body
   float: left
   padding: 0 0 0 12%
   width: 60%
@@ -42,7 +42,34 @@
   .button
     margin-top: 1em
 
-.align-center .article-body
+.main-content-principles-list
+  margin: 0 0 2em
+
+  ol,
+  li,
+  .principle-number
+    display: inline-block
+    margin: 0
+
+  ol
+    counter-reset: principles-list
+    list-style-type: none
+    padding: 0 0 0 .5em
+
+  .principle-number
+    background-color: color('blue')
+    color: white
+    padding: .3em .5em .25em
+    line-height: 1
+
+    &:before
+      counter-increment: principles-list
+      content: counter(principles-list)
+
+  .principle-detail
+    display: none
+
+.align-center .main-content-body
   float: none
   margin: 0 auto
   padding: 0 12%

@@ -1,7 +1,14 @@
+<%# Meta Tags %>
 <% provide :title, @page.meta_title %>
 <% provide :description, @page.meta_description %>
+
+<%# Body %>
 <%= render partial: 'redesign/components/hero' %>
 
-<%- @page.article_blocks.each do |article| -%>
-<%= render partial: 'redesign/components/article_content_block', locals: {article: article} %>
+<%- @page.main_content_sections.each do |section| -%>
+  <%= render layout: 'redesign/components/main_content_section', locals: {content: section} do %>
+    <%= render layout: 'redesign/components/sidebar' do %>
+      <%= render('redesign/components/widget_image', image: section[:image]) if section[:image] %>
+    <% end %>
+  <% end %>
 <%- end -%>

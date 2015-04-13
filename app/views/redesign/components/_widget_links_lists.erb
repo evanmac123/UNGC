@@ -1,8 +1,8 @@
-<%- if data[:links] -%>
+<%- links_lists.each do |links_list| -%>
 <article class='widget widget-links-list'>
-  <%= content_tag(:h1, data[:title]) if data[:title] %>
+  <%= content_tag(:h1, links_list[:title]) if links_list[:title] %>
   <ul>
-    <%- data[:links].each do |l| -%>
+    <%- links_list[:links].each do |l| -%>
     <%= content_tag(:li, link_to(l[:label], l[:url])) if l[:label] && l[:url] %>
     <%- end -%>
   </ul>
