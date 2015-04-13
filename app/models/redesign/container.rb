@@ -36,6 +36,8 @@ class Redesign::Container < ActiveRecord::Base
   after_destroy :recache_parent_container_child_containers_count
 
   validate :validate_draft_payload
+  validates :path, uniqueness: true
+  validates :slug, uniqueness: { scope: :parent_container_id }
 
   scope :by_path, ->(path) {
     where(path: Redesign::Container.normalize_slug(path))

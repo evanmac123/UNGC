@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150408213152) do
+ActiveRecord::Schema.define(version: 20150413145243) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -773,7 +773,7 @@ ActiveRecord::Schema.define(version: 20150408213152) do
   end
 
   add_index "redesign_containers", ["depth"], name: "index_redesign_containers_on_depth", using: :btree
-  add_index "redesign_containers", ["layout", "slug"], name: "index_redesign_containers_on_layout_and_slug", unique: true, using: :btree
+  add_index "redesign_containers", ["parent_container_id", "slug"], name: "index_redesign_containers_on_parent_container_id_and_slug", unique: true, using: :btree
   add_index "redesign_containers", ["parent_container_id"], name: "index_redesign_containers_on_parent_container_id", using: :btree
   add_index "redesign_containers", ["path"], name: "index_redesign_containers_on_path", unique: true, using: :btree
 

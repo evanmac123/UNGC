@@ -70,7 +70,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     errors = []
 
     container.errors.each do |field, messages|
-      messages.each do |msg|
+      Array(messages).each do |msg|
         errors << { type: 'invalid', path: field, detail: msg }
       end
     end

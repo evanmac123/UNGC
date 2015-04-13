@@ -56,7 +56,14 @@ export default Ember.Route.extend({
     createContainer(record) {
       record.save({ without: ['data'] }).then((container) => {
         this.transitionTo('containers.edit', container.get('id'));
-      }, () => { });
+      }, (error) => {
+        if (error.errorThrown) {
+          this.get('flashMessages').danger(error.statusText);
+          throw error.toString();
+        } else {
+          this.get('flashMessages').danger('Validation Error!');
+        }
+      });
     }
   }
 });
