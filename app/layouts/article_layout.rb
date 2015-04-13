@@ -36,7 +36,7 @@ class ArticleLayout < UNGC::Layout
     field :contact_id, type: :number
   end
 
-  scope :widget_call_to_action do
+  scope :widget_calls_to_action, array: true, min: 1, max: 2 do
     field :label, type: :string, limit: 50, required: true
     field :url,   type: :href,   required: true
   end
