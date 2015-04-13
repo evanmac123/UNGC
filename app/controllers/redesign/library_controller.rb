@@ -29,6 +29,31 @@ class Redesign::LibraryController < Redesign::ApplicationController
       'place fake data here if you want.'
     end
 
+    def video?
+      videos.any?
+    end
+
+    def videos
+      @videos ||= self.links.videos.map do |v|
+        YoutubeVideoPresenter.new(v)
+      end
+    end
+
+  end
+
+  class YoutubeVideoPresenter
+    def initialize(video)
+      @video = video
+    end
+
+    def id
+      url = CGI::parse(@video.url)
+      url['v'].first
+    end
+
+    def embed_url
+      "https://www.youtube.com/embed/#{id}"
+    end
   end
 
 end
