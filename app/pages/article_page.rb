@@ -16,7 +16,7 @@ class ArticlePage < ContainerPage
 
     widgets[:call_to_action] = Components::CallToActions.new(@data).data
 
-    widgets[:links_list] = @data[:widget_links_list] if @data[:widget_links_list]
+    widgets[:links_list] = Components::LinksLists.new(@data).data
 
     widgets
   end
