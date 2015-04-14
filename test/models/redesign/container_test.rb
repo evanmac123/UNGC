@@ -4,7 +4,8 @@ class Redesign::ContainerTest < ActiveSupport::TestCase
   def create_container!(attrs = {})
     Redesign::Container.create!({
       layout: :article,
-      slug: rand.to_s
+      slug: rand.to_s,
+      path: rand.to_s
     }.merge(attrs))
   end
 
