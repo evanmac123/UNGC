@@ -85,7 +85,7 @@ class Redesign::Container < ActiveRecord::Base
   end
 
   def child_containers
-    Redesign::Container.where(parent_container_id: id)
+    Redesign::Container.where(parent_container_id: id).order(:path)
   end
 
   def branch_ids

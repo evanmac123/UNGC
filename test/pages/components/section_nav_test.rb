@@ -7,9 +7,9 @@ class Components::SectionNavTest < ActiveSupport::TestCase
   context 'with data' do
     setup do
       p = create_container_with_payload('/parent-path', 'parent title')
-      c = create_container_with_payload('/test-path', 'test title', parent: p)
-      create_container_with_payload('/child-path-1', 'child title 1', parent: c)
-      @subject = Components::SectionNav.new(c)
+      @c = create_container_with_payload('/test-path', 'test title', parent: p)
+      create_container_with_payload('/child-path-1', 'child title 1', parent: @c)
+      @subject = Components::SectionNav.new(@c)
     end
 
     should 'have the correct path and title for current element' do
@@ -27,6 +27,13 @@ class Components::SectionNavTest < ActiveSupport::TestCase
       assert_equal 'child title 1', @subject.children.first.title
     end
 
+    should 'sort children lexicographically ' do
+      create_container_with_payload('/a', 'a', parent: @c)
+      create_container_with_payload('/child-path-3', 'child title 3', parent: @c)
+      create_container_with_payload('/child-path-0', 'child title 0', parent: @c)
+      assert_equal '/child-path-3', @subject.children.last.url
+      assert_equal 'child title 3', @subject.children.last.title
+    end
+
   end
 end
-
