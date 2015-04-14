@@ -1,0 +1,11 @@
+<%= render partial: 'redesign/components/hero' %>
+
+<%= render layout: 'redesign/components/main_content_section', locals: {content: @page.main_content_section} do %>
+  <%= render layout: 'redesign/components/sidebar' do %>
+    <%= render('redesign/components/widget_contact', contact: @page.sidebar_widgets[:contact]) if @page.sidebar_widgets[:contact] %>
+
+    <%= render('redesign/components/widget_calls_to_action', calls_to_action: @page.sidebar_widgets[:calls_to_action]) if @page.sidebar_widgets[:calls_to_action] %>
+  <% end %>
+<% end %>
+
+<%= render partial: 'redesign/components/events_news' %>

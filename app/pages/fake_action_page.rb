@@ -1,8 +1,8 @@
-class FakeIssueAreaPage
+class FakeActionPage
   def hero
     {
       title: {
-        title1: "Article page headline",
+        title1: "Action page headline",
         title2: "goes here."
       }
     }

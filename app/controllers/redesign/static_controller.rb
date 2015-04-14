@@ -5,8 +5,13 @@ class Redesign::StaticController < Redesign::ApplicationController
   end
 
   def issue
-    # set_current_container :issue_area, '/issue'
+    # set_current_container :issue, '/issue'
     @page = FakeIssuePage.new
+  end
+
+  def action
+    # set_current_container :action, '/action'
+    @page = FakeActionPage.new
   end
 
   def catch_all

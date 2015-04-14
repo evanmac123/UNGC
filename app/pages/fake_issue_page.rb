@@ -2,7 +2,7 @@ class FakeIssuePage
   def hero
     {
       title: {
-        title1: "Article page headline",
+        title1: "Issue page headline",
         title2: "goes here."
       }
     }
