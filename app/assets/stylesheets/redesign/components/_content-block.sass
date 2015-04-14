@@ -1,4 +1,4 @@
-.resource-block
+.content-block
   float: left
   position: relative
   width: 33.333%
@@ -6,7 +6,7 @@
   border: 1px solid white
   margin: 0
 
-.resource-block-link
+.content-block-link
   display: block
   position: absolute
   top: 0
@@ -19,7 +19,7 @@
   +transition-property(background-color color)
   +transition-duration(150ms)
 
-  .resource-block-title
+  .content-block-title
     position: absolute
     top: 0
     left: 0
@@ -29,7 +29,6 @@
     color: white
     font-size: 1.125em
     line-height: 1.3
-    +linear-gradient(transparent, rgba(black, .1) 60%, rgba(black, .2) 70%, rgba(black, .5), $fallback: transparent)
 
     span
       display: block
@@ -40,26 +39,24 @@
       padding: 0 1.5em 1.2em
       text-shadow: 0 0 2px color('dark-grey')
 
-  .resource-block-image
+  .content-block-image
     display: block
     position: absolute
-    top: 10%
+    top: 0
     left: 0
     right: 0
     bottom: 0
-    width: 80%
     margin: auto
     background:
       color: white
       size: cover
       repeat: no-repeat
       position: top center
-    box-shadow: 0 1px 6px rgba(black, .5)
 
     img
       display: none
 
-  .resource-block-tag
+  .content-block-tag
     display: block
     position: absolute
     top: 2.5%
@@ -91,7 +88,7 @@
     background: #f6f6f6
     border-color: color('light-blue')
 
-    .resource-block-tag
+    .content-block-tag
       background-color: color('light-blue')
 
       &:before
@@ -102,3 +99,13 @@
 
   &:active
     +transition-duration(0ms)
+
+
+.content-block.content-block-type-resource
+  .content-block-title
+    +linear-gradient(transparent, rgba(black, .1) 60%, rgba(black, .2) 70%, rgba(black, .5), $fallback: transparent)
+
+  .content-block-image
+    top: 10%
+    width: 80%
+    box-shadow: 0 1px 6px rgba(black, .5)

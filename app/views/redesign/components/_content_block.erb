@@ -1,0 +1,9 @@
+<li class='content-block<%= " content-block-type-#{type}" if type -%>'>
+  <%= link_to url, class: "content-block-link" do %>
+    <div class='content-block-image' style='background-image: url(<%= thumbnail -%>)'>
+      <%= image_tag thumbnail %>
+    </div>
+    <h2 class='content-block-title'><span><%= title -%></span></h2>
+    <div class='content-block-tag'><%= tag -%></div>
+  <% end %>
+</li>
