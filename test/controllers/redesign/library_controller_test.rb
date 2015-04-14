@@ -14,17 +14,17 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
   context "index" do
 
     setup do
-      @container = create_container layout: :landing, slug: '/redesign/our-library'
+      @container = create_container layout: :library, path: '/explore-our-library', slug: '/explore-our-library'
 
-      @public_resources = [create_resource.id]
+      @public_resources = [{resource_id: create_resource.id}]
       @public_payload = create_payload(
         container_id: @container.id,
-        json_data: {featured: @public_resources}.to_json)
+        data: {featured: @public_resources})
 
-      @draft_resources = [create_resource.id]
+      @draft_resources = [{resource_id: create_resource.id}]
       @draft_payload = create_payload(
         container_id: @container.id,
-        json_data: {featured: @draft_resources}.to_json)
+        data: {featured: @draft_resources})
 
       @container.public_payload = @public_payload
       @container.draft_payload = @draft_payload
@@ -39,7 +39,7 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
     should "have featured content" do
       get :index
       page = assigns(:page)
-      assert_equal @public_resources, page.featured.map(&:id)
+      assert_equal @public_resources.map {|r| r[:resource_id] }, page.featured.map(&:id)
     end
 
     should "show draft content to staff when asked" do
@@ -47,7 +47,7 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
       get :index, draft: true
 
       page = assigns(:page)
-      assert_equal @draft_resources, page.featured.map(&:id)
+      assert_equal @draft_resources.map {|r| r[:resource_id] }, page.featured.map(&:id)
     end
 
     should "respond to page[:title]" do
