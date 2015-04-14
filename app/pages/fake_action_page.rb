@@ -88,29 +88,7 @@ class FakeActionPage
   end
 
   def resources
-    [
-      {
-        id: 1151,
-        type: "document",
-        tag: "Case Study",
-        title: "Guide to Corporate Sustainability",
-        url: ""
-      },
-      {
-        id: 1131,
-        type: "document",
-        tag: "Case Study",
-        title: "Joining Forces: Collaboration and Leadership for Sustainability",
-        url: ""
-      },
-      {
-        id: 1181,
-        type: "document",
-        tag: "Case Study",
-        title: "Private Sector Investment and Sustainable Development",
-        url: ""
-      }
-    ]
+    Resource.find [1,2,3]
   end
 
   def events
