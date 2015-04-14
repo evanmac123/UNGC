@@ -1,5 +1,5 @@
 <section class='content-blocks'>
-  <%= content_tag(:header, content_tag(:h1, title), {class: 'content-blocks-header'}) if title ||= nil %>
+  <%= content_tag(:header, content_tag(:h1, title.try(:html_safe)), {class: 'content-blocks-header'}) if title ||= nil %>
 
   <ul class='content-blocks-list'>
     <%= yield %>

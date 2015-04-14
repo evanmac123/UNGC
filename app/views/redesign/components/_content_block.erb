@@ -1,4 +1,4 @@
-<li class='content-block<%= " content-block-type-#{type}" if type -%>'>
+<li class='content-block<%= " content-block-type-#{type}" if type ||= nil -%>'>
   <%= link_to url, class: "content-block-link" do %>
     <div class='content-block-image' style='background-image: url(<%= thumbnail -%>)'>
       <%= image_tag thumbnail %>

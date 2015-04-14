@@ -8,6 +8,12 @@
   <% end %>
 <% end %>
 
+<%= render layout: 'redesign/components/content_blocks', locals: {title: 'What&rsquo;s Happening'} do %>
+  <%- @page.related_content.each do |block| -%>
+    <%= render 'redesign/components/content_block', title: block[:title], url: block[:url], thumbnail: block[:thumbnail], tag: t(block[:issue]) %>
+  <%- end -%>
+<% end %>
+
 <%= render layout: 'redesign/components/content_blocks', locals: {title: 'From Our Library'} do %>
   <%- @page.resources.each do |resource| -%>
     <%= render 'redesign/components/content_block', type: 'resource', title: resource.title, url: redesign_library_resource_path(resource), thumbnail: "//unglobalcompact.org#{resource.cover_image(:show, retina: true)}", tag: t(resource.content_type) %>
