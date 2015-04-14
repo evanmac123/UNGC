@@ -20,6 +20,9 @@ class IssuePage < ContainerPage
     widgets
   end
 
+  def related_content
+    Components::RelatedContent.new(@data).data
+  end
 
   def resources
     Components::Resources.new(@data).data
