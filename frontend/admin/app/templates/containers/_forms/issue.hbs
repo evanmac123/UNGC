@@ -20,15 +20,18 @@
     <legend>Issue Content</legend>
     {{#container/x-fields key="issueBlock" scope=issue as |issueBlock|}}
       {{container/x-field key="title" type="string" limit=50 scope=issueBlock}}
-      {{#container/x-fields tagName="ol" key="principles" array=true max=5 scope=issueBlock as |principles|}}
+      <div class="form-group">
+        <label class="control-label col-sm-2">Tied to Principles</label>
+      </div>
+      {{#container/x-fields tagName="ol" key="principles" array=true min=1 max=5 scope=issueBlock as |principles|}}
         <li class="stat-group">
           {{container/x-field key="label" type="string" scope=principles}}
           {{container/x-field key="blurb" type="string" scope=principles}}
           {{container/x-field key="url" type="href" scope=principles}}
         </li>
       {{/container/x-fields}}
-
-      {{container/x-field key="content" type="redactor" limit=50 scope=issueBlock}}
+      <hr>
+      {{container/x-field key="content" label="Issue content" type="redactor" limit=50 scope=issueBlock}}
     {{/container/x-fields}}
   </fieldset>
 
