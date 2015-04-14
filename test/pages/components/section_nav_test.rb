@@ -6,7 +6,6 @@ class Components::SectionNavTest < ActiveSupport::TestCase
 
   context 'with data' do
     setup do
-
       p = create_container_with_payload('/parent-path', 'parent title')
       c = create_container_with_payload('/test-path', 'test title', parent: p)
       create_container_with_payload('/child-path-1', 'child title 1', parent: c)
