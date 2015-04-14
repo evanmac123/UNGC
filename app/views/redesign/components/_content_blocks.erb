@@ -1,8 +1,7 @@
 <section class='content-blocks'>
-  <header class='content-blocks-header'>
-    <%= content_tag(:h1, title) %>
-  </header>
-  <%= render layout: 'redesign/components/content_blocks_list' do %>
+  <%= content_tag(:header, content_tag(:h1, title), {class: 'content-blocks-header'}) if title ||= nil %>
+
+  <ul class='content-blocks-list'>
     <%= yield %>
-  <% end %>
+  </ul>
 </section>
