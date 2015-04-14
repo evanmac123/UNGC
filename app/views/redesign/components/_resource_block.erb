@@ -1,0 +1,9 @@
+<li class='resource-block'>
+  <%= link_to redesign_library_resource_path(resource), class: "resource-block-link #{resource.content_type.try(:parameterize)}" do %>
+    <div class='resource-block-image' style='background-image: url(<%= "//unglobalcompact.org#{resource.cover_image(:show, retina: true)}" -%>)'>
+      <%= image_tag "//unglobalcompact.org#{resource.cover_image(:show, retina: true)}" %>
+    </div>
+    <h2 class='resource-block-title'><span><%= resource.title -%></span></h2>
+    <div class='resource-block-tag'><%= t resource.content_type -%></div>
+  <% end %>
+</li>

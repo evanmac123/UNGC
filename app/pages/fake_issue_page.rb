@@ -91,6 +91,21 @@ class FakeIssuePage
     Resource.find [1,2,3]
   end
 
+  def related_content
+    rc = {
+      related_content: [
+        {
+          container_path: "/participation"
+        },{
+          container_path: "/participation/why-join"
+        },{
+          container_path: "/participation/report"
+        }
+      ]
+    }
+    Components::RelatedContent.new(rc).data
+  end
+
   def events
     [
       {

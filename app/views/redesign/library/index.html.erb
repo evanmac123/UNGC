@@ -1,4 +1,9 @@
 <% provide :title, @page.meta_title %>
 <% provide :description, @page.meta_description %>
-<%= render partial: 'redesign/components/library_filters_form' %>
-<%= render partial: 'redesign/components/resources_list', locals: {resources: @page.featured} %>
+<%= render 'redesign/components/library_filters_form' %>
+
+<%= render layout: 'redesign/components/content_blocks_list' do %>
+  <%- @page.featured.each do |resource| -%>
+    <%= render 'redesign/components/resource_block', resource: resource %>
+  <%- end -%>
+<% end %>

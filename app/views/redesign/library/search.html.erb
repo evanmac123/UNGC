@@ -1,5 +1,9 @@
 <%= render partial: 'redesign/components/library_filters_form' %>
 
-<%= render partial: 'redesign/components/resources_list', locals: {resources: @results} %>
+<%= render layout: 'redesign/components/content_blocks_list' do %>
+  <%- @results.each do |resource| -%>
+    <%= render 'redesign/components/resource_block', resource: resource %>
+  <%- end -%>
+<% end %>
 
 <%= will_paginate @results %>

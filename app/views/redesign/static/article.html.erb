@@ -15,5 +15,10 @@
   <% end %>
 <% end %>
 
-<%= render partial: 'redesign/components/resource_blocks' %>
+<%= render layout: 'redesign/components/content_blocks', locals: {title: 'From Our Library'} do %>
+  <%- @page.resources.each do |resource| -%>
+    <%= render 'redesign/components/resource_block', resource: resource %>
+  <%- end -%>
+<% end %>
+
 <%= render partial: 'redesign/components/events_news' %>
