@@ -14,8 +14,7 @@ class OrganizationMailer < ActionMailer::Base
     @organization = organization
     @ceo = organization.contacts.ceos.first
     mail \
-      :to => ['externalrelations@jci.cc', 'vkeesari@yahoo.com'],
-      :bcc => 'vkeesari@yahoo.com',
+      :to => ['externalrelations@jci.cc'],
       :subject => "New Global Compact referral"
   end
 
@@ -114,7 +113,7 @@ class OrganizationMailer < ActionMailer::Base
     mail \
       :to => organization.financial_contact_and_contact_point.collect(&:email_recipient),
       :cc => ['contributions@globalcompactfoundation.org', organization.participant_manager_email],
-      :bcc => ['archive@unglobalcompact.org','vkeesari@yahoo.com'],
+      :bcc => ['archive@unglobalcompact.org'],
       :from => 'foundation@unglobalcompact.org',
       :reply_to => organization.participant_manager_email,
       :subject => "[Invoice] The Foundation for the Global Compact"
