@@ -1,28 +1,13 @@
 require 'test_helper'
+require 'pages/pages_test_helper'
 
 class Components::RelatedContentTest < ActiveSupport::TestCase
+  include PagesTestHelper
+
   context 'with data' do
     setup do
-      c = Redesign::Container.create({
-        slug: '/test-path',
-        path: '/test-path',
-        layout: :home
-      })
 
-      p = Redesign::Payload.create({
-        container_id: c.id,
-        data: {
-          meta_tags: {
-            title: 'test title',
-            description: 'test_description',
-            thumbnail: 'http://img.com/1',
-          }
-        }
-      })
-
-      c.public_payload = p
-      c.save
-
+      create_container_with_payload('/test-path', 'test title')
       data = {
         related_content: [
           {container_path: '/test-path'}
