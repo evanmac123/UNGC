@@ -1,9 +1,12 @@
 class Components::RelatedContent
+  REQUIRED_SIZE = 3
+
   def initialize(data)
     @data = data
   end
 
   def data
+    return [] if containers.size != REQUIRED_SIZE
     containers.map { |c| Components::ContentBox.new(c) }
   end
 
