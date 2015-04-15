@@ -1,0 +1,89 @@
+{{#container/x-fields scope=model.container as |actionDetail|}}
+  {{container/macros/x-metatags scope=actionDetail}}
+
+  <fieldset>
+    <legend>Hero</legend>
+    {{#container/x-fields key="hero" scope=actionDetail as |hero|}}
+      {{container/x-field key="image" type="image-upload" scope=hero}}
+      {{container/x-field key="theme" type="hero-theme-select" scope=hero}}
+
+      {{#container/x-fields key="title" scope=hero as |title|}}
+        {{container/x-field key="title1" type="string" limit=50 scope=title}}
+        {{container/x-field key="title2" type="string" limit=50 scope=title}}
+      {{/container/x-fields}}
+
+      {{container/x-field key="blurb" type="string" scope=hero}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>actionDetail Content</legend>
+    {{#container/x-fields key="actionDetailBlock" scope=actionDetail as |actionDetailBlock|}}
+      {{container/x-field key="title" type="string" limit=50 scope=actionDetailBlock}}
+      <div class="form-group">
+        <label class="control-label col-sm-2">Tied to Principles</label>
+      </div>
+      {{#container/x-fields tagName="ol" key="principles" array=true min=1 max=5 scope=actionDetailBlock as |principles|}}
+        <li class="stat-group">
+          {{container/x-field key="label" type="string" scope=principles}}
+          {{container/x-field key="blurb" type="string" scope=principles}}
+          {{container/x-field key="url" type="href" scope=principles}}
+        </li>
+      {{/container/x-fields}}
+      <hr>
+      {{container/x-field key="content" label="actionDetail content" type="redactor" limit=50 scope=actionDetailBlock}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Contact</legend>
+    {{#container/x-fields key="widgetContact" scope=actionDetail as |widgetContact|}}
+      {{container/macros/x-contact key="contactId" scope=widgetContact}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Call to Action</legend>
+    {{#container/x-fields key="widgetCallsToAction" array=true min=1 max=2 scope=actionDetail as |widgetCallsToAction|}}
+      {{container/x-field key="label" type="string" scope=widgetCallsToAction}}
+      {{container/x-field key="url" type="href" scope=widgetCallsToAction}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Links</legend>
+    {{#container/x-fields key="widgetLinksList" scope=actionDetail as |widgetLinksList|}}
+      {{container/x-field key="title" type="string" limit=50 scope=widgetLinksList}}
+      {{#container/x-fields tagName="ol" key="links" array=true max=5 scope=widgetLinksList as |links|}}
+        <li class="stat-group">
+          {{container/x-field key="label" type="string" scope=links}}
+          {{container/x-field key="url" type="href" scope=links}}
+        </li>
+      {{/container/x-fields}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Related Content</legend>
+    {{#container/x-fields key="relatedContent" scope=actionDetail as |relatedContent|}}
+      {{container/x-field key="title" type="string" limit=50 scope=relatedContent}}
+      {{#container/x-fields tagName="ol" key="contentBoxes" array=true size=3 scope=relatedContent as |boxes|}}
+        <li class="stat-group">
+            {{container/x-field key="containerPath" type="string" scope=boxes}}
+        </li>
+      {{/container/x-fields}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Resources</legend>
+    {{#container/x-fields tagName="ol" key="resources" array=true size=3 scope=actionDetail as |resources|}}
+      <li class="stat-group">
+        {{container/macros/x-resource key="resourceId" scope=resources}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+
+  {{container/macros/x-taggings scope=actionDetail}}
+{{/container/x-fields}}
+
