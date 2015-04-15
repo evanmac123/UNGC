@@ -142,4 +142,45 @@ class FakeActionPage
       }
     ]
   end
+
+  def participants
+    [
+      {
+        name: 'A. Amigos de Silva',
+        sector: 'Public Sector',
+        country: 'Spain',
+        url: ''
+      },
+      {
+        name: 'A. Amigos de Silva',
+        sector: 'Public Sector',
+        country: 'Spain',
+        url: ''
+      },
+      {
+        name: 'A. Amigos de Silva',
+        sector: 'Public Sector',
+        country: 'Spain',
+        url: ''
+      },
+      {
+        name: 'A. Amigos de Silva',
+        sector: 'Public Sector',
+        country: 'Spain',
+        url: ''
+      },
+      {
+        name: 'A. Amigos de Silva',
+        sector: 'Public Sector',
+        country: 'Spain',
+        url: ''
+      },
+      {
+        name: 'A. Amigos de Silva',
+        sector: 'Public Sector',
+        country: 'Spain',
+        url: ''
+      }
+    ]
+  end
 end

@@ -1,35 +1,34 @@
 .content-blocks
   clear: both
-
-  + .content-blocks
-    margin-top: 4em
+  padding: 3em 0 0
 
 .content-blocks-header
   position: relative
-  padding: 0 0 .5em
+  margin: 0 5% 1em
 
   h1
-    margin: 0 12% 0
+    font-size: 2em
+    margin: 0
 
   .view-all
     display: block
     position: absolute
-    bottom: .7em
-    right: 5%
+    bottom: 1.125em
+    right: 0
     font:
       size: 1.125em
       family: $flama-bold
-    text-transform: uppercase
     color: color('grey')
 
     &:after
       +fa-icon
-      content: $fa-var-play-circle
+      content: $fa-var-caret-right
       margin-left: .25em
+      color: color('light-blue')
 
     &:hover,
     &:active
-      color: color('teal')
+      color: color('light-blue')
 
 .content-blocks-list
   list-style: none
