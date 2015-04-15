@@ -1,5 +1,13 @@
 class AllIssuePage < ContainerPage
 
+  def hero
+    {
+      title: {
+        title1: 'Issues'
+      }
+    }
+  end
+
   def issues
     # XXX refactor to share with related content component
     thumb = c.payload.data[:meta_tags][:thumbnail] rescue nil

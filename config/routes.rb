@@ -41,15 +41,15 @@ UNGC::Application.routes.draw do
     end
 
     controller :library do
-      get '/explore-our-library'            => :index,     as: :library
-      get '/explore-our-library/search'     => :search,    as: :library_search
-      get '/explore-our-library/:id'        => :show,      as: :library_resource
+      get '/explore-our-library'        => :index,  as: :library
+      get '/explore-our-library/search' => :search, as: :library_search
+      get '/explore-our-library/:id'    => :show,   as: :library_resource
     end
 
-    get '/'                   => 'static#home',         as: :root
-    get '/issue'              => 'static#issue',   as: :issue
-    get '/action'             => 'static#action', as: :action
-    get '*path'               => 'static#catch_all',    as: :catch_all
+    get '/'       => 'static#home',       as: :root
+    get '/issue'  => 'static#issue',      as: :issue
+    get '/action' => 'static#action',     as: :action
+    get '*path'   => 'static#catch_all',  as: :catch_all
   end
 
   # Backend routes
@@ -62,10 +62,10 @@ UNGC::Application.routes.draw do
   get '/admin/local_network_resources' => 'admin/local_networks#edit_resources', :as => :local_network_resources
 
   # These need to come before resources :pages
-  get '/admin/pages/:id/edit'   => 'admin/pages#edit', :as => :edit_page
-  put '/admin/page/:id.:format' => 'admin/pages#update', :as => :update_page
-  post '/admin/page/:id/edit'    => 'admin/pages#edit'
-  get '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', :as => :find_page_by
+  get '/admin/pages/:id/edit'   => 'admin/pages#edit', as: :edit_page
+  put '/admin/page/:id.:format' => 'admin/pages#update', as: :update_page
+  post '/admin/page/:id/edit'   => 'admin/pages#edit'
+  get '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', as: :find_page_by
 
   namespace :admin do
     resources :events do
