@@ -1,0 +1,67 @@
+#section-nav
+  position: absolute
+  left: 7%
+  bottom: 0
+
+#section-nav-trigger
+  background-color: rgba(color('teal'), .8)
+  padding: .5em 1em
+
+  &:after
+    +fa-icon
+    content: $fa-var-caret-down
+    font-size: 1.25em
+    margin-left: 1em
+
+  &.is-open:after
+    content: "\00d7"
+    vertical-align: top
+
+  &:hover,
+  &:active
+    background-color: rgba(white, .8)
+
+#section-nav-container
+  position: absolute
+  top: 100%
+  left: 0
+  z-index: 99
+  background: rgba(color('dark-teal'), .9)
+  padding: 0
+  min-width: 100%
+  opacity: 0
+  overflow: hidden
+  +transition(height 200ms)
+
+  &.is-ready
+    opacity: 1
+
+  a
+    color: white
+
+    &.current
+      font-weight: 900
+
+    &:hover,
+    &:active
+      text-decoration: underline
+
+  h1
+    font-size: 1.375em
+    padding: 0 0 .5em
+    border-bottom: 1px solid #eee
+    margin: .75em .75em 0
+
+
+  ul
+    list-style: none
+    padding: .5em 1em 0 2em
+
+  li
+    margin: 0 0 .5em
+
+  .section-nav-siblings
+    padding-bottom: .5em
+
+  .section-nav-children
+    padding-left: 1em
