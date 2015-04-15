@@ -1,12 +1,9 @@
-.participants-table-component
+.component-participants
   clear: both
   padding: 3em 0 2em
   margin: 0 5%
 
-.participants-table-header
-  @extend %component-header
-
-.participants-table
+.component-participants-table
   width: 100%
   border:
     collapse: collapse
@@ -15,7 +12,6 @@
 
   a
     color: color('light-blue')
-    display: block
 
     &:hover,
     &:active
@@ -24,7 +20,7 @@
   th,
   td
     text-align: left
-    padding: .25em
+    padding: .5em
 
     &:first-child
       padding-left: 0

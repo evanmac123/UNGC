@@ -1,9 +1,9 @@
-<li class='content-block'>
-  <%= link_to_redesign url, class: "content-block-link#{" content-block-type-#{type}" if type ||= nil}" do %>
-    <div class='content-block-image' style='background-image: url(<%= thumbnail -%>)'>
+<li class='component-content-block'>
+  <%= link_to_redesign url, class: "component-content-block-link#{" component-content-block-type-#{type}" if type ||= nil}" do %>
+    <div class='component-content-block-image' style='background-image: url(<%= thumbnail -%>)'>
       <%= image_tag thumbnail %>
     </div>
-    <h2 class='content-block-title'><%= title -%></h2>
-    <div class='content-block-tag'><%= tag -%></div>
+    <h2 class='component-content-block-title'><%= title -%></h2>
+    <div class='component-content-block-tag'><%= tag -%></div>
   <% end %>
 </li>

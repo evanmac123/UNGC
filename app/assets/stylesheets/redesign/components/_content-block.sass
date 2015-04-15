@@ -1,4 +1,4 @@
-.content-block
+.component-content-block
   float: left
   position: relative
   width: 33.333%
@@ -6,7 +6,7 @@
   border: 1px solid white
   margin: 0
 
-.content-block-link
+.component-content-block-link
   display: block
   position: absolute
   top: 0
@@ -17,7 +17,7 @@
   background: #eee
   border: 1px solid #ddd
 
-  .content-block-title
+  .component-content-block-title
     position: absolute
     left: 0
     right: 0
@@ -29,7 +29,7 @@
     line-height: 1.3
     text-shadow: 0 0 2px color('dark-grey')
 
-  .content-block-image
+  .component-content-block-image
     display: block
     position: absolute
     top: 0
@@ -46,7 +46,7 @@
     img
       display: none
 
-  .content-block-tag
+  .component-content-block-tag
     display: block
     position: absolute
     top: 2.5%
@@ -73,12 +73,12 @@
       bottom: 0
       +triangle(1em, rgba(black, .7), down-right)
 
-  &.content-block-type-resource
-    .content-block-title
+  &.component-content-block-type-resource
+    .component-content-block-title
       font-size: 1.125em
       background-color: rgba(black, .8)
 
-    .content-block-image
+    .component-content-block-image
       top: 10%
       width: 80%
       box-shadow: 0 1px 6px rgba(black, .5)
@@ -88,7 +88,7 @@
     background: white
     border-color: color('pastel-blue')
 
-    .content-block-tag
+    .component-content-block-tag
       background-color: color('light-blue')
 
       &:before
@@ -97,6 +97,6 @@
       &:after
         +triangle(1em, color('light-blue'), down-right)
 
-    &.content-block-type-resource
-      .content-block-title
+    &.component-content-block-type-resource
+      .component-content-block-title
         background-color: rgba(color('light-blue'), .8)

@@ -1,13 +1,13 @@
 <%- if participants = @page.participants -%>
-<section class='participants-table-component'>
+<section class='component-participants'>
   <%- if title ||= nil -%>
-    <header class='participants-table-header'>
+    <header class='component-header'>
       <%= content_tag(:h1, title.try(:html_safe)) %>
       <%= link_to "View the Full List in Who&rsquo;s Involved".html_safe, '', class: 'view-all' %>
     </header>
   <%- end -%>
 
-  <table class='participants-table'>
+  <table class='component-participants-table'>
     <thead>
       <tr>
         <th class='name'>Name</th>

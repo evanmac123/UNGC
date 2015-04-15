@@ -1,0 +1,48 @@
+.component-header
+  position: relative
+  margin: 0 0 1.5em
+
+  h1
+    font-size: 2em
+    margin: 0
+
+  .view-all
+    display: block
+    position: absolute
+    bottom: .3em
+    right: 0
+    font:
+      size: 1.125em
+      family: $flama-bold
+    color: color('grey')
+
+    &:after
+      +fa-icon
+      content: $fa-var-caret-right
+      margin-left: .25em
+      color: color('light-blue')
+
+    &:hover,
+    &:active
+      color: color('light-blue')
+
+@import components/main-header
+@import components/main-footer
+@import components/hero
+@import components/stats
+@import components/tiles
+@import components/events-news
+@import components/main-content-section
+@import components/sidebar
+@import components/widget-contact
+@import components/widget-calls-to-action
+@import components/widget-links-lists
+@import components/widget-image
+@import components/content-blocks
+@import components/content-block
+@import components/participants
+@import components/partners
+@import components/library-filters-form
+@import components/filter-options-list
+@import components/filter-option
+@import components/active-filters-list
