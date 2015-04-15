@@ -4,33 +4,7 @@
   margin: 0 5%
 
 .participants-table-header
-  position: relative
-  margin: 0 0 1em
-
-  h1
-    font-size: 2em
-    margin: 0
-
-  .view-all
-    display: block
-    position: absolute
-    bottom: 1.125em
-    right: 0
-    font:
-      size: 1.125em
-      family: $flama-bold
-    color: color('grey')
-
-    &:after
-      +fa-icon
-      content: $fa-var-caret-right
-      margin-left: .25em
-      color: color('light-blue')
-
-    &:hover,
-    &:active
-      color: color('light-blue')
-
+  @extend %component-header
 
 .participants-table
   width: 100%

@@ -3,32 +3,10 @@
   padding: 3em 0 0
 
 .content-blocks-header
-  position: relative
-  margin: 0 5% 1em
-
-  h1
-    font-size: 2em
-    margin: 0
-
-  .view-all
-    display: block
-    position: absolute
-    bottom: 1.125em
-    right: 0
-    font:
-      size: 1.125em
-      family: $flama-bold
-    color: color('grey')
-
-    &:after
-      +fa-icon
-      content: $fa-var-caret-right
-      margin-left: .25em
-      color: color('light-blue')
-
-    &:hover,
-    &:active
-      color: color('light-blue')
+  @extend %component-header
+  margin:
+    right: 5%
+    left: 5%
 
 .content-blocks-list
   list-style: none
