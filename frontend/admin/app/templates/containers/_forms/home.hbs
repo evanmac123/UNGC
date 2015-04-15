@@ -1,22 +1,10 @@
 {{#container/x-fields scope=model.container as |home|}}
   {{container/macros/x-metatags scope=home}}
 
-  <fieldset>
-    <legend>Hero</legend>
-    {{#container/x-fields key="hero" scope=home as |hero|}}
-      {{container/x-field key="image" type="image-upload" scope=hero}}
-      {{container/x-field key="theme" type="hero-theme-select" scope=hero}}
-
-      {{#container/x-fields key="title" scope=hero as |title|}}
-        {{container/x-field key="title1" type="string" limit=50 scope=title}}
-        {{container/x-field key="title2" type="string" limit=50 scope=title}}
-      {{/container/x-fields}}
-
-      {{container/x-field key="blurb" type="string" scope=hero}}
-      {{container/macros/x-link key="link" scope=hero}}
-      {{container/x-field key="showIssuesNav" label="Show issues nav" type="boolean" default=true scope=hero}}
-    {{/container/x-fields}}
-  </fieldset>
+  {{#container/macros/x-hero scope=home as |hero|}}
+    {{container/macros/x-link key="link" scope=hero}}
+    {{container/x-field key="showIssuesNav" label="Show issues nav" type="boolean" default=true scope=hero}}
+  {{/container/macros/x-hero}}
 
   <fieldset>
     <legend>Stats</legend>

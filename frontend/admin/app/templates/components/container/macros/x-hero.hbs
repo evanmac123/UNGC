@@ -1,0 +1,15 @@
+<fieldset>
+  <legend>Hero</legend>
+  {{#container/x-fields key="hero" scope=scope as |hero|}}
+    {{container/x-field key="image" type="image-upload" scope=hero}}
+    {{container/x-field key="theme" type="hero-theme-select" scope=hero}}
+
+    {{#container/x-fields key="title" scope=hero as |title|}}
+      {{container/x-field key="title1" type="string" limit=50 scope=title}}
+      {{container/x-field key="title2" type="string" limit=50 scope=title}}
+    {{/container/x-fields}}
+
+    {{container/x-field key="blurb" type="string" scope=hero}}
+    {{yield hero}}
+  {{/container/x-fields}}
+</fieldset>
