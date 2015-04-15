@@ -9,9 +9,9 @@ class Redesign::StaticController < Redesign::ApplicationController
     @page = FakeIssuePage.new
   end
 
-  def action
-    # set_current_container :action, '/action'
-    @page = FakeActionPage.new
+  def action_detail
+    # set_current_container :action_detail, '/action-detail'
+    @page = FakeActionDetailPage.new
   end
 
   def catch_all

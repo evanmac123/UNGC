@@ -1,4 +1,4 @@
-class FakeActionPage
+class FakeActionDetailPage
   def hero
     {
       title: {
@@ -94,7 +94,7 @@ class FakeActionPage
   def related_content
     rc = {
       related_content: {
-        title: 'what\'s & Happening',
+        title: 'What&rsquo;s Happening',
         content_boxes: [
           {
             container_path: "/about"

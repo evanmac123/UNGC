@@ -48,7 +48,7 @@ UNGC::Application.routes.draw do
 
     get '/'       => 'static#home',       as: :root
     get '/issue'  => 'static#issue',      as: :issue
-    get '/action' => 'static#action',     as: :action
+    get '/action-detail' => 'static#action_detail',     as: :action_detail
     get '*path'   => 'static#catch_all',  as: :catch_all
   end
 
