@@ -41,7 +41,8 @@ class Redesign::Container < ActiveRecord::Base
   validates :slug, uniqueness: { scope: :parent_container_id }
 
   scope :by_path, -> (paths) {
-    where('path in (?)', Array(paths).map {|p| Redesign::Container.normalize_slug(p)} )
+    normalized_paths = Array(paths).map {|p| Redesign::Container.normalize_slug(p)}
+    where('path in (?)',  normalized_paths).order("field(path, '#{normalized_paths.join('\',\'')}')")
   }
 
   scope :by_ids_with_descendants, ->(ids) {
