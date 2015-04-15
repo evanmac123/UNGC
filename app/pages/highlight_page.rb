@@ -9,7 +9,8 @@ class HighlightPage < ContainerPage
   end
 
   def main_content_sections
-    @data[:article_blocks].map do |section|
+    article_blocks = @data[:article_blocks] || []
+    article_blocks.map do |section|
       data = {
         title: section[:title],
         content: section[:content],
