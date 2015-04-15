@@ -62,6 +62,6 @@ class IssueLayout < UNGC::Layout
   end
 
   scope :related_content, array: true, size: 3 do
-    field :container_path, type: :string, required: true
+    field :container_path, type: :string
   end
 end
