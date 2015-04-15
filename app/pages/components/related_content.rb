@@ -4,15 +4,7 @@ class Components::RelatedContent
   end
 
   def data
-    # XXX deal with missing paylods and draft payloads
-    containers.map do |c|
-      {
-        thumbnail: c.payload.data[:meta_tags][:thumbnail],
-        issue: "no issue",
-        url: c.path,
-        title: c.payload.data[:meta_tags][:title]
-      }
-    end
+    containers.map { |c| Components::ContentBox.new(c) }
   end
 
   private
