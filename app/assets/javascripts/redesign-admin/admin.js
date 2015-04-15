@@ -275,12 +275,12 @@ define('admin/components/container/macros/x-topics', ['exports', 'ember'], funct
   'use strict';
 
   exports['default'] = Ember['default'].Component.extend({
-    sectors: Ember['default'].inject.service(),
+    topics: Ember['default'].inject.service(),
 
     _onInsertElement: (function () {
       var _this = this;
 
-      this.get("sectors.data").then(function (data) {
+      this.get("topics.data").then(function (data) {
         _this.set("items", data);
       });
     }).on("didInsertElement")
@@ -9620,13 +9620,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.e321ed47"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.82b8a021"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.e321ed47"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.82b8a021"});
 }
 
 /* jshint ignore:end */
