@@ -1,10 +1,11 @@
 import Ember from 'ember';
-import request from 'ic-ajax';
 
 export default Ember.Component.extend({
+  issues: Ember.inject.service(),
+
   _onInsertElement: function() {
-    request('/redesign/admin/api/taggings/issues').then( (data) => {
-      this.set('items', data.data);
+    this.get('issues.data').then( (data) => {
+      this.set('items', data);
     });
   }.on('didInsertElement')
 });
