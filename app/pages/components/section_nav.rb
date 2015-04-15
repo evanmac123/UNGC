@@ -2,21 +2,26 @@
 
 class Components::SectionNavLink
 
-  def initialize(container)
+  def initialize(container, current_container = nil)
     @container = container
+    @current_container = current_container
   end
 
   def title
     container.payload.data[:meta_tags][:title] rescue nil
   end
 
-  def url
+  def path
     container.path
+  end
+
+  def is_current
+    current_container == container
   end
 
   private
 
-  attr_reader :container
+  attr_reader :container, :current_container
 end
 
 class Components::SectionNav
@@ -27,6 +32,12 @@ class Components::SectionNav
 
   def current
     Components::SectionNavLink.new(container)
+  end
+
+  def siblings
+    container.parent_container.child_containers.includes(:public_payload).map do |c|
+      Components::SectionNavLink.new(c, container)
+    end
   end
 
   def parent
