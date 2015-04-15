@@ -21,23 +21,15 @@
 
   .content-block-title
     position: absolute
-    top: 0
     left: 0
     right: 0
     bottom: 0
+    padding: 1em 1.5em 1.2em
     margin: 0
     color: white
-    font-size: 1.125em
+    font-size: 1.5em
     line-height: 1.3
-
-    span
-      display: block
-      position: absolute
-      left: 0
-      right: 0
-      bottom: 0
-      padding: 0 1.5em 1.2em
-      text-shadow: 0 0 2px color('dark-grey')
+    text-shadow: 0 0 2px color('dark-grey')
 
   .content-block-image
     display: block
@@ -103,7 +95,8 @@
 
 .content-block.content-block-type-resource
   .content-block-title
-    +linear-gradient(transparent, rgba(black, .1) 60%, rgba(black, .2) 70%, rgba(black, .5), $fallback: transparent)
+    font-size: 1.125em
+    background-color: rgba(black, .8)
 
   .content-block-image
     top: 10%
