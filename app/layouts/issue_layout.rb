@@ -61,7 +61,10 @@ class IssueLayout < UNGC::Layout
     field :resource_id, type: :number, required: true
   end
 
-  scope :related_content, array: true, size: 3 do
-    field :container_path, type: :string
+  scope :related_content do
+    field :title, type: :string, limit: 50
+    scope :content_boxes, array: true, size: 3 do
+      field :container_path, type: :string
+    end
   end
 end

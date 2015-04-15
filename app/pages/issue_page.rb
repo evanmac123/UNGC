@@ -21,7 +21,7 @@ class IssuePage < ContainerPage
   end
 
   def related_content
-    Components::RelatedContent.new(@data).data
+    Components::RelatedContent.new(@data)
   end
 
   def resources

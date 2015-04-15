@@ -93,17 +93,20 @@ class FakeIssuePage
 
   def related_content
     rc = {
-      related_content: [
-        {
-          container_path: "/participation"
-        },{
-          container_path: "/participation/why-join"
-        },{
-          container_path: "/participation/report"
-        }
-      ]
+      related_content: {
+        title: 'what\'s & Happening',
+        content_boxes: [
+          {
+            container_path: "/about"
+          },{
+            container_path: "/"
+          },{
+            container_path: "/participation"
+          }
+        ]
+      }
     }
-    Components::RelatedContent.new(rc).data
+    Components::RelatedContent.new(rc)
   end
 
   def events

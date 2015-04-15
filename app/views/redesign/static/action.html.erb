@@ -8,8 +8,8 @@
   <% end %>
 <% end %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {title: 'What&rsquo;s Happening'} do %>
-  <%- @page.related_content.each do |block| -%>
+<%= render layout: 'redesign/components/content_blocks', locals: {title: @page.related_content.title} do %>
+  <%- @page.related_content.boxes.each do |block| -%>
     <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
   <%- end -%>
 <% end %>

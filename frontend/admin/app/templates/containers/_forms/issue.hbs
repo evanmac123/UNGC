@@ -65,10 +65,13 @@
 
   <fieldset>
     <legend>Related Content</legend>
-    {{#container/x-fields tagName="ol" key="relatedContent" array=true size=3 scope=issue as |resources|}}
-      <li class="stat-group">
-          {{container/x-field key="containerPath" type="string" scope=resources}}
-      </li>
+    {{#container/x-fields key="relatedContent" scope=issue as |relatedContent|}}
+      {{container/x-field key="title" type="string" limit=50 scope=relatedContent}}
+      {{#container/x-fields tagName="ol" key="contentBoxes" array=true size=3 scope=relatedContent as |boxes|}}
+        <li class="stat-group">
+            {{container/x-field key="containerPath" type="string" scope=boxes}}
+        </li>
+      {{/container/x-fields}}
     {{/container/x-fields}}
   </fieldset>
 

@@ -5,7 +5,12 @@ class Components::RelatedContent
     @data = data
   end
 
-  def data
+
+  def title
+    related_content[:title]
+  end
+
+  def boxes
     return [] if containers.size != REQUIRED_SIZE
     containers.map { |c| Components::ContentBox.new(c) }
   end
@@ -13,9 +18,16 @@ class Components::RelatedContent
   private
 
   def containers
-    blocks = @data[:related_content]
-    return [] unless blocks
-    paths = blocks.map {|r| r[:container_path] }
-    Redesign::Container.includes(:public_payload).by_path(paths)
+    @container ||= begin
+                     boxes = related_content[:content_boxes]
+                     return [] unless boxes
+                     paths = boxes.map {|r| r[:container_path] }
+                     Redesign::Container.includes(:public_payload).by_path(paths)
+                   end
   end
+
+  def related_content
+    @data[:related_content] || {}
+  end
+
 end
