@@ -14,10 +14,8 @@
   right: 0
   bottom: 0
   overflow: hidden
-  background: #e6e6e6
+  background: #eee
   border: 1px solid #ddd
-  +transition-property(background-color color)
-  +transition-duration(150ms)
 
   .content-block-title
     position: absolute
@@ -75,10 +73,20 @@
       bottom: 0
       +triangle(1em, rgba(black, .7), down-right)
 
+  &.content-block-type-resource
+    .content-block-title
+      font-size: 1.125em
+      background-color: rgba(black, .8)
+
+    .content-block-image
+      top: 10%
+      width: 80%
+      box-shadow: 0 1px 6px rgba(black, .5)
+
   &:hover,
   &:active
-    background: #f6f6f6
-    border-color: color('light-blue')
+    background: white
+    border-color: color('pastel-blue')
 
     .content-block-tag
       background-color: color('light-blue')
@@ -89,16 +97,6 @@
       &:after
         +triangle(1em, color('light-blue'), down-right)
 
-  &:active
-    +transition-duration(0ms)
-
-
-.content-block.content-block-type-resource
-  .content-block-title
-    font-size: 1.125em
-    background-color: rgba(black, .8)
-
-  .content-block-image
-    top: 10%
-    width: 80%
-    box-shadow: 0 1px 6px rgba(black, .5)
+    &.content-block-type-resource
+      .content-block-title
+        background-color: rgba(color('light-blue'), .8)
