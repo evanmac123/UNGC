@@ -24,17 +24,7 @@ class HomeLayout < UNGC::Layout
   has_meta_tags!
   has_taggings!
 
-  scope :hero do
-    field :image, type: :image_url
-    field :theme, type: :string, enum: THEMES, default: 'light'
-
-    scope :title do
-      field :title1, type: :string, limit: 50, required: true
-      field :title2, type: :string, limit: 50
-    end
-
-    field :blurb, type: :string, limit: 200, required: true
-
+  has_hero! do
     scope :link do
       field :label, type: :string, limit: 30, required: true
       field :url,   type: :href,   required: true

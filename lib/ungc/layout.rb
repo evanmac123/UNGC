@@ -5,6 +5,12 @@ module UNGC
   class Layout
 
     module Macros
+      THEMES = %w[
+        none
+        light
+        dark
+      ]
+
       def has_meta_tags!
         scope :meta_tags do
           field :title, type: :string, required: true
@@ -18,6 +24,24 @@ module UNGC
           field :issues, type: :array
           field :topics, type: :array
           field :sectors, type: :array
+        end
+      end
+
+      def has_hero!(&block)
+        scope :hero do
+          field :image, type: :image_url
+          field :theme, type: :string, enum: THEMES, default: 'light'
+
+          scope :title do
+            field :title1, type: :string, limit: 50, required: true
+            field :title2, type: :string, limit: 50
+          end
+
+          field :blurb, type: :string, limit: 200, required: true
+
+          if block_given?
+            instance_exec(&block)
+          end
         end
       end
     end
