@@ -232,16 +232,18 @@ define('admin/components/container/macros/x-issues', ['exports', 'ember', 'ic-aj
   });
 
 });
-define('admin/components/container/macros/x-resource', ['exports', 'ember', 'ic-ajax'], function (exports, Ember, request) {
+define('admin/components/container/macros/x-resource', ['exports', 'ember'], function (exports, Ember) {
 
   'use strict';
 
   exports['default'] = Ember['default'].Component.extend({
+    resources: Ember['default'].inject.service(),
+
     _onInsertElement: (function () {
       var _this = this;
 
-      request['default']("/redesign/admin/api/resources/").then(function (data) {
-        _this.set("items", data.data);
+      this.get("resources.data").then(function (data) {
+        _this.set("items", data);
       });
     }).on("didInsertElement")
   });
@@ -1730,6 +1732,19 @@ define('admin/services/flash-messages-service', ['exports', 'ember-cli-flash/ser
 	'use strict';
 
 	exports['default'] = FlashMessagesService['default'];
+
+});
+define('admin/services/resources', ['exports', 'ember', 'ember-data', 'ic-ajax'], function (exports, Ember, DS, request) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Object.extend({
+    data: DS['default'].PromiseArray.create({
+      promise: request['default']("/redesign/admin/api/resources/").then(function (data) {
+        return data.data;
+      })
+    })
+  });
 
 });
 define('admin/templates/application', ['exports'], function (exports) {
@@ -9545,13 +9560,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.ba630aa0"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.e1acf273"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.ba630aa0"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.e1acf273"});
 }
 
 /* jshint ignore:end */
