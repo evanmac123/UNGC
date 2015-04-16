@@ -10,7 +10,7 @@
           <%= link_to_redesign(sibling.title, sibling.path, class: "#{"current" if sibling.is_current}") %>
           <%- if sibling.is_current -%>
             <ul class='section-nav-children'>
-              <%- nav.children.each do |child| -%>
+              <%- sibling.children.each do |child| -%>
                 <li><%= link_to_redesign(child.title, child.path) -%></li>
               <%- end -%>
             </ul>
