@@ -3,21 +3,7 @@
   <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
 
   <section class='main-content-body'>
-    <%- if principles = content[:principles] -%>
-      <aside class='main-content-principles-list'>
-        Tied to Principles:
-        <ol>
-          <%- principles.each do |principle| -%>
-          <li>
-            <span class='principle-number'></span>
-            <span class='principle-detail'>
-              <%= principle %>
-            </span>
-          </li>
-          <%- end -%>
-        </ol>
-      </aside>
-    <%- end -%>
+    <%= render('redesign/components/tied_principles', principles: content[:principles]) if content[:principles] -%>
 
     <%= content[:content].html_safe if content[:content] %>
 

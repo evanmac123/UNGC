@@ -1,0 +1,53 @@
+.component-tied-principles
+  margin: 0 0 2em
+
+ul.component-tied-principles-list,
+li.component-tied-principle,
+.component-tied-principle-number
+  display: inline-block
+  margin: 0
+
+ul.component-tied-principles-list
+  list-style-type: none
+  padding: 0 0 0 .5em
+
+.component-tied-principle-number
+  background-color: color('blue')
+  color: white
+  padding: .3em .5em .25em
+  line-height: 1
+  cursor: pointer
+
+.component-tied-principle-detail
+  display: none
+
+li.component-tied-principle,
+  position: relative
+
+  &:hover
+    .component-tied-principle-number
+      background: color('teal')
+
+    .component-tied-principle-detail
+      display: block
+      position: absolute
+      left: 0
+      bottom: 100%
+      background: rgba(white, .9)
+      padding: 1em
+      border: 1px solid #bbb
+      margin: 0 0 .5em
+      width: 30em
+
+      &:before
+        content: ''
+        position: absolute
+        left: .25em
+        bottom: -0.5em
+        +triangle(1em, #bbb, down)
+
+      a
+        &:after
+          +fa-icon
+          content: $fa-var-caret-right
+          margin-left: .25em
