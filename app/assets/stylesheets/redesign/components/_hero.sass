@@ -4,7 +4,12 @@
   background: lighten(color('pastel-blue'), 15%) url('//ungc.s3.amazonaws.com/hero/world.png') no-repeat
     position: top center
     size: cover
+  min-height: 40em
   +font-smoothing(antialiased)
+
+  &.hero-size-small
+    min-height: 0
+    padding-top: 13em
 
   &.dark-theme
     background-color: #111
@@ -12,15 +17,14 @@
   &.light-theme
     background-color: #ccc
 
-  &.has-nav
-    padding-bottom: 10em
+  &.has-issues-nav
+    padding-bottom: 8em
 
   *
     position: relative
     z-index: 2
 
-  &.custom-image
-    min-height: 40em
+  &.has-custom-image
     background-position: center center
 
     &.dark-theme,
@@ -45,7 +49,7 @@
       +linear-gradient(90deg, rgba(white, .7) 40%, transparent, $fallback: transparent)
 
   h1
-    margin: -1em 0 .5em 12%
+    margin: -1em 0 0 12%
     font-size: 2.626em
     line-height: 1
     color: white
@@ -64,14 +68,14 @@
 
   .blurb
     font-size: 1.125em
-    margin: 0 0 3em 12%
+    margin: 1em 0 0 12%
     max-width: 580px
 
   &.dark-theme .blurb
     color: white
 
   .button
-    margin-left: 12%
+    margin: 1em 0 0 12%
     background: rgba(color('teal'), .8)
 
     &:hover,

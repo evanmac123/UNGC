@@ -1,11 +1,70 @@
 class FakeIssuePage
   def hero
     {
+      size: 'small',
       title: {
         title1: "Issue Page",
         title2: "Headline Goes Here."
-      }
+      },
+      show_section_nav: true
     }
+  end
+
+  def section_nav
+    nav = {
+      parent: {
+        title: 'Participation',
+        path: '/participation'
+      },
+      siblings: [
+        {
+          title: 'Sibling 1',
+          path: ''
+        },
+        {
+          title: 'Sibling 2',
+          path: ''
+        },
+        {
+          title: 'Current',
+          path: '',
+          is_current: true
+        },
+        {
+          title: 'Sibling 4',
+          path: ''
+        },
+        {
+          title: 'Sibling 5',
+          path: ''
+        },
+      ],
+      children: [
+        {
+          title: 'Child Item 1',
+          path: ''
+        },
+        {
+          title: 'Child Item 2',
+          path: ''
+        },
+        {
+          title: 'Child Item 3',
+          path: ''
+        },
+        {
+          title: 'Child Item 4',
+          path: ''
+        },
+      ]
+    }
+
+    nav = OpenStruct.new(nav)
+    nav.parent = OpenStruct.new(nav.parent)
+    nav.siblings.map!{|ni| OpenStruct.new(ni)}
+    nav.children.map!{|ni| OpenStruct.new(ni)}
+
+    nav
   end
 
   def main_content_section

@@ -1,33 +1,39 @@
 <%- if hero_data = @page.hero -%>
+  <%-
+  hero_classes = ['page-section']
+  hero_classes << 'has-issues-nav'                  if hero_data[:show_issues_nav]
+  hero_classes << 'has-section-nav'                 if hero_data[:show_section_nav]
+  hero_classes << 'has-custom-image'                if hero_data[:image]
+  hero_classes << "hero-size-#{hero_data[:size]}"   if hero_data[:size]
+  hero_classes << "#{hero_data[:theme].parameterize}-theme" if hero_data[:theme] && hero_data[:theme] != 'none'
 
-<header id='hero' style='<%= "background-image: url(#{hero_data[:image]});" if hero_data[:image] %>' class='<%= 'has-nav' if hero_data[:show_issues_nav] || hero_data[:show_section_nav] -%> <%= 'custom-image' if hero_data[:image] -%> <%= "#{hero_data[:theme].parameterize}-theme" if hero_data[:theme] -%> page-section'>
+  hero_styles = hero_data[:image] ? "background-image: url(#{hero_data[:image]});" : ""
+  -%>
 
-  <%- if hero_data[:title] -%>
-    <h1><%- hero_data[:title].each do |key, value| -%>
-      <%= tag(:br) if value -%>
-      <%= content_tag(:span, value.try(:html_safe)) if value -%>
-    <%- end -%></h1>
-  <%- end -%>
+  <header id='hero' style='<%= hero_styles %>' class='<%= hero_classes.join(' ') -%>'>
 
-  <%- if hero_data[:blurb] -%>
-  <p class='blurb'><%= hero_data[:blurb].html_safe -%></p>
-  <%- end -%>
+    <%- if hero_data[:title] -%>
+      <h1><%- hero_data[:title].each do |key, value| -%>
+        <%= tag(:br) if value -%>
+        <%= content_tag(:span, value.try(:html_safe)) if value -%>
+      <%- end -%></h1>
+    <%- end -%>
 
-  <%= link_to(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] -%>
+    <%= content_tag(:p, hero_data[:blurb].html_safe, {class: 'blurb'}) if hero_data[:blurb] %>
 
-  <%- if hero_data[:show_issues_nav] -%>
-  <ul id='issues-nav'>
-    <li><%= link_to 'Human Rights'      , '', class: 'human-rights' %></li>
-    <li><%= link_to 'Labour'            , '', class: 'labour' %></li>
-    <li><%= link_to 'Environment'       , '', class: 'environment' %></li>
-    <li><%= link_to 'Anti-Corruption'   , '', class: 'anti-corruption' %></li>
-    <li><%= link_to 'Strengthen Society', '', class: 'strengthen-society' %></li>
-  </ul>
-  <%- end -%>
+    <%= link_to(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] -%>
 
+    <%- if hero_data[:show_issues_nav] -%>
+    <ul id='issues-nav'>
+      <li><%= link_to 'Human Rights'      , '', class: 'human-rights' %></li>
+      <li><%= link_to 'Labour'            , '', class: 'labour' %></li>
+      <li><%= link_to 'Environment'       , '', class: 'environment' %></li>
+      <li><%= link_to 'Anti-Corruption'   , '', class: 'anti-corruption' %></li>
+      <li><%= link_to 'Strengthen Society', '', class: 'strengthen-society' %></li>
+    </ul>
+    <%- end -%>
 
-  <%= render('redesign/components/nav_section') if hero_data[:show_section_nav] %>
+    <%= render('redesign/components/nav_section') if hero_data[:show_section_nav] %>
 
-</header>
-
+  </header>
 <%- end -%>
