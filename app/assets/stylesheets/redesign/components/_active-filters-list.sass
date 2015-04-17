@@ -51,20 +51,23 @@
 
   .remove-active-filter
     padding: .25em .5em
-    // line-height: 1.8em
 
-  .active-filter
+  .active-filter,
+  .clear-all-filters
     display: inline-block
     position: relative
     padding: 0
     margin: 0 .25em .5em 0
-    background-color: color('pastel-blue')
     color: white
     font-weight: 700
     opacity: 1
     cursor: default
+    vertical-align: top
     +transition-property(background-color transform opacity)
     +transition-duration(250ms)
+
+  .active-filter
+    background-color: color('pastel-blue')
     +transform(scale3d(1, 1, 1))
 
     &.removing
@@ -77,3 +80,18 @@
       &:active
         background-color: color('light-red')
         color: white
+
+  .clear-all-filters button
+    font:
+      family: inherit
+      size: inherit
+    text-transform: inherit
+    padding: .25em 1em
+    line-height: inherit
+    margin: 0
+    background-color: color('light-grey')
+
+    &:hover,
+    &:active
+      background-color: color('grey')
+      color: white

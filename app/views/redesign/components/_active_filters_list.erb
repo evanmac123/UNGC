@@ -9,6 +9,8 @@
           <button class='remove-active-filter' data-filter-id="<%= filter.id -%>" data-filter-type="<%= filter.type -%>">&times;</button>
         </li>
       <%- end -%>
+
+      <li class='clear-all-filters'><%= button_tag 'Clear All', type: 'reset' %></li>
     </ol>
   </article>
 <%- end -%>

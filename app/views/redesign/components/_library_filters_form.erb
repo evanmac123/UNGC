@@ -27,11 +27,14 @@
   </fieldset>
 
   <div class='reset-and-submit'>
-    <%= f.submit 'Clear', type: 'reset' %>
     <%= f.submit 'Search', id: 'our-search' %>
   </div>
 
   <%- if @results.any? -%>
-    <p class='results-count'>Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;<strong><%= @results.total_entries -%></strong> results</p>
+    <p class='results-count'>
+      <%- if !@search.keywords.empty? -%>
+        Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
+      <%- end -%>
+      <strong><%= @results.total_entries -%></strong> results</p>
   <%- end -%>
 <%- end -%>

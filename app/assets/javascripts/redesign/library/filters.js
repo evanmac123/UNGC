@@ -52,9 +52,8 @@ $(function() {
   });
 
   // clear the form
-  var $reset = $form.find('input[type=reset]');
-  $reset.on('click', function(ev) {
-    $('#search_author').val(null);
+  $form.find('.clear-all-filters button').on('click', function(ev) {
+    $('#search-field').val(null);
     $('input:checked').prop("checked", false);
     $('#content-type').val(null);
     $form.submit();
