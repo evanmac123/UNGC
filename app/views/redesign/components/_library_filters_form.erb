@@ -3,7 +3,7 @@
   <header>
     <h1>Explore Our Library</h1>
 
-    <%= f.search_field :keywords, placeholder: 'Search Our Library', id: 'search-field' %>
+    <%= f.search_field :keywords, placeholder: 'Search Our Library', id: 'search-field', tabindex: 1, autofocus: true %>
   </header>
 
 
@@ -31,5 +31,7 @@
     <%= f.submit 'Search', id: 'our-search' %>
   </div>
 
-  <%= content_tag(:p, "<strong>#{@results.total_entries}</strong> results".html_safe, class: 'results-count') if @results.any? %>
+  <%- if @results.any? -%>
+    <p class='results-count'>Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;<strong><%= @results.total_entries -%></strong> results</p>
+  <%- end -%>
 <%- end -%>

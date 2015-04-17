@@ -14,7 +14,7 @@ $(function() {
     }));
   });
 
-  // show them on click
+  // Toggle filter lists on click
   $triggers.on('click', function(event) {
     event.preventDefault();
     var $trigger  = $(event.currentTarget),
