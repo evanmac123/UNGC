@@ -67,13 +67,21 @@ class FakeActionDetailPage
     nav
   end
 
+  def principles
+      [{
+        number: 1,
+        blurb: 'At minus excepturi nostrum ut cupiditate expedita enim repellat necessitatibus cumque ad sint pariatur. et quo fuga saepe recusandae quasi.',
+        path: '/some-principle-url'
+      },{
+        number: 2,
+        blurb: 'At minus excepturi nostrum ut cupiditate expedita enim repellat necessitatibus cumque ad sint pariatur. et quo fuga saepe recusandae quasi.',
+        path: '/some-other-principle-url'
+      }]
+  end
+
   def main_content_section
     {
       title: "Harum Quo Ut Et Aut Explicabo Debitis Magni Possimus Dolore Illo Consequatur",
-      principles: [
-        '/some-principle-url',
-        '/some-other-principle-url'
-      ],
       content: "<p>At minus excepturi nostrum ut cupiditate expedita enim repellat necessitatibus cumque ad sint pariatur. et quo fuga saepe recusandae quasi. dolorem odit assumenda aspernatur ea qui ratione possimus quis quis reprehenderit. dolorem qui amet cum doloremque sed occaecati ut. non quia iusto provident. asperiores quae ut quod culpa quibusdam rerum</p><p>Accusamus nihil magni nihil sint odio eligendi fugiat id officia quia deleniti nesciunt. fugit nulla aut quo harum perferendis iusto impedit perferendis architecto perferendis iusto sint animi. repudiandae itaque omnis ratione ex ut ipsum architecto aut vel ab accusantium inventore odio ea</p>"
     }
   end

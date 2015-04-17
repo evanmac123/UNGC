@@ -10,6 +10,18 @@ class FakeIssuePage
     }
   end
 
+  def principles
+      [{
+        number: 1,
+        blurb: 'At minus excepturi nostrum ut cupiditate expedita enim repellat necessitatibus cumque ad sint pariatur. et quo fuga saepe recusandae quasi.',
+        path: '/some-principle-url'
+      },{
+        number: 2,
+        blurb: 'At minus excepturi nostrum ut cupiditate expedita enim repellat necessitatibus cumque ad sint pariatur. et quo fuga saepe recusandae quasi.',
+        path: '/some-other-principle-url'
+      }]
+  end
+
   def section_nav
     nav = {
       parent: {

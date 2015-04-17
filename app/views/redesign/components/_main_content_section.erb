@@ -3,7 +3,7 @@
   <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
 
   <section class='main-content-body'>
-    <%= render('redesign/components/tied_principles', principles: content[:principles]) if content[:principles] -%>
+    <%= render('redesign/components/tied_principles', principles: principles) if principles ||= nil -%>
 
     <%= content[:content].html_safe if content[:content] %>
 

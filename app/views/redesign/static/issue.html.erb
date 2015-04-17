@@ -1,6 +1,6 @@
 <%= render partial: 'redesign/components/hero' %>
 
-<%= render layout: 'redesign/components/main_content_section', locals: {content: @page.main_content_section} do %>
+<%= render layout: 'redesign/components/main_content_section', locals: {content: @page.main_content_section, principles: @page.principles} do %>
   <%= render layout: 'redesign/components/sidebar' do %>
     <%= render('redesign/components/widget_contact', contact: @page.sidebar_widgets[:contact]) if @page.sidebar_widgets[:contact] %>
 

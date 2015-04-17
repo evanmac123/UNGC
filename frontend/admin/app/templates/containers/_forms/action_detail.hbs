@@ -6,6 +6,13 @@
   {{container/macros/x-hero scope=actionDetail}}
 
   <fieldset>
+    <legend>Principles</legend>
+    {{#container/x-fields key="principles" array=true min=0 max=5 scope=actionDetail as |principles|}}
+      {{container/x-field key="principle" type="number" scope=principles}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
     <legend>actionDetail Content</legend>
     {{#container/x-fields key="actionDetailBlock" scope=actionDetail as |actionDetailBlock|}}
       {{container/x-field key="title" type="string" limit=50 scope=actionDetailBlock}}

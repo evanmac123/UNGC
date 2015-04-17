@@ -6,7 +6,7 @@
       <%= content_tag(:span, principle[:number], {class: 'component-tied-principle-number'}) %>
       <span class='component-tied-principle-detail'>
         <%= principle[:blurb] %>
-        <%= link_to "More about Principle #{principle[:number]}", principle[:path] %>
+        <%= link_to_redesign "More about Principle #{principle[:number]}", principle[:path] %>
       </span>
     </li>
     <%- end -%>

@@ -1,6 +1,14 @@
 class IssuePage < ContainerPage
   def hero
-    @data[:hero] || {}
+    (@data[:hero] || {}).merge({size: 'small'})
+  end
+
+  def section_nav
+    return Components::SectionNav.new(container)
+  end
+
+  def principles
+    return Components::Principles.new(@data).data
   end
 
   def main_content_section
