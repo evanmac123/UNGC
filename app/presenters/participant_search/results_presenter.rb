@@ -1,8 +1,7 @@
-class ParticipantSearch::ResultsPresenter < ParticipantSearch::Presenter
+class ParticipantSearch::ResultsPresenter
   attr_accessor :results
 
-  def initialize(search, results)
-    super(search)
+  def initialize(results)
     @results = results.map {|r| Result.new(r) }
   end
 

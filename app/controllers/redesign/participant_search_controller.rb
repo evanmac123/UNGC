@@ -3,13 +3,13 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
   def index
     set_current_container :highlight, '/participant-search'
     @page = create_page
-    @search = ParticipantSearch::Presenter.new
+    @search = ParticipantSearch::Form .new
   end
 
   def search
     @page = create_page
-    search = ParticipantSearch::Form.new(search_params)
-    @search = ParticipantSearch::ResultsPresenter.new(search, search.execute)
+    @search = ParticipantSearch::Form.new(search_params)
+    @results = ParticipantSearch::ResultsPresenter.new(@search.execute)
   end
 
   private

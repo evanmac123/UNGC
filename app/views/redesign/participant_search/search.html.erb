@@ -2,33 +2,28 @@
 <% provide :description, @page.meta_description %>
 <%= render partial: 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_participant_search_path, method: :get, html: {class: 'library-filters-form'} do |f| %>
+<header>
+  <h1>Participant Search</h1>
+</header>
 
-  <header>
-    <h1>Participant Search</h1>
-  </header>
+<h2><%= @page.blurb %></h2>
 
-  <h2><%= @page.blurb %></h2>
+<%= render partial: 'form', locals: {search: @search} %>
 
-  <%= f.select :organization_type, @search.organization_type_options %>
-  <%= f.submit 'Search' %>
+<% @results.no_results do %>
+  No results.
+<% end %>
 
-  <% @search.no_results do %>
-    No results.
-  <% end %>
-
-  <% @search.with_results do |results| %>
-    <table>
-      <% results.each do |result| %>
-        <tr>
-          <td><%= result.name %></td>
-          <td><%= result.type %></td>
-          <td><%= result.sector %></td>
-          <td><%= result.country %></td>
-          <td><%= result.company_size %></td>
-        </tr>
-      <% end %>
-    </table>
-  <% end %>
-
+<% @results.with_results do |results| %>
+  <table>
+    <% results.each do |result| %>
+      <tr>
+        <td><%= result.name %></td>
+        <td><%= result.type %></td>
+        <td><%= result.sector %></td>
+        <td><%= result.country %></td>
+        <td><%= result.company_size %></td>
+      </tr>
+    <% end %>
+  </table>
 <% end %>

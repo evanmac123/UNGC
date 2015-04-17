@@ -2,15 +2,10 @@
 <% provide :description, @page.meta_description %>
 <%= render partial: 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_participant_search_path, method: :get, html: {class: 'library-filters-form'} do |f| %>
+<header>
+  <h1>Participant Search</h1>
+</header>
 
-  <header>
-    <h1>Participant Search</h1>
-  </header>
+<h2><%= @page.blurb %></h2>
 
-  <h2><%= @page.blurb %></h2>
-
-  <%= f.select :organization_type, @search.organization_type_options %>
-  <%= f.submit 'Search' %>
-
-<% end %>
+<%= render partial: 'form', locals: {search: @search} %>
