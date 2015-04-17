@@ -29,6 +29,7 @@ class ContainerPublisher
 
     container.transaction do
       update_payload
+      update_content_type
       update_tags
     end
 
@@ -58,6 +59,14 @@ class ContainerPublisher
         .where("#{tag_type}_id not in (?)", ids)
         .destroy_all
     end
+  end
+
+  def update_content_type
+    ct = draft.content_type
+    return unless ct
+    container.update!(
+      content_type: ct
+    )
   end
 
   def to_domain_type(input)

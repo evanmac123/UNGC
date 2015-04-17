@@ -21,6 +21,10 @@ class Redesign::Payload < ActiveRecord::Base
     data.fetch(:taggings, {})
   end
 
+  def content_type
+    data.fetch(:meta_tags, {}).fetch(:content_type, nil)
+  end
+
   def copy
     Redesign::Payload.create!(
       container_id: container_id,
