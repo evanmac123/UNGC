@@ -11,11 +11,15 @@ module UNGC
         dark
       ]
 
-      def has_meta_tags!
+      def has_meta_tags!(&block)
         scope :meta_tags do
           field :title, type: :string, required: true
           field :description, type: :string
           field :thumbnail, type: :image_url, required: true
+
+          if block_given?
+            instance_exec(&block)
+          end
         end
       end
 

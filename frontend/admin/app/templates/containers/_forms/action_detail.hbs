@@ -1,5 +1,7 @@
 {{#container/x-fields scope=model.container as |actionDetail|}}
-  {{container/macros/x-metatags scope=actionDetail}}
+  {{#container/macros/x-metatags scope=actionDetail as |metaTags|}}
+    {{container/x-field key="contentType" type="content-type-select" scope=metaTags}}
+  {{/container/macros/x-metatags}}
 
   {{container/macros/x-hero scope=actionDetail}}
 

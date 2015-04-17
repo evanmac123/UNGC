@@ -21,6 +21,11 @@ class Redesign::Container < ActiveRecord::Base
     :all_issue
   ]
 
+  enum content_type: [
+    :default,
+    :action
+  ]
+
   belongs_to :parent_container, class_name: 'Redesign::Container'
   belongs_to :public_payload, class_name: 'Redesign::Payload'
   belongs_to :draft_payload, class_name: 'Redesign::Payload'

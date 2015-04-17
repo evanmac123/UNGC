@@ -12,7 +12,10 @@ class ArticleLayout < UNGC::Layout
   label 'Article'
   layout :article
 
-  has_meta_tags!
+  has_meta_tags! do
+    field :content_type, type: :number, default: 0
+  end
+
   has_taggings!
 
   has_hero!
