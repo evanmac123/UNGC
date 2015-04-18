@@ -33,7 +33,7 @@ namespace :redesign do
       "Oil Equipment, Services & Distribution",   # Oil & Gas
       "Chemicals",                                # Chemicals
       "Forestry & Paper",                         # Basic Resources
-    ].map {|name| Sector.find_by!(name: name)}
+    ].map {|name| Sector.where.not(parent:nil).find_by!(name: name)}
 
     Resource.find_each do |resource|
       Tagging.create! resource: resource, sector: sectors[rand(sectors.length)]
