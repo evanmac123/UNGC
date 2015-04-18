@@ -110,39 +110,13 @@ class Redesign::LibrarySearchForm
   def options
     options = {}
 
-    issue_area_ids = issue_areas.keys.map &:to_i
-    if issue_area_ids.any?
-      options[:issue_area_ids] = issue_area_ids
-    end
-
-    issue_ids = issues.keys.map &:to_i
-    if issue_ids.any?
-      options[:issue_ids] = issue_ids
-    end
-
-    topic_group_ids = topic_groups.keys.map &:to_i
-    if topic_group_ids.any?
-      options[:topic_group_ids] = topic_group_ids
-    end
-
-    topic_ids = topics.keys.map &:to_i
-    if topic_ids.any?
-      options[:topic_ids] = topic_ids
-    end
+    add_issue_options(options)
+    add_topic_options(options)
+    add_sector_options(options)
 
     language_ids = languages.keys.map &:to_i
     if language_ids.any?
       options[:language_ids] = language_ids
-    end
-
-    sector_group_ids = sector_groups.keys.map &:to_i
-    if sector_group_ids.any?
-      options[:sector_group_ids] = sector_group_ids
-    end
-
-    sector_ids = sectors.keys.map &:to_i
-    if sector_ids.any?
-      options[:sector_ids] = sector_ids
     end
 
     if content_type.present?
@@ -161,11 +135,12 @@ class Redesign::LibrarySearchForm
     end
 
     {
+      indices: ['resource_new_core'],
       page: self.page || 1,
       per_page: self.per_page || 12,
       order: order,
       star: true,
-      with: options
+      with: options,
     }
   end
 
@@ -178,6 +153,80 @@ class Redesign::LibrarySearchForm
         Filter.new(issue.id, :issue, issue.name, issues.has_key?(issue.id.to_s))
       }
     ]
+  end
+
+  def add_issue_options(options)
+    ids = Set.new
+    area_ids = issue_areas.keys.map(&:to_i)
+    areas = IssueArea.includes(:issues).find(area_ids)
+    areas.each do |area|
+      if area.issues.any?
+        area.issues.each do |issue|
+          ids << issue.id
+        end
+      else
+        ids << area.id
+      end
+    end
+
+    issues.keys.each do |id|
+      ids << id.to_i
+    end
+
+    if ids.any?
+      options[:issue_ids] = ids.to_a
+    end
+  end
+
+  def add_topic_options(options)
+    ids = Set.new
+
+    # handle groups
+    parent_ids = topic_groups.keys.map &:to_i
+    parents = Topic.includes(:children).find(parent_ids)
+    parents.each do |parent|
+      if parent.children.any?
+        parent.children.each do |topic|
+          ids << topic.id
+        end
+      else
+        ids < parent.id
+      end
+    end
+
+    # handle individual items
+    topics.keys.each do |id|
+      ids << id.to_i
+    end
+
+    if ids.any?
+      options[:topic_ids] = ids.to_a
+    end
+  end
+
+  def add_sector_options(options)
+    ids = Set.new
+
+    parent_ids = sector_groups.keys.map(&:to_i)
+    parents = Sector.includes(:children).find(parent_ids)
+    parents.each do |parent|
+      if parent.children.any?
+        parent.children.each do |sector|
+          ids << sector.id
+        end
+      else
+        ids << parent.id
+      end
+    end
+
+    sectors.keys.each do |id|
+      ids << id.to_i
+    end
+
+    if ids.any?
+      options[:sector_ids] = ids.to_a
+    end
+
   end
 
 end

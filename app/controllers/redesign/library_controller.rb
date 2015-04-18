@@ -14,6 +14,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
 
   def search
     @search = Redesign::LibrarySearchForm.new(params[:page], search_params)
+    # TODO add escaping
     @results = Resource.search @search.keywords, @search.options
   end
 
