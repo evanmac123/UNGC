@@ -59,7 +59,7 @@ namespace :redesign do
   task :randomize_topics do
     topics = [
       "Responsible Investment",     # in Financial Markets
-      "Stock Markets",              # in Financial Markets
+      "Supply Chain",               # Supply Chain group
       "UN-Business Partnerships",   # in Partnerships
     ].map {|name| Topic.find_by!(name: name)}
 

@@ -190,7 +190,7 @@ class Redesign::LibrarySearchForm
           ids << topic.id
         end
       else
-        ids < parent.id
+        ids << parent.id
       end
     end
 
