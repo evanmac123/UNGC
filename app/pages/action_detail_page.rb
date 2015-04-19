@@ -37,22 +37,7 @@ class ActionDetailPage < ContainerPage
   end
 
   def partners
-    partners = [
-      {
-        name: "Unicef",
-        logo: "http://www.logospike.com/wp-content/uploads/2014/11/Unicef_logo-5.png"
-      },
-      {
-        name: "International Trade Centre",
-        logo: "http://empretecguyana.org/Images/ITC_logo.png"
-      },
-      {
-        name: "Food and Agriculture Organization of the United Nations",
-        logo: "http://www.fao.org/fileadmin/templates/faoweb/images/FAO-logo.png"
-      },
-    ]
-
-    partners.map!{|p| OpenStruct.new(p)}
+    Components::Partners.new(@data).data
   end
 
   def participants

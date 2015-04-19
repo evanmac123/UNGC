@@ -80,6 +80,17 @@
     {{/container/x-fields}}
   </fieldset>
 
+  <fieldset>
+    <legend>Partners</legend>
+    {{#container/x-fields tagName="ol" key="partners" array=true max=5 scope=actionDetail as |partners|}}
+      <li class="stat-group">
+        {{container/x-field key="name" type="string" scope=partners}}
+        {{container/x-field key="logo" label="Logo URL" type="href" scope=partners}}
+        {{container/x-field key="url" type="href" scope=partners}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+
   {{container/macros/x-taggings scope=actionDetail}}
 {{/container/x-fields}}
 

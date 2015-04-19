@@ -3,13 +3,16 @@
   <%- if title ||= nil -%>
     <header class='component-header'>
       <%= content_tag(:h1, title.try(:html_safe)) %>
-      <%= link_to "See the Full Partner List".html_safe, '', class: 'view-all' %>
     </header>
   <%- end -%>
 
   <ul class='component-partners-list'>
     <%- partners.each do |partner| -%>
-      <li><%= image_tag partner.logo, alt: partner.name -%></li>
+      <li>
+        <%= link_to_redesign partner.url do %>
+          <%= image_tag partner.logo, alt: partner.name -%>
+        <%- end -%>
+      </li>
     <%- end -%>
   </ul>
 </section>

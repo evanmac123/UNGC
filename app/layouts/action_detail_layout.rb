@@ -58,5 +58,11 @@ class ActionDetailLayout < UNGC::Layout
       field :container_path, type: :string
     end
   end
+
+  scope :partners, array: true, min: 0, max: 6 do
+    field :name, type: :string, required: true
+    field :logo, type: :href, required: true
+    field :url, type: :href, required: true
+  end
 end
 
