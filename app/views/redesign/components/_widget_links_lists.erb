@@ -3,7 +3,7 @@
   <%= content_tag(:h1, links_list[:title]) if links_list[:title] %>
   <ul>
     <%- links_list[:links].each do |l| -%>
-    <%= content_tag(:li, link_to(l[:label], l[:url])) if l[:label] && l[:url] %>
+    <%= content_tag(:li, link_to_redesign(l[:label], l[:url])) if l[:label] && l[:url] %>
     <%- end -%>
   </ul>
 </article>
