@@ -1,4 +1,4 @@
-<%- if participants = @page.participants -%>
+<%- if participants = @page.participants && !@page.participants.empty?-%>
 <section class='component-participants'>
   <%- if title ||= nil -%>
     <header class='component-header'>
