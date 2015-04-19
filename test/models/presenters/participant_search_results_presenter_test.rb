@@ -50,10 +50,9 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
     assert_equal are_named, collection.map(&:first)
   end
 
-  def create_presenter(form: nil, results: nil)
-    form ||= stub()
+  def create_presenter(results: nil)
     results ||= stub()
-    ParticipantSearch::ResultsPresenter.new(form, results)
+    ParticipantSearch::ResultsPresenter.new(results)
   end
 
 end

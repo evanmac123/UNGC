@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ParticipantSearchPresenterTest < ActiveSupport::TestCase
+class ParticipantSearch::FormTest < ActiveSupport::TestCase
 
   setup do
     @type_names = %w(city public sme)
@@ -12,7 +12,7 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
     @country_names = %w(Canada France Germany)
     @country_names.map { |name| create_country name: name }
 
-    @subject = ParticipantSearch::Presenter.new
+    @subject = ParticipantSearch::Form.new
   end
 
   should "have organization_type_options" do
@@ -30,7 +30,7 @@ class ParticipantSearchPresenterTest < ActiveSupport::TestCase
   private
 
   def assert_options(collection, are_named: [])
-    assert_equal are_named, collection.map(&:first)
+    assert_equal are_named, collection.map(&:name)
   end
 
 end

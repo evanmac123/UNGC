@@ -6,6 +6,7 @@ namespace :redesign do
     create_topics
     create_issues
     add_explore_our_library
+    add_participant_search
   end
 
   desc "Get your dev environment ready for redesign work"
