@@ -228,6 +228,23 @@ define('admin/components/container/macros/x-contact', ['exports', 'ember'], func
   });
 
 });
+define('admin/components/container/macros/x-initiative', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    initiatives: Ember['default'].inject.service(),
+
+    _onInsertElement: (function () {
+      var _this = this;
+
+      this.get("initiatives.data").then(function (data) {
+        _this.set("items", data);
+      });
+    }).on("didInsertElement")
+  });
+
+});
 define('admin/components/container/macros/x-issues', ['exports', 'ember'], function (exports, Ember) {
 
   'use strict';
@@ -1763,6 +1780,19 @@ define('admin/services/flash-messages-service', ['exports', 'ember-cli-flash/ser
 	'use strict';
 
 	exports['default'] = FlashMessagesService['default'];
+
+});
+define('admin/services/initiatives', ['exports', 'ember', 'ember-data', 'ic-ajax'], function (exports, Ember, DS, request) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Object.extend({
+    data: DS['default'].PromiseArray.create({
+      promise: request['default']("/redesign/admin/api/initiatives").then(function (data) {
+        return data.data;
+      })
+    })
+  });
 
 });
 define('admin/services/issues', ['exports', 'ember', 'ember-data', 'ic-ajax'], function (exports, Ember, DS, request) {
@@ -3793,6 +3823,54 @@ define('admin/templates/components/container/macros/x-hero', ['exports'], functi
         }
         var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),3,3);
         block(env, morph0, context, "container/x-fields", [], {"key": "hero", "scope": get(env, context, "scope")}, child0, null);
+        return fragment;
+      }
+    };
+  }()));
+
+});
+define('admin/templates/components/container/macros/x-initiative', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    return {
+      isHTMLBars: true,
+      revision: "Ember@1.11.0",
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        var hooks = env.hooks, get = hooks.get, inline = hooks.inline;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, 0);
+        inline(env, morph0, context, "container/x-field", [], {"key": "initiativeId", "type": "select2", "labelPath": "name", "placeholder": "Please choose an initiative", "limit": 50, "scope": get(env, context, "scope"), "items": get(env, context, "items"), "allowClear": true});
         return fragment;
       }
     };
@@ -5942,10 +6020,10 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
               } else {
                 fragment = this.build(dom);
               }
-              var element1 = dom.childAt(fragment, [1]);
-              var morph0 = dom.createMorphAt(element1,1,1);
-              var morph1 = dom.createMorphAt(element1,3,3);
-              var morph2 = dom.createMorphAt(element1,5,5);
+              var element2 = dom.childAt(fragment, [1]);
+              var morph0 = dom.createMorphAt(element2,1,1);
+              var morph1 = dom.createMorphAt(element2,3,3);
+              var morph2 = dom.createMorphAt(element2,5,5);
               set(env, context, "principles", blockArguments[0]);
               inline(env, morph0, context, "container/x-field", [], {"key": "label", "type": "string", "scope": get(env, context, "principles")});
               inline(env, morph1, context, "container/x-field", [], {"key": "blurb", "type": "string", "scope": get(env, context, "principles")});
@@ -6170,9 +6248,9 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
               } else {
                 fragment = this.build(dom);
               }
-              var element0 = dom.childAt(fragment, [1]);
-              var morph0 = dom.createMorphAt(element0,1,1);
-              var morph1 = dom.createMorphAt(element0,3,3);
+              var element1 = dom.childAt(fragment, [1]);
+              var morph0 = dom.createMorphAt(element1,1,1);
+              var morph1 = dom.createMorphAt(element1,3,3);
               set(env, context, "links", blockArguments[0]);
               inline(env, morph0, context, "container/x-field", [], {"key": "label", "type": "string", "scope": get(env, context, "links")});
               inline(env, morph1, context, "container/x-field", [], {"key": "url", "type": "href", "scope": get(env, context, "links")});
@@ -6379,6 +6457,114 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
           }
         };
       }());
+      var child8 = (function() {
+        return {
+          isHTMLBars: true,
+          revision: "Ember@1.11.0",
+          blockParams: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          build: function build(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          render: function render(context, env, contextualElement, blockArguments) {
+            var dom = env.dom;
+            var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline;
+            dom.detectNamespace(contextualElement);
+            var fragment;
+            if (env.useFragmentCache && dom.canClone) {
+              if (this.cachedFragment === null) {
+                fragment = this.build(dom);
+                if (this.hasRendered) {
+                  this.cachedFragment = fragment;
+                } else {
+                  this.hasRendered = true;
+                }
+              }
+              if (this.cachedFragment) {
+                fragment = dom.cloneNode(this.cachedFragment, true);
+              }
+            } else {
+              fragment = this.build(dom);
+            }
+            var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
+            set(env, context, "initiative", blockArguments[0]);
+            inline(env, morph0, context, "container/macros/x-initiative", [], {"key": "initiativeId", "scope": get(env, context, "initiative")});
+            return fragment;
+          }
+        };
+      }());
+      var child9 = (function() {
+        return {
+          isHTMLBars: true,
+          revision: "Ember@1.11.0",
+          blockParams: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          build: function build(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createElement("li");
+            dom.setAttribute(el1,"class","stat-group");
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n        ");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("\n      ");
+            dom.appendChild(el1, el2);
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          render: function render(context, env, contextualElement, blockArguments) {
+            var dom = env.dom;
+            var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline;
+            dom.detectNamespace(contextualElement);
+            var fragment;
+            if (env.useFragmentCache && dom.canClone) {
+              if (this.cachedFragment === null) {
+                fragment = this.build(dom);
+                if (this.hasRendered) {
+                  this.cachedFragment = fragment;
+                } else {
+                  this.hasRendered = true;
+                }
+              }
+              if (this.cachedFragment) {
+                fragment = dom.cloneNode(this.cachedFragment, true);
+              }
+            } else {
+              fragment = this.build(dom);
+            }
+            var element0 = dom.childAt(fragment, [1]);
+            var morph0 = dom.createMorphAt(element0,1,1);
+            var morph1 = dom.createMorphAt(element0,3,3);
+            var morph2 = dom.createMorphAt(element0,5,5);
+            set(env, context, "partners", blockArguments[0]);
+            inline(env, morph0, context, "container/x-field", [], {"key": "name", "type": "string", "scope": get(env, context, "partners")});
+            inline(env, morph1, context, "container/x-field", [], {"key": "logo", "label": "Logo URL", "type": "href", "scope": get(env, context, "partners")});
+            inline(env, morph2, context, "container/x-field", [], {"key": "url", "type": "href", "scope": get(env, context, "partners")});
+            return fragment;
+          }
+        };
+      }());
       return {
         isHTMLBars: true,
         revision: "Ember@1.11.0",
@@ -6507,6 +6693,38 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n\n  ");
           dom.appendChild(el0, el1);
+          var el1 = dom.createElement("fieldset");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("legend");
+          var el3 = dom.createTextNode("Participants (related Initiative)");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("fieldset");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("legend");
+          var el3 = dom.createTextNode("Partners");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -6542,7 +6760,9 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
           var morph6 = dom.createMorphAt(dom.childAt(fragment, [12]),3,3);
           var morph7 = dom.createMorphAt(dom.childAt(fragment, [14]),3,3);
           var morph8 = dom.createMorphAt(dom.childAt(fragment, [16]),3,3);
-          var morph9 = dom.createMorphAt(fragment,18,18,contextualElement);
+          var morph9 = dom.createMorphAt(dom.childAt(fragment, [18]),3,3);
+          var morph10 = dom.createMorphAt(dom.childAt(fragment, [20]),3,3);
+          var morph11 = dom.createMorphAt(fragment,22,22,contextualElement);
           dom.insertBoundary(fragment, 0);
           set(env, context, "actionDetail", blockArguments[0]);
           block(env, morph0, context, "container/macros/x-metatags", [], {"scope": get(env, context, "actionDetail")}, child0, null);
@@ -6554,7 +6774,9 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
           block(env, morph6, context, "container/x-fields", [], {"key": "widgetLinksList", "scope": get(env, context, "actionDetail")}, child5, null);
           block(env, morph7, context, "container/x-fields", [], {"key": "relatedContent", "scope": get(env, context, "actionDetail")}, child6, null);
           block(env, morph8, context, "container/x-fields", [], {"tagName": "ol", "key": "resources", "array": true, "size": 3, "scope": get(env, context, "actionDetail")}, child7, null);
-          inline(env, morph9, context, "container/macros/x-taggings", [], {"scope": get(env, context, "actionDetail")});
+          block(env, morph9, context, "container/x-fields", [], {"key": "initiative", "scope": get(env, context, "actionDetail")}, child8, null);
+          block(env, morph10, context, "container/x-fields", [], {"tagName": "ol", "key": "partners", "array": true, "max": 5, "scope": get(env, context, "actionDetail")}, child9, null);
+          inline(env, morph11, context, "container/macros/x-taggings", [], {"scope": get(env, context, "actionDetail")});
           return fragment;
         }
       };
@@ -9887,13 +10109,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.8c579a61"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.3db2bbb3"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.8c579a61"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.3db2bbb3"});
 }
 
 /* jshint ignore:end */
