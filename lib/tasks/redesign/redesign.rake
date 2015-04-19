@@ -33,7 +33,7 @@ namespace :redesign do
       "Oil Equipment, Services & Distribution",   # Oil & Gas
       "Chemicals",                                # Chemicals
       "Forestry & Paper",                         # Basic Resources
-    ].map {|name| Sector.find_by!(name: name)}
+    ].map {|name| Sector.where.not(parent:nil).find_by!(name: name)}
 
     Resource.find_each do |resource|
       Tagging.create! resource: resource, sector: sectors[rand(sectors.length)]
@@ -59,7 +59,7 @@ namespace :redesign do
   task :randomize_topics do
     topics = [
       "Responsible Investment",     # in Financial Markets
-      "Stock Markets",              # in Financial Markets
+      "Supply Chain",               # Supply Chain group
       "UN-Business Partnerships",   # in Partnerships
     ].map {|name| Topic.find_by!(name: name)}
 

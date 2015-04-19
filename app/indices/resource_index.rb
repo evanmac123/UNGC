@@ -17,13 +17,14 @@ end
 ThinkingSphinx::Index.define :resource, with: :active_record, name: 'resource_new' do
   indexes :title,         sortable: true
   indexes :description,   sortable: true
+  indexes :year,          sortable: true
   indexes links.title,    sortable: true,   as: :link_title
 
-  has languages(:id),     facet: true,      as: :language_ids
   has :content_type,      facet: true
-  has sectors(:id),       facet: true,      as: :sector_ids
-  has issues(:id),        facet: true,      as: :issue_ids
-  has topics(:id),        facet: true,      as: :topic_ids
+  has languages(:id),     facet: true,      as: :language_ids,  multi: true
+  has sectors(:id),       facet: true,      as: :sector_ids,    multi: true
+  has issues(:id),        facet: true,      as: :issue_ids,     multi: true
+  has topics(:id),        facet: true,      as: :topic_ids,     multi: true
 
   where "approval = 'approved'"
 
