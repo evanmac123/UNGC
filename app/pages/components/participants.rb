@@ -11,7 +11,7 @@ class Components::Participants
         name: p.name,
         sector: p.sector.name,
         country: p.country.name,
-        url: 'participant url'
+        url: 'participant url' # TODO add participant url once that's built
       }
     end
   end
@@ -20,7 +20,7 @@ class Components::Participants
 
   def participants
     return [] unless initiative_id
-    initiative.signatories.includes(:sector, :country).limit(5)
+    initiative.signatories.includes(:sector, :country).limit(5).order('signings.added_on desc')
   end
 
 
