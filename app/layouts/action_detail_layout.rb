@@ -60,7 +60,7 @@ class ActionDetailLayout < UNGC::Layout
   end
 
   scope :initiative do
-    field :initiative_id, type: :number, required: true
+    field :initiative_id, type: :number
   end
 
   scope :partners, array: true, min: 0, max: 6 do
