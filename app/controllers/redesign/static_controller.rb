@@ -4,16 +4,6 @@ class Redesign::StaticController < Redesign::ApplicationController
     @page = HomePage.new(current_container, current_payload_data)
   end
 
-  def issue
-    # set_current_container :issue, '/issue'
-    @page = FakeIssuePage.new
-  end
-
-  def action_detail
-    # set_current_container :action_detail, '/action-detail'
-    @page = FakeActionDetailPage.new
-  end
-
   def catch_all
     set_current_container_by_path(params[:path])
 
