@@ -1,0 +1,10 @@
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
+
+<%= render 'redesign/components/hero' %>
+
+<%= render layout: 'redesign/components/content_blocks' do %>
+  <%- @page.actions.each do |block| -%>
+    <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
+  <%- end -%>
+<% end %>

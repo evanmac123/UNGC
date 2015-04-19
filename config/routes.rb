@@ -51,6 +51,10 @@ UNGC::Application.routes.draw do
       get '/what-is-un-global-compact/our-focus/all-issues' => :index, as: :issues
     end
 
+    controller :actions do
+      get '/take-action/what-you-can-do' => :index, as: :actions
+    end
+
     get '/'       => 'static#home',       as: :root
     get '*path'   => 'static#catch_all',  as: :catch_all
   end
