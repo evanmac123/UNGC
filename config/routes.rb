@@ -31,6 +31,7 @@ UNGC::Application.routes.draw do
           post :signed_url, on: :collection
         end
         resources :resources, only: [:index]
+        resources :initiatives, only: [:index]
         resources :containers do
           post :publish, on: :member
         end

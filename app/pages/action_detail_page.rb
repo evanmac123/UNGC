@@ -41,43 +41,6 @@ class ActionDetailPage < ContainerPage
   end
 
   def participants
-    [
-      {
-        name: 'A. Amigos de Silva',
-        sector: 'Public Sector',
-        country: 'Spain',
-        url: ''
-      },
-      {
-        name: 'A. Amigos de Silva',
-        sector: 'Public Sector',
-        country: 'Spain',
-        url: ''
-      },
-      {
-        name: 'A. Amigos de Silva',
-        sector: 'Public Sector',
-        country: 'Spain',
-        url: ''
-      },
-      {
-        name: 'A. Amigos de Silva',
-        sector: 'Public Sector',
-        country: 'Spain',
-        url: ''
-      },
-      {
-        name: 'A. Amigos de Silva',
-        sector: 'Public Sector',
-        country: 'Spain',
-        url: ''
-      },
-      {
-        name: 'A. Amigos de Silva',
-        sector: 'Public Sector',
-        country: 'Spain',
-        url: ''
-      }
-    ]
+    Components::Participants.new(@data).data
   end
 end

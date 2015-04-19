@@ -81,6 +81,13 @@
   </fieldset>
 
   <fieldset>
+    <legend>Participants (related Initiative)</legend>
+    {{#container/x-fields key="initiative" scope=actionDetail as |initiative|}}
+      {{container/macros/x-initiative key="initiativeId" scope=initiative}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
     <legend>Partners</legend>
     {{#container/x-fields tagName="ol" key="partners" array=true max=5 scope=actionDetail as |partners|}}
       <li class="stat-group">

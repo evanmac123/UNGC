@@ -59,6 +59,10 @@ class ActionDetailLayout < UNGC::Layout
     end
   end
 
+  scope :initiative do
+    field :initiative_id, type: :number, required: true
+  end
+
   scope :partners, array: true, min: 0, max: 6 do
     field :name, type: :string, required: true
     field :logo, type: :href, required: true
