@@ -47,6 +47,10 @@ UNGC::Application.routes.draw do
       get '/explore-our-library/:id'    => :show,   as: :library_resource
     end
 
+    controller :issues do
+      get '/what-is-un-global-compact/our-focus/all-issues' => :index, as: :issues
+    end
+
     get '/'       => 'static#home',       as: :root
     get '*path'   => 'static#catch_all',  as: :catch_all
   end
