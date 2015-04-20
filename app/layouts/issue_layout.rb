@@ -45,8 +45,8 @@ class IssueLayout < UNGC::Layout
     end
   end
 
-  scope :resources, array: true, size: 3 do
-    field :resource_id, type: :number, required: true
+  scope :resources, array: true, max: 3 do
+    field :resource_id, type: :number
   end
 
   scope :related_content do

@@ -16,7 +16,7 @@
   <%- end -%>
 <% end %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {title: 'From Our Library'} do %>
+<%= render layout: 'redesign/components/content_blocks', locals: {title: @page.resources.empty? ? '' : 'From our Library'} do %>
   <%- @page.resources.each do |block| -%>
     <%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: redesign_library_resource_path(block), thumbnail: "//unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>
   <%- end -%>
