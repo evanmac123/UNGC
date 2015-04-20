@@ -2,7 +2,7 @@
 <% provide :description, @page.meta_description %>
 <%= render 'redesign/components/library_filters_form' %>
 
-<%= render layout: 'redesign/components/content_blocks' do %>
+<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library'} do %>
   <%- @page.featured.each do |block| -%>
     <%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: redesign_library_resource_path(block), thumbnail: "//unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>
   <%- end -%>
