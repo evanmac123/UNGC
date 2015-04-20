@@ -12,13 +12,53 @@
       margin: 0
       float: left
 
-    #search-field
+    #section-search
       float: right
-      margin: 1.25em 0 0
+      margin: .75em 0 0
 
   fieldset
     border: 0
     padding: 0
+    margin: 0
+
+#section-search
+  position: relative
+
+  button
+    position: absolute
+    padding: 0 .5em .15em
+    margin: 0
+    top: 1px
+    right: 1px
+    bottom: 1px
+    background: transparent
+    color: #ccc
+    font-size: inherit
+    z-index: 2
+
+    span
+      display: none
+
+    &:before
+      +fa-icon
+      content: $fa-var-search
+
+    &:hover,
+    &:active
+      background: color('teal')
+      color: white
+
+  input[type=search]
+    position: relative
+    padding: .25em 2em .25em .25em
+    border: 1px solid #ccc
+    background: color('dark-grey')
+    color: white
+    z-index: 1
+
+    &:focus
+      background: white
+      color: #222
 
 fieldset.filter-lists
   position: relative
@@ -33,7 +73,7 @@ fieldset.filter-lists
   font-size: 1.25em
   margin: .5em 0 0
 
-.sorting
+fieldset.sorting
   float: right
   width: 25%
   margin: 1em 0 0

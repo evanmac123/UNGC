@@ -53,8 +53,8 @@ $(function() {
 
   // clear the form
   $form.find('.clear-all-filters button').on('click', function(ev) {
-    $('#search-field').val(null);
-    $('input:checked').prop("checked", false);
+    $('#section-search input[type=search]').val(null);
+    $('input[type=checkbox]:checked').prop("checked", false);
     $('#content-type').val(null);
     $form.submit();
   });

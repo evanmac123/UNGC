@@ -3,7 +3,10 @@
   <header>
     <h1>Explore Our Library</h1>
 
-    <%= f.search_field :keywords, placeholder: 'Search Our Library', id: 'search-field', tabindex: 1, autofocus: true %>
+    <fieldset id='section-search'>
+      <%= f.search_field :keywords, placeholder: 'Search Our Library', tabindex: 1, autofocus: true %>
+      <%= f.button '<span>Search</span>'.html_safe, type: :submit %>
+    </fieldset>
   </header>
 
 
@@ -25,10 +28,6 @@
 
       <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: 'filter-sort-order'} %>
   </fieldset>
-
-  <div class='reset-and-submit'>
-    <%= f.submit 'Search', id: 'our-search' %>
-  </div>
 
   <%- if @results.any? -%>
     <p class='results-count'>
