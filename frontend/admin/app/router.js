@@ -10,6 +10,7 @@ Router.map(function() {
   this.resource('containers', { path: '/' }, function() {
     this.route('new', { path: '/containers/new/in/:parent_container' });
     this.route('edit', { path: '/containers/:container_id' });
+    this.route('needs-approval');
   });
 });
 

@@ -7,6 +7,7 @@ class ContainerSerializer < ApplicationSerializer
     h[:public_payload_id]      = object.public_payload_id
     h[:draft_payload_id]       = object.draft_payload_id
     h[:child_containers_count] = object.child_containers_count
+    h[:has_draft]              = object.has_draft
 
     if (payload = object.draft_payload)
       h[:data] = payload.data
@@ -18,6 +19,9 @@ class ContainerSerializer < ApplicationSerializer
     when object.home?
       h[:public_path] = router.redesign_root_path
     end
+
+    h[:updated_by_id] = object.draft_payload.try(:updated_by_id)
+    h[:approved_by_id] = object.public_payload.try(:approved_by_id)
 
     h
   end

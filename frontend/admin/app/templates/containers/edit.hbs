@@ -58,6 +58,12 @@
                 </a>
               </td>
               <td>
+                Approved by: {{container/info/show-contact contactId=payload.approvedById}}
+              </td>
+              <td>
+                Last update by: {{container/info/show-contact contactId=payload.updatedById}}
+              </td>
+              <td>
                 <button class="btn btn-default" {{action "setDraftFromPayload" payload}}>
                   Set As Draft
                 </button>

@@ -8,6 +8,8 @@ export default Ember.Component.extend({
   mightDropBelow:  Ember.computed.equal('mightDrop', 'below'),
   mightDropInside: Ember.computed.equal('mightDrop', 'inside'),
 
+  hasDraft: Ember.computed.oneWay('node.model.hasDraft'),
+
   classNameBindings: [
     'isOpen:open:closed',
     'isBeingDragged:being-dragged',

@@ -34,6 +34,7 @@ UNGC::Application.routes.draw do
         resources :initiatives, only: [:index]
         resources :containers do
           post :publish, on: :member
+          get :needs_approval, on: :collection
         end
         resources :payloads
       end

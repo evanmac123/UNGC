@@ -36,4 +36,10 @@ Container.attributes = [
   'data',
 ];
 
+Container.reopenClass({
+  needsApproval() {
+    return this.get('needs_approval');
+  }
+});
+
 export default Container;

@@ -1,4 +1,7 @@
 class Redesign::Payload < ActiveRecord::Base
+  include TrackCurrentUser
+  belongs_to :approved_by, :class_name => 'Contact', :foreign_key => :approved_by_id
+
   def data
     if (json = read_attribute(:json_data))
       MultiJson.load(json, symbolize_keys: true)
@@ -30,5 +33,12 @@ class Redesign::Payload < ActiveRecord::Base
       container_id: container_id,
       json_data:    json_data
     )
+  end
+
+  def approve!(contact)
+    @current_contact = contact
+    self.approved_by_id = contact.id
+    self.approved_at = Time.now
+    self.save!
   end
 end

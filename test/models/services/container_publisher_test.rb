@@ -2,6 +2,10 @@ require 'test_helper'
 
 class ContainerPublisherTest < ActiveSupport::TestCase
 
+  setup do
+    @staff_user = create_staff_user
+  end
+
   context "tags" do
     setup do
       # create some issues and topics to tag with
@@ -31,7 +35,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       Tagging.create! redesign_container: container, topic: fire
       Tagging.create! redesign_container: container, topic: slush
 
-      publisher = ContainerPublisher.new(container)
+      publisher = ContainerPublisher.new(container, @staff_user)
       publisher.publish
 
       tags = Tagging.where(redesign_container: container).includes(:issue).includes(:topic)
@@ -71,11 +75,35 @@ class ContainerPublisherTest < ActiveSupport::TestCase
 
     should "apply the content_type" do
       assert_equal @container.content_type, 'default'
-      publisher = ContainerPublisher.new(@container)
+      publisher = ContainerPublisher.new(@container, @staff_user)
       publisher.publish
       assert_equal @container.content_type, 'action'
     end
   end
 
-end
+  context 'approved_by' do
 
+    setup do
+      # create a container with a draft payload including tags
+      @container = create_container
+      @container.draft_payload = create_payload(
+        container_id: @container.id,
+        json_data: {
+          meta_tags: {
+            content_type: 1
+          }
+        }.deep_stringify_keys.to_json
+      )
+    end
+
+    should "set the user that published" do
+      publisher = ContainerPublisher.new(@container, @staff_user)
+      assert_equal @container.has_draft, true
+      publisher.publish
+      assert_equal @container.public_payload.updated_by, @staff_user
+      assert_equal @container.public_payload.approved_by, @staff_user
+      assert_equal @container.has_draft, false
+    end
+  end
+
+end

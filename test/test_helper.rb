@@ -301,6 +301,21 @@ class ActiveSupport::TestCase
     {file: create_file_upload}
   end
 
+  def valid_payload_attributes(params = {})
+    data = {
+      data: {
+        meta_tags: {
+          title: 'wow',
+          description: 'sad',
+          thumbnail: 'image'
+        }
+
+      }
+    }
+
+    data.merge(params)
+  end
+
   def create_issue_hierarchy(tree = nil)
     if tree.nil?
       tree = [

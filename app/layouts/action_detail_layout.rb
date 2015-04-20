@@ -3,8 +3,8 @@ class ActionDetailLayout < UNGC::Layout
 
   has_one_container!
 
-  label 'Issue'
-  layout :issue
+  label 'Action Detail'
+  layout :action_detail
 
   has_meta_tags! do
     field :content_type, type: :number, default: 0

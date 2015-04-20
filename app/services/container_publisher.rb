@@ -1,10 +1,11 @@
 class ContainerPublisher
-  attr_accessor :container, :draft, :published
+  attr_accessor :container, :draft, :published, :contact
 
-  def initialize(container)
+  def initialize(container, contact)
     self.container = container
     self.draft     = container.draft_payload
     self.published = container.public_payload
+    self.contact = contact
   end
 
   def has_draft?
@@ -39,8 +40,11 @@ class ContainerPublisher
   private
 
   def update_payload
+    payload = draft.copy
+    payload.approve!(contact)
     container.update!(
-      public_payload_id: draft.copy.id
+      has_draft: false,
+      public_payload_id: payload.id
     )
   end
 
