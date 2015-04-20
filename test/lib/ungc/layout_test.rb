@@ -129,6 +129,28 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
       assert_equal 'stuff.tests', invalid1.errors[0][:path]
     end
 
+    should 'validate array of arrays' do
+      layout = extend_layout do
+        scope :faqs, array: true, max: 3 do
+          field :title, type: :string
+          scope :answers, array: true, size: 5 do
+            field :answer, type: :string
+          end
+        end
+      end
+      invalid = layout.new(
+        faqs: [{
+          title: 'hey',
+          answers: [
+            { a: 'hi', b: 'a', c: true },
+            { a: 'yo', b: 'b', c: false }
+          ]
+        }]
+      )
+      refute invalid.valid?, 'correct payload is correct'
+      assert_equal 'faqs.[0].answers', invalid.errors[0][:path]
+    end
+
     should 'validate fields of objects inside of array containers' do
       layout = extend_layout do
         scope :outside do
