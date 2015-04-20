@@ -52,4 +52,8 @@ class HighlightLayout < UNGC::Layout
     end
   end
 
+  scope :resources, array: true, max: 3 do
+    field :resource_id, type: :number
+  end
+
 end

@@ -24,6 +24,10 @@ class HighlightPage < ContainerPage
     end
   end
 
+  def resources
+    Components::Resources.new(@data).data
+  end
+
   private
 
   def section_classes(section)
