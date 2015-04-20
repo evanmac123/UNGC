@@ -13,6 +13,9 @@
     {{/link-to}}
 
     <span class="label label-default">{{node.model.layout}}</span>
+    {{#if hasDraft}}
+      <span class="label label-warning">Needs Approval</span>
+    {{/if}}
   </span>
 
   <span class="node-actions">

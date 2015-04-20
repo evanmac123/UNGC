@@ -3,7 +3,9 @@ class Redesign::Admin::Api::LayoutsController < Redesign::Admin::ApiController
     article:   ArticleLayout,
     highlight: HighlightLayout,
     home:      HomeLayout,
-    landing:   LandingLayout
+    landing:   LandingLayout,
+    action_detail: ActionDetailLayout,
+    issue: IssueLayout
   }
 
   # TODO:

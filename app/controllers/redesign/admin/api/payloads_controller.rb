@@ -1,7 +1,7 @@
 class Redesign::Admin::Api::PayloadsController < Redesign::Admin::ApiController
   def index
     container = Redesign::Container.find(params[:container])
-    payloads  = container.payloads.order(created_at: :desc).load
+    payloads  = container.payloads.order(created_at: :desc).limit(10).load
 
     render_json data: payloads.map(&method(:serialize))
   end

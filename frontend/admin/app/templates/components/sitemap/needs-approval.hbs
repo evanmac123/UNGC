@@ -1,0 +1,32 @@
+<table class=table>
+<thead>
+  <tr>
+    <th>Path</th>
+    <th>Layout</th>
+    <th>Last Edit by</th>
+    <th>Actions</th>
+  </tr>
+</thead>
+<tbody>
+  {{#each model as |container|}}
+  <tr>
+    <td>
+      {{#link-to "containers.edit" container.id}}{{!-- NOTE: We call .id here to force the route to load the model hook --}}
+      {{~container.publicPath~}}
+      {{/link-to}}
+    </td>
+    <td>
+      {{container.layout}}
+    </td>
+    <td>
+      {{container/info/published-by model=container}}
+    </td>
+    <td>
+      {{#link-to "containers.edit" container.id class="btn btn-warning"}}{{!-- NOTE: We call .id here to force the route to load the model hook --}}
+      Edit
+      {{/link-to}}
+    </td>
+  </tr>
+  {{/each}}
+</tbody>
+</table>

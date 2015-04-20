@@ -46,6 +46,7 @@ export default Ember.Route.extend({
       }
 
       container.publish().then(() => {
+        this.get('flashMessages').success('Draft Published!');
         Payload.get({ container: container.get('id') }).then((records) => {
           records.toArray().reverse().forEach((record) => {
             if (payloads.findBy('id', record.get('id'))) {

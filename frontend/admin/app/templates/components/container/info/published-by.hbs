@@ -1,0 +1,14 @@
+<p>
+Last version Published by: {{container/info/show-contact contactId=model.approvedById}}
+<br>
+Approval status:
+<b>
+  {{#if model.hasDraft}}
+    Pending
+  {{else}}
+    Approved
+  {{/if}}
+  </b>
+<br>
+Last version Edited by: {{container/info/show-contact contactId=model.updatedById}}
+</p>

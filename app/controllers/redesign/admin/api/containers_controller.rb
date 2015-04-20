@@ -19,7 +19,9 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
 
     container = Redesign::Container.find(params[:id])
 
-    if container.update(update_params)
+    draft = ContainerDraft.new(container, current_contact)
+
+    if draft.save(update_params)
       render text: '', status: 204
     else
       render_container_errors(container)
@@ -31,7 +33,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
       includes(:draft_payload, :public_payload).
       find(params[:id])
 
-    if ContainerPublisher.new(container).publish
+    if ContainerPublisher.new(container, current_contact).publish
       render text: '', status: 204
     else
       render_errors [{
@@ -57,6 +59,11 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
       scope
     end
 
+    render_json data: containers.load.map(&method(:serialize))
+  end
+
+  def needs_approval
+    containers = Redesign::Container.where(has_draft: true).order(:path)
     render_json data: containers.load.map(&method(:serialize))
   end
 

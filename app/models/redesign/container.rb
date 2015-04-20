@@ -1,6 +1,8 @@
 class Redesign::Container < ActiveRecord::Base
   LEADING_OR_TRAILING_SLASH = /\A\/|\/\Z/
 
+  attr_accessor :payload_validator
+
   enum layout: [
     :home,
     :landing,
@@ -73,13 +75,17 @@ class Redesign::Container < ActiveRecord::Base
   end
 
   def data=(raw_draft_data)
-    payload_data = "#{layout.to_s.classify}Layout".constantize.new(raw_draft_data)
+    payload_data = payload_validator.new(raw_draft_data)
 
     if payload_data.valid?
       @draft_payload_data = payload_data.as_json
     else
       @draft_payload_errors = payload_data.errors
     end
+  end
+
+  def payload_validator
+    @payload_validator ||= ("#{layout.to_s.classify}Layout".constantize)
   end
 
   def payload(draft = false)

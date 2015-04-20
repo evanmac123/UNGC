@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150417175313) do
+ActiveRecord::Schema.define(version: 20150420165543) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -759,18 +759,19 @@ ActiveRecord::Schema.define(version: 20150417175313) do
   end
 
   create_table "redesign_containers", force: :cascade do |t|
-    t.integer  "layout",                 limit: 4,                 null: false
-    t.string   "slug",                   limit: 255, default: "/", null: false
+    t.integer  "layout",                 limit: 4,                  null: false
+    t.string   "slug",                   limit: 255, default: "/",  null: false
     t.integer  "parent_container_id",    limit: 4
     t.integer  "public_payload_id",      limit: 4
     t.integer  "draft_payload_id",       limit: 4
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.string   "path",                   limit: 255
-    t.integer  "depth",                  limit: 4,   default: 0,   null: false
-    t.string   "tree_path",              limit: 255, default: "",  null: false
-    t.integer  "child_containers_count", limit: 4,   default: 0,   null: false
-    t.integer  "content_type",           limit: 4,   default: 0,   null: false
+    t.integer  "depth",                  limit: 4,   default: 0,    null: false
+    t.string   "tree_path",              limit: 255, default: "",   null: false
+    t.integer  "child_containers_count", limit: 4,   default: 0,    null: false
+    t.integer  "content_type",           limit: 4,   default: 0,    null: false
+    t.boolean  "has_draft",              limit: 1,   default: true
   end
 
   add_index "redesign_containers", ["content_type"], name: "index_redesign_containers_on_content_type", using: :btree
@@ -780,10 +781,14 @@ ActiveRecord::Schema.define(version: 20150417175313) do
   add_index "redesign_containers", ["path"], name: "index_redesign_containers_on_path", unique: true, using: :btree
 
   create_table "redesign_payloads", force: :cascade do |t|
-    t.integer  "container_id", limit: 4,     null: false
-    t.text     "json_data",    limit: 65535, null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.integer  "container_id",   limit: 4,     null: false
+    t.text     "json_data",      limit: 65535, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "created_by_id",  limit: 4
+    t.integer  "updated_by_id",  limit: 4
+    t.integer  "approved_by_id", limit: 4
+    t.datetime "approved_at"
   end
 
   create_table "removal_reasons", force: :cascade do |t|
