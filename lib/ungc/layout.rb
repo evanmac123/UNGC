@@ -48,6 +48,18 @@ module UNGC
           end
         end
       end
+
+      def has_widget_links_list!
+        scope :widget_links_list, array: true, max: 2 do
+          field :title, type: :string, limit: 50
+
+          scope :links, array: true, max: 5 do
+            field :label, type: :string, limit: 20, required: true
+            field :url,   type: :href,   required: true
+          end
+        end
+      end
+
     end
 
     def self.inherited(layout)

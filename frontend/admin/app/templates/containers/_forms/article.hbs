@@ -28,18 +28,7 @@
     {{/container/x-fields}}
   </fieldset>
 
-  <fieldset>
-    <legend>Links</legend>
-    {{#container/x-fields key="widgetLinksList" scope=article array=true max=2 as |widgetLinksList|}}
-      {{container/x-field key="title" type="string" limit=50 scope=widgetLinksList}}
-      {{#container/x-fields tagName="ol" key="links" array=true max=5 scope=widgetLinksList as |links|}}
-        <li class="stat-group">
-          {{container/x-field key="label" type="string" scope=links}}
-          {{container/x-field key="url" type="href" scope=links}}
-        </li>
-      {{/container/x-fields}}
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-widget-links-list scope=article}}
 
   <fieldset>
     <legend>Resources</legend>

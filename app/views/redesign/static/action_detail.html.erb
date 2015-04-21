@@ -5,7 +5,10 @@
     <%= render('redesign/components/widget_contact', contact: @page.sidebar_widgets[:contact]) if @page.sidebar_widgets[:contact] %>
 
     <%= render('redesign/components/widget_calls_to_action', calls_to_action: @page.sidebar_widgets[:calls_to_action]) if @page.sidebar_widgets[:calls_to_action] %>
+
+    <%= render('redesign/components/widget_links_lists', links_lists: @page.sidebar_widgets[:links_lists]) if @page.sidebar_widgets[:links_lists] %>
   <% end %>
+
 <% end %>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {title: @page.related_content.title} do %>
