@@ -34,7 +34,7 @@ class ArticleLayout < UNGC::Layout
     field :url,   type: :href,   required: true
   end
 
-  scope :widget_links_list do
+  scope :widget_links_list, array: true, max: 2 do
     field :title, type: :string, limit: 50
 
     scope :links, array: true, max: 5 do
