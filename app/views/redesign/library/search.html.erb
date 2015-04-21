@@ -1,9 +1,7 @@
 <%= render partial: 'redesign/components/library_filters_form' %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library'}  do %>
-  <%- @results.each do |resource| -%>
-    <%= render 'redesign/components/content_block', type: 'resource', title: resource.title, url: redesign_library_resource_path(resource), thumbnail: "//unglobalcompact.org#{resource.cover_image(:show, retina: true)}", tag: t(resource.content_type) %>
-  <%- end -%>
+<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library', blocks: @results} do |block| %>
+  <%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: redesign_library_resource_path(block), thumbnail: "//unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>
 <% end %>
 
 <%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
