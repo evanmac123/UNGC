@@ -129,7 +129,7 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
       assert_equal 'stuff.tests', invalid1.errors[0][:path]
     end
 
-    should 'validate array of arrays' do
+    should 'validate array of arrays with missing required field in nested array' do
       layout = extend_layout do
         scope :faqs, array: true, max: 3 do
           field :title, type: :string
@@ -158,6 +158,66 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
 
       refute invalid.valid?, 'correct payload is correct'
       assert_equal 'faqs.[0].answers.[1].answer', invalid.errors[0][:path]
+    end
+
+    should 'validate array of arrays with missing field in outer array' do
+      layout = extend_layout do
+        scope :faqs, array: true, max: 3 do
+          field :title, type: :string, required: true
+          scope :answers, array: true, size: 2 do
+            field :answer, type: :string, required: true
+          end
+        end
+      end
+      invalid = layout.new(
+        faqs: [
+          {
+            title: 'wow',
+            answers: [
+              { answer: 'ben'},
+              { answer: 'ben'},
+            ]
+          },
+          {
+            answers: [
+              { answer: 'ben2'},
+              { a: 'yo', b: 'b', c: false }
+            ]
+          },
+        ]
+      )
+      refute invalid.valid?, 'correct payload is correct'
+      assert_equal 'faqs.[1].title', invalid.errors[0][:path]
+    end
+
+    should 'validate array of arrays with wrong size of internal array' do
+      layout = extend_layout do
+        scope :faqs, array: true, max: 3 do
+          field :title, type: :string, required: true
+          scope :answers, array: true, size: 2 do
+            field :answer, type: :string, required: true
+          end
+        end
+      end
+      invalid = layout.new(
+        faqs: [
+          {
+            title: 'wow',
+            answers: [
+              { answer: 'ben'},
+              { answer: 'ben'},
+            ]
+          },
+          {
+            title: 'present',
+            answers: [
+              { answer: 'ben2'},
+            ]
+          },
+        ]
+      )
+      refute invalid.valid?, 'correct payload is correct'
+      assert_equal 'faqs.[1].answers', invalid.errors[0][:path]
     end
 
     should 'validate fields of objects inside of array containers' do
