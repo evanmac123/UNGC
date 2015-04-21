@@ -321,8 +321,7 @@ module UNGC
     private
 
     def member_in_array?
-      parent = scope.parent
-      parent && parent.array? && index.present?
+      scope && scope.array? && index.present?
     end
   end
 
