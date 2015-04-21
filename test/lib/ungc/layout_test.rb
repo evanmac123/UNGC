@@ -133,22 +133,31 @@ class UNGC::LayoutTest < ActiveSupport::TestCase
       layout = extend_layout do
         scope :faqs, array: true, max: 3 do
           field :title, type: :string
-          scope :answers, array: true, size: 5 do
-            field :answer, type: :string
+          scope :answers, array: true, size: 2 do
+            field :answer, type: :string, required: true
           end
         end
       end
       invalid = layout.new(
-        faqs: [{
-          title: 'hey',
-          answers: [
-            { a: 'hi', b: 'a', c: true },
-            { a: 'yo', b: 'b', c: false }
-          ]
-        }]
+        faqs: [
+          {
+            answers: [
+              { answer: 'ok' },
+              { a1: 'hi', b1: 'a', c1: true },
+              { a1: 'yo', b1: 'b', c1: false }
+            ]
+          },
+          {
+            answers: [
+              { a2: 'hi', b2: 'a', c2: true },
+              { a2: 'yo', b2: 'b', c2: false }
+            ]
+          }
+        ]
       )
+
       refute invalid.valid?, 'correct payload is correct'
-      assert_equal 'faqs.[0].answers', invalid.errors[0][:path]
+      assert_equal 'faqs.[0].answers.[1].answer', invalid.errors[0][:path]
     end
 
     should 'validate fields of objects inside of array containers' do

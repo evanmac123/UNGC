@@ -162,6 +162,7 @@ module UNGC
 
     def extract_container(container, output, source, opts = {})
       key, value = *extract_pair(container, source, opts)
+      container.index = opts[:i]
 
       if container.array?
         context = []
@@ -187,11 +188,12 @@ module UNGC
     end
 
     def extract_field(field, output, source, opts = {})
+      field.index  = opts[:i]
       key, raw    = *extract_pair(field, source, opts)
       value       = field.load(raw)
       output[key] = value
     rescue UNGC::InvalidFieldError => e
-      path = field.path.sub('[]', "[#{opts[:i]}]")
+      path = field.path
       add_error(path, e.message)
     end
 
@@ -224,6 +226,7 @@ module UNGC
 
   class Scope
     attr_reader :slots, :key, :path, :opts
+    attr_accessor :index
 
     def initialize(key = nil, opts = {}, &block)
       @key   = key
@@ -240,8 +243,13 @@ module UNGC
     end
 
     def path
-      if @key
-        parent && parent.path ? "#{parent.path}.#{@key}" : @key.to_s
+      case
+      when member_in_array?
+        "#{parent.path}.[#{index}].#{@key}"
+      when parent_has_path?
+        "#{parent.path}.#{@key}"
+      when @key.present?
+        @key.to_s
       else
         nil
       end
@@ -262,10 +270,21 @@ module UNGC
     def field(key, opts = {})
       @slots[key] = Field.new(key, { scope: self }.merge(opts))
     end
+
+    private
+
+    def parent_has_path?
+      parent && parent.path
+    end
+
+    def member_in_array?
+      parent_has_path? && parent.array? && index
+    end
   end
 
   class Field
     attr_reader :key, :opts, :type
+    attr_accessor :index
 
     def initialize(key, opts = {})
       @key  = key.to_sym
@@ -278,7 +297,11 @@ module UNGC
     end
 
     def path
-      mine = scope.array? ? "[].#{@key}" : @key.to_s
+      mine = if member_in_array?
+        "[#{index}].#{key}"
+      else
+        key.to_s
+      end
 
       if (base = scope.path)
         "#{base}.#{mine}"
@@ -293,6 +316,13 @@ module UNGC
 
     def load(raw)
       @type.cast(raw, @opts)
+    end
+
+    private
+
+    def member_in_array?
+      parent = scope.parent
+      parent && parent.array? && index.present?
     end
   end
 
