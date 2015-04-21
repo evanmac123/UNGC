@@ -21,12 +21,6 @@ class ActionDetailLayout < UNGC::Layout
   scope :action_detail_block do
     field :title,    type: :string, limit: 100, required: true
 
-    scope :principles, array: true, max: 5 do
-      field :label, type: :string, limit: 20, required: true
-      field :blurb, type: :string, required: true, required: true
-      field :url,   type: :href,   required: true, required: true
-    end
-
     field :content,  type: :string, required: true
   end
 
