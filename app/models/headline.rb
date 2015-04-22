@@ -32,6 +32,9 @@ class Headline < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
+  enum headline_type: [:press_releases,
+                       :announcements]
+
   scope :published, -> { where('approval = ?', 'approved') }
   scope :descending, -> { order('published_on DESC, approved_at DESC') }
 
@@ -52,6 +55,10 @@ class Headline < ActiveRecord::Base
   # Used to make a list of years, for the News Archive page - see pages_helper
   def self.years
     select("distinct(year(published_on)) as year").order('year desc').map {|y| y.year.to_s}
+  end
+
+  def self.headline_types_for_select
+    headline_types.keys.map {|k| [k.humanize.titleize, k]}
   end
 
   def before_approve!

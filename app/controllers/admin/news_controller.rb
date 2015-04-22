@@ -72,7 +72,8 @@ class Admin::NewsController < AdminController
         :published_on,
         :location,
         :country_id,
-        :description
+        :description,
+        :headline_type
       )
     end
 end
