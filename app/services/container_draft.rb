@@ -7,13 +7,12 @@ class ContainerDraft
   end
 
   def save(params)
-    Redesign::Container.transaction do
+    update = Redesign::Container.transaction do
       container.draft_payload.as_user(contact) if container.draft_payload.present?
-      container.attributes = params
-      container.save
-      container.update_attributes has_draft: true unless no_changes?
-      container.save
+      container.update(params)
     end
+    container.update_attributes has_draft: true unless no_changes?
+    update
   end
 
   private
