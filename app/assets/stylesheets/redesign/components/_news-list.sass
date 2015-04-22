@@ -1,0 +1,44 @@
+.main-content-body.news-list
+
+  .news-item
+    padding: 0
+    margin: 0 0 2em
+
+    h1
+      margin: 0 0 .5em
+      font-size: 1.125em
+
+      a
+        &:after
+          +fa-icon
+          content: $fa-var-caret-right
+          margin: 0 0 0 .5em
+
+    time,
+    address
+      font-weight: 900
+
+    address
+      margin: 0 0 .5em
+
+  .news-item-featured
+    border-bottom: 1px solid #ccc
+    padding: 0 0 2em
+
+  .view-all
+    display: block
+    clear: both
+    text-align: right
+    padding: 1em 0
+    color: color('grey')
+    font-weight: 900
+
+    &:after
+      +fa-icon
+      content: $fa-var-caret-right
+      margin: 0 0 0 .5em
+      color: color('light-blue')
+
+    &:hover,
+    &:active
+      color: color('light-blue')

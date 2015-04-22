@@ -1,0 +1,17 @@
+<%= render partial: 'redesign/components/hero' %>
+
+<%= render layout: 'redesign/components/news_list', locals: {news: @page.news, is_landing: true} do %>
+  <%= render layout: 'redesign/components/sidebar' do %>
+    <%= render('redesign/components/widget_contact', contact: @page.sidebar_widgets[:contact]) if @page.sidebar_widgets[:contact] %>
+
+    <%= render('redesign/components/widget_calls_to_action', calls_to_action: @page.sidebar_widgets[:calls_to_action]) if @page.sidebar_widgets[:calls_to_action] %>
+  <% end %>
+<% end %>
+
+<%= render layout: 'redesign/components/content_blocks', locals: {title: @page.related_content.title, blocks: @page.related_content.boxes} do |block| %>
+  <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
+<% end %>
+
+<%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+  <%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: redesign_library_resource_path(block), thumbnail: "//unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>
+<% end %>

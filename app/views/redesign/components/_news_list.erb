@@ -1,0 +1,34 @@
+<%-
+is_landing ||= false
+list_classes = is_landing ? ' news-list-landing' : nil
+
+if news ||= nil
+-%>
+<section class='main-content-section'>
+
+  <%= content_tag(:header, content_tag(:h1, news.title), {class: 'main-content-header'}) if news.title %>
+
+  <section class='main-content-body news-list<%= list_classes -%>'>
+    <%- if featured = news.featured -%>
+      <article class='news-item news-item-featured'>
+        <%= content_tag(:h1, link_to_redesign(featured.title, featured.url)) %>
+        <%= content_tag(:time, featured.date) %>
+        <%= content_tag(:address, featured.location) %>
+        <%= content_tag(:p, featured.blurb) %>
+      </article>
+    <%- end -%>
+
+    <%- news.other.each do |news_item| -%>
+      <article class='news-item'>
+        <%= content_tag(:h1, link_to_redesign(news_item.title, news_item.url)) %>
+        <%= content_tag(:time, news_item.date) %>
+        <%= content_tag(:address, news_item.location) %>
+      </article>
+    <%- end -%>
+
+    <%= link_to_redesign('View All Press Releases', 'news/all', class: 'view-all') if is_landing %>
+  </section>
+
+  <%= yield %>
+</section>
+<%- end -%>
