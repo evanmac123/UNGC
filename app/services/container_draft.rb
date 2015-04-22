@@ -12,6 +12,7 @@ class ContainerDraft
       container.attributes = params
       container.save
       container.update_attributes has_draft: true unless no_changes?
+      container.save
     end
   end
 
