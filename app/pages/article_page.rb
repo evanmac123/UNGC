@@ -1,6 +1,6 @@
 class ArticlePage < ContainerPage
   def hero
-    @data[:hero] || {}
+    (@data[:hero] || {}).merge({size: 'small', show_section_nav: true})
   end
 
   def main_content_section
