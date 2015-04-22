@@ -26,7 +26,7 @@ if news ||= nil
       </article>
     <%- end -%>
 
-    <%= link_to_redesign('View All Press Releases', 'news/all', class: 'view-all') if is_landing %>
+    <%= link_to_redesign('View All Press Releases', '/news/all', class: 'view-all') if is_landing %>
   </section>
 
   <%= yield %>

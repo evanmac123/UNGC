@@ -96,13 +96,6 @@ class FakeNewsLandingPage
     news
   end
 
-  def main_content_section
-    {
-      title: "Press Releases",
-      content: "<p>At minus excepturi nostrum ut cupiditate expedita enim repellat necessitatibus cumque ad sint pariatur. et quo fuga saepe recusandae quasi. dolorem odit assumenda aspernatur ea qui ratione possimus quis quis reprehenderit. dolorem qui amet cum doloremque sed occaecati ut. non quia iusto provident. asperiores quae ut quod culpa quibusdam rerum</p><p>Accusamus nihil magni nihil sint odio eligendi fugiat id officia quia deleniti nesciunt. fugit nulla aut quo harum perferendis iusto impedit perferendis architecto perferendis iusto sint animi. repudiandae itaque omnis ratione ex ut ipsum architecto aut vel ab accusantium inventore odio ea</p>"
-    }
-  end
-
   def sidebar_widgets
     {
       contact: {
