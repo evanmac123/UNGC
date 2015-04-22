@@ -26,7 +26,11 @@ class S3Uploader
   end
 
   def base_url
-    "https://#{bucket}.s3.amazonaws.com/#{key}"
+    if cloudfront
+      "https://#{cloudfront}.cloudfront.net/#{key}"
+    else
+      "https://#{bucket}.s3.amazonaws.com/#{key}"
+    end
   end
 
   def file_type
@@ -50,6 +54,10 @@ class S3Uploader
 
   def bucket
     Rails.application.secrets.s3['bucket']
+  end
+
+  def cloudfront
+    Rails.application.secrets.s3['cloudfront']
   end
 
 end
