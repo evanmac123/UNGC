@@ -4729,7 +4729,7 @@ define('admin/templates/components/container/macros/x-topics', ['exports'], func
   }()));
 
 });
-define('admin/templates/components/container/macros/x-widget-links-list', ['exports'], function (exports) {
+define('admin/templates/components/container/macros/x-widget-links-lists', ['exports'], function (exports) {
 
   'use strict';
 
@@ -4886,7 +4886,7 @@ define('admin/templates/components/container/macros/x-widget-links-list', ['expo
           fragment = this.build(dom);
         }
         var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),3,3);
-        block(env, morph0, context, "container/x-fields", [], {"key": "widgetLinksList", "scope": get(env, context, "scope"), "array": true, "max": 2}, child0, null);
+        block(env, morph0, context, "container/x-fields", [], {"key": "widgetLinksLists", "scope": get(env, context, "scope"), "array": true, "max": 2}, child0, null);
         return fragment;
       }
     };
@@ -7372,7 +7372,7 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
           block(env, morph3, context, "container/x-fields", [], {"key": "actionDetailBlock", "scope": get(env, context, "actionDetail")}, child2, null);
           block(env, morph4, context, "container/x-fields", [], {"key": "widgetContact", "scope": get(env, context, "actionDetail")}, child3, null);
           block(env, morph5, context, "container/x-fields", [], {"key": "widgetCallsToAction", "array": true, "min": 1, "max": 2, "scope": get(env, context, "actionDetail")}, child4, null);
-          inline(env, morph6, context, "container/macros/x-widget-links-list", [], {"scope": get(env, context, "actionDetail")});
+          inline(env, morph6, context, "container/macros/x-widget-links-lists", [], {"scope": get(env, context, "actionDetail")});
           block(env, morph7, context, "container/x-fields", [], {"key": "relatedContent", "scope": get(env, context, "actionDetail")}, child5, null);
           block(env, morph8, context, "container/x-fields", [], {"tagName": "ol", "key": "resources", "array": true, "size": 3, "scope": get(env, context, "actionDetail")}, child6, null);
           block(env, morph9, context, "container/x-fields", [], {"key": "initiative", "scope": get(env, context, "actionDetail")}, child7, null);
@@ -7886,7 +7886,7 @@ define('admin/templates/containers/_forms/article', ['exports'], function (expor
           block(env, morph2, context, "container/x-fields", [], {"key": "articleBlock", "scope": get(env, context, "article")}, child1, null);
           block(env, morph3, context, "container/x-fields", [], {"key": "widgetContact", "scope": get(env, context, "article")}, child2, null);
           block(env, morph4, context, "container/x-fields", [], {"key": "widgetCallsToAction", "array": true, "min": 1, "max": 2, "scope": get(env, context, "article")}, child3, null);
-          inline(env, morph5, context, "container/macros/x-widget-links-list", [], {"scope": get(env, context, "article")});
+          inline(env, morph5, context, "container/macros/x-widget-links-lists", [], {"scope": get(env, context, "article")});
           block(env, morph6, context, "container/x-fields", [], {"tagName": "ol", "key": "resources", "array": true, "size": 3, "scope": get(env, context, "article")}, child4, null);
           inline(env, morph7, context, "container/macros/x-taggings", [], {"scope": get(env, context, "article")});
           return fragment;
@@ -9266,7 +9266,7 @@ define('admin/templates/containers/_forms/issue', ['exports'], function (exports
           block(env, morph3, context, "container/x-fields", [], {"key": "issueBlock", "scope": get(env, context, "issue")}, child1, null);
           block(env, morph4, context, "container/x-fields", [], {"key": "widgetContact", "scope": get(env, context, "issue")}, child2, null);
           block(env, morph5, context, "container/x-fields", [], {"key": "widgetCallsToAction", "array": true, "min": 1, "max": 2, "scope": get(env, context, "issue")}, child3, null);
-          inline(env, morph6, context, "container/macros/x-widget-links-list", [], {"scope": get(env, context, "issue")});
+          inline(env, morph6, context, "container/macros/x-widget-links-lists", [], {"scope": get(env, context, "issue")});
           block(env, morph7, context, "container/x-fields", [], {"key": "relatedContent", "scope": get(env, context, "issue")}, child4, null);
           block(env, morph8, context, "container/x-fields", [], {"tagName": "ol", "key": "resources", "array": true, "size": 3, "scope": get(env, context, "issue")}, child5, null);
           inline(env, morph9, context, "container/macros/x-taggings", [], {"scope": get(env, context, "issue")});
@@ -10613,13 +10613,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.7b06521c"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.db54e15e"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.7b06521c"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.db54e15e"});
 }
 
 /* jshint ignore:end */
