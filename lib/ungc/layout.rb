@@ -37,8 +37,8 @@ module UNGC
           field :theme, type: :string, enum: THEMES, default: 'light'
 
           scope :title do
-            field :title1, type: :string, limit: 50, required: true
-            field :title2, type: :string, limit: 50
+            field :title1, type: :string, limit: 100, required: true
+            field :title2, type: :string, limit: 100
           end
 
           field :blurb, type: :string, limit: 200
@@ -54,7 +54,7 @@ module UNGC
           field :title, type: :string, limit: 50
 
           scope :links, array: true, max: 5 do
-            field :label, type: :string, limit: 20, required: true
+            field :label, type: :string,  required: true
             field :url,   type: :href,   required: true
           end
         end
