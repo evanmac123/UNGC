@@ -35,13 +35,14 @@ class Components::SectionNav
   end
 
   def siblings
+    return [] unless container.parent_container
     container.parent_container.child_containers.includes(:public_payload).map do |c|
       Components::SectionNavLink.new(c, container)
     end
   end
 
   def parent
-    Components::SectionNavLink.new(container.parent_container)
+    Components::SectionNavLink.new(container.parent_container) if container.parent_container
   end
 
   def children

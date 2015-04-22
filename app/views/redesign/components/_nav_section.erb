@@ -3,7 +3,7 @@
   <%- nav = @page.section_nav %>
 
   <article id='section-nav-container'>
-    <%= content_tag(:h1, link_to_redesign(nav.parent.title, nav.parent.path)) %>
+    <%= content_tag(:h1, link_to_redesign(nav.parent.title, nav.parent.path)) if nav.parent %>
     <ul class='section-nav-siblings'>
       <%- nav.siblings.each do |sibling| -%>
         <li>
