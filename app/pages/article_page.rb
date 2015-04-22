@@ -3,6 +3,10 @@ class ArticlePage < ContainerPage
     (@data[:hero] || {}).merge({size: 'small', show_section_nav: true})
   end
 
+  def section_nav
+    return Components::SectionNav.new(container)
+  end
+
   def main_content_section
     data = @data[:article_block] || {}
     data
