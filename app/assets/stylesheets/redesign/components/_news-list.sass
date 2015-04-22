@@ -1,18 +1,14 @@
-.main-content-body.news-list
+.news-list
+  padding: 0 12%
 
   .news-item
-    padding: 0
+    padding: 1em
     margin: 0 0 2em
+    border: 1px solid #ccc
 
     h1
       margin: 0 0 .5em
       font-size: 1.125em
-
-      a
-        &:after
-          +fa-icon
-          content: $fa-var-caret-right
-          margin: 0 0 0 .5em
 
     time,
     address
@@ -21,9 +17,15 @@
     address
       margin: 0 0 .5em
 
-  .news-item-featured
-    border-bottom: 1px solid #ccc
-    padding: 0 0 2em
+    p:last-of-type
+      margin-bottom: .5em
+
+  .view-all,
+  .read-more
+    &:after
+      +fa-icon
+      content: $fa-var-caret-right
+      margin: 0 0 0 .5em
 
   .view-all
     display: block
@@ -34,11 +36,34 @@
     font-weight: 900
 
     &:after
-      +fa-icon
-      content: $fa-var-caret-right
-      margin: 0 0 0 .5em
       color: color('light-blue')
 
     &:hover,
     &:active
       color: color('light-blue')
+
+  .read-more
+    color: color('light-blue')
+
+    &:hover,
+    &:active
+      color: color('pastel-blue')
+
+  &.news-list-landing
+    padding-right: 0
+    float: left
+    width: 60%
+
+    h1 a:after
+      +fa-icon
+      content: $fa-var-caret-right
+      margin: 0 0 0 .5em
+
+    .news-item
+      padding: 0
+      border-width: 0
+
+    .news-item-featured
+      padding: 0 0 1em
+      border-bottom-width: 1px
+

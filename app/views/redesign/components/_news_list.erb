@@ -8,13 +8,14 @@ if news ||= nil
 
   <%= content_tag(:header, content_tag(:h1, news.title), {class: 'main-content-header'}) if news.title %>
 
-  <section class='main-content-body news-list<%= list_classes -%>'>
+  <section class='news-list<%= list_classes -%>'>
     <%- if featured = news.featured -%>
       <article class='news-item news-item-featured'>
         <%= content_tag(:h1, link_to_redesign(featured.title, featured.url)) %>
         <%= content_tag(:time, featured.date) %>
         <%= content_tag(:address, featured.location) %>
         <%= content_tag(:p, featured.blurb) %>
+        <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
       </article>
     <%- end -%>
 
@@ -23,6 +24,7 @@ if news ||= nil
         <%= content_tag(:h1, link_to_redesign(news_item.title, news_item.url)) %>
         <%= content_tag(:time, news_item.date) %>
         <%= content_tag(:address, news_item.location) %>
+        <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
       </article>
     <%- end -%>
 
