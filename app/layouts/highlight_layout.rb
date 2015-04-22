@@ -41,8 +41,9 @@ class HighlightLayout < UNGC::Layout
     field :content,  type: :string, required: true
     field :bg_image, type: :image_url
     scope :widget_image do
-      field :alt, type: :string, limit: 50
+      field :alt, type: :string
       field :src,   type: :href
+      field :url,   type: :href
     end
     scope :call_to_action do
       field :theme, type: :string, enum: COLORS, default: 'light-blue'
