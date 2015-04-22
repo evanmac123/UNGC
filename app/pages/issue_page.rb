@@ -1,6 +1,6 @@
 class IssuePage < ContainerPage
   def hero
-    (@data[:hero] || {}).merge({size: 'small'})
+    (@data[:hero] || {}).merge({size: 'small', show_section_nav: true})
   end
 
   def section_nav
