@@ -33,7 +33,7 @@ class ActionDetailLayout < UNGC::Layout
     field :url,   type: :href,   required: true
   end
 
-  has_widget_links_list!
+  has_widget_links_lists!
 
   scope :resources, array: true, max: 3 do
     field :resource_id, type: :number
