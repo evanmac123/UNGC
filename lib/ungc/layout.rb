@@ -41,7 +41,7 @@ module UNGC
             field :title2, type: :string, limit: 50
           end
 
-          field :blurb, type: :string, limit: 200, required: true
+          field :blurb, type: :string, limit: 200
 
           if block_given?
             instance_exec(&block)
