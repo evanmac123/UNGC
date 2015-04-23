@@ -1,0 +1,6 @@
+<fieldset>
+  <legend>Contact</legend>
+  {{#container/x-fields key="widgetContact" scope=scope as |widgetContact|}}
+    {{container/x-field key="contactId" type="select2" labelPath="name" placeholder="Please choose a contact" limit=50 scope=widgetContact items=items allowClear=true}}
+  {{/container/x-fields}}
+</fieldset>

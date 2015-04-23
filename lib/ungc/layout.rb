@@ -11,6 +11,10 @@ module UNGC
         dark
       ]
 
+      RELATED_TYPES = %w[
+        container
+      ]
+
       def has_meta_tags!(&block)
         scope :meta_tags do
           field :title, type: :string, required: true
@@ -49,6 +53,12 @@ module UNGC
         end
       end
 
+      def has_widget_contact!
+        scope :widget_contact do
+          field :contact_id, type: :number
+        end
+      end
+
       def has_widget_links_lists!
         scope :widget_links_lists, array: true, max: 2 do
           field :title, type: :string, limit: 50
@@ -57,6 +67,29 @@ module UNGC
             field :label, type: :string,  required: true
             field :url,   type: :href,   required: true
           end
+        end
+      end
+
+      def has_widget_calls_to_action!
+        scope :widget_calls_to_action, array: true, min: 0, max: 2 do
+          field :label, type: :string, limit: 50, required: true
+          field :url,   type: :href,   required: true
+        end
+      end
+
+      def has_related_content!
+        scope :related_content do
+          field :title, type: :string, limit: 50
+          scope :content_boxes, array: true, size: 3 do
+            field :container_path, type: :string
+            field :related_type, type: :string, enum: RELATED_TYPES, default: 'container'
+          end
+        end
+      end
+
+      def has_resources!
+        scope :resources, array: true, max: 3 do
+          field :resource_id, type: :number
         end
       end
 

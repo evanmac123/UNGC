@@ -20,43 +20,15 @@
     {{/container/x-fields}}
   </fieldset>
 
-  <fieldset>
-    <legend>Contact</legend>
-    {{#container/x-fields key="widgetContact" scope=actionDetail as |widgetContact|}}
-      {{container/macros/x-contact key="contactId" scope=widgetContact}}
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-widget-contact scope=actionDetail}}
 
-  <fieldset>
-    <legend>Call to Action</legend>
-    {{#container/x-fields key="widgetCallsToAction" array=true min=1 max=2 scope=actionDetail as |widgetCallsToAction|}}
-      {{container/x-field key="label" type="string" scope=widgetCallsToAction}}
-      {{container/x-field key="url" type="href" scope=widgetCallsToAction}}
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-widget-calls-to-action scope=actionDetail}}
 
   {{container/macros/x-widget-links-lists scope=actionDetail}}
 
-  <fieldset>
-    <legend>Related Content</legend>
-    {{#container/x-fields key="relatedContent" scope=actionDetail as |relatedContent|}}
-      {{container/x-field key="title" type="string" limit=50 scope=relatedContent}}
-      {{#container/x-fields tagName="ol" key="contentBoxes" array=true size=3 scope=relatedContent as |boxes|}}
-        <li class="stat-group">
-            {{container/x-field key="containerPath" type="string" scope=boxes}}
-        </li>
-      {{/container/x-fields}}
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-related-content scope=actionDetail}}
 
-  <fieldset>
-    <legend>Resources</legend>
-    {{#container/x-fields tagName="ol" key="resources" array=true size=3 scope=actionDetail as |resources|}}
-      <li class="stat-group">
-        {{container/macros/x-resource key="resourceId" scope=resources}}
-      </li>
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-resources scope=actionDetail}}
 
   <fieldset>
     <legend>Participants (related Initiative)</legend>

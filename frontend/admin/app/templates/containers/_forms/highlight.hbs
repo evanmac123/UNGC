@@ -38,14 +38,7 @@
     {{/container/x-fields}}
   </fieldset>
 
-  <fieldset>
-    <legend>Resources</legend>
-    {{#container/x-fields tagName="ol" key="resources" array=true size=3 scope=highlight as |resources|}}
-      <li class="stat-group">
-        {{container/macros/x-resource key="resourceId" scope=resources}}
-      </li>
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-resources scope=highlight}}
 
   {{container/macros/x-taggings scope=highlight}}
 {{/container/x-fields}}

@@ -25,19 +25,12 @@ class ArticleLayout < UNGC::Layout
     field :content,  type: :string, required: true
   end
 
-  scope :widget_contact do
-    field :contact_id, type: :number
-  end
+  has_widget_contact!
 
-  scope :widget_calls_to_action, array: true, min: 1, max: 2 do
-    field :label, type: :string, limit: 50, required: true
-    field :url,   type: :href,   required: true
-  end
+  has_widget_calls_to_action!
 
   has_widget_links_lists!
 
-  scope :resources, array: true, max: 3 do
-    field :resource_id, type: :number
-  end
+  has_resources!
 end
 
