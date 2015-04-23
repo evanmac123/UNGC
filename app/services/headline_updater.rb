@@ -20,7 +20,7 @@ class HeadlineUpdater
       headline.save!
 
       updater = @tagging_updater.new(@taggings, headline)
-      updater.submit
+      updater.update
 
       true
     else

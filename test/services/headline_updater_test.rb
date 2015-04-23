@@ -15,7 +15,7 @@ class HeadlineUpdaterTest < ActiveSupport::TestCase
     end
 
     should "save the taggings" do
-      TaggingUpdater.any_instance.expects(:submit)
+      TaggingUpdater.any_instance.expects(:update)
 
       @updater.submit
     end

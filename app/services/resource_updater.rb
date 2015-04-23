@@ -18,7 +18,7 @@ class ResourceUpdater
       updated_links.map(&:save!)
 
       updater = @tagging_updater.new(@taggings, resource)
-      updater.submit
+      updater.update
 
       true
     else

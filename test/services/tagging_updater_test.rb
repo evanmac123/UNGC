@@ -9,7 +9,7 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
       taggings = @params.slice(:issues,:topics,:sectors)
 
       @updater = TaggingUpdater.new(taggings, headline)
-      @updater.submit
+      @updater.update
 
       @headline = @updater.object
     end

@@ -6,7 +6,7 @@ class TaggingUpdater
     @object = object
   end
 
-  def submit
+  def update
     topic_taggings
     issue_taggings
     sector_taggings
