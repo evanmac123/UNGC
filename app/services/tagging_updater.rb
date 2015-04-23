@@ -1,8 +1,8 @@
 class TaggingUpdater
-  attr_reader :object, :params
+  attr_reader :object, :taggings
 
-  def initialize(params={}, object)
-    @params = params
+  def initialize(taggings={}, object)
+    @taggings = taggings
     @object = object
   end
 
@@ -17,7 +17,7 @@ class TaggingUpdater
   private
 
   def topic_taggings
-    topic_ids = params.fetch(:topics, [])
+    topic_ids = taggings.fetch(:topics, [])
     object.taggings.where('topic_id not in (?)', topic_ids).destroy_all
     topic_ids.each do |id|
       object.taggings.where(topic_id: id).first_or_create!
@@ -25,7 +25,7 @@ class TaggingUpdater
   end
 
   def issue_taggings
-    ids = params.fetch(:issues, [])
+    ids = taggings.fetch(:issues, [])
     object.taggings.where('issue_id not in (?)', ids).destroy_all
     ids.each do |id|
       object.taggings.where(issue_id: id).first_or_create!
@@ -33,7 +33,7 @@ class TaggingUpdater
   end
 
   def sector_taggings
-    ids = params.fetch(:sectors, [])
+    ids = taggings.fetch(:sectors, [])
     object.taggings.where('sector_id not in (?)', ids).destroy_all
     ids.each do |id|
       object.taggings.where(sector_id: id).first_or_create!

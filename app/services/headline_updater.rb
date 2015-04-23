@@ -4,6 +4,7 @@ class HeadlineUpdater
   def initialize(params={}, headline=Headline.new, tagging_updater=TaggingUpdater)
     @headline = headline
     @params = params
+    @taggings = params.slice(:issues,:topics,:sectors)
     @tagging_updater = tagging_updater
   end
 
@@ -18,7 +19,7 @@ class HeadlineUpdater
     if valid?
       headline.save!
 
-      updater = @tagging_updater.new(params, headline)
+      updater = @tagging_updater.new(@taggings, headline)
       updater.submit
 
       true

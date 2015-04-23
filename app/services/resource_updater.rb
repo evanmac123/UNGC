@@ -4,6 +4,7 @@ class ResourceUpdater
   def initialize(params={}, resource=Resource.new, tagging_updater=TaggingUpdater)
     @resource = resource
     @params = params
+    @taggings = params.slice(:issues,:topics,:sectors)
     @tagging_updater = tagging_updater
   end
 
@@ -16,7 +17,7 @@ class ResourceUpdater
       resource.save!
       updated_links.map(&:save!)
 
-      updater = @tagging_updater.new(params, resource)
+      updater = @tagging_updater.new(@taggings, resource)
       updater.submit
 
       true

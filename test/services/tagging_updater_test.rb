@@ -6,7 +6,9 @@ class TaggingUpdaterTest < ActiveSupport::TestCase
       @params = headline_attributes_with_taggings
       headline = create_headline
 
-      @updater = TaggingUpdater.new(@params, headline)
+      taggings = @params.slice(:issues,:topics,:sectors)
+
+      @updater = TaggingUpdater.new(taggings, headline)
       @updater.submit
 
       @headline = @updater.object
