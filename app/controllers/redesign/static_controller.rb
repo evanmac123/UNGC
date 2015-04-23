@@ -8,6 +8,10 @@ class Redesign::StaticController < Redesign::ApplicationController
     @page = FakeNewsListPage.new
   end
 
+  def list
+    @page = FakeListPage.new
+  end
+
   def catch_all
     set_current_container_by_path(params[:path])
 

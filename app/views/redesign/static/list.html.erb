@@ -1,0 +1,24 @@
+<%= render partial: 'redesign/components/hero' %>
+
+<%- if list = @page.list -%>
+<section class='main-content-section'>
+
+  <%= content_tag(:header, content_tag(:h1, list.title), {class: 'main-content-header content-list-header'}) if list.title %>
+
+  <section class='content-list'>
+    <%= content_tag(:p, list.blurb) if list.blurb %>
+
+    <%- list.items.each do |item| -%>
+      <article class='content-list-item'>
+        <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'image-link') if item.image %>
+        <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
+          <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}")) %>
+          <%= content_tag(:p, item.blurb) %>
+        </div>
+      </article>
+    <%- end -%>
+  </section>
+
+  <%# Pagination will go here %>
+</section>
+<%- end -%>
