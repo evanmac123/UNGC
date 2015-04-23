@@ -89,6 +89,7 @@ class Admin::LocalNetworksController < AdminController
   end
 
   def local_network_params
+    # XXX we should permit description and image only from ungc contacts
     params.fetch(:local_network, {}).permit!
   end
 
