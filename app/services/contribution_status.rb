@@ -58,7 +58,12 @@ class ContributionStatus
   end
 
   def initial_contribution_year
-    organization.joined_on.year > 2006 ? organization.joined_on.year : 2006
+    year = organization.joined_on.try(:year)
+    if year && year > 2006
+      year
+    else
+      2006
+    end
   end
 
   private
