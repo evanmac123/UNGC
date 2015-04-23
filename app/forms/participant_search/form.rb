@@ -53,6 +53,7 @@ class ParticipantSearch::Form
       order: order,
       star: true,
       with: options,
+      indices: ['participant_search_core'],
       sql: {
         include: [
           :organization_type,
