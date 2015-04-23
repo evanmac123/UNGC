@@ -4,10 +4,6 @@ class Redesign::StaticController < Redesign::ApplicationController
     @page = HomePage.new(current_container, current_payload_data)
   end
 
-  def news_landing
-    @page = FakeNewsLandingPage.new
-  end
-
   def news_list
     @page = FakeNewsListPage.new
   end
