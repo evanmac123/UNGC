@@ -6,7 +6,7 @@ class Redesign::SectorTree < Redesign::Tree
       .select([:id, :parent_id, :name])
       .group(:parent_id, :id)
       .group_by do |sector|
-        parent = sector.parent
+        sector.parent
       end)
   end
 end
