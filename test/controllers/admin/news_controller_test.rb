@@ -6,13 +6,25 @@ class Admin::NewsControllerTest < ActionController::TestCase
       @staff_user = create_staff_user
       sign_in @staff_user
 
+      @issues = create_issue_hierarchy
+      @topics = create_topic_hierarchy
+      @sectors = create_sector_hierarchy
+
+      @issue = @issues.last.issues.last
+      @topic = @topics.last.children.last
+      @sector = @sectors.last.children.last
+
       @headline = create_headline
       @update = {
         title: "UN Global Compact Launches Local Network in Canada",
+        published_on: "2015-04-23",
         location: "Toronto, Ontario",
-        country: 30,
-        body: "Global Compact Network Canada was launched in Toronto...",
-        headline_type: "press_releases"
+        country_id: 30,
+        description: "Global Compact Network Canada was launched in Toronto...",
+        headline_type: "press_release",
+        issues: [@issue.id],
+        topics: [@topic.id],
+        sectors: [@sector.id]
       }
     end
 
@@ -42,12 +54,38 @@ class Admin::NewsControllerTest < ActionController::TestCase
         assert_redirected_to_index
       end
 
-      should "set state to pending approval" do
-        assert @headline.pending?
+      should "set title" do
+        assert_equal @update[:title], @headline.title
+      end
+
+      should "set published on" do
+        assert_equal @update[:published_on].to_date, @headline.published_on
+      end
+
+      should "set location" do
+        assert_equal @update[:location], @headline.location
+      end
+
+      should "set country" do
+        assert_equal @update[:country_id], @headline.country_id
+      end
+
+      should "set description" do
+        assert_equal @update[:description], @headline.description
       end
 
       should "set headline type" do
         assert_equal @update[:headline_type], @headline.headline_type
+      end
+
+      should "set taggings" do
+        assert_equal @update[:issues].first, @headline.issues.first.id
+        assert_equal @update[:topics].first, @headline.topics.first.id
+        assert_equal @update[:sectors].first, @headline.sectors.first.id
+      end
+
+      should "set state to pending approval" do
+        assert @headline.pending?
       end
 
       context "given approval" do
@@ -94,6 +132,12 @@ class Admin::NewsControllerTest < ActionController::TestCase
       end
     end
 
+    should "show headline" do
+      get :show, id: @headline.to_param
+      assert_response :success
+      assert assigns(:headline)
+    end
+
     should "get edit" do
       get :edit, id: @headline.to_param
       assert_response :success
@@ -102,7 +146,7 @@ class Admin::NewsControllerTest < ActionController::TestCase
 
     should "update headline" do
       assert_no_difference 'Headline.count' do
-        post :update, id: @headline, headline: @update
+        put :update, id: @headline, headline: @update
       end
 
       assert_equal @update[:title], Headline.find(@headline.id).title

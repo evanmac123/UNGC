@@ -10,32 +10,35 @@ class Admin::NewsController < AdminController
   end
 
   def new
-    @headline = Headline.new headline_params
+    @headline = HeadlinePresenter.new(Headline.new)
   end
 
   def create
-    @headline = Headline.new headline_params
-    if @headline.save
-      flash[:notice] = "Headline successfully created"
-      redirect_to :action => 'index'
+    updater = HeadlineUpdater.new(headline_params)
+    if updater.submit
+      redirect_to admin_headlines_url, notice: 'Headline successfully created.'
     else
-      render :action => 'new'
-    end
-  end
-
-  def edit
-  end
-
-  def update
-    if @headline.update_attributes(headline_params)
-      flash[:notice] = "Changes have been saved"
-      redirect_to :action => 'index'
-    else
-      render :action => 'edit'
+      @headline = HeadlinePresenter.new(updater.headline)
+      render action: 'new'
     end
   end
 
   def show
+    @headline = HeadlinePresenter.new(@headline)
+  end
+
+  def edit
+    @headline = HeadlinePresenter.new(@headline)
+  end
+
+  def update
+    updater = HeadlineUpdater.new(headline_params, @headline)
+    if updater.submit
+      redirect_to admin_headlines_url, notice: 'Headline successfully updated.'
+    else
+      @headline = HeadlinePresenter.new(@headline)
+      render action: 'edit'
+    end
   end
 
   def destroy
@@ -73,7 +76,10 @@ class Admin::NewsController < AdminController
         :location,
         :country_id,
         :description,
-        :headline_type
+        :headline_type,
+        topics: [],
+        issues: [],
+        sectors: []
       )
     end
 end
