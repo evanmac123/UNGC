@@ -67,7 +67,7 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
       @sectors = create_sector_hierarchy
 
       @language = create_language
-      @issue = @issues.last.issues.last
+      @issue = @issues.last.children.last
       @topic = @topics.last.children.last
       @sector = @sectors.last.children.last
 

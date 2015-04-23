@@ -1,5 +1,6 @@
 class Issue < ActiveRecord::Base
-  belongs_to :issue_area, class_name: 'IssueArea'
+  belongs_to :parent, class_name: 'Issue'
+  has_many :children, class_name: 'Issue', foreign_key: :parent_id
 
   scope :children, -> { where(type: nil) }
 end

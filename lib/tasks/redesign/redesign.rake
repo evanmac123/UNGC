@@ -118,10 +118,10 @@ namespace :redesign do
     }
 
     areas.each do |area_name, issues|
-      area = IssueArea.where(name: area_name).first_or_create!
+      area = Issue.where(name: area_name).first_or_create!
       issues.each do |issue_name|
         issue = Issue.where(name: issue_name).first_or_create!
-        issue.issue_area = area
+        issue.parent = area
         issue.save!
       end
       area.save!

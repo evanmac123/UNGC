@@ -1,12 +1,12 @@
 class Redesign::IssueTree < Redesign::Tree
 
   def initialize
-    super(Issue.where(type: nil)
-      .includes(:issue_area)
-      .select([:id, :issue_area_id, :name])
-      .group(:issue_area_id, :id)
+    super(Issue.where.not(parent_id: nil)
+      .includes(:parent)
+      .select([:id, :parent_id, :name])
+      .group(:parent_id, :id)
       .group_by do |issue|
-        issue.issue_area
+        issue.parent
       end)
   end
 

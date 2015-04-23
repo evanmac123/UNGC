@@ -14,9 +14,16 @@ class IssueTest < ActiveSupport::TestCase
   end
 
   should "have an issue area" do
-    area = create_issue_area
-    issue = create_issue issue_area: area
-    assert_equal area, issue.issue_area
+    area = create_issue
+    issue = create_issue parent: area
+    assert_equal area, issue.parent
+  end
+
+  should "have issue children" do
+    issues = 2.times.map {create_issue}
+    area = create_issue children: issues
+
+    assert_equal issues, area.children
   end
 
 end

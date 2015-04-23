@@ -333,9 +333,9 @@ class ActiveSupport::TestCase
     end
 
     tree.map do |parent_name, child_names|
-      issue_area = create_issue_area(name: parent_name)
+      issue_area = create_issue(name: parent_name)
       child_names.map do |child_name|
-        create_issue(name: child_name, issue_area: issue_area)
+        create_issue(name: child_name, parent: issue_area)
       end
       issue_area
     end
