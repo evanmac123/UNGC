@@ -7,7 +7,8 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
       total_entries: 0,
       total_pages: 0,
       each: stub(),
-      any?: true
+      any?: true,
+      empty?: false
     ))
   end
 
