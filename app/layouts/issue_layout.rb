@@ -1,12 +1,6 @@
 class IssueLayout < UNGC::Layout
   extend UNGC::Layout::Macros
 
-  THEMES = %w[
-    none
-    light
-    dark
-  ]
-
   has_one_container!
 
   label 'Issue'

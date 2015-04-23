@@ -10,12 +10,6 @@ class LandingLayout < UNGC::Layout
     pastel-blue
   ]
 
-  THEMES = %w[
-    none
-    light
-    dark
-  ]
-
   has_one_container!
 
   label 'Landing'
