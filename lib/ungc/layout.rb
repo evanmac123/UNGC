@@ -11,6 +11,8 @@ module UNGC
         dark
       ]
 
+      # this will be for later if we need to support
+      # other objects in the related_content boxes
       RELATED_TYPES = %w[
         container
       ]
