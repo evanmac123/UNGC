@@ -6,26 +6,8 @@ class Admin::NewsControllerTest < ActionController::TestCase
       @staff_user = create_staff_user
       sign_in @staff_user
 
-      @issues = create_issue_hierarchy
-      @topics = create_topic_hierarchy
-      @sectors = create_sector_hierarchy
-
-      @issue = @issues.last.issues.last
-      @topic = @topics.last.children.last
-      @sector = @sectors.last.children.last
-
       @headline = create_headline
-      @update = {
-        title: "UN Global Compact Launches Local Network in Canada",
-        published_on: "2015-04-23",
-        location: "Toronto, Ontario",
-        country_id: 30,
-        description: "Global Compact Network Canada was launched in Toronto...",
-        headline_type: "press_release",
-        issues: [@issue.id],
-        topics: [@topic.id],
-        sectors: [@sector.id]
-      }
+      @update = headline_attributes_with_taggings
     end
 
     should "get index" do
