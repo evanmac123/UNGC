@@ -7,18 +7,8 @@ class ResourceUpdater
   end
 
   def submit
-    resource.title          = params[:title]
-    resource.description    = params[:description]
-    resource.isbn           = params[:isbn]
-    resource.content_type   = params[:content_type]
-    resource.author_ids     = params[:author_ids]
-    resource.image          = params[:imag]
-    resource.year           = year if has_year?
-
-    resource.principles.where('id not in (?)', params[:principle_ids]).destroy_all
-    Array(params[:principle_ids]).each do |id|
-      resource.principles.where(id: id).first_or_create!
-    end
+    resource.attributes = params.slice(:title, :description, :isbn, :principle_ids, :author_ids, :image, :content_type)
+    resource.year = year if has_year?
 
     if valid?
       remove_old_links
