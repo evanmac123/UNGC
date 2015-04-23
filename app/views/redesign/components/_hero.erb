@@ -25,11 +25,10 @@
 
     <%- if hero_data[:show_issues_nav] -%>
     <ul id='issues-nav'>
-      <li><%= link_to 'Human Rights'      , '', class: 'human-rights' %></li>
-      <li><%= link_to 'Labour'            , '', class: 'labour' %></li>
-      <li><%= link_to 'Environment'       , '', class: 'environment' %></li>
-      <li><%= link_to 'Anti-Corruption'   , '', class: 'anti-corruption' %></li>
-      <li><%= link_to 'Strengthen Society', '', class: 'strengthen-society' %></li>
+      <li class='environment'><%= link_to 'Environment',  '' %></li>
+      <li class='social'><%= link_to 'Social',            '' %></li>
+      <li class='governance'><%= link_to 'Governance',    '' %></li>
+      <li class='see-all'><%= link_to 'See all issues',   '' %></li>
     </ul>
     <%- end -%>
 

@@ -85,10 +85,12 @@
 
 #issues-nav
   list-style: none
+  display: table
+  width: 90%
   position: absolute
   left: 0
   right: 0
-  bottom: 0
+  bottom: 1px
   padding: 0
   margin: 0 auto
   max-width: 1200px
@@ -98,11 +100,11 @@
     size: 1.375em
 
   li
-    display: block
-    float: left
+    display: inline-block
+    vertical-align: top
     margin: 0
     padding: 0 1px
-    width: 20%
+    width: 27%
 
     &:last-of-type
       margin-right: 0
@@ -116,6 +118,7 @@
     text-align: center
     padding: 1em 0 .75em
     white-space: nowrap
+    height: 3.5em
     +transition-property(background-color color)
     +transition-duration(150ms)
 
@@ -127,8 +130,8 @@
       background: center center no-repeat
         size: contain
       vertical-align: middle
-      margin: 0 .4em 0 0
-      +size(40px)
+      margin: 0 .5em 0 0
+      +size(1.8em)
 
     &:hover,
     &:active
@@ -137,17 +140,16 @@
     &:active
       +transition-duration(0ms)
 
-  .human-rights:before
-    background-image: image_url('//ungc.s3.amazonaws.com/icons/human-rights.png')
+  .see-all
+    width: 18%
+    a:before
+      display: none
 
-  .labour:before
-    background-image: image_url('//ungc.s3.amazonaws.com/icons/labour.png')
+  .environment a:before
+    background-image: image_url('https://d306pr3pise04h.cloudfront.net/icons/issues/environment.png')
 
-  .environment:before
-    background-image: image_url('//ungc.s3.amazonaws.com/icons/environment.png')
+  .social a:before
+    background-image: image_url('https://d306pr3pise04h.cloudfront.net/icons/issues/social.png')
 
-  .anti-corruption:before
-    background-image: image_url('//ungc.s3.amazonaws.com/icons/anti-corruption.png')
-
-  .strengthen-society:before
-    background-image: image_url('//ungc.s3.amazonaws.com/icons/strengthen-society.png')
+  .governance a:before
+    background-image: image_url('https://d306pr3pise04h.cloudfront.net/icons/issues/governance.png')
