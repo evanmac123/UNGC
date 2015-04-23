@@ -395,6 +395,45 @@ class ActiveSupport::TestCase
     end
   end
 
+  def headline_attributes_with_taggings
+    create_country
+    create_issue_hierarchy
+    create_topic_hierarchy
+    create_sector_hierarchy
+
+    country_id = Country.last.id
+    issue_id = Issue.last.id
+    topic_id = Topic.last.id
+    sector_id = Sector.last.id
+
+    {
+      title: "UN Global Compact Launches Local Network in Canada",
+      published_on: "2015-04-23",
+      location: "Toronto, Ontario",
+      country_id: country_id,
+      description: "Global Compact Network Canada was launched in Toronto...",
+      headline_type: "press_release",
+      issues: [issue_id],
+      topics: [topic_id],
+      sectors: [sector_id]
+    }
+  end
+
+  def resource_attributes_with_taggings
+    create_issue_hierarchy
+    create_topic_hierarchy
+    create_sector_hierarchy
+
+    issue_id = Issue.last.id
+    topic_id = Topic.last.id
+    sector_id = Sector.last.id
+
+    valid_resource_attributes.merge({
+      issues: [issue_id],
+      topics: [topic_id],
+      sectors: [sector_id]
+    }).symbolize_keys
+  end
 end
 
 class ActionController::TestCase
@@ -434,4 +473,3 @@ module LocalNetworkSubmodelControllerHelper
   end
 
 end
-

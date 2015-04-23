@@ -1,9 +1,11 @@
 class ResourceUpdater
   attr_reader :resource, :params
 
-  def initialize(params={}, resource=Resource.new)
+  def initialize(params={}, resource=Resource.new, tagging_updater=TaggingUpdater)
     @resource = resource
     @params = params
+    @taggings = params.slice(:issues,:topics,:sectors)
+    @tagging_updater = tagging_updater
   end
 
   def submit
@@ -15,9 +17,8 @@ class ResourceUpdater
       resource.save!
       updated_links.map(&:save!)
 
-      topic_taggings
-      issue_taggings
-      sector_taggings
+      updater = @tagging_updater.new(@taggings, resource)
+      updater.update
 
       true
     else
@@ -26,30 +27,6 @@ class ResourceUpdater
   end
 
   private
-
-  def topic_taggings
-    topic_ids = params.fetch(:topics, [])
-    resource.taggings.where('topic_id not in (?)', topic_ids).destroy_all
-    topic_ids.each do |id|
-      resource.taggings.where(topic_id: id).first_or_create!
-    end
-  end
-
-  def issue_taggings
-    ids = params.fetch(:issues, [])
-    resource.taggings.where('issue_id not in (?)', ids).destroy_all
-    ids.each do |id|
-      resource.taggings.where(issue_id: id).first_or_create!
-    end
-  end
-
-  def sector_taggings
-    ids = params.fetch(:sectors, [])
-    resource.taggings.where('sector_id not in (?)', ids).destroy_all
-    ids.each do |id|
-      resource.taggings.where(sector_id: id).first_or_create!
-    end
-  end
 
   def valid?
     # we need to call the validations for both
