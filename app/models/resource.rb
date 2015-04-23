@@ -46,7 +46,7 @@ class Resource < ActiveRecord::Base
   has_many :sectors,        through: :taggings
   has_many :sector_groups,  through: :sectors, source: :parent
   has_many :issues,         through: :taggings
-  has_many :issue_areas,    through: :issues
+  has_many :issue_areas,    through: :issues, class_name: 'Issue', source: :parent
   has_many :topics,         through: :taggings
   has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
 

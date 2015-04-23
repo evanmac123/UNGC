@@ -6,7 +6,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     # issues
     @issues = create_issue_hierarchy
     @selected_issue_area = @issues.first
-    @selected_issue = @issues.last.issues.last
+    @selected_issue = @issues.last.children.last
 
     # topics
     @topics = create_topic_hierarchy
@@ -82,7 +82,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have match the issue's ids" do
-      issue_b_child_ids = @issues.last.issues.map(&:id)
+      issue_b_child_ids = @issues.last.children.map(&:id)
       assert_equal issue_b_child_ids, @filters.map(&:id)
     end
 

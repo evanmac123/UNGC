@@ -115,42 +115,6 @@ class TaggingTest < ActiveSupport::TestCase
     assert_equal tagging.subject, container
   end
 
-  should "tag headline with issue_area" do
-    issue_area = create_issue_area
-    headline = create_headline
-    tagging = Tagging.create! issue: issue_area, headline: headline
-    assert_not_nil tagging
-    assert_equal tagging.domain, issue_area
-    assert_equal tagging.subject, headline
-  end
-
-  should "tag organization with issue_area" do
-    issue_area = create_issue_area
-    organization = create_organization
-    tagging = Tagging.create! issue: issue_area, organization: organization
-    assert_not_nil tagging
-    assert_equal tagging.domain, issue_area
-    assert_equal tagging.subject, organization
-  end
-
-  should "tag redesign_container with issue_area" do
-    issue_area = create_issue_area
-    redesign_container = create_container
-    tagging = Tagging.create! issue: issue_area, redesign_container: redesign_container
-    assert_not_nil tagging
-    assert_equal tagging.domain, issue_area
-    assert_equal tagging.subject, redesign_container
-  end
-
-  should "tag container with issue_area" do
-    issue_area = create_issue_area
-    container = create_container
-    tagging = Tagging.create! issue: issue_area, redesign_container: container
-    assert_not_nil tagging
-    assert_equal tagging.domain, issue_area
-    assert_equal tagging.subject, container
-  end
-
   should "tag headline with principle" do
     principle = create_principle
     headline = create_headline
