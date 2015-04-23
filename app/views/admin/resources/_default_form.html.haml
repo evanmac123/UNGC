@@ -72,32 +72,4 @@
           = render 'link_row', types:@types, languages:@languages, link:link
       = link_to 'New link...', '#', id:'add_link', :class => 'new_large'
 
-  #redesign_topics.tab_content
-    %fieldset
-      %legend Topics
-      - @resource.topic_options.each do |group, topics|
-        %p= group.name
-        - topics.each do |topic|
-          %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-            = check_box_tag 'resource[topics][]', topic.id, topic.selected?
-            = topic.name
-
-  #redesign_issues.tab_content
-    %fieldset
-      %legend Issues
-      - @resource.issue_options.each do |group, issues|
-        %p= group.name
-        - issues.each do |issue|
-          %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-            = check_box_tag 'resource[issues][]', issue.id, issue.selected?
-            = issue.name
-
-  #redesign_sectors.tab_content
-    %fieldset
-      %legend Sectors
-      - @resource.sector_options.each do |group, sectors|
-        %p= group.name
-        - sectors.each do |sector|
-          %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-            = check_box_tag 'resource[sectors][]', sector.id, sector.selected?
-            = sector.name
+  =render partial: "admin/shared/tagging_form", locals: {object: @resource, model_name: 'resource'}

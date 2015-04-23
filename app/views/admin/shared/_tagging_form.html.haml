@@ -1,0 +1,29 @@
+#redesign_topics.tab_content
+  %fieldset
+    %legend Topics
+    - object.topic_options.each do |group, topics|
+      %p= group.name
+      - topics.each do |topic|
+        %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+          = check_box_tag model_name+'[topics][]', topic.id, topic.selected?
+          = topic.name
+
+#redesign_issues.tab_content
+  %fieldset
+    %legend Issues
+    - object.issue_options.each do |group, issues|
+      %p= group.name
+      - issues.each do |issue|
+        %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+          = check_box_tag model_name+'[issues][]', issue.id, issue.selected?
+          = issue.name
+
+#redesign_sectors.tab_content
+  %fieldset
+    %legend Sectors
+    - object.sector_options.each do |group, sectors|
+      %p= group.name
+      - sectors.each do |sector|
+        %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+          = check_box_tag model_name+'[sectors][]', sector.id, sector.selected?
+          = sector.name

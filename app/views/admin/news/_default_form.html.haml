@@ -28,32 +28,4 @@
         = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Body"}
         = default_form.select :headline_type, Headline.headline_types_for_select, {prompt: 'Select a headline type'}, { label: 'Type'}
 
-  #redesign_topics.tab_content
-    %fieldset
-      %legend Topics
-      - @headline.topic_options.each do |group, topics|
-        %p= group.name
-        - topics.each do |topic|
-          %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-            = check_box_tag 'headline[topics][]', topic.id, topic.selected?
-            = topic.name
-
-  #redesign_issues.tab_content
-    %fieldset
-      %legend Issues
-      - @headline.issue_options.each do |group, issues|
-        %p= group.name
-        - issues.each do |issue|
-          %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-            = check_box_tag 'headline[issues][]', issue.id, issue.selected?
-            = issue.name
-
-  #redesign_sectors.tab_content
-    %fieldset
-      %legend Sectors
-      - @headline.sector_options.each do |group, sectors|
-        %p= group.name
-        - sectors.each do |sector|
-          %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-            = check_box_tag 'headline[sectors][]', sector.id, sector.selected?
-            = sector.name
+  =render partial: "admin/shared/tagging_form", locals: {object: @headline, model_name: 'headline'}
