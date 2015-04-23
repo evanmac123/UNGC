@@ -1,9 +1,10 @@
 class HeadlineUpdater
   attr_reader :headline, :params
 
-  def initialize(params={}, headline=Headline.new)
+  def initialize(params={}, headline=Headline.new, tagging_updater=TaggingUpdater)
     @headline = headline
     @params = params
+    @tagging_updater = tagging_updater
   end
 
   def submit
@@ -17,9 +18,8 @@ class HeadlineUpdater
     if valid?
       headline.save!
 
-      topic_taggings
-      issue_taggings
-      sector_taggings
+      updater = @tagging_updater.new(params, headline)
+      updater.submit
 
       true
     else
@@ -28,30 +28,6 @@ class HeadlineUpdater
   end
 
   private
-
-  def topic_taggings
-    topic_ids = params.fetch(:topics, [])
-    headline.taggings.where('topic_id not in (?)', topic_ids).destroy_all
-    topic_ids.each do |id|
-      headline.taggings.where(topic_id: id).first_or_create!
-    end
-  end
-
-  def issue_taggings
-    ids = params.fetch(:issues, [])
-    headline.taggings.where('issue_id not in (?)', ids).destroy_all
-    ids.each do |id|
-      headline.taggings.where(issue_id: id).first_or_create!
-    end
-  end
-
-  def sector_taggings
-    ids = params.fetch(:sectors, [])
-    headline.taggings.where('sector_id not in (?)', ids).destroy_all
-    ids.each do |id|
-      headline.taggings.where(sector_id: id).first_or_create!
-    end
-  end
 
   def valid?
     headline.valid?

@@ -418,6 +418,22 @@ class ActiveSupport::TestCase
       sectors: [sector_id]
     }
   end
+
+  def resource_attributes_with_taggings
+    create_issue_hierarchy
+    create_topic_hierarchy
+    create_sector_hierarchy
+
+    issue_id = Issue.last.id
+    topic_id = Topic.last.id
+    sector_id = Sector.last.id
+
+    valid_resource_attributes.merge({
+      issues: [issue_id],
+      topics: [topic_id],
+      sectors: [sector_id]
+    }).symbolize_keys
+  end
 end
 
 class ActionController::TestCase
