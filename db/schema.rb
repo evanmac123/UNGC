@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150422200352) do
+ActiveRecord::Schema.define(version: 20150421204948) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -452,14 +452,14 @@ ActiveRecord::Schema.define(version: 20150422200352) do
   end
 
   create_table "issues", force: :cascade do |t|
-    t.string   "name",          limit: 255, null: false
-    t.string   "type",          limit: 255
-    t.integer  "issue_area_id", limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "name",       limit: 255, null: false
+    t.string   "type",       limit: 255
+    t.integer  "parent_id",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "issues", ["issue_area_id"], name: "index_issues_on_issue_area_id", using: :btree
+  add_index "issues", ["parent_id"], name: "index_issues_on_parent_id", using: :btree
   add_index "issues", ["type"], name: "index_issues_on_type", using: :btree
 
   create_table "languages", force: :cascade do |t|
@@ -961,7 +961,7 @@ ActiveRecord::Schema.define(version: 20150422200352) do
     t.string "url", limit: 255, null: false
   end
 
-  add_foreign_key "issues", "issues", column: "issue_area_id"
+  add_foreign_key "issues", "issues", column: "parent_id"
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "communication_on_progresses"
   add_foreign_key "taggings", "countries"
