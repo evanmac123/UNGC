@@ -72,4 +72,4 @@
           = render 'link_row', types:@types, languages:@languages, link:link
       = link_to 'New link...', '#', id:'add_link', :class => 'new_large'
 
-  =render partial: "admin/shared/tagging_form", locals: {object: @resource, model_name: 'resource'}
+  =render partial: "admin/shared/tagging_form", locals: {taggable: @resource, model_name: 'resource'}

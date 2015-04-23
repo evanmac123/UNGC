@@ -28,4 +28,4 @@
         = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Body"}
         = default_form.select :headline_type, Headline.headline_types_for_select, {prompt: 'Select a headline type'}, { label: 'Type'}
 
-  =render partial: "admin/shared/tagging_form", locals: {object: @headline, model_name: 'headline'}
+  =render partial: "admin/shared/tagging_form", locals: {taggable: @headline, model_name: 'headline'}

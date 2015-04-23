@@ -1,7 +1,7 @@
 #redesign_topics.tab_content
   %fieldset
     %legend Topics
-    - object.topic_options.each do |group, topics|
+    - taggable.topic_options.each do |group, topics|
       %p= group.name
       - topics.each do |topic|
         %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
@@ -11,7 +11,7 @@
 #redesign_issues.tab_content
   %fieldset
     %legend Issues
-    - object.issue_options.each do |group, issues|
+    - taggable.issue_options.each do |group, issues|
       %p= group.name
       - issues.each do |issue|
         %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
@@ -21,7 +21,7 @@
 #redesign_sectors.tab_content
   %fieldset
     %legend Sectors
-    - object.sector_options.each do |group, sectors|
+    - taggable.sector_options.each do |group, sectors|
       %p= group.name
       - sectors.each do |sector|
         %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
