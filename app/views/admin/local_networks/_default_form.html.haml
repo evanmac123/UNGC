@@ -3,7 +3,7 @@
   %ol
     = default_form.text_field :name
     - if staff_user?
-      = default_form.text_area :description
+      = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Description"}
       = default_form.file_field :image, label: 'Image Upload', accept: 'image/png,image/gif,image/jpeg'
       - if @local_network.image.present?
         %label Preview

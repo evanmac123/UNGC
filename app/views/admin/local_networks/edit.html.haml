@@ -1,3 +1,5 @@
+%h2 Edit Local Network
+
 = form_for @local_network, builder: DefaultFormBuilder, url: admin_local_network_path(@local_network, section: @section), html: {multipart: true, novalidate: "novalidate"} do |form|
   = render partial: "#{@form_partial}", locals: {default_form: form}
   %p
