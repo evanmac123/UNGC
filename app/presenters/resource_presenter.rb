@@ -21,32 +21,52 @@ class ResourcePresenter < SimpleDelegator
   end
 
   def topic_options
-    Redesign::TopicTree.new.map do |group, items|
-      add_selections(group, items, topics)
+    Redesign::TopicTree.new.map do |parent, children|
+      add_selections(parent, children, selected_topics)
     end
   end
 
   def issue_options
-    Redesign::IssueTree.new.map do |group, items|
-      add_selections(group, items, issues)
+    Redesign::IssueTree.new.map do |parent, children|
+      add_selections(parent, children, selected_issues)
     end
   end
 
   def sector_options
-    Redesign::SectorTree.new.map do |group, items|
-      add_selections(group, items, sectors)
+    Redesign::SectorTree.new.map do |parent, children|
+      add_selections(parent, children, selected_sectors)
     end
   end
 
   private
 
-  def add_selections(group, items, selected)
-    selected_ids = selected.pluck(:id)
-    children = Array(items).map do |item|
-      Filter.new(item, selected_ids.include?(item.id))
+    def resource
+      __getobj__
     end
-    [group, children]
-  end
+
+    def selected_topics
+      resource.topics
+    end
+
+    def selected_issues
+      resource.issues
+    end
+
+    def selected_sectors
+      resource.sectors
+    end
+
+    def add_selections(parent_tag, child_tags, selected)
+      selected_ids = selected.pluck(:id)
+
+      filtered_parent_tag = Filter.new(parent_tag, selected_ids.include?(parent_tag.id))
+
+      filtered_child_tags = Array(child_tags).map do |child_tag|
+        Filter.new(child_tag, selected_ids.include?(child_tag.id))
+      end
+
+      [filtered_parent_tag, filtered_child_tags]
+    end
 
   Filter = Struct.new(:model, :selected?) do
 

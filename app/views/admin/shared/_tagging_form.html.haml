@@ -1,29 +1,35 @@
 #redesign_topics.tab_content
   %fieldset
     %legend Topics
-    - taggable.topic_options.each do |group, topics|
-      %p= group.name
-      - topics.each do |topic|
+    - taggable.topic_options.each do |parent_topic, children_topics|
+      %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+        = check_box_tag model_name+'[topics][]', parent_topic.id, parent_topic.selected?
+        = parent_topic.name
+      - children_topics.each do |child_topic|
         %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-          = check_box_tag model_name+'[topics][]', topic.id, topic.selected?
-          = topic.name
+          = check_box_tag model_name+'[topics][]', child_topic.id, child_topic.selected?
+          = child_topic.name
 
 #redesign_issues.tab_content
   %fieldset
     %legend Issues
-    - taggable.issue_options.each do |group, issues|
-      %p= group.name
-      - issues.each do |issue|
+    - taggable.issue_options.each do |parent_issue, child_issues|
+      %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+        = check_box_tag model_name+'[issues][]', parent_issue.id, parent_issue.selected?
+        = parent_issue.name
+      - child_issues.each do |child_issue|
         %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-          = check_box_tag model_name+'[issues][]', issue.id, issue.selected?
-          = issue.name
+          = check_box_tag model_name+'[issues][]', child_issue.id, child_issue.selected?
+          = child_issue.name
 
 #redesign_sectors.tab_content
   %fieldset
     %legend Sectors
-    - taggable.sector_options.each do |group, sectors|
-      %p= group.name
-      - sectors.each do |sector|
+    - taggable.sector_options.each do |parent_sector, child_sectors|
+      %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+        = check_box_tag model_name+'[sectors][]', parent_sector.id, parent_sector.selected?
+        = parent_sector.name
+      - child_sectors.each do |child_sector|
         %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
-          = check_box_tag model_name+'[sectors][]', sector.id, sector.selected?
-          = sector.name
+          = check_box_tag model_name+'[sectors][]', child_sector.id, child_sector.selected?
+          = child_sector.name
