@@ -47,7 +47,6 @@
 :app_symlinks:
   - docs
   - pics
-  - NetworksAroundTheWorld
   - system
   - images
 
@@ -125,6 +124,7 @@
     - 'ALL : 64.22.127.201 # Rails Machine'
     - 'ALL : 64.22.127.245 # Rails Machine'
     - 'ALL : 64.22.127.26  # Rails Machine'
+    - 'ALL : 99.233.59.124 # Unspace'
 
 :sysctl:
   vm.overcommit_memory: 1
