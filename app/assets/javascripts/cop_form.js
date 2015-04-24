@@ -30,10 +30,13 @@ $(document).ready(function() {
     $('#basic_link').removeClass("selected");
   } else {
     // first load
-    var copType = $('#communication_on_progress_cop_type').val();
 
-    // disable the B4P Annex question until the user answers the business peace question
-    if(copType === 'advanced' || copType === 'lead' ) {
+    // Hide the B4P Annex if it is optional and we're showing the advanced/lead form.
+    // It will conditionally be enabled later depending on the high-risk question.
+    var copType = $('#communication_on_progress_cop_type').val();
+    var b4pAnnexIsOptional = $("#communication_on_progress_references_business_peace").length === 0;
+    if(b4pAnnexIsOptional && (copType === 'advanced' || copType === 'lead')) {
+      $("#business_peace_tab").hide();
       disableTabbedSection("#business_peace_additional_questions");
     }
   }
