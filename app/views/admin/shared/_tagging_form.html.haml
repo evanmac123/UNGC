@@ -1,11 +1,11 @@
 #redesign_topics.tab_content
   %fieldset
     %legend Topics
-    - taggable.topic_options.each do |parent_topic, children_topics|
+    - taggable.topic_options.each do |parent_topic, child_topics|
       %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
         = check_box_tag model_name+'[topics][]', parent_topic.id, parent_topic.selected?
         = parent_topic.name
-      - children_topics.each do |child_topic|
+      - child_topics.each do |child_topic|
         %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
           = check_box_tag model_name+'[topics][]', child_topic.id, child_topic.selected?
           = child_topic.name
