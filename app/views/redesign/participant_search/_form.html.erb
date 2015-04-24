@@ -6,6 +6,10 @@
 
   <%= render 'redesign/components/filter_options_list', label: 'Geography', filter: 'countries', options: @search.country_options %>
 
+  <%= render 'redesign/components/filter_options_list', label: 'Sectors', filter: 'sectors', child_filter: 'sectors', options: @search.sector_options %>
+
+  <%= render 'redesign/components/filter_options_list', label: 'Reporting Status', filter: 'reporting_status', options: @search.reporting_status_options %>
+
   <%= f.submit 'Search' %>
 
 <% end %>
