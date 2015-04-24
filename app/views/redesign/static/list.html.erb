@@ -10,11 +10,21 @@
 
     <%- list.items.each do |item| -%>
       <article class='content-list-item'>
-        <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'image-link') if item.image %>
-        <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
-          <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}")) %>
-          <%= content_tag(:p, item.blurb) %>
-        </div>
+        <%- if item.url -%>
+          <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'image-link') if item.image %>
+          <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
+            <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}")) %>
+            <%= content_tag(:p, item.blurb) %>
+          </div>
+        <%-else -%>
+          <span class='image-link'>
+            <%= image_tag(item.image, alt: item.title) if item.image %>
+          </span>
+          <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
+            <%= content_tag(:h1, item.title, class: "type-#{item.type}") %>
+            <%= content_tag(:p, item.blurb) %>
+          </div>
+        <%- end -%>
       </article>
     <%- end -%>
   </section>
