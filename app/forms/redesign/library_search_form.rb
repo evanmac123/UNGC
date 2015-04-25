@@ -1,7 +1,7 @@
 class Redesign::LibrarySearchForm
   include ActiveModel::Model
 
-  attr_accessor \
+  attr_reader \
     :keywords,
     :issue_areas,
     :issues,
@@ -20,13 +20,13 @@ class Redesign::LibrarySearchForm
   def initialize(page = 1, params = {})
     super(params)
     @page = page
-    @issue_areas ||= {}
-    @issues ||= {}
-    @topic_groups ||= {}
-    @topics ||= {}
-    @languages ||= {}
-    @sector_groups ||= {}
-    @sectors ||= {}
+    @issue_areas ||= []
+    @issues ||= []
+    @topic_groups ||= []
+    @topics ||= []
+    @languages ||= []
+    @sector_groups ||= []
+    @sectors ||= []
     @keywords ||= ''
   end
 
@@ -54,9 +54,9 @@ class Redesign::LibrarySearchForm
   def issue_options
     @issue_options ||= Redesign::IssueTree.new.map do |area, children|
       [
-        Filter.new(area.id, :issue_area, area.name, issue_areas.has_key?(area.id.to_s)),
+        Filter.new(area.id, :issue_area, area.name, issue_areas.include?(area.id)),
         children.map { |issue|
-          Filter.new(issue.id, :issue, issue.name, issues.has_key?(issue.id.to_s))
+          Filter.new(issue.id, :issue, issue.name, issues.include?(issue.id))
         }
       ]
       end
@@ -65,9 +65,9 @@ class Redesign::LibrarySearchForm
   def topic_options
     @topic_options ||= Redesign::TopicTree.new.map do |parent, children|
         [
-          Filter.new(parent.id, :topic_group, parent.name, topic_groups.has_key?(parent.id.to_s)),
+          Filter.new(parent.id, :topic_group, parent.name, topic_groups.include?(parent.id)),
           children.map { |topic|
-            Filter.new(topic.id, :topic, topic.name, topics.has_key?(topic.id.to_s))
+            Filter.new(topic.id, :topic, topic.name, topics.include?(topic.id))
           }
         ]
       end
@@ -77,16 +77,16 @@ class Redesign::LibrarySearchForm
     @language_options ||= Language.all.map do |language|
       Filter.new(
         language.id, :language,
-        language.name, languages.has_key?(language.id.to_s))
+        language.name, languages.include?(language.id))
     end
   end
 
   def sector_options
     @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
       [
-        Filter.new(parent.id, :sector_group, parent.name, sector_groups.has_key?(parent.id.to_s)),
+        Filter.new(parent.id, :sector_group, parent.name, sector_groups.include?(parent.id)),
         children.map { |sector|
-          Filter.new(sector.id, :sector, sector.name, sectors.has_key?(sector.id.to_s))
+          Filter.new(sector.id, :sector, sector.name, sectors.include?(sector.id))
         }
       ]
     end
@@ -114,13 +114,12 @@ class Redesign::LibrarySearchForm
     add_topic_options(options)
     add_sector_options(options)
 
-    language_ids = languages.keys.map &:to_i
-    if language_ids.any?
-      options[:language_ids] = language_ids
+    if languages.any?
+      options[:language_ids] = languages
     end
 
     if content_type.present?
-      options[:content_type] = content_type.to_i
+      options[:content_type] = content_type
     end
 
     order = case self.sort_field
@@ -144,24 +143,24 @@ class Redesign::LibrarySearchForm
     }
   end
 
-  private
+  # TODO use a gem like Virtus to avoid all this type casting goo
+  def keywords=(values)
+    @keywords = values.map(&:to_i)
+  end
+
+  def issue_areas=(values)
+    @issue_areas = values.map(&:to_i)
+  end
 
   def add_issue_options(options)
-    ids = Set.new
-    area_ids = issue_areas.keys.map(&:to_i)
-    areas = Issue.includes(:children).find(area_ids)
+    ids = Set.new(issues)
+    areas = Issue.includes(:children).find(issue_areas)
     areas.each do |area|
       if area.children.any?
-        area.children.each do |issue|
-          ids << issue.id
-        end
+        ids += area.children
       else
         ids << area.id
       end
-    end
-
-    issues.keys.each do |id|
-      ids << id.to_i
     end
 
     if ids.any?
@@ -170,24 +169,15 @@ class Redesign::LibrarySearchForm
   end
 
   def add_topic_options(options)
-    ids = Set.new
+    ids = Set.new(topics)
 
-    # handle groups
-    parent_ids = topic_groups.keys.map(&:to_i)
-    parents = Topic.includes(:children).find(parent_ids)
+    parents = Topic.includes(:children).find(topic_groups)
     parents.each do |parent|
       if parent.children.any?
-        parent.children.each do |topic|
-          ids << topic.id
-        end
+        ids += parent.children
       else
         ids << parent.id
       end
-    end
-
-    # handle individual items
-    topics.keys.each do |id|
-      ids << id.to_i
     end
 
     if ids.any?
@@ -196,22 +186,15 @@ class Redesign::LibrarySearchForm
   end
 
   def add_sector_options(options)
-    ids = Set.new
+    ids = Set.new(sectors)
 
-    parent_ids = sector_groups.keys.map(&:to_i)
-    parents = Sector.includes(:children).find(parent_ids)
+    parents = Sector.includes(:children).find(sector_groups)
     parents.each do |parent|
       if parent.children.any?
-        parent.children.each do |sector|
-          ids << sector.id
-        end
+        ids += parent.children
       else
         ids << parent.id
       end
-    end
-
-    sectors.keys.each do |id|
-      ids << id.to_i
     end
 
     if ids.any?

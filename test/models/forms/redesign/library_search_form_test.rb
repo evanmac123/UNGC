@@ -24,13 +24,13 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     # search params
     @search_params = search_params = {
-      issue_areas:    { @selected_issue_area.id     => "1" },
-      issues:         { @selected_issue.id          => "1" },
-      topic_groups:   { @select_topic_group.id      => "1" },
-      topics:         { @selected_topic.id          => "1" },
-      sector_groups:  { @selected_sector_group.id   => "1" },
-      sectors:        { @selected_sector.id         => "1" },
-      languages:      { @selected_language.id       => "1" }
+      issue_areas:    [@selected_issue_area.id.to_s],
+      issues:         [@selected_issue.id.to_s],
+      topic_groups:   [@select_topic_group.id.to_s],
+      topics:         [@selected_topic.id.to_s],
+      sector_groups:  [@selected_sector_group.id.to_s],
+      sectors:        [@selected_sector.id.to_s],
+      languages:      [@selected_language.id.to_s],
     }.deep_stringify_keys
   end
 

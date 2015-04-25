@@ -25,7 +25,7 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
   context "searching" do
 
     setup do
-      @args = {'organization_type' => '123'}
+      @args = {'organization_types' => ['123']}
 
       form = ParticipantSearch::Form.new(@args)
       form.stubs(execute: [])

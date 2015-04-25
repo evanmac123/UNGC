@@ -24,7 +24,7 @@ class ParticipantSearch::FormTest < ActiveSupport::TestCase
   end
 
   should "have geography_options" do
-    assert_options @subject.geography_options, are_named: @country_names
+    assert_options @subject.country_options, are_named: @country_names
   end
 
   private

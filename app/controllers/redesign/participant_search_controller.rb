@@ -1,5 +1,5 @@
 class Redesign::ParticipantSearchController < Redesign::ApplicationController
-  # layout false # TODO use the real layout
+  layout false # TODO use the real layout
 
   def index
     set_current_container :highlight, '/participant-search'
@@ -16,26 +16,17 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
   private
 
   def search_params
-    # TODO change the form so we don't need this conversion
-    convert_id_hashes_to_arrays(params.fetch(:search, {}).slice(
-      :organization_types,
-      :initiatives,
-      :countries,
-      :sectors,
-      :reporting_status
-    ))
+    params.fetch(:search, {}).permit(
+      organization_types: [],
+      initiatives: [],
+      countries: [],
+      sectors: [],
+      reporting_status: []
+    )
   end
 
   def create_page
     ParticipantSearch::Page.new(current_container, current_payload_data)
-  end
-
-  def convert_id_hashes_to_arrays(params)
-    params.each_with_object({}) do |entry, memo|
-      key, id_params = entry.first, entry.last
-      memo[key] ||= []
-      memo[key] += id_params.keys
-    end
   end
 
 end

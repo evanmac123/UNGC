@@ -72,10 +72,10 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
       @sector = @sectors.last.children.last
 
       @search_params = {
-        "issues" => {@issue.id => '1'},
-        "topics" => {@topic.id => '1'},
-        "languages" => {@language.id => '1'},
-        "sectors" => {@sector.id => '1'},
+        "issues" => [@issue.id],
+        "topics" => [@topic.id],
+        "languages" => [@language.id],
+        "sectors" => [@sector.id],
         "content_type" => '0',
         "sort_field" => 'title_acs'
       }.deep_stringify_keys

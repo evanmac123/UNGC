@@ -1,12 +1,13 @@
 class ParticipantSearch::Form
   include ActiveModel::Model
 
-  attr_accessor \
+  attr_reader \
     :organization_types,
     :initiatives,
     :countries,
-    :sectors,
-    :reporting_status
+    :sectors
+
+  attr_accessor :reporting_status
 
   def initialize(*args)
     super(*args)
@@ -28,9 +29,9 @@ class ParticipantSearch::Form
   def sector_options
     @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
       [
-        Filter.new(parent.id, parent.name, sectors.include?(parent.id.to_s)),
+        Filter.new(parent.id, parent.name, sectors.include?(parent.id)),
         children.map { |sector|
-          Filter.new(sector.id, sector.name, sectors.include?(sector.id.to_s))
+          Filter.new(sector.id, sector.name, sectors.include?(sector.id))
         }
       ]
     end
@@ -58,6 +59,22 @@ class ParticipantSearch::Form
     @order
   end
 
+  def organization_types=(values)
+    @organization_types = values.map(&:to_i)
+  end
+
+  def initiatives=(values)
+    @initiatives = values.map(&:to_i)
+  end
+
+  def countries=(values)
+    @countries = values.map(&:to_i)
+  end
+
+  def sectors=(values)
+    @sectors = values.map(&:to_i)
+  end
+
   private
 
   def keywords
@@ -67,10 +84,21 @@ class ParticipantSearch::Form
   def options
     options = {}
 
-    options[:organization_type_id] = organization_types if organization_types.present?
-    options[:initiative_ids] = initiatives if initiatives.present?
-    options[:country_id] = countries if countries.present?
-    options[:sector_id] = sectors if sectors.present?
+    if organization_types.any?
+      options[:organization_type_id] = organization_types
+    end
+
+    if initiatives.any?
+      options[:initiative_ids] = initiatives
+    end
+
+    if countries.any?
+      options[:country_id] = countries
+    end
+
+    if sectors.any?
+      options[:sector_id] = sectors
+    end
 
     if reporting_status.present?
       options[:cop_state] = reporting_status.map {|state| Zlib.crc32(state)}
@@ -85,6 +113,7 @@ class ParticipantSearch::Form
       indices: ['participant_search_core'],
       sql: {
         include: [
+          # TODO update includes
           :organization_type,
           :sector,
           :country
@@ -97,7 +126,7 @@ class ParticipantSearch::Form
 
   def pluck_options(relation, selected)
     relation.pluck(:id, :name).map do |id, name|
-      Filter.new(id, name, Array(selected).include?(id.to_s))
+      Filter.new(id, name, Array(selected).include?(id))
     end
   end
 
