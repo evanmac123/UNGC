@@ -82,7 +82,7 @@ class ParticipantSearch::Form
   private
 
   def keywords
-    ''
+    Riddle::Query.escape('')
   end
 
   def options

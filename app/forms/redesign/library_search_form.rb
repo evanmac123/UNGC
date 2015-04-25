@@ -184,6 +184,10 @@ class Redesign::LibrarySearchForm
     @per_page = values.map(&:to_i)
   end
 
+  def keywords
+    Riddle::Query.escape(@keywords)
+  end
+
   private
 
   def add_issue_options(options)
