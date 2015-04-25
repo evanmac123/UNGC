@@ -15,6 +15,8 @@ class Redesign::LibrarySearchForm
     :page,
     :per_page
 
+  attr_writer :keywords
+
   Filter = Struct.new(:id, :type, :name, :active)
 
   def initialize(page = 1, params = {})

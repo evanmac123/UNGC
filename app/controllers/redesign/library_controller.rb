@@ -21,6 +21,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
 
   def search_params
     params.fetch(:search, {}).permit(
+      :keywords,
       issue_areas: [],
       issues: [],
       topic_groups: [],
