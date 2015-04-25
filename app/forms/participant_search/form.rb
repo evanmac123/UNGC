@@ -1,33 +1,26 @@
 class ParticipantSearch::Form
-  include ActiveModel::Model
+  include Virtus.model
 
-  attr_reader \
-    :organization_types,
-    :initiatives,
-    :countries,
-    :sectors
-
-  attr_accessor :reporting_status
-
-  def initialize(*args)
-    super(*args)
-    @organization_types ||= []
-    @initiatives ||= []
-    @countries ||= []
-    @sectors ||= []
-    @reporting_status ||= []
-  end
+  attribute :organization_types,  Array[Integer], default: []
+  attribute :initiatives,         Array[Integer], default: []
+  attribute :countries,           Array[Integer], default: []
+  attribute :sectors,             Array[Integer], default: []
+  attribute :reporting_status,    Array[String],  default: []
+  attribute :keywords,            String,         default: ''
+  attribute :page,                Integer,        default: 1
+  attribute :per_page,            Integer,        default: 12
+  attribute :order,               String
 
   def organization_type_options
-    pluck_options(OrganizationType.all, self.organization_types)
+    pluck_options(OrganizationType.all, organization_types)
   end
 
   def initiative_options
-    pluck_options(Initiative.all, self.initiatives)
+    pluck_options(Initiative.all, initiatives)
   end
 
   def country_options
-    pluck_options(Country.all, self.countries)
+    pluck_options(Country.all, countries)
   end
 
   def sector_options
@@ -51,38 +44,10 @@ class ParticipantSearch::Form
     Organization.search(keywords, options)
   end
 
-  def page
-    @page || 1
-  end
-
-  def per_page
-    @per_page || 12
-  end
-
-  def order
-    @order
-  end
-
-  def organization_types=(values)
-    @organization_types = values.map(&:to_i)
-  end
-
-  def initiatives=(values)
-    @initiatives = values.map(&:to_i)
-  end
-
-  def countries=(values)
-    @countries = values.map(&:to_i)
-  end
-
-  def sectors=(values)
-    @sectors = values.map(&:to_i)
-  end
-
   private
 
   def keywords
-    Riddle::Query.escape('')
+    Riddle::Query.escape(super)
   end
 
   def options
@@ -109,8 +74,8 @@ class ParticipantSearch::Form
     end
 
     {
-      page: page || 1,
-      per_page: per_page || 12,
+      page: page,
+      per_page: per_page,
       order: order,
       star: true,
       with: options,
@@ -130,7 +95,7 @@ class ParticipantSearch::Form
 
   def pluck_options(relation, selected)
     relation.pluck(:id, :name).map do |id, name|
-      Filter.new(id, name, Array(selected).include?(id))
+      Filter.new(id, name, selected.include?(id))
     end
   end
 
