@@ -145,6 +145,10 @@ class Redesign::LibrarySearchForm
     }
   end
 
+  def execute
+    Resource.search(keywords, options)
+  end
+
   # TODO use a gem like Virtus to avoid all this type casting goo
   def issue_areas=(values)
     @issue_areas = values.map(&:to_i)
