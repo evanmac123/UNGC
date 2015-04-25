@@ -11,7 +11,11 @@ class ParticipantSearch::Form
 
   def initialize(*args)
     super(*args)
+    @organization_types ||= []
+    @initiatives ||= []
+    @countries ||= []
     @sectors ||= []
+    @reporting_status ||= []
   end
 
   def organization_type_options
