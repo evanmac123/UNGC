@@ -144,13 +144,47 @@ class Redesign::LibrarySearchForm
   end
 
   # TODO use a gem like Virtus to avoid all this type casting goo
-  def keywords=(values)
-    @keywords = values.map(&:to_i)
-  end
-
   def issue_areas=(values)
     @issue_areas = values.map(&:to_i)
   end
+
+  def issues=(values)
+    @issues = values.map(&:to_i)
+  end
+
+  def topic_groups=(values)
+    @topic_groups = values.map(&:to_i)
+  end
+
+  def topics=(values)
+    @topics = values.map(&:to_i)
+  end
+
+  def languages=(values)
+    @languages = values.map(&:to_i)
+  end
+
+  def sector_groups=(values)
+    @sector_groups = values.map(&:to_i)
+  end
+
+  def sectors=(values)
+    @sectors = values.map(&:to_i)
+  end
+
+  def content_type=(values)
+    @content_type = values.map(&:to_i)
+  end
+
+  def page=(values)
+    @page = values.map(&:to_i)
+  end
+
+  def per_page=(values)
+    @per_page = values.map(&:to_i)
+  end
+
+  private
 
   def add_issue_options(options)
     ids = Set.new(issues)
