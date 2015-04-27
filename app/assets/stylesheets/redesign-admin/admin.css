@@ -4887,10 +4887,8 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
-body {
-  min-height: 2000px; }
-  body > div > main {
-    margin-top: 50px; }
+body > div > main {
+  margin-top: 50px; }
 
 .sitemap-x-tree {
   margin: 0;
