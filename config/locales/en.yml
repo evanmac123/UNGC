@@ -30,7 +30,8 @@ en:
   resources:
     types:
       academic_literature: 'Academic literature'
-      case_study: 'Case study'
+      case_study: 'Case Study'
+      case_example: 'Case Example'
       data_visualization: 'Data visualization'
       guidance: 'Guidance'
       link: 'Link'
@@ -40,4 +41,8 @@ en:
       meeting_report: 'Meeting report'
       meeting_presentation: 'Meeting presentation'
       webinar: 'Webinar'
+      newsletter: 'Newsletter'
+      video: 'Video'
+      website: 'Website'
+      presentation: 'Presentation'
 
