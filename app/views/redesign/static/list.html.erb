@@ -22,7 +22,7 @@
           </span>
           <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
             <%= content_tag(:h1, item.title, class: "type-#{item.type}") %>
-            <%= content_tag(:p, item.blurb) %>
+            <%= content_tag(:p, item.blurb.html_safe) %>
           </div>
         <%- end -%>
       </article>
