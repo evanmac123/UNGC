@@ -8,8 +8,7 @@ class ArticlePage < ContainerPage
   end
 
   def main_content_section
-    data = @data[:article_block] || {}
-    data
+    @data[:article_block] || {}
   end
 
   def sidebar_widgets

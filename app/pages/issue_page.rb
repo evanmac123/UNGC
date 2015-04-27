@@ -12,8 +12,7 @@ class IssuePage < ContainerPage
   end
 
   def main_content_section
-    data = @data[:issue_block] || {}
-    data
+    @data[:issue_block] || {}
   end
 
   def sidebar_widgets

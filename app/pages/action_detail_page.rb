@@ -8,8 +8,7 @@ class ActionDetailPage < ContainerPage
   end
 
   def main_content_section
-    data = @data[:action_detail_block] || {}
-    data
+    @data[:action_detail_block] || {}
   end
 
   def sidebar_widgets

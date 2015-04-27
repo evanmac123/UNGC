@@ -2,15 +2,27 @@
 <%# Body %>
 <%= render partial: 'redesign/components/hero' %>
 
-<%= render layout: 'redesign/components/main_content_section', locals: {content: @page.main_content_section} do %>
-  <%= render layout: 'redesign/components/sidebar' do %>
-    <%= render('redesign/components/widget_contact', contact: @page.sidebar_widgets[:contact]) if @page.sidebar_widgets[:contact] %>
+<%- if content = @page.main_content_section -%>
+  <section class='main-content-section'>
+    <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
 
-    <%= render('redesign/components/widget_calls_to_action', calls_to_action: @page.sidebar_widgets[:calls_to_action]) if @page.sidebar_widgets[:calls_to_action] %>
+    <section class='main-content-body'>
+      <%= content[:content].html_safe if content[:content] %>
 
-    <%= render('redesign/components/widget_links_lists', links_lists: @page.sidebar_widgets[:links_lists]) if @page.sidebar_widgets[:links_lists] %>
-  <% end %>
-<% end %>
+      <%= content_tag(:p, link_to_redesign(content[:call_to_action][:title], content[:call_to_action][:url], class: "button #{content[:call_to_action][:theme]}")) if content[:call_to_action] %>
+    </section>
+
+    <%- if sidebar = @page.sidebar_widgets -%>
+      <%= render layout: 'redesign/components/sidebar' do %>
+        <%= render 'redesign/components/widget_contact', contact: sidebar[:contact] %>
+
+        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar[:calls_to_action] %>
+
+        <%= render 'redesign/components/widget_links_lists', links_lists: sidebar[:links_lists] %>
+      <% end %>
+    <%- end -%>
+  </section>
+<%- end -%>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
   <%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: redesign_library_resource_path(block), thumbnail: "//unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>

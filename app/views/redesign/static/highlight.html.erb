@@ -1,13 +1,22 @@
 <%= render partial: 'redesign/components/meta_tags' %>
-<%# Body %>
 <%= render partial: 'redesign/components/hero' %>
 
 <%- @page.main_content_sections.each do |section| -%>
-  <%= render layout: 'redesign/components/main_content_section', locals: {content: section} do %>
-    <%= render layout: 'redesign/components/sidebar' do %>
-      <%= render('redesign/components/widget_image', image: section[:image]) if section[:image] %>
-    <% end %>
-  <% end %>
+  <section class='main-content-section <%= section[:classes] -%>' style="<%= section[:styles] -%>">
+    <%= content_tag(:header, content_tag(:h1, section[:title]), {class: 'main-content-header'}) if section[:title] %>
+
+    <section class='main-content-body'>
+      <%= section[:content].html_safe if section[:content] %>
+
+      <%= content_tag(:p, link_to_redesign(section[:call_to_action][:title], section[:call_to_action][:url], class: "button #{section[:call_to_action][:theme]}")) if section[:call_to_action] %>
+    </section>
+
+    <%- if section[:image] -%>
+      <%= render layout: 'redesign/components/sidebar' do %>
+        <%= render 'redesign/components/widget_image', image: section[:image] %>
+      <% end %>
+    <%- end -%>
+  </section>
 <%- end -%>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
