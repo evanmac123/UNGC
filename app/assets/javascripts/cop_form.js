@@ -1,8 +1,8 @@
-function hideAndDisableTabbedSection(div) {
+function disableTabbedSection(div) {
   formElementsFor(div).attr("disabled", "disabled");
 }
 
-function showAndEnableTabbedSection(div) {
+function enableTabbedSection(div) {
   formElementsFor(div).removeAttr("disabled");
 }
 
@@ -30,7 +30,15 @@ $(document).ready(function() {
     $('#basic_link').removeClass("selected");
   } else {
     // first load
-    hideAndDisableTabbedSection("#business_peace_additional_questions");
+
+    // Hide the B4P Annex if it is optional and we're showing the advanced/lead form.
+    // It will conditionally be enabled later depending on the high-risk question.
+    var copType = $('#communication_on_progress_cop_type').val();
+    var b4pAnnexIsOptional = $("#communication_on_progress_references_business_peace").length === 0;
+    if(b4pAnnexIsOptional && (copType === 'advanced' || copType === 'lead')) {
+      $("#business_peace_tab").hide();
+      disableTabbedSection("#business_peace_additional_questions");
+    }
   }
 
   // Format
@@ -64,11 +72,11 @@ $(document).ready(function() {
   $("input[name='communication_on_progress[references_business_peace]']").click(function() {
     if ($("#communication_on_progress_references_business_peace_true").is(':checked')) {
       $("#business_peace_tab").slideDown();
-      showAndEnableTabbedSection("#business_peace_additional_questions");
+      enableTabbedSection("#business_peace_additional_questions");
     }
     else {
       $("#business_peace_tab").slideUp();
-      hideAndDisableTabbedSection("#business_peace_additional_questions");
+      disableTabbedSection("#business_peace_additional_questions");
     }
   })
 
