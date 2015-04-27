@@ -57,7 +57,6 @@ UNGC::Application.routes.draw do
     end
 
     get '/'         => 'static#home',       as: :root
-    get '/list'     => 'static#list',       as: :list
     get '/news/all' => 'static#news_list',  as: :news_list
     get '*path'     => 'static#catch_all',  as: :catch_all
   end
