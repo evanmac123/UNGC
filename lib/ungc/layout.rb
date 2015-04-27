@@ -17,11 +17,18 @@ module UNGC
         container
       ]
 
+      LABELS = %w[
+        platform
+        action
+        implementation
+      ]
+
       def has_meta_tags!(&block)
         scope :meta_tags do
           field :title, type: :string, required: true
           field :description, type: :string
           field :thumbnail, type: :image_url, required: true
+          field :label, type: :string, enum: LABELS, default: ''
 
           if block_given?
             instance_exec(&block)

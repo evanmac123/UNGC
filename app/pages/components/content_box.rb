@@ -2,6 +2,8 @@
 # for content boxes to display
 
 class Components::ContentBox
+  DEFAULT_LABEL = 'No label'
+
   attr_reader :container
 
   def initialize(container)
@@ -14,7 +16,8 @@ class Components::ContentBox
   end
 
   def issue
-    "no issue" # TODO implement this
+    return DEFAULT_LABEL unless payload?
+    container.payload.data[:meta_tags][:label] || DEFAULT_LABEL
   end
 
   def url
