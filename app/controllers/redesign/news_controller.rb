@@ -7,7 +7,7 @@ class Redesign::NewsController < Redesign::ApplicationController
   def show
   end
 
-  def all
+  def press_releases
     @page = FakeNewsListPage.new
   end
 end
