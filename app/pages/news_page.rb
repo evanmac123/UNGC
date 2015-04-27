@@ -10,30 +10,18 @@ class NewsPage < ContainerPage
   def news
     news = OpenStruct.new({
       title: "Press Releases",
-      featured: {
-        url: '',
-        title: 'Global Compact LEAD Symposium Imagines the Future Corporation',
-        date: '20 November 2014',
-        location: 'New York, USA',
-        blurb: 'Companies and sustainability experts sketched an outline of The Future Corporation the Global Compact LEAD Symposium.'
-      },
-      other: [{
-        url: '',
-        title: 'UN Global Compact Builds Momentum for Agribusiness and SDGs',
-        date: '12 November 2014',
-        location: 'New York, USA'
-      },{
-        url: '',
-        title: 'UN Global Compact Builds Momentum for Agribusiness and SDGs',
-        date: '12 November 2014',
-        location: 'New York, USA'
-      }]
+      featured: featured,
+      other: other
     })
-
-    news.featured = OpenStruct.new(news.featured)
-    news.other.map!{|ni| OpenStruct.new(ni)}
-
     news
+  end
+
+  def featured
+    Headline.order('published_on desc').limit(1).first
+  end
+
+  def other
+    Headline.order('published_on desc').offset(1).limit(2)
   end
 
   def sidebar_widgets

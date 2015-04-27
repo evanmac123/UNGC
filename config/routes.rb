@@ -56,8 +56,11 @@ UNGC::Application.routes.draw do
       get '/take-action/what-you-can-do' => :index, as: :actions
     end
 
+    resources :news do
+      get :all, on: :collection
+    end
+
     get '/'         => 'static#home',       as: :root
-    get '/news/all' => 'static#news_list',  as: :news_list
     get '*path'     => 'static#catch_all',  as: :catch_all
   end
 

@@ -70,13 +70,6 @@ class FakeNewsListPage
   def news
     news = OpenStruct.new({
       title: "Press Releases",
-      featured: {
-        url: '',
-        title: 'Global Compact LEAD Symposium Imagines the Future Corporation',
-        date: '20 November 2014',
-        location: 'New York, USA',
-        blurb: 'Companies and sustainability experts sketched an outline of The Future Corporation the Global Compact LEAD Symposium.'
-      },
       other: [{
         url: '',
         title: 'UN Global Compact Builds Momentum for Agribusiness and SDGs',
@@ -120,7 +113,6 @@ class FakeNewsListPage
       }]
     })
 
-    news.featured = OpenStruct.new(news.featured)
     news.other.map!{|ni| OpenStruct.new(ni)}
 
     news

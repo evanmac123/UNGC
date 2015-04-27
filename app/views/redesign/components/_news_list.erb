@@ -11,18 +11,18 @@ if news ||= nil
   <section class='news-list<%= list_classes -%>'>
     <%- if featured = news.featured -%>
       <article class='news-item news-item-featured'>
-        <%= content_tag(:h1, link_to_redesign(featured.title, featured.url)) %>
-        <%= content_tag(:time, featured.date) %>
+        <%= content_tag(:h1, link_to_redesign(featured.title, redesign_news_path(featured))) %>
+        <%= content_tag(:time, featured.published_on) %>
         <%= content_tag(:address, featured.location) %>
-        <%= content_tag(:p, featured.blurb) %>
+        <%= content_tag(:p, featured.description.truncate(300).html_safe) %>
         <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
       </article>
     <%- end -%>
 
     <%- news.other.each do |news_item| -%>
       <article class='news-item'>
-        <%= content_tag(:h1, link_to_redesign(news_item.title, news_item.url)) %>
-        <%= content_tag(:time, news_item.date) %>
+        <%= content_tag(:h1, link_to_redesign(news_item.title, redesign_news_path(news_item))) %>
+        <%= content_tag(:time, news_item.published_on) %>
         <%= content_tag(:address, news_item.location) %>
         <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
       </article>
