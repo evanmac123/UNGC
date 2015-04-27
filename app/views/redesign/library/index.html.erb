@@ -1,5 +1,4 @@
-<% provide :title, @page.meta_title %>
-<% provide :description, @page.meta_description %>
+<%= render partial: 'redesign/components/meta_tags' %>
 <%= render 'redesign/components/library_filters_form' %>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library', blocks: @page.featured} do |block| %>

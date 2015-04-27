@@ -14,6 +14,10 @@ class ContainerPage
     meta_tags[:description]
   end
 
+  def meta_keywords
+    meta_tags[:keywords]
+  end
+
   private
 
   def meta_tags

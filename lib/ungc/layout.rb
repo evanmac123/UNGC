@@ -29,6 +29,7 @@ module UNGC
           field :description, type: :string
           field :thumbnail, type: :image_url, required: true
           field :label, type: :string, enum: LABELS, default: ''
+          field :keywords, type: :string
 
           if block_given?
             instance_exec(&block)
