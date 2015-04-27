@@ -3,7 +3,11 @@
     {{field.label}}
   </label>
   <div class="col-sm-10">
-    {{ivy-redactor value=field.value}}
+    {{ivy-redactor value=field.value
+                   formatting=formatting
+                   minHeight='300px'
+                   pastePlainText=true
+                   buttons=buttons}}
   </div>
   {{#if field.errors}}
     <p class="col-sm-offset-2 help-block">{{field.errors.firstObject.detail}}</p>
