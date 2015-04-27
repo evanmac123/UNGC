@@ -160,8 +160,8 @@ class Redesign::LibrarySearchForm
     area_ids = issue_areas.keys.map(&:to_i)
     areas = Issue.includes(:children).find(area_ids)
     areas.each do |area|
-      if area.issues.any?
-        area.issues.each do |issue|
+      if area.children.any?
+        area.children.each do |issue|
           ids << issue.id
         end
       else
