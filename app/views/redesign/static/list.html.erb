@@ -14,7 +14,7 @@
           <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'image-link') if item.image %>
           <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
             <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}")) %>
-            <%= content_tag(:p, item.blurb) %>
+            <%= content_tag(:p, item.blurb.html_safe) %>
           </div>
         <%-else -%>
           <span class='image-link'>

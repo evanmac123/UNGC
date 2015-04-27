@@ -9,6 +9,7 @@ const TYPES = {
   'hero-theme-select': true,
   'article-align-select': true,
   'tile-color-select': true,
+  'list-url-type-select': true,
   'text':              true,
   'html':              true,
   'href':              true,
