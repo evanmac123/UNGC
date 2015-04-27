@@ -18,9 +18,9 @@ module UNGC
       ]
 
       LABELS = %w[
-        platform
-        action
-        implementation
+        commit
+        engage
+        implement
       ]
 
       def has_meta_tags!(&block)
