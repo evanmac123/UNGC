@@ -158,7 +158,7 @@ class Redesign::LibrarySearchForm
   def add_issue_options(options)
     ids = Set.new
     area_ids = issue_areas.keys.map(&:to_i)
-    areas = Issue.includes(:issues).find(area_ids)
+    areas = Issue.includes(:children).find(area_ids)
     areas.each do |area|
       if area.issues.any?
         area.issues.each do |issue|
