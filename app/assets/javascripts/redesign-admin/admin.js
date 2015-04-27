@@ -197,6 +197,17 @@ define('admin/components/container/fields/x-list-url-type-select', ['exports', '
   });
 
 });
+define('admin/components/container/fields/x-redactor', ['exports', 'ember'], function (exports, Ember) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Component.extend({
+    formatting: ["p", "h2", "h3", "h4", "h5"],
+    buttons: ["html", "formatting", "bold", "italic", "deleted", "unorderedlist", "orderedlist", "outdent", "indent", "image", "link", "alignment", "horizontalrule"]
+
+  });
+
+});
 define('admin/components/container/fields/x-select2', ['exports', 'ember'], function (exports, Ember) {
 
   'use strict';
@@ -3439,7 +3450,7 @@ define('admin/templates/components/container/fields/x-redactor', ['exports'], fu
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "field.uid"));
         content(env, morph0, context, "field.label");
-        inline(env, morph1, context, "ivy-redactor", [], {"value": get(env, context, "field.value")});
+        inline(env, morph1, context, "ivy-redactor", [], {"value": get(env, context, "field.value"), "formatting": get(env, context, "formatting"), "minHeight": "300px", "pastePlainText": true, "buttons": get(env, context, "buttons")});
         block(env, morph2, context, "if", [get(env, context, "field.errors")], {}, child0, null);
         return fragment;
       }
@@ -4563,7 +4574,7 @@ define('admin/templates/components/container/macros/x-metatags', ['exports'], fu
   }()));
 
 });
-define('admin/templates/components/container/macros/x-related-content', ['exports'], function (exports) {
+define('admin/templates/components/container/macros/x-related-contents', ['exports'], function (exports) {
 
   'use strict';
 
@@ -4713,7 +4724,7 @@ define('admin/templates/components/container/macros/x-related-content', ['export
           fragment = this.build(dom);
         }
         var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),3,3);
-        block(env, morph0, context, "container/x-fields", [], {"key": "relatedContent", "scope": get(env, context, "scope")}, child0, null);
+        block(env, morph0, context, "container/x-fields", [], {"key": "relatedContents", "array": true, "min": 1, "max": 2, "scope": get(env, context, "scope")}, child0, null);
         return fragment;
       }
     };
@@ -7644,7 +7655,7 @@ define('admin/templates/containers/_forms/action_detail', ['exports'], function 
           inline(env, morph4, context, "container/macros/x-widget-contact", [], {"scope": get(env, context, "actionDetail")});
           inline(env, morph5, context, "container/macros/x-widget-calls-to-action", [], {"scope": get(env, context, "actionDetail")});
           inline(env, morph6, context, "container/macros/x-widget-links-lists", [], {"scope": get(env, context, "actionDetail")});
-          inline(env, morph7, context, "container/macros/x-related-content", [], {"scope": get(env, context, "actionDetail")});
+          inline(env, morph7, context, "container/macros/x-related-contents", [], {"scope": get(env, context, "actionDetail")});
           inline(env, morph8, context, "container/macros/x-resources", [], {"scope": get(env, context, "actionDetail")});
           block(env, morph9, context, "container/x-fields", [], {"key": "initiative", "scope": get(env, context, "actionDetail")}, child3, null);
           block(env, morph10, context, "container/x-fields", [], {"tagName": "ol", "key": "partners", "array": true, "max": 5, "scope": get(env, context, "actionDetail")}, child4, null);
@@ -9007,7 +9018,7 @@ define('admin/templates/containers/_forms/issue', ['exports'], function (exports
           inline(env, morph4, context, "container/macros/x-widget-contact", [], {"scope": get(env, context, "issue")});
           inline(env, morph5, context, "container/macros/x-widget-calls-to-action", [], {"scope": get(env, context, "issue")});
           inline(env, morph6, context, "container/macros/x-widget-links-lists", [], {"scope": get(env, context, "issue")});
-          inline(env, morph7, context, "container/macros/x-related-content", [], {"scope": get(env, context, "issue")});
+          inline(env, morph7, context, "container/macros/x-related-contents", [], {"scope": get(env, context, "issue")});
           inline(env, morph8, context, "container/macros/x-resources", [], {"scope": get(env, context, "issue")});
           inline(env, morph9, context, "container/macros/x-taggings", [], {"scope": get(env, context, "issue")});
           return fragment;
@@ -9788,7 +9799,7 @@ define('admin/templates/containers/_forms/news', ['exports'], function (exports)
           inline(env, morph1, context, "container/macros/x-hero", [], {"scope": get(env, context, "news")});
           inline(env, morph2, context, "container/macros/x-widget-contact", [], {"scope": get(env, context, "news")});
           inline(env, morph3, context, "container/macros/x-widget-calls-to-action", [], {"scope": get(env, context, "news")});
-          inline(env, morph4, context, "container/macros/x-related-content", [], {"scope": get(env, context, "news")});
+          inline(env, morph4, context, "container/macros/x-related-contents", [], {"scope": get(env, context, "news")});
           inline(env, morph5, context, "container/macros/x-resources", [], {"scope": get(env, context, "news")});
           return fragment;
         }
@@ -10733,13 +10744,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.68bffbec"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.ea62ca03"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.68bffbec"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.ea62ca03"});
 }
 
 /* jshint ignore:end */
