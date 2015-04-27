@@ -17,9 +17,11 @@
             <%= content_tag(:p, item.blurb.html_safe) %>
           </div>
         <%-else -%>
-          <span class='image-link'>
-            <%= image_tag(item.image, alt: item.title) if item.image %>
-          </span>
+          <%- if item.image -%>
+            <span class='image-link'>
+              <%= image_tag(item.image, alt: item.title)%>
+            </span>
+          <%-end -%>
           <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
             <%= content_tag(:h1, item.title, class: "type-#{item.type}") %>
             <%= content_tag(:p, item.blurb.html_safe) %>
