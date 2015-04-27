@@ -13,7 +13,7 @@ class NewsLayout < UNGC::Layout
 
   has_widget_calls_to_action!
 
-  has_related_content!
+  has_related_contents!
 
   has_resources!
 

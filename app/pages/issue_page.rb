@@ -28,8 +28,8 @@ class IssuePage < ContainerPage
     widgets
   end
 
-  def related_content
-    Components::RelatedContent.new(@data)
+  def related_contents
+    Components::RelatedContents.new(@data)
   end
 
   def resources

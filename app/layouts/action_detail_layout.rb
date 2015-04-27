@@ -32,7 +32,7 @@ class ActionDetailLayout < UNGC::Layout
 
   has_resources!
 
-  has_related_content!
+  has_related_contents!
 
   scope :initiative do
     field :initiative_id, type: :number

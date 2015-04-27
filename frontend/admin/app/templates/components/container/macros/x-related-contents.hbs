@@ -1,6 +1,6 @@
 <fieldset>
   <legend>Related Content</legend>
-  {{#container/x-fields key="relatedContent" scope=scope as |relatedContent|}}
+  {{#container/x-fields key="relatedContents" array=true min=1 max=2 scope=scope as |relatedContent|}}
     {{container/x-field key="title" type="string" limit=50 scope=relatedContent}}
     {{#container/x-fields tagName="ol" key="contentBoxes" array=true size=3 scope=relatedContent as |boxes|}}
       <li class="stat-group">

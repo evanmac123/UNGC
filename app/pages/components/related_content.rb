@@ -5,7 +5,6 @@ class Components::RelatedContent
     @data = data
   end
 
-
   def title
     related_content[:title]
   end
@@ -27,7 +26,7 @@ class Components::RelatedContent
   end
 
   def related_content
-    @data[:related_content] || {}
+    @data
   end
 
 end

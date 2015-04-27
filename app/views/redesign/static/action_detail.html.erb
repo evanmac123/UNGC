@@ -11,9 +11,11 @@
 
 <% end %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {title: @page.related_content.title, blocks: @page.related_content.boxes} do |block| %>
-  <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
-<% end %>
+<%- @page.related_contents.each do |c| -%>
+  <%= render layout: 'redesign/components/content_blocks', locals: {title: c.title, blocks: c.boxes} do |block| %>
+    <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
+  <% end %>
+<%- end -%>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
   <%= render 'redesign/components/content_block', type: 'resource', title: block.title, url: redesign_library_resource_path(block), thumbnail: "//unglobalcompact.org#{block.cover_image(:show, retina: true)}", tag: t(block.content_type) %>

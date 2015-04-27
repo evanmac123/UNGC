@@ -29,5 +29,5 @@ class IssueLayout < UNGC::Layout
 
   has_resources!
 
-  has_related_content!
+  has_related_contents!
 end

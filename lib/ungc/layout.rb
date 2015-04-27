@@ -79,8 +79,8 @@ module UNGC
         end
       end
 
-      def has_related_content!
-        scope :related_content do
+      def has_related_contents!
+        scope :related_contents, array: true, max: 2 do
           field :title, type: :string, limit: 50
           scope :content_boxes, array: true, size: 3 do
             field :container_path, type: :string
