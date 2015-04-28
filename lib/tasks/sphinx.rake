@@ -5,7 +5,6 @@ namespace :ts do
     system 'sudo god stop unglobalcompact-sphinx'
     Rake::Task["ts:clear"].invoke
     Rake::Task["ts:index"].invoke
-    system "cp -rv config/#{ENV['RAILS_ENV']}.sphinx.conf /srv/unglobalcompact/shared/config/sphinx.conf"
     system 'sudo god start unglobalcompact-sphinx'
   end
 
