@@ -1,0 +1,39 @@
+<%#= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'redesign/components/hero' %>
+
+<%- if accordion = @page.accordion -%>
+  <section class='main-content-section'>
+    <%= content_tag(:header, content_tag(:h1, accordion.title), {class: 'main-content-header accordion-header'}) if accordion.title %>
+
+    <section class='accordion-body'>
+      <%= content_tag(:p, accordion.blurb) if accordion.blurb %>
+
+      <div class='accordion-container'>
+        <%- accordion.items.each do |item| -%>
+          <article class='accordion-item'>
+            <%= content_tag(:h1, item.title, {class: 'accordion-item-header'}) %>
+
+            <div class='accordion-item-content-wrapper'>
+              <%- if children = item.children -%>
+                <%- children.each do |child| -%>
+                  <article class='accordion-item accordion-child'>
+                    <%= content_tag(:h1, child.title, {class: 'accordion-item-header accordion-child-header'}) %>
+                    <div class='accordion-item-content-wrapper'>
+                      <div class='accordion-item-content'>
+                        <%= child.content.try(:html_safe) %>
+                      </div>
+                    </div>
+                  </article>
+                <%- end -%>
+              <%- else -%>
+                <div class='accordion-item-content'>
+                  <%= item.content.try(:html_safe) %>
+                </div>
+              <%- end -%>
+            </div>
+          </article>
+        <%- end -%>
+      </div>
+    </section>
+  </section>
+<%- end -%>

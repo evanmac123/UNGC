@@ -61,6 +61,7 @@ UNGC::Application.routes.draw do
     end
 
     get '/'         => 'static#home',       as: :root
+    get '/accordion' => 'static#accordion',  as: :accordion
     get '*path'     => 'static#catch_all',  as: :catch_all
   end
 
