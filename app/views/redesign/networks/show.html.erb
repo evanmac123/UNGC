@@ -1,16 +1,40 @@
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-welcome
-<%= @network.name %>
+<% provide :title, @network.name %>
+<%-
+  hero_data = {}
+  hero_data[:title] = {}
+  hero_data[:title][:title1] = 'Think Globally'
+  hero_data[:title][:title2] = 'Act Locally'
+  hero_data[:size] = "small"
+  hero_classes = ['page-section']
+  hero_classes << 'has-issues-nav'                  if hero_data[:show_issues_nav]
+  hero_classes << 'has-section-nav'                 if hero_data[:show_section_nav]
+  hero_classes << 'has-custom-image'                if hero_data[:image]
+  hero_classes << "hero-size-#{hero_data[:size]}"   if hero_data[:size]
+  hero_classes << "#{hero_data[:theme].parameterize}-theme" if hero_data[:theme] && hero_data[:theme] != 'none'
 
-<%= link_to_redesign 'hey', redesign_networks_show_path(@network.region, @network.name.downcase) %>
+  hero_styles = hero_data[:image] ? "background-image: url(#{hero_data[:image]});" : ""
+-%>
+
+  <header id='hero' style='<%= hero_styles %>' class='<%= hero_classes.join(' ') -%>'>
+
+    <%- if hero_data[:title] -%>
+      <h1><%- hero_data[:title].each do |key, value| -%>
+        <%= tag(:br) if value -%>
+        <%= content_tag(:span, value.try(:html_safe)) if value -%>
+      <%- end -%></h1>
+    <%- end -%>
+
+  </header>
+
+
+  <section class='main-content-section'>
+    <%= content_tag(:header, content_tag(:h1, @network.name, {class: 'main-content-header'})) %>
+
+    <section class='main-content-body'>
+      <%= @network.description.try(:html_safe) %>
+    </section>
+
+    <%- #TODO add contact widget, we do not have pictures,  @network.public_network_contacts.first %>
+
+    <%- #TODO add static call to action to share your success page %>
+  </section>
