@@ -57,7 +57,7 @@ UNGC::Application.routes.draw do
     end
 
     resources :news do
-      get :press_releases, on: :collection, path: '/news/press-releases'
+      get :press_releases, on: :collection, path: '/press-releases'
     end
 
     get '/'         => 'static#home',       as: :root

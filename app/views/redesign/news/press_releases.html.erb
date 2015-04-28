@@ -3,5 +3,5 @@
 <%= render partial: 'redesign/components/hero' %>
 
 <%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
-  <%# Pagination will go here %>
+  <%= will_paginate @page.news.other %>
 <% end %>

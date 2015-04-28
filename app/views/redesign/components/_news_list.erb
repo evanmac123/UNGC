@@ -24,6 +24,7 @@ if news ||= nil
         <%= content_tag(:h1, link_to_redesign(news_item.title, redesign_news_path(news_item))) %>
         <%= content_tag(:time, news_item.published_on) %>
         <%= content_tag(:address, news_item.location) %>
+        <%= content_tag(:p, news_item.description.truncate(300).html_safe) if !is_landing %>
         <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
       </article>
     <%- end -%>

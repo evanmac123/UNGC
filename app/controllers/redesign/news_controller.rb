@@ -8,6 +8,7 @@ class Redesign::NewsController < Redesign::ApplicationController
   end
 
   def press_releases
-    @page = FakeNewsListPage.new
+    set_current_container :pr_list, '/press-releases'
+    @page = NewsListPage.new(current_container, current_payload_data, page: params[:page])
   end
 end
