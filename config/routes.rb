@@ -60,6 +60,10 @@ UNGC::Application.routes.draw do
       get :press_releases, on: :collection, path: '/press-releases'
     end
 
+    controller :networks do
+      get '/networks/regions/:region/:network' => :show, as: :networks_show
+    end
+
     get '/'         => 'static#home',       as: :root
     get '*path'     => 'static#catch_all',  as: :catch_all
   end
