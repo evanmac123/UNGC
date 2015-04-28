@@ -61,7 +61,6 @@ class Resource < ActiveRecord::Base
                        :newsletter,
                        :un_global_compact_report,
                        :toolkit,
-                       :training,
                        :webinar,
                        :presentation,
                        :website,
