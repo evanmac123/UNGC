@@ -6,17 +6,17 @@
 
   <nav>
     <ul id='primary-navigation'>
-      <li><%= link_to 'What Is UN Global Compact?', '/redesign' -%></li>
-      <li><%= link_to 'Participation', '/redesign/participation', class: params[:action] == 'landing' ? 'active' : nil -%></li>
-      <li><%= link_to 'Take Action', '/redesign/action' -%></li>
-      <li><%= link_to 'Engage Locally', '/redesign' -%></li>
-      <li><%= link_to 'Explore Our Library', '/redesign/explore-our-library', class: params[:controller] == 'redesign/library' ? 'active' : nil -%></li>
+      <li><%= link_to_redesign 'What Is UN Global Compact?', '/what-is-un-global-compact' -%></li>
+      <li><%= link_to_redesign 'Participation', '/participation', class: params[:action] == 'landing' ? 'active' : nil -%></li>
+      <li><%= link_to_redesign 'Take Action', '/take-action' -%></li>
+      <li><%= link_to_redesign 'Engage Locally', '/engage-locally' -%></li>
+      <li><%= link_to_redesign 'Explore Our Library', '/explore-our-library', class: params[:controller] == 'redesign/library' ? 'active' : nil -%></li>
     </ul>
 
     <ul id='secondary-navigation'>
-      <li><%= link_to 'About', '/redesign/about', class: params[:action] == 'long_article' ? 'active' : nil -%></li>
-      <li><%= link_to 'News', '/redesign' -%></li>
-      <li><%= link_to 'Sign In', '/redesign' -%></li>
+      <li><%= link_to_redesign 'About', '/about', class: params[:action] == 'long_article' ? 'active' : nil -%></li>
+      <li><%= link_to_redesign 'News', '/news' -%></li>
+      <li><%= link_to 'Sign In', '/login' -%></li>
       <li><%= link_to 'English', '/redesign' -%></li>
     </ul>
   </nav>
