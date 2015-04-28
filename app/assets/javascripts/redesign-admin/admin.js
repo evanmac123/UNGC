@@ -193,7 +193,7 @@ define('admin/components/container/fields/x-label-select', ['exports', 'ember'],
   'use strict';
 
   exports['default'] = Ember['default'].Component.extend({
-    items: [Ember['default'].Object.create({ id: "platform", label: "Platform" }), Ember['default'].Object.create({ id: "action", label: "Action" }), Ember['default'].Object.create({ id: "implementation", label: "Implementation" })]
+    items: [Ember['default'].Object.create({ id: "commit", label: "Commit" }), Ember['default'].Object.create({ id: "engage", label: "Engage" }), Ember['default'].Object.create({ id: "implement", label: "Implement" })]
   });
 
 });
@@ -212,7 +212,14 @@ define('admin/components/container/fields/x-redactor', ['exports', 'ember'], fun
 
   exports['default'] = Ember['default'].Component.extend({
     formatting: ["p", "h2", "h3", "h4", "h5"],
-    buttons: ["html", "formatting", "bold", "italic", "deleted", "unorderedlist", "orderedlist", "outdent", "indent", "image", "link", "alignment", "horizontalrule"]
+    buttons: ["html", "formatting", "bold", "italic", "deleted", "unorderedlist", "orderedlist", "outdent", "indent", "image", "link", "alignment", "horizontalrule"],
+
+    height: null,
+    _minHeight: "300px",
+
+    minHeight: Ember['default'].computed("field.height", function () {
+      return this.get("field.height") || this.get("_minHeight");
+    })
 
   });
 
@@ -1629,19 +1636,35 @@ define('admin/router', ['exports', 'ember', 'admin/config/environment'], functio
   'use strict';
 
   var Router = Ember['default'].Router.extend({
-    location: config['default'].locationType,
-    rootURL: "/redesign/admin/"
+    location: config['default'].locationType
   });
 
   Router.map(function () {
-    this.resource("containers", { path: "/" }, function () {
-      this.route("new", { path: "/containers/new/in/:parent_container" });
-      this.route("edit", { path: "/containers/:container_id" });
-      this.route("needs-approval");
+    this.resource("admin", { path: "/redesign/admin" }, function () {
+      this.resource("containers", { path: "/" }, function () {
+        this.route("new", { path: "/containers/new/in/:parent_container" });
+        this.route("edit", { path: "/containers/:container_id" });
+        this.route("needs-approval");
+      });
     });
   });
 
   exports['default'] = Router;
+
+});
+define('admin/routes/application', ['exports', 'ember', 'ic-ajax'], function (exports, Ember, request) {
+
+  'use strict';
+
+  exports['default'] = Ember['default'].Route.extend({
+    actions: {
+      logout: function logout() {
+        request['default']("/logout", { type: "DELETE" }).then(function () {
+          return window.location.href = window.location.href;
+        });
+      }
+    }
+  });
 
 });
 define('admin/routes/containers/edit', ['exports', 'ember', 'admin/models/container', 'admin/models/payload'], function (exports, Ember, Container, Payload) {
@@ -2142,20 +2165,7 @@ define('admin/templates/application', ['exports'], function (exports) {
         dom.appendChild(el6, el7);
         var el7 = dom.createElement("a");
         dom.setAttribute(el7,"href","#");
-        var el8 = dom.createTextNode("Stories");
-        dom.appendChild(el7, el8);
-        dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode("\n          ");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n          ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("li");
-        var el7 = dom.createTextNode("\n            ");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createElement("a");
-        dom.setAttribute(el7,"href","#");
-        var el8 = dom.createTextNode("Resources");
+        var el8 = dom.createTextNode("Logout");
         dom.appendChild(el7, el8);
         dom.appendChild(el6, el7);
         var el7 = dom.createTextNode("\n          ");
@@ -2206,7 +2216,7 @@ define('admin/templates/application', ['exports'], function (exports) {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
-        var hooks = env.hooks, block = hooks.block, content = hooks.content;
+        var hooks = env.hooks, block = hooks.block, element = hooks.element, content = hooks.content;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -2225,11 +2235,13 @@ define('admin/templates/application', ['exports'], function (exports) {
           fragment = this.build(dom);
         }
         var element0 = dom.childAt(fragment, [0, 1, 1, 3, 1]);
+        var element1 = dom.childAt(element0, [4, 1]);
         var morph0 = dom.createMorphAt(element0,1,1);
         var morph1 = dom.createMorphAt(element0,2,2);
         var morph2 = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
         block(env, morph0, context, "link-to", ["containers.index"], {"tagName": "li"}, child0, null);
         block(env, morph1, context, "link-to", ["containers.needs-approval"], {"tagName": "li"}, child1, null);
+        element(env, element1, context, "action", ["logout"], {});
         content(env, morph2, context, "outlet");
         return fragment;
       }
@@ -3589,7 +3601,7 @@ define('admin/templates/components/container/fields/x-redactor', ['exports'], fu
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "field.uid"));
         content(env, morph0, context, "field.label");
-        inline(env, morph1, context, "ivy-redactor", [], {"value": get(env, context, "field.value"), "formatting": get(env, context, "formatting"), "minHeight": "300px", "pastePlainText": true, "buttons": get(env, context, "buttons")});
+        inline(env, morph1, context, "ivy-redactor", [], {"value": get(env, context, "field.value"), "formatting": get(env, context, "formatting"), "minHeight": get(env, context, "minHeight"), "pastePlainText": true, "buttons": get(env, context, "buttons")});
         block(env, morph2, context, "if", [get(env, context, "field.errors")], {}, child0, null);
         return fragment;
       }
@@ -7407,6 +7419,344 @@ define('admin/templates/containers', ['exports'], function (exports) {
   }()));
 
 });
+define('admin/templates/containers/_forms/accordion', ['exports'], function (exports) {
+
+  'use strict';
+
+  exports['default'] = Ember.HTMLBars.template((function() {
+    var child0 = (function() {
+      var child0 = (function() {
+        var child0 = (function() {
+          var child0 = (function() {
+            return {
+              isHTMLBars: true,
+              revision: "Ember@1.11.0",
+              blockParams: 1,
+              cachedFragment: null,
+              hasRendered: false,
+              build: function build(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createTextNode("            ");
+                dom.appendChild(el0, el1);
+                var el1 = dom.createElement("li");
+                dom.setAttribute(el1,"class","stat-group");
+                var el2 = dom.createTextNode("\n              ");
+                dom.appendChild(el1, el2);
+                var el2 = dom.createComment("");
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n              ");
+                dom.appendChild(el1, el2);
+                var el2 = dom.createComment("");
+                dom.appendChild(el1, el2);
+                var el2 = dom.createTextNode("\n            ");
+                dom.appendChild(el1, el2);
+                dom.appendChild(el0, el1);
+                var el1 = dom.createTextNode("\n");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              render: function render(context, env, contextualElement, blockArguments) {
+                var dom = env.dom;
+                var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline;
+                dom.detectNamespace(contextualElement);
+                var fragment;
+                if (env.useFragmentCache && dom.canClone) {
+                  if (this.cachedFragment === null) {
+                    fragment = this.build(dom);
+                    if (this.hasRendered) {
+                      this.cachedFragment = fragment;
+                    } else {
+                      this.hasRendered = true;
+                    }
+                  }
+                  if (this.cachedFragment) {
+                    fragment = dom.cloneNode(this.cachedFragment, true);
+                  }
+                } else {
+                  fragment = this.build(dom);
+                }
+                var element0 = dom.childAt(fragment, [1]);
+                var morph0 = dom.createMorphAt(element0,1,1);
+                var morph1 = dom.createMorphAt(element0,3,3);
+                set(env, context, "children", blockArguments[0]);
+                inline(env, morph0, context, "container/x-field", [], {"key": "title", "type": "string", "scope": get(env, context, "children")});
+                inline(env, morph1, context, "container/x-field", [], {"key": "content", "type": "redactor", "height": "100px", "scope": get(env, context, "children")});
+                return fragment;
+              }
+            };
+          }());
+          return {
+            isHTMLBars: true,
+            revision: "Ember@1.11.0",
+            blockParams: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            build: function build(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("        ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("li");
+              dom.setAttribute(el1,"class","stat-group");
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createElement("div");
+              dom.setAttribute(el2,"class","form-group");
+              var el3 = dom.createTextNode("\n            ");
+              dom.appendChild(el2, el3);
+              var el3 = dom.createElement("label");
+              dom.setAttribute(el3,"class","control-label col-sm-10");
+              var el4 = dom.createTextNode("\n              this content will not be displayed if you add children\n            ");
+              dom.appendChild(el3, el4);
+              dom.appendChild(el2, el3);
+              var el3 = dom.createTextNode("\n          ");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createElement("div");
+              dom.setAttribute(el2,"class","form-group");
+              var el3 = dom.createTextNode("\n            ");
+              dom.appendChild(el2, el3);
+              var el3 = dom.createElement("label");
+              dom.setAttribute(el3,"class","control-label col-sm-2");
+              var el4 = dom.createTextNode("Children");
+              dom.appendChild(el3, el4);
+              dom.appendChild(el2, el3);
+              var el3 = dom.createTextNode("\n          ");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("        ");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            render: function render(context, env, contextualElement, blockArguments) {
+              var dom = env.dom;
+              var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline, block = hooks.block;
+              dom.detectNamespace(contextualElement);
+              var fragment;
+              if (env.useFragmentCache && dom.canClone) {
+                if (this.cachedFragment === null) {
+                  fragment = this.build(dom);
+                  if (this.hasRendered) {
+                    this.cachedFragment = fragment;
+                  } else {
+                    this.hasRendered = true;
+                  }
+                }
+                if (this.cachedFragment) {
+                  fragment = dom.cloneNode(this.cachedFragment, true);
+                }
+              } else {
+                fragment = this.build(dom);
+              }
+              var element1 = dom.childAt(fragment, [1]);
+              var morph0 = dom.createMorphAt(element1,1,1);
+              var morph1 = dom.createMorphAt(element1,5,5);
+              var morph2 = dom.createMorphAt(element1,9,9);
+              set(env, context, "items", blockArguments[0]);
+              inline(env, morph0, context, "container/x-field", [], {"key": "title", "type": "string", "scope": get(env, context, "items")});
+              inline(env, morph1, context, "container/x-field", [], {"key": "content", "type": "redactor", "height": "100px", "scope": get(env, context, "items")});
+              block(env, morph2, context, "container/x-fields", [], {"tagName": "ol", "key": "children", "array": true, "max": 10, "scope": get(env, context, "items")}, child0, null);
+              return fragment;
+            }
+          };
+        }());
+        return {
+          isHTMLBars: true,
+          revision: "Ember@1.11.0",
+          blockParams: 1,
+          cachedFragment: null,
+          hasRendered: false,
+          build: function build(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n      ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          render: function render(context, env, contextualElement, blockArguments) {
+            var dom = env.dom;
+            var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline, block = hooks.block;
+            dom.detectNamespace(contextualElement);
+            var fragment;
+            if (env.useFragmentCache && dom.canClone) {
+              if (this.cachedFragment === null) {
+                fragment = this.build(dom);
+                if (this.hasRendered) {
+                  this.cachedFragment = fragment;
+                } else {
+                  this.hasRendered = true;
+                }
+              }
+              if (this.cachedFragment) {
+                fragment = dom.cloneNode(this.cachedFragment, true);
+              }
+            } else {
+              fragment = this.build(dom);
+            }
+            var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
+            var morph1 = dom.createMorphAt(fragment,3,3,contextualElement);
+            var morph2 = dom.createMorphAt(fragment,5,5,contextualElement);
+            dom.insertBoundary(fragment, null);
+            set(env, context, "acc", blockArguments[0]);
+            inline(env, morph0, context, "container/x-field", [], {"key": "title", "type": "string", "limit": 50, "scope": get(env, context, "acc")});
+            inline(env, morph1, context, "container/x-field", [], {"key": "blurb", "type": "redactor", "scope": get(env, context, "acc")});
+            block(env, morph2, context, "container/x-fields", [], {"tagName": "ol", "key": "items", "array": true, "max": 10, "scope": get(env, context, "acc")}, child0, null);
+            return fragment;
+          }
+        };
+      }());
+      return {
+        isHTMLBars: true,
+        revision: "Ember@1.11.0",
+        blockParams: 1,
+        cachedFragment: null,
+        hasRendered: false,
+        build: function build(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("fieldset");
+          var el2 = dom.createTextNode("\n    ");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createElement("legend");
+          var el3 = dom.createTextNode("Accordion");
+          dom.appendChild(el2, el3);
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("\n");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createComment("");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("  ");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n  ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        render: function render(context, env, contextualElement, blockArguments) {
+          var dom = env.dom;
+          var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline, block = hooks.block;
+          dom.detectNamespace(contextualElement);
+          var fragment;
+          if (env.useFragmentCache && dom.canClone) {
+            if (this.cachedFragment === null) {
+              fragment = this.build(dom);
+              if (this.hasRendered) {
+                this.cachedFragment = fragment;
+              } else {
+                this.hasRendered = true;
+              }
+            }
+            if (this.cachedFragment) {
+              fragment = dom.cloneNode(this.cachedFragment, true);
+            }
+          } else {
+            fragment = this.build(dom);
+          }
+          var morph0 = dom.createMorphAt(fragment,1,1,contextualElement);
+          var morph1 = dom.createMorphAt(fragment,3,3,contextualElement);
+          var morph2 = dom.createMorphAt(dom.childAt(fragment, [5]),3,3);
+          var morph3 = dom.createMorphAt(fragment,7,7,contextualElement);
+          var morph4 = dom.createMorphAt(fragment,9,9,contextualElement);
+          var morph5 = dom.createMorphAt(fragment,11,11,contextualElement);
+          set(env, context, "accordion", blockArguments[0]);
+          inline(env, morph0, context, "container/macros/x-metatags", [], {"scope": get(env, context, "accordion")});
+          inline(env, morph1, context, "container/macros/x-hero", [], {"scope": get(env, context, "accordion")});
+          block(env, morph2, context, "container/x-fields", [], {"key": "accordion", "scope": get(env, context, "accordion")}, child0, null);
+          inline(env, morph3, context, "container/macros/x-widget-contact", [], {"scope": get(env, context, "accordion")});
+          inline(env, morph4, context, "container/macros/x-widget-calls-to-action", [], {"scope": get(env, context, "accordion")});
+          inline(env, morph5, context, "container/macros/x-widget-links-lists", [], {"scope": get(env, context, "accordion")});
+          return fragment;
+        }
+      };
+    }());
+    return {
+      isHTMLBars: true,
+      revision: "Ember@1.11.0",
+      blockParams: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      build: function build(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      render: function render(context, env, contextualElement) {
+        var dom = env.dom;
+        var hooks = env.hooks, get = hooks.get, block = hooks.block;
+        dom.detectNamespace(contextualElement);
+        var fragment;
+        if (env.useFragmentCache && dom.canClone) {
+          if (this.cachedFragment === null) {
+            fragment = this.build(dom);
+            if (this.hasRendered) {
+              this.cachedFragment = fragment;
+            } else {
+              this.hasRendered = true;
+            }
+          }
+          if (this.cachedFragment) {
+            fragment = dom.cloneNode(this.cachedFragment, true);
+          }
+        } else {
+          fragment = this.build(dom);
+        }
+        var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
+        dom.insertBoundary(fragment, null);
+        dom.insertBoundary(fragment, 0);
+        block(env, morph0, context, "container/x-fields", [], {"scope": get(env, context, "model.container")}, child0, null);
+        return fragment;
+      }
+    };
+  }()));
+
+});
 define('admin/templates/containers/_forms/action_detail', ['exports'], function (exports) {
 
   'use strict';
@@ -10895,13 +11245,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.61ac740d"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.68b2f34b"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.61ac740d"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.68b2f34b"});
 }
 
 /* jshint ignore:end */
