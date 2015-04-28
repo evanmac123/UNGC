@@ -6,7 +6,7 @@
     <%= content_tag(:header, content_tag(:h1, accordion.title), {class: 'main-content-header accordion-header'}) if accordion.title %>
 
     <section class='accordion-body'>
-      <%= content_tag(:p, accordion.blurb) if accordion.blurb %>
+      <%= content_tag(:p, accordion.blurb.try(:html_safe)) if accordion.blurb %>
 
       <div class='accordion-container'>
         <%- accordion.items.each do |item| -%>
@@ -14,7 +14,7 @@
             <%= content_tag(:h1, item.title, {class: 'accordion-item-header'}) %>
 
             <div class='accordion-item-content-wrapper'>
-              <%- if children = item.children -%>
+              <%- if !item.children.try(:blank?) and children = item.children -%>
                 <%- children.each do |child| -%>
                   <article class='accordion-item accordion-child'>
                     <%= content_tag(:h1, child.title, {class: 'accordion-item-header accordion-child-header'}) %>
@@ -35,5 +35,14 @@
         <%- end -%>
       </div>
     </section>
+    <%- if sidebar = @page.sidebar_widgets -%>
+      <%= render layout: 'redesign/components/sidebar' do %>
+        <%= render 'redesign/components/widget_contact', contact: sidebar[:contact] %>
+
+        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar[:calls_to_action] %>
+
+        <%= render 'redesign/components/widget_links_lists', links_lists: sidebar[:links_lists] %>
+      <% end %>
+    <%- end -%>
   </section>
 <%- end -%>

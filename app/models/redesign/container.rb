@@ -20,7 +20,8 @@ class Redesign::Container < ActiveRecord::Base
     :library,
     :engage_locally,
     :directory,
-    :all_issue
+    :all_issue,
+    :accordion
   ]
 
   enum content_type: [
