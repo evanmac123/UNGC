@@ -5,3 +5,6 @@
 <%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.issues} do |block| %>
   <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
 <% end %>
+
+<%-#@page.issues are the boxes, we have to paginate on the results %>
+<%= will_paginate @page.results %>

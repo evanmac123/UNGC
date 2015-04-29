@@ -1,4 +1,4 @@
-class AllIssuePage < ContainerPage
+class AllOurWorkPage < ContainerPage
   attr_reader :results
 
   def initialize(container, payload, results)
