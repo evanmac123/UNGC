@@ -10,7 +10,8 @@ class Redesign::NewsController < Redesign::ApplicationController
 
   def press_releases
     set_current_container :pr_list, '/press-releases'
-    @page = NewsListPage.new(current_container, current_payload_data, page: params[:page])
+    @form = Redesign::NewsListForm.new(params[:page])
+    @page = NewsListPage.new(current_container, current_payload_data, @form.results)
   end
 
   private

@@ -1,14 +1,13 @@
 class NewsListPage < ContainerPage
-  attr_reader :page, :per_page
+  attr_reader :results
 
-  def initialize(container, payload, opts={})
+  def initialize(container, payload, results)
     super(container, payload)
-    @page = opts[:page] || 1
-    @per_page = 5
+    @results = results
   end
 
   def hero
-    (@data[:hero] || {}).merge({
+    (@data[:hero] || {}).reverse_merge({
       title: {
         title1: 'Press Releases'
       },
@@ -24,14 +23,8 @@ class NewsListPage < ContainerPage
   def news
     news = OpenStruct.new({
       title: "Press Releases",
-      other: other
+      other: results
     })
     news
   end
-
-  def other
-    Headline.order('published_on desc').paginate(page: page, per_page: per_page)
-  end
-
 end
-
