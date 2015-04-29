@@ -12,15 +12,7 @@ class ActionDetailPage < ContainerPage
   end
 
   def sidebar_widgets
-    widgets = {}
-
-    widgets[:contact] = Components::Contact.new(@data).data
-
-    widgets[:calls_to_action] = Components::CallsToAction.new(@data).data
-
-    widgets[:links_lists] = Components::LinksLists.new(@data).data
-
-    widgets
+    Components::SidebarWidgets.new(@data)
   end
 
   def related_contents
