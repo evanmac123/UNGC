@@ -9,7 +9,7 @@
     {{#container/x-fields key="accordion" scope=accordion as |acc|}}
       {{container/x-field key="title" type="string" limit=50 scope=acc}}
       {{container/x-field key="blurb" type="redactor" scope=acc}}
-      {{#container/x-fields tagName="ol" key="items" array=true max=10 scope=acc as |items|}}
+      {{#container/x-fields tagName="ol" key="items" array=true scope=acc as |items|}}
         <li class="stat-group">
           {{container/x-field key="title" type="string" scope=items}}
           <div class="form-group">
@@ -21,7 +21,7 @@
           <div class="form-group">
             <label class="control-label col-sm-2">Children</label>
           </div>
-          {{#container/x-fields tagName="ol" key="children" array=true max=10 scope=items as |children|}}
+          {{#container/x-fields tagName="ol" key="children" array=true scope=items as |children|}}
             <li class="stat-group">
               {{container/x-field key="title" type="string" scope=children}}
               {{container/x-field key="content" type="redactor" height='100px' scope=children}}

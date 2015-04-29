@@ -24,7 +24,7 @@ class ListLayout < UNGC::Layout
     field :title, type: :string, required: true
     field :blurb, type: :string
     field :sorting, type: :string, enum: SORTING, default: 'asc'
-    scope :items, array: true, min: 1, max: 10 do
+    scope :items, array: true, min: 1 do
       field :url, type: :href
       field :title, type: :string, required: true
       field :type, type: :string, enum: LIST_LINK_TYPES, default: 'none'

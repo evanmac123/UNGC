@@ -32,7 +32,7 @@ class LandingLayout < UNGC::Layout
     field :blurb,    type: :string, limit: 150
 
     scope :link do
-      field :label, type: :string, limit: 25
+      field :label, type: :string, limit: 30
       field :url,   type: :href
     end
 

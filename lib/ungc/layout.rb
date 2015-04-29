@@ -72,7 +72,7 @@ module UNGC
 
       def has_widget_links_lists!
         scope :widget_links_lists, array: true, max: 2 do
-          field :title, type: :string, limit: 50
+          field :title, type: :string, limit: 30
 
           scope :links, array: true, max: 5 do
             field :label, type: :string,  required: true

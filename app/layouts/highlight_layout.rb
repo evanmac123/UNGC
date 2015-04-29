@@ -37,7 +37,7 @@ class HighlightLayout < UNGC::Layout
   scope :article_blocks, array: true, min: 1, max: 3 do
     field :align,    type: :string, enum: ALIGN, default: 'left'
     field :theme, type: :string, enum: THEMES, default: 'light'
-    field :title,    type: :string, limit: 100, required: true
+    field :title,    type: :string, limit: 70, required: true
     field :content,  type: :string, required: true
     field :bg_image, type: :image_url
     scope :widget_image do

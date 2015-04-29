@@ -10,13 +10,13 @@ class AccordionLayout < UNGC::Layout
   has_hero!
 
   scope :accordion do
-    field :title, type: :string
+    field :title, type: :string, limit: 100
     field :blurb, type: :string
 
-    scope :items, array: true, max: 10 do
+    scope :items, array: true do
       field :title, type: :string,  required: true
       field :content, type: :string
-      scope :children, array: true, max: 10 do
+      scope :children, array: true do
         field :title, type: :string,  required: true
         field :content, type: :string
       end
