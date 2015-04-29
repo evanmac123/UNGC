@@ -146,15 +146,6 @@ class Redesign::LibrarySearchForm
 
   private
 
-  def foo(type, group, selected_groups, selected_children)
-    [
-      Filter.new(area.id, :issue_area, area.name, issue_areas.has_key?(area.id.to_s)),
-      children.map { |issue|
-        Filter.new(issue.id, :issue, issue.name, issues.has_key?(issue.id.to_s))
-      }
-    ]
-  end
-
   def add_issue_options(options)
     ids = Set.new
     area_ids = issue_areas.keys.map(&:to_i)
