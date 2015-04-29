@@ -26,7 +26,7 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
   end
 
   def create_page
-    ParticipantSearch::Page.new(current_container, current_payload_data)
+    ParticipantSearchPage.new(current_container, current_payload_data)
   end
 
 end
