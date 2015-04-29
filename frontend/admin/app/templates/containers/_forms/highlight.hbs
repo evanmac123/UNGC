@@ -16,9 +16,8 @@
         {{container/x-field key="bgImage" type="image-upload" scope=article}}
 
         {{#container/x-fields key="callToAction" scope=article as |callToAction|}}
-          <div class="form-group">
-            <label class="control-label col-sm-2">Call to Action</label>
-          </div>
+
+          <h2>Call to Action</h2>
           {{container/x-field label="Theme" key="theme" type="tile-color-select" limit=50 scope=callToAction}}
           {{container/x-field key="title" type="string" limit=50 scope=callToAction}}
           {{container/x-field key="url" type="string" limit=50 scope=callToAction}}
@@ -26,9 +25,7 @@
         {{/container/x-fields}}
 
         {{#container/x-fields key="widgetImage" scope=article as |image|}}
-          <div class="form-group">
-            <label class="control-label col-sm-2">Image Widget</label>
-          </div>
+          <h2>Image Widget</h2>
           {{container/x-field label="Image title" key="alt" type="string" limit=50 scope=image}}
           {{container/x-field label="Image Url" key="src" type="image-upload" scope=image}}
           {{container/x-field label="Image Link" key="url" type="href" scope=image}}

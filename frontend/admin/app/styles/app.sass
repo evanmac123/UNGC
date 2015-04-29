@@ -1,8 +1,15 @@
 @import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap"
+@import settings/icons
 
 body
+  font-family: Roboto, Helvetica, Arial, sans-serif
+  background-color: #fcfcfc
+
   > div > main
     margin-top: 50px
+
+.fa
+  +font-smoothing(antialiased)
 
 .sitemap-x-tree
   margin: 0
@@ -59,3 +66,90 @@ body
   width: 300px
   height: 50px
   z-index: 99
+
+// Bootstrap recommended Firefox fieldsets fix
+@-mox-document url-prefix()
+  fieldset
+    display: table-cell
+
+#main-header
+  box-shadow: 0 1px 5px rgba(black, .2)
+  padding: .5em 0
+
+  .navbar-brand
+    span
+      display: none
+
+    &:before
+      font-size: 2.5em
+      +logo('ungc')
+
+  .navbar .logout
+    margin-left: 1em
+
+#main-page-header
+  padding: 4em 0 1em
+  margin: 0 0 2em
+  border-bottom: 1px solid #ddd
+
+  h1,
+  h2,
+    display: inline-block
+    font-size: 2em
+    margin: 0
+    vertical-align: middle
+
+  h1 .fa
+    color: #999
+
+  h2
+    font:
+      size: 1.25em
+      weight: 400
+    margin: 0 .75em
+    color: #666
+
+    span
+      display: none
+
+  code
+    color: #444
+    background: #eee
+
+  .btn
+    text-transform: uppercase
+    font-weight: 700
+    +font-smoothing(antialiased)
+
+fieldset
+  margin: 0 0 4em
+  padding: 0 1em 1em
+  border-radius: .25em
+  background: white
+  box-shadow: 0 0 3px rgba(black, .1)
+
+  legend
+    display: inline-block
+    width: auto
+    text-transform: uppercase
+    padding: .5em 1em
+    font:
+      size: 1.25em
+      weight: 500
+    line-height: 1
+    border: 0
+      radius: .25em
+    background: #222
+    color: white
+    box-shadow: 0 0 3px rgba(black, .2)
+    +font-smoothing(antialiased)
+
+  h2
+    font:
+      size: 1.5em
+      weight: 700
+    margin: 2em 0 1em
+    border-bottom: 1px solid #eee
+
+.input-group
+  margin-bottom: .5em

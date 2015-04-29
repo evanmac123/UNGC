@@ -4,7 +4,8 @@
   <head>
     <title>UNGC Admin</title>
 
-    <% if Rails.env.development? %>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:500,900italic,900,400italic,100,700italic,300,700,500italic,100italic,300italic,400' rel='stylesheet' type='text/css'>    <% if Rails.env.development? %>
       <%= stylesheet_link_tag "#{cli_host}/assets/vendor.css" %>
       <%= stylesheet_link_tag "#{cli_host}/assets/admin.css" %>
     <% else %>
@@ -14,7 +15,7 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-<%= yield %>
+    <%= yield %>
     <% if Rails.env.development? %>
       <%= javascript_include_tag "#{cli_host}/assets/vendor.js" %>
       <%= javascript_include_tag "#{cli_host}/assets/admin.js" %>

@@ -1,22 +1,18 @@
-<header>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="/redesign/admin/">UNGC Admin</a>
-      </div>
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          {{#link-to "containers.index" tagName="li"}}
-            {{#link-to "containers.index"}}Sitemap{{/link-to}}
-          {{/link-to}}
-          {{#link-to "containers.needs-approval" tagName="li"}}
-            {{#link-to "containers.needs-approval"}}Needs Approval{{/link-to}}
-          {{/link-to}}
-          <li>
-            <a {{action "logout"}} href="#">Logout</a>
-          </li>
-        </ul>
-      </div>
+<header id='main-header' class="navbar navbar-inverse navbar-fixed-top">
+  <nav class='container'>
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/redesign/admin/"><span>UNGC Admin</span></a>
+    </div>
+    <div class='navbar-right'>
+      <ul class="nav navbar-nav navbar-left">
+        {{#link-to "containers.index" tagName="li"}}
+          {{#link-to "containers.index"}}Sitemap{{/link-to}}
+        {{/link-to}}
+        {{#link-to "containers.needs-approval" tagName="li"}}
+          {{#link-to "containers.needs-approval"}}Needs Approval{{/link-to}}
+        {{/link-to}}
+      </ul>
+      <a {{action "logout"}} href="#" class='logout btn btn-default navbar-btn navbar-right'>Logout</a>
     </div>
   </nav>
 </header>

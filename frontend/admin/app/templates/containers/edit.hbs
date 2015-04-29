@@ -1,19 +1,12 @@
-<form class="form-horizontal">
-  <fieldset>
-    <legend>
-      Edit Page
-    </legend>
-  </fieldset>
+<header id='main-page-header'>
+  <h1><i class='fa fa-pencil fa-fw' aria-hidden='true'></i>Edit Page</h1>
 
-  <fieldset>
-    <h2>Container url:
-      <a href="/redesign{{model.container.publicPath}}" target="_blank">
-        {{model.container.publicPath}}
-      </a>
-    </h2>
-    <p>(last published version)</p>
-  </fieldset>
+  <h2><span>URL: </span><code>{{model.container.publicPath}}</code></h2>
 
+  <a href="/redesign{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'>View Published</a>
+</header>
+
+<form>
   {{#container/x-subform record=model.container as |form|}}
     {{partial form.subformTemplatePath}}
   {{/container/x-subform}}
