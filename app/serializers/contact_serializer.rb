@@ -6,4 +6,3 @@ class ContactSerializer < ApplicationSerializer
     h
   end
 end
-

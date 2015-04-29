@@ -5,7 +5,6 @@ class Components::RelatedContents
     @data = data
   end
 
-
   def boxes
     data.map { |c| Components::RelatedContent.new(c) }
   end

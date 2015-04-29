@@ -11,5 +11,3 @@ class Components::Partners
     partners.map {|p| OpenStruct.new(p)}
   end
 end
-
-

@@ -29,4 +29,3 @@ class AccordionLayout < UNGC::Layout
 
   has_widget_links_lists!
 end
-

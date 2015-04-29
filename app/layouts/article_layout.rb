@@ -27,4 +27,3 @@ class ArticleLayout < UNGC::Layout
 
   has_resources!
 end
-

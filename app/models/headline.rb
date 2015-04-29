@@ -29,9 +29,9 @@ class Headline < ActiveRecord::Base
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
   has_many :taggings
   has_many :sectors,        through: :taggings
-  has_many :sector_groups,  through: :sectors, source: :parent
+  has_many :sector_groups,  through: :sectors, class_name: 'Sector', source: :parent
   has_many :issues,         through: :taggings
-  has_many :issue_areas,    through: :issues
+  has_many :issue_areas,    through: :issues, class_name: 'Issue', source: :parent
   has_many :topics,         through: :taggings
   has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
 
@@ -63,10 +63,6 @@ class Headline < ActiveRecord::Base
   # Used to make a list of years, for the News Archive page - see pages_helper
   def self.years
     select("distinct(year(published_on)) as year").order('year desc').map {|y| y.year.to_s}
-  end
-
-  def self.headline_types_for_select
-    headline_types.keys.map {|k| [k.humanize.titleize, k]}
   end
 
   def before_approve!

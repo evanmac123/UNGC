@@ -4,16 +4,7 @@ class Components::LinksLists
   end
 
   def data
-    # XXX links_list will be an array in the payload once we add proper
-    # validation support for nested arrays to the cms
-    d = @data[:widget_links_lists]
-    if d && d.is_a?(Array)
-      d
-    elsif d
-      [d]
-    else
-      []
-    end
+    @data[:widget_links_lists] || []
   end
 end
 

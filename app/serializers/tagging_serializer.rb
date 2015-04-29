@@ -6,4 +6,3 @@ class TaggingSerializer < ApplicationSerializer
     h
   end
 end
-

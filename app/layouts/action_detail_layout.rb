@@ -44,4 +44,3 @@ class ActionDetailLayout < UNGC::Layout
     field :url, type: :href, required: true
   end
 end
-
