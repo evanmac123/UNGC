@@ -21,6 +21,7 @@ module UNGC
         commit
         engage
         implement
+        background
       ]
 
       def has_meta_tags!(&block)
