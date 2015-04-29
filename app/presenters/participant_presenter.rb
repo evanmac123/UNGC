@@ -4,12 +4,8 @@ class ParticipantPresenter < SimpleDelegator
     super(participant)
   end
 
-  def participant
-    __getobj__
-  end
-
   def website
-    participant.url
+    URI::parse(website_url).hostname
   end
 
   def website_url
@@ -17,7 +13,7 @@ class ParticipantPresenter < SimpleDelegator
   end
 
   def has_website?
-    participant.url.present?
+    website_url.present?
   end
 
   def country
@@ -55,6 +51,12 @@ class ParticipantPresenter < SimpleDelegator
         end
         [year, campaign_names]
       end
+  end
+
+  private
+
+  def participant
+    __getobj__
   end
 
 end
