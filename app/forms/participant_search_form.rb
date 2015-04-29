@@ -1,4 +1,4 @@
-class ParticipantSearch::Form
+class ParticipantSearchForm
   include Virtus.model
 
   attribute :organization_types,  Array[Integer], default: []
