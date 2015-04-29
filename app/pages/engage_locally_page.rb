@@ -1,6 +1,6 @@
 class EngageLocallyPage < ContainerPage
   def hero
-    (@data[:hero] || {}).merge({size: 'small'})
+    (@data[:hero] || {}).merge({size: 'small', show_regions_nav: true})
   end
 
   def regions_nav
@@ -25,5 +25,19 @@ class EngageLocallyPage < ContainerPage
 
   def events
     Components::Events.new(@data).data
+  end
+
+  def region_name(region)
+    region_names = {
+      'europe'            => 'Europe',
+      'latin_america'     => 'Latin America &amp; Caribbean',
+      'oceania'           => 'Oceania',
+      'asia'              => 'Asia',
+      'northern_america'  => 'North America',
+      'africa'            => 'Africa',
+      'mena'              => 'MENA'
+    }
+
+    region_names[region] || ''
   end
 end

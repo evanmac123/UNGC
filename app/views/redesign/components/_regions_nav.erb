@@ -1,0 +1,27 @@
+<%- if regions_nav = @page.regions_nav -%>
+  <nav id='regions-nav'>
+
+    <div id='regions-nav-triggers'>
+      <%- regions_nav.each do |region, network| %>
+        <button type="button" data-region="region-<%= region.parameterize -%>" class='region-nav-trigger'><%= @page.region_name(region).try(:html_safe) %></button>
+      <%- end -%>
+    </div>
+
+    <div id='regions-nav-container'>
+      <%- regions_nav.each do |region, networks| %>
+        <article class='regions-nav-region' data-region="region-<%= region.parameterize -%>">
+
+          <h1><a href=''><%= @page.region_name(region).try(:html_safe) %> Regional Page</a></h1><%# TODO add link to region page (once we havefinal url, see Specs C4 %>
+
+          <ul class='regions-nav-countries'>
+            <%- networks.each do |network| -%>
+              <li class='regions-nav-country'>
+                <%= link_to_redesign network.name, redesign_networks_show_path(region, network.name.downcase) %>
+              </li>
+            <%- end %>
+          </ul>
+        </article>
+      <%- end %>
+    </div>
+  </nav>
+<%- end -%>

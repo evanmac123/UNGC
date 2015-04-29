@@ -1,22 +1,6 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
 
-<%- @page.regions_nav.each do |region, networks| %>
-  <ul>
-    <li>
-      <%- # TODO add link to region page (once we havefinal url, see Specs C4 -%>
-      <%= region %>
-      <ul>
-        <%- networks.each do |network| -%>
-          <li>
-            <%= link_to_redesign network.name, redesign_networks_show_path(region, network.name.downcase) %>
-          </li>
-        <%- end %>
-      </ul>
-    </li>
-  </ul>
-<%- end %>
-
 <%- if content = @page.main_content_section -%>
   <section class='main-content-section'>
     <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>

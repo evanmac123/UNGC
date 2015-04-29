@@ -1,11 +1,15 @@
 <%- if hero_data = @page.hero -%>
   <%-
   hero_classes = ['page-section']
-  hero_classes << 'has-issues-nav'                  if hero_data[:show_issues_nav]
-  hero_classes << 'has-section-nav'                 if hero_data[:show_section_nav]
-  hero_classes << 'has-custom-image'                if hero_data[:image]
-  hero_classes << "hero-size-#{hero_data[:size]}"   if hero_data[:size]
-  hero_classes << "#{hero_data[:theme].parameterize}-theme" if hero_data[:theme] && hero_data[:theme] != 'none'
+  hero_classes << 'has-issues-nav' if hero_data[:show_issues_nav]
+  hero_classes << 'has-section-nav' if hero_data[:show_section_nav]
+  hero_classes << 'has-regions-nav' if hero_data[:show_regions_nav]
+  hero_classes << 'has-custom-image' if hero_data[:image]
+  hero_classes << "hero-size-#{hero_data[:size]}" if hero_data[:size]
+
+  if hero_data[:theme] && hero_data[:theme] != 'none'
+    hero_classes << "#{hero_data[:theme].parameterize}-theme"
+  end
 
   hero_styles = hero_data[:image] ? "background-image: url(#{hero_data[:image]});" : ""
   -%>
@@ -23,16 +27,10 @@
 
     <%= link_to_redesign(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] -%>
 
-    <%- if hero_data[:show_issues_nav] -%>
-    <ul id='issues-nav'>
-      <li class='environment'><%= link_to_redesign 'Environment',  '/what-is-un-global-compact/our-focus/environment' %></li>
-      <li class='social'><%= link_to_redesign 'Social',            '/what-is-un-global-compact/our-focus/social' %></li>
-      <li class='governance'><%= link_to_redesign 'Governance',    '/what-is-un-global-compact/our-focus/governance' %></li>
-      <li class='see-all'><%= link_to_redesign 'See all issues',   '/what-is-un-global-compact/our-focus/all-issues' %></li>
-    </ul>
-    <%- end -%>
+    <%= render('redesign/components/issues_nav') if hero_data[:show_issues_nav] %>
 
     <%= render('redesign/components/nav_section') if hero_data[:show_section_nav] %>
 
+    <%= render('redesign/components/regions_nav') if hero_data[:show_regions_nav] %>
   </header>
 <%- end -%>
