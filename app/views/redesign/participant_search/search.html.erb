@@ -16,13 +16,13 @@
 
 <% @results.with_results do |results| %>
   <table>
-    <% results.each do |result| %>
+    <% results.each do |participant| %>
       <tr>
-        <td><%= result.name %></td>
-        <td><%= result.type %></td>
-        <td><%= result.sector %></td>
-        <td><%= result.country %></td>
-        <td><%= result.company_size %></td>
+        <td><%= link_to participant.name, redesign_participant_path(participant) %></td>
+        <td><%= participant.type %></td>
+        <td><%= participant.sector %></td>
+        <td><%= participant.country %></td>
+        <td><%= participant.company_size %></td>
       </tr>
     <% end %>
   </table>

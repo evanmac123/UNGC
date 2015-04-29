@@ -42,6 +42,8 @@ UNGC::Application.routes.draw do
       get '/(*path)' => 'index#frontend', as: :root, format: :html
     end
 
+    resources :participants, path: 'participants', only: [:show]
+
     controller :library do
       get '/explore-our-library'        => :index,  as: :library
       get '/explore-our-library/search' => :search, as: :library_search
