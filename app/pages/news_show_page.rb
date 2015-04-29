@@ -1,7 +1,14 @@
 class NewsShowPage < SimpleDelegator
 
-  def initialize(headline)
+  attr_reader :container
+
+  def initialize(container, headline)
     super(headline)
+    @container = container
+  end
+
+  def section_nav
+    return Components::SectionNav.new(container)
   end
 
   def hero
@@ -10,7 +17,7 @@ class NewsShowPage < SimpleDelegator
         title1: 'News'
       },
       size: 'small',
-      show_section_nav: false
+      show_section_nav: true
     }
   end
 

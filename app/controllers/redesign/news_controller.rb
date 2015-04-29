@@ -5,7 +5,8 @@ class Redesign::NewsController < Redesign::ApplicationController
   end
 
   def show
-    @page = NewsShowPage.new(find_headline)
+    set_current_container :pr_list, '/press-releases'
+    @page = NewsShowPage.new(current_container, find_headline)
   end
 
   def press_releases
