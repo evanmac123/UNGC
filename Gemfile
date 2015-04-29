@@ -45,6 +45,7 @@ gem 'rails-observers'
 
 gem 'ranked-model',         '~> 0.4.0'
 gem 'fog'
+gem "non-stupid-digest-assets"
 
 group :development do
   gem 'rerun'
