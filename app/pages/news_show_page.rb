@@ -24,8 +24,8 @@ class NewsShowPage
     headline.description
   end
 
-  def location
-    headline.location + ', ' + headline.country.name
+  def full_location
+    headline.full_location
   end
 
   def meta_title

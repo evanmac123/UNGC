@@ -13,7 +13,7 @@ if news ||= nil
       <article class='news-item news-item-featured'>
         <%= content_tag(:h1, link_to_redesign(featured.title, redesign_news_path(featured))) %>
         <%= content_tag(:time, featured.published_on) %>
-        <%= content_tag(:address, featured.location) %>
+        <%= content_tag(:address, featured.full_location) %>
         <%= content_tag(:p, featured.description.truncate(300).html_safe) %>
         <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
       </article>
@@ -23,7 +23,7 @@ if news ||= nil
       <article class='news-item'>
         <%= content_tag(:h1, link_to_redesign(news_item.title, redesign_news_path(news_item))) %>
         <%= content_tag(:time, news_item.published_on) %>
-        <%= content_tag(:address, news_item.location) %>
+        <%= content_tag(:address, news_item.full_location) %>
         <%= content_tag(:p, news_item.description.truncate(300).html_safe) if !is_landing %>
         <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
       </article>
