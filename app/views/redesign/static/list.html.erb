@@ -8,7 +8,7 @@
   <%= content_tag(:header, content_tag(:h1, list.title), {class: 'main-content-header content-list-header'}) if list.title %>
 
   <section class='content-list'>
-    <%= content_tag(:p, list.blurb) if list.blurb %>
+    <%= content_tag(:p, list.blurb.try(:html_safe)) if list.blurb %>
 
     <%- list.items.each do |item| -%>
       <article class='content-list-item'>
