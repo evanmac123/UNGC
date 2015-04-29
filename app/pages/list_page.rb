@@ -8,10 +8,39 @@ class ListPage < ContainerPage
   end
 
   def list
-    list = OpenStruct.new(@data[:list_block])
+    ListItems.new(@data[:list_block])
+  end
+end
 
-    list.items.map!{|ni| OpenStruct.new(ni)}
+class ListItems
+  attr_reader :list_block
 
-    list
+  def initialize(list_block)
+    @list_block = list_block
+  end
+
+  def items
+    if sorting == 'desc'
+      _items.reverse
+    else
+      _items
+    end
+  end
+
+  def _items
+    items = list_block[:items]
+    items.map!{|ni| OpenStruct.new(ni)}
+  end
+
+  def sorting
+    list_block[:sorting]
+  end
+
+  def title
+    list_block[:title]
+  end
+
+  def blurb
+    list_block[:blurb]
   end
 end

@@ -6,6 +6,11 @@ class ListLayout < UNGC::Layout
     pdf
   ]
 
+  SORTING = %w[
+    asc
+    desc
+  ]
+
   has_one_container!
 
   label 'List'
@@ -18,6 +23,7 @@ class ListLayout < UNGC::Layout
   scope :list_block do
     field :title, type: :string, required: true
     field :blurb, type: :string
+    field :sorting, type: :string, enum: SORTING, default: 'asc'
     scope :items, array: true, min: 1, max: 10 do
       field :url, type: :href
       field :title, type: :string, required: true
