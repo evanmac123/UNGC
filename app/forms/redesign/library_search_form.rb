@@ -1,35 +1,24 @@
 class Redesign::LibrarySearchForm
-  include ActiveModel::Model
+  include Virtus.model
 
-  attr_reader \
-    :keywords,
-    :issue_areas,
-    :issues,
-    :topic_groups,
-    :topics,
-    :languages,
-    :sector_groups,
-    :sectors,
-    :content_type,
-    :sort_field,
-    :page,
-    :per_page
-
-  attr_writer :keywords
+  attribute :issue_areas,         Array[Integer], default: []
+  attribute :issues,              Array[Integer], default: []
+  attribute :topic_groups,        Array[Integer], default: []
+  attribute :topics,              Array[Integer], default: []
+  attribute :languages,           Array[Integer], default: []
+  attribute :sector_groups,       Array[Integer], default: []
+  attribute :sectors,             Array[Integer], default: []
+  attribute :content_type,        Array[Integer], default: []
+  attribute :keywords,            String,         default: ''
+  attribute :page,                Integer
+  attribute :per_page,            Integer,        default: 12
+  attribute :sort_field,          String,         default: 'year desc'
 
   Filter = Struct.new(:id, :type, :name, :active)
 
   def initialize(page = 1, params = {})
     super(params)
-    @page = page
-    @issue_areas ||= []
-    @issues ||= []
-    @topic_groups ||= []
-    @topics ||= []
-    @languages ||= []
-    @sector_groups ||= []
-    @sectors ||= []
-    @keywords ||= ''
+    self.page = page
   end
 
   def active_filters
@@ -149,49 +138,8 @@ class Redesign::LibrarySearchForm
     Resource.search(keywords, options)
   end
 
-  # TODO use a gem like Virtus to avoid all this type casting goo
-  def issue_areas=(values)
-    @issue_areas = values.map(&:to_i)
-  end
-
-  def issues=(values)
-    @issues = values.map(&:to_i)
-  end
-
-  def topic_groups=(values)
-    @topic_groups = values.map(&:to_i)
-  end
-
-  def topics=(values)
-    @topics = values.map(&:to_i)
-  end
-
-  def languages=(values)
-    @languages = values.map(&:to_i)
-  end
-
-  def sector_groups=(values)
-    @sector_groups = values.map(&:to_i)
-  end
-
-  def sectors=(values)
-    @sectors = values.map(&:to_i)
-  end
-
-  def content_type=(values)
-    @content_type = values.map(&:to_i)
-  end
-
-  def page=(values)
-    @page = values.map(&:to_i)
-  end
-
-  def per_page=(values)
-    @per_page = values.map(&:to_i)
-  end
-
   def keywords
-    Riddle::Query.escape(@keywords)
+    Riddle::Query.escape(super)
   end
 
   private
