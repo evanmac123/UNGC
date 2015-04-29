@@ -29,7 +29,7 @@ module UNGC
           field :title, type: :string, required: true
           field :description, type: :string
           field :thumbnail, type: :image_url, required: true
-          field :label, type: :string, enum: LABELS, default: ''
+          field :label, type: :string, enum: LABELS, default: 'background'
           field :keywords, type: :string
 
           if block_given?
