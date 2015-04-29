@@ -7069,13 +7069,6 @@ define('admin/templates/components/sitemap/x-node', ['exports'], function (expor
           dom.setAttribute(el1,"class","node-actions");
           var el2 = dom.createTextNode("\n    ");
           dom.appendChild(el1, el2);
-          var el2 = dom.createElement("button");
-          dom.setAttribute(el2,"class","btn btn-sm btn-success");
-          var el3 = dom.createTextNode("\n      Insert Page\n    ");
-          dom.appendChild(el2, el3);
-          dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode("\n    ");
-          dom.appendChild(el1, el2);
           var el2 = dom.createElement("a");
           dom.setAttribute(el2,"target","_blank");
           dom.setAttribute(el2,"class","btn btn-sm btn-primary");
@@ -7091,7 +7084,7 @@ define('admin/templates/components/sitemap/x-node', ['exports'], function (expor
         },
         render: function render(context, env, contextualElement) {
           var dom = env.dom;
-          var hooks = env.hooks, get = hooks.get, block = hooks.block, content = hooks.content, element = hooks.element, concat = hooks.concat, attribute = hooks.attribute;
+          var hooks = env.hooks, get = hooks.get, block = hooks.block, content = hooks.content, concat = hooks.concat, attribute = hooks.attribute;
           dom.detectNamespace(contextualElement);
           var fragment;
           if (env.useFragmentCache && dom.canClone) {
@@ -7110,20 +7103,17 @@ define('admin/templates/components/sitemap/x-node', ['exports'], function (expor
             fragment = this.build(dom);
           }
           var element1 = dom.childAt(fragment, [3]);
-          var element2 = dom.childAt(fragment, [5]);
-          var element3 = dom.childAt(element2, [1]);
-          var element4 = dom.childAt(element2, [3]);
+          var element2 = dom.childAt(fragment, [5, 1]);
           var morph0 = dom.createMorphAt(dom.childAt(fragment, [1]),1,1);
           var morph1 = dom.createMorphAt(element1,1,1);
           var morph2 = dom.createMorphAt(dom.childAt(element1, [3]),0,0);
           var morph3 = dom.createMorphAt(element1,5,5);
-          var attrMorph0 = dom.createAttrMorph(element4, 'href');
+          var attrMorph0 = dom.createAttrMorph(element2, 'href');
           block(env, morph0, context, "if", [get(env, context, "node.hasDescendants")], {}, child0, null);
           block(env, morph1, context, "link-to", ["containers.edit", get(env, context, "node.model.id")], {}, child1, null);
           content(env, morph2, context, "node.model.layout");
           block(env, morph3, context, "if", [get(env, context, "hasDraft")], {}, child2, null);
-          element(env, element3, context, "action", ["insert"], {});
-          attribute(env, attrMorph0, element4, "href", concat(env, ["/redesign", get(env, context, "node.model.publicPath")]));
+          attribute(env, attrMorph0, element2, "href", concat(env, ["/redesign", get(env, context, "node.model.publicPath")]));
           return fragment;
         }
       };
@@ -10820,8 +10810,8 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
           } else {
             fragment = this.build(dom);
           }
-          var element3 = dom.childAt(fragment, [1]);
-          element(env, element3, context, "action", ["publish", get(env, context, "model.container")], {});
+          var element2 = dom.childAt(fragment, [1]);
+          element(env, element2, context, "action", ["publish", get(env, context, "model.container")], {});
           return fragment;
         }
       };
@@ -10925,13 +10915,6 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
             var el2 = dom.createTextNode("\n              ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("td");
-            var el3 = dom.createTextNode("\n                ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("button");
-            dom.setAttribute(el3,"class","btn btn-default");
-            var el4 = dom.createTextNode("\n                  Set As Draft\n                ");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
             var el3 = dom.createTextNode("\n              ");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
@@ -10944,7 +10927,7 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
           },
           render: function render(context, env, contextualElement, blockArguments) {
             var dom = env.dom;
-            var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline, concat = hooks.concat, attribute = hooks.attribute, element = hooks.element;
+            var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline, concat = hooks.concat, attribute = hooks.attribute;
             dom.detectNamespace(contextualElement);
             var fragment;
             if (env.useFragmentCache && dom.canClone) {
@@ -10964,7 +10947,6 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
             }
             var element0 = dom.childAt(fragment, [1]);
             var element1 = dom.childAt(element0, [3, 1]);
-            var element2 = dom.childAt(element0, [9, 1]);
             var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
             var attrMorph0 = dom.createAttrMorph(element1, 'href');
             var morph1 = dom.createMorphAt(dom.childAt(element0, [5]),1,1);
@@ -10974,7 +10956,6 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
             attribute(env, attrMorph0, element1, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?payload=", get(env, context, "payload.id")]));
             inline(env, morph1, context, "container/info/show-contact", [], {"contactId": get(env, context, "payload.approvedById")});
             inline(env, morph2, context, "container/info/show-contact", [], {"contactId": get(env, context, "payload.updatedById")});
-            element(env, element2, context, "action", ["setDraftFromPayload", get(env, context, "payload")], {});
             return fragment;
           }
         };
@@ -11178,25 +11159,25 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
         } else {
           fragment = this.build(dom);
         }
-        var element4 = dom.childAt(fragment, [0]);
-        var element5 = dom.childAt(element4, [3, 1, 1]);
-        var element6 = dom.childAt(element4, [7]);
-        var element7 = dom.childAt(element6, [3, 1]);
-        var element8 = dom.childAt(element7, [1]);
-        var element9 = dom.childAt(element7, [5]);
-        var morph0 = dom.createMorphAt(element5,1,1);
-        var attrMorph0 = dom.createAttrMorph(element5, 'href');
-        var morph1 = dom.createMorphAt(element4,5,5);
-        var morph2 = dom.createMorphAt(element7,3,3);
-        var attrMorph1 = dom.createAttrMorph(element9, 'href');
-        var morph3 = dom.createMorphAt(element6,5,5);
-        var morph4 = dom.createMorphAt(element4,9,9);
-        attribute(env, attrMorph0, element5, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath")]));
+        var element3 = dom.childAt(fragment, [0]);
+        var element4 = dom.childAt(element3, [3, 1, 1]);
+        var element5 = dom.childAt(element3, [7]);
+        var element6 = dom.childAt(element5, [3, 1]);
+        var element7 = dom.childAt(element6, [1]);
+        var element8 = dom.childAt(element6, [5]);
+        var morph0 = dom.createMorphAt(element4,1,1);
+        var attrMorph0 = dom.createAttrMorph(element4, 'href');
+        var morph1 = dom.createMorphAt(element3,5,5);
+        var morph2 = dom.createMorphAt(element6,3,3);
+        var attrMorph1 = dom.createAttrMorph(element8, 'href');
+        var morph3 = dom.createMorphAt(element5,5,5);
+        var morph4 = dom.createMorphAt(element3,9,9);
+        attribute(env, attrMorph0, element4, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath")]));
         content(env, morph0, context, "model.container.publicPath");
         block(env, morph1, context, "container/x-subform", [], {"record": get(env, context, "model.container")}, child0, null);
-        element(env, element8, context, "action", ["saveDraft", get(env, context, "model.container")], {});
+        element(env, element7, context, "action", ["saveDraft", get(env, context, "model.container")], {});
         block(env, morph2, context, "if", [get(env, context, "model.container.id")], {}, child1, null);
-        attribute(env, attrMorph1, element9, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?draft=1"]));
+        attribute(env, attrMorph1, element8, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?draft=1"]));
         block(env, morph3, context, "each", [get(env, context, "flashMessages.queue")], {}, child2, null);
         block(env, morph4, context, "if", [get(env, context, "model.payloads")], {}, child3, null);
         return fragment;
@@ -11218,20 +11199,6 @@ define('admin/templates/containers/index', ['exports'], function (exports) {
       hasRendered: false,
       build: function build(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","btn-group");
-        var el2 = dom.createTextNode("\n  ");
-        dom.appendChild(el1, el2);
-        var el2 = dom.createElement("button");
-        dom.setAttribute(el2,"class","btn btn-success");
-        var el3 = dom.createTextNode("\n    Insert Page\n  ");
-        dom.appendChild(el2, el3);
-        dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
-        dom.appendChild(el1, el2);
-        dom.appendChild(el0, el1);
-        var el1 = dom.createTextNode("\n\n");
-        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -11244,7 +11211,7 @@ define('admin/templates/containers/index', ['exports'], function (exports) {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
-        var hooks = env.hooks, element = hooks.element, get = hooks.get, inline = hooks.inline;
+        var hooks = env.hooks, get = hooks.get, inline = hooks.inline;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -11262,10 +11229,9 @@ define('admin/templates/containers/index', ['exports'], function (exports) {
         } else {
           fragment = this.build(dom);
         }
-        var element0 = dom.childAt(fragment, [0, 1]);
-        var morph0 = dom.createMorphAt(fragment,2,2,contextualElement);
-        var morph1 = dom.createMorphAt(fragment,4,4,contextualElement);
-        element(env, element0, context, "action", ["addContainer"], {});
+        var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
+        var morph1 = dom.createMorphAt(fragment,2,2,contextualElement);
+        dom.insertBoundary(fragment, 0);
         inline(env, morph0, context, "sitemap/x-tree", [], {"tree": get(env, context, "model"), "addContainer": "addContainer", "moveContainer": "moveContainer"});
         inline(env, morph1, context, "outlet", ["newModal"], {});
         return fragment;
@@ -11628,13 +11594,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.d80f86c3"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.1975e655"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.d80f86c3"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.1975e655"});
 }
 
 /* jshint ignore:end */
