@@ -1,0 +1,29 @@
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
+<%= render partial: 'redesign/components/hero' %>
+
+<header>
+  <h1>Participant Search</h1>
+</header>
+
+<h2><%= @page.blurb %></h2>
+
+<%= render partial: 'form', locals: {search: @search} %>
+
+<% @results.no_results do %>
+  No results.
+<% end %>
+
+<% @results.with_results do |results| %>
+  <table>
+    <% results.each do |result| %>
+      <tr>
+        <td><%= result.name %></td>
+        <td><%= result.type %></td>
+        <td><%= result.sector %></td>
+        <td><%= result.country %></td>
+        <td><%= result.company_size %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

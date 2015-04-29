@@ -163,7 +163,8 @@ class Admin::OrganizationsController < AdminController
       keyword = params[:keyword].force_encoding("UTF-8")
       options = {per_page: (params[:per_page] || 15).to_i,
                  page: page,
-                 star: true}
+                 star: true,
+                 indices: ['organization_core']}
       options[:with] ||= {}
       filter_options_for_country(options) if params[:country]
       filter_options_for_business_type(options) if params[:business_type]

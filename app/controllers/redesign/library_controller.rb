@@ -1,5 +1,4 @@
 class Redesign::LibraryController < Redesign::ApplicationController
-  layout 'redesign/application'
 
   def index
     set_current_container :library, '/explore-our-library'
@@ -13,15 +12,29 @@ class Redesign::LibraryController < Redesign::ApplicationController
   end
 
   def search
-    @search = Redesign::LibrarySearchForm.new(params[:page], search_params)
-    # TODO add escaping
-    @results = Resource.search @search.keywords, @search.options
+    @search = Redesign::LibrarySearchForm.new(page, search_params)
+    @results = @search.execute
   end
 
   private
 
   def search_params
-    params[:search]
+    params.fetch(:search, {}).permit(
+      :keywords,
+      issue_areas: [],
+      issues: [],
+      topic_groups: [],
+      topics: [],
+      languages: [],
+      sector_groups: [],
+      sectors: [],
+      content_type: [],
+      sort_field: []
+    )
+  end
+
+  def page
+    params.fetch(:page, 1)
   end
 
   class Presenter < SimpleDelegator

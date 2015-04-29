@@ -56,6 +56,11 @@ UNGC::Application.routes.draw do
       get '/take-action/what-you-can-do' => :index, as: :actions
     end
 
+    controller :participant_search, path: 'participant-search' do
+      get '/' => :index
+      get '/search' => :search, as: :participant_search
+    end
+
     resources :news do
       get :press_releases, on: :collection, path: '/press-releases'
     end
@@ -63,6 +68,7 @@ UNGC::Application.routes.draw do
     controller :networks do
       get '/networks/regions/:region/:network' => :show, as: :networks_show
     end
+
 
     get '/'         => 'static#home',       as: :root
     get '*path'     => 'static#catch_all',  as: :catch_all

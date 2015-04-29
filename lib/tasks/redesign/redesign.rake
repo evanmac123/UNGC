@@ -6,6 +6,7 @@ namespace :redesign do
     create_topics
     create_issues
     add_explore_our_library
+    add_participant_search
   end
 
   desc "Get your dev environment ready for redesign work"
@@ -193,6 +194,19 @@ namespace :redesign do
     if our_library.public_payload.nil?
       our_library.public_payload = our_library.payloads.create! json_data: {featured: featured_content}.to_json
       our_library.save!
+    end
+  end
+
+  def add_participant_search
+    container = Redesign::Container.article.where(
+      slug: '/participant-search',
+      path: '/participant-search'
+    ).first_or_create!
+
+    if container.public_payload.nil?
+      payload = container.payloads.create! json_data: {}.to_json
+      container.public_payload = payload
+      container.save!
     end
   end
 
