@@ -32,7 +32,7 @@
       <tr>
         <th><%= cop.year %></th>
         <th><%= cop.published_on %></th>
-        <th><%= cop.title %></th>
+        <th><%= link_to cop.title, cop_detail_path(cop) %></th>
         <th><%= cop.differentiation_level %></th>
       </tr>
     <% end %>
@@ -54,7 +54,7 @@
         <td>
           <ul>
             <% campaigns.each do |campaign| %>
-              <li><%= campaign %></li>
+              <li><%= campaign.name %></li>
             <% end %>
           </ul>
         </td>

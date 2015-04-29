@@ -46,10 +46,7 @@ class ParticipantPresenter < SimpleDelegator
       .order('date desc')
       .group_by {|c| c.date.year}
       .map do |year, contributions|
-        campaign_names = contributions.map do |contribution|
-          contribution.campaign.name
-        end
-        [year, campaign_names]
+        [year, contributions.map(&:campaign)]
       end
   end
 
