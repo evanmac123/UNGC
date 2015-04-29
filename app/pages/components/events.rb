@@ -11,7 +11,7 @@ class Components::Events
         date: "12 December 2014",
         location: "New York, NY, USA",
         excerpt: "Spotlights business strategies, experience, and challenges on increasing and enhancing job opportunities for women and expanding access to decent jobs.",
-        thumbnail: "//ungc.s3.amazonaws.com/womens-empowerment.jpg"
+        thumbnail: "https://d306pr3pise04h.cloudfront.net/images/womens-empowerment.jpg"
       },
       {
         url: "",
@@ -19,7 +19,7 @@ class Components::Events
         date: "8&hairsp;&ndash;&hairsp;10 April 2015",
         location: "Lima, Peru",
         excerpt: "Spotlights business strategies, experience, and challenges on increasing and enhancing job opportunities for women and expanding access to decent jobs.",
-        thumbnail: "//ungc.s3.amazonaws.com/womens-empowerment.jpg"
+        thumbnail: "https://d306pr3pise04h.cloudfront.net/images/womens-empowerment.jpg"
       },
       {
         url: "",
@@ -27,7 +27,7 @@ class Components::Events
         date: "12 May 2015",
         location: "Nairobi, Kenya",
         excerpt: "Spotlights business strategies, experience, and challenges on increasing and enhancing job opportunities for women and expanding access to decent jobs.",
-        thumbnail: "//ungc.s3.amazonaws.com/womens-empowerment.jpg"
+        thumbnail: "https://d306pr3pise04h.cloudfront.net/images/womens-empowerment.jpg"
       },
       {
         url: "",
@@ -35,7 +35,7 @@ class Components::Events
         date: "24&hairsp;&ndash;&hairsp;26 June 2015",
         location: "Jakarta, Indonesia",
         excerpt: "Spotlights business strategies, experience, and challenges on increasing and enhancing job opportunities for women and expanding access to decent jobs.",
-        thumbnail: "//ungc.s3.amazonaws.com/womens-empowerment.jpg"
+        thumbnail: "https://d306pr3pise04h.cloudfront.net/images/womens-empowerment.jpg"
       }
     ]
   end
