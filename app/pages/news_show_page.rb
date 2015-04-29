@@ -1,9 +1,7 @@
-class NewsShowPage
-
-  attr_reader :headline
+class NewsShowPage < SimpleDelegator
 
   def initialize(headline)
-    @headline = headline
+    super(headline)
   end
 
   def hero
@@ -16,18 +14,6 @@ class NewsShowPage
     }
   end
 
-  def title
-    headline.title
-  end
-
-  def description
-    headline.description
-  end
-
-  def full_location
-    headline.full_location
-  end
-
   def meta_title
     headline.title
   end
@@ -37,4 +23,10 @@ class NewsShowPage
 
   def meta_keywords
   end
+
+  private
+
+    def headline
+      __getobj__
+    end
 end
