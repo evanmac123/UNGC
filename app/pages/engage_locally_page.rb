@@ -4,7 +4,7 @@ class EngageLocallyPage < ContainerPage
   end
 
   def regions_nav
-    grouped_networks = LocalNetwork.joins(:countries).select('local_networks.*, countries.region as r').distinct('local_networks.id').group_by(&:r)
+    LocalNetwork.joins(:countries).select('local_networks.*, countries.region as r').distinct('local_networks.id').group_by(&:r)
   end
 
   def main_content_section
