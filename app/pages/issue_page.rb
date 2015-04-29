@@ -30,4 +30,8 @@ class IssuePage < ContainerPage
   def events
     Components::Events.new(@data).data
   end
+
+  def news
+    Components::News.new(@data)
+  end
 end

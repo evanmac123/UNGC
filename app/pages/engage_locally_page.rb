@@ -27,6 +27,10 @@ class EngageLocallyPage < ContainerPage
     Components::Events.new(@data).data
   end
 
+  def news
+    Components::News.new(@data)
+  end
+
   def region_name(region)
     region_names = {
       'europe'            => 'Europe',

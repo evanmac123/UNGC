@@ -4,10 +4,10 @@
 <section class='events-news-section'>
   <header class='tabs'>
     <h1 class='tab events active'>Events</h1>
-    <%= link_to 'News', '', class: 'tab news' -%>
+    <h1 class='tab news'>News</h1>
   </header>
 
-  <div class='content'>
+  <div class='content events'>
     <%- if featured -%>
       <article class='featured-event'>
         <%= link_to featured[:url], class: 'event' do -%>
@@ -36,7 +36,23 @@
     </ul>
 
     <footer class='events-section-footer'>
-      View <%= link_to 'All Events', '' -%> | <%= link_to 'Local Events', '' -%>
+      View <%= link_to 'All Events', '' -%>
+    </footer>
+  </div>
+
+  <div class='content news' style="display: none">
+    <ul class='other-events'>
+      <%- @page.news.each do |n| -%>
+        <li><%= link_to redesign_news_path(n[:item]), class: 'news' do -%>
+          <time datetime="<%= n[:date].strftime('%F') -%>"><%= n[:date] -%></time>
+          <address><%= n[:location].html_safe -%></address>
+          <h2><%= n[:title].html_safe -%></h2>
+        <%- end -%></li>
+      <%- end -%>
+    </ul>
+
+    <footer class='events-section-footer'>
+      View <%= link_to_redesign 'All News', '/news' -%>
     </footer>
   </div>
 </section>
