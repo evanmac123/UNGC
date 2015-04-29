@@ -1,4 +1,10 @@
 class WhatYouCanDoPage < ContainerPage
+  attr_reader :results
+
+  def initialize(container, payload, results)
+    super(container, payload)
+    @results = results
+  end
 
   def hero
     {
@@ -9,7 +15,7 @@ class WhatYouCanDoPage < ContainerPage
   end
 
   def actions
-    Redesign::Container.action.includes(:public_payload).map { |c| Components::ContentBox.new(c) }
+    results.map { |c| Components::ContentBox.new(c) }
   end
 
 end
