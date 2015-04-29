@@ -148,11 +148,8 @@ class Redesign::LibrarySearchForm
     ids = Set.new(issues)
     areas = Issue.includes(:children).find(issue_areas)
     areas.each do |area|
-      if area.children.any?
-        ids += area.children
-      else
-        ids << area.id
-      end
+      ids << area.id
+      ids += area.children.map(&:id)
     end
 
     if ids.any?
@@ -165,11 +162,8 @@ class Redesign::LibrarySearchForm
 
     parents = Topic.includes(:children).find(topic_groups)
     parents.each do |parent|
-      if parent.children.any?
-        ids += parent.children
-      else
-        ids << parent.id
-      end
+      ids << parent.id
+      ids += parent.children.map(&:id)
     end
 
     if ids.any?
@@ -182,11 +176,8 @@ class Redesign::LibrarySearchForm
 
     parents = Sector.includes(:children).find(sector_groups)
     parents.each do |parent|
-      if parent.children.any?
-        ids += parent.children
-      else
-        ids << parent.id
-      end
+      ids << parent.id
+      ids += parent.children.map(&:id)
     end
 
     if ids.any?
