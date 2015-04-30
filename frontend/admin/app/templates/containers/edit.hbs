@@ -3,7 +3,7 @@
 
   <h2><span>URL: </span><code>{{model.container.publicPath}}</code></h2>
 
-  <a href="/redesign{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'>View Published</a>
+  <a href="/redesign{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
 </header>
 
 <form>
@@ -16,22 +16,15 @@
     <div class='container'>
       <div class="form-group clearfix">
         {{#if model.container.id}}
-          <button class="btn btn-success" {{action "publish" model.container}}>
-            Publish
-          </button>
+          <button class="btn btn-success" {{action "publish" model.container}}><i class='fa fa-globe fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Publish</button>
         {{/if}}
 
-        <button class="btn btn-primary" {{action "saveDraft" model.container}}>
-          Save
-        </button>
+        <button class="btn btn-primary" {{action "saveDraft" model.container}}><i class='fa fa-hdd-o fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Save</button>
 
-        <a class='btn btn-warning' target="_blank" href="/redesign{{model.container.publicPath}}?draft=1">
-          Preview
-        </a>
+        <a class='btn btn-warning' target="_blank" href="/redesign{{model.container.publicPath}}?draft=1"><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Preview</a>
       </div>
     </div>
 
-    {{!-- XXX position absolute for these --}}
     {{#each flashMessages.queue as |flash|}}
       {{flash-message flash=flash}}
     {{/each}}
