@@ -1,7 +1,8 @@
 class ParticipantSearch::ResultsPresenter
-  attr_accessor :results
+  attr_accessor :results, :raw_results
 
   def initialize(results)
+    @raw_results = results
     @results = results.map {|r| Result.new(r) }
   end
 
