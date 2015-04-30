@@ -10,4 +10,8 @@ export default Ember.Component.extend({
       return null;
     }
   }.property('record.layout'),
+
+  _containerObserver: function() {
+    this.rerender();
+  }.observes('record.data')
 });
