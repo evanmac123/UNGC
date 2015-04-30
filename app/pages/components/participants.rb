@@ -1,5 +1,6 @@
 class Components::Participants
   attr_accessor :data
+  include Enumerable
 
   def initialize(data)
     self.data = data
@@ -16,6 +17,20 @@ class Components::Participants
     end
   end
 
+  def initiative_id
+    @data[:initiative][:initiative_id] if @data[:initiative]
+  end
+
+  def each(&block)
+    data.each do |p|
+      block.call(p)
+    end
+  end
+
+  def empty?
+    participants.empty?
+  end
+
   private
 
   def participants
@@ -26,9 +41,5 @@ class Components::Participants
 
   def initiative
     Initiative.find(initiative_id)
-  end
-
-  def initiative_id
-    @data[:initiative][:initiative_id] if @data[:initiative]
   end
 end

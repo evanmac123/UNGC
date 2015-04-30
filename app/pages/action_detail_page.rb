@@ -36,6 +36,6 @@ class ActionDetailPage < ContainerPage
   end
 
   def participants
-    Components::Participants.new(@data).data
+    Components::Participants.new(@data)
   end
 end
