@@ -1,14 +1,12 @@
-class ParticipantSearch::ResultsPresenter
-  attr_accessor :results, :raw_results
+class ParticipantSearch::ResultsPresenter < SimpleDelegator
 
   def initialize(results)
-    @raw_results = results
-    @results = results.map {|r| Result.new(r) }
+    super(results)
   end
 
   def with_results(&block)
     if results.any?
-      block.call(results)
+      block.call(results.map {|r| Result.new(r) })
     end
   end
 
@@ -19,6 +17,10 @@ class ParticipantSearch::ResultsPresenter
   end
 
   private
+
+  def results
+    __getobj__
+  end
 
   class Result < SimpleDelegator
 
