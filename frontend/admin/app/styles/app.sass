@@ -153,3 +153,43 @@ fieldset
 
 .input-group
   margin-bottom: .5em
+
+.repeated-content-list
+  counter-reset: repeated-content-counter
+  list-style: none
+  padding: 0
+  margin: 0
+
+.repeated-content-item
+  padding: 0 1em 1em
+  border-radius: .25em
+  margin: 0 0 2em
+  box-shadow: 0 0 2px rgba(black, .2)
+
+.repeated-content-header
+  background: #f6f6f6
+  padding: .5em
+  margin: 0 -1em 1em
+  border:
+    bottom: 1px solid #eee
+    radius: .25em .25em 0 0
+
+  &:before
+    counter-increment: repeated-content-counter
+    content: counter(repeated-content-counter)
+    display: block
+    float: left
+    background: #222
+    color: white
+    font:
+      size: 1.5em
+      weight: 500
+    padding: .1em .5em 0
+    border-radius: .125em
+
+.repeated-content-list .repeated-content-list
+  counter-reset: repeated-nested-content-counter
+
+  .repeated-content-header:before
+    counter-increment: repeated-nested-content-counter
+    content: counter(repeated-content-counter) '.' counter(repeated-nested-content-counter)
