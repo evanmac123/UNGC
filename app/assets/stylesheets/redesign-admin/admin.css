@@ -4949,14 +4949,6 @@ body {
     .sitemap-x-label:hover .node-actions {
       opacity: 1; }
 
-.alert {
-  position: fixed;
-  top: 70px;
-  right: 30px;
-  width: 300px;
-  height: 50px;
-  z-index: 99; }
-
 @-mox-document url-prefix() {
   fieldset {
     display: table-cell; } }
@@ -5068,3 +5060,28 @@ fieldset {
   .repeated-content-list .repeated-content-list .repeated-content-header:before {
     counter-increment: repeated-nested-content-counter;
     content: counter(repeated-content-counter) '.' counter(repeated-nested-content-counter); }
+
+.actions-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: .5em 0;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 9999; }
+  .actions-bar .form-group {
+    margin-bottom: 0; }
+  .actions-bar .btn {
+    float: right;
+    margin-left: 1em; }
+  .actions-bar legend {
+    display: none; }
+
+.alert {
+  position: fixed;
+  bottom: 3em;
+  right: 1em;
+  min-width: 30em;
+  z-index: 9999; }

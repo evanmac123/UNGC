@@ -725,7 +725,12 @@ define('admin/components/container/x-subform', ['exports', 'ember'], function (e
       } else {
         return null;
       }
-    }).property("record.layout") });
+    }).property("record.layout"),
+
+    _containerObserver: (function () {
+      this.rerender();
+    }).observes("record.data")
+  });
 
 });
 define('admin/components/fast-select', ['exports', 'ember'], function (exports, Ember) {
@@ -10907,7 +10912,11 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("button");
           dom.setAttribute(el1,"class","btn btn-success");
-          var el2 = dom.createTextNode("\n            Publish\n          ");
+          var el2 = dom.createElement("i");
+          dom.setAttribute(el2,"class","fa fa-globe fa-fw");
+          dom.setAttribute(el2,"aria-hidden","true");
+          dom.appendChild(el1, el2);
+          var el2 = dom.createTextNode("  Publish");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -10934,8 +10943,8 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
           } else {
             fragment = this.build(dom);
           }
-          var element2 = dom.childAt(fragment, [1]);
-          element(env, element2, context, "action", ["publish", get(env, context, "model.container")], {});
+          var element3 = dom.childAt(fragment, [1]);
+          element(env, element3, context, "action", ["publish", get(env, context, "model.container")], {});
           return fragment;
         }
       };
@@ -11039,6 +11048,13 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
             var el2 = dom.createTextNode("\n              ");
             dom.appendChild(el1, el2);
             var el2 = dom.createElement("td");
+            var el3 = dom.createTextNode("\n                ");
+            dom.appendChild(el2, el3);
+            var el3 = dom.createElement("button");
+            dom.setAttribute(el3,"class","btn btn-default");
+            var el4 = dom.createTextNode("\n                  Set As Draft\n                ");
+            dom.appendChild(el3, el4);
+            dom.appendChild(el2, el3);
             var el3 = dom.createTextNode("\n              ");
             dom.appendChild(el2, el3);
             dom.appendChild(el1, el2);
@@ -11051,7 +11067,7 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
           },
           render: function render(context, env, contextualElement, blockArguments) {
             var dom = env.dom;
-            var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline, concat = hooks.concat, attribute = hooks.attribute;
+            var hooks = env.hooks, set = hooks.set, get = hooks.get, inline = hooks.inline, concat = hooks.concat, attribute = hooks.attribute, element = hooks.element;
             dom.detectNamespace(contextualElement);
             var fragment;
             if (env.useFragmentCache && dom.canClone) {
@@ -11071,6 +11087,7 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
             }
             var element0 = dom.childAt(fragment, [1]);
             var element1 = dom.childAt(element0, [3, 1]);
+            var element2 = dom.childAt(element0, [9, 1]);
             var morph0 = dom.createMorphAt(dom.childAt(element0, [1]),0,0);
             var attrMorph0 = dom.createAttrMorph(element1, 'href');
             var morph1 = dom.createMorphAt(dom.childAt(element0, [5]),1,1);
@@ -11080,6 +11097,7 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
             attribute(env, attrMorph0, element1, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?payload=", get(env, context, "payload.id")]));
             inline(env, morph1, context, "container/info/show-contact", [], {"contactId": get(env, context, "payload.approvedById")});
             inline(env, morph2, context, "container/info/show-contact", [], {"contactId": get(env, context, "payload.updatedById")});
+            element(env, element2, context, "action", ["setDraftFromPayload", get(env, context, "payload")], {});
             return fragment;
           }
         };
@@ -11188,7 +11206,11 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
         var el2 = dom.createElement("a");
         dom.setAttribute(el2,"target","_blank");
         dom.setAttribute(el2,"class","btn btn-success pull-right");
-        var el3 = dom.createTextNode("View Published");
+        var el3 = dom.createElement("i");
+        dom.setAttribute(el3,"class","fa fa-eye fa-fw");
+        dom.setAttribute(el3,"aria-hidden","true");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode(" View");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -11204,6 +11226,7 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("fieldset");
+        dom.setAttribute(el2,"class","actions-bar");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("legend");
@@ -11213,27 +11236,36 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
-        dom.setAttribute(el3,"class","form-group");
+        dom.setAttribute(el3,"class","container");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
         var el4 = dom.createElement("div");
-        dom.setAttribute(el4,"class","col-sm-offset-2 col-sm-10");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("button");
-        dom.setAttribute(el5,"class","btn btn-primary");
-        var el6 = dom.createTextNode("\n          Save\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n\n");
+        dom.setAttribute(el4,"class","form-group clearfix");
+        var el5 = dom.createTextNode("\n");
         dom.appendChild(el4, el5);
         var el5 = dom.createComment("");
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n        ");
         dom.appendChild(el4, el5);
+        var el5 = dom.createElement("button");
+        dom.setAttribute(el5,"class","btn btn-primary");
+        var el6 = dom.createElement("i");
+        dom.setAttribute(el6,"class","fa fa-hdd-o fa-fw");
+        dom.setAttribute(el6,"aria-hidden","true");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("  Save");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n\n        ");
+        dom.appendChild(el4, el5);
         var el5 = dom.createElement("a");
+        dom.setAttribute(el5,"class","btn btn-warning");
         dom.setAttribute(el5,"target","_blank");
-        var el6 = dom.createTextNode("\n          Preview\n        ");
+        var el6 = dom.createElement("i");
+        dom.setAttribute(el6,"class","fa fa-eye fa-fw");
+        dom.setAttribute(el6,"aria-hidden","true");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("  Preview");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
         var el5 = dom.createTextNode("\n      ");
@@ -11278,26 +11310,26 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
         } else {
           fragment = this.build(dom);
         }
-        var element3 = dom.childAt(fragment, [0]);
-        var element4 = dom.childAt(element3, [5]);
-        var element5 = dom.childAt(fragment, [2]);
-        var element6 = dom.childAt(element5, [3]);
-        var element7 = dom.childAt(element6, [3, 1]);
-        var element8 = dom.childAt(element7, [1]);
-        var element9 = dom.childAt(element7, [5]);
-        var morph0 = dom.createMorphAt(dom.childAt(element3, [3, 1]),0,0);
-        var attrMorph0 = dom.createAttrMorph(element4, 'href');
-        var morph1 = dom.createMorphAt(element5,1,1);
-        var morph2 = dom.createMorphAt(element7,3,3);
-        var attrMorph1 = dom.createAttrMorph(element9, 'href');
-        var morph3 = dom.createMorphAt(element6,5,5);
-        var morph4 = dom.createMorphAt(element5,5,5);
+        var element4 = dom.childAt(fragment, [0]);
+        var element5 = dom.childAt(element4, [5]);
+        var element6 = dom.childAt(fragment, [2]);
+        var element7 = dom.childAt(element6, [3]);
+        var element8 = dom.childAt(element7, [3, 1]);
+        var element9 = dom.childAt(element8, [3]);
+        var element10 = dom.childAt(element8, [5]);
+        var morph0 = dom.createMorphAt(dom.childAt(element4, [3, 1]),0,0);
+        var attrMorph0 = dom.createAttrMorph(element5, 'href');
+        var morph1 = dom.createMorphAt(element6,1,1);
+        var morph2 = dom.createMorphAt(element8,1,1);
+        var attrMorph1 = dom.createAttrMorph(element10, 'href');
+        var morph3 = dom.createMorphAt(element7,5,5);
+        var morph4 = dom.createMorphAt(element6,5,5);
         content(env, morph0, context, "model.container.publicPath");
-        attribute(env, attrMorph0, element4, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath")]));
+        attribute(env, attrMorph0, element5, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath")]));
         block(env, morph1, context, "container/x-subform", [], {"record": get(env, context, "model.container")}, child0, null);
-        element(env, element8, context, "action", ["saveDraft", get(env, context, "model.container")], {});
         block(env, morph2, context, "if", [get(env, context, "model.container.id")], {}, child1, null);
-        attribute(env, attrMorph1, element9, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?draft=1"]));
+        element(env, element9, context, "action", ["saveDraft", get(env, context, "model.container")], {});
+        attribute(env, attrMorph1, element10, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?draft=1"]));
         block(env, morph3, context, "each", [get(env, context, "flashMessages.queue")], {}, child2, null);
         block(env, morph4, context, "if", [get(env, context, "model.payloads")], {}, child3, null);
         return fragment;
@@ -11746,13 +11778,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.49177268"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.fdcb0773"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.49177268"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.fdcb0773"});
 }
 
 /* jshint ignore:end */
