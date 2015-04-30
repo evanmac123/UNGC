@@ -31,10 +31,10 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
     setup do
       @args = {'organization_types' => ['123']}
 
-      form = ParticipantSearchForm.new(@args)
+      form = Redesign::ParticipantSearchForm.new(@args)
       form.stubs(execute: [])
 
-      ParticipantSearchForm.expects(:new)
+      Redesign::ParticipantSearchForm.expects(:new)
         .with(@args)
         .returns(form)
     end

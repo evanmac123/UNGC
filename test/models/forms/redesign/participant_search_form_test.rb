@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ParticipantSearchFormTest < ActiveSupport::TestCase
+class Redesign::ParticipantSearchFormTest < ActiveSupport::TestCase
 
   setup do
     @type_names = %w(city public sme)
@@ -12,7 +12,7 @@ class ParticipantSearchFormTest < ActiveSupport::TestCase
     @country_names = %w(Canada France Germany)
     @country_names.map { |name| create_country name: name }
 
-    @subject = ParticipantSearchForm.new
+    @subject = Redesign::ParticipantSearchForm.new
   end
 
   should "have organization_type_options" do
