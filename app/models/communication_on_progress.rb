@@ -286,51 +286,6 @@ class CommunicationOnProgress < ActiveRecord::Base
     [answer_count.first.answer_count, question_count.first.question_count]
   end
 
-  # number of attributes selected for a question
-  def number_question_attributes_covered(cop_attribute_id)
-    answer_count = CopAnswer.find_by_sql(
-    ["SELECT sum(value) AS total FROM cop_answers
-      JOIN cop_attributes
-      ON cop_answers.cop_attribute_id = cop_attributes.id
-      WHERE cop_answers.cop_id = ? AND cop_question_id = ?", self.id, cop_attribute_id]
-    )
-    answer_count.first.total.to_i
-  end
-
-  # gather questions based on submitted attributes
-  def answered_questions(grouping = nil)
-
-    if grouping
-      CopQuestion.group_by(grouping).all(:conditions => ["id IN (?)", cop_attributes.collect(&:cop_question_id)])
-    else
-      questions = []
-      cop_attributes.each do |attribute|
-
-        # don't evaluate coverage of exempted groups and initiative questions
-        # TODO: create a scope to filter or use method in CopQuestion to test for these conditions
-        if CopQuestion::EXEMPTED_GROUPS.include? attribute.cop_question.grouping
-          next
-        elsif attribute.cop_question.initiative.present?
-          next
-        else
-          questions << attribute.cop_question
-        end
-
-      end
-      questions
-    end
-
-  end
-
-  # questions with no selected attributes
-  def questions_missing_answers
-    missing = []
-    answered_questions.each do |question|
-      missing << question.id if number_question_attributes_covered(question.id) == 0
-    end
-    CopQuestion.find(missing)
-  end
-
   # get specific cop_answers not answered for a particular COP Question group
   def missing_answers_for_group(grouping)
     cop_answers.not_covered_by_group(grouping)
@@ -356,8 +311,20 @@ class CommunicationOnProgress < ActiveRecord::Base
   # for the COP to be Advanced, cop questions cannot have any missing cop_attributes
   def is_advanced_level?
     # a cop meets advanced criteria if it has additional questions and none of them are missing
-    self.meets_advanced_criteria = additional_questions && questions_missing_answers.none?
+    self.meets_advanced_criteria = additional_questions && answered_all_questions?
     is_advanced_programme? && is_intermediate_level? && self.meets_advanced_criteria
+  end
+
+  def answered_all_questions?
+    # find all questions where all the answered values add up to 0
+    cop_answers
+      .select('sum(cop_answers.value) as total')
+      .joins(cop_attribute: [:cop_question])
+      .where('cop_questions.initiative_id is null')
+      .where('cop_questions.grouping not in (?)', CopQuestion::EXEMPTED_GROUPS)
+      .group('cop_questions.id')
+      .having('total = 0')
+      .to_a.length == 0 # we can't use .count as it will break the query
   end
 
   def is_blueprint_level?
