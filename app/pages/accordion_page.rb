@@ -10,6 +10,8 @@ class AccordionPage < ContainerPage
   def accordion
     accordion = OpenStruct.new(@data[:accordion])
 
+    accordion.items ||= []
+
     accordion.items.map! do |ni|
       if ni[:children]
         ni[:children].map!{|child| OpenStruct.new(child)}
