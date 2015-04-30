@@ -4887,8 +4887,27 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
-body > div > main {
-  margin-top: 50px; }
+@font-face {
+  font-family: "ungc-icons";
+  font-style: normal;
+  font-weight: normal;
+  src: url("https://d306pr3pise04h.cloudfront.net/fonts/v1/ungc-icons.eot?#iefix") format("embedded-opentype"), url("https://d306pr3pise04h.cloudfront.net/fonts/v1/ungc-icons.woff") format("woff"); }
+
+#main-header .navbar-brand:before {
+  font-family: "ungc-icons";
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: greyscale; }
+
+body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  background-color: #fcfcfc; }
+  body > div > main {
+    margin-top: 50px; }
+
+.fa {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: greyscale; }
 
 .sitemap-x-tree {
   margin: 0;
@@ -4937,3 +4956,75 @@ body > div > main {
   width: 300px;
   height: 50px;
   z-index: 99; }
+
+@-mox-document url-prefix() {
+  fieldset {
+    display: table-cell; } }
+
+#main-header {
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  padding: .5em 0; }
+  #main-header .navbar-brand span {
+    display: none; }
+  #main-header .navbar-brand:before {
+    font-size: 2.5em;
+    content: '\e800'; }
+  #main-header .navbar .logout {
+    margin-left: 1em; }
+
+#main-page-header {
+  padding: 4em 0 1em;
+  margin: 0 0 2em;
+  border-bottom: 1px solid #ddd; }
+  #main-page-header h1, #main-page-header h2 {
+    display: inline-block;
+    font-size: 2em;
+    margin: 0;
+    vertical-align: middle; }
+  #main-page-header h1 .fa {
+    color: #999; }
+  #main-page-header h2 {
+    font-size: 1.25em;
+    font-weight: 400;
+    margin: 0 .75em;
+    color: #666; }
+    #main-page-header h2 span {
+      display: none; }
+  #main-page-header code {
+    color: #444;
+    background: #eee; }
+  #main-page-header .btn {
+    text-transform: uppercase;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: greyscale; }
+
+fieldset {
+  margin: 0 0 4em;
+  padding: 0 1em 1em;
+  border-radius: .25em;
+  background: white;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1); }
+  fieldset legend {
+    display: inline-block;
+    width: auto;
+    text-transform: uppercase;
+    padding: .5em 1em;
+    font-size: 1.25em;
+    font-weight: 500;
+    line-height: 1;
+    border: 0;
+    border-radius: .25em;
+    background: #222;
+    color: white;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: greyscale; }
+  fieldset h2 {
+    font-size: 1.5em;
+    font-weight: 700;
+    margin: 2em 0 1em;
+    border-bottom: 1px solid #eee; }
+
+.input-group {
+  margin-bottom: .5em; }

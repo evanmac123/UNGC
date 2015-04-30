@@ -2008,7 +2008,7 @@ define('admin/templates/application', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("            ");
+          var el1 = dom.createTextNode("          ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -2087,7 +2087,7 @@ define('admin/templates/application', ['exports'], function (exports) {
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("            ");
+          var el1 = dom.createTextNode("          ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -2130,61 +2130,52 @@ define('admin/templates/application', ['exports'], function (exports) {
       build: function build(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("header");
+        dom.setAttribute(el1,"id","main-header");
+        dom.setAttribute(el1,"class","navbar navbar-inverse navbar-fixed-top");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("nav");
-        dom.setAttribute(el2,"class","navbar navbar-inverse navbar-fixed-top");
+        dom.setAttribute(el2,"class","container");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createElement("div");
-        dom.setAttribute(el3,"class","container");
+        dom.setAttribute(el3,"class","navbar-header");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4,"class","navbar-header");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("a");
-        dom.setAttribute(el5,"class","navbar-brand");
-        dom.setAttribute(el5,"href","/redesign/admin/");
+        var el4 = dom.createElement("a");
+        dom.setAttribute(el4,"class","navbar-brand");
+        dom.setAttribute(el4,"href","/redesign/admin/");
+        var el5 = dom.createElement("span");
         var el6 = dom.createTextNode("UNGC Admin");
         dom.appendChild(el5, el6);
         dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n    ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3,"class","navbar-right");
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("ul");
+        dom.setAttribute(el4,"class","nav navbar-nav navbar-left");
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("      ");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("div");
-        dom.setAttribute(el4,"id","navbar");
-        dom.setAttribute(el4,"class","collapse navbar-collapse");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createElement("ul");
-        dom.setAttribute(el5,"class","nav navbar-nav");
-        var el6 = dom.createTextNode("\n");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createComment("");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createComment("");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("          ");
-        dom.appendChild(el5, el6);
-        var el6 = dom.createElement("li");
-        var el7 = dom.createTextNode("\n            ");
-        dom.appendChild(el6, el7);
-        var el7 = dom.createElement("a");
-        dom.setAttribute(el7,"href","#");
-        var el8 = dom.createTextNode("Logout");
-        dom.appendChild(el7, el8);
-        dom.appendChild(el6, el7);
-        var el7 = dom.createTextNode("\n          ");
-        dom.appendChild(el6, el7);
-        dom.appendChild(el5, el6);
-        var el6 = dom.createTextNode("\n        ");
-        dom.appendChild(el5, el6);
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
+        var el4 = dom.createElement("a");
+        dom.setAttribute(el4,"href","#");
+        dom.setAttribute(el4,"class","logout btn btn-default navbar-btn navbar-right");
+        var el5 = dom.createTextNode("Logout");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
@@ -2244,14 +2235,15 @@ define('admin/templates/application', ['exports'], function (exports) {
         } else {
           fragment = this.build(dom);
         }
-        var element0 = dom.childAt(fragment, [0, 1, 1, 3, 1]);
-        var element1 = dom.childAt(element0, [4, 1]);
-        var morph0 = dom.createMorphAt(element0,1,1);
-        var morph1 = dom.createMorphAt(element0,2,2);
+        var element0 = dom.childAt(fragment, [0, 1, 3]);
+        var element1 = dom.childAt(element0, [1]);
+        var element2 = dom.childAt(element0, [3]);
+        var morph0 = dom.createMorphAt(element1,1,1);
+        var morph1 = dom.createMorphAt(element1,2,2);
         var morph2 = dom.createMorphAt(dom.childAt(fragment, [2]),1,1);
         block(env, morph0, context, "link-to", ["containers.index"], {"tagName": "li"}, child0, null);
         block(env, morph1, context, "link-to", ["containers.needs-approval"], {"tagName": "li"}, child1, null);
-        element(env, element1, context, "action", ["logout"], {});
+        element(env, element2, context, "action", ["logout"], {});
         content(env, morph2, context, "outlet");
         return fragment;
       }
@@ -2276,7 +2268,7 @@ define('admin/templates/components/container/fields/x-article-align-select', ['e
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -2322,7 +2314,7 @@ define('admin/templates/components/container/fields/x-article-align-select', ['e
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -2330,18 +2322,11 @@ define('admin/templates/components/container/fields/x-article-align-select', ['e
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -2375,7 +2360,7 @@ define('admin/templates/components/container/fields/x-article-align-select', ['e
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "uid"));
@@ -2451,24 +2436,17 @@ define('admin/templates/components/container/fields/x-boolean', ['exports'], fun
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-offset-2 col-sm-10");
+        dom.setAttribute(el2,"class","checkbox");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("div");
-        dom.setAttribute(el3,"class","checkbox");
+        var el3 = dom.createElement("label");
         var el4 = dom.createTextNode("\n      ");
         dom.appendChild(el3, el4);
-        var el4 = dom.createElement("label");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
+        var el4 = dom.createComment("");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
         dom.appendChild(el3, el4);
@@ -2476,7 +2454,7 @@ define('admin/templates/components/container/fields/x-boolean', ['exports'], fun
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -2506,7 +2484,7 @@ define('admin/templates/components/container/fields/x-boolean', ['exports'], fun
           fragment = this.build(dom);
         }
         var element0 = dom.childAt(fragment, [0]);
-        var element1 = dom.childAt(element0, [1, 1, 1]);
+        var element1 = dom.childAt(element0, [1, 1]);
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var morph1 = dom.createMorphAt(element1,3,3);
@@ -2538,7 +2516,7 @@ define('admin/templates/components/container/fields/x-content-type-select', ['ex
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -2584,7 +2562,7 @@ define('admin/templates/components/container/fields/x-content-type-select', ['ex
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -2592,18 +2570,11 @@ define('admin/templates/components/container/fields/x-content-type-select', ['ex
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -2637,7 +2608,7 @@ define('admin/templates/components/container/fields/x-content-type-select', ['ex
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "uid"));
@@ -2667,7 +2638,7 @@ define('admin/templates/components/container/fields/x-hero-theme-select', ['expo
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -2713,7 +2684,7 @@ define('admin/templates/components/container/fields/x-hero-theme-select', ['expo
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -2721,18 +2692,11 @@ define('admin/templates/components/container/fields/x-hero-theme-select', ['expo
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -2766,7 +2730,7 @@ define('admin/templates/components/container/fields/x-hero-theme-select', ['expo
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "uid"));
@@ -2796,7 +2760,7 @@ define('admin/templates/components/container/fields/x-href', ['exports'], functi
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -2842,7 +2806,7 @@ define('admin/templates/components/container/fields/x-href', ['exports'], functi
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -2850,10 +2814,17 @@ define('admin/templates/components/container/fields/x-href', ['exports'], functi
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
+        dom.setAttribute(el2,"class","input-group");
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("span");
+        dom.setAttribute(el3,"class","input-group-addon");
+        var el4 = dom.createTextNode("URL:");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -2861,7 +2832,7 @@ define('admin/templates/components/container/fields/x-href', ['exports'], functi
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -2895,7 +2866,7 @@ define('admin/templates/components/container/fields/x-href', ['exports'], functi
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "field.uid"));
@@ -2925,7 +2896,50 @@ define('admin/templates/components/container/fields/x-image-upload', ['exports']
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
+          var el2 = dom.createTextNode("Uploading…");
+          dom.appendChild(el1, el2);
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        render: function render(context, env, contextualElement) {
+          var dom = env.dom;
+          dom.detectNamespace(contextualElement);
+          var fragment;
+          if (env.useFragmentCache && dom.canClone) {
+            if (this.cachedFragment === null) {
+              fragment = this.build(dom);
+              if (this.hasRendered) {
+                this.cachedFragment = fragment;
+              } else {
+                this.hasRendered = true;
+              }
+            }
+            if (this.cachedFragment) {
+              fragment = dom.cloneNode(this.cachedFragment, true);
+            }
+          } else {
+            fragment = this.build(dom);
+          }
+          return fragment;
+        }
+      };
+    }());
+    var child1 = (function() {
+      return {
+        isHTMLBars: true,
+        revision: "Ember@1.11.0",
+        blockParams: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        build: function build(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("p");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -2959,7 +2973,7 @@ define('admin/templates/components/container/fields/x-image-upload', ['exports']
         }
       };
     }());
-    var child1 = (function() {
+    var child2 = (function() {
       return {
         isHTMLBars: true,
         revision: "Ember@1.11.0",
@@ -2971,7 +2985,7 @@ define('admin/templates/components/container/fields/x-image-upload', ['exports']
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -3017,7 +3031,7 @@ define('admin/templates/components/container/fields/x-image-upload', ['exports']
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -3025,31 +3039,37 @@ define('admin/templates/components/container/fields/x-image-upload', ['exports']
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
+        dom.setAttribute(el2,"class","input-group");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        dom.setAttribute(el3,"class","col-sm-offset-2 help-block");
-        var el4 = dom.createComment("");
+        var el3 = dom.createElement("span");
+        dom.setAttribute(el3,"class","input-group-addon");
+        var el4 = dom.createTextNode("URL:");
         dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n    ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment("");
         dom.appendChild(el2, el3);
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -3080,23 +3100,22 @@ define('admin/templates/components/container/fields/x-image-upload', ['exports']
         }
         var element0 = dom.childAt(fragment, [0]);
         var element1 = dom.childAt(element0, [1]);
-        var element2 = dom.childAt(element0, [3]);
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(element2,1,1);
-        var morph2 = dom.createMorphAt(element2,3,3);
-        var morph3 = dom.createMorphAt(dom.childAt(element2, [5]),0,0);
-        var morph4 = dom.createMorphAt(element0,5,5);
-        var morph5 = dom.createMorphAt(element0,6,6);
+        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),3,3);
+        var morph2 = dom.createMorphAt(element0,5,5);
+        var morph3 = dom.createMorphAt(element0,7,7);
+        var morph4 = dom.createMorphAt(element0,9,9);
+        var morph5 = dom.createMorphAt(element0,11,11);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "field.uid"));
         content(env, morph0, context, "field.label");
         inline(env, morph1, context, "input", [], {"type": "text", "class": "form-control", "id": get(env, context, "field.uid"), "value": get(env, context, "field.value")});
         inline(env, morph2, context, "container/uploads/file-field", [], {"selectedFile": get(env, context, "file"), "saving": get(env, context, "isSaving")});
-        inline(env, morph3, context, "if", [get(env, context, "isSaving"), "uploading..."], {});
-        block(env, morph4, context, "if", [get(env, context, "uploadError")], {}, child0, null);
-        block(env, morph5, context, "if", [get(env, context, "field.errors")], {}, child1, null);
+        block(env, morph3, context, "if", [get(env, context, "isSaving")], {}, child0, null);
+        block(env, morph4, context, "if", [get(env, context, "uploadError")], {}, child1, null);
+        block(env, morph5, context, "if", [get(env, context, "field.errors")], {}, child2, null);
         return fragment;
       }
     };
@@ -3120,7 +3139,7 @@ define('admin/templates/components/container/fields/x-label-select', ['exports']
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -3166,7 +3185,7 @@ define('admin/templates/components/container/fields/x-label-select', ['exports']
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -3174,18 +3193,11 @@ define('admin/templates/components/container/fields/x-label-select', ['exports']
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -3219,7 +3231,7 @@ define('admin/templates/components/container/fields/x-label-select', ['exports']
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "uid"));
@@ -3507,7 +3519,7 @@ define('admin/templates/components/container/fields/x-redactor', ['exports'], fu
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -3553,7 +3565,7 @@ define('admin/templates/components/container/fields/x-redactor', ['exports'], fu
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -3561,18 +3573,11 @@ define('admin/templates/components/container/fields/x-redactor', ['exports'], fu
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -3606,7 +3611,7 @@ define('admin/templates/components/container/fields/x-redactor', ['exports'], fu
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "field.uid"));
@@ -3936,7 +3941,7 @@ define('admin/templates/components/container/fields/x-string', ['exports'], func
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -3982,7 +3987,7 @@ define('admin/templates/components/container/fields/x-string', ['exports'], func
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -3992,14 +3997,7 @@ define('admin/templates/components/container/fields/x-string', ['exports'], func
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
@@ -4035,7 +4033,7 @@ define('admin/templates/components/container/fields/x-string', ['exports'], func
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "field.uid"));
@@ -4065,7 +4063,7 @@ define('admin/templates/components/container/fields/x-tile-color-select', ['expo
           var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -4111,7 +4109,7 @@ define('admin/templates/components/container/fields/x-tile-color-select', ['expo
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -4119,18 +4117,11 @@ define('admin/templates/components/container/fields/x-tile-color-select', ['expo
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -4164,7 +4155,7 @@ define('admin/templates/components/container/fields/x-tile-color-select', ['expo
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "uid"));
@@ -5784,7 +5775,7 @@ define('admin/templates/components/container/uploads/file-field', ['exports'], f
       build: function build(dom) {
         var el0 = dom.createDocumentFragment();
         var el1 = dom.createElement("div");
-        dom.setAttribute(el1,"class","input-group");
+        dom.setAttribute(el1,"class","form-group form-inline");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("input");
@@ -5792,10 +5783,11 @@ define('admin/templates/components/container/uploads/file-field', ['exports'], f
         dom.setAttribute(el2,"multiple","false");
         dom.setAttribute(el2,"class","form-control");
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n    ");
+        var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("button");
-        var el3 = dom.createTextNode("\n      Upload\n    ");
+        dom.setAttribute(el2,"class","btn btn-success");
+        var el3 = dom.createTextNode("Upload");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
@@ -8964,18 +8956,10 @@ define('admin/templates/containers/_forms/highlight', ['exports'], function (exp
             hasRendered: false,
             build: function build(dom) {
               var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("          ");
+              var el1 = dom.createTextNode("\n          ");
               dom.appendChild(el0, el1);
-              var el1 = dom.createElement("div");
-              dom.setAttribute(el1,"class","form-group");
-              var el2 = dom.createTextNode("\n            ");
-              dom.appendChild(el1, el2);
-              var el2 = dom.createElement("label");
-              dom.setAttribute(el2,"class","control-label col-sm-2");
-              var el3 = dom.createTextNode("Call to Action");
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n          ");
+              var el1 = dom.createElement("h2");
+              var el2 = dom.createTextNode("Call to Action");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n          ");
@@ -9042,16 +9026,8 @@ define('admin/templates/containers/_forms/highlight', ['exports'], function (exp
               var el0 = dom.createDocumentFragment();
               var el1 = dom.createTextNode("          ");
               dom.appendChild(el0, el1);
-              var el1 = dom.createElement("div");
-              dom.setAttribute(el1,"class","form-group");
-              var el2 = dom.createTextNode("\n            ");
-              dom.appendChild(el1, el2);
-              var el2 = dom.createElement("label");
-              dom.setAttribute(el2,"class","control-label col-sm-2");
-              var el3 = dom.createTextNode("Image Widget");
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n          ");
+              var el1 = dom.createElement("h2");
+              var el2 = dom.createTextNode("Image Widget");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n          ");
@@ -11035,50 +11011,45 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
       hasRendered: false,
       build: function build(dom) {
         var el0 = dom.createDocumentFragment();
-        var el1 = dom.createElement("form");
-        dom.setAttribute(el1,"class","form-horizontal");
+        var el1 = dom.createElement("header");
+        dom.setAttribute(el1,"id","main-page-header");
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("fieldset");
-        var el3 = dom.createTextNode("\n    ");
+        var el2 = dom.createElement("h1");
+        var el3 = dom.createElement("i");
+        dom.setAttribute(el3,"class","fa fa-pencil fa-fw");
+        dom.setAttribute(el3,"aria-hidden","true");
         dom.appendChild(el2, el3);
-        var el3 = dom.createElement("legend");
-        var el4 = dom.createTextNode("\n      Edit Page\n    ");
-        dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
+        var el3 = dom.createTextNode("Edit Page");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n\n  ");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("fieldset");
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("h2");
-        var el4 = dom.createTextNode("Container url:\n      ");
-        dom.appendChild(el3, el4);
-        var el4 = dom.createElement("a");
-        dom.setAttribute(el4,"target","_blank");
-        var el5 = dom.createTextNode("\n        ");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createComment("");
-        dom.appendChild(el4, el5);
-        var el5 = dom.createTextNode("\n      ");
-        dom.appendChild(el4, el5);
-        dom.appendChild(el3, el4);
-        var el4 = dom.createTextNode("\n    ");
+        var el2 = dom.createElement("h2");
+        var el3 = dom.createElement("span");
+        var el4 = dom.createTextNode("URL: ");
         dom.appendChild(el3, el4);
         dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n    ");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createElement("p");
-        var el4 = dom.createTextNode("(last published version)");
+        var el3 = dom.createElement("code");
+        var el4 = dom.createComment("");
         dom.appendChild(el3, el4);
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n\n");
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("a");
+        dom.setAttribute(el2,"target","_blank");
+        dom.setAttribute(el2,"class","btn btn-success pull-right");
+        var el3 = dom.createTextNode("View Published");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("form");
+        var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
         var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
@@ -11141,7 +11112,7 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
       },
       render: function render(context, env, contextualElement) {
         var dom = env.dom;
-        var hooks = env.hooks, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute, content = hooks.content, block = hooks.block, element = hooks.element;
+        var hooks = env.hooks, content = hooks.content, get = hooks.get, concat = hooks.concat, attribute = hooks.attribute, block = hooks.block, element = hooks.element;
         dom.detectNamespace(contextualElement);
         var fragment;
         if (env.useFragmentCache && dom.canClone) {
@@ -11160,24 +11131,25 @@ define('admin/templates/containers/edit', ['exports'], function (exports) {
           fragment = this.build(dom);
         }
         var element3 = dom.childAt(fragment, [0]);
-        var element4 = dom.childAt(element3, [3, 1, 1]);
-        var element5 = dom.childAt(element3, [7]);
-        var element6 = dom.childAt(element5, [3, 1]);
-        var element7 = dom.childAt(element6, [1]);
-        var element8 = dom.childAt(element6, [5]);
-        var morph0 = dom.createMorphAt(element4,1,1);
+        var element4 = dom.childAt(element3, [5]);
+        var element5 = dom.childAt(fragment, [2]);
+        var element6 = dom.childAt(element5, [3]);
+        var element7 = dom.childAt(element6, [3, 1]);
+        var element8 = dom.childAt(element7, [1]);
+        var element9 = dom.childAt(element7, [5]);
+        var morph0 = dom.createMorphAt(dom.childAt(element3, [3, 1]),0,0);
         var attrMorph0 = dom.createAttrMorph(element4, 'href');
-        var morph1 = dom.createMorphAt(element3,5,5);
-        var morph2 = dom.createMorphAt(element6,3,3);
-        var attrMorph1 = dom.createAttrMorph(element8, 'href');
-        var morph3 = dom.createMorphAt(element5,5,5);
-        var morph4 = dom.createMorphAt(element3,9,9);
-        attribute(env, attrMorph0, element4, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath")]));
+        var morph1 = dom.createMorphAt(element5,1,1);
+        var morph2 = dom.createMorphAt(element7,3,3);
+        var attrMorph1 = dom.createAttrMorph(element9, 'href');
+        var morph3 = dom.createMorphAt(element6,5,5);
+        var morph4 = dom.createMorphAt(element5,5,5);
         content(env, morph0, context, "model.container.publicPath");
+        attribute(env, attrMorph0, element4, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath")]));
         block(env, morph1, context, "container/x-subform", [], {"record": get(env, context, "model.container")}, child0, null);
-        element(env, element7, context, "action", ["saveDraft", get(env, context, "model.container")], {});
+        element(env, element8, context, "action", ["saveDraft", get(env, context, "model.container")], {});
         block(env, morph2, context, "if", [get(env, context, "model.container.id")], {}, child1, null);
-        attribute(env, attrMorph1, element8, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?draft=1"]));
+        attribute(env, attrMorph1, element9, "href", concat(env, ["/redesign", get(env, context, "model.container.publicPath"), "?draft=1"]));
         block(env, morph3, context, "each", [get(env, context, "flashMessages.queue")], {}, child2, null);
         block(env, morph4, context, "if", [get(env, context, "model.payloads")], {}, child3, null);
         return fragment;
@@ -11199,6 +11171,23 @@ define('admin/templates/containers/index', ['exports'], function (exports) {
       hasRendered: false,
       build: function build(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("header");
+        dom.setAttribute(el1,"id","main-page-header");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h1");
+        var el3 = dom.createElement("i");
+        dom.setAttribute(el3,"class","fa fa-bars fa-fw");
+        dom.setAttribute(el3,"aria-hidden","true");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("Sitemap");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n\n");
@@ -11229,9 +11218,8 @@ define('admin/templates/containers/index', ['exports'], function (exports) {
         } else {
           fragment = this.build(dom);
         }
-        var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
-        var morph1 = dom.createMorphAt(fragment,2,2,contextualElement);
-        dom.insertBoundary(fragment, 0);
+        var morph0 = dom.createMorphAt(fragment,2,2,contextualElement);
+        var morph1 = dom.createMorphAt(fragment,4,4,contextualElement);
         inline(env, morph0, context, "sitemap/x-tree", [], {"tree": get(env, context, "model"), "addContainer": "addContainer", "moveContainer": "moveContainer"});
         inline(env, morph1, context, "outlet", ["newModal"], {});
         return fragment;
@@ -11594,13 +11582,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.1975e655"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.7527bdbf"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.1975e655"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.7527bdbf"});
 }
 
 /* jshint ignore:end */
