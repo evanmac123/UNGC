@@ -16,7 +16,7 @@ class ListItems
   attr_reader :list_block
 
   def initialize(list_block)
-    @list_block = list_block
+    @list_block = list_block || {}
   end
 
   def items
@@ -28,8 +28,8 @@ class ListItems
   end
 
   def _items
-    items = list_block[:items]
-    items.map!{|ni| OpenStruct.new(ni)}
+    items = list_block[:items] || []
+    items.map{|ni| OpenStruct.new(ni)}
   end
 
   def sorting
