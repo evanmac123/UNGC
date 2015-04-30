@@ -1,18 +1,19 @@
 class Redesign::ParticipantsController < Redesign::ApplicationController
 
   def show
-    @participant = ParticipantPresenter.new(find_participant)
+    contributions = ParticipantCampaignContributionsByYear.for(find_participant)
+    @participant = ParticipantPresenter.new(find_participant, contributions)
   end
 
   private
 
   def find_participant
-    Organization.includes(
+    @participant ||= Organization.includes(
       :organization_type,
       :sector,
-      :communication_on_progresses,
       :listing_status,
-      contributions: [:campaign]
+      :communication_on_progresses,
+      :contributions
     ).find(participant_id)
   end
 

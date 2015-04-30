@@ -1,7 +1,8 @@
 class ParticipantPresenter < SimpleDelegator
 
-  def initialize(participant)
+  def initialize(participant, campaigns_by_year)
     super(participant)
+    @campaigns_by_year = campaigns_by_year
   end
 
   def website
@@ -41,14 +42,8 @@ class ParticipantPresenter < SimpleDelegator
   end
 
   def contributions
-    participant.contributions
-      .includes(:campaign)
-      .order('date desc')
-      .group_by {|c| c.date.year}
-      .map do |year, contributions|
-        [year, contributions.map(&:campaign)]
-      end
-  end
+    @campaigns_by_year
+  end 
 
   private
 
