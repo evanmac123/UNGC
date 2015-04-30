@@ -199,3 +199,24 @@ fieldset
   .repeated-content-header:before
     counter-increment: repeated-nested-content-counter
     content: counter(repeated-content-counter) '.' counter(repeated-nested-content-counter)
+
+.actions-bar
+  position: fixed
+  left: 0
+  right: 0
+  bottom: 0
+  margin: 0
+  padding: .5em 0
+  background: rgba(white, .95)
+  box-shadow: 0 0 5px rgba(black, .2)
+  z-index: 9999
+
+  .form-group
+    margin-bottom: 0
+
+  .btn
+    float: right
+    margin-left: 1em
+
+  legend
+    display: none

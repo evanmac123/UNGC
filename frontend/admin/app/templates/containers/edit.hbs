@@ -11,21 +11,21 @@
     {{partial form.subformTemplatePath}}
   {{/container/x-subform}}
 
-  <fieldset>
+  <fieldset class='actions-bar'>
     <legend>Actions</legend>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-primary" {{action "saveDraft" model.container}}>
-          Save
-        </button>
-
+    <div class='container'>
+      <div class="form-group clearfix">
         {{#if model.container.id}}
           <button class="btn btn-success" {{action "publish" model.container}}>
             Publish
           </button>
         {{/if}}
 
-        <a target="_blank" href="/redesign{{model.container.publicPath}}?draft=1">
+        <button class="btn btn-primary" {{action "saveDraft" model.container}}>
+          Save
+        </button>
+
+        <a class='btn btn-warning' target="_blank" href="/redesign{{model.container.publicPath}}?draft=1">
           Preview
         </a>
       </div>
