@@ -4,7 +4,7 @@ class EngageLocallyPage < ContainerPage
   end
 
   def regions_nav
-    LocalNetwork.joins(:countries).select('local_networks.*, countries.region as r').distinct('local_networks.id').group_by(&:r)
+    Components::RegionsNav.new
   end
 
   def main_content_section
@@ -29,19 +29,5 @@ class EngageLocallyPage < ContainerPage
 
   def news
     Components::News.new(@data)
-  end
-
-  def region_name(region)
-    region_names = {
-      'europe'            => 'Europe',
-      'latin_america'     => 'Latin America &amp; Caribbean',
-      'oceania'           => 'Oceania',
-      'asia'              => 'Asia',
-      'northern_america'  => 'North America',
-      'africa'            => 'Africa',
-      'mena'              => 'MENA'
-    }
-
-    region_names[region] || ''
   end
 end

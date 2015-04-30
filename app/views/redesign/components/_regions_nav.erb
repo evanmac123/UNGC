@@ -3,7 +3,7 @@
 
     <div id='regions-nav-triggers'>
       <%- regions_nav.each do |region, network| %>
-        <button type="button" data-region="region-<%= region.parameterize -%>" class='region-nav-trigger'><%= @page.region_name(region).try(:html_safe) %></button>
+        <button type="button" data-region="region-<%= region.parameterize -%>" class='region-nav-trigger'><%= region.name.try(:html_safe) %></button>
       <%- end -%>
     </div>
 
@@ -11,7 +11,7 @@
       <%- regions_nav.each do |region, networks| %>
         <article class='regions-nav-region' data-region="region-<%= region.parameterize -%>">
 
-          <h1><a href=''><%= @page.region_name(region).try(:html_safe) %> Regional Page</a></h1><%# TODO add link to region page (once we havefinal url, see Specs C4 %>
+          <h1><a href=''><%= region.name.try(:html_safe) %> Regional Page</a></h1><%# TODO add link to region page (once we havefinal url, see Specs C4 %>
 
           <ul class='regions-nav-countries'>
             <%- networks.each do |network| -%>
