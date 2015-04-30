@@ -1,9 +1,11 @@
 <header id='main-page-header'>
   <h1><i class='fa fa-pencil fa-fw' aria-hidden='true'></i>Edit Page</h1>
 
-  <h2><span>URL: </span><code>{{model.container.publicPath}}</code></h2>
+  <h2><span>URL: </span><code class='container-url'>{{model.container.publicPath}}</code></h2>
 
   <a href="/redesign{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
+
+  <h3>Layout type: <code class='container-layout'>{{model.container.layout}}</code></h3>
 </header>
 
 <form>

@@ -1,11 +1,9 @@
 <div class="form-group {{if hasError "has-error"}}">
-  <label for="public-path" class="control-label col-sm-2">
+  <label for="public-path" class="control-label">
     {{label}}
   </label>
-  <div class="col-sm-10">
-    {{yield}}
-  </div>
+  {{yield}}
   {{#if hasError}}
-  <p class="col-sm-offset-2 help-block">{{error.detail}}</p>
+  <p class="help-block">{{error.detail}}</p>
   {{/if}}
 </div>

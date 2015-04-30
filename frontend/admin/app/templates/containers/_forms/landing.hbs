@@ -7,7 +7,7 @@
 
   <fieldset>
     <legend>Tiles</legend>
-    {{#container/x-fields tagName="ol" key="tiles" array=true min=3 max=6 scope=landing as |tiles|}}
+    {{#container/x-fields key="tiles" array=true min=3 max=6 scope=landing as |tiles|}}
       <li class="tile-group">
         {{container/x-field key="color" type="tile-color-select" scope=tiles}}
         {{container/x-field key="bgImage" type="image-upload" scope=tiles}}
