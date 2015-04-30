@@ -1973,6 +1973,10 @@ define('admin/templates/application', ['exports'], function (exports) {
           hasRendered: false,
           build: function build(dom) {
             var el0 = dom.createDocumentFragment();
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1,"class","fa fa-bars fa-fw");
+            dom.setAttribute(el1,"aria-hidden","true");
+            dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("Sitemap");
             dom.appendChild(el0, el1);
             return el0;
@@ -2052,6 +2056,10 @@ define('admin/templates/application', ['exports'], function (exports) {
           hasRendered: false,
           build: function build(dom) {
             var el0 = dom.createDocumentFragment();
+            var el1 = dom.createElement("i");
+            dom.setAttribute(el1,"class","fa fa-check-square-o fa-fw");
+            dom.setAttribute(el1,"aria-hidden","true");
+            dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("Needs Approval");
             dom.appendChild(el0, el1);
             return el0;
@@ -2176,6 +2184,10 @@ define('admin/templates/application', ['exports'], function (exports) {
         dom.setAttribute(el4,"href","#");
         dom.setAttribute(el4,"class","logout btn btn-default navbar-btn navbar-right");
         var el5 = dom.createTextNode("Logout");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("i");
+        dom.setAttribute(el5,"class","fa fa-sign-out fa-fw");
+        dom.setAttribute(el5,"aria-hidden","true");
         dom.appendChild(el4, el5);
         dom.appendChild(el3, el4);
         var el4 = dom.createTextNode("\n    ");
@@ -3638,7 +3650,7 @@ define('admin/templates/components/container/fields/x-select2', ['exports'], fun
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
-          var el1 = dom.createTextNode("      ");
+          var el1 = dom.createTextNode("    ");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -3682,8 +3694,10 @@ define('admin/templates/components/container/fields/x-select2', ['exports'], fun
         hasRendered: false,
         build: function build(dom) {
           var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("    ");
+          dom.appendChild(el0, el1);
           var el1 = dom.createElement("p");
-          dom.setAttribute(el1,"class","col-sm-offset-2 help-block");
+          dom.setAttribute(el1,"class","help-block");
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
           dom.appendChild(el0, el1);
@@ -3711,7 +3725,7 @@ define('admin/templates/components/container/fields/x-select2', ['exports'], fun
           } else {
             fragment = this.build(dom);
           }
-          var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),0,0);
+          var morph0 = dom.createMorphAt(dom.childAt(fragment, [1]),0,0);
           content(env, morph0, context, "field.errors.firstObject.detail");
           return fragment;
         }
@@ -3729,7 +3743,7 @@ define('admin/templates/components/container/fields/x-select2', ['exports'], fun
         var el2 = dom.createTextNode("\n  ");
         dom.appendChild(el1, el2);
         var el2 = dom.createElement("label");
-        dom.setAttribute(el2,"class","control-label col-sm-2");
+        dom.setAttribute(el2,"class","control-label");
         var el3 = dom.createTextNode("\n    ");
         dom.appendChild(el2, el3);
         var el3 = dom.createComment("");
@@ -3737,16 +3751,9 @@ define('admin/templates/components/container/fields/x-select2', ['exports'], fun
         var el3 = dom.createTextNode("\n  ");
         dom.appendChild(el2, el3);
         dom.appendChild(el1, el2);
-        var el2 = dom.createTextNode("\n  ");
+        var el2 = dom.createTextNode("\n\n");
         dom.appendChild(el1, el2);
-        var el2 = dom.createElement("div");
-        dom.setAttribute(el2,"class","col-sm-10");
-        var el3 = dom.createTextNode("\n");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createComment("");
-        dom.appendChild(el2, el3);
-        var el3 = dom.createTextNode("  ");
-        dom.appendChild(el2, el3);
+        var el2 = dom.createComment("");
         dom.appendChild(el1, el2);
         var el2 = dom.createTextNode("\n");
         dom.appendChild(el1, el2);
@@ -3782,7 +3789,7 @@ define('admin/templates/components/container/fields/x-select2', ['exports'], fun
         var attrMorph0 = dom.createAttrMorph(element0, 'class');
         var morph0 = dom.createMorphAt(element1,1,1);
         var attrMorph1 = dom.createAttrMorph(element1, 'for');
-        var morph1 = dom.createMorphAt(dom.childAt(element0, [3]),1,1);
+        var morph1 = dom.createMorphAt(element0,3,3);
         var morph2 = dom.createMorphAt(element0,5,5);
         attribute(env, attrMorph0, element0, "class", concat(env, ["form-group ", subexpr(env, context, "if", [get(env, context, "field.hasErrors"), "has-error"], {})]));
         attribute(env, attrMorph1, element1, "for", get(env, context, "field.uid"));
@@ -5017,7 +5024,7 @@ define('admin/templates/components/container/macros/x-related-contents', ['expor
           fragment = this.build(dom);
         }
         var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),3,3);
-        block(env, morph0, context, "container/x-fields", [], {"key": "relatedContents", "array": true, "min": 1, "max": 2, "scope": get(env, context, "scope")}, child0, null);
+        block(env, morph0, context, "container/x-fields", [], {"key": "relatedContents", "array": true, "min": 0, "max": 2, "scope": get(env, context, "scope")}, child0, null);
         return fragment;
       }
     };
@@ -5173,7 +5180,7 @@ define('admin/templates/components/container/macros/x-resources', ['exports'], f
           fragment = this.build(dom);
         }
         var morph0 = dom.createMorphAt(dom.childAt(fragment, [0]),3,3);
-        block(env, morph0, context, "container/x-fields", [], {"tagName": "ol", "key": "resources", "array": true, "size": 3, "scope": get(env, context, "scope")}, child0, null);
+        block(env, morph0, context, "container/x-fields", [], {"key": "resources", "array": true, "size": 3, "scope": get(env, context, "scope")}, child0, null);
         return fragment;
       }
     };
@@ -5704,7 +5711,7 @@ define('admin/templates/components/container/macros/x-widget-links-lists', ['exp
           dom.insertBoundary(fragment, null);
           set(env, context, "widgetLinksList", blockArguments[0]);
           inline(env, morph0, context, "container/x-field", [], {"key": "title", "type": "string", "limit": 50, "scope": get(env, context, "widgetLinksList")});
-          block(env, morph1, context, "container/x-fields", [], {"tagName": "ol", "key": "links", "array": true, "max": 5, "scope": get(env, context, "widgetLinksList")}, child0, null);
+          block(env, morph1, context, "container/x-fields", [], {"key": "links", "array": true, "max": 5, "scope": get(env, context, "widgetLinksList")}, child0, null);
           return fragment;
         }
       };
@@ -5965,6 +5972,164 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
   exports['default'] = Ember.HTMLBars.template((function() {
     var child0 = (function() {
       var child0 = (function() {
+        var child0 = (function() {
+          var child0 = (function() {
+            var child0 = (function() {
+              return {
+                isHTMLBars: true,
+                revision: "Ember@1.11.0",
+                blockParams: 0,
+                cachedFragment: null,
+                hasRendered: false,
+                build: function build(dom) {
+                  var el0 = dom.createDocumentFragment();
+                  var el1 = dom.createTextNode("                ");
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createElement("button");
+                  dom.setAttribute(el1,"class","btn btn-danger pull-right");
+                  var el2 = dom.createElement("i");
+                  dom.setAttribute(el2,"class","fa fa-times");
+                  dom.setAttribute(el2,"aria-hidden","true");
+                  dom.appendChild(el1, el2);
+                  var el2 = dom.createTextNode("  Remove");
+                  dom.appendChild(el1, el2);
+                  dom.appendChild(el0, el1);
+                  var el1 = dom.createTextNode("\n");
+                  dom.appendChild(el0, el1);
+                  return el0;
+                },
+                render: function render(context, env, contextualElement) {
+                  var dom = env.dom;
+                  var hooks = env.hooks, get = hooks.get, attribute = hooks.attribute, element = hooks.element;
+                  dom.detectNamespace(contextualElement);
+                  var fragment;
+                  if (env.useFragmentCache && dom.canClone) {
+                    if (this.cachedFragment === null) {
+                      fragment = this.build(dom);
+                      if (this.hasRendered) {
+                        this.cachedFragment = fragment;
+                      } else {
+                        this.hasRendered = true;
+                      }
+                    }
+                    if (this.cachedFragment) {
+                      fragment = dom.cloneNode(this.cachedFragment, true);
+                    }
+                  } else {
+                    fragment = this.build(dom);
+                  }
+                  var element1 = dom.childAt(fragment, [1]);
+                  var attrMorph0 = dom.createAttrMorph(element1, 'disabled');
+                  attribute(env, attrMorph0, element1, "disabled", get(env, context, "cantRemove"));
+                  element(env, element1, context, "action", ["removeElement", get(env, context, "val")], {});
+                  return fragment;
+                }
+              };
+            }());
+            return {
+              isHTMLBars: true,
+              revision: "Ember@1.11.0",
+              blockParams: 0,
+              cachedFragment: null,
+              hasRendered: false,
+              build: function build(dom) {
+                var el0 = dom.createDocumentFragment();
+                var el1 = dom.createComment("");
+                dom.appendChild(el0, el1);
+                return el0;
+              },
+              render: function render(context, env, contextualElement) {
+                var dom = env.dom;
+                var hooks = env.hooks, get = hooks.get, block = hooks.block;
+                dom.detectNamespace(contextualElement);
+                var fragment;
+                if (env.useFragmentCache && dom.canClone) {
+                  if (this.cachedFragment === null) {
+                    fragment = this.build(dom);
+                    if (this.hasRendered) {
+                      this.cachedFragment = fragment;
+                    } else {
+                      this.hasRendered = true;
+                    }
+                  }
+                  if (this.cachedFragment) {
+                    fragment = dom.cloneNode(this.cachedFragment, true);
+                  }
+                } else {
+                  fragment = this.build(dom);
+                }
+                var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
+                dom.insertBoundary(fragment, null);
+                dom.insertBoundary(fragment, 0);
+                block(env, morph0, context, "unless", [get(env, context, "cantRemove")], {}, child0, null);
+                return fragment;
+              }
+            };
+          }());
+          return {
+            isHTMLBars: true,
+            revision: "Ember@1.11.0",
+            blockParams: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            build: function build(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("        ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("li");
+              dom.setAttribute(el1,"class","repeated-content-item");
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createElement("div");
+              dom.setAttribute(el2,"class","repeated-content-header clearfix");
+              var el3 = dom.createTextNode("\n");
+              dom.appendChild(el2, el3);
+              var el3 = dom.createComment("");
+              dom.appendChild(el2, el3);
+              var el3 = dom.createTextNode("          ");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n\n          ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n        ");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            render: function render(context, env, contextualElement, blockArguments) {
+              var dom = env.dom;
+              var hooks = env.hooks, set = hooks.set, get = hooks.get, block = hooks.block, inline = hooks.inline;
+              dom.detectNamespace(contextualElement);
+              var fragment;
+              if (env.useFragmentCache && dom.canClone) {
+                if (this.cachedFragment === null) {
+                  fragment = this.build(dom);
+                  if (this.hasRendered) {
+                    this.cachedFragment = fragment;
+                  } else {
+                    this.hasRendered = true;
+                  }
+                }
+                if (this.cachedFragment) {
+                  fragment = dom.cloneNode(this.cachedFragment, true);
+                }
+              } else {
+                fragment = this.build(dom);
+              }
+              var element2 = dom.childAt(fragment, [1]);
+              var morph0 = dom.createMorphAt(dom.childAt(element2, [1]),1,1);
+              var morph1 = dom.createMorphAt(element2,3,3);
+              set(env, context, "val", blockArguments[0]);
+              block(env, morph0, context, "if", [get(env, context, "canVary")], {}, child0, null);
+              inline(env, morph1, context, "yield", [get(env, context, "val")], {});
+              return fragment;
+            }
+          };
+        }());
         return {
           isHTMLBars: true,
           revision: "Ember@1.11.0",
@@ -5975,9 +6140,13 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
             var el0 = dom.createDocumentFragment();
             var el1 = dom.createTextNode("    ");
             dom.appendChild(el0, el1);
-            var el1 = dom.createElement("button");
-            dom.setAttribute(el1,"class","btn btn-success");
-            var el2 = dom.createTextNode("Add");
+            var el1 = dom.createElement("ol");
+            dom.setAttribute(el1,"class","repeated-content-list");
+            var el2 = dom.createTextNode("\n");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createComment("");
+            dom.appendChild(el1, el2);
+            var el2 = dom.createTextNode("    ");
             dom.appendChild(el1, el2);
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
@@ -5986,7 +6155,7 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
           },
           render: function render(context, env, contextualElement) {
             var dom = env.dom;
-            var hooks = env.hooks, get = hooks.get, attribute = hooks.attribute, element = hooks.element;
+            var hooks = env.hooks, get = hooks.get, block = hooks.block;
             dom.detectNamespace(contextualElement);
             var fragment;
             if (env.useFragmentCache && dom.canClone) {
@@ -6004,10 +6173,8 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
             } else {
               fragment = this.build(dom);
             }
-            var element1 = dom.childAt(fragment, [1]);
-            var attrMorph0 = dom.createAttrMorph(element1, 'disabled');
-            attribute(env, attrMorph0, element1, "disabled", get(env, context, "cantAdd"));
-            element(env, element1, context, "action", ["addElement"], {});
+            var morph0 = dom.createMorphAt(dom.childAt(fragment, [1]),1,1);
+            block(env, morph0, context, "each", [get(env, context, "yieldValue")], {}, child0, null);
             return fragment;
           }
         };
@@ -6024,9 +6191,20 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
               var el0 = dom.createDocumentFragment();
               var el1 = dom.createTextNode("      ");
               dom.appendChild(el0, el1);
-              var el1 = dom.createElement("button");
-              dom.setAttribute(el1,"class","btn btn-warning");
-              var el2 = dom.createTextNode("Remove");
+              var el1 = dom.createElement("div");
+              dom.setAttribute(el1,"class","clearfix");
+              var el2 = dom.createTextNode("\n        ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createElement("button");
+              dom.setAttribute(el2,"class","btn btn-success pull-right");
+              var el3 = dom.createElement("i");
+              dom.setAttribute(el3,"class","fa fa-plus");
+              dom.setAttribute(el3,"aria-hidden","true");
+              dom.appendChild(el2, el3);
+              var el3 = dom.createTextNode("  Add");
+              dom.appendChild(el2, el3);
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n      ");
               dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n");
@@ -6053,10 +6231,10 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
               } else {
                 fragment = this.build(dom);
               }
-              var element0 = dom.childAt(fragment, [1]);
+              var element0 = dom.childAt(fragment, [1, 1]);
               var attrMorph0 = dom.createAttrMorph(element0, 'disabled');
-              attribute(env, attrMorph0, element0, "disabled", get(env, context, "cantRemove"));
-              element(env, element0, context, "action", ["removeElement", get(env, context, "val")], {});
+              attribute(env, attrMorph0, element0, "disabled", get(env, context, "cantAdd"));
+              element(env, element0, context, "action", ["addElement"], {});
               return fragment;
             }
           };
@@ -6064,24 +6242,18 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
         return {
           isHTMLBars: true,
           revision: "Ember@1.11.0",
-          blockParams: 1,
+          blockParams: 0,
           cachedFragment: null,
           hasRendered: false,
           build: function build(dom) {
             var el0 = dom.createDocumentFragment();
             var el1 = dom.createComment("");
             dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("    ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
             return el0;
           },
-          render: function render(context, env, contextualElement, blockArguments) {
+          render: function render(context, env, contextualElement) {
             var dom = env.dom;
-            var hooks = env.hooks, set = hooks.set, get = hooks.get, block = hooks.block, inline = hooks.inline;
+            var hooks = env.hooks, get = hooks.get, block = hooks.block;
             dom.detectNamespace(contextualElement);
             var fragment;
             if (env.useFragmentCache && dom.canClone) {
@@ -6100,11 +6272,9 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
               fragment = this.build(dom);
             }
             var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
-            var morph1 = dom.createMorphAt(fragment,2,2,contextualElement);
+            dom.insertBoundary(fragment, null);
             dom.insertBoundary(fragment, 0);
-            set(env, context, "val", blockArguments[0]);
-            block(env, morph0, context, "if", [get(env, context, "canVary")], {}, child0, null);
-            inline(env, morph1, context, "yield", [get(env, context, "val")], {});
+            block(env, morph0, context, "unless", [get(env, context, "cantAdd")], {}, child0, null);
             return fragment;
           }
         };
@@ -6119,11 +6289,7 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
           var el0 = dom.createDocumentFragment();
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("  ");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createElement("hr");
-          dom.appendChild(el0, el1);
-          var el1 = dom.createTextNode("\n\n");
+          var el1 = dom.createTextNode("\n");
           dom.appendChild(el0, el1);
           var el1 = dom.createComment("");
           dom.appendChild(el0, el1);
@@ -6150,11 +6316,11 @@ define('admin/templates/components/container/x-fields', ['exports'], function (e
             fragment = this.build(dom);
           }
           var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
-          var morph1 = dom.createMorphAt(fragment,4,4,contextualElement);
+          var morph1 = dom.createMorphAt(fragment,2,2,contextualElement);
           dom.insertBoundary(fragment, null);
           dom.insertBoundary(fragment, 0);
-          block(env, morph0, context, "if", [get(env, context, "canVary")], {}, child0, null);
-          block(env, morph1, context, "each", [get(env, context, "yieldValue")], {}, child1, null);
+          block(env, morph0, context, "if", [get(env, context, "yieldValue")], {}, child0, null);
+          block(env, morph1, context, "if", [get(env, context, "canVary")], {}, child1, null);
           return fragment;
         }
       };
@@ -7640,20 +7806,6 @@ define('admin/templates/containers/_forms/accordion', ['exports'], function (exp
               dom.appendChild(el1, el2);
               var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("\n          ");
-              dom.appendChild(el1, el2);
-              var el2 = dom.createElement("div");
-              dom.setAttribute(el2,"class","form-group");
-              var el3 = dom.createTextNode("\n            ");
-              dom.appendChild(el2, el3);
-              var el3 = dom.createElement("label");
-              dom.setAttribute(el3,"class","control-label col-sm-2");
-              var el4 = dom.createTextNode("Children");
-              dom.appendChild(el3, el4);
-              dom.appendChild(el2, el3);
-              var el3 = dom.createTextNode("\n          ");
-              dom.appendChild(el2, el3);
-              dom.appendChild(el1, el2);
               var el2 = dom.createTextNode("\n");
               dom.appendChild(el1, el2);
               var el2 = dom.createComment("");
@@ -7688,7 +7840,7 @@ define('admin/templates/containers/_forms/accordion', ['exports'], function (exp
               var element1 = dom.childAt(fragment, [1]);
               var morph0 = dom.createMorphAt(element1,1,1);
               var morph1 = dom.createMorphAt(element1,5,5);
-              var morph2 = dom.createMorphAt(element1,9,9);
+              var morph2 = dom.createMorphAt(element1,7,7);
               set(env, context, "items", blockArguments[0]);
               inline(env, morph0, context, "container/x-field", [], {"key": "title", "type": "string", "scope": get(env, context, "items")});
               inline(env, morph1, context, "container/x-field", [], {"key": "content", "type": "redactor", "height": "100px", "scope": get(env, context, "items")});
@@ -9119,10 +9271,6 @@ define('admin/templates/containers/_forms/highlight', ['exports'], function (exp
             dom.appendChild(el1, el2);
             var el2 = dom.createTextNode("      ");
             dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n      ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("hr");
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
@@ -11241,6 +11389,23 @@ define('admin/templates/containers/needs-approval', ['exports'], function (expor
       hasRendered: false,
       build: function build(dom) {
         var el0 = dom.createDocumentFragment();
+        var el1 = dom.createElement("header");
+        dom.setAttribute(el1,"id","main-page-header");
+        var el2 = dom.createTextNode("\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("h1");
+        var el3 = dom.createElement("i");
+        dom.setAttribute(el3,"class","fa fa-check-square-o fa-fw");
+        dom.setAttribute(el3,"aria-hidden","true");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("Needs Approval");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n\n");
+        dom.appendChild(el0, el1);
         var el1 = dom.createComment("");
         dom.appendChild(el0, el1);
         var el1 = dom.createTextNode("\n");
@@ -11267,8 +11432,7 @@ define('admin/templates/containers/needs-approval', ['exports'], function (expor
         } else {
           fragment = this.build(dom);
         }
-        var morph0 = dom.createMorphAt(fragment,0,0,contextualElement);
-        dom.insertBoundary(fragment, 0);
+        var morph0 = dom.createMorphAt(fragment,2,2,contextualElement);
         inline(env, morph0, context, "sitemap/needs-approval", [], {"model": get(env, context, "model")});
         return fragment;
       }
@@ -11582,13 +11746,13 @@ define('admin/views/containers/index', ['exports', 'ember'], function (exports, 
 /* jshint ignore:start */
 
 define('admin/config/environment', ['ember'], function(Ember) {
-  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.7527bdbf"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
+  return { 'default': {"modulePrefix":"admin","environment":"production","baseURL":"/","locationType":"auto","EmberENV":{"FEATURES":{}},"APP":{"name":"admin","version":"0.0.0.49177268"},"contentSecurityPolicyHeader":"Content-Security-Policy-Report-Only","contentSecurityPolicy":{"default-src":"'none'","script-src":"'self'","font-src":"'self'","connect-src":"'self'","img-src":"'self'","style-src":"'self'","media-src":"'self'"},"flashMessageDefaults":{"timeout":3000,"priority":100,"sticky":false,"showProgress":false,"type":"info","types":["success","info","warning","danger","alert","secondary"],"injectionFactories":["route","controller","view","component"]},"exportApplicationGlobal":false}};
 });
 
 if (runningTests) {
   require("admin/tests/test-helper");
 } else {
-  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.7527bdbf"});
+  require("admin/app")["default"].create({"name":"admin","version":"0.0.0.49177268"});
 }
 
 /* jshint ignore:end */
