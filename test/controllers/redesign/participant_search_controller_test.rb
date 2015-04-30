@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
+  setup do
+    create_staff_user
+    sign_in @staff_user
+  end
 
   context "the search form" do
 

@@ -1,6 +1,11 @@
 require 'test_helper'
 
 class Redesign::StaticControllerTest < ActionController::TestCase
+  setup do
+    create_staff_user
+    sign_in @staff_user
+  end
+
   context '#catch_all' do
     should 'throw and error when the path does not resolve a container' do
       assert_raise ActiveRecord::RecordNotFound do
