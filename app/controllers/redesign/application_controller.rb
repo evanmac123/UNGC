@@ -4,7 +4,18 @@ class Redesign::ApplicationController < ApplicationController
     :current_payload,
     :current_payload_data
 
+  before_action :authenticate_contact!
+  before_action :only_ungc_contacts!
+
   protected
+
+  # TODO remove this on launch
+  def only_ungc_contacts!
+    unless current_contact.from_ungc?
+      flash[:error] = "You do not have permission to access that resource."
+      redirect_to dashboard_path
+    end
+  end
 
   def current_container
     @current_container
