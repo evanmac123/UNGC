@@ -6,13 +6,13 @@
     <div class='navbar-right'>
       <ul class="nav navbar-nav navbar-left">
         {{#link-to "containers.index" tagName="li"}}
-          {{#link-to "containers.index"}}Sitemap{{/link-to}}
+          {{#link-to "containers.index"}}<i class='fa fa-bars fa-fw' aria-hidden='true'></i>Sitemap{{/link-to}}
         {{/link-to}}
         {{#link-to "containers.needs-approval" tagName="li"}}
-          {{#link-to "containers.needs-approval"}}Needs Approval{{/link-to}}
+          {{#link-to "containers.needs-approval"}}<i class='fa fa-check-square-o fa-fw' aria-hidden='true'></i>Needs Approval{{/link-to}}
         {{/link-to}}
       </ul>
-      <a {{action "logout"}} href="#" class='logout btn btn-default navbar-btn navbar-right'>Logout</a>
+      <a {{action "logout"}} href="#" class='logout btn btn-default navbar-btn navbar-right'>Logout<i class='fa fa-sign-out fa-fw' aria-hidden='true'></i></a>
     </div>
   </nav>
 </header>
