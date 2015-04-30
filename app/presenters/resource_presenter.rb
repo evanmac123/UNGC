@@ -22,19 +22,19 @@ class ResourcePresenter < SimpleDelegator
 
   def topic_options
     Redesign::TopicTree.new.map do |parent, children|
-      add_selections(parent, children, selected_topics)
+      add_selections(parent, children, :topic, selected_topics)
     end
   end
 
   def issue_options
     Redesign::IssueTree.new.map do |parent, children|
-      add_selections(parent, children, selected_issues)
+      add_selections(parent, children, :issue, selected_issues)
     end
   end
 
   def sector_options
     Redesign::SectorTree.new.map do |parent, children|
-      add_selections(parent, children, selected_sectors)
+      add_selections(parent, children, :sector, selected_sectors)
     end
   end
 
@@ -56,28 +56,15 @@ class ResourcePresenter < SimpleDelegator
       resource.sectors
     end
 
-    def add_selections(parent_tag, child_tags, selected)
+    def add_selections(parent, children, type, selected)
       selected_ids = selected.pluck(:id)
 
-      filtered_parent_tag = Filter.new(parent_tag, selected_ids.include?(parent_tag.id))
+      parent_options = FilterOption.new(parent.id, parent.name, type, selected_ids.include?(parent.id))
 
-      filtered_child_tags = Array(child_tags).map do |child_tag|
-        Filter.new(child_tag, selected_ids.include?(child_tag.id))
+      child_options = Array(children).map do |child|
+        FilterOption.new(child.id, child.name, type, selected_ids.include?(child.id))
       end
 
-      [filtered_parent_tag, filtered_child_tags]
+      [parent_options, child_options]
     end
-
-  Filter = Struct.new(:model, :selected?) do
-
-    def id
-      model.id
-    end
-
-    def name
-      model.name
-    end
-
-  end
-
 end

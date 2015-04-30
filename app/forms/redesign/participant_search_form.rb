@@ -12,23 +12,23 @@ class Redesign::ParticipantSearchForm
   attribute :order,               String
 
   def organization_type_options
-    pluck_options(OrganizationType.all, organization_types)
+    pluck_options(OrganizationType.all, :organization_type, organization_types)
   end
 
   def initiative_options
-    pluck_options(Initiative.all, initiatives)
+    pluck_options(Initiative.all, :initiative, initiatives)
   end
 
   def country_options
-    pluck_options(Country.all, countries)
+    pluck_options(Country.all, :country, countries)
   end
 
   def sector_options
     @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
       [
-        Filter.new(parent.id, parent.name, sectors.include?(parent.id)),
+        FilterOption.new(parent.id, parent.name, :sector, sectors.include?(parent.id)),
         children.map { |sector|
-          Filter.new(sector.id, sector.name, sectors.include?(sector.id))
+          FilterOption.new(sector.id, sector.name, :sector, sectors.include?(sector.id))
         }
       ]
     end
@@ -36,7 +36,7 @@ class Redesign::ParticipantSearchForm
 
   def reporting_status_options
     @reporting_status_options ||= Organization.distinct.pluck(:cop_state).map do |state|
-      Filter.new(state, state, Array(reporting_status).include?(state))
+      FilterOption.new(state, state, :reporting_status, reporting_status.include?(state))
     end
   end
 
@@ -91,11 +91,9 @@ class Redesign::ParticipantSearchForm
     }
   end
 
-  Filter = Struct.new(:id, :name, :active)
-
-  def pluck_options(relation, selected)
+  def pluck_options(relation, type, selected)
     relation.pluck(:id, :name).map do |id, name|
-      Filter.new(id, name, selected.include?(id))
+      FilterOption.new(id, name, type, selected.include?(id))
     end
   end
 
