@@ -32,7 +32,7 @@ class Resource < ActiveRecord::Base
     },
     :url => "/system/:class/:attachment/:id/:style/:filename"
 
-  permalink :name_for_permalink
+  permalink :title_for_permalink
 
   validates_presence_of :title, :description
   do_not_validate_attachment_file_type :image
@@ -104,7 +104,7 @@ class Resource < ActiveRecord::Base
     end
   end
 
-  def name_for_permalink
+  def title_for_permalink
     self.title.parameterize
   end
 
