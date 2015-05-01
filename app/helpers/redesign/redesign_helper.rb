@@ -14,4 +14,13 @@ module Redesign::RedesignHelper
     html_options['href'] ||= url
     content_tag(:a, name || url, html_options, &block)
   end
+
+  def search_filter(filter)
+    raw render('redesign/components/filter_options_list',
+        label: filter.label,
+        filter: filter.parents,
+        child_filter: filter.children,
+        options: filter.options)
+  end
+
 end

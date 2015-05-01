@@ -46,7 +46,6 @@ UNGC::Application.routes.draw do
       get '/(*path)' => 'index#frontend', as: :root, format: :html
     end
 
-
     controller :library do
       get '/library'        => :index,  as: :library
       get '/library/search' => :search, as: :library_search
@@ -65,6 +64,10 @@ UNGC::Application.routes.draw do
 
     controller :issues do
       get '/what-is-gc/our-work/all' => :index, as: :issues
+    end
+
+    controller :all_our_work, path: '/what-is-gc/our-work' do
+      get '/all' => :index, as: :all_our_work
     end
 
     controller :actions do

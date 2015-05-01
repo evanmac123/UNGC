@@ -1,15 +1,33 @@
 class Redesign::AllOurWorkForm
-  attr_reader \
-    :page,
-    :per_page
+  include Virtus.model
 
-  def initialize(page = 1, params = {})
-    @per_page = 12
-    @page = page
+  attribute :page,        Integer,        default: 1
+  attribute :per_page,    Integer,        default: 5
+  attribute :issues,      Array[Integer], default: []
+  attribute :topics,      Array[Integer], default: []
+
+  def issue_filter
+    @_issue_filter ||= IssueFilter.new
+    @_issue_filter.select(issues)
   end
 
-  def results
-    # TODO use a sphinx index instead and mimic library_search_form?
-    Redesign::Container.issue.includes(:public_payload).paginate(page: page, per_page: per_page)
+  def topic_filter
+    @_topic_filter ||= TopicFilter.new
+    @_topic_filter.select(topics)
   end
+
+  def execute
+    containers = Redesign::Container.issue.includes(:public_payload)
+
+    if issues.any?
+      containers = containers.joins(taggings: [:issue]).where('issue_id in (?)', issues)
+    end
+
+    if topics.any?
+      containers = containers.joins(taggings: [:topic]).where('topic_id in (?)', issues)
+    end
+
+    containers.paginate(page: page, per_page: per_page)
+  end
+
 end
