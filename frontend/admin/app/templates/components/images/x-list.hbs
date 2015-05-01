@@ -1,0 +1,22 @@
+<table class=table>
+<thead>
+  <tr>
+    <th>Preview</th>
+    <th>URL</th>
+  </tr>
+</thead>
+<tbody>
+  {{#each model as |image|}}
+  <tr>
+    <td>
+      <img src={{image.url}} style="max-width: 300px">
+    </td>
+    <td>
+      {{image.url}}
+    </td>
+  </tr>
+  {{/each}}
+</tbody>
+</table>
+
+{{page-numbers content=model}}

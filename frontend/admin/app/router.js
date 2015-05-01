@@ -12,6 +12,7 @@ Router.map(function() {
       this.route('edit', { path: '/containers/:container_id' });
       this.route('needs-approval');
     });
+    this.resource('images');
   });
 });
 

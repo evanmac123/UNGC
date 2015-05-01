@@ -21,5 +21,11 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
     end
   end
 
+  def index
+    images = UploadedImage.paginate({page: params[:page], per_page: params[:per_page]})
+    serialized = images.map { |i| {id: i.id, url: i.url}}
+    render json: { images: serialized, meta: {total_pages: images.total_pages} }
+  end
+
 end
 
