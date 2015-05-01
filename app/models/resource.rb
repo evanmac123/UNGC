@@ -32,6 +32,8 @@ class Resource < ActiveRecord::Base
     },
     :url => "/system/:class/:attachment/:id/:style/:filename"
 
+  permalink :name_for_permalink
+
   validates_presence_of :title, :description
   do_not_validate_attachment_file_type :image
 
@@ -100,6 +102,10 @@ class Resource < ActiveRecord::Base
     else
       raise Riddle::ConnectionError
     end
+  end
+
+  def name_for_permalink
+    self.title.parameterize
   end
 
 end
