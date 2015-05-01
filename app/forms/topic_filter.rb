@@ -1,8 +1,8 @@
-class TopicFilter < SearchFilter
+class TopicFilter < GroupedSearchFilter
   def initialize(selected)
-    super(Redesign::TopicTree.new, :topic, selected)
+    super(Redesign::TopicTree.new, selected)
     self.label = 'Topic'
-    self.parent_key = 'topic'
+    self.key = 'topic'
     self.child_key = 'topic'
   end
 end

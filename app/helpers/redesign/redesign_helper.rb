@@ -16,11 +16,17 @@ module Redesign::RedesignHelper
   end
 
   def search_filter(filter)
-    raw render('redesign/components/filter_options_list',
-        label: filter.label,
-        filter: filter.parent_key,
-        child_filter: filter.child_key,
-        options: filter.options)
+    options = {
+      label: filter.label,
+      filter: filter.key,
+      options: filter.options
+    }
+
+    if filter.child_key
+      options[:child_filter] = filter.child_key
+    end
+
+    raw render('redesign/components/filter_options_list', options)
   end
 
 end

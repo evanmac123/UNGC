@@ -1,8 +1,8 @@
-class IssueFilter < SearchFilter
+class IssueFilter < GroupedSearchFilter
   def initialize(selected)
-    super(Redesign::IssueTree.new, :issue, selected)
+    super(Redesign::IssueTree.new, selected)
     self.label = 'Issue'
-    self.parent_key = 'issue'
+    self.key = 'issue'
     self.child_key = 'issue'
   end
 end
