@@ -18,8 +18,8 @@ module Redesign::RedesignHelper
   def search_filter(filter)
     raw render('redesign/components/filter_options_list',
         label: filter.label,
-        filter: filter.parents,
-        child_filter: filter.children,
+        filter: filter.parent_key,
+        child_filter: filter.child_key,
         options: filter.options)
   end
 

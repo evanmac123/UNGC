@@ -7,13 +7,11 @@ class Redesign::AllOurWorkForm
   attribute :topics,      Array[Integer], default: []
 
   def issue_filter
-    @_issue_filter ||= IssueFilter.new
-    @_issue_filter.select(issues)
+    IssueFilter.new(issues)
   end
 
   def topic_filter
-    @_topic_filter ||= TopicFilter.new
-    @_topic_filter.select(topics)
+    TopicFilter.new(topics)
   end
 
   def execute

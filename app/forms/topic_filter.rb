@@ -1,6 +1,8 @@
 class TopicFilter < SearchFilter
-  def initialize(label = 'Topics', type = :topic, parent_key = 'topics', child_key = 'topics')
-    tree = Redesign::TopicTree.new
-    super(tree, type, label, parent_key, child_key)
+  def initialize(selected)
+    super(Redesign::TopicTree.new, :topic, selected)
+    self.label = 'Topic'
+    self.parent_key = 'topic'
+    self.child_key = 'topic'
   end
 end

@@ -1,17 +1,10 @@
 class SearchFilter
-  attr_accessor :tree, :type, :label, :parents, :children, :selected
+  attr_accessor :tree, :type, :selected, :label, :parent_key, :child_key
 
-  def initialize(tree, type, label, parents, children)
-    self.tree = tree
-    self.type = type
-    self.label = label
-    self.parents = parents
-    self.children = children
-  end
-
-  def select(selected)
-    self.selected = selected
-    self
+  def initialize(tree, type, selected)
+    @tree = tree
+    @type = type
+    @selected = selected
   end
 
   def options
