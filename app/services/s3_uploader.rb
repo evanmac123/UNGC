@@ -15,7 +15,7 @@ class S3Uploader
 
   def key
     unique_hash = Digest::SHA1.hexdigest("uploads#{SecureRandom.uuid}#{Rails.env}")
-    @key ||= "uploads/#{unique_hash[0..1]}/#{unique_hash}.#{file_ext}"
+    @key ||= "uploads/#{unique_hash[0..1]}/#{unique_hash}---#{base_name}.#{file_ext}"
   end
 
   def url
@@ -36,6 +36,10 @@ class S3Uploader
   def file_type
     return unless file_name
     FILE_TYPES[File.extname(file_name).sub('.','').downcase.to_sym]
+  end
+
+  def base_name
+    File.basename(file_name, ".*")
   end
 
   def mime
