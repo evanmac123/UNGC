@@ -36,9 +36,6 @@ class Redesign::NewsListForm
   end
 
   def execute
-    # by issue, topic, country and date range. 2 cal pickers
-    # TODO use a sphinx index instead and mimic library_search_form?
-
     headlines = Headline.order('published_on desc')
 
     if countries.any?
