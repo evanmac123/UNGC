@@ -74,7 +74,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     should "have a selected issue area" do
       issue_area_a = @options.first.first
-      assert issue_area_a.active
+      assert issue_area_a.selected?
     end
 
     should "have names" do
@@ -91,7 +91,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have active states" do
-      assert_equal [false, false, true], @filters.map(&:active)
+      assert_equal [false, false, true], @filters.map(&:selected?)
     end
 
   end
@@ -112,7 +112,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     should "have a selected topic group" do
       topic_group_a = @options.first.first
-      assert topic_group_a.active
+      assert topic_group_a.selected?
     end
 
     should "have names" do
@@ -129,7 +129,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have active states" do
-      assert_equal [false, false, true], @filters.map(&:active)
+      assert_equal [false, false, true], @filters.map(&:selected?)
     end
 
   end
@@ -147,7 +147,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have mark the selected one" do
-      assert @form.language_options.last.active
+      assert @form.language_options.last.selected?
     end
 
   end
@@ -179,7 +179,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have a selected group" do
-      assert @group_b.first.active
+      assert @group_b.first.selected?
     end
 
     should "have 3 children" do
@@ -195,7 +195,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "not be active by default" do
-      assert_equal false, @filter.active
+      assert_equal false, @filter.selected?
     end
 
     should "have the sector name" do
@@ -205,7 +205,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     should "selecting an option should make it active" do
       form = Redesign::LibrarySearchForm.new 1, @search_params
       filter = form.sector_options[0][1].last # group a, filters
-      assert filter.active
+      assert filter.selected?
     end
 
   end
