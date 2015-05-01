@@ -21,15 +21,15 @@ class Redesign::LibraryController < Redesign::ApplicationController
   def search_params
     params.fetch(:search, {}).permit(
       :keywords,
+      :content_type,
+      :sort_field,
       issue_areas: [],
       issues: [],
       topic_groups: [],
       topics: [],
       languages: [],
       sector_groups: [],
-      sectors: [],
-      content_type: [],
-      sort_field: []
+      sectors: []
     )
   end
 
