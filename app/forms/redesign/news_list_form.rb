@@ -9,30 +9,16 @@ class Redesign::NewsListForm
   attribute :start_date,  Date
   attribute :end_date,    Date
 
-  def issue_options
-    Redesign::IssueTree.new.map do |parent, children|
-      parent_option = FilterOption.new(parent.id, parent.name, :issue, issues.include?(parent.id))
-      child_options = children.map do |child|
-        FilterOption.new(child.id, child.name, :issue, issues.include?(child.id))
-      end
-      [parent_option, child_options]
-    end
+  def issue_filter
+    IssueFilter.new(issues)
   end
 
-  def topic_options
-    Redesign::TopicTree.new.map do |parent, children|
-      parent_option = FilterOption.new(parent.id, parent.name, :topic, topics.include?(parent.id))
-      child_options = children.map do |child|
-        FilterOption.new(child.id, child.name, :topic, topics.include?(child.id))
-      end
-      [parent_option, child_options]
-    end
+  def topic_filter
+    TopicFilter.new(topics)
   end
 
-  def country_options
-    Country.pluck(:id, :name).map do |id, name|
-      FilterOption.new(id, name, :country, countries.include?(id))
-    end
+  def country_filter
+    CountryFilter.new(countries)
   end
 
   def execute

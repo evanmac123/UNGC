@@ -1,16 +1,11 @@
 <div class="jorge" style="margin-top: 135px">
 
   <%= form_for @search, as: :search, url: press_releases_redesign_news_index_path, method: :get do |form| %>
-
-    <%= render 'redesign/components/filter_options_list', label: 'Issues', filter: 'issues', child_filter: 'issues', options: @search.issue_options %>
-
-    <%= render 'redesign/components/filter_options_list', label: 'Topics', filter: 'topics', child_filter: 'topics', options: @search.topic_options %>
-
-    <%= render 'redesign/components/filter_options_list', label: 'Country', filter: 'countries', options: @search.country_options %>
-
+    <%= search_filter @search.issue_filter %>
+    <%= search_filter @search.topic_filter %>
+    <%= search_filter @search.country_filter %>
     <%= form.text_field :start_date, class: 'datepicker' %>
     <%= form.text_field :end_date,   class: 'datepicker' %>
-
     <%= form.submit 'Search' %>
   <% end %>
 
