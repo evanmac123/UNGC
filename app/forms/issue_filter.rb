@@ -1,8 +1,9 @@
 class IssueFilter < GroupedSearchFilter
-  def initialize(selected)
-    super(Redesign::IssueTree.new, selected)
+  def initialize(selected_parents, selected_children, key: 'issues')
+    super(Redesign::IssueTree.new, selected_parents)
+    self.selected_children = selected_children
     self.label = 'Issue'
-    self.key = 'issue'
-    self.child_key = 'issue'
+    self.key = key
+    self.child_key = 'issues'
   end
 end

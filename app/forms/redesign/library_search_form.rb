@@ -20,28 +20,24 @@ class Redesign::LibrarySearchForm
   end
 
   def active_filters
-    issue_areas = issue_options.map(&:first).select(&:selected?)
-    issues = issue_options.flat_map do |group, issues|
-      issues.select(&:selected?)
-    end
-
-    topic_groups = topic_options.map(&:first).select(&:selected?)
-    topics = topic_options.flat_map do |group, topics|
-      topics.select(&:selected?)
-    end
-
-    sector_groups = sector_options.map(&:first).select(&:selected?)
-    sectors = sector_options.flat_map do |group, sectors|
-      sectors.select(&:selected?)
-    end
-
-    languages = language_options.select(&:selected?)
-
-    [issue_areas, issues, topic_groups, topics, languages, sector_groups, sectors].flatten
+    [
+      issue_filter.selected_options,
+      topic_filter.selected_options,
+      language_filter.selected_options,
+      sector_filter.selected_options,
+    ].flatten
   end
 
-  def disabled?
-    active_filters.count >= 5
+  def issue_filter
+    @issue_filter ||= IssueFilter.new(issue_areas, issues, key: 'issue_areas')
+  end
+
+  def topic_filter
+    @topic_filter ||= TopicFilter.new(topic_groups, topics, key: 'topic_groups')
+  end
+
+  def sector_filter
+    @sector_filter ||= SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
   end
 
   def issue_options
@@ -110,17 +106,6 @@ class Redesign::LibrarySearchForm
       options[:content_type] = content_type
     end
 
-    order = case self.sort_field
-    when 'date'
-      'year desc'
-    when 'title_asc'
-      'title asc'
-    when 'title_desc'
-      'title desc'
-    else
-      'year desc'
-    end
-
     {
       indices: ['resource_new_core'],
       page: self.page || 1,
@@ -141,6 +126,7 @@ class Redesign::LibrarySearchForm
 
   private
 
+  # TODO push this into SearchFilter
   def add_issue_options(options)
     ids = Set.new(issues)
     areas = Issue.includes(:children).find(issue_areas)
@@ -183,6 +169,19 @@ class Redesign::LibrarySearchForm
 
   end
 
+  def order
+    case self.sort_field
+    when 'date'
+      'year desc'
+    when 'title_asc'
+      'title asc'
+    when 'title_desc'
+      'title desc'
+    else
+      'year desc'
+    end
+  end
+
   def format_content_types
     Resource.content_types
       .to_a
@@ -190,7 +189,6 @@ class Redesign::LibrarySearchForm
       .map do |name, id|
       title = I18n.t("resources.types.#{name}")
       [title, id]
-    end
   end
 
 end

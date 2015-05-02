@@ -10,4 +10,8 @@ class SearchFilter
     [] # to override
   end
 
+  def selected_options
+    options.select(&:selected?)
+  end
+
 end
