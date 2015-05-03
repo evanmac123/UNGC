@@ -19,14 +19,15 @@ export default Ember.Component.extend({
 
   processFile: function(file) {
 
-    var promise = this.getSignedUrl(file.name);
+    const filename = file.name;
+    var promise = this.getSignedUrl(filename);
 
     this.set('uploadError', null);
     this.set("isSaving", true);
     promise.then(this.performUpload.bind(this)).then( () => {
       const url =  this.get('url');
       this.set('field.value', url);
-      this.saveUploadedImage(url);
+      this.saveUploadedImage(url, filename);
     }).catch( /* errorResponse */ () => {
       this.set('uploadError', 'Invalid file');
     }).finally( () => {
@@ -118,11 +119,16 @@ export default Ember.Component.extend({
     });
   },
 
-  saveUploadedImage(url) {
+  saveUploadedImage(url, filename) {
     return request({
       type: "POST",
       url: "/redesign/admin/api/images",
-      data: { url: url }
+      data: {
+        image: {
+          url: url,
+          filename: filename
+        }
+      }
     });
   }
 });

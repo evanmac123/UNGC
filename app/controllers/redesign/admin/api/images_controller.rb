@@ -10,9 +10,7 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
   end
 
   def create
-    image = UploadedImage.create(
-      url: params[:url]
-    )
+    image = UploadedImage.create(image_params)
 
     if image.valid?
       render nothing: true, status: 201
@@ -22,9 +20,15 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
   end
 
   def index
-    images = UploadedImage.paginate({page: params[:page], per_page: params[:per_page]})
-    serialized = images.map { |i| {id: i.id, url: i.url}}
+    images = UploadedImage.order(created_at: :desc).paginate({page: params[:page], per_page: params[:per_page]})
+    serialized = images.map { |i| {id: i.id, url: i.url, filename: i.filename }}
     render json: { images: serialized, meta: {total_pages: images.total_pages} }
+  end
+
+  private
+
+  def image_params
+    params.fetch(:image).permit(:url, :filename)
   end
 
 end
