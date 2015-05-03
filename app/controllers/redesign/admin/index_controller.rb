@@ -4,7 +4,7 @@ class Redesign::Admin::IndexController < Redesign::Admin::AdminController
     if Rails.env.development?
       index_key = 'admin:__development__'
     else
-      index_key = $redis.get('admin:current')
+      index_key = params[:revision] || $redis.get('admin:current')
     end
     render text: $redis.get(index_key), layout: false
   end
