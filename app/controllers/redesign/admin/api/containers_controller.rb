@@ -49,7 +49,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
   end
 
   def index
-    scope = Redesign::Container.order(:layout, :slug)
+    scope = Redesign::Container.order(:path)
 
     containers = if params[:root]
       scope.where(parent_container_id: nil)
