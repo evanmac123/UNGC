@@ -117,7 +117,7 @@
   :arch: amd64
 
 :sidekiq:
-  :workers: 2
+  :workers: 1
 
 :denyhosts:
   :allow:
