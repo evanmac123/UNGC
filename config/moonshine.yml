@@ -113,6 +113,7 @@
 
 :redis:
   :version: 2.6.17
+  :bind: 127.0.0.1
   :arch: amd64
 
 :sidekiq:
