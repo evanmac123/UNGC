@@ -22,6 +22,8 @@ module UNGC
         engage
         implement
         background
+        issue
+        topic
       ]
 
       def has_meta_tags!(&block)
