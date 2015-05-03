@@ -5,9 +5,9 @@ class Redesign::Admin::IndexController < Redesign::Admin::AdminController
                 elsif params[:revision]
                   "admin:#{params[:revision]}"
                 else
-                  $redis.get('admin:current')
+                  UNGC::Redis.with_connection { |r| r.get('admin:current') }
                 end
-    index = $redis.get(index_key)
+    index = UNGC::Redis.with_connection { |r| r.get(index_key) }
     render text: add_token_to_index(index), layout: false
   end
 
