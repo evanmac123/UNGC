@@ -12,7 +12,9 @@ class ArticleLayout < UNGC::Layout
 
   has_taggings!
 
-  has_hero!
+  has_hero! do
+    field :show_section_nav,  type: :boolean, default: true
+  end
 
   scope :article_block do
     field :title,    type: :string, limit: 100, required: true
