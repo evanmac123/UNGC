@@ -50,8 +50,8 @@ class Cmd
   end
 
   def check_args
-    if deploy_env != 'preview'
-      puts 'Please chooose an env'
+    unless host
+      puts 'Please chooose a valid env'
       puts 'usage: ruby deploy.rb ENV'
       exit 1
     end
@@ -75,6 +75,9 @@ class Cmd
     case deploy_env
     when 'preview'
       'preview.unglobalcompact.org'
+    # TODO add more envs when we're set up
+    else
+      nil
     end
   end
 
