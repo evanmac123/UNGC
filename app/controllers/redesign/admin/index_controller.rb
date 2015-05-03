@@ -22,12 +22,8 @@ class Redesign::Admin::IndexController < Redesign::Admin::AdminController
   end
 
   def add_token_to_index(index)
-    html = render_to_string(text: '', layout: 'redesign/admin')
-    token = extract_token(html)
+    token = form_authenticity_token
     index.sub(/CSRF_TOKEN/, token)
   end
 
-  def extract_token(html)
-    html.match(/<meta name="csrf-token" content="(.*)" \/>/)[1]
-  end
 end
