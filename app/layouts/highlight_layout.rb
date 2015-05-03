@@ -31,6 +31,10 @@ class HighlightLayout < UNGC::Layout
   has_taggings!
 
   has_hero! do
+    scope :link do
+      field :label, type: :string, limit: 30
+      field :url,   type: :href
+    end
     field :show_section_nav,  type: :boolean, default: false
   end
 
