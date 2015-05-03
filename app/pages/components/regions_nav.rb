@@ -6,7 +6,7 @@ class Components::RegionsNav
   end
 
   def each(&block)
-    regions.each do |k,v|
+    regions.sort.each do |k,v|
       block.call(RegionNav.new(k),v)
     end
   end
@@ -15,13 +15,13 @@ class Components::RegionsNav
 
     def name
       region_names = {
+        'africa'            => 'Africa',
+        'asia'              => 'Asia',
         'europe'            => 'Europe',
         'latin_america'     => 'Latin America &amp; Caribbean',
-        'oceania'           => 'Oceania',
-        'asia'              => 'Asia',
+        'mena'              => 'MENA',
         'northern_america'  => 'North America',
-        'africa'            => 'Africa',
-        'mena'              => 'MENA'
+        'oceania'           => 'Oceania',
       }
 
       region_names[region] || ''
