@@ -19,8 +19,8 @@ class Cmd
     args[0]
   end
 
-  def port_forward_cmd
-    "ssh -L 6380:localhost:6379 rails@#{host}"
+  def revision
+    args[2]
   end
 
   def run
@@ -44,6 +44,10 @@ class Cmd
   end
 
   private
+
+  def port_forward_cmd
+    "ssh -L 6380:localhost:6379 rails@#{host}"
+  end
 
   def check_args
     if deploy_env != 'preview'
@@ -78,10 +82,6 @@ class Cmd
     start_port_forward
     yield
     stop_port_forward
-  end
-
-  def revision
-    args[2]
   end
 
 end
