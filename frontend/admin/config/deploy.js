@@ -13,11 +13,11 @@ module.exports = {
     store: {
       type: 'redis',
       host: 'localhost',
-      port: 6379
+      port: 6380
     },
     assets: {
       accessKeyId: 'AKIAIAHEVV5B2KXIPNGA',
-      secretAccessKey: process.env['AWS_ACCESS_KEY'],
+      secretAccessKey: process.env['AWS_SECRET_KEY'],
       bucket: 'ungc-development'
     }
   }
