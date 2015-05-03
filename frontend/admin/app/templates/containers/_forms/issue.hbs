@@ -3,12 +3,7 @@
 
   {{container/macros/x-hero scope=issue}}
 
-  <fieldset>
-    <legend>Principles</legend>
-    {{#container/x-fields key="principles" array=true min=0 max=5 scope=issue as |principles|}}
-      {{container/x-field key="principle" type="number" scope=principles}}
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-principles scope=issue}}
 
   <fieldset>
     <legend>Issue Content</legend>

@@ -64,6 +64,12 @@ module UNGC
         end
       end
 
+      def has_principles!
+        scope :principles, array: true, min: 0, max: 10 do
+          field :principle, type: :number, required: true
+        end
+      end
+
       def has_widget_contact!
         scope :widget_contact do
           field :contact_id, type: :number

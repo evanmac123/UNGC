@@ -14,9 +14,7 @@ class ActionDetailLayout < UNGC::Layout
 
   has_hero!
 
-  scope :principles, array: true, min: 0, max: 5 do
-    field :principle, type: :number, required: true
-  end
+  has_principles!
 
   scope :action_detail_block do
     field :title,    type: :string, limit: 100, required: true
