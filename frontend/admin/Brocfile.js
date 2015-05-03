@@ -2,14 +2,26 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-var env = EmberApp.env();
+var env = EmberApp.env()|| 'development';
 var isProductionLikeBuild = ['production', 'staging', 'preview'].indexOf(env) > -1;
 
+var fingerprintOptions = {
+    enabled: true,
+    extensions: ['js', 'css', 'png', 'jpg', 'gif']
+};
+
+switch (env) {
+  case 'development':
+    fingerprintOptions.prepend = 'http://localhost:4200/';
+  break;
+  case 'preview':
+    fingerprintOptions.prepend = 'https://d1oxvp4dfaygck.cloudfront.net/';
+  break;
+}
+
 var app = new EmberApp({
-  fingerprint: {
-    enabled: isProductionLikeBuild,
-    prepend: 'https://d1oxvp4dfaygck.cloudfront.net/'
-  },
+  fingerprint: fingerprintOptions,
+
   sourcemaps: {
     enabled: !isProductionLikeBuild,
   },
