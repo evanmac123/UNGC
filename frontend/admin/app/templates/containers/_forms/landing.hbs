@@ -3,6 +3,7 @@
 
   {{#container/macros/x-hero scope=landing as |hero|}}
     {{container/macros/x-link key="link" scope=hero}}
+    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=false scope=hero}}
   {{/container/macros/x-hero}}
 
   <fieldset>

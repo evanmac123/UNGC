@@ -23,6 +23,7 @@ class LandingLayout < UNGC::Layout
       field :label, type: :string, limit: 30, required: true
       field :url,   type: :href,   required: true
     end
+    field :show_section_nav,  type: :boolean, default: false
   end
 
   scope :tiles, array: true, min: 3, max: 6 do

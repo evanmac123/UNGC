@@ -6,5 +6,9 @@ class LandingPage < ContainerPage
   def tiles
     @data[:tiles] || []
   end
+
+  def section_nav
+    return Components::SectionNav.new(container)
+  end
 end
 
