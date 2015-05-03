@@ -41,7 +41,21 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+type
+
+```
+ruby deploy.rb
+```
+
+and follow the instructions
+
+you'll need to
+
+```
+export AWS_SECRET_KEY=yourawskey
+```
+
+for the deployt to work.
 
 ## Further Reading / Useful Links
 

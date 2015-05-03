@@ -2,8 +2,6 @@
 require 'open3'
 require 'byebug'
 
-
-
 class Cmd
   attr_reader :args, :port_forward_pid
 
@@ -43,6 +41,16 @@ class Cmd
     system "ember deploy:list --environment=#{deploy_env}"
   end
 
+  def help
+    puts "usage: ruby deploy.rb ENV [cmd] [args]"
+    puts "       available commands are:"
+    puts "\t\t deploy"
+    puts "\t\t activate revision"
+    puts "\t\t list"
+    puts ""
+    puts "note that you have to export AWS_SECRET_KEY"
+  end
+
   private
 
   def port_forward_cmd
@@ -51,8 +59,8 @@ class Cmd
 
   def check_args
     unless host
-      puts 'Please chooose a valid env'
-      puts 'usage: ruby deploy.rb ENV'
+      puts "Please chooose a valid env\n"
+      help
       exit 1
     end
 
