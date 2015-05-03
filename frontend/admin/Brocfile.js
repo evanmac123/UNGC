@@ -2,22 +2,23 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+var env = EmberApp.env();
+var isProductionLikeBuild = ['production', 'staging', 'preview'].indexOf(env) > -1;
+
 var app = new EmberApp({
-  storeConfigInMeta: false,
-
-  minifyJS: {
-    enabled: false
+  fingerprint: {
+    enabled: isProductionLikeBuild,
+    prepend: 'https://d1oxvp4dfaygck.cloudfront.net/'
   },
-
-  minifyCSS: {
-    enabled: false
+  sourcemaps: {
+    enabled: !isProductionLikeBuild,
   },
+  minifyCSS: { enabled: isProductionLikeBuild },
+  minifyJS: { enabled: isProductionLikeBuild },
 
-  fingerprinting: {
-    enabled: false
-  }
+  tests: process.env.EMBER_CLI_TEST_COMMAND || !isProductionLikeBuild,
+  hinting: process.env.EMBER_CLI_TEST_COMMAND || !isProductionLikeBuild
 });
-
 
 app.import('vendor/redactor/redactor.js');
 app.import('vendor/redactor/redactor.css');
