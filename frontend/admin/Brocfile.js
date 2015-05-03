@@ -2,22 +2,35 @@
 
 var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+var env = EmberApp.env()|| 'development';
+var isProductionLikeBuild = ['production', 'staging', 'preview'].indexOf(env) > -1;
+
+var fingerprintOptions = {
+    enabled: true,
+    extensions: ['js', 'css', 'png', 'jpg', 'gif']
+};
+
+switch (env) {
+  case 'development':
+    fingerprintOptions.prepend = 'http://localhost:4200/';
+  break;
+  case 'preview':
+    fingerprintOptions.prepend = 'https://d1oxvp4dfaygck.cloudfront.net/';
+  break;
+}
+
 var app = new EmberApp({
-  storeConfigInMeta: false,
+  fingerprint: fingerprintOptions,
 
-  minifyJS: {
-    enabled: false
+  sourcemaps: {
+    enabled: !isProductionLikeBuild,
   },
+  minifyCSS: { enabled: isProductionLikeBuild },
+  minifyJS: { enabled: isProductionLikeBuild },
 
-  minifyCSS: {
-    enabled: false
-  },
-
-  fingerprinting: {
-    enabled: false
-  }
+  tests: process.env.EMBER_CLI_TEST_COMMAND || !isProductionLikeBuild,
+  hinting: process.env.EMBER_CLI_TEST_COMMAND || !isProductionLikeBuild
 });
-
 
 app.import('vendor/redactor/redactor.js');
 app.import('vendor/redactor/redactor.css');
