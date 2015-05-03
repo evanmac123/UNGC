@@ -7,6 +7,19 @@ class Redesign::Admin::IndexController < Redesign::Admin::AdminController
                 else
                   $redis.get('admin:current')
                 end
-    render text: $redis.get(index_key), layout: false
+    index = $redis.get(index_key)
+    render text: add_token_to_index(index), layout: false
+  end
+
+  private
+
+  def add_token_to_index(index)
+    html = render_to_string(text: '', layout: 'redesign/admin')
+    token = extract_token(html)
+    index.sub(/CSRF_TOKEN/, token)
+  end
+
+  def extract_token(html)
+    html.match(/<meta name="csrf-token" content="(.*)" \/>/)[1]
   end
 end
