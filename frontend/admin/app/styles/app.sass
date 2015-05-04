@@ -23,8 +23,9 @@ body
     margin-left: 32px
 
   li
+    position: relative
     margin: 0
-    padding: 0
+    padding: 0 0 0 2.5em
     list-style: none
 
     &:last-child
@@ -57,6 +58,21 @@ body
 
     .node-actions
       opacity: 1
+
+.sitemap-x-node-open-close
+  background: transparent
+  border: 0
+  position: absolute
+  top: 0
+  left: 0
+  color: #666
+
+  span
+    display: none
+
+.sitemap-x-node-url
+  color: #666
+  margin-right: 1em
 
 // Bootstrap recommended Firefox fieldsets fix
 @-mox-document url-prefix()
@@ -131,7 +147,9 @@ body
       background: #bbb
       color: white
       padding: .25em .5em
-      margin-left: 1em
+
+    .fa
+      margin-right: .25em
 
 fieldset
   margin: 0 0 4em

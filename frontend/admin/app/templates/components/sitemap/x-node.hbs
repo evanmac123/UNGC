@@ -1,27 +1,26 @@
 {{#sitemap/x-label node=node onDragOver="onMightDropNode" onDragLeave="onWontDropNode" onDrop="onDroppedNode"}}
   <span class="node-expander">
     {{#if node.hasDescendants}}
-      <button {{action "toggle"}} class="btn btn-sm btn-default">
-        {{if isOpen "-" "+"}}
+      <button {{action "toggle"}} class="sitemap-x-node-open-close">
+        <i class='fa fa-{{if isOpen "minus" "plus"}} fa-fw' aria-hidden='true'></i><span>{{if isOpen "close" "open"}}</span>
       </button>
     {{/if}}
   </span>
 
   <span class="node-label">
-    {{#link-to "containers.edit" node.model.id}}{{!-- NOTE: We call .id here to force the route to load the model hook --}}
-      {{~node.model.publicPath~}}
-    {{/link-to}}
+    <code class='sitemap-x-node-url'>{{~node.model.publicPath~}}</code>
 
-    <span class="label label-default">{{node.model.layout}}</span>
+    {{!-- NOTE: We call .id here to force the route to load the model hook --}}
+    {{#link-to "containers.edit" node.model.id class='label label-primary'}}<i class='fa fa-pencil fa-fw' aria-hidden='true'></i>&nbsp;Edit{{/link-to}}
+
+    <span class="label label-default"><i class='fa fa-columns fa-fw' aria-hidden='true'></i>&nbsp;{{node.model.layout}}</span>
     {{#if hasDraft}}
-      <span class="label label-warning">Needs Approval</span>
+      <span class="label label-warning"><i class='fa fa-check-square-o fa-fw' aria-hidden='true'></i>&nbsp;Needs Approval</span>
     {{/if}}
   </span>
 
   <span class="node-actions">
-    <a href="/redesign{{node.model.publicPath}}" target="_blank" class="btn btn-sm btn-primary">
-      View
-    </a>
+    <a href="/redesign{{node.model.publicPath}}" target="_blank" class="btn btn-sm btn-success"><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
   </span>
 {{/sitemap/x-label}}
 

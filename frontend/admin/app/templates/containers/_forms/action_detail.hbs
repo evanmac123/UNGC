@@ -34,7 +34,7 @@
 
   <fieldset>
     <legend>Partners</legend>
-    {{#container/x-fields tagName="ol" key="partners" array=true max=5 scope=actionDetail as |partners|}}
+    {{#container/x-fields key="partners" array=true max=5 scope=actionDetail as |partners|}}
       <li class="stat-group">
         {{container/x-field key="name" type="string" scope=partners}}
         {{container/x-field key="logo" label="Logo URL" type="image-upload" scope=partners}}
