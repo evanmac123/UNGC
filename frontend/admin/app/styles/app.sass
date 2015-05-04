@@ -42,6 +42,9 @@ body
   &.might-drop-below
     border-bottom: 2px solid yellow
 
+  .label-default
+    background-color: #999
+
 .sitemap-x-label
   border-bottom: 1px solid #eee
   line-height: 40px
@@ -253,3 +256,44 @@ fieldset
   right: 1em
   min-width: 30em
   z-index: 9999
+
+.needs-approval-table
+  width: 100%
+  margin: 0 0 3em
+
+  .label
+    font-size: 1em
+
+  .label-default
+    background-color: #999
+
+  th,
+  td
+    padding: .5em
+
+  code
+    color: #666
+    font-size: 1em
+
+  thead
+    th
+      font-weight: 700
+      text-transform: uppercase
+      background-color: #333
+      color: white
+      padding-top: .75em
+      border-bottom: 1px solid #222
+
+      &:first-of-type
+        border-radius: .25em 0 0 0
+
+      &:last-of-type
+        border-radius: 0 .25em 0 0
+
+  tbody
+    th,
+    td
+      border-bottom: 1px solid #eee
+
+    tr:nth-of-type(even)
+      background-color: #f6f6f6
