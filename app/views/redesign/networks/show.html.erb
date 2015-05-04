@@ -1,15 +1,49 @@
 <%= render partial: 'redesign/components/meta_tags' %>
-<%# Body %>
 <%= render partial: 'redesign/components/hero' %>
 
-  <section class='main-content-section'>
-    <%= content_tag(:header, content_tag(:h1, @page.name, {class: 'main-content-header'})) %>
+<section class='main-content-section local-network-main-content'>
+  <%= content_tag(:header, content_tag(:h1, @page.name, {class: 'main-content-header'})) %>
 
+  <div class='local-network-body-wrapper'>
+    <%= image_tag '', alt: "#{@page.name} Map", class: 'local-network-image' %>
     <section class='main-content-body'>
+      <h2 class='local-network-body-header'>Mission and Vision</h2>
+
       <%= @page.description.try(:html_safe) %>
+
+      <%- if participants = @page.participants -%>
+        <h3 class='local-network-participants-header'><%= participants.total -%> Participants</h3>
+
+        <table class='component-participants-table'>
+          <thead>
+            <tr>
+              <th class='sector'>Sector</th>
+              <th class='count'>Participants</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%- participants.list.each do |p| -%>
+            <tr>
+              <th class='sector'><%= link_to p[:sector], p[:url] -%></th>
+              <td class='count'><%= p[:count] -%></td>
+            </tr>
+            <%- end -%>
+          </tbody>
+        </table>
+
+      <%- end -%>
     </section>
+
+    <%- if sidebar = @page.sidebar_widgets -%>
+      <%= render layout: 'redesign/components/sidebar' do %>
+        <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
+
+        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
+      <% end %>
+    <%- end -%>
 
     <%- #TODO add contact widget, we do not have pictures,  @page.public_network_contacts.first %>
 
     <%- #TODO add static call to action to share your success page %>
-  </section>
+  </div>
+</section>
