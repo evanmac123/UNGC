@@ -45,30 +45,32 @@ UNGC::Application.routes.draw do
     resources :participants, path: 'participants', only: [:show]
 
     controller :library do
-      get '/explore-our-library'        => :index,  as: :library
-      get '/explore-our-library/search' => :search, as: :library_search
-      get '/explore-our-library/:id'    => :show,   as: :library_resource
+      get '/resources'        => :index,  as: :library
+      get '/resources/search' => :search, as: :library_search
+      get '/resources/:id'    => :show,   as: :library_resource
     end
 
     controller :issues do
-      get '/what-is-un-global-compact/our-focus/all-issues' => :index, as: :issues
+      get '/about-gc/our-work/all' => :index, as: :issues
     end
 
     controller :actions do
-      get '/take-action/what-you-can-do' => :index, as: :actions
+      get '/take-action/action' => :index, as: :actions
     end
 
-    controller :participant_search, path: 'participant-search' do
+    controller :participant_search, path: '/about-gc/contributors/directory' do
       get '/' => :index
       get '/search' => :search, as: :participant_search
     end
 
-    resources :news do
-      get :press_releases, on: :collection, path: '/press-releases'
+    resources :news, path: '/about/news' do
+      get :speeches, on: :collection
+      get :media, on: :collection
+      get :press_releases, on: :collection, path: 'press-release'
     end
 
     controller :networks do
-      get '/networks/regions/:region/:network' => :show, as: :networks_show
+      get '/networks/:region/:network' => :show, as: :networks_show
     end
 
 
