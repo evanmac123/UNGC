@@ -21,7 +21,8 @@ class Redesign::Container < ActiveRecord::Base
     :engage_locally,
     :directory,
     :all_issue,
-    :accordion
+    :accordion,
+    :article_form
   ]
 
   enum content_type: [

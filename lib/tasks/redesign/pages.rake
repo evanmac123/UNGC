@@ -20,9 +20,9 @@ namespace :redesign do
       end
 
       path = ancestors.map {|p|
-        scrub(p[:slug] || p[:title])
+        scrub(p[:slug] || p[:path])
       }
-      page_slug = scrub(page[:slug] || page[:title])
+      page_slug = scrub(page[:slug] || page[:path])
       url = (path + [page_slug]).join("/")
 
       page[:slug] = Redesign::Container.normalize_slug(page_slug)
@@ -33,7 +33,7 @@ namespace :redesign do
 
       if page[:template].present?
         container = Redesign::Container.create!(
-          layout: page[:template],
+          layout: page[:template].downcase,
           slug: page[:slug],
           path: page[:url]
         )
@@ -66,7 +66,7 @@ namespace :redesign do
   desc "show the basic site map"
   task :tree do
     walk page_data do |page, depth|
-      title = page[:title]
+      title = page[:path]
       layout = page[:template]
       indent = depth.times.map{"\t"}.join
       puts "#{indent}#{title} (#{layout})"
@@ -100,7 +100,7 @@ namespace :redesign do
       when depth < last_depth
         stack.pop
       end
-      last_layout = page[:title].downcase.gsub(' ', '_').underscore
+      last_layout = page[:path].downcase.gsub(' ', '_').underscore
       last_depth = depth
 
       puts stack.join ","
@@ -124,7 +124,7 @@ namespace :redesign do
   def tree(pages, parent_node)
     pages.map do |page|
       node = Node.new
-      node.title = page[:title]
+      node.title = page[:path]
       node.depth = parent_node.depth + 1
       node.parent = parent_node
       if page.has_key? :children
@@ -147,7 +147,7 @@ namespace :redesign do
   end
 
   def page_data
-    data = JSON.parse(File.read('./lib/tasks/redesign/pages.json')).deep_symbolize_keys
+    data = JSON.parse(File.read('./lib/tasks/redesign/new_pages.json')).deep_symbolize_keys
     [data]
   end
 
