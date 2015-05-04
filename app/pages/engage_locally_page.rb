@@ -11,6 +11,18 @@ class EngageLocallyPage < ContainerPage
     @data[:content_block] || {}
   end
 
+  def main_content_links
+    [{
+      links: [{
+        label: 'Find out more about local networks',
+        url: ''
+      },{
+        label: 'Manage your network',
+        url: ''
+      }]
+    }]
+  end
+
   def sidebar_widgets
     Components::SidebarWidgets.new(@data)
   end

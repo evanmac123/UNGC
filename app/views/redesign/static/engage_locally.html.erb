@@ -7,9 +7,8 @@
 
     <section class='main-content-body'>
       <%= content[:content].html_safe if content[:content] %>
-      <p>
-        HARDCODED LINKS GO HERE? (only for the top one they're needed)
-      </p>
+
+      <%= render 'redesign/components/widget_links_lists', links_lists: @page.main_content_links %>
     </section>
 
     <%- if sidebar = @page.sidebar_widgets -%>
