@@ -70,7 +70,12 @@ UNGC::Application.routes.draw do
     end
 
     controller :networks do
-      get '/networks/:region/:network' => :show, as: :networks_show
+      # TODO handle these routes better, find a way to redirect to the catch all
+      get '/engage-locally/africa/africa-strategy' => :africa_strategy, as: :networks_africa_strategy
+      get '/engage-locally/manage' => :manage, as: :networks_manage
+      get '/engage-locally/manage/*path' => :catch_all, as: :networks_manage_catch_all
+
+      get '/engage-locally/:region/:network' => :show, as: :networks_show
     end
 
 

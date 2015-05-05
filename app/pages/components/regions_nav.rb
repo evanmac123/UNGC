@@ -41,7 +41,7 @@ class Components::RegionsNav
     end
 
     def url
-      "/networks/#{region_param}"
+      "/engage-locally/#{region_param}"
     end
 
     def region
