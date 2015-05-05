@@ -8,7 +8,7 @@ class Redesign::LibrarySearchForm
   attribute :languages,           Array[Integer], default: []
   attribute :sector_groups,       Array[Integer], default: []
   attribute :sectors,             Array[Integer], default: []
-  attribute :content_type,        Array[Integer], default: []
+  attribute :content_type,        String,         default: ''
   attribute :keywords,            String,         default: ''
   attribute :page,                Integer
   attribute :per_page,            Integer,        default: 12
