@@ -1,7 +1,7 @@
 class Redesign::LibraryController < Redesign::ApplicationController
 
   def index
-    set_current_container :library, '/resources'
+    set_current_container :library, '/library'
     @search = Redesign::LibrarySearchForm.new
     @page = ExploreOurLibraryPage.new(current_container, current_payload_data)
     @results = []

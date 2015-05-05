@@ -45,9 +45,9 @@ UNGC::Application.routes.draw do
     resources :participants, path: 'participants', only: [:show]
 
     controller :library do
-      get '/resources'        => :index,  as: :library
-      get '/resources/search' => :search, as: :library_search
-      get '/resources/:id'    => :show,   as: :library_resource
+      get '/library'        => :index,  as: :library
+      get '/library/search' => :search, as: :library_search
+      get '/library/:id'    => :show,   as: :library_resource
     end
 
     controller :issues do
