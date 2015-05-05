@@ -10,10 +10,14 @@
   <span class="node-label">
     <code class='sitemap-x-node-url'>{{~node.model.publicPath~}}</code>
 
+    <span class="sitemap-x-node-layout">Layout: <strong>{{node.model.layout}}</strong></span>
 
-    <span class="label label-default"><i class='fa fa-columns fa-fw' aria-hidden='true'></i>&nbsp;{{node.model.layout}}</span>
     {{#if hasDraft}}
       <span class="label label-warning"><i class='fa fa-check-square-o fa-fw' aria-hidden='true'></i>&nbsp;Needs Approval</span>
+    {{/if}}
+
+    {{#if isPublished}}
+      <span class='label label-success'><i class='fa fa-check-square-o fa-fw' aria-hidden='true'></i>&nbsp;Published</span>
     {{/if}}
   </span>
 

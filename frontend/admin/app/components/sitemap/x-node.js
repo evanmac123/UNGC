@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   mightDropInside: Ember.computed.equal('mightDrop', 'inside'),
 
   hasDraft: Ember.computed.oneWay('node.model.hasDraft'),
+  isPublished: Ember.computed.notEmpty('node.model.publicPayloadId'),
 
   classNameBindings: [
     'isOpen:open:closed',

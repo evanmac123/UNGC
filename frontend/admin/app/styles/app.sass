@@ -46,9 +46,6 @@ button
   &.might-drop-below
     border-bottom: 2px solid yellow
 
-  .label-default
-    background-color: #999
-
 .sitemap-x-label
   border-bottom: 1px solid #eee
   line-height: 40px
@@ -79,7 +76,13 @@ button
 
 .sitemap-x-node-url
   color: #666
-  margin-right: 1em
+  margin-right: .5em
+
+.sitemap-x-node-layout
+  color: #999
+  text-transform: uppercase
+  font-size: .7em
+  margin-right: .5em
 
 // Bootstrap recommended Firefox fieldsets fix
 @-mox-document url-prefix()
@@ -108,9 +111,12 @@ button
       margin-left: .5em
 
 #main-page-header
-  padding: 4em 0 1em
+  padding: 7em 0 1em
   margin: 0 0 2em
   border-bottom: 1px solid #ddd
+
+  @media only screen and (min-width: 990px)
+    padding-top: 4em
 
   h1,
   h2,
@@ -151,13 +157,11 @@ button
       align: center
       transform: uppercase
 
-    code
-      background: #bbb
-      color: white
-      padding: .25em .5em
+    &.container-layout
+      font-weight: 400
 
-    .fa
-      margin-right: .25em
+      strong
+        font-weight: 700
 
 fieldset
   margin: 0 0 4em
