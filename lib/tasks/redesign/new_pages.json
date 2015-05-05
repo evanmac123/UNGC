@@ -4,7 +4,7 @@
   "children": [
     {
       "template": "Landing",
-      "path": "/About-GC",
+      "path": "/What-is-GC",
       "children": [
         {
           "template": "Highlight",
@@ -26,47 +26,47 @@
           "children": [
             {
               "template": "Article",
-              "path": "/Principle",
+              "path": "/Principles",
               "children": [
                 {
                   "template": "Article",
-                  "path": "/Principle1"
+                  "path": "/Principle-01"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle2"
+                  "path": "/Principle-02"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle3"
+                  "path": "/Principle-03"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle4"
+                  "path": "/Principle-04"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle5"
+                  "path": "/Principle-05"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle6"
+                  "path": "/Principle-06"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle7"
+                  "path": "/Principle-07"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle8"
+                  "path": "/Principle-08"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle9"
+                  "path": "/Principle-09"
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle10"
+                  "path": "/Principle-10"
                 }
               ]
             }
@@ -78,7 +78,7 @@
         },
         {
           "template": "Highlight",
-          "path": "/Contributors",
+          "path": "/Participants",
           "children": [
             {
               "template": "Directory",
@@ -184,14 +184,6 @@
                 },
                 {
                   "template": "Issue",
-                  "path": "/People-Disability"
-                },
-                {
-                  "template": "Issue",
-                  "path": "/Forced-Labour"
-                },
-                {
-                  "template": "Issue",
                   "path": "/Childrens-Rights"
                 },
                 {
@@ -200,11 +192,7 @@
                 },
                 {
                   "template": "Issue",
-                  "path": "/Women-Empowerment"
-                },
-                {
-                  "template": "Issue",
-                  "path": "/Child-Labour"
+                  "path": "/Labour"
                 },
                 {
                   "template": "Issue",
@@ -252,15 +240,17 @@
             },
             {
               "template": "Article",
-              "path": "/Who-Can-Join",
+              "path": "/Who-Should-Join",
               "children": [
                 {
                   "template": "Accordion",
-                  "path": "/Non-Business"
-                },
-                {
-                  "template": "Accordion",
-                  "path": "/Industry-Activities"
+                  "path": "/Non-Business",
+                  "children": [
+                    {
+                      "template": "Accordion",
+                      "path": "/Industry-Activities"
+                    }
+                  ]
                 }
               ]
             }
@@ -282,10 +272,6 @@
                 {
                   "template": "Article",
                   "path": "/Submit"
-                },
-                {
-                  "template": "List",
-                  "path": "/Submitted-COE"
                 }
               ]
             },
@@ -303,7 +289,7 @@
                 },
                 {
                   "template": "Article",
-                  "path": "/Progress"
+                  "path": "/Analyze"
                 }
               ]
             }
@@ -311,7 +297,7 @@
         },
         {
           "template": "Landing",
-          "path": "/Guidance",
+          "path": "/Getting-started",
           "children": [
             {
               "template": "Article",
@@ -339,15 +325,11 @@
           "children": [
             {
               "template": "Highlight",
-              "path": "/GCLead",
+              "path": "/GC-Lead",
               "children": [
                 {
                   "template": "Article",
                   "path": "/What-Is-Lead"
-                },
-                {
-                  "template": "Article",
-                  "path": "/Participants"
                 },
                 {
                   "template": "Article",
@@ -369,7 +351,7 @@
                 },
                 {
                   "template": "Issue",
-                  "path": "/Board-Aoption"
+                  "path": "/Board-Adoption"
                 },
                 {
                   "template": "Issue",
@@ -539,11 +521,15 @@
             },
             {
               "template": "Action_detail",
-              "path": "/GCB-Programme"
+              "path": "/GC-Board-Programme"
             },
             {
               "template": "Article",
               "path": "/Share-Adapation-Practice"
+            },
+            {
+              "template": "Article",
+              "path": "/Management"
             },
             {
               "template": "Action_detail",
@@ -675,7 +661,7 @@
     },
     {
       "template": "Engage_Locally",
-      "path": "/Networks",
+      "path": "/Engage-locally",
       "children": [
         {
           "template": "Highlight",
@@ -683,7 +669,13 @@
         },
         {
           "template": "Engage_Locally",
-          "path": "/Africa"
+          "path": "/Africa",
+          "children": [
+            {
+              "template": "Accordion",
+              "path": "/Africa-strategy"
+            }
+          ]
         },
         {
           "template": "Engage_Locally",
@@ -775,7 +767,7 @@
     },
     {
       "template": "Library",
-      "path": "/Resources"
+      "path": "/library"
     },
     {
       "template": "Article",
@@ -817,7 +809,7 @@
         },
         {
           "template": "List",
-          "path": "/Jobs"
+          "path": "/Opportunities"
         },
         {
           "template": "Article_Form",
@@ -836,16 +828,16 @@
                   "path": "/Members"
                 }
               ]
+            },
+            {
+              "template": "List",
+              "path": "/Executive-Team"
+            },
+            {
+              "template": "Accordion",
+              "path": "/Local-Network-Advisory-Group"
             }
           ]
-        },
-        {
-          "template": "List",
-          "path": "/Executive-Team"
-        },
-        {
-          "template": "Accordion",
-          "path": "/Local-Network-Advisory-Group"
         },
         {
           "template": "Article",
@@ -857,7 +849,7 @@
         },
         {
           "template": "Article",
-          "path": "/Government-Support",
+          "path": "/Government-Recognition",
           "children": [
             {
               "template": "List",
@@ -865,7 +857,7 @@
             },
             {
               "template": "List",
-              "path": "/GB-Recognition"
+              "path": "/G8-Recognition"
             },
             {
               "template": "List",
@@ -876,24 +868,6 @@
         {
           "template": "Article",
           "path": "/UN-Business-Agenda"
-        },
-        {
-          "template": "News",
-          "path": "/News",
-          "children": [
-            {
-              "template": "Article",
-              "path": "/Speeches"
-            },
-            {
-              "template": "Article",
-              "path": "/Media"
-            },
-            {
-              "template": "PR_list",
-              "path": "/Press-Release"
-            }
-          ]
         }
       ]
     },
@@ -904,6 +878,24 @@
     {
       "template": "Article",
       "path": "/Privacy-Policy"
+    },
+    {
+      "template": "News",
+      "path": "/News",
+      "children": [
+        {
+          "template": "Article",
+          "path": "/Speeches"
+        },
+        {
+          "template": "Article",
+          "path": "/Media"
+        },
+        {
+          "template": "PR_list",
+          "path": "/Press-Release"
+        }
+      ]
     }
   ]
 }
