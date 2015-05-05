@@ -115,7 +115,7 @@
               ]
             },
             {
-              "template": "Article",
+              "template": "Issue",
               "path": "/Financial"
             },
             {
@@ -160,7 +160,7 @@
                 },
                 {
                   "template": "Issue",
-                  "path": "/Agriculture"
+                  "path": "/Food-Agriculture"
                 }
               ]
             },
@@ -853,7 +853,7 @@
         },
         {
           "template": "Article",
-          "path": "/Finance"
+          "path": "/Finances"
         },
         {
           "template": "Article",
