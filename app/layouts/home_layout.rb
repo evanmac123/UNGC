@@ -5,6 +5,7 @@ class HomeLayout < UNGC::Layout
     light-blue
     light-green
     teal
+    light-teal
     green
     orange
     pastel-blue

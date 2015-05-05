@@ -19,7 +19,7 @@
         {{#container/x-fields key="callToAction" scope=article as |callToAction|}}
 
           <h2>Call to Action</h2>
-          {{container/x-field label="Theme" key="theme" type="tile-color-select" limit=50 scope=callToAction}}
+          {{container/x-field label="Theme" key="theme" type="button-color-select" limit=50 scope=callToAction}}
           {{container/x-field key="title" type="string" limit=50 scope=callToAction}}
           {{container/x-field key="url" type="string" limit=50 scope=callToAction}}
           {{container/x-field key="enabled" label="Enable" type="boolean" default=false scope=callToAction}}

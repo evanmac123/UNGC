@@ -13,13 +13,16 @@ class HighlightLayout < UNGC::Layout
     right
   ]
 
-  COLORS = %w[
-    light-blue
-    light-green
-    teal
-    green
+  BUTTON_COLORS = %w[
+    dark-teal
+    dark-orange
     orange
-    pastel-blue
+    dark-blue
+    blue
+    light-blue
+    dark-green
+    green
+    light-green
   ]
 
   has_one_container!
@@ -50,7 +53,7 @@ class HighlightLayout < UNGC::Layout
       field :url,   type: :href
     end
     scope :call_to_action do
-      field :theme, type: :string, enum: COLORS, default: 'light-blue'
+      field :theme, type: :string, enum: BUTTON_COLORS, default: 'light-blue'
       field :title, type: :string, limit: 50
       field :url,   type: :href
       field :enabled,  type: :boolean, default: false
