@@ -83,6 +83,8 @@ class Cmd
     case deploy_env
     when 'preview'
       'preview.unglobalcompact.org'
+    when 'staging'
+      'staging.unglobalcompact.org'
     # TODO add more envs when we're set up
     else
       nil
