@@ -16,9 +16,7 @@ class LocalNetworkPage < SimpleDelegator
   end
 
   def description
-    <<-HTML
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quam mauris, rutrum eu velit a, scelerisque ornare elit. Pellentesque dictum ipsum lectus, a varius metus faucibus pulvinar. Sed id libero in nunc cursus efficitur. Donec a viverra arcu. Phasellus sit amet rutrum nulla. Ut eget pharetra odio, ac molestie purus. Nam sit amet mollis nunc. Praesent fermentum arcu vitae ligula suscipit molestie. Sed vulputate tincidunt congue. Nam placerat imperdiet velit quis iaculis. Mauris non pretium ante. Morbi pretium lectus eget lorem pharetra facilisis. Nulla lobortis nulla finibus accumsan vulputate. Donec ac diam non dolor pretium fringilla.</p>
-    HTML
+    local_network.description
   end
 
   def meta_title
@@ -33,43 +31,53 @@ class LocalNetworkPage < SimpleDelegator
 
   def sidebar_widgets
     OpenStruct.new({
-      contact: {
-        name: 'Some Person',
-        title: 'Very Important',
-        email: 'important@person.com',
-        phone: '+1 (555) imp-rtnt'
-      }
+      contact: network_contact,
+      network_representative: network_representative,
+      calls_to_action: [
+        {
+          label: 'Share your Success',
+          url: '/take_action/action/share-success'
+        }
+      ]
     })
   end
 
   def participants
     OpenStruct.new({
-      total: 282,
-      list: [{
-        sector: 'Support Services',
-        url: '',
-        count: 20
-      }, {
-        sector: 'Gas, Water &amp; Multi Utilities',
-        url: '',
-        count: 18
-      }, {
-        sector: 'Food Producers',
-        url: '',
-        count: 14
-      }, {
-        sector: 'Automobiles',
-        url: '',
-        count: 13
-      }, {
-        sector: 'Construction',
-        url: '',
-        count: 9
-      }]
-    })
+      total: local_network.participants.count,
+      list: participants_by_sector
+      })
   end
 
   private
+
+    def network_contact
+      contact = local_network.contacts.joins(:roles).where("roles.name = ?", Role::FILTERS[:network_focal_point]).first
+      {
+        name: contact.full_name_with_title,
+        title: contact.job_title,
+        email: contact.email,
+        phone: contact.phone
+      }
+    end
+
+    def network_representative
+      contact = local_network.contacts.joins(:roles).where("roles.name = ?", Role::FILTERS[:network_representative]).first
+      contact.try(:full_name_with_title)
+    end
+
+
+    def participants_by_sector
+      hash = local_network.participants.joins(:sector).group('sectors.name', 'sectors.id').count
+      sorted = hash.sort { |a,b| b[1] <=> a[1]}
+      sorted.map do |k,v|
+        {
+          sector: k[0],
+          id: k[1],
+          count: v
+        }
+      end.take(5)
+    end
 
     def local_network
       __getobj__

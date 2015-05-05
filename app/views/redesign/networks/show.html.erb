@@ -24,7 +24,7 @@
           <tbody>
             <%- participants.list.each do |p| -%>
             <tr>
-              <th class='sector'><%= link_to p[:sector], p[:url] -%></th>
+              <th class='sector'><%= link_to_redesign p[:sector], redesign_participant_search_path -%></th>
               <td class='count'><%= p[:count] -%></td>
             </tr>
             <%- end -%>
@@ -36,7 +36,7 @@
 
     <%- if sidebar = @page.sidebar_widgets -%>
       <%= render layout: 'redesign/components/sidebar' do %>
-        <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
+        <%= render 'redesign/components/widget_contact', contact: sidebar.contact, network_representative: sidebar.network_representative %>
 
         <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
       <% end %>
