@@ -17,6 +17,9 @@ switch (env) {
   case 'preview':
     fingerprintOptions.prepend = 'https://d1oxvp4dfaygck.cloudfront.net/';
   break;
+  case 'staging':
+    fingerprintOptions.prepend = 'https://d1oxvp4dfaygck.cloudfront.net/';
+  break;
 }
 
 var app = new EmberApp({
