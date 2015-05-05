@@ -8,7 +8,9 @@ export default Ember.Component.extend({
   mightDropBelow:  Ember.computed.equal('mightDrop', 'below'),
   mightDropInside: Ember.computed.equal('mightDrop', 'inside'),
 
-  hasDraft: Ember.computed.oneWay('node.model.hasDraft'),
+  hasDraft: Ember.computed('node.model.hasDraft', 'node.model.draftPayloadId', function() {
+    return this.get('node.model.hasDraft') && !Ember.isEmpty(this.get('node.model.draftPayloadId'));
+  }),
   isPublished: Ember.computed.notEmpty('node.model.publicPayloadId'),
 
   classNameBindings: [
