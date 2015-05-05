@@ -130,9 +130,13 @@ class CopMailerTest < ActionMailer::TestCase
     end
 
     should "be able to send today's reminder" do
+      today = Time.new(2000, 1, 2, 3, 4, 5)
+      @organization.stubs(:cop_due_on).returns(today)
+
       response = CopMailer.cop_due_today(@organization).deliver
+
       assert_equal "text/html; charset=UTF-8", response.content_type
-      assert_equal "UN Global Compact COP Deadline - #{@organization.cop_due_on.strftime('%e %B, %Y')} 23:00 UTC", response.subject
+      assert_equal "UN Global Compact COP Deadline - 2 January, 2000 23:00 UTC", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
     end
@@ -143,7 +147,7 @@ class CopMailerTest < ActionMailer::TestCase
       assert_equal "UN Global Compact COP Deadline - Non-Communicating COP Status", response.subject
       assert_equal @organization_user.email, response.to.first
       assert_equal @network_contact.email, response.cc.first
-    end    
+    end
   end
 
   context "given a non-communicating organization with no Local Network" do
