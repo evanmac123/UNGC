@@ -27,6 +27,23 @@ class Components::RegionsNav
       region_names[region] || ''
     end
 
+    def region_param
+      region_params = {
+        'africa'            => 'africa',
+        'asia'              => 'asia',
+        'europe'            => 'europe',
+        'latin_america'     => 'latin-america',
+        'mena'              => 'mena',
+        'northern_america'  => 'north-america',
+        'oceania'           => 'oceania',
+      }
+      region_params[region]
+    end
+
+    def url
+      "/networks/#{region_param}"
+    end
+
     def region
       __getobj__
     end
