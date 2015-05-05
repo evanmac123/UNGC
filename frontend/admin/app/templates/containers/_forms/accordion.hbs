@@ -1,0 +1,34 @@
+{{#container/x-fields scope=model.container as |accordion|}}
+
+  {{container/macros/x-metatags scope=accordion}}
+
+  {{container/macros/x-hero scope=accordion}}
+
+  <fieldset>
+    <legend>Accordion</legend>
+    {{#container/x-fields key="accordion" scope=accordion as |acc|}}
+      {{container/x-field key="title" type="string" limit=50 scope=acc}}
+      {{container/x-field key="blurb" type="redactor" scope=acc}}
+      {{#container/x-fields tagName="ol" key="items" array=true scope=acc as |items|}}
+        <li class="stat-group">
+          {{container/x-field key="title" type="string" scope=items}}
+          <p>This content will not be displayed if you add children.</p>
+          {{container/x-field key="content" type="redactor" height='100px' scope=items}}
+          {{#container/x-fields tagName="ol" key="children" array=true scope=items as |children|}}
+            <li class="stat-group">
+              {{container/x-field key="title" type="string" scope=children}}
+              {{container/x-field key="content" type="redactor" height='100px' scope=children}}
+            </li>
+          {{/container/x-fields}}
+        </li>
+      {{/container/x-fields}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  {{container/macros/x-widget-contact scope=accordion}}
+
+  {{container/macros/x-widget-calls-to-action scope=accordion}}
+
+  {{container/macros/x-widget-links-lists scope=accordion}}
+
+{{/container/x-fields}}

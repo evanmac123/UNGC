@@ -27,10 +27,21 @@ class Headline < ActiveRecord::Base
   permalink :date_for_permalink
   belongs_to :country
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
+  has_many :taggings
+  has_many :sectors,        through: :taggings
+  has_many :sector_groups,  through: :sectors, class_name: 'Sector', source: :parent
+  has_many :issues,         through: :taggings
+  has_many :issue_areas,    through: :issues, class_name: 'Issue', source: :parent
+  has_many :topics,         through: :taggings
+  has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
+
   validates_presence_of :title, :on => :create, :message => "^Please provide a title"
 
   cattr_reader :per_page
   @@per_page = 15
+
+  enum headline_type: [:press_release,
+                       :announcement]
 
   scope :published, -> { where('approval = ?', 'approved') }
   scope :descending, -> { order('published_on DESC, approved_at DESC') }

@@ -287,4 +287,30 @@ module FixtureReplacement
     c.organization_id = Organization.first.id
     c.contribution_id = FixtureReplacement.random_string(16)
   end
+
+  attributes_for :principle do |p|
+    p.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :issue_area do |i|
+    i.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :issue do |i|
+    i.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :topic do |t|
+    t.name = FixtureReplacement.random_string
+  end
+
+  attributes_for :container, class: Redesign::Container do |c|
+    c.layout = :home
+    c.slug = FixtureReplacement.random_string
+  end
+
+  attributes_for :payload, class: Redesign::Payload do |p|
+    p.container_id = new_container.id
+    p.json_data = '{}'
+  end
 end

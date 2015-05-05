@@ -1,0 +1,18 @@
+<%- if contact ||= nil -%>
+  <article class='widget widget-contact'>
+    <h1>Contact</h1>
+    <%= image_tag(contact[:photo]) if contact[:photo] %>
+    <address>
+      <%= content_tag(:h2, contact[:name], class: 'name') if contact[:name] %>
+      <%= content_tag(:p, contact[:title], class: 'title') if contact[:title] %>
+      <%= content_tag(:p, contact[:email], class: 'email') if contact[:email] %>
+      <%= content_tag(:p, contact[:phone], class: 'phone') if contact[:phone] %>
+    </address>
+    <%- if network_representative ||= nil %>
+      <h3>Representative</h3>
+      <p>
+      <%= network_representative %>
+      </p>
+    <%- end -%>
+  </article>
+<%- end -%>

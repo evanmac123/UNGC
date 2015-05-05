@@ -1,0 +1,65 @@
+<header id='main-page-header'>
+  <h1><i class='fa fa-pencil fa-fw' aria-hidden='true'></i>Edit Page</h1>
+
+  <h2><span>URL: </span><code class='container-url'>{{model.container.publicPath}}</code></h2>
+
+  <a href="/redesign{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
+
+  <h3 class='container-layout'>Layout: <strong>{{model.container.layout}}</strong></h3>
+</header>
+
+<form>
+  {{#container/x-subform record=model.container as |form|}}
+    {{partial form.subformTemplatePath}}
+  {{/container/x-subform}}
+
+  <fieldset class='actions-bar'>
+    <legend>Actions</legend>
+    <div class='container'>
+      <div class="form-group clearfix">
+        {{#if model.container.id}}
+          <button class="btn btn-success" {{action "publish" model.container}}><i class='fa fa-globe fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Publish</button>
+        {{/if}}
+
+        <button class="btn btn-primary" {{action "saveDraft" model.container}}><i class='fa fa-hdd-o fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Save</button>
+
+        <a class='btn btn-warning' target="_blank" href="/redesign{{model.container.publicPath}}?draft=1"><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Preview</a>
+      </div>
+    </div>
+
+    {{#each flashMessages.queue as |flash|}}
+      {{flash-message flash=flash}}
+    {{/each}}
+  </fieldset>
+
+  {{#if model.payloads}}
+    <fieldset>
+      <legend>History</legend>
+      <table class="table table-striped">
+        <tbody>
+          {{#each model.payloads as |payload|}}
+            <tr>
+              <td>{{ago payload.createdAt}}</td>
+              <td>
+                <a target="_blank" href="/redesign{{model.container.publicPath}}?payload={{payload.id}}">
+                  View
+                </a>
+              </td>
+              <td>
+                Approved by: {{container/info/show-contact contactId=payload.approvedById}}
+              </td>
+              <td>
+                Last update by: {{container/info/show-contact contactId=payload.updatedById}}
+              </td>
+              <td>
+                <button class="btn btn-default" {{action "setDraftFromPayload" payload}}>
+                  Set As Draft
+                </button>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </fieldset>
+  {{/if}}
+</form>

@@ -1,0 +1,4 @@
+<%# Meta Tags %>
+<% provide :title, @page.meta_title.try(:html_safe) %>
+<% provide :description, @page.meta_description.try(:html_safe) %>
+<% provide :keywords, @page.meta_keywords %>

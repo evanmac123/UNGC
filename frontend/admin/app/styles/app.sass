@@ -1,0 +1,313 @@
+@import "../../bower_components/bootstrap-sass/assets/stylesheets/bootstrap"
+@import settings/icons
+
+body
+  font-family: Roboto, Helvetica, Arial, sans-serif
+  background-color: #fcfcfc
+
+  > div > main
+    margin-top: 50px
+
+.fa
+  +font-smoothing(antialiased)
+
+a,
+button
+  cursor: pointer
+
+.sitemap-x-tree
+  margin: 0
+  padding: 0
+  margin-top: 12px
+  min-height: 600px
+
+  ul
+    margin: 0
+    padding: 0
+    margin-left: 32px
+
+  li
+    position: relative
+    margin: 0
+    padding: 0 0 0 2.5em
+    list-style: none
+
+    &:last-child
+      border-bottom: none
+
+.sitemap-x-node
+  border: 2px solid transparent
+  border-style: solid none solid none
+
+  &.might-drop-inside
+    background: rgba(yellow, 0.5)
+  &.might-drop-above
+    border-top: 2px solid yellow
+  &.might-drop-below
+    border-bottom: 2px solid yellow
+
+.sitemap-x-label
+  border-bottom: 1px solid #eee
+  line-height: 40px
+  padding: 0 8px
+  font-size: 18px
+
+  .node-actions
+    opacity: 0
+    float: right
+    transition: opacity 0s 0.25s ease-in
+
+  &:hover
+    background-color: #f6f6f6
+
+    .node-actions
+      opacity: 1
+
+.sitemap-x-node-open-close
+  background: transparent
+  border: 0
+  position: absolute
+  top: 0
+  left: 0
+  color: #666
+
+  span
+    display: none
+
+.sitemap-x-node-url
+  color: #666
+  margin-right: .5em
+
+.sitemap-x-node-layout
+  color: #999
+  text-transform: uppercase
+  font-size: .7em
+  margin-right: .5em
+
+// Bootstrap recommended Firefox fieldsets fix
+@-mox-document url-prefix()
+  fieldset
+    display: table-cell
+
+#main-header
+  box-shadow: 0 1px 5px rgba(black, .2)
+  padding: .5em 0
+
+  .navbar-brand
+    span
+      display: none
+
+    &:before
+      font-size: 2.5em
+      +logo('ungc')
+
+  .navbar-nav .fa
+    margin-right: .25em
+
+  .logout
+    margin-left: 1em
+
+    .fa
+      margin-left: .5em
+
+#main-page-header
+  padding: 7em 0 1em
+  margin: 0 0 2em
+  border-bottom: 1px solid #ddd
+
+  @media only screen and (min-width: 990px)
+    padding-top: 4em
+
+  h1,
+  h2,
+    display: inline-block
+    font-size: 2em
+    margin: 0
+    vertical-align: middle
+
+  h1 .fa
+    color: #999
+    margin-right: .25em
+
+  h2
+    font:
+      size: 1.25em
+      weight: 400
+    margin: 0 .75em
+    color: #666
+
+    span
+      display: none
+
+  code
+    color: #444
+    background: #eee
+
+  .btn
+    text-transform: uppercase
+    font-weight: 700
+    +font-smoothing(antialiased)
+
+  h3
+    font-size: 1em
+    padding: 1em 0 0
+    border-top: 1px solid #ddd
+    margin: 1.5em 0 0
+    text:
+      align: center
+      transform: uppercase
+
+    &.container-layout
+      font-weight: 400
+
+      strong
+        font-weight: 700
+
+fieldset
+  margin: 0 0 4em
+  padding: 0 1em 1em
+  border-radius: .25em
+  background: white
+  box-shadow: 0 0 3px rgba(black, .1)
+
+  legend
+    display: inline-block
+    width: auto
+    text-transform: uppercase
+    padding: .5em 1em
+    font:
+      size: 1.25em
+      weight: 500
+    line-height: 1
+    border: 0
+      radius: .25em
+    background: #222
+    color: white
+    box-shadow: 0 0 3px rgba(black, .2)
+    +font-smoothing(antialiased)
+
+  h2
+    font:
+      size: 1.5em
+      weight: 700
+    margin: 2em 0 1em
+    border-bottom: 1px solid #eee
+
+.input-group
+  margin-bottom: .5em
+
+.repeated-content-list
+  counter-reset: repeated-content-counter
+  list-style: none
+  padding: 0
+  margin: 0
+
+.repeated-content-item
+  padding: 0 1em 1em
+  border-radius: .25em
+  margin: 0 0 2em
+  box-shadow: 0 0 2px rgba(black, .2)
+
+.repeated-content-header
+  background: #f6f6f6
+  padding: .5em
+  margin: 0 -1em 1em
+  border:
+    bottom: 1px solid #eee
+    radius: .25em .25em 0 0
+
+  &:before
+    counter-increment: repeated-content-counter
+    content: counter(repeated-content-counter)
+    display: block
+    float: left
+    background: #222
+    color: white
+    font:
+      size: 1.5em
+      weight: 500
+    padding: .1em .5em 0
+    border-radius: .125em
+
+.repeated-content-list .repeated-content-list
+  counter-reset: repeated-nested-content-counter
+
+  .repeated-content-header:before
+    counter-increment: repeated-nested-content-counter
+    content: counter(repeated-content-counter) '.' counter(repeated-nested-content-counter)
+
+.actions-bar
+  position: fixed
+  left: 0
+  right: 0
+  bottom: 0
+  margin: 0
+  padding: .5em 0
+  background: rgba(white, .95)
+  box-shadow: 0 0 5px rgba(black, .2)
+  z-index: 9999
+
+  .form-group
+    margin-bottom: 0
+
+  .btn
+    float: right
+    margin-left: 1em
+
+  legend
+    display: none
+
+// flash messages
+.alert
+  position: fixed
+  bottom: 3em
+  right: 1em
+  min-width: 30em
+  z-index: 9999
+
+.ungc-admin-table
+  width: 100%
+  margin: 0 0 3em
+
+  .label
+    font-size: 1em
+
+  .label-default
+    background-color: #999
+
+  th,
+  td
+    padding: .5em
+
+  code
+    color: #666
+    font-size: 1em
+
+  thead
+    th
+      font-weight: 700
+      text-transform: uppercase
+      background-color: #333
+      color: white
+      padding-top: .75em
+      border-bottom: 1px solid #222
+
+      &:first-of-type
+        border-radius: .25em 0 0 0
+
+      &:last-of-type
+        border-radius: 0 .25em 0 0
+
+  tbody
+    th,
+    td
+      border-bottom: 1px solid #eee
+
+    tr:nth-of-type(even)
+      background-color: #f6f6f6
+
+  .image-preview
+    width: 310px
+
+  .image-filename
+    width: 200px

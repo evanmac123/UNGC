@@ -1,0 +1,11 @@
+<% provide :title, "Explore Our Library | #{@resource.title}" %>
+
+<h3 style="margin-top: 160px"><%= @resource.title %></h3>
+<blink><%= @resource.placeholder_data %></blink>
+
+<% # @minusfive, this is a placeholder, ideally we should have only ONE video per resource but potentailly you could have more %>
+<%- if @resource.video? %>
+  <%= @resource.videos.each do |v| %>
+    <iframe width="560" height="315" src="<%= v.embed_url %>" frameborder="0" allowfullscreen></iframe>
+  <% end %>
+<% end %>

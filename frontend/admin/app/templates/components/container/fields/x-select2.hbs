@@ -1,0 +1,21 @@
+<div class="form-group {{if field.hasErrors "has-error"}}">
+  <label class="control-label" for={{field.uid}}>
+    {{field.label}}
+  </label>
+
+  {{#with field.items as |items|}}
+    {{select-2
+        content=items
+        optionLabelPath=field.labelPath
+        optionValuePath="id"
+        placeholder=field.placeholder
+        value=field.value
+        multiple=field.multiple
+        allowClear=field.allowClear
+    }}
+  {{/with}}
+
+  {{#if field.errors}}
+    <p class="help-block">{{field.errors.firstObject.detail}}</p>
+  {{/if}}
+</div>

@@ -1,0 +1,7 @@
+<li class='filter-option'>
+  <%- field_name = "search[#{filter}][]" -%>
+  <%- id = "search_#{filter.pluralize}_#{option.id}" -%>
+  <%= check_box_tag field_name, option.id, option.selected?, {id: id, active: option.selected?} %>
+  <%= label_tag id, option.name %>
+  <%= yield %>
+</li>

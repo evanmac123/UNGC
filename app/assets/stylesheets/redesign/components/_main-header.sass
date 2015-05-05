@@ -1,0 +1,238 @@
+#main-header
+  @extend %wrapper
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  height: 128px
+  padding-top: 20px
+  background:
+    color: rgba(color('dark-teal'), .85)
+    blend-mode: multiply
+  color: white
+  z-index: 99999
+  +font-smoothing(antialiased)
+
+  .logo
+    display: block
+    position: absolute
+    top: 20px
+    left: 6.4%
+    color: inherit
+
+    h1,
+    h2
+      margin: 0
+      color: inherit
+      line-height: 1
+      text-shadow: 0 1px 2px color('dark-teal')
+
+    h1
+      font-size: 3.5em
+      span
+        display: none
+
+      &:before
+        +logo('ungc')
+
+    h2
+      position: absolute
+      right: 0
+      bottom: -0.1em
+      font:
+        family: $flama-book
+        weight: normal
+        size: .875em
+      width: 30.4em
+      text-align: right
+
+  nav
+    width: 0
+    height: 0
+
+#primary-navigation,
+#secondary-navigation
+  position: absolute
+  list-style: none
+  margin: 0
+  padding: 0
+  +clearfix
+
+  li
+    display: inline-block
+    margin: 0
+
+  a
+    display: block
+    color: inherit
+
+#primary-navigation
+  left: 0
+  right: 0
+  bottom: 0
+  background:
+    color: rgba(color('dark-teal'), .6)
+    blend-mode: multiply
+  font:
+    family: $flama-condensed-medium
+    size: 1.125em
+    weight: 500
+  text:
+    align: center
+    transform: uppercase
+  letter-spacing: .05em
+
+  a
+    padding: 0 1.5em
+    background-color: transparent
+    +transition(background-color 150ms)
+
+    &:hover,
+    &:active,
+    &.active
+      background-color: color('teal')
+
+#secondary-navigation
+  top: 3.1em
+  right: 18em
+  font:
+    size: .875em
+    weight: 300
+
+  a
+    position: relative
+    padding: 0 1em
+    line-height: 1
+    text-shadow: 0 1px 2px color('dark-teal')
+
+    &:hover,
+    &:active
+      font-weight: 400
+
+    &.active
+      font-weight: 700
+
+  li
+    border-right: 1px solid rgba(white, .5)
+
+    &:last-of-type
+      border-right: none
+
+      a
+        padding-right: 1.25em
+
+        &:after
+          +fa-icon
+          content: $fa-var-caret-down
+          position: absolute
+          right: 0
+          opacity: .75
+
+        &:hover:after
+          opacity: 1
+
+#main-search
+  position: absolute
+  top: 2.9em
+  right: 5.715em
+  background-color: color('darker-teal')
+  padding: 0 0 0 1.5em
+  font-size: .875em
+
+  .search-field,
+  .search-button
+    display: inline-block
+    position: relative
+    background: transparent
+    border: none
+    padding: 0 5px
+    margin: 0
+
+  .search-field
+    width: 100px
+    font-weight: 300
+    z-index: 2
+    +font-smoothing(default)
+
+  .search-button
+    padding-left: 6px
+    z-index: 3
+
+    span
+      display: none
+
+    &:before
+      +fa-icon
+      content: $fa-var-search
+      opacity: .75
+
+    &:hover,
+    &:active
+      background: color('teal')
+
+      &:before
+        opacity: 1
+
+#main-search-filters
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  z-index: 1
+
+  &:before
+    +fa-icon
+    content: $fa-var-caret-down
+    display: block
+    top: 0
+    left: 0
+    bottom: 0
+    line-height: 1.75em
+    padding: 0 .5em
+    width: 1.5em
+    cursor: pointer
+    opacity: .75
+
+  &:hover:before
+    background: color('teal')
+    opacity: 1
+
+  fieldset
+    display: block
+    position: absolute
+    top: 100%
+    right: 0
+    min-width: 100%
+    padding: 0
+    border: 0
+    margin: 0
+    height: 0
+    overflow: hidden
+    +transition(height 250ms)
+
+  &:hover fieldset
+    height: 8em
+
+  label
+    display: block
+    background: rgba(white, .95)
+    color: color('grey')
+    padding: 0 .5em
+
+    &:hover
+      color: color('dark-teal')
+
+    &:first-of-type
+      padding-top: .25em
+
+    &:last-of-type
+      padding-bottom: .25em
+
+  input[type='radio']
+    position: absolute
+    left: -5em
+
+    &[checked] + label
+      font-weight: 900
+      color: color('dark-grey')

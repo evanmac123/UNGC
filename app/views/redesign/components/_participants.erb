@@ -1,0 +1,30 @@
+<%- participants = @page.participants -%>
+<%- if participants && !@page.participants.empty?-%>
+<section class='component-participants'>
+  <%- if title ||= nil -%>
+    <header class='component-header'>
+      <%= content_tag(:h1, title.try(:html_safe)) %>
+      <%= link_to "View the Full List in Who&rsquo;s Involved".html_safe, redesign_participant_search_path(search: {initiatives: [@page.participants.initiative_id]}), class: 'view-all' %>
+    </header>
+  <%- end -%>
+
+  <table class='component-participants-table'>
+    <thead>
+      <tr>
+        <th class='name'>Name</th>
+        <th class='sector'>Sector</th>
+        <th class='country'>Country</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%- participants.each do |p| -%>
+      <tr>
+        <th class='name'><%= link_to p[:name], p[:url] -%></th>
+        <td class='sector'><%= p[:sector] -%></td>
+        <td class='country'><%= p[:country] -%></td>
+      </tr>
+      <%- end -%>
+    </tbody>
+  </table>
+</section>
+<%- end -%>

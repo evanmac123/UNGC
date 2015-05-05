@@ -1,0 +1,26 @@
+{{#container/x-fields scope=model.container as |landing|}}
+  {{container/macros/x-metatags scope=landing}}
+
+  {{#container/macros/x-hero scope=landing as |hero|}}
+    {{container/macros/x-link key="link" scope=hero}}
+    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=false scope=hero}}
+  {{/container/macros/x-hero}}
+
+  <fieldset>
+    <legend>Tiles</legend>
+    {{#container/x-fields key="tiles" array=true min=3 max=6 scope=landing as |tiles|}}
+      <li class="tile-group">
+        {{container/x-field key="color" type="tile-color-select" scope=tiles}}
+        {{container/x-field key="bgImage" type="image-upload" scope=tiles}}
+        {{container/x-field key="title" type="string" limit=100 scope=tiles}}
+        {{container/x-field key="blurb" type="string" limit=150 scope=tiles}}
+        {{container/macros/x-link key="link" scope=tiles}}
+        {{container/x-field key="doubleWidth" type="boolean" scope=tiles}}
+        {{container/x-field key="doubleHeight" type="boolean" scope=tiles}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+
+  {{container/macros/x-taggings scope=landing}}
+
+{{/container/x-fields}}

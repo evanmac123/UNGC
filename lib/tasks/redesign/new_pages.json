@@ -1,0 +1,901 @@
+{
+  "template": "Home",
+  "path": "/",
+  "children": [
+    {
+      "template": "Landing",
+      "path": "/What-is-GC",
+      "children": [
+        {
+          "template": "Highlight",
+          "path": "/Strategy",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Article1"
+            },
+            {
+              "template": "Article",
+              "path": "/Article2"
+            }
+          ]
+        },
+        {
+          "template": "Highlight",
+          "path": "/Mission",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Principles",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Principle-01"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-02"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-03"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-04"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-05"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-06"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-07"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-08"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-09"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Principle-10"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "template": "Highlight",
+          "path": "/Our-Commitment"
+        },
+        {
+          "template": "Highlight",
+          "path": "/Participants",
+          "children": [
+            {
+              "template": "Directory",
+              "path": "/Directory"
+            }
+          ]
+        },
+        {
+          "template": "Landing",
+          "path": "/Our-Work",
+          "children": [
+            {
+              "template": "Tile_Grid",
+              "path": "/All"
+            },
+            {
+              "template": "Issue",
+              "path": "/Supply-Chain",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Business-Case"
+                }
+              ]
+            },
+            {
+              "template": "Issue",
+              "path": "/Sustainable-Development",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Background"
+                }
+              ]
+            },
+            {
+              "template": "Issue",
+              "path": "/Financial"
+            },
+            {
+              "template": "Issue",
+              "path": "/Industry-Associations"
+            },
+            {
+              "template": "Issue",
+              "path": "/Governance",
+              "children": [
+                {
+                  "template": "Issue",
+                  "path": "/Anti-Corruption",
+                  "children": [
+                    {
+                      "template": "Article",
+                      "path": "/Collective-Action"
+                    }
+                  ]
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Peace"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Rule-Law"
+                }
+              ]
+            },
+            {
+              "template": "Issue",
+              "path": "/Environment",
+              "children": [
+                {
+                  "template": "Issue",
+                  "path": "/Climate"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Water"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Food-Agriculture"
+                }
+              ]
+            },
+            {
+              "template": "Issue",
+              "path": "/Social",
+              "children": [
+                {
+                  "template": "Issue",
+                  "path": "/Human-Rights",
+                  "children": [
+                    {
+                      "template": "Article",
+                      "path": "/Engaging-Business"
+                    },
+                    {
+                      "template": "Article",
+                      "path": "/Working-Group"
+                    }
+                  ]
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Childrens-Rights"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Gender-Equality"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Labour"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Indigenous-People"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Education"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "template": "Landing",
+      "path": "/Participation",
+      "children": [
+        {
+          "template": "Highlight",
+          "path": "/Join",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Commitment"
+            },
+            {
+              "template": "Highlight",
+              "path": "/Benefits"
+            },
+            {
+              "template": "Article",
+              "path": "/Application",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Business"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Non-Business"
+                }
+              ]
+            },
+            {
+              "template": "Article",
+              "path": "/Who-Should-Join",
+              "children": [
+                {
+                  "template": "Accordion",
+                  "path": "/Non-Business",
+                  "children": [
+                    {
+                      "template": "Accordion",
+                      "path": "/Industry-Activities"
+                    }
+                  ]
+                }
+              ]
+            }
+
+          ]
+        },
+        {
+          "template": "Highlight",
+          "path": "/Report",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/COE",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Prepare"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Submit"
+                }
+              ]
+            },
+            {
+              "template": "Article",
+              "path": "/COP",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Prepare"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Submit"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Analyze"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "template": "Landing",
+          "path": "/Getting-started",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Brand-Guidelines"
+            },
+            {
+              "template": "List",
+              "path": "/Resources"
+            },
+            {
+              "template": "List",
+              "path": "/Relationship-Managers"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "template": "Landing",
+      "path": "/Take-Action",
+      "children": [
+        {
+          "template": "Landing",
+          "path": "/Leadership",
+          "children": [
+            {
+              "template": "Highlight",
+              "path": "/GC-Lead",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/What-Is-Lead"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Projects"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Benefits"
+                }
+              ]
+            },
+            {
+              "template": "Article",
+              "path": "/Integrate-Sustainability",
+              "children": [
+                {
+                  "template": "Issue",
+                  "path": "/General-Counsel"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Board-Adoption"
+                },
+                {
+                  "template": "Issue",
+                  "path": "/Set-Goals"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "template": "Tile_grid",
+          "path": "/Action",
+          "children": [
+            {
+              "template": "Article_Form",
+              "path": "/Share-Success"
+            },
+            {
+              "template": "Article",
+              "path": "/Case-Example",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/101"
+                },
+                {
+                  "template": "Article",
+                  "path": "/102"
+                },
+                {
+                  "template": "Article",
+                  "path": "/103"
+                },
+                {
+                  "template": "Article",
+                  "path": "/104"
+                },
+                {
+                  "template": "Article",
+                  "path": "/105"
+                },
+                {
+                  "template": "Article",
+                  "path": "/106"
+                },
+                {
+                  "template": "Article",
+                  "path": "/107"
+                },
+                {
+                  "template": "Article",
+                  "path": "/108"
+                },
+                {
+                  "template": "Article",
+                  "path": "/109"
+                },
+                {
+                  "template": "Article",
+                  "path": "/110"
+                },
+                {
+                  "template": "Article",
+                  "path": "/111"
+                },
+                {
+                  "template": "Article",
+                  "path": "/112"
+                },
+                {
+                  "template": "Article",
+                  "path": "/113"
+                },
+                {
+                  "template": "Article",
+                  "path": "/114"
+                },
+                {
+                  "template": "Article",
+                  "path": "/115"
+                },
+                {
+                  "template": "Article",
+                  "path": "/116"
+                },
+                {
+                  "template": "Article",
+                  "path": "/117"
+                },
+                {
+                  "template": "Article",
+                  "path": "/118"
+                },
+                {
+                  "template": "Article",
+                  "path": "/119"
+                },
+                {
+                  "template": "Article",
+                  "path": "/120"
+                },
+                {
+                  "template": "Article",
+                  "path": "/121"
+                },
+                {
+                  "template": "Article",
+                  "path": "/122"
+                },
+                {
+                  "template": "Article",
+                  "path": "/123"
+                },
+                {
+                  "template": "Article",
+                  "path": "/124"
+                },
+                {
+                  "template": "Article",
+                  "path": "/125"
+                }
+              ]
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Child-Labour"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Peace"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Food"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Child-Rights"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Womens-Principles"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Water-Manadate"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Climate"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Investment-Sustainable-Finance"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Sustainable-stock-exchange-initiatives"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Implement-Womens-Principles"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Nominate-CEO-WEP-Awards"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/GC-Board-Programme"
+            },
+            {
+              "template": "Article",
+              "path": "/Share-Adapation-Practice"
+            },
+            {
+              "template": "Article",
+              "path": "/Management"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Sustainable-Development-Goals"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Carbon"
+            },
+            {
+              "template": "Article",
+              "path": "/Water-Stewardship-Journey"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Private-Sustainability-Finance"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Sustainable-Development"
+            },
+            {
+              "template": "Article",
+              "path": "/Value-Driver-Model"
+            },
+            {
+              "template": "Article",
+              "path": "/Water-Sanitation-Partners"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Business-Rule-of-Law"
+            },
+            {
+              "template": "Article",
+              "path": "/Anti-Corruption-Call-to-Action"
+            },
+            {
+              "template": "Article",
+              "path": "/Supply-Chain-Advisory-Group"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Quantify-Communicate-Sustainability"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Anti-Corruption-In-Business"
+            },
+            {
+              "template": "Article",
+              "path": "/SDG2"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Anti-Corruption-Collective-Action"
+            },
+            {
+              "template": "Article",
+              "path": "/Long-Term"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Anti-Corruption-Working-Group"
+            },
+            {
+              "template": "Article",
+              "path": "/Climate-Policy"
+            },
+            {
+              "template": "Article",
+              "path": "/Responsible-Investment"
+            },
+            {
+              "template": "Article",
+              "path": "/Management-Education"
+            },
+            {
+              "template": "Article",
+              "path": "/Cities-Programme"
+            },
+            {
+              "template": "Article",
+              "path": "/Human-Rights-Policy"
+            },
+            {
+              "template": "Article",
+              "path": "/Business-Dilemmas-Forum"
+            },
+            {
+              "template": "Article",
+              "path": "/Science-Based-Target"
+            },
+            {
+              "template": "Article",
+              "path": "/Sustainable-Soil-Management"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Learn-Business-Human-Rights"
+            }
+          ]
+        },
+        {
+          "template": "Event",
+          "path": "/Events",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Sponsorship"
+            }
+          ]
+        },
+        {
+          "template": "Highlight",
+          "path": "/Partnerships",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/How-To-Partner"
+            },
+            {
+              "template": "Article",
+              "path": "/Who-To-Partner"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "template": "Engage_Locally",
+      "path": "/Engage-locally",
+      "children": [
+        {
+          "template": "Highlight",
+          "path": "/About-Local-Networks"
+        },
+        {
+          "template": "Engage_Locally",
+          "path": "/Africa",
+          "children": [
+            {
+              "template": "Accordion",
+              "path": "/Africa-strategy"
+            }
+          ]
+        },
+        {
+          "template": "Engage_Locally",
+          "path": "/Asia"
+        },
+        {
+          "template": "Engage_Locally",
+          "path": "/Europe"
+        },
+        {
+          "template": "Engage_Locally",
+          "path": "/Latin-America"
+        },
+        {
+          "template": "Engage_Locally",
+          "path": "/Mena"
+        },
+        {
+          "template": "Engage_Locally",
+          "path": "/North-America"
+        },
+        {
+          "template": "Engage_Locally",
+          "path": "/Oceana"
+        },
+        {
+          "template": "Landing",
+          "path": "/Manage",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Engagement"
+            },
+            {
+              "template": "Highlight",
+              "path": "/Training",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Outreach"
+                },
+                {
+                  "template": "Article",
+                  "path": "/COP-Training"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Partnerships"
+                },
+                {
+                  "template": "List",
+                  "path": "/Toolkit"
+                }
+              ]
+            },
+            {
+              "template": "Article",
+              "path": "/News"
+            },
+            {
+              "template": "Highlight",
+              "path": "/Reports",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Foundation"
+                },
+                {
+                  "template": "List",
+                  "path": "/Mtg-Outcome"
+                },
+                {
+                  "template": "List",
+                  "path": "/Local-Network-Report"
+                },
+                {
+                  "template": "List",
+                  "path": "/Local-Networks-Document"
+                },
+                {
+                  "template": "List",
+                  "path": "/Activity-Report"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "template": "Library",
+      "path": "/library"
+    },
+    {
+      "template": "Article",
+      "path": "/Welcome",
+      "children": [
+        {
+          "template": "Article",
+          "path": "/Business"
+        },
+        {
+          "template": "Article",
+          "path": "/Non-Business"
+        },
+        {
+          "template": "Article",
+          "path": "/Academic"
+        },
+        {
+          "template": "Article",
+          "path": "/City"
+        }
+      ]
+    },
+    {
+      "template": "Landing",
+      "path": "/About",
+      "children": [
+        {
+          "template": "Article",
+          "path": "/Partners"
+        },
+        {
+          "template": "Accordion",
+          "path": "/FAQ"
+        },
+        {
+          "template": "Article",
+          "path": "/Foundation"
+        },
+        {
+          "template": "List",
+          "path": "/Opportunities"
+        },
+        {
+          "template": "Article_Form",
+          "path": "/Contact"
+        },
+        {
+          "template": "Article",
+          "path": "/Governance",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Board",
+              "children": [
+                {
+                  "template": "Accordion",
+                  "path": "/Members"
+                }
+              ]
+            },
+            {
+              "template": "List",
+              "path": "/Executive-Team"
+            },
+            {
+              "template": "Accordion",
+              "path": "/Local-Network-Advisory-Group"
+            }
+          ]
+        },
+        {
+          "template": "Article",
+          "path": "/Integrity-Measures"
+        },
+        {
+          "template": "Article",
+          "path": "/Finances"
+        },
+        {
+          "template": "Article",
+          "path": "/Government-Recognition",
+          "children": [
+            {
+              "template": "List",
+              "path": "/General-Assembly-Resolutions"
+            },
+            {
+              "template": "List",
+              "path": "/G8-Recognition"
+            },
+            {
+              "template": "List",
+              "path": "/Outcomes-Declarations"
+            }
+          ]
+        },
+        {
+          "template": "Article",
+          "path": "/UN-Business-Agenda"
+        }
+      ]
+    },
+    {
+      "template": "Article",
+      "path": "/Copyright"
+    },
+    {
+      "template": "Article",
+      "path": "/Privacy-Policy"
+    },
+    {
+      "template": "News",
+      "path": "/News",
+      "children": [
+        {
+          "template": "Article",
+          "path": "/Speeches"
+        },
+        {
+          "template": "Article",
+          "path": "/Media"
+        },
+        {
+          "template": "PR_list",
+          "path": "/Press-Release"
+        }
+      ]
+    }
+  ]
+}

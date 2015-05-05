@@ -301,6 +301,139 @@ class ActiveSupport::TestCase
     {file: create_file_upload}
   end
 
+  def valid_payload_attributes(params = {})
+    data = {
+      data: {
+        meta_tags: {
+          title: 'wow',
+          description: 'sad',
+          thumbnail: 'image'
+        }
+
+      }
+    }
+
+    data.merge(params)
+  end
+
+  def create_issue_hierarchy(tree = nil)
+    if tree.nil?
+      tree = [
+        ["Issue A", [
+          "Issue 1",
+          "Issue 2",
+          "Issue 3",
+        ]],
+        ["Issue B", [
+          "Issue 4",
+          "Issue 5",
+          "Issue 6",
+        ]]
+      ]
+    end
+
+    tree.map do |parent_name, child_names|
+      issue_area = create_issue(name: parent_name)
+      child_names.map do |child_name|
+        create_issue(name: child_name, parent: issue_area)
+      end
+      issue_area
+    end
+
+  end
+
+  def create_topic_hierarchy(tree = nil)
+    if tree.nil?
+      tree = [
+        ["Topic A", [
+          "Topic 1",
+          "Topic 2",
+          "Topic 3",
+        ]],
+        ["Topic B", [
+          "Topic 4",
+          "Topic 5",
+          "Topic 6",
+        ]]
+      ]
+    end
+
+    tree.map do |parent_name, child_names|
+      parent = create_topic(name: parent_name)
+      child_names.map do |child_name|
+        parent.children << create_topic(name: child_name, parent: parent)
+      end
+      parent.tap {|p| p.save!}
+    end
+
+  end
+
+  def create_sector_hierarchy
+    tree = [
+        ["Sector A", [
+          "Sector 1",
+          "Sector 2",
+          "Sector 3",
+        ]],
+        ["Sector B", [
+          "Sector 4",
+          "Sector 5",
+          "Sector 6",
+        ]]
+      ]
+
+    tree.map do |group_name, child_names|
+      parent = create_sector name: group_name
+      child_names.each_with_index.map do |child_name, i|
+        create_sector(
+          name: child_name,
+          parent: parent,
+          icb_number: i
+        )
+      end
+      parent
+    end
+  end
+
+  def headline_attributes_with_taggings
+    create_country
+    create_issue_hierarchy
+    create_topic_hierarchy
+    create_sector_hierarchy
+
+    country_id = Country.last.id
+    issue_id = Issue.last.id
+    topic_id = Topic.last.id
+    sector_id = Sector.last.id
+
+    {
+      title: "UN Global Compact Launches Local Network in Canada",
+      published_on: "2015-04-23",
+      location: "Toronto, Ontario",
+      country_id: country_id,
+      description: "Global Compact Network Canada was launched in Toronto...",
+      headline_type: "press_release",
+      issues: [issue_id],
+      topics: [topic_id],
+      sectors: [sector_id]
+    }
+  end
+
+  def resource_attributes_with_taggings
+    create_issue_hierarchy
+    create_topic_hierarchy
+    create_sector_hierarchy
+
+    issue_id = Issue.last.id
+    topic_id = Topic.last.id
+    sector_id = Sector.last.id
+
+    valid_resource_attributes.merge({
+      issues: [issue_id],
+      topics: [topic_id],
+      sectors: [sector_id]
+    }).symbolize_keys
+  end
 end
 
 class ActionController::TestCase
@@ -340,4 +473,3 @@ module LocalNetworkSubmodelControllerHelper
   end
 
 end
-

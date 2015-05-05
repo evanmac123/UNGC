@@ -1,8 +1,31 @@
-%fieldset
-  %ol
-    -# The order of class/label is important, see default_form_builder
-    = default_form.text_field :title
-    = default_form.text_field :published_on, {class: 'datepicker iso-date'}, {label: "Published on"}
-    = default_form.text_field :location
-    = default_form.collection_select :country_id, Country.all, :id, :name
-    = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Body"}
+- if default_form.error_messages.present?
+  %h3 Sorry, the Headline was not saved. Please provide all required information:
+  %div{:class => 'flash error'}
+    %ul
+      - @headline.errors.full_messages.each do |e|
+        %li= e
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li
+      %a{:href => '#general'} General
+    %li
+      %a{:href => '#redesign_topics'} New Topics*
+    %li
+      %a{:href => '#redesign_issues'} Issues*
+    %li
+      %a{:href => '#redesign_sectors'} Sectors*
+
+  #general.tab_content
+    %fieldset
+      %legend General Information
+      %ol
+        -# The order of class/label is important, see default_form_builder
+        = default_form.text_field :title
+        = default_form.text_field :published_on, {class: 'datepicker iso-date'}, {label: "Published on"}
+        = default_form.text_field :location
+        = default_form.collection_select :country_id, Country.all, :id, :name
+        = default_form.text_area :description, {class: 'replace_with_editor', style: 'display:none'}, {label: "Body"}
+        = default_form.select :headline_type, @headline.headline_types_for_select, {prompt: 'Select a headline type'}, { label: 'Type'}
+
+  =render partial: "admin/shared/tagging_form", locals: {taggable: @headline, model_name: 'headline'}

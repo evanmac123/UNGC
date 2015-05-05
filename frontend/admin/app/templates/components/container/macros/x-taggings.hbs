@@ -1,0 +1,8 @@
+<fieldset>
+<legend>Taxonomy</legend>
+  {{#container/x-fields key="taggings" scope=scope as |taggings|}}
+    {{container/macros/x-issues scope=taggings}}
+    {{container/macros/x-topics scope=taggings}}
+    {{container/macros/x-sectors scope=taggings}}
+  {{/container/x-fields}}
+</fieldset>

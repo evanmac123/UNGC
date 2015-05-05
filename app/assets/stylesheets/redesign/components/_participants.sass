@@ -1,0 +1,48 @@
+.component-participants
+  clear: both
+  padding: 3em 0 2em
+  margin: 0 5%
+
+.component-participants-table
+  width: 100%
+  border:
+    collapse: collapse
+    spacing: 0
+  color: color('grey')
+
+  a
+    color: color('light-blue')
+
+    &:hover,
+    &:active
+      color: color('pastel-blue')
+
+  th,
+  td
+    text-align: left
+    padding: .5em
+
+    &:first-child
+      padding-left: 0
+
+    &:last-child
+      padding-right: 0
+
+  thead th
+    font-family: $flama-bold
+    text-transform: uppercase
+
+  tbody
+    th,
+    td
+      border-bottom: 1px solid #eee
+
+    tr:hover
+      th,
+      td
+        background: #f3f3f3
+
+    tr:last-child
+      th,
+      td
+        border-bottom: 0

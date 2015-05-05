@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320131239) do
+ActiveRecord::Schema.define(version: 20150503232211) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -235,6 +235,10 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.string   "current_sign_in_ip",        limit: 255
     t.string   "last_sign_in_ip",           limit: 255
     t.boolean  "welcome_package",           limit: 1
+    t.string   "image_file_name",           limit: 255
+    t.string   "image_content_type",        limit: 255
+    t.integer  "image_file_size",           limit: 4
+    t.datetime "image_updated_at"
   end
 
   add_index "contacts", ["organization_id"], name: "index_contacts_on_organization_id", using: :btree
@@ -425,9 +429,11 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.integer  "country_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "headline_type",  limit: 4,     default: 0
   end
 
   add_index "headlines", ["approval"], name: "index_headlines_on_approval", using: :btree
+  add_index "headlines", ["headline_type"], name: "index_headlines_on_headline_type", using: :btree
   add_index "headlines", ["published_on"], name: "index_headlines_on_published_on", using: :btree
 
   create_table "initiatives", force: :cascade do |t|
@@ -444,6 +450,17 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.text    "description",      limit: 65535
     t.date    "date"
   end
+
+  create_table "issues", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.string   "type",       limit: 255
+    t.integer  "parent_id",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "issues", ["parent_id"], name: "index_issues_on_parent_id", using: :btree
+  add_index "issues", ["type"], name: "index_issues_on_type", using: :btree
 
   create_table "languages", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -539,6 +556,11 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.string   "facebook",                                            limit: 255
     t.string   "linkedin",                                            limit: 255
     t.string   "funding_model",                                       limit: 255
+    t.string   "description",                                         limit: 255
+    t.string   "image_file_name",                                     limit: 255
+    t.string   "image_content_type",                                  limit: 255
+    t.integer  "image_file_size",                                     limit: 4
+    t.datetime "image_updated_at"
   end
 
   create_table "logo_comments", force: :cascade do |t|
@@ -743,6 +765,39 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.datetime "updated_at",             null: false
   end
 
+  create_table "redesign_containers", force: :cascade do |t|
+    t.integer  "layout",                 limit: 4,                  null: false
+    t.string   "slug",                   limit: 255, default: "/",  null: false
+    t.integer  "parent_container_id",    limit: 4
+    t.integer  "public_payload_id",      limit: 4
+    t.integer  "draft_payload_id",       limit: 4
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.string   "path",                   limit: 255
+    t.integer  "depth",                  limit: 4,   default: 0,    null: false
+    t.string   "tree_path",              limit: 255, default: "",   null: false
+    t.integer  "child_containers_count", limit: 4,   default: 0,    null: false
+    t.integer  "content_type",           limit: 4,   default: 0,    null: false
+    t.boolean  "has_draft",              limit: 1,   default: true
+  end
+
+  add_index "redesign_containers", ["content_type"], name: "index_redesign_containers_on_content_type", using: :btree
+  add_index "redesign_containers", ["depth"], name: "index_redesign_containers_on_depth", using: :btree
+  add_index "redesign_containers", ["parent_container_id", "slug"], name: "index_redesign_containers_on_parent_container_id_and_slug", unique: true, using: :btree
+  add_index "redesign_containers", ["parent_container_id"], name: "index_redesign_containers_on_parent_container_id", using: :btree
+  add_index "redesign_containers", ["path"], name: "index_redesign_containers_on_path", unique: true, using: :btree
+
+  create_table "redesign_payloads", force: :cascade do |t|
+    t.integer  "container_id",   limit: 4,     null: false
+    t.text     "json_data",      limit: 65535, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "created_by_id",  limit: 4
+    t.integer  "updated_by_id",  limit: 4
+    t.integer  "approved_by_id", limit: 4
+    t.datetime "approved_at"
+  end
+
   create_table "removal_reasons", force: :cascade do |t|
     t.string   "description", limit: 255
     t.integer  "old_id",      limit: 4
@@ -786,7 +841,10 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.string   "image_content_type", limit: 255
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
+    t.integer  "content_type",       limit: 4
   end
+
+  add_index "resources", ["content_type"], name: "index_resources_on_content_type", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",          limit: 255
@@ -841,6 +899,51 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.datetime "updated_at"
   end
 
+  create_table "taggings", force: :cascade do |t|
+    t.integer  "author_id",                    limit: 4
+    t.integer  "principle_id",                 limit: 4
+    t.string   "principle_type",               limit: 255
+    t.integer  "country_id",                   limit: 4
+    t.integer  "initiative_id",                limit: 4
+    t.integer  "language_id",                  limit: 4
+    t.integer  "sector_id",                    limit: 4
+    t.integer  "communication_on_progress_id", limit: 4
+    t.integer  "event_id",                     limit: 4
+    t.integer  "headline_id",                  limit: 4
+    t.integer  "organization_id",              limit: 4
+    t.integer  "resource_id",                  limit: 4
+    t.integer  "redesign_container_id",        limit: 4
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.integer  "topic_id",                     limit: 4
+    t.integer  "issue_id",                     limit: 4
+  end
+
+  add_index "taggings", ["author_id"], name: "index_taggings_on_author_id", using: :btree
+  add_index "taggings", ["communication_on_progress_id"], name: "index_taggings_on_communication_on_progress_id", using: :btree
+  add_index "taggings", ["country_id"], name: "index_taggings_on_country_id", using: :btree
+  add_index "taggings", ["event_id"], name: "index_taggings_on_event_id", using: :btree
+  add_index "taggings", ["headline_id"], name: "index_taggings_on_headline_id", using: :btree
+  add_index "taggings", ["initiative_id"], name: "index_taggings_on_initiative_id", using: :btree
+  add_index "taggings", ["issue_id"], name: "index_taggings_on_issue_id", using: :btree
+  add_index "taggings", ["language_id"], name: "index_taggings_on_language_id", using: :btree
+  add_index "taggings", ["organization_id"], name: "index_taggings_on_organization_id", using: :btree
+  add_index "taggings", ["principle_id"], name: "index_taggings_on_principle_id", using: :btree
+  add_index "taggings", ["principle_type"], name: "index_taggings_on_principle_type", using: :btree
+  add_index "taggings", ["redesign_container_id"], name: "index_taggings_on_redesign_container_id", using: :btree
+  add_index "taggings", ["resource_id"], name: "index_taggings_on_resource_id", using: :btree
+  add_index "taggings", ["sector_id"], name: "index_taggings_on_sector_id", using: :btree
+  add_index "taggings", ["topic_id"], name: "index_taggings_on_topic_id", using: :btree
+
+  create_table "topics", force: :cascade do |t|
+    t.string   "name",       limit: 255, null: false
+    t.integer  "parent_id",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "topics", ["parent_id"], name: "index_topics_on_parent_id", using: :btree
+
   create_table "uploaded_files", force: :cascade do |t|
     t.integer  "attachable_id",                  limit: 4
     t.string   "attachable_type",                limit: 255
@@ -854,4 +957,28 @@ ActiveRecord::Schema.define(version: 20150320131239) do
     t.string   "attachable_key",                 limit: 255
   end
 
+  create_table "uploaded_images", force: :cascade do |t|
+    t.string   "url",        limit: 255, null: false
+    t.string   "filename",   limit: 255
+    t.string   "mime",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_foreign_key "issues", "issues", column: "parent_id"
+  add_foreign_key "taggings", "authors"
+  add_foreign_key "taggings", "communication_on_progresses"
+  add_foreign_key "taggings", "countries"
+  add_foreign_key "taggings", "events"
+  add_foreign_key "taggings", "headlines"
+  add_foreign_key "taggings", "initiatives"
+  add_foreign_key "taggings", "issues"
+  add_foreign_key "taggings", "languages"
+  add_foreign_key "taggings", "organizations"
+  add_foreign_key "taggings", "principles"
+  add_foreign_key "taggings", "redesign_containers"
+  add_foreign_key "taggings", "resources"
+  add_foreign_key "taggings", "sectors"
+  add_foreign_key "taggings", "topics"
+  add_foreign_key "topics", "topics", column: "parent_id"
 end

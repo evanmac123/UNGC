@@ -1,0 +1,28 @@
+{{#container/x-fields scope=model.container as |issue|}}
+  {{container/macros/x-metatags scope=issue}}
+
+  {{container/macros/x-hero scope=issue}}
+
+  {{container/macros/x-principles scope=issue}}
+
+  <fieldset>
+    <legend>Issue Content</legend>
+    {{#container/x-fields key="issueBlock" scope=issue as |issueBlock|}}
+      {{container/x-field key="title" type="string" limit=50 scope=issueBlock}}
+      {{container/x-field key="content" label="Issue content" type="redactor" limit=50 scope=issueBlock}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  {{container/macros/x-widget-contact scope=issue}}
+
+  {{container/macros/x-widget-calls-to-action scope=issue}}
+
+  {{container/macros/x-widget-links-lists scope=issue}}
+
+  {{container/macros/x-related-contents scope=issue}}
+
+  {{container/macros/x-resources scope=issue}}
+
+  {{container/macros/x-taggings scope=issue}}
+
+{{/container/x-fields}}

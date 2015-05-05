@@ -176,6 +176,14 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       end
     end
 
+    context "set the content_type for a resource" do
+      should "create and redirect to the index" do
+        post :create, resource: valid_resource_attributes.merge({content_type: 'webinar' })
+        assert_redirected_to action: :index
+        assert_equal Resource.last.content_type, 'webinar'
+      end
+    end
+
   end
 
 end

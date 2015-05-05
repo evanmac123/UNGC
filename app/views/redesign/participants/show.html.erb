@@ -1,0 +1,64 @@
+<div class="OH-HI-JORGE" style="margin-top: 140px"></div>
+
+<h1><%= @participant.name %></h1>
+
+<% if @participant.has_website? %>
+  <h1><%= link_to @participant.website, @participant.website_url %></h1>
+<% end %>
+
+<h2>Company Information</h2>
+<h3>Overview</h3>
+
+<p>Country: <%= @participant.country %></p>
+<p>Org. Type: <%= @participant.type %></p>
+<p>Sector: <%= @participant.sector %></p>
+<p>Differentiation Level: <%= @participant.differentiation_level %></p>
+<p>Employees: <%= @participant.employees %></p>
+<p>Ownership: <%= @participant.ownership %></p>
+<p>Participant Since: <%= @participant.joined_on %></p>
+
+<h2>COP</h2>
+<h3>Communication on Progress</h3>
+
+<table>
+  <thead>
+    <th>Year</th>
+    <th>Published On</th>
+    <th>Title</th>
+    <th>Level</th>
+  </thead>
+  <tbody>
+    <% @participant.cops.each do |cop| %>
+      <tr>
+        <th><%= cop.year %></th>
+        <th><%= cop.published_on %></th>
+        <th><%= link_to cop.title, cop_detail_path(cop) %></th>
+        <th><%= cop.differentiation_level_name %></th>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Contributions</h2>
+<h3>Voluntary Contributions</h3>
+
+<table>
+  <thead>
+    <th>Year</th>
+    <th>Contribution Received</th>
+  </thead>
+  <tbody>
+    <% @participant.contributions.each do |year, campaigns| %>
+      <tr>
+        <td><%= year %></td>
+        <td>
+          <ul>
+            <% campaigns.each do |campaign| %>
+              <li><%= campaign.name %></li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,98 @@
+#main-footer
+  @extend %wrapper
+  background-color: color('grey')
+  padding: 3%
+  font-size: 1.125em
+  color: white
+  +font-smoothing(antialiased)
+
+  a
+    color: inherit
+
+    &:hover,
+    &:active
+      text-decoration: underline
+
+  ul
+    list-style: none
+    padding: 0
+
+  article
+    float: left
+    width: 33.333%
+    margin: 0
+    padding: 2%
+
+  h2
+    color: color('pastel-blue')
+    font:
+      family: $flama-bold
+      size: 1em
+    text-transform: uppercase
+    padding: 0 0 .5em
+    border-bottom: 1px solid lighten(color('grey'), 6%)
+    margin: 0 0 .5em
+
+  .social
+    list-style: none
+    padding: 0
+    margin: 0 0 2em
+
+    li
+      display: inline-block
+      margin: 0 .5em .5em 0
+
+    span
+      display: none
+
+    a
+      color: color('light-grey')
+
+      &:before
+        +fa-icon
+        font-size: 1.66667em
+
+      &:hover,
+      &:active
+        color: white
+
+    .twitter:before
+      content: $fa-var-twitter-square
+
+    .youtube:before
+      content: $fa-var-youtube-square
+
+    .linkedin:before
+      content: $fa-var-linkedin-square
+
+    .facebook:before
+      content: $fa-var-facebook-square
+
+    .flickr:before
+      content: $fa-var-flickr
+
+    .rss:before
+      content: $fa-var-rss-square
+
+  .contribute
+    margin-bottom: 3em
+
+    h2
+      color: white
+      text-transform: none
+      font-size: 1.1111em
+      padding: 0
+      border-bottom: 0
+      margin: 0 0 1em
+
+    a
+      +button
+      font-size: 1em
+      display: block
+
+  .contact a
+    text-decoration: underline
+
+    &:hover,
+    &:active
+      color: color('light-teal')

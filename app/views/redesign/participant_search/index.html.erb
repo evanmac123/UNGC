@@ -1,0 +1,11 @@
+<% provide :title, @page.meta_title %>
+<% provide :description, @page.meta_description %>
+<%= render partial: 'redesign/components/hero' %>
+
+<header>
+  <h1>Participant Search</h1>
+</header>
+
+<h2><%= @page.blurb %></h2>
+
+<%= render partial: 'form', locals: {search: @search} %>

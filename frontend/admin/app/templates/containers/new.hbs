@@ -1,0 +1,45 @@
+<x-modal close="dismiss">
+  <div class="modal-body">
+    <form class="form form-horizontal">
+      <legend>
+        Add Page
+      </legend>
+
+      <div class="form-group">
+        <label for="layout" class="control-label">
+          Layout
+        </label>
+        {{fast-select
+            items=model.layouts
+            selected=model.container.layoutRecord
+            labelPath="label"
+            valuePath="id"
+            class="form-control"
+            id="layout"}}
+      </div>
+
+      {{#sitemap/validated-form-field label='Slug'
+                                      name='slug'
+                                      errors=model.container.errors}}
+        {{input class="form-control" id="slug" value=model.container.slug}}
+      {{/sitemap/validated-form-field}}
+
+      {{!-- XXX errro on publicPath is exposed as 'path' due to AR --}}
+      {{#sitemap/validated-form-field label='Public Path'
+                                      name='path'
+                                      errors=model.container.errors}}
+        {{input class="form-control" id="public-path" value=model.container.publicPath}}
+      {{/sitemap/validated-form-field}}
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" {{action "dismiss"}}>Cancel</button>
+    <button type="button" class="btn btn-primary" {{action "createContainer" model.container}}>Add Page</button>
+  </div>
+
+  {{!-- XXX position absolute for these --}}
+  {{#each flashMessages.queue as |flash|}}
+    {{flash-message flash=flash}}
+  {{/each}}
+</x-modal>

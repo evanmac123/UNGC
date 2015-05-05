@@ -1,0 +1,8 @@
+<fieldset>
+  <legend>Resources</legend>
+  {{#container/x-fields key="resources" array=true size=3 scope=scope as |resources|}}
+    <li class="stat-group">
+      {{container/macros/x-resource key="resourceId" scope=resources}}
+    </li>
+  {{/container/x-fields}}
+</fieldset>

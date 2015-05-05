@@ -22,4 +22,8 @@ class Sector < ActiveRecord::Base
   def self.not_applicable
     find_by_name("Not Applicable")
   end
+
+  def self.children
+    self.participant_search_options
+  end
 end

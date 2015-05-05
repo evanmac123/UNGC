@@ -1,0 +1,70 @@
+#issues-nav
+  list-style: none
+  display: table
+  width: 90%
+  position: absolute
+  left: 0
+  right: 0
+  bottom: 1px
+  padding: 0
+  margin: 0 auto
+  max-width: 1200px
+  text-align: center
+  font:
+    family: $flama-condensed-medium
+    size: 1.375em
+
+  li
+    display: inline-block
+    vertical-align: top
+    margin: 0
+    padding: 0 1px
+    width: 27%
+
+    &:last-of-type
+      margin-right: 0
+
+  a
+    display: block
+    background:
+      color: rgba(color('dark-teal'), .7)
+      blend-mode: multiply
+    color: white
+    text-align: center
+    padding: 1em 0 .75em
+    white-space: nowrap
+    height: 3.5em
+    +transition-property(background-color color)
+    +transition-duration(150ms)
+
+    &:before
+      display: inline-block
+      position: relative
+      top: -0.1em
+      content: ''
+      background: center center no-repeat
+        size: contain
+      vertical-align: middle
+      margin: 0 .5em 0 0
+      +size(1.8em)
+
+    &:hover,
+    &:active
+      background: color('teal')
+
+    &:active
+      +transition-duration(0ms)
+
+  .see-all
+    width: 18%
+    a:before
+      display: none
+
+  .environment a:before
+    background-image: image_url('https://d306pr3pise04h.cloudfront.net/icons/issues/environment.png')
+
+  .social a:before
+    background-image: image_url('https://d306pr3pise04h.cloudfront.net/icons/issues/social.png')
+
+  .governance a:before
+    background-image: image_url('https://d306pr3pise04h.cloudfront.net/icons/issues/governance.png')

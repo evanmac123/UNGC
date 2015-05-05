@@ -1,0 +1,108 @@
+.filter-options-list-trigger
+  display: block
+  position: relative
+  float: left
+  width: 19.2%
+  padding: .5em 1em
+  line-height: 1.25
+  margin: 0 1% 0 0
+  background-color: color('grey')
+  text-align: left
+  color: white
+
+  &:last-of-type
+    margin-right: 0
+
+  &:before
+    +fa-icon
+    content: $fa-var-caret-down
+    position: absolute
+    top: 0
+    right: .75em
+    bottom: 0
+    margin: auto
+    height: 1em
+    font-size: 1.5em
+    color: color('light-grey')
+    +transition(color 100ms)
+
+  &:hover
+    background-color: color('grey')
+    color: white
+
+    &:before
+      color: white
+
+  &:active,
+  &.is-active
+    background-color: color('dark-grey')
+
+
+  &.is-active
+    &:before
+      content: "\00d7"
+      height: 1.2em
+
+    &:after
+      content: ''
+      position: absolute
+      top: 2.25em
+      left: 0
+      right: 0
+      margin: auto
+      +triangle(1.5em, rgba(color('dark-grey'), .975), up)
+
+.filter-options-list
+  position: relative
+  top: 0
+  padding: 0 0 0 1em
+  margin: 0
+  list-style: none
+  background-color: transparent
+
+  .filter-option
+    display: block
+    width: auto
+    padding: 0
+    overflow: hidden
+
+  input[type='checkbox']
+    position: absolute
+    top: -3em
+    left: -3em
+
+    &:checked + label
+      color: white
+      font-weight: 700
+
+.filter-parent-options-list
+  display: none
+  position: absolute
+  top: 3.35em
+  left: 0
+  right: 0
+  padding: 1em
+  background-color: rgba(color('dark-grey'), .975)
+  color: color('light-grey')
+  z-index: 999
+
+  &.is-active
+    display: block
+
+  > .filter-option
+    position: relative
+    display: inline-block
+    vertical-align: top
+    width: 32%
+    font:
+      size: 1.25em
+      weight: 500
+    padding: 1em
+
+  &[data-filter='languages'] > .filter-option
+    width: 19%
+    font-size: 1em
+
+.filter-child-options-list
+  .filter-option
+    font-size: .8em

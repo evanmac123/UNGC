@@ -1,0 +1,48 @@
+{{#container/x-fields scope=model.container as |actionDetail|}}
+  {{#container/macros/x-metatags scope=actionDetail as |metaTags|}}
+    {{container/x-field key="contentType" type="content-type-select" scope=metaTags}}
+  {{/container/macros/x-metatags}}
+
+  {{container/macros/x-hero scope=actionDetail}}
+
+  {{container/macros/x-principles scope=actionDetail}}
+
+  <fieldset>
+    <legend>actionDetail Content</legend>
+    {{#container/x-fields key="actionDetailBlock" scope=actionDetail as |actionDetailBlock|}}
+      {{container/x-field key="title" type="string" limit=50 scope=actionDetailBlock}}
+      {{container/x-field key="content" label="actionDetail content" type="redactor" limit=50 scope=actionDetailBlock}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  {{container/macros/x-widget-contact scope=actionDetail}}
+
+  {{container/macros/x-widget-calls-to-action scope=actionDetail}}
+
+  {{container/macros/x-widget-links-lists scope=actionDetail}}
+
+  {{container/macros/x-related-contents scope=actionDetail}}
+
+  {{container/macros/x-resources scope=actionDetail}}
+
+  <fieldset>
+    <legend>Participants (related Initiative)</legend>
+    {{#container/x-fields key="initiative" scope=actionDetail as |initiative|}}
+      {{container/macros/x-initiative key="initiativeId" scope=initiative}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Partners</legend>
+    {{#container/x-fields key="partners" array=true max=5 scope=actionDetail as |partners|}}
+      <li class="stat-group">
+        {{container/x-field key="name" type="string" scope=partners}}
+        {{container/x-field key="logo" label="Logo URL" type="image-upload" scope=partners}}
+        {{container/x-field key="url" type="href" scope=partners}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+
+  {{container/macros/x-taggings scope=actionDetail}}
+{{/container/x-fields}}
+

@@ -1,0 +1,84 @@
+#hero
+  position: relative
+  padding: 14em 0 6em
+  background: lighten(color('pastel-blue'), 15%) url('https://d306pr3pise04h.cloudfront.net/images/hero/world.png') no-repeat
+    position: top center
+    size: cover
+  min-height: 40em
+  +font-smoothing(antialiased)
+
+  &.hero-size-small
+    min-height: 0
+    padding-top: 13em
+
+  &.dark-theme
+    background-color: #111
+
+  &.light-theme
+    background-color: #ccc
+
+  &.has-issues-nav,
+  &.has-regions-nav
+    padding-bottom: 8em
+
+  *
+    position: relative
+    z-index: 2
+
+  &.has-custom-image
+    background-position: center center
+
+    &.dark-theme,
+    &.light-theme
+      &:before
+        display: block
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        right: 10%
+        bottom: 0
+        background: top left no-repeat
+          size: cover
+          blend-mode: screen
+        z-index: 1
+
+    &.dark-theme:before
+      +linear-gradient(90deg, rgba(black, .4) 40%, transparent, $fallback: transparent)
+
+    &.light-theme:before
+      +linear-gradient(90deg, rgba(white, .7) 40%, transparent, $fallback: transparent)
+
+  h1
+    margin: -1em 0 0 12%
+    font-size: 2.626em
+    line-height: 1
+    color: white
+
+    span
+      display: inline-block
+      margin: 0 0 .025em
+      padding: 0 .25em .3em
+      background:
+        color: rgba(color('dark-teal'), .8)
+        blend-mode: multiply
+      vertical-align: middle
+
+      &:first-of-type
+        padding-top: .15em
+
+  .blurb
+    font-size: 1.125em
+    margin: 1em 0 0 12%
+    max-width: 580px
+
+  &.dark-theme .blurb
+    color: white
+
+  .button
+    margin: 1em 0 0 12%
+    background: rgba(color('teal'), .8)
+
+    &:hover,
+    &:active
+      background: rgba(white, .8)

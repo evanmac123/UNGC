@@ -1,0 +1,9 @@
+<% provide :title, 'Explore Our Library' %>
+
+<%= render partial: 'redesign/components/library_filters_form' %>
+
+<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library', blocks: @results} do |block| %>
+  <%= render 'redesign/components/resource_block', block: block %>
+<% end %>
+
+<%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>

@@ -26,6 +26,8 @@
             = retina_image @resource, :featured
       %dt Description
       %dd= @resource.description
+      %dt Content Type
+      %dd= @resource.human_content_type
       - if @resource.isbn?
         %dt ISBN
         %dd= @resource.isbn

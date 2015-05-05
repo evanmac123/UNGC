@@ -119,7 +119,8 @@ module Admin::OrganizationsHelper
   # display organizations with similar names
   def duplicate_application(organization)
     if Search.running?
-      matches = Organization.search(Riddle::Query.escape(organization.name), :retry_stale => true, :stat => true)
+      options = {retry_stale: true, stat: true, indices: ['organization_core']}
+      matches = Organization.search(Riddle::Query.escape(organization.name), options)
 
       if matches.count > 0
         list_items = ''

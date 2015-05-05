@@ -1,0 +1,12 @@
+{{#container/x-fields scope=model.container as |library|}}
+  {{container/macros/x-metatags scope=library}}
+
+  <fieldset>
+    <legend>Featured</legend>
+    {{#container/x-fields key="featured" array=true size=12 scope=library as |resources|}}
+      <li class="stat-group">
+        {{container/macros/x-resource key="resourceId" scope=resources}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+{{/container/x-fields}}

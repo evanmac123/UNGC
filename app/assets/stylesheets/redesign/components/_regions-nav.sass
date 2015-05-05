@@ -1,0 +1,86 @@
+#regions-nav
+  position: absolute
+  left: 0
+  right: 0
+  bottom: 0
+
+#regions-nav-triggers
+  text-align: center
+  bottom: 0
+
+  .region-nav-trigger
+    font-size: 1.125em
+    padding: .5em
+
+    &:after
+      +fa-icon
+      content: $fa-var-caret-down
+      font-size: 1.25em
+      margin-left: .25em
+
+    &.is-open
+      background-color: color('dark-teal')
+      color: white
+
+      &:after
+        content: "\00d7"
+        vertical-align: top
+
+#regions-nav-container
+  top: 100%
+  z-index: 9999
+
+  &,
+  .regions-nav-region
+    position: absolute
+    left: 0
+    right: 0
+
+  .regions-nav-region
+    top: 0
+    padding: 2em 7%
+    background: rgba(color('dark-teal'), .9)
+    overflow: hidden
+    display: none
+
+    &.is-open
+      display: block
+
+  a
+    color: white
+
+    &.current
+      font-weight: 900
+
+    &:hover,
+    &:active
+      text-decoration: underline
+
+  h1
+    font-size: 1.125em
+    padding: 0
+    margin: 0 0 1em
+
+    a
+      &:after
+        +fa-icon
+        content: $fa-var-caret-right
+        margin-left: .25em
+
+  ul
+    list-style: none
+    padding: 0
+    margin: 0
+
+  li
+    display: inline-block
+    vertical-align: top
+    width: 23%
+    margin: 0 0 .5em
+    padding: 0 .5em 0 0
+
+  .section-nav-siblings
+    padding-bottom: .5em
+
+  .section-nav-children
+    padding-left: 1em

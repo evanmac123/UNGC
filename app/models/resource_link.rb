@@ -30,6 +30,8 @@ class ResourceLink < ActiveRecord::Base
 
   validates :link_type, :inclusion => {:in => TYPES.keys.map(&:to_s), :message => "%{value} is not a valid link_type value" }
 
+  scope :videos, -> { where('link_type = "video"') }
+
   def increment_views!
     self.increment! :views
   end

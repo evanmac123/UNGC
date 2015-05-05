@@ -51,6 +51,13 @@ class Contact < ActiveRecord::Base
     :rememberable,
     :trackable
 
+  has_attached_file :image, :styles => {
+      :show => "250x250>",
+    },
+    :url => "/system/:class/:attachment/:id/:style/:filename"
+
+  do_not_validate_attachment_file_type :image
+
   TYPE_UNGC = :ungc
   TYPE_ORGANIZATION = :organization
   TYPE_NETWORK = :network
@@ -70,6 +77,8 @@ class Contact < ActiveRecord::Base
   validates_format_of       :email,
                               :with => /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}\z/,
                               :message => "is not a valid email address"
+
+  validate :validate_image_only_for_ungc_contacts
 
   belongs_to :country
   belongs_to :organization
@@ -349,5 +358,15 @@ class Contact < ActiveRecord::Base
 
     def self.old_encrypted_password(password)
       Digest::SHA1.hexdigest("#{password}--UnGc--")
+    end
+
+    def validate_image_only_for_ungc_contacts
+      if self.from_ungc?
+        return true
+      end
+
+      if self.image.present?
+        errors.add :image, "should not be present"
+      end
     end
 end

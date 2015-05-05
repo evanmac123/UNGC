@@ -1,0 +1,7 @@
+<%# Form will go here %>
+
+<%= render partial: 'redesign/components/hero' %>
+
+<%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
+  <%= will_paginate @page.news.other %>
+<% end %>

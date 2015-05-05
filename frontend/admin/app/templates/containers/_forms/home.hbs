@@ -1,0 +1,42 @@
+{{#container/x-fields scope=model.container as |home|}}
+  {{container/macros/x-metatags scope=home}}
+
+  {{#container/macros/x-hero scope=home as |hero|}}
+    {{container/macros/x-link key="link" scope=hero}}
+    {{container/x-field key="showIssuesNav" label="Show issues nav" type="boolean" default=true scope=hero}}
+  {{/container/macros/x-hero}}
+
+  <fieldset>
+    <legend>Stats</legend>
+    {{#container/x-fields key="stats" array=true size=3 scope=home as |stats|}}
+      <li class="stat-group">
+        {{container/x-field key="value" type="string" scope=stats}}
+        {{container/x-field key="label" type="string" scope=stats}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Tiles</legend>
+    {{#container/x-fields key="tiles" array=true min=3 max=6 scope=home as |tiles|}}
+      <li class="tile-group">
+        {{container/x-field key="color" type="tile-color-select" scope=tiles}}
+        {{container/x-field key="bgImage" type="image-upload" scope=tiles}}
+        {{container/x-field key="title" type="string" limit=100 scope=tiles}}
+        {{container/x-field key="blurb" type="string" limit=150 scope=tiles}}
+        {{container/macros/x-link key="link" scope=tiles}}
+        {{container/x-field key="doubleWidth" type="boolean" scope=tiles}}
+        {{container/x-field key="doubleHeight" type="boolean" scope=tiles}}
+      </li>
+    {{/container/x-fields}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Feature Event</legend>
+    <p>
+      <em>You can choose the current featured event from the Events panel.</em>
+    </p>
+  </fieldset>
+
+  {{container/macros/x-taggings scope=home}}
+{{/container/x-fields}}

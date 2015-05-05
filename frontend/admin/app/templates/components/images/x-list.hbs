@@ -1,0 +1,26 @@
+<table class="ungc-admin-table">
+  <thead>
+    <tr>
+      <th class='image-preview'>Preview</th>
+      <th class='image-filename'>Filename</th>
+      <th class='image-url'>URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |image|}}
+    <tr>
+      <td class='image-preview'>
+        <img src={{image.url}} style="max-width: 300px">
+      </td>
+      <th class='image-filename'>
+        {{image.filename}}
+      </th>
+      <td class='image-url'>
+        <input type='text' value='{{image.url}}' readonly="readonly" class='form-control image-url-input'>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+{{page-numbers content=model}}
