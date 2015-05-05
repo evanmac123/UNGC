@@ -9,7 +9,7 @@ class Components::Contact
     contact = Contact.find(contact_id)
     {
       photo: contact.image.url,
-      name: contact.name,
+      name: contact.full_name_with_title,
       title: contact.job_title,
       email: contact.email,
       phone: contact.phone
