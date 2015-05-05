@@ -18,7 +18,7 @@ class Redesign::LibraryControllerTest < ActionController::TestCase
   context "index" do
 
     setup do
-      @container = create_container layout: :library, path: '/explore-our-library', slug: '/explore-our-library'
+      @container = create_container layout: :library, path: '/resources', slug: '/resources'
 
       @public_resources = [{resource_id: create_resource.id}]
       @public_payload = create_payload(
