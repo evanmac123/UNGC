@@ -54,7 +54,8 @@ class Redesign::Container < ActiveRecord::Base
 
   scope :by_path, -> (paths) {
     normalized_paths = Array(paths).map {|p| Redesign::Container.normalize_slug(p)}
-    where('path in (?)',  normalized_paths).order("field(path, '#{normalized_paths.join('\',\'')}')")
+    sanitized_order = self.sanitize_sql "field(path, '#{normalized_paths.join('\',\'')}')"
+    where('path in (?)',  normalized_paths).order(sanitized_order)
   }
 
   scope :by_ids_with_descendants, ->(ids) {
