@@ -1,6 +1,6 @@
 class ListPage < ContainerPage
   def hero
-    (@data[:hero] || {}).merge({size: 'small', show_section_nav: true})
+    (@data[:hero] || {}).merge({size: 'small'})
   end
 
   def section_nav
