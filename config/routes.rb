@@ -63,7 +63,7 @@ UNGC::Application.routes.draw do
       get '/search' => :search, as: :participant_search
     end
 
-    resources :news, path: '/about/news' do
+    resources :news, path: '/news' do
       get :speeches, on: :collection
       get :media, on: :collection
       get :press_releases, on: :collection, path: 'press-release'
