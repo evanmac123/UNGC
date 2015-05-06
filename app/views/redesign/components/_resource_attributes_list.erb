@@ -1,35 +1,9 @@
-<%- type ||= nil %>
 <%- if attributes.any? -%>
 <article class='resource-attributes-list'>
   <h1><%= title -%></h1>
   <ul>
-    <%- attributes.each do |attribute| -%>
-    <%# @ghedamat: not sure where these link to %>
-      <li>
-        <% if type == 'topics' %>
-          <% if attribute.parent.present? %>
-            <%= link_to attribute.try(:name), redesign_library_search_path(search: {topics: [attribute.id]}) -%>
-          <% else %>
-            <%= link_to attribute.try(:name), redesign_library_search_path(search: {topic_groups: [attribute.id]}) -%>
-          <% end %>
-        <% elsif type == 'issues' %>
-          <% if attribute.parent.present? %>
-            <%= link_to attribute.try(:name), redesign_library_search_path(search: {issues: [attribute.id]}) -%>
-          <% else %>
-            <%= link_to attribute.try(:name), redesign_library_search_path(search: {issue_groups: [attribute.id]}) -%>
-          <% end %>
-        <% elsif type == 'sectors' %>
-          <% if attribute.parent.present? %>
-            <%= link_to attribute.try(:name), redesign_library_search_path(search: {sectors: [attribute.id]}) -%>
-          <% else %>
-            <%= link_to attribute.try(:name), redesign_library_search_path(search: {sector_groups: [attribute.id]}) -%>
-          <% end %>
-        <% elsif type == 'authors' %>
-          <%= attribute.try(:full_name) -%>
-        <% else %>
-          <%= link_to (attribute.try(:name) || attribute.try(:full_name)), '' -%>
-        <% end %>
-      </li>
+    <%- attributes.each do |a| -%>
+      <li><%= yield a -%></li>
     <%- end -%>
   </ul>
 </article>
