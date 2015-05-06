@@ -18,13 +18,24 @@
 
     <time datetime="<%= year = @resource.year -%>" class='resource-year'>(<%= year.to_date.year %>)</time>
 
-    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.topics, title: 'Topics', type: 'topics' %>
+    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a| %>
+      <%- search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]} -%>
+      <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+    <% end %>
 
-    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.issues, title: 'Issues', type: 'issues' %>
+    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a| %>
+      <%- search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]} -%>
+      <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+    <% end %>
 
-    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.sectors, title: 'Sectors', type: 'sectors' %>
+    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a| %>
+      <%- search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]} -%>
+      <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+    <% end %>
 
-    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.authors, title: 'Authors', type: 'authors' %>
+    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a| %>
+      <%= a.full_name -%>
+    <% end %>
 
     <%- if @resource.links.any? -%>
     <article class='resource-links-list'>
