@@ -23,13 +23,14 @@
     +transition-duration(0ms)
 
 =button($color: 'teal')
-  background-color: color($color)
+  $color: color($color)
+  background-color: $color
   @extend %button
 
   &:hover,
   &:active
-    background-color: white
-    color: color($color)
+    background-color: lighten($color, 10%)
+    color: white
 
 button,
 .button
@@ -41,23 +42,23 @@ button,
   &.dark-orange
     +button('dark-orange')
 
-  &.dark-blue
-    +button('dark-blue')
-
-  &.dark-green
-    +button('dark-green')
-
   &.orange
     +button('orange')
+
+  &.dark-blue
+    +button('dark-blue')
 
   &.blue
     +button('blue')
 
-  &.green
-    +button('green')
-
   &.light-blue
     +button('light-blue')
+
+  &.dark-green
+    +button('dark-green')
+
+  &.green
+    +button('green')
 
   &.light-green
     +button('light-green')
