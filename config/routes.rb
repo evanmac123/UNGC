@@ -51,7 +51,7 @@ UNGC::Application.routes.draw do
     end
 
     controller :issues do
-      get '/about-gc/our-work/all' => :index, as: :issues
+      get '/what-is-gc/our-work/all' => :index, as: :issues
     end
 
     controller :actions do
