@@ -1,10 +1,21 @@
+<%- type ||= nil %>
 <%- if attributes.any? -%>
 <article class='resource-attributes-list'>
   <h1><%= title -%></h1>
   <ul>
     <%- attributes.each do |attribute| -%>
     <%# @ghedamat: not sure where these link to %>
-    <li><%= link_to (attribute.try(:name) || attribute.try(:full_name)), '' -%></li>
+      <li>
+        <% if type == 'topics' %>
+          <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {topics: [attribute.id]}) -%>
+        <% elsif type == 'issues' %>
+          <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {issues: [attribute.id]}) -%>
+        <% elsif type == 'authors' %>
+          <%= (attribute.try(:name) || attribute.try(:full_name)) -%>
+        <% else %>
+          <%= link_to (attribute.try(:name) || attribute.try(:full_name)), '' -%>
+        <% end %>
+      </li>
     <%- end -%>
   </ul>
 </article>
