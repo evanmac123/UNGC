@@ -6,10 +6,10 @@
 
   <nav>
     <ul id='primary-navigation'>
-      <li><%= link_to_redesign 'What Is UN Global Compact?', '/what-is-gc' -%></li>
-      <li><%= link_to_redesign 'Participation', '/participation', class: params[:action] == 'landing' ? 'active' : nil -%></li>
-      <li><%= link_to_redesign 'Take Action', '/take-action' -%></li>
-      <li><%= link_to_redesign 'Engage Locally', '/engage-locally' -%></li>
+      <li><%= link_to_redesign 'What Is UN Global Compact?', '/what-is-gc', class: request.fullpath =~ /\A\/redesign\/what-is-gc/ ? 'active' : nil -%></li>
+      <li><%= link_to_redesign 'Participation', '/participation', class: request.fullpath =~ /\A\/redesign\/participation/ ? 'active' : nil -%></li>
+      <li><%= link_to_redesign 'Take Action', '/take-action', class: request.fullpath =~ /\A\/redesign\/take-action/ ? 'active' : nil -%></li>
+      <li><%= link_to_redesign 'Engage Locally', '/engage-locally', class: request.fullpath =~ /\A\/redesign\/engage-locally/ ? 'active' : nil -%></li>
       <li><%= link_to_redesign 'Explore Our Library', '/library', class: params[:controller] == 'redesign/library' ? 'active' : nil -%></li>
     </ul>
 
