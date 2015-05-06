@@ -58,7 +58,7 @@ UNGC::Application.routes.draw do
       get '/take-action/action' => :index, as: :actions
     end
 
-    controller :participant_search, path: '/about-gc/contributors/directory' do
+    controller :participant_search, path: '/what-is-gc/contributors/directory' do
       get '/' => :index
       get '/search' => :search, as: :participant_search
     end
