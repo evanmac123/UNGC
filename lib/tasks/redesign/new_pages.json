@@ -228,21 +228,6 @@
             },
             {
               "template": "Article",
-              "path": "/Application",
-              "sort_order_position": 3,
-              "children": [
-                {
-                  "template": "Article",
-                  "path": "/Business"
-                },
-                {
-                  "template": "Article",
-                  "path": "/Non-Business"
-                }
-              ]
-            },
-            {
-              "template": "Article",
               "path": "/Who-Should-Join",
               "sort_order_position": 2,
               "children": [
@@ -257,8 +242,22 @@
                   ]
                 }
               ]
+            },
+            {
+              "template": "Article",
+              "path": "/Application",
+              "sort_order_position": 3,
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/Business"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Non-Business"
+                }
+              ]
             }
-
           ]
         },
         {

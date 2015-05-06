@@ -38,10 +38,6 @@ namespace :redesign do
           path: page[:url]
         )
 
-        if page[:sort_order_position]
-          container.update_attribute :sort_order_position, page[:sort_order_position]
-        end
-
         parent = ancestors.last
 
         if parent.present?
@@ -49,6 +45,11 @@ namespace :redesign do
         end
 
         page[:id] = container.id
+
+        if page[:sort_order_position]
+          container.update_attribute :sort_order_position, page[:sort_order_position]
+        end
+
       end
 
       puts page[:slug]
