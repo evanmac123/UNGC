@@ -4,6 +4,8 @@ class ListLayout < UNGC::Layout
   LIST_LINK_TYPES = %w[
     none
     pdf
+    video
+    web
   ]
 
   SORTING = %w[
