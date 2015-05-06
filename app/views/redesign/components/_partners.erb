@@ -1,4 +1,4 @@
-<%- if partners = @page.partners -%>
+<%- if partners = @page.partners and !partners.empty?-%>
 <section class='component-partners'>
   <%- if title ||= nil -%>
     <header class='component-header'>
