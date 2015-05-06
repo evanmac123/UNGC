@@ -7,9 +7,23 @@
     <%# @ghedamat: not sure where these link to %>
       <li>
         <% if type == 'topics' %>
-          <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {topics: [attribute.id]}) -%>
+          <% if attribute.parent.present? %>
+            <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {topics: [attribute.id]}) -%>
+          <% else %>
+            <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {topic_groups: [attribute.id]}) -%>
+          <% end %>
         <% elsif type == 'issues' %>
-          <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {issues: [attribute.id]}) -%>
+          <% if attribute.parent.present? %>
+            <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {issues: [attribute.id]}) -%>
+          <% else %>
+            <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {issue_groups: [attribute.id]}) -%>
+          <% end %>
+        <% elsif type == 'sectors' %>
+          <% if attribute.parent.present? %>
+            <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {sectors: [attribute.id]}) -%>
+          <% else %>
+            <%= link_to (attribute.try(:name) || attribute.try(:full_name)), redesign_library_search_path(search: {sector_groups: [attribute.id]}) -%>
+          <% end %>
         <% elsif type == 'authors' %>
           <%= (attribute.try(:name) || attribute.try(:full_name)) -%>
         <% else %>
