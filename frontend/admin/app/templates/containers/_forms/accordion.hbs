@@ -2,7 +2,9 @@
 
   {{container/macros/x-metatags scope=accordion}}
 
-  {{container/macros/x-hero scope=accordion}}
+  {{#container/macros/x-hero scope=accordion as |hero|}}
+    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=true scope=hero}}
+  {{/container/macros/x-hero}}
 
   <fieldset>
     <legend>Accordion</legend>

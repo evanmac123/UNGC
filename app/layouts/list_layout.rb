@@ -18,7 +18,9 @@ class ListLayout < UNGC::Layout
 
   has_meta_tags!
 
-  has_hero!
+  has_hero! do
+    field :show_section_nav,  type: :boolean, default: true
+  end
 
   scope :list_block do
     field :title, type: :string, required: true
