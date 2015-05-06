@@ -22,6 +22,8 @@
 
     <%= render 'redesign/components/resource_attributes_list', attributes: @resource.issues, title: 'Issues', type: 'issues' %>
 
+    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.sectors, title: 'Sectors', type: 'sectors' %>
+
     <%= render 'redesign/components/resource_attributes_list', attributes: @resource.authors, title: 'Authors', type: 'authors' %>
 
     <%- if @resource.links.any? -%>
