@@ -1,6 +1,9 @@
 class Redesign::Container < ActiveRecord::Base
   LEADING_OR_TRAILING_SLASH = /\A\/|\/\Z/
 
+  include RankedModel
+  ranks :sort_order, with_same: :parent_container_id
+
   attr_accessor :payload_validator
 
   enum layout: [
@@ -99,7 +102,7 @@ class Redesign::Container < ActiveRecord::Base
   end
 
   def child_containers
-    Redesign::Container.where(parent_container_id: id).order(:path)
+    Redesign::Container.where(parent_container_id: id).order(:sort_order, :path)
   end
 
   def branch_ids
