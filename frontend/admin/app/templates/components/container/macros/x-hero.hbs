@@ -5,8 +5,8 @@
     {{container/x-field key="theme" type="hero-theme-select" scope=hero}}
 
     {{#container/x-fields key="title" scope=hero as |title|}}
-      {{container/x-field key="title1" type="string" limit=50 scope=title}}
-      {{container/x-field key="title2" type="string" limit=50 scope=title}}
+      {{container/x-field key="title1" label="Title (Line 1)" type="string" limit=50 scope=title}}
+      {{container/x-field key="title2" label="Title (Line 2)" type="string" limit=50 scope=title}}
     {{/container/x-fields}}
 
     {{container/x-field key="blurb" type="string" scope=hero}}
