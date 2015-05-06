@@ -1,0 +1,46 @@
+.resource-links-list
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+
+  .resource-link
+    margin: 0 0 1.5em
+
+    h2
+      font:
+        size: 1.125em
+        family: $roboto
+        weight: 700
+      margin: 0
+      +font-smoothing(antialiased)
+
+    a:before
+      +fa-icon
+      display: inline-block
+      width: 1.25em
+
+    .resource-link-language
+      color: #666
+      font-weight: 400
+
+  .video-iframe
+    margin: .5em 0 0
+
+  .resource-link-type-video h2 a:before
+    content: $fa-var-play-circle-o
+
+  .resource-link-type-pdf h2 a:before
+    +icon('pdf')
+
+  .resource-link-type-ppt h2 a:before
+    +icon('ppt')
+
+  .resource-link-type-doc h2 a:before
+    +icon('doc')
+
+  .resource-link-type-web h2 a:before
+    content: $fa-var-globe
+
+  .resource-link-type-mp3 h2 a:before
+    content: $fa-var-volume-up

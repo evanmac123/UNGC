@@ -1,11 +1,48 @@
 <% provide :title, "Explore Our Library | #{@resource.title}" %>
 
-<h3 style="margin-top: 160px"><%= @resource.title %></h3>
-<blink><%= @resource.placeholder_data %></blink>
+<%# @ghedamat: there's no @page here, so we should discuss how to deal with these partials  %>
+<%#= render partial: 'redesign/components/meta_tags' %>
+<%#= render partial: 'redesign/components/hero' %>
+<header id="hero" class='hero-size-small'>
+  <h1><br><span>Explore Our</span><br><span>Library</span></h1>
+</header>
 
-<% # @minusfive, this is a placeholder, ideally we should have only ONE video per resource but potentailly you could have more %>
-<%- if @resource.video? %>
-  <%= @resource.videos.each do |v| %>
-    <iframe width="560" height="315" src="<%= v.embed_url %>" frameborder="0" allowfullscreen></iframe>
+<section class='main-content-section'>
+  <header class='main-content-header'>
+    <h1><%= @resource.title -%></h1>
+  </header>
+
+  <section class='main-content-body'>
+    <%# @ghedamat: unlike most other sections, looks like the output from description is plain text, not HTML. We should remove the wrapping <p> if this is every fixed %>
+    <p><%= @resource.description %></p>
+
+    <time datetime="<%= year = @resource.year -%>" class='resource-year'>(<%= year.to_date.year %>)</time>
+
+    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.topics, title: 'Topics' %>
+
+    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.issues, title: 'Issues' %>
+
+    <%= render 'redesign/components/resource_attributes_list', attributes: @resource.authors, title: 'Authors' %>
+
+    <%- if @resource.links.any? -%>
+    <article class='resource-links-list'>
+      <ul>
+        <%- @resource.links_list.each do |link| -%>
+          <li class='resource-link resource-link-type-<%= link.type -%>'>
+            <h2><%= link_to link.title, link.url, target: '_blank' -%> <span class='resource-link-language'>(<%= link.language -%>)</span></h2>
+
+            <%- if link.is_video? -%>
+              <div class='video-iframe'><iframe width="560" height="315" src="<%= link.embed_url %>" frameborder="0" allowfullscreen></iframe></div>
+            <%- end -%>
+          </li>
+        <%- end -%>
+      </ul>
+    </article>
+    <%- end -%>
+
+  </section>
+
+  <%= render layout: 'redesign/components/sidebar' do %>
+      <%= render 'redesign/components/widget_image', image: {src: "//unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title} %>
   <% end %>
-<% end %>
+</section>
