@@ -7,10 +7,12 @@ class IssueLayout < UNGC::Layout
   layout :issue
 
   has_meta_tags!
+
   has_taggings!
 
-
-  has_hero!
+  has_hero! do
+    field :show_section_nav,  type: :boolean, default: true
+  end
 
   has_principles!
 

@@ -1,7 +1,9 @@
 {{#container/x-fields scope=model.container as |issue|}}
   {{container/macros/x-metatags scope=issue}}
 
-  {{container/macros/x-hero scope=issue}}
+  {{#container/macros/x-hero scope=issue as |hero|}}
+    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=true scope=hero}}
+  {{/container/macros/x-hero}}
 
   {{container/macros/x-principles scope=issue}}
 
