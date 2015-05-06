@@ -85,6 +85,7 @@ module UNGC
           scope :links, array: true, max: 5 do
             field :label, type: :string,  required: true
             field :url,   type: :href,   required: true
+            field :external, type: :boolean, default: false
           end
         end
       end
@@ -93,6 +94,7 @@ module UNGC
         scope :widget_calls_to_action, array: true, min: 0, max: 2 do
           field :label, type: :string, limit: 50, required: true
           field :url,   type: :href,   required: true
+          field :external, type: :boolean, default: false
         end
       end
 
