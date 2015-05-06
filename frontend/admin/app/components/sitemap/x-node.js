@@ -11,7 +11,9 @@ export default Ember.Component.extend({
   hasDraft: Ember.computed('node.model.hasDraft', 'node.model.draftPayloadId', function() {
     return this.get('node.model.hasDraft') && !Ember.isEmpty(this.get('node.model.draftPayloadId'));
   }),
-  isPublished: Ember.computed.notEmpty('node.model.publicPayloadId'),
+  isPublished: Ember.computed('hasDraft', 'node.model.publicPayloadId', function() {
+    return this.get('node.model.publicPayloadId') && !this.get('hasDraft');
+  }),
 
   classNameBindings: [
     'isOpen:open:closed',

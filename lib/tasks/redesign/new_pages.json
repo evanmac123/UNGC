@@ -218,15 +218,18 @@
           "children": [
             {
               "template": "Article",
-              "path": "/Commitment"
+              "path": "/Commitment",
+              "sort_order_position": 0
             },
             {
               "template": "Highlight",
-              "path": "/Benefits"
+              "path": "/Benefits",
+              "sort_order_position": 1
             },
             {
               "template": "Article",
               "path": "/Application",
+              "sort_order_position": 3,
               "children": [
                 {
                   "template": "Article",
@@ -241,6 +244,7 @@
             {
               "template": "Article",
               "path": "/Who-Should-Join",
+              "sort_order_position": 2,
               "children": [
                 {
                   "template": "Accordion",
@@ -264,6 +268,7 @@
             {
               "template": "Article",
               "path": "/COE",
+              "sort_order_position": 1,
               "children": [
                 {
                   "template": "Article",
@@ -278,6 +283,7 @@
             {
               "template": "Article",
               "path": "/COP",
+              "sort_order_position": 0,
               "children": [
                 {
                   "template": "Article",
@@ -300,16 +306,19 @@
           "path": "/Getting-started",
           "children": [
             {
+              "template": "List",
+              "path": "/Resources",
+              "sort_order_position": 0
+            },
+            {
               "template": "Article",
-              "path": "/Brand-Guidelines"
+              "path": "/Brand-Guidelines",
+              "sort_order_position": 1
             },
             {
               "template": "List",
-              "path": "/Resources"
-            },
-            {
-              "template": "List",
-              "path": "/Relationship-Managers"
+              "path": "/Relationship-Managers",
+              "sort_order_position": 2
             }
           ]
         }

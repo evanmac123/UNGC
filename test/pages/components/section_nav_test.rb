@@ -31,6 +31,7 @@ class Components::SectionNavTest < ActiveSupport::TestCase
       create_container_with_payload('/a', 'a', parent: @c)
       create_container_with_payload('/child-path-3', 'child title 3', parent: @c)
       create_container_with_payload('/child-path-0', 'child title 0', parent: @c)
+      Redesign::Container.update_all sort_order: 0
       assert_equal '/child-path-3', @subject.children.last.path
       assert_equal 'child title 3', @subject.children.last.title
     end
@@ -39,8 +40,22 @@ class Components::SectionNavTest < ActiveSupport::TestCase
       create_container_with_payload('/a', 'a', parent: @p)
       create_container_with_payload('/zibling-path-3', 'zibling title 3', parent: @p)
       create_container_with_payload('/sibling-path-0', 'sibling title 0', parent: @p)
+      Redesign::Container.update_all sort_order: 0
       assert_equal '/zibling-path-3', @subject.siblings.last.path
       assert_equal 'zibling title 3', @subject.siblings.last.title
+    end
+
+    should 'sort children with sort_order if set ' do
+      create_container_with_payload('/a', 'a', parent: @c)
+      create_container_with_payload('/child-path-3', 'child title 3', parent: @c)
+      create_container_with_payload('/child-path-0', 'child title 0', parent: @c)
+      c = create_container_with_payload('/child-path-4', 'child title 4', parent: @c)
+      Redesign::Container.update_all sort_order: 0
+      c.update_attribute :sort_order_position, :first
+      assert_equal '/child-path-4', @subject.children.first.path
+      assert_equal 'child title 4', @subject.children.first.title
+      assert_equal '/child-path-3', @subject.children.last.path
+      assert_equal 'child title 3', @subject.children.last.title
     end
 
   end

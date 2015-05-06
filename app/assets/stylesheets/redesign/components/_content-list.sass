@@ -29,7 +29,25 @@
         margin: 0 0 0 .5em
 
       &.type-pdf:after
-        content: $fa-var-file-pdf-o
+        +icon('pdf')
+
+      &.type-xls:after
+        +icon('xls')
+
+      &.type-ppt:after
+        +icon('ppt')
+
+      &.type-doc:after
+        +icon('doc')
+
+      &.type-web:after
+        content: $fa-var-globe
+
+      &.type-mp3:after
+        content: $fa-var-volume-up
+
+      &.type-video:after
+        content: $fa-var-play-circle-o
 
   time,
   address

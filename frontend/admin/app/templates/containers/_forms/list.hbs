@@ -2,7 +2,10 @@
 
   {{container/macros/x-metatags scope=list}}
 
-  {{container/macros/x-hero scope=list}}
+  {{#container/macros/x-hero scope=list as |hero|}}
+    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=true scope=hero}}
+  {{/container/macros/x-hero}}
+
 
   <fieldset>
     <legend>List content</legend>
@@ -10,7 +13,7 @@
       {{container/x-field key="title" type="string" scope=listBlock}}
       {{container/x-field key="sorting" type="sorting" scope=listBlock}}
       {{container/x-field key="blurb" type="redactor" scope=listBlock}}
-      {{#container/x-fields tagName="ol" key="items" array=true min=1 scope=listBlock as |item|}}
+      {{#container/x-fields key="items" array=true min=1 scope=listBlock as |item|}}
         <li class="stat-group">
           {{container/x-field key="url" type="href" scope=item}}
           {{container/x-field key="type" type="list-url-type-select" scope=item}}

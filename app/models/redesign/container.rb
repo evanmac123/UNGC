@@ -1,6 +1,9 @@
 class Redesign::Container < ActiveRecord::Base
   LEADING_OR_TRAILING_SLASH = /\A\/|\/\Z/
 
+  include RankedModel
+  ranks :sort_order, with_same: :parent_container_id
+
   attr_accessor :payload_validator
 
   enum layout: [
@@ -51,7 +54,8 @@ class Redesign::Container < ActiveRecord::Base
 
   scope :by_path, -> (paths) {
     normalized_paths = Array(paths).map {|p| Redesign::Container.normalize_slug(p)}
-    where('path in (?)',  normalized_paths).order("field(path, '#{normalized_paths.join('\',\'')}')")
+    sanitized_order = self.sanitize_sql "field(path, '#{normalized_paths.join('\',\'')}')"
+    where('path in (?)',  normalized_paths).order(sanitized_order)
   }
 
   scope :by_ids_with_descendants, ->(ids) {
@@ -99,7 +103,7 @@ class Redesign::Container < ActiveRecord::Base
   end
 
   def child_containers
-    Redesign::Container.where(parent_container_id: id).order(:path)
+    Redesign::Container.where(parent_container_id: id).order(:sort_order, :path)
   end
 
   def branch_ids
