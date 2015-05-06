@@ -25,7 +25,7 @@
 
     <%= content_tag(:p, hero_data[:blurb].html_safe, {class: 'blurb'}) if hero_data[:blurb] %>
 
-    <%= link_to_redesign(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] -%>
+    <%= link_to_redesign(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] && hero_data[:link][:url] -%>
 
     <%= render('redesign/components/issues_nav') if hero_data[:show_issues_nav] %>
 
