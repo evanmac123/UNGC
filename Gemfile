@@ -48,6 +48,7 @@ gem 'ranked-model',         '~> 0.4.0'
 gem 'fog'
 gem "non-stupid-digest-assets"
 gem 'htmlentities'
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :development do
   gem 'rerun'

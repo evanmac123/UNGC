@@ -1,6 +1,10 @@
 require 'ckeditor'
+require 'sidekiq/web'
 
 UNGC::Application.routes.draw do
+  authenticate :contact, lambda { |c| c.from_ungc? } do
+    mount Sidekiq::Web => '/back-the-web'
+  end
   # Root
   root :to => 'pages#home'
 
