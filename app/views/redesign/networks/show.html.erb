@@ -5,7 +5,7 @@
   <%= content_tag(:header, content_tag(:h1, @page.name, {class: 'main-content-header'})) %>
 
   <div class='local-network-body-wrapper'>
-    <%= image_tag '', alt: "#{@page.name} Map", class: 'local-network-image' %>
+    <%= image_tag @page.image, alt: "#{@page.name} Map", class: 'local-network-image' %>
     <section class='main-content-body'>
       <h2 class='local-network-body-header'>Mission and Vision</h2>
 
