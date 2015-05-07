@@ -5,7 +5,7 @@ class ContactUsMailer < ActionMailer::Base
     @params = OpenStruct.new params
     sender = @params.email
     mail \
-      :to => 'contact@unglobalcompact.org',
+      :to => 'contact@unglobalcompact.org',  # TODO: Update with actual email.
       :subject => "Contact Us Received from " + sender
   end
 
