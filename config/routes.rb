@@ -92,6 +92,7 @@ UNGC::Application.routes.draw do
 
       get '/engage-locally/:region/:network' => :show, as: :networks_show
     end
+
     controller :signup, path: '/participation/join/application/' do
       get   '/step1/:org_type'  => 'signup#step1', :as => :organization_step1
       match '/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
@@ -100,6 +101,16 @@ UNGC::Application.routes.draw do
       match '/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
       match '/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
       post  '/step7'            => 'signup#step7', :as => :organization_step7
+
+    get '/participation/report/coe/submitted-coe' => "cops#submitted_coe"
+    get '/participation/report/coe/submitted-coe/:id' => "cops#show", as: :coe
+    resource :cops, path: '/participation/report/cop/progress' do
+      get :show, path: '/:type/:id'
+      get :active, on: :collection
+      get :advanced, on: :collection
+      get :expelled, on: :collection
+      get :learner, on: :collection
+      get :non_communicating, on: :collection, path: '/non-communicating'
     end
 
     get '/'         => 'static#home',       as: :root
