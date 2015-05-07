@@ -87,7 +87,15 @@ UNGC::Application.routes.draw do
 
       get '/engage-locally/:region/:network' => :show, as: :networks_show
     end
-
+    controller :signup, path: '/participation/join/application/' do
+      get   '/step1/:org_type'  => 'signup#step1', :as => :organization_step1
+      match '/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
+      match '/step3'            => 'signup#step3', :as => :organization_step3, via: [:get, :post]
+      match '/step4'            => 'signup#step4', :as => :organization_step4, via: [:get, :post]
+      match '/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
+      match '/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
+      post  '/step7'            => 'signup#step7', :as => :organization_step7
+    end
 
     get '/'         => 'static#home',       as: :root
     get '*path'     => 'static#catch_all',  as: :catch_all
