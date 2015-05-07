@@ -43,7 +43,7 @@ class ParticipantPresenter < SimpleDelegator
 
   def contributions
     @campaigns_by_year
-  end 
+  end
 
   private
 

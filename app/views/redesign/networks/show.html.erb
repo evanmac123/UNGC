@@ -24,7 +24,8 @@
           <tbody>
             <%- participants.list.each do |p| -%>
             <tr>
-              <th class='sector'><%= link_to_redesign p[:sector], redesign_participant_search_path -%></th>
+              <%- search_hash = p[:sector].parent.present? ? {sectors: [p[:sector].id]} : {sector_groups: [p[:sector].id]} -%>
+              <th class='sector'><%= link_to_redesign p[:sector].name, redesign_participant_search_path(search: search_hash) -%></th>
               <td class='count'><%= p[:count] -%></td>
             </tr>
             <%- end -%>

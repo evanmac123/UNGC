@@ -68,15 +68,22 @@ class LocalNetworkPage < SimpleDelegator
 
 
     def participants_by_sector
-      hash = local_network.participants.joins(:sector).group('sectors.name', 'sectors.id').count
+      hash = participant_by_sector_count
       sorted = hash.sort { |a,b| b[1] <=> a[1]}
-      sorted.map do |k,v|
+      five = sorted[0..4] # limit to 5 results
+      # XXX this is needed because we need to determine if a sector has a parent
+      # to compose the proper url
+      sectors = Sector.where('id in (?)', five.map {|k,v| k})
+      sectors.zip(five.map {|k,v| v}).map do |k,v|
         {
-          sector: k[0],
-          id: k[1],
+          sector: k,
           count: v
         }
-      end.take(5)
+      end
+    end
+
+    def participant_by_sector_count
+      local_network.participants.joins(:sector).group('sectors.id').count
     end
 
     def local_network
