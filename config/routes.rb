@@ -42,7 +42,6 @@ UNGC::Application.routes.draw do
       get '/(*path)' => 'index#frontend', as: :root, format: :html
     end
 
-    resources :participants, path: 'participants', only: [:show]
 
     controller :library do
       get '/library'        => :index,  as: :library
@@ -58,10 +57,12 @@ UNGC::Application.routes.draw do
       get '/take-action/action' => :index, as: :actions
     end
 
-    controller :participant_search, path: '/what-is-gc/contributors/directory' do
+    controller :participant_search, path: '/what-is-gc/participants/directory' do
       get '/' => :index
       get '/search' => :search, as: :participant_search
     end
+
+    resources :participants, path: '/what-is-gc/participants/directory/', only: [:show]
 
     resources :news, path: '/news' do
       get :speeches, on: :collection
