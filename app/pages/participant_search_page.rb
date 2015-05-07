@@ -39,7 +39,7 @@ class ParticipantSearchPage < ContainerPage
       child_filter: 'sectors',
       options:      :sector_options
     }, {
-      label:        'Reporting Status',
+      label:        'Status',
       filter:       'reporting_status',
       options:      :reporting_status_options
     }]
