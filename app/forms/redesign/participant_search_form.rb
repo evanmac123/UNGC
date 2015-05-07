@@ -10,6 +10,7 @@ class Redesign::ParticipantSearchForm
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
   attribute :order,               String
+  attribute :sort_field,          String,         default: 'name_asc'
 
   def initialize(page = 1, params = {})
     super(params)
@@ -61,6 +62,17 @@ class Redesign::ParticipantSearchForm
     ]
   end
 
+  def sort_options
+    @sort_options ||= [
+      ["Name",          :name_asc],
+      ["Name Desc",          :name_desc],
+      ["Type",          :type_asc],
+      ["Sector",   :sector_asc],
+      ["Country",   :country_asc],
+      ["Company Size",   :company_size_asc]
+    ]
+  end
+
   private
 
   def options
@@ -84,6 +96,20 @@ class Redesign::ParticipantSearchForm
 
     if reporting_status.present?
       options[:cop_state] = reporting_status.map {|state| Zlib.crc32(state)}
+    end
+
+    order = case self.sort_field
+    when 'name_desc'
+      'name desc'
+    # TODO make other sorting fields work
+    when 'type_asc'
+      'type asc'
+    when 'sector_asc'
+      'sector asc'
+    when 'company_size_asc'
+      'company_size asc'
+    else
+      'name asc'
     end
 
     {

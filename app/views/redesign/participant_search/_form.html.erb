@@ -6,6 +6,7 @@
 
   <fieldset class='sorting'>
       <%= f.select :per_page, @search.per_page_options, {id: 'per_page'} %>
+      <%= f.select :sort_field, @search.sort_options, {include_blank: 'Sort'}, {id: 'filter-sort-order'} %>
   </fieldset>
 
   <%= render 'redesign/components/filter_options_list', label: 'Type', filter: 'organization_types', options: @search.organization_type_options %>
