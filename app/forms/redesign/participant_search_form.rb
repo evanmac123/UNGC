@@ -10,7 +10,7 @@ class Redesign::ParticipantSearchForm
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
   attribute :order,               String
-  attribute :sort_field,          String,         default: 'name_asc'
+  attribute :sort_field,          String,         default: 'joined_on_desc'
 
   def initialize(page = 1, params = {})
     super(params)
@@ -64,6 +64,8 @@ class Redesign::ParticipantSearchForm
 
   def sort_options
     @sort_options ||= [
+      ["Joined On", :joined_on_asc],
+      ["Joined On Desc", :joined_on_desc],
       ["Name",          :name_asc],
       ["Name Desc",          :name_desc],
       ["Type",          :type_asc],
@@ -99,8 +101,12 @@ class Redesign::ParticipantSearchForm
     end
 
     order = case self.sort_field
+    when 'name_asc'
+      'name asc'
     when 'name_desc'
       'name desc'
+    when 'joined_on_asc'
+      'joined_on asc'
     # TODO make other sorting fields work
     when 'type_asc'
       'type asc'
@@ -109,7 +115,7 @@ class Redesign::ParticipantSearchForm
     when 'company_size_asc'
       'company_size asc'
     else
-      'name asc'
+      'joined_on desc'
     end
 
     {

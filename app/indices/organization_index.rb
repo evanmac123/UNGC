@@ -29,6 +29,7 @@ ThinkingSphinx::Index.define :organization,
   has sector(:id),            as: :sector_id,             facet: true
   has "CRC32(cop_state)",     as: :cop_state,             facet: true,   type: :integer
   has initiatives(:id),       as: :initiative_ids,        facet: true,   multi: true
+  has joined_on, :facet => true
 
   set_property :enable_star => true
   set_property :min_prefix_len => 4
