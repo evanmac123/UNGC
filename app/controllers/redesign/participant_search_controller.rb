@@ -1,5 +1,4 @@
 class Redesign::ParticipantSearchController < Redesign::ApplicationController
-  layout false # TODO use the real layout
 
   def index
     set_current_container :highlight, '/participant-search'
