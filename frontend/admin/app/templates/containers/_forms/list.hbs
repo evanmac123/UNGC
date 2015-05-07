@@ -3,7 +3,7 @@
   {{container/macros/x-metatags scope=list}}
 
   {{#container/macros/x-hero scope=list as |hero|}}
-    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=true scope=hero}}
+    {{container/macros/x-show-section-nav scope=hero default=true}}
   {{/container/macros/x-hero}}
 
 

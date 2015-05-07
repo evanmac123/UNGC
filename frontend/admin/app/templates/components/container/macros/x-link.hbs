@@ -1,4 +1,5 @@
 {{#container/x-fields key=key scope=scope as |link|}}
-  {{container/x-field key="label" label="Link Label" type="string" scope=link}}
-  {{container/x-field key="url" label="Link URL" type="href" scope=link}}
+  <h2>Link</h2>
+  {{container/x-field key="label" type="string-addon" label="Text" scope=link}}
+  {{container/x-field key="url" type="href-addon" scope=link}}
 {{/container/x-fields}}

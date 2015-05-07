@@ -4,7 +4,7 @@
   {{/container/macros/x-metatags}}
 
   {{#container/macros/x-hero scope=article as |hero|}}
-    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=true scope=hero}}
+    {{container/macros/x-show-section-nav scope=hero default=true}}
   {{/container/macros/x-hero}}
 
   <fieldset>

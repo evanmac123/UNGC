@@ -2,23 +2,25 @@ import Ember from 'ember';
 import titlecase from 'admin/lib/titlecase';
 
 const TYPES = {
-  'string':            true,
-  'number':            true,
-  'boolean':           true,
-  'image-upload':      true,
-  'hero-theme-select': true,
+  'string':               true,
+  'string-addon':         true,
+  'number':               true,
+  'boolean':              true,
+  'image-upload':         true,
+  'hero-theme-select':    true,
   'article-align-select': true,
-  'tile-color-select': true,
-  'button-color-select': true,
+  'tile-color-select':    true,
+  'button-color-select':  true,
   'list-url-type-select': true,
-  'label-select': true,
-  'sorting':           true,
-  'text':              true,
-  'html':              true,
-  'href':              true,
-  'select2':           true,
-  'redactor':          true,
-  'content-type-select': true
+  'label-select':         true,
+  'sorting':              true,
+  'text':                 true,
+  'html':                 true,
+  'href':                 true,
+  'href-addon':           true,
+  'select2':              true,
+  'redactor':             true,
+  'content-type-select':  true
 };
 
 export default Ember.Component.extend({
