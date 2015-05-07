@@ -11,6 +11,11 @@ class Redesign::ParticipantSearchForm
   attribute :per_page,            Integer,        default: 12
   attribute :order,               String
 
+  def initialize(page = 1, params = {})
+    super(params)
+    self.page = page
+  end
+
   def organization_type_options
     pluck_options(OrganizationType.all, :organization_type, organization_types)
   end

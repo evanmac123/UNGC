@@ -9,7 +9,7 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
 
   def search
     @page = create_page
-    @search = Redesign::ParticipantSearchForm.new(search_params)
+    @search = Redesign::ParticipantSearchForm.new(page, search_params)
     @results = ParticipantSearch::ResultsPresenter.new(@search.execute)
   end
 
@@ -21,8 +21,12 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
       initiatives: [],
       countries: [],
       sectors: [],
-      reporting_status: []
+      reporting_status: [],
     )
+  end
+
+  def page
+    params.fetch(:page, 1)
   end
 
   def create_page
