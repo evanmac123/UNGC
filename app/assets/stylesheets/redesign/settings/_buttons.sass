@@ -23,13 +23,13 @@
     +transition-duration(0ms)
 
 =button($color: 'teal')
-  $color: color($color)
-  background-color: $color
+  $button-color: color($color)
+  background-color: $button-color
   @extend %button
 
   &:hover,
   &:active
-    background-color: lighten($color, 10%)
+    background-color: lighten($button-color, 7%)
     color: white
 
 button,
