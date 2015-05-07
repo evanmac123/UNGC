@@ -1,6 +1,6 @@
 <%- participants = @page.participants -%>
 <%- if participants && !@page.participants.empty?-%>
-<section class='component-participants'>
+<section class='component-participants-table-embedded'>
   <%- if title ||= nil -%>
     <header class='component-header'>
       <%= content_tag(:h1, title.try(:html_safe)) %>
@@ -8,7 +8,7 @@
     </header>
   <%- end -%>
 
-  <table class='component-participants-table'>
+  <table>
     <thead>
       <tr>
         <th class='name'>Name</th>
