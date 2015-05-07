@@ -49,6 +49,11 @@ UNGC::Application.routes.draw do
       get '/library/:id'    => :show,   as: :library_resource
     end
 
+    controller :contact_us do
+      get '/about/contact' => :new, as: :new_contact_us
+      post '/about/contact' => :create, as: :contact_us
+    end
+
     controller :issues do
       get '/what-is-gc/our-work/all' => :index, as: :issues
     end
