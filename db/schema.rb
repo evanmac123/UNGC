@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506021246) do
+ActiveRecord::Schema.define(version: 20150507175111) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -556,7 +556,7 @@ ActiveRecord::Schema.define(version: 20150506021246) do
     t.string   "facebook",                                            limit: 255
     t.string   "linkedin",                                            limit: 255
     t.string   "funding_model",                                       limit: 255
-    t.string   "description",                                         limit: 255
+    t.text     "description",                                         limit: 65535
     t.string   "image_file_name",                                     limit: 255
     t.string   "image_content_type",                                  limit: 255
     t.integer  "image_file_size",                                     limit: 4
