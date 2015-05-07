@@ -53,6 +53,7 @@ class LocalNetworkPage < SimpleDelegator
 
     def network_contact
       contact = local_network.contacts.joins(:roles).where("roles.name = ?", Role::FILTERS[:network_focal_point]).first
+      return nil unless contact
       {
         name: contact.full_name_with_title,
         title: contact.job_title,
@@ -63,6 +64,7 @@ class LocalNetworkPage < SimpleDelegator
 
     def network_representative
       contact = local_network.contacts.joins(:roles).where("roles.name = ?", Role::FILTERS[:network_representative]).first
+      return nil unless contact
       contact.try(:full_name_with_title)
     end
 
