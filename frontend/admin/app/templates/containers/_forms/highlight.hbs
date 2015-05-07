@@ -3,7 +3,7 @@
 
   {{#container/macros/x-hero scope=highlight as |hero|}}
     {{container/macros/x-link key="link" scope=hero}}
-    {{container/x-field key="showSectionNav" label="Show Section nav" type="boolean" default=false scope=hero}}
+    {{container/macros/x-show-section-nav scope=hero default=false}}
   {{/container/macros/x-hero}}
 
   <fieldset>
@@ -14,15 +14,15 @@
         {{container/x-field key="theme" type="hero-theme-select" scope=article}}
         {{container/x-field key="title" type="string" limit=50 scope=article}}
         {{container/x-field key="content" type="redactor" limit=50 scope=article}}
-        {{container/x-field key="bgImage" type="image-upload" scope=article}}
+        {{container/x-field key="bgImage" type="image-upload" label="Background Image" scope=article}}
 
         {{#container/x-fields key="callToAction" scope=article as |callToAction|}}
 
           <h2>Call to Action</h2>
-          {{container/x-field label="Theme" key="theme" type="button-color-select" limit=50 scope=callToAction}}
-          {{container/x-field key="title" type="string" limit=50 scope=callToAction}}
-          {{container/x-field key="url" type="string" limit=50 scope=callToAction}}
-          {{container/x-field key="enabled" label="Enable" type="boolean" default=false scope=callToAction}}
+          {{container/x-field key="enabled" label="Show" type="boolean" default=false scope=callToAction}}
+          {{container/x-field key="title" type="string-addon" label="Text" limit=50 scope=callToAction}}
+          {{container/x-field key="url" type="href-addon" limit=50 scope=callToAction}}
+          {{container/x-field label="Color" key="theme" type="button-color-select" limit=50 scope=callToAction}}
         {{/container/x-fields}}
 
         {{#container/x-fields key="widgetImage" scope=article as |image|}}

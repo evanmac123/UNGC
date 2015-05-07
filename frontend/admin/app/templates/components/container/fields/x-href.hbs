@@ -3,13 +3,10 @@
     {{field.label}}
   </label>
 
-  <div class='input-group'>
-    <span class='input-group-addon'>URL:</span>
-    {{input type="text"
-      class="form-control"
-      id=field.uid
-      value=field.value}}
-  </div>
+  {{input type="text"
+    class="form-control"
+    id=field.uid
+    value=field.value}}
 
   {{#if field.errors}}
     <p class="help-block">{{field.errors.firstObject.detail}}</p>
