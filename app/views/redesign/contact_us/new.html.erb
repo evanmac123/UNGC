@@ -1,0 +1,51 @@
+<p style="height: 100px"/>
+
+<p id="notice"><%= notice %></p>
+
+<%= form_for(@contact_us, url: redesign_contact_us_path, method: :post) do |f| %>
+  <% if @contact_us.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@contact_us.errors.count, "error") %> prohibited this contact us from being sent:</h2>
+
+      <ul>
+      <% @contact_us.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :email %><br>
+    <%= f.text_field :email %>
+  </div>
+
+  <div class="field">
+    <%= f.label :organization %><br>
+    <%= f.text_field :organization %>
+  </div>
+
+  <div class="field">
+    <%= f.label :interest_ids, 'General Areas of Interest' %><br>
+    <%= f.collection_check_boxes(:interest_ids, @contact_us.interest_options, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :focus_ids, 'Areas of Focus' %><br>
+    <%= f.collection_check_boxes(:focus_ids, @contact_us.focus_options, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :comments %><br>
+    <%= f.text_field :comments %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Contact Us' %>
+  </div>
+<% end %>
