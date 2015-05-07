@@ -1,0 +1,37 @@
+.table-primary
+  width: 100%
+  margin: 0
+  border-collapse: collapse
+
+  th,
+  td
+    text-align: left
+    padding: .5em
+    border: 1px solid #eee
+
+  thead
+    th
+      background-color: color('dark-teal')
+      color: white
+      white-space: nowrap
+      font-family: $flama-bold
+      text-transform: uppercase
+      border-color: color('dark-teal')
+
+  tbody
+    tr
+      &:nth-child(even)
+        th,
+        td
+          background-color: #f9f9f9
+
+      &:hover
+        th,
+        td
+          background-color: #eee
+
+
+.table-primary-participants
+  .name
+    max-width: 300px
+

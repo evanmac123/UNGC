@@ -4,21 +4,34 @@
 <%#= render partial: 'form', locals: {search: @search} %>
 <%= render 'redesign/components/filters_form', form_url: redesign_participant_search_path, title: @page.meta_title.try(:html_safe), search_placeholder: 'Search Participants' %>
 
-<% @results.no_results do %>
-  No results.
-<% end %>
+<section class='main-content-section participants-search-content'>
+  <% @results.no_results do %>
+    No results.
+  <% end %>
 
-<% @results.with_results do |results| %>
-  <table>
-    <% results.each do |participant| %>
-      <tr>
-        <td><%= link_to participant.name, redesign_participant_path(participant) %></td>
-        <td><%= participant.type %></td>
-        <td><%= participant.sector %></td>
-        <td><%= participant.country %></td>
-        <td><%= participant.company_size %></td>
-      </tr>
-    <% end %>
-  </table>
-  <%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
-<% end %>
+  <% @results.with_results do |results| %>
+    <table class='table-primary table-primary-participants'>
+      <thead>
+        <tr>
+          <th class='name'>Name</th>
+          <th class='type'>Type</th>
+          <th class='sector'>Sector</th>
+          <th class='country'>Country</th>
+          <th class='company-size'>Company Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% results.each do |participant| %>
+          <tr>
+            <th class='name'><%= link_to participant.name, redesign_participant_path(participant) %></th>
+            <td class='type'><%= participant.type %></td>
+            <td class='sector'><%= participant.sector %></td>
+            <td class='country'><%= participant.country %></td>
+            <td class='company-size'><%= participant.company_size %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
+  <% end %>
+</section>
