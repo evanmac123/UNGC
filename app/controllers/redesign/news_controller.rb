@@ -16,13 +16,13 @@ class Redesign::NewsController < Redesign::ApplicationController
   end
 
   def media
-    set_current_container_by_path '/about/news/media'
+    set_current_container_by_path '/news/media'
     @page = ArticlePage.new(current_container, current_payload_data)
     render 'redesign/static/article'
   end
 
   def speeches
-    set_current_container_by_path '/about/news/speeches'
+    set_current_container_by_path '/news/speeches'
     @page = ArticlePage.new(current_container, current_payload_data)
     render 'redesign/static/article'
   end
