@@ -1,7 +1,10 @@
 require 'test_helper'
+require 'sidekiq/testing'
 
 class Redesign::ContactUsControllerTest < ActionController::TestCase
   setup do
+    Sidekiq::Testing.inline!
+
     create_staff_user
     sign_in @staff_user
 

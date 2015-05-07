@@ -10,7 +10,14 @@ class Redesign::ContactUsForm
 
   def send_email
     if valid?
-      ContactUsMailer.contact_us_received(self).deliver
+      ContactUsMailer.delay.contact_us_received({
+        name: self.name,
+        email: self.email,
+        organization: self.organization,
+        interests: self.interests,
+        focuses: self.focuses,
+        comments: self.comments
+      })
       true
     else
       false
