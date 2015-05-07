@@ -16,6 +16,8 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
 
   def search_params
     params.fetch(:search, {}).permit(
+      :per_page,
+      :keywords,
       organization_types: [],
       initiatives: [],
       countries: [],

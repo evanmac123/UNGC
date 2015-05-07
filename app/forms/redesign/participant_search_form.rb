@@ -49,11 +49,19 @@ class Redesign::ParticipantSearchForm
     Organization.search(keywords, options)
   end
 
-  private
-
   def keywords
     Riddle::Query.escape(super)
   end
+
+  def per_page_options
+    @per_page_options ||= [
+      ["10 per page", 10],
+      ["25 per page", 25],
+      ["50 per page", 50]
+    ]
+  end
+
+  private
 
   def options
     options = {}

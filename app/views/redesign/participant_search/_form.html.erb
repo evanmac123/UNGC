@@ -1,4 +1,12 @@
 <%= form_for search, as: :search, url: redesign_participant_search_path, method: :get do |f| %>
+  <fieldset id='section-search'>
+    <%= f.search_field :keywords, placeholder: 'Search Participants', tabindex: 1, autofocus: true %>
+    <%= f.button '<span>Search</span>'.html_safe, type: :submit %>
+  </fieldset>
+
+  <fieldset class='sorting'>
+      <%= f.select :per_page, @search.per_page_options, {id: 'per_page'} %>
+  </fieldset>
 
   <%= render 'redesign/components/filter_options_list', label: 'Type', filter: 'organization_types', options: @search.organization_type_options %>
 
