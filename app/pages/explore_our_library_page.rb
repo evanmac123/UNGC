@@ -12,4 +12,38 @@ class ExploreOurLibraryPage < ContainerPage
     @data[key.to_sym]
   end
 
+  def filters
+    [{
+      label:        'Issues',
+      filter:       'issue_areas',
+      child_filter: 'issues',
+      options:      :issue_options
+    }, {
+      label:        'Topics',
+      filter:       'topic_groups',
+      child_filter: 'topics',
+      options:      :topic_options
+    }, {
+      label:        'Languages',
+      filter:       'languages',
+      options:      :language_options
+    }, {
+      label:        'Sectors',
+      filter:       'sector_groups',
+      child_filter: 'sectors',
+      options:      :sector_options
+    }]
+  end
+
+  def sorting_options
+    [{
+      field:    :content_type,
+      options:  :type_options,
+      label:    'Type'
+    },{
+      field:    :sort_field,
+      options:  :sort_options,
+      label:    'Sort by'
+    }]
+  end
 end

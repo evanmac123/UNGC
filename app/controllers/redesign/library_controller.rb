@@ -3,7 +3,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
   def index
     set_current_container :library, '/library'
     @search = Redesign::LibrarySearchForm.new
-    @page = ExploreOurLibraryPage.new(current_container, current_payload_data)
+    @page = create_page
     @results = []
   end
 
@@ -13,6 +13,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
 
   def search
     @search = Redesign::LibrarySearchForm.new(page, search_params)
+    @page = create_page
     @results = @search.execute
   end
 
@@ -35,6 +36,10 @@ class Redesign::LibraryController < Redesign::ApplicationController
 
   def page
     params.fetch(:page, 1)
+  end
+
+  def create_page
+    ExploreOurLibraryPage.new(current_container, current_payload_data)
   end
 
   class Presenter < SimpleDelegator

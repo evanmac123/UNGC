@@ -20,4 +20,39 @@ class ParticipantSearchPage < ContainerPage
 
   # TODO add parent, sibling, children menu
 
+  def filters
+    [{
+      label:        'Type',
+      filter:       'organization_types',
+      options:      :organization_type_options
+    }, {
+      label:        'Initiative',
+      filter:       'initiatives',
+      options:      :initiative_options
+    }, {
+      label:        'Geography',
+      filter:       'countries',
+      options:      :country_options
+    }, {
+      label:        'Sectors',
+      filter:       'sectors',
+      child_filter: 'sectors',
+      options:      :sector_options
+    }, {
+      label:        'Reporting Status',
+      filter:       'reporting_status',
+      options:      :reporting_status_options
+    }]
+  end
+
+  def sorting_options
+    [{
+      field:    :per_page,
+      options:  :per_page_options
+    },{
+      field:    :sort_field,
+      options:  :sort_options,
+      label:    'Sort by'
+    }]
+  end
 end

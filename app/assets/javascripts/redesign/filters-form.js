@@ -1,5 +1,5 @@
 $(function() {
-  var $form = $("#new_search");
+  var $form = $("#filters-form");
   if ($form.length < 1) {return;}
 
   // Cache relevant elements
@@ -24,7 +24,7 @@ $(function() {
   });
 
   // Submit form on filter and option selections
-  $('.filter-option input[type=checkbox], #filter-content-type, #filter-sort-order').one('change', function() {
+  $('.filter-option input[type=checkbox], .filter-sorting select', $form).one('change.filters-form', function() {
     window.setTimeout(function() {
       $triggers.add($filterLists).removeClass('is-active');
     }, 100);
@@ -52,10 +52,10 @@ $(function() {
   });
 
   // clear the form
-  $form.find('.clear-all-filters button').on('click', function(ev) {
-    $('#section-search input[type=search]').val(null);
-    $('input[type=checkbox]:checked').prop("checked", false);
-    $('#content-type').val(null);
+  $form.find('.clear-all-filters button').on('click.filters-form', function(ev) {
+    $('#section-search input[type=search]', $form).val(null);
+    $('input[type=checkbox]:checked', $form).prop("checked", false);
+    $('.filter-sorting select', $form).val(null);
     $form.submit();
   });
 

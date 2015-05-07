@@ -1,6 +1,6 @@
 <% provide :title, 'Explore Our Library' %>
 
-<%= render 'redesign/components/library_filters_form' %>
+<%= render 'redesign/components/filters_form', form_url: redesign_library_search_path, title: 'Explore Our Library', search_placeholder: 'Search Our Library' %>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {classes: 'library', blocks: @results} do |block| %>
   <%= render 'redesign/components/resource_block', block: block %>

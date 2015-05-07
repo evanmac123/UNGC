@@ -2,14 +2,14 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
 
   def index
     set_current_container :highlight, '/what-is-gc/participants/directory'
-    @page = create_page
     @search = Redesign::ParticipantSearchForm.new
+    @page = create_page
     @results = []
   end
 
   def search
-    @page = create_page
     @search = Redesign::ParticipantSearchForm.new(page, search_params)
+    @page = create_page
     @results = ParticipantSearch::ResultsPresenter.new(@search.execute)
   end
 
