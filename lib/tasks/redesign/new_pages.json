@@ -276,6 +276,10 @@
                 {
                   "template": "Article",
                   "path": "/Submit"
+                },
+                {
+                  "template": "COP_List",
+                  "path": "/Submitted-COE"
                 }
               ]
             },
@@ -294,7 +298,30 @@
                 },
                 {
                   "template": "Article",
-                  "path": "/Progress"
+                  "path": "/Progress",
+                  "children": [
+                    {
+                      "template": "COP_List",
+                      "path": "/Expelled"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Non-communicating"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Learner"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Active"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Advanced"
+                    }
+                  ]
+
                 }
               ]
             }
