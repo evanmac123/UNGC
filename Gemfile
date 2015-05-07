@@ -47,6 +47,7 @@ gem 'rails-observers'
 gem 'ranked-model',         '~> 0.4.0'
 gem 'fog'
 gem "non-stupid-digest-assets"
+gem 'htmlentities'
 
 group :development do
   gem 'rerun'
