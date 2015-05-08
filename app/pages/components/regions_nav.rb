@@ -21,7 +21,7 @@ class Components::RegionsNav
         'latin_america'     => 'Latin America &amp; Caribbean',
         'mena'              => 'MENA',
         'northern_america'  => 'North America',
-        'oceania'           => 'Oceania',
+        'oceania'           => 'Oceana',
       }
 
       region_names[region] || ''
@@ -35,7 +35,7 @@ class Components::RegionsNav
         'latin_america'     => 'latin-america',
         'mena'              => 'mena',
         'northern_america'  => 'north-america',
-        'oceania'           => 'oceania',
+        'oceania'           => 'oceana',
       }
       region_params[region]
     end
