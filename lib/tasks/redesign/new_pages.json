@@ -157,7 +157,13 @@
                 },
                 {
                   "template": "Issue",
-                  "path": "/Peace"
+                  "path": "/Peace",
+                  "children": [
+                    {
+                      "template": "Article",
+                      "path": "/Business-for-Peace-Local-Events"
+                    }
+                  ]
                 },
                 {
                   "template": "Issue",
@@ -630,8 +636,16 @@
               "path": "/Quantify-Communicate-Sustainability"
             },
             {
-              "template": "Action_detail",
+              "template": "Article",
               "path": "/Anti-Corruption-In-Business"
+            },
+            {
+              "template": "Article",
+              "path": "/Peace-and-Education-Working-Group"
+            },
+            {
+              "template": "Article",
+              "path": "/Human-Rights-Open-Letter-to-Academics"
             },
             {
               "template": "Article",
