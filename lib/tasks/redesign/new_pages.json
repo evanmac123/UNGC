@@ -767,7 +767,8 @@
         },
         {
           "template": "Engage_Locally",
-          "path": "/Oceana"
+          "path": "/Oceania",
+          "old_path": "/engage-locally/oceana"
         },
         {
           "template": "Landing",
