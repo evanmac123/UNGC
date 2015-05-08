@@ -88,6 +88,9 @@ namespace :redesign do
       url = (path + [page_slug]).join("/")
 
       page[:slug] = Redesign::Container.normalize_slug(page_slug)
+      if url.blank?
+        url = '/'
+      end
       page[:url] = url
 
       previous_page = page
@@ -95,9 +98,10 @@ namespace :redesign do
 
       if page[:template].present?
         oldpath = page[:old_path]
+        container = nil
         if oldpath && container = Redesign::Container.find_by(path: oldpath)
         else
-          container = Redesign::Container.find_or_create_by(path: page[:url])
+          container = Redesign::Container.find_or_initialize_by(path: page[:url])
         end
         container.path = page[:url]
         container.layout = page[:template].downcase
