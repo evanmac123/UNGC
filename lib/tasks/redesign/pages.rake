@@ -64,6 +64,67 @@ namespace :redesign do
     end
   end
 
+  task update_sitemap: :environment do
+    #Tagging.where.not(redesign_container_id: nil).delete_all
+    #Redesign::Container.delete_all
+
+    ancestors = []
+    previous_depth = -1
+    previous_page = nil
+    output = visit page_data.first do |page, depth|
+      case
+      when depth > previous_depth && previous_page.present?
+        ancestors.push previous_page
+      when depth < previous_depth
+        (previous_depth - depth).times do
+          ancestors.pop
+        end
+      end
+
+      path = ancestors.map {|p|
+        scrub(p[:slug] || p[:path])
+      }
+      page_slug = scrub(page[:slug] || page[:path])
+      url = (path + [page_slug]).join("/")
+
+      page[:slug] = Redesign::Container.normalize_slug(page_slug)
+      page[:url] = url
+
+      previous_page = page
+      previous_depth = depth
+
+      if page[:template].present?
+        container = Redesign::Container.find_or_create_by(path: page[:url])
+        container.layout =page[:template].downcase
+        container.slug = page[:slug]
+        container.save
+
+        parent = ancestors.last
+
+        if parent.present?
+          container.update_column(:parent_container_id, parent[:id])
+        end
+
+        page[:id] = container.id
+
+        if page[:sort_order_position]
+          container.update_attribute :sort_order_position, page[:sort_order_position]
+        end
+
+      end
+
+      puts page[:slug]
+      page
+    end
+
+    Redesign::Container.
+      find_each(&:cache_child_containers_count)
+
+    File.open('pages-with-slugs.json', 'w+') do |f|
+      f.write(output.to_json)
+    end
+  end
+
   def scrub(input)
     input.gsub(' ', '-').gsub(/[^a-z\d-]+/i, '').downcase.gsub('--', '-')
   end
