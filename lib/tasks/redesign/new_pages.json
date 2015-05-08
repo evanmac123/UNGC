@@ -30,43 +30,53 @@
               "children": [
                 {
                   "template": "Article",
-                  "path": "/Principle-01"
+                  "path": "/Principle-1",
+                  "sort_order_position": 0
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-02"
+                  "path": "/Principle-2",
+                  "sort_order_position": 1
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-03"
+                  "path": "/Principle-3",
+                  "sort_order_position": 2
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-04"
+                  "path": "/Principle-4",
+                  "sort_order_position": 3
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-05"
+                  "path": "/Principle-5",
+                  "sort_order_position": 4
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-06"
+                  "path": "/Principle-6",
+                  "sort_order_position": 5
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-07"
+                  "path": "/Principle-7",
+                  "sort_order_position": 6
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-08"
+                  "path": "/Principle-8",
+                  "sort_order_position": 7
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-09"
+                  "path": "/Principle-9",
+                  "sort_order_position": 8
                 },
                 {
                   "template": "Article",
-                  "path": "/Principle-10"
+                  "path": "/Principle-10",
+                  "sort_order_position": 8
                 }
               ]
             }
