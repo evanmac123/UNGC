@@ -17,6 +17,22 @@ class Redesign::ParticipantSearchForm
     self.page = page
   end
 
+  def active_filters
+
+    organization_types = organization_type_options.select(&:selected?)
+    initiatives = initiative_options.select(&:selected?)
+    countries = country_options.select(&:selected?)
+
+    sector_groups = sector_options.map(&:first).select(&:selected?)
+    sectors = sector_options.flat_map do |group, sectors|
+      sectors.select(&:selected?)
+    end
+
+    reporting_statuses = reporting_status_options.select(&:selected?)
+
+    [organization_types, initiatives, countries, sector_groups, sectors, reporting_statuses].flatten
+  end
+
   def organization_type_options
     pluck_options(OrganizationType.all, :organization_type, organization_types)
   end

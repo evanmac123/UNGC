@@ -38,7 +38,7 @@ $(function() {
     var $removeButton   = $(this),
         filterId        = $removeButton.data('filter-id'),
         filterType      = $removeButton.data('filter-type'),
-        filterSelector  = "#search_" + filterType + "s_" + filterId,
+        filterSelector  = "#search_" + pluralize(filterType) + "_" + filterId,
         $filter         = $(filterSelector);
 
     // Uncheck the input associated with this filter id
@@ -58,5 +58,20 @@ $(function() {
     $('.filter-sorting select', $form).val(null);
     $form.submit();
   });
+
+  function pluralize(name) {
+    var plural;
+    switch (name){
+    case 'country':
+      plural = 'countries';
+    break;
+    case 'reporting_status':
+      plural = 'reporting_statuses';
+    break;
+    default:
+      plural = name + 's';
+    }
+    return plural;
+  }
 
 });
