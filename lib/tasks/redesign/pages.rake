@@ -94,8 +94,13 @@ namespace :redesign do
       previous_depth = depth
 
       if page[:template].present?
-        container = Redesign::Container.find_or_create_by(path: page[:url])
-        container.layout =page[:template].downcase
+        oldpath = page[:old_path]
+        if oldpath && container = Redesign::Container.find_by(path: oldpath)
+        else
+          container = Redesign::Container.find_or_create_by(path: page[:url])
+        end
+        container.path = page[:url]
+        container.layout = page[:template].downcase
         container.slug = page[:slug]
         container.save
 
