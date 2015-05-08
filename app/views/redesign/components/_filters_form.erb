@@ -20,12 +20,12 @@ if form_url
     <fieldset class='filter-lists'>
       <%- @page.filters.each do |filter| -%>
         <%- filter[:options] = @search.try(filter[:options]) -%>
-        <%= render 'redesign/components/filter_options_list', filter %>
+        <%= render 'redesign/components/filter_options_list', filter.merge({disabled: @search.disabled?}) %>
       <%- end -%>
     </fieldset>
 
     <%- if @search.try(:active_filters) -%>
-      <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters %>
+      <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: @search.disabled? %>
     <%- end -%>
 
     <fieldset class='filter-sorting'>

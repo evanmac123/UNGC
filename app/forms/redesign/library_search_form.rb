@@ -40,6 +40,10 @@ class Redesign::LibrarySearchForm
     [issue_areas, issues, topic_groups, topics, languages, sector_groups, sectors].flatten
   end
 
+  def disabled?
+    active_filters.count >= 5
+  end
+
   def issue_options
     @issue_options ||= Redesign::IssueTree.new.map do |area, children|
       [

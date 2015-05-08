@@ -11,6 +11,9 @@
       <%- end -%>
 
       <li class='clear-all-filters'><%= button_tag 'Clear All', type: 'reset' %></li>
+      <%- if disabled -%>
+        <li class='filter-limit-message'>You're using 5 filters, please remove some to add more</li>
+      <%-end -%>
     </ol>
   </article>
 <%- end -%>

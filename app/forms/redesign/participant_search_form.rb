@@ -33,6 +33,10 @@ class Redesign::ParticipantSearchForm
     [organization_types, initiatives, countries, sector_groups, sectors, reporting_statuses].flatten
   end
 
+  def disabled?
+    active_filters.count >= 5
+  end
+
   def organization_type_options
     pluck_options(OrganizationType.all, :organization_type, organization_types)
   end
