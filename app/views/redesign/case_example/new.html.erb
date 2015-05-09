@@ -1,0 +1,46 @@
+<p style="height: 100px"/>
+
+<p id="notice"><%= notice %></p>
+
+<%= form_for(@case_example, url: redesign_case_example_path, method: :post) do |f| %>
+  <% if @case_example.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@case_example.errors.count, "error") %> prohibited this case example from being sent:</h2>
+
+      <ul>
+      <% @case_example.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :company %><br>
+    <%= f.text_field :company %>
+  </div>
+
+  <div class="field">
+    <%= f.label :country_id, 'Select Country' %><br>
+    <%= f.collection_radio_buttons(:country_id, Country.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sector_ids, 'Select Sector' %><br>
+    <%= f.collection_check_boxes(:sector_ids, @case_example.sector_options, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :is_participant, 'Are you currently a global compact participant?' %><br>
+    <%= f.collection_radio_buttons(:is_participant, @case_example.is_participant_options, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :file, 'Upload a File (PDF, Word Doc, or plain text file)' %><br>
+    <%= f.file_field :file, accept: 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit 'Share Case Example' %>
+  </div>
+<% end %>
