@@ -1,0 +1,27 @@
+{{#container/x-fields scope=model.container as |article|}}
+  {{#container/macros/x-metatags scope=article as |metaTags|}}
+    {{container/x-field key="contentType" type="content-type-select" scope=metaTags}}
+  {{/container/macros/x-metatags}}
+
+  {{#container/macros/x-hero scope=article as |hero|}}
+    {{container/macros/x-show-section-nav scope=hero default=true}}
+  {{/container/macros/x-hero}}
+
+  <fieldset>
+    <legend>Article Content</legend>
+    {{#container/x-fields key="articleBlock" scope=article as |articleBlock|}}
+      {{container/x-field key="title" type="string" limit=50 scope=articleBlock}}
+      {{container/x-field key="content" type="redactor" limit=50 scope=articleBlock}}
+    {{/container/x-fields}}
+  </fieldset>
+
+  {{container/macros/x-widget-contact scope=article}}
+
+  {{container/macros/x-widget-calls-to-action scope=article}}
+
+  {{container/macros/x-widget-links-lists scope=article}}
+
+  {{container/macros/x-resources scope=article}}
+
+  {{container/macros/x-taggings scope=article}}
+{{/container/x-fields}}

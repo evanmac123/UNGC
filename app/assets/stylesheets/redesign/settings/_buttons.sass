@@ -1,0 +1,65 @@
+%button
+  display: inline-block
+  font:
+    family: $flama-bold
+    weight: bold
+    size: 1.125em
+  color: white
+  text:
+    align: center
+    transform: uppercase
+  padding: .5em 2em
+  border: 0
+  text-decoration: none
+  +transition-property(background-color color)
+  +transition-duration(150ms)
+  +font-smoothing(antialiased)
+
+  &:hover,
+  &:active
+    text-decoration: none
+
+  &:active
+    +transition-duration(0ms)
+
+=button($color: 'teal')
+  $button-color: color($color)
+  background-color: $button-color
+  @extend %button
+
+  &:hover,
+  &:active
+    background-color: lighten($button-color, 7%)
+    color: white
+
+button,
+.button
+  +button
+
+  &.dark-teal
+    +button('dark-teal')
+
+  &.dark-orange
+    +button('dark-orange')
+
+  &.orange
+    +button('orange')
+
+  &.dark-blue
+    +button('dark-blue')
+
+  &.blue
+    +button('blue')
+
+  &.light-blue
+    +button('light-blue')
+
+  &.dark-green
+    +button('dark-green')
+
+  &.green
+    +button('green')
+
+  &.light-green
+    +button('light-green')
+

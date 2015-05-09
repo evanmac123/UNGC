@@ -1,0 +1,7 @@
+{{#each tree.nodes as |node|}}
+  {{sitemap/x-node
+    tree=tree
+    node=node
+    onInsert="addContainerWithContext"
+    onMove="nodeMoved"}}
+{{/each}}

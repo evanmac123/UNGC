@@ -1,0 +1,80 @@
+.content-list
+  padding: 0 7%
+  margin-top: -0.5em
+
+.content-list-header
+  padding: 0 7%
+  margin: 0
+
+.content-list-item
+  padding: 1em
+  margin: 0
+  border: 1px solid #ccc
+    bottom-width: 0
+  +clearfix
+
+  &:nth-of-type(odd)
+    background: #f6f6f6
+
+  &:last-of-type
+    border-bottom-width: 1px
+
+  h1
+    margin: 0 0 .5em
+    font-size: 1.125em
+
+    a
+      &:after
+        +fa-icon
+        margin: 0 0 0 .5em
+
+      &.type-pdf:after
+        +icon('pdf')
+
+      &.type-xls:after
+        +icon('xls')
+
+      &.type-ppt:after
+        +icon('ppt')
+
+      &.type-doc:after
+        +icon('doc')
+
+      &.type-web:after
+        content: $fa-var-globe
+
+      &.type-mp3:after
+        content: $fa-var-volume-up
+
+      &.type-video:after
+        content: $fa-var-play-circle-o
+
+  time,
+  address
+    font-weight: 900
+
+  address
+    margin: 0 0 .5em
+
+  p:last-of-type
+    margin-bottom: .5em
+
+  img,
+  .image-link
+    display: block
+
+  img
+    width: 100%
+
+  .image-link
+    float: left
+    width: 30%
+    border: 1px solid #ccc
+
+    &:hover,
+    &:active
+      border-color: color('light-blue')
+
+  .content-list-item-content-wrapper.has-image
+    float: right
+    width: 68%

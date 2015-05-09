@@ -22,7 +22,7 @@ Rails.application.configure do
     host: '127.0.0.1',
     port: 3000
   }
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :test
   config.action_mailer.smtp_settings = {
     address: 'localhost',
     # address: '192.168.168.89',

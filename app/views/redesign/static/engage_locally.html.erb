@@ -1,0 +1,35 @@
+<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'redesign/components/hero' %>
+
+<%- if content = @page.main_content_section -%>
+  <section class='main-content-section'>
+    <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
+
+    <section class='main-content-body'>
+      <%= content[:content].html_safe if content[:content] %>
+
+      <%= render 'redesign/components/widget_links_lists', links_lists: @page.main_content_links %>
+    </section>
+
+    <%- if sidebar = @page.sidebar_widgets -%>
+      <%= render layout: 'redesign/components/sidebar' do %>
+        <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
+
+        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
+
+      <% end %>
+    <%- end -%>
+  </section>
+<%- end -%>
+
+<%- @page.related_contents.each do |c| -%>
+  <%= render layout: 'redesign/components/content_blocks', locals: {title: c.title, blocks: c.boxes} do |block| %>
+    <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
+  <% end %>
+<%- end -%>
+
+<%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+  <%= render 'redesign/components/resource_block', block: block %>
+<% end %>
+
+<%= render partial: 'redesign/components/events_news' %>

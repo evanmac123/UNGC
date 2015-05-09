@@ -1,19 +1,25 @@
 class ResourceUpdater
   attr_reader :resource, :params
 
-  def initialize(params={}, resource=Resource.new)
+  def initialize(params={}, resource=Resource.new, tagging_updater=TaggingUpdater)
     @resource = resource
     @params = params
+    @taggings = params.slice(:issues,:topics,:sectors)
+    @tagging_updater = tagging_updater
   end
 
   def submit
-    resource.attributes = params.slice(:title, :description, :isbn, :principle_ids, :author_ids, :image)
+    resource.attributes = params.slice(:title, :description, :isbn, :principle_ids, :author_ids, :image, :content_type)
     resource.year = year if has_year?
 
     if valid?
       remove_old_links
       resource.save!
       updated_links.map(&:save!)
+
+      updater = @tagging_updater.new(@taggings, resource)
+      updater.update
+
       true
     else
       false

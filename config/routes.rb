@@ -1,6 +1,10 @@
 require 'ckeditor'
+require 'sidekiq/web'
 
 UNGC::Application.routes.draw do
+  authenticate :contact, lambda { |c| c.from_ungc? } do
+    mount Sidekiq::Web => '/back-the-web'
+  end
   # Root
   root :to => 'pages#home'
 
@@ -15,20 +19,94 @@ UNGC::Application.routes.draw do
       passwords: 'admin/passwords'
     }
 
+  namespace :redesign do
+    namespace :admin do
+      namespace :api, format: :json do
+        resources :layouts, only: [:index, :show]
+        resources :contacts, only: [:ungc] do
+          get :ungc, on: :collection
+        end
+        resources :taggings, only: [:topics, :issues, :sectors] do
+          get :topics, on: :collection
+          get :issues, on: :collection
+          get :sectors, on: :collection
+        end
+        resources :images, only: [:index, :create, :signed_url] do
+          post :signed_url, on: :collection
+        end
+        resources :resources, only: [:index]
+        resources :initiatives, only: [:index]
+        resources :containers do
+          post :publish, on: :member
+          get :needs_approval, on: :collection
+        end
+        resources :payloads
+      end
+
+      get '/(*path)' => 'index#frontend', as: :root, format: :html
+    end
+
+
+    controller :library do
+      get '/library'        => :index,  as: :library
+      get '/library/search' => :search, as: :library_search
+      get '/library/:id'    => :show,   as: :library_resource
+    end
+
+    controller :contact_us do
+      get '/about/contact' => :new, as: :new_contact_us
+      post '/about/contact' => :create, as: :contact_us
+    end
+
+    controller :issues do
+      get '/what-is-gc/our-work/all' => :index, as: :issues
+    end
+
+    controller :actions do
+      get '/take-action/action' => :index, as: :actions
+    end
+
+    controller :participant_search, path: '/what-is-gc/participants/directory' do
+      get '/' => :index
+      get '/search' => :search, as: :participant_search
+    end
+
+    resources :participants, path: '/what-is-gc/participants/directory/', only: [:show]
+
+    resources :news, path: '/news' do
+      get :speeches, on: :collection
+      get :media, on: :collection
+      get :press_releases, on: :collection, path: 'press-release'
+    end
+
+    controller :networks do
+      # TODO handle these routes better, find a way to redirect to the catch all
+      get '/engage-locally/africa/africa-strategy' => :africa_strategy, as: :networks_africa_strategy
+      get '/engage-locally/manage' => :manage, as: :networks_manage
+      get '/engage-locally/manage/*path' => :catch_all, as: :networks_manage_catch_all
+
+      get '/engage-locally/:region/:network' => :show, as: :networks_show
+    end
+
+
+    get '/'         => 'static#home',       as: :root
+    get '*path'     => 'static#catch_all',  as: :catch_all
+  end
+
   # Backend routes
-  get '/admin'                    => 'admin#dashboard', :as => :admin
-  get '/admin/dashboard'          => 'admin#dashboard', :as => :dashboard
-  get '/admin/parameters'         => 'admin#parameters', :as => :parameters
-  get '/admin/cops/introduction'  => 'admin/cops#introduction', :as => :cop_introduction
+  get '/admin'                    => 'admin#dashboard',         as: :admin
+  get '/admin/dashboard'          => 'admin#dashboard',         as: :dashboard
+  get '/admin/parameters'         => 'admin#parameters',        as: :parameters
+  get '/admin/cops/introduction'  => 'admin/cops#introduction', as: :cop_introduction
 
   get '/admin/local_networks/:id/knowledge_sharing' => 'admin/local_networks#knowledge_sharing', :as => :knowledge_sharing
   get '/admin/local_network_resources' => 'admin/local_networks#edit_resources', :as => :local_network_resources
 
   # These need to come before resources :pages
-  get '/admin/pages/:id/edit'   => 'admin/pages#edit', :as => :edit_page
-  put '/admin/page/:id.:format' => 'admin/pages#update', :as => :update_page
-  post '/admin/page/:id/edit'    => 'admin/pages#edit'
-  get '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', :as => :find_page_by
+  get '/admin/pages/:id/edit'   => 'admin/pages#edit', as: :edit_page
+  put '/admin/page/:id.:format' => 'admin/pages#update', as: :update_page
+  post '/admin/page/:id/edit'   => 'admin/pages#edit'
+  get '/admin/pages/find'       => 'admin/pages#find_by_path_and_redirect_to_latest', as: :find_page_by
 
   namespace :admin do
     resources :events do

@@ -1,0 +1,33 @@
+# Blue
+dark-blue:    "#071e54"
+blue:         "#0c3f73"
+light-blue:   "#0487ba"
+pastel-blue:  "#80d4f6"
+
+# Teal
+darker-teal:  "#0b1f26" # Styleguide, Page 21
+dark-teal:    "#004d65"
+teal:         "#00979e"
+light-teal:   "#8fd2ca"
+
+# Green
+dark-green:   "#11613c"
+green:        "#289346"
+light-green:  "#a5ce45"
+
+# Red
+dark-red:     "#bc1f38"
+red:          "#ec1f38"
+light-red:    "#fc4450"
+pastel-red:   "#f4837c"
+
+# Orange
+dark-orange:  "#f47621"
+orange:       "#faa51a"
+light-orange: "#fbd75b"
+
+# Grey
+dark-grey:    "#3f3f3f"
+grey:         "#696973"
+light-grey:   "#a3a3a3"
+blue-grey:    "#e6f8ff"

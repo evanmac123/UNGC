@@ -1,0 +1,154 @@
+.main-content-section
+  padding: 3em 0 4em
+  +clearfix
+
+  &,
+  *
+    position: relative
+
+  &.has-custom-bg
+    padding: 6em 0 7em
+
+  &.align-center
+    text-align: center
+
+.main-content-header
+  padding: 0 12% 1em
+  clear: both
+
+  h1
+    font-size: 2.5em
+    line-height: 1.2
+
+.main-content-body
+  float: left
+  padding: 0 0 0 12%
+  width: 60%
+
+  ul,
+  ol
+    padding: 0 0 0 3em
+
+  li
+    margin: 0 0 1em
+
+  h1
+    font-size: 2.5em
+
+  h2
+    font-size: 2em
+    margin: 1.5em 0 1em
+
+  h3
+    font-size: 1.5em
+    margin: 2em 0 1em
+
+  h4
+    font-size: 1.25em
+
+  h5
+    font-size: 1em
+
+  h1,
+  h2,
+  h4,
+  h4,
+  h5
+    + h2,
+    + h3,
+    + h4,
+    + h5,
+    &:first-child
+      margin-top: 0
+
+  .button
+    margin-top: 1em
+
+  .widget-links-list
+    font-weight: 500
+    margin-top: 3em
+
+.align-center .main-content-body
+  float: none
+  margin: 0 auto
+  padding: 0 12%
+  width: auto
+
+.dark-theme
+  color: #eee
+  background-color: #111
+
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    background: rgba(black, .3)
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6
+    color: white
+
+.local-network-main-content
+
+  .main-content-header
+    font-size: 3em
+    padding: 0 7% .25em
+    margin: 0
+
+  .main-content-body
+    padding: 0
+    width: 45%
+
+.local-network-image
+  display: block
+  float: left
+  width: 20%
+  background: #f9f9f9
+  margin: .5em 1em 1em 0
+
+
+.local-network-body-wrapper
+  border: 1px solid #eee
+  padding: 2em 0 2em 1em
+  margin: 0 7%
+  +clearfix
+
+h2.local-network-body-header
+  text-transform: uppercase
+  font-size: 1.25em
+
+h3.local-network-participants-header
+  text-transform: uppercase
+  font-size: 1em
+
+.video-iframe
+  position: relative
+  width: 100%
+  padding: 62.5% 0 0
+  margin: 0 0 1.5em
+  overflow: hidden
+
+  iframe
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    height: 100%
+    width: 100%
+
+time.resource-year
+  display: block
+  margin: 0 0 1.5em
+
+
+.participants-search-content
+  padding: 0 2em 1em

@@ -1,0 +1,40 @@
+.pagination
+  padding: 1em 1.777em 2em
+  text-align: right
+  font-size: 1.125em
+
+  a,
+  .current,
+  .previous_page,
+  .next_page
+    display: inline-block
+    padding: .25em .5em
+
+  .current
+    font:
+      weight: 900
+      style: normal
+
+  .previous_page,
+  .next_page
+    span
+      display: none
+
+    &:before
+      +fa-icon
+
+  .previous_page
+    &:before
+      content: $fa-var-caret-left
+
+  .next_page
+    &:before
+      content: $fa-var-caret-right
+
+  .disabled
+    color: #ccc
+
+  a:hover,
+  a:active
+    color: white
+    background-color: color('light-blue')

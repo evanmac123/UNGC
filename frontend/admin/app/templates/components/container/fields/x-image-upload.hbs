@@ -1,0 +1,27 @@
+<div class="form-group {{if hasErrors "has-error"}}">
+  <label class="control-label" for={{field.uid}}>
+    {{field.label}}
+  </label>
+
+  <div class='input-group'>
+    <span class='input-group-addon'>URL</span>
+    {{input type="text"
+      class="form-control"
+      id=field.uid
+      value=field.value}}
+  </div>
+
+  {{container/uploads/file-field selectedFile=file saving=isSaving}}
+
+  {{#if isSaving}}
+    <p class="help-block">Uploading&hellip;</p>
+  {{/if}}
+
+  {{#if uploadError}}
+    <p class="help-block">{{uploadError}}</p>
+  {{/if}}
+
+  {{#if field.errors}}
+    <p class="help-block">{{field.errors.firstObject.detail}}</p>
+  {{/if}}
+</div>

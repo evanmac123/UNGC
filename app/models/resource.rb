@@ -42,10 +42,31 @@ class Resource < ActiveRecord::Base
   has_many :links, dependent: :destroy, class_name: 'ResourceLink'
   has_many :languages, through: :links
 
+  has_many :taggings
+  has_many :sectors,        through: :taggings
+  has_many :sector_groups,  through: :sectors, source: :parent
+  has_many :issues,         through: :taggings
+  has_many :issue_areas,    through: :issues, class_name: 'Issue', source: :parent
+  has_many :topics,         through: :taggings
+  has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
+
   STATES = { pending:    'Pending Review',
              approved:   'Approved',
              previously: 'Archived'
            }
+  enum content_type: [ :academic_literature,
+                       :case_example,
+                       :guidance,
+                       :meeting_report,
+                       :newsletter,
+                       :un_global_compact_report,
+                       :toolkit,
+                       :webinar,
+                       :presentation,
+                       :website,
+                       :video]
+
+  scope :update_required, lambda { where("content_type IS NULL") }
 
   def self.with_principles_count
     select("resources.*, count(principles_resources.principle_id) as principles_count")
@@ -69,6 +90,15 @@ class Resource < ActiveRecord::Base
       image.url(size.to_s + '@2x')
     else
       image.url(size)
+    end
+  end
+
+  def self.search(*args)
+    results = super *args
+    if results && results.total_entries
+      results
+    else
+      raise Riddle::ConnectionError
     end
   end
 

@@ -1,0 +1,19 @@
+<%- if partners = @page.partners and !partners.empty?-%>
+<section class='component-partners'>
+  <%- if title ||= nil -%>
+    <header class='component-header'>
+      <%= content_tag(:h1, title.try(:html_safe)) %>
+    </header>
+  <%- end -%>
+
+  <ul class='component-partners-list'>
+    <%- partners.each do |partner| -%>
+      <li>
+        <%= link_to_redesign partner.url do %>
+          <%= image_tag partner.logo, alt: partner.name -%>
+        <%- end -%>
+      </li>
+    <%- end -%>
+  </ul>
+</section>
+<%- end -%>

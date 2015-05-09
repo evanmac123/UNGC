@@ -1,0 +1,13 @@
+<fieldset>
+  <legend>Links</legend>
+  {{#container/x-fields key="widgetLinksLists" scope=scope array=true max=2 as |widgetLinksList|}}
+    {{container/x-field key="title" type="string" limit=50 scope=widgetLinksList}}
+    {{#container/x-fields key="links" array=true max=5 scope=widgetLinksList as |links|}}
+      <li class="stat-group">
+        {{container/x-field key="label" type="string" scope=links}}
+        {{container/x-field key="url" type="href" scope=links}}
+        {{container/x-field key="external" type="boolean" scope=links}}
+      </li>
+    {{/container/x-fields}}
+  {{/container/x-fields}}
+</fieldset>

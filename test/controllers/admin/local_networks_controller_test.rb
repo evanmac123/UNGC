@@ -4,8 +4,18 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
   def setup
     @staff_user = create_staff_user
     @local_network = create_local_network
+    @local_network_user = create_local_network_with_report_recipient
     create_local_network_guest_organization
     sign_in @staff_user
+
+    @update = {
+      name: 'Canada',
+      description: 'The Global Compact Network Canada...'
+    }
+    @update_with_image = @update.merge({
+      image: fixture_file_upload('files/untitled.jpg', 'image/jpeg')
+    })
+    @local_network_with_image = create_local_network(@update_with_image)
   end
 
   test "should get index" do
@@ -51,6 +61,79 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     end
 
     assert_redirected_to admin_local_networks_path
+  end
+
+  context "given a description" do
+    should "create local network" do
+      assert_difference('LocalNetwork.count') do
+        post :create, :local_network => @update
+      end
+
+      assert_redirected_to admin_local_networks_path
+    end
+
+    should "update local network" do
+      put :update, id: @local_network, local_network: @update
+      assert_redirected_to admin_local_network_path(@local_network.id)
+    end
+  end
+
+  context "given a staff user" do
+    should "show description and image inputs" do
+      get :new, {}
+      assert_select 'textarea#local_network_description', 1
+      assert_select 'input#local_network_image', 1
+      get :edit, id: @local_network
+      assert_select 'textarea#local_network_description', 1
+      assert_select 'input#local_network_image', 1
+    end
+
+    context "given a network with an image" do
+      should "show current image in edit" do
+        get :edit, id: @local_network_with_image
+        assert_select '.local_network_img_preview', 1
+      end
+    end
+
+    context "given a network without an image" do
+      should "show current image in edit" do
+        get :edit, id: @local_network
+        assert_select '.local_network_img_preview', 0
+      end
+    end
+  end
+
+  context "given a non-staff user" do
+    should "not show description and image inputs" do
+      sign_in @local_network_user
+      get :new, {}
+      assert_select 'textarea#local_network_description', 0
+      assert_select 'input#local_network_image', 0
+      get :edit, id: @local_network
+      assert_select 'textarea#local_network_description', 0
+      assert_select 'input#local_network_image', 0
+    end
+
+    should "not show current image in edit" do
+      sign_in @local_network_user
+      get :edit, id: @local_network
+      assert_select '.local_network_img_preview', 0
+    end
+  end
+
+  context "given an image" do
+    should "create local network" do
+      post :create, local_network: @update_with_image
+      assert_equal LocalNetwork.last.image.class, Paperclip::Attachment
+      assert_redirected_to admin_local_networks_path
+    end
+
+    should "update local network" do
+      put :update, id: @local_network_with_image, local_network: @update_with_image
+      assert_equal LocalNetwork.last.image.class, Paperclip::Attachment
+
+      assert_redirected_to admin_local_network_path(@local_network_with_image.id)
+    end
   end
 
   context "given a local network contact" do

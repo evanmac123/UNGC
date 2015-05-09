@@ -33,6 +33,9 @@ gem 'uglifier',             '~> 2.7.0'
 gem 'ckeditor',             '4.1.1'
 gem 'sidekiq',              '~> 2.17.0'
 gem 'foreman'
+gem 'bourbon',              '~> 4.2.1'
+gem 'font-awesome-sass',    '~> 4.3.1'
+gem 'virtus',               '~> 1.0.5'
 
 gem 'capistrano',           '~> 2.15.5'
 gem 'plugger' # supports moonshine plugin on rails4
@@ -40,6 +43,12 @@ gem 'databasedotcom'
 
 # for upgrading to rails 4+, need to be removed eventually.
 gem 'rails-observers'
+
+gem 'ranked-model',         '~> 0.4.0'
+gem 'fog'
+gem "non-stupid-digest-assets"
+gem 'htmlentities'
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :development do
   gem 'rerun'

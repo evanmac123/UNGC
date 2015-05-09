@@ -1,0 +1,29 @@
+{{#if array}}
+  {{#if yieldValue}}
+    <ol class='repeated-content-list'>
+      {{#each yieldValue as |val|}}
+        <li class='repeated-content-item'>
+          <div class='repeated-content-header clearfix'>
+            {{#if canVary}}
+              {{#unless cantRemove}}
+                <button class="btn btn-danger pull-right" disabled={{cantRemove}} {{action "removeElement" val}}><i class='fa fa-times' aria-hidden='true'></i>&nbsp;&nbsp;Remove</button>
+              {{/unless}}
+            {{/if}}
+          </div>
+
+          {{yield val}}
+        </li>
+      {{/each}}
+    </ol>
+  {{/if}}
+
+  {{#if canVary}}
+    {{#unless cantAdd}}
+      <div class='clearfix'>
+        <button class="btn btn-success pull-right" disabled={{cantAdd}} {{action "addElement"}}><i class='fa fa-plus' aria-hidden='true'></i>&nbsp;&nbsp;Add</button>
+      </div>
+    {{/unless}}
+  {{/if}}
+{{else}}
+  {{yield yieldValue}}
+{{/if}}

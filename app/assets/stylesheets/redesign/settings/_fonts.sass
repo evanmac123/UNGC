@@ -1,0 +1,23 @@
++font-face("Flama Book", "https://d306pr3pise04h.cloudfront.net/fonts/flama/v1/Flama-Book", $file-formats: eot woff)
++font-face("Flama Bold", "https://d306pr3pise04h.cloudfront.net/fonts/flama/v1/Flama-Bold", bold, $file-formats: eot woff)
++font-face("Flama Condensed Bold", "https://d306pr3pise04h.cloudfront.net/fonts/flama/v1/FlamaCondensed-Bold", bold, $file-formats: eot woff)
++font-face("Flama Condensed Medium", "https://d306pr3pise04h.cloudfront.net/fonts/flama/v1/FlamaCondensed-Medium", 500, $file-formats: eot woff)
+
+$helvetica:               'Helvetica Neue', Helvetica, Arial, sans-serif
+$roboto:                  'Roboto', $helvetica
+$roboto-condensed:        'Roboto Condensed', $helvetica
+$flama-book:              'Flama Book', $roboto
+$flama-bold:              'Flama Bold', $roboto
+$flama-condensed-medium:  'Flama Condensed Medium', $roboto-condensed
+$flama-condensed-bold:    'Flama Condensed Bold', $roboto-condensed
+
+=font-smoothing($value)
+  @if $value == antialiased
+    -webkit-font-smoothing:   antialiased
+    -moz-osx-font-smoothing:  greyscale
+  @else if $value == none
+    -webkit-font-smoothing:   none
+    -moz-osx-font-smoothing:  none
+  @else
+    -webkit-font-smoothing:   subpixel-antialiased
+    -moz-osx-font-smoothing:  auto

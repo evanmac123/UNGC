@@ -5,45 +5,91 @@ class Admin::NewsControllerTest < ActionController::TestCase
     setup do
       @staff_user = create_staff_user
       sign_in @staff_user
+
+      @headline = create_headline
+      @update = headline_attributes_with_taggings
     end
 
-    context "creating a new headline" do
+    should "get index" do
+      get :index
+      assert_response :success
+
+      assert_select 'table.dashboard_table tr', 2
+    end
+
+    should "get new" do
+      get :new
+      assert_response :success
+      assert_select 'select#headline_headline_type', 1
+    end
+
+    context "given create headline" do
       setup do
-        @attributes = new_headline(:title => 'This is my headline').attributes
         assert_difference 'Headline.count', 1 do
-          put :create, {:headline => @attributes}
+          post :create, headline: @update
         end
-        @headline = Headline.find_by_title('This is my headline')
+
+        @headline = Headline.find_by_title(@update[:title])
       end
 
-      should "create the headline" do
+      should "redirect to index" do
         assert_redirected_to_index
-        assert @headline
       end
 
-      should "be pending approval" do
+      should "set title" do
+        assert_equal @update[:title], @headline.title
+      end
+
+      should "set published on" do
+        assert_equal @update[:published_on].to_date, @headline.published_on
+      end
+
+      should "set location" do
+        assert_equal @update[:location], @headline.location
+      end
+
+      should "set country" do
+        assert_equal @update[:country_id], @headline.country_id
+      end
+
+      should "set description" do
+        assert_equal @update[:description], @headline.description
+      end
+
+      should "set headline type" do
+        assert_equal @update[:headline_type], @headline.headline_type
+      end
+
+      should "set taggings" do
+        assert_equal @update[:issues].first, @headline.issues.first.id
+        assert_equal @update[:topics].first, @headline.topics.first.id
+        assert_equal @update[:sectors].first, @headline.sectors.first.id
+      end
+
+      should "set state to pending approval" do
         assert @headline.pending?
       end
 
-      context "then approve it" do
+      context "given approval" do
         setup do
           assert_no_difference 'Headline.count' do
-            post :approve, {:id => @headline.id}
+            post :approve, id: @headline.id
           end
+
           @headline.reload
         end
 
         should "approve the headline" do
-          assert_redirected_to_index
           assert @headline.approved?
           assert_contains Headline.approved, @headline
+          assert_redirected_to_index
         end
 
         should "be updated_by the staff member" do
           assert_equal @staff_user.id, @headline.updated_by_id
         end
 
-        context "but then revoke it" do
+        context "given revocation" do
           setup do
             # clear updated_by_id so we're sure it gets set.
             @headline.update_attribute :updated_by_id, nil
@@ -51,52 +97,50 @@ class Admin::NewsControllerTest < ActionController::TestCase
             assert_no_difference 'Headline.count' do
               post :revoke, {:id => @headline.id}
             end
+
             @headline.reload
           end
 
           should "revoke approval of the headline" do
-            assert_redirected_to_index
             assert @headline.revoked?
             assert_does_not_contain Headline.approved, @headline
+            assert_redirected_to_index
           end
 
           should "be updated_by the staff member" do
             assert_equal @staff_user.id, @headline.updated_by_id
           end
-
         end
       end
     end
 
-    context "working with an existing headline" do
-      setup do
-        @headline = create_headline :title => 'This is my headline'
-      end
-
-      should "update" do
-        assert_no_difference 'Headline.count' do
-          post :update, {:id => @headline.id, :headline => @headline.attributes.merge(:title => 'Headline changed!')}
-        end
-        assert_equal 'Headline changed!', Headline.find(@headline.id).title
-        assert_redirected_to_index
-      end
+    should "show headline" do
+      get :show, id: @headline.to_param
+      assert_response :success
+      assert assigns(:headline)
     end
 
-    context "basic controller actions" do
-
-      should "#index" do
-        get :index
-      end
-
-      should "#new" do
-        get :new, headline: valid_headline_attributes
-      end
-
-      should "#destroy" do
-        delete :destroy, id: create_headline
-      end
-
+    should "get edit" do
+      get :edit, id: @headline.to_param
+      assert_response :success
+      assert_select 'select#headline_headline_type', 1
     end
 
+    should "update headline" do
+      assert_no_difference 'Headline.count' do
+        put :update, id: @headline, headline: @update
+      end
+
+      assert_equal @update[:title], Headline.find(@headline.id).title
+      assert_redirected_to_index
+    end
+
+    should "destroy headline" do
+      assert_difference('Headline.count', -1) do
+        delete :destroy, id: @headline.to_param
+      end
+
+      assert_redirected_to admin_headlines_path
+    end
   end
 end

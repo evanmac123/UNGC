@@ -1,0 +1,10 @@
+<%- if attributes.any? -%>
+<article class='resource-attributes-list'>
+  <h1><%= title -%></h1>
+  <ul>
+    <%- attributes.each do |a| -%>
+      <li><%= yield a -%></li>
+    <%- end -%>
+  </ul>
+</article>
+<%- end -%>

@@ -1,0 +1,33 @@
+<footer id='main-footer'>
+  <article>
+    <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/globalcompact" data-widget-id="571824679078604800">Tweets by @globalcompact</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  </article>
+
+  <article>
+    <h2>Follow Us</h2>
+    <ul class='social'><%- %w(Twitter YouTube LinkedIn Facebook Flickr RSS).each do |s|-%>
+      <li><%= link_to "<span>#{s}</span>".html_safe, '/redesign', class: s.parameterize -%></li>
+    <%- end -%></ul>
+
+    <h2>QuickLinks</h2>
+    <ul class='quick-links'>
+      <li><%= link_to 'Issue Areas', '/redesign' -%></li>
+      <li><%= link_to 'What You Can Do', '/redesign' -%></li>
+      <li><%= link_to 'Join Now', '/redesign' -%></li>
+      <li><%= link_to 'Report on Your Progress: COP', '/redesign' -%></li>
+    </ul>
+  </article>
+
+  <article>
+    <div class='contribute'>
+      <h2>Help us transform the world through business</h2>
+      <%= link_to 'Contribute Today', '/redesign' %>
+    </div>
+
+    <div class='contact'>
+      <h2>Contact</h2>
+      Use our <%= link_to 'directory', '/redesign' -%> to find the specific individual you need to reach.
+    </div>
+  </article>
+</footer>

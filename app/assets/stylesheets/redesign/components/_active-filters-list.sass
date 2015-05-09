@@ -1,0 +1,95 @@
+.active-filters
+  border-bottom: 1px solid #eee
+  padding: 1em 0 .5em
+  +clearfix
+
+  h2,
+  .active-filters-list
+    display: inline-block
+    vertical-align: top
+
+  h2
+    width: 14%
+    padding: 0
+    margin: 0
+    font-size: 1.125em
+
+  .active-filters-list
+    list-style: none
+    padding: 0 0 0 .25em
+    width: 84%
+
+  .active-filter-type,
+  .active-filter-name,
+  .remove-active-filter
+    display: inline-block
+    font-size: inherit
+    line-height: inherit
+    border: 0
+    margin: 0
+    background-color: transparent
+    vertical-align: middle
+
+  .active-filter-type
+    font:
+      family: $flama-condensed-medium
+      weight: 500
+    text-transform: uppercase
+    padding: .25em .5em
+
+    span
+      display: none
+
+  .active-filter-name
+    padding: .25em
+
+  .active-filter-type,
+  .remove-active-filter
+    background-color: darken(color('pastel-blue'), 5%)
+
+  .remove-active-filter
+    padding: .25em .5em
+
+  .active-filter,
+  .clear-all-filters
+    display: inline-block
+    position: relative
+    padding: 0
+    margin: 0 .25em .5em 0
+    color: white
+    font-weight: 700
+    opacity: 1
+    cursor: default
+    vertical-align: top
+    +transition-property(background-color transform opacity)
+    +transition-duration(250ms)
+
+  .active-filter
+    background-color: color('pastel-blue')
+    +transform(scale3d(1, 1, 1))
+
+    &.removing
+      background-color: color('pastel-red')
+      opacity: 0
+      +transform(scale3d(0, 0, 0))
+
+    .remove-active-filter
+      &:hover,
+      &:active
+        background-color: color('light-red')
+        color: white
+
+  .clear-all-filters button
+    font:
+      family: inherit
+      size: inherit
+    text-transform: inherit
+    padding: .25em 1em
+    line-height: inherit
+    margin: 0
+    background-color: color('light-grey')
+
+    &:hover,
+    &:active
+      background-color: color('grey')
+      color: white

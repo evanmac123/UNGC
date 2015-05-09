@@ -1,0 +1,29 @@
+{{#container/x-fields scope=model.container as |list|}}
+
+  {{container/macros/x-metatags scope=list}}
+
+  {{#container/macros/x-hero scope=list as |hero|}}
+    {{container/macros/x-show-section-nav scope=hero default=true}}
+  {{/container/macros/x-hero}}
+
+
+  <fieldset>
+    <legend>List content</legend>
+    {{#container/x-fields key="listBlock" scope=list as |listBlock|}}
+      {{container/x-field key="title" type="string" scope=listBlock}}
+      {{container/x-field key="sorting" type="sorting" scope=listBlock}}
+      {{container/x-field key="blurb" type="redactor" scope=listBlock}}
+      {{#container/x-fields key="items" array=true min=1 scope=listBlock as |item|}}
+        <li class="stat-group">
+          {{container/x-field key="url" type="href" scope=item}}
+          {{container/x-field key="type" type="list-url-type-select" scope=item}}
+          {{container/x-field key="title" type="string" scope=item}}
+          {{container/x-field key="blurb" type="redactor" scope=item}}
+
+          {{container/x-field key="image" type="image-upload" scope=item}}
+        </li>
+      {{/container/x-fields}}
+    {{/container/x-fields}}
+  </fieldset>
+
+{{/container/x-fields}}

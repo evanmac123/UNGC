@@ -53,6 +53,11 @@
 class LocalNetwork < ActiveRecord::Base
   validates_presence_of :name
 
+  has_attached_file :image,
+    url: "/system/:class/:attachment/:id/:style/:filename"
+
+    do_not_validate_attachment_file_type :image
+
   has_many :countries
   has_many :contacts
   has_many :integrity_measures
@@ -234,4 +239,3 @@ class LocalNetwork < ActiveRecord::Base
   end
 
 end
-

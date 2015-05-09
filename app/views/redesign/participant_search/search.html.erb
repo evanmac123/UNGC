@@ -1,0 +1,9 @@
+<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'redesign/components/hero' %>
+
+<%#= render partial: 'form', locals: {search: @search} %>
+<%= render 'redesign/components/filters_form', form_url: redesign_participant_search_path, title: @page.meta_title.try(:html_safe), search_placeholder: 'Search Participants' %>
+
+<section class='main-content-section participants-search-content'>
+  <%= render 'redesign/components/participants_table', participants: @results %>
+</section>
