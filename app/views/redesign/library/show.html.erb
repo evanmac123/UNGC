@@ -44,7 +44,7 @@
           <li class='resource-link resource-link-type-<%= link.type -%>'>
             <h2><%= link_to link.title, link.url, target: '_blank' -%> <span class='resource-link-language'>(<%= link.language -%>)</span></h2>
 
-            <%- if link.is_video? -%>
+            <%- if link.is_youtube? -%>
               <div class='video-iframe'><iframe width="560" height="315" src="<%= link.embed_url %>" frameborder="0" allowfullscreen></iframe></div>
             <%- end -%>
           </li>
