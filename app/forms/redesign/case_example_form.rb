@@ -5,6 +5,7 @@ class Redesign::CaseExampleForm
 
   validates :sector_ids, presence: true
   validate :sector_ids_cant_be_blank_and_must_exist
+  validate :case_example_is_valid
 
   def sector_ids_cant_be_blank_and_must_exist
     if sector_ids
@@ -19,32 +20,34 @@ class Redesign::CaseExampleForm
   end
 
   def submit
-    case_example = CaseExample.new({
+    if valid?
+      case_example.save
+      TaggingUpdater.new({sectors: sector_ids}, case_example).update
+      send_email(case_example)
+      true
+    else
+      false
+    end
+  end
+
+  def case_example_is_valid
+    if case_example.valid?
+      true
+    else
+      case_example.errors.each do |attribute, message|
+        self.errors.add attribute, message
+      end
+      false
+    end
+  end
+
+  def case_example
+    @case_example ||= CaseExample.new({
       company: company,
       country_id: country_id,
       is_participant: is_participant,
       file: file
     })
-
-    validate
-
-    unless case_example.valid?
-      case_example.errors.each do |attribute, message|
-        self.errors.add attribute, message
-      end
-    end
-
-    if errors.empty?
-      case_example.save
-
-      TaggingUpdater.new({sectors: sector_ids}, case_example).update
-
-      send_email(case_example)
-
-      true
-    else
-      false
-    end
   end
 
   def send_email(case_example)
