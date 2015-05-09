@@ -82,16 +82,24 @@ class Redesign::LibraryController < Redesign::ApplicationController
       type == 'video'
     end
 
-    def video_id
+    def is_youtube?
       if is_video?
-        CGI::parse(URI.parse(@link.url).query)['v'].first
-      else
-        nil
+        host = URI.parse(url).host
+        return host == 'www.youtube.com'
       end
+      false
+    end
+
+    def video_id
+      if is_youtube?
+        q = URI.parse(@link.url).query
+        return CGI::parse(q)['v'].first if q
+      end
+      nil
     end
 
     def embed_url
-      if is_video?
+      if is_youtube?
         "https://www.youtube.com/embed/#{video_id}"
       else
         ''
