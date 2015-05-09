@@ -85,7 +85,8 @@ class Cmd
       'preview.unglobalcompact.org'
     when 'staging'
       'staging.unglobalcompact.org'
-    # TODO add more envs when we're set up
+    when 'production'
+      'unglobalcompact.org'
     else
       nil
     end
