@@ -73,19 +73,8 @@ class Redesign::CaseExampleForm
 
   def is_participant_options
     [
-      {
-        id: 'true',
-        name: 'Yes'
-      },
-      {
-        id: 'false',
-        name: 'No'
-      }
-    ].map do |option|
-      OpenStruct.new({
-        id: option[:id],
-        name: option[:name]
-      })
-    end
+      OpenStruct.new({id: 'true', name: 'Yes'}),
+      OpenStruct.new({id: 'false', name: 'No'})
+    ]
   end
 end
