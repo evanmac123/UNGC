@@ -23,6 +23,7 @@ namespace :redesign do
 
   desc "Randomly assign content_types to Resources"
   task :randomize_content_types do
+    raise "Must be run from the development environment" unless Rails.env.development?
     Resource.find_each do |resource|
       resource.update_attribute :content_type, rand(3)
     end
@@ -30,6 +31,7 @@ namespace :redesign do
 
   desc "Randomly assign sectors to Resources"
   task :randomize_sectors do
+    raise "Must be run from the development environment" unless Rails.env.development?
     sectors = [
       "Oil Equipment, Services & Distribution",   # Oil & Gas
       "Chemicals",                                # Chemicals
@@ -43,6 +45,7 @@ namespace :redesign do
 
   desc "Randomly assign issues to Resources"
   task :randomize_issues do
+    raise "Must be run from the development environment" unless Rails.env.development?
     issues = [
       "Principle 1", # in Social
       "Principle 2", # in Social
@@ -58,6 +61,7 @@ namespace :redesign do
 
   desc "Randomly assign topics to Resources"
   task :randomize_topics do
+    raise "Must be run from the development environment" unless Rails.env.development?
     topics = [
       "Responsible Investment",     # in Financial Markets
       "Supply Chain",               # Supply Chain group
