@@ -480,7 +480,7 @@ DEPENDENCIES
   sidekiq (~> 2.17.0)
   simplecov
   sinatra (>= 1.3.0)
-  skylight
+  skylight (~> 0.6.0)
   spreadsheet (= 0.6.5.9)
   spring
   state_machine!
