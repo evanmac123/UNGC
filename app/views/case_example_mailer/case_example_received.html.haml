@@ -1,0 +1,19 @@
+%p
+  %strong Company:
+  = @params.company
+  %br/
+  %strong Country:
+  = @params.country.name
+  %br/
+  %strong Sectors:
+  - @params.sectors.each do |sector|
+    = sector.name
+    %br/
+  %br/
+  %strong Participant:
+  = @params.is_participant
+  %br/
+  %strong File:
+  = link_to @params.link do
+    @params.link
+  %br/

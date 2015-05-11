@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507175111) do
+ActiveRecord::Schema.define(version: 20150508203518) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -70,6 +70,20 @@ ActiveRecord::Schema.define(version: 20150507175111) do
 
   add_index "campaigns", ["campaign_id"], name: "index_campaigns_on_campaign_id", unique: true, using: :btree
   add_index "campaigns", ["initiative_id"], name: "index_campaigns_on_initiative_id", using: :btree
+
+  create_table "case_examples", force: :cascade do |t|
+    t.string   "company",           limit: 255
+    t.integer  "country_id",        limit: 4
+    t.boolean  "is_participant",    limit: 1
+    t.string   "file_file_name",    limit: 255
+    t.string   "file_content_type", limit: 255
+    t.integer  "file_file_size",    limit: 4
+    t.datetime "file_updated_at"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "case_examples", ["country_id"], name: "index_case_examples_on_country_id", using: :btree
 
   create_table "case_stories", force: :cascade do |t|
     t.string   "identifier",                 limit: 255
@@ -918,9 +932,11 @@ ActiveRecord::Schema.define(version: 20150507175111) do
     t.datetime "updated_at",                               null: false
     t.integer  "topic_id",                     limit: 4
     t.integer  "issue_id",                     limit: 4
+    t.integer  "case_example_id",              limit: 4
   end
 
   add_index "taggings", ["author_id"], name: "index_taggings_on_author_id", using: :btree
+  add_index "taggings", ["case_example_id"], name: "index_taggings_on_case_example_id", using: :btree
   add_index "taggings", ["communication_on_progress_id"], name: "index_taggings_on_communication_on_progress_id", using: :btree
   add_index "taggings", ["country_id"], name: "index_taggings_on_country_id", using: :btree
   add_index "taggings", ["event_id"], name: "index_taggings_on_event_id", using: :btree
@@ -968,6 +984,7 @@ ActiveRecord::Schema.define(version: 20150507175111) do
 
   add_foreign_key "issues", "issues", column: "parent_id"
   add_foreign_key "taggings", "authors"
+  add_foreign_key "taggings", "case_examples"
   add_foreign_key "taggings", "communication_on_progresses"
   add_foreign_key "taggings", "countries"
   add_foreign_key "taggings", "events"

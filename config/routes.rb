@@ -58,6 +58,11 @@ UNGC::Application.routes.draw do
       post '/about/contact' => :create, as: :contact_us
     end
 
+    controller :case_example do
+      get '/take-action/action/share-success' => :new, as: :new_case_example
+      post '/take-action/action/share-success' => :create, as: :case_example
+    end
+
     controller :issues do
       get '/what-is-gc/our-work/all' => :index, as: :issues
     end
