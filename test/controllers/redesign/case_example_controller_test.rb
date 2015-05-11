@@ -41,7 +41,7 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       assert_match /#{@country.name}/, email.body.to_s
       assert_match /#{@sector.name}/, email.body.to_s
       assert_match /Yes/, email.body.to_s
-      assert_match /#{Regexp.escape(case_example.file.url)}/, email.body.to_s
+      assert_match /http:\/\/test.host\/#{Regexp.escape(case_example.file.url)}/, email.body.to_s
 
       assert_redirected_to redesign_case_example_path
     end
