@@ -17,6 +17,7 @@ class Announcement < ActiveRecord::Base
   belongs_to :principle
 
   validates_presence_of :title, :description, :date
+  validates :description, length: { maximum: 255 }
 
   delegate :name, :to => :principle, :prefix => true
   delegate :name, :region_name, :to => :local_network, :prefix => true
