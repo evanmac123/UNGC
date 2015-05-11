@@ -7,18 +7,6 @@ class Redesign::CaseExampleForm
   validate :sector_ids_cant_be_blank_and_must_exist
   validate :case_example_is_valid
 
-  def sector_ids_cant_be_blank_and_must_exist
-    if sector_ids
-      sector_ids.reject! { |i| i.empty? }
-
-      errors.add(:sector_ids, "can't be blank") if sector_ids.empty?
-
-      sector_ids.each do |sector_id|
-        errors.add(:sector_ids, "must exist") unless Sector.exists? sector_id
-      end
-    end
-  end
-
   def submit
     if valid?
       case_example.save
@@ -28,36 +16,6 @@ class Redesign::CaseExampleForm
     else
       false
     end
-  end
-
-  def case_example_is_valid
-    if case_example.valid?
-      true
-    else
-      case_example.errors.each do |attribute, message|
-        self.errors.add attribute, message
-      end
-      false
-    end
-  end
-
-  def case_example
-    @case_example ||= CaseExample.new({
-      company: company,
-      country_id: country_id,
-      is_participant: is_participant,
-      file: file
-    })
-  end
-
-  def send_email(case_example)
-    CaseExampleMailer.delay.case_example_received({
-      company: case_example.company,
-      country: case_example.country,
-      sectors: case_example.sectors,
-      is_participant: (case_example.is_participant ? 'Yes' : 'No'),
-      link: case_example.file.url
-    })
   end
 
   def sector_options
@@ -80,4 +38,47 @@ class Redesign::CaseExampleForm
       OpenStruct.new({id: 'false', name: 'No'})
     ]
   end
+
+  private
+    def case_example
+      @case_example ||= CaseExample.new({
+        company: company,
+        country_id: country_id,
+        is_participant: is_participant,
+        file: file
+      })
+    end
+
+    def send_email(case_example)
+      CaseExampleMailer.delay.case_example_received({
+        company: case_example.company,
+        country: case_example.country,
+        sectors: case_example.sectors,
+        is_participant: (case_example.is_participant ? 'Yes' : 'No'),
+        link: case_example.file.url
+      })
+    end
+
+    def sector_ids_cant_be_blank_and_must_exist
+      if sector_ids
+        sector_ids.reject! { |i| i.empty? }
+
+        errors.add(:sector_ids, "can't be blank") if sector_ids.empty?
+
+        sector_ids.each do |sector_id|
+          errors.add(:sector_ids, "must exist") unless Sector.exists? sector_id
+        end
+      end
+    end
+
+    def case_example_is_valid
+      if case_example.valid?
+        true
+      else
+        case_example.errors.each do |attribute, message|
+          self.errors.add attribute, message
+        end
+        false
+      end
+    end
 end
