@@ -29,10 +29,10 @@ class Redesign::Container < ActiveRecord::Base
     :cop_list
   ]
 
-  enum content_type: [
-    :default,
-    :action
-  ]
+  enum content_type: {
+    default: 1,
+    action: 2
+  }
 
   belongs_to :parent_container, class_name: 'Redesign::Container'
   belongs_to :public_payload, class_name: 'Redesign::Payload'

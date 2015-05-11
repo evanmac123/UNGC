@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508203518) do
+ActiveRecord::Schema.define(version: 20150511220822) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -443,7 +443,7 @@ ActiveRecord::Schema.define(version: 20150508203518) do
     t.integer  "country_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "headline_type",  limit: 4,     default: 0
+    t.integer  "headline_type",  limit: 4,     default: 1
   end
 
   add_index "headlines", ["approval"], name: "index_headlines_on_approval", using: :btree
