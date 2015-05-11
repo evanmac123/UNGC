@@ -9,6 +9,7 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
   context "the search form" do
 
     setup do
+      Redesign::ParticipantSearchForm.any_instance.expects(:execute).returns([])
       get :index
     end
 
