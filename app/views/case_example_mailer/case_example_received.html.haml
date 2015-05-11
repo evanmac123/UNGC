@@ -16,6 +16,6 @@
   %strong File:
   - host = Rails.application.config.action_mailer.default_url_options[:host]
   - protocol = Rails.application.config.action_mailer.default_url_options[:protocol]
-  = link_to "#{protocol}://#{host}/#{@params.link}" do
+  = link_to "#{protocol}://#{host}#{@params.link}" do
     = @params.link
   %br/
