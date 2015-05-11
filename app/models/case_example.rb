@@ -5,7 +5,9 @@ class CaseExample < ActiveRecord::Base
   has_attached_file :file,
     url: '/system/:class/:attachment/:id/:filename'
 
-  validates :company, :country_id, :is_participant, :file, presence: true
+  validates :company, :country_id, :file, presence: true
+  validates :is_participant, :inclusion => {:in => [true, false]}
+
   validates_attachment_content_type :file, content_type: [
     'application/pdf',
     'application/msword',

@@ -54,4 +54,13 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       assert_select '#error_explanation ul li', 4
     end
   end
+
+  context 'given post without a non participant params' do
+    should 'be valid' do
+      post :create, redesign_case_example_form: @params.merge(is_participant: false)
+      case_example = CaseExample.last
+      assert_select '#error_explanation ul li', 0
+      assert_equal false, case_example.is_participant
+    end
+  end
 end
