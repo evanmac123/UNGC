@@ -21,6 +21,7 @@
     </main>
 
     <%= render partial: 'redesign/components/main_footer' %>
+    <%= render partial: 'shared/ga_universal' %>
 
     <%= content_tag(:small, "Last updated: #{current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z')}") if current_payload %>
   </body>
