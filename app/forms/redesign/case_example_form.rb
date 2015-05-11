@@ -7,12 +7,16 @@ class Redesign::CaseExampleForm
   validate :sector_ids_cant_be_blank_and_must_exist
   validate :case_example_is_valid
 
+  HUMANIZED_ATTRIBUTES = {
+    :sector_ids => "Sectors",
+    :is_participant => "Global Compact Participant"
+  }
+
   def submit
     if valid?
-      case_example.save
-      TaggingUpdater.new({sectors: sector_ids}, case_example).update
-      send_email(case_example)
-      true
+      result = case_example.save && TaggingUpdater.new({sectors: sector_ids}, case_example).update
+      send_email(case_example) if result
+      result
     else
       false
     end
@@ -37,6 +41,10 @@ class Redesign::CaseExampleForm
       OpenStruct.new({id: 'true', name: 'Yes'}),
       OpenStruct.new({id: 'false', name: 'No'})
     ]
+  end
+
+  def self.human_attribute_name(attr, options={})
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
   end
 
   private
