@@ -1,5 +1,4 @@
 prevents alihack errors to be raised
-i.e. https://unspaceungc.airbrake.io/projects/7161/groups/1380215648482727922/notices/1417591701781845875
 a possibly better fix would be using
 https://github.com/kares/request_exception_handler
 there are also reports of this being related to an airbrake bug (if we decide
