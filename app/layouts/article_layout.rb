@@ -7,7 +7,7 @@ class ArticleLayout < UNGC::Layout
   layout :article
 
   has_meta_tags! do
-    field :content_type, type: :number, default: 0
+    field :content_type, type: :number, default: 1
   end
 
   has_taggings!

@@ -40,8 +40,10 @@ class Headline < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  enum headline_type: [:press_release,
-                       :announcement]
+  enum headline_type: {
+    press_release: 1,
+    announcement: 2
+  }
 
   scope :published, -> { where('approval = ?', 'approved') }
   scope :descending, -> { order('published_on DESC, approved_at DESC') }

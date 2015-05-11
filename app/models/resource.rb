@@ -54,17 +54,19 @@ class Resource < ActiveRecord::Base
              approved:   'Approved',
              previously: 'Archived'
            }
-  enum content_type: [ :academic_literature,
-                       :case_example,
-                       :guidance,
-                       :meeting_report,
-                       :newsletter,
-                       :un_global_compact_report,
-                       :toolkit,
-                       :webinar,
-                       :presentation,
-                       :website,
-                       :video]
+  enum content_type: {
+    case_example: 1,
+    guidance: 2,
+    meeting_report: 3,
+    newsletter: 4,
+    un_global_compact_report: 5,
+    toolkit: 6,
+    webinar: 7,
+    presentation: 8,
+    website: 9,
+    video: 10,
+    academic_literature: 11,
+  }
 
   scope :update_required, lambda { where("content_type IS NULL") }
 
