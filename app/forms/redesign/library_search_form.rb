@@ -84,10 +84,7 @@ class Redesign::LibrarySearchForm
   end
 
   def type_options
-    @type_options ||= Resource.content_types.to_a.map do |name, id|
-      title = I18n.t("resources.types.#{name}")
-      [title, id]
-    end
+    @type_options ||= format_content_types
   end
 
   def sort_options
@@ -184,6 +181,16 @@ class Redesign::LibrarySearchForm
       options[:sector_ids] = ids.to_a
     end
 
+  end
+
+  def format_content_types
+    Resource.content_types
+      .to_a
+      .sort
+      .map do |name, id|
+      title = I18n.t("resources.types.#{name}")
+      [title, id]
+    end
   end
 
 end
