@@ -6,7 +6,7 @@ class CaseExample < ActiveRecord::Base
     url: '/system/:class/:attachment/:id/:filename'
 
   validates :company, :country_id, :file, presence: true
-  validates :is_participant, :inclusion => {:in => [true, false]}
+  validates :is_participant, :inclusion => {:in => [true, false], message: "can't be blank"}
 
   validates_attachment_content_type :file, content_type: [
     'application/pdf',
