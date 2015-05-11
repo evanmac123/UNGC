@@ -45,3 +45,17 @@ en:
       video: 'Video'
       website: 'Website'
       presentation: 'Presentation'
+
+  participant_search:
+    joined_on_asc: 'Joined On'
+    joined_on_desc: 'Joined On Desc'
+    name_asc: 'Name'
+    name_desc: 'Name Desc'
+    type_asc: 'Type'
+    type_desc: 'Type Desc'
+    sector_asc: 'Sector'
+    sector_desc: 'Sector Desc'
+    country_asc: 'Country'
+    country_desc: 'Country Desc'
+    company_size_asc: 'Company Size'
+    company_size_desc: 'Company Size Desc'

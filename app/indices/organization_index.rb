@@ -23,13 +23,46 @@ end
 ThinkingSphinx::Index.define :organization,
   with: :active_record, name: :participant_search do
 
-  indexes name, sortable: true
-  has country(:id),           as: :country_id,            facet: true
-  has organization_type(:id), as: :organization_type_id,  facet: true
-  has sector(:id),            as: :sector_id,             facet: true
-  has "CRC32(cop_state)",     as: :cop_state,             facet: true,   type: :integer
-  has initiatives(:id),       as: :initiative_ids,        facet: true,   multi: true
-  has joined_on, :facet => true
+  indexes name,
+    sortable: true
+
+  has country(:id),
+    as: :country_id,
+    facet: true
+
+  has organization_type(:id),
+    as: :organization_type_id,
+    facet: true
+
+  has sector(:id),
+    as: :sector_id,
+    facet: true
+
+  has "CRC32(cop_state)",
+    as: :cop_state,
+    facet: true,
+    type: :integer
+
+  has initiatives(:id),
+    as: :initiative_ids,
+    facet: true,
+    multi: true
+
+  has joined_on,
+    facet: true
+
+  has organization_type(:name),
+    as: :type_name
+
+  has sector(:name),
+    as: :sector_name
+
+  has country(:name),
+    as: :country_name
+
+  has employees,
+    as: :company_size,
+    type: :integer
 
   set_property :enable_star => true
   set_property :min_prefix_len => 4

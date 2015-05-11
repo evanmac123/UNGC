@@ -1,6 +1,22 @@
 class Redesign::ParticipantSearchForm
   include Virtus.model
 
+  DEFAULT_ORDER = 'joined_on desc'
+  SORT_OPTIONS = {
+    'joined_on_asc'     => 'joined_on asc',
+    'joined_on_desc'    => 'joined_on desc',
+    'name_asc'          => 'name asc',
+    'name_desc'         => 'name desc',
+    'type_asc'          => 'type_name asc',
+    'type_desc'         => 'type_name desc',
+    'sector_asc'        => 'sector_name asc',
+    'sector_desc'       => 'sector_name desc',
+    'country_asc'       => 'country_name asc',
+    'country_desc'      => 'country_name desc',
+    'company_size_asc'  => 'company_size asc',
+    'company_size_desc' => 'company_size desc',
+  }
+
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []
   attribute :countries,           Array[Integer], default: []
@@ -10,7 +26,7 @@ class Redesign::ParticipantSearchForm
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
   attribute :order,               String
-  attribute :sort_field,          String,         default: 'joined_on_desc'
+  attribute :sort_field,          String,         default: DEFAULT_ORDER
 
   def initialize(page = 1, params = {})
     super(params)
@@ -83,16 +99,10 @@ class Redesign::ParticipantSearchForm
   end
 
   def sort_options
-    @sort_options ||= [
-      ["Joined On", :joined_on_asc],
-      ["Joined On Desc", :joined_on_desc],
-      ["Name",          :name_asc],
-      ["Name Desc",          :name_desc],
-      ["Type",          :type_asc],
-      ["Sector",   :sector_asc],
-      ["Country",   :country_asc],
-      ["Company Size",   :company_size_asc]
-    ]
+    @sort_options ||= SORT_OPTIONS.keys.map do |key|
+      label = I18n.t(key, scope: :participant_search)
+      [label, key]
+    end
   end
 
   private
@@ -120,24 +130,6 @@ class Redesign::ParticipantSearchForm
       options[:cop_state] = reporting_status.map {|state| Zlib.crc32(state)}
     end
 
-    order = case self.sort_field
-    when 'name_asc'
-      'name asc'
-    when 'name_desc'
-      'name desc'
-    when 'joined_on_asc'
-      'joined_on asc'
-    # TODO make other sorting fields work
-    when 'type_asc'
-      'type asc'
-    when 'sector_asc'
-      'sector asc'
-    when 'company_size_asc'
-      'company_size asc'
-    else
-      'joined_on desc'
-    end
-
     {
       page: page,
       per_page: per_page,
@@ -160,6 +152,10 @@ class Redesign::ParticipantSearchForm
     relation.pluck(:id, :name).map do |id, name|
       FilterOption.new(id, name, type, selected.include?(id))
     end
+  end
+
+  def order
+    SORT_OPTIONS.fetch(sort_field, DEFAULT_ORDER)
   end
 
 end
