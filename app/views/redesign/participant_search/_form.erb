@@ -10,10 +10,12 @@
   </header>
 
   <fieldset class='filter-lists'>
-    <%- @page.filters.each do |filter| -%>
-      <%- filter[:options] = @search.try(filter[:options]) -%>
-      <%= render 'redesign/components/filter_options_list', filter.merge({disabled: @search.disabled?}) %>
-    <%- end -%>
+    <% filter_list(@search.disabled?) do |list| %>
+      <%= list.render_filter @search.issue_filter %>
+      <%= list.render_filter @search.topic_filter %>
+      <%= list.render_filter @search.language_filter %>
+      <%= list.render_filter @search.sector_filter %>
+    <% end %>
   </fieldset>
 
   <%- if @search.try(:active_filters) -%>

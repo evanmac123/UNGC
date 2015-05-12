@@ -38,13 +38,13 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     form = Redesign::LibrarySearchForm.new 1, @search_params
 
     assert_equal [
-      :issue_area,
-      :issue,
-      :topic_group,
-      :topic,
-      :language,
-      :sector_group,
-      :sector
+      'issue_areas',
+      'issues',
+      'topic_groups',
+      'topics',
+      'languages',
+      'sectors',
+      'sector_groups',
     ], form.active_filters.map(&:type)
 
     assert_equal [
@@ -53,8 +53,8 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       @select_topic_group.id,
       @selected_topic.id,
       @selected_language.id,
+      @selected_sector.id,
       @selected_sector_group.id,
-      @selected_sector.id
     ], form.active_filters.map(&:id)
   end
 
@@ -62,7 +62,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
-      @options = @form.issue_options
+      @options = @form.issue_filter.options
 
       @area = @options.last.first
       @filters = @options.last.last
@@ -87,7 +87,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have issue type" do
-      assert_equal [:issue], @filters.map(&:type).uniq
+      assert_equal ['issues'], @filters.map(&:type).uniq
     end
 
     should "have active states" do
@@ -100,7 +100,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
-      @options = @form.topic_options
+      @options = @form.topic_filter.options
 
       @group = @options.last.first
       @filters = @options.last.last
@@ -125,7 +125,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     end
 
     should "have topic type" do
-      assert_equal [:topic], @filters.map(&:type).uniq
+      assert_equal ['topics'], @filters.map(&:type).uniq
     end
 
     should "have active states" do
@@ -138,16 +138,17 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @options = @form.language_filter.options
     end
 
     should "have all the languages" do
       expected = @languages.map &:id
-      actual = @form.language_options.map &:id
+      actual = @options.map &:id
       assert_equal expected, actual
     end
 
     should "have mark the selected one" do
-      assert @form.language_options.last.selected?
+      assert @options.last.selected?
     end
 
   end
@@ -157,7 +158,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
 
-      @options = @form.sector_options
+      @options = @form.sector_filter.options
       @group_a = @options.first
       @group_b = @options.last
 
@@ -190,8 +191,8 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
       assert_equal @sector.id, @filter.id
     end
 
-    should "be of type: sector" do
-      assert_equal :sector, @filter.type
+    should "be of type: sectors" do
+      assert_equal 'sectors', @filter.type
     end
 
     should "not be active by default" do
@@ -204,13 +205,10 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     should "selecting an option should make it active" do
       form = Redesign::LibrarySearchForm.new 1, @search_params
-      filter = form.sector_options[0][1].last # group a, filters
-      assert filter.selected?
+      option = form.sector_filter.options[0][1].last # group a, options
+      assert option.selected?
     end
 
-  end
-
-  context "output" do
   end
 
 end
