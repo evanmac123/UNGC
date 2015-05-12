@@ -35,6 +35,9 @@ if form_url
       <%- end -%>
     </fieldset>
 
+    <%= f.hidden_field :sort_field %>
+    <%= f.hidden_field :sort_direction %>
+
     <%- if @results.any? -%>
       <p class='results-count'>
         <%- if !@search.keywords.empty? -%>
