@@ -8,7 +8,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
   end
 
   def show
-    @resource = Presenter.new(Resource.find(params[:id]))
+    @resource = LibraryDetailPresenter.new(Resource.find(params[:id]))
   end
 
   def search
@@ -40,72 +40,6 @@ class Redesign::LibraryController < Redesign::ApplicationController
 
   def create_page
     ExploreOurLibraryPage.new(current_container, current_payload_data)
-  end
-
-  class Presenter < SimpleDelegator
-
-    def placeholder_data
-      'place fake data here if you want.'
-    end
-
-    def links_list
-      self.links.map do |l|
-        LinkPresenter.new(l)
-      end
-    end
-
-  end
-
-  class LinkPresenter
-
-    def initialize(link)
-      @link = link
-    end
-
-    def title
-      @link.title
-    end
-
-    def type
-      @link.link_type
-    end
-
-    def url
-      @link.url
-    end
-
-    def language
-      @link.language.name
-    end
-
-    def is_video?
-      type == 'video'
-    end
-
-    def is_youtube?
-      if is_video?
-        host = URI.parse(url).host
-        return host == 'www.youtube.com'
-      end
-      false
-    end
-
-    def video_id
-      if is_youtube?
-        q = URI.parse(@link.url).query
-        return CGI::parse(q)['v'].first if q
-      end
-      nil
-    end
-
-    def embed_url
-      if is_youtube?
-        "https://www.youtube.com/embed/#{video_id}"
-      else
-        ''
-      end
-    end
-
   end
 
 end
