@@ -7,67 +7,91 @@
     <%= link_to(@page.website, @page.website_url, class: 'participant-website-link') if @page.has_website? %>
   </header>
 
-  <section class='tabbed-component'>
-    <header class='tabs'>
+  <section class='tabbed-component participant-detail-body'>
+    <menu class='tabs'>
+      <li class='tab'>
+        <button type="button" class='active' data-tab-content='company-information'>Company Information</button>
+      </li>
+      <li class='tab'>
+        <button type="button" data-tab-content='cop'>COP</button>
+      </li>
+      <li class='tab'>
+        <button type="button" data-tab-content='contributions'>Contributions</button>
+      </li>
+    </menu>
 
-    </header>
+    <article class='tab-content company-information active'>
+      <header class='tab-content-header'>
+        <h1>Company Information</h1>
+      </header>
+
+      <h3>Overview</h3>
+
+      <p>Country: <%= @page.country %></p>
+      <p>Org. Type: <%= @page.type %></p>
+      <p>Sector: <%= @page.sector %></p>
+      <p>Differentiation Level: <%= @page.differentiation_level %></p>
+      <p>Employees: <%= @page.employees %></p>
+      <p>Ownership: <%= @page.ownership %></p>
+      <p>Participant Since: <%= @page.joined_on %></p>
+    </article>
+
+    <article class='tab-content cop'>
+      <header class='tab-content-header'>
+        <h1>COP</h1>
+      </header>
+      <h3>Communication on Progress</h3>
+
+      <table>
+        <thead>
+          <th>Year</th>
+          <th>Published On</th>
+          <th>Title</th>
+          <th>Level</th>
+        </thead>
+        <tbody>
+          <% @page.cops.each do |cop| %>
+            <tr>
+              <th><%= cop.year %></th>
+              <th><%= cop.published_on %></th>
+              <th><%= link_to cop.title, cop_detail_path(cop) %></th>
+              <th><%= cop.differentiation_level_name %></th>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </article>
+
+    <article class='tab-content contributions'>
+      <header class='tab-content-header'>
+        <h1>Contributions</h1>
+      </header>
+      <h3>Voluntary Contributions</h3>
+
+      <table>
+        <thead>
+          <th>Year</th>
+          <th>Contribution Received</th>
+        </thead>
+        <tbody>
+          <% @page.contributions.each do |year, campaigns| %>
+            <tr>
+              <td><%= year %></td>
+              <td>
+                <ul>
+                  <% campaigns.each do |campaign| %>
+                    <li><%= campaign.name %></li>
+                  <% end %>
+                </ul>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </article>
   </section>
 </section>
 
 
-<h2>Company Information</h2>
-<h3>Overview</h3>
 
-<p>Country: <%= @page.country %></p>
-<p>Org. Type: <%= @page.type %></p>
-<p>Sector: <%= @page.sector %></p>
-<p>Differentiation Level: <%= @page.differentiation_level %></p>
-<p>Employees: <%= @page.employees %></p>
-<p>Ownership: <%= @page.ownership %></p>
-<p>Participant Since: <%= @page.joined_on %></p>
 
-<h2>COP</h2>
-<h3>Communication on Progress</h3>
-
-<table>
-  <thead>
-    <th>Year</th>
-    <th>Published On</th>
-    <th>Title</th>
-    <th>Level</th>
-  </thead>
-  <tbody>
-    <% @page.cops.each do |cop| %>
-      <tr>
-        <th><%= cop.year %></th>
-        <th><%= cop.published_on %></th>
-        <th><%= link_to cop.title, cop_detail_path(cop) %></th>
-        <th><%= cop.differentiation_level_name %></th>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<h2>Contributions</h2>
-<h3>Voluntary Contributions</h3>
-
-<table>
-  <thead>
-    <th>Year</th>
-    <th>Contribution Received</th>
-  </thead>
-  <tbody>
-    <% @page.contributions.each do |year, campaigns| %>
-      <tr>
-        <td><%= year %></td>
-        <td>
-          <ul>
-            <% campaigns.each do |campaign| %>
-              <li><%= campaign.name %></li>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
