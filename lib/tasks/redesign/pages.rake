@@ -120,6 +120,11 @@ namespace :redesign do
           container.update_attribute :sort_order_position, page[:sort_order_position]
         end
 
+        if page[:delete]
+          Tagging.where(redesign_container_id: container.id).each(&:destroy)
+          container.destroy
+        end
+
       end
 
       puts page[:slug]
