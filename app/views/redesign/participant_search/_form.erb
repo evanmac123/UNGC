@@ -1,0 +1,37 @@
+<%= form_for @search, as: :search, url: redesign_participant_search_path, method: :get, html: {id: 'filters-form'} do |f| %>
+
+  <header>
+    <%= content_tag(:h1, title) %>
+
+    <fieldset id='section-search'>
+      <%= f.search_field :keywords, placeholder: 'Search Participants', tabindex: 1, autofocus: true %>
+      <%= f.button '<span>Search</span>'.html_safe, type: :submit %>
+    </fieldset>
+  </header>
+
+  <fieldset class='filter-lists'>
+    <%- @page.filters.each do |filter| -%>
+      <%- filter[:options] = @search.try(filter[:options]) -%>
+      <%= render 'redesign/components/filter_options_list', filter.merge({disabled: @search.disabled?}) %>
+    <%- end -%>
+  </fieldset>
+
+  <%- if @search.try(:active_filters) -%>
+    <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: @search.disabled? %>
+  <%- end -%>
+
+  <fieldset class='filter-sorting'>
+    <%= f.select :per_page, @search.per_page_options, id: 'filter-per_page' %>
+  </fieldset>
+
+  <%= f.hidden_field :sort_field %>
+  <%= f.hidden_field :sort_direction %>
+
+  <%- if @results.any? -%>
+    <p class='results-count'>
+      <%- if !@search.keywords.empty? -%>
+        Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
+      <%- end -%>
+      <strong><%= @results.total_entries -%></strong> results</p>
+  <%- end -%>
+<% end %>

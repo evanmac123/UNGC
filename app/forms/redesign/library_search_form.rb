@@ -40,43 +40,8 @@ class Redesign::LibrarySearchForm
     @sector_filter ||= SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
   end
 
-  def issue_options
-    @issue_options ||= Redesign::IssueTree.new.map do |area, children|
-      [
-        FilterOption.new(area.id, area.name, :issue_area, issue_areas.include?(area.id)),
-        children.map { |issue|
-          FilterOption.new(issue.id, issue.name, :issue, issues.include?(issue.id))
-        }
-      ]
-      end
-  end
-
-  def topic_options
-    @topic_options ||= Redesign::TopicTree.new.map do |parent, children|
-        [
-          FilterOption.new(parent.id, parent.name, :topic_group, topic_groups.include?(parent.id)),
-          children.map { |topic|
-            FilterOption.new(topic.id, topic.name, :topic, topics.include?(topic.id))
-          }
-        ]
-      end
-  end
-
-  def language_options
-    @language_options ||= Language.all.map do |language|
-      FilterOption.new(language.id, language.name, :language, languages.include?(language.id))
-    end
-  end
-
-  def sector_options
-    @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
-      [
-        FilterOption.new(parent.id, parent.name, :sector_group, sector_groups.include?(parent.id)),
-        children.map { |sector|
-          FilterOption.new(sector.id, sector.name, :sector, sectors.include?(sector.id))
-        }
-      ]
-    end
+  def language_filter
+    @language_filter ||= LanguageFilter.new(languages)
   end
 
   def type_options
@@ -89,6 +54,10 @@ class Redesign::LibrarySearchForm
       ["Title (A-Z)",   :title_asc],
       ["Title (Z-A)",   :title_desc],
     ]
+  end
+
+  def disabled?
+    active_filters.count >= 5
   end
 
   def options
@@ -187,8 +156,9 @@ class Redesign::LibrarySearchForm
       .to_a
       .sort
       .map do |name, id|
-      title = I18n.t("resources.types.#{name}")
-      [title, id]
+        title = I18n.t("resources.types.#{name}")
+        [title, id]
+      end
   end
 
 end
