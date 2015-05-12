@@ -67,9 +67,10 @@
       <header class='tab-content-header'>
         <h1>COP</h1>
       </header>
-      <h3>Communication on Progress</h3>
 
-      <table>
+      <h2>Communication on Progress</h2>
+
+      <table class='table-embedded'>
         <thead>
           <th>Year</th>
           <th>Published On</th>
@@ -80,22 +81,25 @@
           <% @page.cops.each do |cop| %>
             <tr>
               <th><%= cop.year %></th>
-              <th><%= cop.published_on %></th>
-              <th><%= link_to cop.title, cop_detail_path(cop) %></th>
-              <th><%= cop.differentiation_level_name %></th>
+              <td><%= cop.published_on %></td>
+              <td><%= link_to cop.title, cop_detail_path(cop) %></td>
+              <td><%= cop.differentiation_level_name %></td>
             </tr>
           <% end %>
         </tbody>
       </table>
+
+      <p><strong>Note:</strong> Responsibility for the content of participants' public communication related to the Global Compact principles and their implementation lies with participants themselves and not with the UN Global Compact Ofﬁce.</p>
     </article>
 
     <article class='tab-content contributions'>
       <header class='tab-content-header'>
         <h1>Contributions</h1>
       </header>
-      <h3>Voluntary Contributions</h3>
 
-      <table>
+      <h2>Voluntary Contributions</h2>
+
+      <table class='table-embedded'>
         <thead>
           <th>Year</th>
           <th>Contribution Received</th>
@@ -103,7 +107,7 @@
         <tbody>
           <% @page.contributions.each do |year, campaigns| %>
             <tr>
-              <td><%= year %></td>
+              <th><%= year %></th>
               <td>
                 <ul>
                   <% campaigns.each do |campaign| %>
