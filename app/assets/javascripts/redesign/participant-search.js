@@ -7,7 +7,7 @@ $(function() {
     var sortField = $(this).data('field');
 
     // see app/assets/javascripts/redesign/filters-form.js
-    changeSortingField(sortField);
+    participantSearchChangeSortingField(sortField);
   });
 
 });

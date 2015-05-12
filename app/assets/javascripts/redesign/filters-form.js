@@ -63,7 +63,7 @@ $(function() {
   var $sortField = $('#search_sort_field');
   var $sortDirection = $('#search_sort_direction');
 
-  window.changeSortingField = function(newField) {
+  window.participantSearchChangeSortingField = function(newField) {
     var oldField = $sortField.val();
     var oldDirection = $sortDirection.val();
     var newDirection;
