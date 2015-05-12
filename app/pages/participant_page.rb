@@ -1,8 +1,25 @@
-class ParticipantPresenter < SimpleDelegator
+class ParticipantPage < SimpleDelegator
 
   def initialize(participant, campaigns_by_year)
     super(participant)
     @campaigns_by_year = campaigns_by_year
+  end
+
+  def hero
+    {
+      title: {
+        title1: 'The Compact:',
+        title2: '8,000 Companies + 4,000 Non-Businesses'
+      },
+      size: 'small'
+    }
+  end
+
+  def meta_title
+    participant.name
+  end
+
+  def meta_description
   end
 
   def website
@@ -34,7 +51,7 @@ class ParticipantPresenter < SimpleDelegator
   end
 
   def joined_on
-    participant.joined_on.strftime('%B, %Y')
+    participant.joined_on.try(:strftime, '%B, %Y')
   end
 
   def cops

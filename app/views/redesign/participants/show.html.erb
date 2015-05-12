@@ -1,64 +1,97 @@
-<div class="OH-HI-JORGE" style="margin-top: 140px"></div>
+<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'redesign/components/hero' %>
 
-<h1><%= @participant.name %></h1>
+<section class='main-content-section main-content-section-wide participants-show-main-content'>
+  <header class='main-content-header'>
+    <h1><%= @page.name %></h1>
+    <%= link_to(@page.website, @page.website_url, class: 'participant-website-link') if @page.has_website? %>
+  </header>
 
-<% if @participant.has_website? %>
-  <h1><%= link_to @participant.website, @participant.website_url %></h1>
-<% end %>
+  <section class='tabbed-component participant-detail-body'>
+    <menu class='tabs'>
+      <li class='tab'>
+        <button type="button" class='active' data-tab-content='company-information'>Company Information</button>
+      </li>
+      <li class='tab'>
+        <button type="button" data-tab-content='cop'>COP</button>
+      </li>
+      <li class='tab'>
+        <button type="button" data-tab-content='contributions'>Contributions</button>
+      </li>
+    </menu>
 
-<h2>Company Information</h2>
-<h3>Overview</h3>
+    <article class='tab-content company-information active'>
+      <header class='tab-content-header'>
+        <h1>Company Information</h1>
+      </header>
 
-<p>Country: <%= @participant.country %></p>
-<p>Org. Type: <%= @participant.type %></p>
-<p>Sector: <%= @participant.sector %></p>
-<p>Differentiation Level: <%= @participant.differentiation_level %></p>
-<p>Employees: <%= @participant.employees %></p>
-<p>Ownership: <%= @participant.ownership %></p>
-<p>Participant Since: <%= @participant.joined_on %></p>
+      <h3>Overview</h3>
 
-<h2>COP</h2>
-<h3>Communication on Progress</h3>
+      <p>Country: <%= @page.country %></p>
+      <p>Org. Type: <%= @page.type %></p>
+      <p>Sector: <%= @page.sector %></p>
+      <p>Differentiation Level: <%= @page.differentiation_level %></p>
+      <p>Employees: <%= @page.employees %></p>
+      <p>Ownership: <%= @page.ownership %></p>
+      <p>Participant Since: <%= @page.joined_on %></p>
+    </article>
 
-<table>
-  <thead>
-    <th>Year</th>
-    <th>Published On</th>
-    <th>Title</th>
-    <th>Level</th>
-  </thead>
-  <tbody>
-    <% @participant.cops.each do |cop| %>
-      <tr>
-        <th><%= cop.year %></th>
-        <th><%= cop.published_on %></th>
-        <th><%= link_to cop.title, cop_detail_path(cop) %></th>
-        <th><%= cop.differentiation_level_name %></th>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <article class='tab-content cop'>
+      <header class='tab-content-header'>
+        <h1>COP</h1>
+      </header>
+      <h3>Communication on Progress</h3>
 
-<h2>Contributions</h2>
-<h3>Voluntary Contributions</h3>
+      <table>
+        <thead>
+          <th>Year</th>
+          <th>Published On</th>
+          <th>Title</th>
+          <th>Level</th>
+        </thead>
+        <tbody>
+          <% @page.cops.each do |cop| %>
+            <tr>
+              <th><%= cop.year %></th>
+              <th><%= cop.published_on %></th>
+              <th><%= link_to cop.title, cop_detail_path(cop) %></th>
+              <th><%= cop.differentiation_level_name %></th>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </article>
 
-<table>
-  <thead>
-    <th>Year</th>
-    <th>Contribution Received</th>
-  </thead>
-  <tbody>
-    <% @participant.contributions.each do |year, campaigns| %>
-      <tr>
-        <td><%= year %></td>
-        <td>
-          <ul>
-            <% campaigns.each do |campaign| %>
-              <li><%= campaign.name %></li>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <article class='tab-content contributions'>
+      <header class='tab-content-header'>
+        <h1>Contributions</h1>
+      </header>
+      <h3>Voluntary Contributions</h3>
+
+      <table>
+        <thead>
+          <th>Year</th>
+          <th>Contribution Received</th>
+        </thead>
+        <tbody>
+          <% @page.contributions.each do |year, campaigns| %>
+            <tr>
+              <td><%= year %></td>
+              <td>
+                <ul>
+                  <% campaigns.each do |campaign| %>
+                    <li><%= campaign.name %></li>
+                  <% end %>
+                </ul>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </article>
+  </section>
+</section>
+
+
+
+

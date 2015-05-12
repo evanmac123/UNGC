@@ -1,36 +1,15 @@
-.events-news-section
+.events-news-component
   padding: 5%
   background: lighten(color('pastel-blue'), 20%)
-
-  .tab
-    position: relative
-    display: inline-block
-    font:
-      size: 1em
-      family: $flama-bold
-      weight: bold
-    text:
-      align: center
-      transform: uppercase
-    width: 30%
-    color: white
-    padding: .25em 0
-    border-radius: .5em .5em 0 0
-    margin: 0
-    vertical-align: top
-    +font-smoothing(antialiased)
-    +linear-gradient(color('light-grey') 60%, color('grey'))
-    cursor: pointer
-
-  .tab.active
-    cursor: auto
-    background: color('dark-teal')
 
   .date-location
     background: rgba(black, .3)
     color: white
     padding: .5em 20px
     font-family: $flama-book
+
+  .tab-content-header
+    display: none
 
   p,
   time,
@@ -42,12 +21,6 @@
   address,
   .tag
     line-height: 1.2
-
-  .content
-    position: relative
-    background: white
-    border: 1px solid #ddd
-    +clearfix
 
   .event
     color: color('grey')
@@ -114,7 +87,7 @@
       size: cover
     margin: -1px 0 1em -21px
 
-  .events-section-footer
+  .events-component-footer
     position: absolute
     right: .5em
     bottom: .5em

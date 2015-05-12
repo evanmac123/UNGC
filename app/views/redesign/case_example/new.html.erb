@@ -22,7 +22,7 @@
 
   <div class="field">
     <%= f.label :country_id, 'Select Country' %><br>
-    <%= f.collection_radio_buttons(:country_id, Country.all, :id, :name) %>
+    <%= f.collection_select(:country_id, @case_example.countries, :id, :name) %>
   </div>
 
   <div class="field">

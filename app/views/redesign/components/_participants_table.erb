@@ -1,33 +1,34 @@
-<%- if participants ||= nil -%>
-  <% participants.no_results do %>
-    No results.
-  <% end %>
 
-  <% participants.with_results do |results| %>
-    <table class='participants-table'>
-      <thead>
-        <tr>
-          <th class='name'>Name</th>
-          <th class='type'>Type</th>
-          <th class='sector'>Sector</th>
-          <th class='country'>Country</th>
-          <th class='company-size'>Company Size</th>
-          <th class='date-joined'>Joined On</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% results.each do |participant| %>
-          <tr>
-            <th class='name'><%= link_to participant.name, redesign_participant_path(participant) %></th>
-            <td class='type'><%= participant.type %></td>
-            <td class='sector'><%= participant.sector %></td>
-            <td class='country'><%= participant.country %></td>
-            <td class='company-size'><%= participant.company_size %></td>
-            <td class='date-joined'><%= participant.joined_on %></td>
-          </tr>
+<% participants.no_results do %>
+  No results.
+<% end %>
+
+<% participants.with_results do |results| %>
+  <table class='participants-table'>
+    <thead>
+      <tr>
+        <% sort_headers(sort_field, sort_direction) do |h| %>
+          <%= h.header 'Name', 'name' %>
+          <%= h.header 'Type', 'type' %>
+          <%= h.header 'Sector', 'sector' %>
+          <%= h.header 'Country', 'country' %>
+          <%= h.header 'Company Size', 'company_size' %>
+          <%= h.header 'Joined On', 'joined_on' %>
         <% end %>
-      </tbody>
-    </table>
-    <%= will_paginate participants, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
-  <% end %>
-<%- end -%>
+      </tr>
+    </thead>
+    <tbody>
+      <% results.each do |participant| %>
+        <tr>
+          <th class='name'><%= link_to participant.name, redesign_participant_path(participant) %></th>
+          <td class='type'><%= participant.type %></td>
+          <td class='sector'><%= participant.sector %></td>
+          <td class='country'><%= participant.country %></td>
+          <td class='company-size'><%= participant.company_size %></td>
+          <td class='date-joined'><%= participant.joined_on %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= will_paginate participants, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
+<% end %>
