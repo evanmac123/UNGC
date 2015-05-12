@@ -296,15 +296,24 @@
               "children": [
                 {
                   "template": "Article",
-                  "path": "/Prepare"
+                  "path": "/Prepare",
+                  "delete": true
                 },
                 {
                   "template": "Article",
-                  "path": "/Submit"
+                  "path": "/Submit",
+                  "delete": true
                 },
                 {
-                  "template": "COP_List",
-                  "path": "/Submitted-COE"
+                  "template": "Accordion",
+                  "path": "/Create-and-Submit",
+                  "children": [
+                    {
+                      "template": "COP_List",
+                      "path": "/Submitted-COE",
+                      "old_path": "/participation/report/coe/submitted-coe"
+                    }
+                  ]
                 }
               ]
             },
@@ -314,39 +323,50 @@
               "sort_order_position": 0,
               "children": [
                 {
-                  "template": "Article",
-                  "path": "/Prepare"
+                  "template": "Accordion",
+                  "path": "/Create-and-Submit",
+                  "children": [
+                    {
+                      "template": "COP_List",
+                      "path": "/Expelled",
+                      "old_path": "/participation/report/cop/progress/expelled"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Non-communicating",
+                      "old_path": "/participation/report/cop/progress/non-communicating"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Learner",
+                      "old_path": "/participation/report/cop/progress/learner"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Active",
+                      "old_path": "/participation/report/cop/progress/active"
+                    },
+                    {
+                      "template": "COP_List",
+                      "path": "/Advanced",
+                      "old_path": "/participation/report/cop/progress/advanced"
+                    }
+                  ]
                 },
                 {
                   "template": "Article",
-                  "path": "/Submit"
+                  "path": "/Prepare",
+                  "delete": true
+                },
+                {
+                  "template": "Article",
+                  "path": "/Submit",
+                  "delete": true
                 },
                 {
                   "template": "Article",
                   "path": "/Progress",
-                  "children": [
-                    {
-                      "template": "COP_List",
-                      "path": "/Expelled"
-                    },
-                    {
-                      "template": "COP_List",
-                      "path": "/Non-communicating"
-                    },
-                    {
-                      "template": "COP_List",
-                      "path": "/Learner"
-                    },
-                    {
-                      "template": "COP_List",
-                      "path": "/Active"
-                    },
-                    {
-                      "template": "COP_List",
-                      "path": "/Advanced"
-                    }
-                  ]
-
+                  "delete": true
                 }
               ]
             }

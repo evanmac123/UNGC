@@ -1,0 +1,2 @@
+class CopListPage < ContainerPage
+end
