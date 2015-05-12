@@ -62,6 +62,30 @@ class ParticipantPage < SimpleDelegator
     @campaigns_by_year
   end
 
+  def financial_information
+    [{
+      links: [{
+        label: 'Some link',
+        url: ''
+      },{
+        label: 'Some link',
+        url: ''
+      }]
+    }]
+  end
+
+  def non_financial_information
+    [{
+      links: [{
+        label: 'Some link',
+        url: ''
+      },{
+        label: 'Some link',
+        url: ''
+      }]
+    }]
+  end
+
   private
 
   def participant

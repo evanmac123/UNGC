@@ -1,7 +1,46 @@
 .participants-show-main-content
   .main-content-header .participant-website-link
     display: block
-    margin-top: -1em
+    margin:
+      top: -1.5em
+      bottom: 1em
 
-  // .tab-content-header
-  //   display: none
+  .tab-content-header
+    display: none
+
+  .company-information
+    .tab-content-sub-section
+      float: left
+      width: 33%
+      padding: 1em
+
+      > h2
+        font-size: 1.5em
+        margin: 0 0 .5em
+
+      > h3
+        margin: 0
+
+  .company-information-overview a
+    &:after
+      +fa-icon
+      content: $fa-var-caret-right
+      margin-left: .5em
+
+  .company-information-since
+    text-align: right
+
+  dl
+    margin: 0
+
+  dt,
+  dd
+    display: block
+
+  dt
+    font-weight: bold
+    float: left
+    margin-right: .5em
+
+  dd
+    margin: 0 0 .5em

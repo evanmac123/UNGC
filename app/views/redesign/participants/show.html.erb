@@ -25,15 +25,42 @@
         <h1>Company Information</h1>
       </header>
 
-      <h3>Overview</h3>
+      <div class='tab-content-sub-section company-information-overview'>
+        <h2>Overview</h2>
 
-      <p>Country: <%= @page.country %></p>
-      <p>Org. Type: <%= @page.type %></p>
-      <p>Sector: <%= @page.sector %></p>
-      <p>Differentiation Level: <%= @page.differentiation_level %></p>
-      <p>Employees: <%= @page.employees %></p>
-      <p>Ownership: <%= @page.ownership %></p>
-      <p>Participant Since: <%= @page.joined_on %></p>
+        <dl>
+          <dt>Country:</dt>
+          <dd><%= @page.country -%></dd>
+          <dt>Org. Type:</dt>
+          <dd><%= @page.type -%></dd>
+          <dt>Sector:</dt>
+          <dd><%= @page.sector -%></dd>
+          <dt>Differentiation Level:</dt>
+          <dd><%= @page.differentiation_level -%></dd>
+          <dt>Employees:</dt>
+          <dd><%= @page.employees -%></dd>
+          <dt>Ownership:</dt>
+          <dd><%= @page.ownership -%></dd>
+        </dl>
+
+        <%= link_to('Letter of Commitment', @page.commitment_letter.url) if @page.commitment_letter.present? %>
+      </div>
+
+
+      <div class='tab-content-sub-section company-information-financial-information'>
+        <h2>Financial Information</h2>
+        <%= render('redesign/components/widget_links_lists', links_lists: @page.financial_information) if @page.financial_information %>
+
+        <hr>
+
+        <h2>Non-Financial Information</h2>
+        <%= render('redesign/components/widget_links_lists', links_lists: @page.financial_information) if @page.financial_information %>
+      </div>
+
+      <div class='tab-content-sub-section company-information-since'>
+        <h3>Participant Since</h3>
+        <time><%= @page.joined_on -%></time>
+      </div>
     </article>
 
     <article class='tab-content cop'>
