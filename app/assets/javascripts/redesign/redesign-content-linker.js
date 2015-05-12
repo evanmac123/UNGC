@@ -1,8 +1,9 @@
+// this will be removed when we deploy the redesign version of the website
 $(function() {
   var links = $('.main-content-section a');
 
   var needsRedesign = function(href) {
-    return href.match(/^\/redesign\/|^http:/) ? false : true;
+    return href.match(/^\/redesign|^http:/) ? false : true;
   };
 
   links.each(function(i,e) {

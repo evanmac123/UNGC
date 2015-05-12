@@ -15,10 +15,10 @@ class EngageLocallyPage < ContainerPage
     [{
       links: [{
         label: 'Find out more about local networks',
-        url: ''
+        url: '/engage-locally/about-local-networks'
       },{
         label: 'Manage your network',
-        url: ''
+        url: '/engage-locally/manage'
       }]
     }]
   end
