@@ -28,6 +28,7 @@ if form_url
       <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: @search.disabled? %>
     <%- end -%>
 
+    <%= f.hidden_field :sort_field %>
     <%= f.hidden_field :sort_direction %>
 
     <%- if @results.any? -%>

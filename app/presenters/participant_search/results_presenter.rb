@@ -29,7 +29,7 @@ class ParticipantSearch::ResultsPresenter < SimpleDelegator
     end
 
     def sector
-      organization.sector.name
+      organization.sector.try(:name)
     end
 
     def country

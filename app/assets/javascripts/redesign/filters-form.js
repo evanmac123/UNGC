@@ -60,7 +60,7 @@ $(function() {
   });
 
   // sort column & direction
-  var $sortField = $('#filter-sort_field');
+  var $sortField = $('#search_sort_field');
   var $sortDirection = $('#search_sort_direction');
 
   window.changeSortingField = function(newField) {
