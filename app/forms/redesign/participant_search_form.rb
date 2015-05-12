@@ -93,13 +93,6 @@ class Redesign::ParticipantSearchForm
     ]
   end
 
-  def sort_options
-    @sort_options ||= SORT_OPTIONS.keys.map do |key|
-      label = I18n.t(key, scope: :participant_search)
-      [label, key]
-    end
-  end
-
   private
 
   def options
