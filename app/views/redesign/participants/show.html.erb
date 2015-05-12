@@ -1,11 +1,17 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
 
-<section class='main-content-section main-content-section-wide'>
+<section class='main-content-section main-content-section-wide participants-show-main-content'>
   <header class='main-content-header'>
     <h1><%= @page.name %></h1>
     <%= link_to(@page.website, @page.website_url, class: 'participant-website-link') if @page.has_website? %>
   </header>
+
+  <section class='tabbed-component'>
+    <header class='tabs'>
+
+    </header>
+  </section>
 </section>
 
 

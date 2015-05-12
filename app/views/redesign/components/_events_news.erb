@@ -1,13 +1,21 @@
 <%- if events = @page.events -%>
 <%- featured = events.pop %>
 
-<section class='events-news-section'>
-  <header class='tabs'>
-    <h1 class='tab events active'>Events</h1>
-    <h1 class='tab news'>News</h1>
-  </header>
+<section class='tabbed-component events-news-component'>
+  <menu class='tabs'>
+    <li class='tab'>
+      <button type='button' class='active' data-tab-content='events'>Events</button>
+    </li>
+    <li class='tab'>
+      <button type='button' data-tab-content='news'>News</button>
+    </li>
+  </menu>
 
-  <div class='content events'>
+  <article class='tab-content events active'>
+    <header class='tab-content-header'>
+      <h1>Events</h1>
+    </header>
+
     <%- if featured -%>
       <article class='featured-event'>
         <%= link_to featured[:url], class: 'event' do -%>
@@ -35,12 +43,16 @@
       <%- end -%>
     </ul>
 
-    <footer class='events-section-footer'>
+    <footer class='events-component-footer'>
       View <%= link_to 'All Events', '' -%>
     </footer>
-  </div>
+  </article>
 
-  <div class='content news' style="display: none">
+  <article class='tab-content news'>
+    <header class='tab-content-header'>
+      <h1>News</h1>
+    </header>
+
     <ul class='other-events'>
       <%- @page.news.each do |n| -%>
         <li><%= link_to redesign_news_path(n[:item]), class: 'news' do -%>
@@ -51,10 +63,10 @@
       <%- end -%>
     </ul>
 
-    <footer class='events-section-footer'>
+    <footer class='events-component-footer'>
       View <%= link_to_redesign 'All News', '/news' -%>
     </footer>
-  </div>
+  </article>
 </section>
 
 <%- end -%>
