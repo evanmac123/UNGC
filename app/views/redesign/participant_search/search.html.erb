@@ -5,5 +5,5 @@
 <%= render 'filters_form', form_url: redesign_participant_search_path, title: @page.meta_title.try(:html_safe), search_placeholder: 'Search Participants' %>
 
 <section class='main-content-section main-content-section-full-width'>
-  <%= render 'redesign/components/participants_table', participants: @results %>
+  <%= participants_table(@search, @results) %>
 </section>
