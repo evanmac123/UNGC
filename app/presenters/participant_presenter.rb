@@ -34,7 +34,7 @@ class ParticipantPresenter < SimpleDelegator
   end
 
   def joined_on
-    participant.joined_on.strftime('%B, %Y')
+    participant.joined_on.try(:strftime, '%B, %Y')
   end
 
   def cops
