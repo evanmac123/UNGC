@@ -66,7 +66,7 @@ class ContainerPublisherTest < ActiveSupport::TestCase
         container_id: @container.id,
         json_data: {
           meta_tags: {
-            content_type: 1
+            content_type: 2
           }
         }.deep_stringify_keys.to_json
       )

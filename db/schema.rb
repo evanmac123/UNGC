@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150511220822) do
+ActiveRecord::Schema.define(version: 20150512031632) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -791,7 +791,7 @@ ActiveRecord::Schema.define(version: 20150511220822) do
     t.integer  "depth",                  limit: 4,   default: 0,    null: false
     t.string   "tree_path",              limit: 255, default: "",   null: false
     t.integer  "child_containers_count", limit: 4,   default: 0,    null: false
-    t.integer  "content_type",           limit: 4,   default: 0,    null: false
+    t.integer  "content_type",           limit: 4,   default: 1,    null: false
     t.boolean  "has_draft",              limit: 1,   default: true
     t.integer  "sort_order",             limit: 4,   default: 0
   end
