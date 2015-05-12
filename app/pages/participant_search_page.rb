@@ -49,10 +49,6 @@ class ParticipantSearchPage < ContainerPage
     [{
       field:    :per_page,
       options:  :per_page_options
-    },{
-      field:    :sort_field,
-      options:  :sort_options,
-      label:    'Sort by'
     }]
   end
 end

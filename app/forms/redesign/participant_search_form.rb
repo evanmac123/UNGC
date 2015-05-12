@@ -1,6 +1,16 @@
 class Redesign::ParticipantSearchForm
   include Virtus.model
 
+  DEFAULT_ORDER = 'joined_on'
+  SORT_OPTIONS = {
+    'joined_on'     => 'joined_on',
+    'name'          => 'name',
+    'type'          => 'type_name',
+    'sector'        => 'sector_name',
+    'country'       => 'country_name',
+    'company_size'  => 'company_size',
+  }
+
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []
   attribute :countries,           Array[Integer], default: []
@@ -10,7 +20,8 @@ class Redesign::ParticipantSearchForm
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
   attribute :order,               String
-  attribute :sort_field,          String,         default: 'joined_on_desc'
+  attribute :sort_field,          String,         default: DEFAULT_ORDER
+  attribute :sort_direction,      String,         default: 'asc'
 
   def initialize(page = 1, params = {})
     super(params)
@@ -82,17 +93,9 @@ class Redesign::ParticipantSearchForm
     ]
   end
 
-  def sort_options
-    @sort_options ||= [
-      ["Joined On", :joined_on_asc],
-      ["Joined On Desc", :joined_on_desc],
-      ["Name",          :name_asc],
-      ["Name Desc",          :name_desc],
-      ["Type",          :type_asc],
-      ["Sector",   :sector_asc],
-      ["Country",   :country_asc],
-      ["Company Size",   :company_size_asc]
-    ]
+  def per_page_capped
+    cap = per_page_options.map(&:last).max
+    [per_page, cap].min
   end
 
   private
@@ -120,27 +123,9 @@ class Redesign::ParticipantSearchForm
       options[:cop_state] = reporting_status.map {|state| Zlib.crc32(state)}
     end
 
-    order = case self.sort_field
-    when 'name_asc'
-      'name asc'
-    when 'name_desc'
-      'name desc'
-    when 'joined_on_asc'
-      'joined_on asc'
-    # TODO make other sorting fields work
-    when 'type_asc'
-      'type asc'
-    when 'sector_asc'
-      'sector asc'
-    when 'company_size_asc'
-      'company_size asc'
-    else
-      'joined_on desc'
-    end
-
     {
       page: page,
-      per_page: per_page,
+      per_page: per_page_capped,
       order: order,
       star: true,
       with: options,
@@ -160,6 +145,11 @@ class Redesign::ParticipantSearchForm
     relation.pluck(:id, :name).map do |id, name|
       FilterOption.new(id, name, type, selected.include?(id))
     end
+  end
+
+  def order
+    field = SORT_OPTIONS.fetch(sort_field, DEFAULT_ORDER)
+    "#{field} #{sort_direction}"
   end
 
 end
