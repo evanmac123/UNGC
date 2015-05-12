@@ -2,7 +2,7 @@ class Redesign::ParticipantsController < Redesign::ApplicationController
 
   def show
     contributions = ParticipantCampaignContributionsByYear.for(find_participant)
-    @participant = ParticipantPresenter.new(find_participant, contributions)
+    @page = ParticipantPage.new(find_participant, contributions)
   end
 
   private
