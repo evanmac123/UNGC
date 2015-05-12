@@ -28,12 +28,7 @@ if form_url
       <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: @search.disabled? %>
     <%- end -%>
 
-    <fieldset class='filter-sorting'>
-      <%- @page.sorting_options.each do |so| -%>
-        <%- so[:options] = @search.try(so[:options]) -%>
-        <%= f.select so[:field], so[:options], {include_blank: so[:label]}, {id: "filter-#{so[:field].to_s.parameterize}"} %>
-      <%- end -%>
-    </fieldset>
+    <%= f.hidden_field :sort_direction %>
 
     <%- if @results.any? -%>
       <p class='results-count'>

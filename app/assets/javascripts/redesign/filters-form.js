@@ -59,6 +59,36 @@ $(function() {
     $form.submit();
   });
 
+  // sort column & direction
+  var $sortField = $('#filter-sort_field');
+  var $sortDirection = $('#search_sort_direction');
+
+  window.changeSortingField = function(newField) {
+    var oldField = $sortField.val();
+    var oldDirection = $sortDirection.val();
+    var newDirection;
+
+    if(newField === oldField) {
+      // toggle direction
+      newDirection = toggleSortDirection(oldDirection);
+    } else {
+      // switching columns, default to ascending
+      newDirection = 'asc';
+    }
+
+    $sortField.val(newField);
+    $sortDirection.val(newDirection);
+    $form.submit();
+  }
+
+  function toggleSortDirection(direction) {
+    if(direction === 'asc') {
+      return 'desc';
+    } else {
+      return 'asc';
+    }
+  }
+
   function pluralize(name) {
     var plural;
     switch (name){
