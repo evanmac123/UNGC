@@ -93,6 +93,11 @@ class Redesign::ParticipantSearchForm
     ]
   end
 
+  def per_page_capped
+    cap = per_page_options.map(&:last).max
+    [per_page, cap].min
+  end
+
   private
 
   def options
@@ -120,7 +125,7 @@ class Redesign::ParticipantSearchForm
 
     {
       page: page,
-      per_page: per_page,
+      per_page: per_page_capped,
       order: order,
       star: true,
       with: options,
