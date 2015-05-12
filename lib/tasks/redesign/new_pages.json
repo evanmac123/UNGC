@@ -311,7 +311,7 @@
                     {
                       "template": "COP_List",
                       "path": "/Submitted-COE",
-                      "old_path": "/participation/report/coe/progress/submitted-coe"
+                      "old_path": "/participation/report/coe/submitted-coe"
                     }
                   ]
                 }
