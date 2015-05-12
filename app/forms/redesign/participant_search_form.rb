@@ -28,6 +28,40 @@ class Redesign::ParticipantSearchForm
     self.page = page
   end
 
+  # TODO add me.
+  # [{
+  #   label:        'Type',
+  #   filter:       'organization_types',
+  #   options:      :organization_type_options
+  # }, {
+  #   label:        'Initiative',
+  #   filter:       'initiatives',
+  #   options:      :initiative_options
+  # }, {
+  #   label:        'Geography',
+  #   filter:       'countries',
+  #   options:      :country_options
+  # }, {
+  #   label:        'Sectors',
+  #   filter:       'sectors',
+  #   child_filter: 'sectors',
+  #   options:      :sector_options
+  # }, {
+  #   label:        'Status',
+  #   filter:       'reporting_status',
+  #   options:      :reporting_status_options
+  # }]
+
+  def active_filters
+    [
+      type_filter.selected_options,
+      initiative_filter.selected_options,
+      country_filter.selected_options,
+      sector_filter.selected_options,
+      status_filter.selected_options,
+    ].flatten
+  end
+
   def active_filters
 
     organization_types = organization_type_options.select(&:selected?)
