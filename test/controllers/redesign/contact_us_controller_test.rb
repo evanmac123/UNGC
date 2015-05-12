@@ -13,7 +13,7 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       email: 'keesari@unglobalcompact.org',
       organization: 'United Nations Global Compact',
       interest_ids: ['general_inquiry'],
-      focus_ids: ['peace_rule_of_law'],
+      focus_ids: ['peace'],
       comments: 'Hello!'
     }
   end
@@ -32,7 +32,7 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       assert_match(/keesari@unglobalcompact\.org/, email.body.to_s)
       assert_match(/United Nations Global Compact/, email.body.to_s)
       assert_match(/General Inquiry/, email.body.to_s)
-      assert_match(/Peace Rule of Law/, email.body.to_s)
+      assert_match(/Peace/, email.body.to_s)
       assert_match(/Hello!/, email.body.to_s)
 
       assert_redirected_to redesign_contact_us_path

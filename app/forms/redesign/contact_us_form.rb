@@ -120,6 +120,10 @@ class Redesign::ContactUsForm
         name: 'Human Rights'
       },
       {
+        id: 'poverty',
+        name: 'Poverty'
+      },
+      {
         id: 'childrens_rights',
         name: 'Children\'s Rights'
       },
@@ -136,24 +140,36 @@ class Redesign::ContactUsForm
         name: 'Labour Poverty'
       },
       {
-        id: 'education_environment',
-        name: 'Education Environment'
+        id: 'education',
+        name: 'Education'
+      },
+      {
+        id: 'environment',
+        name: 'Environment'
       },
       {
         id: 'climate_change',
         name: 'Climate Change'
       },
       {
-        id: 'water_food_agriculture',
-        name: 'Water Food & Agriculture'
+        id: 'water',
+        name: 'Water'
+      },
+      {
+        id: 'food_agriculture',
+        name: 'Food & Agriculture'
       },
       {
         id: 'anti_corruption',
         name: 'Anti-Corruption'
       },
       {
-        id: 'peace_rule_of_law',
-        name: 'Peace Rule of Law'
+        id: 'peace',
+        name: 'Peace'
+      },
+      {
+        id: 'rule_of_law',
+        name: 'Rule of Law'
       }
     ]
   end
