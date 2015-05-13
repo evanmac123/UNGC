@@ -1,8 +1,11 @@
 class ParticipantPage < SimpleDelegator
 
-  def initialize(participant, campaigns_by_year)
+  attr_reader :container
+
+  def initialize(container, participant, campaigns_by_year)
     super(participant)
     @campaigns_by_year = campaigns_by_year
+    @container = container
   end
 
   def hero
@@ -11,8 +14,13 @@ class ParticipantPage < SimpleDelegator
         title1: 'The Compact:',
         title2: '8,000 Companies + 4,000 Non-Businesses'
       },
-      size: 'small'
+      size: 'small',
+      show_section_nav: true
     }
+  end
+
+  def section_nav
+    return Components::SectionNav.new(container)
   end
 
   def meta_title

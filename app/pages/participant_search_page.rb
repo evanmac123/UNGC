@@ -6,7 +6,8 @@ class ParticipantSearchPage < ContainerPage
         title1: "The Compact:",
         title2: "8,0000 Companies + 4,000 Non-Businesses"
       },
-      size: :small
+      size: :small,
+      show_section_nav: true
     }
   end
 
@@ -16,6 +17,10 @@ class ParticipantSearchPage < ContainerPage
 
   def meta_description
     ''
+  end
+
+  def section_nav
+    return Components::SectionNav.new(container)
   end
 
   # TODO add parent, sibling, children menu
