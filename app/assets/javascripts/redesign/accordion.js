@@ -38,7 +38,7 @@ $(function() {
   };
 
   // Collapse items on load, unless they contain inputs with errors
-  toggleItem($items.not('.contains-inputs-with-errors'));
+  toggleItem($items.not('.contains-inputs-with-errors, .fields-required'));
 
   // Bind events to header click
   $headers.on('click.ungcAccordion', function() {

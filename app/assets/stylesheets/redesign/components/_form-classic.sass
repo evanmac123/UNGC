@@ -59,13 +59,21 @@
   fieldset
     padding: 0
     border: 0
-    margin: 0 0 1em
+    margin: 0 0 1.5em
 
   .field
-    margin: 0 0 1em
+    margin: 0 0 1.5em
 
     &:last-child
       margin-bottom: 0
+
+  label,
+  p.label
+    display: block
+    margin: 0 0 0.25em
+
+    &:after
+      content: ':'
 
   input,
   select,
@@ -87,10 +95,14 @@
   textarea
     min-height: 8em
 
-  input[type='checkbox']
+  input[type='checkbox'],
+  input[type='radio']
     display: inline-block
     width: auto
     margin-right: .5em
+
+    &:focus
+      outline: 2px solid color('light-blue')
 
   input[type='submit']
     +button
@@ -101,7 +113,7 @@
 
   .field-required
     label:after
-      content: ' *'
+      content: ' *:'
 
     input,
     textarea
@@ -124,43 +136,31 @@
         +placeholder
           color: #999
 
-  .field-checkbox
-    position: relative
-    overflow: hidden
+  .field-checkbox,
+  .field-radio-button
+    label
+      display: inline
 
-    input[type='checkbox']
-      position: absolute
-      left: -9999em
-      font-size: 1px
-      line-height: 1
-      width: 1px
-      height: 1px
+      &:after
+        content: ''
+
+    .field_with_errors
+      display: inline-block
 
       ~ label
-        display: inline-block
-        padding: 0 0 0 1.25em
-        position: relative
+        color: color('red')
 
-        &:before
-          position: absolute
-          top: .25em
-          left: 0
-          +fa-icon
-          content: $fa-var-square-o
-          color: inherit
+  .checkboxes-collection .field-checkbox,
+  .radio-buttons-collection .field-radio-button
+    display: inline-block
+    vertical-align: top
 
-      &:focus ~ label
-        color: color('light-blue')
+  .checkboxes-collection .field-checkbox
+    padding: 1em
+    width: 32.5%
 
-      &:checked ~ label
-        color: color('green')
+  .radio-buttons-collection
+    margin-bottom: 0
 
-        &:before
-          content: $fa-var-check-square-o
-
-  .checkboxes-collection
-    .field-checkbox
-      display: inline-block
-      width: 32.5%
-      padding: 1em
-      vertical-align: top
+    .field-radio-button
+      margin-right: 1em

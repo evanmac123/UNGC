@@ -1,4 +1,4 @@
-class ContactUsPage < SimpleDelegator
+class CaseExamplePage < SimpleDelegator
 
   attr_reader :container
 
@@ -7,7 +7,7 @@ class ContactUsPage < SimpleDelegator
   end
 
   def meta_title
-    'Contact Us'
+    'Share Success'
   end
 
   def meta_description
