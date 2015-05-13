@@ -35,18 +35,36 @@
         <h2>Overview</h2>
 
         <dl>
-          <dt>Country:</dt>
-          <dd><%= @page.country -%></dd>
-          <dt>Org. Type:</dt>
-          <dd><%= @page.type -%></dd>
-          <dt>Sector:</dt>
-          <dd><%= @page.sector -%></dd>
-          <dt>Differentiation Level:</dt>
-          <dd><%= @page.differentiation_level -%></dd>
-          <dt>Employees:</dt>
-          <dd><%= @page.employees -%></dd>
-          <dt>Ownership:</dt>
-          <dd><%= @page.ownership -%></dd>
+          <%- if @page.country.present? -%>
+            <dt>Country:</dt>
+            <dd><%= @page.country -%></dd>
+          <%- end -%>
+
+          <%- if @page.type.present? -%>
+            <dt>Org. Type:</dt>
+            <dd><%= @page.type -%></dd>
+          <%- end -%>
+
+          <%- if @page.sector.present? -%>
+            <dt>Sector:</dt>
+            <dd><%= @page.sector -%></dd>
+          <%- end -%>
+
+          <%- if @page.differentiation_level.present? -%>
+            <dt>Differentiation Level:</dt>
+            <dd><%= @page.differentiation_level -%></dd>
+          <%- end -%>
+
+          <%- if @page.employees.present? -%>
+            <dt>Employees:</dt>
+            <dd><%= @page.employees -%></dd>
+          <%- end -%>
+
+          <%- if @page.ownership.present? -%>
+            <dt>Ownership:</dt>
+            <dd><%= @page.ownership -%></dd>
+          <%- end -%>
+
         </dl>
 
         <%= link_to('Letter of Commitment', @page.commitment_letter.url) if @page.commitment_letter.present? %>
@@ -63,10 +81,12 @@
         <%= render('redesign/components/widget_links_lists', links_lists: @page.financial_information) if @page.financial_information %>
       </div>
 
-      <div class='tab-content-sub-section company-information-since'>
-        <h3>Participant Since</h3>
-        <time><%= @page.joined_on -%></time>
-      </div>
+      <%- if @page.joined_on.present? -%>
+        <div class='tab-content-sub-section company-information-since'>
+          <h3>Participant Since</h3>
+          <time><%= @page.joined_on -%></time>
+        </div>
+      <%- end -%>
     </article>
 
     <%- if @page.cops.any? -%>
