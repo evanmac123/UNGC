@@ -17,12 +17,25 @@ $(function() {
     $header.data('$item', $item);
   });
 
+  var toggleItem = function($item) {
+    var $itemInputs = $('input, textarea, select', $item);
+
+    $item.toggleClass('collapsed');
+
+    if ($item.is('.collapsed')) {
+      $itemInputs.not(':disabled').prop('disabled', true).addClass('accordion-disabled');
+    }
+    else {
+      $itemInputs.filter('.accordion-disabled').prop('disabled', false).removeClass('accordion-disabled');
+    }
+  };
+
   // Add the collapsed class to items
-  $items.addClass('collapsed');
+  toggleItem($items);
 
   // Bind events to header click
   $headers.on('click.ungcAccordion', function() {
-    $(this).data('$item').toggleClass('collapsed');
+    toggleItem($(this).data('$item'));
   });
 
   // Set the container to ready
