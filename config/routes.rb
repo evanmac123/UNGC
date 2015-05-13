@@ -103,9 +103,9 @@ UNGC::Application.routes.draw do
       post  '/step7'            => 'signup#step7', :as => :organization_step7
     end
 
-    get '/participation/report/coe/submitted-coe' => "cops#submitted_coe"
-    get '/participation/report/coe/submitted-coe/:id' => "cops#show", as: :coe
-    resource :cops, path: '/participation/report/cop/progress' do
+    get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
+    get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
+    resource :cops, path: '/participation/report/cop/create-and-submit' do
       get :show, path: '/:type/:id'
       get :active, on: :collection
       get :advanced, on: :collection
