@@ -136,24 +136,27 @@
       width: 1px
       height: 1px
 
-    label
-      display: inline-block
-      padding: 0 0 0 1.25em
-      position: relative
+      ~ label
+        display: inline-block
+        padding: 0 0 0 1.25em
+        position: relative
 
-      &:before
-        position: absolute
-        top: .25em
-        left: 0
-        +fa-icon
-        content: $fa-var-square-o
-        color: inherit
+        &:before
+          position: absolute
+          top: .25em
+          left: 0
+          +fa-icon
+          content: $fa-var-square-o
+          color: inherit
 
-    input[type='checkbox']:checked ~ label
-      color: color('green')
+      &:focus ~ label
+        color: color('light-blue')
 
-      &:before
-        content: $fa-var-check-square-o
+      &:checked ~ label
+        color: color('green')
+
+        &:before
+          content: $fa-var-check-square-o
 
   .checkboxes-collection
     .field-checkbox
