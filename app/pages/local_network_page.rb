@@ -68,24 +68,42 @@ class LocalNetworkPage < SimpleDelegator
       contact.try(:full_name_with_title)
     end
 
-
     def participants_by_sector
-      hash = participant_by_sector_count
-      sorted = hash.sort { |a,b| b[1] <=> a[1]}
-      five = sorted[0..4] # limit to 5 results
-      # XXX this is needed because we need to determine if a sector has a parent
-      # to compose the proper url
-      sectors = Sector.where('id in (?)', five.map {|k,v| k})
-      sectors.zip(five.map {|k,v| v}).map do |k,v|
-        {
-          sector: k,
-          count: v
-        }
+      sectors = local_network
+        .participants
+        .joins(:sector)
+        .group('sectors.id')
+        .select('sectors.id, sectors.parent_id, sectors.name, count(sectors.id) as participants_count')
+        .order('participants_count desc')
+        .limit(5)
+
+      sectors.map do |sector|
+        SectorSummary.new(sector, local_network.countries.map(&:id), sector.participants_count)
       end
     end
 
-    def participant_by_sector_count
-      local_network.participants.joins(:sector).group('sectors.id').count
+    SectorSummary = Struct.new(:sector, :country_ids, :participants_count) do
+
+      def search_params
+        params = {countries: country_ids}
+
+        if sector.parent_id.present?
+          params[:sectors] = [sector.id]
+        else
+          params[:sector_groups] = [sector.id]
+        end
+
+        params
+      end
+
+      def id
+        sector.id
+      end
+
+      def name
+        sector.name
+      end
+
     end
 
     def local_network
