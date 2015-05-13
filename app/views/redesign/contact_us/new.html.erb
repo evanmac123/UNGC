@@ -1,54 +1,81 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
 
-<p style="height: 100px"/>
 
-<p id="notice"><%= notice %></p>
+<%= form_for(@contact_us, url: redesign_contact_us_path, method: :post, html: {class: 'main-content-section main-content-section-wide form-classic'}) do |f| %>
 
-<%= form_for(@contact_us, url: redesign_contact_us_path, method: :post) do |f| %>
+  <header class='main-content-header'>
+    <h1>Contact Us</h1>
+  </header>
+
+  <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
+
   <% if @contact_us.errors.any? %>
-    <div id="error_explanation">
+    <div class="errors-container">
       <h2><%= pluralize(@contact_us.errors.count, "error") %> prohibited this contact us from being sent:</h2>
 
-      <ul>
-      <% @contact_us.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+      <ul class='errors-list'>
+        <% @contact_us.errors.full_messages.each do |message| %>
+          <li class='error'><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </div>
+  <fieldset>
+    <div class="field field-required field-has-placeholder">
+      <%= f.label :name %>
+      <%= f.text_field :name, placeholder: 'Name' %>
+    </div>
 
-  <div class="field">
-    <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </div>
+    <div class="field field-required field-has-placeholder">
+      <%= f.label :email %>
+      <%= f.text_field :email, placeholder: 'Email' %>
+    </div>
 
-  <div class="field">
-    <%= f.label :organization %><br>
-    <%= f.text_field :organization %>
-  </div>
+    <div class="field field-has-placeholder">
+      <%= f.label :organization %>
+      <%= f.text_field :organization, placeholder: 'Organization' %>
+    </div>
+  </fieldset>
 
-  <div class="field">
-    <%= f.label :interest_ids, 'General Areas of Interest' %><br>
-    <%= f.collection_check_boxes(:interest_ids, @contact_us.interest_options, :id, :name) %>
-  </div>
+  <fieldset class='accordion-container'>
+    <div class='accordion-item'>
+      <h2 class='accordion-item-header'>General Areas of Interest</h2>
 
-  <div class="field">
-    <%= f.label :focus_ids, 'Areas of Focus' %><br>
-    <%= f.collection_check_boxes(:focus_ids, @contact_us.focus_options, :id, :name) %>
-  </div>
+      <div class='checkboxes-collection accordion-item-content-wrapper'>
+        <%= f.collection_check_boxes :interest_ids, @contact_us.interest_options, :id, :name do |interest| %>
+          <div class='field field-checkbox'>
+            <%= interest.check_box %>
+            <%= interest.label %>
+          </div>
+        <%- end -%>
+      </div>
+    </div>
+  </fieldset>
 
-  <div class="field">
-    <%= f.label :comments %><br>
-    <%= f.text_area :comments %>
-  </div>
+  <fieldset class='accordion-container'>
+    <div class='accordion-item'>
+      <h2 class='accordion-item-header'>Areas of Focus</h2>
 
-  <div class="actions">
-    <%= f.submit 'Contact Us' %>
-  </div>
+      <div class='checkboxes-collection accordion-item-content-wrapper'>
+        <%= f.collection_check_boxes(:focus_ids, @contact_us.focus_options, :id, :name) do |focus| %>
+          <div class='field field-checkbox'>
+            <%= focus.check_box %>
+            <%= focus.label %>
+          </div>
+        <%- end -%>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <div class="field field-required field-has-placeholder">
+      <%= f.label :comments %>
+      <%= f.text_area :comments, placeholder: 'Comments' %>
+    </div>
+  </fieldset>
+
+
+  <%= f.submit 'Contact Us' %>
 <% end %>

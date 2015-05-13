@@ -1,0 +1,163 @@
+.form-classic
+  display: block
+  max-width: 50em
+  +clearfix
+
+  .main-content-header h1
+    margin-bottom: .25em
+
+  .success-message,
+  .errors-container
+    position: relative
+    border: 1px solid
+      radius: .25em
+    margin: 0 0 2em
+
+    &:before
+      +fa-icon
+      font-size: 5em
+      line-height: 1
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      margin: auto
+      height: 1em
+      text-align: center
+
+    *
+      position: relative
+
+  .success-message
+    background: lighten(color('light-green'), 45%)
+    color: color('green')
+    padding: 2em
+    border-color: lighten(color('light-green'), 25%)
+    text-align: center
+
+    &:before
+      content: $fa-var-check
+      color: lighten(color('light-green'), 40%)
+
+    span
+      font-size: 1.25em
+
+  .errors-container
+    background: lighten(color('pastel-red'), 26%)
+    color: color('dark-red')
+    padding: .75em 1em 1em
+    border-color: lighten(color('pastel-red'), 20%)
+
+    &:before
+      content: $fa-var-exclamation-triangle
+      color: lighten(color('pastel-red'), 22%)
+
+    h2
+      margin: 0 0 .5em
+
+  fieldset
+    padding: 0
+    border: 0
+    margin: 0 0 1em
+
+  .field
+    margin: 0 0 1em
+
+    &:last-child
+      margin-bottom: 0
+
+  input,
+  select,
+  textarea
+    display: block
+    width: 100%
+    border: 1px solid #ccc
+      radius: .25em
+    padding: .5em
+    background: #fdfdfd
+
+    +placeholder
+      color: #999
+
+    &:focus
+      border-color: color('light-blue')
+      background: white
+
+  textarea
+    min-height: 8em
+
+  input[type='checkbox']
+    display: inline-block
+    width: auto
+    margin-right: .5em
+
+  input[type='submit']
+    +button
+    width: auto
+
+  .field-has-placeholder label
+    display: none
+
+  .field-required
+    label:after
+      content: ' *'
+
+    input,
+    textarea
+      +placeholder
+        &:after
+          content: ' *'
+
+  .field_with_errors
+    input,
+    select,
+    textarea
+      border-color: color('red')
+
+      +placeholder
+        color: lighten(color('pastel-red'), 5%)
+
+      &:focus
+        border-color: color('light-blue')
+
+        +placeholder
+          color: #999
+
+  .field-checkbox
+    position: relative
+    overflow: hidden
+
+    input[type='checkbox']
+      position: absolute
+      left: -9999em
+      font-size: 1px
+      line-height: 1
+      width: 1px
+      height: 1px
+
+    label
+      display: inline-block
+      padding: 0 0 0 1.25em
+      position: relative
+
+      &:before
+        position: absolute
+        top: .25em
+        left: 0
+        +fa-icon
+        content: $fa-var-square-o
+        color: inherit
+
+    input[type='checkbox']:checked ~ label
+      color: color('green')
+
+      &:before
+        content: $fa-var-check-square-o
+
+  .checkboxes-collection
+    .field-checkbox
+      display: inline-block
+      width: 32.5%
+      padding: 1em
+      vertical-align: top

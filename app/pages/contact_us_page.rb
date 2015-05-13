@@ -3,12 +3,7 @@ class ContactUsPage < SimpleDelegator
   attr_reader :container
 
   def hero
-    {
-      size: 'small',
-      title: {
-        title1: 'Contact Us'
-      }
-    }
+    {size: 'small'}
   end
 
   def meta_title
