@@ -43,7 +43,7 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
     should 'diesplay errors' do
       post :create, redesign_contact_us_form: @params.except(:name,:email,:comments)
 
-      assert_select '#error_explanation', 1
+      assert_select '.errors-list', 1
     end
   end
 end

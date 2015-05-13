@@ -16,7 +16,7 @@ button
   cursor: pointer
 
 .sitemap-x-tree
-  margin: 0
+  margin: 0 0 2em
   padding: 0
   margin-top: 12px
   min-height: 600px
@@ -24,7 +24,6 @@ button
   ul
     margin: 0
     padding: 0
-    margin-left: 32px
 
   li
     position: relative
@@ -96,6 +95,17 @@ button
   box-shadow: 0 1px 5px rgba(black, .2)
   padding: .5em 0
 
+  .navbar-header
+    float: left
+
+    @media only screen and (max-width: 569px)
+      max-width: 5em
+      overflow: hidden
+
+  .navbar-container
+    float: right
+    white-space: nowrap
+
   .navbar-brand
     span
       display: none
@@ -104,14 +114,38 @@ button
       font-size: 2.5em
       +logo('ungc')
 
-  .navbar-nav .fa
-    margin-right: .25em
+  .navbar-nav
+    white-space: nowrap
+    margin: 0
+
+    > li
+      display: inline-block
+
+      > a
+        padding:
+          left: .75em
+          right: .75em
+
+    .fa
+      margin-right: .25em
 
   .logout
-    margin-left: 1em
+    margin-left: .5em
 
     .fa
       margin-left: .5em
+
+  .navbar-nav,
+  .logout
+    display: inline-block
+
+    @media only screen and (max-width: 768px)
+      span
+        display: none
+
+      .fa
+        margin: 0
+
 
 #main-page-header
   padding: 7em 0 1em
@@ -128,9 +162,13 @@ button
     margin: 0
     vertical-align: middle
 
-  h1 .fa
-    color: #999
-    margin-right: .25em
+  h1
+    .fa
+      color: #999
+      margin-right: .25em
+
+    .container-url
+      font-size: .6em
 
   h2
     font:
@@ -165,6 +203,33 @@ button
 
       strong
         font-weight: 700
+
+  &.sticky
+    position: fixed
+    top: 4.6em
+    left: 0
+    right: 0
+    padding: 1.8em 1em .5em
+    background: rgba(white, .9)
+    z-index: 9999
+
+    .container-layout
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      padding: .5em 0 .25em
+      margin: 0
+      background: #444
+      color: #999
+      border-top: 0
+      font-size: .75em
+
+      strong
+        color: #ddd
+
+    + .edit-page-form
+      padding-top: 8em
 
 fieldset
   margin: 0 0 4em
