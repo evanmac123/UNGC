@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import Container from 'admin/models/container';
-import Node from './node.js';
+import Node from './node';
 
 export default Ember.Object.extend({
   init() {
