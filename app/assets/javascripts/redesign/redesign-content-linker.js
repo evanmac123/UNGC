@@ -3,7 +3,7 @@ $(function() {
   var links = $('.main-content-section a');
 
   var needsRedesign = function(href) {
-    return href.match(/^\/redesign|^http(s):/) ? false : true;
+    return href.match(/^\/redesign|^http(s?):/) ? false : true;
   };
 
   links.each(function(i,e) {
