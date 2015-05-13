@@ -10,7 +10,7 @@ class Redesign::NewsController < Redesign::ApplicationController
   end
 
   def press_releases
-    set_current_container_by_path /news/press-releases'
+    set_current_container_by_path '/news/press-releases'
     @form = Redesign::NewsListForm.new(params[:page])
     @page = NewsListPage.new(current_container, current_payload_data, @form.results)
   end

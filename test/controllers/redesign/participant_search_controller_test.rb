@@ -4,6 +4,7 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
   setup do
     create_staff_user
     sign_in @staff_user
+    Redesign::Container.stubs(by_path: stub(first!: container))
   end
 
   context "the search form" do
@@ -65,6 +66,10 @@ class Redesign::ParticipantSearchControllerTest < ActionController::TestCase
 
   def search
     get :search, search: @args
+  end
+
+  def container
+    @container ||= create_container
   end
 
 end
