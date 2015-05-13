@@ -6,12 +6,18 @@ $(function() {
 
   // Prepare accordion elements
   $items.each(function() {
-    var $item     = $(this),
-        $header   = $item.children('.accordion-item-header'),
-        $content  = $item.children('.accordion-item-content-wrapper');
+    var $item             = $(this),
+        $inputsWithErrors = $('.field_with_errors', $item),
+        $header           = $item.children('.accordion-item-header'),
+        $content          = $item.children('.accordion-item-content-wrapper');
 
     // Set max-height property for $content container
     $content.css('max-height', $content.height());
+
+    // Add class to items which contain inputs with errors
+    if ($inputsWithErrors.length) {
+      $item.addClass('contains-inputs-with-errors');
+    }
 
     // Store a reference to the item in the header object
     $header.data('$item', $item);
@@ -27,11 +33,12 @@ $(function() {
     }
     else {
       $itemInputs.filter('.accordion-disabled').prop('disabled', false).removeClass('accordion-disabled');
+      $itemInputs.first().focus();
     }
   };
 
-  // Add the collapsed class to items
-  toggleItem($items);
+  // Collapse items on load, unless they contain inputs with errors
+  toggleItem($items.not('.contains-inputs-with-errors'));
 
   // Bind events to header click
   $headers.on('click.ungcAccordion', function() {
