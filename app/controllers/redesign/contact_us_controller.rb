@@ -2,6 +2,7 @@ class Redesign::ContactUsController < Redesign::ApplicationController
 
   def new
     @contact_us = Redesign::ContactUsForm.new
+    @page = ContactUsPage.new(current_container)
   end
 
   def create
