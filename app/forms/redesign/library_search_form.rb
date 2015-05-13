@@ -19,29 +19,28 @@ class Redesign::LibrarySearchForm
     self.page = page
   end
 
+  def filters
+    [issue_filter, topic_filter, language_filter, sector_filter]
+  end
+
   def active_filters
-    [
-      issue_filter.selected_options,
-      topic_filter.selected_options,
-      language_filter.selected_options,
-      sector_filter.selected_options,
-    ].flatten
+    filters.flat_map(&:selected_options)
   end
 
   def issue_filter
-    @issue_filter ||= IssueFilter.new(issue_areas, issues, key: 'issue_areas')
+    @issue_filter ||= Filters::IssueFilter.new(issue_areas, issues, key: 'issue_areas')
   end
 
   def topic_filter
-    @topic_filter ||= TopicFilter.new(topic_groups, topics, key: 'topic_groups')
+    @topic_filter ||= Filters::TopicFilter.new(topic_groups, topics, key: 'topic_groups')
   end
 
   def sector_filter
-    @sector_filter ||= SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
+    @sector_filter ||= Filters::SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
   end
 
   def language_filter
-    @language_filter ||= LanguageFilter.new(languages)
+    @language_filter ||= Filters::LanguageFilter.new(languages)
   end
 
   def type_options

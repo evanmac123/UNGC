@@ -10,11 +10,8 @@
   </header>
 
   <fieldset class='filter-lists'>
-    <% filter_list(@search.disabled?) do |list| %>
-      <%= list.render_filter @search.issue_filter %>
-      <%= list.render_filter @search.topic_filter %>
-      <%= list.render_filter @search.language_filter %>
-      <%= list.render_filter @search.sector_filter %>
+    <% @search.filters.each do |filter| %>
+      <%= search_filter filter, disabled: @search.disabled? %>
     <% end %>
   </fieldset>
 

@@ -16,31 +16,19 @@ module Redesign::RedesignHelper
     content_tag(:a, name || url, html_options, &block)
   end
 
-  def filter_list(disabled)
-    if block_given?
-      yield FilterList.new(self, disabled)
-    end
-  end
+  def search_filter(filter, disabled: false)
+    options = {
+      label: filter.label,
+      filter: filter.key,
+      options: filter.options,
+      disabled: disabled,
+    }
 
-  private
-
-  FilterList = Struct.new(:helper, :disabled?) do
-
-    def render_filter(filter)
-      options = {
-        label: filter.label,
-        filter: filter.key,
-        options: filter.options,
-        disabled: disabled?,
-      }
-
-      if filter.child_key
-        options[:child_filter] = filter.child_key
-      end
-
-      helper.raw helper.render('redesign/components/filter_options_list', options)
+    if filter.child_key
+      options[:child_filter] = filter.child_key
     end
 
+    raw render('redesign/components/filter_options_list', options)
   end
 
 end

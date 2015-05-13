@@ -1,4 +1,4 @@
-class SearchFilter
+class Filters::SearchFilter
   attr_accessor :items, :selected, :label, :key, :child_key
 
   def initialize(items, selected)

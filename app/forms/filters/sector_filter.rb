@@ -1,4 +1,4 @@
-class SectorFilter < GroupedSearchFilter
+class Filters::SectorFilter < Filters::GroupedSearchFilter
   def initialize(selected_parents, selected_children, key: 'sectors')
     super(Redesign::SectorTree.new, selected_parents)
     self.selected_children = selected_children

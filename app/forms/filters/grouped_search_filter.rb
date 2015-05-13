@@ -1,4 +1,4 @@
-class GroupedSearchFilter < SearchFilter
+class Filters::GroupedSearchFilter < Filters::SearchFilter
   attr_accessor :selected_children
 
   def options

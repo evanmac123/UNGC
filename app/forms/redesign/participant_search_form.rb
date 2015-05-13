@@ -28,95 +28,42 @@ class Redesign::ParticipantSearchForm
     self.page = page
   end
 
-  # TODO add me.
-  # [{
-  #   label:        'Type',
-  #   filter:       'organization_types',
-  #   options:      :organization_type_options
-  # }, {
-  #   label:        'Initiative',
-  #   filter:       'initiatives',
-  #   options:      :initiative_options
-  # }, {
-  #   label:        'Geography',
-  #   filter:       'countries',
-  #   options:      :country_options
-  # }, {
-  #   label:        'Sectors',
-  #   filter:       'sectors',
-  #   child_filter: 'sectors',
-  #   options:      :sector_options
-  # }, {
-  #   label:        'Status',
-  #   filter:       'reporting_status',
-  #   options:      :reporting_status_options
-  # }]
-
-  def active_filters
+  def filters
     [
-      type_filter.selected_options,
-      initiative_filter.selected_options,
-      country_filter.selected_options,
-      sector_filter.selected_options,
-      status_filter.selected_options,
-    ].flatten
+      type_filter,
+      initiative_filter,
+      country_filter,
+      sector_filter,
+      reporting_status_filter,
+    ]
   end
 
   def active_filters
-
-    organization_types = organization_type_options.select(&:selected?)
-    initiatives = initiative_options.select(&:selected?)
-    countries = country_options.select(&:selected?)
-
-    sector_groups = sector_options.map(&:first).select(&:selected?)
-    sectors = sector_options.flat_map do |group, sectors|
-      sectors.select(&:selected?)
-    end
-
-    reporting_statuses = reporting_status_options.select(&:selected?)
-
-    [organization_types, initiatives, countries, sector_groups, sectors, reporting_statuses].flatten
+    filters.flat_map(&:selected_options)
   end
 
   def disabled?
     active_filters.count >= 5
   end
 
-  def organization_type_options
-    pluck_options(OrganizationType.all, :organization_type, organization_types)
+  def type_filter
+    @type_filter ||= Filters::OrganizationTypeFilter.new(organization_types)
   end
 
-  def initiative_options
-    pluck_options(Initiative.active.all, :initiative, initiatives)
+  def initiative_filter
+    @initiative_filter ||= Filters::InitiativeFilter.new(initiatives)
   end
 
-  def country_options
-    pluck_options(Country.all, :country, countries)
+  def country_filter
+    @country_filter ||= Filters::CountryFilter.new(countries)
   end
 
-  def sector_options
-    @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
-      [
-        FilterOption.new(parent.id, parent.name, :sector, sectors.include?(parent.id)),
-        children.map { |sector|
-          FilterOption.new(sector.id, sector.name, :sector, sectors.include?(sector.id))
-        }
-      ]
-    end
+  def sector_filter
+    @sector_filter ||= Filters::SectorFilter.new(sectors, sectors)
   end
 
-  def reporting_status_options
-    @reporting_status_options ||= Organization.distinct.pluck(:cop_state).map do |state|
-      FilterOption.new(state, state, :reporting_status, reporting_status.include?(state))
-    end
-  end
-
-  def execute
-    Organization.participants_only.search(keywords, options)
-  end
-
-  def keywords
-    Riddle::Query.escape(super)
+  def reporting_status_filter
+    @reporting_status_filter ||= Filters::ReportingStatusFilter.new(reporting_status)
   end
 
   def per_page_options
@@ -127,12 +74,25 @@ class Redesign::ParticipantSearchForm
     ]
   end
 
+  def execute
+    Organization.participants_only.search(keywords, options)
+  end
+
+  def keywords
+    Riddle::Query.escape(super)
+  end
+
+  private
+
   def per_page_capped
     cap = per_page_options.map(&:last).max
     [per_page, cap].min
   end
 
-  private
+  def order
+    field = SORT_OPTIONS.fetch(sort_field, DEFAULT_ORDER)
+    "#{field} #{sort_direction}"
+  end
 
   def options
     options = {}
@@ -173,17 +133,6 @@ class Redesign::ParticipantSearchForm
         ]
       }
     }
-  end
-
-  def pluck_options(relation, type, selected)
-    relation.pluck(:id, :name).map do |id, name|
-      FilterOption.new(id, name, type, selected.include?(id))
-    end
-  end
-
-  def order
-    field = SORT_OPTIONS.fetch(sort_field, DEFAULT_ORDER)
-    "#{field} #{sort_direction}"
   end
 
 end

@@ -1,4 +1,4 @@
-class LanguageFilter < FlatSearchFilter
+class Filters::LanguageFilter < Filters::FlatSearchFilter
 
   def initialize(selected)
     items = Language.all.select(:id, :name)

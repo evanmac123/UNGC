@@ -1,4 +1,4 @@
-class FlatSearchFilter < SearchFilter
+class Filters::FlatSearchFilter < Filters::SearchFilter
 
   def options
     items.map do |item|
