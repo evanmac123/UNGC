@@ -2,14 +2,6 @@ class Redesign::ParticipantSearchForm
   include Virtus.model
 
   DEFAULT_ORDER = 'joined_on'
-  SORT_OPTIONS = {
-    'joined_on'     => 'joined_on',
-    'name'          => 'name',
-    'type'          => 'type_name',
-    'sector'        => 'sector_name',
-    'country'       => 'country_name',
-    'company_size'  => 'company_size',
-  }
 
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []
@@ -90,7 +82,7 @@ class Redesign::ParticipantSearchForm
   end
 
   def order
-    field = SORT_OPTIONS.fetch(sort_field, DEFAULT_ORDER)
+    field = sort_options.fetch(sort_field, DEFAULT_ORDER)
     "#{field} #{sort_direction}"
   end
 
@@ -132,6 +124,17 @@ class Redesign::ParticipantSearchForm
           :country
         ]
       }
+    }
+  end
+
+  def sort_options
+    @sort_options ||= {
+      'joined_on'     => 'joined_on',
+      'name'          => 'name',
+      'type'          => 'type_name',
+      'sector'        => 'sector_name',
+      'country'       => 'country_name',
+      'company_size'  => 'company_size',
     }
   end
 
