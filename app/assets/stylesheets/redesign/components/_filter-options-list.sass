@@ -87,6 +87,8 @@
   background-color: rgba(color('dark-grey'), .975)
   color: color('light-grey')
   z-index: 999
+  max-height: 55em
+  overflow: auto
 
   &.is-active
     display: block
@@ -104,6 +106,9 @@
   &.no-nested-filter > .filter-option
     width: 19%
     font-size: 1em
+    padding:
+      top: .5em
+      bottom: .5em
 
 .filter-child-options-list
   .filter-option
