@@ -26,13 +26,13 @@ class Redesign::ContactUsForm
 
   def interests
     interest_options_data.map do |option|
-      return option[:name] if interest_ids.include? option[:id]
+      return option[:name] if Array(interest_ids).include? option[:id]
     end
   end
 
   def focuses
     focus_options_data.map do |option|
-      return option[:name] if focus_ids.include? option[:id]
+      return option[:name] if Array(focus_ids).include? option[:id]
     end
   end
 
