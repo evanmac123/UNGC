@@ -3,19 +3,19 @@
     <div class="navbar-header">
       <a class="navbar-brand" href="/redesign/admin/"><span>UNGC Admin</span></a>
     </div>
-    <div class='navbar-right'>
-      <ul class="nav navbar-nav navbar-left">
+    <div class='navbar-container'>
+      <ul class="nav navbar-nav">
         {{#link-to "containers.index" tagName="li"}}
-          {{#link-to "containers.index"}}<i class='fa fa-sitemap fa-fw' aria-hidden='true'></i>Sitemap{{/link-to}}
+          {{#link-to "containers.index"}}<i class='fa fa-sitemap fa-fw' aria-hidden='true'></i><span>Sitemap</span>{{/link-to}}
         {{/link-to}}
         {{#link-to "containers.needs-approval" tagName="li"}}
-          {{#link-to "containers.needs-approval"}}<i class='fa fa-check-square-o fa-fw' aria-hidden='true'></i>Approve{{/link-to}}
+          {{#link-to "containers.needs-approval"}}<i class='fa fa-check-square-o fa-fw' aria-hidden='true'></i><span>Approve</span>{{/link-to}}
         {{/link-to}}
         {{#link-to "images" tagName="li"}}
-          {{#link-to "images"}}<i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>Images{{/link-to}}
+          {{#link-to "images"}}<i class='fa fa-picture-o fa-fw' aria-hidden='true'></i><span>Images</span>{{/link-to}}
         {{/link-to}}
       </ul>
-      <a {{action "logout"}} href="#" class='logout btn btn-default navbar-btn navbar-right'>Logout<i class='fa fa-sign-out fa-fw' aria-hidden='true'></i></a>
+      <a {{action "logout"}} href="#" class='logout btn btn-default navbar-btn'><span>Logout</span><i class='fa fa-sign-out fa-fw' aria-hidden='true'></i></a>
     </div>
   </nav>
 </header>

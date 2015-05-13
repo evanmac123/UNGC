@@ -1,14 +1,14 @@
-<header id='main-page-header'>
-  <h1><i class='fa fa-pencil fa-fw' aria-hidden='true'></i>Edit Page</h1>
+<header id='main-page-header' class='sticky'>
+  <div class='container'>
+    <h1><i class='fa fa-pencil fa-fw' aria-hidden='true'></i><code class='container-url'>{{model.container.publicPath}}</code></h1>
 
-  <h2><span>URL: </span><code class='container-url'>{{model.container.publicPath}}</code></h2>
+    <a href="/redesign{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
 
-  <a href="/redesign{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
-
-  <h3 class='container-layout'>Layout: <strong>{{model.container.layout}}</strong></h3>
+    <h3 class='container-layout'>Layout: <strong>{{model.container.layout}}</strong></h3>
+  </div>
 </header>
 
-<form>
+<form class='edit-page-form'>
   {{#container/x-subform record=model.container as |form|}}
     {{partial form.subformTemplatePath}}
   {{/container/x-subform}}
