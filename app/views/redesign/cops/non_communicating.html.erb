@@ -1,0 +1,47 @@
+<p></p>
+<a name="paged_results"></a>
+<div class="clearfix">
+  <div class="left">
+    <h4>
+      Total number of non-communicating participants:
+      <%= count_all_orgs(:noncommunicating) %>
+    </h4>
+  </div>
+  <div class="right">
+    <%= per_page_select %>
+  </div>
+</div>
+<p>&nbsp; </p>
+<table cellpadding="0" cellspacing="0" class="striped sortable" width="100%">
+  <thead>
+    <tr>
+      <th class="sort">Participant </th>
+      <th class="sort">Sector </th>
+      <th class="sort">Country </th>
+      <th class="sort">Participant since </th>
+      <th class="sort">COP Deadline </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for organization in paged_organizations(:noncommunicating) %>
+      <tr>
+        <td title="<%= organization.name %>">
+          <%= link_to truncate(organization.name, :length => 20), participant_link(organization, :noncommunicating) %>
+        </td>
+        <td title="<%= organization.sector_name %>">
+          <%= truncate(organization.sector_name, :length => 20) %>
+        </td>
+        <td title="<%= organization.country_name %>">
+          <%= truncate(organization.country_name, :length => 20) %>
+        </td>
+        <td>
+          <%= yyyy_mm_dd organization.joined_on %>
+        </td>
+        <td>
+          <%= yyyy_mm_dd organization.noncommed_on %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate_orgs(:noncommunicating, :anchor => 'paged_results') %>
