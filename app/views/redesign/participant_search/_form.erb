@@ -15,9 +15,7 @@
     <% end %>
   </fieldset>
 
-  <%- if @search.try(:active_filters) -%>
-    <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: @search.disabled? %>
-  <%- end -%>
+  <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: @search.disabled? %>
 
   <fieldset class='filter-sorting'>
     <%= f.select :per_page, @search.per_page_options, id: 'filter-per_page' %>

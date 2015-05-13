@@ -9,16 +9,24 @@ class Redesign::NewsListForm
   attribute :start_date,  Date
   attribute :end_date,    Date
 
+  def filters
+    [issue_filter, topic_filter, country_filter]
+  end
+
+  def active_filters
+    filters.flat_map(&:selected_options)
+  end
+
   def issue_filter
-    IssueFilter.new(issues)
+    @issue_filter ||= Filters::IssueFilter.new(issues, issues)
   end
 
   def topic_filter
-    TopicFilter.new(topics)
+    @topic_filter ||= Filters::TopicFilter.new(topics, topics)
   end
 
   def country_filter
-    CountryFilter.new(countries)
+    @country_filter ||= Filters::CountryFilter.new(countries)
   end
 
   def execute

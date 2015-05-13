@@ -1,18 +1,25 @@
-<div class="jorge" style="margin-top: 135px">
+<%= form_for @search, as: :search, url: press_releases_redesign_news_index_path, method: :get, html: {id: 'filters-form'} do |form| %>
 
-  <%= form_for @search, as: :search, url: press_releases_redesign_news_index_path, method: :get do |form| %>
-    <%= search_filter @search.issue_filter %>
-    <%= search_filter @search.topic_filter %>
-    <%= search_filter @search.country_filter %>
-    <%= form.text_field :start_date, class: 'datepicker' %>
-    <%= form.text_field :end_date,   class: 'datepicker' %>
-    <%= form.submit 'Search' %>
-  <% end %>
+  <header>
+    <h1>Press Releases</h1>
+  </header>
 
-  <%= render partial: 'redesign/components/hero' %>
+  <fieldset class='filter-lists'>
+    <% @search.filters.each do |filter| %>
+      <%= search_filter(filter) %>
+    <% end %>
+  </fieldset>
 
-  <%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
-    <%= will_paginate @page.news.other, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
-  <% end %>
+  <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: false %>
 
-</div>
+  <%= form.text_field :start_date, class: 'datepicker' %>
+  <%= form.text_field :end_date,   class: 'datepicker' %>
+
+  <%= form.submit 'Search' %>
+<% end %>
+
+<%= render partial: 'redesign/components/hero' %>
+
+<%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
+  <%= will_paginate @page.news.other, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
+<% end %>
