@@ -81,7 +81,7 @@ UNGC::Application.routes.draw do
     resources :news, path: '/news' do
       get :speeches, on: :collection
       get :media, on: :collection
-      get :press_releases, on: :collection, path: 'press-release'
+      get :press_releases, on: :collection, path: 'press-releases'
     end
 
     controller :networks do
