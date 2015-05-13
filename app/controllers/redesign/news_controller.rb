@@ -1,16 +1,16 @@
 class Redesign::NewsController < Redesign::ApplicationController
   def index
-    set_current_container :news, '/news'
+    set_current_container_by_path '/news'
     @page = NewsPage.new(current_container, current_payload_data)
   end
 
   def show
-    set_current_container :pr_list, '/press-release'
+    set_current_container_by_path '/news/press-releases'
     @page = NewsShowPage.new(current_container, find_headline)
   end
 
   def press_releases
-    set_current_container :pr_list, '/press-release'
+    set_current_container_by_path /news/press-releases'
     @form = Redesign::NewsListForm.new(params[:page])
     @page = NewsListPage.new(current_container, current_payload_data, @form.results)
   end

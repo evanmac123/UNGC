@@ -7,7 +7,7 @@ module Redesign::RedesignHelper
 
     url = url_for(options)
 
-    if url !~/\A\/redesign/ && url !~/\Ahttp(s?)/
+    if url !~/\A\/redesign/ && url !~/\Ahttp(s?)|\Amailto/
       url = '/redesign' + url
     end
 
