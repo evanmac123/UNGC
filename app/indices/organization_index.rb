@@ -64,6 +64,8 @@ ThinkingSphinx::Index.define :organization,
     as: :company_size,
     type: :integer
 
+  has state, active, participant
+
   set_property :enable_star => true
   set_property :min_prefix_len => 4
 end

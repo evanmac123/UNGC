@@ -78,7 +78,7 @@ class Redesign::ParticipantSearchForm
   end
 
   def execute
-    Organization.search(keywords, options)
+    Organization.participants_only.search(keywords, options)
   end
 
   def keywords
