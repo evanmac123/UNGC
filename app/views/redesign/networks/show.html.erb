@@ -22,11 +22,10 @@
             </tr>
           </thead>
           <tbody>
-            <%- participants.list.each do |p| -%>
+            <%- participants.list.each do |sector| -%>
             <tr>
-              <%- search_hash = p[:sector].parent.present? ? {sectors: [p[:sector].id]} : {sector_groups: [p[:sector].id]} -%>
-              <th class='sector'><%= link_to_redesign p[:sector].name, redesign_participant_search_path(search: search_hash) -%></th>
-              <td class='count'><%= p[:count] -%></td>
+              <th class='sector'><%= link_to_redesign sector.name, redesign_participant_search_path(search: sector.search_params) -%></th>
+              <td class='count'><%= sector.participants_count -%></td>
             </tr>
             <%- end -%>
           </tbody>
