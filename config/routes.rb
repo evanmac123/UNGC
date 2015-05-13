@@ -101,6 +101,7 @@ UNGC::Application.routes.draw do
       match '/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
       match '/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
       post  '/step7'            => 'signup#step7', :as => :organization_step7
+    end
 
     get '/participation/report/coe/submitted-coe' => "cops#submitted_coe"
     get '/participation/report/coe/submitted-coe/:id' => "cops#show", as: :coe
