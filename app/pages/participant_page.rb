@@ -1,8 +1,11 @@
 class ParticipantPage < SimpleDelegator
 
-  def initialize(participant, campaigns_by_year)
+  attr_reader :container
+
+  def initialize(container, participant, campaigns_by_year)
     super(participant)
     @campaigns_by_year = campaigns_by_year
+    @container = container
   end
 
   def hero
@@ -11,8 +14,13 @@ class ParticipantPage < SimpleDelegator
         title1: 'The Compact:',
         title2: '8,000 Companies + 4,000 Non-Businesses'
       },
-      size: 'small'
+      size: 'small',
+      show_section_nav: true
     }
+  end
+
+  def section_nav
+    return Components::SectionNav.new(container)
   end
 
   def meta_title
@@ -62,28 +70,39 @@ class ParticipantPage < SimpleDelegator
     @campaigns_by_year
   end
 
+  def has_extra_information?
+    has_financial_information? || has_non_financial_information?
+  end
+
   def financial_information
-    [{
-      links: [{
-        label: 'Some link',
-        url: ''
-      },{
-        label: 'Some link',
-        url: ''
+    if has_financial_information?
+      [{
+        links: [{
+          label: 'Google Finance',
+          url: "http://finance.google.com/finance?q=%s:%s" % [exchange.code, stock_symbol]
+        },{
+          label: 'Yahoo! Finance',
+          url: "http://finance.yahoo.com/q?s=%s%s" % [stock_symbol, ('.' + exchange.secondary_code unless exchange.secondary_code.blank?)]
+        }]
       }]
-    }]
+    end
+  end
+
+  def has_financial_information?
+    stock_symbol.present? && exchange.present?
   end
 
   def non_financial_information
     [{
       links: [{
-        label: 'Some link',
-        url: ''
-      },{
-        label: 'Some link',
-        url: ''
+        label: 'Business and Human Rights Resource Centre',
+        url: 'http://www.business-humanrights.org/Categories/Individualcompanies/' + bhr_url
       }]
     }]
+  end
+
+  def has_non_financial_information?
+    bhr_url.present?
   end
 
   private

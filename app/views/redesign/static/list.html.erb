@@ -16,7 +16,7 @@
           <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'image-link') if item.image %>
           <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
             <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}")) %>
-            <%= content_tag(:p, item.blurb.html_safe) if list.blurb %>
+            <%= content_tag(:p, item.blurb.try(:html_safe)) if list.blurb.present? %>
           </div>
         <%-else -%>
           <%- if item.image -%>
@@ -26,7 +26,7 @@
           <%-end -%>
           <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
             <%= content_tag(:h1, item.title, class: "type-#{item.type}") %>
-            <%= content_tag(:p, item.blurb.html_safe) if list.blurb %>
+            <%= content_tag(:p, item.blurb.try(:html_safe)) if list.blurb.present? %>
           </div>
         <%- end -%>
       </article>

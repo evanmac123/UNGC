@@ -15,7 +15,13 @@
 
       <%- if @page.cops.any? -%>
         <li class='tab'>
-          <button type="button" data-tab-content='cop'>COP</button>
+          <button type="button" data-tab-content='cop'>
+            <%- if @page.non_business? -%>
+              COE
+            <%- else -%>
+              COP
+            <%- end -%>
+          </button>
         </li>
       <%- end -%>
 
@@ -72,13 +78,18 @@
 
 
       <div class='tab-content-sub-section company-information-financial-information'>
-        <h2>Financial Information</h2>
-        <%= render('redesign/components/widget_links_lists', links_lists: @page.financial_information) if @page.financial_information %>
+        <%- if @page.has_extra_information? -%>
+          <%- if @page.has_financial_information? -%>
+            <h2>Financial Information</h2>
+            <%= render('redesign/components/widget_links_lists', links_lists: @page.financial_information) %>
+          <%- end %>
 
-        <hr>
-
-        <h2>Non-Financial Information</h2>
-        <%= render('redesign/components/widget_links_lists', links_lists: @page.financial_information) if @page.financial_information %>
+          <hr>
+          <%- if @page.has_non_financial_information? -%>
+            <h2>Non-Financial Information</h2>
+            <%= render('redesign/components/widget_links_lists', links_lists: @page.non_financial_information) %>
+          <%- end %>
+        <%- end %>
       </div>
 
       <%- if @page.joined_on.present? -%>
@@ -91,11 +102,18 @@
 
     <%- if @page.cops.any? -%>
       <article class='tab-content cop'>
-        <header class='tab-content-header'>
-          <h1>COP</h1>
-        </header>
 
-        <h2>Communication on Progress</h2>
+        <%- if @page.non_business? -%>
+          <header class='tab-content-header'>
+            <h1>COE</h1>
+          </header>
+          <h2>Communications on Engagement</h2>
+        <%- else -%>
+          <header class='tab-content-header'>
+            <h1>COP</h1>
+          </header>
+          <h2>Communications on Progress</h2>
+        <%- end -%>
 
         <table class='table-embedded'>
           <thead>
@@ -109,7 +127,8 @@
               <tr>
                 <th><%= cop.year %></th>
                 <td><%= cop.published_on %></td>
-                <td><%= link_to cop.title, cop_detail_path(cop) %></td>
+                <%- level = cop.differentiation.blank? ? :detail : cop.differentiation -%>
+                <td><%= link_to cop.title, redesign_cops_path(level, cop.id) %></td>
                 <td><%= cop.differentiation_level_name %></td>
               </tr>
             <% end %>
