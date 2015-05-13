@@ -22,7 +22,7 @@ gem 'custom_error_message',             github: 'jeremydurham/custom-err-msg', r
 gem 'airbrake',             '~> 4.1.0'
 gem 'devise',               '~> 3.4.1'
 gem 'dynamic_form',         '~> 1.1.4'
-gem 'skylight',             '~> 0.6.0'
+#gem 'skylight',             '~> 0.6.0'
 
 gem 'sass-rails',           '~> 5.0'
 gem 'coffee-rails',         '~> 4.1.0'
