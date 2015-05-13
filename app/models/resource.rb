@@ -60,12 +60,10 @@ class Resource < ActiveRecord::Base
     meeting_report: 3,
     newsletter: 4,
     un_global_compact_report: 5,
-    toolkit: 6,
     webinar: 7,
     presentation: 8,
     website: 9,
-    video: 10,
-    academic_literature: 11,
+    video: 10
   }
 
   scope :update_required, lambda { where("content_type IS NULL") }
