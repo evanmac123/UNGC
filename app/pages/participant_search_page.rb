@@ -1,22 +1,6 @@
 class ParticipantSearchPage < ContainerPage
-
   def hero
-    {
-      title: {
-        title1: "The Compact:",
-        title2: "8,0000 Companies + 4,000 Non-Businesses"
-      },
-      size: :small,
-      show_section_nav: true
-    }
-  end
-
-  def meta_title
-    'Who&rsquo;s Involved'
-  end
-
-  def meta_description
-    ''
+    (@data[:hero] || {}).merge({size: 'small'})
   end
 
   def section_nav

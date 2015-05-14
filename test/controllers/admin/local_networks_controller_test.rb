@@ -124,14 +124,17 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
   context "given an image" do
     should "create local network" do
       post :create, local_network: @update_with_image
-      assert_equal LocalNetwork.last.image.class, Paperclip::Attachment
+
+      # #unscoped removes the model's default_scope so #last returns the last by ID
+      assert LocalNetwork.unscoped.last.image.file?
       assert_redirected_to admin_local_networks_path
     end
 
     should "update local network" do
       put :update, id: @local_network_with_image, local_network: @update_with_image
-      assert_equal LocalNetwork.last.image.class, Paperclip::Attachment
 
+      # #unscoped removes the model's default_scope so #last returns the last by ID
+      assert LocalNetwork.unscoped.last.image.file?
       assert_redirected_to admin_local_network_path(@local_network_with_image.id)
     end
   end
@@ -232,5 +235,4 @@ class Admin::LocalNetworksControllerTest < ActionController::TestCase
     assert_match /Fees amount voluntary private must be an integer/, response.body
     assert_match /Fees amount voluntary public must be an integer/, response.body
   end
-
 end

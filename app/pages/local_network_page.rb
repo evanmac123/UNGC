@@ -73,7 +73,11 @@ class LocalNetworkPage < SimpleDelegator
         .participants
         .joins(:sector)
         .group('sectors.id')
-        .select('sectors.id, sectors.parent_id, sectors.name, count(sectors.id) as participants_count')
+        .select(
+          'sectors.id',
+          'sectors.parent_id',
+          'sectors.name',
+          'count(sectors.id) as participants_count')
         .order('participants_count desc')
         .limit(5)
 
@@ -101,7 +105,11 @@ class LocalNetworkPage < SimpleDelegator
       end
 
       def name
-        sector.name
+        if sector.name == Sector::NOT_APPLICABLE
+          'Non Business'
+        else
+          sector.name
+        end
       end
 
     end

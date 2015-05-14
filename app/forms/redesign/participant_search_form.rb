@@ -53,7 +53,7 @@ class Redesign::ParticipantSearchForm
   end
 
   def initiative_options
-    pluck_options(Initiative.all, :initiative, initiatives)
+    pluck_options(Initiative.active.all, :initiative, initiatives)
   end
 
   def country_options

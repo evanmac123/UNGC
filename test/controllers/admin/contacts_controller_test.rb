@@ -176,7 +176,6 @@ class Admin::ContactsControllerTest < ActionController::TestCase
 
   end
 
-
   context "contact images" do
     setup do
       sign_in create_staff_user
@@ -185,8 +184,10 @@ class Admin::ContactsControllerTest < ActionController::TestCase
 
     should "update contact image for a ungc contact" do
       put :update, id: @staff_user.id, organization_id: @staff_user.organization, contact: @new_contact_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
+      @staff_user.reload
+
+      assert @staff_user.image.file?
       assert_redirected_to admin_organization_path(@staff_user.organization.id, tab: :contacts)
-      assert_equal Contact.last.image.class, Paperclip::Attachment
     end
 
     should "not update contact image for a non ungc contact" do

@@ -12,8 +12,8 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       name: 'Venu Keesari',
       email: 'keesari@unglobalcompact.org',
       organization: 'United Nations Global Compact',
-      interest_ids: ['general_inquiry'],
-      focus_ids: ['peace'],
+      interest_ids: ['general_inquiry', 'events'],
+      focus_ids: ['peace', 'labour', 'poverty'],
       comments: 'Hello!'
     }
   end
@@ -27,15 +27,28 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       email = ActionMailer::Base.deliveries.last
 
       assert_equal 'Contact Us Received from keesari@unglobalcompact.org', email.subject
-      assert_equal 'contact@unglobalcompact.org', email.to[0] # TODO: Update with actual email.
+      assert_equal 'info@unglobalcompact.org', email.to[0]
       assert_match(/Venu Keesari/, email.body.to_s)
       assert_match(/keesari@unglobalcompact\.org/, email.body.to_s)
       assert_match(/United Nations Global Compact/, email.body.to_s)
       assert_match(/General Inquiry/, email.body.to_s)
+      assert_match(/Events/, email.body.to_s)
       assert_match(/Peace/, email.body.to_s)
       assert_match(/Hello!/, email.body.to_s)
 
       assert_redirected_to redesign_contact_us_path
+    end
+
+    should 'send an email to the correct addresses, without duplication' do
+      post :create, redesign_contact_us_form: @params
+
+      email = ActionMailer::Base.deliveries.last
+
+      assert email.to.include? 'info@unglobalcompact.org'
+      assert email.to.include? 'events@unglobalcompact.org'
+      assert email.to.include? 'b4p@unglobalcompact.org'
+      assert email.to.include? 'social.issues@unglobalcompact.org'
+      assert_equal email.to.count, 4
     end
   end
 

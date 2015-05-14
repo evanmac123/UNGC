@@ -2,6 +2,7 @@ namespace :redesign do
 
   desc "create stub pages to fill out the site map"
   task create_sitemap: :environment do
+    raise "Must be run from the development environment" unless Rails.env.development?
     Tagging.where.not(redesign_container_id: nil).delete_all
     Redesign::Container.delete_all
     root = Node.new

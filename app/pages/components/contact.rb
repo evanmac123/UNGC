@@ -8,7 +8,7 @@ class Components::Contact
     return unless contact_id
     contact = Contact.find(contact_id)
     {
-      photo: contact.image.url,
+      photo: contact.image,
       name: contact.full_name_with_title,
       title: contact.job_title,
       email: contact.email,
