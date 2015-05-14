@@ -36,7 +36,7 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       assert case_example.file.file?
 
       assert_equal 'Case Example Received from Unspace', email.subject
-      assert_equal 'contact@unglobalcompact.org', email.to[0] # TODO: Update with actual email.
+      assert_equal 'rmteam@unglobalcompact.org', email.to[0]
       assert_match /Unspace/, email.body.to_s
       assert_match /#{@country.name}/, email.body.to_s
       assert_match /#{@sector.name}/, email.body.to_s

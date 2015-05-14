@@ -4,7 +4,7 @@ class CaseExampleMailer < ActionMailer::Base
   def case_example_received(params)
     @params = OpenStruct.new params
     mail \
-      :to => 'contact@unglobalcompact.org',  # TODO: Update with actual email.
+      :to => 'rmteam@unglobalcompact.org',
       :subject => "Case Example Received from " + @params.company
   end
 
