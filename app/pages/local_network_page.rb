@@ -72,7 +72,6 @@ class LocalNetworkPage < SimpleDelegator
       sectors = local_network
         .participants
         .joins(:sector)
-        .merge(Sector.unscoped.applicable)
         .group('sectors.id')
         .select(
           'sectors.id',
@@ -106,7 +105,11 @@ class LocalNetworkPage < SimpleDelegator
       end
 
       def name
-        sector.name
+        if sector.name == 'Not Applicable'
+          'Non Business'
+        else
+          sector.name
+        end
       end
 
     end
