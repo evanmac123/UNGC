@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150512031632) do
+ActiveRecord::Schema.define(version: 20150514174654) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -455,6 +455,7 @@ ActiveRecord::Schema.define(version: 20150512031632) do
     t.integer  "old_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active",     limit: 1,   default: true
   end
 
   create_table "integrity_measures", force: :cascade do |t|
