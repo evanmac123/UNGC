@@ -28,6 +28,8 @@ class Initiative < ActiveRecord::Base
 
   scope :for_filter, lambda { |filter| where("initiatives.id = ?", FILTER_TYPES[filter]) }
 
+  scope :active, lambda { where(active: true) }
+
   def self.id_by_filter(filter_type)
     i = find_by_id FILTER_TYPES[filter_type]
     i.try(:id)

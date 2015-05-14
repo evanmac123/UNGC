@@ -35,6 +35,7 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
       should "create the initiative" do
         assert_redirected_to_index
         assert @initiative
+        assert @initiative.active, 'initiative is active by default'
       end
 
       should "show new template on failture" do
@@ -62,7 +63,14 @@ class Admin::InitiativesControllerTest < ActionController::TestCase
           post :update, {:id => @initiative.id, :initiative => @initiative.attributes.merge(:name => 'Initiative changed!')}
         end
         assert_equal 'Initiative changed!', Initiative.find(@initiative.id).name
+        assert @initiative.active, 'initiative is active by default'
         assert_redirected_to_index
+      end
+
+      should 'be able to deactivate an initiative' do
+        post :update, {:id => @initiative.id, :initiative => @initiative.attributes.merge(:active =>false)}
+        @initiative.reload
+        refute @initiative.active, 'initiative is inactive'
       end
 
       should "destroy" do
