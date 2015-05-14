@@ -16,11 +16,7 @@
       <%- if @page.cops.any? -%>
         <li class='tab'>
           <button type="button" data-tab-content='cop'>
-            <%- if @page.non_business? -%>
-              COE
-            <%- else -%>
-              COP
-            <%- end -%>
+            <%= @page.cop_short_label -%>
           </button>
         </li>
       <%- end -%>
@@ -98,22 +94,21 @@
           <time><%= @page.joined_on -%></time>
         </div>
       <%- end -%>
+      <%- if @page.cop_due_on.present? -%>
+        <div class='tab-content-sub-section company-information-since'>
+          <span>Next <%= @page.cop_short_label %> due on:</span>
+          <time><%= @page.cop_due_on -%></time>
+        </div>
+      <%- end -%>
     </article>
 
     <%- if @page.cops.any? -%>
       <article class='tab-content cop'>
 
-        <%- if @page.non_business? -%>
-          <header class='tab-content-header'>
-            <h1>COE</h1>
-          </header>
-          <h2>Communications on Engagement</h2>
-        <%- else -%>
-          <header class='tab-content-header'>
-            <h1>COP</h1>
-          </header>
-          <h2>Communications on Progress</h2>
-        <%- end -%>
+        <header class='tab-content-header'>
+          <h1><%= @page.cop_short_label %></h1>
+        </header>
+        <h2><%= @page.cop_label %></h2>
 
         <table class='table-embedded'>
           <thead>
