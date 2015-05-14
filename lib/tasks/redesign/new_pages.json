@@ -162,6 +162,14 @@
                     {
                       "template": "Article",
                       "path": "/Business-for-Peace-Local-Events"
+                    },
+                    {
+                      "template": "Article",
+                      "path": "/Background"
+                    },
+                    {
+                      "template": "Article",
+                      "path": "/SDG-indicators"
                     }
                   ]
                 },
@@ -552,6 +560,46 @@
                 {
                   "template": "Article",
                   "path": "/125"
+                },
+                {
+                  "template": "Article",
+                  "path": "/126"
+                },
+                {
+                  "template": "Article",
+                  "path": "/127"
+                },
+                {
+                  "template": "Article",
+                  "path": "/128"
+                },
+                {
+                  "template": "Article",
+                  "path": "/129"
+                },
+                {
+                  "template": "Article",
+                  "path": "/130"
+                },
+                {
+                  "template": "Article",
+                  "path": "/131"
+                },
+                {
+                  "template": "Article",
+                  "path": "/132"
+                },
+                {
+                  "template": "Article",
+                  "path": "/133"
+                },
+                {
+                  "template": "Article",
+                  "path": "/134"
+                },
+                {
+                  "template": "Article",
+                  "path": "/135"
                 }
               ]
             },
@@ -718,6 +766,14 @@
             {
               "template": "Action_detail",
               "path": "/Learn-Business-Human-Rights"
+            },
+            {
+              "template": "Article",
+              "path": "/peace-local-activities"
+            },
+            {
+              "template": "Article",
+              "path": "/HR-open-letter"
             }
           ]
         },
@@ -796,7 +852,41 @@
           "children": [
             {
               "template": "Article",
-              "path": "/Engagement"
+              "path": "/Engagement",
+              "children": [
+                {
+                  "template": "Article",
+                  "path": "/human-rights-and-labour"
+                },
+                {
+                  "template": "Article",
+                  "path": "/childrens-rights-and-business-principles"
+                },
+                {
+                  "template": "Article",
+                  "path": "/womens-empowerment-principles"
+                },
+                {
+                  "template": "Article",
+                  "path": "/caring-for-climate"
+                },
+                {
+                  "template": "Article",
+                  "path": "/ceo-water-mandate"
+                },
+                {
+                  "template": "Article",
+                  "path": "/anti-corruption"
+                },
+                {
+                  "template": "Article",
+                  "path": "/business-for-peace"
+                },
+                {
+                  "template": "Article",
+                  "path": "/supply-chain-sustainability"
+                }
+              ]
             },
             {
               "template": "Highlight",
@@ -817,6 +907,14 @@
                 {
                   "template": "List",
                   "path": "/Toolkit"
+                },
+                {
+                  "template": "Article",
+                  "path": "/webinars"
+                },
+                {
+                  "template": "Article",
+                  "path": "/fundraising-toolkit"
                 }
               ]
             },
@@ -864,19 +962,75 @@
       "children": [
         {
           "template": "Article",
-          "path": "/Business"
+          "path": "/Business",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/communication-on-progress"
+            },
+            {
+              "template": "Article",
+              "path": "/training-and-webinars"
+            },
+            {
+              "template": "Article",
+              "path": "/contributions"
+            },
+            {
+              "template": "Article",
+              "path": "/local-networks"
+            }
+          ]
         },
         {
           "template": "Article",
-          "path": "/Non-Business"
+          "path": "/Non-Business",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/training-and-webinars"
+            },
+            {
+              "template": "Article",
+              "path": "/local-networks"
+            }
+          ]
         },
         {
           "template": "Article",
-          "path": "/Academic"
+          "path": "/Academic",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/local-networks"
+            },
+            {
+              "template": "Article",
+              "path": "/training-and-webinars"
+            },
+            {
+              "template": "Article",
+              "path": "/prme"
+            }
+          ]
         },
         {
           "template": "Article",
-          "path": "/City"
+          "path": "/City",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/cities-programme"
+            },
+            {
+              "template": "Article",
+              "path": "/training-and-webinars"
+            },
+            {
+              "template": "Article",
+              "path": "/local-networks"
+            }
+          ]
         }
       ]
     },
@@ -983,6 +1137,20 @@
         {
           "template": "PR_list",
           "path": "/Press-Releases"
+        },
+        {
+          "template": "Article",
+          "path": "/Bullettin",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Confirmation"
+            },
+            {
+              "template": "Article",
+              "path": "/Unsubscribe"
+            }
+          ]
         }
       ]
     }
