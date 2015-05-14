@@ -1,2 +1,7 @@
-<h1>This is a placeholder page</h1>
-<h2>all the content will be generated from the server</h2>
+{{#container/x-fields scope=model.container as |directory|}}
+  {{container/macros/x-metatags scope=directory}}
+
+  {{#container/macros/x-hero scope=directory as |hero|}}
+    {{container/macros/x-show-section-nav scope=hero default=true}}
+  {{/container/macros/x-hero}}
+{{/container/x-fields}}
