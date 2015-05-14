@@ -172,7 +172,7 @@ class Admin::ResourcesControllerTest < ActionController::TestCase
       should "create and redirect to the index" do
         post :create, resource: valid_resource_attributes.merge({:image => fixture_file_upload('files/untitled.jpg', 'image/jpeg') })
         assert_redirected_to action: :index
-        assert_equal Resource.last.image.class, Paperclip::Attachment
+        assert Resource.last.image.file?
       end
     end
 

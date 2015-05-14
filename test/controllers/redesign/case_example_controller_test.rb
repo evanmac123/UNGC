@@ -33,7 +33,7 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       assert_equal @params[:country_id], case_example.country_id
       assert_equal @params[:sector_ids], case_example.sector_ids
       assert_equal @params[:is_participant], case_example.is_participant
-      assert_equal Paperclip::Attachment, case_example.file.class
+      assert case_example.file.file?
 
       assert_equal 'Case Example Received from Unspace', email.subject
       assert_equal 'contact@unglobalcompact.org', email.to[0] # TODO: Update with actual email.
