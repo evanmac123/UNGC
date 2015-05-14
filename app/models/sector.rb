@@ -12,6 +12,7 @@
 #
 
 class Sector < ActiveRecord::Base
+  NOT_APPLICABLE = 'Not Applicable'
   validates_presence_of :name
   acts_as_tree
 
@@ -21,7 +22,7 @@ class Sector < ActiveRecord::Base
   scope :participant_search_options, -> { applicable.where.not(parent_id:nil).order('name') }
 
   def self.not_applicable
-    find_by_name("Not Applicable")
+    find_by_name(Sector::NOT_APPLICABLE)
   end
 
   def self.children
