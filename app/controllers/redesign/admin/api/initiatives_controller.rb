@@ -1,7 +1,7 @@
 class Redesign::Admin::Api::InitiativesController < Redesign::Admin::ApiController
 
   def index
-    inititatives = Initiative.all
+    inititatives = Initiative.active.all
 
     render_json data: inititatives.map(&method(:serialize))
   end
