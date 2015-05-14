@@ -16,8 +16,9 @@ class Sector < ActiveRecord::Base
   acts_as_tree
 
   default_scope { order(:icb_number) }
-  scope :top_level, -> { where("parent_id IS NULL AND name != 'Not Applicable'") }
-  scope :participant_search_options, -> { where("parent_id IS NOT NULL AND name != 'Not Applicable'").order('name') }
+  scope :applicable, -> { where("sectors.name != ?", 'Not Applicable') }
+  scope :top_level, -> { applicable.where(parent_id:nil) }
+  scope :participant_search_options, -> { applicable.where.not(parent_id:nil).order('name') }
 
   def self.not_applicable
     find_by_name("Not Applicable")
