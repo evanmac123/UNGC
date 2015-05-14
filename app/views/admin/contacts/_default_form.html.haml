@@ -33,5 +33,7 @@
         = content_tag :p, role.description || 'There is no description for this role', :class => 'check_box_label_description'
 %fieldset#login_information{:style => login_fieldset_style(@contact)}
   %legend Username
+  -# this is required to STOP chrome/firefox autocomplete from working, autocomplete off is ignored
+  %input{:type => "password", :style => "display:none"}
   = default_form.text_field :username, {:autocomplete => 'off'}, :label => 'Username'
   = default_form.password_field(:password, {:autocomplete => 'off', :value => @contact.plaintext_password}, {:label => 'Password'})
