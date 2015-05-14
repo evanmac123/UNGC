@@ -51,7 +51,7 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
     should 'display errors' do
       post :create, redesign_case_example_form: @params.except(:company, :country_id, :sector_ids, :file)
 
-      assert_select '#error_explanation ul li', 4
+      assert_select '.errors-list li', 4
     end
   end
 
