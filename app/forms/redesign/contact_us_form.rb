@@ -16,7 +16,8 @@ class Redesign::ContactUsForm
         organization: self.organization,
         interests: self.interests,
         focuses: self.focuses,
-        comments: self.comments
+        comments: self.comments,
+        to: to_addresses
       })
       true
     else
@@ -24,15 +25,35 @@ class Redesign::ContactUsForm
     end
   end
 
+  def to_addresses
+    emails = interest_addresses.concat(focus_addresses)
+    if emails.empty?
+      emails << 'info@unglobalcompact.org'
+    end
+    emails.uniq
+  end
+
+  def interest_addresses
+    interest_options_data.map do |option|
+      option[:email] if Array(interest_ids).include? option[:id]
+    end
+  end
+
+  def focus_addresses
+    focus_options_data.map do |option|
+      option[:email] if Array(focus_ids).include? option[:id]
+    end
+  end
+
   def interests
     interest_options_data.map do |option|
-      return option[:name] if Array(interest_ids).include? option[:id]
+      option[:name] if Array(interest_ids).include? option[:id]
     end
   end
 
   def focuses
     focus_options_data.map do |option|
-      return option[:name] if Array(focus_ids).include? option[:id]
+      option[:name] if Array(focus_ids).include? option[:id]
     end
   end
 
@@ -52,47 +73,58 @@ class Redesign::ContactUsForm
     [
       {
         id: 'general_inquiry',
-        name: 'General Inquiry'
+        name: 'General Inquiry',
+        email: 'info@unglobalcompact.org'
       },
       {
         id: 'reporting_cop_doe',
-        name: 'Reporting (COP/COE)'
+        name: 'Reporting (COP/COE)',
+        email: 'cop@unglobalcompact.org'
       },
       {
         id: 'events',
-        name: 'Events'
+        name: 'Events',
+        email: 'events@unglobalcompact.org'
       },
       {
         id: 'integrity_measures',
-        name: 'Integrity Measures'
+        name: 'Integrity Measures',
+        email: 'social.issues@unglobalcompact.org'
       },
       {
         id: 'copyright_inquiries',
-        name: 'Copyright Inquiries'
+        name: 'Copyright Inquiries',
+        email: 'info@unglobalcompact.org'
       },
       {
         id: 'government_affairs',
-        name: 'Government Affairs'
+        name: 'Government Affairs',
+        email: 'info@unglobalcompact.org'
       },
       {
         id: 'media',
-        name: 'Media'
+        name: 'Media',
+        email: 'info@unglobalcompact.org'
       },
       {
         id: 'local_networks',
-        name: 'Local Networks'
+        name: 'Local Networks',
+        email: 'localnetworks@unglobalcompact.org'
       },
       {
         id: 'global_compact_lead',
-        name: 'Global Contact LEAD'
+        name: 'Global Contact LEAD',
+        email: 'lead@unglobalcompact.org'
       },
       {
         id: 'sustainable_development_goals',
-        name: 'Sustainable Development Goals'
+        name: 'Sustainable Development Goals',
+        email: 'info@unglobalcompact.org'
       },
       {
         id: 'foundation_contribution',
-        name: 'Foundation Contribution'
+        name: 'Foundation Contribution',
+        email: 'info@globalcompactfoundation.org'
       }
     ]
   end
@@ -101,75 +133,93 @@ class Redesign::ContactUsForm
     [
       {
         id: 'partnerships',
-        name: 'Partnerships'
+        name: 'Partnerships',
+        email: 'partnerships@unglobalcompact.org'
       },
       {
         id: 'supply_chain_sustainability',
-        name: 'Supply Chain Sustainability'
+        name: 'Supply Chain Sustainability',
+        email: 'supplychain@unglobalcompact.org'
       },
       {
         id: 'management_education',
-        name: 'Management Education'
+        name: 'Management Education',
+        email: 'prmecommunications@unglobalcompact.org'
       },
       {
         id: 'financial_markets',
-        name: 'Financial Markets'
+        name: 'Financial Markets',
+        email: 'financialmarkets@unglobalcompact.org'
       },
       {
         id: 'human_rights',
-        name: 'Human Rights'
-      },
-      {
-        id: 'poverty',
-        name: 'Poverty'
+        name: 'Human Rights',
+        email: 'social.issues@unglobalcompact.org'
       },
       {
         id: 'childrens_rights',
-        name: 'Children\'s Rights'
+        name: 'Children\'s Rights',
+        email: 'childrensprinciples@unglobalcompact.org'
       },
       {
         id: 'gender_equality',
-        name: 'Gender Equality'
+        name: 'Gender Equality',
+        email: 'womens-empowerment-principles@unglobalcompact.org'
       },
       {
         id: 'indigenous_people',
-        name: 'Indigenous People'
+        name: 'Indigenous People',
+        email: 'UNDRIP@unglobalcompact.org'
       },
       {
-        id: 'labour_poverty',
-        name: 'Labour Poverty'
+        id: 'labour',
+        name: 'Labour',
+        email: 'social.issues@unglobalcompact.org'
+      },
+      {
+        id: 'poverty',
+        name: 'Poverty',
+        email: 'social.issues@unglobalcompact.org'
       },
       {
         id: 'education',
-        name: 'Education'
+        name: 'Education',
+        email: 'social.issues@unglobalcompact.org'
       },
       {
         id: 'environment',
-        name: 'Environment'
+        name: 'Environment',
+        email: 'climatechange@unglobalcompact.org'
       },
       {
         id: 'climate_change',
-        name: 'Climate Change'
+        name: 'Climate Change',
+        email: 'climatechange@unglobalcompact.org'
       },
       {
         id: 'water',
-        name: 'Water'
+        name: 'Water',
+        email: 'ceowatermandate@unglobalcompact.org'
       },
       {
         id: 'food_agriculture',
-        name: 'Food & Agriculture'
+        name: 'Food & Agriculture',
+        email: 'sustainable.agriculture@unglobalcompact.org'
       },
       {
         id: 'anti_corruption',
-        name: 'Anti-Corruption'
+        name: 'Anti-Corruption',
+        email: 'anticorruption@unglobalcompact.org'
       },
       {
         id: 'peace',
-        name: 'Peace'
+        name: 'Peace',
+        email: 'b4p@unglobalcompact.org'
       },
       {
         id: 'rule_of_law',
-        name: 'Rule of Law'
+        name: 'Rule of Law',
+        email: 'rol@unglobalcompact.org'
       }
     ]
   end
