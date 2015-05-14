@@ -10,21 +10,29 @@ class Admin::EventsControllerTest < ActionController::TestCase
     @issue = create_issue
     @sector = create_sector
 
-    starts_at = Time.new(2015, 06, 15, 19, 0, 0)
-    ends_at = Time.new(2015, 06, 15, 22, 0, 0)
+    @starts_at = Time.new(2015, 06, 15, 19, 0, 0)
+    @ends_at = Time.new(2015, 06, 15, 22, 0, 0)
 
     @params = {
       title: 'New Website Launch',
       description: 'Join the UN Global Compact as we celebrate...',
-      starts_at: starts_at,
-      ends_at: ends_at,
-      is_all_day: false.to_s,
-      is_online: false.to_s,
+      'starts_at(1i)' => @starts_at.strftime('%Y'),
+      'starts_at(2i)' => @starts_at.strftime('%m'),
+      'starts_at(3i)' => @starts_at.strftime('%d'),
+      'starts_at(4i)' => @starts_at.strftime('%H'),
+      'starts_at(5i)' => @starts_at.strftime('%M'),
+      'ends_at(1i)' => @ends_at.strftime('%Y'),
+      'ends_at(2i)' => @ends_at.strftime('%m'),
+      'ends_at(3i)' => @ends_at.strftime('%d'),
+      'ends_at(4i)' => @ends_at.strftime('%H'),
+      'ends_at(5i)' => @ends_at.strftime('%M'),
+      is_all_day: false,
+      is_online: false,
       location: 'New York, NY',
-      country_id: @country.id.to_s,
-      is_invitation_only: false.to_s,
-      priority: :tier1.to_s,
-      contact: @contact.id.to_s,
+      country_id: @country.id,
+      is_invitation_only: false,
+      priority: 'tier1',
+      contact_id: @contact.id,
       thumbnail_image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'),
       banner_image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'),
       call_to_action_1_title: 'Contact Us an Invitation',
@@ -32,9 +40,9 @@ class Admin::EventsControllerTest < ActionController::TestCase
       call_to_action_2_title: 'Download a Poster',
       call_to_action_2_link: 'http://unglobalbompact.org/downloads',
       overview_description: 'Over the past couple months...',
-      topic_ids: [@topic.id.to_s],
-      issue_ids: [@issue.id.to_s],
-      sector_ids: [@sector.id.to_s]
+      topic_ids: [@topic.id],
+      issue_ids: [@issue.id],
+      sector_ids: [@sector.id]
     }
   end
 
@@ -47,36 +55,101 @@ class Admin::EventsControllerTest < ActionController::TestCase
       context 'with valid params' do
         setup do
           assert_difference 'Event.count' do
-            post :create, event_form: @params
+            post :create, event: @params
           end
+
+          @event = Event.last
         end
 
-        should 'create an event' do
-          @event = Event.last
-
+        should 'set title' do
           assert_equal @params[:title], @event.title
-          assert_equal @params[:description], @event.description
-          assert_equal @params[:starts_at], @event.starts_at
-          assert_equal @params[:ends_at], @event.ends_at
-          assert_equal @params[:is_all_day], @event.is_all_day
-          assert_equal @params[:is_online], @event.is_online
-          assert_equal @params[:location], @event.location
-          assert_equal @params[:country_id], @event.country_id
-          assert_equal @params[:is_invitation_only], @event.is_invitation_only
-          assert_equal @params[:priority], @event.priority
-          assert_equal @params[:contact_id], @event.contact_id
-          assert_equal Paperclip::Attachment, @event.thumbnail_image.class
-          assert_equal Paperclip::Attachment, @event.banner_image.class
-          assert_equal @params[:call_to_action_1_title], @event.call_to_action_1_title
-          assert_equal @params[:call_to_action_1_link], @event.call_to_action_1_link
-          assert_equal @params[:call_to_action_2_title], @event.call_to_action_2_title
-          assert_equal @params[:call_to_action_2_link], @event.call_to_action_2_link
-          assert_equal @params[:overview_description], @event.overview_description
-          assert @event.pending?
-          assert_equal @params[:topic_ids], @event.topic_ids
-          assert_equal @params[:issue_ids], @event.issue_ids
-          assert_equal @params[:sector_ids], @event.sector_ids
+        end
 
+        should 'set description' do
+          assert_equal @params[:description], @event.description
+        end
+
+        should 'set starts_at' do
+          assert_equal @starts_at, @event.starts_at
+        end
+
+        should 'set ends_at' do
+          assert_equal @ends_at, @event.ends_at
+        end
+
+        should 'set is_all_day' do
+          assert_equal @params[:is_all_day], @event.is_all_day
+        end
+
+        should 'set is_online' do
+          assert_equal @params[:is_online], @event.is_online
+        end
+
+        should 'set location' do
+          assert_equal @params[:location], @event.location
+        end
+
+        should 'set country_id' do
+          assert_equal @params[:country_id], @event.country_id
+        end
+
+        should 'set is_invitation_only' do
+          assert_equal @params[:is_invitation_only], @event.is_invitation_only
+        end
+
+        should 'set priority' do
+          assert_equal @params[:priority], @event.priority
+        end
+
+        should 'set contact_id' do
+          assert_equal @params[:contact_id], @event.contact_id
+        end
+
+        should 'set thumbnail_image' do
+          assert @event.thumbnail_image.file?
+        end
+
+        should 'set banner_image' do
+          assert @event.banner_image.file?
+        end
+
+        should 'set call_to_action_1_title' do
+          assert_equal @params[:call_to_action_1_title], @event.call_to_action_1_title
+        end
+
+        should 'set call_to_action_1_link' do
+          assert_equal @params[:call_to_action_1_link], @event.call_to_action_1_link
+        end
+
+        should 'set call_to_action_2_title' do
+          assert_equal @params[:call_to_action_2_title], @event.call_to_action_2_title
+        end
+
+        should 'set call_to_action_2_link' do
+          assert_equal @params[:call_to_action_2_link], @event.call_to_action_2_link
+        end
+
+        should 'set overview_description' do
+          assert_equal @params[:overview_description], @event.overview_description
+        end
+
+        should 'set approval' do
+          assert @event.pending?
+        end
+
+        should 'set topic IDs' do
+          assert_equal @params[:topic_ids], @event.topic_ids
+        end
+
+        should 'set issue IDs' do
+          assert_equal @params[:issue_ids], @event.issue_ids
+        end
+
+        should 'set sector IDs' do
+          assert_equal @params[:sector_ids], @event.sector_ids
+        end
+
+        should 'redirects to index' do
           assert_redirected_to_index
         end
       end
@@ -89,6 +162,7 @@ class Admin::EventsControllerTest < ActionController::TestCase
     context 'GET /admin/events/:id' do
       setup do
         @event = create_event
+        get :show, id: @event.id
       end
 
       should 'retrieve an event' do
@@ -103,34 +177,102 @@ class Admin::EventsControllerTest < ActionController::TestCase
           @event = create_event
 
           assert_no_difference 'Event.count' do
-            put :update, id: @event.id, event_form: @params
+            put :update, id: @event.id, event: @params
           end
+
+          @event.reload
         end
 
-        should 'update an event' do
-          assert_equal @params[:title], @event.title
-          assert_equal @params[:description], @event.description
-          assert_equal @params[:starts_at], @event.starts_at
-          assert_equal @params[:ends_at], @event.ends_at
-          assert_equal @params[:is_all_day], @event.is_all_day
-          assert_equal @params[:is_online], @event.is_online
-          assert_equal @params[:location], @event.location
-          assert_equal @params[:country_id], @event.country_id
-          assert_equal @params[:is_invitation_only], @event.is_invitation_only
-          assert_equal @params[:priority], @event.priority
-          assert_equal @params[:contact_id], @event.contact_id
-          assert_equal Paperclip::Attachment, @event.thumbnail_image.class
-          assert_equal Paperclip::Attachment, @event.banner_image.class
-          assert_equal @params[:call_to_action_1_title], @event.call_to_action_1_title
-          assert_equal @params[:call_to_action_1_link], @event.call_to_action_1_link
-          assert_equal @params[:call_to_action_2_title], @event.call_to_action_2_title
-          assert_equal @params[:call_to_action_2_link], @event.call_to_action_2_link
-          assert_equal @params[:overview_description], @event.overview_description
-          assert @event.pending?
-          assert_equal @params[:topic_ids], @event.topic_ids
-          assert_equal @params[:issue_ids], @event.issue_ids
-          assert_equal @params[:sector_ids], @event.sector_ids
 
+        should 'set title' do
+          assert_equal @params[:title], @event.title
+        end
+
+        should 'set description' do
+          assert_equal @params[:description], @event.description
+        end
+
+        should 'set starts_at' do
+          assert_equal @starts_at, @event.starts_at
+        end
+
+        should 'set ends_at' do
+          assert_equal @ends_at, @event.ends_at
+        end
+
+        should 'set is_all_day' do
+          assert_equal @params[:is_all_day], @event.is_all_day
+        end
+
+        should 'set is_online' do
+          assert_equal @params[:is_online], @event.is_online
+        end
+
+        should 'set location' do
+          assert_equal @params[:location], @event.location
+        end
+
+        should 'set country_id' do
+          assert_equal @params[:country_id], @event.country_id
+        end
+
+        should 'set is_invitation_only' do
+          assert_equal @params[:is_invitation_only], @event.is_invitation_only
+        end
+
+        should 'set priority' do
+          assert_equal @params[:priority], @event.priority
+        end
+
+        should 'set contact_id' do
+          assert_equal @params[:contact_id], @event.contact_id
+        end
+
+        should 'set thumbnail_image' do
+          assert @event.thumbnail_image.file?
+        end
+
+        should 'set banner_image' do
+          assert @event.banner_image.file?
+        end
+
+        should 'set call_to_action_1_title' do
+          assert_equal @params[:call_to_action_1_title], @event.call_to_action_1_title
+        end
+
+        should 'set call_to_action_1_link' do
+          assert_equal @params[:call_to_action_1_link], @event.call_to_action_1_link
+        end
+
+        should 'set call_to_action_2_title' do
+          assert_equal @params[:call_to_action_2_title], @event.call_to_action_2_title
+        end
+
+        should 'set call_to_action_2_link' do
+          assert_equal @params[:call_to_action_2_link], @event.call_to_action_2_link
+        end
+
+        should 'set overview_description' do
+          assert_equal @params[:overview_description], @event.overview_description
+        end
+
+        should 'set approval' do
+          assert @event.pending?
+        end
+
+        should 'set topic IDs' do
+          assert_equal @params[:topic_ids], @event.topic_ids
+        end
+
+        should 'set issue IDs' do
+          assert_equal @params[:issue_ids], @event.issue_ids
+        end
+
+        should 'set sector IDs' do
+          assert_equal @params[:sector_ids], @event.sector_ids
+        end
+
+        should 'redirects to index' do
           assert_redirected_to_index
         end
       end
@@ -150,7 +292,9 @@ class Admin::EventsControllerTest < ActionController::TestCase
       should 'approve the event' do
         assert @event.approved?
         assert_contains Event.approved, @event # TODO: Remove if redundant.
+      end
 
+      should 'redirects to index' do
         assert_redirected_to_index
       end
 
@@ -176,7 +320,9 @@ class Admin::EventsControllerTest < ActionController::TestCase
       should 'revoke approval for the event' do
         assert @event.revoked?
         assert_does_not_contain Event.approved, @event # TODO: Remove if redundant.
+      end
 
+      should 'redirects to index' do
         assert_redirected_to_index
       end
 
@@ -188,13 +334,17 @@ class Admin::EventsControllerTest < ActionController::TestCase
     context 'DELETE /admin/events/:id' do
       setup do
         @event = create_event
-      end
 
-      should 'destroy event' do
         assert_difference('Event.count', -1) do
           delete :destroy, id: @event.id
         end
+      end
 
+      should 'destroy event' do
+        assert_not Event.exists? @event
+      end
+
+      should 'redirects to index' do
         assert_redirected_to_index
       end
     end
@@ -202,11 +352,13 @@ class Admin::EventsControllerTest < ActionController::TestCase
     context 'GET /admin/events' do
       setup do
         3.times { create_event }
+
+        get :index
       end
 
       should 'list events' do
         assert_response :success
-        assert assigns(:events), 'Instance variable "events" not assigned.'
+        assert assigns(:paged_events), 'Instance variable "paged_events" not assigned.'
       end
     end
   end
