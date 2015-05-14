@@ -72,8 +72,13 @@ class LocalNetworkPage < SimpleDelegator
       sectors = local_network
         .participants
         .joins(:sector)
+        .merge(Sector.unscoped.applicable)
         .group('sectors.id')
-        .select('sectors.id, sectors.parent_id, sectors.name, count(sectors.id) as participants_count')
+        .select(
+          'sectors.id',
+          'sectors.parent_id',
+          'sectors.name',
+          'count(sectors.id) as participants_count')
         .order('participants_count desc')
         .limit(5)
 
