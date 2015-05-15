@@ -105,8 +105,8 @@ UNGC::Application.routes.draw do
     get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
     get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
     resource :cops, path: '/participation/report/cop/create-and-submit' do
-      get :index, path: '/'
-      get :show, path: '/:type/:id'
+      get :index, path: '/', on: :collection
+      get :show, path: '/:type/:id', as: :show
       get :active, on: :collection
       get :advanced, on: :collection
       get :expelled, on: :collection

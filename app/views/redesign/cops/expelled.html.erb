@@ -23,7 +23,7 @@
       <% for organization in paged_organizations(:expelled_for_failure_to_communicate_progress)%>
         <tr>
           <td title="<%= organization.name %>">
-            <%= link_to truncate(organization.name, :length => 40), redesign_cops_path(:expelled, organization) %>
+            <%= link_to truncate(organization.name, :length => 40), show_redesign_cops_path(:expelled, organization) %>
           </td>
           <td title="<%= organization.sector_name %>">
             <%= truncate(organization.sector_name, :length => 30) %>
