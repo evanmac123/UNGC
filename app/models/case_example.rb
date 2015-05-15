@@ -1,6 +1,6 @@
 class CaseExample < ActiveRecord::Base
   belongs_to :country
-  has_many :taggings
+  has_many :taggings, dependent: :destroy
   has_many :sectors, through: :taggings
   has_attached_file :file,
     url: '/system/:class/:attachment/:id/:filename'
