@@ -27,7 +27,7 @@ class Headline < ActiveRecord::Base
   permalink :date_for_permalink
   belongs_to :country
   has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
-  has_many :taggings
+  has_many :taggings, dependent: :destroy
   has_many :sectors,        through: :taggings
   has_many :sector_groups,  through: :sectors, class_name: 'Sector', source: :parent
   has_many :issues,         through: :taggings
