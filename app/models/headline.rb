@@ -98,7 +98,7 @@ class Headline < ActiveRecord::Base
   end
 
   def date_for_permalink
-    published_on.strftime('%m-%d-%Y')
+    published_on.try(:strftime, '%m-%d-%Y') # TODO determine if published_on should simply be required
   end
 
   # use first paragraph of news item as teaser
