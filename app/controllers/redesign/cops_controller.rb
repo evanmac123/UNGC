@@ -12,15 +12,22 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def active
+    @page = CopListPage.new(current_container)
   end
+
   def advanced
+    @page = CopListPage.new(current_container)
   end
+
   def expelled
   end
+
   def learner
   end
+
   def non_communicating
   end
+
   def submitted_coe
   end
 
