@@ -28,9 +28,7 @@ class Admin::EventsController < AdminController
   end
 
   def update
-    @event.update_attributes(event_params)
-
-    if @event.save
+    if @event.update_attributes(event_params)
       flash[:notice] = 'Changes have been saved.'
       redirect_to action: 'index'
     else
