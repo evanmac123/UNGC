@@ -4,6 +4,9 @@
 <section id='paged_results' class='main-content-section main-content-section-wide cop-list'>
   <header class='main-content-header'>
     <h1>Expelled Participants</h1>
+
+    <p>The following participants have been expelled for failure to communicate progress <%= link_to 'in accordance with the COP Policy', '/redesign/participation/report/cop/create-and-submit' -%> by the required deadline.</p>
+
     <h2>Total number of expelled participants: <%= count_all_orgs(:expelled_for_failure_to_communicate_progress) %></h2>
     <%= per_page_select %>
   </header>
