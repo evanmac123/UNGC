@@ -32,6 +32,7 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def submitted_coe
+    @page = CopListPage.new(current_container)
   end
 
   def show
