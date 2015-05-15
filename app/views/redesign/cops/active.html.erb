@@ -21,7 +21,7 @@
       <% for cop in paged_cops(:active) %>
         <tr>
           <td title="<%= cop.organization_name %>">
-            <%= truncate(cop.organization_name, :length => 40)%>
+            <%= link_to truncate(cop.organization_name, :length => 40), redesign_cops_path(:active, cop) %>
           </td>
           <td title="<%= cop.sector_name %>">
             <%= truncate(cop.sector_name, :length => 30) %>
@@ -30,7 +30,7 @@
             <%= truncate(cop.country_name, :length => 15) %>
           </td>
           <td>
-            <%= link_to cop.published_on.year, redesign_cops_path(:active, cop) %>
+            <%= cop.published_on.year %>
           </td>
         </tr>
       <% end %>

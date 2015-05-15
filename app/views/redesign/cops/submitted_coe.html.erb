@@ -20,7 +20,7 @@
       <% for cop in paged_cops(:coes) %>
         <tr>
           <td title="<%= cop.organization_name %>">
-            <%= truncate(cop.organization_name, :length => 40) %>
+            <%= link_to truncate(cop.organization_name, :length => 40), redesign_coe_path(cop) %>
           </td>
           <td title="<%= cop.organization_type %>">
             <%= truncate(cop.organization_type, :length => 30) %>
@@ -29,7 +29,7 @@
             <%= truncate(cop.country_name, :length => 15) %>
           </td>
           <td>
-            <%= link_to cop.published_on.year, redesign_coe_path(cop) %>
+            <%= cop.published_on.year %>
           </td>
         </tr>
       <% end %>
