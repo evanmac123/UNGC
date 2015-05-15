@@ -5387,10 +5387,10 @@
 					}
 
 					// mailto
-					if (link.search('@') != -1 && /(http|ftp|https):\/\//i.test(link) === false)
-					{
-						link = 'mailto:' + link;
-					}
+					//if (link.search('@') != -1 && /(http|ftp|https):\/\//i.test(link) === false)
+					//{
+					//link = 'mailto:' + link;
+					//}
 					// url, not anchor
 					else if (link.search('#') !== 0)
 					{
