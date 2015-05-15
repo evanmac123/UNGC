@@ -20,12 +20,15 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def expelled
+    @page = CopListPage.new(current_container)
   end
 
   def learner
+    @page = CopListPage.new(current_container)
   end
 
   def non_communicating
+    @page = CopListPage.new(current_container)
   end
 
   def submitted_coe

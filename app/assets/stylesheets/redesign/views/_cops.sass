@@ -1,0 +1,28 @@
+.cop-list
+  .main-content-header
+    h1
+      margin-bottom: .25em
+
+    h2
+      margin-top: 0
+      float: left
+
+    #per_page
+      float: right
+      top: .25em
+
+.pagination
+  .previous_page:before
+    margin-right: .25em
+    vertical-align: middle
+
+  .next_page
+    &:before
+      display: none
+      content: 0
+
+    &:after
+      +fa-icon
+      content: $fa-var-caret-right
+      margin-left: .25em
+      vertical-align: middle

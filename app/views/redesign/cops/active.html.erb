@@ -1,45 +1,40 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
-TEST!!!
-<a name="paged_results"></a>
-<div class="clearfix">
-  <div class="left">
-    <h4>
-      Total number of GC Active COPs received:
-      <%= count_all_cops(:active) %>
-    </h4>
-  </div>
-  <div class="right">
+
+<section id='paged_results' class='main-content-section main-content-section-wide cop-list'>
+  <header class='main-content-header'>
+    <h1>GC Active</h1>
+    <h2>Total number of GC Active COPs received: <%= count_all_cops(:active) %></h2>
     <%= per_page_select %>
-  </div>
-</div>
-<p>&nbsp; </p>
-<table cellpadding="0" cellspacing="0" class="striped sortable" width="100%">
-  <thead>
-    <tr>
-      <th class="sort">Participant </th>
-      <th class="sort">Sector </th>
-      <th class="sort">Country </th>
-      <th class="sort">Year </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% for cop in paged_cops(:active) %>
+  </header>
+
+  <table class="table-embedded striped sortable">
+    <thead>
       <tr>
-        <td title="<%= cop.organization_name %>">
-          <%= truncate(cop.organization_name, :length => 40)%>
-        </td>
-        <td title="<%= cop.sector_name %>">
-          <%= truncate(cop.sector_name, :length => 30) %>
-        </td>
-        <td title="<%= cop.country_name %>">
-          <%= truncate(cop.country_name, :length => 15) %>
-        </td>
-        <td>
-          <%= link_to cop.published_on.year, redesign_cops_path(:active, cop) %>
-        </td>
+        <th class="sort">Participant </th>
+        <th class="sort">Sector </th>
+        <th class="sort">Country </th>
+        <th class="sort">Year </th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<%= paginate_cops(:active, {:anchor => 'paged_results'}) %>
+    </thead>
+    <tbody>
+      <% for cop in paged_cops(:active) %>
+        <tr>
+          <td title="<%= cop.organization_name %>">
+            <%= truncate(cop.organization_name, :length => 40)%>
+          </td>
+          <td title="<%= cop.sector_name %>">
+            <%= truncate(cop.sector_name, :length => 30) %>
+          </td>
+          <td title="<%= cop.country_name %>">
+            <%= truncate(cop.country_name, :length => 15) %>
+          </td>
+          <td>
+            <%= link_to cop.published_on.year, redesign_cops_path(:active, cop) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate_cops(:active, {:anchor => 'paged_results'}) %>
+</section>

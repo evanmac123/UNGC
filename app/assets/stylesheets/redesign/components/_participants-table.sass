@@ -1,7 +1,7 @@
 .participants-table
-  width: 100%
   margin: 0
-  border-collapse: collapse
+  @extend table.sortable
+  @extend table.striped
 
   th,
   td
@@ -9,61 +9,6 @@
     padding: .5em
     border: 1px solid #eee
 
-  thead
-    th
-      position: relative
-      background-color: color('dark-teal')
-      color: white
-      white-space: nowrap
-      font-family: $flama-bold
-      text-transform: uppercase
-      border-color: darken(color('dark-teal'), 5%)
-
-      &.sort-direction-toggle
-        cursor: pointer
-
-        &:after
-          content: '\00a0\00a0\00a0\00a0'
-
-        &:before
-          +fa-icon
-          content: $fa-var-sort
-          position: absolute
-          top: 0
-          right: .5em
-          bottom: 0
-          height: 1em
-          margin: auto
-          color: rgba(white, .4)
-
-        &:hover,
-        &:active
-          background-color: lighten(color('dark-teal'), 7%)
-
-        &.active-sort
-          background-color: lighten(color('dark-teal'), 5%)
-
-          &:before
-            color: white
-
-      &.asc:before
-        content: $fa-var-sort-asc
-
-      &.desc:before
-        content: $fa-var-sort-desc
-
-  tbody
-    tr
-      &:nth-child(even)
-        th,
-        td
-          background-color: #f9f9f9
-
-      &:hover
-        th,
-        td
-          background-color: #eee
 
   .name
     max-width: 300px
-
