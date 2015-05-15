@@ -12,7 +12,6 @@ class Admin::EventsController < AdminController
     @event = Event.new(event_params)
 
     if @event.save
-      add_taggings
       flash[:notice] = 'Event successfully created.'
       redirect_to action: 'index'
     else
@@ -32,7 +31,6 @@ class Admin::EventsController < AdminController
     @event.update_attributes(event_params)
 
     if @event.save
-      add_taggings
       flash[:notice] = 'Changes have been saved.'
       redirect_to action: 'index'
     else
@@ -60,15 +58,6 @@ class Admin::EventsController < AdminController
   end
 
   private
-    def add_taggings
-      taggings = {
-        topic_ids: event_params[:topic_ids],
-        issue_ids: event_params[:issue_ids],
-        sector_ids: event_params[:sector_ids]
-      }.delete_if { |key, value| value.nil? }
-      TaggingUpdaterWithIds.new(taggings, @event).update
-    end
-
     def order_from_params
       @order = [params[:sort_field] || 'starts_at', params[:sort_direction] || 'ASC'].join(' ')
     end
