@@ -455,7 +455,8 @@
           "children": [
             {
               "template": "Article_Form",
-              "path": "/Share-Success"
+              "path": "/Share-Story",
+              "old_path": "/take-action/action/share-success"
             },
             {
               "template": "Article",
