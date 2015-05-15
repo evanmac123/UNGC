@@ -5,11 +5,11 @@ class Admin::EventsController < AdminController
     :only => [:show, :edit, :update, :approve, :revoke, :delete, :destroy]
 
   def new
-    @event = Event.new
+    @event = EventPresenter.new(Event.new)
   end
 
   def create
-    @event = Event.new event_params
+    @event = Event.new(event_params)
 
     if @event.save
       add_taggings
@@ -21,14 +21,18 @@ class Admin::EventsController < AdminController
   end
 
   def show
+    @event = EventPresenter.new(@event)
   end
 
   def edit
-    @event = Event.new event_params, @event
+    @event = EventPresenter.new(@event)
   end
 
   def update
-    if @event.update(event_params)
+    @event.update_attributes(event_params)
+
+    if @event.save
+      add_taggings
       flash[:notice] = 'Changes have been saved.'
       redirect_to action: 'index'
     else
@@ -57,11 +61,12 @@ class Admin::EventsController < AdminController
 
   private
     def add_taggings
-      TaggingUpdater.new({
-        topics: event_params[:topic_ids],
-        issues: event_params[:issue_ids],
-        sectors: event_params[:sector_ids]
-      }, @event).update
+      taggings = {
+        topic_ids: event_params[:topic_ids],
+        issue_ids: event_params[:issue_ids],
+        sector_ids: event_params[:sector_ids]
+      }.delete_if { |key, value| value.nil? }
+      TaggingUpdaterWithIds.new(taggings, @event).update
     end
 
     def order_from_params

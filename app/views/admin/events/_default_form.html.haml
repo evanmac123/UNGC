@@ -1,8 +1,50 @@
-%fieldset
-  %ol
-    = default_form.text_field :title
-    = default_form.text_area :description
-    = default_form.datetime_select :starts_at
-    = default_form.datetime_select :ends_at
-    = default_form.text_field :location
-    = default_form.select :country_id, Country.data_for_select
+- if default_form.error_messages.present?
+  %h3 Sorry, the Event was not saved. Please provide all required information:
+  %div{:class => 'flash error'}
+    %ul
+      - @event.errors.full_messages.each do |e|
+        %li= e
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li
+      %a{:href => '#general'} General
+    %li
+      %a{:href => '#redesign_topics'} New Topics*
+    %li
+      %a{:href => '#redesign_issues'} Issues*
+    %li
+      %a{:href => '#redesign_sectors'} Sectors*
+
+  #general.tab_content
+    %fieldset
+      %legend General Information
+      %ol
+        = default_form.text_field :title
+        = default_form.text_area :description
+        = default_form.datetime_select :starts_at
+        = default_form.datetime_select :ends_at
+        = default_form.check_box :is_all_day, {}, 'true', 'false'
+        = default_form.check_box :is_online, {}, 'true', 'false'
+        = default_form.text_field :location
+        = default_form.select :country_id, Country.data_for_select
+        = default_form.check_box :is_invitation_only, {}, 'true', 'false'
+        = default_form.select(:priority, Event.priority_options)
+        = default_form.text_field :contact_id
+        = default_form.file_field :thumbnail_image, label: 'Thumbnail Image', accept: 'image/png,image/gif,image/jpeg'
+        - if @event.thumbnail_image.present?
+          %label Preview
+          .resource-img-preview
+            = image_tag @event.thumbnail_image.url(:show)
+        = default_form.file_field :banner_image, label: 'Banner Image', accept: 'image/png,image/gif,image/jpeg'
+        - if @event.banner_image.present?
+          %label Preview
+          .resource-img-preview
+            = image_tag @event.banner_image.url(:show)
+        = default_form.text_field :call_to_action_1_title
+        = default_form.text_field :call_to_action_1_link
+        = default_form.text_field :call_to_action_2_title
+        = default_form.text_field :call_to_action_2_link
+        = default_form.text_field :overview_description
+
+  =render partial: "admin/shared/tagging_form_with_ids", locals: {taggable: @event, model_name: 'event'}
