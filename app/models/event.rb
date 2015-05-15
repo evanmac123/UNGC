@@ -7,7 +7,7 @@ class Event < ActiveRecord::Base
   has_attached_file :thumbnail_image, url: "/system/:class/:attachment/:id/:filename"
   has_attached_file :banner_image, url: "/system/:class/:attachment/:id/:filename"
 
-  has_many :taggings
+  has_many :taggings, dependent: :destroy
   has_many :sectors,        through: :taggings
   has_many :sector_groups,  through: :sectors, class_name: 'Sector', source: :parent
   has_many :issues,         through: :taggings

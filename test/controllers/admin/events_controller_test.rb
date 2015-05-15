@@ -171,6 +171,17 @@ class Admin::EventsControllerTest < ActionController::TestCase
       end
     end
 
+    context 'GET /admin/events/:id/edit' do
+      setup do
+        @event = create_event
+        get :edit, id: @event.id
+      end
+
+      should 'retrieve an event' do
+        assert_response :success
+      end
+    end
+
     context 'PUT /admin/events/:id' do
       context 'with valid params' do
         setup do
@@ -332,20 +343,41 @@ class Admin::EventsControllerTest < ActionController::TestCase
     end
 
     context 'DELETE /admin/events/:id' do
-      setup do
-        @event = create_event
+      context 'given an event with no associations' do
+        setup do
+          @event = create_event
 
-        assert_difference('Event.count', -1) do
-          delete :destroy, id: @event.id
+          assert_difference('Event.count', -1) do
+            delete :destroy, id: @event.id
+          end
+        end
+
+        should 'destroy event' do
+          assert_not Event.exists? @event
+        end
+
+        should 'redirects to index' do
+          assert_redirected_to_index
         end
       end
 
-      should 'destroy event' do
-        assert_not Event.exists? @event
-      end
+      context 'given an event with a tagging associations' do
+        setup do
+          post :create, event: @params
+          @event = Event.last
 
-      should 'redirects to index' do
-        assert_redirected_to_index
+          assert_difference('Event.count', -1) do
+            delete :destroy, id: @event.id
+          end
+        end
+
+        should 'destroy event' do
+          assert_not Event.exists? @event
+        end
+
+        should 'redirects to index' do
+          assert_redirected_to_index
+        end
       end
     end
 
