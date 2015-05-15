@@ -1,5 +1,16 @@
 class Redesign::CopsController < Redesign::ApplicationController
 
+  def index
+    set_current_container_by_path('/participation/report/cop/create-and-submit')
+
+    @page = page_for_container(current_container).new(
+      current_container,
+      current_payload_data
+    )
+
+    render("/redesign/static/" + current_container.layout)
+  end
+
   def active
   end
   def advanced
@@ -32,6 +43,10 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   private
+
+    def page_for_container(container)
+      "#{container.layout}_page".classify.constantize
+    end
 
     def load_communication_on_progress
       @communication_on_progress = find_cop_by_id || find_cop_by_cop_and_org
