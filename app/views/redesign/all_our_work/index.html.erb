@@ -3,11 +3,14 @@
 
 <%= render 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_all_our_work_path, method: :get do |form| %>
-  <%= search_filter @search.issue_filter %>
-  <%= search_filter @search.topic_filter %>
+<%= form_for @search, as: :search, url: redesign_all_our_work_path, method: :get, html: {id: 'filters-form'}  do |form| %>
+  <% @search.filters.each do |filter| %>
+    <%= search_filter filter %>
+  <% end %>
   <%= form.submit 'Search' %>
 <% end %>
+
+<%= active_filters(@search) %>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.issues} do |block| %>
   <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
