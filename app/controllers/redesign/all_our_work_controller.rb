@@ -9,16 +9,13 @@ class Redesign::AllOurWorkController < Redesign::ApplicationController
   private
 
   def search_params
-    permitted = params.fetch(:search, {}).permit()
-    if page.present?
-      permitted.merge(page: page)
-    else
-      permitted
-    end
+    params.fetch(:search, {})
+      .permit(issues: [], topics: [])
+      .merge(page: page)
   end
 
   def page
-    params[:page]
+    params.fetch(:page, 1)
   end
 
 end
