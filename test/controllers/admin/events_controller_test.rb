@@ -10,8 +10,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
     @issue = create_issue
     @sector = create_sector
 
-    @starts_at = Time.new(2015, 06, 15, 19, 0, 0)
-    @ends_at = Time.new(2015, 06, 15, 22, 0, 0)
+    @starts_at = DateTime.new(2015, 06, 15, 19, 0, 0, 5)
+    @ends_at = DateTime.new(2015, 06, 15, 22, 0, 0, 5)
 
     @params = {
       title: 'New Website Launch',
