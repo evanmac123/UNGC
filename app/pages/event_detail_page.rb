@@ -79,7 +79,11 @@ class EventDetailPage < SimpleDelegator
   end
 
   def location
-    full_location
+    if is_online?
+      'Online'
+    else
+      full_location
+    end
   end
 
   def contact
@@ -115,4 +119,3 @@ class EventDetailPage < SimpleDelegator
       __getobj__
     end
 end
-
