@@ -8,6 +8,6 @@
   <input type='text' value='{{model.url}}' readonly="readonly" class='form-control image-url-input'>
 </td>
 <td class='image-destroy'>
-  <button class="btn btn-danger" {{disabled isDisabled}} {{action "destroy" model}}>Delete</button>
+  <button class="btn btn-danger" disabled={{isDisabled}} {{action "destroy" model}}>Delete</button>
 </td>
 
