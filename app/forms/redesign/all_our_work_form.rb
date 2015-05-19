@@ -6,12 +6,24 @@ class Redesign::AllOurWorkForm
   attribute :issues,      Array[Integer], default: []
   attribute :topics,      Array[Integer], default: []
 
+  def filters
+    [issue_filter, topic_filter]
+  end
+
+  def active_filters
+    filters.flat_map(&:selected_options)
+  end
+
+  def disabled?
+    false
+  end
+
   def issue_filter
-    IssueFilter.new(issues)
+    @issue_filter ||= Filters::IssueFilter.new(issues, issues)
   end
 
   def topic_filter
-    TopicFilter.new(topics)
+    @topic_filter ||= Filters::TopicFilter.new(topics, topics)
   end
 
   def execute
