@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514185837) do
+ActiveRecord::Schema.define(version: 20150519195239) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -425,10 +425,10 @@ ActiveRecord::Schema.define(version: 20150514185837) do
     t.string   "banner_image_content_type",    limit: 255
     t.integer  "banner_image_file_size",       limit: 4
     t.datetime "banner_image_updated_at"
-    t.string   "call_to_action_1_title",       limit: 255
-    t.string   "call_to_action_1_link",        limit: 255
-    t.string   "call_to_action_2_title",       limit: 255
-    t.string   "call_to_action_2_link",        limit: 255
+    t.string   "call_to_action_1_label",       limit: 255
+    t.string   "call_to_action_1_url",         limit: 255
+    t.string   "call_to_action_2_label",       limit: 255
+    t.string   "call_to_action_2_url",         limit: 255
     t.text     "overview_description",         limit: 65535
   end
 

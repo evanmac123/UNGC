@@ -43,10 +43,10 @@
           %label Preview
           .resource-img-preview
             = image_tag @event.banner_image.url(:show)
-        = default_form.text_field :call_to_action_1_title
-        = default_form.text_field :call_to_action_1_link
-        = default_form.text_field :call_to_action_2_title
-        = default_form.text_field :call_to_action_2_link
+        = default_form.text_field :call_to_action_1_label
+        = default_form.text_field :call_to_action_1_url
+        = default_form.text_field :call_to_action_2_label
+        = default_form.text_field :call_to_action_2_url
   #overview.tab_content
     %fieldset
       %legend Overview

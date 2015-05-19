@@ -35,10 +35,10 @@ class Admin::EventsControllerTest < ActionController::TestCase
       contact_id: @contact.id,
       thumbnail_image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'),
       banner_image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'),
-      call_to_action_1_title: 'Contact Us an Invitation',
-      call_to_action_1_link: 'http://unglobalbompact.org/about/contact',
-      call_to_action_2_title: 'Download a Poster',
-      call_to_action_2_link: 'http://unglobalbompact.org/downloads',
+      call_to_action_1_label: 'Contact Us an Invitation',
+      call_to_action_1_url: 'http://unglobalbompact.org/about/contact',
+      call_to_action_2_label: 'Download a Poster',
+      call_to_action_2_url: 'http://unglobalbompact.org/downloads',
       overview_description: 'Over the past couple months...',
       topic_ids: [@topic.id],
       issue_ids: [@issue.id],
@@ -113,20 +113,20 @@ class Admin::EventsControllerTest < ActionController::TestCase
           assert @event.banner_image.file?
         end
 
-        should 'set call_to_action_1_title' do
-          assert_equal @params[:call_to_action_1_title], @event.call_to_action_1_title
+        should 'set call_to_action_1_label' do
+          assert_equal @params[:call_to_action_1_label], @event.call_to_action_1_label
         end
 
-        should 'set call_to_action_1_link' do
-          assert_equal @params[:call_to_action_1_link], @event.call_to_action_1_link
+        should 'set call_to_action_1_url' do
+          assert_equal @params[:call_to_action_1_url], @event.call_to_action_1_url
         end
 
-        should 'set call_to_action_2_title' do
-          assert_equal @params[:call_to_action_2_title], @event.call_to_action_2_title
+        should 'set call_to_action_2_label' do
+          assert_equal @params[:call_to_action_2_label], @event.call_to_action_2_label
         end
 
-        should 'set call_to_action_2_link' do
-          assert_equal @params[:call_to_action_2_link], @event.call_to_action_2_link
+        should 'set call_to_action_2_url' do
+          assert_equal @params[:call_to_action_2_url], @event.call_to_action_2_url
         end
 
         should 'set overview_description' do
@@ -247,20 +247,20 @@ class Admin::EventsControllerTest < ActionController::TestCase
           assert @event.banner_image.file?
         end
 
-        should 'set call_to_action_1_title' do
-          assert_equal @params[:call_to_action_1_title], @event.call_to_action_1_title
+        should 'set call_to_action_1_label' do
+          assert_equal @params[:call_to_action_1_label], @event.call_to_action_1_label
         end
 
-        should 'set call_to_action_1_link' do
-          assert_equal @params[:call_to_action_1_link], @event.call_to_action_1_link
+        should 'set call_to_action_1_url' do
+          assert_equal @params[:call_to_action_1_url], @event.call_to_action_1_url
         end
 
-        should 'set call_to_action_2_title' do
-          assert_equal @params[:call_to_action_2_title], @event.call_to_action_2_title
+        should 'set call_to_action_2_label' do
+          assert_equal @params[:call_to_action_2_label], @event.call_to_action_2_label
         end
 
-        should 'set call_to_action_2_link' do
-          assert_equal @params[:call_to_action_2_link], @event.call_to_action_2_link
+        should 'set call_to_action_2_url' do
+          assert_equal @params[:call_to_action_2_url], @event.call_to_action_2_url
         end
 
         should 'set overview_description' do
