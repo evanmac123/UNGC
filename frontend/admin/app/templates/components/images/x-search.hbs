@@ -1,0 +1,7 @@
+<form class="form-inline">
+  <div class="form-group">
+    <label for="query">Search:</label>
+    {{input value=query class="form-control" placeholder="search name"}}
+  </div>
+  <button type="submit" {{action 'search'}} class="btn btn-default">Search</button>
+</form>

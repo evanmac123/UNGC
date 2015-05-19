@@ -20,7 +20,11 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
   end
 
   def index
-    images = UploadedImage.order(created_at: :desc).paginate({page: params[:page], per_page: params[:per_page]})
+    scoped = UploadedImage.order(created_at: :desc)
+    if params[:query]
+      scoped = scoped.where('filename LIKE ?', "%#{params[:query]}%")
+    end
+    images = scoped.paginate({page: params[:page], per_page: params[:per_page]})
     serialized = images.map { |i| {id: i.id, url: i.url, filename: i.filename }}
     render json: { images: serialized, meta: {total_pages: images.total_pages} }
   end

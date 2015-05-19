@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
   // setup our query params
-  queryParams: ["page", "perPage"],
+  queryParams: ["page", "perPage", 'query'],
 
   // binding the property on the paged array
   // to the query params on the controller
