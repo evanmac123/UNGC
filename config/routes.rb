@@ -31,7 +31,7 @@ UNGC::Application.routes.draw do
           get :issues, on: :collection
           get :sectors, on: :collection
         end
-        resources :images, only: [:index, :create, :signed_url] do
+        resources :images, only: [:index, :create, :signed_url, :destroy] do
           post :signed_url, on: :collection
         end
         resources :resources, only: [:index]
