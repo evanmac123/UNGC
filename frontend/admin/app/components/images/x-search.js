@@ -4,10 +4,12 @@ export default Ember.Component.extend({
   tagName: 'tr',
   isDisabled: false,
 
+  //actions
+  search: 'search',
+
   actions: {
-    destroy(image) {
-      this.set('isDisabled', true);
-      image.destroyRecord();
+    search() {
+      this.sendAction('search', this.get('query'));
     }
   }
 });
