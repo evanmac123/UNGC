@@ -10,6 +10,8 @@
     %li
       %a{:href => '#general'} General
     %li
+      %a{:href => '#overview'} Overview
+    %li
       %a{:href => '#redesign_topics'} New Topics*
     %li
       %a{:href => '#redesign_issues'} Issues*
@@ -45,6 +47,10 @@
         = default_form.text_field :call_to_action_1_link
         = default_form.text_field :call_to_action_2_title
         = default_form.text_field :call_to_action_2_link
+  #overview.tab_content
+    %fieldset
+      %legend Overview
+      %ol
         = default_form.text_field :overview_description
 
   =render partial: "admin/shared/tagging_form_with_ids", locals: {taggable: @event, model_name: 'event'}
