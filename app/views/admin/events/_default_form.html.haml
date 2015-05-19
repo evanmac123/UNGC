@@ -24,8 +24,10 @@
       %ol
         = default_form.text_field :title
         = default_form.text_area :description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
-        = default_form.datetime_select :starts_at
-        = default_form.datetime_select :ends_at
+        - # XXX: Note the last {} at the end of the datetime_select. It prevents
+        - # incorrect "popping" from the args list in the DefaultFormBuilder
+        = default_form.datetime_select :starts_at, {}, {class: 'datetime-select'}, {}
+        = default_form.datetime_select :ends_at, {}, {class: 'datetime-select'}, {}
         = default_form.check_box :is_all_day, {}, 'true', 'false'
         = default_form.check_box :is_online, {}, 'true', 'false'
         = default_form.text_field :location
