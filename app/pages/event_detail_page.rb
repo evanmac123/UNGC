@@ -97,15 +97,15 @@ class EventDetailPage < SimpleDelegator
   def calls_to_action
     c = []
     c << {
-      label: call_to_action_1_title,
-      url: call_to_action_1_link,
+      label: call_to_action_1_label,
+      url: call_to_action_1_url,
       external: true
-    } if call_to_action_1_title
+    } if call_to_action_1_label
     c << {
-      label: call_to_action_2_title,
-      url: call_to_action_2_link,
+      label: call_to_action_2_label,
+      url: call_to_action_2_url,
       external: true
-    } if call_to_action_2_title
+    } if call_to_action_2_label
     c
   end
 
