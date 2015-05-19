@@ -17,6 +17,10 @@ class Redesign::NewsListForm
     filters.flat_map(&:selected_options)
   end
 
+  def disabled?
+    false
+  end
+
   def issue_filter
     @issue_filter ||= Filters::IssueFilter.new(issues, issues)
   end

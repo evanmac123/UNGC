@@ -10,7 +10,7 @@
     <% end %>
   </fieldset>
 
-  <%= render 'redesign/components/active_filters_list', active_filters: @search.active_filters, disabled: false %>
+  <%= active_filters(@search) %>
 
   <%= form.text_field :start_date, class: 'datepicker' %>
   <%= form.text_field :end_date,   class: 'datepicker' %>
