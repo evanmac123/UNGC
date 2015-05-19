@@ -49,4 +49,3 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
   end
 
 end
-
