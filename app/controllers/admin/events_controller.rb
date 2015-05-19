@@ -15,6 +15,7 @@ class Admin::EventsController < AdminController
       flash[:notice] = 'Event successfully created.'
       redirect_to action: 'index'
     else
+      @event = EventPresenter.new(@event)
       render action: 'new'
     end
   end
@@ -32,6 +33,7 @@ class Admin::EventsController < AdminController
       flash[:notice] = 'Changes have been saved.'
       redirect_to action: 'index'
     else
+      @event = EventPresenter.new(@event)
       render action: 'edit'
     end
   end

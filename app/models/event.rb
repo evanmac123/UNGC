@@ -17,9 +17,20 @@ class Event < ActiveRecord::Base
   has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
 
   serialize :urls
-  validates_presence_of :title, :on => :create, :message => "^Please provide a title"
-  do_not_validate_attachment_file_type :thumbnail_image
-  do_not_validate_attachment_file_type :banner_image
+
+  validates_presence_of :title, :message => "^Please provide a title"
+  validates_presence_of :description, :message => "^Please provide a description"
+  validates :thumbnail_image, :attachment_presence => true
+  validates_attachment_content_type :thumbnail_image, content_type: [
+    'image/png',
+    'image/jpeg'
+  ]
+  validates :banner_image, :attachment_presence => true
+  validates_attachment_content_type :banner_image, content_type: [
+    'image/png',
+    'image/jpeg'
+  ]
+
   permalink :date_for_permalink
 
   enum priority: {

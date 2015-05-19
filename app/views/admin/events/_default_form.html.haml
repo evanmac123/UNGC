@@ -33,12 +33,12 @@
         = default_form.check_box :is_invitation_only, {}, 'true', 'false'
         = default_form.select(:priority, @event.priority_options)
         = default_form.text_field :contact_id
-        = default_form.file_field :thumbnail_image, label: 'Thumbnail Image', accept: 'image/png,image/gif,image/jpeg'
+        = default_form.file_field :thumbnail_image, label: 'Thumbnail Image', accept: 'image/png,image/jpeg'
         - if @event.thumbnail_image.present?
           %label Preview
           .resource-img-preview
             = image_tag @event.thumbnail_image.url(:show)
-        = default_form.file_field :banner_image, label: 'Banner Image', accept: 'image/png,image/gif,image/jpeg'
+        = default_form.file_field :banner_image, label: 'Banner Image', accept: 'image/png,image/jpeg'
         - if @event.banner_image.present?
           %label Preview
           .resource-img-preview

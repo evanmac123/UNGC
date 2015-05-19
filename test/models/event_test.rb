@@ -73,8 +73,7 @@ class EventTest < ActiveSupport::TestCase
 
   context "given a new event" do
     setup do
-      @event = Event.new :title => FixtureReplacement.random_string
-      assert @event.save
+      @event = create_event
     end
 
     should "start 'pending' approval" do

@@ -35,8 +35,8 @@ class SearchableTest < ActiveSupport::TestCase
   context "Indexing Events" do
 
     setup do
-      @unapproved = create_searchable_event
-      @approved = create_searchable_event
+      @unapproved = create_event
+      @approved = create_event
       @approved.approve!
       Searchable.index_events
       @searchable = Searchable.first
@@ -47,7 +47,7 @@ class SearchableTest < ActiveSupport::TestCase
     end
 
     should "not include unapproved events" do
-      assert_does_not_contain Searchable.all.map(&:title), @unapproved.title
+      assert_does_not_contain Searchable.all.map(&:id), @unapproved.id
     end
 
     should "include title" do
