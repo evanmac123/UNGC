@@ -293,16 +293,6 @@ class ActiveSupport::TestCase
     )
   end
 
-  def create_event(params = {})
-    defaults = {
-      title: 'New Website Launch',
-      description: 'Join the UN Global Compact as we celebrate...',
-      thumbnail_image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'),
-      banner_image: fixture_file_upload('files/untitled.jpg', 'image/jpeg')
-    }
-    super(defaults.merge(params))
-  end
-  
   def create_file_upload
     fixture_file_upload('files/untitled.pdf', 'application/pdf')
   end
