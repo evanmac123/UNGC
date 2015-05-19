@@ -4,6 +4,7 @@ class Event < ActiveRecord::Base
   include Indexable
 
   belongs_to :country
+  belongs_to :contact
   has_attached_file :thumbnail_image, url: "/system/:class/:attachment/:id/:filename"
   has_attached_file :banner_image, url: "/system/:class/:attachment/:id/:filename"
 
