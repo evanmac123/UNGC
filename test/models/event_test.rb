@@ -8,7 +8,7 @@ class EventTest < ActiveSupport::TestCase
   context "given an event with a strange title" do
     setup do
       @event1 = create_event :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?'
-      @permalink = "1-#{Date.today.strftime('%m-%d-%Y')}"
+      @permalink = "1-what-is-this-a-totall-valid-name-really"
     end
 
     should "create an SEO-friendly permalink" do
