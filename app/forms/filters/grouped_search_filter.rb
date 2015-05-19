@@ -17,17 +17,11 @@ class Filters::GroupedSearchFilter < Filters::SearchFilter
   private
 
   def option(parent)
-    if selected.nil?
-      debugger
-    end
     is_selected = selected.include?(parent.id)
     FilterOption.new(parent.id, parent.name, key, is_selected)
   end
 
   def child_option(child)
-    if selected_children.nil?
-      debugger
-    end
     is_selected = selected_children.include?(child.id)
     FilterOption.new(child.id, child.name, child_key, is_selected)
   end
