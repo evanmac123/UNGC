@@ -31,10 +31,10 @@
         = default_form.check_box :is_all_day, {}, 'true', 'false'
         = default_form.check_box :is_online, {}, 'true', 'false'
         = default_form.text_field :location
-        = default_form.select :country_id, @event.country_options
+        = default_form.select :country_id, @event.country_options, {include_blank: 'Select a Country'}, {}
         = default_form.check_box :is_invitation_only, {}, 'true', 'false'
         = default_form.select(:priority, @event.priority_options)
-        = default_form.select :contact_id, @event.contact_options
+        = default_form.select :contact_id, @event.contact_options, {include_blank: 'Select a Contact'}, {}
         = default_form.file_field :thumbnail_image, label: 'Thumbnail Image', accept: 'image/png,image/jpeg'
         - if @event.thumbnail_image.present?
           %label Preview
