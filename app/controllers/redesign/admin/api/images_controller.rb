@@ -25,6 +25,12 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
     render json: { images: serialized, meta: {total_pages: images.total_pages} }
   end
 
+  def destroy
+    image = UploadedImage.find(params[:id])
+    image.destroy
+    render nothing: true, status: 204
+  end
+
   private
 
   def image_params

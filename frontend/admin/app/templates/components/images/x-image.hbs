@@ -1,0 +1,13 @@
+<td class='image-preview'>
+<img src={{model.url}} style="max-width: 300px">
+</td>
+<th class='image-filename'>
+  {{image.filename}}
+</th>
+<td class='image-url'>
+  <input type='text' value='{{model.url}}' readonly="readonly" class='form-control image-url-input'>
+</td>
+<td class='image-destroy'>
+  <button class="btn btn-danger" {{disabled isDisabled}} {{action "destroy" model}}>Delete</button>
+</td>
+
