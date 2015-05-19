@@ -30,12 +30,6 @@ class Event < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 15
 
-  def self.priority_options
-    self.priorities.keys.map do |value|
-      title = value.scan(/\d+|[a-z]+/i).join(' ').titleize
-      [title,value]
-    end
-  end
 
   def self.for_month_year(month=nil, year=nil)
     today = Date.today
