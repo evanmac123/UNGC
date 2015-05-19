@@ -14,6 +14,12 @@ class EventPresenter < SimpleDelegator
     Country.order(:name).map { |c| [c.name, c.id] }
   end
 
+  def contact_options
+    Contact.joins(:organization).where('organizations.name = ?', DEFAULTS[:ungc_organization_name]).map do |c|
+      [c.name, c.id]
+    end
+  end
+
   private
     def event
       __getobj__
