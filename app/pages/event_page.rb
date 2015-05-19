@@ -15,7 +15,23 @@ class EventPage < ContainerPage
   end
 
   def events
-    @results #TODO possibly add wrapper here for label/path etc
+    @results.map { |e| EventBox.new(e) }
+  end
+
+  class EventBox < SimpleDelegator
+    def tag
+      if event.is_online?
+        'Online'
+      elsif event.is_invitation_only?
+        'Invitation'
+      else
+        'Open'
+      end
+    end
+
+    def event
+      __getobj__
+    end
   end
 
 end
