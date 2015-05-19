@@ -1,0 +1,44 @@
+## add links to highlight hero
+
+#add in this section as option for landing page
+
+#remove highlight right align or test that it doesn't break
+
+#priciples limit should be 10
+
+#partners add uploader for logo url
+
+
+#featured resources should be 12
+
+
+#library search, check content type and sort options, looks it's reverted
+
+#library search, intial sort by date descending
+
+
+#sort alphabetically local network menu
+
+#possilby add slugs to local network names
+
+
+#add an "Issue" and "topic" to the label list
+
+#add option to disable the 'in this section menu' on articles
+
+
+#rename see all issues into homepage
+
+
+#add list of all images, rough or not :)
+
+make nicer library urls?
+
+backfill 
+
+local network
+  show representative
+  show contact person (later with image)
+
+
+remove all-issues template entirely
