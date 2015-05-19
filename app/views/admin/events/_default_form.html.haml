@@ -23,7 +23,7 @@
       %legend General Information
       %ol
         = default_form.text_field :title
-        = default_form.text_area :description
+        = default_form.text_area :description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
         = default_form.datetime_select :starts_at
         = default_form.datetime_select :ends_at
         = default_form.check_box :is_all_day, {}, 'true', 'false'
@@ -51,6 +51,6 @@
     %fieldset
       %legend Overview
       %ol
-        = default_form.text_field :overview_description
+        = default_form.text_area :overview_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
 
   =render partial: "admin/shared/tagging_form_with_ids", locals: {taggable: @event, model_name: 'event'}
