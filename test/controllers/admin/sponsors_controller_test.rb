@@ -4,10 +4,11 @@ class Admin::SponsorsControllerTest < ActionController::TestCase
   setup do
     @staff_user = create_staff_user
 
-    @params = valid_sponsor_attributes({
+    @params = {
+      name: 'Nestle Creating Shared Value',
       website_url: 'http://www.nestle.com/csv',
       logo_url: 'http://www.nestle.com/csv/logo.jpg'
-    })
+    }
   end
 
   context "given a staff user" do
