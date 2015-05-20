@@ -40,8 +40,8 @@ class Admin::EventsControllerTest < ActionController::TestCase
       call_to_action_1_url: 'http://unglobalbompact.org/about/contact',
       call_to_action_2_label: 'Download a Poster',
       call_to_action_2_url: 'http://unglobalbompact.org/downloads',
-      sponsor_ids: [@sponsor.id],
       overview_description: 'Over the past couple months...',
+      sponsor_ids: [@sponsor.id],
       topic_ids: [@topic.id],
       issue_ids: [@issue.id],
       sector_ids: [@sector.id]
@@ -131,12 +131,12 @@ class Admin::EventsControllerTest < ActionController::TestCase
           assert_equal @params[:call_to_action_2_url], @event.call_to_action_2_url
         end
 
-        should 'set sponsor IDs' do
-          assert_equal @params[:sponsor_ids], @event.sponsor_ids
-        end
-
         should 'set overview_description' do
           assert_equal @params[:overview_description], @event.overview_description
+        end
+
+        should 'set sponsor IDs' do
+          assert_equal @params[:sponsor_ids], @event.sponsor_ids
         end
 
         should 'set approval' do
@@ -271,6 +271,10 @@ class Admin::EventsControllerTest < ActionController::TestCase
 
         should 'set overview_description' do
           assert_equal @params[:overview_description], @event.overview_description
+        end
+
+        should 'set sponsor IDs' do
+          assert_equal @params[:sponsor_ids], @event.sponsor_ids
         end
 
         should 'set approval' do
