@@ -1,9 +1,13 @@
-class ContactUsPage < SimpleDelegator
-
-  attr_reader :container
+class ContactUsPage < ContainerPage
 
   def hero
-    {size: 'small'}
+    {
+      title: {
+        title1: 'Contact Us'
+      },
+      size: 'small',
+      show_section_nav: true
+    }
   end
 
   def meta_title
@@ -13,8 +17,7 @@ class ContactUsPage < SimpleDelegator
   def meta_description
   end
 
-
-  # def section_nav
-  #   return Components::SectionNav.new(container)
-  # end
+  def section_nav
+    return Components::SectionNav.new(container)
+  end
 end
