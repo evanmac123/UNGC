@@ -48,18 +48,6 @@ class Admin::SponsorsControllerTest < ActionController::TestCase
       end
     end
 
-    context 'GET /admin/sponsors/:id' do
-      setup do
-        @sponsor = create_sponsor
-        get :show, id: @sponsor.id
-      end
-
-      should 'retrieve an sponsor' do
-        assert_response :success
-        assert assigns(:sponsor), 'Instance variable "sponsor" not assigned.'
-      end
-    end
-
     context 'GET /admin/sponsors/:id/edit' do
       setup do
         @sponsor = create_sponsor

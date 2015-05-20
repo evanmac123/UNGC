@@ -1,4 +1,5 @@
 class Admin::SponsorsController < AdminController
+  include Admin::SponsorsHelper
   before_filter :no_organization_or_local_network_access
   before_filter :set_sponsor,
     :only => [:show, :edit, :update, :delete, :destroy]
@@ -45,7 +46,7 @@ class Admin::SponsorsController < AdminController
 
   private
     def order_from_params
-      @order = [params[:sort_field] || 'starts_at', params[:sort_direction] || 'ASC'].join(' ')
+      @order = [params[:sort_field] || 'name', params[:sort_direction] || 'ASC'].join(' ')
     end
 
     def set_sponsor
