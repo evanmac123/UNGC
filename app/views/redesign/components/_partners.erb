@@ -9,7 +9,7 @@
   <ul class='component-partners-list'>
     <%- partners.each do |partner| -%>
       <li>
-        <%= link_to_redesign partner.url do %>
+        <%= link_to_redesign partner.url, target: partner.external ? "_blank" : "" do %>
           <%= image_tag partner.logo, alt: partner.name -%>
         <%- end -%>
       </li>
