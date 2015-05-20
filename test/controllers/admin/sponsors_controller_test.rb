@@ -44,7 +44,26 @@ class Admin::SponsorsControllerTest < ActionController::TestCase
       end
 
       context 'with invalid params' do
-        # TODO: Determine what params would be invalid.
+        setup do
+          assert_no_difference 'Sponsor.count' do
+            post :create, sponsor: {
+              website_url: 'not a URL',
+              logo_url: 'not a URL'
+            }
+          end
+        end
+
+        should 'require the presense of a name' do
+          assert_not_empty @controller.instance_variable_get("@sponsor").errors.messages[:name]
+        end
+
+        should 'require valid website_url' do
+          assert_not_empty @controller.instance_variable_get("@sponsor").errors.messages[:website_url]
+        end
+
+        should 'require valid logo_url' do
+          assert_not_empty @controller.instance_variable_get("@sponsor").errors.messages[:logo_url]
+        end
       end
     end
 
