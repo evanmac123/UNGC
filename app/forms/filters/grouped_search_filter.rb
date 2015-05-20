@@ -18,12 +18,12 @@ class Filters::GroupedSearchFilter < Filters::SearchFilter
 
   def option(parent)
     is_selected = selected.include?(parent.id)
-    FilterOption.new(parent.id, parent.name, key, is_selected)
+    FilterOption.new(parent.id, parent.name, key, is_selected, label)
   end
 
   def child_option(child)
     is_selected = selected_children.include?(child.id)
-    FilterOption.new(child.id, child.name, child_key, is_selected)
+    FilterOption.new(child.id, child.name, child_key, is_selected, label)
   end
 
 end

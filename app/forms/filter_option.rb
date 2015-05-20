@@ -1,1 +1,1 @@
-FilterOption = Struct.new(:id, :name, :type, :selected?)
+FilterOption = Struct.new(:id, :name, :type, :selected?, :label)
