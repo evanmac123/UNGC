@@ -1,18 +1,9 @@
-class CaseExamplePage
-
+class CaseExamplePage < ContainerPage
   def hero
-    {
-      title: {
-        title1: 'Share your Story'
-      },
-      size: 'small'
-    }
+    (@data[:hero] || {}).merge({size: 'small'})
   end
 
-  def meta_title
-    'Share Success'
-  end
-
-  def meta_description
+  def section_nav
+    return Components::SectionNav.new(container)
   end
 end
