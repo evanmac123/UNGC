@@ -1,4 +1,7 @@
 <%# Meta Tags %>
-<% provide :title, HTMLEntities.new.decode(@page.meta_title).html_safe %>
+<%-
+title ||= @page.meta_title
+-%>
+<% provide :title, HTMLEntities.new.decode(title).html_safe %>
 <% provide :description, @page.meta_description.try(:html_safe) %>
 <% provide :keywords, @page.try(:meta_keywords) %>

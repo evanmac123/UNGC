@@ -1,9 +1,72 @@
-%fieldset
-  %ol
-    = default_form.text_field :title
-    = default_form.text_area :description
-    -# The order of class/label is important, see default_form_builder
-    = default_form.text_field :starts_on_string, {class: 'datepicker'}, {label: "Starts on"}
-    = default_form.text_field :ends_on_string, {class: 'datepicker'}, {label: "Ends on"}
-    = default_form.text_field :location
-    = default_form.select :country_id, Country.data_for_select
+- if default_form.error_messages.present?
+  %h3 Sorry, the Event was not saved. Please provide all required information:
+  %div{:class => 'flash error'}
+    %ul
+      - @event.errors.full_messages.each do |e|
+        %li= e
+
+%div{:class => "tab_container left_tabs"}
+  %ul.tab_nav
+    %li
+      %a{:href => '#general'} General
+    %li
+      %a{:href => '#overview'} Overview
+    %li
+      %a{:href => '#sponsors'} Sponsors
+    %li
+      %a{:href => '#redesign_topics'} New Topics*
+    %li
+      %a{:href => '#redesign_issues'} Issues*
+    %li
+      %a{:href => '#redesign_sectors'} Sectors*
+
+  #general.tab_content
+    %fieldset
+      %legend General Information
+      %ol
+        = default_form.text_field :title
+        = default_form.text_area :description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+        - # XXX: Note the last {} at the end of the datetime_select. It prevents
+        - # incorrect "popping" from the args list in the DefaultFormBuilder
+        = default_form.datetime_select :starts_at, {}, {class: 'datetime-select'}, {}
+        = default_form.datetime_select :ends_at, {}, {class: 'datetime-select'}, {}
+        = default_form.check_box :is_all_day, {}, 'true', 'false'
+        = default_form.check_box :is_online, {}, 'true', 'false'
+        = default_form.text_field :location
+        = default_form.select :country_id, @event.country_options, {include_blank: 'Select a Country'}, {}
+        = default_form.check_box :is_invitation_only, {}, 'true', 'false'
+        = default_form.select(:priority, @event.priority_options)
+        = default_form.select :contact_id, @event.contact_options, {include_blank: 'Select a Contact'}, {}
+        = default_form.file_field :thumbnail_image, label: 'Thumbnail Image', accept: 'image/png,image/jpeg'
+        - if @event.thumbnail_image.present?
+          %label Preview
+          .resource-img-preview
+            = image_tag @event.thumbnail_image.url(:show)
+        = default_form.file_field :banner_image, label: 'Banner Image', accept: 'image/png,image/jpeg'
+        - if @event.banner_image.present?
+          %label Preview
+          .resource-img-preview
+            = image_tag @event.banner_image.url(:show)
+        = default_form.text_field :call_to_action_1_label
+        = default_form.text_field :call_to_action_1_url
+        = default_form.text_field :call_to_action_2_label
+        = default_form.text_field :call_to_action_2_url
+
+  #overview.tab_content
+    %fieldset
+      %legend Overview
+      %ol
+        = default_form.text_area :overview_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+
+  #sponsors.tab_content
+    %fieldset
+      %legend Sponsors
+      .sponsors-tree
+        %ol.sponsors-list
+          - @event.sponsor_options.each do |sponsor|
+            %li
+              %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+                = check_box_tag 'event[sponsor_ids][]', sponsor.id, sponsor.selected?
+                = sponsor.name
+
+  =render partial: "admin/shared/tagging_form_with_ids", locals: {taggable: @event, model_name: 'event'}

@@ -5,6 +5,8 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
   setup do
     Sidekiq::Testing.inline!
 
+    create_container path: '/take-action/action/share-story'
+
     create_staff_user
     sign_in @staff_user
 

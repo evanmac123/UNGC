@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514174654) do
+ActiveRecord::Schema.define(version: 20150520173620) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -398,22 +398,49 @@ ActiveRecord::Schema.define(version: 20150514174654) do
 
   add_index "countries", ["participant_manager_id"], name: "index_countries_on_participant_manager_id", using: :btree
 
+  create_table "event_sponsors", force: :cascade do |t|
+    t.integer "event_id",   limit: 4
+    t.integer "sponsor_id", limit: 4
+  end
+
+  add_index "event_sponsors", ["event_id"], name: "index_event_sponsors_on_event_id", using: :btree
+  add_index "event_sponsors", ["sponsor_id"], name: "index_event_sponsors_on_sponsor_id", using: :btree
+
   create_table "events", force: :cascade do |t|
-    t.string   "title",          limit: 255
-    t.text     "description",    limit: 65535
-    t.date     "starts_on"
-    t.date     "ends_on"
-    t.text     "location",       limit: 65535
-    t.integer  "country_id",     limit: 4
-    t.text     "urls",           limit: 65535
-    t.integer  "created_by_id",  limit: 4
-    t.integer  "updated_by_id",  limit: 4
+    t.string   "title",                        limit: 255
+    t.text     "description",                  limit: 65535
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.text     "location",                     limit: 65535
+    t.integer  "country_id",                   limit: 4
+    t.integer  "created_by_id",                limit: 4
+    t.integer  "updated_by_id",                limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "approved_at"
-    t.integer  "approved_by_id", limit: 4
-    t.string   "approval",       limit: 255
+    t.integer  "approved_by_id",               limit: 4
+    t.string   "approval",                     limit: 255
+    t.boolean  "is_all_day",                   limit: 1
+    t.boolean  "is_online",                    limit: 1
+    t.boolean  "is_invitation_only",           limit: 1
+    t.integer  "priority",                     limit: 4,     default: 1
+    t.integer  "contact_id",                   limit: 4
+    t.string   "thumbnail_image_file_name",    limit: 255
+    t.string   "thumbnail_image_content_type", limit: 255
+    t.integer  "thumbnail_image_file_size",    limit: 4
+    t.datetime "thumbnail_image_updated_at"
+    t.string   "banner_image_file_name",       limit: 255
+    t.string   "banner_image_content_type",    limit: 255
+    t.integer  "banner_image_file_size",       limit: 4
+    t.datetime "banner_image_updated_at"
+    t.string   "call_to_action_1_label",       limit: 255
+    t.string   "call_to_action_1_url",         limit: 255
+    t.string   "call_to_action_2_label",       limit: 255
+    t.string   "call_to_action_2_url",         limit: 255
+    t.text     "overview_description",         limit: 65535
   end
+
+  add_index "events", ["contact_id"], name: "index_events_on_contact_id", using: :btree
 
   create_table "events_principles", id: false, force: :cascade do |t|
     t.integer "event_id",          limit: 4
@@ -915,6 +942,14 @@ ActiveRecord::Schema.define(version: 20150514174654) do
     t.datetime "updated_at"
   end
 
+  create_table "sponsors", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.string   "website_url", limit: 255
+    t.string   "logo_url",    limit: 255
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.integer  "author_id",                    limit: 4
     t.integer  "principle_id",                 limit: 4
@@ -983,6 +1018,9 @@ ActiveRecord::Schema.define(version: 20150514174654) do
     t.datetime "updated_at",             null: false
   end
 
+  add_foreign_key "event_sponsors", "events"
+  add_foreign_key "event_sponsors", "sponsors"
+  add_foreign_key "events", "contacts"
   add_foreign_key "issues", "issues", column: "parent_id"
   add_foreign_key "taggings", "authors"
   add_foreign_key "taggings", "case_examples"

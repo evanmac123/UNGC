@@ -1,6 +1,24 @@
-<%# Form will go here %>
-
 <%= render partial: 'redesign/components/hero' %>
+
+<%= form_for @search, as: :search, url: press_releases_redesign_news_index_path, method: :get, html: {id: 'filters-form'} do |form| %>
+
+  <header>
+    <h1>Press Releases</h1>
+  </header>
+
+  <fieldset class='filter-lists'>
+    <% @search.filters.each do |filter| %>
+      <%= search_filter(filter) %>
+    <% end %>
+  </fieldset>
+
+  <%= active_filters(@search) %>
+
+  <%= form.text_field :start_date, placeholder: 'start date', class: 'datepicker' %>
+  <%= form.text_field :end_date, placeholder: 'end date', class: 'datepicker' %>
+
+  <%= form.submit 'Search' %>
+<% end %>
 
 <%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
   <%= will_paginate @page.news.other, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>

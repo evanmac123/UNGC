@@ -40,5 +40,6 @@ class ActionDetailLayout < UNGC::Layout
     field :name, type: :string, required: true
     field :logo, type: :href, required: true
     field :url, type: :href, required: true
+    field :external, type: :boolean, default: false
   end
 end

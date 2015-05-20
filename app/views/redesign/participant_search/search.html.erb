@@ -1,8 +1,7 @@
-<%= render partial: 'redesign/components/meta_tags' %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render 'redesign/components/meta_tags' %>
+<%= render 'redesign/components/hero' %>
 
-<%#= render partial: 'form', locals: {search: @search} %>
-<%= render 'filters_form', form_url: redesign_participant_search_path, title: @page.meta_title.try(:html_safe), search_placeholder: 'Search Participants' %>
+<%= render 'form', title: @page.meta_title.html_safe %>
 
 <section class='main-content-section main-content-section-full-width'>
   <%= participants_table(@search, @results) %>

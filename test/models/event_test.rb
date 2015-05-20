@@ -4,12 +4,11 @@ require 'test_helper'
 class EventTest < ActiveSupport::TestCase
   should validate_presence_of(:title).with_message("^Please provide a title")
   should belong_to :country
-  should have_many :attachments
 
   context "given an event with a strange title" do
     setup do
       @event1 = create_event :id => 1, :title => 'What? Is -this- å Tøtall¥! valid % name? Really!?'
-      @permalink = "1-#{Date.today.strftime('%m-%d-%Y')}"
+      @permalink = "1-what-is-this-a-totall-valid-name-really"
     end
 
     should "create an SEO-friendly permalink" do
@@ -26,25 +25,25 @@ class EventTest < ActiveSupport::TestCase
       @today = Date.today
       starts = []
       5.times do
-        starts_on = Time.mktime(@today.year, @today.month, rand(22)+1).to_date
-        starts << starts_on
-        ends_on   = starts_on + rand(4)
-        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'
+        starts_at = Time.mktime(@today.year, @today.month, rand(22)+1).to_date
+        starts << starts_at
+        ends_at   = starts_at + rand(4)
+        create_event :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved'
       end
       # not always later
       @other = ( (@today >> 2).year == @today.year ) ? @today >> 2 : @today << 2
       3.times do
-        starts_on = Time.mktime(@other.year, @other.month, rand(22)+1).to_date
-        starts << starts_on
-        ends_on   = starts_on + rand(4)
-        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'
+        starts_at = Time.mktime(@other.year, @other.month, rand(22)+1).to_date
+        starts << starts_at
+        ends_at   = starts_at + rand(4)
+        create_event :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved'
       end
       @much_later = @today >> 14
       2.times do
-        starts_on = Time.mktime(@much_later.year, @much_later.month, rand(22)+1).to_date
-        starts << starts_on
-        ends_on   = starts_on + rand(4)
-        create_event :starts_on => starts_on, :ends_on => ends_on, :approval => 'approved'
+        starts_at = Time.mktime(@much_later.year, @much_later.month, rand(22)+1).to_date
+        starts << starts_at
+        ends_at   = starts_at + rand(4)
+        create_event :starts_at => starts_at, :ends_at => ends_at, :approval => 'approved'
       end
       # puts "??"
       # puts starts.join(', ')
@@ -74,8 +73,7 @@ class EventTest < ActiveSupport::TestCase
 
   context "given a new event" do
     setup do
-      @event = Event.new :title => FixtureReplacement.random_string
-      assert @event.save
+      @event = create_event
     end
 
     should "start 'pending' approval" do
@@ -89,35 +87,6 @@ class EventTest < ActiveSupport::TestCase
 
       should "should be in 'approved' approval" do
         assert @event.approved?
-      end
-    end
-
-  end
-
-  context "given some Principle Areas" do
-    setup do
-      @p1 = create_principle_area
-      @p2 = create_principle_area
-      @p3 = create_principle_area
-      @event = new_event
-      @event.selected_issues = [@p1.id, @p2.id]
-      @event.save
-      @event.reload
-    end
-
-    should "link event and areas on save" do
-      assert_same_elements [@p1, @p2], @event.issues
-    end
-
-    context "and selected issues are changed" do
-      setup do
-        @event.selected_issues = [@p2.id, @p3.id]
-        @event.save
-        @event.reload
-      end
-
-      should "change event areas" do
-        assert_same_elements [@p2, @p3], @event.issues
       end
     end
 

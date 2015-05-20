@@ -1,20 +1,9 @@
-class ContactUsPage < SimpleDelegator
-
-  attr_reader :container
-
+class ContactUsPage < ContainerPage
   def hero
-    {size: 'small'}
+    (@data[:hero] || {}).merge({size: 'small'})
   end
 
-  def meta_title
-    'Contact Us'
+  def section_nav
+    return Components::SectionNav.new(container)
   end
-
-  def meta_description
-  end
-
-
-  # def section_nav
-  #   return Components::SectionNav.new(container)
-  # end
 end

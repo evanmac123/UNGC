@@ -46,7 +46,6 @@ UNGC::Application.routes.draw do
       get '/(*path)' => 'index#frontend', as: :root, format: :html
     end
 
-
     controller :library do
       get '/library'        => :index,  as: :library
       get '/library/search' => :search, as: :library_search
@@ -63,8 +62,8 @@ UNGC::Application.routes.draw do
       post '/take-action/action/share-story' => :create, as: :case_example
     end
 
-    controller :issues do
-      get '/what-is-gc/our-work/all' => :index, as: :issues
+    controller :all_our_work, path: '/what-is-gc/our-work' do
+      get '/all' => :index, as: :all_our_work
     end
 
     controller :actions do
@@ -82,6 +81,10 @@ UNGC::Application.routes.draw do
       get :speeches, on: :collection
       get :media, on: :collection
       get :press_releases, on: :collection, path: 'press-releases'
+    end
+
+    resources :events, path: '/take-action/events', only: [:index, :show, :sponsorships] do
+      get :sponsorship, on: :collection
     end
 
     controller :networks do
@@ -106,8 +109,8 @@ UNGC::Application.routes.draw do
     get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
     get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
     resource :cops, path: '/participation/report/cop/create-and-submit' do
-      get :index, path: '/'
-      get :show, path: '/:type/:id'
+      get :index, path: '/', on: :collection
+      get :show, path: '/:type/:id', as: :show
       get :active, on: :collection
       get :advanced, on: :collection
       get :expelled, on: :collection
@@ -141,6 +144,8 @@ UNGC::Application.routes.draw do
         post :revoke
       end
     end
+
+    resources :sponsors
 
     resources :headlines, :controller => 'news' do
       member do

@@ -2,6 +2,8 @@ class Redesign::Container < ActiveRecord::Base
   LEADING_OR_TRAILING_SLASH = /\A\/|\/\Z/
 
   include RankedModel
+  include Taggable
+
   ranks :sort_order, with_same: :parent_container_id
 
   attr_accessor :payload_validator
@@ -37,6 +39,9 @@ class Redesign::Container < ActiveRecord::Base
   belongs_to :parent_container, class_name: 'Redesign::Container'
   belongs_to :public_payload, class_name: 'Redesign::Payload'
   belongs_to :draft_payload, class_name: 'Redesign::Payload'
+
+  # TODO remove this and rely on the Taggable concern once we drop the redesign prefix.
+  has_many :taggings, foreign_key: 'redesign_container_id'
 
   has_many :payloads, class_name: 'Redesign::Payload'
 

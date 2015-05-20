@@ -4,8 +4,8 @@ module Admin::EventsHelper
                                      :order => order_from_params)
   end
 
-  def date_range(event)
-    "#{yyyy_mm_dd(event.starts_on)} - #{yyyy_mm_dd(event.ends_on)}"
+  def event_date_range(event)
+    "#{yyyy_mm_dd(event.starts_at)} - #{yyyy_mm_dd(event.ends_at)}"
   end
 
   def countries_for_select

@@ -2,6 +2,16 @@
 
 <%= render 'redesign/components/hero' %>
 
+<%= form_for @search, as: :search, url: redesign_actions_path, method: :get, html: {id: 'filters-form'}  do |form| %>
+  <fieldset class='filter-lists'>
+    <% @search.filters.each do |filter| %>
+      <%= search_filter(filter) %>
+    <% end %>
+  </fieldset>
+  <%= active_filters(@search) %>
+  <%= form.submit 'Search' %>
+<% end %>
+
 <%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.actions} do |block| %>
   <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
 <% end %>

@@ -1141,15 +1141,18 @@
         },
         {
           "template": "Article",
-          "path": "/Bullettin",
+          "path": "/Bulletin",
+          "old_path": "/news/bullettin",
           "children": [
             {
               "template": "Article",
-              "path": "/Confirmation"
+              "path": "/Confirmation",
+              "old_path": "/news/bullettin/confirmation"
             },
             {
               "template": "Article",
-              "path": "/Unsubscribe"
+              "path": "/Unsubscribe",
+              "old_path": "/news/bullettin/unsubscribe"
             }
           ]
         }

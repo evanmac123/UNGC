@@ -12,19 +12,32 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def active
+    @page = CopListPage.new(current_container)
   end
+
   def advanced
+    @page = CopListPage.new(current_container)
   end
+
   def expelled
+    @page = CopListPage.new(current_container)
   end
+
   def learner
+    @page = CopListPage.new(current_container)
   end
+
   def non_communicating
+    @page = CopListPage.new(current_container)
   end
+
   def submitted_coe
+    @page = CopListPage.new(current_container)
   end
 
   def show
+    @page = CopDetailPage.new(current_container)
+
     if load_communication_on_progress
       redirect_mismatched_differentiation_urls
       determine_navigation

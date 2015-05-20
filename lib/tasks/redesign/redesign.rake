@@ -25,7 +25,7 @@ namespace :redesign do
   task :randomize_content_types do
     raise "Must be run from the development environment" unless Rails.env.development?
     Resource.find_each do |resource|
-      resource.update_attribute :content_type, rand(3)
+      resource.update_attribute :content_type, rand(3)+1
     end
   end
 

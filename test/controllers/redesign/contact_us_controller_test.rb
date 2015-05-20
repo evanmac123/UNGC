@@ -5,6 +5,8 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
   setup do
     Sidekiq::Testing.inline!
 
+    create_container path: '/about/contact'
+
     create_staff_user
     sign_in @staff_user
 

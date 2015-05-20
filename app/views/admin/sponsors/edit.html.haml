@@ -1,0 +1,5 @@
+%h2 Edit Sponsor
+
+= form_for @sponsor, builder: DefaultFormBuilder, url: admin_sponsor_path(@sponsor) do |form|
+  = render :partial => form
+  = form.submit 'Save Sponsor', :class => 'button'

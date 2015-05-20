@@ -1,0 +1,40 @@
+<%= render partial: 'redesign/components/meta_tags' %>
+<%# Body %>
+<%= render partial: 'redesign/components/hero' %>
+
+<section class='main-content-section'>
+  <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
+
+  <h3>Main Page</h3>
+  <section class='main-page'>
+    <div class='content'>
+      <%= @page.description.try(:html_safe) %>
+      <%- # XXX sponsor list will be in the description HTML for the main page %>
+
+      <div class='sidebar'>
+        <%= @page.dates %>
+        <%= @page.location %>
+
+        <%- #formatted as contact widget? %>
+        <%= @page.contact[:name] %>
+
+        <%- # TODO loop over %>
+        <%= @page.calls_to_action %>
+      </div>
+
+    </div>
+  </section>
+
+  <h3>Overview</h3>
+  <section class='overview'>
+    <%= @page.overview_description.try(:html_safe) %>
+  </section>
+
+  <h3>Sponsors</h3>
+  <section class='sponsors'>
+    <%- #@page.sponsors.each.. #TODO when we have sponsors ready %>
+  </section>
+
+</section>
+
+<%- #XXX @jorge no content boxes !!!%>
