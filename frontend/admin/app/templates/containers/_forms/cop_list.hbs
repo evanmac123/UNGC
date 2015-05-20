@@ -1,2 +1,7 @@
-<h1>This is a placeholder page</h1>
-<h2>all the content will be generated from the server</h2>
+{{#container/x-fields scope=model.container as |copList|}}
+
+  {{container/macros/x-metatags scope=copList}}
+
+  {{container/macros/x-hero scope=copList}}
+
+{{/container/x-fields}}
