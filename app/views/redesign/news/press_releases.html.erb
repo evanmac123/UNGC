@@ -1,3 +1,5 @@
+<%= render partial: 'redesign/components/hero' %>
+
 <%= form_for @search, as: :search, url: press_releases_redesign_news_index_path, method: :get, html: {id: 'filters-form'} do |form| %>
 
   <header>
@@ -12,13 +14,11 @@
 
   <%= active_filters(@search) %>
 
-  <%= form.text_field :start_date, class: 'datepicker' %>
-  <%= form.text_field :end_date,   class: 'datepicker' %>
+  <%= form.text_field :start_date, placeholder: 'start date', class: 'datepicker' %>
+  <%= form.text_field :end_date, placeholder: 'end date', class: 'datepicker' %>
 
   <%= form.submit 'Search' %>
 <% end %>
-
-<%= render partial: 'redesign/components/hero' %>
 
 <%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
   <%= will_paginate @page.news.other, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
