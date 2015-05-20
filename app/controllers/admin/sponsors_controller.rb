@@ -4,7 +4,7 @@ class Admin::SponsorsController < AdminController
     :only => [:show, :edit, :update, :delete, :destroy]
 
   def new
-    @sponsor = SponsorPresenter.new(Sponsor.new)
+    @sponsor = Sponsor.new
   end
 
   def create
@@ -14,17 +14,14 @@ class Admin::SponsorsController < AdminController
       flash[:notice] = 'Sponsor successfully created.'
       redirect_to action: 'index'
     else
-      @sponsor = SponsorPresenter.new(@sponsor)
       render action: 'new'
     end
   end
 
   def show
-    @sponsor = SponsorPresenter.new(@sponsor)
   end
 
   def edit
-    @sponsor = SponsorPresenter.new(@sponsor)
   end
 
   def update
@@ -32,7 +29,7 @@ class Admin::SponsorsController < AdminController
       flash[:notice] = 'Changes have been saved.'
       redirect_to action: 'index'
     else
-      @sponsor = SponsorPresenter.new(@sponsor)
+      @sponsor = @sponsor
       render action: 'edit'
     end
   end
