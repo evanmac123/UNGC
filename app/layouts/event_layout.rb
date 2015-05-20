@@ -7,6 +7,11 @@ class EventLayout < UNGC::Layout
 
   has_meta_tags!
 
-  has_hero!
+  has_hero! do
+    scope :link do
+      field :label, type: :string, limit: 30
+      field :url,   type: :href
+    end
+  end
 
 end

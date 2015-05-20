@@ -7,7 +7,7 @@ class EventPage < ContainerPage
   end
 
   def hero
-    (@data[:hero] || {}).merge({size: 'small', show_section_nav: true})
+    (@data[:hero] || {}).merge({show_section_nav: true})
   end
 
   def section_nav

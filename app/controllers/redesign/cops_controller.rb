@@ -12,27 +12,33 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def active
-    @page = CopListPage.new(current_container)
+    set_current_container_by_path('/participation/report/cop/create-and-submit/active')
+    @page = CopListPage.new(current_container, current_payload_data)
   end
 
   def advanced
-    @page = CopListPage.new(current_container)
+    set_current_container_by_path('/participation/report/cop/create-and-submit/advanced')
+    @page = CopListPage.new(current_container, current_payload_data)
   end
 
   def expelled
-    @page = CopListPage.new(current_container)
+    set_current_container_by_path('/participation/report/cop/create-and-submit/expelled')
+    @page = CopListPage.new(current_container, current_payload_data)
   end
 
   def learner
-    @page = CopListPage.new(current_container)
+    set_current_container_by_path('/participation/report/cop/create-and-submit/learner')
+    @page = CopListPage.new(current_container, current_payload_data)
   end
 
   def non_communicating
-    @page = CopListPage.new(current_container)
+    set_current_container_by_path('/participation/report/cop/create-and-submit/non_communicating')
+    @page = CopListPage.new(current_container, current_payload_data)
   end
 
   def submitted_coe
-    @page = CopListPage.new(current_container)
+    set_current_container_by_path('/participation/report/coe/create-and-submit/submitted_coe')
+    @page = CopListPage.new(current_container, current_payload_data)
   end
 
   def show

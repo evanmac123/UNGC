@@ -27,6 +27,12 @@ class Redesign::NewsController < Redesign::ApplicationController
     render 'redesign/static/article'
   end
 
+  def bulletin
+    set_current_container_by_path ['/news/bulletin', params[:path]].join('/')
+    @page = ArticlePage.new(current_container, current_payload_data)
+    render 'redesign/static/article'
+  end
+
   private
     def find_headline
       id = headline_id_from_permalink

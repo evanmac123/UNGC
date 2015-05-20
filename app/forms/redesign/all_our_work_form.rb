@@ -2,7 +2,7 @@ class Redesign::AllOurWorkForm
   include Virtus.model
 
   attribute :page,        Integer,        default: 1
-  attribute :per_page,    Integer,        default: 5
+  attribute :per_page,    Integer,        default: 12
   attribute :issues,      Array[Integer], default: []
   attribute :topics,      Array[Integer], default: []
 
