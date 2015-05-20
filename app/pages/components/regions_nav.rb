@@ -2,7 +2,12 @@ class Components::RegionsNav
   include Enumerable
 
   def regions
-    LocalNetwork.joins(:countries).select('local_networks.*, countries.region as r').distinct('local_networks.id').group_by(&:r)
+    LocalNetwork.
+      active_networks.
+      joins(:countries).
+      select('local_networks.*, countries.region as r').
+      distinct('local_networks.id').
+      group_by(&:r)
   end
 
   def each(&block)
