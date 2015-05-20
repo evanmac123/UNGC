@@ -7,4 +7,8 @@ $(function() {
       window.location = go.replace(/\&amp;/, '&') + anchor;
     }
   });
+
+  if ($('table.sortable').size() > 0) {
+    $('table.sortable').tablesorter({widgets: ['zebra']});
+  }
 });
