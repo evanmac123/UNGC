@@ -7,7 +7,7 @@ class ContainerPage
   end
 
   def meta_title
-    meta_tags[:title]
+    meta_tags.fetch(:title, '')
   end
 
   def meta_description

@@ -11,8 +11,8 @@ class Redesign::NewsController < Redesign::ApplicationController
 
   def press_releases
     set_current_container_by_path '/news/press-releases'
-    @form = Redesign::NewsListForm.new(params[:page])
-    @page = NewsListPage.new(current_container, current_payload_data, @form.results)
+    @search = Redesign::NewsListForm.new(search_params)
+    @page = NewsListPage.new(current_container, current_payload_data, @search.execute)
   end
 
   def media
@@ -37,5 +37,15 @@ class Redesign::NewsController < Redesign::ApplicationController
       # to_i will convert the leading id portion to an int
       # or the whole thing it's just the id
       params.fetch(:id).to_i
+    end
+
+    def search_params
+      params.fetch(:search, {}).permit(
+        :start_date,
+        :end_date,
+        issues: [],
+        topics: [],
+        countries: []
+      ).merge(page: params[:page])
     end
 end

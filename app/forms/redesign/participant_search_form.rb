@@ -1,16 +1,6 @@
 class Redesign::ParticipantSearchForm
   include Virtus.model
 
-  DEFAULT_ORDER = 'joined_on'
-  SORT_OPTIONS = {
-    'joined_on'     => 'joined_on',
-    'name'          => 'name',
-    'type'          => 'type_name',
-    'sector'        => 'sector_name',
-    'country'       => 'country_name',
-    'company_size'  => 'company_size',
-  }
-
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []
   attribute :countries,           Array[Integer], default: []
@@ -20,7 +10,7 @@ class Redesign::ParticipantSearchForm
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
   attribute :order,               String
-  attribute :sort_field,          String,         default: DEFAULT_ORDER
+  attribute :sort_field,          String
   attribute :sort_direction,      String,         default: 'asc'
 
   def initialize(page = 1, params = {})
@@ -28,61 +18,42 @@ class Redesign::ParticipantSearchForm
     self.page = page
   end
 
+  def filters
+    [
+      type_filter,
+      initiative_filter,
+      country_filter,
+      sector_filter,
+      reporting_status_filter,
+    ]
+  end
+
   def active_filters
-
-    organization_types = organization_type_options.select(&:selected?)
-    initiatives = initiative_options.select(&:selected?)
-    countries = country_options.select(&:selected?)
-
-    sector_groups = sector_options.map(&:first).select(&:selected?)
-    sectors = sector_options.flat_map do |group, sectors|
-      sectors.select(&:selected?)
-    end
-
-    reporting_statuses = reporting_status_options.select(&:selected?)
-
-    [organization_types, initiatives, countries, sector_groups, sectors, reporting_statuses].flatten
+    filters.flat_map(&:selected_options)
   end
 
   def disabled?
     active_filters.count >= 5
   end
 
-  def organization_type_options
-    pluck_options(OrganizationType.all, :organization_type, organization_types)
+  def type_filter
+    @type_filter ||= Filters::OrganizationTypeFilter.new(organization_types)
   end
 
-  def initiative_options
-    pluck_options(Initiative.active.all, :initiative, initiatives)
+  def initiative_filter
+    @initiative_filter ||= Filters::InitiativeFilter.new(initiatives)
   end
 
-  def country_options
-    pluck_options(Country.all, :country, countries)
+  def country_filter
+    @country_filter ||= Filters::CountryFilter.new(countries)
   end
 
-  def sector_options
-    @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
-      [
-        FilterOption.new(parent.id, parent.name, :sector, sectors.include?(parent.id)),
-        children.map { |sector|
-          FilterOption.new(sector.id, sector.name, :sector, sectors.include?(sector.id))
-        }
-      ]
-    end
+  def sector_filter
+    @sector_filter ||= Filters::SectorFilter.new(sectors, sectors)
   end
 
-  def reporting_status_options
-    @reporting_status_options ||= Organization.distinct.pluck(:cop_state).map do |state|
-      FilterOption.new(state, state, :reporting_status, reporting_status.include?(state))
-    end
-  end
-
-  def execute
-    Organization.participants_only.search(keywords, options)
-  end
-
-  def keywords
-    Riddle::Query.escape(super)
+  def reporting_status_filter
+    @reporting_status_filter ||= Filters::ReportingStatusFilter.new(reporting_status)
   end
 
   def per_page_options
@@ -93,12 +64,34 @@ class Redesign::ParticipantSearchForm
     ]
   end
 
+  def execute
+    Organization.participants_only.search(keywords, options)
+  end
+
+  def keywords
+    Riddle::Query.escape(super)
+  end
+
+  private
+
   def per_page_capped
     cap = per_page_options.map(&:last).max
     [per_page, cap].min
   end
 
-  private
+  def order
+    field = sort_options[sort_field]
+    if field
+      "#{field} #{sort_direction}"
+    else
+      default_order
+    end
+
+  end
+
+  def default_order
+    'joined_on desc'
+  end
 
   def options
     options = {}
@@ -141,15 +134,15 @@ class Redesign::ParticipantSearchForm
     }
   end
 
-  def pluck_options(relation, type, selected)
-    relation.pluck(:id, :name).map do |id, name|
-      FilterOption.new(id, name, type, selected.include?(id))
-    end
-  end
-
-  def order
-    field = SORT_OPTIONS.fetch(sort_field, DEFAULT_ORDER)
-    "#{field} #{sort_direction}"
+  def sort_options
+    @sort_options ||= {
+      'joined_on'     => 'joined_on',
+      'name'          => 'name',
+      'type'          => 'type_name',
+      'sector'        => 'sector_name',
+      'country'       => 'country_name',
+      'company_size'  => 'company_size',
+    }
   end
 
 end

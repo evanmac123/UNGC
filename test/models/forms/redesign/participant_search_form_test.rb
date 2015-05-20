@@ -16,21 +16,21 @@ class Redesign::ParticipantSearchFormTest < ActiveSupport::TestCase
   end
 
   should "have organization_type_options" do
-    assert_options @subject.organization_type_options, are_named: @type_names
+    assert_has_options @subject.type_filter, @type_names
   end
 
   should "have initiative_options" do
-    assert_options @subject.initiative_options, are_named: @intiiative_names
+    assert_has_options @subject.initiative_filter, @intiiative_names
   end
 
   should "have geography_options" do
-    assert_options @subject.country_options, are_named: @country_names
+    assert_has_options @subject.country_filter, @country_names
   end
 
   private
 
-  def assert_options(collection, are_named: [])
-    assert_equal are_named, collection.map(&:name)
+  def assert_has_options(filter, named)
+    assert_equal named, filter.options.map(&:name)
   end
 
 end

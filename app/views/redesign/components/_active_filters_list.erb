@@ -2,11 +2,11 @@
   <article class='active-filters'>
     <h2>Active Filters:</h2>
     <ol class='active-filters-list'>
-      <%- active_filters.each do |filter| -%>
+      <%- active_filters.each do |option| -%>
         <li class='active-filter'>
-          <span class='active-filter-type'><%= filter.type.to_s.split('_')[0] %><span>:</span></span>
-          <span class='active-filter-name'><%= filter.name %></span>
-          <button class='remove-active-filter' data-filter-id="<%= filter.id -%>" data-filter-type="<%= filter.type -%>">&times;</button>
+          <span class='active-filter-type'><%= option.label %><span>:</span></span>
+          <span class='active-filter-name'><%= option.name %></span>
+          <button class='remove-active-filter' data-filter-id="<%= option.id -%>" data-filter-type="<%= option.type -%>">&times;</button>
         </li>
       <%- end -%>
 

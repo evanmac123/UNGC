@@ -19,68 +19,28 @@ class Redesign::LibrarySearchForm
     self.page = page
   end
 
+  def filters
+    [issue_filter, topic_filter, language_filter, sector_filter]
+  end
+
   def active_filters
-    issue_areas = issue_options.map(&:first).select(&:selected?)
-    issues = issue_options.flat_map do |group, issues|
-      issues.select(&:selected?)
-    end
-
-    topic_groups = topic_options.map(&:first).select(&:selected?)
-    topics = topic_options.flat_map do |group, topics|
-      topics.select(&:selected?)
-    end
-
-    sector_groups = sector_options.map(&:first).select(&:selected?)
-    sectors = sector_options.flat_map do |group, sectors|
-      sectors.select(&:selected?)
-    end
-
-    languages = language_options.select(&:selected?)
-
-    [issue_areas, issues, topic_groups, topics, languages, sector_groups, sectors].flatten
+    filters.flat_map(&:selected_options)
   end
 
-  def disabled?
-    active_filters.count >= 5
+  def issue_filter
+    @issue_filter ||= Filters::IssueFilter.new(issue_areas, issues, key: 'issue_areas')
   end
 
-  def issue_options
-    @issue_options ||= Redesign::IssueTree.new.map do |area, children|
-      [
-        FilterOption.new(area.id, area.name, :issue_area, issue_areas.include?(area.id)),
-        children.map { |issue|
-          FilterOption.new(issue.id, issue.name, :issue, issues.include?(issue.id))
-        }
-      ]
-      end
+  def topic_filter
+    @topic_filter ||= Filters::TopicFilter.new(topic_groups, topics, key: 'topic_groups')
   end
 
-  def topic_options
-    @topic_options ||= Redesign::TopicTree.new.map do |parent, children|
-        [
-          FilterOption.new(parent.id, parent.name, :topic_group, topic_groups.include?(parent.id)),
-          children.map { |topic|
-            FilterOption.new(topic.id, topic.name, :topic, topics.include?(topic.id))
-          }
-        ]
-      end
+  def sector_filter
+    @sector_filter ||= Filters::SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
   end
 
-  def language_options
-    @language_options ||= Language.all.map do |language|
-      FilterOption.new(language.id, language.name, :language, languages.include?(language.id))
-    end
-  end
-
-  def sector_options
-    @sector_options ||= Redesign::SectorTree.new.map do |parent, children|
-      [
-        FilterOption.new(parent.id, parent.name, :sector_group, sector_groups.include?(parent.id)),
-        children.map { |sector|
-          FilterOption.new(sector.id, sector.name, :sector, sectors.include?(sector.id))
-        }
-      ]
-    end
+  def language_filter
+    @language_filter ||= Filters::LanguageFilter.new(languages)
   end
 
   def type_options
@@ -93,6 +53,10 @@ class Redesign::LibrarySearchForm
       ["Title (A-Z)",   :title_asc],
       ["Title (Z-A)",   :title_desc],
     ]
+  end
+
+  def disabled?
+    active_filters.count >= 5
   end
 
   def options
@@ -108,17 +72,6 @@ class Redesign::LibrarySearchForm
 
     if content_type.present?
       options[:content_type] = content_type
-    end
-
-    order = case self.sort_field
-    when 'date'
-      'year desc'
-    when 'title_asc'
-      'title asc'
-    when 'title_desc'
-      'title desc'
-    else
-      'year desc'
     end
 
     {
@@ -141,6 +94,7 @@ class Redesign::LibrarySearchForm
 
   private
 
+  # TODO push this into SearchFilter
   def add_issue_options(options)
     ids = Set.new(issues)
     areas = Issue.includes(:children).find(issue_areas)
@@ -183,14 +137,27 @@ class Redesign::LibrarySearchForm
 
   end
 
+  def order
+    case self.sort_field
+    when 'date'
+      'year desc'
+    when 'title_asc'
+      'title asc'
+    when 'title_desc'
+      'title desc'
+    else
+      'year desc'
+    end
+  end
+
   def format_content_types
     Resource.content_types
       .to_a
       .sort
       .map do |name, id|
-      title = I18n.t("resources.types.#{name}")
-      [title, id]
-    end
+        title = I18n.t("resources.types.#{name}")
+        [title, id]
+      end
   end
 
 end

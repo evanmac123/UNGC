@@ -38,7 +38,7 @@ $(function() {
     var $removeButton   = $(this),
         filterId        = $removeButton.data('filter-id'),
         filterType      = $removeButton.data('filter-type'),
-        filterSelector  = "#search_" + pluralize(filterType) + "_" + filterId,
+        filterSelector  = "#search_" + filterType + "_" + filterId,
         $filter         = $(filterSelector);
 
     // Uncheck the input associated with this filter id
