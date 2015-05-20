@@ -36,6 +36,8 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def show
+    @page = CopDetailPage.new(current_container)
+
     if load_communication_on_progress
       redirect_mismatched_differentiation_urls
       determine_navigation

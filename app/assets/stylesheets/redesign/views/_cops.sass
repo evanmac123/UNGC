@@ -26,3 +26,135 @@
       content: $fa-var-caret-right
       margin-left: .25em
       vertical-align: middle
+
+.cop-detail
+  .main-content-header
+    margin-bottom: .5em
+
+    h1
+      margin: 0
+
+  .main-content-body
+    dl
+      margin: 0 0 1.5em
+      +clearfix
+
+    dt,
+    dd
+      display: block
+      float: left
+      padding: .5em 0
+      border-top: 1px solid #ddd
+      margin: 0
+      &:first-of-type
+        border-top: 0
+
+    dt
+      font-weight: bold
+      width: 35%
+      padding-right: 1em
+
+    dd
+      width: 65%
+      padding-left: 2em
+
+      ul
+        list-style: none
+        padding: 0
+        margin: 0
+
+        &.self_assessment,
+        &.questionnaire
+
+      li
+        position: relative
+        padding: .5em 0
+        border-bottom: 1px dotted #ddd
+        margin: 0
+
+        &.selected_question:before
+          +fa-icon
+          content: $fa-var-check
+          color: color('green')
+          display: block
+          position: absolute
+          top: .7em
+          left: -1.5em
+
+        &:first-of-type
+          padding-top: 0
+
+          &.selected_question:before
+            top: .2em
+
+        &:last-of-type
+          border-bottom: 0
+
+        &.question_group
+          font:
+            family: $flama-bold
+
+        a[href*='.pdf'],
+        a[href*='.xls'],
+        a[href*='.xlsx'],
+        a[href*='.doc'],
+        a[href*='.docx'],
+        a[href*='.ppt'],
+        a[href*='.pptx'],
+        a[href*='.jpg'],
+        a[href*='.jpeg'],
+        a[href*='.gif'],
+        a[href*='.png'],
+        a[href*='.svg'],
+        a[href*='.tiff'],
+        a[href*='.psd'],
+        a[href*='.eps']
+          &:first-child
+            display: inline-block
+            position: relative
+
+            &:before
+              position: absolute
+              top: -0.1em
+              left: -1.5em
+              margin-right: .5em
+
+        a[href*='.pdf']:first-child:before
+          +icon('pdf')
+
+        a[href*='.xls'],
+        a[href*='.xlsx']
+          &:first-child:before
+            +icon('xls')
+
+        a[href*='.doc'],
+        a[href*='.docx']
+          &:first-child:before
+            +icon('doc')
+
+        a[href*='.ppt'],
+        a[href*='.pptx']
+          &:first-child:before
+            +icon('ppt')
+
+        a[href*='.jpg'],
+        a[href*='.jpeg'],
+        a[href*='.gif'],
+        a[href*='.png'],
+        a[href*='.svg'],
+        a[href*='.tiff'],
+        a[href*='.psd'],
+        a[href*='.eps']
+          &:first-child:before
+            +fa-icon
+            top: .2em
+            content: $fa-var-file-image-o
+
+        img[width='12'][height='10']
+          width: auto
+          height: 1em
+          vertical-align: middle
+
+  .disclaimer
+    font-size: .75em
+    margin-top: 2em
