@@ -96,6 +96,10 @@ module FixtureReplacement
     e.banner_image = fixture_file_upload([Rails.root, 'test/fixtures/files/untitled.jpg'].join('/'), 'image/jpeg')
   end
 
+  attributes_for :sponsor do |e|
+    e.name = FixtureReplacement.random_string
+  end
+
   attributes_for :searchable_event, class:Event do |e|
     e.title = FixtureReplacement.random_string
     e.location = FixtureReplacement.random_string
