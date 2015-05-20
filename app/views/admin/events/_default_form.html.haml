@@ -12,6 +12,8 @@
     %li
       %a{:href => '#overview'} Overview
     %li
+      %a{:href => '#sponsors'} Sponsors
+    %li
       %a{:href => '#redesign_topics'} New Topics*
     %li
       %a{:href => '#redesign_issues'} Issues*
@@ -49,10 +51,22 @@
         = default_form.text_field :call_to_action_1_url
         = default_form.text_field :call_to_action_2_label
         = default_form.text_field :call_to_action_2_url
+
   #overview.tab_content
     %fieldset
       %legend Overview
       %ol
         = default_form.text_area :overview_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+
+  #sponsors.tab_content
+    %fieldset
+      %legend Sponsors
+      .sponsors-tree
+        %ol.sponsors-list
+          - @event.sponsor_options.each do |sponsor|
+            %li
+              %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
+                = check_box_tag 'event[sponsor_ids][]', sponsor.id, sponsor.selected?
+                = sponsor.name
 
   =render partial: "admin/shared/tagging_form_with_ids", locals: {taggable: @event, model_name: 'event'}

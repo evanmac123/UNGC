@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520163007) do
+ActiveRecord::Schema.define(version: 20150520173620) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -397,6 +397,14 @@ ActiveRecord::Schema.define(version: 20150520163007) do
   end
 
   add_index "countries", ["participant_manager_id"], name: "index_countries_on_participant_manager_id", using: :btree
+
+  create_table "event_sponsors", force: :cascade do |t|
+    t.integer "event_id",   limit: 4
+    t.integer "sponsor_id", limit: 4
+  end
+
+  add_index "event_sponsors", ["event_id"], name: "index_event_sponsors_on_event_id", using: :btree
+  add_index "event_sponsors", ["sponsor_id"], name: "index_event_sponsors_on_sponsor_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "title",                        limit: 255
@@ -1010,6 +1018,8 @@ ActiveRecord::Schema.define(version: 20150520163007) do
     t.datetime "updated_at",             null: false
   end
 
+  add_foreign_key "event_sponsors", "events"
+  add_foreign_key "event_sponsors", "sponsors"
   add_foreign_key "events", "contacts"
   add_foreign_key "issues", "issues", column: "parent_id"
   add_foreign_key "taggings", "authors"

@@ -20,8 +20,30 @@ class EventPresenter < SimpleDelegator
     end
   end
 
+  def sponsor_options
+    Sponsor.order(:name).map { |s| [s.name, s.id] }
+  end
+
+  def sponsor_options
+    Sponsor.order(:name).map do |sponsor|
+      add_selections(sponsor, :sponsor, selected_sponsors)
+    end
+  end
+
   private
     def event
       __getobj__
+    end
+
+    def selected_sponsors
+      event.sponsors
+    end
+
+    def add_selections(sponsor, type, selected)
+      selected_ids = selected.pluck(:id)
+
+      sponsor_option = FilterOption.new(sponsor.id, sponsor.name, type, selected_ids.include?(sponsor.id))
+
+      sponsor_option
     end
 end
