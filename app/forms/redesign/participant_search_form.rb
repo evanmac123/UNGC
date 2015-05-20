@@ -1,8 +1,6 @@
 class Redesign::ParticipantSearchForm
   include Virtus.model
 
-  DEFAULT_ORDER = 'joined_on'
-
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []
   attribute :countries,           Array[Integer], default: []
@@ -12,7 +10,7 @@ class Redesign::ParticipantSearchForm
   attribute :page,                Integer,        default: 1
   attribute :per_page,            Integer,        default: 12
   attribute :order,               String
-  attribute :sort_field,          String,         default: DEFAULT_ORDER
+  attribute :sort_field,          String
   attribute :sort_direction,      String,         default: 'asc'
 
   def initialize(page = 1, params = {})
@@ -82,8 +80,17 @@ class Redesign::ParticipantSearchForm
   end
 
   def order
-    field = sort_options.fetch(sort_field, DEFAULT_ORDER)
-    "#{field} #{sort_direction}"
+    field = sort_options[sort_field]
+    if field
+      "#{field} #{sort_direction}"
+    else
+      default_order
+    end
+
+  end
+
+  def default_order
+    'joined_on desc'
   end
 
   def options
