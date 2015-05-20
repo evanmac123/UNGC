@@ -1,20 +1,6 @@
 class ContactUsPage < ContainerPage
-
   def hero
-    {
-      title: {
-        title1: 'Contact Us'
-      },
-      size: 'small',
-      show_section_nav: true
-    }
-  end
-
-  def meta_title
-    'Contact Us'
-  end
-
-  def meta_description
+    (@data[:hero] || {}).merge({size: 'small'})
   end
 
   def section_nav
