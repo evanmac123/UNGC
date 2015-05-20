@@ -84,6 +84,10 @@ UNGC::Application.routes.draw do
       get :press_releases, on: :collection, path: 'press-releases'
     end
 
+    resources :events, path: '/take-action/events', only: [:index, :show, :sponsorships] do
+      get :sponsorship, on: :collection
+    end
+
     controller :networks do
       # TODO handle these routes better, find a way to redirect to the catch all
       get '/engage-locally/africa/africa-strategy' => :africa_strategy, as: :networks_africa_strategy

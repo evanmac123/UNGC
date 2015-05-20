@@ -98,6 +98,6 @@ class Event < ActiveRecord::Base
   end
 
   def date_for_permalink
-    (starts_at || Date.today).strftime('%m-%d-%Y')
+    title.parameterize
   end
 end
