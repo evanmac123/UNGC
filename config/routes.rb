@@ -142,6 +142,8 @@ UNGC::Application.routes.draw do
       end
     end
 
+    resources :sponsors
+
     resources :headlines, :controller => 'news' do
       member do
         post :approve
