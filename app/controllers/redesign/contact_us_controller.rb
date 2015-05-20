@@ -2,7 +2,8 @@ class Redesign::ContactUsController < Redesign::ApplicationController
 
   def new
     @contact_us = Redesign::ContactUsForm.new
-    @page = ContactUsPage.new(current_container)
+    set_current_container_by_path '/about/contact'
+    @page = ContactUsPage.new(current_container, current_payload_data)
   end
 
   def create

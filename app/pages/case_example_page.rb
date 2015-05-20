@@ -1,9 +1,12 @@
-class CaseExamplePage < SimpleDelegator
-
-  attr_reader :container
+class CaseExamplePage
 
   def hero
-    {size: 'small'}
+    {
+      title: {
+        title1: 'Share your Story'
+      },
+      size: 'small'
+    }
   end
 
   def meta_title
@@ -12,9 +15,4 @@ class CaseExamplePage < SimpleDelegator
 
   def meta_description
   end
-
-
-  # def section_nav
-  #   return Components::SectionNav.new(container)
-  # end
 end
