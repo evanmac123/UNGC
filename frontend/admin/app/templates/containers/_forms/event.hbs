@@ -2,6 +2,8 @@
 
   {{container/macros/x-metatags scope=events}}
 
-  {{container/macros/x-hero scope=events}}
+  {{#container/macros/x-hero scope=events as |hero|}}
+    {{container/macros/x-link key="link" scope=hero}}
+  {{/container/macros/x-hero}}
 
 {{/container/x-fields}}
