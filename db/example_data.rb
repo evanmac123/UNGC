@@ -1,4 +1,6 @@
 module FixtureReplacement
+  extend ActionDispatch::TestProcess
+
   def random_url
     "/#{[FixtureReplacement.random_string, FixtureReplacement.random_string, FixtureReplacement.random_string].join('/')}.html"
   end
@@ -89,6 +91,13 @@ module FixtureReplacement
 
   attributes_for :event do |e|
     e.title = FixtureReplacement.random_string
+    e.description = FixtureReplacement.random_string
+    e.thumbnail_image = fixture_file_upload([Rails.root, 'test/fixtures/files/untitled.jpg'].join('/'), 'image/jpeg')
+    e.banner_image = fixture_file_upload([Rails.root, 'test/fixtures/files/untitled.jpg'].join('/'), 'image/jpeg')
+  end
+
+  attributes_for :sponsor do |e|
+    e.name = FixtureReplacement.random_string
   end
 
   attributes_for :searchable_event, class:Event do |e|

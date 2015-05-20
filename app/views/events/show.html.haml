@@ -1,4 +1,4 @@
 %h1= @event.title
-%div= " #{@event.starts_on} - #{@event.ends_on} "
+%div= " #{@event.starts_at} - #{@event.ends_at} "
 = @event.description
 %p= link_to 'Back to calendar', :back

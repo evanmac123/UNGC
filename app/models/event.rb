@@ -1,45 +1,57 @@
-# == Schema Information
-#
-# Table name: events
-#
-#  id             :integer          not null, primary key
-#  title          :string(255)
-#  description    :text
-#  starts_on      :date
-#  ends_on        :date
-#  location       :text
-#  country_id     :integer
-#  urls           :text
-#  created_by_id  :integer
-#  updated_by_id  :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  approved_at    :datetime
-#  approved_by_id :integer
-#  approval       :string(255)
-#
-
 class Event < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
   include Indexable
 
   belongs_to :country
-  has_many :attachments, :class_name => 'UploadedFile', :as => :attachable
-  has_and_belongs_to_many :issues, :class_name => 'PrincipleArea', :join_table => :events_principles
+  belongs_to :contact
+  has_attached_file :thumbnail_image, url: "/system/:class/:attachment/:id/:filename"
+  has_attached_file :banner_image, url: "/system/:class/:attachment/:id/:filename"
+
+  has_many :event_sponsors, dependent: :destroy
+  has_many :sponsors, through: :event_sponsors
+
+  has_many :taggings, dependent: :destroy
+  has_many :sectors,        through: :taggings
+  has_many :sector_groups,  through: :sectors, class_name: 'Sector', source: :parent
+  has_many :issues,         through: :taggings
+  has_many :issue_areas,    through: :issues, class_name: 'Issue', source: :parent
+  has_many :topics,         through: :taggings
+  has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
+
   serialize :urls
-  validates_presence_of :title, :on => :create, :message => "^Please provide a title"
+
+  validates_presence_of :title, :message => "^Please provide a title"
+  validates_presence_of :description, :message => "^Please provide a description"
+  validates :thumbnail_image, :attachment_presence => true
+  validates_attachment_content_type :thumbnail_image, content_type: [
+    'image/png',
+    'image/jpeg'
+  ]
+  validates :banner_image, :attachment_presence => true
+  validates_attachment_content_type :banner_image, content_type: [
+    'image/png',
+    'image/jpeg'
+  ]
+
   permalink :date_for_permalink
+
+  enum priority: {
+    tier1: 1,
+    tier2: 2,
+    tier3: 3,
+  }
 
   cattr_reader :per_page
   @@per_page = 15
+
 
   def self.for_month_year(month=nil, year=nil)
     today = Date.today
     start = Time.mktime( year || today.year, month || today.month, 1).to_date
     finish = (start.to_date >> 1) - 1
 
-    where("starts_on BETWEEN ? AND ?", start, finish)
+    where("starts_at BETWEEN ? AND ?", start, finish)
   end
 
   def selected_issues
@@ -61,31 +73,31 @@ class Event < ActiveRecord::Base
     response.join(', ')
   end
 
-  def ends_on_string
-    (ends_on || (Date.today + 1)).strftime('%m/%d/%Y')
+  def ends_at_string
+    (ends_at || (Date.today + 1)).strftime('%m/%d/%Y')
   end
 
-  def ends_on_string=(date_or_string)
+  def ends_at_string=(date_or_string)
     if date_or_string.is_a?(String)
-      write_attribute(:ends_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:ends_at, Date.strptime(date_or_string, '%m/%d/%Y'))
     elsif date_or_string.is_a?(Date)
-      write_attribute(:ends_on, date_or_string)
+      write_attribute(:ends_at, date_or_string)
     end
   end
 
-  def starts_on_string
-    (starts_on || Date.today).strftime('%m/%d/%Y')
+  def starts_at_string
+    (starts_at || Date.today).strftime('%m/%d/%Y')
   end
 
-  def starts_on_string=(date_or_string)
+  def starts_at_string=(date_or_string)
     if date_or_string.is_a?(String)
-      write_attribute(:starts_on, Date.strptime(date_or_string, '%m/%d/%Y'))
+      write_attribute(:starts_at, Date.strptime(date_or_string, '%m/%d/%Y'))
     elsif date_or_string.is_a?(Date)
-      write_attribute(:starts_on, date_or_string)
+      write_attribute(:starts_at, date_or_string)
     end
   end
 
   def date_for_permalink
-    (starts_on || Date.today).strftime('%m-%d-%Y')
+    title.parameterize
   end
 end

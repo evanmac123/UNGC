@@ -6,13 +6,13 @@
   %table.dashboard_table
     %tr
       %th= sort_header 'Title', field: 'title'
-      %th= sort_header 'Dates', field: 'starts_on'
+      %th= sort_header 'Dates', field: 'starts_at'
       %th= sort_header 'Location', field: 'location'
       %th.actions Actions
     - for event in paged_events do
       %tr
         %td= link_to event.title, edit_admin_event_path(event)
-        %td= date_range event
+        %td= event_date_range event
         %td= event.full_location
         %td
           %ul.actions

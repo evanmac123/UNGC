@@ -186,7 +186,7 @@ ul.nav_bar
     height: 24px
     padding: 5px 0 0 30px
     text-align: left
-    color: $dark_blue  
+    color: $dark_blue
     text-decoration: none
     opacity: 0.85
     font-weight: bold
@@ -776,7 +776,9 @@ ul.nav_bar
     input, textarea, select
       border: 1px solid #F99
 
-  #cke_headline_description
+  #cke_headline_description,
+  #cke_event_description,
+  #cke_event_overview_description
     margin-left: 175px
 
   #cke_local_network_description
@@ -1355,10 +1357,8 @@ ul.cop-question-year-filter
     &.active
       font-weight: bold
 
+@import 'events'
 @import 'cops'
 @import 'topics-list'
 @import 'resources'
 @import 'reports'
-
-
-
