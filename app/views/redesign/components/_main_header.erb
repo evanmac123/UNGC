@@ -15,7 +15,7 @@
 
     <ul id='secondary-navigation'>
       <li><%= link_to_redesign 'About', '/about', class: params[:action] == 'long_article' ? 'active' : nil -%></li>
-      <li><%= link_to_redesign 'News', '/news' -%></li>
+      <li><%= link_to_redesign 'News', redesign_news_index_path -%></li>
       <li><%= link_to 'Sign In', '/login' -%></li>
       <div id="google_translate_element"></div><script type="text/javascript">
 function googleTranslateElementInit() {

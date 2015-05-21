@@ -15,24 +15,6 @@ class Redesign::NewsController < Redesign::ApplicationController
     @page = NewsListPage.new(current_container, current_payload_data, @search.execute)
   end
 
-  def media
-    set_current_container_by_path '/news/media'
-    @page = ArticlePage.new(current_container, current_payload_data)
-    render 'redesign/static/article'
-  end
-
-  def speeches
-    set_current_container_by_path '/news/speeches'
-    @page = ArticlePage.new(current_container, current_payload_data)
-    render 'redesign/static/article'
-  end
-
-  def bulletin
-    set_current_container_by_path ['/news/bulletin', params[:path]].join('/')
-    @page = ArticlePage.new(current_container, current_payload_data)
-    render 'redesign/static/article'
-  end
-
   private
     def find_headline
       id = headline_id_from_permalink

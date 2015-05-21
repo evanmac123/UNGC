@@ -78,12 +78,10 @@ UNGC::Application.routes.draw do
 
     resources :participants, path: '/what-is-gc/participants/directory/', only: [:show]
 
-    resources :news, path: '/news' do
-      get :speeches, on: :collection
-      get :media, on: :collection
-      get :bulletin, on: :collection, path: 'bulletin'
-      get :bulletin, on: :collection, path: 'bulletin/*path'
-      get :press_releases, on: :collection, path: 'press-releases'
+    controller :news, path: '/news' do
+      get '/' => :index, as: :news_index
+      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news
+      get '/press-releases' => :press_releases
     end
 
     resources :events, path: '/take-action/events', only: [:index, :show, :sponsorships] do
