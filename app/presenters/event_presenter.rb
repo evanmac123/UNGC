@@ -34,12 +34,10 @@ class EventPresenter < SimpleDelegator
     end
 
     def selected_sponsors
-      event.sponsors
+      event.sponsor_ids
     end
 
-    def add_selections(sponsor, type, selected)
-      selected_ids = selected.pluck(:id)
-
+    def add_selections(sponsor, type, selected_ids)
       sponsor_option = FilterOption.new(sponsor.id, sponsor.name, type, selected_ids.include?(sponsor.id))
 
       sponsor_option
