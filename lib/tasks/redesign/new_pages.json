@@ -1078,7 +1078,7 @@
               "path": "/Executive-Team"
             },
             {
-              "template": "Accordion",
+              "template": "Article",
               "path": "/Local-Network-Advisory-Group"
             }
           ]
