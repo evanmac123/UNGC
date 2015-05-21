@@ -24,7 +24,7 @@ function googleTranslateElementInit() {
     </ul>
   </nav>
 
-  <form id='main-search'>
+  <%= form_for :search, url: redesign_search_path, html: {id: 'main-search'} do |form| %>
     <div id='main-search-filters'>
       <fieldset>
         <%= radio_button_tag :'search-filter', value: 'all',       id: 'search-filter-all', checked: true -%>
@@ -41,5 +41,5 @@ function googleTranslateElementInit() {
     </div>
     <%= text_field_tag :search, nil, placeholder: 'Search', class: 'search-field' -%>
     <button type="submit" class='search-button'><span>Search</span></button>
-  </form>
+  <% end %>
 </header>
