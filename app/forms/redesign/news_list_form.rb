@@ -34,7 +34,7 @@ class Redesign::NewsListForm
   end
 
   def execute
-    headlines = Headline.order('published_on desc')
+    headlines = Headline.approved.order('published_on desc')
 
     if countries.any?
       headlines = headlines.where('headlines.country_id in (?)', countries)
