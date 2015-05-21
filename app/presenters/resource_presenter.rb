@@ -9,12 +9,12 @@ class ResourcePresenter < SimpleDelegator
   end
 
   def content_types_for_select
-    Resource.content_types.keys.map {|k| [k.humanize.titleize, k]}
+    Resource.content_types.keys.map {|k| [I18n.t("resources.types.#{k}"), k]}
   end
 
   def human_content_type
     if content_type.present?
-      content_type.humanize.titleize
+      I18n.t("resources.types.#{content_type}")
     else
       ''
     end
