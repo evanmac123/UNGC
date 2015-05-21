@@ -30,9 +30,13 @@
 
   <h3>Sponsors</h3>
   <section class='sponsors'>
-    <%- #@page.sponsors.each.. #TODO when we have sponsors ready %>
+    <%- @page.sponsors.each do |s| -%>
+      <%= s.name %>
+      <%= s.website_url %>
+      <%= image_tag s.logo_url %>
+    <%- end -%>
   </section>
 
 </section>
 
-<%- #XXX @jorge no content boxes !!!%>
+<%- #XXX @jorge no content boxes even if you seen then !!!%>
