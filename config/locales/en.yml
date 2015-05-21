@@ -48,3 +48,7 @@ en:
       infographic: 'Infographic'
       policy_document: 'Policy Document'
 
+  reporting_status:
+    active: 'Active'
+    delisted: 'Delisted'
+    noncommunicating: 'Non-Communicating'

@@ -16,7 +16,10 @@ class Filters::ReportingStatusFilter < Filters::FlatSearchFilter
   # FilterOptions require id and name
   ReportingStatus = Struct.new(:status) do
     alias_method :id, :status
-    alias_method :name, :status
+
+    def name
+      I18n.t(status, scope: 'reporting_status')
+    end
   end
 
 end
