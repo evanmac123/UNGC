@@ -15,11 +15,9 @@
         <%= @page.dates %>
         <%= @page.location %>
 
-        <%- #formatted as contact widget? %>
-        <%= @page.contact[:name] %>
+        <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact%>
 
-        <%- # TODO loop over %>
-        <%= @page.calls_to_action %>
+        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
       </div>
 
     </div>
