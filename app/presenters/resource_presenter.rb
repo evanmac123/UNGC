@@ -1,7 +1,5 @@
 class ResourcePresenter < SimpleDelegator
-  def tagging_presenter
-    @tagging_presenter ||= TaggingPresenter.new(resource)
-  end
+  delegate(:topic_options, :issue_options, :sector_options, to: :tagging_presenter)
 
   def content_types_for_select
     Resource.content_types.keys.map {|k| [I18n.t("resources.types.#{k}"), k]}
@@ -18,5 +16,9 @@ class ResourcePresenter < SimpleDelegator
   private
     def resource
       __getobj__
+    end
+
+    def tagging_presenter
+      @tagging_presenter ||= TaggingPresenter.new(resource)
     end
 end

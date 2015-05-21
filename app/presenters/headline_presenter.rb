@@ -1,7 +1,5 @@
 class HeadlinePresenter < SimpleDelegator
-  def tagging_presenter
-    @tagging_presenter ||= TaggingPresenter.new(headline)
-  end
+  delegate(:topic_options, :issue_options, :sector_options, to: :tagging_presenter)
 
   def headline_types_for_select
     Headline.headline_types.keys.map {|k| [k.humanize.titleize, k]}
@@ -18,5 +16,9 @@ class HeadlinePresenter < SimpleDelegator
   private
     def headline
       __getobj__
+    end
+
+    def tagging_presenter
+      @tagging_presenter ||= TaggingPresenter.new(headline)
     end
 end

@@ -3,7 +3,7 @@
     %legend Topics
     .topics-tree
       %ol.topics-list
-        - taggable.tagging_presenter.topic_options.each do |parent_topic, child_topics|
+        - taggable.topic_options.each do |parent_topic, child_topics|
           %li
             %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
               = check_box_tag model_name+'[topic_ids][]', parent_topic.id, parent_topic.selected?
@@ -20,7 +20,7 @@
     %legend Issues
     .topics-tree
       %ol.topics-list
-        - taggable.tagging_presenter.issue_options.each do |parent_issue, child_issues|
+        - taggable.issue_options.each do |parent_issue, child_issues|
           %li
             %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
               = check_box_tag model_name+'[issue_ids][]', parent_issue.id, parent_issue.selected?
@@ -37,7 +37,7 @@
     %legend Sectors
     .topics-tree
       %ol.topics-list
-        - taggable.tagging_presenter.sector_options.each do |parent_sector, child_sectors|
+        - taggable.sector_options.each do |parent_sector, child_sectors|
           %li
             %label{style:"temporary: yes; width: inherit; margin: inherit; float: none;"}
               = check_box_tag model_name+'[sector_ids][]', parent_sector.id, parent_sector.selected?

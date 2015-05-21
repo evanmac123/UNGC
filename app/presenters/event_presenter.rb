@@ -1,7 +1,5 @@
 class EventPresenter < SimpleDelegator
-  def tagging_presenter
-    @tagging_presenter ||= TaggingPresenter.new(event)
-  end
+  delegate(:topic_options, :issue_options, :sector_options, to: :tagging_presenter)
 
   def priority_options
     Event.priorities.keys.map do |value|
@@ -45,5 +43,9 @@ class EventPresenter < SimpleDelegator
       sponsor_option = FilterOption.new(sponsor.id, sponsor.name, type, selected_ids.include?(sponsor.id))
 
       sponsor_option
+    end
+
+    def tagging_presenter
+      @tagging_presenter ||= TaggingPresenter.new(event)
     end
 end
