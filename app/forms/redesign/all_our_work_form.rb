@@ -30,11 +30,13 @@ class Redesign::AllOurWorkForm
     containers = Redesign::Container.issue.includes(:public_payload)
 
     if issues.any?
-      containers = containers.joins(taggings: [:issue]).where('issue_id in (?)', issues)
+      ids = issue_filter.effective_selection_set
+      containers = containers.joins(taggings: [:issue]).where('issue_id in (?)', ids)
     end
 
     if topics.any?
-      containers = containers.joins(taggings: [:topic]).where('topic_id in (?)', issues)
+      ids = topic_filter.effective_selection_set
+      containers = containers.joins(taggings: [:topic]).where('topic_id in (?)', ids)
     end
 
     containers.paginate(page: page, per_page: per_page)
