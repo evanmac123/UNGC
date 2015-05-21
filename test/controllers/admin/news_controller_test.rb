@@ -61,9 +61,9 @@ class Admin::NewsControllerTest < ActionController::TestCase
       end
 
       should "set taggings" do
-        assert_equal @update[:issues].first, @headline.issues.first.id
-        assert_equal @update[:topics].first, @headline.topics.first.id
-        assert_equal @update[:sectors].first, @headline.sectors.first.id
+        assert_equal @update[:issue_ids], @headline.issue_ids
+        assert_equal @update[:topic_ids], @headline.topic_ids
+        assert_equal @update[:sector_ids], @headline.sector_ids
       end
 
       should "set state to pending approval" do

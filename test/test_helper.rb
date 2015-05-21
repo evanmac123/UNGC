@@ -413,9 +413,9 @@ class ActiveSupport::TestCase
       country_id: country_id,
       description: "Global Compact Network Canada was launched in Toronto...",
       headline_type: "press_release",
-      issues: [issue_id],
-      topics: [topic_id],
-      sectors: [sector_id]
+      issue_ids: [issue_id],
+      topic_ids: [topic_id],
+      sector_ids: [sector_id]
     }
   end
 
