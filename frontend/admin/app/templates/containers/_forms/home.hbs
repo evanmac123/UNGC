@@ -31,12 +31,7 @@
     {{/container/x-fields}}
   </fieldset>
 
-  <fieldset>
-    <legend>Feature Event</legend>
-    {{#container/x-fields key="events" scope=home as |events|}}
-      {{container/x-field key="featuredId" type="number" scope=events}}
-    {{/container/x-fields}}
-  </fieldset>
+  {{container/macros/x-events scope=home}}
 
   {{container/macros/x-taggings scope=home}}
 {{/container/x-fields}}

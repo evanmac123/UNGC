@@ -49,6 +49,6 @@ class HomeLayout < UNGC::Layout
   end
 
   scope :events do
-    field :featured_id, type: :number, required: true
+    field :featured_id, type: :number
   end
 end
