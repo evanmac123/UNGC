@@ -90,12 +90,7 @@ UNGC::Application.routes.draw do
     end
 
     controller :networks do
-      # TODO handle these routes better, find a way to redirect to the catch all
-      get '/engage-locally/africa/africa-strategy' => :africa_strategy, as: :networks_africa_strategy
-      get '/engage-locally/manage' => :manage, as: :networks_manage
-      get '/engage-locally/manage/*path' => :catch_all, as: :networks_manage_catch_all
-
-      get '/engage-locally/:region/:network' => :show, as: :networks_show
+      get '/engage-locally/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
     end
 
     controller :signup, path: '/participation/join/application/' do
