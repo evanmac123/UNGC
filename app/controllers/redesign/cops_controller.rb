@@ -64,10 +64,6 @@ class Redesign::CopsController < Redesign::ApplicationController
 
   private
 
-    def page_for_container(container)
-      "#{container.layout}_page".classify.constantize
-    end
-
     def load_communication_on_progress
       @communication_on_progress = find_cop_by_id || find_cop_by_cop_and_org
     end
