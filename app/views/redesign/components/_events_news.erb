@@ -1,5 +1,5 @@
 <%- if events = @page.events -%>
-<%- featured = events.pop %>
+<%- featured = events.featured %>
 
 <section class='tabbed-component events-news-component'>
   <menu class='tabs'>
@@ -18,33 +18,52 @@
 
     <%- if featured -%>
       <article class='featured-event'>
-        <%= link_to featured[:url], class: 'event' do -%>
-          <div class='thumbnail' style='background-image: url(<%= featured[:thumbnail] -%>)'>
+        <%= link_to redesign_event_path(featured), class: 'event' do -%>
+          <div class='thumbnail' style='background-image: url(<%= featured.thumbnail_image.url -%>)'>
             <div class='date-location'>
-              <time datetime="<%= Date.parse(featured[:date]).strftime('%F') -%>"><%= featured[:date] -%></time>
-              <address><%= featured[:location] -%></address>
+              <time datetime="<%= featured.starts_at.strftime('%F') -%>">
+                <%= featured.starts_at -%>
+              </time>
+              <address><%= featured.full_location -%></address>
             </div>
           </div>
 
-          <h1><%= featured[:title] -%></h1>
+          <h1><%= featured.title -%></h1>
 
-          <p><%= featured[:excerpt] -%></p>
+          <%- #TODO truncate description, but it's html -%>
+          <p><%= featured.description.html_safe -%></p>
         <%- end -%>
       </article>
     <%- end -%>
 
+    <h2>Future events</h2>
     <ul class='other-events'>
       <%- events.each do |e| -%>
-        <li><%= link_to e[:url], class: 'event' do -%>
-          <time datetime="<%= Date.parse(e[:date]).strftime('%F') -%>"><%= e[:date].html_safe -%></time>
-          <address><%= e[:location].html_safe -%></address>
-          <h2><%= e[:title].html_safe -%></h2>
+        <li><%= link_to redesign_event_path(e), class: 'event' do -%>
+          <time datetime="<%= e.starts_at.strftime('%F') -%>">
+            <%= e.starts_at -%>
+          </time>
+          <address><%= e.full_location -%></address>
+          <h2><%= e.title -%></h2>
+        <%- end -%></li>
+      <%- end -%>
+    </ul>
+
+    <h2>Past events</h2>
+    <ul class='other-events past-events'>
+      <%- events.past.each do |e| -%>
+        <li><%= link_to redesign_event_path(e), class: 'event' do -%>
+          <time datetime="<%= e.starts_at.strftime('%F') -%>">
+            <%= e.starts_at -%>
+          </time>
+          <address><%= e.full_location -%></address>
+          <h2><%= e.title -%></h2>
         <%- end -%></li>
       <%- end -%>
     </ul>
 
     <footer class='events-component-footer'>
-      View <%= link_to 'All Events', '' -%>
+      View <%= link_to 'All Events', redesign_events_path -%>
     </footer>
   </article>
 

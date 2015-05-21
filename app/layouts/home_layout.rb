@@ -47,4 +47,8 @@ class HomeLayout < UNGC::Layout
     field :double_width,  type: :boolean, default: false
     field :double_height, type: :boolean, default: false
   end
+
+  scope :events do
+    field :featured_id, type: :number, required: true
+  end
 end

@@ -33,9 +33,9 @@
 
   <fieldset>
     <legend>Feature Event</legend>
-    <p>
-      <em>You can choose the current featured event from the Events panel.</em>
-    </p>
+    {{#container/x-fields key="events" scope=home as |events|}}
+      {{container/x-field key="featuredId" type="number" scope=events}}
+    {{/container/x-fields}}
   </fieldset>
 
   {{container/macros/x-taggings scope=home}}
