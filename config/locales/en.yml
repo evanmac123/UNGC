@@ -52,3 +52,8 @@ en:
     active: 'Active'
     delisted: 'Delisted'
     noncommunicating: 'Non-Communicating'
+
+  event_types:
+    online: 'Online'
+    in_person: 'In Person'
+    invite_only: 'Invite Only'
