@@ -53,6 +53,7 @@ class Redesign::CopsController < Redesign::ApplicationController
     end
   end
 
+  # XXX this is only in the old system?
   def feed
     @cops_for_feed = CommunicationOnProgress.approved.for_feed
 
@@ -62,10 +63,6 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   private
-
-    def page_for_container(container)
-      "#{container.layout}_page".classify.constantize
-    end
 
     def load_communication_on_progress
       @communication_on_progress = find_cop_by_id || find_cop_by_cop_and_org

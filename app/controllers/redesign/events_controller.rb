@@ -10,13 +10,6 @@ class Redesign::EventsController < Redesign::ApplicationController
     @page = EventDetailPage.new(current_container, find_event)
   end
 
-  # TODO this should be catchall
-  def sponsorship
-    set_current_container_by_path '/take-action/events/sponsorship'
-    @page = ArticlePage.new(current_container, current_payload_data)
-    render 'redesign/static/article'
-  end
-
   private
     def find_event
       id = event_id_from_permalink
