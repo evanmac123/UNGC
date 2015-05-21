@@ -84,8 +84,9 @@ UNGC::Application.routes.draw do
       get '/press-releases' => :press_releases
     end
 
-    resources :events, path: '/take-action/events', only: [:index, :show, :sponsorships] do
-      get :sponsorship, on: :collection
+    controller :events, path: '/take-action/events' do
+      get '/' => :index, as: :events
+      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :event
     end
 
     controller :networks do
