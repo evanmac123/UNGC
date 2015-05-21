@@ -36,7 +36,7 @@ class Redesign::NewsController < Redesign::ApplicationController
   private
     def find_headline
       id = headline_id_from_permalink
-      Headline.published.find_by_id(id)
+      Headline.published.find(id)
     end
 
     def headline_id_from_permalink
