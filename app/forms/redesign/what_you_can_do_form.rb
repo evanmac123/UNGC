@@ -1,4 +1,4 @@
-class Redesign::WhatYouCanDoForm
+class Redesign::WhatYouCanDoForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :page,        Integer,        default: 1
@@ -8,14 +8,6 @@ class Redesign::WhatYouCanDoForm
 
   def filters
     [issue_filter, topic_filter]
-  end
-
-  def active_filters
-    filters.flat_map(&:selected_options)
-  end
-
-  def disabled?
-    false
   end
 
   def issue_filter

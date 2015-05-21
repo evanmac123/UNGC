@@ -1,4 +1,4 @@
-class Redesign::LibrarySearchForm
+class Redesign::LibrarySearchForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :issue_areas,         Array[Integer], default: []
@@ -21,10 +21,6 @@ class Redesign::LibrarySearchForm
 
   def filters
     [issue_filter, topic_filter, language_filter, sector_filter]
-  end
-
-  def active_filters
-    filters.flat_map(&:selected_options)
   end
 
   def issue_filter

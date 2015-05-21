@@ -1,4 +1,4 @@
-class Redesign::ParticipantSearchForm
+class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :organization_types,  Array[Integer], default: []
@@ -26,10 +26,6 @@ class Redesign::ParticipantSearchForm
       sector_filter,
       reporting_status_filter,
     ]
-  end
-
-  def active_filters
-    filters.flat_map(&:selected_options)
   end
 
   def disabled?
