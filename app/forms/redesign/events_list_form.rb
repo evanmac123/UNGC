@@ -10,8 +10,6 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   attribute :start_date,  Date
   attribute :end_date,    Date
 
-  # TYPE: online/in_person/invite_only
-
   def filters
     [issue_filter, topic_filter, country_filter, type_filter]
   end
@@ -33,14 +31,6 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   end
 
   def execute
-    ap [
-      countries,
-      issues,
-      topics,
-      types,
-      start_date,
-      end_date,
-    ]
     events = Event.approved
 
     if countries.any?
