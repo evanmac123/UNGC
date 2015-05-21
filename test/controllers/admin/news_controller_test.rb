@@ -1,146 +1,287 @@
 require 'test_helper'
 
 class Admin::NewsControllerTest < ActionController::TestCase
+  setup do
+    @staff_user = create_staff_user
+
+    @country = create_country(name: 'USA')
+    @topic = create_topic
+    @issue = create_issue
+    @sector = create_sector
+
+    @params = {
+      title: 'New Website Launch',
+      location: 'New York, NY',
+      country_id: @country.id,
+      description: 'Join the UN Global Compact as we celebrate...',
+      published_on: '2015-06-15',
+      headline_type: 'press_release',
+      topic_ids: [@topic.id],
+      issue_ids: [@issue.id],
+      sector_ids: [@sector.id]
+    }
+  end
+
   context "given a staff user" do
     setup do
-      @staff_user = create_staff_user
       sign_in @staff_user
-
-      @headline = create_headline
-      @update = headline_attributes_with_taggings
     end
 
-    should "get index" do
-      get :index
-      assert_response :success
+    context 'POST /admin/headlines' do
+      context 'with valid params' do
+        setup do
+          assert_difference 'Headline.count' do
+            post :create, headline: @params
+          end
 
-      assert_select 'table.dashboard_table tr', 2
-    end
-
-    should "get new" do
-      get :new
-      assert_response :success
-      assert_select 'select#headline_headline_type', 1
-    end
-
-    context "given create headline" do
-      setup do
-        assert_difference 'Headline.count', 1 do
-          post :create, headline: @update
+          @headline = Headline.last
         end
 
-        @headline = Headline.find_by_title(@update[:title])
+        should "set title" do
+          assert_equal @params[:title], @headline.title
+        end
+
+        should "set location" do
+          assert_equal @params[:location], @headline.location
+        end
+
+        should "set country" do
+          assert_equal @params[:country_id], @headline.country_id
+        end
+
+        should "set description" do
+          assert_equal @params[:description], @headline.description
+        end
+
+        should "set published on" do
+          assert_equal @params[:published_on].to_date, @headline.published_on
+        end
+
+        should "set headline type" do
+          assert_equal @params[:headline_type], @headline.headline_type
+        end
+
+        should "set approval" do
+          assert @headline.pending?
+        end
+
+        should "set topic IDs" do
+          assert_equal @params[:topic_ids], @headline.topic_ids
+        end
+
+        should "set issue IDs" do
+          assert_equal @params[:issue_ids], @headline.issue_ids
+        end
+
+        should "set sector IDs" do
+          assert_equal @params[:sector_ids], @headline.sector_ids
+        end
+
+        should "redirect to index" do
+          assert_redirected_to_index
+        end
       end
 
-      should "redirect to index" do
-        assert_redirected_to_index
+      context 'with invalid params' do
+        # TODO: Determine what params would be invalid.
+      end
+    end
+
+    context 'GET /admin/headlines/:id' do
+      setup do
+        @headline = create_headline
+        get :show, id: @headline.id
       end
 
-      should "set title" do
-        assert_equal @update[:title], @headline.title
+      should 'retrieve an headline' do
+        assert_response :success
+        assert assigns(:headline), 'Instance variable "headline" not assigned.'
+      end
+    end
+
+    context 'GET /admin/headlines/:id/edit' do
+      setup do
+        @headline = create_headline
+        get :edit, id: @headline.id
       end
 
-      should "set published on" do
-        assert_equal @update[:published_on].to_date, @headline.published_on
+      should 'retrieve an headline' do
+        assert_response :success
       end
+    end
 
-      should "set location" do
-        assert_equal @update[:location], @headline.location
-      end
-
-      should "set country" do
-        assert_equal @update[:country_id], @headline.country_id
-      end
-
-      should "set description" do
-        assert_equal @update[:description], @headline.description
-      end
-
-      should "set headline type" do
-        assert_equal @update[:headline_type], @headline.headline_type
-      end
-
-      should "set taggings" do
-        assert_equal @update[:issue_ids], @headline.issue_ids
-        assert_equal @update[:topic_ids], @headline.topic_ids
-        assert_equal @update[:sector_ids], @headline.sector_ids
-      end
-
-      should "set state to pending approval" do
-        assert @headline.pending?
-      end
-
-      context "given approval" do
+    context 'PUT /admin/headlines/:id' do
+      context 'with valid params' do
         setup do
+          @headline = create_headline
+
           assert_no_difference 'Headline.count' do
-            post :approve, id: @headline.id
+            put :update, id: @headline.id, headline: @params
           end
 
           @headline.reload
         end
 
-        should "approve the headline" do
-          assert @headline.approved?
-          assert_contains Headline.approved, @headline
+        should "set title" do
+          assert_equal @params[:title], @headline.title
+        end
+
+        should "set location" do
+          assert_equal @params[:location], @headline.location
+        end
+
+        should "set country" do
+          assert_equal @params[:country_id], @headline.country_id
+        end
+
+        should "set description" do
+          assert_equal @params[:description], @headline.description
+        end
+
+        should "set published on" do
+          assert_equal @params[:published_on].to_date, @headline.published_on
+        end
+
+        should "set headline type" do
+          assert_equal @params[:headline_type], @headline.headline_type
+        end
+
+        should "set approval" do
+          assert @headline.pending?
+        end
+
+        should "set topic IDs" do
+          assert_equal @params[:topic_ids], @headline.topic_ids
+        end
+
+        should "set issue IDs" do
+          assert_equal @params[:issue_ids], @headline.issue_ids
+        end
+
+        should "set sector IDs" do
+          assert_equal @params[:sector_ids], @headline.sector_ids
+        end
+
+        should "redirect to index" do
           assert_redirected_to_index
         end
+      end
 
-        should "be updated_by the staff member" do
-          assert_equal @staff_user.id, @headline.updated_by_id
-        end
+      context 'with no topic IDs' do
+        should 'remove all topics' do
+          @topic_ids = 2.times.map { create_topic.id }
+          @headline = create_headline(topic_ids: @topic_ids)
 
-        context "given revocation" do
-          setup do
-            # clear updated_by_id so we're sure it gets set.
-            @headline.update_attribute :updated_by_id, nil
-
-            assert_no_difference 'Headline.count' do
-              post :revoke, {:id => @headline.id}
-            end
-
-            @headline.reload
-          end
-
-          should "revoke approval of the headline" do
-            assert @headline.revoked?
-            assert_does_not_contain Headline.approved, @headline
-            assert_redirected_to_index
-          end
-
-          should "be updated_by the staff member" do
-            assert_equal @staff_user.id, @headline.updated_by_id
+          assert_difference '@headline.topics.count', -2 do
+            put :update, id: @headline.id, headline: { topic_ids: [] }
           end
         end
       end
     end
 
-    should "show headline" do
-      get :show, id: @headline.to_param
-      assert_response :success
-      assert assigns(:headline)
-    end
+    context 'POST /admin/headlines/:id/approve' do
+      setup do
+        @headline = create_headline
 
-    should "get edit" do
-      get :edit, id: @headline.to_param
-      assert_response :success
-      assert_select 'select#headline_headline_type', 1
-    end
+        assert_no_difference 'Headline.count' do
+          post :approve, id: @headline.id
+        end
 
-    should "update headline" do
-      assert_no_difference 'Headline.count' do
-        put :update, id: @headline, headline: @update
+        @headline.reload
       end
 
-      assert_equal @update[:title], Headline.find(@headline.id).title
-      assert_redirected_to_index
-    end
-
-    should "destroy headline" do
-      assert_difference('Headline.count', -1) do
-        delete :destroy, id: @headline.to_param
+      should 'approve the headline' do
+        assert @headline.approved?
+        assert_contains Headline.approved, @headline # TODO: Remove if redundant.
       end
 
-      assert_redirected_to admin_headlines_path
+      should 'redirects to index' do
+        assert_redirected_to_index
+      end
+
+      should 'set updated_by to the staff member' do
+        assert_equal @staff_user.id, @headline.updated_by_id
+      end
+    end
+
+    context 'POST /admin/headlines/:id/revoke' do
+      setup do
+        @headline = create_headline
+        # clear updated_by_id so we're sure it gets set.
+        @headline.update_attribute :updated_by_id, nil
+        @headline.as_user(@staff_user).approve!
+
+        assert_no_difference 'Headline.count' do
+          post :revoke, id: @headline.id
+        end
+
+        @headline.reload
+      end
+
+      should 'revoke approval for the headline' do
+        assert @headline.revoked?
+        assert_does_not_contain Headline.approved, @headline # TODO: Remove if redundant.
+      end
+
+      should 'redirects to index' do
+        assert_redirected_to_index
+      end
+
+      should 'set updated_by to the staff member' do
+        assert_equal @staff_user.id, @headline.updated_by_id
+      end
+    end
+
+    context 'DELETE /admin/headlines/:id' do
+      context 'given an headline with no associations' do
+        setup do
+          @headline = create_headline
+
+          assert_difference('Headline.count', -1) do
+            delete :destroy, id: @headline.id
+          end
+        end
+
+        should 'destroy headline' do
+          assert_not Headline.exists? @headline
+        end
+
+        should 'redirects to index' do
+          assert_redirected_to_index
+        end
+      end
+
+      context 'given an headline with a tagging associations' do
+        setup do
+          post :create, headline: @params
+          @headline = Headline.last
+
+          assert_difference('Headline.count', -1) do
+            delete :destroy, id: @headline.id
+          end
+        end
+
+        should 'destroy headline' do
+          assert_not Headline.exists? @headline
+        end
+
+        should 'redirects to index' do
+          assert_redirected_to_index
+        end
+      end
+    end
+
+    context 'GET /admin/headlines' do
+      setup do
+        3.times { create_headline }
+
+        get :index
+      end
+
+      should 'list headlines' do
+        assert_response :success
+        assert assigns(:paged_headlines), 'Instance variable "paged_headlines" not assigned.'
+      end
     end
   end
 end
