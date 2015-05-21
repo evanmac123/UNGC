@@ -19,10 +19,6 @@ class EventPresenter < SimpleDelegator
   end
 
   def sponsor_options
-    Sponsor.order(:name).map { |s| [s.name, s.id] }
-  end
-
-  def sponsor_options
     Sponsor.order(:name).map do |sponsor|
       add_selections(sponsor, :sponsor, selected_sponsors)
     end
