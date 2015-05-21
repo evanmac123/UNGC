@@ -26,6 +26,7 @@ UNGC::Application.routes.draw do
         resources :contacts, only: [:ungc] do
           get :ungc, on: :collection
         end
+        resources :events, only: [:index]
         resources :taggings, only: [:topics, :issues, :sectors] do
           get :topics, on: :collection
           get :issues, on: :collection
