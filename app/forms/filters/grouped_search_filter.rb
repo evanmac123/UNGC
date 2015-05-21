@@ -14,6 +14,24 @@ class Filters::GroupedSearchFilter < Filters::SearchFilter
     options.flatten.select(&:selected?)
   end
 
+  ##
+  # Includes all of the children of the parents
+  # selected and any individual children selected outside of a parent
+  def effective_selection_set
+    ids = Set.new
+    items.map do |parent, children|
+      if selected.include?(parent.id)
+        ids << parent.id
+        ids += children.map(&:id)
+      else
+        ids += children.select do |child|
+          selected_children.include?(child.id)
+        end.map(&:id)
+      end
+    end
+    ids.to_a
+  end
+
   private
 
   def option(parent)

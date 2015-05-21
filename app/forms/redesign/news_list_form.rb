@@ -41,11 +41,13 @@ class Redesign::NewsListForm
     end
 
     if issues.any?
-      headlines = headlines.joins(taggings: [:issue]).where('issue_id in (?)', issues)
+      ids = issue_filter.effective_selection_set
+      headlines = headlines.joins(taggings: [:issue]).where('issue_id in (?)', ids)
     end
 
     if topics.any?
-      headlines = headlines.joins(taggings: [:topic]).where('topic_id in (?)', issues)
+      ids = topic_filter.effective_selection_set
+      headlines = headlines.joins(taggings: [:topic]).where('topic_id in (?)', ids)
     end
 
     case
