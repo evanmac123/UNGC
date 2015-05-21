@@ -108,9 +108,9 @@ class Admin::ResourcesController < AdminController
         :link_type,
         :language_id
       ],
-      topics: [],
-      issues: [],
-      sectors: []
+      topic_ids: [],
+      issue_ids: [],
+      sector_ids: []
     )
   end
 
