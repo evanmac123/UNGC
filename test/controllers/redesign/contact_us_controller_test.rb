@@ -37,6 +37,7 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       assert_match(/Events/, email.body.to_s)
       assert_match(/Peace/, email.body.to_s)
       assert_match(/Hello!/, email.body.to_s)
+      assert_equal email.to.count, 4
 
       assert_redirected_to redesign_contact_us_path
     end
@@ -50,7 +51,16 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       assert email.to.include? 'events@unglobalcompact.org'
       assert email.to.include? 'b4p@unglobalcompact.org'
       assert email.to.include? 'social.issues@unglobalcompact.org'
-      assert_equal email.to.count, 4
+      assert_equal email.to.length, 4
+    end
+
+    should 'not include nils' do
+      post :create, redesign_contact_us_form: @params.except(:interest_ids, :focus_ids)
+
+      email = ActionMailer::Base.deliveries.last
+
+      assert email.to.include? 'info@unglobalcompact.org'
+      assert_equal email.to.count, 1
     end
   end
 

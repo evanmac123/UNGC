@@ -36,25 +36,25 @@ class Redesign::ContactUsForm
   def interest_addresses
     interest_options_data.map do |option|
       option[:email] if Array(interest_ids).include? option[:id]
-    end
+    end.reject(&:nil?)
   end
 
   def focus_addresses
     focus_options_data.map do |option|
       option[:email] if Array(focus_ids).include? option[:id]
-    end
+    end.reject(&:nil?)
   end
 
   def interests
     interest_options_data.map do |option|
       option[:name] if Array(interest_ids).include? option[:id]
-    end
+    end.reject(&:nil?)
   end
 
   def focuses
     focus_options_data.map do |option|
       option[:name] if Array(focus_ids).include? option[:id]
-    end
+    end.reject(&:nil?)
   end
 
   def interest_options
