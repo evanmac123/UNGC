@@ -24,22 +24,22 @@ function googleTranslateElementInit() {
     </ul>
   </nav>
 
-  <%= form_for :search, url: redesign_search_path, html: {id: 'main-search'} do |form| %>
+  <%= form_for :search, url: redesign_search_path, method: :get, html: {id: 'main-search'} do |form| %>
     <div id='main-search-filters'>
       <fieldset>
-        <%= radio_button_tag :'search-filter', value: 'all',       id: 'search-filter-all', checked: true -%>
+        <%= radio_button_tag :f, value: 'all',       id: 'search-filter-all', checked: true -%>
         <label for="search-filter-all"> All</label>
-        <%= radio_button_tag :'search-filter', value: 'events',    id: 'search-filter-events' -%>
+        <%= radio_button_tag :f, value: 'events',    id: 'search-filter-events' -%>
         <label for="search-filter-events">Events</label>
-        <%= radio_button_tag :'search-filter', value: 'news',      id: 'search-filter-news' -%>
+        <%= radio_button_tag :f, value: 'news',      id: 'search-filter-news' -%>
         <label for="search-filter-news">News</label>
-        <%= radio_button_tag :'search-filter', value: 'cops',      id: 'search-filter-cops' -%>
+        <%= radio_button_tag :f, value: 'cops',      id: 'search-filter-cops' -%>
         <label for="search-filter-cops">COPs</label>
-        <%= radio_button_tag :'search-filter', value: 'companies', id: 'search-filter-companies' -%>
+        <%= radio_button_tag :f, value: 'companies', id: 'search-filter-companies' -%>
         <label for="search-filter-companies">Companies</label>
       </fieldset>
     </div>
-    <%= text_field_tag :search, nil, placeholder: 'Search', class: 'search-field' -%>
+    <%= text_field_tag :s, nil, placeholder: 'Search', class: 'search-field' -%>
     <button type="submit" class='search-button'><span>Search</span></button>
   <% end %>
 </header>
