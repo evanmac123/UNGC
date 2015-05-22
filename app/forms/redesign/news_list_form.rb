@@ -1,4 +1,4 @@
-class Redesign::NewsListForm
+class Redesign::NewsListForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :page,        Integer,        default: 1
@@ -11,14 +11,6 @@ class Redesign::NewsListForm
 
   def filters
     [issue_filter, topic_filter, country_filter]
-  end
-
-  def active_filters
-    filters.flat_map(&:selected_options)
-  end
-
-  def disabled?
-    false
   end
 
   def issue_filter
@@ -34,18 +26,20 @@ class Redesign::NewsListForm
   end
 
   def execute
-    headlines = Headline.order('published_on desc')
+    headlines = Headline.approved.order('published_on desc')
 
     if countries.any?
       headlines = headlines.where('headlines.country_id in (?)', countries)
     end
 
     if issues.any?
-      headlines = headlines.joins(taggings: [:issue]).where('issue_id in (?)', issues)
+      ids = issue_filter.effective_selection_set
+      headlines = headlines.joins(taggings: [:issue]).where('issue_id in (?)', ids)
     end
 
     if topics.any?
-      headlines = headlines.joins(taggings: [:topic]).where('topic_id in (?)', issues)
+      ids = topic_filter.effective_selection_set
+      headlines = headlines.joins(taggings: [:topic]).where('topic_id in (?)', ids)
     end
 
     case

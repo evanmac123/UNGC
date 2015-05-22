@@ -11,12 +11,13 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
     sign_in @staff_user
 
     @sector = create_sector
+    @sector2 = create_sector
     @country = create_country
 
     @params = {
       company: 'Unspace',
       country_id: @country.id,
-      sector_ids: [@sector.id],
+      sector_ids: [@sector.id, @sector2.id],
       is_participant: true,
       file: fixture_file_upload('files/untitled.pdf', 'application/pdf')
     }
@@ -42,6 +43,7 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       assert_match /Unspace/, email.body.to_s
       assert_match /#{@country.name}/, email.body.to_s
       assert_match /#{@sector.name}/, email.body.to_s
+      assert_match /#{@sector2.name}/, email.body.to_s
       assert_match /Yes/, email.body.to_s
       assert_match /http:\/\/test.host#{Regexp.escape(case_example.file.url)}/, email.body.to_s
 

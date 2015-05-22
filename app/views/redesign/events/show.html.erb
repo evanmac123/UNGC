@@ -15,11 +15,9 @@
         <%= @page.dates %>
         <%= @page.location %>
 
-        <%- #formatted as contact widget? %>
-        <%= @page.contact[:name] %>
+        <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact%>
 
-        <%- # TODO loop over %>
-        <%= @page.calls_to_action %>
+        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
       </div>
 
     </div>
@@ -32,9 +30,13 @@
 
   <h3>Sponsors</h3>
   <section class='sponsors'>
-    <%- #@page.sponsors.each.. #TODO when we have sponsors ready %>
+    <%- @page.sponsors.each do |s| -%>
+      <%= s.name %>
+      <%= s.website_url %>
+      <%= image_tag s.logo_url %>
+    <%- end -%>
   </section>
 
 </section>
 
-<%- #XXX @jorge no content boxes !!!%>
+<%- #XXX @jorge no content boxes even if you seen then !!!%>

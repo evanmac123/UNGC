@@ -28,7 +28,7 @@ class IssuePage < ContainerPage
   end
 
   def events
-    Components::Events.new(@data).data
+    Components::Events.new(@data)
   end
 
   def news

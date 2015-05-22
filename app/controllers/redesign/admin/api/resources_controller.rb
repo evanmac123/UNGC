@@ -3,7 +3,7 @@ class Redesign::Admin::Api::ResourcesController < Redesign::Admin::ApiController
   def index
     contacts  = Resource.all
 
-    render_json data: contacts.map(&method(:serialize))
+    render_json resources: contacts.map(&method(:serialize))
   end
 
   private

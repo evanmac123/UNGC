@@ -1,6 +1,6 @@
 <%= render partial: 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: press_releases_redesign_news_index_path, method: :get, html: {id: 'filters-form'} do |form| %>
+<%= form_for @search, as: :search, url: redesign_press_releases_path, method: :get, html: {id: 'filters-form'} do |form| %>
 
   <header>
     <h1>Press Releases</h1>

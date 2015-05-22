@@ -26,6 +26,7 @@ UNGC::Application.routes.draw do
         resources :contacts, only: [:ungc] do
           get :ungc, on: :collection
         end
+        resources :events, only: [:index]
         resources :taggings, only: [:topics, :issues, :sectors] do
           get :topics, on: :collection
           get :issues, on: :collection
@@ -77,25 +78,19 @@ UNGC::Application.routes.draw do
 
     resources :participants, path: '/what-is-gc/participants/directory/', only: [:show]
 
-    resources :news, path: '/news' do
-      get :speeches, on: :collection
-      get :media, on: :collection
-      get :bulletin, on: :collection, path: 'bulletin'
-      get :bulletin, on: :collection, path: 'bulletin/*path'
-      get :press_releases, on: :collection, path: 'press-releases'
+    controller :news, path: '/news' do
+      get '/' => :index, as: :news_index
+      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news
+      get '/press-releases' => :press_releases
     end
 
-    resources :events, path: '/take-action/events', only: [:index, :show, :sponsorships] do
-      get :sponsorship, on: :collection
+    controller :events, path: '/take-action/events' do
+      get '/' => :index, as: :events
+      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :event
     end
 
     controller :networks do
-      # TODO handle these routes better, find a way to redirect to the catch all
-      get '/engage-locally/africa/africa-strategy' => :africa_strategy, as: :networks_africa_strategy
-      get '/engage-locally/manage' => :manage, as: :networks_manage
-      get '/engage-locally/manage/*path' => :catch_all, as: :networks_manage_catch_all
-
-      get '/engage-locally/:region/:network' => :show, as: :networks_show
+      get '/engage-locally/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
     end
 
     controller :signup, path: '/participation/join/application/' do

@@ -1,0 +1,6 @@
+<fieldset>
+  <legend>Events</legend>
+  {{#container/x-fields key="events" scope=scope as |events|}}
+    {{container/x-field key="featuredId" type="select2" labelPath="title" placeholder="Please choose an event" limit=50 scope=events items=items allowClear=true}}
+  {{/container/x-fields}}
+</fieldset>

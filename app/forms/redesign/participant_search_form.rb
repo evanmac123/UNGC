@@ -1,4 +1,4 @@
-class Redesign::ParticipantSearchForm
+class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :organization_types,  Array[Integer], default: []
@@ -26,10 +26,6 @@ class Redesign::ParticipantSearchForm
       sector_filter,
       reporting_status_filter,
     ]
-  end
-
-  def active_filters
-    filters.flat_map(&:selected_options)
   end
 
   def disabled?
@@ -94,27 +90,13 @@ class Redesign::ParticipantSearchForm
   end
 
   def options
-    options = {}
-
-    if organization_types.any?
-      options[:organization_type_id] = organization_types
-    end
-
-    if initiatives.any?
-      options[:initiative_ids] = initiatives
-    end
-
-    if countries.any?
-      options[:country_id] = countries
-    end
-
-    if sectors.any?
-      options[:sector_id] = sectors
-    end
-
-    if reporting_status.present?
-      options[:cop_state] = reporting_status.map {|state| Zlib.crc32(state)}
-    end
+    options = {
+      organization_type_id: organization_types,
+      initiative_ids: initiatives,
+      country_id: countries,
+      sector_id: sector_filter.effective_selection_set,
+      cop_state: reporting_status.map {|state| Zlib.crc32(state)},
+    }.reject { |_, value| value.blank? }
 
     {
       page: page,

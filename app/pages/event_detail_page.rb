@@ -24,9 +24,9 @@ class EventDetailPage < SimpleDelegator
 
     def all_day_date
       if is_same_day?
-        "#{event.start_date}"
+        "#{start_date}"
       else
-        "#{event.start_date}-#{event.end_date}"
+        "#{start_date}-#{end_date}"
       end
     end
 
@@ -39,7 +39,7 @@ class EventDetailPage < SimpleDelegator
     end
 
     def end_date
-      event.starts_at.to_date.strftime("%d %b")
+      event.ends_at.to_date.strftime("%d %b")
     end
   end
 
@@ -104,12 +104,12 @@ class EventDetailPage < SimpleDelegator
       label: call_to_action_1_label,
       url: call_to_action_1_url,
       external: true
-    } if call_to_action_1_label
+    } if call_to_action_1_label.present?
     c << {
       label: call_to_action_2_label,
       url: call_to_action_2_url,
       external: true
-    } if call_to_action_2_label
+    } if call_to_action_2_label.present?
     c
   end
 

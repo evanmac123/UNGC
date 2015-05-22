@@ -100,4 +100,14 @@ class Event < ActiveRecord::Base
   def date_for_permalink
     title.parameterize
   end
+
+  # TODO remove these once we merge redesign
+  # they seem to be needed for some html/erb pages
+  def starts_on
+    starts_at
+  end
+
+  def ends_on
+    ends_at
+  end
 end
