@@ -11,16 +11,18 @@ class EventPresenterTest < ActiveSupport::TestCase
 
         @sponsor = create_sponsor
         @topic = create_topic
-        @issue = create_issue
-        @sector = create_sector
+        @parent_issue = create_issue
+        @child_issue = create_issue(parent: @parent_issue)
+        @parent_sector = create_sector
+        @child_sector = create_sector(parent: @parent_sector)
         @event = create_event
 
         @event.update_attributes({
           title: '',
           sponsor_ids: [@sponsor.id],
           topic_ids: [@topic.id],
-          issue_ids: [@issue.id],
-          sector_ids: [@sector.id]
+          issue_ids: [@parent_issue.id],
+          sector_ids: [@parent_sector.id]
         })
 
         @presenter = EventPresenter.new(@event)
@@ -49,7 +51,7 @@ class EventPresenterTest < ActiveSupport::TestCase
       context 'given #issue_options' do
         should 'return the unsaved issue as selected' do
           unsaved_issue = @presenter.issue_options.find { |issue_option|
-            issue_option[0].id == @issue.id
+            issue_option[0].id == @parent_issue.id
           }
 
           assert unsaved_issue[0].selected?, 'Unsaved issue was not selected.'
@@ -59,7 +61,7 @@ class EventPresenterTest < ActiveSupport::TestCase
       context 'given #sector_options' do
         should 'return the unsaved sector as selected' do
           unsaved_sector = @presenter.sector_options.find { |sector_option|
-            sector_option[0].id == @sector.id
+            sector_option[0].id == @parent_sector.id
           }
 
           assert unsaved_sector[0].selected?, 'Unsaved sector was not selected.'
