@@ -45,4 +45,10 @@ en:
       video: 'Video'
       website: 'Website'
       presentation: 'Presentation'
+      infographic: 'Infographic'
+      policy_document: 'Policy Document'
 
+  reporting_status:
+    active: 'Active'
+    delisted: 'Delisted'
+    noncommunicating: 'Non-Communicating'

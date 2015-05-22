@@ -14,10 +14,4 @@ class Redesign::StaticController < Redesign::ApplicationController
 
     render(current_container.layout.to_sym)
   end
-
-  private
-
-  def page_for_container(container)
-    "#{container.layout}_page".classify.constantize
-  end
 end

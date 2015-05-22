@@ -110,7 +110,7 @@ module ParticipantsHelper
           when 'publicly listed'
             # all FT500 companies are publicly traded
             @searched_for[:is_ft_500] ? 'FT 500' : 'publicly listed'
-          when 'private company'
+          when 'privately held'
             'privately held'
           when 'state-owned'
             'state-owned'

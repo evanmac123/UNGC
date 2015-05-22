@@ -17,11 +17,11 @@ class NewsPage < ContainerPage
   end
 
   def featured
-    Headline.order('published_on desc').limit(1).first
+    Headline.approved.order('published_on desc').limit(1).first
   end
 
   def other
-    Headline.order('published_on desc').offset(1).limit(2)
+    Headline.approved.order('published_on desc').offset(1).limit(2)
   end
 
   def sidebar_widgets

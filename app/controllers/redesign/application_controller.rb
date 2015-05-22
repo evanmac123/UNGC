@@ -7,7 +7,27 @@ class Redesign::ApplicationController < ApplicationController
   before_action :authenticate_contact!
   before_action :only_ungc_contacts!
 
+  rescue_from ActiveRecord::RecordNotFound, :with => :catch_all
+
+  def catch_all
+    path = request.path.sub(/^\/redesign/, '')
+    set_current_container_by_path(path)
+
+    @page = page_for_container(current_container).new(
+      current_container,
+      current_payload_data
+    )
+
+    render("/redesign/static/" + current_container.layout)
+  rescue ActiveRecord::RecordNotFound
+    render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
+  end
+
   protected
+
+  def page_for_container(container)
+    "#{container.layout}_page".classify.constantize
+  end
 
   # TODO remove this on launch
   def only_ungc_contacts!

@@ -1,4 +1,4 @@
-class Redesign::LibrarySearchForm
+class Redesign::LibrarySearchForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :issue_areas,         Array[Integer], default: []
@@ -21,10 +21,6 @@ class Redesign::LibrarySearchForm
 
   def filters
     [issue_filter, topic_filter, language_filter, sector_filter]
-  end
-
-  def active_filters
-    filters.flat_map(&:selected_options)
   end
 
   def issue_filter
@@ -60,19 +56,13 @@ class Redesign::LibrarySearchForm
   end
 
   def options
-    options = {}
-
-    add_issue_options(options)
-    add_topic_options(options)
-    add_sector_options(options)
-
-    if languages.any?
-      options[:language_ids] = languages
-    end
-
-    if content_type.present?
-      options[:content_type] = content_type
-    end
+    options = {
+      issue_ids: issue_filter.effective_selection_set,
+      topic_ids: topic_filter.effective_selection_set,
+      language_ids: languages,
+      sector_ids: sector_filter.effective_selection_set,
+      content_type: content_type,
+    }.reject { |_, value| value.blank? }
 
     {
       indices: ['resource_new_core'],
@@ -93,49 +83,6 @@ class Redesign::LibrarySearchForm
   end
 
   private
-
-  # TODO push this into SearchFilter
-  def add_issue_options(options)
-    ids = Set.new(issues)
-    areas = Issue.includes(:children).find(issue_areas)
-    areas.each do |area|
-      ids << area.id
-      ids += area.children.map(&:id)
-    end
-
-    if ids.any?
-      options[:issue_ids] = ids.to_a
-    end
-  end
-
-  def add_topic_options(options)
-    ids = Set.new(topics)
-
-    parents = Topic.includes(:children).find(topic_groups)
-    parents.each do |parent|
-      ids << parent.id
-      ids += parent.children.map(&:id)
-    end
-
-    if ids.any?
-      options[:topic_ids] = ids.to_a
-    end
-  end
-
-  def add_sector_options(options)
-    ids = Set.new(sectors)
-
-    parents = Sector.includes(:children).find(sector_groups)
-    parents.each do |parent|
-      ids << parent.id
-      ids += parent.children.map(&:id)
-    end
-
-    if ids.any?
-      options[:sector_ids] = ids.to_a
-    end
-
-  end
 
   def order
     case self.sort_field

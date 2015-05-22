@@ -1,4 +1,4 @@
-class Redesign::AllOurWorkForm
+class Redesign::AllOurWorkForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :page,        Integer,        default: 1
@@ -8,14 +8,6 @@ class Redesign::AllOurWorkForm
 
   def filters
     [issue_filter, topic_filter]
-  end
-
-  def active_filters
-    filters.flat_map(&:selected_options)
-  end
-
-  def disabled?
-    false
   end
 
   def issue_filter
@@ -30,11 +22,13 @@ class Redesign::AllOurWorkForm
     containers = Redesign::Container.issue.includes(:public_payload)
 
     if issues.any?
-      containers = containers.joins(taggings: [:issue]).where('issue_id in (?)', issues)
+      ids = issue_filter.effective_selection_set
+      containers = containers.joins(taggings: [:issue]).where('issue_id in (?)', ids)
     end
 
     if topics.any?
-      containers = containers.joins(taggings: [:topic]).where('topic_id in (?)', issues)
+      ids = topic_filter.effective_selection_set
+      containers = containers.joins(taggings: [:topic]).where('topic_id in (?)', ids)
     end
 
     containers.paginate(page: page, per_page: per_page)
