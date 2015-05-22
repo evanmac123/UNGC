@@ -1,4 +1,4 @@
-class TypeFilter < Filters::SearchFilter
+class Filters::EventTypeFilter < Filters::SearchFilter
 
   OPTIONS = [
     'online',
