@@ -1,0 +1,107 @@
+<div id='contact_form'>
+  <fieldset>
+    <h3>Details for <%= contact_type -%></h3>
+
+    <div class='field field-required field-has-placeholder'>
+      <%= form.label :prefix %>
+      <%= form.text_field :prefix, placeholder: 'Prefix' %>
+    </div>
+
+    <div class='field field-required field-has-placeholder'>
+      <%= form.label :first_name %>
+      <%= form.text_field :first_name, placeholder: 'First Name' %>
+    </div>
+
+    <div class='field field-has-placeholder'>
+      <%= form.label :middle_name %>
+      <%= form.text_field :middle_name, placeholder: 'Middle Name' %>
+    </div>
+
+    <div class='field field-required field-has-placeholder'>
+      <%= form.label :last_name %>
+      <%= form.text_field :last_name, placeholder: 'Last Name' %>
+    </div>
+
+    <div class='field field-required field-has-placeholder'>
+      <%= form.label :job_title %>
+      <%= form.text_field :job_title, placeholder: 'Job Title' %>
+    </div>
+
+    <div class='field field-required field-has-placeholder'>
+      <%= form.label :email %>
+      <%= form.email_field :email, placeholder: 'Email' %>
+    </div>
+
+    <div class='field field-required field-has-placeholder'>
+      <%= form.label :phone %>
+      <%= form.phone_field :phone, placeholder: 'Phone' %>
+    </div>
+
+    <%- unless financial_contact -%>
+      <div class='field field-required field-has-placeholder'>
+        <%= form.label :address, "Postal address" %>
+        <%= form.text_field :address, placeholder: 'Postal Address' %>
+      </div>
+
+      <div class='field field-has-placeholder'>
+        <%= form.label :address_more, "Address cont." %>
+        <%= form.text_field :address_more, placeholder: 'Address Cont.' %>
+      </div>
+
+      <div class='field field-required field-has-placeholder'>
+        <%= form.label :city %>
+        <%= form.text_field :city, placeholder: 'City' %>
+      </div>
+
+      <div class='field field-has-placeholder'>
+        <%= form.label :state, "State/Province" %>
+        <%= form.text_field :state, placeholder: 'State / Province' %>
+      </div>
+
+      <div class='field field-has-placeholder'>
+        <%= form.label :postal_code, "ZIP/Code" %>
+        <%= form.text_field :postal_code, placeholder: 'ZIP / Postal Code' %>
+      </div>
+
+      <div class='field field-required'>
+        <%= form.label :country_id %>
+        <%= form.collection_select :country_id, Country.all, :id, :name, {include_blank: true} %>
+      </div>
+    <%- end -%>
+  </fieldset>
+
+  <%- if welcome_package -%>
+    <fieldset>
+      <h3>Welcome Package</h3>
+
+      <p>New participants will receive immediate access to a digital welcome package containing materials for better understanding the Global Compact, its requirements for participants, and how organizations can get started.</p>
+
+      <p>A hard copy version of the welcome package can be provided upon request and will take 6 to 8 weeks (or more) to arrive at the mailing address provided.</p>
+
+      <p>In consideration of the environment, we encourage participants to access the digital package.</p>
+
+      <div id='check_contact' class='field field-checkbox'>
+        <%= form.check_box :welcome_package %>
+        <%= label_tag :contact_welcome_package, "A welcome package in hard copy format should be sent to the Highest Level Executive's mailing address" %>
+      </div>
+    </fieldset>
+  <%- end -%>
+
+  <%- if account_info -%>
+    <fieldset>
+      <h3>Login information</h3>
+
+      <p>Please create a username and password. You will need this login to update or check the status of your application.</p>
+
+      <div class='field field-required field-has-placeholder'>
+        <%= form.label :username, "Username" %>
+        <%= form.text_field :username, placeholder: 'Username' %>
+      </div>
+
+      <div class='field field-required field-has-placeholder'>
+        <%= form.label :password %>
+        <%= form.password_field :password, value: @signup.primary_contact.plaintext_password, placeholder: 'Password' %>
+      </div>
+    </fieldset>
+  <%- end -%>
+</div>

@@ -1,0 +1,27 @@
+<section class='main-content-section'>
+  <header class='main-content-header'>
+    <h1><%= signup_type -%> Organization Application</h1>
+  </header>
+
+  <%= flash_messages_for :error %>
+
+  <%= form_for(@signup.financial_contact, url: redesign_organization_step6_path, html: {class: 'form-classic'}) do |form| %>
+
+    <h2>Financial Contact</h2>
+
+    <p>Thank you for your contribution. An invoice for <strong>USD <%= @signup.organization.pledge_amount -%></strong> will be emailed after your company's application has been reviewed and accepted. Please provide a Financial Contact to receive the invoice. Please note that the contribution should be made to the Foundation for the Global Compact within 30 days of receiving the invoice.</p>
+
+    <div id='check_contact' class='field field-checkbox'>
+      <%= form.check_box :foundation_contact %>
+      <%= label_tag :contact_foundation_contact, "The invoice should be sent to the Primary Contact Point" %>
+    </div>
+
+    <%= form.error_messages header_message: false %>
+
+    <%= render partial: 'contact_form', locals: {form: form, account_info: false, contact_type: 'Financial Contact', financial_contact: true, welcome_package: false} %>
+
+    <%= form.submit 'Next', class: 'button' %>
+
+  <%- end -%>
+</section>
+

@@ -7,11 +7,13 @@
     margin-bottom: .25em
 
   .success-message,
-  .errors-container
+  .errors-container,
+  .errorExplanation
     position: relative
     border: 1px solid
       radius: .25em
     margin: 0 0 2em
+    overflow: hidden
 
     &:before
       +fa-icon
@@ -43,7 +45,8 @@
     span
       font-size: 1.25em
 
-  .errors-container
+  .errors-container,
+  .errorExplanation
     background: lighten(color('pastel-red'), 26%)
     color: color('dark-red')
     padding: .75em 1em 1em
@@ -72,9 +75,6 @@
     display: block
     margin: 0 0 0.25em
 
-    &:after
-      content: ':'
-
   input,
   select,
   textarea
@@ -95,6 +95,13 @@
   textarea
     min-height: 8em
 
+  input[type='text'].datepicker
+    +placeholder
+      &:before
+        +fa-icon
+        content: $fa-var-calendar
+        margin-right: .5em
+
   input[type='checkbox'],
   input[type='radio']
     display: inline-block
@@ -113,7 +120,7 @@
 
   .field-required
     label:after
-      content: ' *:'
+      content: ' *'
 
     input,
     textarea
@@ -136,19 +143,82 @@
         +placeholder
           color: #999
 
+    label,
+    ~ label
+      color: color('red')
+
   .field-checkbox,
   .field-radio-button
+    position: relative
+    overflow: hidden
+
+    input,
+    .field_with_errors
+      position: absolute
+      left: -9999em
+      font-size: 1px
+      line-height: 1
+      width: 1px
+      height: 1px
+      overflow: hidden
+
     label
-      display: inline
+      display: inline-block
+      position: relative
+      padding: 0 0 0 1.25em
 
       &:after
         content: ''
 
-    .field_with_errors
-      display: inline-block
+      &:before
+        +fa-icon
+        position: absolute
+        top: .2em
+        left: 0
+        +font-smoothing(antialiased)
 
+    input ~ label:before
+      color: #888
+
+    .field_with_errors ~ label:before
+      color: inherit
+
+    input:focus,
+    .field_with_errors.focus
       ~ label
-        color: color('red')
+        color: color('light-blue')
+
+        &:before
+          color: inherit
+
+    input:checked,
+    .field_with_errors.checked
+      ~ label
+        color: color('green')
+
+        &:before
+          color: inherit
+
+  .field-checkbox
+    label
+      margin: 0
+
+      &:before
+        content: $fa-var-square-o
+
+    input:checked,
+    .field_with_errors.checked
+      ~ label:before
+        content: $fa-var-check-square-o
+
+  .field-radio-button
+    label:before
+      content: $fa-var-circle-o
+
+    input:checked,
+    .field_with_errors.checked
+      ~ label:before
+        content: $fa-var-circle
 
   .checkboxes-collection .field-checkbox,
   .radio-buttons-collection .field-radio-button
@@ -156,11 +226,23 @@
     vertical-align: top
 
   .checkboxes-collection .field-checkbox
-    padding: 1em
+    padding: .5em 1em
     width: 32.5%
+    margin: 0
 
   .radio-buttons-collection
     margin-bottom: 0
 
     .field-radio-button
       margin-right: 1em
+
+  .accordion-item
+    .accordion-item-header:after
+      content: $fa-var-caret-up
+      font-size: 1.5em
+      top: -0.2em
+      right: .7em
+
+    &.collapsed .accordion-item-header:after
+      content: $fa-var-caret-down
+      top: 0
