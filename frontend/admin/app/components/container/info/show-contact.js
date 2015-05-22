@@ -2,16 +2,22 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'span',
+  items: [],
 
   contacts: Ember.inject.service(),
-  items: Ember.computed.oneWay('contacts.data'),
+
+  _onInsertElement: function() {
+    this.get('contacts.data').then( (data) => {
+      this.set('items', data);
+    });
+  }.on('didInsertElement'),
 
   //api
   contactId: null,
 
   contact: Ember.computed('items.@each', 'contactId', function() {
     return this.get('items').find( (i) => {
-      return i.id === this.get('contactId');
+      return parseInt(i.get('id'),10) === this.get('contactId');
     });
   }),
 
