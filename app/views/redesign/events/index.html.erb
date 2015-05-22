@@ -2,7 +2,21 @@
 
 <%= render partial: 'redesign/components/hero' %>
 
-<h1> Add filters here </h1>
+<%= form_for @search, as: :search, url: redesign_events_path, method: :get, html: {id: 'filters-form'}  do |form| %>
+
+  <fieldset class='filter-lists'>
+    <% @search.filters.each do |filter| %>
+      <%= search_filter(filter) %>
+    <% end %>
+  </fieldset>
+
+  <%= form.text_field :start_date, placeholder: 'start date', class: 'datepicker' %>
+  <%= form.text_field :end_date, placeholder: 'end date', class: 'datepicker' %>
+
+  <%= active_filters(@search) %>
+
+  <%= form.submit 'Search' %>
+<% end %>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.events} do |block| %>
   <%= render 'redesign/components/content_block',
