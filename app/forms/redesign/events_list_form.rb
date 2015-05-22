@@ -62,11 +62,11 @@ class Redesign::EventsListForm < Redesign::FilterableForm
 
     case
     when start_date.present? && end_date.present?
-      events = events.where(created_at: start_date..end_date)
+      events = events.where(starts_at: start_date..end_date)
     when start_date.present?
-      events = events.where('created_at > ?', start_date)
+      events = events.where('starts_at > ?', start_date)
     when end_date.present?
-      events = events.where('created_at < ?', end_date)
+      events = events.where('starts_at < ?', end_date)
     end
 
     events.paginate(page: page, per_page: per_page)
