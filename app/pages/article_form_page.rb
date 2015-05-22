@@ -1,4 +1,4 @@
-class ContactUsPage < ContainerPage
+class ArticleFormPage < ContainerPage
   def hero
     (@data[:hero] || {}).merge({size: 'small'})
   end

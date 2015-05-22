@@ -19,7 +19,7 @@ class Redesign::ContactUsController < Redesign::ApplicationController
   private
     def load_page
       set_current_container_by_path '/about/contact'
-      ContactUsPage.new(current_container, current_payload_data)
+      ArticleFormPage.new(current_container, current_payload_data)
     end
 
     def contact_us_params
