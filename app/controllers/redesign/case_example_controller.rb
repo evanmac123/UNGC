@@ -19,7 +19,7 @@ class Redesign::CaseExampleController < Redesign::ApplicationController
   private
     def load_page
       set_current_container_by_path '/take-action/action/share-story'
-      CaseExamplePage.new(current_container, current_payload_data)
+      ArticleFormPage.new(current_container, current_payload_data)
     end
 
     def case_example_params
