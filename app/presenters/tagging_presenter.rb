@@ -9,21 +9,15 @@ class TaggingPresenter < SimpleDelegator
   end
 
   def topic_options
-    Redesign::TopicTree.new.map do |parent, children|
-      add_selections(parent, children, :topic, selected_topics)
-    end
+    Filters::TopicFilter.new(selected_topic_ids, selected_topic_ids).options
   end
 
   def issue_options
-    Redesign::IssueTree.new.map do |parent, children|
-      add_selections(parent, children, :issue, selected_issues)
-    end
+    Filters::IssueFilter.new(selected_issue_ids, selected_issue_ids).options
   end
 
   def sector_options
-    Redesign::SectorTree.new.map do |parent, children|
-      add_selections(parent, children, :sector, selected_sectors)
-    end
+    Filters::SectorFilter.new(selected_sector_ids, selected_sector_ids).options
   end
 
   private
@@ -32,27 +26,15 @@ class TaggingPresenter < SimpleDelegator
       __getobj__
     end
 
-    def selected_topics
-      taggable.topics
+    def selected_topic_ids
+      taggable.topic_ids
     end
 
-    def selected_issues
-      taggable.issues
+    def selected_issue_ids
+      taggable.issue_ids
     end
 
-    def selected_sectors
-      taggable.sectors
-    end
-
-    def add_selections(parent, children, type, selected)
-      selected_ids = selected.pluck(:id)
-
-      parent_option = FilterOption.new(parent.id, parent.name, type, selected_ids.include?(parent.id))
-
-      child_options = Array(children).map do |child|
-        FilterOption.new(child.id, child.name, type, selected_ids.include?(child.id))
-      end
-
-      [parent_option, child_options]
+    def selected_sector_ids
+      taggable.sector_ids
     end
 end

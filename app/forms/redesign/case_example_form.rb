@@ -14,7 +14,7 @@ class Redesign::CaseExampleForm
 
   def submit
     if valid?
-      result = case_example.save && TaggingUpdater.new({sectors: sector_ids}, case_example).update
+      result = case_example.save
       send_email(case_example) if result
       result
     else
@@ -56,6 +56,7 @@ class Redesign::CaseExampleForm
       @case_example ||= CaseExample.new({
         company: company,
         country_id: country_id,
+        sector_ids: sector_ids,
         is_participant: is_participant,
         file: file
       })

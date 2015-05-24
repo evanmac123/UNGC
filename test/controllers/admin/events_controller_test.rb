@@ -296,16 +296,17 @@ class Admin::EventsControllerTest < ActionController::TestCase
         should 'redirects to index' do
           assert_redirected_to_index
         end
+      end
 
-        should 'remove a topic' do
-          topics_ids = 2.times.map { create_topic.id }
-          event = create_event(topic_ids: topics_ids)
+      context 'with no topic IDs' do
+        should 'remove all topics' do
+          @topic_ids = 2.times.map { create_topic.id }
+          @event = create_event(topic_ids: @topic_ids)
 
-          assert_difference -> { event.topics.count }, -2 do
-            put :update, id: event.id, event: { topic_ids: [] }
+          assert_difference '@event.topics.count', -2 do
+            put :update, id: @event.id, event: { topic_ids: [] }
           end
         end
-
       end
     end
 
