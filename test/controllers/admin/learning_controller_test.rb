@@ -6,6 +6,16 @@ class Admin::LearningControllerTest < ActionController::TestCase
   context "generated" do
 
     setup do
+      Principle.create! name: "Global Compact"
+      Principle.create! name: "Human Rights"
+      Principle.create! name: "Labour"
+      Principle.create! name: "Environment"
+      Principle.create! name: "Anti-Corruption"
+      Principle.create! name: 'Business and Peace'
+      Principle.create! name: "Financial Markets"
+      Principle.create! name: "Business for Development"
+      Principle.create! name: "UN / Business Partnerships"
+      Principle.create! name: "Supply Chain Sustainability"
       create_staff_user
       sign_in @staff_user
     end

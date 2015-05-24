@@ -69,4 +69,4 @@
                 = check_box_tag 'event[sponsor_ids][]', sponsor.id, sponsor.selected?
                 = sponsor.name
 
-  =render partial: "admin/shared/tagging_form_with_ids", locals: {taggable: @event, model_name: 'event'}
+  =render partial: "admin/shared/tagging_form", locals: {taggable: @event, model_name: 'event'}

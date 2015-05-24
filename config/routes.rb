@@ -71,12 +71,12 @@ UNGC::Application.routes.draw do
       get '/take-action/action' => :index, as: :actions
     end
 
-    controller :participant_search, path: '/what-is-gc/participants/directory' do
+    controller :participant_search, path: '/what-is-gc/participants' do
       get '/' => :index
       get '/search' => :search, as: :participant_search
     end
 
-    resources :participants, path: '/what-is-gc/participants/directory/', only: [:show]
+    resources :participants, path: '/what-is-gc/participants/', only: [:show]
 
     controller :news, path: '/news' do
       get '/' => :index, as: :news_index

@@ -96,12 +96,13 @@
           "path": "/Our-Commitment"
         },
         {
-          "template": "Highlight",
+          "template": "Directory",
           "path": "/Participants",
           "children": [
             {
               "template": "Directory",
-              "path": "/Directory"
+              "path": "/Directory",
+              "delete": true
             }
           ]
         },
@@ -906,7 +907,7 @@
                   "path": "/Partnerships"
                 },
                 {
-                  "template": "List",
+                  "template": "Article",
                   "path": "/Toolkit"
                 },
                 {
@@ -932,19 +933,19 @@
                   "path": "/Foundation"
                 },
                 {
-                  "template": "List",
+                  "template": "Article",
                   "path": "/Mtg-Outcome"
                 },
                 {
-                  "template": "List",
+                  "template": "Article",
                   "path": "/Local-Network-Report"
                 },
                 {
-                  "template": "List",
+                  "template": "Article",
                   "path": "/Local-Networks-Document"
                 },
                 {
-                  "template": "List",
+                  "template": "Article",
                   "path": "/Activity-Report"
                 }
               ]
@@ -1053,7 +1054,13 @@
         },
         {
           "template": "List",
-          "path": "/Opportunities"
+          "path": "/Opportunities",
+          "children": [
+            {
+              "template": "Article",
+              "path": "/Internships"
+            }
+          ]
         },
         {
           "template": "Article_Form",

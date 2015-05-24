@@ -14,11 +14,12 @@ class Admin::NewsController < AdminController
   end
 
   def create
-    updater = HeadlineUpdater.new(headline_params)
-    if updater.submit
+    @headline = Headline.new(headline_params)
+
+    if @headline.save
       redirect_to admin_headlines_url, notice: 'Headline successfully created.'
     else
-      @headline = HeadlinePresenter.new(updater.headline)
+      @headline = HeadlinePresenter.new(@headline)
       render action: 'new'
     end
   end
@@ -32,8 +33,7 @@ class Admin::NewsController < AdminController
   end
 
   def update
-    updater = HeadlineUpdater.new(headline_params, @headline)
-    if updater.submit
+    if @headline.update_attributes(headline_params)
       redirect_to admin_headlines_url, notice: 'Headline successfully updated.'
     else
       @headline = HeadlinePresenter.new(@headline)
@@ -77,9 +77,9 @@ class Admin::NewsController < AdminController
         :country_id,
         :description,
         :headline_type,
-        topics: [],
-        issues: [],
-        sectors: []
+        topic_ids: [],
+        issue_ids: [],
+        sector_ids: []
       )
     end
 end

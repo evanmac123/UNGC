@@ -1,0 +1,49 @@
+<section class='main-content-section'>
+  <header class='main-content-header'>
+    <h1><%= signup_type -%> Organization Application</h1>
+  </header>
+
+  <%= flash_messages_for :error %>
+
+  <h2>Thank you!</h2>
+
+  <p>Your Letter of Commitment to the United Nations Global Compact has been received. A confirmation email has been sent to <strong><%= @signup.primary_contact.email -%></strong>. We will contact you about the status of your organization's application.</p>
+
+  <p>If you do not receive an email from the UN Global Compact, please check whether the message has been mislabeled as spam mail. To ensure timely delivery of communications from the UN Global Compact, your email server should be configured to accept messages from <strong><%= mail_to 'info@unglobalcompact.org' -%></strong>. For further assistance, please contact your technology staff or network administrator.</p>
+
+  <p>If you still do not receive a confirmation email, please contact <%= mail_to "globalcompact@un.org?subject=Online%20Application%20ID%20#{@signup.organization.id}", 'globalcompact@un.org' -%> and reference Application ID <%= @signup.organization.id -%>.</p>
+
+  <%- if @signup.organization.academic? -%>
+    <div class='prme'>
+      <hr>
+
+      <p style='text-align: center; margin-top: 25px;'><%= image_tag "/pics/un_images/prme.png", :title => "Principles for Responsible Management Education (PRME)" -%></p>
+
+      <h4>A message from the Principles for Responsible Management Education (PRME) Secretariat</h4>
+
+      <p>We welcome your organization's intention to participate in the UN Global Compact. It is a strong demonstration of your academic institution's leadership and vision in advancing the tenets of corporate sustainability and the principles of the initiative.</p>
+
+      <p>If you are representing a degree-granting academic institution we would like to invite you to also participate in the UN Global Compact's Principles for Responsible Management Education (PRME) initiative which focuses on incorporating corporate sustainability topics into curricula and research. By signing up to PRME your academic institution will be provided with a framework to incorporate sustainability values and topics in teaching, research and internal systems, gain access to a global learning community of over 600 PRME signatories worldwide, and receive recognition for your organization's efforts.</p>
+
+      <p>The PRME initiative is organized jointly by the UN Global Compact Office and the following PRME Steering Committee organizations:</p>
+
+      <ul>
+        <li>Association to Advance Collegiate Schools of Business (AACSB International)</li>
+        <li>European Foundation for Management Development (EFMD)</li>
+        <li>Association of MBAs (AMBA)</li>
+        <li>Graduate Management Admission Council (GMAC)</li>
+        <li>African Association of Business Schools (AABS)</li>
+        <li>Association of Asia-Pacific Business Schools (AAPBS)</li>
+        <li>Latin American Council of Management Schools (CLADEA)</li>
+        <li>Central and East European Management Development Association (CEEMAN)</li>
+        <li>The Academy for Business in Society (ABIS)</li>
+        <li>Globally Responsible Leadership Initiative (GRLI)</li>
+      </ul>
+
+      <p><strong>Participating in PRME requires you to sign up separately on the <%= link_to 'PRME website', 'http://www.unprme.org/how-to-participate/' -%>. For more information, please visit <%= link_to 'www.unprme.org','http://www.unprme.org' -%>, or contact the PRME Secretariat at <%= mail_to 'PRMESecretariat@unprme.org' -%>.</strong></p>
+
+      <p>Jonas Haertle<br>
+        Head, PRME Secretariat, UN Global Compact</p>
+    </div>
+  <%- end -%>
+</section>
