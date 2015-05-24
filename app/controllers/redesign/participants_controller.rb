@@ -1,7 +1,7 @@
 class Redesign::ParticipantsController < Redesign::ApplicationController
 
   def show
-    set_current_container_by_path '/what-is-gc/participants/directory'
+    set_current_container_by_path '/what-is-gc/participants'
     contributions = ParticipantCampaignContributionsByYear.for(find_participant)
     @page = ParticipantPage.new(current_container, find_participant, contributions)
   end
