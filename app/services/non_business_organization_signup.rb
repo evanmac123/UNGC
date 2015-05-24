@@ -48,7 +48,7 @@ class NonBusinessOrganizationSignup < OrganizationSignup
   end
 
   def complete_valid_registration?
-    NonBusinessRegistrationCompleteValidator.new(registration).validate
+    NonBusinessRegistrationCompleteValidator.new(registration, @legal_status_id).validate
   end
 
   def before_save

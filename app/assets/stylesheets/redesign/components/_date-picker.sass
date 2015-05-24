@@ -1,0 +1,69 @@
+#ui-datepicker-div
+  background: white
+  border: 1px solid #ccc
+    top-color: white
+  box-shadow: 0 2px 7px 2px rgba(black, .2)
+  font-family: $flama-book
+  line-height: 1
+  text-align: center
+
+  .ui-datepicker-header
+    padding: .5em
+    font:
+      family: $flama-condensed-medium
+      weight: 500
+    +clearfix
+
+  .ui-datepicker-prev
+    float: left
+
+    &:before
+      +fa-icon
+      content: $fa-var-caret-left
+      margin-right: .25em
+
+  .ui-datepicker-next
+    float: right
+
+    &:after
+      +fa-icon
+      content: $fa-var-caret-right
+      margin-left: .25em
+
+  .ui-datepicker-title
+    text-transform: uppercase
+    font-size: .75
+
+  .ui-datepicker-calendar
+    th,
+    td
+      border: 1px solid #eee
+      padding: .5em
+
+    td
+      text-align: right
+
+    thead th
+      font:
+        size: .75
+        family: $flama-condensed-medium
+        weight: 500
+      background: #eee
+
+    td.ui-datepicker-week-end
+      background: #f9f9f9
+
+    td.ui-datepicker-unselectable
+      background: #eee
+      color: #eee
+
+      a
+        color: inherit
+
+    td.ui-datepicker-current-day
+      background: color('teal')
+      color: white
+      border-color: color('teal')
+
+      a
+        color: inherit
