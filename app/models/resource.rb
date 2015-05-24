@@ -21,6 +21,7 @@
 
 class Resource < ActiveRecord::Base
   include Indexable
+  include Taggable
 
   has_attached_file :image, :styles => {
       :show => "213x277>",
@@ -41,14 +42,6 @@ class Resource < ActiveRecord::Base
   has_and_belongs_to_many :authors
   has_many :links, dependent: :destroy, class_name: 'ResourceLink'
   has_many :languages, through: :links
-
-  has_many :taggings, dependent: :destroy
-  has_many :sectors,        through: :taggings
-  has_many :sector_groups,  through: :sectors, source: :parent
-  has_many :issues,         through: :taggings
-  has_many :issue_areas,    through: :issues, class_name: 'Issue', source: :parent
-  has_many :topics,         through: :taggings
-  has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
 
   STATES = { pending:    'Pending Review',
              approved:   'Approved',
