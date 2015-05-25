@@ -9,18 +9,10 @@
   },
   "taggings": {
     "issues": [
-      221,
-      231,
-      241,
-      261,
-      271,
-      251
     ],
     "topics": [
-
     ],
     "sectors": [
-
     ]
   },
   "hero": {
@@ -38,7 +30,7 @@
     "content": "<p>Companies play an important role in providing proactive, constructive input for governments to create effective climate policies. While making a commitment to sustainability is important, it is also critical to connect the dots between this commitment and your corporate policy positions.<\/p><p>A number of organizations have come together to provide a framework to help you do so. The <a href=\"http:\/\/caringforclimate.org\/\" target=\"_blank\">Caring for Climate<\/a> initiative has partnered with the World Resources Institute (WRI), the Carbon Disclosure Project (CDP), the World Wildlife Fund (WWF), Ceres and The Climate Group. Together, we ask  companies to take a leadership role and commit to engage responsibly in climate policy.<\/p><h2>What You Can Do <\/h2><p>To engage responsibly in climate policy, companies must adopt core elements of legitimacy, opportunity, consistency, accountability and transparency.<\/p><p>Specifically, we ask companies to:        <\/p><ul><li><strong>Identify<\/strong> the risks, opportunities and influences on your climate change policies<\/li><li><strong>Align<\/strong> your internal practices and external messages<\/li><li><strong>Report<\/strong> publicly on climate change policy influences<\/li><\/ul><p>To publicly commit to responsible corporate engagement in climate policy, please visit the <a target=\"_blank\" href=\"http:\/\/caringforclimate.org\/workstreams\/climate-policy-engagement\/\">Caring for Climate website<\/a>.<\/p>"
   },
   "widget_contact": {
-    "contact_id": 38816
+    "contact_id": null
   },
   "widget_calls_to_action": [
     {
@@ -52,13 +44,13 @@
   ],
   "resources": [
     {
-      "resource_id": 501
+      "resource_id": null
     },
     {
-      "resource_id": 1511
+      "resource_id": null
     },
     {
-      "resource_id": 441
+      "resource_id": null
     }
   ]
 }
