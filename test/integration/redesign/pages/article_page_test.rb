@@ -31,7 +31,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     @payload = create_payload({
       container_id: @container.id,
       json_data: json.to_json
-    });
+    })
 
     @container.public_payload = @payload
     @container.save
@@ -56,7 +56,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
   end
 
   should 'have content' do
-    assert_select('.main-content-body')
+    assert_select '.main-content-body'
   end
 
   should 'have sidebar widgets' do
