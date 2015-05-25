@@ -12,7 +12,7 @@ class Components::Participants
         name: p.name,
         sector: p.sector.name,
         country: p.country.name,
-        url: 'participant url' # TODO add participant url once that's built
+        participant: p
       }
     end
   end
