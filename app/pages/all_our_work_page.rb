@@ -7,11 +7,11 @@ class AllOurWorkPage < ContainerPage
   end
 
   def hero
-    {
-      title: {
-        title1: 'All Issues'
-      }
-    }
+    @data[:hero] || {}
+  end
+
+  def section_nav
+    return Components::SectionNav.new(container)
   end
 
   def issues

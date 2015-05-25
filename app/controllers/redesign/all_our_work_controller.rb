@@ -1,7 +1,7 @@
 class Redesign::AllOurWorkController < Redesign::ApplicationController
 
   def index
-    set_current_container :all_issue, '/what-is-un-global-compact/our-focus/all-issues'
+    set_current_container_by_path '/what-is-gc/our-work/all'
     @search = Redesign::AllOurWorkForm.new(search_params)
     @page = AllOurWorkPage.new(current_container, current_payload_data, @search.execute)
   end
