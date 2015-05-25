@@ -26,6 +26,7 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       # see app/assets/javascripts/redesign/contact-form.js
       get :new
       assert_select '#new_redesign_contact_us_form'
+      assert_select 'input[name="redesign_contact_us_form[magic]"]'
     end
   end
 
