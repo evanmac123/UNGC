@@ -16,4 +16,12 @@
   <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
 <% end %>
 
+<%- if @page.actions.empty? -%>
+  <section class="main-content-section main-content-section-full-width">
+    <article class='component-content-blocks-list'>
+      No Results found.
+    </article>
+  </section>
+<% end %>
+
 <%= will_paginate @page.results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
