@@ -2,7 +2,7 @@ class Redesign::ActionsController < Redesign::ApplicationController
   def index
     set_current_container_by_path '/take-action/action'
     @search = Redesign::WhatYouCanDoForm.new(search_params)
-    @page = WhatYouCanDoPage.new(current_container, current_payload_data, @search.execute)
+    @page = ActionPage.new(current_container, current_payload_data, @search.execute)
   end
 
   private

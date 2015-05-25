@@ -1,4 +1,4 @@
-class WhatYouCanDoPage < ContainerPage
+class ActionPage < ContainerPage
   attr_reader :results
 
   def initialize(container, payload, results)
@@ -19,4 +19,3 @@ class WhatYouCanDoPage < ContainerPage
   end
 
 end
-
