@@ -12,9 +12,14 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
       path: 'new-article-path',
       layout: 'article'
     })
+
+    data = File.read(Rails.root + 'test/fixtures/pages/article_with_all_data.json')
+
     @payload = create_payload({
-      container_id: @container.id
+      container_id: @container.id,
+      json_data: data
     });
+
 
     @container.public_payload = @payload
     @container.save
