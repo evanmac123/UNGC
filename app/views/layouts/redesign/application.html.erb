@@ -23,6 +23,11 @@
     <%= render partial: 'redesign/components/main_footer' %>
     <%= render partial: 'shared/ga_universal' %>
 
-    <%= content_tag(:small, "Last updated: #{current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z')}") if current_payload %>
+    <%  if current_contact && current_contact.from_ungc? %>
+      <%= content_tag(:small, "Last updated: #{current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z')}") if current_payload%>
+      <small>
+        <%= link_to_redesign 'edit', redesign_admin_root_path("containers/#{current_container.id}") if current_container%>
+      </small>
+    <% end %>
   </body>
 </html>
