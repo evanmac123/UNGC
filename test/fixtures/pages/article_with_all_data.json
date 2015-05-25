@@ -1,19 +1,16 @@
 {
   "meta_tags": {
     "title": "Engage Responsibly in Climate Policy",
-    "description": null,
+    "description": "Companies play an important role in providing proactive...",
     "thumbnail": "https:\/\/d306pr3pise04h.cloudfront.net\/uploads\/bd\/bd5df5428e944ca2bee8bab2ad35f7ea3a74dc32---solar_s.jpg",
     "label": "implement",
-    "keywords": null,
+    "keywords": "climate, policy",
     "content_type": "2"
   },
   "taggings": {
-    "issues": [
-    ],
-    "topics": [
-    ],
-    "sectors": [
-    ]
+    "issues": [],
+    "topics": [],
+    "sectors": []
   },
   "hero": {
     "image": "https:\/\/d306pr3pise04h.cloudfront.net\/uploads\/65\/653394a1b3624e57f9c0d4f4ecdb2b664125c599---solar.jpg",
@@ -22,8 +19,8 @@
       "title1": "Committing to",
       "title2": "effective climate policies"
     },
-    "blurb": null,
-    "show_section_nav": false
+    "blurb": "Commtting to effective climate policies.",
+    "show_section_nav": true
   },
   "article_block": {
     "title": "Engage Responsibly in Climate Policy",
@@ -39,19 +36,6 @@
       "external": true
     }
   ],
-  "widget_links_lists": [
-
-  ],
-  "resources": [
-    {
-      "resource_id": null
-    },
-    {
-      "resource_id": null
-    },
-    {
-      "resource_id": null
-    }
-  ]
+  "widget_links_lists": [],
+  "resources": []
 }
-
