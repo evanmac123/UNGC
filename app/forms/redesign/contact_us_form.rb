@@ -1,12 +1,20 @@
 class Redesign::ContactUsForm
   include ActiveModel::Model
 
-  attr_accessor :name, :email, :organization, :interest_ids, :focus_ids, :comments
+  attr_accessor :name, :email, :organization, :interest_ids, :focus_ids, :comments, :magic
 
   validates :name, :email, :comments, presence: true
   validates_format_of :email,
                       :with => /\A[A-Za-z0-9.'_%+-]+@[A-Za-z0-9'.-]+\.[A-Za-z]{2,6}\z/,
                       :message => "is not a valid email address"
+
+  validate :three_is_magic
+
+  def three_is_magic
+    if self.magic != "3"
+      errors.add(:magic, 'invalid number')
+    end
+  end
 
   def send_email
     if valid?

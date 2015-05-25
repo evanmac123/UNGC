@@ -14,10 +14,19 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       name: 'Venu Keesari',
       email: 'keesari@unglobalcompact.org',
       organization: 'United Nations Global Compact',
+      magic: '3',
       interest_ids: ['general_inquiry', 'events'],
       focus_ids: ['peace', 'labour', 'poverty'],
       comments: 'Hello!'
     }
+  end
+
+  context 'form renders' do
+    should 'have the required #id' do
+      # see app/assets/javascripts/redesign/contact-form.js
+      get :new
+      assert_select '#new_redesign_contact_us_form'
+    end
   end
 
   context 'given post with valid params' do
