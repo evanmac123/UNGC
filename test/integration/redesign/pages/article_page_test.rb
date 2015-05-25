@@ -5,21 +5,21 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     create_staff_user
     login_as @staff_user
 
-    # TODO create container with layout article
-    # TODO create payload for container
-    #
     @container = create_container({
       path: 'new-article-path',
       layout: 'article'
     })
 
     data = File.read(Rails.root + 'test/fixtures/pages/article_with_all_data.json')
+    json = JSON.parse(data)
+
+    # TODO raach into json to add issue/topics/sectors/contacts/resources
+    # json['...][..]= [ids]
 
     @payload = create_payload({
       container_id: @container.id,
-      json_data: data
+      json_data: json.to_json
     });
-
 
     @container.public_payload = @payload
     @container.save
