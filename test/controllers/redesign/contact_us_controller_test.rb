@@ -75,10 +75,15 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
   end
 
   context 'given post with invalid params' do
-    should 'diesplay errors' do
+    should 'display errors' do
       post :create, redesign_contact_us_form: @params.except(:name,:email,:comments)
 
       assert_select '.errors-list', 1
+    end
+
+    should 'fail if magic value is not present' do
+      post :create, redesign_contact_us_form: @params.except(:magic)
+      assert_select '.errors-list li', 1
     end
   end
 end
