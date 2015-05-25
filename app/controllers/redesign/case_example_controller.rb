@@ -28,6 +28,7 @@ class Redesign::CaseExampleController < Redesign::ApplicationController
         :country_id,
         :is_participant,
         :file,
+        :magic,
         :sector_ids => []
       )
     end
