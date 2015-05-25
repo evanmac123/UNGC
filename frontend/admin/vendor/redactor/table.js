@@ -56,7 +56,7 @@ if (!RedactorPlugins) var RedactorPlugins = {};
 			insert: function()
 			{
 				this.placeholder.remove();
-				this.clean.cleanEmptyParagraph();
+				//this.clean.cleanEmptyParagraph();
 				
 				var rows = $('#redactor-table-rows').val(),
 					columns = $('#redactor-table-columns').val(),
