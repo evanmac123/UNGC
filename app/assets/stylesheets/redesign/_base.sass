@@ -42,6 +42,19 @@ textarea
   @media only print
     font-size: 12pt
 
+input,
+select,
+textarea
+  background: #fdfdfd
+  border: 1px solid #ccc
+
+  +placeholder
+    color: #999
+
+  &:focus
+    border-color: color('light-blue')
+    background: white
+
 p,
 ul,
 ol,
