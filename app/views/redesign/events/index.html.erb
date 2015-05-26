@@ -10,20 +10,25 @@
     <% end %>
   </fieldset>
 
-  <%= form.text_field :start_date, placeholder: 'start date', class: 'datepicker' %>
-  <%= form.text_field :end_date, placeholder: 'end date', class: 'datepicker' %>
-
   <%= active_filters(@search) %>
 
-  <%= form.submit 'Search' %>
+  <fieldset class='filter-sorting'>
+    <%= form.text_field :start_date, placeholder: 'Start Date', class: 'datepicker' %>
+    <%= form.text_field :end_date, placeholder: 'End Date', class: 'datepicker' %>
+    <%= form.submit 'Filter', class: 'button' %>
+  </fieldset>
+
 <% end %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.events} do |block| %>
+<%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.events} do |event| %>
   <%= render 'redesign/components/content_block',
-    title: block.title,
-    url: redesign_event_path(block),
-    thumbnail: block.thumbnail_image.url,
-    tag: block.tag
+    type: 'event',
+    title: event.title,
+    url: redesign_event_path(event),
+    thumbnail: event.thumbnail_image.url,
+    tag: event.tag,
+    date: event.date,
+    location: event.location
   %>
 <% end %>
 

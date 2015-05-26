@@ -12,10 +12,10 @@ class HomePage < ContainerPage
   end
 
   def events
-    Components::Events.new(@data)
+    Components::Events.new(@data, tier: :tier1)
   end
 
   def news
-    Components::News.new(@data)
+    Components::News.new(@data, news_type: :announcement)
   end
 end

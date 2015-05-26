@@ -1,8 +1,11 @@
 class Components::Events
   include Enumerable
 
-  def initialize(data)
+  attr_reader :tier
+
+  def initialize(data, tier: nil)
     @data = data
+    @tier = tier
   end
 
   def featured
@@ -12,19 +15,30 @@ class Components::Events
   end
 
   def future
-    future = Event.approved.where("starts_at >= ?", Date.today).order('starts_at asc')
+    future = scoped.where("starts_at >= ?", Date.today).order('starts_at asc')
     future = featured ? future[0..5] : future[0..8]
     future.each_slice(3).to_a
   end
 
   def past
-    Event.approved.where("starts_at < ?", Date.today).order('starts_at desc')
+    scoped.where("starts_at < ?", Date.today).order('starts_at desc')
   end
 
   def each(&block)
     future.each do |e|
       block.call(e)
     end
+  end
+
+  private
+
+  def scoped
+    scoped = Event.approved
+    case tier
+    when :tier1
+      scoped = scoped.tier1
+    end
+    scoped
   end
 end
 

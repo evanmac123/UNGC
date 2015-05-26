@@ -7,7 +7,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   attribute :topics,      Array[Integer], default: []
   attribute :countries,   Array[Integer], default: []
   attribute :types,       Array[String],  default: []
-  attribute :start_date,  Date
+  attribute :start_date,  Date,           default: -> (page, attribute) { Date.today }
   attribute :end_date,    Date
 
   def filters
@@ -31,7 +31,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   end
 
   def execute
-    events = Event.approved
+    events = Event.approved.order('starts_at asc')
 
     if countries.any?
       events = events.where('events.country_id in (?)', countries)
@@ -69,7 +69,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
       events = events.where('starts_at < ?', end_date)
     end
 
-    events.paginate(page: page, per_page: per_page)
+    events.distinct('events.id').paginate(page: page, per_page: per_page)
   end
 
 end
