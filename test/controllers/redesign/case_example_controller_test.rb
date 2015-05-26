@@ -19,8 +19,18 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       country_id: @country.id,
       sector_ids: [@sector.id, @sector2.id],
       is_participant: true,
+      magic: '3',
       file: fixture_file_upload('files/untitled.pdf', 'application/pdf')
     }
+  end
+
+  context 'form renders' do
+    should 'have the required #id' do
+      # see app/assets/javascripts/redesign/case-example-form.js
+      get :new
+      assert_select '#new_redesign_case_example_form'
+      assert_select 'input[name="redesign_case_example_form[magic]"]'
+    end
   end
 
   context 'given post with valid params' do
@@ -56,6 +66,11 @@ class Redesign::CaseExampleControllerTest < ActionController::TestCase
       post :create, redesign_case_example_form: @params.except(:company, :country_id, :sector_ids, :file)
 
       assert_select '.errors-list li', 4
+    end
+
+    should 'fail if magic value is not present' do
+      post :create, redesign_case_example_form: @params.except(:magic)
+      assert_select '.errors-list li', 1
     end
   end
 

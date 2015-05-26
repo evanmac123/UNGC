@@ -28,6 +28,7 @@ class Redesign::ContactUsController < Redesign::ApplicationController
         :email,
         :organization,
         :comments,
+        :magic,
         :interest_ids => [],
         :focus_ids => []
       )

@@ -35,7 +35,7 @@ class LocalNetworkPage < SimpleDelegator
       network_representative: network_representative,
       calls_to_action: [
         {
-          label: 'Share your Success',
+          label: 'Share your Story',
           url: '/take-action/action/share-story'
         }
       ]

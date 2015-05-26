@@ -1,4 +1,4 @@
-class WhatYouCanDoPage < ContainerPage
+class ActionPage < ContainerPage
   attr_reader :results
 
   def initialize(container, payload, results)
@@ -7,11 +7,11 @@ class WhatYouCanDoPage < ContainerPage
   end
 
   def hero
-    {
-      title: {
-        title1: 'What you can do'
-      }
-    }
+    @data[:hero] || {}
+  end
+
+  def section_nav
+    return Components::SectionNav.new(container)
   end
 
   def actions
@@ -19,4 +19,3 @@ class WhatYouCanDoPage < ContainerPage
   end
 
 end
-

@@ -14,10 +14,20 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
       name: 'Venu Keesari',
       email: 'keesari@unglobalcompact.org',
       organization: 'United Nations Global Compact',
+      magic: '3',
       interest_ids: ['general_inquiry', 'events'],
       focus_ids: ['peace', 'labour', 'poverty'],
       comments: 'Hello!'
     }
+  end
+
+  context 'form renders' do
+    should 'have the required #id' do
+      # see app/assets/javascripts/redesign/contact-form.js
+      get :new
+      assert_select '#new_redesign_contact_us_form'
+      assert_select 'input[name="redesign_contact_us_form[magic]"]'
+    end
   end
 
   context 'given post with valid params' do
@@ -65,10 +75,15 @@ class Redesign::ContactUsControllerTest < ActionController::TestCase
   end
 
   context 'given post with invalid params' do
-    should 'diesplay errors' do
+    should 'display errors' do
       post :create, redesign_contact_us_form: @params.except(:name,:email,:comments)
 
       assert_select '.errors-list', 1
+    end
+
+    should 'fail if magic value is not present' do
+      post :create, redesign_contact_us_form: @params.except(:magic)
+      assert_select '.errors-list li', 1
     end
   end
 end

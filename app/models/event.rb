@@ -2,6 +2,7 @@ class Event < ActiveRecord::Base
   include ContentApproval
   include TrackCurrentUser
   include Indexable
+  include Taggable
 
   belongs_to :country
   belongs_to :contact
@@ -10,14 +11,6 @@ class Event < ActiveRecord::Base
 
   has_many :event_sponsors, dependent: :destroy
   has_many :sponsors, through: :event_sponsors
-
-  has_many :taggings, dependent: :destroy
-  has_many :sectors,        through: :taggings
-  has_many :sector_groups,  through: :sectors, class_name: 'Sector', source: :parent
-  has_many :issues,         through: :taggings
-  has_many :issue_areas,    through: :issues, class_name: 'Issue', source: :parent
-  has_many :topics,         through: :taggings
-  has_many :topic_groups,   through: :topics, class_name: 'Topic', source: :parent
 
   serialize :urls
 

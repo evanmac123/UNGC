@@ -1,11 +1,19 @@
 class Redesign::CaseExampleForm
   include ActiveModel::Model
 
-  attr_accessor :company, :country_id, :sector_ids, :is_participant, :file
+  attr_accessor :company, :country_id, :sector_ids, :is_participant, :file, :magic
 
   validates :sector_ids, presence: true
   validate :sector_ids_cant_be_blank_and_must_exist
   validate :case_example_is_valid
+  validate :three_is_magic
+
+  def three_is_magic
+    if self.magic != "3"
+      errors.add(:magic, 'invalid number')
+    end
+  end
+
 
   HUMANIZED_ATTRIBUTES = {
     :sector_ids => "Sectors",

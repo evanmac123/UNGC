@@ -12,22 +12,23 @@
 
     <h2>QuickLinks</h2>
     <ul class='quick-links'>
-      <li><%= link_to 'Issue Areas', '/redesign' -%></li>
-      <li><%= link_to 'What You Can Do', '/redesign' -%></li>
-      <li><%= link_to 'Join Now', '/redesign' -%></li>
-      <li><%= link_to 'Report on Your Progress: COP', '/redesign' -%></li>
+      <li><%= link_to_redesign 'The Ten Principles', '/what-is-gc/mission/principles' -%></li>
+      <li><%= link_to_redesign 'Issue Areas', '/our-work' -%></li>
+      <li><%= link_to_redesign 'What You Can Do', '/take-action/action' -%></li>
+      <li><%= link_to_redesign 'Join Now', '/participation/join/application' -%></li>
+      <li><%= link_to_redesign 'Submit your COP', '/participation/report' -%></li>
     </ul>
   </article>
 
   <article>
     <div class='contribute'>
       <h2>Help us transform the world through business</h2>
-      <%= link_to 'Contribute Today', '/redesign' %>
+      <%= link_to_redesign 'Contribute Today', '/about/foundation' %>
     </div>
 
     <div class='contact'>
       <h2>Contact</h2>
-      Use our <%= link_to 'directory', redesign_participant_search_path -%> to find the specific individual you need to reach.
+      Use our <%= link_to_redesign 'contact form', redesign_new_contact_us_path -%> to get in touch.
     </div>
   </article>
 </footer>

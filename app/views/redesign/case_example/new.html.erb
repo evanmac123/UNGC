@@ -4,7 +4,7 @@
 <%= form_for @case_example, url: redesign_case_example_path, method: :post,  html: {class: 'main-content-section main-content-section-wide form-classic'} do |f| %>
 
   <header class='main-content-header'>
-    <h1>Share Success</h1>
+    <h1>Share Your Story</h1>
   </header>
 
   <%= content_tag(:p, content_tag(:span, notice), {class: 'success-message'}) if notice %>
@@ -21,6 +21,7 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field :magic %>
   <div class="field field-required field-has-placeholder">
     <%= f.label :company %>
     <%= f.text_field :company, placeholder: 'Company' %>
