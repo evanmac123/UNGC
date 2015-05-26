@@ -88,3 +88,22 @@
 
       &:last-of-type
         margin-right: 0
+
+    input[type='text']
+      padding: .25em .5em
+
+      &.datepicker
+        +placeholder
+          &:before
+            +fa-icon
+            content: $fa-var-calendar
+            margin-right: .5em
+
+    button,
+    .button
+      padding: .2em .5em .3em
+      text-transform: none
+      vertical-align: top
+
+  + .component-content-blocks
+    padding-top: 0
