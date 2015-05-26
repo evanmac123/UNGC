@@ -4,7 +4,7 @@ $(function() {
 
   var needsRedesign = function(href) {
     if (href) {
-      return href.match(/^\/redesign|^http(s?):|^mailto:/) ? false : true;
+      return href.match(/^\/redesign|^http(s?):|^mailto:|^#/) ? false : true;
     }
     return false;
   };
