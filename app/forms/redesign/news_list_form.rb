@@ -51,7 +51,7 @@ class Redesign::NewsListForm < Redesign::FilterableForm
       headlines = headlines.where('created_at < ?', end_date)
     end
 
-    headlines.paginate(page: page, per_page: per_page)
+    headlines.distinct('headlines.id').paginate(page: page, per_page: per_page)
   end
 
 end
