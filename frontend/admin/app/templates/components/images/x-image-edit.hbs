@@ -1,0 +1,40 @@
+<h3>Edit licensing information:</h3>
+<h4>filename:
+  {{model.filename}}
+</h4>
+<h4>url:
+  <a href="{{model.url}}">{{model.url}}</a>
+</h4>
+
+<br>
+{{#container/x-fields scope=model key='licensing' as |image|}}
+
+  {{#container/x-fields key="title" scope=image as |source|}}
+    <h4>Source</h4>
+    {{container/x-field key="label" type="string" limit=50 scope=source}}
+    {{container/x-field key="url" type="href" limit=50 scope=source}}
+  {{/container/x-fields}}
+  {{#container/x-fields key="author" scope=image as |author|}}
+    <h4>author</h4>
+    {{container/x-field key="label" type="string" limit=50 scope=author}}
+    {{container/x-field key="url" type="href" limit=50 scope=author}}
+  {{/container/x-fields}}
+  {{#container/x-fields key="license" scope=image as |license|}}
+    <h4>License</h4>
+    {{container/x-field key="label" type="string" limit=50 scope=license}}
+    {{container/x-field key="url" type="href" limit=50 scope=license}}
+  {{/container/x-fields}}
+
+{{/container/x-fields}}
+`
+<div class="form-group">
+  <div class="checkbox">
+    <label>
+      {{input type="checkbox" checked=model.hasLicensing}}
+      Has Licensing?
+    </label>
+  </div>
+</div>
+
+<button class="btn btn-success" {{action "save" model}}>Save</button>
+<button class="btn btn-warning" {{action "back"}}>Back</button>
