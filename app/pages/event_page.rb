@@ -15,25 +15,8 @@ class EventPage < ContainerPage
   end
 
   def events
-    @results.map { |e| EventBox.new(e) }
+    @results.map { |e| EventDetailPage.new(container, e) }
   end
-
-  class EventBox < SimpleDelegator
-    def tag
-      if event.is_online?
-        'Online'
-      elsif event.is_invitation_only?
-        'Invitation'
-      else
-        'Open'
-      end
-    end
-
-    def event
-      __getobj__
-    end
-  end
-
 end
 
 

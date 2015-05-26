@@ -6,40 +6,47 @@ class EventDetailPage < SimpleDelegator
       @event = event
     end
 
-    def dates
-      if event.is_all_day?
-        all_day_date
-      else
-        date_with_time
-      end
+    def date
+      OpenStruct.new({
+        iso: _iso,
+        string: _string,
+        string_with_time: _string_with_time
+      })
     end
 
-    def date_with_time
-      if is_same_day?
-        "#{event.starts_at.iso8601}"
-      else
-        "#{event.starts_at.iso8601}-#{event.ends_at.iso8601}"
-      end
+    private
+
+    def _string
+      _is_same_day? ? _start_date.strftime(_date_format) : "#{_start_date.strftime(_date_format)}-#{_end_date.strftime(_date_format)}"
     end
 
-    def all_day_date
-      if is_same_day?
-        "#{start_date}"
-      else
-        "#{start_date}-#{end_date}"
-      end
+    def _string_with_time
+      _format = event.is_all_day? ? _date_format : "#{_date_format} at #{_hour_format}"
+      _is_same_day? ? _start_date.strftime(_format) : "#{_start_date.strftime(_format)}-#{_end_date.strftime(_format)}"
     end
 
-    def is_same_day?
+    def _iso
+      _is_same_day? ? "#{_start_date.iso8601}" : "#{_start_date.iso8601}-#{_end_date.iso8601}"
+    end
+
+    def _is_same_day?
       event.starts_at.to_date == event.ends_at.to_date
     end
 
-    def start_date
-      event.starts_at.to_date.strftime("%d %b")
+    def _date_format
+      "%b %-d, %Y"
     end
 
-    def end_date
-      event.ends_at.to_date.strftime("%d %b")
+    def _hour_format
+      "%I:%M %P"
+    end
+
+    def _start_date
+      event.is_all_day? ? event.starts_at.to_date : event.starts_at
+    end
+
+    def _end_date
+      event.is_all_day? ? event.ends_at.to_date : event.ends_at
     end
   end
 
@@ -64,8 +71,8 @@ class EventDetailPage < SimpleDelegator
     }
   end
 
-  def dates
-    EventDateFormatter.new(event).dates
+  def date
+    EventDateFormatter.new(event).date
   end
 
   def meta_title
@@ -113,9 +120,19 @@ class EventDetailPage < SimpleDelegator
     c
   end
 
+  def tag
+    if event.is_online?
+      'Online'
+    elsif event.is_invitation_only?
+      'Invitation'
+    else
+      'Open'
+    end
+  end
+
   private
 
-    def event
-      __getobj__
-    end
+  def event
+    __getobj__
+  end
 end

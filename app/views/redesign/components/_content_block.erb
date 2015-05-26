@@ -3,7 +3,11 @@
     <div class='component-content-block-image' style='background-image: url(<%= thumbnail -%>)'>
       <%= image_tag thumbnail %>
     </div>
-    <h2 class='component-content-block-title'><%= title -%></h2>
-    <div class='component-content-block-tag'><%= tag -%></div>
+    <div class='component-content-block-title'>
+      <%= content_tag(:h2, title) if title ||= nil %>
+      <%= content_tag(:time, date.string, class: 'date', datetime: date.iso) if date ||= nil %>
+      <%= content_tag(:div, location, class: 'location') if location ||= nil %>
+    </div>
+    <%= content_tag(:div, tag, class: 'component-content-block-tag') if tag ||= nil %>
   <% end %>
 </li>

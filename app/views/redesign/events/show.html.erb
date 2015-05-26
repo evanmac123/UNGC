@@ -12,7 +12,7 @@
       <%- # XXX sponsor list will be in the description HTML for the main page %>
 
       <div class='sidebar'>
-        <%= @page.dates %>
+        <%= @page.date.string_with_time %>
         <%= @page.location %>
 
         <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact%>
