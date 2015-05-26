@@ -1,0 +1,74 @@
+.event-detail-main-content
+  .main-content-header h1
+    margin: 0 0 .25em
+
+.event-detail-body-wrapper
+  +clearfix
+
+  .main-content-body
+    padding: 1em
+
+  .article-sidebar
+    width: 30%
+    padding:
+      top: 1em
+      right: 3%
+    margin-right: 0
+
+    .widget-event-date-and-location
+      position: relative
+      padding: 2em 0
+
+      &:before
+        content: ''
+        position: absolute
+        top: 0
+        left: -12%
+        right: -20%
+        bottom: 0
+        background: lighten(color('pastel-blue'), 22%)
+
+      *
+        position: relative
+
+      &.event-has-contact
+        padding: 2em 0 0
+        margin: 0
+
+    .event-date,
+    .event-location
+      display: block
+
+      &:before,
+      span
+        display: inline-block
+        vertical-align: top
+
+      &:before
+        +fa-icon
+        width: 12%
+        font-size: 1.5em
+
+      span
+        width: 87%
+
+    .event-date
+      margin-bottom: 1em
+      span
+        font:
+          size: 1.25em
+          weight: 500
+
+      &:before
+        content: $fa-var-calendar-o
+
+    .event-location:before
+      content: $fa-var-map-marker
+
+// h2.local-network-body-header
+//   text-transform: uppercase
+//   font-size: 1.25em
+
+// h3.local-network-participants-header
+//   text-transform: uppercase
+//   font-size: 1em

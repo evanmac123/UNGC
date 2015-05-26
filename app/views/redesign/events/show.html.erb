@@ -1,42 +1,53 @@
 <%= render partial: 'redesign/components/meta_tags' %>
-<%# Body %>
 <%= render partial: 'redesign/components/hero' %>
 
-<section class='main-content-section'>
+<section class='main-content-section main-content-section-wide event-detail-main-content'>
   <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
 
-  <h3>Main Page</h3>
-  <section class='main-page'>
-    <div class='content'>
-      <%= @page.description.try(:html_safe) %>
-      <%- # XXX sponsor list will be in the description HTML for the main page %>
+  <section class='tabbed-component event-detail-body-wrapper'>
+    <menu class='tabs'>
+      <li class='tab'>
+        <button type='button' class='active' data-tab-content='main-page'>Main Page</button>
+      </li>
 
-      <div class='sidebar'>
-        <%= @page.date.string_with_time %>
-        <%= @page.location %>
+      <li class='tab'>
+        <button type='button' data-tab-content='overview'>Overview</button>
+      </li>
 
-        <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact%>
+      <li class='tab'>
+        <button type='button' data-tab-content='sponsors'>Sponsors</button>
+      </li>
+    </menu>
 
-        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
+    <article class='tab-content main-page active'>
+      <div class='main-content-body'>
+        <%= @page.description.try(:html_safe) %>
       </div>
 
-    </div>
-  </section>
+      <%= render layout: 'redesign/components/sidebar' do %>
 
-  <h3>Overview</h3>
-  <section class='overview'>
-    <%= @page.overview_description.try(:html_safe) %>
-  </section>
+        <article class='widget widget-event-date-and-location<%= @page.contact.present? ? " event-has-contact" : nil -%>'>
+          <time class='event-date' datetime="<%= @page.date.iso -%>"><span><%= @page.date.string_with_time -%></span></time>
 
-  <h3>Sponsors</h3>
-  <section class='sponsors'>
-    <%- @page.sponsors.each do |s| -%>
-      <%= s.name %>
-      <%= s.website_url %>
-      <%= image_tag s.logo_url %>
-    <%- end -%>
-  </section>
+          <div class='event-location'><span><%= @page.location %></span></div>
+        </article>
 
+        <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact.present?%>
+
+        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
+      <%- end -%>
+    </article>
+
+    <article class='tab-content overview'>
+      <%= @page.overview_description.try(:html_safe) %>
+    </article>
+
+    <article class='tab-content sponsors'>
+      <%- @page.sponsors.each do |s| -%>
+        <%= s.name %>
+        <%= s.website_url %>
+        <%= image_tag s.logo_url %>
+      <%- end -%>
+    </article>
+  </section>
 </section>
-
-<%- #XXX @jorge no content boxes even if you seen then !!!%>
