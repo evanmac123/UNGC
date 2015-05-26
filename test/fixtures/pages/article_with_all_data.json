@@ -36,6 +36,32 @@
       "external": true
     }
   ],
-  "widget_links_lists": [],
+  "widget_links_lists": [
+    {
+      "title": "List 1",
+      "links": [
+        {
+          "label": "Link 1",
+          "url": "\/link-1",
+          "external": false
+        },
+        {
+          "label": "Link 1",
+          "url": "\/link-1",
+          "external": false
+        }
+      ]
+    },
+    {
+      "title": "List 2",
+      "links": [
+        {
+          "label": "Link 1",
+          "url": "\/link-1",
+          "external": false
+        }
+      ]
+    }
+  ],
   "resources": []
 }
