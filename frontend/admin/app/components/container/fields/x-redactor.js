@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   buttons: ['html', 'formatting', 'bold', 'italic', 'deleted',
     'unorderedlist', 'orderedlist', 'outdent', 'indent',
     'image', 'link', 'alignment', 'horizontalrule'],
+  plugins: ['table'],
 
   height: null,
   _minHeight: '300px',
