@@ -121,6 +121,11 @@
                 {
                   "template": "Article",
                   "path": "/Business-Case"
+                },
+                {
+                  "template": "Article",
+                  "path": "/Supply-Chain-Advisory-Group",
+                  "old_path": "/take-action/action/supply-chain-advisory-group"
                 }
               ]
             },
@@ -698,10 +703,6 @@
               "path": "/Anti-Corruption-Call-to-Action"
             },
             {
-              "template": "Article",
-              "path": "/Supply-Chain-Advisory-Group"
-            },
-            {
               "template": "Action_detail",
               "path": "/Quantify-Communicate-Sustainability"
             },
@@ -776,6 +777,10 @@
             {
               "template": "Article",
               "path": "/HR-open-letter"
+            },
+            {
+              "template": "Action_detail",
+              "path": "/Global-Compact-100"
             }
           ]
         },
