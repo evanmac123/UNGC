@@ -69,7 +69,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
       events = events.where('starts_at < ?', end_date)
     end
 
-    events.paginate(page: page, per_page: per_page)
+    events.distinct('events.id').paginate(page: page, per_page: per_page)
   end
 
 end

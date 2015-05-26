@@ -31,7 +31,7 @@ class Redesign::AllOurWorkForm < Redesign::FilterableForm
       containers = containers.joins(taggings: [:topic]).where('topic_id in (?)', ids)
     end
 
-    containers.paginate(page: page, per_page: per_page)
+    containers.distinct('containers.id').paginate(page: page, per_page: per_page)
   end
 
 end
