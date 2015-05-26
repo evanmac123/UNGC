@@ -1,8 +1,10 @@
 class Components::News
   include Enumerable
 
-  def initialize(data)
+  attr_reader :news_type
+  def initialize(data, news_type: nil)
     @data = data
+    @news_type = news_type
   end
 
   def each(&block)
@@ -12,7 +14,7 @@ class Components::News
   end
 
   def data
-    news = headlines.map do |h|
+    news = scoped.map do |h|
       {
         item: h,
         title: h.title,
@@ -28,7 +30,12 @@ class Components::News
 
   private
 
-  def headlines
-    Headline.order('published_on desc').limit(9)
+  def scoped
+    scoped = Headline
+    case news_type
+    when :announcement
+      scoped = scoped.announcement
+    end
+    scoped.order('published_on desc').limit(9)
   end
 end
