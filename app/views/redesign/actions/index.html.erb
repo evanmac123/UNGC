@@ -9,7 +9,7 @@
     <% end %>
   </fieldset>
   <%= active_filters(@search) %>
-  <%= form.submit 'Search' %>
+  <%= form.submit 'Search', class: 'accessible-submit' %>
 <% end %>
 
 <%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.actions} do |block| %>
