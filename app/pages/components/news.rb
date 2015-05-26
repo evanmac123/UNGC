@@ -12,7 +12,7 @@ class Components::News
   end
 
   def data
-    headlines.map do |h|
+    news = headlines.map do |h|
       {
         item: h,
         title: h.title,
@@ -22,11 +22,13 @@ class Components::News
         thumbnail: nil
       }
     end
+
+    news.each_slice(3).to_a
   end
 
   private
 
   def headlines
-    Headline.order('published_on desc').limit(6)
+    Headline.order('published_on desc').limit(9)
   end
 end

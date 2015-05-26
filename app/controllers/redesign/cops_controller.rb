@@ -32,7 +32,7 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def non_communicating
-    set_current_container_by_path('/participation/report/cop/create-and-submit/non_communicating')
+    set_current_container_by_path('/participation/report/cop/create-and-submit/non-communicating')
     @page = CopListPage.new(current_container, current_payload_data)
   end
 

@@ -12,7 +12,9 @@ class Components::Events
   end
 
   def future
-    Event.approved.where("starts_at >= ?", Date.today).order('starts_at asc')
+    future = Event.approved.where("starts_at >= ?", Date.today).order('starts_at asc')
+    future = featured ? future[0..5] : future[0..8]
+    future.each_slice(3).to_a
   end
 
   def past
