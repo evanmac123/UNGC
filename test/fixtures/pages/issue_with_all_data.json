@@ -1,0 +1,85 @@
+{
+  "meta_tags": {
+    "title": "Anti-Corruption",
+    "description": "Corruption is a considerable obstacle to economic and social development around the world...",
+    "thumbnail": "https://d306pr3pise04h.cloudfront.net/uploads/26/265a589aa5ef0cec2631850d46da9298948411ab---AC-road_s.jpg",
+    "label": "issue",
+    "keywords": "corruption, economic development, social development"
+  },
+  "taggings": {
+    "issues": [],
+    "topics": [],
+    "sectors": []
+  },
+  "hero": {
+    "image": "https://d306pr3pise04h.cloudfront.net/uploads/99/992a98c5834c7e13d4b3eac94cef3c08ee6ea156---AC-road.jpg",
+    "theme": "none",
+    "title": {
+      "title1": "Eliminating Corruption to Build Sustainable,",
+      "title2": "Inclusive and Transparent Societies"
+    },
+    "blurb": "Eliminating Corruption to Build Sustainable, Inclusive and Transparent Societies",
+    "show_section_nav": true
+  },
+  "principles": [
+    {
+      "principle": 10
+    }
+  ],
+  "issue_block": {
+    "title": "Anti-Corruption",
+    "content": "<p>Corruption is a considerable obstacle to economic and social development around the world. It has negative impacts on sustainable development and particularly affects poor communities.</p><p>For companies, corruption impedes business growth, escalates costs and poses serious legal and reputational risks. It also raises transaction costs, undermines fair competition, impedes long-term foreign and domestic investment, and distorts development priorities. Investors too understand that corruption can negatively impact value and pose financial, operational and reputational risks to their investments. </p><p>New and tougher anti-corruption regulations continue to emerge worldwide. All companies need robust anti-corruption measures and practices to protect their reputations and the interests of their stakeholders.</p><p>With our partners, we are working to help companies on a range of anti-corruption issues. These include risk assessment, reporting and supply chain practices. Additionally, we are mobilizing business to provide a united voice against corruption. Collective action is essential for bringing an end to a systemic issue that is too complex for any company to tackle alone.</p><p>The UN Global Compact?<80><99>s 10th Principle states that <em>?<80><9C>Businesses should work against corruption in all its forms, including extortion and bribery.?<80><9D></em> We call on companies to develop policies and programmes to address all forms of corruption. We challenge companies to join peers, governments, UN agencies and civil society to realize a more transparent global economy. </p><p>Besides the important role of governments and business, the UN Global Compact recognizes the critical role civil society plays in the fight against corruption. We partner with the UN Office on Drugs and Crime (UNODC), Transparency International (TI), the International Chamber of Commerce (ICC), and the World Economic Forum Partnership against Corruption Initiative (WEF-PACI) with this in mind. Together, we and our partners are:</p><ul><li>Providing a platform for learning, dialogue and action</li><li>Encouraging companies to implement the 10th Principle</li><li>Working in collaboration with other organizations to avoid duplicate efforts and scale up impact</li></ul>"
+  },
+  "widget_contact": {
+    "contact_id": null
+  },
+  "widget_calls_to_action": [
+    {
+      "label": "Sign the Call to Action",
+      "url": "/take-action/action/anti-corruption-call-to-action",
+      "external": null
+    },
+    {
+      "label": "Subscribe to the Anti-Corruption newsletter",
+      "url": "http://bulletin.unglobalcompact.org/h/r/D43418CBF6F0FFE3",
+      "external": true
+    }
+  ],
+  "widget_links_lists": [
+    {
+      "title": "Background",
+      "links": [
+        {
+          "label": "United Nations Convention against Corruption (UNCAC)",
+          "url": "http://www.unodc.org/unodc/en/treaties/CAC/index.html",
+          "external": true
+        },
+        {
+          "label": "Contact us to join our working group",
+          "url": "mailto:anticorruption@unglobalcompact.org",
+          "external": null
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "related_contents": [
+    {
+      "title": "Related Content",
+      "content_boxes": [
+        {
+          "container_path": "/related-content/1",
+          "related_type": "container"
+        },
+        {
+          "container_path": "/related-content/2",
+          "related_type": "container"
+        },
+        {
+          "container_path": "/related-content/3",
+          "related_type": "container"
+        }
+      ]
+    }
+  ]
+}
