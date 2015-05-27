@@ -59,11 +59,13 @@ has_sponsors = @page.sponsors.present?
 
     <%- if has_sponsors -%>
       <article class='tab-content sponsors'>
-        <%- @page.sponsors.each do |s| -%>
-          <%= s.name %>
-          <%= s.website_url %>
-          <%= image_tag s.logo_url %>
-        <%- end -%>
+        <ul class='sponsors-list'>
+          <%- @page.sponsors.each do |s| -%>
+            <li class='sponsor-block'>
+              <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
+            </li>
+          <%- end -%>
+        </ul>
       </article>
     <%- end -%>
   </section>
