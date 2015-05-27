@@ -22,7 +22,7 @@ class Redesign::Searchable < ActiveRecord::Base
     end
 
     def remove(model)
-      searchable = searchables.fetch(model.class)
+      searchable = searchable_map.fetch(model.class)
       instance = searchable.new(model)
       where(document_type: instance.document_type, url: instance.url).destroy_all
     end
