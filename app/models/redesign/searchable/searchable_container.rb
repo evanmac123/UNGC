@@ -7,6 +7,7 @@ module Redesign::Searchable::SearchableContainer
 
 
   def container_title(container)
+    # TODO extract json
     container.payload.data.try(:meta_tags).try(:title)
   end
 
@@ -14,6 +15,7 @@ module Redesign::Searchable::SearchableContainer
     container.payload.json_data
   end
 
+  # TODO refactor all these methods with prefixes
   def container_content(container)
     [
       container_title(container),

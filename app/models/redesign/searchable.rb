@@ -41,6 +41,7 @@ class Redesign::Searchable < ActiveRecord::Base
       index_communications_on_progresses
       index_headlines
       index_organizations
+      # TODO events
     end
 
     # This method is called by cron to periodically update the searchables.
@@ -49,6 +50,7 @@ class Redesign::Searchable < ActiveRecord::Base
       max = since || maximum(:last_indexed_at)
       raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
       index_resources_since(max)
+      # TODO
     end
 
     def new_or_updated_since(time)
