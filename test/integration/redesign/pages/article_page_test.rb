@@ -54,7 +54,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
   end
 
   should 'set meta tags' do
-    assert_select 'title', Regexp.new(Regexp.escape(@payload.data[:article_block][:title]))
+    assert_select 'title', Regexp.new(Regexp.escape(@payload.data[:meta_tags][:title]))
     assert_select "meta[name=description]", :content => @payload.data[:meta_tags][:description]
     assert_select "meta[name=keywords]", :content => @payload.data[:meta_tags][:keywords]
   end
