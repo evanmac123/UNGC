@@ -9,6 +9,11 @@ class Redesign::Searchable < ActiveRecord::Base
 
   extend Redesign::Searchable::SearchableResource
   extend Redesign::Searchable::SearchableContainer
+  extend Redesign::Searchable::SearchableCommunicationOnProgress
+
+  #extend Redesign::Searchable::SearchableEvents
+  #extend Redesign::Searchable::SearchableHeadlines
+  #extend Redesign::Searchable::SearchableOrganizations
 
   class << self
     def convert_to_utf8(text)
@@ -33,6 +38,7 @@ class Redesign::Searchable < ActiveRecord::Base
     def index_all
       index_resources
       index_containers
+      index_communications_on_progresses
     end
 
     # This method is called by cron to periodically update the searchables.
