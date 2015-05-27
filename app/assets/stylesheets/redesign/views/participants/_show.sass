@@ -54,13 +54,14 @@
 
   .company-information
     padding: 0
-    .tab-content-sub-section
-      float: left
-      width: 33%
-      padding: 1em
 
-      > h3
-        margin: 0
+  .company-information-sub-section
+    float: left
+    width: 33%
+    padding: 1em
+
+    h3
+      margin: 0
 
   .company-information-overview a
     &:after
@@ -68,8 +69,12 @@
       content: $fa-var-caret-right
       margin-left: .5em
 
-  .company-information-since
+  .company-information-dates
+    float: right
     text-align: right
+
+  .company-information-cop-due
+    margin-top: 3em
 
   .tab-content.contributions
     table
