@@ -38,7 +38,9 @@ has_sponsors = @page.sponsors.present?
         <article class='widget widget-event-date-and-location<%= @page.contact.present? ? " event-has-contact" : nil -%>'>
           <time class='event-date' datetime="<%= @page.date.iso -%>"><span><%= @page.date.string_with_time -%></span></time>
 
-          <div class='event-location'><span><%= @page.location %></span></div>
+          <%- if @page.location.present? -%>
+            <div class='event-location'><span><%= @page.location %></span></div>
+          <%- end -%>
         </article>
 
         <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact.present?%>
