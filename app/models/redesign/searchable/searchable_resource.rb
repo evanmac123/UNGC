@@ -2,17 +2,17 @@ module Redesign::Searchable::SearchableResource
   def index_resource(resource)
     title = resource.title
     url = resource_url(resource)
-    import 'Resource', url: url, title: title, content: content(resource), meta: tags(resource)
+    import 'Resource', url: url, title: title, content: resource_content(resource), meta: resource_tags(resource)
   end
 
-  def content(resource)
+  def resource_content(resource)
     [
       resource.title,
       resource.description
     ].join(' ')
   end
 
-  def tags(resource)
+  def resource_tags(resource)
     (resource.issues.map(&:name) +
     resource.topics.map(&:name) +
     resource.sectors.map(&:name)).

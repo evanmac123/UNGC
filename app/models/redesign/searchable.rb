@@ -8,6 +8,7 @@ class Redesign::Searchable < ActiveRecord::Base
   before_save   :set_indexed_at
 
   extend Redesign::Searchable::SearchableResource
+  extend Redesign::Searchable::SearchableContainer
 
   class << self
     def convert_to_utf8(text)
@@ -31,6 +32,7 @@ class Redesign::Searchable < ActiveRecord::Base
     # install time to seed the Searchables table. See index_new_or_updated.
     def index_all
       index_resources
+      index_containers
     end
 
     # This method is called by cron to periodically update the searchables.
