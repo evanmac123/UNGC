@@ -14,10 +14,12 @@
 
   <%= active_filters(@search) %>
 
-  <%= form.text_field :start_date, placeholder: 'start date', class: 'datepicker' %>
-  <%= form.text_field :end_date, placeholder: 'end date', class: 'datepicker' %>
+  <fieldset class='filter-sorting'>
+    <%= form.text_field :start_date, placeholder: 'Start Date', class: 'datepicker' %>
+    <%= form.text_field :end_date, placeholder: 'End Date', class: 'datepicker' %>
+    <%= form.submit 'Search', class: 'button' %>
+  </fieldset>
 
-  <%= form.submit 'Search' %>
 <% end %>
 
 <%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>

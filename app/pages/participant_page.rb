@@ -62,6 +62,10 @@ class ParticipantPage < SimpleDelegator
     participant.joined_on.try(:strftime, '%B, %Y')
   end
 
+  def cop_due_on
+    participant.cop_due_on.try(:strftime, '%Y/%m/%d')
+  end
+
   def cop_short_label
     non_business? ? 'COE' : 'COP'
   end

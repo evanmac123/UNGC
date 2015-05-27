@@ -33,7 +33,7 @@
         <h1>Company Information</h1>
       </header>
 
-      <div class='tab-content-sub-section company-information-overview'>
+      <div class='company-information-sub-section company-information-overview'>
         <h2>Overview</h2>
 
         <dl>
@@ -73,7 +73,7 @@
       </div>
 
 
-      <div class='tab-content-sub-section company-information-financial-information'>
+      <div class='company-information-sub-section company-information-financial-information'>
         <%- if @page.has_extra_information? -%>
           <%- if @page.has_financial_information? -%>
             <h2>Financial Information</h2>
@@ -88,16 +88,18 @@
         <%- end %>
       </div>
 
-      <%- if @page.joined_on.present? -%>
-        <div class='tab-content-sub-section company-information-since'>
-          <h3>Participant Since</h3>
-          <time><%= @page.joined_on -%></time>
-        </div>
-      <%- end -%>
-      <%- if @page.cop_due_on.present? -%>
-        <div class='tab-content-sub-section company-information-since'>
-          <span>Next <%= @page.cop_short_label %> due on:</span>
-          <time><%= @page.cop_due_on -%></time>
+      <%- if @page.joined_on.present? || @page.cop_due_on.present? -%>
+        <div class='company-information-sub-section company-information-dates'>
+          <%- if @page.joined_on.present? -%>
+            <div class='company-information-since'>
+              <h3>Participant Since</h3>
+              <time><%= @page.joined_on -%></time>
+            </div>
+          <%- end -%>
+
+          <%- if @page.cop_due_on.present? -%>
+            <div class='company-information-cop-due'><strong>Next <%= @page.cop_short_label %> due on:</strong> <time><%= @page.cop_due_on -%></time></div>
+          <%- end -%>
         </div>
       <%- end -%>
     </article>

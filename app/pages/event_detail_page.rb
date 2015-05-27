@@ -67,7 +67,8 @@ class EventDetailPage < SimpleDelegator
         title1: 'Events'
       },
       size: 'small',
-      show_section_nav: true
+      show_section_nav: true,
+      image: event.banner_image.url
     }
   end
 

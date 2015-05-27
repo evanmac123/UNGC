@@ -12,6 +12,10 @@ class ExploreOurLibraryPage < ContainerPage
     @data[key.to_sym]
   end
 
+  def hero
+    (@data[:hero] || {}).merge({size: 'small'})
+  end
+
   def filters
     [{
       label:        'Issues',

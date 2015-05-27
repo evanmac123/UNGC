@@ -6,7 +6,7 @@ if news ||= nil
 -%>
 <section class='main-content-section'>
 
-  <%= content_tag(:header, content_tag(:h1, news.title), {class: 'main-content-header'}) if news.title %>
+  <%= content_tag(:header, content_tag(:h1, news.title), {class: 'main-content-header'}) if is_landing && news.title %>
 
   <section class='news-list<%= list_classes -%>'>
     <%- if featured = news.featured -%>

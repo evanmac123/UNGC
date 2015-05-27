@@ -7,6 +7,8 @@ class LibraryLayout < UNGC::Layout
 
   has_meta_tags!
 
+  has_hero!
+
   scope :featured, array: true, size: 12 do
     field :resource_id, type: :number, required: true
   end

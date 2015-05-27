@@ -12,6 +12,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
   end
 
   def search
+    set_current_container :library, '/library'
     @search = Redesign::LibrarySearchForm.new(page, search_params)
     @page = create_page
     @results = @search.execute

@@ -1,6 +1,8 @@
 {{#container/x-fields scope=model.container as |library|}}
   {{container/macros/x-metatags scope=library}}
 
+  {{container/macros/x-hero scope=library}}
+
   <fieldset>
     <legend>Featured</legend>
     {{#container/x-fields key="featured" array=true size=12 scope=library as |resources|}}

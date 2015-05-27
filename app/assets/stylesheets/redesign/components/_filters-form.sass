@@ -1,11 +1,15 @@
 #filters-form
   display: block
-  padding: 2em 2em 1em
+  padding: 2em 7% 1em
   +font-smoothing(antialiased)
   +clearfix
 
   &:first-child
     padding-top: 10em
+
+  .accessible-submit
+    position: absolute
+    left: -99999em
 
   header
     margin: 0 0 1em
@@ -101,8 +105,10 @@
 
     button,
     .button
-      padding: .2em .5em .3em
-      text-transform: none
+      padding: .2em .5em
+      font:
+        family: $flama-condensed-medium
+        weight: 500
       vertical-align: top
 
   + .component-content-blocks
