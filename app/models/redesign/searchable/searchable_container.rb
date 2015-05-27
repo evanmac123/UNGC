@@ -1,55 +1,40 @@
-module Redesign::Searchable::SearchableContainer
-  def index_container(container)
-    title = container_title(container)
-    url = container_url(container)
-    import 'Container', url: url, title: title, content: container_content(container), meta: container_tags(container)
-  end
+class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
+  alias_method :container, :model
 
-
-  def container_title(container)
-    # TODO extract json
-    container.payload.data.try(:meta_tags).try(:title)
-  end
-
-  def container_description(container)
-    container.payload.json_data
-  end
-
-  # TODO refactor all these methods with prefixes
-  def container_content(container)
-    [
-      container_title(container),
-      container_description(container)
-    ].join(' ')
-  end
-
-  def container_tags(container)
-    (container.issues.map(&:name) +
-    container.topics.map(&:name) +
-    container.sectors.map(&:name)).
-    join(' ')
-  end
-
-  def indexable_containers
+  def self.all
     Redesign::Container.where.not(public_payload_id: nil)
   end
 
-  def index_containers
-    indexable_containers.each { |r| index_container r }
+  def document_type
+    'Container'
   end
 
-  def index_containers_since(time)
-    indexable_containers.where(new_or_updated_since(time)).each { |r| index_container r }
+  def title
+    container.payload.data.try(:meta_tags).try(:title)
   end
 
-  def remove_container(container)
-    remove 'Container', container_url(container)
-  end
-
-  def container_url(container)
+  def url
     container.path
   end
 
+  def content
+    strip_tags extract_values(container.payload.data).reject(&:blank?).join(' ')
+  end
+
+  def meta
+    container.taggings.map(&:content)
+  end
+
+  private
+
+  def extract_values(input)
+    input.flat_map do |k, v|
+      if v.respond_to? :flat_map
+        extract_values v
+      else
+        v.to_s
+      end
+    end
+  end
+
 end
-
-

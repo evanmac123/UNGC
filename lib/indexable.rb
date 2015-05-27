@@ -12,6 +12,7 @@ module Indexable
     receiver.class_eval do
       before_destroy do
         Searchable.public_send(method, self)
+        Redesign::Searchable.remove(self)
       end
     end
   end

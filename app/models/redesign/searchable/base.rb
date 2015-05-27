@@ -1,0 +1,49 @@
+class Redesign::Searchable::Base
+  include ActionView::Helpers::SanitizeHelper
+  include Rails.application.routes.url_helpers
+
+  attr_reader :model
+
+  def self.all
+    raise 'must be implemented'
+  end
+
+  def self.since(cutoff)
+    self.all.where(["(created_at > ?) OR (updated_at > ?)", cutoff, cutoff])
+  end
+
+  def initialize(model)
+    @model = model
+  end
+
+  def url
+    raise 'must implement'
+  end
+
+  def document_type
+    raise 'must implement'
+  end
+
+  def title
+    ''
+  end
+
+  def content
+    ''
+  end
+
+  def meta
+    ''
+  end
+
+  def attributes
+    {
+      url: url,
+      document_type: document_type,
+      title: title,
+      content: content,
+      meta: meta
+    }
+  end
+
+end

@@ -1,76 +1,56 @@
-class SearchableHelper
-  include Rails.application.routes.url_helpers
-  include ActionView::Helpers::SanitizeHelper
-  default_url_options[:host] = DEFAULTS[:url_host]
-end
-
 class Redesign::Searchable < ActiveRecord::Base
-  before_save   :set_indexed_at
-
-  extend Redesign::Searchable::SearchableResource
-  extend Redesign::Searchable::SearchableContainer
-  extend Redesign::Searchable::SearchableCommunicationOnProgress
-  extend Redesign::Searchable::SearchableHeadline
-  extend Redesign::Searchable::SearchableOrganization
-
-  #extend Redesign::Searchable::SearchableEvent
 
   class << self
-    def convert_to_utf8(text)
-      text.encode('UTF-8')
-    end
 
-    def faceted_search(document_type, keyword, options={})
-      matching_facets = self.facets(keyword, options)
-      matching_facets.for(document_type: document_type)
-    end
-
-    def import(document_type, options)
-      url = options.delete(:url)
-      searchable = where(url: url).first_or_initialize
-      searchable.attributes = {document_type: document_type}.merge(options || {})
-      searchable.save
-      searchable
-    end
-
-    # The intent here appears to be that this method is called manually once at
-    # install time to seed the Searchables table. See index_new_or_updated.
     def index_all
-      index_resources
-      index_containers
-      index_communications_on_progresses
-      index_headlines
-      index_organizations
-      # TODO events
-    end
-
-    # This method is called by cron to periodically update the searchables.
-    # See scripts/cron/searchable
-    def index_new_or_updated(since = nil)
-      max = since || maximum(:last_indexed_at)
-      raise "You can't call index_new_or_updated unless you've run index_all at least once".inspect unless max
-      index_resources_since(max)
-      # TODO
-    end
-
-    def new_or_updated_since(time)
-      ["(created_at > ?) OR (updated_at > ?)", time, time]
-    end
-
-    def with_helper(&block)
-      unless @helper
-        @helper = SearchableHelper.new
+      searchables.each do |searchable|
+        # TODO remove this limit
+        Rails.logger.warn '*** remove this take(5) ***'
+        searchable.all.take(5).each do |model|
+          import(searchable.new(model))
+        end
       end
-      @helper.instance_eval(&block)
     end
 
-    def remove(document_type, url)
-      where(document_type: document_type, url: url).destroy_all
+    def index_since(cutoff)
+      searchables.each do |searchable|
+        models = searchable.all.where(changed_since(cutoff))
+        models.each do |model|
+          import(searchable.new(model))
+        end
+      end
     end
+
+    def remove(model)
+      searchable = searchables.fetch(model.class)
+      instance = searchable.new(model)
+      where(document_type: instance.document_type, url: instance.url).destroy_all
+    end
+
+    private
+
+    def import(searchable)
+      searchable_model = self.where(url: searchable.url).first_or_initialize
+      searchable_model.assign_attributes(searchable.attributes)
+      searchable_model.last_indexed_at = Time.now
+      searchable_model.save
+      searchable_model
+    end
+
+    def searchables
+      searchable_map.values
+    end
+
+    def searchable_map
+      @searchable_map ||= {
+        CommunicationOnProgress => Redesign::Searchable::SearchableCommunicationOnProgress,
+        Redesign::Container => Redesign::Searchable::SearchableContainer,
+        Headline => Redesign::Searchable::SearchableHeadline,
+        Organization => Redesign::Searchable::SearchableOrganization,
+        Resource => Redesign::Searchable::SearchableResource,
+      }
+    end
+
   end
 
-  private
-  def set_indexed_at
-    self.last_indexed_at = Time.now
-  end
 end
