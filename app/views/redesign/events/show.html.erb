@@ -1,6 +1,11 @@
 <%= render partial: 'redesign/components/meta_tags' %>
 <%= render partial: 'redesign/components/hero' %>
 
+<%-
+has_overview = @page.overview_description.present?
+has_sponsors = @page.sponsors.present?
+-%>
+
 <section class='main-content-section main-content-section-wide event-detail-main-content'>
   <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
 
@@ -10,13 +15,17 @@
         <button type='button' class='active' data-tab-content='main-page'>Main Page</button>
       </li>
 
-      <li class='tab'>
-        <button type='button' data-tab-content='overview'>Overview</button>
-      </li>
+      <%- if has_overview -%>
+        <li class='tab'>
+          <button type='button' data-tab-content='overview'>Overview</button>
+        </li>
+      <%- end -%>
 
-      <li class='tab'>
-        <button type='button' data-tab-content='sponsors'>Sponsors</button>
-      </li>
+      <%- if has_sponsors -%>
+        <li class='tab'>
+          <button type='button' data-tab-content='sponsors'>Sponsors</button>
+        </li>
+      <%- end -%>
     </menu>
 
     <article class='tab-content main-page active'>
@@ -38,16 +47,22 @@
       <%- end -%>
     </article>
 
-    <article class='tab-content overview'>
-      <%= @page.overview_description.try(:html_safe) %>
-    </article>
+    <%- if has_overview -%>
+      <article class='tab-content overview'>
+        <div class='main-content-body'>
+          <%= @page.overview_description.try(:html_safe) %>
+        </div>
+      </article>
+    <%- end -%>
 
-    <article class='tab-content sponsors'>
-      <%- @page.sponsors.each do |s| -%>
-        <%= s.name %>
-        <%= s.website_url %>
-        <%= image_tag s.logo_url %>
-      <%- end -%>
-    </article>
+    <%- if has_sponsors -%>
+      <article class='tab-content sponsors'>
+        <%- @page.sponsors.each do |s| -%>
+          <%= s.name %>
+          <%= s.website_url %>
+          <%= image_tag s.logo_url %>
+        <%- end -%>
+      </article>
+    <%- end -%>
   </section>
 </section>
