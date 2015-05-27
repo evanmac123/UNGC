@@ -10,11 +10,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
       layout: 'article'
     })
 
-    data = File.read(Rails.root + 'test/fixtures/pages/article_with_all_data.json')
-    json = JSON.parse(data)
-
-    create_organization_type
-    create_country
+    payload = JSON.parse(File.read(Rails.root + 'test/fixtures/pages/article_with_all_data.json'))
 
     @contact = create_contact(
       username: 'UNGC Contact',
@@ -22,25 +18,28 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
       organization_id: @ungc.id,
       image: fixture_file_upload('files/untitled.jpg', 'image/jpeg')
     )
-    json['widget_contact']['contact_id'] = @contact.id
+    payload['widget_contact']['contact_id'] = @contact.id
 
-    @resources = Array.new(3) { create_resource }
-    json['resources'] = @resources.map do |resource|
+    @resources = Array.new(3) do
+      create_resource
+    end
+    payload['resources'] = @resources.map do |resource|
       { resource_id: resource.id }
     end
 
     @events = Array.new(3) do
-      create_event({
-        starts_at: Date.today + 1.month,
-      })
+      event = create_event(starts_at: Date.today + 1.month)
+      event.approve!
+      event
     end
-    @events.each { |event| event.approve! }
 
-    @news = Array.new(3) { create_headline }
+    @news = Array.new(3) do
+      create_headline
+    end
 
     @payload = create_payload({
       container_id: @container.id,
-      json_data: json.to_json
+      json_data: payload.to_json
     })
 
     @container.public_payload = @payload
@@ -69,13 +68,13 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
   end
 
   should 'have content' do
-    # XXX: Ugly but it works since assert_select also sanitizes the selection.
+    # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
     assert_select '.main-content-body', ActionView::Base.full_sanitizer.sanitize(@payload.data[:article_block][:content])
   end
 
   should 'have sidebar widgets' do
     assert_select '.article-sidebar' do
-      assert_select ' .widget-contact' do
+      assert_select ' .widget-contact', 1 do
         assert_select 'h1', 'Contact'
         assert_select 'img'
         assert_select '.name', @contact.prefix + ' ' + @contact.name
@@ -116,7 +115,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have content blocks' do
+  should 'have content blocks component' do
     assert_select '.component-content-blocks' do
       assert_select 'header h1', 'From our Library'
       assert_select '.component-content-block', 3 do |blocks|
@@ -132,7 +131,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have event news' do
+  should 'have events/news component' do
     assert_select '.events-news-component' do
       assert_select 'menu', 1
       assert_select '.events', 1 do
