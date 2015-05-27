@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520181837) do
+ActiveRecord::Schema.define(version: 20150527164740) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -841,6 +841,17 @@ ActiveRecord::Schema.define(version: 20150520181837) do
     t.datetime "approved_at"
   end
 
+  create_table "redesign_searchables", force: :cascade do |t|
+    t.datetime "last_indexed_at"
+    t.string   "url",             limit: 255
+    t.string   "document_type",   limit: 255
+    t.text     "title",           limit: 65535
+    t.text     "content",         limit: 65535
+    t.text     "meta",            limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "removal_reasons", force: :cascade do |t|
     t.string   "description", limit: 255
     t.integer  "old_id",      limit: 4
@@ -1011,11 +1022,12 @@ ActiveRecord::Schema.define(version: 20150520181837) do
   end
 
   create_table "uploaded_images", force: :cascade do |t|
-    t.string   "url",        limit: 255, null: false
-    t.string   "filename",   limit: 255
-    t.string   "mime",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.string   "url",            limit: 255,   null: false
+    t.string   "filename",       limit: 255
+    t.string   "mime",           limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.text     "licensing_data", limit: 65535
   end
 
   add_foreign_key "event_sponsors", "events"
