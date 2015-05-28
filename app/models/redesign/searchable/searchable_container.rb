@@ -2,7 +2,7 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
   alias_method :container, :model
 
   def self.all
-    Redesign::Container.where.not(public_payload_id: nil)
+    Redesign::Container.published
   end
 
   def document_type
@@ -10,7 +10,8 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
   end
 
   def title
-    container.payload.data.try(:meta_tags).try(:title)
+    page = ContainerPage.new(container, container.payload.data)
+    page.meta_title
   end
 
   def url
@@ -29,10 +30,13 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
 
   def extract_values(input)
     input.flat_map do |k, v|
-      if v.respond_to? :flat_map
+      case
+      when v.respond_to?(:flat_map)
         extract_values v
-      else
+      when v.present?
         v.to_s
+      else
+        k.to_s
       end
     end
   end

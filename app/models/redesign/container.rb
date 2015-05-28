@@ -68,6 +68,8 @@ class Redesign::Container < ActiveRecord::Base
     where(arel_table[:id].in(ids).or(arel_table[:parent_container_id].in(ids)))
   }
 
+  scope :published, -> { where.not(public_payload_id: nil) }
+
   def self.normalize_slug(raw)
     '/' + raw.to_s.downcase.strip.gsub(LEADING_OR_TRAILING_SLASH, '')
   end
