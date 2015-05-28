@@ -7,11 +7,10 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     create_staff_user
     login_as @staff_user
 
-    @container = create_container(
+    container = create_container(
       path: 'new-issue-path',
       layout: 'issue'
     )
-
     payload = load_payload(:issue)
 
     @staff_user.update(image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'))
@@ -20,15 +19,15 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     @resources,payload['resources'] = create_resource_content_block_data_and_payload
     @events,@news = create_event_news_component_data
 
-    @payload = create_payload(
-      container_id: @container.id,
+    container.create_public_payload(
+      container_id: container.id,
       json_data: payload.to_json
     )
-
-    @container.public_payload = @payload
-    @container.save
+    container.save
 
     get '/redesign/new-issue-path'
+
+    @data = container.public_payload.data
   end
 
   should 'respond successfully' do
@@ -36,11 +35,11 @@ class IssuePageTest < ActionDispatch::IntegrationTest
   end
 
   should 'render meta tags component' do
-    assert_render_meta_tags_component @payload.data[:meta_tags]
+    assert_render_meta_tags_component @data[:meta_tags]
   end
 
   should 'render hero component' do
-    assert_render_hero_component @payload.data[:hero]
+    assert_render_hero_component @data[:hero]
   end
 
   should 'render tied principles component' do
@@ -49,14 +48,14 @@ class IssuePageTest < ActionDispatch::IntegrationTest
 
   should 'render content' do
     # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
-    assert_select '.main-content-body-content', ActionView::Base.full_sanitizer.sanitize(@payload.data[:issue_block][:content])
+    assert_select '.main-content-body-content', ActionView::Base.full_sanitizer.sanitize(@data[:issue_block][:content])
   end
 
   should 'render sidebar widgets component' do
     assert_select '.article-sidebar' do
       assert_render_sidebar_contact_component @staff_user
-      assert_render_sidebar_call_to_action_component @payload.data[:widget_calls_to_action], 2
-      assert_render_sidebar_links_lists_component @payload.data[:widget_links_lists], 1
+      assert_render_sidebar_call_to_action_component @data[:widget_calls_to_action], 2
+      assert_render_sidebar_links_lists_component @data[:widget_links_lists], 1
     end
   end
 
