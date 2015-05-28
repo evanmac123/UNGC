@@ -1,11 +1,8 @@
 #main-header
-  @extend %wrapper
   position: absolute
   top: 0
   left: 0
   right: 0
-  height: 128px
-  padding-top: 20px
   background:
     color: rgba(color('dark-teal'), .85)
     blend-mode: multiply
@@ -13,46 +10,31 @@
   z-index: 99999
   +font-smoothing(antialiased)
 
+  > .wrapper
+    position: static
+    height: 8em
+    padding: 1.25em 0 0
+
   .logo
     display: block
-    position: absolute
-    top: 20px
-    left: 6.4%
+    float: left
     color: inherit
+    font-size: 3.5em
+    line-height: 1
+    margin: 0 0 0 7%
 
-    h1,
-    h2
-      margin: 0
-      color: inherit
-      line-height: 1
-      text-shadow: 0 1px 2px color('dark-teal')
+    &:before
+      +logo('ungc')
 
     h1
-      font-size: 3.5em
-      span
-        display: none
-
-      &:before
-        +logo('ungc')
-
-    h2
-      position: absolute
-      right: 0
-      bottom: -0.1em
-      font:
-        family: $flama-book
-        weight: normal
-        size: .875em
-      width: 30.4em
-      text-align: right
+      display: none
 
   nav
-    width: 0
-    height: 0
+    float: right
+    padding: 1.25em 0 0
 
 #primary-navigation,
 #secondary-navigation
-  position: absolute
   list-style: none
   margin: 0
   padding: 0
@@ -67,6 +49,7 @@
     color: inherit
 
 #primary-navigation
+  position: absolute
   left: 0
   right: 0
   bottom: 0
@@ -93,8 +76,7 @@
       background-color: color('teal')
 
 #secondary-navigation
-  top: 3.1em
-  right: 18em
+  position: relative
   font:
     size: .875em
     weight: 300
@@ -159,11 +141,11 @@
   box-shadow: 0 3px 8px 2px rgba(black, .3) !important
 
 #main-search
-  position: absolute
-  top: 2.9em
-  right: 5.715em
+  position: relative
+  float: right
   background-color: color('darker-teal')
   padding: 0 0 0 1.5em
+  margin: 1.5em 7% 0 1em
   font-size: .875em
 
   .search-field,
@@ -172,18 +154,31 @@
     position: relative
     background: transparent
     border: none
-    padding: 0 5px
+    padding: 0 .25em
     margin: 0
+    vertical-align: top
 
   .search-field
     width: 100px
-    font-weight: 300
+    font:
+      size: 1em
+      weight: 300
     z-index: 2
+    color: white
     +font-smoothing(default)
 
+    +placeholder
+      color: #666
+
+    &:focus
+      color: black
+      background: white
+
+
   .search-button
-    padding-left: 6px
     z-index: 3
+    font-size: 1em
+    padding-bottom: .15em
 
     span
       display: none
@@ -192,6 +187,7 @@
       +fa-icon
       content: $fa-var-search
       opacity: .75
+      +font-smoothing(antialiased)
 
     &:hover,
     &:active
@@ -215,9 +211,9 @@
     top: 0
     left: 0
     bottom: 0
-    line-height: 1.75em
-    padding: 0 .5em
-    width: 1.5em
+    line-height: 1.5
+    padding: 0 .4em
+    width: 1.3em
     cursor: pointer
     opacity: .75
 
