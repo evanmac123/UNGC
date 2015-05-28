@@ -52,13 +52,13 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  should 'set meta tags' do
+  should 'render the meta tags component' do
     assert_select 'title', Regexp.new(Regexp.escape(@payload.data[:meta_tags][:title]))
     assert_select "meta[name=description]", :content => @payload.data[:meta_tags][:description]
     assert_select "meta[name=keywords]", :content => @payload.data[:meta_tags][:keywords]
   end
 
-  should 'have a hero' do
+  should 'render the hero component' do
     assert_select '#hero' do
       assert_select 'h1', Regexp.new(Regexp.escape(@payload.data[:hero][:title][:title1]))
       assert_select 'h1', Regexp.new(Regexp.escape(@payload.data[:hero][:title][:title2]))
@@ -67,12 +67,12 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have content' do
+  should 'render content' do
     # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
     assert_select '.main-content-body', ActionView::Base.full_sanitizer.sanitize(@payload.data[:article_block][:content])
   end
 
-  should 'have sidebar widgets' do
+  should 'render the sidebar widgets components' do
     assert_select '.article-sidebar' do
       assert_select ' .widget-contact', 1 do
         assert_select 'h1', 'Contact'
@@ -115,7 +115,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have content blocks component' do
+  should 'render resources through the content blocks component' do
     assert_select '.component-content-blocks' do
       assert_select 'header h1', 'From our Library'
       assert_select '.component-content-block', 3 do |blocks|
@@ -131,7 +131,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have events/news component' do
+  should 'render the events/news component' do
     assert_select '.events-news-component' do
       assert_select 'menu', 1
       assert_select '.events', 1 do

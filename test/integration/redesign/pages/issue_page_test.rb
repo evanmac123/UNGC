@@ -69,13 +69,13 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  should 'set meta tags' do
+  should 'render the meta tags component' do
     assert_select 'title', Regexp.new(Regexp.escape(@payload.data[:meta_tags][:title]))
     assert_select "meta[name=description]", :content => @payload.data[:meta_tags][:description]
     assert_select "meta[name=keywords]", :content => @payload.data[:meta_tags][:keywords]
   end
 
-  should 'have a hero' do
+  should 'render the hero component' do
     assert_select '#hero' do
       assert_select 'h1', Regexp.new(Regexp.escape(@payload.data[:hero][:title][:title1]))
       assert_select 'h1', Regexp.new(Regexp.escape(@payload.data[:hero][:title][:title2]))
@@ -84,7 +84,7 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have tied principles component' do
+  should 'render the tied principles component' do
     assert_select '.component-tied-principles' do
       assert_select '.component-tied-principles-label', 'Tied to Principles:'
       assert_select '.component-tied-principle', 1 do
@@ -94,12 +94,12 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have content' do
+  should 'render content' do
     # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
     assert_select '.main-content-body-content', ActionView::Base.full_sanitizer.sanitize(@payload.data[:issue_block][:content])
   end
 
-  should 'have sidebar widgets' do
+  should 'render sidebar widgets component' do
     assert_select '.article-sidebar' do
       assert_select ' .widget-contact', 1 do
         assert_select 'h1', 'Contact'
@@ -144,7 +144,7 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have related contents through the content blocks component' do
+  should 'render related contents through the content blocks component' do
     assert_select '.component-content-blocks.related-contents' do |bc|
       assert_select '.component-header', 'Related Content'
       assert_select '.component-content-block', 3 do |blocks|
@@ -160,7 +160,7 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have resources through the content blocks component' do
+  should 'render resources through the content blocks component' do
     assert_select '.component-content-blocks.resources' do
       assert_select 'header h1', 'From our Library'
       assert_select '.component-content-block', 3 do |blocks|
@@ -176,7 +176,7 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     end
   end
 
-  should 'have events/news component' do
+  should 'render the events/news component' do
     assert_select '.events-news-component' do
       assert_select 'menu', 1
       assert_select '.events', 1 do
