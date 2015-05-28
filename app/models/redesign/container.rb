@@ -3,6 +3,7 @@ class Redesign::Container < ActiveRecord::Base
 
   include RankedModel
   include Taggable
+  include Indexable
 
   ranks :sort_order, with_same: :parent_container_id
 
