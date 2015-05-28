@@ -60,6 +60,25 @@ module IntegrationHelperTest
     end
   end
 
+  def create_related_contents_component_data
+    Array.new(3) do |index|
+     container = create_container(
+       path: '/related-content/' + (index+1).to_s
+     )
+     container.public_payload = create_payload(
+       container_id: container.id,
+       json_data: {
+         meta_tags: {
+           title: "Related Content " + (index+1).to_s,
+           thumbnail: "//thumbnail.jpg"
+         }
+       }.to_json
+     )
+     container.save
+     container
+   end
+  end
+
   def assert_render_related_contents_content_block_component(equality)
     assert_select '.component-content-blocks.related-contents' do
       assert_select '.component-header', 'Related Content'
@@ -74,6 +93,18 @@ module IntegrationHelperTest
     end
   end
 
+  def create_resource_content_block_data_and_payload
+    payload = []
+    resources = Array.new(3) do
+      resource = create_resource
+      payload << { resource_id: resource.id }
+
+      resource
+    end
+
+    [resources,payload]
+  end
+
   def assert_render_resources_content_block_component(equality)
     assert_select '.component-content-blocks.resources' do
       assert_select '.component-header', 'From our Library'
@@ -86,6 +117,20 @@ module IntegrationHelperTest
         end
       end
     end
+  end
+
+  def create_event_news_component_data
+    events = Array.new(3) do
+      event = create_event(starts_at: Date.today + 1.month)
+      event.approve!
+      event
+    end
+
+    news = Array.new(3) do
+      create_headline
+    end
+
+    [events,news]
   end
 
   def assert_render_events_news_component(equality)
