@@ -5,21 +5,18 @@ Searchable = Redesign::Searchable::SearchableContainer
 class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
 
   should "not include a container with only a draft_payload" do
-    skip
     create_container
     assert_equal 0, Searchable.all.count
   end
 
   should "include published containers" do
-    skip
     create_published_contaner
     assert_equal 1, Searchable.all.count
   end
 
   should "have an empty title if there is no meta title" do
-    skip
     searchable = Searchable.new(published_container)
-    assert_nil searchable.title
+    assert_equal "", searchable.title
   end
 
   should "index the title from the payload" do
