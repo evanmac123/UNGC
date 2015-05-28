@@ -12,7 +12,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
       layout: 'article'
     )
 
-    payload = JSON.parse(File.read(Rails.root + 'test/fixtures/pages/article_with_all_data.json'))
+    payload = load_payload(:article)
 
     @staff_user.update(image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'))
     payload['widget_contact']['contact_id'] = @staff_user.id

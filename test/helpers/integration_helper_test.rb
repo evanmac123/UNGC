@@ -1,4 +1,17 @@
 module IntegrationHelperTest
+  def load_payload(type)
+    filename = case type
+    when :article
+      'article_with_all_data.json'
+    when :issue
+      'issue_with_all_data.json'
+    else
+      return nil
+    end
+
+    JSON.parse(File.read(Rails.root + 'test/fixtures/pages/'+filename))
+  end
+
   def assert_render_meta_tags_component(equality)
     assert_select 'title', equality[:title] + ' | UN Global Compact'
     assert_select "meta[name=description]", :content => equality[:description]
