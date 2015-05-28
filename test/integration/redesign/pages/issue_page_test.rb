@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class IssuePageTest < ActionDispatch::IntegrationTest
+  include PageComponentTestHelpers
+
   setup do
     create_staff_user
     login_as @staff_user
@@ -69,29 +71,16 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  should 'render the meta tags component' do
-    assert_select 'title', Regexp.new(Regexp.escape(@payload.data[:meta_tags][:title]))
-    assert_select "meta[name=description]", :content => @payload.data[:meta_tags][:description]
-    assert_select "meta[name=keywords]", :content => @payload.data[:meta_tags][:keywords]
+  should 'render meta tags component' do
+    assert_render_meta_tags_component @payload.data[:meta_tags]
   end
 
-  should 'render the hero component' do
-    assert_select '#hero' do
-      assert_select 'h1', Regexp.new(Regexp.escape(@payload.data[:hero][:title][:title1]))
-      assert_select 'h1', Regexp.new(Regexp.escape(@payload.data[:hero][:title][:title2]))
-      assert_select 'p.blurb', @payload.data[:hero][:blurb]
-      assert_select 'nav#section-nav'
-    end
+  should 'render hero component' do
+    assert_render_hero_component @payload.data[:hero]
   end
 
-  should 'render the tied principles component' do
-    assert_select '.component-tied-principles' do
-      assert_select '.component-tied-principles-label', 'Tied to Principles:'
-      assert_select '.component-tied-principle', 1 do
-        assert_select '.component-tied-principle-number', '10'
-        assert_select '.component-tied-principle-detail', /Businesses should work against corruption in all its forms, including extortion and bribery\.\s+ More about Principle 10/
-      end
-    end
+  should 'render tied principles component' do
+    assert_render_tied_principles_component
   end
 
   should 'render content' do
@@ -101,113 +90,23 @@ class IssuePageTest < ActionDispatch::IntegrationTest
 
   should 'render sidebar widgets component' do
     assert_select '.article-sidebar' do
-      assert_select ' .widget-contact', 1 do
-        assert_select 'h1', 'Contact'
-        assert_select 'img'
-        assert_select '.name', @contact.prefix + ' ' + @contact.name
-        assert_select '.title', @contact.job_title
-        assert_select '.email', @contact.email
-        assert_select '.phone', @contact.phone
-      end
+      assert_render_sidebar_contact_component @contact
 
-      assert_select '.widget-call-to-action', 2 do |calls|
-        @calls_to_action = @payload.data[:widget_calls_to_action]
+      assert_render_sidebar_call_to_action_component @payload.data[:widget_calls_to_action], 2
 
-        calls.each_with_index do |call, index|
-          href = call.attributes['href'].value.sub('/redesign','')
-
-          assert_equal @calls_to_action[index][:label], call.content
-          assert_equal @calls_to_action[index][:url], href
-        end
-      end
-
-      assert_select '.widget-links-list', 1 do |links_lists|
-        @links_lists = @payload.data[:widget_links_lists]
-
-        links_lists.each_with_index do |links_list, index|
-          @links_list = @links_lists[index]
-
-          assert_select links_list, 'h1', @links_list[:title]
-
-          assert_select links_list, '.links-list-link-item' do |link_items|
-            @link_items = @links_list[:links]
-
-            link_items.each_with_index do |link_item, index|
-              @link_item = @link_items[index]
-
-              assert_equal @link_item[:label], link_item.content
-              assert_equal @link_item[:url], link_item.attributes['href'].value
-            end
-          end
-        end
-      end
+      assert_render_sidebar_links_lists_component @payload.data[:widget_links_lists], 1
     end
   end
 
   should 'render related contents through the content blocks component' do
-    assert_select '.component-content-blocks.related-contents' do |bc|
-      assert_select '.component-header', 'Related Content'
-      assert_select '.component-content-block', 3 do |blocks|
-        blocks.each_with_index do |block, index|
-          @container = @related_containers[index]
-
-          assert_select '.component-content-block-link', href: @container.path
-          assert_select '.component-content-block-image img', src: @container.public_payload.data[:meta_tags][:thumbnail] # Passes even though img[src] is empty.
-          assert_select '.component-content-block-title', @container.public_payload.data[:meta_tags][:title]
-          assert_select '.component-content-block-tag', 'No Label'
-        end
-      end
-    end
+    assert_render_related_contents_content_block_component @related_containers
   end
 
   should 'render resources through the content blocks component' do
-    assert_select '.component-content-blocks.resources' do
-      assert_select 'header h1', 'From our Library'
-      assert_select '.component-content-block', 3 do |blocks|
-        blocks.each_with_index do |block, index|
-          @resource = @resources[index]
-
-          assert_select '.component-content-block-link', href: redesign_library_resource_path(@resource)
-          assert_select '.component-content-block-image', src: @resource.cover_image # Note: This is /images/original/missing.png during test.
-          assert_select '.component-content-block-title', @resource.title
-          assert_select '.component-content-block-tag', @resource.content_type # Note: This is nil during test.
-        end
-      end
-    end
+    assert_render_resources_content_block_component @resources
   end
 
-  should 'render the events/news component' do
-    assert_select '.events-news-component' do
-      assert_select 'menu', 1
-      assert_select '.events', 1 do
-        assert_select '.tab-content-header', 'Events'
-        assert_select '.future-events .event', 3 do |events|
-          events.each_with_index do |event, index|
-            assert_equal event.attributes['href'].value, redesign_event_path(@events[index])
-            # assert_select 'time', @events[index].starts_at # Error: assert_select: I don't understand what you're trying to match.
-            assert_select 'address', @events[index].full_location
-            assert_select 'h2', @events[index].title
-          end
-        end
-        assert_select '.events-component-footer', 'View All Events' do
-          assert_select 'a'
-        end
-      end
-
-      assert_select '.news' do |news|
-        assert_select '.tab-content-header', 'News'
-        assert_select '.news-items .news-item' do |news_items|
-          news_items.each_with_index do |news_item, index|
-            assert_equal news_item.attributes['href'].value, redesign_news_path(@news[index])
-            # assert_select 'time', @news[index].date # Error: assert_select: I don't understand what you're trying to match.
-            assert_select 'address', @news[index].location
-            assert_select 'h2', @news[index].title
-          end
-        end
-        assert_select '.events-component-footer', 'View All News' do
-          assert_select 'a'
-        end
-      end
-    end
+  should 'render events/news component' do
+    assert_render_events_news_component events: @events, news: @news
   end
 end
