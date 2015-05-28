@@ -37,7 +37,7 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def submitted_coe
-    set_current_container_by_path('/participation/report/coe/create-and-submit/submitted_coe')
+    set_current_container_by_path('/participation/report/coe/create-and-submit/submitted-coe')
     @page = CopListPage.new(current_container, current_payload_data)
   end
 
