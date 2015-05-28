@@ -1022,12 +1022,11 @@ ActiveRecord::Schema.define(version: 20150527164740) do
   end
 
   create_table "uploaded_images", force: :cascade do |t|
-    t.string   "url",            limit: 255,   null: false
-    t.string   "filename",       limit: 255
-    t.string   "mime",           limit: 255
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.text     "licensing_data", limit: 65535
+    t.string   "url",        limit: 255, null: false
+    t.string   "filename",   limit: 255
+    t.string   "mime",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   add_foreign_key "event_sponsors", "events"
