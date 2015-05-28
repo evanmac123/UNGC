@@ -6,9 +6,7 @@ class Redesign::Searchable < ActiveRecord::Base
 
     def index_all
       searchables.each do |searchable|
-        # TODO remove this limit
-        Rails.logger.warn '*** remove this take(5) ***'
-        searchable.all.take(5).each do |model|
+        searchable.all.each do |model|
           import(searchable.new(model))
         end
       end
