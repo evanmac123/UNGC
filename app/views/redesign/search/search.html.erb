@@ -1,1 +1,14 @@
-search.html.erb
+<%= form_for @search, as: :search, url: redesign_search_path, method: :get, html: {id: 'filters-form'} do |form| %>
+
+  <header>
+    <h1>Search</h1>
+  </header>
+
+<% end %>
+
+<% @results.each do |result| %>
+  <%= link_to result.excerpts.title, result.url %><br/>
+  <p><%= raw result.excerpts.content %></p>
+<% end %>
+
+<%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
