@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ArticlePageTest < ActionDispatch::IntegrationTest
-  include PageComponentTestHelpers
+  include IntegrationHelperTest
 
   setup do
     create_staff_user
