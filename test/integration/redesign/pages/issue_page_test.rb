@@ -13,8 +13,7 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     )
     payload = load_payload(:issue)
 
-    @staff_user.update(image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'))
-    payload['widget_contact']['contact_id'] = @staff_user.id
+    payload['widget_contact']['contact_id'] = update_contact_with_image(@staff_user).id
     @related_contents = create_related_contents_component_data
     @resources,payload['resources'] = create_resource_content_block_data_and_payload
     @events,@news = create_event_news_component_data

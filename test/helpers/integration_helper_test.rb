@@ -12,6 +12,11 @@ module IntegrationHelperTest
     JSON.parse(File.read(Rails.root + 'test/fixtures/pages/'+filename))
   end
 
+  def update_contact_with_image(contact)
+    contact.update(image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'))
+    contact
+  end
+
   def assert_render_meta_tags_component(equality)
     assert_select 'title', equality[:title] + ' | UN Global Compact'
     assert_select "meta[name=description]", :content => equality[:description]
