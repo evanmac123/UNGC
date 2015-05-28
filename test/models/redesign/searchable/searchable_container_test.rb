@@ -4,11 +4,13 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
 
   should "not include a container with only a draft_payload" do
     create_container
+    Redesign::Searchable.index_all
     assert_equal 0, Redesign::Searchable.all.count
   end
 
   should "include published containers" do
     create_published_contaner
+    Redesign::Searchable.index_all
     assert_equal 1, Redesign::Searchable.all.count
   end
 
