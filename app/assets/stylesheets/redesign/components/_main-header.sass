@@ -12,16 +12,22 @@
 
   > .wrapper
     position: static
-    height: 8em
-    padding: 1.25em 0 0
+    padding: 1em 0 2.5em
+
+    @media only screen and (min-width: 1001px)
+      padding: 1.25em 0 3em
 
   .logo
     display: block
     float: left
     color: inherit
-    font-size: 3.5em
+    font-size: 3em
     line-height: 1
-    margin: 0 0 0 7%
+    margin: 0 0 0 5%
+
+    @media only screen and (min-width: 1001px)
+      font-size: 3.5em
+      margin: 0 0 0 7%
 
     &:before
       +logo('ungc')
@@ -31,7 +37,10 @@
 
   nav
     float: right
-    padding: 1.25em 0 0
+    margin: 1.2em 0 0
+
+    @media only screen and (min-width: 1001px)
+      margin: 1.5em 0 0
 
 #primary-navigation,
 #secondary-navigation
@@ -41,7 +50,6 @@
   +clearfix
 
   li
-    display: inline-block
     margin: 0
 
   a.nav-link
@@ -58,12 +66,17 @@
     blend-mode: multiply
   font:
     family: $flama-condensed-medium
-    size: 1.125em
     weight: 500
   text:
     align: center
     transform: uppercase
   letter-spacing: .05em
+
+  @media only screen and (min-width: 1001px)
+    font-size: 1.125em
+
+  li
+    display: inline-block
 
   a.nav-link
     padding: 0 1.5em
@@ -95,6 +108,7 @@
       font-weight: 700
 
   li
+    float: left
     border-right: 1px solid rgba(white, .5)
 
     &:last-of-type
@@ -107,6 +121,7 @@
       size: inherit
       color: inherit
     color: inherit
+    line-height: 1
 
   .goog-te-gadget-icon
     display: none
@@ -121,6 +136,7 @@
     margin: 0
     padding: 0 0 0 1em
     color: inherit
+    line-height: 1
 
     &:after
       +fa-icon
@@ -145,8 +161,11 @@
   float: right
   background-color: color('darker-teal')
   padding: 0 0 0 1.5em
-  margin: 1.5em 7% 0 1em
+  margin: 1.2em 5% 0 1em
   font-size: .875em
+
+  @media only screen and (min-width: 1001px)
+    margin: 1.5em 7% 0 1em
 
   .search-field,
   .search-button
