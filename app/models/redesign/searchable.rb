@@ -2,6 +2,8 @@ class Redesign::Searchable < ActiveRecord::Base
 
   class << self
 
+    attr_accessor :searchable_map
+
     def index_all
       searchables.each do |searchable|
         # TODO remove this limit
@@ -14,20 +16,23 @@ class Redesign::Searchable < ActiveRecord::Base
 
     def index_since(cutoff)
       searchables.each do |searchable|
-        models = searchable.all.where(changed_since(cutoff))
-        models.each do |model|
+        searchable.since(cutoff).each do |model|
           import(searchable.new(model))
         end
       end
     end
 
     def remove(model)
-      searchable = searchable_map.fetch(model.class)
-      instance = searchable.new(model)
-      where(document_type: instance.document_type, url: instance.url).destroy_all
+      searchable = new_searchable(model)
+      where(document_type: searchable.document_type, url: searchable.url).destroy_all
     end
 
     private
+
+    def new_searchable(model)
+      searchable_class = searchable_map.fetch(model.class)
+      searchable_class.new(model)
+    end
 
     def import(searchable)
       searchable_model = self.where(url: searchable.url).first_or_initialize
