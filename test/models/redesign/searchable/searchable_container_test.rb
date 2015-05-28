@@ -53,7 +53,6 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
   end
 
   should "delete the searchable when the Container is deleted" do
-    skip
     container = create_published_contaner
     Redesign::Searchable.index_all
     assert_difference 'Redesign::Searchable.count', -1 do
