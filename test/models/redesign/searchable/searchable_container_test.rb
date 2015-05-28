@@ -1,32 +1,30 @@
 require 'test_helper'
 
-Searchable = Redesign::Searchable::SearchableContainer
-
 class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
 
   should "not include a container with only a draft_payload" do
     create_container
-    assert_equal 0, Searchable.all.count
+    assert_equal 0, Redesign::Searchable.all.count
   end
 
   should "include published containers" do
     create_published_contaner
-    assert_equal 1, Searchable.all.count
+    assert_equal 1, Redesign::Searchable.all.count
   end
 
   should "have an empty title if there is no meta title" do
-    searchable = Searchable.new(published_container)
+    searchable = Redesign::Searchable::SearchableContainer.new(published_container)
     assert_equal "", searchable.title
   end
 
   should "index the title from the payload" do
     data = {meta_tags: {title: 'foo'}}
-    searchable = Searchable.new(published_container(data: data))
+    searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
     assert_equal 'foo',  searchable.title
   end
 
   should "index the url from the container's path" do
-    searchable = Searchable.new(published_container(params: {path: '/one/two/three'}))
+    searchable = Redesign::Searchable::SearchableContainer.new(published_container(params: {path: '/one/two/three'}))
     assert_equal '/one/two/three', searchable.url
   end
 
@@ -48,7 +46,7 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
       ],
       hmm: 12345
     }
-    searchable = Searchable.new(published_container(data: data))
+    searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
     assert_equal 'meta_title baseball apple orange banana  12345', searchable.content
   end
 
