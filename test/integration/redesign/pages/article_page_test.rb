@@ -50,9 +50,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
   should 'render sidebar widgets components' do
     assert_select '.article-sidebar' do
       assert_render_sidebar_contact_component @staff_user
-
       assert_render_sidebar_call_to_action_component @payload.data[:widget_calls_to_action], 1
-
       assert_render_sidebar_links_lists_component @payload.data[:widget_links_lists], 2
     end
   end
