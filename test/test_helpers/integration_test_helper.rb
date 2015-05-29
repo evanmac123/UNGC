@@ -47,7 +47,7 @@ module IntegrationTestHelper
       assert_select '.component-tied-principles-label', 'Tied to Principles:'
       assert_select '.component-tied-principle', count do |principles|
         principles.each_with_index do |principle, index|
-          assert_select '.component-tied-principle-number', equality[index][:principle].to_s
+          assert_select principle, '.component-tied-principle-number', equality[index][:principle].to_s
         end
       end
     end
@@ -114,10 +114,10 @@ module IntegrationTestHelper
       assert_select '.component-header', 'Related Content'
       assert_select '.component-content-block', 3 do |blocks|
         blocks.each_with_index do |block, index|
-          assert_select '.component-content-block-link', href: equality[index].path
-          assert_select '.component-content-block-image img', src: equality[index].public_payload.data[:meta_tags][:thumbnail] # Passes even though img[src] is empty.
-          assert_select '.component-content-block-title', equality[index].public_payload.data[:meta_tags][:title]
-          assert_select '.component-content-block-tag', 'No Label'
+          assert_select block, '.component-content-block-link', href: equality[index].path
+          assert_select block, '.component-content-block-image img', src: equality[index].public_payload.data[:meta_tags][:thumbnail] # Passes even though img[src] is empty.
+          assert_select block, '.component-content-block-title', equality[index].public_payload.data[:meta_tags][:title]
+          assert_select block, '.component-content-block-tag', 'No Label'
         end
       end
     end
@@ -140,10 +140,10 @@ module IntegrationTestHelper
       assert_select '.component-header', 'From our Library'
       assert_select '.component-content-block', 3 do |blocks|
         blocks.each_with_index do |block, index|
-          assert_select '.component-content-block-link', href: redesign_library_resource_path(equality[index])
-          assert_select '.component-content-block-image img', src: equality[index].cover_image # Note: This is /images/original/missing.png during test.
-          assert_select '.component-content-block-title', equality[index].title
-          assert_select '.component-content-block-tag', equality[index].content_type # Note: This is nil during test.
+          assert_select block, '.component-content-block-link', href: redesign_library_resource_path(equality[index])
+          assert_select block, '.component-content-block-image img', src: equality[index].cover_image # Note: This is /images/original/missing.png during test.
+          assert_select block, '.component-content-block-title', equality[index].title
+          assert_select block, '.component-content-block-tag', equality[index].content_type # Note: This is nil during test.
         end
       end
     end
@@ -171,9 +171,9 @@ module IntegrationTestHelper
         assert_select '.future-events .event', 3 do |events|
           events.each_with_index do |event, index|
             assert_equal event.attributes['href'].value, redesign_event_path(equality[:events][index])
-            assert_select 'time', equality[:events][index].starts_at.strftime('%d-%b-%Y')
-            assert_select 'address', equality[:events][index].full_location
-            assert_select 'h2', equality[:events][index].title
+            assert_select event, 'time', equality[:events][index].starts_at.strftime('%d-%b-%Y')
+            assert_select event, 'address', equality[:events][index].full_location
+            assert_select event, 'h2', equality[:events][index].title
           end
         end
         assert_select '.events-component-footer', 'View All Events' do
@@ -186,9 +186,9 @@ module IntegrationTestHelper
         assert_select '.news-items .news-item' do |news_items|
           news_items.each_with_index do |news_item, index|
             assert_equal news_item.attributes['href'].value, redesign_news_path(equality[:news][index])
-            assert_select 'time', equality[:news][index].published_on.strftime('%Y-%m-%d')
-            assert_select 'address', equality[:news][index].location
-            assert_select 'h2', equality[:news][index].title
+            assert_select news_item, 'time', equality[:news][index].published_on.strftime('%Y-%m-%d')
+            assert_select news_item, 'address', equality[:news][index].location
+            assert_select news_item, 'h2', equality[:news][index].title
           end
         end
         assert_select '.events-component-footer', 'View All News' do
