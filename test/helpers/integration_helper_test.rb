@@ -5,6 +5,8 @@ module IntegrationHelperTest
       'article_with_all_data.json'
     when :issue
       'issue_with_all_data.json'
+    when :action_detail
+      'action_detail_with_all_data.json'
     else
       return nil
     end
@@ -23,20 +25,22 @@ module IntegrationHelperTest
     assert_select "meta[name=keywords]", :content => equality[:keywords]
   end
 
-  def assert_render_hero_component(equality)
+  def assert_render_hero_component(equality, options = { section_nav: true })
     assert_select '#hero' do
       assert_select 'h1', Regexp.new(Regexp.escape(equality[:title][:title1])+'\s+'+Regexp.escape(equality[:title][:title2]))
       assert_select 'p.blurb', equality[:blurb]
-      assert_select 'nav#section-nav'
+      assert_select 'nav#section-nav' unless options[:section_nav] == false
     end
   end
 
-  def assert_render_tied_principles_component
+  def assert_render_tied_principles_component(equality, count)
     assert_select '.component-tied-principles' do
       assert_select '.component-tied-principles-label', 'Tied to Principles:'
-      assert_select '.component-tied-principle', 1 do
-        assert_select '.component-tied-principle-number', '10'
-        assert_select '.component-tied-principle-detail', /Businesses should work against corruption in all its forms, including extortion and bribery\.\s+ More about Principle 10/
+      assert_select '.component-tied-principle', count do |principles|
+        principles.each_with_index do |principle, index|
+          assert_select '.component-tied-principle-number', equality[index][:principle].to_s
+          # assert_select '.component-tied-principle-detail' # FIXME: Cannot be tested because it is not in the database.
+        end
       end
     end
   end
@@ -181,6 +185,50 @@ module IntegrationHelperTest
         end
         assert_select '.events-component-footer', 'View All News' do
           assert_select 'a'
+        end
+      end
+    end
+  end
+
+  def create_embedded_participants_table_component_data
+    initiative = create_initiative
+
+    5.times do
+      initiative.signatories.create(
+        valid_organization_attributes.merge(
+          sector_id: create_sector.id,
+          country_id: create_country.id
+        )
+      )
+    end
+
+    participants = initiative.signatories
+
+    [participants,initiative.id]
+  end
+
+  def assert_render_embedded_participants_table_component(equality)
+    assert_select '.component-participants-table-embedded' do
+      assert_select '.component-header h1', 'Participants'
+      assert_select '.table-embedded tbody tr', 5 do |rows|
+        rows.each_with_index do |row, index|
+          assert_select row, '.name', equality[index].name
+          assert_select row, '.sector', equality[index].sector.name
+          assert_select row, '.country', equality[index].country.name
+        end
+      end
+    end
+  end
+
+  def assert_render_partners_component(equality)
+    assert_select '.component-partners' do
+      assert_select '.component-header', 'Our Partners'
+      assert_select '.component-partners-list a', 1 do |partners|
+        partners.each_with_index do |partner, index|
+          assert_equal partner.attributes['href'].value, equality[index][:url]
+          assert_equal partner.attributes['target'].value, '_blank' if equality[index][:external]
+          assert_select partner, 'img', src: equality[index][:logo]
+          assert_select partner, 'img', alt: equality[index][:name]
         end
       end
     end

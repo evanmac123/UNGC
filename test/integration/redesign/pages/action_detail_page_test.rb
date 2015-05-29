@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class IssuePageTest < ActionDispatch::IntegrationTest
+class ActionDetailPageTest < ActionDispatch::IntegrationTest
   include IntegrationHelperTest
 
   setup do
@@ -8,15 +8,16 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     login_as @staff_user
 
     container = create_container(
-      path: 'new-issue-path',
-      layout: 'issue'
+      path: 'new-action-detail-path',
+      layout: 'action_detail'
     )
-    payload = load_payload(:issue)
+    payload = load_payload(:action_detail)
 
     payload['widget_contact']['contact_id'] = update_contact_with_image(@staff_user).id
     @related_contents = create_related_contents_component_data
     @resources,payload['resources'] = create_resource_content_block_data_and_payload
     @events,@news = create_event_news_component_data
+    @participants,payload['initiative']['initiative_id'] = create_embedded_participants_table_component_data
 
     container.create_public_payload(
       container_id: container.id, # FIXME: container_id should not have to be set manually
@@ -24,7 +25,7 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     )
     container.save
 
-    get '/redesign/new-issue-path'
+    get '/redesign/new-action-detail-path'
 
     @data = container.public_payload.data
   end
@@ -38,19 +39,19 @@ class IssuePageTest < ActionDispatch::IntegrationTest
   end
 
   should 'render hero component' do
-    assert_render_hero_component @data[:hero]
+    assert_render_hero_component @data[:hero], section_nav: false
   end
 
   should 'render tied principles component' do
-    assert_render_tied_principles_component @data[:principles], 1
+    assert_render_tied_principles_component @data[:principles], 3
   end
 
   should 'render content' do
     # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
-    assert_select '.main-content-body-content', ActionView::Base.full_sanitizer.sanitize(@data[:issue_block][:content])
+    assert_select '.main-content-body-content', ActionView::Base.full_sanitizer.sanitize(@data[:action_detail_block][:content])
   end
 
-  should 'render sidebar widgets component' do
+  should 'render sidebar widgets components' do
     assert_select '.article-sidebar' do
       assert_render_sidebar_contact_component @staff_user
       assert_render_sidebar_call_to_action_component @data[:widget_calls_to_action], 2
@@ -68,5 +69,13 @@ class IssuePageTest < ActionDispatch::IntegrationTest
 
   should 'render events/news component' do
     assert_render_events_news_component events: @events, news: @news
+  end
+
+  should 'render embedded participants table component' do
+    assert_render_embedded_participants_table_component @participants
+  end
+
+  should 'render partners component' do
+    assert_render_partners_component @data[:partners]
   end
 end
