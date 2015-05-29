@@ -1,78 +1,80 @@
 <%- if events = @page.events -%>
-<section class='tabbed-component events-news-component'>
-  <menu class='tabs'>
-    <li class='tab'>
-      <button type='button' class='active' data-tab-content='events'>Events</button>
-    </li>
-    <li class='tab'>
-      <button type='button' data-tab-content='news'>News</button>
-    </li>
-  </menu>
+<section class='events-news-component'>
+  <div class='tabbed-component wrapper'>
+    <menu class='tabs'>
+      <li class='tab'>
+        <button type='button' class='active' data-tab-content='events'>Events</button>
+      </li>
+      <li class='tab'>
+        <button type='button' data-tab-content='news'>News</button>
+      </li>
+    </menu>
 
-  <article class='tab-content events active'>
-    <header class='tab-content-header'>
-      <h1>Events</h1>
-    </header>
+    <article class='tab-content events active'>
+      <header class='tab-content-header'>
+        <h1>Events</h1>
+      </header>
 
-    <%- if featured = events.featured -%>
-      <article class='featured-event column'>
-        <%= link_to redesign_event_path(featured), class: 'event' do -%>
-          <div class='thumbnail' style='background-image: url(<%= featured.thumbnail_image.url -%>)'>
-            <div class='date-location'>
-              <time datetime="<%= featured.starts_at.strftime('%F') -%>">
-                <%= featured.starts_at -%>
-              </time>
-              <address><%= featured.full_location -%></address>
+      <%- if featured = events.featured -%>
+        <article class='featured-event column'>
+          <%= link_to redesign_event_path(featured), class: 'event' do -%>
+            <div class='thumbnail' style='background-image: url(<%= featured.thumbnail_image.url -%>)'>
+              <div class='date-location'>
+                <time datetime="<%= featured.starts_at.strftime('%F') -%>">
+                  <%= featured.starts_at -%>
+                </time>
+                <address><%= featured.full_location -%></address>
+              </div>
             </div>
-          </div>
 
-          <h1><%= featured.title -%></h1>
+            <h1><%= featured.title -%></h1>
 
-          <%- #TODO truncate description, but it's html -%>
-          <p><%= featured.description.html_safe -%></p>
-        <%- end -%>
-      </article>
-    <%- end -%>
+            <%- #TODO truncate description, but it's html -%>
+            <p><%= featured.description.html_safe -%></p>
+          <%- end -%>
+        </article>
+      <%- end -%>
 
-    <%- events.future.each do |future_events| -%>
-      <ul class='future-events column'>
-        <%- future_events.each do |e| -%>
-          <li><%= link_to redesign_event_path(e), class: 'event' do -%>
-            <time datetime="<%= e.starts_at.strftime('%F') -%>">
-              <%= e.starts_at -%>
-            </time>
-            <address><%= e.full_location -%></address>
-            <h2><%= e.title -%></h2>
-          <%- end -%></li>
-        <%- end -%>
-      </ul>
-    <%- end -%>
+      <%- events.future.each do |future_events| -%>
+        <ul class='column'>
+          <%- future_events.each do |e| -%>
+            <li><%= link_to redesign_event_path(e), class: 'event' do -%>
+              <time datetime="<%= e.starts_at.strftime('%F') -%>">
+                <%= e.starts_at -%>
+              </time>
+              <address><%= e.full_location -%></address>
+              <h2><%= e.title -%></h2>
+            <%- end -%></li>
+          <%- end -%>
+        </ul>
+      <%- end -%>
 
-    <footer class='events-component-footer'>
-      View <%= link_to 'All Events', redesign_events_path -%>
-    </footer>
-  </article>
+      <footer class='events-component-footer'>
+        View <%= link_to 'All Events', redesign_events_path -%>
+      </footer>
+    </article>
 
-  <article class='tab-content news'>
-    <header class='tab-content-header'>
-      <h1>News</h1>
-    </header>
+    <article class='tab-content news'>
+      <header class='tab-content-header'>
+        <h1>News</h1>
+      </header>
 
-    <%- @page.news.each do |news| -%>
-      <ul class='column news-items'>
-        <%- news.each do |n| -%>
-          <li><%= link_to redesign_news_path(n[:item]), class: 'news-item' do -%>
-            <time datetime="<%= n[:date].strftime('%F') -%>"><%= n[:date] -%></time>
-            <address><%= n[:location].html_safe -%></address>
-            <h2><%= n[:title].html_safe -%></h2>
-          <%- end -%></li>
-        <%- end -%>
-      </ul>
-    <%- end -%>
+      <%- @page.news.each do |news| -%>
+        <ul class='column'>
+          <%- news.each do |n| -%>
+            <li><%= link_to redesign_news_path(n[:item]), class: 'news-item' do -%>
+              <time datetime="<%= n[:date].strftime('%F') -%>"><%= n[:date] -%></time>
+              <address><%= n[:location].html_safe -%></address>
+              <h2><%= n[:title].html_safe -%></h2>
+            <%- end -%></li>
+          <%- end -%>
+        </ul>
+      <%- end -%>
 
-    <footer class='events-component-footer'>
-      View <%= link_to_redesign 'All News', redesign_press_releases_path -%>
-    </footer>
-  </article>
+      <footer class='events-component-footer'>
+        View <%= link_to_redesign 'All News', redesign_press_releases_path -%>
+      </footer>
+    </article>
+  </div>
 </section>
 <%- end -%>

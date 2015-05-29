@@ -1,7 +1,10 @@
 .tiles-section
-  +font-smoothing(antialiased)
-  +clearfix
+  @extend %wrapper
   color: white
+  +font-smoothing(antialiased)
+
+  > .wrapper
+    margin: 0 7%
 
   a
     display: block

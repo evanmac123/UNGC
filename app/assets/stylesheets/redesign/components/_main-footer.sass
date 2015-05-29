@@ -1,6 +1,6 @@
 #main-footer
   background-color: color('grey')
-  padding: 3%
+  padding: 3% 0
   font-size: 1.125em
   color: white
   +font-smoothing(antialiased)
@@ -16,11 +16,17 @@
     list-style: none
     padding: 0
 
-  article
+  .column
     float: left
-    width: 33.333%
-    margin: 0
-    padding: 2%
+    width: 26.666%
+    margin: 0 1.5%
+
+    &:first-of-type
+      margin-left: 7%
+
+    &:last-of-type
+      float: right
+      margin-right: 7%
 
   h2
     color: color('pastel-blue')

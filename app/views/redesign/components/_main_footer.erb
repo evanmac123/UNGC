@@ -1,11 +1,11 @@
 <footer id='main-footer'>
   <div class='wrapper'>
-    <article>
+    <article class='column'>
       <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/globalcompact" data-widget-id="571824679078604800">Tweets by @globalcompact</a>
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     </article>
 
-    <article>
+    <article class='column'>
       <h2>Follow Us</h2>
       <ul class='social'><%- %w(Twitter YouTube LinkedIn Facebook Flickr RSS).each do |s|-%>
         <li><%= link_to "<span>#{s}</span>".html_safe, '/redesign', class: s.parameterize -%></li>
@@ -21,7 +21,7 @@
       </ul>
     </article>
 
-    <article>
+    <article class='column'>
       <div class='contribute'>
         <h2>Help us transform the world through business</h2>
         <%= link_to_redesign 'Contribute Today', '/about/foundation' %>

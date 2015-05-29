@@ -1,12 +1,14 @@
 <%- if stats = @page.stats -%>
 
 <section class='stats-section'>
-  <%- stats.each do |stat| -%>
-  <article class='stat'>
-    <h1><%= stat[:value] -%></h1>
-    <h2><%= stat[:label] -%></h2>
-  </article>
-  <%- end -%>
+  <div class='wrapper'>
+    <%- stats.each do |stat| -%>
+      <article class='stat'>
+        <h1><%= stat[:value] -%></h1>
+        <h2><%= stat[:label] -%></h2>
+      </article>
+    <%- end -%>
+  </div>
 </section>
 
 <%- end -%>

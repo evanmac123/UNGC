@@ -1,7 +1,10 @@
 .stats-section
+  @extend %wrapper
   text-align: center
   +font-smoothing(antialiased)
-  +clearfix
+
+  > .wrapper
+    margin: 0 7%
 
   .stat
     float: left
