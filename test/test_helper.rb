@@ -6,7 +6,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
 require 'mocha/setup'
-require 'helpers/integration_helper_test'
+require 'test_helpers/integration_test_helper'
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.

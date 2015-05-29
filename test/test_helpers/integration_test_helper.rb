@@ -1,4 +1,4 @@
-module IntegrationHelperTest
+module IntegrationTestHelper
   def load_payload(type)
     filename = case type
     when :article
