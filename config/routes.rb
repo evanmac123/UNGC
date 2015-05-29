@@ -116,6 +116,7 @@ UNGC::Application.routes.draw do
     end
 
     get '/'         => 'static#home',       as: :root
+    get '/404'      => 'static#not_found',  as: :not_found
     get '*path'     => 'static#catch_all',  as: :catch_all
   end
 

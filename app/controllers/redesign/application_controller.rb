@@ -20,7 +20,7 @@ class Redesign::ApplicationController < ApplicationController
 
     render("/redesign/static/" + current_container.layout)
   rescue ActiveRecord::RecordNotFound
-    render :file => "#{Rails.root}/public/404.html", :status => 404, :layout => false
+    redirect_to redesign_not_found_path
   end
 
   protected
