@@ -7,6 +7,8 @@ module IntegrationTestHelper
       'issue_with_all_data.json'
     when :action_detail
       'action_detail_with_all_data.json'
+    when :engage_locally
+      'engage_locally_with_all_data.json'
     else
       return nil
     end
@@ -69,7 +71,7 @@ module IntegrationTestHelper
   def assert_render_sidebar_links_lists_component(equality, count)
     assert_select '.widget-links-list', count do |links_lists|
       links_lists.each_with_index do |links_list, list_index|
-        assert_select links_list, 'h1', equality[list_index][:title]
+        assert_select links_list, 'h1', equality[list_index][:title] if equality[list_index][:title]
         assert_select links_list, '.links-list-link-item' do |link_items|
           link_items.each_with_index do |link_item, link_index|
             assert_equal equality[list_index][:links][link_index][:label], link_item.content
