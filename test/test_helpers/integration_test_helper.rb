@@ -39,7 +39,6 @@ module IntegrationTestHelper
       assert_select '.component-tied-principle', count do |principles|
         principles.each_with_index do |principle, index|
           assert_select '.component-tied-principle-number', equality[index][:principle].to_s
-          # assert_select '.component-tied-principle-detail' # FIXME: Cannot be tested because it is not in the database.
         end
       end
     end
