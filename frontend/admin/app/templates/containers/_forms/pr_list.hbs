@@ -1,0 +1,7 @@
+{{#container/x-fields scope=model.container as |prList|}}
+  {{container/macros/x-metatags scope=prList}}
+
+  {{#container/macros/x-hero scope=prList as |hero|}}
+    {{container/macros/x-show-section-nav scope=hero default=true}}
+  {{/container/macros/x-hero}}
+{{/container/x-fields}}

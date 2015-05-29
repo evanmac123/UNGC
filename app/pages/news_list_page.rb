@@ -8,11 +8,7 @@ class NewsListPage < ContainerPage
 
   def hero
     (@data[:hero] || {}).reverse_merge({
-      title: {
-        title1: 'Press Releases'
-      },
-      size: 'small',
-      show_section_nav: true
+      size: 'small'
     })
   end
 
