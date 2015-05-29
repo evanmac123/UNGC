@@ -7,10 +7,9 @@ class Redesign::StaticControllerTest < ActionController::TestCase
   end
 
   context '#catch_all' do
-    should 'throw and error when the path does not resolve a container' do
-      assert_raise ActiveRecord::RecordNotFound do
-        get :catch_all, path: '/herp/i/dont/exist'
-      end
+    should 'redirect to not_found when the path does not resolve a container' do
+      get :catch_all, path: '/herp/i/dont/exist'
+      assert_redirected_to redesign_not_found_path
     end
 
     should 'resolve a container that exists with the provided path' do
