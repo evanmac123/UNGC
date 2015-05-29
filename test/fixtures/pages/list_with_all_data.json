@@ -1,0 +1,61 @@
+{
+  "meta_tags": {
+    "title": "Resources to Get You Started",
+    "description": "The UN Global Compact has a large library of tools and resources...",
+    "thumbnail": "kjlkj",
+    "label": "background",
+    "keywords": "library, tools, resources"
+  },
+  "hero": {
+    "image": null,
+    "theme": "none",
+    "title": {
+      "title1": "Getting Started",
+      "title2": "With Resources"
+    },
+    "blurb": "Getting Started With Resources",
+    "show_section_nav": true
+  },
+  "list_block": {
+    "title": "Resources to Get You Started",
+    "blurb": "<p>The UN Global Compact has a <a href=\"/library\">large library of tools and resources</a> covering a wide range of topics. As a new participant, the resources below will help you understand the commitment you?<80><99>ve made to the UN Global Compact, how to begin to integrate corporate sustainability into your strategies and operations, and how to meet your reporting requirement. As you deepen your engagement, we invite you to visit our library to make use of our resources related to more specific issues.</p>",
+    "sorting": "asc",
+    "items": [
+      {
+        "url": "/library/1151",
+        "title": "Guide to Corporate Sustainability",
+        "type": "none",
+        "blurb": "<p>Lays out five defining features of corporate sustainability, which the Global Compact asks businesses to strive towards ?<80><93> looking at why each element is essential, how business can move forward and what the Global Compact is doing to help.</p>",
+        "image": "https://www.unglobalcompact.org/system/resources/images/1151/show@2x/resource_preview_1151.png?1421441423"
+      },
+      {
+        "url": "/library/241",
+        "title": "After the Signature - A Guide to Engagement in the UN Global Compact",
+        "type": "none",
+        "blurb": "<p>A basic introduction to the UN Global Compact, outlining the commitment that a company makes when signing on to the initiative, such as implementing the ten principles and producing an annual COP report.</p>",
+        "image": "https://www.unglobalcompact.org/system/resources/images/241/show@2x/resource_preview_241.png?1386640390"
+      },
+      {
+        "url": "/library/231",
+        "title": "UN Global Compact Management Model",
+        "type": "none",
+        "blurb": "<p>A practical yet comprehensive tool to help companies evolve their sustainability efforts. Comprised of six management steps, it guides companies of all sizes through the process of formally committing to, assessing, defining, implementing, measuring and communicating a corporate sustainability strategy. The model draws on widely accepted and understood management practices, and is designed to maximize corporate sustainability performance.</p>",
+        "image": "https://www.unglobalcompact.org/system/resources/images/231/show@2x/resource_preview_231.png?1386640367"
+      },
+      {
+        "url": "/library/305",
+        "title": "Basic Guide to the Communication on Progress",
+        "type": "none",
+        "blurb": "<p>Provides an overview of the minimum requirements of the Communication on Progress. The guide includes practical suggestions and examples grounded in best practices from participating companies.</p>",
+        "image": "https://www.unglobalcompact.org/system/resources/images/305/show@2x/resource_preview_305.png?1386640476"
+      },
+      {
+        "url": "/library/306",
+        "title": "Making the Connection - Using GRI?<80><99>s Guidelines to Create a COP",
+        "type": "none",
+        "blurb": "<p>Describes how to use the GRI Sustainability Reporting Guidelines to prepare a Communication on Progress (COP). It addresses how to fulfill the elements of the GC Active and GC Advanced levels of the UN Global Compact differentiation programme, how to meet the requirements to be 'in accordance' with G4, and includes detailed cross-referencing between GRI indicators and GC Advanced criteria.</p>",
+        "image": "https://www.unglobalcompact.org/system/resources/images/306/show@2x/resource_preview_306.png?1399995876"
+      }
+    ]
+  }
+}

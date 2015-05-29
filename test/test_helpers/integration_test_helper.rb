@@ -9,6 +9,8 @@ module IntegrationTestHelper
       'action_detail_with_all_data.json'
     when :engage_locally
       'engage_locally_with_all_data.json'
+    when :list
+      'list_with_all_data.json'
     else
       return nil
     end
