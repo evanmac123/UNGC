@@ -18,7 +18,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     @events,@news = create_event_news_component_data
 
     container.create_public_payload(
-      container_id: container.id,
+      container_id: container.id, # FIXME: container_id should not have to be set manually
       json_data: payload.to_json
     )
     container.save
