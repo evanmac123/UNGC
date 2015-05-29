@@ -46,6 +46,10 @@ class ActionDetailPageTest < ActionDispatch::IntegrationTest
     assert_render_tied_principles_component @data[:principles], 3
   end
 
+  should 'render header' do
+    assert_select '.main-content-header', @data[:action_detail_block][:title]
+  end
+
   should 'render content' do
     # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
     assert_select '.main-content-body-content', ActionView::Base.full_sanitizer.sanitize(@data[:action_detail_block][:content])

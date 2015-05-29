@@ -40,6 +40,10 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
     assert_render_hero_component @data[:hero]
   end
 
+  should 'render header' do
+    assert_select '.main-content-header', @data[:article_block][:title]
+  end
+
   should 'render content' do
     # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
     assert_select '.main-content-body', ActionView::Base.full_sanitizer.sanitize(@data[:article_block][:content])
