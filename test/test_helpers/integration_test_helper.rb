@@ -163,7 +163,7 @@ module IntegrationTestHelper
         assert_select '.future-events .event', 3 do |events|
           events.each_with_index do |event, index|
             assert_equal event.attributes['href'].value, redesign_event_path(equality[:events][index])
-            # assert_select 'time', equality[:events][index].starts_at # Error: assert_select: I don't understand what you're trying to match.
+            assert_select 'time', equality[:events][index].starts_at.strftime('%d-%b-%Y')
             assert_select 'address', equality[:events][index].full_location
             assert_select 'h2', equality[:events][index].title
           end
@@ -178,7 +178,7 @@ module IntegrationTestHelper
         assert_select '.news-items .news-item' do |news_items|
           news_items.each_with_index do |news_item, index|
             assert_equal news_item.attributes['href'].value, redesign_news_path(equality[:news][index])
-            # assert_select 'time', equality[:news][index].date # Error: assert_select: I don't understand what you're trying to match.
+            assert_select 'time', equality[:news][index].published_on.strftime('%Y-%m-%d')
             assert_select 'address', equality[:news][index].location
             assert_select 'h2', equality[:news][index].title
           end
