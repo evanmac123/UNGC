@@ -1,15 +1,28 @@
 #hero
   position: relative
-  padding: 14em 0 6em
   background: lighten(color('pastel-blue'), 15%) url('https://d306pr3pise04h.cloudfront.net/images/hero/world.png') no-repeat
     position: top center
     size: cover
-  min-height: 40em
   +font-smoothing(antialiased)
 
-  &.hero-size-small
+  .wrapper
+    min-height: 40em
+    padding: 14em 0 6em
+
+    @media only screen and (min-width: 1281px)
+      min-height: 46em
+      padding: 18em 0 8em
+
+  *
+    position: relative
+    z-index: 2
+
+  &.hero-size-small .wrapper
     min-height: 0
     padding-top: 13em
+
+    @media only screen and (min-width: 1281px)
+      padding-top: 16em
 
   &.dark-theme
     background-color: #111
@@ -17,13 +30,12 @@
   &.light-theme
     background-color: #ccc
 
-  &.has-issues-nav,
-  &.has-regions-nav
+  &.has-issues-nav .wrapper,
+  &.has-regions-nav .wrapper
     padding-bottom: 8em
 
-  *
-    position: relative
-    z-index: 2
+    @media only screen and (min-width: 1281px)
+      padding-bottom: 10em
 
   &.has-custom-image
     background-position: center center
