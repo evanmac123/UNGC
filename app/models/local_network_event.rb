@@ -79,7 +79,9 @@ class LocalNetworkEvent < ActiveRecord::Base
   end
 
   def extract_attachment_content
-    self.file_content = attachments.map { |uploaded_file| FileTextExtractor.extract(uploaded_file) }.join("\n")
+    str = attachments.map { |uploaded_file| FileTextExtractor.extract(uploaded_file) }.join("\n")
+    str.slice!(65530..-1) # edit str in place
+    self.file_content = str
   end
 
   def update_indexed_fields
