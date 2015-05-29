@@ -18,6 +18,11 @@ module IntegrationTestHelper
     JSON.parse(File.read(Rails.root + 'test/fixtures/pages/'+filename))
   end
 
+  def assert_select_html(selector, equality)
+    # XXX: Equality as HTML must be sanitized because assert_select also sanitizes and removes HTML tags.
+    assert_select selector, ActionView::Base.full_sanitizer.sanitize(equality)
+  end
+
   def update_contact_with_image(contact)
     contact.update(image: fixture_file_upload('files/untitled.jpg', 'image/jpeg'))
     contact

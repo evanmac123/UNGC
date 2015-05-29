@@ -42,7 +42,7 @@ class ListPageTest < ActionDispatch::IntegrationTest
 
   should 'render content list' do
     assert_select '.content-list' do
-      assert_select '.main-content-blurb', ActionView::Base.full_sanitizer.sanitize(@data[:list_block][:blurb])
+      assert_select_html '.main-content-blurb', @data[:list_block][:blurb]
       assert_select '.content-list-item' do |items|
         items.each_with_index do |item, index|
           assert_select item, '.image-link', href: @data[:list_block][:items][index][:url]
@@ -51,7 +51,7 @@ class ListPageTest < ActionDispatch::IntegrationTest
           assert_select item, '.content-list-item-content-wrapper' do
             assert_select 'h1 a', @data[:list_block][:items][index][:title]
             assert_select 'h1 a', href: @data[:list_block][:items][index][:url]
-            assert_select '.blurb', ActionView::Base.full_sanitizer.sanitize(@data[:list_block][:items][index][:blurb])
+            assert_select_html '.blurb', @data[:list_block][:items][index][:blurb]
           end
         end
       end

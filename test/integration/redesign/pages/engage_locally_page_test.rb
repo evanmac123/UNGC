@@ -46,8 +46,7 @@ class EngageLocallyPageTest < ActionDispatch::IntegrationTest
   end
 
   should 'render content' do
-    # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
-    assert_select '.main-content-body-content', ActionView::Base.full_sanitizer.sanitize(@data[:content_block][:content])
+    assert_select_html '.main-content-body-content', @data[:content_block][:content]
   end
 
   should 'render links list widgets components' do

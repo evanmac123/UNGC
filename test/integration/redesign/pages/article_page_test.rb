@@ -45,8 +45,7 @@ class ArticlePageTest < ActionDispatch::IntegrationTest
   end
 
   should 'render content' do
-    # XXX: Content must be sanitized because assert_select also sanitizes and removes HTML tags.
-    assert_select '.main-content-body', ActionView::Base.full_sanitizer.sanitize(@data[:article_block][:content])
+    assert_select_html '.main-content-body', @data[:article_block][:content]
   end
 
   should 'render sidebar widgets components' do
