@@ -20,6 +20,16 @@ class Redesign::Searchable < ActiveRecord::Base
       end
     end
 
+    def index(model)
+      searchable = new_searchable(model)
+      if searchable.url_changed?
+        if record = find_by(document_type: searchable.document_type,
+                            url: searchable.url_was)
+          record.update_attributes(searchable.attributes)
+        end
+      end
+    end
+
     def remove(model)
       searchable = new_searchable(model)
       where(document_type: searchable.document_type, url: searchable.url).destroy_all

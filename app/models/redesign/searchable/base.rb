@@ -20,6 +20,14 @@ class Redesign::Searchable::Base
     raise 'must implement'
   end
 
+  def url_was
+    raise 'must implement'
+  end
+
+  def url_changed?
+    false
+  end
+
   def document_type
     raise 'must implement'
   end

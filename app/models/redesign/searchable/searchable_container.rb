@@ -18,6 +18,14 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
     container.path
   end
 
+  def url_was
+    container.path_was
+  end
+
+  def url_changed?
+    container.path_changed?
+  end
+
   def content
     strip_tags extract_values(container.payload.data).reject(&:blank?).join(' ')
   end

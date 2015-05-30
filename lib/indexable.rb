@@ -10,6 +10,10 @@ module Indexable
     end
 
     receiver.class_eval do
+      before_save do
+        Redesign::Searchable.index(self)
+      end
+
       before_destroy do
         Redesign::Searchable.remove(self)
         Searchable.public_send(method, self)
