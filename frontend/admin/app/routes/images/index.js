@@ -14,7 +14,7 @@ export default Ember.Route.extend(RouteMixin, {
 
   actions: {
     search(query) {
-      const controller = this.controllerFor('images');
+      const controller = this.controllerFor('images.index');
       // TODO: optimize, because of the pagination plugin
       // if we're not on page 1 we run two queries
 

@@ -35,6 +35,8 @@ class Components::News
     case news_type
     when :announcement
       scoped = scoped.announcement
+    when :press_release
+      scoped = scoped.press_release
     end
     scoped.order('published_on desc').limit(9)
   end

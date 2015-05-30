@@ -32,7 +32,7 @@ UNGC::Application.routes.draw do
           get :issues, on: :collection
           get :sectors, on: :collection
         end
-        resources :images, only: [:index, :create, :signed_url, :destroy] do
+        resources :images do
           post :signed_url, on: :collection
         end
         resources :resources, only: [:index]
@@ -118,6 +118,7 @@ UNGC::Application.routes.draw do
     get '/search'   => 'search#search',     as: :search
 
     get '/'         => 'static#home',       as: :root
+    get '/404'      => 'static#not_found',  as: :not_found
     get '*path'     => 'static#catch_all',  as: :catch_all
   end
 
