@@ -61,10 +61,19 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
   end
 
   should "should replace the searchable when the container changes path" do
+    # create and index a container
     container = create_published_contaner
     Redesign::Searchable.index_all
+
+    # update the path and re-index
     container.update_attribute(:path, '/new/path')
-    skip
+    Redesign::Searchable.index_all
+
+    # there should be a searchable with the new path
+    assert_not_nil Redesign::Searchable.find_by(url: '/new/path')
+
+    # there should no longer be a searchable with the old path
+    assert_nil Redesign::Searchable.find_by(url: '/one/two/three')
   end
 
   private
