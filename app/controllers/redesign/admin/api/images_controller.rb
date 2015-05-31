@@ -15,15 +15,27 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
     if image.valid?
       render nothing: true, status: 201
     else
-      render_json image.error, status: 422
+      render_json image.errors, status: 422
+    end
+  end
+
+  def update
+    image = UploadedImage.find(params[:id])
+
+    if image.update_attributes(image_params)
+      render nothing: true, status: 204
+    else
+      render_json image.errors, status: 422
     end
   end
 
   def index
-    serialized = scoped_images.map do |i|
-      {id: i.id, url: i.url, filename: i.filename }
-    end
-    render json: { images: serialized, meta: {total_pages: scoped_images.total_pages} }
+    render json: { images: scoped_images.map(&method(:serialize)), meta: {total_pages: scoped_images.total_pages} }
+  end
+
+  def show
+    image = UploadedImage.find(params[:id])
+    render json: { image: serialize(image) }
   end
 
   def destroy
@@ -34,8 +46,20 @@ class Redesign::Admin::Api::ImagesController < Redesign::Admin::ApiController
 
   private
 
+  def serialize(image)
+    {
+      id: image.id,
+      url: image.url,
+      filename: image.filename,
+      licensing: image.licensing,
+      has_licensing: image.has_licensing
+    }
+  end
+
   def image_params
-    params.fetch(:image).permit(:url, :filename)
+    params.fetch(:image).permit(:url, :filename, :has_licensing).tap do |whitelisted|
+      whitelisted[:licensing] = params[:image][:licensing]
+    end
   end
 
   def scoped_images

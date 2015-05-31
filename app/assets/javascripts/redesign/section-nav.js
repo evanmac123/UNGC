@@ -18,9 +18,6 @@ $(function() {
     }
   };
 
-  var openContainer = function() {
-  };
-
   toggleContainer();
 
   $container.addClass('is-ready');

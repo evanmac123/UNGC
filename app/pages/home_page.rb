@@ -16,6 +16,6 @@ class HomePage < ContainerPage
   end
 
   def news
-    Components::News.new(@data, news_type: :announcement)
+    Components::News.new(@data, news_type: :press_release)
   end
 end

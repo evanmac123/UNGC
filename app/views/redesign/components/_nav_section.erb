@@ -3,20 +3,22 @@
   <%- nav = @page.section_nav %>
 
   <article id='section-nav-container'>
-    <%= content_tag(:h1, link_to_redesign(nav.parent.title, nav.parent.path)) if nav.parent %>
-    <ul class='section-nav-siblings'>
-      <%- nav.siblings.each do |sibling| -%>
-        <li>
-          <%= link_to_redesign(sibling.title, sibling.path, class: "#{"current" if sibling.is_current}") %>
-          <%- if sibling.is_current -%>
-            <ul class='section-nav-children'>
-              <%- nav.children.each do |child| -%>
-                <li><%= link_to_redesign(child.title, child.path) -%></li>
-              <%- end -%>
-            </ul>
-          <%- end -%>
-        </li>
-      <%- end -%>
-    </ul>
+    <div>
+      <%= content_tag(:h1, link_to_redesign(nav.parent.title, nav.parent.path)) if nav.parent %>
+      <ul class='section-nav-siblings'>
+        <%- nav.siblings.each do |sibling| -%>
+          <li>
+            <%= link_to_redesign(sibling.title, sibling.path, class: "#{"current" if sibling.is_current}") %>
+            <%- if sibling.is_current && nav.children.any? -%>
+              <ul class='section-nav-children'>
+                <%- nav.children.each do |child| -%>
+                  <li><%= link_to_redesign(child.title, child.path) -%></li>
+                <%- end -%>
+              </ul>
+            <%- end -%>
+          </li>
+        <%- end -%>
+      </ul>
+    </div>
   </article>
 </nav>
