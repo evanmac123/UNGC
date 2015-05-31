@@ -22,7 +22,7 @@ class Redesign::Searchable::SearchableResource < Redesign::Searchable::Base
   end
 
   def meta
-    resource.taggings.map(&:content)
+    resource.taggings.map(&:content).join(' ')
   end
 
 end

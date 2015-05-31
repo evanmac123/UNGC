@@ -24,7 +24,7 @@ class Redesign::Searchable::SearchableHeadline < Redesign::Searchable::Base
   end
 
   def meta
-    headline.taggings.map(&:content)
+    headline.taggings.map(&:content).join(' ')
   end
 
 end

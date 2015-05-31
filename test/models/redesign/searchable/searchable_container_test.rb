@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
+  include SearchableModelTests
+  include SearchableTagTests
 
   should "not include a container with only a draft_payload" do
     create_container
@@ -85,6 +87,8 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
   def published_container(*args)
     @published_container ||= create_published_contaner(*args)
   end
+
+  alias_method :subject, :published_container
 
   def create_published_contaner(params: nil, data: nil)
     params ||= {

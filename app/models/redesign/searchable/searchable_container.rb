@@ -31,7 +31,7 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
   end
 
   def meta
-    container.taggings.map(&:content)
+    container.taggings.map(&:content).join(' ')
   end
 
   private
