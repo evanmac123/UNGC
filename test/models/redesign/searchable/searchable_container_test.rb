@@ -49,7 +49,8 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
         "<script>alert('hax');</script>",
         {key: "nested-hash-value"},
       ],
-      hmm: 12345
+      hmm: 12345,
+      key_with_no_value: nil,
     }
     searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
     assert_equal 'meta_title baseball apple orange banana  nested-hash-value 12345', searchable.content

@@ -37,18 +37,15 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
   private
 
   def extract_values(input)
-    input.flat_map do |key_or_value, value|
-      if value.present?
-        extract_value(value)
-      else
-        extract_value(key_or_value)
+    case
+    when input.is_a?(Hash)
+      input.flat_map do |k, v|
+        extract_values(v)
       end
-    end
-  end
-
-  def extract_value(input)
-    if input.respond_to?(:flat_map)
-      extract_values(input)
+    when input.is_a?(Array)
+      input.flat_map do |v|
+        extract_values(v)
+      end
     else
       input.to_s
     end
