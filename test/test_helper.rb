@@ -7,6 +7,9 @@ require 'rails/test_help'
 require 'capybara/rails'
 require 'mocha/setup'
 
+# include helpers, modules etc
+Dir[Rails.root.join("test/support/**/*")].each { |f| require f }
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   #
