@@ -7,7 +7,7 @@
 <% end %>
 
 <% @results.each do |result| %>
-  <%= link_to result.excerpts.title, result.url %><br/>
+  <%= link_to_redesign result.excerpts.title, result.url %><br/>
   <p><%= raw result.excerpts.content %></p>
 <% end %>
 
