@@ -46,12 +46,13 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
         "apple",
         "orange",
         "banana",
-        "<script>alert('hax');</script>"
+        "<script>alert('hax');</script>",
+        {key: "nested-hash-value"},
       ],
       hmm: 12345
     }
     searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
-    assert_equal 'meta_title baseball apple orange banana  12345', searchable.content
+    assert_equal 'meta_title baseball apple orange banana  nested-hash-value 12345', searchable.content
   end
 
   should "delete the searchable when the Container is deleted" do
