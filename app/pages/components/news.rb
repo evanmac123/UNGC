@@ -31,7 +31,7 @@ class Components::News
   private
 
   def scoped
-    scoped = Headline
+    scoped = Headline.published.includes(:country)
     case news_type
     when :announcement
       scoped = scoped.announcement
