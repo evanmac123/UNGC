@@ -14,7 +14,7 @@ class Redesign::Searchable::SearchableCommunicationOnProgress < Redesign::Search
   end
 
   def url
-    show_redesign_cops_path(type: cop.cop_type, id: cop.id)
+    show_redesign_cops_path(differentiation: cop.differentiation_level_with_default, id: cop.id)
   end
 
   def content
