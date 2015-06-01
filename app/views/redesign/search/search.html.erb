@@ -6,6 +6,12 @@
 
 <% end %>
 
+<ul class="search_facets">
+  <%- @search.matched_facets.each do |facet| -%>
+    <li><%= link_to facet.name, facet.merge_params_into(params, :search) %></li>
+  <%- end %>
+</ul>
+
 <% @results.each do |result| %>
   <%= link_to_redesign result.excerpts.title, result.url %><br/>
   <p><%= raw result.excerpts.content %></p>
