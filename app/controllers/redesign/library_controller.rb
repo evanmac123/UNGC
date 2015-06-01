@@ -9,7 +9,7 @@ class Redesign::LibraryController < Redesign::ApplicationController
 
   def show
     resource = Resource.
-      includes([issues: [:parent], sectors: [:parent], topics: [:parents], links: [:language]])
+      includes([issues: [:parent], sectors: [:parent], topics: [:parent], links: [:language]])
       .find(params[:id])
     @resource = LibraryDetailPresenter.new(resource)
   end
