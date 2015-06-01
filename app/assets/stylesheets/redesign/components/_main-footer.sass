@@ -5,6 +5,10 @@
   color: white
   +font-smoothing(antialiased)
 
+  @media only screen and (max-width: 880px)
+    > .wrapper
+      padding: 0 10px
+
   a
     color: inherit
 
@@ -18,15 +22,35 @@
 
   .column
     float: left
-    width: 26.666%
-    margin: 0 1.5%
+    width: 31%
+    margin: 0 1.75%
 
     &:first-of-type
-      margin-left: 7%
+      margin-left: 0
 
     &:last-of-type
       float: right
-      margin-right: 7%
+      margin-right: 0
+
+    @media only screen and (min-width: 881px)
+      width: 28%
+      margin: 0 1.5%
+
+      &:first-of-type
+        margin-left: 5%
+
+      &:last-of-type
+        margin-right: 5%
+
+    @media only screen and (min-width: 1001px)
+      width: 26.666%
+      margin: 0 1.5%
+
+      &:first-of-type
+        margin-left: 7%
+
+      &:last-of-type
+        margin-right: 7%
 
     @media only screen and (min-width: 1281px)
       width: 30%
@@ -111,3 +135,6 @@
     &:hover,
     &:active
       color: color('light-teal')
+
+  iframe.twitter-timeline-rendered
+    width: 100% !important

@@ -1,8 +1,8 @@
 #issues-nav
   position: absolute
   list-style: none
-  left: 7%
-  right: 7%
+  left: 0
+  right: 0
   bottom: 1px
   padding: 0
   margin: 0
@@ -12,9 +12,13 @@
     size: 1.375em
   +clearfix
 
-  @media only screen and (min-width: 1281px)
-    left: 0
-    right: 0
+  @media only screen and (min-width: 881px) and (max-width: 1000px)
+    left: 5%
+    right: 5%
+
+  @media only screen and (min-width: 1001px) and (max-width: 1280px)
+    left: 7%
+    right: 7%
 
   li
     float: left
