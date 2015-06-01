@@ -12,7 +12,8 @@ class Redesign::Searchable < ActiveRecord::Base
       end
     end
 
-    def index_since(cutoff)
+    def index_new_or_updated(cutoff = nil)
+      cutoff ||= maximum(:last_indexed_at)
       searchables.each do |searchable|
         searchable.since(cutoff).each do |model|
           import(searchable.new(model))
