@@ -45,13 +45,20 @@ class Redesign::Searchable::Base
   end
 
   def attributes
+    Rails.logger.warn 'Stripping /redesign url prefixes'
     {
-      url: url,
+      url: remove_redesign_prefix(url),
       document_type: document_type,
       title: title,
       content: content,
       meta: meta
     }
+  end
+
+  private
+
+  def remove_redesign_prefix(url)
+    url.sub(/^\/redesign/, '')
   end
 
 end
