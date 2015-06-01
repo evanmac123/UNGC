@@ -169,7 +169,9 @@ module IntegrationTestHelper
     end
 
     news = Array.new(3) do
-      create_headline
+      news_item = create_headline
+      news_item.approve!
+      news_item
     end
 
     [events,news]
