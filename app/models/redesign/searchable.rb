@@ -23,6 +23,8 @@ class Redesign::Searchable < ActiveRecord::Base
 
     def index(model)
       searchable = new_searchable(model)
+      return if searchable.nil?
+
       if searchable.url_changed?
         if record = find_by(document_type: searchable.document_type,
                             url: searchable.url_was)
@@ -33,14 +35,17 @@ class Redesign::Searchable < ActiveRecord::Base
 
     def remove(model)
       searchable = new_searchable(model)
+      return if searchable.nil?
+
       where(document_type: searchable.document_type, url: searchable.url).destroy_all
     end
 
     private
 
     def new_searchable(model)
-      searchable_class = searchable_map.fetch(model.class)
-      searchable_class.new(model)
+      if searchable_class = searchable_map[model.class]
+        searchable_class.new(model)
+      end
     end
 
     def import(searchable)
@@ -56,6 +61,9 @@ class Redesign::Searchable < ActiveRecord::Base
     end
 
     def searchable_map
+      # TODO
+      # Ideally classes that include Indexable would register themselves instead of
+      # this hardcoded map
       @searchable_map ||= {
         CommunicationOnProgress => Redesign::Searchable::SearchableCommunicationOnProgress,
         Redesign::Container => Redesign::Searchable::SearchableContainer,
