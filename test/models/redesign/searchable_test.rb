@@ -15,7 +15,7 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
 
   should "index new searchables" do
     assert_difference 'Redesign::Searchable.count', 1 do
-      Redesign::Searchable.index_since(:some_date)
+      Redesign::Searchable.index_new_or_updated
     end
   end
 
