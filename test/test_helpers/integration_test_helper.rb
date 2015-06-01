@@ -11,6 +11,8 @@ module IntegrationTestHelper
       'engage_locally_with_all_data.json'
     when :list
       'list_with_all_data.json'
+    when :accordion
+      'accordion_with_all_data.json'
     else
       return nil
     end
@@ -18,9 +20,19 @@ module IntegrationTestHelper
     JSON.parse(File.read(Rails.root + 'test/fixtures/pages/'+filename))
   end
 
-  def assert_select_html(selector, equality)
-    # XXX: Equality as HTML must be sanitized because assert_select also sanitizes and removes HTML tags.
-    assert_select selector, ActionView::Base.full_sanitizer.sanitize(equality)
+  def assert_select_html(element=nil, selector=nil, equality=nil)
+    # FIXME: We've hacked this helper to add the element argument. The way it's written though could be better.
+    # Looking at how Rails implements assert_select may be insightful:
+    # https://github.com/rails/rails-dom-testing/blob/master/lib/rails/dom/testing/assertions/selector_assertions.rb#L164
+
+    if equality
+      # XXX: Equality as HTML must be sanitized because assert_select also sanitizes and removes HTML tags.
+      assert_select element, selector, ActionView::Base.full_sanitizer.sanitize(equality)
+    else
+      selector,equality = [element,selector]
+      # XXX: Equality as HTML must be sanitized because assert_select also sanitizes and removes HTML tags.
+      assert_select selector, ActionView::Base.full_sanitizer.sanitize(equality)
+    end
   end
 
   def update_contact_with_image(contact)
