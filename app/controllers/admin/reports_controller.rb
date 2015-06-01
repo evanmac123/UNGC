@@ -90,11 +90,6 @@ class Admin::ReportsController < AdminController
     render_report(report, "local_networks_all_contacts_#{date_as_filename}.xls")
   end
 
-  def local_networks_report_recipients
-    report = LocalNetworksReportRecipients.new
-    render_report(report, "local_networks_report_recipients_#{date_as_filename}.xls")
-  end
-
   def local_networks_events
     report = LocalNetworksEvents.new
     render_report(report, "local_networks_events_#{date_as_filename}.xls")

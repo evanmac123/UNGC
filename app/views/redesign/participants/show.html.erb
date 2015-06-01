@@ -124,8 +124,7 @@
               <tr>
                 <th><%= cop.year %></th>
                 <td><%= cop.published_on %></td>
-                <%- level = cop.differentiation.blank? ? :detail : cop.differentiation -%>
-                <td><%= link_to cop.title, show_redesign_cops_path(level, cop.id) %></td>
+                <td><%= link_to cop.title, show_redesign_cops_path(cop.differentiation_level_with_default, cop.id) %></td>
                 <td><%= cop.differentiation_level_name %></td>
               </tr>
             <% end %>

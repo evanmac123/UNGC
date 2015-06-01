@@ -8,7 +8,16 @@ export default Ember.Route.extend({
   actions: {
     back() {
       this.transitionTo('images.index');
-    }
+    },
+
+    save(image) {
+      image.save().then( () => {
+        this.get('flashMessages').success('Image Saved!');
+      }, (error) => {
+        this.get('flashMessages').danger(error.statusText);
+        throw error.toString();
+      });
+    },
   }
 
 });

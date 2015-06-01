@@ -18,7 +18,7 @@ class Redesign::NewsController < Redesign::ApplicationController
   private
     def find_headline
       id = headline_id_from_permalink
-      Headline.published.find(id)
+      Headline.published.includes(:country).find(id)
     end
 
     def headline_id_from_permalink

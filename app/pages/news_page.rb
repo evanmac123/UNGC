@@ -17,11 +17,11 @@ class NewsPage < ContainerPage
   end
 
   def featured
-    Headline.approved.order('published_on desc').limit(1).first
+    scoped.order('published_on desc').limit(1).first
   end
 
   def other
-    Headline.approved.order('published_on desc').offset(1).limit(2)
+    scoped.order('published_on desc').offset(1).limit(2)
   end
 
   def sidebar_widgets
@@ -34,6 +34,12 @@ class NewsPage < ContainerPage
 
   def resources
     Components::Resources.new(@data).data
+  end
+
+  private
+
+  def scoped
+    Headline.approved.includes(:country)
   end
 
 end

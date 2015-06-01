@@ -43,7 +43,7 @@ class Components::Events
   end
 
   def scoped
-    scoped = Event.approved
+    scoped = Event.approved.includes(:country)
     case tier
     when :tier1
       scoped = scoped.tier1
