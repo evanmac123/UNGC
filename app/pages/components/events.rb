@@ -51,4 +51,3 @@ class Components::Events
     scoped
   end
 end
-

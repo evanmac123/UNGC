@@ -45,7 +45,7 @@ module FixtureReplacement
   attributes_for :contact do |c|
     c.first_name = FixtureReplacement.random_string
     c.last_name = FixtureReplacement.random_string
-    c.prefix = FixtureReplacement.random_string
+    c.prefix = %w{Mr. Ms. Mrs.}[rand(3)]
     c.job_title = FixtureReplacement.random_string
     c.phone = FixtureReplacement.random_string
     c.address = FixtureReplacement.random_string
