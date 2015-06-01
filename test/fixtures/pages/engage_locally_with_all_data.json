@@ -1,0 +1,63 @@
+{
+  "meta_tags": {
+    "title": "Engage Locally",
+    "description": "Companies face unique challenges to operating responsibly...",
+    "thumbnail": "engage",
+    "label": "topic",
+    "keywords": "engagement, challenges, responsiblity"
+  },
+  "taggings": {
+    "issues": [],
+    "topics": [],
+    "sectors": []
+  },
+  "hero": {
+    "image": "https://d306pr3pise04h.cloudfront.net/uploads/df/df249f63c1331149e1425a2588fed33eccd508a3---globe.jpg",
+    "theme": "none",
+    "title": {
+      "title1": "A Local Lens",
+      "title2": "for Global Change"
+    },
+    "blurb": "A Local Lens for Global Change"
+  },
+  "content_block": {
+    "title": "Engage Locally",
+    "content": "<p>On the ground, companies face unique challenges to operating responsibly and have different opportunities to make a positive impact. Companies with operations and supply chains extending around the world need to understand locations far from headquarters and view sustainability through a local lens.</p><p>Our Global Compact Local Networks advance the initiative and its Ten Principles at the country level. They help companies understand what responsible business means within different national, cultural and language contexts and facilitate outreach, learning, policy dialogue, collective action and partnerships. Through our networks, companies can make local connections – with other businesses and stakeholders from NGOs, government and academia – and receive guidance to put their sustainability commitments into action.</p><p>While Local Networks are independent, self-governed and self-managed entities, they work closely with the UN Global Compact in New York and act as a point of contact for UN Global Compact signatories in a country.</p>"
+  },
+  "widget_contact": {
+    "contact_id": null
+  },
+  "widget_calls_to_action": [
+    {
+      "label": "Act Now",
+      "url": "//unglobalcompact.org/act-now",
+      "external": false
+    },
+    {
+      "label": "Share Your Story",
+      "url": "//unglobalcompact.org/share-story",
+      "external": false
+    }
+  ],
+  "widget_links_lists": null,
+  "resources": [],
+  "related_contents": [
+    {
+      "title": "Related Content",
+      "content_boxes": [
+        {
+          "container_path": "/related-content/1",
+          "related_type": "container"
+        },
+        {
+          "container_path": "/related-content/2",
+          "related_type": "container"
+        },
+        {
+          "container_path": "/related-content/3",
+          "related_type": "container"
+        }
+      ]
+    }
+  ]
+}

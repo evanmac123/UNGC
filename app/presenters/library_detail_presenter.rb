@@ -1,8 +1,4 @@
 class LibraryDetailPresenter < SimpleDelegator
-  def placeholder_data
-    'place fake data here if you want.'
-  end
-
   def links_list
     self.links.map do |l|
       LinkPresenter.new(l)

@@ -3,10 +3,11 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   //default actions
   back: 'back',
+  save: 'save',
 
   actions: {
     save(image) {
-      image.save();
+      this.sendAction('save', image);
     },
     back() {
       this.sendAction('back');

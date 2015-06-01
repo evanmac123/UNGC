@@ -31,7 +31,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   end
 
   def execute
-    events = Event.approved.order('starts_at asc')
+    events = Event.approved.includes(:country).order('starts_at asc')
 
     if countries.any?
       events = events.where('events.country_id in (?)', countries)

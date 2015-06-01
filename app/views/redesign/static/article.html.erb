@@ -24,7 +24,7 @@
   </section>
 <%- end -%>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'resources', title: 'From our Library', blocks: @page.resources} do |block| %>
   <%= render 'redesign/components/resource_block', block: block %>
 <% end %>
 

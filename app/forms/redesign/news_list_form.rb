@@ -26,7 +26,7 @@ class Redesign::NewsListForm < Redesign::FilterableForm
   end
 
   def execute
-    headlines = Headline.approved.order('published_on desc')
+    headlines = Headline.approved.includes(:country).order('published_on desc')
 
     if countries.any?
       headlines = headlines.where('headlines.country_id in (?)', countries)

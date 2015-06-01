@@ -1,0 +1,112 @@
+{
+  "meta_tags": {
+    "title": "Join the CEO Water Mandate",
+    "description": "As a UN Global Compact participant...",
+    "thumbnail": "https://d306pr3pise04h.cloudfront.net/uploads/6d/6d5c343fa3ef432b6a32fd0b0ec069bd7e936866---river_s.jpg",
+    "label": "commit",
+    "keywords": "water, mandate, sanitation",
+    "content_type": 2
+  },
+  "taggings": {
+    "issues": [],
+    "topics": [],
+    "sectors": []
+  },
+  "hero": {
+    "image": "https://d306pr3pise04h.cloudfront.net/uploads/0c/0cb8bffa357b53fa13ddd99ba99e1e9b83d755ad---river.jpg",
+    "theme": "none",
+    "title": {
+      "title1": "Adopting water stewardship practices",
+      "title2": "in your business"
+    },
+    "blurb": "Adopting water stewardship practices in your business"
+  },
+  "principles": [
+    {
+      "principle": 7
+    },
+    {
+      "principle": 8
+    },
+    {
+      "principle": 9
+    }
+  ],
+  "action_detail_block": {
+    "title": "Join the CEO Water Mandate",
+    "content": "<p>As a UN Global Compact participant, you understand the critical need to ensure access to water and sanitation around the world. To help your business adopt better water stewardship practices, we invite you to join the CEO Water Mandate.<\/p><h3>How the CEO Water Mandate can help your company<\/h3><p>The CEO Water Mandate can assist you in developing, implementing and disclosing your water sustainability policies and practices. It will enable your company to share best and emerging practices and to forge multi-stakeholder partnerships to address the problems of access to water and sanitation. <\/p><h3>Six Core Elements of the CEO Water Mandate<\/h3><ol><li>Direct Operations<\/li><li>Supply Chain and Watershed Management<\/li><li>Collective Action<\/li><li>Public Policy<\/li><li>Community Engagement<\/li><li>Transparency<\/li><\/ol><p>Endorsing the CEO Water Mandate gives you the opportunity to contribute to the vision of the UN Global Compact and the realization of sustainable development. The Mandate is an initiative of the UN Global Compact ?<80><93> implemented in partnership with the Pacific Institute ?<80><93> and is a special programme of the UN Secretary-General.<\/p><h3>How to join<\/h3><p><strong>Requirements:<\/strong><\/p><ol><li>Your company must be a UN Global Compact participant or intend to become one within six months<\/li><li>Your CEO or equivalent must commit to the Mandate?<80><99>s six core elements<\/li><li>You?<80><99>ll need to report annually on progress toward these elements<\/li><\/ol><p>To learn more about joining the CEO Water Mandate, see <a href=\\\"http:\/\/www.ceowatermandate.org\/join-us\\\">visit the CEO Water Mandate website<\/a>.<\/p>"
+  },
+  "widget_contact": {
+    "contact_id": null
+  },
+  "widget_calls_to_action": [
+    {
+      "label": "Learn more",
+      "url": "http://ceowatermandate.org/",
+      "external": true
+    },
+    {
+      "label": "Share Your Story",
+      "url": "/take-action/action/share-story",
+      "external": null
+    }
+  ],
+  "widget_links_lists": [
+    {
+      "title": "Background",
+      "links": [
+        {
+          "label": "Why Corporate Water Stewardship?",
+          "url": "http://ceowatermandate.org/business-case/",
+          "external": true
+        },
+        {
+          "label": "UN Water",
+          "url": "http://www.unwater.org/",
+          "external": true
+        },
+        {
+          "label": "The Pacific Institute",
+          "url": "www.pacinst.org",
+          "external": true
+        },
+        {
+          "label": "Post-2015 Agenda Executive Briefs",
+          "url": "/library/1401",
+          "external": null
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "related_contents": [
+    {
+      "title": "Related Content",
+      "content_boxes": [
+        {
+          "container_path": "/related-content/1",
+          "related_type": "container"
+        },
+        {
+          "container_path": "/related-content/2",
+          "related_type": "container"
+        },
+        {
+          "container_path": "/related-content/3",
+          "related_type": "container"
+        }
+      ]
+    }
+  ],
+  "initiative": {
+    "initiative_id": null
+  },
+  "partners": [
+    {
+      "name": "Pacific Institute",
+      "logo": "https://d306pr3pise04h.cloudfront.net/uploads/f8/f8cab2b35b4be2cf153e07e22cd548f35e654ef8---Pacific Institute logo.png",
+      "url": "http://pacinst.org/",
+      "external": true
+    }
+  ]
+}
