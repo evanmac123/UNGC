@@ -8,7 +8,10 @@ class Redesign::LibraryController < Redesign::ApplicationController
   end
 
   def show
-    @resource = LibraryDetailPresenter.new(Resource.find(params[:id]))
+    resource = Resource.
+      includes([issues: [:parent], sectors: [:parent], topics: [:parent], links: [:language]])
+      .find(params[:id])
+    @resource = LibraryDetailPresenter.new(resource)
   end
 
   def search

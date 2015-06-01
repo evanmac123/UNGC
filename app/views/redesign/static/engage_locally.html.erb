@@ -6,7 +6,9 @@
     <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
 
     <section class='main-content-body'>
-      <%= content[:content].html_safe if content[:content] %>
+      <div class="main-content-body-content">
+        <%= content[:content].html_safe if content[:content] %>
+      </div>
 
       <%= render 'redesign/components/widget_links_lists', links_lists: @page.main_content_links %>
     </section>
@@ -23,12 +25,12 @@
 <%- end -%>
 
 <%- @page.related_contents.each do |c| -%>
-  <%= render layout: 'redesign/components/content_blocks', locals: {title: c.title, blocks: c.boxes} do |block| %>
+  <%= render layout: 'redesign/components/content_blocks', locals: {classes: 'related-contents', title: c.title, blocks: c.boxes} do |block| %>
     <%= render 'redesign/components/content_block', title: block.title, url: block.url, thumbnail: block.thumbnail, tag: t(block.issue) %>
   <% end %>
 <%- end -%>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {title: 'From our Library', blocks: @page.resources} do |block| %>
+<%= render layout: 'redesign/components/content_blocks', locals: {classes: 'resources', title: 'From our Library', blocks: @page.resources} do |block| %>
   <%= render 'redesign/components/resource_block', block: block %>
 <% end %>
 

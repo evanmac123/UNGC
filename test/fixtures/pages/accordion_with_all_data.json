@@ -1,0 +1,81 @@
+{
+  "meta_tags": {
+    "title": "Accordion Page Fixture",
+    "description": "A test fixture for the accordion page.",
+    "thumbnail": "//thumbnail.jpg",
+    "label": "background",
+    "keywords": "accordion, page, fixture"
+  },
+  "hero": {
+    "image": "//hero.jpg",
+    "theme": "none",
+    "title": {
+      "title1": "Fixtures:",
+      "title2": "Making Testing Easier"
+    },
+    "blurb": "Fixtures: Making Testing Easier",
+    "show_section_nav": true
+  },
+  "accordion": {
+    "title": "Accordion Page Fixture",
+    "blurb": "<p>The HTML blurb.</p>",
+    "items": [
+      {
+        "title": "Accordion Item With Content but No Children",
+        "content": "<p>The HTML content.</p>",
+        "children": []
+      },
+      {
+        "title": "Accordion Item With Children but No Content",
+        "content": null,
+        "children": [
+          {
+            "title": "Child 1",
+            "content": "<p>The HTML content.</p>"
+          },
+          {
+            "title": "Child 2",
+            "content": "<p>The HTML content.</p>"
+          }
+        ]
+      }
+    ]
+  },
+  "widget_contact": {
+    "contact_id": null
+  },
+  "widget_calls_to_action": [
+    {
+      "label": "Act Now",
+      "url": "//unglobalcompact.org/act-now",
+      "external": false
+    }
+  ],
+  "widget_links_lists": [
+    {
+      "title": "Links List 1",
+      "links": [
+        {
+          "label": "Link 1",
+          "url": "//unglobalcompact.org/link-1",
+          "external": false
+        },
+        {
+          "label": "Link 2",
+          "url": "//unglobalcompact.org/link-2",
+          "external": false
+        }
+      ]
+    },
+    {
+      "title": "Links List 2",
+      "links": [
+      {
+        "label": "Link 3",
+        "url": "//unglobalcompact.org/link-3",
+        "external": false
+      }
+      ]
+    }
+  ]
+}

@@ -13,8 +13,7 @@ class Redesign::ParticipantsController < Redesign::ApplicationController
       :organization_type,
       :sector,
       :listing_status,
-      :communication_on_progresses,
-      :contributions
+      :communication_on_progresses
     ).find(participant_id)
   end
 

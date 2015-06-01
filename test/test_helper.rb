@@ -6,6 +6,7 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
 require 'mocha/setup'
+require 'test_helpers/integration_test_helper'
 
 # include helpers, modules etc
 Dir[Rails.root.join("test/support/**/*")].each { |f| require f }

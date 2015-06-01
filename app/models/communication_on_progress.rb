@@ -376,7 +376,7 @@ class CommunicationOnProgress < ActiveRecord::Base
 
   # XXX used in routing helpers
   def differentiation_level_with_default
-    differentiation_level.blank? ? :detail : differentiation_level
+    differentiation_level_name.blank? ? :detail : differentiation_level_name.downcase
   end
 
   # blueprint refers to advanced COPs from LEAD companies and will is only used for internal purposes
