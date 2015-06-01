@@ -43,7 +43,9 @@ class Redesign::CopsController < Redesign::ApplicationController
 
   def show
     @page = CopDetailPage.new(current_container)
-    cop = CommunicationOnProgress.find_by_id(params[:id])
+    cop = CommunicationOnProgress.
+      includes(cop_answers: [:cop_attribute], cop_files: [:language]).
+      find(params[:id])
     @communication = CommunicationPresenter.create(cop, current_contact)
   end
 
