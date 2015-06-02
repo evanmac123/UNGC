@@ -1,9 +1,12 @@
+<%- # render partial: 'redesign/components/hero' %>
+
 <%= form_for @search, as: :search, url: redesign_search_path, method: :get, html: {id: 'filters-form'} do |form| %>
 
   <header>
     <h1>Search</h1>
   </header>
 
+  <input></input>
 <% end %>
 
 <ul class="search_facets">
@@ -12,9 +15,15 @@
   <%- end %>
 </ul>
 
-<% @results.each do |result| %>
-  <%= link_to_redesign result.excerpts.title, result.url %><br/>
-  <p><%= raw result.excerpts.content %></p>
-<% end %>
+<section class='main-content-section'>
+  <section class='news-list<%= list_classes -%>'>
+    <% @results.each do |result| %>
+      <article class='news-item'>
+        <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
+        <p><%= raw result.excerpts.content %></p>
+      </article>
+    <% end %>
+  </section>
+</section>
 
 <%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
