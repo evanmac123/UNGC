@@ -3,6 +3,7 @@ class Redesign::Container < ActiveRecord::Base
 
   include RankedModel
   include Taggable
+  include Indexable
 
   ranks :sort_order, with_same: :parent_container_id
 
@@ -67,6 +68,8 @@ class Redesign::Container < ActiveRecord::Base
   scope :by_ids_with_descendants, ->(ids) {
     where(arel_table[:id].in(ids).or(arel_table[:parent_container_id].in(ids)))
   }
+
+  scope :published, -> { where.not(public_payload_id: nil) }
 
   def self.normalize_slug(raw)
     '/' + raw.to_s.downcase.strip.gsub(LEADING_OR_TRAILING_SLASH, '')

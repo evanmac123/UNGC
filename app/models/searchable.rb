@@ -96,6 +96,10 @@ class Searchable < ActiveRecord::Base
     def remove(document_type, url)
       where(document_type: document_type, url: url).destroy_all
     end
+
+    def remove_redesign_container(container)
+      # no-op to satisfy indexable
+    end
   end
 
   def set_indexed_at
