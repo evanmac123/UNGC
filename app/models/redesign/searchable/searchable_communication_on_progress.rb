@@ -30,7 +30,9 @@ class Redesign::Searchable::SearchableCommunicationOnProgress < Redesign::Search
       #{cop.countries.map(&:name).join(' ')}
     EOF
 
-    content = "#{content.force_encoding('UTF-8')} #{file_content.join(' ')}"
+    str = file_content.join(' ')
+    str.slice!(65530..-1) # edit str in place
+    content = "#{content.force_encoding('UTF-8')} #{str}"
   end
 
 end
