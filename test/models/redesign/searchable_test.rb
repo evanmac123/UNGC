@@ -5,10 +5,6 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
   setup do
     @first = create_approved_headline(title: 'one', date: Date.new(2000, 1, 1))
     @second = create_approved_headline(title: 'two', date: Date.new(2008, 11, 4))
-
-    Redesign::Searchable.searchable_map = {
-      Headline => Redesign::Searchable::SearchableHeadline
-    }
   end
 
   should "index searchables" do
