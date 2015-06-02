@@ -6,9 +6,9 @@ class Redesign::SitewideSearchForm
   attribute :per_page,      Integer,  default: 10
   attribute :document_type, String
 
-  def matched_facets
-    @results.facets[:document_type].map do |document_type, count|
-      MatchingFacet.new(document_type, count, attributes)
+  def facets
+    Redesign::Searchable.facets(escaped_keywords, options)[:document_type].sort.map do |type, count|
+      MatchingFacet.new(type, count, type == document_type)
     end
   end
 
@@ -16,6 +16,11 @@ class Redesign::SitewideSearchForm
     @results = if document_type.present? then faceted_search else keyword_search end
     @results.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
     @results
+  end
+
+  def clear_facets(params, key)
+    params[key].delete(:document_type)
+    params
   end
 
   private
@@ -42,7 +47,7 @@ class Redesign::SitewideSearchForm
     }
   end
 
-  MatchingFacet = Struct.new(:document_type, :count, :attributes) do
+  MatchingFacet = Struct.new(:document_type, :count, :selected?) do
 
     def name
       "#{document_type} (#{count})"
@@ -54,6 +59,10 @@ class Redesign::SitewideSearchForm
         page: 1
       }
       params.merge(key => params[key].merge(facet_params))
+    end
+
+    def state
+      if selected? then 'active' else 'inactive' end
     end
 
   end

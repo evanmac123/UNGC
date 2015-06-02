@@ -10,8 +10,9 @@
 <% end %>
 
 <ul class="search_facets">
-  <%- @search.matched_facets.each do |facet| -%>
-    <li><%= link_to facet.name, facet.merge_params_into(params, :search) %></li>
+  <li><%= link_to 'All', @search.clear_facets(params, :search) %></li>
+  <%- @search.facets.each do |facet| -%>
+    <li><%= link_to facet.name, facet.merge_params_into(params, :search), class: facet.state %></li>
   <%- end %>
 </ul>
 
