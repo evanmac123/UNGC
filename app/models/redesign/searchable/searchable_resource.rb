@@ -14,7 +14,7 @@ class Redesign::Searchable::SearchableResource < Redesign::Searchable::Base
   end
 
   def url
-    redesign_library_resource_path(resource)
+    remove_redesign_prefix redesign_library_resource_path(resource)
   end
 
   def content

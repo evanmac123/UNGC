@@ -3,8 +3,12 @@ require 'test_helper'
 class Redesign::SearchableTest < ActiveSupport::TestCase
 
   setup do
-    Redesign::Searchable.searchable_map = {MockModel => MockSearchable}
-    MockModel.reset
+    @first = create_approved_headline(title: 'one', date: Date.new(2000, 1, 1))
+    @second = create_approved_headline(title: 'two', date: Date.new(2008, 11, 4))
+
+    Redesign::Searchable.searchable_map = {
+      Headline => Redesign::Searchable::SearchableHeadline
+    }
   end
 
   should "index searchables" do
@@ -15,26 +19,27 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
 
   should "index new searchables" do
     assert_difference 'Redesign::Searchable.count', 1 do
-      Redesign::Searchable.index_new_or_updated
+      cutoff = Date.new(2004, 2, 2)
+      Redesign::Searchable.index_new_or_updated(cutoff)
     end
   end
 
   should "remove old searchables" do
     Redesign::Searchable.index_all
     assert_difference 'Redesign::Searchable.count', -1 do
-      Redesign::Searchable.remove(MockModel.first)
+      Redesign::Searchable.remove(@first)
     end
   end
 
   should "update existing searchables" do
     Redesign::Searchable.index_all
-    MockModel.first.name = 'updated'
+    @first.update_attribute(:title, 'updated')
 
     assert_no_difference 'Redesign::Searchable.count' do
       Redesign::Searchable.index_all # re-index
     end
 
-    assert_equal 'updated', Redesign::Searchable.first.title
+    assert_equal 'updated', @first.title
   end
 
   context "the searchable model" do
@@ -45,11 +50,11 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
     end
 
     should "set url" do
-      assert_equal "/models/1", @searchable.url
+      assert_equal "/news/#{@first.id}-06-02-2015", @searchable.url
     end
 
     should "set document_type" do
-      assert_equal "Mock", @searchable.document_type
+      assert_equal "Headline", @searchable.document_type
     end
 
     should "set title" do
@@ -57,11 +62,11 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
     end
 
     should "set content" do
-      assert_equal "content", @searchable.content
+      assert_equal "\ncontent", @searchable.content
     end
 
     should "set meta" do
-      assert_equal "meta", @searchable.meta
+      assert_includes @searchable.meta, @first.topics.first.name
     end
 
     should "record indexed at time" do
@@ -72,52 +77,19 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
 
   private
 
-  MockModel = Struct.new(:id, :name) do
+  def create_approved_headline(title: nil, date: nil)
+    params = {
+      title: title,
+      created_at: date,
+      updated_at: date,
+      description: 'content'
+    }
 
-    def self.all
-      @models ||= reset
-    end
-
-    def self.reset
-      @models = [new(1, 'one'), new(2, 'two')]
-    end
-
-    def self.first
-      all.first
-    end
-
-  end
-
-  class MockSearchable < Redesign::Searchable::Base
-
-    def self.all
-      MockModel.all
-    end
-
-    def self.since(_)
-      [all.last]
-    end
-
-    def url
-      "/models/#{model.id}"
-    end
-
-    def document_type
-      'Mock'
-    end
-
-    def title
-      model.name
-    end
-
-    def content
-      'content'
-    end
-
-    def meta
-      'meta'
-    end
-
+    create_headline(params).tap { |h|
+      h.approve!
+      h.update_attributes(params)
+      h.topics.create(valid_topic_attributes)
+    }
   end
 
 end

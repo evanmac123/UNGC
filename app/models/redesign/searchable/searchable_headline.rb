@@ -14,7 +14,7 @@ class Redesign::Searchable::SearchableHeadline < Redesign::Searchable::Base
   end
 
   def url
-    redesign_news_path(headline)
+    remove_redesign_prefix redesign_news_path(headline)
   end
 
   def content

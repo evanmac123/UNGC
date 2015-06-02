@@ -15,11 +15,11 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
   end
 
   def url
-    container.path
+    remove_redesign_prefix container.path
   end
 
   def url_was
-    container.path_was
+    remove_redesign_prefix container.path_was
   end
 
   def url_changed?

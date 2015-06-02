@@ -14,7 +14,7 @@ class Redesign::Searchable::SearchableEvent < Redesign::Searchable::Base
   end
 
   def url
-    redesign_event_path(event)
+    remove_redesign_prefix redesign_event_path(event)
   end
 
   def content
