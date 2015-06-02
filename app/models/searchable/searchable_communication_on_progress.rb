@@ -12,7 +12,10 @@ module Searchable::SearchableCommunicationOnProgress
       #{cop.principles.map(&:name).join(' ')}
       #{cop.countries.map(&:name).join(' ')}
     EOF
-    content = "#{content.force_encoding('UTF-8')} #{file_content.join(' ')}"
+
+    str = file_content.join(' ')
+    str.slice!(65530..-1) # edit str in place
+    content = "#{content.force_encoding('UTF-8')} #{str}"
 
     import 'CommunicationOnProgress', url: url, title: title, content: content, object: cop
   end
