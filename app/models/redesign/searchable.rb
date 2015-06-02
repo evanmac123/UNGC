@@ -70,6 +70,7 @@ class Redesign::Searchable < ActiveRecord::Base
         Headline => Redesign::Searchable::SearchableHeadline,
         Organization => Redesign::Searchable::SearchableOrganization,
         Resource => Redesign::Searchable::SearchableResource,
+        Event => Redesign::Searchable::SearchableEvent,
       }
     end
 
