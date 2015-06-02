@@ -1,6 +1,9 @@
 .main-content-section
   @extend %wrapper
   background: white
+    position: center center
+    repeat: no-repeat
+    size: cover
 
   *
     position: relative
@@ -12,13 +15,13 @@
       bottom: 0
     overflow: hidden
 
-  &.align-center
+  &.align-center > .wrapper
     padding: 1em 12% 4em
 
   &.main-content-section-wide > .wrapper
     padding-left: 7%
 
-  &.has-custom-bg
+  &.has-custom-bg > .wrapper
     padding:
       top: 6em
       bottom: 7em
