@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526202540) do
+ActiveRecord::Schema.define(version: 20150527164740) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -839,6 +839,17 @@ ActiveRecord::Schema.define(version: 20150526202540) do
     t.integer  "updated_by_id",  limit: 4
     t.integer  "approved_by_id", limit: 4
     t.datetime "approved_at"
+  end
+
+  create_table "redesign_searchables", force: :cascade do |t|
+    t.datetime "last_indexed_at"
+    t.string   "url",             limit: 255
+    t.string   "document_type",   limit: 255
+    t.text     "title",           limit: 65535
+    t.text     "content",         limit: 65535
+    t.text     "meta",            limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "removal_reasons", force: :cascade do |t|

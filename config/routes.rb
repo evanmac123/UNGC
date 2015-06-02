@@ -115,6 +115,8 @@ UNGC::Application.routes.draw do
       get :non_communicating, on: :collection, path: '/non-communicating'
     end
 
+    get '/search'   => 'search#search',     as: :search
+
     get '/'         => 'static#home',       as: :root
     get '/404'      => 'static#not_found',  as: :not_found
     get '*path'     => 'static#catch_all',  as: :catch_all

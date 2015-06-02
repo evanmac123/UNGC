@@ -27,4 +27,17 @@ class Tagging < ActiveRecord::Base
     headline ||organization ||redesign_container || resource
   end
 
+  def content
+    # for the moment, author is the only model that doesn't respond to .name
+    # this will stand until that changes
+    case
+    when domain.respond_to?(:name)
+      domain.name
+    when domain.respond_to?(:full_name)
+      domain.full_name
+    else
+      raise "Can't extract content from #{domain.class} #{domain.id}"
+    end
+  end
+
 end

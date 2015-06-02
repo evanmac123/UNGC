@@ -1,0 +1,37 @@
+<%- # render partial: 'redesign/components/hero' %>
+
+<%= form_for @search, as: :search, url: redesign_search_path, method: :get, html: {id: 'filters-form'} do |form| %>
+
+  <header>
+    <h1>Search</h1>
+  </header>
+
+  <%= form.text_field :keywords %>
+<% end %>
+
+<ul class="search_facets">
+  <li><%= link_to 'All', @search.clear_facets(params, :search) %></li>
+  <%- @search.facets.each do |facet| -%>
+    <li><%= link_to facet.name, facet.merge_params_into(params, :search), class: facet.state %></li>
+  <%- end %>
+</ul>
+
+
+<% if @results.none? %>
+  No results found.
+<% end %>
+
+<% if @results.any? %>
+  <section class='main-content-section'>
+    <section class='news-list'>
+      <% @results.each do |result| %>
+        <article class='news-item'>
+          <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
+          <p><%= raw result.excerpts.content %></p>
+        </article>
+      <% end %>
+    </section>
+  </section>
+<% end %>
+
+<%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
