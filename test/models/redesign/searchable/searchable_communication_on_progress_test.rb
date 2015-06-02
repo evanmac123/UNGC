@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
+class Redesign::Searchable::SearchableCommunicationOnProgressTest < ActiveSupport::TestCase
   include SearchableModelTests
 
   def subject

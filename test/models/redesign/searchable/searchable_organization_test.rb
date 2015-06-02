@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Redesign::Searchable::SearchableHeadlineTest < ActiveSupport::TestCase
+class Redesign::Searchable::SearchableOrganizationTest < ActiveSupport::TestCase
   include SearchableModelTests
 
   private
