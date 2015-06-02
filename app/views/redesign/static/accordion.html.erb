@@ -3,46 +3,48 @@
 
 <%- if accordion = @page.accordion -%>
   <section class='main-content-section'>
-    <%= content_tag(:header, content_tag(:h1, accordion.title), {class: 'main-content-header accordion-header'}) if accordion.title %>
+    <div class='wrapper'>
+      <%= content_tag(:header, content_tag(:h1, accordion.title), {class: 'main-content-header accordion-header'}) if accordion.title %>
 
-    <section class='accordion-body'>
-      <%= content_tag(:div, accordion.blurb.try(:html_safe), class: 'main-content-blurb') if accordion.blurb %>
+      <section class='accordion-body'>
+        <%= content_tag(:div, accordion.blurb.try(:html_safe), class: 'main-content-blurb') if accordion.blurb %>
 
-      <div class='accordion-container'>
-        <%- accordion.items.each do |item| -%>
-          <article class='accordion-item'>
-            <%= content_tag(:h1, item.title, {class: 'accordion-item-header'}) %>
+        <div class='accordion-container'>
+          <%- accordion.items.each do |item| -%>
+            <article class='accordion-item'>
+              <%= content_tag(:h1, item.title, {class: 'accordion-item-header'}) %>
 
-            <div class='accordion-item-content-wrapper'>
-              <%- if !item.children.try(:blank?) and children = item.children -%>
-                <%- children.each do |child| -%>
-                  <article class='accordion-item accordion-child'>
-                    <%= content_tag(:h1, child.title, {class: 'accordion-item-header accordion-child-header'}) %>
-                    <div class='accordion-item-content-wrapper'>
-                      <div class='accordion-item-content'>
-                        <%= child.content.try(:html_safe) %>
+              <div class='accordion-item-content-wrapper'>
+                <%- if !item.children.try(:blank?) and children = item.children -%>
+                  <%- children.each do |child| -%>
+                    <article class='accordion-item accordion-child'>
+                      <%= content_tag(:h1, child.title, {class: 'accordion-item-header accordion-child-header'}) %>
+                      <div class='accordion-item-content-wrapper'>
+                        <div class='accordion-item-content'>
+                          <%= child.content.try(:html_safe) %>
+                        </div>
                       </div>
-                    </div>
-                  </article>
+                    </article>
+                  <%- end -%>
+                <%- else -%>
+                  <div class='accordion-item-content'>
+                    <%= item.content.try(:html_safe) %>
+                  </div>
                 <%- end -%>
-              <%- else -%>
-                <div class='accordion-item-content'>
-                  <%= item.content.try(:html_safe) %>
-                </div>
-              <%- end -%>
-            </div>
-          </article>
-        <%- end -%>
-      </div>
-    </section>
-    <%- if sidebar = @page.sidebar_widgets -%>
-      <%= render layout: 'redesign/components/sidebar' do %>
-        <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
+              </div>
+            </article>
+          <%- end -%>
+        </div>
+      </section>
+      <%- if sidebar = @page.sidebar_widgets -%>
+        <%= render layout: 'redesign/components/sidebar' do %>
+          <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
 
-        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
+          <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
 
-        <%= render 'redesign/components/widget_links_lists', links_lists: sidebar.links_lists %>
-      <% end %>
-    <%- end -%>
+          <%= render 'redesign/components/widget_links_lists', links_lists: sidebar.links_lists %>
+        <% end %>
+      <%- end -%>
+    </div>
   </section>
 <%- end -%>
