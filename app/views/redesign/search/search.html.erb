@@ -6,7 +6,7 @@
     <h1>Search</h1>
   </header>
 
-  <input></input>
+  <%= form.text_field :keywords %>
 <% end %>
 
 <ul class="search_facets">
@@ -16,7 +16,7 @@
 </ul>
 
 <section class='main-content-section'>
-  <section class='news-list<%= list_classes -%>'>
+  <section class='news-list'>
     <% @results.each do |result| %>
       <article class='news-item'>
         <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
