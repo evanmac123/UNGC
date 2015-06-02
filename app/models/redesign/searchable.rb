@@ -5,11 +5,17 @@ class Redesign::Searchable < ActiveRecord::Base
     attr_accessor :searchable_map
 
     def index_all
+      log = Logger.new(STDOUT)
+      log.info "starting Redesign::Searchable.index_all"
       searchables.each do |searchable|
-        searchable.all.each do |model|
-          import(searchable.new(model))
+        searchable.all.find_in_batches.each_with_index do |group, batch|
+          log.info "Processing batch ##{batch}"
+          group.each do |model|
+            import(searchable.new(model))
+          end
         end
       end
+      log.info "done indexing all the searchables."
     end
 
     def index_new_or_updated(cutoff = nil)
