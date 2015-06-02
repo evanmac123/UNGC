@@ -1,10 +1,16 @@
 .main-content-section
-  padding: 1em 7% 4em 12%
-  +clearfix
+  @extend %wrapper
+  background: white
 
-  &,
   *
     position: relative
+
+  > .wrapper
+    padding: 1em 7% 4em 12%
+    border: 1px solid #eee
+      top: 0
+      bottom: 0
+    overflow: hidden
 
   &.align-center
     padding: 1em 12% 4em
