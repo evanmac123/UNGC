@@ -1,24 +1,26 @@
 <%= render 'redesign/components/meta_tags', title: "#{@communication.organization_name} &ndash; #{@communication.title}" %>
 <%= render 'redesign/components/hero' %>
 
-<section id='paged_results' class='main-content-section cop-detail'>
-  <header class='main-content-header'>
-    <h1><%= @communication.title || "Communication on Progress" %></h1>
-  </header>
+<section id='paged_results' class='main-content-section main-content-section-narrow cop-detail'>
+  <div class='wrapper'>
+    <header class='main-content-header'>
+      <h1><%= @communication.title || "Communication on Progress" %></h1>
+    </header>
 
-  <section class='main-content-body'>
-    <dl>
-      <dt>Participant</dt>
-      <dd>
-        <ul>
-          <li><%= link_to @communication.organization_name, redesign_participant_path(@communication.organization.id, params[:navigation]) %></li>
-        </ul>
-      </dd>
-      <%= render :partial => @communication.show_partial, :locals => {:results_partial => @communication.results_partial, :communication_on_progress => @communication } %>
-    </dl>
+    <section class='main-content-body'>
+      <dl>
+        <dt>Participant</dt>
+        <dd>
+          <ul>
+            <li><%= link_to @communication.organization_name, redesign_participant_path(@communication.organization.id, params[:navigation]) %></li>
+          </ul>
+        </dd>
+        <%= render :partial => @communication.show_partial, :locals => {:results_partial => @communication.results_partial, :communication_on_progress => @communication } %>
+      </dl>
 
-    <footer class='disclaimer'>
-      <p><%= t(:communication_disclaimer) %></p>
-    </footer>
-  </section>
+      <footer class='disclaimer'>
+        <p><%= t(:communication_disclaimer) %></p>
+      </footer>
+    </section>
+  </div>
 </section>
