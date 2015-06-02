@@ -5,16 +5,21 @@ class Redesign::Searchable < ActiveRecord::Base
     attr_accessor :searchable_map
 
     def index_all
-      log = Logger.new(STDOUT)
       log.info "starting Redesign::Searchable.index_all"
+
       searchables.each do |searchable|
-        searchable.all.find_in_batches.each_with_index do |group, batch|
-          log.info "Processing batch ##{batch}"
-          group.each do |model|
-            import(searchable.new(model))
-          end
+        searchable.all
+          .find_in_batches(batch_size: batch_size)
+          .each_with_index do |group, batch|
+            break if stop_before?(batch)
+
+            log.info "Processing batch ##{batch}"
+            group.each do |model|
+              import(searchable.new(model))
+            end
         end
       end
+
       log.info "done indexing all the searchables."
     end
 
@@ -78,6 +83,22 @@ class Redesign::Searchable < ActiveRecord::Base
         Resource => Redesign::Searchable::SearchableResource,
         Event => Redesign::Searchable::SearchableEvent,
       }
+    end
+
+    def batch_size
+      if Rails.env.production? then 1000 else 10 end
+    end
+
+    def stop_before?(batch)
+      Rails.env.production? == false && batch > 0
+    end
+
+    def log
+      @log ||= if Rails.env.production?
+        Logger.new(STDOUT)
+      else
+        Rails.logger
+      end
     end
 
   end
