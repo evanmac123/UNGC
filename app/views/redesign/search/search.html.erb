@@ -15,15 +15,22 @@
   <%- end %>
 </ul>
 
-<section class='main-content-section'>
-  <section class='news-list'>
-    <% @results.each do |result| %>
-      <article class='news-item'>
-        <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
-        <p><%= raw result.excerpts.content %></p>
-      </article>
-    <% end %>
+
+<% if @results.none? %>
+  No results found.
+<% end %>
+
+<% if @results.any? %>
+  <section class='main-content-section'>
+    <section class='news-list'>
+      <% @results.each do |result| %>
+        <article class='news-item'>
+          <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
+          <p><%= raw result.excerpts.content %></p>
+        </article>
+      <% end %>
+    </section>
   </section>
-</section>
+<% end %>
 
 <%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
