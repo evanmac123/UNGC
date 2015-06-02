@@ -18,7 +18,7 @@ class Redesign::Searchable::SearchableEvent < Redesign::Searchable::Base
   end
 
   def content
-    content = strip_tags(event.description)
+    "#{strip_tags(event.description)} #{strip_tags(event.overview_description)}"
   end
 
   def meta

@@ -19,10 +19,14 @@ class Redesign::Searchable::SearchableEventTest < ActiveSupport::TestCase
     assert_includes searchable.content, event.description
   end
 
+  should "indev overview description (without html tags)" do
+    assert_includes searchable.content, 'a good event'
+  end
+
   private
 
   def event
-    @event ||= create_event.tap do |h|
+    @event ||= create_event({overview_description: '<b>a good event</b>'}).tap do |h|
       h.approve!
     end
   end
