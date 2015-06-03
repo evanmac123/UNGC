@@ -7,29 +7,35 @@ class Redesign::SitewideSearchForm
   attribute :document_type, String
 
   def facets
-    return empty_search if escaped_keywords.blank?
     Redesign::Searchable.facets(escaped_keywords, options)[:document_type].sort.map do |type, count|
       MatchingFacet.new(type, count, type == document_type)
     end
   end
 
   def execute
-    return empty_search if escaped_keywords.blank?
-    @results = if document_type.present? then faceted_search else keyword_search end
-    @results.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
-    @results
+    results = case
+    when document_type.present?
+      faceted_search
+    when keywords.present?
+      keyword_search
+    else
+      empty_search
+    end
+
+    results.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+
+    @results = results
   end
 
   def clear_facets(params, key)
-    params[key].delete(:document_type) if params[key]
+    if params.has_key? key
+      params[key].delete(:document_type)
+    end
+
     params
   end
 
   private
-
-  def empty_search
-    Redesign::Searchable.none.paginate(page: 1)
-  end
 
   def faceted_search
     matching_facets = Redesign::Searchable.facets(escaped_keywords, options)
@@ -38,6 +44,10 @@ class Redesign::SitewideSearchForm
 
   def keyword_search
     Redesign::Searchable.search(escaped_keywords, options)
+  end
+
+  def empty_search
+    @@empty_search ||= EmptySearch.new
   end
 
   def escaped_keywords
@@ -64,7 +74,8 @@ class Redesign::SitewideSearchForm
         document_type: document_type,
         page: 1
       }
-      params.merge(key => params[key].merge(facet_params))
+
+      params[key] = params.fetch(key, {}).merge(facet_params)
     end
 
     def state
