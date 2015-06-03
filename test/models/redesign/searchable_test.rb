@@ -46,7 +46,7 @@ class Redesign::SearchableTest < ActiveSupport::TestCase
     end
 
     should "set url" do
-      assert_equal "/news/#{@first.id}-06-02-2015", @searchable.url
+      assert_match Regexp.new("/news/#{@first.id}-*"), @searchable.url
     end
 
     should "set document_type" do
