@@ -4,8 +4,8 @@ class Redesign::ApplicationController < ApplicationController
     :current_payload,
     :current_payload_data
 
-  before_action :authenticate_contact!
-  before_action :only_ungc_contacts!
+  before_action :authenticate_contact!, unless: :has_redesign?
+  before_action :only_ungc_contacts!, unless: :has_redesign?
 
   rescue_from ActiveRecord::RecordNotFound, :with => :catch_all
 

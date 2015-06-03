@@ -51,6 +51,7 @@ gem 'htmlentities'
 gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :development do
+  gem 'faraday'
   gem 'rerun'
   gem 'thin'
 end

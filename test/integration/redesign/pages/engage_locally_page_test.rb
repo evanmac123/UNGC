@@ -5,7 +5,6 @@ class EngageLocallyPageTest < ActionDispatch::IntegrationTest
 
   setup do
     create_staff_user
-    login_as @staff_user
 
     container = create_container(
       path: 'new-engage_locally-path',
@@ -24,7 +23,7 @@ class EngageLocallyPageTest < ActionDispatch::IntegrationTest
     )
     container.save
 
-    get '/redesign/new-engage_locally-path'
+    get '/new-engage_locally-path'
 
     @data = container.public_payload.data
   end

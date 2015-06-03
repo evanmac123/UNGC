@@ -5,7 +5,6 @@ class ListPageTest < ActionDispatch::IntegrationTest
 
   setup do
     create_staff_user
-    login_as @staff_user
 
     container = create_container(
       path: 'new-list-path',
@@ -19,7 +18,7 @@ class ListPageTest < ActionDispatch::IntegrationTest
     )
     container.save
 
-    get '/redesign/new-list-path'
+    get '/new-list-path'
 
     @data = container.public_payload.data
   end

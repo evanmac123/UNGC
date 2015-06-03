@@ -1,12 +1,26 @@
 require 'ckeditor'
 require 'sidekiq/web'
 
+class RedesignConstraint
+  def initialize
+  end
+
+  def matches?(request)
+    return true if Rails.env.test?
+    contact_id = request.session["warden.user.contact.key"].try(:[], 0).try(:[], 0)
+    if contact_id
+      contact = Contact.find(contact_id)
+      contact.from_ungc?
+    else
+      false
+    end
+  end
+end
+
 UNGC::Application.routes.draw do
   authenticate :contact, lambda { |c| c.from_ungc? } do
     mount Sidekiq::Web => '/back-the-web'
   end
-  # Root
-  root :to => 'pages#home'
 
   devise_for :contacts,
     path: '/',
@@ -18,109 +32,6 @@ UNGC::Application.routes.draw do
       sessions: 'sessions',
       passwords: 'admin/passwords'
     }
-
-  namespace :redesign do
-    namespace :admin do
-      namespace :api, format: :json do
-        resources :layouts, only: [:index, :show]
-        resources :contacts, only: [:ungc] do
-          get :ungc, on: :collection
-        end
-        resources :events, only: [:index]
-        resources :taggings, only: [:topics, :issues, :sectors] do
-          get :topics, on: :collection
-          get :issues, on: :collection
-          get :sectors, on: :collection
-        end
-        resources :images do
-          post :signed_url, on: :collection
-        end
-        resources :resources, only: [:index]
-        resources :initiatives, only: [:index]
-        resources :containers do
-          post :publish, on: :member
-          get :needs_approval, on: :collection
-        end
-        resources :payloads
-      end
-
-      get '/(*path)' => 'index#frontend', as: :root, format: :html
-    end
-
-    controller :library do
-      get '/library'        => :index,  as: :library
-      get '/library/search' => :search, as: :library_search
-      get '/library/:id'    => :show,   as: :library_resource
-    end
-
-    controller :contact_us do
-      get '/about/contact' => :new, as: :new_contact_us
-      post '/about/contact' => :create, as: :contact_us
-    end
-
-    controller :case_example do
-      get '/take-action/action/share-story' => :new, as: :new_case_example
-      post '/take-action/action/share-story' => :create, as: :case_example
-    end
-
-    controller :all_our_work, path: '/what-is-gc/our-work' do
-      get '/all' => :index, as: :all_our_work
-    end
-
-    controller :actions do
-      get '/take-action/action' => :index, as: :actions
-    end
-
-    controller :participant_search, path: '/what-is-gc/participants' do
-      get '/' => :index
-      get '/search' => :search, as: :participant_search
-    end
-
-    resources :participants, path: '/what-is-gc/participants/', only: [:show]
-
-    controller :news, path: '/news' do
-      get '/' => :index, as: :news_index
-      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news
-      get '/press-releases' => :press_releases
-    end
-
-    controller :events, path: '/take-action/events' do
-      get '/' => :index, as: :events
-      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :event
-    end
-
-    controller :networks do
-      get '/engage-locally/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
-    end
-
-    controller :signup, path: '/participation/join/application/' do
-      get   '/step1/:org_type'  => 'signup#step1', :as => :organization_step1
-      match '/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
-      match '/step3'            => 'signup#step3', :as => :organization_step3, via: [:get, :post]
-      match '/step4'            => 'signup#step4', :as => :organization_step4, via: [:get, :post]
-      match '/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
-      match '/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
-      post  '/step7'            => 'signup#step7', :as => :organization_step7
-    end
-
-    get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
-    get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
-    resource :cops, path: '/participation/report/cop/create-and-submit' do
-      get :index, path: '/', on: :collection
-      get :show, path: '/:differentiation/:id', as: :show
-      get :active, on: :collection
-      get :advanced, on: :collection
-      get :expelled, on: :collection
-      get :learner, on: :collection
-      get :non_communicating, on: :collection, path: '/non-communicating'
-    end
-
-    get '/search'   => 'search#search',     as: :search
-
-    get '/'         => 'static#home',       as: :root
-    get '/404'      => 'static#not_found',  as: :not_found
-    get '*path'     => 'static#catch_all',  as: :catch_all
-  end
 
   # Backend routes
   get '/admin'                    => 'admin#dashboard',         as: :admin
@@ -290,12 +201,153 @@ UNGC::Application.routes.draw do
     end
   end
 
-  resources :organizations, :only => :index
-
   # Salesforce webook routes
   namespace :salesforce, defaults: { format: 'json' } do
     post '/sync' => 'api#sync'
   end
+
+  namespace :redesign, path: '/', constraints: RedesignConstraint.new do
+    namespace :admin, path: '/redesign/admin' do
+      namespace :api, format: :json do
+        resources :layouts, only: [:index, :show]
+        resources :contacts, only: [:ungc] do
+          get :ungc, on: :collection
+        end
+        resources :events, only: [:index]
+        resources :taggings, only: [:topics, :issues, :sectors] do
+          get :topics, on: :collection
+          get :issues, on: :collection
+          get :sectors, on: :collection
+        end
+        resources :images do
+          post :signed_url, on: :collection
+        end
+        resources :resources, only: [:index]
+        resources :initiatives, only: [:index]
+        resources :containers do
+          post :publish, on: :member
+          get :needs_approval, on: :collection
+        end
+        resources :payloads
+      end
+
+      get '/(*path)' => 'index#frontend', as: :root, format: :html
+    end
+
+    controller :library do
+      get '/library'        => :index,  as: :library
+      get '/library/search' => :search, as: :library_search
+      get '/library/:id'    => :show,   as: :library_resource
+    end
+
+    controller :contact_us do
+      get '/about/contact' => :new, as: :new_contact_us
+      post '/about/contact' => :create, as: :contact_us
+    end
+
+    controller :case_example do
+      get '/take-action/action/share-story' => :new, as: :new_case_example
+      post '/take-action/action/share-story' => :create, as: :case_example
+    end
+
+    controller :all_our_work, path: '/what-is-gc/our-work' do
+      get '/all' => :index, as: :all_our_work
+    end
+
+    controller :actions do
+      get '/take-action/action' => :index, as: :actions
+    end
+
+    controller :participant_search, path: '/what-is-gc/participants' do
+      get '/' => :index
+      get '/search' => :search, as: :participant_search
+    end
+
+    resources :participants, path: '/what-is-gc/participants/', only: [:show]
+
+    controller :news, path: '/news' do
+      get '/' => :index, as: :news_index
+      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news
+      get '/press-releases' => :press_releases
+    end
+
+    controller :events, path: '/take-action/events' do
+      get '/' => :index, as: :events
+      get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :event
+    end
+
+    controller :networks do
+      get '/engage-locally/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
+    end
+
+    controller :signup, path: '/participation/join/application/' do
+      get   '/step1/:org_type'  => 'signup#step1', :as => :organization_step1
+      match '/step2'            => 'signup#step2', :as => :organization_step2, via: [:get, :post]
+      match '/step3'            => 'signup#step3', :as => :organization_step3, via: [:get, :post]
+      match '/step4'            => 'signup#step4', :as => :organization_step4, via: [:get, :post]
+      match '/step5'            => 'signup#step5', :as => :organization_step5, via: [:get, :post]
+      match '/step6'            => 'signup#step6', :as => :organization_step6, via: [:get, :post]
+      post  '/step7'            => 'signup#step7', :as => :organization_step7
+    end
+
+    get '/participation/report/coe/create-and-submit/submitted-coe' => "cops#submitted_coe"
+    get '/participation/report/coe/create-and-submit/submitted-coe/:id' => "cops#show", as: :coe
+    resource :cops, path: '/participation/report/cop/create-and-submit' do
+      get :index, path: '/', on: :collection
+      get :show, path: '/:differentiation/:id', as: :show
+      get :active, on: :collection
+      get :advanced, on: :collection
+      get :expelled, on: :collection
+      get :learner, on: :collection
+      get :non_communicating, on: :collection, path: '/non-communicating'
+    end
+
+    get '/search'   => 'search#search',     as: :search
+
+    get '/'         => 'static#home',       as: :root
+    get '/404'      => 'static#not_found',  as: :not_found
+
+    # REDIRECTS
+    get '/HowToParticipate/index.html' => "static#redirect_to_page", page: '/participation'
+    get '/Issues/index.html' => "static#redirect_to_page", page: '/take-action'
+    get '/NetworksAroundTheWorld/index.html' => 'static#redirect_to_page', page: '/engage-locally'
+    get '/AboutTheGC/tools_resources/index.html' => 'static#redirect_to_page', page: '/library'
+    get '/AboutTheGC/global_compact_strategy.html' => 'static#redirect_to_page', page: '/what-is-gc/strategy'
+    get '/AboutTheGC/TheTenPrinciples/index.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles'
+    get '/AboutTheGC/TheTenPrinciples/Principle1.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-1'
+    get '/AboutTheGC/TheTenPrinciples/Principle2.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-2'
+    get '/AboutTheGC/TheTenPrinciples/Principle3.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-3'
+    get '/AboutTheGC/TheTenPrinciples/Principle4.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-4'
+    get '/AboutTheGC/TheTenPrinciples/Principle5.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-5'
+    get '/AboutTheGC/TheTenPrinciples/Principle6.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-6'
+    get '/AboutTheGC/TheTenPrinciples/Principle7.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-7'
+    get '/AboutTheGC/TheTenPrinciples/Principle8.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-8'
+    get '/AboutTheGC/TheTenPrinciples/Principle9.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-9'
+    get '/AboutTheGC/TheTenPrinciples/Principle10.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-10'
+    get '/AboutTheGC/IntegrityMeasures/index.html' => 'static#redirect_to_page', page: '/what-is-gc/our-commitment'
+    get '/ParticipantsAndStakeholders/index.html' => 'static#redirect_to_page', page: '/what-is-gc/participants'
+    get '/participants/search' => 'static#redirect_to_page', page: '/what-is-gc/participants'
+    get '/participant/:id', to: redirect('/what-is-gc/participants/%{id}')
+    get '/Issues/supply_chain/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/supply-chain'
+    get '/Issues/supply_chain/advisory_group.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/supply-chain/supply-chain-advisory-group'
+    get '/Issues/supply_chain/background.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/supply-chain/business-case'
+    get '/Issues/partnerships/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/sustainable-development'
+    get '/Issues/partnerships/post_2015_development_agenda.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/sustainable-development/background'
+    get '/Issues/financial_markets/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/financial'
+    get '/Issues/transparency_anticorruption/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/governance/anti-corruption'
+    get '/Issues/transparency_anticorruption/collective_action.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/governance/anti-corruption/collective-action'
+    get '/Issues/human_rights/business_for_the_rule_of_law.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/governance/rule-law'
+    get '/Issues/Environment/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/environment'
+    get '/Issues/human_rights/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/social/human-rights'
+    get '/Issues/Labour/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/social/labour'
+    get '/Issues/human_rights/indigenous_peoples_rights.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/social/indigenous-people'
+    # CATCH ALL
+    get '*path'     => 'static#catch_all',  as: :catch_all
+  end
+
+  root :to => 'pages#home'
+  resources :organizations, :only => :index
+
 
   # Front-end routes
   get '/feeds/cops' => 'cops#feed', :format => 'atom'

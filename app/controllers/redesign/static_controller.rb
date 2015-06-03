@@ -20,4 +20,12 @@ class Redesign::StaticController < Redesign::ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to redesign_not_found_path
   end
+
+  def redirect_to_page
+    if params[:page]
+      redirect_to params[:page], status: :moved_permanently
+    else
+      redirect_to root_path
+    end
+  end
 end

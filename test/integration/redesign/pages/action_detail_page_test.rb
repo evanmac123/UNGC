@@ -5,7 +5,6 @@ class ActionDetailPageTest < ActionDispatch::IntegrationTest
 
   setup do
     create_staff_user
-    login_as @staff_user
 
     container = create_container(
       path: 'new-action-detail-path',
@@ -25,7 +24,7 @@ class ActionDetailPageTest < ActionDispatch::IntegrationTest
     )
     container.save
 
-    get '/redesign/new-action-detail-path'
+    get '/new-action-detail-path'
 
     @data = container.public_payload.data
   end

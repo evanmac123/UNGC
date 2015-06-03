@@ -152,6 +152,8 @@ GEM
     excon (0.41.0)
     execjs (2.3.0)
     facets (3.0.0)
+    faraday (0.8.8)
+      multipart-post (~> 1.2.0)
     ffi (1.9.6)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
@@ -448,6 +450,7 @@ DEPENDENCIES
   devise (~> 3.4.1)
   dynamic_form (~> 1.1.4)
   facets (~> 3.0.0)
+  faraday
   fixture_replacement!
   fog
   font-awesome-sass (~> 4.3.1)
