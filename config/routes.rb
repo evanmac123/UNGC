@@ -308,7 +308,6 @@ UNGC::Application.routes.draw do
     get '/404'      => 'static#not_found',  as: :not_found
 
     # REDIRECTS
-    get '/HowToParticipate/index.html' => "static#redirect_to_page", page: '/participation'
     get '/Issues/index.html' => "static#redirect_to_page", page: '/take-action'
     get '/NetworksAroundTheWorld/index.html' => 'static#redirect_to_page', page: '/engage-locally'
     get '/AboutTheGC/tools_resources/index.html' => 'static#redirect_to_page', page: '/library'
@@ -341,6 +340,34 @@ UNGC::Application.routes.draw do
     get '/Issues/human_rights/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/social/human-rights'
     get '/Issues/Labour/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/social/labour'
     get '/Issues/human_rights/indigenous_peoples_rights.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/social/indigenous-people'
+    get '/HowToParticipate/index.html' => "static#redirect_to_page", page: '/participation'
+    get '/HowToParticipate/Business_Participation/index.html'=> 'static#redirect_to_page', page: '/participation'
+    get '/HowToParticipate/cities.html'=> 'static#redirect_to_page', page: '/participation'
+    get '/HowToParticipate/civil_society/index.html'=> 'static#redirect_to_page', page: '/participation'
+    get '/HowToParticipate/academic_network/index.html'=> 'static#redirect_to_page', page: '/participation'
+    get '/HowToParticipate/business_associations.html'=> 'static#redirect_to_page', page: '/participation'
+    get '/HowToParticipate/non_business_participation/public_sector_organization.html'=> 'static#redirect_to_page', page: '/participation'
+    get '/HowToParticipate/How_To_Apply.html'=> 'static#redirect_to_page', page: '/participation/join/application'
+    get '/HowToParticipate/How_to_Apply_Business.html'=> 'static#redirect_to_page', page: '/participation/join/application/business'
+    get '/HowToParticipate/How_to_Apply_NonBusiness.html'=> 'static#redirect_to_page', page: '/participation/join/application/non-business'
+    get '/COP/COE.html'=> 'static#redirect_to_page', page: '/participation/report/coe'
+    get '/COP/COE/submitted_coes.html'=> 'static#redirect_to_page', page: '/participation/report/coe/create-and-submit/submitted-coe'
+    get '/COP/index.html'=> 'static#redirect_to_page', page: '/participation/report/cop'
+    get '/COP/making_progress/index.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit'
+    get '/COP/communicating_progress/how_to_submit_a_cop.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit'
+    get '/COP/frequently_asked_questions.html'=> 'static#redirect_to_page', page: '/participation/report/cop'
+    get '/COP/analyzing_progress/index.html'=> 'static#redirect_to_page', page: '/participation/report/cop'
+    get '/COP/analyzing_progress/expelled_participants.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/expelled'
+    get '/participants/expelled/:id', to: redirect('/participation/report/cop/create-and-submit/expelled/%{id}')
+    get '/COP/analyzing_progress/non_communicating.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/non-communicating'
+    get '/participants/noncommunicating/:id', to: redirect('/participation/report/cop/create-and-submit/non-communicating/%{id}')
+    get '/COP/analyzing_progress/learner_cops.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/learner'
+    get '/COPs/learner/:id', to: redirect('/participation/report/cop/create-and-submit/learner/%{id}')
+    get '/COP/analyzing_progress/active_cops.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/active'
+    get '/COPs/active/:id', to: redirect('/participation/report/cop/create-and-submit/active/%{id}')
+    get '/COP/analyzing_progress/advanced_cops.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/advanced'
+    get '/COPs/advanced/:id', to: redirect('/participation/report/cop/create-and-submit/advanced/%{id}')
+
     # CATCH ALL
     get '*path'     => 'static#catch_all',  as: :catch_all
   end
