@@ -1,5 +1,6 @@
 class Redesign::SignupController < Redesign::ApplicationController
   before_filter :load_organization_signup
+  before_filter :load_page
 
   BUSINESS_PARAM = 'business'
   NONBUSINESS_PARAM = 'non_business'
@@ -130,6 +131,10 @@ class Redesign::SignupController < Redesign::ApplicationController
   end
 
   private
+
+    def load_page
+      @page = SignupPage.new
+    end
 
     def load_organization_signup
       @signup = session["signup"] || create_signup(params[:org_type])
