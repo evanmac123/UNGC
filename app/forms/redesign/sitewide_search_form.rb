@@ -76,6 +76,7 @@ class Redesign::SitewideSearchForm
       }
 
       params[key] = params.fetch(key, {}).merge(facet_params)
+      params
     end
 
     def state
