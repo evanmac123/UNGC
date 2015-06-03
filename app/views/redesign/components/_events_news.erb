@@ -29,8 +29,8 @@
 
             <h1><%= featured.title -%></h1>
 
-            <%- #TODO truncate description, but it's html -%>
-            <p><%= featured.description.html_safe -%></p>
+            <%#- #TODO truncate description, but it's html -%>
+            <p><%= strip_tags featured.description.truncate(200) -%></p>
           <%- end -%>
         </article>
       <%- end -%>
