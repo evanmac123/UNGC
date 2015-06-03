@@ -3,19 +3,21 @@
 
 <%- @page.main_content_sections.each do |section| -%>
   <section class='main-content-section <%= section[:classes] -%>' style="<%= section[:styles] -%>">
-    <%= content_tag(:header, content_tag(:h1, section[:title]), {class: 'main-content-header'}) if section[:title] %>
+    <div class='wrapper'>
+      <%= content_tag(:header, content_tag(:h1, section[:title]), {class: 'main-content-header'}) if section[:title] %>
 
-    <section class='main-content-body'>
-      <%= section[:content].html_safe if section[:content] %>
+      <section class='main-content-body'>
+        <%= section[:content].html_safe if section[:content] %>
 
-      <%= content_tag(:p, link_to_redesign(section[:call_to_action][:title], section[:call_to_action][:url], class: "button #{section[:call_to_action][:theme]}")) if section[:call_to_action] %>
-    </section>
+        <%= content_tag(:p, link_to_redesign(section[:call_to_action][:title], section[:call_to_action][:url], class: "button #{section[:call_to_action][:theme]}")) if section[:call_to_action] %>
+      </section>
 
-    <%- if section[:image] -%>
-      <%= render layout: 'redesign/components/sidebar' do %>
-        <%= render 'redesign/components/widget_image', image: section[:image] %>
-      <% end %>
-    <%- end -%>
+      <%- if section[:image] -%>
+        <%= render layout: 'redesign/components/sidebar' do %>
+          <%= render 'redesign/components/widget_image', image: section[:image] %>
+        <% end %>
+      <%- end -%>
+    </div>
   </section>
 <%- end -%>
 

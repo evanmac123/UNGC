@@ -1,38 +1,50 @@
-<%- # render partial: 'redesign/components/hero' %>
+<%#= render 'redesign/components/hero' %>
 
-<%= form_for @search, as: :search, url: redesign_search_path, method: :get, html: {id: 'filters-form'} do |form| %>
+<%= form_for @search, as: :search, url: redesign_search_path, method: :get, html: {id: 'filters-form'} do |f| %>
 
   <header>
     <h1>Search</h1>
+
+    <fieldset id='section-search'>
+      <%= f.search_field :keywords %>
+      <%= f.button '<span>Search</span>'.html_safe, type: :submit %>
+    </fieldset>
   </header>
 
-  <%= form.text_field :keywords %>
-<% end %>
-
-<% if @results.none? %>
-  No results found.
-<% end %>
+<%- end -%>
 
 <% if @results.any? %>
-  <ul class="search_facets">
-    <li>
-      <%= link_to 'All', @search.clear_facets(params, :search) %>
-    </li>
-    <%- @search.facets.each do |facet| -%>
-      <li><%= link_to facet.name, facet.merge_params_into(params, :search), class: facet.state %></li>
-    <%- end %>
-  </ul>
+  <section class='main-content-section news-list-section'>
+    <div class='wrapper'>
+      <header class='main-content-header'>
+        <ul class="search_facets">
+          <li>
+            <%= link_to 'All', @search.clear_facets(params, :search) %>
+          </li>
+          <%- @search.facets.each do |facet| -%>
+            <li><%= link_to facet.name, facet.merge_params_into(params, :search), class: facet.state %></li>
+          <%- end %>
+        </ul>
+      </header>
 
-  <section class='main-content-section'>
-    <section class='news-list'>
-      <% @results.each do |result| %>
-        <article class='news-item'>
-          <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
-          <p><%= raw result.excerpts.content %></p>
-        </article>
-      <% end %>
-    </section>
+      <section class='main-content-body news-list-body'>
+        <% @results.each do |result| %>
+          <article class='news-item'>
+            <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
+            <p><%= raw result.excerpts.content %></p>
+          </article>
+        <% end %>
+      </section>
+    </div>
   </section>
-<% end %>
+<%- else -%>
+  <section class='main-content-section news-list-section'>
+    <div class='wrapper'>
+      <section class='main-content-body news-list-body'>
+        <h5>No results found.</h5>
+      </section>
+    </div>
+  </section>
+<%- end -%>
 
 <%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>

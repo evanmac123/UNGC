@@ -2,48 +2,50 @@
 <%= render partial: 'redesign/components/hero' %>
 
 <section class='main-content-section main-content-section-wide local-network-main-content'>
-  <%= content_tag(:header, content_tag(:h1, @page.name, {class: 'main-content-header'})) %>
+  <div class='wrapper'>
+    <%= content_tag(:header, content_tag(:h1, @page.name, {class: 'main-content-header'})) %>
 
-  <div class='local-network-body-wrapper'>
-    <%= image_tag @page.image, alt: "#{@page.name} Map", class: 'local-network-image' %>
-    <section class='main-content-body'>
-      <h2 class='local-network-body-header'>Mission and Vision</h2>
+    <div class='local-network-body-wrapper'>
+      <%= image_tag @page.image, alt: "#{@page.name} Map", class: 'local-network-image' %>
+      <section class='main-content-body'>
+        <h2 class='local-network-body-header'>Mission and Vision</h2>
 
-      <%= @page.description.try(:html_safe) %>
+        <%= @page.description.try(:html_safe) %>
 
-      <%- if participants = @page.participants -%>
-        <h3 class='local-network-participants-header'><%= participants.total -%> Participants</h3>
+        <%- if participants = @page.participants -%>
+          <h3 class='local-network-participants-header'><%= participants.total -%> Participants</h3>
 
-        <table class='table-embedded'>
-          <thead>
-            <tr>
-              <th class='sector'>Top Sectors</th>
-              <th class='count'>Participants</th>
-            </tr>
-          </thead>
-          <tbody>
-            <%- participants.list.each do |sector| -%>
-            <tr>
-              <th class='sector'><%= link_to_redesign sector.name, redesign_participant_search_path(search: sector.search_params) -%></th>
-              <td class='count'><%= sector.participants_count -%></td>
-            </tr>
-            <%- end -%>
-          </tbody>
-        </table>
+          <table class='table-embedded'>
+            <thead>
+              <tr>
+                <th class='sector'>Top Sectors</th>
+                <th class='count'>Participants</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%- participants.list.each do |sector| -%>
+              <tr>
+                <th class='sector'><%= link_to_redesign sector.name, redesign_participant_search_path(search: sector.search_params) -%></th>
+                <td class='count'><%= sector.participants_count -%></td>
+              </tr>
+              <%- end -%>
+            </tbody>
+          </table>
 
+        <%- end -%>
+      </section>
+
+      <%- if sidebar = @page.sidebar_widgets -%>
+        <%= render layout: 'redesign/components/sidebar' do %>
+          <%= render 'redesign/components/widget_contact', contact: sidebar.contact, network_representative: sidebar.network_representative %>
+
+          <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
+        <% end %>
       <%- end -%>
-    </section>
 
-    <%- if sidebar = @page.sidebar_widgets -%>
-      <%= render layout: 'redesign/components/sidebar' do %>
-        <%= render 'redesign/components/widget_contact', contact: sidebar.contact, network_representative: sidebar.network_representative %>
+      <%- #TODO add contact widget, we do not have pictures,  @page.public_network_contacts.first %>
 
-        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
-      <% end %>
-    <%- end -%>
-
-    <%- #TODO add contact widget, we do not have pictures,  @page.public_network_contacts.first %>
-
-    <%- #TODO add static call to action to share your success page %>
+      <%- #TODO add static call to action to share your success page %>
+    </div>
   </div>
 </section>

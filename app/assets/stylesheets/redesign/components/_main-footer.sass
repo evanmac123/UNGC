@@ -1,10 +1,13 @@
 #main-footer
-  @extend %wrapper
   background-color: color('grey')
-  padding: 3%
+  padding: 3% 0
   font-size: 1.125em
   color: white
   +font-smoothing(antialiased)
+
+  @media only screen and (max-width: 880px)
+    > .wrapper
+      padding: 0 10px
 
   a
     color: inherit
@@ -17,11 +20,47 @@
     list-style: none
     padding: 0
 
-  article
+  .column
     float: left
-    width: 33.333%
-    margin: 0
-    padding: 2%
+    width: 31%
+    margin: 0 1.75%
+
+    &:first-of-type
+      margin-left: 0
+
+    &:last-of-type
+      float: right
+      margin-right: 0
+
+    @media only screen and (min-width: 881px)
+      width: 28%
+      margin: 0 1.5%
+
+      &:first-of-type
+        margin-left: 5%
+
+      &:last-of-type
+        margin-right: 5%
+
+    @media only screen and (min-width: 1001px)
+      width: 26.666%
+      margin: 0 1.5%
+
+      &:first-of-type
+        margin-left: 7%
+
+      &:last-of-type
+        margin-right: 7%
+
+    @media only screen and (min-width: 1281px)
+      width: 30%
+      margin: 0 2.5%
+
+      &:first-of-type
+        margin-left: 0
+
+      &:last-of-type
+        margin-right: 0
 
   h2
     color: color('pastel-blue')
@@ -96,3 +135,6 @@
     &:hover,
     &:active
       color: color('light-teal')
+
+  iframe.twitter-timeline-rendered
+    width: 100% !important

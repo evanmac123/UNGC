@@ -1,6 +1,22 @@
 .events-news-component
-  padding: 5%
+  padding: 2em 0
   background: lighten(color('pastel-blue'), 20%)
+
+  @media only screen and (min-width: 881px)
+    padding: 3em 0
+
+  .tabs,
+  .tab-content.active
+    margin: 0 4px
+
+    @media only screen and (min-width: 881px)
+      margin: 0 5%
+
+    @media only screen and (min-width: 1001px)
+      margin: 0 7%
+
+    @media only screen and (min-width: 1281px)
+      margin: 0
 
   .tab
     width: 33.3%

@@ -1,24 +1,33 @@
 .main-content-section
-  padding: 1em 7% 4em 12%
-  +clearfix
+  @extend %wrapper
+  background: white
+    position: center center
+    repeat: no-repeat
+    size: cover
 
-  &,
   *
     position: relative
 
-  &.align-center
-    padding: 1em 12% 4em
-
-  &.main-content-section-wide
-    padding: 1em 7% 4em
-
-  &.has-custom-bg
-    padding:
-      top: 6em
-      bottom: 7em
+  > .wrapper
+    padding: 1em 7% 4em 12%
+    overflow: hidden
 
   &.align-center
     text-align: center
+
+    > .wrapper
+      padding: 1em 12% 4em
+
+  &.main-content-section-wide > .wrapper
+    padding-left: 7%
+
+  &.main-content-section-narrow > .wrapper
+    padding-right: 12%
+
+  &.has-custom-bg > .wrapper
+    padding:
+      top: 6em
+      bottom: 7em
 
   &:first-child
     padding-top: 8em

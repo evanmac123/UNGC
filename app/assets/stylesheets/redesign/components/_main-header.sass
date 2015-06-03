@@ -12,7 +12,10 @@
 
   > .wrapper
     position: static
-    padding: 1em 0 2.5em
+    padding: 1.1em 0 2em
+
+    @media only screen and (min-width: 881px)
+      padding: 1em 0 2.5em
 
     @media only screen and (min-width: 1001px)
       padding: 1.25em 0 3em
@@ -23,11 +26,17 @@
     color: inherit
     font-size: 3em
     line-height: 1
-    margin: 0 0 0 5%
+    margin: 0 0 0 10px
+
+    @media only screen and (min-width: 881px)
+      margin-left: 5%
 
     @media only screen and (min-width: 1001px)
       font-size: 3.5em
-      margin: 0 0 0 7%
+      margin-left: 7%
+
+    @media only screen and (min-width: 1281px)
+      margin-left: 0
 
     &:before
       +logo('ungc')
@@ -37,7 +46,12 @@
 
   nav
     float: right
-    margin: 1.2em 0 0
+    clear: right
+    margin: 0 10px 0 0
+
+    @media only screen and (min-width: 881px)
+      clear: none
+      margin: 1.2em 0 0
 
     @media only screen and (min-width: 1001px)
       margin: 1.5em 0 0
@@ -62,15 +76,19 @@
   right: 0
   bottom: 0
   background:
-    color: rgba(color('dark-teal'), .6)
+    color: rgba(darken(color('dark-teal'), 5%), .6)
     blend-mode: multiply
   font:
+    size: .875em
     family: $flama-condensed-medium
     weight: 500
   text:
     align: center
     transform: uppercase
   letter-spacing: .05em
+
+  @media only screen and (min-width: 881px)
+    font-size: 1em
 
   @media only screen and (min-width: 1001px)
     font-size: 1.125em
@@ -79,9 +97,12 @@
     display: inline-block
 
   a.nav-link
-    padding: 0 1.5em
+    padding: 0 1em
     background-color: transparent
     +transition(background-color 150ms)
+
+    @media only screen and (min-width: 881px)
+      padding: 0 1.5em
 
     &:hover,
     &:active,
@@ -161,11 +182,17 @@
   float: right
   background-color: color('darker-teal')
   padding: 0 0 0 1.5em
-  margin: 1.2em 5% 0 1em
+  margin: -0.6em 10px .5em 0
   font-size: .875em
+
+  @media only screen and (min-width: 881px)
+    margin: 1.2em 5% 0 1em
 
   @media only screen and (min-width: 1001px)
     margin: 1.5em 7% 0 1em
+
+  @media only screen and (min-width: 1281px)
+    margin-right: 0
 
   .search-field,
   .search-button

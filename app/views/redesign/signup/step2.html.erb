@@ -1,19 +1,21 @@
 <section class='main-content-section'>
-  <header class='main-content-header'>
-    <h1><%= signup_type -%> Organization Application</h1>
-  </header>
+  <div class='wrapper'>
+    <header class='main-content-header'>
+      <h1><%= signup_type -%> Organization Application</h1>
+    </header>
 
-  <%= form_for(@signup.primary_contact, url: redesign_organization_step3_path, html: {class: 'form-classic'}) do |form| %>
+    <%= form_for(@signup.primary_contact, url: redesign_organization_step3_path, html: {class: 'form-classic'}) do |form| %>
 
-    <%= form.error_messages header_message: false %>
+      <%= form.error_messages header_message: false %>
 
-    <h2>Primary Contact Point</h2>
+      <h2>Primary Contact Point</h2>
 
-    <p>The main point of contact between your organization and the Global Compact Office. After your application is reviewed and accepted, this person will receive regular email including the UN Global Compact Monthly Bulletin, Communication on Progress deadlines (for business participants) as well as updates on news and events.</p>
+      <p>The main point of contact between your organization and the Global Compact Office. After your application is reviewed and accepted, this person will receive regular email including the UN Global Compact Monthly Bulletin, Communication on Progress deadlines (for business participants) as well as updates on news and events.</p>
 
-    <%= render partial: 'contact_form', locals: {form: form, account_info: true, contact_type: 'Primary Contact Point', financial_contact: false, welcome_package: false} %>
+      <%= render partial: 'contact_form', locals: {form: form, account_info: true, contact_type: 'Primary Contact Point', financial_contact: false, welcome_package: false} %>
 
-    <%= form.submit 'Next', class: 'button' %>
+      <%= form.submit 'Next', class: 'button' %>
 
-  <%- end -%>
+    <%- end -%>
+  </div>
 </section>

@@ -1,8 +1,9 @@
 #filters-form
+  @extend %wrapper
   display: block
-  padding: 2em 7% 1em
+  padding: 2em 0 1em
+  background: white
   +font-smoothing(antialiased)
-  +clearfix
 
   &:first-child
     padding-top: 10em
@@ -12,7 +13,7 @@
     left: -99999em
 
   header
-    margin: 0 0 1em
+    margin: 0 10px 1em
     +clearfix
 
     h1
@@ -22,6 +23,12 @@
     #section-search
       float: right
       margin: .75em 0 0
+
+    @media only screen and (min-width: 881px)
+      margin: 0 5% 1em
+
+    @media only screen and (min-width: 1001px)
+      margin: 0 7% 1em
 
   fieldset
     border: 0
@@ -70,20 +77,39 @@
   fieldset.filter-lists
     position: relative
     padding: 0 0 1em
+    margin: 0 10px
     border-bottom: 1px solid #eee
     +clearfix
+
+    @media only screen and (min-width: 881px)
+      margin: 0 5%
+
+    @media only screen and (min-width: 1001px)
+      margin: 0 7%
 
   .reset-and-submit
     display: none
 
   .results-count
     font-size: 1.25em
-    margin: .5em 0 0
+    margin: .5em 0 0 10px
+
+    @media only screen and (min-width: 881px)
+      margin-left: 5%
+
+    @media only screen and (min-width: 1001px)
+      margin-left: 7%
 
   fieldset.filter-sorting
     float: right
-    margin: 1em 0 0
+    margin: 1em 10px 0 0
     +clearfix
+
+    @media only screen and (min-width: 881px)
+      margin-right: 5%
+
+    @media only screen and (min-width: 1001px)
+      margin-right: 7%
 
     select
       display: inline-block

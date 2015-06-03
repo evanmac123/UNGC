@@ -1,12 +1,20 @@
 .stats-section
+  @extend %wrapper
   text-align: center
+  background: white
   +font-smoothing(antialiased)
-  +clearfix
+
+  > .wrapper
+    padding: 3% 0
+    @media only screen and (min-width: 881px) and (max-width: 1000px)
+      margin: 0 5%
+
+    @media only screen and (min-width: 1001px) and (max-width: 1280px)
+      margin: 0 7%
 
   .stat
     float: left
     width: 33.333%
-    padding: 2em 1px
 
   h1,
   h2
