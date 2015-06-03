@@ -8,7 +8,7 @@ class Redesign::SitewideSearchForm
 
   def facets
     Redesign::Searchable.facets(escaped_keywords, options)[:document_type].sort.map do |type, count|
-      MatchingFacet.new(type, count, type == document_type)
+      FacetPresenter.new(type, count, type == document_type)
     end
   end
 
@@ -63,10 +63,11 @@ class Redesign::SitewideSearchForm
     }
   end
 
-  MatchingFacet = Struct.new(:document_type, :count, :selected?) do
+  FacetPresenter = Struct.new(:document_type, :count, :selected?) do
 
-    def name
-      "#{document_type} (#{count})"
+    def title
+      type = I18n.t(document_type.underscore, scope: 'document_types')
+      "#{type} (#{count})"
     end
 
     def merge_params_into(params, key)
