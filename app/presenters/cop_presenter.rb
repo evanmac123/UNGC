@@ -122,6 +122,10 @@ class CopPresenter
     html.join(' ').html_safe
   end
 
+  def full_name
+    'Communication on Progress'
+  end
+
   private
 
     def partial
