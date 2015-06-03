@@ -1,8 +1,8 @@
 <%- image ||= nil -%>
-<%- if image && image[:url].present? %>
-  <%= link_to_redesign image[:url] do %>
-    <%= image_tag(image[:src], alt: image[:alt], class: 'widget widget-image') if image && image[:src] %>
+<%- if image && image[:src] -%>
+  <%- if image[:url].present? %>
+    <%= link_to_redesign image_tag(image[:src], alt: image[:alt]), image[:url], class: 'widget widget-image' %>
+  <%- else -%>
+    <div class='widget widget-image'><%= image_tag(image[:src], alt: image[:alt]) if image && image[:src] %></div>
   <%- end -%>
-<%- else -%>
-    <%= image_tag(image[:src], alt: image[:alt], class: 'widget widget-image') if image && image[:src] %>
 <%- end -%>
