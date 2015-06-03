@@ -315,16 +315,24 @@ class CommunicationOnProgress < ActiveRecord::Base
     is_advanced_programme? && is_intermediate_level? && self.meets_advanced_criteria
   end
 
+  def questions_missing_answers
+    CopQuestion.joins(:cop_attributes)
+      .where('cop_attributes.id in (?)', empty_answers.map(&:cop_attribute_id))
+  end
+
   def answered_all_questions?
+    empty_answers.to_a.length == 0 # we can't use .count as it will break the query
+  end
+
+  def empty_answers
     # find all questions where all the answered values add up to 0
     cop_answers
-      .select('sum(cop_answers.value) as total')
+      .select('cop_attribute_id, sum(cop_answers.value) as total')
       .joins(cop_attribute: [:cop_question])
       .where('cop_questions.initiative_id is null')
       .where('cop_questions.grouping not in (?)', CopQuestion::EXEMPTED_GROUPS)
       .group('cop_questions.id')
       .having('total = 0')
-      .to_a.length == 0 # we can't use .count as it will break the query
   end
 
   def is_blueprint_level?
