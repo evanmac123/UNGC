@@ -6,14 +6,6 @@ class Redesign::SitewideSearchForm
   attribute :per_page,      Integer,  default: 10
   attribute :document_type, String
 
-  def self.submit(params)
-    if params.any?
-      new(params)
-    else
-      NullSearch.new(params)
-    end
-  end
-
   def facets
     Redesign::Searchable.facets(escaped_keywords, options)[:document_type].sort.map do |type, count|
       MatchingFacet.new(type, count, type == document_type)
@@ -21,14 +13,18 @@ class Redesign::SitewideSearchForm
   end
 
   def execute
-    @results = if document_type.present?
+    results = case
+    when document_type.present?
       faceted_search
-    else
+    when keywords.present?
       keyword_search
+    else
+      empty_search
     end
 
-    @results.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
-    @results
+    results.context[:panes] << ThinkingSphinx::Panes::ExcerptsPane
+
+    @results = results
   end
 
   def clear_facets(params, key)
@@ -48,6 +44,10 @@ class Redesign::SitewideSearchForm
 
   def keyword_search
     Redesign::Searchable.search(escaped_keywords, options)
+  end
+
+  def empty_search
+    @@empty_search ||= EmptySearch.new
   end
 
   def escaped_keywords
@@ -84,29 +84,17 @@ class Redesign::SitewideSearchForm
 
   end
 
-  NullSearch = Struct.new(:params) do
+  class EmptySearch
 
-    def facets
+    def method_missing(*args)
       self
-    end
-
-    def execute
-      self
-    end
-
-    def clear_facets(params, _)
-      params
-    end
-
-    def keywords
-      nil
-    end
-
-    def none?
-      false
     end
 
     def any?
+      false
+    end
+
+    def none?
       false
     end
 

@@ -1,7 +1,7 @@
 class Redesign::SearchController < Redesign::ApplicationController
 
   def search
-    @search = Redesign::SitewideSearchForm.submit(search_params)
+    @search = Redesign::SitewideSearchForm.new(search_params)
     @results = @search.execute
   end
 
