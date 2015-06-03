@@ -2,7 +2,7 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
 
   def index
     set_current_container_by_path '/what-is-gc/participants'
-    @search = Redesign::ParticipantSearchForm.new
+    @search = Redesign::ParticipantSearchForm.new(page, search_params)
     @page = create_page
     @results = ParticipantSearch::ResultsPresenter.new(@search.execute)
   end
@@ -18,7 +18,6 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
 
   def search_params
     params.fetch(:search, {}).permit(
-      :page,
       :per_page,
       :sort_field,
       :sort_direction,
