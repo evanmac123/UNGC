@@ -8,7 +8,7 @@ class Redesign::SearchController < Redesign::ApplicationController
   private
 
   def search_params
-    params.require(:search).permit(:keywords, :document_type)
+    params.fetch(:search, {}).permit(:keywords, :document_type)
   end
 
 end
