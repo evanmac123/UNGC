@@ -9,6 +9,10 @@
   <%= form.text_field :keywords %>
 <% end %>
 
+<% if @results.none? %>
+  No results found.
+<% end %>
+
 <% if @results.any? %>
   <ul class="search_facets">
     <li>
@@ -18,13 +22,7 @@
       <li><%= link_to facet.name, facet.merge_params_into(params, :search), class: facet.state %></li>
     <%- end %>
   </ul>
-<% end %>
 
-<% if @results.none? %>
-  No results found.
-<% end %>
-
-<% if @results.any? %>
   <section class='main-content-section'>
     <section class='news-list'>
       <% @results.each do |result| %>
