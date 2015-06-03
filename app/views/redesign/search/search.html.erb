@@ -9,13 +9,16 @@
   <%= form.text_field :keywords %>
 <% end %>
 
-<ul class="search_facets">
-  <li><%= link_to 'All', @search.clear_facets(params, :search) %></li>
-  <%- @search.facets.each do |facet| -%>
-    <li><%= link_to facet.name, facet.merge_params_into(params, :search), class: facet.state %></li>
-  <%- end %>
-</ul>
-
+<% if @results.any? %>
+  <ul class="search_facets">
+    <li>
+      <%= link_to 'All', @search.clear_facets(params, :search) %>
+    </li>
+    <%- @search.facets.each do |facet| -%>
+      <li><%= link_to facet.name, facet.merge_params_into(params, :search), class: facet.state %></li>
+    <%- end %>
+  </ul>
+<% end %>
 
 <% if @results.none? %>
   No results found.
