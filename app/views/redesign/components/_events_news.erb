@@ -36,7 +36,7 @@
       <%- end -%>
 
       <%- events.future.each do |future_events| -%>
-        <ul class='column'>
+        <ul class='column future-events'>
           <%- future_events.each do |e| -%>
             <li><%= link_to redesign_event_path(e), class: 'event' do -%>
               <time datetime="<%= e.starts_at.strftime('%F') -%>">
@@ -60,7 +60,7 @@
       </header>
 
       <%- @page.news.each do |news| -%>
-        <ul class='column'>
+        <ul class='column news-items'>
           <%- news.each do |n| -%>
             <li><%= link_to redesign_news_path(n[:item]), class: 'news-item' do -%>
               <time datetime="<%= n[:date].strftime('%F') -%>"><%= n[:date] -%></time>
