@@ -10,7 +10,6 @@ class RedirectTest
     @conn = Faraday.new(url: @dev_host)
 
     @urls_to_redirect = [
-      {old: '/Issues/index.html', new: '/take-action'},
       {old: '/NetworksAroundTheWorld/index.html', new: '/engage-locally'},
       {old: '/AboutTheGC/tools_resources/index.html', new: '/library'},
       {old: '/AboutTheGC/global_compact_strategy.html', new: '/what-is-gc/strategy'},
@@ -68,7 +67,59 @@ class RedirectTest
       {old: '/COP/analyzing_progress/active_cops.html', new: '/participation/report/cop/create-and-submit/active'},
       {old: '/COPs/active/143311', new: '/participation/report/cop/create-and-submit/active/143311'},
       {old: '/COP/analyzing_progress/advanced_cops.html', new: '/participation/report/cop/create-and-submit/advanced'},
-      {old: '/COPs/advanced/143311', new: '/participation/report/cop/create-and-submit/advanced/143311'}
+      {old: '/COPs/advanced/143311', new: '/participation/report/cop/create-and-submit/advanced/143311'},
+      {old: '/Issues/index.html', new: '/take-action'},
+      {old: '/HowToParticipate/Lead/index.html', new: '/take-action/leadership'},
+      {old: '/HowToParticipate/Lead/participation.html', new: '/take-action/leadership/gc-lead'},
+      {old: '/HowToParticipate/Lead/LEADactivities.html', new: '/take-action/leadership/gc-lead/projects'},
+      {old: '/HowToParticipate/Engagement_Opportunities/index.html', new: '/take-action/action'},
+      {old: '/Issues/Labour/child_labour_platform.html', new: '/take-action/action/child-labour'},
+      {old: '/Issues/conflict_prevention/index.html', new: '/take-action/action/peace'},
+      {old: '/Issues/Environment/food_agriculture_business_principles.html', new: '/take-action/action/food'},
+      {old: '/Issues/human_rights/childrens_principles.html', new: '/take-action/action/child-rights'},
+      {old: '/Issues/human_rights/equality_means_business.html', new: '/take-action/action/womens-principles'},
+      {old: '/Issues/Environment/CEO_Water_Mandate/index.html', new: '/take-action/action/water-mandate'},
+      {old: '/Issues/Environment/Climate_Change/index.html', new: '/take-action/action/climate'},
+      {old: '/HowToParticipate/Lead/board_programme.html', new: '/take-action/action/gc-board-programme'},
+      {old: '/Issues/financial_markets/value_driver_model.html', new: '/take-action/action/value-driver-model'},
+      {old: '/Issues/transparency_anticorruption/call_to_action_post2015.html', new: '/take-action/action/anti-corruption-call-to-action'},
+      {old: '/Issues/transparency_anticorruption/working_group.html', new: '/take-action/action/anti-corruption-working-group'},
+      {old: '/Issues/human_rights/Human_Rights_Dilemmas_Forum.html', new: '/take-action/action/business-dilemmas-forum'},
+      {old: '/Issues/financial_markets/global_compact_100.html', new: '/take-action/action/global-compact-100'},
+      {old: '/NewsAndEvents/event_calendar/index.html', new: '/take-action/events'},
+      {old: '/NetworksAroundTheWorld/Meetings_and_Events.html', new: '/take-action/events'},
+      {old: '/Issues/human_rights/Meetings_and_Workshops.html', new: '/take-action/events'},
+      {old: '/Issues/Labour/Meetings_and_Workshops.html', new: '/take-action/events'},
+      {old: '/Issues/Environment/meetings_and_events.html', new: '/take-action/events'},
+      {old: '/Issues/transparency_anticorruption/Anti-Corruption_Meetings_and_Events.html', new: '/take-action/events'},
+      {old: '/Issues/conflict_prevention/annual_event.html', new: '/take-action/events'},
+      {old: '/Issues/partnerships/Partnerships_for_Development_Meetings_and_Events.html', new: '/take-action/events'},
+      {old: '/Issues/Business_Partnerships/meetings_workshops.html', new: '/take-action/events'},
+      {old: '/Issues/supply_chain/meetings.html', new: '/take-action/events'},
+      {old: '/AboutTheGC/The_Global_Compact_Board/meetings.html', new: '/take-action/events'},
+      {old: '/NetworksAroundTheWorld/index.html', new: '/engage-locally'},
+      {old: '/LocalNetworksResources/engagement_framework/index.html', new: '/engage-locally/manage/engagement'},
+      {old: '/LocalNetworksResources/engagement_framework/human_rights_and_labour.html', new: '/engage-locally/manage/engagement/human-rights-and-labour'},
+      {old: '/LocalNetworksResources/engagement_framework/childrens_rights_and_business_principles.html', new: '/engage-locally/manage/engagement/childrens-rights-and-business-principles'},
+      {old: '/LocalNetworksResources/engagement_framework/womens_empowerment_principles.html', new: '/engage-locally/manage/engagement/womens-empowerment-principles'},
+      {old: '/LocalNetworksResources/engagement_framework/caring_for_climate.html', new: '/engage-locally/manage/engagement/caring-for-climate'},
+      {old: '/LocalNetworksResources/engagement_framework/ceo_water_mandate.html', new: '/engage-locally/manage/engagement/ceo-water-mandate'},
+      {old: '/LocalNetworksResources/engagement_framework/anti_corruption.html', new: '/engage-locally/manage/engagement/anti-corruption'},
+      {old: '/LocalNetworksResources/engagement_framework/business_for_peace.html', new: '/engage-locally/manage/engagement/business-for-peace'},
+      {old: '/LocalNetworksResources/engagement_framework/supply_chain_sustainability.html', new: '/engage-locally/manage/engagement/supply-chain-sustainability'},
+      {old: '/LocalNetworksResources/training_guidance_material/index.html', new: '/engage-locally/manage/training'},
+      {old: '/LocalNetworksResources/training_guidance_material/outreach.html', new: '/engage-locally/manage/training/outreach'},
+      {old: '/LocalNetworksResources/training_guidance_material/cop_training.html', new: '/engage-locally/manage/training/cop-training'},
+      {old: '/LocalNetworksResources/training_guidance_material/partnerships.html', new: '/engage-locally/manage/training/partnerships'},
+      {old: '/LocalNetworksResources/training_guidance_material/fundraising_toolkit.html', new: '/engage-locally/manage/training/fundraising-toolkit'},
+      {old: '/LocalNetworksResources/training_guidance_material/webinars.html', new: '/engage-locally/manage/training/webinars'},
+      {old: '/LocalNetworksResources/news_updates/index.html', new: '/engage-locally/manage/news'},
+      {old: '/LocalNetworksResources/reports/index.html', new: '/engage-locally/manage/reports'},
+      {old: '/LocalNetworksResources/reports/foundation_financial_statements.html', new: '/engage-locally/manage/reports/foundation'},
+      {old: '/LocalNetworksResources/reports/outcome_documents.html', new: '/engage-locally/manage/reports/mtg-outcome'},
+      {old: '/LocalNetworksResources/reports/local_network_annual_reports.html', new: '/engage-locally/manage/reports/local-network-report'},
+      {old: '/LocalNetworksResources/reports/local_network_advisory_group_documents.html', new: '/engage-locally/manage/reports/local-networks-document'},
+      {old: '/LocalNetworksResources/reports/un_global_compact_activity_reports.html', new: '/engage-locally/manage/reports/activity-report'},
     ]
 
     @runs = 0
@@ -82,25 +133,18 @@ class RedirectTest
     @urls_to_redirect.each do |urls|
       response =  @conn.get(urls[:old])
 
-      if response.status == 301
-        print_success
-      else
-        add_redirect_status_code_error(urls,response.status) unless response.status == 301
-        print_failure
-      end
-
       if response.headers["location"] == @dev_host + urls[:new]
         print_success
+
+        response = @conn.get response.headers["location"]
+        if response.status == 200
+          print_success
+        else
+          add_new_url_status_code_error(urls,response.status)
+          print_failure
+        end
       else
         add_redirect_location_error(urls,response.headers["location"])
-        print_failure
-      end
-
-      response = @conn.get response.headers["location"]
-      if response.status == 200
-        print_success
-      else
-        add_new_url_status_code_error(urls,response.status)
         print_failure
       end
 
@@ -108,10 +152,6 @@ class RedirectTest
     end
 
     print_results
-  end
-
-  def add_redirect_status_code_error(urls, status)
-    @failures << "Failure: Expected GET #{urls[:old]} to redirect with 301. Found #{status}."
   end
 
   def add_redirect_location_error(urls, actual_url)
