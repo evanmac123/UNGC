@@ -40,13 +40,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :staff_user?
 
-  def has_redesign?
-    return true if Rails.env.test?
-    current_contact && current_contact.from_ungc?
-  end
-
-  helper_method :has_redesign?
-
   def editable_content?
     @is_editable_content
   end
