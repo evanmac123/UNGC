@@ -11,9 +11,10 @@ class ParticipantPage < SimpleDelegator
   def hero
     {
       title: {
-        title1: 'The Compact:',
-        title2: '8,000 Companies + 4,000 Non-Businesses'
+        title1: 'UN Global Compact: 8,000 companies',
+        title2: '+ 4,000 non-businesses'
       },
+      image: 'https://d306pr3pise04h.cloudfront.net/uploads/b1/b1757c442f979297b1e13aa44dcaf58da156106a---forest.jpg',
       size: 'small',
       show_section_nav: true
     }
