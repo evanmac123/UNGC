@@ -320,6 +320,10 @@ class CommunicationOnProgress < ActiveRecord::Base
       .where('cop_attributes.id in (?)', empty_answers.map(&:cop_attribute_id))
   end
 
+  def questions_missing_answers?
+    answered_all_questions? == false
+  end
+
   def answered_all_questions?
     empty_answers.to_a.length == 0 # we can't use .count as it will break the query
   end
