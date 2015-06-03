@@ -5,8 +5,8 @@
   color: white
   +font-smoothing(antialiased)
 
-  @media only screen and (max-width: 880px)
-    > .wrapper
+  > .wrapper
+    @media only screen and (max-width: 880px)
       padding: 0 10px
 
   a
@@ -21,35 +21,36 @@
     padding: 0
 
   .column
+    margin-bottom: 2em
     @media only screen and (min-width: 881px)
       float: right
       width: 28%
       margin: 0 1.5%
 
-      &:first-of-type
+      &:last-of-type
         margin-left: 5%
 
-      &:last-of-type
+      &:first-of-type
         margin-right: 5%
 
     @media only screen and (min-width: 1001px)
       width: 26.666%
       margin: 0 1.5%
 
-      &:first-of-type
+      &:last-of-type
         margin-left: 7%
 
-      &:last-of-type
+      &:first-of-type
         margin-right: 7%
 
     @media only screen and (min-width: 1281px)
       width: 30%
       margin: 0 2.5%
 
-      &:first-of-type
+      &:last-of-type
         margin-left: 0
 
-      &:last-of-type
+      &:first-of-type
         margin-right: 0
 
   h2
