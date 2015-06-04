@@ -164,14 +164,7 @@ module Admin::OrganizationsHelper
   end
 
   def link_to_getting_started
-    "/GettingStarted#{@organization.organization_type_name_for_custom_links.camelize}/introduction.html"
-  end
-
-  def link_to_local_network_welcome_letter_if_exists
-    filename = "/docs/networks_around_world_doc/communication/welcome_letters/local_network_welcome_letter_#{@organization.local_network_country_code}.pdf"
-    if FileTest.exists?("public/#{filename}")
-      link_to "Welcome Letter from your Local Network", filename, :class => 'pdf'
-    end
+    WelcomePackage.new(@organization, has_redesign?).link
   end
 
   def link_to_document(organization, document)
