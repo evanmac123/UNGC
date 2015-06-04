@@ -70,7 +70,7 @@
         %ul.document_list
           %li= popup_link_to 'Welcome Package', link_to_getting_started, class: :web
           %li= popup_link_to 'Welcome Letter from the Executive Director of the Global Compact', show_welcome_letter_admin_organization_path(@organization.id), class: :doc
-          %li= link_to 'Please follow this link to see the managed local network infomartion', '/engage-locally/manage', class: :web
+          %li= link_to_local_network_welcome_letter_if_exists
 
       %dt Relationship Manager
       %dd
