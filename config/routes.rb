@@ -6,14 +6,8 @@ class RedesignConstraint
   end
 
   def matches?(request)
-    return true if Rails.env.test?
     contact_id = request.session["warden.user.contact.key"].try(:[], 0).try(:[], 0)
-    if contact_id
-      contact = Contact.find(contact_id)
-      contact.from_ungc?
-    else
-      false
-    end
+    RedesignPreview.permitted?(contact_id)
   end
 end
 
