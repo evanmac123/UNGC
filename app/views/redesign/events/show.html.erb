@@ -7,66 +7,68 @@ has_sponsors = @page.sponsors.present?
 -%>
 
 <section class='main-content-section main-content-section-wide event-detail-main-content'>
-  <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
+  <div class='wrapper'>
+    <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
 
-  <section class='tabbed-component event-detail-body-wrapper'>
-    <menu class='tabs'>
-      <li class='tab'>
-        <button type='button' class='active' data-tab-content='main-page'>Overview</button>
-      </li>
+    <section class='tabbed-component event-detail-body-wrapper'>
+      <menu class='tabs'>
+        <li class='tab'>
+          <button type='button' class='active' data-tab-content='main-page'>Overview</button>
+        </li>
+
+        <%- if has_overview -%>
+          <li class='tab'>
+            <button type='button' data-tab-content='overview'>Programme</button>
+          </li>
+        <%- end -%>
+
+        <%- if has_sponsors -%>
+          <li class='tab'>
+            <button type='button' data-tab-content='sponsors'>Sponsors</button>
+          </li>
+        <%- end -%>
+      </menu>
+
+      <article class='tab-content main-page active'>
+        <div class='main-content-body'>
+          <%= @page.description.try(:html_safe) %>
+        </div>
+
+        <%= render layout: 'redesign/components/sidebar' do %>
+
+          <article class='widget widget-event-date-and-location<%= @page.contact.present? ? " event-has-contact" : nil -%>'>
+            <time class='event-date' datetime="<%= @page.date.iso -%>"><span><%= @page.date.string_with_time -%></span></time>
+
+            <%- if @page.location.present? -%>
+              <div class='event-location'><span><%= @page.location %></span></div>
+            <%- end -%>
+          </article>
+
+          <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact.present?%>
+
+          <%= render 'redesign/components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
+        <%- end -%>
+      </article>
 
       <%- if has_overview -%>
-        <li class='tab'>
-          <button type='button' data-tab-content='overview'>Programme</button>
-        </li>
+        <article class='tab-content overview'>
+          <div class='main-content-body'>
+            <%= @page.overview_description.try(:html_safe) %>
+          </div>
+        </article>
       <%- end -%>
 
       <%- if has_sponsors -%>
-        <li class='tab'>
-          <button type='button' data-tab-content='sponsors'>Sponsors</button>
-        </li>
-      <%- end -%>
-    </menu>
-
-    <article class='tab-content main-page active'>
-      <div class='main-content-body'>
-        <%= @page.description.try(:html_safe) %>
-      </div>
-
-      <%= render layout: 'redesign/components/sidebar' do %>
-
-        <article class='widget widget-event-date-and-location<%= @page.contact.present? ? " event-has-contact" : nil -%>'>
-          <time class='event-date' datetime="<%= @page.date.iso -%>"><span><%= @page.date.string_with_time -%></span></time>
-
-          <%- if @page.location.present? -%>
-            <div class='event-location'><span><%= @page.location %></span></div>
-          <%- end -%>
+        <article class='tab-content sponsors'>
+          <ul class='sponsors-list'>
+            <%- @page.sponsors.each do |s| -%>
+              <li class='sponsor-block'>
+                <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
+              </li>
+            <%- end -%>
+          </ul>
         </article>
-
-        <%= render 'redesign/components/widget_contact', contact: @page.contact if @page.contact.present?%>
-
-        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: @page.calls_to_action if @page.calls_to_action.any? %>
       <%- end -%>
-    </article>
-
-    <%- if has_overview -%>
-      <article class='tab-content overview'>
-        <div class='main-content-body'>
-          <%= @page.overview_description.try(:html_safe) %>
-        </div>
-      </article>
-    <%- end -%>
-
-    <%- if has_sponsors -%>
-      <article class='tab-content sponsors'>
-        <ul class='sponsors-list'>
-          <%- @page.sponsors.each do |s| -%>
-            <li class='sponsor-block'>
-              <%= link_to image_tag(s.logo_url, alt: s.name), s.website_url %>
-            </li>
-          <%- end -%>
-        </ul>
-      </article>
-    <%- end -%>
-  </section>
+    </section>
+  </div>
 </section>

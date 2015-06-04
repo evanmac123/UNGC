@@ -1,5 +1,17 @@
-.news-list
-  padding: 0 7% 0 0
+.news-list-section
+  > .wrapper
+    padding:
+      left: 7%
+      bottom: 0
+
+  .pagination
+    padding: 0 0 4em
+    border: 0
+
+.news-list-body
+  width: 100%
+  float: none
+
 
   .news-item
     padding: 1em
@@ -49,7 +61,13 @@
     &:active
       color: color('pastel-blue')
 
-  &.news-list-landing
+.news-list-landing
+  > .wrapper
+    padding:
+      left: 12%
+      bottom: 4em
+
+  .news-list-body
     padding-right: 0
     float: left
     width: 60%

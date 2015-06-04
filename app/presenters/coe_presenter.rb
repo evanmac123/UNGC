@@ -120,4 +120,8 @@ class CoePresenter
     admin_organization_communication_on_progress_path(coe.organization, coe.id)
   end
 
+  def full_name
+    'Communication on Engagement'
+  end
+
 end

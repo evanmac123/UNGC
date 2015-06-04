@@ -24,4 +24,5 @@
 
 <%= render layout: 'redesign/components/news_list', locals: {news: @page.news} do %>
   <%= will_paginate @page.news.other, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
-<% end %>
+<%- end -%>
+

@@ -1,16 +1,20 @@
+<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'redesign/components/hero' %>
 <section class='main-content-section'>
-  <header class='main-content-header'>
-    <h1><%= signup_type -%> Organization Application</h1>
-  </header>
+  <div class='wrapper'>
+    <header class='main-content-header'>
+      <h1><%= signup_type -%> Organization Application</h1>
+    </header>
 
-  <%= form_for(@signup.organization, url: redesign_organization_step5_path, html: {multipart: true, class: 'form-classic'}) do |form| %>
+    <%= form_for(@signup.organization, url: redesign_organization_step5_path, html: {multipart: true, class: 'form-classic'}) do |form| %>
 
-    <%= form.error_messages(message: false) %>
+      <%= form.error_messages(message: false) %>
 
-    <h2>Financial Commitment</h2>
+      <h2>Financial Commitment</h2>
 
-    <%= render partial: @signup.pledge_form_type, locals: {form: form} %>
+      <%= render partial: @signup.pledge_form_type, locals: {form: form} %>
 
-    <%= form.submit 'Next', class: 'button' %>
-  <%- end -%>
+      <%= form.submit 'Next', class: 'button' %>
+    <%- end -%>
+  </div>
 </section>

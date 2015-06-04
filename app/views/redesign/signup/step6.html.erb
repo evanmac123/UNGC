@@ -1,38 +1,42 @@
+<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'redesign/components/hero' %>
 <section class='main-content-section'>
-  <header class='main-content-header'>
-    <h1><%= signup_type -%> Organization Application</h1>
-  </header>
+  <div class='wrapper'>
+    <header class='main-content-header'>
+      <h1><%= signup_type -%> Organization Application</h1>
+    </header>
 
-  <%= flash_messages_for :error %>
+    <%= flash_messages_for :error %>
 
-  <%= form_for(@signup.organization, :url => redesign_organization_step7_path, :html => {:multipart => true, class: 'form-classic'}) do |form| %>
+    <%= form_for(@signup.organization, :url => redesign_organization_step7_path, :html => {:multipart => true, class: 'form-classic'}) do |form| %>
 
-    <%= form.error_messages %>
+      <%= form.error_messages %>
 
-    <fieldset>
-      <h3>Letter of Commitment</h3>
-
-      <p>Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form. The uploaded file should be in PDF format.</p>
-
-      <div class='field'>
-        <%= form.file_field :commitment_letter, { :label => ' ' } %>
-      </div>
-    </fieldset>
-
-    <%- if @signup.non_business? -%>
       <fieldset>
-        <h3>Mission Statement</h3>
+        <h3>Letter of Commitment</h3>
 
-        <%= fields_for :non_business_organization_registration, @signup.registration do |fields| %>
-          <%- unless @signup.registration.valid? -%>
-            <p>Please provide a complete description of your organization’s mission statement (maximum 1000 characters).</p>
-          <%- end -%>
-          <%= fields.text_area :mission_statement, :maxlength => 1000 %>
-        <%- end -%>
+        <p>Please ensure that your Letter of Commitment has been signed by your organization's chief executive and scanned for upload before completing this form. The uploaded file should be in PDF format.</p>
 
-        <p>Please note that upon review and acceptance of your application, the Letter of Commitment and your Mission Statement will be made public on this website as adherence to accountability.</p>
+        <div class='field'>
+          <%= form.file_field :commitment_letter, { :label => ' ' } %>
+        </div>
       </fieldset>
+
+      <%- if @signup.non_business? -%>
+        <fieldset>
+          <h3>Mission Statement</h3>
+
+          <%= fields_for :non_business_organization_registration, @signup.registration do |fields| %>
+            <%- unless @signup.registration.valid? -%>
+              <p>Please provide a complete description of your organization’s mission statement (maximum 1000 characters).</p>
+            <%- end -%>
+            <%= fields.text_area :mission_statement, :maxlength => 1000 %>
+          <%- end -%>
+
+          <p>Please note that upon review and acceptance of your application, the Letter of Commitment and your Mission Statement will be made public on this website as adherence to accountability.</p>
+        </fieldset>
+      <%- end -%>
+      <%= form.submit 'Submit', :class => 'button' %>
     <%- end -%>
-    <%= form.submit 'Submit', :class => 'button' %>
-  <%- end -%>
+  </div>
 </section>

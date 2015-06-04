@@ -1,16 +1,14 @@
-<%= render partial: 'redesign/components/meta_tags' %>
+<%= render 'redesign/components/meta_tags' %>
 <%# Body %>
-<%= render partial: 'redesign/components/hero' %>
+<%= render 'redesign/components/hero' %>
 
-<section class='main-content-section'>
-  <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
+<section class='main-content-section main-content-section-narrow'>
+  <div class='wrapper'>
+    <%= content_tag(:header, content_tag(:h1, @page.title), {class: 'main-content-header'}) %>
 
-  <section class='main-content-body'>
-    <b>
-      <%= @page.full_location %>
-    </b>
-    <br>
-    <%= @page.description.html_safe %>
-  </section>
-
+    <section class='main-content-body'>
+      <h5><%= @page.full_location %></h5>
+      <%= @page.description.html_safe %>
+    </section>
+  </div>
 </section>

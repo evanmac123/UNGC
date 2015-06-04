@@ -3,6 +3,7 @@ class Redesign::SearchController < Redesign::ApplicationController
   def search
     @search = Redesign::SitewideSearchForm.new(search_params)
     @results = @search.execute
+    @page = SitewideSearchPage.new
   end
 
   private

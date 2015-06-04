@@ -42,11 +42,12 @@ class Redesign::CopsController < Redesign::ApplicationController
   end
 
   def show
-    @page = CopDetailPage.new(current_container)
+    set_current_container_by_path('/participation/report')
     cop = CommunicationOnProgress.
       includes(cop_answers: [:cop_attribute], cop_files: [:language]).
       find(params[:id])
     @communication = CommunicationPresenter.create(cop, current_contact)
+    @page = CopDetailPage.new(current_container, @communication)
   end
 
   # XXX this is only in the old system?

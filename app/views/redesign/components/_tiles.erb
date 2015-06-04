@@ -1,15 +1,13 @@
 <%- if tiles = @page.tiles -%>
-
-<section class='tiles-section'>
-  <%- tiles.each do |tile| -%>
-  <article class='tile <%= "color-#{tile[:color]}" if tile[:color] -%> <%= 'double-width' if tile[:double_width] -%> <%= 'double-height' if tile[:double_height] -%>' style='<%= "background-image: url(#{tile[:bg_image]});" if tile[:bg_image] -%>'>
-    <%= link_to_redesign tile[:link][:url] do %>
-      <%= "<h1>#{tile[:title]}</h1>".html_safe if tile[:title] %>
-      <%= "<p>#{tile[:blurb]}</p>".html_safe if tile[:blurb] %>
-      <%= "<span class='link-label'>#{tile[:link][:label]}</span>".html_safe if tile[:link][:label] %>
-    <% end %>
-  </article>
-  <%- end -%>
-</section>
-
+  <section class='tiles-section'>
+    <%- tiles.each do |tile| -%>
+      <article class='tile <%= "color-#{tile[:color]}" if tile[:color] -%> <%= 'double-width' if tile[:double_width] -%> <%= 'double-height' if tile[:double_height] -%>' style='<%= "background-image: url(#{tile[:bg_image]});" if tile[:bg_image] -%>'>
+        <%= link_to_redesign tile[:link][:url] do %>
+          <%= content_tag(:h1, tile[:title], class: 'tile-title') if tile[:title] %>
+          <%= content_tag(:p, tile[:blurb], class: 'tile-blurb') if tile[:blurb] %>
+          <%= content_tag(:span, tile[:link][:label], class: 'tile-link-label') if tile[:link][:label] %>
+        <% end %>
+      </article>
+    <%- end -%>
+  </section>
 <%- end -%>

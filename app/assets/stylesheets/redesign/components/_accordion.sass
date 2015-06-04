@@ -1,6 +1,5 @@
 .accordion-body
   float: left
-  padding: 0 0 0 12%
   width: 60%
 
   .main-content-blurb p
@@ -13,10 +12,15 @@
   &.accordion-ready
     opacity: 1
 
-.accordion-item-header
+.accordion-item
+  margin-bottom: .125em
+
+.accordion-item-header,
+h1.accordion-item-header,
+h2.accordion-item-header
   position: relative
   padding: .5em 3em .6em 1em
-  margin: 0 0 2px
+  margin: 0
   background-color: color('grey')
   color: white
   font-size: 1em
@@ -38,17 +42,33 @@
     line-height: 1
     +font-smoothing(antialiased)
 
-.accordion-child-header
+  &:hover,
+  &:active
+    background-color: darken(color('grey'), 10%)
+
+.accordion-child-header,
+h1.accordion-child-header,
+h2.accordion-child-header
   background-color: #eee
   color: color('dark-grey')
   border-radius: 0
   text-transform: none
 
+  &:hover,
+  &:active
+    background-color: #ddd
+    color: black
+
 .accordion-item-content-wrapper
   overflow: hidden
 
 .accordion-item-content
-  padding: 1.25em
+  padding: 1.5em
+  font-size: .875em
+
+  ul,
+  ol
+    padding-left: 2em
 
 .accordion-ready .accordion-item-content-wrapper
   +transition(max-height 150ms)

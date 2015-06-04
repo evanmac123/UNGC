@@ -4,27 +4,29 @@
 
 <%- if content = @page.main_content_section -%>
   <section class='main-content-section'>
-    <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
+    <div class='wrapper'>
+      <%= content_tag(:header, content_tag(:h1, content[:title]), {class: 'main-content-header'}) if content[:title] %>
 
-    <section class='main-content-body'>
-      <%= render 'redesign/components/tied_principles', principles: @page.principles %>
+      <section class='main-content-body'>
+        <%= render 'redesign/components/tied_principles', principles: @page.principles %>
 
-      <div class='main-content-body-content'>
-        <%= content[:content].html_safe if content[:content] %>
-      </div>
+        <div class='main-content-body-content'>
+          <%= content[:content].html_safe if content[:content] %>
+        </div>
 
-      <%= content_tag(:p, link_to_redesign(content[:call_to_action][:title], content[:call_to_action][:url], class: "button #{content[:call_to_action][:theme]}")) if content[:call_to_action] %>
-    </section>
+        <%= content_tag(:p, link_to_redesign(content[:call_to_action][:title], content[:call_to_action][:url], class: "button #{content[:call_to_action][:theme]}")) if content[:call_to_action] %>
+      </section>
 
-    <%- if sidebar = @page.sidebar_widgets -%>
-      <%= render layout: 'redesign/components/sidebar' do %>
-        <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
+      <%- if sidebar = @page.sidebar_widgets -%>
+        <%= render layout: 'redesign/components/sidebar' do %>
+          <%= render 'redesign/components/widget_contact', contact: sidebar.contact %>
 
-        <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
+          <%= render 'redesign/components/widget_calls_to_action', calls_to_action: sidebar.calls_to_action %>
 
-        <%= render 'redesign/components/widget_links_lists', links_lists: sidebar.links_lists %>
-      <% end %>
-    <%- end -%>
+          <%= render 'redesign/components/widget_links_lists', links_lists: sidebar.links_lists %>
+        <% end %>
+      <%- end -%>
+    </div>
   </section>
 <%- end -%>
 

@@ -1,7 +1,7 @@
 .tiles-section
-  +font-smoothing(antialiased)
-  +clearfix
+  @extend %wrapper
   color: white
+  +font-smoothing(antialiased)
 
   a
     display: block
@@ -15,37 +15,44 @@
     padding: 5% 7%
 
   h1
-    font-size: 1.75em
+    font-size: 1em
     line-height: 1.1
     color: inherit
     margin: 0 0 1em
 
-  p
+  .tile-blurb
     color: inherit
+    display: none
+    line-height: 1.3
 
-  .link-label
+  .tile-link-label
+    display: block
     position: absolute
-    left: 0
-    right: 0
+    left: 7%
+    right: 13%
     bottom: 0
-    padding: 5% 7%
+    padding: 0 0 7%
     font:
       family: $flama-bold
       weight: bold
-      size: 1.5em
+    line-height: 1.1
 
     &:after
       +fa-icon
       content: $fa-var-play-circle
-      margin-left: .5em
+      position: relative
+      top: .05em
+      margin-left: .25em
 
+    @media only screen and (min-width: 881px)
+      font-size: 1.25em
 
   .tile
     position: relative
     float: left
-    width: 16.666%
+    width: 33.333%
     height: 0
-    padding: 16.666% 0 0
+    padding: 33.333% 0 0
     border: 1px solid white
     margin: 0
     background:
@@ -54,23 +61,58 @@
       repeat: no-repeat
       size: cover
 
+    @media only screen and (min-width: 701px)
+      width: 16.666%
+      padding-top: 16.666%
+
     &.double-width
-      width: 33.333%
+      width: 66.666%
       text-align: center
 
-    &.double-height
-      padding-top: 33.333%
+      @media only screen and (min-width: 701px)
+        width: 33.333%
 
-      .link-label
-        bottom: -1px
+      h1
+        font-size: 1.25em
+
+        @media only screen and (min-width: 881px)
+          font-size: 1.5em
+
+        @media only screen and (min-width: 1081px)
+          font-size: 1.75em
+
+      .tile-link-label
+        padding-bottom: 3.5%
+        right: 7%
+
+    &.double-height
+      padding-top: 66.666%
+
+      @media only screen and (min-width: 701px)
+        padding-top: 33.333%
+
+      .tile-blurb
+        @media only screen and (min-width: 1081px)
+          display: block
 
     &.double-width.double-height
-      h1
-        font-size: 2.5em
 
-      .link-label
+      h1
+        @media only screen and (min-width: 1081px)
+          font-size: 2.5em
+
+      .tile-link-label
         position: relative
         padding: 0
+        left: 0
+        right: 0
+
+        @media only screen and (min-width: 1081px)
+          font-size: 1.5em
+
+      .tile-blurb
+        @media only screen and (min-width: 881px)
+          display: block
 
     &.color-light-blue
       background-color: color('light-blue')
@@ -78,7 +120,7 @@
       &.double-height
         border-bottom-color: color('light-blue')
 
-      .link-label
+      .tile-link-label
         color: color('pastel-blue')
 
     &.color-pastel-blue
@@ -87,7 +129,7 @@
       &.double-height
         border-bottom-color: color('pastel-blue')
 
-      .link-label
+      .tile-link-label
         color: color('light-blue')
 
     &.color-teal
@@ -96,7 +138,7 @@
       &.double-height
         border-bottom-color: color('teal')
 
-      .link-label
+      .tile-link-label
         color: color('light-teal')
 
     &.color-light-teal
@@ -105,7 +147,7 @@
       &.double-height
         border-bottom-color: color('light-teal')
 
-      .link-label
+      .tile-link-label
         color: color('teal')
 
     &.color-green
@@ -114,7 +156,7 @@
       &.double-height
         border-bottom-color: color('green')
 
-      .link-label
+      .tile-link-label
         color: color('light-green')
 
     &.color-light-green
@@ -123,7 +165,7 @@
       &.double-height
         border-bottom-color: color('light-green')
 
-      .link-label
+      .tile-link-label
         color: color('green')
 
     &.color-orange
@@ -132,10 +174,10 @@
       &.double-height
         border-bottom-color: color('orange')
 
-      .link-label
+      .tile-link-label
         color: color('dark-orange')
 
     a:hover,
     a:active
-      .link-label
+      .tile-link-label
         color: white

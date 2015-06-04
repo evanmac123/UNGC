@@ -57,3 +57,11 @@ en:
     online: 'Online'
     in_person: 'In Person'
     invite_only: 'Invite Only'
+
+  document_types:
+    communication_on_progress: "Communication on Progress"
+    container: "Web Page"
+    headline: "News"
+    participant: "Participant"
+    resource: "Library"
+    event: "Event"

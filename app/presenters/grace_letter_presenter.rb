@@ -78,6 +78,10 @@ class GraceLetterPresenter
     end
   end
 
+  def full_name
+    'Grace Letter'
+  end
+
   private
 
     def new_cop_file

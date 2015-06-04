@@ -4,5 +4,7 @@
 <%= render 'form', title: @page.meta_title.html_safe %>
 
 <section class='main-content-section main-content-section-wide'>
-  <%= participants_table(@search, @results) %>
+  <div class='wrapper'>
+    <%= participants_table(@search, @results) %>
+  </div>
 </section>

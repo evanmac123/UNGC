@@ -8,10 +8,12 @@ class Redesign::LibraryController < Redesign::ApplicationController
   end
 
   def show
+    set_current_container_by_path('/library')
     resource = Resource.
       includes([issues: [:parent], sectors: [:parent], topics: [:parent], links: [:language]])
       .find(params[:id])
     @resource = LibraryDetailPresenter.new(resource)
+    @page = LibraryDetailPage.new(current_container, resource)
   end
 
   def search

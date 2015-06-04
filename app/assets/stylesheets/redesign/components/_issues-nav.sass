@@ -1,24 +1,30 @@
 #issues-nav
-  list-style: none
-  display: table
-  width: 90%
   position: absolute
+  list-style: none
   left: 0
   right: 0
   bottom: 1px
   padding: 0
-  margin: 0 auto
-  max-width: 1200px
+  margin: 0
   text-align: center
   font:
     family: $flama-condensed-medium
     size: 1.375em
+  +clearfix
+
+  @media only screen and (min-width: 881px) and (max-width: 1000px)
+    left: 5%
+    right: 5%
+
+  @media only screen and (min-width: 1001px) and (max-width: 1280px)
+    left: 7%
+    right: 7%
 
   li
-    display: inline-block
+    float: left
     vertical-align: top
     margin: 0
-    padding: 0 1px
+    padding: 0 2px 0 0
     width: 27%
 
     &:last-of-type
@@ -56,7 +62,9 @@
       +transition-duration(0ms)
 
   .see-all
-    width: 18%
+    width: 19%
+    padding-right: 0
+
     a:before
       display: none
 

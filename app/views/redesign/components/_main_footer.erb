@@ -1,34 +1,36 @@
 <footer id='main-footer'>
-  <article>
-    <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/globalcompact" data-widget-id="571824679078604800">Tweets by @globalcompact</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-  </article>
+  <div class='wrapper'>
+    <article class='column'>
+      <div class='contribute'>
+        <h2>Help us transform the world through business</h2>
+        <%= link_to_redesign 'Contribute Today', '/about/foundation' %>
+      </div>
 
-  <article>
-    <h2>Follow Us</h2>
-    <ul class='social'><%- %w(Twitter YouTube LinkedIn Facebook Flickr RSS).each do |s|-%>
-      <li><%= link_to "<span>#{s}</span>".html_safe, '/redesign', class: s.parameterize -%></li>
-    <%- end -%></ul>
+      <div class='contact'>
+        <h2>Contact</h2>
+        Use our <%= link_to_redesign 'contact form', redesign_new_contact_us_path -%> to get in touch.
+      </div>
+    </article>
 
-    <h2>QuickLinks</h2>
-    <ul class='quick-links'>
-      <li><%= link_to_redesign 'The Ten Principles', '/what-is-gc/mission/principles' -%></li>
-      <li><%= link_to_redesign 'Issue Areas', '/our-work' -%></li>
-      <li><%= link_to_redesign 'What You Can Do', '/take-action/action' -%></li>
-      <li><%= link_to_redesign 'Join Now', '/participation/join/application' -%></li>
-      <li><%= link_to_redesign 'Submit your COP', '/participation/report' -%></li>
-    </ul>
-  </article>
+    <article class='column'>
+      <h2>Follow Us</h2>
+      <ul class='social'><%- %w(Twitter YouTube LinkedIn Facebook Flickr RSS).each do |s|-%>
+        <li><%= link_to "<span>#{s}</span>".html_safe, '/redesign', class: s.parameterize -%></li>
+      <%- end -%></ul>
 
-  <article>
-    <div class='contribute'>
-      <h2>Help us transform the world through business</h2>
-      <%= link_to_redesign 'Contribute Today', '/about/foundation' %>
-    </div>
+      <h2>QuickLinks</h2>
+      <ul class='quick-links'>
+        <li><%= link_to_redesign 'The Ten Principles', '/what-is-gc/mission/principles' -%></li>
+        <li><%= link_to_redesign 'Issue Areas', '/our-work' -%></li>
+        <li><%= link_to_redesign 'What You Can Do', '/take-action/action' -%></li>
+        <li><%= link_to_redesign 'Join Now', '/participation/join/application' -%></li>
+        <li><%= link_to_redesign 'Submit your COP', '/participation/report' -%></li>
+      </ul>
+    </article>
 
-    <div class='contact'>
-      <h2>Contact</h2>
-      Use our <%= link_to_redesign 'contact form', redesign_new_contact_us_path -%> to get in touch.
-    </div>
-  </article>
+    <article class='column'>
+      <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/globalcompact" data-widget-id="571824679078604800">Tweets by @globalcompact</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+    </article>
+  </div>
 </footer>

@@ -1,61 +1,57 @@
-<% provide :title, "Explore Our Library | #{@resource.title}" %>
-
-<%# @ghedamat: there's no @page here, so we should discuss how to deal with these partials  %>
-<%#= render partial: 'redesign/components/meta_tags' %>
-<%#= render partial: 'redesign/components/hero' %>
-<header id="hero" class='hero-size-small'>
-  <h1><br><span>Explore Our</span><br><span>Library</span></h1>
-</header>
+<%= render partial: 'redesign/components/meta_tags' %>
+<%= render partial: 'redesign/components/hero' %>
 
 <section class='main-content-section'>
-  <header class='main-content-header'>
-    <h1><%= @resource.title -%></h1>
-  </header>
+  <div class='wrapper'>
+    <header class='main-content-header'>
+      <h1><%= @resource.title -%></h1>
+    </header>
 
-  <section class='main-content-body'>
-    <%# @ghedamat: unlike most other sections, looks like the output from description is plain text, not HTML. We should remove the wrapping <p> if this is every fixed %>
-    <p><%= @resource.description %></p>
+    <section class='main-content-body'>
+      <%# @ghedamat: unlike most other sections, looks like the output from description is plain text, not HTML. We should remove the wrapping <p> if this is every fixed %>
+      <p><%= @resource.description %></p>
 
-    <time datetime="<%= year = @resource.year -%>" class='resource-year'>(<%= year.to_date.year %>)</time>
+      <time datetime="<%= year = @resource.year -%>" class='resource-year'>(<%= year.to_date.year %>)</time>
 
-    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a| %>
-      <%- search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]} -%>
-      <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.topics, title: 'Topics'} do |a| %>
+        <%- search_hash = a.parent.present? ? {topics: [a.id]} : {topic_groups: [a.id]} -%>
+        <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+      <% end %>
+
+      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a| %>
+        <%- search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]} -%>
+        <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+      <% end %>
+
+      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a| %>
+        <%- search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]} -%>
+        <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
+      <% end %>
+
+      <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a| %>
+        <%= a.full_name -%>
+      <% end %>
+
+      <%- if @resource.links.any? -%>
+      <article class='resource-links-list'>
+        <ul>
+          <%- @resource.links_list.each do |link| -%>
+            <li class='resource-link resource-link-type-<%= link.type -%>'>
+              <h2><%= link_to_redesign link.title, link.url, target: '_blank' -%> <span class='resource-link-language'>(<%= link.language -%>)</span></h2>
+
+              <%- if link.is_youtube? -%>
+                <div class='video-iframe'><iframe width="560" height="315" src="<%= link.embed_url %>" frameborder="0" allowfullscreen></iframe></div>
+              <%- end -%>
+            </li>
+          <%- end -%>
+        </ul>
+      </article>
+      <%- end -%>
+
+    </section>
+
+    <%= render layout: 'redesign/components/sidebar' do %>
+        <%= render 'redesign/components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title} %>
     <% end %>
-
-    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.issues, title: 'Issues'} do |a| %>
-      <%- search_hash = a.parent.present? ? {issues: [a.id]} : {issue_groups: [a.id]} -%>
-      <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
-    <% end %>
-
-    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.sectors, title: 'Sectors'} do |a| %>
-      <%- search_hash = a.parent.present? ? {sectors: [a.id]} : {sector_groups: [a.id]} -%>
-      <%= link_to a.name, redesign_library_search_path(search: search_hash) -%>
-    <% end %>
-
-    <%= render layout: 'redesign/components/resource_attributes_list', locals: {attributes: @resource.authors, title: 'Authors'} do |a| %>
-      <%= a.full_name -%>
-    <% end %>
-
-    <%- if @resource.links.any? -%>
-    <article class='resource-links-list'>
-      <ul>
-        <%- @resource.links_list.each do |link| -%>
-          <li class='resource-link resource-link-type-<%= link.type -%>'>
-            <h2><%= link_to_redesign link.title, link.url, target: '_blank' -%> <span class='resource-link-language'>(<%= link.language -%>)</span></h2>
-
-            <%- if link.is_youtube? -%>
-              <div class='video-iframe'><iframe width="560" height="315" src="<%= link.embed_url %>" frameborder="0" allowfullscreen></iframe></div>
-            <%- end -%>
-          </li>
-        <%- end -%>
-      </ul>
-    </article>
-    <%- end -%>
-
-  </section>
-
-  <%= render layout: 'redesign/components/sidebar' do %>
-      <%= render 'redesign/components/widget_image', image: {src: "//www.unglobalcompact.org#{@resource.cover_image(:show, retina: true)}", alt: @resource.title} %>
-  <% end %>
+  </div>
 </section>

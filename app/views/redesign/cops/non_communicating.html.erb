@@ -2,42 +2,44 @@
 <%= render partial: 'redesign/components/hero' %>
 
 <section id='paged_results' class='main-content-section main-content-section-wide cop-list'>
-  <header class='main-content-header'>
-    <h1>Non-Communicating Participants</h1>
-    <h2>Total number of non-communicating participants: <%= count_all_orgs(:noncommunicating) %></h2>
-    <%= per_page_select %>
-  </header>
-  <table class="table-embedded striped sortable">
-    <thead>
-      <tr>
-        <th class="sort">Participant </th>
-        <th class="sort">Sector </th>
-        <th class="sort">Country </th>
-        <th class="sort">Participant since </th>
-        <th class="sort">COP Deadline </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% for organization in paged_organizations(:noncommunicating) %>
+  <div class='wrapper'>
+    <header class='main-content-header'>
+      <h1>Non-Communicating Participants</h1>
+      <h2>Total number of non-communicating participants: <%= count_all_orgs(:noncommunicating) %></h2>
+      <%= per_page_select %>
+    </header>
+    <table class="table-embedded striped sortable">
+      <thead>
         <tr>
-          <td title="<%= organization.name %>">
-            <%= link_to truncate(organization.name, :length => 20), redesign_participant_path(organization, :noncommunicating) %>
-          </td>
-          <td title="<%= organization.sector_name %>">
-            <%= truncate(organization.sector_name, :length => 20) %>
-          </td>
-          <td title="<%= organization.country_name %>">
-            <%= truncate(organization.country_name, :length => 20) %>
-          </td>
-          <td>
-            <%= yyyy_mm_dd organization.joined_on %>
-          </td>
-          <td>
-            <%= yyyy_mm_dd organization.noncommed_on %>
-          </td>
+          <th class="sort">Participant </th>
+          <th class="sort">Sector </th>
+          <th class="sort">Country </th>
+          <th class="sort">Participant since </th>
+          <th class="sort">COP Deadline </th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= paginate_orgs(:noncommunicating, :anchor => 'paged_results') %>
+      </thead>
+      <tbody>
+        <% for organization in paged_organizations(:noncommunicating) %>
+          <tr>
+            <td title="<%= organization.name %>">
+              <%= link_to truncate(organization.name, :length => 20), redesign_participant_path(organization, :noncommunicating) %>
+            </td>
+            <td title="<%= organization.sector_name %>">
+              <%= truncate(organization.sector_name, :length => 20) %>
+            </td>
+            <td title="<%= organization.country_name %>">
+              <%= truncate(organization.country_name, :length => 20) %>
+            </td>
+            <td>
+              <%= yyyy_mm_dd organization.joined_on %>
+            </td>
+            <td>
+              <%= yyyy_mm_dd organization.noncommed_on %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate_orgs(:noncommunicating, :anchor => 'paged_results') %>
+  </div>
 </section>

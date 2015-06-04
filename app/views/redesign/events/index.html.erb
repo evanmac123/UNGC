@@ -24,16 +24,24 @@
 
 <% end %>
 
-<%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.events} do |event| %>
-  <%= render 'redesign/components/content_block',
-    type: 'event',
-    title: event.title,
-    url: redesign_event_path(event),
-    thumbnail: event.thumbnail_image.url,
-    tag: event.tag,
-    date: event.date,
-    location: event.location
-  %>
-<% end %>
+<%- if @page.events.any? -%>
+  <%= render layout: 'redesign/components/content_blocks', locals: {blocks: @page.events} do |event| %>
+    <%= render 'redesign/components/content_block',
+      type: 'event',
+      title: event.title,
+      url: redesign_event_path(event),
+      thumbnail: event.thumbnail_image.url,
+      tag: event.tag,
+      date: event.date,
+      location: event.location
+    %>
+  <% end %>
+<%- else -%>
+  <section class="main-content-section main-content-section-wide">
+    <div class='wrapper'>
+      <h2>No events found.</h2>
+    </div>
+  </section>
+<%- end -%>
 
 <%= will_paginate @page.results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>

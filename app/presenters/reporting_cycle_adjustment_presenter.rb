@@ -70,4 +70,8 @@ class ReportingCycleAdjustmentPresenter
   def results_partial
   end
 
+  def full_name
+    'Reporting Cycle Adjustment'
+  end
+
 end
