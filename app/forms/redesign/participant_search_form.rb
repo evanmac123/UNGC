@@ -122,8 +122,7 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
       'name'          => 'name',
       'type'          => 'type_name',
       'sector'        => 'sector_name',
-      'country'       => 'country_name',
-      'company_size'  => 'company_size',
+      'country'       => 'country_name'
     }
   end
 
