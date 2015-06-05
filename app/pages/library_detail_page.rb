@@ -10,8 +10,7 @@ class LibraryDetailPage
     {size: 'small'}
     {
       title: {
-        title1: 'Explore Our',
-        title2: 'Library'
+        title1: 'Explore Our Library'
       },
       image: 'https://d306pr3pise04h.cloudfront.net/uploads/02/029f94ffc19f95c80a441f47697f54055cda1b25---library.jpg',
       size: 'small',
