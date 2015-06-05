@@ -3,16 +3,21 @@
   top: 0
   left: 0
   right: 0
-  background:
-    color: rgba(color('dark-teal'), .85)
-    blend-mode: multiply
   color: white
   z-index: 99999
   +font-smoothing(antialiased)
 
+  @media only screen and (min-width: 681px)
+    background:
+      color: rgba(color('dark-teal'), .85)
+      blend-mode: multiply
+
   > .wrapper
     position: static
-    padding: 1.1em 0 2em
+    padding: 0
+
+    @media only screen and (min-width: 681px)
+      padding: .75em 0 2em
 
     @media only screen and (min-width: 881px)
       padding: 1em 0 2.5em
@@ -22,11 +27,23 @@
 
   .logo
     display: block
-    float: left
+    position: relative
     color: inherit
-    font-size: 3em
+    font-size: 2.25em
     line-height: 1
-    margin: 0 0 0 10px
+    padding: .2em 10px .25em 7px
+    margin: 0
+    background:
+      color: rgba(color('dark-teal'), .85)
+      blend-mode: multiply
+    z-index: 9998
+
+    @media only screen and (min-width: 681px)
+      float: left
+      font-size: 3em
+      background: transparent
+      padding: 0
+      margin: 0 0 0 7px
 
     @media only screen and (min-width: 881px)
       margin-left: 5%
@@ -44,17 +61,95 @@
     h1
       display: none
 
-  nav
+  .mobile-nav-trigger
+    display: block
+    position: absolute
+    top: 0
+    right: 10px
+    bottom: 0
+    width: 25px
+    height: 15px
+    margin: auto 0
+    cursor: pointer
+    z-index: 9999
+
+    &:before,
+    span,
+    &:after
+      content: ''
+      display: block
+      position: absolute
+      left: 0
+      right: 0
+      height: 3px
+      background: white
+      border-radius: 2px
+      +transition( all 250ms $material-swift )
+
+    &:before
+      top: 0
+      +transform-origin( left center )
+
+    span
+      top: 6px
+      opacity: 1
+
+    &:after
+      bottom: 0
+      +transform-origin( left center )
+
+    &:hover,
+    &.hover
+      &:before,
+      span,
+      &:after
+        background: white
+
+    &.active
+      &:before
+        +transform( rotate( 45deg ) translate( 0, -4px ) )
+      span
+        opacity: 0
+      &:after
+        +transform( rotate( -45deg ) translate( 0, 4px ) )
+
+    @media only screen and (min-width: 681px)
+      display: none
+
+#main-navigation-container
+  display: none
+
+  @media only screen and (max-width: 680px)
+    &.active
+      display: block
+      position: fixed
+      top: 0
+      left: 0
+      right: 0
+      bottom: 0
+      background: white
+      overflow:
+        x: hidden
+        y: auto
+      color: color('dark-grey')
+      padding: 4em 10px
+      z-index: 9997
+
+  @media only screen and (min-width: 681px)
+    display: block
     float: right
     clear: right
     margin: 0 10px 0 0
 
-    @media only screen and (min-width: 881px)
-      clear: none
-      margin: 1.2em 0 0
+  @media only screen and (min-width: 881px)
+    clear: none
+    margin: 1.2em 5% 0 0
 
-    @media only screen and (min-width: 1001px)
-      margin: 1.5em 0 0
+  @media only screen and (min-width: 1001px)
+    margin: 1.4em 7% 0 0
+
+  @media only screen and (min-width: 1281px)
+    margin-right: 0
 
 #primary-navigation,
 #secondary-navigation
@@ -70,22 +165,47 @@
     display: block
     color: inherit
 
+  @media only screen and (max-width: 680px)
+    li
+      border-bottom: 1px solid #eee
+
+    a.nav-link
+      padding: .25em 0
+      font-size: 1.25em
+
 #primary-navigation
-  position: absolute
-  left: 0
-  right: 0
-  bottom: 0
-  background:
-    color: rgba(darken(color('dark-teal'), 5%), .6)
-    blend-mode: multiply
-  font:
-    size: .875em
-    family: $flama-condensed-medium
-    weight: 500
-  text:
-    align: center
-    transform: uppercase
-  letter-spacing: .05em
+  @media only screen and (min-width: 681px)
+    position: absolute
+    left: 0
+    right: 0
+    bottom: 0
+    background:
+      color: rgba(darken(color('dark-teal'), 5%), .6)
+      blend-mode: multiply
+    font:
+      size: .875em
+      family: $flama-condensed-medium
+      weight: 500
+    text:
+      align: center
+      transform: uppercase
+    letter-spacing: .05em
+
+    li
+      display: inline-block
+
+    a.nav-link
+      padding: 0 1em
+      background-color: transparent
+      +transition(background-color 150ms)
+
+      @media only screen and (min-width: 881px)
+        padding: 0 1.5em
+
+      &:hover,
+      &:active,
+      &.active
+        background-color: color('teal')
 
   @media only screen and (min-width: 881px)
     font-size: 1em
@@ -93,47 +213,40 @@
   @media only screen and (min-width: 1001px)
     font-size: 1.125em
 
-  li
-    display: inline-block
-
-  a.nav-link
-    padding: 0 1em
-    background-color: transparent
-    +transition(background-color 150ms)
-
-    @media only screen and (min-width: 881px)
-      padding: 0 1.5em
-
-    &:hover,
-    &:active,
-    &.active
-      background-color: color('teal')
-
 #secondary-navigation
-  position: relative
-  font:
-    size: .875em
-    weight: 300
-
-  a.nav-link
+  @media only screen and (min-width: 681px)
     position: relative
-    padding: 0 1em
-    line-height: 1
-    text-shadow: 0 1px 2px color('dark-teal')
+    clear: both
+    font:
+      size: .875em
+      weight: 300
+    padding: .5em 0 0
 
-    &:hover,
-    &:active
-      font-weight: 400
+    a.nav-link
+      position: relative
+      padding: 0 1em
+      line-height: 1
+      text-shadow: 0 1px 2px color('dark-teal')
 
-    &.active
-      font-weight: 700
+      &:hover,
+      &:active
+        font-weight: 400
 
-  li
+      &.active
+        font-weight: 700
+
+    li
+      float: left
+      border-right: 1px solid rgba(white, .5)
+
+      &:last-of-type
+        border-right: none
+
+  @media only screen and (min-width: 881px)
     float: left
-    border-right: 1px solid rgba(white, .5)
+    clear: none
+    padding-top: .125em
 
-    &:last-of-type
-      border-right: none
 
 #google_translate_element
   .goog-te-gadget
@@ -154,6 +267,7 @@
     border: 0
 
   .goog-te-menu-value
+    display: block
     margin: 0
     padding: 0 0 0 1em
     color: inherit
@@ -163,6 +277,8 @@
       +fa-icon
       content: $fa-var-caret-down
       margin-left: .5em
+      position: relative
+      top: .1em
 
     span
       display: none
@@ -179,20 +295,7 @@
 
 #main-search
   position: relative
-  float: right
-  background-color: color('darker-teal')
-  padding: 0 0 0 1.5em
-  margin: -0.6em 10px .5em 0
-  font-size: .875em
-
-  @media only screen and (min-width: 881px)
-    margin: 1.2em 5% 0 1em
-
-  @media only screen and (min-width: 1001px)
-    margin: 1.5em 7% 0 1em
-
-  @media only screen and (min-width: 1281px)
-    margin-right: 0
+  border: 1px solid #ddd
 
   .search-field,
   .search-button
@@ -200,31 +303,18 @@
     position: relative
     background: transparent
     border: none
-    padding: 0 .25em
     margin: 0
     vertical-align: top
-
-  .search-field
-    width: 100px
-    font:
-      size: 1em
-      weight: 300
-    z-index: 2
-    color: white
-    +font-smoothing(default)
-
-    +placeholder
-      color: #666
-
-    &:focus
-      color: black
-      background: white
-
+    font-size: 1em
 
   .search-button
+    position: absolute
+    top: 0
+    right: 0
+    width: 1.5em
     z-index: 3
-    font-size: 1em
-    padding-bottom: .15em
+    padding: 0 0 .15em
+    color: #666
 
     span
       display: none
@@ -235,73 +325,117 @@
       opacity: .75
       +font-smoothing(antialiased)
 
-    &:hover,
-    &:active
-      background: color('teal')
+  .search-field
+    position: relative
+    width: 100%
+    font-weight: 300
+    padding: 0 1.75em 0 .25em
+    z-index: 2
+    +font-smoothing(default)
 
-      &:before
-        opacity: 1
+    +placeholder
+      color: #666
 
-#main-search-filters
-  position: absolute
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
-  z-index: 1
-
-  &:before
-    +fa-icon
-    content: $fa-var-caret-down
-    display: block
-    top: 0
-    left: 0
-    bottom: 0
-    line-height: 1.5
-    padding: 0 .4em
-    width: 1.3em
-    cursor: pointer
-    opacity: .75
-
-  &:hover:before
-    background: color('teal')
-    opacity: 1
-
-  fieldset
-    display: block
-    position: absolute
-    top: 100%
-    right: 0
-    min-width: 100%
-    padding: 0
+  @media only screen and (min-width: 681px)
+    float: right
+    background-color: color('darker-teal')
+    padding: 0 0 0 1.5em
     border: 0
     margin: 0
-    height: 0
-    overflow: hidden
-    +transition(height 250ms)
+    font-size: .875em
+    width: 10em
 
-  &:hover fieldset
-    height: 8em
+    .search-button
+      color: white
 
-  label
+      &:hover,
+      &:active
+        background: color('teal')
+
+        &:before
+          opacity: 1
+
+    .search-field
+      color: white
+      padding: 0 1.75em 0 .25em
+
+      +placeholder
+        color: #666
+
+      &:focus
+        background: color('teal')
+
+        +placeholder
+          color: lighten(color('light-teal'), 10%)
+
+  @media only screen and (min-width: 881px)
+    float: right
+    margin-left: 1em
+
+#main-search-filters
+  display: none
+
+  @media only screen and (min-width: 681px)
     display: block
-    background: rgba(white, .95)
-    color: color('grey')
-    padding: 0 .5em
-
-    &:hover
-      color: color('dark-teal')
-
-    &:first-of-type
-      padding-top: .25em
-
-    &:last-of-type
-      padding-bottom: .25em
-
-  input[type='radio']
     position: absolute
-    left: -5em
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    z-index: 1
 
-    &[checked] + label
-      font-weight: 900
-      color: color('dark-grey')
+    &:before
+      +fa-icon
+      content: $fa-var-caret-down
+      display: block
+      top: 0
+      left: 0
+      bottom: 0
+      line-height: 1.5
+      padding: 0 .4em
+      width: 1.3em
+      cursor: pointer
+      opacity: .75
+
+    &:hover:before
+      background: color('teal')
+      opacity: 1
+
+    fieldset
+      display: block
+      position: absolute
+      top: 100%
+      right: 0
+      min-width: 100%
+      padding: 0
+      border: 0
+      margin: 0
+      height: 0
+      overflow: hidden
+      +transition(height 250ms)
+
+    &:hover fieldset
+      height: 8em
+
+    label
+      display: block
+      background: rgba(white, .95)
+      color: color('grey')
+      padding: 0 .5em
+
+      &:hover
+        color: color('dark-teal')
+
+      &:first-of-type
+        padding-top: .25em
+
+      &:last-of-type
+        padding-bottom: .25em
+
+    input[type='radio']
+      position: absolute
+      left: -5em
+
+      &[checked] + label
+        font-weight: 900
+        color: color('dark-grey')
