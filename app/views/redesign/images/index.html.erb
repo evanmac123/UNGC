@@ -1,0 +1,48 @@
+<section class='main-content-section main-content-section-narrow'>
+  <div class='wrapper'>
+    <section class='content-list'>
+      <%- @images.each do |item| -%>
+        <article class='content-list-item'>
+          <span class='image-link'>
+            <%= image_tag(item.url)%>
+          </span>
+          <div class='content-list-item-content-wrapper has-image'>
+            <div class='blurb'>
+              <%- licensing = item.licensing %>
+              <%- if !licensing.empty? %>
+                <dl>
+                  <dt>
+                    Title:
+                  </dt>
+                  <dd>
+                    <a href="<%= licensing[:title][:url] %>">
+                      <%= licensing[:title][:label] %>
+                    </a>
+                  </dd>
+                  <dt>
+                    Photographer:
+                  </dt>
+                  <dd>
+                    <a href="<%= licensing[:photographer][:url] %>">
+                      <%= licensing[:photographer][:label] %>
+                    </a>
+                  </dd>
+                  <dt>
+                    License:
+                  </dt>
+                  <dd>
+                    <a href="<%= licensing[:license][:url] %>">
+                      <%= licensing[:license][:label] %>
+                    </a>
+                  </dd>
+                </dl>
+              <% end %>
+            </div>
+          </div>
+        </article>
+      <%- end -%>
+    </section>
+
+    <%= will_paginate @images, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
+  </div>
+</section>
