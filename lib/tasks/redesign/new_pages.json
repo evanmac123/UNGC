@@ -12,11 +12,13 @@
           "children": [
             {
               "template": "Article",
-              "path": "/Article1"
+              "path": "/Article1",
+              "delete": true
             },
             {
               "template": "Article",
-              "path": "/Article2"
+              "path": "/Article2",
+              "delete": true
             }
           ]
         },
@@ -93,7 +95,8 @@
         },
         {
           "template": "Highlight",
-          "path": "/Our-Commitment"
+          "path": "/Our-Commitment",
+          "delete": true
         },
         {
           "template": "Directory",
@@ -157,7 +160,8 @@
                   "children": [
                     {
                       "template": "Article",
-                      "path": "/Collective-Action"
+                      "path": "/Collective-Action",
+                      "delete": true
                     }
                   ]
                 },
@@ -167,7 +171,8 @@
                   "children": [
                     {
                       "template": "Article",
-                      "path": "/Business-for-Peace-Local-Events"
+                      "path": "/Business-for-Peace-Local-Events",
+                      "delete": true
                     },
                     {
                       "template": "Article",
@@ -431,7 +436,8 @@
                 },
                 {
                   "template": "Article",
-                  "path": "/Benefits"
+                  "path": "/Benefits",
+                  "delete": true
                 }
               ]
             },
@@ -640,7 +646,8 @@
             },
             {
               "template": "Action_detail",
-              "path": "/Investment-Sustainable-Finance"
+              "path": "/Investment-Sustainable-Finance",
+              "delete": true
             },
             {
               "template": "Action_detail",
@@ -648,7 +655,8 @@
             },
             {
               "template": "Action_detail",
-              "path": "/Implement-Womens-Principles"
+              "path": "/Implement-Womens-Principles",
+              "delete": true
             },
             {
               "template": "Action_detail",
@@ -664,11 +672,13 @@
             },
             {
               "template": "Article",
-              "path": "/Management"
+              "path": "/Management",
+              "delete": true
             },
             {
               "template": "Action_detail",
-              "path": "/Sustainable-Development-Goals"
+              "path": "/Sustainable-Development-Goals",
+              "delete": true
             },
             {
               "template": "Action_detail",
@@ -684,7 +694,8 @@
             },
             {
               "template": "Action_detail",
-              "path": "/Sustainable-Development"
+              "path": "/Sustainable-Development",
+              "delete": true
             },
             {
               "template": "Article",
@@ -704,7 +715,8 @@
             },
             {
               "template": "Action_detail",
-              "path": "/Quantify-Communicate-Sustainability"
+              "path": "/Quantify-Communicate-Sustainability",
+              "delete": true
             },
             {
               "template": "Article",
@@ -776,7 +788,8 @@
             },
             {
               "template": "Article",
-              "path": "/HR-open-letter"
+              "path": "/HR-open-letter",
+              "delete": true
             },
             {
               "template": "Action_detail",
@@ -790,7 +803,8 @@
           "children": [
             {
               "template": "Article",
-              "path": "/Sponsorship"
+              "path": "/Sponsorship",
+              "delete": true
             }
           ]
         },
@@ -804,7 +818,8 @@
             },
             {
               "template": "Article",
-              "path": "/Who-To-Partner"
+              "path": "/Who-To-Partner",
+              "delete": true
             }
           ]
         }
@@ -901,23 +916,28 @@
               "children": [
                 {
                   "template": "Article",
-                  "path": "/Outreach"
+                  "path": "/Outreach",
+                  "delete": true
                 },
                 {
                   "template": "Article",
-                  "path": "/COP-Training"
+                  "path": "/COP-Training",
+                  "delete": true
                 },
                 {
                   "template": "Article",
-                  "path": "/Partnerships"
+                  "path": "/Partnerships",
+                  "delete": true
                 },
                 {
                   "template": "Article",
-                  "path": "/Toolkit"
+                  "path": "/Toolkit",
+                  "delete": true
                 },
                 {
                   "template": "Article",
-                  "path": "/webinars"
+                  "path": "/webinars",
+                  "delete": true
                 },
                 {
                   "template": "Article",
@@ -1164,7 +1184,8 @@
             {
               "template": "Article",
               "path": "/Unsubscribe",
-              "old_path": "/news/bullettin/unsubscribe"
+              "old_path": "/news/bullettin/unsubscribe",
+              "delete": true
             }
           ]
         }
