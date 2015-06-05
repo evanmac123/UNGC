@@ -21,9 +21,9 @@ class Redesign::AllOurWorkController < Redesign::ApplicationController
   def seed
     if !params[:page]
       r = rand(100)
-      session[:random_seed] = r
+      session[:random_seed_all_our_work] = r
     else
-      session[:random_seed]
+      session[:random_seed_all_our_work]
     end
   end
 

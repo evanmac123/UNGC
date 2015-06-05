@@ -20,9 +20,9 @@ class Redesign::ActionsController < Redesign::ApplicationController
   def seed
     if !params[:page]
       r = rand(100)
-      session[:random_seed] = r
+      session[:random_seed_action] = r
     else
-      session[:random_seed]
+      session[:random_seed_action]
     end
   end
 
