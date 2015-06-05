@@ -25,7 +25,8 @@ class ParticipantSearch::ResultsPresenter < SimpleDelegator
   class Result < SimpleDelegator
 
     def type
-      organization.organization_type.name
+      name = organization.organization_type.name
+      OrganizationType::NAME_MAPPINGS.fetch(name, name)
     end
 
     def sector

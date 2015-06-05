@@ -941,7 +941,8 @@
                 },
                 {
                   "template": "Article",
-                  "path": "/fundraising-toolkit"
+                  "path": "/fundraising-toolkit",
+                  "delete": true
                 }
               ]
             },

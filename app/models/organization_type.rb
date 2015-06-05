@@ -40,6 +40,10 @@ class OrganizationType < ActiveRecord::Base
     :signatory        => 'Initiative Signatory'
   }
 
+  NAME_MAPPINGS = {
+    'SME' => 'Small or Medium-sized Enterprise'
+  }
+
   def self.for_filter(*filter_types)
     names = Array(filter_types).map { |f| FILTERS[f] }
     where("organization_types.name IN (?)", names)

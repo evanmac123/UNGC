@@ -4,23 +4,25 @@
       <h1>United Nations Global Compact</h1>
     <% end %>
 
-    <%= form_for :s, as: :search, url: redesign_search_path, method: :get, html: {id: 'main-search'} do |form| %>
-      <div id='main-search-filters'>
-        <fieldset>
+    <div class='mobile-nav-trigger'><span></span></div>
 
-          <%= label_tag 'search_type_all' do %>All<% end %>
-          <%= radio_button_tag 'search[type]', :all, true, 'data-action' => redesign_search_path -%>
+    <nav id='main-navigation-container'>
+      <%= form_for :s, as: :search, url: redesign_search_path, method: :get, html: {id: 'main-search'} do |form| %>
+        <div id='main-search-filters'>
+          <fieldset>
 
-          <%= label_tag 'search_type_participants' do %>Participants<% end %>
-          <%= radio_button_tag 'search[type]', :participants , false, 'data-action' => redesign_participant_search_path-%>
+            <%= label_tag 'search_type_all' do %>All<% end %>
+            <%= radio_button_tag 'search[type]', :all, true, 'data-action' => redesign_search_path -%>
 
-        </fieldset>
-      </div>
-      <%= text_field_tag 'search[keywords]', nil, placeholder: 'Search', class: 'search-field' -%>
-      <button type="submit" class='search-button'><span>Search</span></button>
-    <% end %>
+            <%= label_tag 'search_type_participants' do %>Participants<% end %>
+            <%= radio_button_tag 'search[type]', :participants , false, 'data-action' => redesign_participant_search_path-%>
 
-    <nav>
+          </fieldset>
+        </div>
+        <%= text_field_tag 'search[keywords]', nil, placeholder: 'Search', class: 'search-field' -%>
+        <button type="submit" class='search-button'><span>Search</span></button>
+      <% end %>
+
       <ul id='primary-navigation'>
         <li><%= link_to_redesign 'What Is UN Global Compact?', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/redesign\/what-is-gc/ ? 'active' : nil}" -%></li>
         <li><%= link_to_redesign 'Participation', '/participation', class: "nav-link #{request.fullpath =~ /\A\/redesign\/participation/ ? 'active' : nil}" -%></li>
