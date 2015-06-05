@@ -14,9 +14,16 @@
 
     <article class='column'>
       <h2>Follow Us</h2>
-      <ul class='social'><%- %w(Twitter YouTube LinkedIn Facebook Flickr RSS).each do |s|-%>
-        <li><%= link_to "<span>#{s}</span>".html_safe, '/redesign', class: s.parameterize -%></li>
-      <%- end -%></ul>
+      <ul class='social'>
+        <li>
+          <a href="https://twitter.com/globalcompact" class='twitter'><span>Twitter</span></a>
+          <a href="https://www.facebook.com/UNGlobalCompact" class='facebook'><span>Facebook</span></a>
+          <a href="https://www.linkedin.com/company/united-nations-global-compact" class='linkedin'><span>LinkedIn</span></a>
+          <a href="https://www.youtube.com/channel/UCvGxh25-RUvCcZJXHj32Zzg" class='youtube'><span>YouTube</span></a>
+          <a href="http://www.flickr.com/photos/ungc" class='flickr'><span>Flickr</span></a>
+          <a href="http://feeds.unglobalcompact.org/UnitedNationsGlobalCompact-LatestNews" class='rss'><span>RSS</span></a>
+        </li>
+      </ul>
 
       <h2>QuickLinks</h2>
       <ul class='quick-links'>
