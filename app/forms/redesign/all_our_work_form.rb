@@ -6,6 +6,12 @@ class Redesign::AllOurWorkForm < Redesign::FilterableForm
   attribute :issues,      Array[Integer], default: []
   attribute :topics,      Array[Integer], default: []
 
+  attr_reader :seed
+  def initialize(params, seed)
+    super(params)
+    @seed = seed
+  end
+
   def filters
     [issue_filter, topic_filter]
   end
@@ -31,7 +37,10 @@ class Redesign::AllOurWorkForm < Redesign::FilterableForm
       containers = containers.joins(taggings: [:topic]).where('topic_id in (?)', ids)
     end
 
-    containers.distinct('containers.id').paginate(page: page, per_page: per_page)
+    containers.
+      distinct('containers.id').
+      order("rand(#{seed})").
+      paginate(page: page, per_page: per_page)
   end
 
 end
