@@ -10,12 +10,8 @@ class Filters::OrganizationTypeFilter < Filters::FlatSearchFilter
   protected
 
   def item_option(item)
-    name = NAME_MAPPINGS.fetch(item.name, item.name) 
+    name = OrganizationType::NAME_MAPPINGS.fetch(item.name, item.name)
     FilterOption.new(item.id, name, key, selected.include?(item.id), label)
   end
-
-  NAME_MAPPINGS = {
-    'SME' => 'Small or Medium-sized Enterprise'
-  }
 
 end
