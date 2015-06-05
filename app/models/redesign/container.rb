@@ -70,6 +70,7 @@ class Redesign::Container < ActiveRecord::Base
   }
 
   scope :published, -> { where.not(public_payload_id: nil) }
+  scope :visible, -> { where(visible: true) }
 
   def self.normalize_slug(raw)
     '/' + raw.to_s.downcase.strip.gsub(LEADING_OR_TRAILING_SLASH, '')

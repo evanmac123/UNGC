@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150527164740) do
+ActiveRecord::Schema.define(version: 20150605174637) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -822,6 +822,7 @@ ActiveRecord::Schema.define(version: 20150527164740) do
     t.integer  "content_type",           limit: 4,   default: 1,    null: false
     t.boolean  "has_draft",              limit: 1,   default: true
     t.integer  "sort_order",             limit: 4,   default: 0
+    t.boolean  "visible",                limit: 1,   default: true
   end
 
   add_index "redesign_containers", ["content_type"], name: "index_redesign_containers_on_content_type", using: :btree

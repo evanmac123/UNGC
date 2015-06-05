@@ -1,13 +1,16 @@
 .events-news-component
-  padding: 2em 0
+  padding: 2em 0 0
   background: lighten(color('pastel-blue'), 20%)
+
+  @media only screen and (min-width: 681px)
+    padding-bottom: 2em
 
   @media only screen and (min-width: 881px)
     padding: 3em 0
 
   .tabs,
   .tab-content.active
-    margin: 0 4px
+    margin: 0
 
     @media only screen and (min-width: 881px)
       margin: 0 5%
@@ -22,7 +25,7 @@
     width: 33.3%
 
   .date-location
-    background: rgba(black, .3)
+    background: rgba(black, .5)
     color: white
     padding: .5em 20px
     font-family: $flama-book
@@ -43,6 +46,7 @@
 
   .event,
   .news-item
+    display: block
     color: color('grey')
 
     h1,
@@ -68,10 +72,8 @@
 
 
   .column
-    float: left
-    width: 33.3%
     margin: 0
-    padding: 0 0 20px 20px
+    padding: 0 20px 20px 20px
     list-style: none
 
     h1,
@@ -82,9 +84,18 @@
 
     li
       padding: 20px 0
+
+    li,
+    &.featured-event
       border-bottom: 1px solid #ddd
 
-      &:last-of-type
+    @media only screen and (min-width: 681px)
+      float: left
+      width: 33.3%
+      padding-right: 0
+
+      li:last-of-type,
+      &.featured-event
         border-bottom: 0
 
   .thumbnail
@@ -93,10 +104,17 @@
       position: center center
       repeat: no-repeat
       size: cover
-    margin: -1px 0 1em -21px
+    margin: -1px -21px 1em
+
+    @media only screen and (min-width: 681px)
+      margin-right: 0
 
   .events-component-footer
-    position: absolute
-    right: .5em
-    bottom: .5em
     font-family: $flama-bold
+    padding: 0 20px 1em
+
+    @media only screen and (min-width: 681px)
+      position: absolute
+      right: .5em
+      bottom: .5em
+      padding: 0

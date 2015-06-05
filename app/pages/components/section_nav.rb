@@ -36,7 +36,7 @@ class Components::SectionNav
 
   def siblings
     return [] unless container.parent_container
-    container.parent_container.child_containers.includes(:public_payload).map do |c|
+    container.parent_container.child_containers.visible.includes(:public_payload).map do |c|
       Components::SectionNavLink.new(c, container)
     end
   end
@@ -46,7 +46,7 @@ class Components::SectionNav
   end
 
   def children
-    container.child_containers.includes(:public_payload).map do |c|
+    container.child_containers.visible.includes(:public_payload).map do |c|
       Components::SectionNavLink.new(c)
     end
   end
