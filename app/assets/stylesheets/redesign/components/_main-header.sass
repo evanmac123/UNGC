@@ -65,17 +65,24 @@
     display: block
     position: absolute
     top: 0
-    right: 10px
+    right: 0
     bottom: 0
-    width: 25px
-    height: 15px
-    margin: auto 0
+    width: 45px
     cursor: pointer
     z-index: 9999
 
-    &:before,
+    div
+      position: absolute
+      top: 0
+      right: 10px
+      bottom: 0
+      width: 25px
+      height: 15px
+      margin: auto 0
+
+    div:before,
     span,
-    &:after
+    div:after
       content: ''
       display: block
       position: absolute
@@ -86,7 +93,7 @@
       border-radius: 2px
       +transition( all 250ms $material-swift )
 
-    &:before
+    div:before
       top: 0
       +transform-origin( left center )
 
@@ -94,23 +101,22 @@
       top: 6px
       opacity: 1
 
-    &:after
+    div:after
       bottom: 0
       +transform-origin( left center )
 
-    &:hover,
-    &.hover
-      &:before,
+    &:hover
+      div:before,
       span,
-      &:after
+      div:after
         background: white
 
     &.active
-      &:before
+      div:before
         +transform( rotate( 45deg ) translate( 0, -4px ) )
       span
         opacity: 0
-      &:after
+      div:after
         +transform( rotate( -45deg ) translate( 0, 4px ) )
 
     @media only screen and (min-width: 681px)
