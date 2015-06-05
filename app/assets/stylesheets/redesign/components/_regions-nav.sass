@@ -1,30 +1,58 @@
 #regions-nav
+  @extend %wrapper
   position: absolute
   left: 0
   right: 0
   bottom: 0
 
+
 #regions-nav-triggers
+  @extend %wrapper
   text-align: center
   bottom: 0
 
   .region-nav-trigger
-    font-size: 1.125em
-    padding: .5em
+    display: block
+    float: left
+    padding: 0 1px 0 0
+    background: transparent
 
-    &:after
-      +fa-icon
-      content: $fa-var-caret-down
-      font-size: 1.25em
-      margin-left: .25em
+    &:last-of-type
+      padding-right: 0
 
-    &.is-open
+    span
+      display: block
+      padding: .5em
+      background: color('teal')
+
+      &:after
+        +fa-icon
+        content: $fa-var-caret-down
+        font-size: 1.25em
+        margin-left: .25em
+        width: 1em
+
+    &.is-open span
       background-color: color('dark-teal')
       color: white
 
       &:after
         content: "\00d7"
         vertical-align: top
+
+  @media only screen and (min-width: 881px)
+    margin:
+      left: 5%
+      right: 5%
+
+  @media only screen and (min-width: 1001px)
+    margin:
+      left: 7%
+      right: 7%
+
+  @media only screen and (min-width: 1281px)
+    .region-nav-trigger
+      font-size: 1.125em
 
 #regions-nav-container
   top: 100%

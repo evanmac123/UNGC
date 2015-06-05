@@ -3,7 +3,7 @@
 
     <div id='regions-nav-triggers'>
       <%- regions_nav.each do |region, network| %>
-        <button type="button" data-region="region-<%= region.parameterize -%>" class='region-nav-trigger'><%= region.name.try(:html_safe) %></button>
+        <button type="button" data-region="region-<%= region.parameterize -%>" class='region-nav-trigger'><span><%= region.name.try(:html_safe) %></span></button>
       <%- end -%>
     </div>
 
