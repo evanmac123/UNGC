@@ -6,12 +6,7 @@
   +font-smoothing(antialiased)
 
   .wrapper
-    min-height: 40em
-    padding: 14em 0 6em
-
-    @media only screen and (min-width: 1281px)
-      min-height: 46em
-      padding: 18em 0 8em
+    padding: 8em 0 2em
 
   *
     position: relative
@@ -19,10 +14,7 @@
 
   &.hero-size-small .wrapper
     min-height: 0
-    padding-top: 13em
-
-    @media only screen and (min-width: 1281px)
-      padding-top: 16em
+    padding-top: 6em
 
   &.dark-theme
     background-color: #111
@@ -34,9 +26,6 @@
   &.has-regions-nav .wrapper
     padding-bottom: 8em
 
-    @media only screen and (min-width: 1281px)
-      padding-bottom: 10em
-
   &.has-custom-image
     &.dark-theme,
     &.light-theme
@@ -46,7 +35,7 @@
         position: absolute
         top: 0
         left: 0
-        right: 10%
+        right: 0
         bottom: 0
         background: top left no-repeat
           size: cover
@@ -59,31 +48,96 @@
     &.light-theme:before
       +linear-gradient(90deg, rgba(white, .7) 40%, transparent, $fallback: transparent)
 
+  .hero-content-wrapper
+    padding: 0
+    margin: 0 10px
+
   h1
-    margin: -1em 0 0 12%
-    font-size: 2.626em
-    line-height: 1
+    padding: 0
+    margin: 0
+    font-size: 1.5em
+    line-height: 1.1
     color: white
+    +clearfix
 
     span
-      display: inline-block
-      margin: 0 0 .025em
-      padding: 0 .25em .3em
+      display: block
+      float: left
+      clear: both
+      margin: 0
+      padding: 0 .25em .25em
       background:
         color: rgba(color('dark-teal'), .8)
         blend-mode: multiply
       vertical-align: middle
 
-      &:first-of-type
-        padding-top: .15em
-
   .blurb
-    font-size: 1.125em
-    margin: 1em 0 0 12%
-    max-width: 580px
+    margin: 1em 0 0
+    max-width: 32em
 
   &.dark-theme .blurb
     color: white
 
   .button
-    margin: 1em 0 0 12%
+    margin: 1em 0 0
+
+  @media only screen and (min-width: 681px)
+    .wrapper
+      padding:
+        top: 10em
+        bottom: 4em
+
+    h1
+      font-size: 1.875em
+
+  @media only screen and (min-width: 881px)
+    .wrapper
+      padding:
+        top: 12em
+        bottom: 6em
+
+    &.hero-size-small .wrapper
+      padding:
+        top: 10em
+        bottom: 4em
+
+    &.has-issues-nav .wrapper,
+    &.has-regions-nav .wrapper
+      padding-bottom: 10em
+
+    .hero-content-wrapper
+      margin: 0 5%
+
+    h1
+      font-size: 2em
+
+  @media only screen and (min-width: 1001px)
+    .wrapper
+      min-height: 44em
+      padding:
+        top: 16em
+        bottom: 8em
+
+    &.hero-size-small .wrapper
+      padding-top: 12em
+
+    &.has-issues-nav .wrapper,
+    &.has-regions-nav .wrapper
+      padding-bottom: 11em
+
+    .hero-content-wrapper
+      margin-left: 7%
+      padding-left: 4.4em
+
+    h1
+      font-size: 2.5em
+
+    .blurb
+      font-size: 1.125em
+
+  @media only screen and (min-width: 1281px)
+    .wrapper
+      min-height: 46em
+
+    h1
+      font-size: 2.625em

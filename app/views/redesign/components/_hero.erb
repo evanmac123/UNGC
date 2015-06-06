@@ -17,16 +17,19 @@
   <header id='hero' style='<%= hero_styles %>' class='<%= hero_classes.join(' ') -%>'>
 
     <div class='wrapper'>
-      <%- if hero_data[:title] -%>
-        <h1><%- hero_data[:title].each do |key, value| -%>
-          <%= tag(:br) if value -%>
-          <%= content_tag(:span, value.try(:html_safe)) if value -%>
-        <%- end -%></h1>
-      <%- end -%>
 
-      <%= content_tag(:p, hero_data[:blurb].html_safe, {class: 'blurb'}) if hero_data[:blurb] %>
+      <div class='hero-content-wrapper'>
+        <%- if hero_data[:title] -%>
+          <h1><%- hero_data[:title].each do |key, value| -%>
+            <%#= tag(:br) if value -%>
+            <%= content_tag(:span, value.try(:html_safe)) if value -%>
+          <%- end -%></h1>
+        <%- end -%>
 
-      <%= link_to_redesign(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] && hero_data[:link][:url] -%>
+        <%= content_tag(:p, hero_data[:blurb].html_safe, {class: 'blurb'}) if hero_data[:blurb] %>
+
+        <%= link_to_redesign(hero_data[:link][:label], hero_data[:link][:url], class: 'button') if hero_data[:link] && hero_data[:link][:url] -%>
+      </div>
 
       <%= render('redesign/components/issues_nav') if hero_data[:show_issues_nav] %>
 
