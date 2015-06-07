@@ -9,6 +9,7 @@ general:
   branches:
     only:
       - master
+      - production
 
 dependencies:
   pre:
