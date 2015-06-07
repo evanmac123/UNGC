@@ -1,11 +1,11 @@
 <%- if regions_nav = @page.regions_nav -%>
   <nav id='regions-nav'>
 
-    <div id='regions-nav-triggers'>
+    <menu id='regions-nav-triggers'>
       <%- regions_nav.each do |region, network| %>
-        <button type="button" data-region="region-<%= region.parameterize -%>" class='region-nav-trigger'><span><%= region.name.try(:html_safe) %></span></button>
+        <li><%= link_to_redesign region.name.try(:html_safe), region.url, data: {region: "region-#{region.parameterize}"}, class: 'region-nav-trigger' %></li>
       <%- end -%>
-    </div>
+    </menu>
 
     <div id='regions-nav-container'>
       <%- regions_nav.each do |region, networks| %>

@@ -5,68 +5,78 @@
   right: 0
   bottom: 0
 
+  @media only screen and (min-width: 881px)
+    left: 5%
+    right: 5%
+
+  @media only screen and (min-width: 1001px)
+    left: 6.25%
+    right: 6.25%
+
 
 #regions-nav-triggers
   @extend %wrapper
+  display: table
+  width: 100.5%
   text-align: center
   bottom: 0
+  border: 0
+    spacing: 1px 0
+    collapse: separate
+  list-stye: none
 
-  .region-nav-trigger
-    display: block
-    float: left
-    padding: 0 1px 0 0
-    background: transparent
+  li
+    +button
+    display: table-cell
+    padding: 0 .2em .1em
+    font-size: .875em
+    vertical-align: middle
 
-    &:last-of-type
-      padding-right: 0
-
-    span
+    .region-nav-trigger
       display: block
-      padding: .5em
-      background: color('teal')
+      color: inherit
+      font:
+        size: inherit
+        weight: inherit
+        family: inherit
+      text-decoration: inherit
 
-      &:after
+    &.is-open
+      background-color: color('dark-teal')
+
+
+    @media only screen and (min-width: 721px)
+      .region-nav-trigger:after
         +fa-icon
         content: $fa-var-caret-down
-        font-size: 1.25em
-        margin-left: .25em
         width: 1em
+        vertical-align: middle
+        position: relative
+        top: -0.1em
 
-    &.is-open span
-      background-color: color('dark-teal')
-      color: white
-
-      &:after
+      .is-open .region-nav-trigger:after
         content: "\00d7"
-        vertical-align: top
 
-  @media only screen and (min-width: 881px)
-    margin:
-      left: 5%
-      right: 5%
+    @media only screen and (min-width: 921px)
+      font-size: 1em
 
-  @media only screen and (min-width: 1001px)
-    margin:
-      left: 7%
-      right: 7%
-
-  @media only screen and (min-width: 1281px)
-    .region-nav-trigger
+    @media only screen and (min-width: 1050px)
       font-size: 1.125em
 
-#regions-nav-container
-  top: 100%
-  z-index: 9999
 
-  &,
-  .regions-nav-region
-    position: absolute
-    left: 0
-    right: 0
+#regions-nav-container
+  position: absolute
+  top: 100%
+  left: 0
+  right: 0
+  z-index: 9999
 
   .regions-nav-region
     top: 0
-    padding: 2em 7%
+    position: absolute
+    left: 0
+    right: 0
+    padding: 2em 6.25%
     background: rgba(color('dark-teal'), .9)
     overflow: hidden
     display: none
