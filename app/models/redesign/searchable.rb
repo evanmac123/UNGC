@@ -65,6 +65,9 @@ class Redesign::Searchable < ActiveRecord::Base
       searchable_model.last_indexed_at = Time.now
       searchable_model.save
       searchable_model
+    rescue ActiveRecord::StatementInvalid => e
+      log.error "INVALID SEARCHABLE ID: #{searchable.model.id}"
+      log.error e.to_s
     end
 
     def searchables
