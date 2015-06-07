@@ -14,8 +14,8 @@ module Searchable::SearchableCommunicationOnProgress
     EOF
 
     str = file_content.join(' ')
-    str.slice!(65000..-1) # edit str in place
     content = "#{content.force_encoding('UTF-8')} #{str}"
+    content = content.mb_chars.limit(65000).to_s
 
     import 'CommunicationOnProgress', url: url, title: title, content: content, object: cop
   end
