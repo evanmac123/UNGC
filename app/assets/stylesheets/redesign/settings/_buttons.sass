@@ -3,7 +3,7 @@
   font:
     family: $flama-bold
     weight: bold
-    size: 1.125em
+    size: .875em
   color: white
   text:
     align: center
@@ -14,6 +14,12 @@
   +transition-property(background-color color)
   +transition-duration(150ms)
   +font-smoothing(antialiased)
+
+  @media only screen and (min-width: 681px)
+    font-size: 1em
+
+  @media only screen and (min-width: 1001px)
+    font-size: 1.125em
 
   &:hover,
   &:active

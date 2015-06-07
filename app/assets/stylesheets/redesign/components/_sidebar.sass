@@ -1,11 +1,24 @@
 .article-sidebar
-  float: right
-  width: 40%
-  padding: 0 6% 0 3%
-  margin: 0 -6% 0 0
+  padding: 0 10px
+  margin: 2em -10px 0
+  overflow: hidden
 
   .widget
     margin: 0 0 3em
 
     h1
       font-size: 1.5em
+
+  @media only screen and (min-width: 601px)
+    float: right
+    width: 40%
+    padding: 0 10px 0 3%
+    margin: 0 -10px 0 0
+
+  @media only screen and (min-width: 881px)
+    padding-right: 5.5%
+    margin-right: -5.5%
+
+  @media only screen and (min-width: 1001px)
+    padding-right: 8.75%
+    margin-right: -8.75%
