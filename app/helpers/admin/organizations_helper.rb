@@ -164,7 +164,7 @@ module Admin::OrganizationsHelper
   end
 
   def link_to_getting_started
-    "/GettingStarted#{@organization.organization_type_name_for_custom_links.camelize}/introduction.html"
+    WelcomePackage.new(@organization, has_redesign?).link
   end
 
   def link_to_local_network_welcome_letter_if_exists

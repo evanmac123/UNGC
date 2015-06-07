@@ -37,7 +37,14 @@ class ApplicationController < ActionController::Base
   def staff_user?
     current_contact && current_contact.from_ungc?
   end
+
   helper_method :staff_user?
+
+  def has_redesign?
+    RedesignPreview.permitted?(current_contact)
+  end
+
+  helper_method :has_redesign?
 
   def editable_content?
     @is_editable_content
