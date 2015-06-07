@@ -24,12 +24,6 @@
       float: right
       margin: .75em 0 0
 
-    @media only screen and (min-width: 881px)
-      margin: 0 5% 1em
-
-    @media only screen and (min-width: 1001px)
-      margin: 0 7% 1em
-
   fieldset
     border: 0
     padding: 0
@@ -81,12 +75,6 @@
     border-bottom: 1px solid #eee
     +clearfix
 
-    @media only screen and (min-width: 881px)
-      margin: 0 5%
-
-    @media only screen and (min-width: 1001px)
-      margin: 0 7%
-
   .reset-and-submit
     display: none
 
@@ -94,22 +82,10 @@
     font-size: 1.25em
     margin: .5em 0 0 10px
 
-    @media only screen and (min-width: 881px)
-      margin-left: 5%
-
-    @media only screen and (min-width: 1001px)
-      margin-left: 7%
-
   fieldset.filter-sorting
     float: right
     margin: 1em 10px 0 0
     +clearfix
-
-    @media only screen and (min-width: 881px)
-      margin-right: 5%
-
-    @media only screen and (min-width: 1001px)
-      margin-right: 7%
 
     select
       display: inline-block
@@ -139,3 +115,25 @@
 
   + .component-content-blocks
     padding-top: 0
+
+  @media only screen and (min-width: 881px)
+    header,
+    fieldset.filter-lists,
+    fieldset.filter-sorting
+      margin-right: 5%
+
+    header,
+    fieldset.filter-lists,
+    .results-count
+      margin-left: 5%
+
+  @media only screen and (min-width: 1001px)
+    header,
+    fieldset.filter-lists,
+    fieldset.filter-sorting
+      margin-right: 6.25%
+
+    header,
+    fieldset.filter-lists,
+    .results-count
+      margin-left: 6.25%
