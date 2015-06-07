@@ -5,7 +5,6 @@ class IssuePageTest < ActionDispatch::IntegrationTest
 
   setup do
     create_staff_user
-    login_as @staff_user
 
     container = create_container(
       path: 'new-issue-path',
@@ -24,7 +23,7 @@ class IssuePageTest < ActionDispatch::IntegrationTest
     )
     container.save
 
-    get '/redesign/new-issue-path'
+    get '/new-issue-path'
 
     @data = container.public_payload.data
   end

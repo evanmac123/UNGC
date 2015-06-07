@@ -8,10 +8,6 @@ module Redesign::RedesignHelper
 
     url = url_for(options)
 
-    if url !~/\A\/redesign/ && url !~/\Ahttp(s?)|\Amailto/
-      url = '/redesign' + url
-    end
-
     html_options['href'] ||= url
     content_tag(:a, name || url, html_options, &block)
   end

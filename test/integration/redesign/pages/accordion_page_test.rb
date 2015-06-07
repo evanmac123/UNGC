@@ -5,7 +5,6 @@ class AccordionPageTest < ActionDispatch::IntegrationTest
 
   setup do
     create_staff_user
-    login_as @staff_user
 
     container = create_container(
       path: 'new-accordion-path',
@@ -21,7 +20,7 @@ class AccordionPageTest < ActionDispatch::IntegrationTest
     )
     container.save
 
-    get '/redesign/new-accordion-path'
+    get '/new-accordion-path'
 
     @data = container.public_payload.data
   end

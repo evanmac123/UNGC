@@ -1,6 +1,6 @@
 <header id="main-header">
   <div class='wrapper'>
-    <%= link_to '/redesign', class: 'logo' do %>
+    <%= link_to_redesign '/', class: 'logo' do %>
       <h1>United Nations Global Compact</h1>
     <% end %>
 
@@ -24,10 +24,10 @@
       <% end %>
 
       <ul id='primary-navigation'>
-        <li><%= link_to_redesign 'What Is UN Global Compact?', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/redesign\/what-is-gc/ ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'Participation', '/participation', class: "nav-link #{request.fullpath =~ /\A\/redesign\/participation/ ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'Take Action', '/take-action', class: "nav-link #{request.fullpath =~ /\A\/redesign\/take-action/ ? 'active' : nil}" -%></li>
-        <li><%= link_to_redesign 'Engage Locally', '/engage-locally', class: "nav-link #{request.fullpath =~ /\A\/redesign\/engage-locally/ ? 'active' : nil}" -%></li>
+        <li><%= link_to_redesign 'What Is UN Global Compact?', '/what-is-gc', class: "nav-link #{request.fullpath =~ /\A\/what-is-gc/ ? 'active' : nil}" -%></li>
+        <li><%= link_to_redesign 'Participation', '/participation', class: "nav-link #{request.fullpath =~ /\A\/participation/ ? 'active' : nil}" -%></li>
+        <li><%= link_to_redesign 'Take Action', '/take-action', class: "nav-link #{request.fullpath =~ /\A\/take-action/ ? 'active' : nil}" -%></li>
+        <li><%= link_to_redesign 'Engage Locally', '/engage-locally', class: "nav-link #{request.fullpath =~ /\A\/engage-locally/ ? 'active' : nil}" -%></li>
         <li><%= link_to_redesign 'Explore Our Library', '/library', class: "nav-link #{params[:controller] == 'redesign/library' ? 'active' : nil}" -%></li>
       </ul>
 
