@@ -1,7 +1,8 @@
 <%- if contact ||= nil -%>
-  <article class='widget widget-contact'>
+  <%- has_photo = contact[:photo].present? -%>
+  <article class='widget widget-contact<%= " widget-contact-has-photo" if has_photo -%>'>
     <h1>Contact</h1>
-    <%= image_tag(contact[:photo].url) if contact[:photo].present? %>
+    <%= image_tag(contact[:photo].url, class: 'photo') if has_photo %>
     <address>
       <%= content_tag(:h2, contact[:name], class: 'name') if contact[:name] %>
       <%= content_tag(:p, contact[:title], class: 'title') if contact[:title] %>
