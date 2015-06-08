@@ -6,8 +6,10 @@
     <address>
       <%= content_tag(:h2, contact[:name], class: 'name') if contact[:name] %>
       <%= content_tag(:p, contact[:title], class: 'title') if contact[:title] %>
-      <%= content_tag(:p, contact[:email], class: 'email') if contact[:email] %>
-      <%= content_tag(:p, contact[:phone], class: 'phone') if contact[:phone] %>
+      <%= content_tag(:p, mail_to(contact[:email]), class: 'email') if contact[:email] %>
+      <%- if phone = contact[:phone] -%>
+        <p class='phone'><%= link_to phone, "tel:#{phone.gsub(/[^0-9]/, '')}" %></p>
+      <%- end -%>
     </address>
 
     <%- if network_representative ||= nil %>
