@@ -1,4 +1,15 @@
 .component-participants-table-embedded
+  @extend %wrapper
   clear: both
-  padding: 3em 0 2em
-  margin: 0 5%
+
+  > .wrapper
+    padding: 3em 0 2em
+    margin: 0 10px
+
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      margin: 0 5%
+
+  @media only screen and (min-width: 1001px)
+    > .wrapper
+      margin: 0 6.25%
