@@ -12,6 +12,12 @@
         </div>
 
         <%= render 'redesign/components/widget_links_lists', links_lists: @page.main_content_links %>
+
+        <%- if @networks.any? -%>
+          <%- @networks.each do |network| -%>
+            <%= link_to_redesign network.name, redesign_networks_show_path(@region, network.name.downcase) %>
+          <%- end -%>
+        <%- end -%>
       </section>
 
       <%- if sidebar = @page.sidebar_widgets -%>

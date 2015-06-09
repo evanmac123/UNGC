@@ -272,6 +272,7 @@ UNGC::Application.routes.draw do
     end
 
     controller :networks do
+      get '/engage-locally/:region' => :region, as: :networks_region , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
       get '/engage-locally/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
     end
 
