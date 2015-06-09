@@ -68,6 +68,7 @@ class RedirectTest
       {old: '/COPs/active/143311', new: '/participation/report/cop/create-and-submit/active/143311'},
       {old: '/COP/analyzing_progress/advanced_cops.html', new: '/participation/report/cop/create-and-submit/advanced'},
       {old: '/COPs/advanced/143311', new: '/participation/report/cop/create-and-submit/advanced/143311'},
+      {old: '/COPs/detail/143311', new: '/participation/report/cop/create-and-submit/detail/143311'},
       {old: '/Issues/index.html', new: '/take-action'},
       {old: '/HowToParticipate/Lead/index.html', new: '/take-action/leadership'},
       {old: '/HowToParticipate/Lead/participation.html', new: '/take-action/leadership/gc-lead'},

@@ -361,6 +361,7 @@ UNGC::Application.routes.draw do
     get '/COPs/active/:id', to: redirect('/participation/report/cop/create-and-submit/active/%{id}')
     get '/COP/analyzing_progress/advanced_cops.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/advanced'
     get '/COPs/advanced/:id', to: redirect('/participation/report/cop/create-and-submit/advanced/%{id}')
+    get '/COPs/detail/:id', to: redirect('/participation/report/cop/create-and-submit/detail/%{id}')
     get '/Issues/index.html'=> 'static#redirect_to_page', page: '/take-action'
     get '/HowToParticipate/Lead/index.html'=> 'static#redirect_to_page', page: '/take-action/leadership'
     get '/HowToParticipate/Lead/participation.html'=> 'static#redirect_to_page', page: '/take-action/leadership/gc-lead'
