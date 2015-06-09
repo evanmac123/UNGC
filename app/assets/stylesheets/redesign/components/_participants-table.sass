@@ -9,6 +9,19 @@
     padding: .5em
     border: 1px solid #eee
 
-
   .name
     max-width: 300px
+
+  .type,
+  .sector,
+  .joined-on
+    display: none
+
+  @media only screen and (min-width: 721px)
+    .sector
+      display: table-cell
+
+  @media only screen and (min-width: 881px)
+    .type,
+    .joined-on
+      display: table-cell
