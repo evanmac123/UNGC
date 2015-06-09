@@ -13,24 +13,15 @@
     left: 6.25%
     right: 6.25%
 
-
 #regions-nav-triggers
   @extend %wrapper
-  display: table
-  width: 100.5%
-  text-align: center
   bottom: 0
-  border: 0
-    spacing: 1px 0
-    collapse: separate
   list-stye: none
 
   li
     +button
-    display: table-cell
-    padding: 0 .2em .1em
     font-size: .875em
-    vertical-align: middle
+    white-space: nowrap
 
     .region-nav-trigger
       display: block
@@ -44,8 +35,27 @@
     &.is-open
       background-color: color('dark-teal')
 
+  @media only screen and (max-width: 720px)
+    padding: 0 10px
 
-    @media only screen and (min-width: 721px)
+    li
+      display: inline-block
+      padding: 0 .5em .1em
+      margin: 0 2px 4px 0
+
+  @media only screen and (min-width: 721px)
+    display: table
+    width: 100.5%
+    border: 0
+      spacing: 1px 0
+      collapse: separate
+
+    li
+      display: table-cell
+      width: auto
+      padding: .1em .2em .2em
+      vertical-align: middle
+
       .region-nav-trigger:after
         +fa-icon
         content: $fa-var-caret-down
@@ -57,10 +67,12 @@
       .is-open .region-nav-trigger:after
         content: "\00d7"
 
-    @media only screen and (min-width: 921px)
+  @media only screen and (min-width: 921px)
+    li
       font-size: 1em
 
-    @media only screen and (min-width: 1050px)
+  @media only screen and (min-width: 1050px)
+    li
       font-size: 1.125em
 
 
