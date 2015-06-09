@@ -4,6 +4,7 @@ $(function() {
 
   $trigger.on('touchstart click', function(e) {
     e.preventDefault();
+    $('body').toggleClass('navigation-active');
     $nav.add($trigger).toggleClass('active');
   });
 });
