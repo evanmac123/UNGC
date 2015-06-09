@@ -1,7 +1,7 @@
 .component-content-blocks
   @extend %wrapper
   clear: both
-  padding: 3em 0 0
+  padding: 2em 0 0
   background: white
 
   &.library
@@ -9,8 +9,25 @@
 
   .component-header
     margin:
-      right: 5%
-      left: 5%
+      right: 10px
+      left: 10px
+
+  @media only screen and (min-width: 881px)
+    padding-top: 3em
+
+    .component-header
+      margin:
+        right: 5%
+        left: 5%
+
+  @media only screen and (min-width: 1001px)
+    .component-header
+      margin:
+        right: 6.25%
+        left: 6.25%
+
+.main-content-section + .component-content-blocks
+  padding-top: 0
 
 .component-content-blocks-list
   list-style: none
