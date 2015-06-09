@@ -9,14 +9,11 @@
   +clearfix
 
   .main-content-body
-    padding: 1em
+    padding: 1em 10px
 
   .article-sidebar
-    width: 30%
-    padding:
-      top: 1em
-      right: 3%
-    margin-right: 0
+    margin-top: 0
+    padding: 0 10px
 
     .widget-event-date-and-location
       position: relative
@@ -26,8 +23,8 @@
         content: ''
         position: absolute
         top: 0
-        left: -12%
-        right: -20%
+        left: -8%
+        right: -5000px
         bottom: 0
         background: lighten(color('pastel-blue'), 22%)
 
@@ -99,3 +96,13 @@
       bottom: 0
       margin: auto
       width: 75%
+
+  @media only screen and (min-width: 601px)
+    .main-content-body,
+    .article-sidebar
+      padding: 1em
+      // width: 30%
+      // padding:
+      //   top: 1em
+      //   right: 3%
+      // margin-right: 0
