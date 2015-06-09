@@ -27,6 +27,9 @@ class Redesign::NetworksController < Redesign::ApplicationController
       'north-america'  =>  'northern_america',
       'oceania'        =>  'oceania'
     }
-    LocalNetwork.joins(:countries).where('countries.region = ?', slugs[@region])
+    LocalNetwork.
+      joins(:countries).
+      where('countries.region = ?', slugs[@region]).
+      distinct('local_networks.id')
   end
 end
