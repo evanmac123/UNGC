@@ -296,6 +296,7 @@ UNGC::Application.routes.draw do
       get :learner, on: :collection
       get :non_communicating, on: :collection, path: '/non-communicating'
     end
+    get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
     get 'photo-credits' => "images#index", as: :photo_credits
 
