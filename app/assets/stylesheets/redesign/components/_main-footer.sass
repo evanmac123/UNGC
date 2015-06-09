@@ -21,21 +21,40 @@
     padding: 0
 
   .column
-    margin-bottom: 2em
-    @media only screen and (min-width: 881px)
+    margin: 0 0 2em
+
+    @media only screen and (min-width: 481px)
       float: right
-      width: 28%
-      margin: 0 1.5%
+      width: 48%
+
+      &:first-of-type
+        margin-left: 4%
 
       &:last-of-type
+        clear: both
+        width: 100%
+
+    @media only screen and (min-width: 881px)
+      float: right
+      margin: 0 1.5%
+
+      &,
+      &:last-of-type
+        width: 28%
+
+      &:last-of-type
+        clear: none
         margin-left: 5%
 
       &:first-of-type
-        margin-right: 5%
+        margin: 0 5% 2em 1.5%
 
     @media only screen and (min-width: 1001px)
-      width: 27.1667%
       margin: 0 1.5%
+
+      &,
+      &:last-of-type
+        width: 27.1667%
 
       &:last-of-type
         margin-left: 6.25%
