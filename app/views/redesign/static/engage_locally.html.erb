@@ -13,7 +13,7 @@
 
         <%= render 'redesign/components/widget_links_lists', links_lists: @page.main_content_links %>
 
-        <%- if @networks.any? -%>
+        <%- if @networks.present? -%>
           <%- @networks.each do |network| -%>
             <%= link_to_redesign network.name, redesign_networks_show_path(@region, network.name.downcase) %>
           <%- end -%>
