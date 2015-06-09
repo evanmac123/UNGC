@@ -3,7 +3,7 @@
   margin: 0 0 1.5em
 
   h1
-    font-size: 2em
+    font-size: 1.5em
     margin: 0
 
   .view-all
@@ -11,9 +11,7 @@
     position: absolute
     bottom: .3em
     right: 0
-    font:
-      size: 1.125em
-      family: $flama-bold
+    font-family: $flama-bold
     color: color('grey')
 
     &:after
@@ -25,6 +23,13 @@
     &:hover,
     &:active
       color: color('light-blue')
+
+  @media only screen and (min-width: 881px)
+    h1
+      font-size: 2em
+
+    .view-all
+      font-size: 1.125em
 
 @import components/main-header
 @import components/main-footer
