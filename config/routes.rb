@@ -264,6 +264,7 @@ UNGC::Application.routes.draw do
       get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news
       get '/press-releases' => :press_releases
     end
+    get '/feeds/news' => 'news#press_releases', :format => 'atom'
 
     controller :events, path: '/take-action/events' do
       get '/' => :index, as: :events
