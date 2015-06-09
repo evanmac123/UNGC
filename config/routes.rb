@@ -297,7 +297,7 @@ UNGC::Application.routes.draw do
       get :non_communicating, on: :collection, path: '/non-communicating'
     end
 
-    get 'licensed-images' => "images#index", as: :licensed_images
+    get 'photo-credits' => "images#index", as: :photo_credits
 
     get '/search'   => 'search#search',     as: :search
 

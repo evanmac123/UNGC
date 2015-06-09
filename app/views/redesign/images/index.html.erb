@@ -3,7 +3,7 @@
     <section class='content-list'>
       <%- @images.each do |item| -%>
         <article class='content-list-item'>
-          <span class='image-link'>
+          <span class='content-list-item-image'>
             <%= image_tag(item.url)%>
           </span>
           <div class='content-list-item-content-wrapper has-image'>
@@ -15,26 +15,40 @@
                     Title:
                   </dt>
                   <dd>
-                    <a href="<%= licensing[:title][:url] %>">
+                    <%- if !licensing[:title][:url].blank? %>
+                      <a href="<%= licensing[:title][:url] %>" target="_blank">
+                        <%= licensing[:title][:label] %>
+                      </a>
+                    <% else %>
                       <%= licensing[:title][:label] %>
-                    </a>
+                    <% end %>
                   </dd>
                   <dt>
                     Photographer:
                   </dt>
                   <dd>
-                    <a href="<%= licensing[:photographer][:url] %>">
+                    <%- if !licensing[:photographer][:url].blank? %>
+                      <a href="<%= licensing[:photographer][:url] %>" target="_blank">
+                        <%= licensing[:photographer][:label] %>
+                      </a>
+                    <% else %>
                       <%= licensing[:photographer][:label] %>
-                    </a>
+                    <% end %>
                   </dd>
-                  <dt>
-                    License:
-                  </dt>
-                  <dd>
-                    <a href="<%= licensing[:license][:url] %>">
-                      <%= licensing[:license][:label] %>
-                    </a>
-                  </dd>
+                  <%- if !licensing[:license][:label].blank? %>
+                    <dt>
+                      License:
+                    </dt>
+                    <dd>
+                      <%- if !licensing[:license][:url].blank? %>
+                        <a href="<%= licensing[:license][:url] %>" target="_blank">
+                          <%= licensing[:license][:label] %>
+                        </a>
+                      <% else %>
+                        <%= licensing[:license][:label] %>
+                      <% end %>
+                    </dd>
+                  <% end %>
                 </dl>
               <% end %>
             </div>
