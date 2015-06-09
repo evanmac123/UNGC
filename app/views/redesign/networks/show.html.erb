@@ -3,11 +3,12 @@
 
 <section class='main-content-section main-content-section-wide local-network-main-content'>
   <div class='wrapper'>
-    <%= content_tag(:header, content_tag(:h1, @page.name, {class: 'main-content-header'})) %>
+    <%= content_tag(:header, content_tag(:h1, @page.name), class: 'main-content-header') %>
 
     <div class='local-network-body-wrapper'>
-      <%= image_tag @page.image, alt: "#{@page.name} Map", class: 'local-network-image' %>
       <section class='main-content-body'>
+        <%= image_tag @page.image, alt: "#{@page.name} Map", class: 'local-network-image' %>
+
         <h2 class='local-network-body-header'>Mission and Vision</h2>
 
         <%= @page.description.try(:html_safe) %>
