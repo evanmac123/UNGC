@@ -1,25 +1,65 @@
 .component-partners
   clear: both
-  padding: 3em 5% 2em
   background: #f6f6f6
 
-.component-partners-list
-  list-style: none
-  padding: 0
-  margin: 0
-  +clearfix
+  > .wrapper
+    padding: 2em 0
 
-  li
-    display: inline-block
-    width: 33%
-    vertical-align: middle
-    text-align: center
+  .component-header,
+  .component-partners-list
+    margin:
+      right: 10px
+      left: 10px
 
-    img
+  .component-partners-list
+    list-style: none
+    padding: 0
+    +clearfix
+
+    li
+      display: block
+      max-width: 20em
+      margin: 0 auto 2em
+      text-align: center
+
+      a
+        display: block
+        width: 70%
+        margin: 0 auto
+
+      img
+        width: 100%
+
+      &:first-child
+        text-align: left
+
+      &:last-child
+        text-align: right
+
+  @media only screen and (min-width: 721px)
+    .component-partners-list li
+      float: left
+      width: 33%
+      margin: 0
+      max-width: none
+
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      padding-bottom: 2.5em
+
+    .component-header,
+    .component-partners-list
+      margin:
+        right: 5%
+        left: 5%
+
+    .component-partners-list li a
       width: 70%
 
-    &:first-child
-      text-align: left
+  @media only screen and (min-width: 1001px)
+    .component-header,
+    .component-partners-list
+      margin:
+        right: 6.25%
+        left: 6.25%
 
-    &:last-child
-      text-align: right
