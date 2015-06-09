@@ -4,7 +4,7 @@ list_classes = is_landing ? ' news-list-landing' : nil
 
 if news ||= nil
 -%>
-<section class='main-content-section news-list-section<%= list_classes -%>'>
+<section class='main-content-section main-content-section-narrow news-list-section<%= list_classes -%>'>
   <div class='wrapper'>
     <%= content_tag(:header, content_tag(:h1, news.title), {class: 'main-content-header'}) if is_landing && news.title %>
 
