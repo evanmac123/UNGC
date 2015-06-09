@@ -1,38 +1,63 @@
 .local-network-main-content
   .main-content-header
-    font-size: 3em
-    padding: 0 0 .25em
-    margin: 0
+    padding: 2em 0 .5em
 
-  .main-content-body
-    padding: 0
-    width: 45%
+    h1
+      font-size: 3em
 
-.local-network-image
-  display: block
-  float: left
-  width: 20%
-  background: #f9f9f9
-  margin: .5em 1em 1em 0
 
 .local-network-body-wrapper
-  border: 1px solid #eee
-  padding: 2em 0 2em 1em
-  overflow: hidden
   +clearfix
 
-  .article-sidebar
-    width: 30%
-    padding-right: 3%
-    margin-right: 0
+  .local-network-image
+    display: block
+    width: 100%
+    max-width: 250px
+    background: #f9f9f9
+    margin: 0 0 1.5em
+    border: 1px solid #ddd
 
-    .widget-contact
-      right: -1em
+  table.table-embedded
+    border: 0
 
-h2.local-network-body-header
-  text-transform: uppercase
-  font-size: 1.25em
+    th
+      background: transparent
 
-h3.local-network-participants-header
-  text-transform: uppercase
-  font-size: 1em
+    th,
+    td
+      &:first-child
+        padding-left: 0
+
+      &:last-child
+        padding-right: 0
+
+      &.count
+        text-align: right
+
+  h2.local-network-body-header
+    text-transform: uppercase
+    font-size: 1.25em
+    margin-top: 0
+
+  h3.local-network-participants-header
+    text-transform: uppercase
+    font-size: 1em
+
+  @media only screen and (min-width: 881px)
+    border: 1px solid #eee
+    padding: 1.5% 2%
+    overflow: hidden
+
+    .local-network-image
+      position: absolute
+      top: 0
+      left: 0
+      width: 30%
+
+    .main-content-body
+      position: relative
+      padding-left: 22%
+      width: 65%
+
+    .article-sidebar
+      width: 30%

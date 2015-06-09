@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150605174637) do
+ActiveRecord::Schema.define(version: 20150607214842) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -852,6 +852,9 @@ ActiveRecord::Schema.define(version: 20150605174637) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "redesign_searchables", ["document_type", "url"], name: "index_redesign_searchables_on_document_type_and_url", using: :btree
+  add_index "redesign_searchables", ["url"], name: "index_redesign_searchables_on_url", using: :btree
 
   create_table "removal_reasons", force: :cascade do |t|
     t.string   "description", limit: 255

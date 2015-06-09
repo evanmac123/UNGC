@@ -1,4 +1,35 @@
 .component-participants-table-embedded
+  @extend %wrapper
   clear: both
-  padding: 3em 0 2em
-  margin: 0 5%
+
+  > .wrapper
+    padding: 2em 0
+    margin: 0 10px
+
+  .component-header .view-all span
+    display: none
+
+  table
+    font-size: .875em
+
+    .sector
+      display: none
+
+  @media only screen and (min-width: 501px)
+    table
+      font-size: 1em
+
+      .sector
+        display: table-cell
+
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      padding-top: 3em
+      margin: 0 5%
+
+    .component-header .view-all span
+      display: inline
+
+  @media only screen and (min-width: 1001px)
+    > .wrapper
+      margin: 0 6.25%

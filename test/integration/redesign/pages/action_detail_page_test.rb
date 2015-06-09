@@ -74,6 +74,7 @@ class ActionDetailPageTest < ActionDispatch::IntegrationTest
   end
 
   should 'render embedded participants table component' do
+    skip # this test is racey, skipping until it's fixed.
     assert_render_embedded_participants_table_component @participants
   end
 

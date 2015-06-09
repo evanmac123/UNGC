@@ -18,7 +18,7 @@ module Redesign::ParticipantSearchHelper
   SortHeader = Struct.new(:helper, :active_field, :active_direction) do
 
     def header(label, field)
-      css_class = 'sort-direction-toggle'
+      css_class = "sort-direction-toggle #{field.dasherize}"
 
       if field == active_field
         css_class += " active-sort #{active_direction}"

@@ -14,38 +14,35 @@
 
 <%- end -%>
 
-<% if @results.any? %>
-  <section class='main-content-section news-list-section'>
+  <section class='main-content-section main-content-section-narrow search-results-section'>
     <div class='wrapper'>
-      <header class='main-content-header'>
-        <ul class="search_facets">
-          <li>
-            <%= link_to 'All', @search.clear_facets(params, :search) %>
-          </li>
-          <%- @search.facets.each do |facet| -%>
-            <li><%= link_to facet.title, facet.merge_params_into(params, :search), class: facet.state %></li>
-          <%- end %>
-        </ul>
-      </header>
+      <% if @results.any? %>
+        <header class='main-content-header'>
+          <menu class="search-facets">
+            <li>
+              <%= link_to 'All', @search.clear_facets(params, :search) %>
+            </li>
+            <%- @search.facets.each do |facet| -%>
+              <li><%= link_to facet.title, facet.merge_params_into(params, :search), class: facet.state %></li>
+            <%- end %>
+          </menu>
+        </header>
 
-      <section class='main-content-body news-list-body'>
-        <% @results.each do |result| %>
-          <article class='news-item'>
-            <%= link_to_redesign (raw result.excerpts.title), result.url %><br/>
-            <p><%= raw result.excerpts.content %></p>
-          </article>
-        <% end %>
-      </section>
+        <section class='content-list'>
+          <% @results.each do |result| %>
+            <article class='content-list-item'>
+              <h1><%= link_to_redesign(raw(result.excerpts.title), result.url) %></h1>
+              <p><%= raw result.excerpts.content %></p>
+            </article>
+          <% end %>
+        </section>
+
+        <%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>
+      <%- else -%>
+        <section class='main-content-body'>
+          <h5>No results found.</h5>
+        </section>
+      <%- end -%>
     </div>
   </section>
-<%- else -%>
-  <section class='main-content-section news-list-section'>
-    <div class='wrapper'>
-      <section class='main-content-body news-list-body'>
-        <h5>No results found.</h5>
-      </section>
-    </div>
-  </section>
-<%- end -%>
 
-<%= will_paginate @results, previous_label: "<span>Previous</span>", next_label: "<span>Next</span>" %>

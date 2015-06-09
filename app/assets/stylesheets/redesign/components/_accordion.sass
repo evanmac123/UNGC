@@ -12,70 +12,70 @@
   &.accordion-ready
     opacity: 1
 
-.accordion-item
-  margin-bottom: .125em
+    .accordion-item-content-wrapper
+      +transition(max-height 150ms)
 
-.accordion-item-header,
-h1.accordion-item-header,
-h2.accordion-item-header
-  position: relative
-  padding: .5em 3em .6em 1em
-  margin: 0
-  background-color: color('grey')
-  color: white
-  font-size: 1em
-  border-radius: .125em
-  cursor: pointer
-  text-transform: uppercase
+  .accordion-item-header,
+  h1.accordion-item-header,
+  h2.accordion-item-header
+    position: relative
+    padding: .5em 3em .6em 1em
+    margin: 0
+    background-color: color('grey')
+    color: white
+    font-size: 1em
+    border-radius: .125em
+    cursor: pointer
+    text-transform: uppercase
 
-  &:after
-    +fa-icon
-    content: $fa-var-minus
-    position: absolute
-    top: 0
-    right: 1em
-    bottom: 0
-    margin: auto
-    height: 1em
-    text-align: center
-    font-size: .8em
-    line-height: 1
-    +font-smoothing(antialiased)
+    &:after
+      +fa-icon
+      content: $fa-var-minus
+      position: absolute
+      top: 0
+      right: 1em
+      bottom: 0
+      margin: auto
+      height: 1em
+      text-align: center
+      font-size: .8em
+      line-height: 1
+      +font-smoothing(antialiased)
 
-  &:hover,
-  &:active
-    background-color: darken(color('grey'), 10%)
+    &:hover,
+    &:active
+      background-color: darken(color('grey'), 10%)
 
-.accordion-child-header,
-h1.accordion-child-header,
-h2.accordion-child-header
-  background-color: #eee
-  color: color('dark-grey')
-  border-radius: 0
-  text-transform: none
+  .accordion-child-header,
+  h1.accordion-child-header,
+  h2.accordion-child-header
+    background-color: #eee
+    color: color('dark-grey')
+    border-radius: 0
+    text-transform: none
 
-  &:hover,
-  &:active
-    background-color: #ddd
-    color: black
+    &:hover,
+    &:active
+      background-color: #ddd
+      color: black
 
-.accordion-item-content-wrapper
-  overflow: hidden
+  .accordion-item-content-wrapper
+    overflow: hidden
 
-.accordion-item-content
-  padding: 1.5em
-  font-size: .875em
+  .accordion-item-content
+    padding: 1.5em
+    font-size: .875em
 
-  ul,
-  ol
-    padding-left: 2em
+    ul,
+    ol
+      padding-left: 2em
 
-.accordion-ready .accordion-item-content-wrapper
-  +transition(max-height 150ms)
+  .accordion-item
+    margin-bottom: .125em
 
-.accordion-item.collapsed
-  > .accordion-item-header:after
-    content: $fa-var-plus
+    &.collapsed
+      > .accordion-item-header:after
+        content: $fa-var-plus
 
-  > .accordion-item-content-wrapper
-    max-height: 0 !important
+      > .accordion-item-content-wrapper
+        max-height: 0 !important

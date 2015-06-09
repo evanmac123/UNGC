@@ -15,18 +15,20 @@
 
   <%= active_filters(@search) %>
 
-  <fieldset class='filter-sorting'>
-    <%- @page.sorting_options.each do |so| -%>
-      <%- so[:options] = @search.try(so[:options]) -%>
-      <%= f.select so[:field], so[:options], {include_blank: so[:label]}, {id: "filter-#{so[:field].to_s.parameterize}"} %>
-    <%- end -%>
-  </fieldset>
-
-  <%- if @results.any? -%>
-    <p class='results-count'>
-      <%- if !@search.keywords.empty? -%>
-        Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
+  <footer>
+    <fieldset class='filter-sorting'>
+      <%- @page.sorting_options.each do |so| -%>
+        <%- so[:options] = @search.try(so[:options]) -%>
+        <%= f.select so[:field], so[:options], {include_blank: so[:label]}, {id: "filter-#{so[:field].to_s.parameterize}"} %>
       <%- end -%>
-      <strong><%= @results.total_entries -%></strong> results</p>
-  <%- end -%>
+    </fieldset>
+
+    <%- if @results.any? -%>
+      <p class='results-count'>
+        <%- if !@search.keywords.empty? -%>
+          Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
+        <%- end -%>
+        <strong><%= @results.total_entries -%></strong> results</p>
+    <%- end -%>
+  </footer>
 <% end %>

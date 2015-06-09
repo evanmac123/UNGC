@@ -1,30 +1,32 @@
 <%- participants = @page.participants -%>
 <%- if participants && !@page.participants.empty?-%>
 <section class='component-participants-table-embedded'>
-  <%- if title ||= nil -%>
-    <header class='component-header'>
-      <%= content_tag(:h1, title.try(:html_safe)) %>
-      <%= link_to "View the Full List in Who&rsquo;s Involved".html_safe, redesign_participant_search_path(search: {initiatives: [@page.participants.initiative_id]}), class: 'view-all' %>
-    </header>
-  <%- end -%>
+  <div class='wrapper'>
+    <%- if title ||= nil -%>
+      <header class='component-header'>
+        <%= content_tag(:h1, title.try(:html_safe)) %>
+        <%= link_to "<span>View the </span>Full List<span> in Who&rsquo;s Involved</span>".html_safe, redesign_participant_search_path(search: {initiatives: [@page.participants.initiative_id]}), class: 'view-all' %>
+      </header>
+    <%- end -%>
 
-  <table class='table-embedded'>
-    <thead>
-      <tr>
-        <th class='name'>Name</th>
-        <th class='sector'>Sector</th>
-        <th class='country'>Country</th>
-      </tr>
-    </thead>
-    <tbody>
-      <%- participants.each do |p| -%>
-      <tr>
-        <th class='name'><%= link_to p[:name], redesign_participant_path(p[:participant]) -%></th>
-        <td class='sector'><%= p[:sector] -%></td>
-        <td class='country'><%= p[:country] -%></td>
-      </tr>
-      <%- end -%>
-    </tbody>
-  </table>
+    <table class='table-embedded'>
+      <thead>
+        <tr>
+          <th class='name'>Name</th>
+          <th class='sector'>Sector</th>
+          <th class='country'>Country</th>
+        </tr>
+      </thead>
+      <tbody>
+        <%- participants.each do |p| -%>
+        <tr>
+          <th class='name'><%= link_to p[:name], redesign_participant_path(p[:participant]) -%></th>
+          <td class='sector'><%= p[:sector] -%></td>
+          <td class='country'><%= p[:country] -%></td>
+        </tr>
+        <%- end -%>
+      </tbody>
+    </table>
+  </div>
 </section>
 <%- end -%>

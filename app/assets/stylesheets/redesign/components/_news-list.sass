@@ -1,77 +1,61 @@
 .news-list-section
-  > .wrapper
-    padding:
-      left: 7%
-      bottom: 0
+  .news-list-body
+    float: none
+    width: 100%
 
-  .pagination
-    padding: 0 0 4em
-    border: 0
+    .news-item
+      padding: 1em
+      margin: 0 0 2em
+      border: 1px solid #ccc
 
-.news-list-body
-  width: 100%
-  float: none
+      h1
+        margin: 0 0 .5em
+        font-size: 1.125em
 
+      time,
+      address
+        font-weight: 900
 
-  .news-item
-    padding: 1em
-    margin: 0 0 2em
-    border: 1px solid #ccc
+      address
+        margin: 0 0 .5em
 
-    h1
-      margin: 0 0 .5em
-      font-size: 1.125em
+      p:last-of-type
+        margin-bottom: .5em
 
-    time,
-    address
+    .view-all,
+    .read-more
+      &:after
+        +fa-icon
+        content: $fa-var-caret-right
+        margin: 0 0 0 .5em
+
+    .view-all
+      display: block
+      clear: both
+      text-align: right
+      padding: 1em 0
+      color: color('grey')
       font-weight: 900
 
-    address
-      margin: 0 0 .5em
+      &:after
+        color: color('light-blue')
 
-    p:last-of-type
-      margin-bottom: .5em
+      &:hover,
+      &:active
+        color: color('light-blue')
 
-  .view-all,
-  .read-more
-    &:after
-      +fa-icon
-      content: $fa-var-caret-right
-      margin: 0 0 0 .5em
-
-  .view-all
-    display: block
-    clear: both
-    text-align: right
-    padding: 1em 0
-    color: color('grey')
-    font-weight: 900
-
-    &:after
+    .read-more
       color: color('light-blue')
 
-    &:hover,
-    &:active
-      color: color('light-blue')
-
-  .read-more
-    color: color('light-blue')
-
-    &:hover,
-    &:active
-      color: color('pastel-blue')
+      &:hover,
+      &:active
+        color: color('pastel-blue')
 
 .news-list-landing
   > .wrapper
-    padding:
-      left: 12%
-      bottom: 4em
+    margin-right: 10px
 
   .news-list-body
-    padding-right: 0
-    float: left
-    width: 60%
-
     h1 a:after
       +fa-icon
       content: $fa-var-caret-right
@@ -84,4 +68,19 @@
     .news-item-featured
       padding: 0 0 1em
       border-bottom-width: 1px
+
+
+  @media only screen and (min-width: 601px)
+    .news-list-body
+      float: left
+      width: 60%
+
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      margin-right: 5%
+
+  @media only screen and (min-width: 1001px)
+    > .wrapper
+      margin-right: 0
+
 

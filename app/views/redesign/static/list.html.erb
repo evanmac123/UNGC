@@ -12,23 +12,25 @@
 
       <%- list.items.each do |item| -%>
         <article class='content-list-item'>
-          <%- if item.url -%>
-            <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'image-link') if item.image %>
-            <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
-              <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}")) %>
-              <%= content_tag(:div, item.blurb.try(:html_safe), class: 'blurb') if list.blurb.present? %>
-            </div>
-          <%-else -%>
-            <%- if item.image -%>
-              <span class='image-link'>
-                <%= image_tag(item.image, alt: item.title)%>
-              </span>
-            <%-end -%>
-            <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
-              <%= content_tag(:h1, item.title, class: "type-#{item.type}") %>
-              <%= content_tag(:div, item.blurb.try(:html_safe), class: 'blurb') if list.blurb.present? %>
-            </div>
+
+          <%- if item.image -%>
+            <%- if item.url -%>
+              <%= link_to_redesign(image_tag(item.image, alt: item.title), item.url, class: 'content-list-item-image') %>
+            <%- else -%>
+              <span class='content-list-item-image'><%= image_tag(item.image, alt: item.title)%></span>
+            <%- end -%>
           <%- end -%>
+
+          <div class='content-list-item-content-wrapper<%= " has-image" if item.image ||= nil %>'>
+
+            <%- if item.url -%>
+              <%= content_tag(:h1, link_to_redesign(item.title, item.url, class: "type-#{item.type}")) %>
+            <%- else -%>
+              <%= content_tag(:h1, item.title) %>
+            <%- end -%>
+
+            <%= content_tag(:div, item.blurb.try(:html_safe), class: 'blurb') if item.blurb.present? %>
+          </div>
         </article>
       <%- end -%>
     </section>

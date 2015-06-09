@@ -317,7 +317,7 @@ UNGC::Application.routes.draw do
     get '/AboutTheGC/TheTenPrinciples/Principle8.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-8'
     get '/AboutTheGC/TheTenPrinciples/Principle9.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-9'
     get '/AboutTheGC/TheTenPrinciples/Principle10.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-10'
-    get '/AboutTheGC/IntegrityMeasures/index.html' => 'static#redirect_to_page', page: '/what-is-gc/our-commitment'
+    get '/AboutTheGC/IntegrityMeasures/index.html' => 'static#redirect_to_page', page: '/what-is-gc'
     get '/ParticipantsAndStakeholders/index.html' => 'static#redirect_to_page', page: '/what-is-gc/participants'
     get '/participants/search' => 'static#redirect_to_page', page: '/what-is-gc/participants'
     get '/participant/:id', to: redirect('/what-is-gc/participants/%{id}')
@@ -328,7 +328,7 @@ UNGC::Application.routes.draw do
     get '/Issues/partnerships/post_2015_development_agenda.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/sustainable-development/background'
     get '/Issues/financial_markets/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/financial'
     get '/Issues/transparency_anticorruption/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/governance/anti-corruption'
-    get '/Issues/transparency_anticorruption/collective_action.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/governance/anti-corruption/collective-action'
+    get '/Issues/transparency_anticorruption/collective_action.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/governance/anti-corruption'
     get '/Issues/human_rights/business_for_the_rule_of_law.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/governance/rule-law'
     get '/Issues/Environment/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/environment'
     get '/Issues/human_rights/index.html'=> 'static#redirect_to_page', page: '/what-is-gc/our-work/social/human-rights'
@@ -361,6 +361,7 @@ UNGC::Application.routes.draw do
     get '/COPs/active/:id', to: redirect('/participation/report/cop/create-and-submit/active/%{id}')
     get '/COP/analyzing_progress/advanced_cops.html'=> 'static#redirect_to_page', page: '/participation/report/cop/create-and-submit/advanced'
     get '/COPs/advanced/:id', to: redirect('/participation/report/cop/create-and-submit/advanced/%{id}')
+    get '/COPs/detail/:id', to: redirect('/participation/report/cop/create-and-submit/detail/%{id}')
     get '/Issues/index.html'=> 'static#redirect_to_page', page: '/take-action'
     get '/HowToParticipate/Lead/index.html'=> 'static#redirect_to_page', page: '/take-action/leadership'
     get '/HowToParticipate/Lead/participation.html'=> 'static#redirect_to_page', page: '/take-action/leadership/gc-lead'
@@ -401,11 +402,11 @@ UNGC::Application.routes.draw do
     get '/LocalNetworksResources/engagement_framework/business_for_peace.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/engagement/business-for-peace'
     get '/LocalNetworksResources/engagement_framework/supply_chain_sustainability.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/engagement/supply-chain-sustainability'
     get '/LocalNetworksResources/training_guidance_material/index.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training'
-    get '/LocalNetworksResources/training_guidance_material/outreach.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training/outreach'
-    get '/LocalNetworksResources/training_guidance_material/cop_training.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training/cop-training'
-    get '/LocalNetworksResources/training_guidance_material/partnerships.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training/partnerships'
-    get '/LocalNetworksResources/training_guidance_material/fundraising_toolkit.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training/fundraising-toolkit'
-    get '/LocalNetworksResources/training_guidance_material/webinars.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training/webinars'
+    get '/LocalNetworksResources/training_guidance_material/outreach.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training'
+    get '/LocalNetworksResources/training_guidance_material/cop_training.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training'
+    get '/LocalNetworksResources/training_guidance_material/partnerships.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training'
+    get '/LocalNetworksResources/training_guidance_material/fundraising_toolkit.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training'
+    get '/LocalNetworksResources/training_guidance_material/webinars.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/training'
     get '/LocalNetworksResources/news_updates/index.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/news'
     get '/LocalNetworksResources/reports/index.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/reports'
     get '/LocalNetworksResources/reports/foundation_financial_statements.html'=> 'static#redirect_to_page', page: '/engage-locally/manage/reports/foundation'
@@ -432,8 +433,8 @@ UNGC::Application.routes.draw do
     get '/AboutTheGC/Government_Support/outcomes_and_declarations.html'=> 'static#redirect_to_page', page: '/about/government-recognition/outcomes-declarations'
     get '/NewsAndEvents/index.html'=> 'static#redirect_to_page', page: '/news'
     get '/NewsAndEvents/UNGC_bulletin/index.html'=> 'static#redirect_to_page', page: '/news/bulletin'
-    get '/NewsAndEvents/UNGC_bulletin/subscribe_email_sent.html'=> 'static#redirect_to_page', page: '/news/bulletin/confirmation'
-    get '/NewsAndEvents/UNGC_bulletin/unsubscribe.html'=> 'static#redirect_to_page', page: '/news/bulletin/unsubscribe'
+    get '/NewsAndEvents/UNGC_bulletin/subscribe_email_sent.html'=> 'static#redirect_to_page', page: '/news/bulletin'
+    get '/NewsAndEvents/UNGC_bulletin/unsubscribe.html'=> 'static#redirect_to_page', page: '/news/bulletin'
     get '/NewsAndEvents/Speeches.html'=> 'static#redirect_to_page', page: '/news/speeches'
     get '/NewsAndEvents/Global_Compact_in_the_Media.html'=> 'static#redirect_to_page', page: '/news/media'
     get '/Languages/arabic/index.html'=> 'static#redirect_to_page', page: '/'
@@ -446,6 +447,16 @@ UNGC::Application.routes.draw do
     get '/WebsiteInfo/copyright.html'=> 'static#redirect_to_page', page: '/copyright'
     get '/WebsiteInfo/privacy_policy.html'=> 'static#redirect_to_page', page: '/privacy-policy'
     get '/NewsAndEvents/media_contacts.html'=> 'static#redirect_to_page', page: '/about/contact'
+    get '/resources/:id', to: redirect('/library/%{id}')
+
+    # new redirects (to be tested)
+    get '/index.html', to: redirect('/')
+    get '/languages/spanish(*path)', to: redirect('/')
+    get '/NewsAndEvents/global_compact_15.html', to: redirect('take-action/events/31-global-compact-15-business-as-a-force-for-good')
+    get '/AboutTheGC/TheTenPrinciples/anti-corruption.html', to: redirect('/what-is-gc/our-work/governance/anti-corruption')
+    get '/aboutthegc/thetenprinciples(*path)', to: redirect('/what-is-gc/mission/principles')
+    get '/AboutTheGC/TheTenPrinciples/principle1.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-1'
+    get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
 
     # CATCH ALL
     get '*path'     => 'static#catch_all',  as: :catch_all

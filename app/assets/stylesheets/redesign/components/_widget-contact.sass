@@ -11,18 +11,19 @@
     content: ''
     position: absolute
     top: 0
-    left: -12%
-    right: -50%
+    left: -8%
+    right: -5000px
     bottom: 0
     background: lighten(color('pastel-blue'), 22%)
 
   *
     position: relative
 
-  img
+  .photo
+    display: block
     float: left
-    width: 125px
-    margin: 0 1em 1em 0
+    width: 36%
+    margin: 0 0 1em
 
   h2,
   p
@@ -35,8 +36,12 @@
     font-size: .875em
 
   address
-    float: left
     margin: 0 0 1em
+
+  &.widget-contact-has-photo
+    address
+      float: right
+      width: 60%
 
   .representative
     clear: both
