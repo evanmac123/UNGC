@@ -17,7 +17,9 @@ $(function() {
 
     // set url based on tab
     var id = $tab.attr('id');
-    if (id) {
+    if (id) { // only if we have ids on buttons
+      // XXX this is here because we want to update the url
+      // without moving the page
       if(history.pushState) {
         history.pushState(null, null, '#' + id);
       }
