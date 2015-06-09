@@ -264,6 +264,7 @@ UNGC::Application.routes.draw do
       get '/:id' => :show, constraints: { id: /\d+.*/ }, as: :news
       get '/press-releases' => :press_releases
     end
+    get '/feeds/news' => 'news#press_releases', :format => 'atom'
 
     controller :events, path: '/take-action/events' do
       get '/' => :index, as: :events
@@ -296,7 +297,7 @@ UNGC::Application.routes.draw do
       get :non_communicating, on: :collection, path: '/non-communicating'
     end
 
-    get 'licensed-images' => "images#index", as: :licensed_images
+    get 'photo-credits' => "images#index", as: :photo_credits
 
     get '/search'   => 'search#search',     as: :search
 
