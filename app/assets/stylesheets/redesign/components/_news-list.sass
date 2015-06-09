@@ -53,12 +53,9 @@
 
 .news-list-landing
   > .wrapper
-    margin-right: 0
+    margin-right: 10px
 
   .news-list-body
-    float: left
-    width: 60%
-
     h1 a:after
       +fa-icon
       content: $fa-var-caret-right
@@ -71,4 +68,19 @@
     .news-item-featured
       padding: 0 0 1em
       border-bottom-width: 1px
+
+
+  @media only screen and (min-width: 601px)
+    .news-list-body
+      float: left
+      width: 60%
+
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      margin-right: 5%
+
+  @media only screen and (min-width: 1001px)
+    > .wrapper
+      margin-right: 0
+
 
