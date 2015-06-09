@@ -80,14 +80,14 @@
 .filter-parent-options-list
   display: none
   position: absolute
-  top: 3em
+  top: 2.7em
   left: 0
   right: 0
   padding: 1em
   background-color: rgba(color('dark-grey'), .975)
   color: color('light-grey')
   z-index: 999
-  max-height: 55em
+  max-height: 40em
   overflow: auto
 
   &.is-active
@@ -97,18 +97,27 @@
     position: relative
     display: inline-block
     vertical-align: top
-    width: 32%
+    width: 48%
     font:
       size: 1.25em
       weight: 500
     padding: 1em
 
   &.no-nested-filter > .filter-option
-    width: 19%
     font-size: 1em
     padding:
       top: .5em
       bottom: .5em
+
+  @media only screen and (min-width: 881px)
+    > .filter-option
+      width: 32%
+
+  @media only screen and (min-width: 1001px)
+    top: 3em
+
+    &.no-nested-filter > .filter-option
+      width: 19%
 
 .filter-child-options-list
   .filter-option

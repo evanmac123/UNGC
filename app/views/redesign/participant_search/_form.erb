@@ -17,18 +17,20 @@
 
   <%= active_filters(@search) %>
 
-  <fieldset class='filter-sorting'>
-    <%= f.select :per_page, @search.per_page_options, id: 'filter-per_page' %>
-  </fieldset>
+  <footer>
+    <fieldset class='filter-sorting'>
+      <%= f.select :per_page, @search.per_page_options, id: 'filter-per_page' %>
+    </fieldset>
 
-  <%= f.hidden_field :sort_field %>
-  <%= f.hidden_field :sort_direction %>
+    <%= f.hidden_field :sort_field %>
+    <%= f.hidden_field :sort_direction %>
 
-  <%- if @results.any? -%>
-    <p class='results-count'>
-      <%- if !@search.keywords.empty? -%>
-        Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
-      <%- end -%>
-      <strong><%= @results.total_entries -%></strong> results</p>
-  <%- end -%>
+    <%- if @results.any? -%>
+      <p class='results-count'>
+        <%- if !@search.keywords.empty? -%>
+          Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
+        <%- end -%>
+        <strong><%= @results.total_entries -%></strong> results</p>
+    <%- end -%>
+  </footer>
 <% end %>

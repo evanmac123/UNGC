@@ -12,8 +12,13 @@
     position: absolute
     left: -99999em
 
+  header,
+  footer
+    clear: both
+    margin: 0 10px
+
   header
-    margin: 0 10px 1em
+    margin-bottom: 1em
     +clearfix
 
     h1
@@ -69,34 +74,30 @@
         color: #222
 
   fieldset.filter-lists
-    position: relative
-    padding: 0 0 1em
-    margin: 0 10px
-    border-bottom: 1px solid #eee
-    +clearfix
+    display: none
 
   .reset-and-submit
     display: none
 
   .results-count
     font-size: 1.25em
-    margin: .5em 0 0 10px
+    margin: 0
 
   fieldset.filter-sorting
     float: right
-    margin: 1em 10px 0 0
+    margin: .25em 0 0
     +clearfix
 
     select
       display: inline-block
       max-width: 15em
-      margin: 0 .5em 0 0
+      margin: 0 .1em 0 0
 
       &:last-of-type
         margin-right: 0
 
     input[type='text']
-      padding: .25em .5em
+      padding: .04em .25em
 
       &.datepicker
         +placeholder
@@ -116,24 +117,33 @@
   + .component-content-blocks
     padding-top: 0
 
+  @media only screen and (min-width: 681px)
+    fieldset.filter-lists
+      display: block
+      position: relative
+      padding: 0 0 1em
+      margin: 0 10px
+      border-bottom: 1px solid #eee
+      +clearfix
+
+    fieldset.filter-sorting input[type='text']
+      padding: .125em .25em
+
   @media only screen and (min-width: 881px)
     header,
-    fieldset.filter-lists,
-    fieldset.filter-sorting
-      margin-right: 5%
-
-    header,
-    fieldset.filter-lists,
-    .results-count
-      margin-left: 5%
+    footer,
+    fieldset.filter-lists
+      margin:
+        left: 5%
+        right: 5%
 
   @media only screen and (min-width: 1001px)
     header,
-    fieldset.filter-lists,
-    fieldset.filter-sorting
-      margin-right: 6.25%
+    footer,
+    fieldset.filter-lists
+      margin:
+        left: 6.25%
+        right: 6.25%
 
-    header,
-    fieldset.filter-lists,
-    .results-count
-      margin-left: 6.25%
+    fieldset.filter-sorting input[type='text']
+      padding: .25em .5em
