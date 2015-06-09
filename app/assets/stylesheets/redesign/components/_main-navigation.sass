@@ -48,11 +48,13 @@
     div:after
       background: white
 
-  &.active
+  &.navigation-active
     div:before
       +transform( rotate( 45deg ) translate( 0, -4px ) )
+
     span
       opacity: 0
+
     div:after
       +transform( rotate( -45deg ) translate( 0, 4px ) )
 
@@ -63,7 +65,7 @@
   display: none
 
   @media only screen and (max-width: 680px)
-    &.active
+    &.navigation-active
       display: block
       position: fixed
       top: 0

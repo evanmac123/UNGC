@@ -4,7 +4,13 @@ $(function() {
 
   $trigger.on('touchstart click', function(e) {
     e.preventDefault();
-    $('body').toggleClass('navigation-active');
-    $nav.add($trigger).toggleClass('active');
+
+    var $elements = $('body').add($nav).add($trigger);
+
+    if ($nav.is('.navigation-active')) {
+      $elements.removeClass('navigation-active');
+    } else {
+      $elements.addClass('navigation-active');
+    }
   });
 });
