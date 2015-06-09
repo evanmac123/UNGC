@@ -3,19 +3,22 @@
     display: block
     padding: 0
     margin: 0
-    height: 1.9em
+    height: 1.6em
     overflow: hidden
 
   .tab
     position: relative
-    display: inline-block
-    width: 30%
+    display: block
+    list-style: none
+    width: 33.333%
+    float: left
+    padding-right: 1px
 
     button
       display: block
       width: 100%
       font:
-        size: 1em
+        size: .875em
         family: $flama-bold
         weight: bold
       text:
@@ -33,6 +36,9 @@
         cursor: auto
         background: color('dark-teal')
 
+    &:last-of-type
+      padding-right: 0
+
   .tab-content
     display: none
 
@@ -43,3 +49,10 @@
       border: 1px solid #ddd
       margin: 0
       +clearfix
+
+  @media only screen and (min-width: 769px)
+    .tabs
+      height: 1.9em
+
+    .tab button
+      font-size: 1em

@@ -34,7 +34,22 @@
           <h1>Company Information</h1>
         </header>
 
-        <div class='company-information-sub-section company-information-overview'>
+        <%- if @page.joined_on.present? || @page.cop_due_on.present? -%>
+          <div class='column company-information-dates'>
+            <%- if @page.joined_on.present? -%>
+              <div class='company-information-since'>
+                <h3>Participant Since</h3>
+                <time><%= @page.joined_on -%></time>
+              </div>
+            <%- end -%>
+
+            <%- if @page.cop_due_on.present? -%>
+              <div class='company-information-cop-due'><strong>Next <%= @page.cop_short_label %> due on:</strong> <time><%= @page.cop_due_on -%></time></div>
+            <%- end -%>
+          </div>
+        <%- end -%>
+
+        <div class='column company-information-overview'>
           <h2>Overview</h2>
 
           <dl>
@@ -73,8 +88,7 @@
           <%= link_to('Letter of Commitment', @page.commitment_letter.url) if @page.commitment_letter.present? %>
         </div>
 
-
-        <div class='company-information-sub-section company-information-financial-information'>
+        <div class='column company-information-financial-information'>
           <%- if @page.has_extra_information? -%>
             <%- if @page.has_financial_information? -%>
               <h2>Financial Information</h2>
@@ -88,21 +102,6 @@
             <%- end %>
           <%- end %>
         </div>
-
-        <%- if @page.joined_on.present? || @page.cop_due_on.present? -%>
-          <div class='company-information-sub-section company-information-dates'>
-            <%- if @page.joined_on.present? -%>
-              <div class='company-information-since'>
-                <h3>Participant Since</h3>
-                <time><%= @page.joined_on -%></time>
-              </div>
-            <%- end -%>
-
-            <%- if @page.cop_due_on.present? -%>
-              <div class='company-information-cop-due'><strong>Next <%= @page.cop_short_label %> due on:</strong> <time><%= @page.cop_due_on -%></time></div>
-            <%- end -%>
-          </div>
-        <%- end -%>
       </article>
 
       <%- if @page.cops.any? -%>
@@ -115,18 +114,18 @@
 
           <table class='table-embedded'>
             <thead>
-              <th>Year</th>
-              <th>Published On</th>
-              <th>Title</th>
-              <th>Level</th>
+              <th class='year'>Year</th>
+              <th class='published-on'>Published On</th>
+              <th class='title'>Title</th>
+              <th class='level'>Level</th>
             </thead>
             <tbody>
               <% @page.cops.each do |cop| %>
                 <tr>
-                  <th><%= cop.year %></th>
-                  <td><%= cop.published_on %></td>
-                  <td><%= link_to cop.title, show_redesign_cops_path(cop.differentiation_level_with_default, cop.id) %></td>
-                  <td><%= cop.differentiation_level_name %></td>
+                  <th class='year'><%= cop.year %></th>
+                  <td class='published-on'><%= cop.published_on %></td>
+                  <td class='title'><%= link_to cop.title, show_redesign_cops_path(cop.differentiation_level_with_default, cop.id) %></td>
+                  <td class='level'><%= cop.differentiation_level_name %></td>
                 </tr>
               <% end %>
             </tbody>
