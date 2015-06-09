@@ -11,25 +11,25 @@
     <table class="table-embedded striped sortable">
       <thead>
         <tr>
-          <th class="sort">Participant </th>
-          <th class="sort">Organization Type </th>
-          <th class="sort">Country </th>
-          <th class="sort">Year </th>
+          <th class="sort participant">Participant</th>
+          <th class="sort type">Organization Type</th>
+          <th class="sort country">Country</th>
+          <th class="sort year">Year</th>
         </tr>
       </thead>
       <tbody>
         <% for cop in paged_cops(:coes) %>
           <tr>
-            <td title="<%= cop.organization_name %>">
+            <td title="<%= cop.organization_name %>" class='participant'>
               <%= link_to truncate(cop.organization_name, :length => 40), redesign_coe_path(cop) %>
             </td>
-            <td title="<%= cop.organization_type %>">
+            <td title="<%= cop.organization_type %>" class='type'>
               <%= truncate(cop.organization_type, :length => 30) %>
             </td>
-            <td title="<%= cop.country_name %>">
+            <td title="<%= cop.country_name %>" class='country'>
               <%= truncate(cop.country_name, :length => 15) %>
             </td>
-            <td>
+            <td class='year'>
               <%= cop.published_on.year %>
             </td>
           </tr>

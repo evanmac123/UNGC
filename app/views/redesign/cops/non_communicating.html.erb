@@ -11,29 +11,29 @@
     <table class="table-embedded striped sortable">
       <thead>
         <tr>
-          <th class="sort">Participant </th>
-          <th class="sort">Sector </th>
-          <th class="sort">Country </th>
-          <th class="sort">Participant since </th>
-          <th class="sort">COP Deadline </th>
+          <th class="sort participant">Participant</th>
+          <th class="sort sector">Sector</th>
+          <th class="sort country">Country</th>
+          <th class="sort year">Participant Since</th>
+          <th class="sort year">COP Deadline</th>
         </tr>
       </thead>
       <tbody>
         <% for organization in paged_organizations(:noncommunicating) %>
           <tr>
-            <td title="<%= organization.name %>">
+            <td title="<%= organization.name %>" class='participant'>
               <%= link_to truncate(organization.name, :length => 20), redesign_participant_path(organization, :noncommunicating) %>
             </td>
-            <td title="<%= organization.sector_name %>">
+            <td title="<%= organization.sector_name %>" class='sector'>
               <%= truncate(organization.sector_name, :length => 20) %>
             </td>
-            <td title="<%= organization.country_name %>">
+            <td title="<%= organization.country_name %>" class='country'>
               <%= truncate(organization.country_name, :length => 20) %>
             </td>
-            <td>
+            <td class='year'>
               <%= yyyy_mm_dd organization.joined_on %>
             </td>
-            <td>
+            <td class='year'>
               <%= yyyy_mm_dd organization.noncommed_on %>
             </td>
           </tr>
