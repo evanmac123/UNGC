@@ -44,9 +44,6 @@
       top: .05em
       margin-left: .25em
 
-    @media only screen and (min-width: 881px)
-      font-size: 1.25em
-
   .tile
     position: relative
     float: left
@@ -61,25 +58,12 @@
       repeat: no-repeat
       size: cover
 
-    @media only screen and (min-width: 701px)
-      width: 16.666%
-      padding-top: 16.666%
-
     &.double-width
       width: 66.666%
       text-align: center
 
-      @media only screen and (min-width: 701px)
-        width: 33.333%
-
       h1
         font-size: 1.25em
-
-        @media only screen and (min-width: 881px)
-          font-size: 1.5em
-
-        @media only screen and (min-width: 1081px)
-          font-size: 1.75em
 
       .tile-link-label
         padding-bottom: 3.5%
@@ -88,31 +72,13 @@
     &.double-height
       padding-top: 66.666%
 
-      @media only screen and (min-width: 701px)
-        padding-top: 33.333%
-
-      .tile-blurb
-        @media only screen and (min-width: 1081px)
-          display: block
-
     &.double-width.double-height
-
-      h1
-        @media only screen and (min-width: 1081px)
-          font-size: 2.5em
 
       .tile-link-label
         position: relative
         padding: 0
         left: 0
         right: 0
-
-        @media only screen and (min-width: 1081px)
-          font-size: 1.5em
-
-      .tile-blurb
-        @media only screen and (min-width: 881px)
-          display: block
 
     &.color-light-blue
       background-color: color('light-blue')
@@ -181,3 +147,46 @@
     a:active
       .tile-link-label
         color: white
+
+  @media only screen and (min-width: 701px)
+    .tile
+      width: 16.666%
+      padding-top: 16.666%
+
+      &.double-width
+        width: 33.333%
+
+      &.double-height
+        padding-top: 33.333%
+
+  @media only screen and (min-width: 881px)
+    .tile-link-label
+      font-size: 1.25em
+
+    .tile
+
+      &.double-width
+        h1
+          font-size: 1.5em
+
+      &.double-width.double-height
+        .tile-link-label
+          font-size: 1.5em
+
+        .tile-blurb
+          display: block
+
+  @media only screen and (min-width: 1081px)
+    .tile
+
+      &.double-width
+        h1
+          font-size: 1.75em
+
+      &.double-height
+        .tile-blurb
+          display: block
+
+      &.double-width.double-height
+        h1
+          font-size: 2.5em
