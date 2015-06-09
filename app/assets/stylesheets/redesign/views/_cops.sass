@@ -62,21 +62,22 @@
     dt,
     dd
       display: block
-      float: left
-      padding: .5em 0
-      border-top: 1px solid #ddd
+      padding: 0 0 .5em
       margin: 0
       &:first-of-type
         border-top: 0
 
     dt
-      font-weight: bold
-      width: 35%
-      padding-right: 1em
+      padding-top: 1em
+      font:
+        weight: bold
+        size: 1.25em
+      border-top: 1px solid #ddd
 
     dd
-      width: 65%
-      padding-left: 2em
+      padding:
+        top: .5em
+        left: 2em
 
       ul
         list-style: none
@@ -178,3 +179,20 @@
   .disclaimer
     font-size: .75em
     margin-top: 2em
+
+  @media only screen and (min-width: 569px)
+    .main-content-body
+      dt,
+      dd
+        float: left
+
+      dt
+        width: 35%
+        padding:
+          top: .5em
+          right: 1em
+        font-size: 1em
+
+      dd
+        width: 65%
+        border-top: 1px solid #ddd
