@@ -88,6 +88,7 @@ class Admin::EventsController < AdminController
         :overview_description,
         :starts_at_string,
         :ends_at_string,
+        :media_description,
         :sponsor_ids => [],
         :topic_ids => [],
         :issue_ids => [],
