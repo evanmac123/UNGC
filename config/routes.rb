@@ -451,6 +451,7 @@ UNGC::Application.routes.draw do
     get '/WebsiteInfo/privacy_policy.html'=> 'static#redirect_to_page', page: '/privacy-policy'
     get '/NewsAndEvents/media_contacts.html'=> 'static#redirect_to_page', page: '/about/contact'
     get '/resources/:id', to: redirect('/library/%{id}')
+    get '/NetworksAroundTheWorld/local_network_sheet/(:country_code).html'=> 'networks#redirect_to_network'
 
     # new redirects (to be tested)
     get '/index.html', to: redirect('/')
