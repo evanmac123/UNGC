@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150607214842) do
+ActiveRecord::Schema.define(version: 20150609212215) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -438,6 +438,7 @@ ActiveRecord::Schema.define(version: 20150607214842) do
     t.string   "call_to_action_2_label",       limit: 255
     t.string   "call_to_action_2_url",         limit: 255
     t.text     "overview_description",         limit: 65535
+    t.text     "media_description",            limit: 65535
   end
 
   add_index "events", ["contact_id"], name: "index_events_on_contact_id", using: :btree

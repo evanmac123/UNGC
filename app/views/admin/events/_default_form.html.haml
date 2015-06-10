@@ -12,6 +12,8 @@
     %li
       %a{:href => '#overview'} Overview
     %li
+      %a{:href => '#media'} Media
+    %li
       %a{:href => '#sponsors'} Sponsors
     %li
       %a{:href => '#redesign_topics'} New Topics*
@@ -57,6 +59,12 @@
       %legend Overview
       %ol
         = default_form.text_area :overview_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
+
+  #media.tab_content
+    %fieldset
+      %legend Media
+      %ol
+        = default_form.text_area :media_description, {class: 'events-html-editor', style: 'display:none'}, {label: 'Description'}
 
   #sponsors.tab_content
     %fieldset
