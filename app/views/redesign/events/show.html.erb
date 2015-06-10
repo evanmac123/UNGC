@@ -4,6 +4,7 @@
 <%-
 has_overview = @page.overview_description.present?
 has_sponsors = @page.sponsors.present?
+has_media = @page.media_description.present?
 -%>
 
 <section class='main-content-section main-content-section-wide event-detail-main-content'>
@@ -13,18 +14,24 @@ has_sponsors = @page.sponsors.present?
     <section class='tabbed-component event-detail-body-wrapper'>
       <menu class='tabs'>
         <li class='tab'>
-          <button type='button' class='active' data-tab-content='main-page'>Overview</button>
+          <button type='button' class='active' id="overview" data-tab-content='main-page'>Overview</button>
         </li>
 
         <%- if has_overview -%>
           <li class='tab'>
-            <button type='button' data-tab-content='overview'>Programme</button>
+            <button type='button' id="programme" data-tab-content='overview'>Programme</button>
+          </li>
+        <%- end -%>
+
+        <%- if has_media -%>
+          <li class='tab'>
+            <button type='button' id="media" data-tab-content='media'>Media</button>
           </li>
         <%- end -%>
 
         <%- if has_sponsors -%>
           <li class='tab'>
-            <button type='button' data-tab-content='sponsors'>Sponsors</button>
+            <button type='button' id="sponsors" data-tab-content='sponsors'>Sponsors</button>
           </li>
         <%- end -%>
       </menu>
@@ -54,6 +61,14 @@ has_sponsors = @page.sponsors.present?
         <article class='tab-content overview'>
           <div class='main-content-body'>
             <%= @page.overview_description.try(:html_safe) %>
+          </div>
+        </article>
+      <%- end -%>
+
+      <%- if has_media -%>
+        <article class='tab-content media'>
+          <div class='main-content-body'>
+            <%= @page.media_description.try(:html_safe) %>
           </div>
         </article>
       <%- end -%>

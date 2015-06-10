@@ -15,10 +15,30 @@ class Redesign::NetworksController < Redesign::ApplicationController
     render 'redesign/static/engage_locally'
   end
 
+  def redirect_to_network
+    if params[:country_code]
+      country = Country.includes(:local_network).find_by(code: params[:country_code])
+
+      continent = continent_region.invert[country.region]
+
+      redirect_to "/engage-locally/#{continent}/#{URI.escape(country.local_network.name)}".downcase, status: :moved_permanently
+    else
+      redirect_to root_path
+    end
+  end
+
   private
 
   def networks_for_region
-    slugs = {
+    slugs = continent_region
+    LocalNetwork.
+      joins(:countries).
+      where('countries.region = ?', slugs[@region]).
+      distinct('local_networks.id')
+  end
+
+  def continent_region
+    {
       'africa'         =>  'africa',
       'asia'           =>  'asia',
       'europe'         =>  'europe',
@@ -27,9 +47,5 @@ class Redesign::NetworksController < Redesign::ApplicationController
       'north-america'  =>  'northern_america',
       'oceania'        =>  'oceania'
     }
-    LocalNetwork.
-      joins(:countries).
-      where('countries.region = ?', slugs[@region]).
-      distinct('local_networks.id')
   end
 end
