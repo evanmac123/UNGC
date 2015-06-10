@@ -6,8 +6,7 @@
   +font-smoothing(antialiased)
 
   > .wrapper
-    @media only screen and (max-width: 880px)
-      padding: 0 10px
+    padding: 0 10px
 
   a
     color: inherit
@@ -22,45 +21,6 @@
 
   .column
     margin: 0 0 2em
-
-    @media only screen and (min-width: 481px)
-      float: right
-      width: 48%
-
-      &:first-of-type
-        margin-left: 4%
-
-      &:last-of-type
-        clear: both
-        width: 100%
-
-    @media only screen and (min-width: 881px)
-      float: right
-      margin: 0 1.5%
-
-      &,
-      &:last-of-type
-        width: 28%
-
-      &:last-of-type
-        clear: none
-        margin-left: 5%
-
-      &:first-of-type
-        margin: 0 5% 2em 1.5%
-
-    @media only screen and (min-width: 1001px)
-      margin: 0 1.5%
-
-      &,
-      &:last-of-type
-        width: 27.1667%
-
-      &:last-of-type
-        margin-left: 6.25%
-
-      &:first-of-type
-        margin-right: 6.25%
 
   h2
     color: color('pastel-blue')
@@ -137,3 +97,93 @@
 
   iframe.twitter-timeline-rendered
     width: 100% !important
+    max-width: 22em !important
+
+  .colophon
+    clear: both
+    list-style: none
+    padding: 0
+    margin: 0
+
+    li
+      display: block
+      font-size: .875em
+      line-height: 1
+      padding: 0
+      margin: 0 0 .5em
+
+    a
+      color: lighten(color('light-grey'), 10%)
+
+      &:hover
+        color: white
+
+  @media only screen and (min-width: 481px)
+    .column
+      float: right
+      width: 48%
+
+      &:first-of-type
+        margin-left: 4%
+
+      &:last-of-type
+        float: none
+        clear: both
+        width: 100%
+
+    .colophon
+      float: right
+      list-style: none
+      text-align: right
+
+      li
+        float: left
+        padding: 0 .5em
+        border-right: 1px solid #999
+
+        &:first-of-type
+          padding-left: 0
+
+        &:last-of-type
+          padding-right: 0
+          border-right: 0
+
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      padding: 0
+
+    .column
+      float: right
+      margin: 0 1.5%
+
+      &,
+      &:last-of-type
+        width: 28%
+
+      &:last-of-type
+        clear: none
+        margin-left: 5%
+
+      &:first-of-type
+        margin: 0 5% 2em 1.5%
+
+    .colophon
+      padding-top: 2em
+      margin: 0 5%
+
+  @media only screen and (min-width: 1001px)
+    .column
+      margin: 0 1.5%
+
+      &,
+      &:last-of-type
+        width: 27.1667%
+
+      &:last-of-type
+        margin-left: 6.25%
+
+      &:first-of-type
+        margin-right: 6.25%
+
+    .colophon
+      margin: 0 6.25%

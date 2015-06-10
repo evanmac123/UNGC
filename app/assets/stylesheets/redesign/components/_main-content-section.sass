@@ -12,12 +12,6 @@
     padding: 1em 0 4em
     margin: 0 10px
 
-  &.align-center
-    text-align: center
-
-    > .wrapper
-      padding: 1em 12% 4em
-
   &.has-custom-bg > .wrapper
     padding:
       top: 6em
@@ -101,6 +95,8 @@
         padding-left: 0
 
   &.align-center
+    text-align: center
+
     .main-content-body
       float: none
       margin: 0 auto
@@ -111,11 +107,9 @@
       margin: 2em auto 0
       padding: 0
 
-  .dark-theme
-    color: #eee
-    background-color: #111
-
-    &:before
+  &.light-theme,
+  &.dark-theme
+    &.has-custom-bg:before
       content: ''
       display: block
       position: absolute
@@ -123,6 +117,12 @@
       left: 0
       right: 0
       bottom: 0
+
+  &.dark-theme
+    color: #eee
+    background-color: color('dark-teal')
+
+    &.has-custom-bg:before
       background: rgba(black, .3)
 
     h1,
@@ -132,6 +132,10 @@
     h5,
     h6
       color: white
+
+  &.light-theme
+    &.has-custom-bg:before
+      background: rgba(white, .3)
 
   .video-iframe
     position: relative
@@ -172,4 +176,3 @@
 
     &.main-content-section-narrow > .wrapper
       padding-right: 4.4em
-

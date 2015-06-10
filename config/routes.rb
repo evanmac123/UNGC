@@ -272,6 +272,7 @@ UNGC::Application.routes.draw do
     end
 
     controller :networks do
+      get '/engage-locally/:region' => :region, as: :networks_region , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
       get '/engage-locally/:region/:network' => :show, as: :networks_show , constraints: { region: /africa|asia|europe|latin-america|mena|north-america|oceania/ }
     end
 
@@ -296,6 +297,7 @@ UNGC::Application.routes.draw do
       get :learner, on: :collection
       get :non_communicating, on: :collection, path: '/non-communicating'
     end
+    get '/feeds/cops' => 'cops#feed', :format => 'atom'
 
     get 'photo-credits' => "images#index", as: :photo_credits
 

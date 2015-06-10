@@ -50,7 +50,6 @@ class Redesign::CopsController < Redesign::ApplicationController
     @page = CopDetailPage.new(current_container, @communication)
   end
 
-  # XXX this is only in the old system?
   def feed
     @cops_for_feed = CommunicationOnProgress.approved.for_feed
 
