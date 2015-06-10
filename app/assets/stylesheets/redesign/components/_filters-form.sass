@@ -18,15 +18,12 @@
     margin: 0 10px
 
   header
-    margin-bottom: 1em
     +clearfix
 
     h1
       margin: 0
-      float: left
 
     #section-search
-      float: right
       margin: .75em 0 0
 
   footer
@@ -38,6 +35,8 @@
     margin: 0
 
   #section-search
+    float: left
+    clear: both
     position: relative
 
     button
@@ -83,12 +82,10 @@
     display: none
 
   .results-count
-    font-size: 1.25em
     margin: 0
 
   fieldset.filter-sorting
-    float: right
-    margin: .25em 0 0
+    margin: .25em 0
     +clearfix
 
     select
@@ -121,6 +118,9 @@
     padding-top: 0
 
   @media only screen and (min-width: 681px)
+    header
+      margin-bottom: .5em
+
     fieldset.filter-lists
       display: block
       position: relative
@@ -129,8 +129,11 @@
       border-bottom: 1px solid #eee
       +clearfix
 
-    fieldset.filter-sorting input[type='text']
-      padding: .125em .25em
+    fieldset.filter-sorting
+      float: right
+
+      input[type='text']
+        padding: .125em .25em
 
   @media only screen and (min-width: 881px)
     header,
@@ -139,6 +142,17 @@
       margin:
         left: 5%
         right: 5%
+
+    header
+      h1
+        float: left
+
+      #section-search
+        float: right
+        clear: none
+
+    .results-count
+      font-size: 1.25em
 
   @media only screen and (min-width: 1001px)
     header,
