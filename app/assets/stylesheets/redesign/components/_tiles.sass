@@ -1,25 +1,23 @@
 .tiles-section
   @extend %wrapper
   color: white
-  border-bottom: 1px solid white
+  padding: 4px 0 0
   +font-smoothing(antialiased)
 
   .tile
     position: relative
-    margin: 0
-    background:
-      color: #f3f3f3
-      position: center center
-      repeat: no-repeat
-      size: cover
+    margin: 0 0 4px
     text-align: center
-    border-top: 1px solid white
 
     > a
       display: block
       overflow: hidden
       color: inherit
       padding: 8% 10px
+      background:
+        position: center center
+        repeat: no-repeat
+        size: cover
 
     h1
       font-size: 1.5em
@@ -54,64 +52,71 @@
         right: 0
 
     &.color-light-blue
-      background-color: color('light-blue')
+      a
+        background-color: color('light-blue')
 
-      &.double-height
-        border-bottom-color: color('light-blue')
+      // &.double-height
+      //   border-bottom-color: color('light-blue')
 
       .tile-link-label
         color: color('pastel-blue')
 
     &.color-pastel-blue
-      background-color: color('pastel-blue')
+      a
+        background-color: color('pastel-blue')
 
-      &.double-height
-        border-bottom-color: color('pastel-blue')
+      // &.double-height
+      //   border-bottom-color: color('pastel-blue')
 
       .tile-link-label
         color: color('light-blue')
 
     &.color-teal
-      background-color: color('teal')
+      a
+        background-color: color('teal')
 
-      &.double-height
-        border-bottom-color: color('teal')
+      // &.double-height
+      //   border-bottom-color: color('teal')
 
       .tile-link-label
         color: color('light-teal')
 
     &.color-light-teal
-      background-color: color('light-teal')
+      a
+        background-color: color('light-teal')
 
-      &.double-height
-        border-bottom-color: color('light-teal')
+      // &.double-height
+      //   border-bottom-color: color('light-teal')
 
       .tile-link-label
         color: color('teal')
 
     &.color-green
-      background-color: color('green')
+      a
+        background-color: color('green')
 
-      &.double-height
-        border-bottom-color: color('green')
+      // &.double-height
+      //   border-bottom-color: color('green')
 
       .tile-link-label
         color: color('light-green')
 
     &.color-light-green
-      background-color: color('light-green')
+      a
+        background-color: color('light-green')
 
-      &.double-height
-        border-bottom-color: color('light-green')
+      // &.double-height
+      //   border-bottom-color: color('light-green')
 
       .tile-link-label
         color: color('green')
 
     &.color-orange
-      background-color: color('orange')
+      a
+        background-color: color('orange')
 
-      &.double-height
-        border-bottom-color: color('orange')
+      // &.double-height
+      //   border-bottom-color: color('orange')
 
       .tile-link-label
         color: color('dark-orange')
@@ -122,20 +127,22 @@
         color: white
 
   @media only screen and (min-width: 501px)
+    padding: 2px
+
     .tile
       float: left
       width: 50%
       height: 0
       padding: 50% 0 0
-      border: 1px solid white
+      margin: 0
 
       > a
         display: block
         position: absolute
-        top: 0
-        left: 0
-        right: 0
-        bottom: 0
+        top: 2px
+        left: 2px
+        right: 2px
+        bottom: 2px
         padding: 5% 10px
 
 
@@ -144,8 +151,16 @@
       padding-top: 40%
 
   @media only screen and (min-width: 769px) and (max-width: 880px)
+    padding: 5px
+
     .tile
       padding-top: 30%
+
+      > a
+        top: 5px
+        left: 5px
+        right: 5px
+        bottom: 5px
 
   @media only screen and (min-width: 501px) and (max-width: 881px)
     .tile:nth-child(3):last-child
@@ -216,3 +231,12 @@
       &.double-width.double-height
         h1
           font-size: 2em
+
+  @media only screen and (min-width: 1101px)
+    padding: 5px
+
+    .tile > a
+      top: 5px
+      left: 5px
+      right: 5px
+      bottom: 5px
