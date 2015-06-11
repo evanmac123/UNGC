@@ -101,7 +101,7 @@
     net_write_timeout = 1000
 
 :sphinx:
-  :version: 2.2.9
+  :version: 2.1.3
   :index_cron: false # A custom cron job using nice is setup in the sphinx_cron recipe
   :index_on_deploy: false
   :extra:
