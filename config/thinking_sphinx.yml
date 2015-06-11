@@ -1,29 +1,24 @@
 development:
   mem_limit: 32M
   max_matches: 15000
-  utf8: false
 test:
   mem_limit: 32M
   max_matches: 15000
   quiet_deltas: true
-  utf8: false
 preview:
   mem_limit: 32M
   max_matches: 15000
   indices_location: /srv/unglobalcompact/shared/sphinx/preview
   configuration_file: /srv/unglobalcompact/shared/config/sphinx.conf
-  utf8: false
 staging:
   mem_limit: 32M
   max_matches: 15000
   indices_location: /srv/unglobalcompact/shared/sphinx/staging
   configuration_file: /srv/unglobalcompact/shared/config/sphinx.conf
   quiet_deltas: true
-  utf8: false
 production:
   mem_limit: 32M
   max_matches: 15000
   indices_location: /srv/unglobalcompact/shared/sphinx/production
   configuration_file: /srv/unglobalcompact/shared/config/sphinx.conf
   quiet_deltas: true
-  utf8: false
