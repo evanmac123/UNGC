@@ -32,7 +32,7 @@ class Redesign::Searchable::SearchableContainer < Redesign::Searchable::Base
 
   def meta
     meta_tags = container.payload.data[:meta_tags]
-    container.taggings.map(&:content).join(' ') + extract_values(meta_tags).reject(&:blank?).join(' ')
+    (container.taggings.map(&:content) + extract_values(meta_tags).reject(&:blank?)).join(' ')
   end
 
   private
