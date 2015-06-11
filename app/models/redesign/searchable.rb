@@ -33,7 +33,7 @@ class Redesign::Searchable < ActiveRecord::Base
     end
 
     def index(model)
-      import(searchable.new(model))
+      import(new_searchable(model))
     end
 
     def update_url(model)
