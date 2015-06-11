@@ -6,6 +6,8 @@ class RedesignConstraint
   end
 
   def matches?(request)
+    return true if request.headers["HTTP_UNGC_REDESIGN_PREVIEW"].present?
+
     contact_id = request.session["warden.user.contact.key"].try(:[], 0).try(:[], 0)
     RedesignPreview.permitted?(contact_id)
   end
