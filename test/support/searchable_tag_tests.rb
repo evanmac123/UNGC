@@ -10,7 +10,7 @@ module SearchableTagTests
       Redesign::Searchable.index_all
       searchable = Redesign::Searchable.last
 
-      assert_contains searchable.meta, topic.name
+      assert_match(/#{topic.name}/, searchable.meta)
     end
 
     should "index by issues" do
@@ -20,7 +20,7 @@ module SearchableTagTests
       Redesign::Searchable.index_all
       searchable = Redesign::Searchable.last
 
-      assert_contains searchable.meta, issue.name
+      assert_match(/#{issue.name}/, searchable.meta)
     end
 
     should "index by sectors" do
@@ -30,7 +30,7 @@ module SearchableTagTests
       Redesign::Searchable.index_all
       searchable = Redesign::Searchable.last
 
-      assert_contains searchable.meta, sector.name
+      assert_match(/#{sector.name}/, searchable.meta)
     end
 
   end
