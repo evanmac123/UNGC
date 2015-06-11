@@ -458,12 +458,13 @@ UNGC::Application.routes.draw do
 
     # new redirects (to be tested)
     get '/index.html', to: redirect('/')
-    get '/languages/spanish(*path)', to: redirect('/')
+    get '/languages(*path)', to: redirect('/')
     get '/NewsAndEvents/global_compact_15.html', to: redirect('take-action/events/31-global-compact-15-business-as-a-force-for-good')
     get '/AboutTheGC/TheTenPrinciples/anti-corruption.html', to: redirect('/what-is-gc/our-work/governance/anti-corruption')
     get '/aboutthegc/thetenprinciples(*path)', to: redirect('/what-is-gc/mission/principles')
     get '/AboutTheGC/TheTenPrinciples/principle1.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-1'
     get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
+    get '/NewsAndEvents/event_calendar/index.html', to: redirect('/take-action/events')
 
     # CATCH ALL
     get '*path'     => 'static#catch_all',  as: :catch_all
