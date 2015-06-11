@@ -15,28 +15,13 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
-    <%= render partial: 'redesign/components/main_header' %>
+    <%= render 'redesign/components/main_header' %>
 
     <main>
       <%= yield %>
     </main>
 
-    <%= render partial: 'redesign/components/main_footer' %>
-    <%= render partial: 'shared/ga_universal' %>
-
-    <%# Google Translate %>
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement(
-          {
-            pageLanguage: 'en',
-            includedLanguages: 'en,ar,es,fr,it,nl,zh-CN',
-            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-          },
-          'google_translate_element'
-        );
-      }
-    </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <%= render 'redesign/components/main_footer' %>
 
     <%  if current_contact && current_contact.from_ungc? %>
       <%= content_tag(:small, "Last updated: #{current_payload.updated_at.strftime('%a %b %-d, %Y at %l:%M %p %Z')}") if current_payload%>
@@ -44,6 +29,25 @@
         <%= link_to_redesign 'edit', redesign_admin_root_path("containers/#{current_container.id}") if current_container%>
       </small>
     <% end %>
+
+    <%= render 'redesign/components/legacy_browsers_notice' %>
+
+    <%= render 'shared/ga_universal' %>
+
+    <%# Google Translate %>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement(
+          {
+            pageLanguage: 'en',
+            includedLanguages: 'en,ar,zh-CN,es,fr,ru',
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+          },
+          'google_translate_element'
+        );
+      }
+    </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
 
   </body>
 </html>

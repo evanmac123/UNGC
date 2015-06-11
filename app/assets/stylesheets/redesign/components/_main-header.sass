@@ -4,13 +4,11 @@
   left: 0
   right: 0
   color: white
+  background:
+    color: rgba(color('dark-teal'), .85)
+    blend-mode: multiply
   z-index: 99999
   +font-smoothing(antialiased)
-
-  @media only screen and (min-width: 681px)
-    background:
-      color: rgba(color('dark-teal'), .85)
-      blend-mode: multiply
 
   > .wrapper
     position: static
@@ -31,17 +29,12 @@
     color: inherit
     font-size: 2.25em
     line-height: 1
-    padding: .2em 10px .25em 7px
+    padding: .1em 10px .2em 7px
     margin: 0
-    background:
-      color: rgba(color('dark-teal'), .85)
-      blend-mode: multiply
-    z-index: 9998
 
     @media only screen and (min-width: 681px)
       float: left
       font-size: 3em
-      background: transparent
       padding: 0
       margin: 0 0 0 7px
 
