@@ -32,14 +32,17 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
     assert_equal '/one/two/three', searchable.url
   end
 
-  should "squash the container's payload as the content" do
+  should "index meta_tags as meta" do
     data = {
       meta_tags: {
-        title: 'meta_title'
+        title: 'meta_title',
+        description: 'meta_description',
+        keywords: 'one two',
+        ignore: 'ignore'
       },
       one: {
         two: {
-          three: "<html>baseball</html>"
+          title: "<html>baseball</html>"
         }
       },
       five: [
@@ -47,13 +50,38 @@ class Redesign::Searchable::SearchableContainerTest < ActiveSupport::TestCase
         "orange",
         "banana",
         "<script>alert('hax');</script>",
-        {key: "nested-hash-value"},
+        {blurb: "nested-hash-value"},
       ],
-      hmm: 12345,
+      title1: 12345,
       key_with_no_value: nil,
     }
     searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
-    assert_equal 'meta_title baseball apple orange banana  nested-hash-value 12345', searchable.content
+    assert_equal 'meta_title meta_description one two', searchable.meta
+  end
+
+  should "squash the container's payload as the content" do
+    data = {
+      meta_tags: {
+        title: 'meta_title',
+        description: 'meta_description'
+      },
+      one: {
+        two: {
+          title: "<html>baseball</html>"
+        }
+      },
+      five: [
+        "apple",
+        "orange",
+        "banana",
+        "<script>alert('hax');</script>",
+        {blurb: "nested-hash-value"},
+      ],
+      title1: 12345,
+      key_with_no_value: nil,
+    }
+    searchable = Redesign::Searchable::SearchableContainer.new(published_container(data: data))
+    assert_equal 'baseball nested-hash-value 12345', searchable.content
   end
 
   should "delete the searchable when the Container is deleted" do

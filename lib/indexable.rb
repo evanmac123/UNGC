@@ -11,7 +11,7 @@ module Indexable
 
     receiver.class_eval do
       before_save do
-        Redesign::Searchable.index(self)
+        Redesign::Searchable.update_url(self)
       end
 
       before_destroy do
