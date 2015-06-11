@@ -1175,20 +1175,12 @@
         {
           "template": "Article",
           "path": "/Bulletin",
-          "old_path": "/news/bullettin",
-          "children": [
-            {
-              "template": "Article",
-              "path": "/Confirmation",
-              "old_path": "/news/bullettin/confirmation"
-            },
-            {
-              "template": "Article",
-              "path": "/Unsubscribe",
-              "old_path": "/news/bullettin/unsubscribe",
-              "delete": true
-            }
-          ]
+          "old_path": "/news/bullettin"
+        },
+        {
+          "template": "Article",
+          "path": "/bulletin-confirmation",
+          "old_path": "/news/bullettin/confirmation"
         }
       ]
     }
