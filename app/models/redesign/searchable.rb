@@ -32,7 +32,7 @@ class Redesign::Searchable < ActiveRecord::Base
       end
     end
 
-    def index(model)
+    def update_url(model)
       searchable = new_searchable(model)
       return if searchable.nil?
 
