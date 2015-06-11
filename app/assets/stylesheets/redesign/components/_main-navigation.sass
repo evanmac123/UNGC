@@ -3,8 +3,8 @@
   position: absolute
   top: 0
   right: 0
-  bottom: 0
-  width: 45px
+  width: 2.9em
+  height: 2.75em
   cursor: pointer
   z-index: 9999
 
@@ -49,6 +49,14 @@
       background: white
 
   &.navigation-active
+    position: fixed
+    background-color: #eee
+
+    div:before,
+    span,
+    div:after
+      background-color: #222
+
     div:before
       +transform( rotate( 45deg ) translate( 0, -4px ) )
 
@@ -72,7 +80,8 @@
       left: 0
       right: 0
       bottom: 0
-      padding: 3.25em 0 0
+      height: 100%
+      padding: 2.75em 0 0
       background: white
       overflow:
         x: hidden
@@ -246,6 +255,7 @@
 #main-search
   position: relative
   border: 0
+  background-color: color('darker-teal')
 
   .search-field,
   .search-button
@@ -282,9 +292,15 @@
     +font-smoothing(default)
 
   @media only screen and (max-width: 680px)
+    position: fixed
+    top: 0
+    left: 0
+    right: 2.9em
+    padding: 0 2.3em 0 0
+
     .search-field
-      padding: 10px 3em 10px 10px
-      background: color('darker-teal')
+      padding: 10px 0 10px 10px
+      border-radius: 0
       color: white
 
       +placeholder
@@ -299,7 +315,6 @@
 
   @media only screen and (min-width: 681px)
     float: right
-    background-color: color('darker-teal')
     padding: 0 0 0 1.5em
     margin: 0
     font-size: .875em

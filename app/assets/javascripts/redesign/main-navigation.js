@@ -5,7 +5,7 @@ $(function() {
   $trigger.on('touchstart click', function(e) {
     e.preventDefault();
 
-    var $elements = $('body').add($nav).add($trigger);
+    var $elements = $('body, html').add($nav).add($trigger);
 
     if ($nav.is('.navigation-active')) {
       $elements.removeClass('navigation-active');
