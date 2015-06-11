@@ -16,6 +16,7 @@
       {{#container/x-fields key="items" array=true min=1 scope=listBlock as |item|}}
         <li class="stat-group">
           {{container/x-field key="url" type="href" scope=item}}
+          {{container/x-field key="external" type="boolean" scope=item}}
           {{container/x-field key="type" type="list-url-type-select" scope=item}}
           {{container/x-field key="title" type="string" scope=item}}
           {{container/x-field key="blurb" type="redactor" scope=item}}
