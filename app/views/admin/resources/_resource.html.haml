@@ -9,12 +9,12 @@
   %td
     = resource.year.year rescue nil
   %td
-    = resource.principles.count
+    = resource.principles_count
   %td.status-cell
     %span.small
       = status_date(resource)
-      - unless resource.pending?        
-        == by #{approver_name(resource)}
+      - unless resource.pending?
+        == by #{resource.approved_by.name}
 
   %td.action-cell.nowrap
     %ul.actions
