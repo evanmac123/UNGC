@@ -8,14 +8,22 @@
   *
     position: relative
 
-  > .wrapper
+  > .full-width-wrapper
+    @extend %wrapper
+
+  > .wrapper,
+  > .full-width-wrapper > .wrapper
     padding: 1em 0 4em
     margin: 0 10px
 
-  &.has-custom-bg > .wrapper
-    padding:
-      top: 6em
-      bottom: 7em
+  &.has-custom-bg
+    max-width: none
+
+    > .wrapper,
+    > .full-width-wrapper > .wrapper
+      padding:
+        top: 6em
+        bottom: 7em
 
   &:first-child
     padding-top: 8em
@@ -120,6 +128,7 @@
 
   &.dark-theme
     color: #eee
+    max-width: none
     background-color: color('dark-teal')
 
     &.has-custom-bg:before
@@ -163,11 +172,13 @@
       width: 60%
 
   @media only screen and (min-width: 881px)
-    > .wrapper
+    > .wrapper,
+    > .full-width-wrapper > .wrapper
       margin: 0 5%
 
   @media only screen and (min-width: 1001px)
-    > .wrapper
+    > .wrapper,
+    > .full-width-wrapper > .wrapper
       margin: 0 6.25%
       padding-left: 4.4em
 
