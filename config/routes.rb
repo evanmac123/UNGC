@@ -306,6 +306,7 @@ UNGC::Application.routes.draw do
     get '/search'   => 'search#search',     as: :search
 
     get '/'         => 'static#home',       as: :root
+    get '/layout-sample' => 'static#layout_sample', as: :layout_sample
     get '/404'      => 'static#not_found',  as: :not_found
 
     # REDIRECTS
