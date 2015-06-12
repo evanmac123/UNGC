@@ -65,8 +65,10 @@ class Resource < ActiveRecord::Base
 
   def self.with_principles_count
     select("resources.*, count(principles_resources.principle_id) as principles_count")
-    .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
-    .group('resources.id')
+      .includes(:authors)
+      .includes(:approved_by)
+      .joins("LEFT OUTER JOIN `principles_resources` ON resources.id=principles_resources.resource_id")
+      .group('resources.id')
   end
 
   cattr_reader :per_page
