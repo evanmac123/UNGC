@@ -6,7 +6,7 @@ class RedesignPreview
     contact = if contact_or_id.respond_to?(:id)
       contact_or_id
     else
-      Contact.find(contact_or_id)
+      Contact.find_by(id: contact_or_id)
     end
 
     contact && contact.from_ungc?
