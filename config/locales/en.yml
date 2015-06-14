@@ -58,6 +58,10 @@ en:
     in_person: 'In Person'
     invite_only: 'Invite Only'
 
+  headline:
+    press_release: 'Press Release'
+    announcement: 'Announcement'
+
   document_types:
     communication_on_progress: "Communication on Progress"
     container: "Web Page"

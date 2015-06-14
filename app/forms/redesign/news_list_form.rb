@@ -6,11 +6,12 @@ class Redesign::NewsListForm < Redesign::FilterableForm
   attribute :issues,      Array[Integer], default: []
   attribute :topics,      Array[Integer], default: []
   attribute :countries,   Array[Integer], default: []
+  attribute :types,       Array[Integer], default: []
   attribute :start_date,  Date
   attribute :end_date,    Date
 
   def filters
-    [issue_filter, topic_filter, country_filter]
+    [issue_filter, topic_filter, country_filter, news_type_filter]
   end
 
   def issue_filter
@@ -23,6 +24,10 @@ class Redesign::NewsListForm < Redesign::FilterableForm
 
   def country_filter
     @country_filter ||= Filters::CountryFilter.new(countries)
+  end
+
+  def news_type_filter
+    @news_type_filter ||= Filters::NewsTypeFilter.new(types)
   end
 
   def execute
@@ -42,6 +47,10 @@ class Redesign::NewsListForm < Redesign::FilterableForm
       headlines = headlines.joins(taggings: [:topic]).where('topic_id in (?)', ids)
     end
 
+    if types.any?
+      headlines = headlines.where(headline_type: types)
+    end
+
     case
     when start_date.present? && end_date.present?
       headlines = headlines.where(created_at: start_date..end_date)
@@ -52,6 +61,27 @@ class Redesign::NewsListForm < Redesign::FilterableForm
     end
 
     headlines.distinct('headlines.id').paginate(page: page, per_page: per_page)
+  end
+
+  private
+
+  class Filters::NewsTypeFilter < Filters::SearchFilter
+
+    def initialize(types)
+      super(Headline.headline_types, types)
+      self.key = 'types'
+      self.label = 'Type'
+    end
+
+    def options
+      items.map do |type|
+        k, value = type
+        title = I18n.t(k, scope: :headline)
+        is_selected = selected.include?(value)
+        FilterOption.new(value, title, key, is_selected, label)
+      end
+    end
+
   end
 
 end

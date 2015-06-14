@@ -33,7 +33,8 @@ class Redesign::NewsController < Redesign::ApplicationController
         :end_date,
         issues: [],
         topics: [],
-        countries: []
+        countries: [],
+        types: []
       ).merge(page: params[:page])
     end
 end
