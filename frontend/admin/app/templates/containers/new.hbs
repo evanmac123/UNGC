@@ -3,6 +3,7 @@
     <form class="form form-horizontal">
       <legend>
         Add Page
+        child of: {{model.parentContainer.publicPath}}
       </legend>
 
       <div class="form-group">
@@ -18,24 +19,18 @@
             id="layout"}}
       </div>
 
-      {{#sitemap/validated-form-field label='Slug'
+      {{#sitemap/validated-form-field label='Page name (with dashes)'
                                       name='slug'
                                       errors=model.container.errors}}
         {{input class="form-control" id="slug" value=model.container.slug}}
       {{/sitemap/validated-form-field}}
 
-      {{!-- XXX errro on publicPath is exposed as 'path' due to AR --}}
-      {{#sitemap/validated-form-field label='Public Path'
-                                      name='path'
-                                      errors=model.container.errors}}
-        {{input class="form-control" id="public-path" value=model.container.publicPath}}
-      {{/sitemap/validated-form-field}}
     </form>
   </div>
 
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal" {{action "dismiss"}}>Cancel</button>
-    <button type="button" class="btn btn-primary" {{action "createContainer" model.container}}>Add Page</button>
+    <button type="button" class="btn btn-primary" {{action "createContainer" model}}>Add Page</button>
   </div>
 
   {{!-- XXX position absolute for these --}}

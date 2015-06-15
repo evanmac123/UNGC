@@ -159,7 +159,8 @@ class Redesign::Container < ActiveRecord::Base
 
   # TODO make private
   def calculate_path
-    Redesign::Container.find(self.parent_container_id).path + self.slug
+    p = Redesign::Container.find(self.parent_container_id).path + self.slug
+    '/' + p.split('/').reject(&:blank?).join('/')
   end
 
   def notify_previous_parent_of_child_association_change
