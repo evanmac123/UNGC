@@ -23,9 +23,9 @@ export default Ember.Object.extend({
   load() {
     var tree = this.get('tree');
 
-    if (!this.get('hasMore')) {
-      return Ember.RSVP.resolve();
-    }
+    //if (!this.get('hasMore')) {
+    //  return Ember.RSVP.resolve();
+    //}
 
     if (!this.get('model')) {
       return Ember.RSVP.resolve();
