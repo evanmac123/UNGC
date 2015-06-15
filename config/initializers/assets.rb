@@ -21,6 +21,6 @@ Rails.application.config.assets.precompile += %w(
   redesign.js
   redesign-admin.css
   redesign-admin.js
-  redesign/header-footer.css
-  redesign-header-footer.js
+  redesign/sample.css
+  redesign-sample.js
 )
