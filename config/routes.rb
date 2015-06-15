@@ -450,18 +450,26 @@ UNGC::Application.routes.draw do
     get '/NewsAndEvents/UNGC_bulletin(*path)', to: redirect('/library/search?search[content_type]=4')
     get '/NewsAndEvents/Speeches.html'=> 'static#redirect_to_page', page: '/news/speeches'
     get '/NewsAndEvents/Global_Compact_in_the_Media.html'=> 'static#redirect_to_page', page: '/news/media'
-    get '/Languages(*path)', to: redirect('/')
     get '/WebsiteInfo/copyright.html'=> 'static#redirect_to_page', page: '/copyright'
     get '/WebsiteInfo/privacy_policy.html'=> 'static#redirect_to_page', page: '/privacy-policy'
     get '/NewsAndEvents/media_contacts.html'=> 'static#redirect_to_page', page: '/about/contact'
     get '/resources/:id', to: redirect('/library/%{id}')
     get '/NetworksAroundTheWorld/local_network_sheet/(:country_code).html'=> 'networks#redirect_to_network'
+    get '/languages/spanish/los_diez_principios.html', to: redirect('/what-is-gc/mission/principles')
+    get '/Languages/spanish/Los_Diez_Principios.html', to: redirect('/what-is-gc/mission/principles')
+    get '/Languages/german/die_zehn_prinzipien.html', to: redirect('/what-is-gc/mission/principles')
+    get '/Issues/index.html', to: redirect('/what-is-gc/our-work/all')
+    get '/AboutTheGC/global_corporate_sustainability_report.html', to: redirect('/library/371')
+    get '/AboutTheGC/TheTenPrinciples/humanRights.html', to: redirect('/what-is-gc/our-work/social/human-rights')
+    get '/AboutTheGC/TheTenPrinciples/labour.html', to: redirect('/what-is-gc/our-work/social/labour')
+    get '/AboutTheGC/TheTenPrinciples/environment.html', to: redirect('/what-is-gc/our-work/environment')
+    get '/AboutTheGC/TheTenPrinciples/anti-corruption.html', to: redirect('/what-is-gc/our-work/governance/anti-corruption')
+    get '/Languages(*path)', to: redirect('/')
+    get '/languages(*path)', to: redirect('/')
 
     # new redirects (to be tested)
     get '/index.html', to: redirect('/')
-    get '/languages(*path)', to: redirect('/')
     get '/NewsAndEvents/global_compact_15.html', to: redirect('take-action/events/31-global-compact-15-business-as-a-force-for-good')
-    get '/AboutTheGC/TheTenPrinciples/anti-corruption.html', to: redirect('/what-is-gc/our-work/governance/anti-corruption')
     get '/aboutthegc/thetenprinciples(*path)', to: redirect('/what-is-gc/mission/principles')
     get '/AboutTheGC/TheTenPrinciples/principle1.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-1'
     get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
