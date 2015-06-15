@@ -42,7 +42,6 @@ export default Ember.Component.extend({
     subinsert(subnode) {
       this.sendAction('onInsert', subnode);
     },
-    /*
 
     onMightDropNode(position) {
       this.set('mightDrop', position);
@@ -56,7 +55,6 @@ export default Ember.Component.extend({
       this.set('mightDrop', null);
       this.sendAction('onMove', event);
     },
-    */
 
     loadContainer() {
       this.loadContainer();

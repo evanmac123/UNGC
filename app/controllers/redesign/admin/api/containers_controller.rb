@@ -22,7 +22,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     draft = ContainerDraft.new(container, current_contact)
 
     if draft.save(update_params)
-      render text: '', status: 204
+      render_json data: serialize(container), status: 204
     else
       render_container_errors(container)
     end

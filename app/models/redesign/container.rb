@@ -48,6 +48,7 @@ class Redesign::Container < ActiveRecord::Base
   has_many :payloads, class_name: 'Redesign::Payload'
 
   before_save :schedule_notify_previous_parent_of_child_association_change
+  before_save :update_path
 
   after_save :update_draft_payload
   after_save :recache_parent_container_child_containers_count
@@ -150,10 +151,30 @@ class Redesign::Container < ActiveRecord::Base
     true
   end
 
+  def update_path
+    return unless parent_container_id_changed?
+    self.path = calculate_path
+    true
+  end
+
+  # TODO make private
+  def calculate_path
+    Redesign::Container.find(self.parent_container_id).path + self.slug
+  end
+
   def notify_previous_parent_of_child_association_change
     return unless @previous_parent
     @previous_parent.cache_child_containers_count
+    update_children_paths
     true
+  end
+
+  def update_children_paths
+    self.child_containers.each do |c|
+      c.path = c.calculate_path
+      c.save
+      c.update_children_paths
+    end
   end
 
   protected

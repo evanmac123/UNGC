@@ -68,7 +68,12 @@ var Model = Ember.Object.extend({
     return this.xhr({
       type: 'PUT',
       data: this.asJSON(opts)
-    });
+    }).then(
+      (res) => {
+        this.setPropertiesFromJSON(res.data);
+        return this;
+      }
+    );
   },
 
   xhr(opts = {}) {
