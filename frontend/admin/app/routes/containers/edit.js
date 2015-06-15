@@ -57,6 +57,20 @@ export default Ember.Route.extend({
           });
         });
       });
+    },
+
+    destroyModel(container) {
+      if(confirm('This will destroy this page, it can not be undone')) {
+        container.destroyModel().then( () => {
+          this.transitionTo('containers.index');
+        }, (error) => {
+          let msg = error.errorThrown;
+          if (error.jqXHR) {
+            msg += ` - ${error.jqXHR.responseText}`;
+          }
+          alert(msg);
+        });
+      }
     }
   }
 });

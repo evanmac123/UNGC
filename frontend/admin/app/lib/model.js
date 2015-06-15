@@ -114,6 +114,19 @@ var Model = Ember.Object.extend({
     );
   },
 
+  destroyModel(opts = {}) {
+    let id = this.get('id');
+    if (Ember.isNone(id)) {
+      return Ember.RSVP.reject({errorThrown: "can not destroy model without ID"});
+    }
+    return request({
+      url: opts.url || this.get('resourcePath'),
+      type: 'DELETE',
+      dataType: 'json',
+      headers: { 'Content-Type': 'application/json' }
+    });
+  },
+
   setPropertiesFromJSON(attrs) {
     this.setProperties(camelizeKeys(attrs));
   },

@@ -67,6 +67,17 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     render_json data: containers.load.map(&method(:serialize))
   end
 
+  def destroy
+    container = Redesign::Container.find(params[:id])
+    if container.child_containers.count > 0
+      render text: "this page still has children", status: 422
+    else
+      container.payloads.destroy_all
+      container.destroy
+      render nothing: true, status: 204
+    end
+  end
+
   private
 
   def serialize(container)

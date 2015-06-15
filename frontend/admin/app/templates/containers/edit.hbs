@@ -17,6 +17,7 @@
     <legend>Actions</legend>
     <div class='container'>
       <div class="form-group clearfix">
+
         {{#if model.container.id}}
           <button class="btn btn-success" {{action "publish" model.container}}><i class='fa fa-globe fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Publish</button>
         {{/if}}
@@ -24,6 +25,8 @@
         <button class="btn btn-primary" {{action "saveDraft" model.container}}><i class='fa fa-hdd-o fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Save</button>
 
         <a class='btn btn-warning' target="_blank" href="{{model.container.publicPath}}?draft=1"><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;&nbsp;Preview</a>
+
+        <button class="btn btn-danger" {{action "destroyModel" model.container}}><i class='fa fa-fw fa-exclamation-triangle' aria-hidden='true'></i>&nbsp;&nbsp;Destroy</button>
       </div>
     </div>
 
