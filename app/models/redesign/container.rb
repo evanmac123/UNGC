@@ -4,6 +4,7 @@ class Redesign::Container < ActiveRecord::Base
   include RankedModel
   include Taggable
   include Indexable
+  include ThinkingSphinx::Scopes
 
   ranks :sort_order, with_same: :parent_container_id
 
@@ -76,6 +77,9 @@ class Redesign::Container < ActiveRecord::Base
   }
 
   scope :visible, -> { where(visible: true) }
+
+  sphinx_scope(:actions) { {conditions: {content_type: 2}} }
+  sphinx_scope(:issues)  { {conditions: {layout: 8}} }
 
   def self.normalize_slug(raw)
     '/' + raw.to_s.downcase.strip.gsub(LEADING_OR_TRAILING_SLASH, '')

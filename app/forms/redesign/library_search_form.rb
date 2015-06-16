@@ -14,41 +14,14 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   attribute :per_page,            Integer,        default: 12
   attribute :sort_field,          String,         default: 'year desc'
 
+  filter :issue,      parent: :issue_areas
+  filter :topic,      parent: :topic_groups
+  filter :sector,     parent: :sector_groups
+  filter :language
+
   def initialize(page = 1, params = {})
     super(params)
     self.page = page
-  end
-
-  def filters
-    [issue_filter, topic_filter, language_filter, sector_filter]
-  end
-
-  def issue_filter
-    @issue_filter ||= begin
-      filter = Filters::IssueFilter.new(issue_areas, issues, key: 'issue_areas')
-      exclude_empty_facets(filter, facet: :issue_ids)
-    end
-  end
-
-  def topic_filter
-    @topic_filter ||= begin
-      filter = Filters::TopicFilter.new(topic_groups, topics, key: 'topic_groups')
-      exclude_empty_facets(filter, facet: :topic_ids)
-    end
-  end
-
-  def sector_filter
-    @sector_filter ||= begin
-      filter = Filters::SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
-      exclude_empty_facets(filter, facet: :sector_ids)
-    end
-  end
-
-  def language_filter
-    @language_filter ||= begin
-      filter = Filters::LanguageFilter.new(languages)
-      exclude_empty_facets(filter, facet: :language_ids)
-    end
   end
 
   def type_options
@@ -119,13 +92,8 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
       end
   end
 
-  def exclude_empty_facets(filter, facet: nil)
-    Filters::FacetFilter.new(filter, matching_facets(facet).keys)
-  end
-
-  def matching_facets(key)
-    @_facets ||= Resource.facets(keywords, {indices: ['resource_new_core']})
-    @_facets[key]
+  def facets
+    Resource.facets(keywords, {indices: ['resource_new_core']})
   end
 
 end
