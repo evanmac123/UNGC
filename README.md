@@ -337,5 +337,5 @@ monitoring and reporting:
 
 | Service | Username | Password |
 |---------|----------|----------|
-| [Airbrake](https://unspaceungc.airbrake.io/) | quintero@unglobalcompact.org | airbrakeungc |
+| [Honeybadger](https://app.honeybadger.io/projects/43892) | otsuka@unglobalcompact.org | **** (as for an invite) |
 | [New Relic](https://login.newrelic.com/) | ungc@unspace.ca | newrelic |
