@@ -2,7 +2,7 @@ class Filters::GroupedSearchFilter < Filters::SearchFilter
   attr_accessor :selected_children
 
   def options
-    items.map do |parent, children|
+    @options ||= items.map do |parent, children|
       child_options = children.map do |child|
         child_option(child)
       end

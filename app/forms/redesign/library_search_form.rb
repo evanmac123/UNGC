@@ -24,19 +24,31 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def issue_filter
-    @issue_filter ||= Filters::IssueFilter.new(issue_areas, issues, key: 'issue_areas')
+    @issue_filter ||= begin
+      filter = Filters::IssueFilter.new(issue_areas, issues, key: 'issue_areas')
+      exclude_empty_facets(filter, facet: :issue_ids)
+    end
   end
 
   def topic_filter
-    @topic_filter ||= Filters::TopicFilter.new(topic_groups, topics, key: 'topic_groups')
+    @topic_filter ||= begin
+      filter = Filters::TopicFilter.new(topic_groups, topics, key: 'topic_groups')
+      exclude_empty_facets(filter, facet: :topic_ids)
+    end
   end
 
   def sector_filter
-    @sector_filter ||= Filters::SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
+    @sector_filter ||= begin
+      filter = Filters::SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
+      exclude_empty_facets(filter, facet: :sector_ids)
+    end
   end
 
   def language_filter
-    @language_filter ||= Filters::LanguageFilter.new(languages)
+    @language_filter ||= begin
+      filter = Filters::LanguageFilter.new(languages)
+      exclude_empty_facets(filter, facet: :language_ids)
+    end
   end
 
   def type_options
@@ -105,6 +117,47 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
         title = I18n.t("resources.types.#{name}")
         [title, id]
       end
+  end
+
+  module NoResultFilter
+
+    def matching_ids=(matching_ids)
+      @matching_ids = matching_ids
+    end
+
+    def options
+      # options may be nested or flat...
+      # it's unfortunate that we know these implementation details
+      # perhaps this can be re-worked later.
+      super.map do |parent, children|
+        if children.present?
+          [parent, children.select {|child| option_enabled?(child)}]
+        else
+          parent
+        end
+      end
+      .select do |parent, children|
+        option_enabled?(parent) || Array(children).any?
+      end
+    end
+
+    private
+
+    def option_enabled?(item)
+      @matching_ids.include?(item.id)
+    end
+
+  end
+
+  def exclude_empty_facets(filter, facet: nil)
+    filter.extend(NoResultFilter)
+    filter.matching_ids = matching_facets(facet).keys
+    filter
+  end
+
+  def matching_facets(key)
+    @_facets ||= Resource.facets(keywords, {indices: ['resource_new_core']})
+    @_facets[key]
   end
 
 end
