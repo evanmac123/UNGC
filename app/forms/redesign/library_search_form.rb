@@ -119,40 +119,8 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
       end
   end
 
-  module NoResultFilter
-
-    def matching_ids=(matching_ids)
-      @matching_ids = matching_ids
-    end
-
-    def options
-      # options may be nested or flat...
-      # it's unfortunate that we know these implementation details
-      # perhaps this can be re-worked later.
-      super.map do |parent, children|
-        if children.present?
-          [parent, children.select {|child| option_enabled?(child)}]
-        else
-          parent
-        end
-      end
-      .select do |parent, children|
-        option_enabled?(parent) || Array(children).any?
-      end
-    end
-
-    private
-
-    def option_enabled?(item)
-      @matching_ids.include?(item.id)
-    end
-
-  end
-
   def exclude_empty_facets(filter, facet: nil)
-    filter.extend(NoResultFilter)
-    filter.matching_ids = matching_facets(facet).keys
-    filter
+    Filters::FacetFilter.new(filter, matching_facets(facet).keys)
   end
 
   def matching_facets(key)

@@ -32,6 +32,16 @@ class Filters::GroupedSearchFilter < Filters::SearchFilter
     ids.to_a
   end
 
+  def select
+    options.select do |parent, children|
+      remaining_children = children.select do |child|
+        yield(child)
+      end
+
+      yield(parent) || remaining_children.any?
+    end
+  end
+
   private
 
   def option(parent)
