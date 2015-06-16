@@ -5,6 +5,10 @@
   .main-content-header h1
     margin-bottom: .25em
 
+  .main-content-body
+    width: 100%
+    max-width: 40em
+
   .success-message,
   .errors-container,
   .errorExplanation
@@ -221,19 +225,8 @@
 
   .checkboxes-collection .field-checkbox,
   .radio-buttons-collection .field-radio-button
-    display: inline-block
-    vertical-align: top
-
-  .checkboxes-collection .field-checkbox
     padding: .5em 1em
-    width: 32.5%
     margin: 0
-
-  .radio-buttons-collection
-    margin-bottom: 0
-
-    .field-radio-button
-      margin-right: 1em
 
   .accordion-item
     .accordion-item-header:after
@@ -245,3 +238,12 @@
     &.collapsed .accordion-item-header:after
       content: $fa-var-caret-down
       top: 0
+
+  @media only screen and (min-width: 569px)
+    .checkboxes-collection .field-checkbox,
+    .radio-buttons-collection .field-radio-button
+      display: inline-block
+      vertical-align: top
+
+    .checkboxes-collection .field-checkbox
+      width: 49.5%
