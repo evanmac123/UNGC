@@ -7,7 +7,7 @@ class ParticipantCampaignContributionsByYear
       .order('date desc')
       .group_by {|c| c.date.year}
       .map do |year, contributions|
-      [year, contributions.map(&:campaign).uniq]
+      [year, contributions.map(&:campaign).uniq.reject(&:nil?)]
     end
   end
 
