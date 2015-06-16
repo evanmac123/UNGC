@@ -2,7 +2,7 @@ class Redesign::WhatYouCanDoForm < Redesign::FilterableForm
   include Virtus.model
 
   attribute :page,        Integer,        default: 1
-  attribute :per_page,    Integer,        default: 123
+  attribute :per_page,    Integer,        default: 12
   attribute :issues,      Array[Integer], default: []
   attribute :topics,      Array[Integer], default: []
 
