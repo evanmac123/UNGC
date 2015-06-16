@@ -70,9 +70,6 @@ GEM
     acts_as_commentable (4.0.2)
     acts_as_tree (2.0.0)
       activerecord (>= 3.0.0)
-    airbrake (4.1.0)
-      builder
-      multi_json
     annotate (2.5.0)
       rake
     arel (6.0.0)
@@ -223,6 +220,7 @@ GEM
       tilt
     highline (1.7.1)
     hike (1.2.3)
+    honeybadger (2.1.0)
     hpricot (0.8.6)
     htmlentities (4.3.1)
     i18n (0.7.0)
@@ -436,7 +434,6 @@ PLATFORMS
 DEPENDENCIES
   acts_as_commentable (~> 4.0.2)
   acts_as_tree (~> 2.0.0)
-  airbrake (~> 4.1.0)
   annotate (~> 2.5.0)
   awesome_print
   bourbon (~> 4.2.1)
@@ -456,6 +453,7 @@ DEPENDENCIES
   font-awesome-sass (~> 4.3.1)
   foreman
   haml (~> 4.0.6)
+  honeybadger (~> 2.0)
   hpricot (= 0.8.6)
   htmlentities
   jquery-rails
