@@ -6,32 +6,62 @@ class SalesforceSync
   end
 
   def initialize(jobs)
-    @jobs = Array(jobs)
+    @jobs = Array(jobs).map { |args| Job.new(args) }
   end
 
   def process
-    jobs.map do |job|
-      find_or_create(job)
-    end.all?
+    jobs.map(&:execute).all?
   end
 
   private
 
-  def find_or_create(args)
-    type = args.delete(:type)
-    find_method = "find_ungc_#{type}".to_sym
-    raise "unknown job type: #{type}" unless self.respond_to?(find_method, true)
+  class Job
 
-    id = args.delete(:id)
-    model = self.send(find_method, id).first_or_initialize
-    model.update_attributes!(args)
+    def initialize(args)
+      @id = args.delete(:id)
+      @type = args.delete(:type)
+      @args = args
+    end
+
+    def execute
+      record.update_attributes!(args)
+    rescue ActiveRecord::RecordInvalid => e
+      if deleting_an_unsynced_record?
+        Rails.logger.warn "the #{type} record #{id} is being deleted, but we never had it in the first place. Ignoring."
+      else
+        raise e
+      end
+    end
+
+    private
+
+    attr_reader :id, :type, :args
+
+    def record
+      case type
+      when 'campaign'
+        find_campaign(id)
+      when 'contribution'
+        find_contribution(id)
+      else
+        raise "unknown salesforce sync type: #{type}"
+      end
+    end
+
+    def find_campaign(id)
+      Campaign.where(campaign_id: id).first_or_initialize
+    end
+
+    def find_contribution(id)
+      Contribution.where(contribution_id: id).first_or_initialize
+    end
+
+    def deleting_an_unsynced_record?
+      record.valid? == false &&
+        record.persisted? == false &&
+        args.fetch(:is_deleted) == true
+    end
+
   end
 
-  def find_ungc_campaign(id)
-    Campaign.where(campaign_id: id)
-  end
-
-  def find_ungc_contribution(id)
-    Contribution.where(contribution_id: id)
-  end
 end
