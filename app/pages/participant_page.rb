@@ -80,7 +80,24 @@ class ParticipantPage < SimpleDelegator
   end
 
   def contributions
-    @campaigns_by_year
+    @campaigns_by_year.map do |year, campaigns|
+      [year, campaigns.map { |c| CampaignPresenter.new(c) }]
+    end
+  end
+
+  # this is needed to have nicer names for campaigns
+  # XXX remove it once the salesforce database is updated
+  class CampaignPresenter < SimpleDelegator
+    def name
+      cname = campaign.name
+      cname.sub(/C4C/,'Caring for Climate').
+        sub(/CWM/, 'CEO Water Mandate').
+        sub('WEP', "Women's Empowerment Principles")
+    end
+
+    def campaign
+      __getobj__
+    end
   end
 
   def has_extra_information?
