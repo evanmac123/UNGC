@@ -16,26 +16,27 @@ class Redesign::WhatYouCanDoForm < Redesign::FilterableForm
   end
 
   def facets
-    Redesign::Container.facets nil
+    Redesign::Container.actions.facets ''
   end
 
   def execute
-    Redesign::Container.search nil, options
+    Redesign::Container.actions.search '', options
   end
 
   def options
-    options = {
+    # TODO randomize the order
+    {
+      page: page,
+      per_page: per_page,
+      with: facet_options,
+    }
+  end
+
+  def facet_options
+    {
       issue_ids: issue_filter.effective_selection_set,
       topic_ids: topic_filter.effective_selection_set,
     }.reject { |_, value| value.blank? }
-
-    {
-      page: self.page || 1,
-      per_page: self.per_page || 12,
-      order: seed,
-      star: true,
-      with: options,
-    }
   end
 
 end
