@@ -13,4 +13,7 @@ $(function() {
       $elements.addClass('navigation-active');
     }
   });
+
+  // Prepends Automatic Translation notice to body
+  $("<div class='automatic-translation-notice'>Automatically Translated by Google</div>").prependTo('body');
 });
