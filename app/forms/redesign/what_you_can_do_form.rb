@@ -25,6 +25,7 @@ class Redesign::WhatYouCanDoForm < Redesign::FilterableForm
 
   def options
     # TODO randomize the order
+    # sphinx does not support rand() with a seed until 2.2.4
     {
       page: page,
       per_page: per_page,
