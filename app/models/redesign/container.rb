@@ -69,7 +69,12 @@ class Redesign::Container < ActiveRecord::Base
     where(arel_table[:id].in(ids).or(arel_table[:parent_container_id].in(ids)))
   }
 
-  scope :published, -> { where.not(public_payload_id: nil) }
+  scope :published, -> {
+    where.not(public_payload_id: nil)
+      .where("path not like '/engage-locally/manage%'")
+      .where("path not like '/welcome%'")
+  }
+
   scope :visible, -> { where(visible: true) }
 
   def self.normalize_slug(raw)
