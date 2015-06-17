@@ -32,13 +32,13 @@ class Filters::GroupedSearchFilter < Filters::SearchFilter
     ids.to_a
   end
 
-  def select
-    options.select do |parent, children|
-      remaining_children = children.select do |child|
-        yield(child)
-      end
-
-      yield(parent) || remaining_children.any?
+  def select(&block)
+    # filter out the children in the first pass
+    # then filter out the parents without children in the next
+    options.map do |parent, children|
+      [parent, children.select(&block)]
+    end.select do |parent, children|
+      yield(parent) || children.any?
     end
   end
 
