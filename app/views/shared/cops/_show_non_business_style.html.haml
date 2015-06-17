@@ -6,7 +6,7 @@
     %ul
       - communication_on_progress.files.each do |file|
         %li
-          = link_to truncate(file.attachment_file_name, length: 50), file.attachment.url
+          = link_to truncate(file.attachment_file_name, length: 50), file.attachment.url, target: '_blank'
           == (#{file.language.name})
 
 - if communication_on_progress.has_links?
@@ -15,7 +15,7 @@
     %ul
       - communication_on_progress.links.each do |link|
         %li
-          = link_to truncate(link.url, length: 50), link.url
+          = link_to truncate(link.url, length: 50), link.url, target: '_blank'
           == (#{link.language.name})
 
 %dt Format

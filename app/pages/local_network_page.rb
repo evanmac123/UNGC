@@ -10,7 +10,7 @@ class LocalNetworkPage < SimpleDelegator
         title1: 'Act Globally',
         title2: 'Engage Locally'
       },
-      image: 'https://d306pr3pise04h.cloudfront.net/uploads/1d/1d1759b1cd75eb064c35f6c24ddb6262ec28f099---grass-field.jpg',
+      image: 'https://d306pr3pise04h.cloudfront.net/uploads/5b/5b42efafa91b3278ecd690bbd9fefbb3106a2b7f---globe-map.jpg',
       size: 'small',
       show_regions_nav: true
     }
