@@ -2,10 +2,6 @@
 
 <%= form_for @search, as: :search, url: redesign_press_releases_path, method: :get, html: {id: 'filters-form'} do |form| %>
 
-  <header>
-    <h1>Press Releases</h1>
-  </header>
-
   <fieldset class='filter-lists'>
     <% @search.filters.each do |filter| %>
       <%= search_filter(filter) %>
