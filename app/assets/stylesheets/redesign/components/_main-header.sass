@@ -14,15 +14,6 @@
     position: static
     padding: 0
 
-    @media only screen and (min-width: 681px)
-      padding: .75em 0 2em
-
-    @media only screen and (min-width: 881px)
-      padding: 1em 0 2.5em
-
-    @media only screen and (min-width: 1001px)
-      padding: 1.25em 0 3em
-
   .logo
     display: block
     position: relative
@@ -39,7 +30,11 @@
       display: block
       height: 2.25em
 
-    @media only screen and (min-width: 681px)
+  @media only screen and (min-width: 681px)
+    > .wrapper
+      padding: .75em 0 2em
+
+    .logo
       float: left
       padding: 0
       margin: 0 0 0 7px
@@ -47,11 +42,20 @@
       img
         height: 3em
 
-    @media only screen and (min-width: 881px)
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      padding: 1em 0 2.5em
+
+    .logo
       margin-left: 5%
 
-    @media only screen and (min-width: 1001px)
+  @media only screen and (min-width: 1001px)
+    > .wrapper
+      padding: 1.25em 0 3em
+
+    .logo
       margin-left: 6.25%
 
       img
         height: 3.5em
+
