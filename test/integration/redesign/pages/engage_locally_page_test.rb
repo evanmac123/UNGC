@@ -6,6 +6,9 @@ class EngageLocallyPageTest < ActionDispatch::IntegrationTest
   setup do
     create_staff_user
 
+    # we need a network and a country to display the regions nav
+    create_local_network(state: 'active', countries: [create_country(region: 'africa')])
+
     container = create_container(
       path: 'new-engage_locally-path',
       layout: 'engage_locally'
