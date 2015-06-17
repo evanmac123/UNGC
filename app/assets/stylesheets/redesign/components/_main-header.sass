@@ -14,39 +14,48 @@
     position: static
     padding: 0
 
-    @media only screen and (min-width: 681px)
-      padding: .75em 0 2em
-
-    @media only screen and (min-width: 881px)
-      padding: 1em 0 2.5em
-
-    @media only screen and (min-width: 1001px)
-      padding: 1.25em 0 3em
-
   .logo
     display: block
     position: relative
     color: inherit
-    font-size: 2.25em
-    line-height: 1
-    padding: .1em 10px .2em 7px
+    padding: .2em 0 .3em 7px
     margin: 0
 
-    @media only screen and (min-width: 681px)
+    h1
+      margin: 0
+      font-size: 1em
+      line-height: 1
+
+    img
+      display: block
+      height: 2.25em
+
+  @media only screen and (min-width: 681px)
+    > .wrapper
+      padding: .75em 0 2em
+
+    .logo
       float: left
-      font-size: 3em
       padding: 0
       margin: 0 0 0 7px
 
-    @media only screen and (min-width: 881px)
+      img
+        height: 3em
+
+  @media only screen and (min-width: 881px)
+    > .wrapper
+      padding: 1em 0 2.5em
+
+    .logo
       margin-left: 5%
 
-    @media only screen and (min-width: 1001px)
-      font-size: 3.5em
+  @media only screen and (min-width: 1001px)
+    > .wrapper
+      padding: 1.25em 0 3em
+
+    .logo
       margin-left: 6.25%
 
-    &:before
-      +logo('ungc')
+      img
+        height: 3.5em
 
-    h1
-      display: none
