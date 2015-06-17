@@ -7,6 +7,8 @@ class AccordionLayout < UNGC::Layout
 
   has_meta_tags!
 
+  has_taggings!
+
   has_hero! do
     field :show_section_nav,  type: :boolean, default: true
   end
