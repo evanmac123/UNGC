@@ -6,7 +6,7 @@
     <div class='wrapper'>
       <%= content_tag(:header, content_tag(:h1, accordion.title), {class: 'main-content-header accordion-header'}) if accordion.title %>
 
-      <section class='accordion-body'>
+      <section class='main-content-body'>
         <%= content_tag(:div, accordion.blurb.try(:html_safe), class: 'main-content-blurb') if accordion.blurb %>
 
         <div class='accordion-container'>
