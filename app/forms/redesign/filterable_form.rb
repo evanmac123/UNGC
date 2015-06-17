@@ -2,7 +2,7 @@ class Redesign::FilterableForm
 
   FilterInfo = Struct.new(:id, :options)
 
-  module Terrible
+  module FilterMacros
 
     def self.included(clazz)
       clazz.extend ClassMethods
@@ -20,7 +20,7 @@ class Redesign::FilterableForm
 
   end
 
-  include Terrible
+  include FilterMacros
 
   attr_reader :issue_filter, :topic_filter
 
@@ -37,7 +37,7 @@ class Redesign::FilterableForm
   end
 
   def facets
-    raise 'implement me'
+    raise 'override me'
   end
 
   def filters
