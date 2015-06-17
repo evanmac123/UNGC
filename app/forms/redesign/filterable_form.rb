@@ -1,33 +1,5 @@
 class Redesign::FilterableForm
 
-  FilterInfo = Struct.new(:id, :options)
-
-  module FilterMacros
-
-    def self.included(clazz)
-      clazz.extend ClassMethods
-    end
-
-    module ClassMethods
-      attr_reader :filter_infos
-
-      def filter(id, options = {})
-        @filter_infos ||= []
-        @filter_infos << FilterInfo.new(id, options)
-      end
-
-    end
-
-  end
-
-  include FilterMacros
-
-  attr_reader :issue_filter, :topic_filter
-
-  def initialize(*args)
-    raise 'no'
-  end
-
   def active_filters
     filters.flat_map(&:selected_options)
   end

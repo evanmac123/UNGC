@@ -1,5 +1,6 @@
 class Redesign::LibrarySearchForm < Redesign::FilterableForm
   include Virtus.model
+  include Redesign::FilterMacros
 
   attribute :issue_areas,         Array[Integer], default: []
   attribute :issues,              Array[Integer], default: []
