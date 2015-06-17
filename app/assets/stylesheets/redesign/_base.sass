@@ -20,6 +20,9 @@ body
   color: color('dark-grey')
   min-width: 300px
 
+  > .automatic-translation-notice
+    display: none
+
 abbr[title]
   border-bottom: 0
 
@@ -123,8 +126,7 @@ html.translated-ltr
   body
     top: 54px !important
 
-    > .skiptranslate:after
-      content: 'Automatically Translated by Google'
+    > .automatic-translation-notice
       display: block
       position: fixed
       top: 35px
