@@ -5,7 +5,7 @@
   <div class='wrapper'>
     <header class='main-content-header'>
       <h1><%= @page.name %></h1>
-      <%= link_to(@page.website, @page.website_url, class: 'participant-website-link') if @page.has_website? %>
+      <%= link_to(@page.website, @page.website_url, class: 'participant-website-link', target: '_blank') if @page.has_website? %>
     </header>
 
     <section class='tabbed-component participant-detail-body'>
@@ -85,7 +85,7 @@
 
           </dl>
 
-          <%= link_to('Letter of Commitment', @page.commitment_letter.url) if @page.commitment_letter.present? %>
+          <%= link_to('Letter of Commitment', @page.commitment_letter.url, target: '_blank') if @page.commitment_letter.present? %>
         </div>
 
         <div class='column company-information-financial-information'>

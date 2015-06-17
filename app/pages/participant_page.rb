@@ -109,10 +109,12 @@ class ParticipantPage < SimpleDelegator
       [{
         links: [{
           label: 'Google Finance',
-          url: "http://finance.google.com/finance?q=%s:%s" % [exchange.code, stock_symbol]
+          url: "http://finance.google.com/finance?q=%s:%s" % [exchange.code, stock_symbol],
+          external: true
         },{
           label: 'Yahoo! Finance',
-          url: "http://finance.yahoo.com/q?s=%s%s" % [stock_symbol, ('.' + exchange.secondary_code unless exchange.secondary_code.blank?)]
+          url: "http://finance.yahoo.com/q?s=%s%s" % [stock_symbol, ('.' + exchange.secondary_code unless exchange.secondary_code.blank?)],
+          external: true
         }]
       }]
     end
@@ -126,7 +128,8 @@ class ParticipantPage < SimpleDelegator
     [{
       links: [{
         label: 'Business and Human Rights Resource Centre',
-        url: 'http://www.business-humanrights.org/Categories/Individualcompanies/' + bhr_url
+        url: 'http://www.business-humanrights.org/Categories/Individualcompanies/' + bhr_url,
+          external: true
       }]
     }]
   end
