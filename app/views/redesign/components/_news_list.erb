@@ -15,7 +15,7 @@ if news ||= nil
           <%= content_tag(:time, featured.published_on) %>
           <%= content_tag(:address, featured.full_location) %>
           <%= content_tag(:p, strip_tags(featured.description.truncate(300))) %>
-          <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
+          <%= link_to_redesign('Read More', redesign_news_path(featured), class: 'read-more') if !is_landing %>
         </article>
       <%- end -%>
 
@@ -25,7 +25,7 @@ if news ||= nil
           <%= content_tag(:time, news_item.published_on) %>
           <%= content_tag(:address, news_item.full_location) %>
           <%= content_tag(:p, strip_tags(news_item.description.truncate(300))) if !is_landing %>
-          <%= link_to_redesign('Read More', '', class: 'read-more') if !is_landing %>
+          <%= link_to_redesign('Read More', redesign_news_path(news_item), class: 'read-more') if !is_landing %>
         </article>
       <%- end -%>
 
