@@ -12,7 +12,7 @@ class LibraryDetailPage
       title: {
         title1: 'Explore Our Library'
       },
-      image: 'https://d306pr3pise04h.cloudfront.net/uploads/02/029f94ffc19f95c80a441f47697f54055cda1b25---library.jpg',
+      image: 'https://d306pr3pise04h.cloudfront.net/uploads/9e/9e9d00411ce7c64d9e8ad95595342210068a29d0---library.jpg',
       size: 'small',
       show_section_nav: false
     }

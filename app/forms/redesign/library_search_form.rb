@@ -75,7 +75,12 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Resource.search(keywords, options)
+    Resource.search(sanitize_keywords(keywords), options)
+  end
+
+  # TODO fix utf-8 properly or refactor this
+  def sanitize_keywords(keywords)
+    keywords.gsub(/'/,'').gsub(/’/,'')
   end
 
   def keywords
