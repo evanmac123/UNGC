@@ -16,6 +16,7 @@ class NewsShowPage < SimpleDelegator
       title: {
         title1: 'News'
       },
+      image: 'https://d306pr3pise04h.cloudfront.net/uploads/c0/c0ce13d6a6821001ec22702d494f6f815182f19e---press_release.jpg',
       size: 'small',
       show_section_nav: true
     }
