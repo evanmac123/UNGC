@@ -25,6 +25,7 @@ class LocalNetworkPage < SimpleDelegator
   end
 
   def meta_description
+    "Read about the mission and vision of a specific Global Compact Local Network and learn what business sectors are represented by its participants."
   end
 
   def meta_keywords
