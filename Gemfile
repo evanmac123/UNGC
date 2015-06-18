@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.2'
 gem 'rack', '1.6.1'
 gem 'rails-html-sanitizer', '1.0.2'
+gem 'sprockets', '2.12.3'
 
 gem 'redis-session-store'
 gem 'mysql2',               '~> 0.3.17'
