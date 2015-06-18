@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.2.2'
+
+# these 2 are needed because of a problem in rails 4.2.1
+# with strip_tags, we should be able to remove once 4.2.3 comes out
 gem 'rack', '1.6.1'
 gem 'rails-html-sanitizer', '1.0.2'
 gem 'sprockets', '2.12.3'
