@@ -23,7 +23,7 @@ class Redesign::StaticController < Redesign::ApplicationController
 
     render(current_container.layout.to_sym)
   rescue ActiveRecord::RecordNotFound
-    redirect_to redesign_not_found_path
+    render '/redesign/static/not_found', status: 404
   end
 
   def redirect_to_page

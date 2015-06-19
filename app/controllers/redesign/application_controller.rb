@@ -17,7 +17,7 @@ class Redesign::ApplicationController < ApplicationController
 
     render("/redesign/static/" + current_container.layout)
   rescue ActiveRecord::RecordNotFound
-    redirect_to redesign_not_found_path
+    render '/redesign/static/not_found', status: 404
   end
 
   protected
