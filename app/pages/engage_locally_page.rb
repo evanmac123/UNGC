@@ -42,6 +42,6 @@ class EngageLocallyPage < ContainerPage
   end
 
   def networks
-    []
+    return LocalNetwork.none
   end
 end
