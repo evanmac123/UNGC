@@ -1,4 +1,5 @@
 class EngageLocallyPage < ContainerPage
+
   def hero
     (@data[:hero] || {}).merge({size: 'small', show_regions_nav: true})
   end
@@ -38,5 +39,9 @@ class EngageLocallyPage < ContainerPage
 
   def news
     Components::News.new(@data)
+  end
+
+  def networks
+    return LocalNetwork.none
   end
 end

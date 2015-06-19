@@ -19,30 +19,11 @@ class Components::RegionsNav
   class RegionNav < SimpleDelegator
 
     def name
-      region_names = {
-        'africa'            => 'Africa',
-        'asia'              => 'Asia',
-        'europe'            => 'Europe',
-        'latin_america'     => 'Latin America &amp; Caribbean',
-        'mena'              => 'MENA',
-        'northern_america'  => 'North America',
-        'oceania'           => 'Oceania',
-      }
-
-      region_names[region] || ''
+      Region.find_by(name: region).title
     end
 
     def region_param
-      region_params = {
-        'africa'            => 'africa',
-        'asia'              => 'asia',
-        'europe'            => 'europe',
-        'latin_america'     => 'latin-america',
-        'mena'              => 'mena',
-        'northern_america'  => 'north-america',
-        'oceania'           => 'oceania',
-      }
-      region_params[region]
+      Region.find_by(name: region).param
     end
 
     def url
