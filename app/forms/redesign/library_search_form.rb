@@ -79,7 +79,7 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def escaped_keywords
-    Redesign::SearchHelper.escpae(keywords)
+    Redesign::SearchHelper.escape(keywords)
   end
 
   private
