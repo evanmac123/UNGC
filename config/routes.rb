@@ -462,19 +462,7 @@ UNGC::Application.routes.draw do
     get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
     get '/NewsAndEvents/event_calendar/index.html', to: redirect('/take-action/events')
 
-    # old redirects porting
-    get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
-    get '/leadlab', to: redirect('http://leadlab.unglobalcompact.org/')
-    get '/rio_resources', to: redirect('/docs/news_events/upcoming/RioCSF/html/resources.html')
-    get '/LEADBoardProgramme', to: redirect('/docs/issues_doc/lead/board_programme/')
-    get '/app', to: redirect('http://ungcevents.quickmobile.mobi/')
-    get '/businesspartnershiphub', to: redirect('http://businesspartnershiphub.org/')
-    get '/HR_Resources', to: redirect('/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf')
-    get '/ActionFair', to: redirect('/docs/news_events/upcoming/ActionFairSources.pdf')
-    get '/lnw', to: redirect('/docs/networks_around_world_doc/google_earth/')
-    get '/FundraisingToolkit', to: redirect('/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf')
-    get ':leadsymposiumonline', to: redirect('http://un.banks-sadler.com'), :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
-
+    # google links
     get '/aboutthegc', to: redirect('/what-is-gc')
     get '/howtoparticipate/How_To_Apply.html', to: redirect('/participation/join/application')
     get '/ParticipantsandStakeholders/index.html', to: redirect('/what-is-gc/participants')
@@ -485,20 +473,31 @@ UNGC::Application.routes.draw do
     get '/newsandevents/event_calendar/webinars.html', to: redirect('/take-action/events')
     get '/Issues/financial_markets/global_compact_100.html', to: redirect('/take-action/action/global-compact-100')
 
-
-    #get '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
-    #get '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
-    #get '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
-    #get '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
-    #get ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
-    #get ':fabprinciples'           => 'pages#redirect_to_page', :page => '/Issues/Environment/food_agriculture_business_principles.html', :constraints => { :fabprinciples => /fabprinciples/i }
-    #get '/anti-corruption' => 'pages#redirect_to_page', :page => '/Issues/transparency_anticorruption/call_to_action_post2015.html'
-    #get '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
-    #get '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
-    #get ':boardprogramme' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/board_programme.html', :constraints => { :boardprogramme => /boardprogramme/i }
+    # old redirects porting
+    get '/climate', to: redirect('/what-is-gc/our-work/environment/climate')
+    get '/watermandate', to: redirect('/take-action/action/water-mandate')
+    get '/weps', to: redirect('/what-is-gc/our-work/social/gender-equality')
+    get '/networks', to: redirect('/engage-locally')
+    get '/rio_resources', to: redirect('/library/1041')
+    get '/leadlab', to: redirect('http://leadlab.unglobalcompact.org/')
+    get ':lead', to: redirect('/take-action/leadership/gc-lead'), :constraints => { :lead => /lead/i }
+    get '/LEADBoardProgramme', to: redirect('/take-action/action/gc-board-programme')
+    get ':boardprogramme', to: redirect('/take-action/action/gc-board-programme'), :constraints => { :boardprogramme => /boardprogramme/i }
+    get '/app', to: redirect('http://ungcevents.quickmobile.mobi/')
+    get '/businesspartnershiphub', to: redirect('http://businesspartnershiphub.org/')
+    get '/HR_Resources', to: redirect('/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf')
+    get ':fabprinciples', to: redirect('/what-is-gc/our-work/environment/food-agriculture'), :constraints => { :fabprinciples => /fabprinciples/i }
+    get '/ActionFair', to: redirect('/docs/news_events/upcoming/ActionFairSources.pdf')
+    get '/lnw', to: redirect('/engage-locally')
+    get '/FundraisingToolkit', to: redirect('/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf')
+    get '/anti-corruption', to: redirect('/take-action/action/anti-corruption-call-to-action')
+    get '/UNPrivateSectorForum', to: redirect('/library/1221')
+    get '/LEADSymposium', to: redirect('/take-action/events/51-2015-lead-symposium')
+    get ':leadsymposiumonline', to: redirect('http://un.banks-sadler.com'), :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
+    get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
 
     # CATCH ALL
-    get '*path'     => 'static#catch_all',  as: :catch_all
+    get '*path'     => 'static#catch_all',  as: :catch_all, :constraints => { :format => 'html' }
   end
 
   root :to => 'pages#home'

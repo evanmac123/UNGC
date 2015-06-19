@@ -51,7 +51,7 @@ class Redesign::SitewideSearchForm
   end
 
   def escaped_keywords
-    Redesign::SearchHelper.escape(keywords)
+    Redesign::SearchEscaper.escape(keywords)
   end
 
   def options
