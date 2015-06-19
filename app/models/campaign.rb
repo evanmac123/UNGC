@@ -6,7 +6,14 @@ class Campaign < ActiveRecord::Base
   validates :campaign_id, presence: true
   validates :name, presence: true
 
+  scope :for_public, -> { where(is_private: false) }
+
   def private?
     self.is_private
   end
+
+  def public?
+    !private?
+  end
+
 end
