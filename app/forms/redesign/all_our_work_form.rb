@@ -17,11 +17,27 @@ class Redesign::AllOurWorkForm < Redesign::FilterableForm
   end
 
   def issue_filter
-    @issue_filter ||= Filters::IssueFilter.new(issues, issues)
+    excluded = [
+      "Forced Labour",
+      "Health",
+      "Human Trafficking",
+      "Migrant Workers",
+      "People with Disabilities",
+      "Poverty",
+      "Women's Empowerment",
+      "Biodiversity",
+      "Energy"
+    ]
+    @issue_filter ||= Filters::IssueFilter.new(issues, issues, excluded: excluded)
   end
 
   def topic_filter
-    @topic_filter ||= Filters::TopicFilter.new(topics, topics)
+    excluded = [
+      "Local Networks",
+      "Reporting",
+      "Partnerships"
+    ]
+    @topic_filter ||= Filters::TopicFilter.new(topics, topics, excluded: excluded)
   end
 
   def execute

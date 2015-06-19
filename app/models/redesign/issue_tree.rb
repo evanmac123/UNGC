@@ -1,7 +1,8 @@
 class Redesign::IssueTree < Redesign::Tree
 
-  def initialize
+  def initialize(excluded: ['none'])
     super(Issue.where.not(parent_id: nil)
+      .where.not('name in (?)', excluded)
       .includes(:parent)
       .select([:id, :parent_id, :name])
       .group(:parent_id, :id)
