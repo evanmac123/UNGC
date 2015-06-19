@@ -6,6 +6,8 @@ gem 'rails', '4.2.2'
 # with strip_tags, we should be able to remove once 4.2.3 comes out
 gem 'rack', '1.6.1'
 gem 'rails-html-sanitizer', '1.0.2'
+gem 'sprockets', '2.12.3'
+gem 'sprockets-rails', '2.2.4'
 
 gem 'redis-session-store'
 gem 'mysql2',               '~> 0.3.17'
