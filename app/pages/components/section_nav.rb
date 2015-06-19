@@ -42,7 +42,7 @@ class Components::SectionNav
   end
 
   def parent
-    Components::SectionNavLink.new(container.parent_container) if container.parent_container
+    Components::SectionNavLink.new(container.parent_container) if container.parent_container && container.parent_container.visible
   end
 
   def children
