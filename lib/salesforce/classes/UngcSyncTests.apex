@@ -74,7 +74,10 @@ private class UngcSyncTests {
   }
 
   private static Campaign createCampaign() {
-    return new Campaign(name='Test Campaign');
+    return new Campaign(
+      name='Test Campaign',
+      IsPrivate = true
+    );
   }
 
 }

@@ -12,6 +12,7 @@ public class UngcCampaignSerializer extends UngcJsonSerializer {
     writeNullableDate('start_date', c.StartDate);
     writeNullableDate('end_date', c.EndDate);
     gen.writeBooleanField('is_deleted',  c.IsDeleted);
+    gen.writeBooleanField('is_private', op.IsPrivate);
     gen.writeEndObject();
   }
 
