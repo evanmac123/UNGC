@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609212215) do
+ActiveRecord::Schema.define(version: 20150619175633) do
 
   create_table "announcements", force: :cascade do |t|
     t.integer  "local_network_id", limit: 4
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20150609212215) do
     t.boolean  "is_deleted",    limit: 1,   default: false, null: false
     t.datetime "created_at",                                null: false
     t.datetime "updated_at",                                null: false
+    t.boolean  "is_private",    limit: 1,   default: false
   end
 
   add_index "campaigns", ["campaign_id"], name: "index_campaigns_on_campaign_id", unique: true, using: :btree

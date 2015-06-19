@@ -30,7 +30,8 @@ class Salesforce::ApiController < ApplicationController
         :payment_type,
         :invoice_code,
         :raw_amount,
-        :recognition_amount
+        :recognition_amount,
+        :is_private
       ]
     )
   end
