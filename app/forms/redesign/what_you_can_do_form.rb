@@ -17,11 +17,21 @@ class Redesign::WhatYouCanDoForm < Redesign::FilterableForm
   end
 
   def issue_filter
-    @issue_filter ||= Filters::IssueFilter.new(issues, issues)
+    excluded = [
+      "Persons with Disabilities",
+      "Poverty",
+      "Women's Empowerment"
+    ]
+    @issue_filter ||= Filters::IssueFilter.new(issues, issues, excluded: excluded)
   end
 
   def topic_filter
-    @topic_filter ||= Filters::TopicFilter.new(topics, topics)
+    excluded = [
+      "Millennium Development Goals",
+      "Communication on Engagement",
+      "Social Enterprise"
+    ]
+    @topic_filter ||= Filters::TopicFilter.new(topics, topics, excluded: excluded)
   end
 
   def execute
