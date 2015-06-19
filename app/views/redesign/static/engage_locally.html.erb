@@ -13,15 +13,15 @@
 
         <%= render 'redesign/components/widget_links_lists', links_lists: @page.main_content_links %>
 
-        <%- if @networks.present? && @networks.any?-%>
-        <section class='region-networks'>
-          <h1>Local Networks</h1>
-          <ul class='region-networks-list'>
-            <%- @networks.each do |network| -%>
-              <li><%= link_to_redesign network.name, redesign_networks_show_path(@region, network.name.downcase) -%></li>
-            <%- end -%>
-          </ul>
-        </section>
+        <%- if @page.networks.any? -%>
+          <section class='region-networks'>
+            <h1>Local Networks</h1>
+            <ul class='region-networks-list'>
+              <%- @page.networks.each do |network| -%>
+                <li><%= link_to_redesign network.name, redesign_networks_show_path(@page.region.param, network.name.downcase) -%></li>
+              <%- end -%>
+            </ul>
+          </section>
         <%- end -%>
       </section>
 
