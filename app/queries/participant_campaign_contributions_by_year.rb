@@ -4,7 +4,8 @@ class ParticipantCampaignContributionsByYear
     def for(participant)
       participant.contributions
         .posted
-        .includes(:campaign)
+        .joins(:campaign)
+        .merge(Campaign.for_public)
         .order('date desc')
         .group_by {|c| c.date.year}
         .map do |year, contributions|

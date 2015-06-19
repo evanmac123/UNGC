@@ -10,29 +10,51 @@ class ParticipantCampaignContributionsByYearTest < ActiveSupport::TestCase
     assert_not_includes campaigns, private_campaign
   end
 
+  should "only show years for which there are public contributions" do
+    assert_includes contribution_years, 2011
+    assert_not_includes contribution_years, 2012
+  end
+
   private
 
   def participant
     @organization ||= begin
       create_organization_type
       create_organization(participant: true).tap do |organization|
-        contribute(organization, private_campaign)
-        contribute(organization, public_campaign)
+
+        create_contribution(
+          organization: organization,
+          campaign: private_campaign,
+          stage: Contribution::STAGE_POSTED,
+          date: Date.new(2012, 1, 1)
+        )
+
+        create_contribution(
+          organization: organization,
+          campaign: public_campaign,
+          stage: Contribution::STAGE_POSTED,
+          date: Date.new(2011, 2, 2)
+        )
+
         organization.reload
       end
     end
   end
 
+  def contributions
+    @contributions ||= ParticipantCampaignContributionsByYear.for(participant)
+  end
+
   def campaigns
-    @campaigns ||= ParticipantCampaignContributionsByYear.for(participant).flat_map(&:last)
+    contributions.flat_map(&:last)
+  end
+
+  def contribution_years
+    contributions.flat_map(&:first)
   end
 
   def contribute(organization, campaign)
-    create_contribution(
-      organization: organization,
-      campaign: campaign,
-      stage: Contribution::STAGE_POSTED
-    )
+
   end
 
   def private_campaign
