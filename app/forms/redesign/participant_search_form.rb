@@ -61,11 +61,11 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Organization.participants_only.search(keywords, options)
+    Organization.participants_only.search(escaped_keywords, options)
   end
 
-  def keywords
-    Riddle::Query.escape(super)
+  def escaped_keywords
+    Redesign::SearchHelper.escpae(keywords)
   end
 
   private

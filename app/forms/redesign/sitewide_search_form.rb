@@ -51,7 +51,7 @@ class Redesign::SitewideSearchForm
   end
 
   def escaped_keywords
-    Riddle::Query.escape(keywords)
+    Redesign::SearchHelper.escpae(keywords)
   end
 
   def options
