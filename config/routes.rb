@@ -497,7 +497,7 @@ UNGC::Application.routes.draw do
     get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
 
     # CATCH ALL
-    get '*path'     => 'static#catch_all',  as: :catch_all
+    get '*path'     => 'static#catch_all',  as: :catch_all, :constraints => { :format => 'html' }
   end
 
   root :to => 'pages#home'
