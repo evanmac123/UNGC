@@ -81,6 +81,7 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
         @id = create_campaign(
           start_date: Date.new(2013, 8, 25),
           end_date: Date.new(2013, 8, 25),
+          is_private: false
         ).campaign_id
       end
 
@@ -99,6 +100,11 @@ class Salesforce::ApiControllerTest < ActionController::TestCase
         today = Date.today
         updated = send_update_campaign(end_date: today)
         assert_equal today, updated.end_date
+      end
+
+      should 'update is_private' do
+        updated = send_update_campaign(is_private: true)
+        assert_equal true, updated.private?
       end
 
       context "nullable fields" do

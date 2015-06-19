@@ -5,4 +5,8 @@ class Campaign < ActiveRecord::Base
 
   validates :campaign_id, presence: true
   validates :name, presence: true
+
+  def private?
+    self.is_private
+  end
 end
