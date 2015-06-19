@@ -1,18 +1,6 @@
 require 'ckeditor'
 require 'sidekiq/web'
 
-class RedesignConstraint
-  def initialize
-  end
-
-  def matches?(request)
-    return true if request.headers["HTTP_UNGC_REDESIGN_PREVIEW"].present?
-
-    contact_id = request.session["warden.user.contact.key"].try(:[], 0).try(:[], 0)
-    RedesignPreview.permitted?(contact_id)
-  end
-end
-
 UNGC::Application.routes.draw do
   authenticate :contact, lambda { |c| c.from_ungc? } do
     mount Sidekiq::Web => '/back-the-web'
@@ -202,7 +190,7 @@ UNGC::Application.routes.draw do
     post '/sync' => 'api#sync'
   end
 
-  namespace :redesign, path: '/', constraints: RedesignConstraint.new do
+  namespace :redesign, path: '/' do
     namespace :admin, path: '/redesign/admin' do
       namespace :api, format: :json do
         resources :layouts, only: [:index, :show]

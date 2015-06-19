@@ -164,7 +164,7 @@ module Admin::OrganizationsHelper
   end
 
   def link_to_getting_started
-    WelcomePackage.new(@organization, has_redesign?).link
+    WelcomePackage.new(@organization).link
   end
 
   def link_to_local_network_welcome_letter_if_exists

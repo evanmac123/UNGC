@@ -40,12 +40,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :staff_user?
 
-  def has_redesign?
-    RedesignPreview.permitted?(current_contact)
-  end
-
-  helper_method :has_redesign?
-
   def editable_content?
     @is_editable_content
   end
