@@ -458,11 +458,23 @@ UNGC::Application.routes.draw do
     # new redirects (to be tested)
     get '/index.html', to: redirect('/')
     get '/NewsAndEvents/global_compact_15.html', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good')
-    get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
     get '/aboutthegc/thetenprinciples(*path)', to: redirect('/what-is-gc/mission/principles')
     get '/AboutTheGC/TheTenPrinciples/principle1.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-1'
     get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
     get '/NewsAndEvents/event_calendar/index.html', to: redirect('/take-action/events')
+
+    # old redirects porting
+    get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
+    get '/leadlab', to: redirect('http://leadlab.unglobalcompact.org/')
+    get '/rio_resources', to: redirect('/docs/news_events/upcoming/RioCSF/html/resources.html')
+    get '/LEADBoardProgramme', to: redirect('/docs/issues_doc/lead/board_programme/')
+    get '/app', to: redirect('http://ungcevents.quickmobile.mobi/')
+    get '/businesspartnershiphub', to: redirect('http://businesspartnershiphub.org/')
+    get '/HR_Resources', to: redirect('/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf')
+    get '/ActionFair', to: redirect('/docs/news_events/upcoming/ActionFairSources.pdf')
+    get '/lnw', to: redirect('/docs/networks_around_world_doc/google_earth/')
+    get '/FundraisingToolkit', to: redirect('/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf')
+    get ':leadsymposiumonline', to: redirect('http://un.banks-sadler.com'), :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
 
     # CATCH ALL
     get '*path'     => 'static#catch_all',  as: :catch_all
