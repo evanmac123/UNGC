@@ -1,4 +1,4 @@
-class Redesign::SearchHelper
+class Redesign::SearchEscaper
 
   def self.escape(keywords)
     Riddle::Query.escape(sanitize_keywords(keywords))
