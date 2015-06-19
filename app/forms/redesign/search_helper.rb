@@ -7,7 +7,7 @@ class Redesign::SearchHelper
   private
 
   # TODO fix utf-8 properly or refactor this
-  def sanitize_keywords(keywords)
+  def self.sanitize_keywords(keywords)
     keywords.gsub(/'/,'').gsub(/’/,'')
   end
 
