@@ -14,11 +14,15 @@ class Redesign::NetworksController < Redesign::ApplicationController
 
   def redirect_to_network
     if params[:country_code]
-      country = Country.includes(:local_network).find_by(code: params[:country_code])
+      country = Country.includes(:local_network).find_by!(code: params[:country_code])
 
       continent = Region.find_by(name: country.region).param
+      if country.local_network
+        redirect_to "/engage-locally/#{continent}/#{URI.escape(country.local_network.name)}".downcase, status: :moved_permanently
+      else
+        raise ActiveRecord::RecordNotFound
+      end
 
-      redirect_to "/engage-locally/#{continent}/#{URI.escape(country.local_network.name)}".downcase, status: :moved_permanently
     else
       redirect_to root_path
     end
