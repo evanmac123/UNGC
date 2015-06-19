@@ -9,7 +9,8 @@ class Redesign::StaticControllerTest < ActionController::TestCase
   context '#catch_all' do
     should 'redirect to not_found when the path does not resolve a container' do
       get :catch_all, path: '/herp/i/dont/exist'
-      assert_redirected_to redesign_not_found_path
+      assert_template :not_found
+      assert_response 404
     end
 
     should 'resolve a container that exists with the provided path' do
