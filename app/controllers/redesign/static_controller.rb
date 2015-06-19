@@ -4,10 +4,6 @@ class Redesign::StaticController < Redesign::ApplicationController
     @page = HomePage.new(current_container, current_payload_data)
   end
 
-  def not_found
-    render :not_found, status: 404
-  end
-
   def layout_sample
     render layout: 'redesign/sample'
     @is_sample_layout = true
