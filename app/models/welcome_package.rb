@@ -1,11 +1,7 @@
-WelcomePackage = Struct.new(:organization, :has_redesign?) do
+WelcomePackage = Struct.new(:organization) do
 
   def link
-    if has_redesign?
-      "/welcome/#{organization.organization_type_name_for_custom_links.gsub('_','-')}"
-    else
-      "/GettingStarted#{organization.organization_type_name_for_custom_links.camelize}/introduction.html"
-    end
+    "/welcome/#{organization.organization_type_name_for_custom_links.gsub('_','-')}"
   end
 
 end

@@ -1,18 +1,6 @@
 require 'ckeditor'
 require 'sidekiq/web'
 
-class RedesignConstraint
-  def initialize
-  end
-
-  def matches?(request)
-    return true if request.headers["HTTP_UNGC_REDESIGN_PREVIEW"].present?
-
-    contact_id = request.session["warden.user.contact.key"].try(:[], 0).try(:[], 0)
-    RedesignPreview.permitted?(contact_id)
-  end
-end
-
 UNGC::Application.routes.draw do
   authenticate :contact, lambda { |c| c.from_ungc? } do
     mount Sidekiq::Web => '/back-the-web'
@@ -202,7 +190,7 @@ UNGC::Application.routes.draw do
     post '/sync' => 'api#sync'
   end
 
-  namespace :redesign, path: '/', constraints: RedesignConstraint.new do
+  namespace :redesign, path: '/' do
     namespace :admin, path: '/redesign/admin' do
       namespace :api, format: :json do
         resources :layouts, only: [:index, :show]
@@ -469,11 +457,46 @@ UNGC::Application.routes.draw do
 
     # new redirects (to be tested)
     get '/index.html', to: redirect('/')
-    get '/NewsAndEvents/global_compact_15.html', to: redirect('take-action/events/31-global-compact-15-business-as-a-force-for-good')
+    get '/NewsAndEvents/global_compact_15.html', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good')
     get '/aboutthegc/thetenprinciples(*path)', to: redirect('/what-is-gc/mission/principles')
     get '/AboutTheGC/TheTenPrinciples/principle1.html' => 'static#redirect_to_page', page: '/what-is-gc/mission/principles/principle-1'
     get '/participantsandstakeholders/civil_society.html', to: redirect('/what-is-gc/participants')
     get '/NewsAndEvents/event_calendar/index.html', to: redirect('/take-action/events')
+
+    # old redirects porting
+    get ':gc15', to: redirect('/take-action/events/31-global-compact-15-business-as-a-force-for-good'), :constraints => { :gc15 => /gc15/i }
+    get '/leadlab', to: redirect('http://leadlab.unglobalcompact.org/')
+    get '/rio_resources', to: redirect('/docs/news_events/upcoming/RioCSF/html/resources.html')
+    get '/LEADBoardProgramme', to: redirect('/docs/issues_doc/lead/board_programme/')
+    get '/app', to: redirect('http://ungcevents.quickmobile.mobi/')
+    get '/businesspartnershiphub', to: redirect('http://businesspartnershiphub.org/')
+    get '/HR_Resources', to: redirect('/docs/issues_doc/human_rights/Resources/HR_Postcard.pdf')
+    get '/ActionFair', to: redirect('/docs/news_events/upcoming/ActionFairSources.pdf')
+    get '/lnw', to: redirect('/docs/networks_around_world_doc/google_earth/')
+    get '/FundraisingToolkit', to: redirect('/docs/networks_around_world_doc/LN_Fundraising_Toolkit.pdf')
+    get ':leadsymposiumonline', to: redirect('http://un.banks-sadler.com'), :constraints => { :leadsymposiumonline => /leadsymposiumonline/i }
+
+    get '/aboutthegc', to: redirect('/what-is-gc')
+    get '/howtoparticipate/How_To_Apply.html', to: redirect('/participation/join/application')
+    get '/ParticipantsandStakeholders/index.html', to: redirect('/what-is-gc/participants')
+    get '/issues/human_rights/', to: redirect('/what-is-gc/our-work/social/human-rights')
+    get '/HowToParticipate/academic_network/', to: redirect('/participations/join/who-should-join/non-business')
+    get '/aboutthegc/contact_us.html', to: redirect('/about/contact')
+    get '/howtoparticipate/business_participation/index.html', to: redirect('/participation/join')
+    get '/newsandevents/event_calendar/webinars.html', to: redirect('/take-action/events')
+    get '/Issues/financial_markets/global_compact_100.html', to: redirect('/take-action/action/global-compact-100')
+
+
+    #get '/climate'        => 'pages#redirect_to_page', :page => '/Issues/Environment/Climate_Change/'
+    #get '/watermandate'   => 'pages#redirect_to_page', :page => '/Issues/Environment/CEO_Water_Mandate/'
+    #get '/weps'           => 'pages#redirect_to_page', :page => '/Issues/human_rights/equality_means_business.html'
+    #get '/networks'       => 'pages#redirect_to_page', :page => '/NetworksAroundTheWorld/index.html'
+    #get ':lead'           => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/', :constraints => { :lead => /lead/i }
+    #get ':fabprinciples'           => 'pages#redirect_to_page', :page => '/Issues/Environment/food_agriculture_business_principles.html', :constraints => { :fabprinciples => /fabprinciples/i }
+    #get '/anti-corruption' => 'pages#redirect_to_page', :page => '/Issues/transparency_anticorruption/call_to_action_post2015.html'
+    #get '/UNPrivateSectorForum' => 'pages#redirect_to_page', :page => '/Issues/Business_Partnerships/un_private_sector_forum_2014.html'
+    #get '/LEADSymposium' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/lead_symposium.html'
+    #get ':boardprogramme' => 'pages#redirect_to_page', :page => '/HowToParticipate/Lead/board_programme.html', :constraints => { :boardprogramme => /boardprogramme/i }
 
     # CATCH ALL
     get '*path'     => 'static#catch_all',  as: :catch_all
