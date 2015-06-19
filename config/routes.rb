@@ -295,7 +295,6 @@ UNGC::Application.routes.draw do
 
     get '/'         => 'static#home',       as: :root
     get '/layout-sample' => 'static#layout_sample', as: :layout_sample
-    get '/404'      => 'static#not_found',  as: :not_found
 
     # REDIRECTS
     get '/AboutTheGC/global_compact_strategy.html' => 'static#redirect_to_page', page: '/what-is-gc/strategy'

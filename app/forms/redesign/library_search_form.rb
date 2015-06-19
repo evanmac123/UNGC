@@ -75,16 +75,11 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Resource.search(sanitize_keywords(keywords), options)
+    Resource.search(escaped_keywords, options)
   end
 
-  # TODO fix utf-8 properly or refactor this
-  def sanitize_keywords(keywords)
-    keywords.gsub(/'/,'').gsub(/’/,'')
-  end
-
-  def keywords
-    Riddle::Query.escape(super)
+  def escaped_keywords
+    Redesign::SearchHelper.escape(keywords)
   end
 
   private
