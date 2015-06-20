@@ -33,6 +33,8 @@ class ParticipantPage < SimpleDelegator
 
   def website
     URI::parse(website_url).hostname
+  rescue
+    website_url
   end
 
   def website_url
