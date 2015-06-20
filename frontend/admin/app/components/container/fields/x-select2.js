@@ -21,8 +21,12 @@ export default Ember.Component.extend({
     }
     let exists = items.any((i) => {
       let val = this.get('field.value');
-      let id = parseInt(i.get('id'), 10);
-      return id === val;
+      if (val instanceof Array) {
+        return true;
+      } else {
+        let id = parseInt(i.get('id'), 10);
+        return id === val;
+      }
     });
     if (!exists) {
       this.set('field.value', null);
