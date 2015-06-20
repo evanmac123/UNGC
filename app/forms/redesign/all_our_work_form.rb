@@ -22,7 +22,7 @@ class Redesign::AllOurWorkForm < Redesign::FilterableForm
       "Health",
       "Human Trafficking",
       "Migrant Workers",
-      "People with Disabilities",
+      "Persons with Disabilities",
       "Poverty",
       "Women's Empowerment",
       "Biodiversity",
