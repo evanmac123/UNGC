@@ -86,7 +86,7 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def default_order
-    'joined_on desc'
+    'joined_on asc'
   end
 
   def options
