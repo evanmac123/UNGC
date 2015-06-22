@@ -8,7 +8,7 @@ class Redesign::SearchEscaper
 
   # TODO fix utf-8 properly or refactor this
   def self.sanitize_keywords(keywords)
-    keywords.gsub(/'/,'').gsub(/’/,'')
+    String(keywords).gsub(/'/,'').gsub(/’/,'')
   end
 
 end
