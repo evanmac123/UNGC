@@ -27,7 +27,7 @@
 
     <%- if @results.any? -%>
       <p class='results-count'>
-        <%- if !@search.keywords.empty? -%>
+        <%- if @search.keywords && !@search.keywords.empty? -%>
           Searched for: <strong>&ldquo;<%= @search.keywords -%>&rdquo;</strong>&mdash;
         <%- end -%>
         <strong><%= @results.total_entries -%></strong> results</p>
