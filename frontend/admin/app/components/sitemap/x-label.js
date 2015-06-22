@@ -8,7 +8,7 @@ const INSIDE = 'inside';
 export default Ember.Component.extend({
   classNames: 'sitemap-x-label',
   isDroppable: true,
-  isDraggable: true,
+  isDraggable: Ember.computed.oneWay('node.model.draggable'),
 
   attributeBindings: [
     'isDroppable:droppable',

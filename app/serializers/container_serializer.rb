@@ -8,6 +8,7 @@ class ContainerSerializer < ApplicationSerializer
     h[:draft_payload_id]       = object.draft_payload_id
     h[:child_containers_count] = object.child_containers_count
     h[:has_draft]              = object.has_draft
+    h[:draggable]              = object.draggable
 
     if (payload = object.draft_payload)
       h[:data] = payload.data
