@@ -69,8 +69,10 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
 
   def destroy
     container = Redesign::Container.find(params[:id])
-    if container.child_containers.count > 0
-      render text: "this page still has children", status: 422
+    if !container.draggable
+      render text: "This page can not be deleted", status: 422
+    elsif container.child_containers.count > 0
+      render text: "This page still has children", status: 422
     else
       container.payloads.destroy_all
       container.destroy
