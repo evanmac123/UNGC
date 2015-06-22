@@ -18,7 +18,7 @@ export default Ember.Component.extend({
   mightDropNode: Ember.on('dragOver', function(event) {
     var y         = event.originalEvent.y;
     var h         = this.$().height();
-    var top       = this.$().offset().top;
+    var top       = this.$().offset().top - Ember.$('body').scrollTop();
     var bot       = top + h;
     var insRng    = h * DROP_OUTSIDE_THRESHOLD;
     var pxFromTop = y - top;
