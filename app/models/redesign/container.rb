@@ -152,7 +152,7 @@ class Redesign::Container < ActiveRecord::Base
   end
 
   def update_path
-    return unless parent_container_id_changed?
+    return if !parent_container_id_changed? && !slug_changed?
     self.path = calculate_path
     true
   end

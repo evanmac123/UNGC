@@ -3,6 +3,9 @@
     <h1><i class='fa fa-pencil fa-fw' aria-hidden='true'></i><code class='container-url'>{{model.container.publicPath}}</code></h1>
 
     <a href="{{model.container.publicPath}}" target="_blank" class='btn btn-success pull-right'><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
+    {{#if model.container.draggable}}
+      {{#link-to "containers.edit-slug" model.container.id class='pull-right btn btn-danger'}}<i class='fa fa-pencil fa-fw' aria-hidden='true'></i>&nbsp;Edit Slug/Layout{{/link-to}}
+    {{/if}}
 
     <h3 class='container-layout'>Layout: <strong>{{model.container.layout}}</strong></h3>
   </div>

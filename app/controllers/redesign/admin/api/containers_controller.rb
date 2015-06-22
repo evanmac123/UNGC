@@ -146,6 +146,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
 
     h[:slug] = p[:slug] if p[:slug].present?
     h[:path] = p[:public_path] if p[:public_path].present?
+    h[:layout] = p[:layout] if p[:layout].present?
     h[:parent_container_id] = p[:parent_container_id] if p.key?(:parent_container_id)
     h[:data] = p[:data] if p.key?(:data)
 
