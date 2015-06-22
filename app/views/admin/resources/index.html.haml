@@ -16,21 +16,21 @@
     .tab_content{:id => value}
       %table.dashboard_table
         %tr
-        %th= sort_header 'ID', field: 'id', tab: value
-        %th= sort_header 'Title', field: 'title', tab: value
-        %th= sort_header 'Year', field: 'year', tab: value
-        %th= sort_header 'Topics', field: 'principles_count', tab: value
-        %th.status-cell= sort_header 'Updated', field: resource_sort_field(value), tab: value
-        %th.action-cell Actions
+          %th= sort_header 'ID', field: 'id', tab: value
+          %th= sort_header 'Title', field: 'title', tab: value
+          %th= sort_header 'Year', field: 'year', tab: value
+          %th= sort_header 'Topics', field: 'principles_count', tab: value
+          %th.status-cell= sort_header 'Updated', field: resource_sort_field(value), tab: value
+          %th.action-cell Actions
         = render @resources.find_all{ |item| item.approval == value.to_s }
 
   .tab_content{:id => "update-required"}
     %table.dashboard_table
       %tr
-      %th= sort_header 'ID', field: 'id', tab: "update-required"
-      %th= sort_header 'Title', field: 'title', tab: "update-required"
-      %th= sort_header 'Year', field: 'year', tab: "update-required"
-      %th= sort_header 'Topics', field: 'principles_count', tab: "update-required"
-      %th.status-cell= sort_header 'Updated', field: resource_sort_field("update-required"), tab: "update-required"
-      %th.action-cell Actions
+        %th= sort_header 'ID', field: 'id', tab: "update-required"
+        %th= sort_header 'Title', field: 'title', tab: "update-required"
+        %th= sort_header 'Year', field: 'year', tab: "update-required"
+        %th= sort_header 'Topics', field: 'principles_count', tab: "update-required"
+        %th.status-cell= sort_header 'Updated', field: resource_sort_field("update-required"), tab: "update-required"
+        %th.action-cell Actions
       = render @resources.find_all{ |item| item.content_type.nil? }

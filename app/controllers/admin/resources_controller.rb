@@ -5,8 +5,6 @@ class Admin::ResourcesController < AdminController
 
   def index
     @resources = Resource.with_principles_count
-      .paginate(page:params[:page],
-                per_page:Resource.per_page)
       .order(order_from_params)
   end
 
