@@ -17,6 +17,10 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       slush  = create_topic name: 'slush'
       jello  = create_topic name: 'jello'
 
+      # sectors
+      sector1   = create_sector name: 'sector1'
+      sector2  = create_sector name: 'sector2'
+
       # create a container with a draft payload including tags
       container = create_container
       container.draft_payload = create_payload(
@@ -24,7 +28,8 @@ class ContainerPublisherTest < ActiveSupport::TestCase
         json_data: {
           taggings: {
             issues: [water.id, wind.id],
-            topics: [fire.id, jello.id]
+            topics: [fire.id, jello.id],
+            sector: []
           }
         }.deep_stringify_keys.to_json
       )
@@ -34,6 +39,8 @@ class ContainerPublisherTest < ActiveSupport::TestCase
       Tagging.create! redesign_container: container, issue: earth
       Tagging.create! redesign_container: container, topic: fire
       Tagging.create! redesign_container: container, topic: slush
+      Tagging.create! redesign_container: container, sector: sector1
+      Tagging.create! redesign_container: container, sector: sector2
 
       publisher = ContainerPublisher.new(container, @staff_user)
       publisher.publish
@@ -55,6 +62,11 @@ class ContainerPublisherTest < ActiveSupport::TestCase
     should "remove old tags" do
       assert_not_includes @tag_names, 'earth'
       assert_not_includes @tag_names, 'slush'
+    end
+
+    should "remove old tags if new tag array is empty" do
+      assert_not_includes @tag_names, 'sector1'
+      assert_not_includes @tag_names, 'sector2'
     end
   end
 
