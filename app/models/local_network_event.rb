@@ -80,8 +80,7 @@ class LocalNetworkEvent < ActiveRecord::Base
 
   def extract_attachment_content
     str = attachments.map { |uploaded_file| FileTextExtractor.extract(uploaded_file) }.join("\n")
-    str.slice!(65530..-1) # edit str in place
-    self.file_content = str
+    self.file_content = str.mb_chars.limit(65530).to_s
   end
 
   def update_indexed_fields
