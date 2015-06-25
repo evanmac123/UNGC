@@ -39,7 +39,11 @@ class Redesign::ApplicationController < ApplicationController
   end
 
   def set_current_container_by_path(path)
-    @current_container = Redesign::Container.by_path(path).first!
+    @current_container = begin
+      Redesign::Container.by_path(path).first!
+    rescue ActiveRecord::StatementInvalid
+      raise ActiveRecord::RecordNotFound
+    end
   end
 
   def set_current_container(layout, slug = '/')
