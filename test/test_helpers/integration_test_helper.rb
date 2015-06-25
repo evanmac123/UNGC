@@ -183,7 +183,7 @@ module IntegrationTestHelper
       assert_select '.events', 1 do
         assert_select '.tab-content-header', 'Events'
         assert_select '.future-events .event', 3 do |events|
-          events.each_with_index do |event, index|
+          events.sort.each_with_index do |event, index|
             assert_equal event.attributes['href'].value, redesign_event_path(equality[:events][index])
             assert_select event, 'time', equality[:events][index].starts_at.strftime('%d-%b-%Y')
             assert_select event, 'address', equality[:events][index].full_location
