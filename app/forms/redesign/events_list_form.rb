@@ -60,13 +60,17 @@ class Redesign::EventsListForm < Redesign::FilterableForm
       end
     end
 
+    e = Event.arel_table
     case
     when start_date.present? && end_date.present?
-      events = events.where(starts_at: start_date..end_date)
+      events = events.where(
+        (e[:starts_at].gteq(start_date).or(e[:ends_at].gteq(start_date)))
+        .and(e[:starts_at].lteq(end_date).or(e[:ends_at].lteq(end_date)))
+      )
     when start_date.present?
-      events = events.where('starts_at > ?', start_date)
+      events = events.where(e[:starts_at].gteq(start_date).or(e[:ends_at].gteq(start_date)))
     when end_date.present?
-      events = events.where('starts_at < ?', end_date)
+      events = events.where(e[:starts_at].lteq(end_date).or(e[:ends_at].lteq(end_date)))
     end
 
     events.distinct('events.id').paginate(page: page, per_page: per_page)
