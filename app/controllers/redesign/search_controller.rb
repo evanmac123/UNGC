@@ -9,7 +9,13 @@ class Redesign::SearchController < Redesign::ApplicationController
   private
 
   def search_params
-    params.fetch(:search, {}).permit(:keywords, :document_type)
+    params.fetch(:search, {})
+      .permit(:keywords, :document_type)
+      .merge(page: page)
+  end
+
+  def page
+    params.fetch(:page, 1)
   end
 
 end
