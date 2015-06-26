@@ -28,7 +28,7 @@ class Redesign::SitewideSearchForm
   end
 
   def clear_facets(params, key)
-    params = params.dup
+    params = params.deep_dup
 
     if params.has_key? key
       params[key].delete(:document_type)
@@ -73,7 +73,7 @@ class Redesign::SitewideSearchForm
     end
 
     def merge_params_into(params, key)
-      params = params.dup
+      params = params.deep_dup
 
       facet_params = {
         document_type: document_type,
