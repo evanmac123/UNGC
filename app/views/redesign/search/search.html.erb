@@ -23,7 +23,7 @@
               <%= link_to 'All', @search.clear_facets(params, :search) %>
             </li>
             <%- @search.facets.each do |facet| -%>
-              <li><%= link_to facet.title, facet.merge_params_into(params.dup, :search), class: facet.state %></li>
+              <li><%= link_to facet.title, facet.merge_params_into(params, :search), class: facet.state %></li>
             <%- end %>
           </menu>
         </header>

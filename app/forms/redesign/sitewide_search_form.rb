@@ -28,6 +28,8 @@ class Redesign::SitewideSearchForm
   end
 
   def clear_facets(params, key)
+    params = params.dup
+
     if params.has_key? key
       params[key].delete(:document_type)
     end
@@ -71,6 +73,8 @@ class Redesign::SitewideSearchForm
     end
 
     def merge_params_into(params, key)
+      params = params.dup
+
       facet_params = {
         document_type: document_type,
         page: 1
