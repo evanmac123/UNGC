@@ -7,7 +7,12 @@ class Redesign::SitewideSearchForm
   attribute :document_type, String
 
   def facets
-    Redesign::Searchable.facets(escaped_keywords, options)[:document_type].sort.map do |type, count|
+    # run facets against the un-pageinated query
+    opts = options.deep_dup
+    opts.delete(:page)
+    opts.delete(:per_page)
+
+    Redesign::Searchable.facets(escaped_keywords, opts)[:document_type].sort.map do |type, count|
       FacetPresenter.new(type, count, type == document_type)
     end
   end
@@ -72,15 +77,12 @@ class Redesign::SitewideSearchForm
       "#{type} (#{count})"
     end
 
-    def merge_params_into(params, key)
+    def merge_with_new_facet(params, key)
       params = params.deep_dup
 
-      facet_params = {
-        document_type: document_type,
-        page: 1
-      }
-
+      facet_params = {document_type: document_type}
       params[key] = params.fetch(key, {}).merge(facet_params)
+      params[:page] = 1
       params
     end
 
