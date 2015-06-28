@@ -33,7 +33,7 @@ class Redesign::StaticController < Redesign::ApplicationController
   private
 
   def render_default_template(layout)
-    if lookup_context.find_all(layout).any?
+    if File.exists? layout_template_path(layout)
       render(layout.to_sym)
     else
       render_404
@@ -42,6 +42,11 @@ class Redesign::StaticController < Redesign::ApplicationController
 
   def render_404
     render '/redesign/static/not_found', status: 404
+  end
+
+  def layout_template_path(layout)
+    # assumes .html and .erb
+    Rails.root.join("app", "views", "redesign", "static", "#{layout}.html.erb")
   end
 
 end
