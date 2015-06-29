@@ -7,12 +7,7 @@ class Redesign::SitewideSearchForm
   attribute :document_type, String
 
   def facets
-    # run facets against the un-pageinated query
-    opts = options.deep_dup
-    opts.delete(:page)
-    opts.delete(:per_page)
-
-    Redesign::Searchable.facets(escaped_keywords, opts)[:document_type].sort.map do |type, count|
+    Redesign::Searchable.facets(escaped_keywords, facet_options)[:document_type].sort.map do |type, count|
       FacetPresenter.new(type, count, type == document_type)
     end
   end
@@ -61,13 +56,18 @@ class Redesign::SitewideSearchForm
     Redesign::SearchEscaper.escape(keywords)
   end
 
-  def options
+  def facet_options
     {
-      page: page,
-      per_page: per_page,
       star: true,
       indices: ['searchable_redesign_core']
     }
+  end
+
+  def options
+    facet_options.merge(
+      page: page,
+      per_page: per_page
+    )
   end
 
   FacetPresenter = Struct.new(:document_type, :count, :selected?) do

@@ -18,38 +18,14 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
     self.page = page
   end
 
-  def filters
-    [
-      type_filter,
-      initiative_filter,
-      country_filter,
-      sector_filter,
-      reporting_status_filter,
-    ]
-  end
+  filter :organization_type
+  filter :initiative
+  filter :country
+  filter :sector
+  filter :reporting_status
 
   def disabled?
     active_filters.count >= 5
-  end
-
-  def type_filter
-    @type_filter ||= Filters::OrganizationTypeFilter.new(organization_types)
-  end
-
-  def initiative_filter
-    @initiative_filter ||= Filters::InitiativeFilter.new(initiatives)
-  end
-
-  def country_filter
-    @country_filter ||= Filters::CountryFilter.new(countries)
-  end
-
-  def sector_filter
-    @sector_filter ||= Filters::SectorFilter.new(sectors, sectors)
-  end
-
-  def reporting_status_filter
-    @reporting_status_filter ||= Filters::ReportingStatusFilter.new(reporting_status)
   end
 
   def per_page_options
@@ -61,11 +37,7 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Organization.participants_only.search(escaped_keywords, options)
-  end
-
-  def escaped_keywords
-    Redesign::SearchEscaper.escape(keywords)
+    Organization.participants_only.search(escape(keywords), options)
   end
 
   private
@@ -96,14 +68,14 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
       country_id: countries,
       sector_id: sector_filter.effective_selection_set,
       cop_state: reporting_status.map {|state| Zlib.crc32(state)},
-    }.reject { |_, value| value.blank? }
+    }
 
     {
       page: page,
       per_page: per_page_capped,
       order: order,
       star: true,
-      with: options,
+      with: reject_blanks(options),
       indices: ['participant_search_core'],
       sql: {
         include: [

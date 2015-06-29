@@ -6,12 +6,6 @@ class Filters::FlatSearchFilter < Filters::SearchFilter
     end
   end
 
-  def select
-    options.select do |option|
-      yield(option)
-    end
-  end
-
   protected
 
   def item_option(item)

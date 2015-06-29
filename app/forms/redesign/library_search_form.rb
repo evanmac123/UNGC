@@ -48,7 +48,7 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
       language_ids: languages,
       sector_ids: sector_filter.effective_selection_set,
       content_type: content_type,
-    }.reject { |_, value| value.blank? }
+    }
 
     {
       indices: ['resource_new_core'],
@@ -56,7 +56,7 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
       per_page: self.per_page || 12,
       order: order,
       star: true,
-      with: options,
+      with: reject_blanks(options),
     }
   end
 
