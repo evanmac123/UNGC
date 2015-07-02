@@ -81,6 +81,15 @@ class ParticipantPage < SimpleDelegator
     communication_on_progresses
   end
 
+  def global_compact_status
+    status = if participant.was_expelled?
+      "expelled"
+    else
+      participant.cop_state
+    end
+    I18n.t(status, scope: :reporting_status)
+  end
+
   def contributions
     @campaigns_by_year.map do |year, campaigns|
       [year, campaigns.map { |c| CampaignPresenter.new(c) }]

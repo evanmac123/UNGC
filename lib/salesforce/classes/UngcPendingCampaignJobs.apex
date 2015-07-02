@@ -22,7 +22,7 @@ public class UngcPendingCampaignJobs extends UngcPendingJob {
                 Campaign__r.StartDate,
                 Campaign__r.EndDate,
                 Campaign__r.IsDeleted,
-                Campaign__r.IsPrivate
+                Campaign__r.IsPrivate__c
         FROM    UNGCSync__c
         WHERE   Type__c = :CAMPAIGN_UPSERT
         OR      Type__c = :CAMPAIGN_DELETE

@@ -68,10 +68,8 @@
               <dd><%= @page.sector -%></dd>
             <%- end -%>
 
-            <%- if @page.differentiation_level.present? -%>
-              <dt>Differentiation Level:</dt>
-              <dd><%= @page.differentiation_level -%></dd>
-            <%- end -%>
+            <dt>Global Compact Status</dt>
+            <dd><%= @page.global_compact_status %></dd>
 
             <%- if @page.employees.present? -%>
               <dt>Employees:</dt>

@@ -12,7 +12,7 @@ public class UngcCampaignUpsert extends UngcJob {
               StartDate,
               EndDate,
               IsDeleted,
-              IsPrivate
+              IsPrivate__c
       FROM    Campaign
       WHERE   Id in :ids
     ];

@@ -26,10 +26,12 @@ development:
   salesforce:
     :host: 'cs10.salesforce.com'
     :username: 'salesforce@unglobalcompact.org.ungc'
-    :password: 'salesf0rceungc'
-    :token: 'Lm55oNLrCxDaBvR88AMdN42X'
+    :password: 'ungcsalesf0rce'
+    :token: 'OIEWrN1BTDIA6myOErgpFAC1z'
     :client_id: '3MVG9_7ddP9KqTzclryJIYRb4uHK.TglmwbR319gFThGZoKE7KH615UxDdZ6lKL2.BVH4v1b_O0kSUqVM9_Rv'
     :client_secret: '6233031473623045146'
+    # The only way to push scripts to production are to push to this Sandbox environment first, and publish from there
+    # So we set the callback_url to the real one that production will use. Be careful.
     :callback_url: 'https://www.unglobalcompact.org/salesforce/sync'
   <<: *universal
 
@@ -56,8 +58,8 @@ staging:
   salesforce:
     :host: 'cs9.salesforce.com'
     :username: 'salesforce@unglobalcompact.org.ungcpd'
-    :password: 'salesf0rceungc'
-    :token: '81bW76kr40hz5XmfkPH3TiIw'
+    :password: 'ungcsalesf0rce'
+    :token: 'TCr6K80FgBjYvPt00b0THZg4P'
     :client_id: '3MVG9FS3IyroMOh4XgXDsHvL1ThrQWh1cSOiefSjIhvkjFohp1wkvDZNxpmrWOqB91amIItoj06Fgdjf59AAP'
     :client_secret: '7058664805928495003'
     :callback_url: 'https://staging.unglobalcompact.org/salesforce/sync'
