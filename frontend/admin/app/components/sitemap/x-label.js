@@ -15,6 +15,10 @@ export default Ember.Component.extend({
     'isDraggable:draggable'
   ],
 
+  classNameBindings: [
+    'isDraggable'
+  ],
+
   mightDropNode: Ember.on('dragOver', function(event) {
     var y         = event.originalEvent.y;
     var h         = this.$().height();
