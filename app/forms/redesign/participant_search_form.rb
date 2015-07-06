@@ -23,7 +23,7 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   filter :initiative
   filter :country
   filter :sector
-  filter :reporting_status, facet: :cop_state
+  filter :reporting_status
 
   def disabled?
     active_filters.count >= 5
@@ -108,6 +108,13 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
       'sector'        => 'sector_name',
       'country'       => 'country_name'
     }
+  end
+
+  def create_reporting_status_filter(options)
+    filter = Filters::ReportingStatusFilter.new(reporting_status)
+    facet_filter = Filters::FacetFilter.new(filter, enabled_facets(:cop_state))
+    facet_filter.facet_key_from_option = ->(option) { Zlib.crc32(option.id) }
+    facet_filter
   end
 
 end

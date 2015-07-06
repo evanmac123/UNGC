@@ -118,16 +118,9 @@ class Redesign::FilterableForm
 
   def create_initiative_filter(options)
     selected = public_send(options.fetch(:selected, :initiatives))
-    facet = options.fetch(:facetm, :initiative_ids)
+    facet = options.fetch(:facet, :initiative_ids)
 
     facet_filter facet, Filters::InitiativeFilter.new(selected)
-  end
-
-  def create_reporting_status_filter(options)
-    selected = public_send(options.fetch(:selected, :reporting_status))
-    facet = options.fetch(:facet)
-
-    facet_filter facet, Filters::ReportingStatusFilter.new(selected)
   end
 
   def enabled_facets(key)
