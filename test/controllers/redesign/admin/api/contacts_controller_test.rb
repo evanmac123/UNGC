@@ -18,6 +18,22 @@ class Redesign::Admin::Api::ContactsControllerTest < ActionController::TestCase
         "is_website_editor" => false
       }
     }
+  end
+
+  test "gets current users and its role" do
+    create_roles
+    @staff_user.roles << Role.website_editor
+    @staff_user.save
+    get :current
+    assert_response :success
+    assert_equal JSON.parse(response.body), {
+      "contact" => {
+        "id" => @staff_user.id,
+        "name" => @staff_user.name,
+        "type" => 'contact',
+        "is_website_editor" => true
+      }
+    }
 
   end
 
