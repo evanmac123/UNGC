@@ -1,4 +1,6 @@
 class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiController
+  before_action :authorize_editor!, only: [:publish]
+
   def create
     container = Redesign::Container.create(container_create_params)
 
@@ -151,5 +153,11 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     h[:data] = p[:data] if p.key?(:data)
 
     h
+  end
+
+  def authorize_editor!
+    unless current_contact.is? Role.website_editor
+      render text: '', status: 403
+    end
   end
 end
