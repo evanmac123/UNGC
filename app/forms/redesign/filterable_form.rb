@@ -40,6 +40,10 @@ class Redesign::FilterableForm
     materialized_filters[:event_type]
   end
 
+  def organization_type_filter
+    materialized_filters[:organization_type]
+  end
+
   protected
 
   def reject_blanks(options)
@@ -63,8 +67,7 @@ class Redesign::FilterableForm
     children = public_send(options.fetch(:children, :issues))
     facet = options.fetch(:facet, :issue_ids)
 
-    filter = Filters::IssueFilter.new(parents, children, key: parent_key)
-    Filters::FacetFilter.new(filter, enabled_facets(facet))
+    facet_filter facet, Filters::IssueFilter.new(parents, children, key: parent_key)
   end
 
   def create_topic_filter(options)
@@ -73,8 +76,7 @@ class Redesign::FilterableForm
     children = public_send(options.fetch(:children, :topics))
     facet = options.fetch(:facet, :topic_ids)
 
-    filter = Filters::TopicFilter.new(parents, children, key: parent_key)
-    Filters::FacetFilter.new(filter, enabled_facets(facet))
+    facet_filter facet, Filters::TopicFilter.new(parents, children, key: parent_key)
   end
 
   def create_sector_filter(options)
@@ -83,37 +85,58 @@ class Redesign::FilterableForm
     children = public_send(options.fetch(:children, :sectors))
     facet = options.fetch(:facet, :sector_ids)
 
-    filter = Filters::SectorFilter.new(parents, children, key: parent_key)
-    Filters::FacetFilter.new(filter, enabled_facets(facet))
+    facet_filter facet, Filters::SectorFilter.new(parents, children, key: parent_key)
   end
 
   def create_language_filter(options)
     selected = public_send(options.fetch(:selected, :languages))
     facet = options.fetch(:facet, :language_ids)
 
-    filter = Filters::LanguageFilter.new(selected)
-    Filters::FacetFilter.new(filter, enabled_facets(facet))
+    facet_filter facet, Filters::LanguageFilter.new(selected)
   end
 
   def create_country_filter(options)
     selected = public_send(options.fetch(:selected, :countries))
     facet = options.fetch(:facet, :country_id)
 
-    filter = Filters::CountryFilter.new(selected)
-    Filters::FacetFilter.new(filter, enabled_facets(facet))
+    facet_filter facet, Filters::CountryFilter.new(selected)
   end
 
   def create_headline_type_filter(options)
     selected = public_send(options.fetch(:selected, :news_type))
     facet = options.fetch(:facet, :headline_type)
 
-    filter = Filters::HeadlineTypeFilter.new(selected)
-    Filters::FacetFilter.new(filter, enabled_facets(facet))
+    facet_filter facet, Filters::HeadlineTypeFilter.new(selected)
+  end
+
+  def create_organization_type_filter(options)
+    selected = public_send(options.fetch(:selected, :organization_types))
+    facet = options.fetch(:facet, :organization_type_id)
+
+    facet_filter facet, Filters::OrganizationTypeFilter.new(selected)
+  end
+
+  def create_initiative_filter(options)
+    selected = public_send(options.fetch(:selected, :initiatives))
+    facet = options.fetch(:facetm, :initiative_ids)
+
+    facet_filter facet, Filters::InitiativeFilter.new(selected)
+  end
+
+  def create_reporting_status_filter(options)
+    selected = public_send(options.fetch(:selected, :reporting_status))
+    facet = options.fetch(:facet)
+
+    facet_filter facet, Filters::ReportingStatusFilter.new(selected)
   end
 
   def enabled_facets(key)
     @_facets ||= facets.to_h
     @_facets.fetch(key, {}).keys
+  end
+
+  def facet_filter(facet, filter)
+    Filters::FacetFilter.new(filter, enabled_facets(facet))
   end
 
 end

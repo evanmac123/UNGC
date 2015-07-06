@@ -1,5 +1,6 @@
 class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   include Virtus.model
+  include Redesign::FilterMacros
 
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []
@@ -22,7 +23,7 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   filter :initiative
   filter :country
   filter :sector
-  filter :reporting_status
+  filter :reporting_status, facet: :cop_state
 
   def disabled?
     active_filters.count >= 5
@@ -37,10 +38,18 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Organization.participants_only.search(escape(keywords), options)
+    Organization.participants_only.search(escaped_keywords, options)
   end
 
-  private
+  def facets
+    Organization.participants_only.facets(escaped_keywords, facet_options)
+  end
+
+  protected
+
+  def escaped_keywords
+    escape(keywords)
+  end
 
   def per_page_capped
     cap = per_page_options.map(&:last).max
@@ -62,21 +71,17 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def options
-    options = {
-      organization_type_id: organization_types,
-      initiative_ids: initiatives,
-      country_id: countries,
-      sector_id: sector_filter.effective_selection_set,
-      cop_state: reporting_status.map {|state| Zlib.crc32(state)},
-    }
-
-    {
+    facet_options.merge(
       page: page,
       per_page: per_page_capped,
       order: order,
-      star: true,
-      with: reject_blanks(options),
-      indices: ['participant_search_core'],
+      with: reject_blanks({
+        organization_type_id: organization_types,
+        initiative_ids: initiatives,
+        country_id: countries,
+        sector_ids: sector_filter.effective_selection_set,
+        cop_state: reporting_status.map {|state| Zlib.crc32(state)},
+      }),
       sql: {
         include: [
           # TODO update includes
@@ -85,6 +90,13 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
           :country
         ]
       }
+    )
+  end
+
+  def facet_options
+    {
+      star: true,
+      indices: ['participant_search_core'],
     }
   end
 

@@ -65,7 +65,7 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def escaped_keywords
-    Redesign::SearchEscaper.escape(keywords)
+    escape(keywords)
   end
 
   private
