@@ -16,7 +16,7 @@ function pojoize(src) {
   if (type === 'array') {
     return src.map((e) => pojoize(e));
   } else if (type === 'instance' || type === 'object') {
-    return Ember.keys(src).reduce(function(json, key) {
+    return Object.keys(src).reduce(function(json, key) {
       json[key] = pojoize(Ember.get(src, key));
       return json;
     }, {});
