@@ -36,7 +36,7 @@
 {{#if node.nodes}}
   {{#if isOpen}}
     <ul class="sitemap-x-node-subnodes">
-      {{#each node.nodes as |n|}}
+      {{#each node.sortedNodes as |n|}}
         {{sitemap/x-node
           tree=tree
           node=n
