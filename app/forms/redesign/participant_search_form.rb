@@ -25,6 +25,8 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   filter :sector
   filter :reporting_status
 
+  attr_writer :search_scope
+
   def disabled?
     active_filters.count >= 5
   end
@@ -38,11 +40,11 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Organization.participants_only.search(escaped_keywords, options)
+    search_scope.search(escaped_keywords, options)
   end
 
   def facets
-    Organization.participants_only.facets(escaped_keywords, facet_options)
+    search_scope.facets(escaped_keywords, facet_options)
   end
 
   protected
@@ -116,5 +118,10 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
     facet_filter.facet_key_from_option = ->(option) { Zlib.crc32(option.id) }
     facet_filter
   end
+
+  def search_scope
+    @search_scope ||= Organization.participants_only
+  end
+
 
 end

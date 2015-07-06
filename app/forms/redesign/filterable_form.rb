@@ -44,6 +44,10 @@ class Redesign::FilterableForm
     materialized_filters[:organization_type]
   end
 
+  def initiative_filter
+    materialized_filters[:initiative]
+  end
+
   protected
 
   def reject_blanks(options)

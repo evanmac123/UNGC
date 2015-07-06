@@ -26,16 +26,6 @@ class Redesign::EvenstListFormTest < ActiveSupport::TestCase
     should_search_event(should_msg, starts_offset: starts_offset, ends_offset: ends_offset, start_date: Date.today, end_date: Date.today + 7.days)
   end
 
-  should "filter events by country" do
-    no_country = create_approved_event(country: nil)
-    with_country = create_approved_event(country: country)
-
-    results = search(countries: [country.id])
-
-    assert_includes results, with_country
-    assert_not_includes results, no_country
-  end
-
   context "search starts_at today" do
 
     should "not show an event that ended yesterday" do

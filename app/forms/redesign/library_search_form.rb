@@ -20,6 +20,8 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   filter :sector,     parent: :sector_groups
   filter :language
 
+  attr_writer :search_scope
+
   def initialize(page = 1, params = {})
     super(params)
     self.page = page
@@ -61,7 +63,7 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Resource.search(escaped_keywords, options)
+    search_scope.search(escaped_keywords, options)
   end
 
   def escaped_keywords
@@ -94,7 +96,11 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   end
 
   def facets
-    Resource.facets(keywords, {indices: ['resource_new_core']})
+    search_scope.facets(keywords, {indices: ['resource_new_core']})
+  end
+
+  def search_scope
+    @search_scope ||= Resource
   end
 
 end
