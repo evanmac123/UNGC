@@ -101,22 +101,27 @@ class Redesign::EventsListForm < Redesign::FilterableForm
 
   class EventFacetFilter < Filters::FacetFilter
 
-    def options
-      filter.select do |option|
-        online_facets = @facets.fetch(:is_online, {})
-        invite_facets = @facets.fetch(:is_invitation_only, {})
-
-        case option.id
-        when 'online'
-          online_facets.has_key? 1
-        when 'in_person'
-          online_facets.has_key? 0
-        when 'invite_only'
-          invite_facets.has_key? 1
-        else
-          debugger
-        end
+    def include?(option)
+      case option.id
+      when 'online'
+        online_facets.has_key? 1
+      when 'in_person'
+        online_facets.has_key? 0
+      when 'invite_only'
+        invite_facets.has_key? 1
+      else
+        raise "unexpected option.id: #{option.id}"
       end
+    end
+
+    private
+
+    def online_facets
+      @online_facets ||= facets.fetch(:is_online, {})
+    end
+
+    def invite_facets
+      @invite_facets ||= facets.fetch(:is_invitation_only, {})
     end
 
   end
