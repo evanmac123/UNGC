@@ -8,6 +8,14 @@
     <h1>Events</h1>
   </header>
 
+  <fieldset class='filter-lists'>
+    <% @search.filters.each do |filter| %>
+      <%= search_filter(filter) %>
+    <% end %>
+  </fieldset>
+
+  <%= active_filters(@search) %>
+
   <footer>
     <fieldset class='filter-sorting'>
       <%= form.text_field :start_date, placeholder: 'Start Date', class: 'datepicker' %>
