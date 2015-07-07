@@ -3,8 +3,8 @@ ThinkingSphinx::Index.define :event, :with => :active_record do
 
   has :is_online,           facet: true
   has :is_invitation_only,  facet: true
-  has :starts_at,             facet: true
-  has :ends_at,               facet: true
+  has :starts_at,           facet: true
+  has :ends_at,             facet: true
 
   has country(:id),         facet: true,      as: :country_id
   has issues(:id),          facet: true,      as: :issue_ids,    multi: true

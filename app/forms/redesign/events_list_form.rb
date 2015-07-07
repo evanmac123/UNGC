@@ -14,7 +14,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   filter :issue
   filter :topic
   filter :country
-  # filter :event_type, selected: :types
+  filter :event_type
 
   # http://stackoverflow.com/questions/535721/ruby-max-integer
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
@@ -28,13 +28,15 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   end
 
   def create_event_type_filter(options)
-    facet_filter(:event_type, Filters::OrganizationTypeFilter.new(types))
+    filter = Filters::EventTypeFilter.new(types)
+
+    EventFacetFilter.new(filter, facets.to_h)
   end
 
   private
 
   def facets
-    Event.facets('')
+    Event.facets('', all_facets: true)
   end
 
   def options
@@ -45,11 +47,30 @@ class Redesign::EventsListForm < Redesign::FilterableForm
       select: date_range_clause,
       with: reject_blanks(
         issue_ids: issue_filter.effective_selection_set,
-        # topic_ids: topic_filter.effective_selection_set,
-        # country_id: countries,
-        in_date_range: true
-      )
+        topic_ids: topic_filter.effective_selection_set,
+        country_id: countries,
+        in_date_range: true,
+        is_online: online?,
+        is_invitation_only: invite_only?,
+      ).tap {|a| puts a}
     }
+  end
+
+  def online?
+    types.map do |v|
+      case v
+      when 'online'
+        true
+      when 'in_person'
+        false
+      end
+    end.compact
+  end
+
+  def invite_only?
+    types.map do |v|
+      true if v == 'invite_only'
+    end.compact
   end
 
   def date_range_clause
@@ -76,6 +97,28 @@ class Redesign::EventsListForm < Redesign::FilterableForm
     else
       FIXNUM_MAX
     end
+  end
+
+  class EventFacetFilter < Filters::FacetFilter
+
+    def options
+      filter.select do |option|
+        online_facets = @facets.fetch(:is_online, {})
+        invite_facets = @facets.fetch(:is_invitation_only, {})
+
+        case option.id
+        when 'online'
+          online_facets.has_key? 1
+        when 'in_person'
+          online_facets.has_key? 0
+        when 'invite_only'
+          invite_facets.has_key? 1
+        else
+          debugger
+        end
+      end
+    end
+
   end
 
 end
