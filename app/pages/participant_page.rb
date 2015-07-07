@@ -16,6 +16,7 @@ class ParticipantPage < SimpleDelegator
       },
       image: 'https://d306pr3pise04h.cloudfront.net/uploads/b1/b1757c442f979297b1e13aa44dcaf58da156106a---forest.jpg',
       size: 'small',
+      theme: 'light',
       show_section_nav: true
     }
   end
