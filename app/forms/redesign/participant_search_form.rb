@@ -114,14 +114,17 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
 
   def create_reporting_status_filter(options)
     filter = Filters::ReportingStatusFilter.new(reporting_status)
-    facet_filter = Filters::FacetFilter.new(filter, enabled_facets(:cop_state))
-    facet_filter.facet_key_from_option = ->(option) { Zlib.crc32(option.id) }
-    facet_filter
+    FacetFilter.new(filter, enabled_facets(:cop_state))
   end
 
   def search_scope
     @search_scope ||= Organization.participants_only
   end
 
+  class FacetFilter < Filters::FacetFilter
+    def includes?(option)
+      facets.include?(Zlib.crc32(option.id))
+    end
+  end
 
 end
