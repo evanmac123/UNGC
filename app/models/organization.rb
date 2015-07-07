@@ -712,6 +712,12 @@ class Organization < ActiveRecord::Base
     cop_state == COP_STATE_DELISTED
   end
 
+  # Is currently expelled
+  def expelled?
+    delisted? && was_expelled?
+  end
+
+  # Is, or has previously been, expelled
   def was_expelled?
     delisted_on.present? && removal_reason == RemovalReason.delisted
   end

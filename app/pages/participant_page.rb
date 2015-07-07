@@ -83,7 +83,7 @@ class ParticipantPage < SimpleDelegator
   end
 
   def global_compact_status
-    status = if participant.was_expelled?
+    status = if participant.expelled?
       "expelled"
     else
       participant.cop_state
