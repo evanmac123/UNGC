@@ -8,7 +8,7 @@ class Filters::FacetFilter < SimpleDelegator
 
   def options
     filter.select do |option|
-      includes?(option)
+      include?(option)
     end
   end
 
