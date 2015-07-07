@@ -90,6 +90,10 @@ class ParticipantPage < SimpleDelegator
     I18n.t(status, scope: :reporting_status)
   end
 
+  def recommitment_letter
+    participant.recommitment_letter.attachment
+  end
+
   def contributions
     @campaigns_by_year.map do |year, campaigns|
       [year, campaigns.map { |c| CampaignPresenter.new(c) }]

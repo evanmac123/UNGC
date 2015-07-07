@@ -84,6 +84,8 @@
           </dl>
 
           <%= link_to('Letter of Commitment', @page.commitment_letter.url, target: '_blank') if @page.commitment_letter.present? %>
+          <br>
+          <%= link_to('Letter of Re-commitment', @page.recommitment_letter.url, target: '_blank') if @page.recommitment_letter.present? %>
         </div>
 
         <div class='column company-information-financial-information'>
