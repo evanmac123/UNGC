@@ -91,7 +91,7 @@ class ParticipantPage < SimpleDelegator
   end
 
   def recommitment_letter
-    participant.recommitment_letter.attachment
+    participant.recommitment_letter.try(:attachment)
   end
 
   def contributions
