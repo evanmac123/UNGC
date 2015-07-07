@@ -9,7 +9,7 @@ class Redesign::ImagesController < Redesign::ApplicationController
   private
 
   def page
-    params.fetch(:page, 1)
+    params.fetch(:page, 1).try(:to_i)
   end
 
 end

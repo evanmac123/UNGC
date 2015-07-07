@@ -31,7 +31,7 @@ class Redesign::ParticipantSearchController < Redesign::ApplicationController
   end
 
   def page
-    params.fetch(:page, 1)
+    params.fetch(:page, 1).try(:to_i)
   end
 
   def create_page

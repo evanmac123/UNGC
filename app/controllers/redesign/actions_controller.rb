@@ -14,7 +14,7 @@ class Redesign::ActionsController < Redesign::ApplicationController
   end
 
   def page
-    params.fetch(:page, 1)
+    params.fetch(:page, 1).try(:to_i)
   end
 
   def seed
