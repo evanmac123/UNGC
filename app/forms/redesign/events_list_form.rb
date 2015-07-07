@@ -7,7 +7,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   attribute :issues,      Array[Integer], default: []
   attribute :topics,      Array[Integer], default: []
   attribute :countries,   Array[Integer], default: []
-  attribute :types,       Array[Integer], default: []
+  attribute :types,       Array[String],  default: []
   attribute :start_date,  Date,           default: -> (page, attribute) { Date.today }
   attribute :end_date,    Date
 
