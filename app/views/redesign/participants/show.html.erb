@@ -11,12 +11,12 @@
     <section class='tabbed-component participant-detail-body'>
       <menu class='tabs'>
         <li class='tab'>
-          <button type="button" class='active' data-tab-content='company-information'>Company Information</button>
+          <button type='button' class='active' id='company-information' data-tab-content='company-information'>Company Information</button>
         </li>
 
         <%- if @page.cops.any? -%>
           <li class='tab'>
-            <button type="button" data-tab-content='cop'>
+            <button type='button' id='cop' data-tab-content='cop'>
               <%= @page.cop_short_label -%>
             </button>
           </li>
@@ -24,7 +24,7 @@
 
         <%- if @page.contributions.any? -%>
           <li class='tab'>
-            <button type="button" data-tab-content='contributions'>Contributions</button>
+            <button type='button' id='contributions' data-tab-content='contributions'>Contributions</button>
           </li>
         <%- end -%>
       </menu>
