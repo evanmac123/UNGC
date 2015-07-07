@@ -16,7 +16,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
 
   def options
     {
-      select: date_range_clause.join,
+      select: date_range_clause,
       with: {in_date_range: true}
     }
   end
@@ -28,7 +28,7 @@ class Redesign::EventsListForm < Redesign::FilterableForm
       " or ",
       "(ends_at >= #{start_of_first_date} and ends_at <= #{end_of_last_date})",
       " as in_date_range"
-    ]
+    ].join
   end
 
   def start_of_first_date
