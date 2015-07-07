@@ -35,6 +35,10 @@ class Redesign::NewsController < Redesign::ApplicationController
         topics: [],
         countries: [],
         types: []
-      ).merge(page: params[:page])
+      ).merge(page: page)
+    end
+
+    def page
+      params.fetch(:page, 1).try(:to_i)
     end
 end
