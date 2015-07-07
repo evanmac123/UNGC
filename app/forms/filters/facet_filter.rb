@@ -12,7 +12,7 @@ class Filters::FacetFilter < SimpleDelegator
     end
   end
 
-  def includes?(option)
+  def include?(option)
     facets.include?(option.id)
   end
 

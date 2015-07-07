@@ -122,7 +122,7 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   class FacetFilter < Filters::FacetFilter
-    def includes?(option)
+    def include?(option)
       facets.include?(Zlib.crc32(option.id))
     end
   end
