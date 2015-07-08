@@ -1,24 +1,6 @@
 <x-modal close="dismiss">
   <div class="modal-body">
-    <h1>Update Page URL and Layout</h1>
-    <div class="form-group">
-      <label for="layout" class="control-label">
-        Layout
-      </label>
-      {{fast-select
-          items=model.layouts
-          value=model.container.layoutRecord.id
-          labelPath="label"
-          valuePath="id"
-          class="form-control"
-          id="layout"}}
-    </div>
-    <p class="has-error">
-      <label class="control-label">
-        Warning: changing the layout will require you to enter the content again
-      </label>
-      <br>
-    </p>
+    <h1>Update Page Name</h1>
     <div class="form-group clearfix">
       {{#sitemap/validated-form-field label='Page name (with dashes)'
       name='slug'
