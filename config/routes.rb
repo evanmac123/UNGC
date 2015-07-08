@@ -335,6 +335,7 @@ UNGC::Application.routes.draw do
     get '/HowToParticipate/civil_society/index.html'=> 'static#redirect_to_page', page: '/participation/join/who-should-join/non-business'
     get '/HowToParticipate/academic_network/index.html'=> 'static#redirect_to_page', page: '/participation/join/who-should-join/non-business'
     get '/HowToParticipate/business_associations.html'=> 'static#redirect_to_page', page: '/participation/join/who-should-join/non-business'
+    get '/HowToParticipate/non_business_participation.html'=> 'static#redirect_to_page', page: '/participation/join/application'
     get '/HowToParticipate/non_business_participation/public_sector_organization.html'=> 'static#redirect_to_page', page: '/participation/join/who-should-join/non-business'
     get '/HowToParticipate/How_To_Apply.html'=> 'static#redirect_to_page', page: '/participation/join/application'
     get '/HowToParticipate/How_to_Apply_Business.html'=> 'static#redirect_to_page', page: '/participation/join/application/business'
