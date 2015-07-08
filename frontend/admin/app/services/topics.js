@@ -1,10 +1,8 @@
 import Ember from 'ember';
-import DS from 'ember-data';
-import request from 'ic-ajax';
 
-export default Ember.Object.extend({
+export default Ember.Service.extend({
+  store: Ember.inject.service(),
   _init: function() {
-    const store = this.container.lookup('store:main');
-    this.set('data', store.find('topic'));
+    this.set('data', this.get('store').findAll('topic'));
   }.on('init')
 });
