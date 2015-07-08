@@ -62,6 +62,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form.search_scope = all_group_facets(@issues, :issue_ids)
       @options = @form.issue_filter.options
 
       @area = @options.last.first
@@ -100,6 +101,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form.search_scope = all_group_facets(@topics, :topic_ids)
       @options = @form.topic_filter.options
 
       @group = @options.last.first
@@ -138,6 +140,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form.search_scope = all_facets(@languages, :language_ids)
       @options = @form.language_filter.options
     end
 
@@ -157,6 +160,7 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     setup do
       @form = Redesign::LibrarySearchForm.new 1, @search_params
+      @form.search_scope = all_group_facets(@sectors, :sector_ids)
 
       @options = @form.sector_filter.options
       @group_a = @options.first
@@ -205,10 +209,27 @@ class LibrarySearchFormTest < ActiveSupport::TestCase
 
     should "selecting an option should make it active" do
       form = Redesign::LibrarySearchForm.new 1, @search_params
+      form.search_scope = all_group_facets(@sectors, :sector_ids)
       option = form.sector_filter.options[0][1].last # group a, options
       assert option.selected?
     end
 
+  end
+
+  def all_facets(items, key)
+    stub(facets: {
+      key => stub(keys: items.map(&:id))
+    })
+  end
+
+  def all_group_facets(items, key)
+    stub(
+      facets: {
+        key => stub(
+          keys: items.flat_map { |i| [i.id, i.children.flat_map(&:id)] }.flatten
+        )
+      }
+    )
   end
 
 end

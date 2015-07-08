@@ -1,5 +1,6 @@
 class Redesign::EventsListForm < Redesign::FilterableForm
   include Virtus.model
+  include Redesign::FilterMacros
 
   attribute :page,        Integer,        default: 1
   attribute :per_page,    Integer,        default: 12
@@ -10,70 +11,119 @@ class Redesign::EventsListForm < Redesign::FilterableForm
   attribute :start_date,  Date,           default: -> (page, attribute) { Date.today }
   attribute :end_date,    Date
 
-  def filters
-    [issue_filter, topic_filter, country_filter, type_filter]
-  end
+  filter :issue
+  filter :topic
+  filter :country
+  filter :event_type
 
-  def issue_filter
-    @issue_filter ||= Filters::IssueFilter.new(issues, issues)
-  end
-
-  def topic_filter
-    @topic_filter ||= Filters::TopicFilter.new(topics, topics)
-  end
-
-  def country_filter
-    @country_filter ||= Filters::CountryFilter.new(countries)
-  end
-
-  def type_filter
-    @type_filter ||= Filters::EventTypeFilter.new(types)
-  end
+  # http://stackoverflow.com/questions/535721/ruby-max-integer
+  FIXNUM_MAX = (2**(0.size * 8 -2) -1)
 
   def execute
-    events = Event.approved.includes(:country).order('starts_at asc')
+    Event.search '', options
+  end
 
-    if countries.any?
-      events = events.where('events.country_id in (?)', countries)
-    end
+  def event_type_filter
+    materialized_filters[:event_type]
+  end
 
-    if issues.any?
-      ids = issue_filter.effective_selection_set
-      events = events.joins(taggings: [:issue]).where('issue_id in (?)', ids)
-    end
+  def create_event_type_filter(options)
+    filter = Filters::EventTypeFilter.new(types)
 
-    if topics.any?
-      ids = topic_filter.effective_selection_set
-      events = events.joins(taggings: [:topic]).where('topic_id in (?)', ids)
-    end
+    EventFacetFilter.new(filter, facets.to_h)
+  end
 
-    types.each do |type|
-      case type
+  private
+
+  def facets
+    Event.facets('', all_facets: true)
+  end
+
+  def options
+    {
+      page: page,
+      per_page: per_page,
+      order: 'starts_at asc',
+      select: date_range_clause,
+      with: reject_blanks(
+        issue_ids: issue_filter.effective_selection_set,
+        topic_ids: topic_filter.effective_selection_set,
+        country_id: countries,
+        in_date_range: true,
+        is_online: online?,
+        is_invitation_only: invite_only?,
+      ).tap {|a| puts a}
+    }
+  end
+
+  def online?
+    types.map do |v|
+      case v
       when 'online'
-        events = events.where(is_online: true)
+        true
       when 'in_person'
-        events = events.where(is_online: false)
+        false
+      end
+    end.compact
+  end
+
+  def invite_only?
+    types.map do |v|
+      true if v == 'invite_only'
+    end.compact
+  end
+
+  def date_range_clause
+    [
+      "*, ",
+      "(starts_at >= #{start_of_first_date} and starts_at <= #{end_of_last_date})",
+      " or ",
+      "(ends_at >= #{start_of_first_date} and ends_at <= #{end_of_last_date})",
+      " as in_date_range"
+    ].join
+  end
+
+  def start_of_first_date
+    if start_date.present?
+      start_date.to_datetime.beginning_of_day.to_i
+    else
+      0
+    end
+  end
+
+  def end_of_last_date
+    if end_date.present?
+      end_date.to_datetime.end_of_day.to_i
+    else
+      FIXNUM_MAX
+    end
+  end
+
+  class EventFacetFilter < Filters::FacetFilter
+
+    def include?(option)
+      case option.id
+      when 'online'
+        online_facets.has_key? 1
+      when 'in_person'
+        online_facets.has_key? 0
       when 'invite_only'
-        events = events.where(is_invitation_only: true)
+        invite_facets.has_key? 1
       else
-        Rails.logger.warn("Invalid event type: #{type}")
+        raise "unexpected option.id: #{option.id}"
       end
     end
 
-    e = Event.arel_table
-    case
-    when start_date.present? && end_date.present?
-      events = events.where(
-        (e[:starts_at].gteq(start_date).or(e[:ends_at].gteq(start_date)))
-        .and(e[:starts_at].lteq(end_date).or(e[:ends_at].lteq(end_date)))
-      )
-    when start_date.present?
-      events = events.where(e[:starts_at].gteq(start_date).or(e[:ends_at].gteq(start_date)))
-    when end_date.present?
-      events = events.where(e[:starts_at].lteq(end_date).or(e[:ends_at].lteq(end_date)))
+    private
+
+    def online_facets
+      @online_facets ||= facets.fetch(:is_online, {})
     end
 
-    events.distinct('events.id').paginate(page: page, per_page: per_page)
+    def invite_facets
+      @invite_facets ||= facets.fetch(:is_invitation_only, {})
+    end
+
   end
 
 end

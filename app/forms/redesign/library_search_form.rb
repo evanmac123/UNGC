@@ -1,5 +1,6 @@
 class Redesign::LibrarySearchForm < Redesign::FilterableForm
   include Virtus.model
+  include Redesign::FilterMacros
 
   attribute :issue_areas,         Array[Integer], default: []
   attribute :issues,              Array[Integer], default: []
@@ -14,29 +15,16 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
   attribute :per_page,            Integer,        default: 12
   attribute :sort_field,          String,         default: 'year desc'
 
+  filter :issue,      parent: :issue_areas
+  filter :topic,      parent: :topic_groups
+  filter :sector,     parent: :sector_groups
+  filter :language
+
+  attr_writer :search_scope
+
   def initialize(page = 1, params = {})
     super(params)
     self.page = page
-  end
-
-  def filters
-    [issue_filter, topic_filter, language_filter, sector_filter]
-  end
-
-  def issue_filter
-    @issue_filter ||= Filters::IssueFilter.new(issue_areas, issues, key: 'issue_areas')
-  end
-
-  def topic_filter
-    @topic_filter ||= Filters::TopicFilter.new(topic_groups, topics, key: 'topic_groups')
-  end
-
-  def sector_filter
-    @sector_filter ||= Filters::SectorFilter.new(sector_groups, sectors, key: 'sector_groups')
-  end
-
-  def language_filter
-    @language_filter ||= Filters::LanguageFilter.new(languages)
   end
 
   def type_options
@@ -62,7 +50,7 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
       language_ids: languages,
       sector_ids: sector_filter.effective_selection_set,
       content_type: content_type,
-    }.reject { |_, value| value.blank? }
+    }
 
     {
       indices: ['resource_new_core'],
@@ -70,16 +58,16 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
       per_page: self.per_page || 12,
       order: order,
       star: true,
-      with: options,
+      with: reject_blanks(options),
     }
   end
 
   def execute
-    Resource.search(escaped_keywords, options)
+    search_scope.search(escaped_keywords, options)
   end
 
   def escaped_keywords
-    Redesign::SearchEscaper.escape(keywords)
+    escape(keywords)
   end
 
   private
@@ -105,6 +93,14 @@ class Redesign::LibrarySearchForm < Redesign::FilterableForm
         title = I18n.t("resources.types.#{name}")
         [title, id]
       end
+  end
+
+  def facets
+    search_scope.facets(keywords, {indices: ['resource_new_core']})
+  end
+
+  def search_scope
+    @search_scope ||= Resource
   end
 
 end

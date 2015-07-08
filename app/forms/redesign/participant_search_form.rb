@@ -1,5 +1,6 @@
 class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   include Virtus.model
+  include Redesign::FilterMacros
 
   attribute :organization_types,  Array[Integer], default: []
   attribute :initiatives,         Array[Integer], default: []
@@ -18,38 +19,16 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
     self.page = page
   end
 
-  def filters
-    [
-      type_filter,
-      initiative_filter,
-      country_filter,
-      sector_filter,
-      reporting_status_filter,
-    ]
-  end
+  filter :organization_type
+  filter :initiative
+  filter :country
+  filter :sector
+  filter :reporting_status
+
+  attr_writer :search_scope
 
   def disabled?
     active_filters.count >= 5
-  end
-
-  def type_filter
-    @type_filter ||= Filters::OrganizationTypeFilter.new(organization_types)
-  end
-
-  def initiative_filter
-    @initiative_filter ||= Filters::InitiativeFilter.new(initiatives)
-  end
-
-  def country_filter
-    @country_filter ||= Filters::CountryFilter.new(countries)
-  end
-
-  def sector_filter
-    @sector_filter ||= Filters::SectorFilter.new(sectors, sectors)
-  end
-
-  def reporting_status_filter
-    @reporting_status_filter ||= Filters::ReportingStatusFilter.new(reporting_status)
   end
 
   def per_page_options
@@ -61,14 +40,18 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def execute
-    Organization.participants_only.search(escaped_keywords, options)
+    search_scope.search(escaped_keywords, options)
   end
+
+  def facets
+    search_scope.facets(escaped_keywords, facet_options)
+  end
+
+  protected
 
   def escaped_keywords
-    Redesign::SearchEscaper.escape(keywords)
+    escape(keywords)
   end
-
-  private
 
   def per_page_capped
     cap = per_page_options.map(&:last).max
@@ -90,21 +73,17 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def options
-    options = {
-      organization_type_id: organization_types,
-      initiative_ids: initiatives,
-      country_id: countries,
-      sector_id: sector_filter.effective_selection_set,
-      cop_state: reporting_status.map {|state| Zlib.crc32(state)},
-    }.reject { |_, value| value.blank? }
-
-    {
+    facet_options.merge(
       page: page,
       per_page: per_page_capped,
       order: order,
-      star: true,
-      with: options,
-      indices: ['participant_search_core'],
+      with: reject_blanks({
+        organization_type_id: organization_types,
+        initiative_ids: initiatives,
+        country_id: countries,
+        sector_ids: sector_filter.effective_selection_set,
+        cop_state: reporting_status.map {|state| Zlib.crc32(state)},
+      }),
       sql: {
         include: [
           # TODO update includes
@@ -113,6 +92,13 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
           :country
         ]
       }
+    )
+  end
+
+  def facet_options
+    {
+      star: true,
+      indices: ['participant_search_core'],
     }
   end
 
@@ -124,6 +110,21 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
       'sector'        => 'sector_name',
       'country'       => 'country_name'
     }
+  end
+
+  def create_reporting_status_filter(options)
+    filter = Filters::ReportingStatusFilter.new(reporting_status)
+    FacetFilter.new(filter, enabled_facets(:cop_state))
+  end
+
+  def search_scope
+    @search_scope ||= Organization.participants_only
+  end
+
+  class FacetFilter < Filters::FacetFilter
+    def include?(option)
+      facets.include?(Zlib.crc32(option.id))
+    end
   end
 
 end
