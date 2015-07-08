@@ -1,13 +1,3 @@
-<header id='main-page-header'>
-  <h1><i class='fa fa-sitemap fa-fw' aria-hidden='true'></i>Sitemap</h1>
-</header>
-
-{{sitemap/x-tree
-  tree=model
-  addContainer="addContainer"
-  moveContainer="moveContainer"}}
-
-{{outlet "newModal"}}
-{{#each flashMessages.queue as |flash|}}
-  {{flash-message flash=flash}}
-{{/each}}
+{{#container-index model=model}}
+  {{outlet "newModal"}}
+{{/container-index}}

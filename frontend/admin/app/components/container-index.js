@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.View.extend({
+export default Ember.Component.extend({
   _scrollTop: function() {
     Ember.run.later(function() {
       Ember.$('body').scrollTop(0);
