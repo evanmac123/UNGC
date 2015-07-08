@@ -26,13 +26,17 @@
     {{#link-to "containers.edit" node.model.id class='btn btn-sm btn-primary'}}<i class='fa fa-pencil fa-fw' aria-hidden='true'></i>&nbsp;Edit{{/link-to}}
 
     <a href="{{node.model.publicPath}}" target="_blank" class="btn btn-sm btn-success"><i class='fa fa-eye fa-fw' aria-hidden='true'></i>&nbsp;View</a>
+    <button {{action "insert"}} class="btn btn-sm btn-success">
+      Insert Page
+    </button>
+
   </span>
 {{/sitemap/x-label}}
 
 {{#if node.nodes}}
   {{#if isOpen}}
     <ul class="sitemap-x-node-subnodes">
-      {{#each node.nodes as |n|}}
+      {{#each node.sortedNodes as |n|}}
         {{sitemap/x-node
           tree=tree
           node=n

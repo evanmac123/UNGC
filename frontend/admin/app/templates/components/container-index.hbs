@@ -1,0 +1,14 @@
+<header id='main-page-header'>
+  <h1><i class='fa fa-sitemap fa-fw' aria-hidden='true'></i>Sitemap</h1>
+</header>
+
+{{sitemap/x-tree
+  tree=model
+  addContainer="addContainer"
+  moveContainer="moveContainer"}}
+
+{{yield}}
+
+{{#each flashMessages.queue as |flash|}}
+  {{flash-message flash=flash}}
+{{/each}}

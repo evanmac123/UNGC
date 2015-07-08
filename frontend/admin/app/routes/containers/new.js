@@ -53,7 +53,15 @@ export default Ember.Route.extend({
       this.transitionTo('containers.index');
     },
 
-    createContainer(record) {
+    createContainer(model) {
+      let record = model.container;
+      let slug = record.get('slug');
+      let parentPath = '';
+      if (model.parentContainer) {
+        parentPath = model.parentContainer.get('publicPath');
+      }
+      let path = parentPath + slug;
+      record.set('publicPath', path);
       record.save({ without: ['data'] }).then((container) => {
         this.transitionTo('containers.edit', container.get('id'));
       }, (error) => {

@@ -25,6 +25,11 @@ class Components::SectionNavLink
 end
 
 class Components::SectionNav
+  # TODO refactor logic that determines if we can display a container
+  # currenlty we have to check if the container is visible: true
+  # and if the container has a published payload
+  # we are using the published scope but also check for public_payload_id
+  # when we look at the parent
 
   def initialize(container)
     @container = container
@@ -36,17 +41,17 @@ class Components::SectionNav
 
   def siblings
     return [] unless container.parent_container
-    container.parent_container.child_containers.visible.includes(:public_payload).map do |c|
+    container.parent_container.child_containers.visible.published.includes(:public_payload).map do |c|
       Components::SectionNavLink.new(c, container)
     end
   end
 
   def parent
-    Components::SectionNavLink.new(container.parent_container) if container.parent_container && container.parent_container.visible
+    Components::SectionNavLink.new(container.parent_container) if container.parent_container && container.parent_container.visible && container.parent_container.public_payload_id
   end
 
   def children
-    container.child_containers.visible.includes(:public_payload).map do |c|
+    container.child_containers.visible.published.includes(:public_payload).map do |c|
       Components::SectionNavLink.new(c)
     end
   end

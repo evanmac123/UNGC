@@ -1,5 +1,76 @@
 namespace :redesign do
 
+  desc "disable dragging for some pages"
+  task disable_dragging: :environment do
+    containers = %w{
+    /
+    /what-is-gc
+    /what-is-gc/mission
+    /what-is-gc/mission/principles
+    /what-is-gc/mission/principles/principle-1
+    /what-is-gc/mission/principles/principle-2
+    /what-is-gc/mission/principles/principle-3
+    /what-is-gc/mission/principles/principle-4
+    /what-is-gc/mission/principles/principle-5
+    /what-is-gc/mission/principles/principle-6
+    /what-is-gc/mission/principles/principle-7
+    /what-is-gc/mission/principles/principle-8
+    /what-is-gc/mission/principles/principle-9
+    /what-is-gc/mission/principles/principle-10
+    /what-is-gc/our-work
+    /what-is-gc/our-work/all
+    /what-is-gc/participants
+    /about
+    /about/contact
+    /copyright
+    /engage-locally
+    /engage-locally/about-local-networks
+    /engage-locally/africa
+    /engage-locally/asia
+    /engage-locally/europe
+    /engage-locally/latin-america
+    /engage-locally/manage
+    /engage-locally/mena
+    /engage-locally/north-america
+    /engage-locally/oceania
+    /library
+    /news
+    /news/press-releases
+    /news/bulletin
+    /news/bulletin-confirmation
+    /participation
+    /participation/join
+    /participation/join/application
+    /participation/join/application/business
+    /participation/join/application/non-business
+    /participation/report
+    /participation/report/cop
+    /participation/report/cop/create-and-submit
+    /participation/report/cop/create-and-submit/active
+    /participation/report/cop/create-and-submit/advanced
+    /participation/report/cop/create-and-submit/expelled
+    /participation/report/cop/create-and-submit/learner
+    /participation/report/cop/create-and-submit/non-communicating
+    /participation/report/coe
+    /participation/report/coe/create-and-submit
+    /participation/report/coe/create-and-submit/submitted-coe
+    /privacy-policy
+    /take-action
+    /take-action/action
+    /take-action/action/case-example
+    /take-action/events
+    /welcome
+    /welcome/academic
+    /welcome/business
+    /welcome/city
+    /welcome/non-business
+    }
+    containers.each do |c|
+      container = Redesign::Container.find_by path: c
+      container.update_attribute :draggable, false
+    end
+  end
+
   desc "create stub pages to fill out the site map"
   task create_sitemap: :environment do
     raise "Must be run from the development environment" unless Rails.env.development?

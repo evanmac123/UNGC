@@ -17,7 +17,9 @@ export default Ember.Route.extend({
       var source      = sitemap.containerForId(action.sourceId);
       var destination = sitemap.containerForId(action.destId);
 
-      sitemap.moveContainer(source, destination, action.position);
+      sitemap.moveContainer(source, destination, action.position).catch( (modelWithErrors) => {
+        this.get('flashMessages').danger(modelWithErrors.errors.get('firstObject.detail'));
+      });
     },
 
     addContainer(parentContainer) {

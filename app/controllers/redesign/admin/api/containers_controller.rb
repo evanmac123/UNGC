@@ -1,4 +1,6 @@
 class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiController
+  before_action :authorize_editor!, only: [:publish]
+
   def create
     container = Redesign::Container.create(container_create_params)
 
@@ -22,7 +24,7 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
     draft = ContainerDraft.new(container, current_contact)
 
     if draft.save(update_params)
-      render text: '', status: 204
+      render_json data: serialize(container), status: 204
     else
       render_container_errors(container)
     end
@@ -65,6 +67,19 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
   def needs_approval
     containers = Redesign::Container.where(has_draft: true).order(:path)
     render_json data: containers.load.map(&method(:serialize))
+  end
+
+  def destroy
+    container = Redesign::Container.find(params[:id])
+    if !container.draggable
+      render text: "This page can not be deleted", status: 422
+    elsif container.child_containers.count > 0
+      render text: "This page still has children", status: 422
+    else
+      container.payloads.destroy_all
+      container.destroy
+      render nothing: true, status: 204
+    end
   end
 
   private
@@ -133,9 +148,16 @@ class Redesign::Admin::Api::ContainersController < Redesign::Admin::ApiControlle
 
     h[:slug] = p[:slug] if p[:slug].present?
     h[:path] = p[:public_path] if p[:public_path].present?
+    h[:layout] = p[:layout] if p[:layout].present?
     h[:parent_container_id] = p[:parent_container_id] if p.key?(:parent_container_id)
     h[:data] = p[:data] if p.key?(:data)
 
     h
+  end
+
+  def authorize_editor!
+    unless current_contact.is? Role.website_editor
+      render text: '', status: 403
+    end
   end
 end

@@ -1,6 +1,6 @@
 class ActionDetailPage < ContainerPage
   def hero
-    (@data[:hero] || {}).merge({size: 'small'})
+    (@data[:hero] || {}).merge({size: 'small', show_section_nav: false})
   end
 
   def principles
