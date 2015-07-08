@@ -5,5 +5,15 @@ export default Ember.Component.extend({
     Ember.run.later(function() {
       Ember.$('body').scrollTop(0);
     }, 20);
-  }.on('didInsertElement')
+  }.on('didInsertElement'),
+
+  actions: {
+    moveContainer(action) {
+      this.sendAction('moveContainer', action);
+    },
+
+    addContainer(parentContainer) {
+      this.sendAction('addContainer', parentContainer);
+    }
+  }
 });
