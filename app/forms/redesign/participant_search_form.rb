@@ -44,7 +44,7 @@ class Redesign::ParticipantSearchForm < Redesign::FilterableForm
   end
 
   def facets
-    search_scope.facets(escaped_keywords, facet_options)
+    search_scope.facets('', facet_options)
   end
 
   protected
