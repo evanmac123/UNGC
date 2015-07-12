@@ -1,7 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
-require 'coverband'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -51,8 +50,5 @@ module UNGC
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-
-    # load coverband middleware
-    config.middleware.use Coverband::Middleware
   end
 end
